@@ -1,0 +1,3744 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          2.943926,
+          40.441266
+        ],
+        "type": "Point"
+      },
+      "id": "00e5f2d229a2edcf3766d67af82c63af",
+      "properties": {
+        "name": "Gwaerost",
+        "pop": 50,
+        "type": "castle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          6.361441,
+          43.005169
+        ],
+        "type": "Point"
+      },
+      "id": "033f56d8b661b104d5a147e1a75be0b1",
+      "properties": {
+        "name": "Rond Deren",
+        "pop": 15,
+        "type": "manor"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.10898,
+          52.659012
+        ],
+        "type": "Point"
+      },
+      "id": "03d2ab1b44e07dd4eda050853c7d7a9e",
+      "properties": {
+        "desc": "The Tarmas were second only to the King, but had a history of subordination against the throne. Surprisingly, his seat of power was not a well-defended fortress, but rather a pleasant, open estate filled with dozens of relatives, close relatives, and servants. In the Third Age, Tarmabar became a secret refuge for the Northern Rangers. The ancient ruins were known to the Hobbits as \"Nob Hill\".",
+        "name": "Tarmabar",
+        "pop": 82,
+        "type": "fortress"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.068102,
+          53.013253
+        ],
+        "type": "Point"
+      },
+      "id": "04bc5a40947e50f0eaa4e0a86776c9d1",
+      "properties": {
+        "name": "Barad Garan",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.338526,
+          47.295549
+        ],
+        "type": "Point"
+      },
+      "id": "04e3220ac767492d0a7e4a40af1cf5f7",
+      "properties": {
+        "desc": "Originally built under the name \"Mistalonde\", the ancient name of the city of Suduri in Minhiriath appeared in any record from the middle of the Second Age until the capture of the city by Gordaig of Saerlann in T.A. 1503 who renamed it \"Sunthra Unsar\". After being rebuilt, the ancient Cardolandren city became the seat of power of the Saerlannish or Dynion clan. Almost all the inhabitants were mountaineers.",
+        "name": "Sunthra Unsar",
+        "pop": 6000,
+        "race": "Dunlendings",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          22.190484,
+          50.535117
+        ],
+        "type": "Point"
+      },
+      "id": "0573bacfdc7be405711b2229aac84155",
+      "properties": {
+        "desc": "Buhr Ailgra is one of the few permanent colonies of\nthe eothraim, who follow the migratory movements of their flocks across the plains of Rhovanion. The village is a simple community with houses built of straw and peat, and is surrounded by a sturdy earthen fence.",
+        "name": "Eolburg",
+        "pop": "220",
+        "race": "Northmen",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -1.144238,
+          51.970683
+        ],
+        "type": "Point"
+      },
+      "id": "05bfff19fd4ef4921a8ab483a9a1606e",
+      "properties": {
+        "desc": "In the old days of Arthedain and the early days of the Shire, the region of Oatbarton was later the location of an ancient Arthadan settlement known as Barrow. Obabarton was a Hobbit town and farming colony. The name was Breeland slang meaning \"oats and barley sausage.\"",
+        "name": "Oatbarton",
+        "pop": 200,
+        "race": "Hobbits",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          17.042721,
+          43.969903
+        ],
+        "type": "Point"
+      },
+      "id": "06a832f049e40fd2956c67aafa4b97b4",
+      "properties": {
+        "name": "Tir Elena",
+        "pop": 490,
+        "race": "Gondor",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.24766,
+          50.463435
+        ],
+        "type": "Point"
+      },
+      "id": "0780dc18f26046f385079adf790b14cb",
+      "properties": {
+        "desc": "The dwarven population varied considerably, having reached its peak in the Second Age. It was mainly abandoned before the War of the Last Alliance and, although never completely deserted, was (around 1643) dilapidated. The population ranged between the dozens.",
+        "name": "Nornhabar",
+        "pop": 84,
+        "race": "Dwarves",
+        "type": "dwarven mine"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          0.84075,
+          48.028125
+        ],
+        "type": "Point"
+      },
+      "id": "095f5496d06b45426748380218dd28bc",
+      "properties": {
+        "name": "Balost",
+        "pop": 132,
+        "race": "Eriadorians",
+        "type": "castle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          3.339786,
+          42.953196
+        ],
+        "type": "Point"
+      },
+      "id": "097732fb0cf5be220774f197e7b5e939",
+      "properties": {
+        "name": "Lindabad",
+        "pop": 20,
+        "type": "manor"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.579458,
+          39.692717
+        ],
+        "type": "Point"
+      },
+      "id": "09ebe7fb2ead8fce2e13bcb494347b54",
+      "properties": {
+        "name": "Hwarin",
+        "pop": 100,
+        "type": "village"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.546626,
+          51.552754
+        ],
+        "type": "Point"
+      },
+      "id": "0a4b4faabc031f6513c920b1a7889659",
+      "properties": {
+        "Raza": "Hobbits",
+        "desc": "A successful community, still holding its open-air meetings on the hill south of the town, its central location on the Great East Highway made it an ideal location for regional meetings. Frogmorton Market was at the bottom of the hill.",
+        "name": "Frogmorton",
+        "pop": 200,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          17.804309,
+          44.121168
+        ],
+        "type": "Point"
+      },
+      "id": "0ad87f9426e41d0331a292db56e11def",
+      "properties": {
+        "name": "Cair Andros",
+        "pop": 560,
+        "race": "Gondor",
+        "type": "fortress"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          6.583805,
+          46.066796
+        ],
+        "type": "Point"
+      },
+      "id": "0b2e6a36edcefc06e5f110a065fd8a4b",
+      "properties": {
+        "desc": "Beldwin lay just south of the River Isen, near an ancient bridge, still in use, built by the Dúnedain in ancient times. In the days of the Riddermark, it was renamed Fréaham and became the main settlement of Westmarch.",
+        "name": "Beldwin",
+        "pop": 475,
+        "race": "Gondor",
+        "type": "fortified city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.694613,
+          47.422739
+        ],
+        "type": "Point"
+      },
+      "id": "0d1123b21ecdf4915a1414dfbdc79bd8",
+      "properties": {
+        "desc": "The ruin was located in the middle of the \"Swamp Coast\", and its foundations were slowly sinking into the waterlogged ground.",
+        "name": "Minas Thonfalon",
+        "pop": 0,
+        "type": "ruined tower"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.848949,
+          53.010855
+        ],
+        "type": "Point"
+      },
+      "id": "0d8e3b9e2948db2be16c2f4956546265",
+      "properties": {
+        "desc": "The contrast between the ancient and present capitals of the kingdom of Arthedain was stark and foreboding: one was dead and the other vibrant with uncharacteristic militarism. Situated like a jewel on the southern coast of Nenuial (Lake Evendim), Annuminas, the first and only capital of Arnor, once glittered against the night sky, its many festive torches a bright marker for all who travel through the Northern Kingdom. Little remained now but splinters, stone blocks, and collapsed columns; The faint outline of a great city stretched across the windy hills on the shores of Nenuial. At night, Annuminas was a haunting, desolate, dark place that offered no refuge or direction to anyone.",
+        "name": "Annuminas",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.236776,
+          47.126324
+        ],
+        "type": "Point"
+      },
+      "id": "0df0970789f98c362a31cfadb2b83153",
+      "properties": {
+        "desc": "Cathiel was a municipality of Ethir Gwathló in Cardolan. It was in the center of the great cape of Minhiriath about seventy-five miles inland from the mouths of Gwathló. The city had a fairly large population of 4,000 in TA 250. However, its population declined after the middle of the Third Age and the settlement was finally abandoned by TA 1640.",
+        "name": "Cathiel",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.892833,
+          40.529686
+        ],
+        "type": "Point"
+      },
+      "id": "0fefd0115eb8dc430522a1ee0368e24e",
+      "properties": {
+        "name": "Haerlond",
+        "pop": 0,
+        "type": "unknown"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          11.577131,
+          43.689014
+        ],
+        "type": "Point"
+      },
+      "id": "125192817421a689c47d02e86b8e7513",
+      "properties": {
+        "desc": "The main town of Lamedon was Calembel (S. \"Greenham\"). It was conveniently located on a slope east of the fords of Cyril, on the road linking the center of Gondor with the mining communities of the southern White Mountains, where people from across Lamedon and the northernmost part of Mornan traded goods with each other and with merchants in the capital. The city was essentially a trading post, supply center, mineral trade and served the needs of the people of Lamedon and the provincial government of Ost-en-Girilthir. Most of the ore was shipped directly to Linhir and Pelargir.",
+        "name": "Calembel",
+        "pop": 2000,
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.228323,
+          51.560255
+        ],
+        "type": "Point"
+      },
+      "id": "12861aa0bb58c19dd55228f70e240f6b",
+      "properties": {
+        "desc": "Bree is the largest city in Breeland, a region of Arthedain that is peaceful, agricultural, and largely self-governing. The city is built around a large hill and is protected by a formidable dyke topped by a thick hedge. Numerous Hobbit holes can be found. on the flanks of the Bree Hills. Both men and hobbits live in Bree, making it one of the few places in Middle-earth where cooperation between people of different races occurs. Due to its central location, Bree sees many strange people passing through its streets, and the city is a perfect place to acquire or sell information.",
+        "name": "Ciudad de Bree",
+        "pop": 1500,
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.382751,
+          51.39257
+        ],
+        "type": "Point"
+      },
+      "id": "13328700f334769383730b40c93d2add",
+      "properties": {
+        "desc": "It was a quiet and peaceful outpost of a few Arthadan families coexisting with a few Elves living nearby in the middle of the Third Age, helping to observe the comings and goings of mortals for the lords of the Havens and a handful of Hobbits, tending traffic. . One of the Elves, Sinda Calenlinn, was an expert herbalist fond of fermented grains.",
+        "name": "Greenholm",
+        "pop": 310,
+        "race": "Humans, Hobbits, Silvan Elves",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -1.237397,
+          52.950469
+        ],
+        "type": "Point"
+      },
+      "id": "1529023a68b193b8bf5fbe78196b3d6e",
+      "properties": {
+        "desc": "Enerond was a township of Brethyar in Arthedain. It was located on the east bank of the Lune River, east of the Annúdhuin-Lhûn confluence. The city had a fairly large population of 5,100 in TA 250. However, its population declined after the middle of the Third Age and the settlement was eventually abandoned at the end of the Third Age.",
+        "name": "Enerond",
+        "pop": 5,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          3.325376,
+          40.91388
+        ],
+        "type": "Point"
+      },
+      "id": "1534c928808a039095dd49e5eb3d37b9",
+      "properties": {
+        "name": "Lomost",
+        "pop": 120,
+        "race": "Gondor",
+        "type": "fortress"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          12.41734,
+          43.320786
+        ],
+        "type": "Point"
+      },
+      "id": "155d4c11e6dc874f9b09cb0dd0f37f1b",
+      "properties": {
+        "desc": "Ethring (S. \"Cold Spring\") was just a city with its 1,300 souls, established during the Gondorian conquest on the eastern bank of the Ringló at the junction of the Rathon Arat. Its name was derived from the icy waters that flowed from nearby mountain streams. The upper Ringló Valley counted as part of Lamedon and was a sparsely populated intermediate region on the border of Lebennin. Most of the large farms in Lamedon were in the area, and Ethring became a large market town at harvest time, taking advantage of the traffic along the Gondor Road and serving the needs of the surrounding area and of travelers heading west or east. Mining and blacksmithing were among the subsidiary industries. Like the other cities of Lamedon, Ethring maintained a \"rustic\" feel, especially in comparison to the busy seaports of Gondor. Locals in Ethring and other nearby towns were more likely to be suspicious of strangers and peculiar behavior than their more worldly relatives, and travelers had to work hard to blend in.",
+        "name": "Ethring",
+        "pop": 1300,
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.475915,
+          53.015801
+        ],
+        "type": "Point"
+      },
+      "id": "15ba230084a51abb21a6873b76a635a0",
+      "properties": {
+        "desc": "Located on a steep rise on the southern slopes of the North Downs, Fornost had been both a fortress and a town. It was chosen to be the royal seat of Arthedain after the sack of Annúminas in T.A.1409. Since then, a somber mood had permeated all aspects of life at court, as the Dúnedain were ever ready to face another assault from the Witch-King. Despite, or perhaps because of, the ever-present threat of Angmar, the people of Arthedain were a spiritual people dedicated to introspection. The wisest scholars and largest library of the Northmen were at Fornost.",
+        "name": "Fornost Erain",
+        "pop": 3100,
+        "race": "Dúnedain",
+        "type": "fortress city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.386798,
+          53.375535
+        ],
+        "type": "Point"
+      },
+      "id": "1691e47321554c359e67eaa3f4b72b85",
+      "properties": {
+        "name": "Galenros",
+        "pop": 0,
+        "type": "unknown"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -8.135416,
+          50.782548
+        ],
+        "type": "Point"
+      },
+      "id": "16cbb3fddb6eb25580cda7bcfc7f71e9",
+      "properties": {
+        "desc": "Harland is a nicer place than Forlond or Mithlond, a place of simple pleasures rather than great achievements. Almost invisible from the sea, Harland hides behind a promontory that protects it. Few of the large swan ships depart from this port, although many small elven pleasure craft anchor here before setting sail.",
+        "name": "Harlond",
+        "pop": "650",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          13.750343,
+          39.180084
+        ],
+        "type": "Point"
+      },
+      "id": "1978c4880d101efe741d9f6709199d4f",
+      "properties": {
+        "desc": "Eithel Túrin (S. \"The Well of Túrin\") was a quiet village of several hundred, situated halfway between Methir and Barad Harn. It was founded in T.A. 932 by Gondorian veterans who had been wounded in the fight against Haruze and Umbarea.",
+        "name": "Eithel Thurin",
+        "pop": 620,
+        "race": "Corsairs",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          16.769285,
+          42.493854
+        ],
+        "type": "Point"
+      },
+      "id": "19f01cb59625b48166dd6ffef0991750",
+      "properties": {
+        "desc": "Minas Arthor, once the capital of Arnach, was situated at the crossings of the Erui, where there had been a settlement for as long as the chronicles could see. The city was founded at the beginning of the Third Age, and soon became the center of the prosperous agricultural district.",
+        "name": "Minas Arthor",
+        "pop": 5000,
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          0.966925,
+          39.862769
+        ],
+        "type": "Point"
+      },
+      "id": "1a056b5e31d35c42e643f9f716ee1b84",
+      "properties": {
+        "name": "Lond Rhaen",
+        "pop": 120,
+        "type": "village"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -10.308741,
+          52.60319
+        ],
+        "type": "Point"
+      },
+      "id": "1a43bb9d28424d1c7a09348ba2f53e46",
+      "properties": {
+        "name": "Mirimar",
+        "pop": "560",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          14.603374,
+          45.026475
+        ],
+        "type": "Point"
+      },
+      "id": "1c4692f658908ed6ebfc090f4b3ab0a5",
+      "properties": {
+        "desc": "Astorion Manor (S. \"Bâr Astorion\") was the former home of House Astorion, a noble Gondorian family. It was situated on the outskirts of the Entwash Mouths, north of Min-Rimmon, where the family had extensive lands.",
+        "name": "Bar Astirian",
+        "pop": 20,
+        "type": "manor"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          11.391809,
+          44.11232
+        ],
+        "type": "Point"
+      },
+      "id": "212b1c186141ab63909ccb43e5d88c00",
+      "properties": {
+        "desc": "Setmaenen, known as Ossarnen to the Dúnedain and the Gondorians. It is a small mining town in the province of Lamedon and site of an ancient sacred site of the Mountainmen, located very far from the main road that runs through the interior of Gondor. The word Ossarnen alludes to the most prominent features of the Setmaenen Stones, a pre-Númenórean ceremonial complex of megalithic structures outside the city.",
+        "name": "Ossarnen",
+        "pop": 1400,
+        "race": "Gondor",
+        "type": "unknown"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          7.71789,
+          54.443782
+        ],
+        "type": "Point"
+      },
+      "id": "221d7d6f3912b1b81ab7b3186ce88fb3",
+      "properties": {
+        "desc": "The Witch King's servants have erected a fortress\nmountainous on the southern branch of the Mountains\nCloudy that forms the Nan Angmar. Grames the strength\nmost important orca to the west of the mountains, and no man has managed to escape alive from its depths to be able to coherently explain its interior.",
+        "name": "Gram",
+        "pop": "1000",
+        "race": "orcs",
+        "type": "dwarven mine"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          9.871206,
+          51.52831
+        ],
+        "type": "Point"
+      },
+      "id": "223f370e8996d2b428a5d4e5d6c21035",
+      "properties": {
+        "desc": "Rivendell, or Imladris, had long been a place of refuge in the inhospitable lands of Rhudaur that surrounded the valley. Located between the north and south forks of the Bruinen (Loudwater) in the Pinefells, the refuge's security derives from the power of Elrond half-elf and the most powerful of the Three Elven Rings, Vilya, Ring of Air. Evil things could not happen within the boundaries of Elrond's kingdom. Angmar's spies and even the Dark Lord's strongest minions, the Nazgûl, only dared to snoop around the borders of the enchanted valley.",
+        "name": "Imladris (Rivendell)",
+        "pop": 2300,
+        "race": "Noldor Elves, Silvan Elves, Sindar Elves, Half-Elves, Dúnedain",
+        "type": "fortress city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          3.094174,
+          48.841242
+        ],
+        "type": "Point"
+      },
+      "id": "22fe3e29220c0d9a82bfb2680d8b854a",
+      "properties": {
+        "desc": "Since the fall of King Ostoher in the year 1410 TE, the ancient Numenorean port of Tharbad has been losing the glory it once possessed. However, Tharbad is still much larger and more impressive than any other urban center in Eriador. The petty rivalries present among the surviving princes of\nCardolan materialize in fights and disputes between the different guilds and factions within Tharbad.\nThe city's thieves are gaining in power and daring\nto each passing season, and the Plague refugees do not\nThey are more than another problem for the administrators of the\ncity. Gondor's stationed officer in Tharbad, the\nBoating, keeps the peace as much as possible, but the\ncity seems destined for self-destruction. Only the\nimportance of Tharbad as the main commercial center of\nAll the lands north of Gondor keep the city alive.\nGoods from all over the Earth\nThey pass through Tharbad on their way to the rich estates of Cardolan and Arthedain, although there seems to be very little wealth in the homes of the poor citizens of Tharbad.",
+        "name": "Tharbad",
+        "pop": "21345",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.005377,
+          54.129843
+        ],
+        "type": "Point"
+      },
+      "id": "235269a8e1723e126b7887d29c4fd341",
+      "properties": {
+        "name": "Minas Ongoth",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.162456,
+          40.376272
+        ],
+        "type": "Point"
+      },
+      "id": "23a6ef21a52eb11823391f20df3fc5a7",
+      "properties": {
+        "name": "Bar Engui",
+        "pop": 60,
+        "type": "village"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          18.127267,
+          40.357852
+        ],
+        "type": "Point"
+      },
+      "id": "25d3ae62f10cbc7919506ae65fd7dd2c",
+      "properties": {
+        "desc": "The city was an important stopping point for land trade to the south. It began as a military garrison whose purpose was to protect the border between the fledgling Kingdom-tn-Exile and the Umbarean sphere of influence beyond. This outpost gradually took on civilian characteristics during the time of the ship kings, as the northernmost reaches of Haradwaith became the province of Harondor. With the opening of the Harnen Corridor, Athrad Poros suddenly became a critical juncture for the land trade route with Near Harad and Khand, and increased in size accordingly.",
+        "name": "Athrad Poros",
+        "pop": 450,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          0.44034,
+          52.870134
+        ],
+        "type": "Point"
+      },
+      "id": "28a90db52bc32e64d25b3ba266dd7c80",
+      "properties": {
+        "desc": "Rood (originally known as \"Ruaduin\"), once the largest city on Nan Turnath, contrasts with the robust resistance of Bree and Fornost. Long a hum of cross-country commerce where the ancient King's Road met the Baranduin River, it suffers the effects of plague and the general incompetence of its feudal master, Cristion or Nengaran. Rood gives the appearance of a dying town. One of the few places in Arthedain to be affected by the plague, probably due to the location of the river and the timing of the epidemic's arrival (mid-summer), many of its two hundred stone houses are abandoned and decaying. Rats and mice greatly outnumber the male residents, and pest control is becoming a serious problem, particularly as a good portion of the surviving population fled to Fornost.",
+        "name": "Rood",
+        "pop": 280,
+        "race": "Dúnedain",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          0.92569,
+          48.750512
+        ],
+        "type": "Point"
+      },
+      "id": "2ac39eaf2604ce7c7b5058e778f63624",
+      "properties": {
+        "name": "Fangoth",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          17.422569,
+          43.158864
+        ],
+        "type": "Point"
+      },
+      "id": "2c1d9a8d2a5d1ab62942438dfd375a62",
+      "properties": {
+        "desc": "Originally called Minas Anor, it was a large city at the foot of the Ered Nimrais. Together with Osgiliath, the Citadel of Stars, and Minas Ithil, the Tower of the Moon, the City of the Sun formed the core of Gondor, the most powerful kingdom in Middle-earth.",
+        "name": "Minas Tirith",
+        "pop": 25000,
+        "race": "Gondor",
+        "type": "fortress city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          2.740454,
+          41.548916
+        ],
+        "type": "Point"
+      },
+      "id": "2ca07fa0e4327709a553cdaef455adce",
+      "properties": {
+        "name": "Tir Feren",
+        "pop": 80,
+        "race": "Gondor",
+        "type": "castle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.549864,
+          42.010386
+        ],
+        "type": "Point"
+      },
+      "id": "2cfbecb372b043aee8f642cd6a7b86ed",
+      "properties": {
+        "name": "Car Gaul",
+        "pop": 30,
+        "type": "manor"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -5.813533,
+          51.636483
+        ],
+        "type": "Point"
+      },
+      "id": "2d63757ee0677b0d14e6ef15cf80e497",
+      "properties": {
+        "desc": "Mithlond was ruled by Círdan and his advisors directly; It was the only part of Lindon that was guided by a structured group rather than by a noble house or community councils. The population in any period (excluding periods of substantial exodus) was around a quarter to a fifth of the kingdom. Traffic across the Gulf in fast, elegant elven ships is fairly regular. At night, lanterns on the bows of elven ships make the Gulf dance with brilliant lights. As with most Elven cities, Mithlond is a place of magic and beauty. Most men avoid Mithlond out of fear, and the Elves see little reason to meddle in the small affairs of the mortal races. However, Mithlond is an open city, and the elves would not turn away an honest traveler seeking its gates, although their welcome might seem cold to those not well acquainted with their customs.",
+        "name": "Mithlond (Puertos Grises)",
+        "pop": 9200,
+        "race": "Nandor, Sindar, Noldor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          13.13929,
+          41.259747
+        ],
+        "type": "Point"
+      },
+      "id": "2f80c0f3f97fa5120648aac455745217",
+      "properties": {
+        "desc": "Linhir (S. \"River Fords\") was prosperous and busy, and a large population of unseemly characters had become prey to the weak and gullible. A wall dating back to the time of Númenor surrounded the city, which had been an important urban center for millennia.",
+        "name": "Linhir",
+        "pop": 4100,
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -7.395721,
+          48.731791
+        ],
+        "type": "Point"
+      },
+      "id": "2fb7c7e28436f4bd9c61816182aed529",
+      "properties": {
+        "desc": "Bar-i-Dinuviel (S. \"Home of the Nightingale\", Os. \"Mbar Tinduvela\") was a fishing village on the coast of Dor Tinuviel.",
+        "name": "Bar-i-Dinuviel",
+        "pop": 244,
+        "race": "Noldor",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          9.385098,
+          45.345745
+        ],
+        "type": "Point"
+      },
+      "id": "3111faba40b284fcb721cbdcf31ac234",
+      "properties": {
+        "name": "Edoras",
+        "pop": 1600,
+        "race": "Rohirrim",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.695985,
+          53.387085
+        ],
+        "type": "Point"
+      },
+      "id": "3176e8d194093b2c5dc2ae99f1343b86",
+      "properties": {
+        "name": "Firaen",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          9.489663,
+          54.634588
+        ],
+        "type": "Point"
+      },
+      "id": "31a29acf8ccc956ecf4321750e626859",
+      "properties": {
+        "desc": "Training center for priests of the Dark Religion; base for tax collection in eastern Angmar.",
+        "name": "Litash",
+        "pop": "3400",
+        "race": "Sauron",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.911886,
+          46.925789
+        ],
+        "type": "Point"
+      },
+      "id": "32ec88080dbad7aa7fa3312e02d2fd8e",
+      "properties": {
+        "desc": "Established as \"Vinyalondë\" or later \"Lond Daer Enedh\", a colony of Númenor by Tar-Aldarion in the 9th century of the Second Age. Lond Daer was mined by a cataclysmic tsunami in S.A. 3319 during the World Change.",
+        "name": "Lond Daer",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.212527,
+          54.57971
+        ],
+        "type": "Point"
+      },
+      "id": "330a8f4cdc4243eab59df18dc11bc301",
+      "properties": {
+        "name": "Himihiril",
+        "pop": 50,
+        "race": "Gondor",
+        "type": "castle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          16.365852,
+          51.231894
+        ],
+        "type": "Point"
+      },
+      "id": "33776f6e655140f9d3dcf37a1f809675",
+      "properties": {
+        "desc": "It was a small village of the Woodmen in the Upper Anduin Vales. It was partially built on large platforms in the trees in elven fashion, as the Woodmen were on friendly terms with the Wood Elves.",
+        "name": "Pueblo de hombres de los bosques",
+        "pop": 200,
+        "race": "Woodmen",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -11.932362,
+          55.033719
+        ],
+        "type": "Point"
+      },
+      "id": "364708d6d5fa3c5222b7232ac0755ec8",
+      "properties": {
+        "desc": "culeros",
+        "name": "Turonost",
+        "pop": 890,
+        "race": "Noldor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          6.432063,
+          47.021704
+        ],
+        "type": "Point"
+      },
+      "id": "39a1fb6f2b80d2adcf19c573d6e18ad2",
+      "properties": {
+        "desc": "Arailt Hold was the ancient clan of the Dunledino Arailt clan. By the days of the War of the Ring, the place had long been abandoned and the Rohirrim had established a scouting camp above the Ruins and Caves nearby.",
+        "name": "Arailt",
+        "pop": 120,
+        "race": "Dunlendings",
+        "type": "fortress"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          12.115104,
+          49.415377
+        ],
+        "type": "Point"
+      },
+      "id": "3a0e8f7057a10fdba04997b4c64e5c03",
+      "properties": {
+        "desc": "Cerin Amroth (S. \"Hill of Amroth\") was the site of the house of King Amroth of Lothlorien during the Third Age.",
+        "name": "Cerin Amroth",
+        "pop": 0,
+        "race": "Elfos Silvanos",
+        "type": "manor"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          5.871737,
+          50.178819
+        ],
+        "type": "Point"
+      },
+      "id": "3a6a1f51e11f666f2597c738833772d8",
+      "properties": {
+        "desc": "A Council directed most affairs in the town, which depended on local farms and vineyards for its prosperity. Some hobbits lived nearby, but generally avoided contact with the townspeople. As it was so far from the main roads of Cardolan, few visitors entered Fennas Drúnin, but it was a good base for anyone wanting to explore southern Rhudaur or the Elven ruins of Eregion.",
+        "name": "Fennas Drunnin",
+        "pop": 430,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          7.128556,
+          52.04951
+        ],
+        "type": "Point"
+      },
+      "id": "3b0b65c60127a330e405a5e4f60c6590",
+      "properties": {
+        "desc": "Originally, Herubar Gûlar was a dwarven camp of Broadbeams that wandered north to Zarak-Dûm. Later, when the Dark Lord invaded Eriador and the southern Trollshaws became a center of Dark Worship, the Númenoreans built a fortification to guard the land. With the founding of Arnor, the fort became a mansion for a local family of Dúnadan lords. With the wars that followed the Rhudaur separatism, the castle was abandoned and fell into ruins. It became known as \"Herubar Gûlar\" or \"Manor of the Sorcerer\" to the locals. An orc hideout and an agent of the Witch King known as Ar-Gûlar.",
+        "name": "Herubar Gular",
+        "pop": 50,
+        "race": "Orcos",
+        "type": "castillo en ruinas"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -8.571719,
+          55.929858
+        ],
+        "type": "Point"
+      },
+      "id": "3d368f4dc9bafeeb9ae34a63791ffd66",
+      "properties": {
+        "name": "Mindolhendi",
+        "pop": 900,
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -7.199672,
+          52.568257
+        ],
+        "type": "Point"
+      },
+      "id": "3d50c595ccaa0ae4f93d96ce0dd050c6",
+      "properties": {
+        "desc": "Often confused with Eruimar, the town of Eredimar (S. \"Mountain Home\") was about fifty miles southwest of Lonely Home. Located within the valley of Imladorn (S. 'The Wooded Valley'), Eredimar lay at the foot of the Ered Luin (hence its name). Due to its isolation, Eredimar was nothing more than a small collection of houses with a population of less than 100 people. However, it was notable due to the wide variety of cultures contained within it. Hobbits, dwarves, elves and men had all made their homes within this village at one time or another. Furthermore, the Sulfur springs located in the vicinity of Eredimar gave the village renown as a place of healing. Three well-maintained lodges awaited travelers who passed by, for news of the picturesque beauty and health benefits of Eredimar reached the ears of many.",
+        "name": "Eredimar",
+        "pop": 92,
+        "race": "Elfos Silvanos, enanos, Gondor, Hobbits",
+        "type": "village"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          4.034143,
+          49.498538
+        ],
+        "type": "Point"
+      },
+      "id": "3d84453a5c46f62464fcb2edc61b25e1",
+      "properties": {
+        "name": "Filimer",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -1.862215,
+          50.200255
+        ],
+        "type": "Point"
+      },
+      "id": "3df2661c13cb9ec080b86da4f7a5298b",
+      "properties": {
+        "desc": "Barad Perinluoss, commonly known as the Silent Castle, was an ancient elven refuge in southern Sîrgala, an independent community of wood elves and Arthadan religious refugees. They had pledged fealty to a half-elf wizard known as Iralussiel the Tranquil. Iralussiel had died mysteriously around the 11th or 12th century A.T. and the shelter became almost alarmingly peaceful. Few men or elves visited the place.",
+        "name": "Bar Irlossiel (castillo silencioso)",
+        "pop": 0,
+        "type": "castillo en ruinas"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          10.279651,
+          39.454845
+        ],
+        "type": "Point"
+      },
+      "id": "4106d605bd81fc06a53f32b824e5e37a",
+      "properties": {
+        "desc": "Gondor",
+        "name": "Methrast",
+        "pop": 87,
+        "race": "Gondor",
+        "type": "torre"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -7.108307,
+          54.632519
+        ],
+        "type": "Point"
+      },
+      "id": "4291252739bbc7141616918bcaba22ad",
+      "properties": {
+        "desc": "The largest mine in Nan-i-Naugrim and the capital of Broadbeam since the Second Age. In the middle of the T.A. and in later times, Edennogrod was the largely ruined Khazad that stood above Nan-i-Naugrim. At the end of T.A. ruled by the feudal Lord Grár, with an honorary title \"The Mountain King\" for the Shire people.",
+        "name": "Nan i naugrim",
+        "pop": 430,
+        "type": "dwarven mine"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          13.734865,
+          47.354059
+        ],
+        "type": "Point"
+      },
+      "id": "432523fcf64ed8a4f0fd598cf13e3cbc",
+      "properties": {
+        "desc": "The Wold was a very windy place, but quite dry. The Wold, though green, was devoid of trees. Heather and short grass covered these rather tortured slopes. Their concentric and voluminous ridges supported little more than the flora of the moors. The underlying rock was so permeable that surface water drained through it, carrying precious nutrients. on the hungry ground. Only robust plants took root in the mineral-poor soil, and much of the top layer of the Wold had been blown away for lack of roots to support it. Therefore the grass on The Wold was short and springy, and wilted brown without recent rain. It was suitable for sheep, but little else.",
+        "name": "Wold",
+        "pop": 0,
+        "type": "colina"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          9.761905,
+          44.481894
+        ],
+        "type": "Point"
+      },
+      "id": "43dda53aaa1f24aeac657361fd26d385",
+      "properties": {
+        "desc": "Erech (Dn. \"Place of Terror\") was the Dunael name given to the hill where Isildur Elendilion had the King of the White Mountains swear allegiance to him in SA 3320. The hill, which lay in the center of the Blackroot Valley, acquired its name some years after the Oathbreaking (which took place in SA 3434), when the Dead began to haunt the lands surrounding the Covenant Stone upon which he had sworn the oath of Morthec Gruan. Later, the name of the Hills passed to the entire surrounding Valley, later known as the Valley of Erech. Both the hill and the fields surrounding it were avoided by everyone, and no animal would approach it voluntarily.",
+        "name": "Erech",
+        "pop": 0,
+        "type": "colina"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.625009,
+          48.761944
+        ],
+        "type": "Point"
+      },
+      "id": "440c871cf631fbad125559f4e3d7fcea",
+      "properties": {
+        "desc": "The castle had withstood many sieges, as could be seen by the numerous scars left by flames and missile engines on its exterior.",
+        "name": "Minas Girithlin",
+        "pop": 60,
+        "type": "castle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          3.388161,
+          46.091757
+        ],
+        "type": "Point"
+      },
+      "id": "443fc38145c4ef1c1899d04d3d02ce4d",
+      "properties": {
+        "desc": "prueba",
+        "name": "Bar Adorn",
+        "pop": 600,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          3.287055,
+          42.466171
+        ],
+        "type": "Point"
+      },
+      "id": "46d9ea208b4d78d838a35cbfe57ccc5f",
+      "properties": {
+        "desc": "Saerthondost was one of two Dúnedain strongholds that protected the Pinnath Gelin and Len Lefnui from the wilds of Hairaverkien. The fortress was located on the north bank of the Lefnui at the point where that river turned sharply to the northwest after its southward descent out of Nan-i-Feryn. Saerthondost received its name from the fairly extensive swamps that accompanied the bend of the river, which were rich in herbs used by the shepherds of the Mesta. The fortress had a lighthouse tower that linked it to its sister Pinnornost, to the northeast. Like the last fortress, Saerthondost was founded in T.A. 823 and abandoned at T.A. 2157, in concert with the fluctuating needs of central Gondor's land border with Hairaverkien.",
+        "name": "Saerthondost",
+        "pop": 200,
+        "race": "Gondor",
+        "type": "fortress"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          14.264176,
+          44.278558
+        ],
+        "type": "Point"
+      },
+      "id": "476fb6b7cd1817b7359c8b8c58e1a266",
+      "properties": {
+        "name": "Calenhad",
+        "pop": 54,
+        "race": "Gondor",
+        "type": "torre"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.378078,
+          41.886452
+        ],
+        "type": "Point"
+      },
+      "id": "481a34f0a4593aa08c7b358c62091a35",
+      "properties": {
+        "name": "Adavalinda",
+        "pop": 140,
+        "type": "village"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          5.813279,
+          54.991128
+        ],
+        "type": "Point"
+      },
+      "id": "482aba99e3d5973b8398277777044585",
+      "properties": {
+        "desc": "Designed to be able to warn the Witch King of the\narrival of intruders and as a base from which he launches his attacks against Arthedain.\nRegular patrols usually leave from Mindil Cargash that\nThey explore the area of En Udanoriath (S. \"No Man's Land\"),\nwhich is located between Angmar and Arthedain.",
+        "name": "Cargash",
+        "pop": 55,
+        "race": "Sauron",
+        "type": "torre"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          13.723291,
+          53.101593
+        ],
+        "type": "Point"
+      },
+      "id": "48d6956a9e549bdf8867e069a7424d2c",
+      "properties": {
+        "name": "Thingastathbaurg",
+        "pop": "150",
+        "race": "Hombres del bosque",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          18.905247,
+          43.528463
+        ],
+        "type": "Point"
+      },
+      "id": "4935db7004ad27dfe5c8740008ea1b23",
+      "properties": {
+        "desc": "Minas Ithil was a Gondorian city protected by a deep valley in the Ephel Dúath. It was the largest urban center east of Anduin. The city suffered the effects of isolation from the rest of Gondor after the Great Plague, although it was far from extinct, due to its thriving wool trade. The City of the Moon was best known, however, as the intellectual and spiritual center of Gondor. Many artists, scholars and spiritual people sought out the tolerant streets of Minas Ithil to pursue their occupations. Despite the gradual decay of some of the oldest buildings, Minas Ithil was home to some of the most dramatic architecture in Gondor. The more practical citizens of Minas Anor and Pelargir saw Minas Ithil as a place of madness, but the City of the Moon remained a jewel among cities.",
+        "name": "Minas Ithil",
+        "pop": 30000,
+        "race": "Gondor",
+        "type": "fortress city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.454585,
+          51.363869
+        ],
+        "type": "Point"
+      },
+      "id": "493a02d2bcbd0fb36907edb7ea0eecaf",
+      "properties": {
+        "desc": "Gamwich was Westron's translation of the Halfling name \"Galabas\" (W. \"Playful Place\"). The village was located in the Westfarthing of the Shire.",
+        "name": "Michel Delving",
+        "pop": 650,
+        "race": "Hobbits",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          20.2981,
+          50.405638
+        ],
+        "type": "Point"
+      },
+      "id": "4a24da5b5ac1a6c3fb9cdd15d503819f",
+      "properties": {
+        "desc": "Buhr Widu, situated near the small lake known as\nLake of the Forest, retains some of the royal splendor that shone during the times of Vidugavia, although the Grammuz princes who have ruled it after the Plague have lacked the strength necessary to regain its former glory.\nLike most other Nordic villages located on the plains, Buhr Widu is made up of a group of long houses made of wood and straw, each of which houses about twenty individuals, in addition to livestock. For defense, the bosses have added an earthen wall and a series of sturdy wooden towers.",
+        "name": "Vidusbaurg",
+        "pop": "520",
+        "race": "Northmen",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          6.60636,
+          55.068171
+        ],
+        "type": "Point"
+      },
+      "id": "4be9468f854fa8a1dcb64764ace32902",
+      "properties": {
+        "desc": "Barad Morkai rises on the top of a promontory\nof granite that watches over the Way of Angmar. The fortress is made up of thick walls and square bastions, and was built to resist the most powerful siege engines.",
+        "name": "Morkai",
+        "pop": "1000",
+        "race": "Sauron",
+        "type": "castle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -1.381329,
+          54.563073
+        ],
+        "type": "Point"
+      },
+      "id": "5011afade619f3d35e1d667cfb0f6f69",
+      "properties": {
+        "name": "Faranel",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          18.172099,
+          46.058009
+        ],
+        "type": "Point"
+      },
+      "id": "54d3c5fce5ea046d7ffc0b0ea3958b4e",
+      "properties": {
+        "desc": "This was a low marsh to the west of Dagorlad between Emyn Muil and the Black Gate, this area became a marsh when Sauron's resettlement of Mordor in the Third Age saw the expansion of the Nindalf until it swallowed up the burial sites of Men and Elves slain at the Battle of Dagorlad, and was so called because at night the ghost faces of the dead warriors became visible, this was seen as a charm by Sauron. As a result, the area was generally shunned by any traveler.",
+        "name": "Ciénagas de los muertos",
+        "pop": 0,
+        "type": "pantano"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.144798,
+          39.274599
+        ],
+        "type": "Point"
+      },
+      "id": "556e0b805bb4afe0be501c6fb7924f5e",
+      "properties": {
+        "name": "Bar Morthil",
+        "pop": 0,
+        "raz": "Gondor",
+        "race": "Dúnedain",
+        "type": "lugar destacado"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          6.214492,
+          45.163506
+        ],
+        "type": "Point"
+      },
+      "id": "5782c24e1c9a90bd8ae93a0624d9e87d",
+      "properties": {
+        "desc": "Surveillance of traffic passing from Westmarch to Anfalas; A show of authority for the local Dunnish tribes.",
+        "name": "Tilmendir",
+        "pop": 140,
+        "race": "Gondor",
+        "type": "castle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.09467,
+          41.532177
+        ],
+        "type": "Point"
+      },
+      "id": "57c6686a889f00603e332311113eebe3",
+      "properties": {
+        "name": "Caraghir",
+        "pop": 0,
+        "type": "rio"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          16.737127,
+          45.338263
+        ],
+        "type": "Point"
+      },
+      "id": "588522e6e364edc15f2c0757261dd2b9",
+      "properties": {
+        "desc": "Nindalf or Wetwang, the union of Anduin and Entwash turned the region south of Emyn Muil into a vast, tangled wetland, home to several primitive tribes of Marshmen.",
+        "name": "Nindalf",
+        "pop": 0,
+        "type": "pantano"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -1.168778,
+          47.430766
+        ],
+        "type": "Point"
+      },
+      "id": "59cf3830ff27cef7e73d05bbe03b3805",
+      "properties": {
+        "name": "Guinnion",
+        "pop": 0,
+        "type": "aldea en ruinas"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -1.098611,
+          53.3107
+        ],
+        "type": "Point"
+      },
+      "id": "5abbd6f333ee1250e91efc4a02013c02",
+      "properties": {
+        "desc": "Bodroth was a municipality of Eketyar in Arthedain. It was located on the northern shores of Lake Evendim, about forty miles north of Annúminas. The city had a fairly large population of 4,900 in TA 250. However, its population declined after the middle of the Third Age and the settlement was eventually abandoned at the end of the Third Age, although it had survived the fall of the last King for several generations.",
+        "name": "Bodroth",
+        "pop": "0",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.450549,
+          53.936333
+        ],
+        "type": "Point"
+      },
+      "id": "5cbba5e7606045d742bbfc0cd65aa0b1",
+      "properties": {
+        "desc": "Culwic, originally established as Himtil or Himobel (S. \"Chill village\") and known as Colwich in the Third Age, was a small town in western Arthedain. It lay just north of the borders of Dor Lelvin and Lindon on Little Lune. . It consisted of 400 men and some dwarves. Their industry and agriculture were primarily dedicated to supporting dwarven settlements to the north.",
+        "name": "Culwic",
+        "pop": 400,
+        "race": "Gondor, enanos",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          2.222248,
+          43.020362
+        ],
+        "type": "Point"
+      },
+      "id": "5ddbe24313c3c9bbddacda9ac5725694",
+      "properties": {
+        "desc": "Our esteemed colleagues at the Guild of Cartographers seem to have plucked the Quenya name \"Aron Úvanimin\" out of thin air, like a child would a butterfly. None of the local countrymen we spoke to had heard of its legendary wood. In fact, they were reluctant to mention the wood by name, but when pressed on this point, the name they preferred was the Sindarin name, Eryn-in-Úanhoth, which also means \"the Forest of Monsters.\" -Findegil of Gondor Eryn-in-Úanhoth 'was a remnant of the primeval forest that once covered the Nan Lefnui, before the tree-logging Númenóreans trod the shores of Middle-earth, eager for wood. This ancient stand of beech trees, barely ten miles from end to end, touched the eastern bank of the upper Lefnui near its confluence with the Nimthond, where it curved south towards the sea. Daen and Dúnadan had not disturbed the wood alike, and few would willingly pass beneath its eaves, fearing the malice that lay within.  The power that truly lurked in the shadow of Eryn-in-Úanhoth was the stuff of endless local tales and legends (some more credible than others), but those who had ventured into the forest and came out again to tell it were intimidated that the trees seemed to be sentient and indiscriminately hateful of all speaking peoples. A branch of the Len Lefnui traversed the edge of the forest as it followed the course of the river, but few travelers took this path unless they were heading north of Cirith Nimrais.",
+        "name": "Eryn-in-Úanhoth",
+        "pop": 0,
+        "type": "bosque"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          10.161853,
+          41.049572
+        ],
+        "type": "Point"
+      },
+      "id": "5ee93f5bc3e4001805d234e95a79657d",
+      "properties": {
+        "desc": "Cirith Dudhrandir was the only major pass through the mountainous Belfalas Peninsula. It was also the only mountain pass in southern Gondor that had a paved road, making it of greater strategic importance for the defense of the kingdom. With a height of 5,800 feet, the Cirith Dudhrandir was also the longest pass in southern Gondor, stretching more than sixty miles from east to west, and almost equaling the width of Belfalas. The pass was named after S.A. 3400. when Edhelion of Eldalonde, then Captain of the Faithful in Pelargir, received the peninsula to the west as a fief.  Cirith Dudhrandir was guarded by the fortress of Naur Amrûn, and two houses of knights controlled the lands along the eastern approach of the pass. The prince retained the western ascent of the pass (to Naur Amrûn) as his own property; travelers using the pass could find accommodation in the courtyard of Naur Amrûn or (more rarely; as guests of one of the landed knights). There was an inn for travelers in the small village that lay in the prince's land west of Naur Amrûn.",
+        "name": "Cirith Dudhrandir",
+        "pop": 450,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          5.880489,
+          55.633701
+        ],
+        "type": "Point"
+      },
+      "id": "5f7b31b1e45bc32f9710965931ec02be",
+      "properties": {
+        "name": "Anghul",
+        "pop": 80,
+        "race": "Sauron",
+        "type": "castle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -9.783386,
+          52.192311
+        ],
+        "type": "Point"
+      },
+      "id": "60d41486e9354c4d4dd2445e69e812e8",
+      "properties": {
+        "desc": "The elven refuge located in Forlindon is hidden and protected\nthrough a steep fjord. A sheltered harbor protects\nto the numerous elven vessels of the harsh climate\nof the Belegaer. Although it is not as densely populated as\nthe nearby Gray Harbors, Forlond is an important center\nurban for the coastal elves. Few mortals have arrived\nto visit the city, where the elves spend centuries building\nbeautiful and graceful boats intended for\ntake them to the other side of! Belegaer, to Aman.",
+        "name": "Forlond",
+        "pop": 780,
+        "race": "Noldor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.902661,
+          53.717587
+        ],
+        "type": "Point"
+      },
+      "id": "62529e65a017f5026aa81f71c3acec85",
+      "properties": {
+        "name": "Rildolach",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.251467,
+          47.012628
+        ],
+        "type": "Point"
+      },
+      "id": "62ee9d110b26b1dfee272ff8634879da",
+      "properties": {
+        "name": "Malehaut",
+        "pop": 45,
+        "type": "village"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          6.656038,
+          51.505654
+        ],
+        "type": "Point"
+      },
+      "id": "6442aa8e9dbeb487c3a787e44786eb05",
+      "properties": {
+        "desc": "The last bridge, so called because it is the farthest east from the road, was built of stone with three large arches. This bridge was built at the height of Arnorian power in T.A. 320. In Rhudaur's constant petty wars, the location was generally considered neutral ground. The Last Inn, a business once run by Rubb and Bura Grumm, stood near the bridge virtually undefended, as it had been for several generations. Just northwest of Iant Methed and across the Mitheithel were the ruins of Dol Elerilde, the stronghold of an old lord of Rhudaur. The Grumm family had survived that noble line.",
+        "name": "Iant Methed",
+        "pop": 5,
+        "type": "puente"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          4.330594,
+          47.761037
+        ],
+        "type": "Point"
+      },
+      "id": "650c99a437e0cce7a326674897da17d6",
+      "properties": {
+        "desc": "Larach Duhnnan is located on the territory owned\nof Clan Feargan, but foreign traffic passing through\nmakes it a great neutral place for discussions and exchanges between tribes. No walls surround the town, as residents rely on the nearby fortress of Clan Feargan for defense. Larach Duhnnan also lies at one of the few accessible crossings of the small river known as Dunstrem, and so the clan lords charge a moderate toll for all who wish to cross the bridge.",
+        "name": "Laur Dunnen",
+        "pop": 420,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          3.626902,
+          41.034679
+        ],
+        "type": "Point"
+      },
+      "id": "65907bd900d495733194dcf01f5f1dde",
+      "properties": {
+        "name": "Aerost",
+        "pop": 300,
+        "race": "Gondor",
+        "type": "fortress"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.234818,
+          47.538839
+        ],
+        "type": "Point"
+      },
+      "id": "67efb3b67cdd1b2fd62ecb938e847972",
+      "properties": {
+        "desc": "Talsir was one of the free cities of Cardolan. It was located on the west bank of the Gwathló River, about one hundred and seventy miles downstream from Tharbad, providing an important stop for travel along the river between Tharbad and Ethir Gwathló. The city had a fairly large population. of 4,300 in TA 250 and was one of the few settlements of ancient Minhiriath to survive until the end of the Third Age.",
+        "name": "Talsir",
+        "pop": 250,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          14.009562,
+          54.17404
+        ],
+        "type": "Point"
+      },
+      "id": "681965fb86a89207792118ea20e07ff9",
+      "properties": {
+        "desc": "Although it is not directly under the rule of the King\nWarlock, Wraecaburg suffers frequent attacks, and within lives a series of unpleasant characters from lands other than Rhovanion. The men of Wraecaburg occasionally trade with their relatives from Maethelburg, but the latter increasingly view the men from the northern valley with more suspicion.",
+        "name": "Framsburg",
+        "pop": "340",
+        "race": "norteños",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          3.521455,
+          51.600639
+        ],
+        "type": "Point"
+      },
+      "id": "68bdd7527815b3a3996d6fe4a7ffc0d4",
+      "properties": {
+        "desc": "From this vantage point, one has an excellent view of the Great East Road as one heads towards Rhudaur. For this reason, the hill served as a strategic focus for western Arthedain and Cardolan and has a history of conflicts around it. The tower of Amon Sûl once held a Palantir, which was moved to Fornost following the invasion of Angmar in T.A. 1409.",
+        "name": "Amon Sul",
+        "pop": 0,
+        "type": "torre en ruinas"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          12.542319,
+          49.212858
+        ],
+        "type": "Point"
+      },
+      "id": "6bbb1c408a02daac53e41d565a15fea4",
+      "properties": {
+        "desc": "A fortified but beautiful city in the heart of Lórien. It is an interconnected Telain network, supported by the enormous trunks of large mallorn trees. Galadriel herself devised the plan for the city, recognizing the danger her kingdom would have to face when Sauron first forged the Ruling Ring.",
+        "name": "Caras Galadhon",
+        "pop": 800,
+        "race": "Elfos Silvanos",
+        "type": "fortress city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -10.236027,
+          51.643591
+        ],
+        "type": "Point"
+      },
+      "id": "6d8133bd5a2051951596c4479f8d9ef0",
+      "properties": {
+        "name": "Amon Ereb",
+        "pop": 0,
+        "type": "colina"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.934113,
+          50.51091
+        ],
+        "type": "Point"
+      },
+      "id": "6e182f410f716a021ddf51be662a827d",
+      "properties": {
+        "name": "Endrist",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.770028,
+          41.004206
+        ],
+        "type": "Point"
+      },
+      "id": "7019dd7f9f38eca5ad9f1305d1aec81b",
+      "properties": {
+        "name": "Annulond",
+        "pop": 1200,
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.155729,
+          52.02727
+        ],
+        "type": "Point"
+      },
+      "id": "703e799a1608a3b9ff4ba4d98bf4f5bd",
+      "properties": {
+        "desc": "Gamwich was Westron's translation of the Halfling name \"Galabas\" (W. \"Playful Place\"). The village was located in the Westfarthing of the Shire.",
+        "name": "Gamwich",
+        "pop": 120,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.593426,
+          53.080472
+        ],
+        "type": "Point"
+      },
+      "id": "70ee9fc7ef04ae019111221f0505bd39",
+      "properties": {
+        "name": "Pantano de Celairnen",
+        "pop": 0,
+        "type": "pantano"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.29744,
+          39.175898
+        ],
+        "type": "Point"
+      },
+      "id": "72157ca5d66a0573a56b3e8a6faabf35",
+      "properties": {
+        "name": "Bar Nevedui",
+        "pop": "600",
+        "race": "gondor",
+        "type": "castle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          14.580513,
+          40.790865
+        ],
+        "type": "Point"
+      },
+      "id": "737cd8e5ebf3e66dbf23ade112de8011",
+      "properties": {
+        "desc": "Lórilad was a fortified town of Lebennin situated in the Ethir Anduin, approximately seventy-five miles downstream from Pelargir, halfway between the great paradise and the western cape of Lebennins.",
+        "name": "Lorilad",
+        "pop": 89,
+        "type": "village"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          16.166696,
+          44.061143
+        ],
+        "type": "Point"
+      },
+      "id": "75990a293755b179f5736ad958400efe",
+      "properties": {
+        "name": "Sindbar",
+        "pop": 540,
+        "race": "Gondor",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -4.625452,
+          55.090882
+        ],
+        "type": "Point"
+      },
+      "id": "76dfe74b025986ac0f4ebb77b57d9539",
+      "properties": {
+        "name": "Larad",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -1.551914,
+          50.704271
+        ],
+        "type": "Point"
+      },
+      "id": "77d37e506c88125d784b139a91d2b8c5",
+      "properties": {
+        "desc": "Originally, Sairinan (S. \"Valley of the Wizards\") had been an ancient Eriadoran village in ruins after the Second Northern War. The Northmen who had settled here after T.A. 1412, fleeing trouble at Cardolan, had forgotten the village's old name in favor of Saccburh. Later, when Hobbits formed the majority of its population, its name Sackville gained. Proximity to the rugged Red Hills Men of Eriador lent a (not entirely undeserved) reputation for cruelty to the residents of Sackville, who had taken on many of the boorish ways of their neighbors. Southfarthing's second largest town, scene of wheat fields and orchards along the River Fayne and terraced vineyards and melon fields on the nearby hills. Sackvillians were rare among hobbits because of the pride they took in selling their wares \"off limits.\" Sackville wine and leaves reached distant Saerlann in the south and even Dale in the wild far east.",
+        "name": "Sackville (Sacovilla)",
+        "pop": 110,
+        "race": "Hobbits",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          17.414725,
+          43.745926
+        ],
+        "type": "Point"
+      },
+      "id": "7c9213e731d938b81aea872e8df58c2b",
+      "properties": {
+        "desc": "Amon Din was first, counting from east to west, in a chain of seven beacon towers. It is the fire alert transmitted to Minas Anor of any attack on the northern borders of Gondor.",
+        "name": "Amon Din",
+        "pop": 120,
+        "race": "Gondor",
+        "type": "torre"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -7.283618,
+          54.590338
+        ],
+        "type": "Point"
+      },
+      "id": "7ca62dfc23b7be2ef8254d8924249fdc",
+      "properties": {
+        "desc": "The largest mine in Nan-i-Naugrim and the capital of Broadbeam since the Second Age. In the middle of the T.A. and in later times, Edennogrod was the largely ruined Khazad that stood above Nan-i-Naugrim. At the end of T.A. ruled by the feudal Lord Grár, with an honorary title \"The Mountain King\" for the Shire people.",
+        "name": "Buzdum Mazar",
+        "pop": 490,
+        "race": "Dwarves",
+        "type": "dwarven mine"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          15.13078,
+          42.223616
+        ],
+        "type": "Point"
+      },
+      "id": "7df88f8d7e3218d96af25370a52d4ce1",
+      "properties": {
+        "desc": "Minas Brethil (S. \"Silver Birch Tower\"), the capital of Celossien, was situated in the upper Serni, and was a center for the agricultural region between Glinduin and Serni. The town began to grow in the 4th century when the surrounding countryside was settled. After the Kin Fight, Minas Brethil had approximately 4,000 inhabitants, a number halved in the plague and only recovered in the late 20th century.",
+        "name": "Minas Brethil",
+        "pop": 3000,
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.529856,
+          49.026391
+        ],
+        "type": "Point"
+      },
+      "id": "8047934e8120045a7dfdd987a70b4a80",
+      "properties": {
+        "name": "Cithrenor",
+        "pop": 12,
+        "type": "pueblo en ruinas"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -1.537858,
+          53.032579
+        ],
+        "type": "Point"
+      },
+      "id": "8092b4e9ff96ef0fca43812a665b6a64",
+      "properties": {
+        "name": "Maegoth",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          5.714704,
+          54.61147
+        ],
+        "type": "Point"
+      },
+      "id": "83b667b645b766f8d319f13ce83d8ca3",
+      "properties": {
+        "name": "Barad Eldanar",
+        "pop": 400,
+        "race": "Sauron",
+        "type": "castle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -4.803929,
+          54.812309
+        ],
+        "type": "Point"
+      },
+      "id": "847e48fd06a77bc060eecf08013ec386",
+      "properties": {
+        "name": "Enerond",
+        "pop": 120,
+        "race": "Gondor",
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.935146,
+          38.976766
+        ],
+        "type": "Point"
+      },
+      "id": "850a1cb58a471a45f6dc25bffa830125",
+      "properties": {
+        "name": "Haerlond",
+        "pop": 390,
+        "race": "Gondor",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          0.618315,
+          52.568654
+        ],
+        "type": "Point"
+      },
+      "id": "8606fc2022212421702bfc7856e27660",
+      "properties": {
+        "desc": "The city had a fairly large population of 4,100 in TA 250. However, its population declined after the middle of the Third Age and the settlement was eventually abandoned at the end of the Third Age.",
+        "name": "Fanduin",
+        "pop": 500,
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          16.156195,
+          41.256614
+        ],
+        "type": "Point"
+      },
+      "id": "880eec93a3c2b8ebcf3a15446efc8c72",
+      "properties": {
+        "name": "Pelargir",
+        "pop": 2500,
+        "race": "Gondor",
+        "type": "fortress city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.30749,
+          49.536729
+        ],
+        "type": "Point"
+      },
+      "id": "8a30ed251c814ab07981a8f8297d81f0",
+      "properties": {
+        "desc": "A city located at the junction of the Redway and North Road, later after the split from Arnor, the Cardolan king had used the city as a summer retreat called \"Thalion\". The princes of Dol Tinereb dwelt in a great ruined mansion in Metraith. As one of the few remaining viable cities between Bree and Tharbad, Metraith had become an important supply center for caravans, as well as a base for the tougher types it attracted to trade along the way.",
+        "name": "Metraith",
+        "pop": 340,
+        "race": "Eriadorians",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          9.822337,
+          40.148109
+        ],
+        "type": "Point"
+      },
+      "id": "8c148f9d1af8d5cf47a5659fc57cb055",
+      "properties": {
+        "desc": "The Prince of Dor-en-Ernil maintained a series of towers along the coast of Belfalas. They were located at strategic points such as promontories, cliffs and islets. Its function was to alert Lond Ernil of a Corsair landing. Endil (S. \"Midpoint\") was one of these coastal lighthouse towers, so called because it stood at the midpoint between Metrast and Dol Amroth, forming the most crucial link in the chat chain of towers followed up the western coast to the peninsula. Situated on a solitary islet a mile offshore, Endil was, in fact, the residence of the warden of the coastal lighthouse system and, as such, possessed a considerable garrison.",
+        "name": "Endil",
+        "pop": 24,
+        "type": "torre"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.927719,
+          41.294802
+        ],
+        "type": "Point"
+      },
+      "id": "8db29c09f4bbb933338abeb89a583e7a",
+      "properties": {
+        "name": "Tir Eiliant",
+        "pop": 30,
+        "race": "Gondor",
+        "type": "manor"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.345125,
+          51.628198
+        ],
+        "type": "Point"
+      },
+      "id": "8ded0d2f712cc9da8128283409069cd1",
+      "properties": {
+        "desc": "Archet was made up of about thirty-five stone houses located among rolling hills cultivated with crops. A pleasant village, it produces an unusual cheese due to a species of wildflower that grew only in the immediate surroundings of the Archet. The Arinyalasse (Q. \"Morning-petal\") was created by the villagers' goats. Archet was three miles from Bree and about a mile from the Greenway. Like the rest of Bree land, the region was quite fertile.",
+        "name": "Archet",
+        "pop": 100,
+        "race": "Humanos, Hobbits",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          18.00528,
+          42.757665
+        ],
+        "type": "Point"
+      },
+      "id": "8e04e711f63f6afeb5937c8a767dff11",
+      "properties": {
+        "desc": "As its shallow valleys and fresh young streams ran westward to meet the Great River Anduin, the low hills and ridges of the Emyn Arnen (S. \"Hills beside the water\") defined the boundary separating Harithilien from Forithilien. The Emyn Arnen were covered with grass and thorny bushes, where numerous goats and sheep grazed. They were also home to several larger predatory birds, as well as a variety of common hares. Additionally, packs of wild dogs roamed the hills in search of prey, threatening livestock and unsuspecting travelers alike. The soil of the Emyn Arnen was not so rich as that, in the south, nor so deep; the bedrock lay closer to the surface. However, the valleys in the area were suitable for growing grapes. In these valleys, one found noble vineyards that had been cultivated by the people of Ithilien for millennia. Harithilien was known for the high quality of the wine he produced. Areas of the valley not used for growing grapes were covered with low shrubs and small trees. The highlands were also covered with rich grass, providing ample nutrition for the herds of goats that roamed the hills.",
+        "name": "Emyn Arnen",
+        "pop": 0,
+        "type": "colina"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          11.477501,
+          54.99107
+        ],
+        "type": "Point"
+      },
+      "id": "8f218bbd2ef709fe97a98279b6093117",
+      "properties": {
+        "desc": "Mount Gundabad was an important Dwarf enclave in the northern Misty Mountains. It was occupied by the Orcs several times, and became their capital.",
+        "name": "Gundabad",
+        "pop": "2400",
+        "race": "orcs",
+        "type": "dwarven mine"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.759837,
+          52.927546
+        ],
+        "type": "Point"
+      },
+      "id": "8f5a68e82d9b9a94bfb81074f2fb2e3a",
+      "properties": {
+        "desc": "Situated on a rocky area of ​​dry land across the marshy junction of the River Uialduin and the River Lhun, this ancient site had been continuously inhabited since the early years of the Second Age.",
+        "name": "Caras celairnen",
+        "pop": 1500,
+        "race": "Dúnedain",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.601318,
+          46.65052
+        ],
+        "type": "Point"
+      },
+      "id": "9254774f94d07810d84b2ef9222dec09",
+      "properties": {
+        "desc": "Nadior was a municipality of Ethir Gwathló in Cardolan. It was situated in a small bay on the coast of Minhiriath, approximately seventy miles west of the mouths of Gwathló. The city had a fairly large population of 4,900 in TA 250. However, its population declined after the mid-Third Age and the settlement was finally abandoned by TA 1640.",
+        "name": "Nadior",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          13.114289,
+          40.660615
+        ],
+        "type": "Point"
+      },
+      "id": "92d9b509c5a7e1e5217182f663f52897",
+      "properties": {
+        "desc": "The port city of Fanuilond in southern Gondor was often the last stop for coastal traders heading south. Near the countless islands and sandbars of the Mouths of Anduin, Fanuilond was a damp, mosquito-infested place that nevertheless remained popular with sailors and captains for the quality of the fruit and wine produced in the region immediately north of the city. Some of the best wines were served at the Tipsy Triton, a cheerful, dirty little inn near the docks.",
+        "name": "Fanuilond",
+        "pop": 750,
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.921482,
+          48.012518
+        ],
+        "type": "Point"
+      },
+      "id": "9310ec118383f85913db17931886920b",
+      "properties": {
+        "desc": "The Eryn Vorn (S. \"Black Wood\"; Du. \"Coed Dunn\" Os. \"Urnin Morn\", Q. \"Mornorni\") was a large forest on Cape Vorn, a remnant of the ancient ancient forest of Eriador and was the most dangerous wild country near Harlindon. This dangerous forest covered most of the peninsula called Rast Vorn (S. \"Dark Cape\"), about 560 square miles. The cloak was too strong for most of the male inhabitants, but several tribal relics from the Days of the Elders still dwelt here, along with Trolls, Orcs, Awakened Trees, and other evils that the Eriadora and Numenoreans hid during the Second Age. Of the tribesmen, only the Beffraen ventured beyond the limits of the forest towards Girithlin and Saerlann. They had once controlled much of Minhiriath early in the Second Age, and hoped to do so again as Cardolan withered in the 17th century of the Third Age. The Drúedain who lived in the forest were relatively benign, as were the Mebden, descendants of the Eriatero nature cultists and the Daen Fionach. The Ibenites, unknown to almost all outsiders, still dwelt deep in the forest; Although they were stooped and unpleasant people, they did not engage in disputes with their immediate neighbors. The Eriateros had long ago learned to respect this attitude of the inhabitants of Eryn Vorn. Elves had never settled in these forests (apart from a few individuals) and Gil-galad never attempted to control the region. For the most part, if the Elves' enemies retreated here, they were not going to bother the Elves along the Baranduin again. The coast of the Dark Woods saw Elven ships at times, passing south to Edhellond or fishing in the waters. Some small elven warships were sent in time of conflict to protect the approaches to Harlindon from Bar-i-Dinuviel to the west. Only the Elves braved the autumn storms that plagued the legends of these sailors along the Eriador coast.",
+        "name": "Eryn Vorn",
+        "pop": 0,
+        "type": "bosque"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          17.905348,
+          45.591355
+        ],
+        "type": "Point"
+      },
+      "id": "9359778ea1b205b6557d2baf08c3ab0a",
+      "properties": {
+        "desc": "Tir Nindor was an ancient Gondorian fortress, built to protect and guard the Dagorlad.",
+        "name": "Tirith Nindir",
+        "pop": 60,
+        "race": "Gondor",
+        "type": "castle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          0.26102,
+          45.144004
+        ],
+        "type": "Point"
+      },
+      "id": "93b9a677e74f4de70c374ef9b4d1f3d5",
+      "properties": {
+        "desc": "Lond Angren (S. \"Iron Port\") had been a small Númenórean outpost of the Second Age and later a city and lordship to control western Enedwaith near the Ethir Angren.",
+        "name": "Lond Angren",
+        "pop": 2300,
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          8.671436,
+          46.206903
+        ],
+        "type": "Point"
+      },
+      "id": "9419384092d93b36f57a999d75f061bd",
+      "properties": {
+        "desc": "Dunlostir era un centro de comercio regional de cereales. Dos veces al año, las ferias de cosechas convirtieron a la comunidad normalmente adormecida en un centro vibrante y cosmopolita.",
+        "name": "Dunlostir",
+        "pop": 880,
+        "race": "Rohirrim",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -9.050462,
+          51.986118
+        ],
+        "type": "Point"
+      },
+      "id": "96e3c8c5ca8e87d9f19586a2defc791a",
+      "properties": {
+        "name": "Tir Lawen",
+        "pop": 600,
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          11.433006,
+          45.72867
+        ],
+        "type": "Point"
+      },
+      "id": "97426ecfc7ddec460434e0391aa40aee",
+      "properties": {
+        "desc": "Onodrith, en tiempos posteriores conocido como Entrift o Stowburg, era una estación para la mayor parte del tráfico fluvial a las provincias norteñas y occidentales de Gondor. También contenía gran parte del grano que el Rey de Gondor o Rohan mantenía en reserva, en grandes almacenes a lo largo del río. El ferry aquí manejaba mucho tráfico, pero los altos peajes hicieron que muchos viajeros buscaran el Iach Onodlo a unas 20 millas río arriba.",
+        "name": "Onodrith",
+        "pop": 1100,
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          19.715491,
+          50.24128
+        ],
+        "type": "Point"
+      },
+      "id": "97e0564175cce6367da1abe875f4d424",
+      "properties": {
+        "desc": "Camposanto ritual, actualmente en desuso.\nEste lugar, en la actualidad oscurecido por las sombras\ndel Bosque Negro, fue antaño uno de los puntos mas sagrados de los nordicos; ahora los hombres del norte evitan el cementerio, ya que temen que este maldito.",
+        "description": "Monumento silvano",
+        "name": "Cor Angaladh",
+        "pop": "0",
+        "race": "Elfos Silvanos",
+        "type": "lugar destacado"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          2.03246,
+          42.157703
+        ],
+        "type": "Point"
+      },
+      "id": "98297a9393f615d3791c0ba38ac4bd4f",
+      "properties": {
+        "name": "Osgar",
+        "pop": 40,
+        "type": "manor"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          21.273306,
+          53.880945
+        ],
+        "type": "Point"
+      },
+      "id": "9d8352b354ce40ca566050ea40fbc8c1",
+      "properties": {
+        "desc": "Esta ciudad de los nórdicos urbanos esta situada en el resguardado\nvalle que hay por debajo de Erebor. Valle es famosa\npor sus habilidosos artesanos, y muchas de sus mercancias\nbajan por el Celduin hasta llegar a mercados en Rhiln\ny en Gondor. La ciudad descansa a la sombra de Erebor, una sombria y solitaria montaña que muchos creen esta maldita.\nValle todavia sirve como base para quienes desean explorar\nlas Montañas Grises o espiar en el camino que conecta\nAngmar con las tierras orientales.",
+        "name": "Dale",
+        "pop": "1200",
+        "race": "Norteños",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          0.304518,
+          51.137242
+        ],
+        "type": "Point"
+      },
+      "id": "9e3fd858669c93917b91e0462a752b81",
+      "properties": {
+        "desc": "El Taur Iaur era un denso bosque que se extendía entre Tyrn Gorthad y la Comarca. El Viejo Bosque era un fragmento del vasto bosque que una vez había cubierto la mayor parte de la Tierra Media. Los corazones de muchos de los árboles del bosque eran negros y rencorosos hacia los hombres y los hobbits. Algunos incluso dijeron que los árboles atacaron a los intrusos en el bosque. Cualquiera que sea la verdad de estas historias, muchas personas que se aventuraron en el Taur laur nunca fueron vistas nuevamente.",
+        "name": "Taur Laur",
+        "pop": 0,
+        "type": "bosque"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          15.953922,
+          50.443346
+        ],
+        "type": "Point"
+      },
+      "id": "9eb4aada9066b6970cc3fa4b0713f534",
+      "properties": {
+        "desc": "Lugar de curación y cultivo de hierbas; refugio\nen el Bosque Negro; centro de observación de Dol Guldur.\nRhosgobel es un lugar sencillo, forrnado por Ias ramas\nde un gran roble. Radagast posee uno de los jardines de hierbas mas grandes de la Tierra Media, y muchos de los Pueblos Libres que viven en el bosque suelen buscar Rhosgobel cuando son tiempos dificiles.",
+        "description": "Refugio de Radagast",
+        "name": "Rhosgobel",
+        "pop": "1",
+        "type": "lugar destacado"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          4.722165,
+          41.290999
+        ],
+        "type": "Point"
+      },
+      "id": "9fa4fdeaf24042021af167466a61eb0e",
+      "properties": {
+        "name": "Lond Galen",
+        "pop": 5000,
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          21.777269,
+          53.02214
+        ],
+        "type": "Point"
+      },
+      "id": "a309e72a5df0d83e90644ac100da32ae",
+      "properties": {
+        "desc": "Esgaroth esta construida sobre unas grandes plataformas\ncolocadas sobre el Annen (Lago Largo), y esta conectada con la tierra mediante un solo puente. Los hombres de Ciudad del Lago eligen a un Señor cada dos años, pero el verdadero amo de Esgaroth es el comercio. La mayoría de las rutas comerciales de la región pasan por Esgaroth, y los nórdicos que viven en la ciudad son sorprendentemente cosmopolitas.",
+        "description": "Ciudad del lago",
+        "name": "Esgaroth",
+        "pop": "910",
+        "race": "Norteños",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          15.440753,
+          40.605991
+        ],
+        "type": "Point"
+      },
+      "id": "a5bb5615f0cc150c33a7ad66fcfbbc3f",
+      "properties": {
+        "name": "Porosir",
+        "pop": 34,
+        "race": "Gondor",
+        "type": "manor"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -4.128578,
+          53.721508
+        ],
+        "type": "Point"
+      },
+      "id": "a6e587a30bf890eed4d7915481aa2120",
+      "properties": {
+        "desc": "Tol Firngond era una isla rocosa bastante poco atractiva en el en medio del río Lhun. A pesar de su nombre macabro, sirvió para anclar los transbordadores de cuerda que transportaban la mayor parte del tráfico de caravanas hacia Nan-i-Naugrim. Los hombres del río que dirigían los transbordadores eran civiles, como lo hicieron los hombres del río.",
+        "name": "Tol Firngond",
+        "pop": 0,
+        "type": "isla"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.372691,
+          49.954729
+        ],
+        "type": "Point"
+      },
+      "id": "a89aa4a2e390d2650f651118a49c1f0c",
+      "properties": {
+        "desc": "Los enanos de Tumnogath eran pobres y se mantenían en secreto. Muchos de sus hijos habían emigrado a las lejanas Iron Hills, y la comunidad se estancó en unas pocas generaciones. La población enana consistía en buscadores de tesoros y tinkers viajeros.",
+        "name": "Tumnogoth iaur",
+        "pop": 112,
+        "race": "Dwarves",
+        "type": "dwarven mine"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          15.064321,
+          52.083825
+        ],
+        "type": "Point"
+      },
+      "id": "a93d0de04ea8b6508387274bbf869d77",
+      "properties": {
+        "desc": "Este islote del Anduin, situado entre el Jach Iaur y\nMaethelburgo, tiene una gran importancia espiritual para los beijabar que viven en la zona. El Anduin no es muy profundo en esta zona, lo que permite vadear el río cerca de la Carroca, aunque la rapidez de las aguas puede añadir cierto peligro al cruce, especialmente en la ribera derecha del río.",
+        "name": "Carrock",
+        "pop": 0,
+        "race": "beornidas",
+        "type": "lugar destacado"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          5.446174,
+          42.937788
+        ],
+        "type": "Point"
+      },
+      "id": "a96509f98e363e3b03873960397c0cf8",
+      "properties": {
+        "name": "Druabad",
+        "pop": 206,
+        "type": "village"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          17.969459,
+          43.351871
+        ],
+        "type": "Point"
+      },
+      "id": "a999feb997c5cbac53d53ceb760be098",
+      "properties": {
+        "desc": "Osgiliath era la antigua capital de Gondor. La ciudad se extiende a ambos lados del río Anduin en un punto aproximadamente a medio camino entre las ciudades de Minas Anor al suroeste y Minas Ithil al noreste, y al norte de la cercana Emyn Arnen. En el Gran Salón de la ciudad, los tronos de los hijos de Elendil estaban colocados uno al lado del otro. En sus días de gloria, la ciudad presentaba muelles para manejar embarcaciones marítimas que subían del mar, un gran puente de piedra que sostenía casas y torres de piedra, y la Cúpula de las Estrellas, que albergaba la piedra de Osgiliath, la más grande de las piedras. los siete Palantíri",
+        "name": "Osgiliath",
+        "pop": 3000,
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -1.324173,
+          51.341565
+        ],
+        "type": "Point"
+      },
+      "id": "b07dfd88fff335d40f4a6ff02e121d97",
+      "properties": {
+        "desc": "El pueblo estaba ubicado en el país de las colinas verdes de Westfarthing de la comarca. Tuckburrow, aislada en un valle del País de las Colinas Verdes, se convirtió en un pequeño pero exitoso centro de carpintería y cerámica. Whitwell, situado en la Vía Roja en medio de tierras más fértiles, prosperó como un centro de mercado. Dolwich, en un espolón sur de las colinas, estaba situado para vender madera y granito a cualquiera en el sur o oeste de Farthings y también floreció.",
+        "name": "Tuckborough",
+        "pop": 320,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          17.402856,
+          44.594583
+        ],
+        "type": "Point"
+      },
+      "id": "b173ca30c3da9f732cc0d30c3dba9b2b",
+      "properties": {
+        "name": "Dol Caranthan",
+        "pop": 320,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          5.969026,
+          52.908717
+        ],
+        "type": "Point"
+      },
+      "id": "b2d97d738b6c8e1360c928f1f3978a23",
+      "properties": {
+        "desc": "La única ciudad permanente montañesa al oeste de Mitheithel, Nothva Rhaglaw (Du. \"Refugio del Regente\") era un centro comercial y una fuente de justicia local. Sin embargo, los movimientos de los montañeses seminómadas causaron que la población de la ciudad variara ampliamente con las estaciones.  Fue una parada importante para los pocos comerciantes que trasladaban mercancías de Cardolan a Angmar.",
+        "name": "Nothva Rhaglaw",
+        "pop": 840,
+        "race": "Dunlendings",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          7.46718,
+          52.537733
+        ],
+        "type": "Point"
+      },
+      "id": "b45533711c7989e35801d15ea96e34b8",
+      "properties": {
+        "desc": "Cameth Brin sirvió como el asiento del hombre de las montañas King Broggha. La ciudadela incluía una torre y un sistema de túneles construidos por los Dúnedain de Arnor al costado de la Colina Torcida y era una fortaleza casi inexpugnable. Fue uno de los pocos asentamientos permanentes de los montañeros semi-migratorios y sirvió como base para los ataques contra Arthedain y Cardolan.",
+        "name": "Cameth Brin",
+        "pop": 540,
+        "race": "Dunlendings",
+        "type": "fortress"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.750008,
+          54.559393
+        ],
+        "type": "Point"
+      },
+      "id": "b5e41a73df163d7a3bc0212280694b87",
+      "properties": {
+        "desc": "Faemar era un pueblo situado a medio camino entre los extremos del largo y estrecho Taur Galen, en un vado que cruzaba el río, el valle aguas abajo de Faemar era empinado y la agricultura rocosa era imposible. En cambio, los aldeanos recolectaban una cosecha anual de caza silvestre, bayas, hierbas, nueces y madera seca para carbón.",
+        "name": "Faemar",
+        "pop": 850,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.111696,
+          53.302321
+        ],
+        "type": "Point"
+      },
+      "id": "b721357fafe99eb73f5c980838e5ddf1",
+      "properties": {
+        "name": "Ambon Noirinyaron",
+        "pop": 0,
+        "type": "mansion en ruinas"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          9.045753,
+          41.368408
+        ],
+        "type": "Point"
+      },
+      "id": "b74257edfb64f85fb7085dc04ae70782",
+      "properties": {
+        "desc": "Dol Amroth era un promontorio rocoso en la costa occidental de Belfalas que lleva el nombre del señor Sinda Amroth, hijo de Amdír, quien fundó Tirith Aear en sus acantilados a mediados de la Segunda Edad. Más tarde, después de que Belfalas fue entregado como feudo a Edhelion de Dor-en-Ernil y sus descendientes, el nombre se extendió para referirse a todo el asentamiento Númenóreano del promontorio, tanto Ost-en-Ernil como Lond Ernil, el refugio. pueblo que creció a su alrededor. Cuando se hizo referencia solo a la ciudad y no al castillo. En su lugar, se utilizó \"Lond Ernil\".  La ciudad custodiaba uno de los puertos más seguros de Gondor, con la flota más grande del reino fuera de Pelargir. Debido a su excelente artesanía, los barcos construidos en Dol Amroth fueron más que un rival para cualquiera de las embarcaciones de Umbar. Lond Ernil también era un centro comercial ocupado y se jactaba de algunos de los mejores artesanos de la Tierra Media. Como era de esperar, Dol Amroth funcionó como un centro comercial dominante, el más activo en Gondor al oeste de Pelargir. Muchos de los productos del norte que llegan por mar pasaron por Dol Amroth, y fue el mejor lugar para encontrar un pasaje a Tharbad.",
+        "name": "Dol Amroth",
+        "pop": 10200,
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.512654,
+          51.660837
+        ],
+        "type": "Point"
+      },
+      "id": "b8e5b03dddef89acb43eb6b4c7704af1",
+      "properties": {
+        "desc": "Ubicada en White Downs, Little Delving tiene una mayor preponderancia de Smials, la vivienda tradicional Hobbit, que algunos asentamientos de tierras bajas donde los túneles no son prácticos.",
+        "name": "Little Delving",
+        "pop": 120,
+        "race": "Hobbits",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.863374,
+          50.840027
+        ],
+        "type": "Point"
+      },
+      "id": "ba1d1a32cd234ff8a9fa85f54f447d3c",
+      "properties": {
+        "name": "Lond-in-Telerrim",
+        "pop": 546,
+        "race": "Noldor",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.878831,
+          54.687776
+        ],
+        "type": "Point"
+      },
+      "id": "baa59928179952df3eb0eccdf145ac6b",
+      "properties": {
+        "desc": "Los aleros de Taur Faemar se extendían a lo largo del valle del Río Himsiril, una corriente fresca que drena la esquina noroeste de las Colinas Crepusculares y desemboca en el río Lhun. A medio camino entre los extremos del bosque largo y estrecho, en un vado que cruzaba el río, se encontraba el pueblo de Faemar. El valle aguas abajo de Faemar era empinado y rocoso; la agricultura era imposible. En cambio, los aldeanos recolectaban una cosecha anual de caza silvestre, bayas, hierbas, nueces y madera seca para carbón. Llamaron al bosque Fairborne Wood, y la porción más cercana de Faemar sirvió como un patio de recreo para niños pequeños y un bosque de cortejos para aquellos un poco mayores. En cientos de años, nadie había sufrido daños en el bosque; de hecho, se consideraba un lugar afortunado. Últimamente, la tragedia ha golpeado, no una, sino tres veces. Un muchacho del pueblo, Veryamir, cayó en una piscina en el bosque y se ahogó. Mientras lo cazaba, un Rhyvelur de Himsiril Keep (en una colina al suroeste, con vista al valle del río) murió en una caída, su cuerpo tan desgarrado por los espinos que solo su equipo confirmó su identidad. Cuando un segundo Rhyvelur pereció después de ser rastrillado y golpeado por una rama de árbol astillada por el viento, el capitán de la guardia de la fortaleza, Falastir, prohibió toda entrada al bosque hasta que determine si las fuerzas antinaturales, tal vez malvadas de Angmar, están trabajando.  El Feahini de Taur FaemarEditar En verdad, hay fuerzas sobrenaturales en el bosque; son bastante locales y no tienen malas intenciones. Sin embargo, si una mente astuta no interviene, Fairborne Wood puede perderse permanentemente para los aldeanos de Faemar. El Tittamorka o Hoiten han vivido en Taur Faemar durante siglos, sin ser vistos por la mayoría de la gente local. Son verdaderos Feahini, el hada de la leyenda antigua. Los hoiten son pequeños, no más de dos pies de alto; en apariencia, combinan las delicadas características de las familias Elf con el cabello, las orejas y las colas de tejones. En la actualidad, una docena de personas viven en guaridas secretas entre las raíces de los árboles de Taur Faemar. Compartiendo la pobre visión de muchos depredadores de los bosques, confían en sus sentidos del oído y el olfato para cazar animales pequeños en busca de comida y evitar criaturas más grandes y torpes, incluidos los hombres. Hoiten pasaría por alto sin ser señalado por los Pueblos Libres, excepto por una extraña soledad que experimentan. Naturalmente empáticos, se sienten atraídos por los humanos y otras criaturas de fuerte emoción, buscando a aquellos que son inocentes, felices y sin miedo. En Fairborne Wood, esto los lleva a seguir, observar y proteger a los niños que juegan entre los árboles. Los Hoiten son, de hecho, la \"suerte\" de Fairborne Wood. Los únicos adultos a los que se acercan las hadas son los amantes más inocentes y los borrachos más pacíficos, quienes ingresan regularmente al bosque en busca de soledad y un lugar para descansar. Si alguien pensara preguntar, se enteraría de que una fracción pequeña pero significativa (al menos 5%) de los aldeanos de Faemar en realidad ha visto un Hoiten en un momento u otro; la mayoría suprimió la memoria como una ilusión, mientras que unos pocos creyeron y guardaron la memoria como un secreto especial.",
+        "name": "Taur Faemar",
+        "pop": 0,
+        "type": "bosque"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.149413,
+          51.43143
+        ],
+        "type": "Point"
+      },
+      "id": "bcd8fc2e535e21125dcf84c78e30cfe8",
+      "properties": {
+        "desc": "La gente de Stock tradicionalmente mantenía buenas relaciones con el bosque que los rodeaba. Recogieron árboles con cuidado, recogieron sus ramas para la ropa de cama, sus manzanas para secarlas y sus bellotas y nueces para moler y hornear. Los árboles crecían en hileras, probablemente porque había habido, en los viejos tiempos, un caballero Arthadan en residencia aquí. La mayoría de las arboledas habían sido plantadas de acuerdo con su plan como sotobosques y huertos. El suelo fértil del valle del río Baranduin producía algunos de los mejores hongos de la Comarca.",
+        "name": "Stock",
+        "pop": 210,
+        "race": "Hobbits",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          17.723223,
+          42.143878
+        ],
+        "type": "Point"
+      },
+      "id": "bf4f93c27a04a22a4cb95b6e9b2da0ce",
+      "properties": {
+        "desc": "Bar-en-Dinnen (S. \"Morada en el Dinnen\") era un pueblo pesquero y una ciudad comercial en el sur de Ithilien, a unas 60 millas al sur de Minas Tirith, ubicado en la unión de los ríos Tinnen y Anduin, en la orilla oriental del Anduin en la confluencia de Tinnen, a sesenta millas río abajo de Harlond y noventa millas río arriba de Pelargir.  El asentamiento terrestre más cercano a Bar-en-Dinnen estaba a treinta millas río arriba en Iant Tinnen. Como la ciudad era el único asentamiento ribereño de importancia en Harithilien al norte de Hyarpende, Bar-en-Dinnen era un importante centro para el comercio fluvial local entre Ithilien y las aldeas más pobladas de Lebennin.",
+        "name": "Bar-en-Dinnen",
+        "pop": 432,
+        "race": "Gondor",
+        "type": "unknown"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -9.56661,
+          55.290304
+        ],
+        "type": "Point"
+      },
+      "id": "c02aee9a0462b65512c662491f3b69f8",
+      "properties": {
+        "desc": "Mirolos (S. \"Sueño joya\"; también conocido como \"Londalos\") fue un asentamiento de los seguidores de los hijos de Feanor, en el Hub Conath y el más grande de la región. Fue fundada por Maglor en la primera década de la Segunda Edad, antes de su desaparición. Fue abandonado durante el largo invierno, cuando un dragón del norte de los desechos entró en el área. El asentamiento había sido cortado por la nieve para llegar a la ayuda por algún tiempo, y la ciudad fue incendiada. Erien Forhiriel era la dama del asentamiento. Los habitantes de Mirolos se contaban por centenares en la Tercera Edad, al igual que Urunobel, su contraparte.",
+        "name": "Mirolos",
+        "pop": "300",
+        "race": "Noldor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -11.063029,
+          52.948017
+        ],
+        "type": "Point"
+      },
+      "id": "c0c86553afc2adf9fb424a578f332bea",
+      "properties": {
+        "name": "Tir Lawen",
+        "pop": 800,
+        "race": "Noldor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -4.147863,
+          48.98546
+        ],
+        "type": "Point"
+      },
+      "id": "c0da45757ceef624d48f9d947ae16305",
+      "properties": {
+        "desc": "Es una \"ciudad abierta\" peculiar y peligrosa donde Orcos, Beffraen, Rivermen, Dunadan e incluso corsarios de la lejana Umbar se mezclan. Ambarburh representaba el límite del mundo para los Hobbits que miraban al suroeste desde la Comarca, y solo los más aventureros. vinieron aquí. ",
+        "name": "Annon Baran",
+        "pop": 300,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -3.382325,
+          47.966594
+        ],
+        "type": "Point"
+      },
+      "id": "c2392ab49a7d6e2b9754ceb14dfb2040",
+      "properties": {
+        "name": "Forondir",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -8.95062,
+          50.767262
+        ],
+        "type": "Point"
+      },
+      "id": "c2f3aca4298632ac748eaa0343c9c2b9",
+      "properties": {
+        "name": "Anhamar",
+        "pop": 0,
+        "type": "unknown"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.227855,
+          52.580788
+        ],
+        "type": "Point"
+      },
+      "id": "c479e0ef7275f5f76ddc24749c85ecf5",
+      "properties": {
+        "desc": "Era el valle central de Dor Leithien y el centro de la habitación de Silvan Elf, aunque muchas de sus bandas no construyeron viviendas permanentes.",
+        "name": "Imladorn",
+        "pop": 0,
+        "type": "valle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -1.265933,
+          51.58473
+        ],
+        "type": "Point"
+      },
+      "id": "c4fc66c91d78dea4ab769322dae7aeda",
+      "properties": {
+        "desc": "Hobbiton era un pueblo prominente de hobbits en la Comarca. Estaba ubicado en Westfarthing, al norte de Great East Road.",
+        "name": "Hobbiton",
+        "pop": 504,
+        "race": "Hobbits",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          4.501772,
+          43.140756
+        ],
+        "type": "Point"
+      },
+      "id": "c56b60ec340561754e3980f516df9cf7",
+      "properties": {
+        "name": "Pinnornost",
+        "pop": 540,
+        "type": "fortress"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -10.131963,
+          53.290973
+        ],
+        "type": "Point"
+      },
+      "id": "c63a0fa990a9481746f987be890a420a",
+      "properties": {
+        "name": "Vinyathrad",
+        "pop": 800,
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          8.681894,
+          42.644397
+        ],
+        "type": "Point"
+      },
+      "id": "c66de1535d5084394d382b401eb3ed69",
+      "properties": {
+        "name": "Caborlad",
+        "pop": 0,
+        "type": "unknown"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          9.614062,
+          42.073163
+        ],
+        "type": "Point"
+      },
+      "id": "c7058608fefce8f43ee84942255feb8b",
+      "properties": {
+        "desc": "Glanhir (S. \"Entre los arroyos\") era una ciudad de Lamedon, situada en la confluencia de los ríos Morthond y Ringló, a treinta millas de Edhellond y el mar. Debido a su ubicación, Glanhir funcionó como la principal puerta de entrada económica al este de Anfalas, el valle de Blackroot y el valle de Lamedon.",
+        "name": "Glanhir",
+        "pop": 1300,
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.389766,
+          45.155728
+        ],
+        "type": "Point"
+      },
+      "id": "c954bfcce69f4d05de5e64251168df37",
+      "properties": {
+        "name": "Erynwaith",
+        "pop": 0,
+        "type": "unknown"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          0.584601,
+          47.809059
+        ],
+        "type": "Point"
+      },
+      "id": "c978f08eddb9e7e5d44df0e1dd8ecf49",
+      "properties": {
+        "name": "Amrelor",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          15.813102,
+          49.377965
+        ],
+        "type": "Point"
+      },
+      "id": "cba3c1d32999386b7650ada2d73f473c",
+      "properties": {
+        "desc": "Dol Guldur (Orc. \"Nazburz\" Rhov. \"Naquath Hlain\") fue el gran volcán muerto y fortaleza de Sauron del sur de Mirkwood. Era la capital y, a menudo, incluso sinónimo del Reino del Nigromante.",
+        "name": "Dol Guldur",
+        "pop": 2100,
+        "race": "Orcos",
+        "type": "unknown"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          8.259205,
+          51.810131
+        ],
+        "type": "Point"
+      },
+      "id": "ce59b251462cb51056bdabc495fd399c",
+      "properties": {
+        "desc": "Los Pinnath Tereg eran una serie de colinas boscosas en el centro de Rhudaur. Fieles a su nombre, los Pinnath Tereg eran el hogar de una gran población de Trolls que proporcionaban problemas para los habitantes de las montañas locales.",
+        "name": "Pinneth Tereg",
+        "pop": 0,
+        "type": "colina"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          4.794315,
+          41.460161
+        ],
+        "type": "Point"
+      },
+      "id": "d051379b25c86cfac253bd6b01cea140",
+      "properties": {
+        "name": "Serelond",
+        "pop": 1300,
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          4.947357,
+          42.98755
+        ],
+        "type": "Point"
+      },
+      "id": "d23f71bd5455ab5a52471ba0e0682dbf",
+      "properties": {
+        "name": "Dol gwaer",
+        "pop": 400,
+        "type": "fortress"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          3.469187,
+          44.173448
+        ],
+        "type": "Point"
+      },
+      "id": "d290201ba9e1b08fc6ed2000ec05cd8f",
+      "properties": {
+        "desc": "Imlad Arheledh era un valle de las Montañas Blancas en Hairaverkien, al oeste de Lefnui. Los Dúnedain de Anfalas le dieron este nombre al valle porque las montañas que lo rodeaban contenían ricos depósitos de cuarzo expuesto y arena productora de vidrio, que los Daen Lintis de la región adquirieron para los hombres de Anfalas a cambio de implementos de hierro y otros bienes necesarios en el tierras salvajes Este comercio generalmente se realizaba en Annon Wain, que se encontraba a cinco días de viaje al sur del desfiladero. En el centro de los áridos, el valle rocoso era un manantial que formaba una de las dos fuentes principales del río Rúhónir (que se unía al Lefnui a cuarenta millas al sureste de Imlad Arheledh). Esta primavera surgió de un pozo en ruinas, se rumoreaba que había sido excavado por el antiguo Drvedghu debido a las \"piedras de vigilancia\" que lo rodean. Lefnui en sí. Debido a que era sagrado para ellos, los Daen nunca habían intentado reparar el trabajo en piedra del pozo (ni habrían tenido la habilidad para hacerlo, si estuvieran dispuestos).",
+        "name": "Cabed Arahelet",
+        "pop": 0,
+        "type": "valle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.70273,
+          39.994039
+        ],
+        "type": "Point"
+      },
+      "id": "d6c06fd01deba0a9589711f97fd50b7a",
+      "properties": {
+        "name": "Ferendil",
+        "pop": 0,
+        "type": "colina"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -7.539279,
+          51.414853
+        ],
+        "type": "Point"
+      },
+      "id": "d7b271fbd725a19c00232d158a1e71c4",
+      "properties": {
+        "desc": "Lond Thalos (S. \"Puerto de Thalos\"), como el hospital de Car Sidh al oeste en Amon Ereb, era una comunidad de médicos y herbolarios, además de ser un camino para la madera destinada a los astilleros de los Puertos.",
+        "description": "Es un pueblo de herboristas",
+        "name": "Lond Thalos",
+        "pop": "700",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.386569,
+          51.76395
+        ],
+        "type": "Point"
+      },
+      "id": "d91f5d2806938b5d5e0342181bfff661",
+      "properties": {
+        "desc": "Ubicado en el accidentado país de Eastfarthing, Scary y sus minas cercanas proporcionaron la mayor parte de los minerales de estaño y cobre utilizados en la Comarca, así como gran parte del granito utilizado en la construcción, se produjeron en pequeñas cantidades aquí y se transportaron a Bree. o Fornost. El pueblo fue nombrado, literalmente, por las cicatrices hechas por la minería y la extracción.",
+        "name": "Scary",
+        "pop": 130,
+        "race": "Hobbits",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          7.587706,
+          45.859374
+        ],
+        "type": "Point"
+      },
+      "id": "db7308c49e9f0be82050b9f695ba8651",
+      "properties": {
+        "desc": "Hornburg era un nombre rohirrico; la mayoría de los gondorianos se referían a la ciudadela como \"Ostiras\", los Eorlingas originalmente la conocían como \"Súthburg\". La fortaleza consistía en una torre robusta sobre un gran espolón de roca, con un grueso muro que se extendía desde la torre hasta cruzar la boca del valle. .",
+        "name": "Hornburg",
+        "pop": 1600,
+        "race": "Rohirrim",
+        "type": "fortress"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.466877,
+          44.654769
+        ],
+        "type": "Point"
+      },
+      "id": "e11fba538e02b2f688cb4b67ef534ff3",
+      "properties": {
+        "des": "Pueblo pesquero",
+        "name": "Hwalord",
+        "pop": 520,
+        "race": "Gondor",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -5.219364,
+          51.638056
+        ],
+        "type": "Point"
+      },
+      "id": "e2bf97d453fbf8464e97036d01bec4d4",
+      "properties": {
+        "desc": "Elostirion es la más alta y occidental de las tres torres blancas en el Emyn Beraid. Un Palantir está allí, vigilando constantemente las Tierras eternas.",
+        "name": "Elostirion",
+        "pop": 52,
+        "race": "Dúnedain",
+        "type": "torre"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          6.787443,
+          54.830155
+        ],
+        "type": "Point"
+      },
+      "id": "e32e3dba06c560584d99f5162a2c4258",
+      "properties": {
+        "desc": "Las amplias llanuras que hay por debajo de Shedun se\nutilizan como campo de entrenamiento y punto de reunion\npara las hordas de orcos del Rey Brujo. Las escaramuzas entre los orcos y la guamicion de hombres de! castillo son bastante frecuentes, aunque el Rey Brujo utiliza su ferrea disciplina para mantener el orden.",
+        "name": "Shedun",
+        "pop": "940",
+        "race": "Sauron",
+        "type": "castle"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          19.921918,
+          51.729489
+        ],
+        "type": "Point"
+      },
+      "id": "e3c63721a7f03a1dc531a6dc6fd56c7b",
+      "properties": {
+        "desc": "Eran una serie de colinas de piedra caliza sin pico de más de 2.000 pies de altura. La cordillera estaba limitada al sur por Men-i-Naugrim (S. \"Dwarven Road\"), al este por los pantanos del río Celduin, al noreste por el territorio de los hombres del lago y al noroeste. por el norte-sur que corre el río Gulduin. Las colinas eran redondeadas, con retorcidos cursos de agua en su base. Unos pocos lagos salpicaban la región y las cuevas se abrían paso entre las colinas calvas. Este territorio estaba habitado por pocos hombres y más bien unas pocas criaturas peligrosas y desagradables. Fell-bestias, gigantes menores, trolls e innumerables arañas gigantes habitaban este rango. La misteriosa cabeza de río del Gulduin comenzó las aguas turbias y oscuras produciendo sueños oscuros y hambrientos si uno se baña en su flujo. Estas cabeceras daban a un pequeño lago y una cascada. Conocido por pocos fue la torre de Sarn Goriwing (S. \"Piedra del aerosol aborrecible\"), un espolón hueco de roca en medio de las cataratas. Pocos pueblos de habla habían viajado por esta región, excepto manteniéndose en el camino y luego solo con gran vigilancia y muchas espadas afiladas a mano.",
+        "name": "Emyn nu Fuin",
+        "pop": 0,
+        "type": "colina"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          15.996778,
+          41.930038
+        ],
+        "type": "Point"
+      },
+      "id": "e489b8b32e368a5305d8aa2099c2b4a3",
+      "properties": {
+        "name": "Bar Olchaldor",
+        "pop": 348,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.338978,
+          40.06648
+        ],
+        "type": "Point"
+      },
+      "id": "e5c97706503934aef315312d333b8692",
+      "properties": {
+        "name": "Tharagdonrost",
+        "pop": 800,
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          9.173216,
+          49.128243
+        ],
+        "type": "Point"
+      },
+      "id": "e743898b5429b1759f42f3eeedf353a1",
+      "properties": {
+        "desc": "(Kh. \"Mansión enana\"; S. \"Hadhodrond\"; W. \"Dwarrowdelf ') También se conoce como Moria (S.\" Black Chasm \"), Black Pit y Mines of Moria. Khazaddum se alza como ciudadela , mansión y ciudad de la gente de Durin, la más noble de las Siete Tribus de los Enanos. Fundada a principios de la Primera Edad en cuevas debajo de las Montañas Nubladas, domina e incorpora el valle sagrado llamado Azanulbizar. Desde entonces, Khazad-dum ha sido expandido para incluir siete niveles principales que se extienden a lo ancho de la cordillera y se extienden debajo de las tres montañas Caradhras, Fanuidhol y Celebdil. A principios de la Segunda Edad, los Enanos descubrieron Mithril (S. \"Llama Gris\"; W. \"Plata verdadera\" \") aquí, y muchos de las Montañas Azules emigraron a la casa de Durin.",
+        "name": "Moria",
+        "pop": 312,
+        "race": "Dwarves",
+        "type": "minas enanas"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -5.002044,
+          53.408169
+        ],
+        "type": "Point"
+      },
+      "id": "e835ee53e05d2cfc5578bedc86581b87",
+      "properties": {
+        "desc": "Colocado al pie del Ramluin (S. \"Muro Azul\"), Eruimar (S. \"Hogar Solitario\") se sentó debajo del punto más oriental en el que las estribaciones se convirtieron en los riscos rocosos de las Montañas Azules. Aunque Eruimar fue nombrado como tal por su ubicación remota, encontrar el pueblo de montaña no fue especialmente difícil. La mera distancia creaba su aislamiento en lugar de un bosque espeso, un barranco profundo o incluso encantamientos élficos. Muchos viajeros perdidos habían encontrado su camino de regreso al avistar a Eruimar. La aldea en sí no poseía más de treinta y cinco hogares, cada uno de ellos una cómoda granja rodeada de dependencias de huertos. Al igual que Culwic, Eruimar fue fundada como un puesto comercial para tramperos y montañeros. Hasta los días de mediados de la Tercera Edad, el pueblo conservaba ese papel, se podía escuchar cualquier historia salvaje cuando estos individuos aventureros venían de visita. Aunque fue fundada por los Dúnedain, la mayoría de las 150 personas de Eruimar eran de Riverman o Northman. Esto, por supuesto, creó algunas dificultades con los recaudadores de impuestos de Arthedain. La ciudad fue sostenida por un puñado de granjeros y pastores locales que vinieron a Lonely Home para hacer negocios. Una pequeña corriente llamada \"Laughing Brook\" goteaba en medio de la comunidad. El riachuelo fue uno de los muchos afluentes que alimentaron a los Lhûn.",
+        "name": "Eruimar",
+        "pop": 98,
+        "type": "village"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          13.655401,
+          44.526185
+        ],
+        "type": "Point"
+      },
+      "id": "e901438cd57190a3a650728131f750ba",
+      "properties": {
+        "desc": "Halifirien (S. \"Amon Anwar\" o \"Fornarthan\") descansaba en la frontera de Anórien y Calenardhon. El lugar había sido sagrado por fin desde la Segunda Edad, cuando era conocido como Eilenaer (Dn. \"Holy Hill\") para el Los hombres de las Montañas Blancas, que parecen haber adorado a ambos, la Montaña y la Arboleda Sagrada a sus pies, un grupo de antiguas Piedras en pie todavía recordaban su culto olvidado hace mucho tiempo. Más tarde, Isildur Elendilion tenía un montículo conmemorativo levantado en la cima de las colinas conocidas como la Tumba de Elendil. El ataúd que una vez se mantuvo en el Montículo fue llevado a Minas Tirith por Steward Cirion después del Juramento de Eorl, sellando la alianza formal entre Rohan y Gondor que había jurado en el Montículo y Halifirien y las tierras circundantes pasaron al tenencia de los Eorlingas.",
+        "name": "Halifirien",
+        "pop": 100,
+        "race": "Gondor",
+        "type": "unknown"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          6.088231,
+          45.273966
+        ],
+        "type": "Point"
+      },
+      "id": "eaf84f527feadbff51bfee980db3f493",
+      "properties": {
+        "desc": "Derwath (Eo. \"Hardscadu\"), la ciudad más grande de Westmarch, existía mucho antes de que se construyera Tilmendir. Originalmente era un pueblo Daen Coentis en su lugar mucho antes de que el Dúnedain zarpara de Númenor para asentarse en las costas. Desde entonces, los Dúnedain se habían mudado lentamente y habían reubicado el área en el vacío dejado por el menguante Daen. Derwath fue el principal centro comercial y agrícola de la región. Tenía varios molinos y un mercado muy activo. La plaga había causado que la ciudad perdiera a varios artesanos clave, algunos de ellos habían sido reemplazados, pero a veces aún sentía los efectos de las vacantes. Derwath era una comunidad pacífica de gente trabajadora que rara vez experimentaba problemas. En general, la sección más pobre de la ciudad era la parte norte y la ciudad se hizo progresivamente más agradable a medida que uno viajaba hacia el sur por la ciudad. Esto se debió principalmente a que la población de trabajadores migrantes vivía en un barrio marginal en el lado norte de la ciudad. La ciudad estaba salpicada de parques y patios atendidos por el jardinero de la ciudad. El gran patio en el centro de la ciudad era el principal punto de reunión de la ciudad y también servía como el gran mercado abierto para agricultores y artesanos de las cercanías. El embalse al este de la ciudad estaba alimentado por manantiales. La escorrentía escapó para fluir hacia el Adornar.",
+        "name": "Derwath",
+        "pop": 3200,
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.248646,
+          45.852942
+        ],
+        "type": "Point"
+      },
+      "id": "ec4f1479d90b8b2a23c1a63546f45010",
+      "properties": {
+        "name": "Ostiras",
+        "pop": 400,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          2.668339,
+          42.90054
+        ],
+        "type": "Point"
+      },
+      "id": "ed0fd50f861c8ccd1f7b1374b6c56a6f",
+      "properties": {
+        "desc": "Annon Wain, en el valle superior de Lefnui, era un centro local. Al norte había una gran cantidad de minas, la mayoría de cuyo mineral fue enviado de Annon Wain río abajo a Annúlond. También había algunas industrias madereras cercanas a Annon Wain, que suministraban los abetos altos que crecían en Ered Nimrais a los gondorianos. marina. El pueblo tenía pocos lugares notables. Algunos comerciantes locales tenían casas más grandes de lo normal; de lo contrario, en su mayoría tenía viviendas pequeñas y sencillas. También había unos grandes almacenes cerca del muelle. La población rondaba los 2.500.",
+        "name": "Annon Wain",
+        "pop": 2500,
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.408808,
+          53.576487
+        ],
+        "type": "Point"
+      },
+      "id": "efc7cfee6d7f026f9b104f1dc82c5aa9",
+      "properties": {
+        "name": "Thoronbar",
+        "pop": 0,
+        "type": "aldea en ruinas"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.685963,
+          54.322353
+        ],
+        "type": "Point"
+      },
+      "id": "f0d0e1a0ee8699729e955990523bc22c",
+      "properties": {
+        "name": "Cerin Balgrist",
+        "pop": 0,
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          4.688348,
+          44.257728
+        ],
+        "type": "Point"
+      },
+      "id": "f2e70b1b048daf0397847538939dace3",
+      "properties": {
+        "desc": "Conjunto de tumbas antiguas",
+        "name": "Cum Arelaid",
+        "pop": 0,
+        "race": "Gondor",
+        "type": "ruinas"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          16.458038,
+          44.238871
+        ],
+        "type": "Point"
+      },
+      "id": "f535f1f9c5a9cc4092a0e881020a584b",
+      "properties": {
+        "name": "Dunmardo",
+        "pop": 111,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          14.972117,
+          44.364623
+        ],
+        "type": "Point"
+      },
+      "id": "f653065afba6a3d653b812c1d745ebdb",
+      "properties": {
+        "name": "Min-Rimmon",
+        "pop": 75,
+        "race": "Gondor",
+        "type": "torre"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          7.493416,
+          46.358231
+        ],
+        "type": "Point"
+      },
+      "id": "faa489819ad48c1b1b1bb97ec8a4989b",
+      "properties": {
+        "desc": "Aquellos que deseen cruzar la brecha de Rohan se vieron bloqueados por el río Isen. Ningún puente atravesaba esta poderosa vía fluvial, y todos tuvieron que viajar a los vados para obtener el paso. Los Rohirrim patrullaban esta área lo mejor que podían, ya que marcaba la entrada principal a sus tierras desde el oeste, y los Hombres de Dunland a menudo habían tomado el control de los vados, exigiendo el pago a cambio del paso, especialmente durante el tiempo de Dunlending. ocupación de Nan Curunír. Tres hileras de piedras anchas y planas se extienden a través de las aguas, con vados graduados entre ellos para los caballos. El camino conducía sobre un banco de arena que se detenía en el centro. Las aguas torrenciales generalmente balbuceaban y se agitaban sobre las piedras, ofreciendo solo un pequeño impedimento para aquellos que se mantenían en el vado.",
+        "name": "Ethraid Engrin",
+        "pop": 0,
+        "type": "vado"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.785819,
+          40.782363
+        ],
+        "type": "Point"
+      },
+      "id": "fb3ba2c5b31fd725ba4a69888a9480a0",
+      "properties": {
+        "name": "Annodrun",
+        "pop": 0,
+        "race": "Gondor",
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          14.879038,
+          52.906108
+        ],
+        "type": "Point"
+      },
+      "id": "fd53c3e33a8c151837e9703ed90efc50",
+      "properties": {
+        "desc": "Debido a su estrategico emplazamiento, Maethelburgo\ncontrola virtualmente todo el comercio que se desarrolla en\nel Valle del Anduin superior. Ademas de su papel mercantil,\nMaethelburgo produce tarnbien una gran cantidad del estaño que utilizan Gondor y Rhovanion, gracias a las numerosas minas. situadas en la zona inferior de !as Hithaeglir.\nPocos viajeros que se dirijan hacia el oeste por el Gran\nCamino del Este se olvidaran de comprar provisiones en la\nciudad antes de cruzar las Montañas Nubladas, y la mayor\nparte de gente que se dirige hacia el este se detiene aquí para recuperarse del dificil paso a traves de las montañas.\nLa ciudad esta construida sobre una colina artificial y esta\nrodeada por una maciza empalizada de madera que sirve\ncomo argumento defensivo. Aunque un noble nórdico con- .\ntrola la ciudad y las tierras que la rodean, Gondor mantiene\nuna pequefia guarnición en Maethelburgo para tener vigilado el centro comercial que considera es la principal via de entrada al norte de Rhovanion. La proximidad de\nMaethelburgo con Angmar y las fortalezas orcas de\nGundabad y las Montañas Nubladas tambien provoca la presencia en la ciudad de un numero inusualmente alto de espias, y por eso la mayoría de la gente aprende rapidamente a hablar en voz baja dentro de la muralla. Maethelburgo es uno de los pocos lugares en que los nórdicos hablan libremente con dunedain, montañeses, dunlendinos, enanos e incluso algunos elfos ocasionales, aunque este ambiente cosmopolita ha ido provocando una suspicacia cada vez mayor en todos los intercambios o negocios.",
+        "name": "Melburg",
+        "pop": "1200",
+        "race": "Norteños",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -0.586982,
+          50.009316
+        ],
+        "type": "Point"
+      },
+      "id": "fe3eeab238fd22a00d7618e979b0b310",
+      "properties": {
+        "desc": "Alrededor de la base de la colina se aglomeraron las cabañas de un pequeño pueblo, y en la distancia aparecieron pequeñas granjas y arboledas de maderas duras entre los troncos de piedra caliza cubierta de hierba. En la orilla sur del río, justo aguas abajo de la carretera principal, las ruinas de una aldea más grande, sus edificios y muros de tierra y piedra crudas, medio abandonadas y desmoronadas, descansan sobre un montículo artificial. Los escalones conducían por un terraplén de escombros antiguos hasta los muelles ribereños bordeados de transbordadores sin pintar y pesqueros.",
+        "name": "Iach Sarn",
+        "pop": 220,
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          2.105156,
+          55.136498
+        ],
+        "type": "Point"
+      },
+      "id": "ff2232851941e9cd4928cae2dc656891",
+      "properties": {
+        "name": "Bar en Dagorath",
+        "pop": 80,
+        "type": "fortress"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          5.713727520310158,
+          56.040605368313436
+        ],
+        "type": "Point"
+      },
+      "id": "",
+      "properties": {
+        "name": "Carn Dum",
+        "pop": "5000",
+        "race": "Sauron",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -9.641471810978715,
+          56.4614552500048
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "name": "Estomar",
+        "pop": "324",
+        "race": "Noldor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -2.279092072225694,
+          49.49215078049721
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "name": "Cor Wilishar",
+        "pop": 0,
+        "race": "Nandor",
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -10.13785398679903,
+          49.41895525950605
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "name": "Lildamar",
+        "pop": "690",
+        "race": "Noldor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          13.716830668847564,
+          50.07432700421248
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "name": "Rhionn",
+        "pop": "690",
+        "race": "Norteños",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          13.999164371040166,
+          50.26469179290788
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "name": "Nahak",
+        "pop": "400",
+        "race": "Norteños",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          14.15581232562019,
+          50.190208282774506
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "name": "Aesir",
+        "pop": "890",
+        "race": "Norteños",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          14.528789758373392,
+          50.72192743679602
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "name": "Kimut",
+        "pop": "100",
+        "race": "Norteños",
+        "type": "village"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          12.561984577739167,
+          51.24192962130215
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "name": "Torre de vigilancia de Nan Anduin",
+        "pop": "50",
+        "race": "Gondor",
+        "type": "torre"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          12.262607973636904,
+          50.557765251198674
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "name": "Virvil",
+        "pop": "500",
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          6.986952968105442,
+          48.30347441340331
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "name": "Cillien",
+        "pop": "300",
+        "race": "dunledinos",
+        "type": "town"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          3.5079197279927143,
+          48.666048852486796
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "desc": "La confluencia de los ríos Glanduin y Gwathló formaron este pantano en Cardolan, al este de Tharbad. Numerosos cisnes hicieron de las marismas su hogar. Las cuatrocientas millas cuadradas de las Marismas a las afueras de Tharbad, albergaban innumerables reptiles venenosos. Tanto Cardolandrim como Dunmen desafiaron a los pantanos en busca de hierbas raras, pero con mayor frecuencia la intención era cazar furtivamente a los cisnes señoriales que adornaban las aguas. Sus plumas eran muy favorecidas por las damas de moda de Gondor, y eran la única fuente confiable de riqueza que se encontraba localmente.",
+        "name": "Nin in Eilph",
+        "pop": "0",
+        "race": "Gondor",
+        "type": "pantano"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          8.576799624149118,
+          43.512539908680594
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "desc": "Rendûl fue quizás la mejor base para explorar el interior de Anfalas, ya que sus robustos muros proporcionaron una excelente defensa contra los ataques de Daen. Una gran parte de la guarnición de Gondor en la región vivía a las afueras de la ciudad y realizaba frecuentes expediciones para recaudar tributos y mantener la paz.",
+        "name": "Rendul",
+        "pop": "980",
+        "race": "Gondor",
+        "type": "city"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          6.110807375450264,
+          48.64894101854756
+        ],
+        "type": "Point"
+      },
+      "id": "5324545435545",
+      "properties": {
+        "desc": "Celebrimbor el herrero, el falsificador de los Grandes Anillos, hizo su hogar aquí, al igual que Sauron disfrazado. Ost-in-Edhil fue destruido por las hordas de Sauron en SA 1697 después de que los Elfos descubrieran su traición, y sus sobrevivientes huyeron a los paraísos de Lórien y Rivendell. Los hombres ahora evitan las ruinas por miedo a las trampas y la magia maliciosa.",
+        "name": "Ost-in-edhil",
+        "pop": 0,
+        "race": "Noldor",
+        "type": "ruined city"
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}

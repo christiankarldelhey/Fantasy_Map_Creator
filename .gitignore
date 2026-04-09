@@ -1,0 +1,13 @@
+# Directories with large map files and GeoJSON data
+Maps/
+Geojson/
+
+# Node modules
+node_modules/
+
+# System files
+.DS_Store
+
+# Environment variables
+.env
+.env.local
