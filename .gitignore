@@ -2,9 +2,6 @@
 Maps/
 Geojson/
 
-# Documentation
-docs/
-
 # Node modules
 node_modules/
 
