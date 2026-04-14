@@ -1,6 +1,6 @@
 <template>
-  <div class="relative w-full h-screen" style="background: #f0f0f0;">
-    <div ref="mapDiv" class="w-full h-full" style="min-height: 100vh;"></div>
+  <div class="relative w-full h-screen">
+    <div ref="mapDiv" class="w-full h-full"></div>
     
     <!-- Loading indicator -->
     <div 
@@ -39,42 +39,28 @@ let view: MapView | null = null
 const { locations, regions, loading, error, loadAll } = useMapData()
 
 onMounted(async () => {
-  console.log('🚀 onMounted called')
-  
-  if (!mapDiv.value) {
-    console.error('❌ mapDiv.value is null')
-    return
-  }
-  
-  console.log('✅ mapDiv exists')
+  if (!mapDiv.value) return
 
   try {
     // Crear capa de tiles de Mapbox
-    console.log('📍 Creating WebTileLayer...')
     const mapboxLayer = new WebTileLayer({
       urlTemplate: MAPBOX_CONFIG.getTileUrl(),
       copyright: MAPBOX_CONFIG.copyright
     })
-    console.log('✅ WebTileLayer created')
 
     // Crear basemap personalizado
-    console.log('🗺️ Creating Basemap...')
     const customBasemap = new Basemap({
       baseLayers: [mapboxLayer],
       title: 'Middle Earth',
       id: 'middle-earth-basemap'
     })
-    console.log('✅ Basemap created')
 
     // Crear mapa
-    console.log('🌍 Creating Map...')
     const map = new Map({
       basemap: customBasemap
     })
-    console.log('✅ Map created')
 
     // Crear vista del mapa
-    console.log('👁️ Creating MapView...')
     view = new MapView({
       container: mapDiv.value,
       map: map,
@@ -92,33 +78,17 @@ onMounted(async () => {
         }
       }
     })
-    console.log('✅ MapView created')
 
-    // Escuchar errores de tiles
-    mapboxLayer.on('layerview-create-error', (event: any) => {
-      console.error('❌ LayerView create error:', event.error)
+    // Cargar datos del backend cuando el mapa esté listo
+    view.when().then(async () => {
+      try {
+        await loadAll()
+      } catch (err) {
+        console.error('Failed to load map data:', err)
+      }
     })
-
-    // No esperar a view.when() - dejar que el mapa se cargue de forma asíncrona
-    view.when().then(() => {
-      console.log('✅ MapView ready')
-      console.log('Center:', view.center.longitude, view.center.latitude)
-      console.log('Zoom:', view.zoom)
-    }).catch((err) => {
-      console.error('❌ MapView initialization error:', err)
-    })
-
-    // Cargar datos del backend
-    try {
-      await loadAll()
-      console.log('✅ Data loaded:')
-      console.log('  Locations:', locations.value?.features.length)
-      console.log('  Regions:', regions.value?.features.length)
-    } catch (err) {
-      console.error('❌ Failed to load data:', err)
-    }
   } catch (error) {
-    console.error('❌ Error initializing map:', error)
+    console.error('Error initializing map:', error)
   }
 })
 

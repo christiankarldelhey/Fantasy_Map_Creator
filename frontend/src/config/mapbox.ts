@@ -11,13 +11,7 @@ export const MAPBOX_CONFIG = {
    * Generates the tile URL template for Mapbox
    */
   getTileUrl(): string {
-    console.log('🔑 Mapbox Config:', {
-      hasToken: !!this.accessToken,
-      hasStyleId: !!this.styleId,
-      token: this.accessToken?.substring(0, 20) + '...',
-      styleId: this.styleId
-    })
-    // ArcGIS WebTileLayer usa {level} en lugar de {z}
+    // ArcGIS WebTileLayer usa {level}/{col}/{row} en lugar de {z}/{x}/{y}
     return `https://api.mapbox.com/styles/v1/${this.styleId}/tiles/256/{level}/{col}/{row}@2x?access_token=${this.accessToken}`
   },
   
