@@ -1,9 +1,9 @@
+/* ArcGIS Maps SDK CSS - debe ir primero */
+@import '@arcgis/core/assets/esri/themes/light/main.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* ArcGIS Maps SDK CSS */
-@import '@arcgis/core/assets/esri/themes/light/main.css';
 
 @layer base {
   * {
