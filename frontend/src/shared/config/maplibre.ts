@@ -49,17 +49,18 @@ export const MAPBOX_CONFIG = {
 /**
  * Map bounds configuration
  * These bounds restrict the viewable area to Middle Earth (overlaid on Europe)
- * Adjust these coordinates based on your GeoTIFF extent
+ * Coordinates from GeoTIFF extent: -17.3, 38.33, 25.29, 56.58
  */
 export const MAP_BOUNDS: LngLatBoundsLike = [
-  [-15, 35],  // Southwest coordinates [lng, lat]
-  [45, 72]    // Northeast coordinates [lng, lat]
+  [-17.3, 38.33],  // Southwest coordinates [lng, lat]
+  [25.29, 56.58]   // Northeast coordinates [lng, lat]
 ]
 
 /**
  * Default map center (Middle Earth coordinates)
+ * Calculated from GeoTIFF bounds center
  */
-export const DEFAULT_CENTER: [number, number] = [6.432063, 47.021704]
+export const DEFAULT_CENTER: [number, number] = [4.0, 47.5]
 
 /**
  * Default zoom level
