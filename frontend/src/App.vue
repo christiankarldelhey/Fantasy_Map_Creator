@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import MapView from './components/MapView.vue'
+import { MapPage } from '@/pages/map'
 </script>
 
 <template>
   <div id="app">
-    <MapView />
+    <MapPage />
   </div>
 </template>
 

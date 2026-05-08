@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@arcgis/core": "^5.0.16",
     "axios": "^1.15.0",
+    "maplibre-gl": "^4.7.1",
     "vue": "^3.5.32"
   },
   "devDependencies": {
