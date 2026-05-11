@@ -153,6 +153,44 @@ COMMENT ON TABLE regions IS 'Regions, kingdoms and biomes of Middle Earth';
 COMMENT ON COLUMN regions.area_km2 IS 'Area in square kilometers (calculated with ST_Area)';
 
 -- ============================================================================
+-- Table: biomes
+-- Purpose: Store environmental/geographic features (forests, mountains, rivers, etc.)
+-- These can overlap with political regions
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS biomes (
+    -- Identifiers
+    id SERIAL PRIMARY KEY,
+    
+    -- Basic information
+    name VARCHAR(255) NOT NULL,  -- Standard type (e.g., "Forest") or specific name (e.g., "Fangorn")
+    type VARCHAR(50),  -- 'forest', 'hills', 'marsh', 'mountains', 'river', 'lake', 'plateau', 'barrow'
+    
+    -- Description
+    description TEXT,  -- NULL for standard biomes, text for specific named locations
+    
+    -- Statistics
+    area_km2 DECIMAL,  -- Will be calculated with ST_Area
+    
+    -- Metadata
+    created_at TIMESTAMP DEFAULT NOW(),
+    
+    -- GEOMETRY
+    geom GEOMETRY(Polygon, 4326) NOT NULL
+);
+
+-- Spatial index
+CREATE INDEX IF NOT EXISTS idx_biomes_geom ON biomes USING GIST(geom);
+
+-- Additional indexes
+CREATE INDEX IF NOT EXISTS idx_biomes_type ON biomes(type);
+
+COMMENT ON TABLE biomes IS 'Environmental and geographic features (forests, mountains, rivers, etc.)';
+COMMENT ON COLUMN biomes.name IS 'Biome name - standard type (e.g., Forest) or specific name (e.g., Fangorn)';
+COMMENT ON COLUMN biomes.type IS 'Biome category: forest, hills, marsh, mountains, river, lake, plateau, barrow';
+COMMENT ON COLUMN biomes.description IS 'NULL for standard biomes, text for specific named locations';
+
+-- ============================================================================
 -- Table: climate_zones (for future climate system)
 -- Purpose: European climate zones to map to Middle Earth
 -- ============================================================================

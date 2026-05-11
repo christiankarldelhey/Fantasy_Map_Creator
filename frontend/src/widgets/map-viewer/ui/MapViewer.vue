@@ -28,15 +28,15 @@ import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { MAPLIBRE_CONFIG } from '@/shared/config/maplibre'
 import { useLocationData } from '@/features/location-management'
-import { useRegionData } from '@/features/region-management'
+import { useBiomeData } from '@/features/biome-management'
 import type { LocationCollection } from '@/entities/location'
-import type { RegionCollection } from '@/entities/region'
+import type { BiomeCollection } from '@/entities/biome'
 
 const mapContainer = ref<HTMLDivElement | null>(null)
 let map: maplibregl.Map | null = null
 
 const { locations, loading: locationsLoading, error: locationsError, loadLocations } = useLocationData()
-const { regions, loading: regionsLoading, error: regionsError, loadRegions } = useRegionData()
+const { biomes, loading: biomesLoading, error: biomesError, loadBiomes } = useBiomeData()
 
 const loading = ref(false)
 const error = ref<string | null>(null)
@@ -94,38 +94,38 @@ function addLocationsLayer(data: LocationCollection) {
   }
 }
 
-function addRegionsLayer(data: RegionCollection) {
+function addBiomesLayer(data: BiomeCollection) {
   if (!map) return
 
-  if (map.getSource('regions')) {
-    (map.getSource('regions') as maplibregl.GeoJSONSource).setData(data as any)
+  if (map.getSource('biomes')) {
+    (map.getSource('biomes') as maplibregl.GeoJSONSource).setData(data as any)
   } else {
-    map.addSource('regions', {
+    map.addSource('biomes', {
       type: 'geojson',
       data: data as any
     })
 
     map.addLayer({
-      id: 'regions-fill',
+      id: 'biomes-fill',
       type: 'fill',
-      source: 'regions',
+      source: 'biomes',
       paint: {
-        'fill-color': '#10b981',
-        'fill-opacity': 0.2
+        'fill-color': '#22c55e',
+        'fill-opacity': 0.3
       }
     })
 
     map.addLayer({
-      id: 'regions-outline',
+      id: 'biomes-outline',
       type: 'line',
-      source: 'regions',
+      source: 'biomes',
       paint: {
-        'line-color': '#059669',
+        'line-color': '#16a34a',
         'line-width': 2
       }
     })
 
-    map.on('click', 'regions-fill', (e) => {
+    map.on('click', 'biomes-fill', (e) => {
       if (!e.features || e.features.length === 0) return
       
       const feature = e.features[0]
@@ -135,23 +135,83 @@ function addRegionsLayer(data: RegionCollection) {
         .setLngLat(e.lngLat)
         .setHTML(`
           <div class="p-2">
-            <h3 class="font-bold text-lg">${properties?.name || 'Unknown Region'}</h3>
+            <h3 class="font-bold text-lg">${properties?.name || 'Unknown Biome'}</h3>
             ${properties?.type ? `<p class="text-sm text-gray-600">Type: ${properties.type}</p>` : ''}
+            ${properties?.area_km2 ? `<p class="text-sm text-gray-600">Area: ${Math.round(properties.area_km2)} km²</p>` : ''}
             ${properties?.description ? `<p class="text-sm mt-2">${properties.description}</p>` : ''}
           </div>
         `)
         .addTo(map!)
     })
 
-    map.on('mouseenter', 'regions-fill', () => {
+    map.on('mouseenter', 'biomes-fill', () => {
       if (map) map.getCanvas().style.cursor = 'pointer'
     })
 
-    map.on('mouseleave', 'regions-fill', () => {
+    map.on('mouseleave', 'biomes-fill', () => {
       if (map) map.getCanvas().style.cursor = ''
     })
   }
 }
+
+// function addRegionsLayer(data: RegionCollection) {
+//   if (!map) return
+
+//   if (map.getSource('regions')) {
+//     (map.getSource('regions') as maplibregl.GeoJSONSource).setData(data as any)
+//   } else {
+//     map.addSource('regions', {
+//       type: 'geojson',
+//       data: data as any
+//     })
+
+//     map.addLayer({
+//       id: 'regions-fill',
+//       type: 'fill',
+//       source: 'regions',
+//       paint: {
+//         'fill-color': '#10b981',
+//         'fill-opacity': 0.2
+//       }
+//     })
+
+//     map.addLayer({
+//       id: 'regions-outline',
+//       type: 'line',
+//       source: 'regions',
+//       paint: {
+//         'line-color': '#059669',
+//         'line-width': 2
+//       }
+//     })
+
+//     map.on('click', 'regions-fill', (e) => {
+//       if (!e.features || e.features.length === 0) return
+      
+//       const feature = e.features[0]
+//       const properties = feature.properties
+
+//       new maplibregl.Popup()
+//         .setLngLat(e.lngLat)
+//         .setHTML(`
+//           <div class="p-2">
+//             <h3 class="font-bold text-lg">${properties?.name || 'Unknown Region'}</h3>
+//             ${properties?.type ? `<p class="text-sm text-gray-600">Type: ${properties.type}</p>` : ''}
+//             ${properties?.description ? `<p class="text-sm mt-2">${properties.description}</p>` : ''}
+//           </div>
+//         `)
+//         .addTo(map!)
+//     })
+
+//     map.on('mouseenter', 'regions-fill', () => {
+//       if (map) map.getCanvas().style.cursor = 'pointer'
+//     })
+
+//     map.on('mouseleave', 'regions-fill', () => {
+//       if (map) map.getCanvas().style.cursor = ''
+//     })
+//   }
+// }
 
 onMounted(async () => {
   if (!mapContainer.value) return
@@ -170,7 +230,8 @@ onMounted(async () => {
       
       loading.value = true
       try {
-        await Promise.all([loadLocations(), loadRegions()])
+        // await Promise.all([loadLocations(), loadRegions()])
+        await Promise.all([loadLocations(), loadBiomes()])
       } catch (err) {
         console.error('Failed to load map data:', err)
         error.value = 'Failed to load map data'
@@ -195,18 +256,32 @@ watch(locations, (newLocations) => {
   }
 })
 
-watch(regions, (newRegions) => {
-  if (newRegions && map) {
-    addRegionsLayer(newRegions)
+watch(biomes, (newBiomes) => {
+  if (newBiomes && map) {
+    addBiomesLayer(newBiomes)
   }
 })
 
-watch([locationsLoading, regionsLoading], ([locLoad, regLoad]) => {
-  loading.value = locLoad || regLoad
+// watch(regions, (newRegions) => {
+//   if (newRegions && map) {
+//     addRegionsLayer(newRegions)
+//   }
+// })
+
+// watch([locationsLoading, regionsLoading], ([locLoad, regLoad]) => {
+//   loading.value = locLoad || regLoad
+// })
+
+watch([locationsLoading, biomesLoading], ([locLoad, bioLoad]) => {
+  loading.value = locLoad || bioLoad
 })
 
-watch([locationsError, regionsError], ([locErr, regErr]) => {
-  error.value = locErr || regErr
+// watch([locationsError, regionsError], ([locErr, regErr]) => {
+//   error.value = locErr || regErr
+// })
+
+watch([locationsError, biomesError], ([locErr, bioErr]) => {
+  error.value = locErr || bioErr
 })
 
 onUnmounted(() => {
