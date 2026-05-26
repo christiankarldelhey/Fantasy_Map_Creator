@@ -5,6 +5,7 @@ import pool from './db.js';
 import locationsRouter from './routes/locations.js';
 import regionsRouter from './routes/regions.js';
 import biomesRouter from './routes/biomes.js';
+import pathsRouter from './routes/paths.js';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use('/api/locations', locationsRouter);
 app.use('/api/regions', regionsRouter);
 app.use('/api/biomes', biomesRouter);
+app.use('/api/paths', pathsRouter);
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
@@ -51,7 +53,8 @@ app.get('/', (req, res) => {
       health: '/api/health',
       locations: '/api/locations',
       regions: '/api/regions',
-      biomes: '/api/biomes'
+      biomes: '/api/biomes',
+      paths: '/api/paths'
     }
   });
 });
@@ -72,4 +75,5 @@ app.listen(PORT, () => {
   console.log(`📍 Locations: http://localhost:${PORT}/api/locations`);
   console.log(`🗺️  Regions: http://localhost:${PORT}/api/regions`);
   console.log(`🌿 Biomes: http://localhost:${PORT}/api/biomes`);
+  console.log(`🛣️  Paths: http://localhost:${PORT}/api/paths`);
 });
