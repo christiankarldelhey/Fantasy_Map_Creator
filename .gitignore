@@ -1,6 +1,6 @@
 # Directories with large map files and GeoJSON data
 Maps/
-Geojson/
+# Geojson/  # Commented to allow data/geojson/ to be tracked
 
 # Node modules
 node_modules/
