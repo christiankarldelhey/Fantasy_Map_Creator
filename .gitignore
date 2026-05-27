@@ -2,6 +2,11 @@
 Maps/
 # Geojson/  # Commented to allow data/geojson/ to be tracked
 
+# Ignore DEM rasters and data cache
+data/*.tif
+data/*.tiff
+data/dem_elevation.tif
+
 # Node modules
 node_modules/
 

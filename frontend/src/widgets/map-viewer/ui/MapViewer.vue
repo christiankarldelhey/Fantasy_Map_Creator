@@ -31,6 +31,7 @@ import { useLocationData } from '@/features/location-management'
 import { useBiomeData } from '@/features/biome-management'
 import { useRegionData } from '@/features/region-management'
 import { usePathData } from '@/features/path-management'
+import { getElevation } from '@/entities/altitude'
 import type { LocationCollection } from '@/entities/location'
 import type { BiomeCollection } from '@/entities/biome'
 import type { RegionCollection } from '@/entities/region'
@@ -101,6 +102,7 @@ function addLocationsLayer(data: LocationCollection) {
   }
 }
 
+
 function addBiomesLayer(data: BiomeCollection) {
   if (!map) return
 
@@ -120,16 +122,11 @@ function addBiomesLayer(data: BiomeCollection) {
         'fill-color': [
           'match',
           ['get', 'type'],
-          'forest', '#166534',       // Forest: deep forest green
-          'desert', '#fef08a',       // Desert: pale yellow
-          'marsh', '#14532d',        // Marsh: murky swamp green
-          'lake', '#3b82f6',         // Lake: clear water blue
-          'hills', '#a16207',        // Hills: olive brown
-          'mountains', '#64748b',    // Mountains: slate gray
-          'mountains_low', '#94a3b8',
-          'mountains_med', '#475569',
-          'mountains_high', '#334155', // High mountains: dark slate
-          '#22c55e'                  // Default green
+          'forest', '#166534',
+          'desert', '#fef08a',
+          'marsh', '#14532d',
+          'lake', '#3b82f6',
+          '#22c55e'
         ],
         'fill-opacity': [
           'match',
@@ -138,11 +135,6 @@ function addBiomesLayer(data: BiomeCollection) {
           'forest', 0.25,
           'desert', 0.35,
           'marsh', 0.35,
-          'hills', 0.15,
-          'mountains', 0.3,
-          'mountains_low', 0.25,
-          'mountains_med', 0.3,
-          'mountains_high', 0.4,
           0.2
         ]
       }
@@ -160,18 +152,12 @@ function addBiomesLayer(data: BiomeCollection) {
           'desert', '#ca8a04',
           'marsh', '#052e16',
           'lake', '#1d4ed8',
-          'hills', '#713f12',
-          'mountains', '#334155',
-          'mountains_low', '#475569',
-          'mountains_med', '#1e293b',
-          'mountains_high', '#0f172a',
           '#16a34a'
         ],
         'line-width': [
           'match',
           ['get', 'type'],
           'lake', 1.5,
-          'mountains_high', 2.0,
           1.0
         ]
       }
@@ -238,22 +224,49 @@ function addRegionsLayer(data: RegionCollection) {
       }
     })
 
-    map.on('click', 'regions-fill', (e) => {
+    map.on('click', 'regions-fill', async (e) => {
       if (!e.features || e.features.length === 0) return
       
       const feature = e.features[0]
       const properties = feature.properties
+      const { lng, lat } = e.lngLat
 
-      new maplibregl.Popup()
+      let elevationHTML = '<p class="text-xs text-gray-500 mt-1">Elevation: Loading...</p>'
+      
+      const popup = new maplibregl.Popup()
         .setLngLat(e.lngLat)
         .setHTML(`
           <div class="p-2 min-w-[200px]">
             <h3 class="font-bold text-lg border-b border-gray-100 pb-1 text-gray-900">${properties?.name || 'Unknown Realm'}</h3>
             <p class="text-sm text-teal-600 font-semibold mt-1">Political Region / Province</p>
+            ${elevationHTML}
             ${properties?.description ? `<p class="text-sm mt-2 text-gray-700 leading-relaxed">${properties.description}</p>` : ''}
           </div>
         `)
         .addTo(map!)
+
+      try {
+        const response = await getElevation(lng, lat)
+        const elevation = Math.round(response.data.elevation)
+        popup.setHTML(`
+          <div class="p-2 min-w-[200px]">
+            <h3 class="font-bold text-lg border-b border-gray-100 pb-1 text-gray-900">${properties?.name || 'Unknown Realm'}</h3>
+            <p class="text-sm text-teal-600 font-semibold mt-1">Political Region / Province</p>
+            <p class="text-xs text-gray-500 mt-1">Elevation: <span class="font-semibold">${elevation} meters</span></p>
+            ${properties?.description ? `<p class="text-sm mt-2 text-gray-700 leading-relaxed">${properties.description}</p>` : ''}
+          </div>
+        `)
+      } catch (err) {
+        console.error('Failed to load elevation:', err)
+        popup.setHTML(`
+          <div class="p-2 min-w-[200px]">
+            <h3 class="font-bold text-lg border-b border-gray-100 pb-1 text-gray-900">${properties?.name || 'Unknown Realm'}</h3>
+            <p class="text-sm text-teal-600 font-semibold mt-1">Political Region / Province</p>
+            <p class="text-xs text-red-500 mt-1">Elevation: N/A</p>
+            ${properties?.description ? `<p class="text-sm mt-2 text-gray-700 leading-relaxed">${properties.description}</p>` : ''}
+          </div>
+        `)
+      }
     })
 
     map.on('mouseenter', 'regions-fill', () => {
@@ -401,6 +414,7 @@ watch(biomes, (newBiomes) => {
     addBiomesLayer(newBiomes)
   }
 })
+
 
 watch(regions, (newRegions) => {
   if (newRegions && map && layersInitialized.value) {
