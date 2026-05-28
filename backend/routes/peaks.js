@@ -3,7 +3,7 @@ import pool from '../db.js';
 
 const router = express.Router();
 
-// GET /api/regions - Devolver todas las regiones como GeoJSON
+// GET /api/peaks - Devolver todos los puntos de elevación como GeoJSON
 router.get('/', async (req, res, next) => {
   try {
     const query = `
@@ -16,15 +16,14 @@ router.get('/', async (req, res, next) => {
             'geometry', ST_AsGeoJSON(geom)::json,
             'properties', json_build_object(
               'id', id,
-              'name', name,
-              'description', description,
-              'kingdom', allegiance
+              'altitude_type', altitude_type,
+              'elevation_final', elevation_final
             )
           )
         ), '[]'::json)
       ) as geojson
-      FROM regions
-      WHERE geom IS NOT NULL;
+      FROM elevation_points
+      WHERE geom IS NOT NULL AND elevation_final IS NOT NULL;
     `;
 
     const result = await pool.query(query);

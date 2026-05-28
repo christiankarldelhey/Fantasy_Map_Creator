@@ -7,6 +7,7 @@ import regionsRouter from './routes/regions.js';
 import biomesRouter from './routes/biomes.js';
 import altitudeRouter from './routes/altitude.js';
 import pathsRouter from './routes/paths.js';
+import peaksRouter from './routes/peaks.js';
 import demRouter from './routes/dem.js';
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use('/api/regions', regionsRouter);
 app.use('/api/biomes', biomesRouter);
 app.use('/api/altitude', altitudeRouter);
 app.use('/api/paths', pathsRouter);
+app.use('/api/peaks', peaksRouter);
 app.use('/api/dem', demRouter);
 
 // Health check endpoint
@@ -60,6 +62,7 @@ app.get('/', (req, res) => {
       biomes: '/api/biomes',
       altitude: '/api/altitude',
       paths: '/api/paths',
+      peaks: '/api/peaks',
       dem: '/api/dem'
     }
   });
@@ -83,5 +86,6 @@ app.listen(PORT, () => {
   console.log(`🌿 Biomes: http://localhost:${PORT}/api/biomes`);
   console.log(`⛰️  Altitude: http://localhost:${PORT}/api/altitude`);
   console.log(`🛣️  Paths: http://localhost:${PORT}/api/paths`);
+  console.log(`🔺 Peaks: http://localhost:${PORT}/api/peaks`);
   console.log(`🏔️  DEM: http://localhost:${PORT}/api/dem`);
 });
