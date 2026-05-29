@@ -6,7 +6,8 @@ import locationsRouter from './routes/locations.js';
 import regionsRouter from './routes/regions.js';
 import biomesRouter from './routes/biomes.js';
 import altitudeRouter from './routes/altitude.js';
-import pathsRouter from './routes/paths.js';
+import roadsRouter from './routes/roads.js';
+import waterRouter from './routes/water.js';
 import peaksRouter from './routes/peaks.js';
 import demRouter from './routes/dem.js';
 
@@ -27,7 +28,8 @@ app.use('/api/locations', locationsRouter);
 app.use('/api/regions', regionsRouter);
 app.use('/api/biomes', biomesRouter);
 app.use('/api/altitude', altitudeRouter);
-app.use('/api/paths', pathsRouter);
+app.use('/api/roads', roadsRouter);
+app.use('/api/water', waterRouter);
 app.use('/api/peaks', peaksRouter);
 app.use('/api/dem', demRouter);
 
@@ -61,7 +63,8 @@ app.get('/', (req, res) => {
       regions: '/api/regions',
       biomes: '/api/biomes',
       altitude: '/api/altitude',
-      paths: '/api/paths',
+      roads: '/api/roads',
+      water: '/api/water',
       peaks: '/api/peaks',
       dem: '/api/dem'
     }
@@ -85,7 +88,8 @@ app.listen(PORT, () => {
   console.log(`🗺️  Regions: http://localhost:${PORT}/api/regions`);
   console.log(`🌿 Biomes: http://localhost:${PORT}/api/biomes`);
   console.log(`⛰️  Altitude: http://localhost:${PORT}/api/altitude`);
-  console.log(`🛣️  Paths: http://localhost:${PORT}/api/paths`);
+  console.log(`🛣️  Roads: http://localhost:${PORT}/api/roads`);
+  console.log(`💧 Water: http://localhost:${PORT}/api/water`);
   console.log(`🔺 Peaks: http://localhost:${PORT}/api/peaks`);
   console.log(`🏔️  DEM: http://localhost:${PORT}/api/dem`);
 });

@@ -59,49 +59,46 @@ COMMENT ON COLUMN locations.geom IS 'POINT geometry in EPSG:4326 (WGS84)';
 COMMENT ON COLUMN locations.location_type IS 'Settlement type: city, castle, town, mansion, fortress, ruins';
 
 -- ============================================================================
--- Table: paths
--- Purpose: Store linear features (roads, rivers, routes, borders)
+-- Table: roads
+-- Purpose: Store linear features of roads/paths
 -- ============================================================================
 
-CREATE TABLE IF NOT EXISTS paths (
-    -- Identifiers
+CREATE TABLE IF NOT EXISTS roads (
     id SERIAL PRIMARY KEY,
-    
-    -- Basic information
     name VARCHAR(255),
-    path_type VARCHAR(50),  -- 'road', 'river', 'border', 'route'
-    
-    -- Terrain characteristics
-    terrain_type VARCHAR(50),  -- 'mountain', 'forest', 'plains', 'swamp'
-    difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5),  -- 1=easy, 5=hard
-    
-    -- For future routing
-    cost_factor DECIMAL DEFAULT 1.0,  -- Cost multiplier (1.0 = normal)
-    
-    -- Description
+    terrain_type VARCHAR(50),
+    difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5),
+    cost_factor DECIMAL DEFAULT 1.0,
     description TEXT,
-    
-    -- Metadata
     created_at TIMESTAMP DEFAULT NOW(),
-    
-    -- GEOMETRY
     geom GEOMETRY(LineString, 4326) NOT NULL,
-    
-    -- Constraints
-    CONSTRAINT valid_path_geometry CHECK (ST_IsValid(geom)),
-    CONSTRAINT valid_path_srid CHECK (ST_SRID(geom) = 4326),
-    CONSTRAINT min_two_points CHECK (ST_NPoints(geom) >= 2)
+    CONSTRAINT valid_road_geometry CHECK (ST_IsValid(geom)),
+    CONSTRAINT valid_road_srid CHECK (ST_SRID(geom) = 4326)
 );
 
 -- Spatial index
-CREATE INDEX IF NOT EXISTS idx_paths_geom ON paths USING GIST(geom);
+CREATE INDEX IF NOT EXISTS idx_roads_geom ON roads USING GIST(geom);
+CREATE INDEX IF NOT EXISTS idx_roads_name ON roads(name);
 
--- Additional indexes
-CREATE INDEX IF NOT EXISTS idx_paths_type ON paths(path_type);
-CREATE INDEX IF NOT EXISTS idx_paths_terrain ON paths(terrain_type);
+-- ============================================================================
+-- Table: water
+-- Purpose: Store water features (rivers, streams, lakes)
+-- ============================================================================
 
-COMMENT ON TABLE paths IS 'Roads, rivers and routes in Middle Earth';
-COMMENT ON COLUMN paths.cost_factor IS 'Cost factor for routing algorithms (1.0 = normal speed)';
+CREATE TABLE IF NOT EXISTS water (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    water_type VARCHAR(50) NOT NULL, -- 'river', 'stream', 'lake'
+    description TEXT,
+    created_at TIMESTAMP DEFAULT NOW(),
+    geom GEOMETRY(Geometry, 4326) NOT NULL, -- Supports both LineString (rivers) and Polygon (lakes)
+    CONSTRAINT valid_water_geometry CHECK (ST_IsValid(geom)),
+    CONSTRAINT valid_water_srid CHECK (ST_SRID(geom) = 4326)
+);
+
+-- Spatial index
+CREATE INDEX IF NOT EXISTS idx_water_geom ON water USING GIST(geom);
+CREATE INDEX IF NOT EXISTS idx_water_type ON water(water_type);
 
 -- ============================================================================
 -- Table: regions
