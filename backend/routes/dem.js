@@ -21,11 +21,24 @@ router.get('/elevation', async (req, res, next) => {
     
     const result = await pool.query(query, [parseFloat(lon), parseFloat(lat)]);
     
+    // Get terrain type from altitude_layers
+    const terrainQuery = `
+      SELECT altitude_type
+      FROM altitude_layers
+      WHERE ST_Contains(geom, ST_SetSRID(ST_MakePoint($1, $2), 4326))
+      ORDER BY priority DESC
+      LIMIT 1;
+    `;
+    
+    const terrainResult = await pool.query(terrainQuery, [parseFloat(lon), parseFloat(lat)]);
+    const terrainType = terrainResult.rows.length > 0 ? terrainResult.rows[0].altitude_type : null;
+    
     res.json({ 
       lon: parseFloat(lon),
       lat: parseFloat(lat),
       elevation: result.rows[0].elevation || 0,
-      unit: 'meters'
+      unit: 'meters',
+      terrain_type: terrainType
     });
   } catch (error) {
     next(error);

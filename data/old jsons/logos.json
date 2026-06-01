@@ -1,0 +1,283 @@
+[{
+  "Sin Armadura (sa)": "ra-player",
+
+  "Cuero (cu)": "ra-vest",
+
+  "Cuero Endurecido (ce)": "ra-vest",
+
+  "Cuero Tachonado (ct)": "ra-vest",
+
+  "Cota de Malla (cm)": "ra-vest",
+
+  "Cota de Placas (pl)": "ra-vest",
+
+  "Coraza (co)": "ra-vest",
+
+  "Golpear (IM)": "ra-groundbreaker",
+
+  "Barrer/Placar (PR)": "ra-player-dodge",
+
+  "Desarmar": "ra-fireball-sword",
+
+  "Parar Proyectiles": "ra-frozen-arrow",
+
+  "Espada a Una Mano": "ra-sword",
+
+  "Hacha a Una Mano": "ra-axe",
+
+  "Contundente a Una Mano": "ra-large-hammer",
+
+  "Espada a Dos Manos": "ra-sword",
+
+  "Hacha a Dos Manos": "ra-battered-axe",
+
+  "Contundente a Dos Manos": "ra-spiked-mace",
+
+  "Arma de Asta": "ra-broadhead-arrow",
+
+  "Arrojadiza de Asta": "ra-spear-head",
+
+  "Red": "ra-explosive-materials",
+
+  "Látigo": "ra-vine-whip",
+
+  "Ballesta": "ra-crossbow",
+
+  "Arco": "ra-arrow-flights",
+
+  "Proyectiles": "ra-daggers",
+
+  "Trepar": "ra-hole-ladder",
+
+  "Nadar": "ra-ocean-emblem",
+
+  "Montar": "ra-horseshoe",
+
+  "Primeros Auxilios": "ra-hospital-cross",
+
+  "Rastrear": "ra-pawprint",
+
+  "Orientación": "ra-compass",
+
+  "Forrajear": "ra-acorn",
+
+  "Cocinar-Preparar": "ra-match",
+
+  "Emboscar": "ra-dripping-knife",
+
+  "Acechar-Sigilo": "ra-hood",
+
+  "Esconderse": "ra-nuclear",
+
+  "Abrir Cerraduras": "ra-key",
+
+  "Desactivar Trampas": "ra-bear-trap",
+
+  "Maña": "ra-diamonds-card",
+
+  "Contorsionismo": "ra-player-dodge",
+
+  "Leer Runas": "ra-scroll-unfurled",
+
+  "Usar Objetos Mágicos": "ra-crystal-wand",
+
+  "Hechizos básicos": "ra-lightning-trio",
+
+  "Hechizos Dirigidos": "ra-lightning-trio",
+
+  "Liderazgo": "ra-player-king",
+
+  "Oratoria-Persuasión": "ra-player-teleport",
+
+  "Seducción": "ra-two-hearts",
+
+  "Comerciar": "ra-gold-bar",
+
+  "Evaluar Objetos": "ra-diamond",
+
+  "Identificar Objetos Mágicos": "ra-gem-pendant",
+
+  "Criaturas Especiales": "ra-love-howl",
+
+  "Leyendas de Historial": "ra-scroll-unfurled",
+
+  "Hierbas, Plantas y Venenos": "ra-leaf",
+
+  "Percepción": "ra-aware",
+
+  "Desarrollo Físico": "ra-muscle-up",
+
+  "Defensa Adrenal": "ra-double-team",
+
+  "Ambidestreza": "ra-crossed-swords",
+
+  "Combate sin Armas (DE)": "ra-hand",
+
+  "Acrobacia": "ra-falling",
+
+  "Escalar": "ra-triforce",
+
+  "Cordelería": "ra-meat-hook",
+
+  "Funambulismo/Equilibrio": "ra-site",
+
+  "Esprintar": "ra-footprint",
+
+  "Saltar": "ra-overhead",
+
+  "Conocimiento de Bosques": "ra-pine-tree",
+  "Conoc de Bosques": "ra-pine-tree",
+
+  "Camuflaje/Disfraces": "ra-bird-mask",
+
+  "Conocimiento de Caza": "ra-rabbit",
+
+  "Señales": "ra-raven",
+
+  "Actuar": "ra-arcane-mask",
+
+  "Jugar/Apostar": "ra-perspective-dice-one",
+
+
+  "Conoc de Montañas": "ra-mountains",
+  "Conoc de Desiertos": "ra-desert-skull",
+  "Conoc de Estepas": "ra-grass",
+  "Conoc de Zonas Heladas": "ra-frost-emblem",
+  "Guiarse por las Estrellas": "ra-bomb-explosion",
+  "Conoc Ciénagas y Pantanos": "ra-dead-tree",
+  "Conoc de Cuevas": "ra-libra",
+  "Conoc/Predecir el Clima": "ra-lightning-storm",
+  "Leer Mapas": "ra-compass",
+  "Pescar": "ra-fish",
+  "Encontrar Refugios": "ra-libra",
+  "Hacer Fuego": "ra-fire",
+  "Camuflage/Disfraces": "ra-bird-mask",
+  "Conoc de Huellas": "ra-shoe-prints",
+  "Conoc de Caza": "ra-rabbit",
+  "Actividades con Animales": "ra-love-howl",
+  "Construir Trampas": "ra-bear-trap",
+  "Construir Refugios": "ra-tower",
+  "Tallar/Trabajar Madera": "ra-round-shield",
+  "Construir Carros/Barcos": "",
+  "Construir Flechas": "ra-broadhead-arrow",
+  "Trabajar Metales/Herrería": "ra-anvil",
+  "Orfebrería": "ra-vase",
+  "Trabajar Piedra/Hueso": "ra-crystals",
+  "Meditación": "ra-candle-fire",
+  "Conoc de Religión Oscura": "ra-lit-candelabra",
+  "Historia de Tierra Media": "ra-fire-ring",
+  "Historia de Razas/Cultura": "ra-pyramids",
+  "Conoc.de Huellas": "ra-shoe-prints",
+  "Conoc.de Caza": "ra-rabbit",
+  "Hablar en Público": "ra-horn-call",
+  "Cantar": "ra-slash-ring",
+  "Contar Historias": "ra-book",
+  "Pictografía": "ra-rune-stone",
+  "Conoc.de Montañas": "ra-mountains",
+  "Conoc.de Bosques": "ra-pine-tree",
+  "Conoc.de Cuevas": "ra-libra",
+  "Conoc.de Llanuras": "ra-grass",
+  "Conoc.de Pantanos": "ra-dead-tree",
+  "Trabajar Cuero/Pieles": "ra-fox",
+  "Hacer Tatuajes": "ra-regeneration",
+  "Disfrazarse": "ra-bird-mask",
+  "Intimidar": "ra-decapitation",
+  "Conoc. de Religion Oscura": "ra-lit-candelabra",
+
+  "Conoc. De Armas": "ra-dervish-swords",
+
+  "Combate a Ciegas": "ra-spinning-sword",
+
+  "Combate Borracho": "ra-broken-bottle",
+
+  "Trabajar Cueros/Pieles": "ra-fox",
+
+  "Trabajar/Tallar Madera": "ra-wooden-sign",
+
+  "Bonificación Defensiva": "ra-eye-shield",
+
+  "Resistencia a Esencia": "ra-fire-symbol",
+
+  "Resistencia a Canalización": "ra-crystal-ball",
+
+  "Resistencia al Miedo": "ra-bleeding-eye",
+
+  "Resistencia a Venenos": "ra-bubbling-potion",
+
+  "Resistencia a Enfermedades": "ra-bone-bite",
+
+  "Resistencia al Calor": "ra-fire-shield",
+
+  "Resistencia al Frío": "ra-frost-emblem",
+
+  "Resistencia a Electricidad": "ra-player-thunder-struck",
+
+  "Informacion": "ra-player",
+  "Movimiento y Maniobra": "ra-feather-wing",
+  "Habilidades en Armas": "ra-sword",
+  "Habilidades Generales": "ra-hand",
+  "Habilidades de Subterfugio": "ra-hood",
+  "Habilidades de Influencia": "ra-horn-call",
+  "Habilidades de Conocimiento": "ra-book",
+  "Otras Habilidades": "ra-overmind",
+  "Habilidades secundarias": "ra-anvil",
+  "Defensa y resistencia": "ra-health",
+  "Habilidades Magicas": "ra-flame-symbol",
+  "Listas de hechizos": "ra-scroll-unfurled",
+
+  "FUE": "",
+
+  "AGI": "",
+
+  "CON": "",
+
+  "INT": "",
+
+  "I": "",
+
+  "PRE": "",
+
+  "APA": "",
+
+  "Puntos de vida": "",
+
+  "Experiencia": "",
+
+  "Idiomas": "",
+
+  "Raza": "",
+
+  "Profesion": "",
+
+  "Reino": "",
+
+  "Clase": "",
+
+  "Genero": "",
+
+  "Altura": "",
+
+  "Ojos": "",
+
+  "Piel": "",
+
+  "Peso": "",
+
+  "Especial": "",
+
+  "Metros por asalto": "",
+
+  "Alineamiento": "",
+
+  "Religion": "",
+
+  "Conducta": "",
+
+  "Personalidad": "",
+
+  "Motivación": "",
+
+  "Prejuicios": ""
+
+
+}]

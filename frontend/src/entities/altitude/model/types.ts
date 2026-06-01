@@ -16,3 +16,11 @@ export interface AltitudeCollection {
   type: 'FeatureCollection'
   features: AltitudeFeature[]
 }
+
+export interface ElevationResponse {
+  lon: number
+  lat: number
+  elevation: number
+  unit: string
+  terrain_type?: string
+}

@@ -1,0 +1,42 @@
+{
+  "template": {
+    "Pnjs": {},
+    "currentMap": false,
+    "currentPercentagePos": {
+      "Baader": [31.736907536067218, 21.228221824359046],
+      "Biriuk": [37.42590292679574, 6.418795483178732],
+      "Icaro": [54.067835196444136, 3.2365634670779992],
+      "Lolindir": [43.08525067378233, 5.519347522489445],
+      "Soma": [32.5291870946994, 73.19177518619914]
+    },
+    "currentPlayer": "Icaro",
+    "currentPosition": {
+      "Baader": [457.0114685193679, 162.6081791745903],
+      "Biriuk": [538.9330021458587, 51.22198795576628],
+      "Icaro": [778.5768268287956, 25.827776467282433],
+      "Lolindir": [620.4276097024656, 42.278202022269156],
+      "Soma": [468.4202941636714, 584.0703659858691]
+    },
+    "mapas": {},
+    "partida": {
+      "asalto": 1,
+      "date": 1266620400000,
+      "id": 1614551596931,
+      "log": [{
+        "accion": "F. Ninguna",
+        "asalto": 1,
+        "habilidad": "",
+        "idPartida": 1614551596931,
+        "observaciones": "",
+        "partida": 54,
+        "player": "Elcules",
+        "resultado": "",
+        "target": "Lolindir"
+      }],
+      "number": 54,
+      "resolveAssault": false,
+      "status": true
+    },
+    "playerTurn": "Soma"
+  }
+}

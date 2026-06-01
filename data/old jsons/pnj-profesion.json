@@ -1,0 +1,63 @@
+[
+  {
+      "name": "Guerrero",
+      "fue": 15,
+      "agi": 10,
+      "con": 5,
+      "int": 0,
+      "i": 0,
+      "pre": 0,
+      "apa": 0
+  },
+  {
+      "name": "Explorador",
+      "fue": 5,
+      "agi": 15,
+      "con": 5,
+      "int": 0,
+      "i": 0,
+      "pre": 0,
+      "apa": 0
+  },
+  {
+      "name": "Montaraz",
+      "fue": 10,
+      "agi": 5,
+      "con": 10,
+      "int": 0,
+      "i": 5,
+      "pre": 0,
+      "apa": 0
+  },
+  {
+      "name": "Animista",
+      "fue": 5,
+      "agi": 5,
+      "con": 0,
+      "int": 5,
+      "i": 15,
+      "pre": 0,
+      "apa": 0
+  },
+  {
+      "name": "Mago",
+      "fue": 0,
+      "agi": 5,
+      "con": 0,
+      "int": 15,
+      "i": 5,
+      "pre": 5,
+      "apa": 0
+  },
+  {
+      "name": "Bardo",
+      "fue": 0,
+      "agi": 5,
+      "con": 0,
+      "int": 10,
+      "i": 5,
+      "pre": 10,
+      "apa": 0
+  }
+
+]

@@ -1,0 +1,59 @@
+{
+  "clases": [{
+      "title": "BE",
+      "tipo": "Elemental de bola",
+      "tr": false,
+      "bo": "Hechizos básicos",
+      "tabla": "Hechizos de bola"
+    },
+    {
+      "title": "DE",
+      "tipo": "Elemental dirigido",
+      "tr": false,
+      "bo": "Hechizos dirigidos",
+      "tabla": "Hechizos de rayo"
+    },
+    {
+      "title": "F",
+      "tipo": "Fuerza",
+      "tr": true,
+      "bo": "Hechizos básicos",
+      "tabla": "Hechizos básicos"
+    },
+    {
+      "title": "Fm",
+      "tipo": "Fuerza",
+      "tr": true,
+      "bo": "Hechizos básicos",
+      "tabla": "Hechizos básicos"
+    },
+    {
+      "title": "P",
+      "tipo": "Pasivo",
+      "tr": false,
+      "bo": "Hechizos básicos",
+      "tabla": "Hechizos básicos"
+    },
+    {
+      "title": "U",
+      "tipo": "Utilidad",
+      "tr": false,
+      "bo": "Hechizos básicos",
+      "tabla": "Hechizos básicos"
+    },
+    {
+      "title": "I",
+      "tipo": "Informacion",
+      "tr": false,
+      "bo": "Hechizos básicos",
+      "tabla": "Hechizos básicos"
+    },
+    {
+      "title": "E",
+      "tipo": "Elemental",
+      "tr": false,
+      "bo": "Hechizos básicos",
+      "tabla": "Hechizos básicos"
+    }
+  ]
+}

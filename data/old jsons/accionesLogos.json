@@ -1,0 +1,16 @@
+{
+  "A. Preparar Hechizo": "ra-lightning-trio",
+  "B. Realizar hechizo": "ra-lightning-trio",
+  "C. Atacar con proyectiles": "ra-archer",
+  "D. Cargar proyectil": "ra-arrow-cluster",
+  "E. Parar ataque con proyectiles": "ra-broken-shield",
+  "F. Maniobra movimiento MM": "ra-hand",
+  "G. Ataque cuerpo a cuerpo": "ra-crossed-swords",
+  "H. Movimiento": "ra-reverse",
+  "I. Maniobra Estática ME": "ra-cog",
+  "J. Dormir": "ra-hourglass",
+  "J. Despertar": "ra-hourglass",
+  "K. Comer/Beber": "ra-cheese",
+  "L. Sufrir un critico": "ra-player-pain",
+  "F. Ninguna": "ra-player"
+}

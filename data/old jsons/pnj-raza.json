@@ -1,0 +1,509 @@
+[{
+    "name": "Enanos (Khazâd)",
+    "fue": 10,
+    "agi": -5,
+    "con": 15,
+    "int": 0,
+    "i": -5,
+    "pre": -10,
+    "apa": -5,
+    "idiomas": {
+      "Khuzdul": 5,
+      "Sindarin": 3,
+      "Oestron": 5
+    }
+
+  },
+  {
+    "name": "Umli",
+    "fue": 5,
+    "agi": 0,
+    "con": 10,
+    "int": 0,
+    "i": 0,
+    "pre": 0,
+    "apa": 0,
+    "idiomas": {
+      "Khuzdul": 1,
+      "Labba": 2,
+      "Umítico": 5,
+      "Oestron": 2
+    }
+  },
+  {
+    "name": "Elfos Noldor",
+    "fue": 5,
+    "agi": 10,
+    "con": 10,
+    "int": 5,
+    "i": 10,
+    "pre": 15,
+    "apa": 20,
+    "idiomas": {
+      "Adunaico": 3,
+      "Quenya": 5,
+      "Sindarin": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+    "name": "Elfos Sindar",
+    "fue": 5,
+    "agi": 10,
+    "con": 5,
+    "int": 0,
+    "i": 5,
+    "pre": 10,
+    "apa": 15,
+    "idiomas": {
+      "Quenya": 5,
+      "Sindarin": 5,
+      "Silvano": 4,
+      "Oestron": 5
+    }
+
+  },
+  {
+    "name": "Elfos Nandor",
+    "fue": 5,
+    "agi": 5,
+    "con": 5,
+    "int": 0,
+    "i": 5,
+    "pre": 5,
+    "apa": 15,
+    "idiomas": {
+      "Quenya": 5,
+      "Sindarin": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+    "name": "Elfos Negros (Endárií)",
+    "fue": 0,
+    "agi": 15,
+    "con": 0,
+    "int": 5,
+    "i": 10,
+    "pre": -15,
+    "apa": 5,
+    "idiomas": {
+      "Quenya": 5,
+      "Sindarin": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+    "name": "Elfos Silvanos (Avari)",
+    "fue": 0,
+    "agi": 15,
+    "con": 0,
+    "int": 0,
+    "i": 5,
+    "pre": 5,
+    "apa": 10,
+    "idiomas": {
+      "Quenya": 2,
+      "Sindarin": 5,
+      "Silvano": 5,
+      "Oestron": 4
+    }
+  },
+  {
+    "name": "Medio Elfos (Peredhíl)",
+    "fue": 5,
+    "agi": 5,
+    "con": 5,
+    "int": 0,
+    "i": 0,
+    "pre": 10,
+    "apa": 10,
+    "idiomas": {
+      "Quenya": 5,
+      "Sindarin": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+    "name": "Hobbits Pelosos",
+    "fue": -20,
+    "agi": 15,
+    "con": 15,
+    "int": 0,
+    "i": 0,
+    "pre": -5,
+    "apa": -5,
+    "idiomas": {
+      "Kuduk": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Hobbits Fuertes",
+    "fue": -10,
+    "agi": 10,
+    "con": 15,
+    "int": 0,
+    "i": 5,
+    "pre": -5,
+    "apa": -5,
+    "idiomas": {
+      "Kuduk": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Hobbits Albos",
+    "fue": -15,
+    "agi": 15,
+    "con": 10,
+    "int": 5,
+    "i": 0,
+    "pre": -5,
+    "apa": -5,
+    "idiomas": {
+      "Kuduk": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Beórnidas",
+    "fue": 10,
+    "agi": 0,
+    "con": 15,
+    "int": 0,
+    "i": 5,
+    "pre": -5,
+    "apa": 0,
+    "idiomas": {
+      "Atliduc": 5,
+      "Nahaiduk": 5,
+      "Waildyth": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Númenoreanos Negros",
+    "fue": 5,
+    "agi": 5,
+    "con": 5,
+    "int": 0,
+    "i": 0,
+    "pre": -5,
+    "apa": 5,
+    "idiomas": {
+      "Adunaico": 5,
+      "Haradaico": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Corsarios",
+    "fue": 5,
+    "agi": 0,
+    "con": 5,
+    "int": 0,
+    "i": 0,
+    "pre": 0,
+    "apa": 5,
+    "idiomas": {
+      "Adunaico": 5,
+      "Haradaico": 4,
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Dorwinrim",
+    "fue": 0,
+    "agi": 0,
+    "con": 5,
+    "int": 0,
+    "i": 0,
+    "pre": 10,
+    "apa": 0,
+    "idiomas": {
+      "Logathig": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Dúnedain",
+    "fue": 5,
+    "agi": 5,
+    "con": 10,
+    "int": 0,
+    "i": 0,
+    "pre": 0,
+    "apa": 5,
+    "idiomas": {
+      "Adunaico": 4,
+      "Quenya": 1,
+      "Sindarin": 4,
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Dunlendinos",
+    "fue": 5,
+    "agi": 5,
+    "con": 5,
+    "int": 0,
+    "i": 0,
+    "pre": 0,
+    "apa": 0,
+    "idiomas": {
+      "Dunael": 5,
+      "Oestron": 4
+    }
+
+  },
+  {
+
+    "name": "Hombres del Este",
+    "fue": 0,
+    "agi": 10,
+    "con": 0,
+    "int": 0,
+    "i": 0,
+    "pre": -5,
+    "apa": 0,
+    "idiomas": {
+      "Logathig": 5,
+      "Oestron": 2
+    }
+
+  },
+  {
+
+    "name": "Eriadorianos",
+    "fue": 5,
+    "agi": 0,
+    "con": 0,
+    "int": 0,
+    "i": 0,
+    "pre": 5,
+    "apa": 0,
+    "idiomas": {
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Gondorianos",
+    "fue": 5,
+    "agi": 0,
+    "con": 0,
+    "int": 5,
+    "i": 0,
+    "pre": 5,
+    "apa": 0,
+    "idiomas": {
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Haradrim",
+    "fue": 5,
+    "agi": 5,
+    "con": 0,
+    "int": 0,
+    "i": 0,
+    "pre": -5,
+    "apa": 0,
+    "idiomas": {
+      "Apysaico": 5,
+      "Haradaico": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Lossoth",
+    "fue": 5,
+    "agi": 0,
+    "con": 10,
+    "int": 0,
+    "i": 5,
+    "pre": 0,
+    "apa": 0,
+    "idiomas": {
+      "Labba": 5,
+      "Sindarin": 2,
+      "Oestron": 2
+    }
+
+  },
+  {
+
+    "name": "Rohirrim",
+    "fue": 5,
+    "agi": 0,
+    "con": 0,
+    "int": 0,
+    "i": 0,
+    "pre": 0,
+    "apa": 5,
+    "idiomas": {
+      "Dunael": 1,
+      "Rohírrico": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Variags",
+    "fue": 0,
+    "agi": 5,
+    "con": 0,
+    "int": 0,
+    "i": 5,
+    "pre": -10,
+    "apa": 0,
+    "idiomas": {
+      "Haradaico": 3,
+      "Varadja": 5,
+      "Oestron": 2
+    }
+
+  },
+  {
+
+    "name": "Hombres del Bosques",
+    "fue": 5,
+    "agi": 5,
+    "con": 0,
+    "int": 0,
+    "i": 0,
+    "pre": 0,
+    "apa": 0,
+    "idiomas": {
+      "Nahaiduk": 5,
+      "Sindarin": 2,
+      "Oestron": 2
+    }
+
+  },
+  {
+
+    "name": "Woses (Drúedain)",
+    "fue": 0,
+    "agi": 0,
+    "con": 10,
+    "int": -5,
+    "i": 10,
+    "pre": -10,
+    "apa": -10,
+    "idiomas": {
+      "Dunael": 2,
+      "Pukael": 5,
+      "Oestron": 2
+    }
+
+  },
+  {
+
+    "name": "Orco",
+    "fue": 5,
+    "agi": -5,
+    "con": 15,
+    "int": -10,
+    "i": -10,
+    "pre": -10,
+    "apa": -10,
+    "idiomas": {
+      "Lengua negra": 4,
+      "Oestron": 3
+    }
+
+  },
+  {
+
+    "name": "Medio orco",
+    "fue": 5,
+    "agi": 0,
+    "con": 5,
+    "int": 0,
+    "i": 0,
+    "pre": -5,
+    "apa": -5,
+    "idiomas": {
+      "Lengua negra": 5,
+      "Oestron": 5
+    }
+
+  },
+  {
+
+    "name": "Uruk Hai",
+    "fue": 10,
+    "agi": 0,
+    "con": 20,
+    "int": 0,
+    "i": -5,
+    "pre": -10,
+    "apa": -20,
+    "idiomas": {
+      "Lengua negra": 5,
+      "Oestron": 2
+    }
+
+  },
+  {
+
+    "name": "Troll",
+    "fue": 15,
+    "agi": -10,
+    "con": 15,
+    "int": -15,
+    "i": -15,
+    "pre": -10,
+    "apa": -20,
+    "idiomas": {
+      "Lengua negra": 2,
+      "Oestron": 2
+    }
+
+  },
+  {
+
+    "name": "Olog-Hai",
+    "fue": 20,
+    "agi": -15,
+    "con": 15,
+    "int": -5,
+    "i": -10,
+    "pre": -10,
+    "apa": -30,
+    "idiomas": {
+      "Lengua negra": 2,
+      "Oestron": 2
+    }
+
+  }
+
+]

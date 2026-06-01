@@ -1,0 +1,137 @@
+[{
+    "name": "Mejora en Característica",
+    "desc": "Se incrementa una caracteristica en 2 o se incrementan 3 caracteristicas en 1",
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Flucha.jpg?alt=media&token=ba9bd527-8b38-4791-8790-334c83b8f8db",
+    "categoria": "carac",
+    "options": ["fue, agi, i, int, con, pre, apa"]
+  },
+  {
+    "max": 50,
+    "min": 1,
+    "name": "Mejora en una Habilidad Primaria",
+    "desc": "Bonificación especial de +5 a una habilidad primaria",
+    "bon": 5,
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Fsec.jpg?alt=media&token=399c5031-db52-4249-9589-c9e1c6c815ae",
+    "categoria": "capOptionBon",
+    "options": ["Sin Armadura (sa)", "Cuero (cu)", "Cuero Endurecido (ce)", "Cuero Tachonado (ct)", "Cota de Malla (cm)", "Armadura de Placas (pl)", "Coraza (co)", "Espada a Una Mano", "Hacha a Una Mano", "Contundente a Una Mano", "Espada a Dos Manos", "Hacha a Dos Manos", "Contundente a Dos Manos", "Arma de Asta", "Arrojadiza de Asta", "Red", "Látigo", "Ballesta", "Arco", "Proyectiles", "Trepar", "Nadar", "Montar", "Primeros Auxilios", "Rastrear", "Orientación", "Forrajear", "Cocinar", "Emboscar", "Acechar-Sigilo", "Esconderse", "Abrir Cerraduras", "Desactivar Trampas", "Maña", "Contorsionismo", "Leer Runas", "Hechizos básicos", "Hechizos dirigidos", "Golpear", "Barrer-placar", "Desarmar", "Parar proyectiles", "Usar Objetos", "Liderazgo", "Oratoria", "Seducción", "Comerciar", "Evaluar", "Identificar Objetos Mágicos", "Criaturas Especiales", "Leyendas de Historial", "Hierbas,Plantas, Venenos", "Percepción", "Desarrollo Físico", "Combate sin Armas Normal"]
+  },
+  {
+    "name": "Mejora en Habilidad Secundaria",
+    "desc": "Se incrementa en 10 una habilidad secundaria, puede ser una que ya tenías o una nueva",
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Fhongos.jpg?alt=media&token=515e9688-2dff-4065-8658-7e8750122db5",
+    "categoria": "sec",
+    "options": ["fue, agi, i, int, con, pre, apa"]
+  },
+  {
+    "name": "Políglota",
+    "desc": "Se aprende un idioma hasta grado 5",
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Fidiomas.jpg?alt=media&token=da685cfe-4f3f-4d70-866a-1d83a2e1c40d",
+    "categoria": "idioma",
+    "options": ["Oestron"]
+  },
+  {
+    "name": "Objeto mágico",
+    "desc": "",
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Fgaladriel.jpg?alt=media&token=8bc5e057-430d-47f8-a03d-e27e5c82e4e5",
+    "categoria": "objEsp",
+    "options": ["Oestron"]
+  },
+  {
+    "name": "Opcion Monetaria",
+    "desc": "Tira los dados y segun lo que te toque fijate cuanta plata extra te corresponde:",
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Fdineroo.jpg?alt=media&token=3b69cdc6-1173-4ef8-9327-c8b7f109702e",
+    "categoria": "mon",
+    "options": ["fue, agi, i, int, con, pre, apa"]
+  },
+  {
+    "max": 60,
+    "min": 50,
+    "name": "Empatía con animal",
+    "categoria": "capEsp",
+    "bon": 0,
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Ffam.jpg?alt=media&token=a9abce99-4fdd-4c4b-add0-5e41a317ec75",
+    "desc": "Se comienza con una mascota o leal acompañante de dicha especie (por ejemplo, un halcón, azor, comadreja, gato, perro, caballo, etc.). Cualquier maniobra con o sobre un animal de dicha especie recibe una bonificación especial de + 25"
+  },
+  {
+    "max": 65,
+    "min": 61,
+    "name": "Sentido aguzado",
+    "categoria": "capEsp",
+    "bon": 0,
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Fsentidos.jpg?alt=media&token=32130fa7-1968-4f7c-94d1-3d180f832c74",
+    "desc": "Capacidad de ver las fuentes de calor en la oscuridad. El alcance es hasta 30 metros (como alternativa, se puede mejorar cualquier otro sentido de una manera parecida)"
+  },
+  {
+    "max": 70,
+    "min": 66,
+    "name": "Resistente a las adversidades",
+    "desc": "Una bonificación especial de + 10 a las tiradas de resistencia contra algún tipo de adversidad, normalmente los hechizos de Esencia, los de Canalización, los venenos o las enfermedades",
+    "categoria": "capBon",
+    "bon": 5,
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Fresistencia.jpg?alt=media&token=48683b83-919c-4f47-b65c-e15aa67c4ce2",
+    "habilidad": ["Resistencia a Esencia", "Resistencia a Canalización", "Resistencia a Venenos", "Resistencia a Enfermedades", "Resistencia al Calor", "Resistencia al Frío"]
+  },
+  {
+    "max": 75,
+    "min": 71,
+    "name": "Eficacia con los hechizos",
+    "desc": "Se comienza teniendo una lista de hechizos extra (esta opción de historial sólo se puede obtener una vez). El tipo de hechizos sigue estando limitado por la profesión y la raza.",
+    "categoria": "capBon",
+    "bon": 5,
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Feficacia-f.jpg?alt=media&token=8eff33db-4556-4164-931d-591a9b441031",
+    "habilidad": ["Hechizos básicos"]
+  },
+  {
+    "max": 80,
+    "min": 76,
+    "name": "Agil",
+    "desc": "Buenas aptitudes para las maniobras de movimiento: bonificación especial de + 10 a todas las maniobras de movimiento.",
+    "bon": 10,
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Fagilidad.jpg?alt=media&token=bef25a4b-ff05-4ec7-9725-3ca5996ca50f",
+    "categoria": "capBon",
+    "habilidad": ["Sin Armadura (sa)", "Trepar", "Nadar", "Montar", "Acechar-Sigilo", "Contorsionismo", "Desarmar"]
+
+  },
+  {
+    "max": 85,
+    "min": 81,
+    "name": "Muy observador",
+    "desc": "Bonificación especial de + 10 a la percepción y rastrear.",
+    "bon": 10,
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Fobservador-f.jpg?alt=media&token=1c6c76b0-5850-4a4d-82c0-f9f41ed56266",
+    "categoria": "capBon",
+    "habilidad": ["Percepción", "Rastrear"]
+  },
+  {
+    "max": 90,
+    "min": 86,
+    "name": "Rápido de reflejos",
+    "desc": "+ 5 a las BD y + 5 a todas las BO",
+    "categoria": "capBon",
+    "bon": 5,
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Fasd.jpg?alt=media&token=42759463-30d0-4e71-b3ee-ead0f6bb9768",
+    "habilidad": ["Espada a Una Mano", "Hacha a Una Mano", "Contundente a Una Mano", "Espada a Dos Manos", "Hacha a Dos Manos", "Contundente a Dos Manos", "Arma de Asta", "Arrojadiza de Asta", "Red", "Látigo", "Ballesta", "Arco", "Proyectiles", "Hechizos básicos", "Hechizos dirigidos", "Golpear", "Barrer-placar", "Bonificacion defensiva"]
+  },
+  {
+    "max": 95,
+    "min": 91,
+    "name": "Carismático",
+    "desc": "+ 10 al liderazgo e influencia",
+    "categoria": "capBon",
+    "bon": 10,
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Fcarisma.jpg?alt=media&token=1ad41b8a-b6d6-4587-80a8-0c3747001275",
+    "habilidad": ["Liderazgo"]
+  },
+  {
+    "max": 100,
+    "min": 91,
+    "name": "Resistente al dolor",
+    "categoria": "capBon",
+    "desc": "+ 3 a cada tirada de D1O para puntos de vida debidas al desarrollo físico como habilidad.",
+    "habilidad": ["Desarrollo Físico"],
+    "bon": 12,
+    "img": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Historial%2Fdolor.jpg?alt=media&token=82fee14e-2c25-4bf6-9ad3-66265a8ecd97"
+  }
+
+
+]

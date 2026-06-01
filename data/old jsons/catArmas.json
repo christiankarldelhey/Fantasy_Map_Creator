@@ -1,0 +1,55 @@
+{
+  "Espada a Una Mano": {
+    "cat": "De filo",
+    "crit": "TA"
+  },
+  "Hacha a Una Mano": {
+    "cat": "De filo",
+    "crit": "TA"
+  },
+  "Arma de Asta": {
+    "cat": "De filo",
+    "crit": "PE"
+  },
+  "Contundente a Una Mano": {
+    "cat": "Contundentes",
+    "crit": "AP"
+  },
+  "Látigo": {
+    "cat": "Contundentes",
+    "crit": "PR"
+  },
+  "Red": {
+    "cat": "Contundentes",
+    "crit": "PR"
+  },
+  "Espada a Dos Manos": {
+    "cat": "A dos Manos",
+    "crit": "TA"
+  },
+  "Hacha a Dos Manos": {
+    "cat": "A dos Manos",
+    "crit": "TA"
+  },
+  "Contundente a Dos Manos": {
+    "cat": "A dos Manos",
+    "crit": "AP"
+  },
+  "Arrojadiza de Asta": {
+    "cat": "Proyectiles",
+    "crit": "PE"
+  },
+  "Ballesta": {
+    "cat": "Proyectiles",
+    "crit": "PE"
+  },
+  "Arco": {
+    "cat": "Proyectiles",
+    "crit": "PE"
+  },
+  "Proyectiles": {
+    "cat": "Proyectiles",
+    "crit": "PE"
+  }
+
+}

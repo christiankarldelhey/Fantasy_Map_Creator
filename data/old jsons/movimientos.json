@@ -1,0 +1,55 @@
+[{
+    "Transporte": "Sigiloso",
+    "Camino": 6,
+    "Despejado": 6,
+    "Bosque": 4.5,
+    "Abrupto": 3,
+    "Abrupto y bosque": 3,
+    "Montañoso": 1.5
+  },
+  {
+    "Transporte": "Andar cauteloso",
+    "Camino": 12,
+    "Despejado": 10.5,
+    "Bosque": 6,
+    "Abrupto": 6,
+    "Abrupto y bosque": 4.5,
+    "Montañoso": 3
+  },
+  {
+    "Transporte": "Andar",
+    "Camino": 15,
+    "Despejado": 12,
+    "Bosque": 9,
+    "Abrupto": 7.5,
+    "Abrupto y bosque": 4.5,
+    "Montañoso": 3
+  },
+  {
+    "Transporte": "Correr/andar",
+    "Camino": 22.5,
+    "Despejado": 18,
+    "Bosque": 13.5,
+    "Abrupto": 10.5,
+    "Abrupto y bosque": 6,
+    "Montañoso": 4.5
+  },
+  {
+    "Transporte": "Trote",
+    "Camino": 22.5,
+    "Despejado": 18,
+    "Bosque": 13.5,
+    "Abrupto": 10.5,
+    "Abrupto y bosque": 6,
+    "Montañoso": 4.5
+  },
+  {
+    "Transporte": "Galope",
+    "Camino": 37.5,
+    "Despejado": 27,
+    "Bosque": 18,
+    "Abrupto": 15,
+    "Abrupto y bosque": 9,
+    "Montañoso": 6
+  }
+]

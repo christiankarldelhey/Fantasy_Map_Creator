@@ -1,0 +1,551 @@
+[{
+    "carac1": "i",
+    "carac2": "agi",
+    "category": "Defensa y resistencia",
+    "esp": 0,
+    "type": "BD",
+    "name": "Bonificación Defensiva"
+  }, {
+    "carac1": "int",
+    "carac2": "int",
+    "category": "Defensa y resistencia",
+    "esp": 0,
+    "type": "TR (ESE)",
+    "name": "Resistencia a Esencia"
+  }, {
+    "carac1": "i",
+    "carac2": "i",
+    "category": "Defensa y resistencia",
+    "esp": 0,
+    "type": "TR (CAN)",
+    "name": "Resistencia a Canalización"
+  }, {
+    "carac1": "i",
+    "carac2": "i",
+    "category": "Defensa y resistencia",
+    "esp": 0,
+    "type": "TR (MI)",
+    "name": "Resistencia al Miedo"
+  }, {
+    "carac1": "con",
+    "carac2": "con",
+    "category": "Defensa y resistencia",
+    "esp": 0,
+    "type": "TR (VEN)",
+    "name": "Resistencia a Venenos"
+  }, {
+    "carac1": "con",
+    "carac2": "con",
+    "category": "Defensa y resistencia",
+    "esp": 0,
+    "type": "TR (ENF)",
+    "name": "Resistencia a Enfermedades"
+  }, {
+    "carac1": "con",
+    "carac2": "con",
+    "category": "Defensa y resistencia",
+    "esp": 0,
+    "type": "BD/TR (CA)",
+    "name": "Resistencia al Calor"
+  }, {
+    "carac1": "con",
+    "carac2": "con",
+    "category": "Defensa y resistencia",
+    "esp": 0,
+    "type": "BD/TR (FR)",
+    "name": "Resistencia al Frío"
+  }, {
+    "carac1": "con",
+    "carac2": "con",
+    "category": "Defensa y resistencia",
+    "esp": 0,
+    "type": "BD/TR (EL)",
+    "name": "Resistencia a Electricidad"
+  },
+  {
+    "name": "Sin Armadura (sa)",
+    "type": "MM",
+    "category": "Movimiento y Maniobra",
+    "esp": 0,
+    "caractxt": "AG",
+    "carac1": "agi",
+    "carac2": "agi"
+  },
+  {
+    "name": "Cuero (cu)",
+    "type": "MM",
+    "category": "Movimiento y Maniobra",
+    "esp": -15,
+    "caractxt": "AG",
+    "carac1": "agi",
+    "carac2": "agi"
+  },
+  {
+    "name": "Cuero Endurecido (ce)",
+    "type": "MM",
+    "category": "Movimiento y Maniobra",
+    "esp": -25,
+    "caractxt": "AG",
+    "carac1": "agi",
+    "carac2": "agi"
+  },
+  {
+    "name": "Cuero Tachonado (ct)",
+    "type": "MM",
+    "category": "Movimiento y Maniobra",
+    "esp": -35,
+    "caractxt": "AG",
+    "carac1": "agi",
+    "carac2": "agi"
+  },
+  {
+    "name": "Cota de Malla (cm)",
+    "type": "MM",
+    "category": "Movimiento y Maniobra",
+    "esp": -45,
+    "caractxt": "F/CO",
+    "carac1": "fue",
+    "carac2": "con"
+  },
+  {
+    "name": "Armadura de Placas (pl)",
+    "type": "MM",
+    "category": "Movimiento y Maniobra",
+    "esp": -55,
+    "caractxt": "F/CO",
+    "carac1": "fue",
+    "carac2": "con"
+  },
+  {
+    "name": "Coraza (co)",
+    "type": "MM",
+    "category": "Movimiento y Maniobra",
+    "esp": -65,
+    "caractxt": "F/CO",
+    "carac1": "fue",
+    "carac2": "con"
+  },
+  {
+    "name": "Espada a Una Mano",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "F/AG",
+    "carac1": "fue",
+    "carac2": "agi"
+  },
+  {
+    "name": "Hacha a Una Mano",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "F/AG",
+    "carac1": "fue",
+    "carac2": "agi"
+  },
+  {
+    "name": "Contundente a Una Mano",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "F/AG",
+    "carac1": "fue",
+    "carac2": "agi"
+  },
+  {
+    "name": "Espada a Dos Manos",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "F/AG",
+    "carac1": "fue",
+    "carac2": "agi"
+  },
+  {
+    "name": "Hacha a Dos Manos",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "F/AG",
+    "carac1": "fue",
+    "carac2": "agi"
+  },
+  {
+    "name": "Contundente a Dos Manos",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "F/AG",
+    "carac1": "fue",
+    "carac2": "agi"
+  },
+  {
+    "name": "Arma de Asta",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "F/AG",
+    "carac1": "fue",
+    "carac2": "agi"
+  },
+  {
+    "name": "Arrojadiza de Asta",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "I/AG",
+    "carac1": "i",
+    "carac2": "agi"
+  },
+  {
+    "name": "Red",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "I/AG",
+    "carac1": "i",
+    "carac2": "agi"
+  },
+  {
+    "name": "Látigo",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "I/AG",
+    "carac1": "i",
+    "carac2": "agi"
+  },
+  {
+    "name": "Ballesta",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "I/AG",
+    "carac1": "i",
+    "carac2": "agi"
+  },
+  {
+    "name": "Arco",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "F/AG",
+    "carac1": "fue",
+    "carac2": "agi"
+  },
+  {
+    "name": "Proyectiles",
+    "type": "BO",
+    "category": "Habilidades en Armas",
+    "esp": 0,
+    "caractxt": "I/AG",
+    "carac1": "i",
+    "carac2": "agi"
+  },
+  {
+    "name": "Trepar",
+    "type": "MM",
+    "category": "Habilidades Generales",
+    "esp": 0,
+    "caractxt": "AG",
+    "carac1": "agi",
+    "carac2": "agi"
+  },
+  {
+    "name": "Nadar",
+    "type": "MM",
+    "category": "Habilidades Generales",
+    "esp": 0,
+    "caractxt": "AG",
+    "carac1": "agi",
+    "carac2": "agi"
+  },
+  {
+    "name": "Montar",
+    "type": "MM",
+    "category": "Habilidades Generales",
+    "esp": 0,
+    "caractxt": "I/AG",
+    "carac1": "i",
+    "carac2": "agi"
+  },
+  {
+    "name": "Primeros Auxilios",
+    "type": "ME",
+    "category": "Habilidades Generales",
+    "esp": 0,
+    "caractxt": "INT/A",
+    "carac1": "int",
+    "carac2": "agi"
+  },
+  {
+    "name": "Rastrear",
+    "type": "ME",
+    "category": "Habilidades Generales",
+    "esp": 0,
+    "caractxt": "INT/I",
+    "carac1": "int",
+    "carac2": "i"
+  },
+  {
+    "name": "Orientación",
+    "type": "ME",
+    "category": "Habilidades Generales",
+    "esp": 0,
+    "caractxt": "I",
+    "carac1": "i",
+    "carac2": "i"
+  },
+  {
+    "name": "Forrajear",
+    "type": "ME",
+    "category": "Habilidades Generales",
+    "esp": 0,
+    "caractxt": "I",
+    "carac1": "i",
+    "carac2": "i"
+  },
+  {
+    "name": "Cocinar",
+    "type": "ME",
+    "category": "Habilidades Generales",
+    "esp": 0,
+    "caractxt": "I",
+    "carac1": "i",
+    "carac2": "i"
+  },
+  {
+    "name": "Emboscar",
+    "type": "PE",
+    "category": "Habilidades de Subterfugio",
+    "esp": 0,
+    "caractxt": "_",
+    "carac1": 0,
+    "carac2": 0
+  },
+  {
+    "name": "Acechar-Sigilo",
+    "type": "MM",
+    "category": "Habilidades de Subterfugio",
+    "esp": 0,
+    "caractxt": "A/CO",
+    "carac1": "con",
+    "carac2": "agi"
+  },
+  {
+    "name": "Esconderse",
+    "type": "ME",
+    "category": "Habilidades de Subterfugio",
+    "esp": 0,
+    "caractxt": "A/CO",
+    "carac1": "con",
+    "carac2": "agi"
+  },
+  {
+    "name": "Abrir Cerraduras",
+    "type": "ME",
+    "category": "Habilidades de Subterfugio",
+    "esp": 0,
+    "caractxt": "INT/A",
+    "carac1": "int",
+    "carac2": "agi"
+  },
+  {
+    "name": "Desactivar Trampas",
+    "type": "ME",
+    "category": "Habilidades de Subterfugio",
+    "esp": 0,
+    "caractxt": "I/AG",
+    "carac1": "i",
+    "carac2": "agi"
+  },
+  {
+    "name": "Maña",
+    "type": "ME",
+    "category": "Habilidades de Subterfugio",
+    "esp": 0,
+    "caractxt": "AG",
+    "carac1": "agi",
+    "carac2": "agi"
+  },
+  {
+    "name": "Contorsionismo",
+    "type": "MM",
+    "category": "Habilidades de Subterfugio",
+    "esp": 0,
+    "caractxt": "AG",
+    "carac1": "agi",
+    "carac2": "agi"
+  },
+  {
+    "name": "Leer Runas",
+    "type": "ME",
+    "category": "Habilidades Magicas",
+    "esp": 0,
+    "caractxt": "INT",
+    "carac1": "int",
+    "carac2": "int"
+  },
+  {
+    "name": "Hechizos básicos",
+    "type": "BO",
+    "category": "Habilidades Magicas",
+    "esp": 0,
+    "caractxt": "_",
+    "carac1": 0,
+    "carac2": 0
+  },
+  {
+    "name": "Usar Objetos",
+    "type": "ME",
+    "category": "Habilidades Magicas",
+    "esp": 0,
+    "caractxt": "I",
+    "carac1": "i",
+    "carac2": "i"
+  },
+  {
+    "name": "Hechizos dirigidos",
+    "type": "BO",
+    "category": "Habilidades Magicas",
+    "esp": 0,
+    "caractxt": "I/AG",
+    "carac1": "i",
+    "carac2": "agi"
+  },
+  {
+    "name": "Liderazgo",
+    "type": "ME",
+    "category": "Habilidades de Influencia",
+    "esp": 0,
+    "caractxt": "PR",
+    "carac1": "pre",
+    "carac2": "pre"
+  },
+  {
+    "name": "Oratoria",
+    "type": "ME",
+    "category": "Habilidades de Influencia",
+    "esp": 0,
+    "caractxt": "PR",
+    "carac1": "pre",
+    "carac2": "pre"
+  },
+  {
+    "name": "Seducción",
+    "type": "ME",
+    "category": "Habilidades de Influencia",
+    "esp": 0,
+    "caractxt": "P/AP",
+    "carac1": "pre",
+    "carac2": "apa"
+  },
+  {
+    "name": "Comerciar",
+    "type": "ME",
+    "category": "Habilidades de Influencia",
+    "esp": 0,
+    "caractxt": "INT/P",
+    "carac1": "int",
+    "carac2": "pre"
+  },
+  {
+    "name": "Identificar Objetos Mágicos",
+    "type": "ME",
+    "category": "Habilidades de Conocimiento",
+    "esp": 0,
+    "caractxt": "INT/I",
+    "carac1": "int",
+    "carac2": "i"
+  },
+  {
+    "name": "Criaturas Especiales",
+    "type": "ME",
+    "category": "Habilidades de Conocimiento",
+    "esp": 0,
+    "caractxt": "INT",
+    "carac1": "int",
+    "carac2": "int"
+  },
+  {
+    "name": "Leyendas de Historial",
+    "type": "ME",
+    "category": "Habilidades de Conocimiento",
+    "esp": 0,
+    "caractxt": "INT",
+    "carac1": "int",
+    "carac2": "int"
+  },
+  {
+    "name": "Hierbas,Plantas, Venenos",
+    "type": "ME",
+    "category": "Habilidades de Conocimiento",
+    "esp": 0,
+    "caractxt": "INT/I",
+    "carac1": "int",
+    "carac2": "i"
+  },
+  {
+    "name": "Percepción",
+    "type": "ME",
+    "category": "Percepción",
+    "esp": 0,
+    "caractxt": "I",
+    "carac1": "i",
+    "carac2": "i"
+  },
+  {
+    "name": "Desarrollo Físico",
+    "type": "PE",
+    "category": "Desarrollo Físico",
+    "esp": 0,
+    "caractxt": "CON",
+    "carac1": "con",
+    "carac2": "con"
+  },
+  {
+    "name": "Golpear",
+    "type": "BO",
+    "category": "Habilidades de Artes Marciales",
+    "esp": 0,
+    "caractxt": "FUE",
+    "carac1": "fue",
+    "carac2": "fue"
+  },
+  {
+    "name": "Barrer-placar",
+    "type": "BO",
+    "category": "Habilidades de Artes Marciales",
+    "esp": 0,
+    "caractxt": "AGI",
+    "carac1": "agi",
+    "carac2": "agi"
+  },
+  {
+    "name": "Desarmar",
+    "type": "MM",
+    "category": "Habilidades de Artes Marciales",
+    "esp": 0,
+    "caractxt": "I/AG",
+    "carac1": "i",
+    "carac2": "agi"
+  },
+  {
+    "name": "Parar proyectiles",
+    "type": "PE",
+    "category": "Habilidades de Artes Marciales",
+    "esp": 0,
+    "caractxt": "I/AG",
+    "carac1": "i",
+    "carac2": "agi"
+  },
+  {
+    "name": "Combate sin Armas Normal",
+    "type": "BO",
+    "category": "Habilidades de Artes Marciales",
+    "esp": 0,
+    "caractxt": "F/AG",
+    "carac1": "fue",
+    "carac2": "agi"
+  }
+]

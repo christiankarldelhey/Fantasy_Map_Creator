@@ -101,8 +101,24 @@ CREATE INDEX IF NOT EXISTS idx_water_geom ON water USING GIST(geom);
 CREATE INDEX IF NOT EXISTS idx_water_type ON water(water_type);
 
 -- ============================================================================
+-- Table: kingdoms
+-- Purpose: Store kingdoms/references for regions
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS kingdoms (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_kingdoms_name ON kingdoms(name);
+
+COMMENT ON TABLE kingdoms IS 'Kingdoms and political entities of Middle Earth';
+
+-- ============================================================================
 -- Table: regions
--- Purpose: Store polygon features (kingdoms, biomes, provinces, climate zones)
+-- Purpose: Store polygon features (biomes, provinces, climate zones)
 -- ============================================================================
 
 CREATE TABLE IF NOT EXISTS regions (
@@ -111,10 +127,10 @@ CREATE TABLE IF NOT EXISTS regions (
     
     -- Basic information
     name VARCHAR(255) NOT NULL,
-    region_type VARCHAR(50),  -- 'kingdom', 'biome', 'province', 'climate_zone'
+    region_type VARCHAR(50),  -- 'biome', 'province', 'climate_zone'
     
     -- Political information
-    ruler VARCHAR(255),  -- King, lord, governor
+    kingdom_id INTEGER REFERENCES kingdoms(id),
     allegiance VARCHAR(100),  -- 'Free Peoples', 'Mordor', 'Neutral'
     
     -- Geographic information
@@ -145,6 +161,7 @@ CREATE INDEX IF NOT EXISTS idx_regions_geom ON regions USING GIST(geom);
 -- Additional indexes
 CREATE INDEX IF NOT EXISTS idx_regions_type ON regions(region_type);
 CREATE INDEX IF NOT EXISTS idx_regions_biome ON regions(biome);
+CREATE INDEX IF NOT EXISTS idx_regions_kingdom_id ON regions(kingdom_id);
 
 COMMENT ON TABLE regions IS 'Regions, kingdoms and biomes of Middle Earth';
 COMMENT ON COLUMN regions.area_km2 IS 'Area in square kilometers (calculated with ST_Area)';

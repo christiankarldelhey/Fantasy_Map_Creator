@@ -11,6 +11,7 @@ export function useLocationLayer() {
     paint: {
       'circle-radius': 6,
       'circle-color': MAP_COLORS.locations.primary,
+      'circle-opacity': 0.4,
       'circle-stroke-width': 2,
       'circle-stroke-color': MAP_COLORS.locations.stroke
     },

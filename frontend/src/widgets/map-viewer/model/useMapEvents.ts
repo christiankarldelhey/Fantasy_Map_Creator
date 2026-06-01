@@ -121,11 +121,13 @@ export function useMapEvents() {
       try {
         const response = await getElevation(lng, lat)
         const elevMeters = Math.round(response.data.elevation)
+        const terrainType = response.data.terrain_type
 
+        const terrainLabel = terrainType ? ` (${terrainType})` : ''
         const updatedElevationHTML = `
           <span class="inline-block w-2 h-2 rounded-full bg-amber-500"></span>
           <span class="text-xs font-semibold text-gray-700">Elevation:</span>
-          <span class="text-xs text-amber-600 font-semibold ml-1">${elevMeters}m</span>
+          <span class="text-xs text-amber-600 font-semibold ml-1">${elevMeters}m${terrainLabel}</span>
         `
 
         const elevationContainer = document.getElementById('popup-elevation-container')

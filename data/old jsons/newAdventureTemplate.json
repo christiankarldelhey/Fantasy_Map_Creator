@@ -1,0 +1,40 @@
+{
+  "title": "",
+  "description": "",
+  "Pnjs": "",
+  "currentMap": "Jugar sin mapa",
+  "currentPlayer": "Soma",
+  "playerTurn": "Soma",
+  "currentPercentagePos": {
+    "Baader": [31.736907536067218, 21.228221824359046],
+    "Biriuk": [37.42590292679574, 6.418795483178732],
+    "Icaro": [54.067835196444136, 3.2365634670779992],
+    "Lolindir": [43.08525067378233, 5.519347522489445],
+    "Soma": [32.5291870946994, 73.19177518619914]
+  },
+
+  "currentPosition": {
+    "Baader": [457.0114685193679, 162.6081791745903],
+    "Biriuk": [538.9330021458587, 51.22198795576628],
+    "Icaro": [778.5768268287956, 25.827776467282433],
+    "Lolindir": [620.4276097024656, 42.278202022269156],
+    "Soma": [468.4202941636714, 584.0703659858691]
+  },
+  "mapas": {
+    "Jugar sin mapa": {
+      "name": "Jugar sin mapa",
+      "pnjs": [],
+      "type": "Regional",
+      "url": "https://firebasestorage.googleapis.com/v0/b/merp-vue.appspot.com/o/Maps%2FCOMUNIDAD_00011.jpeg?alt=media&token=2eac4948-cff5-4863-ba22-314d00fabb4a"
+    }
+  },
+  "partida": {
+    "asalto": 0,
+    "date": 0,
+    "id": 0,
+    "log": [],
+    "number": 0,
+    "resolveAssault": false,
+    "status": true
+  }
+}

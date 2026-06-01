@@ -1,0 +1,863 @@
+[{
+    "name": "Acrobacia",
+    "caracteristica": "AGI",
+    "carac1": "agi",
+    "carac2": "agi",
+    "final": "MM",
+    "Guerrero": 1,
+    "Ladrón": 3,
+    "Conjurador": 1,
+    "descripcion": "Maniobras en el aire, saber caer, rodar, dar volteretas, etc"
+  },
+  {
+    "name": "Funambulismo-Equilibrio (acrobática)",
+    "caracteristica": "AGI",
+    "carac1": "agi",
+    "carac2": "agi",
+    "final": "MM",
+    "Conjurador": 1,
+    "Monje Guerrero": 2,
+    "Monje": 3,
+    "Ladrón": 3,
+    "descripcion": "Implica caminar por cuerdas, vigas finas, andar con zancos, hacer la vertical  o cualquier habilidad que implique equilibrio"
+  },
+  {
+    "name": "Esquiar",
+    "caracteristica": "AGI",
+    "carac1": "agi",
+    "carac2": "agi",
+    "final": "MM",
+    "descripcion": "En dos o una tabla sobre nieve o cualquier superficie donde el personaje se pueda deslizar"
+  },
+  {
+    "name": "Patinar",
+    "caracteristica": "AGI",
+    "carac1": "agi",
+    "carac2": "agi",
+    "final": "MM",
+    "descripcion": "En patines sobre hielo o cualquier superficie donde el personaje pueda patinar"
+  },
+  {
+    "name": "Esprintar-Correr",
+    "caracteristica": "0",
+    "carac1": "agi",
+    "carac2": "fue",
+    "final": "MM",
+    "Ladrón": 3,
+    "Conjurador": 1,
+    "descripcion": "Se suma a la Maniobra de Correr (esprintar) cada vez que el personaje lo desee"
+  },
+  {
+    "name": "Saltar (acrobática)",
+    "caracteristica": "0",
+    "final": "MM",
+    "carac1": "agi",
+    "carac2": "agi",
+    "Monje Guerrero": 2,
+    "Ladrón": 3,
+    "Conjurador": 1,
+    "descripcion": "Especialización en saltos en largo o alto. Se usa también en caídas. Se suma a la MM común de armaduras"
+  },
+  {
+    "name": "Malabarismo",
+    "caracteristica": "AGI",
+    "carac1": "agi",
+    "carac2": "agi",
+    "Bardo": 3,
+    "final": "ME",
+    "descripcion": "La habilidad de manejar objetos arrojados al aire con precisión"
+  },
+  {
+    "name": "Carreras de Caballos",
+    "caracteristica": "0",
+    "carac1": "agi",
+    "carac2": "i",
+    "final": "MM",
+    "descripcion": "Se suma a la Maniobra de Montar cada vez que el Personaje corra montando algún animal"
+  },
+  {
+    "name": "Manejar-Correr Carros",
+    "caracteristica": "I/AGI",
+    "carac1": "i",
+    "carac2": "agi",
+    "final": "MM",
+    "descripcion": "Se usa para manejar y/o correr en un vehículo tirado por animales"
+  },
+  {
+    "name": "Navegar Embarcaciones",
+    "caracteristica": "I/AGI",
+    "carac1": "i",
+    "carac2": "agi",
+    "final": "MM",
+    "Montaraz": 3,
+    "descripcion": "La habilidad de manejar todo tipo de embarcaciones en cualquier medio acuático"
+  },
+  {
+    "name": "Escalar",
+    "caracteristica": "AGI",
+    "carac1": "agi",
+    "carac2": "int",
+    "final": "MM",
+    "Montaraz": 3,
+    "Acechador asesino": 3,
+    "Ladrón": 3,
+    "Conjurador": 1,
+    "descripcion": "La habilidad de Escalar largos tramos de roca o muro difíciles y aparentemente imposibles con habilidades normales"
+  },
+  {
+    "name": "Trabajar Cuero-Pieles",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "Rastreador cazador": 2,
+    "descripcion": "Implica cuerear animales, endurecer el cuero, fabricar cosas con cuero y trabajarlo. Tambien reparar piezas de armadura"
+  },
+  {
+    "name": "Tallar-Trabajar Madera, Carpintería",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "descripcion": "Tallar y trabajar diferentes objetos en madera y hasta construir cosas (desde armas hasta artesanías)"
+  },
+  {
+    "name": "Tallar-Trabajar Metales, Herrería",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "descripcion": "Tallar y trabajar todo tipo de metales, desde su fundición hasta su modelación. Tambien reparar piezas de armadura"
+  },
+  {
+    "name": "Tallar-Trabajar Piedra",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "descripcion": "Tallar y trabajar diferentes objetos en piedra o materiales semejantes (desde armas hasta artesanías)"
+  },
+  {
+    "name": "Tallar-Trabajar Hueso",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "Rastreador cazador": 2,
+    "descripcion": "Tallar y trabajar diferentes objetos en hueso (desde armas hasta artesanías)"
+  },
+  {
+    "name": "Orfebrería",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "descripcion": "Construir objetos decorativos (pulseras, colgantes, etc) a partir de los materiales preciosos que se tengan a la mano"
+  },
+  {
+    "name": "Construir Trampas",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "Explorador": 2,
+    "Rastreador cazador": 3,
+    "Acechador asesino": 1,
+    "Ingeniero": 2,
+    "Montaraz": 2,
+    "descripcion": "Fabricar trampas de todo tipo. La dificultad y el tiempo que llevaría está dado por el tamaño y la complejidad de la trampa. Se tira"
+  },
+  {
+    "name": "Construir Flechas",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "Explorador": 2,
+    "carac2": "agi",
+    "final": "ME",
+    "descripcion": "La habilidad de fabricar flechas con los materiales que se tenga a la mano"
+  },
+  {
+    "name": "Construir Embarcaciones",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "descripcion": "La construcción de cualquier plataforma que flote y se mantenga sobre el agua (balsas, botes, etc)"
+  },
+  {
+    "name": "Construir Carros",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "descripcion": "La habilidad de construir algún tipo de transporte terrestre, generalmente tirado por algún animal"
+  },
+  {
+    "name": "Construir Maquinarias (sólo Ingeniero)",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "Ingeniero": 4,
+    "descripcion": "La habilidad para la construcción de algun tipo de maquinaria que requiera cierta ingeniería (como una catapulta)"
+  },
+  {
+    "name": "Construir Artefactos (sólo Ingeniero)",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "Ingeniero": 4,
+    "descripcion": "La habilidad para la construcción de un objeto en particular que requiera cierta ingeniería (Ballesta, cerraduras, etc)"
+  },
+  {
+    "name": "Construir Refugios",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "Rastreador cazador": 3,
+    "Montaraz": 2,
+    "descripcion": "La habilidad de construir un refugio con los materiales que se tengan a la mano"
+  },
+  {
+    "name": "Coser-Hilar-Tejer-Bordar",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "descripcion": "Hacer trabajos de costura en general (como ropas, tapices, etc)"
+  },
+  {
+    "name": "Trabajar la Tierra-Agricultura",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Alquimista": 4,
+    "descripcion": "El manejo de cultivos, cosechas y jardines (plantas, frutas, hierbas, etc)"
+  },
+  {
+    "name": "Tocar un Instrumento",
+    "caracteristica": "I/AGI",
+    "carac1": "i",
+    "carac2": "agi",
+    "final": "ME",
+    "Bardo": 4,
+    "descripcion": "La efectividad con que se toca algún tipo de Instrumento. Debe elegirse sólo uno (Laúd, Gaita, Quena, etc)"
+  },
+  {
+    "name": "Escribir Música",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Bardo": 3,
+    "Paladín": 3,
+    "descripcion": "Tener los conocimientos para una composición musical"
+  },
+  {
+    "name": "Bailar",
+    "caracteristica": "AGI",
+    "carac1": "agi",
+    "carac2": "agi",
+    "final": "MM",
+    "Bardo": 3,
+    "descripcion": "Habilidad de cualquier tipo de danza"
+  },
+  {
+    "name": "Cantar",
+    "caracteristica": "PRE",
+    "carac1": "pre",
+    "carac2": "pre",
+    "final": "ME",
+    "Bardo": 3,
+    "Paladín": 1,
+    "descripcion": "El entrenamiento de la buena voz e improvisación del personaje"
+  },
+  {
+    "name": "Pintura",
+    "caracteristica": "I/AGI",
+    "carac1": "i",
+    "carac2": "agi",
+    "final": "ME",
+    "Diplomático": 1,
+    "descripcion": "La habilidad de crear y pintar, y que resulte una buena obra"
+  },
+  {
+    "name": "Escribir-Recitar Poesía",
+    "caracteristica": "PRE/I",
+    "carac1": "pre",
+    "carac2": "i",
+    "final": "ME",
+    "Bardo": 3,
+    "descripcion": "La habilidad de escribir, recitar e improvisar poesías"
+  },
+  {
+    "name": "Tallar Esculturas",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "descripcion": "La capacidad de tallar diferentes formas sobre materiales sólidos"
+  },
+  {
+    "name": "Tatuajes",
+    "caracteristica": "AGI/INT",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "Guerrero": 1,
+    "Bárbaro": 3,
+    "descripcion": "La habilidad de dibujar y realizar tatuajes corporales"
+  },
+  {
+    "name": "Actuar",
+    "caracteristica": "PRE",
+    "carac1": "pre",
+    "carac2": "pre",
+    "final": "ME",
+    "Bardo": 3,
+    "descripcion": "Representar otras identidades, suplantar personas, cualquier representacion en publico, etc."
+  },
+  {
+    "name": "Contar Historias-Leyendas",
+    "caracteristica": "PRE",
+    "carac1": "pre",
+    "carac2": "pre",
+    "final": "ME",
+    "Diplomático": 4,
+    "Bardo": 3,
+    "Mago": 2,
+    "descripcion": "La capacidad de narración del personaje de alguna historia o leyenda, y que sea tomada como verdad por el público"
+  },
+  {
+    "name": "Leer Mapas",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Explorador": 3,
+    "descripcion": "Saber orinetarse e identificar los puntos marcados en un mapa, también la lectura de coordenadas y distancias aproximadas"
+  },
+  {
+    "name": "Astrología",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Animista": 3,
+    "descripcion": "Predecir el futuro probable mediante la lectura y el estudio de los astros"
+  },
+  {
+    "name": "Conocimiento de los Caballos",
+    "caracteristica": "I/INT",
+    "carac1": "int",
+    "carac2": "i",
+    "final": "ME",
+    "descripcion": "La habilidad de relacionerse con los caballos en general, entenderlos, domarlos, etc"
+  },
+  {
+    "name": "Conocimiento de Enfermedades",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Animista": 4,
+    "Nigromante": 2,
+    "descripcion": "Detección, tratamiento, modos de curación"
+  },
+  {
+    "name": "Conocimiento de Religión Oscura",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Nigromante": 4,
+    "Mago de Guerra": 3,
+    "Mago": 3,
+    "Hechicero": 2,
+    "descripcion": "Sobre la Historia de las razas oscuras y su comportamiento"
+  },
+  {
+    "name": "Historia de Cultura",
+    "caracteristica": "I/INT",
+    "carac1": "i",
+    "carac2": "int",
+    "final": "ME",
+    "descripcion": "Conocimiento de historia y tradiciones de una raza particular"
+  },
+  {
+    "name": "Pictografía",
+    "caracteristica": "I/INT",
+    "carac1": "i",
+    "carac2": "int",
+    "final": "ME",
+    "descripcion": "El saber transmitir y leer mensajes escritos con simbología pictográfica"
+  },
+  {
+    "name": "Caligrafía",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "descripcion": "Podría servir para falsificar pergaminos, imitando los símbolos caligráficos, e icluso copiar mapas a la perfección"
+  },
+  {
+    "name": "Botánica",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Alquimista": 4,
+    "Animista": 3,
+    "descripcion": "El conocimiento completo de la flora, puede ayudar a la identificación de hierbas y venenos si son vegetales, etc"
+  },
+  {
+    "name": "Conocimiento y preparacion de venenos",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Acechador asesino": 15,
+    "Nigromante": 2,
+    "Hechicero": 2,
+    "descripcion": "El conocimiento completo de la flora, puede ayudar a la identificación de hierbas y venenos si son vegetales, etc"
+  },
+  {
+    "name": "Zoología",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Animista": 3,
+    "descripcion": "El conocimiento completo de la fauna, puede ayudar al conocimiento de enfermedades producidas por animales, etc"
+  },
+  {
+    "name": "Geología",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Alquimista": 4,
+    "descripcion": "Estudio de rocas, piedras preciosas y diferentes minerales. Incluye terrenos rocosos y cuevas"
+  },
+  {
+    "name": "Metalurgia",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Ingeniero": 4,
+    "descripcion": "Conocimiento de los Metales y sus diferentes usos"
+  },
+  {
+    "name": "Geografía",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "descripcion": "El conocmimiento de las zonas geográficas de Tierra Media sin la necesidad de recurrir a mapas"
+  },
+  {
+    "name": "Historia de Tierra Media",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Bardo": 1,
+    "Mago": 3,
+    "descripcion": "Historia de la creación, y población de Tierra Media"
+  },
+  {
+    "name": "Teología",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Animista": 3,
+    "descripcion": "Deidades y Religiones de Tierra Media"
+  },
+  {
+    "name": "Psicología - Sociología",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "descripcion": "El estudio de los modos de pensar y de actuar de las razas inteligentes de Tierra Media. Puede predecir comportamientos"
+  },
+  {
+    "name": "Tácticas Militares",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Luchador": 3,
+    "descripcion": "El DJ debe recomendar la mejor forma de llevar a cabo una maniobra militar en grupo para un ataque o similar"
+  },
+  {
+    "name": "Conocimiento de Armas",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Mago de Guerra": 3,
+    "Paladín": 2,
+    "Guerrero": 4,
+    "Luchador": 3,
+    "Monje Guerrero": 1,
+    "descripcion": "Permite realizar movimientos y ataques especiales propios de las armas que normalmente serían muy difíciles"
+  },
+  {
+    "name": "Entretenimiento",
+    "caracteristica": "PRE",
+    "carac1": "pre",
+    "carac2": "pre",
+    "final": "ME",
+    "Bardo": 3,
+    "descripcion": "Lograr entretener a la audiencia por algún medio, o efectuando alguna maniobra"
+  },
+  {
+    "name": "Hablar en Público",
+    "caracteristica": "PRE",
+    "carac1": "pre",
+    "carac2": "pre",
+    "final": "ME",
+    "descripcion": "La capacidad de hablar e influenciar a una audiencia numerosa"
+  },
+  {
+    "name": "Interrogación",
+    "caracteristica": "PRE",
+    "carac1": "pre",
+    "carac2": "pre",
+    "final": "ME",
+    "descripcion": "La habilidad de sacar la información que se quiera de una persona, incluso sin que esa persona lo note"
+  },
+  {
+    "name": "Soborno",
+    "caracteristica": "PRE/INT",
+    "carac1": "pre",
+    "carac2": "int",
+    "final": "ME",
+    "descripcion": "Convencer a alguna persona de aceptar un pago ilegal, obviamente por algo a cambio"
+  },
+  {
+    "name": "Intimidación",
+    "caracteristica": "PRE",
+    "carac1": "pre",
+    "carac2": "pre",
+    "final": "ME",
+    "Nigromante": 3,
+    "Guerrero": 2,
+    "descripcion": "Lograr imponerse ante un sujeto, generalmente mediante alguna acción violenta u hostíl, generalemte para sacarle información"
+  },
+  {
+    "name": "Manipulación",
+    "caracteristica": "PRE/INT",
+    "carac1": "pre",
+    "carac2": "int",
+    "final": "ME",
+    "Bardo": 1,
+    "Diplomático": 4,
+    "Paladín": 3,
+    "descripcion": "Lograr que una persona cualquiera lleve a cabo alguna acción, o mentir y que el sujeto lo tome como verídico"
+  },
+  {
+    "name": "Extorsión",
+    "caracteristica": "PRE",
+    "carac1": "pre",
+    "carac2": "pre",
+    "final": "ME",
+    "Diplomático": 4,
+    "Bardo": 1,
+    "Paladín": 3,
+    "descripcion": "Presionar a una persona mediante amenazas u otros medios, para que realice una determinada acción"
+  },
+  {
+    "name": "Conocimiento de las Cuevas",
+    "carac1": "int",
+    "carac2": "i",
+    "caracteristica": "0",
+    "final": "ME",
+    "Rastreador cazador": 2,
+    "descripcion": "Determinar el curso natural y dispocisión de una cueva o caverna (ayuda a la Orientación, etc)"
+  },
+  {
+    "name": "Conocimiento de las Nieves",
+    "caracteristica": "0",
+    "carac1": "int",
+    "carac2": "i",
+    "final": "ME",
+    "descripcion": "Ayuda a manejarse en las zonas nevadas (Orientación, Forrajear, y Habs  Sec Relacionadas)"
+  },
+  {
+    "name": "Conocimiento de las Montañas",
+    "caracteristica": "0",
+    "carac1": "int",
+    "carac2": "i",
+    "final": "ME",
+    "descripcion": "Ayuda a manejarse en zonas de alta montaña y alpinas (Orientación, Forrajear, y Habs  Sec Relacionadas)"
+  },
+  {
+    "name": "Conocimiento de las Aguas",
+    "caracteristica": "0",
+    "carac1": "int",
+    "carac2": "i",
+    "final": "ME",
+    "descripcion": "Ayuda a la orientación y manejo de embarcaciones en las aguas"
+  },
+  {
+    "name": "Conocimiento de Estepas",
+    "caracteristica": "0",
+    "carac1": "int",
+    "carac2": "i",
+    "final": "ME",
+    "descripcion": "Ayuda a manejarse en zonas de llanos (Orientación, Forrajear, y Habs  Sec Relacionadas)"
+  },
+  {
+    "name": "Conocimiento de Desiertos",
+    "caracteristica": "0",
+    "carac1": "int",
+    "carac2": "i",
+    "final": "ME",
+    "descripcion": "Ayuda a las maniobras de Orientación, Forrajear, y Habs  Sec Relacionadas, en un Desierto"
+  },
+  {
+    "name": "Conocimiento de los Bosques",
+    "caracteristica": "0",
+    "carac1": "int",
+    "carac2": "i",
+    "final": "ME",
+    "descripcion": "Ayuda a manejarse en zonas boscosas (Orientación, Forrajear, y Habs  Sec Relacionadas)"
+  },
+  {
+    "name": "Conocimiento del Clima",
+    "caracteristica": "I",
+    "carac1": "i",
+    "carac2": "i",
+    "final": "ME",
+    "Explorador": 3,
+    "Montaraz": 3,
+    "descripcion": "Saber leer con anticipación las condiciones climáticas que pueden acontecer en 24 hs. (aproximadamente)"
+  },
+  {
+    "name": "Combate Borracho",
+    "caracteristica": "I",
+    "carac1": "i",
+    "carac2": "i",
+    "final": "MM",
+    "Guerrero": 3,
+    "Bárbaro": 2,
+    "Luchador": 2,
+    "Mago de Guerra": 1,
+    "descripcion": "Si el jugador está ebrio puede realizar una tirada de MM de acuerdo a la dificultad del oponente y a la situación, se resuelve igual"
+  },
+  {
+    "name": "Combate a Ciegas",
+    "caracteristica": "I",
+    "carac1": "i",
+    "carac2": "i",
+    "final": "MM",
+    "Paladín": 3,
+    "Guerrero": 3,
+    "Bárbaro": 2,
+    "Luchador": 2,
+    "Mago de Guerra": 1,
+    "descripcion": "Si el jugador se encuentra en una zona oscura o fue enseguecido por un destello de luz u otro hechizo, puede realizar un tirada de"
+  },
+  {
+    "name": "Camuflarse-Disfraces",
+    "caracteristica": "I/INT",
+    "carac1": "i",
+    "carac2": "int",
+    "final": "ME",
+    "Montaraz": 2,
+    "Rastreador cazador": 3,
+    "Explorador": 2,
+    "descripcion": "Encontrar una manera eficiente de que los que se lleva encima ayude al personaje a pasar desapercibido en el terreno donde esté"
+  },
+  {
+    "name": "Conocimiento de caza",
+    "caracteristica": "I/INT",
+    "carac1": "i",
+    "carac2": "int",
+    "final": "MM",
+    "Montaraz": 2,
+    "Rastreador cazador": 4,
+    "Explorador": 2,
+    "descripcion": "Encontrar una manera eficiente de que los que se lleva encima ayude al personaje a pasar desapercibido en el terreno donde esté"
+  },
+  {
+    "name": "Encontrar Refugios",
+    "caracteristica": "I/INT",
+    "carac1": "i",
+    "carac2": "int",
+    "final": "ME",
+    "Explorador": 3,
+    "Rastreador cazador": 3,
+    "Montaraz": 2,
+    "descripcion": "La habilidad de encontrar cualquier tipo de lugar que proteja contra las adversidades climáticas"
+  },
+  {
+    "name": "Hacer Fuego",
+    "caracteristica": "INT/A",
+    "carac1": "int",
+    "carac2": "agi",
+    "final": "ME",
+    "Explorador": 3,
+    "Rastreador cazador": 1,
+    "descripcion": "Se usaría en lugares en donde hacer fuego sea una tarea complicada y requiera de habilidad especial (con lluvia, viento, nieve, etc)"
+  },
+  {
+    "name": "Pescar",
+    "caracteristica": "I/AGI",
+    "carac1": "i",
+    "carac2": "agi",
+    "final": "ME",
+    "Guerrero": 2,
+    "Explorador": 3,
+    "Rastreador cazador": 1,
+    "descripcion": "El conocimiento y la habilidad de pescar en diferentes zonas con instrumentos precarios y/o avanzados"
+  },
+  {
+    "name": "Conocimientos de Caza",
+    "caracteristica": "0",
+    "carac1": "i",
+    "carac2": "agi",
+    "final": "ME",
+    "descripcion": "El conocimiento y la habilidad de encontrar algún rastro de algún animal salvaje y seguir dicho rastro hasta el animal"
+  },
+  {
+    "name": "Cordelería",
+    "caracteristica": "AGI",
+    "carac1": "agi",
+    "carac2": "int",
+    "final": "ME",
+    "Acechador asesino": 2,
+    "Ladrón": 3,
+    "Conjurador": 1,
+    "Montaraz": 3,
+    "descripcion": "La utilización de una cuerda en cualquier forma; hacer y reconocer nudos, utilizarla como lazo, etc."
+  },
+  {
+    "name": "Conocimiento de Huellas",
+    "caracteristica": "I/INT",
+    "carac1": "int",
+    "carac2": "i",
+    "final": "ME",
+    "Montaraz": 2,
+    "Explorador": 2,
+    "Rastreador cazador": 3,
+    "descripcion": "Identificar que tipo de ser dejó una determinada huella"
+  },
+  {
+    "name": "Guiarse por las Estrellas",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Explorador": 2,
+    "descripcion": "Saber leer el mapa de estrellas dibujado en el cielo para saber guiarse en el mar o en cualquier lugar al aire libre donde se vea el cielo"
+  },
+  {
+    "name": "Meditación",
+    "caracteristica": "I",
+    "carac1": "i",
+    "carac2": "i",
+    "final": "ME",
+    "Monje": 3,
+    "Animista": 3,
+    "Mago": 3,
+    "Hechicero": 3,
+    "Nigromante": 3,
+    "Conjurador": 2,
+    "Mago de Guerra": 2,
+    "Paladín": 3,
+    "Monje Guerrero": 3,
+    "Guerrero": 2,
+    "descripcion": "Entrar, salir y aprovechar los trances meditativos. Puede servir también para soportar dolor y aturdimientos por períodos cortos"
+  },
+  {
+    "name": "Señales",
+    "caracteristica": "I/INT",
+    "carac1": "int",
+    "carac2": "i",
+    "final": "ME",
+    "descripcion": "Se usa en cualquier forma de comunicación por medio de señales diversas (lenguaje de signos con las manos, señales de humo, etc)"
+  },
+  {
+    "name": "Actividades con Animales",
+    "caracteristica": "i/pre",
+    "carac1": "i",
+    "carac2": "pre",
+    "final": "ME",
+    "Montaraz": 2,
+    "Explorador": 1,
+    "Rastreador cazador": 3,
+    "descripcion": "Doma de Animales, manejar manadas y rebaños, pastorear animales, etc."
+  },
+  {
+    "name": "Apostar-Jugar",
+    "caracteristica": "I",
+    "carac1": "i",
+    "carac2": "i",
+    "final": "ME",
+    "Diplomático": 3,
+    "Bardo": 1,
+    "descripcion": "Se usa para practicar cualquier juego en donde la suerte sea un factor importante"
+  },
+  {
+    "name": "Leer los Labios",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "descripcion": "Permite leer los labios de una persona si se sabe el idioma. Si está muy lejos se requerirá un tirada de Percepción previa"
+  },
+  {
+    "name": "Inventar Pociones (sólo Alquimista)",
+    "caracteristica": "I",
+    "carac1": "i",
+    "carac2": "i",
+    "final": "ME",
+    "Alquimista": 4,
+    "descripcion": "Inventar hipoteticamente pociones diversas (antídotos, mejoramiento físico, etc) a base de hierbas, líquidos u otros componentes"
+  },
+  {
+    "name": "Preparar Pociones",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Alquimista": 4,
+    "descripcion": "Crear las Pociones que se han desarrollado en la teoría y que el alquimista conoce"
+  },
+  {
+    "name": "Inventar Artefactos (sólo Ingeniero)",
+    "caracteristica": "INT",
+    "carac1": "int",
+    "carac2": "int",
+    "final": "ME",
+    "Ingeniero": 4,
+    "descripcion": "La capacidad de inventar artefactos diversos en teoría inexistentes a base de la inventiva y los de materiales que se disponga"
+  },
+  {
+    "name": "Cambiar de Forma (sólo Beórnida)",
+    "caracteristica": "I",
+    "carac1": "i",
+    "carac2": "i",
+    "final": "ME",
+    "descripcion": "Permite al jugador transformarse en Oso. Sólo los Beórnidas Waildanbair poseen esta habilidad"
+  },
+  {
+    "name": "Ocultar Rastro",
+    "caracteristica": "INT/I",
+    "carac1": "int",
+    "carac2": "i",
+    "Rastreador cazador": 3,
+    "Acechador asesino": 2,
+    "final": "ME",
+    "descripcion": "Util para no ser rastreado"
+
+  }
+]

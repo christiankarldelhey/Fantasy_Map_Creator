@@ -1,0 +1,16 @@
+{
+  "A. Preparar Hechizo": [],
+  "B. Realizar hechizo": ["Hechizos básicos", "Hechizos dirigidos"],
+  "C. Atacar con proyectiles": ["Ballesta", "Arco", "Proyectiles"],
+  "D. Cargar proyectil": [],
+  "E. Parar ataque con proyectiles": [],
+  "F. Maniobra movimiento MM": ["Trepar", "Nadar", "Montar", "Acechar-Sigilo", "Contorsionismo", "Desarmar", "Acrobacia", "Funambulismo-Equilibrio (acrobática)", "Esquiar", "Patinar", "Esprintar-Correr", "Carreras de Caballos", "Manejar-Correr Carros", "Navegar Embarcaciones", "Escalar", "Bailar", "Combate Borracho", "Combate a Ciegas", "Conocimiento de caza"],
+  "F. Accion Montado": ["Montar"],
+  "G. Ataque cuerpo a cuerpo": ["Espada a Una Mano", "Hacha a Una Mano", "Contundente a Una Mano", "Espada a Dos Manos", "Hacha a Dos Manos", "Contundente a Dos Manos", "Arma de Asta", "Arrojadiza de Asta", "Red", "Látigo", "Golpear", "Barrer-placar", "Combate sin Armas Normal"],
+  "H. Movimiento": [],
+  "I. Maniobra Estática ME": ["Primeros Auxilios", "Rastrear", "Orientación", "Forrajear", "Cocinar-Preparar", "Esconderse", "Abrir Cerraduras", "Desactivar Trampas", "Maña", "Leer Runas", "Usar Objetos", "Liderazgo", "Oratoria-Persuasión", "Seducción", "Comerciar", "Identificar Objetos Mágicos", "Criaturas Especiales", "Leyendas de Historial", "Hierbas, Plantas y Venenos", "Percepción", "Malabarismo", "Trabajar Cuero-Pieles", "Tallar-Trabajar Madera, Carpintería", "Tallar-Trabajar Metales, Herrería", "Tallar-Trabajar Piedra", "Tallar-Trabajar Hueso", "Orfebrería", "Construir Trampas", "Construir Flechas", "Construir Embarcaciones", "Construir Carros", "Construir Maquinarias (sólo Ingeniero)", "Construir Artefactos (sólo Ingeniero)", "Construir Refugios", "Coser-Hilar-Tejer-Bordar", "Trabajar la Tierra-Agricultura", "Tocar un Instrumento", "Escribir Música", "Cantar", "Pintura", "Escribir-Recitar Poesía", "Tallar Esculturas", "Tatuajes", "Actuar", "Contar Historias-Leyendas", "Leer Mapas", "Astrología", "Conocimiento de los Caballos", "Conocimiento de Enfermedades", "Conocimiento de Religión Oscura", "Historia de Cultura", "Pictografía", "Caligrafía", "Botánica", "Conocimiento y preparacion de venenos", "Zoología", "Geología", "Metalurgia", "Geografía", "Historia de Tierra Media", "Teología", "Psicología - Sociología", "Tácticas Militares", "Conocimiento de Armas", "Entretenimiento", "Hablar en Público", "Interrogación", "Soborno", "Intimidación", "Manipulación", "Extorsión", "Conocimiento del Clima", "Camuflarse-Disfraces", "Encontrar Refugios", "Hacer Fuego", "Pescar", "Conocimientos de Caza", "Cordelería", "Conocimiento de Huellas", "Guiarse por las Estrellas", "Meditación", "Señales", "Actividades con Animales", "Apostar-Jugar", "Leer los Labios", "Inventar Pociones (sólo Alquimista)", "Preparar Pociones", "Inventar Artefactos (sólo Ingeniero)", "Cambiar de Forma (sólo Beórnida)", "Ocultar Rastro", "Conocimiento de las Cuevas", "Conocimiento de las Nieves", "Conocimiento de las Montañas", "Conocimiento de las Aguas", "Conocimiento de Estepas", "Conocimiento de Desiertos", "Conocimiento de los Bosques"],
+  "J. Dormir": [],
+  "J. Despertar": ["Sueño insuficiente", "Sueño normal", "Sueño reparador"],
+  "K. Comer/Beber": ["Comer 1 racion", "Beber 1 racion", "Comer y beber 1 racion"],
+  "L. Sufrir un critico": []
+}

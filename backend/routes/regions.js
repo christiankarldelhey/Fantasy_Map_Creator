@@ -12,19 +12,21 @@ router.get('/', async (req, res, next) => {
         'features', COALESCE(json_agg(
           json_build_object(
             'type', 'Feature',
-            'id', id,
-            'geometry', ST_AsGeoJSON(geom)::json,
+            'id', r.id,
+            'geometry', ST_AsGeoJSON(r.geom)::json,
             'properties', json_build_object(
-              'id', id,
-              'name', name,
-              'description', description,
-              'kingdom', allegiance
+              'id', r.id,
+              'name', r.name,
+              'description', r.description,
+              'kingdom', k.name,
+              'allegiance', r.allegiance
             )
           )
         ), '[]'::json)
       ) as geojson
-      FROM regions
-      WHERE geom IS NOT NULL;
+      FROM regions r
+      LEFT JOIN kingdoms k ON r.kingdom_id = k.id
+      WHERE r.geom IS NOT NULL;
     `;
 
     const result = await pool.query(query);
