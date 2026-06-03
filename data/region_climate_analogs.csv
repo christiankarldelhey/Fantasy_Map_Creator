@@ -1,0 +1,89 @@
+region_id,region_name,kingdom_id,kingdom_name,analog_location,lat,lon,koppen
+79,Andrast,10,Gondor,"Cape Finisterre, Galicia, Spain",42.88,-9.27,Cfb-coastal
+13,Anfalas,10,Gondor,"Languedoc coast, Hérault, France",43.4,3.7,Csa
+46,Angmar,21,Angmar,"Jotunheimen valley, Norway",61.6,9.0,Dfc
+7,Anorien,10,Gondor,"Umbria interior, Perugia, Italy",43.1,12.39,Csa-Csb
+64,Apariach,24,Forlindon,"Donegal, NW Ireland",54.65,-8.11,Cfc
+28,Ardolyalinya,26,Harlindon,"Kerry, SW Ireland",51.97,-9.52,Cfb-Cfc
+33,Ardquetto,26,Harlindon,"West Cork, Ireland",51.67,-9.46,Cfb-Cfc
+49,Ascahiriand,24,Forlindon,"Donegal, NW Ireland",54.65,-8.11,Cfc
+29,Belegaer sea,29,Belegaer Sea,Atlantic Ocean (skip),,,ocean
+86,Bree,6,Arthedain,"Cotswolds, Gloucestershire, England",51.83,-1.82,Cfb
+52,Celanoriand,24,Forlindon,"Sligo, W Ireland",54.27,-8.47,Cfc
+35,Central Anduin,33,Anduin Vales,"Wachau, Lower Austria",48.37,15.43,Dfb
+39,Central Misty Mountains,8,Misty Mountains,"Gotthard Pass, Switzerland",46.55,8.57,ET-mountain
+45,Coldfells,35,Rhudaur,"Yorkshire Dales, N England",54.22,-2.15,Cfb-cold
+8,Dagorlad,14,Dagorlad,"Cappadocia, Nevşehir, Turkey",38.65,34.83,Dfb-dry
+25,Dale,16,Dale,"Nowy Targ, Lesser Poland, Poland",49.48,20.03,Dfb
+83,Dor Guldur,19,Dor Guldur,"Polesie, Belarus/Ukraine border",52.1,27.5,Dfb
+6,Dor Rhunen,10,Gondor,"Extremadura, Cáceres, Spain",39.47,-6.37,Csa
+20,Dor-en-Emyl,10,Gondor,"Alentejo, Portugal",38.57,-7.9,Csa
+87,Dorwinion,12,Dorwinion,"Sea of Azov coast, Ukraine",46.85,38.0,BSk-Dfb
+9,Druadan Forest,5,Druadan Forest,"Maremma Toscana, Grosseto, Italy",42.75,11.1,Csb
+77,Druwaith Laur,10,Gondor,"Pembrokeshire, SW Wales",51.68,-4.91,Cfb
+72,Dunland,11,Dunland,"Powys, mid-Wales",52.33,-3.52,Cfb-Dfb
+42,En Egladil,7,Lorien,"Białowieża Forest, Poland",52.7,23.86,Cfb
+50,En Udanoriath,6,Arthedain,"Northumberland, England",55.25,-2.1,Cfb-cold
+21,Enedhwaith,30,Enedhwaith,"Ceredigion, mid-Wales",52.22,-3.94,Cfb
+1,Eothraim,18,Eothraim,"Poltava Oblast, Ukraine (steppe)",49.6,34.55,BSk
+27,Ered Luin (Forlindon),24,Forlindon,"Donegal Highlands, Ireland",54.9,-8.3,Cfc
+47,Ered Luin,24,Forlindon,"Donegal Highlands, Ireland",54.9,-8.3,Cfc
+27,Ered Luin,26,Harlindon,"Connemara, Galway, Ireland",53.54,-9.8,Cfb
+34,Ered Luin Vales,26,Harlindon,"Connemara Highlands, Ireland",53.47,-9.95,Cfb
+70,Eregion,34,Cardolan,"Eifel, Rhineland, Germany",50.37,6.65,Cfb
+10,Esgaroth,25,Esgaroth,"Lake Balaton north shore, Hungary",46.92,17.9,Dfb
+44,Ettenmoors,35,Rhudaur,"North Pennines, England",54.8,-2.3,Cfb-cold
+56,Evendim Hills,6,Arthedain,"Loch Lomond, Scotland",56.1,-4.6,Cfb
+82,Fangorn,3,Fangorn,"Bayerischer Wald, Bavaria, Germany",49.05,13.35,Cfb-Dfb
+75,Forithilien,10,Gondor,"Val d'Orcia, Tuscany, Italy",43.05,11.6,Csb
+57,Fornost,6,Arthedain,"Northumberland, England",55.5,-2.0,Cfb-cold
+73,Forochel,36,Forochel,"Finnmark coast, Norway",70.66,25.1,Dfc-cold
+66,Forovirian,22,Forovirian,"Gällivare, Lapland, Sweden",67.13,20.66,Dfc
+2,Gramuz,17,Gramuz,"Prešov, Slovakia",49.0,21.24,Dfb
+78,Hairavercien,10,Gondor,"Abruzzo, Italy",42.35,13.5,Csa-Csb
+18,Harithilien,10,Gondor,"Gard, Provence, France",43.95,4.4,Csb
+12,Harondor,10,Gondor,"Almería, Cabo de Gata, Spain",36.77,-2.19,BSh
+24,Iron Hills,9,Iron Hills,"Chelyabinsk Oblast, Ural, Russia",54.7,61.4,Dfc
+30,Lairiardhon,26,Harlindon,"Clare, W Ireland",52.85,-9.0,Cfb
+19,Lamedon,10,Gondor,"Cilento, Campania, Italy",40.22,15.3,Csa
+11,Lebennin,10,Gondor,"Emilia-Romagna Adriatic coast, Italy",44.35,12.35,Csa
+31,Lildardhon,26,Harlindon,"Galway Bay coast, Ireland",53.27,-9.05,Cfb
+81,Lone-lands,35,Rhudaur,"North Yorkshire Moors, England",54.36,-0.8,Cfb
+84,Lorien,7,Lorien,"Białowieża Forest, Poland",52.7,23.86,Cfb
+51,Mänoriand,24,Forlindon,"Donegal, NW Ireland",54.65,-8.11,Cfc
+16,Minhiriath,34,Cardolan,"Morbihan, Brittany, France",47.65,-2.76,Cfb
+60,Mintyrnath,34,Cardolan,"Poitou-Charentes, France",46.58,-0.34,Cfb
+3,Mirkwood Wilds,27,Mirkwood Wilds,"Bieszczady, Poland/Ukraine",49.2,22.5,Dfb
+74,Mordor,2,Mordor,"Doğubayazıt, Eastern Anatolia, Turkey",39.55,44.08,BWh
+71,Moria,20,Moria,"Postojna Caves, Slovenia",45.78,14.2,cave
+38,Nan Anduin,33,Anduin Vales,"Morava valley, Czech Republic",49.2,17.0,Dfb
+68,North Misty Mountains,8,Misty Mountains,"Jotunheimen, Norway",61.6,8.3,ET-mountain
+48,Numeriador,24,Forlindon,"Letterkenny, Donegal, Ireland",54.95,-7.74,Cfc
+76,Nurn,28,Nurn,"Lake Urmia basin, NW Iran",37.5,45.5,BSh-BSk
+58,Old Forest,4,Old Forest,"New Forest, Hampshire, England",50.87,-1.6,Cfb
+5,Parth Celebrant,37,Wilderness of Arnor,"Zlín region, Moravia, Czech Republic",49.22,17.67,Dfb
+55,Rammas Formen,6,Arthedain,"Galloway, SW Scotland",54.9,-4.0,Cfb
+17,Rast Vorn,15,Rast Vorn,"Cabo Fisterra, Galicia, Spain",42.88,-9.27,Cfb-coastal
+80,Rivendell,31,Rivendell,"Engadine Valley, Switzerland",46.5,9.83,Cfb-mountain
+62,Rohan,32,Rohan,"Hortobágy, Hungary",47.6,21.0,Dfb
+26,Ronalindon,26,Harlindon,"Connemara, Galway, Ireland",53.54,-9.8,Cfb
+36,Ronen-in-Anduin,33,Anduin Vales,"Zlín region, Moravia, Czech Republic",49.22,17.67,Dfb
+53,Sandariand,24,Forlindon,"Erris, Mayo, W Ireland",54.13,-9.9,Cfc
+15,South Arthedain,6,Arthedain,"Cotswolds, Gloucestershire, England",51.83,-1.82,Cfb
+59,South Downs,34,Cardolan,"South Downs, Hampshire, England",51.0,-1.0,Cfb
+32,South Harlindon,26,Harlindon,"West Cornwall, England",50.12,-5.54,Cfb-Cfc
+54,Talath Muil,6,Arthedain,"Yorkshire Moors, England",54.36,-0.8,Cfb
+67,Talath Uichel,1,Talath Uichel,"Inari, Lapland, Finland",68.9,27.01,ET-Dfc
+85,The Shire,6,Arthedain,"Cotswolds, Gloucestershire, England",51.83,-1.82,Cfb
+22,Tol Fuin,24,Forlindon,"Aran Islands, W Ireland",53.12,-9.67,Cfc-coastal
+23,Tolfalas,10,Gondor,"Gargano Peninsula, Puglia, Italy",41.85,16.0,Csa
+40,Tower Hills,26,Harlindon,"Clare/Burren, W Ireland",53.12,-9.06,Cfb
+43,Trollshaws,35,Rhudaur,"NE Bohemia, Czech Republic",50.77,15.05,Cfb-Dfb
+65,Vinyalas,24,Forlindon,"Inishowen, Donegal, Ireland",55.24,-7.1,Cfc
+61,Weather Hills,6,Arthedain,"Peak District, Derbyshire, England",53.37,-1.8,Cfb
+41,West Rhudaur,35,Rhudaur,"NE Bohemia, Czech Republic",50.77,15.05,Cfb-Dfb
+14,Westmarch,10,Gondor,"Costa Brava, Girona, Spain",41.98,3.21,Csa
+69,Wilderness of Arnor,37,Wilderness of Arnor,"Scottish Borders, Scotland",55.55,-2.8,Cfb-cold
+63,Wold,32,Rohan,"Dobruja, Romania/Bulgaria",44.2,28.6,BSk
+4,Woodland Realm,13,Woodland Realm,"Bieszczady Forest, Poland/Ukraine",49.2,22.5,Dfb
+37,Woodmen,23,Woodmen,"Beskydy, Moravia, Czech Republic",49.55,18.2,Dfb
