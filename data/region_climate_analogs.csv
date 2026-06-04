@@ -9,7 +9,7 @@ region_id,region_name,kingdom_id,kingdom_name,analog_location,lat,lon,koppen
 49,Ascahiriand,24,Forlindon,"Donegal, NW Ireland",54.65,-8.11,Cfc
 29,Belegaer sea,29,Belegaer Sea,Atlantic Ocean (skip),,,ocean
 86,Bree,6,Arthedain,"Cotswolds, Gloucestershire, England",51.83,-1.82,Cfb
-52,Celanoriand,24,Forlindon,"Sligo, W Ireland",54.27,-8.47,Cfc
+52,Celanoriand,24,Forlindon,"Bergen, Norway",60.39,5.32,Cfc
 35,Central Anduin,33,Anduin Vales,"Wachau, Lower Austria",48.37,15.43,Dfb
 39,Central Misty Mountains,8,Misty Mountains,"Gotthard Pass, Switzerland",46.55,8.57,ET-mountain
 45,Coldfells,35,Rhudaur,"Yorkshire Dales, N England",54.22,-2.15,Cfb-cold
@@ -26,9 +26,9 @@ region_id,region_name,kingdom_id,kingdom_name,analog_location,lat,lon,koppen
 50,En Udanoriath,6,Arthedain,"Northumberland, England",55.25,-2.1,Cfb-cold
 21,Enedhwaith,30,Enedhwaith,"Ceredigion, mid-Wales",52.22,-3.94,Cfb
 1,Eothraim,18,Eothraim,"Poltava Oblast, Ukraine (steppe)",49.6,34.55,BSk
-27,Ered Luin (Forlindon),24,Forlindon,"Donegal Highlands, Ireland",54.9,-8.3,Cfc
-47,Ered Luin,24,Forlindon,"Donegal Highlands, Ireland",54.9,-8.3,Cfc
-27,Ered Luin,26,Harlindon,"Connemara, Galway, Ireland",53.54,-9.8,Cfb
+27,Ered Luin (Forlindon),24,Forlindon,"Hardangervidda, Norway",60.15,7.3,ET-mountain
+47,Ered Luin,24,Forlindon,"Hardangervidda, Norway",60.15,7.3,ET-mountain
+27,Ered Luin,26,Harlindon,"Voss, Norway",60.63,6.42,Dfc
 34,Ered Luin Vales,26,Harlindon,"Connemara Highlands, Ireland",53.47,-9.95,Cfb
 70,Eregion,34,Cardolan,"Eifel, Rhineland, Germany",50.37,6.65,Cfb
 10,Esgaroth,25,Esgaroth,"Lake Balaton north shore, Hungary",46.92,17.9,Dfb
@@ -72,10 +72,10 @@ region_id,region_name,kingdom_id,kingdom_name,analog_location,lat,lon,koppen
 15,South Arthedain,6,Arthedain,"Cotswolds, Gloucestershire, England",51.83,-1.82,Cfb
 59,South Downs,34,Cardolan,"South Downs, Hampshire, England",51.0,-1.0,Cfb
 32,South Harlindon,26,Harlindon,"West Cornwall, England",50.12,-5.54,Cfb-Cfc
-54,Talath Muil,6,Arthedain,"Yorkshire Moors, England",54.36,-0.8,Cfb
+54,Talath Muil,6,Arthedain,"Cairngorms National Park, Scotland",57.16,-3.83,Cfc
 67,Talath Uichel,1,Talath Uichel,"Inari, Lapland, Finland",68.9,27.01,ET-Dfc
 85,The Shire,6,Arthedain,"Cotswolds, Gloucestershire, England",51.83,-1.82,Cfb
-22,Tol Fuin,24,Forlindon,"Aran Islands, W Ireland",53.12,-9.67,Cfc-coastal
+22,Tol Fuin,24,Forlindon,"Lerwick, Shetland Islands, Scotland",60.15,-1.15,Cfc
 23,Tolfalas,10,Gondor,"Gargano Peninsula, Puglia, Italy",41.85,16.0,Csa
 40,Tower Hills,26,Harlindon,"Clare/Burren, W Ireland",53.12,-9.06,Cfb
 43,Trollshaws,35,Rhudaur,"NE Bohemia, Czech Republic",50.77,15.05,Cfb-Dfb

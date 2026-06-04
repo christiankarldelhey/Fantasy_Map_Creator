@@ -14,7 +14,7 @@ from pathlib import Path
 YEAR = 1950
 START_DATE = f"{YEAR}-01-01"
 END_DATE   = f"{YEAR}-12-31"
-OUTPUT_DIR = Path("climate_data")
+OUTPUT_DIR = Path("data/climate_data")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 HOURLY_VARS = [
@@ -45,7 +45,7 @@ REGIONS = [
     (33, "Ardquetto", "Harlindon", 51.67, -9.46),
     (49, "Ascahiriand", "Forlindon", 54.65, -8.11),
     (86, "Bree", "Arthedain", 51.83, -1.82),
-    (52, "Celanoriand", "Forlindon", 54.27, -8.47),
+    (52, "Celanoriand", "Forlindon", 60.39, 5.32),
     (35, "Central Anduin", "Anduin Vales", 48.37, 15.43),
     (39, "Central Misty Mountains", "Misty Mountains", 46.55, 8.57),
     (45, "Coldfells", "Rhudaur", 54.22, -2.15),
@@ -62,8 +62,8 @@ REGIONS = [
     (50, "En Udanoriath", "Arthedain", 55.25, -2.10),
     (21, "Enedhwaith", "Enedhwaith", 52.22, -3.94),
     (1,  "Eothraim", "Eothraim", 49.60, 34.55),
-    (47, "Ered Luin", "Forlindon", 54.90, -8.30),
-    (27, "Ered Luin", "Harlindon", 53.54, -9.80),
+    (47, "Ered Luin", "Forlindon", 60.15, 7.30),
+    (27, "Ered Luin", "Harlindon", 60.63, 6.42),
     (34, "Ered Luin Vales", "Harlindon", 53.47, -9.95),
     (70, "Eregion", "Cardolan", 50.37, 6.65),
     (10, "Esgaroth", "Esgaroth", 46.92, 17.90),
@@ -106,10 +106,10 @@ REGIONS = [
     (15, "South Arthedain", "Arthedain", 51.83, -1.82),
     (59, "South Downs", "Cardolan", 51.00, -1.00),
     (32, "South Harlindon", "Harlindon", 50.12, -5.54),
-    (54, "Talath Muil", "Arthedain", 54.36, -0.80),
+    (54, "Talath Muil", "Arthedain", 57.16, -3.83),
     (67, "Talath Uichel", "Talath Uichel", 68.90, 27.01),
     (85, "The Shire", "Arthedain", 51.83, -1.82),
-    (22, "Tol Fuin", "Forlindon", 53.12, -9.67),
+    (22, "Tol Fuin", "Forlindon", 60.15, -1.15),
     (23, "Tolfalas", "Gondor", 41.85, 16.00),
     (40, "Tower Hills", "Harlindon", 53.12, -9.06),
     (43, "Trollshaws", "Rhudaur", 50.77, 15.05),
