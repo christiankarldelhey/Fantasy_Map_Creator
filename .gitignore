@@ -2,6 +2,12 @@
 Maps/
 # Geojson/  # Commented to allow data/geojson/ to be tracked
 
+# Ignore all data directory (frontend/backend use database, not these files)
+data/
+
+# Ignore scripts directory (utility scripts for data import/migration, not needed to run app)
+scripts/
+
 # Ignore DEM rasters and data cache
 data/*.tif
 data/*.tiff

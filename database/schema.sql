@@ -146,6 +146,9 @@ CREATE TABLE IF NOT EXISTS regions (
     -- Metadata
     created_at TIMESTAMP DEFAULT NOW(),
     
+    -- Encounters
+    encounters JSONB DEFAULT '[]'::jsonb,
+    
     -- GEOMETRY
     geom GEOMETRY(Polygon, 4326) NOT NULL,
     
