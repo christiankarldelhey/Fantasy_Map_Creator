@@ -19,7 +19,7 @@ COMMENT ON COLUMN regions.analog_lon IS 'Longitude of the analog location';
 -- Step 2: Create climate_data table for hourly historical data
 CREATE TABLE IF NOT EXISTS climate_data (
     id SERIAL PRIMARY KEY,
-    region_id INTEGER NOT NULL REFERENCES regions(id) ON DELETE CASCADE,
+    climate_zone_id INTEGER NOT NULL REFERENCES climate_zones(id) ON DELETE CASCADE,
     time TIMESTAMP NOT NULL,
     
     -- Hourly climate variables from ERA5/Open-Meteo
@@ -40,21 +40,21 @@ CREATE TABLE IF NOT EXISTS climate_data (
 );
 
 -- Step 3: Create critical indexes for performance
--- Composite index for region_id + time - most common query pattern
-CREATE INDEX IF NOT EXISTS idx_climate_data_region_time 
-    ON climate_data(region_id, time);
+-- Composite index for climate_zone_id + time - most common query pattern
+CREATE INDEX IF NOT EXISTS idx_climate_data_zone_time 
+    ON climate_data(climate_zone_id, time);
 
--- Index for time-based queries across all regions
+-- Index for time-based queries across all climate zones
 CREATE INDEX IF NOT EXISTS idx_climate_data_time 
     ON climate_data(time);
 
--- Index for individual region queries
-CREATE INDEX IF NOT EXISTS idx_climate_data_region_id 
-    ON climate_data(region_id);
+-- Index for individual climate zone queries
+CREATE INDEX IF NOT EXISTS idx_climate_data_climate_zone_id 
+    ON climate_data(climate_zone_id);
 
 -- Add comments for documentation
-COMMENT ON TABLE climate_data IS 'Hourly historical climate data (ERA5) for Middle Earth regions';
-COMMENT ON COLUMN climate_data.region_id IS 'Foreign key to regions table';
+COMMENT ON TABLE climate_data IS 'Hourly historical climate data (ERA5) for Middle Earth climate zones';
+COMMENT ON COLUMN climate_data.climate_zone_id IS 'Foreign key to climate_zones table';
 COMMENT ON COLUMN climate_data.time IS 'Timestamp of the hourly measurement';
 COMMENT ON COLUMN climate_data.temperature_2m IS 'Temperature at 2 meters above ground (°C)';
 COMMENT ON COLUMN climate_data.relative_humidity_2m IS 'Relative humidity at 2 meters (%)';

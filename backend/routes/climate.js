@@ -23,10 +23,13 @@ router.get('/current', async (req, res, next) => {
       SELECT 
         r.id as region_id,
         r.name as region_name,
-        r.koppen,
-        r.analog_location,
-        r.analog_lat,
-        r.analog_lon,
+        cz.koppen,
+        cz.analog_location,
+        cz.analog_lat,
+        cz.analog_lon,
+        cz."desc" as climate_description,
+        cz.temperature as temperature_pattern,
+        cz.precipitation as precipitation_pattern,
         cd.time,
         cd.temperature_2m,
         cd.relative_humidity_2m,
@@ -40,7 +43,8 @@ router.get('/current', async (req, res, next) => {
         cd.et0_fao_evapotranspiration,
         cd.shortwave_radiation
       FROM regions r
-      LEFT JOIN climate_data cd ON r.id = cd.region_id AND cd.time = $1
+      LEFT JOIN climate_zones cz ON r.climate_zone_id = cz.id
+      LEFT JOIN climate_data cd ON r.climate_zone_id = cd.climate_zone_id AND cd.time = $1
       WHERE r.id = $2
     `;
 
@@ -62,9 +66,19 @@ router.get('/region/:regionId', async (req, res, next) => {
     
     // Obtener metadatos y promedios anuales/mensuales simplificados
     const metadataQuery = `
-      SELECT id as region_id, name as region_name, koppen, analog_location, analog_lat, analog_lon
-      FROM regions
-      WHERE id = $1
+      SELECT 
+        r.id as region_id, 
+        r.name as region_name, 
+        cz.koppen,
+        cz.analog_location,
+        cz.analog_lat,
+        cz.analog_lon,
+        cz."desc" as climate_description,
+        cz.temperature as temperature_pattern,
+        cz.precipitation as precipitation_pattern
+      FROM regions r
+      LEFT JOIN climate_zones cz ON r.climate_zone_id = cz.id
+      WHERE r.id = $1
     `;
     
     const metadataResult = await pool.query(metadataQuery, [regionId]);
@@ -80,7 +94,7 @@ router.get('/region/:regionId', async (req, res, next) => {
         ROUND(SUM(precipitation), 1) as total_precipitation,
         ROUND(AVG(relative_humidity_2m), 1) as avg_humidity
       FROM climate_data
-      WHERE region_id = $1
+      WHERE climate_zone_id = (SELECT climate_zone_id FROM regions WHERE id = $1)
     `;
     
     const averagesResult = await pool.query(averagesQuery, [regionId]);

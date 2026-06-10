@@ -19,7 +19,9 @@ router.get('/', async (req, res, next) => {
               'name', name,
               'type', location_type,
               'region', region,
-              'description', description
+              'description', description,
+              'population', population,
+              'inhabitants', inhabitants
             )
           )
         ), '[]'::json)
@@ -50,7 +52,9 @@ router.get('/:id', async (req, res, next) => {
           'name', name,
           'type', location_type,
           'region', region,
-          'description', description
+          'description', description,
+          'population', population,
+          'inhabitants', inhabitants
         )
       ) as feature
       FROM locations

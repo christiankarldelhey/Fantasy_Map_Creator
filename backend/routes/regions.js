@@ -17,9 +17,15 @@ router.get('/', async (req, res, next) => {
             'properties', json_build_object(
               'id', r.id,
               'name', r.name,
-              'description', r.description,
-              'kingdom', k.name,
-              'allegiance', r.allegiance
+              'description', r.description_text,
+              'land', r.land,
+              'fauna', r.fauna,
+              'flora', r.flora,
+              'notes', r.notes,
+              'people', r.people,
+              'source', r.source,
+              'products', r.products,
+              'kingdom', k.name
             )
           )
         ), '[]'::json)

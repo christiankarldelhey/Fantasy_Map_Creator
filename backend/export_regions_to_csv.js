@@ -21,10 +21,9 @@ async function exportRegionsToCSV() {
         name,
         region_type,
         kingdom_id,
-        allegiance,
-        biome,
-        climate,
-        description,
+        description_text,
+        notes,
+        products,
         area_km2,
         created_at
       FROM regions

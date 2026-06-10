@@ -22,15 +22,13 @@ export function useMapEvents() {
       let locationHTML = ''
       if (locationFeature) {
         const locProps = locationFeature.properties
-        const imgHTML = locProps?.image || locProps?.image_url 
-          ? `<img src="${locProps.image || locProps.image_url}" class="w-full h-28 object-cover rounded-md mt-2 mb-1 shadow-sm border border-gray-100" alt="${locProps.name}" />`
-          : ''
         locationHTML = `
           <div class="mb-3 pb-3 border-b border-gray-100">
             <h3 class="font-bold text-lg text-rose-600 leading-tight">${locProps?.name || 'Unknown Location'}</h3>
             <p class="text-xs text-rose-500 font-semibold mt-0.5">${locProps?.type ? locProps.type.replace('_', ' ') : 'point'}</p>
-            ${imgHTML}
             ${locProps?.description ? `<p class="text-xs mt-1 text-gray-600 leading-normal">${locProps.description}</p>` : ''}
+            ${locProps?.population ? `<p class="text-xs mt-1 text-gray-600"><span class="font-semibold">Population:</span> ${locProps.population}</p>` : ''}
+            ${locProps?.inhabitants ? `<p class="text-xs mt-1 text-gray-600"><span class="font-semibold">Inhabitants:</span> ${locProps.inhabitants}</p>` : ''}
           </div>
         `
       }
@@ -93,13 +91,46 @@ export function useMapEvents() {
       if (regionFeature) {
         const regProps = regionFeature.properties
         const kingdomLabel = regProps?.kingdom ? ` (${regProps.kingdom})` : ''
-        regionHTML = `
-          <div class="mt-3 pt-2.5 border-t border-gray-100">
-            <span class="text-[10px] uppercase tracking-wider text-gray-400 font-bold block">Political Region</span>
-            <p class="text-xs text-teal-700 font-semibold mt-0.5">${regProps?.name || 'Unknown Region'}<span class="text-gray-500 font-normal">${kingdomLabel}</span></p>
-            ${regProps?.description ? `<p class="text-[11px] mt-1 text-gray-500 leading-snug">${regProps.description}</p>` : ''}
-          </div>
-        `
+        
+        // If clicking on a location, only show region name, not full description
+        if (locationFeature) {
+          regionHTML = `
+            <div class="mt-3 pt-2.5 border-t border-gray-100">
+              <span class="text-[10px] uppercase tracking-wider text-gray-400 font-bold block">Political Region</span>
+              <p class="text-xs text-teal-700 font-semibold mt-0.5">${regProps?.name || 'Unknown Region'}<span class="text-gray-500 font-normal">${kingdomLabel}</span></p>
+            </div>
+          `
+        } else {
+          // If not clicking on a location, show full region details
+          // Parse description if it's a JSON string
+          let descObj = null
+          if (regProps?.description) {
+            try {
+              descObj = typeof regProps.description === 'string' 
+                ? JSON.parse(regProps.description) 
+                : regProps.description
+            } catch (e) {
+              // If it's not JSON, treat as plain text
+            }
+          }
+          
+          // Extract specific fields from description
+          const nestedDescription = descObj?.description || ''
+          const population = descObj?.population || ''
+          const products = descObj?.products || ''
+          const politicalOrganization = descObj?.political_organization || ''
+          
+          regionHTML = `
+            <div class="mt-3 pt-2.5 border-t border-gray-100">
+              <span class="text-[10px] uppercase tracking-wider text-gray-400 font-bold block">Political Region</span>
+              <p class="text-xs text-teal-700 font-semibold mt-0.5">${regProps?.name || 'Unknown Region'}<span class="text-gray-500 font-normal">${kingdomLabel}</span></p>
+              ${nestedDescription ? `<p class="text-[11px] mt-1 text-gray-500 leading-snug">${nestedDescription}</p>` : ''}
+              ${population ? `<p class="text-[11px] mt-1 text-gray-500"><span class="font-semibold">Population:</span> ${population}</p>` : ''}
+              ${products ? `<p class="text-[11px] mt-1 text-gray-500"><span class="font-semibold">Products:</span> ${products}</p>` : ''}
+              ${politicalOrganization ? `<p class="text-[11px] mt-1 text-gray-500"><span class="font-semibold">Political Organization:</span> ${politicalOrganization}</p>` : ''}
+            </div>
+          `
+        }
 
         // Climate placeholder
         climateHTML = `

@@ -18,11 +18,11 @@ CREATE TABLE IF NOT EXISTS locations (
     
     -- Basic information
     name VARCHAR(255) NOT NULL,
-    location_type VARCHAR(100),  -- 'city', 'castle', 'town', 'mansion', 'fortress', 'ruins'
+    location_type VARCHAR(100),  -- Normalized lowercase: 'town', 'village', 'manor', 'ruins', 'castle', 'city', 'fortress', 'point of interest', 'fortified town', 'watchtower', etc.
     
     -- Demographics
     population INTEGER,
-    race VARCHAR(100),  -- 'Hobbits', 'Dunedain', 'Northmen', etc.
+    inhabitants TEXT,  -- Text description of inhabitants
     
     -- Description
     description TEXT,
@@ -131,14 +131,19 @@ CREATE TABLE IF NOT EXISTS regions (
     
     -- Political information
     kingdom_id INTEGER REFERENCES kingdoms(id),
-    allegiance VARCHAR(100),  -- 'Free Peoples', 'Mordor', 'Neutral'
     
-    -- Geographic information
-    biome VARCHAR(50),  -- 'forest', 'plains', 'mountain', 'swamp', 'desert'
-    climate VARCHAR(50),  -- 'temperate', 'cold', 'warm', 'mediterranean'
+    -- Climate information
+    climate_zone_id INTEGER REFERENCES climate_zones(id) ON DELETE SET NULL UNIQUE,
     
-    -- Description
-    description TEXT,
+    -- Description fields (flattened from JSONB)
+    land JSONB,  -- Array of land features
+    fauna JSONB,  -- Fauna information
+    flora JSONB,  -- Flora information
+    notes TEXT,  -- General notes
+    people JSONB,  -- People information
+    source JSONB,  -- Source references (supplement, supplement_code)
+    products TEXT,  -- Products/resources
+    description_text TEXT,  -- Main description text
     
     -- Statistics
     area_km2 DECIMAL,  -- Will be calculated with ST_Area
@@ -163,7 +168,6 @@ CREATE INDEX IF NOT EXISTS idx_regions_geom ON regions USING GIST(geom);
 
 -- Additional indexes
 CREATE INDEX IF NOT EXISTS idx_regions_type ON regions(region_type);
-CREATE INDEX IF NOT EXISTS idx_regions_biome ON regions(biome);
 CREATE INDEX IF NOT EXISTS idx_regions_kingdom_id ON regions(kingdom_id);
 
 COMMENT ON TABLE regions IS 'Regions, kingdoms and biomes of Middle Earth';
@@ -208,57 +212,59 @@ COMMENT ON COLUMN biomes.type IS 'Biome category: forest, hills, marsh, mountain
 COMMENT ON COLUMN biomes.description IS 'NULL for standard biomes, text for specific named locations';
 
 -- ============================================================================
--- Table: climate_zones (for future climate system)
--- Purpose: European climate zones to map to Middle Earth
+-- Table: climate_zones
+-- Purpose: Climate zones extracted from regions with normalized structure
 -- ============================================================================
 
 CREATE TABLE IF NOT EXISTS climate_zones (
     id SERIAL PRIMARY KEY,
-    
-    -- Geographic information
-    region_name VARCHAR(255),  -- 'Northern Europe', 'Mediterranean', etc.
-    climate_type VARCHAR(50),  -- 'oceanic', 'continental', 'mediterranean', 'alpine'
-    
-    -- Coordinate ranges
-    latitude_min DECIMAL,
-    latitude_max DECIMAL,
-    longitude_min DECIMAL,
-    longitude_max DECIMAL,
-    
-    -- Geometry (zone polygon)
-    geom GEOMETRY(Polygon, 4326),
-    
-    CONSTRAINT valid_climate_geom CHECK (ST_IsValid(geom))
+    "desc" TEXT,
+    temperature TEXT,
+    precipitation TEXT,
+    koppen VARCHAR(50),
+    analog_location VARCHAR(255),
+    analog_lat DECIMAL,
+    analog_lon DECIMAL,
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS idx_climate_zones_geom ON climate_zones USING GIST(geom);
+-- Indexes for performance
+CREATE INDEX IF NOT EXISTS idx_climate_zones_koppen ON climate_zones(koppen);
+CREATE INDEX IF NOT EXISTS idx_climate_zones_analog_location ON climate_zones(analog_location);
+
+COMMENT ON TABLE climate_zones IS 'Climate zones with 1-to-1 relationship to regions';
+COMMENT ON COLUMN climate_zones."desc" IS 'Combined description and notes from original climate data';
+COMMENT ON COLUMN climate_zones.temperature IS 'Temperature pattern (converted from °F to °C)';
+COMMENT ON COLUMN climate_zones.precipitation IS 'Precipitation pattern (converted from inches to mm)';
+COMMENT ON COLUMN climate_zones.koppen IS 'Köppen climate classification code';
+COMMENT ON COLUMN climate_zones.analog_location IS 'Real-world location with similar climate';
+COMMENT ON COLUMN climate_zones.analog_lat IS 'Latitude of the analog location';
+COMMENT ON COLUMN climate_zones.analog_lon IS 'Longitude of the analog location';
 
 -- ============================================================================
--- Table: monthly_climate_averages (for future climate system)
--- Purpose: Store monthly climate data
+-- Table: encounters
+-- Purpose: Store normalized encounter types (creatures, dangers, NPCs, etc.)
 -- ============================================================================
 
-CREATE TABLE IF NOT EXISTS monthly_climate_averages (
-    id SERIAL PRIMARY KEY,
-    climate_zone_id INTEGER REFERENCES climate_zones(id),
-    
-    -- Month (1-12)
-    month INTEGER CHECK (month BETWEEN 1 AND 12),
-    
-    -- Climate averages
-    avg_temp_max DECIMAL,  -- °C
-    avg_temp_min DECIMAL,  -- °C
-    avg_precipitation DECIMAL,  -- mm
-    avg_humidity INTEGER,  -- %
-    avg_wind_speed DECIMAL,  -- km/h
-    
-    -- Typical description
-    typical_weather VARCHAR(100),  -- 'Sunny', 'Rainy', 'Cloudy', 'Snowy'
-    
-    UNIQUE(climate_zone_id, month)
+CREATE TABLE IF NOT EXISTS encounters (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) UNIQUE NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    probability_by_region JSONB DEFAULT '[]'::jsonb,
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS idx_climate_month ON monthly_climate_averages(climate_zone_id, month);
+CREATE INDEX IF NOT EXISTS idx_encounters_slug ON encounters(slug);
+CREATE INDEX IF NOT EXISTS idx_encounters_category ON encounters(category);
+CREATE INDEX IF NOT EXISTS idx_encounters_name ON encounters(name);
+
+COMMENT ON TABLE encounters IS 'Normalized encounter types (creatures, dangers, NPCs, etc.)';
+COMMENT ON COLUMN encounters.id IS 'UUID primary key';
+COMMENT ON COLUMN encounters.name IS 'Display name of the encounter';
+COMMENT ON COLUMN encounters.slug IS 'URL-friendly unique identifier';
+COMMENT ON COLUMN encounters.category IS 'Category (e.g., Animals, Inanimate_Dangers, Men, Orcs_Half_Orcs)';
+COMMENT ON COLUMN encounters.probability_by_region IS 'Array of {region, probability} objects for each region';
 
 -- ============================================================================
 -- Verification queries

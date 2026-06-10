@@ -5,6 +5,9 @@ export interface CurrentClimateResponse {
   analog_location: string | null
   analog_lat: number | null
   analog_lon: number | null
+  climate_description: string | null
+  temperature_pattern: string | null
+  precipitation_pattern: string | null
   time: string | null
   temperature_2m: number | null
   relative_humidity_2m: number | null
@@ -34,5 +37,8 @@ export interface RegionClimateSummaryResponse {
   analog_location: string | null
   analog_lat: number | null
   analog_lon: number | null
+  climate_description: string | null
+  temperature_pattern: string | null
+  precipitation_pattern: string | null
   stats: ClimateStats
 }
