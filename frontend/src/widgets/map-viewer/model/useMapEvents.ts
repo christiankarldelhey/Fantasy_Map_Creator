@@ -1,7 +1,7 @@
 import type { Map as MapLibreMap } from 'maplibre-gl'
 import maplibregl from 'maplibre-gl'
 import { getElevation } from '@/entities/altitude'
-import { getCurrentClimate } from '@/entities/climate'
+import { getClimateAtPoint } from '@/entities/climate'
 
 export function useMapEvents() {
   const setupClickHandler = (map: MapLibreMap) => {
@@ -87,11 +87,10 @@ export function useMapEvents() {
 
       // 6. Region Details
       let regionHTML = ''
-      let climateHTML = ''
       if (regionFeature) {
         const regProps = regionFeature.properties
         const kingdomLabel = regProps?.kingdom ? ` (${regProps.kingdom})` : ''
-        
+
         // If clicking on a location, only show region name, not full description
         if (locationFeature) {
           regionHTML = `
@@ -106,20 +105,20 @@ export function useMapEvents() {
           let descObj = null
           if (regProps?.description) {
             try {
-              descObj = typeof regProps.description === 'string' 
-                ? JSON.parse(regProps.description) 
+              descObj = typeof regProps.description === 'string'
+                ? JSON.parse(regProps.description)
                 : regProps.description
             } catch (e) {
               // If it's not JSON, treat as plain text
             }
           }
-          
+
           // Extract specific fields from description
           const nestedDescription = descObj?.description || ''
           const population = descObj?.population || ''
           const products = descObj?.products || ''
           const politicalOrganization = descObj?.political_organization || ''
-          
+
           regionHTML = `
             <div class="mt-3 pt-2.5 border-t border-gray-100">
               <span class="text-[10px] uppercase tracking-wider text-gray-400 font-bold block">Political Region</span>
@@ -131,15 +130,15 @@ export function useMapEvents() {
             </div>
           `
         }
-
-        // Climate placeholder
-        climateHTML = `
-          <div id="popup-climate-container" class="mt-2.5 pt-2.5 border-t border-dashed border-gray-100">
-            <span class="text-[10px] uppercase tracking-wider text-teal-500 font-bold block">Regional Climate (1950)</span>
-            <span class="text-xs text-teal-600 italic mt-0.5 block">Loading climate data...</span>
-          </div>
-        `
       }
+
+      // Climate placeholder (always shown, not dependent on region feature)
+      const climateHTML = `
+        <div id="popup-climate-container" class="mt-2.5 pt-2.5 border-t border-dashed border-gray-100">
+          <span class="text-[10px] uppercase tracking-wider text-teal-500 font-bold block">Climate (1950)</span>
+          <span class="text-xs text-teal-600 italic mt-0.5 block">Loading climate data...</span>
+        </div>
+      `
 
       // Initial Render of Popup
       new maplibregl.Popup({ className: 'fantasy-popup' })
@@ -189,64 +188,86 @@ export function useMapEvents() {
       }
 
       // Fetch climate asynchronously and update popup contents
-      if (regionFeature) {
-        const regionId = regionFeature.properties?.id
-        if (regionId) {
-          getCurrentClimate(Number(regionId))
-            .then(response => {
-              const data = response.data
-              const climateContainer = document.getElementById('popup-climate-container')
-              if (climateContainer && data) {
-                const temp = data.temperature_2m !== null ? `${data.temperature_2m}°C` : 'N/A'
-                const humidity = data.relative_humidity_2m !== null ? `${data.relative_humidity_2m}%` : 'N/A'
-                const precip = data.precipitation !== null ? `${data.precipitation} mm` : 'N/A'
-                const wind = data.wind_speed_10m !== null ? `${data.wind_speed_10m} km/h` : 'N/A'
-                const koppenLabel = data.koppen ? ` <span class="bg-teal-50 text-teal-700 text-[10px] font-bold px-1.5 py-0.5 rounded border border-teal-100 ml-1.5" title="Köppen Climate Classification">${data.koppen}</span>` : ''
-                
-                let analogHTML = ''
-                if (data.analog_location) {
-                  analogHTML = `
-                    <p class="text-[10px] text-gray-400 mt-1.5 italic leading-tight">
-                      Analog: ${data.analog_location}
-                    </p>
-                  `
-                }
+      // Use point-based climate API with transition zone detection
+      getClimateAtPoint(lng, lat)
+        .then(response => {
+          const data = response.data
+          const climateContainer = document.getElementById('popup-climate-container')
+          if (climateContainer && data && !data.error) {
+            const temp = data.climate.temperature_2m !== null ? `${data.climate.temperature_2m.toFixed(1)}°C` : 'N/A'
+            const humidity = data.climate.relative_humidity_2m !== null ? `${data.climate.relative_humidity_2m.toFixed(0)}%` : 'N/A'
+            const precip = data.climate.precipitation !== null ? `${data.climate.precipitation.toFixed(2)} mm` : 'N/A'
+            const wind = data.climate.wind_speed_10m !== null ? `${data.climate.wind_speed_10m.toFixed(1)} km/h` : 'N/A'
 
-                climateContainer.innerHTML = `
-                  <div class="flex items-center justify-between">
-                    <span class="text-[10px] uppercase tracking-wider text-teal-500 font-bold">Climate (1950)</span>
-                    ${koppenLabel}
-                  </div>
-                  <div class="grid grid-cols-2 gap-x-3 gap-y-1 mt-1 text-[11px] text-gray-600">
-                    <div class="flex items-center gap-1">
-                      <span class="text-xs">🌡️</span> <span>Temp: <strong>${temp}</strong></span>
-                    </div>
-                    <div class="flex items-center gap-1">
-                      <span class="text-xs">💧</span> <span>Hum: <strong>${humidity}</strong></span>
-                    </div>
-                    <div class="flex items-center gap-1">
-                      <span class="text-xs">🌧️</span> <span>Rain: <strong>${precip}</strong></span>
-                    </div>
-                    <div class="flex items-center gap-1">
-                      <span class="text-xs">💨</span> <span>Wind: <strong>${wind}</strong></span>
-                    </div>
-                  </div>
-                  ${analogHTML}
-                `
-              }
-            })
-            .catch(error => {
-              console.error('Error fetching climate:', error)
-              const climateContainer = document.getElementById('popup-climate-container')
-              if (climateContainer) {
-                climateContainer.innerHTML = `
-                  <span class="text-[10px] uppercase tracking-wider text-teal-500 font-bold block">Climate (1950)</span>
-                  <span class="text-xs text-red-500 italic mt-0.5 block">Failed to load climate data</span>
-                `
-              }
-            })
-        }
-      }
+            // Transition zone indicator
+            let transitionHTML = ''
+            if (data.is_transition_zone) {
+              const distanceLabel = data.transition_distance_km < 1
+                ? `${(data.transition_distance_km * 1000).toFixed(0)}m`
+                : `${data.transition_distance_km.toFixed(1)}km`
+
+              transitionHTML = `
+                <div class="flex items-center gap-1.5 mt-1.5 bg-amber-50 border border-amber-200 rounded px-2 py-1">
+                  <span class="text-xs">🔄</span>
+                  <span class="text-[10px] text-amber-700 font-semibold">Transition Zone</span>
+                  <span class="text-[10px] text-amber-600">(${distanceLabel} from boundary)</span>
+                </div>
+              `
+            }
+
+            // Neighboring regions info
+            let neighborsHTML = ''
+            if (data.is_transition_zone && data.neighboring_regions && data.neighboring_regions.length > 1) {
+              const neighborList = data.neighboring_regions
+                .filter(n => n.region_id !== data.region_id)
+                .map(n => `${n.region_name} (${(n.weight * 100).toFixed(0)}%)`)
+                .join(', ')
+              neighborsHTML = `
+                <p class="text-[10px] text-gray-400 mt-1 italic leading-tight">
+                  Blended with: ${neighborList}
+                </p>
+              `
+            }
+
+            climateContainer.innerHTML = `
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] uppercase tracking-wider text-teal-500 font-bold">Climate (1950)</span>
+                ${data.is_transition_zone ? '<span class="bg-amber-100 text-amber-700 text-[10px] font-bold px-1.5 py-0.5 rounded border border-amber-200">Transition</span>' : ''}
+              </div>
+              <div class="grid grid-cols-2 gap-x-3 gap-y-1 mt-1 text-[11px] text-gray-600">
+                <div class="flex items-center gap-1">
+                  <span class="text-xs">🌡️</span> <span>Temp: <strong>${temp}</strong></span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <span class="text-xs">💧</span> <span>Hum: <strong>${humidity}</strong></span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <span class="text-xs">🌧️</span> <span>Rain: <strong>${precip}</strong></span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <span class="text-xs">💨</span> <span>Wind: <strong>${wind}</strong></span>
+                </div>
+              </div>
+              ${transitionHTML}
+              ${neighborsHTML}
+            `
+          } else if (climateContainer && data?.error) {
+            climateContainer.innerHTML = `
+              <span class="text-[10px] uppercase tracking-wider text-teal-500 font-bold block">Climate (1950)</span>
+              <span class="text-xs text-gray-500 italic mt-0.5 block">${data.error}</span>
+            `
+          }
+        })
+        .catch((error: unknown) => {
+          console.error('Error fetching climate:', error)
+          const climateContainer = document.getElementById('popup-climate-container')
+          if (climateContainer) {
+            climateContainer.innerHTML = `
+              <span class="text-[10px] uppercase tracking-wider text-teal-500 font-bold block">Climate (1950)</span>
+              <span class="text-xs text-red-500 italic mt-0.5 block">Failed to load climate data</span>
+            `
+          }
+        })
     })
   }
 

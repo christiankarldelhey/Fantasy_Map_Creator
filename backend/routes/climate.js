@@ -63,12 +63,12 @@ router.get('/current', async (req, res, next) => {
 router.get('/region/:regionId', async (req, res, next) => {
   try {
     const { regionId } = req.params;
-    
+
     // Obtener metadatos y promedios anuales/mensuales simplificados
     const metadataQuery = `
-      SELECT 
-        r.id as region_id, 
-        r.name as region_name, 
+      SELECT
+        r.id as region_id,
+        r.name as region_name,
         cz.koppen,
         cz.analog_location,
         cz.analog_lat,
@@ -80,14 +80,14 @@ router.get('/region/:regionId', async (req, res, next) => {
       LEFT JOIN climate_zones cz ON r.climate_zone_id = cz.id
       WHERE r.id = $1
     `;
-    
+
     const metadataResult = await pool.query(metadataQuery, [regionId]);
     if (metadataResult.rows.length === 0) {
       return res.status(404).json({ error: 'Region not found' });
     }
 
     const averagesQuery = `
-      SELECT 
+      SELECT
         ROUND(AVG(temperature_2m), 1) as avg_temp,
         ROUND(MAX(temperature_2m), 1) as max_temp,
         ROUND(MIN(temperature_2m), 1) as min_temp,
@@ -96,13 +96,80 @@ router.get('/region/:regionId', async (req, res, next) => {
       FROM climate_data
       WHERE climate_zone_id = (SELECT climate_zone_id FROM regions WHERE id = $1)
     `;
-    
+
     const averagesResult = await pool.query(averagesQuery, [regionId]);
-    
+
     res.json({
       ...metadataResult.rows[0],
       stats: averagesResult.rows[0]
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// GET /api/climate/point - Obtiene datos climáticos en un punto con zonas de transición
+router.get('/point', async (req, res, next) => {
+  try {
+    const { lon, lat, timestamp } = req.query;
+
+    // Validar parámetros requeridos
+    if (!lon || !lat) {
+      return res.status(400).json({ error: 'lon and lat are required' });
+    }
+
+    const lonNum = parseFloat(lon);
+    const latNum = parseFloat(lat);
+
+    if (isNaN(lonNum) || isNaN(latNum)) {
+      return res.status(400).json({ error: 'lon and lat must be valid numbers' });
+    }
+
+    if (lonNum < -180 || lonNum > 180 || latNum < -90 || latNum > 90) {
+      return res.status(400).json({ error: 'lon must be between -180 and 180, lat between -90 and 90' });
+    }
+
+    // Calcular timestamp: usar el proporcionado o mapear fecha actual a 1950
+    let queryTimestamp;
+    if (timestamp) {
+      queryTimestamp = new Date(timestamp);
+      if (isNaN(queryTimestamp.getTime())) {
+        return res.status(400).json({ error: 'Invalid timestamp format' });
+      }
+      // Formatear a YYYY-MM-DD HH:00:00
+      const year = queryTimestamp.getUTCFullYear();
+      const month = String(queryTimestamp.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(queryTimestamp.getUTCDate()).padStart(2, '0');
+      const hour = String(queryTimestamp.getUTCHours()).padStart(2, '0');
+      queryTimestamp = `${year}-${month}-${day} ${hour}:00:00`;
+    } else {
+      // Mapear fecha/hora actual a 1950
+      const now = new Date();
+      const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(now.getUTCDate()).padStart(2, '0');
+      const hour = String(now.getUTCHours()).padStart(2, '0');
+      queryTimestamp = `1950-${month}-${day} ${hour}:00:00`;
+    }
+
+    // Llamar a la función PostGIS de transición
+    const query = `
+      SELECT get_climate_at_point_with_transition($1, $2, $3) as result
+    `;
+
+    const result = await pool.query(query, [lonNum, latNum, queryTimestamp]);
+
+    if (result.rows.length === 0 || !result.rows[0].result) {
+      return res.status(404).json({ error: 'No climate data found for this point' });
+    }
+
+    const climateResult = result.rows[0].result;
+
+    // Verificar si hay error en el resultado
+    if (climateResult.error) {
+      return res.status(404).json(climateResult);
+    }
+
+    res.json(climateResult);
   } catch (error) {
     next(error);
   }

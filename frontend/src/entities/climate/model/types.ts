@@ -42,3 +42,30 @@ export interface RegionClimateSummaryResponse {
   precipitation_pattern: string | null
   stats: ClimateStats
 }
+
+export interface NeighboringRegion {
+  region_id: number
+  region_name: string
+  distance_km: number
+  weight: number
+}
+
+export interface PointClimateData {
+  time: string
+  temperature_2m: number
+  precipitation: number
+  wind_speed_10m: number
+  wind_direction_10m: number
+  relative_humidity_2m: number
+  cloud_cover: number
+}
+
+export interface PointClimateResponse {
+  region_id: number
+  region_name: string
+  is_transition_zone: boolean
+  transition_distance_km: number
+  neighboring_regions?: NeighboringRegion[]
+  climate: PointClimateData
+  error?: string
+}
