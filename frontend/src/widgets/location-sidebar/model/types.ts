@@ -29,6 +29,8 @@ export interface LocationDetails {
     humidity: number
     precipitation: number
     wind: number
+    cloudCover?: number
+    time?: string
     isTransitionZone?: boolean
     transitionDistanceKm?: number
     neighboringRegions?: Array<{

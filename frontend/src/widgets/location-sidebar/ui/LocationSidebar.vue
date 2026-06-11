@@ -23,8 +23,25 @@
             <span v-if="location.region.kingdom" class="text-gray-500 font-normal"> ({{ location.region.kingdom }})</span>
         </p>
       </div>
-        <div>
-          test
+        <div v-if="climateIcon && location.climate" class="flex flex-col items-center">
+          <div class="flex items-center">
+            <template v-if="Array.isArray(climateIcon.component)">
+              <component
+                v-for="(comp, index) in climateIcon.component"
+                :key="index"
+                :is="comp"
+                :class="['h-8 w-8', Array.isArray(climateIcon.color) ? climateIcon.color[index] : climateIcon.color]"
+              />
+            </template>
+            <component
+              v-else
+              :is="climateIcon.component"
+              :class="['h-8 w-8', climateIcon.color]"
+            />
+          </div>
+          <span class="text-[10px] text-gray-500 mt-1">{{ climateIcon.label }}</span>
+          <span class="text-xs font-semibold text-gray-700 mt-1">{{ location.climate.temperature.toFixed(1) }}°C</span>
+          <span class="text-[10px] text-gray-400 mt-0.5">{{ currentTime }}</span>
         </div>
       </div>
 
@@ -106,16 +123,42 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { X } from '@lucide/vue'
 import type { LocationDetails } from '../model/types'
+import { getClimateIcon } from '../model/useClimateIcon'
 
-defineProps<{
+const props = defineProps<{
   location: LocationDetails | null
 }>()
 
 defineEmits<{
   close: []
 }>()
+
+const climateIcon = computed(() => {
+  if (!props.location?.climate) return null
+  return getClimateIcon(props.location.climate)
+})
+
+const currentTime = ref('')
+
+const updateTime = () => {
+  currentTime.value = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+}
+
+let timeInterval: number | null = null
+
+onMounted(() => {
+  updateTime()
+  timeInterval = window.setInterval(updateTime, 60000) // Update every minute
+})
+
+onUnmounted(() => {
+  if (timeInterval) {
+    clearInterval(timeInterval)
+  }
+})
 
 function formatDistance(km?: number): string {
   if (!km) return ''
@@ -127,4 +170,5 @@ function formatNeighbors(neighbors: Array<{ region_name: string; weight: number 
     .map(n => `${n.region_name} (${(n.weight * 100).toFixed(0)}%)`)
     .join(', ')
 }
+
 </script>

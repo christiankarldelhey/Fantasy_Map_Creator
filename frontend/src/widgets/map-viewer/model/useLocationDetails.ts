@@ -89,6 +89,8 @@ export async function fetchLocationDetailsAtPoint(
         humidity: data.climate.relative_humidity_2m !== null ? data.climate.relative_humidity_2m : 0,
         precipitation: data.climate.precipitation !== null ? data.climate.precipitation : 0,
         wind: data.climate.wind_speed_10m !== null ? data.climate.wind_speed_10m : 0,
+        cloudCover: data.climate.cloud_cover !== null ? data.climate.cloud_cover : undefined,
+        time: data.climate.time,
         isTransitionZone: data.is_transition_zone,
         transitionDistanceKm: data.transition_distance_km,
         neighboringRegions: data.neighboring_regions,
