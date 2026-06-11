@@ -11,6 +11,7 @@ import waterRouter from './routes/water.js';
 import peaksRouter from './routes/peaks.js';
 import demRouter from './routes/dem.js';
 import climateRouter from './routes/climate.js';
+import searchRouter from './routes/search.js';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use('/api/water', waterRouter);
 app.use('/api/peaks', peaksRouter);
 app.use('/api/dem', demRouter);
 app.use('/api/climate', climateRouter);
+app.use('/api/search', searchRouter);
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
@@ -69,7 +71,8 @@ app.get('/', (req, res) => {
       water: '/api/water',
       peaks: '/api/peaks',
       dem: '/api/dem',
-      climate: '/api/climate'
+      climate: '/api/climate',
+      search: '/api/search'
     }
   });
 });

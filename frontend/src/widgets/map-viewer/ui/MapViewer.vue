@@ -1,9 +1,21 @@
 <template>
-  <div class="relative w-full h-screen bg-white">
+  <div class="relative w-full h-screen bg-white overflow-visible">
     <div ref="mapContainer" class="w-full h-full" style="min-height: 100vh;"></div>
-    
-    <div 
-      v-if="loading" 
+
+    <SearchInput
+      ref="searchInputRef"
+      @select="handleSearchSelect"
+      @clear="handleClearSearch"
+    />
+
+    <LocationSidebar
+      v-if="selectedLocation"
+      :location="selectedLocation"
+      @close="handleCloseSidebar"
+    />
+
+    <div
+      v-if="loading"
       class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] bg-white/95 p-8 rounded-lg shadow-lg"
     >
       <div class="flex flex-col items-center gap-4">
@@ -11,9 +23,9 @@
         <p class="text-gray-700 font-medium">Loading map data...</p>
       </div>
     </div>
-    
-    <div 
-      v-if="error" 
+
+    <div
+      v-if="error"
       class="absolute top-4 right-4 z-[1000] bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md max-w-md shadow-md"
     >
       <strong class="font-bold">Error: </strong>
@@ -35,8 +47,15 @@ import { useWaterData } from '@/features/water-management'
 import { useAltitudeData } from '@/features/altitude-management'
 import { useMapLayers } from '../model/useMapLayers'
 import { useMapEvents } from '../model/useMapEvents'
+import { fetchLocationDetailsAtPoint } from '../model/useLocationDetails'
+import { SearchInput } from '@/widgets/search-input'
+import { LocationSidebar } from '@/widgets/location-sidebar'
+import type { SearchResult } from '@/entities/search'
+import type { LocationDetails } from '@/widgets/location-sidebar'
 
 const mapContainer = ref<HTMLDivElement | null>(null)
+const searchInputRef = ref<InstanceType<typeof SearchInput> | null>(null)
+const selectedLocation = ref<LocationDetails | null>(null)
 let map: maplibregl.Map | null = null
 
 // Data composables
@@ -91,7 +110,7 @@ onMounted(async () => {
         })
 
         // Configurar eventos
-        setupClickHandler(map!)
+        setupClickHandler(map!, handleLocationClick)
 
         layersInitialized.value = true
       } catch (err) {
@@ -170,4 +189,70 @@ onUnmounted(() => {
     map = null
   }
 })
+
+function handleSearchSelect(result: SearchResult) {
+  if (!map) return
+
+  if (result.type === 'location') {
+    // Zoom fijo para locations (Point)
+    const coords = (result.geometry as GeoJSON.Point).coordinates
+    map.flyTo({
+      center: [coords[0], coords[1]],
+      zoom: 10,
+      duration: 1000
+    })
+
+    // Fetch location details after flyTo completes
+    map.once('moveend', () => {
+      fetchLocationDetails(coords[0], coords[1])
+    })
+  } else if (result.type === 'region') {
+    // Zoom dinámico con fitBounds para regions (Polygon)
+    const coords = (result.geometry as GeoJSON.Polygon).coordinates[0]
+    const bounds = coords.reduce((bounds, coord) => {
+      bounds.extend(coord as [number, number])
+      return bounds
+    }, new maplibregl.LngLatBounds())
+
+    map.fitBounds(bounds, {
+      padding: 50,
+      duration: 1000
+    })
+  }
+}
+
+function handleLocationClick(location: LocationDetails) {
+  selectedLocation.value = location
+  // Set search input to location name
+  if (searchInputRef.value) {
+    searchInputRef.value.setSearchQuery(location.name)
+  }
+}
+
+function handleClearSearch() {
+  selectedLocation.value = null
+}
+
+function handleCloseSidebar() {
+  selectedLocation.value = null
+}
+
+async function fetchLocationDetails(lng: number, lat: number) {
+  if (!map) return
+
+  const locationDetails = await fetchLocationDetailsAtPoint(map, lng, lat)
+  if (locationDetails) {
+    selectedLocation.value = locationDetails
+  }
+}
 </script>
+
+<style scoped>
+/* Sobrescribir estilos globales de #app que interfieren con el posicionamiento absoluto */
+:deep(.search-container) {
+  position: absolute !important;
+  top: 1rem !important;
+  left: 1rem !important;
+  z-index: 9999 !important;
+}
+</style>

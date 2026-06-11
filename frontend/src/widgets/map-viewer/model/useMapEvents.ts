@@ -2,9 +2,11 @@ import type { Map as MapLibreMap } from 'maplibre-gl'
 import maplibregl from 'maplibre-gl'
 import { getElevation } from '@/entities/altitude'
 import { getClimateAtPoint } from '@/entities/climate'
+import { fetchLocationDetailsAtPoint } from './useLocationDetails'
+import type { LocationDetails } from '@/widgets/location-sidebar'
 
 export function useMapEvents() {
-  const setupClickHandler = (map: MapLibreMap) => {
+  const setupClickHandler = (map: MapLibreMap, onLocationClick?: (location: LocationDetails) => void) => {
     map.on('click', async (e) => {
       const features = map.queryRenderedFeatures(e.point, {
         layers: ['locations', 'biomes-fill', 'regions-fill', 'roads-line', 'water-fill', 'water-lines']
@@ -18,22 +20,16 @@ export function useMapEvents() {
 
       const { lng, lat } = e.lngLat
 
-      // 1. Location Details
-      let locationHTML = ''
+      // Fetch location details if clicking on a location
       if (locationFeature) {
-        const locProps = locationFeature.properties
-        locationHTML = `
-          <div class="mb-3 pb-3 border-b border-gray-100">
-            <h3 class="font-bold text-lg text-rose-600 leading-tight">${locProps?.name || 'Unknown Location'}</h3>
-            <p class="text-xs text-rose-500 font-semibold mt-0.5">${locProps?.type ? locProps.type.replace('_', ' ') : 'point'}</p>
-            ${locProps?.description ? `<p class="text-xs mt-1 text-gray-600 leading-normal">${locProps.description}</p>` : ''}
-            ${locProps?.population ? `<p class="text-xs mt-1 text-gray-600"><span class="font-semibold">Population:</span> ${locProps.population}</p>` : ''}
-            ${locProps?.inhabitants ? `<p class="text-xs mt-1 text-gray-600"><span class="font-semibold">Inhabitants:</span> ${locProps.inhabitants}</p>` : ''}
-          </div>
-        `
+        const locationDetails = await fetchLocationDetailsAtPoint(map, lng, lat)
+        if (locationDetails && onLocationClick) {
+          onLocationClick(locationDetails)
+        }
+        return // Don't show popup for locations
       }
 
-      // 2. Biome Details
+      // Show popup for non-location clicks
       let biomeHTML = ''
       if (biomeFeature) {
         const biomeName = biomeFeature?.properties?.name || 'Unknown'
@@ -47,7 +43,6 @@ export function useMapEvents() {
         `
       }
 
-      // 3. Road Details
       let roadHTML = ''
       if (roadFeature) {
         const roadProps = roadFeature.properties
@@ -61,7 +56,6 @@ export function useMapEvents() {
         `
       }
 
-      // 4. Water Details
       let waterHTML = ''
       if (waterFeature) {
         const waterProps = waterFeature.properties
@@ -76,7 +70,6 @@ export function useMapEvents() {
         `
       }
 
-      // 5. Elevation Placeholder (updated asynchronously with real meters)
       let elevationHTML = `
         <div id="popup-elevation-container" class="flex items-center gap-1.5 mt-1">
           <span class="inline-block w-2 h-2 rounded-full bg-amber-500"></span>
@@ -85,54 +78,41 @@ export function useMapEvents() {
         </div>
       `
 
-      // 6. Region Details
       let regionHTML = ''
       if (regionFeature) {
         const regProps = regionFeature.properties
         const kingdomLabel = regProps?.kingdom ? ` (${regProps.kingdom})` : ''
 
-        // If clicking on a location, only show region name, not full description
-        if (locationFeature) {
-          regionHTML = `
-            <div class="mt-3 pt-2.5 border-t border-gray-100">
-              <span class="text-[10px] uppercase tracking-wider text-gray-400 font-bold block">Political Region</span>
-              <p class="text-xs text-teal-700 font-semibold mt-0.5">${regProps?.name || 'Unknown Region'}<span class="text-gray-500 font-normal">${kingdomLabel}</span></p>
-            </div>
-          `
-        } else {
-          // If not clicking on a location, show full region details
-          // Parse description if it's a JSON string
-          let descObj = null
-          if (regProps?.description) {
-            try {
-              descObj = typeof regProps.description === 'string'
-                ? JSON.parse(regProps.description)
-                : regProps.description
-            } catch (e) {
-              // If it's not JSON, treat as plain text
-            }
+        // Parse description if it's a JSON string
+        let descObj = null
+        if (regProps?.description) {
+          try {
+            descObj = typeof regProps.description === 'string'
+              ? JSON.parse(regProps.description)
+              : regProps.description
+          } catch (e) {
+            // If it's not JSON, treat as plain text
           }
-
-          // Extract specific fields from description
-          const nestedDescription = descObj?.description || ''
-          const population = descObj?.population || ''
-          const products = descObj?.products || ''
-          const politicalOrganization = descObj?.political_organization || ''
-
-          regionHTML = `
-            <div class="mt-3 pt-2.5 border-t border-gray-100">
-              <span class="text-[10px] uppercase tracking-wider text-gray-400 font-bold block">Political Region</span>
-              <p class="text-xs text-teal-700 font-semibold mt-0.5">${regProps?.name || 'Unknown Region'}<span class="text-gray-500 font-normal">${kingdomLabel}</span></p>
-              ${nestedDescription ? `<p class="text-[11px] mt-1 text-gray-500 leading-snug">${nestedDescription}</p>` : ''}
-              ${population ? `<p class="text-[11px] mt-1 text-gray-500"><span class="font-semibold">Population:</span> ${population}</p>` : ''}
-              ${products ? `<p class="text-[11px] mt-1 text-gray-500"><span class="font-semibold">Products:</span> ${products}</p>` : ''}
-              ${politicalOrganization ? `<p class="text-[11px] mt-1 text-gray-500"><span class="font-semibold">Political Organization:</span> ${politicalOrganization}</p>` : ''}
-            </div>
-          `
         }
+
+        // Extract specific fields from description
+        const nestedDescription = descObj?.description || ''
+        const population = descObj?.population || ''
+        const products = descObj?.products || ''
+        const politicalOrganization = descObj?.political_organization || ''
+
+        regionHTML = `
+          <div class="mt-3 pt-2.5 border-t border-gray-100">
+            <span class="text-[10px] uppercase tracking-wider text-gray-400 font-bold block">Political Region</span>
+            <p class="text-xs text-teal-700 font-semibold mt-0.5">${regProps?.name || 'Unknown Region'}<span class="text-gray-500 font-normal">${kingdomLabel}</span></p>
+            ${nestedDescription ? `<p class="text-[11px] mt-1 text-gray-500 leading-snug">${nestedDescription}</p>` : ''}
+            ${population ? `<p class="text-[11px] mt-1 text-gray-500"><span class="font-semibold">Population:</span> ${population}</p>` : ''}
+            ${products ? `<p class="text-[11px] mt-1 text-gray-500"><span class="font-semibold">Products:</span> ${products}</p>` : ''}
+            ${politicalOrganization ? `<p class="text-[11px] mt-1 text-gray-500"><span class="font-semibold">Political Organization:</span> ${politicalOrganization}</p>` : ''}
+          </div>
+        `
       }
 
-      // Climate placeholder (always shown, not dependent on region feature)
       const climateHTML = `
         <div id="popup-climate-container" class="mt-2.5 pt-2.5 border-t border-dashed border-gray-100">
           <span class="text-[10px] uppercase tracking-wider text-teal-500 font-bold block">Climate (1950)</span>
@@ -145,7 +125,6 @@ export function useMapEvents() {
         .setLngLat(e.lngLat)
         .setHTML(`
           <div class="p-3 min-w-[220px] max-w-[280px] font-sans">
-            ${locationHTML}
             <div class="space-y-1">
               ${biomeHTML}
               ${roadHTML}
@@ -164,15 +143,14 @@ export function useMapEvents() {
         const elevMeters = Math.round(response.data.elevation)
         const terrainType = response.data.terrain_type
 
-        const terrainLabel = terrainType ? ` (${terrainType})` : ''
-        const updatedElevationHTML = `
-          <span class="inline-block w-2 h-2 rounded-full bg-amber-500"></span>
-          <span class="text-xs font-semibold text-gray-700">Elevation:</span>
-          <span class="text-xs text-amber-600 font-semibold ml-1">${elevMeters}m${terrainLabel}</span>
-        `
-
         const elevationContainer = document.getElementById('popup-elevation-container')
         if (elevationContainer) {
+          const terrainLabel = terrainType ? ` (${terrainType})` : ''
+          const updatedElevationHTML = `
+            <span class="inline-block w-2 h-2 rounded-full bg-amber-500"></span>
+            <span class="text-xs font-semibold text-gray-700">Elevation:</span>
+            <span class="text-xs text-amber-600 font-semibold ml-1">${elevMeters}m${terrainLabel}</span>
+          `
           elevationContainer.innerHTML = updatedElevationHTML
         }
       } catch (error) {
@@ -188,16 +166,21 @@ export function useMapEvents() {
       }
 
       // Fetch climate asynchronously and update popup contents
-      // Use point-based climate API with transition zone detection
       getClimateAtPoint(lng, lat)
         .then(response => {
           const data = response.data
           const climateContainer = document.getElementById('popup-climate-container')
+
           if (climateContainer && data && !data.error) {
-            const temp = data.climate.temperature_2m !== null ? `${data.climate.temperature_2m.toFixed(1)}°C` : 'N/A'
-            const humidity = data.climate.relative_humidity_2m !== null ? `${data.climate.relative_humidity_2m.toFixed(0)}%` : 'N/A'
-            const precip = data.climate.precipitation !== null ? `${data.climate.precipitation.toFixed(2)} mm` : 'N/A'
-            const wind = data.climate.wind_speed_10m !== null ? `${data.climate.wind_speed_10m.toFixed(1)} km/h` : 'N/A'
+            const temp = data.climate.temperature_2m !== null ? data.climate.temperature_2m : 0
+            const humidity = data.climate.relative_humidity_2m !== null ? data.climate.relative_humidity_2m : 0
+            const precip = data.climate.precipitation !== null ? data.climate.precipitation : 0
+            const wind = data.climate.wind_speed_10m !== null ? data.climate.wind_speed_10m : 0
+
+            const tempDisplay = temp !== null ? `${temp.toFixed(1)}°C` : 'N/A'
+            const humidityDisplay = humidity !== null ? `${humidity.toFixed(0)}%` : 'N/A'
+            const precipDisplay = precip !== null ? `${precip.toFixed(2)} mm` : 'N/A'
+            const windDisplay = wind !== null ? `${wind.toFixed(1)} km/h` : 'N/A'
 
             // Transition zone indicator
             let transitionHTML = ''
@@ -236,16 +219,16 @@ export function useMapEvents() {
               </div>
               <div class="grid grid-cols-2 gap-x-3 gap-y-1 mt-1 text-[11px] text-gray-600">
                 <div class="flex items-center gap-1">
-                  <span class="text-xs">🌡️</span> <span>Temp: <strong>${temp}</strong></span>
+                  <span class="text-xs">🌡️</span> <span>Temp: <strong>${tempDisplay}</strong></span>
                 </div>
                 <div class="flex items-center gap-1">
-                  <span class="text-xs">💧</span> <span>Hum: <strong>${humidity}</strong></span>
+                  <span class="text-xs">💧</span> <span>Hum: <strong>${humidityDisplay}</strong></span>
                 </div>
                 <div class="flex items-center gap-1">
-                  <span class="text-xs">🌧️</span> <span>Rain: <strong>${precip}</strong></span>
+                  <span class="text-xs">🌧️</span> <span>Rain: <strong>${precipDisplay}</strong></span>
                 </div>
                 <div class="flex items-center gap-1">
-                  <span class="text-xs">💨</span> <span>Wind: <strong>${wind}</strong></span>
+                  <span class="text-xs">💨</span> <span>Wind: <strong>${windDisplay}</strong></span>
                 </div>
               </div>
               ${transitionHTML}
