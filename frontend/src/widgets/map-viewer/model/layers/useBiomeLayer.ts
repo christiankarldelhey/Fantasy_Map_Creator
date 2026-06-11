@@ -41,6 +41,10 @@ export function useBiomeLayer() {
   const removeLayer = (map: MapLibreMap) => {
     fillLayer.removeLayer(map)
     outlineLayer.removeLayer(map)
+    // Remove source after all layers are removed
+    if (map.getSource('biomes')) {
+      map.removeSource('biomes')
+    }
   }
 
   return {

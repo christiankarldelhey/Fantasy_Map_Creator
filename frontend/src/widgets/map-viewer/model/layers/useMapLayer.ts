@@ -3,30 +3,46 @@ import type { Map as MapLibreMap, GeoJSONSource } from 'maplibre-gl'
 export interface LayerConfig {
   sourceId: string
   layerId: string
-  layerType: 'circle' | 'fill' | 'line'
+  layerType: 'circle' | 'fill' | 'line' | 'symbol'
   paint: any
   interactive?: boolean
   beforeLayer?: string
+  minzoom?: number
+  maxzoom?: number
+  filter?: any
+  layout?: any
 }
 
 export function useMapLayer(config: LayerConfig) {
   const addLayer = (map: MapLibreMap, data: any) => {
     if (!map) return
 
-    if (map.getSource(config.sourceId)) {
-      (map.getSource(config.sourceId) as GeoJSONSource).setData(data)
-    } else {
+    // Only add source if it doesn't exist
+    if (!map.getSource(config.sourceId)) {
       map.addSource(config.sourceId, {
         type: 'geojson',
         data: data
       })
+    } else {
+      (map.getSource(config.sourceId) as GeoJSONSource).setData(data)
+    }
 
-      map.addLayer({
+    // Only add layer if it doesn't exist
+    if (!map.getLayer(config.layerId)) {
+      const layerConfig: any = {
         id: config.layerId,
         type: config.layerType,
         source: config.sourceId,
         paint: config.paint
-      } as any, config.beforeLayer)
+      }
+
+      // Only add optional properties if they are defined
+      if (config.minzoom !== undefined) layerConfig.minzoom = config.minzoom
+      if (config.maxzoom !== undefined) layerConfig.maxzoom = config.maxzoom
+      if (config.filter !== undefined) layerConfig.filter = config.filter
+      if (config.layout !== undefined) layerConfig.layout = config.layout
+
+      map.addLayer(layerConfig, config.beforeLayer)
 
       if (config.interactive) {
         map.on('mouseenter', config.layerId, () => {
@@ -44,9 +60,6 @@ export function useMapLayer(config: LayerConfig) {
     if (!map) return
     if (map.getLayer(config.layerId)) {
       map.removeLayer(config.layerId)
-    }
-    if (map.getSource(config.sourceId)) {
-      map.removeSource(config.sourceId)
     }
   }
 

@@ -25,12 +25,12 @@ export function useWaterLayer() {
         }
       } as any)
 
-      // 2. Capa para ríos/arroyos (Líneas)
+      // 2. Capa para ríos (Líneas)
       map.addLayer({
-        id: 'water-lines',
+        id: 'water-lines-river',
         type: 'line',
         source: 'water',
-        filter: ['in', ['get', 'water_type'], ['literal', ['river', 'stream']]],
+        filter: ['==', ['get', 'water_type'], 'river'],
         layout: {
           'line-cap': 'round',
           'line-join': 'round'
@@ -38,13 +38,42 @@ export function useWaterLayer() {
         paint: {
           'line-color': MAP_COLORS.water.primary,
           'line-width': [
-            'match',
-            ['get', 'water_type'],
-            'river', MAP_COLORS.water.lineWidthRiver,
-            'stream', MAP_COLORS.water.lineWidthStream,
-            1.5
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            3, 2,      // zoom 3 (FAR): 2px
+            5, 3,      // zoom 5 (FAR): 3px
+            6, 4,      // zoom 6 (MEDIUM): 4px
+            7, 6,      // zoom 7 (MEDIUM): 6px
+            18, 10     // zoom 18 (NEAR): 10px
           ],
-          'line-opacity': MAP_COLORS.water.opacityLine
+          'line-opacity': 0.9
+        }
+      } as any)
+
+      // 3. Capa para arroyos (Líneas)
+      map.addLayer({
+        id: 'water-lines-stream',
+        type: 'line',
+        source: 'water',
+        filter: ['==', ['get', 'water_type'], 'stream'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': MAP_COLORS.water.primary,
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            3, 1,      // zoom 3 (FAR): 1px
+            5, 1.5,    // zoom 5 (FAR): 1.5px
+            6, 2,      // zoom 6 (MEDIUM): 2px
+            7, 3,      // zoom 7 (MEDIUM): 3px
+            18, 5      // zoom 18 (NEAR): 5px
+          ],
+          'line-opacity': 0.9
         }
       } as any)
 
@@ -55,10 +84,16 @@ export function useWaterLayer() {
       map.on('mouseleave', 'water-fill', () => {
         map.getCanvas().style.cursor = ''
       })
-      map.on('mouseenter', 'water-lines', () => {
+      map.on('mouseenter', 'water-lines-river', () => {
         map.getCanvas().style.cursor = 'pointer'
       })
-      map.on('mouseleave', 'water-lines', () => {
+      map.on('mouseleave', 'water-lines-river', () => {
+        map.getCanvas().style.cursor = ''
+      })
+      map.on('mouseenter', 'water-lines-stream', () => {
+        map.getCanvas().style.cursor = 'pointer'
+      })
+      map.on('mouseleave', 'water-lines-stream', () => {
         map.getCanvas().style.cursor = ''
       })
     }
@@ -67,7 +102,8 @@ export function useWaterLayer() {
   const removeLayer = (map: MapLibreMap) => {
     if (!map) return
     if (map.getLayer('water-fill')) map.removeLayer('water-fill')
-    if (map.getLayer('water-lines')) map.removeLayer('water-lines')
+    if (map.getLayer('water-lines-river')) map.removeLayer('water-lines-river')
+    if (map.getLayer('water-lines-stream')) map.removeLayer('water-lines-stream')
     if (map.getSource('water')) map.removeSource('water')
   }
 

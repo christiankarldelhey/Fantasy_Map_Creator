@@ -25,6 +25,7 @@ export const MAPBOX_CONFIG = {
   getStyle() {
     return {
       version: 8,
+      glyphs: 'https://fonts.openmaptiles.org/{fontstack}/{range}.pbf',
       sources: {
         'mapbox-tiles': {
           type: 'raster',

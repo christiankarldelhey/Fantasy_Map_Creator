@@ -9,14 +9,31 @@ export function useMapEvents() {
   const setupClickHandler = (map: MapLibreMap, onLocationClick?: (location: LocationDetails) => void) => {
     map.on('click', async (e) => {
       const features = map.queryRenderedFeatures(e.point, {
-        layers: ['locations', 'biomes-fill', 'regions-fill', 'roads-line', 'water-fill', 'water-lines']
+        layers: [
+          'locations-major', 'locations-medium', 'locations-minor',
+          'biomes-fill', 'regions-fill',
+          'roads-major', 'roads-medium', 'roads-minor',
+          'water-fill', 'water-lines-river', 'water-lines-stream'
+        ]
       })
 
-      const locationFeature = features.find(f => f.layer.id === 'locations')
+      const locationFeature = features.find(f =>
+        f.layer.id === 'locations-major' ||
+        f.layer.id === 'locations-medium' ||
+        f.layer.id === 'locations-minor'
+      )
       const biomeFeature = features.find(f => f.layer.id === 'biomes-fill')
       const regionFeature = features.find(f => f.layer.id === 'regions-fill')
-      const roadFeature = features.find(f => f.layer.id === 'roads-line')
-      const waterFeature = features.find(f => f.layer.id === 'water-fill' || f.layer.id === 'water-lines')
+      const roadFeature = features.find(f =>
+        f.layer.id === 'roads-major' ||
+        f.layer.id === 'roads-medium' ||
+        f.layer.id === 'roads-minor'
+      )
+      const waterFeature = features.find(f =>
+        f.layer.id === 'water-fill' ||
+        f.layer.id === 'water-lines-river' ||
+        f.layer.id === 'water-lines-stream'
+      )
 
       const { lng, lat } = e.lngLat
 
