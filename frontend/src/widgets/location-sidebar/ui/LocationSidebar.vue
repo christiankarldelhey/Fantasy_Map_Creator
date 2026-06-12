@@ -50,16 +50,6 @@ onUnmounted(() => {
   }
 })
 
-// function formatDistance(km?: number): string {
-//   if (!km) return ''
-//   return km < 1 ? `${(km * 1000).toFixed(0)}m` : `${km.toFixed(1)}km`
-// }
-
-// function formatNeighbors(neighbors: Array<{ region_name: string; weight: number }>): string {
-//   return neighbors
-//     .map(n => `${n.region_name} (${(n.weight * 100).toFixed(0)}%)`)
-//     .join(', ')
-// }
 
 </script>
 
@@ -89,7 +79,7 @@ onUnmounted(() => {
             {{ location.region.name }}
             <span v-if="location.region.kingdom" class="text-gray-500 font-normal"> ({{ location.region.kingdom }})</span>
         </p>
-        
+
       <div class="mt-2 pt-1 space-y-2">
         <div v-if="location.elevation" class="flex items-center gap-2">
           <span class="text-sm font-semibold text-gray-700">🏔</span>
@@ -149,38 +139,12 @@ onUnmounted(() => {
           <p class="text-sm text-gray-600 leading-normal">{{ location.description }}</p>
         </div>
 
-
-
-      <!-- <div v-if="location.climate" class="mt-4 pt-3 border-t border-dashed border-gray-100">
-        <div class="flex items-center justify-between">
-          <span class="text-[10px] uppercase tracking-wider text-teal-500 font-bold">Climate (1950)</span>
-          <span v-if="location.climate.isTransitionZone" class="bg-amber-100 text-amber-700 text-[10px] font-bold px-1.5 py-0.5 rounded border border-amber-200">Transition</span>
-        </div>
-        <div class="grid grid-cols-2 gap-x-3 gap-y-1 mt-2 text-sm text-gray-600">
-          <div class="flex items-center gap-1">
-            <span>🌡️</span> <span>Temp: <strong>{{ location.climate.temperature.toFixed(1) }}°C</strong></span>
-          </div>
-          <div class="flex items-center gap-1">
-            <span>💧</span> <span>Hum: <strong>{{ location.climate.humidity.toFixed(0) }}%</strong></span>
-          </div>
-          <div class="flex items-center gap-1">
-            <span>🌧️</span> <span>Rain: <strong>{{ location.climate.precipitation.toFixed(2) }} mm</strong></span>
-          </div>
-          <div class="flex items-center gap-1">
-            <span>💨</span> <span>Wind: <strong>{{ location.climate.wind.toFixed(1) }} km/h</strong></span>
+        <!-- Region-specific fields -->
+        <div v-if="location.type === 'Region'" class="mt-3 space-y-2">
+          <div v-if="location.products" class="text-sm text-gray-600">
+            <span class="font-semibold">Products:</span> {{ location.products }}
           </div>
         </div>
-        <div v-if="location.climate.isTransitionZone" class="mt-2 bg-amber-50 border border-amber-200 rounded px-2 py-1">
-          <div class="flex items-center gap-1.5">
-            <span class="text-sm">🔄</span>
-            <span class="text-xs text-amber-700 font-semibold">Transition Zone</span>
-            <span class="text-xs text-amber-600">({{ formatDistance(location.climate.transitionDistanceKm) }} from boundary)</span>
-          </div>
-          <p v-if="location.climate.neighboringRegions && location.climate.neighboringRegions.length > 1" class="text-[10px] text-gray-400 mt-1 italic leading-tight">
-            Blended with: {{ formatNeighbors(location.climate.neighboringRegions) }}
-          </p>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>

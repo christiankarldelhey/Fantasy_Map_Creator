@@ -38,4 +38,17 @@ export interface LocationDetails {
       weight: number
     }>
   }
+  // Region-specific fields
+  region_type?: string
+  people?: {
+    symbol?: string
+    military?: string
+    population?: string
+  }
+  land?: any
+  fauna?: any
+  flora?: any
+  notes?: string
+  source?: any
+  products?: string
 }

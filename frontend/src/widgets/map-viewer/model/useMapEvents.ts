@@ -2,7 +2,7 @@ import type { Map as MapLibreMap } from 'maplibre-gl'
 import maplibregl from 'maplibre-gl'
 import { getElevation } from '@/entities/altitude'
 import { getClimateAtPoint } from '@/entities/climate'
-import { fetchLocationDetailsAtPoint } from './useLocationDetails'
+import { fetchLocationDetailsAtPoint, fetchRegionDetailsAtPoint } from './useLocationDetails'
 import type { LocationDetails } from '@/widgets/location-sidebar'
 
 export function useMapEvents() {
@@ -44,6 +44,15 @@ export function useMapEvents() {
           onLocationClick(locationDetails)
         }
         return // Don't show popup for locations
+      }
+
+      // Fetch region details if clicking on a region
+      if (regionFeature) {
+        const regionDetails = await fetchRegionDetailsAtPoint(map, lng, lat)
+        if (regionDetails && onLocationClick) {
+          onLocationClick(regionDetails)
+        }
+        return // Don't show popup for regions
       }
 
       // Show popup for non-location clicks
@@ -95,41 +104,6 @@ export function useMapEvents() {
         </div>
       `
 
-      let regionHTML = ''
-      if (regionFeature) {
-        const regProps = regionFeature.properties
-        const kingdomLabel = regProps?.kingdom ? ` (${regProps.kingdom})` : ''
-
-        // Parse description if it's a JSON string
-        let descObj = null
-        if (regProps?.description) {
-          try {
-            descObj = typeof regProps.description === 'string'
-              ? JSON.parse(regProps.description)
-              : regProps.description
-          } catch (e) {
-            // If it's not JSON, treat as plain text
-          }
-        }
-
-        // Extract specific fields from description
-        const nestedDescription = descObj?.description || ''
-        const population = descObj?.population || ''
-        const products = descObj?.products || ''
-        const politicalOrganization = descObj?.political_organization || ''
-
-        regionHTML = `
-          <div class="mt-3 pt-2.5 border-t border-gray-100">
-            <span class="text-[10px] uppercase tracking-wider text-gray-400 font-bold block">Political Region</span>
-            <p class="text-xs text-teal-700 font-semibold mt-0.5">${regProps?.name || 'Unknown Region'}<span class="text-gray-500 font-normal">${kingdomLabel}</span></p>
-            ${nestedDescription ? `<p class="text-[11px] mt-1 text-gray-500 leading-snug">${nestedDescription}</p>` : ''}
-            ${population ? `<p class="text-[11px] mt-1 text-gray-500"><span class="font-semibold">Population:</span> ${population}</p>` : ''}
-            ${products ? `<p class="text-[11px] mt-1 text-gray-500"><span class="font-semibold">Products:</span> ${products}</p>` : ''}
-            ${politicalOrganization ? `<p class="text-[11px] mt-1 text-gray-500"><span class="font-semibold">Political Organization:</span> ${politicalOrganization}</p>` : ''}
-          </div>
-        `
-      }
-
       const climateHTML = `
         <div id="popup-climate-container" class="mt-2.5 pt-2.5 border-t border-dashed border-gray-100">
           <span class="text-[10px] uppercase tracking-wider text-teal-500 font-bold block">Climate (1950)</span>
@@ -148,7 +122,6 @@ export function useMapEvents() {
               ${waterHTML}
               ${elevationHTML}
             </div>
-            ${regionHTML}
             ${climateHTML}
           </div>
         `)
