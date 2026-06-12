@@ -57,6 +57,7 @@ const mapContainer = ref<HTMLDivElement | null>(null)
 const searchInputRef = ref<InstanceType<typeof SearchInput> | null>(null)
 const selectedLocation = ref<LocationDetails | null>(null)
 let map: maplibregl.Map | null = null
+let currentMarker: maplibregl.Marker | null = null
 
 // Data composables
 const { locations, loading: locationsLoading, error: locationsError, loadLocations } = useLocationData()
@@ -110,7 +111,7 @@ onMounted(async () => {
         })
 
         // Configurar eventos
-        setupClickHandler(map!, handleLocationClick)
+        setupClickHandler(map!, handleLocationClick, addMarker)
 
         layersInitialized.value = true
       } catch (err) {
@@ -184,11 +185,31 @@ watch(
 
 onUnmounted(() => {
   if (map) {
+    removeMarker()
     removeLayers(map)
     map.remove()
     map = null
   }
 })
+
+function addMarker(lng: number, lat: number) {
+  if (!map) return
+
+  // Remove existing marker if any
+  removeMarker()
+
+  // Create new marker
+  currentMarker = new maplibregl.Marker()
+    .setLngLat([lng, lat])
+    .addTo(map)
+}
+
+function removeMarker() {
+  if (currentMarker) {
+    currentMarker.remove()
+    currentMarker = null
+  }
+}
 
 function handleSearchSelect(result: SearchResult) {
   if (!map) return
@@ -201,6 +222,9 @@ function handleSearchSelect(result: SearchResult) {
       zoom: 10,
       duration: 1000
     })
+
+    // Add marker at location
+    addMarker(coords[0], coords[1])
 
     // Fetch location details after flyTo completes
     map.once('moveend', () => {
@@ -218,6 +242,12 @@ function handleSearchSelect(result: SearchResult) {
       padding: 50,
       duration: 1000
     })
+
+    // Calculate center of bounds and add marker
+    const center = bounds.getCenter()
+    map.once('moveend', () => {
+      addMarker(center.lng, center.lat)
+    })
   }
 }
 
@@ -231,10 +261,12 @@ function handleLocationClick(location: LocationDetails) {
 
 function handleClearSearch() {
   selectedLocation.value = null
+  removeMarker()
 }
 
 function handleCloseSidebar() {
   selectedLocation.value = null
+  removeMarker()
 }
 
 async function fetchLocationDetails(lng: number, lat: number) {
