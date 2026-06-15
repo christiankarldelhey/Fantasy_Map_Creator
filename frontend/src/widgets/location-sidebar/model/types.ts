@@ -51,4 +51,5 @@ export interface LocationDetails {
   notes?: string
   source?: any
   products?: string
+  regionId?: number
 }

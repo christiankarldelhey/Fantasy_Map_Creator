@@ -110,6 +110,9 @@ onMounted(async () => {
           locations: locations.value
         })
 
+        // Add region outline last to be on top of all layers
+        regionLayer.addRegionsOutline(map!, regions.value)
+
         // Configurar eventos
         setupClickHandler(map!, handleLocationClick, addMarker)
 
@@ -215,6 +218,9 @@ function handleSearchSelect(result: SearchResult) {
   if (!map) return
 
   if (result.type === 'location') {
+    // Reset region border highlight
+    regionLayer.highlightRegionBorder(map, null)
+
     // Zoom fijo para locations (Point)
     const coords = (result.geometry as GeoJSON.Point).coordinates
     map.flyTo({
@@ -247,6 +253,10 @@ function handleSearchSelect(result: SearchResult) {
     const center = bounds.getCenter()
     map.once('moveend', () => {
       addMarker(center.lng, center.lat)
+      // Highlight the selected region border in red
+      if (map) {
+        regionLayer.highlightRegionBorder(map, result.id as number)
+      }
     })
   }
 }
@@ -257,16 +267,29 @@ function handleLocationClick(location: LocationDetails) {
   if (searchInputRef.value) {
     searchInputRef.value.setSearchQuery(location.name)
   }
+
+  // Highlight region border if this is a region
+  if (location.type === 'Region' && location.regionId && map) {
+    regionLayer.highlightRegionBorder(map, location.regionId)
+  } else if (map) {
+    regionLayer.highlightRegionBorder(map, null)
+  }
 }
 
 function handleClearSearch() {
   selectedLocation.value = null
   removeMarker()
+  if (map) {
+    regionLayer.highlightRegionBorder(map, null)
+  }
 }
 
 function handleCloseSidebar() {
   selectedLocation.value = null
   removeMarker()
+  if (map) {
+    regionLayer.highlightRegionBorder(map, null)
+  }
 }
 
 async function fetchLocationDetails(lng: number, lat: number) {

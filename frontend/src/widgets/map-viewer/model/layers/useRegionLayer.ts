@@ -31,13 +31,43 @@ export function useRegionLayer() {
     paint: {
       'line-color': MAP_COLORS.regions.outlineColor,
       'line-width': MAP_COLORS.regions.outlineWidth,
-      'line-opacity': 0.8
+      'line-opacity': 0 // Transparent by default
     }
   })
 
   const addRegionsLayer = (map: MapLibreMap, data: RegionCollection) => {
     fillLayer.addLayer(map, data)
-    // outlineLayer.addLayer(map, data) // Disabled - no borders
+    // outlineLayer.addLayer(map, data) // Will be added last to be on top
+  }
+
+  const addRegionsOutline = (map: MapLibreMap, data: RegionCollection) => {
+    outlineLayer.addLayer(map, data) // Add last to be on top of all layers
+  }
+
+  const highlightRegionBorder = (map: MapLibreMap, regionId: number | null) => {
+    if (!map.getLayer('regions-outline')) return
+
+    if (regionId === null) {
+      // Reset to transparent for all regions
+      map.setPaintProperty('regions-outline', 'line-opacity', 0)
+    } else {
+      // Highlight selected region border in red, others stay transparent
+      map.setPaintProperty('regions-outline', 'line-color', [
+        'case',
+        ['==', ['get', 'id'], regionId], '#ef4444', // Selected region: red
+        MAP_COLORS.regions.outlineColor // Other regions: normal color (but transparent)
+      ])
+      map.setPaintProperty('regions-outline', 'line-width', [
+        'case',
+        ['==', ['get', 'id'], regionId], 3, // Selected region: thicker
+        MAP_COLORS.regions.outlineWidth // Other regions: normal width
+      ])
+      map.setPaintProperty('regions-outline', 'line-opacity', [
+        'case',
+        ['==', ['get', 'id'], regionId], 1, // Selected region: visible
+        0 // Other regions: transparent
+      ])
+    }
   }
 
   const removeLayer = (map: MapLibreMap) => {
@@ -51,6 +81,8 @@ export function useRegionLayer() {
 
   return {
     addRegionsLayer,
-    removeLayer
+    addRegionsOutline,
+    removeLayer,
+    highlightRegionBorder
   }
 }

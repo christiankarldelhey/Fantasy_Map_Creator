@@ -171,6 +171,7 @@ export async function fetchRegionDetailsAtPoint(
     notes: regProps?.notes,
     source: regProps?.source,
     products: regProps?.products,
+    regionId: regProps?.id,
   }
 
   // Biome Details
