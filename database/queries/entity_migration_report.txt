@@ -1,0 +1,11 @@
+ENTITY MIGRATION REPORT
+================================================================================
+
+Migration completed successfully
+
+Statistics:
+  New entities created: 0
+  Existing entities updated: 0
+  Errors: 0
+  Warnings: 0
+

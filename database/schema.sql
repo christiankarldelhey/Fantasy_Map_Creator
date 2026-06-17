@@ -267,6 +267,47 @@ COMMENT ON COLUMN encounters.category IS 'Category (e.g., Animals, Inanimate_Dan
 COMMENT ON COLUMN encounters.probability_by_region IS 'Array of {region, probability} objects for each region';
 
 -- ============================================================================
+-- Table: entities
+-- Purpose: Store Middle-earth entities (fauna, flora, creatures, races, etc.)
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS entities (
+    -- Identifiers
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    
+    -- Basic information
+    name VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) UNIQUE NOT NULL,
+    type VARCHAR(50) NOT NULL,  -- 'humans', 'dwarves', 'elves', 'orcs', 'hobbits', 'plants', 'trees', 'water_animals', 'insects', 'undead', 'flying_animals', 'demons', 'drakes', 'amphibians', 'herbivores', 'riding_animals', 'other_animals', 'carnivores', 'giants', 'trolls', 'giant_insects', 'pukel', 'water_creatures'
+    description TEXT,
+    
+    -- Multimedia
+    url_path TEXT,  -- Path to image file (NULL for now)
+    
+    -- Geographic information
+    region_id INTEGER REFERENCES regions(id) ON DELETE SET NULL,
+    biomes TEXT[],  -- Array of biome names (e.g., '{marsh,desert,forest}')
+    
+    -- Metadata
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_entities_slug ON entities(slug);
+CREATE INDEX IF NOT EXISTS idx_entities_type ON entities(type);
+CREATE INDEX IF NOT EXISTS idx_entities_name ON entities(name);
+CREATE INDEX IF NOT EXISTS idx_entities_region_id ON entities(region_id);
+
+COMMENT ON TABLE entities IS 'Middle-earth entities (fauna, flora, creatures, races, etc.)';
+COMMENT ON COLUMN entities.id IS 'UUID primary key';
+COMMENT ON COLUMN entities.name IS 'Display name of the entity';
+COMMENT ON COLUMN entities.slug IS 'URL-friendly unique identifier (lowercase with underscores)';
+COMMENT ON COLUMN entities.type IS 'Entity type category';
+COMMENT ON COLUMN entities.description IS 'Detailed description of the entity';
+COMMENT ON COLUMN entities.url_path IS 'Path to image file (NULL for now)';
+COMMENT ON COLUMN entities.region_id IS 'Foreign key to regions table';
+COMMENT ON COLUMN entities.biomes IS 'Array of biome names where this entity can be found';
+
+-- ============================================================================
 -- Verification queries
 -- ============================================================================
 

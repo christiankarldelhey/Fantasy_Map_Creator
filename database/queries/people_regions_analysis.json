@@ -1,0 +1,29 @@
+[
+  {
+    "region_id": 1,
+    "region_name": "Eothraim",
+    "metadata": {
+      "name": "Eothraim",
+      "type": "humans",
+      "description": "Superb equestrian warriors, semi-nomadic herders, and hunters who move between seasonal pastures and maintain a disunified but highly honorable society."
+    }
+  },
+  {
+    "region_id": 2,
+    "region_name": "Gramuz",
+    "metadata": {
+      "name": "Sagath",
+      "type": "humans",
+      "description": "Nomadic horsemen and chariot-riders who frequent the pastures."
+    }
+  },
+  {
+    "region_id": 3,
+    "region_name": "Mirkwood Wilds",
+    "metadata": {
+      "name": "The Necromancer of Dol Guldur",
+      "type": "maiar",
+      "description": "Sauron in his guise as the Necromancer, occupying Dol Guldur since the 12th century T.A., radiating fear and corruption, breeding Orcs, trolls, spiders and fell beasts, and acting as the dark center of Southern Mirkwood."
+    }
+  }
+]

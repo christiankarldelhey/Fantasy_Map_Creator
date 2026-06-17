@@ -1,0 +1,1905 @@
+{
+  "people_field_by_region": [
+    {
+      "region_id": 1,
+      "region_name": "Eothraim",
+      "list": [
+        {
+          "name": "Eothraim",
+          "type": "humans",
+          "description": "Superb equestrian warriors, semi-nomadic herders, and hunters who move between seasonal pastures and maintain a disunified but highly honorable society."
+        }
+      ]
+    },
+    {
+      "region_id": 2,
+      "region_name": "Gramuz",
+      "list": [
+        {
+          "name": "Gramuz",
+          "type": "humans",
+          "description": "Brave, resilient foresters and horse-herders with strong warrior traditions."
+        },
+        {
+          "name": "Sagath",
+          "type": "humans",
+          "description": "Nomadic horsemen and chariot-riders who frequent the pastures."
+        }
+      ]
+    },
+    {
+      "region_id": 3,
+      "region_name": "Mirkwood Wilds",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Woodmen"
+        },
+        {
+          "disclaimer": "ONLY ADD this region id in entity Beornings"
+        },
+        {
+          "name": "Northmen",
+          "type": "humans",
+          "description": "Descendants of Vidugavia’s horse-lords in the plains and East Bight, formerly prosperous farmers and horse-breeders, reduced by the Plague to hard-edged defenders of isolated homesteads and fortified camps."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Eothraim"
+        },
+        {
+          "name": "Gondorian settlers",
+          "type": "humans",
+          "description": "Gondorians of Calenardhron and Dor Rhûnen who garrison forts like Thorontir and farm pockets such as Tharlorien and the Undeeps, guarding the fords and asserting Gondor’s claimed dominion."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Sagath"
+        },
+        {
+          "disclaimer": "ONLY ADD this region id in entity Silvan Elves"
+        },
+        {
+          "name": "Radagast the Brown",
+          "type": "maiar",
+          "description": "The Wizard dwelling at Rhosgobel on the western edge of Mirkwood, devoting his power and attention to birds and beasts rather than politics, and providing a rare point of light and refuge in the shadowed woods."
+        },
+        {
+          "name": "The Necromancer of Dol Guldur",
+          "type": "maiar",
+          "description": "Sauron in his guise as the Necromancer, occupying Dol Guldur since the 12th century T.A., radiating fear and corruption, breeding Orcs, trolls, spiders and fell beasts, and acting as the dark center of Southern Mirkwood."
+        },
+        {
+          "disclaimer": "ONLY ADD this region id in entity common orcs"
+        }
+      ]
+    },
+    {
+      "region_id": 4,
+      "region_name": "Woodland Realm",
+      "list": [
+        {
+          "name": "Thranduil’s Silvan elves",
+          "type": "elves",
+          "description": "Silvan Elves under Thranduil living in caverns and halls near the eastern eaves of the forest, lovers of feasting, song and languages and largely indifferent to neighboring Men and Dwarves unless threatened."
+        },
+        {
+          "name": "Dwarves of the Iron Hills",
+          "type": "dwarves",
+          "description": "Durin’s Folk who mine and smelt rich iron deposits in the Iron Hills east of Mirkwood, providing metalwork, weapons and armor and maintaining trade links with Dalemen and Lake-men."
+        },
+        {
+          "name": "Dwarves of Erebor",
+          "type": "dwarves",
+          "description": "The Dwarves of the Lonely Mountain, dwelling in a great isolated peak north of Long Lake and using its caverns as halls, mines and treasure vaults; tightly connected to trade along the River Running."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Northmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity common orcs and trolls"
+        }
+      ]
+    },
+    {
+      "region_id": 5,
+      "region_name": "Parth Celebrant",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Rohirrim"
+        }
+      ]
+    },
+    {
+      "region_id": 6,
+      "region_name": "Dor Rhunen",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Variags"
+        },
+        {
+          "name": "Asdriags",
+          "type": "humans",
+          "description": "A savage, wain-riding Easterling people who wander the grasslands in search of plunder."
+        },
+        {
+          "name": "Wandering Eothraim",
+          "type": "humans",
+          "description": "Semi-nomadic herders and horse-masters who clash with the Easterling tribes over pasture lands."
+        }
+      ]
+    },
+    {
+      "region_id": 7,
+      "region_name": "Anorien",
+      "list": [
+        {
+          "name": "Dúnedain and Gondorian farmers of Anórien",
+          "type": "humans",
+          "description": "The founding of Gondor concentrated people in the Anduin valley, settling Anórien, Ithilien and Lebennin together as early heartlands.[file:216] By the War of the Ring, Anórien’s lowlands host scattered villages and farmsteads of Gondorians of mixed Númenórean and local descent, who work fields and pastures and supply traffic along the Great West Road and river."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Woses"
+        },
+        {
+          "name": "Messengers, soldiers and Rohirrim riders",
+          "type": "humans",
+          "notes": "REVISAR!",
+          "description": "Anórien’s Great West Road is heavily used by Gondorian messengers and troops, and during the War of the Ring the Rohirrim ride through its northern strip on their way to Minas Tirith; Tolkien explicitly describes the beacon fires behind Anórien and the riders answering them.[web:234][web:235] The region’s population therefore includes transient military columns and supply trains on top of the resident peasantry."
+        }
+      ]
+    },
+    {
+      "region_id": 8,
+      "region_name": "Dagorlad",
+      "list": [
+        {
+          "name": "Marshmen",
+          "type": "humans",
+          "description": "Small, long-lived descendants of the Edain dwelling in Nindalf and western marshes, living by hunting, fishing, goat herding and gardening, worshipping Eru (Iroi) and the Valar as Jevinn and Eremi, and organizing themselves through yearly councils on the holy island of Tel Belarin; some have been driven westward by the Dead Marshes’ corruption.[file:37]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Gondor settlers"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Asdriags settlers"
+        },
+        {
+          "name": "Urban Northmen",
+          "type": "humans",
+          "description": "Merchants and settlers from the Nan Celduin valley, speaking Rhovanion and Westron, who came to share in eastern trade and now inhabit fortified towns, culturally close to Gondor but proud of their Northman identity.[file:37]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity common orcs"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity trolls and olog-hai"
+        },
+        {
+          "name": "Bandits and deserters",
+          "type": "humans",
+          "description": "Disaffected soldiers, plague-maddened peasants and local rogues haunting the roads and ruins, turning the depopulated frontier into a patchwork of robber bands unconcerned with Gondor or Sauron beyond what they can steal.[file:37]"
+        }
+      ]
+    },
+    {
+      "region_id": 9,
+      "region_name": "Druadan Forest",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Woses"
+        },
+        {
+          "name": "Gondorian Quarrymen",
+          "type": "humans",
+          "description": "Gondorian laborers who occasionally work the ancient limestone quarries (like Nardol Quarry) on the forest's northern margins."
+        }
+      ]
+    },
+    {
+      "region_id": 10,
+      "region_name": "Esgaroth",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Thranduil’s Wood-elves"
+        },
+        {
+          "name": "Dwarves of the Iron Hills",
+          "type": "dwarves",
+          "description": "Durin’s Folk who mine and smelt rich iron deposits in the Iron Hills east of Mirkwood, providing metalwork, weapons and armor and maintaining trade links with Dalemen and Lake-men."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of Erebor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Northmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity common orcs"
+        }
+      ]
+    },
+    {
+      "region_id": 11,
+      "region_name": "Lebennin",
+      "list": [
+        {
+          "name": "Dúnedain and Sea-lords of Lebennin",
+          "type": "humans",
+          "description": "High Men of Gondor, especially the Sea-lords whose power is rooted in Pelargir and the coastal towns; they command fleets, administer the province and lead the struggle against Corsairs and Haradan privateers.[file:30]"
+        },
+        {
+          "name": "Urban folk of Pelargir and river towns",
+          "type": "humans",
+          "description": "Merchants, artisans, sailors and laborers crowd Pelargir—the largest and oldest city of Gondor—and the lesser ports, living from shipbuilding, trade and supplying the Royal Fleet and merchant traffic.[file:30]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity dunlendings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity woses"
+        },
+        {
+          "name": "Marshmen of the Ethir Anduin",
+          "type": "humans",
+          "description": "Hardy folk of the Anduin delta and coastal marshes who know the shifting channels and shallows; some act as guides or smugglers in the Ethir Anduin labyrinth.[file:30]"
+        },
+        {
+          "name": "Smugglers",
+          "type": "humans",
+          "description": "Semi-legal privateers, outright pirates and smugglers operate from coves, swamps and hidden harbors along the coasts and the Ethir Anduin, raiding trade and dodging royal duties despite the Sea-lords’ efforts.[file:30]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Corsairs"
+        }
+      ]
+    },
+    {
+      "region_id": 12,
+      "region_name": "Harondor",
+      "list": [
+        {
+          "name": "Eraguk",
+          "type": "humans",
+          "description": "Fierce steppe nomads of mixed Haruze and Nórniag lineage, the Eraguk roamed the Aegardh since ancient times as the original inhabitants; after centuries of Gondorian pressure, most were driven east or assimilated, surviving in small, often bandit-style groups by T.A. 1640.[file:73]"
+        },
+        {
+          "name": "Haruze",
+          "type": "humans",
+          "description": "Haruze farmers and nomads who have occupied the Vale of Harnen, growing sorghum and herding flocks, moving seasonally between Harad/Nurn and the southern Harondor plateau; a persistent cultural presence even when Gondor claims political control.[file:73]"
+        },
+        {
+          "name": "Gondorian rangers",
+          "type": "humans",
+          "description": "Gondor maintains border fortresses like Amon Eithel and patrols the Hyarmenti road to keep the Aegardh nominally under control; these rangers are thin on the ground and frequently harassed by nomads, Haruze and Umbarean agents.[file:73]"
+        },
+        {
+          "name": "Umbarean agents",
+          "type": "humans",
+          "description": "After the Kin-strife, Umbarean and Haruze captains encouraged nomadic clans to migrate into the Aegardh, using Harondor as a staging ground against Gondor and the Hyarmenti trade road.[file:73]"
+        }
+      ]
+    },
+    {
+      "region_id": 13,
+      "region_name": "Anfalas",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunadan"
+        },
+        {
+          "name": "Daen folk",
+          "type": "humans",
+          "description": "The indigenous pre-Númenórean people of the coastlands and plains, shorter and stockier than the Dúnedain, who adopted Westron and much of Númenórean culture while retaining their oral traditions and ballads; they form the majority of the common population of Lebennin and Anfalas.[file:73]"
+        },
+        {
+          "name": "Daen Coentis",
+          "type": "humans",
+          "description": "Mountain clans of the White Mountains living above the timberline in primitive groupings; semi-nomadic goat shepherds and fisherfolk on the coasts (Dunir of Andrast), they have largely avoided cultural contact with Gondor and still honor ancient Daen traditions.[file:73]"
+        },
+        {
+          "name": "Sakalai",
+          "type": "humans",
+          "description": "Small, dark-haired, independent tribes in the Loeg Balimur and remote Ethir Anduin, believed to be of mixed Daen and Southron stock; they live as swamp fishermen largely outside Gondorian authority.[file:73]"
+        },
+        {
+          "name": "Grey-elves of Edhellond",
+          "type": "elves",
+          "description": "A remnant Sindarin community dwelling at the fabled haven of white swan-ships near the mouth of the Morthond, closely allied with the Princes of Belfalas; guardians of the Eryn Laegol and builders of the most beautiful ships in Southern Gondor.[file:73]"
+        }
+      ]
+    },
+    {
+      "region_id": 14,
+      "region_name": "Westmarch",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Northmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Rohirrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunledings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Woses"
+        }
+      ]
+    },
+    {
+      "region_id": 15,
+      "region_name": "South Arthedain",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "name": "Bree-landers",
+          "type": "humans",
+          "description": "Mixed folk of Bree and its environs, including men of various stocks and hobbits, living in and around a trenched, hedged village at the junction of the Greenway and Great East Road, once a vibrant trade-town but fading by T.A. 1640.[file:25]"
+        }
+      ]
+    },
+    {
+      "region_id": 16,
+      "region_name": "Minhiriath",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity dunlendings"
+        },
+        {
+          "name": "Tharbad people",
+          "type": "humans",
+          "description": "Merchants, craftsmen, guildsmen, smugglers and refugees crowd the fen‑ringed city of Tharbad, whose power shifts from Cardolan’s kings to Gondor’s Canotar and then to powerful guilds as war, flood and plague erode royal authority.[file:31]"
+        },
+        {
+          "name": "Saralainn",
+          "type": "humans",
+          "description": "Rowdy, semi‑independent clans of Saralainn and the Gwathló mouthlands whose culture blends Dunnish traditions and refugee influences, often providing both raiders and hardy defenders in the south.[file:31]"
+        }
+      ]
+    },
+    {
+      "region_id": 17,
+      "region_name": "Rast Vorn",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity dunlendings"
+        },
+        {
+          "name": "Beffraen",
+          "type": "humans",
+          "description": "A relatively primitive folk akin to Drúedain, inhabiting the dark woods of the Rast Vorn peninsula; they are secretive, use the treacherous forest and coasts to remain largely outside Dúnadan control and maintain their own customs.[file:31]"
+        },
+        {
+          "name": "Saralainn",
+          "type": "humans",
+          "description": "Rowdy, semi‑independent clans of Saralainn and the Gwathló mouthlands whose culture blends Dunnish traditions and refugee influences, often providing both raiders and hardy defenders in the south.[file:31]"
+        }
+      ]
+    },
+    {
+      "region_id": 18,
+      "region_name": "Harithilien",
+      "list": [
+        {
+          "name": "Rangers of Ithilien",
+          "type": "humans",
+          "description": "Gondorian rangers who launch stealth raids against Sauron's forces."
+        }
+      ]
+    },
+    {
+      "region_id": 19,
+      "region_name": "Lamedon",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunadan"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Daen folk"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Daen Coentis"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Sakalai"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Grey-elves of Edhellond"
+        }
+      ]
+    },
+    {
+      "region_id": 20,
+      "region_name": "Dor-en-Emyl",
+      "list": [
+        {
+          "name": "Princes of Dol Amroth",
+          "type": "humans",
+          "description": "Hereditary Dúnedain rulers of Dor‑en‑Ernil, holding a status just below the King and Steward; their line carries Elven blood and rules almost autonomously from Dol Amroth, symbolized by a silver Swan‑ship on deep blue."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunadan"
+        },
+        {
+          "name": "Eredrim",
+          "type": "humans",
+          "description": "Dunlending‑related highlanders of the Ered Tarthonion, descendants of the Daen Coentis; rugged village dwellers ruled by their own chieftains, paying tribute in kind, practicing animistic and sometimes dark rites and resisting assimilation."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunlendings"
+        },
+        {
+          "name": "Elves of Edhellond",
+          "type": "elves",
+          "description": "Sindar and Silvan Elves of the Elf‑haven in the Morthond delta; Sindar provide shipwrights, captains, and leaders, while Silvan Elves form most of the common folk, hunters, and fishers."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Corsairs"
+        }
+      ],
+      "description": "Dor‑en‑Ernil’s population mixes Dúnedain princes and lowland commoners with Eredrim highlanders descended from the Daen Coentis, independent Elves of Edhellond, and sailors, merchants, privateers, smugglers, and Corsair enemies across the bay."
+    },
+    {
+      "region_id": 21,
+      "region_name": "Enedhwaith",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunlendings"
+        },
+        {
+          "name": "Daen Iontis",
+          "type": "humans",
+          "description": "Militant Dunnish faction exemplified by clan Arailt and their allies, bitterly hating Dúnedain, closely linked to the Temple of Justice, and pushing for war and a harsh, sacrificial religion that twists old Daen beliefs.[file:32]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Daen Coentis"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunadan"
+        },
+        {
+          "name": "Stoors of New Maresh",
+          "type": "hobbits",
+          "description": "A small Stoor Hobbit community living in burrows on hills rising from a marsh near the Dunstrem, traveling by pole‑boats, trading herbs and fish, and protected by the treacherous wetlands and their own wariness of outsiders.[file:32]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Woses"
+        },
+        {
+          "name": "Merchants",
+          "type": "humans",
+          "description": "Merchants based in Larach Duhnnan and other sites move goods between clans and to Tharbad, while a hidden Smugglers’ Hold grows gort and tartella herbs for Corsairs of Umbar using Dunnish and Dúnadan frontmen.[file:32]"
+        }
+      ],
+      "description": "Dunland is dominated by Dunlendings—Daen Lintis highlanders descended from the Daen Coentis—living in extended family bands within clans, but also includes Dúnedain estates, Stoors, Drúedain in Caerdh Wood, organized traders, bards, healers and a powerful Dark‑influenced Temple hierarchy."
+    },
+    {
+      "region_id": 22,
+      "region_name": "Tol Fuin",
+      "list": [
+        {
+          "name": "Falathrim",
+          "type": "elves",
+          "description": "Descendants of the ancient mariners of the Falas, the Falathrim are the primary coastal Elves of Lindon, inhabiting Mithlond, Harlond and Forlond and maintaining shipbuilding and ocean-voyage traditions. They form the backbone of Lindon’s maritime culture and operate the Grey Havens as the main port to Valinor.[file:99]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "name": "Iathrim and Laegrim",
+          "type": "elves",
+          "description": "Sindar (Iathrim) and Green-elves (Laegrim) occupy Harlindon and southern Lindon, many as survivors of drowned Beleriand. Some resist living under Noldorin rule and eventually leave eastward to join Silvan realms, but others remain and shape Lindon’s woodland culture and rituals described in the culture and lifestyle sections.[file:99]"
+        },
+        {
+          "name": "Lindellim",
+          "type": "elves",
+          "description": "Nandor Elves (Lindellim) and Mithrim-related northern Sindar houses contribute additional Elven lineages within Lindon. The appendices detail house histories, territories and military forces, showing how they occupy various parts of Forlindon, Harlindon and Rhûnlindon and how their demographic share grows relative to the Noldor over time.[file:99]"
+        },
+        {
+          "name": "Dwarves of the Blue Mountains",
+          "type": "dwarves",
+          "description": "Dwarves inhabit halls and mines on the east side of the Blue Mountains, especially south of the Gulf of Lhûn; Thorin’s Halls (Durin’s Folk in exile) are located in this Lindon-adjacent zone. The introduction notes that even after all Elves depart in later Ages, Dwarves still dwell in their halls and keep mines in use.[file:99]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        }
+      ],
+      "description": "Lindon’s population is overwhelmingly Elvish, composed of multiple lineages (Noldor, Sindar, Laiquendi, Nandor, Falathrim) under Gil-galad and later Círdan, with a significant Dwarven presence in the Blue Mountains and peripheral contact with Men and Hobbits via routes and harbors. The Traveller’s Guide provides detailed population tables showing long-term decline through the Third Age."
+    },
+    {
+      "region_id": 23,
+      "region_name": "Tolfalas",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunadan"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity merchants"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunlendings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Woses"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Marshmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Smugglers"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Corsairs"
+        }
+      ],
+      "description": "Lebennin’s population is a layered mix: Númenórean-descended Dúnedain and urban Gondorians in the cities and ports, rural folk and Dunnish highlanders in the uplands, Drúedain in remote mountain valleys, Marshmen in the Ethir Anduin, and a constant presence of Sea-lords, sailors and smugglers bound up with the Bay of Belfalas."
+    },
+    {
+      "region_id": 24,
+      "region_name": "Iron Hills",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "name": "Dwarves of Durin",
+          "type": "dwarves",
+          "description": "Durin’s heirs and their people who, after the loss of Moria, established mining colonies at Silverplunge, Thunderclift, Silverpit, Long Peak and Norr-dum, and later reconnected with Erebor; ruled by a king advised by Dwarf-lords and by appointed Wardens in outlying colonies.[file:38]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "name": "Ice-orcs",
+          "type": "orcs",
+          "description": "Tall, gaunt, pale, sun-tolerant Orcs descended from Morgoth’s northern guards, ruling the Forodwaith from the Dark-Ice Fortress and mining outposts like Thollakar; they raid neighboring Lotan and Lossoth, worship Morgoth in gruesome festivals, and now answer uneasily to the Witch-king of Angmar.[file:38]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity common orcs"
+        }
+      ]
+    },
+    {
+      "region_id": 25,
+      "region_name": "Dale",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of Durin"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Ice-orcs"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Orc tribes of the Grey Mountains"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lossoth"
+        }
+      ],
+      "description": "The Grey Mountains region is sparsely populated but contested by Beornings in the Narrows, Dwarves of Durinâ€™s folk in mining colonies, Ice-orcs in northern fortresses and outposts, and several Orc tribes in passes and foothills, with Dragons, Undead and agents of Angmar and Gundabad influencing politics and warfare.[file:38]"
+    },
+    {
+      "region_id": 26,
+      "region_name": "Ronalindon",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Falathrim"
+        }
+      ],
+      "description": "A quiet, sparse population of Laiquendi and Falathrim Elves who lead simple, maritime-focused lives."
+    },
+    {
+      "region_id": 27,
+      "region_name": "Ered Luin",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of the Blue Mountains"
+        },
+        {
+          "name": "Mountain Giants",
+          "type": "giants",
+          "description": "Extremely long-lived, reclusive beings of immense size who dwell in the high peaks and avoid contact with other races."
+        }
+      ],
+      "description": "The Ered Luin is primarily inhabited by the Dwarves of Nogrod and Belegost's descendants, alongside scattered Elven wanderers and mountain Giants."
+    },
+    {
+      "region_id": 28,
+      "region_name": "Ardolyalinya",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Falathrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Iathrim and Laegrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lindellim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of the Blue Mountains"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        }
+      ],
+      "description": "Lindonâ€™s population is overwhelmingly Elvish, composed of multiple lineages (Noldor, Sindar, Laiquendi, Nandor, Falathrim) under Gil-galad and later CÃ­rdan, with a significant Dwarven presence in the Blue Mountains and peripheral contact with Men and Hobbits via routes and harbors. The Travellerâ€™s Guide provides detailed population tables showing long-term decline through the Third Age."
+    },
+    {
+      "region_id": 29,
+      "region_name": "Belegaer sea",
+      "list": [
+        {
+          "name": "Elves of the Grey Havens",
+          "type": "elves",
+          "description": "Elven mariners sailing the Sunset-rounders into the Undying West."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Corsairs"
+        }
+      ],
+      "description": "Traversed primarily by Elven ships sailing West, Gondorian merchants, and Haradrim/Corsair raiders."
+    },
+    {
+      "region_id": 30,
+      "region_name": "Lairiardhon",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Falathrim (Sea-Elves)"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Iathrim and Laegrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lindellim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of the Blue Mountains"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        }
+      ],
+      "description": "Lindonâ€™s population is overwhelmingly Elvish, composed of multiple lineages (Noldor, Sindar, Laiquendi, Nandor, Falathrim) under Gil-galad and later CÃ­rdan, with a significant Dwarven presence in the Blue Mountains and peripheral contact with Men and Hobbits via routes and harbors. The Travellerâ€™s Guide provides detailed population tables showing long-term decline through the Third Age."
+    },
+    {
+      "region_id": 31,
+      "region_name": "Lildardhon",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Falathrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Iathrim and Laegrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lindellim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of the Blue Mountains"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        }
+      ],
+      "description": "Lindonâ€™s population is overwhelmingly Elvish, composed of multiple lineages (Noldor, Sindar, Laiquendi, Nandor, Falathrim) under Gil-galad and later CÃ­rdan, with a significant Dwarven presence in the Blue Mountains and peripheral contact with Men and Hobbits via routes and harbors. The Travellerâ€™s Guide provides detailed population tables showing long-term decline through the Third Age."
+    },
+    {
+      "region_id": 32,
+      "region_name": "South Harlindon",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Laiquendi of Harlindon"
+        },
+        {
+          "name": "Dwarf Miners of Harlindon",
+          "type": "dwarves",
+          "description": "Dwarves operating coal and iron mines on the eastern slopes of the southern Blue Mountains."
+        }
+      ],
+      "description": "Inhabitants are primarily Sindar and Laiquendi Elves who prefer a woodland life, along with some Dwarven coal miners in the east."
+    },
+    {
+      "region_id": 33,
+      "region_name": "Ardquetto",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Falathrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Iathrim and Laegrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lindellim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of the Blue Mountains"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        }
+      ],
+      "description": "Lindonâ€™s population is overwhelmingly Elvish, composed of multiple lineages (Noldor, Sindar, Laiquendi, Nandor, Falathrim) under Gil-galad and later CÃ­rdan, with a significant Dwarven presence in the Blue Mountains and peripheral contact with Men and Hobbits via routes and harbors. The Travellerâ€™s Guide provides detailed population tables showing long-term decline through the Third Age."
+    },
+    {
+      "region_id": 34,
+      "region_name": "Ered Luin Vales",
+      "list": [
+        {
+          "name": "Dwarves of Nan-i-Naugrim",
+          "type": "dwarves",
+          "description": "Firebeards and Broadbeams living in the fourteen holds of Nan-i-Naugrim. They maintain active smithing traditions and weapon-crafting at Merlost."
+        }
+      ],
+      "description": "The primary population of the vales is Dwarves of Durin's Folk and descendants of Belegost and Nogrod."
+    },
+    {
+      "region_id": 35,
+      "region_name": "Central Anduin",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Northmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "name": "Hillmen of Rhudaur",
+          "type": "humans",
+          "description": "Short, dark, stocky men of the rugged hills of Rhudaur, distantly related to Dunlendings; superb mountaineers but deeply suspicious of outsiders, prone to treachery and ambush. Worship vengeful petty deities with blood sacrifice. Traditional enemies of both DÃºnedain and Northmen; greatly fear Elves. Some served in the hosts of the Witch-king of Angmar alongside Orcs, an uneasy alliance. Survive as hunters, gatherers and occasional brigands in the broken terrain.[file:88]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Orcs"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Great Eagles"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Giants"
+        }
+      ],
+      "description": "The region is sparsely populated by several distinct peoples: Northmen (Nenedain) in the Anduin Vales, Beornings on the eastern bank, Hillmen in the rough hills of Rhudaur, and Orcs in the mountain strongholds, alongside rarer presences of Elves, Dwarves, Giants and Eagles."
+    },
+    {
+      "region_id": 36,
+      "region_name": "Ronen-in-Anduin",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Northmen"
+        }
+      ],
+      "description": "Inhabited by scattered Northmen herders and wandering Easterling scouts."
+    },
+    {
+      "region_id": 37,
+      "region_name": "Woodmen",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Woodmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Northmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Eothraim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Gondorian Settlers"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Asdriags"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Sindarin"
+        },
+        {
+          "name": "Radagast the Brown",
+          "type": "maiar",
+          "description": "The Wizard dwelling at Rhosgobel on the western edge of Mirkwood, devoting his power and attention to birds and beasts rather than politics, and providing a rare point of light and refuge in the shadowed woods."
+        },
+        {
+          "name": "The Necromancer of Dol Guldur",
+          "type": "maiar",
+          "description": "Sauron in his guise as the Necromancer, occupying Dol Guldur since the 12th century T.A., radiating fear and corruption, breeding Orcs, trolls, spiders and fell beasts, and acting as the dark center of Southern Mirkwood."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Orcs"
+        }
+      ],
+      "description": "Southern Rhovanion is a country under siege: Beijabar and Wood-men cling to the western eaves, horse-lords and Gramuz Northmen fight for survival on the Talath Harroch, Gondor projects power along the Anduin and into Dor RhÃ»nen, Easterling tribes press from the east, and above all Dol Guldur and its Necromancer darken the forest and shape the fate of all inhabitants after the Great Plague."
+    },
+    {
+      "region_id": 38,
+      "region_name": "Nan Anduin",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        }
+      ],
+      "description": "Home to Beornings (Beijabar), Woodmen, and pastoral Northmen."
+    },
+    {
+      "region_id": 39,
+      "region_name": "Central Misty Mountains",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Northmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hillmen of Rhudaur"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Orcs"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Great Eagles"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Giants"
+        }
+      ],
+      "description": "The region is sparsely populated by several distinct peoples: Northmen (Nenedain) in the Anduin Vales, Beornings on the eastern bank, Hillmen in the rough hills of Rhudaur, and Orcs in the mountain strongholds, alongside rarer presences of Elves, Dwarves, Giants and Eagles."
+    },
+    {
+      "region_id": 40,
+      "region_name": "Tower Hills",
+      "list": [
+        {
+          "name": "Elves of Mithlond",
+          "type": "elves",
+          "description": "High Elves who keep watch over the Elostirion tower and the road to the west."
+        }
+      ],
+      "description": "Inhabited by high elves of Lindon and occasional Hobbit travelers."
+    },
+    {
+      "region_id": 41,
+      "region_name": "West Rhudaur",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Hillmen of Rhudaur"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Gondorian Settlers"
+        }
+      ],
+      "description": "Rhudaurâ€™s population is sparse and concentrated in hill-country and strategic sites such as Cameth Brin and the Angle. Politically, it is the easternmost and least stable of Arnorâ€™s successor realms, dominated by Hillmen and later influenced or controlled by Angmar. The Arnor bookâ€™s detailed cultural and political treatment is split across Arnor: The Land and Arnor: The People; here we focus on the geographic side, noting the Hillmen and Rhudaurrim as the characteristic inhabitants of this harsh landscape."
+    },
+    {
+      "region_id": 42,
+      "region_name": "En Egladil",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Hillmen of Rhudaur"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Gondorian Settlers"
+        }
+      ],
+      "description": "Rhudaurâ€™s population is sparse and concentrated in hill-country and strategic sites such as Cameth Brin and the Angle. Politically, it is the easternmost and least stable of Arnorâ€™s successor realms, dominated by Hillmen and later influenced or controlled by Angmar. The Arnor bookâ€™s detailed cultural and political treatment is split across Arnor: The Land and Arnor: The People; here we focus on the geographic side, noting the Hillmen and Rhudaurrim as the characteristic inhabitants of this harsh landscape."
+    },
+    {
+      "region_id": 43,
+      "region_name": "Trollshaws",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Hillmen of Rhudaur"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunadan"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Gondorians Settlers"
+        }
+      ],
+      "description": "Rhudaurâ€™s population is sparse and concentrated in hill-country and strategic sites such as Cameth Brin and the Angle. Politically, it is the easternmost and least stable of Arnorâ€™s successor realms, dominated by Hillmen and later influenced or controlled by Angmar. The Arnor bookâ€™s detailed cultural and political treatment is split across Arnor: The Land and Arnor: The People; here we focus on the geographic side, noting the Hillmen and Rhudaurrim as the characteristic inhabitants of this harsh landscape."
+    },
+    {
+      "region_id": 44,
+      "region_name": "Ettenmoors",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Hillmen of Rhudaur"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Gondorian Settlers"
+        }
+      ],
+      "description": "Rhudaurâ€™s population is sparse and concentrated in hill-country and strategic sites such as Cameth Brin and the Angle. Politically, it is the easternmost and least stable of Arnorâ€™s successor realms, dominated by Hillmen and later influenced or controlled by Angmar. The Arnor bookâ€™s detailed cultural and political treatment is split across Arnor: The Land and Arnor: The People; here we focus on the geographic side, noting the Hillmen and Rhudaurrim as the characteristic inhabitants of this harsh landscape."
+    },
+    {
+      "region_id": 45,
+      "region_name": "Coldfells",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Northmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hillmen of Rhudaur"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Orcs"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Great Eagles"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Giants"
+        }
+      ],
+      "description": "The region is sparsely populated by several distinct peoples: Northmen (Nenedain) in the Anduin Vales, Beornings on the eastern bank, Hillmen in the rough hills of Rhudaur, and Orcs in the mountain strongholds, alongside rarer presences of Elves, Dwarves, Giants and Eagles."
+    },
+    {
+      "region_id": 46,
+      "region_name": "Angmar",
+      "list": [
+        {
+          "name": "Men of Rhudaur",
+          "type": "humans",
+          "description": "Men of the former kingdom of Rhudaur; many soldiers, especially land-hungry peasants, enlist in Angmarâ€™s armies and later settle as soldier-farmers in fortified villages."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Asdriags and Sagath"
+        },
+        {
+          "name": "Estaravi",
+          "type": "humans",
+          "description": "Northmen of the Great River valleys; some young men, especially those with strong warrior values, join the Witch-kingâ€™s forces seeking wealth and opportunity."
+        },
+        {
+          "name": "Angmar veterans",
+          "type": "humans",
+          "description": "Ex-soldiers of Angmar settled as freemen in fortified villages along the borders; they farm, patrol daily, escort supply trains, and provide additional troops in wartime."
+        },
+        {
+          "name": "Slaves",
+          "type": "humans",
+          "description": "Captives and subjugated people from various backgrounds who work the land to support the warrior elite, although the harsh climate forces some warriors to continue agricultural labor."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Orcs"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Witch King of Angmar"
+        }
+      ],
+      "description": "Angmarâ€™s population mixes free and enslaved men with strong contingents of professional soldiers and ex-soldiers from warrior cultures such as Rhudaur, RÃ»n, and the Estarav of the Anduin, supported by orcs, trolls, and other creatures in the Witch-kingâ€™s service."
+    },
+    {
+      "region_id": 47,
+      "region_name": "Ered Luin",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of the Blue Mountains"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Giants"
+        }
+      ],
+      "description": "The Ered Luin is primarily inhabited by the Dwarves of Nogrod and Belegost's descendants, alongside scattered Elven wanderers and mountain Giants."
+    },
+    {
+      "region_id": 48,
+      "region_name": "Numeriador",
+      "list": [
+        {
+          "name": "Hillmen shepherds",
+          "type": "humans",
+          "description": "Hardy nomadic herders who graze their sheep in the southern valleys."
+        }
+      ],
+      "description": "Sparsely populated by wandering hillmen and isolated shepherds."
+    },
+    {
+      "region_id": 49,
+      "region_name": "Ascahiriand",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Falathrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Iathrim and Laegrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lindellim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of the Blue Mountains"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        }
+      ],
+      "description": "Lindonâ€™s population is overwhelmingly Elvish, composed of multiple lineages (Noldor, Sindar, Laiquendi, Nandor, Falathrim) under Gil-galad and later CÃ­rdan, with a significant Dwarven presence in the Blue Mountains and peripheral contact with Men and Hobbits via routes and harbors. The Travellerâ€™s Guide provides detailed population tables showing long-term decline through the Third Age."
+    },
+    {
+      "region_id": 50,
+      "region_name": "En Udanoriath",
+      "list": [
+        {
+          "name": "Angmarean Patrols",
+          "type": "common orcs",
+          "description": "Orc scouts and Mannish soldiers operating from border towers like Cargash."
+        },
+        {
+          "name": "Rangers of the North",
+          "type": "humans",
+          "description": "DÃºnedain rangers monitoring the movements of the Witch-king's armies."
+        }
+      ],
+      "description": "Entirely devoid of permanent settlements; traversed only by soldiers, orc warbands, and Dunlending mercenaries."
+    },
+    {
+      "region_id": 51,
+      "region_name": "MÃ¤noriand",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Falathrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Iathrim and Laegrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lindellim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of the Blue Mountains"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        }
+      ],
+      "description": "Lindonâ€™s population is overwhelmingly Elvish, composed of multiple lineages (Noldor, Sindar, Laiquendi, Nandor, Falathrim) under Gil-galad and later CÃ­rdan, with a significant Dwarven presence in the Blue Mountains and peripheral contact with Men and Hobbits via routes and harbors. The Travellerâ€™s Guide provides detailed population tables showing long-term decline through the Third Age."
+    },
+    {
+      "region_id": 52,
+      "region_name": "Celanoriand",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Falathrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Iathrim and Laegrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lindellim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of the Blue Mountains"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        }
+      ],
+      "description": "Lindonâ€™s population is overwhelmingly Elvish, composed of multiple lineages (Noldor, Sindar, Laiquendi, Nandor, Falathrim) under Gil-galad and later CÃ­rdan, with a significant Dwarven presence in the Blue Mountains and peripheral contact with Men and Hobbits via routes and harbors. The Travellerâ€™s Guide provides detailed population tables showing long-term decline through the Third Age."
+    },
+    {
+      "region_id": 53,
+      "region_name": "Sandariand",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Falathrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Iathrim and Laegrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lindellim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of the Blue Mountains"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        }
+      ],
+      "description": "Lindonâ€™s population is overwhelmingly Elvish, composed of multiple lineages (Noldor, Sindar, Laiquendi, Nandor, Falathrim) under Gil-galad and later CÃ­rdan, with a significant Dwarven presence in the Blue Mountains and peripheral contact with Men and Hobbits via routes and harbors. The Travellerâ€™s Guide provides detailed population tables showing long-term decline through the Third Age."
+    },
+    {
+      "region_id": 54,
+      "region_name": "Talath Muil",
+      "list": [
+        {
+          "name": "Rangers of Arthadan",
+          "type": "humans",
+          "description": "Frontier shepherds, small steads and watch-forts on the northwestern marches of Arthedain use the fringes of Talath Muil for grazing and as a staging ground, but the bleak climate and exposure prevent large-scale settlement. During the wars with Angmar, local militias are pinned on frontiers and armies cross these uplands, as described in the accounts of battles around Fornost and the Emyn Uial.[file:179][file:132]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lossoth"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Orcs"
+        }
+      ],
+      "description": "Talath Muil sits at the far edge of Arthedainâ€™s settled world. It has no dense population; its human presence consists of frontier shepherds, border watchposts and moving armies during the wars against Angmar. Even hardy Lossoth avoid this 'drear plain.'"
+    },
+    {
+      "region_id": 55,
+      "region_name": "Rammas Formen",
+      "list": [
+        {
+          "name": "Faithful of Arnor",
+          "type": "humans",
+          "description": "For a time the Rammas, like the lower but more abrupt down-lands to the south, serves as a religious retreat for the Faithful of Arnor. Monastic houses, hermitages and small religious enclaves occupy hilltops and defiles, combining contemplative life with subsistence gardening and herding in the sheltered pockets of the ridge."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunadan"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Orcs"
+        },
+        {
+          "name": "Lumimiehet",
+          "type": "humans",
+          "description": "The LumÃ«nyihmÃ«nyt roam the northernmost stretches of the Rammas Forod from early spring through mid-autumn. Their camps, perched on rocky slopes, are crude hunting sites intended to last days or at most weeks. Reserved and wary, they usually break camp and move rather than deal with rough strangers, but if approached carefully they can provide detailed information about local geography, hazards and notable features."
+        }
+      ],
+      "description": "In the late Third Age before the War of the Ring, the Rammas Forod functions as both a fortified frontier between Arthedain and Angmar and a zone of religious retreat. Permanent population is sparse, concentrated in strongpoints, tiny farmsteads in sheltered defiles and seasonal hunter camps along the northern edge."
+    },
+    {
+      "region_id": 56,
+      "region_name": "Evendim Hills",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Rural Men"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "name": "Tinkers and travellers",
+          "type": "humans",
+          "description": "Tinkers and peddlers move from steading to steading along hardpacked and paved roads, doing odd jobs, selling goods and carrying news and gossip. They are described as friendly and talkative, equal in information value to merchants and often more approachable, shaping the social fabric of the hills.[file:179]"
+        }
+      ],
+      "description": "The Evendim Hills (Emyn Uial) are home primarily to the Commons of Arthedainâ€”the hillfolk of the Twilight Hillsâ€”with stern but just DÃºnedain lords. Their culture is shaped by hard labour, cool damp climate and relative peace under Arthadan rule. Later, wars and the Banes of Angmar depopulate the hills, but in your period they remain a living, if harsh, homeland."
+    },
+    {
+      "region_id": 57,
+      "region_name": "Fornost",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Rangers of the North"
+        }
+      ],
+      "description": "Deserted by civilized folk; only rangers and occasional tomb-robbers pass through."
+    },
+    {
+      "region_id": 58,
+      "region_name": "Old Forest",
+      "list": [
+        {
+          "name": "Tom Bombadil",
+          "type": "maiar",
+          "description": "The oldest being, who sings songs to calm the angry trees of the forest."
+        }
+      ],
+      "description": "Uninhabited by mortals; Hobbits fear to enter, and only Tom Bombadil dwells on its borders."
+    },
+    {
+      "region_id": 59,
+      "region_name": "South Downs",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lossoth"
+        },
+        {
+          "name": "Bree-landers",
+          "type": "humans",
+          "description": "Mixed folk of Bree and its environs, including men of various stocks and hobbits, living in and around a trenched, hedged village at the junction of the Greenway and Great East Road, once a vibrant trade-town but fading by T.A. 1640.[file:25]"
+        },
+        {
+          "name": "Rivermen traders",
+          "type": "humans",
+          "description": "River-folk who ply the Baranduin and other northern rivers, claiming the waters as their own and serving trade and communication between Arthedain, Lindon and other regions.[file:25]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Farathrim"
+        }
+      ],
+      "description": "Arthedainâ€™s population is dominated by the high Men of the DÃºnedain, with important minorities including the hobbits of the Shire, the Lossoth of Forochel, rivermen on the northern waters, Bree-landers at the crossroads, and scattered Northmen and Dunlendish groups on the borders."
+    },
+    {
+      "region_id": 60,
+      "region_name": "Mintyrnath",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Northmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunlendings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beffraen"
+        },
+        {
+          "name": "Urban folk and guilds of Tharbad",
+          "description": "Merchants, craftsmen, guildsmen, smugglers and refugees crowd the fenâ€‘ringed city of Tharbad, whose power shifts from Cardolanâ€™s kings to Gondorâ€™s Canotar and then to powerful guilds as war, flood and plague erode royal authority.[file:31]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Saralainn"
+        }
+      ],
+      "description": "Cardolanâ€™s population mixes DÃºnedain princes and warriors, Eriadoran Northmen, Dunlendings, Beffraen and later southern refugees; after the Kingdomâ€™s fall the land fragments into rival principalities, mercenary companies, peasant rebels, Gondorian garrisons and eventually banditâ€‘ridden ruins under the shadow of Angmar."
+    },
+    {
+      "region_id": 61,
+      "region_name": "Weather Hills",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Rural Men"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Bree-landers"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Rural Men"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        }
+      ],
+      "description": "Arthedainâ€™s population is dominated by the high Men of the DÃºnedain, with important minorities including the hobbits of the Shire, the Lossoth of Forochel, rivermen on the northern waters, Bree-landers at the crossroads, and scattered Northmen and Dunlendish groups on the borders."
+    },
+    {
+      "region_id": 62,
+      "region_name": "Rohan",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Rohirrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Rohirrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Rohirrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunlendings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Woses"
+        }
+      ],
+      "description": "The Horseâ€‘lords are a wandering people whose history passes through three main stagesâ€”othraim in southern Rhovanion, othod in the vales of the Anduin, and Rohirrim in Rohanâ€”remaining semiâ€‘nomadic and horseâ€‘centered but evolving from scattered clans to a unified kingdom at the heart of western trade and war."
+    },
+    {
+      "region_id": 63,
+      "region_name": "Wold",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Rohirrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Rohirrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Rohirrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunlendings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Woses"
+        }
+      ],
+      "description": "The Horseâ€‘lords are a wandering people whose history passes through three main stagesâ€”othraim in southern Rhovanion, othod in the vales of the Anduin, and Rohirrim in Rohanâ€”remaining semiâ€‘nomadic and horseâ€‘centered but evolving from scattered clans to a unified kingdom at the heart of western trade and war."
+    },
+    {
+      "region_id": 64,
+      "region_name": "Apariach",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Falathrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Iathrim and Laegrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lindellim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of the Blue Mountains"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        }
+      ],
+      "description": "Lindonâ€™s population is overwhelmingly Elvish, composed of multiple lineages (Noldor, Sindar, Laiquendi, Nandor, Falathrim) under Gil-galad and later CÃ­rdan, with a significant Dwarven presence in the Blue Mountains and peripheral contact with Men and Hobbits via routes and harbors. The Travellerâ€™s Guide provides detailed population tables showing long-term decline through the Third Age."
+    },
+    {
+      "region_id": 65,
+      "region_name": "Vinyalas",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Falathrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Iathrim and Laegrim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lindellim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dwarves of the Blue Mountains"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        }
+      ],
+      "description": "Lindonâ€™s population is overwhelmingly Elvish, composed of multiple lineages (Noldor, Sindar, Laiquendi, Nandor, Falathrim) under Gil-galad and later CÃ­rdan, with a significant Dwarven presence in the Blue Mountains and peripheral contact with Men and Hobbits via routes and harbors. The Travellerâ€™s Guide provides detailed population tables showing long-term decline through the Third Age."
+    },
+    {
+      "region_id": 66,
+      "region_name": "Forovirian",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Orcs"
+        },
+        {
+          "name": "Goblin King of Gundabad",
+          "type": "uruk-hai",
+          "description": "Title for the tyrannical overlord who rules Mount Gundabad and claims suzerainty over all Orc tribes of the mountains; his court in the spires is rife with intrigue, assassination, and revolt."
+        },
+        {
+          "name": "Priests of Darkness",
+          "type": "half-orcs",
+          "description": "Orcish priests who preserve records of goblin deeds over two Ages and guard secret lore and rituals in hidden chambers, including tales of the coming from Morgothâ€™s realm."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Slaves"
+        }
+      ],
+      "description": "Mount Gundabad is overwhelmingly an Orc realm, ruled by a Goblinâ€‘king recognized as overlord of the Orcs of the Mountains under the distant suzerainty of the Witchâ€‘king of Angmar; it also holds numerous slaves from surrounding lands."
+    },
+    {
+      "region_id": 67,
+      "region_name": "Talath Uichel",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Lossoth"
+        },
+        {
+          "name": "Helechoth",
+          "type": "humans",
+          "description": "A land-focused YstvÃ¤t Talven sub-culture relying heavily on herd management and inland hunting, occupying central Talath Uichel and interacting with both Lossoth and Angmarâ€™s frontier forces.[file:39]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lossoth"
+        },
+        {
+          "name": "Snow-elves",
+          "type": "elves",
+          "description": "The Lossidil Snow-elves maintain Helloth, an enchanted ice city on the Landless Land, and patrol the polar wastes and Talath Uichelâ€™s far north, guarding Helecthilâ€™s radiance and intervening occasionally in mortal affairs.[file:39]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Umli"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Orcs"
+        }
+      ],
+      "description": "Talath Uichel and the Landless Land are the main domains of the YstvÃ¤t Talven tundra folk, Snow-elves in their icy city, Angmarâ€™s sled-hordes and scattered frontier groups from Eriador; very few others can endure the conditions.[file:39]"
+    },
+    {
+      "region_id": 68,
+      "region_name": "North Misty Mountains",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Northmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hillmen of Rhudaur"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Orcs"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Great Eagles"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Giants"
+        }
+      ],
+      "description": "The region is sparsely populated by several distinct peoples: Northmen (Nenedain) in the Anduin Vales, Beornings on the eastern bank, Hillmen in the rough hills of Rhudaur, and Orcs in the mountain strongholds, alongside rarer presences of Elves, Dwarves, Giants and Eagles."
+    },
+    {
+      "region_id": 69,
+      "region_name": "Wilderness of Arnor",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Northmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hillmen of Rhudaur"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Orcs"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Great Eagles"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Giants"
+        }
+      ],
+      "description": "The region is sparsely populated by several distinct peoples: Northmen (Nenedain) in the Anduin Vales, Beornings on the eastern bank, Hillmen in the rough hills of Rhudaur, and Orcs in the mountain strongholds, alongside rarer presences of Elves, Dwarves, Giants and Eagles."
+    },
+    {
+      "region_id": 70,
+      "region_name": "Eregion",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Noldor"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Sindarin"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Silvan"
+        },
+        {
+          "name": "Dwarves of Khazad-dum",
+          "type": "dwarves",
+          "description": "Allied Dwarves who trade extensively with the Noldor of Eregion, exchanging ores and craft for Elven goods and knowledge; their friendship is largely driven by shared interest in craft and learning."
+        },
+        {
+          "name": "Galadriel and Celeborn",
+          "type": "elves",
+          "description": "Queen and King of Eregion in its early years, residing in a modest but elegant city house and a country estate; Galadriel is the political and prophetic mind pushing for alliance against Morgothâ€™s lingering evil."
+        },
+        {
+          "name": "Celebrimbor",
+          "type": "elves",
+          "description": "Master Smith, founder of the Gwaith-i-MÃ­rdain and de facto leader of the craft community; arguably the second-greatest Elven smith after FÃ«anor, and the maker of the Three Rings."
+        }
+      ],
+      "description": "Eregion is a Noldorin-founded realm ruled initially by Galadriel and Celeborn, with Celebrimbor and the Gwaith-i-MÃ­rdain dominating its crafts and politics. The population includes Noldor, Sindar, and Silvan Elves, with close ties to the Dwarves of Khazad-dÃ»m and scattered rustic Silvan shepherds in the less-settled triangle between the Sirannon and the Glanduin."
+    },
+    {
+      "region_id": 71,
+      "region_name": "Moria",
+      "list": [
+        {
+          "name": "Orcs of Khazad-dum",
+          "type": "common orcs",
+          "description": "Sauron's servants who plunder the ancient dwarven vaults."
+        }
+      ],
+      "description": "Currently occupied by the Orc-hordes of the Misty Mountains and a few isolated dwarven parties."
+    },
+    {
+      "region_id": 72,
+      "region_name": "Dunland",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunlendings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Daen Iontis"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Daen Coentis"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Woses"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Smugglers"
+        }
+      ],
+      "description": "Dunland is dominated by Dunlendingsâ€”Daen Lintis highlanders descended from the Daen Coentisâ€”living in extended family bands within clans, but also includes DÃºnedain estates, Stoors, DrÃºedain in Caerdh Wood, organized traders, bards, healers and a powerful Darkâ€‘influenced Temple hierarchy."
+    },
+    {
+      "region_id": 73,
+      "region_name": "Forochel",
+      "list": [
+        {
+          "name": "Merënyetsënyt",
+          "type": "humans",
+          "description": "YstvÃ¤t Talven who dwell on moving icebergs and along the Bay of Forochelâ€™s shores, hunting whales, seals and walruses; they are stocky, short, fair-haired and remarkably resistant to cold and immersion, but suffer high mortality from the hazards of the sea.[file:39]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lossoth"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Snow Elves"
+        },
+        {
+          "name": "Noldorin mystics",
+          "type": "elves",
+          "description": "An obscure order of Noldorin mystics maintains Evermist, a hidden valley on the Cape of Forochel that serves as a haven for the Free Peoples and base for resistance to the Witch-king of Angmar.[file:39]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Rural Men"
+        }
+      ],
+      "description": "Forochel is the heartland of the YstvÃ¤t Talven sea-hunters and tundra folk, but also hosts Snow-elves, Noldorin mystics at Evermist and southern whaling expeditions, all under the distant shadow of Angmar.[file:39]"
+    },
+    {
+      "region_id": 74,
+      "region_name": "Mordor",
+      "list": [
+        {
+          "name": "Sauron's Armies",
+          "type": "common orcs",
+          "description": "Huge armies of Orcs, Olog-hai (trolls), and Easterling/Haradrim auxiliaries garrisoning the black towers."
+        }
+      ],
+      "description": "Warlike populations of Orcs, Trolls, Half-Orcs, and dark Men loyal to Sauron."
+    },
+    {
+      "region_id": 75,
+      "region_name": "Forithilien",
+      "list": [
+        {
+          "name": "Rangers of Ithilien",
+          "type": "humans",
+          "description": "By the War of the Ring, Ithilienâ€™s main Gondorian inhabitants are the Rangers under Faramir, who use secret refuges such as Henneth AnnÃ»n and move stealthily through the woods, observing and ambushing enemy forces.[web:221][web:226] They are DÃºnedain of Gondor or men closely allied with them, deeply familiar with the landâ€™s paths, streams and cover."
+        },
+        {
+          "name": "Displaced Gondorian folk (earlier Third Age context)",
+          "description": "Earlier in the Third Age, Ithilien was one of Gondorâ€™s core provinces, governed from Minas Ithil and described as very fertile and well-settled.[web:224][web:225] Over time, growing threats from Mordor and raids forced most of its inhabitants back over the Anduin; remnants of villages, gardens and roads remain in North Ithilien as ruins and overgrown clearings."
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Haradrim"
+        }
+      ],
+      "description": "In Forithilienâ€™s late Third Age state, permanent civilian settlement has largely withdrawn across the Anduin, but its land still bears the imprint of Gondorâ€™s earlier occupation and its present use as a hidden war-front. The primary human presence is Faramirâ€™s rangers, operating from secret refuges among the woods and cliffs, with enemy movements from Mordor crossing the region along roads and tracks."
+    },
+    {
+      "region_id": 76,
+      "region_name": "Nurn",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Slaves"
+        }
+      ],
+      "description": "Populated by tens of thousands of slaves and their Orc taskmasters."
+    },
+    {
+      "region_id": 77,
+      "region_name": "Druwaith Laur",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Woses"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunlendings"
+        }
+      ],
+      "description": "Entirely depopulated of Gondorian settlers; inhabited solely by native DrÃºedain and rustic Dunlending clans."
+    },
+    {
+      "region_id": 78,
+      "region_name": "Hairavercien",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Daen folk"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Daen Coentis"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Sakalai"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Sindarin"
+        }
+      ],
+      "description": "Southern Gondor is the most populous and civilized part of Gondor, dominated by DÃºnedain nobility and the Daen-DÃºnedain mixed population of the river plains, with Daen highlanders (Orodbedhrim) in the upland vales, swamp peoples in the Ethir Anduin, and Grey-elves at Edhellond."
+    },
+    {
+      "region_id": 79,
+      "region_name": "Andrast",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Daen folk"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Daen Coentis"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Sakalai"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Sindarin"
+        }
+      ],
+      "description": "Southern Gondor is the most populous and civilized part of Gondor, dominated by DÃºnedain nobility and the Daen-DÃºnedain mixed population of the river plains, with Daen highlanders (Orodbedhrim) in the upland vales, swamp peoples in the Ethir Anduin, and Grey-elves at Edhellond."
+    },
+    {
+      "region_id": 80,
+      "region_name": "Rivendell",
+      "list": [
+        {
+          "name": "Elves of Rivendell",
+          "type": "elves",
+          "description": "Rivendell is home to a mixed Elven population: Noldor lords and craftsmen, Sindar and numerous Silvan Elves who tend the grounds, agriculture and patrols.[file:244] Elves are tall, ageless, disease-immune, highly resistant to heat and cold, and in Rivendell they live in a hierarchical but willing social structure centred on Elrond as Lord of the House, with Silvan Elves often delighting in service and colourful dress, Sindar and Noldor taking leadership and craft roles, and nearly all residents trained to aid in defence when needed.[file:244]"
+        },
+        {
+          "name": "Elrond",
+          "type": "elves",
+          "description": "Elrond Half-elven, descended from both Eldar and Edain, founded Imladris in S.A. 1697 after the fall of Eregion and has since served as Lord of Rivendell, keeper of heirlooms of Arnor and wielder of Vilya, the Ring of Air.[file:244] His household includes his family (Celebrian, Elladan and Elrohir), other Noldorin lords, craftsmen, scholars and hosts, forming a cultured, self-sustaining enclave that also serves as headquarters for the Rangers and meeting place for the White Council in the late Third Age.[file:244]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hillmen of Rhudaur"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunlendings"
+        }
+      ],
+      "description": "The Vale of Rivendell is centred on Elrondâ€™s Elvish household and the Rangers of the North, but the surrounding Rhudaur region also includes Hillmen and Dunlendings, as well as scattered DÃºnedain settlements that decline over time. The module treats Rivendell as a self-contained Elven estate with its own internal social order, set amid a sparsely populated and increasingly hostile human landscape.[file:244]"
+    },
+    {
+      "region_id": 81,
+      "region_name": "Lone-lands",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Hillmen of Rhudaur"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Gondor Settlers"
+        }
+      ],
+      "description": "Rhudaurâ€™s population is sparse and concentrated in hill-country and strategic sites such as Cameth Brin and the Angle. Politically, it is the easternmost and least stable of Arnorâ€™s successor realms, dominated by Hillmen and later influenced or controlled by Angmar. The Arnor bookâ€™s detailed cultural and political treatment is split across Arnor: The Land and Arnor: The People; here we focus on the geographic side, noting the Hillmen and Rhudaurrim as the characteristic inhabitants of this harsh landscape."
+    },
+    {
+      "region_id": 82,
+      "region_name": "Fangorn",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Ents"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Huorns"
+        },
+        {
+          "name": "Calenardhons",
+          "type": "humans",
+          "description": "The Calenardhons are Men inhabiting the plains south of Fangorn (precursors or analogues to the Rohirrim). The 'Borders' chapter (6.11) describes their settlements along the Entwash and their interactions with Fangorn, including trading, grazing near the forest and occasional conflicts or alliances with Ents and border powers.[file:154]"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Silvan"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Rural Men"
+        }
+      ],
+      "description": "Fangornâ€™s 'people' straddle the line between fauna and cultures: Ents and Huorns are central, while human and other groups inhabit or contest the borders along the Entwash and Limlight. The module splits these between 'Politics and Power: Fangorn' (Ents, Huorns) and 'Politics and Power: The Borders' (Calenardhons, Silvan Elves, Barz Thrugrim, etc.)."
+    },
+    {
+      "region_id": 83,
+      "region_name": "Dor Guldur",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Woodmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Beornings"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Northmen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Eothraim"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Gondorian Settlers"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Asdriags"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Silvan"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Radagast the Brown"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity The Necromancer of Dol Guldur"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Orcs"
+        }
+      ],
+      "description": "Southern Rhovanion is a country under siege: Beijabar and Wood-men cling to the western eaves, horse-lords and Gramuz Northmen fight for survival on the Talath Harroch, Gondor projects power along the Anduin and into Dor RhÃ»nen, Easterling tribes press from the east, and above all Dol Guldur and its Necromancer darken the forest and shape the fate of all inhabitants after the Great Plague."
+    },
+    {
+      "region_id": 84,
+      "region_name": "Lorien",
+      "list": [
+        {
+          "name": "Galadhrim",
+          "type": "elves",
+          "description": "The Silvan and Sindarin Elves of LÃ³rien, known for their skill in woodcraft, stealth, and the construction of flets among the mallorn trees."
+        },
+        {
+          "name": "Galadriel",
+          "type": "elves",
+          "description": "Lady of LÃ³rien, a Noldorin princess and Ring-bearer, whose wisdom and foresight shape the realmâ€™s defenses and long-term stance against Sauron."
+        },
+        {
+          "name": "Celeborn",
+          "type": "elves",
+          "description": "Lord of LÃ³rien and consort of Galadriel, providing military and diplomatic leadership and embodying Sindarin traditions within the Golden Wood."
+        }
+      ],
+      "description": "LÃ³rien is inhabited mainly by Silvan and Sindarin Elves under the rule of Galadriel and Celeborn, with a culture focused on preservation, song, subtle magic, and cautious isolation from the outside world."
+    },
+    {
+      "region_id": 85,
+      "region_name": "The Shire",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Lossoth"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Bree-landers"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Rivermen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Farathrim"
+        }
+      ],
+      "description": "Arthedainâ€™s population is dominated by the high Men of the DÃºnedain, with important minorities including the hobbits of the Shire, the Lossoth of Forochel, rivermen on the northern waters, Bree-landers at the crossroads, and scattered Northmen and Dunlendish groups on the borders."
+    },
+    {
+      "region_id": 86,
+      "region_name": "Bree",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dunedain"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Urban Men"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Bree-landers"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Rivermen"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Hobbits"
+        },
+        {
+          "disclaimer": "ONLY ADD region id in entity Falathrim"
+        }
+      ],
+      "description": "Arthedainâ€™s population is dominated by the high Men of the DÃºnedain, with important minorities including the hobbits of the Shire, the Lossoth of Forochel, rivermen on the northern waters, Bree-landers at the crossroads, and scattered Northmen and Dunlendish groups on the borders."
+    },
+    {
+      "region_id": 87,
+      "region_name": "Dorwinion",
+      "list": [
+        {
+          "disclaimer": "ONLY ADD region id in entity Dorwinrim"
+        }
+      ],
+      "description": "Inhabited by the Dorwinrim, a sophisticated, trade-focused Dunadan-allied people who wear bright, gaily-colored clothes and are renowned as shrewd bargainers."
+    }
+  ]
+}
