@@ -47,6 +47,8 @@ export async function fetchLocationDetailsAtPoint(
   const locationDetails: LocationDetails = {
     name: locProps?.name || 'Unknown Location',
     type: locProps?.type ? locProps.type.replace('_', ' ') : 'point',
+    slug: locProps?.slug,
+    url_path: locProps?.url_path,
     description: locProps?.description,
     population: locProps?.population,
     inhabitants: locProps?.inhabitants,
@@ -158,6 +160,8 @@ export async function fetchRegionDetailsAtPoint(
   const regionDetails: LocationDetails = {
     name: regProps?.name || 'Unknown Region',
     type: 'Region',
+    slug: regProps?.slug,
+    url_path: regProps?.url_path,
     description: regProps?.description,
     population: regProps?.people?.population,
     inhabitants: regProps?.people?.symbol || regProps?.people?.military,

@@ -17,10 +17,10 @@ router.get('/', async (req, res, next) => {
             'properties', json_build_object(
               'id', r.id,
               'name', r.name,
+              'slug', r.slug,
+              'url_path', r.url_path,
               'description', r.description_text,
               'land', r.land,
-              'fauna', r.fauna,
-              'flora', r.flora,
               'notes', r.notes,
               'people', r.people,
               'source', r.source,

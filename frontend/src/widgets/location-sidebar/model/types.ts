@@ -1,6 +1,8 @@
 export interface LocationDetails {
   name: string
   type: string
+  slug?: string
+  url_path?: string
   description?: string
   population?: string
   inhabitants?: string

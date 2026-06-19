@@ -137,10 +137,8 @@ CREATE TABLE IF NOT EXISTS regions (
     
     -- Description fields (flattened from JSONB)
     land JSONB,  -- Array of land features
-    fauna JSONB,  -- Fauna information
-    flora JSONB,  -- Flora information
     notes TEXT,  -- General notes
-    people JSONB,  -- People information
+    people JSONB,  -- People information (symbol, military, population, description)
     source JSONB,  -- Source references (supplement, supplement_code)
     products TEXT,  -- Products/resources
     description_text TEXT,  -- Main description text
@@ -150,9 +148,6 @@ CREATE TABLE IF NOT EXISTS regions (
     
     -- Metadata
     created_at TIMESTAMP DEFAULT NOW(),
-    
-    -- Encounters
-    encounters JSONB DEFAULT '[]'::jsonb,
     
     -- GEOMETRY
     geom GEOMETRY(Polygon, 4326) NOT NULL,
@@ -242,33 +237,8 @@ COMMENT ON COLUMN climate_zones.analog_lat IS 'Latitude of the analog location';
 COMMENT ON COLUMN climate_zones.analog_lon IS 'Longitude of the analog location';
 
 -- ============================================================================
--- Table: encounters
--- Purpose: Store normalized encounter types (creatures, dangers, NPCs, etc.)
--- ============================================================================
-
-CREATE TABLE IF NOT EXISTS encounters (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255) NOT NULL,
-    slug VARCHAR(255) UNIQUE NOT NULL,
-    category VARCHAR(100) NOT NULL,
-    probability_by_region JSONB DEFAULT '[]'::jsonb,
-    created_at TIMESTAMP DEFAULT NOW()
-);
-
-CREATE INDEX IF NOT EXISTS idx_encounters_slug ON encounters(slug);
-CREATE INDEX IF NOT EXISTS idx_encounters_category ON encounters(category);
-CREATE INDEX IF NOT EXISTS idx_encounters_name ON encounters(name);
-
-COMMENT ON TABLE encounters IS 'Normalized encounter types (creatures, dangers, NPCs, etc.)';
-COMMENT ON COLUMN encounters.id IS 'UUID primary key';
-COMMENT ON COLUMN encounters.name IS 'Display name of the encounter';
-COMMENT ON COLUMN encounters.slug IS 'URL-friendly unique identifier';
-COMMENT ON COLUMN encounters.category IS 'Category (e.g., Animals, Inanimate_Dangers, Men, Orcs_Half_Orcs)';
-COMMENT ON COLUMN encounters.probability_by_region IS 'Array of {region, probability} objects for each region';
-
--- ============================================================================
 -- Table: entities
--- Purpose: Store Middle-earth entities (fauna, flora, creatures, races, etc.)
+-- Purpose: Unified table for Middle-earth entities (fauna, flora, creatures, races, encounters)
 -- ============================================================================
 
 CREATE TABLE IF NOT EXISTS entities (
@@ -279,14 +249,19 @@ CREATE TABLE IF NOT EXISTS entities (
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
     type VARCHAR(50) NOT NULL,  -- 'humans', 'dwarves', 'elves', 'orcs', 'hobbits', 'plants', 'trees', 'water_animals', 'insects', 'undead', 'flying_animals', 'demons', 'drakes', 'amphibians', 'herbivores', 'riding_animals', 'other_animals', 'carnivores', 'giants', 'trolls', 'giant_insects', 'pukel', 'water_creatures'
+    tier VARCHAR(50),  -- Entity tier (e.g., encounter, etc.)
+    parent_id UUID REFERENCES entities(id) ON DELETE SET NULL,  -- Parent entity for hierarchical relationships
     description TEXT,
     
     -- Multimedia
     url_path TEXT,  -- Path to image file (NULL for now)
     
     -- Geographic information
-    region_id INTEGER REFERENCES regions(id) ON DELETE SET NULL,
+    region_ids INTEGER[],  -- Array of region IDs where this entity can be found
     biomes TEXT[],  -- Array of biome names (e.g., '{marsh,desert,forest}')
+    
+    -- Encounter probabilities
+    probability_by_region JSONB DEFAULT '[]'::jsonb,  -- Array of {region, probability} objects
     
     -- Metadata
     created_at TIMESTAMP DEFAULT NOW()
@@ -295,17 +270,21 @@ CREATE TABLE IF NOT EXISTS entities (
 CREATE INDEX IF NOT EXISTS idx_entities_slug ON entities(slug);
 CREATE INDEX IF NOT EXISTS idx_entities_type ON entities(type);
 CREATE INDEX IF NOT EXISTS idx_entities_name ON entities(name);
-CREATE INDEX IF NOT EXISTS idx_entities_region_id ON entities(region_id);
+CREATE INDEX IF NOT EXISTS idx_entities_region_ids ON entities USING GIN(region_ids);
+CREATE INDEX IF NOT EXISTS idx_entities_parent_id ON entities(parent_id);
 
-COMMENT ON TABLE entities IS 'Middle-earth entities (fauna, flora, creatures, races, etc.)';
+COMMENT ON TABLE entities IS 'Unified entities table combining previous entities and encounters data';
 COMMENT ON COLUMN entities.id IS 'UUID primary key';
 COMMENT ON COLUMN entities.name IS 'Display name of the entity';
 COMMENT ON COLUMN entities.slug IS 'URL-friendly unique identifier (lowercase with underscores)';
 COMMENT ON COLUMN entities.type IS 'Entity type category';
+COMMENT ON COLUMN entities.tier IS 'Entity tier (e.g., encounter, etc.)';
+COMMENT ON COLUMN entities.parent_id IS 'Parent entity for hierarchical relationships';
 COMMENT ON COLUMN entities.description IS 'Detailed description of the entity';
 COMMENT ON COLUMN entities.url_path IS 'Path to image file (NULL for now)';
-COMMENT ON COLUMN entities.region_id IS 'Foreign key to regions table';
+COMMENT ON COLUMN entities.region_ids IS 'Array of region IDs where this entity can be found';
 COMMENT ON COLUMN entities.biomes IS 'Array of biome names where this entity can be found';
+COMMENT ON COLUMN entities.probability_by_region IS 'Array of {region, probability} objects for encounter probabilities';
 
 -- ============================================================================
 -- Verification queries

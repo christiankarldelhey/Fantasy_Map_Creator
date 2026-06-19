@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
 import { X } from '@lucide/vue'
 import type { LocationDetails } from '../model/types'
 import { getClimateIcon } from '../model/useClimateIcon'
+import { generateImageUrls } from '@/composables/useImageResolution'
 
 const props = defineProps<{
   location: LocationDetails | null
@@ -11,6 +12,45 @@ const props = defineProps<{
 defineEmits<{
   close: []
 }>()
+
+const currentFallbackIndex = ref(0)
+const imageUrls = computed(() => {
+  if (!props.location) return []
+  
+  // Determine if this is a region or location based on the type
+  const isRegion = props.location.type === 'Region' || props.location.region_type !== undefined
+  
+  const urls = generateImageUrls(isRegion ? 'region' : 'location', {
+    url_path: props.location.url_path,
+    location_type: props.location.type,
+    slug: props.location.slug,
+    name: props.location.name
+  })
+  
+  console.log('Generated URLs:', urls)
+  
+  return urls
+})
+
+const currentImageUrl = computed(() => {
+  return imageUrls.value[currentFallbackIndex.value] || ''
+})
+
+const handleImageError = (event: Event) => {
+  console.error('Image error:', event)
+  console.error('Failed URL:', (event.target as HTMLImageElement).src)
+  console.error('Current fallback index:', currentFallbackIndex.value)
+  console.error('Total URLs:', imageUrls.value.length)
+  if (currentFallbackIndex.value < imageUrls.value.length - 1) {
+    currentFallbackIndex.value++
+    console.log('Fallback to:', imageUrls.value[currentFallbackIndex.value])
+  }
+}
+
+// Reset fallback index when location changes
+watch(() => props.location, () => {
+  currentFallbackIndex.value = 0
+})
 
 const climateIcon = computed(() => {
   if (!props.location?.climate) return null
@@ -65,7 +105,9 @@ onUnmounted(() => {
     </button>
 
     <img
-      src="@/assets/locations/placeholder.jpg"
+      v-if="currentImageUrl"
+      :src="currentImageUrl"
+      @error="handleImageError"
       alt="Location image"
       class="w-full h-48 object-cover"
     />
