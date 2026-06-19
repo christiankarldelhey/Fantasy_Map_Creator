@@ -2,7 +2,15 @@
   <div class="relative w-full h-screen bg-white overflow-visible">
     <div ref="mapContainer" class="w-full h-full" style="min-height: 100vh;"></div>
 
+    <DirectionsInput
+      v-if="isDirectionsMode"
+      @select-origin="handleDirectionsOriginSelect"
+      @select-destination="handleDirectionsDestinationSelect"
+      @exit="handleExitDirections"
+    />
+
     <SearchInput
+      v-else
       ref="searchInputRef"
       @select="handleSearchSelect"
       @clear="handleClearSearch"
@@ -12,6 +20,7 @@
       v-if="selectedLocation"
       :location="selectedLocation"
       @close="handleCloseSidebar"
+      @directions="handleDirectionsClick"
     />
 
     <MapLoadingOverlay
@@ -30,6 +39,8 @@ import { useMapLayers, useMapEvents, useMapMarkers, useMapDataLoading } from '..
 import { fetchLocationDetailsAtPoint } from '../model/useLocationDetails'
 import { SearchInput } from '@/widgets/search-input'
 import { LocationSidebar } from '@/widgets/location-sidebar'
+import { DirectionsInput } from '@/widgets/directions-input'
+import { useDirections } from '@/composables/useDirections'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import type { SearchResult } from '@/entities/search'
 import type { LocationDetails } from '@/widgets/location-sidebar'
@@ -38,6 +49,10 @@ const mapContainer = ref<HTMLDivElement | null>(null)
 const searchInputRef = ref<InstanceType<typeof SearchInput> | null>(null)
 const selectedLocation = ref<LocationDetails | null>(null)
 let map: maplibregl.Map | null = null
+
+const { isDirectionsMode, startDirections, exitDirections, setOrigin } = useDirections()
+const lastSelectedCoordinates = ref<[number, number] | null>(null)
+const pendingOriginLocation = ref<LocationDetails | null>(null)
 
 // Composables refactorizados
 const { addMarker, removeMarker } = useMapMarkers()
@@ -64,6 +79,24 @@ const layersInitialized = ref(false)
 function handleAddMarker(lng: number, lat: number) {
   if (map) {
     addMarker(map, lng, lat)
+    lastSelectedCoordinates.value = [lng, lat]
+
+    if (isDirectionsMode.value) {
+      if (pendingOriginLocation.value) {
+        setOrigin({
+          name: pendingOriginLocation.value.name,
+          type: pendingOriginLocation.value.type === 'Region' ? 'region' : 'location',
+          coordinates: [lng, lat]
+        })
+        pendingOriginLocation.value = null
+      } else {
+        setOrigin({
+          name: `Point [${lng.toFixed(2)}, ${lat.toFixed(2)}]`,
+          type: 'custom',
+          coordinates: [lng, lat]
+        })
+      }
+    }
   }
 }
 
@@ -214,6 +247,11 @@ function handleSearchSelect(result: SearchResult) {
 }
 
 function handleLocationClick(location: LocationDetails) {
+  if (isDirectionsMode.value) {
+    pendingOriginLocation.value = location
+    return
+  }
+
   selectedLocation.value = location
   // Set search input to location name
   if (searchInputRef.value) {
@@ -237,6 +275,49 @@ function handleClearSearch() {
 }
 
 function handleCloseSidebar() {
+  selectedLocation.value = null
+  removeMarker()
+  exitDirections()
+  if (map) {
+    regionLayer.highlightRegionBorder(map, null)
+  }
+}
+
+function handleDirectionsClick() {
+  if (selectedLocation.value && lastSelectedCoordinates.value) {
+    startDirections({
+      id: selectedLocation.value.regionId,
+      name: selectedLocation.value.name,
+      type: selectedLocation.value.type === 'Region' ? 'region' : 'location',
+      coordinates: lastSelectedCoordinates.value
+    })
+  }
+}
+
+function handleDirectionsOriginSelect(point: any) {
+  if (map && point) {
+    map.flyTo({
+      center: point.coordinates,
+      zoom: 10,
+      duration: 1000
+    })
+    addMarker(map, point.coordinates[0], point.coordinates[1])
+  }
+}
+
+function handleDirectionsDestinationSelect(point: any) {
+  if (map && point) {
+    map.flyTo({
+      center: point.coordinates,
+      zoom: 10,
+      duration: 1000
+    })
+    addMarker(map, point.coordinates[0], point.coordinates[1])
+  }
+}
+
+function handleExitDirections() {
+  exitDirections()
   selectedLocation.value = null
   removeMarker()
   if (map) {

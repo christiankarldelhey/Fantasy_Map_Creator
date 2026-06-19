@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
-import { X } from '@lucide/vue'
+import { X, Navigation } from '@lucide/vue'
 import type { LocationDetails } from '../model/types'
 import { getClimateIcon } from '../model/useClimateIcon'
 import { useLocationImage } from '../model/useLocationImage'
@@ -11,6 +11,7 @@ const props = defineProps<{
 
 defineEmits<{
   close: []
+  directions: []
 }>()
 
 const locationRef = toRef(props, 'location')
@@ -75,7 +76,7 @@ const biomeIcon = computed(() => {
 
             <div class="flex items-center gap-2">
               <span class="text-sm">{{ biomeIcon }}</span>
-              <span class="text-sm text-gray-700 font-medium">{{ location?.biome?.name?.replace('_', ' ') ?? "Prairie" }}</span>
+              <span class="text-sm text-gray-700 font-medium">{{ location?.biome?.type?.replace('_', ' ') ?? "Prairie" }}</span>
             </div>
           </div>
         </div>
@@ -99,6 +100,16 @@ const biomeIcon = computed(() => {
           <span class="text-xs text-gray-500 mt-3">{{ climateIcon.label }}</span>
           <span class="text-sm text-gray-700 mt-3">{{ location.climate.temperature.toFixed(1) }}°C</span>
         </div>
+      </div>
+
+      <div class="mt-4 flex gap-2">
+        <button
+          @click="$emit('directions')"
+          class="w-full py-2 px-4 bg-rose-600 hover:bg-rose-700 text-white rounded-md font-medium text-sm transition-colors flex items-center justify-center gap-2 shadow-sm"
+        >
+          <Navigation class="w-4 h-4" />
+          Directions
+        </button>
       </div>
 
       <div class="mt-4 pt-3 border-t border-gray-100"></div>
