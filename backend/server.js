@@ -12,6 +12,7 @@ import peaksRouter from './routes/peaks.js';
 import demRouter from './routes/dem.js';
 import climateRouter from './routes/climate.js';
 import searchRouter from './routes/search.js';
+import directionsRouter from './routes/directions.js';
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use('/api/peaks', peaksRouter);
 app.use('/api/dem', demRouter);
 app.use('/api/climate', climateRouter);
 app.use('/api/search', searchRouter);
+app.use('/api/directions', directionsRouter);
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {

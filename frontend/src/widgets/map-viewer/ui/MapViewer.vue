@@ -50,7 +50,7 @@ const searchInputRef = ref<InstanceType<typeof SearchInput> | null>(null)
 const selectedLocation = ref<LocationDetails | null>(null)
 let map: maplibregl.Map | null = null
 
-const { isDirectionsMode, startDirections, exitDirections, setOrigin } = useDirections()
+const { isDirectionsMode, startDirections, exitDirections, setOrigin, routeData } = useDirections()
 const lastSelectedCoordinates = ref<[number, number] | null>(null)
 const pendingOriginLocation = ref<LocationDetails | null>(null)
 
@@ -190,8 +190,155 @@ watch(water, (newWater) => {
   }
 })
 
+function clearRoute(mapInstance: maplibregl.Map) {
+  const layers = [
+    'route-on-road-layer',
+    'route-off-road-start-layer',
+    'route-off-road-end-layer'
+  ]
+  const sources = [
+    'route-on-road',
+    'route-off-road-start',
+    'route-off-road-end'
+  ]
+
+  layers.forEach(layer => {
+    if (mapInstance.getLayer(layer)) {
+      mapInstance.removeLayer(layer)
+    }
+  })
+
+  sources.forEach(source => {
+    if (mapInstance.getSource(source)) {
+      mapInstance.removeSource(source)
+    }
+  })
+}
+
+function drawRoute(mapInstance: maplibregl.Map, data: any) {
+  clearRoute(mapInstance)
+
+  // 1. On-road route
+  if (data.geometry.on_road && data.geometry.on_road.features && data.geometry.on_road.features.length > 0) {
+    mapInstance.addSource('route-on-road', {
+      type: 'geojson',
+      data: data.geometry.on_road
+    })
+
+    mapInstance.addLayer({
+      id: 'route-on-road-layer',
+      type: 'line',
+      source: 'route-on-road',
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round'
+      },
+      paint: {
+        'line-color': '#e11d48', // rose-600
+        'line-width': 5,
+        'line-opacity': 0.85
+      }
+    })
+    
+    // Move route layer to top of layer stack
+    mapInstance.moveLayer('route-on-road-layer')
+  }
+
+  // 2. Off-road start
+  if (data.geometry.off_road_start) {
+    mapInstance.addSource('route-off-road-start', {
+      type: 'geojson',
+      data: data.geometry.off_road_start
+    })
+
+    mapInstance.addLayer({
+      id: 'route-off-road-start-layer',
+      type: 'line',
+      source: 'route-off-road-start',
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round'
+      },
+      paint: {
+        'line-color': '#4b5563', // gray-600
+        'line-width': 4,
+        'line-opacity': 0.8,
+        'line-dasharray': [2, 2]
+      }
+    })
+    
+    // Move off-road start layer to top
+    mapInstance.moveLayer('route-off-road-start-layer')
+  }
+
+  // 3. Off-road end
+  if (data.geometry.off_road_end) {
+    mapInstance.addSource('route-off-road-end', {
+      type: 'geojson',
+      data: data.geometry.off_road_end
+    })
+
+    mapInstance.addLayer({
+      id: 'route-off-road-end-layer',
+      type: 'line',
+      source: 'route-off-road-end',
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round'
+      },
+      paint: {
+        'line-color': '#4b5563', // gray-600
+        'line-width': 4,
+        'line-opacity': 0.8,
+        'line-dasharray': [2, 2]
+      }
+    })
+    
+    // Move off-road end layer to top
+    mapInstance.moveLayer('route-off-road-end-layer')
+  }
+
+  // Fit bounds to show the entire route
+  const bounds = new maplibregl.LngLatBounds()
+
+  if (data.geometry.off_road_start) {
+    const coords = data.geometry.off_road_start.geometry.coordinates
+    coords.forEach((coord: any) => bounds.extend(coord as [number, number]))
+  }
+
+  if (data.geometry.on_road) {
+    data.geometry.on_road.features.forEach((f: any) => {
+      const coords = f.geometry.coordinates
+      coords.forEach((coord: any) => bounds.extend(coord as [number, number]))
+    })
+  }
+
+  if (data.geometry.off_road_end) {
+    const coords = data.geometry.off_road_end.geometry.coordinates
+    coords.forEach((coord: any) => bounds.extend(coord as [number, number]))
+  }
+
+  if (!bounds.isEmpty()) {
+    mapInstance.fitBounds(bounds, {
+      padding: { top: 80, bottom: 80, left: 450, right: 80 },
+      duration: 1500
+    })
+  }
+}
+
+watch(routeData, (newRoute) => {
+  if (map) {
+    if (newRoute) {
+      drawRoute(map, newRoute)
+    } else {
+      clearRoute(map)
+    }
+  }
+})
+
 onUnmounted(() => {
   if (map) {
+    clearRoute(map)
     removeMarker()
     removeLayers(map)
     map.remove()

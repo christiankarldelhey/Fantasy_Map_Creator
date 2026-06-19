@@ -216,11 +216,91 @@
         <ArrowUpDown class="w-5 h-5" />
       </button>
     </div>
+
+    <!-- Route summary and loading states -->
+    <div v-if="routeLoading" class="flex flex-col items-center justify-center py-6 border-t border-gray-100">
+      <div class="animate-spin rounded-full h-6 w-6 border-2 border-rose-600 border-t-transparent mb-2"></div>
+      <span class="text-xs text-gray-500 font-medium">Calculating shortest route...</span>
+    </div>
+
+    <div v-else-if="routeError" class="p-3 border-t border-gray-100 text-xs text-red-600 bg-red-50 rounded-md font-medium">
+      ⚠️ {{ routeError }}
+    </div>
+
+    <div v-else-if="routeData" class="flex flex-col gap-3 border-t border-gray-100 pt-3 max-h-[350px] overflow-y-auto pr-1">
+      <!-- Summary metrics card -->
+      <div class="flex items-center justify-between bg-rose-50/50 border border-rose-100/50 rounded-lg p-3">
+        <div class="flex flex-col">
+          <span class="text-2xl font-bold text-rose-600 leading-none">
+            {{ formatDistance(routeData.summary.total_distance_m) }}
+          </span>
+          <span class="text-[10px] text-rose-500 font-semibold uppercase tracking-wider mt-1">Total Distance</span>
+        </div>
+        <div class="h-8 border-l border-rose-200/60"></div>
+        <div class="flex flex-col items-end">
+          <span class="text-2xl font-bold text-gray-700 leading-none">
+            {{ formatTime(routeData.summary.total_time_seconds) }}
+          </span>
+          <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mt-1">Walk Duration</span>
+        </div>
+      </div>
+
+      <!-- Segment breakdown list -->
+      <div class="flex flex-col gap-2 pl-2">
+        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Itinerary Steps</span>
+
+        <!-- Step 1: Off-road start -->
+        <div v-if="routeData.geometry.off_road_start" class="flex gap-3 relative">
+          <div class="flex flex-col items-center w-4">
+            <div class="w-2.5 h-2.5 rounded-full border border-gray-400 bg-gray-100 flex items-center justify-center"></div>
+            <div class="flex-grow border-l border-dashed border-gray-300 h-10 my-0.5"></div>
+          </div>
+          <div class="flex flex-col pb-4">
+            <span class="text-xs font-semibold text-gray-700">Walk off-road (campo traviesa)</span>
+            <span class="text-[11px] text-gray-500 mt-0.5">
+              Walk {{ formatDistance(routeData.geometry.off_road_start.properties.distance_m || 0) }} to join the roads
+            </span>
+          </div>
+        </div>
+
+        <!-- Step 2: On-road roads list -->
+        <div v-for="(road, idx) in groupedRoads" :key="`road-step-${idx}`" class="flex gap-3 relative">
+          <div class="flex flex-col items-center w-4">
+            <div class="w-3 h-3 rounded-full border-2 border-rose-500 bg-rose-500 flex items-center justify-center">
+              <div class="w-1 h-1 rounded-full bg-white"></div>
+            </div>
+            <div class="flex-grow border-l-2 border-rose-200 h-10 my-0.5"></div>
+          </div>
+          <div class="flex flex-col pb-4">
+            <span class="text-xs font-bold text-gray-800">{{ road.name }}</span>
+            <span class="text-[11px] text-gray-500 mt-0.5 flex items-center gap-1.5 capitalize">
+              <span>Follow road for {{ formatDistance(road.length) }}</span>
+              <span v-if="road.terrain_type" class="px-1.5 py-0.5 bg-gray-100 rounded text-[10px] lowercase font-medium">
+                {{ road.terrain_type }}
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Step 3: Off-road end -->
+        <div v-if="routeData.geometry.off_road_end" class="flex gap-3 relative">
+          <div class="flex flex-col items-center w-4">
+            <div class="w-2.5 h-2.5 rounded-full border border-gray-400 bg-gray-100 flex items-center justify-center"></div>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xs font-semibold text-gray-700">Walk off-road (campo traviesa)</span>
+            <span class="text-[11px] text-gray-500 mt-0.5">
+              Walk {{ formatDistance(routeData.geometry.off_road_end.properties.distance_m || 0) }} to reach destination
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { ArrowLeft, ArrowUpDown, MapPin, X } from '@lucide/vue'
 import { useSearch } from '@/entities/search'
 import type { SearchResult } from '@/entities/search'
@@ -252,6 +332,9 @@ const {
 const {
   origin: originPoint,
   destination: destinationPoint,
+  routeData,
+  routeLoading,
+  routeError,
   setOrigin,
   setDestination,
   swapPoints,
@@ -262,6 +345,50 @@ const originQuery = ref('')
 const destQuery = ref('')
 const showOriginDropdown = ref(false)
 const showDestDropdown = ref(false)
+
+// Formatting helpers
+function formatTime(seconds: number): string {
+  const h = Math.floor(seconds / 3600)
+  const m = Math.round((seconds % 3600) / 60)
+  if (h > 0) {
+    return `${h}h ${m}m`
+  }
+  return `${m} mins`
+}
+
+function formatDistance(m: number): string {
+  if (m < 1000) {
+    return `${Math.round(m)} m`
+  }
+  return `${(m / 1000).toFixed(1)} km`
+}
+
+// Group roads sequentially by name to make the itinerary readable
+const groupedRoads = computed(() => {
+  if (!routeData.value || !routeData.value.geometry.on_road) return []
+  
+  const features = routeData.value.geometry.on_road.features
+  const groups: { name: string; length: number; terrain_type?: string; difficulty?: number }[] = []
+  
+  features.forEach(f => {
+    const props = (f as any).properties || {}
+    const name = props.name || 'Unnamed Road'
+    const length = props.segment_length || 0
+    
+    if (groups.length > 0 && groups[groups.length - 1].name === name) {
+      groups[groups.length - 1].length += length
+    } else {
+      groups.push({
+        name,
+        length,
+        terrain_type: props.terrain_type,
+        difficulty: props.difficulty
+      })
+    }
+  })
+  
+  return groups
+})
 
 // Sync input text with reactive composable state
 watch(originPoint, (newVal) => {
