@@ -33,14 +33,6 @@ export function slugify(name: string): string {
     .replace(/^_+|_+$/g, '')
 }
 
-// Alternative slugify with hyphens for folder names that use hyphens
-export function slugifyHyphens(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-zA-Z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-}
-
 /**
  * Generate possible image URLs in order of preference
  */
@@ -67,16 +59,10 @@ export function generateImageUrls(type: ImageType, data: LocationImageData | Reg
   } else if (type === 'region') {
     // Use name (without ID suffix) for folder path since folders were created with region names
     const regionSlug = data.name ? slugify(data.name) : slug
-    const regionSlugHyphens = data.name ? slugifyHyphens(data.name) : slug
     
-    // Try with underscores first: {url_path}/{region_slug}/default/placeholder.jpg
+    // Try: {url_path}/{region_slug}/default/placeholder.jpg
     if (regionSlug) {
       urls.push(`/${urlPath}/${regionSlug}/default/placeholder.jpg`)
-    }
-    
-    // Try with hyphens as fallback: {url_path}/{region_slug_hyphens}/default/placeholder.jpg
-    if (regionSlugHyphens && regionSlugHyphens !== regionSlug) {
-      urls.push(`/${urlPath}/${regionSlugHyphens}/default/placeholder.jpg`)
     }
 
     // Fallback: {url_path}/default/placeholder.jpg

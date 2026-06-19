@@ -14,7 +14,7 @@ export function getClimateIcon(climate: {
   wind: number
   cloudCover?: number
 }): ClimateIcon {
-  const { temperature, humidity, precipitation, wind, cloudCover } = climate
+  const { temperature, precipitation, wind, cloudCover } = climate
 
   // Snow: temp < 2°C AND precipitation > 0
   if (temperature < 2 && precipitation > 0) {

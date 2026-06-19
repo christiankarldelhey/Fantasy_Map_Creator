@@ -14,42 +14,23 @@
       @close="handleCloseSidebar"
     />
 
-    <div
-      v-if="loading"
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] bg-white/95 p-8 rounded-lg shadow-lg"
-    >
-      <div class="flex flex-col items-center gap-4">
-        <div class="w-12 h-12 border-3 border-gray-200 border-t-primary-600 rounded-full animate-spin"></div>
-        <p class="text-gray-700 font-medium">Loading map data...</p>
-      </div>
-    </div>
-
-    <div
-      v-if="error"
-      class="absolute top-4 right-4 z-[1000] bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md max-w-md shadow-md"
-    >
-      <strong class="font-bold">Error: </strong>
-      <span>{{ error }}</span>
-    </div>
+    <MapLoadingOverlay
+      :loading="loading"
+      :error="combinedError"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { MAPLIBRE_CONFIG } from '@/shared/config/maplibre'
-import { useLocationData } from '@/features/location-management'
-import { useBiomeData } from '@/features/biome-management'
-import { useRegionData } from '@/features/region-management'
-import { useRoadData } from '@/features/road-management'
-import { useWaterData } from '@/features/water-management'
-import { useAltitudeData } from '@/features/altitude-management'
-import { useMapLayers } from '../model/useMapLayers'
-import { useMapEvents } from '../model/useMapEvents'
+import { useMapLayers, useMapEvents, useMapMarkers, useMapDataLoading } from '../model'
 import { fetchLocationDetailsAtPoint } from '../model/useLocationDetails'
 import { SearchInput } from '@/widgets/search-input'
 import { LocationSidebar } from '@/widgets/location-sidebar'
+import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import type { SearchResult } from '@/entities/search'
 import type { LocationDetails } from '@/widgets/location-sidebar'
 
@@ -57,23 +38,34 @@ const mapContainer = ref<HTMLDivElement | null>(null)
 const searchInputRef = ref<InstanceType<typeof SearchInput> | null>(null)
 const selectedLocation = ref<LocationDetails | null>(null)
 let map: maplibregl.Map | null = null
-let currentMarker: maplibregl.Marker | null = null
 
-// Data composables
-const { locations, loading: locationsLoading, error: locationsError, loadLocations } = useLocationData()
-const { biomes, loading: biomesLoading, error: biomesError, loadBiomes } = useBiomeData()
-const { altitude, loading: altitudeLoading, error: altitudeError, loadAltitude } = useAltitudeData()
-const { regions, loading: regionsLoading, error: regionsError, loadRegions } = useRegionData()
-const { roads, loading: roadsLoading, error: roadsError, loadRoads } = useRoadData()
-const { water, loading: waterLoading, error: waterError, loadWater } = useWaterData()
+// Composables refactorizados
+const { addMarker, removeMarker } = useMapMarkers()
+const {
+  locations,
+  biomes,
+  altitude,
+  regions,
+  roads,
+  water,
+  loading,
+  error,
+  loadAllData
+} = useMapDataLoading()
 
 // Map composables
 const { initializeLayers, removeLayers, locationLayer, biomeLayer, regionLayer, roadLayer, waterLayer, altitudeLayer } = useMapLayers()
 const { setupClickHandler } = useMapEvents()
 
-const loading = ref(false)
-const error = ref<string | null>(null)
+const mapError = ref<string | null>(null)
+const combinedError = computed(() => mapError.value || error.value)
 const layersInitialized = ref(false)
+
+function handleAddMarker(lng: number, lat: number) {
+  if (map) {
+    addMarker(map, lng, lat)
+  }
+}
 
 onMounted(async () => {
   if (!mapContainer.value) return
@@ -90,16 +82,8 @@ onMounted(async () => {
     map.on('load', async () => {
       console.log('✅ MapLibre ready')
       
-      loading.value = true
       try {
-        await Promise.all([
-          loadLocations(),
-          loadRegions(),
-          loadBiomes(),
-          loadAltitude(),
-          loadRoads(),
-          loadWater()
-        ])
+        await loadAllData()
 
         // Inicializar todas las capas
         initializeLayers(map!, {
@@ -111,27 +95,28 @@ onMounted(async () => {
         })
 
         // Add region outline last to be on top of all layers
-        regionLayer.addRegionsOutline(map!, regions.value)
+        const regionsData = regions.value
+        if (regionsData) {
+          regionLayer.addRegionsOutline(map!, regionsData)
+        }
 
         // Configurar eventos
-        setupClickHandler(map!, handleLocationClick, addMarker)
+        setupClickHandler(map!, handleLocationClick, handleAddMarker)
 
         layersInitialized.value = true
       } catch (err) {
         console.error('Failed to load map data:', err)
-        error.value = 'Failed to load map data'
-      } finally {
-        loading.value = false
+        mapError.value = 'Failed to load map data'
       }
     })
 
     map.on('error', (e) => {
       console.error('MapLibre error:', e)
-      error.value = 'Map initialization error'
+      mapError.value = 'Map initialization error'
     })
   } catch (err) {
     console.error('Error initializing map:', err)
-    error.value = 'Failed to initialize map'
+    mapError.value = 'Failed to initialize map'
   }
 })
 
@@ -172,20 +157,6 @@ watch(water, (newWater) => {
   }
 })
 
-watch(
-  [locationsLoading, regionsLoading, biomesLoading, altitudeLoading, roadsLoading, waterLoading],
-  ([locLoad, regLoad, bioLoad, altLoad, roadLoad, waterLoad]) => {
-    loading.value = locLoad || regLoad || bioLoad || altLoad || roadLoad || waterLoad
-  }
-)
-
-watch(
-  [locationsError, regionsError, biomesError, altitudeError, roadsError, waterError],
-  ([locErr, regErr, bioErr, altErr, roadErr, waterErr]) => {
-    error.value = locErr || regErr || bioErr || altErr || roadErr || waterErr
-  }
-)
-
 onUnmounted(() => {
   if (map) {
     removeMarker()
@@ -194,25 +165,6 @@ onUnmounted(() => {
     map = null
   }
 })
-
-function addMarker(lng: number, lat: number) {
-  if (!map) return
-
-  // Remove existing marker if any
-  removeMarker()
-
-  // Create new marker
-  currentMarker = new maplibregl.Marker()
-    .setLngLat([lng, lat])
-    .addTo(map)
-}
-
-function removeMarker() {
-  if (currentMarker) {
-    currentMarker.remove()
-    currentMarker = null
-  }
-}
 
 function handleSearchSelect(result: SearchResult) {
   if (!map) return
@@ -230,7 +182,7 @@ function handleSearchSelect(result: SearchResult) {
     })
 
     // Add marker at location
-    addMarker(coords[0], coords[1])
+    handleAddMarker(coords[0], coords[1])
 
     // Fetch location details after flyTo completes
     map.once('moveend', () => {
@@ -252,7 +204,7 @@ function handleSearchSelect(result: SearchResult) {
     // Calculate center of bounds and add marker
     const center = bounds.getCenter()
     map.once('moveend', () => {
-      addMarker(center.lng, center.lat)
+      handleAddMarker(center.lng, center.lat)
       // Highlight the selected region border in red
       if (map) {
         regionLayer.highlightRegionBorder(map, result.id as number)

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
+import { computed, toRef } from 'vue'
 import { X } from '@lucide/vue'
 import type { LocationDetails } from '../model/types'
 import { getClimateIcon } from '../model/useClimateIcon'
-import { generateImageUrls } from '@/composables/useImageResolution'
+import { useLocationImage } from '../model/useLocationImage'
 
 const props = defineProps<{
   location: LocationDetails | null
@@ -13,44 +13,8 @@ defineEmits<{
   close: []
 }>()
 
-const currentFallbackIndex = ref(0)
-const imageUrls = computed(() => {
-  if (!props.location) return []
-  
-  // Determine if this is a region or location based on the type
-  const isRegion = props.location.type === 'Region' || props.location.region_type !== undefined
-  
-  const urls = generateImageUrls(isRegion ? 'region' : 'location', {
-    url_path: props.location.url_path,
-    location_type: props.location.type,
-    slug: props.location.slug,
-    name: props.location.name
-  })
-  
-  console.log('Generated URLs:', urls)
-  
-  return urls
-})
-
-const currentImageUrl = computed(() => {
-  return imageUrls.value[currentFallbackIndex.value] || ''
-})
-
-const handleImageError = (event: Event) => {
-  console.error('Image error:', event)
-  console.error('Failed URL:', (event.target as HTMLImageElement).src)
-  console.error('Current fallback index:', currentFallbackIndex.value)
-  console.error('Total URLs:', imageUrls.value.length)
-  if (currentFallbackIndex.value < imageUrls.value.length - 1) {
-    currentFallbackIndex.value++
-    console.log('Fallback to:', imageUrls.value[currentFallbackIndex.value])
-  }
-}
-
-// Reset fallback index when location changes
-watch(() => props.location, () => {
-  currentFallbackIndex.value = 0
-})
+const locationRef = toRef(props, 'location')
+const { currentImageUrl, handleImageError } = useLocationImage(locationRef)
 
 const climateIcon = computed(() => {
   if (!props.location?.climate) return null
@@ -70,26 +34,6 @@ const biomeIcon = computed(() => {
       return '🌾'
   }
 })
-
-const currentTime = ref('')
-
-const updateTime = () => {
-  currentTime.value = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
-}
-
-let timeInterval: number | null = null
-
-onMounted(() => {
-  updateTime()
-  timeInterval = window.setInterval(updateTime, 60000) // Update every minute
-})
-
-onUnmounted(() => {
-  if (timeInterval) {
-    clearInterval(timeInterval)
-  }
-})
-
 
 </script>
 
@@ -114,40 +58,28 @@ onUnmounted(() => {
 
     <div class="p-4">
       <div class="flex flex-row justify-between">
-      <div>
-        <h3 class="font-bold text-lg text-rose-600 leading-tight">{{ location.name }}</h3>
-        <p class="text-xs mt-0.5 capitalize">{{ location.type.replace('_', ' ') }}</p>
-        <p v-if="location.region" class="text-sm mt-2">
+        <div>
+          <h3 class="font-bold text-lg text-rose-600 leading-tight">{{ location.name }}</h3>
+          <p class="text-xs mt-0.5 capitalize">{{ location.type.replace('_', ' ') }}</p>
+          <p v-if="location.region" class="text-sm mt-2">
             {{ location.region.name }}
             <span v-if="location.region.kingdom" class="text-gray-500 font-normal"> ({{ location.region.kingdom }})</span>
-        </p>
+          </p>
 
-      <div class="mt-2 pt-1 space-y-2">
-        <div v-if="location.elevation" class="flex items-center gap-2">
-          <span class="text-sm font-semibold text-gray-700">🏔</span>
-          <span class="text-sm text-gray-700">{{ location.elevation.meters }}m</span>
-          <span v-if="location.elevation.terrain_type" class="text-sm text-gray-500">({{ location.elevation.terrain_type }})</span>
+          <div class="mt-2 pt-1 space-y-2">
+            <div v-if="location.elevation" class="flex items-center gap-2">
+              <span class="text-sm font-semibold text-gray-700">🏔</span>
+              <span class="text-sm text-gray-700">{{ location.elevation.meters }}m</span>
+              <span v-if="location.elevation.terrain_type" class="text-sm text-gray-500">({{ location.elevation.terrain_type }})</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="text-sm">{{ biomeIcon }}</span>
+              <span class="text-sm text-gray-700 font-medium">{{ location?.biome?.name?.replace('_', ' ') ?? "Prairie" }}</span>
+            </div>
+          </div>
         </div>
 
-        <div class="flex items-center gap-2">
-          <span class="text-sm">{{ biomeIcon }}</span>
-          <span class="text-sm text-gray-700 font-medium">{{ location?.biome?.name?.replace('_', ' ') ?? "Prairie" }}</span>
-        </div>
-
-        <!-- <div v-if="location.road" class="flex items-center gap-2">
-          <span class="text-sm font-semibold text-gray-700">🛤️</span>
-          <span class="text-sm text-gray-700 font-medium">{{ location.road.name }}</span>
-          <span v-if="location.road.terrain_type" class="text-sm text-gray-500">({{ location.road.terrain_type }})</span>
-        </div> -->
-
-        <!-- <div v-if="location.water" class="flex items-center gap-2">
-          <span class="text-sm font-semibold text-gray-700">💧</span>
-          <span class="text-sm text-gray-700 font-medium">{{ location.water.name }}</span>
-          <span class="text-sm text-gray-500">({{ location.water.water_type }})</span>
-        </div> -->
-
-      </div>
-      </div>
         <div v-if="climateIcon && location.climate" class="flex flex-col items-center">
           <div class="flex items-center">
             <template v-if="Array.isArray(climateIcon.component)">
@@ -166,27 +98,28 @@ onUnmounted(() => {
           </div>
           <span class="text-xs text-gray-500 mt-3">{{ climateIcon.label }}</span>
           <span class="text-sm text-gray-700 mt-3">{{ location.climate.temperature.toFixed(1) }}°C</span>
-          <span class="text-sm text-gray-400 mt-2">{{ currentTime }}</span>
         </div>
       </div>
 
       <div class="mt-4 pt-3 border-t border-gray-100"></div>
-        <div v-if="location.population || location.inhabitants" class="mt-3 space-y-1">
-          <p v-if="location.population" class="text-sm text-gray-600">
-            <span>👥 {{ location.population }} </span>
-            <span v-if="location.inhabitants" class="text-xs text-gray-600 pl-1"> {{ location.inhabitants }} </span>
-          </p>
-        </div>
-        <div v-if="location.description" class="mt-2">
-          <p class="text-sm text-gray-600 leading-normal">{{ location.description }}</p>
-        </div>
+      
+      <div v-if="location.population || location.inhabitants" class="mt-3 space-y-1">
+        <p v-if="location.population" class="text-sm text-gray-600">
+          <span>👥 {{ location.population }} </span>
+          <span v-if="location.inhabitants" class="text-xs text-gray-600 pl-1"> {{ location.inhabitants }} </span>
+        </p>
+      </div>
+      
+      <div v-if="location.description" class="mt-2">
+        <p class="text-sm text-gray-600 leading-normal">{{ location.description }}</p>
+      </div>
 
-        <!-- Region-specific fields -->
-        <div v-if="location.type === 'Region'" class="mt-3 space-y-2">
-          <div v-if="location.products" class="text-sm text-gray-600">
-            <span class="font-semibold">Products:</span> {{ location.products }}
-          </div>
+      <!-- Region-specific fields -->
+      <div v-if="location.type === 'Region'" class="mt-3 space-y-2">
+        <div v-if="location.products" class="text-sm text-gray-600">
+          <span class="font-semibold">Products:</span> {{ location.products }}
         </div>
+      </div>
     </div>
   </div>
 </template>

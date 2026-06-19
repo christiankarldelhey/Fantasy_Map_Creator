@@ -1,5 +1,7 @@
 export { useMapLayers } from './useMapLayers'
 export { useMapEvents } from './useMapEvents'
+export { useMapMarkers } from './useMapMarkers'
+export { useMapDataLoading } from './useMapDataLoading'
 export { useMapLayer } from './layers/useMapLayer'
 export { useLocationLayer } from './layers/useLocationLayer'
 export { useBiomeLayer } from './layers/useBiomeLayer'
