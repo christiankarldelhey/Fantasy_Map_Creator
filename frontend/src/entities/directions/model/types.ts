@@ -19,6 +19,10 @@ export interface DirectionsFeature {
     difficulty?: number
     cost_factor?: number
     segment_length?: number
+    biome_type?: string
+    altitude_type?: string
+    travel_time_seconds?: number
+    effective_speed?: number
   }
 }
 

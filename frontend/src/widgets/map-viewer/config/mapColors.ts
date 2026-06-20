@@ -1,10 +1,10 @@
 export const MAP_COLORS = {
   // Agua (Unificado para ríos, arroyos, lagos)
   water: {
-    primary: '#1d4ed8',      // Azul agua unificado hermoso para ríos, arroyos, lagos
-    opacityLine: 0.8,
-    opacityFill: 0.5,        // Opacidad del fill de lagos
-    outline: '#1e40af',      // Borde del agua
+    primary: '#3b82f6',      // Azul medio unificado para ríos, arroyos, lagos
+    opacityLine: 0.5,
+    opacityFill: 0.3,        // Opacidad del fill de lagos
+    outline: '#3b82f6',      // Borde del agua
     lineWidthRiver: 2.5,
     lineWidthStream: 1.0
   },

@@ -241,7 +241,9 @@
           <span class="text-2xl font-bold text-gray-700 leading-none">
             {{ formatTime(routeData.summary.total_time_seconds) }}
           </span>
-          <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mt-1">Walk Duration</span>
+          <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mt-1">
+            Walk Duration ({{ calculateTravelDays(routeData.summary.total_time_seconds) }} days)
+          </span>
         </div>
       </div>
 
@@ -257,8 +259,14 @@
           </div>
           <div class="flex flex-col pb-4">
             <span class="text-xs font-semibold text-gray-700">Walk off-road (campo traviesa)</span>
-            <span class="text-[11px] text-gray-500 mt-0.5">
-              Walk {{ formatDistance(routeData.geometry.off_road_start.properties.distance_m || 0) }} to join the roads
+            <span class="text-[11px] text-gray-500 mt-0.5 flex flex-wrap items-center gap-1.5">
+              <span>Walk {{ formatDistance(routeData.geometry.off_road_start.properties.distance_m || 0) }} to join the roads</span>
+              <span v-if="routeData.geometry.off_road_start.properties.biome_type && routeData.geometry.off_road_start.properties.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-green-50 text-green-700 border border-green-100 rounded text-[10px] lowercase font-semibold">
+                {{ routeData.geometry.off_road_start.properties.biome_type }}
+              </span>
+              <span v-if="routeData.geometry.off_road_start.properties.altitude_type && routeData.geometry.off_road_start.properties.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-amber-50 text-amber-700 border border-amber-100 rounded text-[10px] lowercase font-semibold">
+                {{ routeData.geometry.off_road_start.properties.altitude_type.replace('_', ' ') }}
+              </span>
             </span>
           </div>
         </div>
@@ -273,10 +281,16 @@
           </div>
           <div class="flex flex-col pb-4">
             <span class="text-xs font-bold text-gray-800">{{ road.name }}</span>
-            <span class="text-[11px] text-gray-500 mt-0.5 flex items-center gap-1.5 capitalize">
+            <span class="text-[11px] text-gray-500 mt-0.5 flex flex-wrap items-center gap-1.5 capitalize">
               <span>Follow road for {{ formatDistance(road.length) }}</span>
               <span v-if="road.terrain_type" class="px-1.5 py-0.5 bg-gray-100 rounded text-[10px] lowercase font-medium">
                 {{ road.terrain_type }}
+              </span>
+              <span v-if="road.biome_type && road.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-green-50 text-green-700 border border-green-100 rounded text-[10px] lowercase font-semibold">
+                {{ road.biome_type }}
+              </span>
+              <span v-if="road.altitude_type && road.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-amber-50 text-amber-700 border border-amber-100 rounded text-[10px] lowercase font-semibold">
+                {{ road.altitude_type.replace('_', ' ') }}
               </span>
             </span>
           </div>
@@ -289,8 +303,14 @@
           </div>
           <div class="flex flex-col">
             <span class="text-xs font-semibold text-gray-700">Walk off-road (campo traviesa)</span>
-            <span class="text-[11px] text-gray-500 mt-0.5">
-              Walk {{ formatDistance(routeData.geometry.off_road_end.properties.distance_m || 0) }} to reach destination
+            <span class="text-[11px] text-gray-500 mt-0.5 flex flex-wrap items-center gap-1.5">
+              <span>Walk {{ formatDistance(routeData.geometry.off_road_end.properties.distance_m || 0) }} to reach destination</span>
+              <span v-if="routeData.geometry.off_road_end.properties.biome_type && routeData.geometry.off_road_end.properties.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-green-50 text-green-700 border border-green-100 rounded text-[10px] lowercase font-semibold">
+                {{ routeData.geometry.off_road_end.properties.biome_type }}
+              </span>
+              <span v-if="routeData.geometry.off_road_end.properties.altitude_type && routeData.geometry.off_road_end.properties.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-amber-50 text-amber-700 border border-amber-100 rounded text-[10px] lowercase font-semibold">
+                {{ routeData.geometry.off_road_end.properties.altitude_type.replace('_', ' ') }}
+              </span>
             </span>
           </div>
         </div>
@@ -363,12 +383,25 @@ function formatDistance(m: number): string {
   return `${(m / 1000).toFixed(1)} km`
 }
 
+function calculateTravelDays(seconds: number): number {
+  const hoursPerDay = 12
+  const totalHours = seconds / 3600
+  return Math.ceil(totalHours / hoursPerDay)
+}
+
 // Group roads sequentially by name to make the itinerary readable
 const groupedRoads = computed(() => {
   if (!routeData.value || !routeData.value.geometry.on_road) return []
   
   const features = routeData.value.geometry.on_road.features
-  const groups: { name: string; length: number; terrain_type?: string; difficulty?: number }[] = []
+  const groups: { 
+    name: string; 
+    length: number; 
+    terrain_type?: string; 
+    difficulty?: number; 
+    biome_type?: string; 
+    altitude_type?: string;
+  }[] = []
   
   features.forEach(f => {
     const props = (f as any).properties || {}
@@ -382,7 +415,9 @@ const groupedRoads = computed(() => {
         name,
         length,
         terrain_type: props.terrain_type,
-        difficulty: props.difficulty
+        difficulty: props.difficulty,
+        biome_type: props.biome_type,
+        altitude_type: props.altitude_type
       })
     }
   })

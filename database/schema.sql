@@ -146,6 +146,11 @@ CREATE TABLE IF NOT EXISTS regions (
     -- Statistics
     area_km2 DECIMAL,  -- Will be calculated with ST_Area
     
+    -- Encounter metrics
+    distance_for_encounter INTEGER,  -- Distance in kilometers to encounter location (rounded to nearest whole number)
+    chance_of_encounter DECIMAL(5,2),  -- Percentage chance of encounter (0-100)
+    hours_to_encounter DECIMAL(5,2),  -- Time in hours to reach encounter location
+    
     -- Metadata
     created_at TIMESTAMP DEFAULT NOW(),
     
@@ -167,6 +172,9 @@ CREATE INDEX IF NOT EXISTS idx_regions_kingdom_id ON regions(kingdom_id);
 
 COMMENT ON TABLE regions IS 'Regions, kingdoms and biomes of Middle Earth';
 COMMENT ON COLUMN regions.area_km2 IS 'Area in square kilometers (calculated with ST_Area)';
+COMMENT ON COLUMN regions.distance_for_encounter IS 'Distance in kilometers to encounter location (rounded to nearest whole number)';
+COMMENT ON COLUMN regions.chance_of_encounter IS 'Percentage chance of encounter (0-100)';
+COMMENT ON COLUMN regions.hours_to_encounter IS 'Time in hours to reach encounter location';
 
 -- ============================================================================
 -- Table: biomes
@@ -249,6 +257,7 @@ CREATE TABLE IF NOT EXISTS entities (
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
     type VARCHAR(50) NOT NULL,  -- 'humans', 'dwarves', 'elves', 'orcs', 'hobbits', 'plants', 'trees', 'water_animals', 'insects', 'undead', 'flying_animals', 'demons', 'drakes', 'amphibians', 'herbivores', 'riding_animals', 'other_animals', 'carnivores', 'giants', 'trolls', 'giant_insects', 'pukel', 'water_creatures'
+    active VARCHAR(50) DEFAULT 'all-day',  -- Activity pattern: 'day', 'night', 'all-day'
     tier VARCHAR(50),  -- Entity tier (e.g., encounter, etc.)
     parent_id UUID REFERENCES entities(id) ON DELETE SET NULL,  -- Parent entity for hierarchical relationships
     description TEXT,
@@ -278,6 +287,7 @@ COMMENT ON COLUMN entities.id IS 'UUID primary key';
 COMMENT ON COLUMN entities.name IS 'Display name of the entity';
 COMMENT ON COLUMN entities.slug IS 'URL-friendly unique identifier (lowercase with underscores)';
 COMMENT ON COLUMN entities.type IS 'Entity type category';
+COMMENT ON COLUMN entities.active IS 'Activity pattern: day, night, or all-day';
 COMMENT ON COLUMN entities.tier IS 'Entity tier (e.g., encounter, etc.)';
 COMMENT ON COLUMN entities.parent_id IS 'Parent entity for hierarchical relationships';
 COMMENT ON COLUMN entities.description IS 'Detailed description of the entity';

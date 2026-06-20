@@ -47,7 +47,7 @@ export function useWaterLayer() {
             7, 6,      // zoom 7 (MEDIUM): 6px
             18, 10     // zoom 18 (NEAR): 10px
           ],
-          'line-opacity': 0.9
+          'line-opacity': MAP_COLORS.water.opacityLine
         }
       } as any)
 
@@ -73,7 +73,7 @@ export function useWaterLayer() {
             7, 3,      // zoom 7 (MEDIUM): 3px
             18, 5      // zoom 18 (NEAR): 5px
           ],
-          'line-opacity': 0.9
+          'line-opacity': MAP_COLORS.water.opacityLine
         }
       } as any)
 
