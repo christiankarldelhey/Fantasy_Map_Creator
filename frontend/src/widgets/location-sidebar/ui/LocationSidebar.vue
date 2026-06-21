@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
-import { X, Navigation } from '@lucide/vue'
+import { X, Navigation, Clock } from '@lucide/vue'
 import type { LocationDetails } from '../model/types'
 import { getClimateIcon } from '../model/useClimateIcon'
 import { useLocationImage } from '../model/useLocationImage'
+import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 
 const props = defineProps<{
   location: LocationDetails | null
@@ -16,6 +17,7 @@ defineEmits<{
 
 const locationRef = toRef(props, 'location')
 const { currentImageUrl, handleImageError } = useLocationImage(locationRef)
+const { isRealTime } = useGlobalClimateTime()
 
 const climateIcon = computed(() => {
   if (!props.location?.climate) return null
@@ -100,6 +102,11 @@ const biomeIcon = computed(() => {
           <span class="text-xs text-gray-500 mt-3">{{ climateIcon.label }}</span>
           <span class="text-sm text-gray-700 mt-3">{{ location.climate.temperature.toFixed(1) }}°C</span>
         </div>
+      </div>
+
+      <div v-if="!isRealTime && location.climate" class="mt-3 flex items-center gap-2 p-2 bg-amber-50 rounded-lg border border-amber-200">
+        <Clock class="h-4 w-4 text-amber-600" />
+        <span class="text-xs text-amber-800">Showing historical climate data</span>
       </div>
 
       <div class="mt-4 flex gap-2">

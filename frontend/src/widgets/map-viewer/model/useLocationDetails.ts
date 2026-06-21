@@ -6,7 +6,8 @@ import type { LocationDetails } from '@/widgets/location-sidebar'
 export async function fetchLocationDetailsAtPoint(
   map: MapLibreMap,
   lng: number,
-  lat: number
+  lat: number,
+  timestamp?: string
 ): Promise<LocationDetails | null> {
   const features = map.queryRenderedFeatures(
     map.project([lng, lat]),
@@ -99,7 +100,7 @@ export async function fetchLocationDetailsAtPoint(
 
   // Fetch climate
   try {
-    const response = await getClimateAtPoint(lng, lat)
+    const response = await getClimateAtPoint(lng, lat, timestamp)
     const data = response.data
 
     if (data && !data.error) {
@@ -125,7 +126,8 @@ export async function fetchLocationDetailsAtPoint(
 export async function fetchRegionDetailsAtPoint(
   map: MapLibreMap,
   lng: number,
-  lat: number
+  lat: number,
+  timestamp?: string
 ): Promise<LocationDetails | null> {
   const features = map.queryRenderedFeatures(
     map.project([lng, lat]),
@@ -215,7 +217,7 @@ export async function fetchRegionDetailsAtPoint(
 
   // Fetch climate
   try {
-    const response = await getClimateAtPoint(lng, lat)
+    const response = await getClimateAtPoint(lng, lat, timestamp)
     const data = response.data
 
     if (data && !data.error) {

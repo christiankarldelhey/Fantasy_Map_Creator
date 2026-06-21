@@ -16,6 +16,8 @@
       @clear="handleClearSearch"
     />
 
+    <CalendarPicker />
+
     <LocationSidebar
       v-if="selectedLocation"
       :location="selectedLocation"
@@ -40,7 +42,9 @@ import { fetchLocationDetailsAtPoint } from '../model/useLocationDetails'
 import { SearchInput } from '@/widgets/search-input'
 import { LocationSidebar } from '@/widgets/location-sidebar'
 import { DirectionsInput } from '@/widgets/directions-input'
+import { CalendarPicker } from '@/widgets/calendar-picker'
 import { useDirections } from '@/composables/useDirections'
+import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import type { SearchResult } from '@/entities/search'
 import type { LocationDetails } from '@/widgets/location-sidebar'
@@ -51,6 +55,7 @@ const selectedLocation = ref<LocationDetails | null>(null)
 let map: maplibregl.Map | null = null
 
 const { isDirectionsMode, startDirections, exitDirections, setOrigin, routeData } = useDirections()
+const { currentClimateTime, timestampISO } = useGlobalClimateTime()
 const lastSelectedCoordinates = ref<[number, number] | null>(null)
 const pendingOriginLocation = ref<LocationDetails | null>(null)
 
@@ -134,7 +139,7 @@ onMounted(async () => {
         }
 
         // Configurar eventos
-        setupClickHandler(map!, handleLocationClick, handleAddMarker)
+        setupClickHandler(map!, handleLocationClick, handleAddMarker, () => timestampISO.value)
 
         layersInitialized.value = true
       } catch (err) {
@@ -187,6 +192,16 @@ watch(roads, (newRoads) => {
 watch(water, (newWater) => {
   if (newWater && map && layersInitialized.value) {
     waterLayer.addWaterLayer(map!, newWater)
+  }
+})
+
+watch(currentClimateTime, () => {
+  console.log('🕐 Climate time changed:', timestampISO.value)
+  if (selectedLocation.value && lastSelectedCoordinates.value) {
+    fetchLocationDetails(
+      lastSelectedCoordinates.value[0],
+      lastSelectedCoordinates.value[1]
+    )
   }
 })
 
@@ -475,7 +490,7 @@ function handleExitDirections() {
 async function fetchLocationDetails(lng: number, lat: number) {
   if (!map) return
 
-  const locationDetails = await fetchLocationDetailsAtPoint(map, lng, lat)
+  const locationDetails = await fetchLocationDetailsAtPoint(map, lng, lat, timestampISO.value)
   if (locationDetails) {
     selectedLocation.value = locationDetails
   }

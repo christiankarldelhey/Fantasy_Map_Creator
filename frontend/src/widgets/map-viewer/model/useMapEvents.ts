@@ -6,7 +6,8 @@ export function useMapEvents() {
   const setupClickHandler = (
     map: MapLibreMap,
     onLocationClick?: (location: LocationDetails) => void,
-    addMarker?: (lng: number, lat: number) => void
+    addMarker?: (lng: number, lat: number) => void,
+    getTimestamp?: () => string
   ) => {
     map.on('click', async (e) => {
       const features = map.queryRenderedFeatures(e.point, {
@@ -26,10 +27,11 @@ export function useMapEvents() {
       const regionFeature = features.find(f => f.layer.id === 'regions-fill')
 
       const { lng, lat } = e.lngLat
+      const timestamp = getTimestamp ? getTimestamp() : undefined
 
       // Fetch location details if clicking on a location
       if (locationFeature) {
-        const locationDetails = await fetchLocationDetailsAtPoint(map, lng, lat)
+        const locationDetails = await fetchLocationDetailsAtPoint(map, lng, lat, timestamp)
         if (locationDetails && onLocationClick) {
           onLocationClick(locationDetails)
         }
@@ -43,7 +45,7 @@ export function useMapEvents() {
 
       // Fetch region details if clicking on a region
       if (regionFeature) {
-        const regionDetails = await fetchRegionDetailsAtPoint(map, lng, lat)
+        const regionDetails = await fetchRegionDetailsAtPoint(map, lng, lat, timestamp)
         if (regionDetails && onLocationClick) {
           onLocationClick(regionDetails)
         }

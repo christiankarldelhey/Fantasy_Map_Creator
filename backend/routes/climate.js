@@ -6,17 +6,30 @@ const router = express.Router();
 // GET /api/climate/current - Obtiene datos del clima de la fecha/hora actual (mapeado a 1950)
 router.get('/current', async (req, res, next) => {
   try {
-    const { region_id } = req.query;
+    const { region_id, timestamp } = req.query;
     if (!region_id) {
       return res.status(400).json({ error: 'region_id is required' });
     }
 
-    // Calcular la fecha y hora actuales pero en el año 1950 (UTC para alinearse con los datos descargados)
-    const now = new Date();
-    const month = String(now.getUTCMonth() + 1).padStart(2, '0');
-    const day = String(now.getUTCDate()).padStart(2, '0');
-    const hour = String(now.getUTCHours()).padStart(2, '0');
-    const timestamp1950 = `1950-${month}-${day} ${hour}:00:00`;
+    // Calcular timestamp: usar el proporcionado o mapear fecha actual a 1950
+    let timestamp1950;
+    if (timestamp) {
+      const customDate = new Date(timestamp);
+      if (isNaN(customDate.getTime())) {
+        return res.status(400).json({ error: 'Invalid timestamp format' });
+      }
+      const month = String(customDate.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(customDate.getUTCDate()).padStart(2, '0');
+      const hour = String(customDate.getUTCHours()).padStart(2, '0');
+      timestamp1950 = `1950-${month}-${day} ${hour}:00:00`;
+    } else {
+      // Calcular la fecha y hora actuales pero en el año 1950 (UTC para alinearse con los datos descargados)
+      const now = new Date();
+      const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(now.getUTCDate()).padStart(2, '0');
+      const hour = String(now.getUTCHours()).padStart(2, '0');
+      timestamp1950 = `1950-${month}-${day} ${hour}:00:00`;
+    }
 
     // Consulta para obtener los datos climáticos de 1950 y metadatos de la región
     const query = `
@@ -170,6 +183,56 @@ router.get('/point', async (req, res, next) => {
     }
 
     res.json(climateResult);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// GET /api/climate/all-regions - Obtiene datos climáticos de todas las regiones para un timestamp específico
+router.get('/all-regions', async (req, res, next) => {
+  try {
+    const { timestamp } = req.query;
+
+    // Calcular timestamp: usar el proporcionado o mapear fecha actual a 1950
+    let timestamp1950;
+    if (timestamp) {
+      const customDate = new Date(timestamp);
+      if (isNaN(customDate.getTime())) {
+        return res.status(400).json({ error: 'Invalid timestamp format' });
+      }
+      const month = String(customDate.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(customDate.getUTCDate()).padStart(2, '0');
+      const hour = String(customDate.getUTCHours()).padStart(2, '0');
+      timestamp1950 = `1950-${month}-${day} ${hour}:00:00`;
+    } else {
+      // Calcular la fecha y hora actuales pero en el año 1950
+      const now = new Date();
+      const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(now.getUTCDate()).padStart(2, '0');
+      const hour = String(now.getUTCHours()).padStart(2, '0');
+      timestamp1950 = `1950-${month}-${day} ${hour}:00:00`;
+    }
+
+    // Consulta para obtener datos climáticos de todas las regiones
+    const query = `
+      SELECT 
+        r.id as region_id,
+        r.name as region_name,
+        cd.time,
+        cd.temperature_2m,
+        cd.relative_humidity_2m,
+        cd.precipitation,
+        cd.wind_speed_10m,
+        cd.cloud_cover
+      FROM regions r
+      LEFT JOIN climate_zones cz ON r.climate_zone_id = cz.id
+      LEFT JOIN climate_data cd ON cz.id = cd.climate_zone_id AND cd.time = $1
+      WHERE r.climate_zone_id IS NOT NULL
+      ORDER BY r.id
+    `;
+
+    const result = await pool.query(query, [timestamp1950]);
+    res.json(result.rows);
   } catch (error) {
     next(error);
   }

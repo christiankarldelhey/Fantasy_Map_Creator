@@ -69,3 +69,16 @@ export interface PointClimateResponse {
   climate: PointClimateData
   error?: string
 }
+
+export interface RegionClimateData {
+  region_id: number
+  region_name: string
+  time: string
+  temperature_2m: number | null
+  relative_humidity_2m: number | null
+  precipitation: number | null
+  wind_speed_10m: number | null
+  cloud_cover: number | null
+}
+
+export type AllRegionsClimateResponse = RegionClimateData[]
