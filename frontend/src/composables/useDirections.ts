@@ -2,6 +2,7 @@ import { ref, watch } from 'vue'
 import type { SearchResult } from '@/entities/search'
 import { fetchDirections } from '@/entities/directions/api/directionsApi'
 import type { DirectionsResponse } from '@/entities/directions/model/types'
+import { useCharacter } from '@/composables/useCharacter'
 
 export interface DirectionsPoint {
   id?: number
@@ -57,6 +58,19 @@ const routeData = ref<DirectionsResponse | null>(null)
 const routeLoading = ref(false)
 const routeError = ref<string | null>(null)
 
+const { characterPosition, characterData } = useCharacter()
+
+// Sync origin with characterPosition whenever it changes and directions mode is active
+watch(characterPosition, (newPos) => {
+  if (isDirectionsMode.value && newPos) {
+    origin.value = {
+      name: characterData.value?.name || 'Aranath',
+      type: 'custom',
+      coordinates: newPos
+    }
+  }
+})
+
 async function calculateRoute() {
   if (!origin.value || !destination.value) {
     routeData.value = null
@@ -90,6 +104,16 @@ watch([origin, destination], () => {
 
 export function useDirections() {
   function startDirections(initialDestination: { name: string; coordinates: [number, number]; id?: number; type?: 'location' | 'region' }) {
+    if (characterPosition.value) {
+      origin.value = {
+        name: characterData.value?.name || 'Aranath',
+        type: 'custom',
+        coordinates: characterPosition.value
+      }
+    } else {
+      origin.value = null
+    }
+
     destination.value = {
       id: initialDestination.id,
       name: initialDestination.name,

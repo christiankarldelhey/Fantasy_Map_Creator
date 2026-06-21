@@ -13,6 +13,7 @@ import demRouter from './routes/dem.js';
 import climateRouter from './routes/climate.js';
 import searchRouter from './routes/search.js';
 import directionsRouter from './routes/directions.js';
+import characterRouter from './routes/character.js';
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use('/api/dem', demRouter);
 app.use('/api/climate', climateRouter);
 app.use('/api/search', searchRouter);
 app.use('/api/directions', directionsRouter);
+app.use('/api/character', characterRouter);
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {

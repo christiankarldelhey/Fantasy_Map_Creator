@@ -4,7 +4,6 @@
 
     <DirectionsInput
       v-if="isDirectionsMode"
-      @select-origin="handleDirectionsOriginSelect"
       @select-destination="handleDirectionsDestinationSelect"
       @exit="handleExitDirections"
     />
@@ -45,6 +44,8 @@ import { DirectionsInput } from '@/widgets/directions-input'
 import { CalendarPicker } from '@/widgets/calendar-picker'
 import { useDirections } from '@/composables/useDirections'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
+import { useCharacter } from '@/composables/useCharacter'
+import maleCharacterImage from '@/assets/characters/male.png'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import type { SearchResult } from '@/entities/search'
 import type { LocationDetails } from '@/widgets/location-sidebar'
@@ -54,10 +55,14 @@ const searchInputRef = ref<InstanceType<typeof SearchInput> | null>(null)
 const selectedLocation = ref<LocationDetails | null>(null)
 let map: maplibregl.Map | null = null
 
-const { isDirectionsMode, startDirections, exitDirections, setOrigin, routeData } = useDirections()
+const { isDirectionsMode, startDirections, exitDirections, setDestination, routeData } = useDirections()
 const { currentClimateTime, timestampISO } = useGlobalClimateTime()
 const lastSelectedCoordinates = ref<[number, number] | null>(null)
-const pendingOriginLocation = ref<LocationDetails | null>(null)
+const pendingDestinationLocation = ref<LocationDetails | null>(null)
+
+// Character / Company state
+const { characterPosition, characterData, fetchCharacterPosition } = useCharacter()
+let characterMarker: maplibregl.Marker | null = null
 
 // Composables refactorizados
 const { addMarker, removeMarker } = useMapMarkers()
@@ -87,15 +92,15 @@ function handleAddMarker(lng: number, lat: number) {
     lastSelectedCoordinates.value = [lng, lat]
 
     if (isDirectionsMode.value) {
-      if (pendingOriginLocation.value) {
-        setOrigin({
-          name: pendingOriginLocation.value.name,
-          type: pendingOriginLocation.value.type === 'Region' ? 'region' : 'location',
+      if (pendingDestinationLocation.value) {
+        setDestination({
+          name: pendingDestinationLocation.value.name,
+          type: pendingDestinationLocation.value.type === 'Region' ? 'region' : 'location',
           coordinates: [lng, lat]
         })
-        pendingOriginLocation.value = null
+        pendingDestinationLocation.value = null
       } else {
-        setOrigin({
+        setDestination({
           name: `Point [${lng.toFixed(2)}, ${lat.toFixed(2)}]`,
           type: 'custom',
           coordinates: [lng, lat]
@@ -104,6 +109,44 @@ function handleAddMarker(lng: number, lat: number) {
     }
   }
 }
+
+function updateCharacterMarker() {
+  if (!map) return
+
+  // Remove existing character marker if any
+  if (characterMarker) {
+    characterMarker.remove()
+    characterMarker = null
+  }
+
+  if (characterPosition.value) {
+    const [lng, lat] = characterPosition.value
+
+    // Create custom HTML element for character marker
+    const el = document.createElement('div')
+    el.className = 'character-marker'
+    el.style.width = '44px'
+    el.style.height = '44px'
+    el.style.borderRadius = '50%'
+    el.style.backgroundImage = `url(${maleCharacterImage})`
+    el.style.backgroundSize = 'cover'
+    el.style.backgroundPosition = 'center'
+    el.style.border = '3px solid #d97706' // amber-600 golden border
+    el.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1), 0 0 10px rgba(217,119,6,0.5)' // Drop shadow + golden glow
+    el.style.cursor = 'pointer'
+
+    // Add tooltip on hover
+    el.title = characterData.value?.name || 'Aranath'
+
+    characterMarker = new maplibregl.Marker({ element: el })
+      .setLngLat([lng, lat])
+      .addTo(map)
+  }
+}
+
+watch(characterPosition, () => {
+  updateCharacterMarker()
+})
 
 onMounted(async () => {
   if (!mapContainer.value) return
@@ -140,6 +183,14 @@ onMounted(async () => {
 
         // Configurar eventos
         setupClickHandler(map!, handleLocationClick, handleAddMarker, () => timestampISO.value)
+
+        // Cargar y mostrar el cursor del personaje/compañía
+        try {
+          await fetchCharacterPosition()
+          updateCharacterMarker()
+        } catch (err) {
+          console.error('Failed to load character position:', err)
+        }
 
         layersInitialized.value = true
       } catch (err) {
@@ -352,6 +403,10 @@ watch(routeData, (newRoute) => {
 })
 
 onUnmounted(() => {
+  if (characterMarker) {
+    characterMarker.remove()
+    characterMarker = null
+  }
   if (map) {
     clearRoute(map)
     removeMarker()
@@ -410,7 +465,7 @@ function handleSearchSelect(result: SearchResult) {
 
 function handleLocationClick(location: LocationDetails) {
   if (isDirectionsMode.value) {
-    pendingOriginLocation.value = location
+    pendingDestinationLocation.value = location
     return
   }
 
@@ -453,17 +508,6 @@ function handleDirectionsClick() {
       type: selectedLocation.value.type === 'Region' ? 'region' : 'location',
       coordinates: lastSelectedCoordinates.value
     })
-  }
-}
-
-function handleDirectionsOriginSelect(point: any) {
-  if (map && point) {
-    map.flyTo({
-      center: point.coordinates,
-      zoom: 10,
-      duration: 1000
-    })
-    addMarker(map, point.coordinates[0], point.coordinates[1])
   }
 }
 
