@@ -142,7 +142,7 @@
       ⚠️ {{ routeError }}
     </div>
 
-    <div v-else-if="routeData" class="flex flex-col gap-3 border-t border-gray-100 pt-3 max-h-[350px] overflow-y-auto pr-1">
+    <div v-else-if="routeData" class="flex flex-col gap-3 border-t border-gray-100 pt-3 max-h-[300px] overflow-y-auto pr-1">
       <!-- Summary metrics card -->
       <div class="flex items-center justify-between bg-rose-50/50 border border-rose-100/50 rounded-lg p-3">
         <div class="flex flex-col">
@@ -231,12 +231,23 @@
         </div>
       </div>
     </div>
+
+    <!-- Start Adventure Button -->
+    <div v-if="routeData" class="border-t border-gray-100 pt-3 flex gap-2">
+      <button
+        @click="handleStartAdventure"
+        class="w-full py-2.5 px-4 bg-amber-600 hover:bg-amber-700 text-white rounded-md font-semibold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm"
+      >
+        <Compass class="w-4 h-4" />
+        Start Adventure
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
-import { ArrowLeft, MapPin, X } from '@lucide/vue'
+import { ArrowLeft, MapPin, X, Compass } from '@lucide/vue'
 import { useSearch } from '@/entities/search'
 import type { SearchResult } from '@/entities/search'
 import { Input } from '@/components/ui/input'
@@ -379,6 +390,10 @@ function clearDestination() {
 function handleBack() {
   exitDirections()
   emit('exit')
+}
+
+function handleStartAdventure() {
+  console.log('Adventure started! Origin:', originPoint.value, 'Destination:', destinationPoint.value)
 }
 </script>
 

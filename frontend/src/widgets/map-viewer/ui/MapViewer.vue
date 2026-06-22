@@ -18,7 +18,7 @@
     <CalendarPicker />
 
     <LocationSidebar
-      v-if="selectedLocation"
+      v-if="selectedLocation && !isDirectionsMode"
       :location="selectedLocation"
       @close="handleCloseSidebar"
       @directions="handleDirectionsClick"
@@ -508,6 +508,7 @@ function handleDirectionsClick() {
       type: selectedLocation.value.type === 'Region' ? 'region' : 'location',
       coordinates: lastSelectedCoordinates.value
     })
+    selectedLocation.value = null
   }
 }
 

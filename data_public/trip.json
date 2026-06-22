@@ -1,0 +1,71 @@
+{
+  "trip": {
+    "id": "bree-hobbiton-01",
+    "name": "Bree-Hobbiton",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [-1.82, 51.83],
+        [-1.95, 51.82],
+        [-2.10, 51.82]
+      ]
+    },
+    "date": {
+      "day": 21,
+      "month": 6
+    },
+    "days": [
+      {
+        "region": "The Shire",
+        "day": 1,
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [-2.10, 51.82],
+            [-2.25, 51.81]
+          ]
+        },
+        "climate": {
+        //   aca va la data de clima de ese dia
+        },
+        "encounters": [
+          {
+            "id": "f51660bd-be08-410a-810a-cb8b21c439eb",
+            "name": "Barrow-wight",
+            "type": "undead",
+            "active": "night",
+            "chance": 15.0
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [-2.10, 51.82],
+            [-2.25, 51.81]
+          ]
+        },
+        "region": "The Shire",
+        "climate": {
+          "endpoint": "/api/climate/point",
+          "params": {
+            "lon": -2.10,
+            "lat": 51.82,
+            "timestamp": "1950-06-22T12:00:00"
+          }
+        },
+        "encounters": [
+          {
+            "id": "4b6da3be-a7f4-4d89-983c-1b77d6118833",
+            "name": "Wolves",
+            "type": "carnivores",
+            "active": "night",
+            "chance": 25.0
+          }
+        ]
+      }
+    ]
+  }
+}
