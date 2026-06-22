@@ -50,11 +50,12 @@ async function regionsForPoints(points) {
   const { rows } = await pool.query(
     `SELECT t.idx,
             r.name,
+            r.description_text,
             r.hours_to_encounter::float AS hours_to_encounter,
             r.chance_of_encounter::float AS chance_of_encounter
      FROM jsonb_array_elements($1::jsonb) WITH ORDINALITY AS t(elem, idx)
      LEFT JOIN LATERAL (
-       SELECT name, hours_to_encounter, chance_of_encounter
+       SELECT name, description_text, hours_to_encounter, chance_of_encounter
        FROM regions
        WHERE ST_Contains(geom, ST_SetSRID(ST_MakePoint((elem->>0)::float, (elem->>1)::float), 4326))
        LIMIT 1
@@ -64,6 +65,7 @@ async function regionsForPoints(points) {
   );
   return rows.map((row) => (row.name ? {
     name: row.name,
+    description_text: row.description_text,
     hours_to_encounter: row.hours_to_encounter,
     chance_of_encounter: row.chance_of_encounter,
   } : null));
@@ -84,7 +86,9 @@ async function entitiesForRegion(regionName) {
   return rows;
 }
 
-/** Sample geographic context (biomes, altitude, locations) along a leg LineString. */
+/** Sample geographic context (biomes, altitude, locations) along a leg LineString.
+ *  Locations are gathered within 10 km of the leg, each tagged with the fraction
+ *  (0..1) of the leg at which it is nearest, so the caller can derive a passing time. */
 async function sampleLegContext(legGeoJSON) {
   const geojson = JSON.stringify(legGeoJSON);
   const { rows } = await pool.query(
@@ -97,8 +101,14 @@ async function sampleLegContext(legGeoJSON) {
        (SELECT COALESCE(json_agg(DISTINCT a.altitude_type), '[]'::json)
         FROM altitude_layers a, leg WHERE ST_Intersects(a.geom, leg.geom)) AS altitude,
        (SELECT COALESCE(json_agg(json_build_object(
-          'name', l.name, 'type', l.location_type, 'region', l.region)), '[]'::json)
-        FROM locations l, leg WHERE ST_DWithin(l.geom, leg.geom, 0.02)) AS locations`,
+          'name', l.name,
+          'type', l.location_type,
+          'region', l.region,
+          'fraction', ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom)),
+          'distance_km', round((ST_Distance(l.geom::geography, leg.geom::geography) / 1000)::numeric, 2)
+        ) ORDER BY ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom))), '[]'::json)
+        FROM locations l, leg
+        WHERE ST_DWithin(l.geom::geography, leg.geom::geography, 10000)) AS locations`,
     [geojson]
   );
   return rows[0];
@@ -117,6 +127,32 @@ async function climateAtPoint(lng, lat, timestamp) {
   } catch (e) {
     return null;
   }
+}
+
+/** Sample climate at multiple hours along a leg. */
+async function sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, dateISO) {
+  const hours = [0, 3, 6, 9, 12, 15, 18, 21];
+  const climateData = [];
+  
+  const legDuration = dayEndSeconds - dayStartSeconds;
+  const [, month, day] = dateISO.split('-');
+  
+  for (const hour of hours) {
+    // Interpolate position along the leg for this hour
+    const hourFraction = hour / 24; // fraction of the day
+    const elapsedSeconds = dayStartSeconds + (hourFraction * legDuration);
+    const point = positionAtSeconds(segments, elapsedSeconds);
+    
+    const timestamp = `1950-${month}-${day} ${hour.toString().padStart(2, '0')}:00:00`;
+    const climate = await climateAtPoint(point[0], point[1], timestamp);
+    
+    climateData.push({
+      time: timestamp,
+      climate: climate || null
+    });
+  }
+  
+  return climateData;
 }
 
 // ---------------------------------------------------------------------------
@@ -231,20 +267,20 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
   // --- Geographic sampling ---
   const context = await sampleLegContext(legGeoJSON);
 
-  // Ordered unique regions crossed during the walking phase
+  // Ordered unique regions crossed during the walking phase (with description_text)
   const dayResolver = await buildDayRegionResolver(segments, dayStartSeconds, walkingHoursThisDay, timeStep);
   const orderedRegions = [];
   for (let elapsed = timeStep; elapsed <= walkingHoursThisDay + 1e-9; elapsed += timeStep) {
     const info = dayResolver(Number(elapsed.toFixed(6)));
     const name = info ? info.name : null;
-    if (name && (orderedRegions.length === 0 || orderedRegions[orderedRegions.length - 1] !== name)) {
-      orderedRegions.push(name);
+    const last = orderedRegions[orderedRegions.length - 1];
+    if (name && (!last || last.name !== name)) {
+      orderedRegions.push({ name, description_text: info.description_text || null });
     }
   }
 
-  // --- Climate (sampled at leg midpoint, noon) ---
-  const midPoint = positionAtSeconds(segments, (dayStartSeconds + dayEndSeconds) / 2);
-  const climate = await climateAtPoint(midPoint[0], midPoint[1], noonTimestamp1950(date));
+  // --- Climate (sampled hourly along the leg) ---
+  const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date);
 
   // --- Encounters ---
   const dayEncounters = simulatePhaseEncounters({
@@ -266,13 +302,37 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
     timeStep,
   });
 
-  const encounters = [...dayEncounters, ...nightEncounters].sort((a, b) => a.hour_float - b.hour_float);
+  const encounters = [...dayEncounters, ...nightEncounters]
+    .sort((a, b) => a.hour_float - b.hour_float)
+    .map((e) => ({
+      ...e,
+      entity: {
+        ...e.entity,
+        probability_by_region: undefined
+      }
+    }));
 
   // --- Road type breakdown (km) ---
   const roadTypes = {};
   for (const [type, meters] of Object.entries(leg.roadTypeBreakdown)) {
     roadTypes[type] = Number((meters / 1000).toFixed(3));
   }
+
+  // --- Locations: derive the clock hour each is passed from its leg fraction ---
+  const locations = (context.locations || []).map((l) => {
+    const frac = typeof l.fraction === 'number' ? Math.max(0, Math.min(1, l.fraction)) : 0;
+    const hourFloat = WALK_START_HOUR + frac * walkingHoursThisDay;
+    const hh = Math.floor(hourFloat);
+    const mm = Math.round((hourFloat - hh) * 60);
+    return {
+      name: l.name,
+      type: l.type,
+      region: l.region,
+      distance_km: l.distance_km,
+      hour_float: Number(hourFloat.toFixed(2)),
+      hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,
+    };
+  });
 
   return {
     day_number: dayNumber,
@@ -287,7 +347,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
     biomes: context.biomes || [],
     altitude: context.altitude || [],
     road_types: roadTypes,
-    locations: context.locations || [],
+    locations,
     climate,
     encounters,
   };

@@ -259,6 +259,7 @@ const emit = defineEmits<{
   'select-origin': [point: any]
   'select-destination': [point: any]
   'exit': []
+  'start-adventure': [payload: { origin: any; destination: any }]
 }>()
 
 // Search instance for destination
@@ -393,7 +394,11 @@ function handleBack() {
 }
 
 function handleStartAdventure() {
-  console.log('Adventure started! Origin:', originPoint.value, 'Destination:', destinationPoint.value)
+  if (!originPoint.value || !destinationPoint.value) return
+  emit('start-adventure', {
+    origin: originPoint.value,
+    destination: destinationPoint.value,
+  })
 }
 </script>
 

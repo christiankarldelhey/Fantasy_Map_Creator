@@ -4,6 +4,7 @@ import { computeRoute } from '../services/routing.js';
 import { generateDay } from '../services/tripDay.js';
 import { buildDayPrompt } from '../services/prompt.js';
 import { createSeededRng } from '../services/encounters.js';
+import { generateNarrative } from '../services/ai.js';
 
 const router = express.Router();
 
@@ -120,14 +121,30 @@ router.post('/:id/days', async (req, res, next) => {
       return res.status(409).json({ error: 'Trip is already complete; no more days to generate' });
     }
 
-    const prompt = buildDayPrompt(day, trip);
+    // Load the character (bio + linked entity name) for the prompt
+    const charRes = await pool.query(
+      `SELECT c.name, c.description, e.name AS entity_name
+       FROM character_state c
+       LEFT JOIN entities e ON e.id = c.entity_id
+       ORDER BY c.id ASC
+       LIMIT 1`
+    );
+    const character = charRes.rows[0] || {};
+
+    const prompt = buildDayPrompt(day, trip, character);
+
+    // Generate AI narrative (optional, if API key is configured)
+    const narrative = await generateNarrative(prompt);
+
+    // Persist only the user prompt text (system prompt lives in code)
+    const promptText = prompt.user;
 
     const insertRes = await pool.query(
       `INSERT INTO trip_days
          (trip_id, day_number, date, start_lng, start_lat, end_lng, end_lat,
           distance_km, walking_hours, geometry, regions, biomes, altitude,
-          road_types, locations, climate, encounters, prompt)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
+          road_types, locations, climate, encounters, prompt, narrative)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
        RETURNING *`,
       [
         trip.id,
@@ -145,7 +162,8 @@ router.post('/:id/days', async (req, res, next) => {
         JSON.stringify(day.locations),
         day.climate ? JSON.stringify(day.climate) : null,
         JSON.stringify(day.encounters),
-        prompt,
+        promptText,
+        narrative,
       ]
     );
 

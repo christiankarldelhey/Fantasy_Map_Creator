@@ -9,13 +9,18 @@
     "dev": "nodemon server.js",
     "test": "node --test"
   },
-  "keywords": ["gis", "postgis", "rest"],
+  "keywords": [
+    "gis",
+    "postgis",
+    "rest"
+  ],
   "author": "Christian Karl Delhey",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "groq-sdk": "^1.3.0",
     "pg": "^8.11.0"
   },
   "devDependencies": {

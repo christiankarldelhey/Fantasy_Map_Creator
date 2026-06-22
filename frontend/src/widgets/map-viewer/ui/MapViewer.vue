@@ -6,6 +6,13 @@
       v-if="isDirectionsMode"
       @select-destination="handleDirectionsDestinationSelect"
       @exit="handleExitDirections"
+      @start-adventure="handleStartAdventure"
+    />
+
+    <ChapterViewer
+      v-if="activeTripId"
+      :trip-id="activeTripId"
+      @close="activeTripId = null"
     />
 
     <SearchInput
@@ -42,6 +49,7 @@ import { SearchInput } from '@/widgets/search-input'
 import { LocationSidebar } from '@/widgets/location-sidebar'
 import { DirectionsInput } from '@/widgets/directions-input'
 import { CalendarPicker } from '@/widgets/calendar-picker'
+import { ChapterViewer, useTrips } from '@/features/prompt-management'
 import { useDirections } from '@/composables/useDirections'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 import { useCharacter } from '@/composables/useCharacter'
@@ -56,6 +64,10 @@ const selectedLocation = ref<LocationDetails | null>(null)
 let map: maplibregl.Map | null = null
 
 const { isDirectionsMode, startDirections, exitDirections, setDestination, routeData } = useDirections()
+
+// Adventure / trip generation
+const { createTrip, generateDay } = useTrips()
+const activeTripId = ref<string | null>(null)
 const { currentClimateTime, timestampISO } = useGlobalClimateTime()
 const lastSelectedCoordinates = ref<[number, number] | null>(null)
 const pendingDestinationLocation = ref<LocationDetails | null>(null)
@@ -529,6 +541,26 @@ function handleExitDirections() {
   removeMarker()
   if (map) {
     regionLayer.highlightRegionBorder(map, null)
+  }
+}
+
+async function handleStartAdventure(payload: { origin: any; destination: any }) {
+  const { origin, destination } = payload
+  if (!origin?.coordinates || !destination?.coordinates) return
+
+  try {
+    const trip = await createTrip({
+      name: `${origin.name} to ${destination.name}`,
+      start: { lng: origin.coordinates[0], lat: origin.coordinates[1] },
+      end: { lng: destination.coordinates[0], lat: destination.coordinates[1] },
+      transport_mode: 'walk',
+    })
+    // Generate the first chapter, then open the viewer
+    await generateDay(trip.id)
+    activeTripId.value = trip.id
+    handleExitDirections()
+  } catch (err) {
+    console.error('Failed to start adventure:', err)
   }
 }
 

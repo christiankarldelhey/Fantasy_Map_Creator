@@ -1,102 +1,104 @@
 import { WALK_START_HOUR, WALK_END_HOUR } from './tripDay.js';
+import {
+  describeClimate,
+  describeRegions,
+  describeLandscape,
+  describeLocations,
+  describeRoads,
+} from './naturalLanguage.js';
 
 // ============================================================================
 // Prompt builder (no AI)
 // ----------------------------------------------------------------------------
-// Turns a generated day object into a structured, Tolkien-flavoured prompt
-// ready to be sent to an LLM (e.g. Gemini). Divides the 12 walking hours into
-// three stages (morning / midday / afternoon) plus the night at camp, and
-// injects climate, regions, biomes, elevation, road type, locations and the
-// encounter table with their hours.
+// Turns a generated day object + the character into a Tolkien-style chapter
+// prompt. The geographic/weather data is first run through the (rule-based)
+// naturalLanguage service, then laid out in the chapter template. The day is
+// split into three parts — morning, afternoon and night at camp.
+// Returns { system, user }.
 // ============================================================================
 
-function fmtList(arr, fallback = 'none') {
-  if (!arr || arr.length === 0) return fallback;
-  return arr.join(', ');
-}
+export const SYSTEM_PROMPT = `You are a storyteller in the tradition of J.R.R. Tolkien. Sober, concrete prose: you name hills, rivers and roads for what they are and let the facts suggest emotion rather than declaring it.
 
-function describeClimate(climate) {
-  if (!climate) return 'Climate data unavailable.';
-  const parts = [];
-  const w = climate.weather || climate;
-  if (w.temperature_2m != null) parts.push(`temperature ~${Math.round(w.temperature_2m)}°C`);
-  if (w.precipitation != null) parts.push(`precipitation ${w.precipitation} mm`);
-  if (w.cloud_cover != null) parts.push(`cloud cover ${Math.round(w.cloud_cover)}%`);
-  if (w.wind_speed_10m != null) parts.push(`wind ${Math.round(w.wind_speed_10m)} km/h`);
-  if (w.snowfall != null && w.snowfall > 0) parts.push(`snowfall ${w.snowfall} cm`);
-  const koppen = climate.koppen || w.koppen;
-  if (koppen) parts.push(`Köppen ${koppen}`);
-  return parts.length ? parts.join(', ') : 'mild, unremarkable weather';
-}
+Style rules:
+- Restraint over ornament. Tolkien rarely grows excited; when he does, it carries weight.
+- No abstract filler ("a sense of wonder", "his heart pounded", "full of magic"). If you name an emotion, anchor it to a gesture or a physical detail.
+- Do not repeat images or phrases within the chapter.
+- Weather is atmosphere, not a report: it appears only when it shifts the mood or hinders the march. Never give figures or exact hours.
+- Every encounter must MAKE something happen: a decision, an exchange, a consequence. Do not describe a threat only to dissolve it without effect.
+- Flowing prose, no bullet points. A short verse only if it truly fits.
 
-function describeRoadTypes(roadTypes) {
-  const entries = Object.entries(roadTypes || {});
-  if (entries.length === 0) return 'no clear path';
-  const labels = { road: 'roads', trail: 'trails', off_road: 'cross-country' };
-  return entries
-    .sort((a, b) => b[1] - a[1])
-    .map(([type, km]) => `${labels[type] || type} (${km} km)`)
-    .join(', ');
-}
+Rules for using the data:
+- The data below is RAW MATERIAL, not a checklist. Use what serves the story and discard the rest. You need not mention every region, biome, road or weather reading.
+- Do not invent names of places or creatures that do not appear in the data.`;
 
-function stageFor(hourFloat) {
-  const span = WALK_END_HOUR - WALK_START_HOUR;
-  const third = span / 3;
-  // Night hours: 19:00–24:00 or 0:00–7:00
+// Three parts of the day: morning + afternoon (walking), and night at camp.
+const MIDDAY = (WALK_START_HOUR + WALK_END_HOUR) / 2; // 13:00 for 7–19
+
+function partFor(hourFloat) {
   if (hourFloat >= WALK_END_HOUR || hourFloat < WALK_START_HOUR) return 'night';
-  if (hourFloat < WALK_START_HOUR + third) return 'morning';
-  if (hourFloat < WALK_START_HOUR + 2 * third) return 'midday';
+  if (hourFloat < MIDDAY) return 'morning';
   return 'afternoon';
 }
 
 function describeEncounter(e) {
   const ent = e.entity || {};
   const danger = ent.danger != null ? `, danger ${ent.danger}/5` : '';
-  return `${e.hour} — ${ent.name} (${ent.type || 'creature'}, ${ent.active || 'all-day'}${danger}) in ${e.region}`;
+  const desc = ent.description ? ` — ${ent.description}` : '';
+  return `${ent.name} (${ent.type || 'creature'}, ${ent.active || 'all-day'}${danger}) in ${e.region}${desc}`;
+}
+
+function encounterSection(list) {
+  if (!list || list.length === 0) return '  (no encounters)';
+  return list.map((e) => `  * ${describeEncounter(e)}`).join('\n');
 }
 
 /**
  * Build the narration prompt for a day object.
  * @param {Object} day - output of generateDay
  * @param {Object} [trip] - parent trip (for name/context)
- * @returns {string}
+ * @param {Object} [character] - { name, description, entity_name }
+ * @returns {{ system: string, user: string }}
  */
-export function buildDayPrompt(day, trip = {}) {
-  const stages = { morning: [], midday: [], afternoon: [], night: [] };
+export function buildDayPrompt(day, trip = {}, character = {}) {
+  const parts = { morning: [], afternoon: [], night: [] };
   for (const e of day.encounters || []) {
-    stages[stageFor(e.hour_float)].push(e);
+    parts[partFor(e.hour_float)].push(e);
   }
 
-  const encounterSection = (key, label) => {
-    const list = stages[key];
-    if (!list || list.length === 0) return `- ${label}: no encounters`;
-    return `- ${label}:\n${list.map((e) => `    * ${describeEncounter(e)}`).join('\n')}`;
-  };
+  const charName = character.name || 'The traveller';
+  const charKind = character.entity_name ? `, ${character.entity_name} of the northern lands` : '';
+  const charBio = character.description ? `\n${character.description}` : '';
 
-  const tripName = trip.name || 'the journey';
+  const user = `=== THE TRAVELLER ===
+${charName}${charKind}.${charBio}
 
-  return `You are a master storyteller writing in the descriptive, evocative style of J.R.R. Tolkien.
-Write Chapter ${day.day_number} of "${tripName}". Each chapter narrates a single day of travel.
-Be richly descriptive of the terrain, the weather and the encounters. Stay grounded in the facts below; do not invent place names or creatures that are not provided. Write in flowing prose, not bullet points.
+=== TODAY'S ROAD ===
+Day ${day.day_number}. Narrate a single day's journey, from dawn to the night at camp.
 
-=== DAY ${day.day_number} — ${day.date} ===
-Distance covered: ${day.distance_km} km over ~${day.walking_hours} hours of marching (from ${WALK_START_HOUR}:00 to ${WALK_END_HOUR}:00).
-Regions crossed (in order): ${fmtList(day.regions)}.
-Biomes: ${fmtList(day.biomes)}.
-Elevation/terrain: ${fmtList(day.altitude)}.
-Path traveled: ${describeRoadTypes(day.road_types)}.
-Notable places passed near: ${fmtList((day.locations || []).map((l) => l.name))}.
-Weather through the day: ${describeClimate(day.climate)}.
+Lands crossed (in order), with their character:
+${describeRegions(day.regions)}
 
-=== STRUCTURE THE CHAPTER IN FOUR PARTS ===
-1. Morning (${WALK_START_HOUR}:00–11:00):
-${encounterSection('morning', 'Encounters')}
-2. Midday (11:00–15:00):
-${encounterSection('midday', 'Encounters')}
-3. Afternoon (15:00–${WALK_END_HOUR}:00):
-${encounterSection('afternoon', 'Encounters')}
-4. Night at camp (${WALK_END_HOUR}:00–${WALK_START_HOUR}:00):
-${encounterSection('night', 'Encounters')}
+Places near the road:
+${describeLocations(day.locations)}
 
-For each encounter, weave its hour, nature and danger into the narrative. If a part has no encounters, describe the journey, the landscape and the company's mood during that stretch.`;
+The landscape crossed:
+${describeLandscape(day.biomes, day.altitude)}
+
+Where the road runs:
+${describeRoads(day.road_types, day.regions)}
+
+The weather through the day:
+${describeClimate(day.climate)}
+
+=== ENCOUNTERS ===
+Morning:
+${encounterSection(parts.morning)}
+Afternoon:
+${encounterSection(parts.afternoon)}
+Night at camp:
+${encounterSection(parts.night)}
+
+Write the chapter as flowing prose in three movements — morning, afternoon, and the night at camp. Let each encounter cause something to happen.`;
+
+  return { system: SYSTEM_PROMPT, user };
 }
