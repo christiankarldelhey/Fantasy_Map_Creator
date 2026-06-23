@@ -34,6 +34,7 @@ function initializeClient() {
 export async function generateNarrative(prompt) {
   const groqClient = initializeClient();
   if (!groqClient) {
+    console.warn('⚠️ AI client not initialized, skipping narrative generation');
     return null;
   }
 
@@ -45,6 +46,9 @@ export async function generateNarrative(prompt) {
     messages.push({ role: 'user', content: String(prompt || '') });
   }
 
+  console.log('🤖 Attempting to generate narrative with Groq...');
+  console.log('📝 Prompt length:', messages[0]?.content?.length || 0);
+
   try {
     const response = await groqClient.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
@@ -52,10 +56,13 @@ export async function generateNarrative(prompt) {
       temperature: 0.7,
       max_tokens: 2048,
     });
-    
-    return response.choices[0]?.message?.content || null;
+
+    const content = response.choices[0]?.message?.content || null;
+    console.log('✅ Narrative generated successfully, length:', content?.length || 0);
+    return content;
   } catch (error) {
-    console.error('Error generating narrative with Groq:', error);
+    console.error('❌ Error generating narrative with Groq:', error.message);
+    console.error('Error details:', error);
     return null;
   }
 }

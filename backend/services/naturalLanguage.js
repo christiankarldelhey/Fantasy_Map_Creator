@@ -196,7 +196,7 @@ export function describeLandscape(biomes, altitude) {
 
 /**
  * Places passed near, with a rough time-of-day (no exact clock times).
- * @param {Array<{name:string, type?:string, hour_float?:number, distance_km?:number}>} locations
+ * @param {Array<{name:string, type?:string, hour_float?:number, distance_km?:number, description?:string}>} locations
  * @returns {string}
  */
 export function describeLocations(locations) {
@@ -210,7 +210,8 @@ export function describeLocations(locations) {
       ? 'passed at some distance'
       : 'passed close by';
     const kind = l.type ? ` (${String(l.type).replace(/_/g, ' ')})` : '';
-    return `- ${l.name}${kind}: ${near}, ${when}.`;
+    const desc = l.description && l.description.trim() ? ` — ${l.description.trim()}` : '';
+    return `- ${l.name}${kind}: ${near}, ${when}.${desc}`;
   });
 
   return lines.join('\n');

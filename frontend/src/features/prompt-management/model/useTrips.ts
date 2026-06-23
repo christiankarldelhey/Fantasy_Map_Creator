@@ -83,7 +83,7 @@ export function useTrips() {
     }
   }
 
-  async function generateDay(tripId: string, options: { day_number?: number; seed?: number } = {}): Promise<TripDay> {
+  async function generateDay(tripId: string, options: { day_number?: number; seed?: number; language?: string } = {}): Promise<TripDay> {
     generating.value = true
     error.value = null
     try {

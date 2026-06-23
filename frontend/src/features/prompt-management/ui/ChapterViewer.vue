@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { Loader2, ScrollText, ChevronDown, ChevronRight, Plus } from '@lucide/vue'
 import { useTrips, type TripDay } from '../model/useTrips'
+import { useCharacter } from '@/composables/useCharacter'
 
 const props = defineProps<{
   tripId: string
@@ -10,6 +11,7 @@ const props = defineProps<{
 const emit = defineEmits<{ (e: 'close'): void }>()
 
 const { trip, days, loading, generating, error, getTrip, getDays, generateDay } = useTrips()
+const { fetchCharacterPosition } = useCharacter()
 
 const expanded = ref<Record<string, 'narrative' | 'prompt' | null>>({})
 
@@ -24,6 +26,8 @@ async function handleGenerateNext() {
   if (!props.tripId) return
   try {
     await generateDay(props.tripId)
+    // Update character position to the end of the newly generated day
+    await fetchCharacterPosition()
   } catch {
     /* error surfaced via `error` ref */
   }

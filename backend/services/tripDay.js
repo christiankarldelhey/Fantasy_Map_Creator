@@ -104,6 +104,7 @@ async function sampleLegContext(legGeoJSON) {
           'name', l.name,
           'type', l.location_type,
           'region', l.region,
+          'description', l.description,
           'fraction', ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom)),
           'distance_km', round((ST_Distance(l.geom::geography, leg.geom::geography) / 1000)::numeric, 2)
         ) ORDER BY ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom))), '[]'::json)
@@ -328,6 +329,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
       name: l.name,
       type: l.type,
       region: l.region,
+      description: l.description,
       distance_km: l.distance_km,
       hour_float: Number(hourFloat.toFixed(2)),
       hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,

@@ -57,9 +57,10 @@ function encounterSection(list) {
  * @param {Object} day - output of generateDay
  * @param {Object} [trip] - parent trip (for name/context)
  * @param {Object} [character] - { name, description, entity_name }
+ * @param {string} [language] - 'english' or 'spanish'
  * @returns {{ system: string, user: string }}
  */
-export function buildDayPrompt(day, trip = {}, character = {}) {
+export function buildDayPrompt(day, trip = {}, character = {}, language = 'english') {
   const parts = { morning: [], afternoon: [], night: [] };
   for (const e of day.encounters || []) {
     parts[partFor(e.hour_float)].push(e);
@@ -69,11 +70,26 @@ export function buildDayPrompt(day, trip = {}, character = {}) {
   const charKind = character.entity_name ? `, ${character.entity_name} of the northern lands` : '';
   const charBio = character.description ? `\n${character.description}` : '';
 
+  // Extract season from date
+  const date = new Date(day.date);
+  const month = date.getMonth(); // 0-11
+  let seasonContext = '';
+  if (month >= 2 && month <= 4) {
+    seasonContext = 'It is spring.';
+  } else if (month >= 5 && month <= 7) {
+    seasonContext = 'It is summer.';
+  } else if (month >= 8 && month <= 10) {
+    seasonContext = 'It is autumn.';
+  } else {
+    seasonContext = 'It is the dead of winter.';
+  }
+
   const user = `=== THE TRAVELLER ===
 ${charName}${charKind}.${charBio}
 
 === TODAY'S ROAD ===
 Day ${day.day_number}. Narrate a single day's journey, from dawn to the night at camp.
+${seasonContext}
 
 Lands crossed (in order), with their character:
 ${describeRegions(day.regions)}
@@ -98,7 +114,9 @@ ${encounterSection(parts.afternoon)}
 Night at camp:
 ${encounterSection(parts.night)}
 
-Write the chapter as flowing prose in three movements — morning, afternoon, and the night at camp. Let each encounter cause something to happen.`;
+Write the chapter as flowing prose in three movements — morning, afternoon, and the night at camp. Let each encounter cause something to happen.
+
+${language === 'spanish' ? 'Please write the entire response in Spanish.' : ''}`;
 
   return { system: SYSTEM_PROMPT, user };
 }

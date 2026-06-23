@@ -544,8 +544,8 @@ function handleExitDirections() {
   }
 }
 
-async function handleStartAdventure(payload: { origin: any; destination: any }) {
-  const { origin, destination } = payload
+async function handleStartAdventure(payload: { origin: any; destination: any; language: string }) {
+  const { origin, destination, language } = payload
   if (!origin?.coordinates || !destination?.coordinates) return
 
   try {
@@ -554,9 +554,13 @@ async function handleStartAdventure(payload: { origin: any; destination: any }) 
       start: { lng: origin.coordinates[0], lat: origin.coordinates[1] },
       end: { lng: destination.coordinates[0], lat: destination.coordinates[1] },
       transport_mode: 'walk',
+      start_date: timestampISO.value,
     })
     // Generate the first chapter, then open the viewer
-    await generateDay(trip.id)
+    await generateDay(trip.id, { language })
+    // Update character position to the end of the first day
+    await fetchCharacterPosition()
+    updateCharacterMarker()
     activeTripId.value = trip.id
     handleExitDirections()
   } catch (err) {

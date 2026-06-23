@@ -233,7 +233,17 @@
     </div>
 
     <!-- Start Adventure Button -->
-    <div v-if="routeData" class="border-t border-gray-100 pt-3 flex gap-2">
+    <div v-if="routeData" class="border-t border-gray-100 pt-3 flex flex-col gap-2">
+      <div class="flex items-center gap-2">
+        <label class="text-xs font-medium text-gray-600">Language:</label>
+        <select
+          v-model="narrativeLanguage"
+          class="text-xs border border-gray-300 rounded px-2 py-1"
+        >
+          <option value="english">English</option>
+          <option value="spanish">Español</option>
+        </select>
+      </div>
       <button
         @click="handleStartAdventure"
         class="w-full py-2.5 px-4 bg-amber-600 hover:bg-amber-700 text-white rounded-md font-semibold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm"
@@ -259,7 +269,7 @@ const emit = defineEmits<{
   'select-origin': [point: any]
   'select-destination': [point: any]
   'exit': []
-  'start-adventure': [payload: { origin: any; destination: any }]
+  'start-adventure': [payload: { origin: any; destination: any; language: string }]
 }>()
 
 // Search instance for destination
@@ -277,8 +287,10 @@ const {
   routeLoading,
   routeError,
   setDestination,
-  exitDirections
+  exitDirections,
 } = useDirections()
+
+const narrativeLanguage = ref<'english' | 'spanish'>('english')
 
 const { characterData } = useCharacter()
 
@@ -398,6 +410,7 @@ function handleStartAdventure() {
   emit('start-adventure', {
     origin: originPoint.value,
     destination: destinationPoint.value,
+    language: narrativeLanguage.value,
   })
 }
 </script>

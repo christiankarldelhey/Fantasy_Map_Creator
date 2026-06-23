@@ -4,12 +4,12 @@ import { useMapLayer } from './useMapLayer'
 import { ZOOM_LEVELS, ROAD_TYPES, createTypeFilter } from '@/shared/config/zoomLevels'
 
 export function useRoadLayer() {
-  // Major roads (visible from zoom 3)
+  // Major roads (visible from zoom 7)
   const majorLayer = useMapLayer({
     sourceId: 'roads',
     layerId: 'roads-major',
     layerType: 'line',
-    minzoom: ZOOM_LEVELS.FAR.min,
+    minzoom: ZOOM_LEVELS.NEAR.min,
     paint: {
       'line-color': [
         'match',
@@ -31,12 +31,12 @@ export function useRoadLayer() {
     interactive: true
   })
 
-  // Medium roads (visible from zoom 6)
+  // Medium roads (visible from zoom 7)
   const mediumLayer = useMapLayer({
     sourceId: 'roads',
     layerId: 'roads-medium',
     layerType: 'line',
-    minzoom: ZOOM_LEVELS.MEDIUM.min,
+    minzoom: ZOOM_LEVELS.NEAR.min,
     paint: {
       'line-color': MAP_COLORS.roads.regular,
       'line-width': MAP_COLORS.roads.widthRegular,

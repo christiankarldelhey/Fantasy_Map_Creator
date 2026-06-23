@@ -98,7 +98,7 @@ router.post('/:id/days', async (req, res, next) => {
     if (tripRes.rows.length === 0) return res.status(404).json({ error: 'Trip not found' });
     const trip = tripRes.rows[0];
 
-    const { day_number, seed } = req.body || {};
+    const { day_number, seed, language } = req.body || {};
     const dayNumber = day_number != null ? parseInt(day_number, 10) : trip.current_day + 1;
 
     if (!Number.isInteger(dayNumber) || dayNumber < 1) {
@@ -131,7 +131,7 @@ router.post('/:id/days', async (req, res, next) => {
     );
     const character = charRes.rows[0] || {};
 
-    const prompt = buildDayPrompt(day, trip, character);
+    const prompt = buildDayPrompt(day, trip, character, language || 'english');
 
     // Generate AI narrative (optional, if API key is configured)
     const narrative = await generateNarrative(prompt);
@@ -171,6 +171,14 @@ router.post('/:id/days', async (req, res, next) => {
     if (dayNumber > trip.current_day) {
       await pool.query('UPDATE trips SET current_day = $1 WHERE id = $2', [dayNumber, trip.id]);
     }
+
+    // Update character position to the end of this day's journey
+    await pool.query(
+      `UPDATE character_state
+       SET current_lng = $1, current_lat = $2, updated_at = NOW()
+       WHERE id = (SELECT id FROM character_state ORDER BY id ASC LIMIT 1)`,
+      [day.end[0], day.end[1]]
+    );
 
     res.status(201).json(insertRes.rows[0]);
   } catch (error) {
