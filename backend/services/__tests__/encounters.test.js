@@ -127,6 +127,8 @@ test('simulatePhaseEncounters is deterministic with a seeded rng', () => {
       phase: DAY_PHASE,
       getRegionInfo: () => region,
       rng: createSeededRng(42),
+      overrideHours: null,
+      overrideChance: null,
     });
 
   const a = run();
@@ -153,6 +155,8 @@ test('simulatePhaseEncounters produces no encounters at 0% chance', () => {
     phase: DAY_PHASE,
     getRegionInfo: () => region,
     rng: createSeededRng(7),
+    overrideHours: null,
+    overrideChance: null,
   });
 
   assert.equal(result.length, 0);
@@ -169,6 +173,8 @@ test('simulatePhaseEncounters handles regions changing mid-phase', () => {
     phase: DAY_PHASE,
     getRegionInfo: (elapsed) => (elapsed <= 6 ? shire : misty),
     rng: createSeededRng(99),
+    overrideHours: null,
+    overrideChance: null,
   });
 
   const regionsHit = new Set(result.map((e) => e.region));

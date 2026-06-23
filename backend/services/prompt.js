@@ -52,15 +52,22 @@ function encounterSection(list) {
   return list.map((e) => `  * ${describeEncounter(e)}`).join('\n');
 }
 
+const getDestinationName = (tripName) => {
+  if (!tripName) return 'their destination';
+  const parts = tripName.split(' to ');
+  return parts.length > 1 ? parts[parts.length - 1] : tripName;
+};
+
 /**
  * Build the narration prompt for a day object.
  * @param {Object} day - output of generateDay
  * @param {Object} [trip] - parent trip (for name/context)
  * @param {Object} [character] - { name, description, entity_name }
  * @param {string} [language] - 'english' or 'spanish'
+ * @param {string} [previousDaySummary] - non-AI summary of the previous day
  * @returns {{ system: string, user: string }}
  */
-export function buildDayPrompt(day, trip = {}, character = {}, language = 'english') {
+export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null) {
   const parts = { morning: [], afternoon: [], night: [] };
   for (const e of day.encounters || []) {
     parts[partFor(e.hour_float)].push(e);
@@ -84,10 +91,45 @@ export function buildDayPrompt(day, trip = {}, character = {}, language = 'engli
     seasonContext = 'It is the dead of winter.';
   }
 
+  let journeyContextSection = '';
+  if (previousDaySummary) {
+    const destName = getDestinationName(trip.name);
+    journeyContextSection = `=== JOURNEY CONTEXT ===
+Ultimate Destination: ${destName}
+${previousDaySummary}
+Please use this context to maintain narrative continuity from yesterday's events.
+
+`;
+  } else {
+    const destName = getDestinationName(trip.name);
+    journeyContextSection = `=== JOURNEY CONTEXT ===
+Ultimate Destination: ${destName}
+
+`;
+  }
+
+  let specialInstructionsSection = '';
+  if (day.day_number === 1) {
+    const destName = getDestinationName(trip.name);
+    specialInstructionsSection = `=== SPECIAL INSTRUCTIONS (INTRODUCTION) ===
+This is the first day and the introduction of the entire journey.
+In this chapter, please describe the traveller's departure, their motivation, and their strong intention to reach ${destName}. Let the prose feel like a beginning, with hope or gravity as fits their personality.
+
+`;
+  } else if (day.is_last_day) {
+    const destName = getDestinationName(trip.name);
+    specialInstructionsSection = `=== SPECIAL INSTRUCTIONS (THE JOURNEY'S END) ===
+This is the final day and the conclusion of the entire journey!
+The traveller has finally reached their ultimate destination: ${destName}.
+In this chapter, narrate their arrival at ${destName}. Give a deep, meaningful reflection on the long path walked, the obstacles overcome, and the achievement of their goal. This reflection must be highly aligned with and expressive of the traveller's personality, bio, and background.
+
+`;
+  }
+
   const user = `=== THE TRAVELLER ===
 ${charName}${charKind}.${charBio}
 
-=== TODAY'S ROAD ===
+${journeyContextSection}${specialInstructionsSection}=== TODAY'S ROAD ===
 Day ${day.day_number}. Narrate a single day's journey, from dawn to the night at camp.
 ${seasonContext}
 

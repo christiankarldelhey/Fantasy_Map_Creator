@@ -50,6 +50,7 @@ export interface TripDay {
   encounters: Array<{ hour: string; phase: string; region: string; entity: Record<string, unknown> }>
   prompt: string | null
   narrative: string | null
+  is_last_day?: boolean
   created_at: string
 }
 

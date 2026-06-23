@@ -171,6 +171,8 @@ export function simulatePhaseEncounters({
   rng = Math.random,
   timeStep = DEFAULT_TIME_STEP,
   base = WEIGHT_BASE,
+  overrideHours = 2.0,
+  overrideChance = 25.0,
 }) {
   const encounters = [];
   let accumulator = 0;
@@ -178,16 +180,24 @@ export function simulatePhaseEncounters({
   // Iterate over the phase. We check at the END of each accumulated interval.
   for (let elapsed = timeStep; elapsed <= phaseHours + 1e-9; elapsed += timeStep) {
     const region = getRegionInfo(elapsed);
-    accumulator += timeStep;
-
-    if (!region || !region.hours_to_encounter || region.hours_to_encounter <= 0) {
+    if (!region) {
       continue;
     }
 
-    if (accumulator + 1e-9 >= region.hours_to_encounter) {
+    // Use uniform stable system defaults (2.0 hours, 25.0% chance) unless overridden/disabled
+    const hoursToEncounter = overrideHours !== null ? overrideHours : region.hours_to_encounter;
+    const chanceOfEncounter = overrideChance !== null ? overrideChance : region.chance_of_encounter;
+
+    if (!hoursToEncounter || hoursToEncounter <= 0) {
+      continue;
+    }
+
+    accumulator += timeStep;
+
+    if (accumulator + 1e-9 >= hoursToEncounter) {
       accumulator = 0;
 
-      if (rollEncounter(region.chance_of_encounter, rng)) {
+      if (rollEncounter(chanceOfEncounter, rng)) {
         const pool = buildRegionPool(region.name, phase, region.entities, base);
         const entity = pickFromPool(pool, rng);
         if (entity) {
