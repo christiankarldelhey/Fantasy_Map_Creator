@@ -125,7 +125,10 @@ router.post('/:id/days', async (req, res, next) => {
     );
     const character = charRes.rows[0] || {};
 
-    const day = await generateDay({ trip, dayNumber, rng });
+    // Load already encountered entities for this trip
+    const encounteredEntities = trip.encountered_entities || [];
+
+    const day = await generateDay({ trip, dayNumber, rng, excludedEntityIds: encounteredEntities });
     if (!day) {
       return res.status(409).json({ error: 'Trip is already complete; no more days to generate' });
     }
@@ -187,6 +190,16 @@ router.post('/:id/days', async (req, res, next) => {
     if (dayNumber > trip.current_day) {
       await pool.query('UPDATE trips SET current_day = $1 WHERE id = $2', [dayNumber, trip.id]);
     }
+
+    // Update encountered entities array with new entities from this day
+    const newEntityIds = day.encounters
+      .map(e => e.entity?.id)
+      .filter(id => id); // filter out null/undefined
+    const updatedEncounteredEntities = [...new Set([...encounteredEntities, ...newEntityIds])]; // deduplicate
+    await pool.query(
+      'UPDATE trips SET encountered_entities = $1 WHERE id = $2',
+      [updatedEncounteredEntities, trip.id]
+    );
 
     // Update active character position to the end of this day's journey
     await pool.query(

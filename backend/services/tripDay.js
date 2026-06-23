@@ -238,9 +238,10 @@ async function buildNightRegionResolver(campPoint) {
  * @param {number} params.dayNumber - 1-based day index
  * @param {() => number} [params.rng] - RNG (defaults to Math.random)
  * @param {number} [params.timeStep]
+ * @param {Array<string>} [params.excludedEntityIds] - entity IDs to exclude from encounters
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep = DEFAULT_TIME_STEP }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep = DEFAULT_TIME_STEP, excludedEntityIds = [] }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -291,6 +292,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
     getRegionInfo: dayResolver,
     rng,
     timeStep,
+    excludedEntityIds,
   });
 
   const nightResolver = await buildNightRegionResolver(leg.end);
@@ -301,6 +303,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
     getRegionInfo: nightResolver,
     rng,
     timeStep,
+    excludedEntityIds,
   });
 
   const encounters = [...dayEncounters, ...nightEncounters]

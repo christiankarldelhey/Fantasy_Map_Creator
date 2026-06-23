@@ -66,14 +66,18 @@ export function adjustLevelForPhase(level, active, phase) {
  * @param {string} phase - DAY_PHASE | NIGHT_PHASE
  * @param {Array<Object>} entities - entity rows with `probability_by_region`
  * @param {number} base - exponential base
+ * @param {Array<string>} excludedEntityIds - entity IDs to exclude from the pool
  * @returns {Array<{entity: Object, level: number, weight: number, probability: number}>}
  *          sorted by descending probability; `probability` is a percent (0-100)
  *          summing to ~100 across the pool.
  */
-export function buildRegionPool(regionName, phase, entities, base = WEIGHT_BASE) {
+export function buildRegionPool(regionName, phase, entities, base = WEIGHT_BASE, excludedEntityIds = []) {
   const pool = [];
 
   for (const entity of entities || []) {
+    // Skip if entity is in the excluded list
+    if (excludedEntityIds && excludedEntityIds.includes(entity.id)) continue;
+
     const pbr = entity.probability_by_region || [];
     const match = pbr.find((p) => p.region === regionName);
     if (!match) continue;
@@ -161,6 +165,7 @@ export function formatHour(hourFloat) {
  * @param {() => number} [params.rng]
  * @param {number} [params.timeStep]
  * @param {number} [params.base]
+ * @param {Array<string>} [params.excludedEntityIds] - entity IDs to exclude from encounters
  * @returns {Array<{hour: string, hour_float: number, phase: string, region: string, entity: Object}>}
  */
 export function simulatePhaseEncounters({
@@ -173,6 +178,7 @@ export function simulatePhaseEncounters({
   base = WEIGHT_BASE,
   overrideHours = 2.0,
   overrideChance = 25.0,
+  excludedEntityIds = [],
 }) {
   const encounters = [];
   let accumulator = 0;
@@ -198,7 +204,7 @@ export function simulatePhaseEncounters({
       accumulator = 0;
 
       if (rollEncounter(chanceOfEncounter, rng)) {
-        const pool = buildRegionPool(region.name, phase, region.entities, base);
+        const pool = buildRegionPool(region.name, phase, region.entities, base, excludedEntityIds);
         const entity = pickFromPool(pool, rng);
         if (entity) {
           const hourFloat = startHour + elapsed;
