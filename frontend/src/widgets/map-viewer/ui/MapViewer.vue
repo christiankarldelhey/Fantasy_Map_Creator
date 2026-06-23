@@ -2,6 +2,8 @@
   <div class="relative w-full h-screen bg-white overflow-visible">
     <div ref="mapContainer" class="w-full h-full" style="min-height: 100vh;"></div>
 
+    <CharacterSelector />
+
     <DirectionsInput
       v-if="isDirectionsMode"
       @select-destination="handleDirectionsDestinationSelect"
@@ -53,7 +55,7 @@ import { ChapterViewer, useTrips } from '@/features/prompt-management'
 import { useDirections } from '@/composables/useDirections'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 import { useCharacter } from '@/composables/useCharacter'
-import maleCharacterImage from '@/assets/characters/male.png'
+import CharacterSelector from '@/components/CharacterSelector.vue'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import type { SearchResult } from '@/entities/search'
 import type { LocationDetails } from '@/widgets/location-sidebar'
@@ -73,8 +75,8 @@ const lastSelectedCoordinates = ref<[number, number] | null>(null)
 const pendingDestinationLocation = ref<LocationDetails | null>(null)
 
 // Character / Company state
-const { characterPosition, characterData, fetchCharacterPosition } = useCharacter()
-let characterMarker: maplibregl.Marker | null = null
+const { characters, fetchAllCharacters, setActiveCharacter } = useCharacter()
+let characterMarkers: Map<number, maplibregl.Marker> = new Map()
 
 // Composables refactorizados
 const { addMarker, removeMarker } = useMapMarkers()
@@ -122,17 +124,20 @@ function handleAddMarker(lng: number, lat: number) {
   }
 }
 
+function getCharacterImage(name: string): string {
+  return new URL(`/src/assets/characters/${name}.png`, import.meta.url).href
+}
+
 function updateCharacterMarker() {
   if (!map) return
 
-  // Remove existing character marker if any
-  if (characterMarker) {
-    characterMarker.remove()
-    characterMarker = null
-  }
+  // Remove all existing character markers
+  characterMarkers.forEach((marker) => marker.remove())
+  characterMarkers.clear()
 
-  if (characterPosition.value) {
-    const [lng, lat] = characterPosition.value
+  // Add markers for all characters
+  characters.value.forEach((character) => {
+    const [lng, lat] = [character.current_lng, character.current_lat]
 
     // Create custom HTML element for character marker
     const el = document.createElement('div')
@@ -140,25 +145,42 @@ function updateCharacterMarker() {
     el.style.width = '44px'
     el.style.height = '44px'
     el.style.borderRadius = '50%'
-    el.style.backgroundImage = `url(${maleCharacterImage})`
+    el.style.backgroundImage = `url(${getCharacterImage(character.name)})`
     el.style.backgroundSize = 'cover'
     el.style.backgroundPosition = 'center'
-    el.style.border = '3px solid #d97706' // amber-600 golden border
-    el.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1), 0 0 10px rgba(217,119,6,0.5)' // Drop shadow + golden glow
     el.style.cursor = 'pointer'
 
-    // Add tooltip on hover
-    el.title = characterData.value?.name || 'Aranath'
+    if (character.active) {
+      el.style.border = '3px solid #d97706' // amber-600 golden border
+      el.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1), 0 0 10px rgba(217,119,6,0.5)' // Drop shadow + golden glow
+      el.style.filter = 'none'
+    } else {
+      el.style.border = '3px solid rgba(128, 128, 128, 0.5)' // gray border
+      el.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.1)'
+      el.style.filter = 'grayscale(100%) opacity(0.6)'
+    }
 
-    characterMarker = new maplibregl.Marker({ element: el })
+    // Add tooltip on hover
+    el.title = character.name
+
+    // Add click handler to switch active character
+    el.addEventListener('click', () => {
+      if (!character.active) {
+        setActiveCharacter(character.id)
+      }
+    })
+
+    const marker = new maplibregl.Marker({ element: el })
       .setLngLat([lng, lat])
-      .addTo(map)
-  }
+      .addTo(map!)
+
+    characterMarkers.set(character.id, marker)
+  })
 }
 
-watch(characterPosition, () => {
+watch(characters, () => {
   updateCharacterMarker()
-})
+}, { deep: true })
 
 onMounted(async () => {
   if (!mapContainer.value) return
@@ -178,7 +200,7 @@ onMounted(async () => {
       try {
         await loadAllData()
 
-        // Inicializar todas las capas
+        // Initialize all layers
         initializeLayers(map!, {
           regions: regions.value,
           biomes: biomes.value,
@@ -193,12 +215,12 @@ onMounted(async () => {
           regionLayer.addRegionsOutline(map!, regionsData)
         }
 
-        // Configurar eventos
+        // Setup events
         setupClickHandler(map!, handleLocationClick, handleAddMarker, () => timestampISO.value)
 
-        // Cargar y mostrar el cursor del personaje/compañía
+        // Load and display character/company cursor
         try {
-          await fetchCharacterPosition()
+          await fetchAllCharacters()
           updateCharacterMarker()
         } catch (err) {
           console.error('Failed to load character position:', err)
@@ -415,10 +437,8 @@ watch(routeData, (newRoute) => {
 })
 
 onUnmounted(() => {
-  if (characterMarker) {
-    characterMarker.remove()
-    characterMarker = null
-  }
+  characterMarkers.forEach((marker) => marker.remove())
+  characterMarkers.clear()
   if (map) {
     clearRoute(map)
     removeMarker()
@@ -559,7 +579,7 @@ async function handleStartAdventure(payload: { origin: any; destination: any; la
     // Generate the first chapter, then open the viewer
     await generateDay(trip.id, { language })
     // Update character position to the end of the first day
-    await fetchCharacterPosition()
+    await fetchAllCharacters()
     updateCharacterMarker()
     activeTripId.value = trip.id
     handleExitDirections()

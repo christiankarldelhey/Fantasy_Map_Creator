@@ -142,6 +142,7 @@ CREATE TABLE IF NOT EXISTS regions (
     source JSONB,  -- Source references (supplement, supplement_code)
     products TEXT,  -- Products/resources
     description_text TEXT,  -- Main description text
+    description_summary TEXT,  -- Summary description of the region
     
     -- Statistics
     area_km2 DECIMAL,  -- Will be calculated with ST_Area
@@ -295,6 +296,35 @@ COMMENT ON COLUMN entities.url_path IS 'Path to image file (NULL for now)';
 COMMENT ON COLUMN entities.region_ids IS 'Array of region IDs where this entity can be found';
 COMMENT ON COLUMN entities.biomes IS 'Array of biome names where this entity can be found';
 COMMENT ON COLUMN entities.probability_by_region IS 'Array of {region, probability} objects for encounter probabilities';
+
+-- ============================================================================
+-- Table: character_state
+-- Purpose: Store character/company state and location
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS character_state (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    current_lng DOUBLE PRECISION,
+    current_lat DOUBLE PRECISION,
+    type VARCHAR(50),  -- Character type (e.g., Noldor, Sindar, Human, Dwarf)
+    gender VARCHAR(20),  -- Character gender (male, female)
+    active BOOLEAN DEFAULT false,  -- Whether this character is currently active
+    description TEXT,  -- Character description
+    entity_id UUID REFERENCES entities(id) ON DELETE SET NULL,
+    system_prompt TEXT,  -- Custom narrator voice instructions for this character
+    introduction_instructions TEXT,  -- Custom introduction instructions for this character
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_character_state_active ON character_state(active);
+
+COMMENT ON TABLE character_state IS 'Character state and location tracking';
+COMMENT ON COLUMN character_state.active IS 'Whether this character is currently active (only one can be active at a time)';
+COMMENT ON COLUMN character_state.type IS 'Character type (e.g., Noldor, Sindar, Human, Dwarf)';
+COMMENT ON COLUMN character_state.gender IS 'Character gender (male, female)';
+COMMENT ON COLUMN character_state.system_prompt IS 'Custom narrator voice instructions for this character (replaces default SYSTEM_PROMPT)';
+COMMENT ON COLUMN character_state.introduction_instructions IS 'Custom introduction instructions for this character (replaces default introduction)';
 
 -- ============================================================================
 -- Verification queries

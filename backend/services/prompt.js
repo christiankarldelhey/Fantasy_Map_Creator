@@ -62,7 +62,7 @@ const getDestinationName = (tripName) => {
  * Build the narration prompt for a day object.
  * @param {Object} day - output of generateDay
  * @param {Object} [trip] - parent trip (for name/context)
- * @param {Object} [character] - { name, description, entity_name }
+ * @param {Object} [character] - { name, description, system_prompt, introduction_instructions, entity_name }
  * @param {string} [language] - 'english' or 'spanish'
  * @param {string} [previousDaySummary] - non-AI summary of the previous day
  * @returns {{ system: string, user: string }}
@@ -73,7 +73,7 @@ export function buildDayPrompt(day, trip = {}, character = {}, language = 'engli
     parts[partFor(e.hour_float)].push(e);
   }
 
-  const charName = character.name || 'The traveller';
+  const charName = character.name || 'The Traveller';
   const charKind = character.entity_name ? `, ${character.entity_name} of the northern lands` : '';
   const charBio = character.description ? `\n${character.description}` : '';
 
@@ -110,26 +110,43 @@ Ultimate Destination: ${destName}
 
   let specialInstructionsSection = '';
   if (day.day_number === 1) {
-    const destName = getDestinationName(trip.name);
-    specialInstructionsSection = `=== SPECIAL INSTRUCTIONS (INTRODUCTION) ===
-This is the first day and the introduction of the entire journey.
-In this chapter, please describe the traveller's departure, their motivation, and their strong intention to reach ${destName}. Let the prose feel like a beginning, with hope or gravity as fits their personality.
+    // Use character-specific introduction instructions if available
+    if (character.introduction_instructions) {
+      const destName = getDestinationName(trip.name);
+      specialInstructionsSection = `=== SPECIAL INSTRUCTIONS (INTRODUCTION) ===
+${character.introduction_instructions.replace('their destination', destName).replace('her destination', destName)}
 
 `;
+    } else {
+      const destName = getDestinationName(trip.name);
+      specialInstructionsSection = `=== SPECIAL INSTRUCTIONS (INTRODUCTION) ===
+This is the first day and the introduction of the entire journey.
+In this chapter, please describe ${charName}'s departure, their motivation, and their strong intention to reach ${destName}. Let the prose feel like a beginning, with hope or gravity as fits their personality.
+
+`;
+    }
   } else if (day.is_last_day) {
     const destName = getDestinationName(trip.name);
     specialInstructionsSection = `=== SPECIAL INSTRUCTIONS (THE JOURNEY'S END) ===
 This is the final day and the conclusion of the entire journey!
-The traveller has finally reached their ultimate destination: ${destName}.
-In this chapter, narrate their arrival at ${destName}. Give a deep, meaningful reflection on the long path walked, the obstacles overcome, and the achievement of their goal. This reflection must be highly aligned with and expressive of the traveller's personality, bio, and background.
+${charName} has finally reached their ultimate destination: ${destName}.
+In this chapter, narrate their arrival at ${destName}. Give a deep, meaningful reflection on the long path walked, the obstacles overcome, and the achievement of their goal. This reflection must be highly aligned with and expressive of ${charName}'s personality, bio, and background.
 
 `;
   }
 
-  const user = `=== THE TRAVELLER ===
+  // Add character-specific narrator voice if available
+  let narratorVoiceSection = '';
+  if (character.system_prompt) {
+    narratorVoiceSection = `${character.system_prompt}
+
+`;
+  }
+
+  const user = `=== ${charName.toUpperCase()} ===
 ${charName}${charKind}.${charBio}
 
-${journeyContextSection}${specialInstructionsSection}=== TODAY'S ROAD ===
+${narratorVoiceSection}${journeyContextSection}${specialInstructionsSection}=== TODAY'S ROAD ===
 Day ${day.day_number}. Narrate a single day's journey, from dawn to the night at camp.
 ${seasonContext}
 
@@ -160,5 +177,6 @@ Write the chapter as flowing prose in three movements — morning, afternoon, an
 
 ${language === 'spanish' ? 'Please write the entire response in Spanish.' : ''}`;
 
+  // Use default SYSTEM_PROMPT for all characters (character-specific narrator voice is now in user message)
   return { system: SYSTEM_PROMPT, user };
 }

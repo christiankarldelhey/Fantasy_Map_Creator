@@ -39,7 +39,7 @@
           <Input
             v-model="originQuery"
             readonly
-            :placeholder="characterData?.name || 'Aranath'"
+            :placeholder="activeCharacter?.name || 'Aranath'"
             class="w-full bg-gray-50/60 text-sm h-10 border-gray-200 cursor-not-allowed font-semibold text-gray-700 focus-visible:ring-0 focus-visible:border-gray-200"
           />
         </div>
@@ -264,6 +264,7 @@ import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useDirections, mapSearchResultToPoint } from '@/composables/useDirections'
 import { useCharacter } from '@/composables/useCharacter'
+import { useLanguage } from '@/composables/useLanguage'
 
 const emit = defineEmits<{
   'select-origin': [point: any]
@@ -290,9 +291,9 @@ const {
   exitDirections,
 } = useDirections()
 
-const narrativeLanguage = ref<'english' | 'spanish'>('english')
+const { language: narrativeLanguage } = useLanguage()
 
-const { characterData } = useCharacter()
+const { activeCharacter } = useCharacter()
 
 const originQuery = ref('')
 const destQuery = ref('')
@@ -358,8 +359,8 @@ const groupedRoads = computed(() => {
 })
 
 // Sync input text with reactive composable state and character data
-watch([originPoint, characterData], ([newPoint, newChar]) => {
-  if (newPoint && newChar && (newPoint.name === 'Compañía' || newPoint.name === newChar.name || newPoint.name === 'Aranath')) {
+watch([originPoint, activeCharacter], ([newPoint, newChar]) => {
+  if (newPoint && newChar && (newPoint.name === 'Company' || newPoint.name === newChar.name || newPoint.name === 'Aranath')) {
     const name = newChar.name || 'Aranath'
     const loc = newChar.current_location || newChar.current_region || ''
     originQuery.value = loc ? `${name} (${loc})` : name

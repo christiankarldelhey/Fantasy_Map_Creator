@@ -116,20 +116,19 @@ router.post('/:id/days', async (req, res, next) => {
 
     const rng = seed != null ? createSeededRng(parseInt(seed, 10)) : Math.random;
 
+    // Load the active character (bio + linked entity name + custom prompts) for the prompt
+    const charRes = await pool.query(
+      `SELECT c.name, c.description, c.system_prompt, c.introduction_instructions, e.name AS entity_name
+       FROM character_state c
+       LEFT JOIN entities e ON e.id = c.entity_id
+       WHERE c.active = true`
+    );
+    const character = charRes.rows[0] || {};
+
     const day = await generateDay({ trip, dayNumber, rng });
     if (!day) {
       return res.status(409).json({ error: 'Trip is already complete; no more days to generate' });
     }
-
-    // Load the character (bio + linked entity name) for the prompt
-    const charRes = await pool.query(
-      `SELECT c.name, c.description, e.name AS entity_name
-       FROM character_state c
-       LEFT JOIN entities e ON e.id = c.entity_id
-       ORDER BY c.id ASC
-       LIMIT 1`
-    );
-    const character = charRes.rows[0] || {};
 
     let previousDaySummary = null;
     if (dayNumber > 1) {
@@ -189,11 +188,11 @@ router.post('/:id/days', async (req, res, next) => {
       await pool.query('UPDATE trips SET current_day = $1 WHERE id = $2', [dayNumber, trip.id]);
     }
 
-    // Update character position to the end of this day's journey
+    // Update active character position to the end of this day's journey
     await pool.query(
       `UPDATE character_state
        SET current_lng = $1, current_lat = $2, updated_at = NOW()
-       WHERE id = (SELECT id FROM character_state ORDER BY id ASC LIMIT 1)`,
+       WHERE active = true`,
       [day.end[0], day.end[1]]
     );
 

@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { Loader2, ScrollText, ChevronDown, ChevronRight, Plus, FileDown } from '@lucide/vue'
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
+import { useLanguage } from '@/composables/useLanguage'
 import { jsPDF } from 'jspdf'
 
 const props = defineProps<{
@@ -12,7 +13,8 @@ const props = defineProps<{
 const emit = defineEmits<{ (e: 'close'): void }>()
 
 const { trip, days, loading, generating, error, getTrip, getDays, generateDay } = useTrips()
-const { fetchCharacterPosition, characterData } = useCharacter()
+const { activeCharacter } = useCharacter()
+const { language } = useLanguage()
 
 const expanded = ref<Record<string, 'narrative' | 'prompt' | null>>({})
 const exportingPdf = ref(false)
@@ -25,30 +27,11 @@ const isTripComplete = computed(() => {
   return !!lastDay.is_last_day
 })
 
-const isSpanish = computed(() => {
-  if (days.value.length === 0) return false
-  const text = days.value[0].narrative || ''
-  return /\b(el|la|los|las|de|en|y|del|con)\b/i.test(text)
-})
-
 const labels = computed(() => {
-  if (isSpanish.value) {
-    return {
-      adventureText: 'Una aventura de',
-      characterText: 'El Viajero',
-      chaptersText: 'Capítulos',
-      chapterLabel: 'Capítulo',
-      distanceLabel: 'Distancia',
-      regionsLabel: 'Regiones',
-      savePdfBtn: 'Guardar aventura en PDF',
-      savingPdfBtn: 'Guardando PDF...',
-      generateBtn: 'Generar siguiente día',
-      generatingBtn: 'Escribiendo el siguiente capítulo…'
-    }
-  }
+  const characterName = activeCharacter.value?.name || 'Traveller'
   return {
-    adventureText: 'A journey of',
-    characterText: 'The Traveller',
+    adventureText: 'An adventure of',
+    characterText: characterName,
     chaptersText: 'Chapters',
     chapterLabel: 'Chapter',
     distanceLabel: 'Distance',
@@ -56,7 +39,9 @@ const labels = computed(() => {
     savePdfBtn: 'Save adventure as PDF',
     savingPdfBtn: 'Saving PDF...',
     generateBtn: 'Generate next day',
-    generatingBtn: 'Writing the next chapter…'
+    generatingBtn: 'Writing the next chapter…',
+    cancelBtn: 'Cancel adventure',
+    closeBtn: 'Close adventure'
   }
 })
 
@@ -68,9 +53,7 @@ function toggle(day: TripDay, panel: 'narrative' | 'prompt') {
 async function handleGenerateNext() {
   if (!props.tripId) return
   try {
-    await generateDay(props.tripId)
-    // Update character position to the end of the newly generated day
-    await fetchCharacterPosition()
+    await generateDay(props.tripId, { language: language.value })
   } catch {
     /* error surfaced via `error` ref */
   }
@@ -128,19 +111,19 @@ async function generateAdventurePDF() {
     doc.line(margin, y, pageWidth - margin, y)
     y += 30
 
-    // --- Character (The Traveller) ---
-    if (characterData.value) {
+    // --- Character ---
+    if (activeCharacter.value) {
       doc.setFont('times', 'bold')
       doc.setFontSize(14)
       doc.setTextColor(50, 50, 50)
-      doc.text(labels.value.characterText + ': ' + characterData.value.name, margin, y)
+      doc.text(labels.value.characterText + ': ' + activeCharacter.value.name, margin, y)
       y += 20
 
-      if (characterData.value.current_location || characterData.value.current_region) {
+      if (activeCharacter.value.current_location || activeCharacter.value.current_region) {
         doc.setFont('times', 'italic')
         doc.setFontSize(11)
         doc.setTextColor(100, 100, 100)
-        const locationText = `Last seen at: ${characterData.value.current_location || ''} (${characterData.value.current_region || ''})`
+        const locationText = `Last seen at: ${activeCharacter.value.current_location || ''} (${activeCharacter.value.current_region || ''})`
         doc.text(locationText, margin, y)
         y += 20
       }
@@ -309,26 +292,37 @@ onMounted(async () => {
 
     <!-- Footer -->
     <footer class="px-5 py-4 border-t border-stone-200 bg-white">
-      <button
-        v-if="isTripComplete"
-        class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white rounded-md font-semibold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm"
-        :disabled="exportingPdf"
-        @click="generateAdventurePDF"
-      >
-        <Loader2 v-if="exportingPdf" class="w-4 h-4 animate-spin" />
-        <FileDown v-else class="w-4 h-4" />
-        {{ exportingPdf ? labels.savingPdfBtn : labels.savePdfBtn }}
-      </button>
-      <button
-        v-else
-        class="w-full py-2.5 px-4 bg-amber-600 hover:bg-amber-700 disabled:opacity-60 text-white rounded-md font-semibold text-sm transition-colors flex items-center justify-center gap-2"
-        :disabled="generating"
-        @click="handleGenerateNext"
-      >
-        <Loader2 v-if="generating" class="w-4 h-4 animate-spin" />
-        <Plus v-else class="w-4 h-4" />
-        {{ generating ? labels.generatingBtn : labels.generateBtn }}
-      </button>
+      <div class="flex gap-3">
+        <!-- Action Button (Generate / Save PDF) -->
+        <button
+          v-if="isTripComplete"
+          class="flex-1 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white rounded-md font-semibold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm"
+          :disabled="exportingPdf"
+          @click="generateAdventurePDF"
+        >
+          <Loader2 v-if="exportingPdf" class="w-4 h-4 animate-spin" />
+          <FileDown v-else class="w-4 h-4" />
+          {{ exportingPdf ? labels.savingPdfBtn : labels.savePdfBtn }}
+        </button>
+        <button
+          v-else
+          class="flex-1 py-2.5 px-4 bg-amber-600 hover:bg-amber-700 disabled:opacity-60 text-white rounded-md font-semibold text-sm transition-colors flex items-center justify-center gap-2"
+          :disabled="generating"
+          @click="handleGenerateNext"
+        >
+          <Loader2 v-if="generating" class="w-4 h-4 animate-spin" />
+          <Plus v-else class="w-4 h-4" />
+          {{ generating ? labels.generatingBtn : labels.generateBtn }}
+        </button>
+
+        <!-- Cancel/Close Button -->
+        <button
+          class="py-2.5 px-4 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md font-semibold text-sm transition-colors flex items-center justify-center gap-2"
+          @click="emit('close')"
+        >
+          {{ isTripComplete ? labels.closeBtn : labels.cancelBtn }}
+        </button>
+      </div>
     </footer>
   </div>
 </template>
