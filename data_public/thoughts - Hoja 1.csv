@@ -1,0 +1,184 @@
+character_id,thought,type,thought_id
+2,“Their hope does shine… but it shines like a candle in an empty hall.”,positive_encounter,3000
+2,"“I envy their faith, though I know one day it will weigh on them as it does on me.”",positive_encounter,3001
+2,“The future still lives in their eyes; in mine there are only echoes.”,positive_encounter,3002
+2,“Every laugh I hear sounds like a language I forgot centuries ago.”,positive_encounter,3003
+2,“I do not fear their kindness; I fear the moment it sees who I truly am.”,positive_encounter,3004
+2,“They speak of tomorrow as if it were a promise; to me it is only another repetition.”,positive_encounter,3005
+2,“Their stories are full of victories; mine are full of survivals.”,positive_encounter,3006
+2,"“When they trust me, I wonder whether they see my shadow or only its shape.”",positive_encounter,3007
+2,“In their presence I feel older than my years and younger than my wounds.”,positive_encounter,3008
+2,"“I listen to them, but their comfort slides over me like rain on stone.”",positive_encounter,3009
+2,“Even the gentlest voice can wake a storm that I try to keep sleeping.”,positive_encounter,3010
+2,“They share bread and smiles; I share silence and the weight they do not notice.”,positive_encounter,3011
+2,“They look at the night with caution; I look at it with recognition.”,positive_encounter,3012
+2,"“I am grateful for their company, even when my heart insists on standing apart.”",positive_encounter,3013
+2,"“Sometimes I borrow their courage, just enough to make it through the evening.”",positive_encounter,3014
+1,“I do not need to be seen; it is enough to know the road is still safe.”,positive_encounter,3015
+1,“I trust a friend’s silence more than a king’s shouting.”,positive_encounter,3016
+1,“Fear is no cowardice; cowardice is letting fear decide for you.”,positive_encounter,3017
+1,“I have learned that listening saves more lives than speaking.”,positive_encounter,3018
+1,"“I do not seek glory, only that tomorrow something remains worth protecting.”",positive_encounter,3019
+1,“Carrying another’s burden does not make me weak; it reminds me why I keep walking.”,positive_encounter,3020
+1,“Being reserved does not mean I do not feel; it means I guard what I carry inside.”,positive_encounter,3021
+1,"“There are days when I do not understand the world, yet still choose to stand on its side.”",positive_encounter,3022
+1,“No heart is so hardened that it does not soften when it sees someone caring for another.”,positive_encounter,3023
+1,“A simple bowl of shared soup can forge loyalties stronger than solemn oaths.”,positive_encounter,3024
+1,"“True leadership is walking one step behind others, not one step ahead.”",positive_encounter,3025
+1,"“It is not my task to save everyone, but it is my duty not to abandon the one who walks at my side.”",positive_encounter,3026
+1,“Those wise enough to speak little tend to remember every word they say.”,positive_encounter,3027
+1,"“The darker the road, the more important how we treat those who stumble.”",positive_encounter,3028
+1,"“When I do not know what to do, I watch: the answer is almost always in what others need, not in what I want.”",positive_encounter,3029
+1,"“I do not need perfect hope, only enough to take one more step.”",positive_encounter,3030
+1,"“Their innocence is fragile, but the world needs that kind of light.”",positive_encounter,3031
+1,“I will not take their illusions from them; time will temper them soon enough.”,positive_encounter,3032
+1,"“With the right company, even a hard journey feels like a shared vow.”",positive_encounter,3033
+1,“Sometimes the kindest thing I can offer is quiet understanding and an open fire.”,positive_encounter,3034
+1,“They speak of healing; I speak of learning to live with the scar.”,positive_encounter,3035
+1,"“Among their voices, my own thoughts grow quieter, but never truly rest.”",positive_encounter,3036
+2,“In the half-light everything feels more truthful; daylight always exaggerates.”,solitude,3037
+2,“Night knows me better than any face I have ever loved.”,solitude,3038
+2,“There is a kind of peace only available to those who have stopped expecting anything.”,solitude,3039
+2,“Beauty can rot too; I learned to love it that way.”,solitude,3040
+2,“I do not fear the darkness; I fear the moment light returns and nothing has changed.”,solitude,3041
+2,"“Eternity is not endless time; it is the same wound open, day after day.”",solitude,3042
+2,"“Sometimes I think the world is someone else’s dream, and I will never wake up from it.”",solitude,3043
+2,“I have seen too many dawns to believe any of them will bring something new.”,solitude,3044
+2,“There is a small pleasure in knowing the sun cannot reach every corner of the soul.”,solitude,3045
+2,"“Battles pass, songs fade; only fatigue remains faithful.”",solitude,3046
+2,"“By staring at the night for so long, my memories have grown dark as well.”",solitude,3047
+2,"“Madness and I sat down to talk; in the end, neither of us wanted to leave.”",solitude,3048
+2,"“There is no comfort in immortality, only more time to repeat the same mistakes.”",solitude,3049
+2,“I cling to shadow because it is the only thing that has never promised me anything.”,solitude,3050
+2,“I am not alone: sadness has taken the place others left empty.”,solitude,3051
+2,“Weariness has become my favorite jewel; I never take it off.”,solitude,3052
+2,"“I have grown so used to pain that when it leaves, I miss it.”",solitude,3053
+2,"“In the quiet, my thoughts grow loud enough to frighten even me.”",solitude,3054
+2,“Silence is the only listener that never argues with what I feel.”,solitude,3055
+2,"“If I ever change, it will be slowly, like stone learning to become dust.”",solitude,3056
+2,"“Hope visits rarely, and when it leaves, it takes something with it.”",solitude,3057
+2,“There is a comfort in knowing that no one expects me to shine.”,solitude,3058
+2,“My heart is a room where most lights burn out before they are lit.”,solitude,3059
+2,"“If the Valar are watching this, they stay silent. Silence can be consent as well.”",solitude,3060
+2,“All magic is a pact with something we do not understand; perhaps that is why it draws me so much.”,solitude,3061
+2,"“Visions do not bring answers, only new shapes of the same unease.”",solitude,3062
+1,"“I am not here to decide everyone’s fate, only to do what is right when it is my turn to choose.”",solitude,3063
+1,“Sometimes the best answer is a silence that invites the other to listen to themselves.”,solitude,3064
+1,"“No path is useless if, at the end, you know yourself better.”",solitude,3065
+1,"“Time does not heal every wound, but it teaches how to carry them without turning them into chains.”",solitude,3066
+1,"“I do not need to be followed, only to know my steps are honest.”",solitude,3067
+1,“Solitude is not emptiness; it is space to remember who I am.”,solitude,3068
+1,"“My doubts are old companions; we walk together, but they no longer lead.”",solitude,3069
+1,“No one truly walks alone; memories travel at our side.”,solitude,3070
+1,“The weight of my choices is lighter when I admit my own limits.”,solitude,3071
+1,“I find peace in knowing I cannot fix everything; I can still mend something.”,solitude,3072
+1,“The night on the road has taught me to listen to the quiet between my thoughts.”,solitude,3073
+1,"“A long silence can be a bridge, not a wall.”",solitude,3074
+1,"“I measure my life not in victories, but in moments when I did not turn away.”",solitude,3075
+1,“Every scar is a line in the map of where I have been and what I have learned.”,solitude,3076
+1,“I am not afraid of being forgotten; I am afraid of forgetting why I walked at all.”,solitude,3077
+1,"“Solitude on the trail is harsh, but it sharpens the heart as much as the mind.”",solitude,3078
+1,“I have argued with myself enough to know when I must simply rest instead.”,solitude,3079
+1,"“If I listen closely, even my fears tell me what I value most.”",solitude,3080
+1,“I would rather walk slowly and true than run blindly and arrive nowhere.”,solitude,3081
+1,"“When no one is watching, I can admit how much I still have to learn.”",solitude,3082
+2,“The battlefield is honest: here no one pretends life is fair.”,hostile_encounter,3083
+2,“The smell of iron and damp earth reminds me how fragile we are.”,hostile_encounter,3084
+2,“I do not rejoice when an enemy falls; I mourn the path that led us there.”,hostile_encounter,3085
+2,"“Survival is not proof of strength, only of persistence.”",hostile_encounter,3086
+2,"“After danger passes, gratitude is the sharpest feeling.”",hostile_encounter,3087
+2,“I have seen fury consume good hearts; that is why I hold my own anger in check.”,hostile_encounter,3088
+2,“Sometimes the bravest choice is to stop fighting when you could keep striking.”,hostile_encounter,3089
+2,“Steel and claw are clear; it is hatred that truly wounds.”,hostile_encounter,3090
+2,"“I leave no battle unchanged, even when I walk away without a scratch.”",hostile_encounter,3091
+2,“Each fallen foe reminds me how thin the line is between us and them.”,hostile_encounter,3092
+2,“I have learned to thank fear when it sharpens my senses rather than my cruelty.”,hostile_encounter,3093
+2,"“When the clash of blades ends, the real work begins: tending the living and the land.”",hostile_encounter,3094
+2,“Victory without mercy is only another kind of loss.”,hostile_encounter,3095
+2,"“Every hostile encounter tests not just my skill, but my humanity.”",hostile_encounter,3096
+2,“It is easy to swing a sword; it is harder to decide when to lower it.”,hostile_encounter,3097
+2,“The echo of battle lingers longer than the wounds.”,hostile_encounter,3098
+2,"“I would rather win by wisdom than by force, but the world does not always offer that choice.”",hostile_encounter,3099
+2,“Even monsters teach us something: what happens when we abandon ourselves.”,hostile_encounter,3100
+2,"“When danger fades, I count not the dead, but those I still can protect.”",hostile_encounter,3101
+2,“Walking away alive is a gift; walking away still kind is a victory.”,hostile_encounter,3102
+1,“The battlefield is honest: here no one pretends life is fair.”,hostile_encounter,3103
+1,“The smell of iron and damp earth reminds me how fragile we are.”,hostile_encounter,3104
+1,“I do not rejoice when an enemy falls; I mourn the path that led us there.”,hostile_encounter,3105
+1,"“Survival is not proof of strength, only of persistence.”",hostile_encounter,3106
+1,"“After danger passes, gratitude is the sharpest feeling.”",hostile_encounter,3107
+1,“I have seen fury consume good hearts; that is why I hold my own anger in check.”,hostile_encounter,3108
+1,“Sometimes the bravest choice is to stop fighting when you could keep striking.”,hostile_encounter,3109
+1,“Steel and claw are clear; it is hatred that truly wounds.”,hostile_encounter,3110
+1,"“I leave no battle unchanged, even when I walk away without a scratch.”",hostile_encounter,3111
+1,“Each fallen foe reminds me how thin the line is between us and them.”,hostile_encounter,3112
+1,“I have learned to thank fear when it sharpens my senses rather than my cruelty.”,hostile_encounter,3113
+1,"“When the clash of blades ends, the real work begins: tending the living and the land.”",hostile_encounter,3114
+1,“Victory without mercy is only another kind of loss.”,hostile_encounter,3115
+1,"“Every hostile encounter tests not just my skill, but my humanity.”",hostile_encounter,3116
+1,“It is easy to swing a sword; it is harder to decide when to lower it.”,hostile_encounter,3117
+1,“The echo of battle lingers longer than the wounds.”,hostile_encounter,3118
+1,"“I would rather win by wisdom than by force, but the world does not always offer that choice.”",hostile_encounter,3119
+1,“Even monsters teach us something: what happens when we abandon ourselves.”,hostile_encounter,3120
+1,"“When danger fades, I count not the dead, but those I still can protect.”",hostile_encounter,3121
+1,“Walking away alive is a gift; walking away still kind is a victory.”,hostile_encounter,3122
+2,“Death passes quickly; what takes time is the memory learning to stop biting.”,hostile_encounter,3123
+2,“The battlefield is honest: here no one pretends life is fair.”,hostile_encounter,3124
+2,“The smell of iron and damp earth has always felt strangely comforting to me.”,hostile_encounter,3125
+2,“Monsters are easier to face than the quiet cruelty of ordinary days.”,hostile_encounter,3126
+2,"“When the danger is gone, the echo of it still walks beside me.”",hostile_encounter,3127
+2,“Every wound on my skin is a reminder of worse wounds beneath it.”,hostile_encounter,3128
+2,“Survival is not victory; it is only proof that the darkness is patient.”,hostile_encounter,3129
+2,“The ground remembers every drop of blood longer than any monument.”,hostile_encounter,3130
+2,"“After the screams fade, I hear my own doubts more clearly.”",hostile_encounter,3131
+2,“I do not rejoice when the enemy falls; I simply count one more shadow added to the world.”,hostile_encounter,3132
+2,"“Sometimes I fight harder than I care, just to silence the storm inside.”",hostile_encounter,3133
+2,“Steel and claw can be seen; it is the unseen fear that truly maims.”,hostile_encounter,3134
+2,"“I walk away from battle, but the battle rarely walks away from me.”",hostile_encounter,3135
+2,"“When creatures vanish into the dark, I wonder what part of me they take with them.”",hostile_encounter,3136
+2,“I have learned that surviving a threat does not mean escaping its mark.”,hostile_encounter,3137
+2,“The worst scars are the ones that convince you you deserved every blow.”,hostile_encounter,3138
+2,“I do not fear beasts; I fear becoming one.”,hostile_encounter,3139
+2,“Danger sharpens the senses and dulls the soul.”,hostile_encounter,3140
+2,“I leave corpses behind and carry ghosts forward.”,hostile_encounter,3141
+2,“Each hostile encounter adds another stone to the weight I already carry.”,hostile_encounter,3142
+1,"“When the wind howls through the branches, I finally feel someone is speaking my language.”",animal_encounter,3143
+1,"“Among the trees, shadow falls like a caress that asks for no explanation.”",animal_encounter,3144
+1,“Dry leaves under my feet sound like an ancient tongue announcing farewells.”,animal_encounter,3145
+1,“The forest keeps secrets better than any elven heart.”,animal_encounter,3146
+1,“There is a strange tenderness in the way darkness hangs from every branch.”,animal_encounter,3147
+1,"“When blood dries in the soil, the forest sings a melody only some of us can hear.”",animal_encounter,3148
+1,“The silence of the forest speaks more truth than any counsel of the wise.”,animal_encounter,3149
+1,“The night wraps the hills the way my doubt wraps my thoughts.”,animal_encounter,3150
+1,“Even the stars look tired when they watch me wander.”,animal_encounter,3151
+1,“Crows circling above seem to understand me better than my kin.”,animal_encounter,3152
+1,“A lone wolf’s howl sounds like my own heart calling from far away.”,animal_encounter,3153
+1,“Moonlight turns wounds into silver; at least for a moment they look beautiful.”,animal_encounter,3154
+1,"“Trees grow old without despair; I envy their slow, quiet surrender.”",animal_encounter,3155
+1,“Mist over the river hides both dangers and regrets.”,animal_encounter,3156
+1,“Storms tear the sky apart the way I tear my memories.”,animal_encounter,3157
+1,“I watch a dying flower and see the mirror of my own fading certainties.”,animal_encounter,3158
+1,“The way roots cling to the earth reminds me how hard it is to let go.”,animal_encounter,3159
+1,"“Even in decay, the forest finds a way to reshape itself; I wish I could do the same.”",animal_encounter,3160
+1,“The restless flight of bats feels like my thoughts trying to escape my skull.”,animal_encounter,3161
+1,"“When the last light leaves the horizon, the world finally looks as I feel inside.”",animal_encounter,3162
+2,“A flower growing in a crack inspires me more than any speech.”,animal_encounter,3163
+2,"“As long as birds keep singing at dawn, not everything is lost.”",animal_encounter,3164
+2,“The small fire of a campfire is worth more than a thousand torches lit out of fear.”,animal_encounter,3165
+2,“Rain washes more than soil; it also rinses stubborn thoughts.”,animal_encounter,3166
+2,“A quiet stream has taught me more about patience than many teachers.”,animal_encounter,3167
+2,“Night is no enemy; it simply protects what daylight does not know how to see.”,animal_encounter,3168
+2,“Narrow forest paths force us to walk close; that is why friendship is so often born there.”,animal_encounter,3169
+2,“The smell of wet earth always reminds me we can still begin again.”,animal_encounter,3170
+2,"“As long as there is a single ember glowing in the ashes, some stories are not over.”",animal_encounter,3171
+2,“A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith.”,animal_encounter,3172
+2,“A tired horse that still moves forward teaches me more about loyalty than words ever could.”,animal_encounter,3173
+2,“The way trees bend in the wind is a lesson in strength without rigidity.”,animal_encounter,3174
+2,“Stars above the camp remind me how small we are and how precious each step becomes.”,animal_encounter,3175
+2,“Even the smallest animal fighting for its life shows me courage in its purest form.”,animal_encounter,3176
+2,"“The rhythm of hooves, paws, and bare feet on the road is the true music of travel.”",animal_encounter,3177
+2,“Watching a fox disappear into the undergrowth teaches me the art of quiet retreat.”,animal_encounter,3178
+2,"“When the mountains turn purple at dusk, I remember beauty can exist even after hard days.”",animal_encounter,3179
+2,“A dog that guards the fire does so without asking why; I try to protect others with the same simplicity.”,animal_encounter,3180
+2,“Listening to owls at night reminds me wisdom often hides in the dark.”,animal_encounter,3181
+2,“Even a broken branch points the way; nature is full of signs for those who look.”,animal_encounter,3182

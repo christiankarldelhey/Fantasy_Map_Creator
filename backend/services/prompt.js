@@ -68,14 +68,35 @@ const getDestinationName = (tripName) => {
  * @returns {{ system: string, user: string }}
  */
 export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null) {
+  const charName = character.name || 'The Traveller';
+  const charKind = character.entity_name ? `, ${character.entity_name} of the northern lands` : '';
+  const charBio = character.description ? `\n${character.description}` : '';
+
+  // Determine pronouns based on character gender
+  const gender = character.gender || 'female';
+  const pronouns = gender === 'male'
+    ? { subject: 'he', object: 'him', possessive: 'his', possessive2: 'his' }
+    : { subject: 'she', object: 'her', possessive: 'her', possessive2: 'hers' };
+
   const parts = { morning: [], afternoon: [], night: [] };
   for (const e of day.encounters || []) {
     parts[partFor(e.hour_float)].push(e);
   }
 
-  const charName = character.name || 'The Traveller';
-  const charKind = character.entity_name ? `, ${character.entity_name} of the northern lands` : '';
-  const charBio = character.description ? `\n${character.description}` : '';
+  // Build thoughts section if present
+  let thoughtsSection = '';
+  if (day.thoughts && day.thoughts.options && day.thoughts.options.length > 0) {
+    const phase = day.thoughts.phase;
+    const thoughtsList = day.thoughts.options.map(t => `- ${t.thought}`).join('\n');
+    thoughtsSection = `=== CHARACTER STATE OF MIND (${phase.toUpperCase()}) ===
+    ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)}/${pronouns.possessive} thoughts this stretch tend toward one of these undercurrents in the ${phase} let
+    whichever fits the day's road surface naturally in what ${pronouns.subject} notices,
+    in ${pronouns.possessive.toUpperCase()} OWN words. Do not quote these lines; do not announce a thought;
+    do not explain it. (choose the one that best fits the situation):
+    ${thoughtsList}
+
+`;
+  }
 
   // Extract season from date
   const date = new Date(day.date);
@@ -146,7 +167,25 @@ In this chapter, narrate their arrival at ${destName}. Give a deep, meaningful r
   const user = `=== ${charName.toUpperCase()} ===
 ${charName}${charKind}.${charBio}
 
-${narratorVoiceSection}${journeyContextSection}${specialInstructionsSection}=== TODAY'S ROAD ===
+${narratorVoiceSection}${journeyContextSection}${specialInstructionsSection}${thoughtsSection}=== HOW TO HANDLE ENCOUNTERS ===
+Not every encounter is a meeting. Most are seen, not joined. For each,
+choose the FORM that fits — and vary them across the chapter:
+- glimpsed at a distance and passed by
+- a trace or sign only (tracks, a call, droppings, a fire's smoke)
+- the creature reacts to ${pronouns.object} and withdraws
+- a brief, wary exchange
+- actual contact (rare — use sparingly)
+
+Animals are never greeters and never speak; ${pronouns.subject} reads them, the way ${pronouns.subject}
+reads the land. Only Men may exchange words, and even then ${pronouns.subject} watches
+more than ${pronouns.subject} joins — ${pronouns.subject} does not get "drawn into" anyone's circle and
+does not feel "connection." Filter every encounter through ${pronouns.possessive} eye for
+endings: what is dying here, what will not last.
+
+Do NOT use the same beat twice. If one encounter is a meeting, the
+others must not be.
+
+=== TODAY'S ROAD ===
 Day ${day.day_number}. Narrate a single day's journey, from dawn to the night at camp.
 ${seasonContext}
 

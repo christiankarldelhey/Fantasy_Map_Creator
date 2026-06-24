@@ -11,6 +11,12 @@ import {
   positionAtSeconds,
   sliceLeg,
 } from './tripGeometry.js';
+import {
+  rollThoughtChance,
+  determineThoughtTypeFromEncounters,
+  getThoughtsForCharacter,
+  selectRandomPhase,
+} from './thoughts.js';
 
 // ============================================================================
 // Trip Day generator
@@ -239,9 +245,11 @@ async function buildNightRegionResolver(campPoint) {
  * @param {() => number} [params.rng] - RNG (defaults to Math.random)
  * @param {number} [params.timeStep]
  * @param {Array<string>} [params.excludedEntityIds] - entity IDs to exclude from encounters
+ * @param {number} [params.characterId] - character ID for thought selection
+ * @param {Array<number>} [params.usedThoughtIds] - thought IDs already used in this trip
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep = DEFAULT_TIME_STEP, excludedEntityIds = [] }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep = DEFAULT_TIME_STEP, excludedEntityIds = [], characterId = null, usedThoughtIds = [] }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -316,6 +324,53 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
       }
     }));
 
+  // --- Character Thoughts ---
+  let thoughts = null;
+  console.log('🧠 Thoughts check - characterId:', characterId, 'usedThoughtIds:', usedThoughtIds);
+  
+  if (characterId && rollThoughtChance(rng)) {
+    console.log('🎲 Thought chance passed (50%)');
+    const selectedPhase = selectRandomPhase(rng);
+    console.log('📍 Selected phase:', selectedPhase);
+    
+    // Group encounters by phase
+    const encountersByPhase = { morning: [], afternoon: [], night: [] };
+    for (const e of encounters) {
+      if (e.hour_float >= WALK_END_HOUR || e.hour_float < WALK_START_HOUR) {
+        encountersByPhase.night.push(e);
+      } else if (e.hour_float < (WALK_START_HOUR + WALK_END_HOUR) / 2) {
+        encountersByPhase.morning.push(e);
+      } else {
+        encountersByPhase.afternoon.push(e);
+      }
+    }
+
+    const phaseEncounters = encountersByPhase[selectedPhase];
+    console.log('👥 Encounters in', selectedPhase, ':', phaseEncounters.length);
+    const thoughtType = determineThoughtTypeFromEncounters(phaseEncounters);
+    console.log('💭 Determined thought type:', thoughtType);
+    
+    const thoughtOptions = await getThoughtsForCharacter(characterId, thoughtType, usedThoughtIds);
+    console.log('📚 Available thoughts:', thoughtOptions.length);
+    
+    if (thoughtOptions.length > 0) {
+      thoughts = {
+        phase: selectedPhase,
+        type: thoughtType,
+        options: thoughtOptions.map(t => ({
+          id: t.id,
+          thought: t.thought,
+          thought_id: t.thought_id
+        }))
+      };
+      console.log('✅ Thoughts selected for the day');
+    } else {
+      console.log('❌ No thoughts available for this type/character');
+    }
+  } else {
+    console.log('🎲 Thought chance failed (50%) or no characterId');
+  }
+
   // --- Road type breakdown (km) ---
   const roadTypes = {};
   for (const [type, meters] of Object.entries(leg.roadTypeBreakdown)) {
@@ -355,5 +410,6 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
     locations,
     climate,
     encounters,
+    thoughts,
   };
 }

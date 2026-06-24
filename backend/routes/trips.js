@@ -118,7 +118,7 @@ router.post('/:id/days', async (req, res, next) => {
 
     // Load the active character (bio + linked entity name + custom prompts) for the prompt
     const charRes = await pool.query(
-      `SELECT c.name, c.description, c.system_prompt, c.introduction_instructions, e.name AS entity_name
+      `SELECT c.id, c.name, c.description, c.gender, c.system_prompt, c.introduction_instructions, e.name AS entity_name
        FROM character_state c
        LEFT JOIN entities e ON e.id = c.entity_id
        WHERE c.active = true`
@@ -128,7 +128,17 @@ router.post('/:id/days', async (req, res, next) => {
     // Load already encountered entities for this trip
     const encounteredEntities = trip.encountered_entities || [];
 
-    const day = await generateDay({ trip, dayNumber, rng, excludedEntityIds: encounteredEntities });
+    // Load already used thoughts for this trip
+    const usedThoughtIds = trip.used_thought_ids || [];
+
+    const day = await generateDay({ 
+      trip, 
+      dayNumber, 
+      rng, 
+      excludedEntityIds: encounteredEntities,
+      characterId: character.id || null,
+      usedThoughtIds
+    });
     if (!day) {
       return res.status(409).json({ error: 'Trip is already complete; no more days to generate' });
     }
@@ -161,8 +171,8 @@ router.post('/:id/days', async (req, res, next) => {
       `INSERT INTO trip_days
          (trip_id, day_number, date, start_lng, start_lat, end_lng, end_lat,
           distance_km, walking_hours, geometry, regions, biomes, altitude,
-          road_types, locations, climate, encounters, prompt, narrative, is_last_day)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
+          road_types, locations, climate, encounters, thoughts, prompt, narrative, is_last_day)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)
        RETURNING *`,
       [
         trip.id,
@@ -180,6 +190,7 @@ router.post('/:id/days', async (req, res, next) => {
         JSON.stringify(day.locations),
         day.climate ? JSON.stringify(day.climate) : null,
         JSON.stringify(day.encounters),
+        day.thoughts ? JSON.stringify(day.thoughts) : null,
         promptText,
         narrative,
         day.is_last_day || false,
@@ -196,9 +207,14 @@ router.post('/:id/days', async (req, res, next) => {
       .map(e => e.entity?.id)
       .filter(id => id); // filter out null/undefined
     const updatedEncounteredEntities = [...new Set([...encounteredEntities, ...newEntityIds])]; // deduplicate
+    
+    // Update used thoughts array with new thoughts from this day
+    const newThoughtIds = day.thoughts?.options?.map(t => t.thought_id).filter(id => id) || [];
+    const updatedUsedThoughtIds = [...new Set([...usedThoughtIds, ...newThoughtIds])]; // deduplicate
+    
     await pool.query(
-      'UPDATE trips SET encountered_entities = $1 WHERE id = $2',
-      [updatedEncounteredEntities, trip.id]
+      'UPDATE trips SET encountered_entities = $1, used_thought_ids = $2 WHERE id = $3',
+      [updatedEncounteredEntities, updatedUsedThoughtIds, trip.id]
     );
 
     // Update active character position to the end of this day's journey
