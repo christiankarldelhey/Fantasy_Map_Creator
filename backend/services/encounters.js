@@ -166,7 +166,7 @@ export function formatHour(hourFloat) {
  * @param {number} [params.timeStep]
  * @param {number} [params.base]
  * @param {Array<string>} [params.excludedEntityIds] - entity IDs to exclude from encounters
- * @returns {Array<{hour: string, hour_float: number, phase: string, region: string, entity: Object}>}
+ * @returns {{encounters: Array<{hour: string, hour_float: number, phase: string, region: string, entity: Object}>, usedEntityIds: Array<string>}}
  */
 export function simulatePhaseEncounters({
   startHour,
@@ -181,6 +181,7 @@ export function simulatePhaseEncounters({
   excludedEntityIds = [],
 }) {
   const encounters = [];
+  const usedEntityIds = [];
   let accumulator = 0;
 
   // Iterate over the phase. We check at the END of each accumulated interval.
@@ -215,12 +216,16 @@ export function simulatePhaseEncounters({
             region: region.name,
             entity,
           });
+          // Track this entity ID for deduplication within the same day
+          if (entity.id) {
+            usedEntityIds.push(entity.id);
+          }
         }
       }
     }
   }
 
-  return encounters;
+  return { encounters, usedEntityIds };
 }
 
 /**

@@ -56,12 +56,12 @@ async function regionsForPoints(points) {
   const { rows } = await pool.query(
     `SELECT t.idx,
             r.name,
-            r.description_text,
+            r.description_summary,
             r.hours_to_encounter::float AS hours_to_encounter,
             r.chance_of_encounter::float AS chance_of_encounter
      FROM jsonb_array_elements($1::jsonb) WITH ORDINALITY AS t(elem, idx)
      LEFT JOIN LATERAL (
-       SELECT name, description_text, hours_to_encounter, chance_of_encounter
+       SELECT name, description_summary, hours_to_encounter, chance_of_encounter
        FROM regions
        WHERE ST_Contains(geom, ST_SetSRID(ST_MakePoint((elem->>0)::float, (elem->>1)::float), 4326))
        LIMIT 1
@@ -71,7 +71,7 @@ async function regionsForPoints(points) {
   );
   return rows.map((row) => (row.name ? {
     name: row.name,
-    description_text: row.description_text,
+    description_summary: row.description_summary,
     hours_to_encounter: row.hours_to_encounter,
     chance_of_encounter: row.chance_of_encounter,
   } : null));
@@ -277,15 +277,19 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
   // --- Geographic sampling ---
   const context = await sampleLegContext(legGeoJSON);
 
-  // Ordered unique regions crossed during the walking phase (with description_text)
+  // Ordered unique regions crossed during the walking phase (with description_summary)
   const dayResolver = await buildDayRegionResolver(segments, dayStartSeconds, walkingHoursThisDay, timeStep);
   const orderedRegions = [];
+  const seenRegions = new Set(); // Track seen regions to avoid duplicates
+
   for (let elapsed = timeStep; elapsed <= walkingHoursThisDay + 1e-9; elapsed += timeStep) {
     const info = dayResolver(Number(elapsed.toFixed(6)));
     const name = info ? info.name : null;
-    const last = orderedRegions[orderedRegions.length - 1];
-    if (name && (!last || last.name !== name)) {
-      orderedRegions.push({ name, description_text: info.description_text || null });
+
+    // Only add if we haven't seen this region before
+    if (name && !seenRegions.has(name)) {
+      seenRegions.add(name);
+      orderedRegions.push({ name, description_summary: info.description_summary || null });
     }
   }
 
@@ -293,7 +297,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
   const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date);
 
   // --- Encounters ---
-  const dayEncounters = simulatePhaseEncounters({
+  const dayResult = simulatePhaseEncounters({
     startHour: WALK_START_HOUR,
     phaseHours: walkingHoursThisDay,
     phase: DAY_PHASE,
@@ -304,17 +308,17 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
   });
 
   const nightResolver = await buildNightRegionResolver(leg.end);
-  const nightEncounters = simulatePhaseEncounters({
+  const nightResult = simulatePhaseEncounters({
     startHour: WALK_END_HOUR,
     phaseHours: NIGHT_HOURS,
     phase: NIGHT_PHASE,
     getRegionInfo: nightResolver,
     rng,
     timeStep,
-    excludedEntityIds,
+    excludedEntityIds: [...excludedEntityIds, ...dayResult.usedEntityIds], // Exclude entities used in day phase
   });
 
-  const encounters = [...dayEncounters, ...nightEncounters]
+  const encounters = [...dayResult.encounters, ...nightResult.encounters]
     .sort((a, b) => a.hour_float - b.hour_float)
     .map((e) => ({
       ...e,
@@ -326,13 +330,9 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
 
   // --- Character Thoughts ---
   let thoughts = null;
-  console.log('🧠 Thoughts check - characterId:', characterId, 'usedThoughtIds:', usedThoughtIds);
-  
   if (characterId && rollThoughtChance(rng)) {
-    console.log('🎲 Thought chance passed (50%)');
     const selectedPhase = selectRandomPhase(rng);
-    console.log('📍 Selected phase:', selectedPhase);
-    
+
     // Group encounters by phase
     const encountersByPhase = { morning: [], afternoon: [], night: [] };
     for (const e of encounters) {
@@ -346,13 +346,10 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
     }
 
     const phaseEncounters = encountersByPhase[selectedPhase];
-    console.log('👥 Encounters in', selectedPhase, ':', phaseEncounters.length);
     const thoughtType = determineThoughtTypeFromEncounters(phaseEncounters);
-    console.log('💭 Determined thought type:', thoughtType);
-    
+
     const thoughtOptions = await getThoughtsForCharacter(characterId, thoughtType, usedThoughtIds);
-    console.log('📚 Available thoughts:', thoughtOptions.length);
-    
+
     if (thoughtOptions.length > 0) {
       thoughts = {
         phase: selectedPhase,
@@ -363,12 +360,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
           thought_id: t.thought_id
         }))
       };
-      console.log('✅ Thoughts selected for the day');
-    } else {
-      console.log('❌ No thoughts available for this type/character');
     }
-  } else {
-    console.log('🎲 Thought chance failed (50%) or no characterId');
   }
 
   // --- Road type breakdown (km) ---

@@ -125,8 +125,8 @@ export function describeClimate(climateArray) {
 // ---------------------------------------------------------------------------
 
 /**
- * Lands crossed in order, each with its character (description_text).
- * @param {Array<{name:string, description_text?:string}>} regions
+ * Lands crossed in order, each with its character (description_summary).
+ * @param {Array<{name:string, description_summary?:string}>} regions
  * @returns {string}
  */
 export function describeRegions(regions) {
@@ -136,7 +136,7 @@ export function describeRegions(regions) {
 
   const lines = regions.map((r) => {
     const name = typeof r === 'string' ? r : r.name;
-    const desc = typeof r === 'string' ? null : r.description_text;
+    const desc = typeof r === 'string' ? null : r.description_summary;
     if (desc && desc.trim()) {
       return `- ${name}: ${desc.trim()}`;
     }

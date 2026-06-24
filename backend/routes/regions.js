@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
               'name', r.name,
               'slug', r.slug,
               'url_path', r.url_path,
-              'description', r.description_text,
+              'description', r.description_summary,
               'land', r.land,
               'notes', r.notes,
               'people', r.people,

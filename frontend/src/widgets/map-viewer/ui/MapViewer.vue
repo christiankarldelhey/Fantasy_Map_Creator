@@ -55,6 +55,7 @@ import { ChapterViewer, useTrips } from '@/features/prompt-management'
 import { useDirections } from '@/composables/useDirections'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 import { useCharacter } from '@/composables/useCharacter'
+import { useMapAnimation } from '@/composables/useMapAnimation'
 import CharacterSelector from '@/components/CharacterSelector.vue'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import type { SearchResult } from '@/entities/search'
@@ -75,7 +76,8 @@ const lastSelectedCoordinates = ref<[number, number] | null>(null)
 const pendingDestinationLocation = ref<LocationDetails | null>(null)
 
 // Character / Company state
-const { characters, fetchAllCharacters, setActiveCharacter } = useCharacter()
+const { characters, activeCharacter, fetchAllCharacters, setActiveCharacter } = useCharacter()
+const { setAnimationCallback } = useMapAnimation()
 let characterMarkers: Map<number, maplibregl.Marker> = new Map()
 
 // Composables refactorizados
@@ -142,8 +144,8 @@ function updateCharacterMarker() {
     // Create custom HTML element for character marker
     const el = document.createElement('div')
     el.className = 'character-marker'
-    el.style.width = '44px'
-    el.style.height = '44px'
+    el.style.width = '53px'
+    el.style.height = '53px'
     el.style.borderRadius = '50%'
     el.style.backgroundImage = `url(${getCharacterImage(character.name)})`
     el.style.backgroundSize = 'cover'
@@ -177,6 +179,94 @@ function updateCharacterMarker() {
     characterMarkers.set(character.id, marker)
   })
 }
+
+function animateCharacterAlongRoute(geometry: any, duration: number = 10000) {
+  console.log('🎬 animateCharacterAlongRoute called', { map: !!map, activeCharacter: !!activeCharacter.value, geometry, duration })
+
+  if (!map || !activeCharacter.value) {
+    console.warn('⚠️ Animation skipped: map or activeCharacter missing')
+    return
+  }
+
+  const marker = characterMarkers.get(activeCharacter.value.id)
+  if (!marker) {
+    console.warn('⚠️ Animation skipped: marker not found for character', activeCharacter.value.id)
+    return
+  }
+
+  // Handle geometry that might be a JSON string
+  let coords: any
+  if (typeof geometry === 'string') {
+    try {
+      coords = JSON.parse(geometry)
+    } catch (e) {
+      console.error('❌ Failed to parse geometry string:', e)
+      return
+    }
+  } else {
+    coords = geometry
+  }
+
+  // Extract coordinates from LineString geometry
+  const coordinates = coords.coordinates
+  if (!coordinates || coordinates.length < 2) {
+    console.warn('⚠️ Animation skipped: invalid coordinates', coordinates)
+    return
+  }
+
+  console.log('✅ Starting animation with', coordinates.length, 'coordinates')
+
+  // Fit bounds to show the entire route
+  const bounds = new maplibregl.LngLatBounds()
+  coordinates.forEach((coord: any) => bounds.extend(coord as [number, number]))
+  map.fitBounds(bounds, {
+    padding: { top: 100, bottom: 100, left: 500, right: 100 },
+    duration: 1500
+  })
+
+  const startTime = performance.now()
+
+  function animate(currentTime: number) {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / duration, 1)
+
+    // Calculate position along the path
+    const totalSegments = coordinates.length - 1
+    const segmentProgress = progress * totalSegments
+    const segmentIndex = Math.floor(segmentProgress)
+    const segmentT = segmentProgress - segmentIndex
+
+    if (segmentIndex >= totalSegments) {
+      // Animation complete, set to final position
+      if (marker) marker.setLngLat(coordinates[coordinates.length - 1])
+      console.log('✅ Animation complete')
+      return
+    }
+
+    const start = coordinates[segmentIndex]
+    const end = coordinates[segmentIndex + 1]
+
+    // Linear interpolation
+    const lng = start[0] + (end[0] - start[0]) * segmentT
+    const lat = start[1] + (end[1] - start[1]) * segmentT
+
+    if (marker) marker.setLngLat([lng, lat])
+
+    if (progress < 1) {
+      requestAnimationFrame(animate)
+    }
+  }
+
+  requestAnimationFrame(animate)
+}
+
+// Expose function for parent components
+defineExpose({
+  animateCharacterAlongRoute
+})
+
+// Register animation callback
+setAnimationCallback(animateCharacterAlongRoute)
 
 watch(characters, () => {
   updateCharacterMarker()

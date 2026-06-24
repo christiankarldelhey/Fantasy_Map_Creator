@@ -90,8 +90,8 @@ export function buildDayPrompt(day, trip = {}, character = {}, language = 'engli
     const thoughtsList = day.thoughts.options.map(t => `- ${t.thought}`).join('\n');
     thoughtsSection = `=== CHARACTER STATE OF MIND (${phase.toUpperCase()}) ===
     ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)}/${pronouns.possessive} thoughts this stretch tend toward one of these undercurrents in the ${phase} let
-    whichever fits the day's road surface naturally in what ${pronouns.subject} notices,
-    in ${pronouns.possessive.toUpperCase()} OWN words. Do not quote these lines; do not announce a thought;
+    whichever fits the day's road surface naturally in what ${pronouns.subject} notices. 
+    Do not quote these lines; do not announce a thought;
     do not explain it. (choose the one that best fits the situation):
     ${thoughtsList}
 

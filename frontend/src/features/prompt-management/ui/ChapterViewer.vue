@@ -4,6 +4,7 @@ import { Loader2, ScrollText, ChevronDown, ChevronRight, Plus, FileDown } from '
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
 import { useLanguage } from '@/composables/useLanguage'
+import { useMapAnimation } from '@/composables/useMapAnimation'
 import { jsPDF } from 'jspdf'
 
 const props = defineProps<{
@@ -13,8 +14,9 @@ const props = defineProps<{
 const emit = defineEmits<{ (e: 'close'): void }>()
 
 const { trip, days, loading, generating, error, getTrip, getDays, generateDay } = useTrips()
-const { activeCharacter } = useCharacter()
+const { activeCharacter, fetchAllCharacters } = useCharacter()
 const { language } = useLanguage()
+const { triggerAnimation } = useMapAnimation()
 
 const expanded = ref<Record<string, 'narrative' | 'prompt' | null>>({})
 const exportingPdf = ref(false)
@@ -53,7 +55,13 @@ function toggle(day: TripDay, panel: 'narrative' | 'prompt') {
 async function handleGenerateNext() {
   if (!props.tripId) return
   try {
-    await generateDay(props.tripId, { language: language.value })
+    const newDay = await generateDay(props.tripId, { language: language.value })
+    // Refresh character position from backend after day generation
+    await fetchAllCharacters()
+    // Trigger character animation along the day's route
+    if (newDay?.geometry) {
+      triggerAnimation(newDay.geometry, 10000) // 10 seconds
+    }
   } catch {
     /* error surfaced via `error` ref */
   }

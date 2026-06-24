@@ -1,6 +1,10 @@
 /**
  * MapLibre GL Configuration
  * Configuration for the Middle Earth fantasy map
+ * 
+ * Available Mapbox styles:
+ * - Current: karl-loop/ck5h2nl3b01dc1inbo90rydt6
+ * - Testing: karl-loop/ck3aay1q40lzd1cmftqf8y2nv
  */
 
 import type { LngLatBoundsLike, MapOptions } from 'maplibre-gl'

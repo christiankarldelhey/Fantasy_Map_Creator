@@ -136,9 +136,10 @@ test('simulatePhaseEncounters is deterministic with a seeded rng', () => {
   assert.deepEqual(a, b);
 
   // 12 hours / 6 hour cadence with 100% chance => 2 encounters
-  assert.equal(a.length, 2);
-  assert.equal(a[0].region, 'The Shire');
-  assert.ok(a[0].entity);
+  assert.equal(a.encounters.length, 2);
+  assert.equal(a.encounters[0].region, 'The Shire');
+  assert.ok(a.encounters[0].entity);
+  assert.ok(Array.isArray(a.usedEntityIds));
 });
 
 test('simulatePhaseEncounters produces no encounters at 0% chance', () => {
@@ -159,7 +160,7 @@ test('simulatePhaseEncounters produces no encounters at 0% chance', () => {
     overrideChance: null,
   });
 
-  assert.equal(result.length, 0);
+  assert.equal(result.encounters.length, 0);
 });
 
 test('simulatePhaseEncounters handles regions changing mid-phase', () => {
@@ -177,7 +178,49 @@ test('simulatePhaseEncounters handles regions changing mid-phase', () => {
     overrideChance: null,
   });
 
-  const regionsHit = new Set(result.map((e) => e.region));
+  const regionsHit = new Set(result.encounters.map((e) => e.region));
   assert.ok(regionsHit.has('The Shire'));
   assert.ok(regionsHit.has('Misty Mountains'));
+});
+
+test('simulatePhaseEncounters excludes entities used in previous phase', () => {
+  const region = {
+    name: 'The Shire',
+    hours_to_encounter: 2,
+    chance_of_encounter: 100, // force hits
+    entities: sampleEntities,
+  };
+
+  // Day phase
+  const dayResult = simulatePhaseEncounters({
+    startHour: 7,
+    phaseHours: 12,
+    phase: DAY_PHASE,
+    getRegionInfo: () => region,
+    rng: createSeededRng(42),
+    overrideHours: null,
+    overrideChance: null,
+  });
+
+  // Night phase with entities from day excluded
+  const nightResult = simulatePhaseEncounters({
+    startHour: 19,
+    phaseHours: 12,
+    phase: NIGHT_PHASE,
+    getRegionInfo: () => region,
+    rng: createSeededRng(42),
+    overrideHours: null,
+    overrideChance: null,
+    excludedEntityIds: dayResult.usedEntityIds,
+  });
+
+  // Ensure day phase had encounters
+  assert.ok(dayResult.encounters.length > 0);
+  assert.ok(dayResult.usedEntityIds.length > 0);
+
+  // Ensure night phase does not include any entity from day
+  const nightEntityIds = nightResult.encounters.map((e) => e.entity.id);
+  for (const id of dayResult.usedEntityIds) {
+    assert.ok(!nightEntityIds.includes(id), `Entity ${id} from day should not appear in night`);
+  }
 });

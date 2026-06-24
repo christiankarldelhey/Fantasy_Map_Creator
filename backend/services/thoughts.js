@@ -12,8 +12,7 @@ import pool from '../db.js';
  * @returns {boolean}
  */
 export function rollThoughtChance(rng = Math.random) {
-  // TEMP: 100% chance for debugging - change back to 0.5 for production
-  return rng() < 1.0;
+  return rng() < 0.5;
 }
 
 /**
