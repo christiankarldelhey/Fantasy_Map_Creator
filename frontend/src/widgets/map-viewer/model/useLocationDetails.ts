@@ -9,15 +9,19 @@ export async function fetchLocationDetailsAtPoint(
   lat: number,
   timestamp?: string
 ): Promise<LocationDetails | null> {
+  // Build layers list - only include layers that exist in the map
+  const allLayers = [
+    'locations-major', 'locations-medium', 'locations-minor',
+    'biomes-fill', 'regions-fill',
+    'roads-major', 'roads-medium', 'roads-minor',
+    'water-fill', 'water-lines-river', 'water-lines-stream'
+  ]
+  const existingLayers = allLayers.filter(layerId => map.getLayer(layerId))
+
   const features = map.queryRenderedFeatures(
     map.project([lng, lat]),
     {
-      layers: [
-        'locations-major', 'locations-medium', 'locations-minor',
-        'biomes-fill', 'regions-fill',
-        'roads-major', 'roads-medium', 'roads-minor',
-        'water-fill', 'water-lines-river', 'water-lines-stream'
-      ]
+      layers: existingLayers
     }
   )
 
@@ -39,20 +43,15 @@ export async function fetchLocationDetailsAtPoint(
     f.layer.id === 'water-lines-stream'
   )
 
-  // Only return location details if we clicked on a location
-  if (!locationFeature) {
-    return null
-  }
-
-  const locProps = locationFeature.properties
+  // If no location feature, create a generic location details object with biome/region/elevation/climate
   const locationDetails: LocationDetails = {
-    name: locProps?.name || 'Unknown Location',
-    type: locProps?.type ? locProps.type.replace('_', ' ') : 'point',
-    slug: locProps?.slug,
-    url_path: locProps?.url_path,
-    description: locProps?.description,
-    population: locProps?.population,
-    inhabitants: locProps?.inhabitants,
+    name: locationFeature ? (locationFeature.properties?.name || 'Unknown Location') : 'Unknown Location',
+    type: locationFeature ? (locationFeature.properties?.type ? locationFeature.properties.type.replace('_', ' ') : 'point') : 'point',
+    slug: locationFeature?.properties?.slug,
+    url_path: locationFeature?.properties?.url_path,
+    description: locationFeature?.properties?.description,
+    population: locationFeature?.properties?.population,
+    inhabitants: locationFeature?.properties?.inhabitants,
   }
 
   // Biome Details
@@ -129,14 +128,18 @@ export async function fetchRegionDetailsAtPoint(
   lat: number,
   timestamp?: string
 ): Promise<LocationDetails | null> {
+  // Build layers list - only include layers that exist in the map
+  const allLayers = [
+    'biomes-fill', 'regions-fill',
+    'roads-major', 'roads-medium', 'roads-minor',
+    'water-fill', 'water-lines-river', 'water-lines-stream'
+  ]
+  const existingLayers = allLayers.filter(layerId => map.getLayer(layerId))
+
   const features = map.queryRenderedFeatures(
     map.project([lng, lat]),
     {
-      layers: [
-        'biomes-fill', 'regions-fill',
-        'roads-major', 'roads-medium', 'roads-minor',
-        'water-fill', 'water-lines-river', 'water-lines-stream'
-      ]
+      layers: existingLayers
     }
   )
 

@@ -6,6 +6,8 @@ import { useRoadLayer } from './layers/useRoadLayer'
 import { useWaterLayer } from './layers/useWaterLayer'
 import { useAltitudeLayer } from './layers/useAltitudeLayer'
 
+export type MapMode = 'explore' | 'wander'
+
 export function useMapLayers() {
   const locationLayer = useLocationLayer()
   const biomeLayer = useBiomeLayer()
@@ -23,9 +25,17 @@ export function useMapLayers() {
       roads?: any
       water?: any
       altitude?: any
-    }
+    },
+    mode: MapMode = 'explore'
   ) => {
-    // Orden de capas: bottom to top
+    // In wander mode, show locations and regions (hide biomes, water, roads, altitude)
+    if (mode === 'wander') {
+      if (data.locations) locationLayer.addLocationsLayer(map, data.locations)
+      if (data.regions) regionLayer.addRegionsLayer(map, data.regions)
+      return
+    }
+
+    // Orden de capas: bottom to top (explore mode)
     if (data.regions) regionLayer.addRegionsLayer(map, data.regions)
     // if (data.altitude) altitudeLayer.addAltitudeLayer(map, data.altitude)  // Desactivado temporalmente
     if (data.biomes) biomeLayer.addBiomesLayer(map, data.biomes)

@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { MapPage } from '@/pages/map'
 </script>
 
 <template>
   <div id="app">
-    <MapPage />
+    <router-view />
   </div>
 </template>
 

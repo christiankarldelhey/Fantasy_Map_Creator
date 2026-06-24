@@ -2,7 +2,7 @@
   <div class="relative w-full h-screen bg-white overflow-visible">
     <div ref="mapContainer" class="w-full h-full" style="min-height: 100vh;"></div>
 
-    <CharacterSelector />
+    <CharacterSelector v-if="mode === 'wander'" />
 
     <DirectionsInput
       v-if="isDirectionsMode"
@@ -44,8 +44,9 @@
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { MAPLIBRE_CONFIG } from '@/shared/config/maplibre'
+import { MAPLIBRE_CONFIG, MAPLIBRE_CONFIG_WANDER } from '@/shared/config/maplibre'
 import { useMapLayers, useMapEvents, useMapMarkers, useMapDataLoading } from '../model'
+import type { MapMode } from '../model/useMapLayers'
 import { fetchLocationDetailsAtPoint } from '../model/useLocationDetails'
 import { SearchInput } from '@/widgets/search-input'
 import { LocationSidebar } from '@/widgets/location-sidebar'
@@ -61,10 +62,18 @@ import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import type { SearchResult } from '@/entities/search'
 import type { LocationDetails } from '@/widgets/location-sidebar'
 
+const props = defineProps<{
+  mode?: MapMode
+}>()
+
 const mapContainer = ref<HTMLDivElement | null>(null)
 const searchInputRef = ref<InstanceType<typeof SearchInput> | null>(null)
 const selectedLocation = ref<LocationDetails | null>(null)
 let map: maplibregl.Map | null = null
+
+const mapConfig = computed(() => {
+  return props.mode === 'wander' ? MAPLIBRE_CONFIG_WANDER : MAPLIBRE_CONFIG
+})
 
 const { isDirectionsMode, startDirections, exitDirections, setDestination, routeData } = useDirections()
 
@@ -140,6 +149,12 @@ function updateCharacterMarker() {
   // Add markers for all characters
   characters.value.forEach((character) => {
     const [lng, lat] = [character.current_lng, character.current_lat]
+
+    // Skip if coordinates are invalid
+    if (lng == null || lat == null || isNaN(lng) || isNaN(lat)) {
+      console.warn(`Invalid coordinates for character ${character.name}:`, { lng, lat })
+      return
+    }
 
     // Create custom HTML element for character marker
     const el = document.createElement('div')
@@ -278,7 +293,7 @@ onMounted(async () => {
   try {
     map = new maplibregl.Map({
       container: mapContainer.value,
-      ...MAPLIBRE_CONFIG
+      ...mapConfig.value
     })
 
     map.addControl(new maplibregl.NavigationControl(), 'top-right')
@@ -286,34 +301,38 @@ onMounted(async () => {
 
     map.on('load', async () => {
       console.log('✅ MapLibre ready')
-      
+
       try {
         await loadAllData()
 
-        // Initialize all layers
+        // Initialize all layers based on mode
         initializeLayers(map!, {
           regions: regions.value,
           biomes: biomes.value,
           water: water.value,
           roads: roads.value,
           locations: locations.value
-        })
+        }, props.mode || 'explore')
 
-        // Add region outline last to be on top of all layers
-        const regionsData = regions.value
-        if (regionsData) {
-          regionLayer.addRegionsOutline(map!, regionsData)
+        // Add region outline last to be on top of all layers (only in explore mode)
+        if (props.mode !== 'wander') {
+          const regionsData = regions.value
+          if (regionsData) {
+            regionLayer.addRegionsOutline(map!, regionsData)
+          }
         }
 
         // Setup events
-        setupClickHandler(map!, handleLocationClick, handleAddMarker, () => timestampISO.value)
+        setupClickHandler(map!, handleLocationClick, handleAddMarker, () => timestampISO.value, props.mode || 'explore')
 
-        // Load and display character/company cursor
-        try {
-          await fetchAllCharacters()
-          updateCharacterMarker()
-        } catch (err) {
-          console.error('Failed to load character position:', err)
+        // Load and display character/company cursor (only in wander mode)
+        if (props.mode === 'wander') {
+          try {
+            await fetchAllCharacters()
+            updateCharacterMarker()
+          } catch (err) {
+            console.error('Failed to load character position:', err)
+          }
         }
 
         layersInitialized.value = true

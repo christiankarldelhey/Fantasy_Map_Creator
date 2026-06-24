@@ -15,25 +15,31 @@ import type { LngLatBoundsLike, MapOptions } from 'maplibre-gl'
 export const MAPBOX_CONFIG = {
   accessToken: import.meta.env.VITE_MAPBOX_ACCESS_TOKEN,
   styleId: import.meta.env.VITE_MAPBOX_STYLE_ID,
-  
+
+  /**
+   * Style IDs for different modes
+   */
+  EXPLORE_STYLE_ID: 'karl-loop/ck5h2nl3b01dc1inbo90rydt6',
+  WANDER_STYLE_ID: 'karl-loop/ck3aay1q40lzd1cmftqf8y2nv',
+
   /**
    * Generates the tile URL template for raster tiles
    */
-  getTileUrl(): string {
-    return `https://api.mapbox.com/styles/v1/${this.styleId}/tiles/256/{z}/{x}/{y}@2x?access_token=${this.accessToken}`
+  getTileUrl(styleId: string): string {
+    return `https://api.mapbox.com/styles/v1/${styleId}/tiles/256/{z}/{x}/{y}@2x?access_token=${this.accessToken}`
   },
-  
+
   /**
    * Creates a MapLibre-compatible style object
    */
-  getStyle() {
+  getStyle(styleId: string) {
     return {
       version: 8,
       glyphs: 'https://fonts.openmaptiles.org/{fontstack}/{range}.pbf',
       sources: {
         'mapbox-tiles': {
           type: 'raster',
-          tiles: [this.getTileUrl()],
+          tiles: [this.getTileUrl(styleId)],
           tileSize: 256,
           attribution: '© Mapbox © OpenStreetMap'
         }
@@ -83,10 +89,25 @@ export const MAP_CONSTRAINTS = {
 }
 
 /**
- * Complete MapLibre configuration
+ * Complete MapLibre configuration (default/explore mode)
  */
 export const MAPLIBRE_CONFIG: Partial<MapOptions> = {
-  style: MAPBOX_CONFIG.getStyle() as any,
+  style: MAPBOX_CONFIG.getStyle(MAPBOX_CONFIG.EXPLORE_STYLE_ID) as any,
+  center: DEFAULT_CENTER,
+  zoom: DEFAULT_ZOOM,
+  minZoom: MAP_CONSTRAINTS.minZoom,
+  maxZoom: MAP_CONSTRAINTS.maxZoom,
+  maxBounds: MAP_CONSTRAINTS.maxBounds,
+  renderWorldCopies: MAP_CONSTRAINTS.renderWorldCopies,
+  dragRotate: false,
+  touchPitch: false
+}
+
+/**
+ * MapLibre configuration for wander mode
+ */
+export const MAPLIBRE_CONFIG_WANDER: Partial<MapOptions> = {
+  style: MAPBOX_CONFIG.getStyle(MAPBOX_CONFIG.WANDER_STYLE_ID) as any,
   center: DEFAULT_CENTER,
   zoom: DEFAULT_ZOOM,
   minZoom: MAP_CONSTRAINTS.minZoom,
