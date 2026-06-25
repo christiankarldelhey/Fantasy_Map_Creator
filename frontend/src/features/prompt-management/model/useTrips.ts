@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import axios from 'axios'
+import { useUserSettings } from '@/composables/useUserSettings'
 
 // Trip/day generation can call an LLM, so it needs a longer timeout than the
 // shared client (10s). We use a dedicated instance for this feature.
@@ -60,6 +61,7 @@ export function useTrips() {
   const loading = ref(false)
   const generating = ref(false)
   const error = ref<string | null>(null)
+  const { saveUserSettings } = useUserSettings()
 
   async function createTrip(params: {
     name?: string
@@ -74,6 +76,9 @@ export function useTrips() {
       const { data } = await tripApi.post<Trip>('/trips', params)
       trip.value = data
       days.value = []
+      // Persist as active trip in user settings
+      await saveUserSettings({ active_trip_id: data.id })
+      console.log('✅ Created trip and saved as active trip:', data.id)
       return data
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Unknown error'

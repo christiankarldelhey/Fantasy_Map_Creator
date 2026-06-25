@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import api from '@/shared/api/client'
+import { useUserSettings } from './useUserSettings'
 
 export interface CharacterState {
   id: number
@@ -23,17 +24,42 @@ const characterLoading = ref(false)
 const characterError = ref<string | null>(null)
 
 export function useCharacter() {
+  const { user, saveUserSettings } = useUserSettings()
+
   async function fetchAllCharacters() {
     characterLoading.value = true
     characterError.value = null
     try {
       const response = await api.get<CharacterState[]>('/character')
       characters.value = response.data
-      activeCharacter.value = response.data.find(c => c.active) || null
-      characterData.value = activeCharacter.value // For backward compatibility
-      if (activeCharacter.value) {
-        characterPosition.value = [activeCharacter.value.current_lng, activeCharacter.value.current_lat]
+      
+      // First, check if there's an active character in the user settings
+      const userActiveCharacterId = user.value?.active_character_id
+      if (userActiveCharacterId) {
+        const characterFromSettings = response.data.find(c => c.id === userActiveCharacterId)
+        if (characterFromSettings) {
+          // Ensure the character is marked as active in the DB
+          activeCharacter.value = characterFromSettings
+          characterData.value = characterFromSettings
+          characterPosition.value = [characterFromSettings.current_lng, characterFromSettings.current_lat]
+          console.log('✅ Loaded active character from user settings:', characterFromSettings)
+        } else {
+          // Fallback to DB active flag if settings character not found
+          activeCharacter.value = response.data.find(c => c.active) || null
+          characterData.value = activeCharacter.value
+          if (activeCharacter.value) {
+            characterPosition.value = [activeCharacter.value.current_lng, activeCharacter.value.current_lat]
+          }
+        }
+      } else {
+        // No user settings, use DB active flag
+        activeCharacter.value = response.data.find(c => c.active) || null
+        characterData.value = activeCharacter.value
+        if (activeCharacter.value) {
+          characterPosition.value = [activeCharacter.value.current_lng, activeCharacter.value.current_lat]
+        }
       }
+      
       console.log('✅ Loaded all characters:', response.data)
       return response.data
     } catch (err: any) {
@@ -114,7 +140,10 @@ export function useCharacter() {
       activeCharacter.value = response.data
       characterData.value = response.data // For backward compatibility
       characterPosition.value = [response.data.current_lng, response.data.current_lat]
-      console.log('✅ Set active character:', response.data)
+      
+      // Persist to user settings
+      await saveUserSettings({ active_character_id: id })
+      console.log('✅ Set active character and saved to user settings:', response.data)
       return response.data
     } catch (err: any) {
       const message = err.response?.data?.error || err.message || 'Failed to set active character'

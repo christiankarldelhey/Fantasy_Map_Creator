@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { Loader2, ScrollText, ChevronDown, ChevronRight, Plus, FileDown } from '@lucide/vue'
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
@@ -208,12 +208,21 @@ async function generateAdventurePDF() {
   }
 }
 
-onMounted(async () => {
+async function loadTripData() {
+  if (!props.tripId) return
   await getTrip(props.tripId)
   await getDays(props.tripId)
   // Expand the latest day's narrative by default
   const last = days.value[days.value.length - 1]
   if (last) expanded.value = { [last.id]: 'narrative' }
+}
+
+onMounted(loadTripData)
+
+watch(() => props.tripId, (newTripId, oldTripId) => {
+  if (newTripId && newTripId !== oldTripId) {
+    loadTripData()
+  }
 })
 </script>
 

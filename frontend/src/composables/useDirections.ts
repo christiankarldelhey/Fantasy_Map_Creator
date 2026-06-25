@@ -3,6 +3,7 @@ import type { SearchResult } from '@/entities/search'
 import { fetchDirections } from '@/entities/directions/api/directionsApi'
 import type { DirectionsResponse } from '@/entities/directions/model/types'
 import { useCharacter } from '@/composables/useCharacter'
+import { useUserSettings } from './useUserSettings'
 
 export interface DirectionsPoint {
   id?: number
@@ -59,6 +60,7 @@ const routeLoading = ref(false)
 const routeError = ref<string | null>(null)
 
 const { characterPosition, characterData } = useCharacter()
+const { savePartialSettings } = useUserSettings()
 
 // Sync origin with characterPosition whenever it changes and directions mode is active
 watch(characterPosition, (newPos) => {
@@ -69,6 +71,18 @@ watch(characterPosition, (newPos) => {
       coordinates: newPos
     }
   }
+})
+
+// Persist directions state to backend when it changes
+watch([isDirectionsMode, destination], ([newMode, newDest]) => {
+  savePartialSettings({
+    directions: {
+      destination: newDest || undefined,
+      is_active: newMode
+    }
+  }).catch(err => {
+    console.error('Failed to save directions to backend:', err)
+  })
 })
 
 async function calculateRoute() {
@@ -103,6 +117,27 @@ watch([origin, destination], () => {
 })
 
 export function useDirections() {
+  const { user } = useUserSettings()
+
+  // Initialize directions from backend settings if available
+  function initializeFromBackend() {
+    if (user.value?.settings?.directions?.is_active && user.value?.settings?.directions?.destination) {
+      const savedDest = user.value.settings.directions.destination
+      destination.value = savedDest
+      isDirectionsMode.value = true
+      console.log('✅ Loaded directions from backend settings:', savedDest)
+      
+      // Set origin from character position if available
+      if (characterPosition.value) {
+        origin.value = {
+          name: characterData.value?.name || 'Aranath',
+          type: 'custom',
+          coordinates: characterPosition.value
+        }
+      }
+    }
+  }
+
   function startDirections(initialDestination: { name: string; coordinates: [number, number]; id?: number; type?: 'location' | 'region' }) {
     if (characterPosition.value) {
       origin.value = {
@@ -156,6 +191,7 @@ export function useDirections() {
     setOrigin,
     setDestination,
     swapPoints,
-    exitDirections
+    exitDirections,
+    initializeFromBackend
   }
 }

@@ -7,12 +7,12 @@ import pool from '../db.js';
 // ============================================================================
 
 /**
- * Roll whether a thought should be included this day (50% chance).
+ * Roll whether a thought should be included this day (100% chance).
  * @param {() => number} rng - random number generator
  * @returns {boolean}
  */
 export function rollThoughtChance(rng = Math.random) {
-  return rng() < 0.5;
+  return true;
 }
 
 /**

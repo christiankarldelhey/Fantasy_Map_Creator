@@ -56,6 +56,7 @@ import { ChapterViewer, useTrips } from '@/features/prompt-management'
 import { useDirections } from '@/composables/useDirections'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 import { useCharacter } from '@/composables/useCharacter'
+import { useUserSettings } from '@/composables/useUserSettings'
 import { useMapAnimation } from '@/composables/useMapAnimation'
 import CharacterSelector from '@/components/CharacterSelector.vue'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
@@ -75,7 +76,7 @@ const mapConfig = computed(() => {
   return props.mode === 'wander' ? MAPLIBRE_CONFIG_WANDER : MAPLIBRE_CONFIG
 })
 
-const { isDirectionsMode, startDirections, exitDirections, setDestination, routeData } = useDirections()
+const { isDirectionsMode, startDirections, exitDirections, setDestination, routeData, initializeFromBackend: initializeDirections } = useDirections()
 
 // Adventure / trip generation
 const { createTrip, generateDay } = useTrips()
@@ -86,6 +87,7 @@ const pendingDestinationLocation = ref<LocationDetails | null>(null)
 
 // Character / Company state
 const { characters, activeCharacter, fetchAllCharacters, setActiveCharacter } = useCharacter()
+const { user } = useUserSettings()
 const { setAnimationCallback } = useMapAnimation()
 let characterMarkers: Map<number, maplibregl.Marker> = new Map()
 
@@ -330,10 +332,19 @@ onMounted(async () => {
           try {
             await fetchAllCharacters()
             updateCharacterMarker()
+            // Restore active trip from user settings if the active character has one
+            const savedTripId = user.value?.active_trip_id
+            if (savedTripId && activeCharacter.value) {
+              activeTripId.value = savedTripId
+              console.log('✅ Restored active trip from user settings:', savedTripId)
+            }
           } catch (err) {
             console.error('Failed to load character position:', err)
           }
         }
+
+        // Initialize directions from backend settings if available
+        initializeDirections()
 
         layersInitialized.value = true
       } catch (err) {

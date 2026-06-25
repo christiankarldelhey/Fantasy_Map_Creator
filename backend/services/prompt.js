@@ -88,11 +88,10 @@ export function buildDayPrompt(day, trip = {}, character = {}, language = 'engli
   if (day.thoughts && day.thoughts.options && day.thoughts.options.length > 0) {
     const phase = day.thoughts.phase;
     const thoughtsList = day.thoughts.options.map(t => `- ${t.thought}`).join('\n');
-    thoughtsSection = `=== CHARACTER STATE OF MIND (${phase.toUpperCase()}) ===
-    ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)}/${pronouns.possessive} thoughts this stretch tend toward one of these undercurrents in the ${phase} let
-    whichever fits the day's road surface naturally in what ${pronouns.subject} notices. 
-    Do not quote these lines; do not announce a thought;
-    do not explain it. (choose the one that best fits the situation):
+    thoughtsSection = `=== CHARACTER STATE OF MIND ===  
+    Once in the ${phase}, slip only one of these thoughts into the narration,
+    near-verbatim, triggered by something ${pronouns.subject} sees or does. His own voice —
+    no quotes, no italics, no "${pronouns.subject} thought", no explaining it after.
     ${thoughtsList}
 
 `;

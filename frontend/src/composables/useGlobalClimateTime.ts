@@ -1,4 +1,5 @@
 import { ref, computed, watch } from 'vue'
+import { useUserSettings } from './useUserSettings'
 
 function force1950(date: Date): Date {
   const d = new Date(date)
@@ -10,14 +11,45 @@ const currentClimateTime = ref<Date>(force1950(new Date()))
 const isRealTime = ref<boolean>(true)
 
 export function useGlobalClimateTime() {
+  const { user, savePartialSettings } = useUserSettings()
+
   function updateClimateTime(date: Date) {
     currentClimateTime.value = force1950(date)
     isRealTime.value = false
+    // Persist to backend
+    savePartialSettings({
+      current_climate_time: currentClimateTime.value.toISOString(),
+      is_real_time: false
+    }).catch(err => {
+      console.error('Failed to save climate time to backend:', err)
+    })
   }
 
   function resetToRealTime() {
     currentClimateTime.value = force1950(new Date())
     isRealTime.value = true
+    // Persist to backend
+    savePartialSettings({
+      current_climate_time: currentClimateTime.value.toISOString(),
+      is_real_time: true
+    }).catch(err => {
+      console.error('Failed to save climate time to backend:', err)
+    })
+  }
+
+  // Initialize climate time from backend settings if available
+  function initializeFromBackend() {
+    if (user.value?.settings?.current_climate_time) {
+      const parsedDate = new Date(user.value.settings.current_climate_time)
+      if (!isNaN(parsedDate.getTime())) {
+        currentClimateTime.value = force1950(parsedDate)
+        isRealTime.value = user.value.settings.is_real_time ?? true
+        console.log('✅ Loaded climate time from backend settings:', {
+          time: currentClimateTime.value,
+          isRealTime: isRealTime.value
+        })
+      }
+    }
   }
 
   const timestamp1950 = computed(() => {
@@ -51,6 +83,7 @@ export function useGlobalClimateTime() {
     timestamp1950,
     timestampISO,
     updateClimateTime,
-    resetToRealTime
+    resetToRealTime,
+    initializeFromBackend
   }
 }
