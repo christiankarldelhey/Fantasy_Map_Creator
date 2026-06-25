@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
-import { Loader2, ScrollText, ChevronDown, ChevronRight, Plus, FileDown } from '@lucide/vue'
+import { ScrollText, ChevronDown, ChevronRight, Plus, FileDown } from '@lucide/vue'
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
 import { useLanguage } from '@/composables/useLanguage'
 import { useMapAnimation } from '@/composables/useMapAnimation'
 import { jsPDF } from 'jspdf'
+import { Button } from '@/components/ui/button'
+import { Loader } from '@/components/ui/loader'
 
 const props = defineProps<{
   tripId: string
@@ -227,52 +229,48 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 </script>
 
 <template>
-  <div class="chapter-viewer fixed right-0 top-0 h-full w-full max-w-xl bg-stone-50 shadow-2xl border-l border-stone-200 flex flex-col z-50">
+  <div class="chapter-viewer fixed right-0 top-0 h-full w-full max-w-xl bg-parchment-base shadow-2xl border-l-2 border-gold flex flex-col z-50">
     <!-- Header -->
-    <header class="flex items-center justify-between px-5 py-4 border-b border-stone-200 bg-white">
+    <header class="flex items-center justify-between px-5 py-4 border-b-2 border-earth-dark bg-parchment-light">
       <div class="flex items-center gap-2">
-        <ScrollText class="w-5 h-5 text-amber-700" />
-        <h2 class="text-lg font-serif font-semibold text-stone-800">{{ title }}</h2>
+        <ScrollText class="w-5 h-5 text-gold-base" />
+        <h2 class="text-lg font-serif font-semibold text-ink-black">{{ title }}</h2>
       </div>
-      <button
-        class="text-stone-400 hover:text-stone-700 text-sm"
-        @click="emit('close')"
-      >
+      <Button variant="ghost" size="sm" @click="emit('close')">
         Close
-      </button>
+      </Button>
     </header>
 
     <!-- Body -->
     <div class="flex-1 overflow-y-auto px-5 py-4 space-y-4">
-      <div v-if="loading && days.length === 0" class="flex items-center gap-2 text-stone-500 py-8 justify-center">
-        <Loader2 class="w-5 h-5 animate-spin" />
+      <Loader v-if="loading && days.length === 0" variant="inline">
         Loading chapters…
-      </div>
+      </Loader>
 
-      <p v-if="error" class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-3">
+      <p v-if="error" class="text-sm text-destructive bg-parchment-dark border-2 border-destructive rounded-md p-3 font-book">
         {{ error }}
       </p>
 
       <article
         v-for="day in days"
         :key="day.id"
-        class="bg-white rounded-lg border border-stone-200 shadow-sm overflow-hidden"
+        class="bg-parchment-light rounded-lg border-2 border-earth-dark shadow-md overflow-hidden"
       >
-        <div class="px-4 py-3 border-b border-stone-100">
-          <h3 class="font-serif font-semibold text-stone-800">
+        <div class="px-4 py-3 border-b border-earth-dark bg-parchment-base">
+          <h3 class="font-serif font-semibold text-ink-black">
             Chapter {{ day.day_number }}
           </h3>
-          <p class="text-xs text-stone-500 mt-0.5">
+          <p class="text-xs text-ink-brown mt-0.5 font-book">
             {{ day.date?.slice(0, 10) }} · {{ day.distance_km }} km ·
             {{ (day.regions || []).map((r) => r.name).join(', ') || 'unknown lands' }}
           </p>
         </div>
 
         <!-- Tabs -->
-        <div class="flex border-b border-stone-100 text-sm">
+        <div class="flex border-b border-earth-dark text-sm">
           <button
             class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'narrative' ? 'text-amber-700 bg-amber-50' : 'text-stone-500 hover:text-stone-700'"
+            :class="expanded[day.id] === 'narrative' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black'"
             @click="toggle(day, 'narrative')"
           >
             <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
@@ -280,7 +278,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </button>
           <button
             class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'prompt' ? 'text-amber-700 bg-amber-50' : 'text-stone-500 hover:text-stone-700'"
+            :class="expanded[day.id] === 'prompt' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black'"
             @click="toggle(day, 'prompt')"
           >
             <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
@@ -292,53 +290,58 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
           <p
             v-if="day.narrative"
-            class="font-serif text-stone-700 leading-relaxed whitespace-pre-wrap"
+            class="font-book text-ink-black leading-relaxed whitespace-pre-wrap"
           >{{ day.narrative }}</p>
-          <p v-else class="text-sm text-stone-400 italic">No narrative was generated for this day.</p>
+          <p v-else class="text-sm text-ink-faded italic font-book">No narrative was generated for this day.</p>
         </div>
 
         <div v-if="expanded[day.id] === 'prompt'" class="px-4 py-4">
-          <pre class="text-xs text-stone-600 whitespace-pre-wrap font-mono bg-stone-50 rounded-md p-3 border border-stone-100">{{ day.prompt }}</pre>
+          <pre class="text-xs text-ink-brown whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ day.prompt }}</pre>
         </div>
       </article>
 
-      <p v-if="!loading && days.length === 0 && !error" class="text-sm text-stone-400 italic text-center py-8">
+      <p v-if="!loading && days.length === 0 && !error" class="text-sm text-ink-faded italic text-center py-8 font-book">
         No chapters yet. Generate the first day to begin the tale.
       </p>
     </div>
 
     <!-- Footer -->
-    <footer class="px-5 py-4 border-t border-stone-200 bg-white">
+    <footer class="px-5 py-4 border-t-2 border-earth-dark bg-parchment-light">
       <div class="flex gap-3">
         <!-- Action Button (Generate / Save PDF) -->
-        <button
+        <Button
           v-if="isTripComplete"
-          class="flex-1 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white rounded-md font-semibold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm"
+          variant="secondary"
+          size="md"
+          class="flex-1"
           :disabled="exportingPdf"
           @click="generateAdventurePDF"
         >
-          <Loader2 v-if="exportingPdf" class="w-4 h-4 animate-spin" />
-          <FileDown v-else class="w-4 h-4" />
+          <Loader v-if="exportingPdf" size="sm" variant="inline" class="mr-2" />
+          <FileDown v-else class="w-4 h-4 mr-2" />
           {{ exportingPdf ? labels.savingPdfBtn : labels.savePdfBtn }}
-        </button>
-        <button
+        </Button>
+        <Button
           v-else
-          class="flex-1 py-2.5 px-4 bg-amber-600 hover:bg-amber-700 disabled:opacity-60 text-white rounded-md font-semibold text-sm transition-colors flex items-center justify-center gap-2"
+          variant="primary"
+          size="md"
+          class="flex-1"
           :disabled="generating"
           @click="handleGenerateNext"
         >
-          <Loader2 v-if="generating" class="w-4 h-4 animate-spin" />
-          <Plus v-else class="w-4 h-4" />
+          <Loader v-if="generating" size="sm" variant="inline" class="mr-2" />
+          <Plus v-else class="w-4 h-4 mr-2" />
           {{ generating ? labels.generatingBtn : labels.generateBtn }}
-        </button>
+        </Button>
 
         <!-- Cancel/Close Button -->
-        <button
-          class="py-2.5 px-4 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md font-semibold text-sm transition-colors flex items-center justify-center gap-2"
+        <Button
+          variant="outline"
+          size="md"
           @click="emit('close')"
         >
           {{ isTripComplete ? labels.closeBtn : labels.cancelBtn }}
-        </button>
+        </Button>
       </div>
     </footer>
   </div>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cinzel:wght@400;500;600;700&family=IM+Fell+English:ital@0;1&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,17 +10,17 @@
   }
 
   body {
-    @apply overflow-hidden font-sans bg-white;
+    @apply overflow-hidden font-sans;
   }
 
   #app {
-    @apply w-full h-screen bg-white;
+    @apply w-full h-screen;
   }
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
@@ -28,46 +28,79 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 222.2 47.4% 11.2%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
+  --radius: 0.5rem;
+  
+  /* Medieval Map Palette - Parchment Backgrounds */
+  --bg-parchment: #f4e4c1;
+  --bg-parchment-light: #faf3e0;
+  --bg-parchment-dark: #e8d4a8;
+  --bg-parchment-aged: #d4c4a0;
+  --bg-parchment-old: #c9b896;
+  
+  /* Earth Tones - Panels */
+  --bg-earth: #c9a882;
+  --bg-earth-light: #d4b896;
+  --bg-earth-dark: #a88760;
+  --bg-earth-deep: #8b6f4a;
+  
+  /* Ink Colors - Text */
+  --text-ink-black: #2c2416;
+  --text-ink-brown: #5c4a32;
+  --text-ink-light: #8b7355;
+  --text-ink-faded: #a08060;
+  
+  /* Gold Accents */
+  --accent-gold: #b8860b;
+  --accent-gold-light: #d4a520;
+  --accent-gold-dark: #8b6914;
+  --accent-gold-muted: #9a7b19;
+  
+  /* Leather - Buttons */
+  --btn-leather: #8b4513;
+  --btn-leather-light: #a0522d;
+  --btn-leather-dark: #6b3510;
+  
+  /* Borders */
+  --border-gold: #b8860b;
+  --border-earth: #a88760;
+  
+  /* Shadows */
+  --shadow-light: rgba(44, 36, 22, 0.1);
+  --shadow-medium: rgba(44, 36, 22, 0.2);
+  --shadow-dark: rgba(44, 36, 22, 0.3);
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 212.7 26.8% 83.9%;
+  /* Dark mode medieval palette */
+  --bg-parchment: #2c2416;
+  --bg-parchment-light: #3d3220;
+  --bg-parchment-dark: #1f1810;
+  --bg-parchment-aged: #2a2218;
+  --bg-parchment-old: #251e14;
+  
+  --bg-earth: #4a3c2a;
+  --bg-earth-light: #5a4a36;
+  --bg-earth-dark: #3a2e1e;
+  --bg-earth-deep: #2a2014;
+  
+  --text-ink-black: #f4e4c1;
+  --text-ink-brown: #d4c4a0;
+  --text-ink-light: #c9b896;
+  --text-ink-faded: #a08060;
+  
+  --accent-gold: #d4a520;
+  --accent-gold-light: #e8b830;
+  --accent-gold-dark: #b8860b;
+  --accent-gold-muted: #c9a018;
+  
+  --btn-leather: #a0522d;
+  --btn-leather-light: #b8623d;
+  --btn-leather-dark: #8b4513;
+  
+  --border-gold: #d4a520;
+  --border-earth: #5a4a36;
+  
+  --shadow-light: rgba(0, 0, 0, 0.3);
+  --shadow-medium: rgba(0, 0, 0, 0.5);
+  --shadow-dark: rgba(0, 0, 0, 0.7);
 }

@@ -63,8 +63,8 @@ export function useLocationLayer() {
     layerType: 'symbol',
     minzoom: ZOOM_LEVELS.MEDIUM.min,
     paint: {
-      'text-color': '#1e293b',
-      'text-halo-color': '#ffffff',
+      'text-color': '#2c2416',
+      'text-halo-color': '#f4e4c1',
       'text-halo-width': 2
     },
     layout: {
@@ -88,8 +88,8 @@ export function useLocationLayer() {
     layerType: 'symbol',
     minzoom: ZOOM_LEVELS.NEAR.min,
     paint: {
-      'text-color': '#1e293b',
-      'text-halo-color': '#ffffff',
+      'text-color': '#2c2416',
+      'text-halo-color': '#f4e4c1',
       'text-halo-width': 2
     },
     layout: {

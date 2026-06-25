@@ -1,36 +1,44 @@
 <template>
-  <div class="fixed inset-0 z-[10001] flex items-center justify-center bg-black/60 backdrop-blur-sm">
-    <div class="bg-white rounded-xl shadow-2xl max-w-3xl w-full mx-4 p-8">
-      <h2 class="text-2xl font-bold text-gray-900 mb-2">Whose feet will you walk in?</h2>
-      <p class="text-gray-600 mb-6">Choose a character to begin your journey.</p>
+  <div class="fixed inset-0 z-[10001] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm">
+    <div class="bg-parchment-base rounded-xl shadow-2xl max-w-3xl w-full mx-4 p-8 border-2 border-gold">
+      <h2 class="text-2xl font-serif font-bold text-ink-black mb-2">Whose feet will you walk in?</h2>
+      <p class="text-ink-brown mb-6 font-book">Choose a character to begin your journey.</p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div
           v-for="character in characters"
           :key="character.id"
           @click="selectCharacter(character.id)"
-          class="p-4 rounded-lg border-2 cursor-pointer transition-all hover:border-amber-500 hover:bg-amber-50"
-          :class="selectedCharacterId === character.id ? 'border-amber-500 bg-amber-50' : 'border-gray-200'"
+          class="p-4 rounded-lg border-2 cursor-pointer transition-all hover:border-gold hover:bg-parchment-dark"
+          :class="selectedCharacterId === character.id ? 'border-gold bg-parchment-dark' : 'border-earth-dark'"
         >
           <div class="flex items-start gap-4">
-            <div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-gray-300">
+            <div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-gold">
               <img :src="getCharacterImage(character.name)" :alt="character.name" class="w-full h-full object-cover" />
             </div>
             <div class="flex-1">
-              <h3 class="font-bold text-lg text-gray-900">{{ character.name }}</h3>
-              <p class="text-sm text-amber-700 font-medium mb-2">{{ character.type }}</p>
-              <p class="text-sm text-gray-600 leading-relaxed">{{ character.description }}</p>
+              <h3 class="font-serif font-bold text-lg text-ink-black">{{ character.name }}</h3>
+              <p class="text-sm text-gold-base font-medium mb-2 font-book">{{ character.type }}</p>
+              <p class="text-sm text-ink-brown leading-relaxed font-book">{{ character.description }}</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="mt-6 flex justify-end">
-        <button
+      <div class="mt-6 flex justify-end gap-3">
+        <Button
+          @click="$emit('cancel')"
+          variant="outline"
+          size="md"
+        >
+          Cancel
+        </Button>
+        <Button
           @click="handleConfirm"
           :disabled="!selectedCharacterId"
-          class="px-6 py-2 bg-stone-700 hover:bg-stone-800 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
+          variant="primary"
+          size="md"
         >
           Continue
-        </button>
+        </Button>
       </div>
     </div>
   </div>
@@ -39,6 +47,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useCharacter } from '@/composables/useCharacter'
+import { Button } from '@/components/ui/button'
 
 const emit = defineEmits<{
   confirm: [characterId: number]

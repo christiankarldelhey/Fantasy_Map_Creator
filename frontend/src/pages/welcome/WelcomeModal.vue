@@ -1,33 +1,36 @@
 <template>
-  <div class="fixed inset-0 z-[10000] flex items-center justify-center bg-black/60 backdrop-blur-sm">
-    <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full mx-4 p-8 text-center">
-      <h1 class="text-3xl font-bold text-gray-900 mb-4">Well met, traveller.</h1>
-      <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+  <div class="fixed inset-0 z-[10000] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm">
+    <div class="bg-parchment-base rounded-xl shadow-2xl max-w-2xl w-full mx-4 p-8 text-center border-2 border-gold">
+      <h1 class="text-3xl font-serif font-bold text-ink-black mb-4">Well met, traveller.</h1>
+      <p class="text-lg text-ink-brown mb-6 leading-relaxed font-book">
         Rest your feet a while and read. This is the Middle-earth Wandering Simulator. A place to breathe life into a character and roam the lands freely, from the Rhovanion on the east to the shores of Lindon. Or, if you'd rather, simply unroll the map and wander it with your eyes.
       </p>
-      <p class="text-sm text-gray-500 italic mb-8">
+      <p class="text-sm text-ink-light italic mb-8 font-book">
         A personal hobby and portfolio project, made for love of the work — no coin sought, no rights claimed. Built in respect of J.R.R. Tolkien's legendarium and of MERP (© Iron Crown Enterprises).
       </p>
-      <p class="text-xl font-semibold text-gray-900 mb-6">What will it be?</p>
+      <p class="text-xl font-serif font-semibold text-ink-black mb-6">What will it be?</p>
       <div class="flex flex-col gap-4">
-        <button
+        <Button
           @click="handleExplore"
-          class="px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg transition-colors"
+          variant="gold"
+          size="lg"
         >
           Unroll the Map
-        </button>
-        <button
+        </Button>
+        <Button
           @click="handleWalk"
-          class="px-6 py-3 bg-stone-700 hover:bg-stone-800 text-white font-semibold rounded-lg transition-colors"
+          variant="primary"
+          size="lg"
         >
           Walk the Lands
-        </button>
-        <button
+        </Button>
+        <Button
           @click="handleResume"
-          class="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors"
+          variant="secondary"
+          size="lg"
         >
           Resume a Journey
-        </button>
+        </Button>
       </div>
     </div>
     <CharacterSelectModal
@@ -49,6 +52,7 @@ import { useRouter } from 'vue-router'
 import { useCharacter } from '@/composables/useCharacter'
 import CharacterSelectModal from './CharacterSelectModal.vue'
 import SeasonSelectModal from './SeasonSelectModal.vue'
+import { Button } from '@/components/ui/button'
 
 const emit = defineEmits<{
   dismiss: []

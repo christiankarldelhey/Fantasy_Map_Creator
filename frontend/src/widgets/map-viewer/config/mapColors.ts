@@ -68,9 +68,9 @@ export const MAP_COLORS = {
     outlineWidthDefault: 1.0
   },
 
-  // Ubicaciones (Locations)
+  // Ubicaciones (Locations) - Medieval Palette
   locations: {
-    primary: '#e11d48',
-    stroke: '#ffffff'
+    primary: '#6b3510',      // Dark leather (points)
+    stroke: '#2c2416'        // Black ink (borders)
   }
 } as const

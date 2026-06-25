@@ -20,7 +20,7 @@
           </button>
         </div>
       </PopoverTrigger>
-      <PopoverContent class="w-72 p-0 z-[10000]" align="start">
+      <PopoverContent class="w-72 p-0 z-[10000] bg-white" align="start">
         <div v-if="loading" class="p-4 text-center text-sm text-gray-500">
           Searching...
         </div>
