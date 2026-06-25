@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Loader } from '@/components/ui/loader'
+
 defineProps<{
   loading: boolean
   error: string | null
@@ -7,15 +9,12 @@ defineProps<{
 
 <template>
   <div>
-    <div
+    <Loader
       v-if="loading"
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] bg-white/95 p-8 rounded-lg shadow-lg"
-    >
-      <div class="flex flex-col items-center gap-4">
-        <div class="w-12 h-12 border-3 border-gray-200 border-t-primary-600 rounded-full animate-spin"></div>
-        <p class="text-gray-700 font-medium">Loading map data...</p>
-      </div>
-    </div>
+      variant="fullscreen"
+      size="lg"
+      :phrases="['Loading map data...']"
+    />
 
     <div
       v-if="error"

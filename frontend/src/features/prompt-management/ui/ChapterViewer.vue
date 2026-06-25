@@ -4,7 +4,6 @@ import { ScrollText, ChevronDown, ChevronRight, Plus, FileDown } from '@lucide/v
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
 import { useLanguage } from '@/composables/useLanguage'
-import { useMapAnimation } from '@/composables/useMapAnimation'
 import { jsPDF } from 'jspdf'
 import { Button } from '@/components/ui/button'
 import { Loader } from '@/components/ui/loader'
@@ -13,12 +12,11 @@ const props = defineProps<{
   tripId: string
 }>()
 
-const emit = defineEmits<{ (e: 'close'): void }>()
+const emit = defineEmits<{ (e: 'close'): void; (e: 'day-generated', day: TripDay): void }>()
 
 const { trip, days, loading, generating, error, getTrip, getDays, generateDay } = useTrips()
-const { activeCharacter, fetchAllCharacters } = useCharacter()
+const { activeCharacter } = useCharacter()
 const { language } = useLanguage()
-const { triggerAnimation } = useMapAnimation()
 
 const expanded = ref<Record<string, 'narrative' | 'prompt' | null>>({})
 const exportingPdf = ref(false)
@@ -58,11 +56,9 @@ async function handleGenerateNext() {
   if (!props.tripId) return
   try {
     const newDay = await generateDay(props.tripId, { language: language.value })
-    // Refresh character position from backend after day generation
-    await fetchAllCharacters()
-    // Trigger character animation along the day's route
+    // Emit event for MapViewer to handle animation
     if (newDay?.geometry) {
-      triggerAnimation(newDay.geometry, 10000) // 10 seconds
+      emit('day-generated', newDay)
     }
   } catch {
     /* error surfaced via `error` ref */

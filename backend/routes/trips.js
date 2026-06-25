@@ -217,14 +217,6 @@ router.post('/:id/days', async (req, res, next) => {
       [updatedEncounteredEntities, updatedUsedThoughtIds, trip.id]
     );
 
-    // Update active character position to the end of this day's journey
-    await pool.query(
-      `UPDATE character_state
-       SET current_lng = $1, current_lat = $2, updated_at = NOW()
-       WHERE active = true`,
-      [day.end[0], day.end[1]]
-    );
-
     res.status(201).json(insertRes.rows[0]);
   } catch (error) {
     next(error);

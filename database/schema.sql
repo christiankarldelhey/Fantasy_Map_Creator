@@ -88,7 +88,7 @@ CREATE INDEX IF NOT EXISTS idx_roads_name ON roads(name);
 CREATE TABLE IF NOT EXISTS water (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
-    water_type VARCHAR(50) NOT NULL, -- 'river', 'stream', 'lake'
+    water_type VARCHAR(50) NOT NULL, -- 'river', 'stream', 'lake', 'sea'
     description TEXT,
     created_at TIMESTAMP DEFAULT NOW(),
     geom GEOMETRY(Geometry, 4326) NOT NULL, -- Supports both LineString (rivers) and Polygon (lakes)
@@ -262,6 +262,7 @@ CREATE TABLE IF NOT EXISTS entities (
     tier VARCHAR(50),  -- Entity tier (e.g., encounter, etc.)
     parent_id UUID REFERENCES entities(id) ON DELETE SET NULL,  -- Parent entity for hierarchical relationships
     description TEXT,
+    description_summary TEXT,  -- Summary description of the entity (used for encounter prompts)
     
     -- Multimedia
     url_path TEXT,  -- Path to image file (NULL for now)
@@ -292,6 +293,7 @@ COMMENT ON COLUMN entities.active IS 'Activity pattern: day, night, or all-day';
 COMMENT ON COLUMN entities.tier IS 'Entity tier (e.g., encounter, etc.)';
 COMMENT ON COLUMN entities.parent_id IS 'Parent entity for hierarchical relationships';
 COMMENT ON COLUMN entities.description IS 'Detailed description of the entity';
+COMMENT ON COLUMN entities.description_summary IS 'Summary description of the entity (used for encounter prompts)';
 COMMENT ON COLUMN entities.url_path IS 'Path to image file (NULL for now)';
 COMMENT ON COLUMN entities.region_ids IS 'Array of region IDs where this entity can be found';
 COMMENT ON COLUMN entities.biomes IS 'Array of biome names where this entity can be found';

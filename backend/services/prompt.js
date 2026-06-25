@@ -36,7 +36,7 @@ Rules for using the data:
 function describeEncounter(e) {
   const ent = e.entity || {};
   const danger = ent.danger != null ? `, danger ${ent.danger}/5` : '';
-  const desc = ent.description ? ` — ${ent.description}` : '';
+  const desc = ent.description_summary ? ` — ${ent.description_summary}` : '';
   return `${ent.name} (${ent.type || 'creature'}, ${ent.active || 'all-day'}${danger}) in ${e.region}${desc}`;
 }
 

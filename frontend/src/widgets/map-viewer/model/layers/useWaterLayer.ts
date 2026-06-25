@@ -2,8 +2,12 @@ import type { Map as MapLibreMap, GeoJSONSource } from 'maplibre-gl'
 import { MAP_COLORS } from '../../config/mapColors'
 
 export function useWaterLayer() {
-  const addWaterLayer = (map: MapLibreMap, data: any) => {
+  const addWaterLayer = (map: MapLibreMap, data: any, mode: 'explore' | 'wander' = 'explore') => {
     if (!map) return
+
+    // Use 40% opacity in wander mode, default opacity in explore mode
+    const fillOpacity = mode === 'wander' ? 0.15 : MAP_COLORS.water.opacityFill
+    const lineOpacity = mode === 'wander' ? 0.15 : MAP_COLORS.water.opacityLine
 
     if (map.getSource('water')) {
       (map.getSource('water') as GeoJSONSource).setData(data)
@@ -21,7 +25,19 @@ export function useWaterLayer() {
         filter: ['==', ['get', 'water_type'], 'lake'],
         paint: {
           'fill-color': MAP_COLORS.water.primary,
-          'fill-opacity': MAP_COLORS.water.opacityFill
+          'fill-opacity': fillOpacity
+        }
+      } as any)
+
+      // 1.5 Capa para mares (Polígonos)
+      map.addLayer({
+        id: 'water-fill-sea',
+        type: 'fill',
+        source: 'water',
+        filter: ['==', ['get', 'water_type'], 'sea'],
+        paint: {
+          'fill-color': MAP_COLORS.water.primary,
+          'fill-opacity': fillOpacity
         }
       } as any)
 
@@ -47,7 +63,7 @@ export function useWaterLayer() {
             7, 6,      // zoom 7 (MEDIUM): 6px
             18, 10     // zoom 18 (NEAR): 10px
           ],
-          'line-opacity': MAP_COLORS.water.opacityLine
+          'line-opacity': lineOpacity
         }
       } as any)
 
@@ -73,7 +89,7 @@ export function useWaterLayer() {
             7, 3,      // zoom 7 (MEDIUM): 3px
             18, 5      // zoom 18 (NEAR): 5px
           ],
-          'line-opacity': MAP_COLORS.water.opacityLine
+          'line-opacity': lineOpacity
         }
       } as any)
 
@@ -82,6 +98,12 @@ export function useWaterLayer() {
         map.getCanvas().style.cursor = 'pointer'
       })
       map.on('mouseleave', 'water-fill', () => {
+        map.getCanvas().style.cursor = ''
+      })
+      map.on('mouseenter', 'water-fill-sea', () => {
+        map.getCanvas().style.cursor = 'pointer'
+      })
+      map.on('mouseleave', 'water-fill-sea', () => {
         map.getCanvas().style.cursor = ''
       })
       map.on('mouseenter', 'water-lines-river', () => {
@@ -102,6 +124,7 @@ export function useWaterLayer() {
   const removeLayer = (map: MapLibreMap) => {
     if (!map) return
     if (map.getLayer('water-fill')) map.removeLayer('water-fill')
+    if (map.getLayer('water-fill-sea')) map.removeLayer('water-fill-sea')
     if (map.getLayer('water-lines-river')) map.removeLayer('water-lines-river')
     if (map.getLayer('water-lines-stream')) map.removeLayer('water-lines-stream')
     if (map.getSource('water')) map.removeSource('water')

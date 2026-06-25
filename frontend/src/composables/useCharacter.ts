@@ -18,8 +18,6 @@ export interface CharacterState {
 
 const characters = ref<CharacterState[]>([])
 const activeCharacter = ref<CharacterState | null>(null)
-const characterData = ref<CharacterState | null>(null) // For backward compatibility
-const characterPosition = ref<[number, number] | null>(null) // [lng, lat]
 const characterLoading = ref(false)
 const characterError = ref<string | null>(null)
 
@@ -40,24 +38,14 @@ export function useCharacter() {
         if (characterFromSettings) {
           // Ensure the character is marked as active in the DB
           activeCharacter.value = characterFromSettings
-          characterData.value = characterFromSettings
-          characterPosition.value = [characterFromSettings.current_lng, characterFromSettings.current_lat]
           console.log('✅ Loaded active character from user settings:', characterFromSettings)
         } else {
           // Fallback to DB active flag if settings character not found
           activeCharacter.value = response.data.find(c => c.active) || null
-          characterData.value = activeCharacter.value
-          if (activeCharacter.value) {
-            characterPosition.value = [activeCharacter.value.current_lng, activeCharacter.value.current_lat]
-          }
         }
       } else {
         // No user settings, use DB active flag
         activeCharacter.value = response.data.find(c => c.active) || null
-        characterData.value = activeCharacter.value
-        if (activeCharacter.value) {
-          characterPosition.value = [activeCharacter.value.current_lng, activeCharacter.value.current_lat]
-        }
       }
       
       console.log('✅ Loaded all characters:', response.data)
@@ -78,8 +66,6 @@ export function useCharacter() {
     try {
       const response = await api.get<CharacterState>('/character/active')
       activeCharacter.value = response.data
-      characterData.value = response.data // For backward compatibility
-      characterPosition.value = [response.data.current_lng, response.data.current_lat]
       console.log('✅ Loaded active character:', response.data)
       return response.data
     } catch (err: any) {
@@ -92,19 +78,14 @@ export function useCharacter() {
     }
   }
 
-  async function fetchCharacterPosition() {
-    // For backward compatibility, use fetchActiveCharacter
-    return fetchActiveCharacter()
-  }
-
-  async function updateCharacterPosition(lng: number, lat: number) {
+  async function updateActiveCharacterPosition(lng: number, lat: number) {
     if (!activeCharacter.value) {
       throw new Error('No active character')
     }
     characterLoading.value = true
     characterError.value = null
     try {
-      const response = await api.put<CharacterState>(`/character/${activeCharacter.value.id}`, {
+      const response = await api.put<CharacterState>('/character/active/position', {
         current_lng: lng,
         current_lat: lat
       })
@@ -114,9 +95,7 @@ export function useCharacter() {
         characters.value[index] = response.data
       }
       activeCharacter.value = response.data
-      characterData.value = response.data // For backward compatibility
-      characterPosition.value = [response.data.current_lng, response.data.current_lat]
-      console.log('✅ Updated character position:', response.data)
+      console.log('✅ Updated active character position:', response.data)
       return response.data
     } catch (err: any) {
       const message = err.response?.data?.error || err.message || 'Failed to update character position'
@@ -138,8 +117,6 @@ export function useCharacter() {
         c.active = c.id === id
       })
       activeCharacter.value = response.data
-      characterData.value = response.data // For backward compatibility
-      characterPosition.value = [response.data.current_lng, response.data.current_lat]
       
       // Persist to user settings
       await saveUserSettings({ active_character_id: id })
@@ -158,14 +135,11 @@ export function useCharacter() {
   return {
     characters,
     activeCharacter,
-    characterData,
-    characterPosition,
     characterLoading,
     characterError,
     fetchAllCharacters,
     fetchActiveCharacter,
-    fetchCharacterPosition,
-    updateCharacterPosition,
+    updateActiveCharacterPosition,
     setActiveCharacter
   }
 }

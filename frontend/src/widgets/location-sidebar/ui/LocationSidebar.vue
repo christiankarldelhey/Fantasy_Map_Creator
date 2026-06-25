@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
-import { X, Navigation, Clock } from '@lucide/vue'
+import { X, Navigation } from '@lucide/vue'
 import type { LocationDetails } from '../model/types'
 import { getClimateIcon } from '../model/useClimateIcon'
 import { useLocationImage } from '../model/useLocationImage'
-import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 import { Button } from '@/components/ui/button'
 
 const props = defineProps<{
@@ -18,7 +17,6 @@ defineEmits<{
 
 const locationRef = toRef(props, 'location')
 const { currentImageUrl, handleImageError } = useLocationImage(locationRef)
-const { isRealTime } = useGlobalClimateTime()
 
 const climateIcon = computed(() => {
   if (!props.location?.climate) return null

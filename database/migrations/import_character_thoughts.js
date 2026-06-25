@@ -64,8 +64,17 @@ async function importCharacterThoughts() {
       
       const [character_id, thought, type, thought_id] = parts;
       
-      // Clean up thought text (remove extra quotes)
-      const cleanThought = thought.replace(/^"|"$/g, '').replace(/""/g, '"');
+      // Clean up thought text (remove ALL quotes - both straight and curly)
+      // Using Unicode escape sequences for curly quotes: \u201C (") and \u201D (")
+      const cleanThought = thought
+        .replace(/^[""\u201C\u201D\u2018\u2019]|[""\u201C\u201D\u2018\u2019]$/g, '')  // Remove wrapping quotes
+        .replace(/""/g, '"')                           // Handle escaped quotes
+        .replace(/\u201C/g, '')                        // Remove left curly double quote
+        .replace(/\u201D/g, '')                        // Remove right curly double quote
+        .replace(/\u2018/g, '')                        // Remove left curly single quote
+        .replace(/\u2019/g, '')                        // Remove right curly single quote
+        .replace(/"/g, '')                             // Remove all straight quotes
+        .replace(/'/g, '');                            // Remove all straight single quotes
       
       await pool.query(
         `INSERT INTO character_thoughts (character_id, thought, type, thought_id)

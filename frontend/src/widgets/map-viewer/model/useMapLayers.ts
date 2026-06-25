@@ -28,18 +28,20 @@ export function useMapLayers() {
     },
     mode: MapMode = 'explore'
   ) => {
-    // In wander mode, show locations and regions (hide biomes, water, roads, altitude)
+    // In wander mode, show locations, regions, water (40% opacity), and forests (40% opacity)
     if (mode === 'wander') {
-      if (data.locations) locationLayer.addLocationsLayer(map, data.locations)
       if (data.regions) regionLayer.addRegionsLayer(map, data.regions)
+      if (data.water) waterLayer.addWaterLayer(map, data.water, mode)
+      if (data.biomes) biomeLayer.addBiomesLayer(map, data.biomes, mode)
+      if (data.locations) locationLayer.addLocationsLayer(map, data.locations)
       return
     }
 
     // Orden de capas: bottom to top (explore mode)
     if (data.regions) regionLayer.addRegionsLayer(map, data.regions)
     // if (data.altitude) altitudeLayer.addAltitudeLayer(map, data.altitude)  // Desactivado temporalmente
-    if (data.biomes) biomeLayer.addBiomesLayer(map, data.biomes)
-    if (data.water) waterLayer.addWaterLayer(map, data.water)
+    if (data.biomes) biomeLayer.addBiomesLayer(map, data.biomes, mode)
+    if (data.water) waterLayer.addWaterLayer(map, data.water, mode)
     if (data.roads) roadLayer.addRoadsLayer(map, data.roads)
     if (data.locations) locationLayer.addLocationsLayer(map, data.locations)
   }

@@ -10,8 +10,8 @@
           <ChevronDown class="h-4 w-4 text-gray-400" />
         </button>
       </PopoverTrigger>
-      <PopoverContent class="w-72 p-4 z-[10000]" align="end">
-        <div class="space-y-4">
+      <PopoverContent class="w-72 p-4 z-[10000] bg-white" align="end">
+        <div class="space-y-4 bg-white">
           <div class="flex items-center justify-between border-b border-gray-100 pb-2">
             <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Date & Time</span>
             <button

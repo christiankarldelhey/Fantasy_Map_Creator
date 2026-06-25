@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { cn } from '@/lib/utils'
 
 interface LoaderProps {
   size?: 'sm' | 'md' | 'lg'
   variant?: 'inline' | 'fullscreen'
   class?: string
+  phrases?: string[]
 }
 
 const props = withDefaults(defineProps<LoaderProps>(), {
   size: 'md',
   variant: 'inline',
+  phrases: () => [],
 })
 
 const sizeClasses = {
@@ -18,6 +20,9 @@ const sizeClasses = {
   md: 'w-8 h-8 border-3',
   lg: 'w-12 h-12 border-4',
 }
+
+const currentPhraseIndex = ref(0)
+let intervalId: number | null = null
 
 const containerClass = computed(() => {
   if (props.variant === 'fullscreen') {
@@ -33,13 +38,37 @@ const spinnerClass = computed(() =>
     props.class
   )
 )
+
+const currentPhrase = computed(() => {
+  if (props.phrases.length === 0) return null
+  return props.phrases[currentPhraseIndex.value]
+})
+
+onMounted(() => {
+  if (props.phrases.length > 1) {
+    intervalId = window.setInterval(() => {
+      currentPhraseIndex.value = (currentPhraseIndex.value + 1) % props.phrases.length
+    }, 2000)
+  }
+})
+
+onUnmounted(() => {
+  if (intervalId !== null) {
+    clearInterval(intervalId)
+  }
+})
 </script>
 
 <template>
   <div :class="containerClass">
-    <div :class="spinnerClass" />
-    <span v-if="$slots.default" class="ml-3 text-ink-brown font-book text-sm">
-      <slot />
-    </span>
+    <div class="flex flex-col items-center gap-4">
+      <div :class="spinnerClass" />
+      <span v-if="currentPhrase" class="text-ink-brown font-book text-lg text-center px-4">
+        {{ currentPhrase }}
+      </span>
+      <span v-else-if="$slots.default" class="ml-3 text-ink-brown font-book text-sm">
+        <slot />
+      </span>
+    </div>
   </div>
 </template>

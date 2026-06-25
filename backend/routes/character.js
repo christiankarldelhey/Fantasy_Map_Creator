@@ -124,10 +124,9 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// PUT /api/character/:id - Update a specific character's position
-router.put('/:id', async (req, res, next) => {
+// PUT /api/character/active/position - Update the active character's position
+router.put('/active/position', async (req, res, next) => {
   try {
-    const { id } = req.params;
     const { current_lng, current_lat } = req.body;
 
     if (current_lng === undefined || current_lat === undefined) {
@@ -137,12 +136,12 @@ router.put('/:id', async (req, res, next) => {
     const result = await pool.query(`
       UPDATE character_state
       SET current_lng = $1, current_lat = $2, updated_at = NOW()
-      WHERE id = $3
+      WHERE active = true
       RETURNING id, name, current_lng, current_lat, updated_at
-    `, [current_lng, current_lat, id]);
+    `, [current_lng, current_lat]);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Character not found to update' });
+      return res.status(404).json({ error: 'No active character found to update' });
     }
 
     res.json(result.rows[0]);

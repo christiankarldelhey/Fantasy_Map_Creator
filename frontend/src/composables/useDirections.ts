@@ -59,16 +59,16 @@ const routeData = ref<DirectionsResponse | null>(null)
 const routeLoading = ref(false)
 const routeError = ref<string | null>(null)
 
-const { characterPosition, characterData } = useCharacter()
+const { activeCharacter } = useCharacter()
 const { savePartialSettings } = useUserSettings()
 
-// Sync origin with characterPosition whenever it changes and directions mode is active
-watch(characterPosition, (newPos) => {
-  if (isDirectionsMode.value && newPos) {
+// Sync origin with activeCharacter position whenever it changes and directions mode is active
+watch(activeCharacter, (newChar) => {
+  if (isDirectionsMode.value && newChar) {
     origin.value = {
-      name: characterData.value?.name || 'Aranath',
+      name: newChar.name || 'Aranath',
       type: 'custom',
-      coordinates: newPos
+      coordinates: [newChar.current_lng, newChar.current_lat]
     }
   }
 })
@@ -127,23 +127,23 @@ export function useDirections() {
       isDirectionsMode.value = true
       console.log('✅ Loaded directions from backend settings:', savedDest)
       
-      // Set origin from character position if available
-      if (characterPosition.value) {
+      // Set origin from active character position if available
+      if (activeCharacter.value) {
         origin.value = {
-          name: characterData.value?.name || 'Aranath',
+          name: activeCharacter.value.name || 'Aranath',
           type: 'custom',
-          coordinates: characterPosition.value
+          coordinates: [activeCharacter.value.current_lng, activeCharacter.value.current_lat]
         }
       }
     }
   }
 
   function startDirections(initialDestination: { name: string; coordinates: [number, number]; id?: number; type?: 'location' | 'region' }) {
-    if (characterPosition.value) {
+    if (activeCharacter.value) {
       origin.value = {
-        name: characterData.value?.name || 'Aranath',
+        name: activeCharacter.value.name || 'Aranath',
         type: 'custom',
-        coordinates: characterPosition.value
+        coordinates: [activeCharacter.value.current_lng, activeCharacter.value.current_lat]
       }
     } else {
       origin.value = null

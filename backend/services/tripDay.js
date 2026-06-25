@@ -81,7 +81,7 @@ async function regionsForPoints(points) {
 /** Entities whose probability_by_region includes the given region name. */
 async function entitiesForRegion(regionName) {
   const { rows } = await pool.query(
-    `SELECT id, name, slug, type, active, danger, description, url_path,
+    `SELECT id, name, slug, type, active, danger, description, description_summary, url_path,
             biomes, probability_by_region
      FROM entities
      WHERE EXISTS (
