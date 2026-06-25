@@ -1,4 +1,3 @@
-import { WALK_START_HOUR, WALK_END_HOUR } from './tripDay.js';
 import {
   describeClimate,
   describeRegions,
@@ -32,13 +31,7 @@ Rules for using the data:
 - Do not invent names of places or creatures that do not appear in the data.`;
 
 // Three parts of the day: morning + afternoon (walking), and night at camp.
-const MIDDAY = (WALK_START_HOUR + WALK_END_HOUR) / 2; // 13:00 for 7–19
-
-function partFor(hourFloat) {
-  if (hourFloat >= WALK_END_HOUR || hourFloat < WALK_START_HOUR) return 'night';
-  if (hourFloat < MIDDAY) return 'morning';
-  return 'afternoon';
-}
+// Encounters now have a 'phase' property directly, so we use that instead of computing from hour.
 
 function describeEncounter(e) {
   const ent = e.entity || {};
@@ -80,7 +73,11 @@ export function buildDayPrompt(day, trip = {}, character = {}, language = 'engli
 
   const parts = { morning: [], afternoon: [], night: [] };
   for (const e of day.encounters || []) {
-    parts[partFor(e.hour_float)].push(e);
+    // Use the phase property directly from the encounter
+    const phase = e.phase || 'night'; // Fallback to night for backward compatibility
+    if (parts[phase]) {
+      parts[phase].push(e);
+    }
   }
 
   // Build thoughts section if present

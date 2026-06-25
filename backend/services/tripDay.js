@@ -1,9 +1,9 @@
 import pool from '../db.js';
 import {
   simulatePhaseEncounters,
-  DAY_PHASE,
-  NIGHT_PHASE,
-  DEFAULT_TIME_STEP,
+  PHASE_MORNING,
+  PHASE_AFTERNOON,
+  PHASE_NIGHT,
 } from './encounters.js';
 import {
   flattenRoute,
@@ -32,15 +32,20 @@ export const WALKING_HOURS = WALK_END_HOUR - WALK_START_HOUR; // 12
 export const NIGHT_HOURS = 24 - WALKING_HOURS; // 12
 export const SECONDS_PER_HOUR = 3600;
 
+// Phase boundaries for the new encounter system
+export const MORNING_END_HOUR = 13; // 07:00 - 13:00 (6 hours)
+export const AFTERNOON_END_HOUR = 19; // 13:00 - 19:00 (6 hours)
+export const MORNING_HOURS = MORNING_END_HOUR - WALK_START_HOUR; // 6
+export const AFTERNOON_HOURS = AFTERNOON_END_HOUR - MORNING_END_HOUR; // 6
+
 // ---------------------------------------------------------------------------
 // DB helpers
 // ---------------------------------------------------------------------------
 
-/** Region (with encounter metrics) containing a point, or null. */
+/** Region containing a point, or null. */
 async function regionAtPoint(lng, lat) {
   const { rows } = await pool.query(
-    `SELECT name, hours_to_encounter::float AS hours_to_encounter,
-            chance_of_encounter::float AS chance_of_encounter
+    `SELECT name, description_summary
      FROM regions
      WHERE ST_Contains(geom, ST_SetSRID(ST_MakePoint($1, $2), 4326))
      LIMIT 1`,
@@ -56,12 +61,10 @@ async function regionsForPoints(points) {
   const { rows } = await pool.query(
     `SELECT t.idx,
             r.name,
-            r.description_summary,
-            r.hours_to_encounter::float AS hours_to_encounter,
-            r.chance_of_encounter::float AS chance_of_encounter
+            r.description_summary
      FROM jsonb_array_elements($1::jsonb) WITH ORDINALITY AS t(elem, idx)
      LEFT JOIN LATERAL (
-       SELECT name, description_summary, hours_to_encounter, chance_of_encounter
+       SELECT name, description_summary
        FROM regions
        WHERE ST_Contains(geom, ST_SetSRID(ST_MakePoint((elem->>0)::float, (elem->>1)::float), 4326))
        LIMIT 1
@@ -72,8 +75,6 @@ async function regionsForPoints(points) {
   return rows.map((row) => (row.name ? {
     name: row.name,
     description_summary: row.description_summary,
-    hours_to_encounter: row.hours_to_encounter,
-    chance_of_encounter: row.chance_of_encounter,
   } : null));
 }
 
@@ -183,11 +184,11 @@ function noonTimestamp1950(dateISO) {
 // ---------------------------------------------------------------------------
 
 /**
- * Build a getRegionInfo(elapsed) function for the DAY phase: maps elapsed
+ * Build a getRegionInfo(elapsed) function for a walking phase: maps elapsed
  * walking hours to a position along the leg, resolves region + entities.
  * Regions and entities are precomputed/cached for the sampled time steps.
  */
-async function buildDayRegionResolver(segments, dayStartSeconds, phaseHours, timeStep) {
+async function buildWalkingPhaseResolver(segments, dayStartSeconds, phaseHours, timeStep) {
   const steps = [];
   for (let elapsed = timeStep; elapsed <= phaseHours + 1e-9; elapsed += timeStep) {
     steps.push(Number(elapsed.toFixed(6)));
@@ -243,13 +244,12 @@ async function buildNightRegionResolver(campPoint) {
  * @param {Object} params.trip - trip row ({ route, start_date, ... })
  * @param {number} params.dayNumber - 1-based day index
  * @param {() => number} [params.rng] - RNG (defaults to Math.random)
- * @param {number} [params.timeStep]
  * @param {Array<string>} [params.excludedEntityIds] - entity IDs to exclude from encounters
  * @param {number} [params.characterId] - character ID for thought selection
  * @param {Array<number>} [params.usedThoughtIds] - thought IDs already used in this trip
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep = DEFAULT_TIME_STEP, excludedEntityIds = [], characterId = null, usedThoughtIds = [] }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, usedThoughtIds = [] }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -278,12 +278,13 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
   const context = await sampleLegContext(legGeoJSON);
 
   // Ordered unique regions crossed during the walking phase (with description_summary)
-  const dayResolver = await buildDayRegionResolver(segments, dayStartSeconds, walkingHoursThisDay, timeStep);
+  const timeStep = 0.5; // Fixed time step for region sampling
+  const walkingResolver = await buildWalkingPhaseResolver(segments, dayStartSeconds, walkingHoursThisDay, timeStep);
   const orderedRegions = [];
   const seenRegions = new Set(); // Track seen regions to avoid duplicates
 
   for (let elapsed = timeStep; elapsed <= walkingHoursThisDay + 1e-9; elapsed += timeStep) {
-    const info = dayResolver(Number(elapsed.toFixed(6)));
+    const info = walkingResolver(Number(elapsed.toFixed(6)));
     const name = info ? info.name : null;
 
     // Only add if we haven't seen this region before
@@ -297,28 +298,38 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
   const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date);
 
   // --- Encounters ---
-  const dayResult = simulatePhaseEncounters({
+  // Morning phase (07:00 - 13:00)
+  const morningResult = simulatePhaseEncounters({
     startHour: WALK_START_HOUR,
-    phaseHours: walkingHoursThisDay,
-    phase: DAY_PHASE,
-    getRegionInfo: dayResolver,
+    phaseHours: MORNING_HOURS,
+    phase: PHASE_MORNING,
+    getRegionInfo: walkingResolver,
     rng,
-    timeStep,
     excludedEntityIds,
   });
 
+  // Afternoon phase (13:00 - 19:00)
+  const afternoonResult = simulatePhaseEncounters({
+    startHour: MORNING_END_HOUR,
+    phaseHours: AFTERNOON_HOURS,
+    phase: PHASE_AFTERNOON,
+    getRegionInfo: walkingResolver,
+    rng,
+    excludedEntityIds: [...excludedEntityIds, ...morningResult.usedEntityIds],
+  });
+
+  // Night phase (19:00 - 07:00 next day)
   const nightResolver = await buildNightRegionResolver(leg.end);
   const nightResult = simulatePhaseEncounters({
     startHour: WALK_END_HOUR,
     phaseHours: NIGHT_HOURS,
-    phase: NIGHT_PHASE,
+    phase: PHASE_NIGHT,
     getRegionInfo: nightResolver,
     rng,
-    timeStep,
-    excludedEntityIds: [...excludedEntityIds, ...dayResult.usedEntityIds], // Exclude entities used in day phase
+    excludedEntityIds: [...excludedEntityIds, ...morningResult.usedEntityIds, ...afternoonResult.usedEntityIds],
   });
 
-  const encounters = [...dayResult.encounters, ...nightResult.encounters]
+  const encounters = [...morningResult.encounters, ...afternoonResult.encounters, ...nightResult.encounters]
     .sort((a, b) => a.hour_float - b.hour_float)
     .map((e) => ({
       ...e,
@@ -333,15 +344,15 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, timeStep
   if (characterId && rollThoughtChance(rng)) {
     const selectedPhase = selectRandomPhase(rng);
 
-    // Group encounters by phase
+    // Group encounters by phase (they already have the phase property)
     const encountersByPhase = { morning: [], afternoon: [], night: [] };
     for (const e of encounters) {
-      if (e.hour_float >= WALK_END_HOUR || e.hour_float < WALK_START_HOUR) {
-        encountersByPhase.night.push(e);
-      } else if (e.hour_float < (WALK_START_HOUR + WALK_END_HOUR) / 2) {
+      if (e.phase === PHASE_MORNING) {
         encountersByPhase.morning.push(e);
-      } else {
+      } else if (e.phase === PHASE_AFTERNOON) {
         encountersByPhase.afternoon.push(e);
+      } else if (e.phase === PHASE_NIGHT) {
+        encountersByPhase.night.push(e);
       }
     }
 

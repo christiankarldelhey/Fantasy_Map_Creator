@@ -11,8 +11,10 @@ import {
   createSeededRng,
   formatHour,
   WEIGHT_BASE,
-  DAY_PHASE,
-  NIGHT_PHASE,
+  PHASE_MORNING,
+  PHASE_AFTERNOON,
+  PHASE_NIGHT,
+  ENCOUNTER_CHANCE,
 } from '../encounters.js';
 
 // ---------------------------------------------------------------------------
@@ -30,18 +32,21 @@ test('levelToWeight grows exponentially with level', () => {
 // ---------------------------------------------------------------------------
 test('adjustLevelForPhase shifts and clamps levels', () => {
   // Night: nocturnal +1, day -1, all-day unchanged
-  assert.equal(adjustLevelForPhase(5, 'nocturnal', NIGHT_PHASE), 6);
-  assert.equal(adjustLevelForPhase(5, 'day', NIGHT_PHASE), 4);
-  assert.equal(adjustLevelForPhase(5, 'all-day', NIGHT_PHASE), 5);
+  assert.equal(adjustLevelForPhase(5, 'nocturnal', PHASE_NIGHT), 6);
+  assert.equal(adjustLevelForPhase(5, 'day', PHASE_NIGHT), 4);
+  assert.equal(adjustLevelForPhase(5, 'all-day', PHASE_NIGHT), 5);
 
-  // Day: day +1, nocturnal -1, all-day unchanged
-  assert.equal(adjustLevelForPhase(5, 'day', DAY_PHASE), 6);
-  assert.equal(adjustLevelForPhase(5, 'nocturnal', DAY_PHASE), 4);
-  assert.equal(adjustLevelForPhase(5, 'all-day', DAY_PHASE), 5);
+  // Morning/Afternoon: day +1, nocturnal -1, all-day unchanged
+  assert.equal(adjustLevelForPhase(5, 'day', PHASE_MORNING), 6);
+  assert.equal(adjustLevelForPhase(5, 'nocturnal', PHASE_MORNING), 4);
+  assert.equal(adjustLevelForPhase(5, 'all-day', PHASE_MORNING), 5);
+  assert.equal(adjustLevelForPhase(5, 'day', PHASE_AFTERNOON), 6);
+  assert.equal(adjustLevelForPhase(5, 'nocturnal', PHASE_AFTERNOON), 4);
+  assert.equal(adjustLevelForPhase(5, 'all-day', PHASE_AFTERNOON), 5);
 
   // Clamp to [1, 8]
-  assert.equal(adjustLevelForPhase(8, 'nocturnal', NIGHT_PHASE), 8);
-  assert.equal(adjustLevelForPhase(1, 'day', NIGHT_PHASE), 1);
+  assert.equal(adjustLevelForPhase(8, 'nocturnal', PHASE_NIGHT), 8);
+  assert.equal(adjustLevelForPhase(1, 'day', PHASE_NIGHT), 1);
 });
 
 // ---------------------------------------------------------------------------
@@ -54,25 +59,25 @@ const sampleEntities = [
 ];
 
 test('buildRegionPool filters by region and normalizes to ~100%', () => {
-  const pool = buildRegionPool('The Shire', DAY_PHASE, sampleEntities);
+  const pool = buildRegionPool('The Shire', PHASE_MORNING, sampleEntities);
   assert.equal(pool.length, 2);
   const total = pool.reduce((s, p) => s + p.probability, 0);
   assert.ok(Math.abs(total - 100) < 1e-6);
 });
 
 test('buildRegionPool applies phase adjustment to weights', () => {
-  const day = buildRegionPool('The Shire', DAY_PHASE, sampleEntities);
-  const night = buildRegionPool('The Shire', NIGHT_PHASE, sampleEntities);
+  const morning = buildRegionPool('The Shire', PHASE_MORNING, sampleEntities);
+  const night = buildRegionPool('The Shire', PHASE_NIGHT, sampleEntities);
 
-  const wolvesDay = day.find((p) => p.entity.name === 'Wolves').probability;
+  const wolvesMorning = morning.find((p) => p.entity.name === 'Wolves').probability;
   const wolvesNight = night.find((p) => p.entity.name === 'Wolves').probability;
 
-  // Wolves are nocturnal: should be more likely at night than during the day.
-  assert.ok(wolvesNight > wolvesDay);
+  // Wolves are nocturnal: should be more likely at night than during the morning.
+  assert.ok(wolvesNight > wolvesMorning);
 });
 
 test('buildRegionPool returns empty pool for region with no entities', () => {
-  const pool = buildRegionPool('Mordor', DAY_PHASE, sampleEntities);
+  const pool = buildRegionPool('Mordor', PHASE_MORNING, sampleEntities);
   assert.equal(pool.length, 0);
 });
 
@@ -90,7 +95,7 @@ test('rollEncounter respects the chance threshold', () => {
 // pickFromPool
 // ---------------------------------------------------------------------------
 test('pickFromPool selects deterministically with a fixed rng', () => {
-  const pool = buildRegionPool('The Shire', DAY_PHASE, sampleEntities);
+  const pool = buildRegionPool('The Shire', PHASE_MORNING, sampleEntities);
   // rng near 0 picks the first (heaviest) item
   const first = pickFromPool(pool, () => 0.0);
   assert.equal(first.name, pool[0].entity.name);
@@ -115,112 +120,123 @@ test('formatHour formats fractional hours and wraps past midnight', () => {
 test('simulatePhaseEncounters is deterministic with a seeded rng', () => {
   const region = {
     name: 'The Shire',
-    hours_to_encounter: 6,
-    chance_of_encounter: 100, // force hits to test scheduling
     entities: sampleEntities,
   };
 
   const run = () =>
     simulatePhaseEncounters({
       startHour: 7,
-      phaseHours: 12,
-      phase: DAY_PHASE,
+      phaseHours: 6,
+      phase: PHASE_MORNING,
       getRegionInfo: () => region,
       rng: createSeededRng(42),
-      overrideHours: null,
-      overrideChance: null,
     });
 
   const a = run();
   const b = run();
   assert.deepEqual(a, b);
 
-  // 12 hours / 6 hour cadence with 100% chance => 2 encounters
-  assert.equal(a.encounters.length, 2);
-  assert.equal(a.encounters[0].region, 'The Shire');
-  assert.ok(a.encounters[0].entity);
+  // With 55% chance, we get either 0 or 1 encounter per phase
+  assert.ok(a.encounters.length <= 1);
+  if (a.encounters.length > 0) {
+    assert.equal(a.encounters[0].region, 'The Shire');
+    assert.ok(a.encounters[0].entity);
+    assert.equal(a.encounters[0].phase, PHASE_MORNING);
+  }
   assert.ok(Array.isArray(a.usedEntityIds));
 });
 
-test('simulatePhaseEncounters produces no encounters at 0% chance', () => {
+test('simulatePhaseEncounters respects ENCOUNTER_CHANCE', () => {
   const region = {
     name: 'The Shire',
-    hours_to_encounter: 4,
-    chance_of_encounter: 0,
     entities: sampleEntities,
   };
 
+  // With RNG that always returns 0.99 (99%), should fail 55% check
+  const resultLow = simulatePhaseEncounters({
+    startHour: 7,
+    phaseHours: 6,
+    phase: PHASE_MORNING,
+    getRegionInfo: () => region,
+    rng: () => 0.99,
+  });
+  assert.equal(resultLow.encounters.length, 0);
+
+  // With RNG that always returns 0.0 (0%), should pass 55% check
+  const resultHigh = simulatePhaseEncounters({
+    startHour: 7,
+    phaseHours: 6,
+    phase: PHASE_MORNING,
+    getRegionInfo: () => region,
+    rng: () => 0.0,
+  });
+  assert.equal(resultHigh.encounters.length, 1);
+});
+
+test('simulatePhaseEncounters handles null region', () => {
   const result = simulatePhaseEncounters({
     startHour: 7,
-    phaseHours: 12,
-    phase: DAY_PHASE,
-    getRegionInfo: () => region,
-    rng: createSeededRng(7),
-    overrideHours: null,
-    overrideChance: null,
+    phaseHours: 6,
+    phase: PHASE_MORNING,
+    getRegionInfo: () => null,
+    rng: createSeededRng(42),
   });
 
   assert.equal(result.encounters.length, 0);
-});
-
-test('simulatePhaseEncounters handles regions changing mid-phase', () => {
-  const shire = { name: 'The Shire', hours_to_encounter: 4, chance_of_encounter: 100, entities: sampleEntities };
-  const misty = { name: 'Misty Mountains', hours_to_encounter: 4, chance_of_encounter: 100, entities: sampleEntities };
-
-  // First half in The Shire, second half in Misty Mountains
-  const result = simulatePhaseEncounters({
-    startHour: 7,
-    phaseHours: 12,
-    phase: DAY_PHASE,
-    getRegionInfo: (elapsed) => (elapsed <= 6 ? shire : misty),
-    rng: createSeededRng(99),
-    overrideHours: null,
-    overrideChance: null,
-  });
-
-  const regionsHit = new Set(result.encounters.map((e) => e.region));
-  assert.ok(regionsHit.has('The Shire'));
-  assert.ok(regionsHit.has('Misty Mountains'));
+  assert.equal(result.usedEntityIds.length, 0);
 });
 
 test('simulatePhaseEncounters excludes entities used in previous phase', () => {
   const region = {
     name: 'The Shire',
-    hours_to_encounter: 2,
-    chance_of_encounter: 100, // force hits
     entities: sampleEntities,
   };
 
-  // Day phase
-  const dayResult = simulatePhaseEncounters({
+  // Morning phase with RNG that forces encounter
+  const morningResult = simulatePhaseEncounters({
     startHour: 7,
-    phaseHours: 12,
-    phase: DAY_PHASE,
+    phaseHours: 6,
+    phase: PHASE_MORNING,
     getRegionInfo: () => region,
-    rng: createSeededRng(42),
-    overrideHours: null,
-    overrideChance: null,
+    rng: () => 0.0, // Force encounter
   });
 
-  // Night phase with entities from day excluded
-  const nightResult = simulatePhaseEncounters({
-    startHour: 19,
-    phaseHours: 12,
-    phase: NIGHT_PHASE,
+  // Afternoon phase with entities from morning excluded
+  const afternoonResult = simulatePhaseEncounters({
+    startHour: 13,
+    phaseHours: 6,
+    phase: PHASE_AFTERNOON,
     getRegionInfo: () => region,
-    rng: createSeededRng(42),
-    overrideHours: null,
-    overrideChance: null,
-    excludedEntityIds: dayResult.usedEntityIds,
+    rng: () => 0.0, // Force encounter
+    excludedEntityIds: morningResult.usedEntityIds,
   });
 
-  // Ensure day phase had encounters
-  assert.ok(dayResult.encounters.length > 0);
-  assert.ok(dayResult.usedEntityIds.length > 0);
+  // Ensure morning phase had an encounter
+  assert.equal(morningResult.encounters.length, 1);
+  assert.equal(morningResult.usedEntityIds.length, 1);
 
-  // Ensure night phase does not include any entity from day
-  const nightEntityIds = nightResult.encounters.map((e) => e.entity.id);
-  for (const id of dayResult.usedEntityIds) {
-    assert.ok(!nightEntityIds.includes(id), `Entity ${id} from day should not appear in night`);
+  // Ensure afternoon phase does not include the same entity
+  const afternoonEntityIds = afternoonResult.encounters.map((e) => e.entity.id);
+  for (const id of morningResult.usedEntityIds) {
+    assert.ok(!afternoonEntityIds.includes(id), `Entity ${id} from morning should not appear in afternoon`);
+  }
+});
+
+test('simulatePhaseEncounters produces at most one encounter per phase', () => {
+  const region = {
+    name: 'The Shire',
+    entities: sampleEntities,
+  };
+
+  // Test all three phases
+  for (const phase of [PHASE_MORNING, PHASE_AFTERNOON, PHASE_NIGHT]) {
+    const result = simulatePhaseEncounters({
+      startHour: phase === PHASE_MORNING ? 7 : phase === PHASE_AFTERNOON ? 13 : 19,
+      phaseHours: phase === PHASE_NIGHT ? 12 : 6,
+      phase,
+      getRegionInfo: () => region,
+      rng: createSeededRng(42),
+    });
+    assert.ok(result.encounters.length <= 1, `Phase ${phase} should have at most 1 encounter`);
   }
 });

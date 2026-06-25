@@ -1,12 +1,8 @@
 // ============================================================================
 // Encounter engine
 // ----------------------------------------------------------------------------
-// Pure, testable functions that turn region encounter metrics + entity
-// probabilities into concrete encounters along a phase (day / night).
-//
-// Region metrics (from `regions` table):
-//   - hours_to_encounter: cadence of encounter checks (hours)
-//   - chance_of_encounter: percent chance (0-100) per check
+// Pure, testable functions that turn entity probabilities into concrete
+// encounters for each phase of the day (morning, afternoon, night).
 //
 // Entity probabilities (from `entities.probability_by_region`):
 //   - level 1-8 per region (1 = least likely, 8 = most likely)
@@ -15,15 +11,16 @@
 // Weights use an exponential curve: weight = BASE ^ adjustedLevel.
 // Levels are adjusted +/-1 depending on phase vs activity, then the pool is
 // normalized to sum 100%.
+//
+// Each phase (morning, afternoon, night) gets a single 55% chance roll.
+// If it hits, exactly one entity is selected from the region's pool.
 // ============================================================================
 
 export const WEIGHT_BASE = 1.6;
-export const DAY_PHASE = 'day';
-export const NIGHT_PHASE = 'night';
-
-// Default simulation granularity (hours). Small enough to honor fractional
-// hours_to_encounter values like 0.5 while keeping the loop cheap.
-export const DEFAULT_TIME_STEP = 0.5;
+export const PHASE_MORNING = 'morning';
+export const PHASE_AFTERNOON = 'afternoon';
+export const PHASE_NIGHT = 'night';
+export const ENCOUNTER_CHANCE = 55; // 55% chance per phase
 
 /**
  * Exponential weight for a probability level.
@@ -40,19 +37,20 @@ export function levelToWeight(level, base = WEIGHT_BASE) {
  * and the entity's activity pattern. Result is clamped to [1, 8].
  *
  * Night: nocturnal +1, day -1, all-day unchanged.
- * Day:   day +1, nocturnal -1, all-day unchanged.
+ * Morning/Afternoon: day +1, nocturnal -1, all-day unchanged.
  *
  * @param {number} level
  * @param {string} active - 'day' | 'nocturnal' | 'all-day'
- * @param {string} phase - DAY_PHASE | NIGHT_PHASE
+ * @param {string} phase - PHASE_MORNING | PHASE_AFTERNOON | PHASE_NIGHT
  * @returns {number} adjusted level clamped to 1-8
  */
 export function adjustLevelForPhase(level, active, phase) {
   let delta = 0;
-  if (phase === NIGHT_PHASE) {
+  if (phase === PHASE_NIGHT) {
     if (active === 'nocturnal') delta = 1;
     else if (active === 'day') delta = -1;
   } else {
+    // Morning and Afternoon: day entities are more likely, nocturnal less likely
     if (active === 'day') delta = 1;
     else if (active === 'nocturnal') delta = -1;
   }
@@ -63,7 +61,7 @@ export function adjustLevelForPhase(level, active, phase) {
  * Build the normalized encounter pool for a region and phase.
  *
  * @param {string} regionName
- * @param {string} phase - DAY_PHASE | NIGHT_PHASE
+ * @param {string} phase - PHASE_MORNING | PHASE_AFTERNOON | PHASE_NIGHT
  * @param {Array<Object>} entities - entity rows with `probability_by_region`
  * @param {number} base - exponential base
  * @param {Array<string>} excludedEntityIds - entity IDs to exclude from the pool
@@ -147,23 +145,18 @@ export function formatHour(hourFloat) {
 }
 
 /**
- * Simulate encounters across one phase (day or night).
+ * Simulate encounters for a single phase (morning, afternoon, or night).
  *
- * Walks the phase in small time steps, accumulating elapsed time. When the
- * accumulator reaches the CURRENT region's `hours_to_encounter`, a check is
- * rolled with that region's `chance_of_encounter`. On a hit, an entity is
- * selected from the region's normalized pool. This naturally handles a phase
- * that crosses several regions with different metrics.
+ * Each phase gets a single 55% chance roll. If it hits, exactly one entity
+ * is selected from the region's pool at the midpoint of the phase.
  *
  * @param {Object} params
- * @param {number} params.startHour - clock hour the phase starts at (e.g. 7 or 19)
- * @param {number} params.phaseHours - total hours of the phase (e.g. 12)
- * @param {string} params.phase - DAY_PHASE | NIGHT_PHASE
+ * @param {number} params.startHour - clock hour the phase starts at (e.g. 7, 13, or 19)
+ * @param {number} params.phaseHours - total hours of the phase (e.g. 6 or 12)
+ * @param {string} params.phase - PHASE_MORNING | PHASE_AFTERNOON | PHASE_NIGHT
  * @param {(elapsedHours: number) => (Object|null)} params.getRegionInfo -
- *        returns { name, hours_to_encounter, chance_of_encounter, entities }
- *        for the position at `elapsedHours` into the phase, or null.
+ *        returns { name, entities } for the position at `elapsedHours` into the phase, or null.
  * @param {() => number} [params.rng]
- * @param {number} [params.timeStep]
  * @param {number} [params.base]
  * @param {Array<string>} [params.excludedEntityIds] - entity IDs to exclude from encounters
  * @returns {{encounters: Array<{hour: string, hour_float: number, phase: string, region: string, entity: Object}>, usedEntityIds: Array<string>}}
@@ -174,53 +167,36 @@ export function simulatePhaseEncounters({
   phase,
   getRegionInfo,
   rng = Math.random,
-  timeStep = DEFAULT_TIME_STEP,
   base = WEIGHT_BASE,
-  overrideHours = 2.0,
-  overrideChance = 25.0,
   excludedEntityIds = [],
 }) {
   const encounters = [];
   const usedEntityIds = [];
-  let accumulator = 0;
 
-  // Iterate over the phase. We check at the END of each accumulated interval.
-  for (let elapsed = timeStep; elapsed <= phaseHours + 1e-9; elapsed += timeStep) {
-    const region = getRegionInfo(elapsed);
-    if (!region) {
-      continue;
-    }
+  // Query region at the midpoint of the phase
+  const midpoint = phaseHours / 2;
+  const region = getRegionInfo(midpoint);
 
-    // Use uniform stable system defaults (2.0 hours, 25.0% chance) unless overridden/disabled
-    const hoursToEncounter = overrideHours !== null ? overrideHours : region.hours_to_encounter;
-    const chanceOfEncounter = overrideChance !== null ? overrideChance : region.chance_of_encounter;
+  if (!region) {
+    return { encounters, usedEntityIds };
+  }
 
-    if (!hoursToEncounter || hoursToEncounter <= 0) {
-      continue;
-    }
-
-    accumulator += timeStep;
-
-    if (accumulator + 1e-9 >= hoursToEncounter) {
-      accumulator = 0;
-
-      if (rollEncounter(chanceOfEncounter, rng)) {
-        const pool = buildRegionPool(region.name, phase, region.entities, base, excludedEntityIds);
-        const entity = pickFromPool(pool, rng);
-        if (entity) {
-          const hourFloat = startHour + elapsed;
-          encounters.push({
-            hour: formatHour(hourFloat),
-            hour_float: ((hourFloat % 24) + 24) % 24,
-            phase,
-            region: region.name,
-            entity,
-          });
-          // Track this entity ID for deduplication within the same day
-          if (entity.id) {
-            usedEntityIds.push(entity.id);
-          }
-        }
+  // Always call rng() for determinism, even if we don't use the result
+  if (rollEncounter(ENCOUNTER_CHANCE, rng)) {
+    const pool = buildRegionPool(region.name, phase, region.entities, base, excludedEntityIds);
+    const entity = pickFromPool(pool, rng);
+    if (entity) {
+      const hourFloat = startHour + midpoint;
+      encounters.push({
+        hour: formatHour(hourFloat),
+        hour_float: ((hourFloat % 24) + 24) % 24,
+        phase,
+        region: region.name,
+        entity,
+      });
+      // Track this entity ID for deduplication within the same day
+      if (entity.id) {
+        usedEntityIds.push(entity.id);
       }
     }
   }
