@@ -517,5 +517,6 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     water_crossings: waterCrossings,
     overnight_location: overnightLocation || null,
     elevation_profile: elevationProfile || null,
+    rng,
   };
 }

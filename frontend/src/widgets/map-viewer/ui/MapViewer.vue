@@ -4,6 +4,8 @@
 
     <CharacterSelector v-if="mode === 'wander'" />
 
+    <CharacterActiveHud v-if="mode === 'wander' && activeCharacter" />
+
     <DirectionsInput
       v-if="isDirectionsMode"
       @select-destination="handleDirectionsDestinationSelect"
@@ -93,6 +95,7 @@ import {
   clearAllTripRoutes,
 } from '@/composables/useMapRoutes'
 import CharacterSelector from '@/components/CharacterSelector.vue'
+import CharacterActiveHud from '@/components/CharacterActiveHud.vue'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import { Loader } from '@/components/ui/loader'
 import { Modal } from '@/components/ui/modal'
@@ -199,7 +202,10 @@ function updateCharacterMarker() {
   characters.value.forEach((character) => {
     const marker = characterMarkers.get(character.id)
     if (marker && !character.active) {
-      marker.getElement().addEventListener('click', () => setActiveCharacter(character.id))
+      marker.getElement().addEventListener('click', (e) => {
+        e.stopPropagation()
+        setActiveCharacter(character.id)
+      })
     }
   })
 }

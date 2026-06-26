@@ -195,19 +195,19 @@ Places near the road:
 ${describeLocations(day.locations)}
 
 The landscape crossed:
-${describeLandscape(day.biomes, day.altitude)}
+${describeLandscape(day.biomes, day.altitude, day.rng)}
 
 Where the road runs:
-${describeRoads(day.road_types, day.regions)}${describeWaterCrossings(day.water_crossings) ? `
+${describeRoads(day.road_types, day.regions, day.rng)}${describeWaterCrossings(day.water_crossings, day.rng) ? `
 
 Water crossings:
-${describeWaterCrossings(day.water_crossings)}` : ''}
+${describeWaterCrossings(day.water_crossings, day.rng)}` : ''}
 
 The weather through the day:
-${describeClimate(day.climate)}
-${describeElevation(day.elevation_profile) ? `
+${describeClimate(day.climate, day.rng)}
+${describeElevation(day.elevation_profile, day.rng) ? `
 Terrain effort:
-${describeElevation(day.elevation_profile)}` : ''}
+${describeElevation(day.elevation_profile, day.rng)}` : ''}
 
 === OVERNIGHT CAMP ===
 ${describeOvernightLocation(day.overnight_location)}

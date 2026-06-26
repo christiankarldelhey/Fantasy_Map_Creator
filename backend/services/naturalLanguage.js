@@ -25,6 +25,11 @@ function timeOfDayPhrase(hourFloat) {
   return 'after dark';
 }
 
+/** Pick a random element from an array using the provided rng. */
+function pick(arr, rng) {
+  return arr[Math.floor(rng() * arr.length)];
+}
+
 function avg(nums) {
   const xs = nums.filter((n) => typeof n === 'number' && Number.isFinite(n));
   if (xs.length === 0) return null;
@@ -48,7 +53,7 @@ function innerClimate(sample) {
  * @param {Array<{time:string, climate:object}>} climateArray
  * @returns {string}
  */
-export function describeClimate(climateArray) {
+export function describeClimate(climateArray, rng = Math.random) {
   if (!Array.isArray(climateArray) || climateArray.length === 0) {
     return 'The weather leaves little mark on the day.';
   }
@@ -73,12 +78,36 @@ export function describeClimate(climateArray) {
 
   // Temperature feel
   if (meanTemp != null) {
-    if (meanTemp < 2) parts.push('a bitter, frost-bound day');
-    else if (meanTemp < 8) parts.push('a cold day');
-    else if (meanTemp < 15) parts.push('a cool, grey-tempered day');
-    else if (meanTemp < 22) parts.push('a mild day');
-    else if (meanTemp < 29) parts.push('a warm day');
-    else parts.push('a hot, heavy day');
+    if (meanTemp < 2) parts.push(pick([
+      'a bitter, frost-bound day',
+      'a day of hard frost and biting air',
+      'cold enough to crack stone — the air cuts like iron',
+    ], rng));
+    else if (meanTemp < 8) parts.push(pick([
+      'a cold day',
+      'a raw, grey cold through all the hours',
+      'the cold sat in the bones from dawn',
+    ], rng));
+    else if (meanTemp < 15) parts.push(pick([
+      'a cool, grey-tempered day',
+      'a chill in the air that never quite lifted',
+      'cool and overcast, the kind of day that tires without drama',
+    ], rng));
+    else if (meanTemp < 22) parts.push(pick([
+      'a mild day',
+      'pleasant enough weather for the road',
+      'a temperate day, neither too warm nor sharp',
+    ], rng));
+    else if (meanTemp < 29) parts.push(pick([
+      'a warm day',
+      'the heat building through the morning hours',
+      'a drowsy warmth that slowed the pace',
+    ], rng));
+    else parts.push(pick([
+      'a hot, heavy day',
+      'a stifling heat that pressed down on the road',
+      'the sun merciless, the air thick and still',
+    ], rng));
   }
 
   // Sky
@@ -113,8 +142,16 @@ export function describeClimate(climateArray) {
 
   // Wind
   if (meanWind != null) {
-    if (meanWind > 30) sentence += ' A hard wind harried the road.';
-    else if (meanWind > 18) sentence += ' A steady wind kept at their backs.';
+    if (meanWind > 30) sentence += ' ' + pick([
+      'A hard wind harried the road.',
+      'The wind came hard and unrelenting.',
+      'Gusts cut across the way, making every mile harder.',
+    ], rng);
+    else if (meanWind > 18) sentence += ' ' + pick([
+      'A steady wind kept at their backs.',
+      'A persistent breeze followed the march all day.',
+      'The wind was constant, neither hindrance nor help.',
+    ], rng);
   }
 
   return sentence;
@@ -169,7 +206,7 @@ const ALTITUDE_PHRASES = {
  * @param {string[]} altitude
  * @returns {string}
  */
-export function describeLandscape(biomes, altitude) {
+export function describeLandscape(biomes, altitude, rng = Math.random) {
   const parts = [];
 
   const bs = (biomes || []).map((b) => BIOME_PHRASES[b] || b).filter(Boolean);
@@ -182,6 +219,23 @@ export function describeLandscape(biomes, altitude) {
     const climbed = (altitude || []).some((a) => String(a).startsWith('mountains'));
     const lead = climbed ? 'The way climbs into' : 'The way crosses';
     parts.push(`${lead} ${joinList(as)}.`);
+  }
+
+  // Mountain danger note — highest severity wins
+  const hasHigh = (altitude || []).includes('mountains_high');
+  const hasMed = (altitude || []).includes('mountains_med');
+  if (hasHigh) {
+    parts.push(pick([
+      'These are high and dangerous ways: precipices drop to either side, and the cold is punishing.',
+      'The peaks loom close. Ice and rock; a single misstep here is not forgiven.',
+      'No shelter exists at this height. The wind screams off the summits and the cold can kill.',
+    ], rng));
+  } else if (hasMed) {
+    parts.push(pick([
+      'The passes are steep and the footing treacherous on loose stone.',
+      'Cold clings to the high slopes; the wind here has an edge to it.',
+      'At this height the air thins, and the path narrows to a ledge in places.',
+    ], rng));
   }
 
   if (parts.length === 0) {
@@ -256,25 +310,77 @@ export function describeOvernightLocation(loc) {
  * @param {{ total_gain_m:number, total_loss_m:number, significant:boolean }|null} profile
  * @returns {string|null}
  */
-export function describeElevation(profile) {
-  if (!profile || !profile.significant) return null;
+export function describeElevation(profile, rng = Math.random) {
+  const parts = [];
 
-  const { total_gain_m: gain, total_loss_m: loss } = profile;
-  const heavy = 300;
+  // --- Effort from gain/loss ---
+  if (profile && profile.significant) {
+    const { total_gain_m: gain, total_loss_m: loss } = profile;
+    const heavy = 300;
 
-  if (gain > heavy && loss > heavy) {
-    return 'The road rises and falls hard through the day — a gruelling march of ascent and descent that leaves the legs heavy by evening.';
+    if (gain > heavy && loss > heavy) {
+      parts.push(pick([
+        'The road rises and falls hard through the day — a gruelling march of ascent and descent that leaves the legs heavy by evening.',
+        'Climb follows descent follows climb; the legs are never given peace.',
+        'The way offers no level ground. Every hour is either up or down, and the body pays for it.',
+      ], rng));
+    } else if (gain > heavy) {
+      parts.push(pick([
+        'The way climbs hard for much of the day — a long, taxing ascent that tests the lungs and legs.',
+        'A relentless uphill march; the ground rises and does not level.',
+        'The ascent is long and unforgiving — lungs labouring, pace reduced to a grind.',
+      ], rng));
+    } else if (loss > heavy) {
+      parts.push(pick([
+        'The road descends steeply and at length — knees and balance are tested on rough, falling ground.',
+        'A long downhill that punishes the joints as surely as any climb.',
+        'The descent is steep and relentless; loose stone and the angle of the slope demand constant care.',
+      ], rng));
+    } else if (gain > loss) {
+      parts.push(pick([
+        'The way rises through the day, a steady climb that makes the miles feel longer than they are.',
+        'A gradual but persistent ascent runs through most of the day.',
+        'The road trends upward all morning; by afternoon the altitude is felt in the step.',
+      ], rng));
+    } else {
+      parts.push(pick([
+        'The road loses height through the day, a long descent that eases the pace but tires the joints.',
+        'A steady descent through most of the march — easier on the lungs, harder on the knees.',
+        'The way falls away gradually; the valley below grows closer with every hour.',
+      ], rng));
+    }
   }
-  if (gain > heavy) {
-    return 'The way climbs hard for much of the day — a long, taxing ascent that tests the lungs and legs.';
+
+  // --- Absolute altitude note ---
+  if (profile) {
+    const maxElev = Math.max(
+      profile.dawn_m || 0,
+      profile.midday_m || 0,
+      profile.dusk_m || 0
+    );
+
+    if (maxElev >= 2000) {
+      parts.push(pick([
+        'Two thousand metres above the lowlands — a height where few roads run and fewer travellers pass. The cold is punishing and the air thin enough to slow thought as well as foot.',
+        'At this altitude the world below is lost in haze; the cold here is not weather but a permanent condition of the stone.',
+        'Above two thousand metres: the peaks are no longer above but around. Survival demands attention to every step.',
+      ], rng));
+    } else if (maxElev >= 1500) {
+      parts.push(pick([
+        'Fifteen hundred metres and more: the lungs work harder, the cold bites deeper, and the sky feels closer than the earth.',
+        'At this height clouds pass at eye level; the body labours for air it cannot quite find.',
+        'The road climbs into the realm of snow and bare rock, where breath comes short and the cold is constant.',
+      ], rng));
+    } else if (maxElev >= 1000) {
+      parts.push(pick([
+        'The road at its highest runs above a thousand metres of open sky — the air noticeably thinner and the cold sharper.',
+        'Above a thousand metres, the world opens wide below; the wind carries no warmth up here.',
+        'The highest point of the day sits well above the tree-line; the air is clear and thin.',
+      ], rng));
+    }
   }
-  if (loss > heavy) {
-    return 'The road descends steeply and at length — knees and balance are tested on rough, falling ground.';
-  }
-  if (gain > loss) {
-    return 'The way rises through the day, a steady climb that makes the miles feel longer than they are.';
-  }
-  return 'The road loses height through the day, a long descent that eases the pace but tires the joints.';
+
+  return parts.length ? parts.join(' ') : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -286,18 +392,39 @@ export function describeElevation(profile) {
  * @param {Array<{name:string|null, type:string, crossing_type:string, hour_float:number}>} crossings
  * @returns {string|null}
  */
-export function describeWaterCrossings(crossings) {
+export function describeWaterCrossings(crossings, rng = Math.random) {
   if (!Array.isArray(crossings) || crossings.length === 0) return null;
 
   const lines = crossings.map((c) => {
     const when = timeOfDayPhrase(c.hour_float);
     const hasName = c.name && c.name.toLowerCase() !== 'river' && c.name.toLowerCase() !== 'stream';
-    const waterDesc = hasName ? c.name : (c.type === 'river' ? 'a river' : 'a stream');
+    const named = hasName ? c.name : null;
 
     if (c.crossing_type === 'bridge') {
-      return `- ${hasName ? waterDesc : 'A river'} is crossed by bridge ${when}.`;
+      const subject = named || 'A river';
+      const river = named || 'a river';
+      return '- ' + pick([
+        `${subject} is crossed by a stone bridge ${when}.`,
+        `A bridge carries the road over ${river} ${when}.`,
+        `${river.charAt(0).toUpperCase() + river.slice(1)} runs swift beneath a wooden bridge, crossed ${when}.`,
+      ], rng);
     } else {
-      return `- ${hasName ? waterDesc : 'A stream'} is forded ${when} — the water cold and quick underfoot.`;
+      // streams: ~30% chance of a small plank bridge
+      const subject = named || 'A stream';
+      const stream = named || 'a stream';
+      const useBridge = rng() < 0.3;
+      if (useBridge) {
+        return '- ' + pick([
+          `A rough plank bridge spans ${stream} ${when}.`,
+          `A low timber crossing takes the road over ${stream} ${when}.`,
+        ], rng);
+      } else {
+        return '- ' + pick([
+          `${subject} is forded ${when} — the water cold and quick underfoot.`,
+          `A shallow crossing of ${stream} ${when}; the stones slippery beneath.`,
+          `${stream.charAt(0).toUpperCase() + stream.slice(1)} must be waded ${when}, the current pulling at the ankles.`,
+        ], rng);
+      }
     }
   });
 
@@ -321,7 +448,7 @@ const ROAD_PHRASES = {
  * @param {Array} regions
  * @returns {string}
  */
-export function describeRoads(roadTypes, regions) {
+export function describeRoads(roadTypes, regions, rng = Math.random) {
   const entries = Object.entries(roadTypes || {}).filter(([, km]) => km > 0);
   if (entries.length === 0) return 'The path is faint, mostly open ground.';
 
@@ -341,7 +468,11 @@ export function describeRoads(roadTypes, regions) {
   const totalKm = Object.values(roadTypes || {}).reduce((a, b) => a + b, 0);
   const trailKm = roadTypes?.trail || 0;
   if (totalKm > 0 && trailKm / totalKm > 0.3) {
-    sentence += ' Some stretches are faint and easily lost without care — the trail demands attention.';
+    sentence += ' ' + pick([
+      'Some stretches are faint and easily lost without care — the trail demands attention.',
+      'The path thins at times to little more than a game track; lose it and the country offers no clear way.',
+      'The trail is uncertain in places — the traveller must read the land rather than any road.',
+    ], rng);
   }
 
   return sentence;
