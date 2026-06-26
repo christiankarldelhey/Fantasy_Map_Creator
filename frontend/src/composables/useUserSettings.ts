@@ -47,6 +47,7 @@ export interface User {
     current_day: number
     created_at: string
     route: any
+    route_completed: any
   } | null
 }
 

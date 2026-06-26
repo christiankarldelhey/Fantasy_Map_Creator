@@ -29,6 +29,7 @@ export interface Trip {
   current_day: number
   created_at: string
   route: any
+  route_completed: any
 }
 
 export interface TripDay {

@@ -65,7 +65,8 @@ import { useDirections } from '@/composables/useDirections'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 import { useCharacter } from '@/composables/useCharacter'
 import { useUserSettings } from '@/composables/useUserSettings'
-import { lineString } from '@turf/helpers'
+import { lineString, multiLineString } from '@turf/helpers'
+import api from '@/shared/api/client'
 import CharacterSelector from '@/components/CharacterSelector.vue'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import { Loader } from '@/components/ui/loader'
@@ -94,6 +95,7 @@ const { currentClimateTime, timestampISO } = useGlobalClimateTime()
 const lastSelectedCoordinates = ref<[number, number] | null>(null)
 const pendingDestinationLocation = ref<LocationDetails | null>(null)
 const adventureLoading = ref(false)
+const { fetchUserSettings } = useUserSettings()
 
 const adventurePhrases = [
   'Consulting the old maps and the older roads…',
@@ -109,10 +111,13 @@ const { user } = useUserSettings()
 // Animation state
 const isAnimating = ref(false)
 let animationFrameId: number | null = null
+let currentAnimatingDay: any = null
 let tripDayRouteSourceId = 'trip-day-route'
 let tripDayRouteLayerId = 'trip-day-route-layer'
-let fullTripRouteSourceId = 'full-trip-route'
-let fullTripRouteLayerId = 'full-trip-route-layer'
+let completedRouteSourceId = 'completed-route'
+let completedRouteLayerId = 'completed-route-layer'
+let remainingRouteSourceId = 'remaining-route'
+let remainingRouteLayerId = 'remaining-route-layer'
 let characterMarkers: Map<number, maplibregl.Marker> = new Map()
 
 // Composables refactorizados
@@ -287,75 +292,146 @@ function clearTripDayRoute(mapInstance: maplibregl.Map) {
   }
 }
 
-function drawFullTripRoute(mapInstance: maplibregl.Map, routeData: any) {
-  clearFullTripRoute(mapInstance)
+function drawCompletedRoute(mapInstance: maplibregl.Map, routeCompleted: any) {
+  clearCompletedRoute(mapInstance)
 
-  if (!routeData || !routeData.geometry) {
-    console.warn('⚠️ Full trip route drawing skipped: invalid route data')
-    return
-  }
-
-  // Collect all coordinates from the route geometry
-  const coordinates: number[][] = []
-
-  // Add off_road_start coordinates
-  if (routeData.geometry.off_road_start?.geometry?.coordinates) {
-    coordinates.push(...routeData.geometry.off_road_start.geometry.coordinates)
-  }
-
-  // Add on_road coordinates
-  if (routeData.geometry.on_road?.features) {
-    routeData.geometry.on_road.features.forEach((feature: any) => {
-      if (feature.geometry?.coordinates) {
-        coordinates.push(...feature.geometry.coordinates)
-      }
-    })
-  }
-
-  // Add off_road_end coordinates
-  if (routeData.geometry.off_road_end?.geometry?.coordinates) {
-    coordinates.push(...routeData.geometry.off_road_end.geometry.coordinates)
-  }
-
-  if (coordinates.length < 2) {
-    console.warn('⚠️ Full trip route drawing skipped: not enough coordinates')
+  if (!routeCompleted || !routeCompleted.coordinates || routeCompleted.coordinates.length < 2) {
+    console.warn('⚠️ Completed route drawing skipped: invalid route_completed data')
     return
   }
 
   // Create LineString GeoJSON
-  const routeLine = lineString(coordinates)
+  const routeLine = lineString(routeCompleted.coordinates)
 
-  mapInstance.addSource(fullTripRouteSourceId, {
+  mapInstance.addSource(completedRouteSourceId, {
     type: 'geojson',
     data: routeLine
   })
 
   mapInstance.addLayer({
-    id: fullTripRouteLayerId,
+    id: completedRouteLayerId,
     type: 'line',
-    source: fullTripRouteSourceId,
+    source: completedRouteSourceId,
     layout: {
       'line-join': 'round',
       'line-cap': 'round'
     },
     paint: {
-      'line-color': '#dc2626', // red-600
+      'line-color': '#16a34a', // green-600
+      'line-width': 5,
+      'line-opacity': 0.9
+    }
+  })
+}
+
+function clearCompletedRoute(mapInstance: maplibregl.Map) {
+  if (mapInstance.getLayer(completedRouteLayerId)) {
+    mapInstance.removeLayer(completedRouteLayerId)
+  }
+  if (mapInstance.getSource(completedRouteSourceId)) {
+    mapInstance.removeSource(completedRouteSourceId)
+  }
+}
+
+function drawRemainingRoute(mapInstance: maplibregl.Map, routeData: any, routeCompleted: any) {
+  clearRemainingRoute(mapInstance)
+
+  console.log('🎨 drawRemainingRoute called with:', { routeData: !!routeData, routeCompleted: !!routeCompleted })
+  
+  if (!routeData) {
+    console.warn('⚠️ Remaining route drawing skipped: no route data')
+    return
+  }
+
+  // Collect all coordinates from the full route geometry
+  const allCoordinates: number[][] = []
+
+  // Handle both GeoJSON format and the nested structure from backend
+  if (routeData.geometry) {
+    console.log('📐 Route geometry structure:', Object.keys(routeData.geometry))
+    
+    // Add off_road_start coordinates
+    if (routeData.geometry.off_road_start?.geometry?.coordinates) {
+      console.log('📍 Adding off_road start coordinates:', routeData.geometry.off_road_start.geometry.coordinates.length)
+      allCoordinates.push(...routeData.geometry.off_road_start.geometry.coordinates)
+    }
+
+    // Add on_road coordinates (concatenate all segments into one continuous line)
+    if (routeData.geometry.on_road?.features) {
+      console.log('🛣️ Adding on_road features:', routeData.geometry.on_road.features.length)
+      routeData.geometry.on_road.features.forEach((feature: any) => {
+        if (feature.geometry?.coordinates) {
+          // Skip the first coordinate of each segment to avoid duplicates at junctions
+          const coords = feature.geometry.coordinates
+          if (allCoordinates.length > 0) {
+            allCoordinates.push(...coords.slice(1))
+          } else {
+            allCoordinates.push(...coords)
+          }
+        }
+      })
+    }
+
+    // Add off_road_end coordinates
+    if (routeData.geometry.off_road_end?.geometry?.coordinates) {
+      console.log('📍 Adding off_road end coordinates:', routeData.geometry.off_road_end.geometry.coordinates.length)
+      // Skip first coordinate to avoid duplicate with last on_road coordinate
+      if (allCoordinates.length > 0) {
+        allCoordinates.push(...routeData.geometry.off_road_end.geometry.coordinates.slice(1))
+      } else {
+        allCoordinates.push(...routeData.geometry.off_road_end.geometry.coordinates)
+      }
+    }
+  } else if (routeData.coordinates) {
+    // If routeData is already a GeoJSON LineString
+    console.log('📍 Using direct coordinates:', routeData.coordinates.length)
+    allCoordinates.push(...routeData.coordinates)
+  }
+  
+  console.log('📊 Total coordinates collected:', allCoordinates.length)
+
+  if (allCoordinates.length < 2) {
+    console.warn('⚠️ Remaining route drawing skipped: not enough coordinates')
+    return
+  }
+
+  // Create LineString GeoJSON with ALL coordinates as one continuous line
+  const routeLine = lineString(allCoordinates)
+
+  mapInstance.addSource(remainingRouteSourceId, {
+    type: 'geojson',
+    data: routeLine
+  })
+
+  mapInstance.addLayer({
+    id: remainingRouteLayerId,
+    type: 'line',
+    source: remainingRouteSourceId,
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round'
+    },
+    paint: {
+      'line-color': '#78350f', // brown-900
       'line-width': 3,
       'line-opacity': 0.8,
       'line-dasharray': [4, 4]
     }
   })
 
-  // Move full route layer to top (above day route)
-  mapInstance.moveLayer(fullTripRouteLayerId)
+  // Move remaining route layer to top (above completed route)
+  mapInstance.moveLayer(remainingRouteLayerId)
 }
 
-function clearFullTripRoute(mapInstance: maplibregl.Map) {
-  if (mapInstance.getLayer(fullTripRouteLayerId)) {
-    mapInstance.removeLayer(fullTripRouteLayerId)
+function clearRemainingRoute(mapInstance: maplibregl.Map) {
+  console.log('🧹 Clearing remaining route layer')
+  if (mapInstance.getLayer(remainingRouteLayerId)) {
+    mapInstance.removeLayer(remainingRouteLayerId)
+    console.log('✅ Removed remaining route layer')
   }
-  if (mapInstance.getSource(fullTripRouteSourceId)) {
-    mapInstance.removeSource(fullTripRouteSourceId)
+  if (mapInstance.getSource(remainingRouteSourceId)) {
+    mapInstance.removeSource(remainingRouteSourceId)
+    console.log('✅ Removed remaining route source')
   }
 }
 
@@ -376,7 +452,16 @@ async function startCharacterTravelAnimation(day: any) {
     console.log('🔄 Canceling existing animation')
     cancelAnimationFrame(animationFrameId)
     animationFrameId = null
+    // Update route_completed for the interrupted animation if we have the day data
+    if (currentAnimatingDay && currentAnimatingDay.trip_id && currentAnimatingDay.geometry) {
+      console.log('🔄 Updating route_completed for interrupted animation:', currentAnimatingDay.trip_id)
+      api.patch(`/trips/${currentAnimatingDay.trip_id}/route-completed`, {
+        day_geometry: currentAnimatingDay.geometry
+      }).catch((err) => console.error('❌ Failed to update route_completed on cancel:', err))
+    }
   }
+
+  currentAnimatingDay = day
 
   const marker = characterMarkers.get(activeCharacter.value.id)
   console.log('📍 Marker found:', !!marker, 'for character:', activeCharacter.value.id)
@@ -436,7 +521,7 @@ async function startCharacterTravelAnimation(day: any) {
   // Fit bounds with padding to account for ChapterViewer on the right (40% of screen width)
   map.fitBounds(bounds, {
     padding: { top: 50, bottom: 50, left: 50, right: window.innerWidth * 0.4 },
-    maxZoom: 8, // More distant zoom
+    maxZoom: 4, // More distant zoom
     duration: 1000
   })
 
@@ -446,13 +531,18 @@ async function startCharacterTravelAnimation(day: any) {
 
   isAnimating.value = true
   const startTime = performance.now()
-  const duration = 15000 // 15 seconds
+  const duration = 8000 // 8 seconds
   console.log('⏱️ Animation duration:', duration, 'ms')
 
   function animate(currentTime: number) {
     const elapsed = currentTime - startTime
     const progress = Math.min(elapsed / duration, 1)
     const easedProgress = easeOutCubic(progress)
+    
+    // Log progress every second
+    if (Math.floor(elapsed / 1000) > Math.floor((elapsed - 16) / 1000)) {
+      console.log(`⏱️ Animation progress: ${(progress * 100).toFixed(1)}%`)
+    }
 
     // Linear interpolation between coordinate points
     const totalSegments = validCoordinates.length - 1
@@ -460,11 +550,13 @@ async function startCharacterTravelAnimation(day: any) {
     const segmentIndex = Math.max(0, Math.min(Math.floor(segmentProgress), totalSegments - 1))
     const segmentT = segmentProgress - segmentIndex
 
-    if (segmentIndex >= totalSegments) {
+    // Check if animation is complete
+    if (progress >= 1) {
       // Animation complete, set to final position
       if (marker) marker.setLngLat(validCoordinates[validCoordinates.length - 1])
       isAnimating.value = false
       animationFrameId = null
+      currentAnimatingDay = null
       console.log('✅ Animation complete')
 
       // Update character position in database
@@ -476,11 +568,32 @@ async function startCharacterTravelAnimation(day: any) {
             return fetchAllCharacters()
           })
           .then(() => {
-            // Clear the route after animation completes
+            // Update route_completed in backend
+            if (day.trip_id && day.geometry) {
+              console.log('🔄 Updating route_completed for trip:', day.trip_id)
+              return api.patch(`/trips/${day.trip_id}/route-completed`, {
+                day_geometry: day.geometry
+              })
+            }
+          })
+          .then(async (response) => {
+            console.log('✅ Updated route_completed in database:', response)
+            // Refresh user settings to get updated route_completed
+            await fetchUserSettings()
+            console.log('🔄 Refreshed user settings, route_completed:', user.value?.active_trip?.route_completed)
+          })
+          .then(() => {
+            // Redraw routes with updated completed segment
+            if (activeTripId.value && user.value?.active_trip?.route) {
+              console.log('🎨 Redrawing routes')
+              drawRemainingRoute(map!, user.value.active_trip.route, user.value.active_trip.route_completed)
+              drawCompletedRoute(map!, user.value.active_trip.route_completed)
+            }
+            // Clear the day route after animation completes
             clearTripDayRoute(map!)
           })
           .catch((err: unknown) => {
-            console.error('❌ Failed to update character position:', err)
+            console.error('❌ Failed to update character position or route_completed:', err)
           })
       }
       return
@@ -531,8 +644,9 @@ watch(characters, () => {
 watch(activeTripId, (newTripId, oldTripId) => {
   if (map) {
     if (newTripId === null && oldTripId !== null) {
-      // Trip was deactivated, clear the full route
-      clearFullTripRoute(map)
+      // Trip was deactivated, clear the routes
+      clearCompletedRoute(map)
+      clearRemainingRoute(map)
     }
   }
 })
@@ -585,9 +699,10 @@ onMounted(async () => {
             if (savedTripId && activeCharacter.value) {
               activeTripId.value = savedTripId
               console.log('✅ Restored active trip from user settings:', savedTripId)
-              // Draw the full trip route
+              // Draw the completed and remaining routes
               if (user.value?.active_trip?.route) {
-                drawFullTripRoute(map!, user.value.active_trip.route)
+                drawRemainingRoute(map!, user.value.active_trip.route, user.value.active_trip.route_completed)
+                drawCompletedRoute(map!, user.value.active_trip.route_completed)
               }
             }
           } catch (err) {
@@ -820,7 +935,8 @@ onUnmounted(() => {
   if (map) {
     clearRoute(map)
     clearTripDayRoute(map)
-    clearFullTripRoute(map)
+    clearCompletedRoute(map)
+    clearRemainingRoute(map)
     removeMarker()
     removeLayers(map)
     map.remove()
@@ -959,9 +1075,10 @@ async function handleStartAdventure(payload: { origin: any; destination: any; la
     })
     // Fetch the trip to get the route data
     const tripData = await getTrip(trip.id)
-    // Draw the full trip route
+    // Draw the completed and remaining routes
     if (map && tripData?.route) {
-      drawFullTripRoute(map, tripData.route)
+      drawRemainingRoute(map, tripData.route, tripData.route_completed)
+      drawCompletedRoute(map, tripData.route_completed)
     }
     // Generate the first chapter
     const newDay = await generateDay(trip.id, { language })

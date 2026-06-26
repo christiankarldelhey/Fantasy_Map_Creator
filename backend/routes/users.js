@@ -36,7 +36,8 @@ router.get('/me', async (req, res, next) => {
         t.start_date as trip_start_date,
         t.current_day as trip_current_day,
         t.created_at as trip_created_at,
-        t.route as trip_route
+        t.route as trip_route,
+        t.route_completed as trip_route_completed
        FROM users u
        LEFT JOIN character_state c ON u.active_character_id = c.id
        LEFT JOIN trips t ON u.active_trip_id = t.id
@@ -81,7 +82,8 @@ router.get('/me', async (req, res, next) => {
         start_date: user.trip_start_date,
         current_day: user.trip_current_day,
         created_at: user.trip_created_at,
-        route: user.trip_route
+        route: user.trip_route,
+        route_completed: user.trip_route_completed
       } : null
     });
   } catch (error) {

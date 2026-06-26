@@ -89,6 +89,82 @@ router.get('/:id/days', async (req, res, next) => {
 });
 
 // ---------------------------------------------------------------------------
+// PATCH /api/trips/:id/route-completed - Update route_completed with day's geometry
+// Body: { day_geometry }
+// ---------------------------------------------------------------------------
+router.patch('/:id/route-completed', async (req, res, next) => {
+  try {
+    const { day_geometry } = req.body || {};
+
+    if (!day_geometry) {
+      return res.status(400).json({ error: 'day_geometry is required' });
+    }
+
+    // Get current trip
+    const tripRes = await pool.query('SELECT route_completed FROM trips WHERE id = $1', [req.params.id]);
+    if (tripRes.rows.length === 0) return res.status(404).json({ error: 'Trip not found' });
+    const trip = tripRes.rows[0];
+
+    // Parse day geometry
+    let dayCoords;
+    if (typeof day_geometry === 'string') {
+      try {
+        dayCoords = JSON.parse(day_geometry);
+      } catch (e) {
+        return res.status(400).json({ error: 'Invalid day_geometry format' });
+      }
+    } else {
+      dayCoords = day_geometry;
+    }
+
+    if (!dayCoords.coordinates || !Array.isArray(dayCoords.coordinates)) {
+      return res.status(400).json({ error: 'day_geometry must have coordinates array' });
+    }
+
+    // Initialize or append to route_completed
+    let completedCoords = [];
+    if (trip.route_completed) {
+      try {
+        const completed = typeof trip.route_completed === 'string' 
+          ? JSON.parse(trip.route_completed) 
+          : trip.route_completed;
+        completedCoords = completed.coordinates || [];
+      } catch (e) {
+        console.warn('Failed to parse existing route_completed, starting fresh');
+      }
+    }
+
+    // Append new coordinates (avoid duplicates at the junction)
+    const lastCoord = completedCoords.length > 0 ? completedCoords[completedCoords.length - 1] : null;
+    const firstNewCoord = dayCoords.coordinates[0];
+
+    // Only add first coord if it's different from the last one
+    if (!lastCoord || lastCoord[0] !== firstNewCoord[0] || lastCoord[1] !== firstNewCoord[1]) {
+      completedCoords.push(...dayCoords.coordinates);
+    } else {
+      // Skip the first coord to avoid duplicate, add the rest
+      completedCoords.push(...dayCoords.coordinates.slice(1));
+    }
+
+    // Create GeoJSON LineString
+    const routeCompleted = {
+      type: 'LineString',
+      coordinates: completedCoords
+    };
+
+    // Update trip
+    const updateRes = await pool.query(
+      'UPDATE trips SET route_completed = $1 WHERE id = $2 RETURNING route_completed',
+      [JSON.stringify(routeCompleted), req.params.id]
+    );
+
+    res.json(updateRes.rows[0]);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ---------------------------------------------------------------------------
 // POST /api/trips/:id/days - Generate (and persist) the next day, or a given
 // day_number. Body (optional): { day_number, seed }
 // ---------------------------------------------------------------------------
