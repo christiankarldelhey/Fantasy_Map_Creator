@@ -25,6 +25,13 @@ export function useGlobalClimateTime() {
     })
   }
 
+  function setTripDate(dateStr: string) {
+    const parsed = new Date(dateStr)
+    if (isNaN(parsed.getTime())) return
+    currentClimateTime.value = force1950(parsed)
+    isRealTime.value = false
+  }
+
   function resetToRealTime() {
     currentClimateTime.value = force1950(new Date())
     isRealTime.value = true
@@ -83,6 +90,7 @@ export function useGlobalClimateTime() {
     timestamp1950,
     timestampISO,
     updateClimateTime,
+    setTripDate,
     resetToRealTime,
     initializeFromBackend
   }

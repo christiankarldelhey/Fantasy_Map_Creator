@@ -67,34 +67,57 @@ function removeLayerSource(map: maplibregl.Map, layerId: string, sourceId: strin
 }
 
 // ============================================================================
-// Trip day route (orange line during animation)
+// Trip day route (green progressive line drawn during animation)
 // ============================================================================
-export function drawTripDayRoute(map: maplibregl.Map, geometry: any) {
+export function initTripDayRoute(map: maplibregl.Map, allCoords: number[][], fitMap = true) {
   clearTripDayRoute(map)
 
+  if (allCoords.length < 2) return
+
+  // Start with an empty line — it will grow via updateTripDayRouteProgress
+  const empty = lineString([allCoords[0], allCoords[0]])
+  map.addSource(SOURCE_IDS.tripDay, { type: 'geojson', data: empty })
+  map.addLayer({
+    id: LAYER_IDS.tripDay,
+    type: 'line',
+    source: SOURCE_IDS.tripDay,
+    layout: { 'line-join': 'round', 'line-cap': 'round' },
+    paint: { 'line-color': '#16a34a', 'line-width': 5, 'line-opacity': 0.9 },
+  })
+  map.moveLayer(LAYER_IDS.tripDay)
+
+  if (fitMap) {
+    const bounds = new maplibregl.LngLatBounds()
+    allCoords.forEach((c) => bounds.extend(c as [number, number]))
+    map.fitBounds(bounds, { padding: { top: 80, bottom: 80, left: 80, right: 620 }, maxZoom: 7, duration: 1200 })
+  }
+}
+
+export function updateTripDayRouteProgress(
+  map: maplibregl.Map,
+  allCoords: number[][],
+  currentPos: [number, number],
+  segIdx: number,
+) {
+  const src = map.getSource(SOURCE_IDS.tripDay) as maplibregl.GeoJSONSource | undefined
+  if (!src) return
+
+  // Coordinates drawn so far: all points up to segIdx + the interpolated current position
+  const drawn = allCoords.slice(0, segIdx + 1) as number[][]
+  drawn.push(currentPos)
+
+  src.setData(lineString(drawn))
+}
+
+/** Legacy helper used when restoring a geometry object (non-progressive) */
+export function drawTripDayRoute(map: maplibregl.Map, geometry: any) {
   let coords: any
   if (typeof geometry === 'string') {
     try { coords = JSON.parse(geometry) } catch { return }
   } else {
     coords = geometry
   }
-
-  const coordinates = coords?.coordinates
-  if (!coordinates || coordinates.length < 2) return
-
-  map.addSource(SOURCE_IDS.tripDay, { type: 'geojson', data: lineString(coordinates) })
-  map.addLayer({
-    id: LAYER_IDS.tripDay,
-    type: 'line',
-    source: SOURCE_IDS.tripDay,
-    layout: { 'line-join': 'round', 'line-cap': 'round' },
-    paint: { 'line-color': '#d97706', 'line-width': 4, 'line-opacity': 0.9 },
-  })
-  map.moveLayer(LAYER_IDS.tripDay)
-
-  const bounds = new maplibregl.LngLatBounds()
-  coordinates.forEach((c: any) => bounds.extend(c as [number, number]))
-  map.fitBounds(bounds, { padding: { top: 100, bottom: 100, left: 500, right: 100 }, duration: 1500 })
+  initTripDayRoute(map, coords?.coordinates ?? [])
 }
 
 export function clearTripDayRoute(map: maplibregl.Map) {

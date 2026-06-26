@@ -1,50 +1,37 @@
 <template>
-  <div class="directions-container absolute top-4 left-4 z-[9999] bg-white rounded-lg shadow-lg p-4 w-[400px] border border-gray-100 flex flex-col gap-3">
-    <!-- Header/Controls row -->
-    <div class="flex items-center gap-3 w-full">
-      <!-- Back button -->
+  <div class="directions-container absolute top-[72px] left-4 z-[9999] w-[400px] bg-parchment-base rounded-lg shadow-2xl border-2 border-gold flex flex-col overflow-hidden">
+    <!-- Header -->
+    <header class="flex items-center gap-3 px-4 py-3 border-b-2 border-earth-dark bg-parchment-light">
       <button
         @click="handleBack"
-        class="p-1.5 rounded-full hover:bg-gray-100 text-gray-500 transition-colors"
+        class="p-1 rounded-md hover:bg-parchment-dark transition-colors text-ink-brown hover:text-ink-black"
         title="Exit directions"
       >
         <ArrowLeft class="w-5 h-5" />
       </button>
+      <span class="font-serif font-semibold text-ink-black">Directions</span>
+    </header>
 
-      <span class="text-sm font-semibold text-gray-700">Directions</span>
-
-      <div class="ml-auto flex items-center gap-1 text-xs text-rose-600 bg-rose-50 px-2 py-1 rounded font-medium">
-        <span>🚶 Walk MVP</span>
-      </div>
-    </div>
-
-    <!-- Inputs & Connection Line Grid -->
-    <div class="flex items-center gap-2 w-full relative">
-      <!-- Decorator Line (Origin to Destination) -->
-      <div class="flex flex-col items-center justify-between h-20 w-8 py-3">
-        <!-- Origin Icon: small circle -->
-        <div class="w-4 h-4 rounded-full border-2 border-gray-400 bg-white flex items-center justify-center">
-          <div class="w-1.5 h-1.5 rounded-full bg-gray-600"></div>
-        </div>
-        <!-- Vertical dashed connector -->
-        <div class="flex-grow border-l-2 border-dashed border-gray-300 my-1"></div>
-        <!-- Destination Icon: standard map pin -->
-        <MapPin class="w-4.5 h-4.5 text-rose-600" />
+    <!-- Inputs -->
+    <div class="px-4 pt-4 pb-3 flex items-center gap-2 w-full">
+      <!-- Decorator line -->
+      <div class="flex flex-col items-center justify-between h-20 w-6 py-2 shrink-0">
+        <div class="w-3 h-3 rounded-full border-2 border-gold-base bg-parchment-base"></div>
+        <div class="flex-grow border-l-2 border-dashed border-earth-dark my-1"></div>
+        <MapPin class="w-4 h-4 text-gold-base" />
       </div>
 
       <!-- Inputs column -->
-      <div class="flex-grow flex flex-col gap-3">
-        <!-- Origin Input (Locked to Character) -->
-        <div class="relative w-full">
-          <Input
-            v-model="originQuery"
-            readonly
-            :placeholder="activeCharacter?.name || 'Aranath'"
-            class="w-full bg-gray-50/60 text-sm h-10 border-gray-200 cursor-not-allowed font-semibold text-gray-700 focus-visible:ring-0 focus-visible:border-gray-200"
-          />
-        </div>
+      <div class="flex-grow flex flex-col gap-2">
+        <!-- Origin (locked) -->
+        <Input
+          v-model="originQuery"
+          readonly
+          :placeholder="activeCharacter?.name || 'Traveller'"
+          class="w-full bg-parchment-dark/40 text-sm h-9 border-earth-dark cursor-not-allowed font-semibold text-ink-black focus-visible:ring-0 font-book"
+        />
 
-        <!-- Destination Input -->
+        <!-- Destination -->
         <Popover v-model:open="showDestDropdown">
           <PopoverTrigger as-child>
             <div class="relative w-full">
@@ -52,78 +39,32 @@
                 v-model="destQuery"
                 @input="handleDestInput"
                 @focus="showDestDropdown = true"
-                placeholder="Search destination..."
-                :class="['w-full bg-white pr-9 text-sm h-10 border-gray-200 focus-visible:ring-rose-500', destinationPoint ? 'font-medium text-gray-900' : '']"
+                placeholder="Search destination…"
+                :class="['w-full pr-8 text-sm h-9 border-earth-dark bg-parchment-base focus-visible:ring-gold font-book', destinationPoint ? 'font-semibold text-ink-black' : 'text-ink-brown']"
               />
               <button
                 v-if="destQuery.length > 0"
                 @click="clearDestination"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                class="absolute right-2 top-1/2 -translate-y-1/2 text-ink-light hover:text-ink-black transition-colors"
               >
-                <X class="h-4 w-4" />
+                <X class="h-3.5 w-3.5" />
               </button>
             </div>
           </PopoverTrigger>
-          <PopoverContent class="w-[280px] p-0 z-[10000]" align="start">
-            <div v-if="destLoading" class="p-4 text-center text-sm text-gray-500">
-              Searching...
-            </div>
-            <div
-              v-else-if="destResults.length === 0 && destQuery.length >= 2"
-              class="p-4 text-center text-sm text-gray-500"
-            >
-              No results found
-            </div>
+          <PopoverContent class="w-[280px] p-0 z-[10000] bg-parchment-base border-2 border-gold" align="start">
+            <div v-if="destLoading" class="p-4 text-center text-sm text-ink-brown font-book">Searching…</div>
+            <div v-else-if="destResults.length === 0 && destQuery.length >= 2" class="p-4 text-center text-sm text-ink-faded font-book italic">No results found</div>
             <div v-else class="max-h-60 overflow-y-auto">
               <div
                 v-for="result in destResults"
                 :key="`dest-${result.type}-${result.id}`"
                 @click="selectDestResult(result)"
-                class="px-4 py-3 hover:bg-gray-100 cursor-pointer flex items-center justify-between group"
+                class="px-4 py-2.5 hover:bg-parchment-dark cursor-pointer border-b border-earth-dark last:border-0 flex items-center gap-3"
               >
-                <div class="flex items-center gap-3">
-                  <span class="text-gray-400">
-                    <svg
-                      v-if="result.type === 'location'"
-                      class="w-4 h-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                      />
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                    <svg
-                      v-else
-                      class="w-4 h-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-                      />
-                    </svg>
-                  </span>
-                  <div>
-                    <div class="font-medium text-gray-900 text-sm">{{ result.name }}</div>
-                    <div class="text-xs text-gray-500 capitalize">{{ result.type }}</div>
-                  </div>
+                <MapPin class="w-3.5 h-3.5 text-gold-base shrink-0" />
+                <div>
+                  <div class="font-serif font-semibold text-ink-black text-sm">{{ result.name }}</div>
+                  <div class="text-xs text-ink-brown capitalize font-book">{{ result.type }}</div>
                 </div>
               </div>
             </div>
@@ -132,126 +73,116 @@
       </div>
     </div>
 
-    <!-- Route summary and loading states -->
-    <div v-if="routeLoading" class="flex flex-col items-center justify-center py-6 border-t border-gray-100">
-      <div class="animate-spin rounded-full h-6 w-6 border-2 border-rose-600 border-t-transparent mb-2"></div>
-      <span class="text-xs text-gray-500 font-medium">Calculating shortest route...</span>
+    <!-- Loading -->
+    <div v-if="routeLoading" class="flex flex-col items-center justify-center py-6 border-t-2 border-earth-dark">
+      <div class="animate-spin rounded-full h-5 w-5 border-2 border-gold-base border-t-transparent mb-2"></div>
+      <span class="text-xs text-ink-brown font-book italic">Calculating route…</span>
     </div>
 
-    <div v-else-if="routeError" class="p-3 border-t border-gray-100 text-xs text-red-600 bg-red-50 rounded-md font-medium">
+    <!-- Error -->
+    <div v-else-if="routeError" class="mx-4 mb-3 p-3 border border-earth-dark bg-parchment-dark rounded text-xs text-ink-black font-book">
       ⚠️ {{ routeError }}
     </div>
 
-    <div v-else-if="routeData" class="flex flex-col gap-3 border-t border-gray-100 pt-3 max-h-[300px] overflow-y-auto pr-1">
-      <!-- Summary metrics card -->
-      <div class="flex items-center justify-between bg-rose-50/50 border border-rose-100/50 rounded-lg p-3">
+    <!-- Route summary + itinerary -->
+    <div v-else-if="routeData" class="flex flex-col border-t-2 border-earth-dark max-h-[320px] overflow-y-auto">
+      <!-- Summary metrics -->
+      <div class="flex items-center justify-between px-4 py-3 bg-parchment-light border-b border-earth-dark">
         <div class="flex flex-col">
-          <span class="text-2xl font-bold text-rose-600 leading-none">
+          <span class="text-xl font-serif font-bold text-gold-base leading-none">
             {{ formatDistance(routeData.summary.total_distance_m) }}
           </span>
-          <span class="text-[10px] text-rose-500 font-semibold uppercase tracking-wider mt-1">Total Distance</span>
+          <span class="text-[10px] text-ink-brown font-book uppercase tracking-wider mt-1">Total distance</span>
         </div>
-        <div class="h-8 border-l border-rose-200/60"></div>
+        <div class="h-8 border-l border-earth-dark"></div>
         <div class="flex flex-col items-end">
-          <span class="text-2xl font-bold text-gray-700 leading-none">
+          <span class="text-xl font-serif font-bold text-ink-black leading-none">
             {{ formatTime(routeData.summary.total_time_seconds) }}
           </span>
-          <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mt-1">
-            Walk Duration ({{ calculateTravelDays(routeData.summary.total_time_seconds) }} days)
+          <span class="text-[10px] text-ink-brown font-book uppercase tracking-wider mt-1">
+            {{ calculateTravelDays(routeData.summary.total_time_seconds) }} days walking
           </span>
         </div>
       </div>
 
-      <!-- Segment breakdown list -->
-      <div class="flex flex-col gap-2 pl-2">
-        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Itinerary Steps</span>
+      <!-- Itinerary steps -->
+      <div class="px-4 py-3 flex flex-col gap-0">
+        <p class="text-[10px] font-serif font-semibold text-ink-brown uppercase tracking-widest mb-3">Itinerary</p>
 
-        <!-- Step 1: Off-road start -->
-        <div v-if="routeData.geometry.off_road_start" class="flex gap-3 relative">
-          <div class="flex flex-col items-center w-4">
-            <div class="w-2.5 h-2.5 rounded-full border border-gray-400 bg-gray-100 flex items-center justify-center"></div>
-            <div class="flex-grow border-l border-dashed border-gray-300 h-10 my-0.5"></div>
+        <!-- Off-road start -->
+        <div v-if="routeData.geometry.off_road_start" class="flex gap-3">
+          <div class="flex flex-col items-center w-4 shrink-0">
+            <div class="w-2.5 h-2.5 rounded-full border-2 border-earth-dark bg-parchment-dark mt-0.5"></div>
+            <div class="flex-grow border-l border-dashed border-earth-dark my-1"></div>
           </div>
-          <div class="flex flex-col pb-4">
-            <span class="text-xs font-semibold text-gray-700">Walk off-road</span>
-            <span class="text-[11px] text-gray-500 mt-0.5 flex flex-wrap items-center gap-1.5">
-              <span>Walk {{ formatDistance(routeData.geometry.off_road_start.properties.distance_m || 0) }} to join the roads</span>
-              <span v-if="routeData.geometry.off_road_start.properties.biome_type && routeData.geometry.off_road_start.properties.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-green-50 text-green-700 border border-green-100 rounded text-[10px] lowercase font-semibold">
-                {{ routeData.geometry.off_road_start.properties.biome_type }}
-              </span>
-              <span v-if="routeData.geometry.off_road_start.properties.altitude_type && routeData.geometry.off_road_start.properties.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-amber-50 text-amber-700 border border-amber-100 rounded text-[10px] lowercase font-semibold">
-                {{ routeData.geometry.off_road_start.properties.altitude_type.replace('_', ' ') }}
-              </span>
-            </span>
+          <div class="pb-4">
+            <p class="text-xs font-semibold text-ink-black font-serif">Off-road approach</p>
+            <p class="text-[11px] text-ink-brown font-book mt-0.5 flex flex-wrap gap-1.5 items-center">
+              <span>{{ formatDistance(routeData.geometry.off_road_start.properties.distance_m || 0) }} to reach the road</span>
+              <span v-if="routeData.geometry.off_road_start.properties.biome_type && routeData.geometry.off_road_start.properties.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ routeData.geometry.off_road_start.properties.biome_type }}</span>
+              <span v-if="routeData.geometry.off_road_start.properties.altitude_type && routeData.geometry.off_road_start.properties.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ routeData.geometry.off_road_start.properties.altitude_type.replace('_', ' ') }}</span>
+            </p>
           </div>
         </div>
 
-        <!-- Step 2: On-road roads list -->
-        <div v-for="(road, idx) in groupedRoads" :key="`road-step-${idx}`" class="flex gap-3 relative">
-          <div class="flex flex-col items-center w-4">
-            <div class="w-3 h-3 rounded-full border-2 border-rose-500 bg-rose-500 flex items-center justify-center">
-              <div class="w-1 h-1 rounded-full bg-white"></div>
+        <!-- On-road segments -->
+        <div v-for="(road, idx) in groupedRoads" :key="`road-step-${idx}`" class="flex gap-3">
+          <div class="flex flex-col items-center w-4 shrink-0">
+            <div class="w-3 h-3 rounded-full border-2 border-gold-base bg-gold-base mt-0.5 flex items-center justify-center">
+              <div class="w-1 h-1 rounded-full bg-parchment-base"></div>
             </div>
-            <div class="flex-grow border-l-2 border-rose-200 h-10 my-0.5"></div>
+            <div class="flex-grow border-l-2 border-gold-base/40 my-1"></div>
           </div>
-          <div class="flex flex-col pb-4">
-            <span class="text-xs font-bold text-gray-800">{{ road.name }}</span>
-            <span class="text-[11px] text-gray-500 mt-0.5 flex flex-wrap items-center gap-1.5 capitalize">
-              <span>Follow road for {{ formatDistance(road.length) }}</span>
-              <span v-if="road.terrain_type" class="px-1.5 py-0.5 bg-gray-100 rounded text-[10px] lowercase font-medium">
-                {{ road.terrain_type }}
-              </span>
-              <span v-if="road.biome_type && road.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-green-50 text-green-700 border border-green-100 rounded text-[10px] lowercase font-semibold">
-                {{ road.biome_type }}
-              </span>
-              <span v-if="road.altitude_type && road.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-amber-50 text-amber-700 border border-amber-100 rounded text-[10px] lowercase font-semibold">
-                {{ road.altitude_type.replace('_', ' ') }}
-              </span>
-            </span>
+          <div class="pb-4">
+            <p class="text-xs font-serif font-bold text-ink-black">{{ road.name }}</p>
+            <p class="text-[11px] text-ink-brown font-book mt-0.5 flex flex-wrap gap-1.5 items-center capitalize">
+              <span>{{ formatDistance(road.length) }}</span>
+              <span v-if="road.terrain_type" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ road.terrain_type }}</span>
+              <span v-if="road.biome_type && road.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ road.biome_type }}</span>
+              <span v-if="road.altitude_type && road.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ road.altitude_type.replace('_', ' ') }}</span>
+            </p>
           </div>
         </div>
 
-        <!-- Step 3: Off-road end -->
-        <div v-if="routeData.geometry.off_road_end" class="flex gap-3 relative">
-          <div class="flex flex-col items-center w-4">
-            <div class="w-2.5 h-2.5 rounded-full border border-gray-400 bg-gray-100 flex items-center justify-center"></div>
+        <!-- Off-road end -->
+        <div v-if="routeData.geometry.off_road_end" class="flex gap-3">
+          <div class="flex flex-col items-center w-4 shrink-0">
+            <div class="w-2.5 h-2.5 rounded-full border-2 border-earth-dark bg-parchment-dark mt-0.5"></div>
           </div>
-          <div class="flex flex-col">
-            <span class="text-xs font-semibold text-gray-700">Walk off-road</span>
-            <span class="text-[11px] text-gray-500 mt-0.5 flex flex-wrap items-center gap-1.5">
-              <span>Walk {{ formatDistance(routeData.geometry.off_road_end.properties.distance_m || 0) }} to reach destination</span>
-              <span v-if="routeData.geometry.off_road_end.properties.biome_type && routeData.geometry.off_road_end.properties.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-green-50 text-green-700 border border-green-100 rounded text-[10px] lowercase font-semibold">
-                {{ routeData.geometry.off_road_end.properties.biome_type }}
-              </span>
-              <span v-if="routeData.geometry.off_road_end.properties.altitude_type && routeData.geometry.off_road_end.properties.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-amber-50 text-amber-700 border border-amber-100 rounded text-[10px] lowercase font-semibold">
-                {{ routeData.geometry.off_road_end.properties.altitude_type.replace('_', ' ') }}
-              </span>
-            </span>
+          <div>
+            <p class="text-xs font-semibold text-ink-black font-serif">Off-road arrival</p>
+            <p class="text-[11px] text-ink-brown font-book mt-0.5 flex flex-wrap gap-1.5 items-center">
+              <span>{{ formatDistance(routeData.geometry.off_road_end.properties.distance_m || 0) }} to reach destination</span>
+              <span v-if="routeData.geometry.off_road_end.properties.biome_type && routeData.geometry.off_road_end.properties.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ routeData.geometry.off_road_end.properties.biome_type }}</span>
+              <span v-if="routeData.geometry.off_road_end.properties.altitude_type && routeData.geometry.off_road_end.properties.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ routeData.geometry.off_road_end.properties.altitude_type.replace('_', ' ') }}</span>
+            </p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Start Adventure Button -->
-    <div v-if="routeData" class="border-t border-gray-100 pt-3 flex flex-col gap-2">
+    <!-- Footer: Start Adventure -->
+    <footer v-if="routeData" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2">
       <div class="flex items-center gap-2">
-        <label class="text-xs font-medium text-gray-600">Language:</label>
+        <label class="text-xs font-book text-ink-brown">Language:</label>
         <select
           v-model="narrativeLanguage"
-          class="text-xs border border-gray-300 rounded px-2 py-1"
+          class="text-xs border border-earth-dark bg-parchment-base text-ink-black rounded px-2 py-1 font-book"
         >
           <option value="english">English</option>
           <option value="spanish">Español</option>
         </select>
       </div>
-      <button
+      <Button
+        variant="primary"
+        size="md"
+        class="w-full"
         @click="handleStartAdventure"
-        class="w-full py-2.5 px-4 bg-amber-600 hover:bg-amber-700 text-white rounded-md font-semibold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm"
       >
-        <Compass class="w-4 h-4" />
+        <Compass class="w-4 h-4 mr-2" />
         Start Adventure
-      </button>
-    </div>
+      </Button>
+    </footer>
   </div>
 </template>
 
@@ -261,6 +192,7 @@ import { ArrowLeft, MapPin, X, Compass } from '@lucide/vue'
 import { useSearch } from '@/entities/search'
 import type { SearchResult } from '@/entities/search'
 import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useDirections, mapSearchResultToPoint } from '@/composables/useDirections'
 import { useCharacter } from '@/composables/useCharacter'
@@ -416,9 +348,3 @@ function handleStartAdventure() {
 }
 </script>
 
-<style scoped>
-/* Scoped styles to match search-container spacing */
-.directions-container {
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 8px -1px rgba(0, 0, 0, 0.04);
-}
-</style>

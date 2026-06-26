@@ -33,7 +33,7 @@ export function useMapLayers() {
       if (data.regions) regionLayer.addRegionsLayer(map, data.regions)
       if (data.water) waterLayer.addWaterLayer(map, data.water, mode)
       if (data.biomes) biomeLayer.addBiomesLayer(map, data.biomes, mode)
-      if (data.locations) locationLayer.addLocationsLayer(map, data.locations)
+      if (data.locations) locationLayer.addLocationsLayer(map, data.locations, mode)
       return
     }
 
@@ -43,7 +43,7 @@ export function useMapLayers() {
     if (data.biomes) biomeLayer.addBiomesLayer(map, data.biomes, mode)
     if (data.water) waterLayer.addWaterLayer(map, data.water, mode)
     if (data.roads) roadLayer.addRoadsLayer(map, data.roads)
-    if (data.locations) locationLayer.addLocationsLayer(map, data.locations)
+    if (data.locations) locationLayer.addLocationsLayer(map, data.locations, mode)
   }
 
   const removeLayers = (map: MapLibreMap) => {

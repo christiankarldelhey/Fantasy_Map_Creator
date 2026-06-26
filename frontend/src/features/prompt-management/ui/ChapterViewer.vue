@@ -5,6 +5,7 @@ import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
 import { useLanguage } from '@/composables/useLanguage'
 import { useUserSettings } from '@/composables/useUserSettings'
+import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 import { jsPDF } from 'jspdf'
 import { Button } from '@/components/ui/button'
 import { Loader } from '@/components/ui/loader'
@@ -20,12 +21,28 @@ const { trip, days, loading, generating, error, getTrip, getDays, generateDay } 
 const { activeCharacter } = useCharacter()
 const { language } = useLanguage()
 const { saveUserSettings } = useUserSettings()
+const { setTripDate, resetToRealTime } = useGlobalClimateTime()
 
 const expanded = ref<Record<string, 'narrative' | 'prompt' | null>>({})
 const exportingPdf = ref(false)
 const showCancelModal = ref(false)
 
 const title = computed(() => trip.value?.name || 'Journey')
+
+const storyDate = computed(() => {
+  const lastDay = days.value[days.value.length - 1]
+  const dateStr = lastDay?.date || trip.value?.start_date
+  if (!dateStr) return null
+  const d = new Date(dateStr)
+  if (isNaN(d.getTime())) return null
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+})
+
+function syncTripDateToClimate() {
+  const lastDay = days.value[days.value.length - 1]
+  const dateStr = lastDay?.date || trip.value?.start_date
+  if (dateStr) setTripDate(dateStr)
+}
 
 const isTripComplete = computed(() => {
   if (days.value.length === 0) return false
@@ -60,6 +77,7 @@ async function handleGenerateNext() {
   if (!props.tripId) return
   try {
     const newDay = await generateDay(props.tripId, { language: language.value })
+    if (newDay?.date) setTripDate(newDay.date)
     // Emit event for MapViewer to handle animation
     if (newDay?.geometry) {
       emit('day-generated', newDay)
@@ -72,6 +90,7 @@ async function handleGenerateNext() {
 async function handleCancelAdventure() {
   try {
     await saveUserSettings({ active_trip_id: null })
+    resetToRealTime()
     showCancelModal.value = false
     emit('close')
   } catch (err) {
@@ -228,6 +247,7 @@ async function loadTripData() {
   if (!props.tripId) return
   await getTrip(props.tripId)
   await getDays(props.tripId)
+  syncTripDateToClimate()
   // Expand the latest day's narrative by default
   const last = days.value[days.value.length - 1]
   if (last) expanded.value = { [last.id]: 'narrative' }
@@ -250,6 +270,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         <ScrollText class="w-5 h-5 text-gold-base" />
         <h2 class="text-lg font-serif font-semibold text-ink-black">{{ title }}</h2>
       </div>
+      <span v-if="storyDate" class="font-serif text-sm text-ink-brown italic">{{ storyDate }}</span>
       <Button variant="ghost" size="sm" @click="emit('close')">
         Close
       </Button>

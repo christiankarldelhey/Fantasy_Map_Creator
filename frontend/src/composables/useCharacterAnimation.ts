@@ -4,7 +4,8 @@ import api from '@/shared/api/client'
 import { useCharacter } from './useCharacter'
 import { useUserSettings } from './useUserSettings'
 import {
-  drawTripDayRoute,
+  initTripDayRoute,
+  updateTripDayRouteProgress,
   clearTripDayRoute,
   drawCompletedRoute,
   drawRemainingRoute,
@@ -135,12 +136,12 @@ export function useCharacterAnimation() {
       new maplibregl.LngLatBounds(validCoords[0] as [number, number], validCoords[0] as [number, number])
     )
     map.fitBounds(bounds, {
-      padding: { top: 50, bottom: 50, left: 50, right: window.innerWidth * 0.4 },
-      maxZoom: 4,
-      duration: 1000,
+      padding: { top: 80, bottom: 80, left: 80, right: 620 },
+      maxZoom: 7,
+      duration: 1200,
     })
 
-    drawTripDayRoute(map, { ...coords, coordinates: validCoords })
+    initTripDayRoute(map, validCoords, false)
 
     isAnimating.value = true
     const startTime = performance.now()
@@ -157,8 +158,13 @@ export function useCharacterAnimation() {
       const segIdx = Math.max(0, Math.min(Math.floor(segmentProgress), totalSegments - 1))
       const segT = segmentProgress - segIdx
 
+      const start = validCoords[segIdx]
+      const end = validCoords[segIdx + 1]
+
       if (progress >= 1) {
-        m.setLngLat(validCoords[validCoords.length - 1] as [number, number])
+        const finalPos = validCoords[validCoords.length - 1] as [number, number]
+        m.setLngLat(finalPos)
+        updateTripDayRouteProgress(map, validCoords, finalPos, totalSegments)
         isAnimating.value = false
         animationFrameId = null
         currentAnimatingDay = null
@@ -167,14 +173,15 @@ export function useCharacterAnimation() {
         return
       }
 
-      const start = validCoords[segIdx]
-      const end = validCoords[segIdx + 1]
       if (!start || !end) return
 
-      m.setLngLat([
+      const currentPos: [number, number] = [
         start[0] + (end[0] - start[0]) * segT,
         start[1] + (end[1] - start[1]) * segT,
-      ] as [number, number])
+      ]
+
+      m.setLngLat(currentPos)
+      updateTripDayRouteProgress(map, validCoords, currentPos, segIdx)
 
       animationFrameId = requestAnimationFrame(animate)
     }

@@ -25,7 +25,7 @@
       @clear="handleClearSearch"
     />
 
-    <CalendarPicker />
+    <CalendarPicker v-if="mode !== 'wander'" />
 
     <LocationSidebar
       v-if="selectedLocation && !isDirectionsMode"
@@ -45,6 +45,23 @@
       size="lg"
       :phrases="adventurePhrases"
     />
+
+    <Modal
+      v-if="showCancelForDirectionsModal"
+      title="Abandon current adventure?"
+      size="sm"
+      @close="showCancelForDirectionsModal = false"
+    >
+      <div class="px-6 py-4 font-book text-ink-black text-sm leading-relaxed">
+        <p>The road calls, but a tale is still being written.</p>
+        <p class="mt-2 text-ink-brown">If you set new directions now, your current adventure will be abandoned and lost to the ages.</p>
+        <p class="mt-2 font-semibold">Are you sure you wish to leave it behind?</p>
+      </div>
+      <div class="px-6 pb-5 flex gap-3 justify-end">
+        <Button variant="outline" size="sm" @click="showCancelForDirectionsModal = false">Keep adventuring</Button>
+        <Button variant="danger" size="sm" @click="handleConfirmCancelForDirections">Abandon &amp; get directions</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -78,6 +95,8 @@ import {
 import CharacterSelector from '@/components/CharacterSelector.vue'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import { Loader } from '@/components/ui/loader'
+import { Modal } from '@/components/ui/modal'
+import { Button } from '@/components/ui/button'
 import type { SearchResult } from '@/entities/search'
 import type { LocationDetails } from '@/widgets/location-sidebar'
 
@@ -103,6 +122,7 @@ const { currentClimateTime, timestampISO } = useGlobalClimateTime()
 const lastSelectedCoordinates = ref<[number, number] | null>(null)
 const pendingDestinationLocation = ref<LocationDetails | null>(null)
 const adventureLoading = ref(false)
+const showCancelForDirectionsModal = ref(false)
 
 const adventurePhrases = [
   'Consulting the old maps and the older roads…',
@@ -114,7 +134,7 @@ const adventurePhrases = [
 
 // Character / Company state
 const { characters, activeCharacter, fetchAllCharacters, setActiveCharacter } = useCharacter()
-const { user } = useUserSettings()
+const { user, fetchUserSettings, saveUserSettings } = useUserSettings()
 
 // Animation
 const {
@@ -253,6 +273,7 @@ onMounted(async () => {
         // Load and display character/company cursor (only in wander mode)
         if (props.mode === 'wander') {
           try {
+            await fetchUserSettings()
             await fetchAllCharacters()
             updateCharacterMarker()
             // Restore active trip from user settings if the active character has one
@@ -293,7 +314,7 @@ onMounted(async () => {
 
 watch(locations, (newLocations) => {
   if (newLocations && map && layersInitialized.value) {
-    locationLayer.addLocationsLayer(map!, newLocations)
+    locationLayer.addLocationsLayer(map!, newLocations, props.mode || 'explore')
   }
 })
 
@@ -447,14 +468,33 @@ function handleCloseSidebar() {
 }
 
 function handleDirectionsClick() {
-  if (selectedLocation.value && lastSelectedCoordinates.value) {
-    startDirections({
-      id: selectedLocation.value.regionId,
-      name: selectedLocation.value.name,
-      type: selectedLocation.value.type === 'Region' ? 'region' : 'location',
-      coordinates: lastSelectedCoordinates.value
-    })
-    selectedLocation.value = null
+  if (!selectedLocation.value || !lastSelectedCoordinates.value) return
+  if (activeTripId.value) {
+    showCancelForDirectionsModal.value = true
+    return
+  }
+  _doStartDirections()
+}
+
+function _doStartDirections() {
+  if (!selectedLocation.value || !lastSelectedCoordinates.value) return
+  startDirections({
+    id: selectedLocation.value.regionId,
+    name: selectedLocation.value.name,
+    type: selectedLocation.value.type === 'Region' ? 'region' : 'location',
+    coordinates: lastSelectedCoordinates.value
+  })
+  selectedLocation.value = null
+}
+
+async function handleConfirmCancelForDirections() {
+  try {
+    await saveUserSettings({ active_trip_id: null })
+    activeTripId.value = null
+    showCancelForDirectionsModal.value = false
+    _doStartDirections()
+  } catch (err) {
+    console.error('Failed to cancel adventure for directions:', err)
   }
 }
 
