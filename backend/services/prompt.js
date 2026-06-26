@@ -36,16 +36,38 @@ Rules for using the data:
 // Three parts of the day: morning + afternoon (walking), and night at camp.
 // Encounters now have a 'phase' property directly, so we use that instead of computing from hour.
 
-function describeEncounter(e) {
+// Plain-language outcome directives — no numbers, no mechanics
+const OUTCOME_DIRECTIVES = {
+  unscathed:      'the traveller drives it off cleanly, no harm done',
+  wounded:        'the traveller prevails but is hurt; the wound lingers through the day',
+  'badly wounded':'grave injury, a narrow escape — the wound must colour the rest of the chapter',
+  slain:          'the traveller falls here. Narrate their death as the final scene of the journey.',
+};
+
+function describeEncounter(e, charName) {
   const ent = e.entity || {};
-  const danger = ent.danger != null ? `, danger ${ent.danger}/5` : '';
   const desc = ent.description_summary ? ` — ${ent.description_summary}` : '';
-  return `${ent.name} (${ent.type || 'creature'}, ${ent.active || 'all-day'}${danger}) in ${e.region}${desc}`;
+  const header = `${ent.name} (${ent.type || 'creature'}, ${ent.active || 'all-day'}) in ${e.region}${desc}`;
+
+  const interaction = e.interaction;
+  if (!interaction) return header;
+
+  let lines = `  * ${header}.\n    THIS ENCOUNTER — form: ${interaction.form}. ${interaction.prose_hint}`;
+
+  if (interaction.topic && interaction.stance) {
+    lines += ` The other raises: "${interaction.topic.prose_hint}" ${charName} responds in this register: "${interaction.stance.prose_hint}"`;
+  }
+
+  if (interaction.outcome) {
+    lines += `\n    OUTCOME (narrate this, do not change it): ${interaction.outcome}.`;
+  }
+
+  return lines;
 }
 
-function encounterSection(list) {
+function encounterSection(list, charName) {
   if (!list || list.length === 0) return '  (no encounters)';
-  return list.map((e) => `  * ${describeEncounter(e)}`).join('\n');
+  return list.map((e) => describeEncounter(e, charName)).join('\n');
 }
 
 const getDestinationName = (tripName) => {
@@ -166,23 +188,8 @@ In this chapter, narrate their arrival at ${destName}. Give a deep, meaningful r
   const user = `=== ${charName.toUpperCase()} ===
 ${charName}${charKind}.${charBio}
 
-${narratorVoiceSection}${journeyContextSection}${specialInstructionsSection}${thoughtsSection}=== HOW TO HANDLE ENCOUNTERS ===
-Not every encounter is a meeting. Most are seen, not joined. For each,
-choose the FORM that fits — and vary them across the chapter:
-- glimpsed at a distance and passed by
-- a trace or sign only (tracks, a call, droppings, a fire's smoke)
-- the creature reacts to ${pronouns.object} and withdraws
-- a brief, wary exchange
-- actual contact (rare — use sparingly)
-
-Animals are never greeters and never speak; ${pronouns.subject} reads them, the way ${pronouns.subject}
-reads the land. Only Men may exchange words, and even then ${pronouns.subject} watches
-more than ${pronouns.subject} joins — ${pronouns.subject} does not get "drawn into" anyone's circle and
-does not feel "connection." Filter every encounter through ${pronouns.possessive} eye for
-endings: what is dying here, what will not last.
-
-Do NOT use the same beat twice. If one encounter is a meeting, the
-others must not be.
+${narratorVoiceSection}${journeyContextSection}${specialInstructionsSection}${thoughtsSection}=== ENCOUNTER RULES ===
+Render the given form, dialogue and outcome for each encounter. Do not invent a different form. Vary the beats across the chapter.
 
 === TODAY'S ROAD ===
 Day ${day.day_number}. Narrate a single day's journey, from dawn to the night at camp.
@@ -214,11 +221,11 @@ ${describeOvernightLocation(day.overnight_location)}
 
 === ENCOUNTERS ===
 Morning:
-${encounterSection(parts.morning)}
+${encounterSection(parts.morning, charName)}
 Afternoon:
-${encounterSection(parts.afternoon)}
+${encounterSection(parts.afternoon, charName)}
 Night at camp:
-${encounterSection(parts.night)}
+${encounterSection(parts.night, charName)}
 
 Write the chapter as flowing prose in three movements — morning, afternoon, and the night at camp. Let each encounter cause something to happen.
 If the overnight location is a town or inn, let the narrative reflect this — a meal taken, a fire shared, a bed found. If it is a fortress or ruin, let it colour the night accordingly.

@@ -9,21 +9,30 @@
       />
     </div>
     <div class="character-panel">
-      <div class="character-name">{{ activeCharacter?.name }}</div>
+      <div class="character-header">
+        <div class="character-name">{{ activeCharacter?.name }}</div>
+        <span v-if="activeCharacter?.permadeath" class="permadeath-skull" title="Permadeath enabled">☠</span>
+      </div>
       <div class="character-race">{{ activeCharacter?.type }}</div>
-      <div class="energy-bar">
-        <div class="energy-fill" :style="{ width: `${energy}%` }"></div>
+      <div class="resistance-bar" title="Resistance">
+        <div class="resistance-fill" :style="{ width: `${resistancePct}%` }"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useCharacter } from '@/composables/useCharacter'
 
 const { activeCharacter } = useCharacter()
 
-const energy = 100
+const RESISTANCE_MAX = 20
+
+const resistancePct = computed(() => {
+  const r = activeCharacter.value?.resistance ?? 0
+  return Math.min(100, Math.round((r / RESISTANCE_MAX) * 100))
+})
 
 function getCharacterImage(name: string): string {
   return new URL(`/src/assets/characters/${name}.png`, import.meta.url).href
@@ -64,6 +73,12 @@ function getCharacterImage(name: string): string {
   z-index: 1;
 }
 
+.character-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .character-name {
   color: var(--text-ink-black);
   font-family: 'Cinzel', Georgia, serif;
@@ -73,6 +88,14 @@ function getCharacterImage(name: string): string {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.permadeath-skull {
+  font-size: 12px;
+  line-height: 1;
+  flex-shrink: 0;
+  opacity: 0.75;
+  color: var(--text-ink-black);
 }
 
 .character-race {
@@ -85,7 +108,7 @@ function getCharacterImage(name: string): string {
   text-overflow: ellipsis;
 }
 
-.energy-bar {
+.resistance-bar {
   width: 100%;
   height: 5px;
   background: var(--bg-parchment-dark);
@@ -94,7 +117,7 @@ function getCharacterImage(name: string): string {
   margin-top: 2px;
 }
 
-.energy-fill {
+.resistance-fill {
   height: 100%;
   background: var(--accent-gold);
   transition: width 0.3s ease;

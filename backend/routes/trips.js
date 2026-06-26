@@ -194,7 +194,8 @@ router.post('/:id/days', async (req, res, next) => {
 
     // Load the active character (bio + linked entity name + custom prompts) for the prompt
     const charRes = await pool.query(
-      `SELECT c.id, c.name, c.description, c.gender, c.system_prompt, c.introduction_instructions, e.name AS entity_name
+      `SELECT c.id, c.name, c.slug, c.description, c.gender, c.system_prompt, c.introduction_instructions,
+              c.resistance, c.permadeath, e.name AS entity_name
        FROM character_state c
        LEFT JOIN entities e ON e.id = c.entity_id
        WHERE c.active = true`
@@ -207,13 +208,34 @@ router.post('/:id/days', async (req, res, next) => {
     // Load already used thoughts for this trip
     const usedThoughtIds = trip.used_thought_ids || [];
 
+    // Gather forms/stances from the previous 2–3 chapters for anti-repetition
+    const recentHistoryRes = await pool.query(
+      `SELECT encounters FROM trip_days
+       WHERE trip_id = $1 AND day_number < $2
+       ORDER BY day_number DESC
+       LIMIT 3`,
+      [trip.id, dayNumber]
+    );
+    const recentForms = [];
+    const recentStances = [];
+    for (const row of recentHistoryRes.rows) {
+      const encs = Array.isArray(row.encounters) ? row.encounters : [];
+      for (const e of encs) {
+        if (e.interaction?.form) recentForms.push(e.interaction.form);
+        if (e.interaction?.stance?.stance) recentStances.push(e.interaction.stance.stance);
+      }
+    }
+
     const day = await generateDay({ 
       trip, 
       dayNumber, 
       rng, 
       excludedEntityIds: encounteredEntities,
       characterId: character.id || null,
-      usedThoughtIds
+      usedThoughtIds,
+      character,
+      recentForms,
+      recentStances,
     });
     if (!day) {
       return res.status(409).json({ error: 'Trip is already complete; no more days to generate' });
@@ -281,6 +303,12 @@ router.post('/:id/days', async (req, res, next) => {
       await pool.query('UPDATE trips SET current_day = $1 WHERE id = $2', [dayNumber, trip.id]);
     }
 
+    // Permadeath: if any encounter resulted in 'slain' and the character has permadeath enabled
+    const wasSlain = day.encounters.some((e) => e.interaction?.outcome === 'slain');
+    if (wasSlain && character.permadeath) {
+      await pool.query("UPDATE trips SET status = 'dead' WHERE id = $1", [trip.id]);
+    }
+
     // Update encountered entities array with new entities from this day
     const newEntityIds = day.encounters
       .map(e => e.entity?.id)
@@ -296,7 +324,8 @@ router.post('/:id/days', async (req, res, next) => {
       [updatedEncounteredEntities, updatedUsedThoughtIds, trip.id]
     );
 
-    res.status(201).json(insertRes.rows[0]);
+    const tripStatus = wasSlain && character.permadeath ? 'dead' : 'active';
+    res.status(201).json({ ...insertRes.rows[0], trip_status: tripStatus });
   } catch (error) {
     next(error);
   }

@@ -26,6 +26,8 @@ const { setTripDate, resetToRealTime } = useGlobalClimateTime()
 const expanded = ref<Record<string, 'narrative' | 'prompt' | null>>({})
 const exportingPdf = ref(false)
 const showCancelModal = ref(false)
+const showDeathModal = ref(false)
+const isTripDead = ref(false)
 
 const title = computed(() => trip.value?.name || 'Journey')
 
@@ -45,6 +47,7 @@ function syncTripDateToClimate() {
 }
 
 const isTripComplete = computed(() => {
+  if (isTripDead.value) return true
   if (days.value.length === 0) return false
   const lastDay = days.value[days.value.length - 1]
   return !!lastDay.is_last_day
@@ -82,9 +85,19 @@ async function handleGenerateNext() {
     if (newDay?.geometry) {
       emit('day-generated', newDay)
     }
+    // Permadeath: traveller was slain this chapter
+    if (newDay?.trip_status === 'dead') {
+      isTripDead.value = true
+      showDeathModal.value = true
+    }
   } catch {
     /* error surfaced via `error` ref */
   }
+}
+
+async function handleDeathConfirm() {
+  showDeathModal.value = false
+  await generateAdventurePDF()
 }
 
 async function handleCancelAdventure() {
@@ -394,6 +407,37 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         </Button>
         <Button variant="primary" size="md" @click="handleCancelAdventure">
           Yes, cancel
+        </Button>
+      </div>
+    </template>
+  </Modal>
+
+  <!-- Permadeath Modal -->
+  <Modal
+    v-if="showDeathModal"
+    :open="showDeathModal"
+    title="The Journey Ends Here"
+    size="sm"
+    :show-close="false"
+    :close-on-backdrop="false"
+    @close="showDeathModal = false"
+  >
+    <div class="text-center space-y-4 py-2">
+      <p class="text-4xl">☠</p>
+      <p class="font-serif text-ink-black text-base leading-relaxed">
+        <strong>{{ activeCharacter?.name || 'The traveller' }}</strong> has fallen.
+      </p>
+      <p class="font-book text-ink-brown text-sm leading-relaxed">
+        The road goes ever on — but not for them. Their tale is told, their steps recorded.
+        The adventure is now preserved.
+      </p>
+    </div>
+    <template #footer>
+      <div class="flex justify-center">
+        <Button variant="primary" size="md" :disabled="exportingPdf" @click="handleDeathConfirm">
+          <Loader v-if="exportingPdf" size="sm" variant="inline" class="mr-2" />
+          <FileDown v-else class="w-4 h-4 mr-2" />
+          {{ exportingPdf ? 'Saving…' : 'Save adventure as PDF' }}
         </Button>
       </div>
     </template>

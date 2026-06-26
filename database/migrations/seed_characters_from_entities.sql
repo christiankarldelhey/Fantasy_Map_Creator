@@ -3,7 +3,7 @@
 -- Description: Creates character records from entities for the character selector
 
 -- Insert characters from entities (excluding groups and tier='group')
-INSERT INTO character_state (name, type, gender, active, description, entity_id, current_lng, current_lat)
+INSERT INTO character_state (name, type, gender, active, description, entity_id, current_lng, current_lat, slug)
 SELECT 
     e.name,
     e.type,
@@ -17,7 +17,8 @@ SELECT
     e.description_summary,
     e.id,
     1.228323, -- Bree coordinates as default
-    51.560255
+    51.560255,
+    e.slug
 FROM entities e
 WHERE e.type IN ('humans', 'elves', 'dwarves', 'hobbits')
   AND (e.tier IS NULL OR e.tier != 'group')

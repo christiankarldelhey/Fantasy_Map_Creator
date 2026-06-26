@@ -16,6 +16,8 @@ router.get('/', async (req, res, next) => {
         c.gender,
         c.active,
         c.description,
+        c.resistance,
+        c.permadeath,
         c.updated_at,
         (
           SELECT name 
@@ -53,6 +55,8 @@ router.get('/active', async (req, res, next) => {
         c.gender,
         c.active,
         c.description,
+        c.resistance,
+        c.permadeath,
         c.updated_at,
         (
           SELECT name 
@@ -96,6 +100,8 @@ router.get('/:id', async (req, res, next) => {
         c.gender,
         c.active,
         c.description,
+        c.resistance,
+        c.permadeath,
         c.updated_at,
         (
           SELECT name 

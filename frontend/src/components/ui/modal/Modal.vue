@@ -7,6 +7,7 @@ interface ModalProps {
   open?: boolean
   title?: string
   showClose?: boolean
+  closeOnBackdrop?: boolean
   size?: 'sm' | 'md' | 'lg' | 'xl'
   class?: string
 }
@@ -14,6 +15,7 @@ interface ModalProps {
 const props = withDefaults(defineProps<ModalProps>(), {
   open: true,
   showClose: true,
+  closeOnBackdrop: true,
   size: 'md',
 })
 
@@ -50,7 +52,7 @@ const modalClass = computed(() =>
       <div
         v-if="open"
         class="fixed inset-0 z-[10000] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm p-4"
-        @click.self="emit('close')"
+        @click.self="closeOnBackdrop && emit('close')"
       >
         <Transition
           enter-active-class="transition duration-200 ease-out"

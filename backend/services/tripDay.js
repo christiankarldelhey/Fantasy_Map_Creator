@@ -5,6 +5,7 @@ import {
   PHASE_AFTERNOON,
   PHASE_NIGHT,
 } from './encounters.js';
+import { resolveEncounter } from './interactionResolver.js';
 import {
   flattenRoute,
   totalSeconds,
@@ -322,9 +323,12 @@ async function buildNightRegionResolver(campPoint) {
  * @param {Array<string>} [params.excludedEntityIds] - entity IDs to exclude from encounters
  * @param {number} [params.characterId] - character ID for thought selection
  * @param {Array<number>} [params.usedThoughtIds] - thought IDs already used in this trip
+ * @param {Object} [params.character] - character row with resistance stat for rolls
+ * @param {Array<string>} [params.recentForms] - forms used in previous chapters (anti-repetition)
+ * @param {Array<string>} [params.recentStances] - stances used in previous chapters (anti-repetition)
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, usedThoughtIds = [] }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, usedThoughtIds = [], character = {}, recentForms = [], recentStances = [] }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -404,7 +408,8 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     excludedEntityIds: [...excludedEntityIds, ...morningResult.usedEntityIds, ...afternoonResult.usedEntityIds],
   });
 
-  const encounters = [...morningResult.encounters, ...afternoonResult.encounters, ...nightResult.encounters]
+  // Collect raw encounters in phase order, strip internal field
+  const rawEncounters = [...morningResult.encounters, ...afternoonResult.encounters, ...nightResult.encounters]
     .sort((a, b) => a.hour_float - b.hour_float)
     .map((e) => ({
       ...e,
@@ -413,6 +418,24 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
         probability_by_region: undefined
       }
     }));
+
+  // --- Resolve interaction forms for each encounter ---
+  const chapterForms = []; // tracks forms used within this chapter
+  const chapterStances = []; // tracks stances used within this chapter
+  const encounters = [];
+  for (const e of rawEncounters) {
+    const interaction = await resolveEncounter(
+      e.entity,
+      character,
+      recentForms,
+      rng,
+      [...recentStances, ...chapterStances],
+      chapterForms
+    );
+    chapterForms.push(interaction.form);
+    if (interaction.stance) chapterStances.push(interaction.stance.stance);
+    encounters.push({ ...e, interaction });
+  }
 
   // --- Character Thoughts ---
   let thoughts = null;

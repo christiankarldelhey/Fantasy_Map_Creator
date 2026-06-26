@@ -1,0 +1,11 @@
+character_id,stance,weight,prose_hint
+1,terse,4,"A short, plain answer; he says less than he knows and watches more than he speaks."
+1,counsel,2,"Weighed, quiet wisdom — a warning or a steadying word out of long, hard experience."
+1,guarded,2,"He gives little of himself away, courteous but keeping his name and errand close."
+1,probe,1,"A few careful questions of his own, turning the talk to what he needs to learn."
+1,dry_warmth,1,"A rare, brief warmth — a half-smile, a word of plain respect for one who has earned it."
+2,deflect,4,"She turns the question aside without answering, as though the asking wearied her."
+2,barbed,3,"A dry, cutting remark — true, and a little cruel — that closes the matter."
+2,cold_truth,2,She says the bleak thing plainly: the thing the other did not want spoken aloud.
+2,weary_courtesy,1,"Courtesy worn thin by ages — correct, distant, and clearly eager to be done."
+2,rare_softness,1,"For a breath something unguarded slips through, and is shut away again at once."

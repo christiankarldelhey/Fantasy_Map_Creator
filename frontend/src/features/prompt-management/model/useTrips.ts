@@ -54,6 +54,7 @@ export interface TripDay {
   prompt: string | null
   narrative: string | null
   is_last_day?: boolean
+  trip_status?: 'active' | 'dead'
   created_at: string
 }
 

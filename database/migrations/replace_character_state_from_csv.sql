@@ -65,6 +65,12 @@ WHERE NOT EXISTS (
 -- Step 5: Drop temporary table
 DROP TABLE temp_character_import;
 
+-- Step 5b: Ensure any rows that still lack a slug get one derived from name
+UPDATE character_state
+SET slug = COALESCE(slug, LOWER(REGEXP_REPLACE(name, '[^a-zA-Z0-9]+', '_', 'g')))
+WHERE slug IS NULL OR slug = '';
+
 -- Step 6: Verification
 SELECT COUNT(*) as total_characters FROM character_state;
 SELECT COUNT(*) as backup_characters FROM character_state_backup;
+SELECT id, name, slug FROM character_state ORDER BY id;

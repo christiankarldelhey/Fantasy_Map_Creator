@@ -11,6 +11,8 @@ export interface CharacterState {
   gender: string
   active: boolean
   description: string
+  resistance: number
+  permadeath: boolean
   updated_at: string
   current_location: string | null
   current_region: string | null
