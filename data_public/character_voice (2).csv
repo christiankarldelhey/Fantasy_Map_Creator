@@ -1,0 +1,11 @@
+character_id,stance,weight,prose_hint
+1,terse,4,Have him answer in few words and say less than he knows; show him watching more than he speaks.
+1,counsel,2,"Have him offer a measured word of warning or steadying wisdom, plainly, as one who has seen much."
+1,guarded,2,"Have him stay courteous but give little away, keeping his name and errand to himself."
+1,probe,1,"Have him turn the talk with a few careful questions of his own, drawing out what he needs to learn."
+1,dry_warmth,1,"Let a rare, brief warmth show — a half-smile or a plain word of respect for one who has earned it."
+2,deflect,4,"Have her turn the question aside without answering, as though the asking wearied her."
+2,barbed,3,"Have her cut the matter short with a dry, cruel-edged remark that is true and unkind at once."
+2,cold_truth,2,Have her say plainly the bleak thing the other did not want spoken aloud.
+2,weary_courtesy,1,"Have her be correct but distant, her courtesy worn thin, plainly eager to be done."
+2,rare_softness,1,"Let something unguarded slip through for a single breath, then have her shut it away again."

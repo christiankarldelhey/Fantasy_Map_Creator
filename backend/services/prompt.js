@@ -50,16 +50,20 @@ function describeEncounter(e, charName) {
   const header = `${ent.name} (${ent.type || 'creature'}, ${ent.active || 'all-day'}) in ${e.region}${desc}`;
 
   const interaction = e.interaction;
-  if (!interaction) return header;
+  if (!interaction) return `  * ${header}.`;
 
-  let lines = `  * ${header}.\n    THIS ENCOUNTER — form: ${interaction.form}. ${interaction.prose_hint}`;
+  let lines = `  * ${header}.\n    THIS ENCOUNTER:\n      FORM: ${interaction.form}. ${interaction.prose_hint}`;
 
-  if (interaction.topic && interaction.stance) {
-    lines += ` The other raises: "${interaction.topic.prose_hint}" ${charName} responds in this register: "${interaction.stance.prose_hint}"`;
+  if (interaction.topic) {
+    lines += `\n      TOPIC: ${interaction.topic.prose_hint}`;
+  }
+
+  if (interaction.stance) {
+    lines += `\n      MANNER (${charName}): ${interaction.stance.prose_hint}`;
   }
 
   if (interaction.outcome) {
-    lines += `\n    OUTCOME (narrate this, do not change it): ${interaction.outcome}.`;
+    lines += `\n\n    OUTCOME (narrate this, do not change it): ${interaction.outcome}.`;
   }
 
   return lines;
