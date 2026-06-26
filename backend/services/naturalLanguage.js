@@ -218,18 +218,106 @@ export function describeLocations(locations) {
 }
 
 // ---------------------------------------------------------------------------
+// Overnight location
+// ---------------------------------------------------------------------------
+
+/**
+ * Describe where the character spends the night.
+ * @param {Object|null} loc - { name, type, distance_km, description, indoor }
+ * @returns {string}
+ */
+export function describeOvernightLocation(loc) {
+  if (!loc) {
+    return 'No shelter of note lies near the day\'s end. The night is spent under open sky, with whatever cover the land affords.';
+  }
+
+  const kind = loc.type ? String(loc.type).replace(/_/g, ' ') : 'place';
+  const descSnippet = loc.description && loc.description.trim()
+    ? ` ${loc.description.trim().split('.')[0]}.`
+    : '';
+
+  let rest;
+  if (loc.indoor) {
+    rest = `There is likely a tavern, inn or hall where ${loc.name} offers shelter and warmth for the night.`;
+  } else {
+    rest = `The character may shelter within its walls or in its shadow for the night.`;
+  }
+
+  return `Before nightfall, the road reaches ${loc.name} (${kind}), ${loc.distance_km} km from the day's end.${descSnippet} ${rest}`;
+}
+
+// ---------------------------------------------------------------------------
+// Elevation effort
+// ---------------------------------------------------------------------------
+
+/**
+ * Describe the physical effort of elevation change if significant (>150m total).
+ * Returns null if the terrain is flat enough to not warrant mention.
+ * @param {{ total_gain_m:number, total_loss_m:number, significant:boolean }|null} profile
+ * @returns {string|null}
+ */
+export function describeElevation(profile) {
+  if (!profile || !profile.significant) return null;
+
+  const { total_gain_m: gain, total_loss_m: loss } = profile;
+  const heavy = 300;
+
+  if (gain > heavy && loss > heavy) {
+    return 'The road rises and falls hard through the day — a gruelling march of ascent and descent that leaves the legs heavy by evening.';
+  }
+  if (gain > heavy) {
+    return 'The way climbs hard for much of the day — a long, taxing ascent that tests the lungs and legs.';
+  }
+  if (loss > heavy) {
+    return 'The road descends steeply and at length — knees and balance are tested on rough, falling ground.';
+  }
+  if (gain > loss) {
+    return 'The way rises through the day, a steady climb that makes the miles feel longer than they are.';
+  }
+  return 'The road loses height through the day, a long descent that eases the pace but tires the joints.';
+}
+
+// ---------------------------------------------------------------------------
+// Water crossings
+// ---------------------------------------------------------------------------
+
+/**
+ * Describe rivers and streams crossed during the day.
+ * @param {Array<{name:string|null, type:string, crossing_type:string, hour_float:number}>} crossings
+ * @returns {string|null}
+ */
+export function describeWaterCrossings(crossings) {
+  if (!Array.isArray(crossings) || crossings.length === 0) return null;
+
+  const lines = crossings.map((c) => {
+    const when = timeOfDayPhrase(c.hour_float);
+    const hasName = c.name && c.name.toLowerCase() !== 'river' && c.name.toLowerCase() !== 'stream';
+    const waterDesc = hasName ? c.name : (c.type === 'river' ? 'a river' : 'a stream');
+
+    if (c.crossing_type === 'bridge') {
+      return `- ${hasName ? waterDesc : 'A river'} is crossed by bridge ${when}.`;
+    } else {
+      return `- ${hasName ? waterDesc : 'A stream'} is forded ${when} — the water cold and quick underfoot.`;
+    }
+  });
+
+  return lines.join('\n');
+}
+
+// ---------------------------------------------------------------------------
 // Roads
 // ---------------------------------------------------------------------------
 
 const ROAD_PHRASES = {
+  road_major: 'well-kept royal roads',
   road: 'made roads',
-  trail: 'tracks and trails',
+  trail: 'rough trails and paths',
   off_road: 'open country, cross-country',
 };
 
 /**
  * What the traveller treads on, and the lands they tread it in.
- * @param {Object} roadTypes - { road, trail, off_road } in km
+ * @param {Object} roadTypes - { road_major, road, trail, off_road } in km
  * @param {Array} regions
  * @returns {string}
  */
@@ -247,6 +335,13 @@ export function describeRoads(roadTypes, regions) {
     const main = phrases[0];
     const rest = phrases.slice(1);
     sentence = `Most of the way runs on ${main}, with stretches of ${joinList(rest)}.`;
+  }
+
+  // If trail accounts for more than 30% of the day's distance, add a note
+  const totalKm = Object.values(roadTypes || {}).reduce((a, b) => a + b, 0);
+  const trailKm = roadTypes?.trail || 0;
+  if (totalKm > 0 && trailKm / totalKm > 0.3) {
+    sentence += ' Some stretches are faint and easily lost without care — the trail demands attention.';
   }
 
   return sentence;

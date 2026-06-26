@@ -271,9 +271,6 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         <h2 class="text-lg font-serif font-semibold text-ink-black">{{ title }}</h2>
       </div>
       <span v-if="storyDate" class="font-serif text-sm text-ink-brown italic">{{ storyDate }}</span>
-      <Button variant="ghost" size="sm" @click="emit('close')">
-        Close
-      </Button>
     </header>
 
     <!-- Body -->

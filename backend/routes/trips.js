@@ -247,8 +247,9 @@ router.post('/:id/days', async (req, res, next) => {
       `INSERT INTO trip_days
          (trip_id, day_number, date, start_lng, start_lat, end_lng, end_lat,
           distance_km, walking_hours, geometry, regions, biomes, altitude,
-          road_types, locations, climate, encounters, thoughts, prompt, narrative, is_last_day)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)
+          road_types, locations, climate, encounters, thoughts, prompt, narrative, is_last_day,
+          overnight_location, elevation_profile)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)
        RETURNING *`,
       [
         trip.id,
@@ -270,6 +271,8 @@ router.post('/:id/days', async (req, res, next) => {
         promptText,
         narrative,
         day.is_last_day || false,
+        day.overnight_location ? JSON.stringify(day.overnight_location) : null,
+        day.elevation_profile ? JSON.stringify(day.elevation_profile) : null,
       ]
     );
 

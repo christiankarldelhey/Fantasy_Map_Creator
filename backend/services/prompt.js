@@ -4,6 +4,9 @@ import {
   describeLandscape,
   describeLocations,
   describeRoads,
+  describeOvernightLocation,
+  describeElevation,
+  describeWaterCrossings,
 } from './naturalLanguage.js';
 
 // ============================================================================
@@ -195,10 +198,19 @@ The landscape crossed:
 ${describeLandscape(day.biomes, day.altitude)}
 
 Where the road runs:
-${describeRoads(day.road_types, day.regions)}
+${describeRoads(day.road_types, day.regions)}${describeWaterCrossings(day.water_crossings) ? `
+
+Water crossings:
+${describeWaterCrossings(day.water_crossings)}` : ''}
 
 The weather through the day:
 ${describeClimate(day.climate)}
+${describeElevation(day.elevation_profile) ? `
+Terrain effort:
+${describeElevation(day.elevation_profile)}` : ''}
+
+=== OVERNIGHT CAMP ===
+${describeOvernightLocation(day.overnight_location)}
 
 === ENCOUNTERS ===
 Morning:
@@ -209,6 +221,7 @@ Night at camp:
 ${encounterSection(parts.night)}
 
 Write the chapter as flowing prose in three movements — morning, afternoon, and the night at camp. Let each encounter cause something to happen.
+If the overnight location is a town or inn, let the narrative reflect this — a meal taken, a fire shared, a bed found. If it is a fortress or ruin, let it colour the night accordingly.
 
 ${language === 'spanish' ? 'Please write the entire response in Spanish.' : ''}`;
 

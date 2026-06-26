@@ -12,11 +12,15 @@ import { getDistance } from './routing.js';
  * Classify a road/segment name into a coarse travel type.
  * @param {string} name
  * @param {string} type - 'on_road' | 'off_road'
- * @returns {'road'|'trail'|'off_road'}
+ * @returns {'road_major'|'road'|'trail'|'off_road'}
  */
 export function classifyRoadType(name, type) {
   if (type === 'off_road') return 'off_road';
-  if (typeof name === 'string' && name.toLowerCase().includes('trail')) return 'trail';
+  if (typeof name === 'string') {
+    const n = name.toLowerCase();
+    if (n.includes('trail')) return 'trail';
+    if (n.includes('royal') || n.includes('main')) return 'road_major';
+  }
   return 'road';
 }
 

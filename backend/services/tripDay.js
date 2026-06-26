@@ -93,6 +93,67 @@ async function entitiesForRegion(regionName) {
   return rows;
 }
 
+/** Location types that qualify as overnight shelter. */
+const OVERNIGHT_LOCATION_TYPES = [
+  'town', 'city', 'village', 'settlement', 'inn', 'tavern',
+  'fortress', 'fortified city', 'fortified town', 'citadel', 'castle',
+  'keep', 'manor', 'camp',
+];
+
+/** Tavern/inn types where the character can sleep indoors. */
+const INDOOR_REST_TYPES = ['town', 'city', 'village', 'inn', 'tavern', 'fortified city', 'fortified town', 'citadel'];
+
+/**
+ * Find the nearest notable location within 10 km of the day's end point.
+ * Returns null if none found.
+ */
+async function findOvernightLocation(endLng, endLat) {
+  const typeList = OVERNIGHT_LOCATION_TYPES.map((_, i) => `$${i + 3}`).join(', ');
+  const { rows } = await pool.query(
+    `SELECT name, location_type AS type, region, description,
+            round((ST_Distance(geom::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography) / 1000)::numeric, 2) AS distance_km
+     FROM locations
+     WHERE location_type = ANY($3::text[])
+       AND ST_DWithin(geom::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography, 10000)
+     ORDER BY ST_Distance(geom::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography)
+     LIMIT 1`,
+    [endLng, endLat, OVERNIGHT_LOCATION_TYPES]
+  );
+  return rows[0] || null;
+}
+
+/**
+ * Sample real DEM elevation at 3 points in the day (dawn, midday, dusk).
+ * Returns null if DEM is not available.
+ */
+async function sampleElevationProfile(segments, dayStartSeconds, dayEndSeconds) {
+  const midSeconds = dayStartSeconds + (dayEndSeconds - dayStartSeconds) / 2;
+
+  const ptDawn = positionAtSeconds(segments, dayStartSeconds);
+  const ptMid = positionAtSeconds(segments, midSeconds);
+  const ptDusk = positionAtSeconds(segments, dayEndSeconds);
+
+  try {
+    const [r0, r1, r2] = await Promise.all([
+      pool.query('SELECT get_elevation_at_point($1, $2) AS elev', [ptDawn[0], ptDawn[1]]),
+      pool.query('SELECT get_elevation_at_point($1, $2) AS elev', [ptMid[0], ptMid[1]]),
+      pool.query('SELECT get_elevation_at_point($1, $2) AS elev', [ptDusk[0], ptDusk[1]]),
+    ]);
+
+    const e0 = parseFloat(r0.rows[0]?.elev) || 0;
+    const e1 = parseFloat(r1.rows[0]?.elev) || 0;
+    const e2 = parseFloat(r2.rows[0]?.elev) || 0;
+
+    const totalGain = Math.max(0, e1 - e0) + Math.max(0, e2 - e1);
+    const totalLoss = Math.max(0, e0 - e1) + Math.max(0, e1 - e2);
+    const significant = totalGain > 150 || totalLoss > 150;
+
+    return { dawn_m: Math.round(e0), midday_m: Math.round(e1), dusk_m: Math.round(e2), total_gain_m: Math.round(totalGain), total_loss_m: Math.round(totalLoss), significant };
+  } catch {
+    return null;
+  }
+}
+
 /** Sample geographic context (biomes, altitude, locations) along a leg LineString.
  *  Locations are gathered within 10 km of the leg, each tagged with the fraction
  *  (0..1) of the leg at which it is nearest, so the caller can derive a passing time. */
@@ -116,7 +177,21 @@ async function sampleLegContext(legGeoJSON) {
           'distance_km', round((ST_Distance(l.geom::geography, leg.geom::geography) / 1000)::numeric, 2)
         ) ORDER BY ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom))), '[]'::json)
         FROM locations l, leg
-        WHERE ST_DWithin(l.geom::geography, leg.geom::geography, 10000)) AS locations`,
+        WHERE ST_DWithin(l.geom::geography, leg.geom::geography, 10000)) AS locations,
+       (SELECT COALESCE(json_agg(json_build_object(
+          'name', w.name,
+          'type', w.water_type,
+          'fraction', ST_LineLocatePoint(
+            leg.geom,
+            ST_ClosestPoint(leg.geom, ST_Centroid(ST_Intersection(leg.geom, w.geom)))
+          )
+        ) ORDER BY ST_LineLocatePoint(
+            leg.geom,
+            ST_ClosestPoint(leg.geom, ST_Centroid(ST_Intersection(leg.geom, w.geom)))
+        )), '[]'::json)
+        FROM water w, leg
+        WHERE w.water_type IN ('river', 'stream')
+          AND ST_Intersects(w.geom, leg.geom)) AS water_crossings`,
     [geojson]
   );
   return rows[0];
@@ -397,6 +472,31 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     };
   });
 
+  // --- Water crossings: rivers and streams intersecting the leg ---
+  const waterCrossings = (context.water_crossings || []).map((w) => {
+    const frac = typeof w.fraction === 'number' ? Math.max(0, Math.min(1, w.fraction)) : 0;
+    const hourFloat = WALK_START_HOUR + frac * walkingHoursThisDay;
+    const hh = Math.floor(hourFloat);
+    const mm = Math.round((hourFloat - hh) * 60);
+    const crossingType = w.type === 'river' ? 'bridge' : 'ford';
+    return {
+      name: w.name || null,
+      type: w.type,
+      crossing_type: crossingType,
+      hour_float: Number(hourFloat.toFixed(2)),
+      hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,
+    };
+  });
+
+  // --- Overnight location: nearest settlement within 10 km of leg end ---
+  const overnightLocation = await findOvernightLocation(leg.end[0], leg.end[1]);
+  if (overnightLocation) {
+    overnightLocation.indoor = INDOOR_REST_TYPES.includes(overnightLocation.type);
+  }
+
+  // --- Elevation profile: 3-point DEM sampling ---
+  const elevationProfile = await sampleElevationProfile(segments, dayStartSeconds, dayEndSeconds);
+
   return {
     day_number: dayNumber,
     date,
@@ -414,5 +514,8 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     climate,
     encounters,
     thoughts,
+    water_crossings: waterCrossings,
+    overnight_location: overnightLocation || null,
+    elevation_profile: elevationProfile || null,
   };
 }
