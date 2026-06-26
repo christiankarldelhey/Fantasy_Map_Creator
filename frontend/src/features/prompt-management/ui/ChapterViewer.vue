@@ -4,9 +4,11 @@ import { ScrollText, ChevronDown, ChevronRight, Plus, FileDown } from '@lucide/v
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
 import { useLanguage } from '@/composables/useLanguage'
+import { useUserSettings } from '@/composables/useUserSettings'
 import { jsPDF } from 'jspdf'
 import { Button } from '@/components/ui/button'
 import { Loader } from '@/components/ui/loader'
+import { Modal } from '@/components/ui/modal'
 
 const props = defineProps<{
   tripId: string
@@ -17,9 +19,11 @@ const emit = defineEmits<{ (e: 'close'): void; (e: 'day-generated', day: TripDay
 const { trip, days, loading, generating, error, getTrip, getDays, generateDay } = useTrips()
 const { activeCharacter } = useCharacter()
 const { language } = useLanguage()
+const { saveUserSettings } = useUserSettings()
 
 const expanded = ref<Record<string, 'narrative' | 'prompt' | null>>({})
 const exportingPdf = ref(false)
+const showCancelModal = ref(false)
 
 const title = computed(() => trip.value?.name || 'Journey')
 
@@ -63,6 +67,20 @@ async function handleGenerateNext() {
   } catch {
     /* error surfaced via `error` ref */
   }
+}
+
+async function handleCancelAdventure() {
+  try {
+    await saveUserSettings({ active_trip_id: null })
+    showCancelModal.value = false
+    emit('close')
+  } catch (err) {
+    console.error('Failed to cancel adventure:', err)
+  }
+}
+
+function handleCancelClick() {
+  showCancelModal.value = true
 }
 
 async function generateAdventurePDF() {
@@ -334,11 +352,32 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         <Button
           variant="outline"
           size="md"
-          @click="emit('close')"
+          @click="isTripComplete ? emit('close') : handleCancelClick()"
         >
           {{ isTripComplete ? labels.closeBtn : labels.cancelBtn }}
         </Button>
       </div>
     </footer>
   </div>
+
+  <!-- Cancel Confirmation Modal -->
+  <Modal
+    v-if="showCancelModal"
+    :open="showCancelModal"
+    title="Cancel Adventure"
+    size="sm"
+    @close="showCancelModal = false"
+  >
+    <p class="text-ink-black font-book">Are you sure you want to cancel this adventure?</p>
+    <template #footer>
+      <div class="flex gap-3 justify-end">
+        <Button variant="outline" size="md" @click="showCancelModal = false">
+          No, keep it
+        </Button>
+        <Button variant="primary" size="md" @click="handleCancelAdventure">
+          Yes, cancel
+        </Button>
+      </div>
+    </template>
+  </Modal>
 </template>

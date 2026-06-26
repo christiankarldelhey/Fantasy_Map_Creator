@@ -65,7 +65,6 @@ import { useDirections } from '@/composables/useDirections'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 import { useCharacter } from '@/composables/useCharacter'
 import { useUserSettings } from '@/composables/useUserSettings'
-import along from '@turf/along'
 import { lineString } from '@turf/helpers'
 import CharacterSelector from '@/components/CharacterSelector.vue'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
@@ -89,7 +88,7 @@ const mapConfig = computed(() => {
 const { isDirectionsMode, startDirections, exitDirections, setDestination, routeData, initializeFromBackend: initializeDirections } = useDirections()
 
 // Adventure / trip generation
-const { createTrip, generateDay } = useTrips()
+const { createTrip, generateDay, getTrip } = useTrips()
 const activeTripId = ref<string | null>(null)
 const { currentClimateTime, timestampISO } = useGlobalClimateTime()
 const lastSelectedCoordinates = ref<[number, number] | null>(null)
@@ -112,6 +111,8 @@ const isAnimating = ref(false)
 let animationFrameId: number | null = null
 let tripDayRouteSourceId = 'trip-day-route'
 let tripDayRouteLayerId = 'trip-day-route-layer'
+let fullTripRouteSourceId = 'full-trip-route'
+let fullTripRouteLayerId = 'full-trip-route-layer'
 let characterMarkers: Map<number, maplibregl.Marker> = new Map()
 
 // Composables refactorizados
@@ -286,23 +287,99 @@ function clearTripDayRoute(mapInstance: maplibregl.Map) {
   }
 }
 
+function drawFullTripRoute(mapInstance: maplibregl.Map, routeData: any) {
+  clearFullTripRoute(mapInstance)
+
+  if (!routeData || !routeData.geometry) {
+    console.warn('⚠️ Full trip route drawing skipped: invalid route data')
+    return
+  }
+
+  // Collect all coordinates from the route geometry
+  const coordinates: number[][] = []
+
+  // Add off_road_start coordinates
+  if (routeData.geometry.off_road_start?.geometry?.coordinates) {
+    coordinates.push(...routeData.geometry.off_road_start.geometry.coordinates)
+  }
+
+  // Add on_road coordinates
+  if (routeData.geometry.on_road?.features) {
+    routeData.geometry.on_road.features.forEach((feature: any) => {
+      if (feature.geometry?.coordinates) {
+        coordinates.push(...feature.geometry.coordinates)
+      }
+    })
+  }
+
+  // Add off_road_end coordinates
+  if (routeData.geometry.off_road_end?.geometry?.coordinates) {
+    coordinates.push(...routeData.geometry.off_road_end.geometry.coordinates)
+  }
+
+  if (coordinates.length < 2) {
+    console.warn('⚠️ Full trip route drawing skipped: not enough coordinates')
+    return
+  }
+
+  // Create LineString GeoJSON
+  const routeLine = lineString(coordinates)
+
+  mapInstance.addSource(fullTripRouteSourceId, {
+    type: 'geojson',
+    data: routeLine
+  })
+
+  mapInstance.addLayer({
+    id: fullTripRouteLayerId,
+    type: 'line',
+    source: fullTripRouteSourceId,
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round'
+    },
+    paint: {
+      'line-color': '#dc2626', // red-600
+      'line-width': 3,
+      'line-opacity': 0.8,
+      'line-dasharray': [4, 4]
+    }
+  })
+
+  // Move full route layer to top (above day route)
+  mapInstance.moveLayer(fullTripRouteLayerId)
+}
+
+function clearFullTripRoute(mapInstance: maplibregl.Map) {
+  if (mapInstance.getLayer(fullTripRouteLayerId)) {
+    mapInstance.removeLayer(fullTripRouteLayerId)
+  }
+  if (mapInstance.getSource(fullTripRouteSourceId)) {
+    mapInstance.removeSource(fullTripRouteSourceId)
+  }
+}
+
 function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3)
 }
 
 async function startCharacterTravelAnimation(day: any) {
+  console.log('🎬 Starting character travel animation', { day, activeCharacter: activeCharacter.value?.id })
+  
   if (!map || !activeCharacter.value) {
-    console.warn('⚠️ Animation skipped: map or activeCharacter missing')
+    console.warn('⚠️ Animation skipped: map or activeCharacter missing', { map: !!map, activeCharacter: !!activeCharacter.value })
     return
   }
 
   // Cancel any existing animation
   if (animationFrameId !== null) {
+    console.log('🔄 Canceling existing animation')
     cancelAnimationFrame(animationFrameId)
     animationFrameId = null
   }
 
   const marker = characterMarkers.get(activeCharacter.value.id)
+  console.log('📍 Marker found:', !!marker, 'for character:', activeCharacter.value.id)
   if (!marker) {
     console.warn('⚠️ Animation skipped: marker not found for character', activeCharacter.value.id)
     return
@@ -313,49 +390,79 @@ async function startCharacterTravelAnimation(day: any) {
   if (typeof day.geometry === 'string') {
     try {
       coords = JSON.parse(day.geometry)
+      console.log('📐 Parsed geometry from string')
     } catch (e) {
       console.error('❌ Failed to parse geometry string:', e)
       return
     }
   } else {
     coords = day.geometry
+    console.log('📐 Geometry is already an object')
   }
 
   const coordinates = coords.coordinates
+  console.log('📍 Coordinates:', coordinates?.length, 'points')
   if (!coordinates || coordinates.length < 2) {
     console.warn('⚠️ Animation skipped: invalid coordinates', coordinates)
     return
   }
 
-  // Draw the route
-  drawTripDayRoute(map, day.geometry)
+  // Validate all coordinates
+  const validCoordinates = coordinates.filter((coord: any) => {
+    const isValid = coord && 
+                   coord.length === 2 && 
+                   !isNaN(coord[0]) && 
+                   !isNaN(coord[1]) &&
+                   coord[0] !== null && 
+                   coord[1] !== null
+    if (!isValid) {
+      console.warn('⚠️ Invalid coordinate found:', coord)
+    }
+    return isValid
+  })
 
-  // Create LineString for @turf/along
-  const routeLine = lineString(coordinates)
-  const routeLength = routeLine.properties?.length || 0
+  if (validCoordinates.length < 2) {
+    console.warn('⚠️ Animation skipped: not enough valid coordinates', validCoordinates.length)
+    return
+  }
+
+  console.log('✅ Valid coordinates:', validCoordinates.length, 'points')
+
+  // Calculate bounds for the route and fit map with padding to compensate for ChapterViewer
+  const bounds = validCoordinates.reduce((bounds: any, coord: any) => {
+    return bounds.extend(coord as [number, number])
+  }, new maplibregl.LngLatBounds(validCoordinates[0] as [number, number], validCoordinates[0] as [number, number]))
+
+  // Fit bounds with padding to account for ChapterViewer on the right (40% of screen width)
+  map.fitBounds(bounds, {
+    padding: { top: 50, bottom: 50, left: 50, right: window.innerWidth * 0.4 },
+    maxZoom: 8, // More distant zoom
+    duration: 1000
+  })
+
+  // Draw the route with valid coordinates
+  const validGeometry = { ...coords, coordinates: validCoordinates }
+  drawTripDayRoute(map, validGeometry)
 
   isAnimating.value = true
   const startTime = performance.now()
-  const duration = 10000 // 10 seconds
+  const duration = 15000 // 15 seconds
+  console.log('⏱️ Animation duration:', duration, 'ms')
 
   function animate(currentTime: number) {
     const elapsed = currentTime - startTime
     const progress = Math.min(elapsed / duration, 1)
     const easedProgress = easeOutCubic(progress)
 
-    // Calculate position along the route using @turf/along
-    const distance = routeLength * easedProgress
-    const point = along(routeLine, distance, { units: 'kilometers' })
+    // Linear interpolation between coordinate points
+    const totalSegments = validCoordinates.length - 1
+    const segmentProgress = easedProgress * totalSegments
+    const segmentIndex = Math.max(0, Math.min(Math.floor(segmentProgress), totalSegments - 1))
+    const segmentT = segmentProgress - segmentIndex
 
-    if (point && point.geometry && point.geometry.coordinates && marker) {
-      const [lng, lat] = point.geometry.coordinates
-      marker.setLngLat([lng, lat])
-    }
-
-    if (progress < 1) {
-      animationFrameId = requestAnimationFrame(animate)
-    } else {
-      // Animation complete
+    if (segmentIndex >= totalSegments) {
+      // Animation complete, set to final position
+      if (marker) marker.setLngLat(validCoordinates[validCoordinates.length - 1])
       isAnimating.value = false
       animationFrameId = null
       console.log('✅ Animation complete')
@@ -376,10 +483,33 @@ async function startCharacterTravelAnimation(day: any) {
             console.error('❌ Failed to update character position:', err)
           })
       }
+      return
+    }
+
+    const start = validCoordinates[segmentIndex]
+    const end = validCoordinates[segmentIndex + 1]
+
+    // Validate coordinates before interpolation
+    if (!start || !end || start.length < 2 || end.length < 2) {
+      console.warn('⚠️ Invalid coordinates for interpolation:', { segmentIndex, start, end })
+      return
+    }
+
+    // Linear interpolation
+    const lng = start[0] + (end[0] - start[0]) * segmentT
+    const lat = start[1] + (end[1] - start[1]) * segmentT
+
+    if (marker) {
+      marker.setLngLat([lng, lat])
+    }
+
+    if (progress < 1) {
+      animationFrameId = requestAnimationFrame(animate)
     }
   }
 
   animationFrameId = requestAnimationFrame(animate)
+  console.log('🚀 Animation started')
 }
 
 // Expose function for parent components
@@ -397,6 +527,15 @@ watch(characters, () => {
     updateCharacterMarker()
   }
 }, { deep: true })
+
+watch(activeTripId, (newTripId, oldTripId) => {
+  if (map) {
+    if (newTripId === null && oldTripId !== null) {
+      // Trip was deactivated, clear the full route
+      clearFullTripRoute(map)
+    }
+  }
+})
 
 onMounted(async () => {
   if (!mapContainer.value) return
@@ -446,6 +585,10 @@ onMounted(async () => {
             if (savedTripId && activeCharacter.value) {
               activeTripId.value = savedTripId
               console.log('✅ Restored active trip from user settings:', savedTripId)
+              // Draw the full trip route
+              if (user.value?.active_trip?.route) {
+                drawFullTripRoute(map!, user.value.active_trip.route)
+              }
             }
           } catch (err) {
             console.error('Failed to load character position:', err)
@@ -677,6 +820,7 @@ onUnmounted(() => {
   if (map) {
     clearRoute(map)
     clearTripDayRoute(map)
+    clearFullTripRoute(map)
     removeMarker()
     removeLayers(map)
     map.remove()
@@ -813,6 +957,12 @@ async function handleStartAdventure(payload: { origin: any; destination: any; la
       transport_mode: 'walk',
       start_date: timestampISO.value,
     })
+    // Fetch the trip to get the route data
+    const tripData = await getTrip(trip.id)
+    // Draw the full trip route
+    if (map && tripData?.route) {
+      drawFullTripRoute(map, tripData.route)
+    }
     // Generate the first chapter
     const newDay = await generateDay(trip.id, { language })
     // Start animation with the first day's route

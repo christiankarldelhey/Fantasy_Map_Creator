@@ -28,6 +28,7 @@ export interface Trip {
   total_time_hours: number | null
   current_day: number
   created_at: string
+  route: any
 }
 
 export interface TripDay {
