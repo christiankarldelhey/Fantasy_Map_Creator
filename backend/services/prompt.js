@@ -87,7 +87,7 @@ export function buildDayPrompt(day, trip = {}, character = {}, language = 'engli
     const thoughtsList = day.thoughts.options.map(t => `- ${t.thought}`).join('\n');
     thoughtsSection = `=== CHARACTER STATE OF MIND ===  
     Once in the ${phase}, slip only one of these thoughts into the narration,
-    near-verbatim, triggered by something ${pronouns.subject} sees or does. His own voice —
+    near-verbatim, triggered by something ${pronouns.subject} sees or does. ${pronouns.possessive.charAt(0).toUpperCase() + pronouns.possessive.slice(1)} own voice —
     no quotes, no italics, no "${pronouns.subject} thought", no explaining it after.
     ${thoughtsList}
 
