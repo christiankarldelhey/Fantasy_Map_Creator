@@ -1,6 +1,6 @@
 <template>
   <div class="relative w-full h-screen">
-    <MapViewer mode="explore" />
+    <MapViewer mode="wander" />
     <WelcomeModal v-if="showWelcome" @dismiss="handleDismiss" />
   </div>
 </template>
@@ -19,15 +19,15 @@ onMounted(() => {
   if (!hasSeenWelcome) {
     showWelcome.value = true
   } else {
-    // If already seen, redirect to explore
-    router.replace('/explore')
+    // If already seen, redirect to wander
+    router.replace('/wander')
   }
 })
 
 function handleDismiss() {
   localStorage.setItem('me-welcome-seen', 'true')
   showWelcome.value = false
-  router.replace('/explore')
+  router.replace('/wander')
 }
 </script>
 

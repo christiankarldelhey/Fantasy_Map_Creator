@@ -42,7 +42,7 @@ const biomeIcon = computed(() => {
 
 
 <template>
-  <div v-if="location" class="location-sidebar absolute top-[72px] left-4 w-[400px] bg-parchment-base rounded-lg shadow-2xl border-2 border-gold z-[9998] overflow-hidden">
+  <div v-if="location" class="location-sidebar absolute top-[100px] left-4 w-[400px] bg-parchment-base rounded-lg shadow-2xl border-2 border-gold z-[9998] overflow-hidden">
     <button
       @click="$emit('close')"
       class="absolute top-2 right-2 p-1 rounded-md hover:bg-parchment-dark transition-colors z-10 text-ink-brown hover:text-ink-black"
@@ -116,7 +116,7 @@ const biomeIcon = computed(() => {
           class="w-full"
         >
           <Navigation class="w-4 h-4 mr-2" />
-          Directions
+          I want to go there
         </Button>
       </div>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="search-container absolute top-4 left-4 z-[9999]">
+  <!-- <div class="search-container absolute top-4 left-[220px] z-[9999]">
     <Popover v-model:open="showDropdown">
       <PopoverTrigger as-child>
         <div class="relative">
@@ -99,10 +99,10 @@
         </div>
       </PopoverContent>
     </Popover>
-  </div>
+  </div> -->
 </template>
 
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { ref } from 'vue'
 import { Search, X } from '@lucide/vue'
 import { useSearch } from '@/entities/search'
@@ -152,4 +152,4 @@ defineExpose({
     searchQuery.value = value
   }
 })
-</script>
+</script> -->

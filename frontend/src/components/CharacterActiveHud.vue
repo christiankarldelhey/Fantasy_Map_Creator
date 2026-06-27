@@ -1,5 +1,5 @@
 <template>
-  <div class="character-active-hud absolute top-[72px] left-4 z-[9999]">
+  <div class="character-active-hud absolute top-4 left-4 z-[9999]">
     <div class="character-avatar">
       <img
         v-if="activeCharacter"
@@ -47,12 +47,12 @@ function getCharacterImage(name: string): string {
 }
 
 .character-avatar {
-  width: 64px;
-  height: 64px;
+  width: 77px;
+  height: 77px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
-  border: 3px solid var(--accent-gold);
+  border: 4px solid var(--accent-gold);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1), 0 0 10px rgba(217, 119, 6, 0.5);
   z-index: 2;
 }
@@ -61,14 +61,14 @@ function getCharacterImage(name: string): string {
   background: var(--bg-parchment);
   border: 2px solid var(--accent-gold);
   border-radius: 0 8px 8px 0;
-  padding: 6px 12px;
-  min-width: 140px;
-  height: 48px;
+  padding: 7px 14px;
+  min-width: 168px;
+  height: 58px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 2px;
-  margin-left: -8px;
+  margin-left: -10px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   z-index: 1;
 }
@@ -82,7 +82,7 @@ function getCharacterImage(name: string): string {
 .character-name {
   color: var(--text-ink-black);
   font-family: 'Cinzel', Georgia, serif;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.1;
   white-space: nowrap;
@@ -91,7 +91,7 @@ function getCharacterImage(name: string): string {
 }
 
 .permadeath-skull {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1;
   flex-shrink: 0;
   opacity: 0.75;
@@ -101,7 +101,7 @@ function getCharacterImage(name: string): string {
 .character-race {
   color: var(--text-ink-brown);
   font-family: 'IM Fell English', Georgia, serif;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.1;
   white-space: nowrap;
   overflow: hidden;
@@ -110,7 +110,7 @@ function getCharacterImage(name: string): string {
 
 .resistance-bar {
   width: 100%;
-  height: 5px;
+  height: 6px;
   background: var(--bg-parchment-dark);
   border-radius: 3px;
   overflow: hidden;

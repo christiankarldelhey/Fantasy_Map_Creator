@@ -85,6 +85,10 @@ async function handleGenerateNext() {
     if (newDay?.geometry) {
       emit('day-generated', newDay)
     }
+    // Auto-expand the narrative tab for the newly generated day
+    if (newDay?.id) {
+      expanded.value = { [newDay.id]: 'narrative' }
+    }
     // Permadeath: traveller was slain this chapter
     if (newDay?.trip_status === 'dead') {
       isTripDead.value = true

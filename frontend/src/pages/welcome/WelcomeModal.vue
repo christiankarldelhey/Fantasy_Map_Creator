@@ -3,20 +3,13 @@
     <div class="bg-parchment-base rounded-xl shadow-2xl max-w-2xl w-full mx-4 p-8 text-center border-2 border-gold">
       <h1 class="text-3xl font-serif font-bold text-ink-black mb-4">Well met, traveller.</h1>
       <p class="text-lg text-ink-brown mb-6 leading-relaxed font-book">
-        Rest your feet a while and read. This is the Middle-earth Wandering Simulator. A place to breathe life into a character and roam the lands freely, from the Rhovanion on the east to the shores of Lindon. Or, if you'd rather, simply unroll the map and wander it with your eyes.
+        Rest your feet a while and read. This is the Middle-earth Wandering Simulator. A place to breathe life into a character and roam the lands freely, from the Black Forest to the shores of Lindon.
       </p>
       <p class="text-sm text-ink-light italic mb-8 font-book">
         A personal hobby and portfolio project, made for love of the work — no coin sought, no rights claimed. Built in respect of J.R.R. Tolkien's legendarium and of MERP (© Iron Crown Enterprises).
       </p>
       <p class="text-xl font-serif font-semibold text-ink-black mb-6">What will it be?</p>
       <div class="flex flex-col gap-4">
-        <Button
-          @click="handleExplore"
-          variant="gold"
-          size="lg"
-        >
-          Unroll the Map
-        </Button>
         <Button
           @click="handleWalk"
           variant="primary"
@@ -62,11 +55,6 @@ const router = useRouter()
 const { activeCharacter } = useCharacter()
 const showCharacterSelect = ref(false)
 const showSeasonSelect = ref(false)
-
-function handleExplore() {
-  emit('dismiss')
-  router.push('/explore')
-}
 
 function handleWalk() {
   showCharacterSelect.value = true

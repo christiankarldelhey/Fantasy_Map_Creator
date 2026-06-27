@@ -6,6 +6,11 @@
 
     <CharacterActiveHud v-if="mode === 'wander' && activeCharacter" />
 
+    <DateSeasonPanel
+      v-if="!activeTripId"
+      @click="showSeasonSelector = true"
+    />
+
     <DirectionsInput
       v-if="isDirectionsMode"
       @select-destination="handleDirectionsDestinationSelect"
@@ -64,6 +69,12 @@
         <Button variant="danger" size="sm" @click="handleConfirmCancelForDirections">Abandon &amp; get directions</Button>
       </div>
     </Modal>
+
+    <SeasonSelectModal
+      v-if="showSeasonSelector"
+      @confirm="showSeasonSelector = false"
+      @cancel="showSeasonSelector = false"
+    />
   </div>
 </template>
 
@@ -96,7 +107,9 @@ import {
 } from '@/composables/useMapRoutes'
 import CharacterSelector from '@/components/CharacterSelector.vue'
 import CharacterActiveHud from '@/components/CharacterActiveHud.vue'
+import DateSeasonPanel from '@/components/DateSeasonPanel.vue'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
+import SeasonSelectModal from '@/pages/welcome/SeasonSelectModal.vue'
 import { Loader } from '@/components/ui/loader'
 import { Modal } from '@/components/ui/modal'
 import { Button } from '@/components/ui/button'
@@ -126,6 +139,7 @@ const lastSelectedCoordinates = ref<[number, number] | null>(null)
 const pendingDestinationLocation = ref<LocationDetails | null>(null)
 const adventureLoading = ref(false)
 const showCancelForDirectionsModal = ref(false)
+const showSeasonSelector = ref(false)
 
 const adventurePhrases = [
   'Consulting the old maps and the older roads…',

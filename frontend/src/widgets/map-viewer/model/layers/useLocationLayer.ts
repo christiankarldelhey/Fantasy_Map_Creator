@@ -26,7 +26,7 @@ export function useLocationLayer() {
     layerType: 'circle',
     minzoom: ZOOM_LEVELS.FAR.min,
     paint: {
-      'circle-radius': 7,
+      'circle-radius': 5.6,
       'circle-color': MAP_COLORS.locations.primary,
       'circle-opacity': 0.5,
       'circle-stroke-width': 2,
@@ -43,7 +43,7 @@ export function useLocationLayer() {
     layerType: 'circle',
     minzoom: ZOOM_LEVELS.MEDIUM.min,
     paint: {
-      'circle-radius': 6,
+      'circle-radius': 4.8,
       'circle-color': MAP_COLORS.locations.primary,
       'circle-opacity': 0.4,
       'circle-stroke-width': 2,
@@ -60,7 +60,7 @@ export function useLocationLayer() {
     layerType: 'circle',
     minzoom: ZOOM_LEVELS.NEAR.min,
     paint: {
-      'circle-radius': 4,
+      'circle-radius': 3.2,
       'circle-color': MAP_COLORS.locations.primary,
       'circle-opacity': 0.3,
       'circle-stroke-width': 1.5,

@@ -1,5 +1,5 @@
 <template>
-  <div class="directions-container absolute top-[72px] left-4 z-[9999] w-[400px] bg-parchment-base rounded-lg shadow-2xl border-2 border-gold flex flex-col overflow-hidden">
+  <div class="directions-container absolute top-[100px] left-4 z-[9999] w-[400px] bg-parchment-base rounded-lg shadow-2xl border-2 border-gold flex flex-col overflow-hidden">
     <!-- Header -->
     <header class="flex items-center gap-3 px-4 py-3 border-b-2 border-earth-dark bg-parchment-light">
       <button
