@@ -5,7 +5,7 @@ import { useUserSettings } from '@/composables/useUserSettings'
 // Trip/day generation can call an LLM, so it needs a longer timeout than the
 // shared client (10s). We use a dedicated instance for this feature.
 const tripApi = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
   timeout: 60000,
   headers: { 'Content-Type': 'application/json' },
 })
