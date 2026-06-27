@@ -121,7 +121,6 @@ const props = defineProps<{
 }>()
 
 const mapContainer = ref<HTMLDivElement | null>(null)
-const searchInputRef = ref<InstanceType<typeof SearchInput> | null>(null)
 const selectedLocation = ref<LocationDetails | null>(null)
 let map: maplibregl.Map | null = null
 
@@ -457,10 +456,6 @@ function handleLocationClick(location: LocationDetails) {
   }
 
   selectedLocation.value = location
-  // Set search input to location name
-  if (searchInputRef.value) {
-    searchInputRef.value.setSearchQuery(location.name)
-  }
 
   // Highlight region border if this is a region
   if (location.type === 'Region' && location.regionId && map) {
