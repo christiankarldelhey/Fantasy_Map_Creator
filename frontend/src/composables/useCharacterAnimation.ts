@@ -59,7 +59,7 @@ export function useCharacterAnimation() {
         cursor: 'pointer',
       })
 
-      if (character.active) {
+      if (character.is_active_for_user ?? character.active) {
         Object.assign(el.style, {
           border: '3px solid #d97706',
           boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1), 0 0 10px rgba(217,119,6,0.5)',

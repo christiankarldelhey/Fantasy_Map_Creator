@@ -113,6 +113,11 @@ export function useCharacter() {
       if (user.value) {
         user.value.active_character_id = id
       }
+      // Update is_active_for_user flag in local characters array so markers re-render
+      characters.value = characters.value.map((c: any) => ({
+        ...c,
+        is_active_for_user: c.id === id
+      }))
       console.log('✅ Set active character:', response.data)
       return response.data
     } catch (err: any) {
