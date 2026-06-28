@@ -10,22 +10,22 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { MapViewer } from '@/widgets/map-viewer'
 import WelcomeModal from './WelcomeModal.vue'
+import { useUserSettings } from '@/composables/useUserSettings'
 
 const router = useRouter()
+const { user } = useUserSettings()
 const showWelcome = ref(false)
 
 onMounted(() => {
-  const hasSeenWelcome = localStorage.getItem('me-welcome-seen')
-  if (!hasSeenWelcome) {
-    showWelcome.value = true
-  } else {
-    // If already seen, redirect to wander
+  if (user.value?.active_character_id) {
+    // User already has a character, go straight to the map
     router.replace('/wander')
+  } else {
+    showWelcome.value = true
   }
 })
 
 function handleDismiss() {
-  localStorage.setItem('me-welcome-seen', 'true')
   showWelcome.value = false
   router.replace('/wander')
 }

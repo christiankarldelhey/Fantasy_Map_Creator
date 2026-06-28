@@ -10,6 +10,10 @@ const api = axios.create({
 
 api.interceptors.request.use(
   config => {
+    const token = localStorage.getItem('me-auth-token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
     console.log(`📡 ${config.method?.toUpperCase()} ${config.url}`)
     return config
   },

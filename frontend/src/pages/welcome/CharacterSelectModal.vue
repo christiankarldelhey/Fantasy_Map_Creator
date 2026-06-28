@@ -47,7 +47,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useCharacter } from '@/composables/useCharacter'
+import { useAuth } from '@/composables/useAuth'
+import { useUserSettings } from '@/composables/useUserSettings'
+import api from '@/shared/api/client'
 import { Button } from '@/components/ui/button'
+import type { CharacterState } from '@/composables/useCharacter'
 
 const emit = defineEmits<{
   confirm: [characterId: number]
@@ -55,7 +59,10 @@ const emit = defineEmits<{
 }>()
 
 const { characters, setActiveCharacter, fetchAllCharacters } = useCharacter()
+const { isAdmin } = useAuth()
+const { user } = useUserSettings()
 const selectedCharacterId = ref<number | null>(null)
+const loading = ref(false)
 
 onMounted(async () => {
   await fetchAllCharacters()
@@ -70,9 +77,23 @@ function selectCharacter(id: number) {
 }
 
 async function handleConfirm() {
-  if (selectedCharacterId.value) {
-    await setActiveCharacter(selectedCharacterId.value)
+  if (!selectedCharacterId.value) return
+  loading.value = true
+  try {
+    if (isAdmin.value) {
+      // Admin: direct assignment (original behaviour)
+      await setActiveCharacter(selectedCharacterId.value)
+    } else {
+      // Normal user: clone the template character
+      const response = await api.post<CharacterState>(`/character/clone/${selectedCharacterId.value}`)
+      // Sync user settings with new active_character_id
+      if (user.value) {
+        user.value.active_character_id = response.data.id
+      }
+    }
     emit('confirm', selectedCharacterId.value)
+  } finally {
+    loading.value = false
   }
 }
 </script>

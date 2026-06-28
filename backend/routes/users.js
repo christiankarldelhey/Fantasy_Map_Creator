@@ -1,15 +1,16 @@
 import express from 'express';
 import pool from '../db.js';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // ---------------------------------------------------------------------------
-// Shared helper: fetch the singleton admin user with all joined data
+// Shared helper: fetch full user by id with joined data
 // ---------------------------------------------------------------------------
-async function fetchFullUser() {
+async function fetchFullUserById(userId) {
   const { rows } = await pool.query(
     `SELECT 
-      u.id, u.email, u.active_character_id, u.active_trip_id, u.settings, u.created_at, u.updated_at,
+      u.id, u.email, u.username, u.is_admin, u.active_character_id, u.active_trip_id, u.settings, u.created_at, u.updated_at,
       c.id as character_id, c.name as character_name, c.current_lng as character_lng,
       c.current_lat as character_lat, c.type as character_type, c.gender as character_gender,
       c.active as character_active, c.description as character_description, c.updated_at as character_updated_at,
@@ -20,12 +21,14 @@ async function fetchFullUser() {
      FROM users u
      LEFT JOIN character_state c ON u.active_character_id = c.id
      LEFT JOIN trips t ON u.active_trip_id = t.id
-     WHERE u.email = 'admin@middleearth.com' LIMIT 1`
+     WHERE u.id = $1 LIMIT 1`,
+    [userId]
   );
   if (rows.length === 0) return null;
   const u = rows[0];
   return {
-    id: u.id, email: u.email, active_character_id: u.active_character_id,
+    id: u.id, email: u.email, username: u.username, is_admin: u.is_admin,
+    active_character_id: u.active_character_id,
     active_trip_id: u.active_trip_id, settings: u.settings,
     created_at: u.created_at, updated_at: u.updated_at,
     active_character: u.character_id ? {
@@ -43,16 +46,12 @@ async function fetchFullUser() {
 }
 
 // ---------------------------------------------------------------------------
-// GET /api/users/me - Get the admin user (singleton) with settings
+// GET /api/users/me
 // ---------------------------------------------------------------------------
-router.get('/me', async (req, res, next) => {
+router.get('/me', authenticateToken, async (req, res, next) => {
   try {
-    const user = await fetchFullUser();
-
-    if (!user) {
-      return res.status(404).json({ error: 'Admin user not found' });
-    }
-
+    const user = await fetchFullUserById(req.userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
     res.json(user);
   } catch (error) {
     next(error);
@@ -63,11 +62,10 @@ router.get('/me', async (req, res, next) => {
 // PUT /api/users/me - Update user settings (active character, active trip, settings)
 // Body: { active_character_id?, active_trip_id?, settings? }
 // ---------------------------------------------------------------------------
-router.put('/me', async (req, res, next) => {
+router.put('/me', authenticateToken, async (req, res, next) => {
   try {
     const { active_character_id, active_trip_id, settings } = req.body || {};
 
-    // Build dynamic update query
     const updates = [];
     const values = [];
     let paramIndex = 1;
@@ -92,23 +90,20 @@ router.put('/me', async (req, res, next) => {
     }
 
     updates.push(`updated_at = NOW()`);
-    values.push('admin@middleearth.com');
+    values.push(req.userId);
 
     const query = `
       UPDATE users
       SET ${updates.join(', ')}
-      WHERE email = $${paramIndex}
+      WHERE id = $${paramIndex}
       RETURNING id
     `;
 
     const { rows } = await pool.query(query, values);
+    if (rows.length === 0) return res.status(404).json({ error: 'User not found' });
 
-    if (rows.length === 0) {
-      return res.status(404).json({ error: 'Admin user not found' });
-    }
-
-    const fullUser = await fetchFullUser();
-    if (!fullUser) return res.status(404).json({ error: 'Admin user not found' });
+    const fullUser = await fetchFullUserById(req.userId);
+    if (!fullUser) return res.status(404).json({ error: 'User not found' });
     res.json(fullUser);
   } catch (error) {
     next(error);
@@ -119,7 +114,7 @@ router.put('/me', async (req, res, next) => {
 // PATCH /api/users/me/settings - Partial update of settings JSONB
 // Body: { settings: { ...partialSettings } }
 // ---------------------------------------------------------------------------
-router.patch('/me/settings', async (req, res, next) => {
+router.patch('/me/settings', authenticateToken, async (req, res, next) => {
   try {
     const { settings } = req.body || {};
 
@@ -128,11 +123,11 @@ router.patch('/me/settings', async (req, res, next) => {
     }
 
     await pool.query(
-      `UPDATE users SET settings = settings || $1::jsonb, updated_at = NOW() WHERE email = 'admin@middleearth.com'`,
-      [settings]
+      `UPDATE users SET settings = settings || $1::jsonb, updated_at = NOW() WHERE id = $2`,
+      [settings, req.userId]
     );
-    const fullUser = await fetchFullUser();
-    if (!fullUser) return res.status(404).json({ error: 'Admin user not found' });
+    const fullUser = await fetchFullUserById(req.userId);
+    if (!fullUser) return res.status(404).json({ error: 'User not found' });
     res.json(fullUser);
   } catch (error) {
     next(error);

@@ -1,9 +1,10 @@
 import express from 'express';
 import pool from '../db.js';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// GET /api/character - Get all characters
+// GET /api/character - Get all characters (templates only, no owner)
 router.get('/', async (req, res, next) => {
   try {
     const result = await pool.query(`
@@ -33,6 +34,7 @@ router.get('/', async (req, res, next) => {
           LIMIT 1
         ) as current_region
       FROM character_state c
+      WHERE c.owner_user_id IS NULL
       ORDER BY c.id ASC
     `);
 
@@ -131,7 +133,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // PUT /api/character/active/position - Update the active character's position
-router.put('/active/position', async (req, res, next) => {
+router.put('/active/position', authenticateToken, async (req, res, next) => {
   try {
     const { current_lng, current_lat } = req.body;
 
@@ -139,12 +141,19 @@ router.put('/active/position', async (req, res, next) => {
       return res.status(400).json({ error: 'Missing current_lng or current_lat' });
     }
 
+    // Get the user's active_character_id
+    const userRow = await pool.query('SELECT active_character_id FROM users WHERE id = $1', [req.userId]);
+    if (!userRow.rows[0]?.active_character_id) {
+      return res.status(404).json({ error: 'No active character found for user' });
+    }
+    const characterId = userRow.rows[0].active_character_id;
+
     const result = await pool.query(`
       UPDATE character_state
       SET current_lng = $1, current_lat = $2, updated_at = NOW()
-      WHERE active = true
+      WHERE id = $3
       RETURNING id, name, current_lng, current_lat, updated_at
-    `, [current_lng, current_lat]);
+    `, [current_lng, current_lat, characterId]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'No active character found to update' });
@@ -156,18 +165,18 @@ router.put('/active/position', async (req, res, next) => {
   }
 });
 
-// PUT /api/character/:id/active - Set a character as active
-router.put('/:id/active', async (req, res, next) => {
+// PUT /api/character/:id/active - Set a character as active (admin only — direct assignment)
+router.put('/:id/active', authenticateToken, async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    // Start transaction
-    await pool.query('BEGIN');
+    if (!req.isAdmin) {
+      return res.status(403).json({ error: 'Admin only' });
+    }
 
-    // Deactivate all characters
+    await pool.query('BEGIN');
     await pool.query('UPDATE character_state SET active = false');
 
-    // Activate the specified character
     const result = await pool.query(`
       UPDATE character_state
       SET active = true
@@ -181,10 +190,66 @@ router.put('/:id/active', async (req, res, next) => {
     }
 
     await pool.query('COMMIT');
-
     res.json(result.rows[0]);
   } catch (error) {
     await pool.query('ROLLBACK');
+    next(error);
+  }
+});
+
+// POST /api/character/clone/:templateId - Clone a template character for the current user
+router.post('/clone/:templateId', authenticateToken, async (req, res, next) => {
+  try {
+    const { templateId } = req.params;
+    const userId = req.userId;
+
+    // Check if user already has a clone of this template
+    const existingClone = await pool.query(
+      'SELECT id FROM character_state WHERE owner_user_id = $1 AND template_id = $2',
+      [userId, templateId]
+    );
+
+    let characterId;
+
+    if (existingClone.rows.length > 0) {
+      // Return existing clone
+      characterId = existingClone.rows[0].id;
+    } else {
+      // Fetch template
+      const template = await pool.query(
+        'SELECT * FROM character_state WHERE id = $1 AND owner_user_id IS NULL',
+        [templateId]
+      );
+      if (template.rows.length === 0) {
+        return res.status(404).json({ error: 'Template character not found' });
+      }
+      const t = template.rows[0];
+
+      // Insert clone with a unique slug: <template-slug>-user-<userId>
+      const cloneSlug = t.slug ? `${t.slug}-user-${userId}` : null;
+      const clone = await pool.query(
+        `INSERT INTO character_state
+          (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11)
+         RETURNING id`,
+        [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug]
+      );
+      characterId = clone.rows[0].id;
+    }
+
+    // Update user's active_character_id
+    await pool.query(
+      'UPDATE users SET active_character_id = $1, updated_at = NOW() WHERE id = $2',
+      [characterId, userId]
+    );
+
+    const result = await pool.query(
+      'SELECT id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, updated_at FROM character_state WHERE id = $1',
+      [characterId]
+    );
+
+    res.json(result.rows[0]);
+  } catch (error) {
     next(error);
   }
 });

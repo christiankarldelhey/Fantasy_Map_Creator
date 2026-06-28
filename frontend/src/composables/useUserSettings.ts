@@ -19,6 +19,8 @@ export interface UserSettings {
 export interface User {
   id: number
   email: string
+  username: string | null
+  is_admin: boolean
   active_character_id: number | null
   active_trip_id: string | null
   settings: UserSettings
