@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { ScrollText, ChevronDown, ChevronRight, Plus, FileDown } from '@lucide/vue'
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
@@ -88,6 +88,11 @@ async function handleGenerateNext() {
     // Auto-expand the narrative tab for the newly generated day
     if (newDay?.id) {
       expanded.value = { [newDay.id]: 'narrative' }
+      await nextTick()
+      const el = document.getElementById(`chapter-${newDay.id}`)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
     }
     // Permadeath: traveller was slain this chapter
     if (newDay?.trip_status === 'dead') {
@@ -303,6 +308,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       <article
         v-for="day in days"
         :key="day.id"
+        :id="`chapter-${day.id}`"
         class="bg-parchment-light rounded-lg border-2 border-earth-dark shadow-md overflow-hidden"
       >
         <div class="px-4 py-3 border-b border-earth-dark bg-parchment-base">

@@ -46,7 +46,7 @@ export const AFTERNOON_HOURS = AFTERNOON_END_HOUR - MORNING_END_HOUR; // 6
 /** Region containing a point, or null. */
 async function regionAtPoint(lng, lat) {
   const { rows } = await pool.query(
-    `SELECT name, description_summary
+    `SELECT name, description_summary, COALESCE(population_ratio, 0.5) AS population_ratio
      FROM regions
      WHERE ST_Contains(geom, ST_SetSRID(ST_MakePoint($1, $2), 4326))
      LIMIT 1`,
@@ -62,10 +62,11 @@ async function regionsForPoints(points) {
   const { rows } = await pool.query(
     `SELECT t.idx,
             r.name,
-            r.description_summary
+            r.description_summary,
+            COALESCE(r.population_ratio, 0.5) AS population_ratio
      FROM jsonb_array_elements($1::jsonb) WITH ORDINALITY AS t(elem, idx)
      LEFT JOIN LATERAL (
-       SELECT name, description_summary
+       SELECT name, description_summary, population_ratio
        FROM regions
        WHERE ST_Contains(geom, ST_SetSRID(ST_MakePoint((elem->>0)::float, (elem->>1)::float), 4326))
        LIMIT 1
@@ -76,6 +77,7 @@ async function regionsForPoints(points) {
   return rows.map((row) => (row.name ? {
     name: row.name,
     description_summary: row.description_summary,
+    population_ratio: Number(row.population_ratio),
   } : null));
 }
 
@@ -178,7 +180,8 @@ async function sampleLegContext(legGeoJSON) {
           'distance_km', round((ST_Distance(l.geom::geography, leg.geom::geography) / 1000)::numeric, 2)
         ) ORDER BY ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom))), '[]'::json)
         FROM locations l, leg
-        WHERE ST_DWithin(l.geom::geography, leg.geom::geography, 10000)) AS locations,
+        WHERE ST_DWithin(l.geom::geography, leg.geom::geography, 10000)
+          AND ST_Distance(l.geom::geography, ST_StartPoint(leg.geom)::geography) > 3000) AS locations,
        (SELECT COALESCE(json_agg(json_build_object(
           'name', w.name,
           'type', w.water_type,
@@ -260,9 +263,25 @@ function noonTimestamp1950(dateISO) {
 // ---------------------------------------------------------------------------
 
 /**
+ * Find the road_type of the segment active at a given cumulative-seconds offset.
+ * Falls back to 'off_road' if no matching segment is found.
+ */
+function roadTypeAtSeconds(segments, targetSeconds) {
+  let acc = 0;
+  for (const seg of segments) {
+    if (targetSeconds <= acc + seg.seconds) return seg.road_type || 'off_road';
+    acc += seg.seconds;
+  }
+  return segments.length > 0
+    ? segments[segments.length - 1].road_type || 'off_road'
+    : 'off_road';
+}
+
+/**
  * Build a getRegionInfo(elapsed) function for a walking phase: maps elapsed
  * walking hours to a position along the leg, resolves region + entities.
  * Regions and entities are precomputed/cached for the sampled time steps.
+ * Also includes road_type and population_ratio for the encounter engine.
  */
 async function buildWalkingPhaseResolver(segments, dayStartSeconds, phaseHours, timeStep) {
   const steps = [];
@@ -287,8 +306,14 @@ async function buildWalkingPhaseResolver(segments, dayStartSeconds, phaseHours, 
   const byStep = new Map();
   steps.forEach((elapsed, i) => {
     const region = regions[i];
+    const absoluteSeconds = dayStartSeconds + elapsed * SECONDS_PER_HOUR;
+    const road_type = roadTypeAtSeconds(segments, absoluteSeconds);
     if (region) {
-      byStep.set(elapsed, { ...region, entities: entityCache.get(region.name) || [] });
+      byStep.set(elapsed, {
+        ...region,
+        entities: entityCache.get(region.name) || [],
+        road_type,
+      });
     } else {
       byStep.set(elapsed, null);
     }
@@ -300,12 +325,13 @@ async function buildWalkingPhaseResolver(segments, dayStartSeconds, phaseHours, 
 /**
  * Build a getRegionInfo function for the NIGHT phase: the company is camped at
  * a fixed position, so the region/entities are constant.
+ * Night always uses road_type 'off_road' (party is camped, not on a road).
  */
 async function buildNightRegionResolver(campPoint) {
   const region = await regionAtPoint(campPoint[0], campPoint[1]);
   if (!region) return () => null;
   const entities = await entitiesForRegion(region.name);
-  const info = { ...region, entities };
+  const info = { ...region, entities, road_type: 'off_road' };
   return () => info;
 }
 
