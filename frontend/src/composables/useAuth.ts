@@ -57,6 +57,7 @@ export function useAuth() {
       })
       setToken(response.data.token)
       currentUser.value = response.data.user
+      await api.post('/character/clone-all').catch(() => {})
     } catch (err: any) {
       const message = err.response?.data?.error || err.message || 'Login failed'
       authError.value = message
@@ -74,6 +75,7 @@ export function useAuth() {
     try {
       const response = await api.get<User>('/auth/me')
       currentUser.value = response.data
+      await api.post('/character/clone-all').catch(() => {})
       return true
     } catch {
       clearToken()

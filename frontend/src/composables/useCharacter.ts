@@ -24,33 +24,27 @@ const characterLoading = ref(false)
 const characterError = ref<string | null>(null)
 
 export function useCharacter() {
-  const { user, saveUserSettings } = useUserSettings()
+  const { user } = useUserSettings()
 
   async function fetchAllCharacters() {
     characterLoading.value = true
     characterError.value = null
     try {
-      const response = await api.get<CharacterState[]>('/character')
+      const response = await api.get<CharacterState[]>('/character/my')
       characters.value = response.data
       
-      // First, check if there's an active character in the user settings
+      // Determine active character: prefer is_active_for_user flag, fallback to user settings
+      const activeByFlag = response.data.find((c: any) => c.is_active_for_user)
       const userActiveCharacterId = user.value?.active_character_id
-      if (userActiveCharacterId) {
-        const characterFromSettings = response.data.find(c => c.id === userActiveCharacterId)
-        if (characterFromSettings) {
-          // Ensure the character is marked as active in the DB
-          activeCharacter.value = characterFromSettings
-          console.log('✅ Loaded active character from user settings:', characterFromSettings)
-        } else {
-          // Fallback to DB active flag if settings character not found
-          activeCharacter.value = response.data.find(c => c.active) || null
-        }
+      if (activeByFlag) {
+        activeCharacter.value = activeByFlag
+      } else if (userActiveCharacterId) {
+        activeCharacter.value = response.data.find(c => c.id === userActiveCharacterId) || response.data[0] || null
       } else {
-        // No user settings, use DB active flag
-        activeCharacter.value = response.data.find(c => c.active) || null
+        activeCharacter.value = response.data[0] || null
       }
       
-      console.log('✅ Loaded all characters:', response.data)
+      console.log('✅ Loaded user characters:', response.data)
       return response.data
     } catch (err: any) {
       const message = err.response?.data?.error || err.message || 'Failed to load characters'
@@ -114,15 +108,12 @@ export function useCharacter() {
     characterError.value = null
     try {
       const response = await api.put<CharacterState>(`/character/${id}/active`)
-      // Update all characters' active status
-      characters.value.forEach(c => {
-        c.active = c.id === id
-      })
       activeCharacter.value = response.data
-      
-      // Persist to user settings
-      await saveUserSettings({ active_character_id: id })
-      console.log('✅ Set active character and saved to user settings:', response.data)
+      // Sync user settings local state
+      if (user.value) {
+        user.value.active_character_id = id
+      }
+      console.log('✅ Set active character:', response.data)
       return response.data
     } catch (err: any) {
       const message = err.response?.data?.error || err.message || 'Failed to set active character'

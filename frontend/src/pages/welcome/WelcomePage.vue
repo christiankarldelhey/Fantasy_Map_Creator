@@ -10,23 +10,28 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { MapViewer } from '@/widgets/map-viewer'
 import WelcomeModal from './WelcomeModal.vue'
-import { useUserSettings } from '@/composables/useUserSettings'
+import api from '@/shared/api/client'
 
 const router = useRouter()
-const { user } = useUserSettings()
 const showWelcome = ref(false)
 
-onMounted(() => {
-  if (user.value?.active_character_id) {
-    // User already has a character, go straight to the map
+onMounted(async () => {
+  const alreadySeen = localStorage.getItem('me-welcome-seen')
+  if (alreadySeen) {
     router.replace('/wander')
-  } else {
-    showWelcome.value = true
+    return
   }
+  try {
+    await api.post('/character/clone-all')
+  } catch (err) {
+    console.error('Failed to provision characters:', err)
+  }
+  showWelcome.value = true
 })
 
 function handleDismiss() {
   showWelcome.value = false
+  localStorage.setItem('me-welcome-seen', '1')
   router.replace('/wander')
 }
 </script>

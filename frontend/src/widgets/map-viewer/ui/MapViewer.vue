@@ -2,8 +2,6 @@
   <div class="relative w-full h-screen bg-white overflow-visible">
     <div ref="mapContainer" class="w-full h-full" style="min-height: 100vh;"></div>
 
-    <CharacterSelector v-if="mode === 'wander'" />
-
     <CharacterActiveHud v-if="mode === 'wander' && activeCharacter" />
 
     <DateSeasonPanel
@@ -70,6 +68,23 @@
       </div>
     </Modal>
 
+    <Modal
+      v-if="showSwitchCharacterModal"
+      title="Abandon current adventure?"
+      size="sm"
+      @close="showSwitchCharacterModal = false"
+    >
+      <div class="px-6 py-4 font-book text-ink-black text-sm leading-relaxed">
+        <p>A tale is still unfolding for this company.</p>
+        <p class="mt-2 text-ink-brown">Switching to another soul will abandon the current adventure. What is written cannot be unwritten.</p>
+        <p class="mt-2 font-semibold">Do you wish to leave it behind?</p>
+      </div>
+      <div class="px-6 pb-5 flex gap-3 justify-end">
+        <Button variant="outline" size="sm" @click="showSwitchCharacterModal = false">Stay the course</Button>
+        <Button variant="danger" size="sm" @click="handleConfirmSwitchCharacter">Abandon &amp; switch</Button>
+      </div>
+    </Modal>
+
     <SeasonSelectModal
       v-if="showSeasonSelector"
       @confirm="showSeasonSelector = false"
@@ -116,7 +131,6 @@ import {
   clearDirectionsRoute,
   clearAllTripRoutes,
 } from '@/composables/useMapRoutes'
-import CharacterSelector from '@/components/CharacterSelector.vue'
 import CharacterActiveHud from '@/components/CharacterActiveHud.vue'
 import DateSeasonPanel from '@/components/DateSeasonPanel.vue'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
@@ -150,6 +164,8 @@ const lastSelectedCoordinates = ref<[number, number] | null>(null)
 const pendingDestinationLocation = ref<LocationDetails | null>(null)
 const adventureLoading = ref(false)
 const showCancelForDirectionsModal = ref(false)
+const showSwitchCharacterModal = ref(false)
+const pendingSwitchCharacterId = ref<number | null>(null)
 const showSeasonSelector = ref(false)
 
 const adventurePhrases = [
@@ -228,11 +244,19 @@ function updateCharacterMarker() {
   updateCharacterMarkers(map, characters.value)
   // Re-attach click handlers for character switching
   characters.value.forEach((character) => {
+    const isActive = user.value?.active_character_id
+      ? user.value.active_character_id === character.id
+      : character.id === activeCharacter.value?.id
     const marker = characterMarkers.get(character.id)
-    if (marker && !character.active) {
+    if (marker && !isActive) {
       marker.getElement().addEventListener('click', (e) => {
         e.stopPropagation()
-        setActiveCharacter(character.id)
+        if (activeTripId.value) {
+          pendingSwitchCharacterId.value = character.id
+          showSwitchCharacterModal.value = true
+        } else {
+          setActiveCharacter(character.id)
+        }
       })
     }
   })
@@ -515,6 +539,23 @@ function _doStartDirections() {
     coordinates: lastSelectedCoordinates.value
   })
   selectedLocation.value = null
+}
+
+async function handleConfirmSwitchCharacter() {
+  if (!pendingSwitchCharacterId.value) return
+  try {
+    await saveUserSettings({ active_trip_id: null })
+    activeTripId.value = null
+    if (map) {
+      clearCompletedRoute(map)
+      clearRemainingRoute(map)
+    }
+    await setActiveCharacter(pendingSwitchCharacterId.value)
+    showSwitchCharacterModal.value = false
+    pendingSwitchCharacterId.value = null
+  } catch (err) {
+    console.error('Failed to switch character:', err)
+  }
 }
 
 async function handleConfirmCancelForDirections() {

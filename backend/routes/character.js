@@ -44,6 +44,50 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// GET /api/character/my - Get all clones belonging to the authenticated user
+router.get('/my', authenticateToken, async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    const result = await pool.query(`
+      SELECT 
+        c.id, 
+        c.name, 
+        c.current_lng, 
+        c.current_lat, 
+        c.type,
+        c.gender,
+        c.active,
+        c.description,
+        c.resistance,
+        c.permadeath,
+        c.updated_at,
+        c.template_id,
+        (u.active_character_id = c.id) as is_active_for_user,
+        (
+          SELECT name 
+          FROM locations 
+          WHERE ST_DWithin(geom, ST_SetSRID(ST_Point(c.current_lng, c.current_lat), 4326), 0.01)
+          ORDER BY ST_Distance(geom, ST_SetSRID(ST_Point(c.current_lng, c.current_lat), 4326)) ASC
+          LIMIT 1
+        ) as current_location,
+        (
+          SELECT name 
+          FROM regions 
+          WHERE ST_Contains(geom, ST_SetSRID(ST_Point(c.current_lng, c.current_lat), 4326))
+          LIMIT 1
+        ) as current_region
+      FROM character_state c
+      JOIN users u ON u.id = $1
+      WHERE c.owner_user_id = $1
+      ORDER BY c.template_id ASC
+    `, [userId]);
+
+    res.json(result.rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // GET /api/character/active - Get the active character
 router.get('/active', async (req, res, next) => {
   try {
@@ -165,34 +209,142 @@ router.put('/active/position', authenticateToken, async (req, res, next) => {
   }
 });
 
-// PUT /api/character/:id/active - Set a character as active (admin only — direct assignment)
+// PUT /api/character/:id/active - Set a character as active
+// Admins can set any character; normal users can only switch between their own clones
 router.put('/:id/active', authenticateToken, async (req, res, next) => {
   try {
     const { id } = req.params;
+    const userId = req.userId;
 
-    if (!req.isAdmin) {
-      return res.status(403).json({ error: 'Admin only' });
+    if (req.isAdmin) {
+      // Admin: direct global assignment (original behaviour)
+      await pool.query('BEGIN');
+      await pool.query('UPDATE character_state SET active = false');
+      const result = await pool.query(`
+        UPDATE character_state
+        SET active = true
+        WHERE id = $1
+        RETURNING id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, updated_at
+      `, [id]);
+      if (result.rows.length === 0) {
+        await pool.query('ROLLBACK');
+        return res.status(404).json({ error: 'Character not found' });
+      }
+      await pool.query('COMMIT');
+      return res.json(result.rows[0]);
     }
 
-    await pool.query('BEGIN');
-    await pool.query('UPDATE character_state SET active = false');
+    // Normal user: validate the character belongs to them
+    const ownerCheck = await pool.query(
+      'SELECT id FROM character_state WHERE id = $1 AND owner_user_id = $2',
+      [id, userId]
+    );
+    if (ownerCheck.rows.length === 0) {
+      return res.status(403).json({ error: 'Character does not belong to this user' });
+    }
+
+    // Update user's active_character_id
+    await pool.query(
+      'UPDATE users SET active_character_id = $1, updated_at = NOW() WHERE id = $2',
+      [id, userId]
+    );
 
     const result = await pool.query(`
-      UPDATE character_state
-      SET active = true
-      WHERE id = $1
-      RETURNING id, name, current_lng, current_lat, type, gender, active, description, updated_at
+      SELECT 
+        c.id, c.name, c.current_lng, c.current_lat, c.type, c.gender, c.active,
+        c.description, c.resistance, c.permadeath, c.updated_at,
+        (
+          SELECT name FROM locations
+          WHERE ST_DWithin(geom, ST_SetSRID(ST_Point(c.current_lng, c.current_lat), 4326), 0.01)
+          ORDER BY ST_Distance(geom, ST_SetSRID(ST_Point(c.current_lng, c.current_lat), 4326)) ASC
+          LIMIT 1
+        ) as current_location,
+        (
+          SELECT name FROM regions
+          WHERE ST_Contains(geom, ST_SetSRID(ST_Point(c.current_lng, c.current_lat), 4326))
+          LIMIT 1
+        ) as current_region
+      FROM character_state c
+      WHERE c.id = $1
     `, [id]);
 
-    if (result.rows.length === 0) {
-      await pool.query('ROLLBACK');
-      return res.status(404).json({ error: 'Character not found' });
-    }
-
-    await pool.query('COMMIT');
     res.json(result.rows[0]);
   } catch (error) {
-    await pool.query('ROLLBACK');
+    await pool.query('ROLLBACK').catch(() => {});
+    next(error);
+  }
+});
+
+// POST /api/character/clone-all - Clone all template characters for the current user (idempotent)
+// If the user already has a clone for a template, it is skipped.
+// Sets active_character_id to the clone of template id=1 if user has no active character.
+router.post('/clone-all', authenticateToken, async (req, res, next) => {
+  try {
+    const userId = req.userId;
+
+    // Fetch all templates
+    const templates = await pool.query(
+      'SELECT * FROM character_state WHERE owner_user_id IS NULL ORDER BY id ASC'
+    );
+
+    const clones = [];
+    for (const t of templates.rows) {
+      const existing = await pool.query(
+        'SELECT id FROM character_state WHERE owner_user_id = $1 AND template_id = $2',
+        [userId, t.id]
+      );
+
+      let characterId;
+      if (existing.rows.length > 0) {
+        characterId = existing.rows[0].id;
+      } else {
+        const cloneSlug = t.slug ? `${t.slug}-user-${userId}` : null;
+        const clone = await pool.query(
+          `INSERT INTO character_state
+            (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11)
+           RETURNING id`,
+          [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug]
+        );
+        characterId = clone.rows[0].id;
+      }
+      clones.push({ templateId: t.id, characterId });
+    }
+
+    // If user has no active character, assign clone of first template (Aranath, id=1)
+    const userRow = await pool.query('SELECT active_character_id FROM users WHERE id = $1', [userId]);
+    if (!userRow.rows[0]?.active_character_id && clones.length > 0) {
+      await pool.query(
+        'UPDATE users SET active_character_id = $1, updated_at = NOW() WHERE id = $2',
+        [clones[0].characterId, userId]
+      );
+    }
+
+    // Return all user clones
+    const result = await pool.query(`
+      SELECT 
+        c.id, c.name, c.current_lng, c.current_lat, c.type, c.gender, c.active,
+        c.description, c.resistance, c.permadeath, c.updated_at, c.template_id,
+        (u.active_character_id = c.id) as is_active_for_user,
+        (
+          SELECT name FROM locations
+          WHERE ST_DWithin(geom, ST_SetSRID(ST_Point(c.current_lng, c.current_lat), 4326), 0.01)
+          ORDER BY ST_Distance(geom, ST_SetSRID(ST_Point(c.current_lng, c.current_lat), 4326)) ASC
+          LIMIT 1
+        ) as current_location,
+        (
+          SELECT name FROM regions
+          WHERE ST_Contains(geom, ST_SetSRID(ST_Point(c.current_lng, c.current_lat), 4326))
+          LIMIT 1
+        ) as current_region
+      FROM character_state c
+      JOIN users u ON u.id = $1
+      WHERE c.owner_user_id = $1
+      ORDER BY c.template_id ASC
+    `, [userId]);
+
+    res.json(result.rows);
+  } catch (error) {
     next(error);
   }
 });
