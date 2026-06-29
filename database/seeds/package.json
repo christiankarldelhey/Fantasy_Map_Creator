@@ -1,0 +1,9 @@
+{
+  "name": "middle-earth-seeds",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "pg": "^8.11.0"
+  }
+}

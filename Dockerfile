@@ -6,7 +6,9 @@ COPY backend/ ./backend/
 COPY database/ ./database/
 
 WORKDIR /app/backend
+RUN npm install
 
+WORKDIR /app/database/seeds
 RUN npm install
 
 CMD ["node", "server.js"]
