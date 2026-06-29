@@ -7,6 +7,6 @@
   "deploy": {
     "startCommand": "npm start",
     "healthcheckPath": "/api/health",
-    "preDeployCommand": "cd backend && npm run postdeploy"
+    "preDeployCommand": "npm run postdeploy"
   }
 }
