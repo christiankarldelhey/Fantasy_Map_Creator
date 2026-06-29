@@ -2,9 +2,10 @@
 Maps/
 # Geojson/  # Commented to allow data/geojson/ to be tracked
 
-# Ignore all data directory EXCEPT database/seeds/ (frontend/backend use database, not these files)
+# Ignore all data directory EXCEPT database/seeds/data/ (seed files must be committed for prod deploy)
 data/
-!database/seeds/
+!database/seeds/data/
+!database/seeds/data/**
 
 # Ignore scripts directory EXCEPT database/seeds/scripts/ (utility scripts for data import/migration, not needed to run app)
 scripts/
