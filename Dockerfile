@@ -11,4 +11,6 @@ RUN npm install
 WORKDIR /app/database/seeds
 RUN npm install
 
+WORKDIR /app/backend
+
 CMD ["node", "server.js"]
