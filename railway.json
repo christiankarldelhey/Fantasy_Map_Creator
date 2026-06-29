@@ -5,8 +5,8 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "npm run postdeploy && npm start",
+    "startCommand": "node ../database/seeds/scripts/post-deploy.js & npm start",
     "healthcheckPath": "/api/health",
-    "healthcheckTimeout": 300
+    "healthcheckTimeout": 120
   }
 }
