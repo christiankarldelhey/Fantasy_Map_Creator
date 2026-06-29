@@ -1,0 +1,31 @@
+Middle Earth Database Validation Report
+Generated: 2026-06-29T11:21:29.198Z
+==================================================
+
+Tables:
+- altitude_layers: 4 rows, 6 columns
+- biomes: 1190 rows, 7 columns
+- character_state: 4 rows, 17 columns
+- character_thoughts: 183 rows, 6 columns
+- character_voice: 10 rows, 4 columns
+- climate_data: 744600 rows, 15 columns
+- climate_zones: 87 rows, 9 columns
+- conversation_topics: 28 rows, 3 columns
+- dem_elevation: 14256 rows, 2 columns
+- elevation_points: 10925 rows, 12 columns
+- entities: 507 rows, 15 columns
+- geography_columns: 0 rows, 7 columns
+- geometry_columns: 11 rows, 7 columns
+- interactions: 139 rows, 9 columns
+- kingdoms: 37 rows, 4 columns
+- locations: 512 rows, 14 columns
+- raster_columns: 1 rows, 17 columns
+- raster_overviews: 0 rows, 9 columns
+- regions: 87 rows, 21 columns
+- roads: 4119 rows, 6 columns
+- spatial_ref_sys: 8500 rows, 5 columns
+- temp_entities: 507 rows, 12 columns
+- trip_days: 321 rows, 25 columns
+- trips: 112 rows, 17 columns
+- users: 2 rows, 10 columns
+- water: 792 rows, 6 columns
