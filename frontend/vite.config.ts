@@ -24,5 +24,8 @@ export default defineConfig({
         changeOrigin: true
       }
     }
+  },
+  preview: {
+    allowedHosts: ['middleearth.christiandelhey.com']
   }
 })
