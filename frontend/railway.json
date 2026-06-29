@@ -4,8 +4,6 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "npm run preview -- --host 0.0.0.0 --port ${PORT}",
-    "healthcheckPath": "/",
-    "healthcheckTimeout": 60
+    "startCommand": "npm run preview -- --host 0.0.0.0 --port ${PORT}"
   }
 }

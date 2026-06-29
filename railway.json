@@ -2,11 +2,11 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "context": ".",
-    "builder": "NIXPACKS"
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile"
   },
   "deploy": {
-    "startCommand": "node ../database/seeds/scripts/post-deploy.js & npm start",
-    "healthcheckPath": "/api/health",
-    "healthcheckTimeout": 120
+    "startCommand": "npm start",
+    "preDeployCommand": "npm run postdeploy"
   }
 }
