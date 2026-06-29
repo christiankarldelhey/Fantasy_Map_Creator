@@ -241,7 +241,7 @@ async function exportTableAsSQL(config) {
       SELECT column_name 
       FROM information_schema.columns 
       WHERE table_name = '${config.table}' 
-      AND data_type = 'user-defined'
+      AND LOWER(data_type) = 'user-defined'
       AND udt_name = 'geometry'
     `);
     
@@ -254,8 +254,12 @@ async function exportTableAsSQL(config) {
       columns = [...columns, geomColumn];
     }
     
+    const selectColumns = columns.map(col =>
+      (hasGeometry && col === geomColumn) ? `ST_AsText(${geomColumn}) as ${geomColumn}` : col
+    );
+
     const result = await pool.query(`
-      SELECT ${columns.join(', ')}
+      SELECT ${selectColumns.join(', ')}
       FROM ${config.table}
       ORDER BY id
     `);
