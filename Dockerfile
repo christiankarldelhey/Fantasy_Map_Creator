@@ -1,10 +1,11 @@
 FROM node:22
 
-WORKDIR /app
+WORKDIR /app/backend
 
-COPY package.json ./
-COPY backend/package*.json ./backend/
+COPY backend/package*.json ./
 RUN npm install
+
+WORKDIR /app
 
 COPY backend/ ./backend/
 COPY database/ ./database/
