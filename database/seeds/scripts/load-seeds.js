@@ -34,12 +34,11 @@ const MIGRATION_FILES = [
   '002_seed_climate_zones.sql',
   '003_seed_conversation_topics.sql',
   '004_seed_entities_base.sql',
-  '005_seed_character_voices.sql',
-  '006_seed_locations_points.sql',
-  '007_seed_roads_lines.sql',
-  '008_seed_water_mix.sql',
-  '009_seed_regions_polygons.sql',
-  '010_seed_biomes_polygons.sql',
+  '005_seed_locations_points.sql',
+  '006_seed_roads_lines.sql',
+  '007_seed_regions_polygons.sql',
+  '008_seed_biomes_polygons.sql',
+  '009_seed_water_polygons.sql',
 ];
 
 /**
