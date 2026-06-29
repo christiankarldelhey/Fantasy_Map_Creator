@@ -16,7 +16,7 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import pg from 'pg';
 import dotenv from 'dotenv';
 
@@ -384,15 +384,15 @@ async function main() {
       getParams: (f) => ({
         sql: `INSERT INTO regions (id, name, region_type, kingdom_id, climate_zone_id,
                 description_text, description_summary, area_km2,
-                distance_for_encounter, chance_of_encounter, hours_to_encounter, geom, created_at)
-              VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,ST_GeomFromGeoJSON($12),NOW())
+                distance_for_encounter, chance_of_encounter, hours_to_encounter, population_ratio, geom, created_at)
+              VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,ST_GeomFromGeoJSON($13),NOW())
               ON CONFLICT (id) DO UPDATE SET
                 name=EXCLUDED.name, region_type=EXCLUDED.region_type,
                 kingdom_id=EXCLUDED.kingdom_id, climate_zone_id=EXCLUDED.climate_zone_id,
                 description_text=EXCLUDED.description_text, description_summary=EXCLUDED.description_summary,
                 area_km2=EXCLUDED.area_km2, distance_for_encounter=EXCLUDED.distance_for_encounter,
                 chance_of_encounter=EXCLUDED.chance_of_encounter, hours_to_encounter=EXCLUDED.hours_to_encounter,
-                geom=EXCLUDED.geom`,
+                population_ratio=EXCLUDED.population_ratio, geom=EXCLUDED.geom`,
         params: [
           f.properties.id,
           f.properties.name,
@@ -405,6 +405,7 @@ async function main() {
           nullIfEmpty(f.properties.distance_for_encounter) !== null ? parseInt(f.properties.distance_for_encounter) : null,
           nullIfEmpty(f.properties.chance_of_encounter) !== null ? parseFloat(f.properties.chance_of_encounter) : null,
           nullIfEmpty(f.properties.hours_to_encounter) !== null ? parseFloat(f.properties.hours_to_encounter) : null,
+          nullIfEmpty(f.properties.population_ratio) !== null ? parseFloat(f.properties.population_ratio) : 0.5,
           JSON.stringify(f.geometry),
         ],
       }),
@@ -461,7 +462,7 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main();
 }
 
