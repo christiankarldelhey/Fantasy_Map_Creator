@@ -236,12 +236,24 @@ async function seedEntities() {
 
 // ---------------------------------------------------------------------------
 // Seed: locations & roads (pure SQL INSERT files — safe to run via pool.query)
+// Truncates the table first to handle idempotent re-runs (no ON CONFLICT in these files)
 // ---------------------------------------------------------------------------
 async function seedFromSqlFile(label, filePath) {
   console.log(`🗺️  Seeding ${label}...`);
-  const sql = await fs.readFile(filePath, 'utf8');
-  await pool.query(sql);
   const table = label.split(' ')[0];
+  const sql = await fs.readFile(filePath, 'utf8');
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    await client.query(`TRUNCATE TABLE ${table} RESTART IDENTITY`);
+    await client.query(sql);
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
+  }
   const { rows: [{ count }] } = await pool.query(`SELECT COUNT(*) AS count FROM ${table}`);
   console.log(`✅ ${label}: ${count} rows`);
 }
@@ -269,6 +281,78 @@ async function seedGeoJson({ label, file, table, getParams }) {
 }
 
 // ---------------------------------------------------------------------------
+// Ensure PKs and unique constraints exist before upserts
+// ---------------------------------------------------------------------------
+async function ensureConstraints() {
+  console.log('🔧 Ensuring primary keys and constraints...');
+
+  const checks = [
+    {
+      table: 'kingdoms',
+      constraint: 'kingdoms_pkey',
+      sql: 'ALTER TABLE kingdoms ADD PRIMARY KEY (id)',
+    },
+    {
+      table: 'climate_zones',
+      constraint: 'climate_zones_pkey',
+      sql: 'ALTER TABLE climate_zones ADD PRIMARY KEY (id)',
+    },
+    {
+      table: 'conversation_topics',
+      constraint: 'conversation_topics_pkey',
+      sql: 'ALTER TABLE conversation_topics ADD PRIMARY KEY (entity_type, topic)',
+    },
+    {
+      table: 'entities',
+      constraint: 'entities_pkey',
+      sql: 'ALTER TABLE entities ADD PRIMARY KEY (id)',
+    },
+    {
+      table: 'locations',
+      constraint: 'locations_pkey',
+      sql: 'ALTER TABLE locations ADD PRIMARY KEY (id)',
+    },
+    {
+      table: 'roads',
+      constraint: 'roads_pkey',
+      sql: 'ALTER TABLE roads ADD PRIMARY KEY (id)',
+    },
+    {
+      table: 'regions',
+      constraint: 'regions_pkey',
+      sql: 'ALTER TABLE regions ADD PRIMARY KEY (id)',
+    },
+    {
+      table: 'biomes',
+      constraint: 'biomes_pkey',
+      sql: 'ALTER TABLE biomes ADD PRIMARY KEY (id)',
+    },
+    {
+      table: 'water',
+      constraint: 'water_pkey',
+      sql: 'ALTER TABLE water ADD PRIMARY KEY (id)',
+    },
+  ];
+
+  for (const { table, constraint, sql } of checks) {
+    const { rows } = await pool.query(
+      `SELECT 1 FROM pg_constraint WHERE conname = $1 AND conrelid = $2::regclass`,
+      [constraint, table]
+    );
+    if (rows.length === 0) {
+      try {
+        await pool.query(sql);
+        console.log(`  ✅ Added constraint ${constraint}`);
+      } catch (err) {
+        console.log(`  ⚠️  Could not add ${constraint}: ${err.message}`);
+      }
+    }
+  }
+
+  console.log('✅ Constraints check complete\n');
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 async function main() {
@@ -278,6 +362,7 @@ async function main() {
     await pool.query('SELECT NOW()');
     console.log('✅ Database connection established\n');
 
+    await ensureConstraints();
     await seedKingdoms();
     await seedClimateZones();
     await seedConversationTopics();
