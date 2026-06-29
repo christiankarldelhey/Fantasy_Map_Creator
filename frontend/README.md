@@ -37,6 +37,7 @@ See [docs/architecture.md](./docs/architecture.md) for detailed architecture doc
 
 - Node.js 18+ 
 - npm or yarn
+- PostgreSQL with PostGIS extension running locally
 - Backend API running on `http://localhost:5000`
 
 ### Installation
@@ -44,6 +45,23 @@ See [docs/architecture.md](./docs/architecture.md) for detailed architecture doc
 ```bash
 npm install
 ```
+
+### Git Hook — Auto-seed local database
+
+The seed data (locations, regions, entities, etc.) is managed via code in `database/seeds/data/`. To keep your local database in sync automatically after every `git pull`, install the following git hook **once**:
+
+```bash
+cat > "$(git rev-parse --show-toplevel)/.git/hooks/post-merge" << 'EOF'
+#!/bin/sh
+echo "🌍 Running db:seed after merge..."
+cd "$(git rev-parse --show-toplevel)/backend" && npm run db:seed
+EOF
+chmod +x "$(git rev-parse --show-toplevel)/.git/hooks/post-merge"
+```
+
+After this, every `git pull` will automatically apply any seed data changes to your local database.
+
+> **Important:** Never edit seed tables (kingdoms, locations, regions, entities, etc.) directly in pgAdmin — changes will be overwritten on the next pull. Always modify data via the seed files in `database/seeds/data/`.
 
 ### Environment Variables
 
