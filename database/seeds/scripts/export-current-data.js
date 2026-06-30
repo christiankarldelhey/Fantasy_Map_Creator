@@ -11,7 +11,7 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import pg from 'pg';
 import dotenv from 'dotenv';
 
@@ -58,7 +58,7 @@ const EXPORT_CONFIG = {
   geojsonTables: [
     {
       table: 'regions',
-      properties: ['id', 'name', 'region_type', 'kingdom_id', 'climate_zone_id', 'description_text', 'description_summary', 'area_km2', 'distance_for_encounter', 'chance_of_encounter', 'hours_to_encounter'],
+      properties: ['id', 'name', 'region_type', 'kingdom_id', 'climate_zone_id', 'description_text', 'description_summary', 'area_km2', 'distance_for_encounter', 'chance_of_encounter', 'hours_to_encounter', 'population_ratio'],
       filename: 'regions.geojson'
     },
     {
@@ -393,7 +393,7 @@ async function main() {
 }
 
 // Run if called directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main();
 }
 
