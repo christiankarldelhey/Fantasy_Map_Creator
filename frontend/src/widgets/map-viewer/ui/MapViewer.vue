@@ -4,11 +4,6 @@
 
     <CharacterActiveHud v-if="mode === 'wander' && activeCharacter" />
 
-    <DateSeasonPanel
-      v-if="!activeTripId"
-      @click="showSeasonSelector = true"
-    />
-
     <DirectionsInput
       v-if="isDirectionsMode"
       @select-destination="handleDirectionsDestinationSelect"
@@ -91,12 +86,29 @@
       @cancel="showSeasonSelector = false"
     />
 
+    <Modal
+      v-if="showLogoutModal"
+      title="Take your leave?"
+      size="sm"
+      @close="showLogoutModal = false"
+    >
+      <div class="px-6 py-4 font-book text-ink-black text-sm leading-relaxed">
+        <p>The road goes ever on, but your tale will rest here.</p>
+        <p class="mt-2 text-ink-brown">Signing out will return you to the gates of the realm.</p>
+        <p class="mt-2 font-semibold">Are you sure you wish to depart?</p>
+      </div>
+      <div class="px-6 pb-5 flex gap-3 justify-end">
+        <Button variant="outline" size="sm" @click="showLogoutModal = false">Stay a while</Button>
+        <Button variant="danger" size="sm" @click="handleConfirmLogout">Sign out</Button>
+      </div>
+    </Modal>
+
     <!-- Logout button -->
     <button
       v-if="mode === 'wander'"
-      @click="logout"
+      @click="showLogoutModal = true"
       title="Sign out"
-      class="absolute top-4 right-4 z-[9999] flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-parchment-base/90 border border-earth-dark text-ink-brown text-xs font-book hover:bg-parchment-dark hover:border-gold transition-colors shadow"
+      class="absolute top-4 right-4 z-[9999] flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--bg-parchment)] border-2 border-[var(--accent-gold)] text-ink-brown text-xs font-book hover:bg-[var(--bg-parchment-dark)] hover:border-[var(--accent-gold-dark)] transition-colors shadow"
     >
       <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       Sign out
@@ -132,7 +144,6 @@ import {
   clearAllTripRoutes,
 } from '@/composables/useMapRoutes'
 import CharacterActiveHud from '@/components/CharacterActiveHud.vue'
-import DateSeasonPanel from '@/components/DateSeasonPanel.vue'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import SeasonSelectModal from '@/pages/welcome/SeasonSelectModal.vue'
 import { Loader } from '@/components/ui/loader'
@@ -167,6 +178,7 @@ const showCancelForDirectionsModal = ref(false)
 const showSwitchCharacterModal = ref(false)
 const pendingSwitchCharacterId = ref<number | null>(null)
 const showSeasonSelector = ref(false)
+const showLogoutModal = ref(false)
 
 const adventurePhrases = [
   'Consulting the old maps and the older roads…',
@@ -622,6 +634,11 @@ async function handleStartAdventure(payload: { origin: any; destination: any; la
   } finally {
     adventureLoading.value = false
   }
+}
+
+function handleConfirmLogout() {
+  showLogoutModal.value = false
+  logout()
 }
 
 async function fetchLocationDetails(lng: number, lat: number) {

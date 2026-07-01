@@ -1,9 +1,16 @@
 <template>
-  <div class="min-h-screen bg-parchment-base flex items-center justify-center px-4">
-    <div class="w-full max-w-md">
+  <div class="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+    <!-- Blurred map background -->
+    <div
+      class="absolute inset-0 bg-cover bg-center blur-sm scale-105"
+      style="background-image: url('/assets/login/login.png');"
+    />
+    <div class="absolute inset-0 bg-ink-black/60" />
+
+    <div class="w-full max-w-md relative z-10">
       <div class="text-center mb-8">
-        <h1 class="text-4xl font-serif font-bold text-ink-black mb-2">Middle-earth</h1>
-        <p class="text-ink-brown font-book italic">Wandering Simulator</p>
+        <h1 class="text-4xl font-serif font-bold text-parchment-base mb-2">Middle-earth</h1>
+        <p class="text-parchment-base font-book italic">Wandering Simulator</p>
       </div>
 
       <div class="bg-parchment-base rounded-xl shadow-2xl border-2 border-gold overflow-hidden">
@@ -118,7 +125,7 @@
         </div>
       </div>
 
-      <p class="text-center text-xs text-ink-light mt-6 font-book italic">
+      <p class="text-center text-xs text-parchment-base mt-6 font-book italic">
         A personal hobby project. Made for love of the work — no coin sought.
       </p>
     </div>
