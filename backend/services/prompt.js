@@ -91,7 +91,7 @@ const getDestinationName = (tripName) => {
  */
 export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null) {
   const charName = character.name || 'The Traveller';
-  const charKind = character.entity_name ? `, ${character.entity_name} of the northern lands` : '';
+  const charKind = character.entity_name ? `, ${character.entity_name}` : '';
   const charBio = character.description ? `\n${character.description}` : '';
 
   // Determine pronouns based on character gender
@@ -114,11 +114,11 @@ export function buildDayPrompt(day, trip = {}, character = {}, language = 'engli
   if (day.thoughts && day.thoughts.options && day.thoughts.options.length > 0) {
     const phase = day.thoughts.phase;
     const thoughtsList = day.thoughts.options.map(t => `- ${t.thought}`).join('\n');
-    thoughtsSection = `=== CHARACTER STATE OF MIND ===  
-    Once in the ${phase}, slip only one of these thoughts into the narration,
-    near-verbatim, triggered by something ${pronouns.subject} sees or does. ${pronouns.possessive.charAt(0).toUpperCase() + pronouns.possessive.slice(1)} own voice —
-    no quotes, no italics, no "${pronouns.subject} thought", no explaining it after.
-    ${thoughtsList}
+    thoughtsSection = `=== CHARACTER STATE OF MIND ===
+Once in the ${phase}, slip only one of these thoughts into the narration,
+near-verbatim, triggered by something ${pronouns.subject} sees or does. ${pronouns.possessive.charAt(0).toUpperCase() + pronouns.possessive.slice(1)} own voice —
+no quotes, no italics, no "${pronouns.subject} thought", no explaining it after.
+${thoughtsList}
 
 `;
   }
@@ -160,7 +160,7 @@ Ultimate Destination: ${destName}
     if (character.introduction_instructions) {
       const destName = getDestinationName(trip.name);
       specialInstructionsSection = `=== SPECIAL INSTRUCTIONS (INTRODUCTION) ===
-${character.introduction_instructions.replace('their destination', destName).replace('her destination', destName)}
+${character.introduction_instructions.replace(/their destination/g, destName).replace(/her destination/g, destName)}
 
 `;
     } else {
@@ -181,10 +181,11 @@ In this chapter, narrate their arrival at ${destName}. Give a deep, meaningful r
 `;
   }
 
-  // Add character-specific narrator voice if available
+  // Add character-specific narrator lens if available (perspective filter, not style rules)
   let narratorVoiceSection = '';
   if (character.system_prompt) {
-    narratorVoiceSection = `${character.system_prompt}
+    narratorVoiceSection = `=== NARRATOR'S LENS FOR ${charName.toUpperCase()} ===
+${character.system_prompt}
 
 `;
   }
@@ -236,6 +237,6 @@ If the overnight location is a town or inn, let the narrative reflect this — a
 
 ${language === 'spanish' ? 'Please write the entire response in Spanish.' : ''}`;
 
-  // Use default SYSTEM_PROMPT for all characters (character-specific narrator voice is now in user message)
+  // Use default SYSTEM_PROMPT for all characters (character-specific narrator lens is in user message)
   return { system: SYSTEM_PROMPT, user };
 }
