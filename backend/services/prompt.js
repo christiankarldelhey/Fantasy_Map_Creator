@@ -207,10 +207,10 @@ Places near the road:
 ${describeLocations(day.locations)}
 
 The landscape crossed:
-${describeLandscape(day.biomes, day.altitude, day.rng)}
+${describeLandscape(day.biomes, day.altitude, day.regions, day.terrain_phrases, day.rng)}
 
 Where the road runs:
-${describeRoads(day.road_types, day.regions, day.rng)}${describeWaterCrossings(day.water_crossings, day.rng) ? `
+${describeRoads(day.road_types, day.regions, day.terrain_phrases, day.rng)}${describeWaterCrossings(day.water_crossings, day.rng) ? `
 
 Water crossings:
 ${describeWaterCrossings(day.water_crossings, day.rng)}` : ''}

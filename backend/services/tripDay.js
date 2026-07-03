@@ -6,6 +6,7 @@ import {
   PHASE_NIGHT,
 } from './encounters.js';
 import { resolveEncounter } from './interactionResolver.js';
+import { loadTerrainPhrases } from './terrainPhrases.js';
 import {
   flattenRoute,
   totalSeconds,
@@ -38,6 +39,12 @@ export const MORNING_END_HOUR = 13; // 07:00 - 13:00 (6 hours)
 export const AFTERNOON_END_HOUR = 19; // 13:00 - 19:00 (6 hours)
 export const MORNING_HOURS = MORNING_END_HOUR - WALK_START_HOUR; // 6
 export const AFTERNOON_HOURS = AFTERNOON_END_HOUR - MORNING_END_HOUR; // 6
+
+export const TERRAIN_CATEGORIES = [
+  'forest', 'hills', 'marsh', 'plain', 'desert',
+  'mountains_low', 'mountains_med', 'mountains_high',
+  'road', 'trail',
+];
 
 // ---------------------------------------------------------------------------
 // DB helpers
@@ -399,6 +406,10 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     }
   }
 
+  // --- Region-specific terrain phrases for the prompt ---
+  const regionNames = orderedRegions.map((r) => r.name);
+  const terrainPhrases = await loadTerrainPhrases(regionNames, TERRAIN_CATEGORIES);
+
   // --- Climate (sampled hourly along the leg) ---
   const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date);
 
@@ -556,6 +567,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     is_last_day: dayEndSeconds >= routeSeconds - 1e-6,
     geometry: legGeoJSON,
     regions: orderedRegions,
+    terrain_phrases: terrainPhrases,
     biomes: context.biomes || [],
     altitude: context.altitude || [],
     road_types: roadTypes,

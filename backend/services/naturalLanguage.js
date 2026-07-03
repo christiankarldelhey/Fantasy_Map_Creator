@@ -8,6 +8,7 @@
 // ============================================================================
 
 import { WALK_START_HOUR, WALK_END_HOUR } from './tripDay.js';
+import { pickPhraseForRegions } from './terrainPhrases.js';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -191,6 +192,7 @@ const BIOME_PHRASES = {
   forest: 'woodland',
   marsh: 'marshes and wet ground',
   desert: 'barren, arid waste',
+  plain: 'open grasslands',
 };
 
 const ALTITUDE_PHRASES = {
@@ -202,28 +204,42 @@ const ALTITUDE_PHRASES = {
 
 /**
  * Describe the terrain crossed: biomes and altitude layers entered.
+ * Uses region-specific phrases when available; falls back to generic phrases.
  * @param {string[]} biomes
  * @param {string[]} altitude
+ * @param {Array<{name:string}>} [regions]
+ * @param {Object} [terrainPhrases]
+ * @param {() => number} [rng]
  * @returns {string}
  */
-export function describeLandscape(biomes, altitude, rng = Math.random) {
+export function describeLandscape(biomes, altitude, regions = [], terrainPhrases = {}, rng = Math.random) {
   const parts = [];
+  const regionNames = regions.map((r) => (typeof r === 'string' ? r : r.name));
 
-  const bs = (biomes || []).map((b) => BIOME_PHRASES[b] || b).filter(Boolean);
-  if (bs.length) {
-    parts.push(`The road passes through ${joinList(bs)}.`);
+  const presentBiomes = (biomes || []).filter(Boolean);
+  const presentAltitude = (altitude || []).filter(Boolean);
+
+  if (presentBiomes.length) {
+    const biomePhrases = presentBiomes.map((b) => {
+      const regional = pickPhraseForRegions(terrainPhrases, regionNames, b, rng);
+      return regional || BIOME_PHRASES[b] || b;
+    });
+    parts.push(`The road passes through ${joinList(biomePhrases)}.`);
   }
 
-  const as = (altitude || []).map((a) => ALTITUDE_PHRASES[a] || a).filter(Boolean);
-  if (as.length) {
-    const climbed = (altitude || []).some((a) => String(a).startsWith('mountains'));
+  if (presentAltitude.length) {
+    const climbed = presentAltitude.some((a) => String(a).startsWith('mountains'));
     const lead = climbed ? 'The way climbs into' : 'The way crosses';
-    parts.push(`${lead} ${joinList(as)}.`);
+    const altitudePhrases = presentAltitude.map((a) => {
+      const regional = pickPhraseForRegions(terrainPhrases, regionNames, a, rng);
+      return regional || ALTITUDE_PHRASES[a] || a;
+    });
+    parts.push(`${lead} ${joinList(altitudePhrases)}.`);
   }
 
   // Mountain danger note — highest severity wins
-  const hasHigh = (altitude || []).includes('mountains_high');
-  const hasMed = (altitude || []).includes('mountains_med');
+  const hasHigh = presentAltitude.includes('mountains_high');
+  const hasMed = presentAltitude.includes('mountains_med');
   if (hasHigh) {
     parts.push(pick([
       'These are high and dangerous ways: precipices drop to either side, and the cold is punishing.',
@@ -239,7 +255,9 @@ export function describeLandscape(biomes, altitude, rng = Math.random) {
   }
 
   if (parts.length === 0) {
-    return 'Open, even country, with no great rise or wood to speak of.';
+    // No specific biome or altitude — describe the plains/open country regionally.
+    const plainPhrase = pickPhraseForRegions(terrainPhrases, regionNames, 'plain', rng);
+    return plainPhrase || 'Open, even country, with no great rise or wood to speak of.';
   }
   return parts.join(' ');
 }
@@ -444,16 +462,26 @@ const ROAD_PHRASES = {
 
 /**
  * What the traveller treads on, and the lands they tread it in.
+ * Uses region-specific phrases for `road` and `trail` when available.
  * @param {Object} roadTypes - { road_major, road, trail, off_road } in km
  * @param {Array} regions
+ * @param {Object} [terrainPhrases]
+ * @param {() => number} [rng]
  * @returns {string}
  */
-export function describeRoads(roadTypes, regions, rng = Math.random) {
+export function describeRoads(roadTypes, regions, terrainPhrases = {}, rng = Math.random) {
   const entries = Object.entries(roadTypes || {}).filter(([, km]) => km > 0);
   if (entries.length === 0) return 'The path is faint, mostly open ground.';
 
+  const regionNames = (regions || []).map((r) => (typeof r === 'string' ? r : r.name));
+
   entries.sort((a, b) => b[1] - a[1]);
-  const phrases = entries.map(([type]) => ROAD_PHRASES[type] || type);
+  const phrases = entries.map(([type]) => {
+    const regional = (type === 'road' || type === 'trail')
+      ? pickPhraseForRegions(terrainPhrases, regionNames, type, rng)
+      : null;
+    return regional || ROAD_PHRASES[type] || type;
+  });
 
   let sentence;
   if (phrases.length === 1) {
