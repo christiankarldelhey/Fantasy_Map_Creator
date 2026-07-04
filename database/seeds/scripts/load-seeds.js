@@ -395,11 +395,6 @@ async function ensureConstraints() {
       constraint: 'water_pkey',
       sql: 'ALTER TABLE water ADD PRIMARY KEY (id)',
     },
-    {
-      table: 'region_biome_descriptions',
-      constraint: 'region_biome_descriptions_pkey',
-      sql: 'ALTER TABLE region_biome_descriptions ADD PRIMARY KEY (id)',
-    },
   ];
 
   for (const { table, constraint, sql } of checks) {

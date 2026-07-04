@@ -1,6 +1,5 @@
--- Migration: Seed region_biome_descriptions table
--- Date: 2026-07-04
--- Description: Create table and seed with narrative phrases for terrain categories
+-- Execute this manually in Railway production database
+-- via Railway console or psql connection
 
 CREATE TABLE IF NOT EXISTS region_biome_descriptions (
     id SERIAL PRIMARY KEY,
