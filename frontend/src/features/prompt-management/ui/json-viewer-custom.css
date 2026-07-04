@@ -1,0 +1,78 @@
+/* Custom styles for vue3-json-viewer to match project colorimetry */
+.jv-container {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 12px;
+  background: transparent;
+}
+
+.jv-key {
+  color: var(--text-ink-light);
+}
+
+.jv-item {
+  padding: 2px 0;
+}
+
+.jv-key.jv-key-object {
+  color: var(--text-ink-light);
+}
+
+.jv-key.jv-key-array {
+  color: var(--text-ink-light);
+}
+
+.jv-key.jv-key-string {
+  color: var(--text-ink-light);
+}
+
+.jv-value.jv-string {
+  color: var(--text-ink-brown);
+}
+
+.jv-value.jv-number {
+  color: var(--accent-gold);
+}
+
+.jv-value.jv-boolean {
+  color: var(--accent-gold-dark);
+}
+
+.jv-value.jv-null {
+  color: var(--text-ink-faded);
+  font-style: italic;
+}
+
+.jv-object.jv-array {
+  color: var(--text-ink-black);
+}
+
+.jv-object.jv-object {
+  color: var(--text-ink-black);
+}
+
+.jv-caret {
+  color: var(--text-ink-light);
+  cursor: pointer;
+}
+
+.jv-caret:hover {
+  color: var(--accent-gold);
+}
+
+.jv-more {
+  color: var(--text-ink-faded);
+  font-style: italic;
+  cursor: pointer;
+}
+
+.jv-more:hover {
+  color: var(--accent-gold);
+}
+
+.jv-toggle-icon {
+  color: var(--text-ink-light);
+}
+
+.jv-toggle-icon:hover {
+  color: var(--accent-gold);
+}

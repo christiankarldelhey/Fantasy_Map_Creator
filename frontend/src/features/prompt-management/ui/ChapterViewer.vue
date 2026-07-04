@@ -10,6 +10,9 @@ import { jsPDF } from 'jspdf'
 import { Button } from '@/components/ui/button'
 import { Loader } from '@/components/ui/loader'
 import { Modal } from '@/components/ui/modal'
+import { JsonViewer } from 'vue3-json-viewer'
+import 'vue3-json-viewer/dist/vue3-json-viewer.css'
+import './json-viewer-custom.css'
 
 const props = defineProps<{
   tripId: string
@@ -23,7 +26,7 @@ const { language } = useLanguage()
 const { saveUserSettings } = useUserSettings()
 const { setTripDate, resetToRealTime } = useGlobalClimateTime()
 
-const expanded = ref<Record<string, 'narrative' | 'prompt' | null>>({})
+const expanded = ref<Record<string, 'narrative' | 'prompt' | 'code' | null>>({})
 const exportingPdf = ref(false)
 const showCancelModal = ref(false)
 const showDeathModal = ref(false)
@@ -71,7 +74,7 @@ const labels = computed(() => {
   }
 })
 
-function toggle(day: TripDay, panel: 'narrative' | 'prompt') {
+function toggle(day: TripDay, panel: 'narrative' | 'prompt' | 'code') {
   const current = expanded.value[day.id]
   expanded.value = { ...expanded.value, [day.id]: current === panel ? null : panel }
 }
@@ -339,6 +342,14 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
             Prompt
           </button>
+          <button
+            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
+            :class="expanded[day.id] === 'code' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black'"
+            @click="toggle(day, 'code')"
+          >
+            <component :is="expanded[day.id] === 'code' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+            Code
+          </button>
         </div>
 
         <!-- Panels -->
@@ -352,6 +363,16 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 
         <div v-if="expanded[day.id] === 'prompt'" class="px-4 py-4">
           <pre class="text-xs text-ink-brown whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ day.prompt }}</pre>
+        </div>
+
+        <div v-if="expanded[day.id] === 'code'" class="px-4 py-4">
+          <JsonViewer
+            :value="day"
+            :expand-depth="1"
+            :copyable="false"
+            :sort="false"
+            theme="dark"
+          />
         </div>
       </article>
 
