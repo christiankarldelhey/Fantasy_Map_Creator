@@ -41,6 +41,7 @@ npm run db:seed:export
 - **climate_zones** (87 registros) - Zonas climáticas
 - **entities** (507 registros) - Criaturas, personajes, etc.
 - **conversation_topics** (28 registros) - Tópicos de conversación
+- **region_biome_descriptions** (n registros) - Frases narrativas por región y categoría de terreno
 - **locations** (512 registros) - Ubicaciones con puntos geográficos
 - **roads** (4,119 registros) - Caminos con líneas geográficas
 - **regions** (87 registros) - Regiones con polígonos

@@ -281,6 +281,69 @@ async function seedGeoJson({ label, file, table, getParams }) {
 }
 
 // ---------------------------------------------------------------------------
+// Seed: region_biome_descriptions
+// ---------------------------------------------------------------------------
+async function seedRegionBiomeDescriptions() {
+  console.log('🏔️  Seeding region_biome_descriptions...');
+  
+  const COLUMN_TO_CATEGORY = {
+    forest: 'forest',
+    hill: 'hills',
+    marshes: 'marsh',
+    plains: 'plain',
+    mountains_low: 'mountains_low',
+    mountains_med: 'mountains_med',
+    mountains_high: 'mountains_high',
+    road: 'road',
+    trail: 'trail',
+  };
+
+  function splitPhrases(text) {
+    if (!text || !text.trim()) return [];
+    return text
+      .split(/(?<=[.!?])\s+/)
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0);
+  }
+
+  const text = await fs.readFile(path.join(DATA_DIR, 'csv/region_biome_descriptions.csv'), 'utf8');
+  const rows = parseCsv(text);
+  
+  let inserted = 0;
+  let skipped = 0;
+
+  for (const row of rows) {
+    const regionName = row.region_name || row.region || '';
+    if (!regionName) {
+      skipped++;
+      continue;
+    }
+
+    for (const [csvColumn, category] of Object.entries(COLUMN_TO_CATEGORY)) {
+      const rawText = row[csvColumn];
+      const phrases = splitPhrases(rawText);
+      if (phrases.length === 0) continue;
+
+      try {
+        await pool.query(
+          `INSERT INTO region_biome_descriptions (region_name, category, phrases)
+           VALUES ($1, $2, $3)
+           ON CONFLICT (region_name, category) DO UPDATE
+             SET phrases = EXCLUDED.phrases, updated_at = NOW()`,
+          [regionName, category, phrases]
+        );
+        inserted++;
+      } catch (err) {
+        skipped++;
+      }
+    }
+  }
+
+  const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) AS count FROM region_biome_descriptions');
+  console.log(`✅ region_biome_descriptions: ${count} rows (inserted/updated: ${inserted}, skipped: ${skipped})`);
+}
+
+// ---------------------------------------------------------------------------
 // Ensure PKs and unique constraints exist before upserts
 // ---------------------------------------------------------------------------
 async function ensureConstraints() {
@@ -332,6 +395,11 @@ async function ensureConstraints() {
       constraint: 'water_pkey',
       sql: 'ALTER TABLE water ADD PRIMARY KEY (id)',
     },
+    {
+      table: 'region_biome_descriptions',
+      constraint: 'region_biome_descriptions_pkey',
+      sql: 'ALTER TABLE region_biome_descriptions ADD PRIMARY KEY (id)',
+    },
   ];
 
   for (const { table, constraint, sql } of checks) {
@@ -367,6 +435,7 @@ async function main() {
     await seedClimateZones();
     await seedConversationTopics();
     await seedEntities();
+    await seedRegionBiomeDescriptions();
 
     await seedFromSqlFile(
       'locations',
