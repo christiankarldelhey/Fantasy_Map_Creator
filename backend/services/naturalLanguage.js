@@ -518,4 +518,196 @@ function joinList(arr) {
   return `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`;
 }
 
+// ---------------------------------------------------------------------------
+// Reference notes for the new prompt structure
+// ---------------------------------------------------------------------------
+
+const WAY_IN_FOCI = [
+  'the sound of the place — what the traveller hears, not what he sees',
+  'the light — how the day opens, turns, and closes',
+  'the body of the traveller — weariness, breath, the weight of the pack',
+  'a small object or detail on the road — a stone, a track, a snapped branch',
+  'the silence or absence — what is not there, what the land withholds',
+];
+
+/**
+ * Pick a narrative focus for the day opening.
+ * @param {() => number} rng
+ * @returns {string}
+ */
+export function pickTodaysWayIn(rng = Math.random) {
+  return pick(WAY_IN_FOCI, rng);
+}
+
+/**
+ * Collect region-specific terrain notes for the reference section.
+ * Returns an array of bullet-ready strings like "- hills: ...".
+ * @param {Array} biomes - array of objects with type, area_km2, and hour_float
+ * @param {string[]} altitude
+ * @param {Array} regions
+ * @param {Object} terrainPhrases
+ * @param {() => number} [rng]
+ * @returns {string[]}
+ */
+export function collectTerrainNotes(biomes, altitude, regions = [], terrainPhrases = {}, rng = Math.random) {
+  const regionNames = (regions || []).map((r) => (typeof r === 'string' ? r : r.name));
+  const notes = [];
+
+  const presentBiomes = (biomes || []).filter(Boolean);
+  const presentAltitude = (altitude || []).filter(Boolean);
+
+  for (const b of presentBiomes) {
+    const biomeType = typeof b === 'string' ? b : b.type;
+    const areaKm2 = typeof b === 'object' && b.area_km2 != null ? b.area_km2 : null;
+    const isSmall = areaKm2 != null && areaKm2 < 10;
+    const hourFloat = typeof b === 'object' && b.hour_float != null ? b.hour_float : null;
+    const when = hourFloat != null ? ` (${timeOfDayPhrase(hourFloat)})` : '';
+
+    const phrase = pickPhraseForRegions(terrainPhrases, regionNames, biomeType, rng) || BIOME_PHRASES[biomeType] || biomeType;
+    const prefix = isSmall ? 'pequeño ' : '';
+    notes.push(`- ${prefix}${biomeType}${when}: ${phrase}`);
+  }
+
+  for (const a of presentAltitude) {
+    const phrase = pickPhraseForRegions(terrainPhrases, regionNames, a, rng) || ALTITUDE_PHRASES[a] || a;
+    notes.push(`- ${a}: ${phrase}`);
+  }
+
+  if (notes.length === 0) {
+    const plain = pickPhraseForRegions(terrainPhrases, regionNames, 'plain', rng) || BIOME_PHRASES.plain || 'open country';
+    notes.push(`- plain: ${plain}`);
+  }
+
+  return notes;
+}
+
+/**
+ * Collect region-specific road notes for the reference section.
+ * @param {Object} roadTypes
+ * @param {Array} regions
+ * @param {Object} terrainPhrases
+ * @param {() => number} [rng]
+ * @returns {string[]}
+ */
+export function collectRoadNotes(roadTypes, regions = [], terrainPhrases = {}, rng = Math.random) {
+  const regionNames = (regions || []).map((r) => (typeof r === 'string' ? r : r.name));
+  const notes = [];
+  const entries = Object.entries(roadTypes || {}).filter(([, km]) => km > 0);
+
+  for (const [type, km] of entries) {
+    let phrase = null;
+    if (type === 'road' || type === 'trail') {
+      phrase = pickPhraseForRegions(terrainPhrases, regionNames, type, rng);
+    }
+    phrase = phrase || ROAD_PHRASES[type] || type;
+    notes.push(`- ${type}: ${phrase} (${km.toFixed(1)} km)`);
+  }
+
+  return notes;
+}
+
+/**
+ * Collect weather notes split by time of day.
+ * @param {Array} climateArray
+ * @param {() => number} [rng]
+ * @returns {string[]}
+ */
+export function collectClimateNotes(climateArray, rng = Math.random) {
+  if (!Array.isArray(climateArray) || climateArray.length === 0) {
+    return ['- The weather leaves little mark on the day.'];
+  }
+
+  const samples = climateArray
+    .map((s) => ({ time: s.time, w: innerClimate(s) }))
+    .filter((s) => s.w);
+
+  if (samples.length === 0) {
+    return ['- The weather leaves little mark on the day.'];
+  }
+
+  const timeOfDay = (hour) => {
+    if (hour < 6) return 'night';
+    if (hour < 12) return 'morning';
+    if (hour < 18) return 'afternoon';
+    return 'evening';
+  };
+
+  const byPhase = {};
+  for (const s of samples) {
+    const h = new Date(s.time).getHours();
+    const phase = timeOfDay(h);
+    if (!byPhase[phase]) byPhase[phase] = [];
+    byPhase[phase].push(s.w);
+  }
+
+  const notes = [];
+  const phases = ['morning', 'afternoon', 'evening', 'night'];
+
+  for (const phase of phases) {
+    const ws = byPhase[phase];
+    if (!ws || ws.length === 0) continue;
+
+    const temps = ws.map((w) => w.temperature_2m).filter((n) => typeof n === 'number');
+    const clouds = ws.map((w) => w.cloud_cover).filter((n) => typeof n === 'number');
+    const winds = ws.map((w) => w.wind_speed_10m).filter((n) => typeof n === 'number');
+    const precips = ws.map((w) => w.precipitation || 0).filter((n) => typeof n === 'number');
+
+    const meanTemp = avg(temps);
+    const meanCloud = avg(clouds);
+    const meanWind = avg(winds);
+    const totalPrec = precips.reduce((a, b) => a + b, 0);
+
+    const parts = [];
+    if (meanTemp != null) {
+      if (meanTemp < 2) parts.push('bitter cold');
+      else if (meanTemp < 8) parts.push('cold');
+      else if (meanTemp < 15) parts.push('cool');
+      else if (meanTemp < 22) parts.push('mild');
+      else if (meanTemp < 29) parts.push('warm');
+      else parts.push('hot');
+    }
+    if (meanCloud != null) {
+      if (meanCloud < 25) parts.push('clear skies');
+      else if (meanCloud < 60) parts.push('partly cloudy');
+      else if (meanCloud < 90) parts.push('mostly overcast');
+      else parts.push('heavy cloud cover');
+    }
+    if (meanWind != null && meanWind > 18) parts.push('windy');
+    if (totalPrec > 0.2) parts.push('wet');
+    else if (totalPrec > 0) parts.push('a passing shower');
+
+    if (parts.length) {
+      notes.push(`- ${phase}: ${joinList(parts)}`);
+    }
+  }
+
+  return notes.length ? notes : ['- The weather leaves little mark on the day.'];
+}
+
+/**
+ * Collect location notes for the reference section.
+ * @param {Array} locations
+ * @returns {string[]}
+ */
+export function collectLocationNotes(locations) {
+  if (!Array.isArray(locations) || locations.length === 0) {
+    return ['- No settlements or landmarks of note.'];
+  }
+
+  return locations.map((l) => {
+    const when = timeOfDayPhrase(l.hour_float);
+    let near;
+    if (l.distance_km === 0) {
+      near = 'passes through';
+    } else if (l.distance_km != null && l.distance_km > 1) {
+      near = 'passed at some distance';
+    } else {
+      near = 'passed close by';
+    }
+    const kind = l.type ? ` (${String(l.type).replace(/_/g, ' ')})` : '';
+    const desc = l.description && l.description.trim() ? ` — ${l.description.trim()}` : '';
+    return `- ${l.name}${kind}: ${near}, ${when}.${desc}`;
+  });
+}
+
 export { timeOfDayPhrase };

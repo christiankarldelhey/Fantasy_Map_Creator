@@ -25,22 +25,33 @@ export async function loadTerrainPhrases(regionNames, categories = []) {
       : '';
   const params = categories.length > 0 ? [regionNames, categories] : [regionNames];
 
-  const { rows } = await pool.query(
-    `SELECT region_name, category, phrases
-     FROM region_biome_descriptions
-     WHERE region_name = ANY($1::text[])
-     ${categoryFilter}`,
-    params
-  );
+  try {
+    const { rows } = await pool.query(
+      `SELECT region_name, category, phrases
+       FROM region_biome_descriptions
+       WHERE region_name = ANY($1::text[])
+       ${categoryFilter}`,
+      params
+    );
 
-  const map = {};
-  for (const row of rows) {
-    if (!map[row.region_name]) {
-      map[row.region_name] = {};
+    const map = {};
+    for (const row of rows) {
+      if (!map[row.region_name]) {
+        map[row.region_name] = {};
+      }
+      map[row.region_name][row.category] = row.phrases || [];
     }
-    map[row.region_name][row.category] = row.phrases || [];
+    return map;
+  } catch (err) {
+    // If the table does not exist (or any other DB error), return an empty map
+    // so the day can still be generated using fallback descriptions.
+    if (err.code === '42P01') {
+      console.warn('⚠️ region_biome_descriptions table not found; using fallback terrain descriptions.');
+    } else {
+      console.warn('⚠️ Could not load terrain phrases:', err.message);
+    }
+    return {};
   }
-  return map;
 }
 
 /**

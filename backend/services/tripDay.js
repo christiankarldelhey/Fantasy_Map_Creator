@@ -114,7 +114,7 @@ const OVERNIGHT_LOCATION_TYPES = [
 const INDOOR_REST_TYPES = ['town', 'city', 'village', 'inn', 'tavern', 'fortified city', 'fortified town', 'citadel'];
 
 /**
- * Find the nearest notable location within 10 km of the day's end point.
+ * Find the nearest notable location within 15 km of the day's end point.
  * Returns null if none found.
  */
 async function findOvernightLocation(endLng, endLat) {
@@ -124,7 +124,7 @@ async function findOvernightLocation(endLng, endLat) {
             round((ST_Distance(geom::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography) / 1000)::numeric, 2) AS distance_km
      FROM locations
      WHERE location_type = ANY($3::text[])
-       AND ST_DWithin(geom::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography, 10000)
+       AND ST_DWithin(geom::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography, 15000)
      ORDER BY ST_Distance(geom::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography)
      LIMIT 1`,
     [endLng, endLat, OVERNIGHT_LOCATION_TYPES]
@@ -174,7 +174,11 @@ async function sampleLegContext(legGeoJSON) {
        SELECT ST_SetSRID(ST_GeomFromGeoJSON($1), 4326) AS geom
      )
      SELECT
-       (SELECT COALESCE(json_agg(DISTINCT b.type), '[]'::json)
+       (SELECT COALESCE(json_agg(json_build_object(
+          'type', b.type,
+          'area_km2', round((ST_Area(ST_Intersection(b.geom, leg.geom)::geography) / 1000000)::numeric, 2),
+          'fraction', ST_LineLocatePoint(leg.geom, ST_Centroid(ST_Intersection(b.geom, leg.geom)))
+        )), '[]'::json)
         FROM biomes b, leg WHERE ST_Intersects(b.geom, leg.geom)) AS biomes,
        (SELECT COALESCE(json_agg(DISTINCT a.altitude_type), '[]'::json)
         FROM altitude_layers a, leg WHERE ST_Intersects(a.geom, leg.geom)) AS altitude,
@@ -408,7 +412,20 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
 
   // --- Region-specific terrain phrases for the prompt ---
   const regionNames = orderedRegions.map((r) => r.name);
-  const terrainPhrases = await loadTerrainPhrases(regionNames, TERRAIN_CATEGORIES);
+
+  // Map biomes to terrain phrase categories
+  const biomeCategories = new Set();
+  if (context.biomes && Array.isArray(context.biomes)) {
+    for (const biome of context.biomes) {
+      const type = biome.type;
+      if (type) {
+        biomeCategories.add(type);
+      }
+    }
+  }
+
+  const categoriesToLoad = Array.from(biomeCategories);
+  const terrainPhrases = await loadTerrainPhrases(regionNames, categoriesToLoad);
 
   // --- Climate (sampled hourly along the leg) ---
   const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date);
@@ -515,6 +532,38 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     roadTypes[type] = Number((meters / 1000).toFixed(3));
   }
 
+  // Add road/trail categories to terrain phrases if there are road types
+  if (Object.keys(roadTypes).length > 0) {
+    biomeCategories.add('road');
+    biomeCategories.add('trail');
+    const categoriesToLoad = Array.from(biomeCategories);
+    const additionalTerrainPhrases = await loadTerrainPhrases(regionNames, categoriesToLoad);
+    // Merge additional phrases into existing terrainPhrases
+    for (const region of regionNames) {
+      if (!terrainPhrases[region]) {
+        terrainPhrases[region] = {};
+      }
+      if (additionalTerrainPhrases[region]) {
+        Object.assign(terrainPhrases[region], additionalTerrainPhrases[region]);
+      }
+    }
+  }
+
+  // --- Biomes: derive the clock hour each is crossed from its leg fraction ---
+  const biomesWithTime = (context.biomes || []).map((b) => {
+    const frac = typeof b.fraction === 'number' ? Math.max(0, Math.min(1, b.fraction)) : 0;
+    const hourFloat = WALK_START_HOUR + frac * walkingHoursThisDay;
+    const hh = Math.floor(hourFloat);
+    const mm = Math.round((hourFloat - hh) * 60);
+    return {
+      type: b.type,
+      area_km2: b.area_km2,
+      fraction: b.fraction,
+      hour_float: Number(hourFloat.toFixed(2)),
+      hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,
+    };
+  });
+
   // --- Locations: derive the clock hour each is passed from its leg fraction ---
   const locations = (context.locations || []).map((l) => {
     const frac = typeof l.fraction === 'number' ? Math.max(0, Math.min(1, l.fraction)) : 0;
@@ -568,7 +617,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     geometry: legGeoJSON,
     regions: orderedRegions,
     terrain_phrases: terrainPhrases,
-    biomes: context.biomes || [],
+    biomes: biomesWithTime,
     altitude: context.altitude || [],
     road_types: roadTypes,
     locations,

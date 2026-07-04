@@ -242,9 +242,10 @@ router.post('/:id/days', async (req, res, next) => {
     }
 
     let previousDaySummary = null;
+    let previousDay = null;
     if (dayNumber > 1) {
       const prevRes = await pool.query(
-        'SELECT day_number, regions, locations, encounters FROM trip_days WHERE trip_id = $1 AND day_number = $2',
+        'SELECT day_number, regions, locations, encounters, terrain_phrases FROM trip_days WHERE trip_id = $1 AND day_number = $2',
         [trip.id, dayNumber - 1]
       );
       if (prevRes.rows.length > 0) {
@@ -252,12 +253,15 @@ router.post('/:id/days', async (req, res, next) => {
         const regionsStr = (prev.regions || []).map(r => r.name).join(', ') || 'unknown lands';
         const locsStr = (prev.locations || []).map(l => l.name).join(', ') || 'no major settlements';
         const encsStr = (prev.encounters || []).map(e => e.entity?.name).filter(Boolean).join(', ') || 'no major encounters';
-        
+
         previousDaySummary = `In Chapter ${prev.day_number} (yesterday), the traveller journeyed through: ${regionsStr}. They passed near: ${locsStr}. Notable encounters/sights: ${encsStr}.`;
+        previousDay = {
+          terrain_phrases: prev.terrain_phrases || {},
+        };
       }
     }
 
-    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary);
+    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary, previousDay);
 
     // Generate AI narrative (optional, if API key is configured)
     const narrative = await generateNarrative(prompt);
@@ -268,10 +272,10 @@ router.post('/:id/days', async (req, res, next) => {
     const insertRes = await pool.query(
       `INSERT INTO trip_days
          (trip_id, day_number, date, start_lng, start_lat, end_lng, end_lat,
-          distance_km, walking_hours, geometry, regions, biomes, altitude,
+          distance_km, walking_hours, geometry, regions, terrain_phrases, biomes, altitude,
           road_types, locations, climate, encounters, thoughts, prompt, narrative, is_last_day,
           overnight_location, elevation_profile)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)
        RETURNING *`,
       [
         trip.id,
@@ -283,6 +287,7 @@ router.post('/:id/days', async (req, res, next) => {
         day.walking_hours,
         JSON.stringify(day.geometry),
         JSON.stringify(day.regions),
+        day.terrain_phrases ? JSON.stringify(day.terrain_phrases) : null,
         JSON.stringify(day.biomes),
         JSON.stringify(day.altitude),
         JSON.stringify(day.road_types),
