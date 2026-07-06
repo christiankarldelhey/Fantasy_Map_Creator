@@ -125,21 +125,74 @@
         </div>
       </div>
 
+      <button
+        type="button"
+        @click="goExplore"
+        class="block mx-auto mt-5 text-sm text-parchment-base/90 hover:text-gold font-book underline underline-offset-4 transition-colors"
+      >
+        Just looking? Explore the map as a guest
+      </button>
+
       <p class="text-center text-xs text-parchment-base mt-6 font-book italic">
         A personal hobby project. Made for love of the work — no coin sought.
       </p>
     </div>
+
+    <!-- Welcome modal (first visit only) -->
+    <Modal
+      v-if="showWelcome"
+      title="Welcome to Middle-earth"
+      size="sm"
+      :show-close="false"
+      :close-on-backdrop="false"
+      @close="dismissWelcome"
+    >
+      <div class="font-book text-ink-black text-sm leading-relaxed">
+        <p>The map awaits, traveller.</p>
+        <p class="mt-2 text-ink-brown">Sign in to bring a character to life and set out on your own adventure — or wander the map freely as a guest to explore its lands, search for places, and trace routes.</p>
+      </div>
+      <template #footer>
+        <div class="flex flex-col gap-2">
+          <Button variant="primary" size="md" class="w-full" @click="dismissWelcome">
+            Sign in / Create account
+          </Button>
+          <Button variant="outline" size="md" class="w-full" @click="goExplore">
+            Explore as a guest
+          </Button>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 import { Button } from '@/components/ui/button'
+import { Modal } from '@/components/ui/modal'
 
 const router = useRouter()
 const { login, register, authLoading, currentUser } = useAuth()
+
+const WELCOME_SEEN_KEY = 'me-explore-welcome-seen'
+const showWelcome = ref(false)
+
+onMounted(() => {
+  // Show welcome modal only on first visit
+  if (!localStorage.getItem(WELCOME_SEEN_KEY)) {
+    showWelcome.value = true
+  }
+})
+
+function dismissWelcome() {
+  showWelcome.value = false
+  localStorage.setItem(WELCOME_SEEN_KEY, 'true')
+}
+
+function goExplore() {
+  router.push('/explore')
+}
 
 const activeTab = ref<'login' | 'register'>('login')
 const errorMessage = ref('')

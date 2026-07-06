@@ -73,8 +73,10 @@ watch(activeCharacter, (newChar) => {
   }
 })
 
-// Persist directions state to backend when it changes
+// Persist directions state to backend when it changes.
+// Skip for guest users (no auth token) to avoid 401s on the protected settings endpoint.
 watch([isDirectionsMode, destination], ([newMode, newDest]) => {
+  if (!localStorage.getItem('me-auth-token')) return
   savePartialSettings({
     directions: {
       destination: newDest || undefined,

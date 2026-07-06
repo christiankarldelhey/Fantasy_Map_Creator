@@ -19,7 +19,7 @@ const routes: RouteRecordRaw[] = [
     path: '/explore',
     name: 'explore',
     component: () => import('@/pages/explore'),
-    meta: { requiresAuth: true }
+    meta: { public: true }
   },
   {
     path: '/wander',

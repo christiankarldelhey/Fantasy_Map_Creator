@@ -6,9 +6,11 @@
 
     <DirectionsInput
       v-if="isDirectionsMode"
+      :guest="isGuest"
       @select-destination="handleDirectionsDestinationSelect"
       @exit="handleExitDirections"
       @start-adventure="handleStartAdventure"
+      @login="goToLogin"
     />
 
     <ChapterViewer
@@ -113,11 +115,23 @@
       <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       Sign out
     </button>
+
+    <!-- Login button (guest mode) -->
+    <button
+      v-if="isGuest"
+      @click="goToLogin"
+      title="Sign in"
+      class="absolute top-4 right-4 z-[9999] flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--bg-parchment)] border-2 border-[var(--accent-gold)] text-ink-brown text-xs font-book hover:bg-[var(--bg-parchment-dark)] hover:border-[var(--accent-gold-dark)] transition-colors shadow"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      Sign in
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { MAPLIBRE_CONFIG, MAPLIBRE_CONFIG_WANDER } from '@/shared/config/maplibre'
@@ -165,7 +179,11 @@ const mapConfig = computed(() => {
   return props.mode === 'wander' ? MAPLIBRE_CONFIG_WANDER : MAPLIBRE_CONFIG
 })
 
-const { isDirectionsMode, startDirections, exitDirections, setDestination, routeData, initializeFromBackend: initializeDirections } = useDirections()
+const { isDirectionsMode, origin, startDirections, exitDirections, setOrigin, setDestination, routeData, initializeFromBackend: initializeDirections } = useDirections()
+
+// Guest mode: no auth token present. In this mode there is no active character,
+// so directions use a map-click origin and the "Start Adventure" flow is hidden.
+const isGuest = computed(() => props.mode !== 'wander' && !localStorage.getItem('me-auth-token'))
 
 // Adventure / trip generation
 const { createTrip, generateDay, getTrip } = useTrips()
@@ -190,6 +208,11 @@ const adventurePhrases = [
 
 // Auth
 const { logout } = useAuth()
+const router = useRouter()
+
+function goToLogin() {
+  router.push('/login')
+}
 
 // Character / Company state
 const { characters, activeCharacter, fetchAllCharacters, setActiveCharacter } = useCharacter()
@@ -233,7 +256,15 @@ function handleAddMarker(lng: number, lat: number) {
     lastSelectedCoordinates.value = [lng, lat]
 
     if (isDirectionsMode.value) {
-      if (pendingDestinationLocation.value) {
+      // Guest mode has no active character, so the first map click sets the
+      // origin. Once an origin exists, further clicks set the destination.
+      if (isGuest.value && !origin.value) {
+        setOrigin({
+          name: `Point [${lng.toFixed(2)}, ${lat.toFixed(2)}]`,
+          type: 'custom',
+          coordinates: [lng, lat]
+        })
+      } else if (pendingDestinationLocation.value) {
         setDestination({
           name: pendingDestinationLocation.value.name,
           type: pendingDestinationLocation.value.type === 'Region' ? 'region' : 'location',

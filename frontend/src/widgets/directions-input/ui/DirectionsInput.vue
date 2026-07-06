@@ -23,11 +23,11 @@
 
       <!-- Inputs column -->
       <div class="flex-grow flex flex-col gap-2">
-        <!-- Origin (locked) -->
+        <!-- Origin (locked; in guest mode it is set by clicking the map) -->
         <Input
           v-model="originQuery"
           readonly
-          :placeholder="activeCharacter?.name || 'Traveller'"
+          :placeholder="guest ? 'Click on the map to set your starting point' : (activeCharacter?.name || 'Traveller')"
           class="w-full bg-parchment-dark/40 text-sm h-9 border-earth-dark cursor-not-allowed font-semibold text-ink-black focus-visible:ring-0 font-book"
         />
 
@@ -161,8 +161,24 @@
       </div>
     </div>
 
+    <!-- Footer: guest CTA (sign in) -->
+    <footer v-if="routeData && guest" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2">
+      <p class="text-xs font-book text-ink-brown italic text-center">
+        Sign in to turn this route into an adventure.
+      </p>
+      <Button
+        variant="primary"
+        size="md"
+        class="w-full"
+        @click="emit('login')"
+      >
+        <Compass class="w-4 h-4 mr-2" />
+        Sign in to begin your adventure
+      </Button>
+    </footer>
+
     <!-- Footer: Start Adventure -->
-    <footer v-if="routeData" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2">
+    <footer v-else-if="routeData" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2">
       <div class="flex items-center gap-2">
         <label class="text-xs font-book text-ink-brown">Language:</label>
         <select
@@ -187,7 +203,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, toRefs } from 'vue'
 import { ArrowLeft, MapPin, X, Compass } from '@lucide/vue'
 import { useSearch } from '@/entities/search'
 import type { SearchResult } from '@/entities/search'
@@ -198,11 +214,20 @@ import { useDirections, mapSearchResultToPoint } from '@/composables/useDirectio
 import { useCharacter } from '@/composables/useCharacter'
 import { useLanguage } from '@/composables/useLanguage'
 
+const props = withDefaults(defineProps<{
+  guest?: boolean
+}>(), {
+  guest: false
+})
+
+const { guest } = toRefs(props)
+
 const emit = defineEmits<{
   'select-origin': [point: any]
   'select-destination': [point: any]
   'exit': []
   'start-adventure': [payload: { origin: any; destination: any; language: string }]
+  'login': []
 }>()
 
 // Search instance for destination
