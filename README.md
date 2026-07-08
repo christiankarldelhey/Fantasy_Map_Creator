@@ -1,252 +1,263 @@
 # Middle Earth Wandering Simulator
 
-**Mapa geoespacial interactivo de Tierra Media**
+**Interactive geospatial map of Middle-earth**
 
 `QGIS` · `PostGIS` · `PostgreSQL` · `Vue 3 + TypeScript` · `Node.js / Express` · `MapLibre GL` · `Gemini + Groq`
 
 ---
 
-Siempre me fascinaron los mapas de fantasía, especialmente los que tienen rigor geográfico. El mapa de **Pete Fenlon** para *MERP* (Middle Earth Role Playing) — el sistema de rol que ICE derivó de Rolemaster y publicó durante los años 80 y 90 — es uno de los trabajos cartográficos más detallados y hermosos de la historia de los juegos de rol. Quería explorar qué pasaba si ese mapa dejaba de ser decorativo y se convertía en un sistema vivo.
+I have always been fascinated by fantasy maps, especially those with real geographic rigor. **Pete Fenlon's** map for *MERP* (Middle Earth Role Playing) — the tabletop RPG that ICE derived from Rolemaster and published throughout the 80s and 90s — is one of the most detailed and beautiful cartographic works in the history of role-playing games. I wanted to explore what would happen if that map stopped being decorative and became a living system.
 
-El resultado es el **Middle Earth Wandering Simulator**: Tierra Media georreferenciada sobre Europa mediante QGIS, heredando coordenadas geográficas reales (EPSG:4326 / WGS84) para poder medir distancias, calcular rutas, simular climas históricos y narrar historias generadas por IA ancladas en los datos del mapa.
+The result is the **Middle Earth Wandering Simulator**: Middle-earth georeferenced onto Europe with QGIS, inheriting real geographic coordinates (EPSG:4326 / WGS84) so it can measure distances, compute routes, simulate historical climates, and narrate AI-generated stories anchored in the map's data.
 
 ---
 
-## Índice
+## Table of contents
 
-- [Visión general](#visión-general)
-- [El punto de partida](#el-punto-de-partida)
-- [Datos geográficos](#datos-geográficos)
-- [Sistema de clima](#sistema-de-clima)
-- [Cálculo de rutas](#cálculo-de-rutas)
-- [Personajes y narrativa](#personajes-y-narrativa)
-- [Exploración y usuarios](#exploración-y-usuarios)
-- [Arquitectura técnica](#arquitectura-técnica)
+- [Overview](#overview)
+- [The starting point](#the-starting-point)
+- [Geographic data](#geographic-data)
+- [Climate system](#climate-system)
+- [Route calculation](#route-calculation)
+- [Characters and narrative](#characters-and-narrative)
+- [Exploration and users](#exploration-and-users)
+- [Technical architecture](#technical-architecture)
   - [Frontend](#frontend)
   - [Backend](#backend)
-  - [Base de datos](#base-de-datos)
-- [Stack tecnológico](#stack-tecnológico)
-- [Puesta en marcha](#puesta-en-marcha)
-- [Orden de construcción del proyecto](#orden-de-construcción-del-proyecto)
-- [Objetivos del proyecto](#objetivos-del-proyecto)
+  - [Database](#database)
+- [Tech stack](#tech-stack)
+- [Getting started](#getting-started)
+- [Project build order](#project-build-order)
+- [Project goals](#project-goals)
 
 ---
 
-## Visión general
+## Overview
 
-El sistema modela Tierra Media en **capas geoespaciales reales** sobre PostGIS y las expone a través de una API REST en Node.js. El frontend (Vue 3) renderiza esas capas sobre un mapa vectorial y permite calcular rutas, simular el paso del tiempo y del clima, y generar una narración diaria por IA para un viaje concreto.
+The system models Middle-earth as **real geospatial layers** on top of PostGIS and exposes them through a Node.js REST API. The frontend (Vue 3) renders those layers over a vector map and lets you compute routes, simulate the passage of time and weather, and generate a daily AI narrative for a given journey.
 
-El proyecto creció por capas: primero los datos geográficos estáticos, luego el clima dinámico, luego las entidades y regiones, y finalmente el sistema de narración.
+The project grew in layers: first the static geographic data, then the dynamic climate, then entities and regions, and finally the narration system.
 
-## El punto de partida
+## The starting point
 
-El primer desafío fue conseguir el mapa de Pete Fenlon en alta resolución y **georreferenciarlo sobre Europa** usando QGIS con tiles y coordenadas reales. Una vez anclado geográficamente, el proyecto tomó su forma natural: si tengo coordenadas reales, puedo tener datos reales — clima real, elevación real, distancias calculables.
-
----
-
-## Datos geográficos
-
-Todas las capas se almacenan como geometrías en PostGIS con SRID **4326** e índices espaciales **GIST**.
-
-### Sistema de biomas
-
-Segmentación asistida por IA para marcar los polígonos de bosques, marismas y desiertos directamente sobre el mapa escaneado. Se almacenan en la tabla `biomes` como `GEOMETRY(Polygon, 4326)` y se renderizan en el frontend como *overlays*.
-
-- **Bosques** — coberturas arboladas de distintas densidades
-- **Marismas** — zonas pantanosas y tierras bajas inundables
-- **Desiertos** — regiones áridas y estepas
-- *(En desarrollo: glaciares)*
-
-### Sistema de agua
-
-Los cursos de agua fueron trazados a mano en QGIS siguiendo la lógica del mapa original de Fenlon. Se guardan en la tabla `water` con una columna `geom` de tipo `GEOMETRY` genérico, que admite tanto **LINESTRING** (ríos y arroyos) como **POLYGON** (mares y lagos), discriminados por el campo `water_type`.
-
-### Sistema de elevación
-
-Capas de polígonos (`altitude_layers`) para distintos rangos de altitud — llanuras, colinas, montañas bajas, medias y altas — con un campo `priority` que resuelve solapamientos. Sobre esas capas se construyó una **DEM (Digital Elevation Model) como raster PostGIS** (`dem_elevation`), sintetizada a partir de los picos marcados como puntos.
-
-La altitud de cualquier coordenada se consulta con la función SQL `get_elevation_at_point(lon, lat)`, y la API expone además perfiles de elevación (`/api/dem/profile`) que interpolan puntos cada 100 m y calculan desnivel positivo/negativo. Esto impacta directamente en el coste de las rutas y en las condiciones de viaje.
-
-### Localizaciones y regiones
-
-- **`locations`** — puntos (`POINT`): nombre, tipo (ciudad, fortaleza, ruina, paso de montaña, etc.), población, habitantes y descripción narrativa.
-- **`regions`** — polígonos políticos generados con `polygonize` en PostGIS a partir de líneas de borde. Incluyen reino asociado (`kingdoms`), zona climática (`climate_zones`), descripción geográfica/histórica y métricas de encuentro.
-- **`entities`** — criaturas y personajes (clave primaria UUID). Cada entidad guarda un array de regiones y biomas donde aparece y un campo JSONB `probability_by_region` con la probabilidad de encuentro por región.
+The first challenge was getting Pete Fenlon's map in high resolution and **georeferencing it onto Europe** using QGIS with real tiles and coordinates. Once it was geographically anchored, the project took its natural shape: if I have real coordinates, I can have real data — real climate, real elevation, computable distances.
 
 ---
 
-## Sistema de clima
+## Geographic data
 
-El clima se basa en **datos climáticos reales de Europa de 1950**, antes del boom industrial y urbano, usando como referencia las coordenadas europeas sobre las que se superpone el mapa. Esto da un clima coherente con una Tierra Media de Tercera Edad: sin efecto isla de calor ni contaminación moderna.
+All layers are stored as PostGIS geometries with SRID **4326** and **GIST** spatial indexes.
 
-Técnicamente:
+### Biome system
 
-- Cada región apunta a una `climate_zone`, que guarda su clasificación **Köppen** y una **localización análoga del mundo real** (`analog_location`, `analog_lat`, `analog_lon`).
-- Los datos meteorológicos horarios de 1950 viven en la tabla `climate_data` (temperatura a 2 m, humedad relativa, precipitación, nieve, cobertura nubosa, viento, presión, humedad del suelo, radiación, etc.), en el estilo de series ERA5 / Open-Meteo.
-- La fecha "en vivo" se **mapea al año 1950** conservando mes, día y hora, tanto en el cliente (`useGlobalClimateTime`) como en el backend, para consultar el registro horario correspondiente.
+AI-assisted segmentation was used to trace the polygons of forests, marshes, and deserts directly over the scanned map. They are stored in the `biomes` table as `GEOMETRY(Polygon, 4326)` and rendered on the frontend as *overlays*.
 
-### Regiones y su análogo climático real
+- **Forests** — wooded cover of varying densities
+- **Marshes** — swampy areas and floodable lowlands
+- **Deserts** — arid regions and steppes
 
-Para cada región se eligió una localización del mundo real cuyo clima (clasificación **Köppen**) sirve de fuente para las series horarias de 1950. Algunos ejemplos representativos:
+### Water system
 
-| Región de Tierra Media | Köppen | Análogo del mundo real | Coordenadas |
+Water features were traced by hand in QGIS following the logic of Fenlon's original map. They live in the `water` table with a generic `GEOMETRY` column that supports both **LINESTRING** (rivers and streams) and **POLYGON** (seas and lakes), discriminated by the `water_type` field.
+
+### Elevation system
+
+Polygon layers (`altitude_layers`) for different altitude ranges — plains, hills, low/mid/high mountains — with a `priority` field that resolves overlaps. On top of those layers a **DEM (Digital Elevation Model) as a PostGIS raster** (`dem_elevation`) was built, synthesized from the peaks marked as points.
+
+The elevation of any coordinate is queried with the SQL function `get_elevation_at_point(lon, lat)`, and the API also exposes elevation profiles (`/api/dem/profile`) that interpolate points every 100 m and compute positive/negative gain. This directly affects route cost and travel conditions.
+
+### Locations and regions
+
+- **`locations`** — points (`POINT`): name, type (city, fortress, ruin, mountain pass, etc.), population, inhabitants, and narrative description.
+- **`regions`** — political polygons generated with `polygonize` in PostGIS from border lines. They include the associated kingdom (`kingdoms`), climate zone (`climate_zones`), geographic/historical description, and encounter metrics.
+- **`entities`** — creatures and characters (UUID primary key). Each entity stores an array of the regions and biomes where it appears and a JSONB `probability_by_region` field with the encounter probability per region.
+
+---
+
+## Climate system
+
+The climate is based on **real 1950 European climate data**, before the industrial and urban boom, using as a reference the European coordinates the map is superimposed on. This produces a climate coherent with a Third-Age Middle-earth: no urban heat-island effect and no modern pollution.
+
+Technically:
+
+- Each region points to a `climate_zone`, which stores its **Köppen** classification and a **real-world analog location** (`analog_location`, `analog_lat`, `analog_lon`).
+- The 1950 hourly weather data lives in the `climate_data` table (2 m temperature, relative humidity, precipitation, snowfall, cloud cover, wind, pressure, soil moisture, radiation, etc.), in the style of ERA5 / Open-Meteo series.
+- The "live" date is **mapped to the year 1950** while keeping month, day, and hour, both on the client (`useGlobalClimateTime`) and the backend, in order to query the matching hourly record.
+
+### Regions and their real climate analog
+
+For each region, a real-world location was chosen whose climate (**Köppen** classification) serves as the source for the 1950 hourly series. Some representative examples:
+
+| Middle-earth region | Köppen | Real-world analog | Coordinates |
 | --- | --- | --- | --- |
-| **La Comarca** (The Shire) | `Cfb` — oceánico templado | Cotswolds, Gloucestershire (Inglaterra) | 51.83, -1.82 |
-| **Lórien** | `Cfb` — oceánico templado | Bosque de Białowieża (Polonia) | 52.70, 23.86 |
-| **Rivendell** | `Cfb` — oceánico de montaña | Valle de Engadina (Suiza) | 46.50, 9.83 |
-| **Rohan** | `Dfb` — continental húmedo | Hortobágy (Hungría) | 47.60, 21.00 |
-| **Mordor** | `BWh` — desértico cálido | Doğubayazıt, Anatolia Oriental (Turquía) | 39.55, 44.08 |
+| **The Shire** | `Cfb` — temperate oceanic | Cotswolds, Gloucestershire (England) | 51.83, -1.82 |
+| **Lórien** | `Cfb` — temperate oceanic | Białowieża Forest (Poland) | 52.70, 23.86 |
+| **Rivendell** | `Cfb` — mountain oceanic | Engadine Valley (Switzerland) | 46.50, 9.83 |
+| **Rohan** | `Dfb` — humid continental | Hortobágy (Hungary) | 47.60, 21.00 |
+| **Mordor** | `BWh` — hot desert | Doğubayazıt, Eastern Anatolia (Turkey) | 39.55, 44.08 |
 
-El sistema incluye:
+The system includes:
 
-- **Calendario dinámico** de Tierra Media (Cuenta de los Años / Shire Reckoning) con clima en vivo.
-- **Temperatura, precipitación y condiciones** por estación y región.
-- Posibilidad de **adelantar o atrasar el calendario** para explorar otros momentos del año.
-- Impacto directo del clima en el coste de viaje y en la narración por IA.
+- A **dynamic Middle-earth calendar** with live weather automatically updated for all regions.
+- **Temperature, precipitation, and conditions** per season and region.
+- The ability to **move the calendar forward or backward** to explore other times of the year.
+- A direct impact of weather on travel cost and on the AI narration.
 
 ---
 
-## Cálculo de rutas
+## Route calculation
 
-> **Corrección importante respecto de versiones anteriores del texto:** el motor de rutas **no usa la extensión pgRouting**. Se implementó un **algoritmo de Dijkstra propio en JavaScript** que opera sobre la red de caminos traída desde PostGIS.
+The flow (`backend/services/routing.js`) is:
 
-El flujo (`backend/services/routing.js`) es:
-
-1. Se traen todos los `roads` desde PostGIS y, mediante *LATERAL joins* con `ST_Intersects`, se les adjunta el **bioma** (`biomes`) y el **tipo de altitud** (`altitude_layers`) que atraviesan.
-2. Se construye un grafo con cada par de vértices consecutivos de cada camino. El **coste de cada arista es el tiempo de viaje** (`distancia / velocidad`), donde:
+1. All `roads` are fetched from PostGIS and, through *LATERAL joins* with `ST_Intersects`, each one is enriched with the **biome** (`biomes`) and **altitude type** (`altitude_layers`) it crosses.
+2. A graph is built from every pair of consecutive vertices of each road. The **cost of each edge is the travel time** (`distance / speed`), where:
 
    ```
-   velocidad = velocidad_base × mult_camino × mult_bioma × mult_altitud
+   speed = base_speed × road_mult × biome_mult × altitude_mult
    ```
 
-3. Se resuelve el camino más corto con Dijkstra. Los tramos *off-road* (del origen/destino al vértice de camino más cercano) se penalizan y se miden con `ST_Length` sobre `geography` para obtener distancias precisas.
+3. The shortest path is solved with Dijkstra. The *off-road* legs (from the origin/destination to the nearest road vertex) are penalized and measured with `ST_Length` over `geography` for precise distances.
 
-Los multiplicadores dependen del **medio de transporte**. Actualmente están implementados:
+### The road network
 
-- **A pie** — velocidad base 5 km/h
-- **A caballo** — velocidad base 12 km/h
+The roads were traced by hand in QGIS following Fenlon's map and stored in the `roads` table as `GEOMETRY(LineString, 4326)`. The network currently holds **4,119 road segments**, classified into four categories (the `name` field) that reflect the medieval road hierarchy, each with its own speed effect:
 
-Factores que afectan al coste: **tipo de camino** (Royal Road, Main Road, Regular Road, Trail, off-road), **bioma** (llanura, bosque, desierto, marisma), **altitud** (llanura, colinas, montañas baja/media/alta) y, aguas arriba, el **clima**. El resultado se devuelve como GeoJSON con distancia total, distancia on-road/off-road y tiempo estimado, lo que permite estimar cuántos días tarda un personaje en llegar de un punto a otro.
+| Road type | Segments | Meaning | Speed effect |
+| --- | --- | --- | --- |
+| **Royal Road** | 90 | Main imperial highways | *Fastest* (up to +20% walking, +40% mounted) |
+| **Main Road** | 667 | Primary inter-regional routes | Faster than baseline |
+| **Regular Road** | 1,059 | Standard connecting roads | Baseline (×1.0) |
+| **Trail** | 2,303 | Paths and tracks | Slower |
+| *off-road* | — | Cross-country (no road) | Slowest (heavy penalty) |
 
----
+Each segment also carries a `terrain_type` (`hills` for 2,303 segments, `plains` for 1,816) and a `difficulty` from 1 to 3, so the same road category can cost more or less depending on the ground it crosses.
 
-## Personajes y narrativa
+The multipliers depend on the **mode of transport**. Currently implemented:
 
-### Los dos personajes
+- **On foot** — base speed 5 km/h
+- **On horseback** — base speed 12 km/h
 
-Dos personajes seleccionables, cada uno con estadísticas, descripción y **voz narrativa propia** (guardada en `character_state.system_prompt`):
-
-- **La Elfa Noldo** — Inmortal, de las casas antiguas; camina el mundo como rebelde desde antes de la caída de Beleriand. Su perspectiva es la del tiempo largo.
-- **El Dúnedain Rastreador** — Mortal, heredero de Númenor; recorre Tierra Media en busca de un camino antiguo. Su perspectiva es la del esfuerzo y el peligro cotidiano.
-
-### Sistema de narración con IA
-
-> **Corrección importante:** la narración no depende de un único proveedor. Usa una **cascada de proveedores con fallback automático**: **Gemini 2.0 Flash como proveedor principal** y **Groq (`llama-3.3-70b-versatile`) como respaldo** ante límites de tasa, con soporte para dos claves de Groq. Ver `backend/services/ai.js`.
-
-El sistema genera una **historia única por cada día de viaje** (un capítulo = un día). Cada capítulo se construye a partir de:
-
-- Los datos de **elevación, bioma y clima** del tramo recorrido.
-- Las **regiones y localizaciones** atravesadas.
-- Las **entidades con probabilidad de encuentro** en esa región.
-- El **carácter, voz y backstory** del personaje elegido.
-
-El resultado es una narración con descripciones ambientales, pensamientos internos y **encuentros generados proceduralmente**, siempre anclados en los datos geográficos del mapa. La lógica de resolución de encuentros e interacciones vive en los servicios `encounters.js`, `interactionResolver.js`, `prompt.js` y `tripDay.js`.
-
-### Sistema de energía
-
-- Un personaje puede recibir hasta **dos golpes** en un encuentro.
-- Un golpe reduce la energía a la mitad; **dos golpes son mortales**.
-- La recuperación completa requiere **cinco días de descanso**.
+Factors affecting cost: **road type** (Royal Road, Main Road, Regular Road, Trail, off-road), **biome** (plain, forest, desert, marsh), **altitude** (plain, hills, low/mid/high mountains) and, upstream, the **weather**. The result is returned as GeoJSON with total distance, on-road/off-road distance, and estimated time, which makes it possible to estimate how many days a character takes to travel from one point to another.
 
 ---
 
-## Exploración y usuarios
+## Characters and narrative
 
-El mapa es explorable **con y sin login**:
+### The two characters
 
-- **Sin autenticar:** regiones, localizaciones, biomas, clima y altitud.
-- **Autenticado:** acceso completo a rutas, personajes, narración e historial de viajes.
+Two selectable characters, each with their own stats, description, and **narrative voice** (stored in `character_state.system_prompt`):
 
-La autenticación usa **JWT** (`jsonwebtoken`, tokens de 7 días) con contraseñas *hasheadas* con **bcrypt**. Tablas de usuario:
+- **The Noldo Elf** — Immortal, of the ancient houses; she has walked the world as a rebel for generations, since before the fall of Beleriand. Hers is the perspective of the long ages.
+- **The Dúnedain Ranger** — Mortal, heir of Númenor; he roams Middle-earth in search of an ancient road. His is the perspective of everyday effort and danger.
 
-- **`users`** — cuenta, ajustes (`settings` JSONB), personaje y viaje activos.
-- **`trips`** — historial de rutas generadas por el usuario.
-- **Días de viaje** — registro día a día con el capítulo narrativo correspondiente.
+### AI narration system
+
+The system generates a **unique story for each day of travel** (one chapter = one day). Each chapter is built from:
+
+- The **elevation, biome, and weather** data of the traversed leg.
+- The **regions and locations** crossed.
+- The **entities with encounter probability** in that region.
+- The **character, voice, and backstory** of the chosen character.
+
+The result is a narrative enriched with environmental descriptions, inner thoughts, and **procedurally generated encounters**, always anchored in the map's geographic data. The encounter and interaction resolution logic lives in the `encounters.js`, `interactionResolver.js`, `prompt.js`, and `tripDay.js` services.
+
+The narration uses a **provider cascade with automatic fallback**: **Gemini 2.0 Flash as the primary provider** and **Groq (`llama-3.3-70b-versatile`) as a fallback** when rate limits are hit, with support for two Groq keys. See `backend/services/ai.js`.
+
+### Energy system
+
+- A character can take up to **two hits** in an encounter.
+- One hit halves the energy; **two hits are fatal**.
+- Full recovery requires **five days of rest**.
 
 ---
 
-## Arquitectura técnica
+## Exploration and users
+
+The map is explorable **with and without login**:
+
+- **Unauthenticated:** regions, locations, biomes, climate, and altitude.
+- **Authenticated:** full access to routes, characters, narration, and travel history.
+
+Authentication uses **JWT** (`jsonwebtoken`, 7-day tokens) with passwords *hashed* using **bcrypt**. User tables:
+
+- **`users`** — account, settings (`settings` JSONB), active character and trip.
+- **`trips`** — history of routes generated by the user.
+- **Trip days** — a day-by-day log with the corresponding narrative chapter.
+
+---
+
+## Technical architecture
 
 ### Frontend
 
 - **Vue 3 (Composition API) + TypeScript + Vite.**
-- **Arquitectura Feature-Sliced Design (FSD)**, organizada por capas de responsabilidad creciente:
-  - `app/` — bootstrap, router (`vue-router`), estilos y tema.
-  - `pages/` — vistas de ruta.
-  - `widgets/` — bloques compuestos de UI (visor de mapa, sidebar de localizaciones, selector de calendario, input de direcciones, buscador).
-  - `features/` — casos de uso por dominio (gestión de biomas, clima, altitud, rutas, prompts, etc.).
-  - `entities/` — modelos y lógica por dominio (mapa, región, bioma, agua, altitud, ruta, localización…).
-  - `shared/` — API client, config, tipos y utilidades transversales.
-- **Mapa:** [MapLibre GL](https://maplibre.org/) (mapa vectorial, *no* Leaflet), con [Turf.js](https://turfjs.org/) para geometría (medición de longitud, interpolación de puntos a lo largo de la ruta para animar al personaje).
-- **UI:** TailwindCSS + [Reka UI](https://reka-ui.com/) (componentes headless estilo shadcn) + iconos Lucide.
-- **Estado:** no se usa Vuex/Pinia; el estado compartido se maneja con **composables** (`useAuth`, `useDirections`, `useMapRoutes`, `useCharacter`, `useGlobalClimateTime`, `useUserSettings`, …), varios con estado a nivel de módulo (singletons).
-- **Comunicación:** `axios` contra la API REST.
+- **Feature-Sliced Design (FSD) architecture**, organized in layers of increasing responsibility:
+  - `app/` — bootstrap, router (`vue-router`), styles, and theme.
+  - `pages/` — route views.
+  - `widgets/` — composite UI blocks (map viewer, location sidebar, calendar picker, directions input, search).
+  - `features/` — per-domain use cases (biome, climate, altitude, route, prompt management, etc.).
+  - `entities/` — per-domain models and logic (map, region, biome, water, altitude, route, location…).
+  - `shared/` — API client, config, types, and cross-cutting utilities.
+- **Map:** [MapLibre GL](https://maplibre.org/) (vector map, *not* Leaflet), with [Turf.js](https://turfjs.org/) for geometry (length measurement, interpolating points along the route to animate the character).
+- **UI:** TailwindCSS + [Reka UI](https://reka-ui.com/) (shadcn-style headless components) + Lucide icons.
+- **State:** no Vuex/Pinia; shared state is handled with **composables** (`useAuth`, `useDirections`, `useMapRoutes`, `useCharacter`, `useGlobalClimateTime`, `useUserSettings`, …), several with module-level (singleton) state.
+- **Communication:** `axios` against the REST API.
 
 ### Backend
 
-- **Node.js + Express (ESM)**, arquitectura **modular por dominio / feature slices**:
-  - `routes/` — un router Express por recurso (`locations`, `regions`, `biomes`, `altitude`, `roads`, `water`, `peaks`, `dem`, `climate`, `directions`, `character`, `trips`, `auth`, `users`, `search`), montados bajo `/api/*`.
-  - `services/` — la lógica de negocio pesada, desacoplada de las rutas: `routing.js` (Dijkstra + costes de terreno), `ai.js` (cascada Gemini→Groq), `tripDay.js` / `tripGeometry.js` (construcción del viaje día a día), `encounters.js`, `interactionResolver.js`, `prompt.js`, `naturalLanguage.js`, `terrainPhrases.js`, `thoughts.js`.
-  - `middleware/auth.js` — verificación de JWT.
-- **Base de datos:** acceso vía `pg` (pool de conexiones en `db.js`); toda la lógica geoespacial se delega a **PostGIS** con SQL parametrizado.
+- **Node.js + Express (ESM)**, **domain-modular / feature-slice** architecture:
+  - `routes/` — one Express router per resource (`locations`, `regions`, `biomes`, `altitude`, `roads`, `water`, `peaks`, `dem`, `climate`, `directions`, `character`, `trips`, `auth`, `users`, `search`), mounted under `/api/*`.
+  - `services/` — the heavy business logic, decoupled from the routes: `routing.js` (Dijkstra + terrain costs), `ai.js` (Gemini→Groq cascade), `tripDay.js` / `tripGeometry.js` (day-by-day trip construction), `encounters.js`, `interactionResolver.js`, `prompt.js`, `naturalLanguage.js`, `terrainPhrases.js`, `thoughts.js`.
+  - `middleware/auth.js` — JWT verification.
+- **Database:** accessed via `pg` (connection pool in `db.js`); all geospatial logic is delegated to **PostGIS** with parameterized SQL.
 - **Auth:** JWT + bcrypt.
-- Endpoint de salud en `/api/health`.
+- Health endpoint at `/api/health`.
 
-### Base de datos
+### Database
 
-- **PostgreSQL + PostGIS.** Modelo relacional normalizado, todas las geometrías en **EPSG:4326** con índices espaciales **GIST** e índices B-tree/GIN según el patrón de consulta.
-- **Tablas geoespaciales:** `locations` (POINT), `roads` (LINESTRING), `water` (GEOMETRY river/lake), `regions` (POLYGON), `biomes` (POLYGON), `altitude_layers` (POLYGON) y el raster `dem_elevation`.
-- **Datos de dominio:** `kingdoms`, `climate_zones`, `climate_data` (series horarias de 1950), `entities` (UUID, arrays de regiones/biomas, probabilidades JSONB), `character_state`, `users`, `trips` y sus días.
-- **Funciones SQL** para lógica geoespacial reutilizable, como `get_elevation_at_point(lon, lat)` sobre el raster DEM.
-- **Constraints de integridad geométrica:** `ST_IsValid`, verificación de SRID y de polígonos cerrados.
-- Las migraciones y seeds viven en `database/migrations/` y `database/seeds/`.
+- **PostgreSQL + PostGIS.** Normalized relational model, all geometries in **EPSG:4326** with **GIST** spatial indexes and B-tree/GIN indexes depending on the query pattern.
+- **Geospatial tables:** `locations` (POINT), `roads` (LINESTRING), `water` (GEOMETRY river/lake), `regions` (POLYGON), `biomes` (POLYGON), `altitude_layers` (POLYGON), and the `dem_elevation` raster.
+- **Domain data:** `kingdoms`, `climate_zones`, `climate_data` (1950 hourly series), `entities` (UUID, region/biome arrays, JSONB probabilities), `character_state`, `users`, `trips`, and their days.
+- **SQL functions** for reusable geospatial logic, such as `get_elevation_at_point(lon, lat)` over the DEM raster.
+- **Geometric integrity constraints:** `ST_IsValid`, SRID verification, and closed-polygon checks.
+- Migrations and seeds live in `database/migrations/` and `database/seeds/`.
 
 ---
 
-## Stack tecnológico
+## Tech stack
 
-| Herramienta | Uso |
+| Tool | Use |
 | --- | --- |
-| **QGIS** | Georreferenciación del mapa y creación de capas vectoriales |
-| **PostGIS** | Almacenamiento y consulta de datos geoespaciales (vector + raster) |
-| **PostgreSQL** | Base de datos relacional normalizada |
-| **Vue 3 + TypeScript + Vite** | Frontend interactivo (Feature-Sliced Design) |
-| **MapLibre GL + Turf.js** | Renderizado del mapa vectorial y geometría en cliente |
-| **TailwindCSS + Reka UI** | Sistema de estilos y componentes de UI |
-| **Node.js + Express** | Backend y API REST |
-| **`pg`** | Cliente PostgreSQL / pool de conexiones |
-| **Dijkstra propio (JS)** | Cálculo de rutas con coste variable por terreno *(no pgRouting)* |
-| **Google Gemini 2.0 Flash** | Proveedor principal de narración por IA |
-| **Groq (`llama-3.3-70b-versatile`)** | Proveedor de respaldo (fallback) para la IA |
-| **JWT + bcrypt** | Autenticación y hashing de contraseñas |
-| **Docker + Railway** | Contenedorización y despliegue en producción |
+| **QGIS** | Map georeferencing and vector-layer creation |
+| **PostGIS** | Storage and querying of geospatial data (vector + raster) |
+| **PostgreSQL** | Normalized relational database |
+| **Vue 3 + TypeScript + Vite** | Interactive frontend (Feature-Sliced Design) |
+| **MapLibre GL + Turf.js** | Vector map rendering and client-side geometry |
+| **TailwindCSS + Reka UI** | Styling system and UI components |
+| **Node.js + Express** | Backend and REST API |
+| **`pg`** | PostgreSQL client / connection pool |
+| **Custom Dijkstra (JS)** | Route calculation with variable terrain cost *(not pgRouting)* |
+| **Google Gemini 2.0 Flash** | Primary AI narration provider |
+| **Groq (`llama-3.3-70b-versatile`)** | Fallback AI provider |
+| **JWT + bcrypt** | Authentication and password hashing |
+| **Docker + Railway** | Containerization and production deployment |
 
 ---
 
-## Puesta en marcha
+## Getting started
 
-Requisitos: **Node.js ≥ 22**, **PostgreSQL con PostGIS**.
+Requirements: **Node.js ≥ 22**, **PostgreSQL with PostGIS**.
 
 ```bash
-# 1. Base de datos: crear la BD y aplicar el esquema
+# 1. Database: create the DB and apply the schema
 psql -d middle_earth -f database/schema.sql
-# (opcional) migraciones y seeds
-cd database/seeds && npm install && npm run ...   # ver database/seeds/README.md
+# (optional) migrations and seeds
+cd database/seeds && npm install && npm run ...   # see database/seeds/README.md
 
 # 2. Backend
 cd backend
 npm install
-# configurar variables de entorno (ver más abajo)
+# configure environment variables (see below)
 npm run dev            # http://localhost:5000
 
 # 3. Frontend
@@ -255,49 +266,43 @@ npm install
 npm run dev            # http://localhost:5173
 ```
 
-**Variables de entorno del backend** (parciales):
+**Backend environment variables** (partial):
 
-| Variable | Descripción |
+| Variable | Description |
 | --- | --- |
-| `DATABASE_URL` / config `pg` | Conexión a PostgreSQL/PostGIS |
-| `JWT_SECRET` | Secreto para firmar tokens JWT |
-| `CORS_ORIGIN` | Origen permitido (por defecto `http://localhost:5173`) |
-| `GEMINI_API_KEY` | Clave de Google Gemini (proveedor principal de IA) |
-| `GROQ_API_KEY` / `GROQ_API_KEY_2` | Claves de Groq (fallback) |
-| `PORT` | Puerto del servidor (por defecto `5000`) |
+| `DATABASE_URL` / `pg` config | PostgreSQL/PostGIS connection |
+| `JWT_SECRET` | Secret used to sign JWT tokens |
+| `CORS_ORIGIN` | Allowed origin (defaults to `http://localhost:5173`) |
+| `GEMINI_API_KEY` | Google Gemini key (primary AI provider) |
+| `GROQ_API_KEY` / `GROQ_API_KEY_2` | Groq keys (fallback) |
+| `PORT` | Server port (defaults to `5000`) |
 
-> **Nota de seguridad:** las claves de API nunca deben *hardcodearse*; se leen desde variables de entorno vía `dotenv`.
+> **Security note:** API keys must never be *hardcoded*; they are read from environment variables via `dotenv`.
 
-**Despliegue:** el proyecto se empaqueta con Docker (`Dockerfile`) y se despliega en **Railway** (`railway.json`), que ejecuta migraciones/seeds en `preDeployCommand` (`npm run postdeploy`).
-
----
-
-## Orden de construcción del proyecto
-
-1. Georreferenciar el mapa de Pete Fenlon sobre Europa con tiles y coordenadas reales en QGIS.
-2. Conseguir y limpiar un dataset de localizaciones de Tierra Media.
-3. Segmentar biomas (bosques, marismas, desiertos, lagos) con IA sobre el mapa escaneado.
-4. Trazar a mano cursos de agua (ríos, arroyos) y caminos (avenidas, rutas, senderos).
-5. Crear las capas de polígonos de elevación (llanuras, colinas, montañas) y marcar sus picos.
-6. Construir la DEM (raster PostGIS) sintetizada a partir de los picos de elevación.
-7. Crear los polígonos de regiones políticas usando líneas de borde y `polygonize` en PostGIS.
-8. Diseñar y normalizar la base de datos PostgreSQL/PostGIS con todas las capas.
-9. Construir el frontend en Vue 3 (Feature-Sliced Design) sobre MapLibre GL.
-10. Implementar el sistema de clima basado en datos europeos de 1950.
-11. Crear el calendario dinámico de Tierra Media con clima en vivo.
-12. Construir la tabla de entidades por región con probabilidades de encuentro.
-13. Construir la tabla de regiones con referencias a climas y reinos.
-14. Implementar el cálculo de distancias entre dos puntos.
-15. Implementar el motor de rutas (Dijkstra propio) con coste por bioma, altitud y clima.
-16. Añadir personajes, sistema de energía y narración diaria con IA (Gemini + Groq).
+**Deployment:** the project is packaged with Docker (`Dockerfile`) and deployed on **Railway** (`railway.json`), which runs migrations/seeds in `preDeployCommand` (`npm run postdeploy`).
 
 ---
 
-## Objetivos del proyecto
+## Project build order
 
-- Georreferenciar el mapa de Pete Fenlon sobre Europa con coordenadas reales y mediciones precisas.
-- Construir un sistema de clima históricamente coherente basado en datos reales de 1950.
-- Modelar la geografía de Tierra Media en capas PostGIS (biomas, agua, elevación, regiones).
-- Calcular rutas realistas considerando bioma, altitud, clima y medio de transporte.
-- Generar narrativas únicas por viaje usando IA anclada en los datos del mapa.
-- Crear una experiencia de exploración interactiva accesible con y sin login.
+1. Georeference Pete Fenlon's map onto Europe with real tiles and coordinates in QGIS.
+2. Source and clean a dataset of Middle-earth locations.
+3. Segment biomes (forests, marshes, deserts, lakes, rivers, etc.) with AI over the scanned map and trace water features (rivers, streams) and roads (highways, routes, trails) by hand. Design and normalize the PostgreSQL/PostGIS database with all layers.
+4. Create the elevation polygon layers (plains, hills, mountains), mark their peaks, and build the DEM (PostGIS raster) synthesized from the elevation peaks.
+5. Create the political region polygons using border lines and `polygonize` in PostGIS.
+6. Implement the regional climate system based on 1950 European data.
+7. Build the Vue 3 frontend (Feature-Sliced Design) on top of MapLibre GL.
+8. Implement the routing engine (custom Dijkstra) with cost by biome, altitude, and weather.
+9. Build the entities table per region with encounter probabilities.
+10. Add characters, the energy system, and daily AI narration (Gemini + Groq).
+
+---
+
+## Project goals
+
+- Georeference Pete Fenlon's map onto Europe with real coordinates and precise measurements.
+- Build a historically coherent climate system based on real 1950 data.
+- Model Middle-earth's geography in PostGIS layers (biomes, water, elevation, regions).
+- Compute realistic routes considering biome, altitude, weather, and mode of transport.
+- Generate unique per-trip narratives using AI anchored in the map's data.
+- Create an interactive exploration experience accessible with and without login.

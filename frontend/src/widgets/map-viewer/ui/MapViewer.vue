@@ -21,7 +21,7 @@
     />
 
     <SearchInput
-      v-else
+      v-if="!activeTripId && mode !== 'wander'"
       ref="searchInputRef"
       @select="handleSearchSelect"
       @clear="handleClearSearch"
