@@ -1,6 +1,8 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import api from '@/shared/api/client'
 import { useUserSettings } from './useUserSettings'
+
+const TOKEN_KEY = 'me-auth-token'
 
 export interface CharacterState {
   id: number
@@ -22,6 +24,16 @@ const characters = ref<CharacterState[]>([])
 const activeCharacter = ref<CharacterState | null>(null)
 const characterLoading = ref(false)
 const characterError = ref<string | null>(null)
+
+// Clear active character when auth state changes (guest <-> logged transition)
+watch(() => localStorage.getItem(TOKEN_KEY), (newToken, oldToken) => {
+  if (newToken !== oldToken) {
+    // Auth state changed, clear character state
+    activeCharacter.value = null
+    characters.value = []
+    console.log('🔄 Auth state changed, cleared character state')
+  }
+})
 
 export function useCharacter() {
   const { user } = useUserSettings()

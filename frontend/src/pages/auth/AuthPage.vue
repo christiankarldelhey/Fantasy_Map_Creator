@@ -5,7 +5,7 @@
       class="absolute inset-0 bg-cover bg-center blur-sm scale-105"
       style="background-image: url('/assets/login/login.png');"
     />
-    <div class="absolute inset-0 bg-ink-black/60" />
+    <div class="absolute inset-0" style="background-color: rgba(0, 0, 0, 0.45);" />
 
     <div class="w-full max-w-md relative z-10">
       <div class="text-center mb-8">

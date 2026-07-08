@@ -2,6 +2,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/shared/api/client'
 import type { User } from './useUserSettings'
+import { useCharacter } from './useCharacter'
 
 const TOKEN_KEY = 'me-auth-token'
 
@@ -11,6 +12,7 @@ const authError = ref<string | null>(null)
 
 export function useAuth() {
   const router = useRouter()
+  const { activeCharacter } = useCharacter()
 
   const isAuthenticated = computed(() => !!currentUser.value)
   const isAdmin = computed(() => currentUser.value?.is_admin ?? false)
@@ -91,6 +93,8 @@ export function useAuth() {
     currentUser.value = null
     authError.value = null
     localStorage.removeItem('me-welcome-seen')
+    // Clear active character to prevent contamination in guest mode
+    activeCharacter.value = null
     router.push('/login')
   }
 
