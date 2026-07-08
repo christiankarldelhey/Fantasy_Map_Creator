@@ -10,7 +10,7 @@
     <div class="w-full max-w-md relative z-10">
       <div class="text-center mb-8">
         <h1 class="text-4xl font-serif font-bold text-parchment-base mb-2">Middle-earth</h1>
-        <p class="text-parchment-base font-book italic">Wandering Simulator</p>
+        <p class="text-parchment-base text-3xl font-book italic">Wandering Simulator</p>
       </div>
 
       <div class="bg-parchment-base rounded-xl shadow-2xl border-2 border-gold overflow-hidden">
@@ -128,12 +128,12 @@
       <button
         type="button"
         @click="goExplore"
-        class="block mx-auto mt-5 text-sm text-parchment-base/90 hover:text-gold font-book underline underline-offset-4 transition-colors"
+        class="block mx-auto text-lg mt-5 text-parchment-base hover:text-gold font-book underline underline-offset-4 transition-colors"
       >
         Just looking? Explore the map as a guest
       </button>
 
-      <p class="text-center text-xs text-parchment-base mt-6 font-book italic">
+      <p class="text-center text-md text-parchment-base mt-6 font-book italic">
         A personal hobby project. Made for love of the work — no coin sought.
       </p>
     </div>
