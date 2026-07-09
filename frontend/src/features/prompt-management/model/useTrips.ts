@@ -10,6 +10,17 @@ const tripApi = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
+tripApi.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('me-auth-token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  error => Promise.reject(error)
+)
+
 export interface LatLng {
   lng: number
   lat: number

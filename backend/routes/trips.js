@@ -5,6 +5,7 @@ import { generateDay } from '../services/tripDay.js';
 import { buildDayPrompt } from '../services/prompt.js';
 import { createSeededRng } from '../services/encounters.js';
 import { generateNarrative } from '../services/ai.js';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ const router = express.Router();
 // POST /api/trips - Create a trip (computes and persists the route)
 // Body: { name?, start: {lng, lat}, end: {lng, lat}, transport_mode?, start_date? }
 // ---------------------------------------------------------------------------
-router.post('/', async (req, res, next) => {
+router.post('/', authenticateToken, async (req, res, next) => {
   try {
     const { name, start, end, transport_mode = 'walk', start_date } = req.body || {};
 
@@ -37,11 +38,18 @@ router.post('/', async (req, res, next) => {
     // Default start date: 21 June 1950 (matches the climate dataset year)
     const startDate = start_date || '1950-06-21';
 
+    // Get user's active character
+    const userRes = await pool.query(
+      'SELECT active_character_id FROM users WHERE id = $1',
+      [req.userId]
+    );
+    const characterId = userRes.rows[0]?.active_character_id;
+
     const { rows } = await pool.query(
       `INSERT INTO trips
          (name, start_lng, start_lat, end_lng, end_lat, transport_mode, start_date,
-          route, total_distance_km, total_time_hours)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+          route, total_distance_km, total_time_hours, character_id)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
        RETURNING *`,
       [
         name || null,
@@ -51,6 +59,7 @@ router.post('/', async (req, res, next) => {
         JSON.stringify(route),
         route.summary?.total_distance_km ?? null,
         route.summary?.total_time_hours ?? null,
+        characterId,
       ]
     );
 
@@ -63,11 +72,31 @@ router.post('/', async (req, res, next) => {
 // ---------------------------------------------------------------------------
 // GET /api/trips/:id - Fetch a trip
 // ---------------------------------------------------------------------------
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', authenticateToken, async (req, res, next) => {
   try {
     const { rows } = await pool.query('SELECT * FROM trips WHERE id = $1', [req.params.id]);
     if (rows.length === 0) return res.status(404).json({ error: 'Trip not found' });
-    res.json(rows[0]);
+    const trip = rows[0];
+
+    // Activate the trip's character exclusively
+    if (trip.character_id) {
+      await pool.query('BEGIN');
+      // Deactivate all characters
+      await pool.query('UPDATE character_state SET active = false');
+      // Activate the trip's character
+      await pool.query(
+        'UPDATE character_state SET active = true WHERE id = $1',
+        [trip.character_id]
+      );
+      // Update user's active character
+      await pool.query(
+        'UPDATE users SET active_character_id = $1 WHERE id = $2',
+        [trip.character_id, req.userId]
+      );
+      await pool.query('COMMIT');
+    }
+
+    res.json(trip);
   } catch (error) {
     next(error);
   }
@@ -168,7 +197,7 @@ router.patch('/:id/route-completed', async (req, res, next) => {
 // POST /api/trips/:id/days - Generate (and persist) the next day, or a given
 // day_number. Body (optional): { day_number, seed }
 // ---------------------------------------------------------------------------
-router.post('/:id/days', async (req, res, next) => {
+router.post('/:id/days', authenticateToken, async (req, res, next) => {
   try {
     const tripRes = await pool.query('SELECT * FROM trips WHERE id = $1', [req.params.id]);
     if (tripRes.rows.length === 0) return res.status(404).json({ error: 'Trip not found' });
@@ -192,13 +221,14 @@ router.post('/:id/days', async (req, res, next) => {
 
     const rng = seed != null ? createSeededRng(parseInt(seed, 10)) : Math.random;
 
-    // Load the active character (bio + linked entity name + custom prompts) for the prompt
+    // Load the trip's character (bio + linked entity name + custom prompts) for the prompt
     const charRes = await pool.query(
       `SELECT c.id, c.name, c.slug, c.description, c.gender, c.system_prompt, c.introduction_instructions,
               c.resistance, c.permadeath, e.name AS entity_name
        FROM character_state c
        LEFT JOIN entities e ON e.id = c.entity_id
-       WHERE c.active = true`
+       WHERE c.id = $1`,
+      [trip.character_id]
     );
     const character = charRes.rows[0] || {};
 

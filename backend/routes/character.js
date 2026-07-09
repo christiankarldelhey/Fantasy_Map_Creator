@@ -243,11 +243,15 @@ router.put('/:id/active', authenticateToken, async (req, res, next) => {
       return res.status(403).json({ error: 'Character does not belong to this user' });
     }
 
-    // Update user's active_character_id
+    // Activate character exclusively (global flag + user preference)
+    await pool.query('BEGIN');
+    await pool.query('UPDATE character_state SET active = false');
+    await pool.query('UPDATE character_state SET active = true WHERE id = $1', [id]);
     await pool.query(
       'UPDATE users SET active_character_id = $1, updated_at = NOW() WHERE id = $2',
       [id, userId]
     );
+    await pool.query('COMMIT');
 
     const result = await pool.query(`
       SELECT 
