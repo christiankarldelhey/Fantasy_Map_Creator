@@ -9,7 +9,7 @@
             @input="handleInput"
             @focus="showDropdown = true"
             placeholder="Search locations or regions..."
-            :class="['w-72 bg-parchment-base pl-9 text-ink-black placeholder:text-ink-light border-earth-dark', searchQuery.length > 0 ? 'pr-9' : '']"
+            :class="['w-[400px] bg-parchment-base pl-9 text-ink-black placeholder:text-ink-light border-earth-dark', searchQuery.length > 0 ? 'pr-9' : '']"
           />
           <button
             v-if="searchQuery.length > 0"
@@ -20,7 +20,7 @@
           </button>
         </div>
       </PopoverTrigger>
-      <PopoverContent class="w-72 p-0 z-[10000] bg-parchment-base border border-earth-dark" align="start">
+      <PopoverContent class="w-[400px] p-0 z-[10000] bg-parchment-base border border-earth-dark" align="start">
         <div v-if="loading" class="p-4 text-center text-sm text-ink-brown">
           Searching...
         </div>

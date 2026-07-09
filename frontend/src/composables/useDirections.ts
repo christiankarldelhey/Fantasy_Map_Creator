@@ -61,14 +61,20 @@ const routeData = ref<DirectionsResponse | null>(null)
 const routeLoading = ref(false)
 const routeError = ref<string | null>(null)
 
+// Mode-aware isolation: 'explore' never persists/loads; 'wander' owns persistence
+const activeMode = ref<'explore' | 'wander' | null>(null)
+const isInitializing = ref(false)
+
 const { activeCharacter } = useCharacter()
 const { savePartialSettings } = useUserSettings()
 
-// Sync origin with activeCharacter position whenever it changes and directions mode is active
-// Only for logged-in users (not guest mode)
+// Sync origin with activeCharacter position whenever it changes and directions mode is active.
+// Only for wander mode: in explore the origin is free (searchable / map click).
 watch(activeCharacter, (newChar) => {
   const hasToken = !!localStorage.getItem(TOKEN_KEY)
-  console.log('🔍 activeCharacter watcher:', { isDirectionsMode: isDirectionsMode.value, hasToken, newChar: newChar?.name })
+  console.log('🔍 activeCharacter watcher:', { isDirectionsMode: isDirectionsMode.value, hasToken, activeMode: activeMode.value, newChar: newChar?.name })
+
+  if (activeMode.value !== 'wander') return
 
   if (isDirectionsMode.value && newChar && hasToken) {
     origin.value = {
@@ -100,9 +106,11 @@ watch(() => localStorage.getItem(TOKEN_KEY), (newToken, oldToken) => {
 })
 
 // Persist directions state to backend when it changes.
-// Skip for guest users (no auth token) to avoid 401s on the protected settings endpoint.
+// Only for wander mode; explore never writes to the DB.
 watch([isDirectionsMode, destination], ([newMode, newDest]) => {
+  if (activeMode.value !== 'wander') return
   if (!localStorage.getItem('me-auth-token')) return
+  if (isInitializing.value) return
   savePartialSettings({
     directions: {
       destination: newDest || undefined,
@@ -144,40 +152,22 @@ watch([origin, destination], () => {
   calculateRoute()
 })
 
+function resetDirectionsState() {
+  isDirectionsMode.value = false
+  origin.value = null
+  destination.value = null
+  routeData.value = null
+  routeError.value = null
+}
+
 export function useDirections() {
   const { user } = useUserSettings()
 
-  // Initialize directions from backend settings if available
-  // Skip for guest users (no auth token)
+  // Load directions from backend settings for wander mode.
   function initializeFromBackend() {
-    console.log('🔧 initializeFromBackend called, current state:', {
-      hasToken: !!localStorage.getItem(TOKEN_KEY),
-      isDirectionsMode: isDirectionsMode.value,
-      origin: origin.value?.name,
-      destination: destination.value?.name
-    })
-
     if (!localStorage.getItem(TOKEN_KEY)) {
       console.log('⏭️ Skipping directions initialization (guest mode)')
       return
-    }
-
-    // If directions mode is active but origin is not from current character, clear it
-    // This handles the case where guest mode directions contaminated logged-in mode
-    if (isDirectionsMode.value && origin.value && activeCharacter.value) {
-      const originIsFromCharacter =
-        origin.value.name === activeCharacter.value.name &&
-        origin.value.coordinates[0] === activeCharacter.value.current_lng &&
-        origin.value.coordinates[1] === activeCharacter.value.current_lat
-
-      if (!originIsFromCharacter) {
-        console.log('🧹 Directions active but origin not from current character, clearing (guest contamination)')
-        isDirectionsMode.value = false
-        origin.value = null
-        destination.value = null
-        routeData.value = null
-        routeError.value = null
-      }
     }
 
     if (user.value?.settings?.directions?.is_active && user.value?.settings?.directions?.destination) {
@@ -195,6 +185,19 @@ export function useDirections() {
         }
       }
     }
+  }
+
+  // Mode-aware setup: always reset first, then load persisted state only in wander.
+  function configureForMode(mode: 'explore' | 'wander') {
+    console.log('🔧 configureForMode:', { mode, previous: activeMode.value })
+    isInitializing.value = true
+    resetDirectionsState()
+    activeMode.value = mode
+    if (mode === 'wander') {
+      initializeFromBackend()
+    }
+    isInitializing.value = false
+    console.log('✅ configureForMode done:', { mode, isDirectionsMode: isDirectionsMode.value, origin: origin.value?.name, destination: destination.value?.name })
   }
 
   function startDirections(initialDestination: { name: string; coordinates: [number, number]; id?: number; type?: 'location' | 'region' }) {
@@ -252,6 +255,6 @@ export function useDirections() {
     setDestination,
     swapPoints,
     exitDirections,
-    initializeFromBackend
+    configureForMode
   }
 }

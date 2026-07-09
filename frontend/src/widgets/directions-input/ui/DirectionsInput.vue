@@ -23,8 +23,47 @@
 
       <!-- Inputs column -->
       <div class="flex-grow flex flex-col gap-2">
-        <!-- Origin (locked; in guest mode it is set by clicking the map) -->
+        <!-- Origin (explore = searchable + map click; wander = locked to character) -->
+        <Popover v-if="explore" v-model:open="showOriginDropdown">
+          <PopoverTrigger as-child>
+            <div class="relative w-full">
+              <Input
+                v-model="originQuery"
+                @input="handleOriginInput"
+                @focus="showOriginDropdown = true"
+                placeholder="Search origin or click on the map"
+                :class="['w-full pr-8 text-sm h-9 border-earth-dark bg-parchment-base focus-visible:ring-gold font-book', originPoint ? 'font-semibold text-ink-black' : 'text-ink-brown']"
+              />
+              <button
+                v-if="originQuery.length > 0"
+                @click="clearOrigin"
+                class="absolute right-2 top-1/2 -translate-y-1/2 text-ink-light hover:text-ink-black transition-colors"
+              >
+                <X class="h-3.5 w-3.5" />
+              </button>
+            </div>
+          </PopoverTrigger>
+          <PopoverContent class="w-[280px] p-0 z-[10000] bg-parchment-base border-2 border-gold" align="start">
+            <div v-if="originLoading" class="p-4 text-center text-sm text-ink-brown font-book">Searching…</div>
+            <div v-else-if="originResults.length === 0 && originQuery.length >= 2" class="p-4 text-center text-sm text-ink-faded font-book italic">No results found</div>
+            <div v-else class="max-h-60 overflow-y-auto">
+              <div
+                v-for="result in originResults"
+                :key="`origin-${result.type}-${result.id}`"
+                @click="selectOriginResult(result)"
+                class="px-4 py-2.5 hover:bg-parchment-dark cursor-pointer border-b border-earth-dark last:border-0 flex items-center gap-3"
+              >
+                <Circle class="w-3.5 h-3.5 text-gold-base shrink-0" />
+                <div>
+                  <div class="font-serif font-semibold text-ink-black text-sm">{{ result.name }}</div>
+                  <div class="text-xs text-ink-brown capitalize font-book">{{ result.type }}</div>
+                </div>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
         <Input
+          v-else
           v-model="originQuery"
           readonly
           :placeholder="guest ? 'Click on the map to set your starting point' : (activeCharacter?.name || 'Traveller')"
@@ -71,6 +110,16 @@
           </PopoverContent>
         </Popover>
       </div>
+
+      <!-- Swap origin/destination (explore only) -->
+      <button
+        v-if="explore"
+        @click="handleSwap"
+        title="Swap origin and destination"
+        class="p-1.5 rounded-md text-ink-brown hover:text-ink-black hover:bg-parchment-dark transition-colors shrink-0"
+      >
+        <ArrowUpDown class="w-4 h-4" />
+      </button>
     </div>
 
     <!-- Loading -->
@@ -204,7 +253,7 @@
 
 <script setup lang="ts">
 import { ref, watch, computed, toRefs } from 'vue'
-import { ArrowLeft, MapPin, X, Compass } from '@lucide/vue'
+import { ArrowLeft, MapPin, X, Compass, Circle, ArrowUpDown } from '@lucide/vue'
 import { useSearch } from '@/entities/search'
 import type { SearchResult } from '@/entities/search'
 import { Input } from '@/components/ui/input'
@@ -216,11 +265,13 @@ import { useLanguage } from '@/composables/useLanguage'
 
 const props = withDefaults(defineProps<{
   guest?: boolean
+  explore?: boolean
 }>(), {
-  guest: false
+  guest: false,
+  explore: false
 })
 
-const { guest } = toRefs(props)
+const { guest, explore } = toRefs(props)
 
 const emit = defineEmits<{
   'select-origin': [point: any]
@@ -238,13 +289,23 @@ const {
   search: searchDest
 } = useSearch()
 
+// Search instance for origin (explore mode only)
+const {
+  query: originSearchQuery,
+  results: originResults,
+  loading: originLoading,
+  search: searchOrigin
+} = useSearch()
+
 const {
   origin: originPoint,
   destination: destinationPoint,
   routeData,
   routeLoading,
   routeError,
+  setOrigin,
   setDestination,
+  swapPoints,
   exitDirections,
 } = useDirections()
 
@@ -255,6 +316,7 @@ const { activeCharacter } = useCharacter()
 const originQuery = ref('')
 const destQuery = ref('')
 const showDestDropdown = ref(false)
+const showOriginDropdown = ref(false)
 
 // Formatting helpers
 function formatTime(seconds: number): string {
@@ -356,6 +418,38 @@ function clearDestination() {
   destResults.value = []
   setDestination(null)
   showDestDropdown.value = false
+}
+
+function handleOriginInput() {
+  originSearchQuery.value = originQuery.value
+  if (originQuery.value.length >= 2) {
+    searchOrigin(originQuery.value)
+    showOriginDropdown.value = true
+  } else {
+    originResults.value = []
+    if (originQuery.value.length === 0) {
+      setOrigin(null)
+    }
+  }
+}
+
+function selectOriginResult(result: SearchResult) {
+  const point = mapSearchResultToPoint(result)
+  setOrigin(point)
+  showOriginDropdown.value = false
+  emit('select-origin', point)
+}
+
+function clearOrigin() {
+  originQuery.value = ''
+  originSearchQuery.value = ''
+  originResults.value = []
+  setOrigin(null)
+  showOriginDropdown.value = false
+}
+
+function handleSwap() {
+  swapPoints()
 }
 
 function handleBack() {

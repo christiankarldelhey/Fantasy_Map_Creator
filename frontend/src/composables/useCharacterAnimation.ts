@@ -69,7 +69,7 @@ export function useCharacterAnimation() {
         Object.assign(el.style, {
           border: '3px solid rgba(128,128,128,0.5)',
           boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
-          filter: 'grayscale(100%) opacity(0.6)',
+          filter: 'sepia(100%) brightness(0.7)',
         })
       }
 

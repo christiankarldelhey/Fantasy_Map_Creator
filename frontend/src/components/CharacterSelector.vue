@@ -87,11 +87,7 @@ async function selectCharacter(id: number) {
 }
 
 .character-item.inactive {
-  opacity: 0.5;
-}
-
-.character-item.inactive:hover {
-  opacity: 0.7;
+  filter: sepia(100%) brightness(0.7);
 }
 
 .character-avatar {

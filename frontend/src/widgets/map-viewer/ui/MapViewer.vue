@@ -7,6 +7,7 @@
     <DirectionsInput
       v-if="isDirectionsMode"
       :guest="isGuest"
+      :explore="mode === 'explore'"
       @select-destination="handleDirectionsDestinationSelect"
       @exit="handleExitDirections"
       @start-adventure="handleStartAdventure"
@@ -188,7 +189,7 @@ watch(() => props.mode, (newMode) => {
   applyModeTheme(mapViewerRoot.value, newMode || 'explore')
 }, { immediate: true })
 
-const { isDirectionsMode, origin, startDirections, exitDirections, setOrigin, setDestination, routeData, initializeFromBackend: initializeDirections } = useDirections()
+const { isDirectionsMode, origin, startDirections, exitDirections, setOrigin, setDestination, routeData, configureForMode } = useDirections()
 
 // Guest mode: no auth token present. In this mode there is no active character,
 // so directions use a map-click origin and the "Start Adventure" flow is hidden.
@@ -265,9 +266,10 @@ function handleAddMarker(lng: number, lat: number) {
     lastSelectedCoordinates.value = [lng, lat]
 
     if (isDirectionsMode.value) {
-      // Guest mode has no active character, so the first map click sets the
-      // origin. Once an origin exists, further clicks set the destination.
-      if (isGuest.value && !origin.value) {
+      // In explore/guest mode there is no active character, so the first map
+      // click sets the origin. Once an origin exists, further clicks set the
+      // destination (Google Maps-style).
+      if ((isGuest.value || props.mode === 'explore') && !origin.value) {
         setOrigin({
           name: `Point [${lng.toFixed(2)}, ${lat.toFixed(2)}]`,
           type: 'custom',
@@ -405,8 +407,9 @@ onMounted(async () => {
           }
         }
 
-        // Initialize directions from backend settings if available
-        initializeDirections()
+        // Initialize directions with mode-aware isolation:
+        // explore always starts empty; wander loads from DB.
+        configureForMode(props.mode || 'explore')
 
         layersInitialized.value = true
       } catch (err) {
