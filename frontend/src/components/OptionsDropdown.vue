@@ -103,10 +103,10 @@ const dropdownContainer = ref<HTMLElement | null>(null)
 const buttonClasses = computed(() => {
   if (props.mode === 'wander') {
     // Same colors as CharacterActiveHud, using IM Fell English (intermediate artistic)
-    return 'flex items-center gap-2 h-10 px-4 rounded-lg bg-[var(--bg-parchment)] border-2 border-[var(--accent-gold)] text-[var(--text-ink-black)] text-sm cursor-pointer shadow-md font-normal'
+    return 'flex items-center gap-2 h-9 px-3 rounded-lg bg-[var(--bg-parchment)] border-2 border-[var(--accent-gold)] text-[var(--text-ink-black)] text-sm cursor-pointer shadow-md font-normal'
   } else {
     // Explore mode: admin minimalist (same height as CalendarPicker: 32px)
-    return 'flex items-center gap-2 h-8 px-3 rounded-md bg-white border border-gray-200 text-gray-700 text-xs font-sans cursor-pointer shadow-sm font-normal'
+    return 'flex items-center gap-2 h-8 px-2 rounded-md bg-white border border-gray-200 text-gray-700 text-xs font-sans cursor-pointer shadow-sm font-normal'
   }
 })
 

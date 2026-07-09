@@ -12,6 +12,7 @@
       @exit="handleExitDirections"
       @start-adventure="handleStartAdventure"
       @login="goToLogin"
+      @go-to-wander="handleGoToWander"
     />
 
     <ChapterViewer

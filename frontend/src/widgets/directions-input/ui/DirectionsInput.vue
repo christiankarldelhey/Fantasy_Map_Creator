@@ -226,8 +226,8 @@
       </Button>
     </footer>
 
-    <!-- Footer: Start Adventure -->
-    <footer v-else-if="routeData" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2">
+    <!-- Footer: Start Adventure (wander mode only) -->
+    <footer v-else-if="routeData && !explore" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2">
       <div class="flex items-center gap-2">
         <label class="text-xs font-book text-ink-brown">Language:</label>
         <select
@@ -246,6 +246,22 @@
       >
         <Compass class="w-4 h-4 mr-2" />
         Start Adventure
+      </Button>
+    </footer>
+
+    <!-- Footer: Go to wander mode (explore mode, logged in) -->
+    <footer v-else-if="routeData && explore && !guest" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2">
+      <p class="text-xs font-book text-ink-brown italic text-center">
+        Adventures can only be started in wander mode.
+      </p>
+      <Button
+        variant="primary"
+        size="md"
+        class="w-full"
+        @click="handleGoToWander"
+      >
+        <Compass class="w-4 h-4 mr-2" />
+        Go to wander mode
       </Button>
     </footer>
   </div>
@@ -279,6 +295,7 @@ const emit = defineEmits<{
   'exit': []
   'start-adventure': [payload: { origin: any; destination: any; language: string }]
   'login': []
+  'go-to-wander': []
 }>()
 
 // Search instance for destination
@@ -379,6 +396,12 @@ const groupedRoads = computed(() => {
 
 // Sync input text with reactive composable state and character data
 watch([originPoint, activeCharacter], ([newPoint, newChar]) => {
+  // Only sync character position to origin when NOT in explore mode
+  if (explore.value) {
+    originQuery.value = newPoint ? newPoint.name : ''
+    return
+  }
+
   if (newPoint && newChar && (newPoint.name === 'Company' || newPoint.name === newChar.name || newPoint.name === 'Aranath')) {
     const name = newChar.name || 'Aranath'
     const loc = newChar.current_location || newChar.current_region || ''
@@ -464,6 +487,10 @@ function handleStartAdventure() {
     destination: destinationPoint.value,
     language: narrativeLanguage.value,
   })
+}
+
+function handleGoToWander() {
+  emit('go-to-wander')
 }
 </script>
 
