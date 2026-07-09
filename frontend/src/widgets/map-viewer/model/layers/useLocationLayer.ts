@@ -5,6 +5,14 @@ import { MAP_COLORS } from '../../config/mapColors'
 import { useMapLayer } from './useMapLayer'
 import { ZOOM_LEVELS, LOCATION_TYPES, createTypeFilter } from '@/shared/config/zoomLevels'
 
+// Colors for the explore mode (admin / black & white with forest-green accent)
+const EXPLORE_LOCATION_COLORS = {
+  primary: '#1f4d2b',
+  stroke: '#111827',
+  labelText: '#111827',
+  labelHalo: '#ffffff'
+} as const
+
 // Layer IDs for the hover-label logic
 const LABEL_MEDIUM_ID = 'locations-labels-medium'
 const LABEL_MINOR_ID = 'locations-labels-minor'
@@ -167,6 +175,19 @@ export function useLocationLayer() {
     minorLayer.addLayer(map, data as any)
     labelsMediumLayer.addLayer(map, data as any)
     labelsMinorLayer.addLayer(map, data as any)
+
+    if (mode === 'explore') {
+      // Use admin/green accent colors for location points and labels in explore mode
+      const circleLayers = ['locations-major', 'locations-medium', 'locations-minor']
+      circleLayers.forEach((layerId) => {
+        map.setPaintProperty(layerId, 'circle-color', EXPLORE_LOCATION_COLORS.primary)
+        map.setPaintProperty(layerId, 'circle-stroke-color', EXPLORE_LOCATION_COLORS.stroke)
+      })
+      map.setPaintProperty(LABEL_MEDIUM_ID, 'text-color', EXPLORE_LOCATION_COLORS.labelText)
+      map.setPaintProperty(LABEL_MEDIUM_ID, 'text-halo-color', EXPLORE_LOCATION_COLORS.labelHalo)
+      map.setPaintProperty(LABEL_MINOR_ID, 'text-color', EXPLORE_LOCATION_COLORS.labelText)
+      map.setPaintProperty(LABEL_MINOR_ID, 'text-halo-color', EXPLORE_LOCATION_COLORS.labelHalo)
+    }
 
     if (mode === 'wander') {
       attachWanderHoverLabels(map)

@@ -3,30 +3,30 @@
     <Popover v-model:open="showDropdown">
       <PopoverTrigger as-child>
         <div class="relative">
-          <Search class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-light" />
           <Input
             v-model="searchQuery"
             @input="handleInput"
             @focus="showDropdown = true"
             placeholder="Search locations or regions..."
-            :class="['w-72 bg-white pl-9', searchQuery.length > 0 ? 'pr-9' : '']"
+            :class="['w-72 bg-parchment-base pl-9 text-ink-black placeholder:text-ink-light border-earth-dark', searchQuery.length > 0 ? 'pr-9' : '']"
           />
           <button
             v-if="searchQuery.length > 0"
             @click="clearSearch"
-            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-light hover:text-ink-black transition-colors"
           >
             <X class="h-4 w-4" />
           </button>
         </div>
       </PopoverTrigger>
-      <PopoverContent class="w-72 p-0 z-[10000] bg-white" align="start">
-        <div v-if="loading" class="p-4 text-center text-sm text-gray-500">
+      <PopoverContent class="w-72 p-0 z-[10000] bg-parchment-base border border-earth-dark" align="start">
+        <div v-if="loading" class="p-4 text-center text-sm text-ink-brown">
           Searching...
         </div>
         <div
           v-else-if="results.length === 0 && searchQuery.length >= 2"
-          class="p-4 text-center text-sm text-gray-500"
+          class="p-4 text-center text-sm text-ink-brown"
         >
           No results found
         </div>
@@ -35,10 +35,10 @@
             v-for="result in results"
             :key="`${result.type}-${result.id}`"
             @click="selectResult(result)"
-            class="px-4 py-3 hover:bg-gray-100 cursor-pointer flex items-center justify-between group"
+            class="px-4 py-3 hover:bg-parchment-dark cursor-pointer flex items-center justify-between group"
           >
             <div class="flex items-center gap-3">
-              <span class="text-gray-400">
+              <span class="text-ink-light">
                 <svg
                   v-if="result.type === 'location'"
                   class="w-4 h-4"
@@ -77,12 +77,12 @@
                 </svg>
               </span>
               <div>
-                <div class="font-medium text-gray-900 text-sm">{{ result.name }}</div>
-                <div class="text-xs text-gray-500 capitalize">{{ result.type }}</div>
+                <div class="font-medium text-ink-black text-sm">{{ result.name }}</div>
+                <div class="text-xs text-ink-brown capitalize">{{ result.type }}</div>
               </div>
             </div>
             <svg
-              class="w-4 h-4 text-gray-300 group-hover:text-gray-500"
+              class="w-4 h-4 text-ink-faded group-hover:text-ink-light"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"

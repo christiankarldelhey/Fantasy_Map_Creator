@@ -1,13 +1,13 @@
 <template>
-  <div class="calendar-picker-container absolute top-4 right-4 z-[9999]">
+  <div class="calendar-picker-container z-[9999]">
     <Popover v-model:open="isOpen">
       <PopoverTrigger as-child>
         <button
-          class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200"
+          class="flex items-center gap-2 h-8 px-3 bg-parchment-base rounded-md shadow-sm hover:shadow transition-shadow border border-[var(--accent-gold)] text-ink-brown hover:text-ink-black hover:bg-parchment-dark"
         >
-          <Calendar class="h-4 w-4 text-gray-600" />
-          <span class="text-sm font-medium text-gray-700">{{ displayText }}</span>
-          <ChevronDown class="h-4 w-4 text-gray-400" />
+          <Calendar class="h-4 w-4 text-ink-light" />
+          <span class="text-xs font-medium text-ink-black">{{ displayText }}</span>
+          <ChevronDown class="h-4 w-4 text-ink-light" />
         </button>
       </PopoverTrigger>
       <PopoverContent class="w-72 p-4 z-[10000] bg-white" align="end">

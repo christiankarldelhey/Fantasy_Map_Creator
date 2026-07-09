@@ -74,7 +74,52 @@ export const medievalColors = {
   },
 } as const
 
-// CSS variable names for Tailwind integration
+// Explore admin palette: minimalistic black & white, like CalendarPicker
+export const exploreColors = {
+  // Backgrounds
+  parchment: {
+    base: '#ffffff',
+    light: '#ffffff',
+    dark: '#f3f4f6',
+    aged: '#f9fafb',
+    old: '#f3f4f6',
+  },
+  earth: {
+    base: '#f9fafb',
+    light: '#f3f4f6',
+    dark: '#e5e7eb',
+    deep: '#d1d5db',
+  },
+  ink: {
+    black: '#111827',
+    brown: '#6b7280',
+    light: '#9ca3af',
+    faded: '#d1d5db',
+  },
+  gold: {
+    base: '#1f4d2b',     // dark forest green
+    light: '#2d6b3d',    // forest green
+    dark: '#163620',     // darker forest green
+    muted: '#6b8e6b',    // muted sage
+  },
+  leather: {
+    base: '#1f4d2b',     // dark forest green
+    light: '#2d6b3d',    // forest green
+    dark: '#163620',     // darker forest green
+  },
+  stone: {
+    base: '#9ca3af',
+    light: '#d1d5db',
+    dark: '#6b7280',
+  },
+  shadow: {
+    light: 'rgba(0, 0, 0, 0.06)',
+    medium: 'rgba(0, 0, 0, 0.1)',
+    dark: 'rgba(0, 0, 0, 0.15)',
+  },
+} as const
+
+// CSS variable names for Tailwind integration (wander = default)
 export const cssVariables = {
   // Backgrounds
   '--bg-parchment': medievalColors.parchment.base,
@@ -108,6 +153,42 @@ export const cssVariables = {
   '--shadow-light': medievalColors.shadow.light,
   '--shadow-medium': medievalColors.shadow.medium,
   '--shadow-dark': medievalColors.shadow.dark,
+} as const
+
+// CSS variables for explore mode (admin black & white)
+export const exploreCssVariables = {
+  // Backgrounds
+  '--bg-parchment': exploreColors.parchment.base,
+  '--bg-parchment-light': exploreColors.parchment.light,
+  '--bg-parchment-dark': exploreColors.parchment.dark,
+  '--bg-earth': exploreColors.earth.base,
+  '--bg-earth-light': exploreColors.earth.light,
+  '--bg-earth-dark': exploreColors.earth.dark,
+  
+  // Text
+  '--text-ink-black': exploreColors.ink.black,
+  '--text-ink-brown': exploreColors.ink.brown,
+  '--text-ink-light': exploreColors.ink.light,
+  '--text-ink-faded': exploreColors.ink.faded,
+  
+  // Accents
+  '--accent-gold': exploreColors.gold.base,
+  '--accent-gold-light': exploreColors.gold.light,
+  '--accent-gold-dark': exploreColors.gold.dark,
+  
+  // Buttons
+  '--btn-leather': exploreColors.leather.base,
+  '--btn-leather-light': exploreColors.leather.light,
+  '--btn-leather-dark': exploreColors.leather.dark,
+  
+  // Borders
+  '--border-gold': exploreColors.gold.muted,
+  '--border-earth': exploreColors.earth.dark,
+  
+  // Shadows
+  '--shadow-light': exploreColors.shadow.light,
+  '--shadow-medium': exploreColors.shadow.medium,
+  '--shadow-dark': exploreColors.shadow.dark,
 } as const
 
 // Tailwind color palette (HSL format for CSS variables)

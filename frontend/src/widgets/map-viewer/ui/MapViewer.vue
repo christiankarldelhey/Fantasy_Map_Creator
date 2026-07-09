@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full h-screen bg-white overflow-visible">
+  <div ref="mapViewerRoot" class="relative w-full h-screen bg-[var(--bg-parchment)] overflow-visible">
     <div ref="mapContainer" class="w-full h-full" style="min-height: 100vh;"></div>
 
     <CharacterActiveHud v-if="mode === 'wander' && activeCharacter" />
@@ -27,7 +27,9 @@
       @clear="handleClearSearch"
     />
 
-    <CalendarPicker v-if="mode !== 'wander'" />
+    <div v-if="mode !== 'wander'" class="absolute top-4 right-[130px] z-[9999]">
+      <CalendarPicker />
+    </div>
 
     <LocationSidebar
       v-if="selectedLocation && !isDirectionsMode"
@@ -110,7 +112,7 @@
       v-if="mode === 'wander'"
       @click="showLogoutModal = true"
       title="Sign out"
-      class="absolute top-4 right-4 z-[9999] flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--bg-parchment)] border-2 border-[var(--accent-gold)] text-ink-brown text-xs font-book hover:bg-[var(--bg-parchment-dark)] hover:border-[var(--accent-gold-dark)] transition-colors shadow"
+      class="absolute top-4 right-4 z-[9999] flex items-center gap-1.5 h-8 px-3 rounded-md bg-[var(--bg-parchment)] border border-[var(--accent-gold)] text-ink-brown text-xs font-book hover:bg-[var(--bg-parchment-dark)] hover:border-[var(--accent-gold-dark)] transition-colors shadow-sm"
     >
       <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       Sign out
@@ -121,7 +123,7 @@
       v-if="isGuest"
       @click="goToLogin"
       title="Sign in"
-      class="absolute top-4 right-4 z-[9999] flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--bg-parchment)] border-2 border-[var(--accent-gold)] text-ink-brown text-xs font-book hover:bg-[var(--bg-parchment-dark)] hover:border-[var(--accent-gold-dark)] transition-colors shadow"
+      class="absolute top-4 right-4 z-[9999] flex items-center gap-1.5 h-8 px-3 rounded-md bg-[var(--bg-parchment)] border border-[var(--accent-gold)] text-ink-brown text-xs font-book hover:bg-[var(--bg-parchment-dark)] hover:border-[var(--accent-gold-dark)] transition-colors shadow-sm"
     >
       <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
       Sign in
@@ -164,6 +166,7 @@ import { Loader } from '@/components/ui/loader'
 import { Modal } from '@/components/ui/modal'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/composables/useAuth'
+import { applyModeTheme } from '@/app/theme/applyModeTheme'
 import type { SearchResult } from '@/entities/search'
 import type { LocationDetails } from '@/widgets/location-sidebar'
 
@@ -172,12 +175,18 @@ const props = defineProps<{
 }>()
 
 const mapContainer = ref<HTMLDivElement | null>(null)
+const mapViewerRoot = ref<HTMLDivElement | null>(null)
 const selectedLocation = ref<LocationDetails | null>(null)
 let map: maplibregl.Map | null = null
 
 const mapConfig = computed(() => {
   return props.mode === 'wander' ? MAPLIBRE_CONFIG_WANDER : MAPLIBRE_CONFIG
 })
+
+// Apply dual-mode theme variables to the container so child components adapt automatically
+watch(() => props.mode, (newMode) => {
+  applyModeTheme(mapViewerRoot.value, newMode || 'explore')
+}, { immediate: true })
 
 const { isDirectionsMode, origin, startDirections, exitDirections, setOrigin, setDestination, routeData, initializeFromBackend: initializeDirections } = useDirections()
 
@@ -334,6 +343,9 @@ watch(activeTripId, (newTripId, oldTripId) => {
 })
 
 onMounted(async () => {
+  // Apply the correct theme variables once the container is mounted
+  applyModeTheme(mapViewerRoot.value, props.mode || 'explore')
+
   if (!mapContainer.value) return
 
   try {
