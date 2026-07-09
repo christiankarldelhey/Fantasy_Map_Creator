@@ -1,3 +1,21 @@
+/*
+ * TYPOGRAPHY HIERARCHY
+ *
+ * Three font families with specific use cases:
+ *
+ * 1. Sans-serif (Inputs, UI elements, user decisions)
+ *    Font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif
+ *    Use: Inputs, buttons, dropdowns, modals, UI text, user-facing decisions
+ *
+ * 2. IM Fell English (Lore narratives - intermediate artistic)
+ *    Font: 'IM Fell English', Georgia, serif
+ *    Use: Narrative text, lore descriptions, character types, season names, region names
+ *
+ * 3. Cinzel (Highly illustrative - most artistic)
+ *    Font: 'Cinzel', Georgia, serif
+ *    Use: Titles, character names, dates, important headings
+ */
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;

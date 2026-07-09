@@ -53,6 +53,10 @@ import api from '@/shared/api/client'
 import { Button } from '@/components/ui/button'
 import type { CharacterState } from '@/composables/useCharacter'
 
+const props = defineProps<{
+  isOnboarding?: boolean
+}>()
+
 const emit = defineEmits<{
   confirm: [characterId: number]
   cancel: []
@@ -80,16 +84,16 @@ async function handleConfirm() {
   if (!selectedCharacterId.value) return
   loading.value = true
   try {
-    if (isAdmin.value) {
-      // Admin: direct assignment (original behaviour)
-      await setActiveCharacter(selectedCharacterId.value)
-    } else {
-      // Normal user: clone the template character
+    if (props.isOnboarding && !isAdmin.value) {
+      // Onboarding for normal user: clone the template character
       const response = await api.post<CharacterState>(`/character/clone/${selectedCharacterId.value}`)
       // Sync user settings with new active_character_id
       if (user.value) {
         user.value.active_character_id = response.data.id
       }
+    } else {
+      // Admin or character switch: direct assignment
+      await setActiveCharacter(selectedCharacterId.value)
     }
     emit('confirm', selectedCharacterId.value)
   } finally {

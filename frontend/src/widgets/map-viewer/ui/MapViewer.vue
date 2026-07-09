@@ -1,5 +1,5 @@
 <template>
-  <div ref="mapViewerRoot" class="relative w-full h-screen bg-[var(--bg-parchment)] overflow-visible">
+  <div ref="mapViewerRoot" class="relative w-full h-screen bg-[var(--bg-parchment)]">
     <div ref="mapContainer" class="w-full h-full" style="min-height: 100vh;"></div>
 
     <CharacterActiveHud v-if="mode === 'wander' && activeCharacter" />
@@ -91,6 +91,30 @@
       @cancel="showSeasonSelector = false"
     />
 
+    <CharacterSelectModal
+      v-if="showCharacterSelectModal"
+      :is-onboarding="false"
+      @confirm="() => handleCharacterSelected()"
+      @cancel="showCharacterSelectModal = false"
+    />
+
+    <Modal
+      v-if="showChangeSeasonModal"
+      title="Abandon current adventure?"
+      size="sm"
+      @close="showChangeSeasonModal = false"
+    >
+      <div class="px-6 py-4 font-book text-ink-black text-sm leading-relaxed">
+        <p>The seasons turn, but a tale is still being written.</p>
+        <p class="mt-2 text-ink-brown">Changing the season now will abandon your current adventure. What is written cannot be unwritten.</p>
+        <p class="mt-2 font-semibold">Do you wish to leave it behind?</p>
+      </div>
+      <div class="px-6 pb-5 flex gap-3 justify-end">
+        <Button variant="outline" size="sm" @click="showChangeSeasonModal = false">Stay the course</Button>
+        <Button variant="danger" size="sm" @click="handleConfirmChangeSeason">Abandon &amp; change season</Button>
+      </div>
+    </Modal>
+
     <Modal
       v-if="showLogoutModal"
       title="Take your leave?"
@@ -108,27 +132,18 @@
       </div>
     </Modal>
 
-    <!-- Logout button -->
-    <button
-      v-if="mode === 'wander'"
-      @click="showLogoutModal = true"
-      title="Sign out"
-      class="absolute top-4 right-4 z-[9999] flex items-center gap-1.5 h-8 px-3 rounded-md bg-[var(--bg-parchment)] border border-[var(--accent-gold)] text-ink-brown text-xs font-book hover:bg-[var(--bg-parchment-dark)] hover:border-[var(--accent-gold-dark)] transition-colors shadow-sm"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Sign out
-    </button>
-
-    <!-- Login button (guest mode) -->
-    <button
-      v-if="isGuest"
-      @click="goToLogin"
-      title="Sign in"
-      class="absolute top-4 right-4 z-[9999] flex items-center gap-1.5 h-8 px-3 rounded-md bg-[var(--bg-parchment)] border border-[var(--accent-gold)] text-ink-brown text-xs font-book hover:bg-[var(--bg-parchment-dark)] hover:border-[var(--accent-gold-dark)] transition-colors shadow-sm"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-      Sign in
-    </button>
+    <!-- Options dropdown -->
+    <OptionsDropdown
+      :mode="mode || 'explore'"
+      :is-guest="isGuest"
+      :has-active-adventure="!!activeTripId"
+      @sign-in="goToLogin"
+      @sign-out="showLogoutModal = true"
+      @change-season="handleChangeSeason"
+      @change-character="handleChangeCharacter"
+      @go-to-explore="handleGoToExplore"
+      @go-to-wander="handleGoToWander"
+    />
   </div>
 </template>
 
@@ -163,6 +178,8 @@ import {
 import CharacterActiveHud from '@/components/CharacterActiveHud.vue'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import SeasonSelectModal from '@/pages/welcome/SeasonSelectModal.vue'
+import CharacterSelectModal from '@/pages/welcome/CharacterSelectModal.vue'
+import OptionsDropdown from '@/components/OptionsDropdown.vue'
 import { Loader } from '@/components/ui/loader'
 import { Modal } from '@/components/ui/modal'
 import { Button } from '@/components/ui/button'
@@ -207,6 +224,8 @@ const showSwitchCharacterModal = ref(false)
 const pendingSwitchCharacterId = ref<number | null>(null)
 const showSeasonSelector = ref(false)
 const showLogoutModal = ref(false)
+const showChangeSeasonModal = ref(false)
+const showCharacterSelectModal = ref(false)
 
 const adventurePhrases = [
   'Consulting the old maps and the older roads…',
@@ -685,6 +704,50 @@ async function handleStartAdventure(payload: { origin: any; destination: any; la
 function handleConfirmLogout() {
   showLogoutModal.value = false
   logout()
+}
+
+async function handleConfirmChangeSeason() {
+  try {
+    await saveUserSettings({ active_trip_id: null })
+    activeTripId.value = null
+    if (map) {
+      clearCompletedRoute(map)
+      clearRemainingRoute(map)
+    }
+    showChangeSeasonModal.value = false
+    showSeasonSelector.value = true
+  } catch (err) {
+    console.error('Failed to cancel adventure for season change:', err)
+  }
+}
+
+async function handleCharacterSelected() {
+  showCharacterSelectModal.value = false
+  // Character is already set by the modal's internal logic
+}
+
+function handleChangeSeason() {
+  if (activeTripId.value) {
+    showChangeSeasonModal.value = true
+  } else {
+    showSeasonSelector.value = true
+  }
+}
+
+function handleChangeCharacter() {
+  if (activeTripId.value) {
+    showSwitchCharacterModal.value = true
+  } else {
+    showCharacterSelectModal.value = true
+  }
+}
+
+function handleGoToExplore() {
+  router.push('/explore')
+}
+
+function handleGoToWander() {
+  router.push('/wander')
 }
 
 async function fetchLocationDetails(lng: number, lat: number) {
