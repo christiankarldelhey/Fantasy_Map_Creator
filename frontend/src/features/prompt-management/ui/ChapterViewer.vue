@@ -10,13 +10,17 @@ import { jsPDF } from 'jspdf'
 import { Button } from '@/components/ui/button'
 import { Loader } from '@/components/ui/loader'
 import { Modal } from '@/components/ui/modal'
+import { BottomSheet } from '@/components/ui/bottom-sheet'
 import { JsonViewer } from 'vue3-json-viewer'
 import 'vue3-json-viewer/dist/vue3-json-viewer.css'
 import './json-viewer-custom.css'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   tripId: string
-}>()
+  mobile?: boolean
+}>(), {
+  mobile: false,
+})
 
 const emit = defineEmits<{ (e: 'close'): void; (e: 'day-generated', day: TripDay): void }>()
 
@@ -285,8 +289,8 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 </script>
 
 <template>
-  <div class="chapter-viewer fixed right-0 top-0 h-full w-full max-w-xl bg-parchment-base shadow-2xl border-l-2 border-gold flex flex-col z-50">
-    <!-- Header -->
+  <!-- Desktop: right sidebar -->
+  <div v-if="!mobile" class="chapter-viewer fixed right-0 top-0 h-full w-full max-w-xl bg-parchment-base shadow-2xl border-l-2 border-gold flex flex-col z-50">
     <header class="flex items-center justify-between px-5 py-4 border-b-2 border-earth-dark bg-parchment-light">
       <div class="flex items-center gap-2">
         <img
@@ -300,7 +304,6 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </div>
     </header>
 
-    <!-- Body -->
     <div class="flex-1 overflow-y-auto px-5 py-4 space-y-4">
       <Loader v-if="loading && days.length === 0" variant="inline">
         Loading chapters…
@@ -327,7 +330,6 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </p>
         </div>
 
-        <!-- Tabs -->
         <div class="flex border-b border-earth-dark text-sm">
           <button
             class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
@@ -355,7 +357,6 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </button>
         </div>
 
-        <!-- Panels -->
         <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
           <p
             v-if="day.narrative"
@@ -384,10 +385,8 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </p>
     </div>
 
-    <!-- Footer -->
     <footer class="px-5 py-4 border-t-2 border-earth-dark bg-parchment-light">
       <div class="flex gap-3">
-        <!-- Action Button (Generate / Save PDF) -->
         <Button
           v-if="isTripComplete"
           variant="secondary"
@@ -413,7 +412,6 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           {{ generating ? labels.generatingBtn : labels.generateBtn }}
         </Button>
 
-        <!-- Cancel/Close Button -->
         <Button
           variant="outline"
           size="md"
@@ -424,6 +422,147 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </div>
     </footer>
   </div>
+
+  <!-- Mobile: bottom sheet -->
+  <BottomSheet v-else :expanded-vh="92" :collapsed-px="200">
+    <template #default>
+      <div class="flex flex-col h-full">
+        <header class="flex items-center justify-between px-4 py-3 border-b-2 border-earth-dark bg-parchment-light shrink-0">
+          <div class="flex items-center gap-2">
+            <img
+              v-if="activeCharacter"
+              :src="getCharacterImage(activeCharacter.name)"
+              :alt="activeCharacter.name"
+              class="w-7 h-7 rounded-full object-cover border border-gold"
+              :style="{ filter: 'sepia(100%) brightness(0.7) opacity(0.8)' }"
+            />
+            <h2 class="text-base font-serif font-semibold text-ink-black/90">{{ title }}</h2>
+          </div>
+          <button @click="emit('close')" class="p-1 rounded-md hover:bg-parchment-dark text-ink-brown">
+            <ChevronDown class="w-5 h-5" />
+          </button>
+        </header>
+
+        <div class="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+          <Loader v-if="loading && days.length === 0" variant="inline">
+            Loading chapters…
+          </Loader>
+
+          <p v-if="error" class="text-sm text-destructive bg-parchment-dark border-2 border-destructive rounded-md p-3 font-book">
+            {{ error }}
+          </p>
+
+          <article
+            v-for="day in days"
+            :key="day.id"
+            :id="`chapter-${day.id}`"
+            class="bg-parchment-light rounded-lg border-2 border-earth-dark shadow-md overflow-hidden"
+          >
+            <div class="px-4 py-3 border-b border-earth-dark bg-parchment-base">
+              <div class="flex items-center justify-between">
+                <h3 class="font-serif font-semibold text-ink-black/90">Chapter {{ day.day_number }}</h3>
+                <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) }}</span>
+              </div>
+              <p class="text-xs text-ink-brown mt-0.5 font-book">
+                {{ day.distance_km }} km ·
+                {{ (day.regions || []).map((r) => r.name).join(', ') || 'unknown lands' }}
+              </p>
+            </div>
+
+            <div class="flex border-b border-earth-dark text-sm">
+              <button
+                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
+                :class="expanded[day.id] === 'narrative' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+                @click="toggle(day, 'narrative')"
+              >
+                <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                Narrative
+              </button>
+              <button
+                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
+                :class="expanded[day.id] === 'prompt' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+                @click="toggle(day, 'prompt')"
+              >
+                <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                Prompt
+              </button>
+              <button
+                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
+                :class="expanded[day.id] === 'code' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+                @click="toggle(day, 'code')"
+              >
+                <component :is="expanded[day.id] === 'code' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                Code
+              </button>
+            </div>
+
+            <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
+              <p
+                v-if="day.narrative"
+                class="font-book text-ink-black/90 leading-relaxed whitespace-pre-wrap"
+              >{{ day.narrative }}</p>
+              <p v-else class="text-sm text-ink-faded italic font-book">No narrative was generated for this day.</p>
+            </div>
+
+            <div v-if="expanded[day.id] === 'prompt'" class="px-4 py-4">
+              <pre class="text-xs text-ink-brown whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ day.prompt }}</pre>
+            </div>
+
+            <div v-if="expanded[day.id] === 'code'" class="px-4 py-4">
+              <JsonViewer
+                :value="day"
+                :expand-depth="1"
+                :copyable="false"
+                :sort="false"
+                theme="dark"
+              />
+            </div>
+          </article>
+
+          <p v-if="!loading && days.length === 0 && !error" class="text-sm text-ink-faded italic text-center py-8 font-book">
+            No chapters yet. Generate the first day to begin the tale.
+          </p>
+        </div>
+
+        <footer class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light shrink-0">
+          <div class="flex gap-3">
+            <Button
+              v-if="isTripComplete"
+              variant="secondary"
+              size="md"
+              class="flex-1"
+              :disabled="exportingPdf"
+              @click="generateAdventurePDF"
+            >
+              <Loader v-if="exportingPdf" size="sm" variant="inline" class="mr-2" />
+              <FileDown v-else class="w-4 h-4 mr-2" />
+              {{ exportingPdf ? labels.savingPdfBtn : labels.savePdfBtn }}
+            </Button>
+            <Button
+              v-else
+              variant="primary"
+              size="md"
+              class="flex-1"
+              :disabled="generating"
+              @click="handleGenerateNext"
+            >
+              <Loader v-if="generating" size="sm" variant="inline" class="mr-2" />
+              <Plus v-else class="w-4 h-4 mr-2" />
+              {{ generating ? labels.generatingBtn : labels.generateBtn }}
+            </Button>
+
+            <Button
+              variant="outline"
+              size="md"
+              @click="isTripComplete ? emit('close') : handleCancelClick()"
+            >
+              {{ isTripComplete ? labels.closeBtn : labels.cancelBtn }}
+            </Button>
+          </div>
+        </footer>
+      </div>
+    </template>
+  </BottomSheet>
 
   <!-- Cancel Confirmation Modal -->
   <Modal

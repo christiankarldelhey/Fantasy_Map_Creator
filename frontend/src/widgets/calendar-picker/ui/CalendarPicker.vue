@@ -91,6 +91,12 @@ function handleResetToNow() {
   resetToNow()
   isOpen.value = false
 }
+
+function open() {
+  isOpen.value = true
+}
+
+defineExpose({ open })
 </script>
 
 <style scoped>

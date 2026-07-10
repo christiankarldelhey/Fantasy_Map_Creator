@@ -2,12 +2,28 @@
   <div ref="mapViewerRoot" class="relative w-full h-screen bg-[var(--bg-parchment)]">
     <div ref="mapContainer" class="w-full h-full" style="min-height: 100vh;"></div>
 
-    <CharacterActiveHud v-if="mode === 'wander' && activeCharacter" @open-character="showCharacterPage = true" />
+    <MobileTopBar
+      v-if="isMobile"
+      :mode="mode || 'explore'"
+      :is-guest="isGuest"
+      :has-active-adventure="!!activeTripId"
+      @open-character="showCharacterPage = true"
+      @sign-in="goToLogin"
+      @sign-out="showLogoutModal = true"
+      @change-season="handleChangeSeason"
+      @change-character="handleChangeCharacter"
+      @go-to-explore="handleGoToExplore"
+      @go-to-wander="handleGoToWander"
+      @open-calendar="handleOpenCalendarMobile"
+    />
+
+    <CharacterActiveHud v-if="!isMobile && mode === 'wander' && activeCharacter" @open-character="showCharacterPage = true" />
 
     <DirectionsInput
       v-if="isDirectionsMode"
       :guest="isGuest"
       :explore="mode === 'explore'"
+      :mobile="isMobile"
       @select-destination="handleDirectionsDestinationSelect"
       @exit="handleExitDirections"
       @start-adventure="handleStartAdventure"
@@ -18,6 +34,7 @@
     <ChapterViewer
       v-if="activeTripId"
       :trip-id="activeTripId"
+      :mobile="isMobile"
       @close="activeTripId = null"
       @day-generated="handleDayGenerated"
     />
@@ -25,17 +42,22 @@
     <SearchInput
       v-if="!activeTripId && mode !== 'wander'"
       ref="searchInputRef"
+      :mobile="isMobile"
       @select="handleSearchSelect"
       @clear="handleClearSearch"
     />
 
-    <div v-if="mode !== 'wander'" class="absolute top-4 right-[130px] z-[9999]">
-      <CalendarPicker />
+    <div v-if="mode !== 'wander' && !isMobile" class="absolute top-4 right-[130px] z-[9999]">
+      <CalendarPicker ref="calendarPickerRef" />
+    </div>
+    <div v-else-if="mode !== 'wander' && isMobile" class="hidden">
+      <CalendarPicker ref="calendarPickerRef" />
     </div>
 
     <LocationSidebar
       v-if="selectedLocation && !isDirectionsMode"
       :location="selectedLocation"
+      :mobile="isMobile"
       @close="handleCloseSidebar"
       @directions="handleDirectionsClick"
     />
@@ -133,8 +155,9 @@
       </div>
     </Modal>
 
-    <!-- Options dropdown -->
+    <!-- Options dropdown (desktop only; mobile uses MobileTopBar) -->
     <OptionsDropdown
+      v-if="!isMobile"
       :mode="mode || 'explore'"
       :is-guest="isGuest"
       :has-active-adventure="!!activeTripId"
@@ -183,7 +206,9 @@ import {
   clearAllTripRoutes,
 } from '@/composables/useMapRoutes'
 import CharacterActiveHud from '@/components/CharacterActiveHud.vue'
+import MobileTopBar from '@/components/MobileTopBar.vue'
 import CharacterPage from '@/components/CharacterPage.vue'
+import { useBreakpoint } from '@/composables/useBreakpoint'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import SeasonSelectModal from '@/pages/welcome/SeasonSelectModal.vue'
 import CharacterSelectModal from '@/pages/welcome/CharacterSelectModal.vue'
@@ -215,6 +240,7 @@ watch(() => props.mode, (newMode) => {
 }, { immediate: true })
 
 const { isDirectionsMode, origin, startDirections, exitDirections, setOrigin, setDestination, routeData, configureForMode } = useDirections()
+const { isMobile } = useBreakpoint()
 
 // Guest mode: no auth token present. In this mode there is no active character,
 // so directions use a map-click origin and the "Start Adventure" flow is hidden.
@@ -235,6 +261,12 @@ const showLogoutModal = ref(false)
 const showChangeSeasonModal = ref(false)
 const showCharacterSelectModal = ref(false)
 const showCharacterPage = ref(false)
+const searchInputRef = ref<InstanceType<typeof SearchInput> | null>(null)
+const calendarPickerRef = ref<InstanceType<typeof CalendarPicker> | null>(null)
+
+function handleOpenCalendarMobile() {
+  calendarPickerRef.value?.open()
+}
 
 const adventurePhrases = [
   'Consulting the old maps and the older roads…',

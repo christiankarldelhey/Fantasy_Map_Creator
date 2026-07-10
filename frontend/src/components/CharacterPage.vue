@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { X } from '@lucide/vue'
 import type { CharacterState } from '@/composables/useCharacter'
+import { useBreakpoint } from '@/composables/useBreakpoint'
 
 interface CharacterPageProps {
   character: CharacterState
@@ -15,6 +16,8 @@ const props = withDefaults(defineProps<CharacterPageProps>(), {
 const emit = defineEmits<{
   close: []
 }>()
+
+const { isMobile } = useBreakpoint()
 
 const fullImageUrl = computed(() => {
   return new URL(`/src/assets/characters/${props.character.name}_full.png`, import.meta.url).href
@@ -46,7 +49,7 @@ const fullImageUrl = computed(() => {
         >
           <div
             v-if="open"
-            class="relative z-[10001] flex h-[80vh] max-h-[800px] w-full max-w-5xl overflow-hidden rounded-xl border-2 border-gold bg-parchment-base shadow-2xl"
+            :class="['relative z-[10001] overflow-hidden rounded-xl border-2 border-gold bg-parchment-base shadow-2xl', isMobile ? 'flex flex-col h-[90vh] w-full max-w-md' : 'flex h-[80vh] max-h-[800px] w-full max-w-5xl']"
           >
             <button
               @click="emit('close')"
@@ -56,17 +59,17 @@ const fullImageUrl = computed(() => {
               <X class="h-5 w-5" />
             </button>
 
-            <div class="h-full w-auto flex-shrink-0 overflow-hidden bg-parchment-aged">
+            <div :class="['overflow-hidden bg-parchment-aged', isMobile ? 'h-48 w-full flex-shrink-0' : 'h-full w-auto flex-shrink-0']">
               <img
                 :src="fullImageUrl"
                 :alt="character.name"
-                class="h-full w-auto max-w-none object-contain"
+                :class="['object-contain', isMobile ? 'h-full w-full' : 'h-full w-auto max-w-none']"
               />
             </div>
 
-            <div class="flex h-full flex-1 flex-col overflow-y-auto p-8">
+            <div :class="['flex flex-col overflow-y-auto', isMobile ? 'flex-1 p-6' : 'h-full flex-1 p-8']">
               <div class="mb-2 flex items-center gap-3">
-                <h1 class="font-serif text-3xl font-bold text-ink-black">
+                <h1 :class="['font-serif font-bold text-ink-black', isMobile ? 'text-2xl' : 'text-3xl']">
                   {{ character.name }}
                 </h1>
                 <span
@@ -78,12 +81,12 @@ const fullImageUrl = computed(() => {
                 </span>
               </div>
 
-              <p class="font-book text-lg italic text-gold-base">
+              <p :class="['font-book italic text-gold-base', isMobile ? 'text-base' : 'text-lg']">
                 {{ character.type }}
               </p>
 
               <div class="mt-6">
-                <p class="font-book text-base leading-relaxed text-ink-black">
+                <p :class="['font-book leading-relaxed text-ink-black', isMobile ? 'text-sm' : 'text-base']">
                   {{ character.description }}
                 </p>
               </div>

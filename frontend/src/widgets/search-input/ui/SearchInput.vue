@@ -1,5 +1,5 @@
 <template>
-  <div class="search-container absolute top-4 left-[220px] z-[9999]">
+  <div :class="['search-container absolute z-[9999]', mobile ? 'top-16 left-4 right-4' : 'top-4 left-[220px]']">
     <Popover v-model:open="showDropdown">
       <PopoverTrigger as-child>
         <div class="relative">
@@ -9,7 +9,7 @@
             @input="handleInput"
             @focus="showDropdown = true"
             placeholder="Search locations or regions..."
-            :class="['w-[400px] bg-parchment-base pl-9 text-ink-black placeholder:text-ink-light border-earth-dark', searchQuery.length > 0 ? 'pr-9' : '']"
+            :class="[mobile ? 'w-full' : 'w-[400px]', 'bg-parchment-base pl-9 text-ink-black placeholder:text-ink-light border-earth-dark', searchQuery.length > 0 ? 'pr-9' : '']"
           />
           <button
             v-if="searchQuery.length > 0"
@@ -20,7 +20,7 @@
           </button>
         </div>
       </PopoverTrigger>
-      <PopoverContent class="w-[400px] p-0 z-[10000] bg-parchment-base border border-earth-dark" align="start">
+      <PopoverContent :class="[mobile ? 'w-full' : 'w-[400px]', 'p-0 z-[10000] bg-parchment-base border border-earth-dark']" align="start">
         <div v-if="loading" class="p-4 text-center text-sm text-ink-brown">
           Searching...
         </div>
@@ -109,6 +109,12 @@ import { useSearch } from '@/entities/search'
 import type { SearchResult } from '@/entities/search'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+
+const props = withDefaults(defineProps<{
+  mobile?: boolean
+}>(), {
+  mobile: false,
+})
 
 const emit = defineEmits<{
   select: [result: SearchResult]
