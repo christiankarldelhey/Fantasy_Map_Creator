@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
-import { ScrollText, ChevronDown, ChevronRight, Plus, FileDown } from '@lucide/vue'
+import { ChevronDown, ChevronRight, Plus, FileDown } from '@lucide/vue'
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
 import { useLanguage } from '@/composables/useLanguage'
@@ -21,7 +21,11 @@ const props = defineProps<{
 const emit = defineEmits<{ (e: 'close'): void; (e: 'day-generated', day: TripDay): void }>()
 
 const { trip, days, loading, generating, error, getTrip, getDays, generateDay } = useTrips()
-const { activeCharacter } = useCharacter()
+const { activeCharacter, fetchActiveCharacter } = useCharacter()
+
+function getCharacterImage(name: string): string {
+  return new URL(`/src/assets/characters/${name}.png`, import.meta.url).href
+}
 const { language } = useLanguage()
 const { saveUserSettings } = useUserSettings()
 const { setTripDate, resetToRealTime } = useGlobalClimateTime()
@@ -272,6 +276,8 @@ async function loadTripData() {
   if (!props.tripId) return
   await getTrip(props.tripId)
   await getDays(props.tripId)
+  // The backend activates the trip's character; refresh local state
+  await fetchActiveCharacter()
   syncTripDateToClimate()
   // Expand the latest day's narrative by default
   const last = days.value[days.value.length - 1]
@@ -292,10 +298,15 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
     <!-- Header -->
     <header class="flex items-center justify-between px-5 py-4 border-b-2 border-earth-dark bg-parchment-light">
       <div class="flex items-center gap-2">
-        <ScrollText class="w-5 h-5 text-gold-base" />
-        <h2 class="text-lg font-serif font-semibold text-ink-black">{{ title }}</h2>
+        <img
+          v-if="activeCharacter"
+          :src="getCharacterImage(activeCharacter.name)"
+          :alt="activeCharacter.name"
+          class="w-8 h-8 rounded-full object-cover border border-gold"
+          :style="{ filter: 'sepia(100%) brightness(0.7) opacity(0.8)' }"
+        />
+        <h2 class="text-lg font-serif font-semibold text-ink-black/90">{{ title }}</h2>
       </div>
-      <span v-if="storyDate" class="font-serif text-sm text-ink-brown italic">{{ storyDate }}</span>
     </header>
 
     <!-- Body -->
@@ -315,11 +326,12 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         class="bg-parchment-light rounded-lg border-2 border-earth-dark shadow-md overflow-hidden"
       >
         <div class="px-4 py-3 border-b border-earth-dark bg-parchment-base">
-          <h3 class="font-serif font-semibold text-ink-black">
-            Chapter {{ day.day_number }}
-          </h3>
+          <div class="flex items-center justify-between">
+            <h3 class="font-serif font-semibold text-ink-black/90">Chapter {{ day.day_number }}</h3>
+            <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) }}</span>
+          </div>
           <p class="text-xs text-ink-brown mt-0.5 font-book">
-            {{ day.date?.slice(0, 10) }} · {{ day.distance_km }} km ·
+            {{ day.distance_km }} km ·
             {{ (day.regions || []).map((r) => r.name).join(', ') || 'unknown lands' }}
           </p>
         </div>
@@ -328,7 +340,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         <div class="flex border-b border-earth-dark text-sm">
           <button
             class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'narrative' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black'"
+            :class="expanded[day.id] === 'narrative' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
             @click="toggle(day, 'narrative')"
           >
             <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
@@ -336,7 +348,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </button>
           <button
             class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'prompt' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black'"
+            :class="expanded[day.id] === 'prompt' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
             @click="toggle(day, 'prompt')"
           >
             <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
@@ -344,7 +356,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </button>
           <button
             class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'code' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black'"
+            :class="expanded[day.id] === 'code' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
             @click="toggle(day, 'code')"
           >
             <component :is="expanded[day.id] === 'code' ? ChevronDown : ChevronRight" class="w-4 h-4" />
@@ -356,7 +368,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
           <p
             v-if="day.narrative"
-            class="font-book text-ink-black leading-relaxed whitespace-pre-wrap"
+            class="font-book text-ink-black/90 leading-relaxed whitespace-pre-wrap"
           >{{ day.narrative }}</p>
           <p v-else class="text-sm text-ink-faded italic font-book">No narrative was generated for this day.</p>
         </div>
@@ -430,7 +442,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
     size="sm"
     @close="showCancelModal = false"
   >
-    <p class="text-ink-black font-book">Are you sure you want to cancel this adventure?</p>
+    <p class="text-ink-black/90 font-book">Are you sure you want to cancel this adventure?</p>
     <template #footer>
       <div class="flex gap-3 justify-end">
         <Button variant="outline" size="md" @click="showCancelModal = false">
@@ -455,7 +467,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
   >
     <div class="text-center space-y-4 py-2">
       <p class="text-4xl">☠</p>
-      <p class="font-serif text-ink-black text-base leading-relaxed">
+      <p class="font-serif text-ink-black/90 text-base leading-relaxed">
         <strong>{{ activeCharacter?.name || 'The traveller' }}</strong> has fallen.
       </p>
       <p class="font-book text-ink-brown text-sm leading-relaxed">

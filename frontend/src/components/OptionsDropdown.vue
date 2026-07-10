@@ -6,8 +6,7 @@
       :class="buttonClasses"
       :style="buttonStyle"
     >
-      <img src="/mews.png" alt="Options" class="w-[18px] h-[18px]" />
-      Options
+      <img src="/mews.png" alt="Options" class="w-[25px] h-[25px]" />
     </button>
 
     <div
@@ -15,19 +14,23 @@
       class="absolute right-0 top-full mt-2 w-48 bg-[var(--bg-parchment)] border border-[var(--accent-gold)] rounded-md shadow-lg z-[10000]"
     >
       <div class="py-1">
-        <component
-          v-for="item in menuItems"
-          :is="item.href ? 'a' : 'button'"
-          :key="item.key"
-          :href="item.href"
-          :target="item.href ? '_blank' : undefined"
-          :rel="item.href ? 'noopener noreferrer' : undefined"
-          @click="() => item.onClick?.()"
-          class="w-full text-left px-4 py-2 text-xs text-ink-brown hover:bg-[var(--bg-parchment-dark)] transition-colors flex items-center gap-2 font-sans"
-        >
-          <component :is="item.icon" v-if="item.icon" :size="14" />
-          {{ item.label }}
-        </component>
+        <template v-for="item in menuItems" :key="item.key">
+          <hr
+            v-if="item.key === 'how-i-made-this'"
+            class="border-t border-[var(--accent-gold)] opacity-50 my-1"
+          />
+          <component
+            :is="item.href ? 'a' : 'button'"
+            :href="item.href"
+            :target="item.href ? '_blank' : undefined"
+            :rel="item.href ? 'noopener noreferrer' : undefined"
+            @click="() => item.onClick?.()"
+            class="w-full text-left px-4 py-2 text-xs text-ink-brown hover:bg-[var(--bg-parchment-dark)] transition-colors flex items-center gap-2 font-sans"
+          >
+            <component :is="item.icon" v-if="item.icon" :size="14" />
+            {{ item.label }}
+          </component>
+        </template>
       </div>
     </div>
   </div>
@@ -69,8 +72,8 @@ const menuItems = computed<MenuItem[]>(() => {
   const items: MenuItem[] = []
 
   if (props.isGuest) {
-    items.push({ key: 'how-i-made-this', label: 'How I Made This', icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
     items.push({ key: 'sign-in', label: 'Sign in', icon: LogIn, onClick: handleSignIn })
+    items.push({ key: 'how-i-made-this', label: 'How I Made This', icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
   } else {
     if (props.mode === 'wander') {
       items.push({ key: 'change-season', label: 'Change Season', icon: Sun, onClick: handleChangeSeason })
@@ -80,8 +83,8 @@ const menuItems = computed<MenuItem[]>(() => {
       items.push({ key: 'go-to-wander', label: 'Go to wander mode', icon: Compass, onClick: handleGoToWander })
     }
 
-    items.push({ key: 'how-i-made-this', label: 'How I Made This', icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
     items.push({ key: 'sign-out', label: 'Sign out', icon: LogOut, onClick: handleSignOut })
+    items.push({ key: 'how-i-made-this', label: 'How I Made This', icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
   }
 
   return items
@@ -90,10 +93,10 @@ const menuItems = computed<MenuItem[]>(() => {
 const buttonClasses = computed(() => {
   if (props.mode === 'wander') {
     // Same colors as CharacterActiveHud, using IM Fell English (intermediate artistic)
-    return 'flex items-center gap-2 h-9 px-3 rounded-lg bg-[var(--bg-parchment)] border-2 border-[var(--accent-gold)] text-[var(--text-ink-black)] text-sm cursor-pointer shadow-md font-normal'
+    return 'flex items-center gap-2 h-9 p-2 rounded-lg bg-[var(--bg-parchment)] border-2 border-[var(--accent-gold)] text-[var(--text-ink-black)] text-sm cursor-pointer shadow-md font-normal'
   } else {
     // Explore mode: admin minimalist (same height as CalendarPicker: 32px)
-    return 'flex items-center gap-2 h-8 px-2 rounded-md bg-white border border-gray-200 text-gray-700 text-xs font-sans cursor-pointer shadow-sm font-normal'
+    return 'flex items-center gap-2 h-8 p-2 rounded-md bg-white border border-gray-200 text-gray-700 text-xs font-sans cursor-pointer shadow-sm font-normal'
   }
 })
 
