@@ -1,5 +1,5 @@
 <template>
-  <div class="character-active-hud absolute top-4 left-4 z-[9999]">
+  <div class="character-active-hud absolute top-4 left-4 z-[9999] cursor-pointer" @click="emit('open-character')">
     <div class="character-avatar">
       <img
         v-if="activeCharacter"
@@ -36,6 +36,10 @@ import { computed } from 'vue'
 import { useCharacter } from '@/composables/useCharacter'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 import { Leaf, Sprout, Sun, Snowflake } from '@lucide/vue'
+
+const emit = defineEmits<{
+  'open-character': []
+}>()
 
 const { activeCharacter } = useCharacter()
 const { currentClimateTime } = useGlobalClimateTime()

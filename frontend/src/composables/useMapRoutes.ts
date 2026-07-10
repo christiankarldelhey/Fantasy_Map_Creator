@@ -1,5 +1,8 @@
 import maplibregl from 'maplibre-gl'
-import { lineString } from '@turf/helpers'
+import { lineString, point } from '@turf/helpers'
+import { medievalColors } from '@/app/theme/colors'
+
+const DANGER_RED = medievalColors.danger.base
 
 // ============================================================================
 // Layer/source ID constants
@@ -8,6 +11,7 @@ export const LAYER_IDS = {
   tripDay: 'trip-day-route-layer',
   completedRoute: 'completed-route-layer',
   remainingRoute: 'remaining-route-layer',
+  tripDestination: 'trip-destination-layer',
   directionsOnRoad: 'route-on-road-layer',
   directionsOffRoadStart: 'route-off-road-start-layer',
   directionsOffRoadEnd: 'route-off-road-end-layer',
@@ -17,6 +21,7 @@ export const SOURCE_IDS = {
   tripDay: 'trip-day-route',
   completedRoute: 'completed-route',
   remainingRoute: 'remaining-route',
+  tripDestination: 'trip-destination',
   directionsOnRoad: 'route-on-road',
   directionsOffRoadStart: 'route-off-road-start',
   directionsOffRoadEnd: 'route-off-road-end',
@@ -161,13 +166,38 @@ export function drawRemainingRoute(map: maplibregl.Map, routeData: any) {
     type: 'line',
     source: SOURCE_IDS.remainingRoute,
     layout: { 'line-join': 'round', 'line-cap': 'round' },
-    paint: { 'line-color': '#78350f', 'line-width': 3, 'line-opacity': 0.8, 'line-dasharray': [4, 4] },
+    paint: { 'line-color': DANGER_RED, 'line-width': 3, 'line-opacity': 0.8, 'line-dasharray': [2, 3] },
   })
-  map.moveLayer(LAYER_IDS.remainingRoute)
+
+  // Keep the dashed line above location circles but below their labels
+  const labelsLayerId = 'locations-labels-medium'
+  if (map.getLayer(labelsLayerId)) {
+    map.moveLayer(LAYER_IDS.remainingRoute, labelsLayerId)
+  }
+
+  // Red destination circle marking the end of the trip
+  const destination = allCoordinates[allCoordinates.length - 1]
+  map.addSource(SOURCE_IDS.tripDestination, { type: 'geojson', data: point(destination) })
+  map.addLayer({
+    id: LAYER_IDS.tripDestination,
+    type: 'circle',
+    source: SOURCE_IDS.tripDestination,
+    paint: {
+      'circle-radius': 8,
+      'circle-color': DANGER_RED,
+      'circle-opacity': 0.5,
+      'circle-stroke-width': 0,
+    },
+  })
+
+  if (map.getLayer(labelsLayerId)) {
+    map.moveLayer(LAYER_IDS.tripDestination, labelsLayerId)
+  }
 }
 
 export function clearRemainingRoute(map: maplibregl.Map) {
   removeLayerSource(map, LAYER_IDS.remainingRoute, SOURCE_IDS.remainingRoute)
+  removeLayerSource(map, LAYER_IDS.tripDestination, SOURCE_IDS.tripDestination)
 }
 
 // ============================================================================
@@ -186,14 +216,14 @@ export function drawDirectionsRoute(map: maplibregl.Map, data: any) {
       type: 'line',
       source: SOURCE_IDS.directionsOnRoad,
       layout: { 'line-join': 'round', 'line-cap': 'round' },
-      paint: { 'line-color': '#e11d48', 'line-width': 5, 'line-opacity': 0.85 },
+      paint: { 'line-color': DANGER_RED, 'line-width': 5, 'line-opacity': 0.85 },
     })
     map.moveLayer(LAYER_IDS.directionsOnRoad)
   }
 
   const offRoadStyle = {
     layout: { 'line-join': 'round' as const, 'line-cap': 'round' as const },
-    paint: { 'line-color': '#4b5563', 'line-width': 4, 'line-opacity': 0.8, 'line-dasharray': [2, 2] },
+    paint: { 'line-color': DANGER_RED, 'line-width': 4, 'line-opacity': 0.8, 'line-dasharray': [2, 2] },
   }
 
   if (g.off_road_start) {

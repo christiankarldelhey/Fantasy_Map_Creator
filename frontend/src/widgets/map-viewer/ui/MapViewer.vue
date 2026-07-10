@@ -2,7 +2,7 @@
   <div ref="mapViewerRoot" class="relative w-full h-screen bg-[var(--bg-parchment)]">
     <div ref="mapContainer" class="w-full h-full" style="min-height: 100vh;"></div>
 
-    <CharacterActiveHud v-if="mode === 'wander' && activeCharacter" />
+    <CharacterActiveHud v-if="mode === 'wander' && activeCharacter" @open-character="showCharacterPage = true" />
 
     <DirectionsInput
       v-if="isDirectionsMode"
@@ -145,6 +145,12 @@
       @go-to-explore="handleGoToExplore"
       @go-to-wander="handleGoToWander"
     />
+
+    <CharacterPage
+      v-if="showCharacterPage && activeCharacter"
+      :character="activeCharacter"
+      @close="showCharacterPage = false"
+    />
   </div>
 </template>
 
@@ -177,6 +183,7 @@ import {
   clearAllTripRoutes,
 } from '@/composables/useMapRoutes'
 import CharacterActiveHud from '@/components/CharacterActiveHud.vue'
+import CharacterPage from '@/components/CharacterPage.vue'
 import MapLoadingOverlay from './MapLoadingOverlay.vue'
 import SeasonSelectModal from '@/pages/welcome/SeasonSelectModal.vue'
 import CharacterSelectModal from '@/pages/welcome/CharacterSelectModal.vue'
@@ -227,6 +234,7 @@ const showSeasonSelector = ref(false)
 const showLogoutModal = ref(false)
 const showChangeSeasonModal = ref(false)
 const showCharacterSelectModal = ref(false)
+const showCharacterPage = ref(false)
 
 const adventurePhrases = [
   'Consulting the old maps and the older roads…',
