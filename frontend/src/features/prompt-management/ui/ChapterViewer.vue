@@ -38,15 +38,6 @@ const isTripDead = ref(false)
 
 const title = computed(() => trip.value?.name || 'Journey')
 
-const storyDate = computed(() => {
-  const lastDay = days.value[days.value.length - 1]
-  const dateStr = lastDay?.date || trip.value?.start_date
-  if (!dateStr) return null
-  const d = new Date(dateStr)
-  if (isNaN(d.getTime())) return null
-  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
-})
-
 function syncTripDateToClimate() {
   const lastDay = days.value[days.value.length - 1]
   const dateStr = lastDay?.date || trip.value?.start_date
