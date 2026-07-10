@@ -59,7 +59,7 @@ router.post('/', authenticateToken, async (req, res, next) => {
         JSON.stringify(route),
         route.summary?.total_distance_km ?? null,
         route.summary?.total_time_hours ?? null,
-        characterId,
+        characterId ? parseInt(characterId, 10) : null,
       ]
     );
 

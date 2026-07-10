@@ -15,72 +15,27 @@
       class="absolute right-0 top-full mt-2 w-48 bg-[var(--bg-parchment)] border border-[var(--accent-gold)] rounded-md shadow-lg z-[10000]"
     >
       <div class="py-1">
-        <!-- Guest mode: only Sign in -->
-        <template v-if="isGuest">
-          <button
-            @click="handleSignIn"
-            class="w-full text-left px-4 py-2 text-xs text-ink-brown hover:bg-[var(--bg-parchment-dark)] transition-colors flex items-center gap-2 font-sans"
-          >
-            <LogIn :size="14" />
-            Sign in
-          </button>
-        </template>
-
-        <!-- Logged in: options based on mode -->
-        <template v-else>
-          <!-- Wander mode options -->
-          <template v-if="mode === 'wander'">
-            <button
-              @click="handleChangeSeason"
-              class="w-full text-left px-4 py-2 text-xs text-ink-brown hover:bg-[var(--bg-parchment-dark)] transition-colors flex items-center gap-2 font-sans"
-            >
-              <Sun :size="14" />
-              Change Season
-            </button>
-            <button
-              @click="handleChangeCharacter"
-              class="w-full text-left px-4 py-2 text-xs text-ink-brown hover:bg-[var(--bg-parchment-dark)] transition-colors flex items-center gap-2 font-sans"
-            >
-              <User :size="14" />
-              Change Character
-            </button>
-            <button
-              @click="handleGoToExplore"
-              class="w-full text-left px-4 py-2 text-xs text-ink-brown hover:bg-[var(--bg-parchment-dark)] transition-colors flex items-center gap-2 font-sans"
-            >
-              <Map :size="14" />
-              Go to explore mode
-            </button>
-          </template>
-
-          <!-- Explore mode options -->
-          <template v-else>
-            <button
-              @click="handleGoToWander"
-              class="w-full text-left px-4 py-2 text-xs text-ink-brown hover:bg-[var(--bg-parchment-dark)] transition-colors flex items-center gap-2 font-sans"
-            >
-              <Compass :size="14" />
-              Go to wander mode
-            </button>
-          </template>
-
-          <!-- Sign out (both modes) -->
-          <button
-            @click="handleSignOut"
-            class="w-full text-left px-4 py-2 text-xs text-ink-brown hover:bg-[var(--bg-parchment-dark)] transition-colors flex items-center gap-2 font-sans"
-          >
-            <LogOut :size="14" />
-            Sign out
-          </button>
-        </template>
+        <component
+          v-for="item in menuItems"
+          :is="item.href ? 'a' : 'button'"
+          :key="item.key"
+          :href="item.href"
+          :target="item.href ? '_blank' : undefined"
+          :rel="item.href ? 'noopener noreferrer' : undefined"
+          @click="() => item.onClick?.()"
+          class="w-full text-left px-4 py-2 text-xs text-ink-brown hover:bg-[var(--bg-parchment-dark)] transition-colors flex items-center gap-2 font-sans"
+        >
+          <component :is="item.icon" v-if="item.icon" :size="14" />
+          {{ item.label }}
+        </component>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
-import { LogOut, Sun, User, Map, Compass, LogIn } from '@lucide/vue'
+import { ref, onMounted, onUnmounted, computed, type Component } from 'vue'
+import { LogOut, Sun, User, Map, Compass, LogIn, Wrench } from '@lucide/vue'
 
 const props = defineProps<{
   mode: 'wander' | 'explore'
@@ -99,6 +54,38 @@ const emit = defineEmits<{
 
 const isOpen = ref(false)
 const dropdownContainer = ref<HTMLElement | null>(null)
+
+type MenuItem = {
+  key: string
+  label: string
+  icon?: Component
+  href?: string
+  onClick?: () => void
+}
+
+const PROJECT_URL = 'https://christiandelhey.com/projects/middle-earth-wandering-simulator/'
+
+const menuItems = computed<MenuItem[]>(() => {
+  const items: MenuItem[] = []
+
+  if (props.isGuest) {
+    items.push({ key: 'how-i-made-this', label: 'How I Made This', icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
+    items.push({ key: 'sign-in', label: 'Sign in', icon: LogIn, onClick: handleSignIn })
+  } else {
+    if (props.mode === 'wander') {
+      items.push({ key: 'change-season', label: 'Change Season', icon: Sun, onClick: handleChangeSeason })
+      items.push({ key: 'change-character', label: 'Change Character', icon: User, onClick: handleChangeCharacter })
+      items.push({ key: 'go-to-explore', label: 'Go to explore mode', icon: Map, onClick: handleGoToExplore })
+    } else {
+      items.push({ key: 'go-to-wander', label: 'Go to wander mode', icon: Compass, onClick: handleGoToWander })
+    }
+
+    items.push({ key: 'how-i-made-this', label: 'How I Made This', icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
+    items.push({ key: 'sign-out', label: 'Sign out', icon: LogOut, onClick: handleSignOut })
+  }
+
+  return items
+})
 
 const buttonClasses = computed(() => {
   if (props.mode === 'wander') {
