@@ -261,7 +261,6 @@ const showLogoutModal = ref(false)
 const showChangeSeasonModal = ref(false)
 const showCharacterSelectModal = ref(false)
 const showCharacterPage = ref(false)
-const searchInputRef = ref<InstanceType<typeof SearchInput> | null>(null)
 const calendarPickerRef = ref<InstanceType<typeof CalendarPicker> | null>(null)
 
 function handleOpenCalendarMobile() {
