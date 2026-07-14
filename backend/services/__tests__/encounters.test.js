@@ -9,6 +9,8 @@ import {
   rollEncounter,
   pickFromPool,
   simulatePhaseEncounters,
+  simulateNightEncounters,
+  entityEligibleForNightTiming,
   createSeededRng,
   formatHour,
   WEIGHT_BASE,
@@ -317,4 +319,75 @@ test('simulatePhaseEncounters produces at most one encounter per phase', () => {
     });
     assert.ok(result.encounters.length <= 1, `Phase ${phase} should have at most 1 encounter`);
   }
+});
+
+// ---------------------------------------------------------------------------
+// entityEligibleForNightTiming
+// ---------------------------------------------------------------------------
+test('entityEligibleForNightTiming classifies social vs nocturnal entities', () => {
+  const humanDay = { type: 'humans', active: 'day' };
+  const humanNocturnal = { type: 'humans', active: 'nocturnal' };
+  const wolf = { type: 'carnivores', active: 'nocturnal' };
+
+  assert.equal(entityEligibleForNightTiming(humanDay, 'before_sleep'), true);
+  assert.equal(entityEligibleForNightTiming(humanNocturnal, 'before_sleep'), false);
+  assert.equal(entityEligibleForNightTiming(wolf, 'before_sleep'), false);
+
+  assert.equal(entityEligibleForNightTiming(humanDay, 'mid_night'), false);
+  assert.equal(entityEligibleForNightTiming(humanNocturnal, 'mid_night'), true);
+  assert.equal(entityEligibleForNightTiming(wolf, 'mid_night'), true);
+});
+
+// ---------------------------------------------------------------------------
+// simulateNightEncounters
+// ---------------------------------------------------------------------------
+test('simulateNightEncounters returns no encounters when chance fails', () => {
+  const region = {
+    name: 'The Shire',
+    entities: sampleEntities,
+    road_type: 'off_road',
+    population_ratio: 0.5,
+  };
+  const result = simulateNightEncounters({ region, rng: () => 0.99 });
+  assert.equal(result.encounters.length, 0);
+  assert.equal(result.usedEntityIds.length, 0);
+});
+
+test('simulateNightEncounters assigns before_sleep timing to day-active intelligent entities', () => {
+  const region = {
+    name: 'The Shire',
+    entities: [
+      { id: 'b', name: 'Hobbits', type: 'hobbits', active: 'day', probability_by_region: [{ region: 'The Shire', probability: 8 }] },
+    ],
+    road_type: 'off_road',
+    population_ratio: 0.5,
+  };
+  // rng sequence: 0.0 passes 55% check, 0.0 picks before_sleep, 0.0 picks first entity
+  const result = simulateNightEncounters({ region, rng: () => 0.0 });
+  assert.equal(result.encounters.length, 1);
+  assert.equal(result.encounters[0].night_timing, 'before_sleep');
+  assert.equal(result.encounters[0].entity.name, 'Hobbits');
+  assert.equal(result.encounters[0].hour, '20:30');
+});
+
+test('simulateNightEncounters assigns mid_night timing to nocturnal beasts', () => {
+  const region = {
+    name: 'The Shire',
+    entities: [
+      { id: 'a', name: 'Wolves', type: 'carnivores', active: 'nocturnal', probability_by_region: [{ region: 'The Shire', probability: 8 }] },
+    ],
+    road_type: 'off_road',
+    population_ratio: 0.5,
+  };
+  // rng: 0.0 passes check, 0.99 picks mid_night (since rng < 0.5 is before_sleep), 0.0 picks first entity
+  const rngVals = [0.0, 0.99, 0.0];
+  let i = 0;
+  const result = simulateNightEncounters({
+    region,
+    rng: () => { i += 1; return rngVals[i - 1]; },
+  });
+  assert.equal(result.encounters.length, 1);
+  assert.equal(result.encounters[0].night_timing, 'mid_night');
+  assert.equal(result.encounters[0].entity.name, 'Wolves');
+  assert.equal(result.encounters[0].hour, '02:30');
 });

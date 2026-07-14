@@ -300,6 +300,84 @@ export function simulatePhaseEncounters({
 }
 
 /**
+ * Determine whether an entity fits a night encounter timing.
+ * - before_sleep: social/traveller encounters — intelligent beings active by day or all day.
+ * - mid_night: beasts, environmental dangers, and nocturnal intelligent threats.
+ */
+export function entityEligibleForNightTiming(entity, timing) {
+  const type = entity.type;
+  const active = entity.active;
+  const isIntelligent = INTELLIGENT_TYPES.includes(type);
+  if (timing === 'before_sleep') {
+    return isIntelligent && active !== 'nocturnal';
+  }
+  // mid_night: non-intelligent creatures or nocturnal intelligent threats
+  return !isIntelligent || active === 'nocturnal';
+}
+
+/**
+ * Simulate a single night encounter that may occur either before the party
+ * settles in or in the middle of the night. The overall 55% chance is kept;
+ * if it fires, a 50/50 roll decides the timing and the entity pool is filtered
+ * to match that timing.
+ */
+export function simulateNightEncounters({ region, rng = Math.random, base = WEIGHT_BASE, excludedEntityIds = [] }) {
+  const result = { encounters: [], usedEntityIds: [] };
+  if (!region || !rollEncounter(ENCOUNTER_CHANCE, rng)) {
+    return result;
+  }
+
+  const timing = rng() < 0.5 ? 'before_sleep' : 'mid_night';
+  const populationRatio = typeof region.population_ratio === 'number' ? region.population_ratio : 0.5;
+
+  function poolFor(t) {
+    return buildRegionPool(
+      region.name,
+      PHASE_NIGHT,
+      region.entities,
+      base,
+      excludedEntityIds,
+      'off_road',
+      populationRatio
+    ).filter((item) => entityEligibleForNightTiming(item.entity, t));
+  }
+
+  let pool = poolFor(timing);
+  let chosenTiming = timing;
+
+  // If the chosen timing has no eligible entities, fall back to the other.
+  if (pool.length === 0) {
+    const fallback = timing === 'before_sleep' ? 'mid_night' : 'before_sleep';
+    pool = poolFor(fallback);
+    chosenTiming = fallback;
+  }
+
+  if (pool.length === 0) {
+    return result;
+  }
+
+  const entity = pickFromPool(pool, rng);
+  if (!entity) {
+    return result;
+  }
+
+  const hourFloat = chosenTiming === 'before_sleep' ? 20.5 : 26.5;
+  result.encounters.push({
+    hour: formatHour(hourFloat),
+    hour_float: ((hourFloat % 24) + 24) % 24,
+    phase: PHASE_NIGHT,
+    night_timing: chosenTiming,
+    region: region.name,
+    entity,
+  });
+  if (entity.id) {
+    result.usedEntityIds.push(entity.id);
+  }
+
+  return result;
+}
+
+/**
  * Create a small seedable PRNG (mulberry32) for deterministic simulations.
  * @param {number} seed
  * @returns {() => number}

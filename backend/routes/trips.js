@@ -272,10 +272,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     }
 
     let previousDaySummary = null;
-    let previousDay = null;
     if (dayNumber > 1) {
       const prevRes = await pool.query(
-        'SELECT day_number, regions, locations, encounters, terrain_phrases FROM trip_days WHERE trip_id = $1 AND day_number = $2',
+        'SELECT day_number, regions, locations, encounters FROM trip_days WHERE trip_id = $1 AND day_number = $2',
         [trip.id, dayNumber - 1]
       );
       if (prevRes.rows.length > 0) {
@@ -285,13 +284,10 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         const encsStr = (prev.encounters || []).map(e => e.entity?.name).filter(Boolean).join(', ') || 'no major encounters';
 
         previousDaySummary = `In Chapter ${prev.day_number} (yesterday), the traveller journeyed through: ${regionsStr}. They passed near: ${locsStr}. Notable encounters/sights: ${encsStr}.`;
-        previousDay = {
-          terrain_phrases: prev.terrain_phrases || {},
-        };
       }
     }
 
-    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary, previousDay);
+    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary);
 
     // Generate AI narrative (optional, if API key is configured)
     const narrative = await generateNarrative(prompt);

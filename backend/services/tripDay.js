@@ -1,6 +1,7 @@
 import pool from '../db.js';
 import {
   simulatePhaseEncounters,
+  simulateNightEncounters,
   PHASE_MORNING,
   PHASE_AFTERNOON,
   PHASE_NIGHT,
@@ -196,6 +197,7 @@ async function sampleLegContext(legGeoJSON) {
        (SELECT COALESCE(json_agg(json_build_object(
           'name', w.name,
           'type', w.water_type,
+          'description', w.description,
           'fraction', ST_LineLocatePoint(
             leg.geom,
             ST_ClosestPoint(leg.geom, ST_Centroid(ST_Intersection(leg.geom, w.geom)))
@@ -227,29 +229,88 @@ async function climateAtPoint(lng, lat, timestamp) {
   }
 }
 
-/** Sample climate at multiple hours along a leg. */
+/**
+ * Sample climate aligned to the narrative phases.
+ *   - morning   (07:00-13:00): sampled at 07:00, 10:00 on the walking leg
+ *   - afternoon (13:00-19:00): sampled at 13:00, 16:00 on the walking leg
+ *   - night at camp (19:00 -> 07:00 next day): sampled at 19:00, 22:00,
+ *     01:00, 04:00 at the camp position (leg end), so extreme night events
+ *     (a midnight storm, a hard frost, wind) can surface in the narration.
+ * Hours past midnight roll the date forward one day in the timestamp.
+ */
 async function sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, dateISO) {
-  const hours = [0, 3, 6, 9, 12, 15, 18, 21];
-  const climateData = [];
-  
+  // hour, phase, nextDay flag; walking hours use the leg, night uses the camp.
+  const specs = [
+    { hour: 7, phase: PHASE_MORNING, nextDay: false },
+    { hour: 10, phase: PHASE_MORNING, nextDay: false },
+    { hour: 13, phase: PHASE_AFTERNOON, nextDay: false },
+    { hour: 16, phase: PHASE_AFTERNOON, nextDay: false },
+    { hour: 19, phase: PHASE_NIGHT, nextDay: false },
+    { hour: 22, phase: PHASE_NIGHT, nextDay: false },
+    { hour: 1, phase: PHASE_NIGHT, nextDay: true },
+    { hour: 4, phase: PHASE_NIGHT, nextDay: true },
+  ];
+
   const legDuration = dayEndSeconds - dayStartSeconds;
-  const [, month, day] = dateISO.split('-');
-  
-  for (const hour of hours) {
-    // Interpolate position along the leg for this hour
-    const hourFraction = hour / 24; // fraction of the day
-    const elapsedSeconds = dayStartSeconds + (hourFraction * legDuration);
-    const point = positionAtSeconds(segments, elapsedSeconds);
-    
+  const campPoint = positionAtSeconds(segments, dayEndSeconds);
+  const climateData = [];
+
+  for (const { hour, phase, nextDay } of specs) {
+    let point;
+    if (phase === PHASE_NIGHT) {
+      // Camped: weather is read at the camp, not along the (finished) leg.
+      point = campPoint;
+    } else {
+      // Interpolate position for this hour over the walking window (07:00-19:00).
+      const walkFraction = Math.max(0, Math.min(1, (hour - WALK_START_HOUR) / WALKING_HOURS));
+      point = positionAtSeconds(segments, dayStartSeconds + walkFraction * legDuration);
+    }
+
+    const stampDate = nextDay ? addDaysISO(dateISO, 1) : dateISO;
+    const [, month, day] = stampDate.split('-');
     const timestamp = `1950-${month}-${day} ${hour.toString().padStart(2, '0')}:00:00`;
     const climate = await climateAtPoint(point[0], point[1], timestamp);
-    
+
     climateData.push({
       time: timestamp,
-      climate: climate || null
+      phase,
+      climate: climate || null,
     });
   }
-  
+
+  return climateData;
+}
+
+/**
+ * Sample climate overnight at the camp, from dusk until the next morning.
+ * Focused on how conditions feel to a sleeping traveller (wind, rain, cold).
+ * Hours past midnight roll the date forward one day in the timestamp.
+ */
+async function sampleNighttimeClimate(segments, dayEndSeconds, dateISO) {
+  const specs = [
+    { hour: 20, nextDay: false },
+    { hour: 23, nextDay: false },
+    { hour: 2, nextDay: true },
+    { hour: 5, nextDay: true },
+    { hour: 7, nextDay: true },
+  ];
+
+  const campPoint = positionAtSeconds(segments, dayEndSeconds);
+  const climateData = [];
+
+  for (const { hour, nextDay } of specs) {
+    const stampDate = nextDay ? addDaysISO(dateISO, 1) : dateISO;
+    const [, month, day] = stampDate.split('-');
+    const timestamp = `1950-${month}-${day} ${hour.toString().padStart(2, '0')}:00:00`;
+    const climate = await climateAtPoint(campPoint[0], campPoint[1], timestamp);
+
+    climateData.push({
+      time: timestamp,
+      phase: PHASE_NIGHT,
+      climate: climate || null,
+    });
+  }
+
   return climateData;
 }
 
@@ -430,6 +491,9 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   // --- Climate (sampled hourly along the leg) ---
   const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date);
 
+  // --- Overnight climate at camp (dusk to 7am, sensation-focused) ---
+  const nighttimeClimate = await sampleNighttimeClimate(segments, dayEndSeconds, date);
+
   // --- Encounters ---
   // Morning phase (07:00 - 13:00)
   const morningResult = simulatePhaseEncounters({
@@ -451,14 +515,13 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     excludedEntityIds: [...excludedEntityIds, ...morningResult.usedEntityIds],
   });
 
-  // Night phase (19:00 - 07:00 next day)
+  // Night phase (19:00 - 07:00 next day), split into before-sleep and mid-night timings
   const nightResolver = await buildNightRegionResolver(leg.end);
-  const nightResult = simulatePhaseEncounters({
-    startHour: WALK_END_HOUR,
-    phaseHours: NIGHT_HOURS,
-    phase: PHASE_NIGHT,
-    getRegionInfo: nightResolver,
+  const nightRegion = nightResolver(0);
+  const nightResult = simulateNightEncounters({
+    region: nightRegion,
     rng,
+    base: 1.6,
     excludedEntityIds: [...excludedEntityIds, ...morningResult.usedEntityIds, ...afternoonResult.usedEntityIds],
   });
 
@@ -591,6 +654,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     return {
       name: w.name || null,
       type: w.type,
+      description: w.description || null,
       crossing_type: crossingType,
       hour_float: Number(hourFloat.toFixed(2)),
       hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,
@@ -622,6 +686,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     road_types: roadTypes,
     locations,
     climate,
+    nighttime_climate: nighttimeClimate,
     encounters,
     thoughts,
     water_crossings: waterCrossings,

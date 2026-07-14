@@ -1,17 +1,15 @@
 import {
-  describeClimate,
   describeRegions,
-  describeLandscape,
-  describeLocations,
-  describeRoads,
   describeOvernightLocation,
   describeElevation,
   describeWaterCrossings,
   collectTerrainNotes,
   collectRoadNotes,
-  collectClimateNotes,
+  collectClimateNotesByPhase,
+  collectNighttimeConditions,
   collectLocationNotes,
   pickTodaysWayIn,
+  phaseForHour,
 } from './naturalLanguage.js';
 
 // ============================================================================
@@ -30,14 +28,14 @@ Style rules:
 - Restraint over ornament. Tolkien rarely grows excited; when he does, it carries weight.
 - No abstract filler ("a sense of wonder", "his heart pounded", "full of magic"). If you name an emotion, anchor it to a gesture or a physical detail.
 - Do not repeat images or phrases within the chapter.
-- Do not repeat phrases or images that appear in the "DO NOT REUSE" or "TERRAIN NOTES" sections. Use them as inspiration, never as copy-paste material.
+- Do not repeat phrases or images that appear in the per-phase reference notes. Use them as inspiration, never as copy-paste material.
 - Weather is atmosphere, not a report: it appears only when it shifts the mood or hinders the march. Never give figures or exact hours.
 - Every encounter must MAKE something happen: a decision, an exchange, a consequence. Do not describe a threat only to dissolve it without effect.
 - Flowing prose, no bullet points. A short verse only if it truly fits.
 
 Rules for using the data:
 - The data below is RAW MATERIAL, not a checklist. Use what serves the story and discard the rest. You need not mention every region, biome, road or weather reading.
-- All notes under "TERRAIN NOTES", "ROAD NOTES", "WEATHER NOTES" and "CREATURE NOTES" are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words each day. They tell you what is there, not how to say it.
+- All the reference notes (the Weather, Terrain, Locations, Water crossings, Road and Creature notes) are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words each day. They tell you what is there, not how to say it.
 - Do not invent names of places or creatures that do not appear in the data.
 
 Cities and major towns:
@@ -57,9 +55,10 @@ const OUTCOME_DIRECTIVES = {
 
 function describeEncounter(e, charName) {
   const ent = e.entity || {};
-  // Keep the encounter header concise: name, type, region, and a one-line hint.
-  const desc = ent.description_summary ? ` — ${ent.description_summary}` : '';
-  const header = `${ent.name} (${ent.type || 'creature'}, ${ent.active || 'all-day'}) in ${e.region}${desc}`;
+  // Keep the encounter header concise: name, type, region. The creature's
+  // description lives once in the CREATURE NOTES reference section, so we do
+  // not repeat it here.
+  const header = `${ent.name} (${ent.type || 'creature'}, ${ent.active || 'all-day'}) in ${e.region}`;
 
   const interaction = e.interaction;
   if (!interaction) return `  * ${header}.`;
@@ -83,7 +82,26 @@ function describeEncounter(e, charName) {
 
 function encounterSection(list, charName) {
   if (!list || list.length === 0) return '  (no encounters)';
-  return list.map((e) => describeEncounter(e, charName)).join('\n');
+  const hasTiming = list.some((e) => e.night_timing);
+  if (!hasTiming) {
+    return list.map((e) => describeEncounter(e, charName)).join('\n');
+  }
+
+  const beforeSleep = list.filter((e) => e.night_timing === 'before_sleep');
+  const midNight = list.filter((e) => e.night_timing === 'mid_night');
+  const lines = [];
+  if (beforeSleep.length) {
+    lines.push('Before settling in:');
+    lines.push(...beforeSleep.map((e) => describeEncounter(e, charName)));
+  }
+  if (midNight.length) {
+    lines.push('In the depth of night:');
+    lines.push(...midNight.map((e) => describeEncounter(e, charName)));
+  }
+  if (lines.length === 0) {
+    return list.map((e) => describeEncounter(e, charName)).join('\n');
+  }
+  return lines.join('\n');
 }
 
 function collectCreatureNotes(encounters) {
@@ -117,7 +135,7 @@ const getDestinationName = (tripName) => {
  * @param {string} [previousDaySummary] - non-AI summary of the previous day
  * @returns {{ system: string, user: string }}
  */
-export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null, previousDay = null) {
+export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null) {
   const charName = character.name || 'The Traveller';
   const charKind = character.entity_name ? `, ${character.entity_name}` : '';
   const charBio = character.description ? `\n${character.description}` : '';
@@ -137,33 +155,63 @@ export function buildDayPrompt(day, trip = {}, character = {}, language = 'engli
     }
   }
 
-  // Reference notes for the new prompt structure
-  const terrainNotes = collectTerrainNotes(day.biomes, day.altitude, day.regions, day.terrain_phrases, day.rng);
+  // --- Day-level reference notes (no per-phase timing) ---
   const roadNotes = collectRoadNotes(day.road_types, day.regions, day.terrain_phrases, day.rng);
-  const climateNotes = collectClimateNotes(day.climate, day.rng);
-  const locationNotes = collectLocationNotes(day.locations);
+  const elevationNote = describeElevation(day.elevation_profile, day.rng);
   const todaysWayIn = pickTodaysWayIn(day.rng);
   const creatureNotes = collectCreatureNotes(day.encounters || []);
 
-  // Build "DO NOT REUSE" from the previous day's terrain phrases (simple version)
-  let doNotReuseSection = '';
-  if (previousDay?.terrain_phrases) {
-    const used = [];
-    for (const [region, categories] of Object.entries(previousDay.terrain_phrases)) {
-      for (const [category, phrases] of Object.entries(categories)) {
-        if (Array.isArray(phrases) && phrases.length > 0) {
-          used.push(`- ${region} ${category}: ${phrases.join(' / ')}`);
-        }
+  // --- Time-tagged data, grouped into the three narrative phases ---
+  const climateByPhase = collectClimateNotesByPhase(day.climate);
+
+  const biomesByPhase = { morning: [], afternoon: [], night: [] };
+  for (const b of day.biomes || []) {
+    biomesByPhase[phaseForHour(b.hour_float)].push(b);
+  }
+
+  const locationsByPhase = { morning: [], afternoon: [], night: [] };
+  for (const l of day.locations || []) {
+    locationsByPhase[phaseForHour(l.hour_float)].push(l);
+  }
+
+  const waterByPhase = { morning: [], afternoon: [], night: [] };
+  for (const w of day.water_crossings || []) {
+    waterByPhase[phaseForHour(w.hour_float)].push(w);
+  }
+
+  // Build one chronological block per phase, omitting empty subsections.
+  const buildPhaseBlock = (title, phaseKey, extraLead = '') => {
+    const sub = [];
+
+    if (climateByPhase[phaseKey]) {
+      sub.push(`Weather: ${climateByPhase[phaseKey]}`);
+    }
+
+    if (biomesByPhase[phaseKey].length) {
+      const terrainNotes = collectTerrainNotes(
+        biomesByPhase[phaseKey], [], day.regions, day.terrain_phrases, day.rng
+      );
+      if (terrainNotes.length) {
+        sub.push(`Terrain:\n${terrainNotes.join('\n')}`);
       }
     }
-    if (used.length > 0) {
-      doNotReuseSection = `=== DO NOT REUSE ===
-In yesterday's chapter you already drew on these impressions. Do not use them again; find other ways in:
-${used.join('\n')}
 
-`;
+    if (locationsByPhase[phaseKey].length) {
+      sub.push(`Locations:\n${collectLocationNotes(locationsByPhase[phaseKey]).join('\n')}`);
     }
-  }
+
+    if (waterByPhase[phaseKey].length) {
+      const water = describeWaterCrossings(waterByPhase[phaseKey], day.rng);
+      if (water) sub.push(`Water crossings:\n${water}`);
+    }
+
+    if (extraLead) sub.push(extraLead);
+
+    const enc = encounterSection(parts[phaseKey], charName);
+    sub.push(`Encounters:\n${enc}`);
+
+    return `=== ${title} ===\n${sub.join('\n\n')}`;
+  };
 
   // Build thoughts section if present
   let thoughtsSection = '';
@@ -246,11 +294,31 @@ ${character.system_prompt}
 `;
   }
 
+  // Day-level context that has no per-phase timing.
+  const dayContextParts = [];
+  dayContextParts.push(`Lands crossed (in order), with their character:\n${describeRegions(day.regions)}`);
+  if (roadNotes.length) {
+    dayContextParts.push(`Road notes (reference only — render, don't quote):\n${roadNotes.join('\n')}`);
+  }
+  if (elevationNote) {
+    dayContextParts.push(`Terrain effort (across the whole day):\n${elevationNote}`);
+  }
+
+  // Three chronological phase blocks. Night carries the overnight camp.
+  const morningBlock = buildPhaseBlock('MORNING', 'morning');
+  const afternoonBlock = buildPhaseBlock('AFTERNOON', 'afternoon');
+  const nighttimeConditions = collectNighttimeConditions(day.nighttime_climate, day.rng);
+  const nightExtraLead = [
+    `Overnight camp:\n${describeOvernightLocation(day.overnight_location)}`,
+    nighttimeConditions.length ? `Nighttime conditions (reference only):\n${nighttimeConditions.join('\n')}` : '',
+  ].filter(Boolean).join('\n\n');
+  const nightBlock = buildPhaseBlock('NIGHT AT CAMP', 'night', nightExtraLead);
+
   const user = `=== ${charName.toUpperCase()} ===
 ${charName}${charKind}.${charBio}
 
-${narratorVoiceSection}${journeyContextSection}${specialInstructionsSection}${doNotReuseSection}${thoughtsSection}=== HOW TO USE THE LAND NOTES ===
-The landscape, trail, weather and creature notes below are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words each day. They tell you what is there, not how to say it. Do not reuse images from the DO NOT REUSE list.
+${narratorVoiceSection}${journeyContextSection}${specialInstructionsSection}${thoughtsSection}=== HOW TO USE THE LAND NOTES ===
+The notes below are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words. They tell you what is there, not how to say it. The day is laid out chronologically: the MORNING, AFTERNOON and NIGHT AT CAMP blocks each gather the terrain, weather, water and encounters that belong to that part of the day. Narrate them in that order.
 
 === ENCOUNTER RULES ===
 Render the given form, dialogue and outcome for each encounter. Do not invent a different form. Vary the beats across the chapter. The way an encounter resolves must differ from how recent encounters resolved.
@@ -261,40 +329,16 @@ Open the chapter's morning movement in the middle of an action, not at dawn or w
 === TODAY'S ROAD ===
 Day ${day.day_number}. Narrate a single day's journey in three movements: morning, afternoon, and the night at camp. ${seasonContext}
 
-Lands crossed (in order), with their character:
-${describeRegions(day.regions)}
-
-Location notes (reference only — render, don't quote):
-${locationNotes.join('\n')}
-
-Terrain notes (reference only — render, don't quote):
-${terrainNotes.join('\n') || '- Open country.'}
-
-Road notes (reference only — render, don't quote):
-${roadNotes.join('\n') || '- No road of note.'}
-
-Weather notes (reference only — render, don't quote):
-${climateNotes.join('\n')}
-${describeWaterCrossings(day.water_crossings, day.rng) ? `
-Water crossings:
-${describeWaterCrossings(day.water_crossings, day.rng)}` : ''}
-${describeElevation(day.elevation_profile, day.rng) ? `
-Terrain effort:
-${describeElevation(day.elevation_profile, day.rng)}` : ''}
-
-=== OVERNIGHT CAMP ===
-${describeOvernightLocation(day.overnight_location)}
+${dayContextParts.join('\n\n')}
 
 === CREATURE NOTES (reference only) ===
 ${creatureNotes.join('\n') || '- No creatures of note today.'}
 
-=== ENCOUNTERS ===
-Morning:
-${encounterSection(parts.morning, charName)}
-Afternoon:
-${encounterSection(parts.afternoon, charName)}
-Night at camp:
-${encounterSection(parts.night, charName)}
+${morningBlock}
+
+${afternoonBlock}
+
+${nightBlock}
 
 Write the chapter as flowing prose in three movements. Let each encounter cause something to happen — a decision, a change of route, a cost.
 If the overnight location is a town or inn, let the narrative reflect this — a meal taken, a fire shared, a bed found. If it is a fortress or ruin, let it colour the night accordingly.

@@ -417,11 +417,13 @@ export function describeWaterCrossings(crossings, rng = Math.random) {
     const when = timeOfDayPhrase(c.hour_float);
     const hasName = c.name && c.name.toLowerCase() !== 'river' && c.name.toLowerCase() !== 'stream';
     const named = hasName ? c.name : null;
+    const desc = c.description && c.description.trim() ? ` — ${c.description.trim()}` : '';
 
+    let line;
     if (c.crossing_type === 'bridge') {
       const subject = named || 'A river';
       const river = named || 'a river';
-      return '- ' + pick([
+      line = pick([
         `${subject} is crossed by a stone bridge ${when}.`,
         `A bridge carries the road over ${river} ${when}.`,
         `${river.charAt(0).toUpperCase() + river.slice(1)} runs swift beneath a wooden bridge, crossed ${when}.`,
@@ -432,18 +434,19 @@ export function describeWaterCrossings(crossings, rng = Math.random) {
       const stream = named || 'a stream';
       const useBridge = rng() < 0.3;
       if (useBridge) {
-        return '- ' + pick([
+        line = pick([
           `A rough plank bridge spans ${stream} ${when}.`,
           `A low timber crossing takes the road over ${stream} ${when}.`,
         ], rng);
       } else {
-        return '- ' + pick([
+        line = pick([
           `${subject} is forded ${when} — the water cold and quick underfoot.`,
           `A shallow crossing of ${stream} ${when}; the stones slippery beneath.`,
           `${stream.charAt(0).toUpperCase() + stream.slice(1)} must be waded ${when}, the current pulling at the ankles.`,
         ], rng);
       }
     }
+    return `- ${line}${desc}`;
   });
 
   return lines.join('\n');
@@ -564,7 +567,7 @@ export function collectTerrainNotes(biomes, altitude, regions = [], terrainPhras
     const when = hourFloat != null ? ` (${timeOfDayPhrase(hourFloat)})` : '';
 
     const phrase = pickPhraseForRegions(terrainPhrases, regionNames, biomeType, rng) || BIOME_PHRASES[biomeType] || biomeType;
-    const prefix = isSmall ? 'pequeño ' : '';
+    const prefix = isSmall ? 'small ' : '';
     notes.push(`- ${prefix}${biomeType}${when}: ${phrase}`);
   }
 
@@ -606,82 +609,185 @@ export function collectRoadNotes(roadTypes, regions = [], terrainPhrases = {}, r
   return notes;
 }
 
+// Narrative phases, aligned with the encounter engine (morning / afternoon /
+// night at camp). Night covers the camp window 19:00 -> 07:00 next day.
+const CLIMATE_PHASES = ['morning', 'afternoon', 'night'];
+
+/** Derive the narrative phase for a climate sample (uses stored phase, else the clock hour). */
+function climatePhaseOf(sample) {
+  if (sample && sample.phase && CLIMATE_PHASES.includes(sample.phase)) return sample.phase;
+  const time = sample && sample.time;
+  const hour = time ? parseInt(String(time).slice(11, 13), 10) : NaN;
+  if (Number.isNaN(hour)) return 'night';
+  if (hour >= 7 && hour < 13) return 'morning';
+  if (hour >= 13 && hour < 19) return 'afternoon';
+  return 'night';
+}
+
+/** Summarise a set of weather records into a short phrase like "cool, partly cloudy". */
+function summariseWeather(ws) {
+  const temps = ws.map((w) => w.temperature_2m).filter((n) => typeof n === 'number');
+  const clouds = ws.map((w) => w.cloud_cover).filter((n) => typeof n === 'number');
+  const winds = ws.map((w) => w.wind_speed_10m).filter((n) => typeof n === 'number');
+  const precips = ws.map((w) => w.precipitation || 0).filter((n) => typeof n === 'number');
+
+  const meanTemp = avg(temps);
+  const meanCloud = avg(clouds);
+  const meanWind = avg(winds);
+  const totalPrec = precips.reduce((a, b) => a + b, 0);
+
+  const parts = [];
+  if (meanTemp != null) {
+    if (meanTemp < 2) parts.push('bitter cold');
+    else if (meanTemp < 8) parts.push('cold');
+    else if (meanTemp < 15) parts.push('cool');
+    else if (meanTemp < 22) parts.push('mild');
+    else if (meanTemp < 29) parts.push('warm');
+    else parts.push('hot');
+  }
+  if (meanCloud != null) {
+    if (meanCloud < 25) parts.push('clear skies');
+    else if (meanCloud < 60) parts.push('partly cloudy');
+    else if (meanCloud < 90) parts.push('mostly overcast');
+    else parts.push('heavy cloud cover');
+  }
+  if (meanWind != null && meanWind > 18) parts.push('windy');
+  if (totalPrec > 0.2) parts.push('wet');
+  else if (totalPrec > 0) parts.push('a passing shower');
+
+  return parts.length ? joinList(parts) : null;
+}
+
 /**
- * Collect weather notes split by time of day.
+ * Group weather into the three narrative phases and return one summary phrase
+ * per phase (or null when no data). Night covers 19:00 -> 07:00 next day.
  * @param {Array} climateArray
+ * @returns {{morning: string|null, afternoon: string|null, night: string|null}}
+ */
+export function collectClimateNotesByPhase(climateArray) {
+  const empty = { morning: null, afternoon: null, night: null };
+  if (!Array.isArray(climateArray) || climateArray.length === 0) return empty;
+
+  const byPhase = { morning: [], afternoon: [], night: [] };
+  for (const s of climateArray) {
+    const w = innerClimate(s);
+    if (!w) continue;
+    byPhase[climatePhaseOf(s)].push(w);
+  }
+
+  const result = { ...empty };
+  for (const phase of CLIMATE_PHASES) {
+    if (byPhase[phase].length) result[phase] = summariseWeather(byPhase[phase]);
+  }
+  return result;
+}
+
+/**
+ * Collect weather notes split by narrative phase (morning / afternoon / night).
+ * @param {Array} climateArray
+ * @returns {string[]}
+ */
+export function collectClimateNotes(climateArray) {
+  const byPhase = collectClimateNotesByPhase(climateArray);
+  const notes = [];
+  for (const phase of CLIMATE_PHASES) {
+    if (byPhase[phase]) notes.push(`- ${phase}: ${byPhase[phase]}`);
+  }
+  return notes.length ? notes : ['- The weather leaves little mark on the day.'];
+}
+
+/**
+ * Turn overnight climate samples (20:00 -> 07:00 next day) into felt, physical
+ * notes about how the night affects a sleeping traveller. No numbers, no hours.
+ * @param {Array} nighttimeClimateArray
  * @param {() => number} [rng]
  * @returns {string[]}
  */
-export function collectClimateNotes(climateArray, rng = Math.random) {
-  if (!Array.isArray(climateArray) || climateArray.length === 0) {
-    return ['- The weather leaves little mark on the day.'];
+export function collectNighttimeConditions(nighttimeClimateArray, rng = Math.random) {
+  if (!Array.isArray(nighttimeClimateArray) || nighttimeClimateArray.length === 0) {
+    return [];
   }
 
-  const samples = climateArray
+  const samples = nighttimeClimateArray
     .map((s) => ({ time: s.time, w: innerClimate(s) }))
     .filter((s) => s.w);
+  if (samples.length === 0) return [];
 
-  if (samples.length === 0) {
-    return ['- The weather leaves little mark on the day.'];
-  }
-
-  const timeOfDay = (hour) => {
-    if (hour < 6) return 'night';
-    if (hour < 12) return 'morning';
-    if (hour < 18) return 'afternoon';
-    return 'evening';
-  };
-
-  const byPhase = {};
+  const byHour = {};
   for (const s of samples) {
-    const h = new Date(s.time).getHours();
-    const phase = timeOfDay(h);
-    if (!byPhase[phase]) byPhase[phase] = [];
-    byPhase[phase].push(s.w);
+    const hour = parseInt(String(s.time).slice(11, 13), 10);
+    byHour[hour] = s.w;
   }
 
-  const notes = [];
-  const phases = ['morning', 'afternoon', 'evening', 'night'];
+  const temps = samples.map((s) => s.w.temperature_2m).filter((n) => typeof n === 'number');
+  const winds = samples.map((s) => s.w.wind_speed_10m).filter((n) => typeof n === 'number');
+  const precs = samples.map((s) => s.w.precipitation || 0);
 
-  for (const phase of phases) {
-    const ws = byPhase[phase];
-    if (!ws || ws.length === 0) continue;
+  const meanTemp = avg(temps);
+  const maxWind = winds.length ? Math.max(...winds) : null;
+  const totalPrec = precs.reduce((a, b) => a + b, 0);
 
-    const temps = ws.map((w) => w.temperature_2m).filter((n) => typeof n === 'number');
-    const clouds = ws.map((w) => w.cloud_cover).filter((n) => typeof n === 'number');
-    const winds = ws.map((w) => w.wind_speed_10m).filter((n) => typeof n === 'number');
-    const precips = ws.map((w) => w.precipitation || 0).filter((n) => typeof n === 'number');
+  const conditions = [];
 
-    const meanTemp = avg(temps);
-    const meanCloud = avg(clouds);
-    const meanWind = avg(winds);
-    const totalPrec = precips.reduce((a, b) => a + b, 0);
-
-    const parts = [];
-    if (meanTemp != null) {
-      if (meanTemp < 2) parts.push('bitter cold');
-      else if (meanTemp < 8) parts.push('cold');
-      else if (meanTemp < 15) parts.push('cool');
-      else if (meanTemp < 22) parts.push('mild');
-      else if (meanTemp < 29) parts.push('warm');
-      else parts.push('hot');
-    }
-    if (meanCloud != null) {
-      if (meanCloud < 25) parts.push('clear skies');
-      else if (meanCloud < 60) parts.push('partly cloudy');
-      else if (meanCloud < 90) parts.push('mostly overcast');
-      else parts.push('heavy cloud cover');
-    }
-    if (meanWind != null && meanWind > 18) parts.push('windy');
-    if (totalPrec > 0.2) parts.push('wet');
-    else if (totalPrec > 0) parts.push('a passing shower');
-
-    if (parts.length) {
-      notes.push(`- ${phase}: ${joinList(parts)}`);
-    }
+  // Storm: the strongest impression, takes precedence when present
+  if (totalPrec > 1 && maxWind != null && maxWind > 25) {
+    conditions.push(pick([
+      'A storm bursts after dark; the traveller must find what shelter they can.',
+      'Thunder and wind force the camp to huddle behind rocks or trees.',
+      'The night turns violent — rain and gusts make sleep impossible until the storm passes.',
+    ], rng));
   }
 
-  return notes.length ? notes : ['- The weather leaves little mark on the day.'];
+  // Rain toward dawn (5:00-7:00)
+  const dawnPrec = (byHour[5]?.precipitation || 0) + (byHour[7]?.precipitation || 0);
+  if (dawnPrec > 0.5) {
+    conditions.push(pick([
+      'Toward dawn a steady rain soaks the camp, waking the traveller with cold drops.',
+      'A grey rain moves in before first light, pattering against cloak and canvas.',
+      'The traveller wakes to the sound of rain in the small hours, the ground turning soft.',
+    ], rng));
+  } else if (dawnPrec > 0) {
+    conditions.push(pick([
+      'A faint drizzle brushes the camp near dawn.',
+      'A light, passing shower stirs the sleeper once before morning.',
+    ], rng));
+  }
+
+  // Wind strong enough to disturb sleep
+  if (maxWind != null && maxWind > 30 && !(totalPrec > 1 && maxWind > 25)) {
+    conditions.push(pick([
+      'In the depth of night the wind rises, tearing at the camp and making sleep fitful.',
+      'Gusts slam across the sleeping place, rattling gear and demanding attention.',
+    ], rng));
+  } else if (maxWind != null && maxWind > 18 && !(totalPrec > 1 && maxWind > 25)) {
+    conditions.push(pick([
+      'A restless wind keeps the traveller half-awake through the watches of the night.',
+      'The night air moves constantly, carrying the smell of rain or pine through the camp.',
+    ], rng));
+  }
+
+  // Cold that seeps into a sleeping body
+  if (meanTemp != null && meanTemp < 2) {
+    conditions.push(pick([
+      'The cold sinks deep; sleep comes in shivers until the fire dies entirely.',
+      'Frost forms on cloak and grass, and the traveller wakes stiff and slow.',
+    ], rng));
+  } else if (meanTemp != null && meanTemp < 8) {
+    conditions.push(pick([
+      'The night is cold enough that the traveller curls closer to the embers.',
+      'A chill settles after sunset and never truly leaves.',
+    ], rng));
+  }
+
+  // Clear, calm fallback
+  if (conditions.length === 0) {
+    conditions.push(pick([
+      'The night passes quietly, the stars clear and untroubled.',
+      'A calm, uneventful night leaves the traveller rested by morning.',
+    ], rng));
+  }
+
+  return conditions.map((c) => `- ${c}`);
 }
 
 /**
@@ -708,6 +814,19 @@ export function collectLocationNotes(locations) {
     const desc = l.description && l.description.trim() ? ` — ${l.description.trim()}` : '';
     return `- ${l.name}${kind}: ${near}, ${when}.${desc}`;
   });
+}
+
+/**
+ * Map a clock hour (float) to a narrative phase, aligned with the encounter
+ * engine: morning (07:00-13:00), afternoon (13:00-19:00), night (rest).
+ * @param {number} hourFloat
+ * @returns {'morning'|'afternoon'|'night'}
+ */
+export function phaseForHour(hourFloat) {
+  if (hourFloat == null) return 'night';
+  if (hourFloat >= 7 && hourFloat < 13) return 'morning';
+  if (hourFloat >= 13 && hourFloat < 19) return 'afternoon';
+  return 'night';
 }
 
 export { timeOfDayPhrase };
