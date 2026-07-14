@@ -28,8 +28,9 @@ CREATE TABLE IF NOT EXISTS locations (
     description TEXT,
     
     -- Geographic location
-    region VARCHAR(100),  -- 'Eriador', 'Gondor', 'Rohan', etc.
-    
+    region VARCHAR(100),  -- 'Eriador', 'Gondor', 'Rohan', etc. (legacy free-text)
+    region_id INTEGER REFERENCES regions(id),  -- resolved from point-in-polygon
+
     -- Multimedia
     image_url TEXT,
     
@@ -52,11 +53,48 @@ CREATE INDEX IF NOT EXISTS idx_locations_geom ON locations USING GIST(geom);
 CREATE INDEX IF NOT EXISTS idx_locations_name ON locations(name);
 CREATE INDEX IF NOT EXISTS idx_locations_type ON locations(location_type);
 CREATE INDEX IF NOT EXISTS idx_locations_region ON locations(region);
+CREATE INDEX IF NOT EXISTS idx_locations_region_id ON locations(region_id);
 
 -- Comments for documentation
 COMMENT ON TABLE locations IS 'Point locations in Middle Earth (cities, castles, towns)';
 COMMENT ON COLUMN locations.geom IS 'POINT geometry in EPSG:4326 (WGS84)';
 COMMENT ON COLUMN locations.location_type IS 'Settlement type: city, castle, town, mansion, fortress, ruins';
+COMMENT ON COLUMN locations.region_id IS 'Region containing the location point (resolved by point-in-polygon)';
+
+-- ============================================================================
+-- Table: places_interactions
+-- Purpose: Narrative/mechanical effects for spending time in a place or region
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS places_interactions (
+    id                SERIAL PRIMARY KEY,
+    interaction_type  TEXT    NOT NULL,          -- 'overnight' (only value for now)
+    location_id       INTEGER REFERENCES locations(id),   -- nullable
+    location_type     TEXT,                       -- 'village','town',… nullable
+    region_id         INTEGER REFERENCES regions(id),     -- nullable
+    cultural_family   TEXT,                       -- nullable
+    title             TEXT,                       -- e.g. 'The Prancing Pony'
+    description       TEXT    NOT NULL,           -- narrator reference material
+    rest_quality      SMALLINT,                   -- 0..3
+    shadow_effect     SMALLINT,                   -- -2..+2
+    priority          SMALLINT NOT NULL DEFAULT 0 -- higher wins on tie
+);
+
+CREATE INDEX IF NOT EXISTS idx_pi_location  ON places_interactions(interaction_type, location_id);
+CREATE INDEX IF NOT EXISTS idx_pi_type_reg  ON places_interactions(interaction_type, location_type, region_id);
+CREATE INDEX IF NOT EXISTS idx_pi_type_fam  ON places_interactions(interaction_type, location_type, cultural_family);
+CREATE INDEX IF NOT EXISTS idx_pi_region    ON places_interactions(interaction_type, region_id);
+CREATE INDEX IF NOT EXISTS idx_pi_family    ON places_interactions(interaction_type, cultural_family);
+
+ALTER TABLE places_interactions
+  ADD CONSTRAINT chk_scope CHECK (
+     (location_id IS NOT NULL)
+  OR (location_type IS NOT NULL AND region_id IS NOT NULL)
+  OR (location_type IS NOT NULL AND cultural_family IS NOT NULL)
+  OR (location_type IS NOT NULL AND region_id IS NULL AND cultural_family IS NULL)
+  OR (location_type IS NULL AND region_id IS NOT NULL)
+  OR (location_type IS NULL AND cultural_family IS NOT NULL)
+  );
 
 -- ============================================================================
 -- Table: roads
@@ -143,7 +181,8 @@ CREATE TABLE IF NOT EXISTS regions (
     products TEXT,  -- Products/resources
     description_text TEXT,  -- Main description text
     description_summary TEXT,  -- Summary description of the region
-    
+    cultural_family TEXT,  -- Resolved from regions.geojson; drives lodging/night logic
+
     -- Statistics
     area_km2 DECIMAL,  -- Will be calculated with ST_Area
     

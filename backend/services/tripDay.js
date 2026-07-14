@@ -7,6 +7,7 @@ import {
   PHASE_NIGHT,
 } from './encounters.js';
 import { resolveEncounter } from './interactionResolver.js';
+import { resolveOvernight, resolveRegionAtPoint } from './placesInteractions.js';
 import { loadTerrainPhrases } from './terrainPhrases.js';
 import {
   flattenRoute,
@@ -108,11 +109,15 @@ async function entitiesForRegion(regionName) {
 const OVERNIGHT_LOCATION_TYPES = [
   'town', 'city', 'village', 'settlement', 'inn', 'tavern',
   'fortress', 'fortified city', 'fortified town', 'citadel', 'castle',
-  'keep', 'manor', 'camp',
+  'keep', 'manor', 'camp', 'hall', 'palace', 'crossroads',
+  'dwarven mine', 'ruins', 'watchtower', 'point of interest',
 ];
 
 /** Tavern/inn types where the character can sleep indoors. */
 const INDOOR_REST_TYPES = ['town', 'city', 'village', 'inn', 'tavern', 'fortified city', 'fortified town', 'citadel'];
+
+/** Distance from the day's end point within which a location counts as "reached". */
+const AT_LOCATION_THRESHOLD_KM = 1.0;
 
 /**
  * Find the nearest notable location within 15 km of the day's end point.
@@ -121,7 +126,7 @@ const INDOOR_REST_TYPES = ['town', 'city', 'village', 'inn', 'tavern', 'fortifie
 async function findOvernightLocation(endLng, endLat) {
   const typeList = OVERNIGHT_LOCATION_TYPES.map((_, i) => `$${i + 3}`).join(', ');
   const { rows } = await pool.query(
-    `SELECT name, location_type AS type, region, description,
+    `SELECT id, name, location_type AS type, region, region_id, description,
             round((ST_Distance(geom::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography) / 1000)::numeric, 2) AS distance_km
      FROM locations
      WHERE location_type = ANY($3::text[])
@@ -663,9 +668,36 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
 
   // --- Overnight location: nearest settlement within 10 km of leg end ---
   const overnightLocation = await findOvernightLocation(leg.end[0], leg.end[1]);
+  let overnightContext = 'IN_WILD';
+  let overnightRegionId = null;
   if (overnightLocation) {
     overnightLocation.indoor = INDOOR_REST_TYPES.includes(overnightLocation.type);
+    if (overnightLocation.distance_km <= AT_LOCATION_THRESHOLD_KM) {
+      overnightContext = 'IN_LOCATION';
+      overnightRegionId = overnightLocation.region_id;
+    }
   }
+
+  // Resolve the region for the night's camp (or the reached location) so we can
+  // read its cultural_family inside the resolver rather than hard-coding anything.
+  if (!overnightRegionId) {
+    const campRegion = await resolveRegionAtPoint(leg.end[0], leg.end[1]);
+    if (campRegion) overnightRegionId = campRegion.id;
+  }
+
+  const overnightInteraction = await resolveOvernight({
+    context: overnightContext,
+    locationId: overnightContext === 'IN_LOCATION' ? overnightLocation.id : null,
+    locationType: overnightContext === 'IN_LOCATION' ? overnightLocation.type : null,
+    regionId: overnightRegionId,
+  });
+
+  console.log(
+    `[OVERNIGHT] context=${overnightContext} ` +
+    `place=${overnightLocation ? overnightLocation.name : 'wild'} ` +
+    `rest_quality=${overnightInteraction.rest_quality} shadow_effect=${overnightInteraction.shadow_effect} ` +
+    `scope=${overnightInteraction.scope}`
+  );
 
   // --- Elevation profile: 3-point DEM sampling ---
   const elevationProfile = await sampleElevationProfile(segments, dayStartSeconds, dayEndSeconds);
@@ -691,6 +723,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     thoughts,
     water_crossings: waterCrossings,
     overnight_location: overnightLocation || null,
+    overnight_interaction: overnightInteraction || null,
     elevation_profile: elevationProfile || null,
     rng,
   };

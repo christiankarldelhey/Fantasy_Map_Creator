@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
-import { ChevronDown, ChevronRight, Plus, FileDown } from '@lucide/vue'
+import { ChevronDown, ChevronRight, Plus, FileDown, Copy, Check } from '@lucide/vue'
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
 import { useLanguage } from '@/composables/useLanguage'
@@ -35,6 +35,7 @@ const { saveUserSettings } = useUserSettings()
 const { setTripDate, resetToRealTime } = useGlobalClimateTime()
 
 const expanded = ref<Record<string, 'narrative' | 'prompt' | 'code' | null>>({})
+const copied = ref<Record<string, { prompt?: boolean; code?: boolean }>>({})
 const exportingPdf = ref(false)
 const showCancelModal = ref(false)
 const showDeathModal = ref(false)
@@ -76,6 +77,22 @@ const labels = computed(() => {
 function toggle(day: TripDay, panel: 'narrative' | 'prompt' | 'code') {
   const current = expanded.value[day.id]
   expanded.value = { ...expanded.value, [day.id]: current === panel ? null : panel }
+}
+
+function jsonCopy(day: TripDay) {
+  return JSON.stringify(day, null, 2)
+}
+
+async function copyToClipboard(text: string | null | undefined, dayId: string, type: 'prompt' | 'code') {
+  try {
+    await navigator.clipboard.writeText(text ?? '')
+    copied.value = { ...copied.value, [dayId]: { ...copied.value[dayId], [type]: true } }
+    setTimeout(() => {
+      copied.value = { ...copied.value, [dayId]: { ...copied.value[dayId], [type]: false } }
+    }, 2000)
+  } catch (err) {
+    console.error('Failed to copy:', err)
+  }
 }
 
 async function handleGenerateNext() {
@@ -365,11 +382,25 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           <p v-else class="text-sm text-ink-faded italic font-book">No narrative was generated for this day.</p>
         </div>
 
-        <div v-if="expanded[day.id] === 'prompt'" class="px-4 py-4">
+        <div v-if="expanded[day.id] === 'prompt'" class="px-4 py-4 relative">
+          <button
+            class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors"
+            :title="copied[day.id]?.prompt ? 'Copied' : 'Copy prompt to clipboard'"
+            @click="copyToClipboard(day.prompt, day.id, 'prompt')"
+          >
+            <component :is="copied[day.id]?.prompt ? Check : Copy" class="w-4 h-4" />
+          </button>
           <pre class="text-xs text-ink-brown whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ day.prompt }}</pre>
         </div>
 
-        <div v-if="expanded[day.id] === 'code'" class="px-4 py-4">
+        <div v-if="expanded[day.id] === 'code'" class="px-4 py-4 relative">
+          <button
+            class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
+            :title="copied[day.id]?.code ? 'Copied' : 'Copy JSON object to clipboard'"
+            @click="copyToClipboard(jsonCopy(day), day.id, 'code')"
+          >
+            <component :is="copied[day.id]?.code ? Check : Copy" class="w-4 h-4" />
+          </button>
           <JsonViewer
             :value="day"
             :expand-depth="1"
@@ -504,11 +535,25 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
               <p v-else class="text-sm text-ink-faded italic font-book">No narrative was generated for this day.</p>
             </div>
 
-            <div v-if="expanded[day.id] === 'prompt'" class="px-4 py-4">
+            <div v-if="expanded[day.id] === 'prompt'" class="px-4 py-4 relative">
+              <button
+                class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors"
+                :title="copied[day.id]?.prompt ? 'Copied' : 'Copy prompt to clipboard'"
+                @click="copyToClipboard(day.prompt, day.id, 'prompt')"
+              >
+                <component :is="copied[day.id]?.prompt ? Check : Copy" class="w-4 h-4" />
+              </button>
               <pre class="text-xs text-ink-brown whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ day.prompt }}</pre>
             </div>
 
-            <div v-if="expanded[day.id] === 'code'" class="px-4 py-4">
+            <div v-if="expanded[day.id] === 'code'" class="px-4 py-4 relative">
+              <button
+                class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
+                :title="copied[day.id]?.code ? 'Copied' : 'Copy JSON object to clipboard'"
+                @click="copyToClipboard(jsonCopy(day), day.id, 'code')"
+              >
+                <component :is="copied[day.id]?.code ? Check : Copy" class="w-4 h-4" />
+              </button>
               <JsonViewer
                 :value="day"
                 :expand-depth="1"

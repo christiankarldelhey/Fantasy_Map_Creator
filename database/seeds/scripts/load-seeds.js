@@ -245,7 +245,7 @@ async function seedFromSqlFile(label, filePath) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    await client.query(`TRUNCATE TABLE ${table} RESTART IDENTITY`);
+    await client.query(`TRUNCATE TABLE ${table} RESTART IDENTITY CASCADE`);
     await client.query(sql);
     await client.query('COMMIT');
   } catch (err) {
@@ -341,6 +341,95 @@ async function seedRegionBiomeDescriptions() {
 
   const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) AS count FROM region_biome_descriptions');
   console.log(`✅ region_biome_descriptions: ${count} rows (inserted/updated: ${inserted}, skipped: ${skipped})`);
+}
+
+// ---------------------------------------------------------------------------
+// Seed: places_interactions
+// ---------------------------------------------------------------------------
+async function seedPlacesInteractions() {
+  console.log('🏘️ Seeding places_interactions...');
+  const text = await fs.readFile(path.join(DATA_DIR, 'csv/places_interactions.csv'), 'utf8');
+  const rows = parseCsv(text);
+
+  let inserted = 0;
+  let updated = 0;
+  let skipped = 0;
+
+  for (const r of rows) {
+    if (!r.interaction_type) { skipped++; continue; }
+
+    const locationId = nullIfEmpty(r.location_id) !== null ? parseInt(r.location_id, 10) : null;
+    const regionId = nullIfEmpty(r.region_id) !== null ? parseInt(r.region_id, 10) : null;
+    const restQuality = nullIfEmpty(r.rest_quality) !== null ? parseInt(r.rest_quality, 10) : null;
+    const shadowEffect = nullIfEmpty(r.shadow_effect) !== null ? parseInt(r.shadow_effect, 10) : null;
+    const priority = nullIfEmpty(r.priority) !== null ? parseInt(r.priority, 10) : 0;
+
+    const fields = {
+      interaction_type: r.interaction_type,
+      location_id: locationId,
+      location_type: nullIfEmpty(r.location_type),
+      region_id: regionId,
+      cultural_family: nullIfEmpty(r.cultural_family),
+      title: nullIfEmpty(r.title),
+      description: r.description || '',
+      rest_quality: restQuality,
+      shadow_effect: shadowEffect,
+      priority,
+    };
+
+    try {
+      const existing = await pool.query(
+        `SELECT id FROM places_interactions
+         WHERE interaction_type = $1
+           AND COALESCE(location_id, 0) = COALESCE($2::int, 0)
+           AND COALESCE(location_type, '') = COALESCE($3, '')
+           AND COALESCE(region_id, 0) = COALESCE($4::int, 0)
+           AND COALESCE(cultural_family, '') = COALESCE($5, '')`,
+        [fields.interaction_type, fields.location_id, fields.location_type, fields.region_id, fields.cultural_family]
+      );
+
+      if (existing.rows.length > 0) {
+        await pool.query(
+          `UPDATE places_interactions
+           SET title = $2, description = $3, rest_quality = $4, shadow_effect = $5, priority = $6
+           WHERE id = $1`,
+          [existing.rows[0].id, fields.title, fields.description, fields.rest_quality, fields.shadow_effect, fields.priority]
+        );
+        updated++;
+      } else {
+        await pool.query(
+          `INSERT INTO places_interactions
+             (interaction_type, location_id, location_type, region_id, cultural_family, title, description, rest_quality, shadow_effect, priority)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+          [fields.interaction_type, fields.location_id, fields.location_type, fields.region_id, fields.cultural_family,
+           fields.title, fields.description, fields.rest_quality, fields.shadow_effect, fields.priority]
+        );
+        inserted++;
+      }
+    } catch (err) {
+      console.error(`   ⚠️ Could not seed places_interactions row: ${err.message}`);
+      skipped++;
+    }
+  }
+
+  const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) AS count FROM places_interactions');
+  console.log(`✅ places_interactions: ${count} rows (inserted: ${inserted}, updated: ${updated}, skipped: ${skipped})`);
+}
+
+// ---------------------------------------------------------------------------
+// Backfill locations.region_id from point-in-polygon after regions are loaded
+// ---------------------------------------------------------------------------
+async function backfillLocationRegions() {
+  console.log('🗺️  Backfilling location region_ids...');
+  const result = await pool.query(
+    `UPDATE locations l
+     SET region_id = r.id
+     FROM regions r
+     WHERE ST_Contains(r.geom, l.geom)`
+  );
+  const { rows: [{ total }] } = await pool.query('SELECT COUNT(*) AS total FROM locations');
+  const { rows: [{ filled }] } = await pool.query('SELECT COUNT(*) AS filled FROM locations WHERE region_id IS NOT NULL');
+  console.log(`✅ locations region_id backfill: ${filled}/${total} matched (${result.rowCount} updated)`);
 }
 
 // ---------------------------------------------------------------------------
@@ -448,15 +537,15 @@ async function main() {
       getParams: (f) => ({
         sql: `INSERT INTO regions (id, name, region_type, kingdom_id, climate_zone_id,
                 description_text, description_summary, area_km2,
-                distance_for_encounter, chance_of_encounter, hours_to_encounter, population_ratio, geom, created_at)
-              VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,ST_GeomFromGeoJSON($13),NOW())
+                distance_for_encounter, chance_of_encounter, hours_to_encounter, population_ratio, cultural_family, geom, created_at)
+              VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,ST_GeomFromGeoJSON($14),NOW())
               ON CONFLICT (id) DO UPDATE SET
                 name=EXCLUDED.name, region_type=EXCLUDED.region_type,
                 kingdom_id=EXCLUDED.kingdom_id, climate_zone_id=EXCLUDED.climate_zone_id,
                 description_text=EXCLUDED.description_text, description_summary=EXCLUDED.description_summary,
                 area_km2=EXCLUDED.area_km2, distance_for_encounter=EXCLUDED.distance_for_encounter,
                 chance_of_encounter=EXCLUDED.chance_of_encounter, hours_to_encounter=EXCLUDED.hours_to_encounter,
-                population_ratio=EXCLUDED.population_ratio, geom=EXCLUDED.geom`,
+                population_ratio=EXCLUDED.population_ratio, cultural_family=EXCLUDED.cultural_family, geom=EXCLUDED.geom`,
         params: [
           f.properties.id,
           f.properties.name,
@@ -470,6 +559,7 @@ async function main() {
           nullIfEmpty(f.properties.chance_of_encounter) !== null ? parseFloat(f.properties.chance_of_encounter) : null,
           nullIfEmpty(f.properties.hours_to_encounter) !== null ? parseFloat(f.properties.hours_to_encounter) : null,
           nullIfEmpty(f.properties.population_ratio) !== null ? parseFloat(f.properties.population_ratio) : 0.5,
+          nullIfEmpty(f.properties.cultural_family),
           JSON.stringify(f.geometry),
         ],
       }),
@@ -515,6 +605,10 @@ async function main() {
         ],
       }),
     });
+
+    await backfillLocationRegions();
+
+    await seedPlacesInteractions();
 
     console.log('\n🎉 All seed data loaded successfully!');
 

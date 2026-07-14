@@ -300,8 +300,8 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
          (trip_id, day_number, date, start_lng, start_lat, end_lng, end_lat,
           distance_km, walking_hours, geometry, regions, terrain_phrases, biomes, altitude,
           road_types, locations, climate, encounters, thoughts, prompt, narrative, is_last_day,
-          overnight_location, elevation_profile)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)
+          overnight_location, elevation_profile, places_interaction_id, rest_quality, shadow_effect)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)
        RETURNING *`,
       [
         trip.id,
@@ -326,6 +326,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         day.is_last_day || false,
         day.overnight_location ? JSON.stringify(day.overnight_location) : null,
         day.elevation_profile ? JSON.stringify(day.elevation_profile) : null,
+        day.overnight_interaction?.id ?? null,
+        day.overnight_interaction?.rest_quality ?? null,
+        day.overnight_interaction?.shadow_effect ?? null,
       ]
     );
 

@@ -309,7 +309,7 @@ ${character.system_prompt}
   const afternoonBlock = buildPhaseBlock('AFTERNOON', 'afternoon');
   const nighttimeConditions = collectNighttimeConditions(day.nighttime_climate, day.rng);
   const nightExtraLead = [
-    `Overnight camp:\n${describeOvernightLocation(day.overnight_location)}`,
+    `Overnight camp:\n${describeOvernightLocation(day.overnight_location, day.overnight_interaction)}`,
     nighttimeConditions.length ? `Nighttime conditions (reference only):\n${nighttimeConditions.join('\n')}` : '',
   ].filter(Boolean).join('\n\n');
   const nightBlock = buildPhaseBlock('NIGHT AT CAMP', 'night', nightExtraLead);

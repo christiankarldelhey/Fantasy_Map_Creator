@@ -296,26 +296,36 @@ export function describeLocations(locations) {
 /**
  * Describe where the character spends the night.
  * @param {Object|null} loc - { name, type, distance_km, description, indoor }
+ * @param {Object|null} interaction - resolved places_interactions row
  * @returns {string}
  */
-export function describeOvernightLocation(loc) {
-  if (!loc) {
-    return 'No shelter of note lies near the day\'s end. The night is spent under open sky, with whatever cover the land affords.';
-  }
+export function describeOvernightLocation(loc, interaction = null) {
+  let text = '';
 
-  const kind = loc.type ? String(loc.type).replace(/_/g, ' ') : 'place';
-  const descSnippet = loc.description && loc.description.trim()
-    ? ` ${loc.description.trim().split('.')[0]}.`
-    : '';
+  if (loc) {
+    const kind = loc.type ? String(loc.type).replace(/_/g, ' ') : 'place';
+    const descSnippet = loc.description && loc.description.trim()
+      ? ` ${loc.description.trim().split('.')[0]}.`
+      : '';
 
-  let rest;
-  if (loc.indoor) {
-    rest = `There is likely a tavern, inn or hall where ${loc.name} offers shelter and warmth for the night.`;
+    let rest;
+    if (loc.indoor) {
+      rest = `There is likely a tavern, inn or hall where ${loc.name} offers shelter and warmth for the night.`;
+    } else {
+      rest = `The character may shelter within its walls or in its shadow for the night.`;
+    }
+
+    text = `Before nightfall, the road reaches ${loc.name} (${kind}), ${loc.distance_km} km from the day's end.${descSnippet} ${rest}`;
   } else {
-    rest = `The character may shelter within its walls or in its shadow for the night.`;
+    text = 'No shelter of note lies near the day\'s end. The night is spent under open sky, with whatever cover the land affords.';
   }
 
-  return `Before nightfall, the road reaches ${loc.name} (${kind}), ${loc.distance_km} km from the day's end.${descSnippet} ${rest}`;
+  if (interaction && interaction.description) {
+    const titlePart = interaction.title ? `Title: ${interaction.title}\n` : '';
+    text += `\n\nOvernight reference material (render fresh — never copy the wording):\n${titlePart}${interaction.description}`;
+  }
+
+  return text;
 }
 
 // ---------------------------------------------------------------------------
