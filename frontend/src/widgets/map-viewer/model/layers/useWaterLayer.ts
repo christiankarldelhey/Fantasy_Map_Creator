@@ -1,5 +1,6 @@
 import type { Map as MapLibreMap, GeoJSONSource } from 'maplibre-gl'
 import { MAP_COLORS } from '../../config/mapColors'
+import { ZOOM_LEVELS } from '@/shared/config/zoomLevels'
 
 export function useWaterLayer() {
   const addWaterLayer = (map: MapLibreMap, data: any, mode: 'explore' | 'wander' = 'explore') => {
@@ -93,6 +94,62 @@ export function useWaterLayer() {
         }
       } as any)
 
+      // 4. Labels para ríos (medium y near)
+      map.addLayer({
+        id: 'water-labels-river',
+        type: 'symbol',
+        source: 'water',
+        minzoom: ZOOM_LEVELS.MEDIUM.min,
+        maxzoom: ZOOM_LEVELS.NEAR.max,
+        filter: [
+          'all',
+          ['==', ['get', 'water_type'], 'river'],
+          ['has', 'name'],
+          ['!=', ['downcase', ['get', 'name']], 'river']
+        ],
+        layout: {
+          'text-field': ['get', 'name'],
+          'text-font': ['Open Sans Regular'],
+          'text-size': 12,
+          'symbol-placement': 'line',
+          'text-anchor': 'center',
+          'text-offset': [0, 0.5]
+        },
+        paint: {
+          'text-color': MAP_COLORS.water.primary,
+          'text-halo-color': '#f4e4c1',
+          'text-halo-width': 2
+        }
+      } as any)
+
+      // 5. Labels para arroyos (solo near)
+      map.addLayer({
+        id: 'water-labels-stream',
+        type: 'symbol',
+        source: 'water',
+        minzoom: ZOOM_LEVELS.NEAR.min,
+        maxzoom: ZOOM_LEVELS.NEAR.max,
+        filter: [
+          'all',
+          ['==', ['get', 'water_type'], 'stream'],
+          ['has', 'name'],
+          ['!=', ['downcase', ['get', 'name']], 'stream']
+        ],
+        layout: {
+          'text-field': ['get', 'name'],
+          'text-font': ['Open Sans Regular'],
+          'text-size': 12,
+          'symbol-placement': 'line',
+          'text-anchor': 'center',
+          'text-offset': [0, 0.5]
+        },
+        paint: {
+          'text-color': MAP_COLORS.water.primary,
+          'text-halo-color': '#f4e4c1',
+          'text-halo-width': 2
+        }
+      } as any)
+
       // Configurar eventos de cursor interactivo
       map.on('mouseenter', 'water-fill', () => {
         map.getCanvas().style.cursor = 'pointer'
@@ -119,6 +176,7 @@ export function useWaterLayer() {
         map.getCanvas().style.cursor = ''
       })
     }
+
   }
 
   const removeLayer = (map: MapLibreMap) => {
@@ -127,6 +185,8 @@ export function useWaterLayer() {
     if (map.getLayer('water-fill-sea')) map.removeLayer('water-fill-sea')
     if (map.getLayer('water-lines-river')) map.removeLayer('water-lines-river')
     if (map.getLayer('water-lines-stream')) map.removeLayer('water-lines-stream')
+    if (map.getLayer('water-labels-river')) map.removeLayer('water-labels-river')
+    if (map.getLayer('water-labels-stream')) map.removeLayer('water-labels-stream')
     if (map.getSource('water')) map.removeSource('water')
   }
 
