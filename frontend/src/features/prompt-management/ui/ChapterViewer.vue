@@ -36,6 +36,7 @@ const { setTripDate, resetToRealTime } = useGlobalClimateTime()
 
 const expanded = ref<Record<string, 'narrative' | 'prompt' | 'code' | null>>({})
 const copied = ref<Record<string, { prompt?: boolean; code?: boolean }>>({})
+const copiedAllCodes = ref(false)
 const exportingPdf = ref(false)
 const showCancelModal = ref(false)
 const showDeathModal = ref(false)
@@ -92,6 +93,24 @@ async function copyToClipboard(text: string | null | undefined, dayId: string, t
     }, 2000)
   } catch (err) {
     console.error('Failed to copy:', err)
+  }
+}
+
+function getDayCode(day: TripDay) {
+  const { prompt, narrative, ...code } = day
+  return code
+}
+
+async function copyAllCodes() {
+  try {
+    const payload = days.value.map(getDayCode)
+    await navigator.clipboard.writeText(JSON.stringify(payload, null, 2))
+    copiedAllCodes.value = true
+    setTimeout(() => {
+      copiedAllCodes.value = false
+    }, 2000)
+  } catch (err) {
+    console.error('Failed to copy all codes:', err)
   }
 }
 
@@ -318,6 +337,13 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           :style="{ filter: 'sepia(100%) brightness(0.7) opacity(0.8)' }"
         />
         <h2 class="text-lg font-serif font-semibold text-ink-black/90">{{ title }}</h2>
+        <button
+          class="p-1 rounded-md text-ink-brown/40 hover:text-ink-brown/80 hover:bg-parchment-dark transition-colors"
+          :title="copiedAllCodes ? 'Copied all codes' : 'Copy all day codes'"
+          @click="copyAllCodes"
+        >
+          <component :is="copiedAllCodes ? Check : Copy" class="w-4 h-4" />
+        </button>
       </div>
     </header>
 
@@ -468,6 +494,13 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
               :style="{ filter: 'sepia(100%) brightness(0.7) opacity(0.8)' }"
             />
             <h2 class="text-base font-serif font-semibold text-ink-black/90">{{ title }}</h2>
+            <button
+              class="p-1 rounded-md text-ink-brown/40 hover:text-ink-brown/80 hover:bg-parchment-dark transition-colors"
+              :title="copiedAllCodes ? 'Copied all codes' : 'Copy all day codes'"
+              @click="copyAllCodes"
+            >
+              <component :is="copiedAllCodes ? Check : Copy" class="w-4 h-4" />
+            </button>
           </div>
           <button @click="emit('close')" class="p-1 rounded-md hover:bg-parchment-dark text-ink-brown">
             <ChevronDown class="w-5 h-5" />
