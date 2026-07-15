@@ -303,12 +303,13 @@ router.post('/clone-all', authenticateToken, async (req, res, next) => {
         characterId = existing.rows[0].id;
       } else {
         const cloneSlug = t.slug ? `${t.slug}-user-${userId}` : null;
+        // Copy the template's starting values into the clone's live state.
         const clone = await pool.query(
           `INSERT INTO character_state
-            (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11)
+            (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug, energy, shadow, energy_initial, shadow_initial)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11, $12, $13, $12, $13)
            RETURNING id`,
-          [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug]
+          [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug, t.energy_initial ?? 100, t.shadow_initial ?? 0]
         );
         characterId = clone.rows[0].id;
       }
@@ -383,12 +384,13 @@ router.post('/clone/:templateId', authenticateToken, async (req, res, next) => {
 
       // Insert clone with a unique slug: <template-slug>-user-<userId>
       const cloneSlug = t.slug ? `${t.slug}-user-${userId}` : null;
+      // Copy the template's starting values into the clone's live state.
       const clone = await pool.query(
         `INSERT INTO character_state
-          (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11)
+          (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug, energy, shadow, energy_initial, shadow_initial)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11, $12, $13, $12, $13)
          RETURNING id`,
-        [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug]
+        [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug, t.energy_initial ?? 100, t.shadow_initial ?? 0]
       );
       characterId = clone.rows[0].id;
     }

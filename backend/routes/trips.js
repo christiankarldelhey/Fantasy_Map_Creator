@@ -6,6 +6,21 @@ import { buildDayPrompt } from '../services/prompt.js';
 import { createSeededRng } from '../services/encounters.js';
 import { generateNarrative } from '../services/ai.js';
 import { authenticateToken } from '../middleware/auth.js';
+import {
+  loadCharacterState,
+  applyDayState,
+  recentNotes,
+  computeEnergyDelta,
+  computeShadowDelta,
+  clamp,
+  isHarshWeatherAllDay,
+  isQuietNight,
+  classifyRegionFamilies,
+  shadowSpawnFactor,
+  buildDayNote,
+  buildConditionBlock,
+  TUNING,
+} from '../services/characterState.js';
 
 const router = express.Router();
 
@@ -224,13 +239,20 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     // Load the trip's character (bio + linked entity name + custom prompts) for the prompt
     const charRes = await pool.query(
       `SELECT c.id, c.name, c.slug, c.description, c.gender, c.system_prompt, c.introduction_instructions,
-              c.resistance, c.permadeath, e.name AS entity_name
+              c.resistance, c.permadeath, c.energy, c.shadow, e.name AS entity_name
        FROM character_state c
        LEFT JOIN entities e ON e.id = c.entity_id
        WHERE c.id = $1`,
       [trip.character_id]
     );
     const character = charRes.rows[0] || {};
+
+    // Journey persistence: read the clone's current energy/shadow at the start
+    // of the day. Shadow biases today's encounter spawn (the loop).
+    const startState = trip.character_id ? await loadCharacterState(trip.character_id) : null;
+    const openingShadow = startState ? startState.shadow : 0;
+    const openingEnergy = startState ? startState.energy : 100;
+    const dayShadowFactor = shadowSpawnFactor(openingShadow);
 
     // Load already encountered entities for this trip
     const encounteredEntities = trip.encountered_entities || [];
@@ -266,9 +288,66 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       character,
       recentForms,
       recentStances,
+      shadowFactor: dayShadowFactor,
     });
     if (!day) {
       return res.status(409).json({ error: 'Trip is already complete; no more days to generate' });
+    }
+
+    // --- Journey persistence: compute the day's energy/shadow deltas ---
+    // (recovery from the resolved night + today's costs; shadow from the
+    //  night's shadow_effect + each encounter's shadow_weight + region family)
+    let conditionBlock = '';
+    let newEnergy = openingEnergy;
+    let newShadow = openingShadow;
+    let restedWell = false;
+    if (trip.character_id) {
+      const encounters = day.encounters || [];
+      const nightEncounters = encounters.filter((e) => e.phase === 'night');
+      const restQuality = day.overnight_interaction?.rest_quality ?? null;
+      const shadowEffect = day.overnight_interaction?.shadow_effect ?? 0;
+      const families = (day.regions || []).map((r) => r.cultural_family);
+      const { throughEnemy } = classifyRegionFamilies(families);
+      const quietDay = encounters.length === 0;
+
+      const { delta: energyDelta } = computeEnergyDelta({
+        distanceKm: day.distance_km,
+        encounters,
+        restQuality,
+        harshWeatherAllDay: isHarshWeatherAllDay(day.climate),
+        quietNight: isQuietNight(nightEncounters, day.nighttime_climate),
+      });
+      const { delta: shadowDelta } = computeShadowDelta({
+        shadowEffect,
+        encounters,
+        throughEnemyRegion: throughEnemy,
+        quietFriendlyDay: quietDay && !throughEnemy,
+      });
+
+      newEnergy = clamp(openingEnergy + energyDelta);
+      newShadow = clamp(openingShadow + shadowDelta);
+      restedWell = restQuality != null && restQuality >= TUNING.REST_TRACK_MIN;
+
+      const note = buildDayNote(day, day.overnight_interaction);
+      await applyDayState({
+        characterId: trip.character_id,
+        tripId: trip.id,
+        dayNumber: day.day_number,
+        energy: newEnergy,
+        shadow: newShadow,
+        note,
+        restedWell,
+      });
+
+      // Build the TRAVELLER'S CONDITION block from the NEW values + causal
+      // phrases pulled from the last few log notes (cross-day memory).
+      const priorNotes = await recentNotes(trip.character_id, trip.id, 3);
+      conditionBlock = buildConditionBlock({
+        characterName: character.name || 'The traveller',
+        energy: newEnergy,
+        shadow: newShadow,
+        recentNotes: priorNotes,
+      });
     }
 
     let previousDaySummary = null;
@@ -287,7 +366,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       }
     }
 
-    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary);
+    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary, conditionBlock);
 
     // Generate AI narrative (optional, if API key is configured)
     const narrative = await generateNarrative(prompt);

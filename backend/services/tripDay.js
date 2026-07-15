@@ -21,6 +21,14 @@ import {
   getThoughtsForCharacter,
   selectRandomPhase,
 } from './thoughts.js';
+import { FRIENDLY_FAMILIES, MAX_EVIL_ENCOUNTERS_PER_DAY } from './characterState.js';
+
+/** Count encounters drawn from evil (shadow_weight > 0) entities. */
+function countEvilEncounters(encounters) {
+  return (encounters || []).filter(
+    (e) => Number.isFinite(e?.entity?.shadow_weight) && e.entity.shadow_weight > 0
+  ).length;
+}
 
 // ============================================================================
 // Trip Day generator
@@ -55,7 +63,7 @@ export const TERRAIN_CATEGORIES = [
 /** Region containing a point, or null. */
 async function regionAtPoint(lng, lat) {
   const { rows } = await pool.query(
-    `SELECT name, description_summary, COALESCE(population_ratio, 0.5) AS population_ratio
+    `SELECT name, description_summary, cultural_family, COALESCE(population_ratio, 0.5) AS population_ratio
      FROM regions
      WHERE ST_Contains(geom, ST_SetSRID(ST_MakePoint($1, $2), 4326))
      LIMIT 1`,
@@ -72,10 +80,11 @@ async function regionsForPoints(points) {
     `SELECT t.idx,
             r.name,
             r.description_summary,
+            r.cultural_family,
             COALESCE(r.population_ratio, 0.5) AS population_ratio
      FROM jsonb_array_elements($1::jsonb) WITH ORDINALITY AS t(elem, idx)
      LEFT JOIN LATERAL (
-       SELECT name, description_summary, population_ratio
+       SELECT name, description_summary, cultural_family, population_ratio
        FROM regions
        WHERE ST_Contains(geom, ST_SetSRID(ST_MakePoint((elem->>0)::float, (elem->>1)::float), 4326))
        LIMIT 1
@@ -86,6 +95,7 @@ async function regionsForPoints(points) {
   return rows.map((row) => (row.name ? {
     name: row.name,
     description_summary: row.description_summary,
+    cultural_family: row.cultural_family,
     population_ratio: Number(row.population_ratio),
   } : null));
 }
@@ -94,7 +104,7 @@ async function regionsForPoints(points) {
 async function entitiesForRegion(regionName) {
   const { rows } = await pool.query(
     `SELECT id, name, slug, type, active, danger, description, description_summary, url_path,
-            biomes, probability_by_region
+            biomes, probability_by_region, shadow_weight
      FROM entities
      WHERE EXISTS (
        SELECT 1 FROM jsonb_array_elements(probability_by_region) e
@@ -403,7 +413,7 @@ async function buildNightRegionResolver(campPoint) {
  * @param {Array<string>} [params.recentStances] - stances used in previous chapters (anti-repetition)
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, usedThoughtIds = [], character = {}, recentForms = [], recentStances = [] }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, usedThoughtIds = [], character = {}, recentForms = [], recentStances = [], shadowFactor = 1 }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -458,7 +468,11 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     // Only add if we haven't seen this region before
     if (name && !seenRegions.has(name)) {
       seenRegions.add(name);
-      orderedRegions.push({ name, description_summary: info.description_summary || null });
+      orderedRegions.push({
+        name,
+        description_summary: info.description_summary || null,
+        cultural_family: info.cultural_family || null,
+      });
     }
   }
 
@@ -486,6 +500,8 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   const nighttimeClimate = await sampleNighttimeClimate(segments, dayEndSeconds, date);
 
   // --- Encounters ---
+  // The shadow loop biases the spawn toward evil entities, capped per day and
+  // damped in friendly regions.
   // Morning phase (07:00 - 13:00)
   const morningResult = simulatePhaseEncounters({
     startHour: WALK_START_HOUR,
@@ -494,7 +510,12 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     getRegionInfo: walkingResolver,
     rng,
     excludedEntityIds,
+    shadowFactor,
+    excludeEvil: false,
+    friendlyFamilies: FRIENDLY_FAMILIES,
   });
+
+  let evilSoFar = countEvilEncounters(morningResult.encounters);
 
   // Afternoon phase (13:00 - 19:00)
   const afternoonResult = simulatePhaseEncounters({
@@ -504,7 +525,12 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     getRegionInfo: walkingResolver,
     rng,
     excludedEntityIds: [...excludedEntityIds, ...morningResult.usedEntityIds],
+    shadowFactor,
+    excludeEvil: evilSoFar >= MAX_EVIL_ENCOUNTERS_PER_DAY,
+    friendlyFamilies: FRIENDLY_FAMILIES,
   });
+
+  evilSoFar += countEvilEncounters(afternoonResult.encounters);
 
   // Night phase (19:00 - 07:00 next day), split into before-sleep and mid-night timings
   const nightResolver = await buildNightRegionResolver(leg.end);
@@ -514,6 +540,9 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     rng,
     base: 1.6,
     excludedEntityIds: [...excludedEntityIds, ...morningResult.usedEntityIds, ...afternoonResult.usedEntityIds],
+    shadowFactor,
+    excludeEvil: evilSoFar >= MAX_EVIL_ENCOUNTERS_PER_DAY,
+    friendlyFamilies: FRIENDLY_FAMILIES,
   });
 
   // Collect raw encounters in phase order, strip internal field

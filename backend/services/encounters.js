@@ -154,13 +154,19 @@ export function buildRegionPool(
   base = WEIGHT_BASE,
   excludedEntityIds = [],
   road_type = 'off_road',
-  population_ratio = 0.5
+  population_ratio = 0.5,
+  shadowFactor = 1,
+  excludeEvil = false
 ) {
   const pool = [];
 
   for (const entity of entities || []) {
     // Skip if entity is in the excluded list
     if (excludedEntityIds && excludedEntityIds.includes(entity.id)) continue;
+
+    const isEvil = Number.isFinite(entity.shadow_weight) && entity.shadow_weight > 0;
+    // Evil-encounter cap: once the day's budget is spent, drop evil entities.
+    if (excludeEvil && isEvil) continue;
 
     const pbr = entity.probability_by_region || [];
     const match = pbr.find((p) => p.region === regionName);
@@ -171,7 +177,9 @@ export function buildRegionPool(
 
     const phaseLevel = adjustLevelForPhase(rawLevel, entity.active, phase);
     const level = adjustLevelForRoadAndPopulation(phaseLevel, entity.type, road_type, population_ratio);
-    const weight = levelToWeight(level, base);
+    let weight = levelToWeight(level, base);
+    // The loop: a shadowed traveller draws more evil encounters.
+    if (isEvil && shadowFactor > 1) weight *= shadowFactor;
     pool.push({ entity, level, weight, probability: 0 });
   }
 
@@ -248,6 +256,23 @@ export function formatHour(hourFloat) {
  * @param {Array<string>} [params.excludedEntityIds] - entity IDs to exclude from encounters
  * @returns {{encounters: Array<{hour: string, hour_float: number, phase: string, region: string, entity: Object}>, usedEntityIds: Array<string>}}
  */
+/**
+ * Damp the shadow spawn factor when the region is friendly land, so even a
+ * shadowed traveller finds the Shire (etc.) mostly safe.
+ * @param {number} factor
+ * @param {Object} region
+ * @param {Array<string>} friendlyFamilies
+ * @returns {number}
+ */
+export function dampFactorForRegion(factor, region, friendlyFamilies = []) {
+  if (factor <= 1) return factor;
+  const family = (region?.cultural_family || '').toLowerCase();
+  if (family && friendlyFamilies.includes(family)) {
+    return Math.max(1, 1 + (factor - 1) / 2);
+  }
+  return factor;
+}
+
 export function simulatePhaseEncounters({
   startHour,
   phaseHours,
@@ -256,6 +281,9 @@ export function simulatePhaseEncounters({
   rng = Math.random,
   base = WEIGHT_BASE,
   excludedEntityIds = [],
+  shadowFactor = 1,
+  excludeEvil = false,
+  friendlyFamilies = [],
 }) {
   const encounters = [];
   const usedEntityIds = [];
@@ -270,6 +298,7 @@ export function simulatePhaseEncounters({
 
   // Always call rng() for determinism, even if we don't use the result
   if (rollEncounter(ENCOUNTER_CHANCE, rng)) {
+    const effectiveFactor = dampFactorForRegion(shadowFactor, region, friendlyFamilies);
     const pool = buildRegionPool(
       region.name,
       phase,
@@ -277,7 +306,9 @@ export function simulatePhaseEncounters({
       base,
       excludedEntityIds,
       region.road_type || 'off_road',
-      typeof region.population_ratio === 'number' ? region.population_ratio : 0.5
+      typeof region.population_ratio === 'number' ? region.population_ratio : 0.5,
+      effectiveFactor,
+      excludeEvil
     );
     const entity = pickFromPool(pool, rng);
     if (entity) {
@@ -321,7 +352,7 @@ export function entityEligibleForNightTiming(entity, timing) {
  * if it fires, a 50/50 roll decides the timing and the entity pool is filtered
  * to match that timing.
  */
-export function simulateNightEncounters({ region, rng = Math.random, base = WEIGHT_BASE, excludedEntityIds = [] }) {
+export function simulateNightEncounters({ region, rng = Math.random, base = WEIGHT_BASE, excludedEntityIds = [], shadowFactor = 1, excludeEvil = false, friendlyFamilies = [] }) {
   const result = { encounters: [], usedEntityIds: [] };
   if (!region || !rollEncounter(ENCOUNTER_CHANCE, rng)) {
     return result;
@@ -329,6 +360,7 @@ export function simulateNightEncounters({ region, rng = Math.random, base = WEIG
 
   const timing = rng() < 0.5 ? 'before_sleep' : 'mid_night';
   const populationRatio = typeof region.population_ratio === 'number' ? region.population_ratio : 0.5;
+  const effectiveFactor = dampFactorForRegion(shadowFactor, region, friendlyFamilies);
 
   function poolFor(t) {
     return buildRegionPool(
@@ -338,7 +370,9 @@ export function simulateNightEncounters({ region, rng = Math.random, base = WEIG
       base,
       excludedEntityIds,
       'off_road',
-      populationRatio
+      populationRatio,
+      effectiveFactor,
+      excludeEvil
     ).filter((item) => entityEligibleForNightTiming(item.entity, t));
   }
 

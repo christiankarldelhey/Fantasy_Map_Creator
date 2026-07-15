@@ -133,9 +133,10 @@ const getDestinationName = (tripName) => {
  * @param {Object} [character] - { name, description, system_prompt, introduction_instructions, entity_name }
  * @param {string} [language] - 'english' or 'spanish'
  * @param {string} [previousDaySummary] - non-AI summary of the previous day
+ * @param {string} [conditionBlock] - TRAVELLER'S CONDITION block (energy/shadow), or ''
  * @returns {{ system: string, user: string }}
  */
-export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null) {
+export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null, conditionBlock = '') {
   const charName = character.name || 'The Traveller';
   const charKind = character.entity_name ? `, ${character.entity_name}` : '';
   const charBio = character.description ? `\n${character.description}` : '';
@@ -317,7 +318,7 @@ ${character.system_prompt}
   const user = `=== ${charName.toUpperCase()} ===
 ${charName}${charKind}.${charBio}
 
-${narratorVoiceSection}${journeyContextSection}${specialInstructionsSection}${thoughtsSection}=== HOW TO USE THE LAND NOTES ===
+${narratorVoiceSection}${conditionBlock || ''}${journeyContextSection}${specialInstructionsSection}${thoughtsSection}=== HOW TO USE THE LAND NOTES ===
 The notes below are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words. They tell you what is there, not how to say it. The day is laid out chronologically: the MORNING, AFTERNOON and NIGHT AT CAMP blocks each gather the terrain, weather, water and encounters that belong to that part of the day. Narrate them in that order.
 
 === ENCOUNTER RULES ===

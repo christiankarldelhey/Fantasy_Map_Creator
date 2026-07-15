@@ -195,10 +195,12 @@ async function seedEntities() {
       } catch { biomesArray = null; }
     }
 
+    const shadowWeight = nullIfEmpty(r.shadow_weight) !== null ? parseInt(r.shadow_weight, 10) : 0;
+
     try {
       await pool.query(
-        `INSERT INTO entities (id, name, slug, type, active, tier, parent_id, description, description_summary, url_path, biomes, created_at)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+        `INSERT INTO entities (id, name, slug, type, active, tier, parent_id, description, description_summary, url_path, biomes, shadow_weight, created_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
          ON CONFLICT (id) DO UPDATE SET
            name = EXCLUDED.name,
            slug = EXCLUDED.slug,
@@ -209,7 +211,8 @@ async function seedEntities() {
            description = EXCLUDED.description,
            description_summary = EXCLUDED.description_summary,
            url_path = EXCLUDED.url_path,
-           biomes = EXCLUDED.biomes`,
+           biomes = EXCLUDED.biomes,
+           shadow_weight = EXCLUDED.shadow_weight`,
         [
           id,
           r.name,
@@ -222,6 +225,7 @@ async function seedEntities() {
           nullIfEmpty(r.description_summary),
           nullIfEmpty(r.url_path),
           biomesArray,
+          Number.isFinite(shadowWeight) ? shadowWeight : 0,
           nullIfEmpty(r.created_at) ?? new Date(),
         ]
       );
@@ -433,6 +437,62 @@ async function backfillLocationRegions() {
 }
 
 // ---------------------------------------------------------------------------
+// Ensure journey-state schema (energy/shadow + shadow_weight + log table).
+// Idempotent: runs on every deploy so local and prod pick up the columns
+// automatically. Must run BEFORE seedEntities (which inserts shadow_weight).
+// ---------------------------------------------------------------------------
+async function ensureJourneyStateSchema() {
+  console.log('🔧 Ensuring journey-state schema (energy/shadow/shadow_weight)...');
+
+  // character_state: energy + shadow live values, per-character initial values.
+  await pool.query(`
+    ALTER TABLE character_state
+      ADD COLUMN IF NOT EXISTS energy         INT NOT NULL DEFAULT 100,
+      ADD COLUMN IF NOT EXISTS shadow         INT NOT NULL DEFAULT 0,
+      ADD COLUMN IF NOT EXISTS energy_initial INT NOT NULL DEFAULT 100,
+      ADD COLUMN IF NOT EXISTS shadow_initial INT NOT NULL DEFAULT 0,
+      ADD COLUMN IF NOT EXISTS last_rest_at   TIMESTAMP
+  `);
+
+  // entities: signed shadow_weight.
+  await pool.query(`
+    ALTER TABLE entities
+      ADD COLUMN IF NOT EXISTS shadow_weight INT NOT NULL DEFAULT 0
+  `);
+
+  // character_state_log: per-day trail.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS character_state_log (
+      id           SERIAL PRIMARY KEY,
+      character_id INT  NOT NULL REFERENCES character_state(id),
+      trip_id      UUID NOT NULL,
+      day_number   INT  NOT NULL,
+      energy       INT  NOT NULL,
+      shadow       INT  NOT NULL,
+      note         TEXT,
+      created_at   TIMESTAMP DEFAULT NOW(),
+      UNIQUE (character_id, trip_id, day_number)
+    )
+  `);
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_character_state_log_char
+      ON character_state_log(character_id, trip_id, day_number)
+  `);
+
+  // Base-template starting values (Aranath 100/0, Celebrian 100/20).
+  await pool.query(`
+    UPDATE character_state SET energy_initial = 100, shadow_initial = 0, energy = 100, shadow = 0
+    WHERE id = 1 AND template_id IS NULL AND owner_user_id IS NULL
+  `);
+  await pool.query(`
+    UPDATE character_state SET energy_initial = 100, shadow_initial = 20, energy = 100, shadow = 20
+    WHERE id = 2 AND template_id IS NULL AND owner_user_id IS NULL
+  `);
+
+  console.log('✅ Journey-state schema ready\n');
+}
+
+// ---------------------------------------------------------------------------
 // Ensure PKs and unique constraints exist before upserts
 // ---------------------------------------------------------------------------
 async function ensureConstraints() {
@@ -515,6 +575,7 @@ async function main() {
     console.log('✅ Database connection established\n');
 
     await ensureConstraints();
+    await ensureJourneyStateSchema();
     await seedKingdoms();
     await seedClimateZones();
     await seedConversationTopics();

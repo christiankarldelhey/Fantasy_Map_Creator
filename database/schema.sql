@@ -312,7 +312,12 @@ CREATE TABLE IF NOT EXISTS entities (
     
     -- Encounter probabilities
     probability_by_region JSONB DEFAULT '[]'::jsonb,  -- Array of {region, probability} objects
-    
+
+    -- Shadow weight: signed per-entity effect on the traveller's spirit.
+    --   positive = darkens (dragon, undead, orcs), zero = neutral,
+    --   negative = lightens (elves, good Maiar, a hobbit hearth).
+    shadow_weight INT NOT NULL DEFAULT 0,
+
     -- Metadata
     created_at TIMESTAMP DEFAULT NOW()
 );
@@ -355,10 +360,37 @@ CREATE TABLE IF NOT EXISTS character_state (
     entity_id UUID REFERENCES entities(id) ON DELETE SET NULL,
     system_prompt TEXT,  -- Custom narrator voice instructions for this character
     introduction_instructions TEXT,  -- Custom introduction instructions for this character
+    -- Journey persistence: energy (the body) and shadow (the spirit)
+    energy INT NOT NULL DEFAULT 100,          -- 0..100, live value (meaningful on clones)
+    shadow INT NOT NULL DEFAULT 0,            -- 0..100, live value (meaningful on clones)
+    energy_initial INT NOT NULL DEFAULT 100,  -- per-character starting energy (set on templates)
+    shadow_initial INT NOT NULL DEFAULT 0,    -- per-character starting shadow (set on templates)
+    last_rest_at TIMESTAMP,                   -- last time the traveller had a proper rest (rest_quality >= 2)
     updated_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE INDEX IF NOT EXISTS idx_character_state_active ON character_state(active);
+
+-- ============================================================================
+-- Table: character_state_log
+-- Purpose: Per-day trail of energy/shadow for a clone during a trip (the curve
+--          and cross-day causal callbacks). The clone row holds the CURRENT
+--          value; this log holds the history.
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS character_state_log (
+    id           SERIAL PRIMARY KEY,
+    character_id INT  NOT NULL REFERENCES character_state(id),  -- the clone
+    trip_id      UUID NOT NULL,
+    day_number   INT  NOT NULL,
+    energy       INT  NOT NULL,
+    shadow       INT  NOT NULL,
+    note         TEXT,            -- e.g. "fight with the bear", "slept at Rivendell"
+    created_at   TIMESTAMP DEFAULT NOW(),
+    UNIQUE (character_id, trip_id, day_number)
+);
+
+CREATE INDEX IF NOT EXISTS idx_character_state_log_char ON character_state_log(character_id, trip_id, day_number);
 
 COMMENT ON TABLE character_state IS 'Character state and location tracking';
 COMMENT ON COLUMN character_state.active IS 'Whether this character is currently active (only one can be active at a time)';

@@ -10,6 +10,7 @@ import {
   pickFromPool,
   simulatePhaseEncounters,
   simulateNightEncounters,
+  dampFactorForRegion,
   entityEligibleForNightTiming,
   createSeededRng,
   formatHour,
@@ -390,4 +391,37 @@ test('simulateNightEncounters assigns mid_night timing to nocturnal beasts', () 
   assert.equal(result.encounters[0].night_timing, 'mid_night');
   assert.equal(result.encounters[0].entity.name, 'Wolves');
   assert.equal(result.encounters[0].hour, '02:30');
+});
+
+// ---------------------------------------------------------------------------
+// Shadow → spawn loop (shadowFactor, excludeEvil, damping)
+// ---------------------------------------------------------------------------
+const loopEntities = [
+  { id: 'orc', name: 'Orcs', type: 'orcs', active: 'all-day', shadow_weight: 5, probability_by_region: [{ region: 'Mordor', probability: 4 }] },
+  { id: 'deer', name: 'Deer', type: 'herbivores', active: 'day', shadow_weight: 0, probability_by_region: [{ region: 'Mordor', probability: 4 }] },
+];
+
+test('buildRegionPool boosts evil weight when shadowFactor > 1', () => {
+  const base = buildRegionPool('Mordor', PHASE_MORNING, loopEntities, WEIGHT_BASE, [], 'off_road', 0.5, 1);
+  const boosted = buildRegionPool('Mordor', PHASE_MORNING, loopEntities, WEIGHT_BASE, [], 'off_road', 0.5, 1.6);
+  const orcBase = base.find((p) => p.entity.id === 'orc').weight;
+  const orcBoosted = boosted.find((p) => p.entity.id === 'orc').weight;
+  assert.ok(Math.abs(orcBoosted - orcBase * 1.6) < 1e-9);
+  // Neutral deer weight unchanged
+  const deerBase = base.find((p) => p.entity.id === 'deer').weight;
+  const deerBoosted = boosted.find((p) => p.entity.id === 'deer').weight;
+  assert.equal(deerBase, deerBoosted);
+});
+
+test('buildRegionPool excludes evil entities when excludeEvil is set', () => {
+  const pool = buildRegionPool('Mordor', PHASE_MORNING, loopEntities, WEIGHT_BASE, [], 'off_road', 0.5, 1, true);
+  assert.equal(pool.length, 1);
+  assert.equal(pool[0].entity.id, 'deer');
+});
+
+test('dampFactorForRegion halves the excess in friendly land, floors at 1', () => {
+  const friendly = ['hobbit'];
+  assert.ok(Math.abs(dampFactorForRegion(1.6, { cultural_family: 'hobbit' }, friendly) - 1.3) < 1e-9);
+  assert.equal(dampFactorForRegion(1.6, { cultural_family: 'enemy' }, friendly), 1.6);
+  assert.equal(dampFactorForRegion(1, { cultural_family: 'hobbit' }, friendly), 1);
 });
