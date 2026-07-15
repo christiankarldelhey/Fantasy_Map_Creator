@@ -96,14 +96,9 @@ async function copyToClipboard(text: string | null | undefined, dayId: string, t
   }
 }
 
-function getDayCode(day: TripDay) {
-  const { prompt, narrative, ...code } = day
-  return code
-}
-
 async function copyAllCodes() {
   try {
-    const payload = days.value.map(getDayCode)
+    const payload = days.value
     await navigator.clipboard.writeText(JSON.stringify(payload, null, 2))
     copiedAllCodes.value = true
     setTimeout(() => {
