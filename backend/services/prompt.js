@@ -304,7 +304,7 @@ ${character.system_prompt}
     dayContextParts.push(`Terrain effort (across the whole day):\n${elevationNote}`);
   }
 
-  // Three chronological phase blocks. Night carries the overnight camp.
+  // Three chronological phase blocks. Night carries the camp conditions.
   const morningBlock = buildPhaseBlock('MORNING', 'morning');
   const afternoonBlock = buildPhaseBlock('AFTERNOON', 'afternoon');
   const nighttimeConditions = collectNighttimeConditions(day.nighttime_climate, day.rng);

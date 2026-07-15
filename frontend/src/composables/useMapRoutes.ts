@@ -15,6 +15,7 @@ export const LAYER_IDS = {
   directionsOnRoad: 'route-on-road-layer',
   directionsOffRoadStart: 'route-off-road-start-layer',
   directionsOffRoadEnd: 'route-off-road-end-layer',
+  directionsCheckpoints: 'route-checkpoints-layer',
 }
 
 export const SOURCE_IDS = {
@@ -25,6 +26,7 @@ export const SOURCE_IDS = {
   directionsOnRoad: 'route-on-road',
   directionsOffRoadStart: 'route-off-road-start',
   directionsOffRoadEnd: 'route-off-road-end',
+  directionsCheckpoints: 'route-checkpoints',
 }
 
 // ============================================================================
@@ -238,6 +240,44 @@ export function drawDirectionsRoute(map: maplibregl.Map, data: any) {
     map.moveLayer(LAYER_IDS.directionsOffRoadEnd)
   }
 
+  // Daily checkpoints as small red circles on top of the route
+  if (data?.checkpoints && data.checkpoints.length > 0) {
+    const checkpointFeatures = data.checkpoints.map((c: any) => ({
+      type: 'Feature' as const,
+      geometry: {
+        type: 'Point' as const,
+        coordinates: c.coordinates
+      },
+      properties: {
+        day_number: c.day_number,
+        name: c.location?.name || `Day ${c.day_number}`,
+        type: c.location?.type || null
+      }
+    }))
+
+    map.addSource(SOURCE_IDS.directionsCheckpoints, {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection' as const,
+        features: checkpointFeatures
+      }
+    })
+
+    map.addLayer({
+      id: LAYER_IDS.directionsCheckpoints,
+      type: 'circle',
+      source: SOURCE_IDS.directionsCheckpoints,
+      paint: {
+        'circle-radius': 5,
+        'circle-color': DANGER_RED,
+        'circle-opacity': 0.9,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#ffffff'
+      }
+    })
+    map.moveLayer(LAYER_IDS.directionsCheckpoints)
+  }
+
   // Fit bounds
   const bounds = new maplibregl.LngLatBounds()
   if (g.off_road_start) g.off_road_start.geometry.coordinates.forEach((c: any) => bounds.extend(c))
@@ -252,6 +292,7 @@ export function clearDirectionsRoute(map: maplibregl.Map) {
   removeLayerSource(map, LAYER_IDS.directionsOnRoad, SOURCE_IDS.directionsOnRoad)
   removeLayerSource(map, LAYER_IDS.directionsOffRoadStart, SOURCE_IDS.directionsOffRoadStart)
   removeLayerSource(map, LAYER_IDS.directionsOffRoadEnd, SOURCE_IDS.directionsOffRoadEnd)
+  removeLayerSource(map, LAYER_IDS.directionsCheckpoints, SOURCE_IDS.directionsCheckpoints)
 }
 
 // ============================================================================

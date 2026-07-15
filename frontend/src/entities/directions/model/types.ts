@@ -5,6 +5,7 @@ export interface DirectionsSummary {
   off_road_distance_km: number
   total_time_seconds: number
   total_time_hours: number
+  estimated_days?: number
 }
 
 export interface DirectionsFeature {
@@ -26,6 +27,21 @@ export interface DirectionsFeature {
   }
 }
 
+export interface DirectionsCheckpoint {
+  day_number: number
+  location: {
+    id: number
+    name: string
+    type: string
+    region?: string
+    description?: string
+  } | null
+  coordinates: [number, number]
+  distance_m: number
+  time_seconds: number
+  is_destination?: boolean
+}
+
 export interface DirectionsResponse {
   summary: DirectionsSummary
   geometry: {
@@ -33,4 +49,5 @@ export interface DirectionsResponse {
     on_road: GeoJSON.FeatureCollection | null
     off_road_end: DirectionsFeature | null
   }
+  checkpoints: DirectionsCheckpoint[]
 }

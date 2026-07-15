@@ -62,6 +62,220 @@ export const TRANSPORT_CONFIGS = {
   }
 };
 
+// ---------------------------------------------------------------------------
+// Daily checkpoint helpers
+// ---------------------------------------------------------------------------
+
+const WALKING_HOURS = 12;
+const SECONDS_PER_HOUR = 3600;
+const DAY_BUFFER_BEFORE_M = 15000;
+const DAY_BUFFER_AFTER_M = 5000;
+const LOCATION_ON_ROUTE_BUFFER_M = 100;
+
+function interpolateMonotonic(target, xs, ys) {
+  if (xs.length === 0) return 0;
+  if (target <= xs[0]) return ys[0];
+  if (target >= xs[xs.length - 1]) return ys[xs.length - 1];
+
+  let lo = 0;
+  let hi = xs.length - 1;
+  while (hi - lo > 1) {
+    const mid = Math.floor((lo + hi) / 2);
+    if (xs[mid] <= target) lo = mid;
+    else hi = mid;
+  }
+
+  if (xs[hi] === xs[lo]) return ys[lo];
+  const t = (target - xs[lo]) / (xs[hi] - xs[lo]);
+  return ys[lo] + t * (ys[hi] - ys[lo]);
+}
+
+function interpolateCoords(a, b, f) {
+  return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f];
+}
+
+function coordinateAtDistance(targetDist, coords, dists) {
+  if (dists.length === 0 || coords.length === 0) return null;
+  if (targetDist <= dists[0]) return coords[0];
+  const lastIdx = dists.length - 1;
+  if (targetDist >= dists[lastIdx]) return coords[lastIdx];
+
+  let lo = 0;
+  let hi = lastIdx;
+  while (hi - lo > 1) {
+    const mid = Math.floor((lo + hi) / 2);
+    if (dists[mid] <= targetDist) lo = mid;
+    else hi = mid;
+  }
+
+  if (dists[hi] === dists[lo]) return coords[lo];
+  const f = (targetDist - dists[lo]) / (dists[hi] - dists[lo]);
+  return interpolateCoords(coords[lo], coords[hi], f);
+}
+
+function appendSegmentToRoute(coords, dists, times, segmentCoords, segmentDist, segmentTime) {
+  if (!segmentCoords || segmentCoords.length < 2) return;
+
+  const lastCoord = coords[coords.length - 1];
+  const first = segmentCoords[0];
+  const duplicateFirst = lastCoord && first && getDistance(first, lastCoord) < 1.0;
+  const startIndex = duplicateFirst ? 1 : 0;
+
+  const pairDists = [];
+  for (let i = startIndex; i < segmentCoords.length; i++) {
+    const prev = i === 0 ? lastCoord : segmentCoords[i - 1];
+    const d = getDistance(prev, segmentCoords[i]);
+    pairDists.push(d);
+  }
+
+  const rawTotal = pairDists.reduce((sum, d) => sum + d, 0);
+  const scale = rawTotal > 0 ? segmentDist / rawTotal : 0;
+
+  for (let i = startIndex; i < segmentCoords.length; i++) {
+    const pairRaw = pairDists[i - startIndex];
+    const d = pairRaw * scale;
+    const t = segmentDist > 0 ? (d / segmentDist) * segmentTime : 0;
+
+    coords.push(segmentCoords[i]);
+    dists.push(dists[dists.length - 1] + d);
+    times.push(times[times.length - 1] + t);
+  }
+}
+
+function buildCumulativeRouteData(path, startLng, startLat, offRoadStartDistance, offRoadStartTime, offRoadEndDistance, offRoadEndTime, geoData) {
+  const coords = [[startLng, startLat]];
+  const dists = [0];
+  const times = [0];
+
+  if (geoData.off_road_start_geom && geoData.off_road_start_geom.coordinates) {
+    appendSegmentToRoute(coords, dists, times, geoData.off_road_start_geom.coordinates, offRoadStartDistance, offRoadStartTime);
+  }
+
+  for (const edge of path) {
+    if (edge.geometry && edge.geometry.coordinates) {
+      appendSegmentToRoute(coords, dists, times, edge.geometry.coordinates, parseFloat(edge.segment_length) || 0, parseFloat(edge.travel_time_seconds) || 0);
+    }
+  }
+
+  if (geoData.off_road_end_geom && geoData.off_road_end_geom.coordinates) {
+    appendSegmentToRoute(coords, dists, times, geoData.off_road_end_geom.coordinates, offRoadEndDistance, offRoadEndTime);
+  }
+
+  return { coords, dists, times };
+}
+
+function routeLineWKT(coords) {
+  if (!coords || coords.length < 2) return null;
+  const pairs = coords.map(([lng, lat]) => `${lng} ${lat}`).join(', ');
+  return `LINESTRING(${pairs})`;
+}
+
+async function fetchLocationsAlongRoute(routeWKT, totalDist) {
+  const query = `
+    WITH route AS (
+      SELECT ST_SetSRID(ST_GeomFromText($1), 4326) AS geom
+    )
+    SELECT l.id, l.name, l.location_type AS type, l.region, l.region_id, l.description,
+           ST_X(l.geom) AS lng, ST_Y(l.geom) AS lat,
+           ST_LineLocatePoint(route.geom, ST_ClosestPoint(route.geom, l.geom)) AS fraction
+    FROM locations l, route
+    WHERE ST_DWithin(l.geom::geography, route.geom::geography, $2)
+    ORDER BY fraction
+  `;
+  const { rows } = await pool.query(query, [routeWKT, LOCATION_ON_ROUTE_BUFFER_M]);
+  return rows.map((r) => ({
+    id: r.id,
+    name: r.name,
+    type: r.type,
+    region: r.region,
+    region_id: r.region_id,
+    description: r.description,
+    lng: parseFloat(r.lng),
+    lat: parseFloat(r.lat),
+    distance_m: parseFloat(r.fraction) * totalDist
+  }));
+}
+
+function computeDailyCheckpoints(totalTime, totalDist, candidates, coords, dists, times, endLng, endLat) {
+  const checkpoints = [];
+  let prevTime = 0;
+  let prevDist = 0;
+  let day = 1;
+  const EPS = 1e-6;
+  const MIN_ADVANCE_M = 1;
+
+  while (prevTime < totalTime - EPS) {
+    const targetTime = Math.min(prevTime + WALKING_HOURS * SECONDS_PER_HOUR, totalTime);
+
+    if (targetTime >= totalTime - EPS) {
+      checkpoints.push({
+        day_number: day,
+        location: null,
+        coordinates: [endLng, endLat],
+        distance_m: totalDist,
+        time_seconds: totalTime,
+        is_destination: true
+      });
+      break;
+    }
+
+    const targetDist = interpolateMonotonic(targetTime, times, dists);
+    const windowStart = Math.max(prevDist + MIN_ADVANCE_M, targetDist - DAY_BUFFER_BEFORE_M);
+    const windowEnd = targetDist + DAY_BUFFER_AFTER_M;
+
+    let best = null;
+    let bestDelta = Infinity;
+    for (const c of candidates) {
+      if (c.distance_m <= prevDist + MIN_ADVANCE_M) continue;
+      if (c.distance_m < windowStart || c.distance_m > windowEnd) continue;
+      const delta = Math.abs(c.distance_m - targetDist);
+      if (delta < bestDelta) {
+        bestDelta = delta;
+        best = c;
+      }
+    }
+
+    if (best) {
+      const actualDist = best.distance_m;
+      const actualTime = interpolateMonotonic(actualDist, dists, times);
+      checkpoints.push({
+        day_number: day,
+        location: {
+          id: best.id,
+          name: best.name,
+          type: best.type,
+          region: best.region,
+          region_id: best.region_id,
+          description: best.description
+        },
+        coordinates: [best.lng, best.lat],
+        distance_m: actualDist,
+        time_seconds: actualTime,
+        is_destination: false
+      });
+      prevTime = actualTime;
+      prevDist = actualDist;
+    } else {
+      const actualDist = targetDist;
+      const actualTime = targetTime;
+      checkpoints.push({
+        day_number: day,
+        location: null,
+        coordinates: coordinateAtDistance(actualDist, coords, dists),
+        distance_m: actualDist,
+        time_seconds: actualTime,
+        is_destination: false
+      });
+      prevTime = actualTime;
+      prevDist = actualDist;
+    }
+
+    day++;
+  }
+
+  return checkpoints;
+}
+
 // Dijkstra's algorithm for shortest path routing in JavaScript
 export function findShortestPath(roads, startCoord, endCoord, config) {
   const getKey = (coord) => `${coord[0].toFixed(5)},${coord[1].toFixed(5)}`;
@@ -305,6 +519,37 @@ export async function computeRoute({ startLng, startLat, endLng, endLat, transpo
     }))
   };
 
+  // 6. Build cumulative coordinate/time/distance arrays and compute daily checkpoints
+  const { coords: routeCoords, dists: cumulativeDist, times: cumulativeTime } = buildCumulativeRouteData(
+    path,
+    startLng,
+    startLat,
+    offRoadStartDistance,
+    offRoadStartTime,
+    offRoadEndDistance,
+    offRoadEndTime,
+    geoData
+  );
+
+  const totalRouteDist = cumulativeDist[cumulativeDist.length - 1] || 0;
+  const totalRouteTime = cumulativeTime[cumulativeTime.length - 1] || 0;
+  const routeWKT = routeLineWKT(routeCoords);
+  let candidates = [];
+  if (routeWKT) {
+    candidates = await fetchLocationsAlongRoute(routeWKT, totalRouteDist);
+  }
+
+  const checkpoints = computeDailyCheckpoints(
+    totalRouteTime,
+    totalRouteDist,
+    candidates,
+    routeCoords,
+    cumulativeDist,
+    cumulativeTime,
+    endLng,
+    endLat
+  );
+
   return {
     summary: {
       total_distance_m: totalDistance,
@@ -313,6 +558,7 @@ export async function computeRoute({ startLng, startLat, endLng, endLat, transpo
       off_road_distance_km: (offRoadStartDistance + offRoadEndDistance) / 1000,
       total_time_seconds: totalTimeSeconds,
       total_time_hours: totalTimeSeconds / 3600,
+      estimated_days: checkpoints.length
     },
     geometry: {
       off_road_start: offRoadStartDistance > 1 ? {
@@ -338,6 +584,7 @@ export async function computeRoute({ startLng, startLat, endLng, endLat, transpo
           travel_time_seconds: offRoadEndTime
         }
       } : null
-    }
+    },
+    checkpoints
   };
 }

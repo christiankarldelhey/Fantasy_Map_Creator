@@ -150,7 +150,7 @@
             {{ formatTime(routeData.summary.total_time_seconds) }}
           </span>
           <span class="text-[10px] text-ink-brown font-book uppercase tracking-wider mt-1">
-            {{ calculateTravelDays(routeData.summary.total_time_seconds) }} days walking
+            {{ (routeData.checkpoints?.length || calculateTravelDays(routeData.summary.total_time_seconds)) }} days walking
           </span>
         </div>
       </div>
@@ -414,7 +414,7 @@
                   {{ formatTime(routeData.summary.total_time_seconds) }}
                 </span>
                 <span class="text-[10px] text-ink-brown font-book uppercase tracking-wider mt-1">
-                  {{ calculateTravelDays(routeData.summary.total_time_seconds) }} days walking
+                  {{ (routeData.checkpoints?.length || calculateTravelDays(routeData.summary.total_time_seconds)) }} days walking
                 </span>
               </div>
             </div>

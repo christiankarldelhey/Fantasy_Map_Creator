@@ -105,38 +105,10 @@ async function entitiesForRegion(regionName) {
   return rows;
 }
 
-/** Location types that qualify as overnight shelter. */
-const OVERNIGHT_LOCATION_TYPES = [
-  'town', 'city', 'village', 'settlement', 'inn', 'tavern',
-  'fortress', 'fortified city', 'fortified town', 'citadel', 'castle',
-  'keep', 'manor', 'camp', 'hall', 'palace', 'crossroads',
-  'dwarven mine', 'ruins', 'watchtower', 'point of interest',
-];
+// Daily checkpoints are computed in routing.js; tripDay.js uses them directly.
 
-/** Tavern/inn types where the character can sleep indoors. */
+/** Types of location that allow sleeping indoors. */
 const INDOOR_REST_TYPES = ['town', 'city', 'village', 'inn', 'tavern', 'fortified city', 'fortified town', 'citadel'];
-
-/** Distance from the day's end point within which a location counts as "reached". */
-const AT_LOCATION_THRESHOLD_KM = 1.0;
-
-/**
- * Find the nearest notable location within 15 km of the day's end point.
- * Returns null if none found.
- */
-async function findOvernightLocation(endLng, endLat) {
-  const typeList = OVERNIGHT_LOCATION_TYPES.map((_, i) => `$${i + 3}`).join(', ');
-  const { rows } = await pool.query(
-    `SELECT id, name, location_type AS type, region, region_id, description,
-            round((ST_Distance(geom::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography) / 1000)::numeric, 2) AS distance_km
-     FROM locations
-     WHERE location_type = ANY($3::text[])
-       AND ST_DWithin(geom::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography, 15000)
-     ORDER BY ST_Distance(geom::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography)
-     LIMIT 1`,
-    [endLng, endLat, OVERNIGHT_LOCATION_TYPES]
-  );
-  return rows[0] || null;
-}
 
 /**
  * Sample real DEM elevation at 3 points in the day (dawn, midday, dusk).
@@ -435,12 +407,26 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
+  const checkpoints = route?.checkpoints || [];
+  const checkpoint = checkpoints[dayNumber - 1] || null;
 
-  const dayStartSeconds = (dayNumber - 1) * WALKING_HOURS * SECONDS_PER_HOUR;
-  if (dayStartSeconds >= routeSeconds - 1e-6) {
-    return null; // trip already complete
+  let dayStartSeconds;
+  let dayEndSeconds;
+
+  if (checkpoints.length > 0) {
+    if (dayNumber > checkpoints.length) {
+      return null; // all checkpoints consumed; trip is complete
+    }
+    dayStartSeconds = dayNumber === 1 ? 0 : checkpoints[dayNumber - 2].time_seconds;
+    dayEndSeconds = checkpoints[dayNumber - 1].time_seconds;
+  } else {
+    // Legacy route without checkpoints
+    dayStartSeconds = (dayNumber - 1) * WALKING_HOURS * SECONDS_PER_HOUR;
+    if (dayStartSeconds >= routeSeconds - 1e-6) {
+      return null; // trip already complete
+    }
+    dayEndSeconds = Math.min(dayNumber * WALKING_HOURS * SECONDS_PER_HOUR, routeSeconds);
   }
-  const dayEndSeconds = Math.min(dayNumber * WALKING_HOURS * SECONDS_PER_HOUR, routeSeconds);
 
   const leg = sliceLeg(segments, dayStartSeconds, dayEndSeconds);
   const walkingHoursThisDay = leg.seconds / SECONDS_PER_HOUR;
@@ -666,21 +652,27 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     };
   });
 
-  // --- Overnight location: nearest settlement within 10 km of leg end ---
-  const overnightLocation = await findOvernightLocation(leg.end[0], leg.end[1]);
+  // --- Overnight location: take it from the day's checkpoint ---
+  let overnightLocation = null;
+  if (checkpoint && checkpoint.location) {
+    overnightLocation = {
+      id: checkpoint.location.id,
+      name: checkpoint.location.name,
+      type: checkpoint.location.type,
+      region: checkpoint.location.region,
+      region_id: checkpoint.location.region_id,
+      description: checkpoint.location.description,
+      indoor: INDOOR_REST_TYPES.includes(checkpoint.location.type),
+      distance_km: 0,
+    };
+  }
+
   let overnightContext = 'IN_WILD';
   let overnightRegionId = null;
   if (overnightLocation) {
-    overnightLocation.indoor = INDOOR_REST_TYPES.includes(overnightLocation.type);
-    if (overnightLocation.distance_km <= AT_LOCATION_THRESHOLD_KM) {
-      overnightContext = 'IN_LOCATION';
-      overnightRegionId = overnightLocation.region_id;
-    }
-  }
-
-  // Resolve the region for the night's camp (or the reached location) so we can
-  // read its cultural_family inside the resolver rather than hard-coding anything.
-  if (!overnightRegionId) {
+    overnightContext = 'IN_LOCATION';
+    overnightRegionId = overnightLocation.region_id;
+  } else {
     const campRegion = await resolveRegionAtPoint(leg.end[0], leg.end[1]);
     if (campRegion) overnightRegionId = campRegion.id;
   }
@@ -695,7 +687,6 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   console.log(
     `[OVERNIGHT] context=${overnightContext} ` +
     `place=${overnightLocation ? overnightLocation.name : 'wild'} ` +
-    `rest_quality=${overnightInteraction.rest_quality} shadow_effect=${overnightInteraction.shadow_effect} ` +
     `scope=${overnightInteraction.scope}`
   );
 
@@ -722,8 +713,8 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     encounters,
     thoughts,
     water_crossings: waterCrossings,
-    overnight_location: overnightLocation || null,
-    overnight_interaction: overnightInteraction || null,
+    overnight_location: overnightLocation,
+    overnight_interaction: overnightInteraction,
     elevation_profile: elevationProfile || null,
     rng,
   };

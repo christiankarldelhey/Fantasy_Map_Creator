@@ -1,0 +1,508 @@
+id,name,type,shadow_weight
+003f58d5-cd79-4a70-82a4-5b86b1581610,Dunlendings Warriors,humans,0
+0108f4a8-ef09-4aa0-8910-96e3bf734eb2,Fiara,herbivores,0
+01151892-afea-4643-8468-93d9ccdd75d1,Elven Wandering Company,elves,-3
+0116eeae-da1d-40cf-afe9-27efab144340,Egils Vipers,reptiles,0
+025a019b-5333-4581-980e-ddc1d2f263de,Cathfiar,carnivores,0
+026d8cad-c534-402f-a385-f19ab3320237,Rock Vipers,reptiles,0
+02dcbc70-8105-43f4-bfd1-03c085bc4539,Laegrim Ranger,elves,-3
+032b0db0-3ce3-44d2-aabc-1c5f95c177d1,Severe Weather,hazards,0
+0346e852-d70b-42dd-a40d-bb87888ebe16,Cavern Wings,flying_animals,3
+03d5c707-30d6-4ba6-87f5-df56cf6f8cfb,Easterlings,humans,4
+03d5f579-8640-4f67-a36e-bd157afead50,Black Swans,flying_animals,0
+051aede3-d506-4da3-baf1-f2ffccbc6469,Highland Lynxes,carnivores,0
+05431549-7db3-4991-b944-bb1909f678c5,Calenardhon Ruins,sites,0
+0555ce1c-3eee-4c40-8f89-fe18161e64c0,Vessino Clams,water_animals,0
+05611e91-228f-4ab8-917e-0bd553a0aac5,Princes of Dol Amroth,humans,-2
+0577eac3-3888-47db-b405-a2c6dd2f706d,Spotted Lions,carnivores,0
+059d36f9-9179-4225-a035-165117b2245a,Water Mammals,water_animals,0
+06d62e06-9fcb-4dda-93c8-9ca72b211f57,Northmen,humans,0
+07336b31-a038-47a0-a10f-52a9aff46865,Stoors (River Hobbits),hobbits,-2
+073e0823-5c16-443a-b212-54ea5ff5cfca,Water-Drakes,drakes,7
+074ca5a5-a913-46d8-bcad-ebd1125c66d0,Sea Crocodiles,reptiles,0
+07681cb4-ec8d-4645-b1b2-0d5873b2f3a0,Radagast the Brown,maiar,-4
+086442e1-e6be-4834-95be-08151830d4df,Lesinavi,undead,8
+09cdbbc0-aa79-491f-ad64-0e67fdde1371,Short-Eared Owls,flying_animals,0
+0a8cf66b-0c9c-4c7a-bd55-c13d0b0f0b75,Oak,trees,0
+0ab6222f-9ebe-422d-afd2-635b196dae6a,Apiaries,resources,0
+0bd5c0bf-1caa-41a9-80a5-694fe3046ce0,Solitary Dwarf,dwarves,-1
+0be376e4-b51b-4a37-a4ac-965de7ec70c0,Dwarf Merchant,dwarves,-1
+0cfdd809-57a5-4426-9a95-d7de089d4e51,Falathrim (Sea-elves),elves,-3
+0d34e355-d6d1-4932-9635-66b059063787,Harfoots (Common Hobbits),hobbits,-2
+0d6dd38c-c019-427e-8fba-3cb74e27df4c,Devevi,riding_animals,0
+0da4cd5f-fa2a-4c75-92d3-3e2959a73022,Mûmakil,riding_animals,0
+0e26195f-6832-4fce-99a3-e62d39df1c7a,Travellers,humans,0
+0e302fb8-e738-4a7f-a410-9852cfcf0569,Golden Eagle,flying_animals,-2
+0e335775-5d8b-423b-a235-73f6aaef3c23,Cherethrynd,water_animals,0
+0ee34cef-6cd3-4e9b-9ba7-1520a87689ce,Chamber Birds,flying_animals,0
+1007565e-5a57-46d9-9089-2f94e04a2e01,Dunlendings,humans,0
+100ecad2-6969-4c8a-9aaf-e53f1defeddd,Ice drake,drakes,7
+1106f013-9277-47e4-8d45-ed79a248147f,Cave Drakes,drakes,7
+110d79f1-e19e-45f0-9ba2-9b740d8b675b,Sailors,humans,0
+121d27ca-c324-4051-afa6-32d488c8f4ae,Noldorin mystics,elves,-3
+123b0781-a579-4489-a2b0-47c546f72519,Andodailion,reptiles,0
+1261fa53-2480-4854-8bed-77d3bb59047f,Ooze,hazards,0
+12e687b5-0caa-49b9-8c75-e809fe304629,Chasm,hazards,0
+137dce57-c98f-4f74-8bb1-c399e834bc41,Rárorassi,herbivores,0
+1443f52e-918a-4440-9fd7-b38c64e24273,Pied Swans,flying_animals,0
+146c684d-d779-4116-bcda-222d9ced05fb,Glutani,carnivores,0
+14f90be0-670a-406a-b635-dc43eee7c45e,Merisc Tyka,carnivores,0
+161596f3-a22b-405e-8228-f80aa7f658fc,Dwarves,dwarves,-1
+16a77606-bcf7-4062-af0f-e25b048ae8c2,Common Folk,humans,0
+17016909-f35e-425e-a6b5-354d95b0d1ae,Half-trolls,trolls,4
+1709ce8b-56ae-48dc-a3f7-ed31708fd6fb,Beijabar of Nan Anduin,humans,0
+1743d63f-3886-46b9-88a7-681b8a013343,Tribesmen,humans,0
+1766a189-8478-44af-af1b-727b49f29edc,Dumbledoors,insects,0
+17c26b89-e6c7-4ecc-aff5-2779b23fd1bf,Marsh-Drakes,drakes,7
+17e72375-4980-474d-890e-427bd0573562,Giants,giants,1
+180e506d-071e-46a2-8a3f-7b655d80c966,Orc Warg-riders,orcs,5
+18411f42-ef3b-439a-92a1-f644a3b1332c,Hummerhorns,insects,0
+193fc0a9-85c6-49bf-af26-4bfbbf67b942,Smugglers,humans,0
+1992d2d4-f3b6-41e7-8f95-c46af8b3fafc,Ghosts,undead,8
+19efbab0-ecad-4aff-a72c-40ebbca2cee2,Sand Drakes,drakes,7
+19f583a8-e08c-4de5-b138-c2a03b9b66c2,Elm,trees,0
+1a12c1c7-53b5-448e-a4e5-148489b9cdcf,Snow-trolls,trolls,4
+1a1721ea-238d-42ba-a523-9aa2e148b016,Snow Leopard,carnivores,0
+1a344085-17ae-47df-ab64-7e6a661e0bd4,Settlement Camp,sites,0
+1af98400-329e-4c12-a638-16b6ee9f66f5,Fell Beasts,drakes,8
+1b347621-f23a-4d6f-ba12-acf437b5bf75,Kirinkir,flying_animals,0
+1c08c04f-6b4b-4b00-9b4e-bbcabb0ae8e1,Grazing Animals,herbivores,0
+1c5bd70e-4d0a-4572-850c-cd2deb200b57,Southerners,humans,0
+1d484c30-6561-475e-ad42-a8ee5868dab3,Great Elk,herbivores,0
+1d974e03-f452-4ab8-81bb-0a02507e3aad,Rural Men,humans,0
+1e9bfa16-7c30-42d4-bfc8-45101f0a74b9,Rangers of Ithilien,humans,-2
+1f679cbf-3383-4708-b2a5-a1162b1da37f,Mine Quarry,sites,0
+1f8f956e-c5c1-4bda-abb1-140705ba39ce,Vault Shrikes,flying_animals,2
+1f91f41e-b157-4d60-9f1b-584cf8ebc0bf,Dunlendings Bards,humans,0
+1faf25f8-cbd3-44a4-9608-95c5fed41eaf,Jackals,carnivores,0
+1fce59e8-3cd1-4c7b-bda6-65b87652eee1,Eothraim,humans,0
+20b0828e-e2b9-421a-9137-431214c8cc19,Merchaithrais,water_animals,0
+20feb41c-9335-473f-b789-78026b1b9c76,Mewlips,undead,8
+21c55236-fcec-4c44-9150-2fbb6052d0fa,Fallohides (Forest Hobbits),hobbits,-2
+227f3bd4-75f2-42ce-890e-e03e816d45b3,Bree-landers,humans,-1
+22850e42-4998-47f0-bb13-992a0e726cb7,Wild Horses,riding_animals,0
+2323a2e1-afe3-4775-9cd6-13983830e830,Sloth Bear,carnivores,0
+24794a05-b282-4bb0-9e0c-4b5232e2c171,Stone Giants,giants,0
+24f24c2c-49d5-4484-a56a-c0d724b52b99,Grey Apes,other_animals,0
+2544b3b0-fe67-4ab4-9a4d-8842bd6f6cda,Dwarves of Nan-i-Naugrim,dwarves,-1
+257c6194-d26b-4d8e-86cb-36672a4c9e14,Dappled Deer,herbivores,0
+26193900-1221-4e3d-8f7a-3ada3ab17de6,Nethairin,reptiles,0
+267142a7-6b80-4b64-ae25-1e9531c778b1,Common Orcs,orcs,5
+27d43cc7-2bec-45d8-9094-b0d0f4d6d774,Vodyanoi,water_creatures,0
+2824dd81-68f5-478a-b00e-62d97737fca2,Mountain Goat,herbivores,0
+287d8d1e-fd77-4dca-8148-899136a77e1a,Mountain Giants,giants,1
+28db3cbe-1eb3-43fb-b8ac-f91478ebf69a,Pilgrim to Mithlond,elves,-2
+29823a56-7dab-46b5-adb7-f0d2908f4a57,Hurndaen,pukel_constructs,0
+2b942989-6992-4cc3-8cee-df1914aac145,Losandamundar,riding_animals,0
+2c4156c5-245b-463d-b5c9-00bafd742c28,Wild Hobbits,hobbits,-2
+2c718b24-122d-43c2-bfd3-aaeee51ac5d2,Laiquendi (Green-elves),elves,-3
+2ea1092b-eee9-477d-8831-ac13952c7323,Milk-white trumpet (Giant Datura),plants,0
+2ec665b3-5555-4b8c-9c2f-6cc4e9732727,Cultirith Patrol,humans,0
+2f60828e-88fc-4e12-98df-27d6e74ce5af,Merënyetsënyt,humans,0
+2f8c2c1e-72e9-461e-89f0-31ae062fe080,Fire Drake,drakes,10
+3037a73b-8562-4b20-8462-552397c4c406,Hobbits,hobbits,-2
+30d75e9a-12fc-4a2d-8e47-552b8292411b,Grass Fire,hazards,0
+3185fd77-6d4e-4580-9ddf-0a55a357e3fa,Echo Hawks,flying_animals,0
+319b9148-8e40-416d-b059-0eea56efaa8f,Eriadorian Site,sites,0
+3219a6b2-fc87-49ae-9fbf-3d803b36ee0d,Bitterns,flying_animals,0
+323849d9-d05a-4ee0-9ed3-ecce1cfea010,Cats,carnivores,0
+32a098e2-992f-4872-93bf-d8357852af59,Lions,carnivores,0
+32f1100e-4adb-4881-b64e-0211521fab7c,Helechoth,humans,0
+331f5f05-354f-4153-85b5-0dcc8f1649aa,Mulkánar,water_animals,0
+33a5984d-2c8c-4360-9827-cc603a1e1bdf,Snowhare,herbivores,0
+33f0f6c5-37e2-4b3e-a791-116acba19536,Flying Foxes,flying_animals,0
+34d4c99b-db03-4e67-9d95-5dee9c87fe4b,Small Animals,other_animals,0
+34e281a2-2d05-4b55-a9fd-21e9f65874f6,Toads,amphibians,0
+3536bd8e-4a5d-4b54-990d-917299540c50,Sheep Hounds,carnivores,0
+365fe1c9-6aca-4ddb-afe9-1425ac312e54,Avalanche,hazards,0
+37065964-4cb3-4844-b081-1f61dff43778,Eagles,flying_animals,-2
+370b7ab2-1439-402f-9d23-7d0a0b90ea6f,Black Númenoreans,humans,6
+371714a0-97f3-4d98-ab5e-4b7542665e7e,Trusavi,amphibians,0
+3720f344-517b-4d03-b9b3-3119e56c8b18,Galadriel,elves,-5
+3847078f-22b3-41bd-ad81-eb2589d79f8d,Medicinal herbs of the Anduin Vales,plants,0
+38c0bfe5-7bde-42ad-8587-f460a2a206e3,Dwarves of Erebor,dwarves,-1
+39c61ab9-5189-42bf-baad-57ab3205dfcc,People Reed Peat Cutters,humans,0
+39c6f905-e634-405e-80b0-d9ff9ce329e5,Elves of Rivendell,elves,-4
+3a6bae34-7ee5-4654-8f73-4eda362ac011,Orc Caravan,orcs,5
+3b11011e-065b-4add-9586-f39ca90772ed,Elven Site,sites,0
+3c15496a-e482-4a73-b0f2-03559cb23be2,Chetmíg,carnivores,0
+3c53e93a-1e01-4478-ad09-a71fb3f504af,Elrond,elves,-5
+3c90a377-b123-4608-847e-8dfdf1e03665,Thrushes,flying_animals,0
+3c91a249-f0cb-4455-8311-a6dfaa1ca738,Coireals,reptiles,0
+3d3640fc-dfd4-4213-8ca5-e9023a61ad00,Turtles,reptiles,0
+3d64ca52-5f13-46b1-896f-c250c2b1ce96,Grass Cats,carnivores,0
+3ddcc1b0-9364-4679-a6e3-363640529bce,Land Tortoises,reptiles,0
+3ebb1f78-5a92-4b93-906f-bf14a89474d2,Barrow Owls,flying_animals,0
+3ebcfc7a-84a2-40d0-9d85-14eeda750738,Iathrim and Laegrim,elves,-3
+3ef3eb9f-d0d0-41a0-af90-b4387492b1f4,Haradrim,humans,3
+3f9d6768-4807-48d1-a265-13e0fcaf7590,Barrow Wights,undead,8
+3fd89e1f-8a0c-4110-a7ac-92ce4728c0b6,Wandering Eothraim,humans,0
+401450db-8a05-4c49-a841-088ec3b6c5a5,Olog-hai (Black Trolls),trolls,4
+41589eb0-7981-4841-9648-a1aef5f9d2bc,Dwarves of Khazad-dum,dwarves,-1
+42246c81-cdc8-4e11-8e67-bd5459b2c19a,Crakes And Coots,flying_animals,0
+422ddd03-5bd1-42fd-881d-ec518cb21070,Morgai Flies,insects,0
+4253634b-337d-4db2-b1cb-f91423470d02,Colbran,pukel_constructs,0
+430eb4a3-fba7-4617-8163-22f7cc19a2d3,Waterfowl,flying_animals,0
+43e7d602-b91f-42a1-b379-1abd74a52950,Wild Bees,insects,0
+4497c8ad-6b95-489d-9e89-f37c40390dcd,Serganka,flying_animals,0
+45126a4d-2d86-4615-8f71-d0b87cfaf8eb,Flash Flood,hazards,0
+45a18bf3-dad9-43b6-8094-f3435fd9e1b6,Nazgûl,undead,8
+4685e6d9-389b-4753-926a-d51ecc4dbf37,Volcanic Hazards,hazards,0
+46ca1913-6521-40e0-9363-dcedc5f4079e,Ulmodili,water_animals,0
+4788b0d8-7d01-4716-ac70-7b19726d63c5,Foreigners,humans,0
+47c69181-40d4-46b3-bd5b-e43146d66ac4,Horses Of Mordor,riding_animals,0
+484b206d-1708-463e-8aad-feaf45092071,Dwarves of the Iron Hills,dwarves,-1
+4971cf91-41a7-4451-ad8e-e013e754a2d0,Mabelmaikli,water_creatures,0
+49cd5454-4de9-47f6-9f92-81a5c521c9e3,Great Falcons Of Ardor,flying_animals,-1
+4a7d2cf1-b977-4ae5-ac1b-89185cb7ca10,Eris Squids,water_animals,0
+4be8ce2e-bc95-4905-8fa8-8bc6dfb014b1,Farmer Woodsman,humans,0
+4c245196-06e2-4481-aa69-d7ad18429751,Dunlendings Healers,humans,0
+4ddb4f0d-cff8-492d-88ce-8fe319653388,Lindellim (Nandor),elves,-3
+4e91aa11-52ab-4689-9d9d-5dfcb02f2310,Elves,elves,-3
+4e93408d-db47-4cb6-8b44-9ecfd574c3eb,Lassaraukar,demons,10
+4f5629b1-3cc8-4e37-8938-4809b169a316,Renegade Elf,elves,0
+4fde5e29-9bc7-4324-a4bf-615bcdbdc1ba,Orao,flying_animals,0
+4fece4e4-08d2-47d7-bd3d-d5df7f88ae47,Gondorian farmers,humans,0
+503fe564-a868-45ef-b0bf-fd0bbcd066f0,Spies,humans,3
+50c27cea-1b14-4b13-9f75-9b72d0cd98d4,Sea Eagles,flying_animals,-1
+50d395e0-faf1-457d-b335-75ab1e5ecd42,Beaded Lizards,reptiles,0
+51d7231c-cbd9-4fa8-be1a-d0e71d720d4b,Din Fainen (death-moss),plants,0
+51e93e8b-582f-4eb6-9404-eebc50cfb471,Lamprey,water_animals,0
+5280da74-e5c5-4e22-8ebd-9514d75092ab,Dragons,drakes,10
+547cc63c-be9c-4ca1-87c5-6e3e3329e587,Ants,insects,0
+553bb72d-37d0-4b7f-84c2-1bb457a078ca,Bats,flying_animals,1
+56a6d463-2121-4438-a8d8-f3dd60dd341a,Tom Bombadil,maiar,-5
+57650ea6-8999-4bf1-acc9-b32b4e23230d,Sindar (Grey-elves),elves,-3
+57843f83-6907-4135-8f46-23e69632218f,Undarlaif,carnivores,0
+583dedb1-f86c-4c23-8b0c-5b5adfae70ee,Sindar Guardian,elves,-3
+585c04c5-4a76-4a41-ac96-a9d3f40ffbd9,The Majmun,other_animals,0
+58964860-bbd7-4604-a4dd-fc3528f406bf,Dorwinrim,humans,0
+597fed89-f1f2-453d-9f90-06181c58d5dd,Green Asps,reptiles,0
+59b1df3e-00a7-42bd-807a-27dd9aa3ac08,Zûrafy,herbivores,0
+59d6e9fb-e865-4ca1-86b3-5fce6dfe5cd6,Birds,flying_animals,0
+5a7a01eb-ec21-4f8c-bfb8-4859fb648d1f,Pronghorns,herbivores,0
+5aaceb51-4a0c-4606-9177-509739bc187a,Urban Men,humans,0
+5b54084b-a9b2-4ccf-b2cd-bc630ab41500,Celebrimbor,elves,-3
+5b75366c-61af-4ded-a618-1ec0394a379c,Merchant Caravan,humans,0
+5bca644d-8688-479c-9393-9b7d943dca3e,Boars,other_animals,0
+5c42ebd2-c27f-453d-8fe6-a4d03cb6493f,Grass Grouses,flying_animals,0
+5c4c3611-6c66-48b2-bfe5-2df5a9e98042,Wolves,carnivores,0
+5c6a021b-0468-4d0c-b33c-4437cce0bfb0,Death Shrews,carnivores,0
+5cade9df-bcad-4db3-b223-2710159698e7,Cunara,herbivores,0
+5da589e2-891a-49f3-acba-ae987aeac36e,Grey Flyers,amphibians,0
+5dfb448f-9f49-4e07-86af-6a79bb6e486e,Wild persimmons,plants,0
+5f079579-19c4-45b7-be1a-9fdebf02c722,Horse Herds,resources,0
+5f0c5043-8774-4196-bbde-50990d0ce41e,Edain Ruin,sites,0
+5f465085-1130-4763-ac25-16f95107e5d3,Ninfiara Wild Aurochs,herbivores,0
+5fff43cd-dcc7-4f99-aed5-2edf7159668e,Hillmen of Rhudaur,humans,2
+606782e6-e26f-4a19-97cf-def67ba76fdb,Great Falcons Of Mirkwood,flying_animals,0
+607a9513-3045-4eb0-8f65-a0a9cb1780a5,Dwarves of the Blue Mountains,dwarves,-1
+60f73f6e-a6f2-4b5a-8d15-55469bdf5a48,Faithful of Arnor,humans,-3
+61f9e281-cc1e-4138-b638-114e1304b1cf,Angmarim Soldiers,humans,5
+62453971-4c38-4388-b177-fa4e2c6f857a,Fisheries,resources,0
+6495f2bc-bca4-45a0-b299-7dd9a5055526,Priests of Darkness,orcs,5
+6588dabc-dd1a-4056-9006-f9b77ba0796f,Galadhrim (Elves of Lórien),elves,-4
+662784ec-63e0-4489-b896-cf1d8fcd580b,Ûlcercain,insects,0
+66f75c77-d90b-4ff5-acaf-5106c523a9d8,Orc Females,orcs,5
+67a79681-cb83-4904-9250-cc2ee30d7dc0,Elven Horses,riding_animals,0
+67c76254-7b6c-486f-a9c7-e375135bfce2,Lossoth Site,sites,0
+684a6158-7350-4576-99ec-780c9bc18546,Scout Elves,elves,-3
+68ee828e-f3a3-4140-95e3-74d880961e49,Merchants,humans,0
+69e7e569-1f05-4c24-b676-46082f84878e,Calenardhons,humans,0
+6ab39e95-0bd0-4820-8ccd-ac376357a8aa,Daen Iontis,humans,0
+6ae56c40-355d-47e0-9734-0a2393e6a1ef,Squirrels,other_animals,0
+6aeef72f-e121-46bc-b6bd-f0179e96b2e0,Hunting Lizard,reptiles,0
+6b565212-22a4-4b01-acf7-2807e7238e4b,Crocodiles,reptiles,0
+6b65b92e-8ec2-4b8c-90ac-d3bdbb84a10f,Dunlendings Priests,humans,2
+6b96a000-7394-4de4-9fde-b349eed7c89b,Madratines,carnivores,0
+6bd3fc5e-78c4-4660-ae3c-8a31c464a623,Natural Hazards,hazards,0
+6bea4169-33ec-493c-bc31-5fac30371664,Pond Bats,flying_animals,1
+6ea642d1-81fb-4e28-8610-d9138006d0d1,Snakes,reptiles,0
+6eef3cf9-5557-4332-acc4-0c80a917945b,Gondorian rangers,humans,-2
+707f6cd9-fdee-4006-96e2-89fcd7b4aa4d,Snow-elves (Lossidil),elves,-2
+70d83c41-7dff-42dd-b551-88c2b70d9de6,Blue Bears,carnivores,0
+719b5373-0c39-492a-9dc8-7d89e393bb1f,Gelyngyl,giant_spiders,6
+71dcd786-8c49-4a32-beaf-fbceb4f884ed,Zurkuvi,reptiles,0
+720a4236-4411-48f6-bc40-9b9981370990,Tinkers and travellers,humans,0
+72df59f3-75b5-4111-94ce-c77362c6b450,Fisherfolk,humans,0
+733fa183-e002-44ce-81a7-05c5e6877080,Nut Groves,resources,0
+73ea3ac8-0f45-461a-8281-b50af3ea92f0,Skeletons,undead,8
+751f17dc-90ee-43bd-9ef3-da811565b985,Date palms,trees,0
+75772661-0e31-4fbe-bce5-f788bea6ba78,Grain Fields,resources,0
+75c7df54-5d7b-4aa4-bf95-09532c2374ff,Hunting Bats,flying_animals,2
+75d5ce94-fdb1-4b85-8c09-42be2111e4b1,Black Lizards,reptiles,0
+765a8798-5d92-491f-9817-86762245cf9b,Rain-Drakes,drakes,7
+767ba610-a31d-4cd7-9ff4-bdb224b679d8,Elves of Mithlond,elves,-4
+76b67120-b87d-4d92-9782-df3d709041a1,Elven Loremaster,elves,-3
+7742088a-7c6d-46a5-8b8c-dbdec371056c,Slow-Fangs,amphibians,0
+77a0a020-13cf-4099-9891-8a600f31028f,Beech,trees,0
+78f9f190-a4cf-4df5-abab-4f9a9d708ee4,Chap-beech,trees,0
+78fc0517-5397-4e48-9607-8e51b24026f3,Wild Goats,herbivores,0
+796a2ada-361c-4725-b81b-94dba86ce2b2,Rohirrim Messengers,humans,0
+7abab433-c73e-457f-8ce7-fc4036ab9fa2,Red Jaws,water_creatures,0
+7ae27a7a-e115-46d9-a09a-a66b866fb5f2,Angusaiweli,other_animals,0
+7bae0d03-f6ac-4edc-a09a-7707688edeeb,Grape-leaf magnolia,plants,0
+7c4c4e62-39dd-47dc-89ba-536cbc0894a6,Aurych,herbivores,0
+7cbdc113-2f0e-4d2b-88c2-c10f272abd2c,Nethairin Erdyr,reptiles,0
+7d525a02-577b-4da8-9561-bb5ec4281f7b,Carefree mustard,plants,0
+7d6a588f-0e78-4693-be5a-7cce57cf64fd,Astabanhéli,herbivores,0
+7f9147be-e0af-45b7-ae02-8cbfc982642a,Kingfishers,flying_animals,0
+80c9b92f-fcd0-43f0-9c8c-d8138e6efe22,Nímaeargyrth,water_animals,0
+8107fb85-1a8a-4d93-8ee6-800cf52f09ca,Woodmen,humans,0
+811a8823-2b50-4b2c-8a99-8414b6283c06,Common Men,humans,0
+8120e7df-a6ef-4fc4-8f57-b7d357d07eff,Herb-lands,resources,0
+81ea8b83-60e9-45cd-a39e-0c6458e33afe,Uvag-Aak,carnivores,0
+836d92d0-4b45-48dc-b50c-c1b6e12d07f4,North Bears,carnivores,0
+84b17a11-a461-4c36-bfbf-15cc779b48ff,Carnantor,water_animals,0
+85d071e3-de44-4d3f-b1de-8e3b0134fd7d,Wandering Company,humans,0
+85d912a4-364f-41ee-9b30-a46bc252bdb0,Red Foxes Of Calenardhon,carnivores,0
+86f9459d-9806-4352-83c4-fa22d17ea479,Demon Whales,water_creatures,0
+8741e1af-9707-4854-9c10-99b822793ec8,Sand Devils,undead,8
+883229d7-fd42-4a2d-ad82-bcd8bf49e63a,Nimfiara,herbivores,0
+8852dcb8-6544-499a-99e4-7263bd285069,Ground Bees,insects,0
+893a7928-7706-40c1-8a67-e10881ea713c,White Foxes,other_animals,0
+89ac7fb7-56ea-40fb-96ee-80b03e5ff5f0,Hobbit Wanderer,hobbits,-2
+89c04337-a419-444d-9166-b55db912da7a,Angmar veterans,humans,5
+8a250d02-e24f-44aa-af47-4bc02564ccdf,Goblin-gate cave fungi,plants,0
+8ac1c2af-cded-4df8-bf03-d6c612ba03d8,Lair,hazards,0
+8b647932-ab11-483a-8b52-d8dd6d358455,Minas Ithil Courier,humans,0
+8c416bde-35cb-4dde-8a51-7a7e8fdf2b1d,People Hunters,humans,0
+8c4625b3-a0dc-44c5-bec9-cdee3f87d3da,Slaves,humans,0
+8c749264-2039-43e5-b6be-6b7e18d3d587,Deer,herbivores,0
+8c9a346b-5236-4af7-bb9e-14b4c2f51a87,Rohirrim,humans,0
+8d13e0f3-f79a-4465-b89e-b68f3043f644,Ghouls,undead,8
+8d295c86-ae3c-4fdf-8014-86e909f23769,Cattle Herds,resources,0
+8f17a466-bb5a-4570-b4e7-3f5c2ce2fa5e,Lebethron,trees,0
+8fb2d1a5-c6fd-4a6d-85d9-c32dbe6de7f5,Gondor Garrison Patrol,humans,0
+8fba8ca0-d14d-42d5-9f69-1e8cd1c60d89,Foxes,carnivores,0
+906015a3-1f45-4e7e-b2c3-388c1cb10891,Eraguk,humans,2
+910f4091-91e3-49b8-938c-8f00436dd429,Sheep,herbivores,0
+91547e1d-4dc0-4745-83c2-c385f20b0a81,Swamp Stars,undead,8
+91aa42fc-d516-4215-808b-e13614d1ec79,Spiders,insects,0
+91dc6bfb-1c36-4e84-b238-17ae408a8758,White Wolves,other_animals,0
+923686e7-e31b-4e09-a198-be4f702ef5af,Shaking Asps,reptiles,0
+9368d9f6-8057-469a-b5b9-29da801490af,Lesser Dragon,drakes,8
+93dfeeee-4449-4a7a-8f68-d5fe8b54eeb1,Sheep Pastures,resources,0
+9465fdad-d9f9-4165-be49-a57b70092638,Hillmen,humans,1
+9477fc2f-324f-4f02-9900-1f1cfca23477,Sauron's Armies,orcs,5
+94e0265a-339f-41ab-915b-8beba4a79561,Falling Rocks,hazards,0
+94f4f331-6eee-4ec1-a2d4-24694f3ce350,Cliff Lions,carnivores,0
+952aa52c-0d33-441f-948e-57860d2a32a5,Goblin King of Gundabad,orcs,5
+9651dae6-36ec-471c-8233-3981fb9e810b,Gích,carnivores,0
+98af10ef-c579-40c4-87ac-cd10e62e251b,The Witch king,undead,8
+98fc5ff6-de02-42d2-8d1c-83c224e0d5f8,Wels,water_animals,0
+9904f4a3-5d19-4c98-b4dd-6a2cc636b205,Hares,herbivores,0
+99c727ca-9f54-4161-93d0-072047747a21,Culcarnix,herbivores,0
+99ec0665-b742-461c-bbdf-51a5705e81d1,Gondorian Quarrymen,humans,0
+9b28ba2b-4763-42c2-a8b7-6b7b1703d5c4,Jatewoones,flying_animals,0
+9b28ea4a-ab57-444e-b488-2de8ee4a852b,Rivermen,humans,0
+9b337ad0-5ef8-42ad-b08b-eeab60bce82f,Elven Noble,elves,-3
+9b5b3127-487b-48f0-8045-bc6c0b219734,Pike,water_animals,0
+9bf02d8c-70fb-4828-a9e4-b4e43b8322da,Fish,water_animals,0
+9c701b1a-07da-4329-8e3d-0829a7b91445,Leech,water_animals,0
+9c72e775-5a2f-4cd1-96fb-9bfa8e59f31e,Undead,undead,8
+9cc9cdbb-60db-4874-b391-b3c50ccd2a1f,Woodland birds of Rhosgobel,flying_animals,0
+9d10d07f-a90b-4693-9013-9c1dde5e199e,Sagath,humans,2
+9e0fb2be-d9e2-4160-b2e8-ea83040f95d1,Celeborn,elves,-4
+9e16042a-4663-4bec-81f9-c27274bddd33,Snow Lions,carnivores,0
+9e6071a3-97c1-4f9d-978b-c521435176e8,Great Green Pheasants,flying_animals,0
+9ed792aa-6975-4c93-b75b-55c94d05e492,Thranduil's Silvan elves,elves,-3
+9eef4959-f668-4f30-b245-f4f405948e7e,Rangers of Arthadan,humans,-2
+9f632f47-64b9-45de-ba48-cda89e16bb49,Forest-trolls,trolls,4
+a07dec4a-add4-4645-98b9-45f34ddbc47d,Land Drakes,drakes,7
+a109ec39-a43d-4957-b446-110ae05862e8,Mallos,plants,0
+a14f5326-e687-4ae9-ad10-494bcf0cddca,Urban Northmen,humans,0
+a15e6460-6717-4ced-b4f5-602aa7c5ea19,Plague Refugee,humans,0
+a1c0f73d-6c9f-43b6-8848-0fb915b8510c,Gondorian settlers,humans,0
+a288de43-4070-432e-abe8-539f969b0ee4,Mithrim Noldor Patrol,elves,-3
+a2ab4a43-9554-4baa-8f18-c0272d2266d9,Birch,trees,0
+a2dd5045-97d5-4ee9-b6b5-db32b00378ea,Pirates,humans,2
+a46e6007-0197-42e0-9a85-d1663f82a41d,Beacon,hazards,0
+a4b1aa2b-a17b-4a91-ae1c-664acde439e9,Sea Captain Sailor,elves,-3
+a59bf43b-ed5d-42c4-a0aa-ab02192000cd,Nobles & Leaders,humans,0
+a5e0f7ed-45ae-4d81-8f82-1974d9f0e5f1,Orchards & Wild Fruit,resources,0
+a626cd0a-8545-4aa1-b143-116c6cd7d910,Sand glass storm,hazards,0
+a67b78df-be91-44c7-9092-7ed39f90f39f,Cave Worms,drakes,7
+a72bc3de-387f-4c55-88a3-4e4403312207,Mirkwood rose-tree,plants,0
+a755bcba-4320-4d3a-80e7-d3e9f0afd8ac,Petlavi,reptiles,0
+a75aeee3-2613-4cd7-9a26-3e5a52813af5,King Spiders,giant_spiders,6
+a789d31c-f7cd-4f74-bed5-109f928ed3fc,Slirdu,other_animals,0
+a7960e0e-d0a3-48e2-b1c9-76e4c5949413,Asdriag & Sagath Soldiers,humans,3
+a823b248-ba5d-4dd9-94b6-ec878f4c72a9,Timberlands,resources,0
+a85ddc65-e8d5-460e-99ea-8b2e6a0f70ec,Silvan Elves (Wood-elves),elves,-3
+a8faa37b-2508-454b-8fcb-a2de88d6617f,Cavern,sites,0
+aa6753b4-ba46-47b2-88cc-3e0d23036707,Noldor (High Elves),elves,-4
+ab20c66b-5143-4427-8dbd-60b756301feb,Kine Of Araw,herbivores,0
+ab3e9bc2-c95b-4fd6-89ab-966993ae76fa,Athelas (Kingsfoil),plants,0
+ab436ad7-7281-41e9-81c6-d9aa27cd6302,Falathrim Fisher Sailor,elves,-3
+ab712062-1046-4238-b237-6a445a63669f,Sarnúmeni,water_animals,0
+ac9cb0a0-4e11-454d-b108-ac0e5af724c3,Mordor Cattle,herbivores,0
+adee16a2-dca3-443d-9601-b84662a28415,Alfirin,plants,0
+af8cd83f-acf2-45dc-a6fb-c1566ad396b4,Locusts,insects,0
+af9f82a0-f0b7-419c-84b7-5f2e31339980,Hillmen shepherds,humans,0
+b0849a4e-1db3-4006-86bc-6d3cfd7b7bfd,Tereg Trolls of Dol Guldur,trolls,4
+b0e8a8a8-dd35-4d05-8106-fbf768ac2000,Dunedain Site,sites,0
+b0fa4b6c-76c4-44f2-b55c-3427f607c433,Orc Slaves & Guards,orcs,5
+b11f824a-d357-4963-b960-edecef66bd2c,Lisicavi,carnivores,0
+b1c804af-e57a-4bb1-904f-3247e5506027,Variags,humans,3
+b2b81245-593f-4452-8d1d-542221783e7d,Ancient mountain pines of Rhudaur,trees,0
+b2b81354-a616-4b33-b26d-c746e85a533c,Sakalai,humans,2
+b2b8b6a5-6035-4dc3-a075-2df16bccd61b,Watchers In The Water,water_creatures,0
+b302e2bc-0c6c-4c63-906a-10ae17b31cb6,Umbarean agents,humans,4
+b4283e0c-00a0-464f-a5f1-dd3d4bcda626,Horses of Rohan,riding_animals,0
+b4c50a02-ea2c-4e57-8a28-23d45092d528,Red Eagles,flying_animals,-1
+b64c6dea-1ac4-44ea-ad56-af303a424eff,Half-orcs,orcs,5
+b658e758-b9ff-40e4-94fe-bae2612d0fc9,Horsefolk Éored,humans,0
+b7757f56-109f-4cfb-bb1e-4e5b8000ff86,Woses,humans,-1
+b7c21b0d-c385-48ef-9dd8-9387d6803796,Tharbad people,humans,0
+b7f03af7-8d83-4ba9-8485-5822f69b651c,Black Bears,carnivores,0
+b95be050-1da4-47ae-b5ea-b2305dd12f4d,Hounds,carnivores,0
+ba0f7acd-7d65-4b3b-8425-bf2363bc04b2,Orc Warband,orcs,5
+bc4d3f9c-e2eb-4852-92c4-ca805cc0b5a6,Garth,sites,0
+bca15e9a-233e-4d53-bf7a-75dcc15be6fe,Estaravi,humans,0
+bcf9bf2a-fca1-49d8-b540-a0e0777a047e,Lossoth,humans,0
+bdb8190e-09bf-451c-836b-72ee6fcb1710,Uruk-hai,orcs,5
+bdc2a170-feb6-4648-a4e5-8f7793f6b162,Marsh Crocodiles,reptiles,0
+beb14c2f-1adc-40da-91bf-177af1083f1d,Dwarf Miners of Harlindon,dwarves,-1
+bf1ba528-8f5c-4a5b-ada0-8e58d605ceba,Elk,herbivores,0
+bf84e172-9d10-4911-880a-bb1c7f54ab5e,Insect Swarm,insects,0
+bfdb89b1-f439-47ef-be8c-8110ed336d70,Great Serpent,reptiles,0
+bfe667d7-574f-4bf6-877e-28daa6d561cf,Vereut Eagles,flying_animals,0
+c016b81a-0dad-4c6c-87dc-dd489dd87325,Cliff Hornets,insects,0
+c077a563-2275-48f5-809c-40d3c19f682e,Poisonous Fumes,hazards,0
+c07dd62d-f9e7-42da-adc2-1df2cebe15fb,Corpse Candles,undead,8
+c10a09cc-9896-47ae-bc69-759e871bf6cb,Black Demons,demons,10
+c14d53ca-da49-4116-ba28-d4d6499ef808,Stetanavi,herbivores,0
+c2114b9a-261d-4549-bc57-df6877465c46,Uncavi,carnivores,0
+c2602d09-321b-461f-bba4-915609a897a0,Burial Sites,sites,0
+c3605377-6868-4ff9-87c4-778d73c9a159,Cave-trolls,trolls,4
+c3928a43-6d5a-4d60-8099-9253a09bb58f,Giant Spiders,giant_spiders,6
+c3ffc3f1-f290-482b-a474-53fa5b259a72,Broadbeam Dwarf Patrol,dwarves,-1
+c45a0a85-fb39-4f75-8d23-c4d9c670ae4c,Rivermen traders,humans,0
+c45fe0fe-a440-470f-8bd3-a99b0e8a61c6,Armed Patrol,humans,0
+c5a3e121-2234-4f2a-8fe8-238db9eb4a0c,Haruze,humans,2
+c5ec8809-14ea-418f-b7b5-f1c90df1eec8,Gorcrows,flying_animals,5
+c6464b02-e47b-4322-b90f-07862a8fd414,Lumimiehet,humans,0
+c7433532-3956-489f-8c0b-b7a21e73c7ba,Fintónarki,herbivores,0
+c74a5339-1b6f-481a-9705-a85cad456d93,Scouts,humans,0
+c793a19e-d76c-4ee6-b953-a727e72c8530,Furry oak,trees,0
+c7f29bd8-ba58-403c-b28e-0bf159a7203c,Hornets,insects,0
+c89386a2-b71f-4243-ab0d-e15d4094c152,Saralainn,humans,0
+c89ff2d0-b1cb-4ea0-bab6-9306ac788564,Orc Elite Guards,orcs,5
+c8a813f6-2305-4f07-b583-b46443dcc604,Rats,herbivores,0
+c9006cd1-13b3-4fff-bfb2-b645eb5ee614,Beornings,humans,-2
+c94101e3-02c6-4501-b64d-3e8bf720f6cd,Goral,herbivores,0
+c99045c9-ead0-492f-9a74-52928c224145,Sea lords of Lebennin,humans,0
+ca5be08c-8bfc-4a61-ad18-a975f513fa61,Stoors of New Maresh,hobbits,-2
+ca926d68-6b4e-42eb-b537-1f3c96f5227d,Eredrim,humans,0
+cb0e3b76-a4c9-46c7-bf70-2f4212e34ea3,Lynx,carnivores,0
+cc214109-5079-4f8a-b61a-07e38e62d6df,Dunmen's Dogs,riding_animals,0
+cc30a0c8-7ef3-4db3-bec8-58438f507ab3,Glacier,hazards,0
+ccae80ae-3bda-4cb0-8ab7-0c82016d20d0,Vuk,carnivores,0
+cd791424-4995-4e26-9610-e7438316b516,Winged Cold-Drakes,drakes,9
+cdd8078c-a1cf-4102-a5f5-63b1a6ac3da4,Military Unit,humans,0
+cdeb9648-adc1-465d-998e-f2aa0a6e7aec,Cliff,hazards,0
+cdf657be-8537-4e0f-8035-5b276f9948fd,People Fur Trappers,humans,0
+ce1b0165-d4ed-4828-a777-56d4aa27c185,Marshmen,humans,0
+ce65ed72-0712-49ac-9120-4808d4a8ad07,Marsh Adders,reptiles,0
+cee52cc8-ac0e-4c41-9fe9-1761fea711f5,Guard Tower,sites,0
+cfe04839-dd5b-431a-abc1-b9a76feea98a,Dyrians,humans,0
+d18fcd08-da18-4540-b5c6-7b8eff81e448,Corsairs,humans,3
+d23c16a2-86e0-4d46-821d-8002e6802f41,Daen folk,humans,0
+d286f0a6-88fe-4018-bf61-0c0db4ace662,Young Trolls,trolls,4
+d2953312-ad6a-464a-987e-fc754384334f,Marsh Ponies,riding_animals,0
+d35954a3-8475-4536-8061-8ba854037b09,Rangers of the North,humans,-3
+d3a35ef0-2b84-4234-b079-6f9602e120ce,Angmarean Patrols,orcs,5
+d416300b-4bbd-4e43-9ccf-914d364abf3a,General Trap,hazards,0
+d4910f22-9a29-4ee3-b102-14bd166d345e,Water Spring,hazards,0
+d4dda60f-0d5e-4e83-b204-e7660d77cf08,Slaves and Guards,humans,2
+d50e3b55-0211-473d-948f-4fc2c725f9f1,Brigands & Outlaws,humans,2
+d56afbb6-ee76-47dc-9a8a-bfe63c97741d,Giant Martens,carnivores,0
+d70781f7-3096-433b-84f6-ea29fff9f312,Ice Drake Gondring,drakes,8
+d76349ce-2b8a-4fc2-96da-0e6e4e4e0efb,Pilgrim Wanderer,humans,-1
+d76c89c5-cf8f-4db4-8405-5cc9459d95c3,The Necromancer of Dol Guldur,maiar,12
+d7dd96e9-d666-49c5-a60d-a489a8c58a1f,Beffraen,humans,0
+d7ddc76f-97f4-4814-80a1-bcc66bcbf207,Orc Patrol,orcs,5
+d87b16cf-182b-4141-90f1-92a93f4fb9f7,Leeches,water_animals,0
+d889fc22-2d2d-402b-b656-7400bdcb941d,Blue Otters,carnivores,0
+d9196a81-aa97-4c5c-9cf6-42bbf02630d6,Merchants & Traders,humans,0
+d941c085-8e27-4133-8228-d347294d7a74,Losrandír,herbivores,0
+da2be989-38d6-40ef-bd38-1b382996666c,Balrogs,demons,10
+db69cd68-1ad6-4f80-8814-61035bd24e8c,Red Wolves,carnivores,0
+dbbed084-7bf7-4099-9a73-a6cc8055bdc0,Elves of Edhellond,elves,-3
+dbf4184f-60a3-405d-ae3b-390388402931,Owls,flying_animals,0
+dca023d0-c6b3-468c-ae27-ba21099085cd,Caru,herbivores,0
+dcfa6a35-3db4-43f8-9f7d-d93520fe51ac,Cold Drake,drakes,9
+de1712b2-7908-4b9d-af22-14a83872c853,Loth-nu-Fuin (Glorious Lichen),plants,0
+df1d7cda-6d0d-4582-b9fa-6336d617e55f,Wild Animals,other_animals,0
+df617bb0-2e4c-48ee-bfd4-4c0cfbf27e9c,Wild Dogs,carnivores,0
+e0289f7c-e8b6-4f38-b215-117358ec4df4,Giant Vampire Bat,flying_animals,5
+e11dd6c4-a361-4923-8033-cae26439dffd,Neekerbreekers,insects,0
+e19bd5e2-c81a-4222-b490-5bb7895acf64,Druedain Site,sites,0
+e1b01cac-2ea5-4a52-b4e7-943f0fb65d3e,Fell beasts of the Emyn Guldur,drakes,8
+e1f48f13-5e11-41c4-ad22-81a9715e204a,Fishing Cats,carnivores,0
+e3d9c6ea-bebb-43b8-9b6b-dfbef48df7cc,Andamundar,riding_animals,0
+e5e0867a-3b8b-4aa7-beab-adc879ed0a98,Trolls,trolls,4
+e6b4f984-9b30-426b-b4d4-02ede67d358a,Zamkavi,reptiles,0
+e6cf8151-140f-436a-86e5-892cdb7fbd8c,Thieves & Smugglers,humans,1
+e6e97f4e-33b4-4ac4-87f7-5bbbb2ce3746,Great Lizard,reptiles,0
+e7437c52-3b0e-47fc-80da-188f9db62ed5,Great Bats,flying_animals,3
+e78ed9a7-29cf-4e99-b958-6b98ce841e99,Dwarf Prospector,dwarves,-1
+e7963437-99f8-4831-9e59-27bfbd0ddbc6,Daen Coentis,humans,0
+e797f18e-0fb3-45f9-a2e3-27bdcf54c926,Mines & Diggings,resources,0
+e8e9a955-a80f-4d0a-83a3-3528c968e1e4,Rabbits,herbivores,0
+e92dae6c-b6eb-485e-8f48-305cb0719abd,Mearas,riding_animals,0
+e9e4f1d8-e500-4392-a9fc-0a4641491683,Wargs,carnivores,0
+e9f91d53-a7ee-4465-969b-06e5c068d0bd,Bramble,plants,0
+e9fc5fea-9b5b-4b0f-af52-0cecbfe14ce3,Greater Dragon,drakes,12
+ea4a6259-4ccb-4a6f-b229-727f767fedda,Grey Wolves,carnivores,0
+eaeb6a77-d942-44fa-9db5-f25f113f8282,Dunlending Site,sites,0
+eb20a6ab-2d8d-4b29-8bba-af41e26ae6eb,Ravens,flying_animals,0
+eb3162fb-837f-43c8-a75b-237b4ecbe6f6,Calenardhons Soldiers,humans,0
+eb66ddd3-e7b9-4c71-8e70-b2b135367b1d,Cliff Buzzards,flying_animals,0
+ebbf6613-49b0-4a97-beb8-0c169775d3b8,Asdriags,humans,3
+ec5bf6f3-dc3a-47a7-9b5c-00e8fdc7feef,War Wolves,carnivores,0
+ed0c09ad-25da-4cd8-9ffb-5f86e830ecbd,Splayfoot goodwort,plants,0
+ed383920-b225-426b-9516-24786220bbba,Eels,water_animals,0
+ed8fc4df-8338-4b2e-8df1-93b0fcf8fcde,Ents,living_trees,0
+ee1ed15e-acac-4b51-b79a-dc3ed4ac97d6,Golodos,flying_animals,0
+eec8aa66-8041-4537-9387-a4f6aa02230d,Orc Scouts,orcs,5
+eee9cee3-3f27-4e21-b271-739d47761431,Small Reptiles,reptiles,0
+eeee0c62-e79c-4b0a-9131-8acf05bd3cfd,Hill-trolls,trolls,4
+efcba268-a561-4ab8-a578-ff88a139833e,Nethraich,reptiles,0
+f01c1f88-c9dc-4969-858a-6c138ca63e24,Dunedain Traveller,humans,-2
+f1166725-1ac3-4bc6-9d3f-a0a0f3b83446,Gramuz,humans,0
+f12efd4c-b22b-4ee8-b647-a0df64723463,Sturgeon,water_animals,0
+f1a98a51-29b6-4f1d-bedc-ced670bceecf,Green-Winged Crows,flying_animals,4
+f1addcd2-6864-4bea-b727-ddabab2e6f20,Black Minks,carnivores,0
+f24f70b7-587e-4eba-9521-f33176c64f19,Bandits and deserters,humans,2
+f25583e1-a952-446a-bc8b-e120305c5589,Gwingyrn (Elven ship-timber),trees,0
+f38aad29-da9e-449d-9bbd-e38f92cea941,Orc Trackers,orcs,5
+f38ca7a3-f993-4f34-96ad-b28231f6a233,Dúnedain,humans,-3
+f3adfbc5-8598-43c9-a540-31845a5bfad3,Specters,undead,8
+f3fd6129-aa5c-475d-b750-a2588eaf9787,Ice orcs,orcs,5
+f3ff2bc3-dc5e-4f32-8b97-319f4c359bd3,Cave Bears,carnivores,0
+f423b389-fe8a-497d-a925-590637569dcd,Crebain,flying_animals,5
+f4f23291-fce4-4f19-abdd-2a3d562982ae,Huorn,living_trees,0
+f56448fd-8bf0-4c25-af4a-b0aea9b92337,Umli (Half-dwarves),dwarves,-1
+f56cf501-c09e-4a39-9cdf-5bf0cdbe455c,Otrovativi,reptiles,0
+f5e6d5ee-76ba-4ba3-b13d-923a1d0f13b2,Ash Drake,drakes,7
+f6213a8d-c43d-4dea-9680-9096ca8fadb8,Men of Rhudaur,humans,2
+f637cca6-c509-44bd-80bf-68313c65696f,Dwarves of Durin,dwarves,-1
+f71c45cf-b41f-451d-8581-6f9b199f71d3,Stone-trolls,trolls,4
+f7b2ad25-e803-4753-b604-8198c7ca722e,Fen Boars,other_animals,0
+f7b850f6-81d6-4473-b115-07ec5220bd35,Bears,carnivores,0
+f88be998-fd2d-4737-bc83-3356ed5e3447,Half-elves,elves,-2
+f8deaa10-81d9-4468-a084-53b270828e56,Arthedain Site,sites,0
+f91a5ba5-f789-474d-ac5a-18cbaa1d64be,Ruins,sites,0
+f9d69ee3-26b3-4fcd-9dee-cf4b8e831e2b,Great Eagles,flying_animals,-3
+fb1f3299-d113-484b-b213-a020f48b5776,Crows,flying_animals,4
+fc7b9742-fbc4-4e1b-a5be-35cf0a53a58d,Blue Terrapins,reptiles,0
+fcac8149-1ecd-44d7-874a-bfed3e6148ad,Werewolves,undead,8
+fcdd4c2a-4a10-408b-8a33-6fb81c70f563,Orcs of Khazad-dum,orcs,5
+fdc63476-d3be-479d-8c76-e71cf1db559f,Marsh Mastiffs,carnivores,0
+fe2137cc-590c-4243-8948-9ce76d9de760,Goats,herbivores,0
+fe4b437e-cd19-41f0-8ee6-12da7d831abf,Umakavi,amphibians,0
+fec7f392-1fd7-4b32-80a2-afee15af76d7,Pit Viper,reptiles,0
+fee440a9-a603-4ae7-a63f-12f5fa2e58db,Oiolair of Tolfalas,trees,0
+ffe19566-6953-4771-a0eb-90c896b20e51,Dire Wolves,carnivores,0
