@@ -437,12 +437,80 @@ async function backfillLocationRegions() {
 }
 
 // ---------------------------------------------------------------------------
-// Ensure journey-state schema (energy/shadow + shadow_weight + log table).
-// Idempotent: runs on every deploy so local and prod pick up the columns
-// automatically. Must run BEFORE seedEntities (which inserts shadow_weight).
+// Ensure schema that lives in migrations (not in the base schema applied to
+// prod). Idempotent: runs on every deploy so local and prod pick up recent
+// migration DDL automatically. Must run BEFORE the seeds that depend on it
+// (seedEntities → shadow_weight, backfillLocationRegions → locations.region_id,
+// seedPlacesInteractions → places_interactions table).
 // ---------------------------------------------------------------------------
-async function ensureJourneyStateSchema() {
-  console.log('🔧 Ensuring journey-state schema (energy/shadow/shadow_weight)...');
+async function ensureSchema() {
+  console.log('🔧 Ensuring schema (migrations: region_id, places_interactions, energy/shadow, regions cols)...');
+
+  // --- regions columns (migrations: add_cultural_family_to_regions.sql, add_population_ratio_to_regions.sql) ---
+  await pool.query(`
+    ALTER TABLE regions
+      ADD COLUMN IF NOT EXISTS cultural_family   TEXT,
+      ADD COLUMN IF NOT EXISTS population_ratio  NUMERIC(3,2) DEFAULT 0.5 CHECK (population_ratio BETWEEN 0 AND 1)
+  `);
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_regions_cultural_family ON regions(cultural_family)
+  `);
+
+  // --- locations.region_id (migration: add_region_id_to_locations.sql) ---
+  await pool.query(`
+    ALTER TABLE locations
+      ADD COLUMN IF NOT EXISTS region_id INTEGER REFERENCES regions(id)
+  `);
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_locations_region_id ON locations(region_id)
+  `);
+
+  // --- places_interactions (migration: create_places_interactions_table.sql) ---
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS places_interactions (
+      id                SERIAL PRIMARY KEY,
+      interaction_type  TEXT    NOT NULL,
+      location_id       INTEGER REFERENCES locations(id),
+      location_type     TEXT,
+      region_id         INTEGER REFERENCES regions(id),
+      cultural_family   TEXT,
+      title             TEXT,
+      description       TEXT    NOT NULL,
+      rest_quality      SMALLINT,
+      shadow_effect     SMALLINT,
+      priority          SMALLINT NOT NULL DEFAULT 0
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_pi_location ON places_interactions(interaction_type, location_id)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_pi_type_reg ON places_interactions(interaction_type, location_type, region_id)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_pi_type_fam ON places_interactions(interaction_type, location_type, cultural_family)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_pi_region ON places_interactions(interaction_type, region_id)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_pi_family ON places_interactions(interaction_type, cultural_family)`);
+  // chk_scope: ADD CONSTRAINT has no IF NOT EXISTS, so guard it.
+  await pool.query(`
+    DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_scope') THEN
+        ALTER TABLE places_interactions
+          ADD CONSTRAINT chk_scope CHECK (
+             (location_id IS NOT NULL)
+          OR (location_type IS NOT NULL AND region_id IS NOT NULL)
+          OR (location_type IS NOT NULL AND cultural_family IS NOT NULL)
+          OR (location_type IS NOT NULL AND region_id IS NULL AND cultural_family IS NULL)
+          OR (location_type IS NULL AND region_id IS NOT NULL)
+          OR (location_type IS NULL AND cultural_family IS NOT NULL)
+          );
+      END IF;
+    END $$;
+  `);
+
+  // --- trip_days extra columns (migration: add_places_interaction_columns_to_trip_days.sql) ---
+  await pool.query(`
+    ALTER TABLE trip_days
+      ADD COLUMN IF NOT EXISTS places_interaction_id INTEGER REFERENCES places_interactions(id),
+      ADD COLUMN IF NOT EXISTS rest_quality  SMALLINT,
+      ADD COLUMN IF NOT EXISTS shadow_effect SMALLINT
+  `);
 
   // character_state: energy + shadow live values, per-character initial values.
   await pool.query(`
@@ -489,7 +557,7 @@ async function ensureJourneyStateSchema() {
     WHERE id = 2 AND template_id IS NULL AND owner_user_id IS NULL
   `);
 
-  console.log('✅ Journey-state schema ready\n');
+  console.log('✅ Schema ready\n');
 }
 
 // ---------------------------------------------------------------------------
@@ -575,7 +643,7 @@ async function main() {
     console.log('✅ Database connection established\n');
 
     await ensureConstraints();
-    await ensureJourneyStateSchema();
+    await ensureSchema();
     await seedKingdoms();
     await seedClimateZones();
     await seedConversationTopics();
