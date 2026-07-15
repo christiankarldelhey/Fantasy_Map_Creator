@@ -512,6 +512,15 @@ async function ensureSchema() {
       ADD COLUMN IF NOT EXISTS shadow_effect SMALLINT
   `);
 
+  // --- trip_days energy/shadow tracking columns ---
+  await pool.query(`
+    ALTER TABLE trip_days
+      ADD COLUMN IF NOT EXISTS energy_start INT,
+      ADD COLUMN IF NOT EXISTS energy_end   INT,
+      ADD COLUMN IF NOT EXISTS shadow_start INT,
+      ADD COLUMN IF NOT EXISTS shadow_end   INT
+  `);
+
   // character_state: energy + shadow live values, per-character initial values.
   await pool.query(`
     ALTER TABLE character_state

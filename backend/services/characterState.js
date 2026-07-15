@@ -38,6 +38,41 @@ export const TUNING = {
   // Weather thresholds ("harsh" = rain + wind sustained)
   HARSH_PRECIP_MIN: 0.1,   // precipitation > this (mm)
   HARSH_WIND_MIN: 18,      // wind_speed_10m > this
+
+  // Temperature energy cost bands (Celsius)
+  TEMPERATURE_COST: {
+    cold: [
+      { min: -15, max: -10, cost: 11 },
+      { min: -10, max: -5, cost: 8 },
+      { min: -5, max: 0, cost: 5 },
+      { min: 0, max: 5, cost: 3 },
+    ],
+    coldExtraPer5C: 3,       // each additional 5°C below -15
+    heat: [
+      { min: 28, max: 32, cost: 3 },
+      { min: 32, max: 36, cost: 6 },
+      { min: 36, max: 40, cost: 9 },
+    ],
+    heatExtraPer5C: 3,       // each additional 5°C above 40
+  },
+
+  // Multiplier applied to recovery and quiet-night bonus when resting
+  // outdoors in extreme temperatures. Sheltered (indoor) stays at 1.
+  REST_RECOVERY_MULTIPLIER: {
+    cold: [
+      { min: -15, max: -10, multiplier: 0 },
+      { min: -10, max: -5, multiplier: 0.1 },
+      { min: -5, max: 0, multiplier: 0.25 },
+      { min: 0, max: 5, multiplier: 0.5 },
+    ],
+    coldExtraMultiplier: 0,  // below -15
+    heat: [
+      { min: 28, max: 32, multiplier: 0.5 },
+      { min: 32, max: 36, multiplier: 0.25 },
+      { min: 36, max: 40, multiplier: 0.1 },
+    ],
+    heatExtraMultiplier: 0,  // above 40
+  },
 };
 
 // Encounter form classification (from the interactions table)
@@ -62,10 +97,68 @@ export function clamp(value, min = 0, max = 100) {
 // ---------------------------------------------------------------------------
 // Weather: pull inner climate record (handles nesting like naturalLanguage.js)
 // ---------------------------------------------------------------------------
-function innerClimate(sample) {
+export function innerClimate(sample) {
   if (!sample) return null;
   const c = sample.climate || sample;
   return c.climate || c;
+}
+
+/**
+ * Energy cost from extreme daily temperatures (negative, subtracted from energy).
+ * @param {number|null} meanTemp - average temperature in Celsius
+ * @returns {number}
+ */
+export function computeTemperatureEnergyCost(meanTemp) {
+  if (!Number.isFinite(meanTemp)) return 0;
+
+  const t = TUNING.TEMPERATURE_COST;
+  if (meanTemp < 28) {
+    for (const band of t.cold) {
+      if (meanTemp >= band.min && meanTemp < band.max) return -band.cost;
+    }
+    const deepest = t.cold[0];
+    const below = deepest.min - meanTemp;
+    if (below > 0) {
+      const extra = Math.floor(below / 5) * t.coldExtraPer5C;
+      return -(deepest.cost + extra);
+    }
+  } else {
+    for (const band of t.heat) {
+      if (meanTemp >= band.min && meanTemp < band.max) return -band.cost;
+    }
+    const hottest = t.heat[t.heat.length - 1];
+    const above = meanTemp - hottest.max;
+    if (above > 0) {
+      const extra = Math.floor(above / 5) * t.heatExtraPer5C;
+      return -(hottest.cost + extra);
+    }
+  }
+  return 0;
+}
+
+/**
+ * Multiplier for recovery/quiet-night bonus when resting in extreme temperatures.
+ * @param {number|null} meanTemp
+ * @param {boolean} sheltered
+ * @returns {number}
+ */
+export function computeRestRecoveryMultiplier(meanTemp, sheltered = false) {
+  if (sheltered || !Number.isFinite(meanTemp)) return 1;
+
+  const t = TUNING.REST_RECOVERY_MULTIPLIER;
+  if (meanTemp < 28) {
+    for (const band of t.cold) {
+      if (meanTemp >= band.min && meanTemp < band.max) return band.multiplier;
+    }
+    if (meanTemp < t.cold[0].min) return t.coldExtraMultiplier;
+  } else {
+    for (const band of t.heat) {
+      if (meanTemp >= band.min && meanTemp < band.max) return band.multiplier;
+    }
+    const hottest = t.heat[t.heat.length - 1];
+    if (meanTemp >= hottest.max) return t.heatExtraMultiplier;
+  }
+  return 1;
 }
 
 /**
@@ -142,20 +235,23 @@ export function sumShadowWeight(encounters) {
  * @param {boolean} p.quietNight
  * @returns {{ delta:number, parts:Object }}
  */
-export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQuality = null, harshWeatherAllDay = false, quietNight = false }) {
+export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQuality = null, harshWeatherAllDay = false, quietNight = false, meanTemperature = null, overnightLocation = null }) {
   const walk = -TUNING.WALK_COST_PER_UNIT * Math.round((distanceKm || 0) / TUNING.WALK_KM_UNIT);
   const combat = -TUNING.COMBAT_COST * countCombat(encounters);
   const tension = -TUNING.TENSION_COST * countTension(encounters);
   const weather = harshWeatherAllDay ? -TUNING.HARSH_WEATHER_COST : 0;
+  const temperature = computeTemperatureEnergyCost(meanTemperature);
+  const sheltered = !!overnightLocation?.indoor;
+  const restMultiplier = computeRestRecoveryMultiplier(meanTemperature, sheltered);
 
   let recovery = 0;
   if (restQuality != null && TUNING.REST_RECOVERY[restQuality] != null) {
-    recovery = TUNING.REST_RECOVERY[restQuality];
+    recovery = TUNING.REST_RECOVERY[restQuality] * restMultiplier;
   }
-  const quietBonus = quietNight ? TUNING.QUIET_NIGHT_BONUS : 0;
+  const quietBonus = quietNight ? TUNING.QUIET_NIGHT_BONUS * restMultiplier : 0;
 
-  const delta = walk + combat + tension + weather + recovery + quietBonus;
-  return { delta, parts: { walk, combat, tension, weather, recovery, quietBonus } };
+  const delta = walk + combat + tension + weather + temperature + recovery + quietBonus;
+  return { delta, parts: { walk, combat, tension, weather, temperature, recovery, quietBonus } };
 }
 
 // ---------------------------------------------------------------------------

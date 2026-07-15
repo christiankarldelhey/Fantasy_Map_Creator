@@ -67,6 +67,9 @@ export interface TripDay {
   is_last_day?: boolean
   trip_status?: 'active' | 'dead'
   created_at: string
+  places_interaction_id?: number | null
+  rest_quality?: number | null
+  shadow_effect?: number | null
 }
 
 export function useTrips() {

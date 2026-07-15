@@ -10,6 +10,7 @@ import {
   loadCharacterState,
   applyDayState,
   recentNotes,
+  innerClimate,
   computeEnergyDelta,
   computeShadowDelta,
   clamp,
@@ -310,12 +311,18 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       const { throughEnemy } = classifyRegionFamilies(families);
       const quietDay = encounters.length === 0;
 
+      const climateSamples = (day.climate || []).map((s) => innerClimate(s)).filter(Boolean);
+      const temps = climateSamples.map((c) => c.temperature_2m).filter((n) => Number.isFinite(n));
+      const meanTemperature = temps.length ? temps.reduce((a, b) => a + b, 0) / temps.length : null;
+
       const { delta: energyDelta } = computeEnergyDelta({
         distanceKm: day.distance_km,
         encounters,
         restQuality,
         harshWeatherAllDay: isHarshWeatherAllDay(day.climate),
         quietNight: isQuietNight(nightEncounters, day.nighttime_climate),
+        meanTemperature,
+        overnightLocation: day.overnight_location,
       });
       const { delta: shadowDelta } = computeShadowDelta({
         shadowEffect,
@@ -379,8 +386,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
          (trip_id, day_number, date, start_lng, start_lat, end_lng, end_lat,
           distance_km, walking_hours, geometry, regions, terrain_phrases, biomes, altitude,
           road_types, locations, climate, encounters, thoughts, prompt, narrative, is_last_day,
-          overnight_location, elevation_profile, places_interaction_id, rest_quality, shadow_effect)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)
+          overnight_location, elevation_profile, places_interaction_id, rest_quality, shadow_effect,
+          energy_start, energy_end, shadow_start, shadow_end)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31)
        RETURNING *`,
       [
         trip.id,
@@ -406,8 +414,12 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         day.overnight_location ? JSON.stringify(day.overnight_location) : null,
         day.elevation_profile ? JSON.stringify(day.elevation_profile) : null,
         day.overnight_interaction?.id ?? null,
-        null,
-        null,
+        day.overnight_interaction?.rest_quality ?? null,
+        day.overnight_interaction?.shadow_effect ?? null,
+        openingEnergy,
+        newEnergy,
+        openingShadow,
+        newShadow,
       ]
     );
 
