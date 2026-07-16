@@ -36,9 +36,46 @@
   </div>
 </template>
 
+<style scoped>
+.datetime-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.1;
+}
+
+.date-text {
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+  color: inherit;
+}
+
+.season-row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.season-icon {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.season-label {
+  font-family: 'IM Fell English', Georgia, serif;
+  font-size: 11px;
+  font-style: italic;
+  white-space: nowrap;
+  color: inherit;
+}
+</style>
+
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, type Component } from 'vue'
-import { LogOut, Sun, User, Map, Compass, LogIn, Wrench } from '@lucide/vue'
+import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
+import { LogOut, Sun, Leaf, Sprout, Snowflake, User, Map, Compass, LogIn, Wrench } from '@lucide/vue'
 
 const props = defineProps<{
   mode: 'wander' | 'explore'
@@ -93,10 +130,10 @@ const menuItems = computed<MenuItem[]>(() => {
 const buttonClasses = computed(() => {
   if (props.mode === 'wander') {
     // Same colors as CharacterActiveHud, using IM Fell English (intermediate artistic)
-    return 'flex items-center gap-2 h-9 p-2 rounded-lg bg-[var(--bg-parchment)] border-2 border-[var(--accent-gold)] text-[var(--text-ink-black)] text-sm cursor-pointer shadow-md font-normal'
+    return 'flex items-center gap-2 h-10 p-2 rounded-lg bg-[var(--bg-parchment)] border-2 border-[var(--accent-gold)] text-[var(--text-ink-black)] text-sm cursor-pointer shadow-md font-normal'
   } else {
-    // Explore mode: admin minimalist (same height as CalendarPicker: 32px)
-    return 'flex items-center gap-2 h-8 p-2 rounded-md bg-white border border-gray-200 text-gray-700 text-xs font-sans cursor-pointer shadow-sm font-normal'
+    // Explore mode: admin minimalist
+    return 'flex items-center gap-2 h-10 p-2 rounded-md bg-white border border-gray-200 text-gray-700 text-xs font-sans cursor-pointer shadow-sm font-normal'
   }
 })
 

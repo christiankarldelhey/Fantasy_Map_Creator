@@ -16,16 +16,13 @@
         </div>
         <div class="character-type">{{ activeCharacter?.type }}</div>
       </div>
-      <div class="resistance-bar" title="Resistance">
-        <div class="resistance-fill" :style="{ width: `${resistancePct}%` }"></div>
-      </div>
-      <div class="date-season-row">
-        <div class="date-text">{{ formattedDate }}</div>
-        <div class="season-info">
-          <component :is="seasonIcon" class="season-icon-svg" :class="season" />
-          <span class="season-name">{{ seasonLabel }}</span>
+      <div class="bars">
+        <div class="bar energy-bar" title="Energy">
+          <div class="bar-fill energy-fill" :class="energyFillClass" :style="{ width: `${energyPct}%` }"></div>
         </div>
-        <div class="region-text">{{ regionName }}</div>
+        <div class="bar shadow-bar" title="Shadow">
+          <div class="bar-fill shadow-fill" :style="{ width: `${shadowPct}%` }"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -34,50 +31,27 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useCharacter } from '@/composables/useCharacter'
-import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
-import { Leaf, Sprout, Sun, Snowflake } from '@lucide/vue'
 
 const emit = defineEmits<{
   'open-character': []
 }>()
 
 const { activeCharacter } = useCharacter()
-const { currentClimateTime } = useGlobalClimateTime()
 
-const RESISTANCE_MAX = 20
-
-const resistancePct = computed(() => {
-  const r = activeCharacter.value?.resistance ?? 0
-  return Math.min(100, Math.round((r / RESISTANCE_MAX) * 100))
+const energyPct = computed(() => {
+  const e = activeCharacter.value?.energy ?? 0
+  return Math.max(0, Math.min(100, Math.round(e)))
 })
 
-const formattedDate = computed(() => {
-  return currentClimateTime.value.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+const shadowPct = computed(() => {
+  const s = activeCharacter.value?.shadow ?? 0
+  return Math.max(0, Math.min(100, Math.round(s)))
 })
 
-const regionName = computed(() => {
-  return activeCharacter.value?.current_region || 'Unknown'
-})
-
-const season = computed(() => {
-  const month = currentClimateTime.value.getMonth()
-  if (month >= 2 && month <= 4) return 'spring'
-  if (month >= 5 && month <= 7) return 'summer'
-  if (month >= 8 && month <= 10) return 'autumn'
-  return 'winter'
-})
-
-const seasonLabel = computed(() => {
-  return season.value.charAt(0).toUpperCase() + season.value.slice(1)
-})
-
-const seasonIcon = computed(() => {
-  switch (season.value) {
-    case 'spring': return Sprout
-    case 'summer': return Sun
-    case 'autumn': return Leaf
-    case 'winter': return Snowflake
-  }
+const energyFillClass = computed(() => {
+  if (energyPct.value >= 70) return 'energy-fill--high'
+  if (energyPct.value >= 30) return 'energy-fill--medium'
+  return 'energy-fill--low'
 })
 
 function getCharacterImage(name: string): string {
@@ -156,7 +130,13 @@ function getCharacterImage(name: string): string {
   flex-shrink: 0;
 }
 
-.resistance-bar {
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bar {
   width: 100%;
   height: 5px;
   background: var(--bg-parchment-dark);
@@ -164,74 +144,24 @@ function getCharacterImage(name: string): string {
   overflow: hidden;
 }
 
-.resistance-fill {
+.bar-fill {
   height: 100%;
-  background: var(--accent-gold);
   transition: width 0.3s ease;
 }
 
-.date-season-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
+.energy-fill--high {
+  background: #556b2f;   /* dark olive green */
 }
 
-.date-text {
-  color: var(--text-ink-black);
-  font-family: 'Cinzel', Georgia, serif;
-  font-size: 11px;
-  font-weight: 600;
-  white-space: nowrap;
-  flex-shrink: 0;
+.energy-fill--medium {
+  background: #d4a520;   /* antique gold */
 }
 
-.season-info {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  flex-shrink: 0;
+.energy-fill--low {
+  background: #8b0000;   /* dark red */
 }
 
-.season-icon-svg {
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-  opacity: 0.85;
-}
-
-.season-icon-svg.spring {
-  color: #22c55e;
-}
-
-.season-icon-svg.summer {
-  color: #eab308;
-}
-
-.season-icon-svg.autumn {
-  color: #a16207;
-}
-
-.season-icon-svg.winter {
-  color: #3b82f6;
-}
-
-.season-name {
-  color: var(--text-ink-brown);
-  font-family: 'IM Fell English', Georgia, serif;
-  font-size: 10px;
-  font-style: italic;
-  white-space: nowrap;
-}
-
-.region-text {
-  color: var(--text-ink-brown);
-  font-family: 'IM Fell English', Georgia, serif;
-  font-size: 10px;
-  font-style: italic;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: right;
+.shadow-fill {
+  background: #000;
 }
 </style>

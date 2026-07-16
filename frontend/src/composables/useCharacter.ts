@@ -14,6 +14,8 @@ export interface CharacterState {
   active: boolean
   description: string
   resistance: number
+  energy: number
+  shadow: number
   permadeath: boolean
   updated_at: string
   current_location: string | null
@@ -102,7 +104,11 @@ export function useCharacter() {
       if (index !== -1) {
         characters.value[index] = response.data
       }
-      activeCharacter.value = response.data
+      if (activeCharacter.value) {
+        Object.assign(activeCharacter.value, response.data)
+      } else {
+        activeCharacter.value = response.data
+      }
       console.log('✅ Updated active character position:', response.data)
       return response.data
     } catch (err: any) {

@@ -18,6 +18,8 @@ router.get('/', async (req, res, next) => {
         c.active,
         c.description,
         c.resistance,
+        c.energy,
+        c.shadow,
         c.permadeath,
         c.updated_at,
         (
@@ -59,6 +61,8 @@ router.get('/my', authenticateToken, async (req, res, next) => {
         c.active,
         c.description,
         c.resistance,
+        c.energy,
+        c.shadow,
         c.permadeath,
         c.updated_at,
         c.template_id,
@@ -102,6 +106,8 @@ router.get('/active', async (req, res, next) => {
         c.active,
         c.description,
         c.resistance,
+        c.energy,
+        c.shadow,
         c.permadeath,
         c.updated_at,
         (
@@ -147,6 +153,8 @@ router.get('/:id', async (req, res, next) => {
         c.active,
         c.description,
         c.resistance,
+        c.energy,
+        c.shadow,
         c.permadeath,
         c.updated_at,
         (
@@ -196,7 +204,7 @@ router.put('/active/position', authenticateToken, async (req, res, next) => {
       UPDATE character_state
       SET current_lng = $1, current_lat = $2, updated_at = NOW()
       WHERE id = $3
-      RETURNING id, name, current_lng, current_lat, updated_at
+      RETURNING id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow, updated_at
     `, [current_lng, current_lat, characterId]);
 
     if (result.rows.length === 0) {
@@ -224,7 +232,7 @@ router.put('/:id/active', authenticateToken, async (req, res, next) => {
         UPDATE character_state
         SET active = true
         WHERE id = $1
-        RETURNING id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, updated_at
+        RETURNING id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow, updated_at
       `, [id]);
       if (result.rows.length === 0) {
         await pool.query('ROLLBACK');
@@ -256,7 +264,9 @@ router.put('/:id/active', authenticateToken, async (req, res, next) => {
     const result = await pool.query(`
       SELECT 
         c.id, c.name, c.current_lng, c.current_lat, c.type, c.gender, c.active,
-        c.description, c.resistance, c.permadeath, c.updated_at,
+        c.description, c.resistance,
+        c.energy,
+        c.shadow, c.permadeath, c.updated_at,
         (
           SELECT name FROM locations
           WHERE ST_DWithin(geom, ST_SetSRID(ST_Point(c.current_lng, c.current_lat), 4326), 0.01)
@@ -329,7 +339,9 @@ router.post('/clone-all', authenticateToken, async (req, res, next) => {
     const result = await pool.query(`
       SELECT 
         c.id, c.name, c.current_lng, c.current_lat, c.type, c.gender, c.active,
-        c.description, c.resistance, c.permadeath, c.updated_at, c.template_id,
+        c.description, c.resistance,
+        c.energy,
+        c.shadow, c.permadeath, c.updated_at, c.template_id,
         (u.active_character_id = c.id) as is_active_for_user,
         (
           SELECT name FROM locations
@@ -402,7 +414,7 @@ router.post('/clone/:templateId', authenticateToken, async (req, res, next) => {
     );
 
     const result = await pool.query(
-      'SELECT id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, updated_at FROM character_state WHERE id = $1',
+      'SELECT id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow, updated_at FROM character_state WHERE id = $1',
       [characterId]
     );
 
