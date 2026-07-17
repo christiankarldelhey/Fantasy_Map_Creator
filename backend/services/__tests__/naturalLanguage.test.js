@@ -324,3 +324,35 @@ test('collectNighttimeConditions falls back to calm night when nothing notable',
   assert.equal(notes.length, 1);
   assert.ok(notes[0].startsWith('-'));
 });
+
+test('collectClimateNotesByPhase appends full moon phrase to clear night weather', () => {
+  const climate = [
+    { time: '1950-07-03 19:00:00', phase: 'night', climate: { temperature_2m: 12, cloud_cover: 20, wind_speed_10m: 5, precipitation: 0 } },
+    { time: '1950-07-03 22:00:00', phase: 'night', climate: { temperature_2m: 10, cloud_cover: 25, wind_speed_10m: 4, precipitation: 0 } },
+  ];
+  const moon = { phase: 'full_moon', illumination: 1 };
+  const byPhase = collectClimateNotesByPhase(climate, moon);
+  assert.ok(byPhase.night, 'expected a night summary');
+  assert.ok(byPhase.night.includes('the full moon is bright'), byPhase.night);
+});
+
+test('collectClimateNotesByPhase hides full moon behind heavy cloud', () => {
+  const climate = [
+    { time: '1950-07-03 19:00:00', phase: 'night', climate: { temperature_2m: 12, cloud_cover: 90, wind_speed_10m: 5, precipitation: 0 } },
+    { time: '1950-07-03 22:00:00', phase: 'night', climate: { temperature_2m: 10, cloud_cover: 95, wind_speed_10m: 4, precipitation: 0 } },
+  ];
+  const moon = { phase: 'full_moon', illumination: 1 };
+  const byPhase = collectClimateNotesByPhase(climate, moon);
+  assert.ok(byPhase.night, 'expected a night summary');
+  assert.ok(!byPhase.night.includes('full moon'), `should not mention full moon, got: ${byPhase.night}`);
+});
+
+test('collectClimateNotesByPhase always adds new moon phrase regardless of cloud cover', () => {
+  const climate = [
+    { time: '1950-07-03 19:00:00', phase: 'night', climate: { temperature_2m: 12, cloud_cover: 90, wind_speed_10m: 5, precipitation: 0 } },
+  ];
+  const moon = { phase: 'new_moon', illumination: 0 };
+  const byPhase = collectClimateNotesByPhase(climate, moon);
+  assert.ok(byPhase.night, 'expected a night summary');
+  assert.ok(byPhase.night.includes('no moon rises'), byPhase.night);
+});

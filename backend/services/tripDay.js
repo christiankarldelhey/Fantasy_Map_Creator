@@ -21,6 +21,7 @@ import {
   getThoughtsForCharacter,
   selectRandomPhase,
 } from './thoughts.js';
+import { getMoonPhase } from './moonPhase.js';
 import { FRIENDLY_FAMILIES, MAX_EVIL_ENCOUNTERS_PER_DAY } from './characterState.js';
 
 /** Count encounters drawn from evil (shadow_weight > 0) entities. */
@@ -225,7 +226,7 @@ async function climateAtPoint(lng, lat, timestamp) {
  *     (a midnight storm, a hard frost, wind) can surface in the narration.
  * Hours past midnight roll the date forward one day in the timestamp.
  */
-async function sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, dateISO) {
+async function sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, dateISO, moonPhase = null) {
   // hour, phase, nextDay flag; walking hours use the leg, night uses the camp.
   const specs = [
     { hour: 7, phase: PHASE_MORNING, nextDay: false },
@@ -262,6 +263,7 @@ async function sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, dat
       time: timestamp,
       phase,
       climate: climate || null,
+      moon: moonPhase,
     });
   }
 
@@ -273,7 +275,7 @@ async function sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, dat
  * Focused on how conditions feel to a sleeping traveller (wind, rain, cold).
  * Hours past midnight roll the date forward one day in the timestamp.
  */
-async function sampleNighttimeClimate(segments, dayEndSeconds, dateISO) {
+async function sampleNighttimeClimate(segments, dayEndSeconds, dateISO, moonPhase = null) {
   const specs = [
     { hour: 20, nextDay: false },
     { hour: 23, nextDay: false },
@@ -295,6 +297,7 @@ async function sampleNighttimeClimate(segments, dayEndSeconds, dateISO) {
       time: timestamp,
       phase: PHASE_NIGHT,
       climate: climate || null,
+      moon: moonPhase,
     });
   }
 
@@ -451,6 +454,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     ? trip.start_date.slice(0, 10)
     : new Date(trip.start_date).toISOString().slice(0, 10);
   const date = addDaysISO(startDate, dayNumber - 1);
+  const moonPhase = getMoonPhase(date);
 
   // --- Geographic sampling ---
   const context = await sampleLegContext(legGeoJSON);
@@ -494,10 +498,10 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   const terrainPhrases = await loadTerrainPhrases(regionNames, categoriesToLoad);
 
   // --- Climate (sampled hourly along the leg) ---
-  const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date);
+  const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date, moonPhase);
 
   // --- Overnight climate at camp (dusk to 7am, sensation-focused) ---
-  const nighttimeClimate = await sampleNighttimeClimate(segments, dayEndSeconds, date);
+  const nighttimeClimate = await sampleNighttimeClimate(segments, dayEndSeconds, date, moonPhase);
 
   // --- Encounters ---
   // The shadow loop biases the spawn toward evil entities, capped per day and
@@ -725,6 +729,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   return {
     day_number: dayNumber,
     date,
+    moon_phase: moonPhase,
     start: leg.start,
     end: leg.end,
     distance_km: Number((leg.distance_m / 1000).toFixed(3)),

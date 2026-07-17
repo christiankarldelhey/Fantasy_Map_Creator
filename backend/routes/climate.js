@@ -1,5 +1,6 @@
 import express from 'express';
 import pool from '../db.js';
+import { getMoonPhase } from '../services/moonPhase.js';
 
 const router = express.Router();
 
@@ -66,7 +67,12 @@ router.get('/current', async (req, res, next) => {
       return res.status(404).json({ error: 'Region not found' });
     }
 
-    res.json(result.rows[0]);
+    const row = result.rows[0];
+    const moon = getMoonPhase(timestamp1950);
+    row.moon_phase = moon.phase;
+    row.moon_illumination = Number(moon.illumination.toFixed(4));
+
+    res.json(row);
   } catch (error) {
     next(error);
   }
@@ -182,6 +188,10 @@ router.get('/point', async (req, res, next) => {
       return res.status(404).json(climateResult);
     }
 
+    const moon = getMoonPhase(queryTimestamp);
+    climateResult.moon_phase = moon.phase;
+    climateResult.moon_illumination = Number(moon.illumination.toFixed(4));
+
     res.json(climateResult);
   } catch (error) {
     next(error);
@@ -232,6 +242,13 @@ router.get('/all-regions', async (req, res, next) => {
     `;
 
     const result = await pool.query(query, [timestamp1950]);
+
+    const moon = getMoonPhase(timestamp1950);
+    for (const row of result.rows) {
+      row.moon_phase = moon.phase;
+      row.moon_illumination = Number(moon.illumination.toFixed(4));
+    }
+
     res.json(result.rows);
   } catch (error) {
     next(error);

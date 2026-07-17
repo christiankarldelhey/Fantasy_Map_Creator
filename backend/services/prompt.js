@@ -1,3 +1,4 @@
+import { getMoonPhase } from './moonPhase.js';
 import {
   describeRegions,
   describeOvernightLocation,
@@ -163,7 +164,8 @@ export function buildDayPrompt(day, trip = {}, character = {}, language = 'engli
   const creatureNotes = collectCreatureNotes(day.encounters || []);
 
   // --- Time-tagged data, grouped into the three narrative phases ---
-  const climateByPhase = collectClimateNotesByPhase(day.climate);
+  const moon = day.moon_phase || getMoonPhase(day.date);
+  const climateByPhase = collectClimateNotesByPhase(day.climate, moon);
 
   const biomesByPhase = { morning: [], afternoon: [], night: [] };
   for (const b of day.biomes || []) {

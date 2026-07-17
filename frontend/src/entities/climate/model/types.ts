@@ -20,6 +20,8 @@ export interface CurrentClimateResponse {
   soil_moisture_0_to_7cm: number | null
   et0_fao_evapotranspiration: number | null
   shortwave_radiation: number | null
+  moon_phase: string | null
+  moon_illumination: number | null
 }
 
 export interface ClimateStats {
@@ -58,6 +60,8 @@ export interface PointClimateData {
   wind_direction_10m: number
   relative_humidity_2m: number
   cloud_cover: number
+  moon_phase: string | null
+  moon_illumination: number | null
 }
 
 export interface PointClimateResponse {
@@ -79,6 +83,8 @@ export interface RegionClimateData {
   precipitation: number | null
   wind_speed_10m: number | null
   cloud_cover: number | null
+  moon_phase: string | null
+  moon_illumination: number | null
 }
 
 export type AllRegionsClimateResponse = RegionClimateData[]

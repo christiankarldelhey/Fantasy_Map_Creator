@@ -668,13 +668,44 @@ function summariseWeather(ws) {
   return parts.length ? joinList(parts) : null;
 }
 
+// ---------------------------------------------------------------------------
+// Moon phases for night narratives
+// ---------------------------------------------------------------------------
+
+const MOON_NIGHT_PHRASES = {
+  new_moon: 'no moon rises; the dark is absolute away from the fire',
+  waxing_crescent: 'a thin waxing crescent follows the sunset',
+  first_quarter: 'the moon stands at first quarter, half-lit in the south',
+  waxing_gibbous: 'a waxing gibbous moon brightens the east',
+  full_moon: 'the full moon is bright; the land lies pale and open',
+  waning_gibbous: 'a waning gibbous moon lights the camp early, then dims',
+  last_quarter: 'the last-quarter moon rises late and cold',
+  waning_crescent: 'a waning crescent fades before dawn',
+};
+
+/**
+ * Return a short moon phrase for the night weather line, or null if the moon
+ * is not worth mentioning. New moon is always noted; other phases only when
+ * the night sky is not heavily clouded (meanCloud < 70%).
+ * @param {{phase:string, illumination:number}} moon
+ * @param {number|null} meanCloud
+ * @returns {string|null}
+ */
+export function formatMoonNightPhrase(moon, meanCloud) {
+  if (!moon || !moon.phase) return null;
+  if (moon.phase === 'new_moon') return MOON_NIGHT_PHRASES.new_moon;
+  if (typeof meanCloud === 'number' && meanCloud >= 70) return null;
+  return MOON_NIGHT_PHRASES[moon.phase] || null;
+}
+
 /**
  * Group weather into the three narrative phases and return one summary phrase
  * per phase (or null when no data). Night covers 19:00 -> 07:00 next day.
  * @param {Array} climateArray
+ * @param {{phase:string, illumination:number}} [moon]
  * @returns {{morning: string|null, afternoon: string|null, night: string|null}}
  */
-export function collectClimateNotesByPhase(climateArray) {
+export function collectClimateNotesByPhase(climateArray, moon = null) {
   const empty = { morning: null, afternoon: null, night: null };
   if (!Array.isArray(climateArray) || climateArray.length === 0) return empty;
 
@@ -687,7 +718,18 @@ export function collectClimateNotesByPhase(climateArray) {
 
   const result = { ...empty };
   for (const phase of CLIMATE_PHASES) {
-    if (byPhase[phase].length) result[phase] = summariseWeather(byPhase[phase]);
+    if (byPhase[phase].length) {
+      let summary = summariseWeather(byPhase[phase]);
+      if (phase === 'night' && summary && moon) {
+        const nightClouds = byPhase.night
+          .map((w) => w.cloud_cover)
+          .filter((n) => typeof n === 'number' && Number.isFinite(n));
+        const meanCloud = avg(nightClouds);
+        const phrase = formatMoonNightPhrase(moon, meanCloud);
+        if (phrase) summary = `${summary} — ${phrase}`;
+      }
+      result[phase] = summary;
+    }
   }
   return result;
 }
