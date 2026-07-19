@@ -151,9 +151,10 @@ const getDestinationName = (tripName) => {
  * @param {string} [language] - 'english' or 'spanish'
  * @param {string} [previousDaySummary] - non-AI summary of the previous day
  * @param {string} [conditionBlock] - TRAVELLER'S CONDITION block (energy/shadow), or ''
+ * @param {string[]} [bannedPhrases] - phrases repeated in earlier chapters to avoid
  * @returns {{ system: string, user: string }}
  */
-export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null, conditionBlock = '') {
+export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null, conditionBlock = '', bannedPhrases = []) {
   const charName = character.name || 'The Traveller';
   const charKind = character.entity_name ? `, ${character.entity_name}` : '';
   const charBio = character.description ? `\n${character.description}` : '';
@@ -323,6 +324,29 @@ ${character.system_prompt}
     dayContextParts.push(`Terrain effort (across the whole day):\n${elevationNote}`);
   }
 
+  // Anti-repetition: phrases the model over-used in earlier chapters of this
+  // trip, detected automatically and fed back as an explicit avoid-list.
+  let bannedPhrasesSection = '';
+  if (Array.isArray(bannedPhrases) && bannedPhrases.length) {
+    const list = bannedPhrases.map((p) => `"${p}"`).join(', ');
+    bannedPhrasesSection = `=== AVOID THESE PHRASES ===
+These phrases (and close variants) were already used in earlier chapters. Do not reuse them; find fresh wording: ${list}.
+
+`;
+  }
+
+  // Rotate the closing instruction per day so the structural framing itself
+  // varies (the three-movement rule stays intact in every variant).
+  const closingVariants = [
+    'Write the chapter as flowing prose in three movements. Let each encounter cause something to happen — a decision, a change of route, a cost.',
+    'Three movements: morning, afternoon, night. Each encounter must leave a mark — on the route, on the body, or on what the traveller now knows.',
+    'Prose in three movements. No encounter passes without consequence. The day must end differently than it began.',
+    'Three prose movements. What happens must cost something. An encounter that resolves without effect is not an encounter — it is scenery.',
+  ];
+  const closingInstruction = closingVariants[
+    ((day.day_number || 1) % closingVariants.length + closingVariants.length) % closingVariants.length
+  ];
+
   // Three chronological phase blocks. Night carries the camp conditions.
   const morningBlock = buildPhaseBlock('MORNING', 'morning');
   const afternoonBlock = buildPhaseBlock('AFTERNOON', 'afternoon');
@@ -336,7 +360,7 @@ ${character.system_prompt}
   const user = `=== ${charName.toUpperCase()} ===
 ${charName}${charKind}.${charBio}
 
-${narratorVoiceSection}${conditionBlock || ''}${journeyContextSection}${specialInstructionsSection}${thoughtsSection}=== HOW TO USE THE LAND NOTES ===
+${narratorVoiceSection}${conditionBlock || ''}${journeyContextSection}${specialInstructionsSection}${thoughtsSection}${bannedPhrasesSection}=== HOW TO USE THE LAND NOTES ===
 The notes below are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words. They tell you what is there, not how to say it. The day is laid out chronologically: the MORNING, AFTERNOON and NIGHT AT CAMP blocks each gather the terrain, weather, water and encounters that belong to that part of the day. Narrate them in that order.
 
 === ENCOUNTER RULES ===
@@ -359,7 +383,7 @@ ${afternoonBlock}
 
 ${nightBlock}
 
-Write the chapter as flowing prose in three movements. Let each encounter cause something to happen — a decision, a change of route, a cost.
+${closingInstruction}
 If the overnight location is a town or inn, let the narrative reflect this — a meal taken, a fire shared, a bed found. If it is a fortress or ruin, let it colour the night accordingly.
 
 ${language === 'spanish' ? 'Please write the entire response in Spanish.' : ''}`;

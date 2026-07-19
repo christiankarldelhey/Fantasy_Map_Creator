@@ -2,9 +2,10 @@ import express from 'express';
 import pool from '../db.js';
 import { computeRoute } from '../services/routing.js';
 import { generateDay } from '../services/tripDay.js';
-import { buildDayPrompt } from '../services/prompt.js';
+import { buildDayPrompt, SYSTEM_PROMPT } from '../services/prompt.js';
 import { createSeededRng } from '../services/encounters.js';
 import { generateNarrative } from '../services/ai.js';
+import { extractRepeatedPhrases } from '../services/phraseVices.js';
 import { authenticateToken } from '../middleware/auth.js';
 import {
   loadCharacterState,
@@ -25,6 +26,14 @@ import {
 } from '../services/characterState.js';
 
 const router = express.Router();
+
+// ---------------------------------------------------------------------------
+// GET /api/trips/meta/system-prompt - Expose the current narrator system prompt
+// so the frontend System tab can show it "from code" without duplicating it.
+// ---------------------------------------------------------------------------
+router.get('/meta/system-prompt', (req, res) => {
+  res.json({ system_prompt: SYSTEM_PROMPT });
+});
 
 // ---------------------------------------------------------------------------
 // POST /api/trips - Create a trip (computes and persists the route)
@@ -377,10 +386,27 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       }
     }
 
-    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary, conditionBlock);
+    // Anti-repetition: gather the narratives already written for this trip and
+    // detect the phrases the model keeps reusing, to feed them back as an
+    // explicit avoid-list for this chapter.
+    let bannedPhrases = [];
+    if (dayNumber > 1) {
+      const priorNarrativesRes = await pool.query(
+        `SELECT narrative FROM trip_days
+         WHERE trip_id = $1 AND day_number < $2 AND narrative IS NOT NULL
+         ORDER BY day_number`,
+        [trip.id, dayNumber]
+      );
+      const priorNarratives = priorNarrativesRes.rows.map((r) => r.narrative);
+      bannedPhrases = extractRepeatedPhrases(priorNarratives);
+    }
 
-    // Generate AI narrative (optional, if API key is configured)
-    const narrative = await generateNarrative(prompt);
+    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary, conditionBlock, bannedPhrases);
+
+    // Generate AI narrative (optional, if API key is configured). Provider and
+    // sampling params rotate per day; capture what was actually used.
+    const generation = await generateNarrative(prompt, { dayNumber: day.day_number });
+    const narrative = generation.text;
 
     // Persist only the user prompt text (system prompt lives in code)
     const promptText = prompt.user;
@@ -391,8 +417,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
           distance_km, walking_hours, geometry, regions, terrain_phrases, biomes, altitude,
           road_types, locations, climate, encounters, thoughts, prompt, narrative, is_last_day,
           overnight_location, elevation_profile, places_interaction_id, rest_quality, shadow_effect,
-          energy_start, energy_end, shadow_start, shadow_end)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31)
+          energy_start, energy_end, shadow_start, shadow_end,
+          ia_provider, temperature, frequency_penalty, presence_penalty, top_p)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36)
        RETURNING *`,
       [
         trip.id,
@@ -424,6 +451,11 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         newEnergy,
         openingShadow,
         newShadow,
+        generation.ia_provider,
+        generation.temperature,
+        generation.frequency_penalty,
+        generation.presence_penalty,
+        generation.top_p,
       ]
     );
 

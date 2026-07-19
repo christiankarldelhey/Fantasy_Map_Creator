@@ -70,6 +70,12 @@ export interface TripDay {
   places_interaction_id?: number | null
   rest_quality?: number | null
   shadow_effect?: number | null
+  // AI generation/sampling metadata actually used for this chapter
+  ia_provider?: string | null
+  temperature?: number | null
+  frequency_penalty?: number | null
+  presence_penalty?: number | null
+  top_p?: number | null
 }
 
 export function useTrips() {
@@ -139,6 +145,16 @@ export function useTrips() {
     }
   }
 
+  async function getSystemPrompt(): Promise<string> {
+    try {
+      const { data } = await tripApi.get<{ system_prompt: string }>('/trips/meta/system-prompt')
+      return data.system_prompt || ''
+    } catch (err) {
+      console.error('❌ Error loading system prompt:', err)
+      return ''
+    }
+  }
+
   async function getTrip(tripId: string): Promise<Trip> {
     loading.value = true
     error.value = null
@@ -165,5 +181,6 @@ export function useTrips() {
     generateDay,
     getDays,
     getTrip,
+    getSystemPrompt,
   }
 }

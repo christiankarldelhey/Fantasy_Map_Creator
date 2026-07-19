@@ -17,6 +17,26 @@ const GEMINI_MODEL = 'gemini-2.0-flash';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
 const PLACEHOLDER_KEY = 'your_groq_api_key_here';
 
+// --- Sampling variation (anti-repetition) ---------------------------------
+// Deterministic per-day temperature rotation: breaks the model's habitual
+// phrasing bias without going fully random (reproducible if a day is regen'd).
+const TEMP_ROTATION = [0.68, 0.74, 0.79, 0.71, 0.82, 0.66, 0.76];
+// Penalties are constant for now, but returned/persisted per chapter so the
+// System tab stays truthful and future tuning is reflected historically.
+const FREQUENCY_PENALTY = 0.35; // Groq range 0–1; also valid for Gemini
+const PRESENCE_PENALTY = 0.15;
+const TOP_P = 0.92;
+
+function samplingParamsForDay(dayNumber) {
+  const n = Number.isInteger(dayNumber) ? dayNumber : 0;
+  return {
+    temperature: TEMP_ROTATION[((n % TEMP_ROTATION.length) + TEMP_ROTATION.length) % TEMP_ROTATION.length],
+    frequency_penalty: FREQUENCY_PENALTY,
+    presence_penalty: PRESENCE_PENALTY,
+    top_p: TOP_P,
+  };
+}
+
 function isValidKey(key) {
   return key && key !== PLACEHOLDER_KEY;
 }
@@ -87,7 +107,7 @@ function parseMessages(prompt) {
   return messages;
 }
 
-async function tryGenerateGemini(client, messages) {
+async function tryGenerateGemini(client, messages, sampling) {
   const systemMessage = messages.find(m => m.role === 'system');
   const userMessage = messages.find(m => m.role === 'user') || { content: '' };
 
@@ -99,7 +119,10 @@ async function tryGenerateGemini(client, messages) {
   const result = await model.generateContent({
     contents: [{ role: 'user', parts: [{ text: userMessage.content }] }],
     generationConfig: {
-      temperature: 0.7,
+      temperature: sampling.temperature,
+      topP: sampling.top_p,
+      frequencyPenalty: sampling.frequency_penalty,
+      presencePenalty: sampling.presence_penalty,
       maxOutputTokens: 2048,
     },
   });
@@ -109,11 +132,14 @@ async function tryGenerateGemini(client, messages) {
   return content;
 }
 
-async function tryGenerateGroq(client, messages) {
+async function tryGenerateGroq(client, messages, sampling) {
   const response = await client.chat.completions.create({
     model: GROQ_MODEL,
     messages,
-    temperature: 0.7,
+    temperature: sampling.temperature,
+    top_p: sampling.top_p,
+    frequency_penalty: sampling.frequency_penalty,
+    presence_penalty: sampling.presence_penalty,
     max_tokens: 2048,
   });
 
@@ -123,64 +149,84 @@ async function tryGenerateGroq(client, messages) {
 }
 
 /**
- * Generate narrative text from a prompt using Gemini as primary provider.
+ * Build the ordered list of generation attempts for a given day.
+ * Provider rotation: even days try Gemini first, odd days try Groq first.
+ * The other provider (and the secondary Groq key) always remain as fallbacks,
+ * so resilience is preserved while the lead voice alternates per chapter.
+ * @param {number} dayNumber
+ * @returns {Array<{ provider: 'gemini'|'groq', getClient: Function, run: Function }>}
+ */
+function buildAttemptOrder(dayNumber) {
+  const geminiAttempt = {
+    provider: 'gemini',
+    getClient: getGeminiClient,
+    run: tryGenerateGemini,
+  };
+  const groqPrimaryAttempt = {
+    provider: 'groq',
+    getClient: getPrimaryClient,
+    run: tryGenerateGroq,
+  };
+  const groqSecondaryAttempt = {
+    provider: 'groq',
+    getClient: getSecondaryClient,
+    run: tryGenerateGroq,
+  };
+
+  const n = Number.isInteger(dayNumber) ? dayNumber : 0;
+  const groqLeads = ((n % 2) + 2) % 2 === 1; // odd day -> Groq leads
+  return groqLeads
+    ? [groqPrimaryAttempt, geminiAttempt, groqSecondaryAttempt]
+    : [geminiAttempt, groqPrimaryAttempt, groqSecondaryAttempt];
+}
+
+/**
+ * Generate narrative text from a prompt, rotating provider and sampling params
+ * per day to reduce repetition.
  * @param {string|{system?:string, user:string}} prompt - a plain user prompt,
  *        or an object with separate system and user messages.
- * @returns {Promise<string|null>} The generated text, or null if AI is not configured
+ * @param {{ dayNumber?: number }} [options]
+ * @returns {Promise<{ text: string|null, ia_provider: string|null,
+ *   temperature: number, frequency_penalty: number, presence_penalty: number,
+ *   top_p: number }>} The generated text plus the sampling metadata actually used.
  */
-export async function generateNarrative(prompt) {
+export async function generateNarrative(prompt, options = {}) {
+  const { dayNumber } = options;
   const messages = parseMessages(prompt);
+  const sampling = samplingParamsForDay(dayNumber);
+  const meta = {
+    ia_provider: null,
+    temperature: sampling.temperature,
+    frequency_penalty: sampling.frequency_penalty,
+    presence_penalty: sampling.presence_penalty,
+    top_p: sampling.top_p,
+  };
+
   console.log('🤖 Attempting to generate narrative...');
   console.log('📝 Prompt length:', messages[messages.length - 1]?.content?.length || 0);
+  console.log(`🎛️ Day ${dayNumber ?? '?'} sampling:`, sampling);
 
-  // Try Gemini first
-  const gemini = getGeminiClient();
-  if (gemini) {
+  const attempts = buildAttemptOrder(dayNumber);
+  for (const attempt of attempts) {
+    const client = attempt.getClient();
+    if (!client) continue;
     try {
-      const content = await tryGenerateGemini(gemini, messages);
-      if (content) return content;
-    } catch (error) {
-      console.warn('⚠️ Gemini client failed:', error.message);
-      if (isRateLimitError(error)) {
-        console.log('� Gemini rate limit hit, attempting fallback to Groq...');
-      } else {
-        return null;
-      }
-    }
-  }
-
-  // Fallback to primary Groq client
-  const primary = getPrimaryClient();
-  if (primary) {
-    try {
-      const content = await tryGenerateGroq(primary, messages);
-      if (content) return content;
-    } catch (error) {
-      console.warn('⚠️ Primary Groq client failed:', error.message);
-      if (isRateLimitError(error)) {
-        console.log('🔄 Groq rate limit hit, attempting fallback to secondary API key...');
-      } else {
-        return null;
-      }
-    }
-  }
-
-  // Fallback to secondary Groq client
-  const secondary = getSecondaryClient();
-  if (secondary) {
-    try {
-      const content = await tryGenerateGroq(secondary, messages);
+      const content = await attempt.run(client, messages, sampling);
       if (content) {
-        console.log('✅ Narrative generated successfully using secondary Groq API key');
-        return content;
+        return { ...meta, text: content, ia_provider: attempt.provider };
       }
     } catch (error) {
-      console.error('❌ Secondary Groq client also failed:', error.message);
+      console.warn(`⚠️ ${attempt.provider} client failed:`, error.message);
+      if (isRateLimitError(error)) {
+        console.log(`🔄 ${attempt.provider} rate limit hit, attempting next fallback...`);
+      }
+      // Non-rate-limit errors: still fall through to the next provider so a
+      // transient failure on the lead model doesn't lose the chapter.
     }
   }
 
   console.error('❌ No narrative could be generated (all providers failed or unavailable)');
-  return null;
+  return { ...meta, text: null };
 }
 
 /**

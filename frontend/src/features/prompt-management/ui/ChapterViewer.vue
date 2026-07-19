@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{ (e: 'close'): void; (e: 'day-generated', day: TripDay): void }>()
 
-const { trip, days, loading, generating, error, getTrip, getDays, generateDay } = useTrips()
+const { trip, days, loading, generating, error, getTrip, getDays, generateDay, getSystemPrompt } = useTrips()
 const { activeCharacter, fetchActiveCharacter } = useCharacter()
 
 function getCharacterImage(name: string): string {
@@ -34,8 +34,9 @@ const { language } = useLanguage()
 const { saveUserSettings } = useUserSettings()
 const { setTripDate, resetToRealTime } = useGlobalClimateTime()
 
-const expanded = ref<Record<string, 'narrative' | 'prompt' | 'code' | null>>({})
-const copied = ref<Record<string, { prompt?: boolean; code?: boolean }>>({})
+const expanded = ref<Record<string, 'narrative' | 'prompt' | 'code' | 'system' | null>>({})
+const copied = ref<Record<string, { prompt?: boolean; code?: boolean; system?: boolean }>>({})
+const systemPrompt = ref<string>('')
 const copiedAllCodes = ref(false)
 const exportingPdf = ref(false)
 const showCancelModal = ref(false)
@@ -75,7 +76,7 @@ const labels = computed(() => {
   }
 })
 
-function toggle(day: TripDay, panel: 'narrative' | 'prompt' | 'code') {
+function toggle(day: TripDay, panel: 'narrative' | 'prompt' | 'code' | 'system') {
   const current = expanded.value[day.id]
   expanded.value = { ...expanded.value, [day.id]: current === panel ? null : panel }
 }
@@ -84,7 +85,7 @@ function jsonCopy(day: TripDay) {
   return JSON.stringify(day, null, 2)
 }
 
-async function copyToClipboard(text: string | null | undefined, dayId: string, type: 'prompt' | 'code') {
+async function copyToClipboard(text: string | null | undefined, dayId: string, type: 'prompt' | 'code' | 'system') {
   try {
     await navigator.clipboard.writeText(text ?? '')
     copied.value = { ...copied.value, [dayId]: { ...copied.value[dayId], [type]: true } }
@@ -308,6 +309,7 @@ async function loadTripData() {
   // Expand the latest day's narrative by default
   const last = days.value[days.value.length - 1]
   if (last) expanded.value = { [last.id]: 'narrative' }
+  systemPrompt.value = await getSystemPrompt()
 }
 
 onMounted(loadTripData)
@@ -393,6 +395,14 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             <component :is="expanded[day.id] === 'code' ? ChevronDown : ChevronRight" class="w-4 h-4" />
             Code
           </button>
+          <button
+            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
+            :class="expanded[day.id] === 'system' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+            @click="toggle(day, 'system')"
+          >
+            <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+            System
+          </button>
         </div>
 
         <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
@@ -429,6 +439,29 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             :sort="false"
             theme="dark"
           />
+        </div>
+
+        <div v-if="expanded[day.id] === 'system'" class="px-4 py-4 relative">
+          <button
+            class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors"
+            :title="copied[day.id]?.system ? 'Copied' : 'Copy system prompt to clipboard'"
+            @click="copyToClipboard(systemPrompt, day.id, 'system')"
+          >
+            <component :is="copied[day.id]?.system ? Check : Copy" class="w-4 h-4" />
+          </button>
+          <div class="space-y-3 text-xs text-ink-brown">
+            <div>
+              <h4 class="font-semibold mb-1">System Prompt</h4>
+              <pre class="whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ systemPrompt || 'Not available' }}</pre>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div><span class="font-semibold">Provider:</span> {{ day.ia_provider ?? '—' }}</div>
+              <div><span class="font-semibold">Temperature:</span> {{ day.temperature ?? '—' }}</div>
+              <div><span class="font-semibold">Frequency Penalty:</span> {{ day.frequency_penalty ?? '—' }}</div>
+              <div><span class="font-semibold">Presence Penalty:</span> {{ day.presence_penalty ?? '—' }}</div>
+              <div><span class="font-semibold">Top-p:</span> {{ day.top_p ?? '—' }}</div>
+            </div>
+          </div>
         </div>
       </article>
 
@@ -553,6 +586,14 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                 <component :is="expanded[day.id] === 'code' ? ChevronDown : ChevronRight" class="w-4 h-4" />
                 Code
               </button>
+              <button
+                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
+                :class="expanded[day.id] === 'system' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+                @click="toggle(day, 'system')"
+              >
+                <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                System
+              </button>
             </div>
 
             <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
@@ -589,6 +630,29 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                 :sort="false"
                 theme="dark"
               />
+            </div>
+
+            <div v-if="expanded[day.id] === 'system'" class="px-4 py-4 relative">
+              <button
+                class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors"
+                :title="copied[day.id]?.system ? 'Copied' : 'Copy system prompt to clipboard'"
+                @click="copyToClipboard(systemPrompt, day.id, 'system')"
+              >
+                <component :is="copied[day.id]?.system ? Check : Copy" class="w-4 h-4" />
+              </button>
+              <div class="space-y-3 text-xs text-ink-brown">
+                <div>
+                  <h4 class="font-semibold mb-1">System Prompt</h4>
+                  <pre class="whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ systemPrompt || 'Not available' }}</pre>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <div><span class="font-semibold">Provider:</span> {{ day.ia_provider ?? '—' }}</div>
+                  <div><span class="font-semibold">Temperature:</span> {{ day.temperature ?? '—' }}</div>
+                  <div><span class="font-semibold">Frequency Penalty:</span> {{ day.frequency_penalty ?? '—' }}</div>
+                  <div><span class="font-semibold">Presence Penalty:</span> {{ day.presence_penalty ?? '—' }}</div>
+                  <div><span class="font-semibold">Top-p:</span> {{ day.top_p ?? '—' }}</div>
+                </div>
+              </div>
             </div>
           </article>
 
