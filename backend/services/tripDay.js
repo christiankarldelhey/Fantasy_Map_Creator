@@ -416,7 +416,7 @@ async function buildNightRegionResolver(campPoint) {
  * @param {Array<string>} [params.recentStances] - stances used in previous chapters (anti-repetition)
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, usedThoughtIds = [], character = {}, recentForms = [], recentStances = [], shadowFactor = 1 }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, usedThoughtIds = [], character = {}, recentForms = [], recentStances = [], shadowFactor = 1, shadowBand = null, characterSlug = null }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -564,14 +564,30 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   const chapterForms = []; // tracks forms used within this chapter
   const chapterStances = []; // tracks stances used within this chapter
   const encounters = [];
+
+  // Build a region name -> cultural_family map for npc_interactions queries
+  const culturalFamilyByRegion = new Map();
+  for (const r of orderedRegions) {
+    if (r.name && r.cultural_family) {
+      culturalFamilyByRegion.set(r.name, r.cultural_family);
+    }
+  }
+
   for (const e of rawEncounters) {
+    const encounterCulturalFamily = culturalFamilyByRegion.get(e.region) || null;
     const interaction = await resolveEncounter(
       e.entity,
       character,
       recentForms,
       rng,
       [...recentStances, ...chapterStances],
-      chapterForms
+      chapterForms,
+      {
+        shadowBand,
+        characterSlug,
+        culturalFamily: encounterCulturalFamily,
+        regionId: null,
+      }
     );
     chapterForms.push(interaction.form);
     if (interaction.stance) chapterStances.push(interaction.stance.stance);

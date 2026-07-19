@@ -50,6 +50,7 @@ const FALLBACK_INTERACTION = {
 const interactionCache = new Map();
 const conversationTopicsCache = new Map();
 const characterVoiceCache = new Map();
+const npcInteractionCache = new Map();
 
 export function clearInteractionCache() {
   interactionCache.clear();
@@ -67,6 +68,7 @@ export function clearAllEncounterCaches() {
   interactionCache.clear();
   conversationTopicsCache.clear();
   characterVoiceCache.clear();
+  npcInteractionCache.clear();
 }
 
 // ---------------------------------------------------------------------------
@@ -108,6 +110,112 @@ async function fetchCharacterVoice(characterId) {
   );
   characterVoiceCache.set(characterId, rows);
   return rows;
+}
+
+// ---------------------------------------------------------------------------
+// NPC interaction helpers (shadow band mapping + clone slug stripping)
+// ---------------------------------------------------------------------------
+
+export function shadowBandToDbBand(band) {
+  if (band === 'clear') return 'low';
+  if (band === 'unease') return 'mid';
+  // 'shadowed' and 'burdened' both map to 'high'
+  return 'high';
+}
+
+function stripCloneSlug(slug) {
+  if (!slug) return null;
+  // Clone slugs look like 'aranath-user-1' — strip the -user-\d+ suffix
+  return slug.replace(/-user-\d+$/, '');
+}
+
+// Relax a shadow band one step: high -> mid -> low (low has no relaxation)
+function relaxBand(band) {
+  if (band === 'high') return 'mid';
+  if (band === 'mid') return 'low';
+  return null;
+}
+
+// Score how specific a row is (more non-NULL optional columns = more specific)
+function specificityScore(row) {
+  let score = 0;
+  if (row.character_id) score++;
+  if (row.cultural_family) score++;
+  if (row.region_id) score++;
+  return score;
+}
+
+/**
+ * Fetch the best npc_interactions row for an encounter, using a fallback chain:
+ *   1. entity_id + interaction_form + shadow_band (with optional character/cultural/region preference)
+ *   2. Relax shadow_band (high -> mid -> low)
+ *   3. entity_type + interaction_form + shadow_band (with same preference)
+ *   4. Relax shadow_band on entity_type match
+ *   5. Return null (caller falls back to conversation_topics)
+ */
+async function fetchNpcInteraction({
+  entityId,
+  entityType,
+  interactionForm,
+  shadowBand: dbBand,
+  characterSlug,
+  culturalFamily,
+  regionId,
+}) {
+  const baseSlug = stripCloneSlug(characterSlug);
+  const cacheKey = `${entityId}|${entityType}|${interactionForm}|${dbBand}|${baseSlug}|${culturalFamily}|${regionId}`;
+  if (npcInteractionCache.has(cacheKey)) return npcInteractionCache.get(cacheKey);
+
+  let result = null;
+
+  // Helper: query by entity_id or entity_type, with band, preferring specific optional matches
+  const queryByDimension = async (dimensionCol, dimensionVal, band) => {
+    const { rows } = await pool.query(
+      `SELECT * FROM npc_interactions
+       WHERE ${dimensionCol} = $1 AND interaction_form = $2 AND shadow_band = $3
+         AND (character_id IS NULL OR character_id = $4)
+         AND (cultural_family IS NULL OR cultural_family = $5)
+         AND (region_id IS NULL OR region_id = $6)
+       ORDER BY
+         (character_id IS NOT NULL) DESC,
+         (cultural_family IS NOT NULL) DESC,
+         (region_id IS NOT NULL) DESC
+       LIMIT 1`,
+      [dimensionVal, interactionForm, band, baseSlug, culturalFamily, regionId]
+    );
+    return rows[0] || null;
+  };
+
+  // Attempt 1: entity_id match with exact band
+  if (entityId) {
+    result = await queryByDimension('entity_id', entityId, dbBand);
+  }
+
+  // Attempt 2: entity_id match with relaxed band
+  if (!result && entityId) {
+    let band = relaxBand(dbBand);
+    while (band && !result) {
+      result = await queryByDimension('entity_id', entityId, band);
+      band = relaxBand(band);
+    }
+  }
+
+  // Attempt 3: entity_type match with exact band
+  if (!result && entityType) {
+    result = await queryByDimension('entity_type', entityType, dbBand);
+  }
+
+  // Attempt 4: entity_type match with relaxed band
+  if (!result && entityType) {
+    let band = relaxBand(dbBand);
+    while (band && !result) {
+      result = await queryByDimension('entity_type', entityType, band);
+      band = relaxBand(band);
+    }
+  }
+
+  npcInteractionCache.set(cacheKey, result);
+  return result;
 }
 
 // ---------------------------------------------------------------------------
@@ -157,11 +265,13 @@ export async function resolveEncounter(
   recentForms = [],
   rng = Math.random,
   recentStances = [],
-  chapterForms = []
+  chapterForms = [],
+  options = {}
 ) {
   const entityType = entity?.type;
   const danger = typeof entity?.danger === 'number' ? entity.danger : 0;
   const characterId = typeof character?.id === 'number' ? character.id : null;
+  const { shadowBand: sBand, characterSlug, culturalFamily, regionId } = options;
 
   // Load all interaction rows for this entity type
   const rows = entityType ? await fetchInteractions(entityType) : [];
@@ -176,7 +286,7 @@ export async function resolveEncounter(
       `[ENCOUNTER] entity=${entity?.name} type=${entityType} danger=${danger} ` +
       `pool_size=0 form=passed_by (no candidates) topic=none stance=none outcome=none`
     );
-    return { ...FALLBACK_INTERACTION, topic: null, stance: null };
+    return { ...FALLBACK_INTERACTION, topic: null, stance: null, dialogue_content: null };
   }
 
   const combinedRecentForms = [...recentForms, ...chapterForms];
@@ -218,27 +328,51 @@ export async function resolveEncounter(
       `[ENCOUNTER] entity=${entity?.name} type=${entityType} danger=${danger} ` +
       `pool_size=${candidates.length} form=passed_by (pick failed) topic=none stance=none outcome=none`
     );
-    return { ...FALLBACK_INTERACTION, topic: null, stance: null };
+    return { ...FALLBACK_INTERACTION, topic: null, stance: null, dialogue_content: null };
   }
 
   // Dialogue selection
   let topic = null;
   let stance = null;
+  let dialogueContent = null;
   if (DIALOGUE_FORMS.includes(chosen.form)) {
-    const topics = entityType ? await fetchConversationTopics(entityType) : [];
-    if (topics.length > 0) {
-      topic = randomPick(topics, rng);
-      const voiceRows = characterId ? await fetchCharacterVoice(characterId) : [];
-      if (voiceRows.length > 0) {
-        const voiceWeighted = voiceRows.map((row) => {
-          let w = row.weight;
-          if (recentStances.includes(row.stance)) {
-            w *= RECENT_PENALTY;
-          }
-          return { ...row, effectiveWeight: w };
-        });
-        const chosenStance = weightedPick(voiceWeighted, rng);
-        stance = chosenStance || null;
+    // Try npc_interactions first (richer, entity-specific dialogue)
+    const dbBand = sBand ? shadowBandToDbBand(sBand) : 'low';
+    const npcRow = await fetchNpcInteraction({
+      entityId: entity?.id || null,
+      entityType,
+      interactionForm: chosen.form,
+      shadowBand: dbBand,
+      characterSlug,
+      culturalFamily,
+      regionId,
+    });
+
+    if (npcRow) {
+      dialogueContent = {
+        npc_attitude: npcRow.npc_attitude,
+        concrete_content: npcRow.concrete_content,
+        tension: npcRow.tension,
+        traveller_stance: npcRow.traveller_stance,
+        topic: npcRow.topic,
+      };
+    } else {
+      // Fallback to conversation_topics + character_voice
+      const topics = entityType ? await fetchConversationTopics(entityType) : [];
+      if (topics.length > 0) {
+        topic = randomPick(topics, rng);
+        const voiceRows = characterId ? await fetchCharacterVoice(characterId) : [];
+        if (voiceRows.length > 0) {
+          const voiceWeighted = voiceRows.map((row) => {
+            let w = row.weight;
+            if (recentStances.includes(row.stance)) {
+              w *= RECENT_PENALTY;
+            }
+            return { ...row, effectiveWeight: w };
+          });
+          const chosenStance = weightedPick(voiceWeighted, rng);
+          stance = chosenStance || null;
+        }
       }
     }
   }
@@ -252,7 +386,8 @@ export async function resolveEncounter(
   console.log(
     `[ENCOUNTER] entity=${entity?.name} type=${entityType} danger=${danger} ` +
     `pool_size=${candidates.length} form=${chosen.form} weight=${chosen.effectiveWeight} ` +
-    `topic=${topic?.topic ?? 'none'} stance=${stance?.stance ?? 'none'} outcome=${outcome ?? 'none'}`
+    `topic=${dialogueContent?.topic ?? topic?.topic ?? 'none'} stance=${stance?.stance ?? 'none'} ` +
+    `npc_interaction=${dialogueContent ? 'yes' : 'no'} outcome=${outcome ?? 'none'}`
   );
 
   return {
@@ -262,5 +397,6 @@ export async function resolveEncounter(
     outcome,
     topic: topic ? { topic: topic.topic, prose_hint: topic.prose_hint } : null,
     stance: stance ? { stance: stance.stance, prose_hint: stance.prose_hint } : null,
+    dialogue_content: dialogueContent,
   };
 }

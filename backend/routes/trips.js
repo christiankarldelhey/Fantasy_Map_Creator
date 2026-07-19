@@ -18,6 +18,7 @@ import {
   isQuietNight,
   classifyRegionFamilies,
   shadowSpawnFactor,
+  shadowBand,
   buildDayNote,
   buildConditionBlock,
   TUNING,
@@ -254,6 +255,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     const openingShadow = startState ? startState.shadow : 0;
     const openingEnergy = startState ? startState.energy : 100;
     const dayShadowFactor = shadowSpawnFactor(openingShadow);
+    const sBand = shadowBand(openingShadow);
 
     // Load already encountered entities for this trip
     const encounteredEntities = trip.encountered_entities || [];
@@ -290,6 +292,8 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       recentForms,
       recentStances,
       shadowFactor: dayShadowFactor,
+      shadowBand: sBand,
+      characterSlug: character.slug || null,
     });
     if (!day) {
       return res.status(409).json({ error: 'Trip is already complete; no more days to generate' });

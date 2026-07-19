@@ -48,6 +48,11 @@ const EXPORT_CONFIG = {
       filename: 'conversation_topics.csv'
     },
     {
+      table: 'npc_interactions',
+      columns: ['id', 'entity_id', 'entity_type', 'interaction_form', 'shadow_band', 'character_id', 'cultural_family', 'region_id', 'npc_attitude', 'concrete_content', 'tension', 'traveller_stance', 'topic'],
+      filename: 'dialogue_master.csv'
+    },
+    {
       table: 'entities',
       columns: ['id', 'name', 'slug', 'type', 'active', 'tier', 'parent_id', 'description', 'description_summary', 'url_path', 'biomes', 'created_at'],
       filename: 'entities.csv'

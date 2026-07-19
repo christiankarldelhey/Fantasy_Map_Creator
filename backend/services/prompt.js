@@ -66,12 +66,28 @@ function describeEncounter(e, charName) {
 
   let lines = `  * ${header}.\n    FORM: ${interaction.form}. ${interaction.prose_hint}`;
 
-  if (interaction.topic) {
-    lines += `\n    TOPIC: ${interaction.topic.prose_hint}`;
-  }
+  if (interaction.dialogue_content) {
+    const dc = interaction.dialogue_content;
+    if (dc.npc_attitude) {
+      lines += `\n    NPC ATTITUDE: ${dc.npc_attitude}`;
+    }
+    if (dc.concrete_content) {
+      lines += `\n    CONTENT SEED: ${dc.concrete_content}`;
+    }
+    if (dc.tension) {
+      lines += `\n    TENSION: ${dc.tension}`;
+    }
+    if (dc.traveller_stance) {
+      lines += `\n    TRAVELLER STANCE: ${dc.traveller_stance}`;
+    }
+  } else {
+    if (interaction.topic) {
+      lines += `\n    TOPIC: ${interaction.topic.prose_hint}`;
+    }
 
-  if (interaction.stance) {
-    lines += `\n      MANNER (${charName}): ${interaction.stance.prose_hint}`;
+    if (interaction.stance) {
+      lines += `\n      MANNER (${charName}): ${interaction.stance.prose_hint}`;
+    }
   }
 
   if (interaction.outcome) {

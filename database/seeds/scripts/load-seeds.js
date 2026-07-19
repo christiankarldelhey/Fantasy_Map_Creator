@@ -169,6 +169,53 @@ async function seedConversationTopics() {
 }
 
 // ---------------------------------------------------------------------------
+// Seed: npc_interactions
+// ---------------------------------------------------------------------------
+async function seedNpcInteractions() {
+  console.log('🎭 Seeding npc_interactions...');
+  const text = await fs.readFile(path.join(DATA_DIR, 'csv/dialogue_master.csv'), 'utf8');
+  const rows = parseCsv(text);
+  for (const r of rows) {
+    await pool.query(
+      `INSERT INTO npc_interactions (id, entity_id, entity_type, interaction_form, shadow_band,
+         character_id, cultural_family, region_id, npc_attitude, concrete_content,
+         tension, traveller_stance, topic)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+       ON CONFLICT (id) DO UPDATE SET
+         entity_id        = EXCLUDED.entity_id,
+         entity_type      = EXCLUDED.entity_type,
+         interaction_form = EXCLUDED.interaction_form,
+         shadow_band      = EXCLUDED.shadow_band,
+         character_id     = EXCLUDED.character_id,
+         cultural_family  = EXCLUDED.cultural_family,
+         region_id        = EXCLUDED.region_id,
+         npc_attitude     = EXCLUDED.npc_attitude,
+         concrete_content = EXCLUDED.concrete_content,
+         tension          = EXCLUDED.tension,
+         traveller_stance = EXCLUDED.traveller_stance,
+         topic            = EXCLUDED.topic`,
+      [
+        nullIfEmpty(r.id),
+        nullIfEmpty(r.entity_id),
+        r.entity_type,
+        r.interaction_form,
+        r.shadow_band,
+        nullIfEmpty(r.character_id),
+        nullIfEmpty(r.cultural_family),
+        nullIfEmpty(r.region_id),
+        nullIfEmpty(r.npc_attitude),
+        nullIfEmpty(r.concrete_content),
+        nullIfEmpty(r.tension),
+        nullIfEmpty(r.traveller_stance),
+        nullIfEmpty(r.topic),
+      ]
+    );
+  }
+  const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) AS count FROM npc_interactions');
+  console.log(`✅ npc_interactions: ${count} rows`);
+}
+
+// ---------------------------------------------------------------------------
 // Seed: entities
 // ---------------------------------------------------------------------------
 async function seedEntities() {
@@ -592,6 +639,11 @@ async function ensureConstraints() {
       sql: 'ALTER TABLE conversation_topics ADD PRIMARY KEY (entity_type, topic)',
     },
     {
+      table: 'npc_interactions',
+      constraint: 'npc_interactions_pkey',
+      sql: 'ALTER TABLE npc_interactions ADD PRIMARY KEY (id)',
+    },
+    {
       table: 'entities',
       constraint: 'entities_pkey',
       sql: 'ALTER TABLE entities ADD PRIMARY KEY (id)',
@@ -656,6 +708,7 @@ async function main() {
     await seedKingdoms();
     await seedClimateZones();
     await seedConversationTopics();
+    await seedNpcInteractions();
     await seedEntities();
     await seedRegionBiomeDescriptions();
 
