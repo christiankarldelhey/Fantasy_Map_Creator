@@ -166,6 +166,7 @@ async function sampleLegContext(legGeoJSON) {
        (SELECT COALESCE(json_agg(json_build_object(
           'type', b.type,
           'area_km2', round((ST_Area(ST_Intersection(b.geom, leg.geom)::geography) / 1000000)::numeric, 2),
+          'total_area_km2', round((ST_Area(b.geom::geography) / 1000000)::numeric, 2),
           'fraction', ST_LineLocatePoint(leg.geom, ST_Centroid(ST_Intersection(b.geom, leg.geom)))
         )), '[]'::json)
         FROM biomes b, leg WHERE ST_Intersects(b.geom, leg.geom)) AS biomes,
@@ -661,6 +662,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     return {
       type: b.type,
       area_km2: b.area_km2,
+      total_area_km2: b.total_area_km2,
       fraction: b.fraction,
       hour_float: Number(hourFloat.toFixed(2)),
       hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,

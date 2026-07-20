@@ -74,8 +74,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, type Component } from 'vue'
-import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
-import { LogOut, Sun, Leaf, Sprout, Snowflake, User, Map, Compass, LogIn, Wrench } from '@lucide/vue'
+import { LogOut, Sun, User, Map, Compass, LogIn, Wrench } from '@lucide/vue'
 
 const props = defineProps<{
   mode: 'wander' | 'explore'

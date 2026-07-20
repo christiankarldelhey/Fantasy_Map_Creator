@@ -571,8 +571,8 @@ export function collectTerrainNotes(biomes, altitude, regions = [], terrainPhras
 
   for (const b of presentBiomes) {
     const biomeType = typeof b === 'string' ? b : b.type;
-    const areaKm2 = typeof b === 'object' && b.area_km2 != null ? b.area_km2 : null;
-    const isSmall = areaKm2 != null && areaKm2 < 10;
+    const totalAreaKm2 = typeof b === 'object' && b.total_area_km2 != null ? b.total_area_km2 : null;
+    const isSmall = totalAreaKm2 != null && totalAreaKm2 < 10;
     const hourFloat = typeof b === 'object' && b.hour_float != null ? b.hour_float : null;
     const when = hourFloat != null ? ` (${timeOfDayPhrase(hourFloat)})` : '';
 
@@ -694,8 +694,9 @@ const MOON_NIGHT_PHRASES = {
 export function formatMoonNightPhrase(moon, meanCloud) {
   if (!moon || !moon.phase) return null;
   if (moon.phase === 'new_moon') return MOON_NIGHT_PHRASES.new_moon;
+  if (moon.phase !== 'full_moon') return null;
   if (typeof meanCloud === 'number' && meanCloud >= 70) return null;
-  return MOON_NIGHT_PHRASES[moon.phase] || null;
+  return MOON_NIGHT_PHRASES.full_moon || null;
 }
 
 /**
