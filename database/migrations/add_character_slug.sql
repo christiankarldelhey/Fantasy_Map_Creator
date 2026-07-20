@@ -1,6 +1,6 @@
 -- Migration: Add slug column to character_state
 -- Date: 2026-06-26
--- Description: Links characters to character_voice and gives the resolver a stable id.
+-- Description: Gives characters a stable slug for the resolver.
 
 -- Add the column (nullable at first so we can populate existing rows)
 ALTER TABLE character_state

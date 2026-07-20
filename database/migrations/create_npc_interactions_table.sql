@@ -1,8 +1,6 @@
 -- Migration: Create npc_interactions table
--- Description: Master table for NPC dialogue enrichment, providing entity-specific,
---   shadow-band-aware, character-specific dialogue content for narrative prompts.
---   Replaces conversation_topics as the primary dialogue source (conversation_topics
---   remains as a final fallback).
+-- Description: Master table for NPC dialogue. Holds rich, entity-specific dialogue
+--   rows and generic topic-hint fallback rows in a single table.
 
 CREATE TABLE IF NOT EXISTS npc_interactions (
     id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -17,7 +15,8 @@ CREATE TABLE IF NOT EXISTS npc_interactions (
     concrete_content TEXT,
     tension         TEXT,
     traveller_stance TEXT,
-    topic           TEXT
+    topic           TEXT,
+    topic_prose_hint TEXT
 );
 
 -- Indexes for the fallback query pattern

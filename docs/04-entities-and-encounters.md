@@ -92,13 +92,13 @@ A low-danger deer might get `glimpsed_far`; a hunting warg might get `stalks` th
 
 ### Dialogue, when it fits
 
-If the chosen form is a talking one (`brief_exchange`, `aid_or_trade`, `confronts`), the resolver also pulls a **conversation topic** for that entity type and a **stance** for your character (from a `character_voice` table) — so a Ranger and a Dúnadan-hating Dunlending bring different attitudes to the same roadside meeting.
+If the chosen form is a talking one (`brief_exchange`, `aid_or_trade`, `confronts`), the resolver pulls a single **dialogue block** from `npc_interactions` — either a rich, entity-specific row or a generic topic hint for that entity type.
 
 ### The (optional) resistance roll
 
 For dangerous, roll-triggering encounters there's a d20-style **resistance roll** — `die + resistance/10` against a `danger`-scaled threshold — producing `unscathed`, `wounded`, `badly wounded`, or `slain`. (It's feature-flagged off by default while the numbers get tuned, because permadeath-by-spreadsheet is a delicate art.)
 
-The resolver hands the narrator a compact packet: **form, prose hint, topic, stance, outcome** — the skeleton of a scene, ready to be written.
+The resolver hands the narrator a compact packet: **form, prose hint, dialogue content, outcome** — the skeleton of a scene, ready to be written.
 
 ---
 

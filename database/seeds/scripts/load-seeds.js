@@ -149,38 +149,18 @@ async function seedClimateZones() {
 }
 
 // ---------------------------------------------------------------------------
-// Seed: conversation_topics
-// ---------------------------------------------------------------------------
-async function seedConversationTopics() {
-  console.log('💬 Seeding conversation_topics...');
-  const text = await fs.readFile(path.join(DATA_DIR, 'csv/conversation_topics.csv'), 'utf8');
-  const rows = parseCsv(text);
-  for (const r of rows) {
-    await pool.query(
-      `INSERT INTO conversation_topics (entity_type, topic, prose_hint)
-       VALUES ($1, $2, $3)
-       ON CONFLICT (entity_type, topic) DO UPDATE SET
-         prose_hint = EXCLUDED.prose_hint`,
-      [r.entity_type, r.topic, nullIfEmpty(r.prose_hint)]
-    );
-  }
-  const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) AS count FROM conversation_topics');
-  console.log(`✅ conversation_topics: ${count} rows`);
-}
-
-// ---------------------------------------------------------------------------
 // Seed: npc_interactions
 // ---------------------------------------------------------------------------
 async function seedNpcInteractions() {
   console.log('🎭 Seeding npc_interactions...');
-  const text = await fs.readFile(path.join(DATA_DIR, 'csv/dialogue_master.csv'), 'utf8');
+  const text = await fs.readFile(path.join(DATA_DIR, 'csv/npc_interactions.csv'), 'utf8');
   const rows = parseCsv(text);
   for (const r of rows) {
     await pool.query(
       `INSERT INTO npc_interactions (id, entity_id, entity_type, interaction_form, shadow_band,
          character_id, cultural_family, region_id, npc_attitude, concrete_content,
-         tension, traveller_stance, topic)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+         tension, traveller_stance, topic, topic_prose_hint)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
        ON CONFLICT (id) DO UPDATE SET
          entity_id        = EXCLUDED.entity_id,
          entity_type      = EXCLUDED.entity_type,
@@ -193,7 +173,8 @@ async function seedNpcInteractions() {
          concrete_content = EXCLUDED.concrete_content,
          tension          = EXCLUDED.tension,
          traveller_stance = EXCLUDED.traveller_stance,
-         topic            = EXCLUDED.topic`,
+         topic            = EXCLUDED.topic,
+         topic_prose_hint = EXCLUDED.topic_prose_hint`,
       [
         nullIfEmpty(r.id),
         nullIfEmpty(r.entity_id),
@@ -208,6 +189,7 @@ async function seedNpcInteractions() {
         nullIfEmpty(r.tension),
         nullIfEmpty(r.traveller_stance),
         nullIfEmpty(r.topic),
+        nullIfEmpty(r.topic_prose_hint),
       ]
     );
   }
@@ -613,6 +595,15 @@ async function ensureSchema() {
     WHERE id = 2 AND template_id IS NULL AND owner_user_id IS NULL
   `);
 
+  await pool.query(`
+    ALTER TABLE npc_interactions
+      ADD COLUMN IF NOT EXISTS topic_prose_hint TEXT
+  `);
+
+  await pool.query(`
+    DROP TABLE IF EXISTS conversation_topics, character_voice
+  `);
+
   console.log('✅ Schema ready\n');
 }
 
@@ -632,11 +623,6 @@ async function ensureConstraints() {
       table: 'climate_zones',
       constraint: 'climate_zones_pkey',
       sql: 'ALTER TABLE climate_zones ADD PRIMARY KEY (id)',
-    },
-    {
-      table: 'conversation_topics',
-      constraint: 'conversation_topics_pkey',
-      sql: 'ALTER TABLE conversation_topics ADD PRIMARY KEY (entity_type, topic)',
     },
     {
       table: 'npc_interactions',
@@ -707,7 +693,6 @@ async function main() {
     await ensureSchema();
     await seedKingdoms();
     await seedClimateZones();
-    await seedConversationTopics();
     await seedNpcInteractions();
     await seedEntities();
     await seedRegionBiomeDescriptions();

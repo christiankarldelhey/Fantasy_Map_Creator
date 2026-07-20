@@ -40,8 +40,7 @@ const VALIDATION_CONFIG = {
     locations: 100,
     regions: 20,
     biomes: 15,
-    conversation_topics: 20,
-    npc_interactions: 100,
+    npc_interactions: 120,
   },
   
   // Tables with geometry that need validation
@@ -279,7 +278,6 @@ async function validateSeedFiles() {
   const migrationFiles = [
     '001_seed_kingdoms.sql',
     '002_seed_climate_zones.sql',
-    '003_seed_conversation_topics.sql',
     '010_seed_npc_interactions.sql',
   ];
   

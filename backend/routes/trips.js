@@ -272,7 +272,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     // Load already used thoughts for this trip
     const usedThoughtIds = trip.used_thought_ids || [];
 
-    // Gather forms/stances from the previous 2–3 chapters for anti-repetition
+    // Gather forms from the previous 2–3 chapters for anti-repetition
     const recentHistoryRes = await pool.query(
       `SELECT encounters FROM trip_days
        WHERE trip_id = $1 AND day_number < $2
@@ -281,25 +281,22 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       [trip.id, dayNumber]
     );
     const recentForms = [];
-    const recentStances = [];
     for (const row of recentHistoryRes.rows) {
       const encs = Array.isArray(row.encounters) ? row.encounters : [];
       for (const e of encs) {
         if (e.interaction?.form) recentForms.push(e.interaction.form);
-        if (e.interaction?.stance?.stance) recentStances.push(e.interaction.stance.stance);
       }
     }
 
-    const day = await generateDay({ 
-      trip, 
-      dayNumber, 
-      rng, 
+    const day = await generateDay({
+      trip,
+      dayNumber,
+      rng,
       excludedEntityIds: encounteredEntities,
       characterId: character.id || null,
       usedThoughtIds,
       character,
       recentForms,
-      recentStances,
       shadowFactor: dayShadowFactor,
       shadowBand: sBand,
       characterSlug: character.slug || null,

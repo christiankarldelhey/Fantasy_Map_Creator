@@ -30,7 +30,6 @@ const pool = new Pool({
 const MIGRATION_FILES = [
   '001_seed_kingdoms.sql',
   '002_seed_climate_zones.sql',
-  '003_seed_conversation_topics.sql',
   '004_seed_entities_base.sql',
 ];
 
@@ -72,7 +71,7 @@ async function verifyData() {
   const checks = [
     { table: 'kingdoms', minCount: 30 },
     { table: 'climate_zones', minCount: 50 },
-    { table: 'conversation_topics', minCount: 10 },
+    { table: 'npc_interactions', minCount: 120 },
     { table: 'entities', minCount: 400 },
   ];
   

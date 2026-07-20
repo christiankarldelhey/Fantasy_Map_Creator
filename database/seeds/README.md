@@ -40,7 +40,7 @@ npm run db:seed:export
 - **kingdoms** (37 registros) - Reinos de Middle Earth
 - **climate_zones** (87 registros) - Zonas climáticas
 - **entities** (507 registros) - Criaturas, personajes, etc.
-- **conversation_topics** (28 registros) - Tópicos de conversación
+- **npc_interactions** (247 registros) - Diálogos y tópicos de conversación
 - **region_biome_descriptions** (n registros) - Frases narrativas por región y categoría de terreno
 - **locations** (512 registros) - Ubicaciones con puntos geográficos
 - **roads** (4,119 registros) - Caminos con líneas geográficas

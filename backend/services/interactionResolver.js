@@ -8,16 +8,16 @@
 // before the LLM prompt is built.
 //
 // Exports:
-//   resolveEncounter(entity, character, recentForms, rng, recentStances, chapterForms) -> ResolvedEncounter
+//   resolveEncounter(entity, character, recentForms, rng, chapterForms, options) -> ResolvedEncounter
 //   rollResistance(entity, character, rng) -> outcome string | null
 //
 // ResolvedEncounter {
-//   form:        string,
-//   prose_hint:  string,
-//   intensity:   number,
-//   outcome:     string | null,
-//   topic:       { topic: string, prose_hint: string } | null,
-//   stance:      { stance: string, prose_hint: string } | null,
+//   form:           string,
+//   prose_hint:     string,
+//   intensity:      number,
+//   outcome:        string | null,
+//   dialogue_content: { topic, topic_prose_hint, npc_attitude, concrete_content,
+//                       tension, traveller_stance } | null,
 // }
 // ============================================================================
 
@@ -48,26 +48,14 @@ const FALLBACK_INTERACTION = {
 // ---------------------------------------------------------------------------
 
 const interactionCache = new Map();
-const conversationTopicsCache = new Map();
-const characterVoiceCache = new Map();
 const npcInteractionCache = new Map();
 
 export function clearInteractionCache() {
   interactionCache.clear();
 }
 
-export function clearConversationTopicsCache() {
-  conversationTopicsCache.clear();
-}
-
-export function clearCharacterVoiceCache() {
-  characterVoiceCache.clear();
-}
-
 export function clearAllEncounterCaches() {
   interactionCache.clear();
-  conversationTopicsCache.clear();
-  characterVoiceCache.clear();
   npcInteractionCache.clear();
 }
 
@@ -84,31 +72,6 @@ async function fetchInteractions(entityType) {
     [entityType]
   );
   interactionCache.set(entityType, rows);
-  return rows;
-}
-
-async function fetchConversationTopics(entityType) {
-  if (conversationTopicsCache.has(entityType)) return conversationTopicsCache.get(entityType);
-  const { rows } = await pool.query(
-    `SELECT topic, prose_hint
-     FROM conversation_topics
-     WHERE entity_type = $1`,
-    [entityType]
-  );
-  conversationTopicsCache.set(entityType, rows);
-  return rows;
-}
-
-async function fetchCharacterVoice(characterId) {
-  if (!characterId || Number.isNaN(characterId)) return [];
-  if (characterVoiceCache.has(characterId)) return characterVoiceCache.get(characterId);
-  const { rows } = await pool.query(
-    `SELECT stance, weight, prose_hint
-     FROM character_voice
-     WHERE character_id = $1`,
-    [characterId]
-  );
-  characterVoiceCache.set(characterId, rows);
   return rows;
 }
 
@@ -146,12 +109,12 @@ function specificityScore(row) {
 }
 
 /**
- * Fetch the best npc_interactions row for an encounter, using a fallback chain:
+ * Fetch the best rich npc_interactions row for an encounter, using a fallback chain:
  *   1. entity_id + interaction_form + shadow_band (with optional character/cultural/region preference)
  *   2. Relax shadow_band (high -> mid -> low)
  *   3. entity_type + interaction_form + shadow_band (with same preference)
  *   4. Relax shadow_band on entity_type match
- *   5. Return null (caller falls back to conversation_topics)
+ *   5. Return null (caller falls back to a generic topic row from npc_interactions)
  */
 async function fetchNpcInteraction({
   entityId,
@@ -218,6 +181,47 @@ async function fetchNpcInteraction({
   return result;
 }
 
+/**
+ * Fallback to a generic topic row when no rich npc_interactions row exists.
+ * Generic rows have interaction_form = 'topic' and no concrete content.
+ */
+async function fetchGenericTopic({
+  entityType,
+  shadowBand: dbBand,
+  characterSlug,
+  culturalFamily,
+  regionId,
+  rng,
+}) {
+  if (!entityType) return null;
+  const baseSlug = stripCloneSlug(characterSlug);
+  const candidates = [];
+
+  const queryByBand = async (band) => {
+    const { rows } = await pool.query(
+      `SELECT * FROM npc_interactions
+       WHERE entity_type = $1 AND interaction_form = 'topic' AND shadow_band = $2
+         AND (character_id IS NULL OR character_id = $3)
+         AND (cultural_family IS NULL OR cultural_family = $4)
+         AND (region_id IS NULL OR region_id = $5)
+       ORDER BY
+         (character_id IS NOT NULL) DESC,
+         (cultural_family IS NOT NULL) DESC,
+         (region_id IS NOT NULL) DESC`,
+      [entityType, band, baseSlug, culturalFamily, regionId]
+    );
+    return rows;
+  };
+
+  let band = dbBand;
+  while (band && candidates.length === 0) {
+    candidates.push(...(await queryByBand(band)));
+    band = relaxBand(band);
+  }
+
+  return randomPick(candidates, rng);
+}
+
 // ---------------------------------------------------------------------------
 // Random helpers
 // ---------------------------------------------------------------------------
@@ -264,13 +268,11 @@ export async function resolveEncounter(
   character,
   recentForms = [],
   rng = Math.random,
-  recentStances = [],
   chapterForms = [],
   options = {}
 ) {
   const entityType = entity?.type;
   const danger = typeof entity?.danger === 'number' ? entity.danger : 0;
-  const characterId = typeof character?.id === 'number' ? character.id : null;
   const { shadowBand: sBand, characterSlug, culturalFamily, regionId } = options;
 
   // Load all interaction rows for this entity type
@@ -284,9 +286,9 @@ export async function resolveEncounter(
   if (candidates.length === 0) {
     console.log(
       `[ENCOUNTER] entity=${entity?.name} type=${entityType} danger=${danger} ` +
-      `pool_size=0 form=passed_by (no candidates) topic=none stance=none outcome=none`
+      `pool_size=0 form=passed_by (no candidates) dialogue=none outcome=none`
     );
-    return { ...FALLBACK_INTERACTION, topic: null, stance: null, dialogue_content: null };
+    return { ...FALLBACK_INTERACTION, dialogue_content: null };
   }
 
   const combinedRecentForms = [...recentForms, ...chapterForms];
@@ -326,19 +328,16 @@ export async function resolveEncounter(
   if (!chosen) {
     console.log(
       `[ENCOUNTER] entity=${entity?.name} type=${entityType} danger=${danger} ` +
-      `pool_size=${candidates.length} form=passed_by (pick failed) topic=none stance=none outcome=none`
+      `pool_size=${candidates.length} form=passed_by (pick failed) dialogue=none outcome=none`
     );
-    return { ...FALLBACK_INTERACTION, topic: null, stance: null, dialogue_content: null };
+    return { ...FALLBACK_INTERACTION, dialogue_content: null };
   }
 
-  // Dialogue selection
-  let topic = null;
-  let stance = null;
+  // Dialogue selection: one unified block from npc_interactions
   let dialogueContent = null;
   if (DIALOGUE_FORMS.includes(chosen.form)) {
-    // Try npc_interactions first (richer, entity-specific dialogue)
     const dbBand = sBand ? shadowBandToDbBand(sBand) : 'low';
-    const npcRow = await fetchNpcInteraction({
+    dialogueContent = await fetchNpcInteraction({
       entityId: entity?.id || null,
       entityType,
       interactionForm: chosen.form,
@@ -348,32 +347,15 @@ export async function resolveEncounter(
       regionId,
     });
 
-    if (npcRow) {
-      dialogueContent = {
-        npc_attitude: npcRow.npc_attitude,
-        concrete_content: npcRow.concrete_content,
-        tension: npcRow.tension,
-        traveller_stance: npcRow.traveller_stance,
-        topic: npcRow.topic,
-      };
-    } else {
-      // Fallback to conversation_topics + character_voice
-      const topics = entityType ? await fetchConversationTopics(entityType) : [];
-      if (topics.length > 0) {
-        topic = randomPick(topics, rng);
-        const voiceRows = characterId ? await fetchCharacterVoice(characterId) : [];
-        if (voiceRows.length > 0) {
-          const voiceWeighted = voiceRows.map((row) => {
-            let w = row.weight;
-            if (recentStances.includes(row.stance)) {
-              w *= RECENT_PENALTY;
-            }
-            return { ...row, effectiveWeight: w };
-          });
-          const chosenStance = weightedPick(voiceWeighted, rng);
-          stance = chosenStance || null;
-        }
-      }
+    if (!dialogueContent) {
+      dialogueContent = await fetchGenericTopic({
+        entityType,
+        shadowBand: dbBand,
+        characterSlug,
+        culturalFamily,
+        regionId,
+        rng,
+      });
     }
   }
 
@@ -386,8 +368,7 @@ export async function resolveEncounter(
   console.log(
     `[ENCOUNTER] entity=${entity?.name} type=${entityType} danger=${danger} ` +
     `pool_size=${candidates.length} form=${chosen.form} weight=${chosen.effectiveWeight} ` +
-    `topic=${dialogueContent?.topic ?? topic?.topic ?? 'none'} stance=${stance?.stance ?? 'none'} ` +
-    `npc_interaction=${dialogueContent ? 'yes' : 'no'} outcome=${outcome ?? 'none'}`
+    `topic=${dialogueContent?.topic ?? 'none'} npc_interaction=${dialogueContent ? 'yes' : 'no'} outcome=${outcome ?? 'none'}`
   );
 
   return {
@@ -395,8 +376,6 @@ export async function resolveEncounter(
     prose_hint: chosen.prose_hint,
     intensity: chosen.intensity,
     outcome,
-    topic: topic ? { topic: topic.topic, prose_hint: topic.prose_hint } : null,
-    stance: stance ? { stance: stance.stance, prose_hint: stance.prose_hint } : null,
     dialogue_content: dialogueContent,
   };
 }

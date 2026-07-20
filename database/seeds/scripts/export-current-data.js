@@ -43,14 +43,9 @@ const EXPORT_CONFIG = {
       filename: 'climate_zones.csv'
     },
     {
-      table: 'conversation_topics',
-      columns: ['entity_type', 'topic', 'prose_hint'],
-      filename: 'conversation_topics.csv'
-    },
-    {
       table: 'npc_interactions',
-      columns: ['id', 'entity_id', 'entity_type', 'interaction_form', 'shadow_band', 'character_id', 'cultural_family', 'region_id', 'npc_attitude', 'concrete_content', 'tension', 'traveller_stance', 'topic'],
-      filename: 'dialogue_master.csv'
+      columns: ['id', 'entity_id', 'entity_type', 'interaction_form', 'shadow_band', 'character_id', 'cultural_family', 'region_id', 'npc_attitude', 'concrete_content', 'tension', 'traveller_stance', 'topic', 'topic_prose_hint'],
+      filename: 'npc_interactions.csv'
     },
     {
       table: 'entities',
@@ -100,9 +95,7 @@ async function exportTableAsCSV(config) {
   console.log(`📊 Exporting ${config.table} as CSV...`);
   
   try {
-    const orderByClause = config.columns.includes('id') ? 'ORDER BY id' : 
-                           config.table === 'conversation_topics' ? 'ORDER BY entity_type, topic' :
-                           '';
+    const orderByClause = config.columns.includes('id') ? 'ORDER BY id' : '';
     
     const result = await pool.query(`
       SELECT ${config.columns.join(', ')}

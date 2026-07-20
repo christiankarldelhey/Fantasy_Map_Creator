@@ -68,6 +68,9 @@ function describeEncounter(e, charName) {
 
   if (interaction.dialogue_content) {
     const dc = interaction.dialogue_content;
+    if (dc.topic) {
+      lines += `\n    TOPIC: ${dc.topic}${dc.topic_prose_hint ? ` — ${dc.topic_prose_hint}` : ''}`;
+    }
     if (dc.npc_attitude) {
       lines += `\n    NPC ATTITUDE: ${dc.npc_attitude}`;
     }
@@ -79,14 +82,6 @@ function describeEncounter(e, charName) {
     }
     if (dc.traveller_stance) {
       lines += `\n    TRAVELLER STANCE: ${dc.traveller_stance}`;
-    }
-  } else {
-    if (interaction.topic) {
-      lines += `\n    TOPIC: ${interaction.topic.prose_hint}`;
-    }
-
-    if (interaction.stance) {
-      lines += `\n      MANNER (${charName}): ${interaction.stance.prose_hint}`;
     }
   }
 
