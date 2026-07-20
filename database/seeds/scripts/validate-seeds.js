@@ -40,6 +40,7 @@ const VALIDATION_CONFIG = {
     locations: 100,
     regions: 20,
     biomes: 15,
+    encounter_forms: 130,
     npc_interactions: 120,
   },
   

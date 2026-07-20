@@ -2,8 +2,8 @@
 // Interaction Resolver
 // ----------------------------------------------------------------------------
 // Given an entity chosen for an encounter slot, resolves:
-//   - a FORM from the interactions table
-//   - optional DIALOGUE (topic + stance) for speaking forms
+//   - a FORM from the encounter_forms table
+//   - optional DIALOGUE content for speaking forms
 //   - optional OUTCOME from a resistance roll
 // before the LLM prompt is built.
 //
@@ -23,7 +23,7 @@
 
 import pool from '../db.js';
 
-// Weight multiplier applied to recently-used forms / stances (anti-repetition)
+// Weight multiplier applied to recently-used forms (anti-repetition)
 const RECENT_PENALTY = 0.3;
 
 // Intensity threshold above which stacking is suppressed in a chapter
@@ -66,8 +66,8 @@ export function clearAllEncounterCaches() {
 async function fetchInteractions(entityType) {
   if (interactionCache.has(entityType)) return interactionCache.get(entityType);
   const { rows } = await pool.query(
-    `SELECT form, intensity, weight, min_danger, max_danger, triggers_roll, prose_hint
-     FROM interactions
+    `SELECT interaction_form AS form, intensity, weight, min_danger, max_danger, triggers_roll, prose_hint
+     FROM encounter_forms
      WHERE entity_type = $1`,
     [entityType]
   );

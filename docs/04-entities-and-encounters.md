@@ -81,7 +81,7 @@ There's also a per-day **exclusion list**, so you don't meet the same wandering 
 
 Meeting a troll is not a story. *What the troll does* is. That's the job of `interactionResolver.js`, and it's where an encounter becomes a scene.
 
-Once an entity is chosen, the resolver picks a **form** — one of ~18 interaction shapes, drawn from an `interactions` table and filtered by the entity's `danger` level:
+Once an entity is chosen, the resolver picks a **form** — one of ~18 interaction shapes, drawn from an `encounter_forms` table and filtered by the entity's `danger` level:
 
 > `watches`, `stalks`, `sound_only`, `sign_only`, `glimpsed_far`, `drifts_closer`, `brief_exchange`, `aid_or_trade`, `confronts`, `hinders_passage`, `sudden_peril`, `attacks`, `presence_felt`, `reacts_withdraws`, `harvest_shelter`, `observed_activity`, `mistaken_for_object`, `scenery`…
 

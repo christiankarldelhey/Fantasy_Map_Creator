@@ -75,7 +75,7 @@ export const TUNING = {
   },
 };
 
-// Encounter form classification (from the interactions table)
+// Encounter form classification (from the encounter_forms table)
 export const COMBAT_FORMS = ['attacks'];
 export const TENSION_FORMS = ['stalks', 'watches', 'drifts_closer'];
 

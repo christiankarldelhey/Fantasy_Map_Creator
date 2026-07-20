@@ -198,6 +198,46 @@ async function seedNpcInteractions() {
 }
 
 // ---------------------------------------------------------------------------
+// Seed: encounter_forms
+// ---------------------------------------------------------------------------
+async function seedEncounterForms() {
+  console.log('🎲 Seeding encounter_forms...');
+  const text = await fs.readFile(path.join(DATA_DIR, 'csv/encounter_forms.csv'), 'utf8');
+  const rows = parseCsv(text);
+  for (const r of rows) {
+    await pool.query(
+      `INSERT INTO encounter_forms (
+         id, entity_type, interaction_form, intensity, weight,
+         min_danger, max_danger, triggers_roll, prose_hint
+       )
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+       ON CONFLICT (id) DO UPDATE SET
+         entity_type = EXCLUDED.entity_type,
+         interaction_form = EXCLUDED.interaction_form,
+         intensity = EXCLUDED.intensity,
+         weight = EXCLUDED.weight,
+         min_danger = EXCLUDED.min_danger,
+         max_danger = EXCLUDED.max_danger,
+         triggers_roll = EXCLUDED.triggers_roll,
+         prose_hint = EXCLUDED.prose_hint`,
+      [
+        r.id,
+        r.entity_type,
+        r.interaction_form,
+        parseInt(r.intensity, 10),
+        parseInt(r.weight, 10),
+        parseInt(r.min_danger, 10),
+        parseInt(r.max_danger, 10),
+        r.triggers_roll.toLowerCase() === 'true',
+        r.prose_hint,
+      ]
+    );
+  }
+  const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) AS count FROM encounter_forms');
+  console.log(`✅ encounter_forms: ${count} rows`);
+}
+
+// ---------------------------------------------------------------------------
 // Seed: entities
 // ---------------------------------------------------------------------------
 async function seedEntities() {
@@ -601,6 +641,51 @@ async function ensureSchema() {
   `);
 
   await pool.query(`
+    DO $$
+    BEGIN
+      IF to_regclass('public.interactions') IS NOT NULL
+         AND to_regclass('public.encounter_forms') IS NULL THEN
+        ALTER TABLE interactions DROP CONSTRAINT IF EXISTS interactions_pkey;
+        ALTER TABLE interactions RENAME COLUMN id TO legacy_id;
+        ALTER TABLE interactions RENAME COLUMN form TO interaction_form;
+        ALTER TABLE interactions RENAME TO encounter_forms;
+        ALTER TABLE encounter_forms ADD COLUMN id UUID;
+        UPDATE encounter_forms
+        SET id = (
+          SUBSTRING(md5(entity_type || '|' || interaction_form), 1, 8) || '-' ||
+          SUBSTRING(md5(entity_type || '|' || interaction_form), 9, 4) || '-5' ||
+          SUBSTRING(md5(entity_type || '|' || interaction_form), 14, 3) || '-a' ||
+          SUBSTRING(md5(entity_type || '|' || interaction_form), 18, 3) || '-' ||
+          SUBSTRING(md5(entity_type || '|' || interaction_form), 21, 12)
+        )::UUID;
+        ALTER TABLE encounter_forms ALTER COLUMN id SET NOT NULL;
+        ALTER TABLE encounter_forms ADD PRIMARY KEY (id);
+        ALTER TABLE encounter_forms DROP COLUMN legacy_id;
+        ALTER INDEX IF EXISTS idx_interactions_entity_type RENAME TO idx_encounter_forms_entity_type;
+      END IF;
+    END $$;
+  `);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS encounter_forms (
+      id UUID PRIMARY KEY,
+      entity_type TEXT NOT NULL,
+      interaction_form TEXT NOT NULL,
+      intensity INT NOT NULL CHECK (intensity BETWEEN 0 AND 4),
+      weight INT NOT NULL CHECK (weight > 0),
+      min_danger INT NOT NULL DEFAULT 0,
+      max_danger INT NOT NULL DEFAULT 5,
+      triggers_roll BOOLEAN NOT NULL DEFAULT false,
+      prose_hint TEXT NOT NULL,
+      UNIQUE (entity_type, interaction_form)
+    )
+  `);
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_encounter_forms_entity_type
+      ON encounter_forms (entity_type)
+  `);
+
+  await pool.query(`
     DROP TABLE IF EXISTS conversation_topics, character_voice
   `);
 
@@ -693,6 +778,7 @@ async function main() {
     await ensureSchema();
     await seedKingdoms();
     await seedClimateZones();
+    await seedEncounterForms();
     await seedNpcInteractions();
     await seedEntities();
     await seedRegionBiomeDescriptions();
