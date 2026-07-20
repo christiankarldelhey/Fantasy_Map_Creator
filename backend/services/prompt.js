@@ -36,7 +36,7 @@ Style rules:
 
 Rules for using the data:
 - The data below is RAW MATERIAL, not a checklist. Use what serves the story and discard the rest. You need not mention every region, biome, road or weather reading.
-- All the reference notes (the Weather, Terrain, Locations, Water crossings, Road and Creature notes) are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words each day. They tell you what is there, not how to say it.
+- All the reference notes (the Weather, Terrain, Locations, Water crossings, Road notes and the ABOUT line of each encounter) are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words each day. They tell you what is there, not how to say it.
 - Do not invent names of places or creatures that do not appear in the data.
 
 Cities and major towns:
@@ -56,15 +56,14 @@ const OUTCOME_DIRECTIVES = {
 
 function describeEncounter(e, charName) {
   const ent = e.entity || {};
-  // Keep the encounter header concise: name, type, region. The creature's
-  // description lives once in the CREATURE NOTES reference section, so we do
-  // not repeat it here.
+  // Render the creature description inline for this encounter.
   const header = `${ent.name} (${ent.type || 'creature'}, ${ent.active || 'all-day'}) in ${e.region}`;
 
   const interaction = e.interaction;
   if (!interaction) return `  * ${header}.`;
 
-  let lines = `  * ${header}.\n    FORM: ${interaction.form}. ${interaction.prose_hint}`;
+  const desc = ent.description_summary || ent.description || '';
+  let lines = `  * ${header}.${desc ? '\n    ABOUT: ' + desc : ''}\n    FORM: ${interaction.form}. ${interaction.prose_hint}`;
 
   if (interaction.dialogue_content) {
     const dc = interaction.dialogue_content;
@@ -116,22 +115,6 @@ function encounterSection(list, charName) {
   return lines.join('\n');
 }
 
-function collectCreatureNotes(encounters) {
-  if (!Array.isArray(encounters) || encounters.length === 0) return [];
-  const seen = new Set();
-  const notes = [];
-  for (const e of encounters) {
-    const ent = e.entity || {};
-    if (!ent.name || seen.has(ent.name)) continue;
-    seen.add(ent.name);
-    const desc = ent.description_summary || ent.description || '';
-    if (desc) {
-      notes.push(`- ${ent.name}: ${desc}`);
-    }
-  }
-  return notes;
-}
-
 const getDestinationName = (tripName) => {
   if (!tripName) return 'their destination';
   const parts = tripName.split(' to ');
@@ -154,12 +137,6 @@ export function buildDayPrompt(day, trip = {}, character = {}, language = 'engli
   const charKind = character.entity_name ? `, ${character.entity_name}` : '';
   const charBio = character.description ? `\n${character.description}` : '';
 
-  // Determine pronouns based on character gender
-  const gender = character.gender || 'female';
-  const pronouns = gender === 'male'
-    ? { subject: 'he', object: 'him', possessive: 'his', possessive2: 'his' }
-    : { subject: 'she', object: 'her', possessive: 'her', possessive2: 'hers' };
-
   const parts = { morning: [], afternoon: [], night: [] };
   for (const e of day.encounters || []) {
     // Use the phase property directly from the encounter
@@ -173,7 +150,6 @@ export function buildDayPrompt(day, trip = {}, character = {}, language = 'engli
   const roadNotes = collectRoadNotes(day.road_types, day.regions, day.terrain_phrases, day.rng);
   const elevationNote = describeElevation(day.elevation_profile, day.rng);
   const todaysWayIn = pickTodaysWayIn(day.rng);
-  const creatureNotes = collectCreatureNotes(day.encounters || []);
 
   // --- Time-tagged data, grouped into the three narrative phases ---
   const moon = day.moon_phase || getMoonPhase(day.date);
@@ -227,20 +203,6 @@ export function buildDayPrompt(day, trip = {}, character = {}, language = 'engli
 
     return `=== ${title} ===\n${sub.join('\n\n')}`;
   };
-
-  // Build thoughts section if present
-  let thoughtsSection = '';
-  if (day.thoughts && day.thoughts.options && day.thoughts.options.length > 0) {
-    const phase = day.thoughts.phase;
-    const thoughtsList = day.thoughts.options.map(t => `- ${t.thought}`).join('\n');
-    thoughtsSection = `=== CHARACTER STATE OF MIND ===
-Once in the ${phase}, slip only one of these thoughts into the narration,
-near-verbatim, triggered by something ${pronouns.subject} sees or does. ${pronouns.possessive.charAt(0).toUpperCase() + pronouns.possessive.slice(1)} own voice —
-no quotes, no italics, no "${pronouns.subject} thought", no explaining it after.
-${thoughtsList}
-
-`;
-  }
 
   // Extract season from date
   const date = new Date(day.date);
@@ -355,7 +317,7 @@ These phrases (and close variants) were already used in earlier chapters. Do not
   const user = `=== ${charName.toUpperCase()} ===
 ${charName}${charKind}.${charBio}
 
-${narratorVoiceSection}${conditionBlock || ''}${journeyContextSection}${specialInstructionsSection}${thoughtsSection}${bannedPhrasesSection}=== HOW TO USE THE LAND NOTES ===
+${narratorVoiceSection}${conditionBlock || ''}${journeyContextSection}${specialInstructionsSection}${bannedPhrasesSection}=== HOW TO USE THE LAND NOTES ===
 The notes below are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words. They tell you what is there, not how to say it. The day is laid out chronologically: the MORNING, AFTERNOON and NIGHT AT CAMP blocks each gather the terrain, weather, water and encounters that belong to that part of the day. Narrate them in that order.
 
 === ENCOUNTER RULES ===
@@ -368,9 +330,6 @@ Open the chapter's morning movement in the middle of an action, not at dawn or w
 Day ${day.day_number}. Narrate a single day's journey in three movements: morning, afternoon, and the night at camp. ${seasonContext}
 
 ${dayContextParts.join('\n\n')}
-
-=== CREATURE NOTES (reference only) ===
-${creatureNotes.join('\n') || '- No creatures of note today.'}
 
 ${morningBlock}
 

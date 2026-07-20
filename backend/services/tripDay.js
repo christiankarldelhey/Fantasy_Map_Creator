@@ -15,12 +15,6 @@ import {
   positionAtSeconds,
   sliceLeg,
 } from './tripGeometry.js';
-import {
-  rollThoughtChance,
-  determineThoughtTypeFromEncounters,
-  getThoughtsForCharacter,
-  selectRandomPhase,
-} from './thoughts.js';
 import { getMoonPhase } from './moonPhase.js';
 import { FRIENDLY_FAMILIES, MAX_EVIL_ENCOUNTERS_PER_DAY } from './characterState.js';
 
@@ -591,41 +585,6 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     encounters.push({ ...e, interaction });
   }
 
-  // --- Character Thoughts ---
-  let thoughts = null;
-  if (characterId && rollThoughtChance(rng)) {
-    const selectedPhase = selectRandomPhase(rng);
-
-    // Group encounters by phase (they already have the phase property)
-    const encountersByPhase = { morning: [], afternoon: [], night: [] };
-    for (const e of encounters) {
-      if (e.phase === PHASE_MORNING) {
-        encountersByPhase.morning.push(e);
-      } else if (e.phase === PHASE_AFTERNOON) {
-        encountersByPhase.afternoon.push(e);
-      } else if (e.phase === PHASE_NIGHT) {
-        encountersByPhase.night.push(e);
-      }
-    }
-
-    const phaseEncounters = encountersByPhase[selectedPhase];
-    const thoughtType = determineThoughtTypeFromEncounters(phaseEncounters);
-
-    const thoughtOptions = await getThoughtsForCharacter(characterId, thoughtType, usedThoughtIds);
-
-    if (thoughtOptions.length > 0) {
-      thoughts = {
-        phase: selectedPhase,
-        type: thoughtType,
-        options: thoughtOptions.map(t => ({
-          id: t.id,
-          thought: t.thought,
-          thought_id: t.thought_id
-        }))
-      };
-    }
-  }
-
   // --- Road type breakdown (km) ---
   const roadTypes = {};
   for (const [type, meters] of Object.entries(leg.roadTypeBreakdown)) {
@@ -759,7 +718,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     climate,
     nighttime_climate: nighttimeClimate,
     encounters,
-    thoughts,
+    thoughts: null,
     water_crossings: waterCrossings,
     overnight_location: overnightLocation,
     overnight_interaction: overnightInteraction,
