@@ -21,6 +21,7 @@ router.get('/', async (req, res, next) => {
         c.energy,
         c.shadow,
         c.permadeath,
+        c.status,
         c.updated_at,
         (
           SELECT name 
@@ -64,6 +65,7 @@ router.get('/my', authenticateToken, async (req, res, next) => {
         c.energy,
         c.shadow,
         c.permadeath,
+        c.status,
         c.updated_at,
         c.template_id,
         (u.active_character_id = c.id) as is_active_for_user,
@@ -109,6 +111,7 @@ router.get('/active', async (req, res, next) => {
         c.energy,
         c.shadow,
         c.permadeath,
+        c.status,
         c.updated_at,
         (
           SELECT name 
@@ -156,6 +159,7 @@ router.get('/:id', async (req, res, next) => {
         c.energy,
         c.shadow,
         c.permadeath,
+        c.status,
         c.updated_at,
         (
           SELECT name 
@@ -266,7 +270,8 @@ router.put('/:id/active', authenticateToken, async (req, res, next) => {
         c.id, c.name, c.current_lng, c.current_lat, c.type, c.gender, c.active,
         c.description, c.resistance,
         c.energy,
-        c.shadow, c.permadeath, c.updated_at,
+        c.shadow, c.permadeath,
+        c.status, c.updated_at,
         (
           SELECT name FROM locations
           WHERE ST_DWithin(geom, ST_SetSRID(ST_Point(c.current_lng, c.current_lat), 4326), 0.01)
@@ -341,7 +346,8 @@ router.post('/clone-all', authenticateToken, async (req, res, next) => {
         c.id, c.name, c.current_lng, c.current_lat, c.type, c.gender, c.active,
         c.description, c.resistance,
         c.energy,
-        c.shadow, c.permadeath, c.updated_at, c.template_id,
+        c.shadow, c.permadeath,
+        c.status, c.updated_at, c.template_id,
         (u.active_character_id = c.id) as is_active_for_user,
         (
           SELECT name FROM locations
@@ -416,6 +422,39 @@ router.post('/clone/:templateId', authenticateToken, async (req, res, next) => {
     const result = await pool.query(
       'SELECT id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow, updated_at FROM character_state WHERE id = $1',
       [characterId]
+    );
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST /api/character/:id/reset - Restore a dead character to starting energy/shadow
+// and set status back to alive. Only the owning user can reset their clone.
+router.post('/:id/reset', authenticateToken, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userId = req.userId;
+
+    const ownerCheck = await pool.query(
+      'SELECT id, energy_initial, shadow_initial FROM character_state WHERE id = $1 AND owner_user_id = $2',
+      [id, userId]
+    );
+    if (ownerCheck.rows.length === 0) {
+      return res.status(404).json({ error: 'Character not found or not owned by you' });
+    }
+
+    const { energy_initial, shadow_initial } = ownerCheck.rows[0];
+    const newEnergy = energy_initial ?? 100;
+    const newShadow = shadow_initial ?? 0;
+
+    const result = await pool.query(
+      `UPDATE character_state
+         SET energy = $1, shadow = $2, status = 'alive', updated_at = NOW()
+       WHERE id = $3
+       RETURNING id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow, status, updated_at`,
+      [newEnergy, newShadow, id]
     );
 
     res.json(result.rows[0]);

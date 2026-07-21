@@ -1,11 +1,16 @@
 <template>
-  <div class="character-active-hud absolute top-4 left-4 z-[9999] cursor-pointer" @click="emit('open-character')">
+  <div
+    class="character-active-hud absolute top-4 left-4 z-[9999] cursor-pointer"
+    :class="{ 'character-active-hud--dead': isDead }"
+    @click="emit('open-character')"
+  >
     <div class="character-avatar">
       <img
         v-if="activeCharacter"
         :src="getCharacterImage(activeCharacter.name)"
         :alt="activeCharacter.name"
         class="w-full h-full object-cover"
+        :class="{ 'grayscale opacity-70': isDead }"
       />
     </div>
     <div class="character-panel">
@@ -38,6 +43,8 @@ const emit = defineEmits<{
 
 const { activeCharacter } = useCharacter()
 
+const isDead = computed(() => activeCharacter.value?.status === 'dead')
+
 const energyPct = computed(() => {
   const e = activeCharacter.value?.energy ?? 0
   return Math.max(0, Math.min(100, Math.round(e)))
@@ -64,6 +71,11 @@ function getCharacterImage(name: string): string {
   display: flex;
   align-items: center;
   gap: 0;
+}
+
+.character-active-hud--dead .character-panel {
+  opacity: 0.7;
+  filter: grayscale(0.6);
 }
 
 .character-avatar {

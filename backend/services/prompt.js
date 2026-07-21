@@ -132,7 +132,7 @@ const getDestinationName = (tripName) => {
  * @param {string[]} [bannedPhrases] - phrases repeated in earlier chapters to avoid
  * @returns {{ system: string, user: string }}
  */
-export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null, conditionBlock = '', bannedPhrases = []) {
+export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null, conditionBlock = '', bannedPhrases = [], endStateBlock = '') {
   const charName = character.name || 'The Traveller';
   const charKind = character.entity_name ? `, ${character.entity_name}` : '';
   const charBio = character.description ? `\n${character.description}` : '';
@@ -300,9 +300,13 @@ These phrases (and close variants) were already used in earlier chapters. Do not
     'Prose in three movements. No encounter passes without consequence. The day must end differently than it began.',
     'Three prose movements. What happens must cost something. An encounter that resolves without effect is not an encounter — it is scenery.',
   ];
-  const closingInstruction = closingVariants[
+  const isTerminal = !!endStateBlock;
+  let closingInstruction = closingVariants[
     ((day.day_number || 1) % closingVariants.length + closingVariants.length) % closingVariants.length
   ];
+  if (isTerminal) {
+    closingInstruction = `This is the final chapter. ${charName} dies in this chapter. Narrate the death explicitly and end the story there. Do not describe a night at camp.`;
+  }
 
   // Three chronological phase blocks. Night carries the camp conditions.
   const morningBlock = buildPhaseBlock('MORNING', 'morning');
@@ -312,12 +316,23 @@ These phrases (and close variants) were already used in earlier chapters. Do not
     `Overnight camp:\n${describeOvernightLocation(day.overnight_location, day.overnight_interaction)}`,
     nighttimeConditions.length ? `Nighttime conditions (reference only):\n${nighttimeConditions.join('\n')}` : '',
   ].filter(Boolean).join('\n\n');
-  const nightBlock = buildPhaseBlock('NIGHT AT CAMP', 'night', nightExtraLead);
+  const nightBlock = isTerminal ? '' : buildPhaseBlock('NIGHT AT CAMP', 'night', nightExtraLead);
+
+  const terminalNotice = isTerminal
+    ? `=== FINAL DAY STRUCTURE ===
+Because this is the final day, this chapter ends with ${charName}'s death. Ignore the NIGHT AT CAMP block below. The narrative must stop at the moment of death; do not continue to overnight camp.
+
+`
+    : '';
+
+  const todayRoadIntro = isTerminal
+    ? `Day ${day.day_number}. This is the final day. ${charName} dies in this chapter. Narrate the morning and afternoon, then describe the death explicitly. Do not narrate a night at camp.`
+    : `Day ${day.day_number}. Narrate a single day's journey in three movements: morning, afternoon, and the night at camp.`;
 
   const user = `=== ${charName.toUpperCase()} ===
 ${charName}${charKind}.${charBio}
 
-${narratorVoiceSection}${conditionBlock || ''}${journeyContextSection}${specialInstructionsSection}${bannedPhrasesSection}=== HOW TO USE THE LAND NOTES ===
+${narratorVoiceSection}${conditionBlock || ''}${endStateBlock || ''}${journeyContextSection}${specialInstructionsSection}${bannedPhrasesSection}${terminalNotice}=== HOW TO USE THE LAND NOTES ===
 The notes below are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words. They tell you what is there, not how to say it. The day is laid out chronologically: the MORNING, AFTERNOON and NIGHT AT CAMP blocks each gather the terrain, weather, water and encounters that belong to that part of the day. Narrate them in that order.
 
 === ENCOUNTER RULES ===
@@ -327,7 +342,7 @@ Render the given form, dialogue and outcome for each encounter. Do not invent a 
 Open the chapter's morning movement in the middle of an action, not at dawn or with the weather. Build today's landscape around ONE element: ${todaysWayIn}. Do not inventory the scenery — enter through that one sense and let the rest stay in shadow.
 
 === TODAY'S ROAD ===
-Day ${day.day_number}. Narrate a single day's journey in three movements: morning, afternoon, and the night at camp. ${seasonContext}
+${todayRoadIntro} ${seasonContext}
 
 ${dayContextParts.join('\n\n')}
 
@@ -338,7 +353,7 @@ ${afternoonBlock}
 ${nightBlock}
 
 ${closingInstruction}
-If the overnight location is a town or inn, let the narrative reflect this — a meal taken, a fire shared, a bed found. If it is a fortress or ruin, let it colour the night accordingly.
+${isTerminal ? '' : 'If the overnight location is a town or inn, let the narrative reflect this — a meal taken, a fire shared, a bed found. If it is a fortress or ruin, let it colour the night accordingly.'}
 
 ${language === 'spanish' ? 'Please write the entire response in Spanish.' : ''}`;
 

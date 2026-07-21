@@ -53,6 +53,7 @@ function syncTripDateToClimate() {
 
 const isTripComplete = computed(() => {
   if (isTripDead.value) return true
+  if (trip.value?.status === 'dead' || trip.value?.status === 'completed') return true
   if (days.value.length === 0) return false
   const lastDay = days.value[days.value.length - 1]
   return !!lastDay.is_last_day

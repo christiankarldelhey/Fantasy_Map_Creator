@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { X } from '@lucide/vue'
 import type { CharacterState } from '@/composables/useCharacter'
+import { useCharacter } from '@/composables/useCharacter'
 import { useBreakpoint } from '@/composables/useBreakpoint'
 
 interface CharacterPageProps {
@@ -15,13 +16,27 @@ const props = withDefaults(defineProps<CharacterPageProps>(), {
 
 const emit = defineEmits<{
   close: []
+  reset: []
 }>()
 
 const { isMobile } = useBreakpoint()
+const { resetCharacter } = useCharacter()
+
+const isDead = computed(() => props.character.status === 'dead')
 
 const fullImageUrl = computed(() => {
   return new URL(`/src/assets/characters/${props.character.name}_full.png`, import.meta.url).href
 })
+
+async function handleReset() {
+  try {
+    await resetCharacter(props.character.id)
+    emit('reset')
+    emit('close')
+  } catch (err) {
+    console.error('Failed to reset character:', err)
+  }
+}
 </script>
 
 <template>
@@ -89,6 +104,15 @@ const fullImageUrl = computed(() => {
                 <p :class="['font-book leading-relaxed text-ink-black', isMobile ? 'text-sm' : 'text-base']">
                   {{ character.description }}
                 </p>
+              </div>
+
+              <div v-if="isDead" class="mt-8">
+                <button
+                  class="rounded-md bg-parchment-dark px-4 py-2 font-serif font-semibold text-ink-black shadow-sm ring-1 ring-gold transition hover:bg-parchment-aged"
+                  @click="handleReset"
+                >
+                  Revive — restore energy and shadow
+                </button>
               </div>
             </div>
           </div>

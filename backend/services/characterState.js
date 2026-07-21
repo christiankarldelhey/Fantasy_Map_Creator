@@ -19,21 +19,46 @@ import pool from '../db.js';
 // ---------------------------------------------------------------------------
 export const TUNING = {
   // Energy costs (subtract)
-  WALK_KM_UNIT: 15,        // ~15 km ...
-  WALK_COST_PER_UNIT: 2,   // ... costs 2 energy
-  COMBAT_COST: 15,         // per combat encounter
-  TENSION_COST: 5,         // per tension encounter
-  HARSH_WEATHER_COST: 5,   // harsh weather all day
+  WALK_KM_UNIT: 10,        // ~10 km ...
+  WALK_COST_PER_UNIT: 3,   // ... costs 3 energy (heavier than before)
+  COMBAT_COST: 15,         // per combat encounter (stress even when won)
+  TENSION_COST: 6,         // per tension encounter
+  HARSH_WEATHER_COST: 6,   // harsh weather all day
 
-  // Energy recovery (add), indexed by rest_quality (0..3)
-  REST_RECOVERY: [0, 15, 30, 45],
-  QUIET_NIGHT_BONUS: 10,   // no nocturnal encounter AND calm weather
+  // Energy recovery (add), indexed by rest_quality (0..3). Trimmed from the
+  // old [0,15,30,45] so travel days without a proper bed run net-negative.
+  REST_RECOVERY: [0, 10, 20, 30],
+  QUIET_NIGHT_BONUS: 8,    // no nocturnal encounter AND calm weather
   REST_TRACK_MIN: 2,       // rest_quality >= this updates last_rest_at
+
+  // Diminishing recovery (soft cap): rest recovers less the fuller energy is.
+  // effective = base × clamp((100 - currentEnergy) / SOFT_CAP_RANGE, 0, 1).
+  // Below (100 - SOFT_CAP_RANGE) energy, recovery is full; near 100 it fades.
+  // Only a SANCTUARY bypasses this to reach a full 100.
+  SOFT_CAP_RANGE: 60,
+
+  // Poor sleep: an interrupted night (nocturnal encounter or storm at camp)
+  // sharply reduces the rest recovered.
+  INTERRUPTED_SLEEP_MULTIPLIER: 0.4,
+
+  // Sustained-wind energy cost (independent of rain), by mean daily wind.
+  WIND_COST: [
+    { min: 25, max: 35, cost: 3 },
+    { min: 35, max: 50, cost: 6 },
+  ],
+  WIND_EXTRA_ABOVE_50: 9,
 
   // Shadow
   SHADOW_EFFECT_MULTIPLIER: 10, // shadow_effect (-2..+2) × 10
   ENEMY_REGION_RISE: 3,         // per day passing through an enemy-family region
-  QUIET_FRIENDLY_FALL: 2,       // quiet day in friendly (non-enemy) land
+  QUIET_FRIENDLY_FALL: 2,       // day without hostile encounters in non-enemy land
+  // Shadow relief from a restful night in a non-enemy populated location,
+  // indexed by rest_quality (0..3). Only applies IN_LOCATION, non-enemy family.
+  REST_SHADOW_FALL: [0, 0, 3, 6],
+  FRIENDLY_TALK_FALL: 2,        // per friendly dialogue with a good intelligent being
+  FRIENDLY_TALK_MAX: 4,         // daily cap on friendly-talk shadow relief
+  NATURAL_DECAY: 1,             // slow drift down on a calm, non-enemy day
+  SANCTUARY_SHADOW_FALL: 15,    // strong relief from an elven sanctuary
 
   // Weather thresholds ("harsh" = rain + wind sustained)
   HARSH_PRECIP_MIN: 0.1,   // precipitation > this (mm)
@@ -78,20 +103,86 @@ export const TUNING = {
 // Encounter form classification (from the encounter_forms table)
 export const COMBAT_FORMS = ['attacks'];
 export const TENSION_FORMS = ['stalks', 'watches', 'drifts_closer'];
+// Friendly dialogue forms: a warm exchange with a good being eases the spirit.
+export const FRIENDLY_TALK_FORMS = ['brief_exchange', 'aid_or_trade'];
+// Intelligent, potentially-good entity types eligible for friendly-talk relief.
+// Only counts when the entity's shadow_weight <= 0 (i.e. not an evil variant).
+export const GOOD_INTELLIGENT_TYPES = ['elves', 'dwarves', 'hobbits', 'humans', 'maiar'];
 
 // Region cultural families that dampen the shadow→spawn loop (friendly land).
+// Values match regions.cultural_family in the database.
 export const FRIENDLY_FAMILIES = [
-  'hobbit', 'sindar', 'noldor', 'high_elven', 'gondorian',
-  'rohirrim', 'arnorian', 'dunedain', 'woses',
+  'hobbit', 'sindar', 'silvan', 'high_elven', 'gondorian',
+  'northman', 'dunadan_north', 'dwarven', 'coastal', 'lossoth',
 ];
 // Region cultural families considered hostile (raise shadow per day).
-export const ENEMY_FAMILIES = ['enemy', 'mordor', 'angmar', 'orc', 'harad', 'rhun'];
+// All enemy regions in the DB use the 'enemy' family.
+export const ENEMY_FAMILIES = ['enemy'];
+// Region NAMES treated as enemy territory even when their cultural_family is
+// not 'enemy' (e.g. Moria is 'dwarven' but is a place of dread).
+export const ENEMY_REGION_NAMES = ['moria'];
+
+// Named locations (by id) that act as elven sanctuaries: a night here fully
+// restores energy (bypassing the soft cap) and strongly relieves shadow.
+// Imladris (Rivendell), Caras Galadhon + Cerin Amroth (Lórien), Mithlond.
+export const SANCTUARY_LOCATION_IDS = [472, 536, 493, 482];
 
 // ---------------------------------------------------------------------------
 // Clamp helpers (energy: cannot exceed 100; shadow: floor at 0)
 // ---------------------------------------------------------------------------
 export function clamp(value, min = 0, max = 100) {
   return Math.max(min, Math.min(max, Math.round(value)));
+}
+
+// ---------------------------------------------------------------------------
+// Wound and end-state mechanics
+// ---------------------------------------------------------------------------
+export const WOUND_COSTS = {
+  unscathed: { energy: 0, shadow: 0 },
+  wounded: { energy: -10, shadow: 0 },
+  'badly wounded': { energy: -25, shadow: 0 },
+  slain: { energy: 0, shadow: 0 },
+};
+
+/**
+ * Resolve the character's fate after a day's energy/shadow/wound costs have
+ * been applied. Returns a terminal fate when the journey should end.
+ */
+export function resolveFate({ energy, shadow, encounterOutcomes = [] }) {
+  const outcomes = encounterOutcomes || [];
+  const slain = outcomes.includes('slain');
+
+  if (slain || energy <= 0) {
+    return {
+      fate: slain ? 'slain' : 'dead_exhaustion',
+      status: 'dead',
+      halted: true,
+    };
+  }
+  if (shadow >= 100) {
+    return {
+      fate: 'dead_shadow',
+      status: 'dead',
+      halted: true,
+    };
+  }
+  return { fate: 'living', status: 'active', halted: false };
+}
+
+const END_STATE_BLOCKS = {
+  slain: (name) => `=== THE END ===\nThis is the FINAL CHAPTER. ${name} dies here. Narrate the moment of death explicitly in the final movement. Do not end the chapter with ${name} still alive. The journey ends here.\n\n=== MANDATORY ENDING ===\nYou must describe ${name}'s actual death. Do not transition to a night at camp; the story stops at the moment ${name} falls.\n\n`,
+  dead_exhaustion: (name) => `=== THE END ===\nThis is the FINAL CHAPTER. Exhaustion finally claims ${name}, who dies here. Narrate the collapse and final moments explicitly in the final movement. Do not end the chapter with ${name} still alive. The journey ends here.\n\n=== MANDATORY ENDING ===\nYou must describe ${name}'s death from exhaustion. Do not transition to a night at camp; the story stops at ${name}'s final collapse.\n\n`,
+  dead_shadow: (name) => `=== THE END ===\nThis is the FINAL CHAPTER. The shadow finally consumes ${name}; ${name} dies or is fully corrupted. Narrate the corruption taking hold and the final end explicitly in the final movement. Do not end the chapter with ${name} merely threatened or alive. The journey ends in darkness.\n\n=== MANDATORY ENDING ===\nYou must describe the exact moment the shadow consumes ${name}. Do not transition to a night at camp; the story stops at that moment.\n\n`,
+};
+
+/**
+ * Build the terminal end-state block for the narrator prompt.
+ * Returns '' when the character is still alive.
+ */
+export function buildEndStateBlock(fate, characterName = 'The traveller') {
+  if (fate === 'living' || !fate) return '';
+  const builder = END_STATE_BLOCKS[fate];
+  return builder ? builder(characterName) : '';
 }
 
 // ---------------------------------------------------------------------------
@@ -162,6 +253,22 @@ export function computeRestRecoveryMultiplier(meanTemp, sheltered = false) {
 }
 
 /**
+ * Energy cost from sustained wind across the day (negative), independent of
+ * rain. Uses the mean daily wind speed (wind_speed_10m).
+ * @param {number|null} meanWind
+ * @returns {number}
+ */
+export function computeWindEnergyCost(meanWind) {
+  if (!Number.isFinite(meanWind)) return 0;
+  for (const band of TUNING.WIND_COST) {
+    if (meanWind >= band.min && meanWind < band.max) return -band.cost;
+  }
+  const top = TUNING.WIND_COST[TUNING.WIND_COST.length - 1];
+  if (meanWind >= top.max) return -TUNING.WIND_EXTRA_ABOVE_50;
+  return 0;
+}
+
+/**
  * Harsh weather all day: rain AND wind sustained across every phase that has
  * a climate reading. Returns false if there is no usable climate data.
  * @param {Array<{phase:string, climate:Object}>} climateArray
@@ -223,6 +330,21 @@ export function sumShadowWeight(encounters) {
   }, 0);
 }
 
+/**
+ * Count friendly dialogue encounters with good, intelligent beings — a warm
+ * word with an elf, dwarf, hobbit or fair human/maia eases the spirit.
+ * Only counts non-evil variants (shadow_weight <= 0).
+ */
+export function countFriendlyTalks(encounters) {
+  return (encounters || []).filter((e) => {
+    if (!FRIENDLY_TALK_FORMS.includes(formOf(e))) return false;
+    const type = e?.entity?.type;
+    if (!GOOD_INTELLIGENT_TYPES.includes(type)) return false;
+    const w = e?.entity?.shadow_weight;
+    return Number.isFinite(w) ? w <= 0 : true;
+  }).length;
+}
+
 // ---------------------------------------------------------------------------
 // ENERGY delta
 // ---------------------------------------------------------------------------
@@ -233,25 +355,41 @@ export function sumShadowWeight(encounters) {
  * @param {number} p.restQuality      - resolved overnight rest_quality (0..3)
  * @param {boolean} p.harshWeatherAllDay
  * @param {boolean} p.quietNight
+ * @param {number|null} p.meanTemperature
+ * @param {number|null} p.meanWind     - mean daily wind_speed_10m
+ * @param {Object|null} p.overnightLocation
+ * @param {number|null} p.currentEnergy - energy at the start of the day (soft cap)
+ * @param {boolean} p.interruptedNight  - nocturnal encounter or storm at camp
+ * @param {boolean} p.sanctuary         - elven sanctuary: recovery bypasses soft cap
  * @returns {{ delta:number, parts:Object }}
  */
-export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQuality = null, harshWeatherAllDay = false, quietNight = false, meanTemperature = null, overnightLocation = null }) {
+export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQuality = null, harshWeatherAllDay = false, quietNight = false, meanTemperature = null, meanWind = null, overnightLocation = null, currentEnergy = null, interruptedNight = false, sanctuary = false }) {
   const walk = -TUNING.WALK_COST_PER_UNIT * Math.round((distanceKm || 0) / TUNING.WALK_KM_UNIT);
   const combat = -TUNING.COMBAT_COST * countCombat(encounters);
   const tension = -TUNING.TENSION_COST * countTension(encounters);
   const weather = harshWeatherAllDay ? -TUNING.HARSH_WEATHER_COST : 0;
   const temperature = computeTemperatureEnergyCost(meanTemperature);
+  const wind = computeWindEnergyCost(meanWind);
   const sheltered = !!overnightLocation?.indoor;
   const restMultiplier = computeRestRecoveryMultiplier(meanTemperature, sheltered);
 
+  // Diminishing recovery: rest recovers less the fuller energy already is.
+  // A sanctuary bypasses the soft cap entirely (full-strength recovery).
+  let softCap = 1;
+  if (!sanctuary && Number.isFinite(currentEnergy)) {
+    softCap = Math.max(0, Math.min(1, (100 - currentEnergy) / TUNING.SOFT_CAP_RANGE));
+  }
+  // Poor sleep: an interrupted night sharply cuts the rest recovered.
+  const sleepMultiplier = interruptedNight ? TUNING.INTERRUPTED_SLEEP_MULTIPLIER : 1;
+
   let recovery = 0;
   if (restQuality != null && TUNING.REST_RECOVERY[restQuality] != null) {
-    recovery = TUNING.REST_RECOVERY[restQuality] * restMultiplier;
+    recovery = TUNING.REST_RECOVERY[restQuality] * restMultiplier * sleepMultiplier * softCap;
   }
-  const quietBonus = quietNight ? TUNING.QUIET_NIGHT_BONUS * restMultiplier : 0;
+  const quietBonus = quietNight ? TUNING.QUIET_NIGHT_BONUS * restMultiplier * softCap : 0;
 
-  const delta = walk + combat + tension + weather + temperature + recovery + quietBonus;
-  return { delta, parts: { walk, combat, tension, weather, temperature, recovery, quietBonus } };
+  const delta = walk + combat + tension + weather + temperature + wind + recovery + quietBonus;
+  return { delta, parts: { walk, combat, tension, weather, temperature, wind, recovery, quietBonus } };
 }
 
 // ---------------------------------------------------------------------------
@@ -262,27 +400,68 @@ export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQualit
  * @param {number} p.shadowEffect       - resolved overnight shadow_effect (-2..+2)
  * @param {Array}  p.encounters
  * @param {boolean} p.throughEnemyRegion
- * @param {boolean} p.quietFriendlyDay  - quiet day in friendly (non-enemy) land
+ * @param {boolean} p.quietFriendlyDay  - day without hostile encounters in non-enemy land
+ * @param {number|null} p.restQuality   - overnight rest_quality (0..3)
+ * @param {boolean} p.restInLocation    - overnight was spent IN_LOCATION (populated)
+ * @param {boolean} p.restNonEnemy      - the resting place is not enemy territory
+ * @param {boolean} p.sanctuary         - elven sanctuary: strong shadow relief
  * @returns {{ delta:number, parts:Object }}
  */
-export function computeShadowDelta({ shadowEffect = 0, encounters = [], throughEnemyRegion = false, quietFriendlyDay = false }) {
+export function computeShadowDelta({ shadowEffect = 0, encounters = [], throughEnemyRegion = false, quietFriendlyDay = false, restQuality = null, restInLocation = false, restNonEnemy = false, sanctuary = false }) {
   const overnight = (shadowEffect || 0) * TUNING.SHADOW_EFFECT_MULTIPLIER; // signed
   const encounterSum = sumShadowWeight(encounters);                        // signed
   const enemyRegion = throughEnemyRegion ? TUNING.ENEMY_REGION_RISE : 0;
   const friendlyFall = quietFriendlyDay ? -TUNING.QUIET_FRIENDLY_FALL : 0;
 
-  const delta = overnight + encounterSum + enemyRegion + friendlyFall;
-  return { delta, parts: { overnight, encounterSum, enemyRegion, friendlyFall } };
+  // A good night's rest in a non-enemy populated place (tavern, hall, town)
+  // eases the spirit, scaled by how well the traveller slept.
+  let restfulRefuge = 0;
+  if (restInLocation && restNonEnemy && restQuality != null) {
+    restfulRefuge = -(TUNING.REST_SHADOW_FALL[restQuality] || 0);
+  }
+
+  // A warm word with a good, intelligent being lifts the shadow (daily cap).
+  const talks = countFriendlyTalks(encounters);
+  const friendlyTalk = talks > 0 ? -Math.min(talks * TUNING.FRIENDLY_TALK_FALL, TUNING.FRIENDLY_TALK_MAX) : 0;
+
+  // Slow natural drift downward while not in enemy land.
+  const naturalDecay = throughEnemyRegion ? 0 : -TUNING.NATURAL_DECAY;
+
+  // Strong relief from a night in an elven sanctuary.
+  const sanctuaryFall = sanctuary ? -TUNING.SANCTUARY_SHADOW_FALL : 0;
+
+  const delta = overnight + encounterSum + enemyRegion + friendlyFall
+    + restfulRefuge + friendlyTalk + naturalDecay + sanctuaryFall;
+  return {
+    delta,
+    parts: { overnight, encounterSum, enemyRegion, friendlyFall, restfulRefuge, friendlyTalk, naturalDecay, sanctuaryFall },
+  };
 }
 
 // ---------------------------------------------------------------------------
 // Region family classification for a day's regions
 // ---------------------------------------------------------------------------
-export function classifyRegionFamilies(families = []) {
+export function classifyRegionFamilies(families = [], regionNames = []) {
   const list = (families || []).map((f) => (f || '').toLowerCase());
-  const throughEnemy = list.some((f) => ENEMY_FAMILIES.includes(f));
+  const names = (regionNames || []).map((n) => (n || '').toLowerCase());
+  const throughEnemy = list.some((f) => ENEMY_FAMILIES.includes(f))
+    || names.some((n) => ENEMY_REGION_NAMES.some((en) => n.includes(en)));
   const anyFriendly = list.some((f) => FRIENDLY_FAMILIES.includes(f));
   return { throughEnemy, anyFriendly };
+}
+
+/**
+ * Whether the overnight stay is a restorative elven sanctuary (Rivendell,
+ * Lórien, Mithlond). A night here fully restores energy and strongly relieves
+ * shadow. Recognised by named location id or a rest_quality >= 4 tier.
+ * @param {Object|null} overnightLocation
+ * @param {Object|null} overnightInteraction
+ */
+export function isSanctuary(overnightLocation, overnightInteraction) {
+  const id = overnightLocation?.id;
+  if (id != null && SANCTUARY_LOCATION_IDS.includes(id)) return true;
+  const rq = overnightInteraction?.rest_quality;
+  return Number.isFinite(rq) && rq >= 4;
 }
 
 // ---------------------------------------------------------------------------
@@ -418,22 +597,24 @@ export async function loadCharacterState(characterId) {
  * @param {number} p.energy      - new clamped energy
  * @param {number} p.shadow      - new clamped shadow
  * @param {string|null} p.note
+ * @param {string|null} p.fate    - terminal fate, if any
  * @param {boolean} p.restedWell - update last_rest_at when true
  */
-export async function applyDayState({ characterId, tripId, dayNumber, energy, shadow, note = null, restedWell = false }) {
+export async function applyDayState({ characterId, tripId, dayNumber, energy, shadow, note = null, fate = null, restedWell = false }) {
   if (!characterId) return;
+  const status = fate === 'living' || !fate ? 'alive' : 'dead';
   await pool.query(
     `UPDATE character_state
-       SET energy = $1, shadow = $2, updated_at = NOW()${restedWell ? ', last_rest_at = NOW()' : ''}
-     WHERE id = $3`,
-    [energy, shadow, characterId]
+       SET energy = $1, shadow = $2, status = $3, updated_at = NOW()${restedWell ? ', last_rest_at = NOW()' : ''}
+     WHERE id = $4`,
+    [energy, shadow, status, characterId]
   );
   await pool.query(
-    `INSERT INTO character_state_log (character_id, trip_id, day_number, energy, shadow, note)
-     VALUES ($1, $2, $3, $4, $5, $6)
+    `INSERT INTO character_state_log (character_id, trip_id, day_number, energy, shadow, note, fate)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)
      ON CONFLICT (character_id, trip_id, day_number)
-     DO UPDATE SET energy = EXCLUDED.energy, shadow = EXCLUDED.shadow, note = EXCLUDED.note, created_at = NOW()`,
-    [characterId, tripId, dayNumber, energy, shadow, note]
+     DO UPDATE SET energy = EXCLUDED.energy, shadow = EXCLUDED.shadow, note = EXCLUDED.note, fate = EXCLUDED.fate, created_at = NOW()`,
+    [characterId, tripId, dayNumber, energy, shadow, note, fate]
   );
 }
 

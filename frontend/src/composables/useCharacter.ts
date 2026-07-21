@@ -17,6 +17,7 @@ export interface CharacterState {
   energy: number
   shadow: number
   permadeath: boolean
+  status: 'alive' | 'dead'
   updated_at: string
   current_location: string | null
   current_region: string | null
@@ -148,6 +149,33 @@ export function useCharacter() {
     }
   }
 
+  async function resetCharacter(id: number) {
+    characterLoading.value = true
+    characterError.value = null
+    try {
+      const response = await api.post<CharacterState>(`/character/${id}/reset`)
+      const updated = response.data
+
+      // Update in both the list and the active ref
+      const index = characters.value.findIndex(c => c.id === id)
+      if (index !== -1) {
+        characters.value[index] = updated
+      }
+      if (activeCharacter.value?.id === id) {
+        activeCharacter.value = updated
+      }
+      console.log('✅ Reset character:', updated)
+      return updated
+    } catch (err: any) {
+      const message = err.response?.data?.error || err.message || 'Failed to reset character'
+      characterError.value = message
+      console.error('❌ Error resetting character:', err)
+      throw err
+    } finally {
+      characterLoading.value = false
+    }
+  }
+
   return {
     characters,
     activeCharacter,
@@ -156,6 +184,7 @@ export function useCharacter() {
     fetchAllCharacters,
     fetchActiveCharacter,
     updateActiveCharacterPosition,
-    setActiveCharacter
+    setActiveCharacter,
+    resetCharacter
   }
 }

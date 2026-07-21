@@ -38,6 +38,8 @@ export interface Trip {
   total_distance_km: number | null
   total_time_hours: number | null
   current_day: number
+  status: 'active' | 'dead' | 'completed' | null
+  end_cause: string | null
   created_at: string
   route: any
   route_completed: any
@@ -66,6 +68,8 @@ export interface TripDay {
   narrative: string | null
   is_last_day?: boolean
   trip_status?: 'active' | 'dead'
+  character_status?: 'alive' | 'dead'
+  end_cause?: string | null
   created_at: string
   places_interaction_id?: number | null
   rest_quality?: number | null

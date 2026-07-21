@@ -18,10 +18,16 @@ import {
   isHarshWeatherAllDay,
   isQuietNight,
   classifyRegionFamilies,
+  isSanctuary,
+  countCombat,
+  countTension,
   shadowSpawnFactor,
   shadowBand,
   buildDayNote,
   buildConditionBlock,
+  buildEndStateBlock,
+  resolveFate,
+  WOUND_COSTS,
   TUNING,
 } from '../services/characterState.js';
 
@@ -229,6 +235,10 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     if (tripRes.rows.length === 0) return res.status(404).json({ error: 'Trip not found' });
     const trip = tripRes.rows[0];
 
+    if (trip.status === 'dead' || trip.status === 'completed') {
+      return res.status(409).json({ error: `Trip is ${trip.status}; no more days to generate` });
+    }
+
     const { day_number, seed, language } = req.body || {};
     const dayNumber = day_number != null ? parseInt(day_number, 10) : trip.current_day + 1;
 
@@ -305,45 +315,103 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       return res.status(409).json({ error: 'Trip is already complete; no more days to generate' });
     }
 
+    const END_CAUSE_MAP = {
+      slain: 'slain',
+      dead_exhaustion: 'exhaustion',
+      dead_shadow: 'shadow',
+    };
+
     // --- Journey persistence: compute the day's energy/shadow deltas ---
     // (recovery from the resolved night + today's costs; shadow from the
     //  night's shadow_effect + each encounter's shadow_weight + region family)
     let conditionBlock = '';
+    let endStateBlock = '';
     let newEnergy = openingEnergy;
     let newShadow = openingShadow;
     let restedWell = false;
+    let fate = { fate: 'living', status: 'active', halted: false };
     if (trip.character_id) {
       const encounters = day.encounters || [];
       const nightEncounters = encounters.filter((e) => e.phase === 'night');
       const restQuality = day.overnight_interaction?.rest_quality ?? null;
       const shadowEffect = day.overnight_interaction?.shadow_effect ?? 0;
       const families = (day.regions || []).map((r) => r.cultural_family);
-      const { throughEnemy } = classifyRegionFamilies(families);
-      const quietDay = encounters.length === 0;
+      const regionNames = (day.regions || []).map((r) => r.name);
+      const { throughEnemy } = classifyRegionFamilies(families, regionNames);
+      // A "peaceful" day = no hostile encounters (combat/tension) in non-enemy land.
+      const hostileCount = countCombat(encounters) + countTension(encounters);
+      const quietFriendlyDay = hostileCount === 0 && !throughEnemy;
 
       const climateSamples = (day.climate || []).map((s) => innerClimate(s)).filter(Boolean);
       const temps = climateSamples.map((c) => c.temperature_2m).filter((n) => Number.isFinite(n));
       const meanTemperature = temps.length ? temps.reduce((a, b) => a + b, 0) / temps.length : null;
+      const winds = climateSamples.map((c) => c.wind_speed_10m).filter((n) => Number.isFinite(n));
+      const meanWind = winds.length ? winds.reduce((a, b) => a + b, 0) / winds.length : null;
+
+      // Poor sleep: a nocturnal encounter or a storm at camp interrupts the night.
+      const quietNight = isQuietNight(nightEncounters, day.nighttime_climate);
+      const interruptedNight = !quietNight;
+
+      // Elven sanctuaries (Rivendell, Lórien, Mithlond) fully restore energy.
+      const sanctuary = isSanctuary(day.overnight_location, day.overnight_interaction);
+
+      // Rest context for shadow relief: a bed in a non-enemy populated place.
+      const restInLocation = !!day.overnight_location;
+      const restFamily = day.overnight_interaction?.region?.cultural_family || null;
+      const restRegionName = day.overnight_interaction?.region?.name || null;
+      const { throughEnemy: restIsEnemy } = classifyRegionFamilies(
+        [restFamily],
+        [restRegionName]
+      );
 
       const { delta: energyDelta } = computeEnergyDelta({
         distanceKm: day.distance_km,
         encounters,
         restQuality,
         harshWeatherAllDay: isHarshWeatherAllDay(day.climate),
-        quietNight: isQuietNight(nightEncounters, day.nighttime_climate),
+        quietNight,
         meanTemperature,
+        meanWind,
         overnightLocation: day.overnight_location,
+        currentEnergy: openingEnergy,
+        interruptedNight,
+        sanctuary,
       });
       const { delta: shadowDelta } = computeShadowDelta({
         shadowEffect,
         encounters,
         throughEnemyRegion: throughEnemy,
-        quietFriendlyDay: quietDay && !throughEnemy,
+        quietFriendlyDay,
+        restQuality,
+        restInLocation,
+        restNonEnemy: restInLocation && !restIsEnemy,
+        sanctuary,
       });
 
-      newEnergy = clamp(openingEnergy + energyDelta);
-      newShadow = clamp(openingShadow + shadowDelta);
+      // A sanctuary night fully restores the body, bypassing the soft cap.
+      const rawEnergy = sanctuary ? 100 : openingEnergy + energyDelta;
+      const rawShadow = openingShadow + shadowDelta;
+
+      // Apply the mechanical cost of any enemy wounds (or death from an attack).
+      let woundEnergyCost = 0;
+      let woundShadowCost = 0;
+      const encounterOutcomes = [];
+      for (const e of encounters) {
+        const outcome = e.interaction?.outcome;
+        if (outcome && WOUND_COSTS[outcome]) {
+          encounterOutcomes.push(outcome);
+          woundEnergyCost += WOUND_COSTS[outcome].energy;
+          woundShadowCost += WOUND_COSTS[outcome].shadow;
+        }
+      }
+
+      newEnergy = clamp(rawEnergy + woundEnergyCost);
+      newShadow = clamp(rawShadow + woundShadowCost);
       restedWell = restQuality != null && restQuality >= TUNING.REST_TRACK_MIN;
+
+      // Resolve whether the journey ends today.
+      fate = resolveFate({ energy: newEnergy, shadow: newShadow, encounterOutcomes });
+      const endCause = END_CAUSE_MAP[fate.fate] || null;
 
       const note = buildDayNote(day, day.overnight_interaction);
       await applyDayState({
@@ -353,8 +421,16 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         energy: newEnergy,
         shadow: newShadow,
         note,
+        fate: fate.fate === 'living' ? null : fate.fate,
         restedWell,
       });
+
+      if (fate.halted) {
+        await pool.query(
+          "UPDATE trips SET status = 'dead', end_cause = $1, ended_at = NOW() WHERE id = $2",
+          [endCause, trip.id]
+        );
+      }
 
       // Build the TRAVELLER'S CONDITION block from the NEW values + causal
       // phrases pulled from the last few log notes (cross-day memory).
@@ -365,6 +441,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         shadow: newShadow,
         recentNotes: priorNotes,
       });
+      endStateBlock = buildEndStateBlock(fate.fate, character.name || 'The traveller');
     }
 
     let previousDaySummary = null;
@@ -398,7 +475,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       bannedPhrases = extractRepeatedPhrases(priorNarratives);
     }
 
-    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary, conditionBlock, bannedPhrases);
+    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary, conditionBlock, bannedPhrases, endStateBlock);
 
     // Generate AI narrative (optional, if API key is configured). Provider and
     // sampling params rotate per day; capture what was actually used.
@@ -461,12 +538,6 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       await pool.query('UPDATE trips SET current_day = $1 WHERE id = $2', [dayNumber, trip.id]);
     }
 
-    // Permadeath: if any encounter resulted in 'slain' and the character has permadeath enabled
-    const wasSlain = day.encounters.some((e) => e.interaction?.outcome === 'slain');
-    if (wasSlain && character.permadeath) {
-      await pool.query("UPDATE trips SET status = 'dead' WHERE id = $1", [trip.id]);
-    }
-
     // Update encountered entities array with new entities from this day
     const newEntityIds = day.encounters
       .map(e => e.entity?.id)
@@ -482,8 +553,14 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       [updatedEncounteredEntities, updatedUsedThoughtIds, trip.id]
     );
 
-    const tripStatus = wasSlain && character.permadeath ? 'dead' : 'active';
-    res.status(201).json({ ...insertRes.rows[0], trip_status: tripStatus });
+    const endCause = END_CAUSE_MAP[fate.fate] || null;
+    const tripStatus = fate.status === 'dead' ? 'dead' : trip.status;
+    res.status(201).json({
+      ...insertRes.rows[0],
+      trip_status: tripStatus,
+      character_status: fate.status,
+      end_cause: endCause,
+    });
   } catch (error) {
     next(error);
   }
