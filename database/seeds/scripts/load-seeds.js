@@ -597,7 +597,19 @@ async function ensureSchema() {
       ADD COLUMN IF NOT EXISTS shadow         INT NOT NULL DEFAULT 0,
       ADD COLUMN IF NOT EXISTS energy_initial INT NOT NULL DEFAULT 100,
       ADD COLUMN IF NOT EXISTS shadow_initial INT NOT NULL DEFAULT 0,
-      ADD COLUMN IF NOT EXISTS last_rest_at   TIMESTAMP
+      ADD COLUMN IF NOT EXISTS last_rest_at   TIMESTAMP,
+      ADD COLUMN IF NOT EXISTS resistance     INT NOT NULL DEFAULT 0,
+      ADD COLUMN IF NOT EXISTS permadeath     BOOLEAN NOT NULL DEFAULT false,
+      ADD COLUMN IF NOT EXISTS status         TEXT NOT NULL DEFAULT 'alive'
+  `);
+  await pool.query(`
+    DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_character_state_status') THEN
+        ALTER TABLE character_state
+          ADD CONSTRAINT chk_character_state_status CHECK (status IN ('alive', 'dead'));
+      END IF;
+    END $$;
   `);
 
   // entities: signed shadow_weight.
@@ -623,6 +635,11 @@ async function ensureSchema() {
   await pool.query(`
     CREATE INDEX IF NOT EXISTS idx_character_state_log_char
       ON character_state_log(character_id, trip_id, day_number)
+  `);
+
+  await pool.query(`
+    ALTER TABLE character_state_log
+      ADD COLUMN IF NOT EXISTS fate TEXT
   `);
 
   // Base-template starting values (Aranath 100/0, Celebrian 100/20).
@@ -683,6 +700,22 @@ async function ensureSchema() {
   await pool.query(`
     CREATE INDEX IF NOT EXISTS idx_encounter_forms_entity_type
       ON encounter_forms (entity_type)
+  `);
+
+  await pool.query(`
+    ALTER TABLE trips
+      ADD COLUMN IF NOT EXISTS status    TEXT NOT NULL DEFAULT 'active',
+      ADD COLUMN IF NOT EXISTS end_cause TEXT,
+      ADD COLUMN IF NOT EXISTS ended_at  TIMESTAMP
+  `);
+  await pool.query(`
+    DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_trips_status') THEN
+        ALTER TABLE trips
+          ADD CONSTRAINT chk_trips_status CHECK (status IN ('active', 'dead', 'completed'));
+      END IF;
+    END $$;
   `);
 
   await pool.query(`
@@ -815,7 +848,9 @@ async function main() {
           nullIfEmpty(f.properties.kingdom_id) !== null ? parseInt(f.properties.kingdom_id) : null,
           nullIfEmpty(f.properties.climate_zone_id) !== null ? parseInt(f.properties.climate_zone_id) : null,
           nullIfEmpty(f.properties.description_text),
-          nullIfEmpty(f.properties.description_summary),
+          (Array.isArray(f.properties.description_summary) && f.properties.description_summary.length > 0)
+            ? f.properties.description_summary
+            : null,
           nullIfEmpty(f.properties.area_km2) !== null ? parseFloat(f.properties.area_km2) : null,
           nullIfEmpty(f.properties.distance_for_encounter) !== null ? parseInt(f.properties.distance_for_encounter) : null,
           nullIfEmpty(f.properties.chance_of_encounter) !== null ? parseFloat(f.properties.chance_of_encounter) : null,

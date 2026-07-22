@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS regions (
     source JSONB,  -- Source references (supplement, supplement_code)
     products TEXT,  -- Products/resources
     description_text TEXT,  -- Main description text
-    description_summary TEXT,  -- Summary description of the region
+    description_summary TEXT[],  -- Summary description of the region (array of rotating descriptions)
     cultural_family TEXT,  -- Resolved from regions.geojson; drives lodging/night logic
 
     -- Statistics
@@ -366,6 +366,9 @@ CREATE TABLE IF NOT EXISTS character_state (
     energy_initial INT NOT NULL DEFAULT 100,  -- per-character starting energy (set on templates)
     shadow_initial INT NOT NULL DEFAULT 0,    -- per-character starting shadow (set on templates)
     last_rest_at TIMESTAMP,                   -- last time the traveller had a proper rest (rest_quality >= 2)
+    resistance INT NOT NULL DEFAULT 0,        -- bonus to resistance rolls
+    permadeath BOOLEAN NOT NULL DEFAULT false,-- if true, a slain outcome ends the trip
+    status TEXT NOT NULL DEFAULT 'alive',     -- alive or dead
     updated_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -386,6 +389,7 @@ CREATE TABLE IF NOT EXISTS character_state_log (
     energy       INT  NOT NULL,
     shadow       INT  NOT NULL,
     note         TEXT,            -- e.g. "fight with the bear", "slept at Rivendell"
+    fate         TEXT,            -- end-of-day fate (living, slain, dead_exhaustion, etc.)
     created_at   TIMESTAMP DEFAULT NOW(),
     UNIQUE (character_id, trip_id, day_number)
 );

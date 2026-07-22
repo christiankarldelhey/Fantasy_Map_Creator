@@ -282,6 +282,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     // Load already used thoughts for this trip
     const usedThoughtIds = trip.used_thought_ids || [];
 
+    // Load consumed region-description indices for this trip
+    const usedRegionDescriptions = trip.used_region_descriptions || {};
+
     // Gather forms from the previous 2–3 chapters for anti-repetition
     const recentHistoryRes = await pool.query(
       `SELECT encounters FROM trip_days
@@ -305,6 +308,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       excludedEntityIds: encounteredEntities,
       characterId: character.id || null,
       usedThoughtIds,
+      usedRegionDescriptions,
       character,
       recentForms,
       shadowFactor: dayShadowFactor,
@@ -549,8 +553,8 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     const updatedUsedThoughtIds = [...new Set([...usedThoughtIds, ...newThoughtIds])]; // deduplicate
     
     await pool.query(
-      'UPDATE trips SET encountered_entities = $1, used_thought_ids = $2 WHERE id = $3',
-      [updatedEncounteredEntities, updatedUsedThoughtIds, trip.id]
+      'UPDATE trips SET encountered_entities = $1, used_thought_ids = $2, used_region_descriptions = $3 WHERE id = $4',
+      [updatedEncounteredEntities, updatedUsedThoughtIds, usedRegionDescriptions, trip.id]
     );
 
     const endCause = END_CAUSE_MAP[fate.fate] || null;

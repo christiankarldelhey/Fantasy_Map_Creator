@@ -12,7 +12,7 @@ CREATE TABLE temp_regions (
     kingdom_id INTEGER,
     climate_zone_id INTEGER,
     description_text TEXT,
-    description_summary TEXT,
+    description_summary TEXT[],
     area_km2 DECIMAL,
     distance_for_encounter INTEGER,
     chance_of_encounter DECIMAL(5,2),
@@ -53,7 +53,11 @@ BEGIN
             CASE WHEN properties->>'kingdom_id' = '' THEN NULL ELSE (properties->>'kingdom_id')::INTEGER END,
             CASE WHEN properties->>'climate_zone_id' = '' THEN NULL ELSE (properties->>'climate_zone_id')::INTEGER END,
             properties->>'description_text',
-            properties->>'description_summary',
+            CASE
+                WHEN json_typeof(properties->'description_summary') = 'array'
+                THEN ARRAY(SELECT json_array_elements_text(properties->'description_summary'))
+                ELSE NULL
+            END,
             CASE WHEN properties->>'area_km2' = '' THEN NULL ELSE (properties->>'area_km2')::DECIMAL END,
             CASE WHEN properties->>'distance_for_encounter' = '' THEN NULL ELSE (properties->>'distance_for_encounter')::INTEGER END,
             CASE WHEN properties->>'chance_of_encounter' = '' THEN NULL ELSE (properties->>'chance_of_encounter')::DECIMAL(5,2) END,

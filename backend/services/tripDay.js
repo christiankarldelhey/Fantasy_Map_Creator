@@ -410,7 +410,7 @@ async function buildNightRegionResolver(campPoint) {
  * @param {Array<string>} [params.recentForms] - forms used in previous chapters (anti-repetition)
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, usedThoughtIds = [], character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, characterSlug = null }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, usedThoughtIds = [], character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, characterSlug = null, usedRegionDescriptions = {} }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -471,6 +471,27 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
         description_summary: info.description_summary || null,
         cultural_family: info.cultural_family || null,
       });
+    }
+  }
+
+  // Rotate region descriptions: pick the next unused summary for each region.
+  // When all summaries have been consumed the region is named without description.
+  for (const region of orderedRegions) {
+    const summaries = region.description_summary;
+    if (!Array.isArray(summaries) || summaries.length === 0) {
+      region.description_summary = typeof summaries === 'string' ? summaries : null;
+      continue;
+    }
+
+    const used = usedRegionDescriptions[region.name] || [];
+    const nextIndex = summaries.findIndex((_, i) => !used.includes(i));
+
+    if (nextIndex === -1) {
+      region.description_summary = null;
+    } else {
+      used.push(nextIndex);
+      usedRegionDescriptions[region.name] = used;
+      region.description_summary = summaries[nextIndex];
     }
   }
 

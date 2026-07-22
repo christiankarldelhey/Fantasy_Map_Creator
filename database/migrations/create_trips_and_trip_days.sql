@@ -34,8 +34,19 @@ CREATE TABLE IF NOT EXISTS trips (
     -- How many days have been generated so far
     current_day INTEGER NOT NULL DEFAULT 0,
 
+    -- Consumed region-description indices per trip (for rotating descriptions)
+    used_region_descriptions JSONB DEFAULT '{}',
+
+    -- Journey status and end-state tracking
+    status    TEXT NOT NULL DEFAULT 'active',
+    end_cause TEXT,
+    ended_at  TIMESTAMP,
+
     created_at TIMESTAMP DEFAULT NOW()
 );
+
+ALTER TABLE trips
+  ADD CONSTRAINT IF NOT EXISTS chk_trips_status CHECK (status IN ('active', 'dead', 'completed'));
 
 COMMENT ON TABLE trips IS 'Journeys with their computed route and metadata';
 COMMENT ON COLUMN trips.route IS 'Full GeoJSON output of the directions/routing service';
