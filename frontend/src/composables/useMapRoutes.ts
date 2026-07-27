@@ -14,6 +14,7 @@ export const LAYER_IDS = {
   tripDestination: 'trip-destination-layer',
   directionsOnRoad: 'route-on-road-layer',
   directionsOffRoadStart: 'route-off-road-start-layer',
+  directionsOffRoad: 'route-off-road-layer',
   directionsOffRoadEnd: 'route-off-road-end-layer',
   directionsCheckpoints: 'route-checkpoints-layer',
 }
@@ -25,6 +26,7 @@ export const SOURCE_IDS = {
   tripDestination: 'trip-destination',
   directionsOnRoad: 'route-on-road',
   directionsOffRoadStart: 'route-off-road-start',
+  directionsOffRoad: 'route-off-road',
   directionsOffRoadEnd: 'route-off-road-end',
   directionsCheckpoints: 'route-checkpoints',
 }
@@ -44,15 +46,13 @@ function flattenRouteToCoords(routeData: any): number[][] {
       all.push(...g.off_road_start.geometry.coordinates)
     }
 
-    if (g.on_road?.features) {
-      g.on_road.features.forEach((feature: any) => {
-        if (feature.geometry?.coordinates) {
-          const coords = feature.geometry.coordinates
-          // Skip first coord to avoid duplicates at junctions
-          all.length > 0 ? all.push(...coords.slice(1)) : all.push(...coords)
-        }
-      })
-    }
+    const routeFeatures = g.route?.features || g.on_road?.features || []
+    routeFeatures.forEach((feature: any) => {
+      if (feature.geometry?.coordinates) {
+        const coords = feature.geometry.coordinates
+        all.length > 0 ? all.push(...coords.slice(1)) : all.push(...coords)
+      }
+    })
 
     if (g.off_road_end?.geometry?.coordinates) {
       const coords = g.off_road_end.geometry.coordinates
@@ -234,6 +234,12 @@ export function drawDirectionsRoute(map: maplibregl.Map, data: any) {
     map.moveLayer(LAYER_IDS.directionsOffRoadStart)
   }
 
+  if (g.off_road?.features?.length > 0) {
+    map.addSource(SOURCE_IDS.directionsOffRoad, { type: 'geojson', data: g.off_road })
+    map.addLayer({ id: LAYER_IDS.directionsOffRoad, type: 'line', source: SOURCE_IDS.directionsOffRoad, ...offRoadStyle })
+    map.moveLayer(LAYER_IDS.directionsOffRoad)
+  }
+
   if (g.off_road_end) {
     map.addSource(SOURCE_IDS.directionsOffRoadEnd, { type: 'geojson', data: g.off_road_end })
     map.addLayer({ id: LAYER_IDS.directionsOffRoadEnd, type: 'line', source: SOURCE_IDS.directionsOffRoadEnd, ...offRoadStyle })
@@ -282,6 +288,7 @@ export function drawDirectionsRoute(map: maplibregl.Map, data: any) {
   const bounds = new maplibregl.LngLatBounds()
   if (g.off_road_start) g.off_road_start.geometry.coordinates.forEach((c: any) => bounds.extend(c))
   if (g.on_road) g.on_road.features.forEach((f: any) => f.geometry.coordinates.forEach((c: any) => bounds.extend(c)))
+  if (g.off_road) g.off_road.features.forEach((f: any) => f.geometry.coordinates.forEach((c: any) => bounds.extend(c)))
   if (g.off_road_end) g.off_road_end.geometry.coordinates.forEach((c: any) => bounds.extend(c))
   if (!bounds.isEmpty()) {
     map.fitBounds(bounds, { padding: { top: 80, bottom: 80, left: 450, right: 80 }, duration: 1500 })
@@ -291,6 +298,7 @@ export function drawDirectionsRoute(map: maplibregl.Map, data: any) {
 export function clearDirectionsRoute(map: maplibregl.Map) {
   removeLayerSource(map, LAYER_IDS.directionsOnRoad, SOURCE_IDS.directionsOnRoad)
   removeLayerSource(map, LAYER_IDS.directionsOffRoadStart, SOURCE_IDS.directionsOffRoadStart)
+  removeLayerSource(map, LAYER_IDS.directionsOffRoad, SOURCE_IDS.directionsOffRoad)
   removeLayerSource(map, LAYER_IDS.directionsOffRoadEnd, SOURCE_IDS.directionsOffRoadEnd)
   removeLayerSource(map, LAYER_IDS.directionsCheckpoints, SOURCE_IDS.directionsCheckpoints)
 }

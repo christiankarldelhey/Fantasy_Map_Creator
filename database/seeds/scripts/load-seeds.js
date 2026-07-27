@@ -525,6 +525,26 @@ async function ensureSchema() {
     CREATE INDEX IF NOT EXISTS idx_regions_cultural_family ON regions(cultural_family)
   `);
 
+  // regions.description_summary: ensure it is TEXT[] and cast legacy TEXT literals.
+  await pool.query(`
+    DO $$
+    BEGIN
+      IF EXISTS (
+        SELECT 1 FROM pg_attribute
+        WHERE attrelid = 'regions'::regclass
+          AND attname = 'description_summary'
+          AND atttypid = 'text'::regtype
+      ) THEN
+        ALTER TABLE regions
+          ALTER COLUMN description_summary TYPE TEXT[]
+          USING CASE
+            WHEN description_summary LIKE '{%}' THEN description_summary::TEXT[]
+            ELSE NULL
+          END;
+      END IF;
+    END $$;
+  `);
+
   // --- locations.region_id (migration: add_region_id_to_locations.sql) ---
   await pool.query(`
     ALTER TABLE locations
@@ -704,6 +724,7 @@ async function ensureSchema() {
 
   await pool.query(`
     ALTER TABLE trips
+      ADD COLUMN IF NOT EXISTS used_region_descriptions JSONB DEFAULT '{}',
       ADD COLUMN IF NOT EXISTS status    TEXT NOT NULL DEFAULT 'active',
       ADD COLUMN IF NOT EXISTS end_cause TEXT,
       ADD COLUMN IF NOT EXISTS ended_at  TIMESTAMP

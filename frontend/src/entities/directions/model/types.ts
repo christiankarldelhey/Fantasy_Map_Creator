@@ -47,6 +47,8 @@ export interface DirectionsResponse {
   geometry: {
     off_road_start: DirectionsFeature | null
     on_road: GeoJSON.FeatureCollection | null
+    off_road: GeoJSON.FeatureCollection | null
+    route: GeoJSON.FeatureCollection | null
     off_road_end: DirectionsFeature | null
   }
   checkpoints: DirectionsCheckpoint[]

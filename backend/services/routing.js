@@ -16,12 +16,13 @@ export const getDistance = (c1, c2) => {
 export const TRANSPORT_CONFIGS = {
   walk: {
     baseSpeed: 1.39, // 5.0 km/h in m/s
+    useDirectnessRouting: true,
     roadMultipliers: {
       'Royal Road': 1.2,
       'Main Road': 1.1,
       'Regular Road': 1.0,
-      'Trail': 0.8,
-      'off_road': 0.6
+      'Trail': 0.9,
+      'off_road': 0.8
     },
     biomeMultipliers: {
       'plain': 1.0,
@@ -71,6 +72,9 @@ const SECONDS_PER_HOUR = 3600;
 const DAY_BUFFER_BEFORE_M = 15000;
 const DAY_BUFFER_AFTER_M = 5000;
 const LOCATION_ON_ROUTE_BUFFER_M = 100;
+const WALK_SHORTCUT_MAX_DISTANCE_M = 35000;
+const WALK_SHORTCUTS_PER_VERTEX = 3;
+const WALK_SHORTCUT_GRID_DEGREES = 0.35;
 
 function interpolateMonotonic(target, xs, ys) {
   if (xs.length === 0) return 0;
@@ -280,104 +284,144 @@ function computeDailyCheckpoints(totalTime, totalDist, candidates, coords, dists
 export function findShortestPath(roads, startCoord, endCoord, config) {
   const getKey = (coord) => `${coord[0].toFixed(5)},${coord[1].toFixed(5)}`;
   const graph = {};
+  const vertices = new Map();
+  const connectedPairs = new Set();
 
-  const addEdge = (p1, p2, road, segmentLength) => {
-    const k1 = getKey(p1);
-    const k2 = getKey(p2);
+  const getMultiplier = (multipliers, type) => multipliers[type] || multipliers.plain || 1.0;
+  const getRouteCost = (segmentLength, roadMult, biomeMult, elevMult) => {
+    if (!config.useDirectnessRouting) return segmentLength / (config.baseSpeed * roadMult * biomeMult * elevMult);
+    return segmentLength / (roadMult * biomeMult * elevMult);
+  };
+  const addVertex = (key, coord, road) => {
+    if (!vertices.has(key)) vertices.set(key, { coord, roads: [] });
+    vertices.get(key).roads.push(road);
+  };
+  const addGraphEdge = (k1, k2, road, segmentLength, isOffRoad = false) => {
     if (!graph[k1]) graph[k1] = [];
     if (!graph[k2]) graph[k2] = [];
 
-    // Calculate speed based on road, biome and altitude multipliers
-    const roadName = road.name || 'Regular Road';
+    const roadName = isOffRoad ? 'off_road' : (road.name || 'Regular Road');
     const roadMult = config.roadMultipliers[roadName] || config.roadMultipliers['Regular Road'] || 1.0;
-    const biomeMult = config.biomeMultipliers[road.biome_type] || config.biomeMultipliers['plain'] || 1.0;
-    const elevMult = config.elevationMultipliers[road.altitude_type] || config.elevationMultipliers['plain'] || 1.0;
-
+    const biomeMult = getMultiplier(config.biomeMultipliers, road.biome_type);
+    const elevMult = getMultiplier(config.elevationMultipliers, road.altitude_type);
     const speed = config.baseSpeed * roadMult * biomeMult * elevMult;
-    const cost = segmentLength / speed; // Cost is travel time in seconds
-
-    // Store sub-segment geometry so we can reconstruct the exact path
-    const segmentRoad = {
+    const segment = {
       ...road,
-      geometry: {
-        type: 'LineString',
-        coordinates: [p1, p2]
-      },
+      name: isOffRoad ? 'Cross-country' : road.name,
+      is_off_road: isOffRoad,
+      geometry: { type: 'LineString', coordinates: [vertices.get(k1).coord, vertices.get(k2).coord] },
       segment_length: segmentLength,
       effective_speed: speed,
-      travel_time_seconds: cost
+      travel_time_seconds: segmentLength / speed
     };
-
-    graph[k1].push({ toKey: k2, roadId: road.id, cost, road: segmentRoad });
-    graph[k2].push({ toKey: k1, roadId: road.id, cost, road: segmentRoad });
+    const cost = getRouteCost(segmentLength, roadMult, biomeMult, elevMult);
+    graph[k1].push({ toKey: k2, cost, road: segment });
+    graph[k2].push({ toKey: k1, cost, road: segment });
   };
 
-  // Build graph with ALL consecutive coordinate pairs of each road
   roads.forEach(road => {
     const coords = road.geometry.coordinates;
     for (let i = 0; i < coords.length - 1; i++) {
       const p1 = coords[i];
       const p2 = coords[i + 1];
-      const segmentLength = getDistance(p1, p2);
-      addEdge(p1, p2, road, segmentLength);
+      const k1 = getKey(p1);
+      const k2 = getKey(p2);
+      addVertex(k1, p1, road);
+      addVertex(k2, p2, road);
+      addGraphEdge(k1, k2, road, getDistance(p1, p2));
+      connectedPairs.add([k1, k2].sort().join('|'));
     }
   });
+
+  if (config.useDirectnessRouting) {
+    const grid = new Map();
+    const gridKey = ([lng, lat]) => `${Math.floor(lng / WALK_SHORTCUT_GRID_DEGREES)},${Math.floor(lat / WALK_SHORTCUT_GRID_DEGREES)}`;
+    for (const [key, vertex] of vertices) {
+      const bucket = gridKey(vertex.coord);
+      if (!grid.has(bucket)) grid.set(bucket, []);
+      grid.get(bucket).push(key);
+    }
+
+    const shortcutPairs = new Set();
+    for (const [key, vertex] of vertices) {
+      const [lng, lat] = vertex.coord;
+      const cellLng = Math.floor(lng / WALK_SHORTCUT_GRID_DEGREES);
+      const cellLat = Math.floor(lat / WALK_SHORTCUT_GRID_DEGREES);
+      const candidates = [];
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          for (const candidateKey of grid.get(`${cellLng + dx},${cellLat + dy}`) || []) {
+            if (candidateKey === key) continue;
+            const pairKey = [key, candidateKey].sort().join('|');
+            if (connectedPairs.has(pairKey) || shortcutPairs.has(pairKey)) continue;
+            const candidate = vertices.get(candidateKey);
+            const distance = getDistance(vertex.coord, candidate.coord);
+            if (distance <= WALK_SHORTCUT_MAX_DISTANCE_M) candidates.push({ candidateKey, distance });
+          }
+        }
+      }
+
+      candidates.sort((a, b) => a.distance - b.distance);
+      for (const { candidateKey, distance } of candidates.slice(0, WALK_SHORTCUTS_PER_VERTEX)) {
+        const pairKey = [key, candidateKey].sort().join('|');
+        if (shortcutPairs.has(pairKey)) continue;
+        const candidate = vertices.get(candidateKey);
+        const localRoads = [...vertex.roads, ...candidate.roads];
+        const biomeRoad = localRoads.reduce((slowest, road) => getMultiplier(config.biomeMultipliers, road.biome_type) < getMultiplier(config.biomeMultipliers, slowest.biome_type) ? road : slowest, localRoads[0]);
+        const elevationRoad = localRoads.reduce((slowest, road) => getMultiplier(config.elevationMultipliers, road.altitude_type) < getMultiplier(config.elevationMultipliers, slowest.altitude_type) ? road : slowest, localRoads[0]);
+        addGraphEdge(key, candidateKey, {
+          id: null,
+          biome_type: biomeRoad.biome_type,
+          altitude_type: elevationRoad.altitude_type,
+          terrain_type: 'off_road'
+        }, distance, true);
+        shortcutPairs.add(pairKey);
+      }
+    }
+  }
 
   const getClosestVertex = (target) => {
     let closestKey = null;
     let minDist = Infinity;
-
-    Object.keys(graph).forEach(key => {
-      const [lng, lat] = key.split(',').map(Number);
-      const dist = Math.sqrt(Math.pow(lng - target[0], 2) + Math.pow(lat - target[1], 2));
+    for (const [key, vertex] of vertices) {
+      const dist = getDistance(vertex.coord, target);
       if (dist < minDist) {
         minDist = dist;
         closestKey = key;
       }
-    });
-
-    return { key: closestKey, dist: minDist };
+    }
+    return { key: closestKey };
   };
 
   const startVertex = getClosestVertex(startCoord);
   const endVertex = getClosestVertex(endCoord);
-
   if (!startVertex.key || !endVertex.key) return null;
 
   const startKey = startVertex.key;
   const endKey = endVertex.key;
-
   if (startKey === endKey) {
-    return {
-      path: [],
-      startVertexCoord: startKey.split(',').map(Number),
-      endVertexCoord: endKey.split(',').map(Number),
-    };
+    return { path: [], startVertexCoord: vertices.get(startKey).coord, endVertexCoord: vertices.get(endKey).coord };
   }
 
   const distances = {};
   const previous = {};
   const visited = new Set();
   const queue = [];
-
   Object.keys(graph).forEach(key => {
     distances[key] = Infinity;
     previous[key] = null;
   });
-
   distances[startKey] = 0;
   queue.push({ key: startKey, dist: 0 });
 
   while (queue.length > 0) {
     queue.sort((a, b) => a.dist - b.dist);
     const { key: currentKey } = queue.shift();
-
     if (currentKey === endKey) break;
     if (visited.has(currentKey)) continue;
     visited.add(currentKey);
 
-    const neighbors = graph[currentKey] || [];
-    for (const edge of neighbors) {
+    for (const edge of graph[currentKey] || []) {
       if (visited.has(edge.toKey)) continue;
       const alt = distances[currentKey] + edge.cost;
       if (alt < distances[edge.toKey]) {
@@ -388,9 +432,7 @@ export function findShortestPath(roads, startCoord, endCoord, config) {
     }
   }
 
-  if (distances[endKey] === Infinity) {
-    return null;
-  }
+  if (distances[endKey] === Infinity) return null;
 
   const path = [];
   let curr = endKey;
@@ -400,11 +442,7 @@ export function findShortestPath(roads, startCoord, endCoord, config) {
     curr = prevNode.key;
   }
 
-  return {
-    path,
-    startVertexCoord: startKey.split(',').map(Number),
-    endVertexCoord: endKey.split(',').map(Number),
-  };
+  return { path, startVertexCoord: vertices.get(startKey).coord, endVertexCoord: vertices.get(endKey).coord };
 }
 
 /**
@@ -478,8 +516,13 @@ export async function computeRoute({ startLng, startLat, endLng, endLat, transpo
 
   const offRoadStartDistance = parseFloat(geoData.off_road_start_length) || 0;
   const offRoadEndDistance = parseFloat(geoData.off_road_end_length) || 0;
-  const onRoadDistance = path.reduce((sum, r) => sum + (parseFloat(r.segment_length) || 0), 0);
-  const totalDistance = offRoadStartDistance + onRoadDistance + offRoadEndDistance;
+  const onRoadDistance = path
+    .filter((segment) => !segment.is_off_road)
+    .reduce((sum, segment) => sum + (parseFloat(segment.segment_length) || 0), 0);
+  const internalOffRoadDistance = path
+    .filter((segment) => segment.is_off_road)
+    .reduce((sum, segment) => sum + (parseFloat(segment.segment_length) || 0), 0);
+  const totalDistance = offRoadStartDistance + onRoadDistance + internalOffRoadDistance + offRoadEndDistance;
 
   // 4. Estimate travel times
   const offRoadStartMult = config.roadMultipliers['off_road'] || 0.6;
@@ -498,25 +541,36 @@ export async function computeRoute({ startLng, startLat, endLng, endLat, transpo
   const totalTimeSeconds = offRoadStartTime + onRoadTime + offRoadEndTime;
 
   // 5. Structure GeoJSON output
+  const featureForSegment = (segment, index, type) => ({
+    type: 'Feature',
+    geometry: segment.geometry,
+    properties: {
+      id: segment.id,
+      seq: index + 1,
+      type,
+      name: segment.name || (type === 'off_road' ? 'Cross-country' : 'Unnamed Road'),
+      terrain_type: segment.terrain_type,
+      difficulty: segment.difficulty,
+      cost_factor: segment.cost_factor,
+      segment_length: parseFloat(segment.segment_length) || 0,
+      distance_m: parseFloat(segment.segment_length) || 0,
+      biome_type: segment.biome_type,
+      altitude_type: segment.altitude_type,
+      effective_speed: segment.effective_speed,
+      travel_time_seconds: segment.travel_time_seconds
+    }
+  });
   const onRoadFeatures = {
     type: 'FeatureCollection',
-    features: path.map((r, index) => ({
-      type: 'Feature',
-      geometry: r.geometry,
-      properties: {
-        id: r.id,
-        seq: index + 1,
-        name: r.name || 'Unnamed Road',
-        terrain_type: r.terrain_type,
-        difficulty: r.difficulty,
-        cost_factor: r.cost_factor,
-        segment_length: parseFloat(r.segment_length) || 0,
-        biome_type: r.biome_type,
-        altitude_type: r.altitude_type,
-        effective_speed: r.effective_speed,
-        travel_time_seconds: r.travel_time_seconds
-      }
-    }))
+    features: path
+      .filter((segment) => !segment.is_off_road)
+      .map((segment, index) => featureForSegment(segment, index, 'on_road'))
+  };
+  const internalOffRoadFeatures = {
+    type: 'FeatureCollection',
+    features: path
+      .filter((segment) => segment.is_off_road)
+      .map((segment, index) => featureForSegment(segment, index, 'off_road'))
   };
 
   // 6. Build cumulative coordinate/time/distance arrays and compute daily checkpoints
@@ -555,7 +609,7 @@ export async function computeRoute({ startLng, startLat, endLng, endLat, transpo
       total_distance_m: totalDistance,
       total_distance_km: totalDistance / 1000,
       on_road_distance_km: onRoadDistance / 1000,
-      off_road_distance_km: (offRoadStartDistance + offRoadEndDistance) / 1000,
+      off_road_distance_km: (offRoadStartDistance + internalOffRoadDistance + offRoadEndDistance) / 1000,
       total_time_seconds: totalTimeSeconds,
       total_time_hours: totalTimeSeconds / 3600,
       estimated_days: checkpoints.length
@@ -573,6 +627,11 @@ export async function computeRoute({ startLng, startLat, endLng, endLat, transpo
         }
       } : null,
       on_road: onRoadFeatures,
+      off_road: internalOffRoadFeatures,
+      route: {
+        type: 'FeatureCollection',
+        features: path.map((segment, index) => featureForSegment(segment, index, segment.is_off_road ? 'off_road' : 'on_road'))
+      },
       off_road_end: offRoadEndDistance > 1 ? {
         type: 'Feature',
         geometry: geoData.off_road_end_geom,
