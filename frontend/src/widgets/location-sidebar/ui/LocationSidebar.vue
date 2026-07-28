@@ -27,6 +27,21 @@ const climateIcon = computed(() => {
   return getClimateIcon(props.location.climate)
 })
 
+const displayDescription = computed(() => {
+  let description: unknown = props.location?.description
+
+  if (typeof description === 'string') {
+    try {
+      const parsed = JSON.parse(description)
+      description = parsed
+    } catch {
+      // Not a JSON string, use as-is
+    }
+  }
+
+  return Array.isArray(description) ? description[0] : description
+})
+
 const biomeIcon = computed(() => {
   const biomeName = props.location?.biome?.name.toLowerCase()
   switch (biomeName) {
@@ -128,8 +143,8 @@ const biomeIcon = computed(() => {
         </p>
       </div>
 
-      <div v-if="location.description" class="mt-2">
-        <p class="text-sm text-ink-black leading-normal font-book">{{ location.description }}</p>
+      <div v-if="displayDescription" class="mt-2">
+        <p class="text-sm text-ink-black leading-normal font-book">{{ displayDescription }}</p>
       </div>
 
       <div v-if="location.type === 'Region'" class="mt-3 space-y-2">
@@ -208,8 +223,8 @@ const biomeIcon = computed(() => {
             </p>
           </div>
 
-          <div v-if="location.description">
-            <p class="text-sm text-ink-black leading-normal font-book">{{ location.description }}</p>
+          <div v-if="displayDescription">
+            <p class="text-sm text-ink-black leading-normal font-book">{{ displayDescription }}</p>
           </div>
 
           <div v-if="location.type === 'Region'" class="space-y-2">
