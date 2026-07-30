@@ -64,6 +64,72 @@ export const TRANSPORT_CONFIGS = {
 };
 
 // ---------------------------------------------------------------------------
+// Roads query (module scope so it can be cached)
+// ---------------------------------------------------------------------------
+const ROADS_QUERY = `
+  SELECT
+    r.id,
+    r.name,
+    r.terrain_type,
+    r.difficulty,
+    r.cost_factor,
+    ST_AsGeoJSON(r.geom)::json as geometry,
+    ST_Length(r.geom::geography) as segment_length,
+    COALESCE(b.type, 'plain') as biome_type,
+    COALESCE(al.altitude_type, 'plain') as altitude_type
+  FROM roads r
+  LEFT JOIN LATERAL (
+    SELECT type
+    FROM biomes
+    WHERE ST_Intersects(r.geom, geom)
+    LIMIT 1
+  ) b ON true
+  LEFT JOIN LATERAL (
+    SELECT altitude_type
+    FROM altitude_layers
+    WHERE ST_Intersects(r.geom, geom)
+    ORDER BY priority DESC
+    LIMIT 1
+  ) al ON true;
+`;
+
+// ---------------------------------------------------------------------------
+// Cached road network graph
+// The graph is expensive to build, so we build it once and reuse it for every
+// route request. This removes the repeated DB query + JS graph construction.
+// ---------------------------------------------------------------------------
+let roadNetworkCache = null;
+let roadNetworkLoading = null;
+
+export function resetRoadNetworkCache() {
+  roadNetworkCache = null;
+  roadNetworkLoading = null;
+}
+
+export async function getRoadNetwork() {
+  if (roadNetworkCache) return roadNetworkCache;
+  if (roadNetworkLoading) return roadNetworkLoading;
+
+  roadNetworkLoading = (async () => {
+    console.time('build-road-network');
+    const roadsRes = await pool.query(ROADS_QUERY);
+    const network = buildRoadNetwork(roadsRes.rows, TRANSPORT_CONFIGS.walk);
+    roadNetworkCache = network;
+    console.timeEnd('build-road-network');
+    console.log(
+      `Road network loaded: ${network.vertexCount} vertices, ${network.edgeCount} edges`
+    );
+    return network;
+  })();
+
+  try {
+    return await roadNetworkLoading;
+  } finally {
+    roadNetworkLoading = null;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Daily checkpoint helpers
 // ---------------------------------------------------------------------------
 
@@ -280,46 +346,83 @@ function computeDailyCheckpoints(totalTime, totalDist, candidates, coords, dists
   return checkpoints;
 }
 
-// Dijkstra's algorithm for shortest path routing in JavaScript
-export function findShortestPath(roads, startCoord, endCoord, config) {
+// ---------------------------------------------------------------------------
+// Binary min-heap priority queue for Dijkstra
+// ---------------------------------------------------------------------------
+class BinaryHeap {
+  constructor() {
+    this.nodes = [];
+  }
+
+  push(key, dist) {
+    this.nodes.push({ key, dist });
+    let i = this.nodes.length - 1;
+    while (i > 0) {
+      const parent = (i - 1) >> 1;
+      if (this.nodes[parent].dist <= this.nodes[i].dist) break;
+      [this.nodes[parent], this.nodes[i]] = [this.nodes[i], this.nodes[parent]];
+      i = parent;
+    }
+  }
+
+  pop() {
+    if (this.nodes.length === 0) return null;
+    const top = this.nodes[0];
+    const last = this.nodes.pop();
+    if (this.nodes.length > 0) {
+      this.nodes[0] = last;
+      this.sink(0);
+    }
+    return top;
+  }
+
+  isEmpty() {
+    return this.nodes.length === 0;
+  }
+
+  sink(i) {
+    const n = this.nodes.length;
+    while (true) {
+      let smallest = i;
+      const left = 2 * i + 1;
+      const right = 2 * i + 2;
+      if (left < n && this.nodes[left].dist < this.nodes[smallest].dist) smallest = left;
+      if (right < n && this.nodes[right].dist < this.nodes[smallest].dist) smallest = right;
+      if (smallest === i) break;
+      [this.nodes[i], this.nodes[smallest]] = [this.nodes[smallest], this.nodes[i]];
+      i = smallest;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Graph construction
+// Builds a mode-agnostic graph: edges store the raw road attributes, costs are
+// computed later for the requested transport mode. Shortcut (off-road) edges are
+// added once using the walk config so they are available when walking.
+// ---------------------------------------------------------------------------
+export function buildRoadNetwork(roads, shortcutConfig = TRANSPORT_CONFIGS.walk) {
   const getKey = (coord) => `${coord[0].toFixed(5)},${coord[1].toFixed(5)}`;
-  const graph = {};
   const vertices = new Map();
+  const graph = {};
   const connectedPairs = new Set();
 
   const getMultiplier = (multipliers, type) => multipliers[type] || multipliers.plain || 1.0;
-  const getRouteCost = (segmentLength, roadMult, biomeMult, elevMult) => {
-    if (!config.useDirectnessRouting) return segmentLength / (config.baseSpeed * roadMult * biomeMult * elevMult);
-    return segmentLength / (roadMult * biomeMult * elevMult);
-  };
+
   const addVertex = (key, coord, road) => {
     if (!vertices.has(key)) vertices.set(key, { coord, roads: [] });
     vertices.get(key).roads.push(road);
   };
-  const addGraphEdge = (k1, k2, road, segmentLength, isOffRoad = false) => {
+
+  const addEdge = (k1, k2, raw) => {
     if (!graph[k1]) graph[k1] = [];
     if (!graph[k2]) graph[k2] = [];
-
-    const roadName = isOffRoad ? 'off_road' : (road.name || 'Regular Road');
-    const roadMult = config.roadMultipliers[roadName] || config.roadMultipliers['Regular Road'] || 1.0;
-    const biomeMult = getMultiplier(config.biomeMultipliers, road.biome_type);
-    const elevMult = getMultiplier(config.elevationMultipliers, road.altitude_type);
-    const speed = config.baseSpeed * roadMult * biomeMult * elevMult;
-    const segment = {
-      ...road,
-      name: isOffRoad ? 'Cross-country' : road.name,
-      is_off_road: isOffRoad,
-      geometry: { type: 'LineString', coordinates: [vertices.get(k1).coord, vertices.get(k2).coord] },
-      segment_length: segmentLength,
-      effective_speed: speed,
-      travel_time_seconds: segmentLength / speed
-    };
-    const cost = getRouteCost(segmentLength, roadMult, biomeMult, elevMult);
-    graph[k1].push({ toKey: k2, cost, road: segment });
-    graph[k2].push({ toKey: k1, cost, road: segment });
+    graph[k1].push({ toKey: k2, raw });
+    graph[k2].push({ toKey: k1, raw });
   };
 
-  roads.forEach(road => {
+  // Build base road edges from the road geometries
+  for (const road of roads) {
     const coords = road.geometry.coordinates;
     for (let i = 0; i < coords.length - 1; i++) {
       const p1 = coords[i];
@@ -328,14 +431,25 @@ export function findShortestPath(roads, startCoord, endCoord, config) {
       const k2 = getKey(p2);
       addVertex(k1, p1, road);
       addVertex(k2, p2, road);
-      addGraphEdge(k1, k2, road, getDistance(p1, p2));
+      const dist = getDistance(p1, p2);
+      const raw = {
+        ...road,
+        name: road.name || 'Unnamed Road',
+        is_off_road: false,
+        geometry: { type: 'LineString', coordinates: [p1, p2] },
+        segment_length: dist
+      };
+      addEdge(k1, k2, raw);
       connectedPairs.add([k1, k2].sort().join('|'));
     }
-  });
+  }
 
-  if (config.useDirectnessRouting) {
+  // Add limited cross-country shortcuts for walking
+  if (shortcutConfig && shortcutConfig.useDirectnessRouting) {
     const grid = new Map();
-    const gridKey = ([lng, lat]) => `${Math.floor(lng / WALK_SHORTCUT_GRID_DEGREES)},${Math.floor(lat / WALK_SHORTCUT_GRID_DEGREES)}`;
+    const gridKey = ([lng, lat]) =>
+      `${Math.floor(lng / WALK_SHORTCUT_GRID_DEGREES)},${Math.floor(lat / WALK_SHORTCUT_GRID_DEGREES)}`;
+
     for (const [key, vertex] of vertices) {
       const bucket = gridKey(vertex.coord);
       if (!grid.has(bucket)) grid.set(bucket, []);
@@ -348,6 +462,7 @@ export function findShortestPath(roads, startCoord, endCoord, config) {
       const cellLng = Math.floor(lng / WALK_SHORTCUT_GRID_DEGREES);
       const cellLat = Math.floor(lat / WALK_SHORTCUT_GRID_DEGREES);
       const candidates = [];
+
       for (let dx = -1; dx <= 1; dx++) {
         for (let dy = -1; dy <= 1; dy++) {
           for (const candidateKey of grid.get(`${cellLng + dx},${cellLat + dy}`) || []) {
@@ -356,7 +471,9 @@ export function findShortestPath(roads, startCoord, endCoord, config) {
             if (connectedPairs.has(pairKey) || shortcutPairs.has(pairKey)) continue;
             const candidate = vertices.get(candidateKey);
             const distance = getDistance(vertex.coord, candidate.coord);
-            if (distance <= WALK_SHORTCUT_MAX_DISTANCE_M) candidates.push({ candidateKey, distance });
+            if (distance <= WALK_SHORTCUT_MAX_DISTANCE_M && distance > 0) {
+              candidates.push({ candidateKey, distance });
+            }
           }
         }
       }
@@ -367,18 +484,68 @@ export function findShortestPath(roads, startCoord, endCoord, config) {
         if (shortcutPairs.has(pairKey)) continue;
         const candidate = vertices.get(candidateKey);
         const localRoads = [...vertex.roads, ...candidate.roads];
-        const biomeRoad = localRoads.reduce((slowest, road) => getMultiplier(config.biomeMultipliers, road.biome_type) < getMultiplier(config.biomeMultipliers, slowest.biome_type) ? road : slowest, localRoads[0]);
-        const elevationRoad = localRoads.reduce((slowest, road) => getMultiplier(config.elevationMultipliers, road.altitude_type) < getMultiplier(config.elevationMultipliers, slowest.altitude_type) ? road : slowest, localRoads[0]);
-        addGraphEdge(key, candidateKey, {
+        const biomeRoad = localRoads.reduce(
+          (slowest, road) =>
+            getMultiplier(shortcutConfig.biomeMultipliers, road.biome_type) <
+            getMultiplier(shortcutConfig.biomeMultipliers, slowest.biome_type)
+              ? road
+              : slowest,
+          localRoads[0]
+        );
+        const elevationRoad = localRoads.reduce(
+          (slowest, road) =>
+            getMultiplier(shortcutConfig.elevationMultipliers, road.altitude_type) <
+            getMultiplier(shortcutConfig.elevationMultipliers, slowest.altitude_type)
+              ? road
+              : slowest,
+          localRoads[0]
+        );
+        const raw = {
           id: null,
+          name: 'Cross-country',
+          terrain_type: 'off_road',
+          is_off_road: true,
           biome_type: biomeRoad.biome_type,
           altitude_type: elevationRoad.altitude_type,
-          terrain_type: 'off_road'
-        }, distance, true);
+          geometry: { type: 'LineString', coordinates: [vertex.coord, candidate.coord] },
+          segment_length: distance
+        };
+        addEdge(key, candidateKey, raw);
         shortcutPairs.add(pairKey);
       }
     }
   }
+
+  let edgeCount = 0;
+  for (const key in graph) edgeCount += graph[key].length;
+
+  return { vertices, graph, getKey, vertexCount: vertices.size, edgeCount };
+}
+
+// ---------------------------------------------------------------------------
+// Dijkstra on the cached graph, with per-mode cost calculation
+// ---------------------------------------------------------------------------
+function getEdgeCost(raw, config) {
+  if (raw.is_off_road && !config.useDirectnessRouting) return Infinity;
+
+  const roadName = raw.is_off_road ? 'off_road' : (raw.name || 'Regular Road');
+  const roadMult =
+    config.roadMultipliers[roadName] || config.roadMultipliers['Regular Road'] || 1.0;
+  const biomeMult =
+    config.biomeMultipliers[raw.biome_type] || config.biomeMultipliers.plain || 1.0;
+  const elevMult =
+    config.elevationMultipliers[raw.altitude_type] ||
+    config.elevationMultipliers.plain ||
+    1.0;
+
+  if (config.useDirectnessRouting) {
+    return raw.segment_length / (roadMult * biomeMult * elevMult);
+  }
+  return raw.segment_length / (config.baseSpeed * roadMult * biomeMult * elevMult);
+}
+
+function runDijkstra(roadNetwork, startCoord, endCoord, config) {
+  const { vertices, graph } = roadNetwork;
 
   const getClosestVertex = (target) => {
     let closestKey = null;
@@ -390,7 +557,7 @@ export function findShortestPath(roads, startCoord, endCoord, config) {
         closestKey = key;
       }
     }
-    return { key: closestKey };
+    return { key: closestKey, coord: closestKey ? vertices.get(closestKey).coord : null };
   };
 
   const startVertex = getClosestVertex(startCoord);
@@ -400,34 +567,35 @@ export function findShortestPath(roads, startCoord, endCoord, config) {
   const startKey = startVertex.key;
   const endKey = endVertex.key;
   if (startKey === endKey) {
-    return { path: [], startVertexCoord: vertices.get(startKey).coord, endVertexCoord: vertices.get(endKey).coord };
+    return {
+      path: [],
+      startVertexCoord: startVertex.coord,
+      endVertexCoord: endVertex.coord
+    };
   }
 
   const distances = {};
   const previous = {};
-  const visited = new Set();
-  const queue = [];
-  Object.keys(graph).forEach(key => {
-    distances[key] = Infinity;
-    previous[key] = null;
-  });
-  distances[startKey] = 0;
-  queue.push({ key: startKey, dist: 0 });
+  const heap = new BinaryHeap();
 
-  while (queue.length > 0) {
-    queue.sort((a, b) => a.dist - b.dist);
-    const { key: currentKey } = queue.shift();
+  for (const key of vertices.keys()) distances[key] = Infinity;
+  distances[startKey] = 0;
+  heap.push(startKey, 0);
+
+  while (!heap.isEmpty()) {
+    const { key: currentKey, dist: currentDist } = heap.pop();
+    if (currentDist > distances[currentKey]) continue;
     if (currentKey === endKey) break;
-    if (visited.has(currentKey)) continue;
-    visited.add(currentKey);
 
     for (const edge of graph[currentKey] || []) {
-      if (visited.has(edge.toKey)) continue;
-      const alt = distances[currentKey] + edge.cost;
+      if (!config.useDirectnessRouting && edge.raw.is_off_road) continue;
+      const cost = getEdgeCost(edge.raw, config);
+      if (!isFinite(cost)) continue;
+      const alt = currentDist + cost;
       if (alt < distances[edge.toKey]) {
         distances[edge.toKey] = alt;
-        previous[edge.toKey] = { key: currentKey, road: edge.road };
-        queue.push({ key: edge.toKey, dist: alt });
+        previous[edge.toKey] = { key: currentKey, raw: edge.raw };
+        heap.push(edge.toKey, alt);
       }
     }
   }
@@ -438,11 +606,41 @@ export function findShortestPath(roads, startCoord, endCoord, config) {
   let curr = endKey;
   while (previous[curr]) {
     const prevNode = previous[curr];
-    path.unshift(prevNode.road);
+    const raw = prevNode.raw;
+    const roadName = raw.is_off_road ? 'Cross-country' : (raw.name || 'Unnamed Road');
+    const roadMult =
+      config.roadMultipliers[raw.is_off_road ? 'off_road' : (raw.name || 'Regular Road')] ||
+      config.roadMultipliers['Regular Road'] ||
+      1.0;
+    const biomeMult =
+      config.biomeMultipliers[raw.biome_type] || config.biomeMultipliers.plain || 1.0;
+    const elevMult =
+      config.elevationMultipliers[raw.altitude_type] ||
+      config.elevationMultipliers.plain ||
+      1.0;
+    const effectiveSpeed = config.baseSpeed * roadMult * biomeMult * elevMult;
+
+    path.unshift({
+      ...raw,
+      name: roadName,
+      segment_length: raw.segment_length,
+      effective_speed: effectiveSpeed,
+      travel_time_seconds: raw.segment_length / effectiveSpeed
+    });
     curr = prevNode.key;
   }
 
-  return { path, startVertexCoord: vertices.get(startKey).coord, endVertexCoord: vertices.get(endKey).coord };
+  return {
+    path,
+    startVertexCoord: startVertex.coord,
+    endVertexCoord: endVertex.coord
+  };
+}
+
+// Convenience wrapper used by tests / one-off callers
+export function findShortestPath(roads, startCoord, endCoord, config) {
+  const network = buildRoadNetwork(roads, config);
+  return runDijkstra(network, startCoord, endCoord, config);
 }
 
 /**
@@ -452,38 +650,11 @@ export function findShortestPath(roads, startCoord, endCoord, config) {
 export async function computeRoute({ startLng, startLat, endLng, endLat, transportMode = 'walk' }) {
   const config = TRANSPORT_CONFIGS[transportMode] || TRANSPORT_CONFIGS.walk;
 
-  // 1. Fetch all roads with their respective biome and altitude layers
-  const roadsQuery = `
-    SELECT 
-      r.id, 
-      r.name, 
-      r.terrain_type, 
-      r.difficulty, 
-      r.cost_factor,
-      ST_AsGeoJSON(r.geom)::json as geometry,
-      ST_Length(r.geom::geography) as segment_length,
-      COALESCE(b.type, 'plain') as biome_type,
-      COALESCE(al.altitude_type, 'plain') as altitude_type
-    FROM roads r
-    LEFT JOIN LATERAL (
-      SELECT type 
-      FROM biomes 
-      WHERE ST_Intersects(r.geom, geom) 
-      LIMIT 1
-    ) b ON true
-    LEFT JOIN LATERAL (
-      SELECT altitude_type 
-      FROM altitude_layers 
-      WHERE ST_Intersects(r.geom, geom) 
-      ORDER BY priority DESC 
-      LIMIT 1
-    ) al ON true;
-  `;
-  const roadsRes = await pool.query(roadsQuery);
-  const roads = roadsRes.rows;
+  // 1. Use the cached road network (built once, reused by all requests)
+  const roadNetwork = await getRoadNetwork();
 
-  // 2. Find shortest path on road network
-  const routeResult = findShortestPath(roads, [startLng, startLat], [endLng, endLat], config);
+  // 2. Find shortest path on the road network
+  const routeResult = runDijkstra(roadNetwork, [startLng, startLat], [endLng, endLat], config);
 
   if (!routeResult) {
     return null;

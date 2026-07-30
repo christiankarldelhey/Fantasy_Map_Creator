@@ -13,6 +13,7 @@ import demRouter from './routes/dem.js';
 import climateRouter from './routes/climate.js';
 import searchRouter from './routes/search.js';
 import directionsRouter from './routes/directions.js';
+import { getRoadNetwork } from './services/routing.js';
 import characterRouter from './routes/character.js';
 import tripsRouter from './routes/trips.js';
 import usersRouter from './routes/users.js';
@@ -108,4 +109,10 @@ app.listen(PORT, () => {
   console.log(`💧 Water: http://localhost:${PORT}/api/water`);
   console.log(`🔺 Peaks: http://localhost:${PORT}/api/peaks`);
   console.log(`🏔️  DEM: http://localhost:${PORT}/api/dem`);
+
+  // Preload the route graph in the background so /api/directions doesn't have to
+  // pay the build cost on the first request.
+  getRoadNetwork().catch((err) => {
+    console.error('Failed to preload road network:', err);
+  });
 });
