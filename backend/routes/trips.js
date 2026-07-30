@@ -30,6 +30,15 @@ import {
   WOUND_COSTS,
   TUNING,
 } from '../services/characterState.js';
+import {
+  loadInventory,
+  aggregateEffects,
+  resolveDailyFood,
+  resolveLodging,
+  applyInventoryChanges,
+  provisionForTrip,
+  buildEquipmentBlock,
+} from '../services/inventory.js';
 
 const router = express.Router();
 
@@ -94,6 +103,22 @@ router.post('/', authenticateToken, async (req, res, next) => {
         characterId ? parseInt(characterId, 10) : null,
       ]
     );
+
+    // Provision consumables if the trip starts near a settlement (indoor rest type).
+    if (characterId) {
+      const { rows: startLocRows } = await pool.query(
+        `SELECT l.location_type FROM locations l
+         WHERE ST_DWithin(l.geom, ST_SetSRID(ST_MakePoint($1, $2), 4326), 0.05)
+         ORDER BY ST_Distance(l.geom, ST_SetSRID(ST_MakePoint($1, $2), 4326)) ASC
+         LIMIT 1`,
+        [startLng, startLat]
+      );
+      const startType = startLocRows[0]?.location_type;
+      const INDOOR_REST_TYPES = ['town', 'city', 'village', 'inn', 'tavern', 'fortified city', 'fortified town', 'citadel'];
+      if (startType && INDOOR_REST_TYPES.includes(startType)) {
+        await provisionForTrip(parseInt(characterId, 10));
+      }
+    }
 
     res.status(201).json(rows[0]);
   } catch (error) {
@@ -330,10 +355,12 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     //  night's shadow_effect + each encounter's shadow_weight + region family)
     let conditionBlock = '';
     let endStateBlock = '';
+    let equipmentBlock = '';
     let newEnergy = openingEnergy;
     let newShadow = openingShadow;
     let restedWell = false;
     let fate = { fate: 'living', status: 'active', halted: false };
+    let dayEvents = [];
     if (trip.character_id) {
       const encounters = day.encounters || [];
       const nightEncounters = encounters.filter((e) => e.phase === 'night');
@@ -359,8 +386,48 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       // Elven sanctuaries (Rivendell, Lórien, Mithlond) fully restore energy.
       const sanctuary = isSanctuary(day.overnight_location, day.overnight_interaction);
 
+      // --- Inventory: load and aggregate effects ---
+      const inventoryRows = await loadInventory(trip.character_id);
+      const effects = aggregateEffects(inventoryRows);
+      const daysWithoutFood = startState?.days_without_food ?? 0;
+      const coins = startState?.coins ?? TUNING.STARTING_COINS;
+
+      // --- Food: consume a ration or increment fasting streak ---
+      let food = resolveDailyFood({ rations: effects.rations, daysWithoutFood });
+
+      // --- Lodging: paid rest, charity, or turned away ---
+      const lodging = resolveLodging({
+        overnightLocation: day.overnight_location,
+        overnightInteraction: day.overnight_interaction,
+        coins,
+        currentEnergy: openingEnergy,
+        sanctuary,
+      });
+
+      // Paid lodging (tavern/inn) includes a meal: the traveller eats well,
+      // resetting the fasting streak and counting as food consumed.
+      if (lodging.paid) {
+        food = { consumed: true, newDaysWithoutFood: 0 };
+      }
+
+      if (food.consumed) {
+        dayEvents.push({ type: 'food', consumed: true, source: lodging.paid ? 'tavern' : 'rations' });
+      } else if (food.newDaysWithoutFood > 0) {
+        dayEvents.push({ type: 'food', consumed: false, daysWithoutFood: food.newDaysWithoutFood });
+      }
+      if (lodging.paid) {
+        dayEvents.push({ type: 'lodging', paid: true, cost: lodging.cost, coinsAfter: lodging.coinsAfter });
+      } else if (lodging.turnedAway) {
+        dayEvents.push({ type: 'lodging', turnedAway: true });
+      }
+
+      // If turned away, the overnight location is effectively outdoors.
+      const effectiveOvernightLocation = lodging.turnedAway
+        ? { ...day.overnight_location, indoor: false }
+        : day.overnight_location;
+
       // Rest context for shadow relief: a bed in a non-enemy populated place.
-      const restInLocation = !!day.overnight_location;
+      const restInLocation = !!day.overnight_location && !lodging.turnedAway;
       const restFamily = day.overnight_interaction?.region?.cultural_family || null;
       const restRegionName = day.overnight_interaction?.region?.name || null;
       const { throughEnemy: restIsEnemy } = classifyRegionFamilies(
@@ -368,18 +435,28 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         [restRegionName]
       );
 
+      // Effective rest quality: paid lodging overrides, charity uses its quality.
+      const effectiveRestQuality = lodging.restQuality != null
+        ? lodging.restQuality
+        : restQuality;
+
       const { delta: energyDelta } = computeEnergyDelta({
         distanceKm: day.distance_km,
         encounters,
-        restQuality,
+        restQuality: effectiveRestQuality,
         harshWeatherAllDay: isHarshWeatherAllDay(day.climate),
         quietNight,
         meanTemperature,
         meanWind,
-        overnightLocation: day.overnight_location,
+        overnightLocation: effectiveOvernightLocation,
         currentEnergy: openingEnergy,
         interruptedNight,
         sanctuary,
+        coldShift: effects.coldShift,
+        restBonus: effects.restBonus,
+        daysWithoutFood: food.newDaysWithoutFood,
+        recoveryOverride: lodging.recoveryOverride,
+        consumedFood: food.consumed,
       });
       const { delta: shadowDelta } = computeShadowDelta({
         shadowEffect,
@@ -429,6 +506,14 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         restedWell,
       });
 
+      // Persist inventory changes: ration consumption, coins, days_without_food.
+      await applyInventoryChanges({
+        characterId: trip.character_id,
+        consumedRation: food.consumed,
+        coinsAfter: lodging.coinsAfter,
+        daysWithoutFood: food.newDaysWithoutFood,
+      });
+
       if (fate.halted) {
         await pool.query(
           "UPDATE trips SET status = 'dead', end_cause = $1, ended_at = NOW() WHERE id = $2",
@@ -446,6 +531,20 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         recentNotes: priorNotes,
       });
       endStateBlock = buildEndStateBlock(fate.fate, character.name || 'The traveller');
+
+      // Build the EQUIPAJE block for the narrator prompt.
+      const notableItems = inventoryRows
+        .filter((r) => r.rarity === 'rare' || r.slug === 'lorien_elven_cloak')
+        .map((r) => r.prose_singular);
+      equipmentBlock = buildEquipmentBlock({
+        coldShift: effects.coldShift,
+        meanTemperature,
+        rations: effects.rations,
+        daysWithoutFood: food.newDaysWithoutFood,
+        coins: lodging.coinsAfter,
+        turnedAway: lodging.turnedAway,
+        notableItems,
+      });
     }
 
     let previousDaySummary = null;
@@ -479,7 +578,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       bannedPhrases = extractRepeatedPhrases(priorNarratives);
     }
 
-    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary, conditionBlock, bannedPhrases, endStateBlock);
+    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary, conditionBlock, bannedPhrases, endStateBlock, equipmentBlock);
 
     // Generate AI narrative (optional, if API key is configured). Provider and
     // sampling params rotate per day; capture what was actually used.
@@ -564,6 +663,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       trip_status: tripStatus,
       character_status: fate.status,
       end_cause: endCause,
+      day_events: dayEvents,
     });
   } catch (error) {
     next(error);

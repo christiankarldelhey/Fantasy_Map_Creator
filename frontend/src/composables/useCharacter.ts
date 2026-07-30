@@ -21,6 +21,9 @@ export interface CharacterState {
   updated_at: string
   current_location: string | null
   current_region: string | null
+  coins?: number
+  days_without_food?: number
+  template_id?: number
 }
 
 const characters = ref<CharacterState[]>([])

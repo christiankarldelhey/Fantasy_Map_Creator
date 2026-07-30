@@ -18,6 +18,7 @@
         <div class="character-name">
           {{ activeCharacter?.name }}
           <span v-if="activeCharacter?.permadeath" class="permadeath-skull" title="Permadeath enabled">☠</span>
+          <span v-if="(activeCharacter?.days_without_food ?? 0) > 0" class="hunger-icon" title="No decent meal">🍖</span>
         </div>
         <div class="character-type">{{ activeCharacter?.type }}</div>
       </div>
@@ -130,6 +131,13 @@ function getCharacterImage(name: string): string {
   flex-shrink: 0;
   opacity: 0.75;
   color: var(--text-ink-black);
+}
+
+.hunger-icon {
+  font-size: 12px;
+  line-height: 1;
+  flex-shrink: 0;
+  opacity: 0.6;
 }
 
 .character-type {

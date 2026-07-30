@@ -221,6 +221,102 @@ test('computeEnergyDelta: indoor location keeps full recovery and quiet bonus', 
 });
 
 // ---------------------------------------------------------------------------
+// inventory-related energy delta (no-regression + new params)
+// ---------------------------------------------------------------------------
+test('computeEnergyDelta: no-regression — new params default to zero', () => {
+  const { delta, parts } = computeEnergyDelta({
+    distanceKm: 30,
+    encounters: [enc('attacks'), enc('stalks')],
+    restQuality: null,
+    harshWeatherAllDay: false,
+    quietNight: false,
+  });
+  assert.equal(parts.walk, -9);
+  assert.equal(parts.combat, -15);
+  assert.equal(parts.tension, -6);
+  assert.equal(parts.fastingCost, 0);
+  assert.equal(delta, -30);
+});
+
+test('computeEnergyDelta: cold shift reduces temperature cost', () => {
+  const without = computeEnergyDelta({ meanTemperature: -8, restQuality: null });
+  const withCloak = computeEnergyDelta({ meanTemperature: -8, coldShift: 6, restQuality: null });
+  // -8 → cost band -10..-5 = -8; felt -2 → cost band -5..0 = -5
+  assert.equal(without.parts.temperature, -8);
+  assert.equal(withCloak.parts.temperature, -5);
+  assert.ok(withCloak.delta > without.delta);
+});
+
+test('computeEnergyDelta: cold shift improves outdoor rest multiplier', () => {
+  const without = computeEnergyDelta({ meanTemperature: -8, restQuality: 1, quietNight: false });
+  const withCloak = computeEnergyDelta({ meanTemperature: -8, coldShift: 6, restQuality: 1, quietNight: false });
+  // -8 → multiplier 0.1; felt -2 → multiplier 0.25
+  assert.ok(withCloak.parts.recovery > without.parts.recovery);
+});
+
+test('computeEnergyDelta: cold shift has no effect above threshold', () => {
+  const a = computeEnergyDelta({ meanTemperature: 20, coldShift: 6, restQuality: null });
+  const b = computeEnergyDelta({ meanTemperature: 20, coldShift: 0, restQuality: null });
+  assert.equal(a.delta, b.delta);
+});
+
+test('computeEnergyDelta: three days fasting costs more than one', () => {
+  const one = computeEnergyDelta({ daysWithoutFood: 1, restQuality: null });
+  const three = computeEnergyDelta({ daysWithoutFood: 3, restQuality: null });
+  assert.equal(one.parts.fastingCost, -4);
+  assert.equal(three.parts.fastingCost, -15);
+  assert.ok(three.delta < one.delta);
+});
+
+test('computeEnergyDelta: fasting spoils rest recovery', () => {
+  const fed = computeEnergyDelta({ restQuality: 3, currentEnergy: 20 });
+  const fasting = computeEnergyDelta({ restQuality: 3, currentEnergy: 20, daysWithoutFood: 2 });
+  assert.ok(fasting.parts.recovery < fed.parts.recovery);
+});
+
+test('computeEnergyDelta: recoveryOverride replaces rest recovery (paid lodging)', () => {
+  const { parts } = computeEnergyDelta({
+    restQuality: 2,
+    currentEnergy: 40,
+    recoveryOverride: 30,
+  });
+  assert.equal(parts.recovery, 30); // no soft cap applied
+});
+
+test('computeEnergyDelta: recoveryOverride affected by interrupted sleep', () => {
+  const { parts } = computeEnergyDelta({
+    restQuality: 2,
+    currentEnergy: 40,
+    recoveryOverride: 30,
+    interruptedNight: true,
+  });
+  assert.equal(parts.recovery, 12); // 30 × 0.4
+});
+
+test('computeEnergyDelta: consumedFood adds meal bonus', () => {
+  const without = computeEnergyDelta({ restQuality: null });
+  const withFood = computeEnergyDelta({ restQuality: null, consumedFood: true });
+  assert.equal(without.parts.mealBonus, 0);
+  assert.equal(withFood.parts.mealBonus, TUNING.MEAL_ENERGY_BONUS);
+  assert.equal(withFood.delta - without.delta, TUNING.MEAL_ENERGY_BONUS);
+});
+
+test('computeEnergyDelta: meal bonus reduced by interrupted sleep', () => {
+  const { parts } = computeEnergyDelta({
+    consumedFood: true,
+    interruptedNight: true,
+  });
+  assert.equal(parts.mealBonus, TUNING.MEAL_ENERGY_BONUS * TUNING.INTERRUPTED_SLEEP_MULTIPLIER);
+});
+
+test('computeEnergyDelta: meal bonus not affected by fasting multiplier', () => {
+  const fed = computeEnergyDelta({ consumedFood: true, daysWithoutFood: 0 });
+  const fasting = computeEnergyDelta({ consumedFood: true, daysWithoutFood: 3 });
+  // mealBonus is the same regardless of fasting (eating resets fasting)
+  assert.equal(fed.parts.mealBonus, fasting.parts.mealBonus);
+});
+
+// ---------------------------------------------------------------------------
 // shadow delta + floor rule
 // ---------------------------------------------------------------------------
 test('computeShadowDelta: overnight × 10 + encounter weights + region', () => {

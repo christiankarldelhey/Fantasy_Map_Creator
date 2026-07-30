@@ -539,8 +539,9 @@ const WAY_IN_FOCI = [
   'the sound of the place — what the traveller hears, not what he sees',
   'the light — how the day opens, turns, and closes',
   'the body of the traveller — weariness, breath, the weight of the pack',
-  'a small object or detail on the road — a stone, a track, a snapped branch',
+  'a small object or detail on the road',
   'the silence or absence — what is not there, what the land withholds',
+  'how the traveller wakes up, or what it takes for breakfast'
 ];
 
 /**

@@ -1,6 +1,8 @@
 import express from 'express';
 import pool from '../db.js';
 import { authenticateToken } from '../middleware/auth.js';
+import { grantStartingKit, loadInventory } from '../services/inventory.js';
+import { TUNING } from '../services/characterState.js';
 
 const router = express.Router();
 
@@ -23,6 +25,8 @@ router.get('/', async (req, res, next) => {
         c.permadeath,
         c.status,
         c.updated_at,
+        c.coins,
+        c.days_without_food,
         (
           SELECT name 
           FROM locations 
@@ -67,6 +71,8 @@ router.get('/my', authenticateToken, async (req, res, next) => {
         c.permadeath,
         c.status,
         c.updated_at,
+        c.coins,
+        c.days_without_food,
         c.template_id,
         (u.active_character_id = c.id) as is_active_for_user,
         (
@@ -113,6 +119,8 @@ router.get('/active', async (req, res, next) => {
         c.permadeath,
         c.status,
         c.updated_at,
+        c.coins,
+        c.days_without_food,
         (
           SELECT name 
           FROM locations 
@@ -141,6 +149,21 @@ router.get('/active', async (req, res, next) => {
   }
 });
 
+// GET /api/character/:id/inventory - Get a character's inventory grouped by category
+router.get('/:id/inventory', async (req, res, next) => {
+  try {
+    const rows = await loadInventory(parseInt(req.params.id, 10));
+    const grouped = {};
+    for (const row of rows) {
+      if (!grouped[row.category]) grouped[row.category] = [];
+      grouped[row.category].push(row);
+    }
+    res.json({ items: rows, grouped });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // GET /api/character/:id - Get a specific character
 router.get('/:id', async (req, res, next) => {
   try {
@@ -161,6 +184,8 @@ router.get('/:id', async (req, res, next) => {
         c.permadeath,
         c.status,
         c.updated_at,
+        c.coins,
+        c.days_without_food,
         (
           SELECT name 
           FROM locations 
@@ -321,12 +346,14 @@ router.post('/clone-all', authenticateToken, async (req, res, next) => {
         // Copy the template's starting values into the clone's live state.
         const clone = await pool.query(
           `INSERT INTO character_state
-            (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug, energy, shadow, energy_initial, shadow_initial)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11, $12, $13, $12, $13)
+            (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug, energy, shadow, energy_initial, shadow_initial, coins)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11, $12, $13, $12, $13, $14)
            RETURNING id`,
-          [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug, t.energy_initial ?? 100, t.shadow_initial ?? 0]
+          [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug, t.energy_initial ?? 100, t.shadow_initial ?? 0, TUNING.STARTING_COINS]
         );
         characterId = clone.rows[0].id;
+        // Grant the template's starting kit to the new clone.
+        await grantStartingKit(characterId, t.id);
       }
       clones.push({ templateId: t.id, characterId });
     }
@@ -405,12 +432,14 @@ router.post('/clone/:templateId', authenticateToken, async (req, res, next) => {
       // Copy the template's starting values into the clone's live state.
       const clone = await pool.query(
         `INSERT INTO character_state
-          (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug, energy, shadow, energy_initial, shadow_initial)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11, $12, $13, $12, $13)
+          (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug, energy, shadow, energy_initial, shadow_initial, coins)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11, $12, $13, $12, $13, $14)
          RETURNING id`,
-        [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug, t.energy_initial ?? 100, t.shadow_initial ?? 0]
+        [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug, t.energy_initial ?? 100, t.shadow_initial ?? 0, TUNING.STARTING_COINS]
       );
       characterId = clone.rows[0].id;
+      // Grant the template's starting kit to the new clone.
+      await grantStartingKit(characterId, t.id);
     }
 
     // Update user's active_character_id
@@ -438,7 +467,7 @@ router.post('/:id/reset', authenticateToken, async (req, res, next) => {
     const userId = req.userId;
 
     const ownerCheck = await pool.query(
-      'SELECT id, energy_initial, shadow_initial FROM character_state WHERE id = $1 AND owner_user_id = $2',
+      'SELECT id, energy_initial, shadow_initial, template_id FROM character_state WHERE id = $1 AND owner_user_id = $2',
       [id, userId]
     );
     if (ownerCheck.rows.length === 0) {
@@ -451,11 +480,18 @@ router.post('/:id/reset', authenticateToken, async (req, res, next) => {
 
     const result = await pool.query(
       `UPDATE character_state
-         SET energy = $1, shadow = $2, status = 'alive', updated_at = NOW()
-       WHERE id = $3
+         SET energy = $1, shadow = $2, status = 'alive', coins = $3, days_without_food = 0, updated_at = NOW()
+       WHERE id = $4
        RETURNING id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow, status, updated_at`,
-      [newEnergy, newShadow, id]
+      [newEnergy, newShadow, TUNING.STARTING_COINS, id]
     );
+
+    // Restore starting kit: clear inventory and re-grant from template.
+    await pool.query('DELETE FROM character_inventory WHERE character_id = $1', [id]);
+    const templateId = ownerCheck.rows[0].template_id;
+    if (templateId) {
+      await grantStartingKit(parseInt(id, 10), templateId);
+    }
 
     res.json(result.rows[0]);
   } catch (error) {

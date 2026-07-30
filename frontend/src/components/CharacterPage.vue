@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { X } from '@lucide/vue'
 import type { CharacterState } from '@/composables/useCharacter'
 import { useCharacter } from '@/composables/useCharacter'
 import { useBreakpoint } from '@/composables/useBreakpoint'
+import { useInventory } from '@/composables/useInventory'
 
 interface CharacterPageProps {
   character: CharacterState
@@ -21,12 +22,55 @@ const emit = defineEmits<{
 
 const { isMobile } = useBreakpoint()
 const { resetCharacter } = useCharacter()
+const { inventory, fetchInventory, clearInventory } = useInventory()
 
 const isDead = computed(() => props.character.status === 'dead')
 
 const fullImageUrl = computed(() => {
   return new URL(`/src/assets/characters/${props.character.name}_full.png`, import.meta.url).href
 })
+
+// Load inventory when the page opens
+watch(() => props.open, (isOpen) => {
+  if (isOpen && props.character.id) {
+    fetchInventory(props.character.id)
+  } else if (!isOpen) {
+    clearInventory()
+  }
+}, { immediate: true })
+
+// Group inventory by category for display
+const groupedInventory = computed(() => {
+  const groups: Record<string, typeof inventory.value> = {}
+  for (const item of inventory.value) {
+    if (!groups[item.category]) groups[item.category] = []
+    groups[item.category].push(item)
+  }
+  return groups
+})
+
+const categoryLabels: Record<string, string> = {
+  garment: 'Garments',
+  provision: 'Provisions',
+  ammunition: 'Ammunition',
+  weapon: 'Weapons',
+  tool: 'Tools',
+}
+
+const categoryOrder = ['garment', 'weapon', 'provision', 'ammunition', 'tool']
+
+function itemProse(item: typeof inventory.value[0]): string {
+  if (item.qty > 1 && item.prose_plural) return item.prose_plural
+  return item.prose_singular
+}
+
+function provisionSummary(): string {
+  const provisions = inventory.value.filter((i) => i.category === 'provision')
+  const total = provisions.reduce((sum, i) => sum + i.qty, 0)
+  if (total === 0) return 'no provisions'
+  if (total <= 2) return 'provisions for a day or two'
+  return `provisions for several days`
+}
 
 async function handleReset() {
   try {
@@ -104,6 +148,38 @@ async function handleReset() {
                 <p :class="['font-book leading-relaxed text-ink-black', isMobile ? 'text-sm' : 'text-base']">
                   {{ character.description }}
                 </p>
+              </div>
+
+              <!-- Coins + hunger -->
+              <div class="mt-6 flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                  <span class="font-serif text-lg text-gold-base" title="Coins">⬡</span>
+                  <span class="font-serif font-semibold text-ink-black">{{ character.coins ?? 100 }}</span>
+                  <span class="font-book text-sm text-ink-brown">coins</span>
+                </div>
+                <div v-if="(character.days_without_food ?? 0) > 0" class="flex items-center gap-2">
+                  <span class="text-ink-brown" title="Days without food">🍖</span>
+                  <span class="font-book text-sm italic text-ink-brown">no decent meal in {{ character.days_without_food }} {{ character.days_without_food === 1 ? 'day' : 'days' }}</span>
+                </div>
+              </div>
+
+              <!-- Inventory panel -->
+              <div v-if="inventory.length > 0" class="mt-8">
+                <h2 class="mb-3 font-serif text-sm uppercase tracking-wide text-gold-base">Equipage</h2>
+                <div class="space-y-4">
+                  <div v-for="category in categoryOrder" :key="category">
+                    <div v-if="groupedInventory[category]">
+                      <p class="mb-1 font-book text-xs uppercase tracking-wide text-ink-brown">{{ categoryLabels[category] }}</p>
+                      <ul class="space-y-0.5">
+                        <li v-for="item in groupedInventory[category]" :key="item.id" class="font-book text-sm text-ink-black">
+                          <span v-if="item.category === 'provision'">{{ provisionSummary() }}</span>
+                          <span v-else>{{ itemProse(item) }}</span>
+                          <span v-if="item.equipped" class="ml-1 text-xs italic text-gold-base">— worn</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div v-if="isDead" class="mt-8">

@@ -132,7 +132,7 @@ const getDestinationName = (tripName) => {
  * @param {string[]} [bannedPhrases] - phrases repeated in earlier chapters to avoid
  * @returns {{ system: string, user: string }}
  */
-export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null, conditionBlock = '', bannedPhrases = [], endStateBlock = '') {
+export function buildDayPrompt(day, trip = {}, character = {}, language = 'english', previousDaySummary = null, conditionBlock = '', bannedPhrases = [], endStateBlock = '', equipmentBlock = '') {
   const charName = character.name || 'The Traveller';
   const charKind = character.entity_name ? `, ${character.entity_name}` : '';
   const charBio = character.description ? `\n${character.description}` : '';
@@ -332,7 +332,7 @@ Because this is the final day, this chapter ends with ${charName}'s death. Ignor
   const user = `=== ${charName.toUpperCase()} ===
 ${charName}${charKind}.${charBio}
 
-${narratorVoiceSection}${conditionBlock || ''}${endStateBlock || ''}${journeyContextSection}${specialInstructionsSection}${bannedPhrasesSection}${terminalNotice}=== HOW TO USE THE LAND NOTES ===
+${narratorVoiceSection}${conditionBlock || ''}${equipmentBlock || ''}${endStateBlock || ''}${journeyContextSection}${specialInstructionsSection}${bannedPhrasesSection}${terminalNotice}=== HOW TO USE THE LAND NOTES ===
 The notes below are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words. They tell you what is there, not how to say it. The day is laid out chronologically: the MORNING, AFTERNOON and NIGHT AT CAMP blocks each gather the terrain, weather, water and encounters that belong to that part of the day. Narrate them in that order.
 
 === ENCOUNTER RULES ===
