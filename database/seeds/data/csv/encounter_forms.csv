@@ -138,3 +138,11 @@ bf6e0b04-3f0d-5bdf-a76a-1e3544a160d6,sites,harvest_shelter,1,3,0,5,False,"Shelte
 f7b1b04a-f435-51e8-a134-992433a59988,hazards,scenery,0,2,0,5,False,"A peril of the land made plain — a drop, a bog, rotten ice, foul air — read in time and gone around."
 46f81430-4a41-51ff-aad7-c446ed7593ca,hazards,hinders_passage,2,4,0,5,False,"The way itself fights the march: treacherous footing, blocked passage, ground that cannot be trusted."
 daba7085-6fc2-581e-a68e-2884de5c0cd5,hazards,sudden_peril,3,3,3,5,True,"It strikes without warning — a slide, a flood, a fall, a fume — and the land turns killer in a breath."
+81d48a86-23ae-4236-8d11-2033bdf4aa12,trolls,confronts,3,40,0,5,False,"a troll blocks the road or emerges from cover — slow, deliberate, not yet committed to violence"
+165df080-1028-4483-beaa-426aa766f019,trolls,brief_exchange,1,15,0,3,False,a troll occupied with its own concerns addresses the traveller with blunt curiosity rather than threat
+9088fb71-8a1b-4b26-98d5-8698b794e3e7,undead,brief_exchange,2,20,0,5,False,a ghost or wight speaks — always with the specific ache of something unfinished
+2d3272c9-4efd-467a-a474-261a7eb2867c,undead,confronts,3,25,2,5,True,"an undead entity bars passage directly — bound to a threshold, a barrow, or an oath"
+01c7c461-33ad-4a2b-bb25-0e33602b9847,living_trees,brief_exchange,1,10,0,5,False,an Ent or awakened tree speaks — the question comes slowly and the expectation of a real answer is absolute
+c525cb0a-39a4-4843-bbdc-568e8ed23356,orcs,brief_exchange,2,20,0,3,False,"orcs address the traveller directly — not yet attacking, assessing, or delivering a message"
+6d29831d-43fc-49d5-bf50-2f903c31538d,orcs,observed_activity,1,25,0,5,False,"orc activity visible at a distance — a column, a camp, scouts on a ridge — without direct contact"
+7e90e866-758e-4b90-9e35-b0231e1e64ba,maiar,watches,1,15,0,5,False,"a Maia presence watches from a distance — felt more than seen, its attention specific and unmistakable"

@@ -30,7 +30,14 @@ const RECENT_PENALTY = 0.3;
 const HIGH_INTENSITY = 3;
 
 // Forms that should trigger dialogue selection
-const DIALOGUE_FORMS = ['brief_exchange', 'aid_or_trade', 'confronts'];
+const DIALOGUE_FORMS = [
+  'brief_exchange', 'aid_or_trade', 'confronts',
+  'sign_only', 'sound_only', 'glimpsed_far',
+  'observed_activity', 'watches', 'presence_felt',
+  'reacts_withdraws', 'stalks', 'scenery',
+  'hinders_passage', 'sudden_peril', 'harvest_shelter',
+  'mistaken_for_object',
+];
 
 // Resistance roll is gated until the formula is tuned.
 const ENABLE_RESISTANCE_ROLL = process.env.ENABLE_RESISTANCE_ROLL === 'true';
