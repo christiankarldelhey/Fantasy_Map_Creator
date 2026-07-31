@@ -73,13 +73,14 @@ async function regionsForPoints(points) {
   const json = JSON.stringify(points);
   const { rows } = await pool.query(
     `SELECT t.idx,
+            r.id,
             r.name,
             r.description_summary,
             r.cultural_family,
             COALESCE(r.population_ratio, 0.5) AS population_ratio
      FROM jsonb_array_elements($1::jsonb) WITH ORDINALITY AS t(elem, idx)
      LEFT JOIN LATERAL (
-       SELECT name, description_summary, cultural_family, population_ratio
+       SELECT id, name, description_summary, cultural_family, population_ratio
        FROM regions
        WHERE ST_Contains(geom, ST_SetSRID(ST_MakePoint((elem->>0)::float, (elem->>1)::float), 4326))
        LIMIT 1
@@ -88,6 +89,7 @@ async function regionsForPoints(points) {
     [json]
   );
   return rows.map((row) => (row.name ? {
+    id: row.id,
     name: row.name,
     description_summary: row.description_summary,
     cultural_family: row.cultural_family,
@@ -467,6 +469,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     if (name && !seenRegions.has(name)) {
       seenRegions.add(name);
       orderedRegions.push({
+        id: info.id || null,
         name,
         description_summary: info.description_summary || null,
         cultural_family: info.cultural_family || null,
@@ -579,16 +582,21 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   const chapterForms = []; // tracks forms used within this chapter
   const encounters = [];
 
-  // Build a region name -> cultural_family map for npc_interactions queries
+  // Build region name -> cultural_family and region name -> id maps for npc_interactions queries
   const culturalFamilyByRegion = new Map();
+  const regionIdByRegion = new Map();
   for (const r of orderedRegions) {
     if (r.name && r.cultural_family) {
       culturalFamilyByRegion.set(r.name, r.cultural_family);
+    }
+    if (r.name && r.id != null) {
+      regionIdByRegion.set(r.name, r.id);
     }
   }
 
   for (const e of rawEncounters) {
     const encounterCulturalFamily = culturalFamilyByRegion.get(e.region) || null;
+    const encounterRegionId = regionIdByRegion.get(e.region) || null;
     const interaction = await resolveEncounter(
       e.entity,
       character,
@@ -599,7 +607,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
         shadowBand,
         characterSlug,
         culturalFamily: encounterCulturalFamily,
-        regionId: null,
+        regionId: encounterRegionId,
       }
     );
     chapterForms.push(interaction.form);

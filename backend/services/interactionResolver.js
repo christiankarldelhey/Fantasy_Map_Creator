@@ -99,12 +99,16 @@ function relaxBand(band) {
   return null;
 }
 
-// Score how specific a row is (more non-NULL optional columns = more specific)
-function specificityScore(row) {
+// Score how specific a row is, preferring rows whose optional columns MATCH the
+// encounter context (character, cultural family, region).  A row with a
+// non-matching cultural_family scores the same as one with no cultural_family
+// at all, so region-specific dialogue written for one culture is never
+// preferred when the encounter is in a different culture.
+function specificityScore(row, culturalFamily, regionId) {
   let score = 0;
   if (row.character_id) score++;
-  if (row.cultural_family) score++;
-  if (row.region_id) score++;
+  if (row.cultural_family && row.cultural_family === culturalFamily) score++;
+  if (row.region_id && Number(row.region_id) === Number(regionId)) score++;
   return score;
 }
 
@@ -139,25 +143,44 @@ async function fetchNpcInteraction({
 
   // Helper: query by entity_id or entity_type, with band, keeping only the most
   // specific tier of matches (character > cultural family > region).
-  // entity_type lookups are restricted to entity-agnostic rows so that dialogue
-  // written for one entity is never reused for a different one.
-  const queryByDimension = async (dimensionCol, dimensionVal, band) => {
-    const entityScope = dimensionCol === 'entity_type' ? 'AND entity_id IS NULL' : '';
+  //
+  // entity_id lookups do NOT filter by cultural_family or region_id — the
+  // entity_id already identifies the entity, and those columns are used only
+  // for specificity scoring (a row that matches the encounter context scores
+  // higher than one written for a different region/culture).
+  //
+  // entity_type lookups ARE filtered by cultural_family/region_id (with a
+  // fallback to unfiltered) so that generic dialogue matches the encounter's
+  // cultural context.  entity_type lookups are also restricted to
+  // entity-agnostic rows (entity_id IS NULL) so dialogue written for one
+  // entity is never reused for a different one.
+  const queryByDimension = async (dimensionCol, dimensionVal, band, useContextFilters = true) => {
+    const isEntityType = dimensionCol === 'entity_type';
+    const entityScope = isEntityType ? 'AND entity_id IS NULL' : '';
+    // Context filters only apply to entity_type queries, and only when requested
+    const useFilters = isEntityType && useContextFilters;
+    const contextFilter = useFilters
+      ? `AND (cultural_family IS NULL OR cultural_family = $5)
+         AND (region_id IS NULL OR region_id::numeric = $6::numeric)`
+      : '';
+    const params = useFilters
+      ? [dimensionVal, interactionForm, band, baseSlug, culturalFamily, regionId]
+      : [dimensionVal, interactionForm, band, baseSlug];
     const { rows } = await pool.query(
       `SELECT * FROM npc_interactions
        WHERE ${dimensionCol} = $1 AND interaction_form = $2 AND shadow_band = $3
          ${entityScope}
          AND (character_id IS NULL OR character_id = $4)
-         AND (cultural_family IS NULL OR cultural_family = $5)
-         AND (region_id IS NULL OR region_id = $6)`,
-      [dimensionVal, interactionForm, band, baseSlug, culturalFamily, regionId]
+         ${contextFilter}`,
+      params
     );
     if (rows.length === 0) return [];
-    const bestScore = Math.max(...rows.map(specificityScore));
-    return rows.filter((row) => specificityScore(row) === bestScore);
+    const bestScore = Math.max(...rows.map(r => specificityScore(r, culturalFamily, regionId)));
+    return rows.filter((row) => specificityScore(row, culturalFamily, regionId) === bestScore);
   };
 
-  // Attempt 1: entity_id match with exact band
+  // Attempt 1: entity_id match with exact band (no context filters — entity_id
+  // is specific enough; cultural_family/region_id are used only for scoring)
   if (entityId) {
     candidates = await queryByDimension('entity_id', entityId, dbBand);
   }
@@ -171,16 +194,30 @@ async function fetchNpcInteraction({
     }
   }
 
-  // Attempt 3: entity_type match with exact band
+  // Attempt 3: entity_type match with exact band + context filters
   if (candidates.length === 0 && entityType) {
-    candidates = await queryByDimension('entity_type', entityType, dbBand);
+    candidates = await queryByDimension('entity_type', entityType, dbBand, true);
   }
 
-  // Attempt 4: entity_type match with relaxed band
+  // Attempt 4: entity_type match with relaxed band + context filters
   if (candidates.length === 0 && entityType) {
     let band = relaxBand(dbBand);
     while (band && candidates.length === 0) {
-      candidates = await queryByDimension('entity_type', entityType, band);
+      candidates = await queryByDimension('entity_type', entityType, band, true);
+      band = relaxBand(band);
+    }
+  }
+
+  // Attempt 5: entity_type match with exact band, no context filters (fallback)
+  if (candidates.length === 0 && entityType) {
+    candidates = await queryByDimension('entity_type', entityType, dbBand, false);
+  }
+
+  // Attempt 6: entity_type match with relaxed band, no context filters (fallback)
+  if (candidates.length === 0 && entityType) {
+    let band = relaxBand(dbBand);
+    while (band && candidates.length === 0) {
+      candidates = await queryByDimension('entity_type', entityType, band, false);
       band = relaxBand(band);
     }
   }
@@ -205,26 +242,38 @@ async function fetchGenericTopic({
   const baseSlug = stripCloneSlug(characterSlug);
   const candidates = [];
 
-  const queryByBand = async (band) => {
+  const queryByBand = async (band, useContextFilters = true) => {
+    const contextFilter = useContextFilters
+      ? `AND (cultural_family IS NULL OR cultural_family = $4)
+         AND (region_id IS NULL OR region_id::numeric = $5::numeric)`
+      : '';
+    const params = useContextFilters
+      ? [entityType, band, baseSlug, culturalFamily, regionId]
+      : [entityType, band, baseSlug];
     const { rows } = await pool.query(
       `SELECT * FROM npc_interactions
        WHERE entity_type = $1 AND interaction_form = 'topic' AND shadow_band = $2
          AND (character_id IS NULL OR character_id = $3)
-         AND (cultural_family IS NULL OR cultural_family = $4)
-         AND (region_id IS NULL OR region_id = $5)
-       ORDER BY
-         (character_id IS NOT NULL) DESC,
-         (cultural_family IS NOT NULL) DESC,
-         (region_id IS NOT NULL) DESC`,
-      [entityType, band, baseSlug, culturalFamily, regionId]
+         ${contextFilter}`,
+      params
     );
     return rows;
   };
 
+  // Try with context filters first
   let band = dbBand;
   while (band && candidates.length === 0) {
-    candidates.push(...(await queryByBand(band)));
+    candidates.push(...(await queryByBand(band, true)));
     band = relaxBand(band);
+  }
+
+  // Fallback: try without context filters
+  if (candidates.length === 0) {
+    band = dbBand;
+    while (band && candidates.length === 0) {
+      candidates.push(...(await queryByBand(band, false)));
+      band = relaxBand(band);
+    }
   }
 
   return randomPick(candidates, rng);
