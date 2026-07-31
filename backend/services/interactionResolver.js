@@ -112,9 +112,12 @@ function specificityScore(row) {
  * Fetch the best rich npc_interactions row for an encounter, using a fallback chain:
  *   1. entity_id + interaction_form + shadow_band (with optional character/cultural/region preference)
  *   2. Relax shadow_band (high -> mid -> low)
- *   3. entity_type + interaction_form + shadow_band (with same preference)
+ *   3. entity_type + interaction_form + shadow_band, entity-agnostic rows only
  *   4. Relax shadow_band on entity_type match
  *   5. Return null (caller falls back to a generic topic row from npc_interactions)
+ *
+ * Within the winning step, every equally-specific row is a candidate and one is
+ * picked at random, so repeated encounters with the same entity vary.
  */
 async function fetchNpcInteraction({
   entityId,
@@ -124,61 +127,66 @@ async function fetchNpcInteraction({
   characterSlug,
   culturalFamily,
   regionId,
+  rng = Math.random,
 }) {
   const baseSlug = stripCloneSlug(characterSlug);
   const cacheKey = `${entityId}|${entityType}|${interactionForm}|${dbBand}|${baseSlug}|${culturalFamily}|${regionId}`;
-  if (npcInteractionCache.has(cacheKey)) return npcInteractionCache.get(cacheKey);
+  if (npcInteractionCache.has(cacheKey)) {
+    return randomPick(npcInteractionCache.get(cacheKey), rng);
+  }
 
-  let result = null;
+  let candidates = [];
 
-  // Helper: query by entity_id or entity_type, with band, preferring specific optional matches
+  // Helper: query by entity_id or entity_type, with band, keeping only the most
+  // specific tier of matches (character > cultural family > region).
+  // entity_type lookups are restricted to entity-agnostic rows so that dialogue
+  // written for one entity is never reused for a different one.
   const queryByDimension = async (dimensionCol, dimensionVal, band) => {
+    const entityScope = dimensionCol === 'entity_type' ? 'AND entity_id IS NULL' : '';
     const { rows } = await pool.query(
       `SELECT * FROM npc_interactions
        WHERE ${dimensionCol} = $1 AND interaction_form = $2 AND shadow_band = $3
+         ${entityScope}
          AND (character_id IS NULL OR character_id = $4)
          AND (cultural_family IS NULL OR cultural_family = $5)
-         AND (region_id IS NULL OR region_id = $6)
-       ORDER BY
-         (character_id IS NOT NULL) DESC,
-         (cultural_family IS NOT NULL) DESC,
-         (region_id IS NOT NULL) DESC
-       LIMIT 1`,
+         AND (region_id IS NULL OR region_id = $6)`,
       [dimensionVal, interactionForm, band, baseSlug, culturalFamily, regionId]
     );
-    return rows[0] || null;
+    if (rows.length === 0) return [];
+    const bestScore = Math.max(...rows.map(specificityScore));
+    return rows.filter((row) => specificityScore(row) === bestScore);
   };
 
   // Attempt 1: entity_id match with exact band
   if (entityId) {
-    result = await queryByDimension('entity_id', entityId, dbBand);
+    candidates = await queryByDimension('entity_id', entityId, dbBand);
   }
 
   // Attempt 2: entity_id match with relaxed band
-  if (!result && entityId) {
+  if (candidates.length === 0 && entityId) {
     let band = relaxBand(dbBand);
-    while (band && !result) {
-      result = await queryByDimension('entity_id', entityId, band);
+    while (band && candidates.length === 0) {
+      candidates = await queryByDimension('entity_id', entityId, band);
       band = relaxBand(band);
     }
   }
 
   // Attempt 3: entity_type match with exact band
-  if (!result && entityType) {
-    result = await queryByDimension('entity_type', entityType, dbBand);
+  if (candidates.length === 0 && entityType) {
+    candidates = await queryByDimension('entity_type', entityType, dbBand);
   }
 
   // Attempt 4: entity_type match with relaxed band
-  if (!result && entityType) {
+  if (candidates.length === 0 && entityType) {
     let band = relaxBand(dbBand);
-    while (band && !result) {
-      result = await queryByDimension('entity_type', entityType, band);
+    while (band && candidates.length === 0) {
+      candidates = await queryByDimension('entity_type', entityType, band);
       band = relaxBand(band);
     }
   }
 
-  npcInteractionCache.set(cacheKey, result);
-  return result;
+  npcInteractionCache.set(cacheKey, candidates);
+  return randomPick(candidates, rng);
 }
 
 /**
@@ -345,6 +353,7 @@ export async function resolveEncounter(
       characterSlug,
       culturalFamily,
       regionId,
+      rng,
     });
 
     if (!dialogueContent) {
