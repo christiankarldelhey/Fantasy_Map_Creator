@@ -36,7 +36,7 @@ const DIALOGUE_FORMS = [
   'observed_activity', 'watches', 'presence_felt',
   'reacts_withdraws', 'stalks', 'scenery',
   'hinders_passage', 'sudden_peril', 'harvest_shelter',
-  'mistaken_for_object',
+  'mistaken_for_object', 'attacks', 'drifts_closer',
 ];
 
 // Resistance roll is gated until the formula is tuned.
