@@ -318,6 +318,11 @@ CREATE TABLE IF NOT EXISTS entities (
     --   negative = lightens (elves, good Maiar, a hobbit hearth).
     shadow_weight INT NOT NULL DEFAULT 0,
 
+    -- Whether this entity is an NPC (can talk / interact socially).
+    --   true for humans, elves, dwarves, hobbits, orcs, maiar, living_trees, undead, drakes.
+    --   false for animals, plants, hazards, etc.
+    is_npc BOOLEAN NOT NULL DEFAULT false,
+
     -- Metadata
     created_at TIMESTAMP DEFAULT NOW()
 );

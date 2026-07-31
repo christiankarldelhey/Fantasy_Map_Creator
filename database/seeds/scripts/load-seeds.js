@@ -266,10 +266,15 @@ async function seedEntities() {
 
     const shadowWeight = nullIfEmpty(r.shadow_weight) !== null ? parseInt(r.shadow_weight, 10) : 0;
 
+    const NPC_TYPES = ['humans', 'elves', 'dwarves', 'hobbits', 'orcs', 'maiar', 'living_trees', 'undead', 'drakes'];
+    const isNpc = r.is_npc !== undefined && r.is_npc !== null && r.is_npc !== ''
+      ? r.is_npc === 'true' || r.is_npc === 't'
+      : NPC_TYPES.includes(r.type);
+
     try {
       await pool.query(
-        `INSERT INTO entities (id, name, slug, type, active, tier, parent_id, description, description_summary, url_path, biomes, shadow_weight, created_at)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+        `INSERT INTO entities (id, name, slug, type, active, tier, parent_id, description, description_summary, url_path, biomes, shadow_weight, is_npc, created_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
          ON CONFLICT (id) DO UPDATE SET
            name = EXCLUDED.name,
            slug = EXCLUDED.slug,
@@ -281,7 +286,8 @@ async function seedEntities() {
            description_summary = EXCLUDED.description_summary,
            url_path = EXCLUDED.url_path,
            biomes = EXCLUDED.biomes,
-           shadow_weight = EXCLUDED.shadow_weight`,
+           shadow_weight = EXCLUDED.shadow_weight,
+           is_npc = EXCLUDED.is_npc`,
         [
           id,
           r.name,
@@ -295,6 +301,7 @@ async function seedEntities() {
           nullIfEmpty(r.url_path),
           biomesArray,
           Number.isFinite(shadowWeight) ? shadowWeight : 0,
+          isNpc,
           nullIfEmpty(r.created_at) ?? new Date(),
         ]
       );
@@ -636,6 +643,18 @@ async function ensureSchema() {
   await pool.query(`
     ALTER TABLE entities
       ADD COLUMN IF NOT EXISTS shadow_weight INT NOT NULL DEFAULT 0
+  `);
+
+  // entities: is_npc flag (humans, elves, dwarves, hobbits, orcs, maiar).
+  await pool.query(`
+    ALTER TABLE entities
+      ADD COLUMN IF NOT EXISTS is_npc BOOLEAN NOT NULL DEFAULT false
+  `);
+  await pool.query(`
+    UPDATE entities
+      SET is_npc = true
+      WHERE type IN ('humans', 'elves', 'dwarves', 'hobbits', 'orcs', 'maiar', 'living_trees', 'undead', 'drakes')
+        AND is_npc = false
   `);
 
   // character_state_log: per-day trail.
