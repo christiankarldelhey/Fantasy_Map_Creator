@@ -2,78 +2,15 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  describeLandscape,
-  describeRoads,
   describeWaterCrossings,
   collectTerrainNotes,
   collectRoadNotes,
-  collectClimateNotes,
   collectClimateNotesByPhase,
   collectNighttimeConditions,
   collectLocationNotes,
   pickTodaysWayIn,
   phaseForHour,
-} from '../naturalLanguage.js';
-
-// ---------------------------------------------------------------------------
-// describeLandscape
-// ---------------------------------------------------------------------------
-
-test('describeLandscape uses regional phrases when available', () => {
-  const terrainPhrases = {
-    Ithilien: {
-      forest: ['The woods of Ithilien are thick and watchful.'],
-    },
-  };
-  const rng = () => 0;
-  const text = describeLandscape(['forest'], [], [{ name: 'Ithilien' }], terrainPhrases, rng);
-  assert.ok(text.includes('The woods of Ithilien are thick and watchful.'));
-});
-
-test('describeLandscape falls back to generic phrases when regional phrases are missing', () => {
-  const terrainPhrases = {};
-  const rng = () => 0;
-  const text = describeLandscape(['forest'], [], [{ name: 'Dagorlad' }], terrainPhrases, rng);
-  assert.ok(text.includes('woodland'));
-});
-
-test('describeLandscape describes plain when no biome or altitude is present', () => {
-  const terrainPhrases = {
-    Rohan: {
-      plain: ['The grasslands of Rohan roll green and endless.'],
-    },
-  };
-  const rng = () => 0;
-  const text = describeLandscape([], [], [{ name: 'Rohan' }], terrainPhrases, rng);
-  assert.ok(text.includes('The grasslands of Rohan roll green and endless.'));
-});
-
-test('describeLandscape falls back to default plain description when no data', () => {
-  const text = describeLandscape([], [], [{ name: 'Unknown' }], {}, () => 0);
-  assert.equal(text, 'Open, even country, with no great rise or wood to speak of.');
-});
-
-// ---------------------------------------------------------------------------
-// describeRoads
-// ---------------------------------------------------------------------------
-
-test('describeRoads uses regional road phrases when available', () => {
-  const terrainPhrases = {
-    Gondor: {
-      road: ['A well-kept Gondorian road of fitted stone.'],
-    },
-  };
-  const rng = () => 0;
-  const text = describeRoads({ road: 10 }, [{ name: 'Gondor' }], terrainPhrases, rng);
-  assert.ok(text.includes('A well-kept Gondorian road of fitted stone.'));
-});
-
-test('describeRoads falls back to generic road phrases when regional phrases are missing', () => {
-  const terrainPhrases = {};
-  const rng = () => 0;
-  const text = describeRoads({ road: 10 }, [{ name: 'Unknown' }], terrainPhrases, rng);
-  assert.ok(text.includes('made roads'));
-});
+} from '../naturalLanguage/index.js';
 
 // ---------------------------------------------------------------------------
 // collectTerrainNotes
@@ -105,8 +42,8 @@ test('collectTerrainNotes adds plain note when no biome or altitude is present',
   assert.ok(notes[0].startsWith('- plain:'));
 });
 
-test('collectTerrainNotes handles biome objects with area_km2', () => {
-  const biomes = [{ type: 'forest', area_km2: 5.2 }, { type: 'hills', area_km2: 25.3 }];
+test('collectTerrainNotes handles biome objects with total_area_km2', () => {
+  const biomes = [{ type: 'forest', total_area_km2: 5.2 }, { type: 'hills', total_area_km2: 25.3 }];
   const notes = collectTerrainNotes(biomes, [], ['Dunland'], {});
   assert.equal(notes.length, 2);
   assert.ok(notes[0].includes('small forest')); // < 10 km²
@@ -140,30 +77,29 @@ test('collectRoadNotes returns bullet-ready road notes with distance', () => {
 });
 
 // ---------------------------------------------------------------------------
-// collectClimateNotes
+// collectClimateNotesByPhase
 // ---------------------------------------------------------------------------
 
-test('collectClimateNotes returns phase-based weather notes', () => {
+test('collectClimateNotesByPhase returns phase-based weather notes', () => {
   const climate = [
     { time: '1950-07-03 09:00:00', climate: { temperature_2m: 22, cloud_cover: 20, wind_speed_10m: 9, precipitation: 0 } },
     { time: '1950-07-03 15:00:00', climate: { temperature_2m: 25, cloud_cover: 74, wind_speed_10m: 10, precipitation: 0 } },
   ];
-  const notes = collectClimateNotes(climate, () => 0);
-  assert.ok(notes.some((n) => n.startsWith('- morning:')));
-  assert.ok(notes.some((n) => n.startsWith('- afternoon:')));
+  const byPhase = collectClimateNotesByPhase(climate);
+  assert.ok(typeof byPhase.morning === 'string' && byPhase.morning.length > 0);
+  assert.ok(typeof byPhase.afternoon === 'string' && byPhase.afternoon.length > 0);
 });
 
-test('collectClimateNotes buckets night from a stored phase (post-midnight)', () => {
+test('collectClimateNotesByPhase buckets night from a stored phase (post-midnight)', () => {
   const climate = [
     { time: '1950-07-03 19:00:00', phase: 'night', climate: { temperature_2m: 12, cloud_cover: 30, wind_speed_10m: 14, precipitation: 0 } },
     { time: '1950-07-04 01:00:00', phase: 'night', climate: { temperature_2m: 1, cloud_cover: 90, wind_speed_10m: 28, precipitation: 0.5 } },
   ];
-  const notes = collectClimateNotes(climate);
-  const night = notes.find((n) => n.startsWith('- night:'));
-  assert.ok(night, 'expected a night note');
+  const byPhase = collectClimateNotesByPhase(climate);
+  assert.ok(byPhase.night, 'expected a night note');
   // Averaged: bitter/cold, overcast, windy and wet should surface
-  assert.ok(night.includes('windy'));
-  assert.ok(night.includes('wet'));
+  assert.ok(byPhase.night.includes('windy'));
+  assert.ok(byPhase.night.includes('wet'));
 });
 
 test('collectClimateNotesByPhase returns one phrase per phase', () => {

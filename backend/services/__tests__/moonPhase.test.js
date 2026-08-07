@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { getMoonPhase } from '../moonPhase.js';
-import { formatMoonNightPhrase } from '../naturalLanguage.js';
+import { formatMoonNightPhrase } from '../naturalLanguage/index.js';
 
 // -----------------------------------------------------------------------------
 // getMoonPhase

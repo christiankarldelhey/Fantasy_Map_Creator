@@ -2,16 +2,20 @@ import express from 'express';
 import pool from '../db.js';
 import { computeRoute } from '../services/routing.js';
 import { generateDay } from '../services/tripDay.js';
-import { buildDayPrompt, SYSTEM_PROMPT } from '../services/prompt.js';
+import { SYSTEM_PROMPT } from '../services/prompt/index.js';
 import { createSeededRng } from '../services/encounters.js';
-import { generateNarrative } from '../services/ai.js';
-import { extractRepeatedPhrases } from '../services/phraseVices.js';
+import { climateStats } from '../services/climateSample.js';
+import {
+  buildTravellerBlocks,
+  loadNarratorCharacter,
+  loadRecentEncounterForms,
+  narrateDay,
+  notableItemsOf,
+} from '../services/narration/index.js';
 import { authenticateToken } from '../middleware/auth.js';
 import {
   loadCharacterState,
   applyDayState,
-  recentNotes,
-  innerClimate,
   computeEnergyDelta,
   computeShadowDelta,
   clamp,
@@ -24,8 +28,6 @@ import {
   shadowSpawnFactor,
   shadowBand,
   buildDayNote,
-  buildConditionBlock,
-  buildEndStateBlock,
   resolveFate,
   WOUND_COSTS,
   TUNING,
@@ -37,7 +39,6 @@ import {
   resolveLodging,
   applyInventoryChanges,
   provisionForTrip,
-  buildEquipmentBlock,
 } from '../services/inventory.js';
 
 const router = express.Router();
@@ -283,15 +284,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     const rng = seed != null ? createSeededRng(parseInt(seed, 10)) : Math.random;
 
     // Load the trip's character (bio + linked entity name + custom prompts) for the prompt
-    const charRes = await pool.query(
-      `SELECT c.id, c.name, c.slug, c.description, c.gender, c.system_prompt, c.introduction_instructions,
-              c.resistance, c.permadeath, c.energy, c.shadow, e.name AS entity_name
-       FROM character_state c
-       LEFT JOIN entities e ON e.id = c.entity_id
-       WHERE c.id = $1`,
-      [trip.character_id]
-    );
-    const character = charRes.rows[0] || {};
+    const character = await loadNarratorCharacter(trip.character_id);
 
     // Journey persistence: read the clone's current energy/shadow at the start
     // of the day. Shadow biases today's encounter spawn (the loop).
@@ -311,20 +304,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     const usedRegionDescriptions = trip.used_region_descriptions || {};
 
     // Gather forms from the previous 2–3 chapters for anti-repetition
-    const recentHistoryRes = await pool.query(
-      `SELECT encounters FROM trip_days
-       WHERE trip_id = $1 AND day_number < $2
-       ORDER BY day_number DESC
-       LIMIT 3`,
-      [trip.id, dayNumber]
-    );
-    const recentForms = [];
-    for (const row of recentHistoryRes.rows) {
-      const encs = Array.isArray(row.encounters) ? row.encounters : [];
-      for (const e of encs) {
-        if (e.interaction?.form) recentForms.push(e.interaction.form);
-      }
-    }
+    const recentForms = await loadRecentEncounterForms(trip.id, dayNumber);
 
     const day = await generateDay({
       trip,
@@ -373,11 +353,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       const hostileCount = countCombat(encounters) + countTension(encounters);
       const quietFriendlyDay = hostileCount === 0 && !throughEnemy;
 
-      const climateSamples = (day.climate || []).map((s) => innerClimate(s)).filter(Boolean);
-      const temps = climateSamples.map((c) => c.temperature_2m).filter((n) => Number.isFinite(n));
-      const meanTemperature = temps.length ? temps.reduce((a, b) => a + b, 0) / temps.length : null;
-      const winds = climateSamples.map((c) => c.wind_speed_10m).filter((n) => Number.isFinite(n));
-      const meanWind = winds.length ? winds.reduce((a, b) => a + b, 0) / winds.length : null;
+      const { meanTemperature, meanWind } = climateStats(day.climate);
 
       // Poor sleep: a nocturnal encounter or a storm at camp interrupts the night.
       const quietNight = isQuietNight(nightEncounters, day.nighttime_climate);
@@ -521,68 +497,35 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         );
       }
 
-      // Build the TRAVELLER'S CONDITION block from the NEW values + causal
-      // phrases pulled from the last few log notes (cross-day memory).
-      const priorNotes = await recentNotes(trip.character_id, trip.id, 3);
-      conditionBlock = buildConditionBlock({
-        characterName: character.name || 'The traveller',
+      // Build the TRAVELLER'S CONDITION / EQUIPMENT / END-STATE blocks.
+      ({ conditionBlock, equipmentBlock, endStateBlock } = await buildTravellerBlocks({
+        characterId: trip.character_id,
+        tripId: trip.id,
+        characterName: character.name,
         energy: newEnergy,
         shadow: newShadow,
-        recentNotes: priorNotes,
-      });
-      endStateBlock = buildEndStateBlock(fate.fate, character.name || 'The traveller');
-
-      // Build the EQUIPAJE block for the narrator prompt.
-      const notableItems = inventoryRows
-        .filter((r) => r.rarity === 'rare' || r.slug === 'lorien_elven_cloak')
-        .map((r) => r.prose_singular);
-      equipmentBlock = buildEquipmentBlock({
-        coldShift: effects.coldShift,
+        fate: fate.fate,
         meanTemperature,
+        coldShift: effects.coldShift,
         rations: effects.rations,
         daysWithoutFood: food.newDaysWithoutFood,
         coins: lodging.coinsAfter,
         turnedAway: lodging.turnedAway,
-        notableItems,
-      });
+        notableItems: notableItemsOf(inventoryRows),
+      }));
     }
-
-    let previousDaySummary = null;
-    if (dayNumber > 1) {
-      const prevRes = await pool.query(
-        'SELECT day_number, regions, locations, encounters FROM trip_days WHERE trip_id = $1 AND day_number = $2',
-        [trip.id, dayNumber - 1]
-      );
-      if (prevRes.rows.length > 0) {
-        const prev = prevRes.rows[0];
-        const regionsStr = (prev.regions || []).map(r => r.name).join(', ') || 'unknown lands';
-        const locsStr = (prev.locations || []).map(l => l.name).join(', ') || 'no major settlements';
-        const encsStr = (prev.encounters || []).map(e => e.entity?.name).filter(Boolean).join(', ') || 'no major encounters';
-
-        previousDaySummary = `In Chapter ${prev.day_number} (yesterday), the traveller journeyed through: ${regionsStr}. They passed near: ${locsStr}. Notable encounters/sights: ${encsStr}.`;
-      }
-    }
-
-    // Anti-repetition: gather the narratives already written for this trip and
-    // detect the phrases the model keeps reusing, to feed them back as an
-    // explicit avoid-list for this chapter.
-    let bannedPhrases = [];
-    if (dayNumber > 1) {
-      const priorNarrativesRes = await pool.query(
-        `SELECT narrative FROM trip_days
-         WHERE trip_id = $1 AND day_number < $2 AND narrative IS NOT NULL
-         ORDER BY day_number`,
-        [trip.id, dayNumber]
-      );
-      const priorNarratives = priorNarrativesRes.rows.map((r) => r.narrative);
-      bannedPhrases = extractRepeatedPhrases(priorNarratives);
-    }
-
-    const prompt = buildDayPrompt(day, trip, character, language || 'english', previousDaySummary, conditionBlock, bannedPhrases, endStateBlock, equipmentBlock);
 
     // Generate AI narrative (optional, if API key is configured). Provider and
     // sampling params rotate per day; capture what was actually used.
-    const generation = await generateNarrative(prompt, { dayNumber: day.day_number });
+    const { prompt, generation } = await narrateDay({
+      day,
+      trip,
+      character,
+      language: language || 'english',
+      conditionBlock,
+      equipmentBlock,
+      endStateBlock,
+    });
     const narrative = generation.text;
 
     // Persist only the user prompt text (system prompt lives in code)
@@ -696,97 +639,42 @@ router.post('/:id/days/:dayNumber/redo-narration', authenticateToken, async (req
     }
     const existingDay = dayRes.rows[0];
 
-    // Load character
-    const charRes = await pool.query(
-      `SELECT c.id, c.name, c.slug, c.description, c.gender, c.system_prompt, c.introduction_instructions,
-              c.resistance, c.permadeath, c.energy, c.shadow, e.name AS entity_name
-       FROM character_state c
-       LEFT JOIN entities e ON e.id = c.entity_id
-       WHERE c.id = $1`,
-      [trip.character_id]
-    );
-    const character = charRes.rows[0] || {};
+    const character = await loadNarratorCharacter(trip.character_id);
 
-    // Rebuild previousDaySummary (same logic as the main endpoint)
-    let previousDaySummary = null;
-    if (dayNumber > 1) {
-      const prevRes = await pool.query(
-        'SELECT day_number, regions, locations, encounters FROM trip_days WHERE trip_id = $1 AND day_number = $2',
-        [trip.id, dayNumber - 1]
-      );
-      if (prevRes.rows.length > 0) {
-        const prev = prevRes.rows[0];
-        const regionsStr = (prev.regions || []).map(r => r.name).join(', ') || 'unknown lands';
-        const locsStr = (prev.locations || []).map(l => l.name).join(', ') || 'no major settlements';
-        const encsStr = (prev.encounters || []).map(e => e.entity?.name).filter(Boolean).join(', ') || 'no major encounters';
-        previousDaySummary = `In Chapter ${prev.day_number} (yesterday), the traveller journeyed through: ${regionsStr}. They passed near: ${locsStr}. Notable encounters/sights: ${encsStr}.`;
-      }
-    }
-
-    // Rebuild banned phrases from prior narratives
-    let bannedPhrases = [];
-    if (dayNumber > 1) {
-      const priorNarrativesRes = await pool.query(
-        `SELECT narrative FROM trip_days
-         WHERE trip_id = $1 AND day_number < $2 AND narrative IS NOT NULL
-         ORDER BY day_number`,
-        [trip.id, dayNumber]
-      );
-      const priorNarratives = priorNarrativesRes.rows.map((r) => r.narrative);
-      bannedPhrases = extractRepeatedPhrases(priorNarratives);
-    }
-
-    // Rebuild condition block from current character state
     let conditionBlock = '';
     let endStateBlock = '';
     let equipmentBlock = '';
     if (trip.character_id) {
       const startState = await loadCharacterState(trip.character_id);
-      const openingEnergy = startState ? startState.energy : 100;
-      const openingShadow = startState ? startState.shadow : 0;
+      const energyEnd = existingDay.energy_end != null ? existingDay.energy_end : (startState ? startState.energy : 100);
+      const shadowEnd = existingDay.shadow_end != null ? existingDay.shadow_end : (startState ? startState.shadow : 0);
 
-      // Use the stored energy_end/shadow_end from the day row if available,
-      // otherwise fall back to current state.
-      const energyEnd = existingDay.energy_end != null ? existingDay.energy_end : openingEnergy;
-      const shadowEnd = existingDay.shadow_end != null ? existingDay.shadow_end : openingShadow;
-
-      const priorNotes = await recentNotes(trip.character_id, trip.id, 3);
-      conditionBlock = buildConditionBlock({
-        characterName: character.name || 'The traveller',
-        energy: energyEnd,
-        shadow: shadowEnd,
-        recentNotes: priorNotes,
-      });
-
-      // Rebuild equipment block
       const inventoryRows = await loadInventory(trip.character_id);
       const effects = aggregateEffects(inventoryRows);
-      const daysWithoutFood = startState?.days_without_food ?? 0;
-      const coins = startState?.coins ?? TUNING.STARTING_COINS;
-      const climateSamples = (existingDay.climate || []).map((s) => innerClimate(s)).filter(Boolean);
-      const temps = climateSamples.map((c) => c.temperature_2m).filter((n) => Number.isFinite(n));
-      const meanTemperature = temps.length ? temps.reduce((a, b) => a + b, 0) / temps.length : null;
+      const { meanTemperature } = climateStats(existingDay.climate);
 
-      equipmentBlock = buildEquipmentBlock({
-        coldShift: effects.coldShift,
-        meanTemperature,
-        rations: effects.rations,
-        daysWithoutFood,
-        coins,
-        turnedAway: false,
-        notableItems: inventoryRows
-          .filter((r) => r.rarity === 'rare' || r.slug === 'lorien_elven_cloak')
-          .map((r) => r.prose_singular),
-      });
-
-      // Check if the character died on this day
       const encounterOutcomes = [];
       for (const e of (existingDay.encounters || [])) {
         const outcome = e.interaction?.outcome;
         if (outcome && WOUND_COSTS[outcome]) encounterOutcomes.push(outcome);
       }
       const fate = resolveFate({ energy: energyEnd, shadow: shadowEnd, encounterOutcomes });
-      endStateBlock = buildEndStateBlock(fate.fate, character.name || 'The traveller');
+
+      ({ conditionBlock, equipmentBlock, endStateBlock } = await buildTravellerBlocks({
+        characterId: trip.character_id,
+        tripId: trip.id,
+        characterName: character.name,
+        energy: energyEnd,
+        shadow: shadowEnd,
+        fate: fate.fate,
+        meanTemperature,
+        coldShift: effects.coldShift,
+        rations: effects.rations,
+        daysWithoutFood: startState?.days_without_food ?? 0,
+        coins: startState?.coins ?? TUNING.STARTING_COINS,
+        turnedAway: existingDay.overnight_interaction?.turned_away ?? false,
+        notableItems: notableItemsOf(inventoryRows),
+      }));
     }
 
     // Reconstruct the day object that buildDayPrompt expects
@@ -810,16 +698,17 @@ router.post('/:id/days/:dayNumber/redo-narration', authenticateToken, async (req
       // These fields are used by buildDayPrompt for variety selection;
       // use a stable rng so the prompt structure doesn't shift on redo.
       rng: Math.random,
-      moon_phase: undefined, // buildDayPrompt recalculates from date
     };
 
-    const language = req.body?.language || 'english';
-    const prompt = buildDayPrompt(
-      day, trip, character, language,
-      previousDaySummary, conditionBlock, bannedPhrases, endStateBlock, equipmentBlock
-    );
-
-    const generation = await generateNarrative(prompt, { dayNumber: day.day_number });
+    const { prompt, generation } = await narrateDay({
+      day,
+      trip,
+      character,
+      language: req.body?.language || 'english',
+      conditionBlock,
+      equipmentBlock,
+      endStateBlock,
+    });
 
     const updateRes = await pool.query(
       `UPDATE trip_days

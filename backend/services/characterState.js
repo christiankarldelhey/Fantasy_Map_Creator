@@ -13,6 +13,7 @@
 // ============================================================================
 
 import pool from '../db.js';
+import { innerClimate } from './climateSample.js';
 
 // ---------------------------------------------------------------------------
 // TUNING — all first-pass numbers live in this one block.
@@ -197,15 +198,6 @@ export function buildEndStateBlock(fate, characterName = 'The traveller') {
   if (fate === 'living' || !fate) return '';
   const builder = END_STATE_BLOCKS[fate];
   return builder ? builder(characterName) : '';
-}
-
-// ---------------------------------------------------------------------------
-// Weather: pull inner climate record (handles nesting like naturalLanguage.js)
-// ---------------------------------------------------------------------------
-export function innerClimate(sample) {
-  if (!sample) return null;
-  const c = sample.climate || sample;
-  return c.climate || c;
 }
 
 /**
