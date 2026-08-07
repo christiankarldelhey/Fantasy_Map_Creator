@@ -1,0 +1,395 @@
+[
+  {
+    "id": "npc_marcho_fallohide",
+    "name": "Marcho Fallohide",
+    "race": "Fallohide Hobbit",
+    "gender": "male",
+    "profession": "Chieftain of the Fallohides / Founder of the Shire",
+    "region": "The Shire (Siragale)",
+    "location": "Michel Delving area; frequently on the road between the Shire and Fornost",
+    "allegiance": "free_peoples",
+    "description": "Ten years older than his brother and considerably more volatile, Marcho is the Hobbit who gambled everything on a royal charter from Argeleb II and won — then spent the next four decades making sure his victory wasn't wasted. He looks visibly older than he did; the dream has cost him. Confrontational, brilliant, and exhausting to be around, he has more enemies than friends and has never quite managed to care about that.",
+    "personality": "Driven, impatient, strategically gifted. He wins arguments by knowing more than everyone else in the room and pointing it out. He respects action and distrusts people who are too careful. He is worn down but not beaten, and he knows the difference.",
+    "strengths": [
+      "Political intelligence — knows every clan leader, their debts, and their price",
+      "Vision — has the ability to see three moves ahead in Shire politics and act on it",
+      "Contacts in Fornost — on speaking terms with the King's council and the Ranger network",
+      "Stubbornness — has outlasted every crisis so far by refusing to stop"
+    ],
+    "weaknesses": [
+      "Volatility — burns bridges when he doesn't need to; his brother spends time repairing them",
+      "Enemies — Isumbras Took won't have him in the house; others are similarly cold",
+      "Aging — the past few years have taken a visible toll; some see a man running out of road",
+      "Overextended — manages too much personally; cannot delegate without losing control of outcomes"
+    ],
+    "dialogue_seed": "He talks fast and expects you to keep up. He gives context only if he decides you need it. He uses clan names like landmarks — assumes you know who the Tooks are, who the Oldbucks are, what the quarrel with the Bracegirdles was. He ends sentences with 'you see?' not because he's uncertain but because he wants to move on."
+  },
+  {
+    "id": "npc_blanco_fallohide",
+    "name": "Blanco Fallohide",
+    "race": "Fallohide Hobbit",
+    "gender": "male",
+    "profession": "Arbiter and negotiator / Shire founder",
+    "region": "The Shire",
+    "location": "Hobbiton smial; frequently at Michel Delving and clan disputes throughout the Shire",
+    "allegiance": "free_peoples",
+    "description": "Less conspicuous than his brother, more trusted by almost everyone. Blanco is the Hobbit who prevents clan wars by making both sides feel they won. Calm, dark-haired, and nearly three and a half feet tall, he doesn't look like a leader until he opens his mouth. Gandalf likes him better than Marcho, which is its own recommendation.",
+    "personality": "Patient, precise, morally serious without being preachy. He uses the midpoint between two positions as a starting point, not a compromise. He has survived thirty years of Shire politics by being consistently honest about what he thinks, which is unusual enough to be disarming.",
+    "strengths": [
+      "Diplomacy — exceptional at finding solutions both parties will accept",
+      "Community trust — respected even by those who disagree with him, including Isumbras Took",
+      "Memory for grievances — remembers every dispute he has mediated and its resolution; rarely surprised",
+      "Moral authority — when he says something is wrong, people listen"
+    ],
+    "weaknesses": [
+      "Avoids confrontation — sometimes too willing to find a middle ground where there isn't one",
+      "His brother — spends considerable energy managing Marcho's fallout",
+      "Underestimated — people mistake his calm for weakness and occasionally push too hard",
+      "No talent for deception — transparent in his own intentions, which can be a liability"
+    ],
+    "dialogue_seed": "He listens longer than seems necessary before speaking. When he does speak he presents the situation from both sides before stating his own view. He uses 'as I understand it' before summarizing someone else's position — and his summaries are always accurate, which is half his power. He asks questions that already have the answer embedded in them."
+  },
+  {
+    "id": "npc_isumbras_took",
+    "name": "Isumbras Took, Thain",
+    "race": "Fallohide Hobbit",
+    "gender": "male",
+    "profession": "Thain of the Took clan / de facto warlord of Tookland",
+    "region": "The Shire — Tookland, western Green Hills",
+    "location": "Great Smials in Tuckburrow",
+    "allegiance": "free_peoples",
+    "description": "The most un-Hobbit-ish Hobbit in the Shire — aggressive, warlike, confrontational, and completely convinced of the rightness of his own position on everything. The Tooks charged tolls on roads they built, detained a royal messenger once, and Isumbras considers all of this perfectly reasonable. He runs Tookland like a small kingdom. He thinks Blanco is a weakling and refuses to see Marcho.",
+    "personality": "Aggressive, confident, surprisingly principled in his own way. He will help the Shire if he decides it deserves help, and he is quicker to defend it than anyone else — he just insists on doing it his way. He is not stupid; he simply calculates everything through the lens of Took advantage.",
+    "strengths": [
+      "Military organization — the Tooks are the most combat-ready clan in the Shire",
+      "Territory control — Tookland is the most defensible part of the Shire",
+      "Boldness — will act when other Hobbits are still talking about it",
+      "Respect — even his enemies take him seriously"
+    ],
+    "weaknesses": [
+      "Pride — will not back down from a position he has stated publicly",
+      "Difficult to work with — his price for cooperation is always that things go his way",
+      "Poor at compromise — sees it as defeat; Blanco has learned to frame things so Isumbras thinks he won",
+      "Marcho — their mutual hostility is the biggest structural problem in Shire politics"
+    ],
+    "dialogue_seed": "He talks like someone who has never been interrupted and expects this to continue. He uses 'naturally' and 'of course' before statements that are not obvious at all. He refers to Tookland's contributions before any discussion of what he wants in return. He is unfailingly polite to guests in his home and considerably less so to everyone else."
+  },
+  {
+    "id": "npc_gresham_shaper",
+    "name": "Gresham Shaper",
+    "race": "Harfoot Hobbit",
+    "gender": "male",
+    "profession": "Sculptor / Mayor of Wibbleham / Eccentric scholar",
+    "region": "The Shire — Southfarthing, Wibbleham",
+    "location": "His burrow in Wibbleham, with a sculpting studio in the nearby wood",
+    "allegiance": "free_peoples",
+    "description": "The rare Hobbit who is both well-read and well-liked, which should be contradictory. He led a group of clanless Harfoots to the Shire in the early 1630s after adventures rumored to involve an imp in a teapot and a wizard cursed to live as a weasel — rumors he neither confirms nor denies. He became mayor of Wibbleham despite his odd ways and has served competently for nearly a decade. He collects exotic mathoms on shelves in his burrow.",
+    "personality": "Curious, quiet, unexpectedly knowledgeable about the world outside the Shire. He is the only Hobbit in Wibbleham who knows about the political situation in Fornost, the movements of Elf-companies, or the history of the Gwathló. He does not volunteer this information but will share it if the question is asked correctly.",
+    "strengths": [
+      "Extraordinary breadth of knowledge — has encountered more of the world than almost any other Shire Hobbit",
+      "Mathom collection — has items of genuine power and obscure use that he is happy to discuss",
+      "Community standing — trusted by Wibbleham absolutely",
+      "Network — on good terms with most Southfarthing leadership"
+    ],
+    "weaknesses": [
+      "Outsider among outsiders — not embedded in the main Fallohide political network",
+      "Rumored to hoard wealth — some resent this even if they like him",
+      "Eccentric enough that serious Hobbits discount him — which is their loss",
+      "No combat skills whatsoever"
+    ],
+    "dialogue_seed": "He takes questions seriously. He will pause before answering something he finds interesting, in the way of someone genuinely thinking rather than stalling. He uses 'it is said' and 'I've heard' before anything he learned from rumor vs. 'I saw' for things he witnessed. He is the only Hobbit who will ask about your journey rather than your family."
+  },
+  {
+    "id": "npc_kocho_kurl",
+    "name": "Kocho Kurl",
+    "race": "Harfoot Hobbit (Wild Hobbit, recently settled)",
+    "gender": "male",
+    "profession": "Wild Hobbit scout / Wanderer now settling in the Shire",
+    "region": "The Shire — outer areas and borders",
+    "location": "A smial behind the inn at Wibbleham; frequently in the woods",
+    "allegiance": "neutral",
+    "description": "Wild Hobbits spent the Wandering Days doing what ordinary Hobbits could not afford to do — roaming freely, risking danger, and becoming more calloused and suspicious in the process. Kocho has spent his life outside settled Hobbit society and carries the particular wariness of someone who has had to defend himself with no community behind him. The Shire is new and strange to him and he is not entirely sure he trusts it.",
+    "personality": "Alert, self-reliant, quietly competent. He trusts slowly and watches before he speaks. He is not hostile — he is evaluating. He knows the lands between the Shire and the Blue Mountains better than anyone in Wibbleham.",
+    "strengths": [
+      "Forest and wilderness survival — exceptional; has lived rough for decades",
+      "Tracking — can follow trails through any terrain the Shire offers",
+      "Knowledge of the outer lands — knows the Gwathló country, the Downs, the routes to the Blue Mountains",
+      "Stealth — a Wild Hobbit's defining skill"
+    ],
+    "weaknesses": [
+      "Deeply skeptical of settled society — still adjusting to the idea that the Shire means safety",
+      "No political connections — operates outside every Shire network",
+      "Slow to commit — will not help until he has thoroughly assessed the situation",
+      "The gap from ordinary Hobbits — his experiences have made him harder to reach"
+    ],
+    "dialogue_seed": "He speaks last. He watches the room before saying anything. He answers questions with the minimum necessary words and waits to see if the answer satisfied before adding more. He refers to places by landmarks rather than names — 'the valley east of the second ridge, where the stream goes underground' rather than any place-name. He uses 'we' to mean Wild Hobbits, not the Shire."
+  },
+  {
+    "id": "npc_molly_boffin",
+    "name": "Molly (Molliwara) Boffin",
+    "race": "Harfoot Hobbit",
+    "gender": "female",
+    "profession": "Midwife / Clan matriarch of the Boffins",
+    "region": "The Shire — Westfarthing, Nobottle area",
+    "location": "Nobottle in the Westfarthing; travels throughout three farthings for deliveries",
+    "allegiance": "free_peoples",
+    "description": "The most prestigious Hobbit woman in the Shire, which is a different kind of power than the Thain has. Boffins are everywhere — scribes, merchants, midwives, physicians — and Molly is the matriarch who holds them together. Widowed and orphaned by the Dark Plague, she ran off suitors for two years before marrying a quiet farmer from Nobottle. Plump, brisk, and funny in a vulgar way that surprises people who expect a matriarch to be dignified.",
+    "personality": "Warm, shrewd, and completely impossible to fool about people. She has been present at more births than she can count and has a physician's direct relationship with physical reality. She tells earthy jokes and notices everything. She has made a point of knowing what is happening in Maitlow's farmhouse and she is the only person who would certainly investigate if anything happened to Peony Goodwin.",
+    "strengths": [
+      "Medical knowledge — renowned for skill in births and tending children across three farthings",
+      "Social network — the Boffins' scattered presence means she has connections everywhere",
+      "Reads people — no one has ever successfully deceived her about their intentions",
+      "Community trust — called on to negotiate when clans quarrel, because Boffins know everyone"
+    ],
+    "weaknesses": [
+      "No formal authority — her power is entirely relational; she cannot compel anyone",
+      "Overextended — responsible for too many people across too wide an area",
+      "The Maitlow situation — suspects something is wrong there and has not yet confirmed it",
+      "Dislikes Isumbras Took — cannot always conceal this"
+    ],
+    "dialogue_seed": "She makes you tea before she talks business. She uses puns without warning and watches to see if you laugh. She asks about your family first, your errand second. When she is assessing someone she repeats back what they said slightly wrong to see how they correct it. She calls everyone 'dear' in a way that does not feel diminishing."
+  },
+  {
+    "id": "npc_broggo_lightstep",
+    "name": "Broggo Lightstep",
+    "race": "Stoor Hobbit",
+    "gender": "male",
+    "profession": "Bounder / Shire border warden",
+    "region": "The Shire — eastern and southern borders",
+    "location": "Patrolling the Bounds — the eastern Marish and Southfarthing borders",
+    "allegiance": "free_peoples",
+    "description": "Stoors are the Hobbit kindred most comfortable with the outside world, and Broggo has made a vocation of it. He patrols the Shire's borders with the specific patience of someone who has been doing it long enough to know all the regular threats and can immediately identify the irregular ones. He is the Hobbit most likely to be the first person a traveler encounters at the Shire's edge.",
+    "personality": "Practical, direct, fair. He does his job without drama. He will help strangers who are genuinely lost and firmly redirect strangers who are not supposed to be in the Shire. He has a good eye for the difference and acts accordingly.",
+    "strengths": [
+      "Border knowledge — knows every path, ford, and informal crossing along the Shire bounds",
+      "Tracking — can follow a trail across the Marish where others lose it",
+      "Judgment about people — years of dealing with travelers has made him accurate",
+      "Physical capability — one of the more capable fighters among ordinary Hobbits"
+    ],
+    "weaknesses": [
+      "Limited scope — knows his patrol area exhaustively and little else",
+      "No authority outside the Shire — the Bounders' writ ends at the bounds",
+      "Stoor directness can read as unfriendliness — he is not unfriendly, just efficient"
+    ],
+    "dialogue_seed": "He introduces himself by function rather than name — 'I'm a Bounder, and this is the Shire bound.' He asks where you're from, where you're going, and whether you have business inside the Shire, in that order. He does not apologize for asking. If you give him an honest answer he is genuinely helpful. He refers to other places as 'out there' with the comfortable certainty of someone who is happy where he is."
+  },
+  {
+    "id": "npc_berethar_redlands",
+    "name": "Berethar Redlands",
+    "race": "Fallohide Hobbit",
+    "gender": "male",
+    "profession": "Chief Shirriff / Law-keeper of the Shire",
+    "region": "The Shire — Michel Delving and all four Farthings",
+    "location": "Michel Delving; travels throughout the Shire on shirriff business",
+    "allegiance": "free_peoples",
+    "description": "Berethar has been a shirriff for longer than most Hobbits have been adults, and he has the unhurried authority of someone who has dealt with every variety of Hobbit misbehavior and is no longer surprised by any of it. He is fair, patient, and knows exactly how much force a situation needs — which is usually less than people expect and occasionally more. He is the person you want if someone has stolen your prize pig.",
+    "personality": "Professional, calm, and quietly funny about the job. He maintains relationships with the Rangers of the Twilight Hills without most Hobbits knowing it. He takes seriously the possibility that something outside the Shire is paying attention to it, which makes him unusual among his fellows.",
+    "strengths": [
+      "Institutional knowledge — has mediated, investigated, and resolved disputes throughout the Shire for decades",
+      "Ranger contacts — maintains informal working relationships with the Northern Rangers",
+      "Authority without force — commands respect through competence rather than fear",
+      "Investigation — very good at reconstructing what happened from partial evidence"
+    ],
+    "weaknesses": [
+      "Limited resources — the shirriff corps is small and equipped for peacetime",
+      "Underestimated by outsiders — looks like a small person with a stick and a badge",
+      "Wary of acting outside his mandate — will not move without cause, even when cause is building"
+    ],
+    "dialogue_seed": "He speaks like someone who has already decided what happened and is giving you the chance to confirm it. He uses the phrase 'as I understand it' before statements of fact, not opinion. He does not raise his voice. He has a habit of going quiet just before he says something important. He thanks people for their time regardless of whether they have been helpful."
+  },
+  {
+    "id": "npc_camarina",
+    "name": "Camarina (Queen Liriel in disguise)",
+    "race": "Dúnedain (Arthadan royal)",
+    "gender": "female",
+    "profession": "Queen of Arthedain — traveling in disguise",
+    "region": "The Shire (Siragale)",
+    "location": "On the road through the Shire, moving from village to village",
+    "allegiance": "free_peoples",
+    "description": "A noble lady traveling under the protection of Gandalf's arrangement and the sharp sword of her silent bodyguard. 'Camarina' is clearly not an ordinary traveler but has a story that holds together if not pressed. Her mission in the Shire has something to do with the political future of Arthedain. She is more capable than her circumstances suggest and has a specific quality of attention that is not what it seems.",
+    "personality": "Diplomatic, composed, and watching everything. She is not playing helpless — she is playing unimportant, which is different. She will accept assistance gracefully and without unnecessary explanation. She has a purpose that she is not going to share.",
+    "strengths": [
+      "Political intelligence — knows more about Arthedain's situation than anyone else in the Shire",
+      "Composure under pressure — trained from birth to manage difficult situations gracefully",
+      "Duinhir — her bodyguard is one of the most dangerous warriors in western Endor",
+      "Gandalf's backing — which is worth more than it appears"
+    ],
+    "weaknesses": [
+      "The disguise — cannot use her real identity or authority",
+      "The mission — cannot explain what she is actually doing without compromising it",
+      "Garda — her unwitting guardian does not know Camarina's real identity, which will become a problem",
+      "Recognition — a sufficiently well-informed observer might recognize her"
+    ],
+    "dialogue_seed": "She speaks with the precision of someone who has had formal training in saying exactly what she means. She thanks people for their help in a way that feels like the thanks of someone accustomed to being obeyed. She asks about the Shire's political situation with a curiosity that is too specific for a casual traveler. She refers to 'the north' with the familiarity of someone from there."
+  },
+  {
+    "id": "npc_duinhir",
+    "name": "Duinhir (traveling as 'Master Thoughtwell')",
+    "race": "Dúnedain (Arthadan royal guard)",
+    "gender": "male",
+    "profession": "Bodyguard of the Queen / Tirrim Aran",
+    "region": "The Shire — traveling with Camarina",
+    "location": "Wherever Camarina is",
+    "allegiance": "free_peoples",
+    "description": "A middle-aged Dúnedain who moves like water and speaks above a whisper only with considerable pain — a scar along his throat. He reads poetry to himself while waiting, which people mistake for vacancy. He is one of the deadliest warriors in western Endor. He has guarded Queen Liriel for twenty years. He is attending to the road, the windows, and the exits at all times, and little escapes his notice.",
+    "personality": "Quiet, alert, professional in the specific way of someone who has made protecting one person their entire vocation. He is almost impossible to deceive because he does not listen to what people say — he watches what they do. He is genuinely fond of poetry and this is not a performance.",
+    "strengths": [
+      "Combat — exceptional; classified as one of the most dangerous warriors in Arthedain",
+      "Threat assessment — reads every room, every person, every approach before anything happens",
+      "Discretion — has kept the Queen's secrets for twenty years without a slip",
+      "Composure — cannot be rattled by intimidation or provocation"
+    ],
+    "weaknesses": [
+      "The scar — cannot speak loudly; communication in a crisis is limited to whispers and gestures",
+      "Camarina's safety — his entire attention is on her; anything that separates them is his only real vulnerability",
+      "Social invisibility as a limit — his unremarkable presentation means he is sometimes excluded from information he should have",
+      "Cannot explain himself — the disguise prevents him from asserting his authority"
+    ],
+    "dialogue_seed": "He whispers. He makes his points in as few words as possible. He does not look at the person he is speaking to — he looks at everything else in the room while speaking. He answers questions about himself with deflection, not lies: 'I travel with the lady' is his complete answer to most personal questions. He acknowledges competence in others with a single nod."
+  },
+  {
+    "id": "npc_eundiel",
+    "name": "Eundiel of Siragale",
+    "race": "Sindar Elf",
+    "gender": "female",
+    "profession": "Elvish guardian of the Shire / Healer",
+    "region": "The Shire (Siragale) — the Elvish Glades",
+    "location": "The Elvish Glades in Siragale; occasionally at Hobbit settlements nearby",
+    "allegiance": "free_peoples",
+    "description": "One of the Sirannar — Silvan Elves who have been in this land since before the Hobbits arrived. She has tended Hobbits since the early days of the settlement with the specific patience of someone who intends to be here long after the current political situation resolves itself. She is a healer of exceptional skill. She has hinted to Molly Boffin that she knows more about what is happening in the dark corners of the Shire than she has said aloud.",
+    "personality": "Gentle, observant, and operating on a timeline that makes Hobbit politics look like an afternoon. She is genuinely fond of Hobbits in the way of someone who has watched them for decades. She does not share information lightly — she shares it when the recipient is ready to use it.",
+    "strengths": [
+      "Healing — exceptional, in the Elvish tradition that predates Arthadan medicine",
+      "Forest knowledge — knows Siragale's hidden paths and danger spots completely",
+      "Long view — aware of threats that have not yet materialized for Hobbits",
+      "Quiet influence — respected by Hobbits without having formal authority over them"
+    ],
+    "weaknesses": [
+      "Patience as a limit — does not intervene until she has decided the moment is right, which is not always when it would be most useful",
+      "Elvish reticence — holds significant information close until she chooses to share it",
+      "The Sirannar are few — she cannot oppose a concerted evil effort alone",
+      "Declining Elvish presence — the Sirannar are slowly withdrawing from Siragale"
+    ],
+    "dialogue_seed": "She speaks slowly and completely, the way of someone for whom words are not casual. She asks how you are feeling — physically, not emotionally — before any other question. She refers to Hobbits collectively with warmth but distinguishes individuals precisely. She sometimes answers the question you should have asked rather than the one you did ask."
+  },
+  {
+    "id": "npc_gandalf_grey",
+    "name": "Gandalf the Grey",
+    "race": "Maia (Istari)",
+    "gender": "male",
+    "profession": "Wandering wizard / Friend of the Shire",
+    "region": "Travels throughout Middle-earth; periodic visitor to the Shire",
+    "location": "The road, usually; occasionally staying with Blanco Fallohide or another trusted Hobbit",
+    "allegiance": "free_peoples",
+    "description": "An old man in grey who makes fireworks for children and gives advice to chieftains. He has supported the Fallohide project from before the crossing of the Brandywine. He knows more about the Shire's dangers than he tells anyone and has arranged protections that are not obvious. He likes Hobbits — genuinely, not sentimentally — and has a particular fondness for the ones who surprise him.",
+    "personality": "Patient, indirect, occasionally infuriating. He answers questions with other questions when he thinks the answer will help more if you find it yourself. He is genuinely funny. He takes the small things — a good meal, a comfortable chair, a hobbit's honesty — with evident pleasure that is not performed.",
+    "strengths": [
+      "Knowledge — has been in Middle-earth for an Age and has not wasted the time",
+      "Magic — fireworks for children; considerably more for other purposes",
+      "Network — knows Isumbras, Blanco, Marcho, Eundiel, Berethar, and every significant figure in the Shire",
+      "Long game — aware of threats at a scale no Hobbit is equipped to comprehend"
+    ],
+    "weaknesses": [
+      "Indirection — will not give a straight answer when a roundabout one will serve",
+      "Available at his own discretion — cannot be summoned; appears when he judges it useful",
+      "The larger world — his attention is not entirely on the Shire, and what calls it away is usually more dangerous"
+    ],
+    "dialogue_seed": "He asks more questions than he answers. When he does answer, the answer is a third thing — not what you asked, not a deflection, but the correct question to have asked in the first place. He uses 'I wonder...' before statements he is entirely certain of. He laughs at things that are not obviously funny and does not explain why."
+  },
+  {
+    "id": "npc_tom_bombadil",
+    "name": "Tom Bombadil",
+    "race": "Maia (Eldest, Iarwain Ben-Adar)",
+    "gender": "male",
+    "profession": "Master of the Old Forest / Himself",
+    "region": "The Old Forest and the Withywindle Valley",
+    "location": "His house on the Withywindle; the Old Forest; the Barrow-downs at the edge of his territory",
+    "allegiance": "neutral",
+    "description": "A short man in a coat of bright blue with a tall hat bearing a feather, singing to himself about kingfishers. He was in the world before the Ring, before Sauron, before the Elves came to Middle-earth. His cheerfulness is not naivety — it is the complete security of something that the Ring cannot touch. He calls himself 'Eldest' and it is not a boast.",
+    "personality": "Joyful, present, interested in everything and bound by nothing. He will help because he feels like helping, not because of any larger cause. He cannot be made to do anything. He is also, against all appearances, extremely effective when he decides to act.",
+    "strengths": [
+      "Power over nature — absolute in his own territory; trees, water, and creatures obey him",
+      "Immunity to the Ring — it has no power over him whatsoever",
+      "Ancient knowledge — was here before almost everything and remembers it",
+      "Goldberry — his wife is a River-daughter with her own powers over the domain"
+    ],
+    "weaknesses": [
+      "Territory-bound — his power diminishes sharply outside the Old Forest and Withywindle",
+      "Cannot be called upon — he helps when he chooses; this is not something that can be planned around",
+      "No interest in the wider world — is genuinely not concerned with events outside his domain"
+    ],
+    "dialogue_seed": "He speaks in rhythm, occasionally in rhyme, and it does not feel affected because it is entirely natural to him. He answers questions but not always the ones asked. He uses everyone's name correctly the first time he says it, even if he has never been told it. He refers to very old things as if they happened recently. He never finishes his sentences because he has already started singing the next one."
+  },
+  {
+    "id": "npc_mock_trickster",
+    "name": "Mock the Trickster",
+    "race": "Faerie (Maia-touched, nature spirit)",
+    "gender": "male",
+    "profession": "Trickster and nuisance / minor Faerie being",
+    "region": "The Shire borders and wild areas of Siragale",
+    "location": "Unpredictable — follows interesting things",
+    "allegiance": "ambiguous",
+    "description": "A small, sharp-faced creature who communicates in riddles and bad puns, pulls harmless pranks on travelers, leads livestock in circles, and occasionally provides information that turns out to be exactly accurate and extremely inconveniently timed. He is the only Maia to wander freely through the Shire and he is not exactly a Maia — more a leftover fragment of mischief from an older world. He likes Hobbits. He also likes confusing Hobbits. These are compatible interests.",
+    "personality": "Irreverent, clever, genuinely amused by everything. He will not cause real harm but he defines 'real harm' narrowly. He can be communicated with through Tom Bombadil, who finds him entertaining. He responds to puns with disproportionate enthusiasm.",
+    "strengths": [
+      "Unpredictability — no one knows what he will do next, including him",
+      "Information — has witnessed events across the Shire that no one else has seen",
+      "Minor magic — can move small objects, create sounds, briefly confuse animals",
+      "Tom Bombadil's tolerance — which is as close to protection as he has"
+    ],
+    "weaknesses": [
+      "Unreliability — his help is genuinely offered and genuinely unlikely to arrive when needed",
+      "No direct power — cannot fight, cannot compel, cannot prevent",
+      "Distractible — will abandon a task if something more interesting appears"
+    ],
+    "dialogue_seed": "He speaks in questions, riddles, and tangential observations. He gives correct information in the wrong order. He laughs at his own jokes before finishing them. He responds to direct questions with relevant answers delivered sideways. He refers to himself in the third person when he is being serious, which is rare."
+  },
+  {
+    "id": "npc_maitlow",
+    "name": "Maitlow (surname unspecified)",
+    "race": "Harfoot Hobbit",
+    "gender": "male",
+    "profession": "Farmer / Reluctant member of the Cor Mergylair",
+    "region": "The Shire — Southfarthing",
+    "location": "His large farm in the Southfarthing",
+    "allegiance": "enemy_coerced",
+    "description": "A farmer who got in over his head through a combination of grief, herb addiction, and paranoia. The Dark Plague took most of his family. He blames the Tooks and has developed a specific, unfounded belief that Isumbras Took is dealing with demons. He has fallen in with darker practitioners and is planning to poison the orchards and wells of his personal enemies. His housekeeper Peony Goodwin — a lifelong friend of his late wife — is snooping in his private rooms.",
+    "personality": "Bitter, paranoid, and genuinely in decline. He was once an ordinary farmer. He is not evil in the dramatic sense; he is a man whose grief curdled into resentment and whose resentment found an outlet. He is afraid of the Cor Mergylair he has joined and afraid of what will happen if he tries to leave.",
+    "strengths": [
+      "The farm — substantial landholding gives him resources and cover",
+      "Paranoia as alertness — he notices things because he is always looking for threats",
+      "Herb knowledge — his addiction has given him extensive knowledge of dangerous plants"
+    ],
+    "weaknesses": [
+      "Addiction — his judgment is compromised; he is not the man he was",
+      "Peony Goodwin — she is watching him and she will tell Molly Boffin",
+      "Irrational fixations — his belief about Isumbras Took leads him to wrong conclusions",
+      "Fear of the Cor Mergylair — trapped; cannot refuse their schemes without personal danger"
+    ],
+    "dialogue_seed": "He talks about the past a great deal — his farm's history, his family, the way things were. He mentions Isumbras Took with a specific bitterness that is disproportionate to whatever provoked it. He is careful about herbs when describing his pantry — too careful. He asks about strangers in the area with the anxiety of someone who has something to hide and suspects he has been found."
+  },
+  {
+    "id": "npc_fercha",
+    "name": "Fercha (the Spirit-Wolf)",
+    "race": "Corrupted Maia / spirit remnant",
+    "gender": "male",
+    "profession": "Spirit of discord / Wandering evil",
+    "region": "The Shire borders and wild areas of Siragale",
+    "location": "Birchune Close and the surrounding wild area; associated with the dark magic of the Cor Mergylair",
+    "allegiance": "enemy",
+    "description": "The evil remnant of a Maia — not Sauron's servant, something older and more feral. Known to Dunmen as the Feir Craich, 'Bane of Discord,' he has never been truly subjugated by the Dark Lord but will serve an evil purpose if it suits him. He is associated with the black magic practitioners operating in the Shire's shadow. His nature is to sow conflict rather than to destroy directly.",
+    "personality": "Ancient, alien, indifferent to Hobbit welfare in the way of something that predates Hobbit existence. He finds mortal conflict interesting the way a cat finds a beetle interesting. He is not malicious in a personal way — he simply has no investment in outcomes that favor the living.",
+    "strengths": [
+      "Spirit nature — cannot be harmed by ordinary weapons; conventional combat is ineffective",
+      "Discord — his presence intensifies existing conflicts; arguments become quarrels, quarrels become fights",
+      "Age — has knowledge of the land and its history predating the Shire by millennia",
+      "Unpredictability — not fully aligned with any power; cannot be predicted through their patterns"
+    ],
+    "weaknesses": [
+      "Not fully material — powerful Elvish items and certain ancient names can drive him back",
+      "Not loyal to the Cor Mergylair — working with them, not for them; will abandon them if the situation changes",
+      "Tom Bombadil's territory — will not enter the Old Forest; Bombadil is genuinely a limit on him"
+    ],
+    "dialogue_seed": "He does not speak in the ordinary sense. He communicates through what people already suspect — a word heard wrong, a silence that seems to confirm what you feared. If he manifests verbally it is in the language of whatever mortal is most vulnerable to him, saying the one thing they least want to hear confirmed."
+  }
+]

@@ -1,0 +1,327 @@
+[
+  {
+    "id": "npc_laurrë",
+    "name": "Laurrë",
+    "race": "Half-elf (Sindar mother, Northman father)",
+    "gender": "female",
+    "profession": "Ranger / Scout",
+    "region": "Southern Mirkwood",
+    "location": "Operates throughout southern Mirkwood; uses Mistrand ruins as a base",
+    "allegiance": "free_peoples",
+    "description": "Laurrë is lean and watchful, with the particular stillness of someone who has spent years moving through hostile territory without being seen. Her Elvish heritage shows in her eyes — a pale grey that catches light in the dark — but the rest of her is entirely of the forest: worn leather, practical weapons, nothing decorative. She speaks directly and without ceremony. She has been watching Vardal's network for months and does not trust easily, but when she decides someone is worth trusting she acts on it completely.",
+    "personality": "Methodical, patient, direct. Distrusts charm and ceremony. Respects competence. Will not sacrifice long-term strategy for short-term satisfaction. Has a dry humor that surfaces only when things are going badly enough to be funny.",
+    "strengths": [
+      "Forest tracking and navigation — knows southern Mirkwood better than anyone outside the Wood-elves",
+      "Silent movement — extremely difficult to detect even by trained opponents",
+      "Long-range observation — can read a camp's patrol pattern in under an hour",
+      "Tactical judgment — rarely wrong about when to act and when to wait"
+    ],
+    "weaknesses": [
+      "Combat — capable but not exceptional; avoids direct confrontation",
+      "Social situations outside the forest — struggles with towns, markets, diplomacy",
+      "Overconfidence in her own intelligence — sometimes acts on partial information",
+      "Leg wound (narrative state) — mobility reduced until healed"
+    ],
+    "dialogue_seed": "She gives information directly and without decoration. She asks one question back for every piece of information she gives. She will not explain her reasoning unless pressed, and even then only briefly. She uses forest-specific language naturally — distances in travel-time, not miles."
+  },
+  {
+    "id": "npc_naran",
+    "name": "Naran",
+    "race": "Northman",
+    "gender": "male",
+    "profession": "Innkeeper",
+    "region": "Southern Mirkwood — village of Tyar",
+    "location": "The inn at Tyar",
+    "allegiance": "coerced_neutral",
+    "description": "A broad man in his fifties, built for the physical work of running an inn, with the face of someone who has been frightened for a long time and has learned to hide it from customers but not entirely from himself. He is attentive, hospitable in a practised way, and his eyes go to the door every few minutes. He genuinely loves his daughter and it is the only thing that makes him comprehensible — everything terrible he has done in the last five months was for her.",
+    "personality": "Warm in surface manner, hollowed out by fear and guilt underneath. Genuinely decent man in an impossible position. Will cling to any hope offered. Cannot refuse Vardal as long as Gîl is held. Will do more than expected if properly motivated — or more than he should if he panics.",
+    "strengths": [
+      "Local knowledge — knows every family in Tyar and their relationships",
+      "Information access — runs the only inn; hears everything that passes through",
+      "Physical strength — built for work, can handle himself in ordinary confrontations",
+      "Loyalty — completely reliable once his daughter is safe"
+    ],
+    "weaknesses": [
+      "Fear — Vardal has completely broken his resistance; any direct threat collapses him",
+      "Guilt — prone to confessing more than is safe if someone shows him compassion",
+      "The informant in the village — cannot identify who it is, making open conversation dangerous",
+      "No combat skills — entirely non-threatening physically if cornered"
+    ],
+    "dialogue_seed": "He speaks in short sentences when nervous, fuller ones when he relaxes. He asks about the road — about weather, about what was seen — before saying anything of substance. He will not name Gîl in public. He uses the phrase 'my family business' as a code for anything connected to Vardal and his daughter."
+  },
+  {
+    "id": "npc_mira",
+    "name": "Mira",
+    "race": "Northman",
+    "gender": "female",
+    "profession": "Serving girl (Naran's inn)",
+    "region": "Southern Mirkwood — village of Tyar",
+    "location": "The inn at Tyar",
+    "allegiance": "neutral_frightened",
+    "description": "Young — perhaps seventeen — with the look of someone who was cheerful before this year and is not quite managing it now. She does her job efficiently and keeps her face neutral but she is clearly watching everything, cataloguing everyone who comes in, deciding constantly who is safe and who is not. She made one brave decision — slipping a note to a traveller she barely knew — and it frightened her enough that she has been more careful since.",
+    "personality": "Observant, brave in small ways, frightened of large ones. She likes people but has learned not to show it. She is protective of Naran in the way of someone who sees an adult being hurt and cannot stop it. She notices details that others miss.",
+    "strengths": [
+      "Observation — notices everything in the inn; can describe any guest in detail hours later",
+      "Discretion — extremely good at conveying information without appearing to",
+      "Reads people quickly — can usually identify when someone is lying to Naran",
+      "Access — moves through the inn without drawing attention; can go places others cannot"
+    ],
+    "weaknesses": [
+      "No power — cannot act on anything she knows without using someone else",
+      "Fear of direct confrontation — will not challenge Vardal's soldiers directly",
+      "Limited knowledge — knows Tyar and the road; nothing beyond it",
+      "Over-caution after the note incident — harder to reach than she was"
+    ],
+    "dialogue_seed": "She speaks through action more than words — refilling a cup at the right moment, finding a reason to be near a conversation. When she does speak directly it is very quiet and very brief. She signals with her eyes before she speaks, checking whether it's safe."
+  },
+  {
+    "id": "npc_gîl",
+    "name": "Gîl",
+    "race": "Northman",
+    "gender": "female",
+    "profession": "Innkeeper's daughter (captive)",
+    "region": "Southern Mirkwood — Vardal's forest camp / Dol Guldur",
+    "location": "Captive — held at Vardal's camp or, if moved, in Dol Guldur's outer prison",
+    "allegiance": "free_peoples",
+    "description": "In her early twenties, Gîl has her father's broad build and her mother's quick mind. Five months of captivity have not made her meek — if anything they have sharpened her. She has been observing her captors with the same systematic attention she once used managing the inn's accounts. She knows the camp's schedule, the guards' names, and which of them are bribeable. She has been waiting for someone competent to arrive.",
+    "personality": "Practical, unsentimental, occasionally wry. She is frightened but has channelled it into usefulness rather than paralysis. She will not cry when rescued — she will immediately start telling you things you need to know. She is genuinely grateful but will not perform gratitude; she shows it by being useful.",
+    "strengths": [
+      "Intelligence gathered during captivity — knows Vardal's camp layout, schedules, and personnel",
+      "Composure under pressure — does not panic in dangerous situations",
+      "Physical fitness — maintained despite captivity; can move fast when needed",
+      "Accounts and memory — extremely good at retaining and organizing information"
+    ],
+    "weaknesses": [
+      "No combat training whatsoever",
+      "Doesn't know the forest — completely dependent on guides once outside the camp",
+      "Underestimates Vardal's intelligence — saw his cruelty and discounted his competence",
+      "Not yet recovered from captivity — will need rest before she is fully functional"
+    ],
+    "dialogue_seed": "Speaks quickly and precisely. Her first words after being freed are likely information rather than thanks. She uses numbers — 'four guards on rotation, six men total, two sleep during the day shift'. She asks what the plan is within thirty seconds of meeting anyone."
+  },
+  {
+    "id": "npc_woodsman_ford",
+    "name": "Unnamed Woodsman",
+    "race": "Northman (Woodman of Mirkwood)",
+    "gender": "male",
+    "profession": "Forest woodsman / hunter",
+    "region": "Southern Mirkwood — near the Ford of Moragalen",
+    "location": "The forest near the ford; knows the upstream crossing",
+    "allegiance": "neutral",
+    "description": "Middle-aged, with the wiry leanness of someone who has spent his life outdoors and eats irregularly. He is not especially talkative but he is not hostile — he has the Woodman's fundamental wariness of strangers that extends to Orcs and travelling merchants equally. He has a daughter in the next village he has not been able to visit because the ford is watched.",
+    "personality": "Transactional but fair. He will help if there is something in it for him or someone he cares about. He is not heroic and does not want to be involved in larger events. He knows the forest around the ford extremely well and has survived it by being careful.",
+    "strengths": [
+      "Local geography — knows every path, crossing, and hiding place within five miles of the ford",
+      "Forest survival — can find food, water, and shelter in southern Mirkwood without difficulty",
+      "Discretion — will not share information about you with Vardal's soldiers",
+      "Animal handling — the forest creatures do not flee from him"
+    ],
+    "weaknesses": [
+      "Limited range — his knowledge ends at the boundary of his territory",
+      "No loyalty — will not risk himself for strangers beyond a fair exchange",
+      "No knowledge of Vardal's operations — sees the soldiers but does not know the network",
+      "Will not enter Dol Guldur's sphere — absolute refusal, not negotiable"
+    ],
+    "dialogue_seed": "Minimal. He states what he wants and what he can offer. He does not explain his reasons unless asked directly and even then briefly. He uses the forest's names for things — Woodman terms, not common Westron. He ends conversations by returning to work."
+  },
+  {
+    "id": "npc_wood_elf_scout",
+    "name": "Unnamed Wood-elf Scout",
+    "race": "Silvan Elf (Thranduil's people)",
+    "gender": "male",
+    "profession": "Scout / Forest warden",
+    "region": "Southern Mirkwood — patrols the forest north of Dol Guldur",
+    "location": "Transient — uses the abandoned Elvish waystation occasionally",
+    "allegiance": "free_peoples",
+    "description": "Lean, dark-haired by Elvish standards, dressed entirely in the grey-green of the forest so that he seems less like a person than a quality of the light. He does not speak Westron and will not try — not from inability but from choice. He is not unfriendly. He has been watching the shadow expand from Dol Guldur for decades and it sits on him with a particular kind of weight.",
+    "personality": "Careful, deliberate, watchful. Communication through gesture and expression — extremely precise despite the lack of shared language. Shares information about forest dangers with anyone he assesses as genuinely not working for the shadow. Has a dry Elvish humor that operates entirely through understatement.",
+    "strengths": [
+      "Forest intelligence — knows the movement of every patrol within his range",
+      "Navigation — can guide anyone through Mirkwood without using Vardal's roads",
+      "Silence — literally cannot be heard moving",
+      "Long-range perception — sees and hears things two minutes before anyone else does"
+    ],
+    "weaknesses": [
+      "No Westron — communication is limited to gestures and inference",
+      "Acts unilaterally — does not ask before making decisions about his own actions",
+      "Will not enter Dol Guldur territory — absolute boundary, same as the woodsman",
+      "Limited patience with slow or noisy companions"
+    ],
+    "dialogue_seed": "All gesture, expression, and occasional Sindarin words if someone speaks it. He uses direction-pointing to convey location information. A held-up finger means stop. A downward palm means be still. He shows rather than tells — if he wants you to understand a patrol route he will trace it in the dirt."
+  },
+  {
+    "id": "npc_bregorn",
+    "name": "Bregorn",
+    "race": "Northman",
+    "gender": "male",
+    "profession": "Innkeeper / Vardal's informant",
+    "region": "Southern Mirkwood — the Haunted Inn (Baranduin Inn)",
+    "location": "The Haunted Inn on the Mirkwood road",
+    "allegiance": "enemy_coerced",
+    "description": "A large, grey-bearded man in his sixties who has perfected the performance of an honest innkeeper over decades of practice. The performance is very good. He offers genuine hospitality — the food is adequate, the fire is real, the interest in travellers' stories is genuine — and then writes down everything of value before they are awake. He did not start as a bad man. He started as a frightened one, and the two are not so different after enough years.",
+    "personality": "Professionally warm, genuinely curious about people, privately calculating. He rationalizes what he does as survival. He does not like Vardal and is afraid of him. He likes travellers — the actual people, not abstractions — and this creates in him a persistent low-grade guilt that he manages with drink and by telling himself the information he passes on doesn't really hurt anyone.",
+    "strengths": [
+      "Social performance — extraordinarily convincing as a legitimate innkeeper",
+      "Memory — retains every detail of every guest: description, direction, stated purpose",
+      "Intelligence network — knows which travellers are worth reporting and which are not",
+      "Physical size — capable in a confrontation if cornered"
+    ],
+    "weaknesses": [
+      "Guilt — a sufficiently skilled approach exploiting his conscience can break through his caution",
+      "Fear of Vardal — can be manipulated through that fear in both directions",
+      "Drink — his judgment degrades late in the evening",
+      "The log — the written record of his informing is his most dangerous vulnerability"
+    ],
+    "dialogue_seed": "Warm and expansive initially — he will tell you about the road, the forest, the history of the inn. He asks questions naturally, as anyone would, but the questions build a picture. He never asks directly for information; he creates conditions where you volunteer it. He uses 'we' and 'you travelers' — friendly othering."
+  },
+  {
+    "id": "npc_vardal",
+    "name": "Vardal",
+    "race": "Northman (corrupted — long service to Uvatha)",
+    "gender": "male",
+    "profession": "Field commander / Uvatha's agent",
+    "region": "Southern Mirkwood",
+    "location": "Vardal's hidden forest camp; mobile between camp, ford checkpoint, and Dol Guldur",
+    "allegiance": "enemy",
+    "description": "Tall, dark-eyed, with the unhurried manner of someone who has never had to rush because things have always been arranged in advance. He is not visibly cruel — he has the administrative cruelty of a man who issues orders and does not watch their execution. He has served Uvatha for long enough that some of the Nazgûl's quality has transferred: he is patient, methodical, and almost completely without sentiment. He is not fanatic — he is professional.",
+    "personality": "Cold, precise, and genuinely intelligent. He finds most people predictable and manageable. He respects competence when he encounters it — briefly and without warmth — before calculating how to neutralise it. He does not hate the people he opposes; he simply needs them dealt with. He keeps Gîl alive not from mercy but because dead leverage is no leverage.",
+    "strengths": [
+      "Strategic intelligence — maintains a comprehensive picture of who is moving where in the region",
+      "Operational security — his camp has never been found uninvited",
+      "Combat — exceptional, 12th level; a genuine threat in direct engagement",
+      "Composure — does not react to provocation; this makes him very hard to read"
+    ],
+    "weaknesses": [
+      "Overconfidence in the network — believes the road-watch is comprehensive; cannot imagine gaps he has not placed himself",
+      "Uvatha's demands — the Nazgûl's timeline creates pressure Vardal cannot always meet cleanly",
+      "No local knowledge — manages the region but does not know it the way Laurrë does",
+      "Isolation — operates with very few people he trusts; losing even one node breaks the network"
+    ],
+    "dialogue_seed": "Direct and without pleasantry. He states what he wants and what will happen if he does not get it. He does not threaten dramatically — he describes consequences the way an accountant describes figures. He asks only questions he does not already know the answer to. He ends conversations when they stop being useful."
+  },
+  {
+    "id": "npc_scoderath",
+    "name": "Scoderath",
+    "race": "Gramuz (Easterling)",
+    "gender": "male",
+    "profession": "Thief / Prisoner at Dol Guldur",
+    "region": "Dol Guldur — outer prison",
+    "location": "Prison cell C, Dol Guldur outer level",
+    "allegiance": "self_interested",
+    "description": "Blond and blue-eyed in a way that looks wrong for his Gramuz background — a fact he has exploited all his life and which has also gotten him captured twice. He is being held at Dol Guldur under a promise of a position in the Necromancer's information network, which he intends to accept while looking for an opportunity to steal everything not nailed down and leave. He is under no illusions about what 'conditioning' means.",
+    "personality": "Cheerful nihilist. He finds his situation genuinely amusing in a way that either means he is very brave or very stupid, and the answer is neither — he just genuinely doesn't plan further than two moves ahead and finds this liberating. He will help anyone who seems likely to get him out. He will also betray anyone for sufficient value. The honesty about this makes him oddly trustworthy.",
+    "strengths": [
+      "Lockpicking and infiltration — extremely good at getting into and out of places",
+      "Fast hands and faster reflexes",
+      "Reading people — can identify a mark or an ally within a minute of meeting them",
+      "Adaptability — adjusts to new situations without the paralysis that hits most people"
+    ],
+    "weaknesses": [
+      "Reliability — will not hold a position under pressure if a better option appears",
+      "Short-term thinking — has no strategy beyond the current situation",
+      "No combat ability — will run before fighting",
+      "Known face — his distinctive appearance means he is recognized in places he has worked before"
+    ],
+    "dialogue_seed": "Fast-talking, friendly, immediately proposing an exchange. He introduces himself and describes his skills without being asked. He references his current situation with ironic detachment ('my current accommodation'). He negotiates openly — states his price immediately and clearly. He does not trust slowly; he trusts fast and verifies by watching."
+  },
+  {
+    "id": "npc_arculaglar",
+    "name": "Arculaglar",
+    "race": "Sindar Elf (Thranduil's court)",
+    "gender": "male",
+    "profession": "Noble scout / Prisoner at Dol Guldur",
+    "region": "Dol Guldur — outer prison",
+    "location": "Prison cell A, Dol Guldur outer level — scheduled for transfer to Khamûl in four days",
+    "allegiance": "free_peoples",
+    "description": "Tall and slender with red-gold hair and the particular quality of attention of an Elf who has spent centuries observing without being noticed. He was captured by an Orc patrol from Dol Guldur while acting as a courier. He has been here long enough to have mapped every cell, counted every guard rotation, and assessed every prisoner. He is waiting for something he can use, and the arrival of potential rescuers qualifies. He does not show relief when help arrives — he shows immediate operational focus.",
+    "personality": "Aristocratic but not arrogant — the Elvish courtesy is genuine, not performed. He is a skilled observer who presents his observations as facts rather than impressions. He has been managing his own fear by being useful, and this has kept him sharp. He has no weapons skills to speak of and has never needed them.",
+    "strengths": [
+      "Comprehensive prison intelligence — knows the outer level's layout, guards, schedules, and weaknesses",
+      "Elvish perception — detects sounds and movements others miss",
+      "Diplomatic leverage — a courier for Thranduil; his safe return has significant political value",
+      "Composure — remains effective in high-stress situations"
+    ],
+    "weaknesses": [
+      "No combat skills — genuinely useless in a fight",
+      "The transfer deadline — four days to Khamûl; after that he is beyond ordinary reach",
+      "Elvish pride — will not accept help that requires him to be passive; wants to contribute",
+      "Khamûl is specifically interested in the size and structure of Thranduil's garrison — information Arculaglar has and has been resisting giving"
+    ],
+    "dialogue_seed": "Precise and efficient. He introduces himself by explaining what he knows that might be useful before explaining who he is. He refers to the guards by the numbers he has assigned them. He asks about exit routes before asking about the outside world. He speaks Westron perfectly but prefers Sindarin if possible."
+  },
+  {
+    "id": "npc_braig",
+    "name": "Braig",
+    "race": "Beorning",
+    "gender": "male",
+    "profession": "Wanderer / Prisoner at Dol Guldur",
+    "region": "Dol Guldur — outer prison",
+    "location": "Prison cell — chained as a slave, currently in kitchen service",
+    "allegiance": "free_peoples",
+    "description": "A stocky Beorning in his fifties who retains the unfailing optimism of a man who has been in worse situations and survived them all. He has been a slave in an Orcish dungeon for some time and his response to this has been to make friends with the kitchen staff, learn where the food stores are, and identify the guards who are susceptible to bribery. He is cheerful in a way that is either a coping mechanism or a genuine disposition, and the distinction may not matter.",
+    "personality": "Warm, practical, quietly determined. He has survived by being useful and likeable to a series of increasingly unpleasant employers. He has no illusions about his situation — he knows what will happen when he is no longer useful — but he has not let this stop him from functioning. He will help anyone who gives him a credible chance of leaving.",
+    "strengths": [
+      "Kitchen and supply access — moves throughout the lower levels without suspicion",
+      "Knowledge of guard habits — knows who drinks, who gambles, who sleeps during their shift",
+      "Physical strength — Beorning build; significant in a close-quarters situation",
+      "Bribery intelligence — knows what specific guards want and approximately what it would cost"
+    ],
+    "weaknesses": [
+      "Chained when not in work detail — limited mobility outside of specific hours",
+      "No weapons — has access to kitchen tools, which is not nothing but is not much",
+      "The kitchen work schedule — his access depends on not disrupting it",
+      "Overestimates how much goodwill he has built with the guards"
+    ],
+    "dialogue_seed": "Opens with the practical — what you need, what he can get, what it would take. He refers to the Orcs without fear but with the specific irritation of someone who has managed difficult colleagues for too long. He asks about the outside world with genuine curiosity. He refers to his situation as 'temporary' with a calm that suggests he genuinely believes it."
+  },
+  {
+    "id": "npc_jasala",
+    "name": "Jasala",
+    "race": "Easterling (Khand descent)",
+    "gender": "female",
+    "profession": "Skauril's consort / De facto intelligence operative",
+    "region": "Dol Guldur / Skauril's caverns",
+    "location": "Skauril's caverns — Parlor (room 24), access to the treasury",
+    "allegiance": "ambiguous",
+    "description": "A striking woman in her thirties, trained from childhood in Easterling court traditions of dance, music, and the particular art of making powerful men believe she is interested in them. She killed her former husband and took half his treasury before following Skauril to Mirkwood — not from loyalty but from the recognition that Skauril's operation was more interesting than anything available to her otherwise. She wears the Eärgil's backing in a linen pouch around her neck and is beginning to understand what it is.",
+    "personality": "Calculating, patient, and genuinely dangerous. She has survived multiple transitions of power and knows that survival requires reading the current situation correctly and betting on the right outcome. She has no loyalty to Skauril beyond what serves her. She is also intelligent enough to hold open the possibility that the party represents a better option than Dol Guldur. She will not commit to anything until she is sure.",
+    "strengths": [
+      "Intelligence gathering — has Skauril's complete trust and therefore access to everything he knows",
+      "The Eärgil backing — she is carrying half of a powerful artifact without knowing its full value",
+      "Dagger skill — quiet, fast, highly competent in close quarters",
+      "Political reading — extremely good at identifying who has real power in any situation"
+    ],
+    "weaknesses": [
+      "Self-interest first — will not risk herself for anything that doesn't benefit her",
+      "Does not understand the Eärgil — dangerous for someone carrying it",
+      "Far from home — in Mirkwood without a network of her own; dependent on Skauril's infrastructure",
+      "Skauril suspects her — he does not trust her completely and she knows it"
+    ],
+    "dialogue_seed": "Speaks carefully and with precision. She establishes what you want before revealing what she wants. She does not threaten — she describes situations. She uses silence as a tool. She will name her price clearly and only once; if it is not met, she ends the conversation. She refers to Skauril by name, never by title."
+  },
+  {
+    "id": "npc_uvatha",
+    "name": "Uvatha the Horseman",
+    "race": "Nazgûl (formerly Easterling)",
+    "gender": "male",
+    "profession": "The Necromancer's Lieutenant / Nazgûl #9",
+    "region": "Southern Mirkwood — Dol Guldur and surrounds",
+    "location": "Dol Guldur upper levels; patrols the Mirkwood road and north toward Angmar",
+    "allegiance": "enemy_nazgul",
+    "description": "Uvatha is felt before he is seen — a cold that has nothing to do with temperature, a silence that descends ahead of him like a dropped curtain. On his black horse he is a shape that does not quite resolve into a figure: the proportions are wrong in ways the eye slides away from. He does not speak to ordinary travellers. He does not need to. His presence communicates everything required. He was once a king in Khand, patient and strategic, and these qualities have survived the Ring in a form stripped of everything else.",
+    "personality": "Strategic patience with no sentiment and no curiosity. He manages operations the way a master administrator manages a bureaucracy — efficiently, without attachment, with a clear understanding of what each piece is worth. He is not cruel for pleasure; he is indifferent to suffering in the way a weather system is indifferent to what it destroys. His one vulnerability is Khamûl, who he both reports to and partially fears.",
+    "strengths": [
+      "Detection — senses shadow and significant darkness at range; at high shadow characters are detectable within hundreds of feet",
+      "Terror — his proximity causes fear in all living things; this is not a choice, it is a constant effect",
+      "Strategy — has been managing intelligence operations in Mirkwood for decades; knows the terrain politically and geographically",
+      "Immortality — cannot be permanently defeated by ordinary means; only delay is possible"
+    ],
+    "weaknesses": [
+      "Bound to Sauron — every significant action is in service of his master's timeline, which limits his responses",
+      "Distance from the Ring — his power source is remote; he is less potent here than near Mordor",
+      "Elvish items — Elvish-forged weapons and items resist his touch and his shadow-sense",
+      "Khamûl's oversight — must report and cannot act against Khamûl's explicit instructions"
+    ],
+    "dialogue_seed": "He does not have dialogue in any conventional sense. If he speaks it is to issue a statement, not conduct a conversation. The statement is always short and always final. He uses silence as others use sentences. If he addresses someone by name it means he has been watching them specifically — which is worse than being ignored."
+  }
+]

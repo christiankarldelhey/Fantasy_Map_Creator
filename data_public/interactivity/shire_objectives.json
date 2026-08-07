@@ -1,0 +1,913 @@
+[
+  {
+    "id": "shire_s01",
+    "scale": "short",
+    "region": "The Shire — Southfarthing",
+    "location": "A village tavern in the Southfarthing",
+    "place": "Tavern common room and the village road outside",
+    "type": "information_gathering",
+    "npcs": [
+      {
+        "name": "Unnamed innkeeper",
+        "role": "runs the only inn in the village, knows everyone's business"
+      },
+      {
+        "name": "Molly Boffin (optional)",
+        "role": "may be present; will share what she knows if approached correctly"
+      }
+    ],
+    "problem": "Someone has gone missing from the village — not dangerously, not dramatically, but genuinely worryingly. The miller's apprentice hasn't been home in three days and his master is at the inn complaining loudly about it. Everyone has a theory. The theories contradict each other. One of them is correct.",
+    "decisions": [
+      {
+        "moment": "Arriving at the inn — the debate is already in progress",
+        "situation": "Four Hobbits arguing at a table. The miller is red-faced. The innkeeper is refilling cups to keep the peace. Every theory involves someone else's fault.",
+        "options": [
+          {
+            "label": "Buy a round and let them talk themselves out — the truth is usually in the argument somewhere",
+            "check": "perception",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Ask the innkeeper privately — she knows what everyone hasn't said yet",
+            "check": "social",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Ask the miller directly what the apprentice was doing the last day he was seen",
+            "check": "social",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The apprentice followed a 'strange smell' into the Bindbale Woods three days ago — which is what apprentices do and why they go missing.",
+          "partial": "He went into the woods. The specific direction is unclear. Everyone agrees it was probably north.",
+          "failure": "You learn four different versions of events and are no closer to the truth. The miller is now also annoyed with you."
+        }
+      },
+      {
+        "moment": "In the Bindbale Woods — following the trail",
+        "situation": "The woods at the edge of the Shire are genuinely a bit strange at this hour. The apprentice's footprints are visible. So are some other tracks.",
+        "options": [
+          {
+            "label": "Follow the footprints",
+            "check": "tracking",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Call out his name — he is probably just lost",
+            "check": "courage",
+            "difficulty": 2,
+            "requires": null
+          },
+          {
+            "label": "Check what the other tracks are before going further",
+            "check": "tracking",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The apprentice is found — stuck in a badger-warren he fell into, annoyed but unharmed. The 'strange smell' was a mushroom patch of unusual size.",
+          "partial": "Found, but he twisted his ankle and cannot walk easily. You will need to help him back.",
+          "failure": "You find the mushroom patch. It is indeed very large. The apprentice is somewhere else and now it's getting dark."
+        }
+      }
+    ],
+    "shadow_modifier": "This adventure exists outside the shadow system — it takes place entirely in Hobbit-normal. Shadow band has no effect.",
+    "energy_modifier": "depleted energy: carrying the apprentice back if he's injured is harder.",
+    "inventory_modifier": null,
+    "difficulty": "low",
+    "resolution": "The apprentice is found, the miller stops complaining, and the village buys you dinner. The mushroom patch may be of interest to Gresham Shaper.",
+    "hooks": [
+      "The miller stops you on the road: 'You look capable. My lad's gone missing.'",
+      "The inn has a sign on the door: 'Free meal for information about young Tolly Rushbottom.'"
+    ]
+  },
+  {
+    "id": "shire_s02",
+    "scale": "short",
+    "region": "The Shire — Westfarthing",
+    "location": "A village in the Westfarthing near Tookland",
+    "place": "A farmstead, the village well, and the road between them",
+    "type": "investigation",
+    "npcs": [
+      {
+        "name": "Peony Goodwin",
+        "role": "Maitlow's housekeeper and late wife's friend — suspects something is wrong, will talk to someone trustworthy"
+      },
+      {
+        "name": "Maitlow",
+        "role": "the farmer — dangerous if he realizes he's being investigated"
+      }
+    ],
+    "problem": "The village well has been producing water that makes livestock lethargic. The local healer says the water is fine. Molly Boffin, who passed through last week, left a note with Peony Goodwin asking that someone look into it. Peony is worried about Maitlow's private rooms and thinks the two things are connected.",
+    "decisions": [
+      {
+        "moment": "Peony Goodwin catches you at the inn and asks for a private word",
+        "situation": "A capable woman in her fifties who is genuinely frightened and trying not to show it. She has found herbs in Maitlow's locked pantry that she cannot identify.",
+        "options": [
+          {
+            "label": "Listen to everything she has to say before responding",
+            "check": "perception",
+            "difficulty": 2,
+            "requires": null
+          },
+          {
+            "label": "Ask her to describe the herbs specifically",
+            "check": "lore",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Offer to look at the herbs yourself",
+            "check": "social",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "She describes Leach Moss and what sounds like Asgurash — both in MERP's herb table, both capable of affecting water supplies. She will let you into the locked pantry tonight if Maitlow is at the tavern.",
+          "partial": "She describes herbs she cannot name but is clearly frightened of. You need more information to identify them.",
+          "failure": "She loses her nerve and tells you it is probably nothing. She has been worried for nothing, she says. She is lying."
+        }
+      },
+      {
+        "moment": "In Maitlow's locked pantry while he is at the tavern",
+        "situation": "Dried herbs, small vials, and a notebook written in a cramped hand. You have perhaps twenty minutes.",
+        "options": [
+          {
+            "label": "Identify the herbs systematically",
+            "check": "lore",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Read the notebook — even partial understanding is useful",
+            "check": "perception",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Take samples of everything and get out quickly",
+            "check": "stealth",
+            "difficulty": 3,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The notebook confirms it: Maitlow has been systematically dosing the Took clan's water access points. His resentment is documented in detail. The herbs are identified — all of them have non-lethal but miserable effects on livestock.",
+          "partial": "You identify the herbs but the notebook is written in a cipher you cannot fully read. You know what but not how much or where else.",
+          "failure": "Maitlow comes home early. The next decision is whether to bluff or run."
+        }
+      }
+    ],
+    "shadow_modifier": "mid/high shadow: Peony is frightened of you as much as of the situation. She will not speak freely.",
+    "energy_modifier": null,
+    "inventory_modifier": "herb knowledge or healing supplies: reduces identification difficulty by 2.",
+    "difficulty": "low",
+    "resolution": "Maitlow's poisoning scheme is exposed. The well recovers. Peony is safe. Molly Boffin should probably know. The larger question of the Cor Mergylair remains.",
+    "hooks": [
+      "A note slipped under your door at the inn: 'The well is wrong. Come to the blue gate at dusk. — P.G.'",
+      "Molly Boffin mentioned Maitlow's farm in passing: 'Someone should look in on that household.'"
+    ]
+  },
+  {
+    "id": "shire_s03",
+    "scale": "short",
+    "region": "The Shire — any village",
+    "location": "Village square and adjacent farmsteads",
+    "place": "The village green during what should be a normal market day",
+    "type": "mediation",
+    "npcs": [
+      {
+        "name": "Blanco Fallohide (optional ally)",
+        "role": "may be passing through; if contacted, makes the mediation significantly easier"
+      },
+      {
+        "name": "Two Hobbit family patriarchs",
+        "role": "a Dunlending clan-lord's family — father and mother feuding, children taking sides; kitchen implements being thrown"
+      }
+    ],
+    "problem": "A Dunlending family marriage has completely collapsed. The father and mother are at war. Their grown children have split between them. Someone has poisoned the family's mastiff. Flaming torches are being thrown. The shirriffs need help before it becomes a massacre.",
+    "decisions": [
+      {
+        "moment": "Arriving at the farmstead — a torch just broke a window",
+        "situation": "Three adults on one side of a fence, three on the other. A dead dog in the middle. Everyone is shouting in Dunael.",
+        "options": [
+          {
+            "label": "Get between them physically and refuse to move",
+            "check": "courage",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Find out who poisoned the dog — that is the actual grievance under everything else",
+            "check": "perception",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Locate the eldest child who hasn't picked a side yet and work through them",
+            "check": "social",
+            "difficulty": 3,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The mastiff was poisoned by a neighbor with a long-standing boundary dispute — not either parent. This common enemy briefly unites the family. They stop throwing things.",
+          "partial": "The throwing stops but the family is still divided. You have bought an hour, not a resolution.",
+          "failure": "A cart of turnips gets used as a projectile. You are briefly covered in turnips. The situation has not improved."
+        }
+      },
+      {
+        "moment": "With the throwing stopped — the actual grievance needs addressing",
+        "situation": "The parents will not speak to each other. The children are sulking. The neighbor with the boundary dispute is now also present and indignant.",
+        "options": [
+          {
+            "label": "Separate everyone into different locations and hear each side individually",
+            "check": "endurance",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Send for Blanco Fallohide — this is exactly what he does",
+            "check": "lore",
+            "difficulty": 2,
+            "requires": "dunadan_north OR northman character who knows Shire politics"
+          },
+          {
+            "label": "Propose a specific practical resolution to the boundary dispute first, then work backwards",
+            "check": "social",
+            "difficulty": 5,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The neighbor pays for the dog. The boundary gets redrawn with witnesses. The family remains angry at each other but angry at the neighbor more, which is progress.",
+          "partial": "The boundary is resolved. The family is still at war. You have done what you can without a professional arbiter.",
+          "failure": "A heated argument about the dog becomes an argument about the marriage becomes an argument about the family's entire history. The village headman arrives and is also now involved."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: Dunlending farmers are already suspicious of strangers; mediation attempts start at a disadvantage.",
+    "energy_modifier": "depleted energy: the endurance of hearing every side individually is harder.",
+    "inventory_modifier": null,
+    "difficulty": "low",
+    "resolution": "A single exhausting afternoon. No one is seriously injured. The dog is avenged. The marriage may or may not recover. The shirriffs owe you a drink.",
+    "hooks": [
+      "A shirriff flags you down on the road: 'Can you help? There's a domestic situation and I'm outnumbered.'",
+      "The sound of breaking crockery and raised voices in Dunael is audible from the road."
+    ]
+  },
+  {
+    "id": "shire_s04",
+    "scale": "short",
+    "region": "The Shire — Northfarthing, near a village",
+    "location": "A village smial and the yard outside it",
+    "place": "A festival day disrupted by something that should not exist",
+    "type": "investigation_and_containment",
+    "npcs": [
+      {
+        "name": "Unnamed Hobbit child",
+        "role": "brought home an unusual egg from a sorcerer's long-abandoned farmstead"
+      },
+      {
+        "name": "Unnamed healer",
+        "role": "called in but has never encountered this before"
+      },
+      {
+        "name": "Berethar Redlands (optional)",
+        "role": "if called, knows where to find someone who can advise"
+      }
+    ],
+    "problem": "A Fallohide child's prize hen hatched an egg that was definitely not a hen's egg. The offspring is magical, poisonous, and has paralyzed three Hobbits at the midsummer festival. The shirriffs have evacuated the village square. An ominous sound — 'cluck... cluck... cluck...' — is coming from the abandoned section of the village. Anyone with magical knowledge has been specifically summoned.",
+    "decisions": [
+      {
+        "moment": "Arrival — three paralyzed Hobbits, one panicked village, one missing creature",
+        "situation": "The paralyzed Hobbits are breathing normally but cannot move. The clucking is getting louder. No one will go near the abandoned section.",
+        "options": [
+          {
+            "label": "Ask the child exactly where the egg came from",
+            "check": "social",
+            "difficulty": 2,
+            "requires": null
+          },
+          {
+            "label": "Identify the type of paralysis from the victims",
+            "check": "lore",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Approach the clucking from upwind and assess before acting",
+            "check": "stealth",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The egg came from a sorcerer's abandoned farmstead to the north — and the paralysis is cockatrice venom, which is non-lethal but lasts eight hours. The creature is young and confused, not malicious.",
+          "partial": "The egg source is known. The paralysis type is not confirmed. Proceed with caution.",
+          "failure": "A fourth Hobbit is paralyzed before you understand what you are dealing with."
+        }
+      },
+      {
+        "moment": "Finding the cockatrice — it is behind a barrel, confused and alarmed",
+        "situation": "A small, brilliantly colored creature that looks like it should be someone's pet and very much should not be. It clucks in a way that sounds vaguely apologetic. It cannot help what it is.",
+        "options": [
+          {
+            "label": "Contain it without looking at its eyes — find something to cover its head",
+            "check": "stealth",
+            "difficulty": 5,
+            "requires": null
+          },
+          {
+            "label": "Distract it with food while someone approaches from behind",
+            "check": "social",
+            "difficulty": 4,
+            "requires": "food in inventory"
+          },
+          {
+            "label": "Drive it toward the open field and away from the village — deal with it out there",
+            "check": "endurance",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "Contained or driven off. The paralyzed Hobbits recover by evening. The festival resumes three hours late. A Hobbit proposes naming the incident 'the Midsummer Interruption' which everyone agrees is exactly the right amount of drama.",
+          "partial": "Driven off but not contained. It will be someone else's problem when it crosses the Bounds.",
+          "failure": "You are briefly paralyzed. The cockatrice uses the opportunity to get comfortable in the abandoned barn. Negotiations recommence in eight hours when you can move again."
+        }
+      }
+    ],
+    "shadow_modifier": "This adventure exists outside the shadow system for tone reasons — but high shadow makes the cockatrice more aggressive.",
+    "energy_modifier": "depleted energy: the pursuit option requires endurance you may not have.",
+    "inventory_modifier": "food: enables the distraction approach. Cloth or sack: enables the head-covering containment.",
+    "difficulty": "low",
+    "resolution": "Three paralyzed Hobbits recover. The village is safe. The sorcerer's farmstead to the north is now a known location of interest. Berethar notes it in the shirriff record.",
+    "hooks": [
+      "A shirriff runs up to you at the festival: 'You're not from here, which means you might know what a cockatrice is. Please say yes.'",
+      "The clucking from the abandoned section of the village is audible from the road, and everyone is going the other way."
+    ]
+  },
+  {
+    "id": "shire_s05",
+    "scale": "short",
+    "region": "The Shire — western border near Sarn Ford",
+    "location": "The Shire bounds and the road from the south",
+    "place": "A stretch of the road approaching the Shire from the south, near the Bounds",
+    "type": "avoidance_or_passage",
+    "npcs": [
+      {
+        "name": "Gondorian sailors (lost)",
+        "role": "third mate and crewman from a Gondorian privateer, sent upriver and now completely confused about whose territory they are in"
+      },
+      {
+        "name": "Broggo Lightstep",
+        "role": "Bounder on duty — has intercepted the strangers and is waiting for someone who speaks better Westron"
+      },
+      {
+        "name": "Corsair agents (separate group)",
+        "role": "also in the area, looking for supplies — they murdered the Gondorians' companions"
+      }
+    ],
+    "problem": "Two Gondorian sailors are lost somewhere they should not be, asking questions about whether this is Elvish or Arthadan territory. Their companions were murdered upriver. They are carrying a message that they don't realize is relevant to the Corsair agents who are also currently in the area. Broggo has stopped them at the Bounds but cannot quite sort out what is happening.",
+    "decisions": [
+      {
+        "moment": "Broggo waves you over with the specific expression of a Bounder who needs help",
+        "situation": "Two Gondorians who look like they have had a terrible week. Broggo has his staff and a patient expression.",
+        "options": [
+          {
+            "label": "Hear their story properly — they are lost, not a threat",
+            "check": "social",
+            "difficulty": 2,
+            "requires": null
+          },
+          {
+            "label": "Ask what happened to their companions upriver",
+            "check": "perception",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Check what they are carrying — their 'message' may be why they were targeted",
+            "check": "deception",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The full picture: their companions were killed by Corsair agents. The message they carry is a debt record from Amon Baran that the Corsairs do not want delivered. They are in genuine danger.",
+          "partial": "Lost sailors, dead companions somewhere upriver. You know they are in trouble but not why.",
+          "failure": "The Gondorians, suspicious and frightened, become uncooperative. Getting information from them now requires considerably more patience."
+        }
+      },
+      {
+        "moment": "The Corsair agents are also on this road — spotted approaching from the south",
+        "situation": "Three people who are trying to look like traders and are not succeeding.",
+        "options": [
+          {
+            "label": "Get the Gondorians into the Shire before the Corsairs reach them",
+            "check": "endurance",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Intercept the Corsairs on the road and delay them with questions",
+            "check": "deception",
+            "difficulty": 5,
+            "requires": null
+          },
+          {
+            "label": "Ask Broggo to activate the Bounds — no one enters without cause when there is trouble nearby",
+            "check": "social",
+            "difficulty": 3,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The Gondorians are inside the Shire and safe. The Corsairs are on the wrong side of the Bounds with a Bounder between them and their targets. They leave, eventually, claiming to be looking for rope and tar.",
+          "partial": "The Gondorians are inside. The Corsairs are watching the Bounds and waiting.",
+          "failure": "A confrontation on the road. Broggo is technically a non-combatant with a stick. The Corsairs are not."
+        }
+      }
+    ],
+    "shadow_modifier": "mid shadow: the Corsairs are bolder — the delay tactic is less effective.",
+    "energy_modifier": "depleted energy: the race to the Bounds before the Corsairs arrive may fail.",
+    "inventory_modifier": null,
+    "difficulty": "low",
+    "resolution": "Two sailors are safe inside the Shire. Berethar should probably know about Corsair presence near Sarn Ford. The message is delivered to... someone. This connects to the broader politics of western Endor.",
+    "hooks": [
+      "Broggo waves you over with a look that says 'I need a native speaker of Westron, urgently.'",
+      "Two men on the road ahead look lost in a way that has nothing to do with directions."
+    ]
+  },
+  {
+    "id": "shire_s06",
+    "scale": "short",
+    "region": "The Shire — any village, Southfarthing preferred",
+    "location": "A road crew worksite and the surrounding wood",
+    "place": "A new road being cut through the wood, with ongoing sabotage",
+    "type": "investigation_and_disruption",
+    "npcs": [
+      {
+        "name": "Hobbit road crew foreman",
+        "role": "pragmatic, tired, just wants to build the road without having to explain it to anyone"
+      },
+      {
+        "name": "Tanna toll-collectors (antagonists)",
+        "role": "hired ruffians sabotaging the road because it bypasses their toll point — doing it indirectly through scare tactics and 'accidents'"
+      }
+    ],
+    "problem": "A Hobbit work crew is cutting a new road that will bypass a Tanna clan toll point. The toll-collectors have hired ruffians to stop the work through sabotage and intimidation. The shirriffs need the problem solved without a public confrontation with the Tannas, who are technically not at war with anyone.",
+    "decisions": [
+      {
+        "moment": "The foreman explains the problem — supplies keep going bad, equipment breaks overnight",
+        "situation": "A careful man who has noticed the pattern but cannot prove it. He has also noticed strangers in the wood at the edge of his worksite.",
+        "options": [
+          {
+            "label": "Watch the worksite at night to catch the saboteurs in the act",
+            "check": "stealth",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Ask in the village about the Tanna situation — who has the toll point and why they are threatened by this road",
+            "check": "social",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Inspect the damaged equipment — deliberate sabotage has a different signature than ordinary wear",
+            "check": "perception",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The saboteurs are identified — three men who have been seen near the Tanna toll point. You have evidence of the connection.",
+          "partial": "The sabotage is confirmed as deliberate. The specific connection to the Tannas is circumstantial but likely.",
+          "failure": "Nothing happens the night you watch. The damage continues the next day."
+        }
+      },
+      {
+        "moment": "The ruffians are identified or confirmed — now what",
+        "situation": "You cannot arrest them publicly without triggering the Tanna confrontation. But you can drive them off quietly.",
+        "options": [
+          {
+            "label": "Approach the ruffians directly at their camp — make it clear you know what they are doing",
+            "check": "courage",
+            "difficulty": 5,
+            "requires": null
+          },
+          {
+            "label": "Get the Tanna toll-master a message indicating that further sabotage will have consequences that Arthedain will notice",
+            "check": "deception",
+            "difficulty": 5,
+            "requires": null
+          },
+          {
+            "label": "Move the worksite schedule so the most vulnerable section is completed before the ruffians can plan anything more",
+            "check": "endurance",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The ruffians leave. The road is completed. The Tanna toll-master is correctly uncertain about how much is known. Nobody is arrested and nobody is at war.",
+          "partial": "The ruffians leave but the Tanna situation is unresolved. Another approach to the road may have trouble later.",
+          "failure": "The confrontation becomes public. The Tannas are now formally aggrieved. Blanco Fallohide's autumn is going to be very busy."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: the ruffians are bolder and harder to drive off with words.",
+    "energy_modifier": "depleted energy: the night watch and the accelerated construction are both harder.",
+    "inventory_modifier": null,
+    "difficulty": "low",
+    "resolution": "The road is built. The problem is solved quietly, which is the whole point. The Tanna situation has been pushed rather than resolved.",
+    "hooks": [
+      "A shirriff asks if you are good with problems that need solving without anyone knowing they were solved.",
+      "A road crew foreman looking at a cart with a mysteriously broken axle says 'That's the third one this week.'"
+    ]
+  },
+  {
+    "id": "shire_s07",
+    "scale": "short",
+    "region": "The Shire — White Downs near Michel Delving",
+    "location": "The White Downs and the edge of the haunted Mistvale",
+    "place": "Downland pastures, ravines, and the pond in the Mistvale",
+    "type": "investigation_and_negotiation",
+    "npcs": [
+      {
+        "name": "The Gullion",
+        "role": "an ancient pond-spirit who has started carrying off sheep and now people — not malicious, reacting to disturbance from Forest Trolls"
+      },
+      {
+        "name": "Unnamed shepherd witness",
+        "role": "saw the Gullion; found weeping in a ravine; can describe it"
+      }
+    ],
+    "problem": "Something is carrying off sheep from the White Downs — not killing them, carrying them off whole. Two shepherds and a bounty-hunter have disappeared. One survivor was found weeping in a ravine and says he heard something galloping under the moon, laughing 'gulla, gulla, gulla.' The locals are calling it the Gullion. Michel Delving wants it stopped.",
+    "decisions": [
+      {
+        "moment": "Talking to the survivor — he is coherent but still frightened",
+        "situation": "A capable man reduced to sitting with his back against a wall and watching the door. His account is consistent and specific.",
+        "options": [
+          {
+            "label": "Hear the full account without hurrying him",
+            "check": "social",
+            "difficulty": 2,
+            "requires": null
+          },
+          {
+            "label": "Ask specifically about the direction it came from and went to",
+            "check": "perception",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Ask if he heard it enter from the Mistvale — the pond there is unusual",
+            "check": "lore",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The Gullion came from and returned to the Mistvale. The description — mud and pondweed, eyes like green swampfire — is consistent with a very old pond spirit. Forest Trolls moved into the area recently, which may have disturbed it.",
+          "partial": "Came from the Mistvale direction, definitely. An ancient water creature, possibly. The Troll connection is unclear.",
+          "failure": "He can tell you it came from the dark. This is not very useful."
+        }
+      },
+      {
+        "moment": "At the Mistvale pond — the Gullion is present and aware of you",
+        "situation": "A pair of eyes the size of saucers, glowing green, looking up from the pond. Arms that stretch wrong. It has not attacked. It seems curious.",
+        "options": [
+          {
+            "label": "Speak to it — it knows songs and lore back to the first rising of the sun",
+            "check": "lore",
+            "difficulty": 5,
+            "requires": null
+          },
+          {
+            "label": "Mention the name 'Fawnwiddy' — the module notes this reduces the Gullion to tears",
+            "check": "lore",
+            "difficulty": 6,
+            "requires": "research on Mistvale spirits OR fortunate knowledge"
+          },
+          {
+            "label": "Offer to address the Troll disturbance in exchange for it stopping the abductions",
+            "check": "social",
+            "difficulty": 5,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "A deal is struck. The Gullion stops taking sheep and people. You undertake to deal with the Forest Trolls — or at minimum, ask them to move their camp to the south side of the Mistvale.",
+          "partial": "The Gullion is distressed but not entirely cooperative. It will stop the abductions for now but the underlying problem (the Trolls) remains.",
+          "failure": "The Gullion challenges you to one of three contests — knowledge, strength, or riddling. You must choose which to accept."
+        }
+      }
+    ],
+    "shadow_modifier": "mid/high shadow: the Gullion is warier and harder to approach peacefully.",
+    "energy_modifier": null,
+    "inventory_modifier": null,
+    "difficulty": "medium",
+    "resolution": "The sheep stop disappearing. The missing people are returned (alive — it was only carrying them to its lair out of curiosity). Michel Delving is relieved. The Forest Trolls are still technically a problem.",
+    "hooks": [
+      "The bounty posted in Michel Delving: 'Information sought regarding creature taking livestock from White Downs.'",
+      "A shepherd's crook lying in a field with no shepherd near it, and tracks leading toward the Mistvale."
+    ]
+  },
+  {
+    "id": "shire_s08",
+    "scale": "short",
+    "region": "The Shire — Marish, Eastfarthing",
+    "location": "The edge of the Marish near Woodhall",
+    "place": "The marshes, Stock Brook ford, and the nearby settlements",
+    "type": "investigation",
+    "npcs": [
+      {
+        "name": "Euric Thuigildsun",
+        "role": "village patriarch of Rushy, practical and fair, concerned about missing livestock and now missing people"
+      },
+      {
+        "name": "unnamed Rivermen (absent)",
+        "role": "marsh-rat hunters who have quietly left the area — their absence is itself a clue"
+      }
+    ],
+    "problem": "The Marish is going wrong. Cattle are disappearing in pieces. A bedroll shows blood splattered ten feet up a tree. A message scratched in blood on a fallen trunk. The Rivermen who usually roam these marshes have all gone south on 'pressing business.' The Hobbits who were draining and settling the Marish are barring their doors.",
+    "decisions": [
+      {
+        "moment": "The camp investigation — a drover's bedroll, blood, a tree",
+        "situation": "The evidence is specific and unpleasant. Something came out of the water.",
+        "options": [
+          {
+            "label": "Follow the trail of torn water-weeds up the stream",
+            "check": "tracking",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Ask the village elders what old names are associated with this part of the Marish",
+            "check": "social",
+            "difficulty": 2,
+            "requires": null
+          },
+          {
+            "label": "Read the message on the tree — determine if it's a warning or something else",
+            "check": "lore",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The trail leads southwest. The village elders mention Nackers and Nifflers, the River Woman, the Mudling Annis — old names for things that lived here in the bad old days. The message is a territorial mark.",
+          "partial": "Southwest is the direction. The old names mean something but you cannot fully place them.",
+          "failure": "The trail disappears at the stream. The old names mean nothing you can use. The disappearances continue."
+        }
+      },
+      {
+        "moment": "The Undermarsh — the source of the attacks",
+        "situation": "A network of underground passages below the marshland, where the Nackers have been for a very long time and have recently been disturbed by the draining work.",
+        "options": [
+          {
+            "label": "Negotiate — these creatures have a reason for their attacks, and it may be addressable",
+            "check": "courage",
+            "difficulty": 6,
+            "requires": null
+          },
+          {
+            "label": "Seal the main tunnel entrance and alert the settling families to stay away from that section",
+            "check": "survival",
+            "difficulty": 5,
+            "requires": null
+          },
+          {
+            "label": "Drive them out of this section of the Marish entirely — push them east",
+            "check": "combat",
+            "difficulty": 7,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "An agreement: the Hobbit draining stops at a specific boundary. The Nackers stay in their territory. Both sides have something they can live with. The Rivermen can come back.",
+          "partial": "The immediate attacks stop. The Marish boundary is unclear and will need to be renegotiated.",
+          "failure": "The Nackers are angrier now. The attacks become more targeted and less random."
+        }
+      }
+    ],
+    "shadow_modifier": "mid/high shadow: the Nackers of the Undermarsh are more aggressive and the negotiation option is not available — they can sense something wrong.",
+    "energy_modifier": "depleted energy: the underground environment and the combat option both require full capacity.",
+    "inventory_modifier": "torch or light source: required for the underground section.",
+    "difficulty": "medium",
+    "resolution": "The Marish is safe to settle — in the sections agreed upon. The cattle stop disappearing. The Rivermen come back. Euric Thuigildsun names a section of the newly-drained land after you, which is the Hobbit equivalent of a parade.",
+    "hooks": [
+      "Euric Thuigildsun stops every traveler: 'You look like someone who handles unusual problems.'",
+      "A blood-scratched message on a fallen tree at the roadside, in a script that is not any language you recognize."
+    ]
+  },
+  {
+    "id": "shire_m01",
+    "scale": "medium",
+    "region": "The Shire (Siragale) — multiple locations",
+    "location": "Various villages throughout the Shire on the road",
+    "place": "Inn at the start; multiple villages and farmsteads along the route",
+    "type": "escort_and_diplomatic_protection",
+    "npcs": [
+      {
+        "name": "Camarina (Queen Liriel)",
+        "role": "traveling in disguise; her real mission concerns the political future of Arthedain"
+      },
+      {
+        "name": "Duinhir ('Master Thoughtwell')",
+        "role": "silent bodyguard; one of the most capable warriors in the west"
+      },
+      {
+        "name": "Garda",
+        "role": "Elvish warrior assigned to protect Camarina; does not know her real identity"
+      },
+      {
+        "name": "Gandalf the Grey",
+        "role": "arranged this situation; not present but his hand is visible to those who know what to look for"
+      }
+    ],
+    "problem": "A noble lady needs to travel from one end of the Shire to the other without official contacts or revealing her identity. People keep recognizing that she is not ordinary despite her disguise. A clan war has erupted along the intended route. A contingent of ruffians affiliated with the Cor Mergylair is watching the road. Garda doesn't know what she's actually guarding.",
+    "decisions": [
+      {
+        "moment": "Day 1 — the clan war on the road",
+        "situation": "The route passes through a village where two Hobbit clans are in active dispute. Not weapons-drawn yet but close. Camarina needs to pass through without becoming an incident.",
+        "options": [
+          {
+            "label": "Mediate the dispute enough to create a window — use the Blanco Fallohide method",
+            "check": "social",
+            "difficulty": 5,
+            "requires": null
+          },
+          {
+            "label": "Take the longer path around — adds a day but avoids the village entirely",
+            "check": null,
+            "difficulty": 0,
+            "requires": null
+          },
+          {
+            "label": "Move through fast with Duinhir visible — the presence of an armed Dúnedain may quiet things temporarily",
+            "check": "deception",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "Through without incident. Camarina observes the situation carefully — she is collecting information, not just traveling.",
+          "partial": "Through but the clans both send someone to follow the party for a while. Duinhir notices.",
+          "failure": "The party becomes the incident. A shouting match involves them whether they want it to or not."
+        }
+      },
+      {
+        "moment": "Day 2 — someone has recognized Camarina, or close enough to be dangerous",
+        "situation": "A Hobbit innkeeper has been asking very specific questions about where the party is going and who the lady is. His questions are too specific for ordinary curiosity.",
+        "options": [
+          {
+            "label": "Have a private conversation with the innkeeper — establish what he thinks he knows",
+            "check": "perception",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Leave before morning without explanation",
+            "check": "stealth",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Camarina handles this herself — she's been managing this kind of attention for decades",
+            "check": null,
+            "difficulty": 0,
+            "requires": "Camarina's trust established"
+          }
+        ],
+        "outcomes": {
+          "success": "The innkeeper is curious but not dangerous. He knows she is important and has been told to note such people by someone whose identity you now know.",
+          "partial": "The party leaves before he can report. Whoever asked him to watch is now one step behind.",
+          "failure": "A message goes out. The ruffians on the road ahead are now specifically looking for a noble lady traveling with a large silent man."
+        }
+      },
+      {
+        "moment": "Day 3 — the ruffians on the road ahead",
+        "situation": "Three men at a crossroads who are very interested in the party.",
+        "options": [
+          {
+            "label": "Duinhir deals with it",
+            "check": "combat",
+            "difficulty": 5,
+            "requires": null
+          },
+          {
+            "label": "Reroute through Tookland — they will not follow into Isumbras' territory",
+            "check": "lore",
+            "difficulty": 3,
+            "requires": "knowledge of Shire politics"
+          },
+          {
+            "label": "Talk your way through — you have a more plausible story than they have authority to contradict",
+            "check": "deception",
+            "difficulty": 5,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The mission completes. Camarina reaches her destination. Garda learns, at the end, who she was actually guarding. Her fury at Gandalf is spectacular and entirely justified.",
+          "partial": "Mission completes but the Cor Mergylair connection is now aware of the party's presence in the Shire.",
+          "failure": "Duinhir is injured. The mission requires a delay and a change of route. Camarina takes charge of the planning."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: Duinhir watches you as much as the threats. A character with high shadow was not part of Gandalf's plan.",
+    "energy_modifier": "depleted energy: the three-day push is harder; one option per day becomes unavailable.",
+    "inventory_modifier": null,
+    "difficulty": "medium",
+    "resolution": "Camarina completes her mission. The Shire's political future is slightly more secure. Garda's reaction to learning the truth is memorable. Gandalf is not available to explain himself."
+  },
+  {
+    "id": "shire_l01",
+    "scale": "large",
+    "region": "The Shire (Siragale) — Southfarthing and scattered throughout",
+    "location": "Multiple locations: farmsteads, an abandoned orchard, the Birchune Close, a cave beneath a hill",
+    "place": "The Cor Mergylair's scattered presence throughout the Shire",
+    "type": "investigation_and_disruption",
+    "npcs": [
+      {
+        "name": "Maitlow",
+        "role": "the weakest link — genuinely frightened, addicted, operating at the edge of his capacity"
+      },
+      {
+        "name": "Mistress Greenleaf (unnamed elder woman)",
+        "role": "one of the senior Cor Mergylair members, respected in the community, completely unsuspected"
+      },
+      {
+        "name": "Turoth and Roane (unnamed)",
+        "role": "other Cor Mergylair members — more capable than Maitlow, less accessible"
+      },
+      {
+        "name": "Fercha the Spirit-Wolf",
+        "role": "the Cor Mergylair's most dangerous asset — an evil Maia remnant operating as their enforcer"
+      },
+      {
+        "name": "Molly Boffin",
+        "role": "the person who first noticed something was wrong; a credible ally"
+      },
+      {
+        "name": "Eundiel of Siragale",
+        "role": "Elvish guardian who knows more about Fercha than she has said"
+      }
+    ],
+    "problem": "A coven of dark magic practitioners is secretly operating in the Shire. Their goal is to prevent the Hobbits from effectively running their own Shire — they serve the broader interests of shadow, not any specific political faction. They work through curses, poisoned wells, bribed officials, and Fercha. They cannot be confronted publicly because their members are in positions of community trust and would be disbelieved. Evidence must be gathered before any action can be taken.",
+    "arc": [
+      {
+        "phase": "Discovery — the pieces don't fit",
+        "decisions_summary": "Apparently unrelated incidents begin to form a pattern. A poisoned well. A surveyor under a geas. An arsonist using fire-spirit cover. The party can begin connecting them through investigation in multiple villages, or through Molly Boffin who has been tracking the pattern from the midwife's perspective. The question is whether to go public with partial evidence or wait for the complete picture.",
+        "key_checks": [
+          "perception (noticing the pattern)",
+          "social (earning Molly's trust)",
+          "lore (identifying the magic signatures)"
+        ]
+      },
+      {
+        "phase": "Maitlow — the weakest link",
+        "decisions_summary": "Maitlow is the most accessible member of the coven and the most unstable. He can be turned — he was never fully committed and he is afraid of what he has gotten into. Peony Goodwin is his housekeeper and she knows something is wrong. The challenge is getting Maitlow to talk without alerting the rest of the Cor Mergylair, who will act against him (and anyone he has talked to) if they suspect a breach.",
+        "key_checks": [
+          "social (gaining Maitlow's trust)",
+          "stealth (the meetings must be private)",
+          "deception (managing what the rest of the coven sees)"
+        ]
+      },
+      {
+        "phase": "Fercha — the coven's enforcer",
+        "decisions_summary": "Fercha cannot be fought with ordinary weapons. He can be driven back through Elvish items (Eundiel has one), through Tom Bombadil's influence (requires traveling to the Old Forest), or through understanding his specific nature. The Cor Mergylair will deploy him when they realize the party is closing in. His presence is the hardest part of any direct action against the coven.",
+        "key_checks": [
+          "lore (understanding Fercha's nature)",
+          "courage (his presence is physically unpleasant)",
+          "social (negotiating with Eundiel or Bombadil for help)"
+        ]
+      },
+      {
+        "phase": "Dismantling the coven",
+        "decisions_summary": "The evidence is gathered. The party must decide how to act: quietly, through Berethar Redlands and the shirriff corps with a prepared case; publicly, through Marcho or Blanco Fallohide at the Shire-moot with the risk of being disbelieved; or directly, confronting each member individually. Each approach has different costs and benefits. Mistress Greenleaf is the hardest case — respected, powerful, and extremely difficult to expose without ironclad evidence.",
+        "key_checks": [
+          "social (presenting the case credibly)",
+          "deception (if the direct approach)",
+          "endurance (the shirriff route takes time the coven may not give)"
+        ]
+      }
+    ],
+    "shadow_modifier": "The Cor Mergylair can sense shadow. High-shadow characters are more visible to their network. Fercha responds more strongly to them.",
+    "energy_modifier": "This adventure requires sustained effort over multiple days. Depleted energy at any phase reduces available options.",
+    "inventory_modifier": "Elvish items: effective against Fercha. Written evidence: required for the shirriff route. A goodwill gift for Tom Bombadil if that route is taken.",
+    "difficulty": "high",
+    "resolution": "The Cor Mergylair is disrupted — not destroyed, disrupted. Some members flee, some are exposed, Fercha withdraws. The Shire is safer. Molly Boffin names a remedy after the party. Berethar adds several entries to the shirriff record. Marcho calls it 'a significant inconvenience to hostile interests' which is about as much credit as he gives anyone."
+  }
+]

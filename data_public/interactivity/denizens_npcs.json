@@ -1,0 +1,368 @@
+[
+  {
+    "id": "npc_ulgar_resticsard",
+    "name": "Ulgar Resticsard",
+    "race": "Northman",
+    "gender": "male",
+    "profession": "Village founder and leader / General store owner",
+    "region": "Eastern Mirkwood edge",
+    "location": "Ulgarstat — the general store (building 7), which also serves as tavern and his home",
+    "allegiance": "free_peoples",
+    "description": "A plain man with thinning grey hair and piercing grey eyes, average in height and weight. Despite his ordinary appearance, Ulgar is very charismatic — charming, persuasive, and a dynamic leader. He has led Ulgarstat for seven years, respected for his fairness and wise decisions. He is also noted for his ability to brew a top-quality beer.",
+    "personality": "Fair, wise, and deeply pragmatic. He has faced the spider crisis without hysteria, methodically ruling out the obvious explanations and accepting that he needs outside help. He is honest about what he does not know. He genuinely cares about his people — the disappearances of the peddler and the three young hunters have affected him personally.",
+    "strengths": [
+      "Community knowledge — knows every family, farm, and path within range of Ulgarstat",
+      "Leadership without force — holds a diverse community together through respect, not authority",
+      "Practical intelligence — good at ruling out wrong explanations and identifying what is actually unknown",
+      "Hospitality — will provide food, lodging, and supplies to adventurers who help"
+    ],
+    "weaknesses": [
+      "No combat skill — a third-level warrior but not a fighter by nature",
+      "Limited range — his knowledge and influence end at Ulgarstat's surroundings",
+      "The disappearances have made him anxious — he may overstate the urgency to those he is asking for help"
+    ],
+    "dialogue_seed": "He is straightforward and admits what he does not know. He presents the multiple theories the townspeople hold (bandits, wolves, bears) before saying he has ruled them all out and cannot explain what is happening. He asks questions about the party's experience before explaining what he needs. He pays in what he has — food, lodging, supplies, and eventually coin."
+  },
+  {
+    "id": "npc_runnal_resticsard",
+    "name": "Runnal Resticsard",
+    "race": "Northman",
+    "gender": "male",
+    "profession": "Ulgar's second son / captive of the Giant Spiders",
+    "region": "Eastern Mirkwood edge",
+    "location": "Spider lair (location 5 — cocooned, hanging fifteen feet off the ground)",
+    "allegiance": "free_peoples",
+    "description": "Incredibly handsome, very blonde, very blue-eyed, tall and muscular with perfect features and a regal bearing. Universally loved not only for his exceptional good looks but also for his sunny disposition, sweet nature, courage, and charisma. Unfortunately, Runnal is not as smart as either of his parents. His intelligence is average. When stressed, he tends to stammer.",
+    "personality": "Brave, warm, devoted. He is desperately in love with Currael Wessuntha and will do anything in his power to save her from harm. His limitations are physical — he can barely walk when rescued and will insist on saving Currael before accepting help himself.",
+    "strengths": [
+      "Physical capability — first-level ranger, better than his apparent fragility suggests",
+      "Courage — will not abandon Currael regardless of his own condition",
+      "Local knowledge — grew up near the forest edge, knows the path to Wessun's farm"
+    ],
+    "weaknesses": [
+      "Low intelligence — average at best; stammers under stress",
+      "Condition on rescue — in very poor shape after the spider's venom; can barely walk",
+      "Devotion to Currael — his first priority is her, which complicates any rescue"
+    ],
+    "dialogue_seed": "When first rescued he is barely coherent from the venom and exhaustion. Once minimally recovered his first words are about Currael. He speaks simply, in short sentences. When stressed he stutters on the first syllable of words that start with consonants."
+  },
+  {
+    "id": "npc_currael_wessuntha",
+    "name": "Currael Wessuntha",
+    "race": "Northman",
+    "gender": "female",
+    "profession": "Farmer's daughter / captive of the Giant Spiders",
+    "region": "Eastern Mirkwood edge",
+    "location": "Spider lair (location 5 — cocooned alongside Runnal)",
+    "allegiance": "free_peoples",
+    "description": "The oldest child of Wessun Fraelsen. Tall, slender, and deceptively frail-looking, with golden hair, expressive green eyes, and a rose-bud complexion. As lovely as Runnal is handsome. Reams of bad poetry have already been written about her smile. She has all the intelligence and fire that Runnal lacks: a quick wit and a quick temper that she regains as quickly as she loses it.",
+    "personality": "Intelligent, spirited, warm. She is generally so sweet-natured that few people remain angry with her. As devoted to Runnal as he is to her. When rescued she will be in very poor shape but more mentally alert than Runnal — she processes her situation faster and will be asking useful questions sooner.",
+    "strengths": [
+      "Intelligence — quick wit; will understand the situation faster than Runnal",
+      "Leadership — has a natural leadership skill even at first level",
+      "Agility — deceptively capable physically despite her appearance",
+      "Local knowledge — farmer's daughter who knows the land around Wessun's farm"
+    ],
+    "weaknesses": [
+      "Condition on rescue — in very poor shape; can barely walk",
+      "Quick temper — brief but genuine; can create friction at inopportune moments"
+    ],
+    "dialogue_seed": "More articulate than Runnal when rescued. Her first concern is also Runnal, but once she has confirmed he is alive she immediately starts asking practical questions: who are you, how did you find us, what is the situation outside. She speaks quickly and directly when her mind is working properly."
+  },
+  {
+    "id": "npc_wessun_fraelsen",
+    "name": "Wessun Fraelsen",
+    "race": "Northman",
+    "gender": "male",
+    "profession": "Farmer — Ulgarstat's northern neighbor",
+    "region": "Eastern Mirkwood edge",
+    "location": "Wessun's farm — on the path north of Ulgarstat, seven miles from the village",
+    "allegiance": "free_peoples",
+    "description": "Tall and broad, a huge sunburned blonde. Looks like a farmer — very muscular and fairly weatherbeaten, slow to speak but usually quick to laugh. Wessun and Ulgar are old friends who have grown even closer because of the engagement of their children.",
+    "personality": "Steady, slow-to-speak, honest. His main asset is his friendship with Ulgar and his intimate knowledge of his farm and the path between it and Ulgarstat. He is not particularly useful in a crisis except as a guide and a source of basic information.",
+    "strengths": [
+      "Local terrain knowledge — knows every inch of the path and surrounding woods",
+      "Physical capability — large and strong",
+      "Trustworthy — will not mislead or exaggerate"
+    ],
+    "weaknesses": [
+      "Single skill (Farming 55) — not much else",
+      "Distraught about Currael — his emotional state limits his usefulness when she is missing"
+    ],
+    "dialogue_seed": "Slow to speak, few words. He confirms facts but does not elaborate. He can lead someone to the point where the wagon tracks disappeared into the forest. He does not theorize — he states what he saw."
+  },
+  {
+    "id": "npc_sigmar",
+    "name": "Sigmar",
+    "race": "Northman",
+    "gender": "male",
+    "profession": "Blacksmith of Ulgarstat",
+    "region": "Eastern Mirkwood edge",
+    "location": "Ulgarstat — the smithy (building 6)",
+    "allegiance": "free_peoples",
+    "description": "One of Ulgar's closest friends and helped found Ulgarstat. Short but extremely muscular, a blonde green-eyed man, very quiet but very intelligent. Owns a chain shirt and a hammer that is a family heirloom. He is courting Ulgar's oldest daughter.",
+    "personality": "Quiet, intelligent, capable. He is the most practically useful person in Ulgarstat for an adventuring party — he can make or repair weapons and equipment. His silence should not be mistaken for disengagement; he notices everything.",
+    "strengths": [
+      "Smithing (110) — can make virtually any tool, and non-magical weapons with up to +15 OB",
+      "Woodcarving (30) — secondary craft skill",
+      "Combat capable — third level warrior with a hammer that is a family heirloom (+5 OB)",
+      "Intelligent — will understand the party's situation quickly and advise practically"
+    ],
+    "weaknesses": [
+      "Very quiet — will not volunteer information; must be asked",
+      "Non-combatant by default — his value is in his craft, not fighting"
+    ],
+    "dialogue_seed": "Speaks only when he has something useful to say. When asked about weapons or equipment, becomes precise and detailed. When asked about the disappearances, states what he has observed without theory. The family heirloom hammer is not for sale; he will not discuss it."
+  },
+  {
+    "id": "npc_guntar_resticsard",
+    "name": "Guntar Resticsard",
+    "race": "Northman",
+    "gender": "male",
+    "profession": "Ulgar's second son / envoy to Esgaroth",
+    "region": "Esgaroth (Laketown)",
+    "location": "The Vodagarazun inn in Esgaroth — with Aescstan, posting notices for adventurers",
+    "allegiance": "free_peoples",
+    "description": "Fair and medium-height, Guntar is noted for his good judgment. One of the young men Ulgar sent to Esgaroth to hire adventurers after the disappearances began.",
+    "personality": "Sensible and honest. He and Aescstan are looking for honest (relatively), brave, and experienced adventurers — specifically at least one Ranger or Scout who can track, and at least one doughty Warrior. They would prefer inexperienced adventurers they can trust over experienced ruffians.",
+    "strengths": [
+      "Good judgment — will assess the party's reliability accurately",
+      "Knows Ulgarstat — can brief adventurers thoroughly on the situation"
+    ],
+    "weaknesses": [
+      "First level — not a combatant",
+      "Anxious — the situation at Ulgarstat is weighing on him"
+    ],
+    "dialogue_seed": "Businesslike. He explains the situation clearly and completely, including the theories the townspeople hold and why they seem wrong. He asks about the party's specific skills. He offers 100 gp for destroying whatever is responsible, plus 50 gp each for the safe return of Runnal and Currael. He will accompany the party back to Ulgarstat."
+  },
+  {
+    "id": "npc_merchant_eolsen",
+    "name": "Thal Eolsen",
+    "race": "Northman (Laketown — Dúnadan and Haradan blood)",
+    "gender": "male",
+    "profession": "Merchant of Esgaroth (Laketown)",
+    "region": "Esgaroth (Laketown) and the Men-i-Naugrim",
+    "location": "His store in Laketown — hiring adventurers",
+    "allegiance": "free_peoples",
+    "description": "A tall, forbidding man in his late forties with black hair and a bushy black beard. Exceptionally tall and broad, with black piercing eyes and a gruff voice — though he actually speaks quietly, as big as he is, he has no need to raise his voice. He trades with people of all races: Dwarves in the Iron Hills, Elves and Men in Mirkwood, Northmen and Gondorians in Nan Anduin.",
+    "personality": "Has a reputation for dealing fairly with good hirelings and for harshness towards those who try to cheat him. He is a wealthy man who can survive the loss of this particular shipment, but much of his livelihood depends on keeping the Men-i-Naugrim road open. He is willing to pay well, equip the party generously, and is genuinely anxious to keep the road functional.",
+    "strengths": [
+      "Resources — will equip the party with horses, ponies, wagons, herbs, and a first-aid kit",
+      "Intelligence about the route — knows the Men-i-Naugrim and its hazards well",
+      "Rothaar — his caravan leader survived and will guide the party back"
+    ],
+    "weaknesses": [
+      "Not a combatant — stays in Esgaroth",
+      "The magic box — will not tell the party it contains mithril and gems; will only tell them it will explode if opened by the wrong person"
+    ],
+    "dialogue_seed": "Direct and businesslike. Explains the situation without embellishment. States what he wants (return of goods, rescue of survivors), what he will pay (500 gp for all possessions, 300 gp for the box alone), and what he will provide (equipment, Rothaar as guide). He does not lie, but he withholds the contents of the box deliberately."
+  },
+  {
+    "id": "npc_rothaar_one_leg",
+    "name": "Rothaar One-Leg",
+    "race": "Northman (born in Mirkwood, lives in Laketown)",
+    "gender": "male",
+    "profession": "Caravan leader / Mirkwood guide",
+    "region": "The Men-i-Naugrim and Mirkwood",
+    "location": "Esgaroth — with Merchant Eolsen; will lead party to the Troll lair",
+    "allegiance": "free_peoples",
+    "description": "A burly, green-eyed, bearded redhead in his late thirties. Born in Mirkwood, has lived in Laketown for twenty years and supervised shipping for Merchant Eolsen for fifteen of those. Lost his right lower leg seven years ago protecting one of Eolsen's shipments from Orcs. Walks and rides with a wooden leg. A big and powerful man who is still a vicious fighter despite the injury. Favorite weapon is a war hammer but equally skilled with a long bow. Has a surprisingly loud, hearty laugh for so quiet a man — and no one has ever seen him even slightly drunk.",
+    "personality": "Conscientious, loyal, non-talkative. Will advise the party, knows the forest well, and will do his best to rescue any surviving hirelings. Detests Trolls and will want to kill all four. Will not rob or betray Merchant Eolsen under any circumstances.",
+    "strengths": [
+      "Mirkwood knowledge — has traveled through it many times; knows trails, hazards, poisonous plants, bad water",
+      "Combat capable — seventh level, war hammer specialist, effective long-bow backup",
+      "Tracking — will recognize Troll tracks and know what they mean",
+      "Ring of Healing — heals 3 hits per round and 1 pt of bleeding per round; heals any other physical damage at 10x normal rate"
+    ],
+    "weaknesses": [
+      "The wooden leg — no bonus to climbing walls, cliffs, or sheer surfaces despite otherwise good climbing",
+      "Non-communicative — won't chat; advises when asked, stays quiet otherwise",
+      "Hatred of Trolls — his personal animus may make him less cautious than the situation warrants"
+    ],
+    "dialogue_seed": "Does not talk much. He is willing to advise, but won't chat about himself or anything else. Usually serious, but enjoys a good joke. When he speaks about the forest it is with the precision of someone who has survived it for decades: specific distances, specific dangers, specific warnings about water sources near the Troll lair. His few words carry weight."
+  },
+  {
+    "id": "npc_elisa",
+    "name": "Elisa",
+    "race": "Northman",
+    "gender": "female",
+    "profession": "Rothaar's second-in-command / caravan guard",
+    "region": "Men-i-Naugrim — Troll lair (prison, room 7)",
+    "location": "Troll lair prison — alive, captive",
+    "allegiance": "free_peoples",
+    "description": "Rothaar's second-in-command. Unlike Rothaar, normally loquacious and witty — though these qualities won't be obvious when she is first rescued. Like Rothaar, she is conscientious, loyal to Merchant Eolsen, and a fierce warrior. The Trolls took her prisoner by hitting her over the head and knocking her out; otherwise she would have died defending the caravan. Has worked for Merchant Eolsen for seven years.",
+    "personality": "Fierce, loyal, quick-witted. When rescued she will be at -60 to all activities from weakness and wounds. Once minimally recovered she will immediately assess the situation and want to help — she is not the type to be carried out passively.",
+    "strengths": [
+      "Combat — third level warrior, capable once recovered",
+      "Knowledge of the attack — knows exactly what happened to the caravan",
+      "Loyalty — will not betray Eolsen or Rothaar regardless of pressure"
+    ],
+    "weaknesses": [
+      "Condition on rescue — severely weakened; -60 to all activity until treated and rested",
+      "Head injury — may have gaps in her immediate memory of the attack"
+    ],
+    "dialogue_seed": "When first rescued: disoriented, in pain, minimal speech. Once slightly recovered: immediately asks about Rothaar, asks how many Trolls there are, asks about the box in the wagon. Her wit returns before her strength does — she will make a dry comment about the situation before she can stand up properly."
+  },
+  {
+    "id": "npc_marluk",
+    "name": "Marluk",
+    "race": "Northman",
+    "gender": "male",
+    "profession": "Caravan guard (first assignment)",
+    "region": "Men-i-Naugrim — Troll lair (prison, room 7)",
+    "location": "Troll lair prison — alive, captive",
+    "allegiance": "self_interested",
+    "description": "A first-level warrior. This is his first assignment and likely his last. After his encounter with the Trolls, Marluk has decided that if he survives he will give up guarding caravans and become a farmer, so he can remain at home, sleep in a bed, eat warm meals, and never see another Troll as long as he lives.",
+    "personality": "Traumatized and completely done with adventure. Has completely lost any loyalties he once had. Will not fight to protect the box or Eolsen's goods. If a fight breaks out he will run, walk, or crawl away — whatever his condition allows.",
+    "strengths": [
+      "Knows the prison layout — has been there long enough to observe the Trolls' patterns",
+      "Alive — which is more than can be said for his companions"
+    ],
+    "weaknesses": [
+      "Zero loyalty — will not put himself at any risk for Eolsen's interests",
+      "Condition on rescue — severely weakened",
+      "No combat value — will flee at the first opportunity"
+    ],
+    "dialogue_seed": "Speaks quietly and with the specific flatness of someone who has decided the world is trying to kill him. His plan is explicit: survive, become a farmer, never do this again. He will give information freely because he has nothing to protect and no reason to withhold anything. He does not complain — he has simply made a rational decision about his future."
+  },
+  {
+    "id": "npc_fradurag",
+    "name": "Fradurag",
+    "race": "Stone Troll",
+    "gender": "male",
+    "profession": "Troll band ringleader",
+    "region": "Mirkwood — Emyn-nu-Fuin",
+    "location": "Troll lair (room 10, Fradurag's Bedchamber) — when not out on business",
+    "allegiance": "enemy",
+    "description": "Average height for a Troll (10'3\"), but uglier than most. Tangled brown hair, protuberant black eyes, grey hide, a cauliflower ear, a very large and very crooked nose, and no visible neck. In many ways typical — loves violence and eating, frequently finding ways to combine both pastimes. Extremely disagreeable, foul temper, incredibly strong. BUT: Fradurag has something most Trolls lack entirely — a modicum of intelligence. Capable of speaking in complete sentences. Occasionally, he even thinks. He masterminded a simple burglar alarm for the cave door using rustling leaves.",
+    "personality": "Violent, greedy, and dangerously smarter than he looks. His exceptional (for a Troll) intelligence makes him more dangerous than average Trolls — he plans ahead, minimally. The leaf alarm is the limit of his cleverness, but that limit is significantly above his companions. Carries a battleaxe that casts Protection II 3x/day — which he does not know how to use.",
+    "strengths": [
+      "Exceptional Troll intelligence — can speak, plan minimally, and react to changing situations",
+      "Fifteenth level — significantly more dangerous than the other three",
+      "The battleaxe — magical, though he cannot access its powers",
+      "The leaf pile alarm — will alert him to anyone approaching the cave entrance"
+    ],
+    "weaknesses": [
+      "Sunlight — will turn to stone if exposed; never willingly steps outside during daylight",
+      "The leaf alarm — has not noticed that decomposed leaves stop rustling",
+      "The chest — its alarm word ('Help, help!') will alert everyone nearby if the wrong person tries to open it"
+    ],
+    "dialogue_seed": "Speaks in complete sentences, which is startling from a Troll. Uses simple but grammatically correct Westron when he wants to threaten someone clearly. Has a foul temper that shows in his word choice. Does not negotiate — he is either going to eat you or he isn't, and this is decided quickly."
+  },
+  {
+    "id": "npc_troll_brothers",
+    "name": "Tumag, Tumag, and Urnik (the Troll band)",
+    "race": "Stone Troll",
+    "gender": "male",
+    "profession": "Fradurag's companions / bandits",
+    "region": "Mirkwood — Emyn-nu-Fuin",
+    "location": "Troll lair — various rooms",
+    "allegiance": "enemy",
+    "description": "Tumag and Tumag are twin brothers — their mother gave them the same name to prevent (or ensure?) confusion. Both are 10th level and 10 feet tall. Urnik is their younger brother, only 7th level and 8'3\" — not full-grown yet. All three lack Fradurag's modicum of intelligence and are, in every way, utterly terrible, hideous, violent, average Stone Trolls.",
+    "personality": "Tumag and Tumag: indistinguishable, aggressive, fight among themselves constantly over the privilege of sleeping in the back room (room 9). Urnik: slightly more cautious, often on guard duty, has been caught sleeping on duty so many times he is a light sleeper during the day. None of them have Fradurag's minimal planning capacity.",
+    "strengths": [
+      "Physical power — 10th and 7th level Stone Trolls",
+      "Numbers — three additional combatants alongside Fradurag"
+    ],
+    "weaknesses": [
+      "Sunlight — all turn to stone in direct sunlight",
+      "Sleep patterns — Urnik often asleep at the watchpost; Tumag and Tumag sleep soundly and rarely wake to quiet noise",
+      "Limited intelligence — cannot adapt to unexpected situations",
+      "Fight among themselves — can be provoked into internal conflict"
+    ],
+    "dialogue_seed": "Tumag and Tumag: shout. Primarily about food, each other, and whose turn it is to sleep in the better room. Urnik: fewer words, more cautious, will raise alarm if he wakes. None of them conduct conversations — they announce intentions (usually violent) and then act on them."
+  },
+  {
+    "id": "npc_grimbold",
+    "name": "Grimbold",
+    "race": "Beorning",
+    "gender": "male",
+    "profession": "Beorning warrior / mercenary",
+    "region": "Mirkwood and Esgaroth",
+    "location": "Esgaroth taproom — posting notices and waiting for adventurers one night",
+    "allegiance": "free_peoples",
+    "description": "A Beorning in his early thirties. Large, red-haired, and so hairy that, although he is not a shape-changer, he looks bear-like at all times. Speaks in a soft grumbling growl and has a disconcerting habit of staring at the person to whom he's speaking. Like other Beornings, he hates Wargs, Trolls, Dragons, and Giants; but he abhors Orcs. His parents and brother were killed by goblins when he was little more than a toddler. His sister escaped with his baby brother — killing Orcs is his personal quest.",
+    "personality": "A mercenary who will be fair about dividing the treasure, but fond of money and will want his share. His favorite weapon is a flail, though he uses almost all weapons with equal skill. Straightforward and honest — he overheard Orcs discussing the tithe, killed them, found the message, and is now looking for help to do something about it.",
+    "strengths": [
+      "Combat — sixth level Beorning warrior with +20 flail, +10 chain and greaves, +10 shield",
+      "Tracking — 36; ambush — 4; stalk/hide — 30",
+      "Forest survival — Foraging 30; grew up in Mirkwood environs",
+      "Intelligence about the tithe and Ilmaryen Keep — knows where it is and approximately what's in it"
+    ],
+    "weaknesses": [
+      "Single-minded hatred of Orcs — may push for direct combat when stealth would serve better",
+      "Fair but mercenary — will expect equal share of the treasure; this is non-negotiable",
+      "Not subtle — his appearance (bear-like) makes blending in difficult"
+    ],
+    "dialogue_seed": "Speaks in a soft grumbling growl that does not match his bear-like appearance. States his information directly: he overheard, he killed the Orcs, he found the message, he tracked down the tithe location, he needs help. Stares at whoever he is speaking to throughout the conversation. States his terms (fair division of treasure) before asking the party to agree. Does not haggle — the terms are what they are."
+  },
+  {
+    "id": "npc_marlurg",
+    "name": "Marlurg",
+    "race": "Lesser Orc (Blogrum-hai)",
+    "gender": "male",
+    "profession": "Korlagz-gottul (Lieutenant of the Jaws) at Ilmaryen Keep",
+    "region": "Emyn-nu-Fuin — Ilmaryen Keep",
+    "location": "Ilmaryen Keep — Korlagz-gottul's Quarters (room 14), with access to all first level",
+    "allegiance": "enemy",
+    "description": "The Korlagz-gottul (Lieutenant) at Ilmaryen Keep. Old for an Orc, but still quite strong. A little dull mentally, even for an Orc. His rise in power has been slow. Does have sufficient cunning to hold any position he attains. Firmly believes that discretion is the better part of valor — will not hesitate to flee if all seems hopeless.",
+    "personality": "Cautious, not brave. Will fight well with his Kragashard and shield while the odds are reasonable, but will always try to use his eight Kragnifrim (throwing knives) first before closing for combat. His armor includes a magical Elven cloak that he does not know is magical — it adds +75 to his hiding chances while stationary and +25 while moving slowly.",
+    "strengths": [
+      "The Elven cloak — +75 hiding while stationary (he has no idea why he's hard to spot)",
+      "Eight Kragnifrim — will throw before closing; +5 OB with them",
+      "Cunning — will assess odds before committing; will flee if losing"
+    ],
+    "weaknesses": [
+      "Dull — not going to improvise creatively",
+      "Cowardice as tactical option — will flee at the first clear sign of losing",
+      "The cloak — he does not know its powers, which means he does not exploit them actively"
+    ],
+    "dialogue_seed": "Speaks in rough Westron as needed for commands. Does not converse with enemies. His communication is functional: orders to the Korlagz he commands, shouted responses to alarm signals. If captured or cornered, may try to negotiate terms for his own survival."
+  },
+  {
+    "id": "npc_yagrash",
+    "name": "Yagrash",
+    "race": "Uruk-hai (Blogrum-hai)",
+    "gender": "male",
+    "profession": "Gothkorlagzrim (Master of the Jaws) — overall commander at Ilmaryen Keep",
+    "region": "Emyn-nu-Fuin — Ilmaryen Keep",
+    "location": "Ilmaryen Keep — Gothkorlagzrim's Quarters (room 20)",
+    "allegiance": "enemy",
+    "description": "The seventh-level Gothkorlagzrim at Ilmaryen — almost the opposite of Marlurg. An Uruk of exceptional ambition, young to be holding his current position, lacks both the strength and the intelligence to continue holding it. Though he seeks to rise still higher in the tribe hierarchy, he is proud of being Gothkorlagzrim and will almost certainly fight to the death to maintain that title (88% chance he will not flee).",
+    "personality": "Ambitious, proud, and overextended. He prefers to use his excellent war hammer and his Kragashard together, leaving his shield slung on his back. Has an invisible key (Very Hard, -25, to find) that opens one of the two treasure chests in the Treasure Room.",
+    "strengths": [
+      "Seventh level Uruk — significantly more dangerous than the lesser Orcs",
+      "+15 war hammer specialist",
+      "The invisible key — carries access to the main treasure and does not know the chest has an alarm",
+      "Combat pride — will fight to the death (88% chance), which makes him predictable but dangerous"
+    ],
+    "weaknesses": [
+      "Overambitious — his position exceeds his actual capability",
+      "The visible key problem — the key is invisible, which means he himself loses it occasionally (Very Hard to find on him)",
+      "Pride — will not retreat when pride is engaged (the 88% figure)"
+    ],
+    "dialogue_seed": "Commands in Black Speech and Orkish with occasional Westron for emphasis. Does not acknowledge the presence of intruders as a conversation — his response is direct combat. His pre-combat behavior is aggressive display: he moves toward threats and calls for his troops before engaging."
+  },
+  {
+    "id": "npc_hagrakh",
+    "name": "Hagrakh",
+    "race": "Lesser Orc (Blogrum-hai, Korlagz-drartul)",
+    "gender": "male",
+    "profession": "Korlagz sergeant at Ilmaryen Keep",
+    "region": "Emyn-nu-Fuin — Ilmaryen Keep",
+    "location": "Ilmaryen Keep — Korlagz-drartul's Quarters (room 13)",
+    "allegiance": "enemy",
+    "description": "One of the third-level Korlagz-drartul sergeants. Notable for being neater than average even by Orc standards. His room is tidy by Orcish standards — a notable exception to the general filth. His main distinguishing characteristic: a man-sized bag stuffed with straw hanging in the southeast corner of his room that he uses to practice with his Kragnifrim. Has innumerable small slits in the chest region from repeated knife practice.",
+    "personality": "Disciplined by Orc standards. He takes his knife-throwing seriously enough to maintain a training target. Receives +10 OB when using Kragnifrim. His Dwarf-made jeweled dagger (+5 OB) is kept in a locked chest.",
+    "strengths": [
+      "Kragnifrim specialist — +10 OB with throwing knives",
+      "Discipline — more likely to hold a post than the average Orc",
+      "The Dwarf-made dagger — quality weapon if he uses it"
+    ],
+    "weaknesses": [
+      "Third level — less dangerous than Marlurg or Yagrash",
+      "Predictable — his knife practice is audible through his door"
+    ],
+    "dialogue_seed": "Follows orders. Raises alarm when appropriate. Will shout for backup before engaging intruders alone if possible. No notable conversational habits."
+  }
+]

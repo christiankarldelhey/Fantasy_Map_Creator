@@ -1,0 +1,629 @@
+[
+  {
+    "id": "denizens_s01",
+    "scale": "short",
+    "region": "Eastern Mirkwood edge — near Ulgarstat",
+    "location": "Ulgarstat village / The Vodagarazun inn in Esgaroth",
+    "place": "The meeting hall or inn where Guntar and Aescstan are posting notices",
+    "type": "contact_and_supply",
+    "npcs": [
+      {
+        "name": "Guntar Resticsard",
+        "role": "Ulgar's son — hiring adventurers in Esgaroth for 100 gp plus 50 gp each for safe return of Runnal and Currael"
+      },
+      {
+        "name": "Aescstan",
+        "role": "Guntar's neighbor — joint interviewer, noted for good judgment"
+      }
+    ],
+    "problem": "Five people have disappeared from Ulgarstat and the surrounding area in recent months. The village cannot explain what is taking them — bandits, wolves, and bears have all been ruled out by Ulgar because there are no corpses, no tracks, no sign of struggle. Guntar and Aescstan have come to Esgaroth to hire people capable of finding out what is happening and stopping it.",
+    "decisions": [
+      {
+        "moment": "Meeting Guntar and Aescstan at the Vodagarazun",
+        "situation": "Two young Northmen at a table, nervous, with a posted notice. They will assess the party carefully before saying much.",
+        "options": [
+          {
+            "label": "Let them explain the situation fully before asking questions",
+            "check": "social",
+            "difficulty": 2,
+            "requires": null
+          },
+          {
+            "label": "Ask immediately about tracking — they said they need a Ranger or Scout",
+            "check": "lore",
+            "difficulty": 2,
+            "requires": "ranger OR scout character"
+          },
+          {
+            "label": "Ask what happened to each person who disappeared, specifically",
+            "check": "perception",
+            "difficulty": 3,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "Full picture: peddler disappeared 3 weeks ago, Runnal and Currael disappeared most recently after leaving Wessun's farm. Ulgar and Wessun tracked the wagon north but found nothing. Three hunters also missing. 100 gp offered plus 50 each for the young people.",
+          "partial": "The basic situation — people missing, forest involved, help needed. Missing the detail that Ulgar and Wessun already followed the trail partway.",
+          "failure": "Guntar and Aescstan are unconvinced by the party and reluctant to share details. They will still hire capable-seeming people but the briefing is minimal."
+        }
+      },
+      {
+        "moment": "Arriving in Ulgarstat — Runnal and Currael have just disappeared",
+        "situation": "The town is in turmoil. The two left Wessun's farm but never arrived. A search party went out and found nothing.",
+        "options": [
+          {
+            "label": "Ask Ulgar for everything he knows, including the abandoned wagon he found earlier",
+            "check": "social",
+            "difficulty": 2,
+            "requires": null
+          },
+          {
+            "label": "Talk to Wessun — he knows the path and when they left",
+            "check": "social",
+            "difficulty": 2,
+            "requires": null
+          },
+          {
+            "label": "Offer to start tracking immediately with Ulgar or Wessun as guide",
+            "check": "tracking",
+            "difficulty": 3,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "Wagon was found halfway up the northern trail, tracks leading into the forest. Ulgar or Wessun will escort them to that point. Party has a starting point.",
+          "partial": "Wagon location known. Escort available. No additional information about what is in the forest.",
+          "failure": "The trail from the inn is cold before the party organizes. Start from the village gate with only the direction."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: the village is already frightened; an intimidating-looking party increases their wariness. Guntar and Aescstan may not hire.",
+    "energy_modifier": null,
+    "inventory_modifier": "Crossbow bolts and arrows: Ulgar keeps a supply and will provide them for free to hired adventurers.",
+    "difficulty": "low",
+    "resolution": "Party is hired, briefed, and has a starting point for the trail. The short delivers the hook for the main adventure — the spider lair.",
+    "hooks": [
+      "A posted notice at the Vodagarazun inn in Esgaroth: 'Adventurers sought. Urgent matter. Apply to Guntar Resticsard, room 4.'",
+      "A rumor in the taproom: 'Those Ulgarstat boys are looking for someone who can track in Mirkwood. Whatever took their people didn't leave a trail anyone can follow.'"
+    ]
+  },
+  {
+    "id": "denizens_s02",
+    "scale": "short",
+    "region": "Eastern Mirkwood edge",
+    "location": "The forest path north of Ulgarstat / Approaching the spider lair",
+    "place": "The path from Ulgarstat to Wessun's farm (7 miles) and the web strands in the forest",
+    "type": "reconnaissance",
+    "npcs": [
+      {
+        "name": "Ulgar Resticsard (optional escort)",
+        "role": "can guide party to where the wagon was found, then will turn back"
+      },
+      {
+        "name": "Wessun Fraelsen (optional escort)",
+        "role": "knows the path; will go as far as the wagon's location"
+      }
+    ],
+    "problem": "The trail into Mirkwood leads north from Ulgarstat, enters the forest 1.5 miles from the village, and after 4 miles begins to have evidence of what is taking people. Web strands left by Giant Spiders are high in the trees, nearly invisible. Finding and following them leads to the lair. Not finding them means walking into an ambush.",
+    "decisions": [
+      {
+        "moment": "At the forest edge — the trees close in and the path becomes dense",
+        "situation": "1.5 miles into the forest, vegetation presses in from both sides. Web strands are present but extremely hard to spot (Extremely Hard, -30, Perception roll). Morning is better — sunlight reflects off dew on the strands.",
+        "options": [
+          {
+            "label": "Search actively for spider sign — slow movement but thorough",
+            "check": "perception",
+            "difficulty": 7,
+            "requires": null
+          },
+          {
+            "label": "Wait for early morning when the dew is on the webs",
+            "check": "endurance",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Continue on the main path and look for where it diverges toward the lair",
+            "check": "tracking",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "Web strands found. From here they are easy to follow (Light, +10, Tracking) west toward the lair. 450 yards west the wall of webs becomes visible.",
+          "partial": "Something is in the forest — broken branches, a wrong quality to the undergrowth. The lair's direction is approximately known but not precisely.",
+          "failure": "No sign found. The party continues north toward Wessun's farm, deeper into the hunting range of the Spiders. The Spiders know someone is coming."
+        }
+      },
+      {
+        "moment": "The wall of webs — 450 yards west of the path",
+        "situation": "A virtual wall of webs ten feet thick. Inside: five Giant Spiders, two cocooned captives, a refuse pile with treasure. Three approaches: cut through the outer webs, burn through them, or the hollow log entrance (Medium, -5, Perception to discover).",
+        "options": [
+          {
+            "label": "Find the hollow log — a natural entrance that bypasses the web wall",
+            "check": "perception",
+            "difficulty": 5,
+            "requires": null
+          },
+          {
+            "label": "Burn through the webs — fast (1000 cubic feet/round) but will alert the Spiders and risk the captives",
+            "check": "courage",
+            "difficulty": 4,
+            "requires": "fire starter in inventory"
+          },
+          {
+            "label": "Cut through the outer webs carefully — slow but quiet",
+            "check": "stealth",
+            "difficulty": 5,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The hollow log is found — its inner end opens directly into the clearing. Inside the web wall there is no web blocking this entrance. The Spiders, not having noticed the log is hollow, built their lair around it.",
+          "partial": "An approach method chosen but the Spiders may be alerted (if cut or burned) or not all present (if they're out hunting).",
+          "failure": "Contact with the webs alerts the Spiders. 01-75 chance of sticking to the web. The Spiders' immediate response is to divide and circle."
+        }
+      }
+    ],
+    "shadow_modifier": "mid/high shadow: Giant Spiders seem to have a heightened response to characters carrying significant darkness. The sticking chance increases.",
+    "energy_modifier": "depleted energy: cutting through the outer webs (100 damage points per 10x6x3 area) is exhausting work.",
+    "inventory_modifier": "fire starter: enables the burning approach. Cutting tool: required for the cutting approach.",
+    "difficulty": "medium",
+    "resolution": "Reconnaissance complete — approach method established, lair layout known. Sets up the rescue of Runnal and Currael.",
+    "hooks": [
+      "Ulgar mentions: 'When we tracked the wagon, we found it halfway up the path. The trees close in after that. Whatever took it went into the forest.'",
+      "A strand of web is visible high in the trees above the path, catching the morning light."
+    ]
+  },
+  {
+    "id": "denizens_s03",
+    "scale": "short",
+    "region": "Esgaroth (Laketown) and the Men-i-Naugrim",
+    "location": "Merchant Eolsen's shop in Esgaroth / The Men-i-Naugrim road",
+    "place": "Eolsen's shop where Rothaar has returned; the attack site on the road",
+    "type": "contact_and_supply",
+    "npcs": [
+      {
+        "name": "Merchant Eolsen",
+        "role": "hiring adventurers to recover his goods and any surviving hirelings — 500 gp for everything, 300 gp for the box alone"
+      },
+      {
+        "name": "Rothaar One-Leg",
+        "role": "sole survivor, will guide the party, knows the forest — essential ally"
+      }
+    ],
+    "problem": "Rothaar has returned to Esgaroth alone. His caravan was ambushed by Trolls on the Men-i-Naugrim, five of his companions are dead, two may be alive in the Troll lair. Merchant Eolsen's goods — including a magic box with mithril and gems inside — are in the Troll cave. Eolsen is hiring and Rothaar is the guide.",
+    "decisions": [
+      {
+        "moment": "Meeting Merchant Eolsen — he explains the situation",
+        "situation": "A large, forbidding man who speaks quietly and precisely. He will explain the situation, state his terms, and equip the party. He will not mention the box's contents — only that it will explode if opened by the wrong person.",
+        "options": [
+          {
+            "label": "Accept his terms and equip from his stock",
+            "check": null,
+            "difficulty": 0,
+            "requires": null
+          },
+          {
+            "label": "Ask about the magic box specifically — press for what is inside",
+            "check": "social",
+            "difficulty": 6,
+            "requires": null
+          },
+          {
+            "label": "Ask Rothaar privately what he knows about the box",
+            "check": "perception",
+            "difficulty": 4,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "Rothaar knows about the magic panel in the wagon bed — Eolsen told him in case of his death. He knows the box is 'more than it appears' but not the full contents. The party now knows the wagon has a hidden compartment.",
+          "partial": "The terms are accepted. The box is known to be dangerous if opened incorrectly. The hidden compartment is not known.",
+          "failure": "Basic briefing only. The party will find the wagon and its contents without advance knowledge."
+        }
+      },
+      {
+        "moment": "At the attack site on the Men-i-Naugrim",
+        "situation": "One smashed wagon, five Northman corpses, Troll tracks and wagon tracks leading north into the forest toward the Emyn-nu-Fuin.",
+        "options": [
+          {
+            "label": "Follow the Troll tracks — Rothaar can read them and advise on what lies ahead",
+            "check": "tracking",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Search the attack site carefully before following",
+            "check": "perception",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Ask Rothaar what he knows about the terrain ahead",
+            "check": "social",
+            "difficulty": 2,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "Rothaar confirms: four Stone Trolls by the tracks, the trail leads to the Emyn-nu-Fuin, the cave entrance is on a cliff face 50 feet high. Two survivors possible. Pool near the lair — do not drink from it.",
+          "partial": "Tracks confirmed, direction known, Troll count estimated. Missing the pool warning.",
+          "failure": "The trail is followed without Rothaar's full briefing. The pool by the lair will be a problem."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: Eolsen's assessment of the party is less favorable — he is cautious about who he hires.",
+    "energy_modifier": null,
+    "inventory_modifier": "Eolsen will provide horses, ponies, wagons, food, and a basic first-aid kit of healing herbs. No need to buy supplies.",
+    "difficulty": "low",
+    "resolution": "Party is hired, equipped, briefed, and has Rothaar as a guide. The short delivers the hook for the Troll lair objective.",
+    "hooks": [
+      "A notice posted at several inns in Esgaroth: 'Lost caravan. Adventurers hired. Inquire at Eolsen's Trading Post, east dock.'",
+      "Rothaar himself, identifiable by his wooden leg, sits at the bar looking like he has had a very bad week and is looking for people."
+    ]
+  },
+  {
+    "id": "denizens_s04",
+    "scale": "short",
+    "region": "Emyn-nu-Fuin — southern Mirkwood mountains",
+    "location": "The cliff face and path to the Troll lair",
+    "place": "The approach path (10 feet wide, ledge over a sheer drop), leaf pile alarm, cave entrance",
+    "type": "reconnaissance",
+    "npcs": [
+      {
+        "name": "Fradurag",
+        "role": "inside the lair — may be present or absent depending on time of approach"
+      },
+      {
+        "name": "Troll brothers (Tumag, Tumag, Urnik)",
+        "role": "inside the lair — various sleep/guard states depending on time of day"
+      },
+      {
+        "name": "Rothaar One-Leg",
+        "role": "advising on approach; will warn about the leaf pile and the pool"
+      }
+    ],
+    "problem": "The Troll lair is on a cliff face — the 10-foot-wide path up is exposed with no cover. The leaf pile at the entrance is Fradurag's alarm system (partially degraded due to decomposition but still functional). Trolls turn to stone in sunlight, which makes a daytime approach safer but they may be sleeping with one on guard. A nighttime approach has the Trolls active, out on business, or inside but alert.",
+    "decisions": [
+      {
+        "moment": "The path to the cave mouth — open, exposed, no cover",
+        "situation": "Normal conditions: Easy (+20) Moving Maneuver. Wet/icy: Hard (-20) to Extremely Hard (-30). One Troll usually on guard inside the entrance, asleep 60% of the day and 20% at night.",
+        "options": [
+          {
+            "label": "Approach during daylight — Trolls weakened by sunlight (-20 to all actions), guard likely asleep",
+            "check": "stealth",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Wait until the Trolls go out on their nocturnal business — approach the empty lair",
+            "check": "endurance",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Create a distraction to draw the guard outside where sunlight will affect it",
+            "check": "deception",
+            "difficulty": 5,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "Approach made with the guard asleep or absent. The leaf pile is noted — moving through it quietly requires a Hard (-20) Maneuver.",
+          "partial": "Approach made but the leaf pile is disturbed — the guard wakes. He will spend one round looking for his drumstick (to sound the alarm), then use a soup ladle against the barrel. The party has one round.",
+          "failure": "The alarm sounds. All four Trolls are awake. A fight in the entry tunnel with all four is extremely dangerous."
+        }
+      },
+      {
+        "moment": "Inside the cave — the smell",
+        "situation": "The stench is overwhelming. Anyone entering must make an RR against 2nd level Poison or be at -10 to all activity for five minutes. Rothaar warned about this.",
+        "options": [
+          {
+            "label": "Push through the smell — it fades with acclimatization",
+            "check": "endurance",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Cover breathing before entering",
+            "check": "lore",
+            "difficulty": 3,
+            "requires": "herb or cloth in inventory"
+          },
+          {
+            "label": "Enter fast and reach the deeper rooms before the smell incapacitates anyone",
+            "check": "courage",
+            "difficulty": 3,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "Acclimatized within five minutes. Full capacity for whatever comes next.",
+          "partial": "Partial acclimatization — two of the party at -10 for the first five minutes inside.",
+          "failure": "A party member incapacitated by nausea at the worst possible moment."
+        }
+      }
+    ],
+    "shadow_modifier": "mid/high shadow: Fradurag's minimal Troll intelligence means he may be more alert — reduce the sleep probabilities.",
+    "energy_modifier": "depleted energy: the cliff path approach in bad conditions becomes significantly harder.",
+    "inventory_modifier": "Cloth or herb: reduces smell effect. Torch or fire: the leaf pile can be burned but this alerts all Trolls.",
+    "difficulty": "medium",
+    "resolution": "Entry achieved. The party is inside the Troll lair with the element of surprise intact (if successful) or fighting from the entrance (if not).",
+    "hooks": [
+      "Rothaar: 'Trolls turn to stone in sunlight. Daytime is when you want to go in. But there's always one inside on guard, and the path up is open.'",
+      "The leaf pile outside the cave mouth — a Troll-height pile of partially decomposed leaves that rustles when disturbed."
+    ]
+  },
+  {
+    "id": "denizens_s05",
+    "scale": "short",
+    "region": "Esgaroth (Laketown)",
+    "location": "The Vodagarazun inn taproom / Esgaroth streets",
+    "place": "Grimbold's taproom — one night only, waiting for adventurers",
+    "type": "contact_and_supply",
+    "npcs": [
+      {
+        "name": "Grimbold",
+        "role": "Beorning warrior — has information about the Necromancer's tithe and needs help robbing it; will wait one night in the taproom"
+      }
+    ],
+    "problem": "Grimbold overheard two Orcs discussing 'the Necromancer's tithe' and killed them before they could act on whatever they were planning. He found a message on one of them confirming that Orcs and other fell beings in Mirkwood are required to tithe a portion of their ill-gotten goods to Dol Guldur annually. The Orcs of northeastern Mirkwood are currently gathering goods and preparing to send them under guard to the Necromancer. Grimbold knows where the goods are being collected and has come to Esgaroth to find help.",
+    "decisions": [
+      {
+        "moment": "Noticing the bear-like man staring at everyone who enters the taproom",
+        "situation": "Grimbold is waiting for capable-looking adventurers. He will make eye contact and wait to see if they approach.",
+        "options": [
+          {
+            "label": "Approach him directly",
+            "check": "courage",
+            "difficulty": 2,
+            "requires": null
+          },
+          {
+            "label": "Ask the innkeeper who he is first",
+            "check": "social",
+            "difficulty": 2,
+            "requires": null
+          },
+          {
+            "label": "Ignore him and see if he approaches you",
+            "check": "endurance",
+            "difficulty": 2,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "Full briefing: the Orcs are gathering at Ilmaryen Keep, the tithe leaves in less than a month, fair division of treasure is Grimbold's only condition.",
+          "partial": "Basic situation: Orcs, tithe, Ilmaryen Keep. The treasure division terms are not yet established.",
+          "failure": "Grimbold is unimpressed by the party's approach. He waits for someone else tonight. The party may encounter him again by other means."
+        }
+      },
+      {
+        "moment": "Discussing terms with Grimbold",
+        "situation": "He wants fair division of the Orcs' treasure — he will not accept less. He has the location of the keep and is willing to lead the approach. He needs fighters, not just a tracker.",
+        "options": [
+          {
+            "label": "Agree immediately to equal shares",
+            "check": null,
+            "difficulty": 0,
+            "requires": null
+          },
+          {
+            "label": "Ask about the keep's defenses before agreeing",
+            "check": "social",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Try to negotiate a smaller share for Grimbold",
+            "check": "social",
+            "difficulty": 7,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "Full agreement plus advance briefing on the keep location — eight miles north of the Men-i-Naugrim, thirty Orcs, the goods are being loaded for transport within three weeks.",
+          "partial": "Agreement reached, basic keep location known.",
+          "failure": "Grimbold takes the party's counter-offer as an insult. He will find someone else. The party has lost the guide and the intelligence."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: Grimbold is disconcerted — he hates things associated with Dol Guldur and high shadow reads that way to a Beorning.",
+    "energy_modifier": null,
+    "inventory_modifier": null,
+    "difficulty": "low",
+    "resolution": "Party agrees to rob the Necromancer's tithe at Ilmaryen Keep. Grimbold provides the location and will lead the approach. Three-week window before the goods leave.",
+    "hooks": [
+      "A large, hairy, red-headed man posted a notice at several inns: 'Warriors wanted. Good pay. One night only. Vodagarazun taproom.'",
+      "Someone in the taproom mentions that a Beorning came down from Mirkwood looking very purposeful — and Beornings don't leave their territory without good reason."
+    ]
+  },
+  {
+    "id": "denizens_m01",
+    "scale": "medium",
+    "region": "Eastern Mirkwood edge",
+    "location": "The path north of Ulgarstat / The Spider lair",
+    "place": "Mirkwood forest between Ulgarstat and Wessun's farm; the spider web complex",
+    "type": "rescue",
+    "npcs": [
+      {
+        "name": "Runnal Resticsard",
+        "role": "cocooned, fifteen feet off the ground — barely able to walk when cut down, insists on saving Currael first"
+      },
+      {
+        "name": "Currael Wessuntha",
+        "role": "cocooned alongside Runnal — more mentally alert on rescue, immediately asks practical questions"
+      },
+      {
+        "name": "Five Giant Spiders",
+        "role": "lair occupants — 01-85 all in lair, otherwise 2-3 out hunting"
+      }
+    ],
+    "problem": "Runnal and Currael are cocooned in the spider web complex west of the Ulgarstat path. Five Giant Spiders occupy the lair. The approach requires finding the web strands, navigating to the lair, and getting inside without alerting all five Spiders simultaneously. The rescue requires cutting the cocoons (fifteen feet off the ground) while managing the Spider threat.",
+    "decisions": [
+      {
+        "moment": "Finding the approach",
+        "situation": "Web strands are in the trees — nearly invisible except in morning light or if actively sought. The hollow log is the only entrance that avoids the web wall entirely.",
+        "options": [
+          {
+            "label": "Search for and follow the web strands to the lair",
+            "check": "perception",
+            "difficulty": 7,
+            "requires": null
+          },
+          {
+            "label": "Approach through the morning — come at first light when dew makes strands visible",
+            "check": "endurance",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Find the hollow log entrance from the outside — avoids all web contact",
+            "check": "perception",
+            "difficulty": 5,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "The hollow log is found. Inner end opens directly into the clearing. No webs, no Spiders alerted.",
+          "partial": "The approach is made through the outer web. One brief contact — 01-75 chance of sticking. Spiders may be alerted.",
+          "failure": "Full contact with the web wall. Sticking check and Spider alert. The rescue must now be done with Spiders actively aware."
+        }
+      },
+      {
+        "moment": "Inside the lair — the Spiders",
+        "situation": "01-85 all Spiders are present. Their favored tactic: send 1-3 in frontal assault while the remainder circle to attack flanks and rear. They will immediately and unhesitatingly attack any creature entering their domain.",
+        "options": [
+          {
+            "label": "Draw the Spiders away from the captives and deal with them in the outer area",
+            "check": "combat",
+            "difficulty": 6,
+            "requires": null
+          },
+          {
+            "label": "Go directly for the cocoons while someone holds off the Spiders",
+            "check": "stealth",
+            "difficulty": 5,
+            "requires": null
+          },
+          {
+            "label": "Burn the lair — kills Spiders fast but risks the captives in the burning web",
+            "check": "courage",
+            "difficulty": 7,
+            "requires": "fire starter in inventory"
+          }
+        ],
+        "outcomes": {
+          "success": "Spiders dealt with, cocoons cut, captives alive. Both in very poor shape — can barely walk, will need help moving.",
+          "partial": "Captives freed but one or more Spiders escaped. The escaped Spiders are still in the area between the lair and the main path.",
+          "failure": "The rescue is complicated — one captive freed, one Spider battle still ongoing, one remaining Spider approaching from outside."
+        }
+      },
+      {
+        "moment": "Getting back to Ulgarstat",
+        "situation": "Runnal and Currael can barely walk. The path back to Ulgarstat is 3.5 miles. If any Spiders escaped, they may be encountered on the way.",
+        "options": [
+          {
+            "label": "Carry both captives — slow but they arrive safely",
+            "check": "strength",
+            "difficulty": 4,
+            "requires": null
+          },
+          {
+            "label": "Find the abandoned wagon from earlier — if it can be moved, easier transport",
+            "check": "survival",
+            "difficulty": 3,
+            "requires": null
+          },
+          {
+            "label": "Send one person ahead to bring Ulgar and Wessun with horses",
+            "check": "endurance",
+            "difficulty": 3,
+            "requires": null
+          }
+        ],
+        "outcomes": {
+          "success": "Both captives delivered to Ulgarstat. Runnal and Currael recover over several days. Parents' gratitude is genuine and material — a horse, a wagon, preserved food, ale.",
+          "partial": "Both captives delivered but the return was difficult. One party member is worse for wear.",
+          "failure": "Spider encounter on the return path while carrying incapacitated captives — the most dangerous possible configuration."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: Giant Spiders respond more aggressively. The flanking tactic is initiated immediately.",
+    "energy_modifier": "depleted energy: carrying the captives back becomes extremely difficult.",
+    "inventory_modifier": "Rope: essential for lowering the captives from 15 feet off the ground. Cutting tools: required for the cocoons.",
+    "difficulty": "medium",
+    "resolution": "Runnal and Currael are rescued. The Spider threat to Ulgarstat is eliminated. The village will feed and lodge the party indefinitely and likely give them a horse and wagon."
+  },
+  {
+    "id": "denizens_l01",
+    "scale": "large",
+    "region": "Emyn-nu-Fuin — northwestern Mirkwood mountains",
+    "location": "Ilmaryen Keep — 8 miles north of the Men-i-Naugrim",
+    "place": "The keep itself: cellar, first level (30 Orcs, Great Hall, kitchens, storerooms), second level (Yagrash's quarters, treasure room), tower roofs",
+    "type": "disruption_and_intelligence",
+    "npcs": [
+      {
+        "name": "Grimbold",
+        "role": "ally and guide — essential for approach; will fight with the party"
+      },
+      {
+        "name": "Yagrash",
+        "role": "Gothkorlagzrim (overall commander) — 7th level Uruk, will fight to the death (88%), carries the invisible key to the treasure room"
+      },
+      {
+        "name": "Marlurg",
+        "role": "Korlagz-gottul (lieutenant) — 5th level, will flee if losing, wears a magical Elven cloak he doesn't know is magical"
+      },
+      {
+        "name": "30 Orcs total",
+        "role": "garrison — various levels, three 4-hour watches by day, two 6-hour watches by night"
+      }
+    ],
+    "problem": "Ilmaryen Keep is an ancient Númenórean fortress occupied by 30 Orcs of the Blogrum-hai tribe, who are gathering goods as Sauron's tithe to Dol Guldur. The keep has a three-week window before the wagons are loaded and the goods leave under heavy guard. The goods — plus the keep's accumulated Orc treasure — are worth robbing. The keep has a complex watch system and several trapped areas.",
+    "arc": [
+      {
+        "phase": "The approach — Mirkwood at night",
+        "decisions_summary": "The keep is in open hill country — no forest cover within 350 feet of the north side, 800 feet to the west. The wagon track from the Men-i-Naugrim is the main approach. Any nocturnal Orc encounters en route will be from the keep's garrison. The key intelligence: the outer stone door will be open unless an alarm has been sounded; the inner Great Hall door is barred only 01-20% of the time during the day.",
+        "key_checks": [
+          "stealth (approach across open ground)",
+          "tracking (Grimbold can navigate)",
+          "perception (spotting Orc patrols before they spot the party)"
+        ]
+      },
+      {
+        "phase": "Entering the keep",
+        "decisions_summary": "The entrance (room 1) has a ramp to a door ten feet off the ground. The only door is in the north wall. The Great Hall (room 3) has seven wagons and four rough tables. By day two Orcs are in the Gatehouse (room 24) and three in the Great Hall checking arrow slits. At night two Orcs are on each tower roof and one (Korlagz-drartul) patrols between the upstairs corridor and the Great Hall. The magical kitchen fire can be controlled by the Adûnaic word carved above the fireplace — whispering it dims the fire, shouting creates an inferno.",
+        "key_checks": [
+          "stealth (past the watch in the Great Hall)",
+          "lore (recognizing the Adûnaic word above the fireplace)",
+          "perception (locating the two secret doors in the Great Hall's west wall)"
+        ]
+      },
+      {
+        "phase": "Yagrash and the treasure",
+        "decisions_summary": "Yagrash is in room 20 with a trapped chest (+34 knife attacks if opened without the key). He carries an invisible key — Very Hard (-25) to find on him even in a search. The Treasure Room (room 21) has two large chests: the first is trapped with Na-del spider venom (anyone who opens it without disarming first takes a gas attack); the second has a permanent visual illusion making it appear empty. Yagrash will fight to the death (88%); Marlurg will flee if losing. The tithe goods are in room 19: cloth, tapestries, iron ore, salted meats, swords, chain armor, grains, mead.",
+        "key_checks": [
+          "combat (Yagrash and however many Orcs are awake)",
+          "lore (identifying the chest traps before triggering them)",
+          "stealth (keeping the fight from waking the entire garrison)"
+        ]
+      },
+      {
+        "phase": "The exit",
+        "decisions_summary": "The Secret Cellar (room 50) has a hidden escape tunnel that runs 3350 feet to a woodland exit — well hidden (Very Hard, -20, to find from outside). The Orcs do not know about this tunnel or the Secret Cellar. This is the cleanest exit if found. Otherwise: the main door, the wagon track, and whatever Orc pursuit is mounted. The tithe goods are bulk cargo — they cannot be taken without the wagons.",
+        "key_checks": [
+          "perception (finding the secret tunnel entrance in room 45a)",
+          "endurance (3350 feet of underground passage)",
+          "strength (managing the treasure load)"
+        ]
+      }
+    ],
+    "shadow_modifier": "mid/high shadow: the Minor Hall (room 37) has a permanent essence effect — any evil creature passing through the east door must make RR vs 20th level Essence or feel compelled to leave. This works in the party's favor if they are not themselves corrupted.",
+    "energy_modifier": "depleted energy: the Secret Cellar tunnel exit (3350 feet) is the cleanest escape but requires energy to use effectively.",
+    "inventory_modifier": "Rope: useful for the ramp approach. Black Speech or Orkish knowledge: reduces risk in the Great Hall. Grimbold's flail: +20 OB, essential for the Yagrash fight.",
+    "difficulty": "high",
+    "resolution": "The Necromancer's tithe is stolen. The Orc garrison is dealt with. The keep's accumulated treasure is available. Grimbold gets his equal share. The men-i-Naugrim road is temporarily safer. Sauron's income from northeastern Mirkwood is disrupted for one year."
+  }
+]

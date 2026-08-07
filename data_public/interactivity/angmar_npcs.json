@@ -1,0 +1,502 @@
+[
+  {
+    "id": "npc_witch_king",
+    "name": "The Witch King of Angmar",
+    "race": "Nazgûl (formerly Númenórean)",
+    "gender": "male",
+    "profession": "Ruler of Angmar / Chief of the Nazgûl",
+    "region": "Angmar — Carn Dûm",
+    "location": "Carn Dûm Level 5 — throne room and council chamber; occasionally Level 4",
+    "allegiance": "enemy_nazgul",
+    "description": "The most powerful of Sauron's Ringwraiths, and the one given independent command over the destruction of the North Kingdom. He exists more as a concentrated absence than a presence — a cold, a silence, a wrongness in the air that resolves at close range into a shape wearing a crown that radiates cold light. He is ancient beyond ordinary reckoning and has not hurried in centuries because he does not need to. The Dúnedain have held against him for six centuries; he considers this a temporary inconvenience.",
+    "personality": "Strategic patience without sentiment or limit. He does not hate the Dúnedain — he has long since moved past anything as personal as hatred. He manages Angmar as an instrument for their eventual destruction. He is capable of subtlety when it serves him and prefers to work through agents. He masks his full power because using it openly would reveal Sauron's hand too early.",
+    "strengths": [
+      "Terror — his proximity causes paralyzing fear in all living creatures within hundreds of feet; cannot be suppressed",
+      "Detection — senses the presence of significant Elvish blood, Númenórean lineage, and carried shadow within wide range",
+      "Immortality — cannot be permanently destroyed by any ordinary means",
+      "Strategic intelligence — has been managing the war against Arthedain for decades with complete patience",
+      "Magic — 60th level sorcerer; all base sorcerer lists to 60th level; spells relate to destruction of gases, solids, liquids, the flesh, the mind"
+    ],
+    "weaknesses": [
+      "Bound to the One Ring — his power is ultimately borrowed; the Ring's location controls his attention",
+      "Must mask his power — cannot use full capacity without revealing Sauron prematurely",
+      "Noldor immunity — Elves who have lived in Valinor are immune to his Black Breath",
+      "Cannot be everywhere — manages through lieutenants; their failures are his exposure",
+      "Fated — has a fate that will not be fulfilled by the hand of a man"
+    ],
+    "dialogue_seed": "He does not conduct conversations. If he speaks it is to issue a command or make a declaration. The words are always short, always final, always in the register of someone who has not experienced doubt in a very long time. He occasionally speaks in the old tongue of Númenor — a deliberate choice intended to unsettle those who recognize it. He uses names precisely and only when he knows them."
+  },
+  {
+    "id": "npc_dancu",
+    "name": "Dancu",
+    "race": "Black Númenórean",
+    "gender": "male",
+    "profession": "Lord of Carn Dûm / Second in command of Angmar",
+    "region": "Angmar — Carn Dûm",
+    "location": "Carn Dûm — Level 4 and 5; occasionally tours the border fortresses",
+    "allegiance": "enemy",
+    "description": "A tall, dark-haired man in his apparent prime — the Black Númenórean longevity that makes it impossible to guess his real age. He carries himself with the ease of someone who has never lost a negotiation. His intelligence is genuine and his ambition is transparent to anyone paying attention: he plans to become the king of Umbar when this is over. The Witch King knows this and finds it useful for now.",
+    "personality": "Brilliant, organized, and genuinely dangerous. He is the most effective field commander in Angmar's service and the one responsible for making its bureaucracy function. He respects competence openly and has contempt for incompetence that he expresses through efficiency rather than cruelty — he simply removes what does not work. He is not sadistic; he is coldly purposeful.",
+    "strengths": [
+      "Strategic and tactical command — exceptional at both levels; has managed Carn Dûm's defense for years",
+      "Intelligence gathering — coordinates all reconnaissance and spy networks in the region",
+      "Special units — commands the Hoerk and all elite forces directly",
+      "Political skill — manages relationships between Angmar's diverse forces without fracturing them",
+      "Combat ability — 30th level, formidable in direct engagement"
+    ],
+    "weaknesses": [
+      "Ambition — his long-term goal (Umbar) sometimes conflicts with Angmar's immediate needs",
+      "Dependence on the Witch King — all his power is borrowed authority",
+      "Overextension — manages too much personally; losing him disrupts operations significantly",
+      "Contempt for orcs — does not hide it well; some orc captains resent him"
+    ],
+    "dialogue_seed": "Direct and formal. He never wastes words. He states his terms once and does not repeat them. He asks questions that already have answers — he is testing, not inquiring. He uses titles correctly for everyone, including enemies. He ends meetings by standing, which is the only signal he gives."
+  },
+  {
+    "id": "npc_ulrac",
+    "name": "General Ulrac",
+    "race": "Rhûnnish (Northman from Rhûn)",
+    "gender": "male",
+    "profession": "Commander of Castle Morkai / Western border general",
+    "region": "Angmar — Castle Morkai",
+    "location": "Castle Morkai — Great Hall (rooms 12-20); occasional border tours",
+    "allegiance": "enemy",
+    "description": "Tall, fierce, and dark-skinned with the specific cruelty of a man who has risen through violence and regards mercy as a tactical error. He is tall even by the standards of his people — 6'6\" — and has built his authority on physical presence as much as strategic ability. He is actually an excellent battlefield commander. His management style is fear, which is effective and brittle.",
+    "personality": "Aggressive, decisive, contemptuous of weakness. He does not make threats — he makes promises. He despises anything he reads as cowardice, which includes careful thinking when he is in the room. He is loyal to Dancu not from affection but from the accurate assessment that Dancu is more dangerous than he is. He reserves his cruelty for those with no power to respond.",
+    "strengths": [
+      "Direct combat — exceptional, 27th level; the most dangerous fighter in the western border commands",
+      "Troop morale — his soldiers are afraid of him, which keeps them disciplined",
+      "Border defense — knows the western frontier better than any other commander",
+      "Speed of decision — never hesitates; acts immediately on information"
+    ],
+    "weaknesses": [
+      "Contempt for intelligence work — distrusts information that arrives through subtlety",
+      "Unpredictability in rage — can be provoked into tactical errors",
+      "Dependence on Huskash — the wolf-rider captain is his real intelligence source",
+      "Visible cruelty — generates resentment even among his own forces over time"
+    ],
+    "dialogue_seed": "He speaks loudly even in quiet rooms. He uses commands where others use questions. He refers to subordinates by rank, not name — to their faces. He will ask a question once; if the answer does not come quickly he moves on without it. He occasionally speaks Westron with a heavy accent that he does not try to reduce."
+  },
+  {
+    "id": "npc_durkarian",
+    "name": "General Durkarian of Rhudaur",
+    "race": "Rhudaurian (Hillman with Dúnedain blood)",
+    "gender": "male",
+    "profession": "Northern border commander of Rhudaur",
+    "region": "Angmar — northern Rhudaur border",
+    "location": "Northern Rhudaur border — mobile between outposts",
+    "allegiance": "enemy",
+    "description": "Young-looking for his rank — a fact that belies the competence beneath. Fair-haired and blue-eyed, his appearance is deceptive — he looks more Dúnedain than his enemies would like. He loathes the Dúnedain comprehensively and will kill them wherever he can. His looks belie his nature entirely.",
+    "personality": "Capable, young, controlled. He does not perform cruelty — he is simply willing to commit it when necessary and has removed the internal friction that makes most people hesitate. His hatred for the Dúnedain is total and specific and personal. He is not impulsive; he has learned patience.",
+    "strengths": [
+      "Cavalry command — exceptional, leads 1000 cavalry for raids and border operations",
+      "Terrain knowledge — knows the border between Angmar and Rhudaur intimately",
+      "Deceptive appearance — can pass as Dúnedain at distance, which has tactical applications",
+      "Raid organization — designs and executes raids into Arthedain's territory with minimal loss"
+    ],
+    "weaknesses": [
+      "Personal hatred — his animus toward the Dúnedain occasionally overrides tactical judgment",
+      "Young — limited experience with large-scale strategic operations",
+      "Reports to Dancu not Ulrac — the command structure creates friction with Ulrac's operations",
+      "Cavalry-focused — less effective in operations requiring infantry or siege"
+    ],
+    "dialogue_seed": "Controlled and precise. He speaks about the Dúnedain with a specific coldness that is worse than rage. He uses tactical language for everything — objectives, assets, threats. He will engage with questions about Rhudaur history if they are asked without obvious sympathy for the Dúnedain. He does not explain himself."
+  },
+  {
+    "id": "npc_cykur",
+    "name": "General Cykur",
+    "race": "Black Númenórean (from Umbar)",
+    "gender": "male",
+    "profession": "Frontier defense coordinator / Dancu's old ally",
+    "region": "Angmar — Carn Dûm and frontier",
+    "location": "Carn Dûm when not touring outposts; mobile between Angmar and Arthedain border",
+    "allegiance": "enemy",
+    "description": "Tall and dark, with the urbane manner of someone raised around power. He was a ship captain in Umbar before his association with Dancu brought him north. He finds Angmar cold, dark, and largely beneath his preferred standard of living, and he manages this by maintaining Carn Dûm's inner facilities to a higher standard than the Witch King probably needs.",
+    "personality": "Experienced, diplomatic, genuinely fond of Dancu. He is the smoothest operator in Angmar's command structure — capable of managing conversations that Ulrac would turn into confrontations. He coordinates the frontier defenses with a competence that looks effortless because he has been doing it long enough that it mostly is.",
+    "strengths": [
+      "Coordination — manages the frontier defense system and communications between outposts",
+      "Interrogation — experienced in questioning prisoners effectively",
+      "Reconnaissance — organizes intelligence collection and personally tours outposts for assessment",
+      "Diplomacy — can manage the diverse factions within Angmar's service without friction"
+    ],
+    "weaknesses": [
+      "Not a field commander — manages infrastructure, not combat",
+      "Comfort-seeking — his living standards create a predictable routine that can be exploited",
+      "Loyalty to Dancu — his primary allegiance; if Dancu falls, Cykur's position becomes unclear",
+      "Limited troops — his 100 cavalry are a coordination asset, not a fighting force"
+    ],
+    "dialogue_seed": "The most conventionally social of Angmar's commanders. He makes conversation easily and without apparent agenda. He tells anecdotes. He asks about people's origins. Underneath this is precise collection of information, but the surface is genuinely pleasant. He refers to Carn Dûm as 'the fortress' and Angmar as 'the north' — always slightly distant."
+  },
+  {
+    "id": "npc_khursh",
+    "name": "General Khursh",
+    "race": "Variag (from Khand)",
+    "gender": "male",
+    "profession": "Carn Dûm interior commander",
+    "region": "Angmar — Carn Dûm",
+    "location": "Carn Dûm — interior levels; rarely leaves the fortress",
+    "allegiance": "enemy",
+    "description": "Black-skinned and large, a Variag from Khand who serves the Dark Lord through a Sauronic cult that preceded his arrival in Angmar. He has the quiet authority of someone whose power does not depend on others recognizing it. He is in charge of organizing the large no man's cavalry when Dancu is occupied elsewhere. He carries an ancient evil broadsword sacred to the Sauronic cult.",
+    "personality": "Quiet, devout in a dark way, efficient. He does not speak much and what he says carries weight because it is never obvious or redundant. He is ideologically committed in a way the other generals are not — they serve Angmar for power or survival; Khursh serves it because he genuinely believes in the Sauronic order. This makes him the most reliable and the least negotiable.",
+    "strengths": [
+      "Interior organization — manages Carn Dûm's internal functioning when Dancu is away",
+      "Sauronic cult knowledge — access to information and networks the other generals lack",
+      "Cavalry command — manages the large no man's cavalry effectively",
+      "Absolute reliability — his ideological commitment means he will not defect or be bribed"
+    ],
+    "weaknesses": [
+      "Ideological rigidity — cannot adapt to situations that require moral flexibility",
+      "Limited strategic range — manages what he is given; does not innovate",
+      "Cultural isolation — his Variag background creates distance from Angmar's other forces",
+      "The sword — its permanent poison makes him identifiable and the weapon makes him a target"
+    ],
+    "dialogue_seed": "Minimal and deliberate. He does not fill silences. He answers questions with the smallest possible response. He speaks about the Sauronic order with a reverence that is slightly different from Dancu's pragmatism — it is faith, not calculation. He never jokes."
+  },
+  {
+    "id": "npc_sarkan",
+    "name": "Sarkan",
+    "race": "Rhûnnish (from Rhûn)",
+    "gender": "male",
+    "profession": "Commander of the Trackers (evil rangers)",
+    "region": "Angmar — mobile throughout the no man's land and border regions",
+    "location": "Carn Dûm when not on mission; operates throughout no man's land",
+    "allegiance": "enemy",
+    "description": "A Ranger's worst nightmare made real — someone with equal skills in the service of opposite ends. Sarkan trained his unit of 200 elite rangers to track, infiltrate, and eliminate. He is dark-haired and quiet, and the thing about him that the Rangers of the North find most disturbing is that he looks like one of them.",
+    "personality": "Patient, thorough, quiet. He treats his work as a craft rather than a crusade, which makes him more dangerous than the ideologues. He has no interest in politics or position — he has a job and he does it. He does not take prisoners if he can avoid it, not from cruelty but from operational cleanliness.",
+    "strengths": [
+      "All Ranger base lists to 20th level — tracking, concealment, movement, survival",
+      "Specializes in tracking, outdoor concealment, weather resistance, spiritual discipline",
+      "Command of 200 elite trackers — each with similar but lesser skills",
+      "Terrain knowledge — knows every trail, ford, and hiding place in the no man's land"
+    ],
+    "weaknesses": [
+      "No political skill — operates through Dancu; helpless in court situations",
+      "Over-reliance on his unit — alone he is powerful; without his trackers, his effectiveness drops",
+      "Known to the Rangers of the North — they have identified him and track him in return",
+      "Not a siege or fortification asset — his skills are mobile and outdoor"
+    ],
+    "dialogue_seed": "He speaks the way he moves — minimum words, maximum information per word. He gives field reports in the format of distances, directions, and numbers. He does not discuss strategy or politics. He will ask one question if he is genuinely uncertain about something. He never asks questions he already knows the answer to."
+  },
+  {
+    "id": "npc_harlluinar",
+    "name": "Harlluinar",
+    "race": "Arthedain Dúnedain (turned)",
+    "gender": "male",
+    "profession": "Second in command of the Trackers",
+    "region": "Angmar — mobile, with Sarkan's unit",
+    "location": "Wherever Sarkan is",
+    "allegiance": "enemy",
+    "description": "Born Dúnedain and turned to Angmar's service — the backstory is not shared and the question is not welcome. He has the bearing of a Ranger and the allegiance of an enemy, and the combination is specifically dangerous. He is fanatically dedicated to the eradication of the Dúnedain of Arnor. There is no rivalry between him and Sarkan, which means there is no wedge.",
+    "personality": "Fanatical, controlled, precise. The fanaticism is not visible in manner — he is as professional as Sarkan — but it is visible in what he will not do: he will not take prisoners, he will not accept surrender, he will not stop. The other Rangers know his name and most of them are afraid of it.",
+    "strengths": [
+      "All Ranger base lists to 10th level — same general skills as Sarkan but lesser degree",
+      "Specializes in concealment, tracking, and outdoor survival",
+      "Knowledge of Dúnedain patrol methods — knows exactly how the Rangers operate because he was one",
+      "Immunity to manipulation — no loyalty pressure points, no bribable motivation"
+    ],
+    "weaknesses": [
+      "Fanaticism — his hatred occasionally leads him to overcommit when patience would serve better",
+      "No independent command structure — completely defined by his relationship to Sarkan",
+      "Known face — the Rangers who survived his previous operations know him",
+      "Cannot be turned or reasoned with — every negotiation option is closed"
+    ],
+    "dialogue_seed": "He does not engage in conversation. If addressed he answers functionally and ends the exchange. He will not explain himself or his allegiance. He speaks about the Dúnedain the way Durkarian does — with specific coldness — but where Durkarian's coldness has anger underneath, Harlluinar's has nothing."
+  },
+  {
+    "id": "npc_jukath",
+    "name": "Jukath",
+    "race": "Rhûnnish",
+    "gender": "male",
+    "profession": "Ashâktur of Castle Morkai / Ulrac's administrator",
+    "region": "Angmar — Castle Morkai",
+    "location": "Castle Morkai — Great Hall and administrative areas",
+    "allegiance": "enemy",
+    "description": "The man who actually makes Castle Morkai function. Jukath is tenth level and handles the daily administration with the quiet efficiency of someone who has learned that the best way to avoid Ulrac's rage is to make sure nothing goes wrong on his watch. He is polished, organized, and permanently calculating the distance between his current situation and Ulrac's temper.",
+    "personality": "Efficient, careful, professionally pleasant. He is an aide-de-camp in the military sense — subordinate to Ulrac in all things but running the castle in practice. He notices irregularities. He has a good memory for faces. He is not cruel, which in Angmar's service means he is not the worst option but still someone who works for the wrong side.",
+    "strengths": [
+      "Administrative intelligence — knows everyone in the castle, their schedules, and their relationships",
+      "Pattern recognition — detects anomalies in routine quickly",
+      "Diplomatic buffer — manages communication between Ulrac and everyone else without friction",
+      "Access — has legitimate access to every area of the castle"
+    ],
+    "weaknesses": [
+      "Not a fighter — capable at his level but avoids combat",
+      "Dependent on Ulrac — his authority exists only through the general",
+      "Predictable schedule — his routine makes him the most interceptable person in the castle",
+      "Fear of Ulrac — can be pressured through that fear in specific circumstances"
+    ],
+    "dialogue_seed": "Professional and courteous, always. He asks purpose before identity. He uses the castle's organizational language naturally — 'which section', 'which shift', 'which allocation'. He completes sentences and never raises his voice. He never volunteers information about Ulrac's whereabouts or schedule."
+  },
+  {
+    "id": "npc_ukandar",
+    "name": "Ukandar",
+    "race": "Rhudaurian noble",
+    "gender": "male",
+    "profession": "Senior cavalry captain of Castle Morkai",
+    "region": "Angmar — Castle Morkai",
+    "location": "Castle Morkai — cavalry quarters and the road; leads patrols personally",
+    "allegiance": "enemy",
+    "description": "A nobleman from Rhudaur who chose Angmar over Arthedain's expanding authority and has been fighting on that choice ever since. He is an excellent battlefield commander — the best cavalry leader at Morkai — and he knows it. His one flaw in Ulrac's eyes is that he leads his men personally rather than directing from safety, which Ulrac reads as grandstanding and Ukandar reads as correct.",
+    "personality": "Confident, competent, honorable in the specific way of a soldier who has defined honor as loyalty to a cause rather than to a people. He does not like what Angmar does to prisoners but he has filed this under 'things Ulrac decides'. He genuinely respects capable enemies.",
+    "strengths": [
+      "Cavalry command — exceptional; leads patrols and raids personally to maximum effect",
+      "Battlefield tactics — excellent at mobile warfare and rapid response",
+      "Leadership — his soldiers follow him personally, not just because they have to",
+      "Assessment — quick and accurate at evaluating threats and opportunities"
+    ],
+    "weaknesses": [
+      "Exposes himself — leads from the front, which is a vulnerability",
+      "Moral discomfort — has limits he has not yet crossed; can be appealed to in extreme circumstances",
+      "Rhudaurian loyalty — his primary allegiance is to Rhudaur's interests, which mostly but not always aligns with Angmar",
+      "Conflict with Durac — the second cavalry commander works against him internally"
+    ],
+    "dialogue_seed": "Military directness with a nobleman's vocabulary. He respects demonstrated competence and his manner changes when he recognizes it — fractionally warmer, slightly more willing to discuss rather than command. He will acknowledge a good tactic even from an enemy. He does not discuss politics or Angmar's broader purpose."
+  },
+  {
+    "id": "npc_huskash",
+    "name": "Huskash",
+    "race": "Rhûnnish",
+    "gender": "male",
+    "profession": "Wolf-rider commander of Castle Morkai",
+    "region": "Angmar — Castle Morkai and surrounding territory",
+    "location": "Castle Morkai — stables and perimeter; frequently on patrol with his wolf",
+    "allegiance": "enemy",
+    "description": "Very evil, very competent, and very aware of both facts. He communicates with his wolf in ways that go beyond training — the bond is something closer to a partnership, and the wolf is his primary intelligence source. He patrols with the wolf at night and together they are almost impossible to evade. He was teased as a child for looking too much like a Man; he has been dealing with that resentment for decades and it makes him want to prove himself constantly.",
+    "personality": "Aggressive, resentful, effective. The resentment is a constant low-level burn that keeps him working harder than he needs to. He proves himself by being impossible to get past, and for the most part he succeeds. He is more intelligent than he appears and uses this gap deliberately.",
+    "strengths": [
+      "Wolf bond — communicates with his wolf; the wolf tracks by scent at range the Orcs cannot match",
+      "Night operations — his wolf compensates for human limitations in darkness",
+      "Perimeter intelligence — knows everything that enters or exits the castle's zone of control",
+      "Combat at close quarters — significantly dangerous at his level (ninth)"
+    ],
+    "weaknesses": [
+      "Resentment — can be provoked; his emotional baseline makes him predictable under pressure",
+      "The wolf — his primary asset is also his constraint; if the wolf is injured or distracted, Huskash's effectiveness drops sharply",
+      "Morkai-bound — his skills are specifically for perimeter defense; outside this context he is less effective",
+      "Poor at abstract intelligence — tracks physical presence; struggles with the kind of intelligence Cykur handles"
+    ],
+    "dialogue_seed": "Short sentences, usually ending with the wolf's name or a reference to what the wolf has scented. He speaks about the wolf as a colleague. He is not warm but he is direct in a way that is almost honest — he says what he is going to do and then does it. He communicates contempt through tone rather than words."
+  },
+  {
+    "id": "npc_heludar",
+    "name": "Heludar",
+    "race": "Rhûnnish",
+    "gender": "male",
+    "profession": "Commander of Cargash Keep",
+    "region": "No Man's Land — Cargash Keep",
+    "location": "Cargash Keep",
+    "allegiance": "enemy",
+    "description": "An extraordinarily gifted man in a job too small for him — which he knows and manages by treating Cargash Keep as an intelligence posting rather than a military command. He rose through the ranks on merit alone and can speak Adunaic, Westron, and Dunlending. He is careful, intelligent, and currently watching one of his patrol leaders with growing suspicion.",
+    "personality": "Precise, patient, genuinely thoughtful. He does not fit the profile of Angmar's other commanders — he lacks both the cruelty and the fanaticism. He serves Angmar because he sees no better option available to someone of his background, and this absence of ideology makes him oddly approachable and completely unreliable as an ally.",
+    "strengths": [
+      "Intelligence assessment — excellent at identifying anomalies in behavior and information",
+      "Languages — speaks Adunaic, Westron, and Dunlending fluently",
+      "Garrison management — runs a small, effective outpost with minimal resources",
+      "Combat — capable at sixth level, a war hammer as primary weapon"
+    ],
+    "weaknesses": [
+      "Isolated post — commands 37 men, which limits his options significantly",
+      "No political protection — he has Dancu's respect but not his backing",
+      "Incipient suspicion of Surk/Arleg — if confirmed, this breaks the embedded agent's cover",
+      "Underutilized — his abilities exceed his posting, which creates a specific kind of frustration"
+    ],
+    "dialogue_seed": "Calm, precise, and asking better questions than the situation seems to require. He speaks to subordinates with the same careful attention he gives to visitors — which makes him both pleasant and slightly unnerving. He mentions observations as if sharing them casually, but nothing he mentions is casual."
+  },
+  {
+    "id": "npc_surk_arleg",
+    "name": "Surk (real name: Arleg)",
+    "race": "Dúnedain",
+    "gender": "male",
+    "profession": "Embedded Arthedain spy / Patrol leader at Cargash Keep",
+    "region": "No Man's Land — Cargash Keep circuit",
+    "location": "On patrol; passes the Moragalen ford every third day at midday",
+    "allegiance": "free_peoples",
+    "description": "A Ranger who has been living as 'Surk from the East' for long enough that the distinction is beginning to blur at the edges, which frightens him more than the Orcs. He is sixth level, competent enough to have earned his patrol-leader position honestly, and under enough strain that the message he sent — one word, 'now' — cost him something significant to write. He has accumulated months of intelligence about Cargash's supply patterns and patrol circuits.",
+    "personality": "Controlled, professional, running on will. He has maintained the cover so long that he has the specific exhaustion of someone who has been performing 24 hours a day. He is still sharp but the margin for error has narrowed. He gives information in the terse way of Rangers — relevant, accurate, compressed.",
+    "strengths": [
+      "Intelligence accumulated — knows Cargash's schedules, supply patterns, and garrison strengths comprehensively",
+      "Cover established — accepted as 'Surk' by almost everyone at the keep",
+      "Tracking skill — can identify and follow trails through the no man's land efficiently",
+      "Composure — has maintained the cover for months under Heludar's increasingly sharp attention"
+    ],
+    "weaknesses": [
+      "Heludar is watching him — the cover may break without intervention",
+      "Strain — his judgment is marginally less reliable than it was three months ago",
+      "Compromised position — extraction must look like death or desertion to protect the intelligence",
+      "Cannot move freely — any absence from patrol is noted"
+    ],
+    "dialogue_seed": "When operating as Surk: ordinary patrol language, minimal. When contact is made: immediate, compressed, practical. He gives information in the format of what you need to know, in order of urgency. He does not discuss his feelings about the situation. He asks about the extraction plan within the first thirty seconds."
+  },
+  {
+    "id": "npc_arkish",
+    "name": "Arkish",
+    "race": "Rhudaurian",
+    "gender": "male",
+    "profession": "Lord of Eldanar Castle (for Angmar)",
+    "region": "No Man's Land — Eldanar Castle",
+    "location": "Eldanar Castle — administrative areas and outer bailey",
+    "allegiance": "enemy",
+    "description": "Young — only 28 — but already holding the rank of ashâktur, which is either a reward or a test depending on who you ask. He is organized, competent, and growing into authority. He organizes the frontier defense of Eldanar and plans sorties into southern Arthedain. He rarely leads these personally but sends Rhukar, which suits both men.",
+    "personality": "Organized, balanced, careful. He lacks Ulrac's violence and Dancu's brilliance but he is reliably effective in a way that neither always is. He has 100 men under direct command and manages them well. He is being watched for advancement.",
+    "strengths": [
+      "Defense organization — keeps Eldanar functional and its frontier defense coherent",
+      "Sortie planning — designs raids into Arthedain with good tactical sense",
+      "Communication — maintains regular reports to superiors; a reliable link in the chain",
+      "Combat — ninth level, fully trained rider"
+    ],
+    "weaknesses": [
+      "Youth and limited experience — has not yet faced a genuine strategic crisis",
+      "Dependent on Rhukar for enforcement — Rhukar's personality creates problems Arkish has to manage",
+      "Elosian — his mistress holds significant influence over his decisions without his awareness",
+      "The tunnel — does not know it exists; if found, Eldanar's entire intelligence value changes"
+    ],
+    "dialogue_seed": "Formal and procedural. He operates within the garrison's command structure and expects others to do the same. He identifies himself and his rank before asking for identification. He is slightly more personable than the average Angmar commander — not warm, but not contemptuous either."
+  },
+  {
+    "id": "npc_elosian",
+    "name": "Elosian",
+    "race": "Rhudaurian (noble family)",
+    "gender": "female",
+    "profession": "Arkish's mistress / Fourth level magician",
+    "region": "No Man's Land — Eldanar Castle",
+    "location": "Eldanar Castle — guest chambers and Arkish's quarters",
+    "allegiance": "secret_sympathizer",
+    "description": "The daughter of a Rhudaurian nobleman who sympathizes with the Dúnedain — a dangerous thing to be in Eldanar Castle. She is slender, golden-haired with pale blue eyes, and has made a career of appearing soft and helpless. She holds Arkish completely in the palm of her hand, which she does not use often, but when she does the effect is total. She has been waiting for a safe moment to leave.",
+    "personality": "Intelligent, patient, genuinely kind in the way that is most dangerous to her in this environment. She has survived Eldanar by being decorative and feminine and giving everyone the impression she does not understand what is being said around her. She understands everything.",
+    "strengths": [
+      "Social intelligence — reads every person in the castle accurately",
+      "Influence over Arkish — can modify his decisions without his awareness",
+      "Magic — fourth level; specializes in invisible ways, locks, spirit control, and charm",
+      "Knowledge of castle routine — has observed every shift and schedule over months"
+    ],
+    "weaknesses": [
+      "No combat ability — completely non-threatening physically",
+      "Kelai — her rival actively works against her; the competition is dangerous",
+      "Her sympathy for the Dúnedain — if discovered, she is immediately executed",
+      "Dependence on Arkish for safety — trapped in a situation she cannot leave without help"
+    ],
+    "dialogue_seed": "She performs helplessness in group settings. In private conversation with someone she trusts: precise, warm, and direct. She confirms her information with two examples before committing to a statement. She volunteers nothing about her sympathies until she has assessed the person across from her very carefully. She uses Arkish's name as a measure of how much she trusts the conversation."
+  },
+  {
+    "id": "npc_nudan",
+    "name": "Nudan",
+    "race": "Rhudaurian",
+    "gender": "male",
+    "profession": "Guard captain of Kuska / Petty tyrant",
+    "region": "Angmar — Village of Kuska",
+    "location": "Kuska — guard post and the inn",
+    "allegiance": "enemy_local",
+    "description": "A sixth-level warrior who has found in Kuska's village guard the perfect environment for his particular talents: authority over people who cannot effectively resist him and proximity to the inn's ale. He loves having people under his authority and exercises that authority at every possible opportunity. He is not particularly bright and compensates for this with aggression.",
+    "personality": "Petty, aggressive, insecure about his intelligence. He is a bully in the specific military form — uses his rank as a weapon in every interaction. He is not corrupt in the grand sense; he is corrupt in the small, grinding sense of someone who makes every ordinary interaction slightly worse. He is predictable, which is his only useful quality.",
+    "strengths": [
+      "Combat — sixth level, capable enough to be genuinely dangerous to ordinary travellers",
+      "Local authority — his word is law in Kuska's immediate environment",
+      "Persistence — will follow through on petty grudges with remarkable dedication"
+    ],
+    "weaknesses": [
+      "Intelligence — not clever; can be misdirected by anyone significantly smarter",
+      "Predictable schedule — the inn every evening, the rounds every morning",
+      "Foskat — his sergeant's growing dissatisfaction is something he has missed entirely",
+      "Haren — the blacksmith's popularity means Nudan cannot move against him directly"
+    ],
+    "dialogue_seed": "He asks for credentials before anything else. He uses his rank in the first sentence of every official interaction. He speaks about his authority as if it were a natural phenomenon rather than an appointment. He repeats himself when he thinks he is not being respected. He threatens in the third person — 'the captain would have to...'"
+  },
+  {
+    "id": "npc_haren",
+    "name": "Haren",
+    "race": "Rhudaurian",
+    "gender": "male",
+    "profession": "Village blacksmith and headman of Kuska",
+    "region": "Angmar — Village of Kuska",
+    "location": "Kuska — the forge and the village council hall",
+    "allegiance": "neutral_local",
+    "description": "Thirty-eight, popular, practical — the most influential person in Kuska for the simple reason that he is the most competent and the least afraid. He is a sixth-level fighter who spent ten years in the army and came back to open a forge. He repairs weapons, makes passable swords, and mediates disputes before they reach Nudan. He is on his second term as headman, which is unusual.",
+    "personality": "Calm, fair, and direct. He has no illusions about what Angmar is but he has a village of 389 people and limited options. He manages the interface between Kuska and the military with the skill of someone who has learned which battles are worth fighting. He is liked because he is consistently equitable, which in Angmar's sphere is almost radical.",
+    "strengths": [
+      "Physical — sixth level fighter with genuine skill",
+      "Community standing — respected universally in Kuska; his opinion shapes the village's response to any situation",
+      "Practical intelligence — excellent at the specific problems Kuska faces",
+      "Access to soldiers — off-duty soldiers from Morkai come to the inn; he hears everything that passes through"
+    ],
+    "weaknesses": [
+      "Limited range — his influence ends at Kuska's wall; outside it he is an ordinary civilian",
+      "Responsibility for the village — will not take personal risks that endanger the community",
+      "Nudan — cannot remove him and cannot ignore him",
+      "No political protection beyond Morkai's general oversight"
+    ],
+    "dialogue_seed": "He listens first. He speaks only after forming a clear opinion. He states his assessment directly without building to it. He uses 'we' when talking about Kuska. He will disagree with authority when he is confident he is right, and he frames it as information rather than challenge — 'what I've seen is...'"
+  },
+  {
+    "id": "npc_dumfa",
+    "name": "Dumfa",
+    "race": "Dunlending",
+    "gender": "male",
+    "profession": "Innkeeper of the Grey Moon Inn, Kuska",
+    "region": "Angmar — Village of Kuska",
+    "location": "The Grey Moon Inn, Kuska",
+    "allegiance": "neutral_local",
+    "description": "In his forties, businesslike, runs the only inn in Kuska with his wife and two sons. The Grey Moon is the best-stocked establishment in Kuska and a popular destination for off-duty soldiers from Morkai, which makes Dumfa one of the best-informed civilians in the region. He does not share what he hears. He serves good ale and asks no questions.",
+    "personality": "Transactional, professional, non-ideological. He has survived in Kuska by being useful to everyone and dangerous to no one. He is not warm but he is fair — the price is the price, the service is the service, and he treats soldiers and travelers with the same even courtesy. His Dunlending background means he has no loyalty to either Arthedain or Angmar in particular.",
+    "strengths": [
+      "Information — hears everything discussed by off-duty soldiers over ale",
+      "Neutral ground — his inn is the one place in Kuska where different factions coexist",
+      "Practical resources — wine, food, shelter, connections to the supply network",
+      "Discretion — known not to share what he hears; this is his most valuable quality"
+    ],
+    "weaknesses": [
+      "Neutrality as a limit — will not actively help any faction; information is available only through trade",
+      "The soldiers — his livelihood depends on Morkai's garrison; he cannot afford to be seen as hostile to them",
+      "Limited scope — his intelligence is social, not military; he knows morale and gossip, not operational plans"
+    ],
+    "dialogue_seed": "Efficient hospitality. He offers the menu, the price, and the room availability in that order. He answers questions about the inn directly. He does not discuss other customers unless you give him something equivalent in exchange, and even then he is sparse. He uses 'the inn' to refer to his establishment, never 'my inn' — it is a business, not a possession."
+  },
+  {
+    "id": "npc_foskat",
+    "name": "Foskat",
+    "race": "Rhudaurian",
+    "gender": "male",
+    "profession": "Fifth-level guard sergeant of Kuska / Potential deserter",
+    "region": "Angmar — Village of Kuska",
+    "location": "Kuska — guard post; evenings at the Grey Moon Inn",
+    "allegiance": "coerced_neutral",
+    "description": "A man in his thirties who joined Angmar's army from Rhudaur looking for a better life and found Kuska instead. He has accumulated pay and a growing certainty that he would rather be somewhere else — anywhere with better prospects, warmer winters, and no Nudan. He is not ideologically opposed to Angmar; he is bored, cold, and underpaid. He is sitting on information about Morkai's garrison that he has not decided what to do with.",
+    "personality": "Pragmatic and quietly dissatisfied. He is not evil — he ended up in the wrong army through a series of ordinary bad decisions rather than malice. He loosens up with drink. He thinks about going south regularly and has not done it yet primarily because it requires making a decision.",
+    "strengths": [
+      "Garrison knowledge — knows the wolf-rider patrol times, postern gate schedule, and current garrison size at Morkai",
+      "Credibility — his information is current and firsthand",
+      "Fifth-level fighter — capable of taking care of himself on the road south"
+    ],
+    "weaknesses": [
+      "Indecision — has been on the edge of deserting for months and has not moved",
+      "Drink — his judgment degrades significantly after three ales",
+      "No plan — knows he wants to leave but has no destination or resources",
+      "Nudan — would report the desertion to Morkai immediately"
+    ],
+    "dialogue_seed": "He talks about going south abstractly before he talks about it specifically. He references Rhudaur as 'home' even though he hasn't been there in years. He mentions Nudan with specific irritation. He asks about the road south in a way that sounds like idle conversation and isn't. He will tell you everything he knows if you give him a credible reason to believe leaving is possible."
+  },
+  {
+    "id": "npc_furish",
+    "name": "Furish",
+    "race": "Rhudaurian",
+    "gender": "male",
+    "profession": "Farmer and informal Arthedain informant",
+    "region": "Angmar — Kuska outskirts",
+    "location": "Farm outside Kuska, close to the Angmar road",
+    "allegiance": "secret_sympathizer",
+    "description": "Fifty-eight, the most prosperous farmer in Kuska, and the one person in the region who has been quietly tracking supply train frequency for six months and not reporting it to anyone because he does not know who to tell. He is fifth level — a doughty warrior from his army days — and he has six sons, most of them either in the army or recently out of it. He is friends with Haren and cautiously approachable.",
+    "personality": "Patient, generous, and operating under significant moral weight. He has been watching the supply trains increase and decrease and he knows what it means — that Angmar is building toward something. He cannot prove it, cannot act on it, and would not know who to trust with it. The arrival of someone who seems credible and asks the right questions is what he has been waiting for.",
+    "strengths": [
+      "Supply intelligence — has tracked the frequency and estimated size of supply trains for months; this data is valuable",
+      "Community connections — knows every family in Kuska and the surrounding farms",
+      "Physical capability — fifth level, still formidable",
+      "Reliability — once committed, completely trustworthy"
+    ],
+    "weaknesses": [
+      "Cannot identify himself as a sympathizer openly — Kuska has enough Angmar loyalists to make this dangerous",
+      "Six sons in or near the army — his family's safety constrains his actions",
+      "No network — cannot pass information without help; knows the data but not how to use it",
+      "Trust threshold — takes time and the right approach to open up"
+    ],
+    "dialogue_seed": "He talks about farming, his sons, the harvest — ordinary things — for longer than seems necessary. He watches who you speak to in the village before he speaks to you privately. When he moves to the real subject, he does it obliquely: 'the road has been busy lately' before 'too busy, I think'. He speaks in observations rather than conclusions and waits for the other person to draw the conclusion aloud."
+  }
+]

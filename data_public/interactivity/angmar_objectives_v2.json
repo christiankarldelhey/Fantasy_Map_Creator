@@ -1,0 +1,604 @@
+[
+  {
+    "id": "angmar_s01",
+    "scale": "short",
+    "region": "Angmar",
+    "location": "Village of Kuska",
+    "place": "The Grey Moon Inn",
+    "type": "information_gathering",
+    "npcs": [
+      {
+        "name": "Dumfa",
+        "role": "innkeeper, Dunlending, businesslike, asks no questions"
+      },
+      {
+        "name": "Foskat",
+        "role": "guard sergeant, from Rhudaur, considering desertion — loosens up after two drinks"
+      }
+    ],
+    "problem": "Off-duty soldiers from Castle Morkai drink here. A traveller who fits in and listens can collect patrol schedules and garrison mood without raising suspicion.",
+    "decisions": [
+      {
+        "moment": "Arriving at the inn",
+        "situation": "Two soldiers from Morkai are at the bar discussing a patrol change. A third man — Foskat — is drinking alone.",
+        "options": [
+          {
+            "label": "Sit near the soldiers and listen",
+            "check": "stealth",
+            "difficulty": 4
+          },
+          {
+            "label": "Buy Foskat a drink and let him talk",
+            "check": "persuasion",
+            "difficulty": 5
+          },
+          {
+            "label": "Ask Dumfa directly about road conditions",
+            "check": "social",
+            "difficulty": 3
+          }
+        ],
+        "outcomes": {
+          "success": "Learn the patrol schedule for the next week and the direction of the next supply run.",
+          "partial": "Learn that something changed at Morkai recently but not what.",
+          "failure": "One of the soldiers notices your interest and reports it to the castle the next morning."
+        }
+      },
+      {
+        "moment": "Foskat steps outside",
+        "situation": "He is considering deserting south. He has specific information about Morkai's garrison strength but won't give it freely.",
+        "options": [
+          {
+            "label": "Offer to escort him as far as the border",
+            "check": "persuasion",
+            "difficulty": 6
+          },
+          {
+            "label": "Mention a specific name he might know from Rhudaur",
+            "check": "lore",
+            "difficulty": 5,
+            "requires": "dunadan_north OR northman character"
+          },
+          {
+            "label": "Leave him alone — too risky",
+            "check": null,
+            "difficulty": 0
+          }
+        ],
+        "outcomes": {
+          "success": "Foskat tells you the garrison count, the wolf-rider patrol times, and where the postern gate is unwatched.",
+          "partial": "He tells you only the postern gate information before losing his nerve.",
+          "failure": "He goes back inside and tells Nudan there is a suspicious traveller."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: Foskat is more frightened of you than he needs to be — persuasion checks are harder.",
+    "energy_modifier": "depleted energy: you look too rough — social checks at the inn start at a disadvantage.",
+    "inventory_modifier": "carrying obvious weapons: soldiers are warier. Persuasion difficulty +1.",
+    "difficulty": "low",
+    "resolution": "A single evening. Success gives actionable intelligence usable for medium/large objectives at Morkai."
+  },
+  {
+    "id": "angmar_s02",
+    "scale": "short",
+    "region": "Angmar — southern mountains",
+    "location": "Corlagon's pass",
+    "place": "A mountain pass cave used by Corlagon the Red as his lair",
+    "type": "avoidance",
+    "npcs": [
+      {
+        "name": "Corlagon the Red",
+        "role": "lesser winged drake, not fire-breathing, territorial, not aggressive unless provoked"
+      }
+    ],
+    "problem": "The pass is the fastest northern route. Corlagon hunts at dawn and dusk above the snowline. His lair is in the pass itself. Cross without drawing his attention.",
+    "decisions": [
+      {
+        "moment": "Approaching the pass",
+        "situation": "Fresh goat blood on the rocks — Corlagon hunted here recently. Midday, quiet.",
+        "options": [
+          {
+            "label": "Cross now at midday while he is likely sleeping",
+            "check": "stealth",
+            "difficulty": 4
+          },
+          {
+            "label": "Wait and observe his movement pattern for a few hours",
+            "check": "tracking",
+            "difficulty": 3
+          },
+          {
+            "label": "Move fast and loud — startle him before he can coordinate",
+            "check": "courage",
+            "difficulty": 7
+          }
+        ],
+        "outcomes": {
+          "success": "Cross the pass unseen.",
+          "partial": "Cross but he sees you from a distance — he notes your direction and may report it.",
+          "failure": "He is in the pass entrance, awake. The encounter cannot be avoided."
+        }
+      },
+      {
+        "moment": "If Corlagon is encountered",
+        "situation": "He blocks the pass. He is not attacking — he is assessing. He cannot breathe fire.",
+        "options": [
+          {
+            "label": "Hold still — let him decide you are not worth the effort",
+            "check": "courage",
+            "difficulty": 5
+          },
+          {
+            "label": "Back away slowly and take the long route",
+            "check": null,
+            "difficulty": 0
+          },
+          {
+            "label": "Offer him something from your inventory",
+            "check": "persuasion",
+            "difficulty": 6,
+            "requires": "food OR valuables in inventory"
+          }
+        ],
+        "outcomes": {
+          "success": "He loses interest and retreats to his lair.",
+          "partial": "He lets you pass but follows at a distance for an hour.",
+          "failure": "He attacks. You must flee or fight — either costs energy and may cost inventory."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: Corlagon is more interested in you — he can sense it. Stealth difficulty +2.",
+    "energy_modifier": "depleted energy: you cannot move fast enough for the 'startle' option safely.",
+    "inventory_modifier": "food in inventory: unlocks 'offer him something' option. Sacrifice food to make him lose interest.",
+    "difficulty": "medium",
+    "resolution": "One crossing attempt. Failure adds 3 days (long route) or triggers a drake encounter."
+  },
+  {
+    "id": "angmar_s03",
+    "scale": "short",
+    "region": "No Man's Land",
+    "location": "The supply road between Cargash Keep and Eldanar",
+    "place": "A supply train on the northern road — a narrow valley section",
+    "type": "disruption",
+    "npcs": [
+      {
+        "name": "unnamed quartermaster",
+        "role": "leads the train, cautious, experienced"
+      },
+      {
+        "name": "unnamed guards",
+        "role": "5-15 men per wagon, second to fourth level soldiers"
+      }
+    ],
+    "problem": "A Rhudaur supply train is moving north. Delaying or disrupting it weakens the northern garrisons. This is a road action, not a siege — the goal is disruption, not slaughter.",
+    "decisions": [
+      {
+        "moment": "Spotting the train in the valley",
+        "situation": "Six wagons, twenty guards, narrow road, river on one side, cliff on the other.",
+        "options": [
+          {
+            "label": "Block the road from the cliff above — start a rockslide",
+            "check": "strength",
+            "difficulty": 6
+          },
+          {
+            "label": "Attack the lead wagon and force a rout",
+            "check": "combat",
+            "difficulty": 7
+          },
+          {
+            "label": "Spook the horses from the riverbank with noise and fire",
+            "check": "stealth",
+            "difficulty": 5,
+            "requires": "fire starter in inventory"
+          }
+        ],
+        "outcomes": {
+          "success": "Train is delayed two days. One wagon in the river. Guards retreat to wait for reinforcements.",
+          "partial": "Train stops for half a day. Guards are now alert — the road behind you is being watched.",
+          "failure": "Guards respond effectively. You must flee. The train continues and the road is now actively patrolled."
+        }
+      },
+      {
+        "moment": "After the disruption (success or partial)",
+        "situation": "Signal flares are going up from the valley. Cargash Keep will send a search party within two hours.",
+        "options": [
+          {
+            "label": "Move into the hills immediately — avoid the road for two days",
+            "check": "survival",
+            "difficulty": 4
+          },
+          {
+            "label": "Hide in the riverbank vegetation and wait for the search party to pass",
+            "check": "stealth",
+            "difficulty": 5
+          },
+          {
+            "label": "Move fast toward Eldanar — the search will go north, not south",
+            "check": "endurance",
+            "difficulty": 5
+          }
+        ],
+        "outcomes": {
+          "success": "Clean escape. No pursuit.",
+          "partial": "Tracked to within a mile before the trail goes cold. Energy cost.",
+          "failure": "Caught by the search party. Captured or forced into a second combat."
+        }
+      }
+    ],
+    "shadow_modifier": "mid/high shadow: you are more willing to take the direct combat option — but that path has more consequences.",
+    "energy_modifier": "depleted energy: the escape decision is harder. Endurance checks at disadvantage.",
+    "inventory_modifier": "arrows: combat option becomes viable from distance. Fire starter: unlocks the horse-spook option.",
+    "difficulty": "medium",
+    "resolution": "One road action. Two-day disruption to Angmar supply chain. Raises patrol activity on the road for a week."
+  },
+  {
+    "id": "angmar_m01",
+    "scale": "medium",
+    "region": "No Man's Land — Arthedain border",
+    "location": "Cargash Keep patrol circuit",
+    "place": "The road and ford used by Surk/Arleg on his patrol",
+    "type": "extraction",
+    "npcs": [
+      {
+        "name": "Surk (real name: Arleg)",
+        "role": "Arthedain spy embedded as sixth-level patrol leader at Cargash. Has been there months. Sent a message: 'now'."
+      },
+      {
+        "name": "Heludar",
+        "role": "garrison commander, gifted, watching Surk with growing suspicion"
+      },
+      {
+        "name": "Haree",
+        "role": "patrol leader, excellent tracker, +20 bonus — will follow any trail left"
+      }
+    ],
+    "problem": "Arleg has critical intelligence and cannot stay longer. He needs to disappear from his patrol in a way that looks like death or desertion — not extraction. If it looks like extraction, the intelligence he carries is burned and the next embedded agent is compromised.",
+    "decisions": [
+      {
+        "moment": "Day 1 — Making contact",
+        "situation": "Arleg's patrol passes a ford at midday every third day. You need to contact him without being seen by the two soldiers with him.",
+        "options": [
+          {
+            "label": "Wait in the river reeds and signal when the soldiers water the horses",
+            "check": "stealth",
+            "difficulty": 5
+          },
+          {
+            "label": "Come to the ford openly as a traveller and let him make the contact",
+            "check": "social",
+            "difficulty": 4
+          },
+          {
+            "label": "Leave a pre-arranged sign on the waystone — he will know to separate at the next junction",
+            "check": "lore",
+            "difficulty": 3,
+            "requires": "dunadan_north character OR prior briefing"
+          }
+        ],
+        "outcomes": {
+          "success": "Contact made, extraction plan agreed, Arleg has 36 hours before his absence is noticed.",
+          "partial": "Contact made but one of the soldiers saw something. Heludar will be told. Window shrinks to 12 hours.",
+          "failure": "Contact failed. Arleg's patrol returns to the keep. You have one more day before Heludar acts on his suspicions."
+        }
+      },
+      {
+        "moment": "Day 2 — The disappearance",
+        "situation": "Arleg separates from his patrol on a ridge walk. The cover story needs to make his absence look like a fall or an animal attack — not a clean departure.",
+        "options": [
+          {
+            "label": "Stage a fall into the ravine — convincing enough to call off the search",
+            "check": "deception",
+            "difficulty": 6
+          },
+          {
+            "label": "Manufacture orc-sign at the point of disappearance",
+            "check": "tracking",
+            "difficulty": 5
+          },
+          {
+            "label": "Simply vanish — let the uncertainty do the work",
+            "check": "stealth",
+            "difficulty": 7
+          }
+        ],
+        "outcomes": {
+          "success": "Search called off within a day. Arleg presumed dead. Clean extraction.",
+          "partial": "Search continues for three days. Haree is tracking. You are moving but so is he.",
+          "failure": "Heludar suspects extraction, not death. Every road south is watched."
+        }
+      },
+      {
+        "moment": "Day 3 — Getting out",
+        "situation": "Haree is tracking (on partial) or patrols are watching roads (on failure). The border crossing is two days south.",
+        "options": [
+          {
+            "label": "Move at night through the hills — avoid all roads",
+            "check": "survival",
+            "difficulty": 5
+          },
+          {
+            "label": "Use the Eldanar tunnel if you know it exists",
+            "check": null,
+            "difficulty": 0,
+            "requires": "angmar_m02 completed"
+          },
+          {
+            "label": "Split up — you draw pursuit while Arleg moves south alone",
+            "check": "combat",
+            "difficulty": 6
+          }
+        ],
+        "outcomes": {
+          "success": "Cross the border clean. Arleg and his intelligence reach Fornost.",
+          "partial": "Cross but Arleg is wounded or you are tracked to the border. Pursuit ends at the crossing.",
+          "failure": "Caught. Arleg is recaptured. You must flee alone."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow on Arleg's character sheet (not yours) makes his disappearance more credible as something dark — but also makes Heludar more suspicious.",
+    "energy_modifier": "your depleted energy limits the 'night hills' option — survival checks at disadvantage.",
+    "inventory_modifier": "rope: enables the staged fall convincingly. Orc-kill blade (rare): makes the manufactured orc-sign more credible.",
+    "difficulty": "medium",
+    "resolution": "3-day arc. Success delivers critical Angmar intelligence to Arthedain. Failure burns the embedded agent network in Cargash."
+  },
+  {
+    "id": "angmar_m02",
+    "scale": "medium",
+    "region": "No Man's Land",
+    "location": "Eldanar Castle",
+    "place": "The castle approach, the outer bailey, the keep's ground floor",
+    "type": "reconnaissance",
+    "npcs": [
+      {
+        "name": "Arkish",
+        "role": "ninth level, commander, organized, rarely leaves the castle"
+      },
+      {
+        "name": "Elosian",
+        "role": "Arkish's mistress, fourth level magician, secretly sympathetic to Dunedain — holds Arkish's decisions in her palm"
+      },
+      {
+        "name": "Ornil",
+        "role": "Arkish's slave healer, wants to escape, sometimes outside the walls gathering herbs"
+      },
+      {
+        "name": "Elenuil",
+        "role": "rightful lord, in Fornost — gave you the word 'Tintallo' and a key to the hidden tunnel"
+      }
+    ],
+    "problem": "Confirm the Dwarven tunnel under Eldanar Castle is still undiscovered. If intact, it is the most valuable covert route in no man's land. The entrance is in the master's quarters on the keep's ground floor.",
+    "decisions": [
+      {
+        "moment": "Day 1 — Getting in",
+        "situation": "Eldanar has a garrison of 225 men. The outer bailey has regular activity — workers, animals, supply intake.",
+        "options": [
+          {
+            "label": "Approach as a traveling craftsman during supply intake",
+            "check": "deception",
+            "difficulty": 5
+          },
+          {
+            "label": "Contact Ornil on the herb circuit — he is sometimes outside the walls",
+            "check": "tracking",
+            "difficulty": 4
+          },
+          {
+            "label": "Approach Elosian through a message left at a location only a Dunedain would know",
+            "check": "lore",
+            "difficulty": 6,
+            "requires": "dunadan_north character"
+          }
+        ],
+        "outcomes": {
+          "success": "Inside the castle with a plausible cover or with Ornil/Elosian's active help.",
+          "partial": "Inside, but your cover is thin — you have until morning before someone checks your story.",
+          "failure": "Turned away at the gate. Need a different approach or a different day."
+        }
+      },
+      {
+        "moment": "Reaching the master's quarters",
+        "situation": "The ground floor of the keep. The tunnel entrance is behind a wall panel — the word Tintallo opens it when spoken while holding the key. It is currently used as storage.",
+        "options": [
+          {
+            "label": "Access the room directly during a quiet hour",
+            "check": "stealth",
+            "difficulty": 5
+          },
+          {
+            "label": "Ask Elosian to clear the room on a pretext",
+            "check": "persuasion",
+            "difficulty": 4,
+            "requires": "Elosian contacted successfully"
+          },
+          {
+            "label": "Wait until night when the room is unwatched",
+            "check": "endurance",
+            "difficulty": 3
+          }
+        ],
+        "outcomes": {
+          "success": "The panel opens. The tunnel is intact, dry, and undiscovered. Confirmed.",
+          "partial": "The panel opens but you hear someone approaching — you must leave before fully confirming the far end.",
+          "failure": "Someone is always in or near the room. Cannot access it this visit."
+        }
+      },
+      {
+        "moment": "Getting out with the information",
+        "situation": "A guard noticed you in a corridor you should not have been in.",
+        "options": [
+          {
+            "label": "Use the tunnel itself to exit — the far end is 3 miles south",
+            "check": null,
+            "difficulty": 0,
+            "requires": "tunnel confirmed"
+          },
+          {
+            "label": "Bluff your way to the gate before the guard reports",
+            "check": "deception",
+            "difficulty": 6
+          },
+          {
+            "label": "Leave through the Rhukar-blind spot on the north wall",
+            "check": "stealth",
+            "difficulty": 5
+          }
+        ],
+        "outcomes": {
+          "success": "Clean exit. Tunnel confirmed or information secured.",
+          "partial": "Exit but the garrison is on alert. The tunnel / infiltration route is now known to exist, if not how it was used.",
+          "failure": "Captured. The tunnel key is found on you — Arkish now knows about the tunnel and will investigate."
+        }
+      }
+    ],
+    "shadow_modifier": "mid/high shadow: Elosian senses something about you she cannot name — she is more cautious. Persuasion with her is harder.",
+    "energy_modifier": "depleted energy: the 'wait until night' option is difficult — endurance check required to stay alert.",
+    "inventory_modifier": "the tunnel key (given by Elenuil): required to open the panel. Without it the tunnel cannot be confirmed. The word alone does nothing.",
+    "difficulty": "medium",
+    "resolution": "2-day arc. Success opens the tunnel as an extraction route for future objectives. Failure may burn the tunnel permanently."
+  },
+  {
+    "id": "angmar_l01",
+    "scale": "large",
+    "region": "Angmar",
+    "location": "Carn Dûm",
+    "place": "Multiple levels — lower barracks tunnels, Level 4 prison, eastern tunnel exit",
+    "type": "rescue",
+    "npcs": [
+      {
+        "name": "Dancu",
+        "role": "lord of the castle, Black Númenorean, 30th level — commands all special units, never far from Carn Dûm"
+      },
+      {
+        "name": "Harlluinar",
+        "role": "second in command of the Trackers — fanatically dedicated, no rivalry to exploit"
+      },
+      {
+        "name": "Sarkan",
+        "role": "Tracker commander, 15th level — knows every patrol circuit and every trail out of the mountain"
+      },
+      {
+        "name": "unnamed Dunedain prisoner",
+        "role": "strategic captive, held on Level 4, transport to the East scheduled within days"
+      }
+    ],
+    "problem": "A high-value Dunedain prisoner is in Carn Dûm's Level 4 prison. Transport east begins in 4 days — after that, recovery is impossible. The fortress has 50,000 orcs, a Tracker unit of 200 elite rangers, and Dancu's direct oversight. This is not an infiltration for novices.",
+    "arc": [
+      {
+        "phase": "Approach and intelligence",
+        "decisions_summary": "Getting to Carn Dûm undetected, identifying which level and which cell, and establishing an exit route. Sarkan's Trackers patrol all roads leading to the mountain. The eastern tunnel exit on Level 4 is the only route out that doesn't pass through the garrison — but it must be located first.",
+        "key_checks": [
+          "stealth (approach)",
+          "tracking (avoid Sarkan's circuit)",
+          "lore (read the mountain layout)"
+        ]
+      },
+      {
+        "phase": "Getting inside",
+        "decisions_summary": "The lower levels are orcish territory — the population is suspicious and the corridors are guarded at intervals. Options include the supply intake (wagons enter the lower level daily), the orc tunnels below the garrison (dangerous but unwatched by humans), or a distraction that draws the barracks patrols outward.",
+        "key_checks": [
+          "deception OR stealth",
+          "courage (orc tunnels)",
+          "combat (if discovered)"
+        ]
+      },
+      {
+        "phase": "The prison and the prisoner",
+        "decisions_summary": "Level 4 is heavily guarded — four 10th-level guards at each entrance, additional black trolls on the stairs to Level 5. The prisoner's condition matters: healthy, they can move fast; injured, they cannot. The eastern tunnel exit is on this level — it leads to stairs to the mountain top, and from there to the outside face.",
+        "key_checks": [
+          "stealth (approach to the prison)",
+          "strength OR combat (guards)",
+          "endurance (prisoner condition)"
+        ]
+      },
+      {
+        "phase": "The exit",
+        "decisions_summary": "The Witch King can detect strangers within 75 feet on Level 4 — if he is present, this phase becomes critical. The eastern tunnel is the only route that avoids the garrison entirely. The mountain face outside requires a descent of several hundred feet. Then Sarkan is between you and the border.",
+        "key_checks": [
+          "courage (Witch King proximity)",
+          "survival (mountain descent)",
+          "endurance (final run to border)"
+        ]
+      }
+    ],
+    "shadow_modifier": "high shadow makes you visible to the Witch King at greater range. At shadow 46+, his detection radius extends. This mission should be attempted at shadow low or mid.",
+    "energy_modifier": "depleted energy at any phase makes the exit impossible — the mountain descent requires full physical capacity.",
+    "inventory_modifier": "rope: required for mountain descent. Athelas or healing herbs: may determine whether the prisoner can move at pace.",
+    "difficulty": "very_high",
+    "resolution": "4-5 day arc tied to the map journey. Requires preparation from shorter objectives (tunnel knowledge from angmar_m02, Kuska intelligence from angmar_s01, Sarkan's patrol circuit from angmar_m01). Can be the main quest of an Angmar journey."
+  },
+  {
+    "id": "angmar_l02",
+    "scale": "large",
+    "region": "Angmar",
+    "location": "Castle Morkai",
+    "place": "The road to Morkai, the outer and inner bailey, the Great Hall",
+    "type": "intelligence_deep",
+    "npcs": [
+      {
+        "name": "General Ulrac",
+        "role": "commands all western border defense, 27th level, fierce and cruel, suspects Arthedain activity constantly"
+      },
+      {
+        "name": "Jukath",
+        "role": "ashâktur, 10th level, efficient administrator — notices everything out of routine"
+      },
+      {
+        "name": "Ukandar",
+        "role": "cavalry captain, 8th level, noble from Rhudaur, excellent battlefield commander"
+      },
+      {
+        "name": "Durac",
+        "role": "second cavalry commander, 7th level, ruthless, underhanded — known to take bribes. Can be bought but will eventually inform"
+      },
+      {
+        "name": "Huskash",
+        "role": "wolf-rider commander, 9th level, communicates with his wolf — the wolf will track any scent that enters the castle"
+      }
+    ],
+    "problem": "Ulrac is planning a major raid into Arthedain. The target, date and size are unknown to Arthedain's king. Morkai's meeting room contains charts of the area and Ulrac's operational maps. This intelligence, combined with what Arleg carried (if extracted), would allow Arthedain to prepare a specific defense.",
+    "arc": [
+      {
+        "phase": "Getting to Morkai",
+        "decisions_summary": "The road to Morkai is heavy with traffic — supply wagons, soldiers, messengers. Cover as a trader or craftsman is viable but Huskash's wolves patrol the perimeter nightly. Any traveller near the castle at night is investigated.",
+        "key_checks": [
+          "deception (cover identity)",
+          "stealth (approach at night)",
+          "social (passing the gate check)"
+        ]
+      },
+      {
+        "phase": "Inside the outer bailey",
+        "decisions_summary": "The outer bailey contains barracks, stables, and the supply infrastructure. The meeting room and Ulrac's office are in the Great Hall on the upper level. Getting there requires either passage through the inner gate or access via the tower stairway that connects the outer wall walkway to the second floor.",
+        "key_checks": [
+          "stealth OR deception",
+          "endurance (waiting for the right moment)",
+          "lore (reading the castle layout)"
+        ]
+      },
+      {
+        "phase": "The Great Hall and the maps",
+        "decisions_summary": "Room 18 has the charts. Room 19 is Ulrac's office. Copying rather than taking is preferable — a missing map triggers an immediate search. Jukath does a nightly inventory of the hall. The window between Jukath's last round and the first morning patrol is approximately two hours.",
+        "key_checks": [
+          "stealth (in the hall)",
+          "deception (if encountered)",
+          "endurance (working fast enough)"
+        ]
+      },
+      {
+        "phase": "Leaving Morkai",
+        "decisions_summary": "Huskash's wolf will have your scent if you were inside the bailey. Once a wolf has a scent it does not lose it on roads — only running water breaks the trail. The nearest river crossing is four miles south. Patrols leave at dawn.",
+        "key_checks": [
+          "stealth OR survival (before dawn)",
+          "endurance (four miles at pace)",
+          "courage (if the wolf catches you first)"
+        ]
+      }
+    ],
+    "shadow_modifier": "mid/high shadow: Huskash's wolf reacts more strongly to you — the scent of shadow draws it faster. Stealth checks near the wolf-rider quarters are harder.",
+    "energy_modifier": "depleted energy: the four-mile river run becomes an endurance failure. You must rest before the final phase.",
+    "inventory_modifier": "writing materials: required to copy the maps in place. Without them you must take the originals — much higher risk.",
+    "difficulty": "high",
+    "resolution": "3-4 day arc. Combined with Arleg's intelligence this is the primary strategic win of an Angmar journey. Failure triggers a garrison response that makes other objectives in the region harder for weeks."
+  }
+]

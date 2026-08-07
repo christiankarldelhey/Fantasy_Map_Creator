@@ -1,0 +1,857 @@
+[
+  {
+    "id": "necro_s01",
+    "scale": "short",
+    "region": "Southern Mirkwood",
+    "location": "The Haunted Inn (Baranduin Inn)",
+    "place": "Common room and cellar of an isolated wayhouse on the Mirkwood road",
+    "type": "information_gathering",
+    "npcs": [
+      {
+        "name": "Bregorn",
+        "role": "innkeeper, corrupt, working for Vardal — reports on travellers passing through. Appears hospitable, is dangerous."
+      },
+      {
+        "name": "Laurrë",
+        "role": "half-elf ranger, staying at the inn — watching Bregorn, not sure who to trust yet. Potential ally."
+      },
+      {
+        "name": "Mira",
+        "role": "serving girl, frightened, knows something is wrong but cannot say what in front of Bregorn"
+      }
+    ],
+    "problem": "The Baranduin Inn is the only shelter on this stretch of the Mirkwood road. Travellers who stay are observed and reported to Vardal's network. Bregorn keeps a written log of who passed through and when — this log is in the cellar. Getting the information in the log (to understand what Vardal knows about road movements) without alerting Bregorn is the goal.",
+    "decisions": [
+      {
+        "moment": "Arriving at the inn",
+        "situation": "Bregorn greets warmly. Laurrë sits alone watching. Mira refills drinks without making eye contact.",
+        "options": [
+          {
+            "label": "Eat and watch — let Bregorn do the talking",
+            "check": "perception",
+            "difficulty": 3
+          },
+          {
+            "label": "Make conversation with Laurrë — she clearly knows something",
+            "check": "social",
+            "difficulty": 4
+          },
+          {
+            "label": "Engage Bregorn directly — ask about road conditions with enough detail to see what he knows",
+            "check": "deception",
+            "difficulty": 5
+          }
+        ],
+        "outcomes": {
+          "success": "Laurrë confirms Bregorn reports to someone south. Mira's look at the cellar door says where the log is.",
+          "partial": "Something is wrong here but you cannot place it. Bregorn is watching you back.",
+          "failure": "Bregorn sends a message out the back before you have finished eating. Someone now knows you are on this road."
+        }
+      },
+      {
+        "moment": "During the night — accessing the cellar",
+        "situation": "Bregorn sleeps upstairs. The cellar door has a simple lock.",
+        "options": [
+          {
+            "label": "Pick the lock and read the log by candlelight",
+            "check": "stealth",
+            "difficulty": 4
+          },
+          {
+            "label": "Ask Mira for help — she wants out of this place",
+            "check": "persuasion",
+            "difficulty": 5,
+            "requires": "gained her trust"
+          },
+          {
+            "label": "Wait for dawn and confront Bregorn directly",
+            "check": "combat",
+            "difficulty": 7
+          }
+        ],
+        "outcomes": {
+          "success": "The log names three Dunedain who passed through in the last month — and shows they were followed south.",
+          "partial": "You see the log but Bregorn wakes before you can read it fully. One name — and a destination south.",
+          "failure": "Bregorn catches you. He calls for help. The inn is not safe."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: Mira will not approach you — she senses something. Persuasion with her impossible.",
+    "energy_modifier": "depleted energy: staying awake for the night access is harder — stealth check at disadvantage.",
+    "inventory_modifier": "lockpick or thin blade: reduces cellar lock difficulty by 2.",
+    "difficulty": "low",
+    "resolution": "One night. The log provides intelligence about who Vardal has been tracking on the Mirkwood road.",
+    "hooks": [
+      "Mira slips you a note: 'Don't sleep here.'",
+      "Laurrë catches your eye and barely shakes her head when Bregorn turns away."
+    ]
+  },
+  {
+    "id": "necro_s02",
+    "scale": "short",
+    "region": "Southern Mirkwood",
+    "location": "Ford of Moragalen",
+    "place": "A river crossing on the edge of the forest where the road enters the deep wood",
+    "type": "avoidance_or_passage",
+    "npcs": [
+      {
+        "name": "Vardal's patrol",
+        "role": "4-6 human soldiers in Vardal's service, checking all travellers at the ford"
+      },
+      {
+        "name": "unnamed woodsman",
+        "role": "local, knows a second crossing upstream — will share it for a small service"
+      }
+    ],
+    "problem": "Vardal has placed a checkpoint at the only known ford. Everyone crossing is questioned and the names are reported to Dol Guldur. The patrol is human, not orc — they appear to be a legitimate border watch. Passing without being reported means either avoiding the ford entirely or convincing the patrol you are nobody.",
+    "decisions": [
+      {
+        "moment": "Seeing the patrol at the ford from the treeline",
+        "situation": "Four soldiers. One is writing in a ledger. The crossing itself is shallow and fast.",
+        "options": [
+          {
+            "label": "Watch the patrol rotation and cross when the shift changes",
+            "check": "stealth",
+            "difficulty": 5
+          },
+          {
+            "label": "Approach openly — traveller on the road, nothing to hide",
+            "check": "deception",
+            "difficulty": 4
+          },
+          {
+            "label": "Find the woodsman upstream — there is a second crossing",
+            "check": "tracking",
+            "difficulty": 4
+          }
+        ],
+        "outcomes": {
+          "success": "Cross without your name in the ledger.",
+          "partial": "Cross, but your description is noted even if not your name. Vardal may recognize it.",
+          "failure": "Your name and direction are in the ledger by nightfall. Vardal knows you are coming."
+        }
+      },
+      {
+        "moment": "If the woodsman is found",
+        "situation": "He knows the upstream crossing but wants something first: a message delivered to his daughter in the next village — he cannot leave the forest right now.",
+        "options": [
+          {
+            "label": "Accept the errand — deliver the message on the way",
+            "check": null,
+            "difficulty": 0
+          },
+          {
+            "label": "Pay him instead",
+            "check": "social",
+            "difficulty": 3,
+            "requires": "coin in inventory"
+          },
+          {
+            "label": "Ignore him and find the crossing yourself",
+            "check": "survival",
+            "difficulty": 6
+          }
+        ],
+        "outcomes": {
+          "success": "Cross the upstream ford unseen. No record exists of your passage.",
+          "partial": "Cross but the woodsman points you in a direction that costs an extra half-day.",
+          "failure": "Cannot find the crossing alone. Back to the main ford."
+        }
+      }
+    ],
+    "shadow_modifier": "mid/high shadow: the patrol sergeant has instincts — he asks harder questions. Deception difficulty +2.",
+    "energy_modifier": "depleted energy: stealth through the treeline is harder — you are moving slowly.",
+    "inventory_modifier": "coin: makes the woodsman exchange easier. Official-looking papers: deception at the ford much easier.",
+    "difficulty": "low",
+    "resolution": "A few hours. Success keeps the party invisible to Vardal's network. Failure means they are expected.",
+    "hooks": [
+      "A merchant heading back from the ford is pale and shaking — he won't say what the patrol asked him.",
+      "The ledger at the ford is open — you can see several recent names including one you recognize as a missing ranger."
+    ]
+  },
+  {
+    "id": "necro_s03",
+    "scale": "short",
+    "region": "Southern Mirkwood",
+    "location": "The ruins of Mistrand",
+    "place": "Collapsed Dúnedain watchtower at the forest edge, partially occupied by spiders",
+    "type": "exploration_and_recovery",
+    "npcs": [
+      {
+        "name": "Laurrë",
+        "role": "half-elf ranger — sent ahead to scout Mistrand, has not returned. May be injured inside."
+      },
+      {
+        "name": "giant spiders",
+        "role": "occupying the tower's upper levels — territorial, web the approaches"
+      }
+    ],
+    "problem": "Laurrë went to retrieve a hidden cache of maps at Mistrand — old Númenórean charts of the routes through southern Mirkwood that would allow the party to move without using Vardal's roads. She has not returned in two days. Either the spiders got her, she found something unexpected, or she is hiding inside waiting.",
+    "decisions": [
+      {
+        "moment": "Approaching Mistrand",
+        "situation": "Web strands across the entrance. Fresh web — made within the last day. Something is inside.",
+        "options": [
+          {
+            "label": "Burn the web and go in fast before the spiders reorganize",
+            "check": "combat",
+            "difficulty": 6,
+            "requires": "fire starter in inventory"
+          },
+          {
+            "label": "Cut through quietly and move to the cache location without waking the upper level",
+            "check": "stealth",
+            "difficulty": 5
+          },
+          {
+            "label": "Call for Laurrë from outside — if she can hear you, she will signal",
+            "check": "perception",
+            "difficulty": 3
+          }
+        ],
+        "outcomes": {
+          "success": "Laurrë is in the lower level, injured but alert — she found the maps and has been pinned down.",
+          "partial": "You get inside but the spiders are aware. Two minutes before they descend.",
+          "failure": "The spiders swarm the entrance. You cannot get in without a fight."
+        }
+      },
+      {
+        "moment": "Inside — getting Laurrë and the maps out",
+        "situation": "Laurrë has a leg wound. The maps are in a stone alcove. The spiders are above.",
+        "options": [
+          {
+            "label": "Carry Laurrë and leave the maps — come back for them",
+            "check": "strength",
+            "difficulty": 4
+          },
+          {
+            "label": "Get the maps first, then help Laurrë out — fast",
+            "check": "endurance",
+            "difficulty": 5
+          },
+          {
+            "label": "Fight the spiders to clear the exit properly",
+            "check": "combat",
+            "difficulty": 6
+          }
+        ],
+        "outcomes": {
+          "success": "Both Laurrë and the maps are out. The maps show three hidden paths Vardal does not know.",
+          "partial": "Laurrë is out. Maps left behind. The spider nest is now disturbed and will be worse if you return.",
+          "failure": "Spider venom. Someone is bitten. Energy cost plus condition penalty for two days."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: the spiders respond more aggressively — they can sense it. Stealth in the ruins is harder.",
+    "energy_modifier": "depleted energy: the 'carry Laurrë' option fails — you cannot manage both the weight and the spiders.",
+    "inventory_modifier": "fire starter: enables the burn-the-web approach. Rope: helps extract Laurrë without full strength check.",
+    "difficulty": "medium",
+    "resolution": "Half a day. Success provides the hidden route maps and recovers Laurrë as an ally. Failure costs Laurrë or the maps or both.",
+    "hooks": [
+      "A piece of Laurrë's cloak is caught in the web at the entrance — she definitely went in.",
+      "Spider webs on the road leading to Mistrand are fresh and thick — more activity than usual."
+    ]
+  },
+  {
+    "id": "necro_s04",
+    "scale": "short",
+    "region": "Southern Mirkwood",
+    "location": "Vardal's forest camp",
+    "place": "A hidden camp in the Mirkwood undergrowth — Vardal's field base of operations",
+    "type": "reconnaissance",
+    "npcs": [
+      {
+        "name": "Vardal",
+        "role": "Uvatha's human agent — cruel, capable, 12th level warrior. Runs the road-watch network. Currently at the camp reviewing reports."
+      },
+      {
+        "name": "Gîl",
+        "role": "innkeeper's daughter from Tyar, captive at the camp — bait for her father's cooperation"
+      },
+      {
+        "name": "camp guards",
+        "role": "6 soldiers, rotated patrol"
+      }
+    ],
+    "problem": "Vardal's camp is where the road-watch reports converge. Observing it from cover for one full watch-cycle reveals the patrol pattern, the number of men, and — if lucky — Gîl's location within the camp. This reconnaissance is required before any rescue attempt.",
+    "decisions": [
+      {
+        "moment": "Finding the camp",
+        "situation": "Vardal's camp is well-hidden but the patrol routes leave signs a tracker can follow.",
+        "options": [
+          {
+            "label": "Track the patrol back to camp",
+            "check": "tracking",
+            "difficulty": 5
+          },
+          {
+            "label": "Use Laurrë's knowledge of the forest to locate it",
+            "check": null,
+            "difficulty": 0,
+            "requires": "Laurrë as ally (necro_s03 success)"
+          },
+          {
+            "label": "Follow a supply runner from the ford",
+            "check": "stealth",
+            "difficulty": 4
+          }
+        ],
+        "outcomes": {
+          "success": "Camp located. Position known. You can observe from 30 metres without being seen.",
+          "partial": "Camp located but you disturbed something on the way in. The patrol is slightly more alert.",
+          "failure": "Lost the trail. The camp is not found today. Vardal moves it tomorrow."
+        }
+      },
+      {
+        "moment": "Observing the camp",
+        "situation": "Watching for a full patrol cycle — about two hours. Guards rotate every 45 minutes. Vardal moves between tents reviewing documents.",
+        "options": [
+          {
+            "label": "Stay absolutely still for the full two hours",
+            "check": "endurance",
+            "difficulty": 4
+          },
+          {
+            "label": "Move closer to see the documents Vardal is reading",
+            "check": "stealth",
+            "difficulty": 6
+          },
+          {
+            "label": "Observe the camp perimeter only — get the patrol pattern and leave",
+            "check": "perception",
+            "difficulty": 3
+          }
+        ],
+        "outcomes": {
+          "success": "Full patrol pattern known. Gîl's tent identified. Vardal's document appears to be a list of names — Dunedain rangers.",
+          "partial": "Patrol pattern known. Gîl's location unknown — she may be in the central tent.",
+          "failure": "A guard heard something. You must withdraw immediately. The camp goes to alert."
+        }
+      }
+    ],
+    "shadow_modifier": "mid/high shadow: Vardal has instincts — if shadow is high he checks the treeline more often. Stealth checks harder.",
+    "energy_modifier": "depleted energy: the two-hour still observation is an endurance failure.",
+    "inventory_modifier": null,
+    "difficulty": "medium",
+    "resolution": "Two hours of observation. This reconnaissance directly enables necro_m01 (the rescue of Gîl). Without it, the rescue is blind.",
+    "hooks": [
+      "The patrol schedule at the ford changed suddenly — Vardal moved something.",
+      "Mira told you Gîl was taken south three days ago by soldiers matching Vardal's description."
+    ]
+  },
+  {
+    "id": "necro_s05",
+    "scale": "short",
+    "region": "Southern Mirkwood — road near Tyar village",
+    "location": "The village of Tyar",
+    "place": "The inn, the market square, and the village headman's house",
+    "type": "contact_and_warning",
+    "npcs": [
+      {
+        "name": "Naran",
+        "role": "innkeeper of Tyar, Gîl's father — cooperative with Vardal only because Gîl is held hostage. Wants desperately to stop."
+      },
+      {
+        "name": "village headman",
+        "role": "unaware of Vardal's operations, would act if he knew the truth"
+      },
+      {
+        "name": "Vardal's informant",
+        "role": "one person in the village reporting to Vardal — identity unknown"
+      }
+    ],
+    "problem": "Naran has been feeding Vardal information about travellers for months under duress. He needs to know someone is working to free Gîl before he will stop cooperating — but the village has an informant and any open conversation puts both Naran and the traveller at risk.",
+    "decisions": [
+      {
+        "moment": "Arriving in Tyar",
+        "situation": "The village appears normal but people are quieter than they should be for a market day. Naran sees you from the inn doorway and his expression is complicated.",
+        "options": [
+          {
+            "label": "Go to the inn as a customer — let Naran make the first move",
+            "check": "perception",
+            "difficulty": 3
+          },
+          {
+            "label": "Identify the informant first by watching who watches you",
+            "check": "perception",
+            "difficulty": 5
+          },
+          {
+            "label": "Go directly to the headman and tell him what you know about Vardal",
+            "check": "persuasion",
+            "difficulty": 6
+          }
+        ],
+        "outcomes": {
+          "success": "Naran slips you a note with Gîl's last known location. He also names the informant — the cobbler's boy.",
+          "partial": "Naran acknowledges you know about Gîl but cannot speak openly. He points toward the south road.",
+          "failure": "The informant sees the exchange. A message goes to Vardal within the hour."
+        }
+      },
+      {
+        "moment": "Speaking to Naran privately",
+        "situation": "A back room. He is terrified. He has been passing on names of travellers for five months.",
+        "options": [
+          {
+            "label": "Tell him Gîl is alive and you are working on a rescue — ask him to stop reporting for one week",
+            "check": "persuasion",
+            "difficulty": 5
+          },
+          {
+            "label": "Ask him for every name he has passed to Vardal in the last month",
+            "check": "persuasion",
+            "difficulty": 4
+          },
+          {
+            "label": "Warn him and leave quickly — the less he knows about your plans the safer he is",
+            "check": null,
+            "difficulty": 0
+          }
+        ],
+        "outcomes": {
+          "success": "Naran agrees to send false information to Vardal for one week. You have a window.",
+          "partial": "Naran gives you the names he passed on. He cannot stop reporting — too frightened.",
+          "failure": "Naran panics and refuses to speak. He may report the visit to Vardal out of fear."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: Naran is more frightened of you than of Vardal. Persuasion checks harder.",
+    "energy_modifier": null,
+    "inventory_modifier": "a token or object recognizable to Gîl (from Mira or Laurrë): opens an extra option — 'I have something of your daughter's' — reducing persuasion difficulty by 2.",
+    "difficulty": "low",
+    "resolution": "A few hours in Tyar. Success creates a one-week window of false intelligence flowing to Vardal, making movement in the region much easier.",
+    "hooks": [
+      "Mira mentioned 'a man in Tyar whose daughter was taken south'. She described him before you arrived.",
+      "On the road to Tyar you passed a fresh waypost mark — someone has been watching this road recently."
+    ]
+  },
+  {
+    "id": "necro_s06",
+    "scale": "short",
+    "region": "Southern Mirkwood — deep forest",
+    "location": "Uvatha's passage road",
+    "place": "A section of cleared forest road maintained for Uvatha's travel between Dol Guldur and the north",
+    "type": "avoidance",
+    "npcs": [
+      {
+        "name": "Uvatha the Horseman (Nazgûl #9)",
+        "role": "the Necromancer's Lieutenant — travelling north on his black horse. He will not stop for ordinary travellers but will detect any significant shadow presence within range."
+      }
+    ],
+    "problem": "Uvatha is using this road today — his passage is announced by a cold that arrives before he does and birds going silent. The traveller is on this road. Getting off it before Uvatha passes is essential. Being detected by a Nazgûl on a routine patrol is very different from being in his way.",
+    "decisions": [
+      {
+        "moment": "The cold arrives — five minutes warning",
+        "situation": "Birds stop. The air temperature drops. His horse will be visible within five minutes.",
+        "options": [
+          {
+            "label": "Get off the road immediately into the forest cover",
+            "check": "stealth",
+            "difficulty": 4
+          },
+          {
+            "label": "Move fast — reach the next bend before he rounds the previous one",
+            "check": "endurance",
+            "difficulty": 5
+          },
+          {
+            "label": "Lie flat in the roadside ditch — do not move, do not look up",
+            "check": "courage",
+            "difficulty": 5
+          }
+        ],
+        "outcomes": {
+          "success": "Uvatha passes without pausing. The cold recedes.",
+          "partial": "Uvatha slows as he passes your position. He sensed something but not enough to stop. Shadow +2.",
+          "failure": "Uvatha stops. He does not dismount but the horse turns toward your position. He is deciding."
+        }
+      },
+      {
+        "moment": "If Uvatha stops — he is looking at your position",
+        "situation": "The Nazgûl's gaze. Everything in you wants to run.",
+        "options": [
+          {
+            "label": "Hold absolutely still — do not move, do not react",
+            "check": "courage",
+            "difficulty": 7
+          },
+          {
+            "label": "Run into the deep forest — at least he cannot follow on horseback",
+            "check": "endurance",
+            "difficulty": 6
+          },
+          {
+            "label": "Reveal yourself and speak — ordinary travellers on ordinary business are beneath his attention",
+            "check": "deception",
+            "difficulty": 8
+          }
+        ],
+        "outcomes": {
+          "success": "He moves on. The encounter is over. Shadow +3 regardless.",
+          "partial": "He sends two of Vardal's soldiers to investigate the area within the hour. You must move immediately.",
+          "failure": "He calls for you. The encounter becomes a confrontation — and Uvatha is never the short answer."
+        }
+      }
+    ],
+    "shadow_modifier": "CRITICAL — shadow above 40: Uvatha's detection range extends. At shadow 46+ the 'hide' option has much higher difficulty. This encounter should be avoided entirely by characters at high shadow.",
+    "energy_modifier": "depleted energy: the 'run before he rounds the bend' option fails — endurance check impossible.",
+    "inventory_modifier": null,
+    "difficulty": "medium",
+    "resolution": "Ten minutes that feel like an hour. Success is simply not being noticed. Any failure costs shadow.",
+    "hooks": [
+      "A woodsman on the road ahead turned and ran without explanation.",
+      "The forest went completely silent at midday — wrong time of day for that."
+    ]
+  },
+  {
+    "id": "necro_s07",
+    "scale": "short",
+    "region": "Southern Mirkwood — forest path",
+    "location": "An abandoned Elvish waystation",
+    "place": "A stone shelter built by Wood-elves, now unused — hidden from the main road",
+    "type": "contact_and_supply",
+    "npcs": [
+      {
+        "name": "Laurrë",
+        "role": "half-elf, uses this station as a supply cache and safe contact point — she left a message here for anyone she sent this way"
+      },
+      {
+        "name": "unnamed Wood-elf scout",
+        "role": "passing through, does not speak Westron — but will share forest intelligence through gesture if approached correctly"
+      }
+    ],
+    "problem": "The waystation is the only safe rest point in this section of Mirkwood. It has supplies (food, healing herbs) cached by Laurrë and potentially a message about Vardal's movements. The challenge is finding it — it is deliberately hidden — and doing so before nightfall when the forest becomes actively dangerous.",
+    "decisions": [
+      {
+        "moment": "Searching for the waystation before dusk",
+        "situation": "Laurrë described it as 'three beeches and a fallen oak, north face has no moss'. Two hours of light left.",
+        "options": [
+          {
+            "label": "Search methodically — use the description",
+            "check": "tracking",
+            "difficulty": 4
+          },
+          {
+            "label": "Look for the Wood-elf scout who might know it",
+            "check": "perception",
+            "difficulty": 5
+          },
+          {
+            "label": "Camp on the road and search at dawn — risk the night",
+            "check": "endurance",
+            "difficulty": 5
+          }
+        ],
+        "outcomes": {
+          "success": "Waystation found before dark. Supplies, herbs, and a note from Laurrë: 'Vardal moves to the camp north of the ford on the new moon.'",
+          "partial": "Waystation found after dark — you navigated by feel. No time to read the note safely until morning.",
+          "failure": "Not found before dark. Night in the forest without shelter — energy loss and a random encounter with the forest."
+        }
+      },
+      {
+        "moment": "The Wood-elf is at the waystation",
+        "situation": "He did not expect company. He is watching you carefully. He does not speak Westron.",
+        "options": [
+          {
+            "label": "Show your hands and sit — let him decide",
+            "check": "courage",
+            "difficulty": 2
+          },
+          {
+            "label": "Speak Sindarin if you know it",
+            "check": "lore",
+            "difficulty": 3,
+            "requires": "elf character OR high lore"
+          },
+          {
+            "label": "Offer him something from your pack — food or useful object",
+            "check": "social",
+            "difficulty": 3,
+            "requires": "food OR quality item in inventory"
+          }
+        ],
+        "outcomes": {
+          "success": "He shares forest intelligence through gesture — two orc patrols active to the south, and something moving near Dol Guldur that is not orc.",
+          "partial": "He allows you to use the station but leaves without sharing anything.",
+          "failure": "He leaves. The station feels less safe without him there."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: the Wood-elf leaves immediately on seeing you. The contact option is closed.",
+    "energy_modifier": "depleted energy: the night-in-forest fallback costs double energy loss.",
+    "inventory_modifier": "food or quality trade item: enables the 'offer something' option with the Wood-elf.",
+    "difficulty": "low",
+    "resolution": "An afternoon. The waystation provides rest (energy recovery), healing herbs (inventory gain), and potentially critical intelligence about Vardal's schedule.",
+    "hooks": [
+      "Laurrë said 'if I am not at Mistrand, check the three beeches'.",
+      "Your energy is critically low — this is not optional rest, it is necessary."
+    ]
+  },
+  {
+    "id": "necro_s08",
+    "scale": "short",
+    "region": "Southern Mirkwood — near Dol Guldur",
+    "location": "The outer approach to Dol Guldur",
+    "place": "The corrupted forest near Amon Lanc — the trees twisted toward the hill, webs everywhere",
+    "type": "observation",
+    "npcs": [
+      {
+        "name": "Uvatha's soldiers",
+        "role": "human patrol — 8 men, heavily armed, operating between Dol Guldur and the forest road"
+      },
+      {
+        "name": "orc scouts",
+        "role": "4 orcs on a perimeter circuit around Amon Lanc"
+      }
+    ],
+    "problem": "Someone needs to observe the approach to Dol Guldur — how many soldiers, how the patrols overlap, whether there is a window of approach. This is reconnaissance only. No one enters Dol Guldur voluntarily in short scale.",
+    "decisions": [
+      {
+        "moment": "Reaching the outer forest ring — the trees here are wrong",
+        "situation": "The forest is silent and strange. The ground has a faint darkness to it — ash and something older. The patrol circuit is visible from one elevated position if you can reach it.",
+        "options": [
+          {
+            "label": "Climb a tree on the high ground and observe for one full patrol cycle",
+            "check": "stealth",
+            "difficulty": 5
+          },
+          {
+            "label": "Move along the forest edge and count the patrol intervals",
+            "check": "tracking",
+            "difficulty": 4
+          },
+          {
+            "label": "Get closer — approach the outer wall for a better count",
+            "check": "stealth",
+            "difficulty": 7
+          }
+        ],
+        "outcomes": {
+          "success": "Full patrol map. Human soldiers overlap with orc circuit at one point — a 15-minute gap on the northern approach, twice per day.",
+          "partial": "Partial patrol map. The gap exists but you cannot pinpoint when. It is somewhere in the morning hours.",
+          "failure": "An orc scout spotted movement. The patrol response closes the observation window. Shadow +2."
+        }
+      },
+      {
+        "moment": "Something in the forest moves — not patrol, not orc",
+        "situation": "Something large and quiet has been watching you watch the patrol. It has been there for some time.",
+        "options": [
+          {
+            "label": "Withdraw slowly without acknowledging it",
+            "check": "stealth",
+            "difficulty": 5
+          },
+          {
+            "label": "Hold still and let it decide what you are",
+            "check": "courage",
+            "difficulty": 4
+          },
+          {
+            "label": "Identify it before deciding — look directly",
+            "check": "perception",
+            "difficulty": 3
+          }
+        ],
+        "outcomes": {
+          "success": "It is a very large spider, territorial but not hungry — it moves away when you hold still.",
+          "partial": "It moves parallel to you as you withdraw — following, not attacking. You lose 30 minutes of observation time.",
+          "failure": "It attacks. Spider venom risk. The patrol hears the noise."
+        }
+      }
+    ],
+    "shadow_modifier": "mid/high shadow: Dol Guldur's proximity amplifies shadow. Every hour in this area at shadow 30+ adds +1 to shadow. This is a timed observation — do not stay longer than needed.",
+    "energy_modifier": "depleted energy: climbing the observation tree is not viable.",
+    "inventory_modifier": null,
+    "difficulty": "medium",
+    "resolution": "Two hours maximum. Longer risks shadow accumulation from Dol Guldur proximity. The patrol gap found here enables the large objective (Gîl's location in Dol Guldur if she was moved there).",
+    "hooks": [
+      "Vardal's camp note mentioned 'the hill' as a fallback location if the forest camp was compromised.",
+      "Something Laurrë said: 'if she is not at the forest camp, they took her inside'."
+    ]
+  },
+  {
+    "id": "necro_m01",
+    "scale": "medium",
+    "region": "Southern Mirkwood",
+    "location": "Vardal's forest camp",
+    "place": "The camp in the Mirkwood undergrowth",
+    "type": "rescue",
+    "npcs": [
+      {
+        "name": "Gîl",
+        "role": "innkeeper's daughter, captive — healthy but frightened, will move fast if freed"
+      },
+      {
+        "name": "Vardal",
+        "role": "Uvatha's agent, 12th level warrior, very dangerous in direct combat. Keeps Gîl as leverage."
+      },
+      {
+        "name": "camp guards",
+        "role": "6 soldiers on rotating patrol — pattern known if necro_s04 completed"
+      }
+    ],
+    "problem": "Gîl is held at Vardal's camp as leverage over her father Naran. Freeing her breaks Vardal's hold on Tyar and the road-watch network. But the camp is well-guarded and Vardal himself is more dangerous than any patrol.",
+    "decisions": [
+      {
+        "moment": "The approach",
+        "situation": "Night. The patrol gap is known (if necro_s04 done) or must be improvised.",
+        "options": [
+          {
+            "label": "Use the known patrol gap — move through on a precise schedule",
+            "check": "stealth",
+            "difficulty": 4,
+            "requires": "necro_s04 completed"
+          },
+          {
+            "label": "Create a distraction on the camp perimeter and enter in the confusion",
+            "check": "deception",
+            "difficulty": 5
+          },
+          {
+            "label": "Wait for dawn and enter in the cover of a supply delivery",
+            "check": "social",
+            "difficulty": 6
+          }
+        ],
+        "outcomes": {
+          "success": "Inside the camp perimeter unseen.",
+          "partial": "Inside but one guard is unaccounted for — somewhere near the central tent.",
+          "failure": "Alert raised. The rescue must now be a fast extraction under fire."
+        }
+      },
+      {
+        "moment": "Finding Gîl",
+        "situation": "Central tent. Vardal is 20 metres away reviewing a document.",
+        "options": [
+          {
+            "label": "Get Gîl out before Vardal notices",
+            "check": "stealth",
+            "difficulty": 5
+          },
+          {
+            "label": "Silence Vardal first — the rescue is impossible with him active",
+            "check": "combat",
+            "difficulty": 7
+          },
+          {
+            "label": "Use Laurrë as a diversion while you extract Gîl",
+            "check": null,
+            "difficulty": 0,
+            "requires": "Laurrë as ally"
+          }
+        ],
+        "outcomes": {
+          "success": "Gîl is free. Vardal is unaware or neutralised. Clean exit.",
+          "partial": "Gîl is free but Vardal saw something. He is following — the forest exit becomes a chase.",
+          "failure": "Vardal is alerted. Direct confrontation or abandon the attempt."
+        }
+      },
+      {
+        "moment": "Getting out of the forest",
+        "situation": "If Vardal is in pursuit — he knows this forest.",
+        "options": [
+          {
+            "label": "Use the hidden Mistrand route if the maps were recovered",
+            "check": null,
+            "difficulty": 0,
+            "requires": "necro_s03 maps"
+          },
+          {
+            "label": "Head for the river — Vardal will not cross into open ground at night",
+            "check": "endurance",
+            "difficulty": 5
+          },
+          {
+            "label": "Turn and fight — end this",
+            "check": "combat",
+            "difficulty": 8
+          }
+        ],
+        "outcomes": {
+          "success": "Clean escape. Gîl is safe. Naran can stop cooperating with Vardal.",
+          "partial": "Escaped but Gîl is exhausted and the river crossing is dangerous. Laurrë injured.",
+          "failure": "Caught. Gîl recaptured. The network is now actively looking for you."
+        }
+      }
+    ],
+    "shadow_modifier": "high shadow: Vardal is warier. Stealth checks harder throughout.",
+    "energy_modifier": "depleted energy: the river-crossing escape is not viable. The chase option fails.",
+    "inventory_modifier": "rope: helps the river crossing. Healing herbs: may be needed for Gîl or Laurrë.",
+    "difficulty": "medium",
+    "resolution": "One night operation, 3-day impact. Gîl's rescue ends Vardal's hold on Tyar and opens the village as a safe base for the region.",
+    "hooks": [
+      "Naran's one-week window of false intelligence (from necro_s05) is running out.",
+      "Laurrë says: 'we go tonight or we don't go'."
+    ]
+  },
+  {
+    "id": "necro_l01",
+    "scale": "large",
+    "region": "Southern Mirkwood / Dol Guldur",
+    "location": "Dol Guldur and the surrounding territory",
+    "place": "The outer approaches to Dol Guldur, the Necromancer's stronghold on Amon Lanc",
+    "type": "disruption_and_intelligence",
+    "npcs": [
+      {
+        "name": "Uvatha the Horseman",
+        "role": "Nazgûl #9, the Necromancer's Lieutenant — manages operations in southern Mirkwood. Very high level, very dangerous."
+      },
+      {
+        "name": "Vardal",
+        "role": "Uvatha's human field commander — eliminated or neutralised if necro_m01 completed"
+      },
+      {
+        "name": "Laurrë",
+        "role": "half-elf ranger ally — essential for navigation in this phase"
+      },
+      {
+        "name": "unnamed Dol Guldur prisoners",
+        "role": "captives held in the fortress — the reason anyone goes near Dol Guldur at all"
+      }
+    ],
+    "problem": "Uvatha is coordinating a series of operations from Dol Guldur targeting Dunedain rangers and Elvish scouts in the region. The specific operation — its target, its timing — is in documents inside Dol Guldur's outer administrative level. Alternatively, Gîl may have been moved inside (if necro_m01 failed). Either way, someone needs to enter Dol Guldur, which is never a casual undertaking.",
+    "arc": [
+      {
+        "phase": "The approach — using the patrol gap",
+        "decisions_summary": "The 15-minute overlap gap on the northern approach (found in necro_s08 if completed, otherwise must be found blind). Moving through in a group of more than two is effectively impossible. Shadow accumulation begins immediately on approach.",
+        "key_checks": [
+          "stealth (gap timing)",
+          "endurance (approach)",
+          "courage (Dol Guldur proximity)"
+        ]
+      },
+      {
+        "phase": "Inside the outer level",
+        "decisions_summary": "The outer level is administrative — human soldiers and a few orcs. Uvatha is in the upper levels. Documents are in a guarded room. The longer the party stays, the more shadow accumulates — every 30 minutes inside adds 2 to shadow.",
+        "key_checks": [
+          "stealth (movement)",
+          "deception (if encountered)",
+          "lore (reading the documents quickly)"
+        ]
+      },
+      {
+        "phase": "The documents or the prisoner",
+        "decisions_summary": "One objective or the other — both is not realistic in a single entry. Documents: a 10-minute copy job if you can get to the desk undetected. Prisoner: location must be known in advance (from intel or luck), extraction in a place with no exit plans prepared is very dangerous.",
+        "key_checks": [
+          "perception (finding the right room)",
+          "endurance (working fast)",
+          "stealth (not being heard)"
+        ]
+      },
+      {
+        "phase": "The exit",
+        "decisions_summary": "Uvatha's detection range. If shadow is above 40 at this point, the exit becomes critical — he may sense the departure even without seeing it. The patrol gap closes. Laurrë knows a route through the forest that avoids the roads but requires two more hours in proximity to Dol Guldur.",
+        "key_checks": [
+          "courage (Uvatha proximity)",
+          "stealth (exit gap)",
+          "endurance (the forest route)"
+        ]
+      }
+    ],
+    "shadow_modifier": "CRITICAL — Dol Guldur proximity adds shadow continuously. This objective should only be attempted at shadow low (0-25). Each phase adds shadow. Anyone at shadow 46+ at entry should not enter.",
+    "energy_modifier": "depleted energy at any phase makes the forest exit impossible without Laurrë's direct assistance.",
+    "inventory_modifier": "writing materials: required to copy documents. Athelas: may counter the shadow accumulation slightly (narrative effect, not mechanical). Rope: essential for the outer wall approach.",
+    "difficulty": "very_high",
+    "resolution": "4-6 hour operation. Requires preparation from multiple short and medium objectives (patrol gap from necro_s08, forest route from necro_s03, Vardal neutralised from necro_m01). This is the reason anyone travels to southern Mirkwood in the first place."
+  }
+]
