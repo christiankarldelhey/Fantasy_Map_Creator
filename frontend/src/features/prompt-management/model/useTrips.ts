@@ -149,6 +149,26 @@ export function useTrips() {
     }
   }
 
+  async function redoNarration(tripId: string, dayNumber: number, options: { language?: string } = {}): Promise<TripDay> {
+    generating.value = true
+    error.value = null
+    try {
+      const { data } = await tripApi.post<TripDay>(
+        `/trips/${tripId}/days/${dayNumber}/redo-narration`,
+        options
+      )
+      days.value = [...days.value.filter((d) => d.day_number !== data.day_number), data]
+        .sort((a, b) => a.day_number - b.day_number)
+      return data
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Unknown error'
+      console.error('❌ Error redoing narration:', err)
+      throw err
+    } finally {
+      generating.value = false
+    }
+  }
+
   async function getSystemPrompt(): Promise<string> {
     try {
       const { data } = await tripApi.get<{ system_prompt: string }>('/trips/meta/system-prompt')
@@ -183,6 +203,7 @@ export function useTrips() {
     error,
     createTrip,
     generateDay,
+    redoNarration,
     getDays,
     getTrip,
     getSystemPrompt,

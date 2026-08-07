@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
-import { ChevronDown, ChevronRight, Plus, FileDown, Copy, Check } from '@lucide/vue'
+import { ChevronDown, ChevronRight, Plus, FileDown, Copy, Check, RotateCcw } from '@lucide/vue'
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
 import { useLanguage } from '@/composables/useLanguage'
@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{ (e: 'close'): void; (e: 'day-generated', day: TripDay): void }>()
 
-const { trip, days, loading, generating, error, getTrip, getDays, generateDay, getSystemPrompt } = useTrips()
+const { trip, days, loading, generating, error, getTrip, getDays, generateDay, redoNarration, getSystemPrompt } = useTrips()
 const { activeCharacter, fetchActiveCharacter } = useCharacter()
 
 function getCharacterImage(name: string): string {
@@ -42,6 +42,7 @@ const exportingPdf = ref(false)
 const showCancelModal = ref(false)
 const showDeathModal = ref(false)
 const isTripDead = ref(false)
+const redoingDay = ref<number | null>(null)
 
 const title = computed(() => trip.value?.name || 'Journey')
 
@@ -136,6 +137,19 @@ async function handleGenerateNext() {
     }
   } catch {
     /* error surfaced via `error` ref */
+  }
+}
+
+async function handleRedoNarration(day: TripDay) {
+  if (!props.tripId || redoingDay.value !== null) return
+  redoingDay.value = day.day_number
+  try {
+    const updated = await redoNarration(props.tripId, day.day_number, { language: language.value })
+    expanded.value = { [updated.id]: 'narrative' }
+  } catch {
+    /* error surfaced via `error` ref */
+  } finally {
+    redoingDay.value = null
   }
 }
 
@@ -363,7 +377,18 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         <div class="px-4 py-3 border-b border-earth-dark bg-parchment-base">
           <div class="flex items-center justify-between">
             <h3 class="font-serif font-semibold text-ink-black/90">Chapter {{ day.day_number }}</h3>
-            <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) }}</span>
+            <div class="flex items-center gap-2">
+              <button
+                class="p-1 rounded-md text-ink-brown/50 hover:text-gold-base hover:bg-parchment-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                :title="'Redo narration'"
+                :disabled="redoingDay !== null"
+                @click="handleRedoNarration(day)"
+              >
+                <Loader v-if="redoingDay === day.day_number" size="sm" variant="inline" class="w-4 h-4" />
+                <RotateCcw v-else class="w-4 h-4" />
+              </button>
+              <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) }}</span>
+            </div>
           </div>
           <p class="text-xs text-ink-brown mt-0.5 font-book">
             {{ day.distance_km }} km ·
@@ -554,7 +579,18 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             <div class="px-4 py-3 border-b border-earth-dark bg-parchment-base">
               <div class="flex items-center justify-between">
                 <h3 class="font-serif font-semibold text-ink-black/90">Chapter {{ day.day_number }}</h3>
-                <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) }}</span>
+                <div class="flex items-center gap-2">
+                  <button
+                    class="p-1 rounded-md text-ink-brown/50 hover:text-gold-base hover:bg-parchment-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    :title="'Redo narration'"
+                    :disabled="redoingDay !== null"
+                    @click="handleRedoNarration(day)"
+                  >
+                    <Loader v-if="redoingDay === day.day_number" size="sm" variant="inline" class="w-4 h-4" />
+                    <RotateCcw v-else class="w-4 h-4" />
+                  </button>
+                  <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) }}</span>
+                </div>
               </div>
               <p class="text-xs text-ink-brown mt-0.5 font-book">
                 {{ day.distance_km }} km ·
