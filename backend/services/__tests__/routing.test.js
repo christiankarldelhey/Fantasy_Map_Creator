@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { findShortestPath, TRANSPORT_CONFIGS } from '../routing.js';
+import { findShortestPath, TRANSPORT_CONFIGS } from '../world/routing.js';
 
 const detourRoad = {
   id: 1,

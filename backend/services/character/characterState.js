@@ -12,8 +12,8 @@
 // helpers at the bottom (loadCharacterState, applyDayState, recentNotes).
 // ============================================================================
 
-import pool from '../db.js';
-import { innerClimate } from './climateSample.js';
+import pool from '../../db.js';
+import { innerClimate } from '../data/climateData.js';
 
 // ---------------------------------------------------------------------------
 // TUNING — all first-pass numbers live in this one block.

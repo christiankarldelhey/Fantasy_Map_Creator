@@ -11,8 +11,8 @@
 // persist. It does NOT touch the DB; it is pure computation.
 // ============================================================================
 
-import { climateStats } from '../climateSample.js';
-import { resolveDailyFood, resolveLodging } from '../inventory.js';
+import { climateStats } from '../data/climateData.js';
+import { resolveDailyFood, resolveLodging } from './inventory.js';
 import {
   buildDayNote,
   classifyRegionFamilies,
@@ -27,7 +27,7 @@ import {
   resolveFate,
   WOUND_COSTS,
   TUNING,
-} from '../characterState.js';
+} from './characterState.js';
 
 // ---------------------------------------------------------------------------
 // Wound costs from encounter outcomes

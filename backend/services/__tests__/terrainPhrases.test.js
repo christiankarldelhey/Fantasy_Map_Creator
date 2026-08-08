@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {
   pickPhrase,
   pickPhraseForRegions,
-} from '../terrainPhrases.js';
+} from '../data/terrainPhrases.js';
 
 // ---------------------------------------------------------------------------
 // pickPhrase

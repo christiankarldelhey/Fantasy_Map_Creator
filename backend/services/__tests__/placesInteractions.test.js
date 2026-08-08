@@ -5,7 +5,7 @@ import {
   resolveOvernight,
   resolveRegionAtPoint,
   clearPlacesInteractionsCache,
-} from '../placesInteractions.js';
+} from '../world/placesInteractions.js';
 
 // ---------------------------------------------------------------------------
 // Mock data

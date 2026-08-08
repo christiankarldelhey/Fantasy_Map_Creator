@@ -25,7 +25,7 @@ import {
   resolveFate,
   WOUND_COSTS,
   TUNING,
-} from '../characterState.js';
+} from '../character/characterState.js';
 
 // Helpers
 const enc = (form, shadow_weight = 0, name = 'X', phase = 'morning', entity = null) => ({

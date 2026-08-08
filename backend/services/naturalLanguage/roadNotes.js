@@ -5,7 +5,7 @@
 // country are described the same everywhere.
 // ============================================================================
 
-import { pickPhraseForRegions } from '../terrainPhrases.js';
+import { pickPhraseForRegions } from '../data/terrainPhrases.js';
 import { regionNamesOf } from './text.js';
 
 export const ROAD_PHRASES = {

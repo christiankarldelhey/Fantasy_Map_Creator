@@ -9,7 +9,7 @@
 // should colour the narrator's view of the journey.
 // ============================================================================
 
-import { innerClimate, meanOf, sumOf } from '../climateSample.js';
+import { innerClimate, meanOf, sumOf } from '../data/climateData.js';
 import { NARRATIVE_PHASES, emptyPhaseBuckets, phaseForClimateSample } from './dayPhases.js';
 import { joinList, pick } from './text.js';
 

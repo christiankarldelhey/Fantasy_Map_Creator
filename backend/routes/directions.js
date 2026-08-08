@@ -1,5 +1,5 @@
 import express from 'express';
-import { computeRoute } from '../services/routing.js';
+import { computeRoute } from '../services/world/routing.js';
 
 const router = express.Router();
 

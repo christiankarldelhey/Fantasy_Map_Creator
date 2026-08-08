@@ -7,7 +7,7 @@
 // rain toward dawn, then wind, then cold; a calm night is the fallback.
 // ============================================================================
 
-import { meanOf, sumOf, timedClimateRecords } from '../climateSample.js';
+import { meanOf, sumOf, timedClimateRecords } from '../data/climateData.js';
 import { hourOfTimestamp } from './dayPhases.js';
 import { pick } from './text.js';
 

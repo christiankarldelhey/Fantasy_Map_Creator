@@ -1,8 +1,8 @@
 import express from 'express';
 import pool from '../db.js';
 import { authenticateToken } from '../middleware/auth.js';
-import { grantStartingKit, loadInventory } from '../services/inventory.js';
-import { TUNING } from '../services/characterState.js';
+import { grantStartingKit, loadInventory } from '../services/character/inventory.js';
+import { TUNING } from '../services/character/characterState.js';
 
 const router = express.Router();
 

@@ -8,7 +8,7 @@
 
 import pool from '../../db.js';
 import { extractRepeatedPhrases } from '../phraseVices.js';
-import { previousDaySummary } from '../prompt/sections/journey.js';
+import { previousDaySummary } from '../prompt/sections/journeySection.js';
 
 // How many recent chapters are scanned for already-used encounter forms.
 const RECENT_FORMS_CHAPTERS = 3;

@@ -8,7 +8,7 @@
 // Every module that buckets data by time must go through here.
 // ============================================================================
 
-import { WALK_END_HOUR } from '../tripDay.js';
+import { WALK_END_HOUR } from '../world/tripDay.js';
 
 export const NARRATIVE_PHASES = ['morning', 'afternoon', 'night'];
 

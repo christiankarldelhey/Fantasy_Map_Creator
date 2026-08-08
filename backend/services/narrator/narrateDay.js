@@ -7,7 +7,7 @@
 // through here, so a re-narration is built exactly like the original.
 // ============================================================================
 
-import { generateNarrative } from '../ai.js';
+import { generateNarrative } from './ai.js';
 import { resolveClimateState } from '../naturalLanguage/index.js';
 import { buildDayPrompt } from '../prompt/index.js';
 import { loadBannedPhrases, loadPreviousDaySummary, loadRecentDayClimates } from './tripHistory.js';

@@ -11,7 +11,7 @@ import {
   collectTerrainNotes,
   describeWaterCrossings,
 } from '../../naturalLanguage/index.js';
-import { encountersSection } from './encounters.js';
+import { encountersSection } from './encountersSection.js';
 
 /**
  * Build one chronological block for a phase of the day.

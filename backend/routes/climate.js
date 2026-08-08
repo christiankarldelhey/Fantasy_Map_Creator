@@ -1,6 +1,6 @@
 import express from 'express';
 import pool from '../db.js';
-import { getMoonPhase } from '../services/moonPhase.js';
+import { getMoonPhase } from '../services/data/moonPhase.js';
 
 const router = express.Router();
 

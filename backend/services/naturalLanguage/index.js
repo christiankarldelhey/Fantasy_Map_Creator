@@ -30,7 +30,7 @@ export {
   timeOfDayPhrase,
 } from './dayPhases.js';
 
-export { collectClimateNotesByPhase, resolveClimateState, dayWeatherSignature, formatMoonNightPhrase } from './weatherNotes.js';
+export { collectClimateNotesByPhase, resolveClimateState, dayWeatherSignature, formatMoonNightPhrase } from './climateNotes.js';
 export { collectNighttimeConditions } from './nightNotes.js';
 export { collectTerrainNotes } from './terrainNotes.js';
 export { describeElevation } from './elevationNotes.js';

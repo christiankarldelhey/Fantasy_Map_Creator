@@ -8,8 +8,8 @@ import {
   resolveDailyFood,
   buildEquipmentBlock,
   resolveLodging,
-} from '../inventory.js';
-import { TUNING } from '../characterState.js';
+} from '../character/inventory.js';
+import { TUNING } from '../character/characterState.js';
 
 // ---------------------------------------------------------------------------
 // aggregateEffects

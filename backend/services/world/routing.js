@@ -1,4 +1,4 @@
-import pool from '../db.js';
+import pool from '../../db.js';
 
 // Haversine distance between two coordinates in meters
 export const getDistance = (c1, c2) => {

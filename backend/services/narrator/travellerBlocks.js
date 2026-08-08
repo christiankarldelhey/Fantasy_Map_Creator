@@ -11,8 +11,8 @@ import {
   buildConditionBlock,
   buildEndStateBlock,
   recentNotes,
-} from '../characterState.js';
-import { buildEquipmentBlock } from '../inventory.js';
+} from '../character/characterState.js';
+import { buildEquipmentBlock } from '../character/inventory.js';
 
 export const DEFAULT_TRAVELLER_NAME = 'The traveller';
 

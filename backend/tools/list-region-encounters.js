@@ -5,7 +5,7 @@ import {
   PHASE_AFTERNOON,
   PHASE_NIGHT,
   ENCOUNTER_CHANCE,
-} from '../services/encounters.js';
+} from '../services/world/encounters.js';
 
 const PHASES = [PHASE_MORNING, PHASE_AFTERNOON, PHASE_NIGHT];
 

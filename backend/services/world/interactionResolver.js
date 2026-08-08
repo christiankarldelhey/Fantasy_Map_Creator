@@ -21,7 +21,7 @@
 // }
 // ============================================================================
 
-import pool from '../db.js';
+import pool from '../../db.js';
 
 // Weight multiplier applied to recently-used forms (anti-repetition)
 const RECENT_PENALTY = 0.3;

@@ -9,7 +9,7 @@
 // provisionForTrip) live at the bottom, same pattern as characterState.js.
 // ============================================================================
 
-import pool from '../db.js';
+import pool from '../../db.js';
 import {
   TUNING,
   FRIENDLY_FAMILIES,

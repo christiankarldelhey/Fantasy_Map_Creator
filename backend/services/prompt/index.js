@@ -19,7 +19,7 @@
 //   sections/instructions.js     the fixed rule blocks
 // ============================================================================
 
-import { getMoonPhase } from '../moonPhase.js';
+import { getMoonPhase } from '../data/moonPhase.js';
 import {
   collectClimateNotesByPhase,
   collectNighttimeConditions,
@@ -29,9 +29,9 @@ import {
   pickTodaysWayIn,
 } from '../naturalLanguage/index.js';
 import { SYSTEM_PROMPT } from './systemPrompt.js';
-import { bannedPhrasesSection, closingInstruction } from './sections/antiRepetition.js';
-import { characterHeaderSection, characterName, narratorLensSection } from './sections/character.js';
-import { dayContextSection } from './sections/dayContext.js';
+import { bannedPhrasesSection, closingInstruction } from './sections/antiRepetitionSection.js';
+import { characterHeaderSection, characterName, narratorLensSection } from './sections/characterSection.js';
+import { dayContextSection } from './sections/dayContextSection.js';
 import {
   ENCOUNTER_RULES,
   LAND_NOTES_RULES,
@@ -39,20 +39,20 @@ import {
   SPANISH_INSTRUCTION,
   roadIntro,
   todaysWayInSection,
-} from './sections/instructions.js';
+} from './sections/instructionsSection.js';
 import {
   destinationName,
   journeyContextSection,
   seasonPhrase,
   specialInstructionsSection,
-} from './sections/journey.js';
-import { climateStateSection } from './sections/climateState.js';
-import { phaseBlock } from './sections/phaseBlock.js';
+} from './sections/journeySection.js';
+import { climateStateSection } from './sections/climateSection.js';
+import { phaseBlock } from './sections/phaseSection.js';
 import {
   terminalClosingInstruction,
   terminalNoticeSection,
   terminalRoadIntro,
-} from './sections/terminalDay.js';
+} from './sections/terminalDaySection.js';
 
 export { SYSTEM_PROMPT };
 

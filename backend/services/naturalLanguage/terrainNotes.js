@@ -6,7 +6,7 @@
 // biome or altitude layer.
 // ============================================================================
 
-import { pickPhraseForRegions } from '../terrainPhrases.js';
+import { pickPhraseForRegions } from '../data/terrainPhrases.js';
 import { timeOfDayPhrase } from './dayPhases.js';
 import { regionNamesOf } from './text.js';
 

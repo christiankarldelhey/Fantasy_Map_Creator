@@ -1,4 +1,4 @@
-import pool from '../db.js';
+import pool from '../../db.js';
 import {
   simulatePhaseEncounters,
   simulateNightEncounters,
@@ -8,15 +8,15 @@ import {
 } from './encounters.js';
 import { resolveEncounter } from './interactionResolver.js';
 import { resolveOvernight, resolveRegionAtPoint } from './placesInteractions.js';
-import { loadTerrainPhrases } from './terrainPhrases.js';
+import { loadTerrainPhrases } from '../data/terrainPhrases.js';
 import {
   flattenRoute,
   totalSeconds,
   positionAtSeconds,
   sliceLeg,
 } from './tripGeometry.js';
-import { getMoonPhase } from './moonPhase.js';
-import { FRIENDLY_FAMILIES, MAX_EVIL_ENCOUNTERS_PER_DAY } from './characterState.js';
+import { getMoonPhase } from '../data/moonPhase.js';
+import { FRIENDLY_FAMILIES, MAX_EVIL_ENCOUNTERS_PER_DAY } from '../character/characterState.js';
 
 /** Count encounters drawn from evil (shadow_weight > 0) entities. */
 function countEvilEncounters(encounters) {

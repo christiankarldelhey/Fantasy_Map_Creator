@@ -20,7 +20,7 @@ import {
   PHASE_NIGHT,
   ENCOUNTER_CHANCE,
   INTELLIGENT_TYPES,
-} from '../encounters.js';
+} from '../world/encounters.js';
 
 // ---------------------------------------------------------------------------
 // levelToWeight

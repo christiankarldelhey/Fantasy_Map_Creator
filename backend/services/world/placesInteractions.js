@@ -9,7 +9,7 @@
 // regions.cultural_family for the supplied region_id.
 // ============================================================================
 
-import pool from '../db.js';
+import pool from '../../db.js';
 
 const CACHE = new Map();
 

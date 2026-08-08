@@ -13,7 +13,7 @@ import demRouter from './routes/dem.js';
 import climateRouter from './routes/climate.js';
 import searchRouter from './routes/search.js';
 import directionsRouter from './routes/directions.js';
-import { getRoadNetwork } from './services/routing.js';
+import { getRoadNetwork } from './services/world/routing.js';
 import characterRouter from './routes/character.js';
 import tripsRouter from './routes/trips.js';
 import usersRouter from './routes/users.js';

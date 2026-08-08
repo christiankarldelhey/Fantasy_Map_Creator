@@ -1,17 +1,17 @@
 import express from 'express';
 import pool from '../db.js';
-import { computeRoute } from '../services/routing.js';
-import { generateDay } from '../services/tripDay.js';
+import { computeRoute } from '../services/world/routing.js';
+import { generateDay } from '../services/world/tripDay.js';
 import { SYSTEM_PROMPT } from '../services/prompt/index.js';
-import { createSeededRng } from '../services/encounters.js';
-import { climateStats } from '../services/climateSample.js';
+import { createSeededRng } from '../services/world/encounters.js';
+import { climateStats } from '../services/data/climateData.js';
 import {
   buildTravellerBlocks,
   loadNarratorCharacter,
   loadRecentEncounterForms,
   narrateDay,
   notableItemsOf,
-} from '../services/narration/index.js';
+} from '../services/narrator/index.js';
 import { authenticateToken } from '../middleware/auth.js';
 import {
   loadCharacterState,
@@ -21,13 +21,13 @@ import {
   resolveDayState,
   shadowSpawnFactor,
   shadowBand,
-} from '../services/characterState/index.js';
+} from '../services/character/index.js';
 import {
   loadInventory,
   aggregateEffects,
   applyInventoryChanges,
   provisionForTrip,
-} from '../services/inventory.js';
+} from '../services/character/inventory.js';
 
 const router = express.Router();
 

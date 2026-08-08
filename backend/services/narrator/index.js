@@ -21,3 +21,4 @@ export {
 } from './tripHistory.js';
 export { buildTravellerBlocks, notableItemsOf } from './travellerBlocks.js';
 export { narrateDay } from './narrateDay.js';
+export * from './ai.js';
