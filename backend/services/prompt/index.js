@@ -14,6 +14,7 @@
 //   sections/phaseBlock.js       MORNING / AFTERNOON / NIGHT AT CAMP blocks
 //   sections/encounters.js       the resolved encounters of a phase
 //   sections/antiRepetition.js   avoid-list + rotating closing instruction
+//   sections/climateState.js     multi-day and unusual weather state
 //   sections/terminalDay.js      the chapter where the character dies
 //   sections/instructions.js     the fixed rule blocks
 // ============================================================================
@@ -45,6 +46,7 @@ import {
   seasonPhrase,
   specialInstructionsSection,
 } from './sections/journey.js';
+import { climateStateSection } from './sections/climateState.js';
 import { phaseBlock } from './sections/phaseBlock.js';
 import {
   terminalClosingInstruction,
@@ -85,6 +87,7 @@ function nightLead(day) {
  * @param {string} [params.conditionBlock] - TRAVELLER'S CONDITION (energy/shadow)
  * @param {string} [params.equipmentBlock] - EQUIPAJE (gear, food, coins)
  * @param {string} [params.endStateBlock] - death block; non-empty makes the day terminal
+ * @param {string} [params.climateStateBlock] - multi-day / unusual weather state
  * @param {string[]} [params.bannedPhrases] - phrases over-used in earlier chapters
  * @returns {{ system: string, user: string }}
  */
@@ -97,6 +100,7 @@ export function buildDayPrompt({
   conditionBlock = '',
   equipmentBlock = '',
   endStateBlock = '',
+  climateStateBlock = '',
   bannedPhrases = [],
 }) {
   const charName = characterName(character);
@@ -132,7 +136,7 @@ export function buildDayPrompt({
     characterName: charName,
     destination,
     introductionInstructions: character.introduction_instructions,
-  })}${bannedPhrasesSection(bannedPhrases)}${isTerminal ? terminalNoticeSection(charName) : ''}${LAND_NOTES_RULES}
+  })}${climateStateSection(climateStateBlock)}${bannedPhrasesSection(bannedPhrases)}${isTerminal ? terminalNoticeSection(charName) : ''}${LAND_NOTES_RULES}
 
 ${ENCOUNTER_RULES}
 

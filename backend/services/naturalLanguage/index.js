@@ -9,8 +9,7 @@
 // Where things live:
 //   text.js            shared prose primitives (pick, joinList, capitalize)
 //   dayPhases.js       morning / afternoon / night, and clock -> prose time
-//   weatherNotes.js    one weather phrase per phase
-//   moonNotes.js       moon phrase for the night line
+//   weatherNotes.js    one weather phrase per phase, multi-day states + moon phrase
 //   nightNotes.js      how the night treated a sleeping traveller
 //   terrainNotes.js    biomes and altitude layers crossed
 //   elevationNotes.js  the physical cost of the day's climbing
@@ -31,8 +30,7 @@ export {
   timeOfDayPhrase,
 } from './dayPhases.js';
 
-export { collectClimateNotesByPhase } from './weatherNotes.js';
-export { formatMoonNightPhrase } from './moonNotes.js';
+export { collectClimateNotesByPhase, resolveClimateState, dayWeatherSignature, formatMoonNightPhrase } from './weatherNotes.js';
 export { collectNighttimeConditions } from './nightNotes.js';
 export { collectTerrainNotes } from './terrainNotes.js';
 export { describeElevation } from './elevationNotes.js';

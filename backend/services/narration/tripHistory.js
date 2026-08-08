@@ -70,3 +70,25 @@ export async function loadRecentEncounterForms(tripId, dayNumber) {
     .map((e) => e.interaction?.form)
     .filter(Boolean);
 }
+
+// How many previous days are scanned for multi-day climate states.
+const CLIMATE_STATE_DAYS = 4;
+
+/**
+ * Climate snapshots for the current and previous few days, oldest first.
+ * Used to detect multi-day weather states (snowbound, storm-lashed, etc.).
+ * @param {number} tripId
+ * @param {number} dayNumber - the day being narrated
+ * @returns {Promise<Array<{date:string, climate:Array}>>}
+ */
+export async function loadRecentDayClimates(tripId, dayNumber) {
+  const { rows } = await pool.query(
+    `SELECT date, climate, day_number
+     FROM trip_days
+     WHERE trip_id = $1 AND day_number <= $2
+     ORDER BY day_number
+     LIMIT $3`,
+    [tripId, dayNumber, CLIMATE_STATE_DAYS]
+  );
+  return rows.map((r) => ({ date: r.date, climate: r.climate, dayNumber: r.day_number }));
+}
