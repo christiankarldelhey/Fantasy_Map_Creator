@@ -12,7 +12,7 @@
 // ============================================================================
 
 import { climateStats } from '../data/climateData.js';
-import { resolveDailyFood, resolveDailyWater, resolveLodging, computeWaterNeed } from './inventory.js';
+import { resolveDailyMeals, resolveDailyWater, resolveLodging, computeWaterNeed } from './inventory.js';
 import {
   buildDayNote,
   classifyRegionFamilies,
@@ -52,9 +52,18 @@ function tallyWoundCosts(encounters) {
 // ---------------------------------------------------------------------------
 function buildDayEvents(food, water, lodging) {
   const events = [];
-  if (food.consumed) {
-    events.push({ type: 'food', consumed: true, source: lodging.paid ? 'tavern' : 'rations', itemId: food.itemId });
-  } else if (food.newDaysWithoutFood > 0) {
+  for (const meal of food.meals || []) {
+    events.push({
+      type: 'meal',
+      slot: meal.slot,
+      eaten: meal.itemId != null || meal.slug === 'tavern_meal',
+      food: meal.food,
+      drink: meal.drink,
+      source: lodging.paid ? 'tavern' : 'rations',
+      itemId: meal.itemId,
+    });
+  }
+  if (!food.consumed && food.newDaysWithoutFood > 0) {
     events.push({ type: 'food', consumed: false, daysWithoutFood: food.newDaysWithoutFood });
   }
   if (water.drank) {
@@ -126,8 +135,6 @@ export function resolveDayState({
   const daysWithoutWater = startState?.days_without_water ?? 0;
   const coins = startState?.coins ?? TUNING.STARTING_COINS;
 
-  let food = resolveDailyFood({ rations: effects.rations, daysWithoutFood, rows: inventoryRows });
-
   const lodging = resolveLodging({
     overnightLocation: day.overnight_location,
     overnightInteraction: day.overnight_interaction,
@@ -152,11 +159,19 @@ export function resolveDayState({
     daysWithoutWater,
   });
 
-  // Paid lodging includes a meal and drink.
+  // Paid lodging feeds and waters the traveller: the flask is topped up too.
   if (lodging.paid) {
-    food = { consumed: true, itemId: null, energyBonus: TUNING.MEAL_ENERGY_BONUS, newDaysWithoutFood: 0, rationsAfter: effects.rations };
-    water = { drank: effects.waterCapacity, waterAfter: effects.waterCapacity, newDaysWithoutWater: 0, refilled: true, frozen: flaskFrozen };
+    water = { drank: computeWaterNeed(meanTemperature), waterAfter: effects.waterCapacity, newDaysWithoutWater: 0, refilled: true, frozen: flaskFrozen };
   }
+
+  // Two meals a day: a midday halt on the road and supper at camp.
+  const food = resolveDailyMeals({
+    rations: effects.rations,
+    daysWithoutFood,
+    rows: inventoryRows,
+    waterDrunk: water.drank,
+    tavernMeal: lodging.paid,
+  });
 
   const effectiveOvernightLocation = lodging.turnedAway
     ? { ...day.overnight_location, indoor: false }
@@ -233,6 +248,7 @@ export function resolveDayState({
     note,
     restedWell,
     food,
+    meals: food.meals,
     lodging,
     meanTemperature,
     meanWind,

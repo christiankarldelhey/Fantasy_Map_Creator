@@ -15,6 +15,7 @@
 //   elevationNotes.js  the physical cost of the day's climbing
 //   roadNotes.js       what the traveller treads on
 //   waterNotes.js      rivers bridged, streams forded
+//   mealNotes.js       the midday halt and the evening meal at camp
 //   placeNotes.js      lands crossed, settlements passed, overnight camp
 //   openingFocus.js    the day's single sensory way in
 //
@@ -36,6 +37,7 @@ export { collectTerrainNotes } from './terrainNotes.js';
 export { describeElevation } from './elevationNotes.js';
 export { collectRoadNotes } from './roadNotes.js';
 export { describeWaterCrossings } from './waterNotes.js';
+export { describeMeal, describeMeals } from './mealNotes.js';
 export {
   collectLocationNotes,
   describeOvernightLocation,

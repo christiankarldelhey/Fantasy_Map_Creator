@@ -104,7 +104,8 @@ export const TUNING = {
   RAIN_REFILL_L: 0.25,            // this much water from catching rain
   FLASK_FREEZE_TEMP: 0,           // below this, natural sources freeze over (cannot refill)
 
-  MEAL_ENERGY_BONUS: 8,         // default eating a ration or tavern meal gives this energy
+  MEALS_PER_DAY: 2,             // a midday halt and an evening meal at camp
+  MEAL_ENERGY_BONUS: 8,         // default full-day food energy, split across the day's meals
   STARTING_COINS: 100,
   LODGING_COST: 5,                // per night indoors, same everywhere
   LODGING_RECOVERY_FRACTION: 0.5, // recovers this fraction of MISSING energy

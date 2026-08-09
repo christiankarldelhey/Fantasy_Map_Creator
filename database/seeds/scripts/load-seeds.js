@@ -617,6 +617,14 @@ async function ensureSchema() {
       ADD COLUMN IF NOT EXISTS shadow_end   INT
   `);
 
+  // --- trip_days.meals (migration: add_meals_to_trip_days.sql) ---
+  // The day's two meals: midday halt and supper at camp, with what was eaten
+  // and drunk, so a chapter can be re-narrated with the same food.
+  await pool.query(`
+    ALTER TABLE trip_days
+      ADD COLUMN IF NOT EXISTS meals JSONB DEFAULT '[]'::jsonb
+  `);
+
   // character_state: energy + shadow live values, per-character initial values.
   await pool.query(`
     ALTER TABLE character_state
@@ -762,7 +770,24 @@ async function ensureSchema() {
     DROP TABLE IF EXISTS conversation_topics, character_voice
   `);
 
+  // --- Inventory, food and water ---
+  // These migrations are long and already idempotent, so they are executed
+  // from their .sql files rather than duplicated here. Order matters: the
+  // food/water migration extends the tables the first one creates.
+  await runMigrationFile('create_items_and_inventory.sql');
+  await runMigrationFile('add_food_water_and_item_effects.sql');
+
   console.log('✅ Schema ready\n');
+}
+
+// ---------------------------------------------------------------------------
+// Execute an idempotent migration file from database/migrations.
+// ---------------------------------------------------------------------------
+async function runMigrationFile(fileName) {
+  const filePath = path.join(__dirname, '../../migrations', fileName);
+  const sql = await fs.readFile(filePath, 'utf-8');
+  await pool.query(sql);
+  console.log(`   ↳ applied ${fileName}`);
 }
 
 // ---------------------------------------------------------------------------

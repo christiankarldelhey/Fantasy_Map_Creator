@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
+  describeMeals,
   describeWaterCrossings,
   collectTerrainNotes,
   collectRoadNotes,
@@ -130,6 +131,34 @@ test('phaseForHour maps clock hours to narrative phases', () => {
 // ---------------------------------------------------------------------------
 // describeWaterCrossings
 // ---------------------------------------------------------------------------
+
+test('describeMeals narrates the midday halt and supper at camp', () => {
+  const meals = [
+    { slot: 'midday', food: 'a strip of dried meat', drink: 'water from the skin' },
+    { slot: 'evening', food: 'a wedge of hard cheese', drink: 'water from the skin' },
+  ];
+  const notes = describeMeals(meals, () => 0);
+  assert.ok(notes.afternoon.includes('a strip of dried meat'));
+  assert.ok(notes.afternoon.includes('water from the skin'));
+  assert.ok(notes.night.includes('a wedge of hard cheese'));
+  assert.ok(notes.night.includes('fire'));
+});
+
+test('describeMeals reports an unfed halt and a dry supper', () => {
+  const meals = [
+    { slot: 'midday', food: null, drink: null },
+    { slot: 'evening', food: 'a wedge of hard cheese', drink: null },
+  ];
+  const notes = describeMeals(meals, () => 0);
+  assert.ok(notes.afternoon.includes('no midday meal') || notes.afternoon.includes('nothing to eat'));
+  assert.ok(notes.night.includes('waterskin is empty') || notes.night.includes('no water'));
+});
+
+test('describeMeals returns empty notes when there are no meals', () => {
+  const notes = describeMeals([], () => 0);
+  assert.equal(notes.afternoon, '');
+  assert.equal(notes.night, '');
+});
 
 test('describeWaterCrossings appends description when present', () => {
   const crossings = [

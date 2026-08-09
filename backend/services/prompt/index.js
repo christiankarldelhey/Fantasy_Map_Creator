@@ -23,6 +23,7 @@ import { getMoonPhase } from '../data/moonPhase.js';
 import {
   collectClimateNotesByPhase,
   collectNighttimeConditions,
+  describeMeals,
   describeOvernightLocation,
   emptyPhaseBuckets,
   groupByPhase,
@@ -85,7 +86,7 @@ function nightLead(day) {
  * @param {string} [params.language] - 'english' or 'spanish'
  * @param {string|null} [params.previousDaySummary] - non-AI summary of yesterday
  * @param {string} [params.conditionBlock] - TRAVELLER'S CONDITION (energy/shadow)
- * @param {string} [params.equipmentBlock] - EQUIPAJE (gear, food, coins)
+ * @param {string} [params.equipmentBlock] - EQUIPAGE (gear, food, coins)
  * @param {string} [params.endStateBlock] - death block; non-empty makes the day terminal
  * @param {string} [params.climateStateBlock] - multi-day / unusual weather state
  * @param {string[]} [params.bannedPhrases] - phrases over-used in earlier chapters
@@ -116,6 +117,7 @@ export function buildDayPrompt({
   const locationsByPhase = groupByPhase(day.locations);
   const waterByPhase = groupByPhase(day.water_crossings);
   const encounterByPhase = encountersByPhase(day.encounters);
+  const mealByPhase = describeMeals(day.meals, rng);
 
   const blockFor = (title, phase, extraLead = '') => phaseBlock({
     title,
@@ -125,6 +127,7 @@ export function buildDayPrompt({
     locations: locationsByPhase[phase],
     waterCrossings: waterByPhase[phase],
     encounters: encounterByPhase[phase],
+    meal: mealByPhase[phase] || '',
     regions: day.regions,
     terrainPhrases: day.terrain_phrases,
     rng,

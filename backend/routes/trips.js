@@ -328,6 +328,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     let newShadow = openingShadow;
     let fate = { fate: 'living', status: 'active', halted: false };
     let dayEvents = [];
+    let meals = [];
 
     if (trip.character_id) {
       const inventoryRows = await loadInventory(trip.character_id);
@@ -344,6 +345,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       newShadow = resolution.newShadow;
       fate = resolution.fate;
       dayEvents = resolution.dayEvents;
+      meals = resolution.meals || [];
 
       // Persist state and inventory changes.
       await applyDayState({
@@ -359,7 +361,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       await applyInventoryChanges({
         characterId: trip.character_id,
         consumedRation: resolution.food.consumed,
-        foodItemId: resolution.food.itemId,
+        foodItemIds: resolution.food.itemIds,
         waterAfter: resolution.water.waterAfter,
         containerRowId: effects.containerRowId,
         coinsAfter: resolution.lodging.coinsAfter,
@@ -396,6 +398,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       }));
     }
 
+    // The narrator needs to know what was eaten and drunk at each meal.
+    day.meals = meals;
+
     // Generate AI narrative (optional, if API key is configured). Provider and
     // sampling params rotate per day; capture what was actually used.
     const { prompt, generation } = await narrateDay({
@@ -419,8 +424,8 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
           road_types, locations, climate, encounters, thoughts, prompt, narrative, is_last_day,
           overnight_location, elevation_profile, places_interaction_id, rest_quality, shadow_effect,
           energy_start, energy_end, shadow_start, shadow_end,
-          ia_provider, temperature, frequency_penalty, presence_penalty, top_p)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36)
+          ia_provider, temperature, frequency_penalty, presence_penalty, top_p, meals)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37)
        RETURNING *`,
       [
         trip.id,
@@ -457,6 +462,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         generation.frequency_penalty,
         generation.presence_penalty,
         generation.top_p,
+        JSON.stringify(meals),
       ]
     );
 
@@ -576,6 +582,7 @@ router.post('/:id/days/:dayNumber/redo-narration', authenticateToken, async (req
       overnight_location: existingDay.overnight_location || null,
       elevation_profile: existingDay.elevation_profile || null,
       is_last_day: existingDay.is_last_day || false,
+      meals: existingDay.meals || [],
       // These fields are used by buildDayPrompt for variety selection;
       // use a stable rng so the prompt structure doesn't shift on redo.
       rng: Math.random,

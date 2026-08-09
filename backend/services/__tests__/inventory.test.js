@@ -8,7 +8,9 @@ import {
   computeThirstCost,
   computeWaterNeed,
   resolveDailyFood,
+  resolveDailyMeals,
   chooseDailyMeal,
+  chooseMealItems,
   resolveDailyWater,
   buildEquipmentBlock,
   resolveLodging,
@@ -155,8 +157,76 @@ test('resolveDailyFood uses effect_when_used for the energy bonus', () => {
 });
 
 // ---------------------------------------------------------------------------
+// resolveDailyMeals — two meals a day
+// ---------------------------------------------------------------------------
+const provision = (id, slug, value = 8, qty = 1) => ({
+  id,
+  slug,
+  category: 'provision',
+  qty,
+  prose_singular: `a portion of ${slug.replace(/_/g, ' ')}`,
+  effect_when_used: { category: 'energy', value },
+});
+
+test('chooseMealItems respects the quantity actually carried', () => {
+  const rows = [provision(1, 'dried_meat', 8, 1), provision(2, 'trail_rations', 8, 3)];
+  const picks = chooseMealItems(rows, 2);
+  assert.deepEqual(picks.map((r) => r.slug), ['dried_meat', 'trail_rations']);
+});
+
+test('chooseMealItems can eat the same provision twice', () => {
+  const rows = [provision(2, 'trail_rations', 8, 3)];
+  const picks = chooseMealItems(rows, 2);
+  assert.deepEqual(picks.map((r) => r.id), [2, 2]);
+});
+
+test('resolveDailyMeals fills midday and evening and splits the energy', () => {
+  const rows = [provision(1, 'dried_meat', 8, 1), provision(2, 'trail_rations', 8, 3)];
+  const r = resolveDailyMeals({ rations: 4, daysWithoutFood: 2, rows, waterDrunk: 0.75 });
+  assert.deepEqual(r.meals.map((m) => m.slot), ['midday', 'evening']);
+  assert.equal(r.meals[0].food, 'a portion of dried meat');
+  assert.equal(r.meals[0].waterLitres, 0.375);
+  assert.equal(r.energyBonus, 8); // 4 + 4
+  assert.equal(r.newDaysWithoutFood, 0);
+  assert.equal(r.rationsAfter, 2);
+  assert.deepEqual(r.itemIds, [1, 2]);
+});
+
+test('resolveDailyMeals with a single ration only fills midday and holds the streak', () => {
+  const rows = [provision(1, 'dried_meat', 8, 1)];
+  const r = resolveDailyMeals({ rations: 1, daysWithoutFood: 2, rows, waterDrunk: 0 });
+  assert.equal(r.meals[0].food, 'a portion of dried meat');
+  assert.equal(r.meals[1].food, null);
+  assert.equal(r.energyBonus, 4);
+  assert.equal(r.newDaysWithoutFood, 2); // unchanged: half fed
+  assert.equal(r.rationsAfter, 0);
+});
+
+test('resolveDailyMeals with nothing to eat grows the hunger streak', () => {
+  const r = resolveDailyMeals({ rations: 0, daysWithoutFood: 1, rows: [], waterDrunk: 0 });
+  assert.equal(r.consumed, false);
+  assert.equal(r.newDaysWithoutFood, 2);
+  assert.deepEqual(r.itemIds, []);
+});
+
+test('resolveDailyMeals at a paid inn feeds both meals without spending rations', () => {
+  const rows = [provision(1, 'dried_meat', 8, 2)];
+  const r = resolveDailyMeals({ rations: 2, daysWithoutFood: 3, rows, waterDrunk: 1, tavernMeal: true });
+  assert.equal(r.consumed, true);
+  assert.equal(r.rationsAfter, 2);
+  assert.equal(r.newDaysWithoutFood, 0);
+  assert.deepEqual(r.itemIds, []);
+  assert.ok(r.meals.every((m) => m.food));
+});
+
+// ---------------------------------------------------------------------------
 // buildEquipmentBlock
 // ---------------------------------------------------------------------------
+test('buildEquipmentBlock heading is in English', () => {
+  const result = buildEquipmentBlock({ coldShift: 0, meanTemperature: -5, rations: 1, daysWithoutFood: 3, coins: 3 });
+  assert.ok(result.startsWith('=== EQUIPAGE ==='));
+});
+
 test('buildEquipmentBlock returns empty string when nothing crosses threshold', () => {
   const result = buildEquipmentBlock({
     coldShift: 6,

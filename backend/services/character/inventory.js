@@ -219,6 +219,105 @@ export function chooseDailyMeal(rows = []) {
 }
 
 /**
+ * Pick the provisions eaten across the day's meal slots, respecting priority
+ * and the quantity actually carried. A row with qty 2 can feed two slots.
+ * @param {Array<Object>} rows - inventory rows joined with items
+ * @param {number} count - how many meals to fill
+ * @returns {Array<Object>} one row per filled slot (may repeat the same row)
+ */
+export function chooseMealItems(rows = [], count = 1) {
+  const remaining = new Map();
+  const picks = [];
+  for (let i = 0; i < count; i++) {
+    const available = (rows || []).filter((r) => {
+      const left = remaining.has(r.id) ? remaining.get(r.id) : (r.qty ?? 0);
+      return r.category === 'provision' && left > 0;
+    });
+    const row = chooseDailyMeal(available);
+    if (!row) break;
+    const left = remaining.has(row.id) ? remaining.get(row.id) : (row.qty ?? 0);
+    remaining.set(row.id, left - 1);
+    picks.push(row);
+  }
+  return picks;
+}
+
+/** Energy value of a single provision, from its effect_when_used. */
+function mealEnergyOf(row) {
+  const effect = row?.effect_when_used || {};
+  if (effect.category === 'energy' && Number.isFinite(effect.value)) return effect.value;
+  return TUNING.MEAL_ENERGY_BONUS;
+}
+
+/**
+ * Resolve the day's meals: a midday halt on the road and an evening meal at
+ * camp. Each meal eats one ration and carries a share of the day's water.
+ * The hunger streak only resets when both meals are taken.
+ * @param {Object} p
+ * @param {number} p.rations - total rations available
+ * @param {number} p.daysWithoutFood - current hunger streak
+ * @param {Array<Object>} p.rows - inventory rows joined with items
+ * @param {number} p.waterDrunk - litres drunk over the whole day
+ * @param {boolean} p.tavernMeal - lodging was paid, so meals come from the inn
+ * @returns {{ meals:Array, consumed:boolean, itemIds:number[], energyBonus:number, newDaysWithoutFood:number, rationsAfter:number }}
+ */
+export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [], waterDrunk = 0, tavernMeal = false } = {}) {
+  const slots = ['midday', 'evening'].slice(0, TUNING.MEALS_PER_DAY);
+  const waterPerMeal = slots.length > 0 ? waterDrunk / slots.length : 0;
+
+  if (tavernMeal) {
+    const meals = slots.map((slot) => ({
+      slot,
+      itemId: null,
+      slug: 'tavern_meal',
+      food: 'a hot meal bought at the inn',
+      drink: 'ale and clean water',
+      waterLitres: waterPerMeal,
+      energyBonus: TUNING.MEAL_ENERGY_BONUS / slots.length,
+    }));
+    return { meals, consumed: true, itemIds: [], energyBonus: TUNING.MEAL_ENERGY_BONUS, newDaysWithoutFood: 0, rationsAfter: rations };
+  }
+
+  const wanted = Math.min(slots.length, Math.max(0, rations));
+  const picks = wanted > 0 ? chooseMealItems(rows, wanted) : [];
+
+  const meals = slots.map((slot, i) => {
+    const row = picks[i] || null;
+    return {
+      slot,
+      itemId: row?.id ?? null,
+      slug: row?.slug ?? null,
+      food: row?.prose_singular ?? null,
+      drink: waterPerMeal > 0 ? 'water from the skin' : null,
+      waterLitres: waterPerMeal,
+      energyBonus: row ? mealEnergyOf(row) / slots.length : 0,
+    };
+  });
+
+  const eaten = meals.filter((m) => m.itemId != null);
+  const energyBonus = eaten.reduce((sum, m) => sum + m.energyBonus, 0);
+
+  let newDaysWithoutFood;
+  if (eaten.length >= slots.length) {
+    newDaysWithoutFood = 0;
+  } else if (eaten.length > 0) {
+    // Half fed: the streak does not grow, but it does not clear either.
+    newDaysWithoutFood = daysWithoutFood;
+  } else {
+    newDaysWithoutFood = daysWithoutFood + 1;
+  }
+
+  return {
+    meals,
+    consumed: eaten.length > 0,
+    itemIds: eaten.map((m) => m.itemId),
+    energyBonus,
+    newDaysWithoutFood,
+    rationsAfter: Math.max(0, rations - eaten.length),
+  };
+}
+
+/**
  * Resolve daily food consumption: pick an item, reduce rations, reset hunger streak.
  * @param {Object} p
  * @param {number} p.rations - total rations available
@@ -329,7 +428,7 @@ export function buildEquipmentBlock({
 
   if (lines.length === 0) return '';
 
-  return `=== EQUIPAJE ===\n${lines.join('. ')}.\nNever list objects or quantities; the equipage appears only when it hinders, is lacking, or brings comfort.\n\n`;
+  return `=== EQUIPAGE ===\n${lines.join('. ')}.\nNever list objects or quantities; the equipage appears only when it hinders, is lacking, or brings comfort.\n\n`;
 }
 
 // ---------------------------------------------------------------------------
@@ -426,18 +525,28 @@ export async function loadInventory(characterId) {
  * @param {Object} p
  * @param {number} p.characterId
  * @param {boolean} p.consumedRation
- * @param {number|null} p.foodItemId
+ * @param {number|null} p.foodItemId - single provision row consumed
+ * @param {number[]} [p.foodItemIds] - provision rows consumed, one per meal
  * @param {number|null} p.waterAfter
  * @param {number|null} p.containerRowId
  * @param {number|null} p.coinsAfter
  * @param {number|null} p.daysWithoutFood
  * @param {number|null} p.daysWithoutWater
  */
-export async function applyInventoryChanges({ characterId, consumedRation = false, foodItemId = null, waterAfter = null, containerRowId = null, coinsAfter = null, daysWithoutFood = null, daysWithoutWater = null }) {
+export async function applyInventoryChanges({ characterId, consumedRation = false, foodItemId = null, foodItemIds = null, waterAfter = null, containerRowId = null, coinsAfter = null, daysWithoutFood = null, daysWithoutWater = null }) {
   if (!characterId) return;
 
-  if (consumedRation) {
-    const itemId = foodItemId;
+  // One decrement per meal eaten. The same row can be eaten twice in a day.
+  const consumed = Array.isArray(foodItemIds) && foodItemIds.length > 0
+    ? foodItemIds
+    : (consumedRation ? [foodItemId] : []);
+
+  const counts = new Map();
+  for (const id of consumed) {
+    counts.set(id, (counts.get(id) || 0) + 1);
+  }
+
+  for (const [itemId, amount] of counts) {
     const { rows } = itemId
       ? await pool.query('SELECT id, qty FROM character_inventory WHERE id = $1 AND character_id = $2', [itemId, characterId])
       : await pool.query(
@@ -449,7 +558,7 @@ export async function applyInventoryChanges({ characterId, consumedRation = fals
         [characterId]
       );
     if (rows[0]) {
-      const newQty = rows[0].qty - 1;
+      const newQty = rows[0].qty - amount;
       if (newQty <= 0) {
         await pool.query('DELETE FROM character_inventory WHERE id = $1', [rows[0].id]);
       } else {

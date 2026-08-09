@@ -26,6 +26,7 @@ import { encountersSection } from './encountersSection.js';
  * @param {Object} params.terrainPhrases - regional phrase table
  * @param {() => number} params.rng
  * @param {string} [params.extraLead] - block-specific text (e.g. the camp)
+ * @param {string} [params.meal] - what was eaten and drunk in this phase
  * @returns {string}
  */
 export function phaseBlock({
@@ -39,6 +40,7 @@ export function phaseBlock({
   terrainPhrases = {},
   rng = Math.random,
   extraLead = '',
+  meal = '',
 }) {
   const subsections = [];
 
@@ -59,6 +61,8 @@ export function phaseBlock({
     const water = describeWaterCrossings(waterCrossings, rng);
     if (water) subsections.push(`Water crossings:\n${water}`);
   }
+
+  if (meal) subsections.push(`Food and drink:\n${meal}`);
 
   if (extraLead) subsections.push(extraLead);
 
