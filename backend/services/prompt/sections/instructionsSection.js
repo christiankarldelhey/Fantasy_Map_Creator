@@ -17,13 +17,26 @@ export const OVERNIGHT_COLOUR_NOTE = 'If the overnight location is a town or inn
 export const SPANISH_INSTRUCTION = 'Please write the entire response in Spanish.';
 
 /**
- * The single element the chapter's opening must be built around.
- * @param {string} focus - from pickTodaysWayIn()
+ * The single element the chapter's opening must be built around, plus the
+ * grammatical shape of the first sentence and the openings already spent.
+ * @param {Object} params
+ * @param {string} params.focus - from pickTodaysWayIn()
+ * @param {string} params.strategy - from pickOpeningStrategy()
+ * @param {string} [params.characterName] - the traveller's name
+ * @param {string[]} [params.previousOpenings] - first sentences of earlier chapters
  * @returns {string}
  */
-export function todaysWayInSection(focus) {
+export function todaysWayInSection({ focus, strategy, characterName = '', previousOpenings = [] }) {
+  const nameRule = characterName
+    ? ` Never open the chapter with "${characterName}" as the first word, and never open with ${characterName} walking, advancing or setting out — the journey is already in motion; enter it sideways.`
+    : ' Never open the chapter with the traveller\'s name as the first word, and never open with the traveller walking, advancing or setting out.';
+
+  const openingsBlock = previousOpenings.length
+    ? `\nEarlier chapters opened with these sentences — today's first sentence must differ from ALL of them in structure, subject and rhythm:\n${previousOpenings.map((s) => `- "${s}"`).join('\n')}`
+    : '';
+
   return `=== TODAY'S WAY IN ===
-Open the chapter's morning movement in the middle of an action, not at dawn or with the weather. Build today's landscape around ONE element: ${focus}. Do not inventory the scenery — enter through that one sense and let the rest stay in shadow.`;
+Build today's opening around ONE element: ${focus}. Shape of the first sentence: ${strategy}.${nameRule} Do not inventory the scenery — enter through that one sense and let the rest stay in shadow.${openingsBlock}`;
 }
 
 /**

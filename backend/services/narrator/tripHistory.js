@@ -51,6 +51,42 @@ export async function loadBannedPhrases(tripId, dayNumber) {
   return extractRepeatedPhrases(rows.map((r) => r.narrative));
 }
 
+// How many earlier chapter openings are shown as counter-examples.
+const RECENT_OPENINGS_CHAPTERS = 4;
+
+/**
+ * First sentence of each recent earlier chapter, so today's opening can be
+ * required to differ from them in structure, not just in wording.
+ * @param {number} tripId
+ * @param {number} dayNumber - the day being narrated
+ * @returns {Promise<string[]>}
+ */
+export async function loadPreviousOpenings(tripId, dayNumber) {
+  if (dayNumber <= 1) return [];
+
+  const { rows } = await pool.query(
+    `SELECT narrative FROM trip_days
+     WHERE trip_id = $1 AND day_number < $2 AND narrative IS NOT NULL
+     ORDER BY day_number DESC
+     LIMIT $3`,
+    [tripId, dayNumber, RECENT_OPENINGS_CHAPTERS]
+  );
+
+  return rows
+    .map((r) => firstSentence(r.narrative))
+    .filter(Boolean);
+}
+
+/** The first sentence of a narrative, trimmed to a sane length. */
+function firstSentence(text) {
+  if (typeof text !== 'string') return null;
+  const trimmed = text.trim();
+  if (!trimmed) return null;
+  const match = trimmed.match(/^[^.!?\n]+[.!?]?/);
+  const sentence = (match ? match[0] : trimmed).trim();
+  return sentence.length > 160 ? `${sentence.slice(0, 160)}…` : sentence;
+}
+
 /**
  * Encounter forms used in the last few chapters, so today's can differ.
  * @param {number} tripId

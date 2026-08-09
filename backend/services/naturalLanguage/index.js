@@ -43,4 +43,4 @@ export {
   describeOvernightLocation,
   describeRegions,
 } from './placeNotes.js';
-export { pickTodaysWayIn } from './openingFocus.js';
+export { pickOpeningStrategy, pickTodaysWayIn } from './openingFocus.js';

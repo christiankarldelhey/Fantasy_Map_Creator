@@ -10,6 +10,7 @@ import {
   collectNighttimeConditions,
   collectLocationNotes,
   pickTodaysWayIn,
+  pickOpeningStrategy,
   phaseForHour,
 } from '../naturalLanguage/index.js';
 
@@ -186,6 +187,11 @@ test('describeWaterCrossings omits description separator when absent', () => {
 test('pickTodaysWayIn returns a deterministic focus with a fixed rng', () => {
   const focus = pickTodaysWayIn(() => 0);
   assert.ok(typeof focus === 'string' && focus.length > 0);
+});
+
+test('pickOpeningStrategy returns a deterministic grammatical instruction', () => {
+  const strategy = pickOpeningStrategy(() => 0);
+  assert.ok(typeof strategy === 'string' && strategy.length > 0);
 });
 
 // ---------------------------------------------------------------------------

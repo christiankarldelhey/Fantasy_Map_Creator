@@ -27,6 +27,7 @@ import {
   describeOvernightLocation,
   emptyPhaseBuckets,
   groupByPhase,
+  pickOpeningStrategy,
   pickTodaysWayIn,
 } from '../naturalLanguage/index.js';
 import { SYSTEM_PROMPT } from './systemPrompt.js';
@@ -103,6 +104,7 @@ export function buildDayPrompt({
   endStateBlock = '',
   climateStateBlock = '',
   bannedPhrases = [],
+  previousOpenings = [],
 }) {
   const charName = characterName(character);
   const destination = destinationName(trip.name);
@@ -112,7 +114,9 @@ export function buildDayPrompt({
   const isTerminal = !!endStateBlock;
 
   const moon = day.moon_phase || getMoonPhase(day.date);
-  const weatherByPhase = collectClimateNotesByPhase(day.climate, moon);
+  const todaysWayIn = pickTodaysWayIn(rng);
+const openingStrategy = pickOpeningStrategy(rng);
+const weatherByPhase = collectClimateNotesByPhase(day.climate, moon);
   const biomesByPhase = groupByPhase(day.biomes);
   const locationsByPhase = groupByPhase(day.locations);
   const waterByPhase = groupByPhase(day.water_crossings);
@@ -143,7 +147,7 @@ export function buildDayPrompt({
 
 ${ENCOUNTER_RULES}
 
-${todaysWayInSection(pickTodaysWayIn(rng))}
+${todaysWayInSection({ focus: todaysWayIn, strategy: openingStrategy, characterName: charName, previousOpenings })}
 
 === TODAY'S ROAD ===
 ${isTerminal ? terminalRoadIntro(day.day_number, charName) : roadIntro(day.day_number)} ${seasonPhrase(day.date)}

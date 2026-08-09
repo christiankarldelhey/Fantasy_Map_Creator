@@ -10,7 +10,7 @@
 import { generateNarrative } from './ai.js';
 import { resolveClimateState } from '../naturalLanguage/index.js';
 import { buildDayPrompt } from '../prompt/index.js';
-import { loadBannedPhrases, loadPreviousDaySummary, loadRecentDayClimates } from './tripHistory.js';
+import { loadBannedPhrases, loadPreviousDaySummary, loadPreviousOpenings, loadRecentDayClimates } from './tripHistory.js';
 
 /**
  * Build the prompt for a day and generate its narrative.
@@ -33,10 +33,11 @@ export async function narrateDay({
   equipmentBlock = '',
   endStateBlock = '',
 }) {
-  const [previousDaySummary, bannedPhrases, recentDayClimates] = await Promise.all([
+  const [previousDaySummary, bannedPhrases, recentDayClimates, previousOpenings] = await Promise.all([
     loadPreviousDaySummary(trip.id, day.day_number),
     loadBannedPhrases(trip.id, day.day_number),
     loadRecentDayClimates(trip.id, day.day_number),
+    loadPreviousOpenings(trip.id, day.day_number),
   ]);
 
   const climateState = resolveClimateState(recentDayClimates, day.rng || Math.random);
@@ -53,6 +54,7 @@ export async function narrateDay({
     endStateBlock,
     climateStateBlock,
     bannedPhrases,
+    previousOpenings,
   });
 
   const generation = await generateNarrative(prompt, { dayNumber: day.day_number });
