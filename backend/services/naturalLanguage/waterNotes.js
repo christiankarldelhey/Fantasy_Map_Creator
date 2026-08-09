@@ -75,3 +75,40 @@ export function describeWaterCrossings(crossings, rng = Math.random) {
   if (!Array.isArray(crossings) || crossings.length === 0) return null;
   return crossings.map((c) => describeCrossing(c, rng)).join('\n');
 }
+
+const lakeVariants = (named, when) => {
+  const water = named || 'a lake';
+  const subject = named || 'A lake';
+  return [
+    `${subject} is sighted off the road ${when}, still and grey as slate.`,
+    `The road passes near ${water} ${when}, its shore quiet and reedy.`,
+    `A glint of water through the trees: ${water} lies close by ${when}.`,
+  ];
+};
+
+const shoreRefillVariants = (named, when) => {
+  const water = named || 'the lake';
+  return [
+    `At ${water} the waterskin is refilled ${when}.`,
+    `${capitalize(water)} provides clear water and the flask is topped up ${when}.`,
+  ];
+};
+
+function describeSource(source, rng, refilled = false) {
+  const when = timeOfDayPhrase(source.hour_float);
+  const named = distinctiveName(source.name);
+  const variants = refilled ? shoreRefillVariants(named, when) : lakeVariants(named, when);
+  return `- ${pick(variants, rng)}${descriptionSuffix(source.description)}`;
+}
+
+/**
+ * Describe lakes or shores that are close enough to matter.
+ * @param {Array<{name:string|null, type:string, hour_float:number, description?:string}>} sources
+ * @param {() => number} [rng]
+ * @param {boolean} [refilled] - whether any of them actually refilled the flask
+ * @returns {string|null}
+ */
+export function describeWaterSources(sources, rng = Math.random, refilled = false) {
+  if (!Array.isArray(sources) || sources.length === 0) return null;
+  return sources.map((s) => describeSource(s, rng, refilled)).join('\n');
+}

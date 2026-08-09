@@ -359,8 +359,12 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       await applyInventoryChanges({
         characterId: trip.character_id,
         consumedRation: resolution.food.consumed,
+        foodItemId: resolution.food.itemId,
+        waterAfter: resolution.water.waterAfter,
+        containerRowId: effects.containerRowId,
         coinsAfter: resolution.lodging.coinsAfter,
         daysWithoutFood: resolution.food.newDaysWithoutFood,
+        daysWithoutWater: resolution.water.newDaysWithoutWater,
       });
 
       if (fate.halted) {
@@ -382,6 +386,10 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         coldShift: effects.coldShift,
         rations: effects.rations,
         daysWithoutFood: resolution.food.newDaysWithoutFood,
+        daysWithoutWater: resolution.water.newDaysWithoutWater,
+        waterHeld: resolution.water.waterAfter,
+        waterCapacity: effects.waterCapacity,
+        flaskFrozen: resolution.flaskFrozen,
         coins: resolution.lodging.coinsAfter,
         turnedAway: resolution.lodging.turnedAway,
         notableItems: resolution.notableItems,

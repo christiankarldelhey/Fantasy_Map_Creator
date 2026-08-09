@@ -5,7 +5,11 @@ import {
   aggregateEffects,
   feltTemperature,
   computeFastingCost,
+  computeThirstCost,
+  computeWaterNeed,
   resolveDailyFood,
+  chooseDailyMeal,
+  resolveDailyWater,
   buildEquipmentBlock,
   resolveLodging,
 } from '../character/inventory.js';
@@ -76,7 +80,7 @@ test('aggregateEffects sums rest_bonus from tools', () => {
 
 test('aggregateEffects returns zeros for empty inventory', () => {
   const agg = aggregateEffects([]);
-  assert.deepEqual(agg, { coldShift: 0, restBonus: 0, rations: 0, arrows: 0, meleeTier: 0, rangedTier: 0 });
+  assert.deepEqual(agg, { coldShift: 0, restBonus: 0, rations: 0, arrows: 0, meleeTier: 0, rangedTier: 0, waterCapacity: 0, waterHeld: 0, totalWeightKg: 0, containerRowId: null });
 });
 
 // ---------------------------------------------------------------------------
@@ -129,6 +133,27 @@ test('resolveDailyFood increments streak when no rations', () => {
   assert.equal(result.rationsAfter, 0);
 });
 
+test('chooseDailyMeal respects priority and saves lembas for last', () => {
+  const rows = [
+    { id: 1, slug: 'lembas', category: 'provision', qty: 1, effect_when_used: { category: 'energy', value: 12 } },
+    { id: 2, slug: 'dried_meat', category: 'provision', qty: 1, effect_when_used: { category: 'energy', value: 8 } },
+    { id: 3, slug: 'trail_rations', category: 'provision', qty: 1, effect_when_used: { category: 'energy', value: 8 } },
+    { id: 4, slug: 'cheese_wheel', category: 'provision', qty: 1, effect_when_used: { category: 'energy', value: 8 } },
+  ];
+  assert.equal(chooseDailyMeal(rows).slug, 'dried_meat');
+  assert.equal(chooseDailyMeal([rows[0], rows[2], rows[3]]).slug, 'cheese_wheel');
+  assert.equal(chooseDailyMeal([rows[0]]).slug, 'lembas');
+});
+
+test('resolveDailyFood uses effect_when_used for the energy bonus', () => {
+  const rows = [
+    { id: 1, slug: 'dried_meat', category: 'provision', qty: 1, effect_when_used: { category: 'energy', value: 8 } },
+  ];
+  const result = resolveDailyFood({ rations: 1, daysWithoutFood: 0, rows });
+  assert.equal(result.consumed, true);
+  assert.equal(result.energyBonus, 8);
+});
+
 // ---------------------------------------------------------------------------
 // buildEquipmentBlock
 // ---------------------------------------------------------------------------
@@ -155,6 +180,56 @@ test('buildEquipmentBlock never contains digits', () => {
   });
   assert.ok(result.length > 0);
   assert.doesNotMatch(result, /\d/);
+});
+
+test('computeWaterNeed scales with temperature bands', () => {
+  assert.equal(computeWaterNeed(-5), 0.5);
+  assert.equal(computeWaterNeed(10), 0.75);
+  assert.equal(computeWaterNeed(25), 1.0);
+  assert.equal(computeWaterNeed(35), 1.5);
+});
+
+test('computeThirstCost escalates faster than hunger', () => {
+  assert.equal(computeThirstCost(1), -6);
+  assert.equal(computeThirstCost(2), -14);
+  assert.equal(computeThirstCost(3), -22);
+});
+
+test('resolveDailyWater refills from a source', () => {
+  const r = resolveDailyWater({ waterHeld: 0, capacity: 1, meanTemperature: 20, refillAvailable: true, rainMm: 0, frozen: false, daysWithoutWater: 0 });
+  assert.equal(r.refilled, true);
+  assert.equal(r.waterAfter, 0.25); // 1 capacity - 0.75 need
+  assert.equal(r.newDaysWithoutWater, 0);
+});
+
+test('resolveDailyWater tops up from rain', () => {
+  const r = resolveDailyWater({ waterHeld: 0.2, capacity: 1, meanTemperature: 20, refillAvailable: false, rainMm: TUNING.RAIN_REFILL_MM, frozen: false, daysWithoutWater: 1 });
+  assert.equal(r.drank, 0.45); // 0.2 + 0.25 rain, all of it is drunk
+  assert.equal(r.waterAfter, 0); // nothing left
+  assert.equal(r.newDaysWithoutWater, 1); // still short of 0.75 need
+});
+
+test('resolveDailyWater keeps thirst streak when no water', () => {
+  const r = resolveDailyWater({ waterHeld: 0, capacity: 1, meanTemperature: 20, refillAvailable: false, rainMm: 0, frozen: false, daysWithoutWater: 2 });
+  assert.equal(r.drank, 0);
+  assert.equal(r.newDaysWithoutWater, 3);
+});
+
+test('buildEquipmentBlock emits thirst and hunger', () => {
+  const block = buildEquipmentBlock({
+    coldShift: 6,
+    meanTemperature: -5,
+    rations: 7,
+    daysWithoutFood: 3,
+    daysWithoutWater: 2,
+    waterHeld: 0,
+    waterCapacity: 1,
+    coins: 100,
+    turnedAway: false,
+  });
+  assert.ok(block.includes('thirst') || block.includes('throat') || block.includes('waterskin') || block.includes('lips'));
+  assert.ok(block.includes('hunger') || block.includes('hollow') || block.includes('neither food'));
+  assert.equal(block.match(/\d+/g), null);
 });
 
 test('buildEquipmentBlock mentions turned away', () => {

@@ -20,8 +20,8 @@ import {
 // ---------------------------------------------------------------------------
 /**
  * @param {Array<Object>} rows - character_inventory rows joined with items.
- *   Each row: { category, qty, condition (0-3), equipped, effects: {...} }
- * @returns {{ coldShift:number, restBonus:number, rations:number, arrows:number, meleeTier:number, rangedTier:number }}
+ *   Each row: { category, qty, condition (0-3), equipped, effects: {...}, fill, weight_kg }
+ * @returns {{ coldShift:number, restBonus:number, rations:number, arrows:number, meleeTier:number, rangedTier:number, waterCapacity:number, waterHeld:number, totalWeightKg:number, containerRowId:number|null }}
  */
 export function aggregateEffects(rows = []) {
   let coldShift = 0;
@@ -30,11 +30,18 @@ export function aggregateEffects(rows = []) {
   let arrows = 0;
   let meleeTier = 0;
   let rangedTier = 0;
+  let waterCapacity = 0;
+  let waterHeld = 0;
+  let totalWeightKg = 0;
+  let containerRowId = null;
 
   for (const row of rows) {
     const effects = row.effects || {};
     const conditionMult = ((row.condition ?? 3) / 3); // 0..1
     const qty = row.qty ?? 1;
+    const weight = Number(row.weight_kg ?? 0) || 0;
+
+    totalWeightKg += weight * qty;
 
     // Garments: cold_shift applies regardless of equipped (you wear your
     // cloak when it's cold). Scaled by condition.
@@ -65,10 +72,17 @@ export function aggregateEffects(rows = []) {
     if (effects.ranged_tier && row.equipped) {
       rangedTier = Math.max(rangedTier, effects.ranged_tier);
     }
+
+    // Container: track the waterskin (or any other water-bearing vessel).
+    if (effects.water_capacity) {
+      waterCapacity += effects.water_capacity * conditionMult;
+      waterHeld += Math.max(0, Number(row.fill ?? 0));
+      containerRowId = row.id;
+    }
   }
 
   coldShift = Math.min(coldShift, TUNING.MAX_COLD_SHIFT);
-  return { coldShift, restBonus, rations, arrows, meleeTier, rangedTier };
+  return { coldShift, restBonus, rations, arrows, meleeTier, rangedTier, waterCapacity, waterHeld, totalWeightKg, containerRowId };
 }
 
 // ---------------------------------------------------------------------------
@@ -100,6 +114,76 @@ export function computeFastingCost(daysWithoutFood = 0) {
   return TUNING.FASTING_COST[idx];
 }
 
+/**
+ * Escalating energy cost for consecutive days without enough water.
+ * @param {number} daysWithoutWater
+ * @returns {number} negative energy cost
+ */
+export function computeThirstCost(daysWithoutWater = 0) {
+  if (!TUNING.THIRST_ENABLED || daysWithoutWater <= 0) return 0;
+  const idx = Math.min(daysWithoutWater, TUNING.THIRST_COST.length - 1);
+  return TUNING.THIRST_COST[idx];
+}
+
+/**
+ * Daily water need in litres, driven by the day's mean temperature.
+ * @param {number|null} meanTemperature
+ * @returns {number}
+ */
+export function computeWaterNeed(meanTemperature = null) {
+  const fallback = TUNING.WATER_NEED_L[TUNING.WATER_NEED_L.length - 1].need;
+  if (!Number.isFinite(meanTemperature)) return fallback;
+  for (const band of TUNING.WATER_NEED_L) {
+    if (meanTemperature < band.max) return band.need;
+  }
+  return TUNING.WATER_NEED_L[TUNING.WATER_NEED_L.length - 1].need;
+}
+
+/**
+ * Resolve the day's waterskin use: refill from a source, drink the need,
+ * and track the thirst streak.
+ * @param {Object} p
+ * @param {number} p.waterHeld - litres currently in the flask
+ * @param {number} p.capacity - litres the flask can hold
+ * @param {number|null} p.meanTemperature - day's mean temperature
+ * @param {boolean} p.refillAvailable - a freshwater source or well is reachable
+ * @param {number} p.rainMm - total precipitation for the day
+ * @param {boolean} p.frozen - natural sources are frozen (below FLASK_FREEZE_TEMP)
+ * @param {number} p.daysWithoutWater - current thirst streak
+ * @returns {{ drank:number, waterAfter:number, newDaysWithoutWater:number, refilled:boolean, frozen:boolean }}
+ */
+export function resolveDailyWater({ waterHeld = 0, capacity = 0, meanTemperature = null, refillAvailable = false, rainMm = 0, frozen = false, daysWithoutWater = 0 } = {}) {
+  if (capacity <= 0) {
+    return { drank: 0, waterAfter: 0, newDaysWithoutWater: daysWithoutWater + 1, refilled: false, frozen };
+  }
+
+  const need = computeWaterNeed(meanTemperature);
+  const canRefill = refillAvailable && !frozen;
+  let current = Math.max(0, Number(waterHeld) || 0);
+
+  if (canRefill) {
+    current = capacity;
+  } else if (!frozen && rainMm >= TUNING.RAIN_REFILL_MM) {
+    current = Math.min(capacity, current + TUNING.RAIN_REFILL_L);
+  }
+
+  const drink = Math.min(current, need);
+  const waterAfter = Math.max(0, current - drink);
+  const refilled = canRefill;
+
+  let newDaysWithoutWater;
+  if (drink >= need) {
+    newDaysWithoutWater = 0;
+  } else if (drink > 0) {
+    // Some water staves the worst, but it is not enough.
+    newDaysWithoutWater = 1;
+  } else {
+    newDaysWithoutWater = daysWithoutWater + 1;
+  }
+
+  return { drank: drink, waterAfter, newDaysWithoutWater, refilled, frozen };
+}
+
 // ---------------------------------------------------------------------------
 // resolveDailyFood — consume a ration or increment the fasting streak
 // ---------------------------------------------------------------------------
@@ -109,11 +193,52 @@ export function computeFastingCost(daysWithoutFood = 0) {
  * @param {number} p.daysWithoutFood - current fasting streak
  * @returns {{ consumed:boolean, newDaysWithoutFood:number, rationsAfter:number }}
  */
-export function resolveDailyFood({ rations = 0, daysWithoutFood = 0 }) {
+// Perishable/common provisions eaten first; lembas is precious and saved for last.
+const FOOD_PRIORITY = ['dried_meat', 'cheese_wheel', 'trail_rations'];
+
+/**
+ * Pick the provision row the traveller eats today, respecting priority.
+ * @param {Array<Object>} rows - inventory rows joined with items
+ * @returns {Object|null} chosen row
+ */
+export function chooseDailyMeal(rows = []) {
+  const provisions = (rows || []).filter((r) => r.category === 'provision' && (r.qty ?? 0) > 0);
+  const byPriority = (a, b) => {
+    const ia = FOOD_PRIORITY.indexOf(a.slug);
+    const ib = FOOD_PRIORITY.indexOf(b.slug);
+    if (ia !== -1 && ib !== -1) return ia - ib;
+    if (ia !== -1) return -1;
+    if (ib !== -1) return 1;
+    return 0;
+  };
+  provisions.sort(byPriority);
+  const nonLembas = provisions.filter((r) => r.slug !== 'lembas');
+  const lembas = provisions.filter((r) => r.slug === 'lembas');
+  const candidates = [...nonLembas, ...lembas];
+  return candidates[0] || null;
+}
+
+/**
+ * Resolve daily food consumption: pick an item, reduce rations, reset hunger streak.
+ * @param {Object} p
+ * @param {number} p.rations - total rations available
+ * @param {number} p.daysWithoutFood - current hunger streak
+ * @param {Array<Object>} p.rows - inventory rows joined with items
+ * @returns {{ consumed:boolean, itemId:number|null, energyBonus:number, newDaysWithoutFood:number, rationsAfter:number }}
+ */
+export function resolveDailyFood({ rations = 0, daysWithoutFood = 0, rows = [] } = {}) {
+  const row = rows.length ? chooseDailyMeal(rows) : null;
   if (rations > 0) {
-    return { consumed: true, newDaysWithoutFood: 0, rationsAfter: rations - 1 };
+    let energyBonus = TUNING.MEAL_ENERGY_BONUS;
+    let itemId = null;
+    if (row) {
+      const effect = row.effect_when_used || {};
+      if (effect.category === 'energy' && Number.isFinite(effect.value)) energyBonus = effect.value;
+      itemId = row.id;
+    }
+    return { consumed: true, itemId, energyBonus, newDaysWithoutFood: 0, rationsAfter: rations - 1 };
   }
-  return { consumed: false, newDaysWithoutFood: daysWithoutFood + 1, rationsAfter: 0 };
+  return { consumed: false, itemId: null, energyBonus: 0, newDaysWithoutFood: daysWithoutFood + 1, rationsAfter: 0 };
 }
 
 // ---------------------------------------------------------------------------
@@ -138,6 +263,10 @@ export function buildEquipmentBlock({
   coins = 100,
   turnedAway = false,
   notableItems = [],
+  daysWithoutWater = 0,
+  waterHeld = 0,
+  waterCapacity = 0,
+  flaskFrozen = false,
 }) {
   const lines = [];
 
@@ -161,11 +290,34 @@ export function buildEquipmentBlock({
     lines.push('the satchel is nearly empty');
   }
 
-  // Days without food — scales with severity.
-  if (daysWithoutFood >= 3) {
-    lines.push('no decent meal in days; hunger gnaws and weakens the arm');
-  } else if (daysWithoutFood >= 1) {
-    lines.push('no decent meal since yesterday; the belly is hollow');
+  // Waterskin state.
+  if (waterCapacity > 0) {
+    if (flaskFrozen) {
+      lines.push('the waterskin is rimed with ice and no stream can refill it today');
+    } else if (waterHeld <= 0) {
+      lines.push('the waterskin is empty; the tongue is parched and every swallow is remembered');
+    } else if (waterHeld <= TUNING.RAIN_REFILL_L) {
+      lines.push('the waterskin is nearly dry; only a mouthful or two remain');
+    }
+  }
+
+  // Days without food / water — scales with severity. Mention both when both bite.
+  if (daysWithoutFood >= 1 || daysWithoutWater >= 1) {
+    if (daysWithoutFood >= 1 && daysWithoutWater >= 1) {
+      if (daysWithoutFood >= 3 && daysWithoutWater >= 3) {
+        lines.push('neither food nor water in days; the body is doubly tried and the step unsteady');
+      } else {
+        lines.push('neither food nor water has passed the lips; the body is doubly tried');
+      }
+    } else if (daysWithoutFood >= 3) {
+      lines.push('no decent meal in days; hunger gnaws and weakens the arm');
+    } else if (daysWithoutFood >= 1) {
+      lines.push('no decent meal since yesterday; the belly is hollow');
+    } else if (daysWithoutWater >= 3) {
+      lines.push('no water in far too long; the tongue swells and the mind grows slow');
+    } else if (daysWithoutWater >= 1) {
+      lines.push('no water since yesterday; the throat is dust and the lips are cracked');
+    }
   }
 
   // Low coins.
@@ -254,9 +406,9 @@ export function resolveLodging({ overnightLocation, overnightInteraction, coins,
 export async function loadInventory(characterId) {
   if (!characterId) return [];
   const { rows } = await pool.query(
-    `SELECT ci.id, ci.character_id, ci.item_id, ci.qty, ci.condition, ci.equipped,
+    `SELECT ci.id, ci.character_id, ci.item_id, ci.qty, ci.condition, ci.equipped, ci.fill,
             i.slug, i.name, i.category, i.prose_singular, i.prose_plural,
-            i.effects, i.base_price, i.rarity
+            i.effects, i.effect_when_used, i.base_price, i.rarity, i.weight_kg
      FROM character_inventory ci
      JOIN items i ON i.id = ci.item_id
      WHERE ci.character_id = $1
@@ -268,26 +420,34 @@ export async function loadInventory(characterId) {
 
 /**
  * Persist a day's inventory and resource changes:
- * - consume one ration (decrement or delete the first provision row)
- * - update coins and days_without_food on character_state
+ * - consume the chosen ration (decrement or delete that provision row)
+ * - update waterskin fill
+ * - update coins, days_without_food and days_without_water on character_state
  * @param {Object} p
  * @param {number} p.characterId
  * @param {boolean} p.consumedRation
+ * @param {number|null} p.foodItemId
+ * @param {number|null} p.waterAfter
+ * @param {number|null} p.containerRowId
  * @param {number|null} p.coinsAfter
  * @param {number|null} p.daysWithoutFood
+ * @param {number|null} p.daysWithoutWater
  */
-export async function applyInventoryChanges({ characterId, consumedRation = false, coinsAfter = null, daysWithoutFood = null }) {
+export async function applyInventoryChanges({ characterId, consumedRation = false, foodItemId = null, waterAfter = null, containerRowId = null, coinsAfter = null, daysWithoutFood = null, daysWithoutWater = null }) {
   if (!characterId) return;
 
   if (consumedRation) {
-    const { rows } = await pool.query(
-      `SELECT ci.id, ci.qty FROM character_inventory ci
-       JOIN items i ON i.id = ci.item_id
-       WHERE ci.character_id = $1 AND i.category = 'provision' AND ci.qty > 0
-       ORDER BY ci.id
-       LIMIT 1`,
-      [characterId]
-    );
+    const itemId = foodItemId;
+    const { rows } = itemId
+      ? await pool.query('SELECT id, qty FROM character_inventory WHERE id = $1 AND character_id = $2', [itemId, characterId])
+      : await pool.query(
+        `SELECT ci.id, ci.qty FROM character_inventory ci
+         JOIN items i ON i.id = ci.item_id
+         WHERE ci.character_id = $1 AND i.category = 'provision' AND ci.qty > 0
+         ORDER BY ci.id
+         LIMIT 1`,
+        [characterId]
+      );
     if (rows[0]) {
       const newQty = rows[0].qty - 1;
       if (newQty <= 0) {
@@ -296,6 +456,10 @@ export async function applyInventoryChanges({ characterId, consumedRation = fals
         await pool.query('UPDATE character_inventory SET qty = $1 WHERE id = $2', [newQty, rows[0].id]);
       }
     }
+  }
+
+  if (Number.isFinite(waterAfter) && containerRowId) {
+    await pool.query('UPDATE character_inventory SET fill = $1 WHERE id = $2 AND character_id = $3', [waterAfter, containerRowId, characterId]);
   }
 
   const sets = [];
@@ -309,6 +473,10 @@ export async function applyInventoryChanges({ characterId, consumedRation = fals
   if (Number.isFinite(daysWithoutFood)) {
     sets.push(`days_without_food = $${idx++}`);
     vals.push(daysWithoutFood);
+  }
+  if (Number.isFinite(daysWithoutWater)) {
+    sets.push(`days_without_water = $${idx++}`);
+    vals.push(daysWithoutWater);
   }
 
   if (sets.length > 0) {

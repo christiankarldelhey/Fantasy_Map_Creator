@@ -46,8 +46,12 @@ export function notableItemsOf(inventoryRows = []) {
  * @param {number} [params.coldShift] - aggregated cold protection from gear
  * @param {number} [params.rations] - rations carried
  * @param {number} [params.daysWithoutFood]
+ * @param {number} [params.daysWithoutWater]
+ * @param {number} [params.waterHeld]
+ * @param {number} [params.waterCapacity]
+ * @param {boolean} [params.flaskFrozen]
  * @param {number} [params.coins]
- * @param {boolean} [params.turnedAway] - refused shelter at the day's end
+ * @param {boolean} [params.turnedAway] - refused shelter at the day’s end
  * @param {string[]} [params.notableItems]
  * @returns {Promise<{conditionBlock: string, equipmentBlock: string, endStateBlock: string}>}
  */
@@ -62,6 +66,10 @@ export async function buildTravellerBlocks({
   coldShift = 0,
   rations = 0,
   daysWithoutFood = 0,
+  daysWithoutWater = 0,
+  waterHeld = 0,
+  waterCapacity = 0,
+  flaskFrozen = false,
   coins = 0,
   turnedAway = false,
   notableItems = [],
@@ -80,6 +88,10 @@ export async function buildTravellerBlocks({
       meanTemperature,
       rations,
       daysWithoutFood,
+      daysWithoutWater,
+      waterHeld,
+      waterCapacity,
+      flaskFrozen,
       coins,
       turnedAway,
       notableItems,

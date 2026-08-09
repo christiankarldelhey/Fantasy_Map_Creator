@@ -55,21 +55,24 @@ const categoryLabels: Record<string, string> = {
   ammunition: 'Ammunition',
   weapon: 'Weapons',
   tool: 'Tools',
+  container: 'Vessels',
 }
 
-const categoryOrder = ['garment', 'weapon', 'provision', 'ammunition', 'tool']
+const categoryOrder = ['garment', 'weapon', 'provision', 'ammunition', 'tool', 'container']
 
 function itemProse(item: typeof inventory.value[0]): string {
   if (item.qty > 1 && item.prose_plural) return item.prose_plural
   return item.prose_singular
 }
 
-function provisionSummary(): string {
-  const provisions = inventory.value.filter((i) => i.category === 'provision')
-  const total = provisions.reduce((sum, i) => sum + i.qty, 0)
-  if (total === 0) return 'no provisions'
-  if (total <= 2) return 'provisions for a day or two'
-  return `provisions for several days`
+function waterSummary(item: typeof inventory.value[0]): string {
+  const capacity = item.effects?.water_capacity ?? 0
+  const current = item.fill ?? 0
+  if (current === 0) return 'empty'
+  if (current <= capacity / 4) return 'nearly dry'
+  if (current <= capacity / 2) return 'about half full'
+  if (current < capacity) return 'more than half full'
+  return 'full'
 }
 
 async function handleReset() {
@@ -161,6 +164,10 @@ async function handleReset() {
                   <span class="text-ink-brown" title="Days without food">🍖</span>
                   <span class="font-book text-sm italic text-ink-brown">no decent meal in {{ character.days_without_food }} {{ character.days_without_food === 1 ? 'day' : 'days' }}</span>
                 </div>
+                <div v-if="(character.days_without_water ?? 0) > 0" class="flex items-center gap-2">
+                  <span class="text-ink-brown" title="Days without water">💧</span>
+                  <span class="font-book text-sm italic text-ink-brown">no decent drink in {{ character.days_without_water }} {{ character.days_without_water === 1 ? 'day' : 'days' }}</span>
+                </div>
               </div>
 
               <!-- Inventory panel -->
@@ -172,7 +179,7 @@ async function handleReset() {
                       <p class="mb-1 font-book text-xs uppercase tracking-wide text-ink-brown">{{ categoryLabels[category] }}</p>
                       <ul class="space-y-0.5">
                         <li v-for="item in groupedInventory[category]" :key="item.id" class="font-book text-sm text-ink-black">
-                          <span v-if="item.category === 'provision'">{{ provisionSummary() }}</span>
+                          <span v-if="item.category === 'container'">{{ itemProse(item) }} ({{ waterSummary(item) }})</span>
                           <span v-else>{{ itemProse(item) }}</span>
                           <span v-if="item.equipped" class="ml-1 text-xs italic text-gold-base">— worn</span>
                         </li>

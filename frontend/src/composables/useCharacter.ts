@@ -23,6 +23,7 @@ export interface CharacterState {
   current_region: string | null
   coins?: number
   days_without_food?: number
+  days_without_water?: number
   template_id?: number
 }
 

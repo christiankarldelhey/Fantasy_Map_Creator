@@ -293,12 +293,33 @@ test('computeEnergyDelta: recoveryOverride affected by interrupted sleep', () =>
   assert.equal(parts.recovery, 12); // 30 × 0.4
 });
 
+test('computeEnergyDelta: thirst worsens recovery and adds thirstCost', () => {
+  const fed = computeEnergyDelta({ daysWithoutWater: 0, restQuality: 1, quietNight: false });
+  const thirsty = computeEnergyDelta({ daysWithoutWater: 2, restQuality: 1, quietNight: false });
+  assert.equal(thirsty.parts.thirstCost, -14);
+  assert.ok(thirsty.parts.recovery < fed.parts.recovery);
+});
+
+test('computeEnergyDelta: drinking enough removes thirst penalties', () => {
+  const without = computeEnergyDelta({ daysWithoutWater: 1, restQuality: 1, quietNight: false });
+  const withWater = computeEnergyDelta({ daysWithoutWater: 1, drankWater: true, restQuality: 1, quietNight: false });
+  assert.equal(withWater.parts.thirstCost, 0);
+  assert.ok(withWater.delta > without.delta);
+});
+
 test('computeEnergyDelta: consumedFood adds meal bonus', () => {
   const without = computeEnergyDelta({ restQuality: null });
   const withFood = computeEnergyDelta({ restQuality: null, consumedFood: true });
   assert.equal(without.parts.mealBonus, 0);
   assert.equal(withFood.parts.mealBonus, TUNING.MEAL_ENERGY_BONUS);
   assert.equal(withFood.delta - without.delta, TUNING.MEAL_ENERGY_BONUS);
+});
+
+test('computeEnergyDelta: meal bonus uses effect_when_used value', () => {
+  const base = computeEnergyDelta({ restQuality: null, consumedFood: true });
+  const lembas = computeEnergyDelta({ restQuality: null, consumedFood: true, mealEnergyBonus: 12 });
+  assert.equal(base.parts.mealBonus, TUNING.MEAL_ENERGY_BONUS);
+  assert.equal(lembas.parts.mealBonus, 12);
 });
 
 test('computeEnergyDelta: meal bonus reduced by interrupted sleep', () => {

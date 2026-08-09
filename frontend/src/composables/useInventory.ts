@@ -8,14 +8,17 @@ export interface InventoryItem {
   qty: number
   condition: number
   equipped: boolean
+  fill: number
   slug: string
   name: string
-  category: 'garment' | 'provision' | 'ammunition' | 'weapon' | 'tool'
+  category: 'garment' | 'provision' | 'ammunition' | 'weapon' | 'tool' | 'container'
   prose_singular: string
   prose_plural: string | null
   effects: Record<string, any>
+  effect_when_used: Record<string, any>
   base_price: number | null
   rarity: string
+  weight_kg: number
 }
 
 export interface InventoryResponse {

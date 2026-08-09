@@ -12,7 +12,7 @@
 // ============================================================================
 
 import { climateStats } from '../data/climateData.js';
-import { resolveDailyFood, resolveLodging } from './inventory.js';
+import { resolveDailyFood, resolveDailyWater, resolveLodging, computeWaterNeed } from './inventory.js';
 import {
   buildDayNote,
   classifyRegionFamilies,
@@ -50,12 +50,17 @@ function tallyWoundCosts(encounters) {
 // ---------------------------------------------------------------------------
 // Food + lodging -> narrative day events
 // ---------------------------------------------------------------------------
-function buildDayEvents(food, lodging) {
+function buildDayEvents(food, water, lodging) {
   const events = [];
   if (food.consumed) {
-    events.push({ type: 'food', consumed: true, source: lodging.paid ? 'tavern' : 'rations' });
+    events.push({ type: 'food', consumed: true, source: lodging.paid ? 'tavern' : 'rations', itemId: food.itemId });
   } else if (food.newDaysWithoutFood > 0) {
     events.push({ type: 'food', consumed: false, daysWithoutFood: food.newDaysWithoutFood });
+  }
+  if (water.drank) {
+    events.push({ type: 'water', drank: water.drank, refilled: water.refilled });
+  } else if (water.newDaysWithoutWater > 0) {
+    events.push({ type: 'water', drank: false, daysWithoutWater: water.newDaysWithoutWater });
   }
   if (lodging.paid) {
     events.push({ type: 'lodging', paid: true, cost: lodging.cost, coinsAfter: lodging.coinsAfter });
@@ -84,10 +89,12 @@ function buildDayEvents(food, lodging) {
  *   note: string|null,
  *   restedWell: boolean,
  *   food: Object,
+ *   water: Object,
  *   lodging: Object,
  *   meanTemperature: number|null,
  *   meanWind: number|null,
- *   notableItems: string[]
+ *   notableItems: string[],
+ *   flaskFrozen: boolean
  * }}
  */
 export function resolveDayState({
@@ -116,9 +123,10 @@ export function resolveDayState({
   const sanctuary = isSanctuary(day.overnight_location, day.overnight_interaction);
 
   const daysWithoutFood = startState?.days_without_food ?? 0;
+  const daysWithoutWater = startState?.days_without_water ?? 0;
   const coins = startState?.coins ?? TUNING.STARTING_COINS;
 
-  let food = resolveDailyFood({ rations: effects.rations, daysWithoutFood });
+  let food = resolveDailyFood({ rations: effects.rations, daysWithoutFood, rows: inventoryRows });
 
   const lodging = resolveLodging({
     overnightLocation: day.overnight_location,
@@ -128,9 +136,26 @@ export function resolveDayState({
     sanctuary,
   });
 
-  // Paid lodging includes a meal.
+  // Frozen flask: natural sources are unavailable, but a settlement well still works.
+  const flaskFrozen = Number.isFinite(meanTemperature) && meanTemperature <= TUNING.FLASK_FREEZE_TEMP;
+  const hasFreshwater = (day.water_crossings?.length > 0) || (day.water_sources?.length > 0);
+  const refillAvailable = (day.overnight_location?.indoor) || (hasFreshwater && !flaskFrozen);
+  const totalPrecipitation = climateStats(day.climate).totalPrecipitation;
+
+  let water = resolveDailyWater({
+    waterHeld: effects.waterHeld,
+    capacity: effects.waterCapacity,
+    meanTemperature,
+    refillAvailable,
+    rainMm: totalPrecipitation,
+    frozen: flaskFrozen,
+    daysWithoutWater,
+  });
+
+  // Paid lodging includes a meal and drink.
   if (lodging.paid) {
-    food = { consumed: true, newDaysWithoutFood: 0, rationsAfter: effects.rations };
+    food = { consumed: true, itemId: null, energyBonus: TUNING.MEAL_ENERGY_BONUS, newDaysWithoutFood: 0, rationsAfter: effects.rations };
+    water = { drank: effects.waterCapacity, waterAfter: effects.waterCapacity, newDaysWithoutWater: 0, refilled: true, frozen: flaskFrozen };
   }
 
   const effectiveOvernightLocation = lodging.turnedAway
@@ -162,8 +187,11 @@ export function resolveDayState({
     coldShift: effects.coldShift,
     restBonus: effects.restBonus,
     daysWithoutFood: food.newDaysWithoutFood,
+    daysWithoutWater: water.newDaysWithoutWater,
     recoveryOverride: lodging.recoveryOverride,
     consumedFood: food.consumed,
+    drankWater: water.drank >= computeWaterNeed(meanTemperature),
+    mealEnergyBonus: food.energyBonus,
   });
 
   const { delta: shadowDelta } = computeShadowDelta({
@@ -193,7 +221,7 @@ export function resolveDayState({
     .filter((r) => r.rarity === 'rare' || r.slug === 'lorien_elven_cloak')
     .map((r) => r.prose_singular);
 
-  const dayEvents = buildDayEvents(food, lodging);
+  const dayEvents = buildDayEvents(food, water, lodging);
 
   return {
     openingEnergy,
@@ -209,5 +237,7 @@ export function resolveDayState({
     meanTemperature,
     meanWind,
     notableItems,
+    water,
+    flaskFrozen,
   };
 }

@@ -82,7 +82,7 @@ export const TUNING = {
     heatExtraPer5C: 3,       // each additional 5°C above 40
   },
 
-  // Inventory: cold protection, hunger, lodging, coins
+  // Inventory: cold protection, hunger, thirst, lodging, coins
   COLD_SHIFT_THRESHOLD: 15,      // below this °C, garments add their cold_shift
   MAX_COLD_SHIFT: 12,             // cap so deep winter is never free
   FASTING_COST: [0, -4, -9, -15], // per consecutive day without food; -15 each day after
@@ -90,7 +90,21 @@ export const TUNING = {
   PROVISION_TARGET_DAYS: 7,       // rations refilled to this when starting a trip from a settlement
   HUNGER_ENABLED: true,           // master switch for the hunger mechanic
 
-  MEAL_ENERGY_BONUS: 8,         // eating a ration or tavern meal gives this energy
+  // Thirst (mirror of hunger, but more punishing)
+  THIRST_ENABLED: true,
+  THIRST_COST: [0, -6, -14, -22], // per consecutive day without enough water
+  THIRST_REST_MULTIPLIER: 0.6,    // thirst spoils rest recovery
+  WATER_NEED_L: [                  // litres per day by mean temperature (C)
+    { max: 5,   need: 0.5 },       // cold: not much
+    { max: 24,  need: 0.75 },      // mild
+    { max: 32,  need: 1.0 },       // warm
+    { max: 999, need: 1.5 },       // hot
+  ],
+  RAIN_REFILL_MM: 10,             // total daily precipitation that adds...
+  RAIN_REFILL_L: 0.25,            // this much water from catching rain
+  FLASK_FREEZE_TEMP: 0,           // below this, natural sources freeze over (cannot refill)
+
+  MEAL_ENERGY_BONUS: 8,         // default eating a ration or tavern meal gives this energy
   STARTING_COINS: 100,
   LODGING_COST: 5,                // per night indoors, same everywhere
   LODGING_RECOVERY_FRACTION: 0.5, // recovers this fraction of MISSING energy
@@ -373,7 +387,7 @@ export function countFriendlyTalks(encounters) {
  * @param {number|null} [p.recoveryOverride=null] - paid lodging fixed recovery
  * @returns {{ delta:number, parts:Object }}
  */
-export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQuality = null, harshWeatherAllDay = false, quietNight = false, meanTemperature = null, meanWind = null, overnightLocation = null, currentEnergy = null, interruptedNight = false, sanctuary = false, coldShift = 0, restBonus = 0, daysWithoutFood = 0, recoveryOverride = null, consumedFood = false }) {
+export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQuality = null, harshWeatherAllDay = false, quietNight = false, meanTemperature = null, meanWind = null, overnightLocation = null, currentEnergy = null, interruptedNight = false, sanctuary = false, coldShift = 0, restBonus = 0, daysWithoutFood = 0, daysWithoutWater = 0, recoveryOverride = null, consumedFood = false, drankWater = false, mealEnergyBonus = null }) {
   const walk = -TUNING.WALK_COST_PER_UNIT * Math.round((distanceKm || 0) / TUNING.WALK_KM_UNIT);
   const combat = -TUNING.COMBAT_COST * countCombat(encounters);
   const tension = -TUNING.TENSION_COST * countTension(encounters);
@@ -403,30 +417,37 @@ export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQualit
   // Poor sleep: an interrupted night sharply cuts the rest recovered.
   const sleepMultiplier = interruptedNight ? TUNING.INTERRUPTED_SLEEP_MULTIPLIER : 1;
 
-  // Hunger spoils rest recovery when fasting.
+  // Hunger and thirst spoil rest recovery when the traveller goes without.
   const fastingMult = daysWithoutFood > 0 ? TUNING.FASTING_REST_MULTIPLIER : 1;
+  const thirstMult = (TUNING.THIRST_ENABLED && daysWithoutWater > 0) ? TUNING.THIRST_REST_MULTIPLIER : 1;
+  const deprivationMult = fastingMult * thirstMult;
 
   let recovery = 0;
   if (recoveryOverride != null && Number.isFinite(recoveryOverride)) {
     // Paid lodging: fixed recovery, no soft cap (self-limiting by design),
-    // but still affected by interrupted sleep and fasting.
-    recovery = recoveryOverride * sleepMultiplier * fastingMult;
+    // but still affected by interrupted sleep and deprivation.
+    recovery = recoveryOverride * sleepMultiplier * deprivationMult;
   } else if (restQuality != null && TUNING.REST_RECOVERY[restQuality] != null) {
-    recovery = TUNING.REST_RECOVERY[restQuality] * restMultiplier * sleepMultiplier * softCap * fastingMult;
+    recovery = TUNING.REST_RECOVERY[restQuality] * restMultiplier * sleepMultiplier * softCap * deprivationMult;
   }
-  const quietBonus = quietNight ? TUNING.QUIET_NIGHT_BONUS * restMultiplier * softCap * fastingMult : 0;
+  const quietBonus = quietNight ? TUNING.QUIET_NIGHT_BONUS * restMultiplier * softCap * deprivationMult : 0;
 
   // Eating a ration or a tavern meal gives a small direct energy bonus.
   // Reduced by interrupted sleep but not by fasting (eating resets fasting).
-  const mealBonus = consumedFood ? TUNING.MEAL_ENERGY_BONUS * sleepMultiplier : 0;
+  const baseMeal = (consumedFood && Number.isFinite(mealEnergyBonus)) ? mealEnergyBonus : TUNING.MEAL_ENERGY_BONUS;
+  const mealBonus = consumedFood ? baseMeal * sleepMultiplier : 0;
 
-  // Fasting energy cost (escalating with consecutive days without food).
+  // Fasting and thirst energy costs (escalating with consecutive days without).
   const fastingCost = (TUNING.HUNGER_ENABLED && daysWithoutFood > 0)
     ? TUNING.FASTING_COST[Math.min(daysWithoutFood, TUNING.FASTING_COST.length - 1)]
     : 0;
 
-  const delta = walk + combat + tension + weather + temperature + wind + recovery + quietBonus + mealBonus + fastingCost;
-  return { delta, parts: { walk, combat, tension, weather, temperature, wind, recovery, quietBonus, mealBonus, fastingCost } };
+  const thirstCost = (TUNING.THIRST_ENABLED && !drankWater && daysWithoutWater > 0)
+    ? TUNING.THIRST_COST[Math.min(daysWithoutWater, TUNING.THIRST_COST.length - 1)]
+    : 0;
+
+  const delta = walk + combat + tension + weather + temperature + wind + recovery + quietBonus + mealBonus + fastingCost + thirstCost;
+  return { delta, parts: { walk, combat, tension, weather, temperature, wind, recovery, quietBonus, mealBonus, fastingCost, thirstCost } };
 }
 
 // ---------------------------------------------------------------------------
@@ -619,7 +640,7 @@ Let this colour the telling — how ${characterName} moves, what ${characterName
 export async function loadCharacterState(characterId) {
   if (!characterId) return null;
   const { rows } = await pool.query(
-    'SELECT id, name, energy, shadow, energy_initial, shadow_initial, last_rest_at, coins, days_without_food FROM character_state WHERE id = $1',
+    'SELECT id, name, energy, shadow, energy_initial, shadow_initial, last_rest_at, coins, days_without_food, days_without_water FROM character_state WHERE id = $1',
     [characterId]
   );
   return rows[0] || null;

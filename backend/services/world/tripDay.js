@@ -193,7 +193,20 @@ async function sampleLegContext(legGeoJSON) {
         )), '[]'::json)
         FROM water w, leg
         WHERE w.water_type IN ('river', 'stream')
-          AND ST_Intersects(w.geom, leg.geom)) AS water_crossings`,
+          AND ST_Intersects(w.geom, leg.geom)) AS water_crossings,
+       (SELECT COALESCE(json_agg(json_build_object(
+          'name', w.name,
+          'type', w.water_type,
+          'description', w.description,
+          'distance_km', round((ST_Distance(w.geom::geography, leg.geom::geography) / 1000)::numeric, 2),
+          'fraction', ST_LineLocatePoint(
+            leg.geom,
+            ST_ClosestPoint(leg.geom, ST_Centroid(w.geom))
+          )
+        ) ORDER BY ST_Distance(w.geom::geography, leg.geom::geography)), '[]'::json)
+        FROM water w, leg
+        WHERE w.water_type = 'lake'
+          AND ST_DWithin(w.geom::geography, leg.geom::geography, 1000)) AS water_sources`,
     [geojson]
   );
   return rows[0];
@@ -687,6 +700,22 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     };
   });
 
+  // --- Water sources: lakes and shores within reach of the day's leg ---
+  const waterSources = (context.water_sources || []).map((w) => {
+    const frac = typeof w.fraction === 'number' ? Math.max(0, Math.min(1, w.fraction)) : 0;
+    const hourFloat = WALK_START_HOUR + frac * walkingHoursThisDay;
+    const hh = Math.floor(hourFloat);
+    const mm = Math.round((hourFloat - hh) * 60);
+    return {
+      name: w.name || null,
+      type: w.type,
+      description: w.description || null,
+      distance_km: w.distance_km,
+      hour_float: Number(hourFloat.toFixed(2)),
+      hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,
+    };
+  });
+
   // --- Overnight location: take it from the day's checkpoint ---
   let overnightLocation = null;
   if (checkpoint && checkpoint.location) {
@@ -749,6 +778,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     encounters,
     thoughts: null,
     water_crossings: waterCrossings,
+    water_sources: waterSources,
     overnight_location: overnightLocation,
     overnight_interaction: overnightInteraction,
     elevation_profile: elevationProfile || null,
