@@ -68,9 +68,10 @@ export function flattenRoute(route) {
 
   const g = route.geometry;
   if (g.off_road_start) pushLineString(g.off_road_start.geometry, g.off_road_start.properties || {}, 'off_road');
-  if (g.on_road && Array.isArray(g.on_road.features)) {
-    for (const f of g.on_road.features) {
-      pushLineString(f.geometry, f.properties || {}, 'on_road');
+  if (g.route && Array.isArray(g.route.features)) {
+    for (const f of g.route.features) {
+      const kind = f.properties?.type === 'off_road' ? 'off_road' : 'on_road';
+      pushLineString(f.geometry, f.properties || {}, kind);
     }
   }
   if (g.off_road_end) pushLineString(g.off_road_end.geometry, g.off_road_end.properties || {}, 'off_road');
