@@ -10,6 +10,7 @@
 import { generateNarrative } from './ai.js';
 import { resolveClimateState } from '../naturalLanguage/index.js';
 import { buildDayPrompt } from '../prompt/index.js';
+import { runNarrativeEvals } from '../evals/evalRunner.js';
 import { loadBannedPhrases, loadPreviousDaySummary, loadPreviousOpenings, loadRecentDayClimates } from './tripHistory.js';
 
 /**
@@ -58,6 +59,13 @@ export async function narrateDay({
   });
 
   const generation = await generateNarrative(prompt, { dayNumber: day.day_number });
+
+  runNarrativeEvals({
+    narrative: generation.text,
+    day,
+    bannedPhrases,
+    characterName: character?.name || 'Aranath',
+  });
 
   return { prompt, generation };
 }

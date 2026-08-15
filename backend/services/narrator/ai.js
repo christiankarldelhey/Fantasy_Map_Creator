@@ -5,7 +5,7 @@ import Groq from 'groq-sdk';
 // AI Service (Gemini + Groq fallback)
 // ----------------------------------------------------------------------------
 // Generates narrative text using Gemini 2.0 Flash as primary provider.
-// Falls back to Groq (llama-3.3-70b-versatile) if Gemini hits rate limits,
+// Falls back to Groq (openai/gpt-oss-120b) if Gemini hits rate limits,
 // first with GROQ_API_KEY and then with GROQ_API_KEY_2.
 // ============================================================================
 
@@ -14,7 +14,7 @@ let primaryClient = null;
 let secondaryClient = null;
 
 const GEMINI_MODEL = 'gemini-2.0-flash';
-const GROQ_MODEL = 'llama-3.3-70b-versatile';
+const GROQ_MODEL = 'openai/gpt-oss-120b';
 const PLACEHOLDER_KEY = 'your_groq_api_key_here';
 
 // --- Sampling variation (anti-repetition) ---------------------------------
