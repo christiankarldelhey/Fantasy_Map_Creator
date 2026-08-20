@@ -1,20 +1,16 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import Groq from 'groq-sdk';
 
 // ============================================================================
-// AI Service (Gemini + Groq fallback)
+// AI Service (Groq only)
 // ----------------------------------------------------------------------------
-// Generates narrative text using Gemini 2.0 Flash as primary provider.
-// Falls back to Groq (openai/gpt-oss-120b) if Gemini hits rate limits,
-// first with GROQ_API_KEY and then with GROQ_API_KEY_2.
+// Generates narrative text using Groq (Qwen 3.6 27B) as primary provider,
+// with GROQ_API_KEY_2 as fallback if the first key hits rate limits.
 // ============================================================================
 
-let geminiClient = null;
 let primaryClient = null;
 let secondaryClient = null;
 
-const GEMINI_MODEL = 'gemini-2.0-flash';
-const GROQ_MODEL = 'openai/gpt-oss-120b';
+const GROQ_MODEL = 'qwen/qwen3.6-27b';
 const PLACEHOLDER_KEY = 'your_groq_api_key_here';
 
 // --- Sampling variation (anti-repetition) ---------------------------------
@@ -23,7 +19,7 @@ const PLACEHOLDER_KEY = 'your_groq_api_key_here';
 const TEMP_ROTATION = [0.68, 0.74, 0.79, 0.71, 0.82, 0.66, 0.76];
 // Penalties are constant for now, but returned/persisted per chapter so the
 // System tab stays truthful and future tuning is reflected historically.
-const FREQUENCY_PENALTY = 0.35; // Groq range 0–1; also valid for Gemini
+const FREQUENCY_PENALTY = 0.35; // Groq range 0–1
 const PRESENCE_PENALTY = 0.15;
 const TOP_P = 0.92;
 
@@ -39,22 +35,6 @@ function samplingParamsForDay(dayNumber) {
 
 function isValidKey(key) {
   return key && key !== PLACEHOLDER_KEY;
-}
-
-function getGeminiClient() {
-  if (geminiClient !== null) return geminiClient;
-
-  const apiKey = process.env.GEMINI_API_KEY;
-  console.log('AI Service: Initializing Gemini client with GEMINI_API_KEY present:', !!apiKey);
-
-  if (!isValidKey(apiKey)) {
-    console.warn('Gemini AI not configured (missing GEMINI_API_KEY)');
-    geminiClient = null;
-  } else {
-    geminiClient = new GoogleGenerativeAI(apiKey);
-    console.log('AI Service: Gemini client initialized successfully');
-  }
-  return geminiClient;
 }
 
 function initializeGroqClient(apiKey) {
@@ -107,31 +87,6 @@ function parseMessages(prompt) {
   return messages;
 }
 
-async function tryGenerateGemini(client, messages, sampling) {
-  const systemMessage = messages.find(m => m.role === 'system');
-  const userMessage = messages.find(m => m.role === 'user') || { content: '' };
-
-  const model = client.getGenerativeModel({
-    model: GEMINI_MODEL,
-    systemInstruction: systemMessage?.content,
-  });
-
-  const result = await model.generateContent({
-    contents: [{ role: 'user', parts: [{ text: userMessage.content }] }],
-    generationConfig: {
-      temperature: sampling.temperature,
-      topP: sampling.top_p,
-      frequencyPenalty: sampling.frequency_penalty,
-      presencePenalty: sampling.presence_penalty,
-      maxOutputTokens: 2048,
-    },
-  });
-
-  const content = result.response?.text?.() || null;
-  console.log('✅ Narrative generated successfully with Gemini, length:', content?.length || 0);
-  return content;
-}
-
 async function tryGenerateGroq(client, messages, sampling) {
   const response = await client.chat.completions.create({
     model: GROQ_MODEL,
@@ -140,44 +95,29 @@ async function tryGenerateGroq(client, messages, sampling) {
     top_p: sampling.top_p,
     frequency_penalty: sampling.frequency_penalty,
     presence_penalty: sampling.presence_penalty,
-    max_tokens: 2048,
+    max_tokens: 4096,
+    reasoning_effort: 'none', // Qwen 3.x: skip thinking entirely (no reasoning token cost)
   });
 
-  const content = response.choices[0]?.message?.content || null;
+  let content = response.choices[0]?.message?.content || null;
+  // Safety net: strip any residual <think> tags if the model emits them anyway.
+  if (content) {
+    content = content.replace(/<think>[\s\S]*?<\/think>\s*/g, '').trim();
+  }
   console.log('✅ Narrative generated successfully with Groq, length:', content?.length || 0);
   return content;
 }
 
 /**
- * Build the ordered list of generation attempts for a given day.
- * Provider rotation: even days try Gemini first, odd days try Groq first.
- * The other provider (and the secondary Groq key) always remain as fallbacks,
- * so resilience is preserved while the lead voice alternates per chapter.
- * @param {number} dayNumber
- * @returns {Array<{ provider: 'gemini'|'groq', getClient: Function, run: Function }>}
+ * Build the ordered list of generation attempts.
+ * Tries primary Groq key first, then secondary as fallback.
+ * @returns {Array<{ provider: 'groq', getClient: Function, run: Function }>}
  */
-function buildAttemptOrder(dayNumber) {
-  const geminiAttempt = {
-    provider: 'gemini',
-    getClient: getGeminiClient,
-    run: tryGenerateGemini,
-  };
-  const groqPrimaryAttempt = {
-    provider: 'groq',
-    getClient: getPrimaryClient,
-    run: tryGenerateGroq,
-  };
-  const groqSecondaryAttempt = {
-    provider: 'groq',
-    getClient: getSecondaryClient,
-    run: tryGenerateGroq,
-  };
-
-  const n = Number.isInteger(dayNumber) ? dayNumber : 0;
-  const groqLeads = ((n % 2) + 2) % 2 === 1; // odd day -> Groq leads
-  return groqLeads
-    ? [groqPrimaryAttempt, geminiAttempt, groqSecondaryAttempt]
-    : [geminiAttempt, groqPrimaryAttempt, groqSecondaryAttempt];
+function buildAttemptOrder() {
+  return [
+    { provider: 'groq', getClient: getPrimaryClient, run: tryGenerateGroq },
+    { provider: 'groq', getClient: getSecondaryClient, run: tryGenerateGroq },
+  ];
 }
 
 /**
@@ -234,10 +174,7 @@ export async function generateNarrative(prompt, options = {}) {
  * @returns {boolean}
  */
 export function isAIConfigured() {
-  const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
   const API_KEY = process.env.GROQ_API_KEY;
   const API_KEY_2 = process.env.GROQ_API_KEY_2;
-  return isValidKey(GEMINI_API_KEY) ||
-         isValidKey(API_KEY) ||
-         isValidKey(API_KEY_2);
+  return isValidKey(API_KEY) || isValidKey(API_KEY_2);
 }

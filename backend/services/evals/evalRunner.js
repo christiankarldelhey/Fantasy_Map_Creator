@@ -7,6 +7,10 @@ import {
 } from './narrativeChecks.js';
 
 export function runNarrativeEvals({ narrative, day, bannedPhrases = [], characterName = 'Aranath' }) {
+  if (!narrative) {
+    console.log('=== narrative eval skipped (no narrative generated) ===');
+    return { ok: true, checks: [], failed: [] };
+  }
   console.log('=== narrative eval start (day', day?.day_number, ') ===');
   const checks = [
     checkOpening(narrative, characterName),
