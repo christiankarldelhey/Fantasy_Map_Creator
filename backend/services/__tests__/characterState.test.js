@@ -467,6 +467,27 @@ test('buildConditionBlock included and never emits numbers', () => {
   assert.equal(/\b\d+\b/.test(block), false, 'no digits in the block');
 });
 
+test('buildConditionBlock mentions a persistent wound even with normal energy/shadow', () => {
+  const block = buildConditionBlock({
+    characterName: 'Aranath',
+    energy: 65,
+    shadow: 10,
+    wounded: 'wounded',
+  });
+  assert.notEqual(block, '');
+  assert.ok(block.includes('wound'));
+});
+
+test('buildConditionBlock badly_wounded uses its own sentence', () => {
+  const block = buildConditionBlock({
+    characterName: 'Aranath',
+    energy: 65,
+    shadow: 10,
+    wounded: 'badly_wounded',
+  });
+  assert.ok(block.includes('badly wounded'));
+});
+
 // ---------------------------------------------------------------------------
 // buildDayNote
 // ---------------------------------------------------------------------------

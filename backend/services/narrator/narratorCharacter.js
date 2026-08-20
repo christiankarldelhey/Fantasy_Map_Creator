@@ -11,6 +11,8 @@ const NARRATOR_CHARACTER_QUERY = `
   SELECT c.id, c.name, c.slug, c.description, c.gender,
          c.system_prompt, c.introduction_instructions,
          c.resistance, c.permadeath, c.energy, c.shadow,
+         c.skill_tracking, c.skill_persuasion, c.skill_ranged, c.skill_melee, c.skill_lore,
+         c.fatigue, c.wounded,
          e.name AS entity_name
   FROM character_state c
   LEFT JOIN entities e ON e.id = c.entity_id

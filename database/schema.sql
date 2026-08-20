@@ -374,6 +374,17 @@ CREATE TABLE IF NOT EXISTS character_state (
     resistance INT NOT NULL DEFAULT 0,        -- bonus to resistance rolls
     permadeath BOOLEAN NOT NULL DEFAULT false,-- if true, a slain outcome ends the trip
     status TEXT NOT NULL DEFAULT 'alive',     -- alive or dead
+    -- Skills (0-10, fixed per character, copied to clones from their template)
+    skill_tracking INT NOT NULL DEFAULT 0 CHECK (skill_tracking BETWEEN 0 AND 10),
+    skill_persuasion INT NOT NULL DEFAULT 0 CHECK (skill_persuasion BETWEEN 0 AND 10),
+    skill_ranged INT NOT NULL DEFAULT 0 CHECK (skill_ranged BETWEEN 0 AND 10),
+    skill_melee INT NOT NULL DEFAULT 0 CHECK (skill_melee BETWEEN 0 AND 10),
+    skill_lore INT NOT NULL DEFAULT 0 CHECK (skill_lore BETWEEN 0 AND 10),
+    -- Persistent conditions: causes behind the energy level, separate from
+    -- the one-off wound cost applied per encounter outcome.
+    fatigue INT NOT NULL DEFAULT 0 CHECK (fatigue BETWEEN 0 AND 100),
+    wounded TEXT NOT NULL DEFAULT 'none' CHECK (wounded IN ('none', 'wounded', 'badly_wounded')),
+    sick BOOLEAN NOT NULL DEFAULT false,
     updated_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -395,6 +406,8 @@ CREATE TABLE IF NOT EXISTS character_state_log (
     shadow       INT  NOT NULL,
     note         TEXT,            -- e.g. "fight with the bear", "slept at Rivendell"
     fate         TEXT,            -- end-of-day fate (living, slain, dead_exhaustion, etc.)
+    fatigue      INT,             -- persistent fatigue condition at end of day (0-100)
+    wounded      TEXT,            -- persistent wound condition at end of day
     created_at   TIMESTAMP DEFAULT NOW(),
     UNIQUE (character_id, trip_id, day_number)
 );

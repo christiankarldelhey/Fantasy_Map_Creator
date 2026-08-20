@@ -564,6 +564,11 @@ const SHADOW_SENTENCE = {
   burdened: (name) => `${name} is heavily burdened in spirit: the land itself feels malevolent, bleak, and what trust ${name} had is all but gone.`,
 };
 
+const WOUNDED_SENTENCE = {
+  wounded: (name) => `${name} nurses a wound that has not yet healed.`,
+  badly_wounded: (name) => `${name} is badly wounded, moving as one who is not far from falling.`,
+};
+
 /**
  * Build a short causal note describing the day's most salient state driver.
  * Stored in character_state_log and later reused as a cross-day callback.
@@ -602,22 +607,25 @@ export function buildDayNote(day, overnightInteraction) {
  * @param {string} p.characterName
  * @param {number} p.energy
  * @param {number} p.shadow
+ * @param {string} [p.wounded='none'] - persistent wound condition (none|wounded|badly_wounded)
  * @param {Array<string>} [p.recentNotes] - last 1–3 log notes for causal phrasing
  * @returns {string}
  */
-export function buildConditionBlock({ characterName = 'The traveller', energy = 100, shadow = 0, recentNotes = [] }) {
+export function buildConditionBlock({ characterName = 'The traveller', energy = 100, shadow = 0, wounded = 'none', recentNotes = [] }) {
   const eBand = energyBand(energy);
   const sBand = shadowBand(shadow);
 
   const energyMention = eBand === 'worn' || eBand === 'spent';
   const shadowMention = sBand !== 'clear';
+  const woundedMention = wounded === 'wounded' || wounded === 'badly_wounded';
 
   // Build rule: omit entirely when nothing crosses a threshold.
-  if (!energyMention && !shadowMention) return '';
+  if (!energyMention && !shadowMention && !woundedMention) return '';
 
   const lines = [];
   if (energyMention) lines.push(ENERGY_SENTENCE[eBand](characterName));
   if (shadowMention) lines.push(SHADOW_SENTENCE[sBand](characterName));
+  if (woundedMention) lines.push(WOUNDED_SENTENCE[wounded](characterName));
 
   // Causal phrase from recent notes (cross-day memory for free).
   const notes = (recentNotes || []).filter(Boolean).slice(0, 3);
@@ -641,7 +649,9 @@ Let this colour the telling — how ${characterName} moves, what ${characterName
 export async function loadCharacterState(characterId) {
   if (!characterId) return null;
   const { rows } = await pool.query(
-    'SELECT id, name, energy, shadow, energy_initial, shadow_initial, last_rest_at, coins, days_without_food, days_without_water FROM character_state WHERE id = $1',
+    `SELECT id, name, energy, shadow, energy_initial, shadow_initial, last_rest_at, coins, days_without_food, days_without_water,
+            skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, fatigue, wounded, sick
+     FROM character_state WHERE id = $1`,
     [characterId]
   );
   return rows[0] || null;
@@ -658,22 +668,30 @@ export async function loadCharacterState(characterId) {
  * @param {string|null} p.note
  * @param {string|null} p.fate    - terminal fate, if any
  * @param {boolean} p.restedWell - update last_rest_at when true
+ * @param {number|null} [p.fatigue] - new persistent fatigue (0-100), unchanged if omitted
+ * @param {string|null} [p.wounded] - new persistent wounded condition, unchanged if omitted
  */
-export async function applyDayState({ characterId, tripId, dayNumber, energy, shadow, note = null, fate = null, restedWell = false }) {
+export async function applyDayState({ characterId, tripId, dayNumber, energy, shadow, note = null, fate = null, restedWell = false, fatigue = null, wounded = null }) {
   if (!characterId) return;
   const status = fate === 'living' || !fate ? 'alive' : 'dead';
+  const setConditions = [
+    fatigue != null ? 'fatigue = $5' : null,
+    wounded != null ? `wounded = $${fatigue != null ? 6 : 5}` : null,
+  ].filter(Boolean);
+  const conditionParams = [fatigue, wounded].filter((v) => v != null);
   await pool.query(
     `UPDATE character_state
-       SET energy = $1, shadow = $2, status = $3, updated_at = NOW()${restedWell ? ', last_rest_at = NOW()' : ''}
+       SET energy = $1, shadow = $2, status = $3, updated_at = NOW()${restedWell ? ', last_rest_at = NOW()' : ''}${setConditions.length ? ', ' + setConditions.join(', ') : ''}
      WHERE id = $4`,
-    [energy, shadow, status, characterId]
+    [energy, shadow, status, characterId, ...conditionParams]
   );
   await pool.query(
-    `INSERT INTO character_state_log (character_id, trip_id, day_number, energy, shadow, note, fate)
-     VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `INSERT INTO character_state_log (character_id, trip_id, day_number, energy, shadow, note, fate, fatigue, wounded)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
      ON CONFLICT (character_id, trip_id, day_number)
-     DO UPDATE SET energy = EXCLUDED.energy, shadow = EXCLUDED.shadow, note = EXCLUDED.note, fate = EXCLUDED.fate, created_at = NOW()`,
-    [characterId, tripId, dayNumber, energy, shadow, note, fate]
+     DO UPDATE SET energy = EXCLUDED.energy, shadow = EXCLUDED.shadow, note = EXCLUDED.note, fate = EXCLUDED.fate,
+                   fatigue = EXCLUDED.fatigue, wounded = EXCLUDED.wounded, created_at = NOW()`,
+    [characterId, tripId, dayNumber, energy, shadow, note, fate, fatigue, wounded]
   );
 }
 

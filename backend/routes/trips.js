@@ -357,6 +357,8 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         note: resolution.note,
         fate: fate.fate === 'living' ? null : fate.fate,
         restedWell: resolution.restedWell,
+        fatigue: resolution.conditions?.fatigue,
+        wounded: resolution.conditions?.wounded,
       });
       await applyInventoryChanges({
         characterId: trip.character_id,
@@ -383,6 +385,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         characterName: character.name,
         energy: newEnergy,
         shadow: newShadow,
+        wounded: resolution.conditions?.wounded,
         fate: fate.fate,
         meanTemperature: resolution.meanTemperature,
         coldShift: effects.coldShift,
@@ -553,6 +556,7 @@ router.post('/:id/days/:dayNumber/redo-narration', authenticateToken, async (req
         characterName: character.name,
         energy: energyEnd,
         shadow: shadowEnd,
+        wounded: startState?.wounded ?? 'none',
         fate: fate.fate,
         meanTemperature,
         coldShift: effects.coldShift,

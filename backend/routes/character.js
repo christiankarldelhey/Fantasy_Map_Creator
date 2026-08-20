@@ -27,6 +27,14 @@ router.get('/', async (req, res, next) => {
         c.updated_at,
         c.coins,
         c.days_without_food,
+        c.skill_tracking,
+        c.skill_persuasion,
+        c.skill_ranged,
+        c.skill_melee,
+        c.skill_lore,
+        c.fatigue,
+        c.wounded,
+        c.sick,
         (
           SELECT name 
           FROM locations 
@@ -74,6 +82,14 @@ router.get('/my', authenticateToken, async (req, res, next) => {
         c.coins,
         c.days_without_food,
         c.template_id,
+        c.skill_tracking,
+        c.skill_persuasion,
+        c.skill_ranged,
+        c.skill_melee,
+        c.skill_lore,
+        c.fatigue,
+        c.wounded,
+        c.sick,
         (u.active_character_id = c.id) as is_active_for_user,
         (
           SELECT name 
@@ -121,6 +137,14 @@ router.get('/active', async (req, res, next) => {
         c.updated_at,
         c.coins,
         c.days_without_food,
+        c.skill_tracking,
+        c.skill_persuasion,
+        c.skill_ranged,
+        c.skill_melee,
+        c.skill_lore,
+        c.fatigue,
+        c.wounded,
+        c.sick,
         (
           SELECT name 
           FROM locations 
@@ -186,6 +210,14 @@ router.get('/:id', async (req, res, next) => {
         c.updated_at,
         c.coins,
         c.days_without_food,
+        c.skill_tracking,
+        c.skill_persuasion,
+        c.skill_ranged,
+        c.skill_melee,
+        c.skill_lore,
+        c.fatigue,
+        c.wounded,
+        c.sick,
         (
           SELECT name 
           FROM locations 
@@ -233,7 +265,8 @@ router.put('/active/position', authenticateToken, async (req, res, next) => {
       UPDATE character_state
       SET current_lng = $1, current_lat = $2, updated_at = NOW()
       WHERE id = $3
-      RETURNING id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow, updated_at
+      RETURNING id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow,
+                skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, fatigue, wounded, sick, updated_at
     `, [current_lng, current_lat, characterId]);
 
     if (result.rows.length === 0) {
@@ -261,7 +294,8 @@ router.put('/:id/active', authenticateToken, async (req, res, next) => {
         UPDATE character_state
         SET active = true
         WHERE id = $1
-        RETURNING id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow, updated_at
+        RETURNING id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow,
+                  skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, fatigue, wounded, sick, updated_at
       `, [id]);
       if (result.rows.length === 0) {
         await pool.query('ROLLBACK');
@@ -297,6 +331,8 @@ router.put('/:id/active', authenticateToken, async (req, res, next) => {
         c.energy,
         c.shadow, c.permadeath,
         c.status, c.updated_at,
+        c.skill_tracking, c.skill_persuasion, c.skill_ranged, c.skill_melee, c.skill_lore,
+        c.fatigue, c.wounded, c.sick,
         (
           SELECT name FROM locations
           WHERE ST_DWithin(geom, ST_SetSRID(ST_Point(c.current_lng, c.current_lat), 4326), 0.01)
@@ -346,10 +382,12 @@ router.post('/clone-all', authenticateToken, async (req, res, next) => {
         // Copy the template's starting values into the clone's live state.
         const clone = await pool.query(
           `INSERT INTO character_state
-            (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug, energy, shadow, energy_initial, shadow_initial, coins)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11, $12, $13, $12, $13, $14)
+            (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug, energy, shadow, energy_initial, shadow_initial, coins,
+             skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11, $12, $13, $12, $13, $14, $15, $16, $17, $18, $19)
            RETURNING id`,
-          [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug, t.energy_initial ?? 100, t.shadow_initial ?? 0, TUNING.STARTING_COINS]
+          [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug, t.energy_initial ?? 100, t.shadow_initial ?? 0, TUNING.STARTING_COINS,
+           t.skill_tracking ?? 0, t.skill_persuasion ?? 0, t.skill_ranged ?? 0, t.skill_melee ?? 0, t.skill_lore ?? 0]
         );
         characterId = clone.rows[0].id;
         // Grant the template's starting kit to the new clone.
@@ -375,6 +413,8 @@ router.post('/clone-all', authenticateToken, async (req, res, next) => {
         c.energy,
         c.shadow, c.permadeath,
         c.status, c.updated_at, c.template_id,
+        c.skill_tracking, c.skill_persuasion, c.skill_ranged, c.skill_melee, c.skill_lore,
+        c.fatigue, c.wounded, c.sick,
         (u.active_character_id = c.id) as is_active_for_user,
         (
           SELECT name FROM locations
@@ -432,10 +472,12 @@ router.post('/clone/:templateId', authenticateToken, async (req, res, next) => {
       // Copy the template's starting values into the clone's live state.
       const clone = await pool.query(
         `INSERT INTO character_state
-          (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug, energy, shadow, energy_initial, shadow_initial, coins)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11, $12, $13, $12, $13, $14)
+          (name, current_lng, current_lat, type, gender, description, resistance, permadeath, active, owner_user_id, template_id, slug, energy, shadow, energy_initial, shadow_initial, coins,
+           skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9, $10, $11, $12, $13, $12, $13, $14, $15, $16, $17, $18, $19)
          RETURNING id`,
-        [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug, t.energy_initial ?? 100, t.shadow_initial ?? 0, TUNING.STARTING_COINS]
+        [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.resistance, t.permadeath, userId, t.id, cloneSlug, t.energy_initial ?? 100, t.shadow_initial ?? 0, TUNING.STARTING_COINS,
+         t.skill_tracking ?? 0, t.skill_persuasion ?? 0, t.skill_ranged ?? 0, t.skill_melee ?? 0, t.skill_lore ?? 0]
       );
       characterId = clone.rows[0].id;
       // Grant the template's starting kit to the new clone.
@@ -449,7 +491,9 @@ router.post('/clone/:templateId', authenticateToken, async (req, res, next) => {
     );
 
     const result = await pool.query(
-      'SELECT id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow, updated_at FROM character_state WHERE id = $1',
+      `SELECT id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow,
+              skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, fatigue, wounded, sick, updated_at
+       FROM character_state WHERE id = $1`,
       [characterId]
     );
 
@@ -480,9 +524,11 @@ router.post('/:id/reset', authenticateToken, async (req, res, next) => {
 
     const result = await pool.query(
       `UPDATE character_state
-         SET energy = $1, shadow = $2, status = 'alive', coins = $3, days_without_food = 0, updated_at = NOW()
+         SET energy = $1, shadow = $2, status = 'alive', coins = $3, days_without_food = 0,
+             fatigue = 0, wounded = 'none', sick = false, updated_at = NOW()
        WHERE id = $4
-       RETURNING id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow, status, updated_at`,
+       RETURNING id, name, current_lng, current_lat, type, gender, active, description, resistance, permadeath, energy, shadow,
+                 skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, fatigue, wounded, sick, status, updated_at`,
       [newEnergy, newShadow, TUNING.STARTING_COINS, id]
     );
 

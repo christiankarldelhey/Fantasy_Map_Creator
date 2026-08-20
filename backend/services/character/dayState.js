@@ -28,6 +28,7 @@ import {
   WOUND_COSTS,
   TUNING,
 } from './characterState.js';
+import { resolveConditions } from './conditions.js';
 
 // ---------------------------------------------------------------------------
 // Wound costs from encounter outcomes
@@ -97,6 +98,7 @@ function buildDayEvents(food, water, lodging) {
  *   dayEvents: Array,
  *   note: string|null,
  *   restedWell: boolean,
+ *   conditions: {fatigue:number, wounded:string},
  *   food: Object,
  *   water: Object,
  *   lodging: Object,
@@ -232,6 +234,20 @@ export function resolveDayState({
   const restedWell = restQuality != null && restQuality >= TUNING.REST_TRACK_MIN;
   const note = buildDayNote(day, day.overnight_interaction);
 
+  // Persistent conditions: fatigue and wounded track separately from the
+  // energy number above, using the same day drivers already computed here.
+  const conditions = resolveConditions({
+    previousFatigue: startState?.fatigue ?? 0,
+    previousWounded: startState?.wounded ?? 'none',
+    distanceKm: day.distance_km,
+    encounterOutcomes: outcomes,
+    combatCount: countCombat(encounters),
+    tensionCount: countTension(encounters),
+    harshWeatherAllDay: isHarshWeatherAllDay(day.climate),
+    interruptedNight,
+    restQuality: effectiveRestQuality,
+  });
+
   const notableItems = (inventoryRows || [])
     .filter((r) => r.rarity === 'rare' || r.slug === 'lorien_elven_cloak')
     .map((r) => r.prose_singular);
@@ -247,6 +263,7 @@ export function resolveDayState({
     dayEvents,
     note,
     restedWell,
+    conditions,
     food,
     meals: food.meals,
     lodging,

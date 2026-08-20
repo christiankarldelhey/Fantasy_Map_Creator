@@ -25,6 +25,13 @@ export interface CharacterState {
   days_without_food?: number
   days_without_water?: number
   template_id?: number
+  skill_tracking?: number
+  skill_persuasion?: number
+  skill_ranged?: number
+  skill_melee?: number
+  skill_lore?: number
+  fatigue?: number
+  wounded?: 'none' | 'wounded' | 'badly_wounded'
 }
 
 const characters = ref<CharacterState[]>([])

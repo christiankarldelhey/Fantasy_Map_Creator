@@ -41,6 +41,7 @@ export function notableItemsOf(inventoryRows = []) {
  * @param {string} [params.characterName]
  * @param {number} params.energy - energy at the END of the day
  * @param {number} params.shadow - shadow at the END of the day
+ * @param {string} [params.wounded='none'] - persistent wound condition at the END of the day
  * @param {string} [params.fate] - resolved fate; anything but 'living' is terminal
  * @param {number|null} [params.meanTemperature] - mean temperature of the day
  * @param {number} [params.coldShift] - aggregated cold protection from gear
@@ -61,6 +62,7 @@ export async function buildTravellerBlocks({
   characterName = DEFAULT_TRAVELLER_NAME,
   energy,
   shadow,
+  wounded = 'none',
   fate = 'living',
   meanTemperature = null,
   coldShift = 0,
@@ -81,6 +83,7 @@ export async function buildTravellerBlocks({
       characterName,
       energy,
       shadow,
+      wounded,
       recentNotes: priorNotes,
     }),
     equipmentBlock: buildEquipmentBlock({

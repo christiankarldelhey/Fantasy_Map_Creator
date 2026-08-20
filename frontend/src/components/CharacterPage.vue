@@ -26,6 +26,21 @@ const { inventory, fetchInventory, clearInventory } = useInventory()
 
 const isDead = computed(() => props.character.status === 'dead')
 
+const abilityList = computed(() => [
+  { label: 'Tracking', value: props.character.skill_tracking ?? 0 },
+  { label: 'Persuasion', value: props.character.skill_persuasion ?? 0 },
+  { label: 'Ranged', value: props.character.skill_ranged ?? 0 },
+  { label: 'Melee', value: props.character.skill_melee ?? 0 },
+  { label: 'Lore', value: props.character.skill_lore ?? 0 },
+])
+
+const isFatigued = computed(() => (props.character.fatigue ?? 0) > 40)
+const woundedLabel = computed(() => {
+  if (props.character.wounded === 'badly_wounded') return 'badly wounded'
+  if (props.character.wounded === 'wounded') return 'nursing a wound'
+  return null
+})
+
 const fullImageUrl = computed(() => {
   return new URL(`/src/assets/characters/${props.character.name}_full.png`, import.meta.url).href
 })
@@ -153,8 +168,24 @@ async function handleReset() {
                 </p>
               </div>
 
+              <!-- Abilities -->
+              <div class="mt-6">
+                <h2 class="mb-3 font-serif text-sm uppercase tracking-wide text-gold-base">Abilities</h2>
+                <div class="space-y-2">
+                  <div v-for="ability in abilityList" :key="ability.label" class="flex items-center gap-3">
+                    <span class="w-24 flex-shrink-0 font-book text-sm text-ink-black">{{ ability.label }}</span>
+                    <div class="h-2 flex-1 overflow-hidden rounded-full bg-parchment-dark">
+                      <div
+                        class="h-full rounded-full bg-gold-base"
+                        :style="{ width: `${(ability.value / 10) * 100}%` }"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <!-- Coins + hunger -->
-              <div class="mt-6 flex items-center gap-4">
+              <div class="mt-6 flex flex-wrap items-center gap-4">
                 <div class="flex items-center gap-2">
                   <span class="font-serif text-lg text-gold-base" title="Coins">⬡</span>
                   <span class="font-serif font-semibold text-ink-black">{{ character.coins ?? 100 }}</span>
@@ -167,6 +198,14 @@ async function handleReset() {
                 <div v-if="(character.days_without_water ?? 0) > 0" class="flex items-center gap-2">
                   <span class="text-ink-brown" title="Days without water">💧</span>
                   <span class="font-book text-sm italic text-ink-brown">no decent drink in {{ character.days_without_water }} {{ character.days_without_water === 1 ? 'day' : 'days' }}</span>
+                </div>
+                <div v-if="isFatigued" class="flex items-center gap-2">
+                  <span class="text-ink-brown" title="Fatigued">😮‍💨</span>
+                  <span class="font-book text-sm italic text-ink-brown">weary from the road</span>
+                </div>
+                <div v-if="woundedLabel" class="flex items-center gap-2">
+                  <span class="text-ink-brown" title="Wounded">🩸</span>
+                  <span class="font-book text-sm italic text-ink-brown">{{ woundedLabel }}</span>
                 </div>
               </div>
 
