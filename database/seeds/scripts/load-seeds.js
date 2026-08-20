@@ -776,6 +776,8 @@ async function ensureSchema() {
   // food/water migration extends the tables the first one creates.
   await runMigrationFile('create_items_and_inventory.sql');
   await runMigrationFile('add_food_water_and_item_effects.sql');
+  await runMigrationFile('add_skills_and_conditions.sql');
+  await runMigrationFile('add_stealth_endurance_skills.sql');
 
   console.log('✅ Schema ready\n');
 }

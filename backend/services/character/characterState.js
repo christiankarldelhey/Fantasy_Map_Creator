@@ -650,7 +650,7 @@ export async function loadCharacterState(characterId) {
   if (!characterId) return null;
   const { rows } = await pool.query(
     `SELECT id, name, energy, shadow, energy_initial, shadow_initial, last_rest_at, coins, days_without_food, days_without_water,
-            skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, fatigue, wounded, sick
+            skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, skill_stealth, skill_endurance, fatigue, wounded, sick
      FROM character_state WHERE id = $1`,
     [characterId]
   );

@@ -380,6 +380,8 @@ CREATE TABLE IF NOT EXISTS character_state (
     skill_ranged INT NOT NULL DEFAULT 0 CHECK (skill_ranged BETWEEN 0 AND 10),
     skill_melee INT NOT NULL DEFAULT 0 CHECK (skill_melee BETWEEN 0 AND 10),
     skill_lore INT NOT NULL DEFAULT 0 CHECK (skill_lore BETWEEN 0 AND 10),
+    skill_stealth INT NOT NULL DEFAULT 0 CHECK (skill_stealth BETWEEN 0 AND 10),
+    skill_endurance INT NOT NULL DEFAULT 0 CHECK (skill_endurance BETWEEN 0 AND 10),
     -- Persistent conditions: causes behind the energy level, separate from
     -- the one-off wound cost applied per encounter outcome.
     fatigue INT NOT NULL DEFAULT 0 CHECK (fatigue BETWEEN 0 AND 100),

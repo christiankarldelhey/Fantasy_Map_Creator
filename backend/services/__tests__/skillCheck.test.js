@@ -30,11 +30,18 @@ test('rollSkillCheck: worn/spent energy penalises the roll', () => {
   assert.equal(spent.total, 8);
 });
 
-test('rollSkillCheck: shadow only penalises mind-based skills (persuasion/lore)', () => {
+test('rollSkillCheck: shadow only penalises mind-based skills (persuasion/lore/endurance)', () => {
   const melee = rollSkillCheck({ skill: 5, difficulty: 10, skillName: 'melee', shadow: 80, rng: dieRng(5) });
   const lore = rollSkillCheck({ skill: 5, difficulty: 10, skillName: 'lore', shadow: 80, rng: dieRng(5) });
   assert.equal(melee.total, 10); // no shadow penalty for melee
   assert.equal(lore.total, 8);   // burdened = -2
+});
+
+test('rollSkillCheck: endurance is shadow-affected, stealth is not', () => {
+  const endurance = rollSkillCheck({ skill: 5, difficulty: 10, skillName: 'endurance', shadow: 80, rng: dieRng(5) });
+  const stealth = rollSkillCheck({ skill: 5, difficulty: 10, skillName: 'stealth', shadow: 80, rng: dieRng(5) });
+  assert.equal(endurance.total, 8); // burdened = -2
+  assert.equal(stealth.total, 10);  // no shadow penalty for stealth
 });
 
 test('rollSkillCheck: energy and shadow penalties stack', () => {

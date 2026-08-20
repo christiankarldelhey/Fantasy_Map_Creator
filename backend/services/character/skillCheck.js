@@ -23,9 +23,9 @@ const ENERGY_MODIFIER = {
   spent: -2,
 };
 
-// Shadow only clouds the mind-based skills (persuasion, lore); it doesn't
-// affect physical skills (tracking, ranged, melee).
-const SHADOW_AFFECTED_SKILLS = new Set(['persuasion', 'lore']);
+// Shadow only clouds the mind-based skills (persuasion, lore, endurance); it
+// doesn't affect physical skills (tracking, ranged, melee, stealth).
+const SHADOW_AFFECTED_SKILLS = new Set(['persuasion', 'lore', 'endurance']);
 const SHADOW_MODIFIER = {
   clear: 0,
   unease: 0,
@@ -42,7 +42,7 @@ const DIE_SIDES = 10;
  * @param {Object} p
  * @param {number} p.skill - the relevant skill value (0-10)
  * @param {number} p.difficulty - target number to beat/meet
- * @param {string} [p.skillName] - one of tracking|persuasion|ranged|melee|lore,
+ * @param {string} [p.skillName] - one of tracking|persuasion|ranged|melee|lore|stealth|endurance,
  *   used to decide whether the shadow modifier applies (mind-based skills only)
  * @param {number} [p.energy=100] - current energy (0-100), converted to a band
  * @param {number} [p.shadow=0] - current shadow (0-100), converted to a band
@@ -79,7 +79,7 @@ export const ACTION_THRESHOLDS = {
  * enabled if ANY of them is met (e.g. hunt via ranged OR tracking).
  *
  * @param {Object} p
- * @param {Object} [p.skills={}] - { skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore }
+ * @param {Object} [p.skills={}] - { skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, skill_stealth, skill_endurance }
  * @param {Object} [p.conditions={}] - { fatigue, wounded } (reserved for future gating)
  * @param {number} [p.energy=100]
  * @param {number} [p.shadow=0]
