@@ -3,12 +3,14 @@ Maps/
 # Geojson/  # Commented to allow data/geojson/ to be tracked
 
 # Ignore all data directory EXCEPT database/seeds/data/ (seed files must be committed for prod deploy)
-# and backend/services/data/ (climate/moon/terrain source modules)
+# and backend/services/data/ + backend/domains/*/services/data/ (climate/moon/terrain source modules)
 data/
 !database/seeds/data/
 !database/seeds/data/**
 !backend/services/data/
 !backend/services/data/**
+!backend/domains/*/services/data/
+!backend/domains/*/services/data/**
 
 # Ignore scripts directory EXCEPT database/seeds/scripts/ (utility scripts for data import/migration, not needed to run app)
 scripts/
