@@ -1,20 +1,22 @@
 // ============================================================================
 // Narrate a day
 // ----------------------------------------------------------------------------
-// The single entry point for turning a resolved day into prose: it gathers the
-// trip's own history (continuity + anti-repetition), assembles the prompt and
-// calls the LLM. Both POST /trips/:id/days and POST .../redo-narration go
-// through here, so a re-narration is built exactly like the original.
+// The single entry point for turning a resolved day into prose. Node still
+// owns the DB reads (the trip's own history: continuity + anti-repetition);
+// prompt assembly and the LLM call itself now live in the story-engine
+// Python service (backend/../story-engine), reached over HTTP. Both
+// POST /trips/:id/days and POST .../redo-narration go through here, so a
+// re-narration is built exactly like the original.
+//
+// See story-engine/README.md for the service this calls.
 // ============================================================================
 
-import { generateNarrative } from './ai.js';
-import { resolveClimateState } from '../naturalLanguage/index.js';
-import { buildDayPrompt } from '../prompt/index.js';
-import { runNarrativeEvals } from '../evals/evalRunner.js';
 import { loadBannedPhrases, loadPreviousDaySummary, loadPreviousOpenings, loadRecentDayClimates } from './tripHistory.js';
 
+const STORY_ENGINE_URL = process.env.STORY_ENGINE_URL || 'http://localhost:8001';
+
 /**
- * Build the prompt for a day and generate its narrative.
+ * Build the prompt for a day and generate its narrative via the story-engine service.
  * @param {Object} params
  * @param {Object} params.day - resolved day (from generateDay or rehydrated)
  * @param {Object} params.trip
@@ -41,31 +43,28 @@ export async function narrateDay({
     loadPreviousOpenings(trip.id, day.day_number),
   ]);
 
-  const climateState = resolveClimateState(recentDayClimates, day.rng || Math.random);
-  const climateStateBlock = climateState.narrative;
-
-  const prompt = buildDayPrompt({
-    day,
-    trip,
-    character,
-    language,
-    previousDaySummary,
-    conditionBlock,
-    equipmentBlock,
-    endStateBlock,
-    climateStateBlock,
-    bannedPhrases,
-    previousOpenings,
+  const response = await fetch(`${STORY_ENGINE_URL}/narrate-day`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      day,
+      trip,
+      character,
+      language,
+      conditionBlock,
+      equipmentBlock,
+      endStateBlock,
+      previousDaySummary,
+      bannedPhrases,
+      recentDayClimates,
+      previousOpenings,
+    }),
   });
 
-  const generation = await generateNarrative(prompt, { dayNumber: day.day_number });
+  if (!response.ok) {
+    const body = await response.text().catch(() => '');
+    throw new Error(`story-engine /narrate-day failed (${response.status}): ${body}`);
+  }
 
-  runNarrativeEvals({
-    narrative: generation.text,
-    day,
-    bannedPhrases,
-    characterName: character?.name || 'Aranath',
-  });
-
-  return { prompt, generation };
+  return response.json();
 }

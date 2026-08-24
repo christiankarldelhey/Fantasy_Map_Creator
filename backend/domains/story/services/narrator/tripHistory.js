@@ -8,10 +8,33 @@
 
 import pool from '../../../../db.js';
 import { extractRepeatedPhrases } from '../phraseVices.js';
-import { previousDaySummary } from '../prompt/sections/journeySection.js';
 
 // How many recent chapters are scanned for already-used encounter forms.
 const RECENT_FORMS_CHAPTERS = 3;
+
+/**
+ * Plain, non-AI summary of the previous day, used for narrative continuity.
+ * Moved here from the (now removed) prompt/sections/journeySection.js — this
+ * was its only caller; prompt assembly itself now lives in the story-engine
+ * Python service.
+ * @param {{ day_number:number, regions?:Array, locations?:Array, encounters?:Array }} previousDay
+ * @returns {string}
+ */
+function previousDaySummary(previousDay) {
+  const names = (list, fallback) => {
+    const joined = (list || []).map((item) => item?.name).filter(Boolean).join(', ');
+    return joined || fallback;
+  };
+
+  const regions = names(previousDay.regions, 'unknown lands');
+  const locations = names(previousDay.locations, 'no major settlements');
+  const encounters = names(
+    (previousDay.encounters || []).map((e) => e.entity),
+    'no major encounters'
+  );
+
+  return `In Chapter ${previousDay.day_number} (yesterday), the traveller journeyed through: ${regions}. They passed near: ${locations}. Notable encounters/sights: ${encounters}.`;
+}
 
 /**
  * Plain summary of the previous chapter, or null on day 1 / when it is missing.

@@ -12,20 +12,24 @@ only the code is partitioned.
 - **game/** — rules, persistence, mechanics. Auth, users, characters, trips,
   inventory, encounters selection, day generation. Owns every table that
   changes per user/character/trip.
-- **story/** — translation to natural language. Narrator, prompt building,
-  phrase banks (naturalLanguage/), LLM calls, evals. No DB tables of its own
-  yet; reads whatever it's handed and returns text.
+- **story/** — narrative continuity reads (tripHistory.js, DB) and the phrase
+  banks Game still needs at generation time (naturalLanguage/terrainPhrases.js,
+  phraseVices.js). Prompt assembly and the LLM call itself now live in the
+  story-engine Python service (../../story-engine); narrateDay.js is the seam
+  that calls it over HTTP (`POST /narrate-day`). No DB tables of its own.
 
 ## The adapter rule
 
 A file inside one domain's `services/` must never `import` a file inside
 another domain's `services/` directly. Cross-domain calls go through that
 domain's `adapters/*Client.js` (e.g. `game/adapters/mapClient.js`,
-`game/adapters/storyClient.js`, `story/adapters/mapClient.js`,
-`story/adapters/gameClient.js`). Today an adapter is just a re-export — a
-plain function call, same process. That's the seam: if a domain is ever
-extracted into its own deployed service, only its callers' adapter files
-need to change (e.g. to `fetch()` calls), not the call sites themselves.
+`game/adapters/storyClient.js`, `story/adapters/gameClient.js`). Today an
+adapter is just a re-export — a plain function call, same process. That's the
+seam: if a domain is ever extracted into its own deployed service, only its
+callers' adapter files need to change (e.g. to `fetch()` calls), not the call
+sites themselves. `story/services/narrator/narrateDay.js` already does this
+for the story-engine (a real `fetch()`, since that domain is now a separate
+Python service).
 
 `db.js` and `middleware/auth.js` stay shared at the `backend/` root for this
 phase (see plan's "Open questions" — flagged as duplication debt for when a
