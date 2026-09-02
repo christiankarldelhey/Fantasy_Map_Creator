@@ -6,7 +6,7 @@
     "dockerfilePath": "Dockerfile"
   },
   "deploy": {
-    "startCommand": "npm start",
+    "startCommand": "/app/start-production.sh",
     "preDeployCommand": "npm run postdeploy"
   }
 }

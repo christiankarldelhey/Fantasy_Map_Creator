@@ -24,6 +24,10 @@ data/dem_elevation.tif
 # Node modules
 node_modules/
 
+# Python cache
+__pycache__/
+*.py[cod]
+
 # System files
 .DS_Store
 
