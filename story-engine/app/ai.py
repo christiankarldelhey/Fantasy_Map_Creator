@@ -2,7 +2,7 @@
 # AI Service (Groq only)
 # ----------------------------------------------------------------------------
 # Port of backend/domains/story/services/narrator/ai.js. Generates narrative
-# text using Groq (Qwen 3.6 27B) as primary provider, with GROQ_API_KEY_2 as
+# text using Groq (Qwen 3.8 27B) as primary provider, with GROQ_API_KEY_2 as
 # fallback if the first key hits rate limits.
 # ============================================================================
 import os
@@ -16,7 +16,7 @@ _primary_client_loaded = False
 _secondary_client: Optional[Groq] = None
 _secondary_client_loaded = False
 
-GROQ_MODEL = 'qwen/qwen3.6-27b'
+GROQ_MODEL = 'qwen/qwen3.8-27b'
 PLACEHOLDER_KEY = 'your_groq_api_key_here'
 
 # --- Sampling variation (anti-repetition) ---------------------------------
