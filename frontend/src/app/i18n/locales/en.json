@@ -31,41 +31,41 @@
     "preparingJourney": "Preparing your journey…",
     "beginJourney": "Begin Your Journey",
     "guestLink": "Just looking? Explore the map as a guest",
-    "footerNote": "A personal hobby project. Made for love of the work — no coin sought.",
+    "footerNote": "A personal hobby and portfolio project. No rights are claimed.",
     "welcomeTitle": "Welcome to Middle-earth",
     "welcomeLine1": "The map awaits, traveller.",
-    "welcomeLine2": "Sign in to bring a character to life and set out on your own adventure — or wander the map freely as a guest to explore its lands, search for places, and trace routes.",
+    "welcomeLine2": "Sign in to choose a traveller and begin a journey, or explore the map as a guest to search for places and trace routes.",
     "signInOrCreate": "Sign in / Create account",
     "exploreAsGuest": "Explore as a guest",
     "passwordsDoNotMatch": "Passwords do not match"
   },
   "welcome": {
     "wellMet": "Well met, traveller.",
-    "intro": "This is the Middle-earth Wandering Simulator — a place to breathe life into a character and roam freely, from the shadow of the Misty Mountains to the shores of Lindon.",
-    "souls": "Two souls walk these lands for you to inhabit: {aranath}, a Dúnedain ranger resting in Bree, and {celebrian}, an Elf of Lórien dwelling in Cerin Amroth. You may switch between them freely on the map — though be warned, an adventure abandoned cannot be reclaimed.",
-    "credits": "A personal hobby and portfolio project, made for love of the work — no coin sought, no rights claimed. Built in respect of J.R.R. Tolkien's legendarium and of MERP (© Iron Crown Enterprises).",
-    "walkTheLands": "Walk the Lands",
-    "whoseFeet": "Whose feet will you walk in?",
-    "chooseCharacter": "Choose a character to begin your journey.",
-    "seasonTitle": "In what season would you set out?",
-    "seasonSubtitle": "Choose the time of year for your journey.",
+    "intro": "This is the Middle-earth Wandering Simulator. Choose a traveller and follow the roads of Middle-earth, from the Misty Mountains to the shores of Lindon.",
+    "souls": "Two travellers are available: {aranath}, a Dúnedain ranger currently in Bree, and {celebrian}, an Elf of Lórien in Cerin Amroth. You may choose either one to begin a journey. An abandoned adventure, however, cannot be resumed.",
+    "credits": "A personal hobby and portfolio project, built simply to see whether the idea would work. No rights are claimed. Made with respect for J.R.R. Tolkien's legendarium and for MERP (© Iron Crown Enterprises).",
+    "walkTheLands": "Choose a Traveller",
+    "whoseFeet": "Who will make this journey?",
+    "chooseCharacter": "Each traveller begins in a different part of Middle-earth.",
+    "seasonTitle": "In what season will you set out?",
+    "seasonSubtitle": "The time of year decides the roads, the light and the weather.",
     "beginJourney": "Begin Journey",
     "seasons": {
       "spring": {
         "title": "Spring",
-        "desc": "For new green and the long light returning; for those who like to begin."
+        "desc": "The roads grow softer and the land begins to turn green again."
       },
       "summer": {
         "title": "Summer",
-        "desc": "For warm roads and far horizons; for those who would rather be anywhere but indoors."
+        "desc": "Long days and open roads make this the easiest season for travel."
       },
       "autumn": {
         "title": "Autumn",
-        "desc": "For woodsmoke and gold and the turning of the year; for those who love a little melancholy."
+        "desc": "The days shorten, the woods change colour, and rain becomes more common."
       },
       "winter": {
         "title": "Winter",
-        "desc": "For hard frost and clear stars and an empty road; for those who like the cold and the quiet."
+        "desc": "Cold roads, short days and difficult crossings. A hard season for travel."
       }
     }
   },
@@ -155,7 +155,7 @@
     "toReachDestination": " to reach destination",
     "unnamedRoad": "Unnamed Road",
     "daysWalking": "{n} days walking",
-    "guestFooterText": "Sign in to turn this route into an adventure.",
+    "guestFooterText": "Sign in to travel this route as an adventure.",
     "guestFooterBtn": "Sign in to begin your adventure",
     "languageLabel": "Language:",
     "startAdventure": "Start Adventure",
@@ -179,41 +179,41 @@
     "initFailed": "Failed to initialize map",
     "pointLabel": "Point [{lng}, {lat}]",
     "phrases": {
-      "0": "Consulting the old maps and the older roads…",
-      "1": "Rousing the things that stir in the dark places…",
-      "2": "Asking the wind which way the weather turns…",
-      "3": "Waking sleeping dragons (quietly)…",
-      "4": "Setting your feet upon the road that goes ever on…"
+      "0": "Consulting the maps of Middle-earth…",
+      "1": "Tracing the roads ahead…",
+      "2": "Studying the shape of the land…",
+      "3": "Watching the turn of the weather…",
+      "4": "Preparing for the road…"
     },
     "abandon": {
       "title": "Abandon current adventure?",
       "directions": {
-        "line1": "The road calls, but a tale is still being written.",
-        "line2": "If you set new directions now, your current adventure will be abandoned and lost to the ages.",
-        "line3": "Are you sure you wish to leave it behind?",
-        "keep": "Keep adventuring",
+        "line1": "Your current journey is not yet complete.",
+        "line2": "Choosing a new destination will end the current adventure. It cannot be resumed.",
+        "line3": "Do you wish to continue?",
+        "keep": "Keep the journey",
         "abandon": "Abandon & get directions"
       },
       "switch": {
-        "line1": "A tale is still unfolding for this company.",
-        "line2": "Switching to another soul will abandon the current adventure. What is written cannot be unwritten.",
-        "line3": "Do you wish to leave it behind?",
-        "stay": "Stay the course",
+        "line1": "This traveller is still on a journey.",
+        "line2": "Switching characters will end the current adventure. It cannot be resumed.",
+        "line3": "Do you wish to continue?",
+        "stay": "Keep the journey",
         "abandon": "Abandon & switch"
       },
       "season": {
-        "line1": "The seasons turn, but a tale is still being written.",
-        "line2": "Changing the season now will abandon your current adventure. What is written cannot be unwritten.",
-        "line3": "Do you wish to leave it behind?",
-        "stay": "Stay the course",
+        "line1": "This journey is still in progress.",
+        "line2": "Changing the season will end the current adventure. It cannot be resumed.",
+        "line3": "Do you wish to continue?",
+        "stay": "Keep the journey",
         "abandon": "Abandon & change season"
       },
       "logout": {
-        "title": "Take your leave?",
-        "line1": "The road goes ever on, but your tale will rest here.",
-        "line2": "Signing out will return you to the gates of the realm.",
-        "line3": "Are you sure you wish to depart?",
-        "stay": "Stay a while",
+        "title": "Sign out?",
+        "line1": "Your journey will wait here until you return.",
+        "line2": "Signing out will return you to the main menu.",
+        "line3": "Do you wish to continue?",
+        "stay": "Stay",
         "signOut": "Sign out"
       }
     }
@@ -253,7 +253,7 @@
       "system": "System"
     },
     "noNarrative": "No narrative was generated for this day.",
-    "noChapters": "No chapters yet. Generate the first day to begin the tale.",
+    "noChapters": "No chapters yet. Generate the first day to begin the journey.",
     "copyAllCodes": "Copy all day codes",
     "copiedAll": "Copied all codes",
     "redo": "Redo narration",
@@ -285,7 +285,7 @@
       "title": "The Journey Ends Here",
       "fallen": "{name} has fallen.",
       "fallenFallback": "The traveller",
-      "body": "The road goes ever on — but not for them. Their tale is told, their steps recorded. The adventure is now preserved.",
+      "body": "The road goes on, but not for them. Their journey is at an end. The record of their travels will remain here.",
       "saving": "Saving…",
       "savePdf": "Save adventure as PDF"
     }
