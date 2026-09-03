@@ -3,6 +3,12 @@ import pool from '../../../db.js';
 
 const router = express.Router();
 
+// Bounds for /profile: the endpoint is public, so a single request must not be
+// able to fan out into an unbounded number of database queries.
+const MAX_PATH_COORDINATES = 500;
+const MAX_PROFILE_POINTS = 200;
+const MIN_PROFILE_INTERVAL_METERS = 100;
+
 // GET /api/dem/elevation?lon=X&lat=Y
 // Get elevation at a specific point
 router.get('/elevation', async (req, res, next) => {
@@ -57,7 +63,12 @@ router.get('/profile', async (req, res, next) => {
       });
     }
     
-    const coordinates = JSON.parse(path);
+    let coordinates;
+    try {
+      coordinates = JSON.parse(path);
+    } catch {
+      return res.status(400).json({ error: 'Path must be valid JSON' });
+    }
     
     if (!Array.isArray(coordinates) || coordinates.length < 2) {
       return res.status(400).json({ 
@@ -65,18 +76,37 @@ router.get('/profile', async (req, res, next) => {
       });
     }
     
-    // Interpolate points along the path
-    const interpolatedPoints = interpolatePath(coordinates, 100); // 100m intervals
+    if (coordinates.length > MAX_PATH_COORDINATES) {
+      return res.status(400).json({
+        error: `Path cannot exceed ${MAX_PATH_COORDINATES} coordinate pairs`
+      });
+    }
     
-    // Get elevation for each point
+    if (!coordinates.every(isValidCoordinate)) {
+      return res.status(400).json({
+        error: 'Path must contain [lon, lat] pairs of numbers within valid ranges'
+      });
+    }
+    
+    // Sample at 100m, but widen the interval on long paths so the number of
+    // points stays bounded. A cross-map route would otherwise interpolate tens
+    // of thousands of points and hold a pool connection for minutes.
+    const pathLength = totalPathLength(coordinates);
+    const interval = Math.max(MIN_PROFILE_INTERVAL_METERS, pathLength / MAX_PROFILE_POINTS);
+    const interpolatedPoints = interpolatePath(coordinates, interval);
+    
+    // One round trip for every point instead of one per point
+    const elevationResult = await pool.query(
+      `SELECT get_elevation_at_point(p.lon, p.lat) as elevation
+       FROM unnest($1::double precision[], $2::double precision[]) AS p(lon, lat);`,
+      [interpolatedPoints.map(p => p[0]), interpolatedPoints.map(p => p[1])]
+    );
+    
     const profile = [];
     let cumulativeDistance = 0;
     
     for (let i = 0; i < interpolatedPoints.length; i++) {
       const [lon, lat] = interpolatedPoints[i];
-      
-      const elevQuery = `SELECT get_elevation_at_point($1, $2) as elevation;`;
-      const elevResult = await pool.query(elevQuery, [lon, lat]);
       
       if (i > 0) {
         const [prevLon, prevLat] = interpolatedPoints[i - 1];
@@ -86,7 +116,7 @@ router.get('/profile', async (req, res, next) => {
       profile.push({
         lon,
         lat,
-        elevation: elevResult.rows[0].elevation || 0,
+        elevation: elevationResult.rows[i]?.elevation || 0,
         distance: Math.round(cumulativeDistance)
       });
     }
@@ -104,6 +134,7 @@ router.get('/profile', async (req, res, next) => {
         maxElevation: Math.max(...elevations),
         elevationGain,
         elevationLoss,
+        sampleInterval: Math.round(interval),
         unit: 'meters'
       }
     });
@@ -158,6 +189,25 @@ router.get('/stats', async (req, res, next) => {
 });
 
 // Helper functions
+
+function isValidCoordinate(coordinate) {
+  if (!Array.isArray(coordinate) || coordinate.length < 2) return false;
+  const [lon, lat] = coordinate;
+  // typeof checks matter: Number(null) and Number('') are 0, which would let
+  // junk coordinates through as [0, 0].
+  return typeof lon === 'number' && Number.isFinite(lon) && lon >= -180 && lon <= 180
+    && typeof lat === 'number' && Number.isFinite(lat) && lat >= -90 && lat <= 90;
+}
+
+function totalPathLength(coordinates) {
+  let length = 0;
+  for (let i = 0; i < coordinates.length - 1; i++) {
+    const [lon1, lat1] = coordinates[i];
+    const [lon2, lat2] = coordinates[i + 1];
+    length += haversineDistance(lon1, lat1, lon2, lat2);
+  }
+  return length;
+}
 
 function interpolatePath(coordinates, intervalMeters = 100) {
   const interpolated = [coordinates[0]];

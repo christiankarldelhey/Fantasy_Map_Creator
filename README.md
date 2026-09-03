@@ -64,7 +64,7 @@ Water features were traced by hand in QGIS following the logic of Fenlon's origi
 
 Polygon layers (`altitude_layers`) for different altitude ranges — plains, hills, low/mid/high mountains — with a `priority` field that resolves overlaps. On top of those layers a **DEM (Digital Elevation Model) as a PostGIS raster** (`dem_elevation`) was built, synthesized from the peaks marked as points.
 
-The elevation of any coordinate is queried with the SQL function `get_elevation_at_point(lon, lat)`, and the API also exposes elevation profiles (`/api/dem/profile`) that interpolate points every 100 m and compute positive/negative gain. This directly affects route cost and travel conditions.
+The elevation of any coordinate is queried with the SQL function `get_elevation_at_point(lon, lat)`, and the API also exposes elevation profiles (`/api/dem/profile`) that interpolate points along a path and compute positive/negative gain. Sampling starts at 100 m and widens on long paths so a profile never exceeds 200 points. This directly affects route cost and travel conditions.
 
 ### Locations and regions
 

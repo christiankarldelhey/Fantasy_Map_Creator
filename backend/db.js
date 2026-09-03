@@ -15,9 +15,12 @@ pool.on('connect', () => {
   console.log('✅ Connected to PostgreSQL database');
 });
 
+// Idle clients can drop for reasons outside our control (managed Postgres
+// restarts, proxy timeouts). The pool discards the broken client and opens a
+// new one on the next query, so log and keep serving instead of killing the
+// process and taking the whole container down with it.
 pool.on('error', (err) => {
   console.error('❌ Unexpected error on idle client', err);
-  process.exit(-1);
 });
 
 export default pool;
