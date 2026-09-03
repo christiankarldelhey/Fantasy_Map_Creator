@@ -16,7 +16,7 @@
       <div class="py-1">
         <template v-for="item in menuItems" :key="item.key">
           <hr
-            v-if="item.key === 'how-i-made-this'"
+            v-if="item.key === 'how-i-made-this' || item.key === 'delete-account'"
             class="border-t border-[var(--accent-gold)] opacity-50 my-1"
           />
           <component
@@ -25,7 +25,12 @@
             :target="item.href ? '_blank' : undefined"
             :rel="item.href ? 'noopener noreferrer' : undefined"
             @click="() => item.onClick?.()"
-            class="w-full text-left px-4 py-2 text-xs text-ink-brown hover:bg-[var(--bg-parchment-dark)] transition-colors flex items-center gap-2 font-sans"
+            :class="[
+              'w-full text-left px-4 py-2 text-xs transition-colors flex items-center gap-2 font-sans',
+              item.key === 'delete-account'
+                ? 'text-red-700 hover:bg-red-50'
+                : 'text-ink-brown hover:bg-[var(--bg-parchment-dark)]'
+            ]"
           >
             <component :is="item.icon" v-if="item.icon" :size="14" />
             {{ item.label }}
@@ -33,6 +38,43 @@
         </template>
       </div>
     </div>
+
+    <!-- Delete account confirmation modal -->
+    <Modal
+      v-if="showDeleteModal"
+      title="Delete your account?"
+      size="sm"
+      :show-close="!deleteLoading"
+      :close-on-backdrop="!deleteLoading"
+      @close="closeDeleteModal"
+    >
+      <div class="font-book text-ink-black text-sm leading-relaxed space-y-3">
+        <p>This will permanently delete your account, characters, and all trip data. This cannot be undone.</p>
+        <p class="text-ink-brown">Enter your password to confirm:</p>
+        <input
+          ref="deletePasswordInput"
+          v-model="deletePassword"
+          type="password"
+          autocomplete="current-password"
+          :disabled="deleteLoading"
+          placeholder="••••••••"
+          class="w-full h-10 px-3 py-1 text-sm rounded-md border-2 border-earth-dark bg-parchment-base text-ink-black placeholder:text-ink-light focus:outline-none focus:border-gold transition-colors"
+          @keyup.enter="confirmDelete"
+        />
+        <p v-if="deleteError" class="text-sm text-red-600 font-book">{{ deleteError }}</p>
+      </div>
+      <template #footer>
+        <div class="flex gap-2 justify-end">
+          <Button variant="outline" size="md" :disabled="deleteLoading" @click="closeDeleteModal">
+            Cancel
+          </Button>
+          <Button variant="primary" size="md" :disabled="deleteLoading || !deletePassword" @click="confirmDelete">
+            <span v-if="deleteLoading">Deleting…</span>
+            <span v-else class="text-red-700">Delete forever</span>
+          </Button>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -74,7 +116,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, type Component } from 'vue'
-import { LogOut, Sun, User, Map, Compass, LogIn, Wrench } from '@lucide/vue'
+import { LogOut, Sun, User, Map, Compass, LogIn, Wrench, Trash2 } from '@lucide/vue'
+import { useAuth } from '@/composables/useAuth'
+import { Button } from '@/components/ui/button'
+import { Modal } from '@/components/ui/modal'
 
 const props = defineProps<{
   mode: 'wander' | 'explore'
@@ -91,8 +136,17 @@ const emit = defineEmits<{
   'go-to-wander': []
 }>()
 
+const { deleteAccount } = useAuth()
+
 const isOpen = ref(false)
 const dropdownContainer = ref<HTMLElement | null>(null)
+
+// Delete account state
+const showDeleteModal = ref(false)
+const deletePassword = ref('')
+const deleteError = ref('')
+const deleteLoading = ref(false)
+const deletePasswordInput = ref<HTMLInputElement | null>(null)
 
 type MenuItem = {
   key: string
@@ -121,6 +175,7 @@ const menuItems = computed<MenuItem[]>(() => {
 
     items.push({ key: 'sign-out', label: 'Sign out', icon: LogOut, onClick: handleSignOut })
     items.push({ key: 'how-i-made-this', label: 'How I Made This', icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
+    items.push({ key: 'delete-account', label: 'Delete account', icon: Trash2, onClick: handleDeleteAccount })
   }
 
   return items
@@ -179,6 +234,37 @@ function handleGoToExplore() {
 function handleGoToWander() {
   closeDropdown()
   emit('go-to-wander')
+}
+
+function handleDeleteAccount() {
+  closeDropdown()
+  deletePassword.value = ''
+  deleteError.value = ''
+  showDeleteModal.value = true
+  // Focus the password input after the modal renders
+  setTimeout(() => deletePasswordInput.value?.focus(), 50)
+}
+
+function closeDeleteModal() {
+  if (deleteLoading.value) return
+  showDeleteModal.value = false
+  deletePassword.value = ''
+  deleteError.value = ''
+}
+
+async function confirmDelete() {
+  if (!deletePassword.value || deleteLoading.value) return
+  deleteLoading.value = true
+  deleteError.value = ''
+  try {
+    await deleteAccount(deletePassword.value)
+    // deleteAccount clears the token and redirects to /login
+    showDeleteModal.value = false
+  } catch (err: any) {
+    deleteError.value = err.message || 'Failed to delete account'
+  } finally {
+    deleteLoading.value = false
+  }
 }
 
 // Close dropdown when clicking outside

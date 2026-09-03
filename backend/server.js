@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import pool from './db.js';
 import locationsRouter from './domains/map/routes/locations.js';
@@ -21,15 +23,40 @@ import authRouter from './domains/game/routes/auth.js';
 
 dotenv.config();
 
+// Fail fast if critical secrets are missing — don't let JWT sign with
+// an undefined secret that anyone can forge.
+if (!process.env.JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET is not set. Refusing to start.');
+  process.exit(1);
+}
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Security middleware
+app.use(helmet());
 app.use(cors({
   origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
   credentials: true
 }));
 app.use(express.json());
+
+// Rate limiting for auth endpoints — prevent brute-force and account spam
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5,                    // 5 registrations per hour per IP
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many registration attempts. Please try again later.' },
+});
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,  // 15 minutes
+  max: 10,                   // 10 login attempts per 15 min per IP
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many login attempts. Please try again later.' },
+});
 
 // Routes
 app.use('/api/locations', locationsRouter);
@@ -45,6 +72,9 @@ app.use('/api/search', searchRouter);
 app.use('/api/directions', directionsRouter);
 app.use('/api/character', characterRouter);
 app.use('/api/trips', tripsRouter);
+// Auth rate limiting — applied before the router so it covers the path prefix
+app.use('/api/auth/register', registerLimiter);
+app.use('/api/auth/login', loginLimiter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 

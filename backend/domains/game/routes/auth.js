@@ -106,6 +106,78 @@ router.post('/login', async (req, res, next) => {
 });
 
 // ---------------------------------------------------------------------------
+// DELETE /api/auth/me — delete own account (requires password confirmation)
+// Body: { password }
+// ---------------------------------------------------------------------------
+router.delete('/me', authenticateToken, async (req, res, next) => {
+  try {
+    const { password } = req.body || {};
+
+    if (!password) {
+      return res.status(400).json({ error: 'Password confirmation is required' });
+    }
+
+    // Fetch the user's password hash
+    const { rows } = await pool.query(
+      'SELECT password_hash FROM users WHERE id = $1',
+      [req.userId]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if (!rows[0].password_hash) {
+      return res.status(403).json({ error: 'Account has no password set' });
+    }
+
+    const valid = await bcrypt.compare(password, rows[0].password_hash);
+    if (!valid) {
+      return res.status(403).json({ error: 'Password is incorrect' });
+    }
+
+    // Delete in a transaction to handle tables without ON DELETE CASCADE:
+    // 1. character_state_log has no cascade → must delete explicitly
+    // 2. trips have character_id SET NULL → delete explicitly so they don't
+    //    linger as orphans (cascades trip_days automatically)
+    // 3. users deletion cascades to character_state (owner_user_id CASCADE),
+    //    which cascades to character_inventory (character_id CASCADE)
+    await pool.query('BEGIN');
+    try {
+      // Clean up character_state_log (no FK cascade)
+      await pool.query(
+        `DELETE FROM character_state_log
+         WHERE character_id IN (
+           SELECT id FROM character_state WHERE owner_user_id = $1
+         )`,
+        [req.userId]
+      );
+
+      // Clean up trips (FK is SET NULL, we want them gone)
+      await pool.query(
+        `DELETE FROM trips
+         WHERE character_id IN (
+           SELECT id FROM character_state WHERE owner_user_id = $1
+         )`,
+        [req.userId]
+      );
+
+      // Delete the user — cascades to character_state → character_inventory
+      await pool.query('DELETE FROM users WHERE id = $1', [req.userId]);
+
+      await pool.query('COMMIT');
+    } catch (txError) {
+      await pool.query('ROLLBACK');
+      throw txError;
+    }
+
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ---------------------------------------------------------------------------
 // GET /api/auth/me — restore session from token
 // ---------------------------------------------------------------------------
 router.get('/me', authenticateToken, async (req, res, next) => {

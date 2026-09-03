@@ -98,6 +98,25 @@ export function useAuth() {
     router.push('/login')
   }
 
+  async function deleteAccount(password: string): Promise<void> {
+    authLoading.value = true
+    authError.value = null
+    try {
+      await api.delete('/auth/me', { data: { password } })
+      clearToken()
+      currentUser.value = null
+      activeCharacter.value = null
+      localStorage.removeItem('me-welcome-seen')
+      router.push('/login')
+    } catch (err: any) {
+      const message = err.response?.data?.error || err.message || 'Failed to delete account'
+      authError.value = message
+      throw new Error(message)
+    } finally {
+      authLoading.value = false
+    }
+  }
+
   return {
     currentUser,
     authLoading,
@@ -108,6 +127,7 @@ export function useAuth() {
     register,
     login,
     restoreSession,
-    logout
+    logout,
+    deleteAccount
   }
 }
