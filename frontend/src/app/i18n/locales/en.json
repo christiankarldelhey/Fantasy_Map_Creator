@@ -18,7 +18,7 @@
     "signIn": "Sign In",
     "createAccount": "Create Account",
     "email": "Email",
-    "emailPlaceholder": "your@email.com",
+    "emailPlaceholder": "your{'@'}email.com",
     "password": "Password",
     "passwordPlaceholder": "••••••••",
     "username": "Username",
