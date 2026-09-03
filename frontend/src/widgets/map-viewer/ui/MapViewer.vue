@@ -76,35 +76,35 @@
 
     <Modal
       v-if="showCancelForDirectionsModal"
-      title="Abandon current adventure?"
+      :title="t('map.abandon.title')"
       size="sm"
       @close="showCancelForDirectionsModal = false"
     >
       <div class="px-6 py-4 font-book text-ink-black text-sm leading-relaxed">
-        <p>The road calls, but a tale is still being written.</p>
-        <p class="mt-2 text-ink-brown">If you set new directions now, your current adventure will be abandoned and lost to the ages.</p>
-        <p class="mt-2 font-semibold">Are you sure you wish to leave it behind?</p>
+        <p>{{ t('map.abandon.directions.line1') }}</p>
+        <p class="mt-2 text-ink-brown">{{ t('map.abandon.directions.line2') }}</p>
+        <p class="mt-2 font-semibold">{{ t('map.abandon.directions.line3') }}</p>
       </div>
       <div class="px-6 pb-5 flex gap-3 justify-end">
-        <Button variant="outline" size="sm" @click="showCancelForDirectionsModal = false">Keep adventuring</Button>
-        <Button variant="danger" size="sm" @click="handleConfirmCancelForDirections">Abandon &amp; get directions</Button>
+        <Button variant="outline" size="sm" @click="showCancelForDirectionsModal = false">{{ t('map.abandon.directions.keep') }}</Button>
+        <Button variant="danger" size="sm" @click="handleConfirmCancelForDirections">{{ t('map.abandon.directions.abandon') }}</Button>
       </div>
     </Modal>
 
     <Modal
       v-if="showSwitchCharacterModal"
-      title="Abandon current adventure?"
+      :title="t('map.abandon.title')"
       size="sm"
       @close="showSwitchCharacterModal = false"
     >
       <div class="px-6 py-4 font-book text-ink-black text-sm leading-relaxed">
-        <p>A tale is still unfolding for this company.</p>
-        <p class="mt-2 text-ink-brown">Switching to another soul will abandon the current adventure. What is written cannot be unwritten.</p>
-        <p class="mt-2 font-semibold">Do you wish to leave it behind?</p>
+        <p>{{ t('map.abandon.switch.line1') }}</p>
+        <p class="mt-2 text-ink-brown">{{ t('map.abandon.switch.line2') }}</p>
+        <p class="mt-2 font-semibold">{{ t('map.abandon.switch.line3') }}</p>
       </div>
       <div class="px-6 pb-5 flex gap-3 justify-end">
-        <Button variant="outline" size="sm" @click="showSwitchCharacterModal = false">Stay the course</Button>
-        <Button variant="danger" size="sm" @click="handleConfirmSwitchCharacter">Abandon &amp; switch</Button>
+        <Button variant="outline" size="sm" @click="showSwitchCharacterModal = false">{{ t('map.abandon.switch.stay') }}</Button>
+        <Button variant="danger" size="sm" @click="handleConfirmSwitchCharacter">{{ t('map.abandon.switch.abandon') }}</Button>
       </div>
     </Modal>
 
@@ -123,35 +123,35 @@
 
     <Modal
       v-if="showChangeSeasonModal"
-      title="Abandon current adventure?"
+      :title="t('map.abandon.title')"
       size="sm"
       @close="showChangeSeasonModal = false"
     >
       <div class="px-6 py-4 font-book text-ink-black text-sm leading-relaxed">
-        <p>The seasons turn, but a tale is still being written.</p>
-        <p class="mt-2 text-ink-brown">Changing the season now will abandon your current adventure. What is written cannot be unwritten.</p>
-        <p class="mt-2 font-semibold">Do you wish to leave it behind?</p>
+        <p>{{ t('map.abandon.season.line1') }}</p>
+        <p class="mt-2 text-ink-brown">{{ t('map.abandon.season.line2') }}</p>
+        <p class="mt-2 font-semibold">{{ t('map.abandon.season.line3') }}</p>
       </div>
       <div class="px-6 pb-5 flex gap-3 justify-end">
-        <Button variant="outline" size="sm" @click="showChangeSeasonModal = false">Stay the course</Button>
-        <Button variant="danger" size="sm" @click="handleConfirmChangeSeason">Abandon &amp; change season</Button>
+        <Button variant="outline" size="sm" @click="showChangeSeasonModal = false">{{ t('map.abandon.season.stay') }}</Button>
+        <Button variant="danger" size="sm" @click="handleConfirmChangeSeason">{{ t('map.abandon.season.abandon') }}</Button>
       </div>
     </Modal>
 
     <Modal
       v-if="showLogoutModal"
-      title="Take your leave?"
+      :title="t('map.abandon.logout.title')"
       size="sm"
       @close="showLogoutModal = false"
     >
       <div class="px-6 py-4 font-book text-ink-black text-sm leading-relaxed">
-        <p>The road goes ever on, but your tale will rest here.</p>
-        <p class="mt-2 text-ink-brown">Signing out will return you to the gates of the realm.</p>
-        <p class="mt-2 font-semibold">Are you sure you wish to depart?</p>
+        <p>{{ t('map.abandon.logout.line1') }}</p>
+        <p class="mt-2 text-ink-brown">{{ t('map.abandon.logout.line2') }}</p>
+        <p class="mt-2 font-semibold">{{ t('map.abandon.logout.line3') }}</p>
       </div>
       <div class="px-6 pb-5 flex gap-3 justify-end">
-        <Button variant="outline" size="sm" @click="showLogoutModal = false">Stay a while</Button>
-        <Button variant="danger" size="sm" @click="handleConfirmLogout">Sign out</Button>
+        <Button variant="outline" size="sm" @click="showLogoutModal = false">{{ t('map.abandon.logout.stay') }}</Button>
+        <Button variant="danger" size="sm" @click="handleConfirmLogout">{{ t('map.abandon.logout.signOut') }}</Button>
       </div>
     </Modal>
 
@@ -180,6 +180,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { MAPLIBRE_CONFIG, MAPLIBRE_CONFIG_WANDER } from '@/shared/config/maplibre'
@@ -225,6 +226,8 @@ const props = defineProps<{
   mode?: MapMode
 }>()
 
+const { t } = useI18n()
+
 const mapContainer = ref<HTMLDivElement | null>(null)
 const mapViewerRoot = ref<HTMLDivElement | null>(null)
 const selectedLocation = ref<LocationDetails | null>(null)
@@ -267,13 +270,13 @@ function handleOpenCalendarMobile() {
   calendarPickerRef.value?.open()
 }
 
-const adventurePhrases = [
-  'Consulting the old maps and the older roads…',
-  'Rousing the things that stir in the dark places…',
-  'Asking the wind which way the weather turns…',
-  'Waking sleeping dragons (quietly)…',
-  'Setting your feet upon the road that goes ever on…'
-]
+const adventurePhrases = computed(() => [
+  t('map.phrases.0'),
+  t('map.phrases.1'),
+  t('map.phrases.2'),
+  t('map.phrases.3'),
+  t('map.phrases.4'),
+])
 
 // Auth
 const { logout } = useAuth()
@@ -330,7 +333,7 @@ function handleAddMarker(lng: number, lat: number) {
       // destination (Google Maps-style).
       if ((isGuest.value || props.mode === 'explore') && !origin.value) {
         setOrigin({
-          name: `Point [${lng.toFixed(2)}, ${lat.toFixed(2)}]`,
+          name: t('map.pointLabel', { lng: lng.toFixed(2), lat: lat.toFixed(2) }),
           type: 'custom',
           coordinates: [lng, lat]
         })
@@ -343,7 +346,7 @@ function handleAddMarker(lng: number, lat: number) {
         pendingDestinationLocation.value = null
       } else {
         setDestination({
-          name: `Point [${lng.toFixed(2)}, ${lat.toFixed(2)}]`,
+          name: t('map.pointLabel', { lng: lng.toFixed(2), lat: lat.toFixed(2) }),
           type: 'custom',
           coordinates: [lng, lat]
         })
@@ -473,17 +476,17 @@ onMounted(async () => {
         layersInitialized.value = true
       } catch (err) {
         console.error('Failed to load map data:', err)
-        mapError.value = 'Failed to load map data'
+        mapError.value = t('map.loadFailed')
       }
     })
 
     map.on('error', (e) => {
       console.error('MapLibre error:', e)
-      mapError.value = 'Map initialization error'
+      mapError.value = t('map.initError')
     })
   } catch (err) {
     console.error('Error initializing map:', err)
-    mapError.value = 'Failed to initialize map'
+    mapError.value = t('map.initFailed')
   }
 })
 

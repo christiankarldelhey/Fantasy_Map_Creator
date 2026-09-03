@@ -2,7 +2,7 @@
   <div ref="dropdownContainer" class="absolute top-4 right-4" style="z-index: 99999;">
     <button
       @click="toggleDropdown"
-      title="Options"
+      :title="t('common.options')"
       :class="buttonClasses"
       :style="buttonStyle"
     >
@@ -42,22 +42,22 @@
     <!-- Delete account confirmation modal -->
     <Modal
       v-if="showDeleteModal"
-      title="Delete your account?"
+      :title="t('options.deleteTitle')"
       size="sm"
       :show-close="!deleteLoading"
       :close-on-backdrop="!deleteLoading"
       @close="closeDeleteModal"
     >
       <div class="font-book text-ink-black text-sm leading-relaxed space-y-3">
-        <p>This will permanently delete your account, characters, and all trip data. This cannot be undone.</p>
-        <p class="text-ink-brown">Enter your password to confirm:</p>
+        <p>{{ t('options.deleteBody') }}</p>
+        <p class="text-ink-brown">{{ t('options.deletePrompt') }}</p>
         <input
           ref="deletePasswordInput"
           v-model="deletePassword"
           type="password"
           autocomplete="current-password"
           :disabled="deleteLoading"
-          placeholder="••••••••"
+          :placeholder="t('auth.passwordPlaceholder')"
           class="w-full h-10 px-3 py-1 text-sm rounded-md border-2 border-earth-dark bg-parchment-base text-ink-black placeholder:text-ink-light focus:outline-none focus:border-gold transition-colors"
           @keyup.enter="confirmDelete"
         />
@@ -66,11 +66,11 @@
       <template #footer>
         <div class="flex gap-2 justify-end">
           <Button variant="outline" size="md" :disabled="deleteLoading" @click="closeDeleteModal">
-            Cancel
+            {{ t('common.cancel') }}
           </Button>
           <Button variant="primary" size="md" :disabled="deleteLoading || !deletePassword" @click="confirmDelete">
-            <span v-if="deleteLoading">Deleting…</span>
-            <span v-else class="text-red-700">Delete forever</span>
+            <span v-if="deleteLoading">{{ t('options.deleting') }}</span>
+            <span v-else class="text-red-700">{{ t('options.deleteForever') }}</span>
           </Button>
         </div>
       </template>
@@ -116,10 +116,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, type Component } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { LogOut, Sun, User, Map, Compass, LogIn, Wrench, Trash2 } from '@lucide/vue'
 import { useAuth } from '@/composables/useAuth'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
+
+const { t } = useI18n()
 
 const props = defineProps<{
   mode: 'wander' | 'explore'
@@ -162,20 +165,20 @@ const menuItems = computed<MenuItem[]>(() => {
   const items: MenuItem[] = []
 
   if (props.isGuest) {
-    items.push({ key: 'sign-in', label: 'Sign in', icon: LogIn, onClick: handleSignIn })
-    items.push({ key: 'how-i-made-this', label: 'How I Made This', icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
+    items.push({ key: 'sign-in', label: t('nav.signIn'), icon: LogIn, onClick: handleSignIn })
+    items.push({ key: 'how-i-made-this', label: t('nav.howIMadeThis'), icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
   } else {
     if (props.mode === 'wander') {
-      items.push({ key: 'change-season', label: 'Change Season', icon: Sun, onClick: handleChangeSeason })
-      items.push({ key: 'change-character', label: 'Change Character', icon: User, onClick: handleChangeCharacter })
-      items.push({ key: 'go-to-explore', label: 'Go to explore mode', icon: Map, onClick: handleGoToExplore })
+      items.push({ key: 'change-season', label: t('nav.changeSeason'), icon: Sun, onClick: handleChangeSeason })
+      items.push({ key: 'change-character', label: t('nav.changeCharacter'), icon: User, onClick: handleChangeCharacter })
+      items.push({ key: 'go-to-explore', label: t('nav.goToExplore'), icon: Map, onClick: handleGoToExplore })
     } else {
-      items.push({ key: 'go-to-wander', label: 'Go to wander mode', icon: Compass, onClick: handleGoToWander })
+      items.push({ key: 'go-to-wander', label: t('nav.goToWander'), icon: Compass, onClick: handleGoToWander })
     }
 
-    items.push({ key: 'sign-out', label: 'Sign out', icon: LogOut, onClick: handleSignOut })
-    items.push({ key: 'how-i-made-this', label: 'How I Made This', icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
-    items.push({ key: 'delete-account', label: 'Delete account', icon: Trash2, onClick: handleDeleteAccount })
+    items.push({ key: 'sign-out', label: t('nav.signOut'), icon: LogOut, onClick: handleSignOut })
+    items.push({ key: 'how-i-made-this', label: t('nav.howIMadeThis'), icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
+    items.push({ key: 'delete-account', label: t('nav.deleteAccount'), icon: Trash2, onClick: handleDeleteAccount })
   }
 
   return items
@@ -261,7 +264,7 @@ async function confirmDelete() {
     // deleteAccount clears the token and redirects to /login
     showDeleteModal.value = false
   } catch (err: any) {
-    deleteError.value = err.message || 'Failed to delete account'
+    deleteError.value = err.message || t('options.deleteFailed')
   } finally {
     deleteLoading.value = false
   }

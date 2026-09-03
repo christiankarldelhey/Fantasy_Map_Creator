@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { X } from '@lucide/vue'
 import type { CharacterState } from '@/composables/useCharacter'
 import { useCharacter } from '@/composables/useCharacter'
 import { useBreakpoint } from '@/composables/useBreakpoint'
 import { useInventory } from '@/composables/useInventory'
+
+const { t } = useI18n()
 
 interface CharacterPageProps {
   character: CharacterState
@@ -27,19 +30,19 @@ const { inventory, fetchInventory, clearInventory } = useInventory()
 const isDead = computed(() => props.character.status === 'dead')
 
 const abilityList = computed(() => [
-  { label: 'Tracking', value: props.character.skill_tracking ?? 0 },
-  { label: 'Persuasion', value: props.character.skill_persuasion ?? 0 },
-  { label: 'Ranged', value: props.character.skill_ranged ?? 0 },
-  { label: 'Melee', value: props.character.skill_melee ?? 0 },
-  { label: 'Lore', value: props.character.skill_lore ?? 0 },
-  { label: 'Stealth', value: props.character.skill_stealth ?? 0 },
-  { label: 'Endurance', value: props.character.skill_endurance ?? 0 },
+  { label: t('character.abilities.tracking'), value: props.character.skill_tracking ?? 0 },
+  { label: t('character.abilities.persuasion'), value: props.character.skill_persuasion ?? 0 },
+  { label: t('character.abilities.ranged'), value: props.character.skill_ranged ?? 0 },
+  { label: t('character.abilities.melee'), value: props.character.skill_melee ?? 0 },
+  { label: t('character.abilities.lore'), value: props.character.skill_lore ?? 0 },
+  { label: t('character.abilities.stealth'), value: props.character.skill_stealth ?? 0 },
+  { label: t('character.abilities.endurance'), value: props.character.skill_endurance ?? 0 },
 ])
 
 const isFatigued = computed(() => (props.character.fatigue ?? 0) > 40)
 const woundedLabel = computed(() => {
-  if (props.character.wounded === 'badly_wounded') return 'badly wounded'
-  if (props.character.wounded === 'wounded') return 'nursing a wound'
+  if (props.character.wounded === 'badly_wounded') return t('character.woundedBadly')
+  if (props.character.wounded === 'wounded') return t('character.nursingWound')
   return null
 })
 
@@ -66,14 +69,14 @@ const groupedInventory = computed(() => {
   return groups
 })
 
-const categoryLabels: Record<string, string> = {
-  garment: 'Garments',
-  provision: 'Provisions',
-  ammunition: 'Ammunition',
-  weapon: 'Weapons',
-  tool: 'Tools',
-  container: 'Vessels',
-}
+const categoryLabels = computed<Record<string, string>>(() => ({
+  garment: t('character.categories.garment'),
+  provision: t('character.categories.provision'),
+  ammunition: t('character.categories.ammunition'),
+  weapon: t('character.categories.weapon'),
+  tool: t('character.categories.tool'),
+  container: t('character.categories.container'),
+}))
 
 const categoryOrder = ['garment', 'weapon', 'provision', 'ammunition', 'tool', 'container']
 
@@ -85,11 +88,11 @@ function itemProse(item: typeof inventory.value[0]): string {
 function waterSummary(item: typeof inventory.value[0]): string {
   const capacity = item.effects?.water_capacity ?? 0
   const current = item.fill ?? 0
-  if (current === 0) return 'empty'
-  if (current <= capacity / 4) return 'nearly dry'
-  if (current <= capacity / 2) return 'about half full'
-  if (current < capacity) return 'more than half full'
-  return 'full'
+  if (current === 0) return t('character.water.empty')
+  if (current <= capacity / 4) return t('character.water.nearlyDry')
+  if (current <= capacity / 2) return t('character.water.aboutHalf')
+  if (current < capacity) return t('character.water.moreThanHalf')
+  return t('character.water.full')
 }
 
 async function handleReset() {
@@ -133,7 +136,7 @@ async function handleReset() {
             <button
               @click="emit('close')"
               class="absolute right-4 top-4 z-10 rounded-md p-1 text-ink-brown transition-colors hover:bg-parchment-dark hover:text-ink-black"
-              aria-label="Close"
+              :aria-label="t('common.close')"
             >
               <X class="h-5 w-5" />
             </button>
@@ -154,7 +157,7 @@ async function handleReset() {
                 <span
                   v-if="character.permadeath"
                   class="text-lg text-ink-brown"
-                  title="Permadeath enabled"
+                  :title="t('character.permadeathEnabled')"
                 >
                   ☠
                 </span>
@@ -172,7 +175,7 @@ async function handleReset() {
 
               <!-- Abilities -->
               <div class="mt-6">
-                <h2 class="mb-3 font-serif text-sm uppercase tracking-wide text-gold-base">Abilities</h2>
+                <h2 class="mb-3 font-serif text-sm uppercase tracking-wide text-gold-base">{{ t('character.abilitiesLabel') }}</h2>
                 <div class="space-y-2">
                   <div v-for="ability in abilityList" :key="ability.label" class="flex items-center gap-3">
                     <span class="w-24 flex-shrink-0 font-book text-sm text-ink-black">{{ ability.label }}</span>
@@ -189,31 +192,31 @@ async function handleReset() {
               <!-- Coins + hunger -->
               <div class="mt-6 flex flex-wrap items-center gap-4">
                 <div class="flex items-center gap-2">
-                  <span class="font-serif text-lg text-gold-base" title="Coins">⬡</span>
+                  <span class="font-serif text-lg text-gold-base" :title="t('character.coins')">⬡</span>
                   <span class="font-serif font-semibold text-ink-black">{{ character.coins ?? 100 }}</span>
-                  <span class="font-book text-sm text-ink-brown">coins</span>
+                  <span class="font-book text-sm text-ink-brown">{{ t('character.coinsUnit') }}</span>
                 </div>
                 <div v-if="(character.days_without_food ?? 0) > 0" class="flex items-center gap-2">
-                  <span class="text-ink-brown" title="Days without food">🍖</span>
-                  <span class="font-book text-sm italic text-ink-brown">no decent meal in {{ character.days_without_food }} {{ character.days_without_food === 1 ? 'day' : 'days' }}</span>
+                  <span class="text-ink-brown" :title="t('character.daysWithoutFood')">🍖</span>
+                  <span class="font-book text-sm italic text-ink-brown">{{ t('character.noDecentMealDays', { n: character.days_without_food }, character.days_without_food ?? 0) }}</span>
                 </div>
                 <div v-if="(character.days_without_water ?? 0) > 0" class="flex items-center gap-2">
-                  <span class="text-ink-brown" title="Days without water">💧</span>
-                  <span class="font-book text-sm italic text-ink-brown">no decent drink in {{ character.days_without_water }} {{ character.days_without_water === 1 ? 'day' : 'days' }}</span>
+                  <span class="text-ink-brown" :title="t('character.daysWithoutWater')">💧</span>
+                  <span class="font-book text-sm italic text-ink-brown">{{ t('character.noDecentDrinkDays', { n: character.days_without_water }, character.days_without_water ?? 0) }}</span>
                 </div>
                 <div v-if="isFatigued" class="flex items-center gap-2">
-                  <span class="text-ink-brown" title="Fatigued">😮‍💨</span>
-                  <span class="font-book text-sm italic text-ink-brown">weary from the road</span>
+                  <span class="text-ink-brown" :title="t('character.fatigued')">😮‍💨</span>
+                  <span class="font-book text-sm italic text-ink-brown">{{ t('character.wearyFromRoad') }}</span>
                 </div>
                 <div v-if="woundedLabel" class="flex items-center gap-2">
-                  <span class="text-ink-brown" title="Wounded">🩸</span>
+                  <span class="text-ink-brown" :title="t('character.wounded')">🩸</span>
                   <span class="font-book text-sm italic text-ink-brown">{{ woundedLabel }}</span>
                 </div>
               </div>
 
               <!-- Inventory panel -->
               <div v-if="inventory.length > 0" class="mt-8">
-                <h2 class="mb-3 font-serif text-sm uppercase tracking-wide text-gold-base">Equipage</h2>
+                <h2 class="mb-3 font-serif text-sm uppercase tracking-wide text-gold-base">{{ t('character.equipage') }}</h2>
                 <div class="space-y-4">
                   <div v-for="category in categoryOrder" :key="category">
                     <div v-if="groupedInventory[category]">
@@ -222,7 +225,7 @@ async function handleReset() {
                         <li v-for="item in groupedInventory[category]" :key="item.id" class="font-book text-sm text-ink-black">
                           <span v-if="item.category === 'container'">{{ itemProse(item) }} ({{ waterSummary(item) }})</span>
                           <span v-else>{{ itemProse(item) }}</span>
-                          <span v-if="item.equipped" class="ml-1 text-xs italic text-gold-base">— worn</span>
+                          <span v-if="item.equipped" class="ml-1 text-xs italic text-gold-base">{{ t('character.worn') }}</span>
                         </li>
                       </ul>
                     </div>
@@ -235,7 +238,7 @@ async function handleReset() {
                   class="rounded-md bg-parchment-dark px-4 py-2 font-serif font-semibold text-ink-black shadow-sm ring-1 ring-gold transition hover:bg-parchment-aged"
                   @click="handleReset"
                 >
-                  Revive — restore energy and shadow
+                  {{ t('character.reviveBtn') }}
                 </button>
               </div>
             </div>

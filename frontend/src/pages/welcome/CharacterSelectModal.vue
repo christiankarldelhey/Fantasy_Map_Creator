@@ -1,8 +1,8 @@
 <template>
   <div class="fixed inset-0 z-[10001] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm">
     <div class="bg-parchment-base rounded-xl shadow-2xl max-w-3xl w-full mx-4 p-8 border-2 border-gold">
-      <h2 class="text-2xl font-serif font-bold text-ink-black mb-2">Whose feet will you walk in?</h2>
-      <p class="text-ink-brown mb-6 font-book">Choose a character to begin your journey.</p>
+      <h2 class="text-2xl font-serif font-bold text-ink-black mb-2">{{ t('welcome.whoseFeet') }}</h2>
+      <p class="text-ink-brown mb-6 font-book">{{ t('welcome.chooseCharacter') }}</p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div
           v-for="character in characters"
@@ -29,7 +29,7 @@
           variant="outline"
           size="md"
         >
-          Cancel
+          {{ t('common.cancel') }}
         </Button>
         <Button
           @click="handleConfirm"
@@ -37,7 +37,7 @@
           variant="primary"
           size="md"
         >
-          Continue
+          {{ t('common.continue') }}
         </Button>
       </div>
     </div>
@@ -46,12 +46,15 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useCharacter } from '@/composables/useCharacter'
 import { useAuth } from '@/composables/useAuth'
 import { useUserSettings } from '@/composables/useUserSettings'
 import api from '@/shared/api/client'
 import { Button } from '@/components/ui/button'
 import type { CharacterState } from '@/composables/useCharacter'
+
+const { t } = useI18n()
 
 const props = defineProps<{
   isOnboarding?: boolean

@@ -9,8 +9,8 @@
 
     <div class="w-full max-w-md relative z-10">
       <div class="text-center mb-8">
-        <h1 class="text-4xl font-serif font-bold text-parchment-base mb-2">Middle-earth</h1>
-        <p class="text-parchment-base text-3xl font-book italic">Wandering Simulator</p>
+        <h1 class="text-4xl font-serif font-bold text-parchment-base mb-2">{{ t('brand.title') }}</h1>
+        <p class="text-parchment-base text-3xl font-book italic">{{ t('brand.subtitle') }}</p>
       </div>
 
       <div class="bg-parchment-base rounded-xl shadow-2xl border-2 border-gold overflow-hidden">
@@ -22,7 +22,7 @@
               ? 'bg-gold text-ink-black'
               : 'text-ink-brown hover:bg-parchment-dark'"
           >
-            Sign In
+            {{ t('auth.signIn') }}
           </button>
           <button
             @click="activeTab = 'register'"
@@ -31,7 +31,7 @@
               ? 'bg-gold text-ink-black'
               : 'text-ink-brown hover:bg-parchment-dark'"
           >
-            Create Account
+            {{ t('auth.createAccount') }}
           </button>
         </div>
 
@@ -39,24 +39,24 @@
           <!-- Login form -->
           <form v-if="activeTab === 'login'" @submit.prevent="handleLogin" class="space-y-5">
             <div>
-              <label class="block text-sm font-book font-medium text-ink-brown mb-1">Email</label>
+              <label class="block text-sm font-book font-medium text-ink-brown mb-1">{{ t('auth.email') }}</label>
               <input
                 v-model="loginEmail"
                 type="email"
                 autocomplete="email"
                 required
-                placeholder="your@email.com"
+                :placeholder="t('auth.emailPlaceholder')"
                 class="w-full h-10 px-3 py-1 text-sm rounded-md border-2 border-earth-dark bg-parchment-base text-ink-black placeholder:text-ink-light focus:outline-none focus:border-gold transition-colors"
               />
             </div>
             <div>
-              <label class="block text-sm font-book font-medium text-ink-brown mb-1">Password</label>
+              <label class="block text-sm font-book font-medium text-ink-brown mb-1">{{ t('auth.password') }}</label>
               <input
                 v-model="loginPassword"
                 type="password"
                 autocomplete="current-password"
                 required
-                placeholder="••••••••"
+                :placeholder="t('auth.passwordPlaceholder')"
                 class="w-full h-10 px-3 py-1 text-sm rounded-md border-2 border-earth-dark bg-parchment-base text-ink-black placeholder:text-ink-light focus:outline-none focus:border-gold transition-colors"
               />
             </div>
@@ -64,53 +64,53 @@
             <p v-if="errorMessage" class="text-sm text-red-600 font-book">{{ errorMessage }}</p>
 
             <Button type="submit" variant="primary" size="lg" class="w-full" :disabled="authLoading">
-              <span v-if="authLoading">Entering the world…</span>
-              <span v-else>Enter Middle-earth</span>
+              <span v-if="authLoading">{{ t('auth.enteringWorld') }}</span>
+              <span v-else>{{ t('auth.enterMiddleEarth') }}</span>
             </Button>
           </form>
 
           <!-- Register form -->
           <form v-else @submit.prevent="handleRegister" class="space-y-5">
             <div>
-              <label class="block text-sm font-book font-medium text-ink-brown mb-1">Username <span class="text-ink-light">(optional)</span></label>
+              <label class="block text-sm font-book font-medium text-ink-brown mb-1">{{ t('auth.username') }} <span class="text-ink-light">{{ t('auth.usernameOptional') }}</span></label>
               <input
                 v-model="registerUsername"
                 type="text"
                 autocomplete="username"
-                placeholder="Bilbo Baggins"
+                :placeholder="t('auth.usernamePlaceholder')"
                 class="w-full h-10 px-3 py-1 text-sm rounded-md border-2 border-earth-dark bg-parchment-base text-ink-black placeholder:text-ink-light focus:outline-none focus:border-gold transition-colors"
               />
             </div>
             <div>
-              <label class="block text-sm font-book font-medium text-ink-brown mb-1">Email</label>
+              <label class="block text-sm font-book font-medium text-ink-brown mb-1">{{ t('auth.email') }}</label>
               <input
                 v-model="registerEmail"
                 type="email"
                 autocomplete="email"
                 required
-                placeholder="your@email.com"
+                :placeholder="t('auth.emailPlaceholder')"
                 class="w-full h-10 px-3 py-1 text-sm rounded-md border-2 border-earth-dark bg-parchment-base text-ink-black placeholder:text-ink-light focus:outline-none focus:border-gold transition-colors"
               />
             </div>
             <div>
-              <label class="block text-sm font-book font-medium text-ink-brown mb-1">Password</label>
+              <label class="block text-sm font-book font-medium text-ink-brown mb-1">{{ t('auth.password') }}</label>
               <input
                 v-model="registerPassword"
                 type="password"
                 autocomplete="new-password"
                 required
-                placeholder="At least 6 characters"
+                :placeholder="t('auth.passwordHint')"
                 class="w-full h-10 px-3 py-1 text-sm rounded-md border-2 border-earth-dark bg-parchment-base text-ink-black placeholder:text-ink-light focus:outline-none focus:border-gold transition-colors"
               />
             </div>
             <div>
-              <label class="block text-sm font-book font-medium text-ink-brown mb-1">Confirm Password</label>
+              <label class="block text-sm font-book font-medium text-ink-brown mb-1">{{ t('auth.confirmPassword') }}</label>
               <input
                 v-model="registerConfirm"
                 type="password"
                 autocomplete="new-password"
                 required
-                placeholder="••••••••"
+                :placeholder="t('auth.passwordPlaceholder')"
                 class="w-full h-10 px-3 py-1 text-sm rounded-md border-2 border-earth-dark bg-parchment-base text-ink-black placeholder:text-ink-light focus:outline-none focus:border-gold transition-colors"
               />
             </div>
@@ -118,8 +118,8 @@
             <p v-if="errorMessage" class="text-sm text-red-600 font-book">{{ errorMessage }}</p>
 
             <Button type="submit" variant="primary" size="lg" class="w-full" :disabled="authLoading">
-              <span v-if="authLoading">Preparing your journey…</span>
-              <span v-else>Begin Your Journey</span>
+              <span v-if="authLoading">{{ t('auth.preparingJourney') }}</span>
+              <span v-else>{{ t('auth.beginJourney') }}</span>
             </Button>
           </form>
         </div>
@@ -130,34 +130,34 @@
         @click="goExplore"
         class="block mx-auto text-lg mt-5 text-parchment-base hover:text-gold font-book underline underline-offset-4 transition-colors"
       >
-        Just looking? Explore the map as a guest
+        {{ t('auth.guestLink') }}
       </button>
 
       <p class="text-center text-md text-parchment-base mt-6 font-book italic">
-        A personal hobby project. Made for love of the work — no coin sought.
+        {{ t('auth.footerNote') }}
       </p>
     </div>
 
     <!-- Welcome modal (first visit only) -->
     <Modal
       v-if="showWelcome"
-      title="Welcome to Middle-earth"
+      :title="t('auth.welcomeTitle')"
       size="sm"
       :show-close="false"
       :close-on-backdrop="false"
       @close="dismissWelcome"
     >
       <div class="font-book text-ink-black text-sm leading-relaxed">
-        <p>The map awaits, traveller.</p>
-        <p class="mt-2 text-ink-brown">Sign in to bring a character to life and set out on your own adventure — or wander the map freely as a guest to explore its lands, search for places, and trace routes.</p>
+        <p>{{ t('auth.welcomeLine1') }}</p>
+        <p class="mt-2 text-ink-brown">{{ t('auth.welcomeLine2') }}</p>
       </div>
       <template #footer>
         <div class="flex flex-col gap-2">
           <Button variant="primary" size="md" class="w-full" @click="dismissWelcome">
-            Sign in / Create account
+            {{ t('auth.signInOrCreate') }}
           </Button>
           <Button variant="outline" size="md" class="w-full" @click="goExplore">
-            Explore as a guest
+            {{ t('auth.exploreAsGuest') }}
           </Button>
         </div>
       </template>
@@ -168,10 +168,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useAuth } from '@/composables/useAuth'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
 
+const { t } = useI18n()
 const router = useRouter()
 const { login, register, authLoading, currentUser } = useAuth()
 
@@ -218,7 +220,7 @@ async function handleLogin() {
 async function handleRegister() {
   errorMessage.value = ''
   if (registerPassword.value !== registerConfirm.value) {
-    errorMessage.value = 'Passwords do not match'
+    errorMessage.value = t('auth.passwordsDoNotMatch')
     return
   }
   try {

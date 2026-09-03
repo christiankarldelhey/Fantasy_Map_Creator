@@ -6,11 +6,11 @@
       <button
         @click="handleBack"
         class="p-1 rounded-md hover:bg-parchment-dark transition-colors text-ink-brown hover:text-ink-black"
-        title="Exit directions"
+        :title="t('directions.exitDirections')"
       >
         <ArrowLeft class="w-5 h-5" />
       </button>
-      <span class="font-serif font-semibold text-ink-black">Directions</span>
+      <span class="font-serif font-semibold text-ink-black">{{ t('directions.title') }}</span>
     </header>
 
     <!-- Inputs -->
@@ -32,7 +32,7 @@
                 v-model="originQuery"
                 @input="handleOriginInput"
                 @focus="showOriginDropdown = true"
-                placeholder="Search origin or click on the map"
+                :placeholder="t('directions.originPlaceholder')"
                 :class="['w-full pr-8 text-sm h-9 border-earth-dark bg-parchment-base focus-visible:ring-gold font-book', originPoint ? 'font-semibold text-ink-black' : 'text-ink-brown']"
               />
               <button
@@ -45,8 +45,8 @@
             </div>
           </PopoverTrigger>
           <PopoverContent class="w-[280px] p-0 z-[10000] bg-parchment-base border-2 border-gold" align="start">
-            <div v-if="originLoading" class="p-4 text-center text-sm text-ink-brown font-book">Searching…</div>
-            <div v-else-if="originResults.length === 0 && originQuery.length >= 2" class="p-4 text-center text-sm text-ink-faded font-book italic">No results found</div>
+            <div v-if="originLoading" class="p-4 text-center text-sm text-ink-brown font-book">{{ t('common.searching') }}</div>
+            <div v-else-if="originResults.length === 0 && originQuery.length >= 2" class="p-4 text-center text-sm text-ink-faded font-book italic">{{ t('common.noResults') }}</div>
             <div v-else class="max-h-60 overflow-y-auto">
               <div
                 v-for="result in originResults"
@@ -67,7 +67,7 @@
           v-else
           v-model="originQuery"
           readonly
-          :placeholder="guest ? 'Click on the map to set your starting point' : (activeCharacter?.name || 'Traveller')"
+          :placeholder="guest ? t('directions.guestOriginPlaceholder') : (activeCharacter?.name || t('directions.traveller'))"
           class="w-full bg-parchment-dark/40 text-sm h-9 border-earth-dark cursor-not-allowed font-semibold text-ink-black focus-visible:ring-0 font-book"
         />
 
@@ -79,7 +79,7 @@
                 v-model="destQuery"
                 @input="handleDestInput"
                 @focus="showDestDropdown = true"
-                placeholder="Search destination…"
+                :placeholder="t('directions.destPlaceholder')"
                 :class="['w-full pr-8 text-sm h-9 border-earth-dark bg-parchment-base focus-visible:ring-gold font-book', destinationPoint ? 'font-semibold text-ink-black' : 'text-ink-brown']"
               />
               <button
@@ -92,8 +92,8 @@
             </div>
           </PopoverTrigger>
           <PopoverContent class="w-[280px] p-0 z-[10000] bg-parchment-base border-2 border-gold" align="start">
-            <div v-if="destLoading" class="p-4 text-center text-sm text-ink-brown font-book">Searching…</div>
-            <div v-else-if="destResults.length === 0 && destQuery.length >= 2" class="p-4 text-center text-sm text-ink-faded font-book italic">No results found</div>
+            <div v-if="destLoading" class="p-4 text-center text-sm text-ink-brown font-book">{{ t('common.searching') }}</div>
+            <div v-else-if="destResults.length === 0 && destQuery.length >= 2" class="p-4 text-center text-sm text-ink-faded font-book italic">{{ t('common.noResults') }}</div>
             <div v-else class="max-h-60 overflow-y-auto">
               <div
                 v-for="result in destResults"
@@ -116,7 +116,7 @@
       <button
         v-if="explore"
         @click="handleSwap"
-        title="Swap origin and destination"
+        :title="t('directions.swap')"
         class="p-1.5 rounded-md text-ink-brown hover:text-ink-black hover:bg-parchment-dark transition-colors shrink-0"
       >
         <ArrowUpDown class="w-4 h-4" />
@@ -126,12 +126,12 @@
     <!-- Loading -->
     <div v-if="routeLoading" class="flex flex-col items-center justify-center py-6 border-t-2 border-earth-dark">
       <div class="animate-spin rounded-full h-5 w-5 border-2 border-gold-base border-t-transparent mb-2"></div>
-      <span class="text-xs text-ink-brown font-book italic">Calculating route…</span>
+      <span class="text-xs text-ink-brown font-book italic">{{ t('directions.calculatingRoute') }}</span>
     </div>
 
     <!-- Error -->
     <div v-else-if="routeError" class="mx-4 mb-3 p-3 border border-earth-dark bg-parchment-dark rounded text-xs text-ink-black font-book">
-      ⚠️ {{ routeError }}
+      {{ t('directions.errorPrefix') }}{{ routeError }}
     </div>
 
     <!-- Route summary + itinerary -->
@@ -142,7 +142,7 @@
           <span class="text-xl font-serif font-bold text-gold-base leading-none">
             {{ formatDistance(routeData.summary.total_distance_m) }}
           </span>
-          <span class="text-[10px] text-ink-brown font-book uppercase tracking-wider mt-1">Total distance</span>
+          <span class="text-[10px] text-ink-brown font-book uppercase tracking-wider mt-1">{{ t('directions.totalDistance') }}</span>
         </div>
         <div class="h-8 border-l border-earth-dark"></div>
         <div class="flex flex-col items-end">
@@ -150,14 +150,14 @@
             {{ formatTime(routeData.summary.total_time_seconds) }}
           </span>
           <span class="text-[10px] text-ink-brown font-book uppercase tracking-wider mt-1">
-            {{ (routeData.checkpoints?.length || calculateTravelDays(routeData.summary.total_time_seconds)) }} days walking
+            {{ t('directions.daysWalking', { n: (routeData.checkpoints?.length || calculateTravelDays(routeData.summary.total_time_seconds)) }) }}
           </span>
         </div>
       </div>
 
       <!-- Itinerary steps -->
       <div class="px-4 py-3 flex flex-col gap-0">
-        <p class="text-[10px] font-serif font-semibold text-ink-brown uppercase tracking-widest mb-3">Itinerary</p>
+        <p class="text-[10px] font-serif font-semibold text-ink-brown uppercase tracking-widest mb-3">{{ t('directions.itinerary') }}</p>
 
         <!-- Off-road start -->
         <div v-if="routeData.geometry.off_road_start" class="flex gap-3">
@@ -166,9 +166,9 @@
             <div class="flex-grow border-l border-dashed border-earth-dark my-1"></div>
           </div>
           <div class="pb-4">
-            <p class="text-xs font-semibold text-ink-black font-serif">Off-road approach</p>
+            <p class="text-xs font-semibold text-ink-black font-serif">{{ t('directions.offRoadApproach') }}</p>
             <p class="text-[11px] text-ink-brown font-book mt-0.5 flex flex-wrap gap-1.5 items-center">
-              <span>{{ formatDistance(routeData.geometry.off_road_start.properties.distance_m || 0) }} to reach the road</span>
+              <span>{{ formatDistance(routeData.geometry.off_road_start.properties.distance_m || 0) }}{{ t('directions.toReachRoad') }}</span>
               <span v-if="routeData.geometry.off_road_start.properties.biome_type && routeData.geometry.off_road_start.properties.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ routeData.geometry.off_road_start.properties.biome_type }}</span>
               <span v-if="routeData.geometry.off_road_start.properties.altitude_type && routeData.geometry.off_road_start.properties.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ routeData.geometry.off_road_start.properties.altitude_type.replace('_', ' ') }}</span>
             </p>
@@ -200,9 +200,9 @@
             <div class="w-2.5 h-2.5 rounded-full border-2 border-earth-dark bg-parchment-dark mt-0.5"></div>
           </div>
           <div>
-            <p class="text-xs font-semibold text-ink-black font-serif">Off-road arrival</p>
+            <p class="text-xs font-semibold text-ink-black font-serif">{{ t('directions.offRoadArrival') }}</p>
             <p class="text-[11px] text-ink-brown font-book mt-0.5 flex flex-wrap gap-1.5 items-center">
-              <span>{{ formatDistance(routeData.geometry.off_road_end.properties.distance_m || 0) }} to reach destination</span>
+              <span>{{ formatDistance(routeData.geometry.off_road_end.properties.distance_m || 0) }}{{ t('directions.toReachDestination') }}</span>
               <span v-if="routeData.geometry.off_road_end.properties.biome_type && routeData.geometry.off_road_end.properties.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ routeData.geometry.off_road_end.properties.biome_type }}</span>
               <span v-if="routeData.geometry.off_road_end.properties.altitude_type && routeData.geometry.off_road_end.properties.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ routeData.geometry.off_road_end.properties.altitude_type.replace('_', ' ') }}</span>
             </p>
@@ -214,7 +214,7 @@
     <!-- Footer: guest CTA (sign in) -->
     <footer v-if="routeData && guest" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2">
       <p class="text-xs font-book text-ink-brown italic text-center">
-        Sign in to turn this route into an adventure.
+        {{ t('directions.guestFooterText') }}
       </p>
       <Button
         variant="primary"
@@ -223,14 +223,14 @@
         @click="emit('login')"
       >
         <Compass class="w-4 h-4 mr-2" />
-        Sign in to begin your adventure
+        {{ t('directions.guestFooterBtn') }}
       </Button>
     </footer>
 
     <!-- Footer: Start Adventure (wander mode only) -->
     <footer v-else-if="routeData && !explore" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2">
       <div class="flex items-center gap-2">
-        <label class="text-xs font-book text-ink-brown">Language:</label>
+        <label class="text-xs font-book text-ink-brown">{{ t('directions.languageLabel') }}</label>
         <select
           v-model="narrativeLanguage"
           class="text-xs border border-earth-dark bg-parchment-base text-ink-black rounded px-2 py-1 font-book"
@@ -246,14 +246,14 @@
         @click="handleStartAdventure"
       >
         <Compass class="w-4 h-4 mr-2" />
-        Start Adventure
+        {{ t('directions.startAdventure') }}
       </Button>
     </footer>
 
     <!-- Footer: Go to wander mode (explore mode, logged in) -->
     <footer v-else-if="routeData && explore && !guest" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2">
       <p class="text-xs font-book text-ink-brown italic text-center">
-        Adventures can only be started in wander mode.
+        {{ t('directions.exploreFooterText') }}
       </p>
       <Button
         variant="primary"
@@ -262,7 +262,7 @@
         @click="handleGoToWander"
       >
         <Compass class="w-4 h-4 mr-2" />
-        Go to wander mode
+        {{ t('directions.exploreFooterBtn') }}
       </Button>
     </footer>
   </div>
@@ -275,11 +275,11 @@
           <button
             @click="handleBack"
             class="p-1 rounded-md hover:bg-parchment-dark transition-colors text-ink-brown hover:text-ink-black"
-            title="Exit directions"
+            :title="t('directions.exitDirections')"
           >
             <ArrowLeft class="w-5 h-5" />
           </button>
-          <span class="font-serif font-semibold text-ink-black">Directions</span>
+          <span class="font-serif font-semibold text-ink-black">{{ t('directions.title') }}</span>
         </header>
 
         <div class="flex-1 overflow-y-auto">
@@ -299,7 +299,7 @@
                       v-model="originQuery"
                       @input="handleOriginInput"
                       @focus="showOriginDropdown = true"
-                      placeholder="Search origin or click on the map"
+                      :placeholder="t('directions.originPlaceholder')"
                       :class="['w-full pr-8 text-sm h-9 border-earth-dark bg-parchment-base focus-visible:ring-gold font-book', originPoint ? 'font-semibold text-ink-black' : 'text-ink-brown']"
                     />
                     <button
@@ -312,8 +312,8 @@
                   </div>
                 </PopoverTrigger>
                 <PopoverContent class="w-[280px] p-0 z-[10000] bg-parchment-base border-2 border-gold" align="start">
-                  <div v-if="originLoading" class="p-4 text-center text-sm text-ink-brown font-book">Searching…</div>
-                  <div v-else-if="originResults.length === 0 && originQuery.length >= 2" class="p-4 text-center text-sm text-ink-faded font-book italic">No results found</div>
+                  <div v-if="originLoading" class="p-4 text-center text-sm text-ink-brown font-book">{{ t('common.searching') }}</div>
+                  <div v-else-if="originResults.length === 0 && originQuery.length >= 2" class="p-4 text-center text-sm text-ink-faded font-book italic">{{ t('common.noResults') }}</div>
                   <div v-else class="max-h-60 overflow-y-auto">
                     <div
                       v-for="result in originResults"
@@ -334,7 +334,7 @@
                 v-else
                 v-model="originQuery"
                 readonly
-                :placeholder="guest ? 'Click on the map to set your starting point' : (activeCharacter?.name || 'Traveller')"
+                :placeholder="guest ? t('directions.guestOriginPlaceholder') : (activeCharacter?.name || t('directions.traveller'))"
                 class="w-full bg-parchment-dark/40 text-sm h-9 border-earth-dark cursor-not-allowed font-semibold text-ink-black focus-visible:ring-0 font-book"
               />
 
@@ -345,7 +345,7 @@
                       v-model="destQuery"
                       @input="handleDestInput"
                       @focus="showDestDropdown = true"
-                      placeholder="Search destination…"
+                      :placeholder="t('directions.destPlaceholder')"
                       :class="['w-full pr-8 text-sm h-9 border-earth-dark bg-parchment-base focus-visible:ring-gold font-book', destinationPoint ? 'font-semibold text-ink-black' : 'text-ink-brown']"
                     />
                     <button
@@ -358,8 +358,8 @@
                   </div>
                 </PopoverTrigger>
                 <PopoverContent class="w-[280px] p-0 z-[10000] bg-parchment-base border-2 border-gold" align="start">
-                  <div v-if="destLoading" class="p-4 text-center text-sm text-ink-brown font-book">Searching…</div>
-                  <div v-else-if="destResults.length === 0 && destQuery.length >= 2" class="p-4 text-center text-sm text-ink-faded font-book italic">No results found</div>
+                  <div v-if="destLoading" class="p-4 text-center text-sm text-ink-brown font-book">{{ t('common.searching') }}</div>
+                  <div v-else-if="destResults.length === 0 && destQuery.length >= 2" class="p-4 text-center text-sm text-ink-faded font-book italic">{{ t('common.noResults') }}</div>
                   <div v-else class="max-h-60 overflow-y-auto">
                     <div
                       v-for="result in destResults"
@@ -381,7 +381,7 @@
             <button
               v-if="explore"
               @click="handleSwap"
-              title="Swap origin and destination"
+              :title="t('directions.swap')"
               class="p-1.5 rounded-md text-ink-brown hover:text-ink-black hover:bg-parchment-dark transition-colors shrink-0"
             >
               <ArrowUpDown class="w-4 h-4" />
@@ -391,12 +391,12 @@
           <!-- Loading -->
           <div v-if="routeLoading" class="flex flex-col items-center justify-center py-6 border-t-2 border-earth-dark">
             <div class="animate-spin rounded-full h-5 w-5 border-2 border-gold-base border-t-transparent mb-2"></div>
-            <span class="text-xs text-ink-brown font-book italic">Calculating route…</span>
+            <span class="text-xs text-ink-brown font-book italic">{{ t('directions.calculatingRoute') }}</span>
           </div>
 
           <!-- Error -->
           <div v-else-if="routeError" class="mx-4 mb-3 p-3 border border-earth-dark bg-parchment-dark rounded text-xs text-ink-black font-book">
-            ⚠️ {{ routeError }}
+            {{ t('directions.errorPrefix') }}{{ routeError }}
           </div>
 
           <!-- Route summary + itinerary -->
@@ -406,7 +406,7 @@
                 <span class="text-xl font-serif font-bold text-gold-base leading-none">
                   {{ formatDistance(routeData.summary.total_distance_m) }}
                 </span>
-                <span class="text-[10px] text-ink-brown font-book uppercase tracking-wider mt-1">Total distance</span>
+                <span class="text-[10px] text-ink-brown font-book uppercase tracking-wider mt-1">{{ t('directions.totalDistance') }}</span>
               </div>
               <div class="h-8 border-l border-earth-dark"></div>
               <div class="flex flex-col items-end">
@@ -414,13 +414,13 @@
                   {{ formatTime(routeData.summary.total_time_seconds) }}
                 </span>
                 <span class="text-[10px] text-ink-brown font-book uppercase tracking-wider mt-1">
-                  {{ (routeData.checkpoints?.length || calculateTravelDays(routeData.summary.total_time_seconds)) }} days walking
+                  {{ t('directions.daysWalking', { n: (routeData.checkpoints?.length || calculateTravelDays(routeData.summary.total_time_seconds)) }) }}
                 </span>
               </div>
             </div>
 
             <div class="px-4 py-3 flex flex-col gap-0">
-              <p class="text-[10px] font-serif font-semibold text-ink-brown uppercase tracking-widest mb-3">Itinerary</p>
+              <p class="text-[10px] font-serif font-semibold text-ink-brown uppercase tracking-widest mb-3">{{ t('directions.itinerary') }}</p>
 
               <div v-if="routeData.geometry.off_road_start" class="flex gap-3">
                 <div class="flex flex-col items-center w-4 shrink-0">
@@ -428,9 +428,9 @@
                   <div class="flex-grow border-l border-dashed border-earth-dark my-1"></div>
                 </div>
                 <div class="pb-4">
-                  <p class="text-xs font-semibold text-ink-black font-serif">Off-road approach</p>
+                  <p class="text-xs font-semibold text-ink-black font-serif">{{ t('directions.offRoadApproach') }}</p>
                   <p class="text-[11px] text-ink-brown font-book mt-0.5 flex flex-wrap gap-1.5 items-center">
-                    <span>{{ formatDistance(routeData.geometry.off_road_start.properties.distance_m || 0) }} to reach the road</span>
+                    <span>{{ formatDistance(routeData.geometry.off_road_start.properties.distance_m || 0) }}{{ t('directions.toReachRoad') }}</span>
                     <span v-if="routeData.geometry.off_road_start.properties.biome_type && routeData.geometry.off_road_start.properties.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ routeData.geometry.off_road_start.properties.biome_type }}</span>
                     <span v-if="routeData.geometry.off_road_start.properties.altitude_type && routeData.geometry.off_road_start.properties.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ routeData.geometry.off_road_start.properties.altitude_type.replace('_', ' ') }}</span>
                   </p>
@@ -460,9 +460,9 @@
                   <div class="w-2.5 h-2.5 rounded-full border-2 border-earth-dark bg-parchment-dark mt-0.5"></div>
                 </div>
                 <div>
-                  <p class="text-xs font-semibold text-ink-black font-serif">Off-road arrival</p>
+                  <p class="text-xs font-semibold text-ink-black font-serif">{{ t('directions.offRoadArrival') }}</p>
                   <p class="text-[11px] text-ink-brown font-book mt-0.5 flex flex-wrap gap-1.5 items-center">
-                    <span>{{ formatDistance(routeData.geometry.off_road_end.properties.distance_m || 0) }} to reach destination</span>
+                    <span>{{ formatDistance(routeData.geometry.off_road_end.properties.distance_m || 0) }}{{ t('directions.toReachDestination') }}</span>
                     <span v-if="routeData.geometry.off_road_end.properties.biome_type && routeData.geometry.off_road_end.properties.biome_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ routeData.geometry.off_road_end.properties.biome_type }}</span>
                     <span v-if="routeData.geometry.off_road_end.properties.altitude_type && routeData.geometry.off_road_end.properties.altitude_type !== 'plain'" class="px-1.5 py-0.5 bg-parchment-dark border border-earth-dark rounded text-[10px] text-ink-black lowercase font-book">{{ routeData.geometry.off_road_end.properties.altitude_type.replace('_', ' ') }}</span>
                   </p>
@@ -474,7 +474,7 @@
 
         <footer v-if="routeData && guest" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2 shrink-0">
           <p class="text-xs font-book text-ink-brown italic text-center">
-            Sign in to turn this route into an adventure.
+            {{ t('directions.guestFooterText') }}
           </p>
           <Button
             variant="primary"
@@ -483,13 +483,13 @@
             @click="emit('login')"
           >
             <Compass class="w-4 h-4 mr-2" />
-            Sign in to begin your adventure
+            {{ t('directions.guestFooterBtn') }}
           </Button>
         </footer>
 
         <footer v-else-if="routeData && !explore" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2 shrink-0">
           <div class="flex items-center gap-2">
-            <label class="text-xs font-book text-ink-brown">Language:</label>
+            <label class="text-xs font-book text-ink-brown">{{ t('directions.languageLabel') }}</label>
             <select
               v-model="narrativeLanguage"
               class="text-xs border border-earth-dark bg-parchment-base text-ink-black rounded px-2 py-1 font-book"
@@ -505,13 +505,13 @@
             @click="handleStartAdventure"
           >
             <Compass class="w-4 h-4 mr-2" />
-            Start Adventure
+            {{ t('directions.startAdventure') }}
           </Button>
         </footer>
 
         <footer v-else-if="routeData && explore && !guest" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2 shrink-0">
           <p class="text-xs font-book text-ink-brown italic text-center">
-            Adventures can only be started in wander mode.
+            {{ t('directions.exploreFooterText') }}
           </p>
           <Button
             variant="primary"
@@ -520,7 +520,7 @@
             @click="handleGoToWander"
           >
             <Compass class="w-4 h-4 mr-2" />
-            Go to wander mode
+            {{ t('directions.exploreFooterBtn') }}
           </Button>
         </footer>
       </div>
@@ -530,6 +530,7 @@
 
 <script setup lang="ts">
 import { ref, watch, computed, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { ArrowLeft, MapPin, X, Compass, Circle, ArrowUpDown } from '@lucide/vue'
 import { useSearch } from '@/entities/search'
 import type { SearchResult } from '@/entities/search'
@@ -540,6 +541,8 @@ import { BottomSheet } from '@/components/ui/bottom-sheet'
 import { useDirections, mapSearchResultToPoint } from '@/composables/useDirections'
 import { useCharacter } from '@/composables/useCharacter'
 import { useLanguage } from '@/composables/useLanguage'
+
+const { t } = useI18n()
 
 const props = withDefaults(defineProps<{
   guest?: boolean
@@ -604,16 +607,16 @@ function formatTime(seconds: number): string {
   const h = Math.floor(seconds / 3600)
   const m = Math.round((seconds % 3600) / 60)
   if (h > 0) {
-    return `${h}h ${m}m`
+    return t('directions.timeHm', { h, m })
   }
-  return `${m} mins`
+  return t('directions.timeMins', { m })
 }
 
 function formatDistance(m: number): string {
   if (m < 1000) {
-    return `${Math.round(m)} m`
+    return t('directions.distM', { m: Math.round(m) })
   }
-  return `${(m / 1000).toFixed(1)} km`
+  return t('directions.distKm', { n: (m / 1000).toFixed(1) })
 }
 
 function calculateTravelDays(seconds: number): number {
@@ -638,7 +641,7 @@ const groupedRoads = computed(() => {
   
   features.forEach(f => {
     const props = (f as any).properties || {}
-    const name = props.name || 'Unnamed Road'
+    const name = props.name || t('directions.unnamedRoad')
     const length = props.segment_length || 0
     
     if (groups.length > 0 && groups[groups.length - 1].name === name) {

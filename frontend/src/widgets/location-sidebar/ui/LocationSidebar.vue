@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { X, Navigation } from '@lucide/vue'
 import type { LocationDetails } from '../model/types'
 import { getClimateIcon } from '../model/useClimateIcon'
 import { useLocationImage } from '../model/useLocationImage'
 import { Button } from '@/components/ui/button'
 import { BottomSheet } from '@/components/ui/bottom-sheet'
+
+const { t } = useI18n()
 
 const props = withDefaults(defineProps<{
   location: LocationDetails | null
@@ -96,7 +99,7 @@ const biomeIcon = computed(() => {
 
             <div class="flex items-center gap-2">
               <span class="text-sm">{{ biomeIcon }}</span>
-              <span class="text-sm text-ink-black font-medium">{{ location?.biome?.type?.replace('_', ' ') ?? "Prairie" }}</span>
+              <span class="text-sm text-ink-black font-medium">{{ location?.biome?.type?.replace('_', ' ') ?? t('location.biomeFallback') }}</span>
             </div>
           </div>
         </div>
@@ -117,7 +120,7 @@ const biomeIcon = computed(() => {
               :class="['h-9 w-9', climateIcon.color]"
             />
           </div>
-          <span class="text-xs text-ink-light mt-3 font-book">{{ climateIcon.label }}</span>
+          <span class="text-xs text-ink-light mt-3 font-book">{{ t(climateIcon.labelKey) }}</span>
           <span class="text-sm text-ink-black mt-3 font-book">{{ location.climate.temperature.toFixed(1) }}°C</span>
         </div>
       </div>
@@ -130,7 +133,7 @@ const biomeIcon = computed(() => {
           class="w-full"
         >
           <Navigation class="w-4 h-4 mr-2" />
-          I want to go there
+          {{ t('location.goThere') }}
         </Button>
       </div>
 
@@ -149,7 +152,7 @@ const biomeIcon = computed(() => {
 
       <div v-if="location.type === 'Region'" class="mt-3 space-y-2">
         <div v-if="location.products" class="text-sm text-ink-black font-book">
-          <span class="font-serif font-semibold">Products:</span> {{ location.products }}
+          <span class="font-serif font-semibold">{{ t('location.products') }}</span> {{ location.products }}
         </div>
       </div>
     </div>
@@ -190,7 +193,7 @@ const biomeIcon = computed(() => {
 
             <div class="flex items-center gap-2">
               <span class="text-sm">{{ biomeIcon }}</span>
-              <span class="text-sm text-ink-black font-medium">{{ location?.biome?.type?.replace('_', ' ') ?? "Prairie" }}</span>
+              <span class="text-sm text-ink-black font-medium">{{ location?.biome?.type?.replace('_', ' ') ?? t('location.biomeFallback') }}</span>
             </div>
           </div>
 
@@ -211,7 +214,7 @@ const biomeIcon = computed(() => {
               />
             </div>
             <div>
-              <span class="text-xs text-ink-light font-book">{{ climateIcon.label }}</span>
+              <span class="text-xs text-ink-light font-book">{{ t(climateIcon.labelKey) }}</span>
               <span class="text-sm text-ink-black font-book ml-2">{{ location.climate.temperature.toFixed(1) }}°C</span>
             </div>
           </div>
@@ -229,7 +232,7 @@ const biomeIcon = computed(() => {
 
           <div v-if="location.type === 'Region'" class="space-y-2">
             <div v-if="location.products" class="text-sm text-ink-black font-book">
-              <span class="font-serif font-semibold">Products:</span> {{ location.products }}
+              <span class="font-serif font-semibold">{{ t('location.products') }}</span> {{ location.products }}
             </div>
           </div>
         </div>
@@ -242,7 +245,7 @@ const biomeIcon = computed(() => {
             class="w-full"
           >
             <Navigation class="w-4 h-4 mr-2" />
-            I want to go there
+            {{ t('location.goThere') }}
           </Button>
         </div>
       </div>

@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 import { useCharacter } from '@/composables/useCharacter'
 import { Leaf, Sprout, Sun, Snowflake } from '@lucide/vue'
@@ -25,21 +26,22 @@ const emit = defineEmits<{
   click: []
 }>()
 
+const { t, locale } = useI18n()
 const { currentClimateTime } = useGlobalClimateTime()
 const { activeCharacter } = useCharacter()
 
 const formattedDate = computed(() => {
   const date = currentClimateTime.value
-  return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+  return date.toLocaleDateString(locale.value, { month: 'long', day: 'numeric' })
 })
 
 const formattedTime = computed(() => {
   const date = currentClimateTime.value
-  return date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true })
+  return date.toLocaleTimeString(locale.value, { hour: 'numeric', hour12: true })
 })
 
 const regionName = computed(() => {
-  return activeCharacter.value?.current_region || 'Unknown region'
+  return activeCharacter.value?.current_region || t('common.unknownRegion')
 })
 
 const season = computed(() => {

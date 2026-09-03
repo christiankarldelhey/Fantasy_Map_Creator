@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { ChevronDown, ChevronRight, Plus, FileDown, Copy, Check, RotateCcw } from '@lucide/vue'
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
@@ -14,6 +15,8 @@ import { BottomSheet } from '@/components/ui/bottom-sheet'
 import { JsonViewer } from 'vue3-json-viewer'
 import 'vue3-json-viewer/dist/vue3-json-viewer.css'
 import './json-viewer-custom.css'
+
+const { t, locale } = useI18n()
 
 const props = withDefaults(defineProps<{
   tripId: string
@@ -44,7 +47,7 @@ const showDeathModal = ref(false)
 const isTripDead = ref(false)
 const redoingDay = ref<number | null>(null)
 
-const title = computed(() => trip.value?.name || 'Journey')
+const title = computed(() => trip.value?.name || t('chapter.journeyFallback'))
 
 function syncTripDateToClimate() {
   const lastDay = days.value[days.value.length - 1]
@@ -61,20 +64,20 @@ const isTripComplete = computed(() => {
 })
 
 const labels = computed(() => {
-  const characterName = activeCharacter.value?.name || 'Traveller'
+  const characterName = activeCharacter.value?.name || t('directions.traveller')
   return {
-    adventureText: 'An adventure of',
+    adventureText: t('chapter.adventureOf'),
     characterText: characterName,
-    chaptersText: 'Chapters',
-    chapterLabel: 'Chapter',
-    distanceLabel: 'Distance',
-    regionsLabel: 'Regions',
-    savePdfBtn: 'Save adventure as PDF',
-    savingPdfBtn: 'Saving PDF...',
-    generateBtn: 'Generate next day',
-    generatingBtn: 'Writing the next chapter…',
-    cancelBtn: 'Cancel adventure',
-    closeBtn: 'Close adventure'
+    chaptersText: t('chapter.chapters'),
+    chapterLabel: t('chapter.chapterLabel'),
+    distanceLabel: t('chapter.distance'),
+    regionsLabel: t('chapter.regions'),
+    savePdfBtn: t('chapter.savePdf'),
+    savingPdfBtn: t('chapter.savingPdf'),
+    generateBtn: t('chapter.generate'),
+    generatingBtn: t('chapter.generating'),
+    cancelBtn: t('chapter.cancel'),
+    closeBtn: t('chapter.close')
   }
 })
 
@@ -205,7 +208,7 @@ async function generateAdventurePDF() {
     doc.setFont('times', 'bold')
     doc.setFontSize(28)
     doc.setTextColor(115, 74, 18) // #734a12 - dark amber
-    const titleText = trip.value.name || 'A Journey in Middle-earth'
+    const titleText = trip.value.name || t('chapter.pdf.title')
     const titleLines = doc.splitTextToSize(titleText, maxLineWidth)
     doc.text(titleLines, margin, y)
     y += (titleLines.length * 32) + 15
@@ -215,7 +218,7 @@ async function generateAdventurePDF() {
     doc.setFontSize(11)
     doc.setTextColor(80, 80, 80)
     const totalKm = days.value.reduce((acc, d) => acc + (d.distance_km || 0), 0).toFixed(1)
-    const metaText = `${labels.value.adventureText} ${totalKm} km.`
+    const metaText = t('chapter.pdf.subtitleMeta', { adventureText: labels.value.adventureText, totalKm })
     doc.text(metaText, margin, y)
     y += 25
 
@@ -237,7 +240,7 @@ async function generateAdventurePDF() {
         doc.setFont('times', 'italic')
         doc.setFontSize(11)
         doc.setTextColor(100, 100, 100)
-        const locationText = `Last seen at: ${activeCharacter.value.current_location || ''} (${activeCharacter.value.current_region || ''})`
+        const locationText = t('chapter.pdf.lastSeenAt', { location: activeCharacter.value.current_location || '', region: activeCharacter.value.current_region || '' })
         doc.text(locationText, margin, y)
         y += 20
       }
@@ -254,7 +257,7 @@ async function generateAdventurePDF() {
       doc.setFont('times', 'bold')
       doc.setFontSize(20)
       doc.setTextColor(115, 74, 18)
-      doc.text(`${labels.value.chapterLabel} ${day.day_number}`, margin, y)
+      doc.text(t('chapter.pdf.chapterHeading', { chapterLabel: labels.value.chapterLabel, n: day.day_number }), margin, y)
       y += 25
 
       // Chapter Metadata
@@ -299,7 +302,7 @@ async function generateAdventurePDF() {
         doc.setFont('times', 'italic')
         doc.setFontSize(11)
         doc.setTextColor(150, 150, 150)
-        doc.text('No narrative generated for this chapter.', margin, y)
+        doc.text(t('chapter.pdf.noNarrative'), margin, y)
         y += 20
       }
     }
@@ -351,7 +354,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         <h2 class="text-lg font-serif font-semibold text-ink-black/90">{{ title }}</h2>
         <button
           class="p-1 rounded-md text-ink-brown/40 hover:text-ink-brown/80 hover:bg-parchment-dark transition-colors"
-          :title="copiedAllCodes ? 'Copied all codes' : 'Copy all day codes'"
+          :title="copiedAllCodes ? t('chapter.copiedAll') : t('chapter.copyAllCodes')"
           @click="copyAllCodes"
         >
           <component :is="copiedAllCodes ? Check : Copy" class="w-4 h-4" />
@@ -361,7 +364,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 
     <div class="flex-1 overflow-y-auto px-5 py-4 space-y-4">
       <Loader v-if="loading && days.length === 0" variant="inline">
-        Loading chapters…
+        {{ t('chapter.loadingChapters') }}
       </Loader>
 
       <p v-if="error" class="text-sm text-destructive bg-parchment-dark border-2 border-destructive rounded-md p-3 font-book">
@@ -376,23 +379,23 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       >
         <div class="px-4 py-3 border-b border-earth-dark bg-parchment-base">
           <div class="flex items-center justify-between">
-            <h3 class="font-serif font-semibold text-ink-black/90">Chapter {{ day.day_number }}</h3>
+            <h3 class="font-serif font-semibold text-ink-black/90">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
             <div class="flex items-center gap-2">
               <button
                 class="p-1 rounded-md text-ink-brown/50 hover:text-gold-base hover:bg-parchment-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                :title="'Redo narration'"
+                :title="t('chapter.redo')"
                 :disabled="redoingDay !== null"
                 @click="handleRedoNarration(day)"
               >
                 <Loader v-if="redoingDay === day.day_number" size="sm" variant="inline" class="w-4 h-4" />
                 <RotateCcw v-else class="w-4 h-4" />
               </button>
-              <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) }}</span>
+              <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString(locale, { month: 'long', day: 'numeric' }) }}</span>
             </div>
           </div>
           <p class="text-xs text-ink-brown mt-0.5 font-book">
             {{ day.distance_km }} km ·
-            {{ (day.regions || []).map((r) => r.name).join(', ') || 'unknown lands' }}
+            {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
           </p>
         </div>
 
@@ -403,7 +406,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             @click="toggle(day, 'narrative')"
           >
             <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            Narrative
+            {{ t('chapter.tabs.narrative') }}
           </button>
           <button
             class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
@@ -411,7 +414,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             @click="toggle(day, 'prompt')"
           >
             <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            Prompt
+            {{ t('chapter.tabs.prompt') }}
           </button>
           <button
             class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
@@ -419,7 +422,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             @click="toggle(day, 'code')"
           >
             <component :is="expanded[day.id] === 'code' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            Code
+            {{ t('chapter.tabs.code') }}
           </button>
           <button
             class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
@@ -427,7 +430,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             @click="toggle(day, 'system')"
           >
             <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            System
+            {{ t('chapter.tabs.system') }}
           </button>
         </div>
 
@@ -436,13 +439,13 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             v-if="day.narrative"
             class="font-book text-ink-black/90 leading-relaxed whitespace-pre-wrap"
           >{{ day.narrative }}</p>
-          <p v-else class="text-sm text-ink-faded italic font-book">No narrative was generated for this day.</p>
+          <p v-else class="text-sm text-ink-faded italic font-book">{{ t('chapter.noNarrative') }}</p>
         </div>
 
         <div v-if="expanded[day.id] === 'prompt'" class="px-4 py-4 relative">
           <button
             class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors"
-            :title="copied[day.id]?.prompt ? 'Copied' : 'Copy prompt to clipboard'"
+            :title="copied[day.id]?.prompt ? t('chapter.copied') : t('chapter.copyPrompt')"
             @click="copyToClipboard(day.prompt, day.id, 'prompt')"
           >
             <component :is="copied[day.id]?.prompt ? Check : Copy" class="w-4 h-4" />
@@ -453,7 +456,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         <div v-if="expanded[day.id] === 'code'" class="px-4 py-4 relative">
           <button
             class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
-            :title="copied[day.id]?.code ? 'Copied' : 'Copy JSON object to clipboard'"
+            :title="copied[day.id]?.code ? t('chapter.copied') : t('chapter.copyJson')"
             @click="copyToClipboard(jsonCopy(day), day.id, 'code')"
           >
             <component :is="copied[day.id]?.code ? Check : Copy" class="w-4 h-4" />
@@ -470,29 +473,29 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         <div v-if="expanded[day.id] === 'system'" class="px-4 py-4 relative">
           <button
             class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors"
-            :title="copied[day.id]?.system ? 'Copied' : 'Copy system prompt to clipboard'"
+            :title="copied[day.id]?.system ? t('chapter.copied') : t('chapter.copySystem')"
             @click="copyToClipboard(systemPrompt, day.id, 'system')"
           >
             <component :is="copied[day.id]?.system ? Check : Copy" class="w-4 h-4" />
           </button>
           <div class="space-y-3 text-xs text-ink-brown">
             <div>
-              <h4 class="font-semibold mb-1">System Prompt</h4>
-              <pre class="whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ systemPrompt || 'Not available' }}</pre>
+              <h4 class="font-semibold mb-1">{{ t('chapter.systemPrompt') }}</h4>
+              <pre class="whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ systemPrompt || t('chapter.notAvailable') }}</pre>
             </div>
             <div class="grid grid-cols-2 gap-2">
-              <div><span class="font-semibold">Provider:</span> {{ day.ia_provider ?? '—' }}</div>
-              <div><span class="font-semibold">Temperature:</span> {{ day.temperature ?? '—' }}</div>
-              <div><span class="font-semibold">Frequency Penalty:</span> {{ day.frequency_penalty ?? '—' }}</div>
-              <div><span class="font-semibold">Presence Penalty:</span> {{ day.presence_penalty ?? '—' }}</div>
-              <div><span class="font-semibold">Top-p:</span> {{ day.top_p ?? '—' }}</div>
+              <div><span class="font-semibold">{{ t('chapter.provider') }}</span> {{ day.ia_provider ?? '—' }}</div>
+              <div><span class="font-semibold">{{ t('chapter.temperature') }}</span> {{ day.temperature ?? '—' }}</div>
+              <div><span class="font-semibold">{{ t('chapter.frequencyPenalty') }}</span> {{ day.frequency_penalty ?? '—' }}</div>
+              <div><span class="font-semibold">{{ t('chapter.presencePenalty') }}</span> {{ day.presence_penalty ?? '—' }}</div>
+              <div><span class="font-semibold">{{ t('chapter.topP') }}</span> {{ day.top_p ?? '—' }}</div>
             </div>
           </div>
         </div>
       </article>
 
       <p v-if="!loading && days.length === 0 && !error" class="text-sm text-ink-faded italic text-center py-8 font-book">
-        No chapters yet. Generate the first day to begin the tale.
+        {{ t('chapter.noChapters') }}
       </p>
     </div>
 
@@ -550,7 +553,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             <h2 class="text-base font-serif font-semibold text-ink-black/90">{{ title }}</h2>
             <button
               class="p-1 rounded-md text-ink-brown/40 hover:text-ink-brown/80 hover:bg-parchment-dark transition-colors"
-              :title="copiedAllCodes ? 'Copied all codes' : 'Copy all day codes'"
+              :title="copiedAllCodes ? t('chapter.copiedAll') : t('chapter.copyAllCodes')"
               @click="copyAllCodes"
             >
               <component :is="copiedAllCodes ? Check : Copy" class="w-4 h-4" />
@@ -563,7 +566,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 
         <div class="flex-1 overflow-y-auto px-4 py-4 space-y-4">
           <Loader v-if="loading && days.length === 0" variant="inline">
-            Loading chapters…
+            {{ t('chapter.loadingChapters') }}
           </Loader>
 
           <p v-if="error" class="text-sm text-destructive bg-parchment-dark border-2 border-destructive rounded-md p-3 font-book">
@@ -578,23 +581,23 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           >
             <div class="px-4 py-3 border-b border-earth-dark bg-parchment-base">
               <div class="flex items-center justify-between">
-                <h3 class="font-serif font-semibold text-ink-black/90">Chapter {{ day.day_number }}</h3>
+                <h3 class="font-serif font-semibold text-ink-black/90">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
                 <div class="flex items-center gap-2">
                   <button
                     class="p-1 rounded-md text-ink-brown/50 hover:text-gold-base hover:bg-parchment-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                    :title="'Redo narration'"
+                    :title="t('chapter.redo')"
                     :disabled="redoingDay !== null"
                     @click="handleRedoNarration(day)"
                   >
                     <Loader v-if="redoingDay === day.day_number" size="sm" variant="inline" class="w-4 h-4" />
                     <RotateCcw v-else class="w-4 h-4" />
                   </button>
-                  <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) }}</span>
+                  <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString(locale, { month: 'long', day: 'numeric' }) }}</span>
                 </div>
               </div>
               <p class="text-xs text-ink-brown mt-0.5 font-book">
                 {{ day.distance_km }} km ·
-                {{ (day.regions || []).map((r) => r.name).join(', ') || 'unknown lands' }}
+                {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
               </p>
             </div>
 
@@ -605,7 +608,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                 @click="toggle(day, 'narrative')"
               >
                 <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                Narrative
+                {{ t('chapter.tabs.narrative') }}
               </button>
               <button
                 class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
@@ -613,7 +616,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                 @click="toggle(day, 'prompt')"
               >
                 <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                Prompt
+                {{ t('chapter.tabs.prompt') }}
               </button>
               <button
                 class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
@@ -621,7 +624,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                 @click="toggle(day, 'code')"
               >
                 <component :is="expanded[day.id] === 'code' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                Code
+                {{ t('chapter.tabs.code') }}
               </button>
               <button
                 class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
@@ -629,7 +632,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                 @click="toggle(day, 'system')"
               >
                 <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                System
+                {{ t('chapter.tabs.system') }}
               </button>
             </div>
 
@@ -638,13 +641,13 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                 v-if="day.narrative"
                 class="font-book text-ink-black/90 leading-relaxed whitespace-pre-wrap"
               >{{ day.narrative }}</p>
-              <p v-else class="text-sm text-ink-faded italic font-book">No narrative was generated for this day.</p>
+              <p v-else class="text-sm text-ink-faded italic font-book">{{ t('chapter.noNarrative') }}</p>
             </div>
 
             <div v-if="expanded[day.id] === 'prompt'" class="px-4 py-4 relative">
               <button
                 class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors"
-                :title="copied[day.id]?.prompt ? 'Copied' : 'Copy prompt to clipboard'"
+                :title="copied[day.id]?.prompt ? t('chapter.copied') : t('chapter.copyPrompt')"
                 @click="copyToClipboard(day.prompt, day.id, 'prompt')"
               >
                 <component :is="copied[day.id]?.prompt ? Check : Copy" class="w-4 h-4" />
@@ -655,7 +658,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             <div v-if="expanded[day.id] === 'code'" class="px-4 py-4 relative">
               <button
                 class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
-                :title="copied[day.id]?.code ? 'Copied' : 'Copy JSON object to clipboard'"
+                :title="copied[day.id]?.code ? t('chapter.copied') : t('chapter.copyJson')"
                 @click="copyToClipboard(jsonCopy(day), day.id, 'code')"
               >
                 <component :is="copied[day.id]?.code ? Check : Copy" class="w-4 h-4" />
@@ -672,29 +675,29 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             <div v-if="expanded[day.id] === 'system'" class="px-4 py-4 relative">
               <button
                 class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors"
-                :title="copied[day.id]?.system ? 'Copied' : 'Copy system prompt to clipboard'"
+                :title="copied[day.id]?.system ? t('chapter.copied') : t('chapter.copySystem')"
                 @click="copyToClipboard(systemPrompt, day.id, 'system')"
               >
                 <component :is="copied[day.id]?.system ? Check : Copy" class="w-4 h-4" />
               </button>
               <div class="space-y-3 text-xs text-ink-brown">
                 <div>
-                  <h4 class="font-semibold mb-1">System Prompt</h4>
-                  <pre class="whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ systemPrompt || 'Not available' }}</pre>
+                  <h4 class="font-semibold mb-1">{{ t('chapter.systemPrompt') }}</h4>
+                  <pre class="whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ systemPrompt || t('chapter.notAvailable') }}</pre>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
-                  <div><span class="font-semibold">Provider:</span> {{ day.ia_provider ?? '—' }}</div>
-                  <div><span class="font-semibold">Temperature:</span> {{ day.temperature ?? '—' }}</div>
-                  <div><span class="font-semibold">Frequency Penalty:</span> {{ day.frequency_penalty ?? '—' }}</div>
-                  <div><span class="font-semibold">Presence Penalty:</span> {{ day.presence_penalty ?? '—' }}</div>
-                  <div><span class="font-semibold">Top-p:</span> {{ day.top_p ?? '—' }}</div>
+                  <div><span class="font-semibold">{{ t('chapter.provider') }}</span> {{ day.ia_provider ?? '—' }}</div>
+                  <div><span class="font-semibold">{{ t('chapter.temperature') }}</span> {{ day.temperature ?? '—' }}</div>
+                  <div><span class="font-semibold">{{ t('chapter.frequencyPenalty') }}</span> {{ day.frequency_penalty ?? '—' }}</div>
+                  <div><span class="font-semibold">{{ t('chapter.presencePenalty') }}</span> {{ day.presence_penalty ?? '—' }}</div>
+                  <div><span class="font-semibold">{{ t('chapter.topP') }}</span> {{ day.top_p ?? '—' }}</div>
                 </div>
               </div>
             </div>
           </article>
 
           <p v-if="!loading && days.length === 0 && !error" class="text-sm text-ink-faded italic text-center py-8 font-book">
-            No chapters yet. Generate the first day to begin the tale.
+            {{ t('chapter.noChapters') }}
           </p>
         </div>
 
@@ -742,18 +745,18 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
   <Modal
     v-if="showCancelModal"
     :open="showCancelModal"
-    title="Cancel Adventure"
+    :title="t('chapter.cancelModal.title')"
     size="sm"
     @close="showCancelModal = false"
   >
-    <p class="text-ink-black/90 font-book">Are you sure you want to cancel this adventure?</p>
+    <p class="text-ink-black/90 font-book">{{ t('chapter.cancelModal.body') }}</p>
     <template #footer>
       <div class="flex gap-3 justify-end">
         <Button variant="outline" size="md" @click="showCancelModal = false">
-          No, keep it
+          {{ t('chapter.cancelModal.keep') }}
         </Button>
         <Button variant="primary" size="md" @click="handleCancelAdventure">
-          Yes, cancel
+          {{ t('chapter.cancelModal.confirm') }}
         </Button>
       </div>
     </template>
@@ -763,7 +766,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
   <Modal
     v-if="showDeathModal"
     :open="showDeathModal"
-    title="The Journey Ends Here"
+    :title="t('chapter.deathModal.title')"
     size="sm"
     :show-close="false"
     :close-on-backdrop="false"
@@ -771,12 +774,11 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
   >
     <div class="text-center space-y-4 py-2">
       <p class="text-4xl">☠</p>
-      <p class="font-serif text-ink-black/90 text-base leading-relaxed">
-        <strong>{{ activeCharacter?.name || 'The traveller' }}</strong> has fallen.
-      </p>
+      <i18n-t keypath="chapter.deathModal.fallen" tag="p" class="font-serif text-ink-black/90 text-base leading-relaxed">
+        <template #name><strong>{{ activeCharacter?.name || t('chapter.deathModal.fallenFallback') }}</strong></template>
+      </i18n-t>
       <p class="font-book text-ink-brown text-sm leading-relaxed">
-        The road goes ever on — but not for them. Their tale is told, their steps recorded.
-        The adventure is now preserved.
+        {{ t('chapter.deathModal.body') }}
       </p>
     </div>
     <template #footer>
@@ -784,7 +786,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         <Button variant="primary" size="md" :disabled="exportingPdf" @click="handleDeathConfirm">
           <Loader v-if="exportingPdf" size="sm" variant="inline" class="mr-2" />
           <FileDown v-else class="w-4 h-4 mr-2" />
-          {{ exportingPdf ? 'Saving…' : 'Save adventure as PDF' }}
+          {{ exportingPdf ? t('chapter.deathModal.saving') : t('chapter.deathModal.savePdf') }}
         </Button>
       </div>
     </template>

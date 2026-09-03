@@ -17,16 +17,16 @@
       <div class="character-header">
         <div class="character-name">
           {{ activeCharacter?.name }}
-          <span v-if="activeCharacter?.permadeath" class="permadeath-skull" title="Permadeath enabled">☠</span>
-          <span v-if="(activeCharacter?.days_without_food ?? 0) > 0" class="hunger-icon" title="No decent meal">🍖</span>
+          <span v-if="activeCharacter?.permadeath" class="permadeath-skull" :title="t('character.permadeathEnabled')">☠</span>
+          <span v-if="(activeCharacter?.days_without_food ?? 0) > 0" class="hunger-icon" :title="t('character.noDecentMeal')">🍖</span>
         </div>
         <div class="character-type">{{ activeCharacter?.type }}</div>
       </div>
       <div class="bars">
-        <div class="bar energy-bar" title="Energy">
+        <div class="bar energy-bar" :title="t('character.energy')">
           <div class="bar-fill energy-fill" :class="energyFillClass" :style="{ width: `${energyPct}%` }"></div>
         </div>
-        <div class="bar shadow-bar" title="Shadow">
+        <div class="bar shadow-bar" :title="t('character.shadow')">
           <div class="bar-fill shadow-fill" :style="{ width: `${shadowPct}%` }"></div>
         </div>
       </div>
@@ -36,7 +36,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useCharacter } from '@/composables/useCharacter'
+
+const { t } = useI18n()
 
 const emit = defineEmits<{
   'open-character': []

@@ -13,20 +13,20 @@
       <PopoverContent class="w-72 p-4 z-[10000] bg-white" align="end">
         <div class="space-y-4 bg-white">
           <div class="flex items-center justify-between border-b border-gray-100 pb-2">
-            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Date & Time</span>
+            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ t('calendar.title') }}</span>
             <button
               v-if="!isRealTime"
               @click="handleResetToNow"
               class="flex items-center gap-1 text-xs text-rose-600 hover:text-rose-700 transition-colors font-medium"
             >
               <RotateCcw class="h-3 w-3" />
-              Reset to Now
+              {{ t('calendar.resetNow') }}
             </button>
           </div>
 
           <div class="space-y-3">
             <div>
-              <label class="text-xs font-medium text-gray-500 mb-1 block">Select Date</label>
+              <label class="text-xs font-medium text-gray-500 mb-1 block">{{ t('calendar.selectDate') }}</label>
               <input
                 type="date"
                 v-model="dateInputString"
@@ -36,7 +36,7 @@
 
             <div>
               <label class="text-xs font-medium text-gray-500 mb-1 block">
-                Select Hour: {{ selectedHour }}:00
+                {{ t('calendar.selectHour', { hour: selectedHour }) }}
               </label>
               <input
                 type="range"
@@ -56,7 +56,7 @@
 
           <div v-if="!isRealTime" class="flex items-center gap-2 p-2 bg-amber-50 rounded border border-amber-200">
             <Clock class="h-3.5 w-3.5 text-amber-600" />
-            <span class="text-[10px] text-amber-800 font-medium font-sans">Historical mode active (1950)</span>
+            <span class="text-[10px] text-amber-800 font-medium font-sans">{{ t('calendar.historicalMode') }}</span>
           </div>
         </div>
       </PopoverContent>
@@ -66,10 +66,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Calendar, Clock, ChevronDown, RotateCcw } from '@lucide/vue'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useCalendarState } from '../model/useCalendarState'
 
+const { t } = useI18n()
 const isOpen = ref(false)
 
 const {

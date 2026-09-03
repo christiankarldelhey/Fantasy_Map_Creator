@@ -1,6 +1,6 @@
 <template>
   <div class="character-selector">
-    <h3 class="selector-title">Select Character</h3>
+    <h3 class="selector-title">{{ t('character.selectCharacter') }}</h3>
     <div class="character-list">
       <div
         v-for="character in characters"
@@ -16,12 +16,12 @@
           <div class="character-name">{{ character.name }}</div>
           <div class="character-type">{{ character.type }}</div>
           <div class="character-location">
-            {{ character.current_location || 'Unknown' }}
+            {{ character.current_location || t('common.unknown') }}
           </div>
         </div>
         <div class="character-status">
-          <span v-if="character.active" class="status-badge active">Active</span>
-          <span v-else class="status-badge inactive">Inactive</span>
+          <span v-if="character.active" class="status-badge active">{{ t('character.active') }}</span>
+          <span v-else class="status-badge inactive">{{ t('character.inactive') }}</span>
         </div>
       </div>
     </div>
@@ -29,7 +29,10 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useCharacter } from '@/composables/useCharacter'
+
+const { t } = useI18n()
 
 const { characters, setActiveCharacter } = useCharacter()
 

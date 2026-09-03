@@ -4,6 +4,7 @@ import { fetchDirections } from '@/entities/directions/api/directionsApi'
 import type { DirectionsResponse } from '@/entities/directions/model/types'
 import { useCharacter } from '@/composables/useCharacter'
 import { useUserSettings } from './useUserSettings'
+import { i18n } from '@/app/i18n'
 
 const TOKEN_KEY = 'me-auth-token'
 
@@ -140,7 +141,7 @@ async function calculateRoute() {
     routeData.value = response.data
   } catch (error: any) {
     console.error('Error fetching directions:', error)
-    routeError.value = error?.response?.data?.error || 'Failed to calculate route'
+    routeError.value = error?.response?.data?.error || i18n.global.t('errors.routeCalcFailed')
     routeData.value = null
   } finally {
     routeLoading.value = false

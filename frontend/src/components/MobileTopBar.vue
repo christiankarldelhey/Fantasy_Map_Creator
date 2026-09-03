@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, type Component } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Leaf, Sprout, Sun, Snowflake, LogOut, User, Map, Compass, LogIn, Wrench, MoreVertical, Calendar } from '@lucide/vue'
 import { useCharacter } from '@/composables/useCharacter'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
+
+const { t, locale } = useI18n()
 
 const props = defineProps<{
   mode: 'wander' | 'explore'
@@ -31,7 +34,7 @@ const resistancePct = computed(() => {
 })
 
 const formattedDate = computed(() =>
-  currentClimateTime.value.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  currentClimateTime.value.toLocaleDateString(locale.value, { month: 'short', day: 'numeric' })
 )
 
 const season = computed(() => {
@@ -66,19 +69,19 @@ const menuItems = computed<MenuItem[]>(() => {
   const close = () => { isOpen.value = false }
   const items: MenuItem[] = []
   if (props.isGuest) {
-    items.push({ key: 'sign-in', label: 'Sign in', icon: LogIn, onClick: () => { close(); emit('sign-in') } })
+    items.push({ key: 'sign-in', label: t('nav.signIn'), icon: LogIn, onClick: () => { close(); emit('sign-in') } })
   } else {
     if (props.mode === 'wander') {
-      items.push({ key: 'change-season', label: 'Change Season', icon: Sun, onClick: () => { close(); emit('change-season') } })
-      items.push({ key: 'change-character', label: 'Change Character', icon: User, onClick: () => { close(); emit('change-character') } })
-      items.push({ key: 'go-to-explore', label: 'Go to explore mode', icon: Map, onClick: () => { close(); emit('go-to-explore') } })
+      items.push({ key: 'change-season', label: t('nav.changeSeason'), icon: Sun, onClick: () => { close(); emit('change-season') } })
+      items.push({ key: 'change-character', label: t('nav.changeCharacter'), icon: User, onClick: () => { close(); emit('change-character') } })
+      items.push({ key: 'go-to-explore', label: t('nav.goToExplore'), icon: Map, onClick: () => { close(); emit('go-to-explore') } })
     } else {
-      items.push({ key: 'open-calendar', label: 'Date & Time', icon: Calendar, onClick: () => { close(); emit('open-calendar') } })
-      items.push({ key: 'go-to-wander', label: 'Go to wander mode', icon: Compass, onClick: () => { close(); emit('go-to-wander') } })
+      items.push({ key: 'open-calendar', label: t('nav.dateAndTime'), icon: Calendar, onClick: () => { close(); emit('open-calendar') } })
+      items.push({ key: 'go-to-wander', label: t('nav.goToWander'), icon: Compass, onClick: () => { close(); emit('go-to-wander') } })
     }
-    items.push({ key: 'sign-out', label: 'Sign out', icon: LogOut, onClick: () => { close(); emit('sign-out') } })
+    items.push({ key: 'sign-out', label: t('nav.signOut'), icon: LogOut, onClick: () => { close(); emit('sign-out') } })
   }
-  items.push({ key: 'how-i-made-this', label: 'How I Made This', icon: Wrench, href: PROJECT_URL, onClick: close })
+  items.push({ key: 'how-i-made-this', label: t('nav.howIMadeThis'), icon: Wrench, href: PROJECT_URL, onClick: close })
   return items
 })
 
@@ -106,12 +109,12 @@ onUnmounted(() => window.removeEventListener('click', handleClickOutside))
       <div class="min-w-0 flex-1">
         <div class="flex items-center gap-2 min-w-0">
           <span class="font-serif font-semibold text-sm text-ink-black truncate">{{ activeCharacter.name }}</span>
-          <span v-if="activeCharacter.permadeath" class="text-xs text-ink-black/70 shrink-0" title="Permadeath">☠</span>
+          <span v-if="activeCharacter.permadeath" class="text-xs text-ink-black/70 shrink-0" :title="t('character.permadeathEnabled')">☠</span>
         </div>
         <div class="flex items-center gap-1.5 text-[10px] text-ink-brown font-book">
           <span class="font-serif text-ink-black">{{ formattedDate }}</span>
           <component :is="seasonIcon" class="w-3 h-3 shrink-0 opacity-80" />
-          <span class="truncate">{{ activeCharacter.current_region || 'Unknown' }}</span>
+          <span class="truncate">{{ activeCharacter.current_region || t('common.unknown') }}</span>
         </div>
       </div>
     </button>
@@ -119,11 +122,11 @@ onUnmounted(() => window.removeEventListener('click', handleClickOutside))
     <!-- Brand (explore / guest) -->
     <div v-else class="flex items-center gap-2 min-w-0 flex-1">
       <img src="/logo-mews.png" alt="MEWS" class="w-8 h-8 rounded-full object-cover shrink-0" />
-      <span class="font-serif font-semibold text-sm text-ink-black truncate">Middle-earth</span>
+      <span class="font-serif font-semibold text-sm text-ink-black truncate">{{ t('brand.title') }}</span>
     </div>
 
     <!-- Resistance bar (wander) -->
-    <div v-if="mode === 'wander' && activeCharacter" class="w-16 h-1.5 rounded-full bg-parchment-dark overflow-hidden shrink-0" title="Resistance">
+    <div v-if="mode === 'wander' && activeCharacter" class="w-16 h-1.5 rounded-full bg-parchment-dark overflow-hidden shrink-0" :title="t('character.resistance')">
       <div class="h-full bg-gold transition-all duration-300" :style="{ width: `${resistancePct}%` }"></div>
     </div>
 
@@ -131,7 +134,7 @@ onUnmounted(() => window.removeEventListener('click', handleClickOutside))
     <div ref="container" class="relative shrink-0">
       <button
         class="flex items-center justify-center w-9 h-9 rounded-lg bg-parchment-base border-2 border-gold text-ink-black"
-        title="Options"
+        :title="t('common.options')"
         @click="isOpen = !isOpen"
       >
         <MoreVertical class="w-5 h-5" />

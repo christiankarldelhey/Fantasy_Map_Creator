@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import api from '@/shared/api/client'
 import type { User } from './useUserSettings'
 import { useCharacter } from './useCharacter'
+import { i18n } from '@/app/i18n'
 
 const TOKEN_KEY = 'me-auth-token'
 
@@ -41,7 +42,7 @@ export function useAuth() {
       setToken(response.data.token)
       currentUser.value = response.data.user
     } catch (err: any) {
-      const message = err.response?.data?.error || err.message || 'Registration failed'
+      const message = err.response?.data?.error || err.message || i18n.global.t('errors.registrationFailed')
       authError.value = message
       throw new Error(message)
     } finally {
@@ -61,7 +62,7 @@ export function useAuth() {
       currentUser.value = response.data.user
       await api.post('/character/clone-all').catch(() => {})
     } catch (err: any) {
-      const message = err.response?.data?.error || err.message || 'Login failed'
+      const message = err.response?.data?.error || err.message || i18n.global.t('errors.loginFailed')
       authError.value = message
       throw new Error(message)
     } finally {
@@ -109,7 +110,7 @@ export function useAuth() {
       localStorage.removeItem('me-welcome-seen')
       router.push('/login')
     } catch (err: any) {
-      const message = err.response?.data?.error || err.message || 'Failed to delete account'
+      const message = err.response?.data?.error || err.message || i18n.global.t('errors.deleteAccountFailed')
       authError.value = message
       throw new Error(message)
     } finally {

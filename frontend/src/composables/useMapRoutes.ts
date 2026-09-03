@@ -1,6 +1,7 @@
 import maplibregl from 'maplibre-gl'
 import { lineString, point } from '@turf/helpers'
 import { medievalColors } from '@/app/theme/colors'
+import { i18n } from '@/app/i18n'
 
 const DANGER_RED = medievalColors.danger.base
 
@@ -256,7 +257,7 @@ export function drawDirectionsRoute(map: maplibregl.Map, data: any) {
       },
       properties: {
         day_number: c.day_number,
-        name: c.location?.name || `Day ${c.day_number}`,
+        name: c.location?.name || i18n.global.t('errors.dayN', { n: c.day_number }),
         type: c.location?.type || null
       }
     }))

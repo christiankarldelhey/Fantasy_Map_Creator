@@ -1,6 +1,7 @@
 import { ref, watch } from 'vue'
 import api from '@/shared/api/client'
 import { useUserSettings } from './useUserSettings'
+import { i18n } from '@/app/i18n'
 
 const TOKEN_KEY = 'me-auth-token'
 
@@ -75,7 +76,7 @@ export function useCharacter() {
       console.log('✅ Loaded user characters:', response.data)
       return response.data
     } catch (err: any) {
-      const message = err.response?.data?.error || err.message || 'Failed to load characters'
+      const message = err.response?.data?.error || err.message || i18n.global.t('errors.loadCharacters')
       characterError.value = message
       console.error('❌ Error loading characters:', err)
       throw err
@@ -93,7 +94,7 @@ export function useCharacter() {
       console.log('✅ Loaded active character:', response.data)
       return response.data
     } catch (err: any) {
-      const message = err.response?.data?.error || err.message || 'Failed to load active character'
+      const message = err.response?.data?.error || err.message || i18n.global.t('errors.loadActiveCharacter')
       characterError.value = message
       console.error('❌ Error loading active character:', err)
       throw err
@@ -104,7 +105,7 @@ export function useCharacter() {
 
   async function updateActiveCharacterPosition(lng: number, lat: number) {
     if (!activeCharacter.value) {
-      throw new Error('No active character')
+      throw new Error(i18n.global.t('errors.noActiveCharacter'))
     }
     characterLoading.value = true
     characterError.value = null
@@ -126,7 +127,7 @@ export function useCharacter() {
       console.log('✅ Updated active character position:', response.data)
       return response.data
     } catch (err: any) {
-      const message = err.response?.data?.error || err.message || 'Failed to update character position'
+      const message = err.response?.data?.error || err.message || i18n.global.t('errors.updatePosition')
       characterError.value = message
       console.error('❌ Error updating character position:', err)
       throw err
@@ -153,7 +154,7 @@ export function useCharacter() {
       console.log('✅ Set active character:', response.data)
       return response.data
     } catch (err: any) {
-      const message = err.response?.data?.error || err.message || 'Failed to set active character'
+      const message = err.response?.data?.error || err.message || i18n.global.t('errors.setActiveCharacter')
       characterError.value = message
       console.error('❌ Error setting active character:', err)
       throw err
@@ -180,7 +181,7 @@ export function useCharacter() {
       console.log('✅ Reset character:', updated)
       return updated
     } catch (err: any) {
-      const message = err.response?.data?.error || err.message || 'Failed to reset character'
+      const message = err.response?.data?.error || err.message || i18n.global.t('errors.resetCharacter')
       characterError.value = message
       console.error('❌ Error resetting character:', err)
       throw err

@@ -1,13 +1,15 @@
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 
 export function useCalendarState() {
+  const { locale } = useI18n()
   const { currentClimateTime, isRealTime, updateClimateTime, resetToRealTime } = useGlobalClimateTime()
 
   const selectedHour = computed(() => currentClimateTime.value.getHours())
 
   const formattedDateNoYear = computed(() => {
-    return currentClimateTime.value.toLocaleDateString('en-US', {
+    return currentClimateTime.value.toLocaleDateString(locale.value, {
       month: 'long',
       day: 'numeric'
     })

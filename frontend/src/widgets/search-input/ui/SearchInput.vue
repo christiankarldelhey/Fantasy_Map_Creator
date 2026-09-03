@@ -8,7 +8,7 @@
             v-model="searchQuery"
             @input="handleInput"
             @focus="showDropdown = true"
-            placeholder="Search locations or regions..."
+            :placeholder="t('search.placeholder')"
             :class="[mobile ? 'w-full' : 'w-[400px]', 'bg-parchment-base pl-9 text-ink-black placeholder:text-ink-light border-earth-dark', searchQuery.length > 0 ? 'pr-9' : '']"
           />
           <button
@@ -22,13 +22,13 @@
       </PopoverTrigger>
       <PopoverContent :class="[mobile ? 'w-full' : 'w-[400px]', 'p-0 z-[10000] bg-parchment-base border border-earth-dark']" align="start">
         <div v-if="loading" class="p-4 text-center text-sm text-ink-brown">
-          Searching...
+          {{ t('search.searching') }}
         </div>
         <div
           v-else-if="results.length === 0 && searchQuery.length >= 2"
           class="p-4 text-center text-sm text-ink-brown"
         >
-          No results found
+          {{ t('search.noResults') }}
         </div>
         <div v-else class="max-h-96 overflow-y-auto">
           <div
@@ -104,11 +104,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Search, X } from '@lucide/vue'
 import { useSearch } from '@/entities/search'
 import type { SearchResult } from '@/entities/search'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+
+const { t } = useI18n()
 
 const props = withDefaults(defineProps<{
   mobile?: boolean

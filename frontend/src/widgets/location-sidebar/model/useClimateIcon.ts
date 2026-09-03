@@ -4,7 +4,7 @@ import { Sun, Cloud, CloudRain, CloudDrizzle, CloudSnow, Wind } from '@lucide/vu
 export interface ClimateIcon {
   component: Component | Component[]
   color: string | string[]
-  label: string
+  labelKey: string
 }
 
 export function getClimateIcon(climate: {
@@ -21,7 +21,7 @@ export function getClimateIcon(climate: {
     return {
       component: CloudSnow,
       color: 'text-cyan-300',
-      label: 'Snow'
+      labelKey: 'climate.snow'
     }
   }
 
@@ -30,7 +30,7 @@ export function getClimateIcon(climate: {
     return {
       component: CloudRain,
       color: 'text-blue-500',
-      label: 'Heavy Rain'
+      labelKey: 'climate.heavyRain'
     }
   }
 
@@ -39,7 +39,7 @@ export function getClimateIcon(climate: {
     return {
       component: CloudRain,
       color: 'text-blue-400',
-      label: 'Moderate Rain'
+      labelKey: 'climate.moderateRain'
     }
   }
 
@@ -48,7 +48,7 @@ export function getClimateIcon(climate: {
     return {
       component: CloudRain,
       color: 'text-blue-400',
-      label: 'Light Rain'
+      labelKey: 'climate.lightRain'
     }
   }
 
@@ -57,7 +57,7 @@ export function getClimateIcon(climate: {
     return {
       component: CloudDrizzle,
       color: 'text-blue-300',
-      label: 'Drizzle'
+      labelKey: 'climate.drizzle'
     }
   }
 
@@ -66,7 +66,7 @@ export function getClimateIcon(climate: {
     return {
       component: Wind,
       color: 'text-gray-400',
-      label: 'Windy'
+      labelKey: 'climate.windy'
     }
   }
 
@@ -75,7 +75,7 @@ export function getClimateIcon(climate: {
     return {
       component: Cloud,
       color: 'text-gray-400',
-      label: 'Cloudy'
+      labelKey: 'climate.cloudy'
     }
   }
 
@@ -84,7 +84,7 @@ export function getClimateIcon(climate: {
     return {
       component: [Sun, Cloud],
       color: ['text-yellow-400', 'text-gray-300'],
-      label: 'Partly Cloudy'
+      labelKey: 'climate.partlyCloudy'
     }
   }
 
@@ -92,6 +92,6 @@ export function getClimateIcon(climate: {
   return {
     component: Sun,
     color: 'text-yellow-500',
-    label: 'Sunny'
+    labelKey: 'climate.sunny'
   }
 }

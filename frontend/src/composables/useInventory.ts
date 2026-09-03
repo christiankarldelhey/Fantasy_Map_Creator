@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import api from '@/shared/api/client'
+import { i18n } from '@/app/i18n'
 
 export interface InventoryItem {
   id: number
@@ -38,7 +39,7 @@ export function useInventory() {
       const response = await api.get<InventoryResponse>(`/character/${characterId}/inventory`)
       inventory.value = response.data.items
     } catch (err: any) {
-      inventoryError.value = err.message || 'Failed to load inventory'
+      inventoryError.value = err.message || i18n.global.t('errors.loadInventory')
       inventory.value = []
     } finally {
       inventoryLoading.value = false

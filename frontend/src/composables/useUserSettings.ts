@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import api from '@/shared/api/client'
+import { i18n } from '@/app/i18n'
 
 export interface UserSettings {
   narrative_language?: 'english' | 'spanish'
@@ -67,7 +68,7 @@ export function useUserSettings() {
       console.log('✅ Loaded user settings:', response.data)
       return response.data
     } catch (err: any) {
-      const message = err.response?.data?.error || err.message || 'Failed to load user settings'
+      const message = err.response?.data?.error || err.message || i18n.global.t('errors.loadSettings')
       error.value = message
       console.error('❌ Error loading user settings:', err)
       throw err
@@ -89,7 +90,7 @@ export function useUserSettings() {
       console.log('✅ Saved user settings:', response.data)
       return response.data
     } catch (err: any) {
-      const message = err.response?.data?.error || err.message || 'Failed to save user settings'
+      const message = err.response?.data?.error || err.message || i18n.global.t('errors.saveSettings')
       error.value = message
       console.error('❌ Error saving user settings:', err)
       throw err
@@ -107,7 +108,7 @@ export function useUserSettings() {
       console.log('✅ Saved partial settings:', response.data)
       return response.data
     } catch (err: any) {
-      const message = err.response?.data?.error || err.message || 'Failed to save partial settings'
+      const message = err.response?.data?.error || err.message || i18n.global.t('errors.savePartialSettings')
       error.value = message
       console.error('❌ Error saving partial settings:', err)
       throw err

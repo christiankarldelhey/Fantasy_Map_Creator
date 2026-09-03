@@ -1,17 +1,35 @@
 import { ref, watch } from 'vue'
 import { useUserSettings } from './useUserSettings'
+import i18n, { type AppLocale } from '@/app/i18n'
 
 const STORAGE_KEY = 'narrative_language'
 
 type Language = 'english' | 'spanish'
 
+// Map between the persisted backend language value and the i18n locale code
+function languageToLocale(lang: Language): AppLocale {
+  return lang === 'spanish' ? 'es' : 'en'
+}
+
 // Load from localStorage or default to english
 const storedLanguage = localStorage.getItem(STORAGE_KEY) as Language | null
 const language = ref<Language>(storedLanguage || 'english')
 
-// Watch for changes and persist to localStorage (fallback) and backend
+// Keep the i18n locale in sync with the persisted language value
+function syncI18nLocale(lang: Language) {
+  // Cast: vue-i18n narrows the locale type to the keys present in `messages`,
+  // but we want to allow setting 'es' before the Spanish messages are loaded.
+  i18n.global.locale.value = languageToLocale(lang) as 'en'
+}
+
+// Sync once on load so the UI matches the stored/default language
+syncI18nLocale(language.value)
+
+// Watch for changes and persist to localStorage (fallback) and backend,
+// and keep the i18n locale in sync.
 watch(language, (newLanguage) => {
   localStorage.setItem(STORAGE_KEY, newLanguage)
+  syncI18nLocale(newLanguage)
   // Also persist to backend settings
   const { savePartialSettings } = useUserSettings()
   savePartialSettings({ narrative_language: newLanguage }).catch(err => {

@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useUserSettings } from '@/composables/useUserSettings'
+import { i18n } from '@/app/i18n'
 
 // Trip/day generation can call an LLM, so it needs a longer timeout than the
 // shared client (10s). We use a dedicated instance for this feature.
@@ -108,7 +109,7 @@ export function useTrips() {
       console.log('✅ Created trip and saved as active trip:', data.id)
       return data
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Unknown error'
+      error.value = err instanceof Error ? err.message : i18n.global.t('errors.unknownError')
       console.error('❌ Error creating trip:', err)
       throw err
     } finally {
@@ -125,7 +126,7 @@ export function useTrips() {
         .sort((a, b) => a.day_number - b.day_number)
       return data
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Unknown error'
+      error.value = err instanceof Error ? err.message : i18n.global.t('errors.unknownError')
       console.error('❌ Error generating day:', err)
       throw err
     } finally {
@@ -141,7 +142,7 @@ export function useTrips() {
       days.value = data.sort((a, b) => a.day_number - b.day_number)
       return data
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Unknown error'
+      error.value = err instanceof Error ? err.message : i18n.global.t('errors.unknownError')
       console.error('❌ Error loading days:', err)
       throw err
     } finally {
@@ -161,7 +162,7 @@ export function useTrips() {
         .sort((a, b) => a.day_number - b.day_number)
       return data
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Unknown error'
+      error.value = err instanceof Error ? err.message : i18n.global.t('errors.unknownError')
       console.error('❌ Error redoing narration:', err)
       throw err
     } finally {
@@ -187,7 +188,7 @@ export function useTrips() {
       trip.value = data
       return data
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Unknown error'
+      error.value = err instanceof Error ? err.message : i18n.global.t('errors.unknownError')
       console.error('❌ Error loading trip:', err)
       throw err
     } finally {

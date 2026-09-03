@@ -1,22 +1,23 @@
 <template>
   <div class="fixed inset-0 z-[10000] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm">
     <div class="bg-parchment-base rounded-xl shadow-2xl max-w-2xl w-full mx-4 p-8 text-center border-2 border-gold">
-      <h1 class="text-3xl font-serif font-bold text-ink-black mb-4">Well met, traveller.</h1>
+      <h1 class="text-3xl font-serif font-bold text-ink-black mb-4">{{ t('welcome.wellMet') }}</h1>
       <p class="text-lg text-ink-brown mb-4 leading-relaxed font-book">
-        This is the Middle-earth Wandering Simulator — a place to breathe life into a character and roam freely, from the shadow of the Misty Mountains to the shores of Lindon.
+        {{ t('welcome.intro') }}
       </p>
-      <p class="text-base text-ink-brown mb-4 leading-relaxed font-book">
-        Two souls walk these lands for you to inhabit: <strong class="font-semibold text-ink-black">Aranath</strong>, a Dúnedain ranger resting in Bree, and <strong class="font-semibold text-ink-black">Celebrian</strong>, an Elf of Lórien dwelling in Cerin Amroth. You may switch between them freely on the map — though be warned, an adventure abandoned cannot be reclaimed.
-      </p>
+      <i18n-t keypath="welcome.souls" tag="p" class="text-base text-ink-brown mb-4 leading-relaxed font-book">
+        <template #aranath><strong class="font-semibold text-ink-black">Aranath</strong></template>
+        <template #celebrian><strong class="font-semibold text-ink-black">Celebrian</strong></template>
+      </i18n-t>
       <p class="text-sm text-ink-light italic mb-8 font-book">
-        A personal hobby and portfolio project, made for love of the work — no coin sought, no rights claimed. Built in respect of J.R.R. Tolkien's legendarium and of MERP (© Iron Crown Enterprises).
+        {{ t('welcome.credits') }}
       </p>
       <Button
         @click="handleWalk"
         variant="primary"
         size="lg"
       >
-        Walk the Lands
+        {{ t('welcome.walkTheLands') }}
       </Button>
     </div>
     <SeasonSelectModal
@@ -30,8 +31,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import SeasonSelectModal from './SeasonSelectModal.vue'
 import { Button } from '@/components/ui/button'
+
+const { t } = useI18n()
 
 const emit = defineEmits<{
   dismiss: []

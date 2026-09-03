@@ -1,0 +1,322 @@
+{
+  "common": {
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "close": "Close",
+    "options": "Options",
+    "searching": "Searching…",
+    "noResults": "No results found",
+    "loading": "Loading…",
+    "unknown": "Unknown",
+    "unknownRegion": "Unknown region"
+  },
+  "brand": {
+    "title": "Middle-earth",
+    "subtitle": "Wandering Simulator"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "createAccount": "Create Account",
+    "email": "Email",
+    "emailPlaceholder": "your@email.com",
+    "password": "Password",
+    "passwordPlaceholder": "••••••••",
+    "username": "Username",
+    "usernameOptional": "(optional)",
+    "usernamePlaceholder": "Bilbo Baggins",
+    "confirmPassword": "Confirm Password",
+    "passwordHint": "At least 6 characters",
+    "enteringWorld": "Entering the world…",
+    "enterMiddleEarth": "Enter Middle-earth",
+    "preparingJourney": "Preparing your journey…",
+    "beginJourney": "Begin Your Journey",
+    "guestLink": "Just looking? Explore the map as a guest",
+    "footerNote": "A personal hobby project. Made for love of the work — no coin sought.",
+    "welcomeTitle": "Welcome to Middle-earth",
+    "welcomeLine1": "The map awaits, traveller.",
+    "welcomeLine2": "Sign in to bring a character to life and set out on your own adventure — or wander the map freely as a guest to explore its lands, search for places, and trace routes.",
+    "signInOrCreate": "Sign in / Create account",
+    "exploreAsGuest": "Explore as a guest",
+    "passwordsDoNotMatch": "Passwords do not match"
+  },
+  "welcome": {
+    "wellMet": "Well met, traveller.",
+    "intro": "This is the Middle-earth Wandering Simulator — a place to breathe life into a character and roam freely, from the shadow of the Misty Mountains to the shores of Lindon.",
+    "souls": "Two souls walk these lands for you to inhabit: {aranath}, a Dúnedain ranger resting in Bree, and {celebrian}, an Elf of Lórien dwelling in Cerin Amroth. You may switch between them freely on the map — though be warned, an adventure abandoned cannot be reclaimed.",
+    "credits": "A personal hobby and portfolio project, made for love of the work — no coin sought, no rights claimed. Built in respect of J.R.R. Tolkien's legendarium and of MERP (© Iron Crown Enterprises).",
+    "walkTheLands": "Walk the Lands",
+    "whoseFeet": "Whose feet will you walk in?",
+    "chooseCharacter": "Choose a character to begin your journey.",
+    "seasonTitle": "In what season would you set out?",
+    "seasonSubtitle": "Choose the time of year for your journey.",
+    "beginJourney": "Begin Journey",
+    "seasons": {
+      "spring": {
+        "title": "Spring",
+        "desc": "For new green and the long light returning; for those who like to begin."
+      },
+      "summer": {
+        "title": "Summer",
+        "desc": "For warm roads and far horizons; for those who would rather be anywhere but indoors."
+      },
+      "autumn": {
+        "title": "Autumn",
+        "desc": "For woodsmoke and gold and the turning of the year; for those who love a little melancholy."
+      },
+      "winter": {
+        "title": "Winter",
+        "desc": "For hard frost and clear stars and an empty road; for those who like the cold and the quiet."
+      }
+    }
+  },
+  "nav": {
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "howIMadeThis": "How I Made This",
+    "changeSeason": "Change Season",
+    "changeCharacter": "Change Character",
+    "goToExplore": "Go to explore mode",
+    "goToWander": "Go to wander mode",
+    "dateAndTime": "Date & Time",
+    "deleteAccount": "Delete account"
+  },
+  "options": {
+    "deleteTitle": "Delete your account?",
+    "deleteBody": "This will permanently delete your account, characters, and all trip data. This cannot be undone.",
+    "deletePrompt": "Enter your password to confirm:",
+    "deleting": "Deleting…",
+    "deleteForever": "Delete forever",
+    "deleteFailed": "Failed to delete account"
+  },
+  "character": {
+    "selectCharacter": "Select Character",
+    "active": "Active",
+    "inactive": "Inactive",
+    "permadeathEnabled": "Permadeath enabled",
+    "noDecentMeal": "No decent meal",
+    "energy": "Energy",
+    "shadow": "Shadow",
+    "resistance": "Resistance",
+    "abilitiesLabel": "Abilities",
+    "coins": "Coins",
+    "coinsUnit": "coins",
+    "daysWithoutFood": "Days without food",
+    "noDecentMealDays": "no decent meal in {n} day | no decent meal in {n} days",
+    "daysWithoutWater": "Days without water",
+    "noDecentDrinkDays": "no decent drink in {n} day | no decent drink in {n} days",
+    "fatigued": "Fatigued",
+    "wearyFromRoad": "weary from the road",
+    "wounded": "Wounded",
+    "woundedBadly": "badly wounded",
+    "nursingWound": "nursing a wound",
+    "equipage": "Equipage",
+    "worn": "— worn",
+    "reviveBtn": "Revive — restore energy and shadow",
+    "abilities": {
+      "tracking": "Tracking",
+      "persuasion": "Persuasion",
+      "ranged": "Ranged",
+      "melee": "Melee",
+      "lore": "Lore",
+      "stealth": "Stealth",
+      "endurance": "Endurance"
+    },
+    "categories": {
+      "garment": "Garments",
+      "provision": "Provisions",
+      "ammunition": "Ammunition",
+      "weapon": "Weapons",
+      "tool": "Tools",
+      "container": "Vessels"
+    },
+    "water": {
+      "empty": "empty",
+      "nearlyDry": "nearly dry",
+      "aboutHalf": "about half full",
+      "moreThanHalf": "more than half full",
+      "full": "full"
+    }
+  },
+  "directions": {
+    "exitDirections": "Exit directions",
+    "title": "Directions",
+    "originPlaceholder": "Search origin or click on the map",
+    "guestOriginPlaceholder": "Click on the map to set your starting point",
+    "traveller": "Traveller",
+    "destPlaceholder": "Search destination…",
+    "swap": "Swap origin and destination",
+    "calculatingRoute": "Calculating route…",
+    "errorPrefix": "⚠️ ",
+    "totalDistance": "Total distance",
+    "itinerary": "Itinerary",
+    "offRoadApproach": "Off-road approach",
+    "toReachRoad": " to reach the road",
+    "offRoadArrival": "Off-road arrival",
+    "toReachDestination": " to reach destination",
+    "unnamedRoad": "Unnamed Road",
+    "daysWalking": "{n} days walking",
+    "guestFooterText": "Sign in to turn this route into an adventure.",
+    "guestFooterBtn": "Sign in to begin your adventure",
+    "languageLabel": "Language:",
+    "startAdventure": "Start Adventure",
+    "exploreFooterText": "Adventures can only be started in wander mode.",
+    "exploreFooterBtn": "Go to wander mode",
+    "timeHm": "{h}h {m}m",
+    "timeMins": "{m} mins",
+    "distM": "{m} m",
+    "distKm": "{n} km"
+  },
+  "location": {
+    "biomeFallback": "Prairie",
+    "products": "Products:",
+    "goThere": "I want to go there"
+  },
+  "map": {
+    "loadingData": "Loading map data...",
+    "errorPrefix": "Error: ",
+    "loadFailed": "Failed to load map data",
+    "initError": "Map initialization error",
+    "initFailed": "Failed to initialize map",
+    "pointLabel": "Point [{lng}, {lat}]",
+    "phrases": {
+      "0": "Consulting the old maps and the older roads…",
+      "1": "Rousing the things that stir in the dark places…",
+      "2": "Asking the wind which way the weather turns…",
+      "3": "Waking sleeping dragons (quietly)…",
+      "4": "Setting your feet upon the road that goes ever on…"
+    },
+    "abandon": {
+      "title": "Abandon current adventure?",
+      "directions": {
+        "line1": "The road calls, but a tale is still being written.",
+        "line2": "If you set new directions now, your current adventure will be abandoned and lost to the ages.",
+        "line3": "Are you sure you wish to leave it behind?",
+        "keep": "Keep adventuring",
+        "abandon": "Abandon & get directions"
+      },
+      "switch": {
+        "line1": "A tale is still unfolding for this company.",
+        "line2": "Switching to another soul will abandon the current adventure. What is written cannot be unwritten.",
+        "line3": "Do you wish to leave it behind?",
+        "stay": "Stay the course",
+        "abandon": "Abandon & switch"
+      },
+      "season": {
+        "line1": "The seasons turn, but a tale is still being written.",
+        "line2": "Changing the season now will abandon your current adventure. What is written cannot be unwritten.",
+        "line3": "Do you wish to leave it behind?",
+        "stay": "Stay the course",
+        "abandon": "Abandon & change season"
+      },
+      "logout": {
+        "title": "Take your leave?",
+        "line1": "The road goes ever on, but your tale will rest here.",
+        "line2": "Signing out will return you to the gates of the realm.",
+        "line3": "Are you sure you wish to depart?",
+        "stay": "Stay a while",
+        "signOut": "Sign out"
+      }
+    }
+  },
+  "search": {
+    "placeholder": "Search locations or regions...",
+    "searching": "Searching...",
+    "noResults": "No results found"
+  },
+  "calendar": {
+    "title": "Date & Time",
+    "resetNow": "Reset to Now",
+    "selectDate": "Select Date",
+    "selectHour": "Select Hour: {hour}:00",
+    "historicalMode": "Historical mode active (1950)"
+  },
+  "chapter": {
+    "journeyFallback": "Journey",
+    "adventureOf": "An adventure of",
+    "chapters": "Chapters",
+    "chapterLabel": "Chapter",
+    "distance": "Distance",
+    "regions": "Regions",
+    "savePdf": "Save adventure as PDF",
+    "savingPdf": "Saving PDF...",
+    "generate": "Generate next day",
+    "generating": "Writing the next chapter…",
+    "cancel": "Cancel adventure",
+    "close": "Close adventure",
+    "loadingChapters": "Loading chapters…",
+    "chapterN": "Chapter {n}",
+    "unknownLands": "unknown lands",
+    "tabs": {
+      "narrative": "Narrative",
+      "prompt": "Prompt",
+      "code": "Code",
+      "system": "System"
+    },
+    "noNarrative": "No narrative was generated for this day.",
+    "noChapters": "No chapters yet. Generate the first day to begin the tale.",
+    "copyAllCodes": "Copy all day codes",
+    "copiedAll": "Copied all codes",
+    "redo": "Redo narration",
+    "copyPrompt": "Copy prompt to clipboard",
+    "copied": "Copied",
+    "copyJson": "Copy JSON object to clipboard",
+    "copySystem": "Copy system prompt to clipboard",
+    "systemPrompt": "System Prompt",
+    "notAvailable": "Not available",
+    "provider": "Provider:",
+    "temperature": "Temperature:",
+    "frequencyPenalty": "Frequency Penalty:",
+    "presencePenalty": "Presence Penalty:",
+    "topP": "Top-p:",
+    "pdf": {
+      "title": "A Journey in Middle-earth",
+      "subtitleMeta": "{adventureText} {totalKm} km.",
+      "lastSeenAt": "Last seen at: {location} ({region})",
+      "chapterHeading": "{chapterLabel} {n}",
+      "noNarrative": "No narrative generated for this chapter."
+    },
+    "cancelModal": {
+      "title": "Cancel Adventure",
+      "body": "Are you sure you want to cancel this adventure?",
+      "keep": "No, keep it",
+      "confirm": "Yes, cancel"
+    },
+    "deathModal": {
+      "title": "The Journey Ends Here",
+      "fallen": "{name} has fallen.",
+      "fallenFallback": "The traveller",
+      "body": "The road goes ever on — but not for them. Their tale is told, their steps recorded. The adventure is now preserved.",
+      "saving": "Saving…",
+      "savePdf": "Save adventure as PDF"
+    }
+  },
+  "climate": {
+    "snow": "Snow",
+    "heavyRain": "Heavy Rain",
+    "moderateRain": "Moderate Rain",
+    "lightRain": "Light Rain",
+    "drizzle": "Drizzle",
+    "windy": "Windy",
+    "cloudy": "Cloudy",
+    "partlyCloudy": "Partly Cloudy",
+    "sunny": "Sunny"
+  },
+  "errors": {
+    "registrationFailed": "Registration failed",
+    "loginFailed": "Login failed",
+    "deleteAccountFailed": "Failed to delete account",
+    "loadCharacters": "Failed to load characters",
+    "loadActiveCharacter": "Failed to load active character",
+    "noActiveCharacter": "No active character",
+    "updatePosition": "Failed to update character position",
+    "setActiveCharacter": "Failed to set active character",
+    "resetCharacter": "Failed to reset character",
+    "loadInventory": "Failed to load inventory",
+    "loadSettings": "Failed to load user settings",
+    "saveSettings": "Failed to save user settings",
+    "savePartialSettings": "Failed to save partial settings",
+    "routeCalcFailed": "Failed to calculate route",
+    "dayN": "Day {n}",
+    "unknownError": "Unknown error"
+  }
+}
