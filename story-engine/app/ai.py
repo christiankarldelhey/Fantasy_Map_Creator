@@ -15,6 +15,8 @@ _primary_client: Optional[Groq] = None
 _primary_client_loaded = False
 _secondary_client: Optional[Groq] = None
 _secondary_client_loaded = False
+_tertiary_client: Optional[Groq] = None
+_tertiary_client_loaded = False
 
 # Ordered fallback chain: each model is tried in sequence. If one gets
 # deprecated by Groq, the next picks up automatically.
@@ -92,6 +94,19 @@ def _get_secondary_client():
     return _secondary_client
 
 
+def _get_tertiary_client():
+    global _tertiary_client, _tertiary_client_loaded
+    if _tertiary_client_loaded:
+        return _tertiary_client
+    api_key_3 = os.environ.get('GROQ_API_KEY_3')
+    print('AI Service: Initializing tertiary Groq client with GROQ_API_KEY_3 present:', bool(api_key_3))
+    _tertiary_client = _initialize_groq_client(api_key_3)
+    _tertiary_client_loaded = True
+    if _tertiary_client:
+        print('AI Service: Tertiary Groq client initialized successfully')
+    return _tertiary_client
+
+
 def _is_rate_limit_error(error):
     status = getattr(error, 'status_code', None) or getattr(error, 'status', None)
     code = getattr(error, 'code', None)
@@ -136,7 +151,7 @@ def _build_attempt_order():
     secondary key. A deprecated model is skipped quickly and the secondary
     key only kicks in when the primary is rate-limited."""
     attempts = []
-    for get_client in (_get_primary_client, _get_secondary_client):
+    for get_client in (_get_primary_client, _get_secondary_client, _get_tertiary_client):
         for model in GROQ_MODELS:
             attempts.append({
                 'provider': 'groq',
@@ -191,4 +206,5 @@ def generate_narrative(prompt, day_number=None):
 def is_ai_configured():
     api_key = os.environ.get('GROQ_API_KEY')
     api_key_2 = os.environ.get('GROQ_API_KEY_2')
-    return _is_valid_key(api_key) or _is_valid_key(api_key_2)
+    api_key_3 = os.environ.get('GROQ_API_KEY_3')
+    return _is_valid_key(api_key) or _is_valid_key(api_key_2) or _is_valid_key(api_key_3)
