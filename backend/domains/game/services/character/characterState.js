@@ -87,7 +87,9 @@ export const TUNING = {
   MAX_COLD_SHIFT: 12,             // cap so deep winter is never free
   FASTING_COST: [0, -4, -9, -15], // per consecutive day without food; -15 each day after
   FASTING_REST_MULTIPLIER: 0.6,   // hunger spoils rest recovery
-  PROVISION_TARGET_DAYS: 7,       // rations refilled to this when starting a trip from a settlement
+  // Rations (not days) topped up at a settlement. At MEALS_PER_DAY = 2 this is
+  // a week of food; the old value of 7 was named "days" but only fed 3.5.
+  PROVISION_TARGET_RATIONS: 14,
   HUNGER_ENABLED: true,           // master switch for the hunger mechanic
 
   // Thirst (mirror of hunger, but more punishing)
@@ -151,6 +153,16 @@ export const ENEMY_FAMILIES = ['enemy'];
 // Region NAMES treated as enemy territory even when their cultural_family is
 // not 'enemy' (e.g. Moria is 'dwarven' but is a place of dread).
 export const ENEMY_REGION_NAMES = ['moria'];
+
+// Inhabited location types with a roof, a well and a market. Used for indoor
+// rest, for refilling the flask and for restocking provisions.
+export const SETTLEMENT_TYPES = [
+  'town', 'city', 'village', 'inn', 'tavern',
+  'fortified city', 'fortified town', 'citadel',
+];
+// A settlement passed within this distance of the day's leg is close enough
+// to step into for water and provisions.
+export const SETTLEMENT_RESUPPLY_KM = 5;
 
 // Named locations (by id) that act as elven sanctuaries: a night here fully
 // restores energy (bypassing the soft cap) and strongly relieves shadow.
@@ -516,6 +528,20 @@ export function classifyRegionFamilies(families = [], regionNames = []) {
  * @param {Object|null} overnightLocation
  * @param {Object|null} overnightInteraction
  */
+/**
+ * Whether the day's march passes close enough to an inhabited settlement to
+ * draw water from its well and buy provisions. Sleeping indoors counts too.
+ * @param {Object} day - output of generateDay()
+ * @returns {boolean}
+ */
+export function passedSettlement(day) {
+  if (day?.overnight_location?.indoor) return true;
+  return (day?.locations || []).some((l) => (
+    SETTLEMENT_TYPES.includes(l?.type)
+    && (!Number.isFinite(l?.distance_km) || l.distance_km <= SETTLEMENT_RESUPPLY_KM)
+  ));
+}
+
 export function isSanctuary(overnightLocation, overnightInteraction) {
   const id = overnightLocation?.id;
   if (id != null && SANCTUARY_LOCATION_IDS.includes(id)) return true;

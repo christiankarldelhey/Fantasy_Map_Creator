@@ -1,9 +1,9 @@
 # ============================================================================
 # AI Service (Groq only)
 # ----------------------------------------------------------------------------
-# Port of backend/domains/story/services/narrator/ai.js. Generates narrative
-# text using Groq (Qwen 3.8 27B) as primary provider, with GROQ_API_KEY_2 as
-# fallback if the first key hits rate limits.
+# Generates narrative text using Groq with a chain of fallback models so that
+# a single model deprecation or rate-limit does not break narration.
+# Primary key is tried across all models first, then secondary key.
 # ============================================================================
 import os
 import re
@@ -16,7 +16,20 @@ _primary_client_loaded = False
 _secondary_client: Optional[Groq] = None
 _secondary_client_loaded = False
 
-GROQ_MODEL = 'qwen/qwen3.8-27b'
+# Ordered fallback chain: each model is tried in sequence. If one gets
+# deprecated by Groq, the next picks up automatically.
+# Primary is the model that was already producing good narratives; the rest
+# are free-tier fallbacks ordered by TPM quota (highest first).
+GROQ_MODELS = [
+    'qwen/qwen3.8-27b',                            # original primary, good quality
+    'meta-llama/llama-4-scout-17b-16e-instruct',  # 30 RPM, 30K TPM, 1K RPD (free)
+    'llama-3.3-70b-versatile',                     # 30 RPM, 12K TPM, 1K RPD (free)
+    'openai/gpt-oss-120b',                         # 30 RPM,  8K TPM, 1K RPD (free)
+]
+
+# Models that accept reasoning_effort (Qwen 3.x thinking toggle).
+_REASONING_EFFORT_MODELS = {'qwen/qwen3-32b', 'qwen/qwen3.6-27b', 'qwen/qwen3.8-27b'}
+
 PLACEHOLDER_KEY = 'your_groq_api_key_here'
 
 # --- Sampling variation (anti-repetition) ---------------------------------
@@ -96,30 +109,42 @@ def _parse_messages(prompt):
     return messages
 
 
-def _try_generate_groq(client, messages, sampling):
-    response = client.chat.completions.create(
-        model=GROQ_MODEL,
+def _try_generate_groq(client, messages, sampling, model):
+    kwargs = dict(
+        model=model,
         messages=messages,
         temperature=sampling['temperature'],
         top_p=sampling['top_p'],
         frequency_penalty=sampling['frequency_penalty'],
         presence_penalty=sampling['presence_penalty'],
         max_tokens=4096,
-        reasoning_effort='none',  # Qwen 3.x: skip thinking entirely (no reasoning token cost)
     )
+    # Qwen 3.x: skip thinking entirely (no reasoning token cost).
+    if model in _REASONING_EFFORT_MODELS:
+        kwargs['reasoning_effort'] = 'none'
+    response = client.chat.completions.create(**kwargs)
     content = response.choices[0].message.content if response.choices else None
     # Safety net: strip any residual <think> tags if the model emits them anyway.
     if content:
         content = _THINK_TAG_RE.sub('', content).strip()
-    print('✅ Narrative generated successfully with Groq, length:', len(content) if content else 0)
+    print(f'✅ Narrative generated with Groq ({model}), length:', len(content) if content else 0)
     return content
 
 
 def _build_attempt_order():
-    return [
-        {'provider': 'groq', 'get_client': _get_primary_client, 'run': _try_generate_groq},
-        {'provider': 'groq', 'get_client': _get_secondary_client, 'run': _try_generate_groq},
-    ]
+    """Try every model with the primary key first, then every model with the
+    secondary key. A deprecated model is skipped quickly and the secondary
+    key only kicks in when the primary is rate-limited."""
+    attempts = []
+    for get_client in (_get_primary_client, _get_secondary_client):
+        for model in GROQ_MODELS:
+            attempts.append({
+                'provider': 'groq',
+                'model': model,
+                'get_client': get_client,
+                'run': _try_generate_groq,
+            })
+    return attempts
 
 
 def generate_narrative(prompt, day_number=None):
@@ -149,15 +174,15 @@ def generate_narrative(prompt, day_number=None):
         if not client:
             continue
         try:
-            content = attempt['run'](client, messages, sampling)
+            content = attempt['run'](client, messages, sampling, attempt['model'])
             if content:
-                return {**meta, 'text': content, 'ia_provider': attempt['provider']}
+                return {**meta, 'text': content, 'ia_provider': attempt['model']}
         except Exception as error:  # noqa: BLE001 - mirrors the JS catch-all
-            print(f"⚠️ {attempt['provider']} client failed:", error)
+            print(f"⚠️ {attempt['model']} failed:", error)
             if _is_rate_limit_error(error):
-                print(f"🔄 {attempt['provider']} rate limit hit, attempting next fallback...")
-            # Non-rate-limit errors: still fall through to the next provider so a
-            # transient failure on the lead model doesn't lose the chapter.
+                print(f"🔄 {attempt['model']} rate limit hit, attempting next fallback...")
+            # Non-rate-limit errors: still fall through to the next model so a
+            # transient failure or deprecation doesn't lose the chapter.
 
     print('❌ No narrative could be generated (all providers failed or unavailable)')
     return {**meta, 'text': None}

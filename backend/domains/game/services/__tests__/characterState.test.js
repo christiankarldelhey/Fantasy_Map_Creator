@@ -16,6 +16,7 @@ import {
   isQuietNight,
   classifyRegionFamilies,
   isSanctuary,
+  passedSettlement,
   shadowSpawnFactor,
   energyBand,
   shadowBand,
@@ -559,4 +560,28 @@ test('buildEndStateBlock contains shadow corruption wording for dead_shadow', ()
   assert.ok(block.includes('shadow'));
   assert.ok(block.includes('corruption'));
   assert.ok(block.includes('Aranath'));
+});
+
+// ---------------------------------------------------------------------------
+// passedSettlement — resupply opportunity
+// ---------------------------------------------------------------------------
+test('passedSettlement: sleeping indoors counts', () => {
+  assert.equal(passedSettlement({ overnight_location: { indoor: true }, locations: [] }), true);
+});
+
+test('passedSettlement: a town within reach of the leg counts', () => {
+  assert.equal(passedSettlement({ locations: [{ type: 'town', distance_km: 3 }] }), true);
+});
+
+test('passedSettlement: a town too far off the road does not count', () => {
+  assert.equal(passedSettlement({ locations: [{ type: 'town', distance_km: 40 }] }), false);
+});
+
+test('passedSettlement: ruins and watchtowers are not resupply points', () => {
+  assert.equal(passedSettlement({ locations: [{ type: 'ruins', distance_km: 1 }, { type: 'watchtower', distance_km: 2 }] }), false);
+});
+
+test('passedSettlement: an empty day is false and does not throw', () => {
+  assert.equal(passedSettlement({}), false);
+  assert.equal(passedSettlement(null), false);
 });

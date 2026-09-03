@@ -139,6 +139,24 @@ export function computeWaterNeed(meanTemperature = null) {
   return TUNING.WATER_NEED_L[TUNING.WATER_NEED_L.length - 1].need;
 }
 
+// Biomes the map itself declares waterless.
+const ARID_BIOMES = ['desert'];
+
+/**
+ * Water the traced hydrography does not draw. The dataset holds ~740 rivers
+ * and streams for a continent-sized map, so a day's leg almost never
+ * intersects one and a traveller would die of thirst crossing ordinary
+ * temperate country. Any terrain that is not wholly desert is assumed to
+ * offer a brook, spring or snowmelt within reach of a day's march.
+ * @param {Array<Object>} biomes - day.biomes entries ({ type, ... })
+ * @returns {boolean}
+ */
+export function terrainWaterAvailable(biomes = []) {
+  const types = (biomes || []).map((b) => b?.type).filter(Boolean);
+  if (types.length === 0) return true; // open country: unmapped brooks
+  return !types.every((t) => ARID_BIOMES.includes(t));
+}
+
 /**
  * Resolve the day's waterskin use: refill from a source, drink the need,
  * and track the thirst streak.
@@ -617,8 +635,9 @@ export async function grantStartingKit(characterId, templateId) {
 }
 
 /**
- * Refill provisions to PROVISION_TARGET_DAYS when starting a trip from a
- * settlement. Adds trail_rations to make up the difference.
+ * Refill provisions to PROVISION_TARGET_RATIONS at a settlement, either when
+ * starting a trip or when the day's march passes one. Adds trail_rations to
+ * make up the difference.
  * @param {number} characterId
  * @returns {{ rationsBefore:number, rationsAdded:number }}
  */
@@ -633,7 +652,7 @@ export async function provisionForTrip(characterId) {
     [characterId]
   );
   const current = parseInt(countRows[0]?.total || 0, 10);
-  const needed = Math.max(0, TUNING.PROVISION_TARGET_DAYS - current);
+  const needed = Math.max(0, TUNING.PROVISION_TARGET_RATIONS - current);
   if (needed === 0) return { rationsBefore: current, rationsAdded: 0 };
 
   const { rows: itemRows } = await pool.query(

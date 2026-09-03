@@ -12,7 +12,7 @@
 // ============================================================================
 
 import { climateStats } from '../../adapters/mapClient.js';
-import { resolveDailyMeals, resolveDailyWater, resolveLodging, computeWaterNeed } from './inventory.js';
+import { resolveDailyMeals, resolveDailyWater, resolveLodging, computeWaterNeed, terrainWaterAvailable } from './inventory.js';
 import {
   buildDayNote,
   classifyRegionFamilies,
@@ -24,6 +24,7 @@ import {
   isHarshWeatherAllDay,
   isQuietNight,
   isSanctuary,
+  passedSettlement,
   resolveFate,
   WOUND_COSTS,
   TUNING,
@@ -148,7 +149,10 @@ export function resolveDayState({
   // Frozen flask: natural sources are unavailable, but a settlement well still works.
   const flaskFrozen = Number.isFinite(meanTemperature) && meanTemperature <= TUNING.FLASK_FREEZE_TEMP;
   const hasFreshwater = (day.water_crossings?.length > 0) || (day.water_sources?.length > 0);
-  const refillAvailable = (day.overnight_location?.indoor) || (hasFreshwater && !flaskFrozen);
+  // Traced rivers and lakes are sparse, so terrain that is not desert also
+  // yields water. A settlement well works even when everything else is frozen.
+  const naturalWater = hasFreshwater || terrainWaterAvailable(day.biomes);
+  const refillAvailable = passedSettlement(day) || (naturalWater && !flaskFrozen);
   const totalPrecipitation = climateStats(day.climate).totalPrecipitation;
 
   let water = resolveDailyWater({

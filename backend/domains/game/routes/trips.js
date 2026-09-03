@@ -23,6 +23,8 @@ import {
   resolveDayState,
   shadowSpawnFactor,
   shadowBand,
+  passedSettlement,
+  SETTLEMENT_TYPES,
 } from '../services/character/index.js';
 import {
   loadInventory,
@@ -105,8 +107,7 @@ router.post('/', authenticateToken, async (req, res, next) => {
         [startLng, startLat]
       );
       const startType = startLocRows[0]?.location_type;
-      const INDOOR_REST_TYPES = ['town', 'city', 'village', 'inn', 'tavern', 'fortified city', 'fortified town', 'citadel'];
-      if (startType && INDOOR_REST_TYPES.includes(startType)) {
+      if (startType && SETTLEMENT_TYPES.includes(startType)) {
         await provisionForTrip(parseInt(characterId, 10));
       }
     }
@@ -372,6 +373,13 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         daysWithoutFood: resolution.food.newDaysWithoutFood,
         daysWithoutWater: resolution.water.newDaysWithoutWater,
       });
+
+      // Passing an inhabited settlement restocks the pack, so a long journey
+      // is survivable as long as it is routed through inhabited land. Runs
+      // after the day's meals are deducted so the top-up reflects what is left.
+      if (!fate.halted && passedSettlement(day)) {
+        await provisionForTrip(trip.character_id);
+      }
 
       if (fate.halted) {
         const endCause = END_CAUSE_MAP[fate.fate] || null;

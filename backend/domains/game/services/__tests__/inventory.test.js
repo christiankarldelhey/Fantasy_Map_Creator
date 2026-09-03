@@ -12,6 +12,7 @@ import {
   chooseDailyMeal,
   chooseMealItems,
   resolveDailyWater,
+  terrainWaterAvailable,
   buildEquipmentBlock,
   resolveLodging,
 } from '../character/inventory.js';
@@ -379,4 +380,46 @@ test('resolveLodging: no coins, indifferent family → turned away', () => {
   const result = resolveLodging({ overnightLocation: { indoor: true }, overnightInteraction: { region: { cultural_family: 'easterling' } }, coins: 0, currentEnergy: 50 });
   assert.equal(result.turnedAway, true);
   assert.equal(result.sheltered, false);
+});
+
+// ---------------------------------------------------------------------------
+// terrainWaterAvailable — unmapped brooks and springs
+// ---------------------------------------------------------------------------
+test('terrainWaterAvailable: open country with no biomes still yields water', () => {
+  assert.equal(terrainWaterAvailable([]), true);
+  assert.equal(terrainWaterAvailable(), true);
+});
+
+test('terrainWaterAvailable: forest and marsh yield water', () => {
+  assert.equal(terrainWaterAvailable([{ type: 'forest' }]), true);
+  assert.equal(terrainWaterAvailable([{ type: 'marsh' }]), true);
+});
+
+test('terrainWaterAvailable: a day wholly in desert yields none', () => {
+  assert.equal(terrainWaterAvailable([{ type: 'desert' }]), false);
+  assert.equal(terrainWaterAvailable([{ type: 'desert' }, { type: 'desert' }]), false);
+});
+
+test('terrainWaterAvailable: desert crossed alongside other terrain still yields water', () => {
+  assert.equal(terrainWaterAvailable([{ type: 'desert' }, { type: 'forest' }]), true);
+});
+
+test('a 3L flask covers four mild days without any source', () => {
+  let waterHeld = 3;
+  let daysWithoutWater = 0;
+  for (let day = 1; day <= 4; day++) {
+    const r = resolveDailyWater({ waterHeld, capacity: 3, meanTemperature: 12, refillAvailable: false, daysWithoutWater });
+    waterHeld = r.waterAfter;
+    daysWithoutWater = r.newDaysWithoutWater;
+    assert.equal(daysWithoutWater, 0, `day ${day} should not be thirsty`);
+  }
+  assert.equal(waterHeld, 0);
+});
+
+test('a 3L flask covers the hot-weather need that a 1L flask never could', () => {
+  const hot = { meanTemperature: 35, refillAvailable: true, daysWithoutWater: 0 };
+  const small = resolveDailyWater({ waterHeld: 1, capacity: 1, ...hot });
+  assert.equal(small.newDaysWithoutWater, 1); // thirsty despite refilling daily
+  const large = resolveDailyWater({ waterHeld: 3, capacity: 3, ...hot });
+  assert.equal(large.newDaysWithoutWater, 0);
 });

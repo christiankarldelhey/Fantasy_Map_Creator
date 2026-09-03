@@ -100,8 +100,8 @@ END $$;
 -- 5. Seed the waterskin and give it to every template's starting kit
 -- ---------------------------------------------------------------------------
 INSERT INTO items (slug, name, category, prose_singular, prose_plural, effects, effect_when_used, weight_kg, base_price, rarity) VALUES
-  ('waterskin', 'Waterskin', 'container', 'a leather waterskin', 'leather waterskins',
-   '{"water_capacity": 1}'::jsonb, '{}'::jsonb, 0.25, 3, 'common')
+  ('waterskin', 'Waterskin', 'container', 'a large leather waterskin', 'large leather waterskins',
+   '{"water_capacity": 3}'::jsonb, '{}'::jsonb, 0.4, 3, 'common')
 ON CONFLICT (slug) DO UPDATE SET
   name = EXCLUDED.name,
   category = EXCLUDED.category,
@@ -120,17 +120,29 @@ WHERE t.owner_user_id IS NULL AND i.slug = 'waterskin'
 ON CONFLICT (template_id, item_id) DO UPDATE SET qty = EXCLUDED.qty;
 
 -- Existing clones: grant a full waterskin so nobody starts dehydrated.
+-- fill is read from the item's own capacity so this keeps working when the
+-- waterskin is re-tuned.
 INSERT INTO character_inventory (character_id, item_id, qty, condition, equipped, fill)
-SELECT c.id, i.id, 1, 3, false, 1
+SELECT c.id, i.id, 1, 3, false, (i.effects->>'water_capacity')::numeric
 FROM character_state c
 CROSS JOIN items i
 WHERE i.slug = 'waterskin'
 ON CONFLICT (character_id, item_id) DO NOTHING;
 
+-- Empty flasks start full. Only fill = 0 is topped up: anything in between is
+-- a flask mid-journey, and a deploy must not hand out free water.
 UPDATE character_inventory ci
-SET fill = 1
+SET fill = (i.effects->>'water_capacity')::numeric
 FROM items i
 WHERE i.id = ci.item_id AND i.slug = 'waterskin' AND ci.fill = 0;
+
+-- Clamp flasks holding more than the current capacity (re-tuning downwards).
+UPDATE character_inventory ci
+SET fill = (i.effects->>'water_capacity')::numeric
+FROM items i
+WHERE i.id = ci.item_id
+  AND i.slug = 'waterskin'
+  AND ci.fill > (i.effects->>'water_capacity')::numeric;
 
 -- ---------------------------------------------------------------------------
 -- 6. Declarative use-effects for the provisions already in the catalog

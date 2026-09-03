@@ -16,7 +16,7 @@ import {
   getMoonPhase,
 } from '../../adapters/mapClient.js';
 import { loadTerrainPhrases } from '../../adapters/storyClient.js';
-import { FRIENDLY_FAMILIES, MAX_EVIL_ENCOUNTERS_PER_DAY } from '../character/characterState.js';
+import { FRIENDLY_FAMILIES, MAX_EVIL_ENCOUNTERS_PER_DAY, SETTLEMENT_TYPES } from '../character/characterState.js';
 
 /** Count encounters drawn from evil (shadow_weight > 0) entities. */
 function countEvilEncounters(encounters) {
@@ -115,7 +115,7 @@ async function entitiesForRegion(regionName) {
 // Daily checkpoints are computed in routing.js; tripDay.js uses them directly.
 
 /** Types of location that allow sleeping indoors. */
-const INDOOR_REST_TYPES = ['town', 'city', 'village', 'inn', 'tavern', 'fortified city', 'fortified town', 'citadel'];
+const INDOOR_REST_TYPES = SETTLEMENT_TYPES;
 
 /**
  * Sample real DEM elevation at 3 points in the day (dawn, midday, dusk).
