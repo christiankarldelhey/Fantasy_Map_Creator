@@ -68,9 +68,9 @@
           <Button variant="outline" size="md" :disabled="deleteLoading" @click="closeDeleteModal">
             {{ t('common.cancel') }}
           </Button>
-          <Button variant="primary" size="md" :disabled="deleteLoading || !deletePassword" @click="confirmDelete">
+          <Button variant="outline" size="md" :disabled="deleteLoading || !deletePassword" @click="confirmDelete">
             <span v-if="deleteLoading">{{ t('options.deleting') }}</span>
-            <span v-else class="text-red-700">{{ t('options.deleteForever') }}</span>
+            <span v-else>{{ t('options.deleteForever') }}</span>
           </Button>
         </div>
       </template>

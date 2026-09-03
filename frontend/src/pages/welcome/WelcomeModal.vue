@@ -20,6 +20,12 @@
         {{ t('welcome.walkTheLands') }}
       </Button>
     </div>
+    <CharacterSelectModal
+      v-if="showCharacterSelect"
+      :is-onboarding="true"
+      @confirm="handleCharacterSelected"
+      @cancel="showCharacterSelect = false"
+    />
     <SeasonSelectModal
       v-if="showSeasonSelect"
       @confirm="handleSeasonSelected"
@@ -32,6 +38,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import CharacterSelectModal from './CharacterSelectModal.vue'
 import SeasonSelectModal from './SeasonSelectModal.vue'
 import { Button } from '@/components/ui/button'
 
@@ -42,9 +49,15 @@ const emit = defineEmits<{
 }>()
 
 const router = useRouter()
+const showCharacterSelect = ref(false)
 const showSeasonSelect = ref(false)
 
 function handleWalk() {
+  showCharacterSelect.value = true
+}
+
+function handleCharacterSelected() {
+  showCharacterSelect.value = false
   showSeasonSelect.value = true
 }
 

@@ -19,7 +19,7 @@
             @click="activeTab = 'login'"
             class="flex-1 py-3 text-sm font-serif font-semibold transition-colors"
             :class="activeTab === 'login'
-              ? 'bg-gold text-ink-black'
+              ? 'bg-gold-base text-ink-black'
               : 'text-ink-brown hover:bg-parchment-dark'"
           >
             {{ t('auth.signIn') }}
@@ -28,7 +28,7 @@
             @click="activeTab = 'register'"
             class="flex-1 py-3 text-sm font-serif font-semibold transition-colors"
             :class="activeTab === 'register'
-              ? 'bg-gold text-ink-black'
+              ? 'bg-gold-base text-ink-black'
               : 'text-ink-brown hover:bg-parchment-dark'"
           >
             {{ t('auth.createAccount') }}
