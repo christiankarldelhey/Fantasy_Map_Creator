@@ -778,6 +778,7 @@ async function ensureSchema() {
   await runMigrationFile('add_food_water_and_item_effects.sql');
   await runMigrationFile('add_skills_and_conditions.sql');
   await runMigrationFile('add_stealth_endurance_skills.sql');
+  await runMigrationFile('add_description_es_to_character_state.sql');
 
   console.log('✅ Schema ready\n');
 }

@@ -15,3 +15,12 @@ WHERE id = 1 AND owner_user_id IS NULL;
 UPDATE character_state
 SET description_es = 'Ve el final en las cosas, la podredumbre en la hoja verde, la ruina en el muro recién levantado, y hace ya mucho que dejó de apartar la mirada. Vaga sin destino, atraída a los lugares donde el mundo se desgasta, para detenerse al borde de lo que se apaga y escuchar lo que tiene que decir.'
 WHERE id = 2 AND owner_user_id IS NULL;
+
+-- Backfill existing clones: copy description_es from their template
+UPDATE character_state c
+SET description_es = t.description_es
+FROM character_state t
+WHERE c.template_id = t.id
+  AND c.owner_user_id IS NOT NULL
+  AND c.description_es IS NULL
+  AND t.description_es IS NOT NULL;
