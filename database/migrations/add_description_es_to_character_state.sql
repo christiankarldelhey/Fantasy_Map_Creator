@@ -8,12 +8,12 @@ ALTER TABLE character_state ADD COLUMN IF NOT EXISTS description_es TEXT;
 
 -- Aranath (id=1)
 UPDATE character_state
-SET description_es = 'Alto y silencioso, uno de esos que cuenta los días por las estrellas y no por el calendario. Ha pasado años recorriendo las fronteras del viejo Arnor, y esta vez camina solo. Busca un camino antiguo del que pocos hablan aún.'
+SET description_es = 'Alto y callado, de los que miden los días por las estrellas y no por el almanaque. Lleva años recorriendo los confines del viejo Arnor, y esta vez marcha solo. Busca un camino antiguo del que ya casi nadie habla.'
 WHERE id = 1 AND owner_user_id IS NULL;
 
 -- Celebrian (id=2)
 UPDATE character_state
-SET description_es = 'Ve el final en las cosas, la podredumbre en la hoja verde, la ruina en el muro recién levantado, y hace ya mucho que dejó de apartar la mirada. Vaga sin destino, atraída a los lugares donde el mundo se desgasta, para detenerse al borde de lo que se apaga y escuchar lo que tiene que decir.'
+SET description_es = 'De ojos fríos y sin apuro, de las que ven la ruina en un muro el día que lo levantan. Ha visto caer suficiente como para no apartar la mirada, y camina sin rumbo y sin compañía. Busca los lugares donde el mundo se desgasta.'
 WHERE id = 2 AND owner_user_id IS NULL;
 
 -- Backfill existing clones: copy description_es from their template
