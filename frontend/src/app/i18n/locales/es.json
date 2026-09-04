@@ -1,0 +1,326 @@
+{
+  "common": {
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "close": "Cerrar",
+    "options": "Opciones",
+    "searching": "Buscando…",
+    "noResults": "No se encontraron resultados",
+    "loading": "Cargando…",
+    "unknown": "Desconocido",
+    "unknownRegion": "Región desconocida"
+  },
+  "brand": {
+    "title": "La Tierra Media",
+    "subtitle": "Simulador de Viajes"
+  },
+  "auth": {
+    "signIn": "Iniciar sesión",
+    "createAccount": "Crear cuenta",
+    "email": "Correo",
+    "emailPlaceholder": "tu{'@'}correo.com",
+    "password": "Contraseña",
+    "passwordPlaceholder": "••••••••",
+    "username": "Nombre de usuario",
+    "usernameOptional": "(opcional)",
+    "usernamePlaceholder": "Bilbo Bolsón",
+    "confirmPassword": "Confirmar contraseña",
+    "passwordHint": "Al menos 6 caracteres",
+    "enteringWorld": "Entrando en el mundo…",
+    "enterMiddleEarth": "Entrar en la Tierra Media",
+    "preparingJourney": "Preparando tu viaje…",
+    "beginJourney": "Comienza tu viaje",
+    "guestLink": "¿Solo mirando? Explora el mapa como invitado",
+    "footerNote": "Un proyecto personal y de portafolio. No se reclama ningún derecho.",
+    "welcomeTitle": "Bienvenido a la Tierra Media",
+    "welcomeLine1": "El mapa te espera, viajero.",
+    "welcomeLine2": "Inicia sesión para elegir un viajero y comenzar un viaje, o explora el mapa como invitado para buscar lugares y trazar rutas.",
+    "signInOrCreate": "Iniciar sesión / Crear cuenta",
+    "exploreAsGuest": "Explorar como invitado",
+    "passwordsDoNotMatch": "Las contraseñas no coinciden"
+  },
+  "welcome": {
+    "wellMet": "Bien hallado, viajero.",
+    "intro": "Este es el Simulador de Viajes por la Tierra Media. Elige un viajero y sigue los caminos de la Tierra Media, desde las Montañas Nubladas hasta las costas de Lindon.",
+    "souls": "Hay dos viajeros disponibles: {aranath}, un montaraz Dúnadan actualmente en Bree, y {celebrian}, un Elfo de Lórien en Cerin Amroth. Puedes elegir cualquiera para comenzar un viaje. Sin embargo, una aventura abandonada no puede reanudarse.",
+    "credits": "Un proyecto personal y de portafolio, hecho simplemente para ver si la idea funcionaba. No se reclama ningún derecho. Hecho con respeto por el legendarium de J.R.R. Tolkien y por MERP (© Iron Crown Enterprises).",
+    "walkTheLands": "Elige un viajero",
+    "whoseFeet": "¿Quién emprenderá este viaje?",
+    "chooseCharacter": "Cada viajero comienza en una parte distinta de la Tierra Media.",
+    "seasonTitle": "¿En qué estación partirás?",
+    "seasonSubtitle": "La época del año determina los caminos, la luz y el clima.",
+    "languageTitle": "¿Qué idioma hablas?",
+    "languageSubtitle": "Elige el idioma para la interfaz y la narrativa.",
+    "languageNote": "Por ahora solo está traducida la interfaz; parte del contenido puede seguir en inglés.",
+    "beginJourney": "Comenzar el viaje",
+    "seasons": {
+      "spring": {
+        "title": "Primavera",
+        "desc": "Los caminos se suavizan y la tierra vuelve a verdear."
+      },
+      "summer": {
+        "title": "Verano",
+        "desc": "Días largos y caminos abiertos hacen de esta la estación más fácil para viajar."
+      },
+      "autumn": {
+        "title": "Otoño",
+        "desc": "Los días se acortan, los bosques cambian de color y la lluvia se vuelve más común."
+      },
+      "winter": {
+        "title": "Invierno",
+        "desc": "Caminos fríos, días cortos y pasos difíciles. Una estación dura para viajar."
+      }
+    }
+  },
+  "nav": {
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión",
+    "howIMadeThis": "Cómo lo hice",
+    "changeSeason": "Cambiar estación",
+    "changeCharacter": "Cambiar personaje",
+    "goToExplore": "Ir al modo exploración",
+    "goToWander": "Ir al modo viaje",
+    "dateAndTime": "Fecha y hora",
+    "deleteAccount": "Eliminar cuenta",
+    "language": "Idioma"
+  },
+  "options": {
+    "deleteTitle": "¿Eliminar tu cuenta?",
+    "deleteBody": "Esto eliminará permanentemente tu cuenta, tus personajes y todos los datos de viaje. No se puede deshacer.",
+    "deletePrompt": "Introduce tu contraseña para confirmar:",
+    "deleting": "Eliminando…",
+    "deleteForever": "Eliminar para siempre",
+    "deleteFailed": "No se pudo eliminar la cuenta"
+  },
+  "character": {
+    "selectCharacter": "Seleccionar personaje",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "permadeathEnabled": "Muerte permanente activada",
+    "noDecentMeal": "Sin comida decente",
+    "energy": "Energía",
+    "shadow": "Sombra",
+    "resistance": "Resistencia",
+    "abilitiesLabel": "Habilidades",
+    "coins": "Monedas",
+    "coinsUnit": "monedas",
+    "daysWithoutFood": "Días sin comida",
+    "noDecentMealDays": "sin comida decente en {n} día | sin comida decente en {n} días",
+    "daysWithoutWater": "Días sin agua",
+    "noDecentDrinkDays": "sin bebida decente en {n} día | sin bebida decente en {n} días",
+    "fatigued": "Fatigado",
+    "wearyFromRoad": "cansado del camino",
+    "wounded": "Herido",
+    "woundedBadly": "gravemente herido",
+    "nursingWound": "curándose de una herida",
+    "equipage": "Equipaje",
+    "worn": "— equipado",
+    "reviveBtn": "Recuperar — restaurar energía y sombra",
+    "abilities": {
+      "tracking": "Rastreo",
+      "persuasion": "Persuasión",
+      "ranged": "Combate a distancia",
+      "melee": "Combate cuerpo a cuerpo",
+      "lore": "Saber",
+      "stealth": "Sigilo",
+      "endurance": "Resistencia"
+    },
+    "categories": {
+      "garment": "Vestimentas",
+      "provision": "Víveres",
+      "ammunition": "Munición",
+      "weapon": "Armas",
+      "tool": "Herramientas",
+      "container": "Recipientes"
+    },
+    "water": {
+      "empty": "vacío",
+      "nearlyDry": "casi seco",
+      "aboutHalf": "aproximadamente medio",
+      "moreThanHalf": "más de medio",
+      "full": "lleno"
+    }
+  },
+  "directions": {
+    "exitDirections": "Salir de indicaciones",
+    "title": "Indicaciones",
+    "originPlaceholder": "Busca el origen o haz clic en el mapa",
+    "guestOriginPlaceholder": "Haz clic en el mapa para fijar tu punto de partida",
+    "traveller": "Viajero",
+    "destPlaceholder": "Busca el destino…",
+    "swap": "Intercambiar origen y destino",
+    "calculatingRoute": "Calculando ruta…",
+    "errorPrefix": "⚠️ ",
+    "totalDistance": "Distancia total",
+    "itinerary": "Itinerario",
+    "offRoadApproach": "Acceso fuera de camino",
+    "toReachRoad": " para llegar al camino",
+    "offRoadArrival": "Llegada fuera de camino",
+    "toReachDestination": " para llegar al destino",
+    "unnamedRoad": "Camino sin nombre",
+    "daysWalking": "{n} días caminando",
+    "guestFooterText": "Inicia sesión para recorrer esta ruta como una aventura.",
+    "guestFooterBtn": "Inicia sesión para comenzar tu aventura",
+    "languageLabel": "Idioma:",
+    "startAdventure": "Comenzar aventura",
+    "exploreFooterText": "Las aventuras solo pueden iniciarse en modo viaje.",
+    "exploreFooterBtn": "Ir al modo viaje",
+    "timeHm": "{h}h {m}m",
+    "timeMins": "{m} min",
+    "distM": "{m} m",
+    "distKm": "{n} km"
+  },
+  "location": {
+    "biomeFallback": "Pradera",
+    "products": "Productos:",
+    "goThere": "Quiero ir allí"
+  },
+  "map": {
+    "loadingData": "Cargando datos del mapa...",
+    "errorPrefix": "Error: ",
+    "loadFailed": "No se pudieron cargar los datos del mapa",
+    "initError": "Error de inicialización del mapa",
+    "initFailed": "No se pudo inicializar el mapa",
+    "pointLabel": "Punto [{lng}, {lat}]",
+    "phrases": {
+      "0": "Consultando los mapas de la Tierra Media…",
+      "1": "Trazando los caminos por delante…",
+      "2": "Estudiando la forma del terreno…",
+      "3": "Observando el cambio del clima…",
+      "4": "Preparándose para el camino…"
+    },
+    "abandon": {
+      "title": "¿Abandonar la aventura actual?",
+      "directions": {
+        "line1": "Tu viaje actual aún no ha terminado.",
+        "line2": "Elegir un nuevo destino terminará la aventura actual. No podrá reanudarse.",
+        "line3": "¿Deseas continuar?",
+        "keep": "Conservar el viaje",
+        "abandon": "Abandonar y obtener indicaciones"
+      },
+      "switch": {
+        "line1": "Este viajero aún está en un viaje.",
+        "line2": "Cambiar de personaje terminará la aventura actual. No podrá reanudarse.",
+        "line3": "¿Deseas continuar?",
+        "stay": "Conservar el viaje",
+        "abandon": "Abandonar y cambiar"
+      },
+      "season": {
+        "line1": "Este viaje aún está en curso.",
+        "line2": "Cambiar la estación terminará la aventura actual. No podrá reanudarse.",
+        "line3": "¿Deseas continuar?",
+        "stay": "Conservar el viaje",
+        "abandon": "Abandonar y cambiar estación"
+      },
+      "logout": {
+        "title": "¿Cerrar sesión?",
+        "line1": "Tu viaje te esperará aquí hasta que regreses.",
+        "line2": "Cerrar sesión te llevará de vuelta al menú principal.",
+        "line3": "¿Deseas continuar?",
+        "stay": "Quedarse",
+        "signOut": "Cerrar sesión"
+      }
+    }
+  },
+  "search": {
+    "placeholder": "Buscar lugares o regiones...",
+    "searching": "Buscando...",
+    "noResults": "No se encontraron resultados"
+  },
+  "calendar": {
+    "title": "Fecha y hora",
+    "resetNow": "Restablecer a ahora",
+    "selectDate": "Seleccionar fecha",
+    "selectHour": "Seleccionar hora: {hour}:00",
+    "historicalMode": "Modo histórico activo (1950)"
+  },
+  "chapter": {
+    "journeyFallback": "Viaje",
+    "adventureOf": "Una aventura de",
+    "chapters": "Capítulos",
+    "chapterLabel": "Capítulo",
+    "distance": "Distancia",
+    "regions": "Regiones",
+    "savePdf": "Guardar aventura como PDF",
+    "savingPdf": "Guardando PDF...",
+    "generate": "Generar el siguiente día",
+    "generating": "Escribiendo el siguiente capítulo…",
+    "cancel": "Cancelar aventura",
+    "close": "Cerrar aventura",
+    "loadingChapters": "Cargando capítulos…",
+    "chapterN": "Capítulo {n}",
+    "unknownLands": "tierras desconocidas",
+    "tabs": {
+      "narrative": "Narrativa",
+      "prompt": "Prompt",
+      "code": "Código",
+      "system": "Sistema"
+    },
+    "noNarrative": "No se generó narrativa para este día.",
+    "noChapters": "Aún no hay capítulos. Genera el primer día para comenzar el viaje.",
+    "copyAllCodes": "Copiar todos los códigos del día",
+    "copiedAll": "Códigos copiados",
+    "redo": "Rehacer narración",
+    "copyPrompt": "Copiar prompt al portapapeles",
+    "copied": "Copiado",
+    "copyJson": "Copiar objeto JSON al portapapeles",
+    "copySystem": "Copiar prompt del sistema al portapapeles",
+    "systemPrompt": "Prompt del sistema",
+    "notAvailable": "No disponible",
+    "provider": "Proveedor:",
+    "temperature": "Temperatura:",
+    "frequencyPenalty": "Penalización por frecuencia:",
+    "presencePenalty": "Penalización por presencia:",
+    "topP": "Top-p:",
+    "pdf": {
+      "title": "Un viaje por la Tierra Media",
+      "subtitleMeta": "{adventureText} {totalKm} km.",
+      "lastSeenAt": "Visto por última vez en: {location} ({region})",
+      "chapterHeading": "{chapterLabel} {n}",
+      "noNarrative": "No se generó narrativa para este capítulo."
+    },
+    "cancelModal": {
+      "title": "Cancelar aventura",
+      "body": "¿Seguro que quieres cancelar esta aventura?",
+      "keep": "No, conservarla",
+      "confirm": "Sí, cancelar"
+    },
+    "deathModal": {
+      "title": "El viaje termina aquí",
+      "fallen": "{name} ha caído.",
+      "fallenFallback": "El viajero",
+      "body": "El camino continúa, pero no para ellos. Su viaje ha llegado a su fin. El registro de sus viajes permanecerá aquí.",
+      "saving": "Guardando…",
+      "savePdf": "Guardar aventura como PDF"
+    }
+  },
+  "climate": {
+    "snow": "Nieve",
+    "heavyRain": "Lluvia intensa",
+    "moderateRain": "Lluvia moderada",
+    "lightRain": "Lluvia ligera",
+    "drizzle": "Llovizna",
+    "windy": "Ventoso",
+    "cloudy": "Nublado",
+    "partlyCloudy": "Parcialmente nublado",
+    "sunny": "Soleado"
+  },
+  "errors": {
+    "registrationFailed": "Error en el registro",
+    "loginFailed": "Error al iniciar sesión",
+    "deleteAccountFailed": "No se pudo eliminar la cuenta",
+    "loadCharacters": "No se pudieron cargar los personajes",
+    "loadActiveCharacter": "No se pudo cargar el personaje activo",
+    "noActiveCharacter": "No hay personaje activo",
+    "updatePosition": "No se pudo actualizar la posición del personaje",
+    "setActiveCharacter": "No se pudo establecer el personaje activo",
+    "resetCharacter": "No se pudo reiniciar el personaje",
+    "loadInventory": "No se pudo cargar el inventario",
+    "loadSettings": "No se pudieron cargar los ajustes del usuario",
+    "saveSettings": "No se pudieron guardar los ajustes",
+    "savePartialSettings": "No se pudieron guardar los ajustes parciales",
+    "routeCalcFailed": "No se pudo calcular la ruta",
+    "dayN": "Día {n}",
+    "unknownError": "Error desconocido"
+  }
+}

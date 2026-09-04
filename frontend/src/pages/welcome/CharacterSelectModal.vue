@@ -48,11 +48,7 @@
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCharacter } from '@/composables/useCharacter'
-import { useAuth } from '@/composables/useAuth'
-import { useUserSettings } from '@/composables/useUserSettings'
-import api from '@/shared/api/client'
 import { Button } from '@/components/ui/button'
-import type { CharacterState } from '@/composables/useCharacter'
 
 const { t } = useI18n()
 
@@ -66,8 +62,6 @@ const emit = defineEmits<{
 }>()
 
 const { characters, setActiveCharacter, fetchAllCharacters } = useCharacter()
-const { isAdmin } = useAuth()
-const { user } = useUserSettings()
 const selectedCharacterId = ref<number | null>(null)
 const loading = ref(false)
 
@@ -87,17 +81,9 @@ async function handleConfirm() {
   if (!selectedCharacterId.value) return
   loading.value = true
   try {
-    if (props.isOnboarding && !isAdmin.value) {
-      // Onboarding for normal user: clone the template character
-      const response = await api.post<CharacterState>(`/character/clone/${selectedCharacterId.value}`)
-      // Sync user settings with new active_character_id
-      if (user.value) {
-        user.value.active_character_id = response.data.id
-      }
-    } else {
-      // Admin or character switch: direct assignment
-      await setActiveCharacter(selectedCharacterId.value)
-    }
+    // clone-all already created the user's clones; we just need to set the
+    // selected one as active (works for both onboarding and character switch).
+    await setActiveCharacter(selectedCharacterId.value)
     emit('confirm', selectedCharacterId.value)
   } finally {
     loading.value = false

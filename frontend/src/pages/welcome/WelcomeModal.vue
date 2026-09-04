@@ -20,6 +20,11 @@
         {{ t('welcome.walkTheLands') }}
       </Button>
     </div>
+    <LanguageSelectModal
+      v-if="showLanguageSelect"
+      @confirm="handleLanguageSelected"
+      @cancel="showLanguageSelect = false"
+    />
     <CharacterSelectModal
       v-if="showCharacterSelect"
       :is-onboarding="true"
@@ -40,6 +45,7 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import CharacterSelectModal from './CharacterSelectModal.vue'
 import SeasonSelectModal from './SeasonSelectModal.vue'
+import LanguageSelectModal from './LanguageSelectModal.vue'
 import { Button } from '@/components/ui/button'
 
 const { t } = useI18n()
@@ -49,10 +55,16 @@ const emit = defineEmits<{
 }>()
 
 const router = useRouter()
+const showLanguageSelect = ref(false)
 const showCharacterSelect = ref(false)
 const showSeasonSelect = ref(false)
 
 function handleWalk() {
+  showLanguageSelect.value = true
+}
+
+function handleLanguageSelected() {
+  showLanguageSelect.value = false
   showCharacterSelect.value = true
 }
 

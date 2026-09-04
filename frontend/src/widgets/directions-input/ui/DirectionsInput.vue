@@ -229,16 +229,6 @@
 
     <!-- Footer: Start Adventure (wander mode only) -->
     <footer v-else-if="routeData && !explore" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2">
-      <div class="flex items-center gap-2">
-        <label class="text-xs font-book text-ink-brown">{{ t('directions.languageLabel') }}</label>
-        <select
-          v-model="narrativeLanguage"
-          class="text-xs border border-earth-dark bg-parchment-base text-ink-black rounded px-2 py-1 font-book"
-        >
-          <option value="english">English</option>
-          <option value="spanish">Español</option>
-        </select>
-      </div>
       <Button
         variant="primary"
         size="md"
@@ -488,16 +478,6 @@
         </footer>
 
         <footer v-else-if="routeData && !explore" class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light flex flex-col gap-2 shrink-0">
-          <div class="flex items-center gap-2">
-            <label class="text-xs font-book text-ink-brown">{{ t('directions.languageLabel') }}</label>
-            <select
-              v-model="narrativeLanguage"
-              class="text-xs border border-earth-dark bg-parchment-base text-ink-black rounded px-2 py-1 font-book"
-            >
-              <option value="english">English</option>
-              <option value="spanish">Español</option>
-            </select>
-          </div>
           <Button
             variant="primary"
             size="md"

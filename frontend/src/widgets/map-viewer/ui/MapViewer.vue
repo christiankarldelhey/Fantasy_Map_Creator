@@ -422,8 +422,6 @@ onMounted(async () => {
     map.addControl(new maplibregl.ScaleControl(), 'bottom-left')
 
     map.on('load', async () => {
-      console.log('✅ MapLibre ready')
-
       try {
         await loadAllData()
 
@@ -457,7 +455,6 @@ onMounted(async () => {
             const savedTripId = user.value?.active_trip_id
             if (savedTripId && activeCharacter.value) {
               activeTripId.value = savedTripId
-              console.log('✅ Restored active trip from user settings:', savedTripId)
               // Draw the completed and remaining routes
               if (user.value?.active_trip?.route) {
                 drawRemainingRoute(map!, user.value.active_trip.route)
@@ -528,7 +525,6 @@ watch(water, (newWater) => {
 })
 
 watch(currentClimateTime, () => {
-  console.log('🕐 Climate time changed:', timestampISO.value)
   if (selectedLocation.value && lastSelectedCoordinates.value) {
     fetchLocationDetails(
       lastSelectedCoordinates.value[0],

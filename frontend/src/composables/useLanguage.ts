@@ -17,9 +17,7 @@ const language = ref<Language>(storedLanguage || 'english')
 
 // Keep the i18n locale in sync with the persisted language value
 function syncI18nLocale(lang: Language) {
-  // Cast: vue-i18n narrows the locale type to the keys present in `messages`,
-  // but we want to allow setting 'es' before the Spanish messages are loaded.
-  i18n.global.locale.value = languageToLocale(lang) as 'en'
+  i18n.global.locale.value = languageToLocale(lang)
 }
 
 // Sync once on load so the UI matches the stored/default language
@@ -44,7 +42,6 @@ export function useLanguage() {
   function initializeFromBackend() {
     if (user.value?.settings?.narrative_language) {
       language.value = user.value.settings.narrative_language
-      console.log('✅ Loaded language from backend settings:', language.value)
     }
   }
 

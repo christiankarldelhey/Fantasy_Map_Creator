@@ -1,11 +1,24 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, type Component } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Leaf, Sprout, Sun, Snowflake, LogOut, User, Map, Compass, LogIn, Wrench, MoreVertical, Calendar } from '@lucide/vue'
+import { Leaf, Sprout, Sun, Snowflake, LogOut, User, Map, Compass, LogIn, Wrench, MoreVertical, Calendar, Languages } from '@lucide/vue'
 import { useCharacter } from '@/composables/useCharacter'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
+import { useLanguage } from '@/composables/useLanguage'
 
 const { t, locale } = useI18n()
+const { language, setLanguage } = useLanguage()
+
+type Lang = 'english' | 'spanish'
+
+const languages = [
+  { value: 'english' as Lang, flag: '🇬🇧', label: 'EN' },
+  { value: 'spanish' as Lang, flag: '🇪🇸', label: 'ES' },
+]
+
+function isActive(value: Lang) {
+  return language.value === value
+}
 
 const props = defineProps<{
   mode: 'wander' | 'explore'
@@ -81,6 +94,7 @@ const menuItems = computed<MenuItem[]>(() => {
     }
     items.push({ key: 'sign-out', label: t('nav.signOut'), icon: LogOut, onClick: () => { close(); emit('sign-out') } })
   }
+  items.push({ key: 'language', label: t('nav.language'), icon: Languages, onClick: close })
   items.push({ key: 'how-i-made-this', label: t('nav.howIMadeThis'), icon: Wrench, href: PROJECT_URL, onClick: close })
   return items
 })
@@ -144,7 +158,7 @@ onUnmounted(() => window.removeEventListener('click', handleClickOutside))
         class="absolute right-0 top-full mt-2 w-52 bg-parchment-base border border-gold rounded-md shadow-lg z-[10001] py-1"
       >
         <template v-for="item in menuItems" :key="item.key">
-          <hr v-if="item.key === 'how-i-made-this'" class="border-t border-gold opacity-50 my-1" />
+          <hr v-if="item.key === 'how-i-made-this' || item.key === 'language'" class="border-t border-gold opacity-50 my-1" />
           <component
             :is="item.href ? 'a' : 'button'"
             :href="item.href"
@@ -156,6 +170,23 @@ onUnmounted(() => window.removeEventListener('click', handleClickOutside))
             <component :is="item.icon" v-if="item.icon" :size="16" />
             {{ item.label }}
           </component>
+          <!-- Language sub-options -->
+          <div v-if="item.key === 'language'" class="flex gap-1 px-4 py-1">
+            <button
+              v-for="lang in languages"
+              :key="lang.value"
+              @click="setLanguage(lang.value)"
+              :class="[
+                'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded text-sm transition-colors',
+                isActive(lang.value)
+                  ? 'bg-gold text-white font-semibold'
+                  : 'text-ink-brown hover:bg-parchment-dark'
+              ]"
+            >
+              <span class="text-base leading-none">{{ lang.flag }}</span>
+              {{ lang.label }}
+            </button>
+          </div>
         </template>
       </div>
     </div>

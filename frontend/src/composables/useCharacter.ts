@@ -48,7 +48,6 @@ watch(() => localStorage.getItem(TOKEN_KEY), (newToken, oldToken) => {
     // Auth state changed, clear character state
     activeCharacter.value = null
     characters.value = []
-    console.log('🔄 Auth state changed, cleared character state')
   }
 })
 
@@ -73,7 +72,6 @@ export function useCharacter() {
         activeCharacter.value = response.data[0] || null
       }
       
-      console.log('✅ Loaded user characters:', response.data)
       return response.data
     } catch (err: any) {
       const message = err.response?.data?.error || err.message || i18n.global.t('errors.loadCharacters')
@@ -91,7 +89,6 @@ export function useCharacter() {
     try {
       const response = await api.get<CharacterState>('/character/active')
       activeCharacter.value = response.data
-      console.log('✅ Loaded active character:', response.data)
       return response.data
     } catch (err: any) {
       const message = err.response?.data?.error || err.message || i18n.global.t('errors.loadActiveCharacter')
@@ -124,7 +121,6 @@ export function useCharacter() {
       } else {
         activeCharacter.value = response.data
       }
-      console.log('✅ Updated active character position:', response.data)
       return response.data
     } catch (err: any) {
       const message = err.response?.data?.error || err.message || i18n.global.t('errors.updatePosition')
@@ -151,7 +147,6 @@ export function useCharacter() {
         ...c,
         is_active_for_user: c.id === id
       }))
-      console.log('✅ Set active character:', response.data)
       return response.data
     } catch (err: any) {
       const message = err.response?.data?.error || err.message || i18n.global.t('errors.setActiveCharacter')
@@ -178,7 +173,6 @@ export function useCharacter() {
       if (activeCharacter.value?.id === id) {
         activeCharacter.value = updated
       }
-      console.log('✅ Reset character:', updated)
       return updated
     } catch (err: any) {
       const message = err.response?.data?.error || err.message || i18n.global.t('errors.resetCharacter')

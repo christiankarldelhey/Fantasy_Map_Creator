@@ -49,6 +49,9 @@
     "chooseCharacter": "Each traveller begins in a different part of Middle-earth.",
     "seasonTitle": "In what season will you set out?",
     "seasonSubtitle": "The time of year decides the roads, the light and the weather.",
+    "languageTitle": "What language do you speak?",
+    "languageSubtitle": "Choose the language for the interface and the narrative.",
+    "languageNote": "Currently only the interface is translated; some content may still appear in English.",
     "beginJourney": "Begin Journey",
     "seasons": {
       "spring": {
@@ -78,7 +81,8 @@
     "goToExplore": "Go to explore mode",
     "goToWander": "Go to wander mode",
     "dateAndTime": "Date & Time",
-    "deleteAccount": "Delete account"
+    "deleteAccount": "Delete account",
+    "language": "Language"
   },
   "options": {
     "deleteTitle": "Delete your account?",

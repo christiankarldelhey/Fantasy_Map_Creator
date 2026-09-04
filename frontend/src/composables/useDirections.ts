@@ -73,7 +73,6 @@ const { savePartialSettings } = useUserSettings()
 // Only for wander mode: in explore the origin is free (searchable / map click).
 watch(activeCharacter, (newChar) => {
   const hasToken = !!localStorage.getItem(TOKEN_KEY)
-  console.log('🔍 activeCharacter watcher:', { isDirectionsMode: isDirectionsMode.value, hasToken, activeMode: activeMode.value, newChar: newChar?.name })
 
   if (activeMode.value !== 'wander') return
 
@@ -83,26 +82,21 @@ watch(activeCharacter, (newChar) => {
       type: 'custom',
       coordinates: [newChar.current_lng, newChar.current_lat]
     }
-    console.log('✅ Set origin from character:', origin.value)
   } else if (!hasToken && origin.value) {
     // Clear origin if we're in guest mode and origin was set from character
     origin.value = null
-    console.log('🧹 Cleared origin (guest mode)')
   }
 })
 
 // Clear directions state when auth state changes (guest <-> logged transition)
 watch(() => localStorage.getItem(TOKEN_KEY), (newToken, oldToken) => {
-  console.log('🔄 Auth token changed:', { oldToken: !!oldToken, newToken: !!newToken })
   if (newToken !== oldToken) {
     // Auth state changed, clear directions to prevent contamination
-    const oldState = { isDirectionsMode: isDirectionsMode.value, origin: origin.value?.name, destination: destination.value?.name }
     isDirectionsMode.value = false
     origin.value = null
     destination.value = null
     routeData.value = null
     routeError.value = null
-    console.log('🔄 Auth state changed, cleared directions state. Old state:', oldState)
   }
 })
 
@@ -167,7 +161,6 @@ export function useDirections() {
   // Load directions from backend settings for wander mode.
   function initializeFromBackend() {
     if (!localStorage.getItem(TOKEN_KEY)) {
-      console.log('⏭️ Skipping directions initialization (guest mode)')
       return
     }
 
@@ -175,7 +168,6 @@ export function useDirections() {
       const savedDest = user.value.settings.directions.destination
       destination.value = savedDest
       isDirectionsMode.value = true
-      console.log('✅ Loaded directions from backend settings:', savedDest)
 
       // Set origin from active character position if available
       if (activeCharacter.value) {
@@ -190,7 +182,6 @@ export function useDirections() {
 
   // Mode-aware setup: always reset first, then load persisted state only in wander.
   function configureForMode(mode: 'explore' | 'wander') {
-    console.log('🔧 configureForMode:', { mode, previous: activeMode.value })
     isInitializing.value = true
     resetDirectionsState()
     activeMode.value = mode
@@ -198,7 +189,6 @@ export function useDirections() {
       initializeFromBackend()
     }
     isInitializing.value = false
-    console.log('✅ configureForMode done:', { mode, isDirectionsMode: isDirectionsMode.value, origin: origin.value?.name, destination: destination.value?.name })
   }
 
   function startDirections(initialDestination: { name: string; coordinates: [number, number]; id?: number; type?: 'location' | 'region' }) {
@@ -222,7 +212,6 @@ export function useDirections() {
   }
 
   function setOrigin(point: DirectionsPoint | null) {
-    console.log('📍 setOrigin called:', point)
     origin.value = point
   }
 

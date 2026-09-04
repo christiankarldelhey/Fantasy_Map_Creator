@@ -16,7 +16,7 @@
       <div class="py-1">
         <template v-for="item in menuItems" :key="item.key">
           <hr
-            v-if="item.key === 'how-i-made-this' || item.key === 'delete-account'"
+            v-if="item.key === 'how-i-made-this' || item.key === 'delete-account' || item.key === 'language'"
             class="border-t border-[var(--accent-gold)] opacity-50 my-1"
           />
           <component
@@ -35,6 +35,23 @@
             <component :is="item.icon" v-if="item.icon" :size="14" />
             {{ item.label }}
           </component>
+          <!-- Language sub-options -->
+          <div v-if="item.key === 'language'" class="flex gap-1 px-4 py-1">
+            <button
+              v-for="lang in languages"
+              :key="lang.value"
+              @click="setLanguage(lang.value)"
+              :class="[
+                'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded text-xs transition-colors',
+                isActive(lang.value)
+                  ? 'bg-[var(--accent-gold)] text-white font-semibold'
+                  : 'text-ink-brown hover:bg-[var(--bg-parchment-dark)]'
+              ]"
+            >
+              <span class="text-sm leading-none">{{ lang.flag }}</span>
+              {{ lang.label }}
+            </button>
+          </div>
         </template>
       </div>
     </div>
@@ -117,12 +134,25 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, type Component } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { LogOut, Sun, User, Map, Compass, LogIn, Wrench, Trash2 } from '@lucide/vue'
+import { LogOut, Sun, User, Map, Compass, LogIn, Wrench, Trash2, Languages } from '@lucide/vue'
 import { useAuth } from '@/composables/useAuth'
+import { useLanguage } from '@/composables/useLanguage'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
 
 const { t } = useI18n()
+const { language, setLanguage } = useLanguage()
+
+type Lang = 'english' | 'spanish'
+
+const languages = [
+  { value: 'english' as Lang, flag: '🇬🇧', label: 'EN' },
+  { value: 'spanish' as Lang, flag: '🇪🇸', label: 'ES' },
+]
+
+function isActive(value: Lang) {
+  return language.value === value
+}
 
 const props = defineProps<{
   mode: 'wander' | 'explore'
@@ -166,6 +196,7 @@ const menuItems = computed<MenuItem[]>(() => {
 
   if (props.isGuest) {
     items.push({ key: 'sign-in', label: t('nav.signIn'), icon: LogIn, onClick: handleSignIn })
+    items.push({ key: 'language', label: t('nav.language'), icon: Languages, onClick: closeDropdown })
     items.push({ key: 'how-i-made-this', label: t('nav.howIMadeThis'), icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
   } else {
     if (props.mode === 'wander') {
@@ -177,6 +208,7 @@ const menuItems = computed<MenuItem[]>(() => {
     }
 
     items.push({ key: 'sign-out', label: t('nav.signOut'), icon: LogOut, onClick: handleSignOut })
+    items.push({ key: 'language', label: t('nav.language'), icon: Languages, onClick: closeDropdown })
     items.push({ key: 'how-i-made-this', label: t('nav.howIMadeThis'), icon: Wrench, href: PROJECT_URL, onClick: closeDropdown })
     items.push({ key: 'delete-account', label: t('nav.deleteAccount'), icon: Trash2, onClick: handleDeleteAccount })
   }

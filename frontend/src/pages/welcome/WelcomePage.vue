@@ -10,17 +10,32 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { MapViewer } from '@/widgets/map-viewer'
 import WelcomeModal from './WelcomeModal.vue'
+import { useAuth } from '@/composables/useAuth'
 import api from '@/shared/api/client'
 
 const router = useRouter()
 const showWelcome = ref(false)
+const { currentUser, restoreSession } = useAuth()
 
 onMounted(async () => {
-  const alreadySeen = localStorage.getItem('me-welcome-seen')
-  if (alreadySeen) {
+  // Skip onboarding if the welcome flow was already completed
+  if (localStorage.getItem('me-welcome-seen')) {
     router.replace('/wander')
     return
   }
+
+  // Also skip if the user already has an active character — this covers
+  // refreshes where the localStorage flag was cleared but the user has
+  // already completed onboarding in a previous session.
+  if (!currentUser.value) {
+    await restoreSession()
+  }
+  if (currentUser.value?.active_character_id) {
+    localStorage.setItem('me-welcome-seen', '1')
+    router.replace('/wander')
+    return
+  }
+
   try {
     await api.post('/character/clone-all')
   } catch (err) {
