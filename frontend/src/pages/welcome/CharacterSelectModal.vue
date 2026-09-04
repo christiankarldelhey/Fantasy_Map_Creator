@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 z-[10001] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm">
+  <div class="fixed inset-0 z-[10000] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm">
     <div class="bg-parchment-base rounded-xl shadow-2xl max-w-3xl w-full mx-4 p-8 border-2 border-gold">
       <h2 class="text-2xl font-serif font-bold text-ink-black mb-2">{{ t('welcome.whoseFeet') }}</h2>
       <p class="text-ink-brown mb-6 font-book">{{ t('welcome.chooseCharacter') }}</p>
@@ -17,8 +17,8 @@
             </div>
             <div class="flex-1">
               <h3 class="font-serif font-bold text-lg text-ink-black">{{ character.name }}</h3>
-              <p class="text-sm text-gold-base font-medium mb-2 font-book">{{ character.type }}</p>
-              <p class="text-sm text-ink-brown leading-relaxed font-book">{{ character.description }}</p>
+              <p class="text-base text-gold-base font-medium mb-2 font-book">{{ character.type }}</p>
+              <p class="text-base text-ink-brown leading-relaxed font-book">{{ character.description }}</p>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 z-[10002] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm">
+  <div class="fixed inset-0 z-[10000] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm">
     <div class="bg-parchment-base rounded-xl shadow-2xl max-w-2xl w-full mx-4 p-8 border-2 border-gold">
       <h2 class="text-2xl font-serif font-bold text-ink-black mb-2">{{ t('welcome.seasonTitle') }}</h2>
       <p class="text-ink-brown mb-6 font-book">{{ t('welcome.seasonSubtitle') }}</p>
@@ -15,7 +15,7 @@
             <component :is="season.icon" class="w-6 h-6 season-icon" :class="season.key" />
             <h3 class="font-serif font-bold text-lg text-ink-black">{{ t(`welcome.seasons.${season.key}.title`) }}</h3>
           </div>
-          <p class="text-sm text-ink-brown font-book">{{ t(`welcome.seasons.${season.key}.desc`) }}</p>
+          <p class="text-base text-ink-brown font-book">{{ t(`welcome.seasons.${season.key}.desc`) }}</p>
         </button>
       </div>
       <div class="mt-6 flex justify-end gap-3">

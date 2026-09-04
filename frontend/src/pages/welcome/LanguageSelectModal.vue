@@ -1,9 +1,9 @@
 <template>
-  <div class="fixed inset-0 z-[10002] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm">
+  <div class="fixed inset-0 z-[10000] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm">
     <div class="bg-parchment-base rounded-xl shadow-2xl max-w-2xl w-full mx-4 p-8 border-2 border-gold">
       <h2 class="text-2xl font-serif font-bold text-ink-black mb-2">{{ t('welcome.languageTitle') }}</h2>
       <p class="text-ink-brown mb-2 font-book">{{ t('welcome.languageSubtitle') }}</p>
-      <p class="text-xs text-ink-light italic mb-6 font-book">{{ t('welcome.languageNote') }}</p>
+      <p class="text-sm text-ink-light italic mb-6 font-book">{{ t('welcome.languageNote') }}</p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <button
           v-for="lang in languages"
@@ -15,7 +15,7 @@
           <span class="text-3xl leading-none">{{ lang.flag }}</span>
           <div>
             <h3 class="font-serif font-bold text-lg text-ink-black">{{ lang.label }}</h3>
-            <p class="text-sm text-ink-brown font-book">{{ lang.native }}</p>
+            <p class="text-base text-ink-brown font-book">{{ lang.native }}</p>
           </div>
         </button>
       </div>

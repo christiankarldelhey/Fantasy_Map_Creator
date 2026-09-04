@@ -1,5 +1,9 @@
 <template>
-  <div class="fixed inset-0 z-[10000] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm">
+  <!-- Welcome card (hidden when a sub-modal is open) -->
+  <div
+    v-if="!showLanguageSelect && !showCharacterSelect && !showSeasonSelect"
+    class="fixed inset-0 z-[10000] flex items-center justify-center bg-ink-black/60 backdrop-blur-sm"
+  >
     <div class="bg-parchment-base rounded-xl shadow-2xl max-w-2xl w-full mx-4 p-8 text-center border-2 border-gold">
       <h1 class="text-3xl font-serif font-bold text-ink-black mb-4">{{ t('welcome.wellMet') }}</h1>
       <p class="text-lg text-ink-brown mb-4 leading-relaxed font-book">
@@ -9,7 +13,7 @@
         <template #aranath><strong class="font-semibold text-ink-black">Aranath</strong></template>
         <template #celebrian><strong class="font-semibold text-ink-black">Celebrian</strong></template>
       </i18n-t>
-      <p class="text-sm text-ink-light italic mb-8 font-book">
+      <p class="text-base text-ink-light italic mb-8 font-book">
         {{ t('welcome.credits') }}
       </p>
       <Button
@@ -20,23 +24,25 @@
         {{ t('welcome.walkTheLands') }}
       </Button>
     </div>
-    <LanguageSelectModal
-      v-if="showLanguageSelect"
-      @confirm="handleLanguageSelected"
-      @cancel="showLanguageSelect = false"
-    />
-    <CharacterSelectModal
-      v-if="showCharacterSelect"
-      :is-onboarding="true"
-      @confirm="handleCharacterSelected"
-      @cancel="showCharacterSelect = false"
-    />
-    <SeasonSelectModal
-      v-if="showSeasonSelect"
-      @confirm="handleSeasonSelected"
-      @cancel="showSeasonSelect = false"
-    />
   </div>
+
+  <!-- Sub-modals as siblings (each replaces the welcome card) -->
+  <LanguageSelectModal
+    v-if="showLanguageSelect"
+    @confirm="handleLanguageSelected"
+    @cancel="showLanguageSelect = false"
+  />
+  <CharacterSelectModal
+    v-if="showCharacterSelect"
+    :is-onboarding="true"
+    @confirm="handleCharacterSelected"
+    @cancel="showCharacterSelect = false"
+  />
+  <SeasonSelectModal
+    v-if="showSeasonSelect"
+    @confirm="handleSeasonSelected"
+    @cancel="showSeasonSelect = false"
+  />
 </template>
 
 <script setup lang="ts">

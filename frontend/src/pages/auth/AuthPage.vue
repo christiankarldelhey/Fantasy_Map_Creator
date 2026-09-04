@@ -7,7 +7,7 @@
     />
     <div class="absolute inset-0" style="background-color: rgba(0, 0, 0, 0.45);" />
 
-    <div class="w-full max-w-md relative z-10">
+    <div v-if="!showWelcome" class="w-full max-w-md relative z-10">
       <div class="text-center mb-8">
         <h1 class="text-4xl font-serif font-bold text-parchment-base mb-2">{{ t('brand.title') }}</h1>
         <p class="text-parchment-base text-3xl font-book italic">{{ t('brand.subtitle') }}</p>
