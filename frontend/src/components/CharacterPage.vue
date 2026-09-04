@@ -24,7 +24,7 @@ const emit = defineEmits<{
 }>()
 
 const { isMobile } = useBreakpoint()
-const { resetCharacter } = useCharacter()
+const { resetCharacter, localizedDescription } = useCharacter()
 const { inventory, fetchInventory, clearInventory } = useInventory()
 
 const isDead = computed(() => props.character.status === 'dead')
@@ -169,7 +169,7 @@ async function handleReset() {
 
               <div class="mt-6">
                 <p :class="['font-book leading-relaxed text-ink-black', isMobile ? 'text-sm' : 'text-base']">
-                  {{ character.description }}
+                  {{ localizedDescription(character) }}
                 </p>
               </div>
 

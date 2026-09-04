@@ -14,6 +14,7 @@ export interface CharacterState {
   gender: string
   active: boolean
   description: string
+  description_es?: string | null
   resistance: number
   energy: number
   shadow: number
@@ -53,6 +54,18 @@ watch(() => localStorage.getItem(TOKEN_KEY), (newToken, oldToken) => {
 
 export function useCharacter() {
   const { user } = useUserSettings()
+
+  /**
+   * Returns the character description in the user's current language.
+   * Falls back to the English description if the Spanish one is missing.
+   */
+  function localizedDescription(character: CharacterState): string {
+    const lang = localStorage.getItem('narrative_language')
+    if (lang === 'spanish' && character.description_es) {
+      return character.description_es
+    }
+    return character.description
+  }
 
   async function fetchAllCharacters() {
     characterLoading.value = true
@@ -193,6 +206,7 @@ export function useCharacter() {
     fetchActiveCharacter,
     updateActiveCharacterPosition,
     setActiveCharacter,
-    resetCharacter
+    resetCharacter,
+    localizedDescription
   }
 }

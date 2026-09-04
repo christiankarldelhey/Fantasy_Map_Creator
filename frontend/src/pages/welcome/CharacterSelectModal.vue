@@ -18,7 +18,7 @@
             <div class="flex-1">
               <h3 class="font-serif font-bold text-lg text-ink-black">{{ character.name }}</h3>
               <p class="text-base text-gold-base font-medium mb-2 font-book">{{ character.type }}</p>
-              <p class="text-base text-ink-brown leading-relaxed font-book">{{ character.description }}</p>
+              <p class="text-base text-ink-brown leading-relaxed font-book">{{ localizedDescription(character) }}</p>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@ const emit = defineEmits<{
   cancel: []
 }>()
 
-const { characters, setActiveCharacter, fetchAllCharacters } = useCharacter()
+const { characters, setActiveCharacter, fetchAllCharacters, localizedDescription } = useCharacter()
 const selectedCharacterId = ref<number | null>(null)
 const loading = ref(false)
 
