@@ -31,7 +31,10 @@ const climateIcon = computed(() => {
 })
 
 const displayDescription = computed(() => {
-  let description: unknown = props.location?.description
+  // Use Spanish description when the user selected Spanish and one exists
+  const lang = localStorage.getItem('narrative_language')
+  const useSpanish = lang === 'spanish' && props.location?.description_es
+  let description: unknown = useSpanish ? props.location?.description_es : props.location?.description
 
   if (typeof description === 'string') {
     try {
@@ -111,17 +114,17 @@ const biomeIcon = computed(() => {
                 v-for="(comp, index) in climateIcon.component"
                 :key="index"
                 :is="comp"
-                :class="['h-9 w-9', Array.isArray(climateIcon.color) ? climateIcon.color[index] : climateIcon.color]"
+                :class="['h-10 w-10', Array.isArray(climateIcon.color) ? climateIcon.color[index] : climateIcon.color]"
               />
             </template>
             <component
               v-else
               :is="climateIcon.component"
-              :class="['h-9 w-9', climateIcon.color]"
+              :class="['h-10 w-10', climateIcon.color]"
             />
           </div>
-          <span class="text-xs text-ink-light mt-3 font-book">{{ t(climateIcon.labelKey) }}</span>
-          <span class="text-sm text-ink-black mt-3 font-book">{{ location.climate.temperature.toFixed(1) }}°C</span>
+          <span class="text-sm text-slate-600 mt-2 font-book">{{ t(climateIcon.labelKey) }}</span>
+          <span class="text-lg text-slate-600 mt-1 font-book tabular-nums">{{ location.climate.temperature.toFixed(1) }}°<span class="text-sm">C</span></span>
         </div>
       </div>
 
@@ -204,18 +207,18 @@ const biomeIcon = computed(() => {
                   v-for="(comp, index) in climateIcon.component"
                   :key="index"
                   :is="comp"
-                  :class="['h-8 w-8', Array.isArray(climateIcon.color) ? climateIcon.color[index] : climateIcon.color]"
+                  :class="['h-9 w-9', Array.isArray(climateIcon.color) ? climateIcon.color[index] : climateIcon.color]"
                 />
               </template>
               <component
                 v-else
                 :is="climateIcon.component"
-                :class="['h-8 w-8', climateIcon.color]"
+                :class="['h-9 w-9', climateIcon.color]"
               />
             </div>
-            <div>
-              <span class="text-xs text-ink-light font-book">{{ t(climateIcon.labelKey) }}</span>
-              <span class="text-sm text-ink-black font-book ml-2">{{ location.climate.temperature.toFixed(1) }}°C</span>
+            <div class="flex flex-col">
+              <span class="text-sm text-slate-600 font-book">{{ t(climateIcon.labelKey) }}</span>
+              <span class="text-lg text-slate-600 font-book tabular-nums">{{ location.climate.temperature.toFixed(1) }}°<span class="text-sm">C</span></span>
             </div>
           </div>
 

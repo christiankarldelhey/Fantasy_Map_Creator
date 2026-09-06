@@ -24,29 +24,29 @@ export function useCalendarState() {
     return `${formattedDateNoYear.value} • ${timeFormatted.value}`
   })
 
-  const dateInputString = computed({
-    get() {
-      const date = currentClimateTime.value
-      const year = date.getFullYear()
-      const month = String(date.getMonth() + 1).padStart(2, '0')
-      const day = String(date.getDate()).padStart(2, '0')
-      return `${year}-${month}-${day}`
-    },
-    set(val: string) {
-      const parts = val.split('-')
-      if (parts.length === 3) {
-        const year = 1950
-        const month = parseInt(parts[1], 10) - 1
-        const day = parseInt(parts[2], 10)
-        
-        const newDate = new Date(currentClimateTime.value)
-        newDate.setFullYear(year)
-        newDate.setMonth(month)
-        newDate.setDate(day)
-        
-        updateClimateTime(newDate)
-      }
-    }
+  const selectedMonth = computed(() => currentClimateTime.value.getMonth())
+  const selectedDay = computed(() => currentClimateTime.value.getDate())
+
+  function updateMonth(month: number) {
+    const newDate = new Date(currentClimateTime.value)
+    newDate.setFullYear(1950)
+    newDate.setMonth(month)
+    // Clamp day to the new month's length
+    const maxDay = new Date(1950, month + 1, 0).getDate()
+    newDate.setDate(Math.min(newDate.getDate(), maxDay))
+    updateClimateTime(newDate)
+  }
+
+  function updateDay(day: number) {
+    const newDate = new Date(currentClimateTime.value)
+    newDate.setFullYear(1950)
+    newDate.setDate(day)
+    updateClimateTime(newDate)
+  }
+
+  const daysInMonth = computed(() => {
+    const m = currentClimateTime.value.getMonth()
+    return new Date(1950, m + 1, 0).getDate()
   })
 
   function updateHour(hour: number) {
@@ -57,11 +57,15 @@ export function useCalendarState() {
 
   return {
     selectedHour,
+    selectedMonth,
+    selectedDay,
+    daysInMonth,
     displayText,
     formattedDateNoYear,
     timeFormatted,
     isRealTime,
-    dateInputString,
+    updateMonth,
+    updateDay,
     updateHour,
     resetToNow: resetToRealTime
   }

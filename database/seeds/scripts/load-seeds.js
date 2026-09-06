@@ -316,17 +316,33 @@ async function seedEntities() {
 
 // ---------------------------------------------------------------------------
 // Seed: locations & roads (pure SQL INSERT files — safe to run via pool.query)
-// Truncates the table first to handle idempotent re-runs (no ON CONFLICT in these files)
+// Uses ON CONFLICT (id) DO UPDATE to avoid TRUNCATE CASCADE, which would wipe
+// dependent tables like places_interactions and trip_days on every deploy.
+// For tables with no dependent data (e.g. roads), a plain TRUNCATE + INSERT is
+// still used for efficiency.
 // ---------------------------------------------------------------------------
 async function seedFromSqlFile(label, filePath) {
   console.log(`🗺️  Seeding ${label}...`);
   const table = label.split(' ')[0];
-  const sql = await fs.readFile(filePath, 'utf8');
+  let sql = await fs.readFile(filePath, 'utf8');
+
+  // Tables that are safe to TRUNCATE (no dependent data via FK CASCADE)
+  const safeToTruncate = new Set(['roads']);
+
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    await client.query(`TRUNCATE TABLE ${table} RESTART IDENTITY CASCADE`);
-    await client.query(sql);
+
+    if (safeToTruncate.has(table)) {
+      await client.query(`TRUNCATE TABLE ${table} RESTART IDENTITY CASCADE`);
+      await client.query(sql);
+    } else {
+      // Transform INSERT INTO ... VALUES (...) into upserts.
+      // Each INSERT line gets ON CONFLICT (id) DO UPDATE SET <cols> = EXCLUDED.<cols>
+      sql = transformToUpsert(sql, table);
+      await client.query(sql);
+    }
+
     await client.query('COMMIT');
   } catch (err) {
     await client.query('ROLLBACK');
@@ -336,6 +352,42 @@ async function seedFromSqlFile(label, filePath) {
   }
   const { rows: [{ count }] } = await pool.query(`SELECT COUNT(*) AS count FROM ${table}`);
   console.log(`✅ ${label}: ${count} rows`);
+}
+
+/**
+ * Transforms a file of `INSERT INTO <table> (...) VALUES (...);` statements
+ * into `INSERT INTO <table> (...) VALUES (...) ON CONFLICT (id) DO UPDATE SET
+ * col1 = EXCLUDED.col1, col2 = EXCLUDED.col2, ...;` statements.
+ *
+ * Only operates on lines that start with `INSERT INTO` (case-insensitive).
+ * Other lines (comments, blanks) are passed through unchanged.
+ */
+function transformToUpsert(sql, table) {
+  const lines = sql.split('\n');
+  const out = [];
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!/^INSERT INTO /i.test(trimmed)) {
+      out.push(line);
+      continue;
+    }
+    // Extract column list between the first ( and the first ) VALUES
+    const openParen = line.indexOf('(');
+    const closeParen = line.indexOf(')', openParen);
+    if (openParen === -1 || closeParen === -1) {
+      out.push(line);
+      continue;
+    }
+    const colList = line.slice(openParen + 1, closeParen);
+    const cols = colList.split(',').map(c => c.trim().replace(/`/g, ''));
+    const setClause = cols
+      .map(c => `${c} = EXCLUDED.${c}`)
+      .join(', ');
+    // Insert ON CONFLICT clause before the final semicolon
+    const stmt = line.replace(/;$/, ` ON CONFLICT (id) DO UPDATE SET ${setClause};`);
+    out.push(stmt);
+  }
+  return out.join('\n');
 }
 
 // ---------------------------------------------------------------------------
@@ -883,6 +935,9 @@ async function main() {
     await seedNpcInteractions();
     await seedEntities();
     await seedRegionBiomeDescriptions();
+
+    // Ensure description_es column exists before loading locations seed
+    await runMigrationFile('add_description_es_to_locations.sql');
 
     await seedFromSqlFile(
       'locations',

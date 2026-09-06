@@ -192,12 +192,22 @@ async function generateAdventurePDF() {
     const pageHeight = doc.internal.pageSize.getHeight()
     const maxLineWidth = pageWidth - (margin * 2)
 
+    // Paint parchment background on the current page
+    const paintBackground = () => {
+      doc.setFillColor(250, 243, 224) // #faf3e0
+      doc.rect(0, 0, pageWidth, pageHeight, 'F')
+    }
+
     let y = margin
+
+    // Paint first page background
+    paintBackground()
 
     // Check page break function
     const checkPageBreak = (neededHeight: number) => {
       if (y + neededHeight > pageHeight - margin) {
         doc.addPage()
+        paintBackground()
         y = margin
         return true
       }
@@ -251,6 +261,7 @@ async function generateAdventurePDF() {
     for (const day of days.value) {
       // Add a page for each chapter
       doc.addPage()
+      paintBackground()
       y = margin
 
       // Chapter Title

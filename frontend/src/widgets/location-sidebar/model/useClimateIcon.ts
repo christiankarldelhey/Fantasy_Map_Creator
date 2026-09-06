@@ -20,7 +20,7 @@ export function getClimateIcon(climate: {
   if (temperature < 2 && precipitation > 0) {
     return {
       component: CloudSnow,
-      color: 'text-cyan-300',
+      color: 'text-slate-400',
       labelKey: 'climate.snow'
     }
   }
@@ -29,7 +29,7 @@ export function getClimateIcon(climate: {
   if (precipitation > 10) {
     return {
       component: CloudRain,
-      color: 'text-blue-500',
+      color: 'text-slate-600',
       labelKey: 'climate.heavyRain'
     }
   }
@@ -38,7 +38,7 @@ export function getClimateIcon(climate: {
   if (precipitation >= 5) {
     return {
       component: CloudRain,
-      color: 'text-blue-400',
+      color: 'text-slate-500',
       labelKey: 'climate.moderateRain'
     }
   }
@@ -47,7 +47,7 @@ export function getClimateIcon(climate: {
   if (precipitation >= 2) {
     return {
       component: CloudRain,
-      color: 'text-blue-400',
+      color: 'text-slate-500',
       labelKey: 'climate.lightRain'
     }
   }
@@ -56,7 +56,7 @@ export function getClimateIcon(climate: {
   if (precipitation >= 0.1) {
     return {
       component: CloudDrizzle,
-      color: 'text-blue-300',
+      color: 'text-slate-400',
       labelKey: 'climate.drizzle'
     }
   }
@@ -65,7 +65,7 @@ export function getClimateIcon(climate: {
   if (wind > 20) {
     return {
       component: Wind,
-      color: 'text-gray-400',
+      color: 'text-gray-500',
       labelKey: 'climate.windy'
     }
   }
@@ -74,7 +74,7 @@ export function getClimateIcon(climate: {
   if (cloudCover !== undefined && cloudCover > 70) {
     return {
       component: Cloud,
-      color: 'text-gray-400',
+      color: 'text-gray-500',
       labelKey: 'climate.cloudy'
     }
   }
@@ -83,7 +83,7 @@ export function getClimateIcon(climate: {
   if (cloudCover !== undefined && cloudCover >= 30) {
     return {
       component: [Sun, Cloud],
-      color: ['text-yellow-400', 'text-gray-300'],
+      color: ['text-yellow-500', 'text-gray-400'],
       labelKey: 'climate.partlyCloudy'
     }
   }

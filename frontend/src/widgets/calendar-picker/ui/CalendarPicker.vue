@@ -27,11 +27,24 @@
           <div class="space-y-3">
             <div>
               <label class="text-xs font-medium text-gray-500 mb-1 block">{{ t('calendar.selectDate') }}</label>
-              <input
-                type="date"
-                v-model="dateInputString"
-                class="flex h-9 w-full rounded-md border border-gray-200 bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-stone-500 disabled:cursor-not-allowed disabled:opacity-50"
-              />
+              <div class="flex gap-2">
+                <select
+                  :value="selectedMonth"
+                  @change="handleMonthChange"
+                  class="flex-1 h-9 rounded-md border border-gray-200 bg-transparent px-2 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-stone-500"
+                >
+                  <option v-for="m in 12" :key="m - 1" :value="m - 1">
+                    {{ new Date(1950, m - 1, 1).toLocaleDateString(locale, { month: 'long' }) }}
+                  </option>
+                </select>
+                <select
+                  :value="selectedDay"
+                  @change="handleDayChange"
+                  class="w-20 h-9 rounded-md border border-gray-200 bg-transparent px-2 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-stone-500"
+                >
+                  <option v-for="d in daysInMonth" :key="d" :value="d">{{ d }}</option>
+                </select>
+              </div>
             </div>
 
             <div>
@@ -71,17 +84,31 @@ import { Calendar, Clock, ChevronDown, RotateCcw } from '@lucide/vue'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useCalendarState } from '../model/useCalendarState'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const isOpen = ref(false)
 
 const {
   selectedHour,
+  selectedMonth,
+  selectedDay,
+  daysInMonth,
   displayText,
   isRealTime,
-  dateInputString,
+  updateMonth,
+  updateDay,
   updateHour,
   resetToNow
 } = useCalendarState()
+
+function handleMonthChange(event: Event) {
+  const target = event.target as HTMLSelectElement
+  updateMonth(parseInt(target.value, 10))
+}
+
+function handleDayChange(event: Event) {
+  const target = event.target as HTMLSelectElement
+  updateDay(parseInt(target.value, 10))
+}
 
 function handleHourChange(event: Event) {
   const target = event.target as HTMLInputElement

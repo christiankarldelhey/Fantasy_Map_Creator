@@ -4,6 +4,7 @@ export interface LocationDetails {
   slug?: string
   url_path?: string
   description?: string
+  description_es?: string
   population?: string
   inhabitants?: string
   biome?: {

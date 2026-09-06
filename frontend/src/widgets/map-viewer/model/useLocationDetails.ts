@@ -50,6 +50,7 @@ export async function fetchLocationDetailsAtPoint(
     slug: locationFeature?.properties?.slug,
     url_path: locationFeature?.properties?.url_path,
     description: locationFeature?.properties?.description,
+    description_es: locationFeature?.properties?.description_es,
     population: locationFeature?.properties?.population,
     inhabitants: locationFeature?.properties?.inhabitants,
   }

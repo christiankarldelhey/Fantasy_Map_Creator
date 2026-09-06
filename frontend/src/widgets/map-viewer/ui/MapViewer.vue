@@ -186,7 +186,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import { MAPLIBRE_CONFIG, MAPLIBRE_CONFIG_WANDER } from '@/shared/config/maplibre'
 import { useMapLayers, useMapEvents, useMapMarkers, useMapDataLoading } from '../model'
 import type { MapMode } from '../model/useMapLayers'
-import { fetchLocationDetailsAtPoint } from '../model/useLocationDetails'
+import { fetchLocationDetailsAtPoint, fetchRegionDetailsAtPoint } from '../model/useLocationDetails'
 import { SearchInput } from '@/widgets/search-input'
 import { LocationSidebar } from '@/widgets/location-sidebar'
 import { DirectionsInput } from '@/widgets/directions-input'
@@ -526,7 +526,7 @@ watch(water, (newWater) => {
 
 watch(currentClimateTime, () => {
   if (selectedLocation.value && lastSelectedCoordinates.value) {
-    fetchLocationDetails(
+    refreshLocationDetails(
       lastSelectedCoordinates.value[0],
       lastSelectedCoordinates.value[1]
     )
@@ -795,6 +795,23 @@ async function fetchLocationDetails(lng: number, lat: number) {
   const locationDetails = await fetchLocationDetailsAtPoint(map, lng, lat, timestampISO.value)
   if (locationDetails) {
     selectedLocation.value = locationDetails
+  }
+}
+
+// Refresh the currently open sidebar when the climate time changes.
+// Must use the same fetcher that produced the original sidebar, otherwise a
+// region click (fetchRegionDetailsAtPoint) gets re-fetched as a generic
+// location (fetchLocationDetailsAtPoint) and the name becomes "Unknown Location".
+async function refreshLocationDetails(lng: number, lat: number) {
+  if (!map) return
+
+  const isRegion = selectedLocation.value?.type === 'Region'
+  const details = isRegion
+    ? await fetchRegionDetailsAtPoint(map, lng, lat, timestampISO.value)
+    : await fetchLocationDetailsAtPoint(map, lng, lat, timestampISO.value)
+
+  if (details) {
+    selectedLocation.value = details
   }
 }
 </script>
