@@ -89,6 +89,10 @@ export function useTrips() {
   const loading = ref(false)
   const generating = ref(false)
   const error = ref<string | null>(null)
+  // True once the server refuses a generation because the user spent their
+  // daily quota. Stays true until the next reload — the quota only frees up
+  // tomorrow, so there is nothing to re-check within the session.
+  const quotaReached = ref(false)
   const { saveUserSettings } = useUserSettings()
 
   async function createTrip(params: {
@@ -126,7 +130,14 @@ export function useTrips() {
         .sort((a, b) => a.day_number - b.day_number)
       return data
     } catch (err) {
-      error.value = err instanceof Error ? err.message : i18n.global.t('errors.unknownError')
+      const data = axios.isAxiosError(err) ? err.response?.data : null
+      if (data?.code === 'daily_quota_reached') {
+        quotaReached.value = true
+        error.value = i18n.global.t('errors.dailyQuotaReached', { limit: data.limit })
+      } else {
+        error.value = data?.error
+          || (err instanceof Error ? err.message : i18n.global.t('errors.unknownError'))
+      }
       console.error('❌ Error generating day:', err)
       throw err
     } finally {
@@ -202,6 +213,7 @@ export function useTrips() {
     loading,
     generating,
     error,
+    quotaReached,
     createTrip,
     generateDay,
     redoNarration,

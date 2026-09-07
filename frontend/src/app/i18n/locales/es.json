@@ -320,6 +320,7 @@
     "saveSettings": "No se pudieron guardar los ajustes",
     "savePartialSettings": "No se pudieron guardar los ajustes parciales",
     "routeCalcFailed": "No se pudo calcular la ruta",
+    "dailyQuotaReached": "Al escriba se le acabó la tinta: los {limit} capítulos que te correspondían hoy ya están escritos. Descansa junto al fuego y vuelve mañana.",
     "dayN": "Día {n}",
     "unknownError": "Error desconocido"
   }

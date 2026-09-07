@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{ (e: 'close'): void; (e: 'day-generated', day: TripDay): void }>()
 
-const { trip, days, loading, generating, error, getTrip, getDays, generateDay, redoNarration, getSystemPrompt } = useTrips()
+const { trip, days, loading, generating, error, quotaReached, getTrip, getDays, generateDay, redoNarration, getSystemPrompt } = useTrips()
 const { activeCharacter, fetchActiveCharacter } = useCharacter()
 
 function getCharacterImage(name: string): string {
@@ -529,7 +529,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           variant="primary"
           size="md"
           class="flex-1"
-          :disabled="generating"
+          :disabled="generating || quotaReached"
           @click="handleGenerateNext"
         >
           <Loader v-if="generating" size="sm" variant="inline" class="mr-2" />
@@ -731,7 +731,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
               variant="primary"
               size="md"
               class="flex-1"
-              :disabled="generating"
+              :disabled="generating || quotaReached"
               @click="handleGenerateNext"
             >
               <Loader v-if="generating" size="sm" variant="inline" class="mr-2" />

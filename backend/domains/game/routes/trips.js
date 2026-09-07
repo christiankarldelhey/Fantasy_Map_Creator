@@ -32,6 +32,7 @@ import {
   applyInventoryChanges,
   provisionForTrip,
 } from '../services/character/inventory.js';
+import { checkDailyDayQuota } from '../services/dayQuota.js';
 
 const router = express.Router();
 
@@ -270,6 +271,18 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     );
     if (existing.rows.length > 0) {
       return res.status(409).json({ error: `Day ${dayNumber} already generated for this trip` });
+    }
+
+    // Generating a day costs an LLM call, so check the caller's daily quota
+    // before doing any work. Admins and unconfigured limits pass straight through.
+    const quota = await checkDailyDayQuota({ userId: req.userId, isAdmin: req.isAdmin });
+    if (!quota.allowed) {
+      return res.status(429).json({
+        error: `Daily limit reached (${quota.limit} chapters a day). Come back tomorrow.`,
+        code: 'daily_quota_reached',
+        limit: quota.limit,
+        used: quota.used,
+      });
     }
 
     const rng = seed != null ? createSeededRng(parseInt(seed, 10)) : Math.random;

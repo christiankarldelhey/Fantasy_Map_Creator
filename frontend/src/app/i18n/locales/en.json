@@ -320,6 +320,7 @@
     "saveSettings": "Failed to save user settings",
     "savePartialSettings": "Failed to save partial settings",
     "routeCalcFailed": "Failed to calculate route",
+    "dailyQuotaReached": "The scribe's ink has run dry — the {limit} chapters allotted to you today are written. Rest by the fire and return tomorrow.",
     "dayN": "Day {n}",
     "unknownError": "Unknown error"
   }

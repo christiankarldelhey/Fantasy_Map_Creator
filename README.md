@@ -278,6 +278,7 @@ npm run dev            # http://localhost:5173
 | `GEMINI_API_KEY` | Google Gemini key (primary AI provider) |
 | `GROQ_API_KEY` / `GROQ_API_KEY_2` | Groq keys (fallback) |
 | `PORT` | Server port (defaults to `5000`) |
+| `DAILY_DAY_LIMIT` | Max chapters a non-admin user can generate per calendar day (unset = unlimited; set to `20` in production) |
 
 > **Security note:** API keys must never be *hardcoded*; they are read from environment variables via `dotenv`.
 
