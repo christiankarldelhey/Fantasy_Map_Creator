@@ -27,5 +27,15 @@ export default defineConfig({
   },
   preview: {
     allowedHosts: ['middleearth.christiandelhey.com']
+  },
+  build: {
+    // Strip every console.* call from production bundles: the browser console is
+    // public, and the logs were leaking API routes and user settings. They stay
+    // untouched in dev, where `vite` serves unminified sources.
+    rolldownOptions: {
+      output: {
+        minify: { compress: { dropConsole: true } }
+      }
+    }
   }
 })
