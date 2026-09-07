@@ -37,3 +37,7 @@ __pycache__/
 
 # graft's local graph cache — regenerable, not committed (run `graft build`).
 /graft/
+
+# Local-only drafts and DB dumps (not for the public repo)
+/linkedin-post-mews.md
+/faltantes_dump.sql

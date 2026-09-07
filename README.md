@@ -163,11 +163,13 @@ The result is a narrative enriched with environmental descriptions, inner though
 
 The narration uses a **provider cascade with automatic fallback**: **Gemini 2.0 Flash as the primary provider** and **Groq (`llama-3.3-70b-versatile`) as a fallback** when rate limits are hit, with support for two Groq keys. See `backend/services/ai.js`.
 
-### Energy system
+### Character state
 
-- A character can take up to **two hits** in an encounter.
-- One hit halves the energy; **two hits are fatal**.
-- Full recovery requires **five days of rest**.
+The traveller carries a persistent state across days, driven entirely by the GIS data the journey passes through:
+
+- **Energy (0–100):** drained by distance walked, combat, harsh weather (sustained rain/wind) and temperature extremes; recovered by rest, with diminishing returns near full so travel days run net-negative. A character can take up to **two hits** in an encounter — one halves energy, two are fatal.
+- **Hunger & thirst:** rations and water deplete day by day; fasting and dehydration cost energy and spoil rest recovery. Water need scales with temperature, can be refilled from rain and natural sources, and those sources freeze below 0 °C.
+- **Shadow (0–100):** rises in enemy regions and through dark encounters, falls with rest in friendly land and elven sanctuaries — and feeds back into what the traveller meets on the road.
 
 ---
 
@@ -294,7 +296,7 @@ npm run dev            # http://localhost:5173
 7. Build the Vue 3 frontend (Feature-Sliced Design) on top of MapLibre GL.
 8. Implement the routing engine (custom Dijkstra) with cost by biome, altitude, and weather.
 9. Build the entities table per region with encounter probabilities.
-10. Add characters, the energy system, and daily AI narration (Gemini + Groq).
+10. Add characters, the character-state system (energy, hunger, thirst, shadow), and daily AI narration (Gemini + Groq).
 
 ---
 
