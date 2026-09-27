@@ -1,0 +1,53 @@
+# ============================================================================
+# Database plumbing for the Mind Engine persistence layer
+# ----------------------------------------------------------------------------
+# The narrator pipeline (/narrate-day) stays fully stateless and does not
+# import this module. Mind tables live in their own Postgres schema (`mind`),
+# so extracting this layer into its own database later is a connection-string
+# change, not a redesign.
+# ============================================================================
+import os
+
+from sqlalchemy import MetaData, create_engine, text
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
+
+DATABASE_URL = os.environ.get(
+    'DATABASE_URL', 'postgresql+psycopg://localhost:5432/middle_earth'
+)
+
+MIND_SCHEMA = 'mind'
+
+# connect_timeout matches the Node pool (backend/db.js uses 2000ms): a dead
+# database must degrade the service quickly, never hang it.
+engine = create_engine(
+    DATABASE_URL, pool_pre_ping=True, connect_args={'connect_timeout': 2}
+)
+SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
+
+
+class Base(DeclarativeBase):
+    """Declarative base; every mapped table lands in the `mind` schema."""
+
+    metadata = MetaData(schema=MIND_SCHEMA)
+
+
+def get_session():
+    """FastAPI dependency: one session per request."""
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()
+
+
+def db_health():
+    """'ok' when the database answers a trivial query, 'down' otherwise.
+
+    Never raises: the service must keep narrating without persistence.
+    """
+    try:
+        with engine.connect() as conn:
+            conn.execute(text('SELECT 1'))
+        return 'ok'
+    except Exception:
+        return 'down'

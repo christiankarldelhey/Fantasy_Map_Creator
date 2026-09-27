@@ -12,6 +12,7 @@ load_dotenv()
 from fastapi import FastAPI  # noqa: E402
 
 from app.ai import is_ai_configured  # noqa: E402
+from app.db import db_health  # noqa: E402
 from app.models import NarrateDayRequest, NarrateDayResponse  # noqa: E402
 from app.narrate_day import narrate_day  # noqa: E402
 
@@ -20,7 +21,9 @@ app = FastAPI(title='Story Engine', version='0.1.0')
 
 @app.get('/health')
 def health():
-    return {'status': 'ok', 'ai_configured': is_ai_configured()}
+    # db reports down instead of failing: Mind endpoints degrade, the
+    # stateless narrator keeps working.
+    return {'status': 'ok', 'ai_configured': is_ai_configured(), 'db': db_health()}
 
 
 @app.post('/narrate-day', response_model=NarrateDayResponse)
