@@ -13,7 +13,7 @@ data/
 !backend/domains/*/services/data/**
 
 # Ignore scripts directory EXCEPT database/seeds/scripts/ (utility scripts for data import/migration, not needed to run app)
-scripts/
+/scripts/
 !database/seeds/scripts/
 
 # Ignore DEM rasters and data cache
