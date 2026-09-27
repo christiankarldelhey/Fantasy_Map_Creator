@@ -12,9 +12,19 @@ load_dotenv()
 from fastapi import FastAPI  # noqa: E402
 
 from app.ai import is_ai_configured  # noqa: E402
-from app.db import db_health  # noqa: E402
 from app.models import NarrateDayRequest, NarrateDayResponse  # noqa: E402
 from app.narrate_day import narrate_day  # noqa: E402
+
+# The Mind persistence layer is optional by design: if sqlalchemy is missing
+# or the DB env is broken, the app must still boot and narrate. The narrator
+# never dies because the mind can't persist.
+try:
+    from app.db import db_health  # noqa: E402
+except Exception:  # noqa: BLE001
+
+    def db_health():
+        return 'down'
+
 
 app = FastAPI(title='Story Engine', version='0.1.0')
 

@@ -11,8 +11,22 @@ import os
 from sqlalchemy import MetaData, create_engine, text
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
-DATABASE_URL = os.environ.get(
-    'DATABASE_URL', 'postgresql+psycopg://localhost:5432/middle_earth'
+def _psycopg_url(raw):
+    """Force the psycopg3 driver on whatever URL shape the host provides.
+
+    Hosts commonly hand out `postgres://` or `postgresql://` URLs, which
+    SQLAlchemy maps to psycopg2 — not installed here. Rewriting the scheme
+    keeps a plain URL working instead of failing at first connect.
+    """
+    if raw.startswith('postgres://'):
+        return 'postgresql+psycopg://' + raw[len('postgres://'):]
+    if raw.startswith('postgresql://'):
+        return 'postgresql+psycopg://' + raw[len('postgresql://'):]
+    return raw
+
+
+DATABASE_URL = _psycopg_url(
+    os.environ.get('DATABASE_URL', 'postgresql+psycopg://localhost:5432/middle_earth')
 )
 
 MIND_SCHEMA = 'mind'
