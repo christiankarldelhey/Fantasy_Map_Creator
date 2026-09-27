@@ -41,3 +41,6 @@ __pycache__/
 # Local-only drafts and DB dumps (not for the public repo)
 /linkedin-post-mews.md
 /faltantes_dump.sql
+
+# Wayfinder local-markdown tracker — local planning artifacts, not committed
+/wayfinder/
