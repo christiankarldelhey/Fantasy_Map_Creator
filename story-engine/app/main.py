@@ -20,13 +20,18 @@ from app.narrate_day import narrate_day  # noqa: E402
 # never dies because the mind can't persist.
 try:
     from app.db import db_health  # noqa: E402
+    from app.mind.routes import router as mind_router  # noqa: E402
 except Exception:  # noqa: BLE001
+    mind_router = None
 
     def db_health():
         return 'down'
 
 
 app = FastAPI(title='Story Engine', version='0.1.0')
+
+if mind_router is not None:
+    app.include_router(mind_router)
 
 
 @app.get('/health')
