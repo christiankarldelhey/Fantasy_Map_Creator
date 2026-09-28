@@ -167,7 +167,21 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 episode_ref=payload.episode_ref,
                 status='open',
                 events=[e.model_dump() for e in payload.events],
-                narrator_payload=payload.narrator_payload,
+                # The flat open body IS the narrator input — store it in
+                # NarrateDayRequest shape so narrate stays untouched.
+                narrator_payload={
+                    'day': payload.day.model_dump(exclude_none=True),
+                    'trip': {'name': payload.trip_name},
+                    'character': payload.character.model_dump(exclude_none=True),
+                    'language': payload.language,
+                    'conditionBlock': payload.condition_block,
+                    'equipmentBlock': payload.equipment_block,
+                    'endStateBlock': payload.end_state_block,
+                    'previousDaySummary': payload.previous_day_summary,
+                    'bannedPhrases': payload.banned_phrases,
+                    'recentDayClimates': payload.recent_day_climates,
+                    'previousOpenings': payload.previous_openings,
+                },
                 # Audit snapshot: the exact knobs this episode runs under.
                 # Admin edits apply to future episodes, not in-flight ones.
                 config_snapshot={
@@ -325,10 +339,10 @@ def narrate_episode(
         episode = db.get(Episode, episode_id)
         if episode is None:
             raise HTTPException(status_code=404, detail='episode not found')
-        if not episode.narrator_payload:
+        if not ((episode.narrator_payload or {}).get('day') or {}).get('date'):
             raise HTTPException(
                 status_code=422,
-                detail='episode has no narrator_payload to narrate from',
+                detail='episode has no narratable day',
             )
         try:
             req = NarrateDayRequest.model_validate(episode.narrator_payload)

@@ -70,7 +70,7 @@ def _mild(ep):
 def _open(client, char, events, ref):
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': {'id': char},
-        'episode_ref': ref, 'events': events,
+        'episode_ref': ref, 'events': events, 'day': {},
     })
     assert r.status_code == 200, r.text
     return r.json()

@@ -27,25 +27,14 @@ async function post(path, body, timeoutMs) {
 }
 
 /**
- * Open (idempotent) or resume an episode. Returns {request, response} —
- * the exact wire body sent plus {episode_id, psyche_packet} back.
+ * Open (idempotent) or resume an episode. `body` is the flat
+ * OpenEpisodeRequest built by toOpenPayload — sent verbatim, no remapping.
+ * Returns {request, response} — the exact wire body plus
+ * {episode_id, psyche_packet} back.
  */
-export async function openEpisode({
-  gameId,
-  character,
-  episodeRef,
-  events,
-  narratorPayload,
-}) {
-  const request = {
-    game_id: gameId,
-    character,
-    episode_ref: episodeRef,
-    events,
-    narrator_payload: narratorPayload,
-  };
-  const response = await post('/episodes', request, OPEN_TIMEOUT_MS);
-  return { request, response };
+export async function openEpisode(body) {
+  const response = await post('/episodes', body, OPEN_TIMEOUT_MS);
+  return { request: body, response };
 }
 
 /**

@@ -209,6 +209,8 @@ class NlPack:
 def _first_string(values):
     """First non-empty string in an arbitrarily nested list/dict — event
     payloads flatten differently across hosts; readings dig until prose."""
+    if isinstance(values, str):
+        return values or None
     for v in values or []:
         if isinstance(v, str) and v:
             return v
@@ -275,4 +277,7 @@ def resolve_event_reading(session, game_id, event, brain=None):
     if etype in ('travel', 'body'):
         # Vitals and mileage speak through needs/mood, never a reading.
         return None
+    if etype == 'note':
+        # A note IS prose — the data field is already words.
+        return _first_string(data.get('note') or data.get('text'))
     return str(subject) if subject else None

@@ -49,7 +49,7 @@ def _open(client, char, ref, events, brain_profile=None):
         character['brain_profile'] = brain_profile
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': character,
-        'episode_ref': ref, 'events': events,
+        'episode_ref': ref, 'events': events, 'day': {},
     })
     assert r.status_code == 200, r.text
     return r.json()

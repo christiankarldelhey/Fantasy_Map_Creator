@@ -42,6 +42,7 @@ def _open(client, character_id, ref, events, brain_profile=None):
         'character': character,
         'episode_ref': ref,
         'events': events,
+        'day': {},
     })
     assert r.status_code == 200, r.text
     return r.json()
@@ -188,19 +189,18 @@ def test_narrate_episode_injects_mind(client, monkeypatch):
     char = _uid('narr')
     opened = _open(client, char, 'd1', [MEAL_EVENT])
     r = client.post(f"/episodes/{opened['episode_id']}/narrate", json={})
-    assert r.status_code == 422  # no narrator_payload stored
+    assert r.status_code == 422  # day: {} -> no narratable day
 
     payload = {
-        'game_id': 'middle_earth', 'character': {'id': char},
+        'game_id': 'middle_earth', 'character': {'id': char, 'name': 'Tester'},
         'episode_ref': 'd3',
         'events': [MEAL_EVENT],
-        'narrator_payload': {
-            'day': {'day_number': 3, 'date': '1950-01-21'},
-            'trip': {'name': 'T'}, 'character': {'name': 'Tester'},
-            'language': 'english',
-        },
+        'day': {'day_number': 3, 'date': '1950-01-21'},
+        'trip_name': 'T',
+        'language': 'english',
     }
     r = client.post('/episodes', json=payload)
+    assert r.status_code == 200, r.text
     ep_id = r.json()['episode_id']
     rn = client.post(f'/episodes/{ep_id}/narrate', json={})
     assert rn.status_code == 200, rn.text

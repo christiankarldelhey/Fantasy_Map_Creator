@@ -238,7 +238,9 @@ export function toEvents({ day, trip, character, stateContext }) {
               .flatMap((r) => Object.values(r))
               .flat()
               .slice(0, 6),
-            biomes: (day.biomes || []).map((b) => b.name || b).slice(0, 6),
+            biomes: (day.biomes || [])
+              .map((b) => ({ type: b?.type || b?.name || null, hour_float: b?.hour_float ?? null }))
+              .slice(0, 6),
           },
         }]
       : []),

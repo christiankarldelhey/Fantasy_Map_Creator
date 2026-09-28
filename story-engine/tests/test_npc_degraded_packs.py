@@ -35,7 +35,7 @@ def _uid(prefix):
 def _open(client, char, events, ref, game=GAME):
     r = client.post('/episodes', json={
         'game_id': game, 'character': {'id': char},
-        'episode_ref': ref, 'events': events,
+        'episode_ref': ref, 'events': events, 'day': {},
     })
     assert r.status_code == 200, r.text
     return r.json()

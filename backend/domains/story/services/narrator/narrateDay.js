@@ -13,7 +13,7 @@
 
 import { loadBannedPhrases, loadPreviousDaySummary, loadPreviousOpenings, loadRecentDayClimates } from './tripHistory.js';
 import { openEpisode, narrateEpisode } from '../mind/mindClient.js';
-import { toEvents } from '../mind/toEvents.js';
+import { toOpenPayload, toNarrateDayBody } from '../mind/toOpenPayload.js';
 
 const STORY_ENGINE_URL = process.env.STORY_ENGINE_URL || 'http://localhost:8001';
 const GAME_ID = process.env.GAME_ID || 'middle_earth';
@@ -54,9 +54,10 @@ export async function narrateDay({
     loadPreviousOpenings(trip.id, day.day_number),
   ]);
 
-  // The narrator_payload is the opaque blob Story Engine replays at narrate
-  // time — exactly the same fields the stateless endpoint takes today.
-  const narratorPayload = {
+  // The flat episode-open body — OpenEpisodeRequest shape (story-engine
+  // mind/models.py). One whitelist owns the wire for both paths below.
+  const openBody = toOpenPayload({
+    gameId: GAME_ID,
     day,
     trip,
     character,
@@ -68,38 +69,12 @@ export async function narrateDay({
     bannedPhrases,
     recentDayClimates,
     previousOpenings,
-  };
+    stateContext,
+  });
 
   if (MIND_ENGINE) {
     try {
-      const characterRef = {
-        id: String(character.id || trip.character_id),
-        name: character.name,
-        brain_profile: character.brain_profile || character.slug || null,
-        // Snapshot the mind's gates & rolls need (B1): skills gate the
-        // attempt; energy/shadow/conditions bend the roll.
-        skills: {
-          tracking: character.skill_tracking ?? 0,
-          persuasion: character.skill_persuasion ?? 0,
-          ranged: character.skill_ranged ?? 0,
-          melee: character.skill_melee ?? 0,
-          lore: character.skill_lore ?? 0,
-        },
-        energy: character.energy ?? null,
-        shadow: character.shadow ?? null,
-        conditions: [
-          character.wounded && character.wounded !== 'none' ? 'wounded' : null,
-          character.sick ? 'sick' : null,
-        ].filter(Boolean),
-      };
-      const events = toEvents({ day, trip, character, stateContext });
-      const { request: openReq, response: opened } = await openEpisode({
-        gameId: GAME_ID,
-        character: characterRef,
-        episodeRef: `trip:${trip.id}:day:${day.day_number}`,
-        events,
-        narratorPayload,
-      });
+      const { request: openReq, response: opened } = await openEpisode(openBody);
       const narrated = await narrateEpisode(opened.episode_id, language);
       // Same response shape as /narrate-day, plus the episode handle so the
       // caller can close() after it persists the day's outcome.
@@ -120,19 +95,7 @@ export async function narrateDay({
   const response = await fetch(`${STORY_ENGINE_URL}/narrate-day`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      day,
-      trip,
-      character,
-      language,
-      conditionBlock,
-      equipmentBlock,
-      endStateBlock,
-      previousDaySummary,
-      bannedPhrases,
-      recentDayClimates,
-      previousOpenings,
-    }),
+    body: JSON.stringify(toNarrateDayBody(openBody)),
   });
 
   if (!response.ok) {

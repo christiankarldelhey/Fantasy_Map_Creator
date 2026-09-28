@@ -30,6 +30,7 @@ def _open_and_close(client, character_id, ref, events):
         'character': {'id': character_id},
         'episode_ref': ref,
         'events': events,
+        'day': {},
     })
     assert r.status_code == 200, r.text
     opened = r.json()

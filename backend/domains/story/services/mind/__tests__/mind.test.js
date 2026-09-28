@@ -68,7 +68,7 @@ test('toEvents emits the generic contract from a resolved day', () => {
 test('mindClient throws when the mind is unreachable', async () => {
   // The rejection is what trips narrateDay's catch -> /narrate-day.
   await assert.rejects(
-    openEpisode({ gameId: 'g', character: { id: 'c' }, episodeRef: 'r', events: [] }),
+    openEpisode({ game_id: 'g', character: { id: 'c' }, episode_ref: 'r', events: [] }),
     (err) => err instanceof Error
   );
 });
