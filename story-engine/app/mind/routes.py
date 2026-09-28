@@ -18,6 +18,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 
 from app.db import get_session
+from app.mind.lens import episode_mood, render_lens, update_brain_mood
 from app.mind.memory import close_episode_memory
 from app.mind.models import (
     CloseEpisodeRequest,
@@ -33,6 +34,7 @@ from app.mind.models import (
 )
 from app.mind.perceive import perceive_events
 from app.mind.provisioning import get_or_create_brain, reassign_mold
+from app.mind.retrieval import link_evoked, retrieve
 from app.mind.tables import Belief, Brain, Episode, Memory
 
 log = logging.getLogger(__name__)
@@ -41,12 +43,15 @@ router = APIRouter(tags=['mind'])
 
 
 def _build_packet(episode: Episode, brain: Brain = None) -> PsychePacket:
-    """Packet from the persisted perceived_day — perception happens once at
-    open; re-open replays the stored annotations (idempotent by episode)."""
+    """Packet from persisted state — perception, lens and mood are written
+    once at open; re-open replays the same snapshot (idempotent)."""
     perceived = [PerceivedEvent(**e) for e in (episode.perceived_day or [])]
     mood = Mood(**(brain.mood or {})) if brain else Mood()
     return PsychePacket(
-        episode_id=episode.id, perceived_day=perceived, mood=mood
+        episode_id=episode.id,
+        perceived_day=perceived,
+        lens_block=episode.lens_block or '',
+        mood=mood,
     )
 
 
@@ -59,6 +64,8 @@ def _episode_state(episode: Episode) -> EpisodeStateResponse:
         status=episode.status,
         events=episode.events or [],
         perceived_day=episode.perceived_day or [],
+        lens_block=episode.lens_block,
+        mood=episode.mood,
         outcome=episode.outcome,
         created_at=episode.created_at.isoformat(),
         narrated_at=episode.narrated_at.isoformat() if episode.narrated_at else None,
@@ -105,9 +112,25 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             )
             db.add(episode)
             db.flush()  # fires the id default before we build the packet
-            episode.perceived_day = perceive_events(
+            perceived = perceive_events(
                 db, payload.game_id, brain,
                 [e.model_dump() for e in payload.events],
+            )
+            # The episode stirs memory: top-K evoked, strengthened, linked.
+            evoked = retrieve(db, brain, episode, perceived)
+            episode.perceived_day = link_evoked(perceived, evoked)
+            # Mood: this episode's feel blended into the running mood.
+            episode.mood = episode_mood(db, payload.game_id, perceived)
+            update_brain_mood(db, payload.game_id, brain, episode.mood)
+            beliefs = (
+                db.query(Belief)
+                .filter_by(
+                    character_id=brain.character_id, status='active'
+                )
+                .all()
+            )
+            episode.lens_block = render_lens(
+                payload.character.id, brain.mood, beliefs, evoked
             )
             db.commit()
             db.refresh(episode)

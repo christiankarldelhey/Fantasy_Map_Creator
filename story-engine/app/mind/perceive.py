@@ -126,6 +126,8 @@ def perceive_events(session, game_id, brain, events):
             'perception': 'noticed',
             'reading': resolve_event_reading(session, game_id, event),
             'salience': round(salience, 3),
+            'valence': _num(data.get('valence')) or 0.0,
+            'severity': round(_severity(data), 3),
             'tags': tags,
             'evoked': [],
         })

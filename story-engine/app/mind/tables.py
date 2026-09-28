@@ -51,6 +51,10 @@ class Episode(Base):
     narrator_payload: Mapped[dict] = mapped_column(JSONB, nullable=True)
     config_snapshot: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     perceived_day: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    # Rendered once at open (A8) and replayed verbatim on re-open — the lens
+    # is a snapshot of the mind the moment this episode was perceived.
+    lens_block: Mapped[str] = mapped_column(Text, nullable=True)
+    mood: Mapped[dict] = mapped_column(JSONB, nullable=True)
     outcome: Mapped[dict] = mapped_column(JSONB, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(
@@ -187,6 +191,7 @@ class MoldStarterBelief(Base):
     kind: Mapped[str] = mapped_column(String(30), nullable=False)  # world|self|other
     statement: Mapped[str] = mapped_column(Text, nullable=False)
     confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
+    tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
 
 
 class Brain(Base):
@@ -225,6 +230,7 @@ class Belief(Base):
     kind: Mapped[str] = mapped_column(String(30), nullable=False)
     statement: Mapped[str] = mapped_column(Text, nullable=False)
     confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
+    tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
     evidence: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
     origin: Mapped[str] = mapped_column(String(30), nullable=False, default='experience')
     status: Mapped[str] = mapped_column(String(20), nullable=False, default='active')

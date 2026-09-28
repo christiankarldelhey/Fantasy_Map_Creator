@@ -27,6 +27,13 @@ DEFAULT_BANDS = {
         {'below': 90, 'phrase': 'mostly overcast'},
         {'below': None, 'phrase': 'heavy cloud cover'},
     ],
+    'mood': [
+        {'below': -0.6, 'phrase': 'despairing'},
+        {'below': -0.25, 'phrase': 'troubled'},
+        {'below': 0.25, 'phrase': 'steady'},
+        {'below': 0.6, 'phrase': 'heartened'},
+        {'below': None, 'phrase': 'exultant'},
+    ],
     'altitude': [
         {
             'above_m': 2000,

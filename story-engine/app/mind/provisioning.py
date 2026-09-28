@@ -30,6 +30,7 @@ DEFAULT_WIRING = {
     'gamma': 0.2,
     'lambda_recency': 0.3,
     'retrieval_top_k': 5,
+    'retrieval_boost': 0.1,
     'evocations_to_fix': 3,
 }
 
@@ -96,6 +97,7 @@ def get_or_create_brain(session, game_id, character_id, hint_slug=None):
             session.add(Belief(
                 game_id=game_id, character_id=character_id, kind=sb.kind,
                 statement=sb.statement, confidence=sb.confidence,
+                tags=list(sb.tags or []),
                 evidence=[], origin='seed', status='active',
             ))
     return brain

@@ -101,6 +101,8 @@ class EpisodeStateResponse(BaseModel):
     status: str
     events: List[Dict[str, Any]]
     perceived_day: List[Dict[str, Any]]
+    lens_block: Optional[str] = None
+    mood: Optional[Dict[str, Any]] = None
     outcome: Optional[Dict[str, Any]]
     created_at: str
     narrated_at: Optional[str]
