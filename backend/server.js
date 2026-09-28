@@ -3,6 +3,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import pool from './db.js';
 import locationsRouter from './domains/map/routes/locations.js';
 import regionsRouter from './domains/map/routes/regions.js';
@@ -21,7 +23,8 @@ import tripsRouter from './domains/game/routes/trips.js';
 import usersRouter from './domains/game/routes/users.js';
 import authRouter from './domains/game/routes/auth.js';
 
-dotenv.config();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 // Fail fast if critical secrets are missing — don't let JWT sign with
 // an undefined secret that anyone can forge.

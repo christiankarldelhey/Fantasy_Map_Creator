@@ -48,8 +48,8 @@ def derive_tags(event):
         tags.append(f'entity:{entity}')
     for key, value in data.items():
         # Check/needs machinery is signal, not content — it never tags.
-        if key in ('entity', 'entity_id', 'check', 'thread_desc',
-                   'resolves', 'urgency'):
+        if key in ('entity', 'entity_id', 'entity_name', 'check',
+                   'thread_desc', 'resolves', 'urgency'):
             continue
         if key == 'tags':
             values = value if isinstance(value, list) else [value]

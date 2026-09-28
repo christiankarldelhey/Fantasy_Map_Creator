@@ -19,7 +19,7 @@ def mind_section(lens_block, perceived_day=None):
         parts.append(lens_block)
     readings = sorted(
         (
-            (p.get('salience') or 0.0, p.get('reading'))
+            (p.get('salience') or 0.0, p.get('reading') or '')
             for p in (perceived_day or [])
         ),
         reverse=True,

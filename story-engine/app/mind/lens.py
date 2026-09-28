@@ -77,9 +77,7 @@ def render_lens(character_name, mood, beliefs, evoked_memories, needs=None):
     lens never invents."""
     lines = [
         f'=== THE MIND OF {character_name} ===',
-        f"Mood: {mood.get('dominant', 'neutral')}"
-        f" (valence {mood.get('valence', 0):+.2f},"
-        f" arousal {mood.get('arousal', 0):.2f})",
+        f"Mood: {mood.get('dominant', 'neutral')}",
     ]
     top_beliefs = sorted(
         beliefs, key=lambda b: b.confidence or 0.0, reverse=True

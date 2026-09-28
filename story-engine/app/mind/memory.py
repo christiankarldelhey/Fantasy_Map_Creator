@@ -51,7 +51,10 @@ def _describe(session, game_id, item, brain=None):
         vague = nl_phrases(session, game_id, 'mind.unnoticed', brain=brain)
         return vague[0] if vague else 'a faint unease, its source unclear'
     data = item.get('data') or {}
-    subject = data.get('entity') or data.get('entity_id') or data.get('name')
+    subject = (
+        data.get('entity_name') or data.get('name')
+        or data.get('entity') or data.get('entity_id')
+    )
     return item.get('reading') or (str(subject) if subject else f"a {item.get('type')}")
 
 

@@ -73,7 +73,7 @@ export async function narrateDay({
   if (MIND_ENGINE) {
     try {
       const characterRef = {
-        id: character.id || trip.character_id,
+        id: String(character.id || trip.character_id),
         name: character.name,
         brain_profile: character.brain_profile || character.slug || null,
         // Snapshot the mind's gates & rolls need (B1): skills gate the

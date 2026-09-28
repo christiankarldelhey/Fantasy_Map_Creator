@@ -18,6 +18,7 @@ import os
 
 from sqladmin import Admin, BaseView, ModelView, expose
 from sqladmin.authentication import AuthenticationBackend
+from sqladmin.filters import OperationColumnFilter
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.responses import HTMLResponse
@@ -62,6 +63,11 @@ class _AdminAuth(AuthenticationBackend):
         return bool(request.session.get('admin'))
 
 
+def _filters(*cols):
+    """sqladmin>=0.32 wants filter objects in column_filters, not bare columns."""
+    return [OperationColumnFilter(c) for c in cols]
+
+
 class _InvalidateNlCache:
     """Saving or deleting an nl_* row must be live on the next reading."""
 
@@ -82,7 +88,7 @@ class NlBandAdmin(_InvalidateNlCache, ModelView, model=NlBand):
         NlBand.game_id, NlBand.table_name, NlBand.ordinal,
         NlBand.below, NlBand.phrase, NlBand.meta,
     ]
-    column_filters = [NlBand.game_id, NlBand.table_name]
+    column_filters = _filters(NlBand.game_id, NlBand.table_name)
     column_searchable_list = [NlBand.table_name, NlBand.phrase]
 
 
@@ -90,7 +96,7 @@ class NlThresholdAdmin(_InvalidateNlCache, ModelView, model=NlThreshold):
     name = 'Thresholds'
     category = 'Narration Tuner'
     column_list = [NlThreshold.game_id, NlThreshold.key, NlThreshold.value]
-    column_filters = [NlThreshold.game_id, NlThreshold.key]
+    column_filters = _filters(NlThreshold.game_id, NlThreshold.key)
     column_searchable_list = [NlThreshold.key]
 
 
@@ -101,7 +107,7 @@ class NlPhraseListAdmin(_InvalidateNlCache, ModelView, model=NlPhraseList):
         NlPhraseList.game_id, NlPhraseList.key,
         NlPhraseList.ordinal, NlPhraseList.phrase,
     ]
-    column_filters = [NlPhraseList.game_id, NlPhraseList.key]
+    column_filters = _filters(NlPhraseList.game_id, NlPhraseList.key)
     column_searchable_list = [NlPhraseList.key, NlPhraseList.phrase]
 
 
@@ -112,7 +118,7 @@ class FacetAdmin(_InvalidateNlCache, ModelView, model=Facet):
         Facet.game_id, Facet.event_type, Facet.field_path,
         Facet.unit, Facet.description,
     ]
-    column_filters = [Facet.game_id, Facet.event_type]
+    column_filters = _filters(Facet.game_id, Facet.event_type)
 
 
 # --------------------------------------------------------------------------
@@ -124,21 +130,21 @@ class BrainMoldAdmin(ModelView, model=BrainMold):
     column_list = [
         BrainMold.game_id, BrainMold.slug, BrainMold.name, BrainMold.description,
     ]
-    column_filters = [BrainMold.game_id, BrainMold.slug]
+    column_filters = _filters(BrainMold.game_id, BrainMold.slug)
 
 
 class MoldThemeWeightAdmin(ModelView, model=MoldThemeWeight):
     name = 'Mold theme weights'
     category = 'Mind Tuner'
     column_list = [MoldThemeWeight.mold_id, MoldThemeWeight.key, MoldThemeWeight.weight]
-    column_filters = [MoldThemeWeight.mold_id, MoldThemeWeight.key]
+    column_filters = _filters(MoldThemeWeight.mold_id, MoldThemeWeight.key)
 
 
 class MoldWiringAdmin(ModelView, model=MoldWiring):
     name = 'Mold wiring'
     category = 'Mind Tuner'
     column_list = [MoldWiring.mold_id, MoldWiring.key, MoldWiring.value]
-    column_filters = [MoldWiring.mold_id, MoldWiring.key]
+    column_filters = _filters(MoldWiring.mold_id, MoldWiring.key)
 
 
 class MoldStarterBeliefAdmin(ModelView, model=MoldStarterBelief):
@@ -149,7 +155,7 @@ class MoldStarterBeliefAdmin(ModelView, model=MoldStarterBelief):
         MoldStarterBelief.statement, MoldStarterBelief.confidence,
         MoldStarterBelief.tags, MoldStarterBelief.boosts,
     ]
-    column_filters = [MoldStarterBelief.mold_id, MoldStarterBelief.kind]
+    column_filters = _filters(MoldStarterBelief.mold_id, MoldStarterBelief.kind)
 
 
 class CompositeRuleAdmin(ModelView, model=CompositeRule):
@@ -163,7 +169,7 @@ class CompositeRuleAdmin(ModelView, model=CompositeRule):
         CompositeRule.event_type, CompositeRule.streak_days,
         CompositeRule.conditions, CompositeRule.description,
     ]
-    column_filters = [CompositeRule.game_id, CompositeRule.key]
+    column_filters = _filters(CompositeRule.game_id, CompositeRule.key)
 
 
 class PackVersionAdmin(ModelView, model=PackVersion):
@@ -177,7 +183,7 @@ class PackVersionAdmin(ModelView, model=PackVersion):
         PackVersion.game_id, PackVersion.version, PackVersion.status,
         PackVersion.namespace, PackVersion.note, PackVersion.created_at,
     ]
-    column_filters = [PackVersion.game_id, PackVersion.status]
+    column_filters = _filters(PackVersion.game_id, PackVersion.status)
     can_create = False
     can_edit = False
     can_delete = False
@@ -195,8 +201,8 @@ class BrainNlOverrideAdmin(ModelView, model=BrainNlOverride):
         BrainNlOverride.below, BrainNlOverride.phrase,
         BrainNlOverride.value,
     ]
-    column_filters = [BrainNlOverride.brain_id, BrainNlOverride.kind,
-                      BrainNlOverride.key]
+    column_filters = _filters(BrainNlOverride.brain_id, BrainNlOverride.kind,
+                              BrainNlOverride.key)
 
 
 class BrainAdmin(ModelView, model=Brain):
@@ -208,7 +214,7 @@ class BrainAdmin(ModelView, model=Brain):
     column_list = [
         Brain.game_id, Brain.character_id, Brain.mold_slug, Brain.mood,
     ]
-    column_filters = [Brain.game_id, Brain.character_id, Brain.mold_slug]
+    column_filters = _filters(Brain.game_id, Brain.character_id, Brain.mold_slug)
     column_searchable_list = [Brain.character_id]
 
 
@@ -222,9 +228,9 @@ class BeliefAdmin(ModelView, model=Belief):
         Belief.character_id, Belief.kind, Belief.statement,
         Belief.confidence, Belief.status, Belief.origin, Belief.boosts,
     ]
-    column_filters = [
+    column_filters = _filters(
         Belief.game_id, Belief.character_id, Belief.kind, Belief.status,
-    ]
+    )
     column_searchable_list = [Belief.character_id, Belief.statement]
 
 
@@ -238,7 +244,7 @@ class EpisodeAdmin(ModelView, model=Episode):
         Episode.game_id, Episode.character_id, Episode.episode_ref,
         Episode.status, Episode.created_at,
     ]
-    column_filters = [Episode.game_id, Episode.character_id, Episode.status]
+    column_filters = _filters(Episode.game_id, Episode.character_id, Episode.status)
     column_searchable_list = [Episode.character_id, Episode.episode_ref]
     can_create = False
     can_edit = False
@@ -252,7 +258,7 @@ class MemoryAdmin(ModelView, model=Memory):
         Memory.character_id, Memory.desc, Memory.importance,
         Memory.strength, Memory.evocations, Memory.consolidated,
     ]
-    column_filters = [Memory.character_id, Memory.consolidated, Memory.kind]
+    column_filters = _filters(Memory.character_id, Memory.consolidated, Memory.kind)
     column_searchable_list = [Memory.character_id, Memory.desc]
     can_create = False
     can_edit = False
@@ -269,9 +275,9 @@ class NeedAdmin(ModelView, model=Need):
         Need.character_id, Need.key, Need.type, Need.status,
         Need.urgency, Need.description,
     ]
-    column_filters = [
+    column_filters = _filters(
         Need.game_id, Need.character_id, Need.type, Need.status,
-    ]
+    )
     column_searchable_list = [Need.character_id, Need.key, Need.description]
     can_create = False
     can_delete = False

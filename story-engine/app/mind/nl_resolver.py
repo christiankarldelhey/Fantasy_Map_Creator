@@ -237,20 +237,24 @@ def resolve_event_reading(session, game_id, event, brain=None):
 
     if not data:
         return None
-    # Generic fallback: lead with the event's subject if it has one, then
-    # the remaining scalar fields. Internal severity-ish keys never print —
-    # they're inputs to salience, not prose.
-    _internal = {
-        'entity', 'entity_id', 'name', 'title', 'severity', 'danger',
-        'threat', 'damage', 'wound', 'pain', 'hostility', 'risk',
-        'lethality', 'emotional_charge', 'valence', 'perception_bonus',
-        'tags', 'check', 'thread', 'thread_desc', 'resolves', 'urgency',
-    }
-    subject = data.get('entity') or data.get('entity_id') or data.get('name') or data.get('title')
-    parts = [str(subject)] if subject else []
-    parts += [
-        f'{k}: {v}'
-        for k, v in sorted(data.items())
-        if k not in _internal and isinstance(v, (str, int, float)) and v is not None
-    ]
-    return ', '.join(parts) if parts else None
+    # Readings are prose or nothing: raw fields are inputs to salience and
+    # memory, never words. Known types get a composed line; anything else
+    # reports only its subject. Host names outrank slugs.
+    subject = (
+        data.get('entity_name') or data.get('name') or data.get('title')
+        or data.get('entity')
+    )
+    if etype == 'meal':
+        return ', '.join(
+            x for x in (data.get('food'), data.get('drink')) if x
+        ) or None
+    if etype == 'terrain':
+        words = data.get('terrain_phrases') or data.get('biomes') or []
+        return words[0] if words else None
+    if etype == 'rest':
+        place = data.get('place')
+        return subject or (place if isinstance(place, str) else None)
+    if etype in ('travel', 'body'):
+        # Vitals and mileage speak through needs/mood, never a reading.
+        return None
+    return str(subject) if subject else None

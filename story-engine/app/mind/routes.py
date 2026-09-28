@@ -208,7 +208,8 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             )
             episode.needs_active = need_snapshot(needs)
             episode.lens_block = render_lens(
-                payload.character.id, brain.mood, beliefs, evoked,
+                payload.character.name or payload.character.id,
+                brain.mood, beliefs, evoked,
                 needs=episode.needs_active,
             )
             db.commit()

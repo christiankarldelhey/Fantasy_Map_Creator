@@ -121,6 +121,7 @@ function encounterEvents(day) {
         const outcome = e.interaction?.outcome ?? null;
         const data = {
           entity: slug,
+          entity_name: e.entity.name || null,
           entity_id: e.entity.id,
           danger: e.entity.danger_level ?? e.entity.danger ?? null,
           interaction: outcome,
