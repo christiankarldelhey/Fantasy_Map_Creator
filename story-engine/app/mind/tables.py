@@ -55,6 +55,11 @@ class Episode(Base):
     # is a snapshot of the mind the moment this episode was perceived.
     lens_block: Mapped[str] = mapped_column(Text, nullable=True)
     mood: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    # Needs snapshot at open (B2) — same replay semantics as perceived_day.
+    needs_active: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    # Recorded picks for the episode's decision points (B5):
+    # {decision_id: option_id}. The mind records; the host executes.
+    decisions: Mapped[dict] = mapped_column(JSONB, nullable=True)
     outcome: Mapped[dict] = mapped_column(JSONB, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(
@@ -70,6 +75,34 @@ class Episode(Base):
 # One NL pack per game_id — game-scoped, not per brain (PRD §8). Values in
 # natural_language/* stay as the code fallback; these rows override them.
 # ============================================================================
+
+
+class BrainNlOverride(Base):
+    """Per-brain NL override (B7) — one row of a band table, a threshold
+    value, or a phrase-list entry. Resolution order: brain override →
+    game pack row → built-in default, per key. A key with ANY override
+    rows replaces its global content entirely (no partial merges).
+
+    kind='band':        key=table_name, ordinal + below + phrase
+    kind='threshold':   key + value
+    kind='phrase_list': key + ordinal + phrase
+    """
+
+    __tablename__ = 'brain_nl_overrides'
+    __table_args__ = (
+        UniqueConstraint('brain_id', 'kind', 'key', 'ordinal',
+                         name='uq_brain_nl_override'),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    brain_id: Mapped[str] = mapped_column(
+        ForeignKey('mind.brains.id', ondelete='CASCADE'), nullable=False)
+    kind: Mapped[str] = mapped_column(String(20), nullable=False)
+    key: Mapped[str] = mapped_column(String(120), nullable=False)
+    ordinal: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    below: Mapped[float] = mapped_column(Float, nullable=True)
+    phrase: Mapped[str] = mapped_column(Text, nullable=True)
+    value: Mapped[float] = mapped_column(Float, nullable=True)
 
 
 class NlBand(Base):
@@ -192,6 +225,8 @@ class MoldStarterBelief(Base):
     statement: Mapped[str] = mapped_column(Text, nullable=False)
     confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
     tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    # {tag: magnitude} cloned into beliefs.boosts — B6.
+    boosts: Mapped[dict] = mapped_column(JSONB, nullable=True)
 
 
 class Brain(Base):
@@ -270,6 +305,63 @@ class Memory(Base):
     created_episode: Mapped[int] = mapped_column(Integer, nullable=True)
 
 
+class Need(Base):
+    """An open intention of the mind (B2). Detector needs ('physiological')
+    are upserted each open and auto-resolve when the state stops holding;
+    'thread' needs come from narrative events (data.thread) and close only
+    when the host resolves them (outcome.resolved_needs or data.resolves).
+    One row per (game, character, key) — a re-fired detector reopens the
+    same row rather than duplicating it."""
+
+    __tablename__ = 'needs'
+    __table_args__ = (
+        UniqueConstraint('game_id', 'character_id', 'key', name='uq_need_key'),
+        Index('ix_needs_character', 'character_id', 'status'),
+    )
+
+    id: Mapped[str] = mapped_column(String(40), primary_key=True, default=_new_id('nd'))
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    character_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    key: Mapped[str] = mapped_column(String(120), nullable=False)
+    type: Mapped[str] = mapped_column(String(30), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    urgency: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    status: Mapped[str] = mapped_column(String(20), nullable=False, default='open')
+    source: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    linked_entity: Mapped[str] = mapped_column(String(120), nullable=True)
+    linked_region: Mapped[str] = mapped_column(String(120), nullable=True)
+    opened_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+    due_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+    updated_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+    resolution: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
+
+
+class CompositeRule(Base):
+    """B9: declarative multi-day rule — when ANY condition group matches
+    (of `event_type`, if set) for `streak_days` consecutive episodes, the
+    `key` Need opens. conditions JSONB: [[{field,op,value},...],...] —
+    OR of AND-groups. streak_days NULL falls back to wiring
+    'need_weather_streak'."""
+
+    __tablename__ = 'composite_rules'
+    __table_args__ = (
+        UniqueConstraint('game_id', 'key', name='uq_composite_rule'),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    key: Mapped[str] = mapped_column(String(120), nullable=False)
+    need_type: Mapped[str] = mapped_column(String(30), nullable=False,
+                                          default='physiological')
+    event_type: Mapped[str] = mapped_column(String(60), nullable=True)
+    streak_days: Mapped[int] = mapped_column(Integer, nullable=True)
+    urgency_base: Mapped[float] = mapped_column(Float, nullable=True)
+    urgency_per_day: Mapped[float] = mapped_column(Float, nullable=True)
+    conditions: Mapped[list] = mapped_column(JSONB, nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=True)
+
+
 class Facet(Base):
     """Registry of bandable fields per event type — feeds admin autocomplete
     and the NL tester."""
@@ -285,3 +377,28 @@ class Facet(Base):
     field_path: Mapped[str] = mapped_column(String(120), nullable=False)
     unit: Mapped[str] = mapped_column(String(30), nullable=True)
     description: Mapped[str] = mapped_column(Text, nullable=True)
+
+
+class PackVersion(Base):
+    """B10 (PRD §9.2): a versioned world pack. The live pack is the rows
+    under `game_id`; a draft is a copy under `namespace` (a sibling
+    game_id like 'middle_earth@draft-2'). Promoting swaps the draft's
+    rows into the live namespace and archives the previous live content
+    as a frozen `snapshot` — the rollback record."""
+
+    __tablename__ = 'pack_versions'
+    __table_args__ = (
+        UniqueConstraint('game_id', 'version', name='uq_pack_version'),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    version: Mapped[int] = mapped_column(Integer, nullable=False)
+    status: Mapped[str] = mapped_column(String(20), nullable=False,
+                                        default='draft')
+    namespace: Mapped[str] = mapped_column(String(120), nullable=True)
+    snapshot: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    note: Mapped[str] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_now, nullable=False
+    )

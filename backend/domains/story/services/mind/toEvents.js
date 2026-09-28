@@ -22,6 +22,11 @@
 //   region    — region transitions implicit: every event carries
 //               where.region when known
 //
+// Mind hooks (B1/B2): encounter events carry data.check = {skill,
+// difficulty} for the gates & rolls pass, and thread/resolves markers for
+// the needs engine — a harmful outcome opens `thread:unfinished_encounter:
+// <slug>`, an unscathed re-encounter resolves it.
+//
 // All `when` share {episode: day.day_number, date: day.date}; phase-scoped
 // events add when.phase (+hour for encounters).
 // ============================================================================
@@ -91,6 +96,19 @@ function climateEvents(day) {
   return events;
 }
 
+// Reading an encounter's signs is a tracking check (B1): the mind gates on
+// the character's skill and rolls vs a difficulty scaled by the entity's
+// danger (entities carry 0-5; some callers pass a normalized 0-1).
+function encounterCheck(entity) {
+  const danger = entity.danger_level ?? entity.danger;
+  const check = { skill: 'tracking' };
+  if (typeof danger === 'number') {
+    const onGameScale = danger > 1 ? danger : danger * 5;
+    check.difficulty = Math.min(10, Math.round(4 + onGameScale));
+  }
+  return check;
+}
+
 function encounterEvents(day) {
   return (day.encounters || [])
     .filter((e) => e && e.entity)
@@ -98,12 +116,26 @@ function encounterEvents(day) {
       type: 'encounter',
       when: when(day, { phase: e.phase || phaseOfHour(e.hour_float), hour: e.hour_float }),
       where: where(e.region || regionOf(day, e.phase)),
-      data: {
-        entity: e.entity.slug || e.entity.name || e.entity.id,
-        entity_id: e.entity.id,
-        danger: e.entity.danger_level ?? e.entity.danger ?? null,
-        interaction: e.interaction?.outcome ?? null,
-      },
+      data: (() => {
+        const slug = e.entity.slug || e.entity.name || e.entity.id;
+        const outcome = e.interaction?.outcome ?? null;
+        const data = {
+          entity: slug,
+          entity_id: e.entity.id,
+          danger: e.entity.danger_level ?? e.entity.danger ?? null,
+          interaction: outcome,
+          check: encounterCheck(e.entity),
+        };
+        // Needs (B2): surviving a hostile contact leaves an open thread
+        // the mind keeps alive until the same entity is faced unscathed
+        // or the host resolves it in the close outcome.
+        if (outcome === 'wounded' || outcome === 'badly wounded') {
+          data.thread = `unfinished_encounter:${slug}`;
+        } else if (outcome === 'unscathed') {
+          data.resolves = `unfinished_encounter:${slug}`;
+        }
+        return data;
+      })(),
     }));
 }
 

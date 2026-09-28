@@ -18,7 +18,9 @@ from app.mind.nl_defaults import (
     DEFAULT_PHRASE_LISTS,
     DEFAULT_THRESHOLDS,
 )
-from app.mind.tables import Facet, NlBand, NlPhraseList, NlThreshold
+from app.mind.tables import (
+    BrainNlOverride, Facet, NlBand, NlPhraseList, NlThreshold,
+)
 
 log = logging.getLogger(__name__)
 
@@ -109,12 +111,42 @@ def invalidate(game_id=None):
         _cache.pop(game_id, None)
 
 
-def band_phrase(session, game_id, table, value, rng=random.random):
+# --- Per-brain overrides (B7) ----------------------------------------------
+# A brain's own take on the NL config: a key with ANY override rows replaces
+# its global content entirely — resolution is override → pack → default.
+# Loaded live (no cache): rows are few and edits should apply at once.
+
+def _overrides(session, brain, kind=None):
+    if session is None or brain is None:
+        return {}
+    try:
+        query = session.query(BrainNlOverride).filter_by(brain_id=brain.id)
+        if kind:
+            query = query.filter_by(kind=kind)
+        rows = query.order_by(BrainNlOverride.key,
+                              BrainNlOverride.ordinal).all()
+    except Exception as exc:  # DB hiccup: fall back to the game pack
+        log.warning('brain overrides load failed: %s', exc)
+        return {}
+    grouped = {}
+    for row in rows:
+        grouped.setdefault(row.key, []).append(row)
+    return grouped
+
+
+def band_phrase(session, game_id, table, value, rng=random.random, brain=None):
     """First band whose threshold the value falls under (or reaches, for
     'above_m' bands), or None for missing data."""
     if value is None:
         return None
-    for band in _pack(session, game_id)['bands'].get(table, []):
+    bands = _overrides(session, brain, 'band').get(table)
+    if bands:
+        rows = [{'ordinal': b.ordinal, 'below': b.below,
+                 'phrase': b.phrase, 'phrases': None, 'above_m': None}
+                for b in bands]
+    else:
+        rows = _pack(session, game_id)['bands'].get(table, [])
+    for band in rows:
         if band['above_m'] is not None:
             matched = value >= band['above_m']
         else:
@@ -126,11 +158,17 @@ def band_phrase(session, game_id, table, value, rng=random.random):
     return None
 
 
-def threshold(session, game_id, key, default=None):
+def threshold(session, game_id, key, default=None, brain=None):
+    rows = _overrides(session, brain, 'threshold').get(key)
+    if rows:
+        return rows[0].value
     return _pack(session, game_id)['thresholds'].get(key, default)
 
 
-def phrases(session, game_id, key):
+def phrases(session, game_id, key, brain=None):
+    rows = _overrides(session, brain, 'phrase_list').get(key)
+    if rows:
+        return [r.phrase for r in rows if r.phrase is not None]
     return _pack(session, game_id)['phrases'].get(key, [])
 
 
@@ -144,25 +182,31 @@ class NlPack:
     fall back to module constants when it's None, so legacy callers never
     change behaviour."""
 
-    def __init__(self, session, game_id):
+    def __init__(self, session, game_id, brain=None):
         self._session = session
         self.game_id = game_id
+        self._brain = brain
 
     def band_phrase(self, table, value, rng=random.random):
-        return band_phrase(self._session, self.game_id, table, value, rng)
+        return band_phrase(
+            self._session, self.game_id, table, value, rng,
+            brain=self._brain,
+        )
 
     def threshold(self, key, default=None):
-        return threshold(self._session, self.game_id, key, default)
+        return threshold(
+            self._session, self.game_id, key, default, brain=self._brain
+        )
 
     def phrases(self, key):
-        return phrases(self._session, self.game_id, key)
+        return phrases(self._session, self.game_id, key, brain=self._brain)
 
     def phrase(self, key, default=None):
         options = self.phrases(key)
         return options[0] if options else default
 
 
-def resolve_event_reading(session, game_id, event):
+def resolve_event_reading(session, game_id, event, brain=None):
     """One-line natural-language reading of an event's data — what the mind
     would say it noticed. Climate uses the band tables; everything else falls
     back to a generic field listing."""
@@ -171,17 +215,21 @@ def resolve_event_reading(session, game_id, event):
 
     if etype == 'climate':
         parts = [
-            band_phrase(session, game_id, 'temperature', data.get('temperature_2m')),
-            band_phrase(session, game_id, 'cloud_cover', data.get('cloud_cover')),
+            band_phrase(session, game_id, 'temperature',
+                        data.get('temperature_2m'), brain=brain),
+            band_phrase(session, game_id, 'cloud_cover',
+                        data.get('cloud_cover'), brain=brain),
         ]
         wind = data.get('wind_speed_10m')
         if isinstance(wind, (int, float)) and wind > threshold(
-            session, game_id, 'climate.windy_speed_min', 18
+            session, game_id, 'climate.windy_speed_min', 18, brain=brain
         ):
             parts.append('windy')
         prec = data.get('precipitation')
         if isinstance(prec, (int, float)):
-            if prec > threshold(session, game_id, 'climate.wet_precipitation_min', 0.2):
+            if prec > threshold(session, game_id,
+                                'climate.wet_precipitation_min', 0.2,
+                                brain=brain):
                 parts.append('wet')
             elif prec > 0:
                 parts.append('a passing shower')
@@ -196,7 +244,7 @@ def resolve_event_reading(session, game_id, event):
         'entity', 'entity_id', 'name', 'title', 'severity', 'danger',
         'threat', 'damage', 'wound', 'pain', 'hostility', 'risk',
         'lethality', 'emotional_charge', 'valence', 'perception_bonus',
-        'tags',
+        'tags', 'check', 'thread', 'thread_desc', 'resolves', 'urgency',
     }
     subject = data.get('entity') or data.get('entity_id') or data.get('name') or data.get('title')
     parts = [str(subject)] if subject else []

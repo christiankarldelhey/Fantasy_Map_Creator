@@ -20,10 +20,26 @@ from datetime import datetime, timezone
 
 from app.db import get_session
 from app.mind.lens import episode_mood, render_lens, update_brain_mood
-from app.mind.memory import close_episode_memory
+from app.mind.memory import (
+    close_episode_memory,
+    decay_pass,
+    detect_patterns,
+    episode_index,
+)
+from app.mind.needs import (
+    need_snapshot,
+    needs_pass,
+    resolve_from_outcome,
+    update_streak_counters,
+)
 from app.mind.models import (
+    ClonePackRequest,
     CloseEpisodeRequest,
     CloseEpisodeResponse,
+    ConsolidateRequest,
+    ConsolidateResponse,
+    DecideEpisodeRequest,
+    DecideEpisodeResponse,
     EpisodeStateResponse,
     MindStateResponse,
     Mood,
@@ -31,25 +47,54 @@ from app.mind.models import (
     NarrateEpisodeResponse,
     OpenEpisodeRequest,
     OpenEpisodeResponse,
+    PackVersionOut,
+    PackVersionsResponse,
     PerceivedEvent,
+    PromotePackRequest,
+    PromotePackResponse,
     PsychePacket,
     ReassignMoldRequest,
 )
 from app.models import NarrateDayRequest
 from app.narrate_day import narrate_day
 from app.prompt.sections.mind import mind_section
-from app.mind.nl_resolver import NlPack
+from app.mind.decisions import (
+    pending_decision_point, proposed_commands, resolution_text,
+    resolve_decision,
+)
+from app.mind.nl_resolver import NlPack, invalidate
+from app.mind.packs import (
+    active_version,
+    clone_pack,
+    list_versions,
+    promote_pack,
+)
 from app.mind.perceive import perceive_events
-from app.mind.provisioning import get_or_create_brain, reassign_mold
+from app.mind.provisioning import (
+    DEFAULT_WIRING,
+    get_or_create_brain,
+    reassign_mold,
+)
+from app.mind.reflection import maybe_reflect
 from app.mind.retrieval import link_evoked, retrieve
-from app.mind.tables import Belief, Brain, Episode, Memory
+from app.mind.tables import Belief, Brain, Episode, Memory, Need, PackVersion
 
 log = logging.getLogger(__name__)
 
 router = APIRouter(tags=['mind'])
 
 
-def _build_packet(episode: Episode, brain: Brain = None) -> PsychePacket:
+def _check_results(episode: Episode) -> list:
+    """The checks the mind threw at open, lifted out of perceived_day —
+    they live on the items so no separate column is needed."""
+    return [
+        item['check']
+        for item in (episode.perceived_day or [])
+        if item.get('check')
+    ]
+
+
+def _build_packet(db, episode: Episode, brain: Brain = None) -> PsychePacket:
     """Packet from persisted state — perception, lens and mood are written
     once at open; re-open replays the same snapshot (idempotent)."""
     perceived = [PerceivedEvent(**e) for e in (episode.perceived_day or [])]
@@ -59,10 +104,20 @@ def _build_packet(episode: Episode, brain: Brain = None) -> PsychePacket:
         perceived_day=perceived,
         lens_block=episode.lens_block or '',
         mood=mood,
+        check_results=_check_results(episode),
+        needs_active=episode.needs_active or [],
+        decision_point=pending_decision_point(db, brain, episode),
     )
 
 
-def _episode_state(episode: Episode) -> EpisodeStateResponse:
+def _episode_state(db, episode: Episode) -> EpisodeStateResponse:
+    brain = (
+        db.query(Brain)
+        .filter_by(
+            game_id=episode.game_id, character_id=episode.character_id
+        )
+        .one_or_none()
+    )
     return EpisodeStateResponse(
         episode_id=episode.id,
         game_id=episode.game_id,
@@ -71,9 +126,14 @@ def _episode_state(episode: Episode) -> EpisodeStateResponse:
         status=episode.status,
         events=episode.events or [],
         perceived_day=episode.perceived_day or [],
+        check_results=_check_results(episode),
+        needs_active=episode.needs_active or [],
         lens_block=episode.lens_block,
         mood=episode.mood,
         outcome=episode.outcome,
+        decision_point=pending_decision_point(db, brain, episode),
+        decisions=episode.decisions or {},
+        proposed_commands=proposed_commands(episode),
         created_at=episode.created_at.isoformat(),
         narrated_at=episode.narrated_at.isoformat() if episode.narrated_at else None,
         closed_at=episode.closed_at.isoformat() if episode.closed_at else None,
@@ -112,6 +172,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 # Admin edits apply to future episodes, not in-flight ones.
                 config_snapshot={
                     'nl_pack': payload.game_id,
+                    'pack_version': active_version(db, payload.game_id),
                     'brain_mold': brain.mold_slug,
                     'theme_weights': brain.theme_weights,
                     'wiring': brain.wiring,
@@ -122,12 +183,15 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             perceived = perceive_events(
                 db, payload.game_id, brain,
                 [e.model_dump() for e in payload.events],
+                character=payload.character.model_dump(),
             )
             # The episode stirs memory: top-K evoked, strengthened, linked.
             evoked = retrieve(db, brain, episode, perceived)
             episode.perceived_day = link_evoked(perceived, evoked)
             # Mood: this episode's feel blended into the running mood.
-            episode.mood = episode_mood(db, payload.game_id, perceived)
+            episode.mood = episode_mood(
+                db, payload.game_id, perceived, brain=brain
+            )
             update_brain_mood(db, payload.game_id, brain, episode.mood)
             beliefs = (
                 db.query(Belief)
@@ -136,8 +200,16 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 )
                 .all()
             )
+            # Needs: detectors fire from the snapshot/body state, threads
+            # from what was just perceived. Snapshot lands on the episode.
+            needs = needs_pass(
+                db, payload.game_id, brain, episode, perceived,
+                character=payload.character.model_dump(),
+            )
+            episode.needs_active = need_snapshot(needs)
             episode.lens_block = render_lens(
-                payload.character.id, brain.mood, beliefs, evoked
+                payload.character.id, brain.mood, beliefs, evoked,
+                needs=episode.needs_active,
             )
             db.commit()
             db.refresh(episode)
@@ -150,7 +222,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 )
                 .one_or_none()
             )
-        packet = _build_packet(episode, brain)
+        packet = _build_packet(db, episode, brain)
         return OpenEpisodeResponse(episode_id=episode.id, psyche_packet=packet)
     except SQLAlchemyError as exc:
         db.rollback()
@@ -167,7 +239,7 @@ def get_episode(episode_id: str, db: Session = Depends(get_session)):
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
     if episode is None:
         raise HTTPException(status_code=404, detail='episode not found')
-    return _episode_state(episode)
+    return _episode_state(db, episode)
 
 
 @router.post('/episodes/{episode_id}/close', response_model=CloseEpisodeResponse)
@@ -199,6 +271,21 @@ def close_episode(
             .one_or_none()
         )
         summary = close_episode_memory(db, brain, episode) if brain else {}
+        if brain:
+            # The host's outcome may settle open needs; streak counters
+            # only count episodes the host actually persisted.
+            summary['needs_resolved'] = resolve_from_outcome(
+                db, brain, episode, payload.outcome,
+            )
+            update_streak_counters(db, brain, episode)
+            # B4: the mind's only LLM call. Trigger-gated; a skipped or
+            # failed reflection never breaks the close.
+            summary['reflection'] = maybe_reflect(
+                db, brain, episode,
+                character_name=(
+                    (episode.narrator_payload or {}).get('character') or {}
+                ).get('name'),
+            )
         episode.status = 'closed'
         episode.closed_at = datetime.now(timezone.utc)
         db.commit()
@@ -270,7 +357,7 @@ def narrate_episode(
             previous_openings=req.previousOpenings,
             mind_block=mind_section(episode.lens_block, episode.perceived_day),
             impressions=_evoked_impressions(db, episode),
-            nl=NlPack(db, episode.game_id),
+            nl=NlPack(db, episode.game_id, brain=brain),
         )
         episode.narrated_at = datetime.now(timezone.utc)
         if episode.status == 'open':
@@ -286,6 +373,10 @@ def narrate_episode(
             ],
             mood=Mood(**(brain.mood or {})) if brain else Mood(),
             lens_block=episode.lens_block or '',
+            check_results=_check_results(episode),
+            needs_active=episode.needs_active or [],
+            proposed_commands=proposed_commands(episode),
+            decision_point=pending_decision_point(db, brain, episode),
             generation_meta={
                 k: v for k, v in generation.items() if k != 'text'
             },
@@ -293,6 +384,57 @@ def narrate_episode(
     except SQLAlchemyError as exc:
         db.rollback()
         log.warning('narrate_episode failed: %s', exc)
+        raise HTTPException(status_code=503, detail='mind persistence unavailable')
+
+
+@router.post('/episodes/{episode_id}/decide', response_model=DecideEpisodeResponse)
+def decide_episode(
+    episode_id: str,
+    payload: DecideEpisodeRequest,
+    db: Session = Depends(get_session),
+):
+    """Record which option the host picked for an open decision point.
+    Returns a resolution line + the option's `proposed_commands` — Mind
+    proposes, the host validates and applies. Re-deciding the same option
+    replays idempotently; a different option is a 409."""
+    try:
+        episode = db.get(Episode, episode_id)
+        if episode is None:
+            raise HTTPException(status_code=404, detail='episode not found')
+        brain = (
+            db.query(Brain)
+            .filter_by(
+                game_id=episode.game_id, character_id=episode.character_id
+            )
+            .one_or_none()
+        )
+        try:
+            dec, option, already = resolve_decision(
+                db, brain, episode, payload.option_id, payload.decision_id
+            )
+        except KeyError as exc:  # KeyError ⊂ LookupError — order matters
+            raise HTTPException(status_code=422, detail=str(exc))
+        except LookupError as exc:
+            raise HTTPException(status_code=404, detail=str(exc))
+        except ValueError as exc:
+            raise HTTPException(status_code=409, detail=str(exc))
+        db.commit()
+        character_name = (
+            (episode.narrator_payload or {}).get('character') or {}
+        ).get('name')
+        return DecideEpisodeResponse(
+            episode_id=episode.id,
+            decision_id=dec['decision_id'],
+            option_id=option['id'],
+            resolution=resolution_text(
+                db, episode.game_id, option, character_name, brain=brain
+            ),
+            proposed_commands=option.get('commands') or [],
+            already_decided=already,
+        )
+    except SQLAlchemyError as exc:
+        db.rollback()
+        log.warning('decide_episode failed: %s', exc)
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
 
 
@@ -308,6 +450,13 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
             db.query(Memory)
             .filter_by(character_id=character_id)
             .order_by(Memory.importance.desc())
+            .all()
+            if brain else []
+        )
+        needs = (
+            db.query(Need)
+            .filter_by(character_id=character_id)
+            .order_by(Need.urgency.desc())
             .all()
             if brain else []
         )
@@ -344,6 +493,14 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
             }
             for m in memories
         ],
+        needs=[
+            {
+                'id': n.id, 'key': n.key, 'type': n.type,
+                'description': n.description, 'urgency': n.urgency,
+                'status': n.status, 'entity': n.linked_entity,
+            }
+            for n in needs
+        ],
         episodes=count,
     )
 
@@ -374,3 +531,123 @@ def reassign_brain_mold(
         'mold_slug': brain.mold_slug,
         'recloned': payload.reclone,
     }
+
+
+@router.post('/maintenance/consolidate', response_model=ConsolidateResponse)
+def consolidate_degraded(
+    payload: ConsolidateRequest,
+    db: Session = Depends(get_session),
+):
+    """B10: batch consolidation for degraded brains (NPCs). Their closes
+    only encode — this pass runs the deferred decay + pattern detection.
+    `brain_ids` pins specific brains (degraded or not — an explicit pin is
+    operator intent); otherwise every brain wired 'degraded', scoped by
+    `game_id` when given."""
+    try:
+        query = db.query(Brain)
+        if payload.brain_ids:
+            query = query.filter(Brain.id.in_(payload.brain_ids))
+        else:
+            if payload.game_id:
+                query = query.filter_by(game_id=payload.game_id)
+        brains = query.all()
+        results = []
+        for brain in brains:
+            w = {**DEFAULT_WIRING, **(brain.wiring or {})}
+            if not payload.brain_ids and not w.get('degraded'):
+                continue
+            latest = (
+                db.query(Episode)
+                .filter_by(character_id=brain.character_id)
+                .order_by(Episode.created_at.desc())
+                .first()
+            )
+            idx = episode_index(latest) if latest else None
+            if idx is None:
+                continue
+            results.append({
+                'brain_id': brain.id,
+                'character_id': brain.character_id,
+                'patterns': detect_patterns(
+                    db, brain, latest, idx, w
+                ),
+                **decay_pass(db, brain, idx),
+            })
+        db.commit()
+        return ConsolidateResponse(brains=len(results), results=results)
+    except SQLAlchemyError as exc:
+        db.rollback()
+        log.warning('consolidate failed: %s', exc)
+        raise HTTPException(status_code=503, detail='mind persistence unavailable')
+
+
+@router.get('/packs/{game_id}/versions', response_model=PackVersionsResponse)
+def pack_versions(game_id: str, db: Session = Depends(get_session)):
+    """B10 (PRD §9.2): the version ledger of a game's world pack."""
+    try:
+        versions = [
+            PackVersionOut(
+                game_id=v.game_id, version=v.version, status=v.status,
+                namespace=v.namespace, note=v.note,
+                created_at=(
+                    v.created_at.isoformat() if v.created_at else None
+                ),
+            )
+            for v in list_versions(db, game_id)
+        ]
+        return PackVersionsResponse(
+            game_id=game_id,
+            active_version=active_version(db, game_id),
+            versions=versions,
+        )
+    except SQLAlchemyError as exc:
+        log.warning('pack_versions failed: %s', exc)
+        raise HTTPException(status_code=503, detail='mind persistence unavailable')
+
+
+@router.post('/packs/{game_id}/clone', response_model=PackVersionOut)
+def pack_clone(
+    game_id: str,
+    payload: ClonePackRequest,
+    db: Session = Depends(get_session),
+):
+    """Copy the live pack into a draft namespace — edit it in the admin or
+    test it via game_id '<game>@draft-N' without touching production."""
+    try:
+        row = clone_pack(db, game_id, note=payload.note)
+        db.commit()
+        return PackVersionOut(
+            game_id=row.game_id, version=row.version, status=row.status,
+            namespace=row.namespace, note=row.note,
+            created_at=row.created_at.isoformat() if row.created_at else None,
+        )
+    except SQLAlchemyError as exc:
+        db.rollback()
+        log.warning('pack_clone failed: %s', exc)
+        raise HTTPException(status_code=503, detail='mind persistence unavailable')
+
+
+@router.post('/packs/{game_id}/promote', response_model=PromotePackResponse)
+def pack_promote(
+    game_id: str,
+    payload: PromotePackRequest,
+    db: Session = Depends(get_session),
+):
+    """Publish a draft: the live pack is archived as a frozen snapshot and
+    the draft's rows replace it in one transaction. Readers keep using
+    `game_id`; the resolver cache is dropped so the new pack is live."""
+    try:
+        prev_active = active_version(db, game_id)
+        row = promote_pack(db, game_id, payload.version)
+        if row is None:
+            raise HTTPException(status_code=404, detail='draft not found')
+        db.commit()
+        invalidate(game_id)
+        return PromotePackResponse(
+            game_id=game_id, version=row.version, status=row.status,
+            archived_version=prev_active or 1,
+        )
+    except SQLAlchemyError as exc:
+        db.rollback()
+        log.warning('pack_promote failed: %s', exc)
+        raise HTTPException(status_code=503, detail='mind persistence unavailable')

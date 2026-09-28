@@ -240,6 +240,60 @@ DEFAULT_PHRASE_LISTS = {
         'the silence or absence — what is not there, what the land withholds',
         'how the traveller wakes up, or what it takes for breakfast',
     ],
+    # Gates & rolls (B1): wrong readings for `misread` ({subject} = entity or
+    # true reading when present), the condition names that count as an
+    # altered state (fear/shadow), and the vague desc an unnoticed event
+    # leaves in memory — the "malestar difuso" of the spec.
+    'mind.misread': [
+        'read the signs of {subject} as an omen',
+        'was certain {subject} meant them harm',
+        'mistook {subject} for eyes watching from the dark',
+        'saw {subject} and felt sure it was a warning',
+        '{subject} — or what the fear made of it',
+        'the mind twisted what passed into something watching',
+        'a shape misread, menace where there was none',
+    ],
+    'mind.altered_states': [
+        'afraid', 'terrified', 'panicked', 'maddened',
+        'shadow-sick', 'delirious', 'haunted',
+    ],
+    'mind.unnoticed': [
+        'a vague unease, its source already forgotten',
+        'something passed unnoticed, leaving only restlessness',
+        'a dull disquiet with no name to put to it',
+    ],
+    # Needs (B2): one entry per detector key; 'mind.need.thread' is the
+    # generic fallback for narrative threads ({subject} = entity/region).
+    'mind.need.hunger': [
+        'the hunger has gone from ache to companion — food is owed',
+    ],
+    'mind.need.thirst': [
+        'the throat is dry as bone — water cannot wait much longer',
+    ],
+    'mind.need.exhaustion': [
+        'the body is spent past caution — rest is no longer optional',
+    ],
+    'mind.need.unrest': [
+        'the shadow on the heart wants answering — solace, or an end to fear',
+    ],
+    'mind.need.exposure': [
+        'day upon day of hostile weather has worn the spirit thin — shelter is needed',
+    ],
+    'mind.need.thread': [
+        'unfinished business with {subject} — the matter will not stay quiet',
+    ],
+    # Pattern memories (B3): {subject} is the human end of the recurring
+    # tag ('lembas', 'wolves', 'eriador'), {count} the episodes it hit.
+    'mind.pattern': [
+        '{subject} again — it is becoming the shape of these days',
+        'another day of {subject}; the pattern is unmistakable now',
+    ],
+    # Decisions (B5): resolution line returned by /decide. {choice} is
+    # the option label, {name} the character.
+    'mind.decision': [
+        'The choice is made: {choice}.',
+        '{name} takes {choice}.',
+    ],
     'opening.strategies': [
         'the first sentence has the land, the weather or an object as its grammatical subject — the traveller enters the paragraph late, almost incidentally',
         'open with a sensation in the body — heat, an ache, thirst, cold stone underhand — before saying who feels it or where',

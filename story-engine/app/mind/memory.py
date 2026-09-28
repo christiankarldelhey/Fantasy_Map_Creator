@@ -10,8 +10,10 @@
 # below forget_threshold they die. evocations >= evocations_to_fix promotes
 # to consolidated. Memories born this episode are exempt from the pass.
 # ============================================================================
+from app.mind.embeddings import embed
+from app.mind.nl_resolver import phrases as nl_phrases
 from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.tables import Memory
+from app.mind.tables import Episode, Memory
 
 
 def _wiring(brain):
@@ -42,7 +44,12 @@ def _entity_of(item):
     return data.get('entity') or data.get('entity_id')
 
 
-def _describe(item):
+def _describe(session, game_id, item, brain=None):
+    # An unnoticed event never resolved into a reading — what may lodge in
+    # memory is only the difuso it left behind (editable 'mind.unnoticed').
+    if item.get('perception') == 'unnoticed':
+        vague = nl_phrases(session, game_id, 'mind.unnoticed', brain=brain)
+        return vague[0] if vague else 'a faint unease, its source unclear'
     data = item.get('data') or {}
     subject = data.get('entity') or data.get('entity_id') or data.get('name')
     return item.get('reading') or (str(subject) if subject else f"a {item.get('type')}")
@@ -74,10 +81,12 @@ def encode_episode(session, brain, episode):
             continue
         sig = _signature(item)
         consolidated = importance >= fixed
-        desc = _describe(item)
+        desc = _describe(session, episode.game_id, item, brain=brain)
         if sig in by_sig:
             mem = by_sig[sig]
-            mem.desc = desc
+            if mem.desc != desc:
+                mem.desc = desc
+                mem.embedding = embed(desc)  # re-embed on rewording
             mem.importance = importance
             continue
         data = item.get('data') or {}
@@ -97,6 +106,7 @@ def encode_episode(session, brain, episode):
             consolidated=consolidated,
             origin='experience',
             created_episode=idx,
+            embedding=embed(desc),
         ))
         encoded += 1
         born_consolidated += int(consolidated)
@@ -148,13 +158,115 @@ def decay_pass(session, brain, current_episode_index):
     return {'forgotten': forgotten, 'consolidated': consolidated}
 
 
+def _pattern_desc(session, game_id, tag, count, brain=None):
+    """A theme worded by the NL pack ('mind.pattern'), {subject} = the
+    human end of the tag ('tag:food:lembas' -> 'lembas')."""
+    subject = tag.rsplit(':', 1)[-1].replace('_', ' ').replace('-', ' ')
+    options = nl_phrases(session, game_id, 'mind.pattern', brain=brain)
+    if options:
+        return options[0].format(subject=subject, count=count)
+    return f'{subject} keeps recurring'
+
+
+def detect_patterns(session, brain, episode, idx, w):
+    """Second path to permanence (spec §7.3): a non-type tag perceived in
+    >= pattern_min_episodes of the last pattern_window episodes consolidates
+    into a fixed kind='pattern' memory representing the theme.
+
+    Counts *perceived* tags (episodes.perceived_day), not memories — the
+    trivial-but-repeated is exactly what never encoded. Unnoticed events
+    don't count: the mind never registered them."""
+    if idx is None:
+        return 0
+    window = int(w.get('pattern_window', 4))
+    min_hits = int(w.get('pattern_min_episodes', 3))
+    recent = (
+        session.query(Episode)
+        .filter_by(character_id=brain.character_id)
+        .order_by(Episode.created_at.desc())
+        .limit(window * 2)
+        .all()
+    )
+    tag_episodes = {}
+    for ep in recent:
+        ep_idx = episode_index(ep)
+        if ep_idx is None or not (idx - window + 1 <= ep_idx <= idx):
+            continue
+        for item in ep.perceived_day or []:
+            if item.get('perception') == 'unnoticed':
+                continue
+            for tag in item.get('tags') or []:
+                if tag.startswith('type:'):
+                    continue  # too generic — every day has travel and meals
+                tag_episodes.setdefault(tag, set()).add(ep_idx)
+
+    existing = {
+        (m.tags or [None])[0]: m
+        for m in session.query(Memory)
+        .filter_by(character_id=brain.character_id, kind='pattern')
+        .all()
+    }
+    formed = 0
+    for tag, eps in tag_episodes.items():
+        if len(eps) < min_hits:
+            continue
+        pat = existing.get(tag)
+        if pat is not None:
+            # The theme is still alive — a touch of strength, no duplicate.
+            pat.strength = 1.0
+            pat.last_evoked_episode = idx
+            continue
+        desc = _pattern_desc(session, brain.game_id, tag, len(eps),
+                             brain=brain)
+        session.add(Memory(
+            game_id=brain.game_id,
+            character_id=brain.character_id,
+            episode_ids=[],
+            kind='pattern',
+            tags=[tag],
+            entity_id=(
+                tag.split('entity:', 1)[1] if tag.startswith('entity:')
+                else None
+            ),
+            region=(
+                tag.split('region:', 1)[1] if tag.startswith('region:')
+                else None
+            ),
+            desc=desc,
+            valence=0.0,
+            importance=min(1.0, len(eps) / window),
+            strength=1.0,
+            evocations=0,
+            last_evoked_episode=idx,
+            consolidated=True,
+            origin='experience',
+            created_episode=idx,
+            embedding=embed(desc),
+        ))
+        formed += 1
+    return formed
+
+
 def close_episode_memory(session, brain, episode):
-    """Full consolidation pass for one close: encode then decay."""
+    """Full consolidation pass for one close: encode, detect the recurring
+    themes, then decay the volatiles. Degraded brains (B10: NPCs) only
+    encode — their forgetting runs in batch via /maintenance/consolidate."""
     idx = episode_index(episode)
+    w = _wiring(brain)
     enc = encode_episode(session, brain, episode)
+    if w.get('degraded'):
+        return {
+            'encoded': enc['encoded'],
+            'forgotten': 0,
+            'consolidated': enc['born_consolidated'],
+            'patterns': 0,
+            'degraded': True,
+        }
+    patterns = detect_patterns(session, brain, episode, idx, w)
     decayed = decay_pass(session, brain, idx)
     return {
         'encoded': enc['encoded'],
         'forgotten': decayed['forgotten'],
         'consolidated': enc['born_consolidated'] + decayed['consolidated'],
+        'patterns': patterns,
     }

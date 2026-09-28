@@ -1,8 +1,9 @@
 # ============================================================================
 # Retrieval — what the episode stirs up
 # ----------------------------------------------------------------------------
-# Deterministic scoring (embeddings are B8):
+# Deterministic scoring:
 #   score = α·recency(e^-λ·Δepisodes) + β·importance + γ·relevance
+#           + δ·semantic_similarity   (B8 — embeddings, JSONB + Python)
 # relevance = share of the memory's tags that appear in the episode's
 # context — perceived event tags ∪ active belief tags (a belief about orcs
 # makes orc-memories easier to stir). Top-K (wiring) get evoked: the single
@@ -11,6 +12,7 @@
 # ============================================================================
 import math
 
+from app.mind.embeddings import cosine, ensure_embedding, episode_embedding
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Memory
 
@@ -57,6 +59,10 @@ def retrieve(session, brain, episode, perceived_day):
     beta = w.get('beta', 0.4)
     gamma = w.get('gamma', 0.2)
     lam = w.get('lambda_recency', 0.3)
+    # B8: semantic similarity — embed the day's readings once, compare
+    # against each memory's stored vector (backfilled lazily).
+    delta_w = w.get('delta_embedding', 0.25)
+    episode_vec = episode_embedding(perceived_day) if delta_w else None
 
     scored = []
     for mem in candidates:
@@ -68,6 +74,8 @@ def retrieve(session, brain, episode, perceived_day):
             + beta * (mem.importance or 0.0)
             + gamma * _relevance(mem.tags, context)
         )
+        if episode_vec is not None:
+            score += delta_w * cosine(episode_vec, ensure_embedding(mem))
         scored.append((score, mem))
 
     scored.sort(key=lambda t: t[0], reverse=True)

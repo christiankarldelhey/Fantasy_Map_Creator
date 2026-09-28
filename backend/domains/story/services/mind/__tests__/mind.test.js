@@ -57,6 +57,10 @@ test('toEvents emits the generic contract from a resolved day', () => {
   assert.equal(encounter.data.entity, 'orcs');
   assert.equal(encounter.data.danger, 0.7);
   assert.equal(encounter.where.region, 'lone-lands');
+  // B1: encounters carry a tracking check for the mind's gates & rolls;
+  // danger 0.7 normalizes to ~3.5 on the 0-5 scale -> difficulty 8.
+  assert.equal(encounter.data.check.skill, 'tracking');
+  assert.equal(encounter.data.check.difficulty, 8);
   const body = events.find((e) => e.type === 'body');
   assert.equal(body.data.energy, 0.5); // game scale 0-100 -> facets scale 0-1
 });

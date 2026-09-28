@@ -29,8 +29,10 @@ from app.mind.nl_resolver import (
 from app.mind.perceive import perceive_events
 from app.mind.provisioning import get_or_create_brain
 from app.mind.tables import (
-    Belief, Brain, BrainMold, Episode, Facet, Memory, MoldStarterBelief,
-    MoldThemeWeight, MoldWiring, NlBand, NlPhraseList, NlThreshold,
+    Belief, Brain, BrainMold, BrainNlOverride, CompositeRule, Episode,
+    PackVersion,
+    Facet, Memory, MoldStarterBelief,
+    MoldThemeWeight, MoldWiring, Need, NlBand, NlPhraseList, NlThreshold,
 )
 
 
@@ -145,9 +147,56 @@ class MoldStarterBeliefAdmin(ModelView, model=MoldStarterBelief):
     column_list = [
         MoldStarterBelief.mold_id, MoldStarterBelief.kind,
         MoldStarterBelief.statement, MoldStarterBelief.confidence,
-        MoldStarterBelief.tags,
+        MoldStarterBelief.tags, MoldStarterBelief.boosts,
     ]
     column_filters = [MoldStarterBelief.mold_id, MoldStarterBelief.kind]
+
+
+class CompositeRuleAdmin(ModelView, model=CompositeRule):
+    """B9: declarative multi-day states — editable rules instead of
+    hardcoded detectors (snowbound = temp<=1 AND precip>0, N days)."""
+
+    name = 'Composite rules'
+    category = 'Mind Tuner'
+    column_list = [
+        CompositeRule.game_id, CompositeRule.key, CompositeRule.need_type,
+        CompositeRule.event_type, CompositeRule.streak_days,
+        CompositeRule.conditions, CompositeRule.description,
+    ]
+    column_filters = [CompositeRule.game_id, CompositeRule.key]
+
+
+class PackVersionAdmin(ModelView, model=PackVersion):
+    """B10 (PRD §9.2): the version ledger — drafts live in their own
+    namespace, archives hold frozen snapshots for rollback. Clone/promote
+    run through the API; this view is the audit trail."""
+
+    name = 'Pack versions'
+    category = 'Mind Tuner'
+    column_list = [
+        PackVersion.game_id, PackVersion.version, PackVersion.status,
+        PackVersion.namespace, PackVersion.note, PackVersion.created_at,
+    ]
+    column_filters = [PackVersion.game_id, PackVersion.status]
+    can_create = False
+    can_edit = False
+    can_delete = False
+
+
+class BrainNlOverrideAdmin(ModelView, model=BrainNlOverride):
+    """B7: one brain's own NL voice — band/threshold/phrase rows that
+    replace the game pack for that character alone."""
+
+    name = 'Brain NL overrides'
+    category = 'Mind Tuner'
+    column_list = [
+        BrainNlOverride.brain_id, BrainNlOverride.kind,
+        BrainNlOverride.key, BrainNlOverride.ordinal,
+        BrainNlOverride.below, BrainNlOverride.phrase,
+        BrainNlOverride.value,
+    ]
+    column_filters = [BrainNlOverride.brain_id, BrainNlOverride.kind,
+                      BrainNlOverride.key]
 
 
 class BrainAdmin(ModelView, model=Brain):
@@ -171,7 +220,7 @@ class BeliefAdmin(ModelView, model=Belief):
     category = 'Mind Tuner'
     column_list = [
         Belief.character_id, Belief.kind, Belief.statement,
-        Belief.confidence, Belief.status, Belief.origin,
+        Belief.confidence, Belief.status, Belief.origin, Belief.boosts,
     ]
     column_filters = [
         Belief.game_id, Belief.character_id, Belief.kind, Belief.status,
@@ -207,6 +256,24 @@ class MemoryAdmin(ModelView, model=Memory):
     column_searchable_list = [Memory.character_id, Memory.desc]
     can_create = False
     can_edit = False
+    can_delete = False
+
+
+class NeedAdmin(ModelView, model=Need):
+    """Open/resolved intentions — detector needs re-open on their own;
+    closing a thread by hand is a legit admin act, so edit stays on."""
+
+    name = 'Needs'
+    category = 'Mind State'
+    column_list = [
+        Need.character_id, Need.key, Need.type, Need.status,
+        Need.urgency, Need.description,
+    ]
+    column_filters = [
+        Need.game_id, Need.character_id, Need.type, Need.status,
+    ]
+    column_searchable_list = [Need.character_id, Need.key, Need.description]
+    can_create = False
     can_delete = False
 
 
@@ -354,6 +421,12 @@ class MindInspectorView(BaseView):
                 .order_by(Episode.created_at.desc())
                 .all()
             )
+            needs = (
+                session.query(Need)
+                .filter_by(character_id=character_id)
+                .order_by(Need.urgency.desc())
+                .all()
+            )
             dump = {
                 'brain': {
                     'mold_slug': brain.mold_slug,
@@ -379,6 +452,11 @@ class MindInspectorView(BaseView):
                     {'ref': e.episode_ref, 'status': e.status,
                      'mood': e.mood}
                     for e in episodes
+                ],
+                'needs': [
+                    {'key': n.key, 'type': n.type, 'status': n.status,
+                     'urgency': n.urgency, 'description': n.description}
+                    for n in needs
                 ],
             }
             return (
@@ -406,7 +484,8 @@ def mount_admin(app, engine):
         NlBandAdmin, NlThresholdAdmin, NlPhraseListAdmin, FacetAdmin,
         BrainMoldAdmin, MoldThemeWeightAdmin, MoldWiringAdmin,
         MoldStarterBeliefAdmin, BrainAdmin, BeliefAdmin,
-        EpisodeAdmin, MemoryAdmin,
+        BrainNlOverrideAdmin, CompositeRuleAdmin, PackVersionAdmin,
+        EpisodeAdmin, MemoryAdmin, NeedAdmin,
         NlTesterView, MindInspectorView,
     ):
         admin.add_view(view)

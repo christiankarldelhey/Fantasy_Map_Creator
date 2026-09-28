@@ -76,6 +76,21 @@ export async function narrateDay({
         id: character.id || trip.character_id,
         name: character.name,
         brain_profile: character.brain_profile || character.slug || null,
+        // Snapshot the mind's gates & rolls need (B1): skills gate the
+        // attempt; energy/shadow/conditions bend the roll.
+        skills: {
+          tracking: character.skill_tracking ?? 0,
+          persuasion: character.skill_persuasion ?? 0,
+          ranged: character.skill_ranged ?? 0,
+          melee: character.skill_melee ?? 0,
+          lore: character.skill_lore ?? 0,
+        },
+        energy: character.energy ?? null,
+        shadow: character.shadow ?? null,
+        conditions: [
+          character.wounded && character.wounded !== 'none' ? 'wounded' : null,
+          character.sick ? 'sick' : null,
+        ].filter(Boolean),
       };
       const opened = await openEpisode({
         gameId: GAME_ID,

@@ -33,6 +33,60 @@ DEFAULT_WIRING = {
     'retrieval_boost': 0.1,
     'retrieval_min_score': 0.5,
     'evocations_to_fix': 3,
+    # Gates & rolls (B1) — see app/mind/checks.py. Per-skill gate floors may
+    # override via 'gate_min.<skill>'; below the floor there is no roll.
+    'gate_default_min': 0.0,
+    'check_die_sides': 10,
+    'check_default_difficulty': 8.0,
+    # success on a hard roll feeds w_perception: bonus = difficulty/scale.
+    'check_difficulty_scale': 10.0,
+    # State modifiers mirror the host's bands (skills are 0-10, d10 rolls):
+    'energy_worn_below': 0.5,
+    'energy_spent_below': 0.25,
+    'mod_energy_worn': -1.0,
+    'mod_energy_spent': -2.0,
+    'shadow_shadowed_min': 0.45,
+    'shadow_burdened_min': 0.7,
+    'mod_shadow_shadowed': -1.0,
+    'mod_shadow_burdened': -2.0,
+    'mod_wounded': -1.0,
+    # Failure while altered (shadow >= this, or an altered-state condition)
+    # turns unnoticed into misread; unnoticed keeps a dampened salience so a
+    # "difuso" unease may still lodge in memory.
+    'misread_shadow_min': 0.45,
+    'unnoticed_salience': 0.5,
+    # Needs engine (B2) — detector triggers; urgency formulas live in
+    # app/mind/needs.py.
+    'need_hunger_days': 1.0,
+    'need_thirst_days': 1.0,
+    'need_exhaustion_below': 0.25,
+    'need_unrest_shadow_min': 0.45,
+    'need_weather_streak': 3.0,
+    # Pattern memories (B3): a non-type tag seen in N of the last W
+    # episodes consolidates into a fixed pattern memory.
+    'pattern_window': 4,
+    'pattern_min_episodes': 3,
+    # Reflection (B4) — the mind's only LLM call, at close: every N
+    # episodes or on a salience spike. Reconciliation deltas, active cap
+    # and the decay of unreinforced beliefs.
+    'reflection_every': 5,
+    'reflection_importance_min': 0.85,
+    'reflection_memory_top': 20,
+    'belief_reinforce_delta': 0.1,
+    'belief_contradict_delta': 0.15,
+    'belief_weaken_below': 0.3,
+    'belief_confidence_decay': 0.95,
+    'belief_trauma_min': 0.9,
+    'belief_cap': 12,
+    # B6: a belief only bends theme_weights while it stays confident.
+    'belief_boost_min_confidence': 0.6,
+    # B8: semantic similarity joins the retrieval score —
+    # score += delta_embedding * cosine(episode, memory). 0 disables.
+    'delta_embedding': 0.25,
+    # B10: degraded brains (NPCs) still perceive and encode — they remember
+    # the protagonist — but never reflect (LLM stays a protagonist cost)
+    # and defer decay/pattern consolidation to POST /maintenance/consolidate.
+    'degraded': False,
 }
 
 NEUTRAL_MOOD = {'valence': 0.0, 'arousal': 0.0, 'dominant': 'neutral'}
@@ -98,7 +152,7 @@ def get_or_create_brain(session, game_id, character_id, hint_slug=None):
             session.add(Belief(
                 game_id=game_id, character_id=character_id, kind=sb.kind,
                 statement=sb.statement, confidence=sb.confidence,
-                tags=list(sb.tags or []),
+                tags=list(sb.tags or []), boosts=dict(sb.boosts or {}),
                 evidence=[], origin='seed', status='active',
             ))
     return brain

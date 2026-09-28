@@ -29,13 +29,15 @@ def _weighted_mean(items, key):
     )
 
 
-def episode_mood(session, game_id, perceived_day):
+def episode_mood(session, game_id, perceived_day, brain=None):
     """What this episode felt like: weighted by how much each event
     mattered (salience). dominant via the editable 'mood' band table."""
     items = perceived_day or []
     valence = _weighted_mean(items, 'valence')
     arousal = _weighted_mean(items, 'severity')
-    dominant = band_phrase(session, game_id, MOOD_TABLE, valence) or 'neutral'
+    dominant = band_phrase(
+        session, game_id, MOOD_TABLE, valence, brain=brain
+    ) or 'neutral'
     return {
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
@@ -55,7 +57,9 @@ def update_brain_mood(session, game_id, brain, ep_mood):
         (prior.get('arousal') or 0.0) * (1 - MOOD_BLEND)
         + ep_mood['arousal'] * MOOD_BLEND
     )
-    dominant = band_phrase(session, game_id, MOOD_TABLE, valence) or 'neutral'
+    dominant = band_phrase(
+        session, game_id, MOOD_TABLE, valence, brain=brain
+    ) or 'neutral'
     brain.mood = {
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
@@ -64,9 +68,13 @@ def update_brain_mood(session, game_id, brain, ep_mood):
     return brain.mood
 
 
-def render_lens(character_name, mood, beliefs, evoked_memories):
-    """THE MIND OF {name}: mood, loudest beliefs, stirring memories.
-    Needs are empty in the MVP (B2)."""
+LENS_NEED_TOP = 3
+
+
+def render_lens(character_name, mood, beliefs, evoked_memories, needs=None):
+    """THE MIND OF {name}: mood, loudest beliefs, stirring memories, open
+    needs as intentions (B2) — descriptions arrive already worded, the
+    lens never invents."""
     lines = [
         f'=== THE MIND OF {character_name} ===',
         f"Mood: {mood.get('dominant', 'neutral')}"
@@ -84,5 +92,10 @@ def render_lens(character_name, mood, beliefs, evoked_memories):
         lines.extend(
             f'- {m.desc}' for m in evoked_memories[:LENS_IMPRESSION_TOP]
         )
-    lines.append('Needs: —')
+    top_needs = (needs or [])[:LENS_NEED_TOP]
+    if top_needs:
+        lines.append('Needs:')
+        lines.extend(f'- {n["description"]}' for n in top_needs)
+    else:
+        lines.append('Needs: —')
     return '\n'.join(lines)
