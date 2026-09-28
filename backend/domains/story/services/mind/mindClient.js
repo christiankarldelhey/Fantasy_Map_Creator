@@ -27,22 +27,25 @@ async function post(path, body, timeoutMs) {
 }
 
 /**
- * Open (idempotent) or resume an episode. Returns {episode_id, psyche_packet}.
+ * Open (idempotent) or resume an episode. Returns {request, response} —
+ * the exact wire body sent plus {episode_id, psyche_packet} back.
  */
-export function openEpisode({
+export async function openEpisode({
   gameId,
   character,
   episodeRef,
   events,
   narratorPayload,
 }) {
-  return post('/episodes', {
+  const request = {
     game_id: gameId,
     character,
     episode_ref: episodeRef,
     events,
     narrator_payload: narratorPayload,
-  }, OPEN_TIMEOUT_MS);
+  };
+  const response = await post('/episodes', request, OPEN_TIMEOUT_MS);
+  return { request, response };
 }
 
 /**
@@ -53,9 +56,14 @@ export function narrateEpisode(episodeId, language) {
 }
 
 /**
- * Report what the host actually persisted; consolidates memory. Callers use
- * this fire-and-forget — a failed close must never break the game request.
+ * Report what the host actually persisted; consolidates memory. Returns
+ * {request, response} — the outcome sent plus the consolidation summary
+ * back. A failed close must never break the game request (catch upstream).
  */
-export function closeEpisode(episodeId, outcome) {
-  return post(`/episodes/${episodeId}/close`, { outcome }, CLOSE_TIMEOUT_MS);
+export async function closeEpisode(episodeId, outcome) {
+  const request = { outcome };
+  const response = await post(
+    `/episodes/${episodeId}/close`, request, CLOSE_TIMEOUT_MS
+  );
+  return { request, response };
 }

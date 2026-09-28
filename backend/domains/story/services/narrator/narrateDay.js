@@ -92,11 +92,12 @@ export async function narrateDay({
           character.sick ? 'sick' : null,
         ].filter(Boolean),
       };
-      const opened = await openEpisode({
+      const events = toEvents({ day, trip, character, stateContext });
+      const { request: openReq, response: opened } = await openEpisode({
         gameId: GAME_ID,
         character: characterRef,
         episodeRef: `trip:${trip.id}:day:${day.day_number}`,
-        events: toEvents({ day, trip, character, stateContext }),
+        events,
         narratorPayload,
       });
       const narrated = await narrateEpisode(opened.episode_id, language);
@@ -106,6 +107,7 @@ export async function narrateDay({
         prompt: narrated.prompt,
         generation: narrated.generation,
         mind_episode_id: opened.episode_id,
+        mind_open: { request: openReq, response: opened },
         psyche_packet: narrated.psyche_packet || opened.psyche_packet || null,
       };
     } catch (error) {

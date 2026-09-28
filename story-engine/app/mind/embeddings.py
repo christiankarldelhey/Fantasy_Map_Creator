@@ -67,9 +67,9 @@ def episode_embedding(perceived_day):
     """One vector for the episode's perceived readings — what the day
     'was about' in the mind's own words. Unnoticed items have no reading
     and contribute nothing."""
-    text = ' '.join(
-        item.get('reading') or ''
+    texts = [
+        item.get('reading')
         for item in (perceived_day or [])
         if item.get('perception') != 'unnoticed'
-    )
-    return embed(text)
+    ]
+    return embed(' '.join(t for t in texts if isinstance(t, str)))

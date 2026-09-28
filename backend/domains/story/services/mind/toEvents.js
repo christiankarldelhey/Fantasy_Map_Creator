@@ -232,7 +232,12 @@ export function toEvents({ day, trip, character, stateContext }) {
           when: when(day),
           where: where(regionOf(day)),
           data: {
-            terrain_phrases: Object.values(day.terrain_phrases || {}).flat().slice(0, 6),
+            // terrain_phrases is {region: {category: [phrases]}} — two
+            // levels of nesting before the strings.
+            terrain_phrases: Object.values(day.terrain_phrases || {})
+              .flatMap((r) => Object.values(r))
+              .flat()
+              .slice(0, 6),
             biomes: (day.biomes || []).map((b) => b.name || b).slice(0, 6),
           },
         }]

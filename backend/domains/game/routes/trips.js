@@ -430,7 +430,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
 
     // Generate AI narrative (optional, if API key is configured). Provider and
     // sampling params rotate per day; capture what was actually used.
-    const { prompt, generation, mind_episode_id } = await narrateDay({
+    const { prompt, generation, mind_episode_id, mind_open } = await narrateDay({
       day,
       trip,
       character,
@@ -454,8 +454,8 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
           road_types, locations, climate, encounters, thoughts, prompt, narrative, is_last_day,
           overnight_location, elevation_profile, places_interaction_id, rest_quality, shadow_effect,
           energy_start, energy_end, shadow_start, shadow_end,
-          ia_provider, temperature, frequency_penalty, presence_penalty, top_p, meals)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37)
+          ia_provider, temperature, frequency_penalty, presence_penalty, top_p, meals, mind_open)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38)
        RETURNING *`,
       [
         trip.id,
@@ -493,6 +493,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         generation.presence_penalty,
         generation.top_p,
         JSON.stringify(meals),
+        mind_open ? JSON.stringify(mind_open) : null,
       ]
     );
 
@@ -517,10 +518,12 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     );
 
     // The day is persisted — tell the mind what actually happened so it can
-    // consolidate memory. Fire-and-forget: a failed close never breaks the
-    // request (the mind is observational, not transactional).
+    // consolidate memory. A failed close never breaks the request (the mind
+    // is observational, not transactional), but we await it so the wire
+    // round-trip is stored for inspection.
+    let mind_close = null;
     if (mind_episode_id) {
-      closeEpisode(mind_episode_id, {
+      mind_close = await closeEpisode(mind_episode_id, {
         trip_id: trip.id,
         day_number: day.day_number,
         energy_delta: newEnergy - openingEnergy,
@@ -529,13 +532,23 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         meals,
         day_events: dayEvents,
         encountered_entity_ids: newEntityIds,
-      }).catch((err) => console.warn('[mind] close failed (non-fatal):', err.message));
+      }).catch((err) => {
+        console.warn('[mind] close failed (non-fatal):', err.message);
+        return null;
+      });
+      if (mind_close) {
+        await pool.query(
+          'UPDATE trip_days SET mind_close = $1 WHERE id = $2',
+          [JSON.stringify(mind_close), insertRes.rows[0].id]
+        );
+      }
     }
 
     const endCause = END_CAUSE_MAP[fate.fate] || null;
     const tripStatus = fate.status === 'dead' ? 'dead' : trip.status;
     res.status(201).json({
       ...insertRes.rows[0],
+      mind_close,
       trip_status: tripStatus,
       character_status: fate.status,
       end_cause: endCause,

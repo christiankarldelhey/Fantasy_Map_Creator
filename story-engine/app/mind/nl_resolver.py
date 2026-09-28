@@ -206,6 +206,23 @@ class NlPack:
         return options[0] if options else default
 
 
+def _first_string(values):
+    """First non-empty string in an arbitrarily nested list/dict — event
+    payloads flatten differently across hosts; readings dig until prose."""
+    for v in values or []:
+        if isinstance(v, str) and v:
+            return v
+        if isinstance(v, dict):
+            found = _first_string(v.values())
+        elif isinstance(v, list):
+            found = _first_string(v)
+        else:
+            continue
+        if found:
+            return found
+    return None
+
+
 def resolve_event_reading(session, game_id, event, brain=None):
     """One-line natural-language reading of an event's data — what the mind
     would say it noticed. Climate uses the band tables; everything else falls
@@ -249,8 +266,9 @@ def resolve_event_reading(session, game_id, event, brain=None):
             x for x in (data.get('food'), data.get('drink')) if x
         ) or None
     if etype == 'terrain':
-        words = data.get('terrain_phrases') or data.get('biomes') or []
-        return words[0] if words else None
+        return _first_string(
+            data.get('terrain_phrases') or data.get('biomes')
+        )
     if etype == 'rest':
         place = data.get('place')
         return subject or (place if isinstance(place, str) else None)

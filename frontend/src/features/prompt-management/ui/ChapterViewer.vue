@@ -37,8 +37,8 @@ const { language } = useLanguage()
 const { saveUserSettings } = useUserSettings()
 const { setTripDate, resetToRealTime } = useGlobalClimateTime()
 
-const expanded = ref<Record<string, 'narrative' | 'prompt' | 'code' | 'system' | null>>({})
-const copied = ref<Record<string, { prompt?: boolean; code?: boolean; system?: boolean }>>({})
+const expanded = ref<Record<string, 'narrative' | 'prompt' | 'open' | 'close' | 'system' | null>>({})
+const copied = ref<Record<string, { prompt?: boolean; open?: boolean; close?: boolean; system?: boolean }>>({})
 const systemPrompt = ref<string>('')
 const copiedAllCodes = ref(false)
 const exportingPdf = ref(false)
@@ -81,16 +81,16 @@ const labels = computed(() => {
   }
 })
 
-function toggle(day: TripDay, panel: 'narrative' | 'prompt' | 'code' | 'system') {
+function toggle(day: TripDay, panel: 'narrative' | 'prompt' | 'open' | 'close' | 'system') {
   const current = expanded.value[day.id]
   expanded.value = { ...expanded.value, [day.id]: current === panel ? null : panel }
 }
 
-function jsonCopy(day: TripDay) {
-  return JSON.stringify(day, null, 2)
+function jsonCopy(payload: unknown) {
+  return JSON.stringify(payload ?? null, null, 2)
 }
 
-async function copyToClipboard(text: string | null | undefined, dayId: string, type: 'prompt' | 'code' | 'system') {
+async function copyToClipboard(text: string | null | undefined, dayId: string, type: 'prompt' | 'open' | 'close' | 'system') {
   try {
     await navigator.clipboard.writeText(text ?? '')
     copied.value = { ...copied.value, [dayId]: { ...copied.value[dayId], [type]: true } }
@@ -104,7 +104,11 @@ async function copyToClipboard(text: string | null | undefined, dayId: string, t
 
 async function copyAllCodes() {
   try {
-    const payload = days.value
+    const payload = days.value.map((d) => ({
+      day_number: d.day_number,
+      open: d.mind_open ?? null,
+      close: d.mind_close ?? null,
+    }))
     await navigator.clipboard.writeText(JSON.stringify(payload, null, 2))
     copiedAllCodes.value = true
     setTimeout(() => {
@@ -429,11 +433,19 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </button>
           <button
             class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'code' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-            @click="toggle(day, 'code')"
+            :class="expanded[day.id] === 'open' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+            @click="toggle(day, 'open')"
           >
-            <component :is="expanded[day.id] === 'code' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            {{ t('chapter.tabs.code') }}
+            <component :is="expanded[day.id] === 'open' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+            {{ t('chapter.tabs.open') }}
+          </button>
+          <button
+            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
+            :class="expanded[day.id] === 'close' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+            @click="toggle(day, 'close')"
+          >
+            <component :is="expanded[day.id] === 'close' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+            {{ t('chapter.tabs.close') }}
           </button>
           <button
             class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
@@ -464,21 +476,44 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           <pre class="text-xs text-ink-brown whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ day.prompt }}</pre>
         </div>
 
-        <div v-if="expanded[day.id] === 'code'" class="px-4 py-4 relative">
+        <div v-if="expanded[day.id] === 'open'" class="px-4 py-4 relative">
           <button
+            v-if="day.mind_open"
             class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
-            :title="copied[day.id]?.code ? t('chapter.copied') : t('chapter.copyJson')"
-            @click="copyToClipboard(jsonCopy(day), day.id, 'code')"
+            :title="copied[day.id]?.open ? t('chapter.copied') : t('chapter.copyJson')"
+            @click="copyToClipboard(jsonCopy(day.mind_open), day.id, 'open')"
           >
-            <component :is="copied[day.id]?.code ? Check : Copy" class="w-4 h-4" />
+            <component :is="copied[day.id]?.open ? Check : Copy" class="w-4 h-4" />
           </button>
           <JsonViewer
-            :value="day"
+            v-if="day.mind_open"
+            :value="day.mind_open"
             :expand-depth="1"
             :copyable="false"
             :sort="false"
             theme="dark"
           />
+          <p v-else class="text-sm text-ink-faded italic">{{ t('chapter.notAvailable') }}</p>
+        </div>
+
+        <div v-if="expanded[day.id] === 'close'" class="px-4 py-4 relative">
+          <button
+            v-if="day.mind_close"
+            class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
+            :title="copied[day.id]?.close ? t('chapter.copied') : t('chapter.copyJson')"
+            @click="copyToClipboard(jsonCopy(day.mind_close), day.id, 'close')"
+          >
+            <component :is="copied[day.id]?.close ? Check : Copy" class="w-4 h-4" />
+          </button>
+          <JsonViewer
+            v-if="day.mind_close"
+            :value="day.mind_close"
+            :expand-depth="1"
+            :copyable="false"
+            :sort="false"
+            theme="dark"
+          />
+          <p v-else class="text-sm text-ink-faded italic">{{ t('chapter.notAvailable') }}</p>
         </div>
 
         <div v-if="expanded[day.id] === 'system'" class="px-4 py-4 relative">
@@ -631,11 +666,19 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
               </button>
               <button
                 class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
-                :class="expanded[day.id] === 'code' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-                @click="toggle(day, 'code')"
+                :class="expanded[day.id] === 'open' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+                @click="toggle(day, 'open')"
               >
-                <component :is="expanded[day.id] === 'code' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                {{ t('chapter.tabs.code') }}
+                <component :is="expanded[day.id] === 'open' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                {{ t('chapter.tabs.open') }}
+              </button>
+              <button
+                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
+                :class="expanded[day.id] === 'close' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+                @click="toggle(day, 'close')"
+              >
+                <component :is="expanded[day.id] === 'close' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                {{ t('chapter.tabs.close') }}
               </button>
               <button
                 class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
@@ -666,21 +709,44 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
               <pre class="text-xs text-ink-brown whitespace-pre-wrap font-mono bg-parchment-dark rounded-md p-3 border border-earth-dark">{{ day.prompt }}</pre>
             </div>
 
-            <div v-if="expanded[day.id] === 'code'" class="px-4 py-4 relative">
+            <div v-if="expanded[day.id] === 'open'" class="px-4 py-4 relative">
               <button
+                v-if="day.mind_open"
                 class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
-                :title="copied[day.id]?.code ? t('chapter.copied') : t('chapter.copyJson')"
-                @click="copyToClipboard(jsonCopy(day), day.id, 'code')"
+                :title="copied[day.id]?.open ? t('chapter.copied') : t('chapter.copyJson')"
+                @click="copyToClipboard(jsonCopy(day.mind_open), day.id, 'open')"
               >
-                <component :is="copied[day.id]?.code ? Check : Copy" class="w-4 h-4" />
+                <component :is="copied[day.id]?.open ? Check : Copy" class="w-4 h-4" />
               </button>
               <JsonViewer
-                :value="day"
+                v-if="day.mind_open"
+                :value="day.mind_open"
                 :expand-depth="1"
                 :copyable="false"
                 :sort="false"
                 theme="dark"
               />
+              <p v-else class="text-sm text-ink-faded italic">{{ t('chapter.notAvailable') }}</p>
+            </div>
+
+            <div v-if="expanded[day.id] === 'close'" class="px-4 py-4 relative">
+              <button
+                v-if="day.mind_close"
+                class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
+                :title="copied[day.id]?.close ? t('chapter.copied') : t('chapter.copyJson')"
+                @click="copyToClipboard(jsonCopy(day.mind_close), day.id, 'close')"
+              >
+                <component :is="copied[day.id]?.close ? Check : Copy" class="w-4 h-4" />
+              </button>
+              <JsonViewer
+                v-if="day.mind_close"
+                :value="day.mind_close"
+                :expand-depth="1"
+                :copyable="false"
+                :sort="false"
+                theme="dark"
+              />
+              <p v-else class="text-sm text-ink-faded italic">{{ t('chapter.notAvailable') }}</p>
             </div>
 
             <div v-if="expanded[day.id] === 'system'" class="px-4 py-4 relative">

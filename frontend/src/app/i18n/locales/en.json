@@ -253,13 +253,14 @@
     "tabs": {
       "narrative": "Narrative",
       "prompt": "Prompt",
-      "code": "Code",
+      "open": "Open",
+      "close": "Close",
       "system": "System"
     },
     "noNarrative": "No narrative was generated for this day.",
     "noChapters": "No chapters yet. Generate the first day to begin the journey.",
-    "copyAllCodes": "Copy all day codes",
-    "copiedAll": "Copied all codes",
+    "copyAllCodes": "Copy all mind payloads",
+    "copiedAll": "Copied all mind payloads",
     "redo": "Redo narration",
     "copyPrompt": "Copy prompt to clipboard",
     "copied": "Copied",

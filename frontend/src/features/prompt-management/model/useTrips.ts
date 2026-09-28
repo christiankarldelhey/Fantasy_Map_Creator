@@ -75,6 +75,9 @@ export interface TripDay {
   places_interaction_id?: number | null
   rest_quality?: number | null
   shadow_effect?: number | null
+  // Mind engine wire audit: {request, response} of the episode open/close
+  mind_open?: Record<string, unknown> | null
+  mind_close?: Record<string, unknown> | null
   // AI generation/sampling metadata actually used for this chapter
   ia_provider?: string | null
   temperature?: number | null

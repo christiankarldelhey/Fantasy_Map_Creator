@@ -253,13 +253,14 @@
     "tabs": {
       "narrative": "Narrativa",
       "prompt": "Prompt",
-      "code": "Código",
+      "open": "Open",
+      "close": "Close",
       "system": "Sistema"
     },
     "noNarrative": "No se generó narrativa para este día.",
     "noChapters": "Aún no hay capítulos. Genera el primer día para comenzar el viaje.",
-    "copyAllCodes": "Copiar todos los códigos del día",
-    "copiedAll": "Códigos copiados",
+    "copyAllCodes": "Copiar todos los payloads mind",
+    "copiedAll": "Payloads mind copiados",
     "redo": "Rehacer narración",
     "copyPrompt": "Copiar prompt al portapapeles",
     "copied": "Copiado",
