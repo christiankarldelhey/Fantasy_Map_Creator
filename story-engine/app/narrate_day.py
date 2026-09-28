@@ -33,6 +33,7 @@ def narrate_day(
     recent_day_climates=None,
     previous_openings=None,
     mind_block='',
+    impressions=None,
     nl=None,
 ):
     trip = trip or {}
@@ -69,6 +70,7 @@ def narrate_day(
         day=day,
         banned_phrases=banned_phrases,
         character_name=character.get('name') or 'Aranath',
+        impressions=impressions,
     )
 
     return {'prompt': prompt, 'generation': generation}

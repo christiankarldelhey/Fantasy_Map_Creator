@@ -55,7 +55,12 @@ def health():
 
 @app.post('/narrate-day', response_model=NarrateDayResponse)
 def narrate_day_endpoint(payload: NarrateDayRequest):
-    session = SessionLocal() if (SessionLocal and payload.game_id) else None
+    # Mind-down degradation: if a session can't even open, narrate without
+    # the NL pack — the stateless path never depends on persistence.
+    try:
+        session = SessionLocal() if (SessionLocal and payload.game_id) else None
+    except Exception:  # noqa: BLE001
+        session = None
     try:
         result = narrate_day(
             day=payload.day,

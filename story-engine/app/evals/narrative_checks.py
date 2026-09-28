@@ -118,3 +118,36 @@ def check_scenery_inventory(narrative):
         result['reason'] = f'first paragraph uses {total} había/no había (inventory-style)'
     print('[check:scenery_inventory]', 'PASS' if ok else 'FAIL', total)
     return result
+
+
+# Words too common to count as a memory reference on their own.
+_LENS_STOPWORDS = {
+    'the', 'a', 'an', 'of', 'and', 'or', 'in', 'on', 'at', 'to', 'with',
+    'cold', 'hot', 'wet', 'dry', 'wind', 'road', 'day', 'night', 'camp',
+}
+
+
+def check_lens_reference(narrative, impressions=None):
+    """Did the narrative echo what the mind stirred? Passes when at least
+    one evoked memory's desc contributes a distinctive token (>=4 chars,
+    not a stopword) that appears in the text. With no impressions there is
+    nothing to echo — skipped as ok."""
+    impressions = [i for i in (impressions or []) if i]
+    print('[check:lens_reference] checking', len(impressions), 'impressions')
+    if not impressions:
+        return {'name': 'lens_reference', 'ok': True, 'details': {'skipped': True}}
+    text = _normalize(narrative)
+    hits = []
+    for desc in impressions:
+        tokens = [
+            t for t in _normalize(desc).replace(':', ' ').split()
+            if len(t) >= 4 and t not in _LENS_STOPWORDS
+        ]
+        if any(t in text for t in tokens):
+            hits.append(desc)
+    ok = len(hits) > 0
+    result = {'name': 'lens_reference', 'ok': ok, 'details': {'echoed': hits}}
+    if not ok:
+        result['reason'] = 'narrative never echoes any evoked memory'
+    print('[check:lens_reference]', 'PASS' if ok else 'FAIL', hits)
+    return result

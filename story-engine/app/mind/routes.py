@@ -209,6 +209,20 @@ def close_episode(
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
 
 
+def _evoked_impressions(db, episode):
+    """Descs of the memories this episode stirred — feeds the lens-reference
+    narrative eval (did the prose echo what the mind brought up?)."""
+    ids = {
+        mem_id
+        for item in (episode.perceived_day or [])
+        for mem_id in (item.get('evoked') or [])
+    }
+    if not ids:
+        return []
+    rows = db.query(Memory.desc).filter(Memory.id.in_(ids)).all()
+    return [r[0] for r in rows]
+
+
 @router.post('/episodes/{episode_id}/narrate', response_model=NarrateEpisodeResponse)
 def narrate_episode(
     episode_id: str,
@@ -255,6 +269,7 @@ def narrate_episode(
             recent_day_climates=req.recentDayClimates,
             previous_openings=req.previousOpenings,
             mind_block=mind_section(episode.lens_block, episode.perceived_day),
+            impressions=_evoked_impressions(db, episode),
             nl=NlPack(db, episode.game_id),
         )
         episode.narrated_at = datetime.now(timezone.utc)

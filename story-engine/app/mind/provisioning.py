@@ -31,6 +31,7 @@ DEFAULT_WIRING = {
     'lambda_recency': 0.3,
     'retrieval_top_k': 5,
     'retrieval_boost': 0.1,
+    'retrieval_min_score': 0.5,
     'evocations_to_fix': 3,
 }
 

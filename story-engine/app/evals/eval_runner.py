@@ -6,13 +6,14 @@
 from app.evals.narrative_checks import (
     check_banned_phrases,
     check_encounters_presented,
+    check_lens_reference,
     check_opening,
     check_prompt_quotes,
     check_scenery_inventory,
 )
 
 
-def run_narrative_evals(narrative, day=None, banned_phrases=None, character_name='Aranath'):
+def run_narrative_evals(narrative, day=None, banned_phrases=None, character_name='Aranath', impressions=None):
     day = day or {}
     banned_phrases = banned_phrases or []
 
@@ -27,6 +28,7 @@ def run_narrative_evals(narrative, day=None, banned_phrases=None, character_name
         check_prompt_quotes(narrative, day.get('prompt')),
         check_encounters_presented(narrative, day.get('encounters')),
         check_scenery_inventory(narrative),
+        check_lens_reference(narrative, impressions),
     ]
     failed = [c for c in checks if not c['ok']]
     ok = len(failed) == 0

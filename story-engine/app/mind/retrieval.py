@@ -73,9 +73,15 @@ def retrieve(session, brain, episode, perceived_day):
     scored.sort(key=lambda t: t[0], reverse=True)
     top_k = int(w.get('retrieval_top_k', 5))
     boost = w.get('retrieval_boost', 0.1)
+    # Evocation asks for a minimum score — otherwise a mind with few
+    # memories would stir every one of them each episode and nothing
+    # would ever fade.
+    min_score = w.get('retrieval_min_score', 0.5)
 
     evoked = []
-    for _, mem in scored[:top_k]:
+    for score, mem in scored[:top_k]:
+        if score < min_score:
+            break
         mem.evocations = (mem.evocations or 0) + 1
         if idx is not None:
             mem.last_evoked_episode = idx
