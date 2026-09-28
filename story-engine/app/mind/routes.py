@@ -15,8 +15,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from datetime import datetime, timezone
+
 from app.db import get_session
+from app.mind.memory import close_episode_memory
 from app.mind.models import (
+    CloseEpisodeRequest,
+    CloseEpisodeResponse,
     EpisodeStateResponse,
     MindStateResponse,
     Mood,
@@ -28,7 +33,7 @@ from app.mind.models import (
 )
 from app.mind.perceive import perceive_events
 from app.mind.provisioning import get_or_create_brain, reassign_mold
-from app.mind.tables import Belief, Brain, Episode
+from app.mind.tables import Belief, Brain, Episode, Memory
 
 log = logging.getLogger(__name__)
 
@@ -135,12 +140,58 @@ def get_episode(episode_id: str, db: Session = Depends(get_session)):
     return _episode_state(episode)
 
 
+@router.post('/episodes/{episode_id}/close', response_model=CloseEpisodeResponse)
+def close_episode(
+    episode_id: str,
+    payload: CloseEpisodeRequest,
+    db: Session = Depends(get_session),
+):
+    """The host reports what it persisted; Mind consolidates: encode the
+    perceived day into memories, decay the volatiles, forget the faded.
+    Idempotent — re-close updates the outcome but never re-encodes or
+    re-decays."""
+    try:
+        episode = db.get(Episode, episode_id)
+        if episode is None:
+            raise HTTPException(status_code=404, detail='episode not found')
+        if payload.outcome is not None:
+            episode.outcome = payload.outcome
+        if episode.status == 'closed':
+            db.commit()
+            return CloseEpisodeResponse(
+                episode_id=episode.id, status='closed', already_closed=True
+            )
+        brain = (
+            db.query(Brain)
+            .filter_by(
+                game_id=episode.game_id, character_id=episode.character_id
+            )
+            .one_or_none()
+        )
+        summary = close_episode_memory(db, brain, episode) if brain else {}
+        episode.status = 'closed'
+        episode.closed_at = datetime.now(timezone.utc)
+        db.commit()
+        return CloseEpisodeResponse(episode_id=episode.id, status='closed', **summary)
+    except SQLAlchemyError as exc:
+        db.rollback()
+        log.warning('close_episode failed: %s', exc)
+        raise HTTPException(status_code=503, detail='mind persistence unavailable')
+
+
 @router.get('/mind/state/{character_id}', response_model=MindStateResponse)
 def mind_state(character_id: str, db: Session = Depends(get_session)):
     try:
         brain = db.query(Brain).filter_by(character_id=character_id).one_or_none()
         beliefs = (
             db.query(Belief).filter_by(character_id=character_id).all()
+            if brain else []
+        )
+        memories = (
+            db.query(Memory)
+            .filter_by(character_id=character_id)
+            .order_by(Memory.importance.desc())
+            .all()
             if brain else []
         )
         count = db.query(Episode).filter_by(character_id=character_id).count()
@@ -167,6 +218,14 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
                 'status': b.status,
             }
             for b in beliefs
+        ],
+        memories=[
+            {
+                'id': m.id, 'kind': m.kind, 'desc': m.desc, 'tags': m.tags,
+                'importance': m.importance, 'strength': m.strength,
+                'evocations': m.evocations, 'consolidated': m.consolidated,
+            }
+            for m in memories
         ],
         episodes=count,
     )

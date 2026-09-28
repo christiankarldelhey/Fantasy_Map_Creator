@@ -8,7 +8,10 @@
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import (
+    Boolean, DateTime, Float, ForeignKey, Index, Integer, String, Text,
+    UniqueConstraint,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -24,6 +27,7 @@ def _new_id(prefix):
 new_episode_id = _new_id('ep')
 new_brain_id = _new_id('br')
 new_belief_id = _new_id('bl')
+new_memory_id = _new_id('mem')
 
 
 class Episode(Base):
@@ -227,6 +231,37 @@ class Belief(Base):
     boosts: Mapped[dict] = mapped_column(JSONB, nullable=True)  # reserved, B6
     formed_episode: Mapped[int] = mapped_column(Integer, nullable=True)
     updated_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+
+
+class Memory(Base):
+    """A lived impression. Volatile memories decay each close and die below
+    forget_threshold; consolidated ones never decay (the three paths to
+    permanence: born fixed, promoted by evocations, or — later — patterns)."""
+
+    __tablename__ = 'memories'
+    __table_args__ = (
+        Index('ix_memories_character', 'character_id'),
+        Index('ix_memories_tags', 'tags', postgresql_using='gin'),
+    )
+
+    id: Mapped[str] = mapped_column(String(40), primary_key=True, default=new_memory_id)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    character_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    episode_ids: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    kind: Mapped[str] = mapped_column(String(20), nullable=False, default='episodic')
+    tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    entity_id: Mapped[str] = mapped_column(String(120), nullable=True)
+    region: Mapped[str] = mapped_column(String(120), nullable=True)
+    desc: Mapped[str] = mapped_column(Text, nullable=False)
+    valence: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    importance: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    strength: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    evocations: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    last_evoked_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+    consolidated: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    embedding: Mapped[dict] = mapped_column(JSONB, nullable=True)  # reserved, B8
+    origin: Mapped[str] = mapped_column(String(30), nullable=False, default='experience')
+    created_episode: Mapped[int] = mapped_column(Integer, nullable=True)
 
 
 class Facet(Base):

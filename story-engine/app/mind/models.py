@@ -114,6 +114,7 @@ class MindStateResponse(BaseModel):
     character_id: str
     brain: Optional[Dict[str, Any]] = None
     beliefs: List[Dict[str, Any]] = []
+    memories: List[Dict[str, Any]] = []
     episodes: int = 0
 
 
@@ -121,3 +122,19 @@ class ReassignMoldRequest(BaseModel):
     slug: str = Field(min_length=1)
     game_id: Optional[str] = None
     reclone: bool = False
+
+
+class CloseEpisodeRequest(BaseModel):
+    """What the host actually persisted — deltas applied, choice made,
+    narrative ref. Free-form; Mind stores it, never interprets it."""
+
+    outcome: Optional[Dict[str, Any]] = None
+
+
+class CloseEpisodeResponse(BaseModel):
+    episode_id: str
+    status: str
+    encoded: int = 0
+    forgotten: int = 0
+    consolidated: int = 0
+    already_closed: bool = False
