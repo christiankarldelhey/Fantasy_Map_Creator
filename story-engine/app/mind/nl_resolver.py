@@ -138,6 +138,30 @@ def facets(session, game_id):
     return _pack(session, game_id)['facets']
 
 
+class NlPack:
+    """Bound resolver: session + game_id in one object. This is what the
+    natural_language modules accept as their optional `nl` argument — they
+    fall back to module constants when it's None, so legacy callers never
+    change behaviour."""
+
+    def __init__(self, session, game_id):
+        self._session = session
+        self.game_id = game_id
+
+    def band_phrase(self, table, value, rng=random.random):
+        return band_phrase(self._session, self.game_id, table, value, rng)
+
+    def threshold(self, key, default=None):
+        return threshold(self._session, self.game_id, key, default)
+
+    def phrases(self, key):
+        return phrases(self._session, self.game_id, key)
+
+    def phrase(self, key, default=None):
+        options = self.phrases(key)
+        return options[0] if options else default
+
+
 def resolve_event_reading(session, game_id, event):
     """One-line natural-language reading of an event's data — what the mind
     would say it noticed. Climate uses the band tables; everything else falls

@@ -41,7 +41,28 @@ def _band_phrase(bands, value):
     return None
 
 
-def summarise_weather(records):
+# ---- nl pack wiring ---------------------------------------------------------
+# Every consumer accepts an optional NlPack (app.mind.nl_resolver). When it's
+# absent the module constants apply — identical output, so legacy callers and
+# games without a seeded pack keep working byte-for-byte.
+
+
+def _band(nl, table, bands, value):
+    if nl is not None:
+        return nl.band_phrase(table, value)
+    return _band_phrase(bands, value)
+
+
+def _threshold(nl, key, fallback):
+    return nl.threshold(key, fallback) if nl is not None else fallback
+
+
+def _pick(nl, key, fallback, rng):
+    choices = nl.phrases(key) if nl is not None else None
+    return pick(choices or fallback, rng)
+
+
+def summarise_weather(records, nl=None):
     """Summarise weather records into a short phrase like "cool, partly cloudy"."""
     mean_temp = mean_of([w.get('temperature_2m') for w in records])
     mean_cloud = mean_of([w.get('cloud_cover') for w in records])
@@ -49,12 +70,12 @@ def summarise_weather(records):
     total_prec = sum_of([w.get('precipitation') or 0 for w in records])
 
     parts = [p for p in [
-        _band_phrase(TEMPERATURE_BANDS, mean_temp),
-        _band_phrase(CLOUD_BANDS, mean_cloud),
-        'windy' if (mean_wind is not None and mean_wind > WINDY_SPEED_MIN) else None,
+        _band(nl, 'temperature', TEMPERATURE_BANDS, mean_temp),
+        _band(nl, 'cloud_cover', CLOUD_BANDS, mean_cloud),
+        'windy' if (mean_wind is not None and mean_wind > _threshold(nl, 'climate.windy_speed_min', WINDY_SPEED_MIN)) else None,
     ] if p]
 
-    if total_prec > WET_PRECIPITATION_MIN:
+    if total_prec > _threshold(nl, 'climate.wet_precipitation_min', WET_PRECIPITATION_MIN):
         parts.append('wet')
     elif total_prec > 0:
         parts.append('a passing shower')
@@ -62,7 +83,7 @@ def summarise_weather(records):
     return join_list(parts) if parts else None
 
 
-def collect_climate_notes_by_phase(climate_array, moon=None):
+def collect_climate_notes_by_phase(climate_array, moon=None, nl=None):
     """Group weather into the three narrative phases and return one summary
     phrase per phase (None when there is no data for it)."""
     notes = {'morning': None, 'afternoon': None, 'night': None}
@@ -78,10 +99,10 @@ def collect_climate_notes_by_phase(climate_array, moon=None):
     for phase in NARRATIVE_PHASES:
         if not by_phase[phase]:
             continue
-        summary = summarise_weather(by_phase[phase])
+        summary = summarise_weather(by_phase[phase], nl)
         if phase == 'night' and summary and moon:
             mean_cloud = mean_of([w.get('cloud_cover') for w in by_phase['night']])
-            moon_phrase = format_moon_night_phrase(moon, mean_cloud)
+            moon_phrase = format_moon_night_phrase(moon, mean_cloud, nl)
             if moon_phrase:
                 summary = f'{summary} — {moon_phrase}'
         notes[phase] = summary
@@ -133,7 +154,7 @@ SCORCHED_PHRASES = [
 ]
 
 
-def day_weather_signature(climate=None):
+def day_weather_signature(climate=None, nl=None):
     """Summarise a single day by its worst (or most defining) weather impression."""
     samples = [s for s in (inner_climate(s) for s in (climate or [])) if s]
     if len(samples) == 0:
@@ -150,11 +171,17 @@ def day_weather_signature(climate=None):
     max_wind = max(winds) if winds else None
     total_precip = sum(precs)
 
-    snow = any(isinstance(s.get('temperature_2m'), (int, float)) and s['temperature_2m'] <= SNOW_TEMP_MAX and (s.get('precipitation') or 0) > 0 for s in samples)
-    heavy_rain = any((s.get('precipitation') or 0) >= HEAVY_RAIN_MIN for s in samples)
-    storm = max_wind is not None and max_wind >= STORM_WIND_MIN
-    deep_cold = mean_temp is not None and mean_temp <= DEEP_COLD_MAX
-    scorching = mean_temp is not None and mean_temp >= SCORCHING_MIN
+    snow_max = _threshold(nl, 'climate.snow_temp_max', SNOW_TEMP_MAX)
+    rain_min = _threshold(nl, 'climate.heavy_rain_min', HEAVY_RAIN_MIN)
+    storm_min = _threshold(nl, 'climate.storm_wind_min', STORM_WIND_MIN)
+    cold_max = _threshold(nl, 'climate.deep_cold_max', DEEP_COLD_MAX)
+    hot_min = _threshold(nl, 'climate.scorching_min', SCORCHING_MIN)
+
+    snow = any(isinstance(s.get('temperature_2m'), (int, float)) and s['temperature_2m'] <= snow_max and (s.get('precipitation') or 0) > 0 for s in samples)
+    heavy_rain = any((s.get('precipitation') or 0) >= rain_min for s in samples)
+    storm = max_wind is not None and max_wind >= storm_min
+    deep_cold = mean_temp is not None and mean_temp <= cold_max
+    scorching = mean_temp is not None and mean_temp >= hot_min
 
     return {
         'snow': snow, 'heavyRain': heavy_rain, 'storm': storm, 'deepCold': deep_cold,
@@ -162,7 +189,7 @@ def day_weather_signature(climate=None):
     }
 
 
-def resolve_climate_state(recent_days=None, rng=random.random):
+def resolve_climate_state(recent_days=None, rng=random.random, nl=None):
     """Detect persistent multi-day climate states from recent days.
 
     recent_days: list of { climate }, newest last; include today at the end.
@@ -171,7 +198,8 @@ def resolve_climate_state(recent_days=None, rng=random.random):
     if len(recent_days) == 0:
         return {'active': [], 'narrative': '', 'dominant': None}
 
-    signatures = [day_weather_signature(d.get('climate')) for d in recent_days]
+    signatures = [day_weather_signature(d.get('climate'), nl) for d in recent_days]
+    consecutive = _threshold(nl, 'climate.consecutive_days', CONSECUTIVE_DAYS)
 
     def streak(predicate):
         c = 0
@@ -186,29 +214,29 @@ def resolve_climate_state(recent_days=None, rng=random.random):
     bits = []
 
     snow_streak = streak(lambda s: s['snow'])
-    if snow_streak >= CONSECUTIVE_DAYS:
+    if snow_streak >= consecutive:
         active.append('snowbound')
-        bits.append(pick(SNOWBOUND_PHRASES, rng))
+        bits.append(_pick(nl, 'climate.snowbound', SNOWBOUND_PHRASES, rng))
 
     rain_streak = streak(lambda s: s['heavyRain'])
-    if rain_streak >= CONSECUTIVE_DAYS:
+    if rain_streak >= consecutive:
         active.append('drenched')
-        bits.append(pick(DRENCHED_PHRASES, rng))
+        bits.append(_pick(nl, 'climate.drenched', DRENCHED_PHRASES, rng))
 
     storm_streak = streak(lambda s: s['storm'])
-    if storm_streak >= CONSECUTIVE_DAYS:
+    if storm_streak >= consecutive:
         active.append('storm_lashed')
-        bits.append(pick(STORM_LASHED_PHRASES, rng))
+        bits.append(_pick(nl, 'climate.storm_lashed', STORM_LASHED_PHRASES, rng))
 
     cold_streak = streak(lambda s: s['deepCold'])
-    if cold_streak >= CONSECUTIVE_DAYS:
+    if cold_streak >= consecutive:
         active.append('frozen')
-        bits.append(pick(FROZEN_PHRASES, rng))
+        bits.append(_pick(nl, 'climate.frozen', FROZEN_PHRASES, rng))
 
     heat_streak = streak(lambda s: s['scorching'])
-    if heat_streak >= CONSECUTIVE_DAYS:
+    if heat_streak >= consecutive:
         active.append('scorched')
-        bits.append(pick(SCORCHED_PHRASES, rng))
+        bits.append(_pick(nl, 'climate.scorched', SCORCHED_PHRASES, rng))
 
     narrative = f"=== CLIMATE STATE ===\n{chr(10).join(bits)}\n" if bits else ''
     dominant = active[0] if active else None
@@ -234,15 +262,15 @@ MOON_NIGHT_PHRASES = {
 HEAVY_CLOUD_COVER = 70
 
 
-def format_moon_night_phrase(moon, mean_cloud):
+def format_moon_night_phrase(moon, mean_cloud, nl=None):
     """Short moon phrase for the night weather line, or None when the moon is
     not worth mentioning."""
     if not moon or not moon.get('phase'):
         return None
     if moon['phase'] == 'new_moon':
-        return MOON_NIGHT_PHRASES['new_moon']
+        return (nl.phrase('climate.moon.new_moon') if nl is not None else None) or MOON_NIGHT_PHRASES['new_moon']
     if moon['phase'] != 'full_moon':
         return None
-    if isinstance(mean_cloud, (int, float)) and mean_cloud >= HEAVY_CLOUD_COVER:
+    if isinstance(mean_cloud, (int, float)) and mean_cloud >= _threshold(nl, 'climate.heavy_cloud_cover', HEAVY_CLOUD_COVER):
         return None
-    return MOON_NIGHT_PHRASES['full_moon']
+    return (nl.phrase('climate.moon.full_moon') if nl is not None else None) or MOON_NIGHT_PHRASES['full_moon']

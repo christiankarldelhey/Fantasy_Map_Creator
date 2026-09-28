@@ -19,9 +19,12 @@ from app.narrate_day import narrate_day  # noqa: E402
 # or the DB env is broken, the app must still boot and narrate. The narrator
 # never dies because the mind can't persist.
 try:
-    from app.db import db_health  # noqa: E402
+    from app.db import SessionLocal, db_health  # noqa: E402
+    from app.mind.nl_resolver import NlPack  # noqa: E402
     from app.mind.routes import router as mind_router  # noqa: E402
 except Exception:  # noqa: BLE001
+    SessionLocal = None
+    NlPack = None
     mind_router = None
 
     def db_health():
@@ -43,17 +46,23 @@ def health():
 
 @app.post('/narrate-day', response_model=NarrateDayResponse)
 def narrate_day_endpoint(payload: NarrateDayRequest):
-    result = narrate_day(
-        day=payload.day,
-        trip=payload.trip,
-        character=payload.character,
-        language=payload.language,
-        condition_block=payload.conditionBlock,
-        equipment_block=payload.equipmentBlock,
-        end_state_block=payload.endStateBlock,
-        previous_day_summary=payload.previousDaySummary,
-        banned_phrases=payload.bannedPhrases,
-        recent_day_climates=payload.recentDayClimates,
-        previous_openings=payload.previousOpenings,
-    )
-    return result
+    session = SessionLocal() if (SessionLocal and payload.game_id) else None
+    try:
+        result = narrate_day(
+            day=payload.day,
+            trip=payload.trip,
+            character=payload.character,
+            language=payload.language,
+            condition_block=payload.conditionBlock,
+            equipment_block=payload.equipmentBlock,
+            end_state_block=payload.endStateBlock,
+            previous_day_summary=payload.previousDaySummary,
+            banned_phrases=payload.bannedPhrases,
+            recent_day_climates=payload.recentDayClimates,
+            previous_openings=payload.previousOpenings,
+            nl=NlPack(session, payload.game_id) if session else None,
+        )
+        return result
+    finally:
+        if session is not None:
+            session.close()

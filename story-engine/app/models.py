@@ -19,6 +19,9 @@ class NarrateDayRequest(BaseModel):
     day: Dict[str, Any]
     trip: Dict[str, Any] = {}
     character: Dict[str, Any] = {}
+    # Optional: the game whose NL pack overrides the code constants. Absent
+    # or unseeded -> identical output to the constants (zero regression).
+    game_id: Optional[str] = None
     language: str = 'english'
     conditionBlock: str = ''
     equipmentBlock: str = ''

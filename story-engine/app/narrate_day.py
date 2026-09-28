@@ -32,6 +32,7 @@ def narrate_day(
     banned_phrases=None,
     recent_day_climates=None,
     previous_openings=None,
+    nl=None,
 ):
     trip = trip or {}
     character = character or {}
@@ -41,7 +42,7 @@ def narrate_day(
 
     rng = day.get('rng') or random.random
 
-    climate_state = resolve_climate_state(recent_day_climates, rng)
+    climate_state = resolve_climate_state(recent_day_climates, rng, nl)
     climate_state_block = climate_state['narrative']
 
     prompt = build_day_prompt(
@@ -56,6 +57,7 @@ def narrate_day(
         climate_state_block=climate_state_block,
         banned_phrases=banned_phrases,
         previous_openings=previous_openings,
+        nl=nl,
     )
 
     generation = generate_narrative(prompt, day.get('day_number'))

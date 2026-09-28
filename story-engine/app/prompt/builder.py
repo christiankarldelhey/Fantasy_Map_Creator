@@ -70,6 +70,7 @@ def build_day_prompt(
     climate_state_block='',
     banned_phrases=None,
     previous_openings=None,
+    nl=None,
 ):
     trip = trip or {}
     character = character or {}
@@ -86,7 +87,7 @@ def build_day_prompt(
     moon = day.get('moon_phase') or get_moon_phase(day.get('date'))
     todays_way_in = pick_todays_way_in(rng)
     opening_strategy = pick_opening_strategy(rng)
-    weather_by_phase = collect_climate_notes_by_phase(day.get('climate'), moon)
+    weather_by_phase = collect_climate_notes_by_phase(day.get('climate'), moon, nl)
     biomes_by_phase = group_by_phase(day.get('biomes'))
     locations_by_phase = group_by_phase(day.get('locations'))
     water_by_phase = group_by_phase(day.get('water_crossings'))
