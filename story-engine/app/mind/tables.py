@@ -1,21 +1,29 @@
 # ============================================================================
 # SQLAlchemy tables for the Mind Engine
 # ----------------------------------------------------------------------------
-# All tables land in the `mind` schema via Base.metadata (app/db.py). Only
-# mind.episodes exists for A2; brains/memories/beliefs arrive in A5+.
+# All tables land in the `mind` schema via Base.metadata (app/db.py).
+# Episodes (A2), NL config (A3), brain molds/brains/beliefs (A5);
+# memories arrive in A7.
 # ============================================================================
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, Float, Integer, String, Text, UniqueConstraint
+from sqlalchemy import DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import Base
 
 
-def new_episode_id():
-    return 'ep_' + uuid.uuid4().hex
+def _new_id(prefix):
+    def gen():
+        return f'{prefix}_' + uuid.uuid4().hex
+    return gen
+
+
+new_episode_id = _new_id('ep')
+new_brain_id = _new_id('br')
+new_belief_id = _new_id('bl')
 
 
 class Episode(Base):
@@ -104,6 +112,121 @@ class NlPhraseList(Base):
     key: Mapped[str] = mapped_column(String(120), nullable=False)
     ordinal: Mapped[int] = mapped_column(Integer, nullable=False)
     phrase: Mapped[str] = mapped_column(Text, nullable=False)
+
+
+def _now():
+    return datetime.now(timezone.utc)
+
+
+# ============================================================================
+# Brain molds -> living brains (A5)
+# ----------------------------------------------------------------------------
+# Clone-and-own: a mold is an archetype (theme_weights + wiring + starter
+# beliefs in child tables, editable field by field); each character's brain is
+# a MATERIALISED copy (jsonb snapshot) that diverges only by content and admin
+# edits — editing the mold later never reconfigures existing brains.
+# ============================================================================
+
+
+class BrainMold(Base):
+    __tablename__ = 'brain_molds'
+    __table_args__ = (UniqueConstraint('game_id', 'slug', name='uq_brain_mold'),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    slug: Mapped[str] = mapped_column(String(60), nullable=False)
+    name: Mapped[str] = mapped_column(String(160), nullable=True)
+    description: Mapped[str] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
+
+    theme_weights = relationship('MoldThemeWeight', lazy='selectin',
+                                 cascade='all, delete-orphan')
+    wiring = relationship('MoldWiring', lazy='selectin',
+                          cascade='all, delete-orphan')
+    starter_beliefs = relationship('MoldStarterBelief', lazy='selectin',
+                                   cascade='all, delete-orphan')
+
+
+class MoldThemeWeight(Base):
+    """key = 'type:<event_type>' | 'tag:<tag>' | 'entity:<id>' | 'tag:prefix:*'."""
+
+    __tablename__ = 'mold_theme_weights'
+    __table_args__ = (UniqueConstraint('mold_id', 'key', name='uq_mold_weight'),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    mold_id: Mapped[int] = mapped_column(
+        ForeignKey('mind.brain_molds.id', ondelete='CASCADE'), nullable=False)
+    key: Mapped[str] = mapped_column(String(120), nullable=False)
+    weight: Mapped[float] = mapped_column(Float, nullable=False)
+
+
+class MoldWiring(Base):
+    """Engine parameters: decay, forget_threshold, fixed_threshold, w_*,
+    alpha/beta/gamma, lambda_recency, retrieval_top_k, evocations_to_fix."""
+
+    __tablename__ = 'mold_wiring'
+    __table_args__ = (UniqueConstraint('mold_id', 'key', name='uq_mold_wiring'),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    mold_id: Mapped[int] = mapped_column(
+        ForeignKey('mind.brain_molds.id', ondelete='CASCADE'), nullable=False)
+    key: Mapped[str] = mapped_column(String(60), nullable=False)
+    value: Mapped[float] = mapped_column(Float, nullable=False)
+
+
+class MoldStarterBelief(Base):
+    __tablename__ = 'mold_starter_beliefs'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    mold_id: Mapped[int] = mapped_column(
+        ForeignKey('mind.brain_molds.id', ondelete='CASCADE'), nullable=False)
+    kind: Mapped[str] = mapped_column(String(30), nullable=False)  # world|self|other
+    statement: Mapped[str] = mapped_column(Text, nullable=False)
+    confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
+
+
+class Brain(Base):
+    __tablename__ = 'brains'
+    __table_args__ = (
+        UniqueConstraint('game_id', 'character_id', name='uq_brain_character'),
+    )
+
+    id: Mapped[str] = mapped_column(String(40), primary_key=True, default=new_brain_id)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    character_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    mold_id: Mapped[int] = mapped_column(Integer, nullable=True)
+    mold_slug: Mapped[str] = mapped_column(String(60), nullable=False)
+
+    # Materialised copy of the mold's config at clone time — the "nature".
+    theme_weights: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    wiring: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+
+    # Lived content — the "nurture".
+    mood: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    counters: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
+
+
+class Belief(Base):
+    """Beliefs-lite: full table from day one, seeded at clone (origin='seed' —
+    exempt from the evidence rule, backstory is the off-screen evidence).
+    The reflection pipeline that mutates these is B4."""
+
+    __tablename__ = 'beliefs'
+
+    id: Mapped[str] = mapped_column(String(40), primary_key=True, default=new_belief_id)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    character_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    kind: Mapped[str] = mapped_column(String(30), nullable=False)
+    statement: Mapped[str] = mapped_column(Text, nullable=False)
+    confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
+    evidence: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    origin: Mapped[str] = mapped_column(String(30), nullable=False, default='experience')
+    status: Mapped[str] = mapped_column(String(20), nullable=False, default='active')
+    boosts: Mapped[dict] = mapped_column(JSONB, nullable=True)  # reserved, B6
+    formed_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+    updated_episode: Mapped[int] = mapped_column(Integer, nullable=True)
 
 
 class Facet(Base):

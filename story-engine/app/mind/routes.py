@@ -24,21 +24,26 @@ from app.mind.models import (
     OpenEpisodeResponse,
     PerceivedEvent,
     PsychePacket,
+    ReassignMoldRequest,
 )
-from app.mind.tables import Episode
+from app.mind.provisioning import get_or_create_brain, reassign_mold
+from app.mind.tables import Belief, Brain, Episode
 
 log = logging.getLogger(__name__)
 
 router = APIRouter(tags=['mind'])
 
 
-def _build_packet_stub(episode: Episode) -> PsychePacket:
-    """A2 stub: every event is plainly noticed. readings/salience land in A6,
-    lens/mood from the brain in A5+A8."""
+def _build_packet_stub(episode: Episode, brain: Brain = None) -> PsychePacket:
+    """A2 stub perception: every event is plainly noticed (readings/salience
+    land in A6, lens in A8). The mood already comes from the living brain."""
     perceived = [
         PerceivedEvent(**e) for e in (episode.events or [])
     ]
-    return PsychePacket(episode_id=episode.id, perceived_day=perceived, mood=Mood())
+    mood = Mood(**(brain.mood or {})) if brain else Mood()
+    return PsychePacket(
+        episode_id=episode.id, perceived_day=perceived, mood=mood
+    )
 
 
 def _episode_state(episode: Episode) -> EpisodeStateResponse:
@@ -72,6 +77,12 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 .one_or_none()
             )
         if episode is None:
+            # Lazy brain provisioning: first open clones the mold (the
+            # character's brain_profile hint applies only here).
+            brain = get_or_create_brain(
+                db, payload.game_id, payload.character.id,
+                hint_slug=getattr(payload.character, 'brain_profile', None),
+            )
             episode = Episode(
                 game_id=payload.game_id,
                 character_id=payload.character.id,
@@ -79,17 +90,31 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 status='open',
                 events=[e.model_dump() for e in payload.events],
                 narrator_payload=payload.narrator_payload,
-                # Snapshot of the knobs this episode runs under. A3 fills
-                # nl_pack with the resolved config, A5 with the brain mold.
-                config_snapshot={'nl_pack': 'default', 'brain_mold': 'default'},
+                # Audit snapshot: the exact knobs this episode runs under.
+                # Admin edits apply to future episodes, not in-flight ones.
+                config_snapshot={
+                    'nl_pack': payload.game_id,
+                    'brain_mold': brain.mold_slug,
+                    'theme_weights': brain.theme_weights,
+                    'wiring': brain.wiring,
+                },
             )
             db.add(episode)
             db.flush()  # fires the id default before we build the packet
-            packet = _build_packet_stub(episode)
+            packet = _build_packet_stub(episode, brain)
             episode.perceived_day = [p.model_dump() for p in packet.perceived_day]
             db.commit()
             db.refresh(episode)
-        packet = _build_packet_stub(episode)
+        else:
+            brain = (
+                db.query(Brain)
+                .filter_by(
+                    game_id=payload.game_id,
+                    character_id=payload.character.id,
+                )
+                .one_or_none()
+            )
+        packet = _build_packet_stub(episode, brain)
         return OpenEpisodeResponse(episode_id=episode.id, psyche_packet=packet)
     except SQLAlchemyError as exc:
         db.rollback()
@@ -112,8 +137,63 @@ def get_episode(episode_id: str, db: Session = Depends(get_session)):
 @router.get('/mind/state/{character_id}', response_model=MindStateResponse)
 def mind_state(character_id: str, db: Session = Depends(get_session)):
     try:
+        brain = db.query(Brain).filter_by(character_id=character_id).one_or_none()
+        beliefs = (
+            db.query(Belief).filter_by(character_id=character_id).all()
+            if brain else []
+        )
         count = db.query(Episode).filter_by(character_id=character_id).count()
     except SQLAlchemyError as exc:
         log.warning('mind_state failed: %s', exc)
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
-    return MindStateResponse(character_id=character_id, brain=None, episodes=count)
+    return MindStateResponse(
+        character_id=character_id,
+        brain=(
+            {
+                'id': brain.id,
+                'mold_slug': brain.mold_slug,
+                'theme_weights': brain.theme_weights,
+                'wiring': brain.wiring,
+                'mood': brain.mood,
+                'counters': brain.counters,
+            }
+            if brain else None
+        ),
+        beliefs=[
+            {
+                'id': b.id, 'kind': b.kind, 'statement': b.statement,
+                'confidence': b.confidence, 'origin': b.origin,
+                'status': b.status,
+            }
+            for b in beliefs
+        ],
+        episodes=count,
+    )
+
+
+@router.post('/mind/brains/{character_id}/mold')
+def reassign_brain_mold(
+    character_id: str,
+    payload: ReassignMoldRequest,
+    db: Session = Depends(get_session),
+):
+    """Admin reassignment: point the brain at another mold. reclone=True also
+    resets config (theme_weights + wiring) to the mold's — memories and
+    beliefs are content and are never touched."""
+    try:
+        brain = reassign_mold(
+            db, payload.game_id or 'middle_earth', character_id,
+            payload.slug, reclone=payload.reclone,
+        )
+        db.commit()
+    except SQLAlchemyError as exc:
+        db.rollback()
+        log.warning('reassign_mold failed: %s', exc)
+        raise HTTPException(status_code=503, detail='mind persistence unavailable')
+    if brain is None:
+        raise HTTPException(status_code=404, detail='brain not found')
+    return {
+        'character_id': character_id,
+        'mold_slug': brain.mold_slug,
+        'recloned': payload.reclone,
+    }

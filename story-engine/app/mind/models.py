@@ -108,9 +108,16 @@ class EpisodeStateResponse(BaseModel):
 
 
 class MindStateResponse(BaseModel):
-    """Shell for GET /mind/state/{character_id} — the real profile lands in
-    A5 (brain molds + clones). Until then it reports what exists."""
+    """GET /mind/state/{character_id} — the living brain: cloned config
+    (nature) plus lived content (nurture)."""
 
     character_id: str
     brain: Optional[Dict[str, Any]] = None
+    beliefs: List[Dict[str, Any]] = []
     episodes: int = 0
+
+
+class ReassignMoldRequest(BaseModel):
+    slug: str = Field(min_length=1)
+    game_id: Optional[str] = None
+    reclone: bool = False
