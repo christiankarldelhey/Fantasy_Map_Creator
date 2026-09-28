@@ -189,4 +189,20 @@ def resolve_event_reading(session, game_id, event):
 
     if not data:
         return None
-    return ', '.join(f'{k}: {v}' for k, v in sorted(data.items()) if v is not None)
+    # Generic fallback: lead with the event's subject if it has one, then
+    # the remaining scalar fields. Internal severity-ish keys never print —
+    # they're inputs to salience, not prose.
+    _internal = {
+        'entity', 'entity_id', 'name', 'title', 'severity', 'danger',
+        'threat', 'damage', 'wound', 'pain', 'hostility', 'risk',
+        'lethality', 'emotional_charge', 'valence', 'perception_bonus',
+        'tags',
+    }
+    subject = data.get('entity') or data.get('entity_id') or data.get('name') or data.get('title')
+    parts = [str(subject)] if subject else []
+    parts += [
+        f'{k}: {v}'
+        for k, v in sorted(data.items())
+        if k not in _internal and isinstance(v, (str, int, float)) and v is not None
+    ]
+    return ', '.join(parts) if parts else None

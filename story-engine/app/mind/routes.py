@@ -26,6 +26,7 @@ from app.mind.models import (
     PsychePacket,
     ReassignMoldRequest,
 )
+from app.mind.perceive import perceive_events
 from app.mind.provisioning import get_or_create_brain, reassign_mold
 from app.mind.tables import Belief, Brain, Episode
 
@@ -34,12 +35,10 @@ log = logging.getLogger(__name__)
 router = APIRouter(tags=['mind'])
 
 
-def _build_packet_stub(episode: Episode, brain: Brain = None) -> PsychePacket:
-    """A2 stub perception: every event is plainly noticed (readings/salience
-    land in A6, lens in A8). The mood already comes from the living brain."""
-    perceived = [
-        PerceivedEvent(**e) for e in (episode.events or [])
-    ]
+def _build_packet(episode: Episode, brain: Brain = None) -> PsychePacket:
+    """Packet from the persisted perceived_day — perception happens once at
+    open; re-open replays the stored annotations (idempotent by episode)."""
+    perceived = [PerceivedEvent(**e) for e in (episode.perceived_day or [])]
     mood = Mood(**(brain.mood or {})) if brain else Mood()
     return PsychePacket(
         episode_id=episode.id, perceived_day=perceived, mood=mood
@@ -101,8 +100,10 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             )
             db.add(episode)
             db.flush()  # fires the id default before we build the packet
-            packet = _build_packet_stub(episode, brain)
-            episode.perceived_day = [p.model_dump() for p in packet.perceived_day]
+            episode.perceived_day = perceive_events(
+                db, payload.game_id, brain,
+                [e.model_dump() for e in payload.events],
+            )
             db.commit()
             db.refresh(episode)
         else:
@@ -114,7 +115,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 )
                 .one_or_none()
             )
-        packet = _build_packet_stub(episode, brain)
+        packet = _build_packet(episode, brain)
         return OpenEpisodeResponse(episode_id=episode.id, psyche_packet=packet)
     except SQLAlchemyError as exc:
         db.rollback()
