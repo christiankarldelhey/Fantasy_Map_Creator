@@ -9,6 +9,7 @@ import {
 import {
   SYSTEM_PROMPT,
   buildTravellerBlocks,
+  closeEpisode,
   loadNarratorCharacter,
   loadRecentEncounterForms,
   narrateDay,
@@ -429,7 +430,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
 
     // Generate AI narrative (optional, if API key is configured). Provider and
     // sampling params rotate per day; capture what was actually used.
-    const { prompt, generation } = await narrateDay({
+    const { prompt, generation, mind_episode_id } = await narrateDay({
       day,
       trip,
       character,
@@ -437,6 +438,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       conditionBlock,
       equipmentBlock,
       endStateBlock,
+      stateContext: startState
+        ? { startState, endState: { energy: newEnergy, shadow: newShadow } }
+        : null,
     });
     const narrative = generation.text;
 
@@ -511,6 +515,22 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       'UPDATE trips SET encountered_entities = $1, used_thought_ids = $2, used_region_descriptions = $3 WHERE id = $4',
       [updatedEncounteredEntities, updatedUsedThoughtIds, usedRegionDescriptions, trip.id]
     );
+
+    // The day is persisted — tell the mind what actually happened so it can
+    // consolidate memory. Fire-and-forget: a failed close never breaks the
+    // request (the mind is observational, not transactional).
+    if (mind_episode_id) {
+      closeEpisode(mind_episode_id, {
+        trip_id: trip.id,
+        day_number: day.day_number,
+        energy_delta: newEnergy - openingEnergy,
+        shadow_delta: newShadow - openingShadow,
+        fate: fate.fate,
+        meals,
+        day_events: dayEvents,
+        encountered_entity_ids: newEntityIds,
+      }).catch((err) => console.warn('[mind] close failed (non-fatal):', err.message));
+    }
 
     const endCause = END_CAUSE_MAP[fate.fate] || null;
     const tripStatus = fate.status === 'dead' ? 'dead' : trip.status;

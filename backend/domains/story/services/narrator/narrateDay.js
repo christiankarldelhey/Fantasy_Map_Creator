@@ -12,8 +12,16 @@
 // ============================================================================
 
 import { loadBannedPhrases, loadPreviousDaySummary, loadPreviousOpenings, loadRecentDayClimates } from './tripHistory.js';
+import { openEpisode, narrateEpisode } from '../mind/mindClient.js';
+import { toEvents } from '../mind/toEvents.js';
 
 const STORY_ENGINE_URL = process.env.STORY_ENGINE_URL || 'http://localhost:8001';
+const GAME_ID = process.env.GAME_ID || 'middle_earth';
+// Feature flag: 'on'/'true'/'1' routes narration through the Mind Engine
+// (open -> narrate); anything else keeps the stateless /narrate-day call.
+const MIND_ENGINE = ['on', 'true', '1'].includes(
+  (process.env.MIND_ENGINE || '').toLowerCase()
+);
 
 /**
  * Build the prompt for a day and generate its narrative via the story-engine service.
@@ -25,7 +33,9 @@ const STORY_ENGINE_URL = process.env.STORY_ENGINE_URL || 'http://localhost:8001'
  * @param {string} [params.conditionBlock]
  * @param {string} [params.equipmentBlock]
  * @param {string} [params.endStateBlock]
- * @returns {Promise<{prompt: {system:string,user:string}, generation: Object}>}
+ * @param {Object} [params.stateContext] - {startState, endState} for the
+ *        mind's `body` event; ignored unless MIND_ENGINE is on.
+ * @returns {Promise<{prompt: {system:string,user:string}, generation: Object, mind_episode_id?: string, psyche_packet?: Object}>}
  */
 export async function narrateDay({
   day,
@@ -35,6 +45,7 @@ export async function narrateDay({
   conditionBlock = '',
   equipmentBlock = '',
   endStateBlock = '',
+  stateContext = null,
 }) {
   const [previousDaySummary, bannedPhrases, recentDayClimates, previousOpenings] = await Promise.all([
     loadPreviousDaySummary(trip.id, day.day_number),
@@ -42,6 +53,52 @@ export async function narrateDay({
     loadRecentDayClimates(trip.id, day.day_number),
     loadPreviousOpenings(trip.id, day.day_number),
   ]);
+
+  // The narrator_payload is the opaque blob Story Engine replays at narrate
+  // time — exactly the same fields the stateless endpoint takes today.
+  const narratorPayload = {
+    day,
+    trip,
+    character,
+    language,
+    conditionBlock,
+    equipmentBlock,
+    endStateBlock,
+    previousDaySummary,
+    bannedPhrases,
+    recentDayClimates,
+    previousOpenings,
+  };
+
+  if (MIND_ENGINE) {
+    try {
+      const characterRef = {
+        id: character.id || trip.character_id,
+        name: character.name,
+        brain_profile: character.brain_profile || character.slug || null,
+      };
+      const opened = await openEpisode({
+        gameId: GAME_ID,
+        character: characterRef,
+        episodeRef: `trip:${trip.id}:day:${day.day_number}`,
+        events: toEvents({ day, trip, character, stateContext }),
+        narratorPayload,
+      });
+      const narrated = await narrateEpisode(opened.episode_id, language);
+      // Same response shape as /narrate-day, plus the episode handle so the
+      // caller can close() after it persists the day's outcome.
+      return {
+        prompt: narrated.prompt,
+        generation: narrated.generation,
+        mind_episode_id: opened.episode_id,
+        psyche_packet: narrated.psyche_packet || opened.psyche_packet || null,
+      };
+    } catch (error) {
+      // Invariant: the mind never blocks the game. Fall back to the
+      // stateless narrator exactly as if the flag were off.
+      console.warn('[mind] open/narrate failed, falling back to /narrate-day:', error.message);
+    }
+  }
 
   const response = await fetch(`${STORY_ENGINE_URL}/narrate-day`, {
     method: 'POST',

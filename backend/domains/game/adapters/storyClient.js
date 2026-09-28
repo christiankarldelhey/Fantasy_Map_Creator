@@ -12,6 +12,7 @@
 export { SYSTEM_PROMPT } from '../../story/services/prompt/index.js';
 export {
   buildTravellerBlocks,
+  closeEpisode,
   loadNarratorCharacter,
   loadRecentEncounterForms,
   narrateDay,
