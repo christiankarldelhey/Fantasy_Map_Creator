@@ -10,6 +10,8 @@ from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from app.models import GenerationResponse, PromptResponse
+
 
 class EventWhen(BaseModel):
     episode: int
@@ -140,3 +142,21 @@ class CloseEpisodeResponse(BaseModel):
     forgotten: int = 0
     consolidated: int = 0
     already_closed: bool = False
+
+
+class NarrateEpisodeRequest(BaseModel):
+    language: Optional[str] = None
+
+
+class NarrateEpisodeResponse(BaseModel):
+    """NarrateDayResponse + the episode's mind context. The narrative is
+    regenerated on each call — it is not persisted mind state."""
+
+    episode_id: str
+    prompt: PromptResponse
+    generation: GenerationResponse
+    perceived_day: List[PerceivedEvent] = []
+    mood: Mood = Mood()
+    lens_block: str = ''
+    proposed_commands: List[Any] = []
+    generation_meta: Dict[str, Any] = {}

@@ -12,6 +12,7 @@
 import logging
 
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
@@ -26,12 +27,18 @@ from app.mind.models import (
     EpisodeStateResponse,
     MindStateResponse,
     Mood,
+    NarrateEpisodeRequest,
+    NarrateEpisodeResponse,
     OpenEpisodeRequest,
     OpenEpisodeResponse,
     PerceivedEvent,
     PsychePacket,
     ReassignMoldRequest,
 )
+from app.models import NarrateDayRequest
+from app.narrate_day import narrate_day
+from app.prompt.sections.mind import mind_section
+from app.mind.nl_resolver import NlPack
 from app.mind.perceive import perceive_events
 from app.mind.provisioning import get_or_create_brain, reassign_mold
 from app.mind.retrieval import link_evoked, retrieve
@@ -199,6 +206,78 @@ def close_episode(
     except SQLAlchemyError as exc:
         db.rollback()
         log.warning('close_episode failed: %s', exc)
+        raise HTTPException(status_code=503, detail='mind persistence unavailable')
+
+
+@router.post('/episodes/{episode_id}/narrate', response_model=NarrateEpisodeResponse)
+def narrate_episode(
+    episode_id: str,
+    payload: NarrateEpisodeRequest,
+    db: Session = Depends(get_session),
+):
+    """Narrate through the mind: wraps the existing narrate_day pipeline
+    (NOT a rewrite) with the episode's narrator_payload, injecting the
+    rendered lens + salient readings as a new prompt section. Regenerates
+    on each call — narrative is not persisted mind state."""
+    try:
+        episode = db.get(Episode, episode_id)
+        if episode is None:
+            raise HTTPException(status_code=404, detail='episode not found')
+        if not episode.narrator_payload:
+            raise HTTPException(
+                status_code=422,
+                detail='episode has no narrator_payload to narrate from',
+            )
+        try:
+            req = NarrateDayRequest.model_validate(episode.narrator_payload)
+        except ValidationError as exc:
+            raise HTTPException(
+                status_code=422,
+                detail=f'invalid narrator_payload: {exc.errors()[:3]}',
+            )
+        brain = (
+            db.query(Brain)
+            .filter_by(
+                game_id=episode.game_id, character_id=episode.character_id
+            )
+            .one_or_none()
+        )
+        result = narrate_day(
+            day=req.day,
+            trip=req.trip,
+            character=req.character,
+            language=payload.language or req.language,
+            condition_block=req.conditionBlock,
+            equipment_block=req.equipmentBlock,
+            end_state_block=req.endStateBlock,
+            previous_day_summary=req.previousDaySummary,
+            banned_phrases=req.bannedPhrases,
+            recent_day_climates=req.recentDayClimates,
+            previous_openings=req.previousOpenings,
+            mind_block=mind_section(episode.lens_block, episode.perceived_day),
+            nl=NlPack(db, episode.game_id),
+        )
+        episode.narrated_at = datetime.now(timezone.utc)
+        if episode.status == 'open':
+            episode.status = 'narrated'
+        db.commit()
+        generation = result['generation'] or {}
+        return NarrateEpisodeResponse(
+            episode_id=episode.id,
+            prompt=result['prompt'],
+            generation=generation,
+            perceived_day=[
+                PerceivedEvent(**e) for e in (episode.perceived_day or [])
+            ],
+            mood=Mood(**(brain.mood or {})) if brain else Mood(),
+            lens_block=episode.lens_block or '',
+            generation_meta={
+                k: v for k, v in generation.items() if k != 'text'
+            },
+        )
+    except SQLAlchemyError as exc:
+        db.rollback()
+        log.warning('narrate_episode failed: %s', exc)
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
 
 

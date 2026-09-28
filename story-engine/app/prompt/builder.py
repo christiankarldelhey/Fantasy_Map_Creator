@@ -70,6 +70,7 @@ def build_day_prompt(
     climate_state_block='',
     banned_phrases=None,
     previous_openings=None,
+    mind_block='',
     nl=None,
 ):
     trip = trip or {}
@@ -117,6 +118,7 @@ def build_day_prompt(
         f"{end_state_block}"
         f"{journey_context_section(destination, previous_day_summary)}"
         f"{special_instructions_section(day.get('day_number'), bool(day.get('is_last_day')), char_name, destination, character.get('introduction_instructions'))}"
+        f"{mind_block}"
         f"{climate_state_section(climate_state_block)}"
         f"{banned_phrases_section(banned_phrases)}"
         f"{terminal_notice_section(char_name) if is_terminal else ''}"

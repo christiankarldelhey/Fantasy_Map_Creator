@@ -32,6 +32,7 @@ def narrate_day(
     banned_phrases=None,
     recent_day_climates=None,
     previous_openings=None,
+    mind_block='',
     nl=None,
 ):
     trip = trip or {}
@@ -57,6 +58,7 @@ def narrate_day(
         climate_state_block=climate_state_block,
         banned_phrases=banned_phrases,
         previous_openings=previous_openings,
+        mind_block=mind_block,
         nl=nl,
     )
 
