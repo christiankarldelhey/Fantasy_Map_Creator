@@ -19,13 +19,19 @@ from app.narrate_day import narrate_day  # noqa: E402
 # or the DB env is broken, the app must still boot and narrate. The narrator
 # never dies because the mind can't persist.
 try:
-    from app.db import SessionLocal, db_health  # noqa: E402
+    from app.db import SessionLocal, db_health, engine  # noqa: E402
     from app.mind.nl_resolver import NlPack  # noqa: E402
     from app.mind.routes import router as mind_router  # noqa: E402
+
+    try:
+        from app.admin import mount_admin  # noqa: E402
+    except Exception:  # noqa: BLE001 — sqladmin optional too
+        mount_admin = None
 except Exception:  # noqa: BLE001
     SessionLocal = None
     NlPack = None
     mind_router = None
+    mount_admin = None
 
     def db_health():
         return 'down'
@@ -35,6 +41,9 @@ app = FastAPI(title='Story Engine', version='0.1.0')
 
 if mind_router is not None:
     app.include_router(mind_router)
+
+if mount_admin is not None and engine is not None:
+    mount_admin(app, engine)
 
 
 @app.get('/health')
