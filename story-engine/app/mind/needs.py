@@ -28,19 +28,31 @@ NEED_PHRASE_PREFIX = 'mind.need.'
 THREAD_PREFIX = 'thread:'
 
 
-def _phrase(session, game_id, key, subject=None, brain=None):
-    """First phrase of 'mind.need.<key>' (deterministic); threads fall back
-    to the generic 'mind.need.thread' entry."""
-    options = nl_phrases(
-        session, game_id, NEED_PHRASE_PREFIX + key, brain=brain
-    )
+def _phrase(session, game_id, key, subject=None, brain=None, urgency=0.0,
+            idx=0, wiring=None):
+    """Tiered + rotating voice for 'mind.need.<key>'. Urgency past
+    need_deep_urgency speaks from '<key>.deep' instead; several variants
+    per tier rotate by episode so a lasting need does not always wear the
+    same words — but a replay says the same thing every time.
+    Threads fall back to the generic 'mind.need.thread' entry."""
+    deep_min = (wiring or {}).get('need_deep_urgency', 0.6)
+    base = NEED_PHRASE_PREFIX + key
+    options = []
+    if urgency >= deep_min:
+        options = nl_phrases(
+            session, game_id, base + '.deep', brain=brain
+        )
+    if not options:
+        options = nl_phrases(session, game_id, base, brain=brain)
     if not options and key.startswith(THREAD_PREFIX):
         options = nl_phrases(
             session, game_id, NEED_PHRASE_PREFIX + 'thread', brain=brain
         )
     if not options:
         return key
-    return options[0].format(subject=subject or 'something unresolved')
+    return options[idx % len(options)].format(
+        subject=subject or 'something unresolved'
+    )
 
 
 def update_streak_counters(session, brain, episode):
@@ -156,7 +168,8 @@ def needs_pass(session, game_id, brain, episode, perceived, character=None):
     for spec in fired:
         key = spec['key']
         desc = spec.get('desc') or _phrase(
-            session, game_id, key, spec.get('subject'), brain=brain
+            session, game_id, key, spec.get('subject'), brain=brain,
+            urgency=spec.get('urgency') or 0.0, idx=idx, wiring=w,
         )
         need = existing.get(key)
         if need is None:
@@ -225,6 +238,30 @@ def resolve_from_outcome(session, brain, episode, outcome):
                 resolved += 1
                 break
     return resolved
+
+
+def need_items(needs):
+    """The felt body joins the perceived day (C11): one 'need' item per
+    open physiological need — reading is the tiered description, salience
+    and valence follow urgency. Encodes like any other perception, so the
+    ache of these days becomes memory. Threads stay intentions only."""
+    items = []
+    for n in needs:
+        if n.type != 'physiological':
+            continue
+        urgency = n.urgency or 0.0
+        items.append({
+            'type': 'need',
+            'perception': 'noticed',
+            'reading': n.description,
+            'salience': round(urgency, 3),
+            'valence': round(-urgency, 3),
+            'severity': round(urgency, 3),
+            'tags': [f'need:{n.key}'],
+            'data': {'need': n.key, 'urgency': urgency},
+            'evoked': [],
+        })
+    return items
 
 
 def need_snapshot(needs):

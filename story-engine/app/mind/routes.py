@@ -27,6 +27,7 @@ from app.mind.memory import (
     episode_index,
 )
 from app.mind.needs import (
+    need_items,
     need_snapshot,
     needs_pass,
     resolve_from_outcome,
@@ -209,6 +210,11 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 character=payload.character.model_dump(),
             )
             episode.needs_active = need_snapshot(needs)
+            # The felt body joins the perceived day (C11): 'need' items
+            # encode as memory — the ache of these days, not just a fact.
+            episode.perceived_day = (
+                episode.perceived_day or []
+            ) + need_items(needs)
             # Mood: this episode's feel, weighed by open needs, blended
             # into the running mood.
             episode.mood = episode_mood(

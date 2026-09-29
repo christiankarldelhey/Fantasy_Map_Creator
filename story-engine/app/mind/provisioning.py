@@ -82,6 +82,9 @@ DEFAULT_WIRING = {
     # day 3 (-0.27) doesn't need a bad event to darken the day.
     'need_affect_scale': 0.3,
     'need_affect_cap': 0.4,
+    # A need this urgent speaks from its '.deep' phrase tier (C11) —
+    # hunger crosses it around day 3, unrest past shadow ~0.6.
+    'need_deep_urgency': 0.6,
     # Pattern memories (B3): a non-type tag seen in N of the last W
     # episodes consolidates into a fixed pattern memory.
     'pattern_window': 4,

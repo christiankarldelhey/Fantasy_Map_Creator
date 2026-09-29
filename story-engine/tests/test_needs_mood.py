@@ -12,7 +12,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.tables import Episode, Need
+from app.mind.tables import Episode, Memory, Need
 
 
 @pytest.fixture()
@@ -138,3 +138,96 @@ def test_an_open_wound_is_a_need(client):
     assert wound.status == 'open'
     assert wound.urgency == pytest.approx(0.65)
     assert _mood(char)['need_pressure'] == pytest.approx(0.195)
+
+
+def _need(char, key):
+    session = SessionLocal()
+    need = (
+        session.query(Need)
+        .filter_by(character_id=char, key=key)
+        .one()
+    )
+    session.close()
+    return need
+
+
+def _perceived_day(char, index=0):
+    session = SessionLocal()
+    rows = (
+        session.query(Episode.perceived_day)
+        .filter_by(character_id=char)
+        .order_by(Episode.created_at)
+        .all()
+    )
+    session.close()
+    return rows[index][0]
+
+
+def test_a_need_speaks_in_tiers(client):
+    """C11: one day without food wonders about dinner; three days is the
+    hunger that owns you — different words for different depths."""
+    char = _uid('tiers')
+    _open_and_close(client, char, 'd1', _calm_day(1, days_without_food=1))
+    mild = _need(char, 'hunger').description
+
+    _open_and_close(client, char, 'd2', _calm_day(2, days_without_food=3))
+    deep = _need(char, 'hunger').description
+
+    assert mild != deep
+    assert 'ache' in deep or 'gnawing' in deep or 'crowds' in deep
+
+
+def test_a_deepening_need_rotates_its_words(client):
+    """Same tier across episodes rotates through the pack's variants —
+    deterministic per episode, never the same line on repeat."""
+    char = _uid('rotate')
+    descs = set()
+    for i in range(3):
+        _open_and_close(
+            client, char, f'd{i + 1}',
+            _calm_day(i + 1, days_without_food=3),
+        )
+        descs.add(_need(char, 'hunger').description)
+    assert len(descs) == 3  # one full rotation of the deep tier
+
+
+def test_the_felt_body_becomes_memory(client):
+    """The need item lands on perceived_day and encodes like any
+    perception: the reading is the phrase, valence the felt badness."""
+    char = _uid('remembers')
+    _open_and_close(client, char, 'd1', _calm_day(1, days_without_food=3))
+
+    item = next(
+        i for i in _perceived_day(char) if i.get('type') == 'need'
+    )
+    assert item['data']['need'] == 'hunger'
+    assert item['reading']
+    assert item['salience'] == pytest.approx(0.9)
+    assert item['valence'] == pytest.approx(-0.9)
+
+    session = SessionLocal()
+    mem = (
+        session.query(Memory)
+        .filter_by(character_id=char)
+        .filter(Memory.tags.contains(['need:hunger']))
+        .one()
+    )
+    session.close()
+    assert mem.desc == item['reading']
+    assert mem.valence == pytest.approx(-0.9)
+
+
+def test_need_items_do_not_feed_the_repetition_channel(client):
+    """'need:hunger' tags are bookkeeping — four hungry days must not
+    synthesize 'hunger again — the sameness is starting to wear': the
+    need's own pressure already IS the wear."""
+    char = _uid('noecho')
+    for i in range(4):
+        _open_and_close(
+            client, char, f'd{i + 1}',
+            _calm_day(i + 1, days_without_food=i + 1),
+        )
+    for day in range(4):
+        for item in _perceived_day(char, day):
+            assert item.get('type') != 'recurrence' or \
+                'need:' not in str(item.get('data'))

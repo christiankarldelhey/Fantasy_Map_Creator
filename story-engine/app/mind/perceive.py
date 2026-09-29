@@ -242,13 +242,14 @@ def _seen_tags(session, game_id, character_id):
 
 def _content_tags(day):
     """The day's content tags — noticed items only, and never the
-    recurrence channel's own notes: the mind only repeats what it
-    registered."""
+    recurrence channel's own notes or the felt-body channel: the mind
+    only repeats what it registered, and an open need is already its
+    own pressure — 'hunger again' would say it twice."""
     tags = set()
     for it in day or []:
         if it.get('perception') == 'unnoticed':
             continue
-        if it.get('type') == 'recurrence':
+        if it.get('type') in ('recurrence', 'need'):
             continue
         tags.update(
             t for t in (it.get('tags') or [])

@@ -17,10 +17,13 @@ def mind_section(lens_block, perceived_day=None):
     parts = []
     if lens_block:
         parts.append(lens_block)
+    # 'need' items carry the same description the lens' Needs section
+    # already prints — including them here would voice the body twice.
     readings = sorted(
         (
             (p.get('salience') or 0.0, p.get('reading') or '')
             for p in (perceived_day or [])
+            if p.get('type') != 'need'
         ),
         reverse=True,
     )

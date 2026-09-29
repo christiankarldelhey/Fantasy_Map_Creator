@@ -74,7 +74,7 @@ def test_hunger_detector_opens_need(client):
     assert hunger['urgency'] == pytest.approx(0.7)  # 0.3 + 0.2 * 2 days
     # And it reaches the lens as an intention, not a number.
     assert 'Needs:' in packet['psyche_packet']['lens_block']
-    assert 'hunger' in packet['psyche_packet']['lens_block']
+    assert hunger['description'] in packet['psyche_packet']['lens_block']
 
 
 def test_detector_need_clears_when_state_clears(client):

@@ -280,20 +280,62 @@ DEFAULT_PHRASE_LISTS = {
     ],
     # Needs (B2): one entry per detector key; 'mind.need.thread' is the
     # generic fallback for narrative threads ({subject} = entity/region).
+    # Tiers (C11): '<key>' speaks while the need is young, '<key>.deep'
+    # once urgency crosses need_deep_urgency. Several variants per tier —
+    # the description rotates by episode so the same need does not always
+    # wear the same words, while a replay says the same thing every time.
     'mind.need.hunger': [
+        'the thought of a hot meal keeps drifting back unasked',
+        'something warm and filling would not be unwelcome',
+        'the belly has begun to wonder when the next meal comes',
+    ],
+    'mind.need.hunger.deep': [
         'the hunger has gone from ache to companion — food is owed',
+        'the stomach aches as if it were gnawing on itself',
+        'food crowds every thought; the road is only the space between meals',
     ],
     'mind.need.thirst': [
+        'the mouth keeps asking for the waterskin',
+        'a cool stream would be the day\'s best gift',
+        'each swallow has started to feel counted',
+    ],
+    'mind.need.thirst.deep': [
         'the throat is dry as bone — water cannot wait much longer',
+        'the tongue cleaves to the roof of the mouth; the memory of rain is a cruelty',
+        'every thought of water arrives with wanting attached',
     ],
     'mind.need.exhaustion': [
-        'the body is spent past caution — rest is no longer optional',
+        'the legs ask for the day\'s end a little earlier each hour',
+        'the body moves on credit, and the debt is showing',
     ],
+    'mind.need.exhaustion.deep': [
+        'the body is spent past caution — rest is no longer optional',
+        'each step is borrowed from tomorrow, and tomorrow is already owed',
+        'to stop moving and to fall asleep would be the same thing now',
+    ],
+    # The shadow's own arc: vague watchfulness first, then the dark starts
+    # speaking in first person — suspicion, despair, the pull toward the
+    # self over the company. How it gets in is quiet; where it points is not.
     'mind.need.unrest': [
+        'a nameless watchfulness — the land seems to dislike being crossed',
+        'the old songs sound hollower lately, and silence easier',
+        'small kindnesses have started costing more effort than they should',
+    ],
+    'mind.need.unrest.deep': [
         'the shadow on the heart wants answering — solace, or an end to fear',
+        'dark thoughts come unbidden — the company would move faster alone',
+        'kindness begins to look like a trap laid slowly',
+        'the dark at least is honest; it is the light that lies',
+        'an ugly little voice keeps score of every slight',
     ],
     'mind.need.wound': [
         'a wound still unhealed — it wants tending before the road asks more',
+        'the wound throbs with the pulse — it has not forgotten being made',
+        'each mile reminds the flesh it is torn',
+    ],
+    'mind.need.wound.deep': [
+        'the wound is worse than pain now — it is becoming the whole of the day',
+        'the body can no longer pretend the wound is a passing thing',
     ],
     # Traveller's condition / equipage / end (C10): the host ships raw
     # state and these lists own every word it becomes. {name} is the

@@ -623,6 +623,34 @@ ya no recibe frase propia — la expresa el need `exhaustion` solo si
 cruza su umbral, así que un día cansado-pero-no-exhausto queda
 implícito en el mood en vez de explícito en prosa.
 
+### C11 · El cuerpo que se recuerda: needs con voz y memoria
+
+**🔧 Técnica** — Las frases de needs ahora viven en tiers:
+`mind.need.<key>` (joven) y `mind.need.<key>.deep` (urgencia ≥
+`need_deep_urgency`, default 0.6), con varias variantes por tier que
+rotan por episodio (`options[idx % len]` — variedad determinística:
+un replay dice siempre lo mismo). Y cada need fisiológica abierta se
+vuelve un item `type:'need'` en `perceived_day` — reading=la frase,
+salience=urgencia, valence=−urgencia — que encoda como memoria
+episódica. La voz del need ES el desc del recuerdo.
+
+**🧠 Cerebro** — Hambre día 1: *"the belly has begun to wonder when
+the next meal comes"*; día 3+: *"the stomach aches as if it were
+gnawing on itself"*. La sombra tiene su propio arco tolkieniano —
+`unrest` mild es desasosiego (*"the land seems to dislike being
+crossed"*) y `unrest.deep` ya habla en primera persona (*"the
+company would move faster alone"*, *"the dark at least is honest;
+it is the light that lies"*) — así se mete Sauron, despacio y en
+voz propia. Y el sufrimiento queda: "lo mal que la pasó" es un
+recuerdo con valence, no solo una necesidad del momento.
+
+**🚫 No hace** — Los items need no entran al mean del mood (la
+presión aditiva C9 ya pesa — sería doble conteo) ni alimentan el
+canal de rachas (`'hunger again'` sería redundante) ni aparecen en
+"stirs" del prompt (el lens ya los lista en Needs). Los threads
+siguen siendo intención pura, sin item — su peso es narrativo, no
+corporal.
+
 ---
 
 ## El mapa completo, en una pasada
