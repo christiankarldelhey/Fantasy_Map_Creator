@@ -755,6 +755,36 @@ circunstancia.
 
 ---
 
+### C15 · Higiene: la mente no se escucha a sí misma pensar
+
+**🔧 Técnica** — Cuatro fugas encontradas en el primer dump real de un
+personaje (Celebrían):
+
+- **Reflexión diaria**: un need a urgencia 1.0 entra a `perceived_day`
+  con `salience` 1.0 → superaba `reflection_importance_min` y disparaba
+  la única llamada LLM del close *cada día* (~2x costo por día).
+  Ahora el trigger de alta salience solo mira items del mundo —
+  `need`/`recurrence` son contabilidad de la mente, no noticias.
+- **Memoria duplicada por día**: cada need encodaba una fila nueva con
+  la misma frase. `encode_episode` ahora fusiona por `need:<key>`: una
+  memoria por arco de necesidad, `episode_ids` crecen, urgency/desc se
+  refrescan (re-embed si la lectura cruza a tier deep).
+- **`no none today`**: tags centinela históricos (`tag:wounded:none`)
+  podían encadenar y romper. `_content_tags` descarta `*:none` — la
+  ausencia no es tema recurrente.
+- **Needs como evidencia**: memorias `need:*` a importance 1.0
+  coronaban el top-20 y la reflexión re-escribía la necesidad como
+  creencia ("I need shelter"). El pool de evidencia excluye tags
+  `need:*` — el cuerpo habla por mood/lens, las creencias hablan del
+  mundo.
+
+**🚫 No hace** — No impide que el sufrimiento forme creencias: los
+*eventos* que lo causan (el temporal, el robo) siguen siendo evidencia
+— lo que sale es el re-decir del need ya modelado. Tampoco silencia la
+necesidad: urge igual en el lens y pesa igual en el mood.
+
+---
+
 ## El mapa completo, en una pasada
 
 ```

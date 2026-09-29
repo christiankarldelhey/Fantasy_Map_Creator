@@ -254,6 +254,10 @@ def _content_tags(day):
         tags.update(
             t for t in (it.get('tags') or [])
             if not t.startswith('type:')
+            # Sentinel values are absence, not content: 'wounded:none'
+            # repeating is not a stretch, and breaking it must never
+            # read 'no none today'.
+            and not t.endswith(':none')
         )
     return tags
 

@@ -247,8 +247,12 @@ def maybe_reflect(session, brain, episode, character_name=None):
     idx = episode_index(episode)
     counters = dict(brain.counters or {})
     last = counters.get('last_reflection_episode') or 0
+    # Only the WORLD can spike a reflection: needs and recurrence items
+    # are the mind's own bookkeeping, and an open need at full urgency
+    # must not mint a daily LLM call — 'still hungry' is not news.
     high_salience = any(
         (i.get('salience') or 0.0) >= w.get('reflection_importance_min', 0.85)
+        and i.get('type') not in ('need', 'recurrence')
         for i in (episode.perceived_day or [])
     )
     every = int(w.get('reflection_every', 5))
@@ -264,7 +268,8 @@ def maybe_reflect(session, brain, episode, character_name=None):
     # ambient bookkeeping never becomes worldview.
     imp_min = w.get('belief_evidence_importance_min', 0.4)
     val_min = w.get('belief_evidence_valence_min', 0.2)
-    memories = (
+    top = int(w.get('reflection_memory_top', 20))
+    candidates = (
         session.query(Memory)
         .filter_by(character_id=brain.character_id)
         .filter(or_(
@@ -273,9 +278,16 @@ def maybe_reflect(session, brain, episode, character_name=None):
             Memory.valence <= -val_min,
         ))
         .order_by(Memory.importance.desc())
-        .limit(int(w.get('reflection_memory_top', 20)))
+        .limit(top * 2)
         .all()
     )
+    # Need memories sit at importance 1.0 but are body-state, not
+    # worldview — 'I need shelter' as a conviction would just re-say
+    # the need. Reflection reflects on what the world did.
+    memories = [
+        m for m in candidates
+        if not any(t.startswith('need:') for t in (m.tags or []))
+    ][:top]
     if not memories:
         counters['last_reflection_episode'] = idx
         brain.counters = counters

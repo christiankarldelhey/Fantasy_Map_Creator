@@ -91,6 +91,30 @@ def encode_episode(session, brain, episode):
         sig = _signature(item)
         consolidated = importance >= fixed
         desc = _describe(session, episode.game_id, item, brain=brain)
+        # A need speaks in one voice across its whole arc: 'the hunger'
+        # is one memory that gains days, not a fresh copy per dawn
+        # (C15). The row absorbs this episode, refreshes its urgency and
+        # adopts the current reading — a deep-tier rewording re-embeds.
+        if item.get('type') == 'need':
+            key = (item.get('data') or {}).get('need')
+            existing = (
+                session.query(Memory)
+                .filter_by(character_id=episode.character_id)
+                .filter(Memory.tags.op('?')(f'need:{key}'))
+                .order_by(Memory.created_episode.desc())
+                .first()
+            )
+            if existing is not None:
+                if episode.id not in (existing.episode_ids or []):
+                    existing.episode_ids = [
+                        *(existing.episode_ids or []), episode.id,
+                    ]
+                existing.importance = max(existing.importance or 0.0, importance)
+                existing.strength = max(existing.strength or 0.0, importance)
+                if existing.desc != desc:
+                    existing.desc = desc
+                    existing.embedding = embed(desc)
+                continue
         if sig in by_sig:
             mem = by_sig[sig]
             if mem.desc != desc:
