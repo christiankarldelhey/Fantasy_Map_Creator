@@ -77,6 +77,20 @@ DEFAULT_WIRING = {
     # episodes consolidates into a fixed pattern memory.
     'pattern_window': 4,
     'pattern_min_episodes': 3,
+    # Repetition pressure + breaks (C5): a content tag perceived in this
+    # many consecutive episodes starts weighing on the mood — valence
+    # grows per day over the minimum, capped; a dead streak becomes a
+    # one-day 'first dry day' item worth relief_valence.
+    'repetition_min_streak': 3,
+    'repetition_growth': 0.08,
+    'repetition_valence_cap': 0.3,
+    'repetition_salience': 0.3,
+    'repetition_relief': 0.15,
+    'repetition_relief_salience': 0.45,
+    # Base routine never grates: 'tag:drink:*' is hydration, not
+    # monotony (its absence is the thirst need's job), 'tag:form:*' is
+    # how contact happened, not content that repeats.
+    'repetition_exempt_tags': ['tag:drink:*', 'tag:form:*'],
     # Reflection (B4) — the mind's only LLM call, at close: every N
     # episodes or on a salience spike. Reconciliation deltas, active cap
     # and the decay of unreinforced beliefs.

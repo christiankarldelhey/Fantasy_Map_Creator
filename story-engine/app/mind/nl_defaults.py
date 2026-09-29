@@ -288,6 +288,18 @@ DEFAULT_PHRASE_LISTS = {
         '{subject} again — it is becoming the shape of these days',
         'another day of {subject}; the pattern is unmistakable now',
     ],
+    # Recurrence channel (C5): repetition pressure is the wear of
+    # sameness itself ({subject} = the human end of the tag, {count} =
+    # consecutive episodes); a pattern break is the first day the
+    # streak dies.
+    'mind.repetition': [
+        '{subject} again — the sameness is starting to wear',
+        'another day of {subject}; it grates a little more',
+    ],
+    'mind.pattern_break': [
+        'no {subject} today — the first break in the stretch',
+        'the {subject} let up at last; the change itself is noticed',
+    ],
     # Decisions (B5): resolution line returned by /decide. {choice} is
     # the option label, {name} the character.
     'mind.decision': [

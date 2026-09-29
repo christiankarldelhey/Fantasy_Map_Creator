@@ -66,6 +66,12 @@ def retrieve(session, brain, episode, perceived_day):
 
     scored = []
     for mem in candidates:
+        # Patterns are background bookkeeping, not impressions (C5):
+        # they live and die by recurrence and their voice is the
+        # recurrence channel — ambient recall only ever re-strengthened
+        # them and crowned the lens with 'the shape of these days'.
+        if mem.kind == 'pattern':
+            continue
         anchor = mem.last_evoked_episode or mem.created_episode or 0
         delta = max(0, (idx or 0) - anchor)
         recency = math.exp(-lam * delta)

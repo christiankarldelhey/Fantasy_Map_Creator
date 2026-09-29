@@ -24,6 +24,7 @@ from app.mind.checks import (
     misread_reading,
     resolve_check,
 )
+from app.mind.nl_resolver import phrases as nl_phrases
 from app.mind.nl_resolver import resolve_event_reading
 from app.mind.nl_resolver import threshold as nl_threshold
 from app.mind.provisioning import DEFAULT_WIRING
@@ -64,9 +65,11 @@ def derive_tags(event):
     for key, value in data.items():
         # Check/needs machinery is signal, not content — it never tags.
         # Free prose (description, prose_hint) is words, not a tag space.
+        # 'slot' already travels as when.phase — a 'midday again'
+        # streak is bookkeeping noise, not a lived repetition.
         if key in ('entity', 'entity_id', 'entity_name', 'check',
                    'thread_desc', 'resolves', 'urgency',
-                   'description', 'prose_hint'):
+                   'description', 'prose_hint', 'slot'):
             continue
         if key == 'tags':
             values = value if isinstance(value, list) else [value]
@@ -182,6 +185,142 @@ def _seen_tags(session, game_id, character_id):
     return seen
 
 
+def _content_tags(day):
+    """The day's content tags — noticed items only, and never the
+    recurrence channel's own notes: the mind only repeats what it
+    registered."""
+    tags = set()
+    for it in day or []:
+        if it.get('perception') == 'unnoticed':
+            continue
+        if it.get('type') == 'recurrence':
+            continue
+        tags.update(
+            t for t in (it.get('tags') or [])
+            if not t.startswith('type:')
+        )
+    return tags
+
+
+def _tag_subject(tag):
+    return tag.rsplit(':', 1)[-1].replace('_', ' ').replace('-', ' ')
+
+
+def _repetition_exempt(tag, exempt):
+    """Base routine vs monotony: water every day is life, the same bread
+    every day is the week closing in. Exempt entries are exact tags or
+    'prefix:*' wildcards — the absence channel (thirst/hunger needs) is
+    untouched: exempt presence, alarming absence."""
+    for entry in exempt or ():
+        if entry.endswith(':*'):
+            if tag.startswith(entry[:-1]):
+                return True
+        elif tag == entry:
+            return True
+    return False
+
+
+def _recurrence_items(session, game_id, brain, perceived, w):
+    """Repetition pressure + pattern breaks (C5).
+
+    Repetition is mildly aversive on its own — rain on day one is
+    weather, rain on day three is the week closing in. A content tag
+    perceived in >= repetition_min_streak consecutive episodes
+    (including today) synthesizes a 'recurrence' item whose negative
+    valence grows with the streak, feeding the episode mood through the
+    ordinary salience-weighted mean.
+
+    The break is the other half: a tag whose streak died today becomes
+    a one-day piece of news ('the first dry day') — positive, salient,
+    and encodable as a volatile memory that then fades like any other.
+    """
+    min_streak = int(w.get('repetition_min_streak', 3))
+    growth = w.get('repetition_growth', 0.08)
+    cap = w.get('repetition_valence_cap', 0.3)
+    pressure_sal = w.get('repetition_salience', 0.3)
+    relief_val = w.get('repetition_relief', 0.15)
+    relief_sal = w.get('repetition_relief_salience', 0.45)
+    exempt = w.get('repetition_exempt_tags') or ()
+
+    # The episode being built right now is flushed with the column's
+    # default [] — an empty tag set would cut every streak at zero, so
+    # empty days (in-flight or genuinely eventless) don't join history.
+    recent = (
+        session.query(Episode.perceived_day)
+        .filter_by(game_id=game_id, character_id=brain.character_id)
+        .order_by(Episode.created_at.desc())
+        .limit(EPISODE_LOOKBACK * 2)
+        .all()
+    )
+    prior = [
+        _content_tags(d)
+        for (d,) in recent if d
+    ][:EPISODE_LOOKBACK]
+    today = _content_tags(perceived)
+    when = next(
+        (i.get('when') for i in perceived if i.get('when')), {}
+    )
+
+    def streak_in(history, tag):
+        n = 0
+        for past in history:
+            if tag in past:
+                n += 1
+            else:
+                break
+        return n
+
+    def _item(kind, tag, streak, valence, salience, phrase_key,
+              extra_data=None, tags=None):
+        options = nl_phrases(session, game_id, phrase_key, brain=brain)
+        subject = _tag_subject(tag)
+        reading = (
+            options[0].format(subject=subject, count=streak)
+            if options else f'{subject} — {kind}'
+        )
+        return {
+            'type': 'recurrence',
+            'when': when,
+            'where': {},
+            'data': {
+                'kind': kind, 'tag': tag, 'streak': streak,
+                **(extra_data or {}),
+            },
+            'perception': 'noticed',
+            'reading': reading,
+            'salience': salience,
+            'valence': round(max(-1.0, min(1.0, valence)), 3),
+            'severity': 0.0,
+            'tags': tags or [],
+            'evoked': [],
+        }
+
+    items = []
+    for tag in sorted(today):
+        if _repetition_exempt(tag, exempt):
+            continue
+        streak = 1 + streak_in(prior, tag)
+        if streak >= min_streak:
+            valence = -min(cap, growth * (streak - min_streak + 1))
+            items.append(_item(
+                'repetition', tag, streak, valence, pressure_sal,
+                'mind.repetition', extra_data={'synthetic': True},
+            ))
+    if prior:
+        for tag in sorted(prior[0]):
+            if tag in today or _repetition_exempt(tag, exempt):
+                continue
+            streak = streak_in(prior, tag)
+            if streak >= min_streak:
+                items.append(_item(
+                    'break', tag, streak, relief_val, relief_sal,
+                    'mind.pattern_break',
+                    extra_data={'break_of': tag},
+                    tags=[f'rupture:{tag}'],
+                ))
+    return items
+
+
 def perceive_events(session, game_id, brain, events, character=None):
     """Annotate each event: perception + reading + salience + tags.
 
@@ -264,4 +403,10 @@ def perceive_events(session, game_id, brain, events, character=None):
             item['check'] = check_result
         perceived.append(item)
         seen.update(tags)
+
+    # Repetition pressure + pattern breaks (C5): synthesized after the
+    # real events so they join mood and memory like anything perceived.
+    perceived.extend(
+        _recurrence_items(session, game_id, brain, perceived, w)
+    )
     return perceived

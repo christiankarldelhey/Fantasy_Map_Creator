@@ -464,6 +464,49 @@ lleva check. Y los eventos sin check (clima nocturno) siguen entrando —
 la mente "sabe" que llovió de noche aunque dormía; si eso molesta, el
 filtro es por tipo de evento, no por presencia del check.
 
+### C5 · Presión de repetición + rupturas: la rutina pesa
+
+**🔧 Técnica** — Al final de `perceive_events`, `_recurrence_items`
+mira el lookback de `perceived_day` (últimos 20 episodios, los vacíos
+no cuentan) y calcula rachas consecutivas por tag de contenido (todo
+menos `type:*`, items `unnoticed` y el propio canal). Dos emisiones:
+
+- **repetition** — tag con racha ≥ `repetition_min_streak` (3): item
+  sintético con valence `-min(cap, growth × (streak - min + 1))`
+  (defaults 0.3/0.08 → día 3: -0.08, día 5: -0.24). Pesa sobre el
+  episode mood por la media ponderada normal; `synthetic: true` → no
+  encoda (el contenido vivido son los días de lluvia, no el pesar).
+- **break** — tag cuya racha ≥ min murió hoy: valence
+  `+repetition_relief` (0.15), salience alta (0.45), encoda como
+  memoria volátil que decae normal — es noticia de un día.
+
+No toda repetición desgasta: `repetition_exempt_tags` (blacklist con
+wildcards) separa rutina base de monotonía — `tag:drink:*` (agua todos
+los días es vida, no queja) y `tag:form:*` están exentos por default.
+La ausencia del exento sigue siendo alarma por otro canal: tomar agua
+no pesa, pero `days_without_water` dispara la need `thirst`.
+
+Y los `kind: 'pattern'` salen del retrieval: son bookkeeping de fondo,
+su voz es este canal. Bonus: sin evocación ambiental, un patrón cuyo
+tema muere decae de verdad (la exención por "evocado hoy" ya no lo
+salva del olvido permanente).
+
+**🧠 Cerebro** — La habituación con resentimiento: la lluvia del día 1
+es clima, la del día 3 empieza a joder, la del día 5 pesa igual que
+una mala noticia chica. El primer día seco se siente — una vez, y
+después se diluye. Dos cerebros con `repetition_growth` distinto
+tienen paciencia distinta. En el replay real: `road bread` día 3+,
+`water from the skin` streak 8 al final, `no Dor Guldur today` el día
+que salió de la sombra — y el brain mood quedó -0.18 de desgaste
+acumulado, no por un evento sino por *la forma de los días*.
+
+**🚫 No hace** — No entiende *por qué* se rompió la racha: quedarse
+sin pan registra el mismo +0.15 de alivio que que pare la llovizna
+(el need `hunger` es quien sabe que eso es malo). Tampoco distingue
+repetición agradable de tediosa — toda rutina desgasta un poco;
+un molde puede anularlo (`repetition_min_streak` alto) pero no hay
+tags placenteros-inmunes todavía.
+
 ---
 
 ## El mapa completo, en una pasada

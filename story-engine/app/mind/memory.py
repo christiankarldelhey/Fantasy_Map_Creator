@@ -79,6 +79,12 @@ def encode_episode(session, brain, episode):
     encoded = 0
     born_consolidated = 0
     for item in episode.perceived_day or []:
+        # Synthetic repetition-pressure items (C5) weigh on the mood but
+        # are bookkeeping, not lived content — the rain days themselves
+        # are the memory. Break items DO encode: 'the first dry day' is
+        # news, volatile, and fades like anything else.
+        if (item.get('data') or {}).get('synthetic'):
+            continue
         importance = item.get('salience') or 0.0
         if importance <= 0:
             continue
