@@ -114,6 +114,40 @@ def _is_altered(session, game_id, state, w, brain=None):
     return bool(state.get('conditions', set()) & names)
 
 
+def is_asleep(event, w):
+    """Night is a state of the mind, not just a timestamp: during a sleep
+    phase an event that would take a check to perceive passes unheard —
+    unless contact is intrusive (a form that physically wakes the sleeper:
+    attacks, confronts, sudden peril) or harm already landed (a wounded
+    outcome). A distant howl at 02:30 stays a distant howl."""
+    phase = (event.get('when') or {}).get('phase')
+    # [] is a deliberate "never sleeps" — distinct from an unset knob.
+    phases = w.get('sleep_phases')
+    if phases is None:
+        phases = ('night',)
+    if phase not in phases:
+        return False
+    data = event.get('data') or {}
+    if not isinstance(data.get('check'), dict) or not data['check'].get('skill'):
+        return False
+    if data.get('form') in (w.get('sleep_wake_forms') or ()):
+        return False
+    if data.get('outcome') in (w.get('sleep_wake_outcomes') or ()):
+        return False
+    return True
+
+
+def asleep_check_result(event, index):
+    """The auditable trace of a check that never ran: no gate, no roll —
+    the mind was unconscious. Distinct from a failed roll on purpose."""
+    check = (event.get('data') or {}).get('check') or {}
+    return {
+        'gate': check.get('skill'), 'asleep': True,
+        'attempted': False, 'success': False,
+        'event_index': index, 'event_type': event.get('type'),
+    }
+
+
 def _seed_for(game_id, event, index, skill):
     when = event.get('when') or {}
     return '{}:{}:{}:{}:{}'.format(

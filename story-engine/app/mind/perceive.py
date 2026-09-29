@@ -9,7 +9,8 @@
 #
 # Tag convention (shared with theme_weights keys):
 #   type:<event.type>        — every event
-#   tag:<data[key]>          — for each scalar/string data value
+#   tag:<data[key]>          — string data values; absence markers
+#                            ('none', 'null', '0', ...) never tag
 #   tag:<data[key]>:<sub>    — nested list values (e.g. data.tags)
 #   entity:<id>              — data.entity or data.entity_id
 #   region:<name>            — where.region
@@ -17,7 +18,9 @@
 # ============================================================================
 from app.mind.boosts import effective_theme_weights
 from app.mind.checks import (
+    asleep_check_result,
     character_state,
+    is_asleep,
     misread_reading,
     resolve_check,
 )
@@ -39,6 +42,18 @@ def _num(v):
     return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
 
 
+# Values that report an absence, not an observation — 'wounded: none' is
+# signal for rules/needs, never content: it must not become
+# tag:wounded:none, a memory, or a recurring theme.
+EMPTY_MARKERS = frozenset({
+    '', 'none', 'null', 'nil', 'n/a', 'na', 'unknown', '0', '0.0',
+})
+
+
+def _is_content(value):
+    return isinstance(value, str) and value.strip().lower() not in EMPTY_MARKERS
+
+
 def derive_tags(event):
     """Weight-space tags for an event (see module docstring convention)."""
     tags = [f"type:{event.get('type')}"]
@@ -48,13 +63,15 @@ def derive_tags(event):
         tags.append(f'entity:{entity}')
     for key, value in data.items():
         # Check/needs machinery is signal, not content — it never tags.
+        # Free prose (description, prose_hint) is words, not a tag space.
         if key in ('entity', 'entity_id', 'entity_name', 'check',
-                   'thread_desc', 'resolves', 'urgency'):
+                   'thread_desc', 'resolves', 'urgency',
+                   'description', 'prose_hint'):
             continue
         if key == 'tags':
             values = value if isinstance(value, list) else [value]
-            tags.extend(f'tag:{v}' for v in values if isinstance(v, str) and v)
-        elif isinstance(value, str) and value:
+            tags.extend(f'tag:{v}' for v in values if _is_content(v))
+        elif _is_content(value):
             tags.append(f'tag:{key}:{value}')
     region = (event.get('where') or {}).get('region')
     if region:
@@ -116,6 +133,36 @@ def _emotional_charge(data):
     return min(1.0, abs(v)) if v is not None else 0.0
 
 
+def _affect(tags, data, w):
+    """The signed valence (-1..1) this mind assigns to the event:
+    'affect.<tag>' wiring keys fire when the tag is present (wildcards
+    allowed) and 'affect.field:<name>' keys scale a numeric data field
+    per unit. Two minds differ exactly here — the same confrontation is
+    not the same wound to every character."""
+    best = 0.0
+    for tag in tags:
+        v = _num(w.get(f'affect.{tag}'))
+        if v is not None and abs(v) > abs(best):
+            best = v
+    for key, v in w.items():
+        if not key.startswith('affect.') or not key.endswith(':*'):
+            continue
+        prefix = key[len('affect.'):-1]
+        if any(t.startswith(prefix) for t in tags):
+            num = _num(v)
+            if num is not None and abs(num) > abs(best):
+                best = num
+    valence = best
+    for key, gain in w.items():
+        if not key.startswith('affect.field:'):
+            continue
+        num = _num(data.get(key[len('affect.field:'):]))
+        g = _num(gain)
+        if num is not None and g is not None:
+            valence += g * num
+    return valence
+
+
 def _seen_tags(session, game_id, character_id):
     """Tags this mind has already perceived — the novelty baseline until the
     memory table exists (A7)."""
@@ -157,10 +204,16 @@ def perceive_events(session, game_id, brain, events, character=None):
         novelty = len(new_tags) / len(tags) if tags else 0.0
         data = event.get('data') or {}
 
-        check_result, perception = resolve_check(
-            session, game_id, character, event, index, state, w,
-            brain=brain,
-        )
+        # Sleep phases (C4): a checked event at night is slept through
+        # unless its form/outcome is intrusive enough to wake the mind.
+        if is_asleep(event, w):
+            check_result = asleep_check_result(event, index)
+            perception = 'unnoticed'
+        else:
+            check_result, perception = resolve_check(
+                session, game_id, character, event, index, state, w,
+                brain=brain,
+            )
         reading = resolve_event_reading(session, game_id, event,
                                         brain=brain)
         if perception == 'misread':
@@ -190,12 +243,18 @@ def perceive_events(session, game_id, brain, events, character=None):
         if perception == 'unnoticed':
             salience *= w.get('unnoticed_salience', 0.5)
 
+        # Host-declared valence always wins; otherwise this mind's own
+        # affect wiring decides how the event felt.
+        host_valence = _num(data.get('valence'))
+        valence = host_valence if host_valence is not None else _affect(
+            tags, data, w
+        )
         item = {
             **event,
             'perception': perception,
             'reading': reading,
             'salience': round(salience, 3),
-            'valence': _num(data.get('valence')) or 0.0,
+            'valence': round(max(-1.0, min(1.0, valence)), 3),
             'severity': round(_severity(data), 3),
             'tags': tags,
             'evoked': [],

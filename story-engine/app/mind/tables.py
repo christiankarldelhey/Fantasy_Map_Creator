@@ -276,8 +276,9 @@ class Belief(Base):
 
 class Memory(Base):
     """A lived impression. Volatile memories decay each close and die below
-    forget_threshold; consolidated ones never decay (the three paths to
-    permanence: born fixed, promoted by evocations, or — later — patterns)."""
+    forget_threshold; consolidated ones never decay (born fixed or promoted
+    by evocations). Patterns are the exception: they live by recurrence and
+    dissolve when their theme stops (memory.detect_patterns)."""
 
     __tablename__ = 'memories'
     __table_args__ = (

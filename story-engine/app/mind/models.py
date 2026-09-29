@@ -307,6 +307,7 @@ class CloseEpisodeResponse(BaseModel):
     consolidated: int = 0
     needs_resolved: int = 0
     patterns: int = 0
+    patterns_faded: int = 0
     reflection: Optional[Dict[str, Any]] = None
     already_closed: bool = False
     degraded: bool = False

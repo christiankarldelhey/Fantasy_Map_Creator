@@ -272,8 +272,11 @@ def resolve_event_reading(session, game_id, event, brain=None):
             data.get('terrain_phrases') or data.get('biomes')
         )
     if etype == 'rest':
+        # The night is best told by the place's own authored description;
+        # the bed's name is the fallback when the host sends none.
         place = data.get('place')
-        return subject or (place if isinstance(place, str) else None)
+        return (data.get('description') or subject
+                or (place if isinstance(place, str) else None))
     if etype in ('travel', 'body'):
         # Vitals and mileage speak through needs/mood, never a reading.
         return None

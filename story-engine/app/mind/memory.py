@@ -92,7 +92,6 @@ def encode_episode(session, brain, episode):
                 mem.embedding = embed(desc)  # re-embed on rewording
             mem.importance = importance
             continue
-        data = item.get('data') or {}
         session.add(Memory(
             game_id=episode.game_id,
             character_id=episode.character_id,
@@ -102,7 +101,9 @@ def encode_episode(session, brain, episode):
             entity_id=_entity_of(item),
             region=(item.get('where') or {}).get('region'),
             desc=desc,
-            valence=float(data.get('valence') or 0.0),
+            # The perceived valence — already derived by this mind's
+            # affect wiring, or the host's explicit data.valence.
+            valence=float(item.get('valence') or 0.0),
             importance=importance,
             strength=importance,
             evocations=0,
@@ -171,16 +172,30 @@ def _pattern_desc(session, game_id, tag, count, brain=None):
     return f'{subject} keeps recurring'
 
 
+def _pattern_eligible(tag):
+    """A recurring theme must be a named thing: an entity, a region, a
+    curated semantic tag ('tag:weather:*'), or a single-segment host tag
+    ('tag:omen'). 'type:*' is too generic — every day has travel and
+    meals — and 'tag:<field>:<value>' is raw bookkeeping: 'food: lembas'
+    every day is what happened, not what means anything."""
+    if tag.startswith(('entity:', 'region:', 'tag:weather:')):
+        return True
+    return tag.startswith('tag:') and ':' not in tag[len('tag:'):]
+
+
 def detect_patterns(session, brain, episode, idx, w):
-    """Second path to permanence (spec §7.3): a non-type tag perceived in
-    >= pattern_min_episodes of the last pattern_window episodes consolidates
-    into a fixed kind='pattern' memory representing the theme.
+    """Second path to permanence (spec §7.3): a theme-eligible tag
+    perceived in >= pattern_min_episodes of the last pattern_window
+    episodes consolidates into a fixed kind='pattern' memory.
 
     Counts *perceived* tags (episodes.perceived_day), not memories — the
     trivial-but-repeated is exactly what never encoded. Unnoticed events
-    don't count: the mind never registered them."""
+    don't count: the mind never registered them.
+
+    Patterns live by recurrence: one whose theme stops appearing (or
+    whose tag is no longer eligible) fades like any volatile memory."""
     if idx is None:
-        return 0
+        return {'formed': 0, 'faded': 0}
     window = int(w.get('pattern_window', 4))
     min_hits = int(w.get('pattern_min_episodes', 3))
     recent = (
@@ -199,8 +214,8 @@ def detect_patterns(session, brain, episode, idx, w):
             if item.get('perception') == 'unnoticed':
                 continue
             for tag in item.get('tags') or []:
-                if tag.startswith('type:'):
-                    continue  # too generic — every day has travel and meals
+                if not _pattern_eligible(tag):
+                    continue
                 tag_episodes.setdefault(tag, set()).add(ep_idx)
 
     existing = {
@@ -247,7 +262,30 @@ def detect_patterns(session, brain, episode, idx, w):
             embedding=embed(desc),
         ))
         formed += 1
-    return formed
+
+    # A pattern whose theme did not recur this window dissolves back into
+    # routine, fading like a volatile memory — a genuine recall this
+    # episode suspends that. One whose tag is no longer eligible is an
+    # artifact of older rules (e.g. 'tag:wounded:none'): it was never a
+    # theme, so it is evicted outright even if just stirred.
+    decay = w.get('decay', 0.85)
+    forget = w.get('forget_threshold', 0.2)
+    faded = 0
+    for tag, pat in existing.items():
+        eps = tag_episodes.get(tag)
+        if eps is not None and len(eps) >= min_hits:
+            continue  # refreshed above — tag_episodes holds eligible tags only
+        if not _pattern_eligible(tag):
+            session.delete(pat)
+            faded += 1
+            continue
+        if pat.last_evoked_episode == idx:
+            continue
+        pat.strength = (pat.strength or 0.0) * decay
+        if pat.strength < forget:
+            session.delete(pat)
+            faded += 1
+    return {'formed': formed, 'faded': faded}
 
 
 def close_episode_memory(session, brain, episode):
@@ -263,6 +301,7 @@ def close_episode_memory(session, brain, episode):
             'forgotten': 0,
             'consolidated': enc['born_consolidated'],
             'patterns': 0,
+            'patterns_faded': 0,
             'degraded': True,
         }
     patterns = detect_patterns(session, brain, episode, idx, w)
@@ -271,5 +310,6 @@ def close_episode_memory(session, brain, episode):
         'encoded': enc['encoded'],
         'forgotten': decayed['forgotten'],
         'consolidated': enc['born_consolidated'] + decayed['consolidated'],
-        'patterns': patterns,
+        'patterns': patterns['formed'],
+        'patterns_faded': patterns['faded'],
     }

@@ -40,27 +40,38 @@ DEFAULT_WIRING = {
     'check_default_difficulty': 8.0,
     # success on a hard roll feeds w_perception: bonus = difficulty/scale.
     'check_difficulty_scale': 10.0,
-    # State modifiers mirror the host's bands (skills are 0-10, d10 rolls):
-    'energy_worn_below': 0.5,
-    'energy_spent_below': 0.25,
+    # State modifiers mirror the host's bands (skills are 0-10, d10 rolls).
+    # Calibrated against the host's real scale: energy ends ~0.45 after a
+    # 12h day on foot; shadow hovers ~0.2-0.3 camping under Dol Guldur —
+    # thresholds at 0.7/0.45 were unreachable (the mind never felt worn
+    # or shadowed no matter what the world did).
+    'energy_worn_below': 0.6,
+    'energy_spent_below': 0.35,
     'mod_energy_worn': -1.0,
     'mod_energy_spent': -2.0,
-    'shadow_shadowed_min': 0.45,
-    'shadow_burdened_min': 0.7,
+    'shadow_shadowed_min': 0.25,
+    'shadow_burdened_min': 0.5,
     'mod_shadow_shadowed': -1.0,
     'mod_shadow_burdened': -2.0,
     'mod_wounded': -1.0,
     # Failure while altered (shadow >= this, or an altered-state condition)
     # turns unnoticed into misread; unnoticed keeps a dampened salience so a
     # "difuso" unease may still lodge in memory.
-    'misread_shadow_min': 0.45,
+    'misread_shadow_min': 0.25,
     'unnoticed_salience': 0.5,
+    # Sleep/wake (C4) — during a sleep phase the mind is unconscious:
+    # checked events pass unheard unless the form physically wakes the
+    # sleeper or the outcome is harm already done. All wiring — a nocturnal
+    # creature mold empties sleep_phases entirely.
+    'sleep_phases': ['night'],
+    'sleep_wake_forms': ['attacks', 'confronts', 'sudden_peril'],
+    'sleep_wake_outcomes': ['wounded', 'badly wounded'],
     # Needs engine (B2) — detector triggers; urgency formulas live in
     # app/mind/needs.py.
     'need_hunger_days': 1.0,
     'need_thirst_days': 1.0,
-    'need_exhaustion_below': 0.25,
-    'need_unrest_shadow_min': 0.45,
+    'need_exhaustion_below': 0.4,
+    'need_unrest_shadow_min': 0.25,
     'need_weather_streak': 3.0,
     # Pattern memories (B3): a non-type tag seen in N of the last W
     # episodes consolidates into a fixed pattern memory.
@@ -83,6 +94,22 @@ DEFAULT_WIRING = {
     # B8: semantic similarity joins the retrieval score —
     # score += delta_embedding * cosine(episode, memory). 0 disables.
     'delta_embedding': 0.25,
+    # Affect channel: 'affect.<tag>' keys are signed valence (-1..1) an
+    # event contributes when that tag is present — wildcards allowed
+    # ('affect.tag:outcome:*'). 'affect.field:<name>' scales a numeric
+    # data field per unit. An explicit data.valence from the host always
+    # wins; these defaults are the generic emotional floor molds refine.
+    'affect.tag:form:attacks': -0.5,
+    'affect.tag:form:sudden_peril': -0.5,
+    'affect.tag:form:confronts': -0.35,
+    'affect.tag:form:stalks': -0.25,
+    'affect.tag:form:hinders_passage': -0.15,
+    'affect.tag:form:aid_or_trade': 0.2,
+    'affect.tag:outcome:wounded': -0.5,
+    'affect.tag:outcome:badly wounded': -0.7,
+    'affect.tag:outcome:unscathed': 0.1,
+    'affect.tag:weather:freezing': -0.15,
+    'affect.field:shadow_effect': -0.15,
     # B10: degraded brains (NPCs) still perceive and encode — they remember
     # the protagonist — but never reflect (LLM stays a protagonist cost)
     # and defer decay/pattern consolidation to POST /maintenance/consolidate.

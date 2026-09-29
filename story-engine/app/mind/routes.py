@@ -580,12 +580,12 @@ def consolidate_degraded(
             idx = episode_index(latest) if latest else None
             if idx is None:
                 continue
+            patterns = detect_patterns(db, brain, latest, idx, w)
             results.append({
                 'brain_id': brain.id,
                 'character_id': brain.character_id,
-                'patterns': detect_patterns(
-                    db, brain, latest, idx, w
-                ),
+                'patterns': patterns['formed'],
+                'patterns_faded': patterns['faded'],
                 **decay_pass(db, brain, idx),
             })
         db.commit()
