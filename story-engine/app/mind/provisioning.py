@@ -98,6 +98,11 @@ DEFAULT_WIRING = {
     'repetition_valence_cap': 0.3,
     'repetition_salience': 0.3,
     'repetition_relief': 0.15,
+    # Breaks that end badly (C12): when a watched streak dies while the
+    # linked need is open, the break is warning, not relief — 'the bread
+    # ran out' is no dry-day news when the body is already counting meals.
+    'break_need_watch': {'tag:food:*': 'hunger'},
+    'break_loss_valence': -0.1,
     'repetition_relief_salience': 0.45,
     # Base routine never grates: 'tag:drink:*' is hydration, not
     # monotony (its absence is the thirst need's job), 'tag:form:*' is

@@ -653,6 +653,37 @@ corporal.
 
 ---
 
+### C12 · Rupturas que saben por qué murieron: alivio vs privación
+
+**🔧 Técnica** — Una racha que muere no es intrínsecamente buena
+noticia: importa *por qué* murió. `resolve_break_items` corre tras
+`needs_pass` (los needs ya están abiertos) y relee cada item
+`kind:'break'`: si el tag roto cae bajo `break_need_watch` (prefix →
+need key; default `{'tag:food:*': 'hunger'}`) y ese need está abierto,
+el item conserva su salience (sigue siendo noticia) pero cambia de
+registro — valence a `break_loss_valence` (−0.1) y frase a
+`mind.pattern_break_need`. Sin need abierta, el alivio C5 sigue
+intacto. El mapa es wiring puro: `tag:drink:*` no figura porque las
+bebidas están exentas de racha (rutina base — su ausencia ya la cubre
+el need `thirst`, no el canal de ruptura).
+
+**🧠 Cerebro** — *"No a ration of road bread today — the first break
+in the stretch"* (+0.15) era la lectura ciega del día que se acabó la
+comida. Ahora ese mismo día dice *"no road bread today — the stretch
+ended the wrong way"* (−0.1): la ruptura sabe que el mundo le quitó
+algo a alguien que ya lo necesitaba. La lluvia que para sigue siendo
+alivio; el pan que se acaba, aviso. Y el aviso encoda como recuerdo
+volátil con su valence — quedará como dato de "ese día faltó", no
+como consuelo.
+
+**🚫 No hace** — No infiere causalidad real: el watch es
+declaración humana (prefix → need), no inferencia. Un need cerrado
+deja el alivio intacto aunque el tag roto sea `food:*` — si el
+cuerpo está saciado, que falte el pan no es amenaza. Y la frase es
+del narrador, no del need — el need habla por su propio item.
+
+---
+
 ## El mapa completo, en una pasada
 
 ```

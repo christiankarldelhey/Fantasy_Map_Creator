@@ -447,6 +447,12 @@ DEFAULT_PHRASE_LISTS = {
         'no {subject} today — the first break in the stretch',
         'the {subject} let up at last; the change itself is noticed',
     ],
+    # C12: the streak broke the wrong way — what fed it ran out while a
+    # need was already open. Warning, not relief.
+    'mind.pattern_break_need': [
+        'no {subject} today — the stretch ended the wrong way',
+        'the {subject} is gone now; the days of it ended badly',
+    ],
     # Decisions (B5): resolution line returned by /decide. {choice} is
     # the option label, {name} the character.
     'mind.decision': [

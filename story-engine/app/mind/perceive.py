@@ -377,6 +377,42 @@ def _recurrence_items(session, game_id, brain, perceived, w):
     return items
 
 
+def resolve_break_items(session, game_id, brain, perceived, needs, w):
+    """A streak that died because the world took something is not relief
+    (C12). 'No bread today' while hunger is open is warning, not good
+    news: break_need_watch maps tag prefixes to need keys, and when the
+    watched need is open the break keeps its salience (still news) but
+    speaks darker and its valence turns against the day."""
+    watch = w.get('break_need_watch') or {}
+    if not watch:
+        return
+    open_keys = {n.key for n in needs if n.status == 'open'}
+    for item in perceived or []:
+        data = item.get('data') or {}
+        if item.get('type') != 'recurrence' or data.get('kind') != 'break':
+            continue
+        tag = data.get('tag') or data.get('break_of') or ''
+        need_key = next(
+            (
+                v for prefix, v in watch.items()
+                if (tag.startswith(prefix[:-1]) if prefix.endswith(':*')
+                    else tag == prefix)
+            ),
+            None,
+        )
+        if need_key not in open_keys:
+            continue
+        subject = _tag_subject(tag)
+        options = nl_phrases(
+            session, game_id, 'mind.pattern_break_need', brain=brain
+        )
+        if options:
+            item['reading'] = options[0].format(
+                subject=subject, count=data.get('streak') or 0
+            )
+        item['valence'] = w.get('break_loss_valence', -0.1)
+
+
 def perceive_events(session, game_id, brain, events, character=None):
     """Annotate each event: perception + reading + salience + tags.
 

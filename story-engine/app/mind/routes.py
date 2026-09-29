@@ -70,7 +70,7 @@ from app.mind.packs import (
     list_versions,
     promote_pack,
 )
-from app.mind.perceive import perceive_events
+from app.mind.perceive import perceive_events, resolve_break_items
 from app.mind.provisioning import (
     DEFAULT_WIRING,
     get_or_create_brain,
@@ -210,6 +210,12 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 character=payload.character.model_dump(),
             )
             episode.needs_active = need_snapshot(needs)
+            # A streak that died while a watched need is open ended the
+            # wrong way (C12) — 'no bread' while hungry is no relief.
+            resolve_break_items(
+                db, payload.game_id, brain, perceived, needs,
+                {**DEFAULT_WIRING, **(brain.wiring or {})},
+            )
             # The felt body joins the perceived day (C11): 'need' items
             # encode as memory — the ache of these days, not just a fact.
             episode.perceived_day = (

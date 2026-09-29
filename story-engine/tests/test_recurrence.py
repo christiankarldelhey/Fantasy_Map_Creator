@@ -164,6 +164,43 @@ def test_base_routine_never_grates(client):
     assert 'tag:drink:water from the skin' not in tags
 
 
+def test_a_break_that_starves_is_no_relief(client):
+    """C12: three days of the same bread, then the bread runs out while
+    the body is already counting meals — the break is warning, not
+    good news."""
+    char = _uid('starved')
+    for ep in (1, 2, 3):
+        _close(client, _open(client, char, ep, [{
+            'type': 'meal',
+            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'data': {'slot': 'midday', 'food': 'lembas',
+                     'drink': 'water from the skin'},
+        }]))
+
+    # Day 4: no lembas, and the body reports a day without food.
+    p4 = _open(client, char, 4, [{
+        'type': 'body',
+        'when': {'episode': 4, 'date': '1950-04-04'},
+        'data': {'days_without_food': 2},
+    }])
+    breaks = [i for i in _recurrences(p4) if i['data'].get('break_of')]
+    assert len(breaks) == 1
+    assert breaks[0]['valence'] == pytest.approx(-0.1)
+    assert 'wrong way' in breaks[0]['reading'] or 'ended badly' in breaks[0]['reading']
+
+
+def test_a_break_unwatched_stays_relief(client):
+    """The same dead streak is still good news when no linked need is
+    open — rain stopping is rain stopping."""
+    char = _uid('clear')
+    for ep in (1, 2, 3):
+        _close(client, _open(client, char, ep, [_rain(ep)]))
+    p4 = _open(client, char, 4, [_dry(4)])
+    breaks = [i for i in _recurrences(p4) if i['data'].get('break_of')]
+    assert len(breaks) == 1
+    assert breaks[0]['valence'] > 0
+
+
 def test_patterns_never_enter_retrieval(client):
     """kind='pattern' memories are background: even with nothing else to
     stir, the lens' impressions stay free of 'the shape of these days'."""
