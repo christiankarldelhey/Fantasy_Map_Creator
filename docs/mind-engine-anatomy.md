@@ -555,6 +555,30 @@ is mild" ya no nace porque su evidencia no califica, pero una belief
 sobre algo verdadero-un-día (ej. "hoy corre peligro este vado") puede
 seguir persistiendo como si fuera permanente.
 
+### C8 · Detectabilidad vs peligro: dos facts distintos
+
+**🔧 Técnica** — Host-side en `encounterCheck`: `check.difficulty`
+ahora deriva de `FORM_DIFFICULTY` (detectabilidad) — contacto
+impuesto (`attacks`/`confronts`: 3) casi gratis; sutil (`sign_only`/
+`presence_felt`: 9, `stalks`/`sound_only`: 8) exige tracking de
+verdad; `danger` solo rellena cuando la forma es desconocida. Y
+`affect.field:danger: -0.1` (wiring) convierte el peligro del bicho
+en valencia continua — apilada sobre los tags.
+
+**🧠 Cerebro** — Qué tan fácil es *notar* algo y qué tanto *daño*
+puede hacerte son ejes independientes: un lobo mortal que solo deja
+una huella puede pasar desapercibido (roll 2 vs diff 9 en el replay —
+lo perdió de verdad), mientras el Corpse Candle que le sale al paso
+no se puede ignorar pero se *siente* por su danger (−0.65 total).
+Además `mods −1.0` apareció en todos los rolls del viaje — la
+calibración C4 ya hace que el cansancio/sombra bajen la percepción.
+
+**🚫 No hace** — `FORM_DIFFICULTY` vive en el host (es hecho del
+mundo, no del molde) — una forma nueva de encounter cae al fallback
+por `danger` hasta mapearla. Y la detectabilidad no conoce contexto:
+de día, con niebla, bajo lluvia el mismo `sign_only` cuesta lo mismo
+(la sombra y el cansancio sí modulan el roll vía `mods`).
+
 ---
 
 ## El mapa completo, en una pasada

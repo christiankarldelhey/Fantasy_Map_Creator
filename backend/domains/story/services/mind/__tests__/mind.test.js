@@ -93,10 +93,11 @@ test('toEvents emits the generic contract from a resolved day', () => {
   assert.equal(encounter.data.prose_hint, 'blocks the path outright');
   assert.equal(encounter.data.thread, 'unfinished_encounter:corpse-candles');
   assert.equal(encounter.where.region, 'lone-lands');
-  // B1: encounters carry a tracking check for the mind's gates & rolls;
-  // danger 0.7 normalizes to ~3.5 on the 0-5 scale -> difficulty 8.
+  // B1/C8: encounters carry a tracking check whose difficulty is
+  // detectability — 'confronts' is imposed contact, almost free to
+  // notice; danger only fills in when the form is unknown.
   assert.equal(encounter.data.check.skill, 'tracking');
-  assert.equal(encounter.data.check.difficulty, 8);
+  assert.equal(encounter.data.check.difficulty, 3);
 
   // Meals keep their slot and report skipped meals as uneaten absences.
   const meals = events.filter((e) => e.type === 'meal');
@@ -131,6 +132,40 @@ test('toEvents falls back to start-of-day vitals and clock-hour phases', () => {
   const body = events.find((e) => e.type === 'body');
   assert.equal(body.data.wounded, 'none');
   assert.equal(body.data.days_without_food, 2);
+});
+
+test('check difficulty follows detectability, not danger', () => {
+  const subtle = toEvents({
+    day: {
+      ...DAY,
+      encounters: [{
+        entity: { slug: 'wolves', id: 'e2', name: 'Wolves', type: 'beast', danger_level: 4.5 },
+        hour_float: 9.0,
+        interaction: { form: 'sign_only' },
+      }],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    stateContext: {},
+  }).find((e) => e.type === 'encounter');
+  // A deadly thing whose only trace is a boot-print: hard to read,
+  // whatever its danger — the mind may well miss it.
+  assert.equal(subtle.data.check.difficulty, 9);
+  assert.equal(subtle.data.danger, 4.5); // danger still travels for affect
+
+  const formless = toEvents({
+    day: {
+      ...DAY,
+      encounters: [{
+        entity: { slug: 'wolves', id: 'e2', name: 'Wolves', type: 'beast', danger_level: 0.4 },
+        hour_float: 9.0,
+      }],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    stateContext: {},
+  }).find((e) => e.type === 'encounter');
+  assert.equal(formless.data.check.difficulty, 6); // 4 + 0.4*5 fallback
 });
 
 test('mindClient throws when the mind is unreachable', async () => {

@@ -135,6 +135,10 @@ DEFAULT_WIRING = {
     'affect.tag:weather:deep_cold': -0.3,
     'affect.tag:weather:scorching': -0.2,
     'affect.field:shadow_effect': -0.15,
+    # Host-declared entity danger (0-5 game scale) is felt as continuous
+    # menace — distinct from detectability (check difficulty, host-side):
+    # a harmless thing is easy to notice AND easy to ignore.
+    'affect.field:danger': -0.1,
     # Severity floors by tag (C6): severe weather tiers make the climate
     # an *event* in the salience arithmetic — a storm day encodes, a
     # drizzle day stays background. 'severity.<tag>' works for any tag.

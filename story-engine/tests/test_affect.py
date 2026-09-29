@@ -111,7 +111,9 @@ def test_hostile_encounter_darkens_the_day(client):
     _open_and_close(client, char, 'd1', [_encounter(1)])
 
     item = _perceived(char)
-    assert item['valence'] == -0.5  # 'tag:outcome:wounded' beats 'confronts'
+    # 'tag:outcome:wounded' (-0.5) beats 'confronts'; 'affect.field:danger'
+    # stacks the entity's deadliness (3 × -0.1) on top.
+    assert item['valence'] == pytest.approx(-0.8)
     mood = _episode_mood(char)
     assert mood['valence'] < 0
     assert mood['dominant'] != 'steady'
@@ -119,7 +121,7 @@ def test_hostile_encounter_darkens_the_day(client):
     session = SessionLocal()
     mem = session.query(Memory).filter_by(character_id=char).one()
     session.close()
-    assert mem.valence == -0.5
+    assert mem.valence == pytest.approx(-0.8)
 
 
 def test_host_valence_always_wins(client):

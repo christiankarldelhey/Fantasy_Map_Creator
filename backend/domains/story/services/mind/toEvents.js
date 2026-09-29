@@ -103,12 +103,32 @@ function climateEvents(day) {
   return events;
 }
 
-// Reading an encounter's signs is a tracking check (B1): the mind gates on
-// the character's skill and rolls vs a difficulty scaled by the entity's
-// danger (entities carry 0-5; some callers pass a normalized 0-1).
-function encounterCheck(entity) {
-  const danger = entity.danger_level ?? entity.danger;
+// Reading an encounter's signs is a tracking check (B1) — and the
+// difficulty is DETECTABILITY, not danger (C8): a corpse-candle that
+// confronts you needs no tracking to be noticed; a distant howl or a
+// boot-print in the mud is real ranger work. Danger still travels in
+// data.danger for the affect channel — how dangerous the thing is and
+// how easy it is to notice are different facts.
+const FORM_DIFFICULTY = {
+  // Imposed contact — you'd notice it asleep (and indeed these wake).
+  attacks: 3, confronts: 3, sudden_peril: 4, hinders_passage: 4,
+  aid_or_trade: 3, brief_exchange: 3, harvest_shelter: 3,
+  reacts_withdraws: 4, drifts_closer: 5, mistaken_for_object: 5,
+  // You must notice it — subtlety is the check.
+  observed_activity: 5, watches: 7, glimpsed_far: 7,
+  stalks: 8, sound_only: 8, sign_only: 9, presence_felt: 9,
+  passed_by: 7, scenery: 7,
+};
+
+function encounterCheck(entity, interaction) {
   const check = { skill: 'tracking' };
+  const formDifficulty = FORM_DIFFICULTY[interaction?.form];
+  if (formDifficulty != null) {
+    check.difficulty = formDifficulty;
+    return check;
+  }
+  // Unknown/no form: fall back to danger-scaled difficulty.
+  const danger = entity.danger_level ?? entity.danger;
   if (typeof danger === 'number') {
     const onGameScale = danger > 1 ? danger : danger * 5;
     check.difficulty = Math.min(10, Math.round(4 + onGameScale));
@@ -138,7 +158,7 @@ function encounterEvents(day) {
           prose_hint: e.interaction?.prose_hint ?? null,
           intensity: e.interaction?.intensity ?? null,
           outcome,
-          check: encounterCheck(e.entity),
+          check: encounterCheck(e.entity, e.interaction),
         };
         // Needs (B2): surviving a hostile contact leaves an open thread
         // the mind keeps alive until the same entity is faced unscathed
