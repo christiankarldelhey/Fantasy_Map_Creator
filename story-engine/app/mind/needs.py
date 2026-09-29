@@ -84,6 +84,17 @@ def _detectors(state, w):
             'urgency': min(1.0, 0.3 + shadow * 0.5),
             'source': {'detector': 'unrest', 'shadow': shadow},
         })
+    # An unhealed wound is an open need (C10): the lens voices it where
+    # the old host-side condition block used to instruct the narrator.
+    wounded = state.get('wounded')
+    if wounded in ('wounded', 'badly_wounded'):
+        fired.append({
+            'key': 'wound', 'type': 'physiological',
+            'urgency': w.get('need_wound_urgency', 0.35)
+                if wounded == 'wounded'
+                else w.get('need_badly_wound_urgency', 0.65),
+            'source': {'detector': 'wound', 'wounded': wounded},
+        })
     return fired
 
 

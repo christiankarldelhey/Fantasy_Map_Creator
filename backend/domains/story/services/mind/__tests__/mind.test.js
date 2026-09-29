@@ -10,6 +10,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { toEvents } from '../toEvents.js';
+import { toNarrateDayBody, toOpenPayload } from '../toOpenPayload.js';
 
 // Point the client at a dead port BEFORE importing it — the URL is captured
 // at module load. Port 9 (discard) refuses connections: the mind is down.
@@ -166,6 +167,32 @@ test('check difficulty follows detectability, not danger', () => {
     stateContext: {},
   }).find((e) => e.type === 'encounter');
   assert.equal(formless.data.check.difficulty, 6); // 4 + 0.4*5 fallback
+});
+
+test('the open payload carries raw state, never rendered blocks (C10)', () => {
+  const body = toOpenPayload({
+    gameId: 'middle_earth',
+    day: DAY,
+    trip: { id: 't1', name: 'Test trip' },
+    character: { name: 'Tester' },
+    characterState: { energy: 40, shadow: 55, wounded: 'wounded', recentNotes: ['a fight with wolves'] },
+    equipmentState: { rations: 1, waterHeld: 0, waterCapacity: 1, coins: 3 },
+    fate: 'living',
+    stateContext: null,
+  });
+  assert.deepEqual(body.character_state.energy, 40);
+  assert.deepEqual(body.character_state.recentNotes, ['a fight with wolves']);
+  assert.equal(body.equipment_state.rations, 1);
+  assert.equal(body.fate, 'living');
+  // No rendered text may travel: the story-engine owns data→language.
+  assert.equal(body.condition_block, undefined);
+  assert.equal(body.equipment_block, undefined);
+  assert.equal(body.end_state_block, undefined);
+
+  const narrate = toNarrateDayBody(body);
+  assert.equal(narrate.characterState.shadow, 55);
+  assert.equal(narrate.equipmentState.waterCapacity, 1);
+  assert.equal(narrate.fate, 'living');
 });
 
 test('mindClient throws when the mind is unreachable', async () => {

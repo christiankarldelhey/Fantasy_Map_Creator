@@ -73,6 +73,10 @@ DEFAULT_WIRING = {
     'need_exhaustion_below': 0.4,
     'need_unrest_shadow_min': 0.25,
     'need_weather_streak': 3.0,
+    # An open wound is a need that wants tending (C10); badly hurt
+    # outweighs hunger.
+    'need_wound_urgency': 0.35,
+    'need_badly_wound_urgency': 0.65,
     # Homeostasis (C9): open needs weigh on the episode mood — each
     # contributes -urgency * scale, the day's total capped. Hunger at
     # day 3 (-0.27) doesn't need a bad event to darken the day.

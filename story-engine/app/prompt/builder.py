@@ -33,6 +33,7 @@ from app.prompt.sections.instructions import (
 )
 from app.prompt.sections.journey import destination_name, journey_context_section, season_phrase, special_instructions_section
 from app.prompt.sections.phase import phase_block
+from app.prompt.sections.state_blocks import condition_section, end_state_section, equipment_section
 from app.prompt.sections.terminal_day import terminal_closing_instruction, terminal_notice_section, terminal_road_intro
 from app.prompt.system_prompt import SYSTEM_PROMPT
 
@@ -64,9 +65,9 @@ def build_day_prompt(
     character=None,
     language='english',
     previous_day_summary=None,
-    condition_block='',
-    equipment_block='',
-    end_state_block='',
+    character_state=None,
+    equipment_state=None,
+    fate=None,
     climate_state_block='',
     banned_phrases=None,
     previous_openings=None,
@@ -81,9 +82,9 @@ def build_day_prompt(
     char_name = character_name(character)
     destination = destination_name(trip.get('name'))
     rng = day.get('rng') or random.random
-    # A non-empty end-state block means the character dies today: no camp, and the
+    # A non-living fate means the character dies today: no camp, and the
     # chapter must close on the death.
-    is_terminal = bool(end_state_block)
+    is_terminal = bool(fate and fate != 'living')
 
     moon = day.get('moon_phase') or get_moon_phase(day.get('date'))
     todays_way_in = pick_todays_way_in(rng)
@@ -110,12 +111,19 @@ def build_day_prompt(
             rng=rng,
         )
 
+    # When a mind is driving, the lens already voices the body's condition
+    # (needs + mood) — rendering TRAVELLER'S CONDITION too would narrate
+    # the same state twice in two registers.
+    condition = (
+        '' if mind_block
+        else condition_section(character_state, char_name, nl=nl)
+    )
     user = (
         f"{character_header_section(character)}"
         f"{narrator_lens_section(character)}"
-        f"{condition_block}"
-        f"{equipment_block}"
-        f"{end_state_block}"
+        f"{condition}"
+        f"{equipment_section(equipment_state, nl=nl)}"
+        f"{end_state_section(fate, char_name, nl=nl)}"
         f"{journey_context_section(destination, previous_day_summary)}"
         f"{special_instructions_section(day.get('day_number'), bool(day.get('is_last_day')), char_name, destination, character.get('introduction_instructions'))}"
         f"{mind_block}"

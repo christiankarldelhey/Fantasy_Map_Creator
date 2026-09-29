@@ -120,3 +120,21 @@ def test_eating_lifts_the_weight(client):
     )
     session.close()
     assert hunger.status == 'resolved'
+
+
+def test_an_open_wound_is_a_need(client):
+    """C10: the lens voices wounds now — 'badly_wounded' outweighs a
+    scratch, and both weigh on the day."""
+    char = _uid('wounded')
+    _open_and_close(client, char, 'd1', _calm_day(1, wounded='badly_wounded'))
+
+    session = SessionLocal()
+    wound = (
+        session.query(Need)
+        .filter_by(character_id=char, key='wound')
+        .one()
+    )
+    session.close()
+    assert wound.status == 'open'
+    assert wound.urgency == pytest.approx(0.65)
+    assert _mood(char)['need_pressure'] == pytest.approx(0.195)

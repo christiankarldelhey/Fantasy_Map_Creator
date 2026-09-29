@@ -8,7 +8,7 @@ import {
 } from '../adapters/mapClient.js';
 import {
   SYSTEM_PROMPT,
-  buildTravellerBlocks,
+  collectTravellerState,
   closeEpisode,
   loadNarratorCharacter,
   loadRecentEncounterForms,
@@ -338,9 +338,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     // --- Journey persistence: compute the day's energy/shadow deltas ---
     // (recovery from the resolved night + today's costs; shadow from the
     //  night's shadow_effect + each encounter's shadow_weight + region family)
-    let conditionBlock = '';
-    let endStateBlock = '';
-    let equipmentBlock = '';
+    let characterState = null;
+    let equipmentState = null;
+    let endFate = null;
     let newEnergy = openingEnergy;
     let newShadow = openingShadow;
     let fate = { fate: 'living', status: 'active', halted: false };
@@ -409,10 +409,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         );
       }
 
-      ({ conditionBlock, equipmentBlock, endStateBlock } = await buildTravellerBlocks({
+      ({ characterState, equipmentState, fate: endFate } = await collectTravellerState({
         characterId: trip.character_id,
         tripId: trip.id,
-        characterName: character.name,
         energy: newEnergy,
         shadow: newShadow,
         wounded: resolution.conditions?.wounded,
@@ -441,9 +440,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       trip,
       character,
       language: language || 'english',
-      conditionBlock,
-      equipmentBlock,
-      endStateBlock,
+      characterState,
+      equipmentState,
+      fate: endFate,
       stateContext: startState
         ? {
             startState,
@@ -596,9 +595,9 @@ router.post('/:id/days/:dayNumber/redo-narration', authenticateToken, async (req
 
     const character = await loadNarratorCharacter(trip.character_id);
 
-    let conditionBlock = '';
-    let endStateBlock = '';
-    let equipmentBlock = '';
+    let characterState = null;
+    let equipmentState = null;
+    let endFate = null;
     if (trip.character_id) {
       const startState = await loadCharacterState(trip.character_id);
       const energyEnd = existingDay.energy_end != null ? existingDay.energy_end : (startState ? startState.energy : 100);
@@ -615,10 +614,9 @@ router.post('/:id/days/:dayNumber/redo-narration', authenticateToken, async (req
       }
       const fate = resolveFate({ energy: energyEnd, shadow: shadowEnd, encounterOutcomes });
 
-      ({ conditionBlock, equipmentBlock, endStateBlock } = await buildTravellerBlocks({
+      ({ characterState, equipmentState, fate: endFate } = await collectTravellerState({
         characterId: trip.character_id,
         tripId: trip.id,
-        characterName: character.name,
         energy: energyEnd,
         shadow: shadowEnd,
         wounded: startState?.wounded ?? 'none',
@@ -667,9 +665,9 @@ router.post('/:id/days/:dayNumber/redo-narration', authenticateToken, async (req
       trip,
       character,
       language: req.body?.language || 'english',
-      conditionBlock,
-      equipmentBlock,
-      endStateBlock,
+      characterState,
+      equipmentState,
+      fate: endFate,
     });
 
     const updateRes = await pool.query(

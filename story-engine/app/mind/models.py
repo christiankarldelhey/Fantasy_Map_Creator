@@ -206,9 +206,11 @@ class OpenEpisodeRequest(BaseModel):
     events: List[EventIn] = []
     day: DayPayload
     trip_name: Optional[str] = None
-    condition_block: str = ''
-    equipment_block: str = ''
-    end_state_block: str = ''
+    # Raw state, not rendered blocks: the host reports numbers and facts,
+    # this service owns every translation into words (C10).
+    character_state: Optional[Dict[str, Any]] = None
+    equipment_state: Optional[Dict[str, Any]] = None
+    fate: Optional[str] = None
     previous_day_summary: Optional[str] = None
     banned_phrases: List[str] = []
     recent_day_climates: List[Dict[str, Any]] = []

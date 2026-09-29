@@ -20,8 +20,6 @@ import {
   shadowSpawnFactor,
   energyBand,
   shadowBand,
-  buildConditionBlock,
-  buildEndStateBlock,
   buildDayNote,
   resolveFate,
   WOUND_COSTS,
@@ -451,44 +449,6 @@ test('energyBand / shadowBand thresholds', () => {
   assert.equal(shadowBand(80), 'burdened');
 });
 
-test('buildConditionBlock omitted when energy normal and shadow clear', () => {
-  assert.equal(buildConditionBlock({ characterName: 'Aranath', energy: 65, shadow: 10 }), '');
-});
-
-test('buildConditionBlock included and never emits numbers', () => {
-  const block = buildConditionBlock({
-    characterName: 'Aranath',
-    energy: 30,
-    shadow: 50,
-    recentNotes: ['a fight with the Cave Bear'],
-  });
-  assert.ok(block.includes("TRAVELLER'S CONDITION"));
-  assert.ok(block.includes('Aranath'));
-  assert.ok(block.includes('a fight with the Cave Bear'));
-  assert.equal(/\b\d+\b/.test(block), false, 'no digits in the block');
-});
-
-test('buildConditionBlock mentions a persistent wound even with normal energy/shadow', () => {
-  const block = buildConditionBlock({
-    characterName: 'Aranath',
-    energy: 65,
-    shadow: 10,
-    wounded: 'wounded',
-  });
-  assert.notEqual(block, '');
-  assert.ok(block.includes('wound'));
-});
-
-test('buildConditionBlock badly_wounded uses its own sentence', () => {
-  const block = buildConditionBlock({
-    characterName: 'Aranath',
-    energy: 65,
-    shadow: 10,
-    wounded: 'badly_wounded',
-  });
-  assert.ok(block.includes('badly wounded'));
-});
-
 // ---------------------------------------------------------------------------
 // buildDayNote
 // ---------------------------------------------------------------------------
@@ -546,20 +506,6 @@ test('WOUND_COSTS drained energy for wounded and badly wounded', () => {
   assert.equal(WOUND_COSTS.wounded.energy, -10);
   assert.equal(WOUND_COSTS['badly wounded'].energy, -25);
   assert.equal(WOUND_COSTS.unscathed.energy, 0);
-});
-
-// ---------------------------------------------------------------------------
-// buildEndStateBlock
-// ---------------------------------------------------------------------------
-test('buildEndStateBlock is empty when the character is alive', () => {
-  assert.equal(buildEndStateBlock('living', 'Aranath'), '');
-});
-
-test('buildEndStateBlock contains shadow corruption wording for dead_shadow', () => {
-  const block = buildEndStateBlock('dead_shadow', 'Aranath');
-  assert.ok(block.includes('shadow'));
-  assert.ok(block.includes('corruption'));
-  assert.ok(block.includes('Aranath'));
 });
 
 // ---------------------------------------------------------------------------

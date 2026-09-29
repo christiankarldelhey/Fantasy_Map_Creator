@@ -5,18 +5,13 @@
 // import from `domains/game/services/*` directly. Today these are plain
 // function re-exports (same process, single DB).
 //
-// NOTE (tracked in docs/story-engine-prd.md): buildConditionBlock,
-// buildEndStateBlock and their underlying *_SENTENCE phrase tables are
-// narrative content living inside Game's characterState.js today for
-// historical reasons. They are flagged there as content that should migrate
-// into Story's own phrase banks; this adapter is the seam that makes that
-// future move a one-file change instead of a hunt through every caller.
+// Only DATA crosses this seam: the persisted log notes and the walking-day
+// constant. Every data→language translation lives in the story-engine's NL
+// pack (C10) — the old buildConditionBlock/buildEquipmentBlock/
+// buildEndStateBlock renderers moved there as raw-state-driven sections.
 // ============================================================================
 
 export {
-  buildConditionBlock,
-  buildEndStateBlock,
   recentNotes,
 } from '../../game/services/character/characterState.js';
-export { buildEquipmentBlock } from '../../game/services/character/inventory.js';
 export { WALK_END_HOUR } from '../../game/services/world/tripDay.js';

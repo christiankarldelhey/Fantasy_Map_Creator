@@ -599,6 +599,30 @@ sigue valiendo lo que el evento meal vale). Y urgencia es lineal —
 el hambre del día 1 pesa la mitad que la del día 3, sin umbrales de
 desesperación.
 
+### C10 · Una sola boca: todo data→lenguaje vive en el story-engine
+
+**🔧 Técnica** — El host dejó de renderizar texto: `conditionBlock`/
+`equipmentBlock`/`endStateBlock` se murieron en ambos contratos
+(`open` y `narrate-day`). En su lugar viajan `characterState`,
+`equipmentState` y `fate` crudos, y `prompt/sections/state_blocks.py`
+los traduce con el NL pack (`condition.*`, `equipage.*`,
+`endstate.*` — frases y umbrales admin-editables, fallback a
+constantes idénticas cuando no hay pack). En el camino Mind, la
+sección CONDITION no se renderiza: el lens ya habla por el cuerpo.
+Los builders viejos y su adapter salieron de Game por completo.
+
+**🧠 Cerebro** — La herida ganó su need (`wound`, urgencia por
+severidad) — lo que antes era una instrucción suelta al narrador
+ahora es una necesidad abierta que pesa en el mood y que la mente
+podría algún día decidir atender. Y el pack se volvió de verdad el
+único lugar donde el mundo se vuelve palabra.
+
+**🚫 No hace** — `recentNotes` sigue naciendo host-side (son datos
+persistidos del log, no render); y en el camino Mind la energía baja
+ya no recibe frase propia — la expresa el need `exhaustion` solo si
+cruza su umbral, así que un día cansado-pero-no-exhausto queda
+implícito en el mood en vez de explícito en prosa.
+
 ---
 
 ## El mapa completo, en una pasada

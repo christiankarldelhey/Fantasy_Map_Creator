@@ -86,6 +86,19 @@ DEFAULT_THRESHOLDS = {
     'terrain.small_patch_km2': 10,
     'place.distant_sighting_km': 1,
     'water.plank_bridge_chance': 0.3,
+    # Traveller's condition + equipage bands (C10) — the host ships raw
+    # state; these bands decide which phrase speaks. Same numbers as the
+    # game's old TUNING constants.
+    'condition.energy_worn_max': 50,
+    'condition.energy_spent_max': 25,
+    'condition.shadow_unease_min': 20,
+    'condition.shadow_shadowed_min': 45,
+    'condition.shadow_burdened_min': 70,
+    'equipage.cold_temp_max': 15,
+    'equipage.cold_shift_min': 3,
+    'equipage.low_rations_max': 2,
+    'equipage.low_water_max': 0.25,
+    'equipage.low_coins_max': 5,
 }
 
 DEFAULT_PHRASE_LISTS = {
@@ -278,6 +291,95 @@ DEFAULT_PHRASE_LISTS = {
     ],
     'mind.need.unrest': [
         'the shadow on the heart wants answering — solace, or an end to fear',
+    ],
+    'mind.need.wound': [
+        'a wound still unhealed — it wants tending before the road asks more',
+    ],
+    # Traveller's condition / equipage / end (C10): the host ships raw
+    # state and these lists own every word it becomes. {name} is the
+    # character, {notes} the causal log notes. The mind path renders
+    # equipage + endstate the same way; the condition lines are spoken by
+    # the lens instead when a brain is driving.
+    'condition.energy.worn': [
+        '{name} is worn down; let a heavier step, a shorter temper and a longing for shelter show in how {name} moves.',
+    ],
+    'condition.energy.spent': [
+        "{name} is at the very limit of {name}'s strength — stumbling, the body failing, choices driven by exhaustion.",
+    ],
+    'condition.shadow.unease': [
+        'A faint unease has settled on {name}: grimmer now, more watchful than before.',
+    ],
+    'condition.shadow.shadowed': [
+        'A shadow has gathered on {name}, mile by mile: quick to suspect, seeing threat where once {name} saw beauty, slow to trust the quiet.',
+    ],
+    'condition.shadow.burdened': [
+        '{name} is heavily burdened in spirit: the land itself feels malevolent, bleak, and what trust {name} had is all but gone.',
+    ],
+    'condition.wounded.wounded': [
+        '{name} nurses a wound that has not yet healed.',
+    ],
+    'condition.wounded.badly_wounded': [
+        '{name} is badly wounded, moving as one who is not far from falling.',
+    ],
+    'condition.owes_to': [
+        'This owes to {notes}.',
+    ],
+    'condition.tail': [
+        'Let this colour the telling — how {name} moves, what {name} notices and longs for — but never name it as a fact or a number.',
+    ],
+    'equipage.turned_away': [
+        'turned away from the door for want of coin, the traveller slept against the wall of the very town that would not have him',
+    ],
+    'equipage.poorly_clad': [
+        'poorly clad for this cold; the cloak is thin and the wind finds every gap',
+    ],
+    'equipage.low_rations': [
+        'the satchel is nearly empty',
+    ],
+    'equipage.flask_frozen': [
+        'the waterskin is rimed with ice and no stream can refill it today',
+    ],
+    'equipage.empty_waterskin': [
+        'the waterskin is empty; the tongue is parched and every swallow is remembered',
+    ],
+    'equipage.low_water': [
+        'the waterskin is nearly dry; only a mouthful or two remain',
+    ],
+    'equipage.no_food_water_deep': [
+        'neither food nor water in days; the body is doubly tried and the step unsteady',
+    ],
+    'equipage.no_food_water': [
+        'neither food nor water has passed the lips; the body is doubly tried',
+    ],
+    'equipage.hungry_deep': [
+        'no decent meal in days; hunger gnaws and weakens the arm',
+    ],
+    'equipage.hungry': [
+        'no decent meal since yesterday; the belly is hollow',
+    ],
+    'equipage.thirsty_deep': [
+        'no water in far too long; the tongue swells and the mind grows slow',
+    ],
+    'equipage.thirsty': [
+        'no water since yesterday; the throat is dust and the lips are cracked',
+    ],
+    'equipage.low_coins': [
+        'few coins left in the purse, counted twice before asking for a bed',
+    ],
+    'equipage.no_coins': [
+        'the purse is empty',
+    ],
+    'equipage.tail': [
+        'Never list objects or quantities; the equipage appears only when it hinders, is lacking, or brings comfort.',
+    ],
+    'endstate.slain': [
+        "=== THE END ===\nThis is the FINAL CHAPTER. {name} dies here. Narrate the moment of death explicitly in the final movement. Do not end the chapter with {name} still alive. The journey ends here.\n\n=== MANDATORY ENDING ===\nYou must describe {name}'s actual death. Do not transition to a night at camp; the story stops at the moment {name} falls.",
+    ],
+    'endstate.dead_exhaustion': [
+        "=== THE END ===\nThis is the FINAL CHAPTER. Exhaustion finally claims {name}, who dies here. Narrate the collapse and final moments explicitly in the final movement. Do not end the chapter with {name} still alive. The journey ends here.\n\n=== MANDATORY ENDING ===\nYou must describe {name}'s death from exhaustion. Do not transition to a night at camp; the story stops at {name}'s final collapse.",
+    ],
+    'endstate.dead_shadow': [
+        '=== THE END ===\nThis is the FINAL CHAPTER. The shadow finally consumes {name}; {name} dies or is fully corrupted. Narrate the corruption taking hold and the final end explicitly in the final movement. Do not end the chapter with {name} merely threatened or alive. The journey ends in darkness.\n\n=== MANDATORY ENDING ===\nYou must describe the exact moment the shadow consumes {name}. Do not transition to a night at camp; the story stops at that moment.',
     ],
     'mind.need.exposure': [
         'day upon day of hostile weather has worn the spirit thin — shelter is needed',

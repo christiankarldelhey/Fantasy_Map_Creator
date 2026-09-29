@@ -211,22 +211,6 @@ export function resolveFate({ energy, shadow, encounterOutcomes = [] }) {
   return { fate: 'living', status: 'active', halted: false };
 }
 
-const END_STATE_BLOCKS = {
-  slain: (name) => `=== THE END ===\nThis is the FINAL CHAPTER. ${name} dies here. Narrate the moment of death explicitly in the final movement. Do not end the chapter with ${name} still alive. The journey ends here.\n\n=== MANDATORY ENDING ===\nYou must describe ${name}'s actual death. Do not transition to a night at camp; the story stops at the moment ${name} falls.\n\n`,
-  dead_exhaustion: (name) => `=== THE END ===\nThis is the FINAL CHAPTER. Exhaustion finally claims ${name}, who dies here. Narrate the collapse and final moments explicitly in the final movement. Do not end the chapter with ${name} still alive. The journey ends here.\n\n=== MANDATORY ENDING ===\nYou must describe ${name}'s death from exhaustion. Do not transition to a night at camp; the story stops at ${name}'s final collapse.\n\n`,
-  dead_shadow: (name) => `=== THE END ===\nThis is the FINAL CHAPTER. The shadow finally consumes ${name}; ${name} dies or is fully corrupted. Narrate the corruption taking hold and the final end explicitly in the final movement. Do not end the chapter with ${name} merely threatened or alive. The journey ends in darkness.\n\n=== MANDATORY ENDING ===\nYou must describe the exact moment the shadow consumes ${name}. Do not transition to a night at camp; the story stops at that moment.\n\n`,
-};
-
-/**
- * Build the terminal end-state block for the narrator prompt.
- * Returns '' when the character is still alive.
- */
-export function buildEndStateBlock(fate, characterName = 'The traveller') {
-  if (fate === 'living' || !fate) return '';
-  const builder = END_STATE_BLOCKS[fate];
-  return builder ? builder(characterName) : '';
-}
-
 /**
  * Energy cost from extreme daily temperatures (negative, subtracted from energy).
  * @param {number|null} meanTemp - average temperature in Celsius
@@ -579,22 +563,6 @@ export function shadowBand(shadow) {
   return 'clear';
 }
 
-const ENERGY_SENTENCE = {
-  worn: (name) => `${name} is worn down; let a heavier step, a shorter temper and a longing for shelter show in how ${name} moves.`,
-  spent: (name) => `${name} is at the very limit of ${name}'s strength — stumbling, the body failing, choices driven by exhaustion.`,
-};
-
-const SHADOW_SENTENCE = {
-  unease: (name) => `A faint unease has settled on ${name}: grimmer now, more watchful than before.`,
-  shadowed: (name) => `A shadow has gathered on ${name}, mile by mile: quick to suspect, seeing threat where once ${name} saw beauty, slow to trust the quiet.`,
-  burdened: (name) => `${name} is heavily burdened in spirit: the land itself feels malevolent, bleak, and what trust ${name} had is all but gone.`,
-};
-
-const WOUNDED_SENTENCE = {
-  wounded: (name) => `${name} nurses a wound that has not yet healed.`,
-  badly_wounded: (name) => `${name} is badly wounded, moving as one who is not far from falling.`,
-};
-
 /**
  * Build a short causal note describing the day's most salient state driver.
  * Stored in character_state_log and later reused as a cross-day callback.
@@ -622,49 +590,6 @@ export function buildDayNote(day, overnightInteraction) {
   }
   if (place) return `a night at ${place}`;
   return null;
-}
-
-/**
- * Build the TRAVELLER'S CONDITION block for the narrator prompt.
- * Returns '' when both variables sit in their "no mention" band.
- * NEVER emits numbers.
- *
- * @param {Object} p
- * @param {string} p.characterName
- * @param {number} p.energy
- * @param {number} p.shadow
- * @param {string} [p.wounded='none'] - persistent wound condition (none|wounded|badly_wounded)
- * @param {Array<string>} [p.recentNotes] - last 1–3 log notes for causal phrasing
- * @returns {string}
- */
-export function buildConditionBlock({ characterName = 'The traveller', energy = 100, shadow = 0, wounded = 'none', recentNotes = [] }) {
-  const eBand = energyBand(energy);
-  const sBand = shadowBand(shadow);
-
-  const energyMention = eBand === 'worn' || eBand === 'spent';
-  const shadowMention = sBand !== 'clear';
-  const woundedMention = wounded === 'wounded' || wounded === 'badly_wounded';
-
-  // Build rule: omit entirely when nothing crosses a threshold.
-  if (!energyMention && !shadowMention && !woundedMention) return '';
-
-  const lines = [];
-  if (energyMention) lines.push(ENERGY_SENTENCE[eBand](characterName));
-  if (shadowMention) lines.push(SHADOW_SENTENCE[sBand](characterName));
-  if (woundedMention) lines.push(WOUNDED_SENTENCE[wounded](characterName));
-
-  // Causal phrase from recent notes (cross-day memory for free).
-  const notes = (recentNotes || []).filter(Boolean).slice(0, 3);
-  let causal = '';
-  if (notes.length > 0) {
-    causal = ` This owes to ${notes.join('; and to ')}.`;
-  }
-
-  return `=== TRAVELLER'S CONDITION ===
-${lines.join(' ')}${causal}
-Let this colour the telling — how ${characterName} moves, what ${characterName} notices and longs for — but never name it as a fact or a number.
-
-`;
 }
 
 // ---------------------------------------------------------------------------

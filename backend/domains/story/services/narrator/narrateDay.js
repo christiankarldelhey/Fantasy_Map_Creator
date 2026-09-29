@@ -30,9 +30,9 @@ const MIND_ENGINE = ['on', 'true', '1'].includes(
  * @param {Object} params.trip
  * @param {Object} params.character
  * @param {string} [params.language]
- * @param {string} [params.conditionBlock]
- * @param {string} [params.equipmentBlock]
- * @param {string} [params.endStateBlock]
+ * @param {Object} [params.characterState] - raw energy/shadow/wounded/notes
+ * @param {Object} [params.equipmentState] - raw supplies/gear state
+ * @param {string} [params.fate] - resolved fate; non-'living' is terminal
  * @param {Object} [params.stateContext] - {startState, endState} for the
  *        mind's `body` event; ignored unless MIND_ENGINE is on.
  * @returns {Promise<{prompt: {system:string,user:string}, generation: Object, mind_episode_id?: string, psyche_packet?: Object}>}
@@ -42,9 +42,9 @@ export async function narrateDay({
   trip,
   character,
   language = 'english',
-  conditionBlock = '',
-  equipmentBlock = '',
-  endStateBlock = '',
+  characterState = null,
+  equipmentState = null,
+  fate = null,
   stateContext = null,
 }) {
   const [previousDaySummary, bannedPhrases, recentDayClimates, previousOpenings] = await Promise.all([
@@ -62,9 +62,9 @@ export async function narrateDay({
     trip,
     character,
     language,
-    conditionBlock,
-    equipmentBlock,
-    endStateBlock,
+    characterState,
+    equipmentState,
+    fate,
     previousDaySummary,
     bannedPhrases,
     recentDayClimates,

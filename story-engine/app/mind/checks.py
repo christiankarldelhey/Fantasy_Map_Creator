@@ -79,6 +79,12 @@ def character_state(character, events):
         # Day counts are raw numbers, not 0-1.
         'days_without_food': _pick('days_without_food', normalized=False),
         'days_without_water': _pick('days_without_water', normalized=False),
+        # Raw severity string ('wounded'|'badly_wounded') alongside the
+        # conditions set — the wound need weighs worse wounds heavier.
+        'wounded': (
+            wounded if isinstance(wounded, str) and 'wounded' in conditions
+            else ('wounded' if 'wounded' in conditions else None)
+        ),
         'conditions': conditions,
     }
 

@@ -23,9 +23,11 @@ class NarrateDayRequest(BaseModel):
     # or unseeded -> identical output to the constants (zero regression).
     game_id: Optional[str] = None
     language: str = 'english'
-    conditionBlock: str = ''
-    equipmentBlock: str = ''
-    endStateBlock: str = ''
+    # Raw state — the host never sends rendered text; every data→language
+    # translation lives in this service's NL pack (C10).
+    characterState: Optional[Dict[str, Any]] = None
+    equipmentState: Optional[Dict[str, Any]] = None
+    fate: Optional[str] = None
     # Continuity fields resolved by tripHistory.js in Node before this call.
     previousDaySummary: Optional[str] = None
     bannedPhrases: List[str] = []

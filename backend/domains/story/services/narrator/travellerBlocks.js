@@ -1,18 +1,14 @@
 // ============================================================================
-// Traveller blocks for the narrator prompt
+// Traveller state for the narrator prompt
 // ----------------------------------------------------------------------------
-// Turns the mechanical state of the character (energy, shadow, gear, food,
-// coins, fate) into the three prompt blocks that describe their condition. Both
-// the day-generation and the redo-narration endpoints build them here, so a
-// re-narrated chapter always sees the same body as the original.
+// Collects the mechanical state of the character (energy, shadow, gear, food,
+// coins, fate) and ships it RAW. Single-owner rule (C10): no data→language
+// translation lives in the host — the story-engine's NL pack renders the
+// condition, equipage and end-state sections. What remains here is pure
+// data gathering: the recent log notes and which gear is worth naming.
 // ============================================================================
 
-import {
-  buildConditionBlock,
-  buildEndStateBlock,
-  recentNotes,
-  buildEquipmentBlock,
-} from '../../adapters/gameClient.js';
+import { recentNotes } from '../../adapters/gameClient.js';
 
 export const DEFAULT_TRAVELLER_NAME = 'The traveller';
 
@@ -34,32 +30,30 @@ export function notableItemsOf(inventoryRows = []) {
 }
 
 /**
- * Build the traveller's condition, equipment and end-state blocks.
+ * Collect the traveller's raw state for the narrator prompt.
  * @param {Object} params
  * @param {number} params.characterId
  * @param {number} params.tripId
- * @param {string} [params.characterName]
- * @param {number} params.energy - energy at the END of the day
- * @param {number} params.shadow - shadow at the END of the day
- * @param {string} [params.wounded='none'] - persistent wound condition at the END of the day
+ * @param {number} params.energy - energy at the END of the day (0-100)
+ * @param {number} params.shadow - shadow at the END of the day (0-100)
+ * @param {string} [params.wounded='none'] - persistent wound condition
  * @param {string} [params.fate] - resolved fate; anything but 'living' is terminal
- * @param {number|null} [params.meanTemperature] - mean temperature of the day
+ * @param {number|null} [params.meanTemperature]
  * @param {number} [params.coldShift] - aggregated cold protection from gear
- * @param {number} [params.rations] - rations carried
+ * @param {number} [params.rations]
  * @param {number} [params.daysWithoutFood]
  * @param {number} [params.daysWithoutWater]
  * @param {number} [params.waterHeld]
  * @param {number} [params.waterCapacity]
  * @param {boolean} [params.flaskFrozen]
  * @param {number} [params.coins]
- * @param {boolean} [params.turnedAway] - refused shelter at the day’s end
+ * @param {boolean} [params.turnedAway] - refused shelter at the day's end
  * @param {string[]} [params.notableItems]
- * @returns {Promise<{conditionBlock: string, equipmentBlock: string, endStateBlock: string}>}
+ * @returns {Promise<{characterState: Object, equipmentState: Object, fate: string}>}
  */
-export async function buildTravellerBlocks({
+export async function collectTravellerState({
   characterId,
   tripId,
-  characterName = DEFAULT_TRAVELLER_NAME,
   energy,
   shadow,
   wounded = 'none',
@@ -79,14 +73,8 @@ export async function buildTravellerBlocks({
   const priorNotes = await recentNotes(characterId, tripId, CONDITION_NOTES_COUNT);
 
   return {
-    conditionBlock: buildConditionBlock({
-      characterName,
-      energy,
-      shadow,
-      wounded,
-      recentNotes: priorNotes,
-    }),
-    equipmentBlock: buildEquipmentBlock({
+    characterState: { energy, shadow, wounded, recentNotes: priorNotes },
+    equipmentState: {
       coldShift,
       meanTemperature,
       rations,
@@ -98,7 +86,7 @@ export async function buildTravellerBlocks({
       coins,
       turnedAway,
       notableItems,
-    }),
-    endStateBlock: buildEndStateBlock(fate, characterName),
+    },
+    fate,
   };
 }
