@@ -728,6 +728,33 @@ entre "config editable" y "contenido del mundo".
 
 ---
 
+### C14 · Horizonte de las creencias: lo que es verdad hoy no lo es siempre
+
+**🔧 Técnica** — `beliefs.horizon`: `enduring` (la naturaleza del mundo,
+del otro, de uno mismo — *"los dúnedain son ladrones"*) vs `transient`
+(las circunstancias — *"este vado está vigilado estos días"*). El LLM
+declara el horizonte al crear; ausente o inválido cae a `enduring`.
+Las transientes decaen por episodio cerrado
+(`belief_transient_episode_decay: 0.9` — ~5 días y la creencia baja del
+piso), y más fuerte aún cuando una reflexión las ignora
+(`belief_transient_decay: 0.8` vs 0.95 de las duraderas). Un reinforce
+refresca `updated_episode` y detiene el fade mientras la circunstancia
+se confirme. Migración 0013: todo lo existente backfillea `enduring`.
+
+**🏗️ Arquitectura** — El tiempo entra al modelo: una belief ya no es
+binaria (existe / se debilita) sino que lleva su propia caducidad. El
+calendario disuelve circunstancias; solo la reflexión disuelve
+convicciones. `beliefs_faded` reporta el close; el admin muestra y
+filtra por horizon.
+
+**🚫 No hace** — No expira por fecha real (la vida corre por episodios,
+no por calendario). No revive sola una creencia debilitada — vuelve
+solo si la evidencia la re-forma o la re-refuerza. Y `invert` hereda el
+horizonte del padre: una circunstancia invertida sigue siendo
+circunstancia.
+
+---
+
 ## El mapa completo, en una pasada
 
 ```

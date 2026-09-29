@@ -21,6 +21,7 @@ from datetime import datetime, timezone
 from app.db import get_session
 from app.mind.lens import episode_mood, render_lens, update_brain_mood
 from app.mind.memory import (
+    belief_fade_pass,
     close_episode_memory,
     decay_pass,
     detect_patterns,
@@ -507,7 +508,8 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
         ),
         beliefs=[
             {
-                'id': b.id, 'kind': b.kind, 'statement': b.statement,
+                'id': b.id, 'kind': b.kind, 'horizon': b.horizon,
+                'statement': b.statement,
                 'confidence': b.confidence, 'origin': b.origin,
                 'status': b.status,
             }
@@ -600,6 +602,7 @@ def consolidate_degraded(
                 'patterns': patterns['formed'],
                 'patterns_faded': patterns['faded'],
                 **decay_pass(db, brain, idx),
+                **belief_fade_pass(db, brain, idx),
             })
         db.commit()
         return ConsolidateResponse(brains=len(results), results=results)

@@ -263,6 +263,12 @@ class Belief(Base):
     game_id: Mapped[str] = mapped_column(String(120), nullable=False)
     character_id: Mapped[str] = mapped_column(String(120), nullable=False)
     kind: Mapped[str] = mapped_column(String(30), nullable=False)
+    # C14: 'enduring' (the world's nature, self, others) vs 'transient'
+    # (current circumstances — this ford today, this stretch of road).
+    # Transient beliefs fade per closed episode, not per reflection.
+    horizon: Mapped[str] = mapped_column(
+        String(20), nullable=False, default='enduring', server_default='enduring'
+    )
     statement: Mapped[str] = mapped_column(Text, nullable=False)
     confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
     tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)

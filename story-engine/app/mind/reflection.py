@@ -34,7 +34,8 @@ those beliefs should change. Answer with ONLY a JSON object — no prose,
 no fences:
 
 {"reflections": [
-  {"op": "create",     "kind": "world|self|other", "statement": "...",
+  {"op": "create",     "kind": "world|self|other",
+   "horizon": "enduring|transient", "statement": "...",
    "confidence": 0.0-1.0, "evidence": ["mem_id", ...]},
   {"op": "reinforce",  "belief_id": "bl_...", "evidence": ["mem_id", ...]},
   {"op": "contradict", "belief_id": "bl_...", "evidence": ["mem_id", ...]},
@@ -49,6 +50,10 @@ Rules:
   "statement" is the grown belief (opposite sign).
 - Keep statements first-person and concrete; never mention ids, episodes
   or the word "memory".
+- "horizon" is 'transient' when the belief binds to current
+  circumstances — this road these days, this weather, this ford —
+  and 'enduring' when it says something about the world's nature,
+  other people, or the self.
 - If nothing warrants a change, return {"reflections": []}.
 """
 
@@ -104,6 +109,8 @@ def _valid_ops(ops, memory_ids, belief_ids):
         name = op.get('op')
         if name == 'create':
             if op.get('kind') in ('world', 'self', 'other') and op.get('statement'):
+                if op.get('horizon') not in ('enduring', 'transient'):
+                    op['horizon'] = 'enduring'
                 valid.append(op)
         elif name in ('reinforce', 'contradict', 'invert'):
             if op.get('belief_id') in belief_ids:
@@ -140,7 +147,8 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
                 continue
             session.add(Belief(
                 game_id=brain.game_id, character_id=brain.character_id,
-                kind=op['kind'], statement=str(op['statement'])[:2000],
+                kind=op['kind'], horizon=op.get('horizon', 'enduring'),
+                statement=str(op['statement'])[:2000],
                 confidence=min(1.0, max(0.0, _f(op.get('confidence'), 0.5))),
                 tags=[], boosts=op['boosts'],
                 evidence=op['evidence'], origin='reflected',
@@ -182,7 +190,8 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
             belief.updated_episode = idx
             session.add(Belief(
                 game_id=brain.game_id, character_id=brain.character_id,
-                kind=belief.kind, statement=str(op['statement'])[:2000],
+                kind=belief.kind, horizon=belief.horizon,
+                statement=str(op['statement'])[:2000],
                 confidence=min(1.0, max(0.0, _f(op.get('confidence'), 0.5))),
                 tags=[], boosts=op['boosts'],
                 evidence=op['evidence'], origin='reflected',
@@ -191,12 +200,15 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
             counts['inverted'] += 1
 
     # Confidence decays on beliefs this reflection ignored; below the floor
-    # they go quiet (status='weakened', still listed, not loud).
+    # they go quiet (status='weakened', still listed, not loud). Transient
+    # beliefs fade harder — circumstances stop being true (C14).
     decay = w.get('belief_confidence_decay', 0.95)
+    transient_decay = w.get('belief_transient_decay', 0.8)
     for belief in beliefs_by_id.values():
         if belief.id in touched or belief.status != 'active':
             continue
-        belief.confidence = (belief.confidence or 0) * decay
+        rate = transient_decay if belief.horizon == 'transient' else decay
+        belief.confidence = (belief.confidence or 0) * rate
         belief.updated_episode = idx
         if belief.confidence < weaken_below:
             belief.status = 'weakened'

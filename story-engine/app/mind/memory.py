@@ -13,7 +13,7 @@
 from app.mind.embeddings import embed
 from app.mind.nl_resolver import phrases as nl_phrases
 from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.tables import Episode, Memory
+from app.mind.tables import Belief, Episode, Memory
 
 
 def _wiring(brain):
@@ -168,6 +168,37 @@ def decay_pass(session, brain, current_episode_index):
     return {'forgotten': forgotten, 'consolidated': consolidated}
 
 
+def belief_fade_pass(session, brain, current_episode_index):
+    """C14: transient beliefs fade with time, not just reflection —
+    'this ford is dangerous these days' stops being true when the days
+    move on. Each closed episode the belief was not refreshed (a
+    reflection that touched it sets updated_episode), confidence decays;
+    below the weaken floor it goes quiet like any ignored conviction."""
+    if current_episode_index is None:
+        return {'beliefs_faded': 0}
+    w = _wiring(brain)
+    decay = w.get('belief_transient_episode_decay', 0.9)
+    weaken_below = w.get('belief_weaken_below', 0.3)
+    faded = 0
+    beliefs = (
+        session.query(Belief)
+        .filter_by(
+            character_id=brain.character_id,
+            horizon='transient',
+            status='active',
+        )
+        .all()
+    )
+    for belief in beliefs:
+        if belief.updated_episode == current_episode_index:
+            continue
+        belief.confidence = (belief.confidence or 0.0) * decay
+        if belief.confidence < weaken_below:
+            belief.status = 'weakened'
+        faded += 1
+    return {'beliefs_faded': faded}
+
+
 def _pattern_desc(session, game_id, tag, count, brain=None):
     """A theme worded by the NL pack ('mind.pattern'), {subject} = the
     human end of the tag ('tag:food:lembas' -> 'lembas')."""
@@ -312,10 +343,12 @@ def close_episode_memory(session, brain, episode):
         }
     patterns = detect_patterns(session, brain, episode, idx, w)
     decayed = decay_pass(session, brain, idx)
+    beliefs = belief_fade_pass(session, brain, idx)
     return {
         'encoded': enc['encoded'],
         'forgotten': decayed['forgotten'],
         'consolidated': enc['born_consolidated'] + decayed['consolidated'],
         'patterns': patterns['formed'],
         'patterns_faded': patterns['faded'],
+        'beliefs_faded': beliefs['beliefs_faded'],
     }

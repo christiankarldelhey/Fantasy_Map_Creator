@@ -127,6 +127,11 @@ DEFAULT_WIRING = {
     'belief_evidence_importance_min': 0.4,
     'belief_evidence_valence_min': 0.2,
     'belief_new_per_reflection': 2,
+    # C14: transient beliefs (circumstances, not nature) fade each closed
+    # episode they are not refreshed, and faster still when a reflection
+    # ignores them; enduring ones keep the reflection-only decay above.
+    'belief_transient_episode_decay': 0.9,
+    'belief_transient_decay': 0.8,
     # B6: a belief only bends theme_weights while it stays confident.
     'belief_boost_min_confidence': 0.6,
     # B8: semantic similarity joins the retrieval score —

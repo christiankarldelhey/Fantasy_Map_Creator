@@ -225,11 +225,13 @@ class BeliefAdmin(ModelView, model=Belief):
     name = 'Beliefs'
     category = 'Mind Tuner'
     column_list = [
-        Belief.character_id, Belief.kind, Belief.statement,
+        Belief.character_id, Belief.kind, Belief.horizon,
+        Belief.statement,
         Belief.confidence, Belief.status, Belief.origin, Belief.boosts,
     ]
     column_filters = _filters(
-        Belief.game_id, Belief.character_id, Belief.kind, Belief.status,
+        Belief.game_id, Belief.character_id, Belief.kind,
+        Belief.horizon, Belief.status,
     )
     column_searchable_list = [Belief.character_id, Belief.statement]
 
