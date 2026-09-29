@@ -202,9 +202,17 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             # The episode stirs memory: top-K evoked, strengthened, linked.
             evoked = retrieve(db, brain, episode, perceived)
             episode.perceived_day = link_evoked(perceived, evoked)
-            # Mood: this episode's feel blended into the running mood.
+            # Needs: detectors fire from the snapshot/body state, threads
+            # from what was just perceived. Snapshot lands on the episode.
+            needs = needs_pass(
+                db, payload.game_id, brain, episode, perceived,
+                character=payload.character.model_dump(),
+            )
+            episode.needs_active = need_snapshot(needs)
+            # Mood: this episode's feel, weighed by open needs, blended
+            # into the running mood.
             episode.mood = episode_mood(
-                db, payload.game_id, perceived, brain=brain
+                db, payload.game_id, perceived, brain=brain, needs=needs
             )
             update_brain_mood(db, payload.game_id, brain, episode.mood)
             beliefs = (
@@ -214,13 +222,6 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 )
                 .all()
             )
-            # Needs: detectors fire from the snapshot/body state, threads
-            # from what was just perceived. Snapshot lands on the episode.
-            needs = needs_pass(
-                db, payload.game_id, brain, episode, perceived,
-                character=payload.character.model_dump(),
-            )
-            episode.needs_active = need_snapshot(needs)
             episode.lens_block = render_lens(
                 payload.character.name or payload.character.id,
                 brain.mood, beliefs, evoked,

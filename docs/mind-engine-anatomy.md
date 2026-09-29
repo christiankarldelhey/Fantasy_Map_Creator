@@ -579,6 +579,26 @@ por `danger` hasta mapearla. Y la detectabilidad no conoce contexto:
 de día, con niebla, bajo lluvia el mismo `sign_only` cuesta lo mismo
 (la sombra y el cansancio sí modulan el roll vía `mods`).
 
+### C9 · Homeostasis: el cuerpo también vota en el ánimo
+
+**🔧 Técnica** — `episode_mood` ahora recibe los needs abiertos
+(`needs_pass` corre antes del mood en el open): cada uno pesa
+`−urgency × need_affect_scale` (0.3 default), el total del día capado
+en `need_affect_cap` (0.4). La presión queda auditada como
+`mood.need_pressure` — distingue "día malo" de "cuerpo quejándose".
+
+**🧠 Cerebro** — Un día tranquilo con hambre no se siente tranquilo:
+Aranath día 5 pasó de +0.13 a −0.02 solo por el need abierto, y la
+huella se mezcla al mood corrido del cerebro. Comer levanta el peso
+al próximo open (el detector se resuelve solo); los threads también
+pesan — un asunto pendiente es una carga honesta, no un evento.
+
+**🚫 No hace** — La presión es simétrica: no hay needs "buenas" que
+levanten el ánimo cuando están satisfechas (comer bien tras ayuno
+sigue valiendo lo que el evento meal vale). Y urgencia es lineal —
+el hambre del día 1 pesa la mitad que la del día 3, sin umbrales de
+desesperación.
+
 ---
 
 ## El mapa completo, en una pasada

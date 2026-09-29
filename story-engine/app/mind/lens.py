@@ -12,6 +12,7 @@
 # running mood (half-life of one episode).
 # ============================================================================
 from app.mind.nl_resolver import band_phrase
+from app.mind.provisioning import DEFAULT_WIRING
 
 MOOD_TABLE = 'mood'
 MOOD_BLEND = 0.5
@@ -29,12 +30,20 @@ def _weighted_mean(items, key):
     )
 
 
-def episode_mood(session, game_id, perceived_day, brain=None):
+def episode_mood(session, game_id, perceived_day, brain=None, needs=None):
     """What this episode felt like: weighted by how much each event
-    mattered (salience). dominant via the editable 'mood' band table."""
+    mattered (salience), then weighed down by open needs — the body's
+    own voice, urgency-scaled. dominant via the editable 'mood' band."""
     items = perceived_day or []
     valence = _weighted_mean(items, 'valence')
     arousal = _weighted_mean(items, 'severity')
+    pressure = 0.0
+    if needs:
+        w = {**DEFAULT_WIRING, **((brain.wiring if brain else None) or {})}
+        scale = w.get('need_affect_scale', 0.3)
+        cap = w.get('need_affect_cap', 0.4)
+        pressure = min(cap, sum((n.urgency or 0.0) * scale for n in needs))
+        valence = max(-1.0, valence - pressure)
     dominant = band_phrase(
         session, game_id, MOOD_TABLE, valence, brain=brain
     ) or 'neutral'
@@ -42,6 +51,7 @@ def episode_mood(session, game_id, perceived_day, brain=None):
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
         'dominant': dominant,
+        'need_pressure': round(pressure, 3),
     }
 
 

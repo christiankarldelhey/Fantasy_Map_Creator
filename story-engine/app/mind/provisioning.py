@@ -73,6 +73,11 @@ DEFAULT_WIRING = {
     'need_exhaustion_below': 0.4,
     'need_unrest_shadow_min': 0.25,
     'need_weather_streak': 3.0,
+    # Homeostasis (C9): open needs weigh on the episode mood — each
+    # contributes -urgency * scale, the day's total capped. Hunger at
+    # day 3 (-0.27) doesn't need a bad event to darken the day.
+    'need_affect_scale': 0.3,
+    'need_affect_cap': 0.4,
     # Pattern memories (B3): a non-type tag seen in N of the last W
     # episodes consolidates into a fixed pattern memory.
     'pattern_window': 4,
