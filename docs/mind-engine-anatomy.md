@@ -360,6 +360,112 @@ existe aún. Cuando exista, la superficie editable ya está toda en datos.
 
 ---
 
+## Fase C — correcciones del primer paciente
+
+La primera historia multi-día con dump mostró que la plomería funcionaba
+pero el organismo memorizaba ruido. Estas piezas nacen de ese diagnóstico.
+
+### C1 · Filtro de entrada: la ausencia no es contenido
+
+**🔧 Técnica** — `derive_tags` (perceive.py) saltea marcadores de ausencia
+(`none`, `null`, `nil`, `n/a`, `unknown`, `0`, `""` — case-insensitive)
+en escalares y en `data.tags`; `description`/`prose_hint` entran en la
+lista de campos que son palabras, no tags. En `detect_patterns` (memory.py)
+solo los tags sustantivos son elegibles para tema: `entity:*`, `region:*`,
+`tag:weather:*` y `tag:<tema>` de un segmento — `tag:<campo>:<valor>` es
+bookkeeping. Los patrones viven por recurrencia: tag inelegible →
+evicción inmediata (limpia los artefactos viejos); tema que deja de
+repetirse → decae como memoria volátil salvo evocación genuina.
+`CloseEpisodeResponse.patterns_faded` reporta el retiro.
+
+**🧠 Cerebro** — "No me lastimé" no es un recuerdo. Antes, `wounded:none`
+era el recuerdo más fuerte del cerebro ("none again — it is becoming the
+shape of these days", strength 1.0, evocada 5 veces). La regla: la
+mente nota *cosas*, no formularios vacíos.
+
+**🚫 No hace** — La rutina que sigue evocándose ambientalmente queda
+eximida del fade (igual que cualquier memoria recordada hoy). Sacar un
+patrón muerto del lens mientras retrieval lo siga reviviendo es la parte
+(b)/(c) de la habituación — decisión de diseño aparte.
+
+### C2 · Contrato de eventos v2: la señal que no viajaba
+
+**🔧 Técnica** — `toEvents.js` + `trips.js`:
+- **Clima**: bug real — `sampleHour` buscaba `T` en timestamps con
+  espacio y las 8 muestras colapsaban en `night`. Ahora usa `s.phase`:
+  tres eventos climate por día (mañana/tarde/noche), el día caminado
+  deja de ser invisible.
+- **Encounters**: `data` lleva `form` (cómo pasó el contacto),
+  `outcome`, `prose_hint`, `intensity`, `entity_type` — la mente sabe si
+  vio una señal o le salieron al paso.
+- **Meals**: `slot` (midday/evening → afternoon/night), `eaten: false`
+  cuando la comida faltó — la ausencia viaja explícita.
+- **Rest**: `description` — la prosa authored del lugar ("the will
+  itself feels weighed and probed") es el reading de la noche
+  (`resolve_event_reading` la prefiere).
+- **Body**: `endState` del host lleva el streak real post-resolución
+  (`newDaysWithoutFood`, `newDaysWithoutWater`, `wounded` de
+  conditions) — no la foto de la mañana.
+
+**🧠 Cerebro** — La mente dejaba de ser ciega justo donde estaba el
+drama: la peor noche del viaje era `reading: null`, y el hambre real no
+llegaba. Un cerebro solo puede sentir lo que el cuerpo reporta.
+
+**🚫 No hace** — Los campos nuevos son insumo: que `form` calibre la
+dificultad del check (un `sign_only` sutil ≠ un `confronts`) es la
+recalibración de gates — ticket aparte.
+
+### C3 · Canal afectivo: el valence se deriva, no se declara
+
+**🔧 Técnica** — `affect.*` keys dentro de `brain.wiring` (seedeable por
+molde, editable por admin, sin migración): `affect.<tag>` da valencia
+firmada al evento que porta ese tag (`affect.tag:form:confronts: -0.35`,
+wildcards `affect.tag:outcome:*`), y `affect.field:<name>` escala un
+campo numérico por unidad (`shadow_effect × -0.15`). `data.valence` del
+host gana siempre. La estructura ya existía — episode mood es media
+ponderada por salience, el blend MOOD_BLEND 0.5 da momentum entre
+episodios — faltaba la señal. La memoria guarda el valence *percibido*
+(derivado), no el crudo.
+
+**🧠 Cerebro** — Dos personajes viviendo el mismo día ya pueden sentirlo
+distinto: el ranger wiring puede temer al shadow y el hobbit sufrir la
+lluvia. El día malo deja mañana-siguiente (el blend no resetea) — la
+noche de terror pesa al despertar.
+
+**🚫 No hace** — No es homeostasis: needs abiertas no pesan sobre el
+mood todavía (canal separado). Y los defaults son piso genérico — la
+firma emocional de cada molde es contenido que el humano escribe.
+
+### C4 · Sueño/vigilia + calibración de umbrales
+
+**🔧 Técnica** — Dos piezas. **Sueño**: durante `when.phase` en
+`sleep_phases` (default `['night']`), un evento con `data.check` se
+duerme — `perception: unnoticed` y un trace `{asleep: true,
+attempted: false}` en vez de roll — salvo que `data.form` esté en
+`sleep_wake_forms` (`attacks`, `confronts`, `sudden_peril`: lo que
+despierta físicamente) o `data.outcome` en `sleep_wake_outcomes`
+(`wounded`: el daño ya entró). Todo wiring: un molde nocturno declara
+`sleep_phases: []` y nunca duerme. **Calibración**: umbrales medidos
+contra la escala real del host — energy termina ~0.45 tras 12h a pie,
+shadow vivió 0.2–0.3 bajo Dol Guldur: `energy_worn_below` 0.5→0.6,
+`energy_spent_below` 0.25→0.35, `shadow_shadowed_min`/`misread_shadow_min`
+/`need_unrest_shadow_min` 0.45→0.25, `shadow_burdened_min` 0.7→0.5,
+`need_exhaustion_below` 0.25→0.4.
+
+**🧠 Cerebro** — La mente tiene noche. Un aullido a las 02:30 que
+requeriría tracking para interpretar no llega; un ataque nocturno te
+saca del sueño y te asusta (su valence sigue aplicando). Y el cuerpo
+ahora puede declararse cansado o intranquilo: los umbrales estaban
+calibrados para una escala que el host nunca produce.
+
+**🚫 No hace** — No modela vigilia gradual ni calidad de sueño como
+percepción: el `rest` event (la noche misma) siempre se percibe — no
+lleva check. Y los eventos sin check (clima nocturno) siguen entrando —
+la mente "sabe" que llovió de noche aunque dormía; si eso molesta, el
+filtro es por tipo de evento, no por presencia del check.
+
+---
+
 ## El mapa completo, en una pasada
 
 ```
