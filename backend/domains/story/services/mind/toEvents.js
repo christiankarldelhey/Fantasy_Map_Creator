@@ -36,7 +36,7 @@
 // events add when.phase (+hour for encounters).
 // ============================================================================
 
-import { innerClimate, meanOf, sumOf } from '../../../map/services/data/climateData.js';
+import { innerClimate, meanOf, sumOf } from '../../adapters/mapClient.js';
 
 function phaseOfHour(hourFloat) {
   if (hourFloat == null) return null;
@@ -230,6 +230,9 @@ function restEvent(day) {
       // ('the will itself feels weighed and probed') — numbers alone
       // left the worst nights invisible to the mind.
       description: overnight.description ?? null,
+      // 'hardcoded_fallback' = open sky: the mind supplies its own
+      // open-sky reading rather than trusting a host sentence (C13).
+      scope: overnight.scope ?? null,
     },
   };
 }

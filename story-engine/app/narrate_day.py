@@ -6,7 +6,7 @@
 # calls the LLM.
 #
 # Difference from the Node original: narrateDay.js calls tripHistory.js
-# itself (DB reads) to get previousDaySummary/bannedPhrases/recentDayClimates/
+# itself (DB reads) to get previousDay/bannedPhrases/recentDayClimates/
 # previousOpenings. This service has no DB access, so Node resolves those
 # four values first (tripHistory.js, unchanged) and sends them in the payload.
 # resolve_climate_state (multi-day climate) is computed here from
@@ -28,7 +28,7 @@ def narrate_day(
     character_state=None,
     equipment_state=None,
     fate=None,
-    previous_day_summary=None,
+    previous_day=None,
     banned_phrases=None,
     recent_day_climates=None,
     previous_openings=None,
@@ -52,7 +52,7 @@ def narrate_day(
         trip=trip,
         character=character,
         language=language,
-        previous_day_summary=previous_day_summary,
+        previous_day=previous_day,
         character_state=character_state,
         equipment_state=equipment_state,
         fate=fate,

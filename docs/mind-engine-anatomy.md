@@ -684,6 +684,50 @@ del narrador, no del need — el need habla por su propio item.
 
 ---
 
+### C13 · Ninguna palabra fuera de casa: la regla C10 hecha completa
+
+**🔧 Técnica** — La auditoría encontró cinco rastros de data→lenguaje
+viviendo todavía en el host; todos mudados:
+
+- `buildDayNote` persistía *"a fight with Wolf"* en
+  `character_state_log.note`. Ahora persiste `kind:subject`
+  (`combat:Wolf`, `tension:X`, `company:X`, `rest_good:Y`, `rest:Y`)
+  y `render_note` lo traduce vía `note.<kind>`; notas viejas en
+  inglés pasan verbatim.
+- `previousDaySummary` viajaba como frase compuesta en Node. El wire
+  ahora lleva `previous_day` raw (`{day_number, regions, locations,
+  encounters}` — nombres) y `journey.previous_day` + fallbacks la
+  componen en el pack.
+- Las comidas llevaban prosa codeada (`'a hot meal bought at the
+  inn'`, `'water from the skin'`). Ahora viajan slugs canónicos
+  (`tavern_meal`, `tavern_ale`, `waterskin`) → `meal.name.<slug>`
+  con pass-through para contenido authored (`prose_singular`).
+- El fallback de overnight llevaba su propia descripción hardcodeada.
+  Ahora envía `scope:'hardcoded_fallback'` + `description:null` y el
+  pack la da (`rest.open_sky`).
+- `SYSTEM_PROMPT` estaba duplicado en Node y ya había derivado.
+  Fuente única en `system_prompt.py`; `/meta/system-prompt` proxea
+  `GET /system-prompt`.
+
+**🏗️ Arquitectura** — El censo dejó los tres dominios consistentes:
+SQL sobre `trip_days`/`character_state` vive en game
+(`tripHistoryReads.js`, `narratorCharacter.js`) y story las consume
+por `adapters/gameClient.js`; `toEvents.js` usa el nuevo
+`story/adapters/mapClient.js`. Data muerta fuera: la feature
+`thoughts` completa (servicio + plomería + `thoughts: null` eterno —
+la mente es ahora la interioridad), `phrase_vices.py` sin uso en SE,
+y un re-export roto de `loadPreviousDaySummary` que habría tumbado
+el boot. `character_thoughts` queda como tabla huérfana documentada
+(contenido authored rescatable para seeds).
+
+**🚫 No hace** — El contenido authored en DB (descriptions de
+entities/regiones/places, `prose_hint`, `terrain_phrases`,
+`prose_singular`, prompts por personaje) sigue siendo humano escrito
+— válido — pero no editable por el admin NL: es la frontera conocida
+entre "config editable" y "contenido del mundo".
+
+---
+
 ## El mapa completo, en una pasada
 
 ```

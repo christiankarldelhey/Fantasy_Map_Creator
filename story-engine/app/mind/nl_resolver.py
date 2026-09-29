@@ -18,6 +18,7 @@ from app.mind.nl_defaults import (
     DEFAULT_PHRASE_LISTS,
     DEFAULT_THRESHOLDS,
 )
+from app.natural_language.meal_notes import _MEAL_NAME_FALLBACK
 from app.mind.tables import (
     BrainNlOverride, Facet, NlBand, NlPhraseList, NlThreshold,
 )
@@ -264,8 +265,17 @@ def resolve_event_reading(session, game_id, event, brain=None):
         or data.get('entity')
     )
     if etype == 'meal':
+        # Canonical slugs render through meal.name.<slug>; authored
+        # strings pass through (C13).
+        def label(v):
+            opts = phrases(
+                session, game_id, f'meal.name.{v}', brain=brain
+            )
+            if opts:
+                return opts[0]
+            return _MEAL_NAME_FALLBACK.get(v, v)
         return ', '.join(
-            x for x in (data.get('food'), data.get('drink')) if x
+            x for x in (label(data.get('food')), label(data.get('drink'))) if x
         ) or None
     if etype == 'terrain':
         return _first_string(
@@ -275,8 +285,14 @@ def resolve_event_reading(session, game_id, event, brain=None):
         # The night is best told by the place's own authored description;
         # the bed's name is the fallback when the host sends none.
         place = data.get('place')
-        return (data.get('description') or subject
+        text = (data.get('description') or subject
                 or (place if isinstance(place, str) else None))
+        if text:
+            return text
+        # Open sky: no named place, no authored prose — the pack owns
+        # how a shelterless night reads (C13).
+        opts = phrases(session, game_id, 'rest.open_sky', brain=brain)
+        return opts[0] if opts else None
     if etype in ('travel', 'body'):
         # Vitals and mileage speak through needs/mood, never a reading.
         return None

@@ -148,7 +148,7 @@ def test_base_routine_never_grates(client):
             'type': 'meal',
             'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
             'data': {'slot': 'midday', 'food': 'lembas',
-                     'drink': 'water from the skin'},
+                     'drink': 'waterskin'},
         }])
         _close(client, packet)
     # Reopen-free: day 4 still on the same fare — pressure from food,
@@ -157,11 +157,11 @@ def test_base_routine_never_grates(client):
         'type': 'meal',
         'when': {'episode': 4, 'date': '1950-04-04'},
         'data': {'slot': 'midday', 'food': 'lembas',
-                 'drink': 'water from the skin'},
+                 'drink': 'waterskin'},
     }])
     tags = {i['data']['tag'] for i in _recurrences(p4)}
     assert 'tag:food:lembas' in tags
-    assert 'tag:drink:water from the skin' not in tags
+    assert 'tag:drink:waterskin' not in tags
 
 
 def test_a_break_that_starves_is_no_relief(client):
@@ -174,7 +174,7 @@ def test_a_break_that_starves_is_no_relief(client):
             'type': 'meal',
             'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
             'data': {'slot': 'midday', 'food': 'lembas',
-                     'drink': 'water from the skin'},
+                     'drink': 'waterskin'},
         }]))
 
     # Day 4: no lembas, and the body reports a day without food.

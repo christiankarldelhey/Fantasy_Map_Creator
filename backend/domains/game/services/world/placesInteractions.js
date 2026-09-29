@@ -54,7 +54,9 @@ export async function resolveRegionAtPoint(lng, lat) {
 const FALLBACK = {
   id: null,
   title: null,
-  description: 'No specific resting place presents itself. The night is spent under open sky, with whatever shelter the land and the weather allow.',
+  // No prose here (C13): an open-sky night is a fact; the story-engine
+  // NL pack owns how it reads (rest.open_sky).
+  description: null,
   rest_quality: 1,
   shadow_effect: 0,
   priority: -1,

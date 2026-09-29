@@ -452,21 +452,28 @@ test('energyBand / shadowBand thresholds', () => {
 // ---------------------------------------------------------------------------
 // buildDayNote
 // ---------------------------------------------------------------------------
-test('buildDayNote prioritises combat, then tension, then rest place', () => {
+test('buildDayNote emits machine kind:subject markers (C13)', () => {
   assert.equal(
     buildDayNote({ encounters: [enc('attacks', 8, 'the Bear')] }, {}),
-    'a fight with the Bear'
+    'combat:the Bear'
   );
   assert.equal(
     buildDayNote({ encounters: [enc('stalks', 5, 'Wargs')] }, {}),
-    'Wargs shadowing the road'
+    'tension:Wargs'
   );
   assert.equal(
     buildDayNote(
       { encounters: [], overnight_location: { name: 'Rivendell' } },
       { rest_quality: 3 }
     ),
-    "a night's rest at Rivendell"
+    'rest_good:Rivendell'
+  );
+  assert.equal(
+    buildDayNote(
+      { encounters: [], overnight_location: { name: 'Bree' } },
+      { rest_quality: 0 }
+    ),
+    'rest:Bree'
   );
 });
 

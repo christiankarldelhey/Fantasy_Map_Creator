@@ -63,7 +63,7 @@ def _shelter_phrase(location):
 NO_SHELTER_NOTE = "No shelter of note lies near the day's end. The night is spent under open sky, with whatever cover the land affords."
 
 
-def describe_overnight_location(location, interaction=None):
+def describe_overnight_location(location, interaction=None, nl=None):
     """Describe where the character spends the night, plus any reference
     material from the resolved places_interactions row."""
     text = NO_SHELTER_NOTE

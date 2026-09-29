@@ -29,7 +29,7 @@ class NarrateDayRequest(BaseModel):
     equipmentState: Optional[Dict[str, Any]] = None
     fate: Optional[str] = None
     # Continuity fields resolved by tripHistory.js in Node before this call.
-    previousDaySummary: Optional[str] = None
+    previousDay: Optional[Dict[str, Any]] = None
     bannedPhrases: List[str] = []
     recentDayClimates: List[Dict[str, Any]] = []
     previousOpenings: List[str] = []

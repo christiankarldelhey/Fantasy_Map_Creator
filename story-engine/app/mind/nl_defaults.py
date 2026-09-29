@@ -366,6 +366,34 @@ DEFAULT_PHRASE_LISTS = {
     'condition.owes_to': [
         'This owes to {notes}.',
     ],
+    # Day notes (C13): the host persists 'kind:subject' markers; the pack
+    # owns how each cause is told.
+    'note.combat': ['a fight with {subject}'],
+    'note.tension': ['{subject} shadowing the road'],
+    'note.company': ['an hour in the company of {subject}'],
+    'note.rest_good': ["a night's rest at {subject}"],
+    'note.rest': ['a night at {subject}'],
+    # Journey continuity (C13): yesterday arrives as raw names; the pack
+    # owns the 'In Chapter N…' line and its empty-list words.
+    'journey.previous_day': [
+        'In Chapter {chapter} (yesterday), the traveller journeyed through: {regions}. They passed near: {locations}. Notable encounters/sights: {encounters}.',
+    ],
+    'journey.continuity_note': [
+        "Please use this context to maintain narrative continuity from yesterday's events.",
+    ],
+    'journey.none_regions': ['unknown lands'],
+    'journey.none_locations': ['no major settlements'],
+    'journey.none_encounters': ['no major encounters'],
+    # Meal labels (C13): the host sends canonical slugs; the pack owns
+    # the display name.
+    'meal.name.tavern_meal': ['a hot meal bought at the inn'],
+    'meal.name.tavern_ale': ['ale and clean water'],
+    'meal.name.waterskin': ['water from the skin'],
+    # Shelterless night (C13): the host sends scope 'hardcoded_fallback'
+    # and no description; the pack owns how open sky reads.
+    'rest.open_sky': [
+        'No specific resting place presents itself. The night is spent under open sky, with whatever shelter the land and the weather allow.',
+    ],
     'condition.tail': [
         'Let this colour the telling — how {name} moves, what {name} notices and longs for — but never name it as a fact or a number.',
     ],

@@ -42,7 +42,27 @@ def _is_empty_meal(meal):
     return not meal or (not meal.get('food') and not meal.get('drink'))
 
 
-def describe_meal(meal, rng=random.random):
+# Slug → display name fallbacks, identical to the seeded NL pack —
+# mind-down / DB-less callers still see prose, never a slug.
+_MEAL_NAME_FALLBACK = {
+    'tavern_meal': 'a hot meal bought at the inn',
+    'tavern_ale': 'ale and clean water',
+    'waterskin': 'water from the skin',
+}
+
+
+def meal_label(nl, value):
+    """Canonical slugs ('tavern_meal', 'waterskin') render through
+    meal.name.<slug>; anything else is authored content and passes
+    through verbatim (C13 — the host names what was eaten, never how
+    to say it)."""
+    if not value:
+        return value
+    named = nl.phrase(f'meal.name.{value}', default=None) if nl else None
+    return named or _MEAL_NAME_FALLBACK.get(value, value)
+
+
+def describe_meal(meal, rng=random.random, nl=None):
     """One reference line for a single meal. '' when there is nothing worth telling."""
     if not meal:
         return ''
@@ -55,23 +75,25 @@ def describe_meal(meal, rng=random.random):
 
     parts = []
     if meal.get('food'):
-        parts.append(meal['food'])
+        parts.append(meal_label(nl, meal['food']))
     else:
         parts.append(pick(HUNGRY_EVENING if is_evening else HUNGRY_MIDDAY, rng))
-    parts.append(meal.get('drink') if meal.get('drink') else pick(DRY, rng))
+    parts.append(
+        meal_label(nl, meal['drink']) if meal.get('drink') else pick(DRY, rng)
+    )
 
     cooked = ' The fire allows what is eaten to be warmed, if it is worth warming.' if (is_evening and meal.get('food')) else ''
 
     return f"{lead}: {'; '.join(parts)}.{cooked}"
 
 
-def describe_meals(meals=None, rng=random.random):
+def describe_meals(meals=None, rng=random.random, nl=None):
     """Reference notes for the day's meals, keyed by the phase block they belong to."""
     by_slot = {}
     for meal in (meals or []):
         if meal and meal.get('slot'):
             by_slot[meal['slot']] = meal
     return {
-        'afternoon': describe_meal(by_slot.get('midday'), rng),
-        'night': describe_meal(by_slot.get('evening'), rng),
+        'afternoon': describe_meal(by_slot.get('midday'), rng, nl),
+        'night': describe_meal(by_slot.get('evening'), rng, nl),
     }

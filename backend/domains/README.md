@@ -12,11 +12,16 @@ only the code is partitioned.
 - **game/** — rules, persistence, mechanics. Auth, users, characters, trips,
   inventory, encounters selection, day generation. Owns every table that
   changes per user/character/trip.
-- **story/** — narrative continuity reads (tripHistory.js, DB) and the phrase
-  banks Game still needs at generation time (naturalLanguage/terrainPhrases.js,
-  phraseVices.js). Prompt assembly and the LLM call itself now live in the
-  story-engine Python service (../../story-engine); narrateDay.js is the seam
-  that calls it over HTTP (`POST /narrate-day`). No DB tables of its own.
+- **story/** — the Node-side half of Story Engine: contract translators
+  (mind/toEvents.js, toOpenPayload.js), the HTTP seam (mindClient.js,
+  narrateDay.js), narrative continuity *shaping* (tripHistory.js — SQL
+  itself lives in game/services/world/tripHistoryReads.js, reached through
+  story/adapters/gameClient.js) and story-owned phrase banks
+  (naturalLanguage/terrainPhrases.js, phraseVices.js). Prompt assembly and
+  the LLM call itself live in the story-engine Python service
+  (../../story-engine); narrateDay.js calls it over HTTP
+  (`POST /episodes`, `/narrate-day` fallback). No direct reads of game or
+  map tables — those cross adapters/*Client.js only.
 
 ## The adapter rule
 
@@ -37,14 +42,18 @@ physical split happens).
 
 ## Known ownership debt (tracked, not blocking)
 
-- `game/services/character/characterState.js` still contains
-  `buildConditionBlock`, `buildEndStateBlock` and their `*_SENTENCE` phrase
-  tables — these are narrative content and belong in Story per
-  `docs/story-engine-prd.md` (§11). `story/adapters/gameClient.js` is the
-  seam that makes that future move a one-file change.
 - `game/services/world/{encounters.js,interactionResolver.js,
   placesInteractions.js,tripDay.js}` still mix proximity/geometry selection
   (arguably Map), mechanical consequences (Game), and encounter-form/dialogue
   selection (arguably Story) in one flow. Flagged in the plan as needing a
   closer read before further splitting; left as Game for now since it's the
   layer that ultimately writes the resulting state.
+- `character_thoughts` (table) is orphaned content: the thoughts feature was
+  retired when the mind engine took over interiority. The authored rows may
+  be worth re-homing into NL pack seeds before the table is dropped.
+- `region_biome_descriptions` is read by `story/services/naturalLanguage/
+  terrainPhrases.js` — treated as story-owned authored content (phrase banks
+  for terrain), so the direct read is intentional, not a leak.
+- Story has no DB tables of its own; `db.js` and `middleware/auth.js` stay
+  shared at `backend/` root for this phase (flagged as duplication debt for
+  when a physical split happens).

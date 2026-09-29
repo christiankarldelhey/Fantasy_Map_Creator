@@ -36,6 +36,11 @@ _FALLBACK = {
         '{name} is badly wounded, moving as one who is not far from '
         'falling.',
     'condition.owes_to': 'This owes to {notes}.',
+    'note.combat': 'a fight with {subject}',
+    'note.tension': '{subject} shadowing the road',
+    'note.company': 'an hour in the company of {subject}',
+    'note.rest_good': "a night's rest at {subject}",
+    'note.rest': 'a night at {subject}',
     'condition.tail':
         'Let this colour the telling — how {name} moves, what {name} '
         'notices and longs for — but never name it as a fact or a number.',
@@ -130,6 +135,18 @@ def _threshold(nl, key):
     return _FALLBACK_THRESHOLDS[key]
 
 
+def render_note(nl, note):
+    """Machine notes ('kind:subject') render through note.<kind> — the
+    host records WHAT drove the day, the pack owns how to say it.
+    Anything else is a legacy authored note and passes through as-is."""
+    kind, sep, subject = (note or '').partition(':')
+    if sep and subject:
+        rendered = _phrase(nl, f'note.{kind}', subject=subject)
+        if rendered:
+            return rendered
+    return note
+
+
 def condition_section(state, character_name='The traveller', nl=None):
     """=== TRAVELLER'S CONDITION === — energy/shadow/wounded bands + the
     causal 'owes to' tail from recent log notes. '' when nothing crosses
@@ -159,7 +176,10 @@ def condition_section(state, character_name='The traveller', nl=None):
     if not lines:
         return ''
 
-    notes = [n for n in (state.get('recentNotes') or []) if n][:3]
+    notes = [
+        render_note(nl, n) for n in (state.get('recentNotes') or []) if n
+    ][:3]
+    notes = [n for n in notes if n]
     if notes:
         lines.append(_phrase(nl, 'condition.owes_to', notes='; and to '.join(notes)))
 

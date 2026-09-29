@@ -1,8 +1,9 @@
 // ============================================================================
-// The character as the narrator needs them
+// The character as the narrator needs them (owner: game)
 // ----------------------------------------------------------------------------
-// One query, one shape. Every endpoint that builds a prompt loads the character
-// through here, so the narrator always receives the same fields.
+// One query, one shape. character_state and entities are game tables —
+// the story domain reaches this row only through story/adapters/
+// gameClient.js, so no SQL on game data lives outside this domain.
 // ============================================================================
 
 import pool from '../../../../db.js';

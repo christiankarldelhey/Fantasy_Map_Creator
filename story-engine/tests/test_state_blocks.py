@@ -27,6 +27,21 @@ def test_condition_renders_bands_without_numbers():
     assert not any(ch.isdigit() for ch in block)
 
 
+def test_machine_notes_render_through_the_pack():
+    """'kind:subject' markers render via note.<kind>; unknown or
+    legacy strings pass through verbatim (C13)."""
+    block = condition_section(
+        {'energy': 30,
+         'recentNotes': ['combat:the Bear', 'an old authored note',
+                         'mystery_kind:Thing']},
+        'Aranath',
+    )
+    assert 'a fight with the Bear' in block
+    assert 'an old authored note' in block
+    assert 'mystery_kind:Thing' in block
+    assert 'combat:the Bear' not in block
+
+
 def test_condition_silent_when_the_body_is_fine():
     assert condition_section(
         {'energy': 90, 'shadow': 5, 'wounded': 'none'}, 'Aranath'

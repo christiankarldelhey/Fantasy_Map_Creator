@@ -419,13 +419,12 @@ async function buildNightRegionResolver(campPoint) {
  * @param {number} params.dayNumber - 1-based day index
  * @param {() => number} [params.rng] - RNG (defaults to Math.random)
  * @param {Array<string>} [params.excludedEntityIds] - entity IDs to exclude from encounters
- * @param {number} [params.characterId] - character ID for thought selection
- * @param {Array<number>} [params.usedThoughtIds] - thought IDs already used in this trip
+ * @param {number} [params.characterId] - character ID for state lookups
  * @param {Object} [params.character] - character row with resistance stat for rolls
  * @param {Array<string>} [params.recentForms] - forms used in previous chapters (anti-repetition)
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, usedThoughtIds = [], character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, characterSlug = null, usedRegionDescriptions = {} }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, characterSlug = null, usedRegionDescriptions = {} }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -776,7 +775,6 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     climate,
     nighttime_climate: nighttimeClimate,
     encounters,
-    thoughts: null,
     water_crossings: waterCrossings,
     water_sources: waterSources,
     overnight_location: overnightLocation,

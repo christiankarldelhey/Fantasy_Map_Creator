@@ -7,14 +7,13 @@ import {
   climateStats,
 } from '../adapters/mapClient.js';
 import {
-  SYSTEM_PROMPT,
   collectTravellerState,
   closeEpisode,
-  loadNarratorCharacter,
   loadRecentEncounterForms,
   narrateDay,
   notableItemsOf,
 } from '../adapters/storyClient.js';
+import { loadNarratorCharacter } from '../services/character/narratorCharacter.js';
 import { authenticateToken } from '../../../middleware/auth.js';
 import {
   loadCharacterState,
@@ -41,8 +40,14 @@ const router = express.Router();
 // GET /api/trips/meta/system-prompt - Expose the current narrator system prompt
 // so the frontend System tab can show it "from code" without duplicating it.
 // ---------------------------------------------------------------------------
-router.get('/meta/system-prompt', (req, res) => {
-  res.json({ system_prompt: SYSTEM_PROMPT });
+router.get('/meta/system-prompt', async (req, res) => {
+  try {
+    const response = await fetch(`${process.env.STORY_ENGINE_URL || 'http://localhost:8001'}/system-prompt`);
+    if (!response.ok) throw new Error(`story-engine ${response.status}`);
+    res.json(await response.json());
+  } catch (error) {
+    res.status(502).json({ error: `system prompt unavailable: ${error.message}` });
+  }
 });
 
 // ---------------------------------------------------------------------------
@@ -302,9 +307,6 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     // Load already encountered entities for this trip
     const encounteredEntities = trip.encountered_entities || [];
 
-    // Load already used thoughts for this trip
-    const usedThoughtIds = trip.used_thought_ids || [];
-
     // Load consumed region-description indices for this trip
     const usedRegionDescriptions = trip.used_region_descriptions || {};
 
@@ -317,7 +319,6 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       rng,
       excludedEntityIds: encounteredEntities,
       characterId: character.id || null,
-      usedThoughtIds,
       usedRegionDescriptions,
       character,
       recentForms,
@@ -459,11 +460,11 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       `INSERT INTO trip_days
          (trip_id, day_number, date, start_lng, start_lat, end_lng, end_lat,
           distance_km, walking_hours, geometry, regions, terrain_phrases, biomes, altitude,
-          road_types, locations, climate, encounters, thoughts, prompt, narrative, is_last_day,
+          road_types, locations, climate, encounters, prompt, narrative, is_last_day,
           overnight_location, elevation_profile, places_interaction_id, rest_quality, shadow_effect,
           energy_start, energy_end, shadow_start, shadow_end,
           ia_provider, temperature, frequency_penalty, presence_penalty, top_p, meals, mind_open)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37)
        RETURNING *`,
       [
         trip.id,
@@ -482,7 +483,6 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         JSON.stringify(day.locations),
         day.climate ? JSON.stringify(day.climate) : null,
         JSON.stringify(day.encounters),
-        day.thoughts ? JSON.stringify(day.thoughts) : null,
         promptText,
         narrative,
         day.is_last_day || false,
@@ -516,13 +516,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       .filter(id => id); // filter out null/undefined
     const updatedEncounteredEntities = [...new Set([...encounteredEntities, ...newEntityIds])]; // deduplicate
     
-    // Update used thoughts array with new thoughts from this day
-    const newThoughtIds = day.thoughts?.options?.map(t => t.thought_id).filter(id => id) || [];
-    const updatedUsedThoughtIds = [...new Set([...usedThoughtIds, ...newThoughtIds])]; // deduplicate
-    
     await pool.query(
-      'UPDATE trips SET encountered_entities = $1, used_thought_ids = $2, used_region_descriptions = $3 WHERE id = $4',
-      [updatedEncounteredEntities, updatedUsedThoughtIds, usedRegionDescriptions, trip.id]
+      'UPDATE trips SET encountered_entities = $1, used_region_descriptions = $2 WHERE id = $3',
+      [updatedEncounteredEntities, usedRegionDescriptions, trip.id]
     );
 
     // The day is persisted — tell the mind what actually happened so it can

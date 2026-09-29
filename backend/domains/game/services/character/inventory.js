@@ -284,12 +284,14 @@ export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [],
   const waterPerMeal = slots.length > 0 ? waterDrunk / slots.length : 0;
 
   if (tavernMeal) {
+    // Canonical slugs, not prose (C13): the story-engine NL pack owns
+    // the display names via meal.name.<slug>.
     const meals = slots.map((slot) => ({
       slot,
       itemId: null,
       slug: 'tavern_meal',
-      food: 'a hot meal bought at the inn',
-      drink: 'ale and clean water',
+      food: 'tavern_meal',
+      drink: 'tavern_ale',
       waterLitres: waterPerMeal,
       energyBonus: TUNING.MEAL_ENERGY_BONUS / slots.length,
     }));
@@ -306,7 +308,7 @@ export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [],
       itemId: row?.id ?? null,
       slug: row?.slug ?? null,
       food: row?.prose_singular ?? null,
-      drink: waterPerMeal > 0 ? 'water from the skin' : null,
+      drink: waterPerMeal > 0 ? 'waterskin' : null,
       waterLitres: waterPerMeal,
       energyBonus: row ? mealEnergyOf(row) / slots.length : 0,
     };

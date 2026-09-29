@@ -14,4 +14,10 @@
 export {
   recentNotes,
 } from '../../game/services/character/characterState.js';
-export { WALK_END_HOUR } from '../../game/services/world/tripDay.js';
+export {
+  loadPreviousDayRow,
+  loadNarrativesBefore,
+  loadRecentNarratives,
+  loadRecentEncounterRows,
+  loadRecentDayClimates,
+} from '../../game/services/world/tripHistoryReads.js';

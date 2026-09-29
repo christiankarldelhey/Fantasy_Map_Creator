@@ -211,7 +211,7 @@ class OpenEpisodeRequest(BaseModel):
     character_state: Optional[Dict[str, Any]] = None
     equipment_state: Optional[Dict[str, Any]] = None
     fate: Optional[str] = None
-    previous_day_summary: Optional[str] = None
+    previous_day: Optional[Dict[str, Any]] = None
     banned_phrases: List[str] = []
     recent_day_climates: List[Dict[str, Any]] = []
     previous_openings: List[str] = []

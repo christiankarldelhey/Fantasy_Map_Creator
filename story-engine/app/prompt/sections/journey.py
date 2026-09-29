@@ -39,12 +39,21 @@ def season_phrase(date):
     return 'It is the dead of winter.'
 
 
-def journey_context_section(destination, previous_day_summary=None):
+def _phrase(nl, key, fallback, **fmt):
+    template = (nl.phrase(key, default=None) if nl else None) or fallback
+    return template.format(**fmt)
+
+
+def journey_context_section(destination, previous_day=None, nl=None):
     """Destination plus (when known) a plain summary of yesterday, for continuity."""
     lines = [f'Ultimate Destination: {destination}']
-    if previous_day_summary:
-        lines.append(previous_day_summary)
-        lines.append("Please use this context to maintain narrative continuity from yesterday's events.")
+    if previous_day:
+        lines.append(previous_day_summary(previous_day, nl))
+        lines.append(_phrase(
+            nl, 'journey.continuity_note',
+            "Please use this context to maintain narrative continuity "
+            "from yesterday's events.",
+        ))
     return f"=== JOURNEY CONTEXT ===\n{chr(10).join(lines)}\n\n"
 
 
@@ -89,17 +98,33 @@ def special_instructions_section(day_number, is_last_day, character_name, destin
     return ''
 
 
-def previous_day_summary(previous_day):
-    """Plain, non-AI summary of the previous day, used for narrative continuity."""
-    def names(list_, fallback):
-        joined = ', '.join(item.get('name') for item in (list_ or []) if item and item.get('name'))
-        return joined or fallback
+def previous_day_summary(previous_day, nl=None):
+    """Plain, non-AI summary of the previous day, used for narrative
+    continuity. Names arrive as strings or {name} objects; encounters as
+    entity names or {entity:{name}}."""
+    def names(list_, fallback_key, fallback):
+        flat = []
+        for item in list_ or []:
+            name = (
+                item if isinstance(item, str)
+                else (item or {}).get('name') or (item or {}).get('entity', {}).get('name')
+            )
+            if name:
+                flat.append(name)
+        joined = ', '.join(flat)
+        return joined or _phrase(nl, fallback_key, fallback)
 
-    regions = names(previous_day.get('regions'), 'unknown lands')
-    locations = names(previous_day.get('locations'), 'no major settlements')
+    regions = names(previous_day.get('regions'), 'journey.none_regions', 'unknown lands')
+    locations = names(previous_day.get('locations'), 'journey.none_locations', 'no major settlements')
     encounters = names(
-        [e.get('entity') for e in (previous_day.get('encounters') or [])],
-        'no major encounters',
+        previous_day.get('encounters'), 'journey.none_encounters', 'no major encounters',
     )
 
-    return f"In Chapter {previous_day.get('day_number')} (yesterday), the traveller journeyed through: {regions}. They passed near: {locations}. Notable encounters/sights: {encounters}."
+    return _phrase(
+        nl, 'journey.previous_day',
+        'In Chapter {chapter} (yesterday), the traveller journeyed '
+        'through: {regions}. They passed near: {locations}. Notable '
+        'encounters/sights: {encounters}.',
+        chapter=previous_day.get('day_number'),
+        regions=regions, locations=locations, encounters=encounters,
+    )

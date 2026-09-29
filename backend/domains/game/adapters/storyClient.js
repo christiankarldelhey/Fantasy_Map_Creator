@@ -9,11 +9,9 @@
 // following the same request/response shape (narrative + proposed_commands).
 // ============================================================================
 
-export { SYSTEM_PROMPT } from '../../story/services/prompt/index.js';
 export {
   collectTravellerState,
   closeEpisode,
-  loadNarratorCharacter,
   loadRecentEncounterForms,
   narrateDay,
   notableItemsOf,

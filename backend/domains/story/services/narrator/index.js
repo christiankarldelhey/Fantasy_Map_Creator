@@ -13,12 +13,7 @@
 //   narrateDay.js         prompt assembly + LLM call
 // ============================================================================
 
-export { loadNarratorCharacter } from './narratorCharacter.js';
-export {
-  loadBannedPhrases,
-  loadPreviousDaySummary,
-  loadRecentEncounterForms,
-} from './tripHistory.js';
+export { loadRecentEncounterForms } from './tripHistory.js';
 export { collectTravellerState, notableItemsOf } from './travellerBlocks.js';
 export { narrateDay } from './narrateDay.js';
 export { closeEpisode } from '../mind/mindClient.js';

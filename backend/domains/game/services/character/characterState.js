@@ -570,25 +570,29 @@ export function shadowBand(shadow) {
  * @param {Object} overnightInteraction - resolved overnight interaction
  * @returns {string|null}
  */
+// Notes are machine-readable 'kind:subject' markers (C13): the host
+// records WHAT drove the day's cost, never how to say it — the
+// story-engine NL pack owns the words ('a fight with X'). Legacy
+// English notes pass through on the render side.
 export function buildDayNote(day, overnightInteraction) {
   const encounters = day?.encounters || [];
   // 1. A combat encounter is the strongest driver.
   const combat = encounters.find((e) => COMBAT_FORMS.includes(formOf(e)));
-  if (combat?.entity?.name) return `a fight with ${combat.entity.name}`;
+  if (combat?.entity?.name) return `combat:${combat.entity.name}`;
   // 2. A tension encounter.
   const tension = encounters.find((e) => TENSION_FORMS.includes(formOf(e)));
-  if (tension?.entity?.name) return `${tension.entity.name} shadowing the road`;
+  if (tension?.entity?.name) return `tension:${tension.entity.name}`;
   // 3. A lightening encounter (strongest negative shadow_weight).
   const lightening = [...encounters]
     .filter((e) => Number.isFinite(e?.entity?.shadow_weight) && e.entity.shadow_weight < 0)
     .sort((a, b) => a.entity.shadow_weight - b.entity.shadow_weight)[0];
-  if (lightening?.entity?.name) return `an hour in the company of ${lightening.entity.name}`;
+  if (lightening?.entity?.name) return `company:${lightening.entity.name}`;
   // 4. The resting place.
   const place = day?.overnight_location?.name;
   if (place && (overnightInteraction?.rest_quality ?? 0) >= TUNING.REST_TRACK_MIN) {
-    return `a night's rest at ${place}`;
+    return `rest_good:${place}`;
   }
-  if (place) return `a night at ${place}`;
+  if (place) return `rest:${place}`;
   return null;
 }
 

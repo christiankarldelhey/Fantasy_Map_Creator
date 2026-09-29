@@ -48,9 +48,9 @@ def _encounters_by_phase(encounters):
     return buckets
 
 
-def _night_lead(day, rng):
+def _night_lead(day, rng, nl=None):
     """The camp lead-in for the NIGHT block: where they slept and how the night went."""
-    camp = describe_overnight_location(day.get('overnight_location'), day.get('overnight_interaction'))
+    camp = describe_overnight_location(day.get('overnight_location'), day.get('overnight_interaction'), nl=nl)
     conditions = collect_nighttime_conditions(day.get('nighttime_climate'), rng)
     parts = [
         f'Overnight camp:\n{camp}',
@@ -64,7 +64,7 @@ def build_day_prompt(
     trip=None,
     character=None,
     language='english',
-    previous_day_summary=None,
+    previous_day=None,
     character_state=None,
     equipment_state=None,
     fate=None,
@@ -94,7 +94,7 @@ def build_day_prompt(
     locations_by_phase = group_by_phase(day.get('locations'))
     water_by_phase = group_by_phase(day.get('water_crossings'))
     encounter_by_phase = _encounters_by_phase(day.get('encounters'))
-    meal_by_phase = describe_meals(day.get('meals'), rng)
+    meal_by_phase = describe_meals(day.get('meals'), rng, nl)
 
     def block_for(title, phase, extra_lead=''):
         return phase_block(
@@ -124,7 +124,7 @@ def build_day_prompt(
         f"{condition}"
         f"{equipment_section(equipment_state, nl=nl)}"
         f"{end_state_section(fate, char_name, nl=nl)}"
-        f"{journey_context_section(destination, previous_day_summary)}"
+        f"{journey_context_section(destination, previous_day, nl=nl)}"
         f"{special_instructions_section(day.get('day_number'), bool(day.get('is_last_day')), char_name, destination, character.get('introduction_instructions'))}"
         f"{mind_block}"
         f"{climate_state_section(climate_state_block)}"
@@ -138,7 +138,7 @@ def build_day_prompt(
         f"{day_context_section(day.get('regions'), day.get('road_types'), day.get('terrain_phrases'), day.get('elevation_profile'), rng)}\n\n"
         f"{block_for('MORNING', 'morning')}\n\n"
         f"{block_for('AFTERNOON', 'afternoon')}\n\n"
-        f"{'' if is_terminal else block_for('NIGHT AT CAMP', 'night', _night_lead(day, rng))}\n\n"
+        f"{'' if is_terminal else block_for('NIGHT AT CAMP', 'night', _night_lead(day, rng, nl))}\n\n"
         f"{terminal_closing_instruction(char_name) if is_terminal else closing_instruction(day.get('day_number'))}\n"
         f"{'' if is_terminal else OVERNIGHT_COLOUR_NOTE}\n\n"
         f"{SPANISH_INSTRUCTION if language == 'spanish' else ''}"

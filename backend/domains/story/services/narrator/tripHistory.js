@@ -1,58 +1,47 @@
 // ============================================================================
 // Trip history reads for the narrator
 // ----------------------------------------------------------------------------
-// Everything the next chapter needs to know about the chapters already written:
-// what happened yesterday (continuity), which phrases the model has worn out
-// (anti-repetition), and which encounter forms it has recently used (variety).
+// Everything the next chapter needs to know about the chapters already
+// written: what happened yesterday (continuity), which phrases the model
+// has worn out (anti-repetition), and which encounter forms it has recently
+// used (variety).
+//
+// trip_days is a GAME table — the SQL lives in
+// game/services/world/tripHistoryReads.js and reaches here through
+// story/adapters/gameClient.js. This file owns only the shaping.
 // ============================================================================
 
-import pool from '../../../../db.js';
+import {
+  loadPreviousDayRow,
+  loadNarrativesBefore,
+  loadRecentNarratives,
+  loadRecentEncounterRows,
+  loadRecentDayClimates as loadRecentDayClimateRows,
+} from '../../adapters/gameClient.js';
 import { extractRepeatedPhrases } from '../phraseVices.js';
 
 // How many recent chapters are scanned for already-used encounter forms.
 const RECENT_FORMS_CHAPTERS = 3;
 
 /**
- * Plain, non-AI summary of the previous day, used for narrative continuity.
- * Moved here from the (now removed) prompt/sections/journeySection.js — this
- * was its only caller; prompt assembly itself now lives in the story-engine
- * Python service.
- * @param {{ day_number:number, regions?:Array, locations?:Array, encounters?:Array }} previousDay
- * @returns {string}
- */
-function previousDaySummary(previousDay) {
-  const names = (list, fallback) => {
-    const joined = (list || []).map((item) => item?.name).filter(Boolean).join(', ');
-    return joined || fallback;
-  };
-
-  const regions = names(previousDay.regions, 'unknown lands');
-  const locations = names(previousDay.locations, 'no major settlements');
-  const encounters = names(
-    (previousDay.encounters || []).map((e) => e.entity),
-    'no major encounters'
-  );
-
-  return `In Chapter ${previousDay.day_number} (yesterday), the traveller journeyed through: ${regions}. They passed near: ${locations}. Notable encounters/sights: ${encounters}.`;
-}
-
-/**
- * Plain summary of the previous chapter, or null on day 1 / when it is missing.
+ * Yesterday's facts for continuity, RAW (C13): names only, no sentence.
+ * The story-engine renders the 'In Chapter N…' line through its NL pack.
  * @param {number} tripId
  * @param {number} dayNumber - the day being narrated
- * @returns {Promise<string|null>}
+ * @returns {Promise<{day_number:number, regions:string[], locations:string[], encounters:string[]}|null>}
  */
-export async function loadPreviousDaySummary(tripId, dayNumber) {
-  if (dayNumber <= 1) return null;
+export async function loadPreviousDay(tripId, dayNumber) {
+  const row = await loadPreviousDayRow(tripId, dayNumber);
+  if (!row) return null;
 
-  const { rows } = await pool.query(
-    `SELECT day_number, regions, locations, encounters
-     FROM trip_days WHERE trip_id = $1 AND day_number = $2`,
-    [tripId, dayNumber - 1]
-  );
-  if (rows.length === 0) return null;
-
-  return previousDaySummary(rows[0]);
+  const names = (list) =>
+    (list || []).map((item) => item?.name || item).filter(Boolean);
+  return {
+    day_number: row.day_number,
+    regions: names(row.regions),
+    locations: names(row.locations),
+    encounters: names((row.encounters || []).map((e) => e?.entity)),
+  };
 }
 
 /**
@@ -63,15 +52,9 @@ export async function loadPreviousDaySummary(tripId, dayNumber) {
  */
 export async function loadBannedPhrases(tripId, dayNumber) {
   if (dayNumber <= 1) return [];
-
-  const { rows } = await pool.query(
-    `SELECT narrative FROM trip_days
-     WHERE trip_id = $1 AND day_number < $2 AND narrative IS NOT NULL
-     ORDER BY day_number`,
-    [tripId, dayNumber]
+  return extractRepeatedPhrases(
+    await loadNarrativesBefore(tripId, dayNumber)
   );
-
-  return extractRepeatedPhrases(rows.map((r) => r.narrative));
 }
 
 // How many earlier chapter openings are shown as counter-examples.
@@ -86,17 +69,8 @@ const RECENT_OPENINGS_CHAPTERS = 4;
  */
 export async function loadPreviousOpenings(tripId, dayNumber) {
   if (dayNumber <= 1) return [];
-
-  const { rows } = await pool.query(
-    `SELECT narrative FROM trip_days
-     WHERE trip_id = $1 AND day_number < $2 AND narrative IS NOT NULL
-     ORDER BY day_number DESC
-     LIMIT $3`,
-    [tripId, dayNumber, RECENT_OPENINGS_CHAPTERS]
-  );
-
-  return rows
-    .map((r) => firstSentence(r.narrative))
+  return (await loadRecentNarratives(tripId, dayNumber, RECENT_OPENINGS_CHAPTERS))
+    .map((narrative) => firstSentence(narrative))
     .filter(Boolean);
 }
 
@@ -117,15 +91,8 @@ function firstSentence(text) {
  * @returns {Promise<string[]>}
  */
 export async function loadRecentEncounterForms(tripId, dayNumber) {
-  const { rows } = await pool.query(
-    `SELECT encounters FROM trip_days
-     WHERE trip_id = $1 AND day_number < $2
-     ORDER BY day_number DESC
-     LIMIT $3`,
-    [tripId, dayNumber, RECENT_FORMS_CHAPTERS]
-  );
-
-  return rows.flatMap((row) => (Array.isArray(row.encounters) ? row.encounters : []))
+  return (await loadRecentEncounterRows(tripId, dayNumber, RECENT_FORMS_CHAPTERS))
+    .flatMap((encounters) => (Array.isArray(encounters) ? encounters : []))
     .map((e) => e.interaction?.form)
     .filter(Boolean);
 }
@@ -138,16 +105,9 @@ const CLIMATE_STATE_DAYS = 4;
  * Used to detect multi-day weather states (snowbound, storm-lashed, etc.).
  * @param {number} tripId
  * @param {number} dayNumber - the day being narrated
- * @returns {Promise<Array<{date:string, climate:Array}>>}
+ * @returns {Promise<Array<{date:string, climate:Array, dayNumber:number}>>}
  */
 export async function loadRecentDayClimates(tripId, dayNumber) {
-  const { rows } = await pool.query(
-    `SELECT date, climate, day_number
-     FROM trip_days
-     WHERE trip_id = $1 AND day_number <= $2
-     ORDER BY day_number
-     LIMIT $3`,
-    [tripId, dayNumber, CLIMATE_STATE_DAYS]
-  );
-  return rows.map((r) => ({ date: r.date, climate: r.climate, dayNumber: r.day_number }));
+  return (await loadRecentDayClimateRows(tripId, dayNumber, CLIMATE_STATE_DAYS))
+    .map((r) => ({ date: r.date, climate: r.climate, dayNumber: r.day_number }));
 }

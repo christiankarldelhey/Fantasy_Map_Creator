@@ -15,7 +15,7 @@
 // ============================================================================
 import pool from '../db.js';
 import { toEvents } from '../domains/story/services/mind/toEvents.js';
-import { loadNarratorCharacter } from '../domains/story/services/narrator/narratorCharacter.js';
+import { loadNarratorCharacter } from '../domains/game/services/character/narratorCharacter.js';
 import { openEpisode, closeEpisode } from '../domains/story/services/mind/mindClient.js';
 
 const [, , replayId, ...tripPrefixes] = process.argv;
