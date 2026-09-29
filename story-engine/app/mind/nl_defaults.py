@@ -68,6 +68,9 @@ DEFAULT_THRESHOLDS = {
     'climate.snow_temp_max': 1.0,
     'climate.heavy_rain_min': 0.4,
     'climate.storm_wind_min': 25,
+    # precipitation reaches the mind as a per-phase SUM (C2) — the storm
+    # floor sits well above a merely wet phase.
+    'climate.storm_precip_min': 8.0,
     'climate.deep_cold_max': -10,
     'climate.scorching_min': 32,
     'climate.consecutive_days': 2,

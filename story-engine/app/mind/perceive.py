@@ -98,22 +98,56 @@ def theme_weight(tags, weights):
 def _semantic_tags(session, game_id, event, brain=None):
     """Threshold-derived tags for numeric domains — climate data carries no
     strings, so without these it could never feed theme weights or pattern
-    detection ('tag:weather:freezing' day after day...)."""
+    detection ('tag:weather:freezing' day after day...).
+
+    Tiered (C6): the mild tiers mark ambience (wet/windy), the severe
+    tiers mark *events* — storm, snow, deep cold, scorching heat. Those
+    pair with 'severity.<tag>' wiring so a hard day of weather carries
+    real salience while drizzle stays background."""
     if event.get('type') != 'climate':
         return []
     data = event.get('data') or {}
     tags = []
     temp = _num(data.get('temperature_2m'))
-    if temp is not None and temp <= nl_threshold(
-        session, game_id, 'climate.snow_temp_max', 1.0, brain=brain
-    ):
-        tags.append('tag:weather:freezing')
     prec = _num(data.get('precipitation'))
+    wind = _num(data.get('wind_speed_10m'))
+
+    # Severe tiers first — a snow day is also freezing; both tags apply.
+    snow_max = nl_threshold(
+        session, game_id, 'climate.snow_temp_max', 1.0, brain=brain
+    )
+    if (
+        temp is not None and temp <= snow_max
+        and prec is not None and prec >= nl_threshold(
+            session, game_id, 'climate.wet_precipitation_min', 0.2,
+            brain=brain,
+        )
+    ):
+        tags.append('tag:weather:snow')
+    if temp is not None and temp <= nl_threshold(
+        session, game_id, 'climate.deep_cold_max', -10.0, brain=brain
+    ):
+        tags.append('tag:weather:deep_cold')
+    if temp is not None and temp >= nl_threshold(
+        session, game_id, 'climate.scorching_min', 32.0, brain=brain
+    ):
+        tags.append('tag:weather:scorching')
+    if (wind is not None and wind >= nl_threshold(
+            session, game_id, 'climate.storm_wind_min', 25, brain=brain
+        )) or (prec is not None and prec >= nl_threshold(
+            # precipitation arrives as a per-phase SUM — heavier floor
+            # than the per-sample 'heavy_rain_min' key.
+            session, game_id, 'climate.storm_precip_min', 8.0, brain=brain
+        )):
+        tags.append('tag:weather:storm')
+
+    # Mild tiers — ambience, not events.
+    if temp is not None and temp <= snow_max:
+        tags.append('tag:weather:freezing')
     if prec is not None and prec >= nl_threshold(
         session, game_id, 'climate.wet_precipitation_min', 0.2, brain=brain
     ):
         tags.append('tag:weather:wet')
-    wind = _num(data.get('wind_speed_10m'))
     if wind is not None and wind >= nl_threshold(
         session, game_id, 'climate.windy_speed_min', 18, brain=brain
     ):
@@ -126,6 +160,27 @@ def _severity(data):
     vals = [_num(data.get(f)) for f in SEVERITY_FIELDS]
     vals = [v for v in vals if v is not None]
     return min(1.0, max(vals)) if vals else 0.0
+
+
+def _tag_severity(tags, w):
+    """'severity.<tag>' wiring lets a tag carry a severity floor (C6):
+    'severity.tag:weather:storm: 0.6' makes the storm an *event* in the
+    salience arithmetic while drizzle stays ambient. Host-declared
+    severity still wins via max."""
+    best = 0.0
+    for tag in tags:
+        v = _num(w.get(f'severity.{tag}'))
+        if v is not None and v > best:
+            best = v
+    for key, v in w.items():
+        if not key.startswith('severity.') or not key.endswith(':*'):
+            continue
+        prefix = key[len('severity.'):-1]
+        if any(t.startswith(prefix) for t in tags):
+            num = _num(v)
+            if num is not None and num > best:
+                best = num
+    return best
 
 
 def _emotional_charge(data):
@@ -372,8 +427,9 @@ def perceive_events(session, game_id, brain, events, character=None):
                 check_result['difficulty']
                 / w.get('check_difficulty_scale', 10.0),
             )
+        severity = max(_severity(data), _tag_severity(tags, w))
         salience = min(1.0, (
-            w.get('w_severity', 0) * _severity(data)
+            w.get('w_severity', 0) * severity
             + w.get('w_novelty', 0) * novelty
             + w.get('w_emotional', 0) * _emotional_charge(data)
             + w.get('w_theme', 0) * theme_weight(tags, weights)
@@ -394,7 +450,7 @@ def perceive_events(session, game_id, brain, events, character=None):
             'reading': reading,
             'salience': round(salience, 3),
             'valence': round(max(-1.0, min(1.0, valence)), 3),
-            'severity': round(_severity(data), 3),
+            'severity': round(severity, 3),
             'tags': tags,
             'evoked': [],
         }

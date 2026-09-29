@@ -103,6 +103,13 @@ DEFAULT_WIRING = {
     'belief_confidence_decay': 0.95,
     'belief_trauma_min': 0.9,
     'belief_cap': 12,
+    # Evidence gate (C7): beliefs need lived weight — a memory reaches
+    # the reflection prompt only if it mattered (importance) or was felt
+    # (|valence|); drizzle never becomes conviction. And a worldview
+    # accretes slowly: at most this many new beliefs per reflection.
+    'belief_evidence_importance_min': 0.4,
+    'belief_evidence_valence_min': 0.2,
+    'belief_new_per_reflection': 2,
     # B6: a belief only bends theme_weights while it stays confident.
     'belief_boost_min_confidence': 0.6,
     # B8: semantic similarity joins the retrieval score —
@@ -123,7 +130,19 @@ DEFAULT_WIRING = {
     'affect.tag:outcome:badly wounded': -0.7,
     'affect.tag:outcome:unscathed': 0.1,
     'affect.tag:weather:freezing': -0.15,
+    'affect.tag:weather:storm': -0.3,
+    'affect.tag:weather:snow': -0.1,
+    'affect.tag:weather:deep_cold': -0.3,
+    'affect.tag:weather:scorching': -0.2,
     'affect.field:shadow_effect': -0.15,
+    # Severity floors by tag (C6): severe weather tiers make the climate
+    # an *event* in the salience arithmetic — a storm day encodes, a
+    # drizzle day stays background. 'severity.<tag>' works for any tag.
+    'severity.tag:weather:storm': 0.6,
+    'severity.tag:weather:snow': 0.45,
+    'severity.tag:weather:deep_cold': 0.55,
+    'severity.tag:weather:scorching': 0.5,
+    'severity.tag:weather:freezing': 0.3,
     # B10: degraded brains (NPCs) still perceive and encode — they remember
     # the protagonist — but never reflect (LLM stays a protagonist cost)
     # and defer decay/pattern consolidation to POST /maintenance/consolidate.
