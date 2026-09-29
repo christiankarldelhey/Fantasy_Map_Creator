@@ -346,6 +346,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     let fate = { fate: 'living', status: 'active', halted: false };
     let dayEvents = [];
     let meals = [];
+    let endVitals = null; // post-resolution truth for the mind's body event
 
     if (trip.character_id) {
       const inventoryRows = await loadInventory(trip.character_id);
@@ -363,6 +364,11 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       fate = resolution.fate;
       dayEvents = resolution.dayEvents;
       meals = resolution.meals || [];
+      endVitals = {
+        days_without_food: resolution.food.newDaysWithoutFood,
+        days_without_water: resolution.water.newDaysWithoutWater,
+        wounded: resolution.conditions?.wounded ?? null,
+      };
 
       // Persist state and inventory changes.
       await applyDayState({
@@ -439,7 +445,10 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       equipmentBlock,
       endStateBlock,
       stateContext: startState
-        ? { startState, endState: { energy: newEnergy, shadow: newShadow } }
+        ? {
+            startState,
+            endState: { energy: newEnergy, shadow: newShadow, ...(endVitals || {}) },
+          }
         : null,
     });
     const narrative = generation.text;
@@ -640,6 +649,11 @@ router.post('/:id/days/:dayNumber/redo-narration', authenticateToken, async (req
       encounters: existingDay.encounters || [],
       thoughts: existingDay.thoughts || null,
       overnight_location: existingDay.overnight_location || null,
+      // Only the persisted columns survive a rehydration — enough for the
+      // mind's rest event (the description text never round-trips).
+      overnight_interaction: existingDay.rest_quality != null || existingDay.shadow_effect != null
+        ? { rest_quality: existingDay.rest_quality, shadow_effect: existingDay.shadow_effect }
+        : null,
       elevation_profile: existingDay.elevation_profile || null,
       is_last_day: existingDay.is_last_day || false,
       meals: existingDay.meals || [],

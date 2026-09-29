@@ -8,17 +8,22 @@
 //
 //   climate   — one per phase, aggregated raw metrics
 //               data: {temperature_2m, cloud_cover, wind_speed_10m,
-//                      precipitation}
+//                      precipitation, hours}
 //   travel    — data: {distance_km, walking_hours}
 //   terrain   — data: {terrain_phrases (map of phase->phrases)}
 //   place     — one per visited location: data: {name, kind}
 //   water     — one per crossing: data: {name, kind}
-//   meal      — one per meal: data: {food: name, drink: name, phase}
-//   rest      — overnight: data: {rest_quality, shadow_effect}
-//   encounter — one per encounter: data: {entity, phase, interaction?}
+//   meal      — one per meal slot: data: {slot, eaten, food, drink}
+//   rest      — overnight: data: {rest_quality, shadow_effect, place,
+//               description} — the place's own prose carries the night
+//   encounter — one per encounter: data: {entity, entity_type, danger,
+//               form, outcome, prose_hint, intensity, check} — form is
+//               how contact happened (sign_only/sound_only/confronts...),
+//               outcome only exists when a resistance roll ran
 //               where: {region} from the encounter's own region
 //   body      — characterState snapshot: data: {energy, shadow, wounded,
-//               fatigue, days_without_food, days_without_water}
+//               fatigue, days_without_food, days_without_water};
+//               end-of-day values win over start-of-day when present
 //   region    — region transitions implicit: every event carries
 //               where.region when known
 //
@@ -43,7 +48,8 @@ function phaseOfHour(hourFloat) {
 function sampleHour(sample) {
   const t = sample?.time;
   if (typeof t === 'string') {
-    const m = t.match(/T(\d{2})/);
+    // Time strings arrive as 'YYYY-MM-DD HH:MM:SS' (space) or ISO 'T'.
+    const m = t.match(/[T ](\d{2}):/);
     if (m) return parseInt(m[1], 10);
   }
   return null;
@@ -75,7 +81,8 @@ function climateEvents(day) {
   for (const s of samples) {
     const weather = innerClimate(s);
     if (!weather) continue;
-    byPhase[phaseOfHour(sampleHour(s)) || 'night'].push(weather);
+    // Samplers stamp an explicit phase; the clock hour is the fallback.
+    byPhase[s.phase || phaseOfHour(sampleHour(s)) || 'night'].push(weather);
   }
   const events = [];
   for (const [phase, records] of Object.entries(byPhase)) {
@@ -123,8 +130,14 @@ function encounterEvents(day) {
           entity: slug,
           entity_name: e.entity.name || null,
           entity_id: e.entity.id,
+          entity_type: e.entity.type || e.entity.entity_type || null,
           danger: e.entity.danger_level ?? e.entity.danger ?? null,
-          interaction: outcome,
+          // How contact happened matters more than its mechanical result:
+          // 'sign_only' is a different experience than 'confronts'.
+          form: e.interaction?.form ?? null,
+          prose_hint: e.interaction?.prose_hint ?? null,
+          intensity: e.interaction?.intensity ?? null,
+          outcome,
           check: encounterCheck(e.entity),
         };
         // Needs (B2): surviving a hostile contact leaves an open thread
@@ -140,16 +153,28 @@ function encounterEvents(day) {
     }));
 }
 
+// Resolved meals carry a slot ('midday' halt on the road, 'evening' meal
+// at camp) — map it onto the phase vocabulary so the two never blur.
+const SLOT_PHASE = { midday: 'afternoon', evening: 'night' };
+
 function mealEvents(day) {
-  return (day.meals || []).map((m) => ({
-    type: 'meal',
-    when: when(day, { phase: m.phase || phaseOfHour(m.hour_float) }),
-    where: where(regionOf(day)),
-    data: {
-      food: m.food?.name || m.food || null,
-      drink: m.drink?.name || m.drink || null,
-    },
-  }));
+  return (day.meals || []).map((m) => {
+    const food = m.food?.name || m.food || null;
+    return {
+      type: 'meal',
+      when: when(day, {
+        phase: SLOT_PHASE[m.slot] || m.phase || phaseOfHour(m.hour_float),
+      }),
+      where: where(regionOf(day)),
+      data: {
+        slot: m.slot || null,
+        // A skipped meal is an absence the mind should feel, not a gap.
+        eaten: food != null || m.itemId != null || m.slug === 'tavern_meal',
+        food,
+        drink: m.drink?.name || m.drink || null,
+      },
+    };
+  });
 }
 
 function placeEvents(day) {
@@ -181,6 +206,10 @@ function restEvent(day) {
       rest_quality: overnight.rest_quality ?? null,
       shadow_effect: overnight.shadow_effect ?? null,
       place: overnight.name || overnight.id || null,
+      // The place's authored prose carries the texture of the night
+      // ('the will itself feels weighed and probed') — numbers alone
+      // left the worst nights invisible to the mind.
+      description: overnight.description ?? null,
     },
   };
 }
@@ -196,9 +225,13 @@ function bodyEvent(day, stateContext) {
       // Facets declare 0-1; state is 0-100 in the game DB.
       energy: (endState?.energy ?? startState?.energy ?? 100) / 100,
       shadow: (endState?.shadow ?? startState?.shadow ?? 0) / 100,
-      wounded: startState?.wounded ?? null,
-      days_without_food: startState?.days_without_food ?? null,
-      days_without_water: startState?.days_without_water ?? null,
+      // End-of-day truth wins over the morning snapshot: the hunger streak
+      // after today's meals, the wound after today's outcomes.
+      wounded: endState?.wounded ?? startState?.wounded ?? null,
+      days_without_food:
+        endState?.days_without_food ?? startState?.days_without_food ?? null,
+      days_without_water:
+        endState?.days_without_water ?? startState?.days_without_water ?? null,
     },
   };
 }
