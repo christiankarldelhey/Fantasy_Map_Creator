@@ -178,6 +178,49 @@ def test_inversion_grows_the_opposite_belief(client, monkeypatch):
     assert active[0].statement == 'Strangers have proven kind'
 
 
+def test_ambient_memories_never_reach_the_prompt(client, monkeypatch):
+    """Three days of drizzle is weather, not conviction: a memory with
+    low importance AND flat valence never enters the reflection prompt —
+    the LLM is not even called."""
+    called = []
+    monkeypatch.setattr(
+        reflection_module, 'generate_narrative',
+        lambda *a, **k: called.append(1) or {'text': '{}'},
+    )
+    char = _uid('ambient')
+    slug = _reflective_mold()
+    drizzle = {
+        'type': 'climate',
+        'when': {'episode': 1, 'date': '1950-01-18'},
+        'data': {'precipitation': 1.0},  # wet tag, salience ~0.05, v=0
+    }
+    opened = _open(client, char, 'd1', [drizzle], brain_profile=slug)
+    close = _close(client, opened['episode_id'])
+    assert close['reflection']['reflected'] is False
+    assert close['reflection']['reason'] == 'no_strong_evidence'
+    assert called == []
+
+
+def test_new_beliefs_cap_per_reflection(client, monkeypatch):
+    """A worldview accretes slowly — the LLM proposing three fresh
+    beliefs in one sitting gets the wiring's cap, not the flood."""
+    def fake_llm(prompt, day_number=None):
+        mem_ids = re.findall(r'id=(mem_\w+)', prompt['user'])
+        return {'text': json.dumps({'reflections': [
+            {'op': 'create', 'kind': 'world', 'statement': f'lesson {i}',
+             'confidence': 0.7, 'evidence': mem_ids[:1]}
+            for i in range(3)
+        ]})}
+    monkeypatch.setattr(reflection_module, 'generate_narrative', fake_llm)
+
+    char = _uid('prolific')
+    slug = _reflective_mold()
+    opened = _open(client, char, 'd1', [_meal(1)], brain_profile=slug)
+    close = _close(client, opened['episode_id'])
+    assert close['reflection']['formed'] == 2
+    assert len(_beliefs(char)) == 2
+
+
 def test_llm_garbage_never_breaks_close(client, monkeypatch):
     monkeypatch.setattr(
         reflection_module, 'generate_narrative',

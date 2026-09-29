@@ -507,6 +507,54 @@ repetición agradable de tediosa — toda rutina desgasta un poco;
 un molde puede anularlo (`repetition_min_streak` alto) pero no hay
 tags placenteros-inmunes todavía.
 
+### C6 · Clima severo: el temporal es evento, la llovizna es ambiente
+
+**🔧 Técnica** — `_semantic_tags` ahora es por tiers. Los suaves
+(`wet`, `windy`, `freezing`) marcan ambiente; los severos son
+**eventos**: `snow` (frío + precip), `deep_cold` (≤ `deep_cold_max`
+−10°), `scorching` (≥ `scorching_min` 32°), `storm` (viento ≥
+`storm_wind_min` 25 km/h **o** precip ≥ `storm_precip_min` 8.0 —
+key nueva porque la precip llega sumada por fase). Y un canal
+genérico: `severity.<tag>` en wiring fija un piso de severidad al
+evento que porta ese tag — `severity.tag:weather:storm: 0.6` hace que
+el temporal pese en `w_severity`, encode firme y mueva arousal, sin
+caso especial de clima en el código.
+
+**🧠 Cerebro** — Llovizna cuatro días: ambiente (y presión de
+repetición recién al tercero). Vendaval un día: *eso* se recuerda.
+La escala "anodino → memorable" deja de depender de que el host mande
+severity — la mente la deriva de los umbrales del pack.
+
+**🚫 No hace** — Los tiers son por-muestra agregada de fase, no
+rachas de tormenta ("la semana del temporal" es patrón, y ya existe
+por `tag:weather:storm`). Y los umbrales son defaults genéricos —
+la diferencia entre "ventoso" y "temporal" en una estepa vs un bosque
+es contenido de pack.
+
+### C7 · Beliefs con hambre de evidencia
+
+**🔧 Técnica** — Dos frenos en `maybe_reflect`. **Gate de materia
+prima**: la reflexión solo ve memorias con `importance ≥
+belief_evidence_importance_min` (0.4) **o** `|valence| ≥
+belief_evidence_valence_min` (0.2) — si ninguna califica, el LLM ni
+se llama (`reason: no_strong_evidence`, el contador avanza igual).
+**Cap de nacimiento**: máximo `belief_new_per_reflection` (2) ops
+`create` por reflexión — el LLM ordena por peso, el exceso se descarta.
+
+**🧠 Cerebro** — Una creencia es algo *importante*: que te roben dos
+veces los Dunledain (importance alta, valence fuerte) puede volverse
+"los Dunledain son ladrones"; que llueva tres días ni siquiera llega
+al escritorio del reflexivo. Y las convicciones se acumulan de a una —
+no se nace con un worldview en una tarde.
+
+**🚫 No hace** — No valida *alcance*: el LLM todavía puede inflar
+"orc-track" en "asentamientos orcos" si la evidencia pasó el gate —
+eso necesitaría verificar que la afirmación no excede la evidencia
+(semántica, no umbral). Tampoco marca efímeras — "the weather today
+is mild" ya no nace porque su evidencia no califica, pero una belief
+sobre algo verdadero-un-día (ej. "hoy corre peligro este vado") puede
+seguir persistiendo como si fuera permanente.
+
 ---
 
 ## El mapa completo, en una pasada

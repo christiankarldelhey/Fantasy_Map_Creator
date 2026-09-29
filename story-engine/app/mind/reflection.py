@@ -17,6 +17,8 @@ import json
 import logging
 import re
 
+from sqlalchemy import or_
+
 from app.ai import generate_narrative
 from app.mind.boosts import clean_boosts
 from app.mind.memory import episode_index
@@ -128,9 +130,14 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
     trauma_min = w.get('belief_trauma_min', 0.9)
     touched = set()
 
+    new_cap = int(w.get('belief_new_per_reflection', 2))
     for op in ops:
         name = op['op']
         if name == 'create':
+            # Convictions accrete slowly — a single reflection cannot
+            # mint a worldview (the LLM orders its ops by weight).
+            if counts['formed'] >= new_cap:
+                continue
             session.add(Belief(
                 game_id=brain.game_id, character_id=brain.character_id,
                 kind=op['kind'], statement=str(op['statement'])[:2000],
@@ -239,20 +246,33 @@ def maybe_reflect(session, brain, episode, character_name=None):
     # autoflush is off project-wide: this episode's memories were encoded
     # moments ago and only exist in the session until flushed.
     session.flush()
+    # Evidence gate (C7): a belief needs lived weight — three days of
+    # drizzle is weather, not conviction. Only memories that mattered
+    # (importance) or *felt* like something (|valence|) reach the prompt;
+    # ambient bookkeeping never becomes worldview.
+    imp_min = w.get('belief_evidence_importance_min', 0.4)
+    val_min = w.get('belief_evidence_valence_min', 0.2)
     memories = (
         session.query(Memory)
         .filter_by(character_id=brain.character_id)
+        .filter(or_(
+            Memory.importance >= imp_min,
+            Memory.valence >= val_min,
+            Memory.valence <= -val_min,
+        ))
         .order_by(Memory.importance.desc())
         .limit(int(w.get('reflection_memory_top', 20)))
         .all()
     )
+    if not memories:
+        counters['last_reflection_episode'] = idx
+        brain.counters = counters
+        return {'reflected': False, 'reason': 'no_strong_evidence'}
     beliefs = (
         session.query(Belief)
         .filter_by(character_id=brain.character_id, status='active')
         .all()
     )
-    if not memories:
-        return None
 
     prompt = _build_prompt(
         character_name or brain.character_id, memories, beliefs
