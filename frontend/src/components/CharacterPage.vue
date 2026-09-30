@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { X } from '@lucide/vue'
 import type { CharacterState } from '@/composables/useCharacter'
@@ -28,6 +28,9 @@ const { resetCharacter, localizedDescription } = useCharacter()
 const { inventory, fetchInventory, clearInventory } = useInventory()
 
 const isDead = computed(() => props.character.status === 'dead')
+// The reset wipes the lived mind — a dead character has nothing left to
+// lose, a living one gets a confirm step before the wipe.
+const resetArmed = ref(false)
 
 const abilityList = computed(() => [
   { label: t('character.abilities.tracking'), value: props.character.skill_tracking ?? 0 },
@@ -57,6 +60,7 @@ watch(() => props.open, (isOpen) => {
   } else if (!isOpen) {
     clearInventory()
   }
+  resetArmed.value = false
 }, { immediate: true })
 
 // Group inventory by category for display
@@ -96,12 +100,18 @@ function waterSummary(item: typeof inventory.value[0]): string {
 }
 
 async function handleReset() {
+  if (!isDead.value && !resetArmed.value) {
+    resetArmed.value = true
+    return
+  }
   try {
     await resetCharacter(props.character.id)
     emit('reset')
     emit('close')
   } catch (err) {
     console.error('Failed to reset character:', err)
+  } finally {
+    resetArmed.value = false
   }
 }
 </script>
@@ -233,12 +243,14 @@ async function handleReset() {
                 </div>
               </div>
 
-              <div v-if="isDead" class="mt-8">
+              <div class="mt-8">
                 <button
                   class="rounded-md bg-parchment-dark px-4 py-2 font-serif font-semibold text-ink-black shadow-sm ring-1 ring-gold transition hover:bg-parchment-aged"
                   @click="handleReset"
                 >
-                  {{ t('character.reviveBtn') }}
+                  {{ isDead
+                    ? t('character.reviveBtn')
+                    : (resetArmed ? t('character.restartConfirm') : t('character.restartBtn')) }}
                 </button>
               </div>
             </div>

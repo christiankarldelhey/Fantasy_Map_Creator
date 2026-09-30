@@ -19,7 +19,7 @@ from app.natural_language import (
     pick_opening_strategy,
     pick_todays_way_in,
 )
-from app.prompt.sections.anti_repetition import banned_phrases_section, closing_instruction
+from app.prompt.sections.anti_repetition import closing_instruction
 from app.prompt.sections.character import character_header_section, character_name, narrator_lens_section
 from app.prompt.sections.climate import climate_state_section
 from app.prompt.sections.day_context import day_context_section
@@ -69,15 +69,11 @@ def build_day_prompt(
     equipment_state=None,
     fate=None,
     climate_state_block='',
-    banned_phrases=None,
-    previous_openings=None,
     mind_block='',
     nl=None,
 ):
     trip = trip or {}
     character = character or {}
-    banned_phrases = banned_phrases or []
-    previous_openings = previous_openings or []
 
     char_name = character_name(character)
     destination = destination_name(trip.get('name'))
@@ -113,26 +109,25 @@ def build_day_prompt(
 
     # When a mind is driving, the lens already voices the body's condition
     # (needs + mood) — rendering TRAVELLER'S CONDITION too would narrate
-    # the same state twice in two registers.
+    # the same state twice in two registers. The mind rides INSIDE the
+    # lens (C17): one block of who they are and how they are today.
     condition = (
         '' if mind_block
         else condition_section(character_state, char_name, nl=nl)
     )
     user = (
         f"{character_header_section(character)}"
-        f"{narrator_lens_section(character)}"
+        f"{narrator_lens_section(character, mind_block)}"
         f"{condition}"
         f"{equipment_section(equipment_state, nl=nl)}"
         f"{end_state_section(fate, char_name, nl=nl)}"
         f"{journey_context_section(destination, previous_day, nl=nl)}"
         f"{special_instructions_section(day.get('day_number'), bool(day.get('is_last_day')), char_name, destination, character.get('introduction_instructions'))}"
-        f"{mind_block}"
         f"{climate_state_section(climate_state_block)}"
-        f"{banned_phrases_section(banned_phrases)}"
         f"{terminal_notice_section(char_name) if is_terminal else ''}"
         f"{LAND_NOTES_RULES}\n\n"
         f"{ENCOUNTER_RULES}\n\n"
-        f"{todays_way_in_section(todays_way_in, opening_strategy, char_name, previous_openings)}\n\n"
+        f"{todays_way_in_section(todays_way_in, opening_strategy, char_name)}\n\n"
         f"=== TODAY'S ROAD ===\n"
         f"{terminal_road_intro(day.get('day_number'), char_name) if is_terminal else road_intro(day.get('day_number'))} {season_phrase(day.get('date'))}\n\n"
         f"{day_context_section(day.get('regions'), day.get('road_types'), day.get('terrain_phrases'), day.get('elevation_profile'), rng)}\n\n"

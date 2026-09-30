@@ -212,9 +212,7 @@ class OpenEpisodeRequest(BaseModel):
     equipment_state: Optional[Dict[str, Any]] = None
     fate: Optional[str] = None
     previous_day: Optional[Dict[str, Any]] = None
-    banned_phrases: List[str] = []
     recent_day_climates: List[Dict[str, Any]] = []
-    previous_openings: List[str] = []
 
 
 class PerceivedEvent(BaseModel):
@@ -292,6 +290,12 @@ class ReassignMoldRequest(BaseModel):
     slug: str = Field(min_length=1)
     game_id: Optional[str] = None
     reclone: bool = False
+
+
+class ResetBrainRequest(BaseModel):
+    """POST /mind/brains/{character_id}/reset — full mind wipe (C19).
+    game_id scopes it; absent means the default game."""
+    game_id: Optional[str] = None
 
 
 class CloseEpisodeRequest(BaseModel):

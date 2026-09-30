@@ -32,6 +32,10 @@ DEFAULT_WIRING = {
     'retrieval_top_k': 5,
     'retrieval_boost': 0.1,
     'retrieval_min_score': 0.5,
+    # A memory that barely registered at encoding is never what a new
+    # day stirs up — otherwise the daily bread out-recalls a warg
+    # attack (C16).
+    'retrieval_importance_min': 0.15,
     'evocations_to_fix': 3,
     # Gates & rolls (B1) — see app/mind/checks.py. Per-skill gate floors may
     # override via 'gate_min.<skill>'; below the floor there is no roll.
@@ -64,7 +68,18 @@ DEFAULT_WIRING = {
     # sleeper or the outcome is harm already done. All wiring — a nocturnal
     # creature mold empties sleep_phases entirely.
     'sleep_phases': ['night'],
-    'sleep_wake_forms': ['attacks', 'confronts', 'sudden_peril'],
+    # Contact forms wake the sleeper (C16): if the world resolved a
+    # brief exchange or an offered bed, contact already happened —
+    # the mind cannot sleep through what canonically occurred (the
+    # tracking roll still runs; waking is not auto-noticing). Distant
+    # perception events — signs, sounds, a far-off shape — stay
+    # sleep-missable.
+    'sleep_wake_forms': [
+        'attacks', 'confronts', 'sudden_peril',
+        'brief_exchange', 'aid_or_trade', 'harvest_shelter',
+        'reacts_withdraws', 'hinders_passage', 'mistaken_for_object',
+        'drifts_closer',
+    ],
     'sleep_wake_outcomes': ['wounded', 'badly wounded'],
     # Needs engine (B2) — detector triggers; urgency formulas live in
     # app/mind/needs.py.
@@ -148,6 +163,10 @@ DEFAULT_WIRING = {
     'affect.tag:form:stalks': -0.25,
     'affect.tag:form:hinders_passage': -0.15,
     'affect.tag:form:aid_or_trade': 0.2,
+    # Company on the road is felt, however mildly (C16) — a real
+    # exchange registers as something, never nothing.
+    'affect.tag:form:brief_exchange': 0.15,
+    'affect.tag:form:reacts_withdraws': 0.1,
     'affect.tag:outcome:wounded': -0.5,
     'affect.tag:outcome:badly wounded': -0.7,
     'affect.tag:outcome:unscathed': 0.1,
@@ -169,6 +188,46 @@ DEFAULT_WIRING = {
     'severity.tag:weather:deep_cold': 0.55,
     'severity.tag:weather:scorching': 0.5,
     'severity.tag:weather:freezing': 0.3,
+    # People weight (C16): 'salience_min.<tag>' floors lift a noticed
+    # event carrying that tag — a conversation with thinking company
+    # must outweigh the drizzle. Two channels: the FORM says how close
+    # contact came, the entity_type who it was. A mold re-weights
+    # either (a people-shy brain lowers the whole channel).
+    'salience_min.entity:*': 0.12,
+    'salience_min.tag:form:brief_exchange': 0.45,
+    'salience_min.tag:form:aid_or_trade': 0.5,
+    'salience_min.tag:form:harvest_shelter': 0.45,
+    'salience_min.tag:form:confronts': 0.5,
+    'salience_min.tag:form:attacks': 0.6,
+    'salience_min.tag:form:sudden_peril': 0.55,
+    'salience_min.tag:form:hinders_passage': 0.4,
+    'salience_min.tag:form:reacts_withdraws': 0.35,
+    'salience_min.tag:form:drifts_closer': 0.3,
+    'salience_min.tag:form:stalks': 0.35,
+    'salience_min.tag:form:watches': 0.3,
+    'salience_min.tag:entity_type:humans': 0.35,
+    'salience_min.tag:entity_type:hobbits': 0.35,
+    'salience_min.tag:entity_type:elves': 0.35,
+    'salience_min.tag:entity_type:dwarves': 0.35,
+    'salience_min.tag:entity_type:woses': 0.35,
+    'salience_min.tag:entity_type:orcs': 0.45,
+    'salience_min.tag:entity_type:trolls': 0.45,
+    'salience_min.tag:entity_type:giants': 0.45,
+    'salience_min.tag:entity_type:undead': 0.5,
+    'salience_min.tag:entity_type:demons': 0.5,
+    'salience_min.tag:entity_type:maiar': 0.5,
+    'salience_min.tag:entity_type:living_trees': 0.4,
+    'salience_min.tag:entity_type:pukel_constructs': 0.35,
+    # Retention (C16) — nothing is immortal, but intensity sticks:
+    # a memory of strong feeling or real importance decays at the
+    # sticky rate; consolidation by recall needs an importance floor
+    # so daily trivia never fixes; consolidated rows still fade at a
+    # crawl — long-term is months, not forever.
+    'decay_sticky_valence': 0.4,
+    'decay_sticky_importance': 0.5,
+    'decay_sticky': 0.95,
+    'consolidate_min_importance': 0.3,
+    'consolidated_decay': 0.98,
     # B10: degraded brains (NPCs) still perceive and encode — they remember
     # the protagonist — but never reflect (LLM stays a protagonist cost)
     # and defer decay/pattern consolidation to POST /maintenance/consolidate.
@@ -201,6 +260,26 @@ def _mold_config(mold):
     return theme_weights, wiring
 
 
+def seed_starter_beliefs(session, game_id, character_id, mold):
+    """Clone a mold's starter beliefs into the character (origin='seed':
+    backstory, exempt from the evidence rule) — mutable like any belief.
+    Used at brain creation and again when a brain is wiped: the defaults
+    are the one content a reset restores."""
+    if mold is None:
+        return []
+    seeds = []
+    for sb in mold.starter_beliefs:
+        b = Belief(
+            game_id=game_id, character_id=character_id, kind=sb.kind,
+            statement=sb.statement, confidence=sb.confidence,
+            tags=list(sb.tags or []), boosts=dict(sb.boosts or {}),
+            evidence=[], origin='seed', status='active',
+        )
+        session.add(b)
+        seeds.append(b)
+    return seeds
+
+
 def get_or_create_brain(session, game_id, character_id, hint_slug=None):
     """The character's living brain, cloning its mold on first contact.
 
@@ -230,17 +309,7 @@ def get_or_create_brain(session, game_id, character_id, hint_slug=None):
     )
     session.add(brain)
     session.flush()
-
-    # Starter beliefs are seeded content (origin='seed': backstory, exempt
-    # from the evidence rule) — they stay mutable like any belief.
-    if mold is not None:
-        for sb in mold.starter_beliefs:
-            session.add(Belief(
-                game_id=game_id, character_id=character_id, kind=sb.kind,
-                statement=sb.statement, confidence=sb.confidence,
-                tags=list(sb.tags or []), boosts=dict(sb.boosts or {}),
-                evidence=[], origin='seed', status='active',
-            ))
+    seed_starter_beliefs(session, game_id, character_id, mold)
     return brain
 
 

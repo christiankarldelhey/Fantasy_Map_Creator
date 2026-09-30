@@ -116,6 +116,8 @@
     "equipage": "Equipaje",
     "worn": "— equipado",
     "reviveBtn": "Recuperar — restaurar energía y sombra",
+    "restartBtn": "Empezar de nuevo — cuerpo nuevo, mente vacía",
+    "restartConfirm": "¿Borrar todos los recuerdos y empezar de nuevo?",
     "abilities": {
       "tracking": "Rastreo",
       "persuasion": "Persuasión",

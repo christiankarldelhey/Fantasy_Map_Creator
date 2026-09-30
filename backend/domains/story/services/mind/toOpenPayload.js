@@ -117,9 +117,7 @@ export function toOpenPayload({
   equipmentState = null,
   fate = null,
   previousDay = null,
-  bannedPhrases = [],
   recentDayClimates = [],
-  previousOpenings = [],
   stateContext = null,
 }) {
   return {
@@ -134,9 +132,7 @@ export function toOpenPayload({
     equipment_state: equipmentState,
     fate,
     previous_day: previousDay,
-    banned_phrases: bannedPhrases,
     recent_day_climates: recentDayClimates,
-    previous_openings: previousOpenings,
   };
 }
 
@@ -154,8 +150,6 @@ export function toNarrateDayBody(openBody) {
     equipmentState: openBody.equipment_state,
     fate: openBody.fate,
     previousDay: openBody.previous_day,
-    bannedPhrases: openBody.banned_phrases,
     recentDayClimates: openBody.recent_day_climates,
-    previousOpenings: openBody.previous_openings,
   };
 }

@@ -4,7 +4,6 @@
 # Port of backend/domains/story/services/evals/evalRunner.js.
 # ============================================================================
 from app.evals.narrative_checks import (
-    check_banned_phrases,
     check_encounters_presented,
     check_lens_reference,
     check_opening,
@@ -13,9 +12,8 @@ from app.evals.narrative_checks import (
 )
 
 
-def run_narrative_evals(narrative, day=None, banned_phrases=None, character_name='Aranath', impressions=None):
+def run_narrative_evals(narrative, day=None, character_name='Aranath', impressions=None):
     day = day or {}
-    banned_phrases = banned_phrases or []
 
     if not narrative:
         print('=== narrative eval skipped (no narrative generated) ===')
@@ -24,7 +22,6 @@ def run_narrative_evals(narrative, day=None, banned_phrases=None, character_name
     print('=== narrative eval start (day', day.get('day_number'), ') ===')
     checks = [
         check_opening(narrative, character_name),
-        check_banned_phrases(narrative, banned_phrases),
         check_prompt_quotes(narrative, day.get('prompt')),
         check_encounters_presented(narrative, day.get('encounters')),
         check_scenery_inventory(narrative),

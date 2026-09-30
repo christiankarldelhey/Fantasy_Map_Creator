@@ -93,15 +93,18 @@ def test_prompt_renders_state_on_the_stateless_path():
 
 def test_mind_path_drops_the_condition_section():
     """The lens voices the body — rendering the condition block too would
-    say the same thing twice in two registers."""
+    say the same thing twice in two registers. The mind rides inside the
+    NARRATOR'S LENS block (C17), not as a standalone section."""
     prompt = build_day_prompt(
         day={'day_number': 1, 'date': '1950-01-19'},
         character={'name': 'Aranath'},
         character_state={'energy': 20, 'shadow': 0},
         equipment_state={'rations': 1},
-        mind_block='=== THE MIND OF ARANATH ===\nMood: troubled',
+        mind_block='Aranath today — mood: troubled.',
     )
     user = prompt['user']
     assert "TRAVELLER'S CONDITION" not in user
-    assert 'THE MIND OF ARANATH' in user
+    assert 'THE MIND OF' not in user
+    assert "NARRATOR'S LENS FOR ARANATH" in user
+    assert 'Aranath today — mood: troubled.' in user
     assert 'EQUIPAGE' in user  # supplies are facts, not interiority

@@ -457,6 +457,13 @@ DEFAULT_PHRASE_LISTS = {
     'mind.need.thread': [
         'unfinished business with {subject} — the matter will not stay quiet',
     ],
+    # Encounter readings (C16): the mind's one-line memory of contact —
+    # {subject} the entity met, {detail} what passed (the host's resolved
+    # substance, or the form's prose seed). A bare name is a census
+    # entry, not a memory.
+    'mind.encounter': [
+        '{subject} — {detail}',
+    ],
     # Pattern memories (B3): {subject} is the human end of the recurring
     # tag ('lembas', 'wolves', 'eriador'), {count} the episodes it hit.
     'mind.pattern': [

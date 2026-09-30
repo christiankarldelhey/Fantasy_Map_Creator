@@ -22,10 +22,20 @@ def character_header_section(character=None):
     return f'=== {name.upper()} ===\n{name}{kind}.{bio}\n\n'
 
 
-def narrator_lens_section(character=None):
-    """The character-specific narrator lens ('' when the character has none)."""
+def narrator_lens_section(character=None, mind_extra=''):
+    """The character-specific narrator lens: the authored personality
+    (system_prompt) fused with the mind's current state (mood, beliefs,
+    what stirs, needs) when a mind is driving — one block, one voice
+    ('' when there is neither)."""
     character = character or {}
-    if not character.get('system_prompt'):
+    system_prompt = (character.get('system_prompt') or '').strip()
+    mind_extra = (mind_extra or '').strip()
+    if not system_prompt and not mind_extra:
         return ''
     name = character_name(character).upper()
-    return f"=== NARRATOR'S LENS FOR {name} ===\n{character['system_prompt']}\n\n"
+    parts = [f"=== NARRATOR'S LENS FOR {name} ==="]
+    if system_prompt:
+        parts.append(system_prompt)
+    if mind_extra:
+        parts.append(mind_extra)
+    return '\n\n'.join(parts) + '\n\n'

@@ -8,7 +8,7 @@
 //
 // Where things live:
 //   narratorCharacter.js  the character fields the prompt needs
-//   tripHistory.js        yesterday's summary, banned phrases, recent forms
+//   tripHistory.js        yesterday's summary, recent forms
 //   travellerBlocks.js    raw traveller state (condition / equipage / fate)
 //   narrateDay.js         prompt assembly + LLM call
 // ============================================================================
@@ -16,4 +16,4 @@
 export { loadRecentEncounterForms } from './tripHistory.js';
 export { collectTravellerState, notableItemsOf } from './travellerBlocks.js';
 export { narrateDay } from './narrateDay.js';
-export { closeEpisode } from '../mind/mindClient.js';
+export { closeEpisode, resetBrain } from '../mind/mindClient.js';

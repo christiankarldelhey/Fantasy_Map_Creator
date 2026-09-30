@@ -13,26 +13,18 @@ OVERNIGHT_COLOUR_NOTE = 'If the overnight location is a town or inn, let the nar
 SPANISH_INSTRUCTION = 'Please write the entire response in Spanish.'
 
 
-def todays_way_in_section(focus, strategy, character_name='', previous_openings=None):
+def todays_way_in_section(focus, strategy, character_name=''):
     """The single element the chapter's opening must be built around, plus the
-    grammatical shape of the first sentence and the openings already spent."""
-    previous_openings = previous_openings or []
-
+    grammatical shape of the first sentence."""
     if character_name:
         name_rule = f' Never open the chapter with "{character_name}" as the first word, and never open with {character_name} walking, advancing or setting out — the journey is already in motion; enter it sideways.'
     else:
         name_rule = " Never open the chapter with the traveller's name as the first word, and never open with the traveller walking, advancing or setting out."
 
-    if previous_openings:
-        openings_lines = '\n'.join(f'- "{s}"' for s in previous_openings)
-        openings_block = f"\nEarlier chapters opened with these sentences — today's first sentence must differ from ALL of them in structure, subject and rhythm:\n{openings_lines}"
-    else:
-        openings_block = ''
-
     return (
         f"=== TODAY'S WAY IN ===\n"
         f"Build today's opening around ONE element: {focus}. Shape of the first sentence: {strategy}.{name_rule} "
-        f"Do not inventory the scenery — enter through that one sense and let the rest stay in shadow.{openings_block}"
+        f"Do not inventory the scenery — enter through that one sense and let the rest stay in shadow."
     )
 
 

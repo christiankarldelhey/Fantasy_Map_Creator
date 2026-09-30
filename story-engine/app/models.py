@@ -30,9 +30,7 @@ class NarrateDayRequest(BaseModel):
     fate: Optional[str] = None
     # Continuity fields resolved by tripHistory.js in Node before this call.
     previousDay: Optional[Dict[str, Any]] = None
-    bannedPhrases: List[str] = []
     recentDayClimates: List[Dict[str, Any]] = []
-    previousOpenings: List[str] = []
 
 
 class PromptResponse(BaseModel):

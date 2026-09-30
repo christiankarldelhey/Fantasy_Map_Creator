@@ -14,9 +14,13 @@ const NARRATOR_CHARACTER_QUERY = `
          c.resistance, c.permadeath, c.energy, c.shadow,
          c.skill_tracking, c.skill_persuasion, c.skill_ranged, c.skill_melee, c.skill_lore,
          c.fatigue, c.wounded,
-         e.name AS entity_name
+         e.name AS entity_name,
+         -- A clone inherits its template's mind archetype: 'celebrian-user-7'
+         -- still thinks through the 'celebrian' mold (C18).
+         COALESCE(t.slug, c.slug) AS brain_profile
   FROM character_state c
   LEFT JOIN entities e ON e.id = c.entity_id
+  LEFT JOIN character_state t ON t.id = c.template_id
   WHERE c.id = $1
 `;
 

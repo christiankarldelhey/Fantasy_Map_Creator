@@ -16,8 +16,6 @@ export {
 } from '../../game/services/character/characterState.js';
 export {
   loadPreviousDayRow,
-  loadNarrativesBefore,
-  loadRecentNarratives,
   loadRecentEncounterRows,
   loadRecentDayClimates,
 } from '../../game/services/world/tripHistoryReads.js';

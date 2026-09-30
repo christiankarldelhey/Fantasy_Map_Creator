@@ -11,9 +11,9 @@
 # to consolidated. Memories born this episode are exempt from the pass.
 # ============================================================================
 from app.mind.embeddings import embed
-from app.mind.nl_resolver import phrases as nl_phrases
+from app.mind.nl_resolver import _humanize, phrases as nl_phrases
 from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.tables import Belief, Episode, Memory
+from app.mind.tables import Belief, Episode, Memory, Need
 
 
 def _wiring(brain):
@@ -53,7 +53,7 @@ def _describe(session, game_id, item, brain=None):
     data = item.get('data') or {}
     subject = (
         data.get('entity_name') or data.get('name')
-        or data.get('entity') or data.get('entity_id')
+        or _humanize(data.get('entity') or data.get('entity_id'))
     )
     return item.get('reading') or (str(subject) if subject else f"a {item.get('type')}")
 
@@ -155,41 +155,163 @@ def _signature_from_memory(memory):
     )
 
 
+def _exempt_this_episode(mem, current_episode_index):
+    """Born or stirred this episode — forgetting never eats fresh content."""
+    return (
+        current_episode_index is not None
+        and (
+            mem.created_episode == current_episode_index
+            or mem.last_evoked_episode == current_episode_index
+        )
+    )
+
+
 def decay_pass(session, brain, current_episode_index):
-    """One forgetting pass over the character's volatile memories."""
+    """One forgetting pass over the character's memories (C16 tiers).
+
+    Volatiles decay — but intensity sticks: a memory of strong feeling
+    or real importance fades at the slower sticky rate, so a warg
+    attack outlives a hare by weeks. Consolidation by recall requires
+    an importance floor: trivia evoked daily strengthens yet never
+    fixes. Consolidated rows fade at a crawl (consolidated_decay) —
+    long-term is months, not eternity; patterns keep their own
+    recurrence lifecycle in detect_patterns.
+    """
     w = _wiring(brain)
     decay = w.get('decay', 0.85)
     forget = w.get('forget_threshold', 0.2)
     fix_k = int(w.get('evocations_to_fix', 3))
+    fix_min = w.get('consolidate_min_importance', 0.3)
+    sticky = w.get('decay_sticky', 0.95)
+    sticky_val = w.get('decay_sticky_valence', 0.4)
+    sticky_imp = w.get('decay_sticky_importance', 0.5)
+    slow = w.get('consolidated_decay', 0.98)
 
-    volatiles = (
+    forgotten = 0
+    consolidated = 0
+    for mem in (
         session.query(Memory)
         .filter_by(character_id=brain.character_id, consolidated=False)
         .all()
-    )
-    forgotten = 0
-    consolidated = 0
-    for mem in volatiles:
-        if mem.evocations >= fix_k:
+    ):
+        if (
+            mem.evocations >= fix_k
+            and (mem.importance or 0.0) >= fix_min
+        ):
             mem.consolidated = True
             consolidated += 1
             continue
-        # None-safe: an episodeless index must never match a NULL marker.
-        born_this_episode = (
-            current_episode_index is not None
-            and mem.created_episode == current_episode_index
-        )
-        evoked_this_episode = (
-            current_episode_index is not None
-            and mem.last_evoked_episode == current_episode_index
-        )
-        if born_this_episode or evoked_this_episode:
+        if _exempt_this_episode(mem, current_episode_index):
             continue
-        mem.strength = (mem.strength or 0.0) * decay
+        rate = (
+            sticky
+            if (
+                abs(mem.valence or 0.0) >= sticky_val
+                or (mem.importance or 0.0) >= sticky_imp
+            )
+            else decay
+        )
+        mem.strength = (mem.strength or 0.0) * rate
         if mem.strength < forget:
             session.delete(mem)
             forgotten += 1
+
+    for mem in (
+        session.query(Memory)
+        .filter_by(character_id=brain.character_id, consolidated=True)
+        .all()
+    ):
+        if mem.kind == 'pattern':
+            continue
+        if _exempt_this_episode(mem, current_episode_index):
+            continue
+        mem.strength = (mem.strength or 0.0) * slow
+        if mem.strength < forget:
+            session.delete(mem)
+            forgotten += 1
+    # autoflush is off: without this a deleted row stays visible to the
+    # next query in the same close and gets forgotten twice.
+    session.flush()
     return {'forgotten': forgotten, 'consolidated': consolidated}
+
+
+def _release_resolved_needs(session, brain):
+    """A closed chapter leaves a fading trace, not a fixed anchor
+    (C16): a need memory stays consolidated only while the need is
+    open — once resolved it rejoins the volatile pool and wears away
+    over the following weeks."""
+    resolved_keys = {
+        n.key for n in session.query(Need).filter_by(
+            character_id=brain.character_id, status='resolved'
+        )
+    }
+    if not resolved_keys:
+        return 0
+    released = 0
+    for mem in (
+        session.query(Memory)
+        .filter_by(character_id=brain.character_id, consolidated=True)
+        .all()
+    ):
+        need_tag = next(
+            (t for t in (mem.tags or []) if t.startswith('need:')),
+            None,
+        )
+        if need_tag and need_tag[len('need:'):] in resolved_keys:
+            mem.consolidated = False
+            released += 1
+    return released
+
+
+def _compact_duplicates(session, brain):
+    """Limpieza (C16): copies of the same memory fold into one — need
+    arcs written before the merge existed, or rows that only ever
+    differed by id. The newest row keeps the union of episodes and the
+    sum of recall. Runs every close; the table stays small."""
+    groups = {}
+    for mem in (
+        session.query(Memory)
+        .filter_by(character_id=brain.character_id)
+        .all()
+    ):
+        need_tag = next(
+            (t for t in (mem.tags or []) if t.startswith('need:')),
+            None,
+        )
+        key = need_tag or (
+            mem.kind,
+            (mem.desc or '').strip().lower(),
+            mem.entity_id,
+        )
+        groups.setdefault(key, []).append(mem)
+
+    merged = 0
+    for group in groups.values():
+        if len(group) < 2:
+            continue
+        group.sort(
+            key=lambda m: (m.created_episode or 0), reverse=True
+        )
+        keep = group[0]
+        for dup in group[1:]:
+            keep.episode_ids = sorted(set(
+                (keep.episode_ids or []) + (dup.episode_ids or [])
+            ))
+            keep.evocations = (keep.evocations or 0) + (dup.evocations or 0)
+            keep.importance = max(
+                keep.importance or 0.0, dup.importance or 0.0
+            )
+            keep.strength = max(keep.strength or 0.0, dup.strength or 0.0)
+            last = max(
+                keep.last_evoked_episode or 0,
+                dup.last_evoked_episode or 0,
+            )
+            keep.last_evoked_episode = last or None
+            keep.consolidated = keep.consolidated or dup.consolidated
+            session.delete(dup)
+            merged += 1
+    session.flush()
+    return merged
 
 
 def belief_fade_pass(session, brain, current_episode_index):
@@ -365,6 +487,8 @@ def close_episode_memory(session, brain, episode):
             'patterns_faded': 0,
             'degraded': True,
         }
+    released = _release_resolved_needs(session, brain)
+    merged = _compact_duplicates(session, brain)
     patterns = detect_patterns(session, brain, episode, idx, w)
     decayed = decay_pass(session, brain, idx)
     beliefs = belief_fade_pass(session, brain, idx)
@@ -375,4 +499,6 @@ def close_episode_memory(session, brain, episode):
         'patterns': patterns['formed'],
         'patterns_faded': patterns['faded'],
         'beliefs_faded': beliefs['beliefs_faded'],
+        'needs_released': released,
+        'memories_merged': merged,
     }

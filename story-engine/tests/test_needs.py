@@ -4,7 +4,7 @@
 # Detectors (physiological) fire from character/body state and auto-resolve
 # when the state clears; threads open from `data.thread` markers on noticed
 # events and close only via `data.resolves` or `outcome.resolved_needs`.
-# needs_active fills the packet, the lens' Needs: section, and the episode
+# needs_active fills the packet, the lens' 'body asks for' list, and the episode
 # snapshot. Runs against real Postgres like the rest of the suite.
 # ============================================================================
 import uuid
@@ -73,7 +73,7 @@ def test_hunger_detector_opens_need(client):
     assert hunger['type'] == 'physiological'
     assert hunger['urgency'] == pytest.approx(0.7)  # 0.3 + 0.2 * 2 days
     # And it reaches the lens as an intention, not a number.
-    assert 'Needs:' in packet['psyche_packet']['lens_block']
+    assert 'The body asks for:' in packet['psyche_packet']['lens_block']
     assert hunger['description'] in packet['psyche_packet']['lens_block']
 
 

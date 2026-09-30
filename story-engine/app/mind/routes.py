@@ -21,6 +21,8 @@ from datetime import datetime, timezone
 from app.db import get_session
 from app.mind.lens import episode_mood, render_lens, update_brain_mood
 from app.mind.memory import (
+    _compact_duplicates,
+    _release_resolved_needs,
     belief_fade_pass,
     close_episode_memory,
     decay_pass,
@@ -56,10 +58,10 @@ from app.mind.models import (
     PromotePackResponse,
     PsychePacket,
     ReassignMoldRequest,
+    ResetBrainRequest,
 )
 from app.models import NarrateDayRequest
 from app.narrate_day import narrate_day
-from app.prompt.sections.mind import mind_section
 from app.mind.decisions import (
     pending_decision_point, proposed_commands, resolution_text,
     resolve_decision,
@@ -74,12 +76,16 @@ from app.mind.packs import (
 from app.mind.perceive import perceive_events, resolve_break_items
 from app.mind.provisioning import (
     DEFAULT_WIRING,
+    NEUTRAL_MOOD,
     get_or_create_brain,
     reassign_mold,
+    seed_starter_beliefs,
 )
 from app.mind.reflection import maybe_reflect
-from app.mind.retrieval import link_evoked, retrieve
-from app.mind.tables import Belief, Brain, Episode, Memory, Need, PackVersion
+from app.mind.retrieval import link_evoked, rank_beliefs, retrieve
+from app.mind.tables import (
+    Belief, Brain, BrainMold, Episode, Memory, Need, PackVersion,
+)
 
 log = logging.getLogger(__name__)
 
@@ -180,9 +186,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                     'equipmentState': payload.equipment_state,
                     'fate': payload.fate,
                     'previousDay': payload.previous_day,
-                    'bannedPhrases': payload.banned_phrases,
                     'recentDayClimates': payload.recent_day_climates,
-                    'previousOpenings': payload.previous_openings,
                 },
                 # Audit snapshot: the exact knobs this episode runs under.
                 # Admin edits apply to future episodes, not in-flight ones.
@@ -237,8 +241,10 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             )
             episode.lens_block = render_lens(
                 payload.character.name or payload.character.id,
-                brain.mood, beliefs, evoked,
+                brain.mood, rank_beliefs(beliefs, episode.perceived_day),
+                evoked,
                 needs=episode.needs_active,
+                perceived_day=episode.perceived_day,
             )
             db.commit()
             db.refresh(episode)
@@ -299,14 +305,17 @@ def close_episode(
             )
             .one_or_none()
         )
-        summary = close_episode_memory(db, brain, episode) if brain else {}
+        summary = {}
         if brain:
-            # The host's outcome may settle open needs; streak counters
-            # only count episodes the host actually persisted.
+            # The host's outcome may settle open needs — resolved BEFORE
+            # the memory pass so a closed chapter's memory is released in
+            # the same sweep (C16); streak counters only count episodes
+            # the host actually persisted.
             summary['needs_resolved'] = resolve_from_outcome(
                 db, brain, episode, payload.outcome,
             )
             update_streak_counters(db, brain, episode)
+            summary.update(close_episode_memory(db, brain, episode))
             # B4: the mind's only LLM call. Trigger-gated; a skipped or
             # failed reflection never breaks the close.
             summary['reflection'] = maybe_reflect(
@@ -381,10 +390,8 @@ def narrate_episode(
             equipment_state=req.equipmentState,
             fate=req.fate,
             previous_day=req.previousDay,
-            banned_phrases=req.bannedPhrases,
             recent_day_climates=req.recentDayClimates,
-            previous_openings=req.previousOpenings,
-            mind_block=mind_section(episode.lens_block, episode.perceived_day),
+            mind_block=episode.lens_block or '',
             impressions=_evoked_impressions(db, episode),
             nl=NlPack(db, episode.game_id, brain=brain),
         )
@@ -563,6 +570,62 @@ def reassign_brain_mold(
     }
 
 
+@router.post('/mind/brains/{character_id}/reset')
+def reset_brain(
+    character_id: str,
+    payload: ResetBrainRequest,
+    db: Session = Depends(get_session),
+):
+    """Full mind wipe (C19): everything the character LIVED dies — every
+    memory (volatile, consolidated, patterns), every learned belief, every
+    open need, every episode. The nature survives: mold, theme_weights,
+    wiring. Its mold's starter beliefs are re-seeded — a person with no
+    past, not a different person. Idempotent."""
+    try:
+        game_id = payload.game_id or 'middle_earth'
+        brain = (
+            db.query(Brain)
+            .filter_by(game_id=game_id, character_id=character_id)
+            .one_or_none()
+        )
+        if brain is None:
+            return {
+                'character_id': character_id, 'brain': None,
+                'deleted': {'memories': 0, 'beliefs': 0, 'needs': 0,
+                            'episodes': 0},
+                'seeds': 0,
+            }
+        deleted = {
+            'memories': db.query(Memory).filter_by(
+                game_id=game_id, character_id=character_id).delete(),
+            'beliefs': db.query(Belief).filter_by(
+                game_id=game_id, character_id=character_id).delete(),
+            'needs': db.query(Need).filter_by(
+                game_id=game_id, character_id=character_id).delete(),
+            'episodes': db.query(Episode).filter_by(
+                game_id=game_id, character_id=character_id).delete(),
+        }
+        brain.mood = dict(NEUTRAL_MOOD)
+        brain.counters = {}
+        mold = (
+            db.query(BrainMold)
+            .filter_by(game_id=game_id, slug=brain.mold_slug)
+            .one_or_none()
+        )
+        seeds = seed_starter_beliefs(db, game_id, character_id, mold)
+        db.commit()
+        return {
+            'character_id': character_id,
+            'brain': {'id': brain.id, 'mold_slug': brain.mold_slug},
+            'deleted': deleted,
+            'seeds': len(seeds),
+        }
+    except SQLAlchemyError as exc:
+        db.rollback()
+        log.warning('reset_brain failed: %s', exc)
+        raise HTTPException(status_code=503, detail='mind persistence unavailable')
+
+
 @router.post('/maintenance/consolidate', response_model=ConsolidateResponse)
 def consolidate_degraded(
     payload: ConsolidateRequest,
@@ -595,12 +658,18 @@ def consolidate_degraded(
             idx = episode_index(latest) if latest else None
             if idx is None:
                 continue
+            # Degraded brains clean in batch too (C16): resolved needs
+            # release their memory and duplicate rows fold in here.
+            released = _release_resolved_needs(db, brain)
+            merged = _compact_duplicates(db, brain)
             patterns = detect_patterns(db, brain, latest, idx, w)
             results.append({
                 'brain_id': brain.id,
                 'character_id': brain.character_id,
                 'patterns': patterns['formed'],
                 'patterns_faded': patterns['faded'],
+                'needs_released': released,
+                'memories_merged': merged,
                 **decay_pass(db, brain, idx),
                 **belief_fade_pass(db, brain, idx),
             })

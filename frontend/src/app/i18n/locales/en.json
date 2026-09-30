@@ -116,6 +116,8 @@
     "equipage": "Equipage",
     "worn": "— worn",
     "reviveBtn": "Revive — restore energy and shadow",
+    "restartBtn": "Start over — new body, empty mind",
+    "restartConfirm": "Erase all memories and start over?",
     "abilities": {
       "tracking": "Tracking",
       "persuasion": "Persuasion",

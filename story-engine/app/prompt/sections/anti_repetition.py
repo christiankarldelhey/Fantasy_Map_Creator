@@ -18,14 +18,6 @@ def _rotate(list_, day_number):
     return list_[((n % len(list_)) + len(list_)) % len(list_)]
 
 
-def banned_phrases_section(banned_phrases):
-    """The avoid-list of over-used phrases ('' when there is nothing to avoid)."""
-    if not isinstance(banned_phrases, list) or len(banned_phrases) == 0:
-        return ''
-    phrase_list = ', '.join(f'"{p}"' for p in banned_phrases)
-    return f'=== AVOID THESE PHRASES ===\nThese phrases (and close variants) were already used in earlier chapters. Do not reuse them; find fresh wording: {phrase_list}.\n\n'
-
-
 def closing_instruction(day_number):
     """The closing instruction for the chapter, rotated per day."""
     return _rotate(CLOSING_VARIANTS, day_number)

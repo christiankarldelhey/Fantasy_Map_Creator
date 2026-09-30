@@ -69,7 +69,7 @@ def derive_tags(event):
         # streak is bookkeeping noise, not a lived repetition.
         if key in ('entity', 'entity_id', 'entity_name', 'check',
                    'thread_desc', 'resolves', 'urgency',
-                   'description', 'prose_hint', 'slot'):
+                   'description', 'prose_hint', 'slot', 'substance'):
             continue
         if key == 'tags':
             values = value if isinstance(value, list) else [value]
@@ -176,6 +176,28 @@ def _tag_severity(tags, w):
         if not key.startswith('severity.') or not key.endswith(':*'):
             continue
         prefix = key[len('severity.'):-1]
+        if any(t.startswith(prefix) for t in tags):
+            num = _num(v)
+            if num is not None and num > best:
+                best = num
+    return best
+
+
+def _salience_floor(tags, w):
+    """'salience_min.<tag>' wiring lets a perceived thing matter by what
+    it IS, not how loud it arrived (C16): 'salience_min.tag:entity_type:
+    humans: 0.35' means thinking company is never background to this
+    mind, 'salience_min.tag:form:brief_exchange' that a real exchange
+    outweighs the weather. Wildcards allowed ('salience_min.entity:*')."""
+    best = 0.0
+    for tag in tags:
+        v = _num(w.get(f'salience_min.{tag}'))
+        if v is not None and v > best:
+            best = v
+    for key, v in w.items():
+        if not key.startswith('salience_min.') or not key.endswith(':*'):
+            continue
+        prefix = key[len('salience_min.'):-1]
         if any(t.startswith(prefix) for t in tags):
             num = _num(v)
             if num is not None and num > best:
@@ -478,6 +500,13 @@ def perceive_events(session, game_id, brain, events, character=None):
         ))
         if perception == 'unnoticed':
             salience *= w.get('unnoticed_salience', 0.5)
+        else:
+            # The floor lifts only what registered (C16) — a noticed
+            # exchange with thinking company is never drowned out by
+            # bookkeeping; an unnoticed one stays a difuso.
+            floor = _salience_floor(tags, w)
+            if floor > salience:
+                salience = floor
 
         # Host-declared valence always wins; otherwise this mind's own
         # affect wiring decides how the event felt.

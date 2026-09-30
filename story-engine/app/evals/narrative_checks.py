@@ -39,23 +39,6 @@ def check_opening(narrative, character_name='Aranath'):
     return result
 
 
-def check_banned_phrases(narrative, banned_phrases=None):
-    banned_phrases = banned_phrases or []
-    print('[check:banned] checking', len(banned_phrases), 'banned phrases')
-    text = _normalize(narrative)
-    found = []
-    for phrase in banned_phrases:
-        p = _normalize(phrase)
-        if p and p in text:
-            found.append(phrase)
-    ok = len(found) == 0
-    result = {'name': 'banned_phrases', 'ok': ok, 'details': {'found': found}}
-    if not ok:
-        result['reason'] = 'found banned phrase(s): ' + '; '.join(found)
-    print('[check:banned]', 'PASS' if ok else 'FAIL', found)
-    return result
-
-
 def check_prompt_quotes(narrative, prompt_text=''):
     print('[check:prompt_quote] scanning for copied prompt phrases')
     text = _normalize(narrative)

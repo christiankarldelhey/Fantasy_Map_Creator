@@ -7,6 +7,7 @@
 // ============================================================================
 
 const STORY_ENGINE_URL = process.env.STORY_ENGINE_URL || 'http://localhost:8001';
+const GAME_ID = process.env.GAME_ID || 'middle_earth';
 
 const OPEN_TIMEOUT_MS = 8000;
 const NARRATE_TIMEOUT_MS = 90000; // wraps a real LLM call
@@ -53,6 +54,20 @@ export async function closeEpisode(episodeId, outcome) {
   const request = { outcome };
   const response = await post(
     `/episodes/${episodeId}/close`, request, CLOSE_TIMEOUT_MS
+  );
+  return { request, response };
+}
+
+/**
+ * Full mind wipe (C19): deletes everything the character lived —
+ * memories, learned beliefs, needs, episodes — and re-seeds the mold's
+ * starter beliefs. Returns {request, response}; a failed reset must
+ * never block the game request (catch upstream).
+ */
+export async function resetBrain(characterId, gameId = GAME_ID) {
+  const request = { game_id: gameId };
+  const response = await post(
+    `/mind/brains/${characterId}/reset`, request, CLOSE_TIMEOUT_MS
   );
   return { request, response };
 }

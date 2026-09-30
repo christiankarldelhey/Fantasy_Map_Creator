@@ -6,11 +6,11 @@
 # calls the LLM.
 #
 # Difference from the Node original: narrateDay.js calls tripHistory.js
-# itself (DB reads) to get previousDay/bannedPhrases/recentDayClimates/
-# previousOpenings. This service has no DB access, so Node resolves those
-# four values first (tripHistory.js, unchanged) and sends them in the payload.
-# resolve_climate_state (multi-day climate) is computed here from
-# recent_day_climates, exactly as narrateDay.js does with resolveClimateState.
+# itself (DB reads) to get previousDay/recentDayClimates. This service has
+# no DB access, so Node resolves those values first (tripHistory.js,
+# unchanged) and sends them in the payload. resolve_climate_state
+# (multi-day climate) is computed here from recent_day_climates, exactly
+# as narrateDay.js does with resolveClimateState.
 # ============================================================================
 import random
 
@@ -29,18 +29,14 @@ def narrate_day(
     equipment_state=None,
     fate=None,
     previous_day=None,
-    banned_phrases=None,
     recent_day_climates=None,
-    previous_openings=None,
     mind_block='',
     impressions=None,
     nl=None,
 ):
     trip = trip or {}
     character = character or {}
-    banned_phrases = banned_phrases or []
     recent_day_climates = recent_day_climates or []
-    previous_openings = previous_openings or []
 
     rng = day.get('rng') or random.random
 
@@ -57,8 +53,6 @@ def narrate_day(
         equipment_state=equipment_state,
         fate=fate,
         climate_state_block=climate_state_block,
-        banned_phrases=banned_phrases,
-        previous_openings=previous_openings,
         mind_block=mind_block,
         nl=nl,
     )
@@ -68,7 +62,6 @@ def narrate_day(
     run_narrative_evals(
         narrative=generation.get('text'),
         day=day,
-        banned_phrases=banned_phrases,
         character_name=character.get('name') or 'Aranath',
         impressions=impressions,
     )

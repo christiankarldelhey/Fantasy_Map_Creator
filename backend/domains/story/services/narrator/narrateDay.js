@@ -11,7 +11,7 @@
 // See story-engine/README.md for the service this calls.
 // ============================================================================
 
-import { loadBannedPhrases, loadPreviousDay, loadPreviousOpenings, loadRecentDayClimates } from './tripHistory.js';
+import { loadPreviousDay, loadRecentDayClimates } from './tripHistory.js';
 import { openEpisode, narrateEpisode } from '../mind/mindClient.js';
 import { toOpenPayload, toNarrateDayBody } from '../mind/toOpenPayload.js';
 
@@ -47,11 +47,9 @@ export async function narrateDay({
   fate = null,
   stateContext = null,
 }) {
-  const [previousDay, bannedPhrases, recentDayClimates, previousOpenings] = await Promise.all([
+  const [previousDay, recentDayClimates] = await Promise.all([
     loadPreviousDay(trip.id, day.day_number),
-    loadBannedPhrases(trip.id, day.day_number),
     loadRecentDayClimates(trip.id, day.day_number),
-    loadPreviousOpenings(trip.id, day.day_number),
   ]);
 
   // The flat episode-open body — OpenEpisodeRequest shape (story-engine
@@ -66,9 +64,7 @@ export async function narrateDay({
     equipmentState,
     fate,
     previousDay,
-    bannedPhrases,
     recentDayClimates,
-    previousOpenings,
     stateContext,
   });
 

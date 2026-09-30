@@ -33,6 +33,23 @@ def _relevance(memory_tags, context_tags):
     return min(1.0, len(tags & context_tags) / len(tags))
 
 
+def rank_beliefs(beliefs, perceived_day):
+    """Order active beliefs for the lens (C18): a belief speaks when the
+    day touches it. rank = confidence × (1 + tag-overlap with what was
+    perceived) — untagged convictions keep their baseline so the core
+    personality still competes, but a belief about people surfaces on
+    people-days and stays quiet on empty moorland."""
+    day_tags = set()
+    for item in perceived_day or []:
+        day_tags.update(item.get('tags') or [])
+    return sorted(
+        beliefs,
+        key=lambda b: (b.confidence or 0.0)
+        * (1.0 + _relevance(b.tags, day_tags)),
+        reverse=True,
+    )
+
+
 def retrieve(session, brain, episode, perceived_day):
     """Score the character's memories against this episode's context and
     evoke the top-K. Returns the evoked Memory rows (highest score first).
@@ -65,12 +82,18 @@ def retrieve(session, brain, episode, perceived_day):
     episode_vec = episode_embedding(perceived_day) if delta_w else None
 
     scored = []
+    imp_min = w.get('retrieval_importance_min', 0.15)
     for mem in candidates:
         # Patterns are background bookkeeping, not impressions (C5):
         # they live and die by recurrence and their voice is the
         # recurrence channel — ambient recall only ever re-strengthened
         # them and crowned the lens with 'the shape of these days'.
         if mem.kind == 'pattern':
+            continue
+        # What barely registered is never what the day stirs (C16):
+        # otherwise daily trivia re-evokes itself forever and the
+        # road-bread out-recalls the warg attack.
+        if (mem.importance or 0.0) < imp_min:
             continue
         anchor = mem.last_evoked_episode or mem.created_episode or 0
         delta = max(0, (idx or 0) - anchor)

@@ -15,5 +15,6 @@ export {
   loadRecentEncounterForms,
   narrateDay,
   notableItemsOf,
+  resetBrain,
 } from '../../story/services/narrator/index.js';
 export { loadTerrainPhrases } from '../../story/services/naturalLanguage/terrainPhrases.js';

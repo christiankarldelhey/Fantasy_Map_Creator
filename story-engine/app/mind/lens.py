@@ -18,6 +18,12 @@ MOOD_TABLE = 'mood'
 MOOD_BLEND = 0.5
 LENS_BELIEF_TOP = 3
 LENS_IMPRESSION_TOP = 5
+# The day's salient readings join the mind's stirring, same list as the
+# evoked impressions (C17): the lens shows one merged "what is on their
+# mind", not a taxonomy of where each line came from.
+LENS_READING_MIN_SALIENCE = 0.3
+LENS_READING_TOP = 5
+LENS_STIR_TOP = 7
 
 
 def _weighted_mean(items, key):
@@ -81,29 +87,52 @@ def update_brain_mood(session, game_id, brain, ep_mood):
 LENS_NEED_TOP = 3
 
 
-def render_lens(character_name, mood, beliefs, evoked_memories, needs=None):
-    """THE MIND OF {name}: mood, loudest beliefs, stirring memories, open
-    needs as intentions (B2) — descriptions arrive already worded, the
-    lens never invents."""
-    lines = [
-        f'=== THE MIND OF {character_name} ===',
-        f"Mood: {mood.get('dominant', 'neutral')}",
-    ]
-    top_beliefs = sorted(
-        beliefs, key=lambda b: b.confidence or 0.0, reverse=True
-    )[:LENS_BELIEF_TOP]
+def render_lens(character_name, mood, beliefs, evoked_memories, needs=None,
+                perceived_day=None):
+    """The mind's current state as it lands inside NARRATOR'S LENS (C17 —
+    no standalone 'THE MIND OF' block): mood, loudest beliefs, what stirs
+    today — evoked impressions and the day's salient readings, one list —
+    and open needs as intentions (B2). Descriptions arrive already worded;
+    the lens never invents."""
+    lines = [f"{character_name} today — mood: {mood.get('dominant', 'neutral')}."]
+    # `beliefs` arrive already ranked (rank_beliefs, C18): confidence ×
+    # relevance to the day — the lens just reads the top of that order.
+    top_beliefs = list(beliefs)[:LENS_BELIEF_TOP]
     if top_beliefs:
-        lines.append('Beliefs:')
+        lines.append('What they hold true:')
         lines.extend(f'- {b.statement}' for b in top_beliefs)
-    if evoked_memories:
-        lines.append('Impressions:')
-        lines.extend(
-            f'- {m.desc}' for m in evoked_memories[:LENS_IMPRESSION_TOP]
-        )
+    # Copies of the same memory read once (C16) — three rows of
+    # 'day upon day of wet cold' were one impression, not three.
+    stir = []
+    seen = set()
+
+    def add_stir(desc, cap):
+        key = (desc or '').strip().lower()
+        if not key or key in seen or len(stir) >= cap:
+            return
+        seen.add(key)
+        stir.append(desc)
+
+    for m in (evoked_memories or []):
+        add_stir(m.desc, LENS_IMPRESSION_TOP)
+    # The day's own weight joins the same list — 'need' items already
+    # speak below in the body's voice, so they do not read twice.
+    readings = sorted(
+        (
+            (p.get('salience') or 0.0, p.get('reading') or '')
+            for p in (perceived_day or [])
+            if p.get('type') != 'need'
+        ),
+        reverse=True,
+    )
+    for s, r in readings[:LENS_READING_TOP]:
+        if s >= LENS_READING_MIN_SALIENCE:
+            add_stir(r, LENS_STIR_TOP)
+    if stir:
+        lines.append('Stirring today:')
+        lines.extend(f'- {d}' for d in stir[:LENS_STIR_TOP])
     top_needs = (needs or [])[:LENS_NEED_TOP]
     if top_needs:
-        lines.append('Needs:')
+        lines.append('The body asks for:')
         lines.extend(f'- {n["description"]}' for n in top_needs)
-    else:
-        lines.append('Needs: —')
     return '\n'.join(lines)

@@ -785,6 +785,153 @@ necesidad: urge igual en el lens y pesa igual en el mood.
 
 ---
 
+### C16 · La gente pesa, la contabilidad caduca
+
+**🔧 Técnica** — El segundo dump real mostró la retención *invertida*:
+clima y needs nacían consolidadas (inmortales) mientras los encuentros
+con personas morían volátiles en ~5 días. Correcciones:
+
+- **Sustancia en el wire**: `toEvents` manda `data.substance`
+  (attitude/content/tension/stance desde `dialogue_content`) y
+  `data.topic` (tag). El reading del encuentro lo compone el pack
+  (`mind.encounter`: `{subject} — {detail}`) — la memoria guarda qué
+  pasó, no un sustantivo. Slugs sin `entity_name` se humanizan
+  (`large_patrol` → `large patrol`), nunca crudos.
+- **`salience_min.<tag>`**: piso genérico de salience para eventos
+  *perceived* — `tag:form:*` dice qué tan cerca llegó el contacto,
+  `tag:entity_type:*` quién era. Una conversación con un humano ya no
+  pesa 0.08 < la llovizna. Configurable por molde (un brain que
+  desconfía de la gente puede bajar el canal entero).
+- **Despertar por contacto**: `sleep_wake_forms` suma las formas
+  interactivas — si el mundo ya resolvió un `brief_exchange`, el
+  intercambio ocurrió; la mente no puede "no registrarlo". El check
+  igual corre: despertar no es notar automáticamente.
+- **El afecto marca retención**: `decay_sticky` (0.95 vs 0.85) para
+  memorias con |valence| o importance altas — el espíritu del túmulo
+  dura semanas, la liebre días. `consolidate_min_importance` (0.3):
+  el pan de cada día se refuerza pero nunca se fija.
+- **Nada es inmortal**: `consolidated_decay` (0.98) — lo consolidado
+  dura meses, no eternidad. Need resuelta → su memoria vuelve al pool
+  volátil y se cierra el capítulo.
+- **Limpieza en cada close**: `_compact_duplicates` fusiona filas
+  copia (arcs de need pre-C15, descs idénticos) — los cerebros ya
+  contaminados se limpian solos. `resolve_from_outcome` corre *antes*
+  del pase de memoria para que el release caiga en el mismo close.
+- **`retrieval_importance_min`** (0.15): lo que apenas se registró
+  nunca es lo que el día evoca. Lens deduplica impresiones idénticas.
+
+**🚫 No hace** — No convierte cada encuentro en eterno: un vistazo
+lejano de un elfo sigue pudiendo morir en días si nada lo refuerza.
+No toca mecánicas: `substance` es contenido ya resuelto por el host,
+el pack solo decide cómo se lee.
+
+---
+
+### C17 · La mente dentro del lens, sin peso muerto
+
+**🔧 Técnica** — El prompt tenía contexto que no narraba: `THE MIND OF`
+como bloque aislado que el narrador no sabía integrar, una lista de
+frases prohibidas y las primeras oraciones de capítulos previos
+ensuciando el contexto. Correcciones:
+
+- **Un solo bloque**: `render_lens` deja de emitir el banner
+  `=== THE MIND OF X ===`; el estado interior (mood, beliefs, stirring,
+  needs) se funde dentro de `=== NARRATOR'S LENS FOR X ===`, después
+  del `system_prompt` — personalidad y estado del día en una sola voz.
+- **Stirring fusionado**: las impresiones evocadas y los readings del
+  día (salience ≥ 0.3, no-needs) forman UNA lista `Stirring today:` —
+  la mente no declara taxonomías, solo lo que la ocupa (tope 7).
+- **Labels sin pronombre**: `What they hold true:` / `The body asks
+  for:` — sirven para cualquier personaje sin conocer su género.
+- **Muere el anti-repetición**: `banned_phrases`/`previous_openings`
+  fuera del wire (OpenEpisodeRequest, NarrateDayRequest, toOpenPayload),
+  del builder y de Node — `loadBannedPhrases`, `loadPreviousOpenings`,
+  `extractRepeatedPhrases` (phraseVices.js) y los loaders de narrativas
+  en tripHistoryReads quedan borrados. La variedad de formas de
+  encuentro sigue: es mecánica del host (`interactionResolver`), no
+  contexto del prompt.
+- **Snapshot intacto**: el lens_block sigue guardándose al open —
+  re-narrar un episodio viejo reproduce su mente de entonces; los
+  episodios pre-C17 conservan su formato viejo, como debe ser.
+
+**🚫 No hace** — No toca las instrucciones de forma (opening strategy,
+closing variants, encounter rules) — son reglas de narración, no
+contexto histórico. No mide si la narración usa lo evocado (voiced vs
+evoked queda como observabilidad pendiente).
+
+---
+
+### C18 · La personalidad como beliefs seed
+
+**🔧 Técnica** — La personalidad de Celebrian eran 1124 chars de
+`system_prompt` que pesaban en cada prompt. Ahora los rasgos viven como
+`mold_starter_beliefs` en molds por personaje — la belief se invoca
+cuando el día la toca, no como dogma permanente:
+
+- **Molds por personaje**: `celebrian` (5 beliefs) y `aranath` (4) en
+  `brain_molds` — clonan el wiring de `default`; lo que las distingue es
+  el contenido seed. Las belief tags usan el vocabulario real de
+  `perceived_day` (`tag:entity_type:*`, `tag:form:*`).
+- **`rank_beliefs`**: para el lens, beliefs se ordenan por
+  `confidence × (1 + tag-overlap con el día)` — una belief sobre la
+  gente habla en people-days y calla en el páramo vacío; las
+  convictions sin tags compiten por confianza pura. `render_lens` ya no
+  re-ordena: lee el top del ranking recibido.
+- **`brain_profile` por herencia**: `narratorCharacter` resuelve
+  `COALESCE(template.slug, c.slug)` — el clon `celebrian-user-7` piensa
+  a través del mold `celebrian`. Los INSERT de clonación copian ahora
+  `system_prompt` + `introduction_instructions` (antes el clon nacía
+  sin lens de personalidad).
+- **Prompt comprimido**: `system_prompt` de Celebrian 1124 → 374 chars
+  (filtrar la escena por la muerte, sin auto-piedad, sin esperanza,
+  habla poco). La migración SQL sincroniza clones desde su template.
+- **Backfill**: `scripts/mind_personality_backfill.js` reasigna brains
+  existentes a su mold declarado e inserta las seed beliefs que falten
+  (idempotente, por statement). Los brains de los clones dev quedaron
+  en su mold con 5/4 beliefs; los templates se provisionan solos en su
+  primer episodio.
+
+**🚫 No hace** — No acorta la `description` (231 chars, ya era
+concisa). No propaga nuevas starter beliefs a brains viejos
+automáticamente — el backfill es el camino (rerunable). No escribe
+beliefs desde `character_thoughts`: los thoughts alimentaron las
+statements como material, la tabla sigue siendo del dominio game.
+
+---
+
+### C19 · Regenerar: una persona nueva, no un cuerpo arreglado
+
+**🔧 Técnica** — El botón de regenerar (antes solo al morir) está
+disponible siempre. Al usarse, el personaje renace completo: el juego
+restaura cuerpo/kit (`POST /api/character/:id/reset`) y la mente olvida
+todo lo vivido:
+
+- **`POST /mind/brains/{character_id}/reset`**: borra memories
+  (volátiles, consolidadas, patrones), beliefs (todas, incluidas las
+  seed viejas), needs y episodes del `(game_id, character_id)`; mood →
+  `NEUTRAL_MOOD`, counters → `{}`. Después re-siembra las starter
+  beliefs del mold vía `seed_starter_beliefs` (el mismo helper que
+  provisiona el brain nuevo). Sobrevive la *naturaleza*: fila `brains`,
+  `mold_slug`, `theme_weights`, `wiring` — una persona sin pasado, no
+  otra persona.
+- **Idempotente y seguro**: todas las beliefs mueren antes de
+  re-sembrar → repetir el reset no duplica seeds. Sin brain → respuesta
+  de ceros, nunca 404.
+- **Degradación**: Node llama el reset dentro de un `try/catch` — si
+  Story Engine está caído, el personaje se regenera igual
+  (`mind_reset: false` en la respuesta) y solo queda un warning. La
+  mente nunca bloquea el juego.
+- **UX**: personaje muerto → revive directo. Personaje vivo → confirm
+  de dos pasos ("erase all memories?") porque el wipe es destructivo.
+
+**🚫 No hace** — No preserva recuerdos "importantes": regenerar es
+nacer de nuevo, no amnesia selectiva. No toca las starter beliefs del
+mold en sí (son config humana). No hace el wipe transaccional con el
+reset mecánico — son dos dominios: si la mente falla, el juego sigue y
+el brain viejo sobrevive hasta el próximo reset.
+
+---
+
 ## El mapa completo, en una pasada
 
 ```

@@ -79,9 +79,7 @@ def narrate_day_endpoint(payload: NarrateDayRequest):
             equipment_state=payload.equipmentState,
             fate=payload.fate,
             previous_day=payload.previousDay,
-            banned_phrases=payload.bannedPhrases,
             recent_day_climates=payload.recentDayClimates,
-            previous_openings=payload.previousOpenings,
             nl=NlPack(session, payload.game_id) if session else None,
         )
         return result

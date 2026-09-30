@@ -207,6 +207,16 @@ class NlPack:
         return options[0] if options else default
 
 
+def _humanize(value):
+    """A slug is a key, not a name (C16): 'large_patrol' -> 'large
+    patrol'. Applied only to slug fallbacks — authored names pass
+    through upstream untouched."""
+    if value is None:
+        return None
+    s = str(value).strip()
+    return s.replace('_', ' ').replace('-', ' ') if s else None
+
+
 def _first_string(values):
     """First non-empty string in an arbitrarily nested list/dict — event
     payloads flatten differently across hosts; readings dig until prose."""
@@ -262,7 +272,7 @@ def resolve_event_reading(session, game_id, event, brain=None):
     # reports only its subject. Host names outrank slugs.
     subject = (
         data.get('entity_name') or data.get('name') or data.get('title')
-        or data.get('entity')
+        or _humanize(data.get('entity') or data.get('entity_id'))
     )
     if etype == 'meal':
         # Canonical slugs render through meal.name.<slug>; authored
@@ -299,4 +309,20 @@ def resolve_event_reading(session, game_id, event, brain=None):
     if etype == 'note':
         # A note IS prose — the data field is already words.
         return _first_string(data.get('note') or data.get('text'))
+    if etype == 'encounter':
+        # An encounter is a happening, not a noun (C16): the host's
+        # resolved substance — what passed between them — leads; the
+        # form's prose hint carries contact that had no words. The
+        # pack owns the glue ({subject}, {detail}).
+        substance = data.get('substance') or {}
+        detail = substance.get('content') or data.get('prose_hint')
+        if subject and detail:
+            opts = phrases(
+                session, game_id, 'mind.encounter', brain=brain
+            )
+            template = opts[0] if opts else '{subject} — {detail}'
+            line = template.format(subject=subject, detail=detail)
+            stance = substance.get('stance')
+            return f'{line} {stance}' if stance else line
+        return (str(subject) if subject else None) or detail
     return str(subject) if subject else None

@@ -17,9 +17,14 @@
 //   rest      — overnight: data: {rest_quality, shadow_effect, place,
 //               description} — the place's own prose carries the night
 //   encounter — one per encounter: data: {entity, entity_type, danger,
-//               form, outcome, prose_hint, intensity, check} — form is
-//               how contact happened (sign_only/sound_only/confronts...),
-//               outcome only exists when a resistance roll ran
+//               form, outcome, prose_hint, intensity, check,
+//               topic, substance} — form is how contact happened
+//               (sign_only/sound_only/confronts...), outcome only exists
+//               when a resistance roll ran. When the interaction resolved
+//               dialogue, topic tags the theme and substance carries the
+//               lived content (what passed between them, what the
+//               traveller did) — the mind's memory of contact is a
+//               happening, not a noun.
 //               where: {region} from the encounter's own region
 //   body      — characterState snapshot: data: {energy, shadow, wounded,
 //               fatigue, days_without_food, days_without_water};
@@ -157,6 +162,21 @@ function encounterEvents(day) {
           form: e.interaction?.form ?? null,
           prose_hint: e.interaction?.prose_hint ?? null,
           intensity: e.interaction?.intensity ?? null,
+          // C16: the substance of contact. 'topic' is tag material
+          // ('news_and_rumor' recurring is a theme); 'substance' is
+          // prose material — what was said/offered/done, resolved
+          // host-side — the pack composes how the memory reads.
+          topic: e.interaction?.dialogue_content?.topic ?? null,
+          substance: (() => {
+            const dc = e.interaction?.dialogue_content;
+            if (!dc) return null;
+            return {
+              attitude: dc.npc_attitude ?? null,
+              content: dc.concrete_content ?? null,
+              tension: dc.tension ?? null,
+              stance: dc.traveller_stance ?? null,
+            };
+          })(),
           outcome,
           check: encounterCheck(e.entity, e.interaction),
         };

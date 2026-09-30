@@ -2,9 +2,8 @@
 // Trip history reads for the narrator
 // ----------------------------------------------------------------------------
 // Everything the next chapter needs to know about the chapters already
-// written: what happened yesterday (continuity), which phrases the model
-// has worn out (anti-repetition), and which encounter forms it has recently
-// used (variety).
+// written: what happened yesterday (continuity) and which encounter forms
+// it has recently used (variety — for day generation, not the prompt).
 //
 // trip_days is a GAME table — the SQL lives in
 // game/services/world/tripHistoryReads.js and reaches here through
@@ -13,12 +12,9 @@
 
 import {
   loadPreviousDayRow,
-  loadNarrativesBefore,
-  loadRecentNarratives,
   loadRecentEncounterRows,
   loadRecentDayClimates as loadRecentDayClimateRows,
 } from '../../adapters/gameClient.js';
-import { extractRepeatedPhrases } from '../phraseVices.js';
 
 // How many recent chapters are scanned for already-used encounter forms.
 const RECENT_FORMS_CHAPTERS = 3;
@@ -42,46 +38,6 @@ export async function loadPreviousDay(tripId, dayNumber) {
     locations: names(row.locations),
     encounters: names((row.encounters || []).map((e) => e?.entity)),
   };
-}
-
-/**
- * Phrases the model over-used in the earlier chapters of this trip.
- * @param {number} tripId
- * @param {number} dayNumber - the day being narrated
- * @returns {Promise<string[]>}
- */
-export async function loadBannedPhrases(tripId, dayNumber) {
-  if (dayNumber <= 1) return [];
-  return extractRepeatedPhrases(
-    await loadNarrativesBefore(tripId, dayNumber)
-  );
-}
-
-// How many earlier chapter openings are shown as counter-examples.
-const RECENT_OPENINGS_CHAPTERS = 4;
-
-/**
- * First sentence of each recent earlier chapter, so today's opening can be
- * required to differ from them in structure, not just in wording.
- * @param {number} tripId
- * @param {number} dayNumber - the day being narrated
- * @returns {Promise<string[]>}
- */
-export async function loadPreviousOpenings(tripId, dayNumber) {
-  if (dayNumber <= 1) return [];
-  return (await loadRecentNarratives(tripId, dayNumber, RECENT_OPENINGS_CHAPTERS))
-    .map((narrative) => firstSentence(narrative))
-    .filter(Boolean);
-}
-
-/** The first sentence of a narrative, trimmed to a sane length. */
-function firstSentence(text) {
-  if (typeof text !== 'string') return null;
-  const trimmed = text.trim();
-  if (!trimmed) return null;
-  const match = trimmed.match(/^[^.!?\n]+[.!?]?/);
-  const sentence = (match ? match[0] : trimmed).trim();
-  return sentence.length > 160 ? `${sentence.slice(0, 160)}…` : sentence;
 }
 
 /**

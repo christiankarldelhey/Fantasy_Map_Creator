@@ -15,7 +15,7 @@ import { toNarrateDayBody, toOpenPayload } from '../toOpenPayload.js';
 // Point the client at a dead port BEFORE importing it — the URL is captured
 // at module load. Port 9 (discard) refuses connections: the mind is down.
 process.env.STORY_ENGINE_URL = 'http://127.0.0.1:9';
-const { openEpisode, closeEpisode } = await import('../mindClient.js');
+const { openEpisode, closeEpisode, resetBrain } = await import('../mindClient.js');
 
 // Real shapes as resolved days carry them (see toEvents.js header):
 // climate samples stamp `phase` explicitly and `time` uses a space
@@ -119,6 +119,54 @@ test('toEvents emits the generic contract from a resolved day', () => {
   assert.equal(body.data.days_without_food, 3);
 });
 
+test('encounters carry the resolved substance of contact (C16)', () => {
+  const events = toEvents({
+    day: {
+      ...DAY,
+      encounters: [{
+        entity: { slug: 'dnedain', id: 'e9', name: 'Dúnedain', type: 'humans', danger_level: 0 },
+        hour_float: 20.5,
+        interaction: {
+          form: 'brief_exchange',
+          prose_hint: 'a wary exchange at the roadside',
+          dialogue_content: {
+            topic: 'news_and_rumor',
+            npc_attitude: 'Formal. Respect remembered.',
+            concrete_content: 'He asks whether she has seen movement north.',
+            tension: 'Duty, not warmth.',
+            traveller_stance: 'Answers what she knows. Does not say so.',
+          },
+        },
+      }],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    stateContext: {},
+  });
+  const encounter = events.find((e) => e.type === 'encounter');
+  // The theme tags; the lived content rides as prose material.
+  assert.equal(encounter.data.topic, 'news_and_rumor');
+  assert.equal(
+    encounter.data.substance.content,
+    'He asks whether she has seen movement north.'
+  );
+  assert.equal(
+    encounter.data.substance.stance,
+    'Answers what she knows. Does not say so.'
+  );
+  assert.equal(encounter.data.substance.attitude, 'Formal. Respect remembered.');
+
+  // No dialogue resolved: substance stays absent rather than fabricating.
+  const plain = toEvents({
+    day: { ...DAY, encounters: DAY.encounters },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    stateContext: {},
+  }).find((e) => e.type === 'encounter');
+  assert.equal(plain.data.substance, null);
+  assert.equal(plain.data.topic, null);
+});
+
 test('toEvents falls back to start-of-day vitals and clock-hour phases', () => {
   const events = toEvents({
     day: {
@@ -207,4 +255,10 @@ test('closeEpisode rejects on failure — the caller swallows it', async () => {
   // Fire-and-forget lives at the call site (trips.js catches); the client
   // itself still rejects so nothing is silently lost.
   await assert.rejects(closeEpisode('ep_missing', { outcome: null }));
+});
+
+test('resetBrain rejects when the mind is down — the game resets anyway (C19)', async () => {
+  // Character regeneration swallows this rejection: a dead Story Engine
+  // must never block the mechanical reset, it only skips the mind wipe.
+  await assert.rejects(resetBrain('char_1'));
 });

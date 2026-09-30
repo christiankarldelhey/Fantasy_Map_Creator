@@ -30,8 +30,7 @@ uvicorn app.main:app --reload --port 8001
 
 - Input: `day`, `trip`, `character`, `language`, `conditionBlock`, `equipmentBlock`,
   `endStateBlock`, plus the continuity fields that `tripHistory.js` resolves in Node
-  before calling this endpoint (`previousDaySummary`, `bannedPhrases`,
-  `recentDayClimates`, `previousOpenings`).
+  before calling this endpoint (`previousDay`, `recentDayClimates`).
 - Output: `{ prompt: { system, user }, generation: { text, ia_provider, temperature,
   frequency_penalty, presence_penalty, top_p } }` — identical shape to the Node
   `narrateDay()` return value.
