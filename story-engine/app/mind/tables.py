@@ -6,11 +6,11 @@
 # memories arrive in A7.
 # ============================================================================
 import uuid
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 from sqlalchemy import (
-    Boolean, DateTime, Float, ForeignKey, Index, Integer, String, Text,
-    UniqueConstraint,
+    Boolean, Date, DateTime, Float, ForeignKey, Index, Integer, String,
+    Text, UniqueConstraint,
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -46,6 +46,16 @@ class Episode(Base):
     character_id: Mapped[str] = mapped_column(String(120), nullable=False)
     episode_ref: Mapped[str] = mapped_column(String(120), nullable=True)
     status: Mapped[str] = mapped_column(String(20), nullable=False, default='open')
+    # The mind's own clock (C29): a per-brain monotonic counter assigned
+    # at open — when.episode is the host's trip day and resets per trip;
+    # aging memories by it let a new journey's day 2 resurrect an old
+    # trip's day-2 memory as 'yesterday'. NULL = legacy row, pre-fix.
+    episode_idx: Mapped[int] = mapped_column(Integer, nullable=True)
+    # The calendar clock (C30): the in-world date this episode was lived.
+    # episode_idx counts lived days for mechanics (refractory, patterns,
+    # decay windows); episode_date measures narrative age — a month of
+    # rest between journeys reads 'a long while ago', not 'yesterday'.
+    episode_date: Mapped[date] = mapped_column(Date, nullable=True)
 
     events: Mapped[dict] = mapped_column(JSONB, nullable=False, default=list)
     narrator_payload: Mapped[dict] = mapped_column(JSONB, nullable=True)
@@ -310,6 +320,10 @@ class Memory(Base):
     embedding: Mapped[dict] = mapped_column(JSONB, nullable=True)  # reserved, B8
     origin: Mapped[str] = mapped_column(String(30), nullable=False, default='experience')
     created_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+    # Calendar clocks (C30): narrative age in in-world days. The episode
+    # integers stay for mechanics; the dates answer 'how long ago'.
+    created_date: Mapped[date] = mapped_column(Date, nullable=True)
+    last_evoked_date: Mapped[date] = mapped_column(Date, nullable=True)
 
 
 class Need(Base):

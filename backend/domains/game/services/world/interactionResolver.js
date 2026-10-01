@@ -161,12 +161,21 @@ async function fetchNpcInteraction({
   //
   // entity_type lookups ARE filtered by cultural_family/region_id (with a
   // fallback to unfiltered) so that generic dialogue matches the encounter's
-  // cultural context.  entity_type lookups are also restricted to
-  // entity-agnostic rows (entity_id IS NULL) so dialogue written for one
-  // entity is never reused for a different one.
+  // cultural context.  entity_type lookups are also restricted to truly
+  // entity-agnostic rows (entity_id IS NULL AND entity_ids IS NULL, C26)
+  // so substance written for one entity never bleeds onto another.
   const queryByDimension = async (dimensionCol, dimensionVal, band, useContextFilters = true) => {
     const isEntityType = dimensionCol === 'entity_type';
-    const entityScope = isEntityType ? 'AND entity_id IS NULL' : '';
+    // C26: entity_ids is a whitelist — a row that lists entities describes
+    // only those. The entity_id lookup also accepts whitelists; generic
+    // (entity_type) rows must list nothing, so concrete prose never
+    // leaks onto an entity it wasn't written for.
+    const entityScope = isEntityType
+      ? 'AND entity_id IS NULL AND entity_ids IS NULL'
+      : '';
+    const dimensionMatch = isEntityType
+      ? 'entity_type = $1'
+      : '(entity_id = $1 OR entity_ids @> ARRAY[$1]::uuid[])';
     // Context filters only apply to entity_type queries, and only when requested
     const useFilters = isEntityType && useContextFilters;
     const contextFilter = useFilters
@@ -178,7 +187,7 @@ async function fetchNpcInteraction({
       : [dimensionVal, interactionForm, band, baseSlug];
     const { rows } = await pool.query(
       `SELECT * FROM npc_interactions
-       WHERE ${dimensionCol} = $1 AND interaction_form = $2 AND shadow_band = $3
+       WHERE ${dimensionMatch} AND interaction_form = $2 AND shadow_band = $3
          ${entityScope}
          AND (character_id IS NULL OR character_id = $4)
          ${contextFilter}`,
@@ -263,6 +272,7 @@ async function fetchGenericTopic({
     const { rows } = await pool.query(
       `SELECT * FROM npc_interactions
        WHERE entity_type = $1 AND interaction_form = 'topic' AND shadow_band = $2
+         AND entity_id IS NULL AND entity_ids IS NULL
          AND (character_id IS NULL OR character_id = $3)
          ${contextFilter}`,
       params

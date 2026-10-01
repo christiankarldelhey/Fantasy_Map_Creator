@@ -196,21 +196,21 @@ def test_lens_marks_the_past_as_past():
     )
     lens = render_lens(
         'Celebrian', {'dominant': 'steady'}, [], [mem],
-        perceived_day=[], episode_idx=10,
+        perceived_day=[], age_of=lambda m: 10 - m.created_episode,
     )
     assert '2 days ago — Dúnedain — the settlement is real' in lens
 
     mem2 = SimpleNamespace(desc='news from three ports', created_episode=9)
     lens = render_lens(
         'Celebrian', {'dominant': 'steady'}, [], [mem2],
-        perceived_day=[], episode_idx=10,
+        perceived_day=[], age_of=lambda m: 10 - m.created_episode,
     )
     assert 'Yesterday — news from three ports' in lens
 
     mem3 = SimpleNamespace(desc='the warg attack', created_episode=2)
     lens = render_lens(
         'Celebrian', {'dominant': 'steady'}, [], [mem3],
-        perceived_day=[], episode_idx=20,
+        perceived_day=[], age_of=lambda m: 20 - m.created_episode,
     )
     assert 'A long while ago — the warg attack' in lens
 
@@ -229,7 +229,7 @@ def test_evoked_memory_and_identical_reading_render_once():
             'reading': 'a ration of road-bread and dried fruit',
             'tags': [],
         }],
-        episode_idx=10,
+        age_of=lambda m: 10 - m.created_episode,
     )
     assert lens.count('a ration of road-bread and dried fruit') == 1
     assert '2 days ago — a ration of road-bread' in lens
@@ -240,6 +240,6 @@ def test_empty_day_shows_no_stirring():
     appear."""
     lens = render_lens(
         'Celebrian', {'dominant': 'steady'}, [], [],
-        perceived_day=[], episode_idx=10,
+        perceived_day=[], age_of=lambda m: 10,
     )
     assert 'Stirring today' not in lens

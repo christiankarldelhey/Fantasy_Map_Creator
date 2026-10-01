@@ -184,6 +184,24 @@ function encounterEvents(day) {
           // them; the host decides and applies their commands.
           decision: e.interaction?.decision ?? null,
         };
+        // C28: what touched the mechanics is weight-space. 'given' — an
+        // authored gift the host applies unconditionally (dialogue
+        // commands); 'decision' — a fork stood in the day; 'changed' —
+        // the encounter left a mark on the body. The mind's
+        // 'salience_min.tag:*' wiring lifts these out of background.
+        const tags = [];
+        // 'given' claims the commands actually applied — generateDay
+        // skips them when a decision governs the encounter, so the mark
+        // follows the same rule.
+        if (e.interaction?.dialogue_content?.commands?.length
+            && !e.interaction?.decision) {
+          tags.push('given');
+        }
+        if (e.interaction?.decision) tags.push('decision');
+        if (outcome === 'wounded' || outcome === 'badly wounded') {
+          tags.push('changed');
+        }
+        if (tags.length) data.tags = tags;
         // Needs (B2): surviving a hostile contact leaves an open thread
         // the mind keeps alive until the same entity is faced unscathed
         // or the host resolves it in the close outcome.
@@ -216,6 +234,9 @@ function mealEvents(day) {
         eaten: food != null || m.itemId != null || m.slug === 'tavern_meal',
         food,
         drink: m.drink?.name || m.drink || null,
+        // C28: food the world provided — an encounter gift or a shelter
+        // table — weighs more than another ration from the pack.
+        tags: m.provided ? ['given'] : undefined,
       },
     };
   });

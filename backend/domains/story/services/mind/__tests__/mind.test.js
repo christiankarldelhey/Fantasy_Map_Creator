@@ -203,6 +203,56 @@ test('encounters carry a dusk decision when the host resolved one (C25)', () => 
   assert.ok(!plain.some((e) => e.data?.decision));
 });
 
+test('mechanically consequential events carry weight markers (C28)', () => {
+  const events = toEvents({
+    day: {
+      ...DAY,
+      meals: [{ slot: 'midday', food: "the farm wife's soup", provided: true }],
+      encounters: [
+        {
+          entity: { slug: 'northman', id: 'e-gift', name: 'Northman', type: 'humans', danger_level: 0 },
+          hour_float: 13.0,
+          interaction: {
+            form: 'aid_or_trade',
+            dialogue_content: {
+              commands: [{ type: 'meal', slot: 'midday', food: "the farm wife's soup" }],
+            },
+          },
+        },
+        {
+          entity: { slug: 'wayhouse', id: 'e-shelter', name: 'Wayhouse', type: 'sites' },
+          hour_float: 20.5, phase: 'night',
+          interaction: {
+            form: 'harvest_shelter',
+            decision: { id: 'shelter-1', options: [{ id: 'stay' }, { id: 'move_on' }] },
+          },
+        },
+        {
+          entity: { slug: 'wolves', id: 'e-wolves', name: 'Wolves', type: 'beast', danger_level: 4 },
+          hour_float: 10.0,
+          interaction: { form: 'attacks', outcome: 'wounded' },
+        },
+      ],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    stateContext: {},
+  });
+  const byEntity = (slug) =>
+    events.find((e) => e.type === 'encounter' && e.data.entity === slug);
+  assert.ok(byEntity('northman').data.tags.includes('given'));
+  assert.ok(byEntity('wayhouse').data.tags.includes('decision'));
+  assert.ok(byEntity('wolves').data.tags.includes('changed'));
+  const meal = events.find((e) => e.type === 'meal');
+  assert.deepEqual(meal.data.tags, ['given']);
+  // A plain exchange invents no marker.
+  const plain = toEvents({
+    day: { ...DAY, meals: [], encounters: DAY.encounters },
+    trip: { id: 't1' }, character: {}, stateContext: {},
+  }).find((e) => e.type === 'encounter');
+  assert.deepEqual(plain.data.tags, ['changed']); // wounded outcome only
+});
+
 test('toEvents falls back to start-of-day vitals and clock-hour phases', () => {
   const events = toEvents({
     day: {

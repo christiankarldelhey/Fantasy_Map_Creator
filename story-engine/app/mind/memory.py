@@ -10,6 +10,8 @@
 # below forget_threshold they die. evocations >= evocations_to_fix promotes
 # to consolidated. Memories born this episode are exempt from the pass.
 # ============================================================================
+from datetime import date as date_type, datetime
+
 from app.mind.embeddings import embed
 from app.mind.nl_resolver import _humanize, phrases as nl_phrases
 from app.mind.provisioning import DEFAULT_WIRING
@@ -21,13 +23,41 @@ def _wiring(brain):
 
 
 def episode_index(episode):
-    """The host's episode number, from the events' when.episode."""
+    """The mind's own clock (C29): episode.episode_idx — a per-brain
+    monotonic counter assigned at open. The host's when.episode (a
+    trip's day_number) only remains as the legacy fallback for rows
+    that predate the column."""
+    idx = getattr(episode, 'episode_idx', None)
+    if isinstance(idx, int) and not isinstance(idx, bool):
+        return idx
     nums = [
         (e.get('when') or {}).get('episode')
         for e in (episode.events or [])
     ]
     nums = [n for n in nums if isinstance(n, int)]
     return max(nums) if nums else None
+
+
+def episode_date(episode):
+    """The calendar clock (C30): the in-world date the episode was
+    lived — stored column first, events' when.date as fallback."""
+    d = getattr(episode, 'episode_date', None)
+    if d is not None:
+        return d.date() if isinstance(d, datetime) else d
+    dates = [
+        (e.get('when') or {}).get('date')
+        for e in (episode.events or [])
+    ]
+    parsed = []
+    for v in dates:
+        if isinstance(v, datetime):
+            parsed.append(v.date())
+        elif isinstance(v, str):
+            try:
+                parsed.append(date_type.fromisoformat(v[:10]))
+            except ValueError:
+                continue
+    return max(parsed) if parsed else None
 
 
 def _signature(item):
@@ -146,6 +176,7 @@ def encode_episode(session, brain, episode):
             consolidated=consolidated,
             origin='experience',
             created_episode=idx,
+            created_date=episode_date(episode),
             embedding=embed(desc),
         ))
         encoded += 1

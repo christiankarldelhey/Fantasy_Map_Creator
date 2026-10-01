@@ -18,6 +18,7 @@
 # ============================================================================
 from app.mind.boosts import effective_theme_weights
 from app.mind.nl_resolver import phrases, resolve_event_reading
+from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Need
 
 
@@ -136,6 +137,20 @@ def resolve_decision(session, brain, episode, option_id, decision_id=None):
     return dec, option, already
 
 
+def _mark_changed(item, w):
+    """An applied command raised the stakes of what was perceived (C28):
+    the contact is no longer an offer, it is a thing that happened to
+    the body. Tags it 'tag:changed' and lifts salience to that tag's
+    wiring floor, so close() encodes the night that occurred — never
+    the one that was merely proposed."""
+    tags = list(item.get('tags') or [])
+    if 'tag:changed' not in tags:
+        item['tags'] = tags + ['tag:changed']
+    floor = w.get('salience_min.tag:changed')
+    if floor is not None and floor > (item.get('salience') or 0):
+        item['salience'] = round(float(floor), 3)
+
+
 def _apply_choice_to_perceived(session, episode, dec, option, brain):
     """The chosen option rewrites what the day claimed: an authored
     `stance` becomes what the traveller actually did, and an
@@ -145,6 +160,8 @@ def _apply_choice_to_perceived(session, episode, dec, option, brain):
     describe a wild camp while the mechanics say wayhouse."""
     perceived = [dict(item) for item in (episode.perceived_day or [])]
     changed = False
+    w = {**DEFAULT_WIRING, **((getattr(brain, 'wiring', None)) or {})}
+    landed = bool(option.get('commands'))
 
     idx = dec.get('event_index')
     if option.get('stance') and isinstance(idx, int) and 0 <= idx < len(perceived):
@@ -156,6 +173,8 @@ def _apply_choice_to_perceived(session, episode, dec, option, brain):
         perceived[idx]['reading'] = resolve_event_reading(
             session, episode.game_id, perceived[idx], brain=brain
         )
+        if landed:
+            _mark_changed(perceived[idx], w)
         changed = True
 
     shelter = next(
@@ -181,6 +200,7 @@ def _apply_choice_to_perceived(session, episode, dec, option, brain):
             item['reading'] = resolve_event_reading(
                 session, episode.game_id, item, brain=brain
             )
+            _mark_changed(item, w)
             changed = True
         payload = dict(episode.narrator_payload or {})
         day = dict(payload.get('day') or {})

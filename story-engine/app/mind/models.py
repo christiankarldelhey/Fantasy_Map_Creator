@@ -261,6 +261,8 @@ class EpisodeStateResponse(BaseModel):
     game_id: str
     character_id: str
     episode_ref: Optional[str]
+    episode_idx: Optional[int] = None
+    episode_date: Optional[str] = None
     status: str
     events: List[Dict[str, Any]]
     perceived_day: List[Dict[str, Any]]

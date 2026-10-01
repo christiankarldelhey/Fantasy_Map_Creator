@@ -76,15 +76,17 @@ router.post('/', authenticateToken, async (req, res, next) => {
       return res.status(404).json({ error: 'No route found between coordinates' });
     }
 
-    // Default start date: 21 June 1950 (matches the climate dataset year)
-    const startDate = start_date || '1950-06-21';
-
-    // Get user's active character
+    // Get user's active character — and their world clock (C30): a new
+    // journey starts where the player's last day left the world, not at
+    // a fixed dataset date. An explicit start_date still wins.
     const userRes = await pool.query(
-      'SELECT active_character_id FROM users WHERE id = $1',
+      'SELECT active_character_id, world_date FROM users WHERE id = $1',
       [req.userId]
     );
     const characterId = userRes.rows[0]?.active_character_id;
+    const startDate = start_date
+      || userRes.rows[0]?.world_date
+      || '1950-06-21'; // climate dataset anchor — no world clock yet
 
     const { rows } = await pool.query(
       `INSERT INTO trips
@@ -476,6 +478,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         coinsAfter: resolution.lodging.coinsAfter,
         daysWithoutFood: resolution.food.newDaysWithoutFood,
         daysWithoutWater: resolution.water.newDaysWithoutWater,
+        grants: resolution.grants,
       });
 
       // Passing an inhabited settlement restocks the pack, so a long journey
@@ -551,6 +554,15 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     if (dayNumber > trip.current_day) {
       await pool.query('UPDATE trips SET current_day = $1 WHERE id = $2', [dayNumber, trip.id]);
     }
+
+    // C30: the player's world clock moves to the day just lived — the
+    // next journey starts where the world was left. GREATEST keeps a
+    // replayed or out-of-order day from dragging the present backwards.
+    await pool.query(
+      `UPDATE users SET world_date = GREATEST(world_date, $1::date)
+       WHERE id = $2`,
+      [day.date, req.userId]
+    );
 
     // Update encountered entities array with new entities from this day
     const newEntityIds = day.encounters

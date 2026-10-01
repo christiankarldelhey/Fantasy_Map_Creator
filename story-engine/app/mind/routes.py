@@ -13,10 +13,11 @@ import logging
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import ValidationError
+from sqlalchemy import and_, func, or_
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from app.db import get_session
 from app.mind.lens import (
@@ -85,7 +86,8 @@ from app.mind.provisioning import (
 )
 from app.mind.reflection import maybe_reflect
 from app.mind.retrieval import (
-    dialogue_recall, episode_index_of, link_evoked, rank_beliefs, retrieve,
+    dialogue_recall, episode_date_of, episode_index_of, link_evoked,
+    memory_age_days, rank_beliefs, retrieve,
 )
 from app.mind.tables import (
     Belief, Brain, BrainMold, Episode, Memory, Need, PackVersion,
@@ -135,6 +137,10 @@ def _episode_state(db, episode: Episode) -> EpisodeStateResponse:
         game_id=episode.game_id,
         character_id=episode.character_id,
         episode_ref=episode.episode_ref,
+        episode_idx=episode.episode_idx,
+        episode_date=(
+            episode.episode_date.isoformat() if episode.episode_date else None
+        ),
         status=episode.status,
         events=episode.events or [],
         perceived_day=episode.perceived_day or [],
@@ -173,11 +179,23 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 db, payload.game_id, payload.character.id,
                 hint_slug=getattr(payload.character, 'brain_profile', None),
             )
+            # C29: the mind keeps its own clock — episode_idx counts this
+            # brain's lived episodes monotonically, so a new trip's day 1
+            # never collides with an old journey's day 1 in memory ages.
+            prev_idx = (
+                db.query(func.max(Episode.episode_idx))
+                .filter_by(
+                    game_id=payload.game_id,
+                    character_id=payload.character.id,
+                )
+                .scalar()
+            )
             episode = Episode(
                 game_id=payload.game_id,
                 character_id=payload.character.id,
                 episode_ref=payload.episode_ref,
                 status='open',
+                episode_idx=(prev_idx or 0) + 1,
                 events=[e.model_dump() for e in payload.events],
                 # The flat open body IS the narrator input — store it in
                 # NarrateDayRequest shape so narrate stays untouched.
@@ -202,6 +220,9 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                     'wiring': brain.wiring,
                 },
             )
+            # C30: the calendar clock — narrative age is measured in
+            # in-world days, so rest between journeys counts.
+            episode.episode_date = episode_date_of(episode)
             db.add(episode)
             db.flush()  # fires the id default before we build the packet
             perceived = perceive_events(
@@ -297,19 +318,50 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             # RETAINED of yesterday (memories encoded in the previous
             # episode), not the host's 'In Chapter N' summary. Nothing
             # retained = no recap — a character who slept through the
-            # day starts clean.
+            # day starts clean. C30: 'yesterday' means the calendar —
+            # a day lived a month ago recaps under its true age in
+            # Stirring, never under a 'Yesterday' lie.
             yesterday = []
-            if episode_idx and episode_idx > 1:
-                # A memory already stirring today renders once, in
-                # Stirring — the recap does not echo it a second time.
-                yesterday = [
-                    m.desc for m in db.query(Memory)
+            ep_date = episode.episode_date
+            if ep_date is not None:
+                yesterday_date = ep_date - timedelta(days=1)
+                # Legacy memories carry no created_date — their day is
+                # the dated episode that encoded them.
+                prev_idx = [
+                    e.episode_idx for e in db.query(Episode)
                     .filter_by(
                         game_id=payload.game_id,
                         character_id=brain.character_id,
-                        created_episode=episode_idx - 1,
-                        kind='episodic',
                     )
+                    .filter(Episode.episode_date == yesterday_date)
+                    .all()
+                    if e.episode_idx
+                ]
+                yesterday_query = db.query(Memory).filter_by(
+                    game_id=payload.game_id,
+                    character_id=brain.character_id,
+                    kind='episodic',
+                ).filter(or_(
+                    Memory.created_date == yesterday_date,
+                    and_(
+                        Memory.created_date.is_(None),
+                        Memory.created_episode.in_(prev_idx),
+                    ),
+                ))
+            elif episode_idx and episode_idx > 1:
+                yesterday_query = db.query(Memory).filter_by(
+                    game_id=payload.game_id,
+                    character_id=brain.character_id,
+                    created_episode=episode_idx - 1,
+                    kind='episodic',
+                )
+            else:
+                yesterday_query = None
+            if yesterday_query is not None:
+                # A memory already stirring today renders once, in
+                # Stirring — the recap does not echo it a second time.
+                yesterday = [
+                    m.desc for m in yesterday_query
                     .filter(Memory.id.notin_(evoked_ids))
                     .order_by(Memory.importance.desc()).limit(5).all()
                 ]
@@ -319,7 +371,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 evoked,
                 needs=episode.needs_active,
                 perceived_day=episode.perceived_day,
-                episode_idx=episode_idx,
+                age_of=lambda m: memory_age_days(episode, m),
                 anchors={mid: s for mid, (s, _) in anchors.items()},
                 inline_ids=inline_ids,
                 yesterday=yesterday,
@@ -444,7 +496,6 @@ def _evoked_beats(db, episode):
         m.id: m
         for m in db.query(Memory).filter(Memory.id.in_(mem_ids)).all()
     }
-    idx = episode_index_of(episode)
     beats = {}
     seen = set()
     for item in (episode.perceived_day or []):
@@ -463,7 +514,7 @@ def _evoked_beats(db, episode):
             if not m:
                 continue
             seen.add(mem_id)
-            age = _age_phrase(m, idx)
+            age = _age_phrase(m, memory_age_days(episode, m))
             beats.setdefault(phase, []).append({
                 'subject': subj,
                 'line': f'{age}{m.desc}'.strip(),

@@ -279,7 +279,7 @@ function mealEnergyOf(row) {
  * @param {boolean} p.tavernMeal - lodging was paid, so meals come from the inn
  * @returns {{ meals:Array, consumed:boolean, itemIds:number[], energyBonus:number, newDaysWithoutFood:number, rationsAfter:number }}
  */
-export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [], waterDrunk = 0, tavernMeal = false, mealSlug = null } = {}) {
+export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [], waterDrunk = 0, tavernMeal = false, mealSlug = null, providedMeals = null } = {}) {
   const slots = ['midday', 'evening'].slice(0, TUNING.MEALS_PER_DAY);
   const waterPerMeal = slots.length > 0 ? waterDrunk / slots.length : 0;
 
@@ -302,11 +302,33 @@ export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [],
     return { meals, consumed: true, itemIds: [], energyBonus: TUNING.MEAL_ENERGY_BONUS, newDaysWithoutFood: 0, rationsAfter: rations };
   }
 
-  const wanted = Math.min(slots.length, Math.max(0, rations));
+  // C27: provided meals — food given by an encounter (a farm wife's soup,
+  // the wayhouse pot). They fill their slot without spending a ration and
+  // carry the giver's own food name so the mind remembers what was shared.
+  const providedBySlot = new Map();
+  for (const p of providedMeals || []) {
+    if (p && slots.includes(p.slot)) providedBySlot.set(p.slot, p);
+  }
+  const openSlots = slots.filter((s) => !providedBySlot.has(s));
+
+  const wanted = Math.min(openSlots.length, Math.max(0, rations));
   const picks = wanted > 0 ? chooseMealItems(rows, wanted) : [];
 
-  const meals = slots.map((slot, i) => {
-    const row = picks[i] || null;
+  const meals = slots.map((slot) => {
+    const provided = providedBySlot.get(slot);
+    if (provided) {
+      return {
+        slot,
+        itemId: null,
+        slug: provided.slug ?? null,
+        provided: true,
+        food: provided.food ?? null,
+        drink: provided.drink ?? (waterPerMeal > 0 ? 'waterskin' : null),
+        waterLitres: waterPerMeal,
+        energyBonus: TUNING.MEAL_ENERGY_BONUS / slots.length,
+      };
+    }
+    const row = picks[openSlots.indexOf(slot)] || null;
     return {
       slot,
       itemId: row?.id ?? null,
@@ -318,7 +340,7 @@ export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [],
     };
   });
 
-  const eaten = meals.filter((m) => m.itemId != null);
+  const eaten = meals.filter((m) => m.itemId != null || m.provided === true);
   const energyBonus = eaten.reduce((sum, m) => sum + m.energyBonus, 0);
 
   let newDaysWithoutFood;
@@ -334,10 +356,11 @@ export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [],
   return {
     meals,
     consumed: eaten.length > 0,
-    itemIds: eaten.map((m) => m.itemId),
+    // Only inventory rows get decremented — provided meals came as a gift.
+    itemIds: eaten.map((m) => m.itemId).filter((id) => id != null),
     energyBonus,
     newDaysWithoutFood,
-    rationsAfter: Math.max(0, rations - eaten.length),
+    rationsAfter: Math.max(0, rations - eaten.filter((m) => m.itemId != null).length),
   };
 }
 
@@ -498,8 +521,24 @@ export async function loadInventory(characterId) {
  * @param {number|null} p.daysWithoutFood
  * @param {number|null} p.daysWithoutWater
  */
-export async function applyInventoryChanges({ characterId, consumedRation = false, foodItemId = null, foodItemIds = null, waterAfter = null, containerRowId = null, coinsAfter = null, daysWithoutFood = null, daysWithoutWater = null }) {
+export async function applyInventoryChanges({ characterId, consumedRation = false, foodItemId = null, foodItemIds = null, waterAfter = null, containerRowId = null, coinsAfter = null, daysWithoutFood = null, daysWithoutWater = null, grants = [] }) {
   if (!characterId) return;
+
+  // C27: encounter gifts — the world hands the traveller things (a bundle
+  // of arrows, four days of provisions). Granted as real inventory rows.
+  for (const grant of grants || []) {
+    if (!grant?.slug || !(grant.qty > 0)) continue;
+    const { rows: itemRows } = await pool.query('SELECT id FROM items WHERE slug = $1', [grant.slug]);
+    const itemId = itemRows[0]?.id;
+    if (!itemId) continue;
+    await pool.query(
+      `INSERT INTO character_inventory (character_id, item_id, qty, condition, equipped)
+       VALUES ($1, $2, $3, 3, false)
+       ON CONFLICT (character_id, item_id)
+       DO UPDATE SET qty = character_inventory.qty + $3`,
+      [characterId, itemId, grant.qty]
+    );
+  }
 
   // One decrement per meal eaten. The same row can be eaten twice in a day.
   const consumed = Array.isArray(foodItemIds) && foodItemIds.length > 0

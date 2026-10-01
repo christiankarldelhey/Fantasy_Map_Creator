@@ -291,8 +291,7 @@ async function sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, dat
     }
 
     const stampDate = nextDay ? addDaysISO(dateISO, 1) : dateISO;
-    const [, month, day] = stampDate.split('-');
-    const timestamp = `1950-${month}-${day} ${hour.toString().padStart(2, '0')}:00:00`;
+    const timestamp = `${stamp1950(stampDate)} ${hour.toString().padStart(2, '0')}:00:00`;
     const climate = await climateAtPoint(point[0], point[1], timestamp);
 
     climateData.push({
@@ -325,8 +324,7 @@ async function sampleNighttimeClimate(segments, dayEndSeconds, dateISO, moonPhas
 
   for (const { hour, nextDay } of specs) {
     const stampDate = nextDay ? addDaysISO(dateISO, 1) : dateISO;
-    const [, month, day] = stampDate.split('-');
-    const timestamp = `1950-${month}-${day} ${hour.toString().padStart(2, '0')}:00:00`;
+    const timestamp = `${stamp1950(stampDate)} ${hour.toString().padStart(2, '0')}:00:00`;
     const climate = await climateAtPoint(campPoint[0], campPoint[1], timestamp);
 
     climateData.push({
@@ -352,8 +350,16 @@ function addDaysISO(startDateISO, days) {
 
 function noonTimestamp1950(dateISO) {
   // dateISO is YYYY-MM-DD; map to 1950 noon for the climate dataset
+  return `${stamp1950(dateISO)} 12:00:00`;
+}
+
+// The world clock runs on its own calendar (C30) but the climate dataset
+// only covers 1950 — any in-world date samples the same month/day of
+// 1950. Feb 29 has no 1950 twin: a leap-day journey reads Feb 28's sky.
+export function stamp1950(dateISO) {
   const [, month, day] = dateISO.split('-');
-  return `1950-${month}-${day} 12:00:00`;
+  const safeDay = month === '02' && day === '29' ? '28' : day;
+  return `1950-${month}-${safeDay}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -653,6 +659,22 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     encounters.push({ ...e, interaction });
   }
 
+  // C27: encounter gifts — rows may carry `commands`, unconditional effects
+  // the world applies outright (a shared meal, a refilled skin, a bundle of
+  // arrows). No decision: the stance already says what was given; the host
+  // makes it true. Encounters that carry a `decision` instead route their
+  // effects through the decide rail — never both.
+  const dayCommands = [];
+  for (const e of encounters) {
+    if (e.interaction?.decision) continue;
+    const cmds = e.interaction?.dialogue_content?.commands;
+    if (Array.isArray(cmds)) {
+      for (const c of cmds) {
+        if (c && typeof c === 'object') dayCommands.push({ ...c, hour_float: e.hour_float ?? null });
+      }
+    }
+  }
+
   // --- Road type breakdown (km) ---
   const roadTypes = {};
   for (const [type, meters] of Object.entries(leg.roadTypeBreakdown)) {
@@ -806,6 +828,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     water_sources: waterSources,
     overnight_location: overnightLocation,
     overnight_interaction: overnightInteraction,
+    commands: dayCommands,
     elevation_profile: elevationProfile || null,
     rng,
   };

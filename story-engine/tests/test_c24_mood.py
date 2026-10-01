@@ -103,6 +103,17 @@ def test_yesterday_recap_yields_to_todays_stirring(client):
     session.commit()  # the endpoint reads from its own session
     session.close()
 
+    # C29: the brain's clock counts LIVED episodes — a seeded 'episode 1'
+    # memory only reads as yesterday if the mind actually lived a first
+    # episode. Open it with a reading-less body event: nothing to tag,
+    # nothing to evoke (a named place would semantically stir the wolf
+    # memory and set off the refractory quiet).
+    _open(client, char, 1, [{
+        'type': 'body',
+        'when': {'episode': 1, 'date': '1950-04-01'},
+        'data': {'energy': 0.8, 'wounded': 'none'},
+    }])
+
     packet = _open(client, char, 2, [{
         'type': 'encounter',
         'when': {'episode': 2, 'date': '1950-04-02', 'phase': 'afternoon'},

@@ -16,6 +16,7 @@
 # memory, unevoked. On a day that touches nothing, nothing stirs.
 # ============================================================================
 import math
+from datetime import date, datetime
 
 from app.mind.embeddings import cosine, embed, ensure_embedding, episode_embedding
 from app.mind.provisioning import DEFAULT_WIRING
@@ -81,6 +82,7 @@ def retrieve(session, brain, episode, perceived_day):
     Called once, at episode creation — re-open replays stored annotations."""
     w = {**DEFAULT_WIRING, **(brain.wiring or {})}
     idx = episode_index_of(episode)
+    ep_date = episode_date_of(episode)
 
     beliefs = (
         session.query(Belief)
@@ -154,8 +156,12 @@ def retrieve(session, brain, episode, perceived_day):
             continue
         # C23: recency ages from when the event HAPPENED, never from
         # when it was last recalled — evoking the fox does not make
-        # the fox newer; it only strengthens the trace.
-        delta = max(0, (idx or 0) - (mem.created_episode or 0))
+        # the fox newer; it only strengthens the trace. C30: the delta
+        # is calendar days — a month of rest between journeys reads as
+        # a month.
+        delta = memory_age_days(episode, mem)
+        if delta is None:
+            delta = 0
         recency = math.exp(-lam * delta)
         score = (
             alpha * recency
@@ -181,6 +187,8 @@ def retrieve(session, brain, episode, perceived_day):
         mem.evocations = (mem.evocations or 0) + 1
         if idx is not None:
             mem.last_evoked_episode = idx
+        if ep_date is not None:
+            mem.last_evoked_date = ep_date
         mem.strength = min(1.0, (mem.strength or 0.0) + boost)
         evoked.append(mem)
     return evoked
@@ -237,7 +245,57 @@ def dialogue_recall(session, brain, item, idx, exclude_ids=()):
     return best
 
 
+def _as_date(v):
+    """'1950-06-21' (or '1950-06-21 13:00:00') → date; else None."""
+    if isinstance(v, datetime):
+        return v.date()
+    if isinstance(v, date):
+        return v
+    if isinstance(v, str):
+        try:
+            return date.fromisoformat(v[:10])
+        except ValueError:
+            return None
+    return None
+
+
+def episode_date_of(episode):
+    """The in-world date the episode was lived (C30): the stored
+    episode_date column, else derived from the events' when.date.
+    episode_idx counts lived days for mechanics; this measures
+    narrative age — the calendar distance to 'now'."""
+    d = getattr(episode, 'episode_date', None)
+    if d is not None:
+        return d
+    dates = [
+        _as_date((e.get('when') or {}).get('date'))
+        for e in (episode.events or [])
+    ]
+    dates = [d for d in dates if d]
+    return max(dates) if dates else None
+
+
+def memory_age_days(episode, mem):
+    """How long ago this memory happened, in calendar days (C30):
+    episode_date − created_date. Falls back to lived-episode distance
+    for rows that predate the calendar columns."""
+    ep_date = episode_date_of(episode)
+    if ep_date is not None and getattr(mem, 'created_date', None):
+        return max(0, (ep_date - mem.created_date).days)
+    idx = episode_index_of(episode)
+    if idx is None or getattr(mem, 'created_episode', None) is None:
+        return None
+    return max(0, idx - mem.created_episode)
+
+
 def episode_index_of(episode):
+    """The mind's own clock (C29): episode.episode_idx — a per-brain
+    monotonic counter assigned at open. The host's when.episode (a
+    trip's day_number) only remains as the legacy fallback for rows
+    that predate the column."""
+    idx = getattr(episode, 'episode_idx', None)
+    if isinstance(idx, int) and not isinstance(idx, bool):
+        return idx
     nums = [
         (e.get('when') or {}).get('episode')
         for e in (episode.events or [])

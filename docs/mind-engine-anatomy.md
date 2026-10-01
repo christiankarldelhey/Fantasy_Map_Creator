@@ -1031,6 +1031,161 @@ Aranath) queda — `reset` (C19) o reseed la limpia.
 
 ---
 
+### C26 · La prosa tiene dueño: `entity_ids` y el carril genérico
+
+**🔧 Técnica** — El bug del capítulo 1: las filas "genéricas" de
+`npc_interactions` (`entity_id IS NULL`) matcheaban por `entity_type`
+pelado — una fila escrita para las Águilas caía sobre los patos
+(Waterfowl), y la del cobertizo de piedra caía sobre Fisheries, Apiaries
+y Sheep Pastures por igual. Tres memorias idénticas de "the beam left
+notched" por tres entidades distintas. La corrección es de datos:
+
+- **`entity_ids uuid[]`** (migración `npc_interactions_entity_ids_c26.sql`):
+  whitelist explícita — la fila describe solo a esas entidades. El lookup
+  por entidad acepta `entity_id = X OR entity_ids @> X` e ignora
+  `entity_type` (la fila del jabalí vive bajo `herbivores` y sirve a
+  `Boars` en `other_animals`). Los lookups por `entity_type` y `topic`
+  exigen `entity_id IS NULL AND entity_ids IS NULL` — la prosa concreta
+  ya no puede filtrarse a un tipo.
+- **Auditoría + cobertura**: 26 filas específicas disfrazadas recibieron
+  whitelist (águilas, halcones, ciervos, ruinas, asentamientos); 10 filas
+  genéricas nuevas (banda `low`, cubren todo por relajación) describen la
+  FORMA del contacto sin inventar el sujeto — la entidad pone el nombre.
+- **Regla authored**: una fila genérica nunca nombra un animal, lugar u
+  objeto concreto; si lo nombra, lleva whitelist. Script de verificación:
+  `backend/scripts/c26_verify.mjs`.
+
+---
+
+### C27 · El mundo da lo que el texto dice: `commands`
+
+**🔧 Técnica** — La hermana gratuita del riel de decisiones: las filas
+`aid_or_trade` decían "Eats. Goes out at dawn", "Takes the provisions",
+"Takes the healing" — y la mecánica nunca lo ejecutó. Celebrian
+acumuló memorias de "hot water and new bread" mientras moría de hambre.
+C25 introdujo `options` (elección → decisión); C27 introduce `commands`
+(columna JSONB): efectos **incondicionales** que el encuentro aplica sin
+preguntar — un don no necesita decisión.
+
+- **Vocabulario**: `meal` (comida provista en slot, con nombre authored
+  — "the farm wife's soup" entra a memoria tal cual), `water_refill`,
+  `item` (slug+qty al inventario: flechas, raciones), `coins` (delta
+  firmado — un regalo puede pagar la cama de la noche), `heal` (baja
+  `wounded` un tier).
+- **Flujo**: `resolveEncounter` trae `dialogue_content.commands`
+  gratis (SELECT *); `generateDay` los colecciona en `day.commands`
+  saltando encuentros con `decision` (la opción elegida gobierna ahí);
+  `resolveDayState` los consume ANTES de computar comidas/agua/lodging —
+  un `coins` regalado puede pagar el lodging de esa misma noche;
+  `applyInventoryChanges` persiste los `grants` como filas reales.
+- **Stances honestos**: las filas que reclamaban dormir en encuentro
+  diurno ("Sleeps in the outbuilding. Leaves early.") fueron
+  reescritas al alcance del día — el techo de la noche solo existe en
+  `before_sleep`. Migración `npc_interactions_commands_c27.sql` (18 filas
+  con commands, 10 stances corregidos).
+
+**🚫 No hace** — No convierte las ofertas con costo en automáticas:
+"pays the asked price", "trades the salt" siguen siendo clase 2 — para
+ellas hay que autorar `options` con la opción pagada y la opción gratis.
+No crea mecánica de siesta diurna ni de monturas: el stance del caballo
+elfico fue reescrito a "lo que lleven para el camino". Y no le quita la
+voz a la mente: el cerebro sigue registrando el encuentro con su
+actitud — aceptar la sopa no es decisión, es el mundo siendo generoso.
+
+---
+
+### C28 · Lo que tocó la mecánica pesa más: `tag:given` / `tag:decision` / `tag:changed`
+
+**🔧 Técnica** — Si el mundo te tocó de verdad, lo recordás más: una sopa
+que cerró el hambre no puede pesar lo mismo que una bandada que pasó. El
+host declara el hecho en `data.tags` (weight-space); la mente lo convierte
+en salience por los pisos `salience_min.tag:*` — todo tunable por brain
+(un degradado puede tener el canal en 0 y que el don le resbale).
+
+- **El host marca** (`toEvents`): encuentro con `dialogue_content.commands`
+  → `given`; encuentro con `decision` → `decision`; outcome
+  `wounded`/`badly wounded` → `changed`; comida `provided` → `given`.
+- **La mente pesa**: `salience_min.tag:given: 0.6`,
+  `salience_min.tag:decision: 0.5`, `salience_min.tag:changed: 0.65` —
+  escalonados para que la oferta rechazada registre menos que la cama
+  tomada. `affect.tag:given: +0.25` — un don no pedido se siente como
+  bondad. Los tres tags van en `repetition_exempt_tags`: son meta-signal,
+  no contenido — un día sin regalo es ordinario, no un "no given today".
+- **El decide marca lo que aplicó** (`_mark_changed`): cuando la opción
+  elegida trae `commands`, los items que tocó (el encuentro, el `rest`
+  reescrito por shelter) ganan `tag:changed` y suben a su piso — la
+  memoria que se consolida es de la noche que ocurrió, no de la oferta.
+  Elegir `move_on` (commands vacíos) no marca nada: la oferta sigue
+  siendo recuerdo, pero nunca miente que el cuerpo cambió.
+
+**🚫 No hace** — No convierte en importante toda interacción: una fila sin
+commands ni decisión sigue pesando por su `form`/`entity_type` como
+siempre. Y no confunde el marcador con el efecto: `tag:changed` lo pone
+la aplicación real (host o /decide), no la presencia de comandos en el
+texto — una fila authored con commands que nunca llegó al día no levanta
+el recuerdo.
+
+---
+
+### C29 · La mente lleva su propio reloj: `episodes.episode_idx`
+
+**🔧 Técnica** — Bug #3 del capítulo 1: la edad de las memorias se anclaba
+en `when.episode` — el `day_number` del viaje, que **reinicia cada viaje**.
+El día 2 de un viaje nuevo colisionaba con las memorias del día 2 del
+viaje anterior: `delta = 0` → recency 1.0 → una memoria de hace semanas
+evocaba como si fuera de hoy, sin el prefijo "Yesterday —", y la ventana
+refractory (`last_evoked_episode`) calculaba distancias falsas.
+
+- **`episode_idx integer`** en `mind.episodes`: contador monotónico por
+  cerebro, asignado en open como `max(prev) + 1`. Migración
+  `episodes_brain_clock_c29.sql` con backfill por `created_at` — el orden
+  en que se vivieron, no el número de día del viaje.
+- `episode_index()`/`episode_index_of()` leen `episode_idx` primero;
+  `when.episode` queda solo como fallback para filas legacy. Todos los
+  anclajes heredan el reloj nuevo sin tocar nada más: `created_episode`,
+  `last_evoked_episode`, `opened_episode`/`due_episode` de needs,
+  `formed_episode`/`updated_episode` de beliefs, la ventana de patrones
+  en `detect_patterns`, el decay `_exempt_this_episode`, y el age-phrase
+  del lens ("Yesterday —", "N days ago —").
+- `GET /episodes/{id}` expone `episode_idx` para auditoría.
+- Semántica honesta: si el personaje no vivió episodios entre viajes, el
+  primer día del viaje nuevo ES "ayer" respecto del último del viejo —
+  la mente solo mide lo que vivió.
+
+---
+
+### C30 · El reloj del mundo: `users.world_date` + la mente envejece por fecha
+
+**🔧 Técnica** — El reloj de episodios (C29) arregla la mecánica pero no
+la narrativa: un personaje que descansó un mes en Bree entre viajes veía
+sus memorias del último día jugado como "Yesterday —" — el descanso era
+invisible porque la mente solo medía episodios vividos. La fuente de
+verdad del tiempo es la **fecha del mundo**, una por jugador.
+
+- **`users.world_date date`** (default `1950-06-21`, ancla del dataset
+  climático): la fecha en la que "está" el jugador. Migración
+  `world_clock_c30.sql` con backfill desde el `MAX(trip_days.date)` de
+  los viajes del user (vía `character_state.owner_user_id`).
+- **`trips.js`**: `POST /trips` usa `world_date` como `start_date`
+  default (un `start_date` explícito sigue ganando); al persistir cada
+  `trip_day`, `world_date = GREATEST(world_date, day.date)` — el reloj
+  nunca retrocede ante un replay o un día fuera de orden.
+- **Clima**: el dataset cubre solo 1950; `stamp1950()` mapea month+day
+  de cualquier año in-world al 1950 equivalente, con Feb 29 → Feb 28.
+- **La mente**: `episodes.episode_date` + `memories.created_date` +
+  `memories.last_evoked_date` (backfill desde `when.date` de los
+  eventos). `memory_age_days()` devuelve distancia de calendario; el
+  recency de retrieval, los age-phrases del lens y el recap "Yesterday —
+  as they remember it" se calculan en días in-world. `episode_idx` queda
+  para la mecánica: refractory, dedup, patrones, needs, beliefs.
+- Fallback honesto: episodio o memoria sin fecha → reloj de episodios;
+  el recap resuelve memorias legacy (sin `created_date`) a través del
+  `episode_date` del episodio que las codificó.
+- Semántica emergente: el tiempo que pasa **sin jugar** también envejece
+  la mente — un mes de descanso entre viajes lee "A long while ago".
+
+---
+
 ## El mapa completo, en una pasada
 
 ```

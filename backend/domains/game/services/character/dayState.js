@@ -29,7 +29,7 @@ import {
   WOUND_COSTS,
   TUNING,
 } from './characterState.js';
-import { resolveConditions } from './conditions.js';
+import { resolveConditions, WOUND_ORDER } from './conditions.js';
 
 // ---------------------------------------------------------------------------
 // Wound costs from encounter outcomes
@@ -136,7 +136,30 @@ export function resolveDayState({
 
   const daysWithoutFood = startState?.days_without_food ?? 0;
   const daysWithoutWater = startState?.days_without_water ?? 0;
-  const coins = startState?.coins ?? TUNING.STARTING_COINS;
+
+  // C27: encounter gifts (day.commands) — unconditional effects the world
+  // applies outright: a shared meal, a refilled skin, a bundle of arrows,
+  // a handful of coins, a wound tended. The stance said it; the host makes
+  // it true. A gifted coin lands BEFORE lodging resolves, so a stranger's
+  // generosity can pay for tonight's bed.
+  const dayCommands = (day.commands || []).filter((c) => c && typeof c === 'object');
+  const giftCoins = dayCommands
+    .filter((c) => c.type === 'coins' && Number.isFinite(c.amount))
+    .reduce((sum, c) => sum + c.amount, 0);
+  const waterRefill = dayCommands.some((c) => c.type === 'water_refill');
+  const providedMeals = dayCommands
+    .filter((c) => c.type === 'meal')
+    .map((c) => ({
+      slot: c.slot ?? ((c.hour_float ?? 12) < 15 ? 'midday' : 'evening'),
+      food: c.food ?? null,
+      drink: c.drink ?? null,
+      slug: c.slug ?? null,
+    }));
+  const grants = dayCommands
+    .filter((c) => c.type === 'item' && c.slug && Number.isFinite(c.qty) && c.qty > 0)
+    .map((c) => ({ slug: c.slug, qty: c.qty }));
+  const healed = dayCommands.some((c) => c.type === 'heal');
+  const coins = Math.max(0, (startState?.coins ?? TUNING.STARTING_COINS) + giftCoins);
 
   // A shelter decision taken at dusk (B5): the encounter's offer became
   // the night's roof. day.overnight_* already carry the shelter's rest —
@@ -172,9 +195,9 @@ export function resolveDayState({
     daysWithoutWater,
   });
 
-  // Paid lodging — or a shelter that offers its spring — feeds and
-  // waters the traveller: the flask is topped up too.
-  if (lodging.paid || shelterChoice?.water) {
+  // Paid lodging — a shelter that offers its spring — or a stranger who
+  // draws water for the traveller: the flask is topped up either way.
+  if (lodging.paid || shelterChoice?.water || waterRefill) {
     water = { drank: computeWaterNeed(meanTemperature), waterAfter: effects.waterCapacity, newDaysWithoutWater: 0, refilled: true, frozen: flaskFrozen };
   }
 
@@ -186,6 +209,7 @@ export function resolveDayState({
     waterDrunk: water.drank,
     tavernMeal: lodging.paid || !!shelterChoice?.meal,
     mealSlug: shelterChoice?.meal_slug ?? null,
+    providedMeals,
   });
 
   const effectiveOvernightLocation = lodging.turnedAway
@@ -261,6 +285,13 @@ export function resolveDayState({
     restQuality: effectiveRestQuality,
   });
 
+  // C27: a healer's gift steps the wound down a tier on the spot — the
+  // encounter says the hands were laid on; the body keeps that truth.
+  if (healed && conditions.wounded !== 'none') {
+    const idx = WOUND_ORDER.indexOf(conditions.wounded);
+    if (idx > 0) conditions.wounded = WOUND_ORDER[idx - 1];
+  }
+
   const notableItems = (inventoryRows || [])
     .filter((r) => r.rarity === 'rare' || r.slug === 'lorien_elven_cloak')
     .map((r) => r.prose_singular);
@@ -285,5 +316,6 @@ export function resolveDayState({
     notableItems,
     water,
     flaskFrozen,
+    grants,
   };
 }

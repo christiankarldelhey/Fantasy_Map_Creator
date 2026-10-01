@@ -93,24 +93,22 @@ def update_brain_mood(session, game_id, brain, ep_mood):
 LENS_NEED_TOP = 3
 
 
-def _age_phrase(mem, episode_idx):
+def _age_phrase(mem, age_days):
     """How long ago the memory happened — the lens marks the past as past
     (C20): 'yesterday — the ranger asked...' reads as recollection, not
-    as today's events. Anchored on when it was lived (created_episode)."""
-    if episode_idx is None or mem.created_episode is None:
+    as today's events. C30: the delta is calendar days — a month of rest
+    between journeys reads 'a long while ago', never 'yesterday'."""
+    if age_days is None or age_days <= 0:
         return ''
-    delta = episode_idx - mem.created_episode
-    if delta <= 0:
-        return ''
-    if delta == 1:
+    if age_days == 1:
         return 'Yesterday — '
-    if delta < 14:
-        return f'{delta} days ago — '
+    if age_days < 14:
+        return f'{age_days} days ago — '
     return 'A long while ago — '
 
 
 def render_lens(character_name, mood, beliefs, evoked_memories, needs=None,
-                perceived_day=None, episode_idx=None, anchors=None,
+                perceived_day=None, age_of=None, anchors=None,
                 inline_ids=None, yesterday=None):
     """The mind's current state as it lands inside NARRATOR'S LENS (C17 —
     no standalone 'THE MIND OF' block): mood, loudest beliefs, what stirs
@@ -155,7 +153,7 @@ def render_lens(character_name, mood, beliefs, evoked_memories, needs=None,
         mem_id = getattr(m, 'id', None)
         if inline_ids and mem_id in inline_ids:
             continue  # renders inline at its anchor, not in this list
-        age = _age_phrase(m, episode_idx)
+        age = _age_phrase(m, age_of(m) if age_of else None)
         anchor = (anchors or {}).get(mem_id)
         anchor_note = f' — the {anchor} calls it back' if anchor else ''
         add_stir(

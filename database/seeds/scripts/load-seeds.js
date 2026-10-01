@@ -91,6 +91,16 @@ function nullIfEmpty(v) {
   return (v === null || v === undefined || v === '' || v === '""') ? null : v;
 }
 
+// uuid[] whitelist — CSV holds a Postgres array literal "{a,b,c}" or
+// semicolon-separated ids; empty stays NULL (= type-generic row).
+function parseUuidList(v) {
+  const s = nullIfEmpty(v);
+  if (!s) return null;
+  const inner = s.startsWith('{') && s.endsWith('}') ? s.slice(1, -1) : s;
+  const ids = inner.split(/[;,]/).map((x) => x.trim()).filter(Boolean);
+  return ids.length ? `{${ids.join(',')}}` : null;
+}
+
 // ---------------------------------------------------------------------------
 // Seed: kingdoms
 // ---------------------------------------------------------------------------
@@ -159,8 +169,8 @@ async function seedNpcInteractions() {
     await pool.query(
       `INSERT INTO npc_interactions (id, entity_id, entity_type, interaction_form, shadow_band,
          character_id, cultural_family, region_id, npc_attitude, concrete_content,
-         tension, traveller_stance, topic, topic_prose_hint, options)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15::jsonb)
+         tension, traveller_stance, topic, topic_prose_hint, options, entity_ids, commands)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15::jsonb, $16::uuid[], $17::jsonb)
        ON CONFLICT (id) DO UPDATE SET
          entity_id        = EXCLUDED.entity_id,
          entity_type      = EXCLUDED.entity_type,
@@ -175,7 +185,9 @@ async function seedNpcInteractions() {
          traveller_stance = EXCLUDED.traveller_stance,
          topic            = EXCLUDED.topic,
          topic_prose_hint = EXCLUDED.topic_prose_hint,
-         options          = EXCLUDED.options`,
+         options          = EXCLUDED.options,
+         entity_ids       = EXCLUDED.entity_ids,
+         commands         = EXCLUDED.commands`,
       [
         nullIfEmpty(r.id),
         nullIfEmpty(r.entity_id),
@@ -192,6 +204,8 @@ async function seedNpcInteractions() {
         nullIfEmpty(r.topic),
         nullIfEmpty(r.topic_prose_hint),
         nullIfEmpty(r.options),
+        parseUuidList(r.entity_ids),
+        nullIfEmpty(r.commands),
       ]
     );
   }

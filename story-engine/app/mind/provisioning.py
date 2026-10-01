@@ -136,8 +136,13 @@ DEFAULT_WIRING = {
     'repetition_relief_salience': 0.45,
     # Base routine never grates: 'tag:drink:*' is hydration, not
     # monotony (its absence is the thirst need's job), 'tag:form:*' is
-    # how contact happened, not content that repeats.
-    'repetition_exempt_tags': ['tag:drink:*', 'tag:form:*'],
+    # how contact happened, not content that repeats. The C28 weight
+    # markers are meta-signal, not content — a day without a gift is
+    # ordinary, not a pattern break worth a 'no given today' reading.
+    'repetition_exempt_tags': [
+        'tag:drink:*', 'tag:form:*',
+        'tag:given', 'tag:changed', 'tag:decision',
+    ],
     # Reflection (B4) — the mind's only LLM call, at close: every N
     # episodes or on a salience spike. Reconciliation deltas, active cap
     # and the decay of unreinforced beliefs.
@@ -185,6 +190,9 @@ DEFAULT_WIRING = {
     'affect.tag:outcome:wounded': -0.5,
     'affect.tag:outcome:badly wounded': -0.7,
     'affect.tag:outcome:unscathed': 0.1,
+    # C28: an unsolicited gift is felt as kindness — the farm wife's soup
+    # warms the day it landed in, not just the ledger.
+    'affect.tag:given': 0.25,
     'affect.tag:weather:freezing': -0.15,
     'affect.tag:weather:storm': -0.3,
     'affect.tag:weather:snow': -0.1,
@@ -233,6 +241,14 @@ DEFAULT_WIRING = {
     'salience_min.tag:entity_type:maiar': 0.5,
     'salience_min.tag:entity_type:living_trees': 0.4,
     'salience_min.tag:entity_type:pukel_constructs': 0.35,
+    # C28: what touched the mechanics outranks ambience. 'given' — the
+    # world handed something (authored commands, a provided meal);
+    # 'decision' — a fork stood in the day; 'changed' — a decided option
+    # applied. Tiers so an offer declined still registers under the day
+    # that took the bed. A dull brain may lower the whole channel.
+    'salience_min.tag:given': 0.6,
+    'salience_min.tag:decision': 0.5,
+    'salience_min.tag:changed': 0.65,
     # Retention (C16) — nothing is immortal, but intensity sticks:
     # a memory of strong feeling or real importance decays at the
     # sticky rate; consolidation by recall needs an importance floor
