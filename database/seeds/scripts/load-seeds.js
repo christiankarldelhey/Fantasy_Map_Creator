@@ -159,8 +159,8 @@ async function seedNpcInteractions() {
     await pool.query(
       `INSERT INTO npc_interactions (id, entity_id, entity_type, interaction_form, shadow_band,
          character_id, cultural_family, region_id, npc_attitude, concrete_content,
-         tension, traveller_stance, topic, topic_prose_hint)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+         tension, traveller_stance, topic, topic_prose_hint, options)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15::jsonb)
        ON CONFLICT (id) DO UPDATE SET
          entity_id        = EXCLUDED.entity_id,
          entity_type      = EXCLUDED.entity_type,
@@ -174,7 +174,8 @@ async function seedNpcInteractions() {
          tension          = EXCLUDED.tension,
          traveller_stance = EXCLUDED.traveller_stance,
          topic            = EXCLUDED.topic,
-         topic_prose_hint = EXCLUDED.topic_prose_hint`,
+         topic_prose_hint = EXCLUDED.topic_prose_hint,
+         options          = EXCLUDED.options`,
       [
         nullIfEmpty(r.id),
         nullIfEmpty(r.entity_id),
@@ -190,6 +191,7 @@ async function seedNpcInteractions() {
         nullIfEmpty(r.traveller_stance),
         nullIfEmpty(r.topic),
         nullIfEmpty(r.topic_prose_hint),
+        nullIfEmpty(r.options),
       ]
     );
   }

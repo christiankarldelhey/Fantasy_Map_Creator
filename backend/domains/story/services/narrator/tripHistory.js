@@ -21,7 +21,9 @@ const RECENT_FORMS_CHAPTERS = 3;
 
 /**
  * Yesterday's facts for continuity, RAW (C13): names only, no sentence.
- * The story-engine renders the 'In Chapter N…' line through its NL pack.
+ * The story-engine renders the 'In Chapter N…' line through its NL pack —
+ * only on the stateless /narrate-day path; mind-driven episodes recap
+ * yesterday inside the lens from retained memories instead (C22).
  * @param {number} tripId
  * @param {number} dayNumber - the day being narrated
  * @returns {Promise<{day_number:number, regions:string[], locations:string[], encounters:string[]}|null>}

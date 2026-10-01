@@ -32,10 +32,25 @@ DEFAULT_WIRING = {
     'retrieval_top_k': 5,
     'retrieval_boost': 0.1,
     'retrieval_min_score': 0.5,
+    # C20 contact gate: a memory evokes only if it shares a tag with
+    # today's perceived items OR its embedding cosine clears this floor.
+    # Bucket-embedder cosine: unrelated pairs sit ~0.2-0.3, genuine
+    # resonance ≥0.45 — at 0.3 the semantic door let memories in on
+    # 'vibe' alone and they arrived in the lens with nothing to say.
+    'retrieval_semantic_min': 0.45,
     # A memory that barely registered at encoding is never what a new
     # day stirs up — otherwise the daily bread out-recalls a warg
     # attack (C16).
     'retrieval_importance_min': 0.15,
+    # C23 refractory: a memory evoked within this many episodes sits
+    # quiet — dwelling must not re-summon itself. Recency also ages from
+    # when the event happened, never from when it was last recalled.
+    'refractory_episodes': 1,
+    # C23: a spoken encounter probes memory on its own terms — the
+    # question's text embeds against the corpus and the best hit may
+    # inform the answer. Below retrieval_semantic_min because the probe
+    # is one sentence, not the whole day.
+    'dialogue_recall_min': 0.4,
     'evocations_to_fix': 3,
     # Gates & rolls (B1) — see app/mind/checks.py. Per-skill gate floors may
     # override via 'gate_min.<skill>'; below the floor there is no roll.

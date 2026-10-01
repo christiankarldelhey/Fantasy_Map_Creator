@@ -25,6 +25,32 @@ function countEvilEncounters(encounters) {
   ).length;
 }
 
+/**
+ * Apply a chosen `overnight_shelter` command (B5): the dusk offer the
+ * traveller accepted becomes the night's roof. Mutates the day's
+ * overnight fields so resolveDayState, the persisted trip_days row and
+ * any downstream consumer all see the night that actually happened.
+ * The command's remaining fields (lodging_cost, meal, water) ride on
+ * day.shelter_choice for resolveDayState's lodging/food paths.
+ */
+export function applyShelterChoice(day, shelter) {
+  day.shelter_choice = shelter;
+  day.overnight_location = {
+    ...(day.overnight_location || {}),
+    name: shelter.name ?? day.overnight_location?.name ?? null,
+    type: 'shelter',
+    indoor: !!shelter.indoor,
+  };
+  day.overnight_interaction = {
+    ...(day.overnight_interaction || {}),
+    title: shelter.name ?? null,
+    description: shelter.description ?? day.overnight_interaction?.description ?? null,
+    rest_quality: shelter.rest_quality ?? day.overnight_interaction?.rest_quality ?? null,
+    shadow_effect: shelter.shadow_effect ?? day.overnight_interaction?.shadow_effect ?? 0,
+    scope: 'encounter_shelter',
+  };
+}
+
 // ============================================================================
 // Trip Day generator
 // ----------------------------------------------------------------------------
@@ -620,6 +646,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
         characterSlug,
         culturalFamily: encounterCulturalFamily,
         regionId: encounterRegionId,
+        nightTiming: e.night_timing ?? null,
       }
     );
     chapterForms.push(interaction.form);

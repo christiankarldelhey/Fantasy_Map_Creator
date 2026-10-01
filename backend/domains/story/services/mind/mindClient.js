@@ -12,6 +12,7 @@ const GAME_ID = process.env.GAME_ID || 'middle_earth';
 const OPEN_TIMEOUT_MS = 8000;
 const NARRATE_TIMEOUT_MS = 90000; // wraps a real LLM call
 const CLOSE_TIMEOUT_MS = 5000;
+const DECIDE_TIMEOUT_MS = 5000;
 
 async function post(path, body, timeoutMs) {
   const response = await fetch(`${STORY_ENGINE_URL}${path}`, {
@@ -43,6 +44,19 @@ export async function openEpisode(body) {
  */
 export function narrateEpisode(episodeId, language) {
   return post(`/episodes/${episodeId}/narrate`, { language }, NARRATE_TIMEOUT_MS);
+}
+
+/**
+ * Record the host's pick for a pending decision (B5). Returns the
+ * episode state including `proposed_commands` — the host validates and
+ * applies them; the mind never executes mechanics.
+ */
+export function decideEpisode(episodeId, { optionId, decisionId = null }) {
+  return post(
+    `/episodes/${episodeId}/decide`,
+    { option_id: optionId, decision_id: decisionId },
+    DECIDE_TIMEOUT_MS
+  );
 }
 
 /**

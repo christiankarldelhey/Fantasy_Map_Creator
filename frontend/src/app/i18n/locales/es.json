@@ -82,7 +82,8 @@
     "goToWander": "Ir al modo viaje",
     "dateAndTime": "Fecha y hora",
     "deleteAccount": "Eliminar cuenta",
-    "language": "Idioma"
+    "language": "Idioma",
+    "admin": "Administración"
   },
   "options": {
     "deleteTitle": "¿Eliminar tu cuenta?",

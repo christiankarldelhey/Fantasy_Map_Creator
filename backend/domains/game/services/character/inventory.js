@@ -279,19 +279,23 @@ function mealEnergyOf(row) {
  * @param {boolean} p.tavernMeal - lodging was paid, so meals come from the inn
  * @returns {{ meals:Array, consumed:boolean, itemIds:number[], energyBonus:number, newDaysWithoutFood:number, rationsAfter:number }}
  */
-export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [], waterDrunk = 0, tavernMeal = false } = {}) {
+export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [], waterDrunk = 0, tavernMeal = false, mealSlug = null } = {}) {
   const slots = ['midday', 'evening'].slice(0, TUNING.MEALS_PER_DAY);
   const waterPerMeal = slots.length > 0 ? waterDrunk / slots.length : 0;
 
   if (tavernMeal) {
     // Canonical slugs, not prose (C13): the story-engine NL pack owns
-    // the display names via meal.name.<slug>.
+    // the display names via meal.name.<slug>. mealSlug overrides the
+    // board for meals a shelter offers that are not inn fare (a
+    // farmstead's shared pot).
+    const slug = mealSlug || 'tavern_meal';
     const meals = slots.map((slot) => ({
       slot,
       itemId: null,
-      slug: 'tavern_meal',
-      food: 'tavern_meal',
-      drink: 'tavern_ale',
+      slug,
+      provided: true,
+      food: slug,
+      drink: mealSlug ? 'waterskin' : 'tavern_ale',
       waterLitres: waterPerMeal,
       energyBonus: TUNING.MEAL_ENERGY_BONUS / slots.length,
     }));
@@ -423,6 +427,38 @@ export function resolveLodging({ overnightLocation, overnightInteraction, coins,
     recoveryOverride: null,
     sheltered: false,
     turnedAway: true,
+  };
+}
+
+/**
+ * A chosen shelter offer (B5 `overnight_shelter` command): the stay is
+ * already accepted, so the only question is whether the coin was paid.
+ * Paid → inn-grade recovery and board; unpaid or free → the row's
+ * authored rest quality, sheltered regardless.
+ */
+export function resolveShelterLodging({ shelter, coins, currentEnergy }) {
+  const cost = Number.isFinite(shelter?.lodging_cost) ? shelter.lodging_cost : 0;
+  const paid = cost > 0 && Number.isFinite(coins) && coins >= cost;
+  if (paid) {
+    const missing = 100 - (Number.isFinite(currentEnergy) ? currentEnergy : 0);
+    return {
+      paid: true,
+      cost,
+      coinsAfter: coins - cost,
+      restQuality: null,
+      recoveryOverride: Math.round(missing * TUNING.LODGING_RECOVERY_FRACTION),
+      sheltered: true,
+      turnedAway: false,
+    };
+  }
+  return {
+    paid: false,
+    cost: 0,
+    coinsAfter: coins,
+    restQuality: shelter?.rest_quality ?? null,
+    recoveryOverride: null,
+    sheltered: true,
+    turnedAway: false,
   };
 }
 

@@ -67,8 +67,11 @@ def derive_tags(event):
         # Free prose (description, prose_hint) is words, not a tag space.
         # 'slot' already travels as when.phase — a 'midday again'
         # streak is bookkeeping noise, not a lived repetition.
+        # 'scope' is resolution bookkeeping (which places_interactions
+        # row served the night) — 'scope:family' streaks once turned into
+        # 'no family today' readings about a family that never existed.
         if key in ('entity', 'entity_id', 'entity_name', 'check',
-                   'thread_desc', 'resolves', 'urgency',
+                   'thread_desc', 'resolves', 'urgency', 'scope',
                    'description', 'prose_hint', 'slot', 'substance'):
             continue
         if key == 'tags':

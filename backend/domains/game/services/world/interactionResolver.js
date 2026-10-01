@@ -18,6 +18,9 @@
 //   outcome:        string | null,
 //   dialogue_content: { topic, topic_prose_hint, npc_attitude, concrete_content,
 //                       tension, traveller_stance } | null,
+//   decision:         { id, prompt, options } | null,  // B5: only for
+//                     // before_sleep encounters on rows that author options —
+//                     // the mind weighs, the host applies.
 // }
 // ============================================================================
 
@@ -337,7 +340,7 @@ export async function resolveEncounter(
 ) {
   const entityType = entity?.type;
   const danger = typeof entity?.danger === 'number' ? entity.danger : 0;
-  const { shadowBand: sBand, characterSlug, culturalFamily, regionId } = options;
+  const { shadowBand: sBand, characterSlug, culturalFamily, regionId, nightTiming } = options;
 
   // Load all interaction rows for this entity type
   const rows = entityType ? await fetchInteractions(entityType) : [];
@@ -430,10 +433,27 @@ export async function resolveEncounter(
     outcome = rollResistance(entity, character, rng);
   }
 
+  // B5: an offer found at dusk is a real choice — stay or walk on —
+  // when the row authors options. Mid-march sightings of the same place
+  // keep the plain pass-by stance: there is nothing to decide at 10am.
+  let decision = null;
+  if (
+    nightTiming === 'before_sleep' &&
+    Array.isArray(dialogueContent?.options) &&
+    dialogueContent.options.length > 0
+  ) {
+    decision = {
+      id: `shelter-${dialogueContent.id}`,
+      prompt: dialogueContent.tension ?? null,
+      options: dialogueContent.options,
+    };
+  }
+
   console.log(
     `[ENCOUNTER] entity=${entity?.name} type=${entityType} danger=${danger} ` +
     `pool_size=${candidates.length} form=${chosen.form} weight=${chosen.effectiveWeight} ` +
-    `topic=${dialogueContent?.topic ?? 'none'} npc_interaction=${dialogueContent ? 'yes' : 'no'} outcome=${outcome ?? 'none'}`
+    `topic=${dialogueContent?.topic ?? 'none'} npc_interaction=${dialogueContent ? 'yes' : 'no'} ` +
+    `decision=${decision ? decision.id : 'none'} outcome=${outcome ?? 'none'}`
   );
 
   return {
@@ -442,5 +462,6 @@ export async function resolveEncounter(
     intensity: chosen.intensity,
     outcome,
     dialogue_content: dialogueContent,
+    decision,
   };
 }

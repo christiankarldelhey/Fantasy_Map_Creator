@@ -55,7 +55,11 @@ def _describe(session, game_id, item, brain=None):
         data.get('entity_name') or data.get('name')
         or _humanize(data.get('entity') or data.get('entity_id'))
     )
-    return item.get('reading') or (str(subject) if subject else f"a {item.get('type')}")
+    desc = item.get('reading') or (str(subject) if subject else None)
+    # Unwordable items — 'body'/'travel' resolve no reading by design
+    # (vitals speak through needs/mood) and carry no subject. Without
+    # words there is no impression to keep; 'a body' is not a memory.
+    return desc
 
 
 def encode_episode(session, brain, episode):
@@ -91,6 +95,8 @@ def encode_episode(session, brain, episode):
         sig = _signature(item)
         consolidated = importance >= fixed
         desc = _describe(session, episode.game_id, item, brain=brain)
+        if desc is None:
+            continue
         # A need speaks in one voice across its whole arc: 'the hunger'
         # is one memory that gains days, not a fresh copy per dawn
         # (C15). The row absorbs this episode, refreshes its urgency and

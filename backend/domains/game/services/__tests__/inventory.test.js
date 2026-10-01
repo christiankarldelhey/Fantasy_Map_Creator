@@ -14,6 +14,7 @@ import {
   resolveDailyWater,
   terrainWaterAvailable,
   resolveLodging,
+  resolveShelterLodging,
 } from '../character/inventory.js';
 import { TUNING } from '../character/characterState.js';
 
@@ -311,6 +312,45 @@ test('resolveLodging: no coins, hostile family → turned away', () => {
   assert.equal(result.paid, false);
   assert.equal(result.sheltered, false);
   assert.equal(result.turnedAway, true);
+});
+
+// ---------------------------------------------------------------------------
+// resolveShelterLodging (C25) — a chosen overnight_shelter command
+// ---------------------------------------------------------------------------
+test('resolveShelterLodging: paid stay takes the coin, inn-grade recovery', () => {
+  const result = resolveShelterLodging({
+    shelter: { name: 'the wayhouse', lodging_cost: 5, rest_quality: 4 },
+    coins: 8, currentEnergy: 40,
+  });
+  assert.equal(result.paid, true);
+  assert.equal(result.cost, 5);
+  assert.equal(result.coinsAfter, 3);
+  assert.equal(result.recoveryOverride, 30); // (100 - 40) * 0.5
+  assert.equal(result.sheltered, true);
+  assert.equal(result.turnedAway, false);
+});
+
+test('resolveShelterLodging: free shelter rests on the authored quality', () => {
+  const result = resolveShelterLodging({
+    shelter: { name: 'the overhang', lodging_cost: 0, rest_quality: 3 },
+    coins: 8, currentEnergy: 40,
+  });
+  assert.equal(result.paid, false);
+  assert.equal(result.coinsAfter, 8);
+  assert.equal(result.restQuality, 3);
+  assert.equal(result.sheltered, true);
+});
+
+test('resolveShelterLodging: broke traveller keeps the roof, no recovery override', () => {
+  const result = resolveShelterLodging({
+    shelter: { name: 'the wayhouse', lodging_cost: 5, rest_quality: 4 },
+    coins: 2, currentEnergy: 40,
+  });
+  assert.equal(result.paid, false);
+  assert.equal(result.coinsAfter, 2);
+  assert.equal(result.restQuality, 4);
+  assert.equal(result.recoveryOverride, null);
+  assert.equal(result.sheltered, true);
 });
 
 test('resolveLodging: no coins, indifferent family → turned away', () => {

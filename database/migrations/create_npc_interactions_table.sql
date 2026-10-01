@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS npc_interactions (
     tension         TEXT,
     traveller_stance TEXT,
     topic           TEXT,
-    topic_prose_hint TEXT
+    topic_prose_hint TEXT,
+    options         JSONB
 );
 
 -- Indexes for the fallback query pattern

@@ -86,10 +86,10 @@ function slimDay(d) {
       pick(b, ['type', 'hour_float', 'fraction', 'total_area_km2'])
     ),
     locations: (d.locations || []).map((l) =>
-      pick(l, ['name', 'type', 'region', 'hour', 'hour_float', 'distance_km', 'title', 'indoor'])
+      pick(l, ['name', 'type', 'region', 'description', 'hour', 'hour_float', 'distance_km', 'title', 'indoor'])
     ),
     water_crossings: (d.water_crossings || []).map((w) =>
-      pick(w, ['name', 'type', 'crossing_type', 'hour_float'])
+      pick(w, ['name', 'type', 'description', 'crossing_type', 'hour_float'])
     ),
     climate: (d.climate || []).map(slimClimate).filter(Boolean),
     nighttime_climate: (d.nighttime_climate || []).map(slimClimate).filter(Boolean),

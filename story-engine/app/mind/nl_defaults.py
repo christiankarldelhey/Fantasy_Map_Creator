@@ -373,8 +373,9 @@ DEFAULT_PHRASE_LISTS = {
     'note.company': ['an hour in the company of {subject}'],
     'note.rest_good': ["a night's rest at {subject}"],
     'note.rest': ['a night at {subject}'],
-    # Journey continuity (C13): yesterday arrives as raw names; the pack
-    # owns the 'In Chapter N…' line and its empty-list words.
+    # Journey continuity (C13): stateless fallback only — mind-driven
+    # prompts recap yesterday inside the lens instead (C22). Yesterday
+    # arrives as raw names; the pack owns the 'In Chapter N…' line.
     'journey.previous_day': [
         'In Chapter {chapter} (yesterday), the traveller journeyed through: {regions}. They passed near: {locations}. Notable encounters/sights: {encounters}.',
     ],

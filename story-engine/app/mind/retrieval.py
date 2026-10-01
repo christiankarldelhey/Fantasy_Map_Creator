@@ -9,10 +9,15 @@
 # makes orc-memories easier to stir). Top-K (wiring) get evoked: the single
 # write of this read path is evocations++ / last_evoked_episode /
 # strength += retrieval_boost — evoking a memory strengthens it.
+#
+# Contact gate (C20): freshness alone never evokes. A memory must touch
+# THIS day's story — a shared tag with what was actually perceived, or
+# semantic similarity above the wiring floor — otherwise it stays a
+# memory, unevoked. On a day that touches nothing, nothing stirs.
 # ============================================================================
 import math
 
-from app.mind.embeddings import cosine, ensure_embedding, episode_embedding
+from app.mind.embeddings import cosine, embed, ensure_embedding, episode_embedding
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Memory
 
@@ -31,6 +36,26 @@ def _relevance(memory_tags, context_tags):
     if not tags:
         return 0.0
     return min(1.0, len(tags & context_tags) / len(tags))
+
+
+# C20 gate refinement: contact must be about WHAT happened, not the
+# day's weather report, menu, mileage or coordinates. Ambient tags —
+# the event's own class, the sky, the ration, the region — are
+# background: without them, the same rain 'evokes' every past rain and
+# the road-bread out-recalls every encounter.
+_CONTACT_AMBIENT_PREFIXES = (
+    'type:', 'tag:weather:', 'tag:food:', 'tag:drink:', 'region:',
+)
+
+
+def _contact_tags(tags):
+    """The subset of tags that can make a memory TOUCH today: entity,
+    entity_type, form, topic, name, need — the story's nouns, not its
+    weather."""
+    return {
+        t for t in (tags or [])
+        if not t.startswith(_CONTACT_AMBIENT_PREFIXES)
+    }
 
 
 def rank_beliefs(beliefs, perceived_day):
@@ -63,6 +88,12 @@ def retrieve(session, brain, episode, perceived_day):
         .all()
     )
     context = _context_tags(perceived_day, beliefs)
+    # C20: the gate listens only to the day itself — beliefs soften the
+    # score but do not make yesterday's people relevant to today's road.
+    # And only content tags count: 'same wet sky' is ambience, not story.
+    day_tags = set()
+    for item in perceived_day or []:
+        day_tags.update(_contact_tags(item.get('tags') or []))
 
     candidates = (
         session.query(Memory)
@@ -83,6 +114,8 @@ def retrieve(session, brain, episode, perceived_day):
 
     scored = []
     imp_min = w.get('retrieval_importance_min', 0.15)
+    sem_min = w.get('retrieval_semantic_min', 0.5)
+    refractory = int(w.get('refractory_episodes', 1))
     for mem in candidates:
         # Patterns are background bookkeeping, not impressions (C5):
         # they live and die by recurrence and their voice is the
@@ -95,8 +128,34 @@ def retrieve(session, brain, episode, perceived_day):
         # road-bread out-recalls the warg attack.
         if (mem.importance or 0.0) < imp_min:
             continue
-        anchor = mem.last_evoked_episode or mem.created_episode or 0
-        delta = max(0, (idx or 0) - anchor)
+        # C23 refractory: a memory dwelt on yesterday sits quiet today.
+        # Dwelling must not re-summon itself, or the mind chews the
+        # same sighting forever.
+        last_evoked = mem.last_evoked_episode
+        if (
+            refractory and idx is not None and last_evoked is not None
+            and 1 <= idx - last_evoked <= refractory
+        ):
+            continue
+        # A memory whose tags are ALL ambient never stirs: the day's
+        # bread and the day's sky belong to the recurrence channel, not
+        # to evocation — otherwise the ration out-thinks the warg.
+        # (Tag-less memories keep the semantic door, B8.)
+        mem_contact = _contact_tags(mem.tags)
+        if mem.tags and not mem_contact:
+            continue
+        sim = (
+            cosine(episode_vec, ensure_embedding(mem))
+            if episode_vec is not None else 0.0
+        )
+        # Contact gate: no content tag shared with today, no semantic
+        # overlap — no evocation, however fresh or important the memory.
+        if _relevance(mem_contact, day_tags) <= 0.0 and sim < sem_min:
+            continue
+        # C23: recency ages from when the event HAPPENED, never from
+        # when it was last recalled — evoking the fox does not make
+        # the fox newer; it only strengthens the trace.
+        delta = max(0, (idx or 0) - (mem.created_episode or 0))
         recency = math.exp(-lam * delta)
         score = (
             alpha * recency
@@ -104,7 +163,7 @@ def retrieve(session, brain, episode, perceived_day):
             + gamma * _relevance(mem.tags, context)
         )
         if episode_vec is not None:
-            score += delta_w * cosine(episode_vec, ensure_embedding(mem))
+            score += delta_w * sim
         scored.append((score, mem))
 
     scored.sort(key=lambda t: t[0], reverse=True)
@@ -127,6 +186,57 @@ def retrieve(session, brain, episode, perceived_day):
     return evoked
 
 
+def dialogue_recall(session, brain, item, idx, exclude_ids=()):
+    """Focused recall for a spoken encounter (C23): embed what was
+    actually asked/said and return the memory that best answers it —
+    the traveller may reply from what they retained, not from nowhere.
+
+    One probe text (topic + content + tension), one cosine pass over
+    the brain's memories, best hit above dialogue_recall_min wins.
+    Same gates as retrieve(): no patterns, importance floor, refractory.
+    The caller does the evocation bookkeeping."""
+    data = item.get('data') or {}
+    substance = data.get('substance') or {}
+    text = ' '.join(
+        t for t in (
+            data.get('topic'),
+            substance.get('content'),
+            substance.get('tension'),
+        )
+        if isinstance(t, str)
+    )
+    vec = embed(text)
+    if vec is None:
+        return None
+
+    w = {**DEFAULT_WIRING, **(brain.wiring or {})}
+    floor = float(w.get('dialogue_recall_min', 0.4))
+    imp_min = w.get('retrieval_importance_min', 0.15)
+    refractory = int(w.get('refractory_episodes', 1))
+
+    best = None
+    best_sim = floor
+    for mem in (
+        session.query(Memory)
+        .filter_by(character_id=brain.character_id)
+        .all()
+    ):
+        if mem.kind == 'pattern' or mem.id in exclude_ids:
+            continue
+        if (mem.importance or 0.0) < imp_min:
+            continue
+        last_evoked = mem.last_evoked_episode
+        if (
+            refractory and idx is not None and last_evoked is not None
+            and 1 <= idx - last_evoked <= refractory
+        ):
+            continue
+        sim = cosine(vec, ensure_embedding(mem))
+        if sim > best_sim:
+            best, best_sim = mem, sim
+    return best
+
+
 def episode_index_of(episode):
     nums = [
         (e.get('when') or {}).get('episode')
@@ -138,10 +248,13 @@ def episode_index_of(episode):
 
 def link_evoked(perceived_day, evoked):
     """Attach each evoked memory to the perceived items it relates to —
-    traceability for the lens and for debugging."""
+    traceability for the lens and for debugging. Content tags only:
+    intersecting ambient tags (same region, same event type) would fake
+    an anchor for a memory that actually surfaced on semantic vibe."""
     for item in perceived_day or []:
-        item_tags = set(item.get('tags') or [])
+        item_contact = _contact_tags(item.get('tags') or [])
         item['evoked'] = [
-            m.id for m in evoked if item_tags & set(m.tags or [])
+            m.id for m in evoked
+            if item_contact & _contact_tags(m.tags or [])
         ]
     return perceived_day

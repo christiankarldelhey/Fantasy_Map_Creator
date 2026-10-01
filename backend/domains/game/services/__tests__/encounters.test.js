@@ -339,6 +339,18 @@ test('entityEligibleForNightTiming classifies social vs nocturnal entities', () 
   assert.equal(entityEligibleForNightTiming(wolf, 'mid_night'), true);
 });
 
+test('entityEligibleForNightTiming admits shelter-y places at dusk (C25)', () => {
+  const wayhouse = { type: 'sites', active: 'all-day' };
+  const herbStand = { type: 'resources', active: 'day' };
+
+  // Places don't sleep — the traveller finds them while still choosing
+  // where to stop. before_sleep is when a wayhouse lamp is honest.
+  assert.equal(entityEligibleForNightTiming(wayhouse, 'before_sleep'), true);
+  assert.equal(entityEligibleForNightTiming(herbStand, 'before_sleep'), true);
+  // Mid-night keeps them too (non-intelligent) — unchanged behaviour.
+  assert.equal(entityEligibleForNightTiming(wayhouse, 'mid_night'), true);
+});
+
 // ---------------------------------------------------------------------------
 // simulateNightEncounters
 // ---------------------------------------------------------------------------

@@ -56,6 +56,20 @@ def _describe_encounter(encounter):
         lines.append(f'    ABOUT: {about}')
     lines.append(f"    FORM: {interaction.get('form')}. {interaction.get('prose_hint')}")
     lines.extend(_dialogue_lines(interaction.get('dialogue_content')))
+    # C21: a memory that this encounter called back lands HERE, inside
+    # the beat the narrator is writing — not in a list elsewhere.
+    # C23: when the encounter is a spoken exchange, the recall may
+    # inform what the traveller answers — it is memory being consulted,
+    # not just color.
+    if encounter.get('echo'):
+        label = (
+            'RECALLS (may inform what the traveller answers, or stay '
+            'silent if it does not fit)'
+            if interaction.get('dialogue_content')
+            else 'RECALLS (may surface as a brief beat of recollection, '
+                 'or stay silent if it does not fit)'
+        )
+        lines.append(f'    {label}: {encounter["echo"]}')
 
     block = '\n'.join(lines)
     if interaction.get('outcome'):

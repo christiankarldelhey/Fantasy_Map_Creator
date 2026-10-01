@@ -167,6 +167,42 @@ test('encounters carry the resolved substance of contact (C16)', () => {
   assert.equal(plain.data.topic, null);
 });
 
+test('encounters carry a dusk decision when the host resolved one (C25)', () => {
+  const decision = {
+    id: 'shelter-wayhouse-1',
+    prompt: 'A night spent here costs a small coin.',
+    options: [
+      {
+        id: 'stay',
+        label: 'Take the bed — a small coin',
+        tags: ['need:exhaustion', 'need:hunger'],
+        commands: [{ type: 'overnight_shelter', name: 'the wayhouse', indoor: true }],
+        stance: 'Takes the bed. Eats what the pot offers.',
+      },
+      { id: 'move_on', label: 'Mark the lamp and keep to the road', tags: ['risk:bold'], commands: [] },
+    ],
+  };
+  const events = toEvents({
+    day: {
+      ...DAY,
+      encounters: [{
+        entity: { slug: 'wayhouse', id: 'e-shelter', name: 'Wayhouse', type: 'sites' },
+        hour_float: 20.5,
+        phase: 'night',
+        region: 'lone-lands',
+        interaction: { form: 'harvest_shelter', prose_hint: 'a lit lamp at the roadside', decision },
+      }],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+  });
+  const encounter = events.find((e) => e.type === 'encounter');
+  assert.deepEqual(encounter.data.decision, decision);
+  // Mid-march sightings without a decision emit none.
+  const plain = toEvents({ day: { ...DAY, encounters: [] }, trip: { id: 't1' }, character: {} });
+  assert.ok(!plain.some((e) => e.data?.decision));
+});
+
 test('toEvents falls back to start-of-day vitals and clock-hour phases', () => {
   const events = toEvents({
     day: {

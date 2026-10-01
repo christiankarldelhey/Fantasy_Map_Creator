@@ -102,13 +102,22 @@ def test_semantic_recall_without_tag_overlap(client):
     desc = 'the rain soaked every stitch of wool'
 
     tuned = _uid('tuned')
-    _seed_memory(tuned, desc)
+    _seed_memory(tuned, desc, created_episode=None)
+    # The day's reading must clear retrieval_semantic_min (0.45):
+    # 'rain drizzled…' only reaches ~0.35 — genuine resonance, not vibe.
+    close_note = {
+        'type': 'note',
+        'when': {'episode': 2, 'date': '1950-01-20'},
+        'data': {'note': 'the rain soaked her cloak through'},
+    }
     slug = _mold(delta_embedding=0.6)
-    opened = _open(client, tuned, [_rain_note()], brain_profile=slug)
+    opened = _open(client, tuned, [close_note], brain_profile=slug)
     assert desc in opened['psyche_packet']['lens_block']
 
-    # Same memory, default wiring: base score ~0.46 < min_score → silent.
+    # Same memory, default wiring: base score < min_score → silent.
+    # created_episode=None: not a yesterday-memory, so the C22 recap
+    # cannot surface it — this asserts the retrieval gate, not the recap.
     plain = _uid('plain')
-    _seed_memory(plain, desc)
+    _seed_memory(plain, desc, created_episode=None)
     opened2 = _open(client, plain, [_rain_note()])
     assert desc not in opened2['psyche_packet']['lens_block']

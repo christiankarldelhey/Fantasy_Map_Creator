@@ -16,7 +16,7 @@
       <div class="py-1">
         <template v-for="item in menuItems" :key="item.key">
           <hr
-            v-if="item.key === 'how-i-made-this' || item.key === 'delete-account' || item.key === 'language'"
+            v-if="item.key === 'how-i-made-this' || item.key === 'delete-account' || item.key === 'language' || item.key === 'admin'"
             class="border-t border-[var(--accent-gold)] opacity-50 my-1"
           />
           <component
@@ -134,7 +134,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, type Component } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { LogOut, Sun, User, Map, Compass, LogIn, Wrench, Trash2, Languages } from '@lucide/vue'
+import { LogOut, Sun, User, Map, Compass, LogIn, Wrench, Trash2, Languages, SlidersHorizontal } from '@lucide/vue'
 import { useAuth } from '@/composables/useAuth'
 import { useLanguage } from '@/composables/useLanguage'
 import { Button } from '@/components/ui/button'
@@ -169,7 +169,7 @@ const emit = defineEmits<{
   'go-to-wander': []
 }>()
 
-const { deleteAccount } = useAuth()
+const { deleteAccount, isAdmin } = useAuth()
 
 const isOpen = ref(false)
 const dropdownContainer = ref<HTMLElement | null>(null)
@@ -190,6 +190,9 @@ type MenuItem = {
 }
 
 const PROJECT_URL = 'https://christiandelhey.com/projects/middle-earth-wandering-simulator/'
+// Story Engine's SQLAdmin (Mind/Narration Tuner) — its own env-login,
+// gated here so only admin users even see the door.
+const ADMIN_URL = `${import.meta.env.VITE_STORY_ENGINE_URL || 'http://localhost:8001'}/admin`
 
 const menuItems = computed<MenuItem[]>(() => {
   const items: MenuItem[] = []
@@ -205,6 +208,10 @@ const menuItems = computed<MenuItem[]>(() => {
       items.push({ key: 'go-to-explore', label: t('nav.goToExplore'), icon: Map, onClick: handleGoToExplore })
     } else {
       items.push({ key: 'go-to-wander', label: t('nav.goToWander'), icon: Compass, onClick: handleGoToWander })
+    }
+
+    if (isAdmin.value) {
+      items.push({ key: 'admin', label: t('nav.admin'), icon: SlidersHorizontal, href: ADMIN_URL, onClick: closeDropdown })
     }
 
     items.push({ key: 'sign-out', label: t('nav.signOut'), icon: LogOut, onClick: handleSignOut })

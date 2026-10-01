@@ -211,6 +211,9 @@ class OpenEpisodeRequest(BaseModel):
     character_state: Optional[Dict[str, Any]] = None
     equipment_state: Optional[Dict[str, Any]] = None
     fate: Optional[str] = None
+    # Stateless-fallback continuity (C22): mind-driven prompts ignore
+    # this — the lens recaps what the brain retained instead. It still
+    # rides the wire so a mindless narrate keeps its 'In Chapter N' line.
     previous_day: Optional[Dict[str, Any]] = None
     recent_day_climates: List[Dict[str, Any]] = []
 

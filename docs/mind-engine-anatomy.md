@@ -932,6 +932,105 @@ el brain viejo sobrevive hasta el próximo reset.
 
 ---
 
+### C20 · Evocar es tocar el día; el pasado se lee como pasado
+
+**🔧 Técnica** — El lens listaba recuerdos de ayer sin decir que eran
+ayer: "Stirring today" mostraba cuatro encuentros del capítulo anterior
+en un día con `(no encounters)` — invitación a que el narrador los
+re-narre como presentes. Dos cambios:
+
+- **Contact gate** (`retrieve`): un recuerdo evoca solo si *toca* el
+  día — comparte un tag de **contenido** con los items PERCIBIDOS de
+  hoy, o su coseno semántico supera `retrieval_semantic_min` (0.3 —
+  embedder hash: pares sin relación ~0.2, similitud real ~0.35+). La
+  recencia ya no basta: ayer dejó de entrar gratis solo por estar
+  fresco. Los tags de beliefs siguen ablandando el *score* pero no
+  hacen contacto — una creencia sobre la gente no evoca gente en un
+  día sin gente. Si nada toca, no se evoca nada.
+- **Tags ambientales no hacen contacto**: `type:*`, `tag:weather:*`,
+  `tag:food:*`, `tag:drink:*` y `region:*` son ambiente, no historia —
+  sin la exclusión, la misma lluvia "evoca" cada lluvia pasada y el pan
+  supera a los wargs (la repetición de clima ya la posee el canal de
+  recurrence). Y una memoria cuyos tags son *todos* ambientales
+  directamente no evoca nunca — ni siquiera por la puerta semántica
+  (una desc idéntica al día es *sameness*, no resonancia). Las
+  memorias sin tags conservan la puerta semántica (B8).
+- **`_describe` → `None` mata las memorias degeneradas**: items
+  `body`/`travel` resuelven `reading=None` por diseño (los vitales
+  hablan por needs/mood), pero `encode_episode` les escribía memoria
+  igual — caían al fallback `a {type}` → "a body", "a travel",
+  "distance_km: 10.0" (consolidada!). Sin palabras no hay impresión:
+  el item se saltea. La migración `fix_carnivore_wolf_leak_c20.sql`
+  borró 722 filas degeneradas.
+- **Edad dinámica** (`render_lens`): cada recuerdo evocado lleva su
+  marca temporal — `Yesterday — …`, `5 days ago — …`, `A long while
+  ago — …` (≥14), anclado en `created_episode` (cuándo se vivió, no la
+  última vez que se pensó). El dedupe clavea por desc crudo: el pan
+  recordado y el pan comido hoy son una sola línea, con su edad.
+- **Data fix host**: 3 filas de `npc_interactions` scopeadas a
+  `carnivores` (entity_id NULL) decían "Wolf-prints"/"a wolf" → los
+  zorros recibían contenido de lobos. Neutralizadas ("predator
+  prints") + copias entity-scoped a `wolves` conservan la voz de
+  lobo donde corresponde.
+
+**🚫 No hace** — No saca las líneas de `recurrence` ("no humans
+today", "family again"): son readings sintetizados del día propio, no
+recuerdos. No reordena la lista (evocadas primero, readings después) —
+el prefijo ya hace la distinción. No cambia el scoring: el gate corre
+antes, el score decide cuáles de las que tocaron pasan el umbral.
+
+---
+
+### C25 · La lámpara a las 20:30: el encuentro que se puede aceptar
+
+**🔧 Técnica** — El bug de Aranath: un `harvest_shelter` a las 10:00
+prometía "fuego real, cama seca" con stance "Accepts the hospitality" —
+la mente lo guardó como noche vivida mientras el cuerpo seguía
+`days_without_food: 4`. La prosa escribía un check-in que la mecánica
+nunca firmó. Dos correcciones:
+
+- **Stance honesto en marcha**: las 4 filas `harvest_shelter` dejan de
+  afirmar la estadía — la oferta queda real (la lámpara, el granero
+  seco, la fuente limpia) y el stance dice lo que pasa en una marcha:
+  evaluar, parar un rato, marcar el lugar, seguir. Migración
+  `fix_harvest_shelter_stance_c25.sql`.
+- **La oferta se vuelve decisión al anochecer**: `before_sleep` (~20:30)
+  ahora admite `sites`/`resources` — el viajero busca dónde dormir
+  justo ahí (`entityEligibleForNightTiming`). Cuando una fila
+  `npc_interactions` trae `options` (nueva columna JSONB) y el encuentro
+  es before_sleep, el wire emite `data.decision` (B5, dormido desde el
+  principio): la mente puntúa las opciones con sus needs/beliefs/temas
+  (`_recommend` ya era determinista: `need:exhaustion` urgente empuja
+  "stay"; un cerebro parco empuja "walk on"), expone `recommended` en
+  `decision_point`, y el host decide.
+- **El host aplica, la mente no ejecuta**: `POST /decide` devuelve
+  `proposed_commands`; el comando `overnight_shelter` reescribe
+  `day.overnight_*` (`applyShelterChoice`) y `resolveDayState` vuelve a
+  correr con `shelter_choice` → `resolveShelterLodging` decide si hubo
+  moneda paga (recovery de posada + comida de mesa) o techo de cortesía
+  (rest_quality authored). El orden del route se movió: la
+  persistencia (applyDayState/inventory/provision/halted) ahora corre
+  DESPUÉS de narrate, sobre la resolución final.
+- **La memoria se reescribe con la elección**: al `/decide`, la mente
+  parcha `perceived_day` — el item del encuentro recibe el `stance` de
+  la opción elegida ("Takes the bed. Eats what the pot offers.") y el
+  item `rest` recibe el lugar real — y re-resuelve ambos readings; el
+  `narrator_payload` se parcha igual para que la prosa narre la noche
+  que pasó, no la que estaba planeada.
+- **Fallback**: sin recomendación (o si decide falla) el host toma la
+  opción sin commands — caminar. NPCs: el host autopica `recommended`.
+  Lector futuro: mismo riel, el `POST /decide` lo dispara su dedo.
+
+**🚫 No hace** — No toca `aid_or_trade` (~60 filas con la misma
+enfermedad: "Eats. Goes out at dawn") — el mecanismo ya las cubre cuando
+les autoricemos `options`. No hace que la mente desconfíe del juego:
+la mentira se arregló en el wire, no con escepticismo. No inventa
+opciones: las que la fila no autora no existen — `options` vacía =
+vistazo honesto. La memoria vieja (el wayhouse fantasma del día 7 de
+Aranath) queda — `reset` (C19) o reseed la limpia.
+
+---
+
 ## El mapa completo, en una pasada
 
 ```

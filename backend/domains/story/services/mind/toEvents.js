@@ -179,6 +179,10 @@ function encounterEvents(day) {
           })(),
           outcome,
           check: encounterCheck(e.entity, e.interaction),
+          // B5: a before_sleep encounter may carry a real choice —
+          // stay or move on — with authored options. The mind weighs
+          // them; the host decides and applies their commands.
+          decision: e.interaction?.decision ?? null,
         };
         // Needs (B2): surviving a hostile contact leaves an open thread
         // the mind keeps alive until the same entity is faced unscathed

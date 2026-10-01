@@ -330,9 +330,14 @@ export function simulatePhaseEncounters({
   return { encounters, usedEntityIds };
 }
 
+// Place types a traveller scans for at dusk when deciding where to stop —
+// they don't sleep, so they're findable before_sleep even when not intelligent.
+const DUSK_SHELTER_TYPES = ['sites', 'resources'];
+
 /**
  * Determine whether an entity fits a night encounter timing.
- * - before_sleep: social/traveller encounters — intelligent beings active by day or all day.
+ * - before_sleep: social/traveller encounters — intelligent beings active by
+ *   day or all day — plus shelter-y places (sites, resources) found at dusk.
  * - mid_night: beasts, environmental dangers, and nocturnal intelligent threats.
  */
 export function entityEligibleForNightTiming(entity, timing) {
@@ -340,7 +345,7 @@ export function entityEligibleForNightTiming(entity, timing) {
   const active = entity.active;
   const isIntelligent = INTELLIGENT_TYPES.includes(type);
   if (timing === 'before_sleep') {
-    return isIntelligent && active !== 'nocturnal';
+    return (isIntelligent || DUSK_SHELTER_TYPES.includes(type)) && active !== 'nocturnal';
   }
   // mid_night: non-intelligent creatures or nocturnal intelligent threats
   return !isIntelligent || active === 'nocturnal';

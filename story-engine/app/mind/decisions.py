@@ -17,7 +17,7 @@
 # application belong to the host.
 # ============================================================================
 from app.mind.boosts import effective_theme_weights
-from app.mind.nl_resolver import phrases
+from app.mind.nl_resolver import phrases, resolve_event_reading
 from app.mind.tables import Belief, Need
 
 
@@ -132,7 +132,75 @@ def resolve_decision(session, brain, episode, option_id, decision_id=None):
     if not already:
         recorded[dec['decision_id']] = option_id
         episode.decisions = recorded
+        _apply_choice_to_perceived(session, episode, dec, option, brain)
     return dec, option, already
+
+
+def _apply_choice_to_perceived(session, episode, dec, option, brain):
+    """The chosen option rewrites what the day claimed: an authored
+    `stance` becomes what the traveller actually did, and an
+    `overnight_shelter` command rewrites the rest item — so close encodes
+    the memory of the night that happened, not the one that was planned.
+    The narrator payload is patched the same way: the prose must not
+    describe a wild camp while the mechanics say wayhouse."""
+    perceived = [dict(item) for item in (episode.perceived_day or [])]
+    changed = False
+
+    idx = dec.get('event_index')
+    if option.get('stance') and isinstance(idx, int) and 0 <= idx < len(perceived):
+        data = dict(perceived[idx].get('data') or {})
+        substance = dict(data.get('substance') or {})
+        substance['stance'] = option['stance']
+        data['substance'] = substance
+        perceived[idx] = {**perceived[idx], 'data': data}
+        perceived[idx]['reading'] = resolve_event_reading(
+            session, episode.game_id, perceived[idx], brain=brain
+        )
+        changed = True
+
+    shelter = next(
+        (
+            c for c in (option.get('commands') or [])
+            if isinstance(c, dict) and c.get('type') == 'overnight_shelter'
+        ),
+        None,
+    )
+    if shelter:
+        for item in perceived:
+            if item.get('type') != 'rest':
+                continue
+            data = dict(item.get('data') or {})
+            data.update({
+                'place': shelter.get('name') or data.get('place'),
+                'description': shelter.get('description') or data.get('description'),
+                'rest_quality': shelter.get('rest_quality', data.get('rest_quality')),
+                'shadow_effect': shelter.get('shadow_effect', data.get('shadow_effect')),
+                'scope': 'encounter_shelter',
+            })
+            item['data'] = data
+            item['reading'] = resolve_event_reading(
+                session, episode.game_id, item, brain=brain
+            )
+            changed = True
+        payload = dict(episode.narrator_payload or {})
+        day = dict(payload.get('day') or {})
+        day['overnight_location'] = {
+            'name': shelter.get('name'),
+            'type': 'shelter',
+            'indoor': bool(shelter.get('indoor')),
+        }
+        day['overnight_interaction'] = {
+            'title': shelter.get('name'),
+            'description': shelter.get('description'),
+            'rest_quality': shelter.get('rest_quality'),
+            'shadow_effect': shelter.get('shadow_effect'),
+            'scope': 'encounter_shelter',
+        }
+        episode.narrator_payload = {**payload, 'day': day}
+        changed = True
+
+    if changed:
+        episode.perceived_day = perceived
 
 
 def resolution_text(session, game_id, option, character_name=None,

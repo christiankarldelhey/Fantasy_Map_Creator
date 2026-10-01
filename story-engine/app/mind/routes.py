@@ -19,7 +19,9 @@ from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 
 from app.db import get_session
-from app.mind.lens import episode_mood, render_lens, update_brain_mood
+from app.mind.lens import (
+    _age_phrase, episode_mood, render_lens, update_brain_mood,
+)
 from app.mind.memory import (
     _compact_duplicates,
     _release_resolved_needs,
@@ -82,7 +84,9 @@ from app.mind.provisioning import (
     seed_starter_beliefs,
 )
 from app.mind.reflection import maybe_reflect
-from app.mind.retrieval import link_evoked, rank_beliefs, retrieve
+from app.mind.retrieval import (
+    dialogue_recall, episode_index_of, link_evoked, rank_beliefs, retrieve,
+)
 from app.mind.tables import (
     Belief, Brain, BrainMold, Episode, Memory, Need, PackVersion,
 )
@@ -208,6 +212,32 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             # The episode stirs memory: top-K evoked, strengthened, linked.
             evoked = retrieve(db, brain, episode, perceived)
             episode.perceived_day = link_evoked(perceived, evoked)
+            # C23: a spoken encounter queries memory on its own terms —
+            # what was asked embeds against what the brain retained, so
+            # the traveller may answer from their own past. The hit joins
+            # the item's evoked list and rides the RECALLS channel.
+            episode_idx = episode_index_of(episode)
+            w_brain = {**DEFAULT_WIRING, **(brain.wiring or {})}
+            evoked_ids = {m.id for m in evoked}
+            for item in episode.perceived_day:
+                data = item.get('data') or {}
+                if item.get('type') != 'encounter' or not data.get('substance'):
+                    continue
+                mem = dialogue_recall(
+                    db, brain, item, episode_idx, exclude_ids=evoked_ids
+                )
+                if mem is None:
+                    continue
+                item['evoked'].append(mem.id)
+                evoked_ids.add(mem.id)
+                mem.evocations = (mem.evocations or 0) + 1
+                if episode_idx is not None:
+                    mem.last_evoked_episode = episode_idx
+                mem.strength = min(
+                    1.0,
+                    (mem.strength or 0.0)
+                    + w_brain.get('retrieval_boost', 0.1),
+                )
             # Needs: detectors fire from the snapshot/body state, threads
             # from what was just perceived. Snapshot lands on the episode.
             needs = needs_pass(
@@ -218,8 +248,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             # A streak that died while a watched need is open ended the
             # wrong way (C12) — 'no bread' while hungry is no relief.
             resolve_break_items(
-                db, payload.game_id, brain, perceived, needs,
-                {**DEFAULT_WIRING, **(brain.wiring or {})},
+                db, payload.game_id, brain, perceived, needs, w_brain,
             )
             # The felt body joins the perceived day (C11): 'need' items
             # encode as memory — the ache of these days, not just a fact.
@@ -239,12 +268,61 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 )
                 .all()
             )
+            # link_evoked already knows which perceived item stirred each
+            # memory — surface it in the lens so an 'ago' line arrives
+            # with its insertion point, not floating free. Memories
+            # anchored to a phase-renderable item leave the lens list
+            # entirely: they appear inside the day's phase block at
+            # narrate time (a memory bleeds where it stirs — C21).
+            anchors = {}
+            inline_ids = set()
+            for item in (episode.perceived_day or []):
+                data = item.get('data') or {}
+                subj = (
+                    data.get('entity_name') or data.get('name')
+                    or data.get('entity')
+                )
+                if not subj:
+                    continue  # 'the rest calls it back' is no anchor
+                phase = _beat_phase(item)
+                for mem_id in (item.get('evoked') or []):
+                    if mem_id not in anchors or (
+                        (item.get('salience') or 0.0)
+                        > anchors[mem_id][1]
+                    ):
+                        anchors[mem_id] = (subj, item.get('salience') or 0.0)
+                    if phase:
+                        inline_ids.add(mem_id)
+            # C22 — continuity is the mind's job: what the character
+            # RETAINED of yesterday (memories encoded in the previous
+            # episode), not the host's 'In Chapter N' summary. Nothing
+            # retained = no recap — a character who slept through the
+            # day starts clean.
+            yesterday = []
+            if episode_idx and episode_idx > 1:
+                # A memory already stirring today renders once, in
+                # Stirring — the recap does not echo it a second time.
+                yesterday = [
+                    m.desc for m in db.query(Memory)
+                    .filter_by(
+                        game_id=payload.game_id,
+                        character_id=brain.character_id,
+                        created_episode=episode_idx - 1,
+                        kind='episodic',
+                    )
+                    .filter(Memory.id.notin_(evoked_ids))
+                    .order_by(Memory.importance.desc()).limit(5).all()
+                ]
             episode.lens_block = render_lens(
                 payload.character.name or payload.character.id,
                 brain.mood, rank_beliefs(beliefs, episode.perceived_day),
                 evoked,
                 needs=episode.needs_active,
                 perceived_day=episode.perceived_day,
+                episode_idx=episode_idx,
+                anchors={mid: s for mid, (s, _) in anchors.items()},
+                inline_ids=inline_ids,
+                yesterday=yesterday,
             )
             db.commit()
             db.refresh(episode)
@@ -334,6 +412,65 @@ def close_episode(
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
 
 
+_PHASE_MAP = {
+    'morning': 'morning',
+    'midday': 'afternoon',
+    'afternoon': 'afternoon',
+    'evening': 'night',
+    'night': 'night',
+}
+
+
+def _beat_phase(item):
+    """Which prompt phase a perceived item's memory beat belongs to —
+    'all-day' or missing phases anchor nowhere and the memory stays an
+    unanchored lens line (the exception, not the rule)."""
+    return _PHASE_MAP.get(((item.get('when') or {}).get('phase') or ''))
+
+
+def _evoked_beats(db, episode):
+    """Memory beats for the prompt's phase blocks (C21): each anchored
+    evoked memory lands where it stirred — '(the Dúnedain) 3 days ago —
+    …'. Built from the persisted perceived_day so re-narration replays
+    the same placement."""
+    mem_ids = {
+        mem_id
+        for item in (episode.perceived_day or [])
+        for mem_id in (item.get('evoked') or [])
+    }
+    if not mem_ids:
+        return {}
+    mems = {
+        m.id: m
+        for m in db.query(Memory).filter(Memory.id.in_(mem_ids)).all()
+    }
+    idx = episode_index_of(episode)
+    beats = {}
+    seen = set()
+    for item in (episode.perceived_day or []):
+        phase = _beat_phase(item)
+        data = item.get('data') or {}
+        subj = (
+            data.get('entity_name') or data.get('name')
+            or data.get('entity')
+        )
+        if not phase or not subj:
+            continue
+        for mem_id in (item.get('evoked') or []):
+            if mem_id in seen:
+                continue
+            m = mems.get(mem_id)
+            if not m:
+                continue
+            seen.add(mem_id)
+            age = _age_phrase(m, idx)
+            beats.setdefault(phase, []).append({
+                'subject': subj,
+                'line': f'{age}{m.desc}'.strip(),
+            })
+    return beats
+
+
 def _evoked_impressions(db, episode):
     """Descs of the memories this episode stirred — feeds the lens-reference
     narrative eval (did the prose echo what the mind brought up?)."""
@@ -389,9 +526,13 @@ def narrate_episode(
             character_state=req.characterState,
             equipment_state=req.equipmentState,
             fate=req.fate,
+            # Forwarded, not dead: an episode without lens_block falls
+            # back to the stateless prompt, where this is the only
+            # continuity. With a lens, build_day_prompt drops it.
             previous_day=req.previousDay,
             recent_day_climates=req.recentDayClimates,
             mind_block=episode.lens_block or '',
+            memory_beats=_evoked_beats(db, episode),
             impressions=_evoked_impressions(db, episode),
             nl=NlPack(db, episode.game_id, brain=brain),
         )

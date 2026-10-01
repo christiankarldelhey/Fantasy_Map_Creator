@@ -1,6 +1,6 @@
 import express from 'express';
 import pool from '../../../db.js';
-import { generateDay } from '../services/world/tripDay.js';
+import { generateDay, applyShelterChoice } from '../services/world/tripDay.js';
 import { createSeededRng } from '../services/world/encounters.js';
 import {
   computeRoute,
@@ -348,30 +348,113 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     let dayEvents = [];
     let meals = [];
     let endVitals = null; // post-resolution truth for the mind's body event
+    let resolution = null;
+    let effects = null;
+    let onDecisionPoint = null;
 
     if (trip.character_id) {
       const inventoryRows = await loadInventory(trip.character_id);
-      const effects = aggregateEffects(inventoryRows);
+      effects = aggregateEffects(inventoryRows);
 
-      const resolution = resolveDayState({
+      // Baseline resolution: the day as generated, overnight at the
+      // checkpoint. A dusk shelter decision may re-resolve this below.
+      resolution = resolveDayState({
         day,
         startState,
         effects,
         inventoryRows,
       });
 
-      newEnergy = resolution.newEnergy;
-      newShadow = resolution.newShadow;
-      fate = resolution.fate;
-      dayEvents = resolution.dayEvents;
-      meals = resolution.meals || [];
-      endVitals = {
-        days_without_food: resolution.food.newDaysWithoutFood,
-        days_without_water: resolution.water.newDaysWithoutWater,
-        wounded: resolution.conditions?.wounded ?? null,
+      const refreshResolution = () => {
+        newEnergy = resolution.newEnergy;
+        newShadow = resolution.newShadow;
+        fate = resolution.fate;
+        dayEvents = resolution.dayEvents;
+        meals = resolution.meals || [];
+        day.meals = meals;
+        endVitals = {
+          days_without_food: resolution.food.newDaysWithoutFood,
+          days_without_water: resolution.water.newDaysWithoutWater,
+          wounded: resolution.conditions?.wounded ?? null,
+        };
       };
+      refreshResolution();
 
-      // Persist state and inventory changes.
+      ({ characterState, equipmentState, fate: endFate } = await collectTravellerState({
+        characterId: trip.character_id,
+        tripId: trip.id,
+        energy: newEnergy,
+        shadow: newShadow,
+        wounded: resolution.conditions?.wounded,
+        fate: fate.fate,
+        meanTemperature: resolution.meanTemperature,
+        coldShift: effects.coldShift,
+        rations: effects.rations,
+        daysWithoutFood: resolution.food.newDaysWithoutFood,
+        daysWithoutWater: resolution.water.newDaysWithoutWater,
+        waterHeld: resolution.water.waterAfter,
+        waterCapacity: effects.waterCapacity,
+        flaskFrozen: resolution.flaskFrozen,
+        coins: resolution.lodging.coinsAfter,
+        turnedAway: resolution.lodging.turnedAway,
+        notableItems: resolution.notableItems,
+      }));
+
+      // B5: the mind weighs the dusk offer, the host decides and applies.
+      // NPCs take the mind's recommendation outright; no recommendation
+      // falls back to the option that carries no commands (walk on).
+      // The pick rewrites the night's overnight_* and re-resolves the
+      // day, so persistence and narration describe the same night.
+      onDecisionPoint = async (point, decide) => {
+        try {
+          const pendingDecision = (day.encounters || [])
+            .map((e) => e.interaction?.decision)
+            .find((d) => d && d.id === point.decision_id) ?? null;
+          const options = pendingDecision?.options || [];
+          const fallback = options.find((o) => !(o.commands || []).length)
+            ?? options[0];
+          const optionId = point.recommended ?? fallback?.id;
+          if (!optionId) return;
+          const res = await decide(optionId);
+          for (const cmd of res?.proposed_commands || []) {
+            if (cmd?.type === 'overnight_shelter') {
+              applyShelterChoice(day, cmd);
+            }
+          }
+          if (day.shelter_choice) {
+            resolution = resolveDayState({ day, startState, effects, inventoryRows });
+            refreshResolution();
+          }
+        } catch (err) {
+          // The mind never blocks the game: a failed decide leaves the
+          // baseline night in place.
+          console.warn('[mind] decide failed (non-fatal):', err.message);
+        }
+      };
+    }
+
+    // Generate AI narrative (optional, if API key is configured). Provider and
+    // sampling params rotate per day; capture what was actually used.
+    const { prompt, generation, mind_episode_id, mind_open } = await narrateDay({
+      day,
+      trip,
+      character,
+      language: language || 'english',
+      characterState,
+      equipmentState,
+      fate: endFate,
+      stateContext: startState
+        ? {
+            startState,
+            endState: { energy: newEnergy, shadow: newShadow, ...(endVitals || {}) },
+          }
+        : null,
+      onDecisionPoint,
+    });
+
+    if (trip.character_id && resolution) {
+      // Persist state and inventory changes — after any dusk decision,
+      // so what lands is the night that actually happened.
       await applyDayState({
         characterId: trip.character_id,
         tripId: trip.id,
@@ -409,48 +492,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
           [endCause, trip.id]
         );
       }
-
-      ({ characterState, equipmentState, fate: endFate } = await collectTravellerState({
-        characterId: trip.character_id,
-        tripId: trip.id,
-        energy: newEnergy,
-        shadow: newShadow,
-        wounded: resolution.conditions?.wounded,
-        fate: fate.fate,
-        meanTemperature: resolution.meanTemperature,
-        coldShift: effects.coldShift,
-        rations: effects.rations,
-        daysWithoutFood: resolution.food.newDaysWithoutFood,
-        daysWithoutWater: resolution.water.newDaysWithoutWater,
-        waterHeld: resolution.water.waterAfter,
-        waterCapacity: effects.waterCapacity,
-        flaskFrozen: resolution.flaskFrozen,
-        coins: resolution.lodging.coinsAfter,
-        turnedAway: resolution.lodging.turnedAway,
-        notableItems: resolution.notableItems,
-      }));
     }
-
-    // The narrator needs to know what was eaten and drunk at each meal.
-    day.meals = meals;
-
-    // Generate AI narrative (optional, if API key is configured). Provider and
-    // sampling params rotate per day; capture what was actually used.
-    const { prompt, generation, mind_episode_id, mind_open } = await narrateDay({
-      day,
-      trip,
-      character,
-      language: language || 'english',
-      characterState,
-      equipmentState,
-      fate: endFate,
-      stateContext: startState
-        ? {
-            startState,
-            endState: { energy: newEnergy, shadow: newShadow, ...(endVitals || {}) },
-          }
-        : null,
-    });
     const narrative = generation.text;
 
     // Persist only the user prompt text (system prompt lives in code)

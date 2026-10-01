@@ -70,6 +70,7 @@ def build_day_prompt(
     fate=None,
     climate_state_block='',
     mind_block='',
+    memory_beats=None,
     nl=None,
 ):
     trip = trip or {}
@@ -104,6 +105,7 @@ def build_day_prompt(
             meal=meal_by_phase.get(phase) or '',
             regions=day.get('regions'),
             terrain_phrases=day.get('terrain_phrases'),
+            echoes=(memory_beats or {}).get(phase),
             rng=rng,
         )
 
@@ -121,7 +123,11 @@ def build_day_prompt(
         f"{condition}"
         f"{equipment_section(equipment_state, nl=nl)}"
         f"{end_state_section(fate, char_name, nl=nl)}"
-        f"{journey_context_section(destination, previous_day, nl=nl)}"
+        # With a mind driving, yesterday's continuity lives in the lens
+        # ('Yesterday, as they remember it', C22) — the host summary would
+        # state the same day twice, once as fact and once as memory. The
+        # destination stays: the goal is world-truth, not recollection.
+        f"{journey_context_section(destination, None if mind_block else previous_day, nl=nl)}"
         f"{special_instructions_section(day.get('day_number'), bool(day.get('is_last_day')), char_name, destination, character.get('introduction_instructions'))}"
         f"{climate_state_section(climate_state_block)}"
         f"{terminal_notice_section(char_name) if is_terminal else ''}"

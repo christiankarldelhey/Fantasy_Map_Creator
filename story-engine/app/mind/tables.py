@@ -15,7 +15,7 @@ from sqlalchemy import (
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.db import Base
+from app.db import MIND_SCHEMA, Base
 
 
 def _new_id(prefix):
@@ -96,7 +96,7 @@ class BrainNlOverride(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     brain_id: Mapped[str] = mapped_column(
-        ForeignKey('mind.brains.id', ondelete='CASCADE'), nullable=False)
+        ForeignKey(f'{MIND_SCHEMA}.brains.id', ondelete='CASCADE'), nullable=False)
     kind: Mapped[str] = mapped_column(String(20), nullable=False)
     key: Mapped[str] = mapped_column(String(120), nullable=False)
     ordinal: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
@@ -196,7 +196,7 @@ class MoldThemeWeight(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     mold_id: Mapped[int] = mapped_column(
-        ForeignKey('mind.brain_molds.id', ondelete='CASCADE'), nullable=False)
+        ForeignKey(f'{MIND_SCHEMA}.brain_molds.id', ondelete='CASCADE'), nullable=False)
     key: Mapped[str] = mapped_column(String(120), nullable=False)
     weight: Mapped[float] = mapped_column(Float, nullable=False)
 
@@ -210,7 +210,7 @@ class MoldWiring(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     mold_id: Mapped[int] = mapped_column(
-        ForeignKey('mind.brain_molds.id', ondelete='CASCADE'), nullable=False)
+        ForeignKey(f'{MIND_SCHEMA}.brain_molds.id', ondelete='CASCADE'), nullable=False)
     key: Mapped[str] = mapped_column(String(60), nullable=False)
     value: Mapped[float] = mapped_column(Float, nullable=False)
 
@@ -220,7 +220,7 @@ class MoldStarterBelief(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     mold_id: Mapped[int] = mapped_column(
-        ForeignKey('mind.brain_molds.id', ondelete='CASCADE'), nullable=False)
+        ForeignKey(f'{MIND_SCHEMA}.brain_molds.id', ondelete='CASCADE'), nullable=False)
     kind: Mapped[str] = mapped_column(String(30), nullable=False)  # world|self|other
     statement: Mapped[str] = mapped_column(Text, nullable=False)
     confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)

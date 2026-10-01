@@ -160,3 +160,90 @@ def test_recommended_follows_theme_weights(client):
 
     plain = _open(client, _uid('plain-heart'), [_decision_event()])
     assert 'recommended' not in plain['psyche_packet']['decision_point']
+
+
+def _shelter_events(ep=1):
+    """A dusk wayhouse offer (C25): the encounter carries a stay/move_on
+    decision; the rest item describes the night as generated."""
+    return [
+        {
+            'type': 'encounter',
+            'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+            'data': {
+                'entity': 'wayhouse',
+                'form': 'harvest_shelter',
+                'substance': {
+                    'content': 'A lit lamp, a dry bed for a small coin.',
+                    'stance': 'Marks the lamp for the road back.',
+                },
+                'decision': {
+                    'id': 'shelter-1',
+                    'prompt': 'A night here costs a small coin.',
+                    'options': [
+                        {'id': 'stay', 'label': 'take the bed',
+                         'commands': [{
+                             'type': 'overnight_shelter',
+                             'name': 'the wayhouse',
+                             'description': 'a lamp lit for the road',
+                             'indoor': True, 'rest_quality': 4,
+                             'shadow_effect': -2}],
+                         'stance': 'Takes the bed. Eats what the pot offers.'},
+                        {'id': 'move_on', 'label': 'walk on',
+                         'commands': []},
+                    ],
+                },
+            },
+        },
+        {
+            'type': 'rest',
+            'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+            'data': {'place': 'the mirkwood verge', 'rest_quality': 0,
+                     'description': 'the trees lean close all night',
+                     'scope': 'region'},
+        },
+    ]
+
+
+def test_decide_rewrites_what_happened(client):
+    """C25: the chosen option's stance becomes the event's truth and an
+    overnight_shelter command rewrites the rest item — memory and
+    narrative must not record the night that was merely planned."""
+    char = _uid('shelter')
+    opened = _open(client, char, _shelter_events())
+    ep = opened['episode_id']
+
+    r = client.post(f'/episodes/{ep}/decide', json={'option_id': 'stay'})
+    assert r.status_code == 200, r.text
+
+    state = client.get(f'/episodes/{ep}').json()
+    perceived = state['perceived_day']
+
+    encounter = next(i for i in perceived if i['type'] == 'encounter')
+    assert encounter['data']['substance']['stance'] == (
+        'Takes the bed. Eats what the pot offers.')
+    assert 'Takes the bed' in (encounter['reading'] or '')
+
+    rest = next(i for i in perceived if i['type'] == 'rest')
+    assert rest['data']['place'] == 'the wayhouse'
+    assert rest['data']['rest_quality'] == 4
+    assert rest['data']['scope'] == 'encounter_shelter'
+    assert 'a lamp lit for the road' in (rest['reading'] or '')
+
+
+def test_decide_move_on_keeps_the_passby(client):
+    """C25: walking on leaves the pass-by stance and the wild night —
+    no patch, no lie."""
+    char = _uid('walker')
+    opened = _open(client, char, _shelter_events())
+    ep = opened['episode_id']
+
+    r = client.post(f'/episodes/{ep}/decide', json={'option_id': 'move_on'})
+    assert r.status_code == 200, r.text
+
+    state = client.get(f'/episodes/{ep}').json()
+    perceived = state['perceived_day']
+    encounter = next(i for i in perceived if i['type'] == 'encounter')
+    assert encounter['data']['substance']['stance'] == (
+        'Marks the lamp for the road back.')
+    rest = next(i for i in perceived if i['type'] == 'rest')
+    assert rest['data']['place'] == 'the mirkwood verge'

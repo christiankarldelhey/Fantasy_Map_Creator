@@ -82,7 +82,8 @@
     "goToWander": "Go to wander mode",
     "dateAndTime": "Date & Time",
     "deleteAccount": "Delete account",
-    "language": "Language"
+    "language": "Language",
+    "admin": "Admin"
   },
   "options": {
     "deleteTitle": "Delete your account?",

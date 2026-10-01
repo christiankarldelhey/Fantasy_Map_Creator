@@ -32,6 +32,7 @@ def narrate_day(
     recent_day_climates=None,
     mind_block='',
     impressions=None,
+    memory_beats=None,
     nl=None,
 ):
     trip = trip or {}
@@ -54,6 +55,7 @@ def narrate_day(
         fate=fate,
         climate_state_block=climate_state_block,
         mind_block=mind_block,
+        memory_beats=memory_beats,
         nl=nl,
     )
 

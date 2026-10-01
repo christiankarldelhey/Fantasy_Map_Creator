@@ -12,7 +12,7 @@
 // ============================================================================
 
 import { climateStats } from '../../adapters/mapClient.js';
-import { resolveDailyMeals, resolveDailyWater, resolveLodging, computeWaterNeed, terrainWaterAvailable } from './inventory.js';
+import { resolveDailyMeals, resolveDailyWater, resolveLodging, resolveShelterLodging, computeWaterNeed, terrainWaterAvailable } from './inventory.js';
 import {
   buildDayNote,
   classifyRegionFamilies,
@@ -58,10 +58,10 @@ function buildDayEvents(food, water, lodging) {
     events.push({
       type: 'meal',
       slot: meal.slot,
-      eaten: meal.itemId != null || meal.slug === 'tavern_meal',
+      eaten: meal.itemId != null || meal.provided === true || meal.slug === 'tavern_meal',
       food: meal.food,
       drink: meal.drink,
-      source: lodging.paid ? 'tavern' : 'rations',
+      source: lodging.paid ? 'tavern' : (meal.provided ? 'shelter' : 'rations'),
       itemId: meal.itemId,
     });
   }
@@ -138,13 +138,20 @@ export function resolveDayState({
   const daysWithoutWater = startState?.days_without_water ?? 0;
   const coins = startState?.coins ?? TUNING.STARTING_COINS;
 
-  const lodging = resolveLodging({
-    overnightLocation: day.overnight_location,
-    overnightInteraction: day.overnight_interaction,
-    coins,
-    currentEnergy: openingEnergy,
-    sanctuary,
-  });
+  // A shelter decision taken at dusk (B5): the encounter's offer became
+  // the night's roof. day.overnight_* already carry the shelter's rest —
+  // this path only decides whether the coin was paid and whether the
+  // board/well that comes with it feeds the traveller.
+  const shelterChoice = day.shelter_choice ?? null;
+  const lodging = shelterChoice
+    ? resolveShelterLodging({ shelter: shelterChoice, coins, currentEnergy: openingEnergy })
+    : resolveLodging({
+        overnightLocation: day.overnight_location,
+        overnightInteraction: day.overnight_interaction,
+        coins,
+        currentEnergy: openingEnergy,
+        sanctuary,
+      });
 
   // Frozen flask: natural sources are unavailable, but a settlement well still works.
   const flaskFrozen = Number.isFinite(meanTemperature) && meanTemperature <= TUNING.FLASK_FREEZE_TEMP;
@@ -165,8 +172,9 @@ export function resolveDayState({
     daysWithoutWater,
   });
 
-  // Paid lodging feeds and waters the traveller: the flask is topped up too.
-  if (lodging.paid) {
+  // Paid lodging — or a shelter that offers its spring — feeds and
+  // waters the traveller: the flask is topped up too.
+  if (lodging.paid || shelterChoice?.water) {
     water = { drank: computeWaterNeed(meanTemperature), waterAfter: effects.waterCapacity, newDaysWithoutWater: 0, refilled: true, frozen: flaskFrozen };
   }
 
@@ -176,7 +184,8 @@ export function resolveDayState({
     daysWithoutFood,
     rows: inventoryRows,
     waterDrunk: water.drank,
-    tavernMeal: lodging.paid,
+    tavernMeal: lodging.paid || !!shelterChoice?.meal,
+    mealSlug: shelterChoice?.meal_slug ?? null,
   });
 
   const effectiveOvernightLocation = lodging.turnedAway
