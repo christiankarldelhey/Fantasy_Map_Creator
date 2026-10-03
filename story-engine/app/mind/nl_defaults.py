@@ -390,6 +390,7 @@ DEFAULT_PHRASE_LISTS = {
     'meal.name.tavern_meal': ['a hot meal bought at the inn'],
     'meal.name.tavern_ale': ['ale and clean water'],
     'meal.name.waterskin': ['water from the skin'],
+    'meal.name.shared_pot': ['a share of the pot at their fire'],
     # Shelterless night (C13): the host sends scope 'hardcoded_fallback'
     # and no description; the pack owns how open sky reads.
     'rest.open_sky': [

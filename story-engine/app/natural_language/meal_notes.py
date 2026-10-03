@@ -48,6 +48,7 @@ _MEAL_NAME_FALLBACK = {
     'tavern_meal': 'a hot meal bought at the inn',
     'tavern_ale': 'ale and clean water',
     'waterskin': 'water from the skin',
+    'shared_pot': 'a share of the pot at their fire',
 }
 
 

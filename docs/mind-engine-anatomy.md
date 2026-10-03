@@ -1188,6 +1188,51 @@ verdad del tiempo es la **fecha del mundo**, una por jugador.
 
 ---
 
+### C31 · La oferta se vuelve decisión: `aid_or_trade` en el riel B5
+
+**🔧 Técnica** — La misma enfermedad de `harvest_shelter` (C25), a escala:
+~40 filas `aid_or_trade` ofrecían un lugar para dormir (byre-loft, flet,
+fuego compartido, litera de redes) y el stance ya había decidido que el
+viajero lo tomaba — sin mecánica que lo firmara. C27 curó la parte de día
+(stance honesto + regalos incondicionales); C31 cierra la parte de noche:
+
+- **39 filas con `options`**: toda oferta que incluye dónde dormir es una
+  decisión en `before_sleep`. `stay` lleva el `overnight_shelter` (único
+  comando que el riel decide aplica); `move_on` va sin commands y es el
+  fallback cuando la mente no opina. Stances base reescritos a alcance de
+  día (hablar, trocar, marcar el lugar, seguir) — el `move_on` hereda la
+  base salvo cuando ésta afirma algo que al anochecer no ocurrió (entonces
+  lleva stance propio).
+- **Las trampas invierten la forma** (`0ca10009`, `0ca10010`): la carnada
+  lleva los commands — descanso real (`rest_quality: 4`) con
+  `shadow_effect` positivo — y el rechazo es la opción vacía: la
+  precaución de la mente es el default seguro. `0a1e0022` hace lo
+  contrario: quedarse de guardia es lo audaz (`risk:bold` en `stay`,
+  `risk:cautious` en `move_on`).
+- **37 filas con `commands`** (sin decisión): las afirmaciones de comida,
+  agua, equipo y moneda que quedaban sin firma — meals, water_refills,
+  raciones, flechas, lembas, heals, coins negativos para compras
+  ("Pays a little over" cobra de verdad).
+- **`meal.name.shared_pot` existía solo en C25**: el slug se usó antes de
+  sembrarse en el pack — las lecturas de memoria decían literalmente
+  "shared_pot". Añadido al pack, a `nl_defaults` y a `_MEAL_NAME_FALLBACK`
+  (la regla C13: nunca un slug en prosa).
+- Migración `aid_or_trade_options_c31.sql` + patch `c31_csv_patch.mjs`
+  (una sola fuente: el script emite el SQL con `--sql`). Verificación
+  `c31_verify.mjs`: 73 entidades resolvieron decisión al anochecer, 0
+  decisiones fuera de `before_sleep`, los shelters elegidos resuelven
+  pago/techo/comida en `resolveDayState`.
+
+**🚫 No hace** — No toca el scoring `_recommend` (sigue siendo tema +
+belief + need urgencia). No decide rutas: `0ca10003` (turn back or no
+help) queda sin options porque su elección no tiene commands que el mundo
+pueda firmar — el stance ya admite la elección. No mete precios en la
+moneda exacta: `lodging_cost` es authored por fila (2 coppers ≠ posada de
+5). Los items sin slug (soga gris, torches, piel de foca) quedan como
+prosa — sin mecánica que los reciba.
+
+---
+
 ## El mapa completo, en una pasada
 
 ```
