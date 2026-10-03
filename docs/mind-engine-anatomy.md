@@ -1027,7 +1027,9 @@ les autoricemos `options`. No hace que la mente desconfíe del juego:
 la mentira se arregló en el wire, no con escepticismo. No inventa
 opciones: las que la fila no autora no existen — `options` vacía =
 vistazo honesto. La memoria vieja (el wayhouse fantasma del día 7 de
-Aranath) queda — `reset` (C19) o reseed la limpia.
+Aranath) quedó limpia — `reset` (C19) ejecutado post-C30: 13 memorias,
+6 beliefs, 3 needs y 9 episodios borrados; las 4 starter beliefs del
+mold `aranath` re-seedeadas y el mood vuelto a neutro.
 
 ---
 
