@@ -274,6 +274,7 @@ class EpisodeStateResponse(BaseModel):
     decision_point: Optional[Dict[str, Any]] = None
     decisions: Dict[str, Any] = {}
     proposed_commands: List[Any] = []
+    lens_eval: Optional[Dict[str, Any]] = None
     created_at: str
     narrated_at: Optional[str]
     closed_at: Optional[str]
@@ -343,6 +344,7 @@ class NarrateEpisodeResponse(BaseModel):
     needs_active: List[Dict[str, Any]] = []
     proposed_commands: List[Any] = []
     decision_point: Optional[Dict[str, Any]] = None
+    lens_eval: Optional[Dict[str, Any]] = None
     generation_meta: Dict[str, Any] = {}
 
 

@@ -20,6 +20,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime, timedelta, timezone
 
 from app.db import get_session
+from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.lens import (
     _age_phrase, episode_mood, render_lens, update_brain_mood,
 )
@@ -152,6 +153,7 @@ def _episode_state(db, episode: Episode) -> EpisodeStateResponse:
         decision_point=pending_decision_point(db, brain, episode),
         decisions=episode.decisions or {},
         proposed_commands=proposed_commands(episode),
+        lens_eval=episode.lens_eval,
         created_at=episode.created_at.isoformat(),
         narrated_at=episode.narrated_at.isoformat() if episode.narrated_at else None,
         closed_at=episode.closed_at.isoformat() if episode.closed_at else None,
@@ -536,6 +538,36 @@ def _evoked_impressions(db, episode):
     return [r[0] for r in rows]
 
 
+def _record_voiced(db, episode, text):
+    """Voiced-vs-evoked observability (C32): measure which evoked memories
+    the generated prose actually echoed, and store it on the episode as
+    lens_eval = {evoked: [...], voiced: [...]}. The evoked set is the
+    fixed snapshot from open; voiced is re-measured on each narrate —
+    the last generation's observation wins, matching the 'narrative is
+    not persisted' semantics. Memory.voiced bumps at most once per
+    episode (last_voiced_episode guard), so re-narrating can't inflate
+    the counter."""
+    ids = {
+        mem_id
+        for item in (episode.perceived_day or [])
+        for mem_id in (item.get('evoked') or [])
+    }
+    if not ids:
+        return
+    voiced = []
+    if text:
+        mems = db.query(Memory).filter(Memory.id.in_(ids)).all()
+        voiced = [m for m in mems if memory_echoes_in_text(m.desc, text)]
+        for m in voiced:
+            if (
+                episode.episode_idx is not None
+                and m.last_voiced_episode != episode.episode_idx
+            ):
+                m.voiced = (m.voiced or 0) + 1
+                m.last_voiced_episode = episode.episode_idx
+    episode.lens_eval = {'evoked': sorted(ids), 'voiced': sorted(m.id for m in voiced)}
+
+
 @router.post('/episodes/{episode_id}/narrate', response_model=NarrateEpisodeResponse)
 def narrate_episode(
     episode_id: str,
@@ -587,11 +619,12 @@ def narrate_episode(
             impressions=_evoked_impressions(db, episode),
             nl=NlPack(db, episode.game_id, brain=brain),
         )
+        generation = result['generation'] or {}
+        _record_voiced(db, episode, generation.get('text'))
         episode.narrated_at = datetime.now(timezone.utc)
         if episode.status == 'open':
             episode.status = 'narrated'
         db.commit()
-        generation = result['generation'] or {}
         return NarrateEpisodeResponse(
             episode_id=episode.id,
             prompt=result['prompt'],
@@ -605,6 +638,7 @@ def narrate_episode(
             needs_active=episode.needs_active or [],
             proposed_commands=proposed_commands(episode),
             decision_point=pending_decision_point(db, brain, episode),
+            lens_eval=episode.lens_eval,
             generation_meta={
                 k: v for k, v in generation.items() if k != 'text'
             },
@@ -718,7 +752,8 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
             {
                 'id': m.id, 'kind': m.kind, 'desc': m.desc, 'tags': m.tags,
                 'importance': m.importance, 'strength': m.strength,
-                'evocations': m.evocations, 'consolidated': m.consolidated,
+                'evocations': m.evocations, 'voiced': m.voiced,
+                'consolidated': m.consolidated,
             }
             for m in memories
         ],

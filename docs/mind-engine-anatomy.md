@@ -856,8 +856,8 @@ ensuciando el contexto. Correcciones:
 
 **🚫 No hace** — No toca las instrucciones de forma (opening strategy,
 closing variants, encounter rules) — son reglas de narración, no
-contexto histórico. No mide si la narración usa lo evocado (voiced vs
-evoked queda como observabilidad pendiente).
+contexto histórico. La medición de si la narración usa lo evocado llegó
+después — voiced vs evoked se resuelve en C32.
 
 ---
 
@@ -1230,6 +1230,34 @@ pueda firmar — el stance ya admite la elección. No mete precios en la
 moneda exacta: `lodging_cost` es authored por fila (2 coppers ≠ posada de
 5). Los items sin slug (soga gris, torches, piel de foca) quedan como
 prosa — sin mecánica que los reciba.
+
+---
+
+### C32 · Voiced vs evoked: la tasa de sangrado del lens, medida
+
+**🔧 Técnica** — La deuda declarada de C17: la mente evoca memorias en el
+lens, el narrador puede usarlas o ignorarlas, y nada observaba la
+diferencia. Cada narrate ahora mide qué memorias evocadas resonaron en la
+prosa generada — la misma regla de eco por token que el eval
+`lens_reference` (`memory_echoes_in_text`, extraída como helper
+compartido) — y lo persiste:
+
+- **`episodes.lens_eval`**: `{evoked: [...], voiced: [...]}` — los ids
+  evocados son el snapshot fijo del open; los voiced son la observación
+  de la última generación (se re-mide en cada narrate, coherente con
+  "la narración no es estado de la mente").
+- **`memories.voiced` + `last_voiced_episode`**: contador de episodios
+  cuya prosa hizo eco de la memoria — a lo sumo un incremento por
+  episodio, así re-narrar no infla la métrica. `evocations` vs `voiced`
+  es el feedback real del knob de retrieval: una memoria que la prosa
+  nunca vuelve voz es ruido de evocación, no señal.
+- **Superficie**: `lens_eval` viaja en `GET /episodes/{id}` y en la
+  respuesta de `/narrate`; el Mind Tuner muestra `voiced` junto a
+  `evoc` por memoria y `n/m voiced` por episodio.
+
+**🚫 No hace** — No cambia qué se evoca ni qué se narra: mide, no decide.
+Un narrate sin texto (provider caído) deja `voiced: []` sin tocar
+contadores. Migración: `memory_voiced_c32.sql`.
 
 ---
 

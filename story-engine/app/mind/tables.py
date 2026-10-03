@@ -71,6 +71,11 @@ class Episode(Base):
     # {decision_id: option_id}. The mind records; the host executes.
     decisions: Mapped[dict] = mapped_column(JSONB, nullable=True)
     outcome: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    # Voiced-vs-evoked observability (C32): of the memories this episode
+    # evoked, which did the last generated narrative actually echo?
+    # {evoked: [memory_id...], voiced: [memory_id...]} — evoked is the
+    # fixed snapshot from open; voiced is re-measured on each narrate.
+    lens_eval: Mapped[dict] = mapped_column(JSONB, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
@@ -316,6 +321,12 @@ class Memory(Base):
     strength: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
     evocations: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     last_evoked_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+    # Voiced counter (C32): episodes whose generated narrative echoed this
+    # memory. Evoked vs voiced is the lens' real bleed rate — a memory the
+    # prose never voices is evocation noise. Bumps at most once per
+    # episode via last_voiced_episode, so re-narration stays honest.
+    voiced: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    last_voiced_episode: Mapped[int] = mapped_column(Integer, nullable=True)
     consolidated: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     embedding: Mapped[dict] = mapped_column(JSONB, nullable=True)  # reserved, B8
     origin: Mapped[str] = mapped_column(String(30), nullable=False, default='experience')

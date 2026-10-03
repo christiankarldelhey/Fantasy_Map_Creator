@@ -532,7 +532,7 @@ class MindInspectorView(BaseView):
                 'memories': [
                     {'desc': m.desc, 'importance': m.importance,
                      'strength': round(m.strength, 3),
-                     'evocations': m.evocations,
+                     'evocations': m.evocations, 'voiced': m.voiced,
                      'consolidated': m.consolidated}
                     for m in memories
                 ],
@@ -772,24 +772,27 @@ class MindTunerView(BaseView):
                 f'<td>{html.escape(b.statement)}</td></tr>'
             )
         h.append('</table><h3>memories (top 40 by importance)</h3>'
-                 '<table><tr><th>imp</th><th>str</th><th>evoc</th>'
+                 '<table><tr><th>imp</th><th>str</th><th>evoc</th><th>voiced</th>'
                  '<th>cons</th><th>kind</th><th>desc</th></tr>')
         for m in memories:
             h.append(
                 f'<tr><td>{m.importance:.2f}</td><td>{m.strength:.2f}</td>'
-                f'<td>{m.evocations}</td>'
+                f'<td>{m.evocations}</td><td>{m.voiced}</td>'
                 f'<td>{"✓" if m.consolidated else ""}</td>'
                 f'<td>{html.escape(m.kind)}</td>'
                 f'<td>{html.escape(m.desc)}</td></tr>'
             )
         h.append('</table><h3>recent episodes</h3><table><tr><th>id</th>'
-                 '<th>ref</th><th>status</th><th>mood</th></tr>')
+                 '<th>ref</th><th>status</th><th>mood</th><th>lens</th></tr>')
         for e in episodes:
+            le = e.lens_eval or {}
             h.append(
                 f'<tr><td>{e.id}</td>'
                 f'<td>{html.escape(e.episode_ref or "")}</td>'
                 f'<td>{html.escape(e.status or "")}</td>'
-                f'<td><code>{html.escape(json.dumps(e.mood or {}))}</code></td></tr>'
+                f'<td><code>{html.escape(json.dumps(e.mood or {}))}</code></td>'
+                f'<td>{len(le.get("voiced") or [])}/{len(le.get("evoked") or [])}'
+                f'{" voiced" if le else ""}</td></tr>'
             )
         h.append('</table>')
         return ''.join(h)
