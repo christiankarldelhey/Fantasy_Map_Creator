@@ -10,7 +10,7 @@
 # only at creation, falls back to 'default', and never overrides an existing
 # assignment. Reassignment is admin territory: POST /mind/brains/{id}/mold.
 # ============================================================================
-from app.mind.tables import Belief, Brain, BrainMold
+from app.mind.tables import Belief, Brain, BrainMold, Character
 
 DEFAULT_MOLD_SLUG = 'default'
 
@@ -342,6 +342,56 @@ def get_or_create_brain(session, game_id, character_id, hint_slug=None):
     session.flush()
     seed_starter_beliefs(session, game_id, character_id, mold)
     return brain
+
+
+def get_or_create_character(session, game_id, card):
+    """The Mind-owned card for this character (ADR 0001). Adopted from
+    the Host's first payload — from then on the Mind's copy is
+    authoritative and later wire values for identity fields are ignored;
+    the Studio edits this row."""
+    row = (
+        session.query(Character)
+        .filter_by(game_id=game_id, character_id=card.get('id'))
+        .one_or_none()
+    )
+    if row is not None:
+        return row
+    row = Character(
+        game_id=game_id,
+        character_id=card['id'],
+        kind='copy',
+        name=card.get('name'),
+        entity_name=card.get('entity_name'),
+        description=card.get('description'),
+        foundational_phrase=card.get('system_prompt'),
+        voice_instructions=card.get('introduction_instructions'),
+        skills=card.get('skills') or {},
+    )
+    session.add(row)
+    session.flush()
+    return row
+
+
+def effective_character(row, wire_card):
+    """Identity from the Mind's card, Condition from the wire: energy,
+    shadow, conditions and wounded are the Host's live report and always
+    pass through. An identity field the card lacks falls back to the
+    wire value, so a bare adoption still narrates."""
+    merged = dict(wire_card)
+    merged.update({
+        'name': row.name or wire_card.get('name'),
+        'skills': row.skills or wire_card.get('skills') or {},
+        'description': row.description or wire_card.get('description'),
+        'entity_name': row.entity_name or wire_card.get('entity_name'),
+        'system_prompt': (
+            row.foundational_phrase or wire_card.get('system_prompt')
+        ),
+        'introduction_instructions': (
+            row.voice_instructions
+            or wire_card.get('introduction_instructions')
+        ),
+    })
+    return merged
 
 
 def reassign_mold(session, game_id, character_id, slug, reclone=False):

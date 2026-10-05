@@ -81,7 +81,9 @@ from app.mind.perceive import perceive_events, resolve_break_items
 from app.mind.provisioning import (
     DEFAULT_WIRING,
     NEUTRAL_MOOD,
+    effective_character,
     get_or_create_brain,
+    get_or_create_character,
     reassign_mold,
     seed_starter_beliefs,
 )
@@ -182,6 +184,15 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 db, payload.game_id, payload.character.id,
                 hint_slug=getattr(payload.character, 'brain_profile', None),
             )
+            # ADR 0001: the card belongs to the Mind. The first payload
+            # adopts it; from then on the Mind's copy answers identity
+            # and the wire only carries the live Condition.
+            character = get_or_create_character(
+                db, payload.game_id, payload.character.model_dump()
+            )
+            card = effective_character(
+                character, payload.character.model_dump()
+            )
             # C29: the mind keeps its own clock — episode_idx counts this
             # brain's lived episodes monotonically, so a new trip's day 1
             # never collides with an old journey's day 1 in memory ages.
@@ -205,7 +216,9 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 narrator_payload={
                     'day': payload.day.model_dump(exclude_none=True),
                     'trip': {'name': payload.trip_name},
-                    'character': payload.character.model_dump(exclude_none=True),
+                    'character': {
+                        k: v for k, v in card.items() if v is not None
+                    },
                     'language': payload.language,
                     'characterState': payload.character_state,
                     'equipmentState': payload.equipment_state,
@@ -231,7 +244,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             perceived = perceive_events(
                 db, payload.game_id, brain,
                 [e.model_dump() for e in payload.events],
-                character=payload.character.model_dump(),
+                character=card,
             )
             # The episode stirs memory: top-K evoked, strengthened, linked.
             evoked = retrieve(db, brain, episode, perceived)
@@ -266,7 +279,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             # from what was just perceived. Snapshot lands on the episode.
             needs = needs_pass(
                 db, payload.game_id, brain, episode, perceived,
-                character=payload.character.model_dump(),
+                character=card,
             )
             episode.needs_active = need_snapshot(needs)
             # A streak that died while a watched need is open ended the
