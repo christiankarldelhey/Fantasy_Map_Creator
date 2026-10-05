@@ -14,6 +14,7 @@ import {
   TUNING,
   FRIENDLY_FAMILIES,
 } from './characterState.js';
+import { rollSkillCheck } from './skillCheck.js';
 
 // ---------------------------------------------------------------------------
 // aggregateEffects — sum all mechanical effects from inventory rows
@@ -390,28 +391,61 @@ export function resolveDailyFood({ rations = 0, daysWithoutFood = 0, rows = [] }
 // ---------------------------------------------------------------------------
 // resolveLodging — paid rest, charity shelter, or turned away
 // ---------------------------------------------------------------------------
+// Settlement types where coin buys a bed — an actual inn trade. Villages,
+// manors and camps run on hospitality instead: there is no till to pay.
+const INN_TYPES = ['city', 'fortified city', 'citadel', 'town', 'fortified town', 'inn', 'tavern'];
+
+// Persuasion difficulty for unpaid shelter: appealing to a stranger's
+// generosity is hard work in a big city, easy where everyone knows a barn.
+const CHARITY_DIFFICULTY = {
+  'fortified city': 7, 'city': 7, 'citadel': 7,
+  'town': 5, 'fortified town': 5,
+  'inn': 4, 'tavern': 4, 'manor': 4,
+  'village': 3, 'camp': 3,
+};
+const CHARITY_DEFAULT_DIFFICULTY = 5;
+// Well-disposed folk (hobbit country, the Beornings, the lake-men) are an
+// easier ask — but never free of it.
+const FRIENDLY_CHARITY_BONUS = 2;
+const CHARITY_MIN_DIFFICULTY = 2;
+
+function charityDifficulty(location, family) {
+  const base = CHARITY_DIFFICULTY[location?.type] ?? CHARITY_DEFAULT_DIFFICULTY;
+  const popBonus = (Number(location?.population) || 0) >= 10000 ? 1 : 0;
+  const friendly = family && FRIENDLY_FAMILIES.includes(family) ? FRIENDLY_CHARITY_BONUS : 0;
+  return Math.max(CHARITY_MIN_DIFFICULTY, base + popBonus - friendly);
+}
+
 /**
  * @param {Object} p
- * @param {Object|null} p.overnightLocation - { indoor: boolean, ... }
+ * @param {Object|null} p.overnightLocation - { indoor, type, population, ... }
  * @param {Object|null} p.overnightInteraction - { rest_quality, region: { cultural_family }, ... }
  * @param {number} p.coins - current coins
  * @param {number|null} p.currentEnergy - energy at start of day
+ * @param {number} [p.currentShadow] - shadow at start of day (dims persuasion)
+ * @param {number} [p.skillPersuasion] - traveller's persuasion skill (0-10)
+ * @param {() => number} [p.rng] - for the charity roll
  * @param {boolean} p.sanctuary - elven sanctuary (free, full rest)
- * @returns {{ paid:boolean, cost:number, coinsAfter:number, restQuality:number|null, recoveryOverride:number|null, sheltered:boolean, turnedAway:boolean }}
+ * @returns {{ paid:boolean, cost:number, coinsAfter:number, restQuality:number|null, recoveryOverride:number|null, sheltered:boolean, turnedAway:boolean, charity:boolean, charityCheck:Object|null }}
  */
-export function resolveLodging({ overnightLocation, overnightInteraction, coins, currentEnergy, sanctuary = false }) {
+export function resolveLodging({ overnightLocation, overnightInteraction, coins, currentEnergy, currentShadow = 0, skillPersuasion = 0, rng = Math.random, sanctuary = false }) {
   // No overnight location or not indoor → camp as today, nothing changes.
   if (!overnightLocation || !overnightLocation.indoor) {
-    return { paid: false, cost: 0, coinsAfter: coins, restQuality: null, recoveryOverride: null, sheltered: false, turnedAway: false };
+    return { paid: false, cost: 0, coinsAfter: coins, restQuality: null, recoveryOverride: null, sheltered: false, turnedAway: false, charity: false, charityCheck: null };
   }
 
   // Sanctuary → free, full rest (existing behaviour preserved).
   if (sanctuary) {
-    return { paid: false, cost: 0, coinsAfter: coins, restQuality: null, recoveryOverride: null, sheltered: true, turnedAway: false };
+    return { paid: false, cost: 0, coinsAfter: coins, restQuality: null, recoveryOverride: null, sheltered: true, turnedAway: false, charity: false, charityCheck: null };
   }
 
-  // Can pay for lodging.
-  if (Number.isFinite(coins) && coins >= TUNING.LODGING_COST) {
+  const family = overnightInteraction?.region?.cultural_family;
+  const isEnemy = family === 'enemy';
+  const hasInn = INN_TYPES.includes(overnightLocation.type);
+
+  // Can pay — but only where a bed is actually for sale. A village has no
+  // inn; hospitality there is asked for, not bought.
+  if (hasInn && Number.isFinite(coins) && coins >= TUNING.LODGING_COST) {
     const missing = 100 - (Number.isFinite(currentEnergy) ? currentEnergy : 0);
     const recoveryOverride = Math.round(missing * TUNING.LODGING_RECOVERY_FRACTION);
     return {
@@ -422,14 +456,28 @@ export function resolveLodging({ overnightLocation, overnightInteraction, coins,
       recoveryOverride,
       sheltered: true,
       turnedAway: false,
+      charity: false,
+      charityCheck: null,
     };
   }
 
-  // Cannot pay — check cultural family for charity.
-  const family = overnightInteraction?.region?.cultural_family;
-  const isFriendly = family && FRIENDLY_FAMILIES.includes(family);
+  // No inn or no coin → appeal to someone's generosity. Hostile territory
+  // has no generosity to appeal to: turned away without a roll.
+  if (isEnemy) {
+    return { paid: false, cost: 0, coinsAfter: coins, restQuality: null, recoveryOverride: null, sheltered: false, turnedAway: true, charity: false, charityCheck: null };
+  }
 
-  if (isFriendly) {
+  const difficulty = charityDifficulty(overnightLocation, family);
+  const check = rollSkillCheck({
+    skill: skillPersuasion,
+    difficulty,
+    skillName: 'persuasion',
+    energy: currentEnergy,
+    shadow: currentShadow,
+    rng,
+  });
+
+  if (check.success) {
     return {
       paid: false,
       cost: 0,
@@ -438,10 +486,12 @@ export function resolveLodging({ overnightLocation, overnightInteraction, coins,
       recoveryOverride: null,
       sheltered: true,
       turnedAway: false,
+      charity: true,
+      charityCheck: { skill: 'persuasion', difficulty, roll: check.roll, total: check.total },
     };
   }
 
-  // Not friendly → turned away, sleep in the wild.
+  // Nobody took the stranger in — sleep in the wild outside the walls.
   return {
     paid: false,
     cost: 0,
@@ -450,6 +500,8 @@ export function resolveLodging({ overnightLocation, overnightInteraction, coins,
     recoveryOverride: null,
     sheltered: false,
     turnedAway: true,
+    charity: false,
+    charityCheck: { skill: 'persuasion', difficulty, roll: check.roll, total: check.total },
   };
 }
 

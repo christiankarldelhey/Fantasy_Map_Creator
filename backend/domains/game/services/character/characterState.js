@@ -110,7 +110,7 @@ export const TUNING = {
   MEAL_ENERGY_BONUS: 8,         // default full-day food energy, split across the day's meals
   STARTING_COINS: 100,
   LODGING_COST: 5,                // per night indoors, same everywhere
-  LODGING_RECOVERY_FRACTION: 0.5, // recovers this fraction of MISSING energy
+  LODGING_RECOVERY_FRACTION: 1.0, // a paid bed + board restores the traveller fully
   UNPAID_FRIENDLY_REST_QUALITY: 1, // charity shelter in friendly land
 
   // Multiplier applied to recovery and quiet-night bonus when resting

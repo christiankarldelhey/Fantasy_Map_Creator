@@ -317,36 +317,57 @@ test('resolveLodging: sanctuary → free, sheltered, no override', () => {
   assert.equal(result.recoveryOverride, null);
 });
 
-test('resolveLodging: indoor with coins → pays 5, recovers half of missing', () => {
-  const result = resolveLodging({ overnightLocation: { indoor: true }, overnightInteraction: { region: { cultural_family: 'northman' } }, coins: 50, currentEnergy: 40 });
+test('resolveLodging: inn with coins → pays 5, recovers all missing energy', () => {
+  const result = resolveLodging({ overnightLocation: { indoor: true, type: 'inn' }, overnightInteraction: { region: { cultural_family: 'northman' } }, coins: 50, currentEnergy: 40 });
   assert.equal(result.paid, true);
   assert.equal(result.cost, TUNING.LODGING_COST);
   assert.equal(result.coinsAfter, 45);
   assert.equal(result.sheltered, true);
   assert.equal(result.turnedAway, false);
-  assert.equal(result.recoveryOverride, 30); // (100 - 40) * 0.5 = 30
+  assert.equal(result.recoveryOverride, 60); // (100 - 40) * 1.0 = 60
 });
 
-test('resolveLodging: indoor with coins at high energy → small recovery', () => {
-  const result = resolveLodging({ overnightLocation: { indoor: true }, overnightInteraction: { region: { cultural_family: 'northman' } }, coins: 50, currentEnergy: 90 });
-  assert.equal(result.recoveryOverride, 5); // (100 - 90) * 0.5 = 5
+test('resolveLodging: inn with coins at high energy → small recovery', () => {
+  const result = resolveLodging({ overnightLocation: { indoor: true, type: 'inn' }, overnightInteraction: { region: { cultural_family: 'northman' } }, coins: 50, currentEnergy: 90 });
+  assert.equal(result.recoveryOverride, 10); // (100 - 90) * 1.0 = 10
 });
 
-test('resolveLodging: no coins, friendly family → charity shelter', () => {
-  const result = resolveLodging({ overnightLocation: { indoor: true }, overnightInteraction: { region: { cultural_family: 'hobbit' } }, coins: 0, currentEnergy: 50 });
+test('resolveLodging: coins in a village cannot buy a bed — no inn, charity roll instead', () => {
+  const result = resolveLodging({ overnightLocation: { indoor: true, type: 'village' }, overnightInteraction: { region: { cultural_family: 'hobbit' } }, coins: 50, currentEnergy: 50, skillPersuasion: 4, rng: () => 0.5 });
   assert.equal(result.paid, false);
-  assert.equal(result.cost, 0);
-  assert.equal(result.coinsAfter, 0);
+  assert.equal(result.coinsAfter, 50); // nobody sold anything
+  assert.equal(result.charity, true);  // village difficulty 3, friendly -2 → 2; roll 5+4 ≥ 2
+});
+
+test('resolveLodging: no coins, friendly village → barn via easy charity roll', () => {
+  const result = resolveLodging({ overnightLocation: { indoor: true, type: 'village' }, overnightInteraction: { region: { cultural_family: 'hobbit' } }, coins: 0, currentEnergy: 50, skillPersuasion: 1, rng: () => 0.1 });
+  assert.equal(result.paid, false);
   assert.equal(result.restQuality, TUNING.UNPAID_FRIENDLY_REST_QUALITY);
   assert.equal(result.sheltered, true);
+  assert.equal(result.charity, true);
+  assert.equal(result.charityCheck.difficulty, 2); // 3 - 2 friendly bonus, min 2
   assert.equal(result.turnedAway, false);
 });
 
-test('resolveLodging: no coins, hostile family → turned away', () => {
-  const result = resolveLodging({ overnightLocation: { indoor: true }, overnightInteraction: { region: { cultural_family: 'enemy' } }, coins: 0, currentEnergy: 50 });
+test('resolveLodging: no coins in a big city → hard persuasion, a failed roll turns the traveller away', () => {
+  const result = resolveLodging({ overnightLocation: { indoor: true, type: 'fortified city', population: 25000 }, overnightInteraction: { region: { cultural_family: 'gondorian' } }, coins: 0, currentEnergy: 50, skillPersuasion: 1, rng: () => 0.1 });
+  assert.equal(result.charityCheck.difficulty, 6); // city 7 +1 pop bonus -2 gondorian is friendly
+  assert.equal(result.sheltered, false);
+  assert.equal(result.turnedAway, true);
+});
+
+test('resolveLodging: no coins in a big city, a silver tongue still finds a bed', () => {
+  const result = resolveLodging({ overnightLocation: { indoor: true, type: 'city' }, overnightInteraction: { region: { cultural_family: 'northman' } }, coins: 0, currentEnergy: 50, skillPersuasion: 4, rng: () => 0.9 });
+  assert.equal(result.charity, true);
+  assert.equal(result.sheltered, true);
+});
+
+test('resolveLodging: hostile family → turned away without a roll', () => {
+  const result = resolveLodging({ overnightLocation: { indoor: true, type: 'town' }, overnightInteraction: { region: { cultural_family: 'enemy' } }, coins: 0, currentEnergy: 50, skillPersuasion: 10, rng: () => 0.9 });
   assert.equal(result.paid, false);
   assert.equal(result.sheltered, false);
   assert.equal(result.turnedAway, true);
+  assert.equal(result.charityCheck, null); // nobody even listened
 });
 
 // ---------------------------------------------------------------------------
@@ -360,7 +381,7 @@ test('resolveShelterLodging: paid stay takes the coin, inn-grade recovery', () =
   assert.equal(result.paid, true);
   assert.equal(result.cost, 5);
   assert.equal(result.coinsAfter, 3);
-  assert.equal(result.recoveryOverride, 30); // (100 - 40) * 0.5
+  assert.equal(result.recoveryOverride, 60); // (100 - 40) * 1.0
   assert.equal(result.sheltered, true);
   assert.equal(result.turnedAway, false);
 });
@@ -388,10 +409,18 @@ test('resolveShelterLodging: broke traveller keeps the roof, no recovery overrid
   assert.equal(result.sheltered, true);
 });
 
-test('resolveLodging: no coins, indifferent family → turned away', () => {
-  const result = resolveLodging({ overnightLocation: { indoor: true }, overnightInteraction: { region: { cultural_family: 'easterling' } }, coins: 0, currentEnergy: 50 });
+test('resolveLodging: no coins, indifferent family, failed roll → turned away', () => {
+  const result = resolveLodging({ overnightLocation: { indoor: true, type: 'town' }, overnightInteraction: { region: { cultural_family: 'easterling' } }, coins: 0, currentEnergy: 50, skillPersuasion: 0, rng: () => 0.0 });
   assert.equal(result.turnedAway, true);
   assert.equal(result.sheltered, false);
+});
+
+test('resolveLodging: no coins, indifferent family, good roll → someone takes them in', () => {
+  const result = resolveLodging({ overnightLocation: { indoor: true, type: 'town' }, overnightInteraction: { region: { cultural_family: 'easterling' } }, coins: 0, currentEnergy: 50, skillPersuasion: 0, rng: () => 0.9 });
+  // roll 9 + skill 0 = 9 ≥ town difficulty 5 — luck alone can open a door
+  assert.equal(result.charity, true);
+  assert.equal(result.sheltered, true);
+  assert.equal(result.turnedAway, false);
 });
 
 // ---------------------------------------------------------------------------

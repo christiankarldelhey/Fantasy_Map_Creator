@@ -74,9 +74,12 @@ function buildDayEvents(food, water, lodging) {
     events.push({ type: 'water', drank: false, daysWithoutWater: water.newDaysWithoutWater });
   }
   if (lodging.paid) {
-    events.push({ type: 'lodging', paid: true, cost: lodging.cost, coinsAfter: lodging.coinsAfter });
+    events.push({ type: 'lodging', paid: true, cost: lodging.cost, coinsAfter: lodging.coinsAfter, place: lodging.place });
+  } else if (lodging.charity) {
+    // The traveller begged a bed and someone said yes — a barn, a hearth.
+    events.push({ type: 'lodging', charity: true, place: lodging.place, check: lodging.charityCheck });
   } else if (lodging.turnedAway) {
-    events.push({ type: 'lodging', turnedAway: true });
+    events.push({ type: 'lodging', turnedAway: true, place: lodging.place, check: lodging.charityCheck });
   }
   return events;
 }
@@ -173,8 +176,12 @@ export function resolveDayState({
         overnightInteraction: day.overnight_interaction,
         coins,
         currentEnergy: openingEnergy,
+        currentShadow: openingShadow,
+        skillPersuasion: startState?.skill_persuasion ?? 0,
+        rng: day.rng || Math.random,
         sanctuary,
       });
+  lodging.place = day.overnight_location?.name ?? null;
 
   // Frozen flask: natural sources are unavailable, but a settlement well still works.
   const flaskFrozen = Number.isFinite(meanTemperature) && meanTemperature <= TUNING.FLASK_FREEZE_TEMP;
