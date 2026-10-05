@@ -383,6 +383,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         dayEvents = resolution.dayEvents;
         meals = resolution.meals || [];
         day.meals = meals;
+        // How the night was secured (paid bed, charity plea, turned away)
+        // rides on the day so toEvents' rest event can tell it.
+        day.lodging = resolution.lodging;
         endVitals = {
           days_without_food: resolution.food.newDaysWithoutFood,
           days_without_water: resolution.water.newDaysWithoutWater,

@@ -303,6 +303,111 @@ test('check difficulty follows detectability, not danger', () => {
   assert.equal(formless.data.check.difficulty, 6); // 4 + 0.4*5 fallback
 });
 
+test('place events carry the settlement a traveller actually entered', () => {
+  const events = toEvents({
+    day: {
+      ...DAY,
+      locations: [
+        {
+          name: 'Dale', type: 'city', region: 'rhovanion',
+          description: 'A city of toy-makers and river trade.',
+          description_es: 'Una ciudad de jugueteros y comercio fluvial.',
+          population: 5800, inhabitants: 'northmen', indoor: true,
+          hour_float: 17.5, distance_km: 0.3, entered: true,
+        },
+        { name: 'Amon Sul', type: 'ruin', distance_km: 4.2 },
+        {
+          name: 'Dol Guldur', type: 'fortified city', region: 'dor_guldur',
+          hostile: true, distance_km: 6.1,
+        },
+      ],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    stateContext: {},
+  });
+  const places = events.filter((e) => e.type === 'place');
+  const dale = places.find((p) => p.data.name === 'Dale');
+  // The entered city rides with its authored prose and census so the
+  // lens can feel its scale — not just a bare name.
+  assert.equal(dale.data.description_es, 'Una ciudad de jugueteros y comercio fluvial.');
+  assert.equal(dale.data.population, 5800);
+  assert.deepEqual(dale.data.tags, ['settlement', 'entered']);
+  // A ruin is scenery, not a settlement: no tags.
+  const amonSul = places.find((p) => p.data.name === 'Amon Sul');
+  assert.equal(amonSul.data.tags, undefined);
+  // An enemy town passed from outside is flagged, never entered.
+  const dolGuldur = places.find((p) => p.data.name === 'Dol Guldur');
+  assert.deepEqual(dolGuldur.data.tags, ['settlement', 'hostile']);
+});
+
+test('rest event tells how the night was secured', () => {
+  const nightAt = (lodging) => toEvents({
+    day: {
+      ...DAY,
+      lodging,
+      overnight_interaction: { rest_quality: 'good', description: 'A warm common room.' },
+      overnight_location: { name: 'Dale', indoor: true },
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    stateContext: {},
+  }).find((e) => e.type === 'rest');
+
+  const paid = nightAt({ paid: true, cost: 5, coinsAfter: 12, place: 'Dale' });
+  assert.equal(paid.data.lodging.paid, true);
+  assert.equal(paid.data.lodging.cost, 5);
+  assert.deepEqual(paid.data.tags, ['paid', 'indoor']);
+
+  const charity = nightAt({
+    charity: true, place: 'Dale',
+    charityCheck: { skill: 'persuasion', difficulty: 6, roll: 8, total: 11 },
+  });
+  assert.equal(charity.data.lodging.charity, true);
+  assert.equal(charity.data.lodging.check.total, 11);
+  assert.deepEqual(charity.data.tags, ['charity', 'indoor']);
+
+  const turnedAway = nightAt({
+    turnedAway: true, place: 'Dale',
+    charityCheck: { skill: 'persuasion', difficulty: 6, roll: 2, total: 4 },
+  });
+  assert.equal(turnedAway.data.lodging.turned_away, true);
+  // A door shut in the face is not an indoor night.
+  assert.deepEqual(turnedAway.data.tags, ['turned_away']);
+});
+
+test('the open payload keeps settlement detail and the lodging outcome', () => {
+  const body = toOpenPayload({
+    gameId: 'middle_earth',
+    day: {
+      ...DAY,
+      locations: [{
+        name: 'Dale', type: 'city', region: 'rhovanion',
+        description_es: 'Una ciudad de jugueteros.', population: 5800,
+        inhabitants: 'northmen', cultural_family: 'northman',
+        indoor: true, entered: true, distance_km: 0.3,
+        // Noisy internals must not leak into the narrator's day.
+        geometry: 'SRID=4326;POINT(0 0)', slug: 'dale', century_id: 99,
+      }],
+      lodging: { paid: true, cost: 5, coinsAfter: 12, place: 'Dale' },
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    characterState: { energy: 40, shadow: 55 },
+    equipmentState: {},
+    fate: 'living',
+    stateContext: null,
+  });
+  const dale = body.day.locations[0];
+  assert.equal(dale.population, 5800);
+  assert.equal(dale.description_es, 'Una ciudad de jugueteros.');
+  assert.equal(dale.entered, true);
+  assert.equal(dale.cultural_family, 'northman');
+  assert.equal(dale.geometry, undefined);
+  assert.equal(body.day.lodging.paid, true);
+  assert.equal(body.day.lodging.place, 'Dale');
+});
+
 test('the open payload carries raw state, never rendered blocks (C10)', () => {
   const body = toOpenPayload({
     gameId: 'middle_earth',

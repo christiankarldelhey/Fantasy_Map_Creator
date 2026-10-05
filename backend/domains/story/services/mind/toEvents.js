@@ -11,7 +11,11 @@
 //                      precipitation, hours}
 //   travel    — data: {distance_km, walking_hours}
 //   terrain   — data: {terrain_phrases (map of phase->phrases)}
-//   place     — one per visited location: data: {name, kind}
+//   place     — one per visited location: data: {name, kind, description,
+//               population, inhabitants, distance_km, tags[]} — 'settlement'
+//               for inhabited places, 'entered' for the one the traveller
+//               actually stopped at, 'hostile' for enemy-kingdom places
+//               that were skirted from outside
 //   water     — one per crossing: data: {name, kind}
 //   meal      — one per meal slot: data: {slot, eaten, food, drink}
 //   rest      — overnight: data: {rest_quality, shadow_effect, place,
@@ -242,13 +246,33 @@ function mealEvents(day) {
   });
 }
 
+const SETTLEMENT_KINDS = new Set([
+  'town', 'city', 'village', 'inn', 'tavern',
+  'fortified city', 'fortified town', 'citadel', 'manor', 'camp',
+]);
+
 function placeEvents(day) {
-  return (day.locations || []).map((loc) => ({
-    type: 'place',
-    when: when(day, { phase: loc.phase || phaseOfHour(loc.hour_float) }),
-    where: where(loc.region || regionOf(day)),
-    data: { name: loc.name || loc.id, kind: loc.type || null },
-  }));
+  return (day.locations || []).map((loc) => {
+    const tags = [];
+    if (SETTLEMENT_KINDS.has(loc.type)) tags.push('settlement');
+    if (loc.entered) tags.push('entered');
+    if (loc.hostile) tags.push('hostile');
+    return {
+      type: 'place',
+      when: when(day, { phase: loc.phase || phaseOfHour(loc.hour_float) }),
+      where: where(loc.region || regionOf(day)),
+      data: {
+        name: loc.name || loc.id,
+        kind: loc.type || null,
+        population: loc.population ?? null,
+        inhabitants: loc.inhabitants ?? null,
+        description: loc.description ?? null,
+        description_es: loc.description_es ?? null,
+        distance_km: loc.distance_km ?? null,
+        tags: tags.length ? tags : undefined,
+      },
+    };
+  });
 }
 
 function waterEvents(day) {
@@ -263,6 +287,15 @@ function waterEvents(day) {
 function restEvent(day) {
   const overnight = day.overnight_interaction || day.overnight_location;
   if (!overnight) return null;
+  // How the night was secured is part of the night's meaning: a paid bed,
+  // a stranger's mercy after a persuasion plea, or a door shut in the face.
+  // day.lodging is attached by the host after dayState resolution.
+  const lodging = day.lodging || {};
+  const tags = [];
+  if (lodging.paid) tags.push('paid');
+  if (lodging.charity) tags.push('charity');
+  if (lodging.turnedAway) tags.push('turned_away');
+  if (day.overnight_location?.indoor && !lodging.turnedAway) tags.push('indoor');
   return {
     type: 'rest',
     when: when(day, { phase: 'night' }),
@@ -278,6 +311,14 @@ function restEvent(day) {
       // 'hardcoded_fallback' = open sky: the mind supplies its own
       // open-sky reading rather than trusting a host sentence (C13).
       scope: overnight.scope ?? null,
+      lodging: {
+        paid: lodging.paid ?? false,
+        cost: lodging.cost ?? null,
+        charity: lodging.charity ?? false,
+        turned_away: lodging.turnedAway ?? false,
+        check: lodging.charityCheck ?? null,
+      },
+      tags: tags.length ? tags : undefined,
     },
   };
 }

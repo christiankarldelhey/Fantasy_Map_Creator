@@ -72,7 +72,8 @@ def derive_tags(event):
         # 'no family today' readings about a family that never existed.
         if key in ('entity', 'entity_id', 'entity_name', 'check',
                    'thread_desc', 'resolves', 'urgency', 'scope',
-                   'description', 'prose_hint', 'slot', 'substance'):
+                   'description', 'description_es', 'inhabitants',
+                   'prose_hint', 'slot', 'substance', 'lodging'):
             continue
         if key == 'tags':
             values = value if isinstance(value, list) else [value]

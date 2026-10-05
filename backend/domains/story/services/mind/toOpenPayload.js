@@ -86,8 +86,11 @@ function slimDay(d) {
       pick(b, ['type', 'hour_float', 'fraction', 'total_area_km2'])
     ),
     locations: (d.locations || []).map((l) =>
-      pick(l, ['name', 'type', 'region', 'description', 'hour', 'hour_float', 'distance_km', 'title', 'indoor'])
+      pick(l, ['name', 'type', 'region', 'description', 'description_es', 'population', 'inhabitants', 'cultural_family', 'hour', 'hour_float', 'distance_km', 'title', 'indoor', 'entered', 'hostile'])
     ),
+    lodging: d.lodging
+      ? pick(d.lodging, ['paid', 'cost', 'coinsAfter', 'sheltered', 'turnedAway', 'charity', 'charityCheck', 'place'])
+      : null,
     water_crossings: (d.water_crossings || []).map((w) =>
       pick(w, ['name', 'type', 'description', 'crossing_type', 'hour_float'])
     ),

@@ -249,6 +249,17 @@ DEFAULT_WIRING = {
     'salience_min.tag:given': 0.6,
     'salience_min.tag:decision': 0.5,
     'salience_min.tag:changed': 0.65,
+    # Places lived, not just passed: 'entered' marks the settlement the
+    # traveller actually stopped at — its name and streets should reach
+    # the lens. 'hostile' is an enemy place skirted from outside — fear
+    # keeps it noticed. 'charity'/'turned_away' carry the night's social
+    # truth: a stranger's mercy or a door shut in the face.
+    'salience_min.tag:settlement': 0.3,
+    'salience_min.tag:entered': 0.55,
+    'salience_min.tag:hostile': 0.45,
+    'salience_min.tag:charity': 0.5,
+    'salience_min.tag:turned_away': 0.5,
+    'salience_min.tag:indoor': 0.3,
     # Retention (C16) — nothing is immortal, but intensity sticks:
     # a memory of strong feeling or real importance decays at the
     # sticky rate; consolidation by recall needs an importance floor
