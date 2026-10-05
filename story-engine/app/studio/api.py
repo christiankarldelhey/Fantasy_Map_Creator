@@ -21,9 +21,11 @@ from typing import Dict, Optional
 
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
+from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import (
     Belief, Brain, Character, Episode, ForgottenMemory, Memory, Need,
 )
+from app.mind.traits import TRAITS, apply_trait, traits_of
 
 _basic = HTTPBasic()
 
@@ -325,6 +327,11 @@ def get_mind(
         'character': card,
         'condition': _condition(latest),
         'mood': brain.mood or {},
+        # The six human dials, read back from the effective wiring —
+        # a raw knob edit still shows on the slider.
+        'traits': traits_of({**DEFAULT_WIRING, **(brain.wiring or {})}),
+        # Concerns — "le pesa": what the Mind gives extra weight to.
+        'concerns': dict(brain.theme_weights or {}),
         'memories': memories,
         'beliefs': [
             {
@@ -403,3 +410,64 @@ def patch_card(
             setattr(row, field, value)
     db.commit()
     return _with_lineage(db, row, _card(row))
+
+
+def _brain_or_404(db, game, character_id):
+    brain = (
+        db.query(Brain)
+        .filter_by(game_id=game, character_id=character_id)
+        .one_or_none()
+    )
+    if brain is None:
+        raise HTTPException(status_code=404, detail='mind not found')
+    return brain
+
+
+class TraitsPatch(BaseModel):
+    """{trait: 0..1} — each dial writes its knobs into brain.wiring."""
+    traits: Dict[str, float]
+
+
+@router.patch('/minds/{character_id}/traits')
+def patch_traits(
+    character_id: str,
+    body: TraitsPatch,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    brain = _brain_or_404(db, game, character_id)
+    unknown = set(body.traits) - set(TRAITS)
+    if unknown:
+        raise HTTPException(
+            status_code=422, detail=f'unknown traits: {sorted(unknown)}'
+        )
+    wiring = dict(brain.wiring or {})
+    for trait, t in body.traits.items():
+        apply_trait(wiring, trait, t)
+    brain.wiring = wiring
+    db.commit()
+    return traits_of({**DEFAULT_WIRING, **wiring})
+
+
+class ConcernsPatch(BaseModel):
+    """{key: weight} to set, {key: null} to remove — 'le pesa'."""
+    weights: Dict[str, Optional[float]]
+
+
+@router.patch('/minds/{character_id}/concerns')
+def patch_concerns(
+    character_id: str,
+    body: ConcernsPatch,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    brain = _brain_or_404(db, game, character_id)
+    weights = dict(brain.theme_weights or {})
+    for key, w in body.weights.items():
+        if w is None:
+            weights.pop(key, None)
+        else:
+            weights[key] = max(0.0, min(1.0, float(w)))
+    brain.theme_weights = weights
+    db.commit()
+    return weights

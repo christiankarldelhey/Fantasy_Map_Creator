@@ -199,3 +199,61 @@ def test_original_cards_refuse_edits(client):
         f'/studio/api/minds/{char}/card', auth=AUTH, json={'name': 'X'},
     )
     assert r.status_code == 409
+
+
+def test_trait_dial_writes_its_knobs(client):
+    char = _uid('traits')
+    _live(client, char, 1)
+
+    r = client.patch(
+        f'/studio/api/minds/{char}/traits', auth=AUTH,
+        json={'traits': {'memoria': 1.0, 'rumia': 0.0}},
+    )
+    assert r.status_code == 200, r.text
+
+    session = SessionLocal()
+    brain = session.query(Brain).filter_by(character_id=char).one()
+    # memoria at full: near-immortal, fixes on a single recall.
+    assert brain.wiring['decay'] == pytest.approx(0.97)
+    assert brain.wiring['evocations_to_fix'] == 1
+    # rumia at zero: the present wins — recency decays fast, few evoked.
+    assert brain.wiring['lambda_recency'] == pytest.approx(0.60)
+    assert brain.wiring['retrieval_top_k'] == 2
+    session.close()
+
+    # …and the dials read back the extremes honestly.
+    mind = client.get(f'/studio/api/minds/{char}', auth=AUTH).json()
+    assert mind['traits']['memoria']['value'] == pytest.approx(1.0)
+    assert mind['traits']['rumia']['value'] == pytest.approx(0.0)
+    assert mind['traits']['memoria']['label'] == 'Memoria'
+
+
+def test_unknown_trait_is_422(client):
+    char = _uid('traits')
+    _live(client, char, 1)
+    r = client.patch(
+        f'/studio/api/minds/{char}/traits', auth=AUTH,
+        json={'traits': {'fortaleza': 0.9}},
+    )
+    assert r.status_code == 422
+
+
+def test_concerns_set_and_remove(client):
+    char = _uid('concern')
+    _live(client, char, 1)
+
+    r = client.patch(
+        f'/studio/api/minds/{char}/concerns', auth=AUTH,
+        json={'weights': {'tag:entity_type:undead': 0.9}},
+    )
+    assert r.status_code == 200
+    assert r.json()['tag:entity_type:undead'] == 0.9
+
+    mind = client.get(f'/studio/api/minds/{char}', auth=AUTH).json()
+    assert mind['concerns']['tag:entity_type:undead'] == 0.9
+
+    r = client.patch(
+        f'/studio/api/minds/{char}/concerns', auth=AUTH,
+        json={'weights': {'tag:entity_type:undead': None}},
+    )
+    assert 'tag:entity_type:undead' not in r.json()
