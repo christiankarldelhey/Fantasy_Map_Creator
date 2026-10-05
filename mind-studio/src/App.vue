@@ -6,6 +6,7 @@ import EpisodeTape from './components/EpisodeTape.vue'
 import HowItWorks from './components/HowItWorks.vue'
 import MindGraph from './components/MindGraph.vue'
 import NodeDetail from './components/NodeDetail.vue'
+import ShapePanel from './components/ShapePanel.vue'
 import TopBar from './components/TopBar.vue'
 import type { NodeRef } from './components/nodeRef'
 import { STEPS, type Spotlight } from './components/tour'
@@ -21,6 +22,7 @@ const { mind, episodeIdx, snapshot, indices, loading, error, goTo, step, refresh
 const focus = shallowRef<NodeRef | null>(null)
 const picked = shallowRef<NodeRef | null>(null)
 const tourStep = shallowRef<number | null>(null)
+const shaping = shallowRef(false)
 
 const positions = computed(() =>
   mind.value ? layoutMind(mind.value.beliefs, mind.value.memories) : new Map(),
@@ -80,6 +82,7 @@ function openTour() {
       :selected-id="selectedId"
       @select="select"
       @tour="openTour"
+      @shape="shaping = true"
     />
 
     <p v-if="rosterError || error" class="notice">
@@ -150,6 +153,13 @@ function openTour() {
       :playing="playing"
       @play="startPlay"
       @stop="stop"
+    />
+
+    <ShapePanel
+      v-if="shaping && mind"
+      :mind="mind"
+      @close="shaping = false"
+      @saved="refresh"
     />
   </div>
 </template>

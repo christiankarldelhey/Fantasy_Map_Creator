@@ -9,6 +9,7 @@ defineProps<{
 const emit = defineEmits<{
   select: [id: string]
   tour: []
+  shape: []
 }>()
 
 function onChange(ev: Event) {
@@ -25,6 +26,7 @@ function onChange(ev: Event) {
     </div>
 
     <div class="actions">
+      <button class="shape" @click="emit('shape')">dar forma</button>
       <button class="tour" @click="emit('tour')">¿Cómo funciona una mente?</button>
       <label class="switch">
         <span class="eyebrow">mente</span>
@@ -52,6 +54,19 @@ function onChange(ev: Event) {
 .brand-sub { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--chalk-dim); }
 
 .actions { display: flex; align-items: center; gap: 18px; }
+
+.shape {
+  background: none;
+  border: 1px dashed var(--chalk-faint);
+  border-radius: 3px;
+  color: var(--chalk);
+  padding: 4px 12px;
+  font-family: var(--type);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+.shape:hover { border-color: var(--amber); color: var(--amber); }
 
 .tour {
   background: none;

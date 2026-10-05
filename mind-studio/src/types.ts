@@ -109,6 +109,14 @@ export interface EpisodeView {
   narrative_language: string | null
 }
 
+export interface TraitView {
+  value: number
+  label: string
+  low: string
+  high: string
+  help: string
+}
+
 export interface MindDetail {
   character_id: string
   game: string
@@ -116,6 +124,8 @@ export interface MindDetail {
   character: CharacterCard
   condition: Record<string, unknown>
   mood: Mood
+  traits: Record<string, TraitView>
+  concerns: Record<string, number>
   memories: MemoryNode[]
   beliefs: BeliefNode[]
   needs: { id: string; key: string; description: string; status: string }[]

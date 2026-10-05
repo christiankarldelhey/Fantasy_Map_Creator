@@ -30,3 +30,21 @@ export async function patchCard(
   })
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
 }
+
+async function patchJson(path: string, body: unknown): Promise<void> {
+  const res = await fetch(`${BASE}${path}`, {
+    method: 'PATCH',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
+}
+
+export const patchTraits = (characterId: string, traits: Record<string, number>) =>
+  patchJson(`/minds/${encodeURIComponent(characterId)}/traits`, { traits })
+
+export const patchConcerns = (
+  characterId: string,
+  weights: Record<string, number | null>,
+) => patchJson(`/minds/${encodeURIComponent(characterId)}/concerns`, { weights })
