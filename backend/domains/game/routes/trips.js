@@ -25,6 +25,7 @@ import {
   shadowBand,
   passedSettlement,
   SETTLEMENT_TYPES,
+  isHostileLocation,
 } from '../services/character/index.js';
 import {
   loadInventory,
@@ -56,7 +57,7 @@ router.get('/meta/system-prompt', async (req, res) => {
 // ---------------------------------------------------------------------------
 router.post('/', authenticateToken, async (req, res, next) => {
   try {
-    const { name, start, end, transport_mode = 'walk', start_date } = req.body || {};
+    const { name, start, end, transport_mode = 'walk', start_date, seed } = req.body || {};
 
     if (!start || !end || start.lng == null || start.lat == null || end.lng == null || end.lat == null) {
       return res.status(400).json({ error: 'start and end coordinates ({lng, lat}) are required' });
@@ -71,7 +72,15 @@ router.post('/', authenticateToken, async (req, res, next) => {
       return res.status(400).json({ error: 'Invalid coordinates' });
     }
 
-    const route = await computeRoute({ startLng, startLat, endLng, endLat, transportMode: transport_mode });
+    const route = await computeRoute({
+      startLng, startLat, endLng, endLat,
+      transportMode: transport_mode,
+      // Settlement attraction and the enemy-settlement exclusion are rolled
+      // once here, when the itinerary is fixed — a seeded rng keeps a
+      // rebuilt route identical.
+      rng: seed != null ? createSeededRng(parseInt(seed, 10)) : Math.random,
+      isHostileLocation,
+    });
     if (!route) {
       return res.status(404).json({ error: 'No route found between coordinates' });
     }

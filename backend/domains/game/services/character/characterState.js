@@ -506,6 +506,22 @@ export function classifyRegionFamilies(families = [], regionNames = []) {
 }
 
 /**
+ * Whether a single location sits in hostile territory — by its region's
+ * cultural_family ('enemy') or a dreaded region name (Moria is 'dwarven').
+ * Hostile settlements never attract the traveller and offer no lodging:
+ * they are skirted, not entered. Injected into routing so map-domain code
+ * doesn't need to know which families are enemies.
+ * @param {Object} loc - { cultural_family?, region_name?, region? }
+ */
+export function isHostileLocation(loc) {
+  if (!loc) return false;
+  const family = (loc.cultural_family || '').toLowerCase();
+  if (ENEMY_FAMILIES.includes(family)) return true;
+  const names = [loc.region_name, loc.region].filter(Boolean).map((n) => n.toLowerCase());
+  return names.some((n) => ENEMY_REGION_NAMES.some((en) => n.includes(en)));
+}
+
+/**
  * Whether the overnight stay is a restorative elven sanctuary (Rivendell,
  * Lórien, Mithlond). A night here fully restores energy and strongly relieves
  * shadow. Recognised by named location id or a rest_quality >= 4 tier.

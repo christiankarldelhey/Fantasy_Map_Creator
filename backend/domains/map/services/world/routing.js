@@ -138,6 +138,26 @@ const SECONDS_PER_HOUR = 3600;
 const DAY_BUFFER_BEFORE_M = 15000;
 const DAY_BUFFER_AFTER_M = 5000;
 const LOCATION_ON_ROUTE_BUFFER_M = 100;
+// Settlements pull travellers off the road: the bigger the place, the wider
+// its attraction radius and the likelier the traveller ends the day there.
+// radius_m — how far off-route the place can be and still be a candidate;
+// base — the chance the traveller stops when the whole day still lies ahead.
+const SETTLEMENT_ATTRACTION = {
+  'fortified city': { base: 0.9, radius_m: 4000 },
+  'city': { base: 0.85, radius_m: 3500 },
+  'citadel': { base: 0.85, radius_m: 3500 },
+  'fortified town': { base: 0.6, radius_m: 2500 },
+  'town': { base: 0.55, radius_m: 2000 },
+  'inn': { base: 0.7, radius_m: 1500 },
+  'tavern': { base: 0.7, radius_m: 1500 },
+  'village': { base: 0.3, radius_m: 1200 },
+  'manor': { base: 0.2, radius_m: 800 },
+  'camp': { base: 0.35, radius_m: 1000 },
+};
+const LOCATION_FETCH_BUFFER_M = 5000;
+// A settlement met in the first stretch of the day can't end it — nobody
+// leaves a town and beds down in the next one an hour later.
+const SETTLEMENT_MIN_DAY_PROGRESS = 0.15;
 // Walking uses the road route unless it is this much longer than the straight line
 const DIRECT_ROUTE_MAX_DETOUR_FACTOR = 2.5;
 
@@ -245,13 +265,18 @@ async function fetchLocationsAlongRoute(routeWKT, totalDist) {
       SELECT ST_SetSRID(ST_GeomFromText($1), 4326) AS geom
     )
     SELECT l.id, l.name, l.location_type AS type, l.region, l.region_id, l.description,
+           l.description_es, l.population, l.inhabitants,
+           rg.cultural_family, rg.name AS region_name,
            ST_X(l.geom) AS lng, ST_Y(l.geom) AS lat,
+           ST_Distance(l.geom::geography, route.geom::geography) AS off_route_m,
            ST_LineLocatePoint(route.geom, ST_ClosestPoint(route.geom, l.geom)) AS fraction
-    FROM locations l, route
+    FROM locations l
+    LEFT JOIN regions rg ON rg.id = l.region_id
+    , route
     WHERE ST_DWithin(l.geom::geography, route.geom::geography, $2)
     ORDER BY fraction
   `;
-  const { rows } = await pool.query(query, [routeWKT, LOCATION_ON_ROUTE_BUFFER_M]);
+  const { rows } = await pool.query(query, [routeWKT, LOCATION_FETCH_BUFFER_M]);
   return rows.map((r) => ({
     id: r.id,
     name: r.name,
@@ -259,13 +284,50 @@ async function fetchLocationsAlongRoute(routeWKT, totalDist) {
     region: r.region,
     region_id: r.region_id,
     description: r.description,
+    description_es: r.description_es,
+    population: r.population,
+    inhabitants: r.inhabitants,
+    cultural_family: r.cultural_family,
+    region_name: r.region_name,
+    off_route_m: parseFloat(r.off_route_m) || 0,
     lng: parseFloat(r.lng),
     lat: parseFloat(r.lat),
     distance_m: parseFloat(r.fraction) * totalDist
   }));
 }
 
-function computeDailyCheckpoints(totalTime, totalDist, candidates, coords, dists, times, endLng, endLat) {
+function checkpointLocation(c) {
+  return {
+    id: c.id,
+    name: c.name,
+    type: c.type,
+    region: c.region,
+    region_id: c.region_id,
+    description: c.description,
+    description_es: c.description_es,
+    population: c.population,
+    inhabitants: c.inhabitants,
+    cultural_family: c.cultural_family,
+    off_route_m: c.off_route_m != null ? Math.round(c.off_route_m) : null,
+  };
+}
+
+// Chance that a settlement pulls the traveller in for the night. Bigger
+// places attract from further off the road and convince more often; the
+// pull also grows as the day wears on — nobody detours at dawn.
+function settlementAttraction(candidate, dayProgress) {
+  const spec = SETTLEMENT_ATTRACTION[candidate.type];
+  if (!spec) return 0;
+  if (candidate.off_route_m > spec.radius_m) return 0;
+  let p = spec.base * (0.4 + 0.6 * dayProgress);
+  const pop = Number(candidate.population) || 0;
+  if (pop >= 10000) p += 0.15;
+  else if (pop >= 1000) p += 0.1;
+  else if (pop >= 300) p += 0.05;
+  return Math.min(p, 0.95);
+}
+
+export function computeDailyCheckpoints(totalTime, totalDist, candidates, coords, dists, times, endLng, endLat, { rng = Math.random, isHostileLocation = () => false } = {}) {
   const checkpoints = [];
   let prevTime = 0;
   let prevDist = 0;
@@ -291,16 +353,39 @@ function computeDailyCheckpoints(totalTime, totalDist, candidates, coords, dists
     const targetDist = interpolateMonotonic(targetTime, times, dists);
     const windowStart = Math.max(prevDist + MIN_ADVANCE_M, targetDist - DAY_BUFFER_BEFORE_M);
     const windowEnd = targetDist + DAY_BUFFER_AFTER_M;
+    const daySpan = Math.max(1, targetDist - prevDist);
 
+    // First pass — settlements in order of appearance. The first one that
+    // attracts the traveller ends the day, even early.
     let best = null;
-    let bestDelta = Infinity;
     for (const c of candidates) {
       if (c.distance_m <= prevDist + MIN_ADVANCE_M) continue;
-      if (c.distance_m < windowStart || c.distance_m > windowEnd) continue;
-      const delta = Math.abs(c.distance_m - targetDist);
-      if (delta < bestDelta) {
-        bestDelta = delta;
+      if (c.distance_m > windowEnd) break;
+      if (!SETTLEMENT_ATTRACTION[c.type]) continue;
+      if (isHostileLocation(c)) continue;
+      const dayProgress = Math.min(1, (c.distance_m - prevDist) / daySpan);
+      if (dayProgress < SETTLEMENT_MIN_DAY_PROGRESS) continue;
+      if (rng() < settlementAttraction(c, dayProgress)) {
         best = c;
+        break;
+      }
+    }
+
+    // Fallback — a landmark exactly on the road still anchors the night
+    // (ruins, watchtowers, a hamlet nobody felt like entering), keeping the
+    // old nearest-to-target rule for non-settlement sites.
+    if (!best) {
+      let bestDelta = Infinity;
+      for (const c of candidates) {
+        if (c.distance_m <= prevDist + MIN_ADVANCE_M) continue;
+        if (c.distance_m < windowStart || c.distance_m > windowEnd) continue;
+        if (SETTLEMENT_ATTRACTION[c.type] || isHostileLocation(c)) continue;
+        if (c.off_route_m > LOCATION_ON_ROUTE_BUFFER_M) continue;
+        const delta = Math.abs(c.distance_m - targetDist);
+        if (delta < bestDelta) {
+          bestDelta = delta;
+          best = c;
+        }
       }
     }
 
@@ -309,14 +394,7 @@ function computeDailyCheckpoints(totalTime, totalDist, candidates, coords, dists
       const actualTime = interpolateMonotonic(actualDist, dists, times);
       checkpoints.push({
         day_number: day,
-        location: {
-          id: best.id,
-          name: best.name,
-          type: best.type,
-          region: best.region,
-          region_id: best.region_id,
-          description: best.description
-        },
+        location: checkpointLocation(best),
         coordinates: [best.lng, best.lat],
         distance_m: actualDist,
         time_seconds: actualTime,
@@ -615,7 +693,7 @@ export function findShortestPath(roads, startCoord, endCoord, config, endpointTe
  * Compute a hybrid shortest-path route between two coordinates.
  * Returns the same structure used by the /api/directions endpoint.
  */
-export async function computeRoute({ startLng, startLat, endLng, endLat, transportMode = 'walk' }) {
+export async function computeRoute({ startLng, startLat, endLng, endLat, transportMode = 'walk', rng = Math.random, isHostileLocation = () => false }) {
   const config = TRANSPORT_CONFIGS[transportMode] || TRANSPORT_CONFIGS.walk;
 
   // 1. Use the cached road network (built once, reused by all requests)
@@ -759,7 +837,8 @@ export async function computeRoute({ startLng, startLat, endLng, endLat, transpo
     cumulativeDist,
     cumulativeTime,
     endLng,
-    endLat
+    endLat,
+    { rng, isHostileLocation }
   );
 
   return {
