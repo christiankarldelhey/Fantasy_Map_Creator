@@ -25,6 +25,8 @@ export interface MindList {
 export interface CharacterCard {
   name: string | null
   kind: 'original' | 'copy' | string
+  // Whether the Mind already owns this card (vs the last wire snapshot).
+  adopted: boolean
   slug: string | null
   type: string | null
   gender: string | null

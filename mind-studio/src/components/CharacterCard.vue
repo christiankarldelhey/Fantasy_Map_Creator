@@ -30,8 +30,11 @@ const draft = reactive({
 })
 const draftSkills = reactive<Record<string, number>>({})
 
-// The authored source stays read-only — copies are what players shape.
-const editable = computed(() => props.character.kind !== 'original')
+// The authored source stays read-only, and a card that was never
+// adopted (no mind.characters row yet) has nothing to write to.
+const editable = computed(
+  () => props.character.kind !== 'original' && props.character.adopted,
+)
 
 function startEdit() {
   Object.assign(draft, {

@@ -70,6 +70,7 @@ def _card(row, episode=None):
         return {
             'name': row.name,
             'kind': row.kind,
+            'adopted': True,
             'slug': row.slug,
             'type': row.type,
             'gender': row.gender,
@@ -87,6 +88,7 @@ def _card(row, episode=None):
     return {
         'name': char.get('name'),
         'kind': 'copy',
+        'adopted': False,
         'slug': None,
         'type': None,
         'gender': None,
