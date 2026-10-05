@@ -10,6 +10,7 @@ const emit = defineEmits<{
   select: [id: string]
   tour: []
   shape: []
+  voice: []
 }>()
 
 function onChange(ev: Event) {
@@ -27,6 +28,7 @@ function onChange(ev: Event) {
 
     <div class="actions">
       <button class="shape" @click="emit('shape')">dar forma</button>
+      <button class="shape" @click="emit('voice')">la voz</button>
       <button class="tour" @click="emit('tour')">¿Cómo funciona una mente?</button>
       <label class="switch">
         <span class="eyebrow">mente</span>

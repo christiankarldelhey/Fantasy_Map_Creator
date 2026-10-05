@@ -109,6 +109,33 @@ export interface EpisodeView {
   narrative_language: string | null
 }
 
+export interface VoiceBand {
+  below: number | null
+  above_m: number | null
+  phrase: string | null
+  phrases: string[] | null
+}
+
+export interface VoicePack {
+  game: string
+  bands: Record<string, { rows: VoiceBand[]; custom: boolean }>
+  thresholds: Record<string, { value: number; custom: boolean }>
+  phrases: Record<string, { items: string[]; custom: boolean }>
+  facets: {
+    event_type: string
+    field_path: string
+    unit: string | null
+    description: string | null
+    custom: boolean
+  }[]
+}
+
+export interface Accent {
+  thresholds: Record<string, number>
+  phrases: Record<string, string[]>
+  bands: Record<string, { ordinal: number; below: number | null; phrase: string | null }[]>
+}
+
 export interface TraitView {
   value: number
   label: string

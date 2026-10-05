@@ -67,3 +67,46 @@ export function concernLabel(key: string): string {
   if (CONCERN_LABELS[key]) return CONCERN_LABELS[key]
   return humanize(key.replace(/^(tag|type|entity):/, '').replace(/^[^:]+:/, ''))
 }
+
+/** Voice keys group by domain: 'night.calm' → 'la noche'. */
+const DOMAIN_LABELS: Record<string, string> = {
+  climate: 'el clima',
+  night: 'la noche',
+  condition: 'el cuerpo',
+  equipage: 'el equipo',
+  meal: 'las comidas',
+  terrain: 'el terreno',
+  road: 'el camino',
+  place: 'los lugares',
+  water: 'el agua',
+  mind: 'la mente',
+  journey: 'el viaje',
+  endstate: 'el final',
+  note: 'las notas',
+  opening: 'la apertura',
+  elevation: 'la altura',
+  rest: 'el descanso',
+}
+
+export function domainLabel(key: string): string {
+  const domain = key.split('.')[0] ?? key
+  return DOMAIN_LABELS[domain] ?? humanize(domain)
+}
+
+export function groupByDomain<T>(
+  obj: Record<string, T>,
+): [string, [string, T][]][] {
+  const groups = new Map<string, [string, T][]>()
+  for (const [key, value] of Object.entries(obj)) {
+    const domain = key.split('.')[0] ?? key
+    const list = groups.get(domain) ?? []
+    list.push([key, value])
+    groups.set(domain, list)
+  }
+  return [...groups.entries()]
+}
+
+/** 'night.calm' → 'calma', 'mind.need.hunger.deep' → 'hambre profunda'. */
+export function voiceKeyLabel(key: string): string {
+  return humanize(key.split('.').slice(1).join('.'))
+}
