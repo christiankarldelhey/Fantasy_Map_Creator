@@ -28,6 +28,13 @@ export function useMind(characterId: Ref<string | null>) {
     }
   }, { immediate: true })
 
+  /** Re-fetch after a mutation (card edit) without losing the tape. */
+  async function refresh() {
+    const id = characterId.value
+    if (!id) return
+    mind.value = await fetchMind(id)
+  }
+
   const indices = computed(() =>
     (mind.value?.episodes ?? []).map((e) => e.idx).filter((i): i is number => i != null),
   )
@@ -47,5 +54,5 @@ export function useMind(characterId: Ref<string | null>) {
     if (next != null) episodeIdx.value = next
   }
 
-  return { mind, episodeIdx, snapshot, indices, loading, error, goTo, step }
+  return { mind, episodeIdx, snapshot, indices, loading, error, goTo, step, refresh }
 }

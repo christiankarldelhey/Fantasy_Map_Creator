@@ -14,7 +14,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 import app.narrate_day as narrate_module
 from app.db import SessionLocal
-from app.mind.tables import Brain, ForgottenMemory
+from app.mind.tables import Brain, Character, Episode, ForgottenMemory
 
 AUTH = ('studio-user', 'studio-pass')
 
@@ -149,3 +149,53 @@ def test_brain_without_episodes_is_listed_last(client):
     minds = client.get('/studio/api/minds', auth=AUTH).json()['minds']
     assert minds[-1]['last_lived_at'] is None
     assert any(m['character_id'] == char for m in minds)
+
+
+def test_card_edit_writes_the_minds_copy(client):
+    char = _uid('edit')
+    _live(client, char, 1)  # first open adopts the card
+
+    r = client.patch(
+        f'/studio/api/minds/{char}/card', auth=AUTH,
+        json={
+            'foundational_phrase': 'A new way of seeing.',
+            'skills': {'lore': 11, 'tracking': 4},
+        },
+    )
+    assert r.status_code == 200, r.text
+    card = r.json()
+    assert card['foundational_phrase'] == 'A new way of seeing.'
+    assert card['skills'] == {'lore': 10, 'tracking': 4}  # 0-10 band
+
+    # …and the next open narrates from the edited copy, not the wire.
+    client.post('/episodes', json={
+        'game_id': 'middle_earth',
+        'character': {'id': char, 'system_prompt': 'Wire says otherwise.'},
+        'episode_ref': 'd2', 'events': [], 'day': {},
+    })
+    session = SessionLocal()
+    ep = (
+        session.query(Episode)
+        .filter_by(character_id=char, episode_ref='d2')
+        .one()
+    )
+    assert ep.narrator_payload['character']['system_prompt'] == (
+        'A new way of seeing.'
+    )
+    session.close()
+
+
+def test_original_cards_refuse_edits(client):
+    char = _uid('orig')
+    session = SessionLocal()
+    session.add(Character(
+        game_id='middle_earth', character_id=char, kind='original',
+        name='Authored', skills={},
+    ))
+    session.commit()
+    session.close()
+
+    r = client.patch(
+        f'/studio/api/minds/{char}/card', auth=AUTH, json={'name': 'X'},
+    )
+    assert r.status_code == 409

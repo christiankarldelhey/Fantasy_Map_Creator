@@ -17,3 +17,16 @@ export const fetchMinds = (signal?: AbortSignal) =>
 
 export const fetchMind = (characterId: string, signal?: AbortSignal) =>
   getJson<MindDetail>(`/minds/${encodeURIComponent(characterId)}`, signal)
+
+export async function patchCard(
+  characterId: string,
+  patch: Partial<import('./types').CharacterCard>,
+): Promise<void> {
+  const res = await fetch(`${BASE}/minds/${encodeURIComponent(characterId)}/card`, {
+    method: 'PATCH',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(patch),
+  })
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
+}

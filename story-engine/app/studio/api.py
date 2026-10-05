@@ -14,8 +14,10 @@ import secrets
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from pydantic import BaseModel
 from sqlalchemy import func
 from sqlalchemy.orm import Session
+from typing import Dict, Optional
 
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
@@ -97,6 +99,14 @@ def _card(row, episode=None):
         'skills': char.get('skills') or {},
         'original': None,
     }
+
+
+def _with_lineage(db, row, card):
+    """Resolve the copy's Original slug onto the card payload."""
+    if row is not None and row.original_id:
+        original = db.get(Character, row.original_id)
+        card['original'] = original.slug if original else None
+    return card
 
 
 def _condition(episode):
@@ -269,10 +279,7 @@ def get_mind(
         .filter_by(game_id=game, character_id=character_id)
         .one_or_none()
     )
-    card = _card(card_row, latest)
-    if card_row is not None and card_row.original_id:
-        original = db.get(Character, card_row.original_id)
-        card['original'] = original.slug if original else None
+    card = _with_lineage(db, card_row, _card(card_row, latest))
 
     episodes_out = []
     for ep in episodes:
@@ -347,3 +354,50 @@ def get_mind(
         ],
         'episodes': episodes_out,
     }
+
+
+class CardPatch(BaseModel):
+    """Editable identity fields. Only unset-absent keys apply — a null
+    value clears the field."""
+    name: Optional[str] = None
+    type: Optional[str] = None
+    gender: Optional[str] = None
+    entity_name: Optional[str] = None
+    description: Optional[str] = None
+    description_es: Optional[str] = None
+    portrait_url: Optional[str] = None
+    foundational_phrase: Optional[str] = None
+    voice_instructions: Optional[str] = None
+    skills: Optional[Dict[str, float]] = None
+
+
+@router.patch('/minds/{character_id}/card')
+def patch_card(
+    character_id: str,
+    body: CardPatch,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    """Edit a copy's card (ADR 0001). Originals stay read-only for now —
+    they are the authored source every future copy descends from."""
+    row = (
+        db.query(Character)
+        .filter_by(game_id=game, character_id=character_id)
+        .one_or_none()
+    )
+    if row is None:
+        raise HTTPException(status_code=404, detail='character card not found')
+    if row.kind == 'original':
+        raise HTTPException(
+            status_code=409,
+            detail='originals are not editable yet',
+        )
+    for field, value in body.model_dump(exclude_unset=True).items():
+        if field == 'skills':
+            row.skills = {
+                k: max(0, min(10, int(v))) for k, v in (value or {}).items()
+            }
+        else:
+            setattr(row, field, value)
+    db.commit()
+    return _with_lineage(db, row, _card(row))

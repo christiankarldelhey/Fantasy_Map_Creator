@@ -16,7 +16,7 @@ import { layoutMind } from './lib/layout'
 import { episodeMarks } from './lib/mindAt'
 
 const { minds, selectedId, error: rosterError, select } = useMinds()
-const { mind, episodeIdx, snapshot, indices, loading, error, goTo, step } = useMind(selectedId)
+const { mind, episodeIdx, snapshot, indices, loading, error, goTo, step, refresh } = useMind(selectedId)
 
 const focus = shallowRef<NodeRef | null>(null)
 const picked = shallowRef<NodeRef | null>(null)
@@ -93,10 +93,12 @@ function openTour() {
       <CharacterCard
         class="region-card"
         :character="mind.character"
+        :character-id="mind.character_id"
         :condition="mind.condition"
         :mood="snapshot.episode.mood"
         :preset="mind.preset"
         :counts="snapshot.counts"
+        @saved="refresh"
       />
 
       <div class="region-graph">

@@ -1,17 +1,70 @@
 <script setup lang="ts">
-import { computed, shallowRef } from 'vue'
+import { computed, reactive, shallowRef } from 'vue'
+import { patchCard } from '../api'
 import { humanize, moodColor } from '../lib/format'
 import type { CharacterCard, Mood } from '../types'
 
 const props = defineProps<{
   character: CharacterCard
+  characterId: string
   condition: Record<string, unknown>
   mood: Mood
   preset: string
   counts: { alive: number; forgotten: number; beliefs: number }
 }>()
 
+const emit = defineEmits<{ saved: [] }>()
+
 const expanded = shallowRef(false)
+const editing = shallowRef(false)
+const saving = shallowRef(false)
+const saveError = shallowRef<string | null>(null)
+const draft = reactive({
+  name: '',
+  entity_name: '',
+  portrait_url: '',
+  description: '',
+  description_es: '',
+  foundational_phrase: '',
+  voice_instructions: '',
+})
+const draftSkills = reactive<Record<string, number>>({})
+
+// The authored source stays read-only — copies are what players shape.
+const editable = computed(() => props.character.kind !== 'original')
+
+function startEdit() {
+  Object.assign(draft, {
+    name: props.character.name ?? '',
+    entity_name: props.character.entity_name ?? '',
+    portrait_url: props.character.portrait_url ?? '',
+    description: props.character.description ?? '',
+    description_es: props.character.description_es ?? '',
+    foundational_phrase: props.character.foundational_phrase ?? '',
+    voice_instructions: props.character.voice_instructions ?? '',
+  })
+  Object.keys(draftSkills).forEach((k) => delete draftSkills[k])
+  Object.assign(draftSkills, props.character.skills)
+  saveError.value = null
+  editing.value = true
+}
+
+async function save() {
+  saving.value = true
+  saveError.value = null
+  try {
+    await patchCard(props.characterId, {
+      ...draft,
+      skills: { ...draftSkills },
+    })
+    editing.value = false
+    emit('saved')
+  } catch (e) {
+    saveError.value = (e as Error).message
+  } finally {
+    saving.value = false
+  }
+}
 
 const initial = computed(() => (props.character.name ?? '?').trim().charAt(0).toUpperCase())
 
@@ -70,8 +123,35 @@ const lineage = computed(() =>
     <p class="lineage">
       <span v-if="character.entity_name">{{ character.entity_name }}</span>
       <span class="kind">{{ lineage }}</span>
+      <button v-if="editable && !editing" class="edit" @click="startEdit">editar ficha</button>
     </p>
 
+    <div v-if="editing" class="editform">
+      <label>nombre<input v-model="draft.name" /></label>
+      <label>gente / tipo<input v-model="draft.entity_name" /></label>
+      <label>retrato (url)<input v-model="draft.portrait_url" placeholder="https://…" /></label>
+      <label>descripción<textarea v-model="draft.description" rows="3" /></label>
+      <label>descripción (es)<textarea v-model="draft.description_es" rows="3" /></label>
+      <label>frase fundacional<textarea v-model="draft.foundational_phrase" rows="4" /></label>
+      <label>cómo habla<textarea v-model="draft.voice_instructions" rows="3" /></label>
+
+      <fieldset class="skill-edit">
+        <legend>lo que sabe hacer</legend>
+        <label v-for="(v, k) in draftSkills" :key="k">
+          <span>{{ humanize(String(k)) }}</span>
+          <input v-model.number="draftSkills[k]" type="range" min="0" max="10" step="1" />
+          <b>{{ v }}</b>
+        </label>
+      </fieldset>
+
+      <p v-if="saveError" class="save-error">No se guardó: {{ saveError }}</p>
+      <div class="edit-actions">
+        <button class="save" :disabled="saving" @click="save">{{ saving ? 'guardando…' : 'guardar' }}</button>
+        <button class="cancel" @click="editing = false">cancelar</button>
+      </div>
+    </div>
+
+    <template v-else>
     <p v-if="character.description" class="description">{{ character.description }}</p>
 
     <dl class="tally">
@@ -111,6 +191,7 @@ const lineage = computed(() =>
         </div>
       </dl>
     </section>
+    </template>
   </aside>
 </template>
 
@@ -233,4 +314,84 @@ const lineage = computed(() =>
 .condition div { display: grid; grid-template-columns: 92px 1fr; }
 .condition dt { color: var(--chalk-dim); text-transform: lowercase; }
 .condition dd { margin: 0; color: var(--chalk); }
+
+.edit {
+  margin-left: auto;
+  background: none;
+  border: 1px dashed var(--chalk-faint);
+  border-radius: 3px;
+  padding: 2px 8px;
+  color: var(--amber);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.edit:hover { border-color: var(--amber); }
+
+.editform { display: grid; gap: 10px; }
+.editform label {
+  display: grid;
+  gap: 3px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-dim);
+}
+.editform input, .editform textarea {
+  background: rgba(11, 17, 28, 0.7);
+  border: 1px solid var(--chalk-faint);
+  border-radius: 3px;
+  color: var(--paper);
+  font-family: var(--prose);
+  font-size: 12.5px;
+  padding: 6px 8px;
+  resize: vertical;
+}
+.editform input:focus, .editform textarea:focus { outline: none; border-color: var(--amber); }
+
+.skill-edit {
+  border: 1px dashed var(--chalk-faint);
+  border-radius: 3px;
+  margin: 0;
+  padding: 8px 10px 10px;
+  display: grid;
+  gap: 6px;
+}
+.skill-edit legend {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-dim);
+  padding: 0 4px;
+}
+.skill-edit label {
+  display: grid;
+  grid-template-columns: 80px 1fr 18px;
+  align-items: center;
+  gap: 8px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.skill-edit input[type='range'] { accent-color: var(--amber); padding: 0; }
+.skill-edit b { color: var(--amber); font-weight: 400; text-align: right; }
+
+.save-error { color: var(--rose); font-size: 11.5px; margin: 0; }
+.edit-actions { display: flex; gap: 10px; }
+.save {
+  background: var(--amber);
+  border: 0;
+  border-radius: 3px;
+  color: var(--night);
+  font-weight: 700;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+.save:disabled { opacity: 0.5; cursor: default; }
+.cancel {
+  background: none;
+  border: 0;
+  color: var(--chalk-dim);
+  text-decoration: underline dotted;
+  cursor: pointer;
+}
 </style>
