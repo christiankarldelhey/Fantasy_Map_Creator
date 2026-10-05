@@ -138,6 +138,9 @@ const SECONDS_PER_HOUR = 3600;
 const DAY_BUFFER_BEFORE_M = 15000;
 const DAY_BUFFER_AFTER_M = 5000;
 const LOCATION_ON_ROUTE_BUFFER_M = 100;
+// The trip's chosen endpoint snaps to a location this close — a traveller
+// who walked to Esgaroth ends the day IN Esgaroth.
+const DESTINATION_SNAP_M = 2500;
 // Settlements pull travellers off the road: the bigger the place, the wider
 // its attraction radius and the likelier the traveller ends the day there.
 // radius_m — how far off-route the place can be and still be a candidate;
@@ -339,9 +342,22 @@ export function computeDailyCheckpoints(totalTime, totalDist, candidates, coords
     const targetTime = Math.min(prevTime + WALKING_HOURS * SECONDS_PER_HOUR, totalTime);
 
     if (targetTime >= totalTime - EPS) {
+      // The destination itself: if a location sits where the trip ends, the
+      // traveller arrives AT it — a chosen town destination is entered, a
+      // ruin is reached. Hostile places still never anchor the night: the
+      // traveller camps outside them even at journey's end.
+      let destinationSite = null;
+      let bestDelta = Infinity;
+      for (const c of candidates) {
+        const delta = Math.abs(c.distance_m - totalDist);
+        if (delta > DESTINATION_SNAP_M || delta >= bestDelta) continue;
+        if (isHostileLocation(c)) continue;
+        destinationSite = c;
+        bestDelta = delta;
+      }
       checkpoints.push({
         day_number: day,
-        location: null,
+        location: destinationSite ? checkpointLocation(destinationSite) : null,
         coordinates: [endLng, endLat],
         distance_m: totalDist,
         time_seconds: totalTime,

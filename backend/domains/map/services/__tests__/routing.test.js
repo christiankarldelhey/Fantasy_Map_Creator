@@ -219,3 +219,34 @@ test('checkpoints: a settlement beyond its attraction radius cannot pull', () =>
   );
   assert.equal(cps[0].location, null);
 });
+
+test('checkpoints: a town at the trip endpoint is entered, not skirted', () => {
+  // Regression: the destination checkpoint used to ship location: null —
+  // the traveller 'arrived' at Esgaroth and camped outside it.
+  const esgaroth = { ...TOWN_AT_45K, name: 'Esgaroth', distance_m: 99800, off_route_m: 10 };
+  const cps = computeDailyCheckpoints(
+    72000, 100000, [esgaroth], FLAT_COORDS, FLAT_DISTS, FLAT_TIMES, 0.9, 0,
+    { rng: neverStop } // attraction never even rolls: destination snaps
+  );
+  const dest = cps.at(-1);
+  assert.equal(dest.is_destination, true);
+  assert.equal(dest.location.name, 'Esgaroth');
+});
+
+test('checkpoints: a hostile destination never anchors the night', () => {
+  const fortress = { ...HOSTILE_TOWN_AT_50K, distance_m: 99900 };
+  const cps = computeDailyCheckpoints(
+    72000, 100000, [fortress], FLAT_COORDS, FLAT_DISTS, FLAT_TIMES, 0.9, 0,
+    { rng: alwaysStop, isHostileLocation: (l) => l.cultural_family === 'enemy' }
+  );
+  assert.equal(cps.at(-1).location, null); // camps outside the walls
+});
+
+test('checkpoints: a place too far from the endpoint stays unvisited', () => {
+  const farTown = { ...TOWN_AT_45K, distance_m: 96000 }; // 4 km past the end
+  const cps = computeDailyCheckpoints(
+    72000, 100000, [farTown], FLAT_COORDS, FLAT_DISTS, FLAT_TIMES, 0.9, 0,
+    { rng: neverStop }
+  );
+  assert.equal(cps.at(-1).location, null);
+});

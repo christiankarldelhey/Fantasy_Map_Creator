@@ -190,6 +190,9 @@ class DayPayload(BaseModel):
     overnight_location: Optional[Dict[str, Any]] = None
     overnight_interaction: Optional[Dict[str, Any]] = None
     elevation_profile: Optional[ElevationProfile] = None
+    # How the night was secured (paid bed, charity plea, turned away) —
+    # host-owned shape; the prompt only narrates it.
+    lodging: Optional[Dict[str, Any]] = None
 
 
 class OpenEpisodeRequest(BaseModel):

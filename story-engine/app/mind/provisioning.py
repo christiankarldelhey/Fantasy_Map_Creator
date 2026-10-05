@@ -260,6 +260,7 @@ DEFAULT_WIRING = {
     'salience_min.tag:charity': 0.5,
     'salience_min.tag:turned_away': 0.5,
     'salience_min.tag:indoor': 0.3,
+    'salience_min.tag:paid': 0.35,
     # Retention (C16) — nothing is immortal, but intensity sticks:
     # a memory of strong feeling or real importance decays at the
     # sticky rate; consolidation by recall needs an importance floor

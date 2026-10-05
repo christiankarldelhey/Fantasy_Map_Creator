@@ -47,9 +47,17 @@ def collect_location_notes(locations):
     notes = []
     for l in locations:
         kind = f" ({readable_type(l.get('type'))})" if l.get('type') else ''
-        proximity = _proximity_phrase(l.get('distance_km'))
+        # 'entered' beats distance math: the traveller walked IN, whatever
+        # the off-route metres say. 'hostile' is the opposite — an enemy
+        # place skirted from outside, never entered.
         when = time_of_day_phrase(l.get('hour_float'))
-        notes.append(f"- {l.get('name')}{kind}: {proximity}, {when}.{description_suffix(l.get('description'))}")
+        if l.get('entered'):
+            proximity = f'reaches it {when} and stays — the day ends here'
+        elif l.get('hostile'):
+            proximity = f'passed outside, {when} — enemy country, no welcome there'
+        else:
+            proximity = f'{_proximity_phrase(l.get("distance_km"))}, {when}'
+        notes.append(f"- {l.get('name')}{kind}: {proximity}.{description_suffix(l.get('description'))}")
     return notes
 
 
