@@ -24,10 +24,19 @@ export interface MindList {
 
 export interface CharacterCard {
   name: string | null
+  kind: 'original' | 'copy' | string
+  slug: string | null
+  type: string | null
+  gender: string | null
+  entity_name: string | null
+  portrait_url: string | null
   description: string | null
+  description_es: string | null
   foundational_phrase: string | null
   voice_instructions: string | null
   skills: Record<string, number>
+  // Slug of the Original this copy descends from.
+  original: string | null
 }
 
 export interface MemoryNode {

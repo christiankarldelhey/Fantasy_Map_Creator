@@ -32,12 +32,21 @@ const condition = computed(() =>
 )
 
 const moodStyle = computed(() => ({ background: moodColor(props.mood) }))
+
+const lineage = computed(() =>
+  props.character.kind === 'original'
+    ? 'original'
+    : props.character.original
+      ? `copia de ${props.character.original}`
+      : 'copia',
+)
 </script>
 
 <template>
   <aside class="card">
     <div class="portrait" aria-hidden="true">
-      <svg viewBox="0 0 120 120">
+      <img v-if="character.portrait_url" :src="character.portrait_url" :alt="character.name ?? ''" class="portrait-img" />
+      <svg v-else viewBox="0 0 120 120">
         <defs>
           <filter id="pencil">
             <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="3" />
@@ -58,6 +67,12 @@ const moodStyle = computed(() => ({ background: moodColor(props.mood) }))
       <span class="tape-label">{{ preset }}</span>
       <span class="mood">ánimo: <b>{{ mood.dominant ?? '—' }}</b></span>
     </p>
+    <p class="lineage">
+      <span v-if="character.entity_name">{{ character.entity_name }}</span>
+      <span class="kind">{{ lineage }}</span>
+    </p>
+
+    <p v-if="character.description" class="description">{{ character.description }}</p>
 
     <dl class="tally">
       <div><dt>recuerdos</dt><dd>{{ counts.alive }}</dd></div>
@@ -109,6 +124,15 @@ const moodStyle = computed(() => ({ background: moodColor(props.mood) }))
 
 .portrait { position: relative; width: 112px; margin: 0 0 10px -4px; }
 .portrait svg { width: 112px; height: 112px; display: block; }
+.portrait-img {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 4px;
+  border: 1px solid var(--chalk-dim);
+  filter: sepia(0.25) saturate(0.85);
+}
 .ring { fill: none; stroke: var(--chalk-dim); stroke-width: 1.2; }
 .ring-2 { stroke: var(--chalk-faint); stroke-dasharray: 4 6; }
 .initial { font-family: var(--display); font-size: 58px; fill: var(--paper); }
@@ -132,9 +156,28 @@ const moodStyle = computed(() => ({ background: moodColor(props.mood) }))
   letter-spacing: -0.01em;
 }
 
-.meta { display: flex; align-items: center; gap: 12px; margin: 0 0 18px; }
+.meta { display: flex; align-items: center; gap: 12px; margin: 0 0 6px; }
 .mood { color: var(--chalk-dim); }
 .mood b { color: var(--chalk); font-weight: 400; }
+
+.lineage {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 14px;
+  font-size: 11.5px;
+  color: var(--chalk-dim);
+  letter-spacing: 0.04em;
+}
+.lineage .kind { font-style: italic; font-family: var(--prose); }
+
+.description {
+  margin: 0 0 20px;
+  font-family: var(--prose);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--chalk);
+}
 
 .tally {
   display: grid;

@@ -2,10 +2,9 @@
 # Mind Studio — read API (block 1: see a Mind)
 # ----------------------------------------------------------------------------
 # JSON for the Studio app (ADR 0002). Read-only: everything it shows the
-# Mind already owns — memories, Forgotten traces, beliefs, needs, mood and
-# every Episode with its Lens and narration. The Character card comes from
-# the last snapshot the Host sent on open until the Mind owns Characters
-# (ADR 0001, block 2). Never reads Host tables.
+# Mind already owns — the Character card, memories, Forgotten traces,
+# beliefs, needs, mood and every Episode with its Lens and narration.
+# Never reads Host tables.
 #
 # Auth: HTTP Basic against ADMIN_USER / ADMIN_PASSWORD — unset = closed.
 # ============================================================================
@@ -21,7 +20,7 @@ from sqlalchemy.orm import Session
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.tables import (
-    Belief, Brain, Episode, ForgottenMemory, Memory, Need,
+    Belief, Brain, Character, Episode, ForgottenMemory, Memory, Need,
 )
 
 _basic = HTTPBasic()
@@ -61,16 +60,42 @@ _AGE = re.compile(r'^(Yesterday|\d+ days ago|A long while ago)\s+—\s*', re.I)
 _ANCHOR = re.compile(r'\s*—\s*the .+ calls it back\s*$')
 
 
-def _card(episode):
-    """The Character as the Host last described it (pre block 2)."""
+def _card(row, episode=None):
+    """The Character card, Mind-owned (ADR 0001). Minds never adopted at
+    open (a sim that predates C34, say) fall back to the last snapshot
+    the Host sent."""
+    if row is not None:
+        return {
+            'name': row.name,
+            'kind': row.kind,
+            'slug': row.slug,
+            'type': row.type,
+            'gender': row.gender,
+            'entity_name': row.entity_name,
+            'portrait_url': row.portrait_url,
+            'description': row.description,
+            'description_es': row.description_es,
+            'foundational_phrase': row.foundational_phrase,
+            'voice_instructions': row.voice_instructions,
+            'skills': row.skills or {},
+            'original': None,
+        }
     payload = (episode.narrator_payload or {}) if episode else {}
     char = payload.get('character') or {}
     return {
         'name': char.get('name'),
+        'kind': 'copy',
+        'slug': None,
+        'type': None,
+        'gender': None,
+        'entity_name': char.get('entity_name'),
+        'portrait_url': None,
         'description': char.get('description'),
+        'description_es': None,
         'foundational_phrase': char.get('system_prompt'),
         'voice_instructions': char.get('introduction_instructions'),
         'skills': char.get('skills') or {},
+        'original': None,
     }
 
 
@@ -175,6 +200,10 @@ def list_minds(game: str = DEFAULT_GAME, db: Session = Depends(get_session)):
         .group_by(Memory.character_id)
         .all()
     )
+    cards = {
+        c.character_id: c
+        for c in db.query(Character).filter_by(game_id=game)
+    }
     minds = []
     for brain, lived_at, episodes in rows:
         latest = (
@@ -185,7 +214,10 @@ def list_minds(game: str = DEFAULT_GAME, db: Session = Depends(get_session)):
         ) if lived_at else None
         minds.append({
             'character_id': brain.character_id,
-            'name': _card(latest)['name'] or brain.character_id,
+            'name': (
+                _card(cards.get(brain.character_id), latest)['name']
+                or brain.character_id
+            ),
             'preset': brain.mold_slug,
             'episodes': episodes or 0,
             'memories': mem_counts.get(brain.character_id, 0),
@@ -232,6 +264,16 @@ def get_mind(
     )
     latest = episodes[-1] if episodes else None
 
+    card_row = (
+        db.query(Character)
+        .filter_by(game_id=game, character_id=character_id)
+        .one_or_none()
+    )
+    card = _card(card_row, latest)
+    if card_row is not None and card_row.original_id:
+        original = db.get(Character, card_row.original_id)
+        card['original'] = original.slug if original else None
+
     episodes_out = []
     for ep in episodes:
         evoked = set((ep.lens_eval or {}).get('evoked') or {
@@ -271,7 +313,7 @@ def get_mind(
         'character_id': character_id,
         'game': game,
         'preset': brain.mold_slug,
-        'character': _card(latest),
+        'character': card,
         'condition': _condition(latest),
         'mood': brain.mood or {},
         'memories': memories,
