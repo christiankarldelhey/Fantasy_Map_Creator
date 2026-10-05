@@ -28,6 +28,7 @@ new_episode_id = _new_id('ep')
 new_brain_id = _new_id('br')
 new_belief_id = _new_id('bl')
 new_memory_id = _new_id('mem')
+new_character_id = _new_id('chr')
 
 
 class Episode(Base):
@@ -270,6 +271,58 @@ class Brain(Base):
     counters: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
 
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
+
+
+class Character(Base):
+    """The Mind-owned character card (ADR 0001). Who the character IS —
+    name, portrait, foundational phrase, skills — lives here; the Host
+    still owns the Condition (position, body, coins, alive/dead) and
+    reports it per Episode.
+
+    kind='original' is the authored source; kind='copy' is one playable
+    instance cloned from an Original (original_id). Editing a copy never
+    touches the Original. A Character self-provisions at open: the first
+    payload a Host sends becomes the card's initial content — from then
+    on the Mind's copy is authoritative.
+
+    character_id is the Host's external ref — the same key brains and
+    episodes use. For Middle Earth it is the character_state.id."""
+
+    __tablename__ = 'characters'
+    __table_args__ = (
+        UniqueConstraint('game_id', 'character_id', name='uq_character'),
+        Index('ix_characters_original', 'original_id'),
+    )
+
+    id: Mapped[str] = mapped_column(String(40), primary_key=True,
+                                    default=new_character_id)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    character_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    kind: Mapped[str] = mapped_column(String(20), nullable=False,
+                                      default='copy')
+    original_id: Mapped[str] = mapped_column(
+        ForeignKey(f'{MIND_SCHEMA}.characters.id', ondelete='SET NULL'),
+        nullable=True)
+    # The Host's readable slug ('aranath-user-2') — purely informational.
+    slug: Mapped[str] = mapped_column(String(120), nullable=True)
+
+    name: Mapped[str] = mapped_column(String(255), nullable=True)
+    type: Mapped[str] = mapped_column(String(60), nullable=True)
+    gender: Mapped[str] = mapped_column(String(20), nullable=True)
+    entity_name: Mapped[str] = mapped_column(String(160), nullable=True)
+    description: Mapped[str] = mapped_column(Text, nullable=True)
+    description_es: Mapped[str] = mapped_column(Text, nullable=True)
+    portrait_url: Mapped[str] = mapped_column(Text, nullable=True)
+    # Foundational phrase (was system_prompt) + how the character speaks.
+    foundational_phrase: Mapped[str] = mapped_column(Text, nullable=True)
+    voice_instructions: Mapped[str] = mapped_column(Text, nullable=True)
+    # What the character knows how to do — {tracking: 8, lore: 5, ...}.
+    skills: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_now)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_now, onupdate=_now)
 
 
 class Belief(Base):
