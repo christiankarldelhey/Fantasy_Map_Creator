@@ -17,13 +17,15 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel
 from sqlalchemy import func
 from sqlalchemy.orm import Session
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
+from app.mind import nl_resolver
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import (
-    Belief, Brain, Character, Episode, ForgottenMemory, Memory, Need,
+    Belief, Brain, BrainNlOverride, Character, Episode, Facet,
+    ForgottenMemory, Memory, Need, NlBand, NlPhraseList, NlThreshold,
 )
 from app.mind.traits import TRAITS, apply_trait, traits_of
 
@@ -473,3 +475,319 @@ def patch_concerns(
     brain.theme_weights = weights
     db.commit()
     return weights
+
+
+# ============================================================================
+# The World voice (block 4) — how the Host's numbers become words
+# ----------------------------------------------------------------------------
+# The effective NL pack merges stored rows over built-in defaults key by
+# key: a table/key with ANY stored rows replaces its default content
+# entirely. Editing therefore rewrites a whole band table or phrase list;
+# deleting the stored rows reverts that key to the default.
+# ============================================================================
+
+
+def _voice(db, game):
+    pack = nl_resolver._pack(db, game)
+    stored = nl_resolver._load_pack(db, game)
+    custom_facets = {
+        (f['event_type'], f['field_path']) for f in stored['facets']
+    }
+    return {
+        'game': game,
+        'bands': {
+            table: {'rows': rows, 'custom': table in stored['bands']}
+            for table, rows in sorted(pack['bands'].items())
+        },
+        'thresholds': {
+            key: {'value': value, 'custom': key in stored['thresholds']}
+            for key, value in sorted(pack['thresholds'].items())
+        },
+        'phrases': {
+            key: {'items': items, 'custom': key in stored['phrases']}
+            for key, items in sorted(pack['phrases'].items())
+        },
+        'facets': [
+            {
+                **f,
+                'custom': (f['event_type'], f['field_path']) in custom_facets,
+            }
+            for f in pack['facets']
+        ],
+    }
+
+
+@router.get('/voice')
+def get_voice(game: str = DEFAULT_GAME, db: Session = Depends(get_session)):
+    """La voz del mundo — the pack the narrator resolves through."""
+    return _voice(db, game)
+
+
+class BandRow(BaseModel):
+    below: Optional[float] = None
+    above_m: Optional[float] = None
+    phrase: Optional[str] = None
+    phrases: Optional[List[str]] = None
+
+
+@router.put('/voice/bands/{table}')
+def put_band_table(
+    table: str,
+    rows: List[BandRow],
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    """Rewrite one band table: ordered rows, first match wins."""
+    db.query(NlBand).filter_by(game_id=game, table_name=table).delete()
+    for i, r in enumerate(rows):
+        meta = {}
+        if r.above_m is not None:
+            meta['above_m'] = r.above_m
+        if r.phrases:
+            meta['phrases'] = r.phrases
+        db.add(NlBand(
+            game_id=game, table_name=table, ordinal=i, below=r.below,
+            phrase=r.phrase, meta=meta or None,
+        ))
+    db.commit()
+    nl_resolver.invalidate(game)
+    return _voice(db, game)['bands']
+
+
+@router.delete('/voice/bands/{table}')
+def delete_band_table(
+    table: str, game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    db.query(NlBand).filter_by(game_id=game, table_name=table).delete()
+    db.commit()
+    nl_resolver.invalidate(game)
+    return _voice(db, game)['bands']
+
+
+class ThresholdValue(BaseModel):
+    value: float
+
+
+@router.put('/voice/thresholds/{key}')
+def put_threshold(
+    key: str,
+    body: ThresholdValue,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    row = (
+        db.query(NlThreshold).filter_by(game_id=game, key=key).one_or_none()
+    )
+    if row is None:
+        db.add(NlThreshold(game_id=game, key=key, value=body.value))
+    else:
+        row.value = body.value
+    db.commit()
+    nl_resolver.invalidate(game)
+    return _voice(db, game)['thresholds']
+
+
+@router.delete('/voice/thresholds/{key}')
+def delete_threshold(
+    key: str, game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    db.query(NlThreshold).filter_by(game_id=game, key=key).delete()
+    db.commit()
+    nl_resolver.invalidate(game)
+    return _voice(db, game)['thresholds']
+
+
+class PhraseListBody(BaseModel):
+    phrases: List[str]
+
+
+@router.put('/voice/phrases/{key}')
+def put_phrase_list(
+    key: str,
+    body: PhraseListBody,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    """Replace a phrase bank wholesale — order is kept, pick is random."""
+    db.query(NlPhraseList).filter_by(game_id=game, key=key).delete()
+    for i, phrase in enumerate(p for p in body.phrases if p.strip()):
+        db.add(NlPhraseList(
+            game_id=game, key=key, ordinal=i, phrase=phrase,
+        ))
+    db.commit()
+    nl_resolver.invalidate(game)
+    return _voice(db, game)['phrases']
+
+
+@router.delete('/voice/phrases/{key}')
+def delete_phrase_list(
+    key: str, game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    db.query(NlPhraseList).filter_by(game_id=game, key=key).delete()
+    db.commit()
+    nl_resolver.invalidate(game)
+    return _voice(db, game)['phrases']
+
+
+class FacetBody(BaseModel):
+    unit: Optional[str] = None
+    description: Optional[str] = None
+
+
+@router.put('/voice/facets/{event_type}/{field_path}')
+def put_facet(
+    event_type: str,
+    field_path: str,
+    body: FacetBody,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    row = (
+        db.query(Facet)
+        .filter_by(game_id=game, event_type=event_type, field_path=field_path)
+        .one_or_none()
+    )
+    if row is None:
+        db.add(Facet(
+            game_id=game, event_type=event_type, field_path=field_path,
+            unit=body.unit, description=body.description,
+        ))
+    else:
+        row.unit = body.unit
+        row.description = body.description
+    db.commit()
+    nl_resolver.invalidate(game)
+    return _voice(db, game)['facets']
+
+
+@router.delete('/voice/facets/{event_type}/{field_path}')
+def delete_facet(
+    event_type: str,
+    field_path: str,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    db.query(Facet).filter_by(
+        game_id=game, event_type=event_type, field_path=field_path,
+    ).delete()
+    db.commit()
+    nl_resolver.invalidate(game)
+    return _voice(db, game)['facets']
+
+
+# ============================================================================
+# Accents — one Mind's exceptions to the World voice (B7)
+# ----------------------------------------------------------------------------
+# brain_nl_overrides replaces a key's global content for that brain only:
+# phrase_list overrides give the Mind its own way of saying things,
+# threshold/band overrides retune what its senses call out.
+# ============================================================================
+
+
+def _accent(db, brain):
+    return {
+        'thresholds': {
+            k: rows[0].value
+            for k, rows in
+            nl_resolver._overrides(db, brain, 'threshold').items()
+        },
+        'phrases': {
+            k: [r.phrase for r in rows]
+            for k, rows in
+            nl_resolver._overrides(db, brain, 'phrase_list').items()
+        },
+        'bands': {
+            k: [
+                {'ordinal': r.ordinal, 'below': r.below, 'phrase': r.phrase}
+                for r in rows
+            ]
+            for k, rows in
+            nl_resolver._overrides(db, brain, 'band').items()
+        },
+    }
+
+
+@router.get('/minds/{character_id}/accent')
+def get_accent(
+    character_id: str,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    brain = _brain_or_404(db, game, character_id)
+    return _accent(db, brain)
+
+
+@router.put('/minds/{character_id}/accent/phrases/{key}')
+def put_accent_phrases(
+    character_id: str,
+    key: str,
+    body: PhraseListBody,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    """The Mind's own way of saying something — replaces the world's
+    phrases for that key in its ears only."""
+    brain = _brain_or_404(db, game, character_id)
+    db.query(BrainNlOverride).filter_by(
+        brain_id=brain.id, kind='phrase_list', key=key,
+    ).delete()
+    for i, phrase in enumerate(p for p in body.phrases if p.strip()):
+        db.add(BrainNlOverride(
+            brain_id=brain.id, kind='phrase_list', key=key,
+            ordinal=i, phrase=phrase,
+        ))
+    db.commit()
+    return _accent(db, brain)
+
+
+@router.delete('/minds/{character_id}/accent/phrases/{key}')
+def delete_accent_phrases(
+    character_id: str,
+    key: str,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    brain = _brain_or_404(db, game, character_id)
+    db.query(BrainNlOverride).filter_by(
+        brain_id=brain.id, kind='phrase_list', key=key,
+    ).delete()
+    db.commit()
+    return _accent(db, brain)
+
+
+@router.put('/minds/{character_id}/accent/thresholds/{key}')
+def put_accent_threshold(
+    character_id: str,
+    key: str,
+    body: ThresholdValue,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    brain = _brain_or_404(db, game, character_id)
+    db.query(BrainNlOverride).filter_by(
+        brain_id=brain.id, kind='threshold', key=key,
+    ).delete()
+    db.add(BrainNlOverride(
+        brain_id=brain.id, kind='threshold', key=key,
+        ordinal=0, value=body.value,
+    ))
+    db.commit()
+    return _accent(db, brain)
+
+
+@router.delete('/minds/{character_id}/accent/thresholds/{key}')
+def delete_accent_threshold(
+    character_id: str,
+    key: str,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    brain = _brain_or_404(db, game, character_id)
+    db.query(BrainNlOverride).filter_by(
+        brain_id=brain.id, kind='threshold', key=key,
+    ).delete()
+    db.commit()
+    return _accent(db, brain)

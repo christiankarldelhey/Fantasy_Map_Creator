@@ -257,3 +257,68 @@ def test_concerns_set_and_remove(client):
         json={'weights': {'tag:entity_type:undead': None}},
     )
     assert 'tag:entity_type:undead' not in r.json()
+
+
+def test_voice_lists_the_effective_pack(client):
+    body = client.get('/studio/api/voice', auth=AUTH).json()
+    assert body['game'] == 'middle_earth'
+    # The built-in defaults are always there as fallback.
+    assert 'temperature' in body['bands']
+    assert 'climate.windy_speed_min' in body['thresholds']
+    assert 'mind.need.hunger' in body['phrases']
+    assert body['facets']
+
+
+def test_voice_threshold_set_and_revert(client):
+    r = client.put(
+        '/studio/api/voice/thresholds/climate.windy_speed_min',
+        auth=AUTH, json={'value': 99},
+    )
+    assert r.status_code == 200, r.text
+    t = r.json()['climate.windy_speed_min']
+    assert t['value'] == 99 and t['custom'] is True
+
+    r = client.delete(
+        '/studio/api/voice/thresholds/climate.windy_speed_min', auth=AUTH,
+    )
+    t = r.json()['climate.windy_speed_min']
+    assert t['custom'] is False
+
+
+def test_voice_phrase_list_replaces_and_reverts(client):
+    key = 'studio.test.phrases'
+    r = client.put(
+        f'/studio/api/voice/phrases/{key}', auth=AUTH,
+        json={'phrases': ['first words', 'other words', '   ']},
+    )
+    assert r.json()[key] == {'items': ['first words', 'other words'],
+                             'custom': True}
+
+    r = client.get('/studio/api/voice', auth=AUTH).json()
+    assert r['phrases'][key]['items'] == ['first words', 'other words']
+
+    r = client.delete(f'/studio/api/voice/phrases/{key}', auth=AUTH)
+    assert key not in r.json()
+
+
+def test_accent_overrides_for_one_mind_only(client):
+    char = _uid('accent')
+    _live(client, char, 1)
+
+    r = client.put(
+        f'/studio/api/minds/{char}/accent/phrases/night.calm', auth=AUTH,
+        json={'phrases': ['a silence only she hears']},
+    )
+    assert r.status_code == 200, r.text
+    assert r.json()['phrases']['night.calm'] == ['a silence only she hears']
+
+    # The world's voice is untouched — the accent is ears-only.
+    voice = client.get('/studio/api/voice', auth=AUTH).json()
+    assert voice['phrases']['night.calm']['items'] != [
+        'a silence only she hears'
+    ]
+
+    r = client.delete(
+        f'/studio/api/minds/{char}/accent/phrases/night.calm', auth=AUTH,
+    )
+    assert 'night.calm' not in r.json()['phrases']
