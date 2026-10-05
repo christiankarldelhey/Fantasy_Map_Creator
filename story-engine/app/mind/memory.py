@@ -15,11 +15,37 @@ from datetime import date as date_type, datetime
 from app.mind.embeddings import embed
 from app.mind.nl_resolver import _humanize, phrases as nl_phrases
 from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.tables import Belief, Episode, Memory, Need
+from app.mind.tables import Belief, Episode, ForgottenMemory, Memory, Need
 
 
 def _wiring(brain):
     return {**DEFAULT_WIRING, **(brain.wiring or {})}
+
+
+def forget(session, mem, episode_idx):
+    """Lose a memory but keep its trace (C33): the live row dies, so it
+    can never be evoked again; a ForgottenMemory records what it was and
+    when it went, for the Mind's timeline."""
+    session.add(ForgottenMemory(
+        id=mem.id,
+        game_id=mem.game_id,
+        character_id=mem.character_id,
+        episode_ids=mem.episode_ids or [],
+        kind=mem.kind,
+        tags=mem.tags or [],
+        entity_id=mem.entity_id,
+        desc=mem.desc,
+        valence=mem.valence or 0.0,
+        importance=mem.importance or 0.0,
+        evocations=mem.evocations or 0,
+        voiced=mem.voiced or 0,
+        consolidated=bool(mem.consolidated),
+        created_episode=mem.created_episode,
+        created_date=mem.created_date,
+        forgotten_episode=episode_idx,
+        last_strength=mem.strength or 0.0,
+    ))
+    session.delete(mem)
 
 
 def episode_index(episode):
@@ -216,7 +242,7 @@ def decay_pass(session, brain, current_episode_index):
     """
     w = _wiring(brain)
     decay = w.get('decay', 0.85)
-    forget = w.get('forget_threshold', 0.2)
+    forget_below = w.get('forget_threshold', 0.2)
     fix_k = int(w.get('evocations_to_fix', 3))
     fix_min = w.get('consolidate_min_importance', 0.3)
     sticky = w.get('decay_sticky', 0.95)
@@ -249,8 +275,8 @@ def decay_pass(session, brain, current_episode_index):
             else decay
         )
         mem.strength = (mem.strength or 0.0) * rate
-        if mem.strength < forget:
-            session.delete(mem)
+        if mem.strength < forget_below:
+            forget(session, mem, current_episode_index)
             forgotten += 1
 
     for mem in (
@@ -263,8 +289,8 @@ def decay_pass(session, brain, current_episode_index):
         if _exempt_this_episode(mem, current_episode_index):
             continue
         mem.strength = (mem.strength or 0.0) * slow
-        if mem.strength < forget:
-            session.delete(mem)
+        if mem.strength < forget_below:
+            forget(session, mem, current_episode_index)
             forgotten += 1
     # autoflush is off: without this a deleted row stays visible to the
     # next query in the same close and gets forgotten twice.
@@ -489,7 +515,7 @@ def detect_patterns(session, brain, episode, idx, w):
     # artifact of older rules (e.g. 'tag:wounded:none'): it was never a
     # theme, so it is evicted outright even if just stirred.
     decay = w.get('decay', 0.85)
-    forget = w.get('forget_threshold', 0.2)
+    forget_below = w.get('forget_threshold', 0.2)
     faded = 0
     for tag, pat in existing.items():
         eps = tag_episodes.get(tag)
@@ -502,8 +528,8 @@ def detect_patterns(session, brain, episode, idx, w):
         if pat.last_evoked_episode == idx:
             continue
         pat.strength = (pat.strength or 0.0) * decay
-        if pat.strength < forget:
-            session.delete(pat)
+        if pat.strength < forget_below:
+            forget(session, pat, idx)
             faded += 1
     return {'formed': formed, 'faded': faded}
 

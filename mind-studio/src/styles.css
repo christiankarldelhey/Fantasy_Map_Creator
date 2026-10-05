@@ -1,0 +1,98 @@
+/* Mind Studio — a winter night in Montauk, a lab that erases memories by
+   hand. Navy dark, chalk lines, incandescent bulbs, paper tape labels,
+   and two accents borrowed from a dyed head of hair: tangerine and
+   blue ruin. */
+:root {
+  --night: #0b111c;
+  --night-2: #111a29;
+  --night-3: #1a2538;
+  --chalk: #c8d2dc;
+  --chalk-dim: #7d8a99;
+  --chalk-faint: #3b4759;
+  --paper: #ece3cf;
+  --paper-ink: #2b2620;
+  --amber: #ffbd59;
+  --amber-hot: #ffe2a8;
+  --tangerine: #ff7b3a;
+  --ruin: #3db7cc;
+  --rose: #e0606f;
+
+  --display: 'Instrument Serif', 'Times New Roman', serif;
+  --prose: 'Newsreader', Georgia, serif;
+  --type: 'Courier Prime', 'Courier New', monospace;
+
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #app { height: 100%; margin: 0; }
+
+body {
+  background:
+    radial-gradient(1200px 700px at 50% 40%, #142036 0%, transparent 70%),
+    radial-gradient(800px 500px at 85% 110%, #2a1a14 0%, transparent 70%),
+    var(--night);
+  color: var(--chalk);
+  font-family: var(--type);
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* Film grain over everything — the image is a projection, not a screen. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.9s steps(4) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3%, 2%); }
+  50% { transform: translate(2%, -3%); }
+  75% { transform: translate(-1%, -1%); }
+  100% { transform: translate(3%, 1%); }
+}
+
+button { font: inherit; color: inherit; cursor: pointer; }
+
+/* A strip of masking tape with a typed label — the Studio's one button. */
+.tape-label {
+  display: inline-block;
+  background: var(--paper);
+  color: var(--paper-ink);
+  font-family: var(--type);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 9px 2px;
+  border: 0;
+  transform: rotate(-1.2deg);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+  clip-path: polygon(2% 0, 98% 4%, 100% 96%, 1% 100%);
+}
+
+.tape-label:nth-of-type(even) { transform: rotate(0.9deg); }
+
+.eyebrow {
+  font-family: var(--type);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--chalk-dim);
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: var(--chalk-faint); border-radius: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

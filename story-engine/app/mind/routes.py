@@ -91,7 +91,8 @@ from app.mind.retrieval import (
     memory_age_days, rank_beliefs, retrieve,
 )
 from app.mind.tables import (
-    Belief, Brain, BrainMold, Episode, Memory, Need, PackVersion,
+    Belief, Brain, BrainMold, Episode, ForgottenMemory, Memory, Need,
+    PackVersion,
 )
 
 log = logging.getLogger(__name__)
@@ -621,6 +622,9 @@ def narrate_episode(
         )
         generation = result['generation'] or {}
         _record_voiced(db, episode, generation.get('text'))
+        if generation.get('text'):
+            episode.narrative = generation['text']
+            episode.narrative_language = payload.language or req.language
         episode.narrated_at = datetime.now(timezone.utc)
         if episode.status == 'open':
             episode.status = 'narrated'
@@ -818,12 +822,14 @@ def reset_brain(
         if brain is None:
             return {
                 'character_id': character_id, 'brain': None,
-                'deleted': {'memories': 0, 'beliefs': 0, 'needs': 0,
-                            'episodes': 0},
+                'deleted': {'memories': 0, 'forgotten': 0, 'beliefs': 0,
+                            'needs': 0, 'episodes': 0},
                 'seeds': 0,
             }
         deleted = {
             'memories': db.query(Memory).filter_by(
+                game_id=game_id, character_id=character_id).delete(),
+            'forgotten': db.query(ForgottenMemory).filter_by(
                 game_id=game_id, character_id=character_id).delete(),
             'beliefs': db.query(Belief).filter_by(
                 game_id=game_id, character_id=character_id).delete(),

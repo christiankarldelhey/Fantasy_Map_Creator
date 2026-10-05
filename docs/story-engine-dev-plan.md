@@ -311,6 +311,9 @@ la voz actual + contexto mental; /narrate-day sigue funcionando igual.
 
 ## A10 — Mind Tuner + Narration Tuner (SQLAdmin)
 
+> Superado: SQLAdmin y `app/admin.py` se eliminaron. El admin es el Mind
+> Studio en `/studio` (ADR 0002).
+
 ```
 Contexto: admin mínimo = SQLAdmin montado en la misma app FastAPI, config
 en filas relacionales, scope por game_id.

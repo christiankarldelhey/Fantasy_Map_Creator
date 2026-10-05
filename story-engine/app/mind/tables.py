@@ -76,6 +76,11 @@ class Episode(Base):
     # {evoked: [memory_id...], voiced: [memory_id...]} — evoked is the
     # fixed snapshot from open; voiced is re-measured on each narrate.
     lens_eval: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    # The last generated narration (C33): kept so the Mind's timeline can
+    # show the prose beside the Lens that shaped it. Overwritten by each
+    # narrate — the last observation wins, like lens_eval.
+    narrative: Mapped[str] = mapped_column(Text, nullable=True)
+    narrative_language: Mapped[str] = mapped_column(String(20), nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
@@ -335,6 +340,36 @@ class Memory(Base):
     # integers stay for mechanics; the dates answer 'how long ago'.
     created_date: Mapped[date] = mapped_column(Date, nullable=True)
     last_evoked_date: Mapped[date] = mapped_column(Date, nullable=True)
+
+
+class ForgottenMemory(Base):
+    """The trace a Memory leaves when the Mind loses it (C33). A separate
+    table on purpose: nothing that evokes, reflects or renders the Lens
+    reads it, so a Forgotten memory can never surface again — it exists
+    only so the Mind's history can be seen. Same id as the lost row."""
+
+    __tablename__ = 'forgotten_memories'
+    __table_args__ = (
+        Index('ix_forgotten_character', 'character_id'),
+    )
+
+    id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    character_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    episode_ids: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    kind: Mapped[str] = mapped_column(String(20), nullable=False)
+    tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    entity_id: Mapped[str] = mapped_column(String(120), nullable=True)
+    desc: Mapped[str] = mapped_column(Text, nullable=False)
+    valence: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    importance: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    evocations: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    voiced: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    consolidated: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    created_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+    created_date: Mapped[date] = mapped_column(Date, nullable=True)
+    forgotten_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+    last_strength: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
 
 
 class Need(Base):

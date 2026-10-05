@@ -128,7 +128,7 @@ app/
 - **ORM**: SQLAlchemy
 - **DB**: PostgreSQL (JSONB para world packs y payloads)
 - **Templating de prompts**: Jinja2
-- **Admin**: SQLAdmin (`pip install sqladmin`) — CRUD auto-generado sobre SQLAlchemy, UI Tabler, sin escribir CSS
+- **Admin**: Mind Studio — app Vue propia servida en `/studio` (ADR 0002). SQLAdmin se usó en una etapa temprana y luego se eliminó
 - **LLM**: abstracción multi-proveedor con fallback (portada del patrón actual en `backend/services/narrator/ai.js`)
 
 ### 5.4 Patrón de comandos propuestos (command proposal, no write)

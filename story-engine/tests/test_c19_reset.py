@@ -162,6 +162,7 @@ def test_reset_without_brain_is_a_safe_noop(client):
     out = _reset(client, _uid('never-seen'))
     assert out['brain'] is None
     assert out['deleted'] == {
-        'memories': 0, 'beliefs': 0, 'needs': 0, 'episodes': 0,
+        'memories': 0, 'forgotten': 0, 'beliefs': 0, 'needs': 0,
+        'episodes': 0,
     }
     assert out['seeds'] == 0
