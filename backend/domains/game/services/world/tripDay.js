@@ -16,13 +16,26 @@ import {
   getMoonPhase,
 } from '../../adapters/mapClient.js';
 import { loadTerrainPhrases } from '../../adapters/storyClient.js';
-import { FRIENDLY_FAMILIES, MAX_EVIL_ENCOUNTERS_PER_DAY, SETTLEMENT_TYPES } from '../character/characterState.js';
+import { FRIENDLY_FAMILIES, MAX_EVIL_ENCOUNTERS_PER_DAY, SETTLEMENT_TYPES, isHostileLocation } from '../character/characterState.js';
 
 /** Count encounters drawn from evil (shadow_weight > 0) entities. */
 function countEvilEncounters(encounters) {
   return (encounters || []).filter(
     (e) => Number.isFinite(e?.entity?.shadow_weight) && e.entity.shadow_weight > 0
   ).length;
+}
+
+/**
+ * Settlements cancel the wilderness spawn: once the traveller walks
+ * through the gate nothing else comes for them that day — no late
+ * afternoon ambush after arrival, no night things inside the walls.
+ * Pure helper so the rule is testable without a DB-backed generateDay.
+ */
+export function encountersBeforeSettlement(encounters, arrivalHourFloat, inSettlement) {
+  if (!inSettlement) return encounters;
+  return (encounters || []).filter(
+    (e) => e.hour_float < arrivalHourFloat && e.phase !== PHASE_NIGHT
+  );
 }
 
 /**
@@ -195,14 +208,22 @@ async function sampleLegContext(legGeoJSON) {
        (SELECT COALESCE(json_agg(DISTINCT a.altitude_type), '[]'::json)
         FROM altitude_layers a, leg WHERE ST_Intersects(a.geom, leg.geom)) AS altitude,
        (SELECT COALESCE(json_agg(json_build_object(
+          'id', l.id,
           'name', l.name,
           'type', l.location_type,
           'region', l.region,
+          'region_id', l.region_id,
           'description', l.description,
+          'description_es', l.description_es,
+          'population', l.population,
+          'inhabitants', l.inhabitants,
+          'cultural_family', rg.cultural_family,
           'fraction', ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom)),
           'distance_km', round((ST_Distance(l.geom::geography, leg.geom::geography) / 1000)::numeric, 2)
         ) ORDER BY ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom))), '[]'::json)
-        FROM locations l, leg
+        FROM locations l
+        LEFT JOIN regions rg ON rg.id = l.region_id
+        , leg
         WHERE ST_DWithin(l.geom::geography, leg.geom::geography, 10000)
           AND ST_Distance(l.geom::geography, ST_StartPoint(leg.geom)::geography) > 3000) AS locations,
        (SELECT COALESCE(json_agg(json_build_object(
@@ -565,6 +586,58 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   // --- Overnight climate at camp (dusk to 7am, sensation-focused) ---
   const nighttimeClimate = await sampleNighttimeClimate(segments, dayEndSeconds, date, moonPhase);
 
+  // --- Overnight location: take it from the day's checkpoint ---
+  // Resolved before encounters: once the traveller is inside a settlement
+  // the wilderness spawn ends — encounters after arrival are cancelled.
+  let overnightLocation = null;
+  if (checkpoint && checkpoint.location) {
+    overnightLocation = {
+      id: checkpoint.location.id,
+      name: checkpoint.location.name,
+      type: checkpoint.location.type,
+      region: checkpoint.location.region,
+      region_id: checkpoint.location.region_id,
+      description: checkpoint.location.description,
+      description_es: checkpoint.location.description_es,
+      population: checkpoint.location.population,
+      inhabitants: checkpoint.location.inhabitants,
+      cultural_family: checkpoint.location.cultural_family,
+      indoor: INDOOR_REST_TYPES.includes(checkpoint.location.type),
+      distance_km: 0,
+    };
+  }
+
+  let overnightContext = 'IN_WILD';
+  let overnightRegionId = null;
+  if (overnightLocation) {
+    overnightContext = 'IN_LOCATION';
+    overnightRegionId = overnightLocation.region_id;
+  } else {
+    const campRegion = await resolveRegionAtPoint(leg.end[0], leg.end[1]);
+    if (campRegion) overnightRegionId = campRegion.id;
+  }
+
+  const overnightInteraction = await resolveOvernight({
+    context: overnightContext,
+    locationId: overnightContext === 'IN_LOCATION' ? overnightLocation.id : null,
+    locationType: overnightContext === 'IN_LOCATION' ? overnightLocation.type : null,
+    regionId: overnightRegionId,
+  });
+
+  console.log(
+    `[OVERNIGHT] context=${overnightContext} ` +
+    `place=${overnightLocation ? overnightLocation.name : 'wild'} ` +
+    `scope=${overnightInteraction.scope}`
+  );
+
+  // Hour the traveller reaches the overnight spot: end of the walking leg.
+  // Inside a settlement every encounter after this point is cancelled —
+  // town stories are a later feature; for now a settlement means safety.
+  // Landmarks (ruins, watchtowers) don't count: camping by a ruin still
+  // belongs to the wild.
+  const arrivalHourFloat = WALK_START_HOUR + walkingHoursThisDay;
+  const inSettlement = !!overnightLocation && SETTLEMENT_TYPES.includes(overnightLocation.type);
+
   // --- Encounters ---
   // The shadow loop biases the spawn toward evil entities, capped per day and
   // damped in friendly regions.
@@ -611,8 +684,12 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     friendlyFamilies: FRIENDLY_FAMILIES,
   });
 
-  // Collect raw encounters in phase order, strip internal field
-  const rawEncounters = [...morningResult.encounters, ...afternoonResult.encounters, ...nightResult.encounters]
+  // Collect raw encounters in phase order, strip internal field.
+  const rawEncounters = encountersBeforeSettlement(
+    [...morningResult.encounters, ...afternoonResult.encounters, ...nightResult.encounters],
+    arrivalHourFloat,
+    inSettlement
+  )
     .sort((a, b) => a.hour_float - b.hour_float)
     .map((e) => ({
       ...e,
@@ -715,19 +792,31 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   });
 
   // --- Locations: derive the clock hour each is passed from its leg fraction ---
+  // Full context rides along (population, inhabitants, both descriptions) —
+  // the mind and the narrator need the authored detail, not just a name.
+  // `entered` marks the one the traveller actually stopped at; `hostile`
+  // flags enemy-kingdom places that are skirted, never entered.
   const locations = (context.locations || []).map((l) => {
     const frac = typeof l.fraction === 'number' ? Math.max(0, Math.min(1, l.fraction)) : 0;
     const hourFloat = WALK_START_HOUR + frac * walkingHoursThisDay;
     const hh = Math.floor(hourFloat);
     const mm = Math.round((hourFloat - hh) * 60);
     return {
+      id: l.id,
       name: l.name,
       type: l.type,
       region: l.region,
+      region_id: l.region_id,
       description: l.description,
+      description_es: l.description_es,
+      population: l.population,
+      inhabitants: l.inhabitants,
+      cultural_family: l.cultural_family,
       distance_km: l.distance_km,
       hour_float: Number(hourFloat.toFixed(2)),
       hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,
+      entered: !!overnightLocation && overnightLocation.id === l.id,
+      hostile: isHostileLocation(l),
     };
   });
 
@@ -763,44 +852,6 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,
     };
   });
-
-  // --- Overnight location: take it from the day's checkpoint ---
-  let overnightLocation = null;
-  if (checkpoint && checkpoint.location) {
-    overnightLocation = {
-      id: checkpoint.location.id,
-      name: checkpoint.location.name,
-      type: checkpoint.location.type,
-      region: checkpoint.location.region,
-      region_id: checkpoint.location.region_id,
-      description: checkpoint.location.description,
-      indoor: INDOOR_REST_TYPES.includes(checkpoint.location.type),
-      distance_km: 0,
-    };
-  }
-
-  let overnightContext = 'IN_WILD';
-  let overnightRegionId = null;
-  if (overnightLocation) {
-    overnightContext = 'IN_LOCATION';
-    overnightRegionId = overnightLocation.region_id;
-  } else {
-    const campRegion = await resolveRegionAtPoint(leg.end[0], leg.end[1]);
-    if (campRegion) overnightRegionId = campRegion.id;
-  }
-
-  const overnightInteraction = await resolveOvernight({
-    context: overnightContext,
-    locationId: overnightContext === 'IN_LOCATION' ? overnightLocation.id : null,
-    locationType: overnightContext === 'IN_LOCATION' ? overnightLocation.type : null,
-    regionId: overnightRegionId,
-  });
-
-  console.log(
-    `[OVERNIGHT] context=${overnightContext} ` +
-    `place=${overnightLocation ? overnightLocation.name : 'wild'} ` +
-    `scope=${overnightInteraction.scope}`
-  );
 
   // --- Elevation profile: 3-point DEM sampling ---
   const elevationProfile = await sampleElevationProfile(segments, dayStartSeconds, dayEndSeconds);
