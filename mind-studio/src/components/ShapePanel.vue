@@ -133,6 +133,19 @@ function close() {
           <button class="add-btn" :disabled="!newConcern.trim()" @click="addConcern">añadir</button>
         </div>
       </section>
+
+      <details class="advanced">
+        <summary>el cableado · {{ Object.keys(mind.wiring).length }} knobs</summary>
+        <p class="hint">
+          Solo lectura — los dials de arriba mueven varios knobs a la vez.
+          Para tocarlos a mano está la API.
+        </p>
+        <ul>
+          <li v-for="(v, k) in mind.wiring" :key="k">
+            <code>{{ k }}</code><i>{{ typeof v === 'number' ? Number(v).toFixed(3) : v }}</i>
+          </li>
+        </ul>
+      </details>
     </aside>
   </div>
 </template>
@@ -227,4 +240,32 @@ function close() {
   font-size: 11px;
 }
 .add-btn:disabled { opacity: 0.4; cursor: default; }
+
+.advanced { border-top: 1px dashed var(--chalk-faint); padding-top: 14px; }
+.advanced summary {
+  cursor: pointer;
+  font-family: var(--type);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--chalk-dim);
+}
+.advanced ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  columns: 2;
+  column-gap: 18px;
+}
+.advanced li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: var(--type);
+  font-size: 9.5px;
+  color: var(--chalk-dim);
+  break-inside: avoid;
+  padding: 1px 0;
+}
+.advanced li i { font-style: normal; color: var(--chalk); }
 </style>

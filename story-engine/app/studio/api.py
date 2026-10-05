@@ -332,6 +332,8 @@ def get_mind(
         'traits': traits_of({**DEFAULT_WIRING, **(brain.wiring or {})}),
         # Concerns — "le pesa": what the Mind gives extra weight to.
         'concerns': dict(brain.theme_weights or {}),
+        # Advanced view: the effective wiring (defaults + overrides).
+        'wiring': {**DEFAULT_WIRING, **(brain.wiring or {})},
         'memories': memories,
         'beliefs': [
             {

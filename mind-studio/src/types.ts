@@ -126,6 +126,7 @@ export interface MindDetail {
   mood: Mood
   traits: Record<string, TraitView>
   concerns: Record<string, number>
+  wiring: Record<string, unknown>
   memories: MemoryNode[]
   beliefs: BeliefNode[]
   needs: { id: string; key: string; description: string; status: string }[]
