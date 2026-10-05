@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { percent } from '../lib/format'
+import { needLabel, percent } from '../lib/format'
 import type { MindAt } from '../lib/mindAt'
 import type { NodeRef } from './nodeRef'
 
@@ -87,7 +87,7 @@ const PHASE: Record<string, string> = {
     </template>
 
     <template v-else-if="need">
-      <p class="eyebrow">Necesidad · {{ need.key }}</p>
+      <p class="eyebrow">Necesidad · {{ needLabel(need.key) }}</p>
       <p class="body">{{ need.description }}</p>
       <dl class="facts">
         <div><dt>urgencia</dt><dd>{{ percent(need.urgency) }}</dd></div>

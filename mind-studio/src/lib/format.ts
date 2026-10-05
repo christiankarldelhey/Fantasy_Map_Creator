@@ -110,3 +110,17 @@ export function groupByDomain<T>(
 export function voiceKeyLabel(key: string): string {
   return humanize(key.split('.').slice(1).join('.'))
 }
+
+/** Need keys come in screaming caps from the engine: 'HUNGER' → 'hambre'. */
+const NEED_LABELS: Record<string, string> = {
+  hunger: 'hambre',
+  thirst: 'sed',
+  exhaustion: 'agotamiento',
+  unrest: 'inquietud',
+  wound: 'herida',
+  exposure: 'exposición',
+}
+
+export function needLabel(key: string): string {
+  return NEED_LABELS[key.toLowerCase()] ?? humanize(key.toLowerCase())
+}

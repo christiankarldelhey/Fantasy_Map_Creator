@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { needLabel } from '../lib/format'
 import { VIEW, cable, type Point } from '../lib/layout'
 import type { BeliefAt, MemoryAt, MindAt } from '../lib/mindAt'
 import type { NodeRef } from './nodeRef'
@@ -217,7 +218,7 @@ function focusOn(ref: NodeRef | null) {
             class="need-weight"
             :d="`M${-n.size * 0.6},${-n.size * 0.5} L${n.size * 0.6},${-n.size * 0.5} L${n.size},${n.size * 0.6} L${-n.size},${n.size * 0.6} Z`"
           />
-          <text class="need-key" y="4" text-anchor="middle">{{ n.key }}</text>
+          <text class="need-key" y="4" text-anchor="middle">{{ needLabel(n.key) }}</text>
           <text class="need-urgency" :y="n.size * 0.6 + 16" text-anchor="middle">
             {{ Math.round(n.urgency * 100) }}
           </text>
