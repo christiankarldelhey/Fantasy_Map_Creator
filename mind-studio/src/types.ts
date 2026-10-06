@@ -78,13 +78,46 @@ export interface ActiveNeed {
   description: string
 }
 
-export type LensSection = 'beliefs' | 'yesterday' | 'evoked' | 'today' | 'needs'
+// Legacy sections come from parsing the old Lens block; brief sections
+// come straight from the Episode brief (C35).
+export type LensSection =
+  | 'beliefs' | 'yesterday' | 'evoked' | 'today' | 'needs'
+  | 'focus' | 'carried' | 'day'
 
 export interface LensLine {
   section: LensSection
   text: string
+  kind?: string | null
+  phase?: string | null
+  why?: string | null
   ref: { kind: 'belief' | 'memory' | 'need'; id: string } | null
   resonated: boolean
+}
+
+// The Episode brief (C35): what the Mind put at the centre, what it
+// carries in, what the day does to it — and what stayed silent, why.
+export interface BriefLine {
+  id?: string
+  kind?: string
+  text: string
+  part?: 'carried' | 'day'
+  phase?: string | null
+  why?: string | null
+}
+
+export interface SilencedCandidate {
+  kind: string
+  text: string
+  reason: string
+  stage?: 'filter' | 'pick'
+}
+
+export interface EpisodeBrief {
+  focus: BriefLine | null
+  carried: BriefLine[]
+  day: BriefLine[]
+  silenced: SilencedCandidate[]
+  chosen_by?: string
 }
 
 export interface EpisodeView {
@@ -105,8 +138,10 @@ export interface EpisodeView {
   evoked: string[]
   voiced: string[]
   lens: LensLine[]
+  brief: EpisodeBrief | null
   narrative: string | null
   narrative_language: string | null
+  narrative_translation: { language: string; text: string } | null
 }
 
 export interface VoiceBand {

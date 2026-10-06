@@ -29,6 +29,7 @@ const frames = computed(() =>
       date: e.date,
       mood: e.mood,
       color: moodColor(e.mood),
+      focusText: e.brief?.focus?.text ?? null,
       marks: props.marks.get(e.idx as number),
     })),
 )
@@ -83,7 +84,7 @@ function onKey(ev: KeyboardEvent) {
         :class="['frame', { 'is-current': f.idx === current, 'is-past': current != null && f.idx < current }]"
       >
         <span class="sprockets" aria-hidden="true" />
-        <span class="frame-body" :data-idx="f.idx">
+        <span class="frame-body" :data-idx="f.idx" :title="f.focusText ?? undefined">
           <span class="frame-no" :data-idx="f.idx">{{ f.idx }}</span>
           <span class="frame-mood" :style="{ background: f.color }" :data-idx="f.idx" />
           <span class="frame-marks" :data-idx="f.idx">
@@ -91,6 +92,7 @@ function onKey(ev: KeyboardEvent) {
             <i v-if="f.marks?.lost" class="m-lost" :title="`${f.marks.lost} recuerdos se apagan`">−{{ f.marks.lost }}</i>
             <i v-if="f.marks?.beliefs" class="m-belief" :title="`${f.marks.beliefs} creencias nacen`">✦{{ f.marks.beliefs }}</i>
           </span>
+          <span v-if="f.focusText" class="frame-focus" :data-idx="f.idx">{{ f.focusText }}</span>
           <span class="frame-date" :data-idx="f.idx">{{ f.date }}</span>
         </span>
         <span class="sprockets" aria-hidden="true" />
@@ -154,7 +156,7 @@ function onKey(ev: KeyboardEvent) {
 
 .frame-body {
   position: relative;
-  height: 58px;
+  height: 70px;
   margin: 2px 0;
   background: linear-gradient(180deg, #1a2333, #121a27);
   border-radius: 2px;
@@ -198,6 +200,17 @@ function onKey(ev: KeyboardEvent) {
 .m-born { color: var(--amber); }
 .m-lost { color: var(--chalk-dim); }
 .m-belief { color: var(--tangerine); }
+.frame-focus {
+  grid-column: 1 / -1;
+  font-size: 9.5px;
+  line-height: 1.25;
+  color: var(--chalk);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 10px;
+}
+.frame.is-current .frame-focus { color: var(--amber); }
 .frame-date {
   position: absolute;
   right: 8px;

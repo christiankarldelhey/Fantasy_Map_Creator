@@ -14,19 +14,29 @@ const emit = defineEmits<{
 }>()
 
 const tab = shallowRef<'lens' | 'prose'>('lens')
+const proseLang = shallowRef<'inner' | 'reader'>('reader')
 
-const paragraphs = computed(() =>
-  (props.snapshot.episode.narrative ?? '')
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter(Boolean),
-)
+const focusText = computed(() => props.snapshot.episode.brief?.focus?.text ?? null)
+
+// ADR 0003: the Mind narrates in the inner language (English); another
+// reader language is a translation kept beside it.
+const translation = computed(() => props.snapshot.episode.narrative_translation)
+const hasBoth = computed(() => !!translation.value && !!props.snapshot.episode.narrative)
+
+const paragraphs = computed(() => {
+  const text =
+    proseLang.value === 'reader' && translation.value
+      ? translation.value.text
+      : (props.snapshot.episode.narrative ?? '')
+  return text.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
+})
 </script>
 
 <template>
   <aside class="panel">
     <header class="panel-head">
       <p class="eyebrow">Episodio {{ snapshot.episode.idx }} · {{ snapshot.episode.date }}</p>
+      <p v-if="focusText" class="focus-title">{{ focusText }}</p>
       <nav class="tabs" role="tablist">
         <button
           role="tab"
@@ -47,10 +57,21 @@ const paragraphs = computed(() =>
       <LensList
         v-if="tab === 'lens'"
         :lines="snapshot.episode.lens"
+        :brief="snapshot.episode.brief"
         :focus="focus"
         @focus="emit('focus', $event)"
       />
       <article v-else class="prose">
+        <nav v-if="hasBoth" class="lang-tabs">
+          <button
+            :class="{ 'is-on': proseLang === 'reader' }"
+            @click="proseLang = 'reader'"
+          >{{ translation!.language }}</button>
+          <button
+            :class="{ 'is-on': proseLang === 'inner' }"
+            @click="proseLang = 'inner'"
+          >english · lo que midió la Mind</button>
+        </nav>
         <p v-for="(p, i) in paragraphs" :key="i">{{ p }}</p>
         <p v-if="!paragraphs.length" class="empty">
           Este episodio todavía no tiene narración guardada.
@@ -70,7 +91,14 @@ const paragraphs = computed(() =>
 }
 
 .panel-head { padding: 18px 20px 0; }
-.panel-head .eyebrow { margin: 0 0 10px; }
+.panel-head .eyebrow { margin: 0 0 6px; }
+.focus-title {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--paper);
+}
 
 .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--chalk-faint); }
 .tab {
@@ -92,6 +120,18 @@ const paragraphs = computed(() =>
   padding: 16px 20px 24px;
 }
 
+.lang-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+.lang-tabs button {
+  background: none;
+  border: 1px solid var(--chalk-faint);
+  border-radius: 10px;
+  padding: 2px 10px;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--chalk-dim);
+}
+.lang-tabs button.is-on { color: var(--amber); border-color: var(--amber); }
+
 .prose {
   font-family: var(--prose);
   font-size: 15px;
@@ -100,7 +140,7 @@ const paragraphs = computed(() =>
   font-weight: 350;
 }
 .prose p { margin: 0 0 1em; }
-.prose p:first-child::first-letter {
+.prose p:first-of-type::first-letter {
   font-family: var(--display);
   font-size: 3.1em;
   float: left;
