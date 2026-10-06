@@ -209,7 +209,7 @@ def test_narrate_episode_injects_mind(client, monkeypatch):
     # 'THE MIND OF' block, its content fused with the personality.
     assert '=== THE MIND OF' not in body['prompt']['user']
     assert "NARRATOR'S LENS FOR TESTER" in body['prompt']['user']
-    assert 'Tester today — mood:' in body['prompt']['user']
+    assert 'Tester today.' in body['prompt']['user']
     assert body['generation']['text'] == fake['text']
     # lens eval sees the echoed impression
     echoed = check_lens_reference(fake['text'], ['food: lembas'])

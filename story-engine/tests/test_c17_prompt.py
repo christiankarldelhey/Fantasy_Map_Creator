@@ -27,7 +27,9 @@ def test_render_lens_has_no_banner_and_opens_with_today():
         'Celebrian', {'dominant': 'heavy-hearted'}, [], [], needs=[]
     )
     assert 'THE MIND OF' not in block
-    assert block.startswith('Celebrian today — mood: heavy-hearted.')
+    assert block.startswith('Celebrian today.')
+    # The Mood is told through its cause, never as a bare label.
+    assert 'heavy-hearted' not in block
 
 
 def test_render_lens_merges_impressions_and_readings_as_one_stirring():

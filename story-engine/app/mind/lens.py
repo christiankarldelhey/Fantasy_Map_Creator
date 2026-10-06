@@ -12,6 +12,7 @@
 # running mood (half-life of one episode).
 # ============================================================================
 import re
+from datetime import date
 
 from app.mind.nl_resolver import band_phrase
 from app.mind.provisioning import DEFAULT_WIRING
@@ -63,11 +64,39 @@ def episode_mood(session, game_id, perceived_day, brain=None, needs=None):
     }
 
 
-def update_brain_mood(session, game_id, brain, ep_mood):
+MOOD_CAUSE_MIN_WEIGHT = 0.15
+MOOD_CAUSE_MIN_VALENCE = 0.1
+
+
+def mood_cause(perceived_day, needs=None):
+    """What moved the mood most this episode: the perceived item (or open
+    need) with the largest |valence| × salience. The Mood is told through
+    its cause, never as a bare label — this is that cause, already worded."""
+    best, best_w = None, MOOD_CAUSE_MIN_WEIGHT
+    for p in perceived_day or []:
+        if p.get('type') == 'need' or not p.get('reading'):
+            continue
+        weight = abs(p.get('valence') or 0.0) * (p.get('salience') or 0.0)
+        if weight > best_w:
+            best = {'reading': p['reading'], 'valence': p.get('valence') or 0.0}
+            best_w = weight
+    for n in needs or []:
+        desc = getattr(n, 'desc', None) or getattr(n, 'description', None)
+        weight = getattr(n, 'urgency', 0.0) or 0.0
+        if desc and weight > best_w:
+            best = {'reading': desc, 'valence': -weight}
+            best_w = weight
+    return best
+
+
+def update_brain_mood(session, game_id, brain, ep_mood, cause=None,
+                      when=None):
     """The running mood absorbs the episode's mood; dominant re-resolves
     on the blended valence. Under real need pressure the present weighs
     more (C24): a starving body does not blend away into 'steady' —
-    the day's need IS the mood."""
+    the day's need IS the mood. `cause` (mood_cause) replaces the carried
+    one when the episode had one; a mood that settles near neutral lets
+    its cause go — nothing weighs any more."""
     pressure = ep_mood.get('need_pressure') or 0.0
     blend = min(0.9, MOOD_BLEND + pressure)
     prior = brain.mood or {}
@@ -82,12 +111,45 @@ def update_brain_mood(session, game_id, brain, ep_mood):
     dominant = band_phrase(
         session, game_id, MOOD_TABLE, valence, brain=brain
     ) or 'neutral'
+    carried = prior.get('cause')
+    if cause:
+        carried = {**cause, 'date': when.isoformat() if when else None}
+    # A cause must explain the mood it rides with: none once the mood
+    # settles near neutral, none if the blend flipped past its sign.
+    if abs(valence) < MOOD_CAUSE_MIN_VALENCE or (
+        carried and (carried.get('valence') or 0.0) * valence < 0
+    ):
+        carried = None
     brain.mood = {
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
         'dominant': dominant,
+        'cause': carried,
     }
     return brain.mood
+
+
+def _mood_line(mood, today=None):
+    """The entering Mood as its cause: 'Still weighing on them (from
+    yesterday): the orc tracks…'. No cause, no line — a mind at ease
+    says nothing about it."""
+    cause = (mood or {}).get('cause')
+    if not cause or not cause.get('reading'):
+        return None
+    verb = (
+        'weighing on them' if (cause.get('valence') or 0.0) < 0
+        else 'lifting their spirits'
+    )
+    since = ''
+    if cause.get('date') and today is not None:
+        days = (today - date.fromisoformat(cause['date'])).days
+        if days == 1:
+            since = ' (from yesterday)'
+        elif 1 < days < 14:
+            since = f' (from {days} days ago)'
+        elif days >= 14:
+            since = ' (from a long while ago)'
+    return f'Still {verb}{since}: {cause["reading"]}'
 
 
 LENS_NEED_TOP = 3
@@ -109,7 +171,7 @@ def _age_phrase(mem, age_days):
 
 def render_lens(character_name, mood, beliefs, evoked_memories, needs=None,
                 perceived_day=None, age_of=None, anchors=None,
-                inline_ids=None, yesterday=None):
+                inline_ids=None, yesterday=None, today=None):
     """The mind's current state as it lands inside NARRATOR'S LENS (C17 —
     no standalone 'THE MIND OF' block): mood, loudest beliefs, what stirs
     today — evoked impressions and the day's salient readings, one list —
@@ -121,7 +183,12 @@ def render_lens(character_name, mood, beliefs, evoked_memories, needs=None,
     block instead (a memory bleeds where it stirs, not from a list);
     unanchored ones — semantic resonance with nothing concrete to hang
     on — are the exception that stays here."""
-    lines = [f"{character_name} today — mood: {mood.get('dominant', 'neutral')}."]
+    # `mood` is the ENTERING mood — what the mind carried in before this
+    # episode happened — told through its cause, never as a label.
+    lines = [f'{character_name} today.']
+    mood_line = _mood_line(mood, today)
+    if mood_line:
+        lines.append(mood_line)
     # `beliefs` arrive already ranked (rank_beliefs, C18): confidence ×
     # relevance to the day — the lens just reads the top of that order.
     top_beliefs = list(beliefs)[:LENS_BELIEF_TOP]

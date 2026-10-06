@@ -124,3 +124,79 @@ def test_yesterday_recap_yields_to_todays_stirring(client):
     assert 'Yesterday, as they remember it' in lens
     assert 'a long cold night under open sky' in lens
     assert 'wolves crossing the south road' not in lens
+
+
+# ---------------------------------------------------------------------------
+# The entering Mood, told through its cause
+# ---------------------------------------------------------------------------
+from datetime import date
+
+from app.mind.lens import mood_cause, render_lens
+
+
+def test_mood_cause_picks_what_weighed_most():
+    perceived = [
+        {'type': 'climate', 'reading': 'cool, overcast', 'valence': -0.1, 'salience': 0.2},
+        {'type': 'encounter', 'reading': 'orc boots, a pursuit gait', 'valence': -0.8, 'salience': 0.6},
+        {'type': 'need', 'reading': 'hunger', 'valence': -0.9, 'salience': 0.9},
+    ]
+    cause = mood_cause(perceived)
+    assert cause['reading'] == 'orc boots, a pursuit gait'
+    # Ambient noise alone never becomes a cause.
+    assert mood_cause(perceived[:1]) is None
+
+
+def test_brain_mood_carries_its_cause_and_drops_it_at_ease():
+    session = SessionLocal()
+    brain = SimpleNamespace(mood={'valence': 0.0, 'arousal': 0.0}, wiring=None)
+    cause = {'reading': 'orc boots, a pursuit gait', 'valence': -0.8}
+    mood = update_brain_mood(
+        session, GAME, brain,
+        {'valence': -0.6, 'arousal': 0.5, 'need_pressure': 0.0},
+        cause=cause, when=date(1950, 10, 7),
+    )
+    assert mood['cause']['reading'] == 'orc boots, a pursuit gait'
+    assert mood['cause']['date'] == '1950-10-07'
+    # A causeless calm day: the mood settles and lets the cause go.
+    mood = update_brain_mood(
+        session, GAME, brain,
+        {'valence': 0.35, 'arousal': 0.1, 'need_pressure': 0.0},
+    )
+    session.rollback()
+    session.close()
+    assert mood['cause'] is None
+
+
+def test_lens_speaks_the_entering_mood_through_its_cause():
+    entering = {
+        'valence': -0.4, 'dominant': 'troubled',
+        'cause': {'reading': 'orc boots, a pursuit gait', 'valence': -0.8,
+                  'date': '1950-10-07'},
+    }
+    block = render_lens('Aranath', entering, [], [], needs=[],
+                        today=date(1950, 10, 8))
+    assert 'Still weighing on them (from yesterday): orc boots, a pursuit gait' in block
+    assert 'troubled' not in block
+
+
+def test_episode_lens_never_carries_its_own_day_into_the_mood(client):
+    """The orcs of THIS afternoon must not colour this episode's opening:
+    the lens speaks the mood the mind carried in. The next episode does
+    carry them, as cause."""
+    char = _uid('enter')
+    orc_day = [{
+        'type': 'encounter',
+        'when': {'episode': 1, 'date': '1950-10-07', 'phase': 'afternoon'},
+        'data': {'entity': 'orc_trackers', 'entity_name': 'Orc Trackers',
+                 'entity_type': 'orcs', 'form': 'attacks', 'danger': 4,
+                 'prose_hint': 'orc boots, a pursuit gait'},
+    }]
+    first = _open(client, char, 1, orc_day)['psyche_packet']['lens_block']
+    assert 'Still weighing on them' not in first
+    second = _open(client, char, 2, [{
+        'type': 'body',
+        'when': {'episode': 2, 'date': '1950-10-08'},
+        'data': {'energy': 0.8, 'wounded': 'none'},
+    }])['psyche_packet']['lens_block']
+    assert 'Still weighing on them (from yesterday)' in second
+    assert 'Orc Trackers' in second

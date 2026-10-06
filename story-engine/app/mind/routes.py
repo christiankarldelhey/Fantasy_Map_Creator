@@ -22,7 +22,7 @@ from datetime import datetime, timedelta, timezone
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.lens import (
-    _age_phrase, episode_mood, render_lens, update_brain_mood,
+    _age_phrase, episode_mood, mood_cause, render_lens, update_brain_mood,
 )
 from app.mind.memory import (
     _compact_duplicates,
@@ -293,11 +293,18 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 episode.perceived_day or []
             ) + need_items(needs)
             # Mood: this episode's feel, weighed by open needs, blended
-            # into the running mood.
+            # into the running mood. The lens speaks the ENTERING mood —
+            # captured before the blend — so the day never colours its own
+            # opening with what has not happened yet.
+            entering_mood = dict(brain.mood or {})
             episode.mood = episode_mood(
                 db, payload.game_id, perceived, brain=brain, needs=needs
             )
-            update_brain_mood(db, payload.game_id, brain, episode.mood)
+            update_brain_mood(
+                db, payload.game_id, brain, episode.mood,
+                cause=mood_cause(perceived, needs),
+                when=episode.episode_date,
+            )
             beliefs = (
                 db.query(Belief)
                 .filter_by(
@@ -383,7 +390,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 ]
             episode.lens_block = render_lens(
                 payload.character.name or payload.character.id,
-                brain.mood, rank_beliefs(beliefs, episode.perceived_day),
+                entering_mood, rank_beliefs(beliefs, episode.perceived_day),
                 evoked,
                 needs=episode.needs_active,
                 perceived_day=episode.perceived_day,
@@ -391,6 +398,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 anchors={mid: s for mid, (s, _) in anchors.items()},
                 inline_ids=inline_ids,
                 yesterday=yesterday,
+                today=episode.episode_date,
             )
             db.commit()
             db.refresh(episode)
