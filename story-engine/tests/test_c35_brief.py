@@ -8,6 +8,8 @@
 # ============================================================================
 from types import SimpleNamespace
 
+import pytest
+
 from app.mind.focus import build_brief
 
 
@@ -162,3 +164,40 @@ def test_the_focus_and_day_lines_appear_only_in_their_phase():
     assert first_orc > afternoon
     assert 'The centre of this Episode for them' in user[afternoon:]
     assert user.index('gratitude is the sharpest') > afternoon
+
+
+def test_the_focus_encodes_a_little_stronger():
+    """Being the Focus marks how the Episode is remembered: the centre's
+    memory carries focus_memory_boost over its salience; the rest don't."""
+    import uuid
+
+    from fastapi.testclient import TestClient
+
+    import app.main as main_module
+    from app.db import SessionLocal
+    from app.mind.tables import Memory
+
+    client = TestClient(main_module.app)
+    char = f'focusmem-{uuid.uuid4().hex[:8]}'
+    r = client.post('/episodes', json={
+        'game_id': 'middle_earth', 'character': {'id': char},
+        'episode_ref': 'd1', 'day': {},
+        'events': [{
+            'type': 'encounter',
+            'when': {'episode': 1, 'date': '1950-10-08', 'phase': 'afternoon'},
+            'data': {'entity': 'orc_trackers', 'entity_name': 'Orc Trackers',
+                     'entity_type': 'orcs', 'form': 'attacks', 'danger': 4,
+                     'prose_hint': 'orc boots, a pursuit gait'},
+        }],
+    })
+    assert r.status_code == 200, r.text
+    packet = r.json()['psyche_packet']
+    focus = packet['brief']['focus']
+    assert focus and focus['kind'] == 'event'
+    salience = packet['perceived_day'][int(focus['id'].split(':')[1])]['salience']
+    client.post(f"/episodes/{r.json()['episode_id']}/close", json={})
+
+    session = SessionLocal()
+    mem = session.query(Memory).filter_by(character_id=char, entity_id='orc_trackers').one()
+    session.close()
+    assert mem.importance == pytest.approx(min(1.0, salience + 0.15))

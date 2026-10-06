@@ -135,10 +135,18 @@ def encode_episode(session, brain, episode):
         .all()
     )
     by_sig = {_signature_from_memory(m): m for m in prior}
+    # C35: the Focus marks how the Episode is remembered — the event the
+    # Mind put at the centre encodes a little stronger than its salience.
+    focus = (getattr(episode, 'brief', None) or {}).get('focus') or {}
+    focus_idx = (
+        int(focus['id'].split(':', 1)[1])
+        if focus.get('kind') == 'event' else None
+    )
+    focus_boost = w.get('focus_memory_boost', 0.15)
 
     encoded = 0
     born_consolidated = 0
-    for item in episode.perceived_day or []:
+    for i, item in enumerate(episode.perceived_day or []):
         # Synthetic repetition-pressure items (C5) weigh on the mood but
         # are bookkeeping, not lived content — the rain days themselves
         # are the memory. Break items DO encode: 'the first dry day' is
@@ -148,6 +156,8 @@ def encode_episode(session, brain, episode):
         importance = item.get('salience') or 0.0
         if importance <= 0:
             continue
+        if i == focus_idx:
+            importance = min(1.0, importance + focus_boost)
         sig = _signature(item)
         consolidated = importance >= fixed
         desc = _describe(session, episode.game_id, item, brain=brain)
