@@ -18,75 +18,6 @@ def _memory(desc):
     return SimpleNamespace(desc=desc)
 
 
-def _belief(statement, confidence=0.8):
-    return SimpleNamespace(statement=statement, confidence=confidence)
-
-
-def test_render_lens_has_no_banner_and_opens_with_today():
-    block = render_lens(
-        'Celebrian', {'dominant': 'heavy-hearted'}, [], [], needs=[]
-    )
-    assert 'THE MIND OF' not in block
-    assert block.startswith('Celebrian today.')
-    # The Mood is told through its cause, never as a bare label.
-    assert 'heavy-hearted' not in block
-
-
-def test_render_lens_merges_impressions_and_readings_as_one_stirring():
-    evoked = [_memory('three days of unbroken rain')]
-    perceived = [
-        {'type': 'weather', 'salience': 0.6, 'reading': 'the cold seeps'},
-        {'type': 'encounter', 'salience': 0.5,
-         'reading': 'a ranger asks the road north'},
-        {'type': 'weather', 'salience': 0.1, 'reading': 'a faint drizzle'},
-        {'type': 'need', 'salience': 0.9, 'reading': 'she is hungry'},
-    ]
-    block = render_lens(
-        'Celebrian', {'dominant': 'weary'}, [], evoked, needs=[],
-        perceived_day=perceived,
-    )
-    stir_i = block.index('Stirring today:')
-    assert 'three days of unbroken rain' in block
-    assert 'the cold seeps' in block
-    assert 'a ranger asks the road north' in block
-    # Below the salience floor — not stirred.
-    assert 'a faint drizzle' not in block
-    # Needs speak in the body's voice, never in the stirring list.
-    assert 'she is hungry' not in block[stir_i:]
-    # Impressions come before readings inside the merged list.
-    assert block.index('three days of unbroken rain') < block.index('the cold seeps')
-
-
-def test_render_lens_dedupes_a_reading_already_on_the_mind():
-    evoked = [_memory('Day upon day of wet cold')]
-    perceived = [
-        {'type': 'weather', 'salience': 0.9,
-         'reading': 'Day upon day of wet cold'},
-    ]
-    block = render_lens(
-        'Aranath', {'dominant': 'neutral'}, [], evoked, needs=[],
-        perceived_day=perceived,
-    )
-    assert block.count('Day upon day of wet cold') == 1
-
-
-def test_render_lens_holds_beliefs_and_voices_needs():
-    block = render_lens(
-        'Aranath', {'dominant': 'steady'},
-        [_belief('the old roads still answer'), _belief('a quieter one')],
-        [], needs=[{'description': 'hunger gnaws'}],
-    )
-    assert 'What they hold true:' in block
-    assert '- the old roads still answer' in block
-    assert 'The body asks for:' in block
-    assert '- hunger gnaws' in block
-
-
-def test_render_lens_silent_needs_when_all_is_well():
-    block = render_lens('Aranath', {'dominant': 'neutral'}, [], [], needs=[])
-    assert 'body asks' not in block
-
-
 def test_lens_section_fuses_personality_and_mind():
     section = narrator_lens_section(
         {'name': 'Celebrian', 'system_prompt': 'She speaks little.'},
@@ -135,16 +66,38 @@ def test_prompt_places_mind_inside_the_lens_before_the_road():
     assert lens_i < mind_i < road_i
     assert 'THE MIND OF' not in user
 
+def test_render_lens_has_no_banner_and_opens_with_today():
+    block = render_lens('Celebrian', {'focus': None, 'carried': [], 'day': []})
+    assert 'THE MIND OF' not in block
+    assert block.startswith('Celebrian today.')
+
+
+def test_render_lens_speaks_only_what_is_carried_in():
+    # A day line (the orcs of the afternoon) never renders in the Lens —
+    # it waits for its phase block; the Lens holds what is carried in.
+    brief = {
+        'focus': {'kind': 'event', 'part': 'day', 'phase': 'afternoon',
+                  'text': 'orc boots, a pursuit gait'},
+        'carried': [{'kind': 'need', 'text': 'the belly wonders — 2 days without a proper meal'}],
+        'day': [{'kind': 'belief', 'part': 'day', 'phase': 'afternoon',
+                 'text': 'After danger passes, gratitude is the sharpest feeling.'}],
+    }
+    block = render_lens('Aranath', brief)
+    assert 'What they carry into this Episode:' in block
+    assert 'the belly wonders — 2 days without a proper meal' in block
+    assert 'orc' not in block
+    assert 'gratitude' not in block
+
+
+def test_render_lens_quiet_episode_says_so():
+    block = render_lens('Aranath', {'focus': None, 'carried': [], 'day': []})
+    assert 'quiet stretch' in block
+
 
 def test_render_lens_twin_memory_rows_read_once():
-    # Two memory rows can share a desc (same encounter encoded twice):
-    # one evoked into Stirring, its twin in the yesterday recap. The id
-    # filter misses it — the line must still render only once.
     desc = 'Dwarves of Erebor — news of the eastern road'
-    evoked = [SimpleNamespace(id=1, desc=desc)]
-    block = render_lens(
-        'Aranath', {'dominant': 'steady'}, [], evoked, needs=[],
-        age_of=lambda m: 1, yesterday=[desc, 'the belly has begun to wonder'],
-    )
-    assert block.count('Dwarves of Erebor') == 1
-    assert 'the belly has begun to wonder' in block
+    brief = {'focus': None, 'day': [], 'carried': [
+        {'kind': 'memory', 'text': desc, 'age': 'Yesterday — '},
+        {'kind': 'memory', 'text': desc, 'age': 'Yesterday — '},
+    ]}
+    assert render_lens('Aranath', brief).count('Dwarves of Erebor') == 1

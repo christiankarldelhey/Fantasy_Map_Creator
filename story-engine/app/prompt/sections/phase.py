@@ -56,10 +56,15 @@ def phase_block(
 
     # C21: an echo whose subject is one of this phase's encounters rides
     # INSIDE that encounter block; the rest hover at phase level.
+    # C35: the Episode's Focus, when it happens in this phase, is marked as
+    # the centre — named here and only here, never before its moment.
     echoes = echoes or []
+    focus = next((e for e in echoes if e.get('focus')), None)
     encounters = [dict(e) for e in encounters]
     leftovers = []
     for echo in echoes:
+        if echo is focus:
+            continue
         placed = False
         for enc in encounters:
             name = ((enc.get('entity') or {}).get('name') or '').lower()
@@ -73,15 +78,21 @@ def phase_block(
 
     subsections.append(f'Encounters:\n{encounters_section(encounters)}')
 
-    # C21: evoked memories land where they stirred — inside the part of
-    # the day that called them back, not in a faraway list. The note is
-    # optional on purpose: it colors the beat if it fits, it is not a
-    # seventh encounter to render.
+    if focus:
+        subsections.append(
+            'The centre of this Episode for them — this is what the day '
+            f"turns on; give it the weight and room it deserves:\n- {focus['line']}"
+        )
+
+    # C21/C35: what this part of the day stirs in them lands where it
+    # stirs — memories, beliefs put at stake, what the body now asks —
+    # not in a faraway list. Optional on purpose: it colours a beat if it
+    # fits, it is not a seventh encounter to render.
     if leftovers:
         subsections.append(
-            'Echoes of the mind (memories surfacing in this part of the '
-            'day — let them color a beat as recollection if they fit, '
-            'never as events happening now):\n'
+            'What this part of the day stirs in them (weave it in as '
+            'feeling or recollection where it fits — lines marked "ago" '
+            'are memories, never events happening now):\n'
             + '\n'.join(f"- {e['line']}" for e in leftovers)
         )
 

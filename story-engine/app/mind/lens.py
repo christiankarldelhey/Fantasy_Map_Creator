@@ -1,10 +1,9 @@
 # ============================================================================
 # Lens + mood — the packet's inner voice
 # ----------------------------------------------------------------------------
-# The lens is a plain-text template rendered ONCE at episode open from
-# already-generated material (memory descs, belief statements, NL mood
-# bands) — it never invents words. Stored on the episode so re-open replays
-# the same snapshot of the mind.
+# The lens is a plain-text template rendered ONCE at episode open from the
+# Episode brief (focus.py, C35) — already-worded material, it never invents
+# words. Stored on the episode so re-open replays the same snapshot.
 #
 # Mood: importance-weighted mean valence of the perceived events, arousal
 # from severity; the dominant label resolves through the editable NL table
@@ -19,14 +18,6 @@ from app.mind.provisioning import DEFAULT_WIRING
 
 MOOD_TABLE = 'mood'
 MOOD_BLEND = 0.5
-LENS_BELIEF_TOP = 3
-LENS_IMPRESSION_TOP = 5
-# The day's salient readings join the mind's stirring, same list as the
-# evoked impressions (C17): the lens shows one merged "what is on their
-# mind", not a taxonomy of where each line came from.
-LENS_READING_MIN_SALIENCE = 0.3
-LENS_READING_TOP = 5
-LENS_STIR_TOP = 7
 
 
 def _weighted_mean(items, key):
@@ -160,9 +151,6 @@ def _mood_line(mood, today=None):
     return f'Still {verb}{since}: {cause["reading"]}'
 
 
-LENS_NEED_TOP = 3
-
-
 def _age_phrase(mem, age_days):
     """How long ago the memory happened — the lens marks the past as past
     (C20): 'yesterday — the ranger asked...' reads as recollection, not
@@ -177,99 +165,79 @@ def _age_phrase(mem, age_days):
     return 'A long while ago — '
 
 
-def render_lens(character_name, mood, beliefs, evoked_memories, needs=None,
-                perceived_day=None, age_of=None, anchors=None,
-                inline_ids=None, yesterday=None, today=None):
-    """The mind's current state as it lands inside NARRATOR'S LENS (C17 —
-    no standalone 'THE MIND OF' block): mood, loudest beliefs, what stirs
-    today — evoked impressions and the day's salient readings, one list —
-    and open needs as intentions (B2). Descriptions arrive already worded;
-    the lens never invents.
+QUIET_EPISODE = (
+    'Nothing in this Episode weighs on them beyond the road and the body '
+    '— let it be the quiet stretch it is.'
+)
+AGO_CUE = (
+    'Lines marked "ago" are memories surfacing — let them colour the day '
+    'as recollection or comparison, never as events happening now.'
+)
 
-    `anchors` maps memory id → the perceived item that stirred it.
-    `inline_ids`: memories anchored to a phase render INSIDE that phase
-    block instead (a memory bleeds where it stirs, not from a list);
-    unanchored ones — semantic resonance with nothing concrete to hang
-    on — are the exception that stays here."""
-    # `mood` is the ENTERING mood — what the mind carried in before this
-    # episode happened — told through its cause, never as a label.
+
+def line_text(line, mood=None, today=None):
+    """One brief line as the narrator reads it: memories carry their age,
+    the mood its 'still weighing on them'. Words fixed at open win."""
+    if line.get('render'):
+        return line['render']
+    if line.get('kind') == 'mood':
+        return _mood_line(mood, today) or line['text']
+    return f"{line.get('age') or ''}{line['text']}"
+
+
+def render_lens(character_name, brief, mood=None, today=None):
+    """The Lens as an Episode brief (C35, CONTEXT.md · Lens): only what the
+    Character CARRIES IN renders here — the entering mood through its
+    cause, open needs with their origin, memories that resonate with the
+    whole Episode. What the day does to them is not named here: those
+    lines ride inside the phase where they happen (brief_beats), so the
+    Lens never names what has not been lived yet. Descriptions arrive
+    already worded; the lens never invents."""
+    brief = brief or {}
     lines = [f'{character_name} today.']
-    mood_line = _mood_line(mood, today)
-    if mood_line:
-        lines.append(mood_line)
-    # `beliefs` arrive already ranked (rank_beliefs, C18): confidence ×
-    # relevance to the day — the lens just reads the top of that order.
-    top_beliefs = list(beliefs)[:LENS_BELIEF_TOP]
-    if top_beliefs:
-        lines.append('What they hold true:')
-        lines.extend(f'- {b.statement}' for b in top_beliefs)
-    # Copies of the same memory read once (C16) — three rows of
-    # 'day upon day of wet cold' were one impression, not three. Dedupe
-    # keys on the raw desc: an evoked memory and today's identical
-    # reading ('a ration of road-bread…') are the same line.
-    stir = []
-    seen = set()
-
-    def add_stir(line, cap, key=None):
-        k = (key if key is not None else line or '').strip().lower()
-        if not k or k in seen or len(stir) >= cap:
-            return
-        seen.add(k)
-        stir.append(line)
-
-    for m in (evoked_memories or []):
-        mem_id = getattr(m, 'id', None)
-        if inline_ids and mem_id in inline_ids:
-            continue  # renders inline at its anchor, not in this list
-        age = _age_phrase(m, age_of(m) if age_of else None)
-        anchor = (anchors or {}).get(mem_id)
-        anchor_note = f' — the {anchor} calls it back' if anchor else ''
-        add_stir(
-            f'{age}{m.desc}{anchor_note}', LENS_IMPRESSION_TOP, key=m.desc
-        )
-    # The day's own weight joins the same list — 'need' items already
-    # speak below in the body's voice, so they do not read twice.
-    readings = sorted(
-        (
-            (p.get('salience') or 0.0, p.get('reading') or '')
-            for p in (perceived_day or [])
-            if p.get('type') != 'need'
-        ),
-        reverse=True,
-    )
-    for s, r in readings[:LENS_READING_TOP]:
-        if s >= LENS_READING_MIN_SALIENCE:
-            add_stir(r, LENS_STIR_TOP, key=r)
-    # Continuity is mind-authored (C22): what the character RETAINED of
-    # yesterday — memories encoded that day — replaces the host's
-    # 'In Chapter N' summary. Nothing retained = no recap: silence is
-    # signal too. Twin memory rows share a desc, not an id: a line
-    # already stirring is not recapped a second time.
-    recap = []
-    for d in (yesterday or []):
-        k = (d or '').strip().lower()
-        if k and k not in seen:
-            seen.add(k)
-            recap.append(d)
-    if recap:
-        lines.append('Yesterday, as they remember it:')
-        lines.extend(f'- {d}' for d in recap)
-    if stir:
-        lines.append('Stirring today:')
-        lines.extend(f'- {d}' for d in stir[:LENS_STIR_TOP])
-    top_needs = (needs or [])[:LENS_NEED_TOP]
-    if top_needs:
-        lines.append('The body asks for:')
-        lines.extend(f'- {n["description"]}' for n in top_needs)
-    # Without a usage cue the narrator treated age-marked lines as
-    # scenery and they never reached the prose (~6% bleed, replay A/B).
-    if any(
-        re.match(r'^(Yesterday|\d+ days ago|A long while ago) —', d)
-        for d in stir[:LENS_STIR_TOP]
-    ):
-        lines.append(
-            'The lines marked "ago" are memories surfacing — let them '
-            'color the day as recollection or comparison, never as '
-            'events happening now.'
-        )
+    focus = brief.get('focus')
+    carried, seen = [], set()
+    for line in brief.get('carried') or []:
+        # Twin memory rows share a desc (C16): one line, read once.
+        key = line['text'].strip().lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        carried.append(line_text(line, mood, today))
+    if carried:
+        lines.append('What they carry into this Episode:')
+        lines.extend(f'- {t}' for t in carried)
+    if focus and focus.get('part') == 'carried':
+        lines.append(f'At the centre of this Episode for them: {line_text(focus, mood, today)}')
+    elif focus is None:
+        lines.append(QUIET_EPISODE)
+    if any(re.match(r'^(Yesterday|\d+ days ago|A long while ago) —', t) for t in carried):
+        lines.append(AGO_CUE)
     return '\n'.join(lines)
+
+
+def brief_beats(brief, mood=None, today=None):
+    """What the day does to them, by phase (C35): each day line of the
+    brief — and a day Focus, marked as the centre — lands in the phase
+    block where it happens. Same shape as the C21 memory beats:
+    {phase: [{subject, line, focus?}]}."""
+    beats = {}
+    brief = brief or {}
+    focus = brief.get('focus')
+    if focus and focus.get('part') == 'day' and focus.get('phase'):
+        beats.setdefault(focus['phase'], []).append({
+            'subject': None, 'focus': True,
+            'line': line_text(focus, mood, today),
+        })
+    seen = set()
+    for line in brief.get('day') or []:
+        phase = line.get('phase')
+        key = line['text'].strip().lower()
+        if not phase or key in seen:
+            continue
+        seen.add(key)
+        beats.setdefault(phase, []).append({
+            'subject': line.get('subject'),
+            'line': line_text(line, mood, today),
+        })
+    return beats

@@ -134,3 +134,31 @@ def test_lines_are_capped():
     brief = build_brief([ORCS], [], beliefs, [], {})
     assert len(brief['carried']) + len(brief['day']) == 3
     assert sum(s['reason'] == 'past the line cap' for s in brief['silenced']) == 3
+
+
+def test_the_focus_and_day_lines_appear_only_in_their_phase():
+    """The orcs of the afternoon are named in the afternoon block and
+    nowhere before it — not in the Lens, not in the morning."""
+    from app.mind.lens import brief_beats, render_lens
+    from app.prompt.builder import build_day_prompt
+
+    gratitude = _belief(
+        'After danger passes, gratitude is the sharpest feeling.',
+        tags=['tag:entity_type:orcs'], id_='g',
+    )
+    brief = build_brief([SHEEP, ORCS], [], [gratitude], [], {})
+    day = {
+        'day_number': 4, 'date': '1950-10-08',
+        'climate': [], 'encounters': [], 'meals': [], 'locations': [],
+        'biomes': [], 'regions': [],
+    }
+    user = build_day_prompt(
+        day, trip={'name': 'Bree to Dale'}, character={'name': 'Aranath'},
+        mind_block=render_lens('Aranath', brief),
+        memory_beats=brief_beats(brief),
+    )['user']
+    afternoon = user.index('=== AFTERNOON')
+    first_orc = user.index('orc boots')
+    assert first_orc > afternoon
+    assert 'The centre of this Episode for them' in user[afternoon:]
+    assert user.index('gratitude is the sharpest') > afternoon

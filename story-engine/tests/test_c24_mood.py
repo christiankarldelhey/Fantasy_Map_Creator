@@ -82,50 +82,6 @@ def _open(client, char, ep, events):
     return r.json()
 
 
-def test_yesterday_recap_yields_to_todays_stirring(client):
-    """Two memories encoded yesterday: the wolf-sign one stirs again
-    today (same carnivore contact) and must NOT also sit in the recap;
-    the quiet one stays — each memory speaks once."""
-    char = _uid('dup')
-    session = SessionLocal()
-    session.add(Memory(
-        game_id=GAME, character_id=char, kind='episodic',
-        desc='wolves crossing the south road at dusk',
-        tags=['entity:wolves', 'tag:entity_type:carnivores'],
-        importance=0.8, strength=0.6, created_episode=1,
-    ))
-    session.add(Memory(
-        game_id=GAME, character_id=char, kind='episodic',
-        desc='a long cold night under open sky',
-        tags=['tag:rest:open_sky'],
-        importance=0.7, strength=0.6, created_episode=1,
-    ))
-    session.commit()  # the endpoint reads from its own session
-    session.close()
-
-    # C29: the brain's clock counts LIVED episodes — a seeded 'episode 1'
-    # memory only reads as yesterday if the mind actually lived a first
-    # episode. Open it with a reading-less body event: nothing to tag,
-    # nothing to evoke (a named place would semantically stir the wolf
-    # memory and set off the refractory quiet).
-    _open(client, char, 1, [{
-        'type': 'body',
-        'when': {'episode': 1, 'date': '1950-04-01'},
-        'data': {'energy': 0.8, 'wounded': 'none'},
-    }])
-
-    packet = _open(client, char, 2, [{
-        'type': 'encounter',
-        'when': {'episode': 2, 'date': '1950-04-02', 'phase': 'afternoon'},
-        'data': {'entity': 'bears', 'entity_name': 'Bears',
-                 'entity_type': 'carnivores'},
-    }])
-    lens = packet['psyche_packet']['lens_block']
-    assert 'Yesterday, as they remember it' in lens
-    assert 'a long cold night under open sky' in lens
-    assert 'wolves crossing the south road' not in lens
-
-
 # ---------------------------------------------------------------------------
 # The entering Mood, told through its cause
 # ---------------------------------------------------------------------------
@@ -173,8 +129,12 @@ def test_lens_speaks_the_entering_mood_through_its_cause():
         'cause': {'reading': 'orc boots, a pursuit gait', 'valence': -0.8,
                   'date': '1950-10-07'},
     }
-    block = render_lens('Aranath', entering, [], [], needs=[],
-                        today=date(1950, 10, 8))
+    from app.mind.lens import line_text
+    mood_line = {'kind': 'mood', 'text': entering['cause']['reading']}
+    mood_line['render'] = line_text(mood_line, entering, date(1950, 10, 8))
+    block = render_lens(
+        'Aranath', {'focus': None, 'carried': [mood_line], 'day': []},
+    )
     assert 'Still weighing on them (from yesterday): orc boots, a pursuit gait' in block
     assert 'troubled' not in block
 

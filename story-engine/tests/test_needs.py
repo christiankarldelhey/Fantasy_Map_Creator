@@ -72,9 +72,11 @@ def test_hunger_detector_opens_need(client):
     hunger = next(n for n in needs if n['key'] == 'hunger')
     assert hunger['type'] == 'physiological'
     assert hunger['urgency'] == pytest.approx(0.7)  # 0.3 + 0.2 * 2 days
-    # And it reaches the lens as an intention, not a number.
-    assert 'The body asks for:' in packet['psyche_packet']['lens_block']
-    assert hunger['description'] in packet['psyche_packet']['lens_block']
+    # Past the urgency line it reaches the lens — as an intention with its
+    # origin, not a number.
+    lens = packet['psyche_packet']['lens_block']
+    assert hunger['description'] in lens
+    assert '2 days without a proper meal' in lens
 
 
 def test_detector_need_clears_when_state_clears(client):

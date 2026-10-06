@@ -96,6 +96,16 @@ def test_memory_stored_with_embedding(client):
     assert mems and all(len(m.embedding or []) == 256 for m in mems)
 
 
+def _brief_texts(opened):
+    # Retrieval reaches the brief as a candidate — spoken or silenced, the
+    # gate is what this asserts (C35 decides whether it speaks).
+    brief = opened['psyche_packet']['brief'] or {}
+    lines = (brief.get('carried') or []) + (brief.get('day') or []) + (
+        brief.get('silenced') or []
+    )
+    return ' '.join(l['text'] for l in lines)
+
+
 def test_semantic_recall_without_tag_overlap(client):
     """A memory with no shared tags still stirs when the day's readings
     are semantically close — if delta_embedding is strong enough."""
@@ -112,7 +122,7 @@ def test_semantic_recall_without_tag_overlap(client):
     }
     slug = _mold(delta_embedding=0.6)
     opened = _open(client, tuned, [close_note], brain_profile=slug)
-    assert desc in opened['psyche_packet']['lens_block']
+    assert desc in _brief_texts(opened)
 
     # Same memory, default wiring: base score < min_score → silent.
     # created_episode=None: not a yesterday-memory, so the C22 recap
@@ -120,4 +130,4 @@ def test_semantic_recall_without_tag_overlap(client):
     plain = _uid('plain')
     _seed_memory(plain, desc, created_episode=None)
     opened2 = _open(client, plain, [_rain_note()])
-    assert desc not in opened2['psyche_packet']['lens_block']
+    assert desc not in _brief_texts(opened2)

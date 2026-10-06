@@ -16,7 +16,6 @@
 #     pool; duplicate rows fold into one every close.
 # ============================================================================
 import uuid
-from types import SimpleNamespace
 
 import pytest
 from fastapi.testclient import TestClient
@@ -346,11 +345,11 @@ def test_duplicate_memories_compact_every_close():
 # --- G) the lens reads one impression, not three copies --------------------
 
 def test_lens_dedupes_identical_impressions():
-    mems = [
-        SimpleNamespace(desc='day upon day of hostile weather'),
-        SimpleNamespace(desc='day upon day of hostile weather'),
-        SimpleNamespace(desc='the ranger at the roadside'),
-    ]
-    lens = render_lens('Celebrian', {'dominant': 'worn'}, [], mems)
+    brief = {'focus': None, 'day': [], 'carried': [
+        {'kind': 'memory', 'text': 'day upon day of hostile weather'},
+        {'kind': 'memory', 'text': 'day upon day of hostile weather'},
+        {'kind': 'memory', 'text': 'the ranger at the roadside'},
+    ]}
+    lens = render_lens('Celebrian', brief)
     assert lens.count('day upon day of hostile weather') == 1
     assert 'the ranger at the roadside' in lens

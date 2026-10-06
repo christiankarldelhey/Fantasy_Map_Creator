@@ -66,6 +66,13 @@ def _event_id(i):
     return f'event:{i}'
 
 
+def brief_lines(brief):
+    """Every line the brief speaks: the Focus, then carried and day lines."""
+    brief = brief or {}
+    focus = [brief['focus']] if brief.get('focus') else []
+    return focus + list(brief.get('carried') or []) + list(brief.get('day') or [])
+
+
 def need_origins(session, game_id, needs, entering_mood, brain=None):
     """Where each open Need comes from, in the World voice
     ('mind.need_origin.<key>'): '3 days without a proper meal'. The shadow
@@ -154,10 +161,18 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         if anchor is not None:
             ev_id = _event_id(anchor)
             ev = next((e for e in events if e['id'] == ev_id), None)
-            phase = _phase((perceived_day or [])[anchor])
+            item = (perceived_day or [])[anchor]
+            phase = _phase(item)
+            data = item.get('data') or {}
             memory_lines.append({
                 'id': f'memory:{m.id}', 'kind': 'memory', 'part': 'day',
                 'phase': phase, 'text': m.desc,
+                # Who stirred it — lets the prompt hang the echo on that
+                # encounter instead of floating it in the phase.
+                'subject': (
+                    data.get('entity_name') or data.get('name')
+                    or data.get('entity')
+                ),
                 'score': (m.importance or 0.0) * (ev['score'] if ev else 0.5),
                 'connects_to': ev_id if ev else None,
                 'why': 'stirred by what happens' + (f' {phase}' if phase else ''),
@@ -195,10 +210,12 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             })
             continue
         # A need born today was born OF today — it speaks at night, after
-        # whatever opened it, never before.
-        born_today = n.get('is_new')
+        # whatever opened it, never before. New to the Mind is not born
+        # today: two days without food were already two days old.
+        days = (n.get('source') or {}).get('days')
+        born_today = bool(n.get('is_new')) and not (days and days > 1)
         need_lines.append({
-            'id': f'need:{n.get("key")}', 'kind': 'need',
+            'id': f'need:{n.get("id") or n.get("key")}', 'kind': 'need',
             'part': 'day' if born_today else 'carried',
             'phase': 'night' if born_today else None,
             'text': line_text, 'score': u, 'urgent': u >= urgent,
@@ -206,14 +223,17 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         })
 
     # --- the entering mood, through its cause ----------------------------
+    # A strong mood speaks even unconnected: it is how the Character walks
+    # into the Episode, not something the day must earn.
     mood_lines = []
     cause = (entering_mood or {}).get('cause')
     if cause and cause.get('reading'):
+        strength = abs((entering_mood or {}).get('valence') or 0.0)
         mood_lines.append({
             'id': 'mood:cause', 'kind': 'mood', 'part': 'carried',
-            'phase': None, 'text': cause['reading'],
-            'score': abs((entering_mood or {}).get('valence') or 0.0),
+            'phase': None, 'text': cause['reading'], 'score': strength,
             'tags': cause.get('tags') or [],
+            'urgent': strength >= w.get('focus_mood_strong', 0.4),
             'why': 'what the mood carries in from before',
         })
 
@@ -238,13 +258,16 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         focus = strong_memory
 
     # --- lines: what connects to the Focus, capped; urgent needs always --
-    pool = belief_lines + memory_lines + need_lines + mood_lines + [
-        e for e in events if focus is None or e['id'] != focus['id']
-    ]
+    # Lines are the inner side — the day's events reach the narrator
+    # through the phase blocks anyway; only one of them is the Focus.
+    pool = belief_lines + memory_lines + need_lines + mood_lines
 
     def connected(c):
+        # A quiet Episode is 'the road and the body': with no Focus, the
+        # needs that earned a place still speak; memories and beliefs
+        # have nothing to connect to and stay silent.
         if focus is None:
-            return False
+            return c['kind'] == 'need'
         if c.get('connects_to') == focus['id']:
             return True
         # A need born today is what the day did to the body — it belongs
@@ -270,14 +293,12 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     for c in pool:
         if c['id'] in chosen_ids or (focus and c['id'] == focus['id']):
             continue
-        if c['kind'] == 'event':
-            continue  # the day's events reach the narrator anyway
         silenced.append({
             'kind': c['kind'], 'text': c['text'],
             'reason': (
-                'quiet Episode — no Focus to connect to' if focus is None
+                'past the line cap' if connected(c)
+                else 'quiet Episode — no Focus to connect to' if focus is None
                 else 'does not connect to the Focus'
-                if not connected(c) else 'past the line cap'
             ),
         })
 

@@ -126,6 +126,35 @@ def _episode_date(ep):
     return ((ep.narrator_payload or {}).get('day') or {}).get('date')
 
 
+def _brief_lens_lines(brief, narrative):
+    """C35: the Lens straight from the Episode brief — each line keeps its
+    part (focus / carried / day), phase, why and the node it came from."""
+    out = []
+    for part in ('focus', 'carried', 'day'):
+        lines = brief.get(part) or []
+        if part == 'focus':
+            lines = [lines] if lines else []
+        for line in lines:
+            kind, _, ref_id = (line.get('id') or '').partition(':')
+            text = line.get('render') or line.get('text') or ''
+            out.append({
+                'section': part,
+                'kind': line.get('kind'),
+                'text': text,
+                'phase': line.get('phase'),
+                'why': line.get('why'),
+                'ref': (
+                    {'kind': kind, 'id': ref_id}
+                    if kind in ('belief', 'memory', 'need') and ref_id
+                    else None
+                ),
+                'resonated': bool(narrative) and memory_echoes_in_text(
+                    (line.get('text') or '').strip().lower(), narrative
+                ),
+            })
+    return out
+
+
 def _lens_lines(lens_block, beliefs, memories, needs, evoked, narrative):
     """Each Lens bullet → {section, text, ref, resonated}. `ref` points at
     the node it came from (belief / memory / need) so the Studio can draw
@@ -314,10 +343,14 @@ def get_mind(
             ],
             'evoked': sorted(evoked),
             'voiced': (ep.lens_eval or {}).get('voiced') or [],
-            'lens': _lens_lines(
-                ep.lens_block, beliefs, memories, needs, evoked,
-                ep.narrative,
+            'lens': (
+                _brief_lens_lines(ep.brief, ep.narrative) if ep.brief
+                else _lens_lines(
+                    ep.lens_block, beliefs, memories, needs, evoked,
+                    ep.narrative,
+                )
             ),
+            'brief': ep.brief,
             'narrative': ep.narrative,
             'narrative_language': ep.narrative_language,
         })

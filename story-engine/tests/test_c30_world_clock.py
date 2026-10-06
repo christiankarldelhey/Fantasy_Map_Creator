@@ -130,13 +130,15 @@ def test_month_gap_recaps_under_true_age_not_yesterday(client):
     assert 'Yesterday, as they remember it' not in lens
 
 
-def test_true_yesterday_still_recaps(client):
+def test_true_yesterday_is_not_a_reason_on_its_own(client):
+    # C35: yesterday's memory does not recap just for being yesterday's —
+    # it reaches the Lens only if it connects to the Episode.
     char = _uid('truey')
     _mem(client, char, 'the ford ran brown with meltwater', 1, '1950-06-01')
     packet = _open(client, char, 'd2', 2, '1950-06-02')
     lens = packet['psyche_packet']['lens_block']
-    assert 'Yesterday, as they remember it' in lens
-    assert 'the ford ran brown' in lens
+    assert 'Yesterday, as they remember it' not in lens
+    assert 'the ford ran brown' not in lens
 
 
 def test_last_evoked_date_stamped(client):

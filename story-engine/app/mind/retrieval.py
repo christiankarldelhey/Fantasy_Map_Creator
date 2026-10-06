@@ -59,23 +59,6 @@ def _contact_tags(tags):
     }
 
 
-def rank_beliefs(beliefs, perceived_day):
-    """Order active beliefs for the lens (C18): a belief speaks when the
-    day touches it. rank = confidence × (1 + tag-overlap with what was
-    perceived) — untagged convictions keep their baseline so the core
-    personality still competes, but a belief about people surfaces on
-    people-days and stays quiet on empty moorland."""
-    day_tags = set()
-    for item in perceived_day or []:
-        day_tags.update(item.get('tags') or [])
-    return sorted(
-        beliefs,
-        key=lambda b: (b.confidence or 0.0)
-        * (1.0 + _relevance(b.tags, day_tags)),
-        reverse=True,
-    )
-
-
 def retrieve(session, brain, episode, perceived_day):
     """Score the character's memories against this episode's context and
     evoke the top-K. Returns the evoked Memory rows (highest score first).

@@ -13,17 +13,18 @@ import logging
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import ValidationError
-from sqlalchemy import and_, func, or_
+from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
-from app.mind.focus import build_brief, need_origins
+from app.mind.focus import brief_lines, build_brief, need_origins
 from app.mind.lens import (
-    _age_phrase, episode_mood, mood_cause, render_lens, update_brain_mood,
+    _age_phrase, brief_beats, episode_mood, line_text, mood_cause,
+    render_lens, update_brain_mood,
 )
 from app.mind.memory import (
     _compact_duplicates,
@@ -91,7 +92,7 @@ from app.mind.provisioning import (
 from app.mind.reflection import maybe_reflect
 from app.mind.retrieval import (
     dialogue_recall, episode_date_of, episode_index_of, link_evoked,
-    memory_age_days, rank_beliefs, retrieve,
+    memory_age_days, retrieve,
 )
 from app.mind.tables import (
     Belief, Brain, BrainMold, Episode, ForgottenMemory, Memory, Need,
@@ -315,86 +316,28 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 .all()
             )
             # link_evoked already knows which perceived item stirred each
-            # memory — surface it in the lens so an 'ago' line arrives
-            # with its insertion point, not floating free. Memories
-            # anchored to a phase-renderable item leave the lens list
-            # entirely: they appear inside the day's phase block at
-            # narrate time (a memory bleeds where it stirs — C21).
-            anchors = {}
-            anchor_index = {}
-            inline_ids = set()
+            # memory. A memory stirred by something that happens in a
+            # phase waits for that phase (C21, C35) — it never speaks
+            # before the moment that calls it back.
+            anchor_index, anchor_sal = {}, {}
             for i, item in enumerate(episode.perceived_day or []):
                 data = item.get('data') or {}
                 subj = (
                     data.get('entity_name') or data.get('name')
                     or data.get('entity')
                 )
-                if not subj:
+                if not subj or not _beat_phase(item):
                     continue  # 'the rest calls it back' is no anchor
-                phase = _beat_phase(item)
+                sal = item.get('salience') or 0.0
                 for mem_id in (item.get('evoked') or []):
-                    if mem_id not in anchors or (
-                        (item.get('salience') or 0.0)
-                        > anchors[mem_id][1]
-                    ):
-                        anchors[mem_id] = (subj, item.get('salience') or 0.0)
+                    if sal > anchor_sal.get(mem_id, -1.0):
+                        anchor_sal[mem_id] = sal
                         anchor_index[mem_id] = i
-                    if phase:
-                        inline_ids.add(mem_id)
-            # C22 — continuity is the mind's job: what the character
-            # RETAINED of yesterday (memories encoded in the previous
-            # episode), not the host's 'In Chapter N' summary. Nothing
-            # retained = no recap — a character who slept through the
-            # day starts clean. C30: 'yesterday' means the calendar —
-            # a day lived a month ago recaps under its true age in
-            # Stirring, never under a 'Yesterday' lie.
-            yesterday = []
-            ep_date = episode.episode_date
-            if ep_date is not None:
-                yesterday_date = ep_date - timedelta(days=1)
-                # Legacy memories carry no created_date — their day is
-                # the dated episode that encoded them.
-                prev_idx = [
-                    e.episode_idx for e in db.query(Episode)
-                    .filter_by(
-                        game_id=payload.game_id,
-                        character_id=brain.character_id,
-                    )
-                    .filter(Episode.episode_date == yesterday_date)
-                    .all()
-                    if e.episode_idx
-                ]
-                yesterday_query = db.query(Memory).filter_by(
-                    game_id=payload.game_id,
-                    character_id=brain.character_id,
-                    kind='episodic',
-                ).filter(or_(
-                    Memory.created_date == yesterday_date,
-                    and_(
-                        Memory.created_date.is_(None),
-                        Memory.created_episode.in_(prev_idx),
-                    ),
-                ))
-            elif episode_idx and episode_idx > 1:
-                yesterday_query = db.query(Memory).filter_by(
-                    game_id=payload.game_id,
-                    character_id=brain.character_id,
-                    created_episode=episode_idx - 1,
-                    kind='episodic',
-                )
-            else:
-                yesterday_query = None
-            if yesterday_query is not None:
-                # A memory already stirring today renders once, in
-                # Stirring — the recap does not echo it a second time.
-                yesterday = [
-                    m.desc for m in yesterday_query
-                    .filter(Memory.id.notin_(evoked_ids))
-                    .order_by(Memory.importance.desc()).limit(5).all()
-                ]
             # The Episode brief (C35): candidates that touch this Episode,
             # a Focus, the lines that connect to it, and what stays silent.
-            episode.brief = build_brief(
+            # Continuity is no longer a 'yesterday' recap: a memory reaches
+            # the Lens because it connects, whatever its age (CONTEXT.md).
+            brief = build_brief(
                 episode.perceived_day, evoked, beliefs,
                 episode.needs_active, entering_mood,
                 wiring=brain.wiring, anchors=anchor_index,
@@ -403,17 +346,20 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                     entering_mood, brain=brain,
                 ),
             )
+            # Words are fixed at open so a re-narration replays them:
+            # memories carry their age, the mood its 'still weighing'.
+            mem_by_id = {m.id: m for m in evoked}
+            for line in brief_lines(brief):
+                if line['kind'] == 'memory':
+                    m = mem_by_id.get(line['id'].split(':', 1)[1])
+                    if m is not None:
+                        line['age'] = _age_phrase(m, memory_age_days(episode, m))
+                line['render'] = line_text(
+                    line, entering_mood, episode.episode_date
+                )
+            episode.brief = brief
             episode.lens_block = render_lens(
-                payload.character.name or payload.character.id,
-                entering_mood, rank_beliefs(beliefs, episode.perceived_day),
-                evoked,
-                needs=episode.needs_active,
-                perceived_day=episode.perceived_day,
-                age_of=lambda m: memory_age_days(episode, m),
-                anchors={mid: s for mid, (s, _) in anchors.items()},
-                inline_ids=inline_ids,
-                yesterday=yesterday,
-                today=episode.episode_date,
+                payload.character.name or payload.character.id, brief,
             )
             db.commit()
             db.refresh(episode)
@@ -652,7 +598,12 @@ def narrate_episode(
             previous_day=req.previousDay,
             recent_day_climates=req.recentDayClimates,
             mind_block=episode.lens_block or '',
-            memory_beats=_evoked_beats(db, episode),
+            # C35: the brief's day lines ride inside their phase; legacy
+            # episodes (no brief) keep the C21 memory beats.
+            memory_beats=(
+                brief_beats(episode.brief) if episode.brief
+                else _evoked_beats(db, episode)
+            ),
             impressions=_evoked_impressions(db, episode),
             nl=NlPack(db, episode.game_id, brain=brain),
         )

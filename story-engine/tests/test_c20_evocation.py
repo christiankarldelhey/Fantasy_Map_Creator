@@ -19,7 +19,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.lens import render_lens
+from app.mind.lens import _age_phrase, render_lens
 from app.mind.retrieval import retrieve
 from app.mind.tables import Memory
 
@@ -188,58 +188,14 @@ def test_region_alone_does_not_make_contact():
     session.rollback()
     session.close()
 
-
 def test_lens_marks_the_past_as_past():
-    mem = SimpleNamespace(
-        desc='Dúnedain — the settlement is real and occupied',
-        created_episode=8,
-    )
-    lens = render_lens(
-        'Celebrian', {'dominant': 'steady'}, [], [mem],
-        perceived_day=[], age_of=lambda m: 10 - m.created_episode,
-    )
-    assert '2 days ago — Dúnedain — the settlement is real' in lens
-
-    mem2 = SimpleNamespace(desc='news from three ports', created_episode=9)
-    lens = render_lens(
-        'Celebrian', {'dominant': 'steady'}, [], [mem2],
-        perceived_day=[], age_of=lambda m: 10 - m.created_episode,
-    )
-    assert 'Yesterday — news from three ports' in lens
-
-    mem3 = SimpleNamespace(desc='the warg attack', created_episode=2)
-    lens = render_lens(
-        'Celebrian', {'dominant': 'steady'}, [], [mem3],
-        perceived_day=[], age_of=lambda m: 20 - m.created_episode,
-    )
+    assert _age_phrase(None, 2) == '2 days ago — '
+    assert _age_phrase(None, 1) == 'Yesterday — '
+    assert _age_phrase(None, 18) == 'A long while ago — '
+    brief = {'focus': None, 'day': [], 'carried': [
+        {'kind': 'memory', 'text': 'the warg attack', 'age': 'A long while ago — '},
+    ]}
+    lens = render_lens('Celebrian', brief)
     assert 'A long while ago — the warg attack' in lens
-
-
-def test_evoked_memory_and_identical_reading_render_once():
-    """The daily bread both remembered and eaten today is one line —
-    and it carries its age."""
-    mem = SimpleNamespace(
-        desc='a ration of road-bread and dried fruit',
-        created_episode=8,
-    )
-    lens = render_lens(
-        'Celebrian', {'dominant': 'steady'}, [], [mem],
-        perceived_day=[{
-            'type': 'meal', 'perception': 'noticed', 'salience': 0.4,
-            'reading': 'a ration of road-bread and dried fruit',
-            'tags': [],
-        }],
-        age_of=lambda m: 10 - m.created_episode,
-    )
-    assert lens.count('a ration of road-bread and dried fruit') == 1
-    assert '2 days ago — a ration of road-bread' in lens
-
-
-def test_empty_day_shows_no_stirring():
-    """Nothing evoked, nothing salient — the section simply does not
-    appear."""
-    lens = render_lens(
-        'Celebrian', {'dominant': 'steady'}, [], [],
-        perceived_day=[], age_of=lambda m: 10,
-    )
-    assert 'Stirring today' not in lens
+    # And the narrator is told what an 'ago' line is.
+    assert 'never as events happening now' in lens
