@@ -21,6 +21,18 @@ from app.prompt.builder import build_day_prompt
 
 INNER_LANGUAGE = 'english'
 
+# Hosts may send ISO codes ('es') or names ('spanish'); the translator
+# needs a language name — 'Es' alone reads as Estonian to the model.
+_LANGUAGE_NAMES = {
+    'en': 'english', 'es': 'spanish', 'fr': 'french', 'de': 'german',
+    'it': 'italian', 'pt': 'portuguese', 'nl': 'dutch', 'ca': 'catalan',
+}
+
+
+def _reader_language(language):
+    lang = (language or INNER_LANGUAGE).lower()
+    return _LANGUAGE_NAMES.get(lang, lang)
+
 
 def narrate_day(
     day,
@@ -78,9 +90,10 @@ def narrate_day(
     # measures (Resonated). A failed translation still delivers the
     # inner-language chapter rather than nothing.
     generation = {**generation, 'inner_text': inner_text, 'language': INNER_LANGUAGE}
-    if inner_text and language and language.lower() != INNER_LANGUAGE:
-        translated = translate_text(inner_text, language)
+    reader_language = _reader_language(language)
+    if inner_text and reader_language != INNER_LANGUAGE:
+        translated = translate_text(inner_text, reader_language)
         if translated:
-            generation.update(text=translated, language=language.lower())
+            generation.update(text=translated, language=reader_language)
 
     return {'prompt': prompt, 'generation': generation}

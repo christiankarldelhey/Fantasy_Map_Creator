@@ -355,7 +355,16 @@ def run_replay(days, mold_slug, narrate, lang, run_tag='', template=None):
         n = day['day_number']
         body = sanitize_request(day['request'])
         body['game_id'] = GAME_ID
-        body['episode_ref'] = f'sim-{n}-{run_tag or mold_slug}'
+        # The ref carries the recorded trip's tag: two trips replayed
+        # through the same sim brain (--keep) must not share refs — a
+        # colliding ref re-opens the old closed Episode instead of
+        # living the new day.
+        rec_ref = (day['request'].get('episode_ref') or '')
+        trip_tag = rec_ref.split(':')[1][:8] if ':' in rec_ref else ''
+        body['episode_ref'] = (
+            f'sim-{trip_tag}-{n}-{run_tag or mold_slug}' if trip_tag
+            else f'sim-{n}-{run_tag or mold_slug}'
+        )
         char = dict(body.get('character') or {})
         char['id'] = sim_id
         char['brain_profile'] = mold_slug

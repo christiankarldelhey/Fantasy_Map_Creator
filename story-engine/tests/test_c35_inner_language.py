@@ -67,6 +67,13 @@ def test_spanish_request_narrates_english_then_translates(monkeypatch):
     assert 'in Spanish' not in result['prompt']['user']
 
 
+def test_iso_code_resolves_to_a_language_name(monkeypatch):
+    """A host sending 'es' must not reach the translator as 'Es' — bare
+    codes read as Estonian to the model; it needs the language name."""
+    _, calls = _narrate_day(monkeypatch, 'es')
+    assert calls[0][1] == 'spanish'
+
+
 def test_failed_translation_keeps_the_english_chapter(monkeypatch):
     result, _ = _narrate_day(monkeypatch, 'spanish', translation=None)
     generation = result['generation']
