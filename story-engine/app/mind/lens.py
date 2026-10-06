@@ -128,13 +128,6 @@ def render_lens(character_name, mood, beliefs, evoked_memories, needs=None,
     if top_beliefs:
         lines.append('What they hold true:')
         lines.extend(f'- {b.statement}' for b in top_beliefs)
-    # Continuity is mind-authored (C22): what the character RETAINED of
-    # yesterday — memories encoded that day — replaces the host's
-    # 'In Chapter N' summary. Nothing retained = no recap: silence is
-    # signal too.
-    if yesterday:
-        lines.append('Yesterday, as they remember it:')
-        lines.extend(f'- {d}' for d in yesterday)
     # Copies of the same memory read once (C16) — three rows of
     # 'day upon day of wet cold' were one impression, not three. Dedupe
     # keys on the raw desc: an evoked memory and today's identical
@@ -172,6 +165,20 @@ def render_lens(character_name, mood, beliefs, evoked_memories, needs=None,
     for s, r in readings[:LENS_READING_TOP]:
         if s >= LENS_READING_MIN_SALIENCE:
             add_stir(r, LENS_STIR_TOP, key=r)
+    # Continuity is mind-authored (C22): what the character RETAINED of
+    # yesterday — memories encoded that day — replaces the host's
+    # 'In Chapter N' summary. Nothing retained = no recap: silence is
+    # signal too. Twin memory rows share a desc, not an id: a line
+    # already stirring is not recapped a second time.
+    recap = []
+    for d in (yesterday or []):
+        k = (d or '').strip().lower()
+        if k and k not in seen:
+            seen.add(k)
+            recap.append(d)
+    if recap:
+        lines.append('Yesterday, as they remember it:')
+        lines.extend(f'- {d}' for d in recap)
     if stir:
         lines.append('Stirring today:')
         lines.extend(f'- {d}' for d in stir[:LENS_STIR_TOP])

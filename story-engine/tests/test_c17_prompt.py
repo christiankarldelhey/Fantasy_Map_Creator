@@ -132,3 +132,17 @@ def test_prompt_places_mind_inside_the_lens_before_the_road():
     road_i = user.index("TODAY'S ROAD")
     assert lens_i < mind_i < road_i
     assert 'THE MIND OF' not in user
+
+
+def test_render_lens_twin_memory_rows_read_once():
+    # Two memory rows can share a desc (same encounter encoded twice):
+    # one evoked into Stirring, its twin in the yesterday recap. The id
+    # filter misses it — the line must still render only once.
+    desc = 'Dwarves of Erebor — news of the eastern road'
+    evoked = [SimpleNamespace(id=1, desc=desc)]
+    block = render_lens(
+        'Aranath', {'dominant': 'steady'}, [], evoked, needs=[],
+        age_of=lambda m: 1, yesterday=[desc, 'the belly has begun to wonder'],
+    )
+    assert block.count('Dwarves of Erebor') == 1
+    assert 'the belly has begun to wonder' in block

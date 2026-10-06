@@ -16,6 +16,8 @@
 #   region:<name>            — where.region
 # Weight keys may wildcard: 'tag:weather:*' matches 'tag:weather:rain'.
 # ============================================================================
+import re
+
 from app.mind.boosts import effective_theme_weights
 from app.mind.checks import (
     asleep_check_result,
@@ -288,8 +290,15 @@ def _content_tags(day):
     return tags
 
 
+_LEADING_ARTICLE_RE = re.compile(r'^(a|an|the|some)\s+', re.IGNORECASE)
+
+
 def _tag_subject(tag):
-    return tag.rsplit(':', 1)[-1].replace('_', ' ').replace('-', ' ')
+    # Templates bring their own determiner ('no {subject} today', 'the
+    # {subject} let up') — a host value 'a ration of road-bread' must not
+    # read 'no a ration'.
+    subject = tag.rsplit(':', 1)[-1].replace('_', ' ').replace('-', ' ')
+    return _LEADING_ARTICLE_RE.sub('', subject.strip())
 
 
 def _repetition_exempt(tag, exempt):

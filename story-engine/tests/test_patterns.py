@@ -275,3 +275,12 @@ def test_patterns_fade_when_theme_stops(client):
         faded += close['patterns_faded']
     assert faded >= 1
     assert _patterns(char) == []
+
+
+def test_tag_subject_drops_the_hosts_article():
+    # Templates bring their own determiner: 'no {subject} today' must not
+    # read 'no a ration of road bread'.
+    from app.mind.perceive import _tag_subject
+    assert _tag_subject('tag:food:a ration of road-bread') == 'ration of road bread'
+    assert _tag_subject('tag:drink:the waterskin') == 'waterskin'
+    assert _tag_subject('tag:weather:rain') == 'rain'
