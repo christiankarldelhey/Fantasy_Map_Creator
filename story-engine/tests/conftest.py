@@ -9,6 +9,9 @@
 import os
 
 os.environ['MIND_SCHEMA'] = 'mind_test'
+# The Lens director is an LLM call inside episode open: off for the suite
+# (rules pick the Focus); director tests patch it in explicitly.
+os.environ['MIND_DIRECTOR'] = 'off'
 
 from sqlalchemy import text  # noqa: E402
 

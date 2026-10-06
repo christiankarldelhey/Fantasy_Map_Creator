@@ -203,6 +203,34 @@ def generate_narrative(prompt, day_number=None):
     return {**meta, 'text': None}
 
 
+def complete_json(prompt, model=None, timeout=6.0):
+    """One short JSON completion for in-request mind work (the Lens
+    director). Unlike generate_narrative there is no fallback chain: it
+    runs inside episode open, so it gets one model, one key and a hard
+    timeout — any failure raises and the caller falls back to rules."""
+    client = _get_primary_client() or _get_secondary_client()
+    if client is None:
+        raise RuntimeError('no Groq client configured')
+    model = model or os.environ.get('MIND_DIRECTOR_MODEL', 'openai/gpt-oss-20b')
+    kwargs = dict(
+        model=model,
+        messages=_parse_messages(prompt),
+        temperature=0.2,
+        max_tokens=2000,
+        response_format={'type': 'json_object'},
+        timeout=timeout,
+    )
+    # Reasoning models spend tokens thinking before the JSON: keep it short
+    # or the answer never arrives inside max_tokens.
+    if model.startswith('openai/gpt-oss'):
+        kwargs['reasoning_effort'] = 'low'
+    elif model in _REASONING_EFFORT_MODELS:
+        kwargs['reasoning_effort'] = 'none'
+    response = client.chat.completions.create(**kwargs)
+    content = response.choices[0].message.content if response.choices else None
+    return _THINK_TAG_RE.sub('', content or '').strip()
+
+
 def is_ai_configured():
     api_key = os.environ.get('GROQ_API_KEY')
     api_key_2 = os.environ.get('GROQ_API_KEY_2')

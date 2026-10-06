@@ -142,7 +142,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         )
         if hit is None:
             silenced.append({
-                'kind': 'belief', 'text': b.statement,
+                'kind': 'belief', 'text': b.statement, 'stage': 'filter',
                 'reason': 'nothing in the Episode puts it at stake',
             })
             continue
@@ -205,7 +205,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         ]
         if not reasons:
             silenced.append({
-                'kind': 'need', 'text': text,
+                'kind': 'need', 'text': text, 'stage': 'filter',
                 'reason': 'stable and untouched by the Episode',
             })
             continue
@@ -294,7 +294,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         if c['id'] in chosen_ids or (focus and c['id'] == focus['id']):
             continue
         silenced.append({
-            'kind': c['kind'], 'text': c['text'],
+            'kind': c['kind'], 'text': c['text'], 'stage': 'pick',
             'reason': (
                 'past the line cap' if connected(c)
                 else 'quiet Episode — no Focus to connect to' if focus is None
@@ -312,4 +312,10 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         'day': [c for c in lines if c['part'] == 'day'],
         'silenced': silenced,
         'chosen_by': 'rules',
+        # Everything that passed the filter — what the director picks
+        # from. Not stored: the caller pops it before persisting.
+        'candidates': [
+            {k: v for k, v in c.items() if k != 'tags'}
+            for c in events + pool
+        ],
     }

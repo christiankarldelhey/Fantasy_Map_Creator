@@ -21,6 +21,7 @@ from datetime import datetime, timezone
 
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
+from app.mind.director import direct, director_enabled
 from app.mind.focus import brief_lines, build_brief, need_origins
 from app.mind.lens import (
     _age_phrase, brief_beats, episode_mood, line_text, mood_cause,
@@ -346,6 +347,15 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                     entering_mood, brain=brain,
                 ),
             )
+            candidates = brief.pop('candidates', [])
+            # The director chooses what the Episode turns on (protagonists
+            # only); any failure keeps the rules' pick, marked as such.
+            if director_enabled(w_brain):
+                brief = direct(
+                    brief, candidates,
+                    payload.character.name or payload.character.id,
+                    (card or {}).get('system_prompt'),
+                ) or brief
             # Words are fixed at open so a re-narration replays them:
             # memories carry their age, the mood its 'still weighing'.
             mem_by_id = {m.id: m for m in evoked}

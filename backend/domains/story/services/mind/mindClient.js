@@ -9,7 +9,8 @@
 const STORY_ENGINE_URL = process.env.STORY_ENGINE_URL || 'http://localhost:8001';
 const GAME_ID = process.env.GAME_ID || 'middle_earth';
 
-const OPEN_TIMEOUT_MS = 8000;
+// Open includes the Lens director's LLM pick (capped at 6s server-side).
+const OPEN_TIMEOUT_MS = 20000;
 const NARRATE_TIMEOUT_MS = 90000; // wraps a real LLM call
 const CLOSE_TIMEOUT_MS = 5000;
 const DECIDE_TIMEOUT_MS = 5000;
