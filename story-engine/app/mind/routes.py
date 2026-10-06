@@ -21,6 +21,7 @@ from datetime import datetime, timedelta, timezone
 
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
+from app.mind.focus import build_brief, need_origins
 from app.mind.lens import (
     _age_phrase, episode_mood, mood_cause, render_lens, update_brain_mood,
 )
@@ -125,6 +126,7 @@ def _build_packet(db, episode: Episode, brain: Brain = None) -> PsychePacket:
         check_results=_check_results(episode),
         needs_active=episode.needs_active or [],
         decision_point=pending_decision_point(db, brain, episode),
+        brief=episode.brief,
     )
 
 
@@ -319,8 +321,9 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             # entirely: they appear inside the day's phase block at
             # narrate time (a memory bleeds where it stirs — C21).
             anchors = {}
+            anchor_index = {}
             inline_ids = set()
-            for item in (episode.perceived_day or []):
+            for i, item in enumerate(episode.perceived_day or []):
                 data = item.get('data') or {}
                 subj = (
                     data.get('entity_name') or data.get('name')
@@ -335,6 +338,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                         > anchors[mem_id][1]
                     ):
                         anchors[mem_id] = (subj, item.get('salience') or 0.0)
+                        anchor_index[mem_id] = i
                     if phase:
                         inline_ids.add(mem_id)
             # C22 — continuity is the mind's job: what the character
@@ -388,6 +392,17 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                     .filter(Memory.id.notin_(evoked_ids))
                     .order_by(Memory.importance.desc()).limit(5).all()
                 ]
+            # The Episode brief (C35): candidates that touch this Episode,
+            # a Focus, the lines that connect to it, and what stays silent.
+            episode.brief = build_brief(
+                episode.perceived_day, evoked, beliefs,
+                episode.needs_active, entering_mood,
+                wiring=brain.wiring, anchors=anchor_index,
+                need_origins=need_origins(
+                    db, payload.game_id, episode.needs_active,
+                    entering_mood, brain=brain,
+                ),
+            )
             episode.lens_block = render_lens(
                 payload.character.name or payload.character.id,
                 entering_mood, rank_beliefs(beliefs, episode.perceived_day),

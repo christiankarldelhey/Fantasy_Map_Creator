@@ -78,7 +78,15 @@ def mood_cause(perceived_day, needs=None):
             continue
         weight = abs(p.get('valence') or 0.0) * (p.get('salience') or 0.0)
         if weight > best_w:
-            best = {'reading': p['reading'], 'valence': p.get('valence') or 0.0}
+            best = {
+                'reading': p['reading'], 'valence': p.get('valence') or 0.0,
+                # Contact tags let the brief connect the carried mood to
+                # today's Focus (orc tracks yesterday, orcs today).
+                'tags': [
+                    t for t in (p.get('tags') or [])
+                    if t.startswith(('entity:', 'tag:entity_type:', 'tag:form:'))
+                ],
+            }
             best_w = weight
     for n in needs or []:
         desc = getattr(n, 'desc', None) or getattr(n, 'description', None)

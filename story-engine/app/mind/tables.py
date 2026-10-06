@@ -65,6 +65,11 @@ class Episode(Base):
     # Rendered once at open (A8) and replayed verbatim on re-open — the lens
     # is a snapshot of the mind the moment this episode was perceived.
     lens_block: Mapped[str] = mapped_column(Text, nullable=True)
+    # The Episode brief behind the Lens (C35): {focus, carried, day,
+    # silenced, chosen_by} — what the Mind put at the centre, what
+    # connected to it and what stayed silent, with reasons. Built once at
+    # open, replayed on re-open like lens_block.
+    brief: Mapped[dict] = mapped_column(JSONB, nullable=True)
     mood: Mapped[dict] = mapped_column(JSONB, nullable=True)
     # Needs snapshot at open (B2) — same replay semantics as perceived_day.
     needs_active: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)

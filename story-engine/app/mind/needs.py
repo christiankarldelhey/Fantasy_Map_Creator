@@ -172,6 +172,10 @@ def needs_pass(session, game_id, brain, episode, perceived, character=None):
             urgency=spec.get('urgency') or 0.0, idx=idx, wiring=w,
         )
         need = existing.get(key)
+        # The brief speaks a need when it is new or worsening — remember
+        # where it stood before this episode refreshed it.
+        was_open = need is not None and need.status == 'open'
+        prior_urgency = need.urgency if was_open else None
         if need is None:
             need = Need(
                 game_id=game_id, character_id=brain.character_id, key=key,
@@ -192,6 +196,11 @@ def needs_pass(session, game_id, brain, episode, perceived, character=None):
             need.resolution = None
             if need.opened_episode is None:
                 need.opened_episode = idx
+        need.is_new = not was_open
+        need.worsening = (
+            prior_urgency is not None
+            and (spec['urgency'] or 0.0) > (prior_urgency or 0.0) + 1e-6
+        )
         touched.add(key)
 
     # Detector needs that stopped firing resolved themselves — the state
@@ -271,6 +280,11 @@ def need_snapshot(needs):
             'id': n.id, 'key': n.key, 'type': n.type,
             'description': n.description, 'urgency': round(n.urgency or 0, 3),
             'entity': n.linked_entity, 'region': n.linked_region,
+            'source': n.source,
+            # Transient, set by needs_pass: a snapshot rebuilt elsewhere
+            # reads them as False.
+            'is_new': bool(getattr(n, 'is_new', False)),
+            'worsening': bool(getattr(n, 'worsening', False)),
         }
         for n in needs
     ]

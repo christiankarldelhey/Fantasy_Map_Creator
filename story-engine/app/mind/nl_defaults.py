@@ -337,6 +337,15 @@ DEFAULT_PHRASE_LISTS = {
         'the wound is worse than pain now — it is becoming the whole of the day',
         'the body can no longer pretend the wound is a passing thing',
     ],
+    # Where a need comes from (the Lens brief): a Need always speaks with
+    # its cause. {days} from the detector; {cause} is what the entering
+    # mood carries — the shadow is told through what fed it.
+    'mind.need_origin.hunger': ['{days} days without a proper meal'],
+    'mind.need_origin.thirst': ['{days} days without enough water'],
+    'mind.need_origin.exhaustion': ['the body has been spent faster than it rests'],
+    'mind.need_origin.unrest': ['it has gathered since {cause}'],
+    'mind.need_origin.unrest.nameless': ['the shadow has been gathering, nameless'],
+    'mind.need_origin.wound': ['since the wound was taken'],
     # Traveller's condition / equipage / end (C10): the host ships raw
     # state and these lists own every word it becomes. {name} is the
     # character, {notes} the causal log notes. The mind path renders

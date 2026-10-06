@@ -252,6 +252,9 @@ class PsychePacket(BaseModel):
     check_results: List[Any] = []
     proposed_commands: List[Any] = []
     decision_point: Optional[Dict[str, Any]] = None
+    # The Episode brief behind the Lens (C35): Focus, connected lines,
+    # silenced candidates with reasons.
+    brief: Optional[Dict[str, Any]] = None
 
 
 class OpenEpisodeResponse(BaseModel):
