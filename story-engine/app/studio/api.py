@@ -353,6 +353,7 @@ def get_mind(
             'brief': ep.brief,
             'narrative': ep.narrative,
             'narrative_language': ep.narrative_language,
+            'narrative_translation': ep.narrative_translation,
         })
 
     return {

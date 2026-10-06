@@ -68,7 +68,7 @@ from app.mind.models import (
     ResetBrainRequest,
 )
 from app.models import NarrateDayRequest
-from app.narrate_day import narrate_day
+from app.narrate_day import INNER_LANGUAGE, narrate_day
 from app.mind.decisions import (
     pending_decision_point, proposed_commands, resolution_text,
     resolve_decision,
@@ -618,10 +618,19 @@ def narrate_episode(
             nl=NlPack(db, episode.game_id, brain=brain),
         )
         generation = result['generation'] or {}
-        _record_voiced(db, episode, generation.get('text'))
-        if generation.get('text'):
-            episode.narrative = generation['text']
-            episode.narrative_language = payload.language or req.language
+        # ADR 0003: the Mind keeps and measures the inner-language text;
+        # the reader's language is a translation stored beside it.
+        inner = generation.get('inner_text') or generation.get('text')
+        _record_voiced(db, episode, inner)
+        if inner:
+            episode.narrative = inner
+            episode.narrative_language = INNER_LANGUAGE
+            episode.narrative_translation = (
+                {'language': generation['language'], 'text': generation['text']}
+                if generation.get('language') != INNER_LANGUAGE
+                and generation.get('text')
+                else None
+            )
         episode.narrated_at = datetime.now(timezone.utc)
         if episode.status == 'open':
             episode.status = 'narrated'
@@ -641,7 +650,8 @@ def narrate_episode(
             decision_point=pending_decision_point(db, brain, episode),
             lens_eval=episode.lens_eval,
             generation_meta={
-                k: v for k, v in generation.items() if k != 'text'
+                k: v for k, v in generation.items()
+                if k not in ('text', 'inner_text')
             },
         )
     except SQLAlchemyError as exc:

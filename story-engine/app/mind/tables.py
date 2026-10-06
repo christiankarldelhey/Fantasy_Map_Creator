@@ -87,6 +87,10 @@ class Episode(Base):
     # narrate — the last observation wins, like lens_eval.
     narrative: Mapped[str] = mapped_column(Text, nullable=True)
     narrative_language: Mapped[str] = mapped_column(String(20), nullable=True)
+    # ADR 0003: `narrative` is always the inner-language (English) text —
+    # it is what Resonated is measured on. The reader's rendering lives
+    # here as {language, text}; NULL when the reader asked for English.
+    narrative_translation: Mapped[dict] = mapped_column(JSONB, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)

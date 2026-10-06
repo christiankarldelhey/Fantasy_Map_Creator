@@ -203,6 +203,39 @@ def generate_narrative(prompt, day_number=None):
     return {**meta, 'text': None}
 
 
+TRANSLATE_SYSTEM = (
+    'You are a literary translator. Translate the chapter you are given into '
+    '{language}. Keep every image, the rhythm, the paragraph breaks and the '
+    'tone; proper nouns of the world (people, places, peoples) stay as they '
+    'are. Do not add, explain or summarise. Output only the translation.'
+)
+TRANSLATE_SAMPLING = {
+    'temperature': 0.3, 'top_p': 0.9,
+    'frequency_penalty': 0.0, 'presence_penalty': 0.0,
+}
+
+
+def translate_text(text, language):
+    """The finished inner-language narration in the reader's language
+    (ADR 0003). Same model fallback chain as narration, fixed low-variance
+    sampling — a translation, not a second narration. None on failure."""
+    messages = [
+        {'role': 'system', 'content': TRANSLATE_SYSTEM.format(language=language.capitalize())},
+        {'role': 'user', 'content': text},
+    ]
+    for attempt in _build_attempt_order():
+        client = attempt['get_client']()
+        if not client:
+            continue
+        try:
+            content = attempt['run'](client, messages, TRANSLATE_SAMPLING, attempt['model'])
+            if content:
+                return content
+        except Exception as error:  # noqa: BLE001 - mirrors generate_narrative
+            print(f"⚠️ translation with {attempt['model']} failed:", error)
+    return None
+
+
 def complete_json(prompt, model=None, timeout=6.0):
     """One short JSON completion for in-request mind work (the Lens
     director). Unlike generate_narrative there is no fallback chain: it

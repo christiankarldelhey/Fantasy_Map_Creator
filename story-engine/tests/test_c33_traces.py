@@ -97,6 +97,10 @@ def test_narrate_keeps_the_last_narration(client, monkeypatch):
     assert r.status_code == 200, r.text
     ep_id = r.json()['episode_id']
 
+    monkeypatch.setattr(
+        narrate_module, 'translate_text',
+        lambda text, lang: f'{text} [traducción al {lang}]',
+    )
     for text in ('First telling.', 'Second telling.'):
         monkeypatch.setattr(
             narrate_module, 'generate_narrative',
@@ -112,6 +116,12 @@ def test_narrate_keeps_the_last_narration(client, monkeypatch):
 
     session = SessionLocal()
     ep = session.get(Episode, ep_id)
+    # ADR 0003: `narrative` keeps the inner-language original — the last
+    # telling still wins, and the reader's rendering sits beside it.
     assert ep.narrative == 'Second telling.'
-    assert ep.narrative_language == 'spanish'
+    assert ep.narrative_language == 'english'
+    assert ep.narrative_translation == {
+        'language': 'spanish',
+        'text': 'Second telling. [traducción al spanish]',
+    }
     session.close()

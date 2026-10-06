@@ -39,7 +39,12 @@ class PromptResponse(BaseModel):
 
 
 class GenerationResponse(BaseModel):
+    # ADR 0003: `text` is the reader-facing rendering; `inner_text` the
+    # inner-language (English) original it was translated from — equal to
+    # `text` when no translation was needed. `language` names `text`.
     text: Optional[str]
+    inner_text: Optional[str] = None
+    language: Optional[str] = None
     ia_provider: Optional[str]
     temperature: float
     frequency_penalty: float

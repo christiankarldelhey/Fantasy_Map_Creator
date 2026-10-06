@@ -14,10 +14,12 @@
 # ============================================================================
 import random
 
-from app.ai import generate_narrative
+from app.ai import generate_narrative, translate_text
 from app.evals.eval_runner import run_narrative_evals
 from app.natural_language import resolve_climate_state
 from app.prompt.builder import build_day_prompt
+
+INNER_LANGUAGE = 'english'
 
 
 def narrate_day(
@@ -44,11 +46,14 @@ def narrate_day(
     climate_state = resolve_climate_state(recent_day_climates, rng, nl)
     climate_state_block = climate_state['narrative']
 
+    # ADR 0003: the narration is always written in the inner language
+    # (English); another reader language is a translation of the finished
+    # text, never a second way of narrating.
     prompt = build_day_prompt(
         day=day,
         trip=trip,
         character=character,
-        language=language,
+        language=INNER_LANGUAGE,
         previous_day=previous_day,
         character_state=character_state,
         equipment_state=equipment_state,
@@ -60,12 +65,22 @@ def narrate_day(
     )
 
     generation = generate_narrative(prompt, day.get('day_number'))
+    inner_text = generation.get('text')
 
     run_narrative_evals(
-        narrative=generation.get('text'),
+        narrative=inner_text,
         day=day,
         character_name=character.get('name') or 'Aranath',
         impressions=impressions,
     )
+
+    # `text` is what the reader gets; `inner_text` is what the Mind
+    # measures (Resonated). A failed translation still delivers the
+    # inner-language chapter rather than nothing.
+    generation = {**generation, 'inner_text': inner_text, 'language': INNER_LANGUAGE}
+    if inner_text and language and language.lower() != INNER_LANGUAGE:
+        translated = translate_text(inner_text, language)
+        if translated:
+            generation.update(text=translated, language=language.lower())
 
     return {'prompt': prompt, 'generation': generation}

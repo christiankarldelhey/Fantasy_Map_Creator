@@ -1,0 +1,16 @@
+-- ============================================================================
+-- C35 · English inner language, translation last (CONTEXT.md · Inner language;
+-- ADR 0003)
+-- ----------------------------------------------------------------------------
+-- episodes.narrative            always the inner-language (English) text —
+--                               what the Mind produced and what Resonated is
+--                               measured on.
+-- episodes.narrative_language   describes `narrative`: 'english' going
+--                               forward. (Rows from before this change hold
+--                               the reader language and a same-language
+--                               narrative — still self-consistent.)
+-- episodes.narrative_translation  the reader's rendering {language, text};
+--                               NULL when the reader asked for English or the
+--                               translation step failed.
+-- ============================================================================
+ALTER TABLE mind.episodes ADD COLUMN IF NOT EXISTS narrative_translation jsonb;
