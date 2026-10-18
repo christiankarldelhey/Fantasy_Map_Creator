@@ -298,5 +298,6 @@ VALUES
  'Grazing animals passed within hours, unhurried. Nothing pushed them.',
  'Calm tracks mean a calm wood ahead.',
  'Notes direction and count. Continues.',
- 'care_of_living_things', NULL);
+ 'care_of_living_things', NULL)
+ON CONFLICT (id) DO NOTHING;
 

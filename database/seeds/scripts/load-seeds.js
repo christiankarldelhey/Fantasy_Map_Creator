@@ -970,6 +970,10 @@ async function ensureSchema() {
   await runMigrationFile('add_skills_and_conditions.sql');
   await runMigrationFile('add_stealth_endurance_skills.sql');
   await runMigrationFile('add_description_es_to_character_state.sql');
+  await runMigrationFile('fix_harvest_shelter_stance_c25.sql');
+  await runMigrationFile('npc_interactions_entity_ids_c26.sql');
+  await runMigrationFile('npc_interactions_commands_c27.sql');
+  await runMigrationFile('add_trip_days_mind_calls.sql');
   await runMigrationFile('add_variant_to_region_biome_descriptions.sql');
   await runMigrationFile('create_region_seasonal_descriptions.sql');
 
