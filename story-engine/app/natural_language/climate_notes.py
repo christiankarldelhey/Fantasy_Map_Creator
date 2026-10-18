@@ -29,6 +29,43 @@ CLOUD_BANDS = [
 
 WINDY_SPEED_MIN = 18
 WET_PRECIPITATION_MIN = 0.2
+# Phase-total precipitation that reads as a real downpour rather than rain.
+PHASE_HEAVY_PRECIP_MIN = 4.0
+# Mean phase temperature at or below which precipitation falls as snow.
+PHASE_SNOW_TEMP_MAX = 1.0
+
+# Precipitation intensity tiers — fragments, so they join a comma-list like
+# "cold, heavy cloud cover, a driving rain". Pools, not single words: the
+# narrator should not wear the same word every wet day.
+PRECIP_SNOW_PHRASES = [
+    'falling snow',
+    'snow in the air',
+    'a light snow',
+    'snow sifting down',
+]
+PRECIP_HEAVY_PHRASES = [
+    'a driving rain',
+    'a drenching downpour',
+    'rain that means to last',
+    'a grey, beating rain',
+]
+PRECIP_WET_PHRASES = [
+    'a steady rain',
+    'a cold drizzle',
+    'soft rain',
+    'wet',
+]
+PRECIP_SHOWER_PHRASES = [
+    'a passing shower',
+    'a brief shower',
+    'a scatter of rain',
+]
+WINDY_PHRASES = [
+    'windy',
+    'a wind that does not rest',
+    'a searching wind',
+    'a whistling wind',
+]
 
 
 def _band_phrase(bands, value):
@@ -47,9 +84,9 @@ def _band_phrase(bands, value):
 # games without a seeded pack keep working byte-for-byte.
 
 
-def _band(nl, table, bands, value):
+def _band(nl, table, bands, value, rng=random.random):
     if nl is not None:
-        return nl.band_phrase(table, value)
+        return nl.band_phrase(table, value, rng)
     return _band_phrase(bands, value)
 
 
@@ -62,7 +99,7 @@ def _pick(nl, key, fallback, rng):
     return pick(choices or fallback, rng)
 
 
-def summarise_weather(records, nl=None):
+def summarise_weather(records, nl=None, rng=random.random):
     """Summarise weather records into a short phrase like "cool, partly cloudy"."""
     mean_temp = mean_of([w.get('temperature_2m') for w in records])
     mean_cloud = mean_of([w.get('cloud_cover') for w in records])
@@ -70,20 +107,28 @@ def summarise_weather(records, nl=None):
     total_prec = sum_of([w.get('precipitation') or 0 for w in records])
 
     parts = [p for p in [
-        _band(nl, 'temperature', TEMPERATURE_BANDS, mean_temp),
-        _band(nl, 'cloud_cover', CLOUD_BANDS, mean_cloud),
-        'windy' if (mean_wind is not None and mean_wind > _threshold(nl, 'climate.windy_speed_min', WINDY_SPEED_MIN)) else None,
+        _band(nl, 'temperature', TEMPERATURE_BANDS, mean_temp, rng),
+        _band(nl, 'cloud_cover', CLOUD_BANDS, mean_cloud, rng),
+        _pick(nl, 'climate.wind', WINDY_PHRASES, rng)
+            if (mean_wind is not None and mean_wind > _threshold(nl, 'climate.windy_speed_min', WINDY_SPEED_MIN))
+            else None,
     ] if p]
 
-    if total_prec > _threshold(nl, 'climate.wet_precipitation_min', WET_PRECIPITATION_MIN):
-        parts.append('wet')
+    if (total_prec > 0
+            and mean_temp is not None
+            and mean_temp <= _threshold(nl, 'climate.snow_temp_max', PHASE_SNOW_TEMP_MAX)):
+        parts.append(_pick(nl, 'climate.precip.snow', PRECIP_SNOW_PHRASES, rng))
+    elif total_prec >= _threshold(nl, 'climate.phase_heavy_precip_min', PHASE_HEAVY_PRECIP_MIN):
+        parts.append(_pick(nl, 'climate.precip.heavy', PRECIP_HEAVY_PHRASES, rng))
+    elif total_prec > _threshold(nl, 'climate.wet_precipitation_min', WET_PRECIPITATION_MIN):
+        parts.append(_pick(nl, 'climate.precip.wet', PRECIP_WET_PHRASES, rng))
     elif total_prec > 0:
-        parts.append('a passing shower')
+        parts.append(_pick(nl, 'climate.precip.shower', PRECIP_SHOWER_PHRASES, rng))
 
     return join_list(parts) if parts else None
 
 
-def collect_climate_notes_by_phase(climate_array, moon=None, nl=None):
+def collect_climate_notes_by_phase(climate_array, moon=None, nl=None, rng=random.random):
     """Group weather into the three narrative phases and return one summary
     phrase per phase (None when there is no data for it)."""
     notes = {'morning': None, 'afternoon': None, 'night': None}
@@ -99,7 +144,7 @@ def collect_climate_notes_by_phase(climate_array, moon=None, nl=None):
     for phase in NARRATIVE_PHASES:
         if not by_phase[phase]:
             continue
-        summary = summarise_weather(by_phase[phase], nl)
+        summary = summarise_weather(by_phase[phase], nl, rng)
         if phase == 'night' and summary and moon:
             mean_cloud = mean_of([w.get('cloud_cover') for w in by_phase['night']])
             moon_phrase = format_moon_night_phrase(moon, mean_cloud, nl)

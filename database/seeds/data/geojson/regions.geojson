@@ -2679,12 +2679,12 @@
         "climate_zone_id": 104,
         "description_text": "Southern Mirkwood and Southern Rhovanion form a wild, embattled region stretching from the Old Forest Road down to the Dagorlad and the Emyn Muil, dominated by the dark forest around Dol Guldur, the horse-plains of Talath Harroch, and the Anduin vales and Brown Lands that lie between Mirkwood and Gondor. Geology consists of primarily sedimentary strata of limestone and shale, with significant granite projections such as the cinder cone of amon lanc and the mountains of mirkwood.",
         "description_summary": [
-          "Southern Mirkwood dominated by the shadow of Dol Guldur. Dark trees with interlocking branches, ground carpeted in roots and fungi, and the volcanic cone of Amon Lanc presiding over a poisoned land where few good creatures survive.",
-          "The furry oaks and chap-beeches grow so close their canopies touch forty feet up, sealing out all sunlight. The ground below is a permanent twilight of roots, pale fungi and the smell of slow rot.",
-          "Grape-leaf magnolia and rose-trees planted by long-gone Elves survive in the northwest, islands of old beauty in a forest that has turned. Everything else here serves the darkness or has already been consumed by it.",
-          "Amon Lanc rises at the centre, the volcanic cone where Dol Guldur squats. The trees around it grow visibly toward it, as if they remember what they were before the shadow came and cannot stop reaching for it.",
-          "In summer the heat under the canopy is still and heavy, the air rank with spores. In winter the cold seeps up from the roots and the frost forms patterns on the fungi that look like script no one living can read.",
-          "Few good things survive here — some orcs, many spiders, and the occasional desperate traveller who has no better route. The Woodmen to the west know this forest as a border to respect, not a place to enter."
+          "Southern Mirkwood — the dark wood grown darker since the Shadow came to Dol Guldur. Trees bent together into arches, a green dimness beneath, and paths that end where the forest wills.",
+          "The ground is carpeted in roots and fungi; the air is thick and still. Under the canopy the quiet is so deep that a footstep sounds like a drum.",
+          "The Elf-path is the one safe way — a narrow line of beaten earth that the forest tolerates. Off it, the trails lie, the streams are black, and sleep itself is dangerous.",
+          "About the naked hill where the Necromancer dwelt the trees grow twisted even for this wood; the forest remembers the darkness and leans toward its ruin.",
+          "In summer the heat under the canopy is still and rank; in winter the cold seeps up from the roots. The wood has its own weather and it is never kind.",
+          "Spiders and darker things hold the deep wood; the free folk keep to the path and the fringes, and the forest's heart belongs to no one who walks on two legs."
         ],
         "area_km2": "123262.580814629",
         "distance_for_encounter": 6,
@@ -7303,12 +7303,12 @@
         "climate_zone_id": 122,
         "description_text": "Northern Mirkwood is the northern half of the great forest once known as Greenwood the Great, stretching between the Anduin, the Grey Mountains, the Withered Heath and the upper River Running, and including Thranduil’s woodland realm, the Long Lake, the Lonely Mountain and the Iron Hills.",
         "description_summary": [
-          "Northern Mirkwood governed by Thranduil from his underground halls. Deep forest of oaks and firs, Silvan Elves patrolling rune-marked paths, and the River Running as the trade artery eastward.",
-          "Ancient oaks and beeches in the north, their canopy high and green-gold in summer; after the Great Plague the undergrowth thickened and the silences deepened, but Thranduil's Elves still patrol paths marked with runes only they can read.",
-          "Twisted oaks draped in ivy stand beside the straight ones; the forest floor is moss and root and the occasional bright stream. The contrast between the healthy north and the shadow to the south is a line you can almost see.",
-          "The River Running threads the eastern margin, carrying trade toward Dale and iron from the Grey Mountains. Inside the forest, the sounds of the river fade within a hundred yards; the wood absorbs everything.",
-          "Cool summers under the canopy give way to cold winters when the upper branches ice and the Elves retreat to Thranduil's underground halls. The forest in midwinter is a place of grey boles and absolute quiet.",
-          "The Wood-elves move through these trees the way water moves through rock — following paths no outsider can see, surfacing only when they choose. Strangers who wander off the marked ways tend not to find their way back."
+          "The Woodland Realm — the Elvenking's country in the north-eaves of Mirkwood, where the wood is greener and the dark has not so deep a hold.",
+          "Beech-woods over halls of living stone; the king's doors stand in a steep tree-covered slope above the Forest River, and the cave-halls go down to cold springs and deep cellars.",
+          "The Forest River is the realm's road — it runs dark and strong under the bridge, out of the wood to the Long Lake, carrying the barrels and the trade.",
+          "Feasts are held in the glades by torchlight; the smell of roasting meat and the sound of elven laughter drift through the trees and mislead the hungry.",
+          "Green summers and white winters; the rain on the eaves is soft, and the river runs fuller and darker for it. The wood is watched, and the deer-parks are guarded.",
+          "The wood-elves are unfriendly to strangers in the deep forest — less cruel than the southern wood, but their doors are shut to those they do not know."
         ],
         "area_km2": "67111.1502038567",
         "distance_for_encounter": 8,
@@ -9931,12 +9931,12 @@
         "climate_zone_id": 70,
         "description_text": "Parth Celebrant, the Field of Celebrant, is a wide, rolling grassy plain nestled between the Great River Anduin and the Limlight. It is famous as the historical battleground where Eorl the Young led the Éothéod to save the armies of Gondor, leading to the gift of Rohan.",
         "description_summary": [
-          "Green plain between the Anduin and the Limlight, famous as the battlefield where Eorl saved Gondor. Tall grass, willows on the banks and a silence broken only by the wind and the memory of the hooves that once galloped here.",
-          "Waist-high grass between the Anduin and the Limlight, bright with clover in the long summer evenings. The plain looks like peace. It has been the site of at least one battle that changed the fate of Gondor.",
-          "Willows fringe the rivers but the centre is open and wide, with nothing to interrupt the wind or the sight-lines. On still days you can hear the Anduin from almost anywhere on the plain.",
-          "The soil here is silt-rich from centuries of flooding; the grass grows aggressively and the roots go deep. Nothing built on this land stays built; the plain reclaims what it is owed.",
-          "Summers are mild and the grass dries gold by the end of the season. Spring floods deposit a new skin of river-silt every year. The plain is always renewing itself, indifferent to the history enacted on it.",
-          "No permanent settlements; only the memory of Eorl's ride, which the Rohirrim still sing about, and the occasional trader using the river crossings as the fastest north-south route in Rhovanion."
+          "The Field of Celebrant — open grassland and groves between the River and the mountains' feet, where the North Kingdom was broken and the Eorlingas came down out of the north.",
+          "Thick turf over old graves; the mounds under the grass mark where a battle was lost and then miraculously won. The grass is a little greener on the field of the ride.",
+          "Oak and beech clothe the lower slopes; the high ground is bare down and sheep-walk under a wide sky, with the mountains standing close and white to the north.",
+          "The old road-line is still legible under the turf — a pale green scar running north, where the forts of the fallen kingdom kept their last watch.",
+          "A clean cold wind comes off the mountains and crosses the open field; the larks are up in summer and the grass lies flat under the winter rain.",
+          "A fair field with a sad memory; the River runs at its feet and the mountains stand at its back, and the world between them is green and empty."
         ],
         "area_km2": "28592.5154664929",
         "distance_for_encounter": 13,
@@ -14955,12 +14955,12 @@
         "climate_zone_id": 38,
         "description_text": "Anórien is the northern fief of Gondor that occupies the strip of land between the northern slopes and valleys of the White Mountains and the west bank of the Anduin, opposite northern Ithilien. Established towards the end of the Second Age along with Ithilien and Lebennin as part of Gondor’s Anduin heartland, it later remains the only Gondorian fief north of the White Mountains when Calenardhon is ceded to the Éothéod to become Rohan. The region is defined by mountain-fed valleys, tall grasslands and scattered woods, pierced by the Great West Road and guarded by beacon-peaks and the Drúadan Forest.",
         "description_summary": [
-          "Northern fief of Gondor between the White Mountains and the Anduin, with mountain-fed valleys, tall grasslands and the Great West Road. The beacon-peaks that signal war frame a land of passage guarded between two great powers.",
-          "Mountain-fed rivers crossing a central plain between the White Mountains and the Anduin, with beacon-peaks visible on clear days from the road. A land built around passage — the Great West Road through its heart tells the whole story.",
-          "The valleys are rich with grain and orchard; the mountain skirts have pine and beech on the upper slopes. The cultivated strip in the middle is what Gondor has always depended on for the army to eat.",
-          "From the road you can see both the White Mountains and the Anduin — the two great defining features of southern Gondor — at the same time. Few places in Middle-earth sit so clearly at a crossroads.",
-          "Cold winters when the mountain winds come down the Ered Nimrais; long hot summers on the plain. Spring mud makes the road difficult; autumn is the only season that is simply pleasant.",
-          "A garrison land. Gondorian soldiers and their families in villages along the road, farmers who know their crops might be requisitioned, and watchmen in the beacon towers who have been waiting for years."
+          "The green province north of the White Mountains — the Pelennor's fenced fields and orchards running up to the City walls, with the beacon-hills marching east along the mountain feet.",
+          "Tended woods of beech and fir on the foothills; beyond them the dark pines of Drúadan keep their own counsel. Every height carries a beacon against a day of need.",
+          "The Great West Road runs straight through the townlands to the fords of the Isen. Farms, dykes and orchards crowd close here; this is the garden and granary of the City.",
+          "Warm summers, hard bright winters off the mountains. The wind that comes down at evening smells of high snow even when the fields are in flower.",
+          "Country-folk of the Mark's kin and the City both — farmers and herdsmen who keep the beacons and the roads, and look south to the white wall that walls the world.",
+          "The Rammas wall rings the fields; outside it the land climbs in long green slopes to the hills where the signal-fires wait, unlit but ready."
         ],
         "area_km2": "49184.8707227935",
         "distance_for_encounter": 2,
@@ -20789,12 +20789,12 @@
         "climate_zone_id": 46,
         "description_text": "Dagorlad is the wide, flat battle-plain north and northeast of Udûn and the main pass into Mordor, once covered with wild grains and grasses and now a bare, declining expanse dotted with cairns and barrows where the Last Alliance fought Sauron at the end of the Second Age.",
         "description_summary": [
-          "The great battle-plain before Mordor, bare and ash-grey since the Last Alliance. Barrows of the fallen, black mud that smells of ancient metal and the Dead Marshes to the northwest with their flickering lights. A land of ill omen.",
-          "Bare grey plain before the Black Gate, the ground dark with ash since the Last Alliance broke it open. The Dead Marshes begin to the northwest, their lights visible on still nights.",
-          "Hardy gorse and a few surviving grass-tufts push through ground that still smells of ancient metal and old fire. Nothing large grows here; the soil was poisoned a long age ago and has not recovered.",
-          "The plain angles down toward the Morannon with no feature to break the monotony except the barrows of the fallen — thousands of them, unmarked, on a field that was the world's hinge-point once.",
-          "The wind carries ash from Mordor in summer; in winter the mud freezes hard and black. In between there is a brief spring when some flowers make the attempt, quickly covered by the next layer of dust from the east.",
-          "The only living things with purpose here are those passing through as quickly as possible. The barrow-mounds are not maintained; no one claims the dead of the Last Alliance."
+          "The battle-plain before the Black Gate — cracked earth, slag-mounds and reeking pits where the hosts of the Last Alliance fought and nothing has grown rightly since.",
+          "North of the plain the Dead Marshes spread — a drowned waste of meres and reeds where corpse-lights burn over the pools and the faces of the drowned wait beneath the green water.",
+          "Three pale dusty roads run to the Morannon and no further. The land between them is a graveyard with no graves — the dead are under the pools, or the dust, or nowhere.",
+          "A bitter east wind blows here off the heights of the Emyn Muil; it carries the cold smell of decay and turns sharply cold at dusk.",
+          "Nothing lives here but carrion-birds and the faint lights on the fen-water. The mounds that should be barrows are pits of filth; the land itself seems to exhale poison.",
+          "Before dawn the air sometimes brings a message — a breath from the south with a faint tang of the Sea, as if to prove the world is not all shadow."
         ],
         "area_km2": "38184.9949442087",
         "distance_for_encounter": 1,
@@ -22289,12 +22289,12 @@
         "climate_zone_id": 57,
         "description_text": "The Drúadan Forest (S: 'Tawar-in-Drúedain') is an ancient, dense, and secretive oakwood situated in northeastern Gondor along the northern slopes of the White Mountains. Bordered by the beacon-hills of Eilenach and Nardol, this forest is the ancestral home of the Woses (Drúedain), a primeval, secretive race of master woodsmen who lead primitive, clan-based lives in hidden hollows and valleys completely apart from Gondorian civilization.",
         "description_summary": [
-          "Ancient oakwood on the northern flanks of the White Mountains, ancestral home of the secretive Woses. Gnarled trees with hanging mosses, grotesque stone carvings on the hidden paths, and the Drúedain invisible as shadows among the roots.",
-          "Ancient oaks with hanging moss and an understorey of aromatic herbs on the north flank of the White Mountains. The Drúedain are invisible in it; their stone carvings appear on path-junctions without warning.",
-          "Massive oaks that predate the Dúnedain in this land, with grotesque root-structures that create natural rooms in the forest floor. The Woses call it theirs and have never been successfully argued out of that position.",
-          "The forest reads as dark and threatening from the road, but inside it is layered and complex — medicinal herbs on the floor, songbirds in the canopy, and a deep quiet that has nothing to do with danger.",
-          "Cool and damp under the canopy in summer; the moss stays green through winter even when the oak canopy is bare. The Drúedain know every microclimate in it and use that knowledge as armour.",
-          "The Woses are never seen unless they choose to be. Their presence is inferred from the grotesque statues on the paths, the sudden silence of birds, and the sense that something patient is watching."
+          "A dark remnant of the world's first woods, clinging to the feet of the White Mountains — close pines, deep silence, and paths that are not meant for outside feet.",
+          "The Stonewain Road runs through it half-buried — grey slabs laid before the City was built, still carrying those who the wood permits to pass.",
+          "The Wild Men of the woods live here and are seldom seen; their carved watch-stones stand along the ways, and the drums in the trees are the only greeting strangers get.",
+          "The forest is cool and dim even at midsummer; under the pines the air smells of resin and old earth, and sound does not carry far.",
+          "Few roads, fewer paths. The wood is a fortress without walls — the trees and their people have held it against every power that came through the valley.",
+          "Beyond the dark eaves the land opens to the plain of the City; inside them the world is a green dusk and a held breath."
         ],
         "area_km2": "6633.10133933676",
         "distance_for_encounter": 3,
@@ -23801,12 +23801,12 @@
         "climate_zone_id": 92,
         "description_text": "Northern Mirkwood is the northern half of the great forest once known as Greenwood the Great, stretching between the Anduin, the Grey Mountains, the Withered Heath and the upper River Running, and including Thranduil’s woodland realm, the Long Lake, the Lonely Mountain and the Iron Hills.",
         "description_summary": [
-          "Trading town on piles over the Long Lake, beneath the shadow of Erebor. Canals for streets, creaking walkways, and Dorwinion wine and Dwarven jewels as currency. A wealthy, practical enclave of northern merchants.",
-          "A town built on piles over the Long Lake, where every street is a canal and the smell of woodsmoke and cold fish is permanent. The creaking of the platforms underfoot is constant; Esgaroth never stops moving slightly.",
-          "Lake-town sits between the forest's shadow and Erebor's stone. Dorwinion wine in the merchant houses, Dwarven ore in the riverside warehouses and the constant traffic of boats that makes this place what it is.",
-          "The Long Lake stretches wide and cold to the south; to the north Erebor rises. The town on its pilings is the trade-node between the two, and everything here has a price that reflects that position.",
-          "Winter locks the lake for two months and the town contracts inward, fires burning in every house. In summer the lake reflects the sky and the market is open all hours and everything smells of fish and river mud.",
-          "Practical merchants who have learned to live with the risk of fire and flood. They distrust sentiment, negotiate hard and know the value of everything that moves along the River Running."
+          "Lake-town on the Long Lake — a wooden town on piles over the water, reached by a great bridge, where the trade of the Woodland Realm comes down the Forest River in barrels.",
+          "The lake stretches long between the mountains and the wood; its southern arms end in marsh and winding channels where the river gathers itself and plunges over cascades.",
+          "The ways are waterways — boats and barges where other towns have carts, and lantern-lit piers instead of streets. The town's life is the lake's life.",
+          "Cold winds and falling leaves mark the autumn; in winter the margins freeze and the wooden ways creak over black water. The lake remembers the Dragon's wrath and the Master's fall.",
+          "Mountain on the north horizon — the Lonely Mountain fills the sky beyond the lake-head, and all roads of the eye run to it.",
+          "A grey, wet, busy place — fish-fires and woodsmoke on the water, gulls crying round the barrels, and the mountains reflected broken in the ripples."
         ],
         "area_km2": "5631.20874899572",
         "distance_for_encounter": 8,
@@ -51847,12 +51847,12 @@
         "climate_zone_id": 66,
         "description_text": "Harithilien is South Ithilien, a distinct, fertile, and beautiful region bordering Harondor and Mordor. It is characterized by volcanic soils enriched by the Ephel Dúath, featuring ancient ruined estates of Gondor, hidden ranger outposts, and lush vegetation.",
         "description_summary": [
-          "South Ithilien, fertile and aromatic thanks to the volcanic soils of the Ephel Dûath. Olive groves, vineyards and ruined Gondorian villas amid overflowing vegetation, watched over by Rangers hidden in grottos and rock crevices.",
-          "South Ithilien, where volcanic soils from the Ephel Dûath grow everything twice as large as it should be. Olive trees fifty feet tall, jasmine climbing over Gondorian ruins and the smell of laurel on every breath of wind.",
-          "The wild garden of Gondor's abandoned south: herbs, flowering shrubs and climbing plants have reclaimed everything that was once tended. Rangers hide in grottos that smell of rosemary and wood smoke.",
-          "The terraced hillsides of old Gondorian estates survive under the vegetation — you can see the outlines of the walls when the low sun rakes across them. The land remembers being cultivated even when the cultivators are gone.",
-          "Hot dry summers that concentrate the aromatic oils in every leaf; mild wet winters when the southern coast gets its rain. The combination produces landscape that is almost offensively lush by northern standards.",
-          "Gondorian Rangers who know every cave, ford and tree-line in the region. They are the only authority here, which suits them; the only people who challenge that are the columns from Mordor using the Harad Road."
+          "Southern Ithilien — the garden of Gondor gone half-wild: hills of gorse and heath, woods of fir and cedar, and glades thick with herbs that the sun turns to incense.",
+          "A singing land under a shadowed sky — streams thread the glades to hidden falls and green pools, and the air is fresh with a sweetness that recalls the distant North.",
+          "Rangers' country; the paths are hidden and the lookouts are secret. The ruins of Gondor's watch-places stand among the trees, still held against the East.",
+          "The land is fair but scarred — fire-marks in the clearings, trampled glades, and always the dark line of the Ephel Dúath closing the eastern sky.",
+          "Warm and sweet in summer, grey and sleeping in winter; rain comes soft and fragrant off the mountains and the herbs answer it.",
+          "Water is the music of Ithilien — singing streams, hidden waterfalls, and dark pools under the green shade; the land will not be made ugly while the water runs."
         ],
         "area_km2": "45219.0450011394",
         "distance_for_encounter": 1,
@@ -54411,12 +54411,12 @@
         "climate_zone_id": 97,
         "description_text": "Southern Gondor comprises the fertile river valleys, coastal plains, highland vales and mountain flanks between the White Mountains (Ered Nimrais) and the Bay of Belfalas, encompassing the provinces of Lebennin, Belfalas/Dor-en-Ernil, Lamedon, Anfalas and the Pinnath Gelin—the heartland of Númenórean civilization in Middle-earth.",
         "description_summary": [
-          "Mountain province in the upper valleys of the White Mountains, rich in iron, copper and silver. Slate-roofed villages clinging to hillsides, stout clan-loyal miners and mountain passes that snow closes for months at a time.",
-          "Upper mountain valleys of the White Mountains, slate-roofed and severe. Iron and copper come out of these hills on the backs of pack-animals and mules; the miners and herders who live here are shaped to match the landscape.",
-          "Birch and pine on the lower slopes, bare rock above the treeline. The passes snow over early and the villages that depend on them shift their whole economy accordingly, laying in stores in autumn.",
-          "Swift cold rivers between narrow valley floors, with the mountains' faces reflected in water that never quite warms even in summer. The sound of moving water is constant here.",
-          "Short sharp summers in the upper valleys; long winters with reliable snowfall and passes that close for months. The mines keep working; the livestock move to lower ground.",
-          "Stout clan-loyal communities who trust their own valley and nobody else's. They've fought over mining rights and water rights and grazing rights for so long that the disputes have become a kind of social glue."
+          "The Vale of Morthond — a broad green bay of grass beneath the southern cliffs of the White Mountains, where the Blackroot river comes down cold and loud out of the heights.",
+          "On the mountain's root stands the Dimholt, a wood of black trees where the light does not enter; beyond its ancient stones the Dark Door waits, and the Paths of the Dead go under the mountain.",
+          "Green upland pastures climb to long spurs and sheer cliffs; the vale is fertile and the hills are high, and the mountain's shadow fills the head of the valley through most of the day.",
+          "A mountain vale of long light and early dusk — the sun leaves it soon, the lights come on early in the dwellings below, and the sound of the Morthond fills the evening.",
+          "The folk are herdsmen and high-farmers, mountain-men of Gondor; they keep the stone circles of the older world and do not speak of the wood at the valley's head.",
+          "Deep snow on the heights in winter, green water-meadows in spring; the cold comes down off the peaks before the light fails, and the river runs loud under icy banks."
         ],
         "area_km2": "70399.7309185829",
         "distance_for_encounter": 8,
@@ -74463,12 +74463,12 @@
         "climate_zone_id": 86,
         "description_text": "The Grey Mountains (Ered Mithrin) form a long, cold northern range between Mirkwood and the Forodwaith, with abrupt cliffs above the Wilderland, gentler northern slopes fading into tundra and the Talath Oiohelka, and the dragon-haunted basin of the Withered Heath between the eastern forks of the range.",
         "description_summary": [
-          "Market town at the feet of Erebor, rebuilt after the death of Smaug. Cobbled terraced streets, the craft of toys and bells, and markets where the Dwarven world, the lake-men and southern traders all converge.",
-          "Market town rebuilt from rubble at the feet of the Lonely Mountain, its cobbled streets still smelling of fresh mortar and ambition. Bells and toys are the famous export; the real business is what passes through on the trade roads from three directions.",
-          "The fertile vale between the Mountain and the River Running, with good soil from the mountain-fed streams and shelter from the worst northern weather. The town makes things; the valley feeds the town.",
-          "Erebor rises behind the rooftops so large it frames the whole northern view. The Long Lake gleams to the south. Dale sits exactly at the convergence of the Dwarven kingdom's weight and the lake-trade's reach.",
-          "Cold winters with reliable snow and a short but genuinely warm summer when the vale comes alive with markets and river-traffic. The mountain keeps the worst of the north wind off the town.",
-          "Rebuilders: a people who came back to ruins and made something of them. The craft of toys and bells is only partly about commerce; it is also about the pleasure of making things that work exactly as intended."
+          "The valley of the Lonely Mountain — green fields and a walled town rebuilt where a dragon's desolation once lay grey for miles. Erebor's peak stands over all, and the River Running comes down beside the gate.",
+          "Young pine and rowan clothe the slopes where the old burning was; the scars in the rock are still visible above the new green. Ravens keep their watch on Ravenhill as they did when the Mountain was a kingdom.",
+          "The road to the Front Gate runs beside the river under the Mountain's shadow; below, the valley opens to the plain where the grey ruins of the old town were a warning for an age.",
+          "A mountain valley of sharp seasons — deep snow in winter, green flood of growth in spring, and the cold shade of the peak even at midsummer.",
+          "Men of Dale and dwarves of the Mountain share the valley; the sound of hammers comes up from the forges under the hill, and the town prospers again under the King under the Mountain.",
+          "South and west the land was once burned bare; now the woods creep back year by year, and the memory of the fire is a grey line in the stone."
         ],
         "area_km2": "1086.907683623",
         "distance_for_encounter": 8,
@@ -76147,12 +76147,12 @@
         "climate_zone_id": 91,
         "description_text": "Ered Luin, also known as the Blue Mountains, is an ancient mountain range separating Lindon from Eriador. Extending 590 miles from the Ice Bay of Forochel down to Orod Elu in the south, the range is formed of grey rock with a bluish tint caused by a high concentration of copper ores. The mountains are riddled with natural caverns, marble and limestone formations, and once held precious metals, though Dwarvish mining has left them depleted of gold except for minor remote veins. Geology consists of marble and limestone with folded sandstone and shale foothills. abundant copper, iron, and tin ores are actively mined by the dwarves (naugrim).",
         "description_summary": [
-          "590-mile range of grey copper-tinged rock that appears burnished indigo in raking light. Ancient Dwarven cities lost in its depths, and Thorin's folk still mining the eastern side while cold torrents feed Lindon's rivers to the west.",
-          "Grey range of mountains with a copper tinge that turns indigo in certain lights — the sight that gave them their name. Thorin's folk mine the eastern side; the western rivers of Forlindon run cold with their snowmelt.",
-          "Ancient Dwarven halls in the deep rock, some still occupied, others lost since the War of Wrath. The passes are few and all of them are high; the mountains do not encourage transit.",
-          "Vertical slopes on the western face; longer alpine valleys on the east where the Dwarves have built their roads. Both sides are wind-scoured above the treeline; below it, conifer forest takes hold.",
-          "Cold winters with deep snow above four thousand feet; the lower slopes are milder but the passes stay difficult well into spring. The eastern vales are sheltered enough for actual settlement.",
-          "Dwarven miners and, at the lower elevations, scattered Men who trade with them. Both groups are taciturn about the same things for different reasons."
+          "The Blue Mountains and green Lindon between them and the Sea — the last piece of drowned Beleriand, split by the Gulf of Lhûn where the water comes far inland.",
+          "Tall pine-woods and oakwoods on the seaward slopes, older than any other living woods in the west. The range itself is old and worn, its peaks low and blue in the sea-haze.",
+          "West of the gulf lie the Grey Havens and the white quays; the ships that leave them do not return. The road to the water is the oldest road still travelled.",
+          "Dwarf-halls and elven havens share the land — the mountains hold the mansions of old Nogrod's kin, and the coast keeps the last ports of the Eldar.",
+          "Sea-weather rules here — long grey rains, salt wind, snow that lies long on the high moors but rarely in the sheltered vales.",
+          "Everything in Lindon smells of the Sea; even the mountain streams run with a salt wind behind them, and the sunsets over the water are the last sight of the world."
         ],
         "area_km2": "10520.5540014131",
         "distance_for_encounter": 1,
@@ -79575,12 +79575,12 @@
         "climate_zone_id": 73,
         "description_text": "The Belegaer, or Great Sea, is the vast ocean separating Middle-earth (Endor) from the Undying Lands of Aman in the far West. In the coastal domains of Lindon, Arnor, and Gondor, it comprises key areas such as the Gulf of Lhûn (Nen Lhûn) and the Bay of Belfalas (Nen Belfalas). The deep gulf of Nen Lhûn, formed in the cataclysms of the First Age, serves as the calm and misty harbor for the Elven ships sailing from Mithlond, rich in salmon, lobsters, and shellfish. Further south, the vast Bay of Belfalas rests on Endor's continental shelf, driven by the warm, counterclockwise Southron Stream which collides with the cold Great Stream off the Cape of Andrast, creating turbulent, dangerous waters home to sharks, grey sperm whales, and giant squids.",
         "description_summary": [
-          "The Great Sea separating Middle-earth from Aman. The misty Gulf of Lhûn in the north for Elven ships; the warm stormy Bay of Belfalas in the south. Whales in its depths and the irresistible call of the West.",
-          "The Great Sea from the Gulf of Lhûn in the north to the warm storm-waters of the Bay of Belfalas in the south. Whales in the deep water; the silver hull of Elvish ships in the west; the call of the sea that does not let the Elves rest.",
-          "The misty shallows of the Gulf are the sea's gentler face — navigable year-round for those who know the currents, treacherous for those who don't. The Bay of Belfalas in the south is warm, violent in autumn and the province of Gondor's fleet.",
-          "Between the shores of Middle-earth and Aman lies nothing but open ocean and the Straight Road that only Elven ships can find. The sea between is real; what lies beyond it is something else.",
-          "Cold in the north, warm in the south, storm-prone in between. The Atlantic gales that define the weather of western Eriador and Gondor's coast all come from here, sweeping in without warning.",
-          "Elven ships heading west and not returning; Corsair ships from Umbar heading north. The sea is the medium for both kinds of history, and it keeps no record of either."
+          "The Great Sea — grey and boundless water west of all lands, where the waves sigh and murmur against the shores of Middle-earth without ceasing.",
+          "Out of the Havens the white ships take the Straight Road west; for all else the sea is a wall of distance and a road without end.",
+          "Grey water, salt wind, and the wheeling of sea-birds. The light here is the light of the West — pale, clean, and very old.",
+          "Storm-wracked in winter, broad and glimmering in summer. The sea keeps its own season and its own law, and the shore is only where it begins.",
+          "Sea-birds beat upstream against the breeze where the great rivers come down; the sound of the surf is the oldest sound in the world.",
+          "Westward the water runs to the world's rim. Men may sail it and return; the Elves sail it and do not."
         ],
         "area_km2": "2062052.97959002",
         "distance_for_encounter": 11,
@@ -128573,12 +128573,12 @@
         "climate_zone_id": 83,
         "description_text": "The High Pass (Cirith Forn en Andrath, S. 'High-climbing Pass of the North') cuts through the central Misty Mountains connecting Rivendell and Eriador in the west to the upper Anduin Vales and Rhovanion in the east. It encompasses the Orcish stronghold of Goblin-gate, the eyrie of the Great Eagles, the Northman market-town of Maethelburg, the western foothills of Rhudaur, and the broad river plain of the Anduin. Geology consists of limestone and granite with massive igneous basalt intrusions. western foothills consist of red sandstone, while eastern valleys contain oily black shale; rich in copper, iron, silver, gold, and mithril.",
         "description_summary": [
-          "The High Pass cutting through the central Misty Mountains between Rivendell and Rhovanion. The Goblin-gate, the Great Eagles on the peaks and the market of Maethelburg define this vital and dangerous crossing.",
-          "The High Pass above Rivendell — the only reliable crossing of the Misty Mountains between Gundabad and Rohan. Goblin-gate on the red sandstone slopes, Great Eagles on the highest peaks and the constant awareness that this passage is contested.",
-          "The pass itself is narrow and the exposure is total; what grows here is what can survive both altitude and the Goblin raids. Below it, in the Anduin valley, the vegetation shifts through multiple zones from alpine meadow to riverside willows.",
-          "A crossing-point, not a destination. Everything here is about the movement through it — the road, the pass, the danger, the river beyond. Rivendell is the nearest place to stop breathing hard.",
-          "Storms build against the Misty Mountains and break on the passes with specific violence. Even in summer the High Pass gets snow; in winter it is genuinely lethal to anyone without shelter.",
-          "Goblins and Eagles share the peaks in uneasy mutual awareness. Below them, the river-valley is claimed by Beorn's people further south and by no one in particular at the north end."
+          "The middle vale of the Great River — broad grey water running south between wooded banks, misty at dawn and hiding the far shore under curtains of rain.",
+          "Woods and willow-islands crowd the eastern shore; the west is open grassland rolling away under a wide sky. The river narrows and quickens where the channel steepens.",
+          "The River is the road here — boats go south with the current until the rapids of Sarn Gebir bar the way, where white water breaks on tooth-like rocks and the portage is steep and stony.",
+          "At dusk mist lies among the trees and along the pale margins of the water; stars come out over the stony hills, and the river carries small uncertain sounds through the dark.",
+          "Between the banks the world narrows to water and wind — rain that curtains the view, fog that hides the shores, and after the storm a hard bright sky.",
+          "Below the narrowing gorge the river opens again on still water and long fens; the reeds whisper in the grey light and small birds pipe among them."
         ],
         "area_km2": "64031.5082563563",
         "distance_for_encounter": 13,
@@ -131761,12 +131761,12 @@
         "climate_zone_id": 71,
         "description_text": "Ronen-in-Anduin is the eastern floodplains and low rolling hills bordering the Great River Anduin as it passes through the territory of Rhovanion. It represents a transition zone between the river valleys and the wide eastern steppes.",
         "description_summary": [
-          "Eastern floodplains of the Anduin in Rhovanion, transitional land between the river valleys and the steppes. Fertile silt banks, Northmen smallholdings and the wide slow river with its willow islands.",
-          "Eastern Anduin floodplains in Rhovanion, transitional between the river and the eastern steppes. Silt-banks and willow islands, Northmen smallholdings on the first high ground and the wide slow river carrying everything south.",
-          "Feathergrass and wild rye on the higher ground; willow groves where the bank drops to the water. The Anduin is slow here and broad enough that crossing it is a decision requiring preparation.",
-          "The river delta begins here in effect — the Anduin braids and wanders on the flat ground, changing course in spring flood. What was dry land in autumn may be shallow water by April.",
-          "Warm continental summers on the plain; cold winters when the river partially freezes. The floodplain fills completely in spring and the smallholds are built with that in mind — on the first firm ground, always.",
-          "Northmen who have adapted their farming to the river's rhythms. They fish the Anduin, grow grain on the higher ground and move livestock to the hills in spring flood. A practical accommodation with a powerful natural force."
+          "The south vale of Anduin — the long lake of Nen Hithoel under bare peaks, the dark gorge of the Argonath above it, and the thunder of Rauros at its foot.",
+          "The River opens from the narrows into still water ringed by wooded slopes; the green lawns of the old landing lie under the hills where the high seats of the watch once stood.",
+          "Eastward the land rises into the Emyn Muil — a knife-edged country of cliffs and gullies where the rock is broken and the going is slow and cruel.",
+          "Below the Falls the land falls away to fens and then the dead meres; the River's song here is all the sound there is, and it is loud.",
+          "The mists of the falls hang golden in the afternoon; the water's fury shakes the quiet air, and the spray rises like smoke from the deep channel.",
+          "A stern and splendid country — water, rock and height; the pillars of the kings stand in the narrows, and the River goes on south whether the land permits or not."
         ],
         "area_km2": "23681.4855249986",
         "distance_for_encounter": 8,
@@ -133525,12 +133525,12 @@
         "climate_zone_id": 123,
         "description_text": "Southern Mirkwood and Southern Rhovanion form a wild, embattled region stretching from the Old Forest Road down to the Dagorlad and the Emyn Muil, dominated by the dark forest around Dol Guldur, the horse-plains of Talath Harroch, and the Anduin vales and Brown Lands that lie between Mirkwood and Gondor. Geology consists of primarily sedimentary strata of limestone and shale, with significant granite projections such as the cinder cone of amon lanc and the mountains of mirkwood.",
         "description_summary": [
-          "Communities of woodcutters and hunters on the western fringe of southern Mirkwood, between the Anduin and the darkness of the forest. A life of constant negotiation with Wargs, Dol Guldur's agents and the protective Elvish bows to the north.",
-          "Western edge of southern Mirkwood, between the Anduin and the forest's shadow. The Woodmen live in the negotiated space between Elvish protection to the north and Dol Guldur's influence to the south, which defines everything.",
-          "Oak, beech and thorn at the forest margin — the healthy trees thin and darken as you go east toward the shadow. The Woodmen know exactly where the line is and they don't cross it casually.",
-          "The Anduin provides the western boundary; the forest closes in from the east. Between them, cleared farmland and logged timber-lots, all oriented to keep the trees back and the view open.",
-          "Warm summers that the forest manages to make feel darker and cooler than the plain. Winters when the forest is bare and more visible than in summer, which the Woodmen find simultaneously better and worse.",
-          "Woodcutters and hunters who manage the margin between the safe world and the corrupted forest with generations of accumulated skill. They trust Elvish warnings and they trust their own knowledge of the tree-line."
+          "The land of the Woodmen — the west-eaves of Mirkwood where free folk keep hidden halls in the oak-woods and hold the forest's shadow at bay.",
+          "Great oaks and elms over deep mast; the clearings are meadow and bee-pasture, and the air is warm with honey in summer.",
+          "The halls are broad wooden steads behind stockades — places of firelight, carved pillars and animal friends, hidden among the trees from the dark things of the Wood.",
+          "Deer-paths and secret ways; the Woodmen walk where others would be lost in an hour, and the forest's edge is theirs and no other's.",
+          "White autumn mist lies on the ground at dawn and the sun rises red to clear it; along the paths go grass, flowers, birds and red deer to the fords of Anduin.",
+          "A border-land — green and homely within, black and watchful at the eaves; the Woodmen live in the seam between the two and keep the knowledge of both."
         ],
         "area_km2": "31225.7576278028",
         "distance_for_encounter": 8,
@@ -134925,12 +134925,12 @@
         "climate_zone_id": 64,
         "description_text": "Nan Anduin is the long, wide, and highly fertile alluvial valley through which the Great River Anduin flows between the Misty Mountains and Mirkwood. It contains some of the richest soil in Middle-earth, supporting scattered communities of Beornings, Woodmen, and Northman pioneers.",
         "description_summary": [
-          "Alluvial valley between the Misty Mountains and Mirkwood, with the richest soil in the north. The Beornings levy tolls at the fords, their giant hives scent the air, and the river fills the valley with its constant murmur.",
-          "Alluvial valley between the Misty Mountains and Mirkwood, the richest soil in northern Rhovanion. The Beornings' giant hives scent the air from a hundred yards; the river fills the whole valley with its murmur.",
-          "Lush meadow and deciduous woodland on river-silt so deep that farming here requires half the effort it takes anywhere else. The Beornings grow their grain with the minimum of labour and spend the rest of their time on other things.",
-          "The Anduin here is wide enough for barges and shallow enough in summer to ford; it's the reason this valley has always been the main north-south corridor of Rhovanion. The Beornings charge for the use of it.",
-          "Long warm summers on the sheltered valley floor; cold winters when the mountain-fed rivers freeze hard enough to walk across. The Anduin itself runs year-round; the smaller tributaries don't always.",
-          "Beornings at the fords, enormous and unhurried, collecting tolls and keeping the road clear of orcs and wolves. The alliance of honey and muscle that holds this valley-road open is the whole of their purpose."
+          "The northern Vales of Anduin — the green land between the Misty Mountains and Mirkwood's eaves, where the River runs broad and the Beornings keep their bee-pastures and their halls.",
+          "Great oaks and elms clothe the vales, deep in mast and honey; the meadows are loud with bees, and the Carrock — the great stone — stands mid-river where the eagles come.",
+          "The Gladden Fields spread quiet where the mountain-streams come down — a reedy fen that once saw a king lost and a doom begin.",
+          "Between the mountains and the Wood the vale is a green corridor — the Old Ford crosses the River where the stepping-stones break the current into fast bright channels.",
+          "The Beornings' country — wood-men and bee-keepers who hate goblins and guard the fords; their halls stand hidden in the oakwoods and their bread is famous.",
+          "Black winters and green abundant summers; the river swells with the mountain rain, and the fords are crossing or drowning by the sky's decision."
         ],
         "area_km2": "60114.7870147164",
         "distance_for_encounter": 16,
@@ -137013,12 +137013,12 @@
         "climate_zone_id": 84,
         "description_text": "The High Pass (Cirith Forn en Andrath, S. 'High-climbing Pass of the North') cuts through the central Misty Mountains connecting Rivendell and Eriador in the west to the upper Anduin Vales and Rhovanion in the east. It encompasses the Orcish stronghold of Goblin-gate, the eyrie of the Great Eagles, the Northman market-town of Maethelburg, the western foothills of Rhudaur, and the broad river plain of the Anduin. Geology consists of limestone and granite with massive igneous basalt intrusions. western foothills consist of red sandstone, while eastern valleys contain oily black shale; rich in copper, iron, silver, gold, and mithril.",
         "description_summary": [
-          "The stony heart of the Misty Mountains with the High Pass as the only crossing. Permanently snow-capped granite peaks, the Goblin-gate hidden in red sandstone slopes and passes that kill through blizzard and avalanche.",
-          "Granite peaks permanently capped with snow, and below them the red sandstone slopes where the Goblin-gate opens without warning. The only reliable crossing is the High Pass, which is reliable only in the loosest sense.",
-          "Nothing large grows at altitude; dwarf-willow and alpine grass on the lower slopes. The red sandstone band that runs through the middle is where the Goblins have their tunnels — visible from outside as a stain in the rock-face.",
-          "The High Pass narrows to ledge-width in places. Below it on the western side, the valley that leads to Rivendell; on the eastern side, the Anduin valley. The crossing earns the altitude that it demands.",
-          "Storms build here faster than elsewhere. Even in summer the pass can close in half a day; in winter it is simply closed. The Goblins weather it underground; everyone else has to manage on the surface.",
-          "Goblins in the rock, Eagles above them on the highest crags. Below both, anything moving through the pass is calculating the odds and moving fast."
+          "The high spine of the world — three great peaks over the Dimrill Dale, Caradhras cruel and tallest, with snow above the cloud-line and storm for a gatekeeper.",
+          "Pine and bare rock on the lower slopes; above the tree-line are grey shoulders, hanging valleys, and ledge-paths where a storm can fill the night with thunder and falling ice.",
+          "The passes are the gates between east and west — the Redhorn Gate and the high, deceptive ways where the paths lie and the mountain decides who may cross.",
+          "Beneath the feet of the mountains run the deep ways of Moria; the stone is old and hollow, and the silence below is not empty.",
+          "At sunset the ridges cast long shadows down onto the lowlands; between the trees open glimpses of green plains that seem far below and far away.",
+          "The weather here is a will, not a climate — it closes the passes in snow, sends lightning through the hollows, and lets none pass unconsidered."
         ],
         "area_km2": "36443.0350477349",
         "distance_for_encounter": 3,
@@ -139201,12 +139201,12 @@
         "climate_zone_id": 72,
         "description_text": "The Tower Hills, or Emyn Beraid, are a range of green, rolling hills located west of the Shire. On their highest crests stand three ancient Elven-towers built by Gil-galad, where the Elendil Stone (palantír) was guarded for millennia.",
         "description_summary": [
-          "Line of limestone hills with three ancient Elvish towers on their crests, the tallest housing the palantír that gazes only westward. Short turf, heather and hawthorn in spring; a near-sacred quiet between the Shire and the sea.",
-          "Three Elvish towers on limestone crests, the tallest housing the western palantír that gazes only toward the sea. Short turf, hawthorn in spring and a quiet between the Shire and the coast that has the quality of a held breath.",
-          "The hills are low and open, with good grass kept short by the wind off the western plains. The towers are old enough that lichen has had time to make them look like geology; only the stonework gives them away.",
-          "The westernmost point of inhabited Eriador, with the sea visible from the tower-tops on clear days. To the east, the Shire; to the west, nothing until you reach the coast.",
-          "Mild Atlantic climate, wet and green. The hills are never really cold and never really warm; they stay perpetually pleasant in the particular way that makes everything seem slightly otherworldly.",
-          "The Elves who maintain the towers are almost gone. The towers stay because no one has decided to pull them down; the palantír in the tallest one looks west because it always has."
+          "The Tower Hills — green ridges west of the Shire where the white towers of Elostirion stand, the last work of the Elves on the hither shore.",
+          "Tall woods on the hill-flanks and the towers above them; the palantír of the west kept here once looked only toward the Sea.",
+          "The East Road ends here — it runs on to the Grey Havens and the last quay. There is no way beyond the towers but the water.",
+          "Sea-weather rules: salt wind, grey rain off the water, and clear days when the Sea itself is rumoured visible from the high stones.",
+          "A green and lonely borderland; the hobbits farm the eastern slopes and the Elves pass through westward, going to the ships and not returning.",
+          "The hills are the world's last green gesture before the grey water; every path through them ends at the Sea."
         ],
         "area_km2": "25756.3447817441",
         "distance_for_encounter": 8,
@@ -143217,12 +143217,12 @@
         "climate_zone_id": 115,
         "description_text": "Rhudaur is the eastern successor state of Arnor, a rugged, sparsely settled land between the Ettenmoors, the Trollshaws and the Angle. It stretches from the Ettenmoors and Ettendales in the north down through the Pinefells and Trollshaws to the rolling lowlands between the rivers Mitheithel and Bruinen, forming a harsh frontier of jagged hills, evergreen forests, boggy vales and predator-haunted woodlands.",
         "description_summary": [
-          "Labyrinth of shadowed valleys and twisted oaks south of the Mitheithel, where Stone-trolls keep their caves in limestone hillsides. Dim light, deer-tracks to nowhere and bone-piles at cave entrances mark this dangerous stretch of country.",
-          "Labyrinth of shadowed oak-valleys south of the Mitheithel, where Stone-trolls keep their limestone caves and the deer-tracks lead nowhere useful. Dim filtered light, bone-piles at cave entrances and paths that circle back.",
-          "Twisted, gnarled oaks on slopes too steep for farming, with limestone caves honey-combing the hillsides. The Stone-trolls haven't been here long enough to have changed the ecology, but they've changed the mood.",
-          "The valleys are genuinely confusing — they run in directions that seem impossible from above the treeline, and the tree-cover means you can't get above the treeline easily. Travelers who don't know the route lose time they can't afford.",
-          "Shade and damp under the oak canopy keep the temperature low even in summer. The winter freeze turns the cave-entrances to ice and the trolls retreat deeper; spring thaw makes the paths briefly passable.",
-          "Stone-trolls who argue about cooking methods and keep irregular hours. They are not organized and not intelligent in any way that makes them predictable, which is the specific danger they present."
+          "The Trollshaws — the woods and broken hills under the mountains' western feet, where the Road begins its climb and the trolls have their holes.",
+          "Thick beech-woods over stony ravines; the ground folds and drops, the streams come down loud and cold, and the caves in the rock are not all empty.",
+          "The Road through the shaws is a hard wet way — soaked camps, drowned fords, and the smell of woodsmoke that may not come from friends.",
+          "Old and uneasy country; the ruins on the heights were Rhudaur's, and the shade of that evil kingdom has never quite left the hills.",
+          "A land of dripping woods and sudden hollows; by night the fires that show among the trees should be passed by, not approached.",
+          "Rain here is long and cold and fires will not light; winter fills the ravines with snow and the ways are treacherous until spring."
         ],
         "area_km2": "35598.1170304742",
         "distance_for_encounter": 1,
@@ -148749,12 +148749,12 @@
         "climate_zone_id": 52,
         "description_text": "Ered Luin, also known as the Blue Mountains, is an ancient mountain range separating Lindon from Eriador. Extending 590 miles from the Ice Bay of Forochel down to Orod Elu in the south, the range is formed of grey rock with a bluish tint caused by a high concentration of copper ores. The mountains are riddled with natural caverns, marble and limestone formations, and once held precious metals, though Dwarvish mining has left them depleted of gold except for minor remote veins. Geology consists of marble and limestone with folded sandstone and shale foothills. abundant copper, iron, and tin ores are actively mined by the dwarves (naugrim).",
         "description_summary": [
-          "Northernmost and most abrupt section of the Ered Luin, with a greenish-black slate tinge and passes held in snow nine months of the year. Dwarven galleries to the east; snowmelt rapids feed the rivers of Forlindon to the west.",
-          "Northernmost and most abrupt face of the Ered Luin, with a greenish-black slate tinge and passes snowed under for nine months. Dwarven galleries on the eastern side; snowmelt rapids feeding the rivers of Forlindon to the west.",
-          "Conifer forest clinging to the lower slopes gives way to alpine scrub and then bare rock. The tree-growth disappears at five thousand feet and doesn't come back; above it, only the wind and the Dwarven smoke.",
-          "The most vertical part of the range: the western face drops almost without transition from mountain to sea. The passes are high, dangerous and half of them are unofficial — known only to the Dwarves and the most experienced guides.",
-          "Snow arrives in the ninth month and the passes don't reliably clear until the fourth month of the following year. The Dwarves manage by going underground; everyone else manages by going around.",
-          "Dwarven galleries in the eastern rock and Elvish rivers on the western side, sharing the same mountain range with the careful indifference of neighbours who have decided on the right distance."
+          "The Blue Mountains and green Lindon between them and the Sea — the last piece of drowned Beleriand, split by the Gulf of Lhûn where the water comes far inland.",
+          "Tall pine-woods and oakwoods on the seaward slopes, older than any other living woods in the west. The range itself is old and worn, its peaks low and blue in the sea-haze.",
+          "West of the gulf lie the Grey Havens and the white quays; the ships that leave them do not return. The road to the water is the oldest road still travelled.",
+          "Dwarf-halls and elven havens share the land — the mountains hold the mansions of old Nogrod's kin, and the coast keeps the last ports of the Eldar.",
+          "Sea-weather rules here — long grey rains, salt wind, snow that lies long on the high moors but rarely in the sheltered vales.",
+          "Everything in Lindon smells of the Sea; even the mountain streams run with a salt wind behind them, and the sunsets over the water are the last sight of the world."
         ],
         "area_km2": "41725.7060154174",
         "distance_for_encounter": 1,
@@ -170493,12 +170493,12 @@
         "climate_zone_id": 69,
         "description_text": "The Old Forest is an ancient, sentient, and deeply shadowed woodland bordering the eastern Shire. Known for its hostile, moving trees and gnarled roots, it is ruled by the mysterious Old Man Willow and protected by Tom Bombadil.",
         "description_summary": [
-          "Ancient and consciously hostile woodland on the eastern edge of the Shire, with paths that shift to disorient and Old Man Willow drowsing travellers from the dark water. Only Tom Bombadil's voice keeps it calm.",
-          "Ancient and intentionally hostile woodland, with paths that reroute themselves and Old Man Willow drowsing at the dark water. The trees remember things; Tom Bombadil's voice is the only thing that makes them manageable.",
-          "Massive old oaks and maples whose canopy keeps the floor permanently dim; creeping ivy over everything; moss so deep it muffles footsteps. The forest's hostility is not violent but it is methodical.",
-          "The paths never go where they seem to be going. The trees adjust; the ground confuses. Travelers who trust their map find themselves somewhere the map doesn't acknowledge.",
-          "Cool even in summer under the closed canopy; damp year-round from the moisture the trees hold. Old Man Willow's river is always cold and always moving; the willow's roots reach both banks.",
-          "The Forest has no interest in human affairs except to the extent that humans cross it. Its patience is geological. Tom Bombadil exists in a category of his own and the trees know it."
+          "The Old Forest — a remnant of the woods that once covered the world, grown dark and queer with age. The trees are awake and they remember injuries.",
+          "Oak and ash stand so close that daylight fails; the air is still, the quiet is watchful, and a shout comes back muffled without an echo.",
+          "The paths are the Forest's and not the traveller's — they shift, they fade, they lead down to the willow-dells where the stream murmurs over wild herbs.",
+          "Fog fills the valley at dawn like a sea; from the high edge the whole wood is a grey ocean of mist broken into billows, with the smell of rain coming in.",
+          "After rain the wood steams under a heavy blue sky; water drips for hours from the thatch of leaves and the thatch of the whole forest.",
+          "Nothing in the Forest is hostile by accident; the willows hate, the paths mislead, and the trees lean and watch. The way through is courtesy and patience."
         ],
         "area_km2": "4994.38651695736",
         "distance_for_encounter": 1,
@@ -174613,12 +174613,12 @@
         "climate_zone_id": 117,
         "description_text": "Arthedain is the northern Dúnedain kingdom in Eriador, cradled between the Blue Mountains and the Misty Mountains and bounded by the rivers Lhûn and Baranduin, a cool, sparsely populated realm of rocky hills, downs, marshes, and the Shire, ruled from Fornost as the last Númenórean realm in the North in T.A. 1640.",
         "description_summary": [
-          "Ridge of rough limestone on Arthedain's eastern border, crowned by Amon Sûl where the chief northern palantír once stood. Dry east wind stripping the crests bare and views across all Eriador on clear days.",
-          "Rough limestone ridge on Arthedain's eastern border, with Amon Sûl and the northern palantír on the highest crest. Dry east wind from Rhudaur stripping the top bare and views that reach across all Eriador when it's clear.",
-          "Wind-scoured limestone on the crests with hawthorn and elder in the hollows. The ridge is porous: cave-systems through which the east wind produces sounds that have frightened travellers for as long as anyone can remember.",
-          "The ridge divides the western wet from the eastern dry; weather from the two directions meets here. The name is literal — the Weather Hills generate and concentrate their own local conditions.",
-          "Cold and dry from the east; wet and mild from the west; the ridge itself experiences both in alternation. Clear days are the most valuable thing this place produces, and they are earned.",
-          "The last Dúnedain watchtowers on the eastern border, maintained against what comes out of Rhudaur. The palantír in Amon Sûl coordinates with Fornost; the view from the tower-top covers the road both ways."
+          "The Weather Hills — a long line of bare ridges south of the East Road, where the watch-towers of fallen Arthedain stand ringed and ruined on the heights.",
+          "Weathertop is the crown of the line — bare and windy, with the whole world spread below; the old fortress of Amon Sûl held the chief of the northern seeing-stones.",
+          "Scrub and stunted trees between barren reaches; the paths are faint and the thickets are tangled, and kingsfoil grows where a wise eye knows to look.",
+          "Rain sweeps the hills in fine soaking veils off the west; the ridges run with water and the stone is black and streaming, and after rain the air is washed and the sky is pale.",
+          "A cold, watching country — the ruins see a long way and the land sees back; travellers keep to the Road and the hollows, and do not camp on the heights.",
+          "East and south the marsh-pools and the thickets run on toward the wild; the hills are the last wall of the settled world before the Road goes into the Lone-lands."
         ],
         "area_km2": "11812.8311454773",
         "distance_for_encounter": 24,
@@ -175217,12 +175217,12 @@
         "climate_zone_id": 108,
         "description_text": "Rohan is a beautiful territory and one of the jewels of the Gondorian crown, a wide land of rolling pastures and coombes dominated by the towering peaks of the White Mountains, home of the semi‑nomadic Horse‑lords who became the Rohirrim after T.A. 2510.",
         "description_summary": [
-          "Vast grassland plain between the White Mountains and Fangorn, ruled by the Rohirrim and their great horse-herds. The wind always blows, Edoras shines on its green hill and life here is perpetual motion.",
-          "Endless grass plain between the White Mountains and Fangorn, the Rohirrim and their herds permanent features of it. Edoras shines on its hill; the wind is always blowing and the horizon always moving.",
-          "Thick black topsoil under deep-rooted grass that has never been seriously interrupted. The plain feeds the horses that define the kingdom; the horses define the character of the people. The ecology and the politics are the same thing.",
-          "The Ered Nimrais close the south and Fangorn closes the north-east; between them the plain is so flat that a rider on the highest ground can see the distant tree-line on both sides at once.",
-          "Long warm summers that dry the grass gold; hard winters when the snow blows horizontal across ground with nothing to stop it. Spring and autumn are brief transitions between those two states.",
-          "The Rohirrim don't settle the plain so much as move across it with their herds, returning to the hall-towns in winter. Their relationship to the land is more pastoral than agricultural, which suits the plain."
+          "The Riddermark — a sea of grass between the Entwash and the White Mountains, where the wind never rests and the horse-lords' green ways run under a huge sky.",
+          "Green foothills climb to the white southern wall; Edoras stands on its hill in the vale of Harrowdale, and the Golden Hall shines when the sun is on it.",
+          "The mountains behind the Mark hold the deep refuges — the gorge of Harrowdale, the high green Firienfeld, and the Dwimorberg's dark door where the Paths of the Dead begin.",
+          "Streams thread the dales — the Snowbourn loud over its stones, the Entwash slow and green along the edge of Fangorn, and the Isen running cold out of the Gap.",
+          "Hot summers of high grass and hard winters of sere plain; the wind comes off the northern snows without a hill to stop it, and the rain sweeps the open Mark in grey veils.",
+          "Horse-country through and through — the mounds of the kings stand green on the road to Edoras, and the heralds' horns echo off the mountain wall at dawn."
         ],
         "area_km2": "139123.22893202",
         "distance_for_encounter": 16,
@@ -179453,12 +179453,12 @@
         "climate_zone_id": 121,
         "description_text": "Rohan is a beautiful territory and one of the jewels of the Gondorian crown, a wide land of rolling pastures and coombes dominated by the towering peaks of the White Mountains, home of the semi‑nomadic Horse‑lords who became the Rohirrim after T.A. 2510.",
         "description_summary": [
-          "Northeastern Rohan, transitional between the horse-plains and the edge of southern Mirkwood. Taller, darker grass, the Entwash's peat-yellow waters and the most guarded and wary Rohirrim of the kingdom.",
-          "Northeastern Rohan where the plain transitions into something darker — taller and less golden grass, the peat-yellow Entwash running alongside and the edge of southern Mirkwood visible to the north-east.",
-          "The grass is different here: taller, greener and less reliable. The Entwash runs through peat country and colours everything near it; the soil changes and the mood of the land changes with it.",
-          "A transitional landscape between the open horse-country and the forest-shadow. The Wold Rohirrim are the wariest of the kingdom; they know what the forest's eastern edge looks like when it shifts.",
-          "Cooler and wetter than central Rohan; the forest to the north-east holds moisture and casts shadow. The summers are shorter; the winters colder. The horses are stockier here and their riders are quieter.",
-          "The Wold Rohirrim guard the edge that matters. They have the old Rohan virtues and fewer illusions than the people further south. They know the forest watches."
+          "The Wold — the high empty grasslands of the north Mark, rolling uplands where the herds graze far from any hall and the sky is the largest thing in the world.",
+          "Lonelier than the fields of the south — thorn-brakes and birch on the slopes, and the dark eaves of Fangorn closing the eastern horizon like a wall.",
+          "No roads, only grass-tracks; the Riders' ways run north over the downs to the Entwash fords, and the going is all open sky and long wind.",
+          "The northern herds winter here and the wolf and the winter are both hungry; the Wold is the Mark's far edge and feels it.",
+          "Mist comes up off the Entwash valley at dusk and the forest to the east is a black line under the stars; the nights here are enormous.",
+          "A country for riders and weather — cold, wind, and the smell of distance; there is no shelter on the Wold, only the sky."
         ],
         "area_km2": "61494.4120556729",
         "distance_for_encounter": 16,
@@ -186919,12 +186919,12 @@
         "climate_zone_id": 105,
         "description_text": "The High Pass (Cirith Forn en Andrath, S. 'High-climbing Pass of the North') cuts through the central Misty Mountains connecting Rivendell and Eriador in the west to the upper Anduin Vales and Rhovanion in the east. It encompasses the Orcish stronghold of Goblin-gate, the eyrie of the Great Eagles, the Northman market-town of Maethelburg, the western foothills of Rhudaur, and the broad river plain of the Anduin. Geology consists of limestone and granite with massive igneous basalt intrusions. western foothills consist of red sandstone, while eastern valleys contain oily black shale; rich in copper, iron, silver, gold, and mithril.",
         "description_summary": [
-          "Wildest section of the Misty Mountains, between Gundabad and the Mountains of Iron. Red sandstone slopes with fir valleys to the west, oily black shale and coal seams to the east. The Great Eagles nest above and Gundabad's shadow covers all.",
-          "The most savage section of the Misty Mountains, between Gundabad and the Grey Mountains. Red sandstone and oily black shale on either face; Great Eagles nesting above the treeline and Gundabad's smoke visible from the nearest ridges.",
-          "The western face is fir-forested in the lower valleys; the eastern face shows the coal-seams in black streaks through the rock. Both faces are steep enough that only the most determined paths cross them.",
-          "Red sandstone intrusions alternate with older black shale in a geology that has been broken and reformed so many times it no longer has a consistent character. The result is dramatic and unstable.",
-          "The worst weather on the Misty Mountains: storms that form against the peaks and break on the passes with violence the more southerly sections don't match. The Great Eagles ride the thermal columns above the worst of it.",
-          "Great Eagles on the heights and Gundabad's reach extending over the lower ground. The ranges of both overlap; their relationship is not friendly but it is ancient and neither party seems interested in resolving it."
+          "The northern Misty Mountains — the high grey wall between Eriador and the vales of Anduin, where the High Pass climbs by hidden doors and the goblins hold the dark ways.",
+          "Pine and scree below, bare rock and permanent snow above; the eagles keep their eyries on the high shoulders and see all that moves below.",
+          "The High Pass is the way over — a path of ledges and caves where a dry shelter in a storm may be a door into the goblin-dark.",
+          "From the heights the view is a map of the world — oak and elm woods, broad grasslands, and the River winding below around a great standing stone.",
+          "Wolves and worse hold the passes by night; the eagles come to them by day, and the wind off the heights carries cries that are not all birds.",
+          "A range of storms and shut winters — the passes close under snow from autumn to spring, and the caves in the rocks are never empty for long."
         ],
         "area_km2": "31199.2159071267",
         "distance_for_encounter": 5,
@@ -191839,12 +191839,12 @@
         "climate_zone_id": 47,
         "description_text": "Eregion is a Noldorin-founded realm on the western side of the Misty Mountains, centered on the great city of Ost-in-Edhil and famed for its jewel-smiths, close friendship with Khazad-dûm, and the forging of the Rings of Power.",
         "description_summary": [
-          "Former Noldorin realm at the western foot of the Misty Mountains, now a land of ruins and surviving holly trees. Ost-in-Edhil sacked, the West-door of Moria opening by moonlight on the Eithel Nargil lake; memory and loss in equal measure.",
-          "Former Noldorin realm at the western Misty Mountain foot, now holly-wood and ruins. Ost-in-Edhil sacked, the West-door of Moria opening by moonlight on the Eithel Nargil lake; loss and memory in equal measure.",
-          "Holly trees — the eregion that gives the region its name — survive throughout the old realm. They were the Gwaith-i-Mírdain's emblem and they outlast the craftsmen by several ages without apparent difficulty.",
-          "The ruins of Ost-in-Edhil show planned streets under the ivy: wide enough for wagon-traffic, oriented to the Misty Mountains. The Elves who built it had their own geometry and it's still visible.",
-          "Cool temperate climate in the foothills, sheltered enough from the mountain winds for the holly to grow thick. The Mirrormere lake at the base of the mountains is cold year-round.",
-          "Empty now except for the occasional traveller heading for the Moria gate and the memory of craftsmen so skilled they attracted Sauron's particular attention. The holly trees are their most lasting work."
+          "Hollin — the empty land of the holly-trees west of Moria, where the Noldor once had their fairest realm in exile and only the hollies and the stones remember it.",
+          "Low ridges of broken stone crowned with dark holly; the three peaks of Moria close the eastern sky, and the old Elven road still runs beneath the heather toward the shut doors.",
+          "The streams are dry or diminished — the Sirannon's course is a thread of red-stained stones, and where its water was dammed long ago the land was changed and never healed.",
+          "A clean cold country under a wide sky; the wind comes off the mountains keen and clear, and the silence has an edge of watchfulness.",
+          "Nothing remains of Ost-in-Edhil but shapeless mounds and the buried lines of old walls; travellers camp here now where the jewel-smiths once worked.",
+          "At dawn in winter the hollies are crowned with light and red berries, and the snowy peaks stand ahead like the doors of the world — it is the most beautiful hour in a sad land."
         ],
         "area_km2": "63158.2631647304",
         "distance_for_encounter": 13,
@@ -195423,12 +195423,12 @@
         "climate_zone_id": 67,
         "description_text": "Moria, or Khazad-dûm, is the ancient and legendary underground Dwarf-city of the House of Durin, carved deep beneath the Misty Mountains. Now a vast, dark abyss occupied by Orcs, Cave-Trolls, and the shadow of the Balrog.",
         "description_summary": [
-          "Ancient Dwarven city beneath three Misty Mountain peaks, now held by Orcs, Cave-trolls and the sleeping Balrog of the deep. Hundreds of miles of galleries, bottomless shafts and the unexplained rhythmic knockings in the lowest dark.",
-          "Ancient Dwarven city in the deep rock, now held by Orcs, Cave-trolls and the nameless thing in the deepest level. Hundreds of miles of galleries, bottomless shafts and the rhythmic knocking in the lowest dark that no one has traced.",
-          "Subterranean fungi and luminescent lichen on the walls; the molds that feed on what the Orcs leave behind; the pale blind fish in the underground lakes. Biology has continued in the dark, indifferent to the politics.",
-          "The scale of Moria is only comprehensible inside it. The great bridge over the bottomless pit; the stairs carved with the precision of craftsmen who knew exactly what they were building; the silence that fills everything the Orcs don't.",
-          "Constant temperature in the deep levels — cold and still, regulated by the mountain above. The upper galleries still get seasonal air-movement; below a certain depth, nothing changes.",
-          "Orcs who have been here long enough to stop being afraid of the deep. And the thing in the deep that even the Orcs stay away from, occupying a level that has been avoided since Durin's Bane came."
+          "The land about Moria's gates — barren foothills of red stone where the hollies stand last and the dry watercourse of the Sirannon runs down to a dark and watchful mere.",
+          "Above the hidden doors the three peaks tower — Caradhras, Celebdil, Fanuidhol. The Dimrill Dale below them is silent around the still black water of Mirrormere.",
+          "The old road climbs to cliffs and shut doors; the Stair beside the falls is worn by feet that vanished an age ago. The country is the shell of a kingdom.",
+          "Beneath the hills the deep halls go down past light and knowledge — vast pillared dark where drums sound and the water is cold enough to freeze the heart.",
+          "A high cold land; snow lies long in the Dale, and the peaks keep their storms like a grudge. The wind off Caradhras has malice in it.",
+          "Nothing is here that is not stone, silence, or shadow; yet the stars in Mirrormere are the fairest sight in a land of ruins, and the Dale is holy ground to the dwarves."
         ],
         "area_km2": "17437.6580434731",
         "distance_for_encounter": 3,
@@ -197751,12 +197751,12 @@
         "climate_zone_id": 88,
         "description_text": "Dunland is the rugged foothill and plateau country south of the Glanduin, east of the Gwathló and north of the Isen, a land of highlands and plains ruled by fractious Dunlending clans who herd, raid and scheme along the vital Old South Road and the Isen Gap.",
         "description_summary": [
-          "Foothill and plateau country of the fractious Dunlending clans, people of long memory and bitter grudges against Rohirrim and Dúnedain alike. Heather hills, swift rivers and the Isen Gap as the vital artery of this lawless land.",
-          "Foothill and plateau country of the Dunlendings, people of long memory and specific grudges. Heather hills, swift rivers and the Isen Gap as the vital artery of this lawless landscape where clan loyalty is the only law that holds.",
-          "The original forest is mostly gone — Númenórean logging and Sauron's wars stripped it. What grows now is heather and rough grass on the higher ground, with riverine trees reclaiming the valley-bottoms slowly.",
-          "The Isen runs fast and cold through the middle; the hills rise on both sides. The passes are all watched and all negotiated; the Dunlendings have made a virtue of controlling movement through their country.",
-          "Cold winters and short cool summers — upland climate with Atlantic moisture and no particular shelter from either the west wind or the east cold. The springs are brief and violent with snowmelt.",
-          "Dunlendings who have their reasons for everything they do and most of those reasons involve the Rohirrim. Old scores are kept carefully. The bards sing the injuries; the young men fight for them."
+          "The country between the Gap of Rohan and the ring of Isengard — green hills and long empty downs, poorer since the forests were felled for the traitor's fires.",
+          "The hill-folk keep to their own speech and their old wrongs; their hidden steads are on the high ground, and the eyes on the ridges miss nothing.",
+          "The North-South Road runs through it past Isengard; the ring-wall and the black tower stand in the valley's end under the mountain wall, and the place smells of smoke and iron.",
+          "Stump-fields and bitter brakes where woods once stood; the surviving groves are few and guarded. The land itself seems to remember being green.",
+          "West the Misty Mountains wall the sky, and the gorges of the Isen cut down through them — a loud river in a narrow bed, crossed at the fords where battles were fought.",
+          "Bare winters, wet autumns, and a wind that comes out of the Gap with ice in it; Dunland is a hard country that has been made harder."
         ],
         "area_km2": "66639.2492040395",
         "distance_for_encounter": 8,
@@ -201595,12 +201595,12 @@
         "climate_zone_id": 62,
         "description_text": "Mordor, the Black Land, is the volcanic plateau realm of the Dark Lord Sauron, walled in on three sides by the formidable mountain chains of Ephel Dúath and Ered Lithui. The plateau is arid, rugged, and heavily Orc-infested, serving as a fortress-kingdom of evil. Bedrock consists of black volcanic basalt giving the region its characteristic black, scorched appearance.",
         "description_summary": [
-          "Sauron's volcanic plateau, walled in by Ephel Dûath and Ered Lithui. Orodruin erupts and coats the interior in black lava; the sky is perpetually grey. Two guarded gates and no exit for those who should not be there.",
-          "Sauron's volcanic plateau walled in by the Ephel Dûath and Ered Lithui. Orodruin erupts on its schedule and the sky is grey with ash; the two gates are guarded and there is no other exit for those who enter uninvited.",
-          "Gorgoroth is effectively barren — black basalt and active vents with a few scrawny thorns in the deepest crevices. The volcanic enrichment that makes Nurn fertile comes from the same fires that make Gorgoroth dead.",
-          "The interior plateau sits at altitude between two mountain ranges. The mountains wall out almost all moisture from the west; what precipitation enters comes from the east as snow in winter and does not last.",
-          "Volcanic-arid climate that oscillates between the searing heat of the open plain and the cold of the mountain walls. The prevailing wind is from the south and carries ash from Orodruin; at certain seasons the ash falls like grey snow.",
-          "Orc armies, Cave-trolls used as labour, and the will of Sauron organising everything from the Dark Tower. The daily life of Mordor is military logistics; the geography serves the strategy and nothing else."
+          "The Black Land — a volcanic plateau walled on three sides by the Ephel Dúath and the Ered Lithui, where the mountain Orodruin burns and the sky is a roof of ash and smoke.",
+          "Gorgoroth is barren by design — black basalt, slag-pits, and fumes; the armies that dwell here march on broad straight roads through a land that grows nothing.",
+          "The Morgai is the inner wall — a maze of ravines, scree and jagged ridges where the last bitter growth gives way to bare stone, and every path is watched.",
+          "Ash-clouded darkness blots the sky; time is hard to read under the gloom, and the air is bitter, drying, and thirsty as dust.",
+          "Across the plain the Mountain of Fire burns in its depths — rivers of flame flare in it and stain the darkness red; when it wakes, the earth shakes and the sky rains fire and black water.",
+          "Nothing here is clean — earth, air and water are all accursed; the pools are few and bitter, and the wind that blows is the breath of furnaces."
         ],
         "area_km2": "161147.421492783",
         "distance_for_encounter": 1,
@@ -204599,12 +204599,12 @@
         "climate_zone_id": 37,
         "description_text": "Forithilien, or North Ithilien, is the northern part of Gondor’s eastern Anduin province between the Great River and the Ephel Dúath, stretching from the Dead Marshes and Nindalf southward to the valley of the Ithilduin (later Morgulduin). It is the section of Ithilien most clearly shown in The Lord of the Rings, where Frodo, Sam and Gollum travel towards Cirith Ungol and where Faramir’s rangers maintain secret refuges like Henneth Annûn. In Gondor’s strength it is famed as a fair, fertile land of climbing woods, swift streams and rich gardens; by the late Third Age it is largely depopulated and serves as a hidden war-ground between Gondor’s rangers and the forces moving out of Mordor.",
         "description_summary": [
-          "North Ithilien between the Anduin and the Ephel Dûath, a land of ancient gardens reclaimed by wild laurel, rosemary and jasmine over marble ruins. Gondorian guerrillas ambush Mordor's supply columns from the sweet-smelling undergrowth.",
-          "North Ithilien where old Gondorian gardens have been reclaimed by wild laurel, rosemary and jasmine. The fragrance is constant and almost aggressive; marble terraces under jasmine; Faramir's Rangers in the perfumed undergrowth.",
-          "Climbing woods of bay and olive above cascading streams; ruins of Gondorian villas half-dissolved in vegetation. The volcanic soil from the Ephel Dûath makes everything grow twice as large as the moderate climate alone would warrant.",
-          "The Ephel Dûath rises to the east, dark and tall; the Anduin valley opens to the west. Between them, this strip of extraordinary fertility that Gondor's rangers fight to keep free of Mordor's supply columns.",
-          "The Mediterranean climate of Ithilien — warm dry summers, mild wet winters — combined with volcanic soil enrichment produces the most abundant natural garden in Gondor. The scent of the herbs in summer is extraordinary.",
-          "Gondorian Rangers who know every cave-mouth and ford in the strip. They move in small groups and strike fast and vanish; the Harad Road passes through their territory and they tax it in blood."
+          "Northern Ithilien at the edge of the Shadow — the Morgul Vale cuts the hills, its stream polluted and its air oppressive, and the dead city stands at its mouth.",
+          "The land was once the garden of Gondor; now the pale luminous meadows of the vale steam with deadly vapour, and the water sounds cold and cruel in the dark.",
+          "The wraith-road and the Harad Road meet at the Cross-roads; a broken statue of a king sits crowned with white flowers, a small defiance of green in the grey land.",
+          "Sheer stairs climb the vale's western wall — the Straight and the Winding Stairs, cut between rock faces and riddled with the crevices of forgotten winters.",
+          "The woods grow paler and more silent as the vale nears; beyond the eastern rim the sky is stained red, and it is hard to tell dawn from the fires of Mordor.",
+          "Rangers still move in the northern hills, and the green things of Ithilien fight a slow war against the valley's poison — a fair land in the Shadow's hand, but not yet dead."
         ],
         "area_km2": "25209.47484913",
         "distance_for_encounter": 1,
@@ -223155,12 +223155,12 @@
         "climate_zone_id": 107,
         "description_text": "The Vale of Imladris (Rivendell) is a deeply cloven, hidden valley at the western feet of the Misty Mountains in eastern Rhudaur, carved by the Bruinen (Loudwater). It forms a small but varied enclave of high hills, steep forested slopes and a sheltered inner valley dominated by Elrond’s house. Surrounded by the harsher lands of Rhudaur (Highlands, Trollshaws and Lowlands), Rivendell is an ‘island of refuge’ where Elves and Dúnedain hold back the darkness of Trolls, Hillmen, Wolves and Orcs in the wider region.[file:244]",
         "description_summary": [
-          "Hidden valley in the feet of the Misty Mountains, carved by the Bruinen, with Elrond's house growing from the valley walls amid year-round gardens and waterfalls. An island of knowledge and refuge where the weary find relief.",
-          "The valley of Imladris, carved by the Bruinen below the western Misty Mountain foothills. Birch and rowan on the cliff-faces, waterfall-sounds constant, and Elrond's house in the valley below where the world's long memory keeps its notes.",
-          "Terraced gardens on the gentler slopes; silver birch and fir on the upper faces; the Bruinen running cold and fast along the valley floor. A place of intentional beauty that has had several Ages to perfect itself.",
-          "The valley is invisible from the surrounding country; the entrance is only findable if you know it. Inside, the scale shifts — the cliff-walls are close, the sky is narrow, the sound of water fills all the available space.",
-          "The valley walls shelter the interior from the worst of the Misty Mountain weather. The temperature inside is milder than the surrounding hillsides by several degrees; spring comes earlier and autumn leaves later.",
-          "Elrond's household and the last Homely House east of the Sea. The hospitality is genuine; the knowledge is the deepest outside Lorien; the sense of time operating differently is real and difficult to explain to those who haven't felt it."
+          "The Last Homely House east of the Sea — a hidden valley cleft deep between the moors and the mountains, green and sheltered where everything outside it is bare.",
+          "The Bruinen runs loud through the valley — cold mountain water over grey stones, crossed at the ford where the flood, when the Elves will it, rises like white riders.",
+          "Pine and heath on the high moors; birch and beech and green shade in the vale. The valley is found late and suddenly, and left with regret.",
+          "Warm evenings on the terraces while the lower valley falls into shadow; running and falling water sounds nearby, and the air smells of trees and flowers.",
+          "Mist lies silver on the valley at dawn; dew glimmers on yellow leaves, gossamer twinkles on the bushes, and snow whitens the eastern peaks.",
+          "A refuge and a border-post at once — the last fair house before the wild, where the memory of elder days is kept and the way east begins at the gate."
         ],
         "area_km2": "4255.41204331743",
         "distance_for_encounter": 8,
@@ -225099,12 +225099,12 @@
         "climate_zone_id": 100,
         "description_text": "Rhudaur is the eastern successor state of Arnor, a rugged, sparsely settled land between the Ettenmoors, the Trollshaws and the Angle. It stretches from the Ettenmoors and Ettendales in the north down through the Pinefells and Trollshaws to the rolling lowlands between the rivers Mitheithel and Bruinen, forming a harsh frontier of jagged hills, evergreen forests, boggy vales and predator-haunted woodlands.",
         "description_summary": [
-          "Broad heather plains between Bree and the Mitheithel, once part of prosperous Arnor, now almost empty. Ruined Dúnedain towers as the only landmarks and the Great East Road to follow; merchants carry their own provisions because nothing else is here.",
-          "Broad heather plains between Bree and the Mitheithel, once Arnor's prosperous heartland. Dúnedain towers on the hills as the only landmarks and the Great East Road as the only reason to be here; merchants carry enough food for the crossing.",
-          "Wild grass and bracken on what were farmed fields; occasional stretches of heather on the drier ground. The land has reverted to something close to its pre-Dúnedain state and is making no effort to invite anyone back.",
-          "Flat enough to see the towers from a distance; flat enough to see bad weather arriving; flat enough to offer no shelter. The Road cuts through it without apology and anyone using the Road accepts the terms.",
-          "Cold in winter, warm enough in summer to be pleasant but rarely more than that. The Atlantic moisture comes through without the hills to wring it; rain is reliable if undramatic.",
-          "Merchants and Rangers, in roughly equal numbers but for entirely different reasons. The merchants want to get through; the Rangers want to know who else is getting through."
+          "The Lone-lands — a wilderness of low rolling hills, tussock and thorn between the last farms and the mountains' feet, where the East Road runs empty for a hundred miles.",
+          "This was once ploughed country under the old kingdom; now the only walls are ruins and the only fields are heather and bog. The mounds on the ridges are the graves of forts.",
+          "The East Road is the single thread of travel — pale and straight through empty land, with the mountains ahead and nothing behind but the wind.",
+          "Willow and alder in the wet bottoms, bare stone on the heights; the streams run loud after rain and the land is all water or all dust by turns.",
+          "No villages, no inns, no watch. The sky is the biggest thing here, and the weather owns it — rain and cold and the long searching wind.",
+          "After rain the clouds break and a wandering moon shows the drowned country; the Road shines wet and the hills are black on every side."
         ],
         "area_km2": "29621.9673960908",
         "distance_for_encounter": 24,
@@ -227015,12 +227015,12 @@
         "climate_zone_id": 42,
         "description_text": "Fangorn is an ancient forest on the southeastern slopes of the Misty Mountains, bordered to the north by the plains running to the Silverlode (Celebrant), to the west by the high peaks, to the east by the Wold and to the south by the open plains of Calenardhon. It is the last great remnant of the immense forest that once covered much of Eriador and Calenardhon and is uniquely tended by the Ents, who act as tree-herds and guardians of this 'giant garden'. The module also treats the surrounding borderlands along the Entwash and Limlight as part of the same regional system.",
         "description_summary": [
-          "The oldest living forest in Middle-earth, tended by Ents who murmur in primordial tongues. Green filtered light, damp earth and bark, and time that flows differently inside its borders. The last remnant of the primeval woods of the world.",
-          "The oldest forest surviving in Middle-earth, tended by Ents across more time than most things have existed. The light inside it is green and ancient; the bark of the oldest trees has a face; time moves at a different rate.",
-          "Ent-gardened to an extraordinary richness: massive trees above soil so deep and nourished that almost anything planted here grows beyond normal scale. The forest is a garden in the way that a continent is a garden — intentional but beyond human scale.",
-          "The Entwood proper is a closed canopy of oak and beech and trees that have no other name; under it, the humidity and the filtered light and the smell of centuries of leaf-mould. Time really does pass differently: a morning inside the forest can feel like an afternoon.",
-          "Broadly temperate with buffered extremes: the canopy moderates summer heat and winter cold; the deep roots pull moisture year-round. The forest creates its own microclimate inside the regional weather.",
-          "Ents who notice things over very long intervals. They are not dangerous to those who mean the forest no harm, but they are not quick, and the conversation that starts when they decide you are worth addressing can last several days."
+          "Fangorn — the oldest wood left in the world, deep and tangled under its eaves, where the trees are watchful and the paths are the forest's to give or take.",
+          "The Entwash comes down through it from the mountains; beside the stream the growth is dark and thick, and the air is stifling and strangely thin beneath the boughs.",
+          "The floor is buried in drifts of leaves; shafts of sunlight come down like pillars through the canopy, and bark that looks grey in the gloom gleams brown and ochre where the light finds it.",
+          "The shepherds of the trees still walk here — slow, deep-voiced, and older than kingdoms. The wood has a will and a memory, and it does not forget an axe.",
+          "Northward the wood thins to birch-groves and bare slopes where gaunt pines stand; a sharp white peak shows beyond the valley like a horn of the mountains.",
+          "The forest is not safe for hasty feet or sharp steel; under its green dusk the silence is alive, and the traveller who harms it is watched from the beginning to the end."
         ],
         "area_km2": "33175.4706413774",
         "distance_for_encounter": 3,
@@ -229579,12 +229579,12 @@
         "climate_zone_id": 48,
         "description_text": "Lórien, the Golden Wood, is a secluded Elven forest-realm east of the Misty Mountains, ruled by Galadriel and Celeborn and defined by its golden mallorn trees, timeless beauty, and potent yet subtle Ring-lore.",
         "description_summary": [
-          "Galadriel's Golden Wood, where mallorn trees hold their golden leaves through winter and a light lingers from an earlier age. Time passes differently here; the Galadhrim watch from the treetops and the two rivers guard its borders.",
-          "Galadriel's Golden Wood where the mallorn trees hold their leaves through winter and a light persists from a previous age. Time here is not faster or slower — it simply does not accumulate the same way. The Galadhrim watch from the treetops.",
-          "Mallorn trees with silver-grey bark and a canopy of gold that other trees don't carry into winter. Below them, ferns and soft grasses and the particular quality of light that seems to come from the trees themselves rather than from above.",
-          "The rivers Celebrant and Anduin define two borders; the Mountains of Lórien define a third. Inside them, the wood maintains a temperature and a stillness that belongs to a different era of the world.",
-          "Sheltered temperate climate east of the Misty Mountains — mild winters, long gentle springs that fit the mallorn's unusual calendar. What the wood does with that climate goes beyond explanation.",
-          "The Galadhrim in their treetop flets, invisible unless they choose otherwise. The Two Trees' light that Galadriel carries and distributes through the wood in ways no traveller has entirely described."
+          "The Golden Wood of Lórien — the mallorn-forest between Silverlode and Anduin, where the leaves turn gold and do not fall, and the light under the boughs is like everlasting evening.",
+          "Cerin Amroth rises at the heart — a green mound crowned with two rings of trees, white-barked without and golden within, where elanor and niphredil star the grass.",
+          "The city of the trees stands on a green hill; at night its lights move among the mallorn-leaves until the hill seems filled with stars, and song and the sound of a fountain fill the dark.",
+          "Streams thread the wood — Nimrodel's cold bright water at the eaves, the Silverlode running to the Anduin where golden leaves float on the ripples.",
+          "Time moves differently under the boughs; rain comes gentle and leaves all things fresh, and winter has no power in the heart of the wood.",
+          "The Galadhrim keep the fences; the unwelcome do not pass. Within, the world is gold and green and a music that the memory keeps forever after."
         ],
         "area_km2": "18780.7003050506",
         "distance_for_encounter": 5,
@@ -230341,12 +230341,12 @@
         "climate_zone_id": 112,
         "description_text": "The Shire was a country in northwestern Middle-earth, inhabited by the Hobbits. It was located in the region of Eriador, and was under the control of the Reunited Kingdom as a Free Land.\nBy the late Third Age it was one of the few heavily-populated areas left in Eriador. Its name in Westron was Sûza, \"Shire,\" or Sûzat, \"The Shire.\" Contrary to popular misconception, the Shire was not the birthplace of Frodo Baggins, as he was born in Buckland, which at the time was not formally part of the Shire despite being colonized by Shire hobbits.",
         "description_summary": [
-          "The Hobbit homeland: ordered, fertile and deliberately apart from the outside world. Hedgerow-lined roads, smial-houses in the hillsides, good ale and well-kept gardens. Perhaps the happiest land in the Third Age.",
-          "The Hobbit homeland: ordered, fertile and separated from the world's history by deliberate choice. Hedgerow-lined lanes, smial-doors in hillsides and the particular prosperity of people who have decided not to worry about everything outside the Brandywine.",
-          "Managed hedgerow and pasture on the best agricultural land in the north; kitchen gardens of unusual productivity; orchards on the warmer southern slopes. The Shire looks after itself better than most kingdoms.",
-          "The four Farthings have their own characters — Westfarthing's river-meadows, Eastfarthing's grain-fields, Southfarthing's pipe-weed, the Northfarthing's quieter pasture. The variation is all comfortable.",
-          "Mild Atlantic climate with reliable rain and rare frost. The Shire gets the best weather Eriador offers; the hedgerows keep the wind manageable; the rivers keep the moisture up. It is designed for agriculture and it works.",
-          "Hobbits who have made comfort into a craft and hospitality into a performance and privacy into a political position. They are deeply uninterested in everything outside their borders and have been for a very long time."
+          "The Shire — the green and ordered country of the hobbits: hedgerow-lined lanes, smial-doors in the hillsides, orchards, and the slow Water under the mill.",
+          "Four Farthings of the best farmland in the north — river-meadows, grain-fields, pipe-weed beds, and the high sheep-country of the Northfarthing moors.",
+          "The East Road runs through to the Brandywine Bridge; Buckland across the river is a strip of hedged land held against the Old Forest's black wall.",
+          "Mild weather and reliable rain; frost is rare and deep snow rarer. The hedgerows hold the wind, and the seasons come soft-footed and on time.",
+          "A land that minds its own business; the ways are safe, the doors are round, and the world outside is a rumour that comes late and is not much believed.",
+          "In autumn the trees are laden and the bees are busy; in spring the lanes are white with blossom. The year's wheel turns here as it should."
         ],
         "area_km2": "26091.0474885275",
         "distance_for_encounter": 3,
@@ -232441,12 +232441,12 @@
         "climate_zone_id": 81,
         "description_text": "Arthedain is the northern Dúnedain kingdom in Eriador, cradled between the Blue Mountains and the Misty Mountains and bounded by the rivers Lhûn and Baranduin, a cool, sparsely populated realm of rocky hills, downs, marshes, and the Shire, ruled from Fornost as the last Númenórean realm in the North in T.A. 1640.",
         "description_summary": [
-          "Hill-town at the crossing of two ancient roads, the last real settlement before the empty lands of the north. Men and Hobbits sharing space without much fuss, and the Prancing Pony as the clearing-house for all rumours of the world.",
-          "The crossroads town where the Great East Road and the North Road have always met. Men and Hobbits sharing space with the matter-of-fact ease of people who have been doing it for centuries and the Prancing Pony as the clearing-house for the world.",
-          "Bree-hill with its back-lanes of small houses; the Prancing Pony in the market square; the south gate and north gate watching two different directions. A town built around the fact that roads cross here.",
-          "The roads that pass through Bree connect everything. East to Rivendell; west to the Shire; south to Gondor; north toward nothing useful anymore. The traffic defines the town and the town defines the traffic.",
-          "Milder than most of Eriador — the east-west road in a sheltered valley, the Bree-hill holding the worst wind. Not comfortable exactly but manageable in all seasons.",
-          "The last town on several roads, which means its inns know their value and price accordingly. The information that passes through the common room on a busy night is the best available map of what is moving in the north."
+          "A village of Men and hobbits at the crossing of the East Road and the Greenway — a huddle of thatched roofs inside a hedge and dike on the green hill's flank.",
+          "Bree Hill rises steep above the gate; beyond the hedged townlands the Chetwood covers the northern slopes and the wild country begins at once to the east.",
+          "The Prancing Pony stands at the turning of the ways; behind its windows are firelight, smoke, many voices, and news of all the roads that still carry travellers.",
+          "Eastward the Midgewater Marshes spread flat and reedy — pools, midges and hidden birds, and no road through them worth the name.",
+          "Bree-land is an island of hearth and bed in a wilderness gone empty; the Greenway is grass-grown, the old kingdom is a story, and the inn is the last bright thing for fifty miles.",
+          "Mild but exposed weather — the east wind is bitter in winter, and the rain curtains the hill for days at a time when the westerlies come in."
         ],
         "area_km2": "4310.83075437024",
         "distance_for_encounter": 3,

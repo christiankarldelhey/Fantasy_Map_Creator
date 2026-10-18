@@ -456,7 +456,13 @@ async function seedRegionBiomeDescriptions() {
 
   const text = await fs.readFile(path.join(DATA_DIR, 'csv/region_biome_descriptions.csv'), 'utf8');
   const rows = parseCsv(text);
-  
+
+  const { rows: [col] } = await pool.query(
+    `SELECT COUNT(*) AS n FROM information_schema.columns
+     WHERE table_name = 'region_biome_descriptions' AND column_name = 'variant'`
+  );
+  const variantColumnExists = Number(col.n) > 0;
+
   let inserted = 0;
   let skipped = 0;
 
@@ -473,11 +479,18 @@ async function seedRegionBiomeDescriptions() {
       if (phrases.length === 0) continue;
 
       try {
+        // Probe once per call: pre-migration DBs have a 2-col unique key,
+        // post-migration have (region_name, category, variant).
         await pool.query(
-          `INSERT INTO region_biome_descriptions (region_name, category, phrases)
-           VALUES ($1, $2, $3)
-           ON CONFLICT (region_name, category) DO UPDATE
-             SET phrases = EXCLUDED.phrases, updated_at = NOW()`,
+          variantColumnExists
+            ? `INSERT INTO region_biome_descriptions (region_name, category, variant, phrases)
+               VALUES ($1, $2, 'base', $3)
+               ON CONFLICT (region_name, category, variant) DO UPDATE
+                 SET phrases = EXCLUDED.phrases, updated_at = NOW()`
+            : `INSERT INTO region_biome_descriptions (region_name, category, phrases)
+               VALUES ($1, $2, $3)
+               ON CONFLICT (region_name, category) DO UPDATE
+                 SET phrases = EXCLUDED.phrases, updated_at = NOW()`,
           [regionName, category, phrases]
         );
         inserted++;
@@ -489,6 +502,116 @@ async function seedRegionBiomeDescriptions() {
 
   const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) AS count FROM region_biome_descriptions');
   console.log(`✅ region_biome_descriptions: ${count} rows (inserted/updated: ${inserted}, skipped: ${skipped})`);
+}
+
+// ---------------------------------------------------------------------------
+// Seed: region_biome_descriptions variants (season/weather-conditioned phrases)
+// Long-format CSV: region_name, category, variant, text
+// Degrades silently when the `variant` column does not exist yet (prod DB
+// before the migration runs).
+// ---------------------------------------------------------------------------
+async function seedRegionBiomeVariants() {
+  const file = path.join(DATA_DIR, 'csv/region_biome_variants.csv');
+  let text;
+  try {
+    text = await fs.readFile(file, 'utf8');
+  } catch {
+    return; // no variants file — nothing to do
+  }
+
+  const { rows: [col] } = await pool.query(
+    `SELECT COUNT(*) AS n FROM information_schema.columns
+     WHERE table_name = 'region_biome_descriptions' AND column_name = 'variant'`
+  );
+  if (Number(col.n) === 0) {
+    console.warn('⚠️ region_biome_descriptions.variant missing; skipping biome variants (run the migration first).');
+    return;
+  }
+
+  console.log('🏔️  Seeding region_biome_descriptions variants...');
+  const rows = parseCsv(text);
+  let inserted = 0;
+  let skipped = 0;
+
+  for (const row of rows) {
+    const regionName = (row.region_name || '').trim();
+    const category = (row.category || '').trim();
+    const variant = (row.variant || '').trim();
+    const phrases = splitVariantPhrases(row.text);
+    if (!regionName || !category || !variant || phrases.length === 0) {
+      skipped++;
+      continue;
+    }
+    try {
+      await pool.query(
+        `INSERT INTO region_biome_descriptions (region_name, category, variant, phrases)
+         VALUES ($1, $2, $3, $4)
+         ON CONFLICT (region_name, category, variant) DO UPDATE
+           SET phrases = EXCLUDED.phrases, updated_at = NOW()`,
+        [regionName, category, variant, phrases]
+      );
+      inserted++;
+    } catch {
+      skipped++;
+    }
+  }
+  console.log(`✅ region_biome_descriptions variants: ${inserted} rows (skipped: ${skipped})`);
+}
+
+function splitVariantPhrases(text) {
+  if (!text || !text.trim()) return [];
+  return text
+    .split(/(?<=[.!?])\s+/)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+}
+
+// ---------------------------------------------------------------------------
+// Seed: region_seasonal_descriptions (variants of regions.description_summary)
+// Long-format CSV: region_name, variant, text
+// ---------------------------------------------------------------------------
+async function seedRegionSeasonalDescriptions() {
+  const file = path.join(DATA_DIR, 'csv/region_seasonal_descriptions.csv');
+  let text;
+  try {
+    text = await fs.readFile(file, 'utf8');
+  } catch {
+    return;
+  }
+
+  const { rows: [t] } = await pool.query(`SELECT to_regclass('region_seasonal_descriptions') AS t`);
+  if (!t.t) {
+    console.warn('⚠️ region_seasonal_descriptions table missing; skipping (run the migration first).');
+    return;
+  }
+
+  console.log('🍂 Seeding region_seasonal_descriptions...');
+  const rows = parseCsv(text);
+  let inserted = 0;
+  let skipped = 0;
+
+  for (const row of rows) {
+    const regionName = (row.region_name || '').trim();
+    const variant = (row.variant || '').trim();
+    const phrases = splitVariantPhrases(row.text);
+    if (!regionName || !variant || phrases.length === 0) {
+      skipped++;
+      continue;
+    }
+    try {
+      await pool.query(
+        `INSERT INTO region_seasonal_descriptions (region_name, variant, phrases)
+         VALUES ($1, $2, $3)
+         ON CONFLICT (region_name, variant) DO UPDATE
+           SET phrases = EXCLUDED.phrases, updated_at = NOW()`,
+        [regionName, variant, phrases]
+      );
+      inserted++;
+    } catch {
+      skipped++;
+    }
+  }
+  console.log(`✅ region_seasonal_descriptions: ${inserted} rows (skipped: ${skipped})`);
 }
 
 // ---------------------------------------------------------------------------
@@ -847,6 +970,8 @@ async function ensureSchema() {
   await runMigrationFile('add_skills_and_conditions.sql');
   await runMigrationFile('add_stealth_endurance_skills.sql');
   await runMigrationFile('add_description_es_to_character_state.sql');
+  await runMigrationFile('add_variant_to_region_biome_descriptions.sql');
+  await runMigrationFile('create_region_seasonal_descriptions.sql');
 
   console.log('✅ Schema ready\n');
 }
@@ -951,6 +1076,8 @@ async function main() {
     await seedNpcInteractions();
     await seedEntities();
     await seedRegionBiomeDescriptions();
+    await seedRegionBiomeVariants();
+    await seedRegionSeasonalDescriptions();
 
     // Ensure description_es column exists before loading locations seed
     await runMigrationFile('add_description_es_to_locations.sql');

@@ -19,9 +19,12 @@ import pool from '../../../../db.js';
  * Build a lookup map of region-specific phrases.
  * @param {string[]} regionNames
  * @param {string[]} [categories]
+ * @param {string[]} [variantOrder] ordered variant keys (see
+ *   seasonalVariants.variantOrderForDay); defaults to ['base']. For each
+ *   region/category cell the first variant with seeded phrases wins.
  * @returns {Promise<Object>} { regionName: { category: [phrase, ...] } }
  */
-export async function loadTerrainPhrases(regionNames, categories = []) {
+export async function loadTerrainPhrases(regionNames, categories = [], variantOrder = ['base']) {
   if (!Array.isArray(regionNames) || regionNames.length === 0) {
     return {};
   }
@@ -32,31 +35,58 @@ export async function loadTerrainPhrases(regionNames, categories = []) {
       : '';
   const params = categories.length > 0 ? [regionNames, categories] : [regionNames];
 
+  // variant-aware query; pre-migration databases lack the column, so the
+  // fallback below retries without it and every row counts as 'base'.
+  let rows;
   try {
-    const { rows } = await pool.query(
-      `SELECT region_name, category, phrases
+    ({ rows } = await pool.query(
+      `SELECT region_name, category, variant, phrases
        FROM region_biome_descriptions
        WHERE region_name = ANY($1::text[])
        ${categoryFilter}`,
       params
-    );
-
-    const map = {};
-    for (const row of rows) {
-      if (!map[row.region_name]) {
-        map[row.region_name] = {};
-      }
-      map[row.region_name][row.category] = row.phrases || [];
-    }
-    return map;
+    ));
   } catch (err) {
-    // If the table does not exist (or any other DB error), return an empty map
-    // so the day can still be generated using fallback descriptions.
     if (err.code === '42P01') {
       console.warn('⚠️ region_biome_descriptions table not found; using fallback terrain descriptions.');
-    } else {
-      console.warn('⚠️ Could not load terrain phrases:', err.message);
+      return {};
     }
-    return {};
+    if (err.code !== '42703') {
+      console.warn('⚠️ Could not load terrain phrases:', err.message);
+      return {};
+    }
+    try {
+      ({ rows } = await pool.query(
+        `SELECT region_name, category, 'base' AS variant, phrases
+         FROM region_biome_descriptions
+         WHERE region_name = ANY($1::text[])
+         ${categoryFilter}`,
+        params
+      ));
+    } catch (err2) {
+      console.warn('⚠️ Could not load terrain phrases:', err2.message);
+      return {};
+    }
   }
+
+  const order = [...(variantOrder || []), 'base'];
+  const byCell = {};
+  for (const row of rows) {
+    const variants = ((byCell[row.region_name] ||= {})[row.category] ||= {});
+    variants[row.variant || 'base'] = row.phrases || [];
+  }
+
+  const map = {};
+  for (const [region, cellCategories] of Object.entries(byCell)) {
+    for (const [category, variants] of Object.entries(cellCategories)) {
+      for (const variant of order) {
+        const phrases = variants[variant];
+        if (Array.isArray(phrases) && phrases.length > 0) {
+          (map[region] ||= {})[category] = phrases;
+          break;
+        }
+      }
+    }
+  }
+  return map;
 }

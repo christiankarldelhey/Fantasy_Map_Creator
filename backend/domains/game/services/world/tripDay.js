@@ -15,7 +15,12 @@ import {
   sliceLeg,
   getMoonPhase,
 } from '../../adapters/mapClient.js';
-import { loadTerrainPhrases } from '../../adapters/storyClient.js';
+import {
+  loadTerrainPhrases,
+  variantOrderForDay,
+  pickSeasonalSummary,
+  loadSeasonalSummaries,
+} from '../../adapters/storyClient.js';
 import { FRIENDLY_FAMILIES, MAX_EVIL_ENCOUNTERS_PER_DAY, SETTLEMENT_TYPES, isHostileLocation } from '../character/characterState.js';
 
 /** Count encounters drawn from evil (shadow_weight > 0) entities. */
@@ -517,6 +522,12 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   const date = addDaysISO(startDate, dayNumber - 1);
   const moonPhase = getMoonPhase(date);
 
+  // --- Climate (sampled hourly along the leg) ---
+  // Resolved before region/terrain text: the day's weather and season decide
+  // which description variants apply.
+  const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date, moonPhase);
+  const variantOrder = variantOrderForDay(date, climate);
+
   // --- Geographic sampling ---
   const context = await sampleLegContext(legGeoJSON);
 
@@ -542,9 +553,19 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     }
   }
 
+  const regionNames = orderedRegions.map((r) => r.name);
+  const seasonalSummaries = await loadSeasonalSummaries(regionNames);
+
   // Rotate region descriptions: pick the next unused summary for each region.
   // When all summaries have been consumed the region is named without description.
+  // A matching season/weather variant beats the rotation entirely.
   for (const region of orderedRegions) {
+    const seasonal = pickSeasonalSummary(seasonalSummaries, region.name, variantOrder, rng);
+    if (seasonal) {
+      region.description_summary = seasonal;
+      continue;
+    }
+
     const summaries = region.description_summary;
     if (!Array.isArray(summaries) || summaries.length === 0) {
       region.description_summary = typeof summaries === 'string' ? summaries : null;
@@ -564,7 +585,6 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   }
 
   // --- Region-specific terrain phrases for the prompt ---
-  const regionNames = orderedRegions.map((r) => r.name);
 
   // Map biomes to terrain phrase categories
   const biomeCategories = new Set();
@@ -578,10 +598,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   }
 
   const categoriesToLoad = Array.from(biomeCategories);
-  const terrainPhrases = await loadTerrainPhrases(regionNames, categoriesToLoad);
-
-  // --- Climate (sampled hourly along the leg) ---
-  const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date, moonPhase);
+  const terrainPhrases = await loadTerrainPhrases(regionNames, categoriesToLoad, variantOrder);
 
   // --- Overnight climate at camp (dusk to 7am, sensation-focused) ---
   const nighttimeClimate = await sampleNighttimeClimate(segments, dayEndSeconds, date, moonPhase);
@@ -763,7 +780,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     biomeCategories.add('road');
     biomeCategories.add('trail');
     const categoriesToLoad = Array.from(biomeCategories);
-    const additionalTerrainPhrases = await loadTerrainPhrases(regionNames, categoriesToLoad);
+    const additionalTerrainPhrases = await loadTerrainPhrases(regionNames, categoriesToLoad, variantOrder);
     // Merge additional phrases into existing terrainPhrases
     for (const region of regionNames) {
       if (!terrainPhrases[region]) {

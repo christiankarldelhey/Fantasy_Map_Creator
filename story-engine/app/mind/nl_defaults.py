@@ -14,18 +14,38 @@ DEFAULT_GAME_ID = 'middle_earth'
 # 'above' bands (altitude) match value >= above_m, evaluated in listed order.
 DEFAULT_BANDS = {
     'temperature': [
-        {'below': 2, 'phrase': 'bitter cold'},
-        {'below': 8, 'phrase': 'cold'},
-        {'below': 15, 'phrase': 'cool'},
-        {'below': 22, 'phrase': 'mild'},
-        {'below': 29, 'phrase': 'warm'},
-        {'below': None, 'phrase': 'hot'},
+        {'below': 2, 'phrase': 'bitter cold', 'phrases': [
+            'bitter cold', 'a killing cold', 'a cold that bites to the bone',
+        ]},
+        {'below': 8, 'phrase': 'cold', 'phrases': [
+            'cold', 'a raw cold', 'a chill that does not lift',
+        ]},
+        {'below': 15, 'phrase': 'cool', 'phrases': [
+            'cool', 'a cool air', 'cool and grey',
+        ]},
+        {'below': 22, 'phrase': 'mild', 'phrases': [
+            'mild', 'mild and open', 'a mild air',
+        ]},
+        {'below': 29, 'phrase': 'warm', 'phrases': [
+            'warm', 'a warm sun', 'warm and bright',
+        ]},
+        {'below': None, 'phrase': 'hot', 'phrases': [
+            'hot', 'a parching heat', 'heat that does not relent',
+        ]},
     ],
     'cloud_cover': [
-        {'below': 25, 'phrase': 'clear skies'},
-        {'below': 60, 'phrase': 'partly cloudy'},
-        {'below': 90, 'phrase': 'mostly overcast'},
-        {'below': None, 'phrase': 'heavy cloud cover'},
+        {'below': 25, 'phrase': 'clear skies', 'phrases': [
+            'clear skies', 'a cloudless sky', 'sky swept clean',
+        ]},
+        {'below': 60, 'phrase': 'partly cloudy', 'phrases': [
+            'partly cloudy', 'a sky of drifting cloud', 'sun and moving cloud',
+        ]},
+        {'below': 90, 'phrase': 'mostly overcast', 'phrases': [
+            'mostly overcast', 'a low grey sky', 'a sky of gathering grey',
+        ]},
+        {'below': None, 'phrase': 'heavy cloud cover', 'phrases': [
+            'heavy cloud cover', 'a sky shut like a lid', 'cloud piled dark on cloud',
+        ]},
     ],
     'mood': [
         {'below': -0.6, 'phrase': 'despairing'},
@@ -65,6 +85,7 @@ DEFAULT_BANDS = {
 DEFAULT_THRESHOLDS = {
     'climate.windy_speed_min': 18,
     'climate.wet_precipitation_min': 0.2,
+    'climate.phase_heavy_precip_min': 4.0,
     'climate.snow_temp_max': 1.0,
     'climate.heavy_rain_min': 0.4,
     'climate.storm_wind_min': 25,
@@ -102,6 +123,36 @@ DEFAULT_THRESHOLDS = {
 }
 
 DEFAULT_PHRASE_LISTS = {
+    # Single-day precipitation, by intensity (summarise_weather tiers).
+    'climate.wind': [
+        'windy',
+        'a wind that does not rest',
+        'a searching wind',
+        'a whistling wind',
+    ],
+    'climate.precip.snow': [
+        'falling snow',
+        'snow in the air',
+        'a light snow',
+        'snow sifting down',
+    ],
+    'climate.precip.heavy': [
+        'a driving rain',
+        'a drenching downpour',
+        'rain that means to last',
+        'a grey, beating rain',
+    ],
+    'climate.precip.wet': [
+        'a steady rain',
+        'a cold drizzle',
+        'soft rain',
+        'wet',
+    ],
+    'climate.precip.shower': [
+        'a passing shower',
+        'a brief shower',
+        'a scatter of rain',
+    ],
     'climate.snowbound': [
         'The snow has followed the road for days now; the way grows harder to read with each white mile.',
         'Snow lies deep and unbroken; every step costs more breath, more warmth, more will.',

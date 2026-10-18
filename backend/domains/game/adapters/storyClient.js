@@ -18,3 +18,8 @@ export {
   resetBrain,
 } from '../../story/services/narrator/index.js';
 export { loadTerrainPhrases } from '../../story/services/naturalLanguage/terrainPhrases.js';
+export {
+  variantOrderForDay,
+  pickSeasonalSummary,
+  loadSeasonalSummaries,
+} from '../../story/services/naturalLanguage/seasonalVariants.js';

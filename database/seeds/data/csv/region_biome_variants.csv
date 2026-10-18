@@ -1,0 +1,193 @@
+region_name,category,variant,text
+Anorien,plain,summer,"Midsummer lies golden on the Pelennor — hay high in the fields, bees in the linden-rows, and the City walls shining in the long light. The orchards hang heavy and the dykes run slow and green."
+Anorien,hills,winter,The beacon-hills stand grey and bare; the high pastures are stiff with frost and the signal-wood is stacked dark against the sky. On clear days the whole line of peaks burns white to the south.
+Anorien,forest,winter,The fir-woods on the foothills stand black and quiet under a weight of frost. The snow creaks under the boughs and the resin-smell is sharp and cold.
+Anorien,road,rain,Rain falls soft on the green townlands; the West Road shines wet and the beacon-hills are dim islands in the mist. The orchards drip and the fields drink.
+Anorien,mountains_low,snow,Snow lies deep on the foothill pastures and the pine-woods carry it in white folds. The streams run dark and loud between icy banks.
+Anorien,plain,rain,"Rain on the Pelennor is warm and fruitful; the dykes run full, the orchards shine, and the City stands grey-gold through the veil."
+Anorien,trail,cold,Cold comes down the mountain paths at dusk; the beacon-tops are icy and the air off the high snows bites the hands that tend the warning-fires.
+Anorien,mountains_med,winter,"The White Mountains are a frozen wall; their snow reaches down into the fir-woods, and Mindolluin stands over the City like the king of winter."
+Belegaer sea,road,winter,"Winter seas are iron and slate; the wind is a great cold wheel out of the west, and the waves march in grey ranks to break upon the shores of Middle-earth."
+Belegaer sea,road,rain,"Rain and sea-mist meet over the water; the horizon drowns, and the world becomes a grey wheel of wind and wet with no edge and no end."
+Belegaer sea,trail,winter,The coast-lanes in winter are ways of white water and screaming wind; the seabirds hang like blown rags and the shore is a line of foam.
+Belegaer sea,trail,rain,"Rain flattens the grey water into a beaten sheet; the coast dissolves in mist, and sea and sky are one weeping grey."
+Bree,forest,winter,"The Chetwood stands bare and brown, its branches nearly stripped; an east wind seethes through it and brings cold rain down off the hills."
+Bree,hills,rain,"A curtain of rain hides Bree Hill, and the thatched roofs of the village shine dark with wet. Lights show early in the windows along the climbing street."
+Bree,marsh,rain,"Rain falls without cease on the marshes; the pools spread and merge, the reeds stand black and dripping, and the cries of hidden birds come thin and mournful through the wet."
+Bree,marsh,cold,"A chill hangs on the marsh water; mist clings to the reed-beds and the pools are rimmed with grey ice. The midges are gone, but a colder quiet has taken their place."
+Bree,road,rain,Rain drives down the East Road in gusts and the crossing ways shine like shallow streams. The Greenway northward is a drowned ribbon of grass.
+Bree,road,winter,"The East Road lies hard and pale under frost; the Greenway's grass is stiff and whitened. Few travel, and the sky above the ridge is iron-grey."
+Central Anduin,marsh,rain,"Rain curtains the view across the River; the reeds bow, the pools blur into one grey sheet, and the far bank is a rumour and a shadow."
+Central Anduin,plain,summer,On the treeless plain the sun climbs to noon over waving grass; thin clouds drift up from the south and shadows lengthen across the open ground.
+Central Anduin,forest,winter,"The wooded banks stand black and bare; mist lies along the pale margins of the water at dusk, and the rocks cast long shadows under a cold sky."
+Central Anduin,road,winter,"The River runs dark and high between its banks; mist lies on the water at dusk, and a cold wind follows the channel south."
+Central Anduin,road,rain,"Rain curtains the River; mist hides the far bank, and the channel narrows and quickens between steep grey shores until the rapids' roar comes up through the wet."
+Central Anduin,plain,cold,"An icy morning wind moves over the plains; the stars fade on a pale eastern sky, and the grass crackles underfoot in the growing grey light."
+Central Misty Mountains,mountains_high,snow,Snow and storm rule the heights; ice falls like rain and the peaks vanish in a white fury that no traveller outfaces. The mountain itself seems to breathe malice.
+Central Misty Mountains,mountains_high,cold,"Above the cloud-line the cold is absolute — fierce sunlight on a hard summit beneath a turning sky, thin air, and the slow groan of burdened stones."
+Central Misty Mountains,mountains_med,rain,Mountain storms fill the night with sudden flashes and thunder rolling through the hollows; the ledges stream with water and the valleys below are lost in murk.
+Central Misty Mountains,mountains_low,rain,"Rain drives across the slopes and turns every ledge to a waterfall; the pines bend and hiss under the weight of it, and the paths are running mud."
+Central Misty Mountains,trail,winter,"Winter locks the passes: the trails are deep in drifted snow, the ice on the stones is glass-hard and deadly, and the way is memory and guesswork."
+Central Misty Mountains,mountains_med,snow,The middle slopes are buried in white silence; the pines carry it in great folds and the streams are frozen threads under the drifts.
+Dagorlad,marsh,cold,"The meres skin over with grey ice and the mist lies low and heavy; the pale lights still move over the pools, cold flames in a colder land."
+Dagorlad,marsh,rain,"Rain spreads the meres and drowns the causeways; the whole fen becomes a sheet of dark water, and the dead lie deeper and nearer."
+Dagorlad,plain,heat,"The sun beats on the slag-mounds and the pits give back the heat; fumes rise, the air trembles, and the land sweats its poison."
+Dagorlad,plain,winter,"The plain lies hard and black under frost; dust drives before the wind like dirty snow, and the mounds stand stark in the pale light."
+Dagorlad,road,winter,"The pale roads lie frozen, dust-dry and hard under the cold sky, leading on to the Gate — and there is no shelter anywhere along them."
+Dagorlad,trail,cold,"The fen-paths are a cruel riddle of ice and water; every step breaks through to cold black mud, and the mist clings like a damp hand."
+Dale,forest,winter,"Snow lies on the young woods and the Mountain's flanks; the valley is white and still, and the ravens croak on the bare ridge above the gate."
+Dale,forest,rain,Rain sweeps the long valley; the young pines shine dark and the grey scars of the old desolation run with black water.
+Dale,trail,winter,"The stony paths are white lines between black rocks; the wind off the Mountain is bitter, and the heights above are deep in drifted snow."
+Dale,road,winter,The road to the Gate runs white and cold beside the ice-rimmed river; the Mountain's peak stands over it like a white crown on a grey throne.
+Dale,trail,snow,Snow fills the ravines and hides the paths; the broken slopes about the Mountain are a white maze of rock and drift.
+Dale,forest,summer,"The young woods are green and loud with birds; the Mountain's shadow lies cool across the valley floor, and the river runs bright between the banks."
+Druadan Forest,forest,winter,"The pines stand black and heavy under frost; the wood is very still, and breath smokes in air that smells of resin and cold earth."
+Druadan Forest,forest,rain,"Rain hisses in the pine-tops and runs in dark threads down the trunks; the forest floor drinks it in silence, and the air is green and dripping."
+Druadan Forest,forest,cold,A deep cold pools under the pines; the moss is stiff and the old carved stones are white with rime.
+Druadan Forest,road,summer,Summer light reaches the old slabs in thin green shafts; the forest breathes warm and slow around the forgotten road.
+Druadan Forest,trail,rain,The paths are black streams beneath the pines; the resin drips and the wood smells of wet needles and hidden watching.
+Dunland,hills,winter,"The downs are brown and bare; the wind out of the Gap is keen, and the hill-steads send up thin grey smoke against the cold."
+Dunland,forest,winter,"The stump-dotted hills stand black under frost; what woods remain are dark and still, and the land is bitter and bare."
+Dunland,road,rain,Rain sweeps the Gap and the old road runs wet under the mountains' wall; the Isen comes down loud and brown and the fords run deep.
+Dunland,trail,rain,The hill-paths are rivulets; rain drives across the empty downs and the secret ways are grey threads in the wet.
+Dunland,mountains_low,snow,Snow lies deep on the foothills and the gorges of the Isen are white; the passes above are closed and silent.
+Dunland,hills,cold,"A hard cold sits on Dunland; the smoke of the stead-fires lies flat, and the wind off Methedras is a whetted edge."
+Ered Luin,forest,winter,"The green woods stand dark and wet under the sea-wind; frost is rare here, but the rain of the western winter is long and cold."
+Ered Luin,mountains_low,winter,Snow lies on the blue ridges and the gulf-wind is bitter; the Sea below is grey as iron and the hills are white above it.
+Ered Luin,mountains_med,snow,"Snow lies long on the high moors; the blue stone shows through it in bands, and the wind off the Sea is edged with ice."
+Ered Luin,road,winter,"The road to the Havens runs under a grey sky beside a grey gulf; the mountains are white above and the water dark below, and the way feels like the last way in the world."
+Ered Luin,trail,rain,"Sea-rain drives across the ridges; the old paths run with water, and the mountains are a blue wall hidden in grey mist."
+Ered Luin,forest,rain,"Rain comes in off the Sea in long veils; the woods drip and the mosses drink, and the air smells of salt and wet pine."
+Eregion,forest,winter,"A cold clear dawn reveals the holly-hills crowned with dark leaves and red berries, and the snowy mountain-peaks stand ahead beyond them. The wind drops and the land holds its breath."
+Eregion,hills,snow,Snow lies on the high ridges of Eregion and clouds blow low across the passes. The holly shows black against the white slopes and the land is silent.
+Eregion,hills,cold,"The wind drops and shifts at dawn and the cold is sharp and clear; every stone casts a blue shadow, and the air smells of the high snows."
+Eregion,road,winter,"The old road is a pale line under frost; the holly-berries are the only red thing in a white and silent land, and the mountains ahead are walls of winter."
+Eregion,trail,rain,"Rain sweeps over the bare ridges and runs in the dry courses of the streams; for an hour the dead land drinks, then is barren and silent again."
+Esgaroth,forest,winter,Snow lies on the pines above the lake and the shores are rimmed with ice; the Long Lake is grey steel under white hills.
+Esgaroth,road,winter,The channels skin with ice at the lake's edge; the town's lanterns reflect on black water and the wooden ways creak and sway in the cold.
+Esgaroth,trail,winter,"The marsh-paths are frozen mud; the reeds are dead and white, and the lake-wind comes across the open water like a blade."
+Esgaroth,forest,rain,Rain mists the pines and raises the lake; the southern arms spread over their margins and the marsh-paths drown under brown water.
+Esgaroth,road,rain,"Rain beats on the lake and the wooden town; the channels blur, the lanterns halo in the wet, and the water rises around the piles."
+Fangorn,forest,rain,"Rain passes over the eaves almost unheard; beneath them is only the slow drip and the deep smell of wet leaf-mould. The forest drinks, and considers."
+Fangorn,forest,winter,"Snow lies on the eaves but under the boughs the air is cool rather than cold; the leaf-drifts are deep and soft, and the forest dreams of spring with open eyes."
+Fangorn,forest,summer,"Under the summer canopy the air is green, still and warm; shafts of sun come down like gold pillars, and the tree-shadows are cool pools on the leaves."
+Fangorn,trail,winter,"The paths are hidden under leaf and drifted snow; the forest holds its cold in stillness, and the high slopes are white and bare."
+Fangorn,forest,cold,"Cold in Fangorn is a deep slow thing — it sits in the leaf-drifts and the still air, old as the roots and patient as the shepherds."
+Forithilien,hills,cold,"Cold seeps out of the Vale; the white pinnacles are sharp in the freezing air, and the stream below steams like a breath in the cold."
+Forithilien,hills,winter,The hills stand bare and colourless; ice rims the pools of the Morgulduin and the dead white flowers nod in the cold meadows.
+Forithilien,forest,winter,"The pale woods drip with cold dew; the leaves hang limp and black, and the Morgul-mist creeps among the trunks like a living thing."
+Forithilien,road,rain,"Rain falls thin and cold on the haunted road; the carved king's crown of flowers is beaten down with wet, and the white stone glistens."
+Forithilien,trail,winter,"Ice glazes the narrow stairs; the crevices hold old snow, and the red glow above is blurred by cold mist."
+Harithilien,forest,rain,"Soft rain falls on the herb-glades and the resinous woods; the air is washed and sweet, and every bush drips with a sharper scent."
+Harithilien,hills,summer,"The gorse blazes gold on the warm hillsides; the sun draws up the smell of thyme and cedar, and the whole land hums with bees."
+Harithilien,hills,winter,"The glades are grey and the heath is bent low; frost lies in the sheltered hollows, but the air keeps a memory of herbs."
+Harithilien,road,winter,The South Road lies pale and empty under a cold sky; frost whitens its verges and the woods stand black along its edges.
+Harithilien,trail,rain,"The hidden paths run soft and wet; rain patters on the gorse, and the herbs give up their scent to the wet air."
+Lamedon,forest,winter,"The black trees of the Dimholt are rimed and still; frost fills the hollow between the ancient stones, and the dark beyond the door seems to breathe the cold."
+Lamedon,hills,winter,Snow lies on the high pastures and the vale runs grey beneath it; lights begin to flicker early in the dwellings below.
+Lamedon,mountains_low,snow,Snow fills the spurs and the sheep-paths vanish; the dark firs of the Dimholt carry it in heavy black folds.
+Lamedon,road,rain,Rain falls grey on the vale and the Morthond rises dark and fast; the cliffs run with thin silver threads of water.
+Lamedon,trail,cold,A cold comes down off the high snows and pools in the upper vale; the paths are white with frost and the black wood is silent.
+Lamedon,mountains_high,winter,"The high peaks are a wall of winter; their snow reaches down to the black wood, and the vale below is a grey pool of dusk."
+Lone-lands,hills,rain,Grey clouds obscure the sun and the wind rises; willows bend and sigh beside swollen streams that rush down dark from the northern hills.
+Lone-lands,hills,winter,"The downs lie white and lifeless under frost; the wind has the whole width of Eriador to gather speed in, and it does not spare the traveller."
+Lone-lands,road,rain,Rain drives along the Road in long veils and the sky is the colour of the wet earth; after the storm the clouds break and a wandering moon rides over the drowned country.
+Lone-lands,road,winter,"The Road lies empty under a low grey sky; ice skins the puddles in its ruts, and there is no shelter from the wind for a mile in any direction."
+Lone-lands,forest,rain,Rain whispers in the thin woods and drips from bare alder twigs; the ground under the trees is black and soft and smells of rot.
+Lorien,forest,rain,"A gentle rain passes over the Golden Wood and leaves everything fresh and clean; the air beneath the trees is sweet, and the gold leaves hold the light like lamps after rain."
+Lorien,forest,winter,"In winter the mallorn-leaves turn pale gold and do not fall; the treetop air is cold, but the heart of the wood keeps a breath of spring."
+Lorien,trail,winter,"Winter lies outside the fences, but the paths of Lórien run under gold boughs in air that is cool and sweet; winter here is a memory of elsewhere."
+Lorien,forest,summer,Sunlight falls through the high mallorn leaves in shafts of green and gold; elanor and niphredil star the grass of the clearings.
+Lorien,road,summer,"The paths are warm underfoot and the light is long; the Golden Wood in summer is a realm outside of time, dreaming in amber and green."
+Mirkwood Wilds,forest,summer,"In summer the heat under the canopy is still and heavy, the air rank with spores; no breeze reaches through the interlaced boughs."
+Mirkwood Wilds,forest,winter,In winter the cold seeps up from the roots and frost makes strange patterns in the gloom; the black trunks stand bare and the dimness turns grey.
+Mirkwood Wilds,forest,rain,Rain on the eaves becomes a ceaseless drip below; the trunks run black with wet and the dim green light sinks to darkness.
+Mirkwood Wilds,road,rain,"Rain darkens the path to a black thread; the wood closes over it like a tunnel, and the drip of the trees is the only sound."
+Mirkwood Wilds,trail,winter,The false trails are drifts of black leaves gone stiff with frost; the dark stream is rimed at its edges and the wood is utterly still.
+Mirkwood Wilds,forest,cold,"The cold in the deep wood is a damp, creeping thing — it lives in the black earth and the still air, and no fire built here burns right."
+Woodland Realm,forest,winter,"The beech-woods stand silver and bare; the great doors are shut against the cold, and the fires burn deep under the hill."
+Woodland Realm,forest,rain,"Rain on the north-eaves is a green dripping; the Forest River runs full and dark under its bridge, and the air smells of wet earth and old stone."
+Woodland Realm,trail,winter,"Snow lies on the paths to the doors; the deer come down to the frozen river-meadows, and the wood is white and silent."
+Woodland Realm,forest,summer,"The green wood is loud with birdsong; feasts in the torch-lit glades go on into the long twilight, and lanterns move like stars under the leaves."
+Moria,mountains_med,snow,"Snow closes over the Dimrill Dale and the Stair; the passes fill with drifting white, and the peaks above are lost in storm."
+Moria,mountains_high,snow,"On the high slopes the snow falls thick and blinding; the wind heaps it in the clefts, and the mountain seems to breathe a white malice."
+Moria,mountains_high,cold,"The cold on Caradhras is beyond frost and wind; it is a hatred in the stone itself, and no fire at its feet will warm it."
+Moria,mountains_low,rain,Rain fills the empty stream-beds for an hour and the hills run with sudden water; then the channels fall silent and red-stained again.
+Moria,mountains_med,winter,"Winter wraps the Dale in deep snow and Mirrormere lies black and still, reflecting only the stars and the shoulders of the peaks."
+Moria,trail,snow,The trail to the Stair vanishes under drifted snow; the way is memory and guesswork between white walls of stone.
+Mordor,plain,heat,The heat comes off the plain in waves; the ash-shimmer hides the distances and the fume of Orodruin hangs red and heavy. Thirst is a torment here.
+Mordor,plain,winter,"Winter in Gorgoroth is a cold more bitter than the heat — black frost on the slag, and wind off the mountains that cuts through every rag."
+Mordor,mountains_low,cold,Cold pools in the ravines of the Morgai; the scree is stiff with frost and the jagged ridges ring in the freezing air.
+Mordor,road,heat,The roads bake under the dim red sun; dust rises from the marching columns and the iron ruts shine like heated wire.
+Mordor,road,winter,The dust lies frozen in the ruts; the way is iron-hard and the cold wind drives black sleet across the empty miles.
+Mordor,trail,cold,The ravine-paths are fanged with black ice; the cold climbs out of the depths and the stone bites the hand that holds it.
+Mordor,forest,rain,When rain comes to the inner country it falls black and hot through the fumes; the ash turns to black mud and the thorn-brakes steam.
+Nan Anduin,forest,winter,The oaks stand bare and the mast lies deep under the leaves; frost whitens the ford-stones and the River runs dark and cold.
+Nan Anduin,marsh,winter,"The Gladden Fields lie silent under frost — brown reeds, black pools, and the thin cry of a single bird over the wide water."
+Nan Anduin,road,rain,Rain swells the ford until the stepping-stones run just awash; the mountains hide behind grey cloud and the River is loud between the banks.
+Nan Anduin,trail,snow,Snow fills the vales and caps the Carrock like a white crown; the trails are a single white line between the River and the black eaves of Mirkwood.
+Nan Anduin,forest,summer,"The vales are loud with bees; the oakwoods are deep green, and the high grass of the meadows stands ready for the scythe."
+North Misty Mountains,mountains_high,snow,"The northern peaks stand deep in winter long after the vales are green; avalanches growl in the gullies, and the passes are a white silence."
+North Misty Mountains,mountains_high,cold,"Cold rules the heights; even the eagles keep their eyries close, and the wind off the ice-fields numbs the air it touches."
+North Misty Mountains,mountains_med,rain,"Storms rake the high slopes; water pours off the crags in silver threads, and the caves of the pass drip and echo."
+North Misty Mountains,mountains_low,rain,"Rain brings the hillsides down in wet cascades; the paths to the pass are running streams, and the shelters of the rocks are black with damp."
+North Misty Mountains,trail,winter,"The winter paths are buried; the way is marked only by the line of the crags, and wolves follow what the snow conceals."
+Old Forest,forest,rain,"Rain sifts down through the close leaves in a fine cold drizzle; every trunk glistens black and the drip of water fills the silence. The wood seems pleased, and deepens around the path."
+Old Forest,forest,summer,"Even at midsummer the heat dies at the eaves; within, the air is green, dim and cool, smelling of leaf-mould and damp bark."
+Old Forest,forest,winter,"Bare black branches net the grey sky, and the floor is a drift of wet leaves over hidden roots. The cold seeps upward like a held breath."
+Old Forest,trail,cold,"Frost finds little purchase under the boughs, but a damp chill works through cloth and leather alike; the mist of the valley clings cold to the skin."
+Old Forest,road,winter,"The old path is a mire of half-frozen leaves; the trees crowd closer in the pale light, and the way seems shorter each time it is sought."
+Parth Celebrant,hills,winter,"The field lies bare and brown; the wind comes down off the mountains with ice in it, and the grass is stiff with frost."
+Parth Celebrant,hills,rain,"Rain sweeps the open field; the grass lies flat and shining, and the old mounds stand dark in the wet."
+Parth Celebrant,forest,winter,The groves stand leafless and the brown drifts of mast lie deep; the paths are silent but for the drip of the thaw.
+Parth Celebrant,road,summer,The road-line lies under summer grass and flowers; larksong is everywhere and the field is a green sea moving in the wind.
+Parth Celebrant,trail,cold,The green ways are hard under frost; the air is keen and the view to the mountains is bright and cold as drawn steel.
+Rivendell,road,winter,"An east wind streams through bare branches and seethes in the dark pines beneath low, ragged clouds; the river roars among the stones, and the grey of December lies on the moor."
+Rivendell,forest,winter,"The pines seethe and sigh under a streaming east wind; below in the valley the sheltered boughs hold their green, and the sound of the falls comes up muffled through the cold."
+Rivendell,trail,rain,"A westerly wind brings cold rain through the hills, driving the last yellow leaves across the path; below, the Bruinen runs loud and wild and mist closes over the valley mouth."
+Rivendell,road,rain,Cold rain slants down the moor and turns the stony way to a shining thread; in the valley the river's voice swells until the hills ring with it.
+Rivendell,trail,summer,"The warm evening air smells of trees and flowers; running water sounds in the valley below, and it seems that summer lingers here beyond its time."
+Rivendell,forest,summer,"Golden light lies long on the valley woods; the Bruinen murmurs under the eaves, and the air is sweet with leaf and bloom."
+Rohan,plain,winter,"The plains lie pale and sere under the winter sky; a thin searching wind comes down off the northern snows, and the grass is grey as the manes of horses."
+Rohan,plain,summer,"The grassland stands high and green-gold; the wind moves through it like a tide, and larks sing invisible in the warm blue air."
+Rohan,plain,rain,"Rain sweeps the open Mark in long grey veils; the grass lies flat and shining, and the horizon is a wall of moving water."
+Rohan,plain,cold,A keen cold rides the plains; the wind out of the north comes unhindered across a hundred miles of frozen grass.
+Rohan,mountains_low,winter,Snow lies on the green foothills and the dales are white between black fir-woods; the Snowbourn runs dark and loud under icy banks.
+Rohan,mountains_med,snow,"The White Mountains stand to their waists in snow; the high pastures are buried, and the wind off the peaks brings ice-dust down to the dales."
+Rohan,road,winter,"The road to Edoras lies pale and hard under frost; the green hill of Meduseld stands grey above it, and the Golden Hall's thatch is dull under the cold sky."
+Rohan,trail,winter,"The hill-tracks are white lines in the sere grass; the dale-streams are rimed at their edges, and the high refuges are cold and empty."
+Rohan,forest,winter,"The fir-woods of the dales stand black under snow; the wind seethes in them, and the green eaves of Fangorn's edge are dark and still."
+Ronen-in-Anduin,forest,rain,"Rain fills the springs and darkens the lawns; Rauros roars louder through the wet, and the mist of the falls mingles with low cloud."
+Ronen-in-Anduin,marsh,cold,"A bitter east wind moves over the fens; the pools skin with ice at their edges, and the reeds hiss like steel."
+Ronen-in-Anduin,trail,winter,"The stone steps are slick with frost and the high seat stands cold and empty; below, the Falls thunder on regardless through the white land."
+Ronen-in-Anduin,marsh,rain,"The fens spread and swell in the rain; every hollow is a pool, and mist and water make a single grey country."
+The Shire,forest,summer,The copses stand in deep leaf and the sound of bees comes out of the clover at their feet; sunlight lies in golden patches on the grass beneath the boughs.
+The Shire,forest,winter,"The bare branches drip and the rides are drifts of sodden leaves; now and then a red berry shows on the holly, the only bright thing in the grey wood."
+The Shire,hills,winter,"Snow lies along the hedgerows and the round doors in the hillsides look out on a white, quiet world; smoke climbs straight from hidden chimneys."
+The Shire,marsh,rain,"The meadows by the Water stand sheeted and shining, and the reeds bow under the weight of the rain; every ditch brims and hurries."
+The Shire,road,rain,"Rain sweeps across the open fields in grey curtains, pattering on fallen leaves and dimpling the puddles of the East Road; beyond the hedges the world is all wet gleam and running water."
+The Shire,road,summer,Dust lies warm on the East Road and the hedgerows are loud with small birds; the way runs on golden and drowsy between the fields.
+The Shire,trail,cold,Frost whitens the narrow paths and the grass crackles underfoot; breath smokes on the still air between the bare hedges.
+Tower Hills,forest,winter,The tall woods stand leafless and dark against the white towers; the sea-wind brings a smell of salt up the western slopes.
+Tower Hills,road,winter,"The road west runs pale under frost; the towers stand white on the hill, and beyond them the Sea is grey and near."
+Tower Hills,trail,rain,Rain blows in off the unseen Sea; the green hills shine dark with wet and the towers are blurred above the streaming woods.
+Tower Hills,forest,rain,"Rain sweeps the western slopes; the woods hiss and drip, and the towers stand dim white shapes in the murk."
+Trollshaws,forest,rain,"Rain soaks the woods for days on end; fires will not kindle, and the dripping of the beeches goes on long after the sky has cleared."
+Trollshaws,hills,winter,"Snow fills the hollows and the ravines; the stony paths are treacherous with ice, and the mountain wind drives flakes like ash through the trees."
+Trollshaws,hills,cold,"The cold settles in the folds of the hills; even the streams run quieter, and the rock holds the frost long after noon."
+Trollshaws,road,rain,"The Road runs wet and gloomy under streaming skies; the fords rise brown and fast, and the stone of the hills shines black with wet."
+Trollshaws,trail,cold,Ice feathers the rocks beside the path and every breath smokes; the hollows below are pits of shadow and cold fern.
+Weather Hills,hills,rain,"West winds drive fine, soaking rain onto the dark hills; the ridges run with water and the stones are black and streaming."
+Weather Hills,hills,winter,"Snow lies thin and dirty on the northern slopes, and the wind off the high moor cuts like a drawn blade; the ruined walls give no shelter."
+Weather Hills,hills,cold,"The cold comes down off the hills at dusk; sparse grass and withered leaves barely stir, and every hollow holds its own shadow and its own chill."
+Weather Hills,forest,cold,"The thickets are brittle with frost and the grey grass is stiff underfoot; nothing moves in the scrub but the wind, searching."
+Weather Hills,road,rain,"Rain curtains the hills and turns the Road's verge to black mud; the land runs with whispering water, and the towers stand unseen in the murk."
+Wold,plain,winter,The Wold lies sere and empty; frost whitens the long grass and the northern wind drives thin snow across the open downs.
+Wold,plain,cold,"A grey cold lies on the Wold; the land is a frozen sea of pale grass, and the dark of Fangorn is a black wall on the horizon."
+Wold,forest,winter,"The birch-woods stand white and bare; the tracks are lost in drifted grass, and the dark line of Fangorn is blurred by falling snow."
+Wold,road,winter,The green tracks are hard under frost; the way north is an empty line between white field and grey sky.
+Wold,trail,rain,Rain drives over the open downs; the grass-tracks run with water and the mist hides the dark eaves of the forest to the east.
+Woodmen,forest,winter,"The oaks stand bare and the mast lies deep under frost; the clearings are white, and the smoke of the hidden halls climbs into the cold."
+Woodmen,forest,rain,"Rain drips through the eaves and pools on the paths; the wood smells of wet leaf and hidden smoke, and the deer stand still in the oak-shelter."
+Woodmen,forest,summer,"The woods are deep green and loud with bees; the meadows of the clearings stand high with grass, and the air is warm and sweet."
+Woodmen,trail,winter,The paths are drifts of leaves frozen hard; the marks of the Woodmen are sharp in the frost and the deer have gone to the sheltered glades.

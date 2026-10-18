@@ -51,7 +51,9 @@ def sample(temp=None, cloud=None, wind=None, prec=None, phase='morning'):
 def test_summarise_weather_equivalence(nl, temp, cloud, wind, prec):
     from app.natural_language.climate_notes import summarise_weather
     records = [sample(temp, cloud, wind, prec)['climate']]
-    assert summarise_weather(records) == summarise_weather(records, nl)
+    # Phrase pools: index 0 of every seeded list/band is the code constant.
+    assert summarise_weather(records, rng=rng0()) == \
+        summarise_weather(records, nl, rng0())
 
 
 def test_collect_climate_notes_by_phase_equivalence(nl):
@@ -65,12 +67,12 @@ def test_collect_climate_notes_by_phase_equivalence(nl):
                  {'phase': 'first_quarter'}):
         for cloud in climates:
             pass
-        assert collect_climate_notes_by_phase(climates, moon) == \
-            collect_climate_notes_by_phase(climates, moon, nl)
+        assert collect_climate_notes_by_phase(climates, moon, rng=rng0()) == \
+            collect_climate_notes_by_phase(climates, moon, nl, rng0())
     # heavy night cloud hides a full moon identically on both paths
     cloudy = [sample(temp=0, cloud=95, wind=5, phase='night')]
-    assert collect_climate_notes_by_phase(cloudy, {'phase': 'full_moon'}) == \
-        collect_climate_notes_by_phase(cloudy, {'phase': 'full_moon'}, nl)
+    assert collect_climate_notes_by_phase(cloudy, {'phase': 'full_moon'}, rng=rng0()) == \
+        collect_climate_notes_by_phase(cloudy, {'phase': 'full_moon'}, nl, rng0())
 
 
 # ---------------------------------------------------------------------------
@@ -142,21 +144,25 @@ def test_edited_band_changes_output(nl):
     from app.natural_language.climate_notes import summarise_weather
 
     records = [sample(temp=4)['climate']]  # falls in the 'cold' band
-    before = summarise_weather(records, nl)
+    before = summarise_weather(records, nl, rng0())
 
     band = nl._session.query(NlBand).filter_by(
         game_id='middle_earth', table_name='temperature', ordinal=1
     ).one()
-    original = band.phrase
+    original_phrase, original_meta = band.phrase, band.meta
     try:
+        # A band's meta.phrases pool outranks its single phrase — editing the
+        # label alone must clear the pool to take effect.
         band.phrase = 'glacial'
+        band.meta = None
         nl._session.commit()
         invalidate('middle_earth')
-        after = summarise_weather(records, nl)
+        after = summarise_weather(records, nl, rng0())
         assert after != before
         assert 'glacial' in after
     finally:
-        band.phrase = original
+        band.phrase = original_phrase
+        band.meta = original_meta
         nl._session.commit()
         invalidate('middle_earth')
-        assert summarise_weather(records, nl) == before
+        assert summarise_weather(records, nl, rng0()) == before

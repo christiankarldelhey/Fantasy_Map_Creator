@@ -90,6 +90,10 @@ _Avoid_: base language, source language, narration language
 How a Host's raw data is put into words for the narrator: which ranges of each measurement get which phrase. Belongs to the Host and applies to every Character in it.
 _Avoid_: NL pack, natural-language layer, bands
 
+**Environmental variant**:
+A place description the Host keeps in several conditioned versions — base plus one per season or weather state (`summer`, `winter`, `rain`, `snow`, `cold`, `heat`). The Host resolves which variant a day gets before reporting it, so the Mind Engine always sees plain prose; a missing variant falls back to base. Not World voice: World voice turns a global measurement into a phrase, a variant is authored prose about one place.
+_Avoid_: seasonal phrase, weather text, conditional description
+
 **Accent**:
 A Character's exceptions to the World voice: a few ranges or phrases they say differently. Everything not accented falls back to the World voice.
 _Avoid_: override, band override

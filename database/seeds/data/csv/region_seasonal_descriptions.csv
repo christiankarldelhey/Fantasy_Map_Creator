@@ -1,0 +1,99 @@
+region_name,variant,text
+Anorien,summer,"Anorien in summer is the green lap of the realm — the Pelennor deep in grass and grain, the hills in flower, and the White Mountains blue in the warm air."
+Anorien,winter,Winter in Anorien is a country of white heights and green vales; the beacons stand ready on cold bare hills and the wind off the mountains is clean and sharp.
+Anorien,rain,"Rain over Anorien is a gentle grey curtain on the townlands; the fields drink, the orchards shine, and the White Mountains are a rumour in the mist."
+Belegaer sea,winter,"Belegaer under winter is a vast grey engine — cold wind, marching waves, and the long dark of the Sea at the end of all lands."
+Belegaer sea,rain,"Rain on the Sea is a grey union of sky and water; the horizon is lost, and the ship is a white mote in a weeping world."
+Bree,winter,"Bree under winter is a huddle of lit windows behind a hedge and a gate; beyond the dikes the bare country waits, cold and patient."
+Bree,rain,"In rain the village smells of wet thatch and woodsmoke; the road is a river of mud, and travellers come in sodden and glad of the fire."
+Bree,cold,A hard cold settles on Bree-land; the wells rim with ice and the east wind finds every gap in door and shutter.
+Central Anduin,winter,The Vale of Anduin in winter is a grey country of mist and pale water; the river runs dark and the high banks stand cold and bare on either side.
+Central Anduin,rain,"Rain on the Anduin is a curtain drawn across the world; the far shore vanishes, and there is only the hiss of water falling on water."
+Central Anduin,cold,"A cold from the north rides the river-valley; it comes down the channel before dawn, and the mist along the banks is grey ice made air."
+Central Misty Mountains,winter,"The Misty Mountains in winter are a white rampart across the world; the passes are sealed, and the peaks hold their storms like a grudge."
+Central Misty Mountains,snow,"On the high passes the snow is a living thing — it drifts, it blinds, it buries; the mountains shut their gates and the wind walks abroad."
+Central Misty Mountains,cold,"The cold of the high passes is thin, bright, and murderous; it numbs the hands on the rock and turns the breath to ice."
+Dagorlad,winter,"Dagorlad under winter is the bleakest face of the world — frost on the slag, ice on the meres, and the dead lights burning cold over the frozen pools."
+Dagorlad,cold,"The cold of Dagorlad is an unnatural cold, the cold of the marsh and the grave; it does not come with the wind so much as rise from the ground."
+Dagorlad,heat,"In heat the plain reeks and shimmers; the pits breathe out their fumes, and the very air over Dagorlad is a slow poison under the red sun."
+Dale,winter,"Dale under winter is a white valley beneath a white Mountain; the river runs dark between ice-rimmed banks, and the old desolation is buried clean."
+Dale,snow,"Snow on Dale hides the old scars; the valley is a white sea around the grey island of the Mountain, and the raven-call is the only sound."
+Dale,cold,"The cold of Dale is the Mountain's breath — it comes down off the high snows and pools in the valley, and the raven-guards huddle on their ridge."
+Druadan Forest,winter,"Drúadan in winter is a dark pine-silence under the mountain — frost in the moss, rime on the old carved stones, and the unseen folk keeping their watch."
+Druadan Forest,rain,Rain in the Drúadan is a long soft hiss in the pine-tops and a black drip below; the forest drinks and says nothing.
+Dunland,winter,"Dunland in winter is a stern and empty country — brown hills, thin smoke, and the white wall of the mountains closing the west."
+Dunland,rain,"Rain over Dunland is a grey ocean of water sweeping the downs; the Isen roars, the fords drown, and the hills stand black and dripping."
+Dunland,cold,"The cold comes out of the Gap with the west wind; it is the mountains' breath on Dunland's bare hills, and it spares no one."
+Ered Luin,winter,"Winter on the Blue Mountains is the Sea's winter — grey water, white ridges, and a wind that has come a thousand miles over the waves."
+Ered Luin,rain,"Rain on Lindon is the Sea sent over the mountains — long grey veils, dripping woods, and the white road to the Havens running wet."
+Ered Luin,cold,"The cold here is a salt cold off the Sea; it fills the gulf and climbs the blue slopes, and the ships at the Havens tug at their moorings in the ice-wind."
+Eregion,winter,"Eregion in winter is Hollin naked — holly dark against the snow, red berries like drops of blood, and the mountain wall closing the east."
+Eregion,snow,"Snow lies long in Eregion; it fills the hollows of the old road and crowns every ridge, and the high peaks burn white against the sky."
+Eregion,cold,"The cold of Eregion is a mountain cold, thin and bright; it comes down off the snows and the empty land rings with it."
+Esgaroth,winter,"Esgaroth under winter is a grey lake in a white land — black water, white shores, and the wooden town huddled on its piles in the ice-wind."
+Esgaroth,rain,"Rain on the Long Lake is a grey hammering on water and wood; the lake rises, the piers stream, and the mountains are ghosts."
+Esgaroth,cold,The cold comes off the lake and into the bones; the wooden ways are slick with ice and the water is the colour of old iron.
+Fangorn,winter,"Fangorn under winter sleeps with its eyes open — snow on the eaves, stillness under the boughs, and the slow thought of the shepherds moving in the deep wood."
+Fangorn,summer,"In summer Fangorn is a green and golden heart, warm and vast; the light falls through the boughs like a memory of the Elder Days."
+Fangorn,rain,Rain on Fangorn is the forest drinking — a soft hiss on the eaves and a deep smell of wet leaves rising to meet it.
+Forithilien,winter,"Northern Ithilien in winter is a pale country at the edge of the Shadow — frost on the broken towers, ice in the Morgul's steam, and the red sky beyond the pass."
+Forithilien,cold,A cold that is not all of winter hangs about the Vale; it breathes off the poisoned stream and climbs the stairs on silent feet.
+Harithilien,summer,"Ithilien in summer is a garden gone half-wild — gold gorse, sweet herbs, and green glades under a warm sun, with the shadowed mountains always at the edge of sight."
+Harithilien,winter,"Winter strips Ithilien to grey heath and dark wood; it is still fair, but a fair thing sleeping under frost, with the East waiting beyond the river."
+Harithilien,rain,"Rain on Ithilien is soft and fragrant; it beads the gorse, quickens the herbs, and washes the smoke of the East from the clean northern air."
+Lamedon,winter,"Lamedon in winter is a green vale gone grey — snow on the high fields, lights early in the windows, and the Blackroot running loud under its cold banks."
+Lamedon,snow,"Snow wraps the upper vale and the feet of the White Mountains; the Morthond runs black between white banks, and the Dimholt is a dark mouth in the white."
+Lamedon,cold,The cold of Lamedon is a mountain cold sharpened by old dread — it pours off the high snows and stops at the black eaves of the Dimholt.
+Lone-lands,rain,The Lone-lands under rain are a drowned and echoing wilderness — every hollow a stream and every stream in spate.
+Lone-lands,winter,"Winter strips the Lone-lands to bone — frozen heath, pale grass, and the empty track of the Road running on to horizons without a light."
+Lone-lands,cold,The cold here is a great emptiness made palpable; it comes with the wind off the downs and stays long after the wind has gone.
+Lorien,winter,"Winter cannot enter the heart of Lórien — beyond the Silverlode the wind may bite, but under the mallorns the gold leaves hold an older season."
+Lorien,summer,"Lórien in high summer is the world's own golden afternoon — light held in leaves, song on the water, and time gone slow."
+Lorien,rain,"Rain in Lórien is a soft grey blessing; it passes, and the leaves shine brighter than gold beneath the washed sky."
+Mirkwood Wilds,winter,"Mirkwood in winter is a black-and-white maze — bare black boughs, grey light, and the dim paths hidden under frost and dead leaves."
+Mirkwood Wilds,summer,Summer in Mirkwood is a stifling green dark; the heat stands still under the canopy and the forest breathes slowly in its sleep.
+Mirkwood Wilds,rain,Rain on Mirkwood is a long black dripping; the eaves shed it for days and the paths run with dark water.
+Woodland Realm,winter,"The Woodland Realm in winter is a green court gone white — bare beeches, the river dark and cold, and the warm halls hidden under the hill."
+Woodland Realm,summer,"Summer under the Elvenking's eaves is a green and golden twilight — feasts in the glades, lanterns among the leaves, and the river running dark below."
+Woodland Realm,rain,"Rain on the north-wood is soft and long; the beech-woods drip, the river rises, and the doors of the halls stand open to the wet dark."
+Moria,winter,"Moria's gates in winter face a white and hollow land; the Dimrill Dale is drifted deep, and the old road is a rumour under the snow."
+Moria,snow,Snow falls on Moria's hidden doors as it fell when the doors were open; the mountain keeps its secrets equally under white or stone.
+Moria,cold,The cold about the West-gate is the cold of deep places — it seeps up out of the earth as much as it blows down from the peaks.
+Mordor,heat,"Heat rules the plateau — the air is a kiln-breath through the fumes, the stone burns the foot, and the only water is warm and bitter."
+Mordor,cold,"Cold in Mordor is a knife in a sheath of fumes — it waits in the ravines and the shadows of the walls, and at night the plain gives up its heat and freezes."
+Mordor,winter,"Winter turns Gorgoroth from furnace to forge-cold; the ash is bound by black frost, and the red sky hangs low over the frozen pits."
+Nan Anduin,winter,The Anduin vales under winter are a quiet land of black water and white hills; the fords freeze at their edges and the mountains close in.
+Nan Anduin,snow,"Snow on the vales makes a clean and silent world — white meadows, black water, and the dark line of the forest under its burden."
+Nan Anduin,rain,"Rain brings the mountain-streams down and the Anduin up; the fords deepen, the fens spread, and the valley fills with the sound of water."
+North Misty Mountains,winter,"Winter in the northern mountains is a season of white walls and shut passes; the goblins come and go under the snow, and the eagles watch."
+North Misty Mountains,snow,"Snow lies on the northern Misty Mountains from autumn to spring; the peaks are ramparts of it, and the high paths are trenches through it."
+North Misty Mountains,cold,"The cold in these heights is of the old, hard kind — it lives in the stone of the passes and waits for the traveller at every cave-mouth."
+Old Forest,winter,"In winter the Old Forest is grey and bare but no less watchful; the willows sleep lightly, and the paths belong to them alone."
+Old Forest,rain,The Old Forest under rain is a green darkness full of small sounds — drip and trickle and the creak of wet wood. Nothing hurries; the rain is the Forest's own.
+Parth Celebrant,winter,"The Field of Celebrant lies open to the winter wind; the old defeat is only a greener line in the dead grass, and the mountains are white and near."
+Parth Celebrant,summer,"In summer the field is a green and golden sea; the larks are up, and the old scars are hidden in flower and leaf."
+Parth Celebrant,cold,"The cold rides down off the mountains and across the open field; there is no shelter on the grass, and the sky is pale iron."
+Rivendell,winter,"Rivendell in winter is a green heart in a grey land — frost and wind on the high moors, and warm light and falling water in the sheltered vale."
+Rivendell,rain,"Rain comes down the valley soft and cold; the Bruinen rises, the mountains vanish in mist, and Rivendell is shut away behind a curtain of silver."
+Rivendell,summer,"Summer lingers in Rivendell beyond its season — warm air on the terraces, long light in the leaves, and the sound of water falling into evening."
+Rohan,winter,"The Mark under winter is a sea of grey grass under a white wall; the wind is the lord of it, and the land rings hollow under the hooves."
+Rohan,summer,"Rohan in high summer is a green sea of grass and wind; the larks are up, the horses are sleek, and the mountains stand blue and far."
+Rohan,cold,"Cold on the Mark is a wind-cold, endless and searching; it has the whole width of the plain to gather in, and it comes like a spear."
+Ronen-in-Anduin,winter,"The lake-country in winter is a stern land — dark water, white-crowned peaks about the falls, and the sound of Rauros rolling through the cold."
+Ronen-in-Anduin,rain,Rain over the long lake is a grey world of falling water and rising mist; the Falls thunder unseen behind the curtain.
+Ronen-in-Anduin,cold,A keen cold comes down the ravines of the Emyn Muil; it carries the smell of the dead meres and leaves the stones ringing.
+The Shire,summer,"The Shire in summer is all abundance — laden orchards, humming bees, fields high with hay, and long warm evenings over the Water."
+The Shire,winter,"Under winter the Shire turns quiet — frost on the thatch, snow along the lanes, and warm light in the windows behind the hedgerows."
+The Shire,rain,"Rain comes softly and often here; it silvers the hedges, fills the streams, and beads the long grass. The land looks washed and grateful."
+Tower Hills,winter,"Winter on the Tower Hills is a green land gone grey at the edge of the Sea — bare woods, white towers, and the smell of the salt wind."
+Tower Hills,rain,Rain over the Tower Hills comes off the Sea; it beats on the white towers and runs down the green slopes to the road that ends at the world's edge.
+Trollshaws,rain,"The Trollshaws in rain are a sodden cheerless maze of hills — soaked woods, rising fords, and no dry ground under heaven."
+Trollshaws,winter,"Winter locks the Trollshaws fast — black rock, white ravines, and the growl of streams half-frozen in their beds."
+Trollshaws,cold,The cold gathers in the folds of the Trollshaws and stays; the caves breathe it and the paths are fangs of ice.
+Weather Hills,rain,"The Weather Hills in rain are a sodden secret country — grey ridges in streaming mist, with water running in every crevice of the old stones."
+Weather Hills,winter,"Winter lays the hills bare — iron grass, black thorn, and the empty crowns of the watch-towers against a colourless sky."
+Weather Hills,cold,A searching cold owns these hills; it pours down the lee slopes at night and pools in the hollows till dawn.
+Wold,winter,"The Wold in winter is the loneliest part of the Mark — white downs, black thorn-brakes, and the far dark of Fangorn like a wall between worlds."
+Wold,cold,"Cold on the Wold is a northern cold; it comes down the vale of the Anduin and across the empty downs, and there is no hill to hide behind."
+Woodmen,winter,The Woodmen's country in winter is a white-drifted forest of black oaks; the halls are warm behind their stockades and the deer-yards are silent.
+Woodmen,summer,"Summer in the Beornings' woodland is green gold — oak-shade, high meadows, and honey in the hollow trees."
