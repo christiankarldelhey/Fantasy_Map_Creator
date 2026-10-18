@@ -23,7 +23,7 @@ RUN npm install
 WORKDIR /app/database/seeds
 RUN npm install
 
-COPY mind-studio/ ./mind-studio/
+COPY mind-studio/ /app/mind-studio/
 WORKDIR /app/mind-studio
 RUN npm ci && npm run build
 
