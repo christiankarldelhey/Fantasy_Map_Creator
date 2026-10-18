@@ -145,22 +145,30 @@ router.get('/:id', authenticateToken, async (req, res, next) => {
     if (rows.length === 0) return res.status(404).json({ error: 'Trip not found' });
     const trip = rows[0];
 
-    // Activate the trip's character exclusively
+    // Activate the trip's character exclusively. A dedicated client is
+    // required: pool.query() may run each statement on a different
+    // connection, which would leave BEGIN stranded on one connection
+    // holding its locks until the pool recycles it.
     if (trip.character_id) {
-      await pool.query('BEGIN');
-      // Deactivate all characters
-      await pool.query('UPDATE character_state SET active = false');
-      // Activate the trip's character
-      await pool.query(
-        'UPDATE character_state SET active = true WHERE id = $1',
-        [trip.character_id]
-      );
-      // Update user's active character
-      await pool.query(
-        'UPDATE users SET active_character_id = $1 WHERE id = $2',
-        [trip.character_id, req.userId]
-      );
-      await pool.query('COMMIT');
+      const client = await pool.connect();
+      try {
+        await client.query('BEGIN');
+        await client.query('UPDATE character_state SET active = false');
+        await client.query(
+          'UPDATE character_state SET active = true WHERE id = $1',
+          [trip.character_id]
+        );
+        await client.query(
+          'UPDATE users SET active_character_id = $1 WHERE id = $2',
+          [trip.character_id, req.userId]
+        );
+        await client.query('COMMIT');
+      } catch (txError) {
+        await client.query('ROLLBACK').catch(() => {});
+        throw txError;
+      } finally {
+        client.release();
+      }
     }
 
     res.json(trip);

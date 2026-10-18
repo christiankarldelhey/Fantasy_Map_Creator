@@ -142,10 +142,13 @@ router.delete('/me', authenticateToken, async (req, res, next) => {
     //    linger as orphans (cascades trip_days automatically)
     // 3. users deletion cascades to character_state (owner_user_id CASCADE),
     //    which cascades to character_inventory (character_id CASCADE)
-    await pool.query('BEGIN');
+    // Dedicated client: pool.query() may land BEGIN and COMMIT on
+    // different connections, leaking an open transaction with its locks.
+    const client = await pool.connect();
     try {
+      await client.query('BEGIN');
       // Clean up character_state_log (no FK cascade)
-      await pool.query(
+      await client.query(
         `DELETE FROM character_state_log
          WHERE character_id IN (
            SELECT id FROM character_state WHERE owner_user_id = $1
@@ -154,7 +157,7 @@ router.delete('/me', authenticateToken, async (req, res, next) => {
       );
 
       // Clean up trips (FK is SET NULL, we want them gone)
-      await pool.query(
+      await client.query(
         `DELETE FROM trips
          WHERE character_id IN (
            SELECT id FROM character_state WHERE owner_user_id = $1
@@ -163,12 +166,14 @@ router.delete('/me', authenticateToken, async (req, res, next) => {
       );
 
       // Delete the user — cascades to character_state → character_inventory
-      await pool.query('DELETE FROM users WHERE id = $1', [req.userId]);
+      await client.query('DELETE FROM users WHERE id = $1', [req.userId]);
 
-      await pool.query('COMMIT');
+      await client.query('COMMIT');
     } catch (txError) {
-      await pool.query('ROLLBACK');
+      await client.query('ROLLBACK').catch(() => {});
       throw txError;
+    } finally {
+      client.release();
     }
 
     res.status(204).end();

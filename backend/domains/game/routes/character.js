@@ -300,22 +300,33 @@ router.put('/:id/active', authenticateToken, async (req, res, next) => {
     const userId = req.userId;
 
     if (req.isAdmin) {
-      // Admin: direct global assignment (original behaviour)
-      await pool.query('BEGIN');
-      await pool.query('UPDATE character_state SET active = false');
-      const result = await pool.query(`
-        UPDATE character_state
-        SET active = true
-        WHERE id = $1
-        RETURNING id, name, current_lng, current_lat, type, gender, active, description, description_es, resistance, permadeath, energy, shadow,
-                  skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, skill_stealth, skill_endurance, fatigue, wounded, sick, updated_at
-      `, [id]);
-      if (result.rows.length === 0) {
-        await pool.query('ROLLBACK');
-        return res.status(404).json({ error: 'Character not found' });
+      // Admin: direct global assignment (original behaviour).
+      // Dedicated client — see note below; pool.query() does not pin a
+      // connection, so BEGIN/COMMIT can straddle different backends and
+      // leak a lock-holding transaction.
+      const adminClient = await pool.connect();
+      try {
+        await adminClient.query('BEGIN');
+        await adminClient.query('UPDATE character_state SET active = false');
+        const result = await adminClient.query(`
+          UPDATE character_state
+          SET active = true
+          WHERE id = $1
+          RETURNING id, name, current_lng, current_lat, type, gender, active, description, description_es, resistance, permadeath, energy, shadow,
+                    skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, skill_stealth, skill_endurance, fatigue, wounded, sick, updated_at
+        `, [id]);
+        if (result.rows.length === 0) {
+          await adminClient.query('ROLLBACK');
+          return res.status(404).json({ error: 'Character not found' });
+        }
+        await adminClient.query('COMMIT');
+        return res.json(result.rows[0]);
+      } catch (txError) {
+        await adminClient.query('ROLLBACK').catch(() => {});
+        throw txError;
+      } finally {
+        adminClient.release();
       }
-      await pool.query('COMMIT');
-      return res.json(result.rows[0]);
     }
 
     // Normal user: validate the character belongs to them
@@ -327,15 +338,26 @@ router.put('/:id/active', authenticateToken, async (req, res, next) => {
       return res.status(403).json({ error: 'Character does not belong to this user' });
     }
 
-    // Activate character exclusively (global flag + user preference)
-    await pool.query('BEGIN');
-    await pool.query('UPDATE character_state SET active = false');
-    await pool.query('UPDATE character_state SET active = true WHERE id = $1', [id]);
-    await pool.query(
-      'UPDATE users SET active_character_id = $1, updated_at = NOW() WHERE id = $2',
-      [id, userId]
-    );
-    await pool.query('COMMIT');
+    // Activate character exclusively (global flag + user preference).
+    // Dedicated client: pool.query() may run each statement on a
+    // different connection, leaking the BEGIN's locks until the pool
+    // recycles the stranded connection (~30s of perceived hangs).
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+      await client.query('UPDATE character_state SET active = false');
+      await client.query('UPDATE character_state SET active = true WHERE id = $1', [id]);
+      await client.query(
+        'UPDATE users SET active_character_id = $1, updated_at = NOW() WHERE id = $2',
+        [id, userId]
+      );
+      await client.query('COMMIT');
+    } catch (txError) {
+      await client.query('ROLLBACK').catch(() => {});
+      throw txError;
+    } finally {
+      client.release();
+    }
 
     const result = await pool.query(`
       SELECT 
@@ -364,7 +386,6 @@ router.put('/:id/active', authenticateToken, async (req, res, next) => {
 
     res.json(result.rows[0]);
   } catch (error) {
-    await pool.query('ROLLBACK').catch(() => {});
     next(error);
   }
 });

@@ -14,7 +14,9 @@ let mockPasswordHash = '$2b$10$validhash';
 let mockBcryptResult = true;
 let mockUserExists = true;
 
-// Mock pool that db.js exports
+// Mock pool that db.js exports. The transaction runs on a dedicated
+// client (pool.connect()), so the fake client shares the same query
+// log and behaviour as the pool-level mock.
 const mockPool = {
   query: async (text, params) => {
     sqlLog.push({ text: text.trim(), params });
@@ -25,6 +27,12 @@ const mockPool = {
   },
 };
 
+const mockClient = {
+  query: (...args) => mockPool.query(...args),
+  released: false,
+  release() { this.released = true; },
+};
+
 // We need to intercept the db.js import. In Node's native test runner we
 // can use --import with a register hook, but that's heavy. Instead, we
 // patch the mock pool onto the actual db module's default export.
@@ -32,14 +40,18 @@ import pool from '../../../../db.js';
 
 // Save original to restore later
 const originalQuery = pool.query;
+const originalConnect = pool.connect;
 
 function installMock() {
   pool.query = mockPool.query;
+  mockClient.released = false;
+  pool.connect = async () => mockClient;
   sqlLog.length = 0;
 }
 
 function restoreMock() {
   pool.query = originalQuery;
+  pool.connect = originalConnect;
 }
 
 // Mock bcrypt — we need to intercept the bcrypt module that auth.js uses.
