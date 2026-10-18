@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import path from 'path';
+import http from 'http';
 import { fileURLToPath } from 'url';
 import pool from './db.js';
 import locationsRouter from './domains/map/routes/locations.js';
@@ -42,6 +43,28 @@ app.use(cors({
   origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
   credentials: true
 }));
+
+// Mind Studio proxy — the story-engine only binds 127.0.0.1:8001 inside the
+// container, so /studio (UI + /studio/api) is unreachable unless the public
+// backend forwards it. The upstream API enforces Basic Auth (ADMIN_USER /
+// ADMIN_PASSWORD; unset = closed), so this adds no unauthenticated surface.
+// Mounted before express.json() so request bodies stream through untouched.
+const studioTarget = new URL(process.env.STORY_ENGINE_URL || 'http://localhost:8001');
+app.use('/studio', (req, res) => {
+  const proxyReq = http.request({
+    hostname: studioTarget.hostname,
+    port: studioTarget.port,
+    path: `/studio${req.url}`,
+    method: req.method,
+    headers: { ...req.headers, host: studioTarget.host },
+  }, (proxyRes) => {
+    res.writeHead(proxyRes.statusCode, proxyRes.headers);
+    proxyRes.pipe(res);
+  });
+  proxyReq.on('error', () => res.status(502).json({ error: 'story-engine unavailable' }));
+  req.pipe(proxyReq);
+});
+
 app.use(express.json());
 
 // Rate limiting for auth endpoints — prevent brute-force and account spam
