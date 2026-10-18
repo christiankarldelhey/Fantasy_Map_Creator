@@ -33,8 +33,6 @@ const COLD_EXTREME_MAX = -5;
 const HEAT_MILD_MIN = 27;
 const COLD_MILD_MAX = 6;
 
-const VARIANT_KEYS = ['summer', 'winter', 'rain', 'snow', 'cold', 'heat'];
-
 /**
  * 'winter' | 'summer' | null from a YYYY-MM-DD date.
  * Middle-earth seasons follow the northern hemisphere.

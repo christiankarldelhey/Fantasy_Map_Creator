@@ -23,6 +23,10 @@ RUN npm install
 WORKDIR /app/database/seeds
 RUN npm install
 
+COPY mind-studio/ ./mind-studio/
+WORKDIR /app/mind-studio
+RUN npm ci && npm run build
+
 WORKDIR /app/backend
 
 CMD ["/app/start-production.sh"]

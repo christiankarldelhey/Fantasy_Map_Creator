@@ -3,6 +3,10 @@ set -uo pipefail
 
 export STORY_ENGINE_URL="${STORY_ENGINE_URL:-http://127.0.0.1:8001}"
 
+cd /app/story-engine
+/opt/venv/bin/alembic upgrade head || exit 1
+cd /app
+
 /opt/venv/bin/uvicorn app.main:app --app-dir /app/story-engine --host 127.0.0.1 --port 8001 &
 story_engine_pid=$!
 node /app/backend/server.js &
