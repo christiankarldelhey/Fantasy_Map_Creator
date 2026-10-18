@@ -13,7 +13,7 @@ const NARRATOR_CHARACTER_QUERY = `
          c.system_prompt, c.introduction_instructions,
          c.resistance, c.permadeath, c.energy, c.shadow,
          c.skill_tracking, c.skill_persuasion, c.skill_ranged, c.skill_melee, c.skill_lore,
-         c.fatigue, c.wounded,
+         c.fatigue, c.wounded, c.portrait_url,
          e.name AS entity_name,
          -- A clone inherits its template's mind archetype: 'celebrian-user-7'
          -- still thinks through the 'celebrian' mold (C18).

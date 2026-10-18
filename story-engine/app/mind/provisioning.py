@@ -376,6 +376,11 @@ def get_or_create_character(session, game_id, card):
         .one_or_none()
     )
     if row is not None:
+        # Fill-once: a card adopted before the wire carried the field still
+        # gets it (identity fields are otherwise Mind-authoritative).
+        if row.portrait_url is None and card.get('portrait_url'):
+            row.portrait_url = card['portrait_url']
+            session.flush()
         return row
     row = Character(
         game_id=game_id,
@@ -383,6 +388,7 @@ def get_or_create_character(session, game_id, card):
         kind='copy',
         name=card.get('name'),
         entity_name=card.get('entity_name'),
+        portrait_url=card.get('portrait_url'),
         description=card.get('description'),
         foundational_phrase=card.get('system_prompt'),
         voice_instructions=card.get('introduction_instructions'),
@@ -404,6 +410,7 @@ def effective_character(row, wire_card):
         'skills': row.skills or wire_card.get('skills') or {},
         'description': row.description or wire_card.get('description'),
         'entity_name': row.entity_name or wire_card.get('entity_name'),
+        'portrait_url': row.portrait_url or wire_card.get('portrait_url'),
         'system_prompt': (
             row.foundational_phrase or wire_card.get('system_prompt')
         ),

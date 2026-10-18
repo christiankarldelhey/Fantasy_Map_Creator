@@ -97,7 +97,7 @@ def _card(row, episode=None):
         'type': None,
         'gender': None,
         'entity_name': char.get('entity_name'),
-        'portrait_url': None,
+        'portrait_url': char.get('portrait_url'),
         'description': char.get('description'),
         'description_es': None,
         'foundational_phrase': char.get('system_prompt'),

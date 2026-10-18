@@ -51,6 +51,7 @@ class OpenCharacter(BaseModel):
     shadow: Optional[float] = None
     description: Optional[str] = None
     entity_name: Optional[str] = None
+    portrait_url: Optional[str] = None
     system_prompt: Optional[str] = None
     introduction_instructions: Optional[str] = None
     wounded: Optional[str] = None

@@ -38,6 +38,7 @@ function slimCharacter(c) {
     // Narrator prose material
     description: c.description ?? null,
     entity_name: c.entity_name ?? null,
+    portrait_url: c.portrait_url ?? null,
     system_prompt: c.system_prompt ?? null,
     introduction_instructions: c.introduction_instructions ?? null,
     wounded: c.wounded ?? null,

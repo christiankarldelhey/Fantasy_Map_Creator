@@ -67,6 +67,10 @@ app.use('/studio', (req, res) => {
 
 app.use(express.json());
 
+// Character portraits — the host's served copy of the card images (the same
+// files the frontend bundles under src/assets/characters).
+app.use('/portraits', express.static(path.join(__dirname, 'public/characters')));
+
 // Rate limiting for auth endpoints — prevent brute-force and account spam
 const registerLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
