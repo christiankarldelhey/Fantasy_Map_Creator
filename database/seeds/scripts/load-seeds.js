@@ -974,6 +974,7 @@ async function ensureSchema() {
   await runMigrationFile('npc_interactions_entity_ids_c26.sql');
   await runMigrationFile('npc_interactions_commands_c27.sql');
   await runMigrationFile('add_trip_days_mind_calls.sql');
+  await runMigrationFile('add_world_date_to_users.sql');
   await runMigrationFile('add_variant_to_region_biome_descriptions.sql');
   await runMigrationFile('create_region_seasonal_descriptions.sql');
 
