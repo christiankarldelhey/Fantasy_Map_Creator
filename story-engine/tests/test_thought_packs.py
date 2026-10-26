@@ -21,7 +21,7 @@ from app.mind.reflection import _apply_ops, reflection_beliefs
 from app.mind.retrieval import _CONTACT_AMBIENT_PREFIXES, _context_tags
 from app.mind.tables import Belief, BrainMold, Episode, MoldStarterBelief
 from app.mind.thought_packs import (
-    ARANATH_THOUGHTS, CELEBRIAN_THOUGHTS, LEGACY_REWRITES,
+    ARANATH_THOUGHTS, ATTITUDE_PACKS, CELEBRIAN_THOUGHTS, LEGACY_REWRITES,
 )
 
 
@@ -479,3 +479,50 @@ def test_every_seed_speaks_in_the_first_person():
     for rewrites in LEGACY_REWRITES.values():
         for _old, new, _o, _n in rewrites:
             assert not third.match(new), new
+
+
+# --- attitudes: the faceted part of the pack --------------------------------
+
+ALL_ATTITUDES = [
+    pytest.param(who, a, id=f"{who}:{a['statement'][:40]}")
+    for who, pack in ATTITUDE_PACKS.items()
+    for a in pack
+]
+_SUBJECT_PREFIXES = ('entity:', 'tag:family:', 'tag:entity_type:')
+
+
+def test_attitudes_are_well_formed():
+    """Every attitude is a faceted belief: subject + bounded stance + a
+    declared source — and the subject only knows the three specificity
+    levels the engine resolves (entity > family > type)."""
+    seen = set()
+    for pack in ATTITUDE_PACKS.values():
+        for a in pack:
+            assert a['statement'] not in seen, a['statement']
+            seen.add(a['statement'])
+            assert a['kind'] in ('world', 'self', 'other')
+            assert a['subject'], a['statement']
+            for tag in a['subject']:
+                assert tag.startswith(_SUBJECT_PREFIXES), tag
+            assert -1 <= a['stance'] <= 1
+            assert a['source'] in ('lived', 'heard', 'legend')
+            assert 0 < a['confidence'] <= 1
+
+
+@pytest.mark.parametrize('who,attitude', ALL_ATTITUDES)
+def test_every_attitude_subject_actually_touches(who, attitude):
+    """Same behavioural audit as the thoughts: a day carrying each of
+    the subject's tags makes the attitude speak in the brief."""
+    b = _belief(attitude['statement'], id_=f'{who}-a')
+    b.subject = list(attitude['subject'])
+    for tag in attitude['subject']:
+        brief = build_brief(_day_for(tag), [], [b], [], {}, episode_idx=0)
+        assert b.statement in _texts(brief), tag
+
+
+def test_attitudes_speak_in_the_first_person_too():
+    import re
+    third = re.compile(r'^(She|He)\b')
+    for pack in ATTITUDE_PACKS.values():
+        for a in pack:
+            assert not third.match(a['statement']), a['statement']

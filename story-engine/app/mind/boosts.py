@@ -9,6 +9,7 @@
 # divergence lives in inspectable rows, not in mutated config; when the
 # belief weakens or dies, the weight simply falls away.
 # ============================================================================
+from app.mind.attitudes import attention_weights
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief
 
@@ -31,6 +32,9 @@ def effective_theme_weights(session, brain):
                 weights[tag] = weights.get(tag, 0.0) + float(amount)
             except (TypeError, ValueError):
                 continue
+    # Attitudes watch what they love or loathe (CONTEXT.md · Stance).
+    for tag, amount in attention_weights(beliefs, w).items():
+        weights[tag] = weights.get(tag, 0.0) + amount
     return weights
 
 

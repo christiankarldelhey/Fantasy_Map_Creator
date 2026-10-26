@@ -186,7 +186,11 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
             counts['contradicted'] += 1
         elif name == 'invert':
             # Growth: the old conviction turns. The row is marked inverted
-            # and the new opposite belief is born from the same evidence.
+            # and the new opposite belief is born from the same evidence —
+            # keeping the facets: same subject and tags (it still answers
+            # to the same encounters, 'trauma' excepted), the stance
+            # turned sign, and 'lived' as its source, since living it is
+            # what turned it.
             belief.status = 'inverted'
             belief.updated_episode = idx
             session.add(Belief(
@@ -194,9 +198,15 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
                 kind=belief.kind, horizon=belief.horizon,
                 statement=str(op['statement'])[:2000],
                 confidence=min(1.0, max(0.0, _f(op.get('confidence'), 0.5))),
-                tags=[], boosts=op['boosts'],
+                tags=[t for t in (belief.tags or []) if t != 'trauma'],
+                boosts=op['boosts'],
                 evidence=op['evidence'], origin='reflected',
                 status='active', formed_episode=idx, updated_episode=idx,
+                subject=list(belief.subject) if belief.subject else None,
+                stance=-belief.stance if belief.stance is not None else None,
+                source='lived',
+                pull=dict(belief.pull) if belief.pull else None,
+                habit=dict(belief.habit) if belief.habit else None,
             ))
             counts['inverted'] += 1
 

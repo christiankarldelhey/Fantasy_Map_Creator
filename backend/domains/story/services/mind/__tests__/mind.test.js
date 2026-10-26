@@ -47,7 +47,7 @@ const DAY = {
     description: 'The night is spent under open sky.',
   },
   encounters: [{
-    entity: { slug: 'corpse-candles', id: 'e1', name: 'Corpse Candles', type: 'undead', danger_level: 0.7 },
+    entity: { slug: 'corpse-candles', id: 'e1', name: 'Corpse Candles', type: 'undead', family: 'undead', danger_level: 0.7 },
     hour_float: 15.0,
     interaction: {
       form: 'confronts', outcome: 'wounded',
@@ -88,6 +88,9 @@ test('toEvents emits the generic contract from a resolved day', () => {
   const encounter = events.find((e) => e.type === 'encounter');
   assert.equal(encounter.data.entity, 'corpse-candles');
   assert.equal(encounter.data.entity_type, 'undead');
+  // Kind-of-being between type and entity — attitudes match
+  // entity > family > type on the mind side.
+  assert.equal(encounter.data.family, 'undead');
   assert.equal(encounter.data.danger, 0.7);
   assert.equal(encounter.data.form, 'confronts');
   assert.equal(encounter.data.outcome, 'wounded');

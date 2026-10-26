@@ -95,6 +95,45 @@ def _t(kind, statement, tags, confidence=CONFIDENCE, boosts=None):
     }
 
 
+def _a(kind, statement, subject, stance, source='lived',
+       confidence=CONFIDENCE, boosts=None):
+    """An Attitude (CONTEXT.md): a Belief with Subject + Stance. The
+    subject does the touching — a narrowest match speaks for the
+    encounter, leans its valence, and moves as the encounters go."""
+    return {
+        'kind': kind, 'statement': statement, 'confidence': confidence,
+        'tags': [], 'boosts': dict(boosts or {}),
+        'subject': list(subject), 'stance': stance, 'source': source,
+    }
+
+
+# Subject tags — the levels attitudes resolve over, narrowest first:
+#   entity:<slug>          this one being (horses_of_mordor)
+#   tag:family:<slug>      its declared kind (foxes within carnivores)
+#   tag:entity_type:<t>    the broad type (all orcs, all undead)
+F_FOXES = ['tag:family:foxes']
+F_DOGS = ['tag:family:dogs']
+F_EAGLES = ['tag:family:eagles']
+F_CROWS = ['tag:family:crows']
+F_WOLVES = ['tag:family:wolves']
+F_WARGS = ['tag:family:wargs']
+F_HORSES = ['tag:family:horses']
+F_DEER = ['tag:family:deer']
+F_BIRDS = ['tag:family:birds']
+F_OWLS = ['tag:family:owls']
+F_SWANS = ['tag:family:swans']
+F_SPIDERS = ['tag:family:spiders']
+F_TREES = ['tag:family:trees']
+F_ENTS = ['tag:family:ents']
+F_COMMON_MEN = ['tag:family:common_men']
+F_DUNEDAIN = ['tag:family:dnedain']  # sic — the host's slug carries the typo
+E_MORDOR_HORSES = ['entity:horses_of_mordor']
+T_ENEMY_MEN = [
+    'tag:entity_type:haradrim', 'tag:entity_type:easterlings',
+    'tag:entity_type:corsairs',
+]
+
+
 # ============================================================================
 # CELEBRIAN — a Noldor of the later Age. Death is her filter: every thought
 # passes through having lost too much, too slowly. Melancholy, shadow-worn,
@@ -372,4 +411,138 @@ LEGACY_REWRITES = {
          'remembers it.',
          [], SOLITUDE),
     ],
+}
+
+
+# ============================================================================
+# Attitudes — the prehistory every encounter carries
+# ----------------------------------------------------------------------------
+# Same authored voice, but the belief knows what it is about: Subject +
+# Stance. In the Lens the narrowest subject speaks for the encounter —
+# Celebrian loves horses, and the horses of Mordor are not that. The
+# stance leans how the contact feels and walks slowly as encounters go:
+# ordinary days nudge it, marked days move it; a prejudice can wear down
+# to almost nothing, and only reflection can turn it.
+#
+#   entity:<slug>          this one being
+#   tag:family:<slug>      its kind (foxes, not all carnivores)
+#   tag:entity_type:<t>    the broad type (all orcs)
+# ============================================================================
+CELEBRIAN_ATTITUDES = [
+    _a('world', "A horse at full run is the one shape of joy the Shadow "
+       "never learned to counterfeit.",
+       F_HORSES, +0.7),
+    _a('world', "The Enemy takes what is beautiful and teaches it to "
+       "bite; I pity those horses, and I do not trust them.",
+       E_MORDOR_HORSES, -0.8),
+    _a('world', "A deer does not know that it will die; watching one "
+       "graze, I almost forget that I do.",
+       F_DEER, +0.6),
+    _a('world', "The fox asks nothing of the world but passage; of all "
+       "the wild things it is the one I would trade places with.",
+       F_FOXES, +0.5),
+    _a('world', "They grieve more slowly than I do, and more honestly; "
+       "there is no counsel wiser than a tree that refuses to hurry.",
+       F_ENTS + ['tag:entity_type:living_trees'], +0.6),
+    _a('world', "The oldest trees remember a world before the Shadow; "
+       "I listen to them the way others pray.",
+       F_TREES, +0.4),
+    _a('world', "There is a beauty in what should not be and yet "
+       "stands; I look at it too long, and I know that I do.",
+       UNDEAD, +0.1),
+    _a('world', "I do not hate them the way mortals hate; my hatred "
+       "went cold an Age ago. I simply refuse to call them people.",
+       ORCS, -0.9),
+    _a('world', "A wolf that sells its wild to the Enemy is worse than "
+       "the Enemy's whip; at least the whip knows what it is.",
+       F_WARGS, -0.6),
+    _a('world', "A wolf answers hunger and nothing else; I cannot "
+       "fault it, but I do not turn my back to it.",
+       F_WOLVES, -0.3),
+    _a('other', "The songs say they delved too greedily; we both know "
+       "who wrote the songs — and still I keep my distance.",
+       DWARVES, -0.25, source='heard', confidence=0.5),
+    _a('world', "A troll is malice wearing a mountain; there is nothing "
+       "underneath it to mourn.",
+       TROLLS, -0.5),
+    _a('world', "Their mother devoured the light itself, long ago; the "
+       "daughters still remember the taste.",
+       F_SPIDERS + SPIDERS, -0.6),
+    _a('world', "There are fires that were lit before the world had a "
+       "name; some of us still carry the burns.",
+       DEMONS, -0.8),
+    _a('world', "A dragon's greed is the only hunger I find honest; at "
+       "least it does not pretend to serve a master.",
+       DRAKES, -0.5),
+    _a('other', "I love my people the way one loves a ship already "
+       "sailing; the shore is where I chose to stand.",
+       ELVES, +0.2),
+    _a('world', "Swans carry the sea with them; I look at them the way "
+       "I refuse to look at ships.",
+       F_SWANS, +0.3),
+]
+
+ARANATH_ATTITUDES = [
+    _a('world', "A dog never asks who your grandfather was before it "
+       "shares your fire.",
+       F_DOGS, +0.6),
+    _a('world', "When the Eagles keep the road, I sleep with both eyes "
+       "shut for once.",
+       F_EAGLES, +0.6),
+    _a('world', "Anything that lives by wit instead of teeth has my "
+       "respect; the fox and I practice the same trade.",
+       F_FOXES, +0.5),
+    _a('world', "Birdsong at dawn means the night watch held; I learned "
+       "to trust it before I learned maps.",
+       F_BIRDS + F_OWLS, +0.3),
+    _a('world', "Crebain flew for the Enemy once; I still count crows "
+       "the way I count sentries.",
+       F_CROWS, -0.4),
+    _a('world', "A pack reads a road better than most garrisons; I "
+       "respect the craft and distrust the wolves.",
+       F_WOLVES, -0.5),
+    _a('world', "A warg is a wolf that took the Enemy's coin; there is "
+       "no parleying with it.",
+       F_WARGS, -0.8),
+    _a('world', "I stopped counting the orcs I have buried; the day I "
+       "start again is the day this becomes about me.",
+       ORCS, -0.8),
+    _a('world', "I have trusted horses with my life and been let down "
+       "less often than by men.",
+       F_HORSES, +0.5),
+    _a('world', "Fell stock, bred under the Enemy's eye — a ranger "
+       "does not turn his back on a horse that remembers the whip.",
+       E_MORDOR_HORSES, -0.5),
+    _a('other', "They do not know my name and never will; they are "
+       "still why I walk.",
+       F_COMMON_MEN, +0.4),
+    _a('other', "The last of my people walk the same roads I do; we nod "
+       "once, and that is enough.",
+       F_DUNEDAIN, +0.7),
+    _a('other', "They carry no swords and need none guarding them; the "
+       "day that changes, I have failed.",
+       HOBBITS, +0.4),
+    _a('world', "They kept their watch longer than we kept ours; a "
+       "ranger does not lecture patience to an Ent.",
+       F_ENTS + ['tag:entity_type:living_trees'], +0.4),
+    _a('world', "The dead of the barrows earned their rest; whatever "
+       "wears them now earns none of mine.",
+       UNDEAD, -0.7),
+    _a('world', "You do not fight a troll; you survive it, and you "
+       "count yourself lucky to have seen it coming.",
+       TROLLS, -0.5),
+    _a('world', "Webs across the road mean leave the road; I have never "
+       "once regretted listening.",
+       F_SPIDERS + SPIDERS, -0.5),
+    _a('other', "Men who march for the Enemy are still men; I pity them "
+       "at a distance and fight them up close.",
+       T_ENEMY_MEN, -0.4),
+    _a('other', "They never forgave us for kings we no longer are; I "
+       "understand them better than they would like.",
+       ['tag:entity_type:dunlendings'], -0.2),
+]
+
+ATTITUDE_PACKS = {
+    'celebrian': CELEBRIAN_ATTITUDES,
+    'aranath': ARANATH_ATTITUDES,
 }

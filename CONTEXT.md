@@ -49,15 +49,47 @@ A Memory the Mind has lost: kept as a trace with the day it was lost so the Mind
 _Avoid_: deleted, erased
 
 **Belief**:
-Something the Mind holds true, with a confidence that grows or erodes with what it lives. Reaches the Lens only when the Episode puts it at stake — or, for the Beliefs that are the thoughts a person keeps for themselves, when nobody touched the Mind at all (a belief tagged `context:solitude` speaks on the days that met no one). Who the Character is lives in the Foundational phrase, not in its beliefs.
+Something the Mind holds true, with a confidence that grows or erodes with what it lives. Reaches the Lens only when the Episode puts it at stake — or, for the Beliefs that are the thoughts a person keeps for themselves, when nobody touched the Mind at all (a belief tagged `context:solitude` speaks on the days that met no one). Who the Character is lives in the Foundational phrase, not in its beliefs. A Belief may carry facets that let the Mind act on it, not just voice it: a Subject and a Stance (an Attitude or an Impression), a Source, a Pull, or a ritual (a Habit). A Belief without facets is a plain thought.
 _Avoid_: core idea, main idea, value
+
+**Subject**:
+What a Belief is about when it is about something in the world: a kind of being (horses, orcs, dwarves) or a place (a region, a named location). A Subject may be broad or narrow — the kind, the family within the kind, or one named being — and the narrowest match speaks for what happened (the horses of Mordor are not 'horses' to Celebrian).
+_Avoid_: target, topic, entity
+
+**Stance**:
+How much a Belief likes or loathes its Subject, from loathing to love. Separate from Concern: a Mind can watch something closely and love it, or watch it closely and dread it.
+_Avoid_: valence, opinion score, disposition
+
+**Attitude**:
+A Belief with a Subject that is a kind of being and a Stance toward it — the prehistory every encounter with that kind carries. Encounters move it slowly; one that marks the Character deeply (saved from death, badly wounded) moves it a lot. Encounters can wear a Stance down to almost nothing, but never turn it — turning a prejudice is the Reflection's work, which rewrites the Belief with the Stance turned.
+_Avoid_: relationship, reputation, faction standing
+
+**Impression**:
+A Belief with a Subject that is a place and a Stance toward it. Lived or only heard (its Source); the first visit tests a heard Impression, and the gap between what the Mind expected and what it found is felt.
+_Avoid_: location note, region opinion, lore
+
+**Source**:
+How a Mind came to hold a Belief: lived it, heard it, or carries it as legend. Lived outweighs heard; a heard Belief turns lived the first time the Character meets its Subject.
+_Avoid_: provenance, origin, reliability
+
+**Pull**:
+A Belief's sensitivity to a state of the Character's Condition: as that state deepens, the Belief speaks more and weighs more (a darkening thought under the shadow), or less (a virtue the shadow dims). The state is one the Host declared.
+_Avoid_: modifier, corruption, buff
+
+**Latent belief**:
+A Belief held so faintly it rarely speaks, often the opposite of something the Character firmly holds — the virtue or the doubt that life can grow into conviction.
+_Avoid_: hidden belief, secret, potential
+
+**Habit**:
+A Belief about a small ritual the Character keeps (a pipe at the fire) tied to something it possesses. With the possession at hand the ritual can colour the Episode; when it runs out, the lack becomes a Need.
+_Avoid_: vice, routine, addiction
 
 **Need**:
 What the Mind lacks and asks of the Episode: something the body or spirit wants (food, water, rest, healing, relief from the shadow) or an open loop it carries (a Thread). Always told with what caused it. Reaches the Lens when it is new, worsening or touched by the Episode; past an urgency threshold it always speaks, even unchanged.
 _Avoid_: drive, requirement, status effect, quest
 
 **Thread**:
-An open loop the Mind carries as a Need — a promise, an unfinished encounter, a goal of any horizon, short or lifelong. It opens when an Event declares it and resolves when the world closes it or the outcome says so; it is something the Character lived, never a flag the host tracks.
+An open loop the Mind carries as a Need — a promise, an unfinished encounter, a goal of any horizon, short or lifelong. It opens when an Event declares it and resolves when the world closes it or the outcome says so; it is something the Character lived, never a flag the host tracks. A Character may also bring Threads with it from its preset — a personal goal that wakes when the Episode reaches the place it is about.
 _Avoid_: quest, goal, mission, plot hook
 
 **Detector**:

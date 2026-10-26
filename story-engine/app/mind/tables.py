@@ -257,6 +257,12 @@ class MoldStarterBelief(Base):
     tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
     # {tag: magnitude} cloned into beliefs.boosts — B6.
     boosts: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    # Facets, cloned as-is into beliefs (see Belief).
+    subject: Mapped[list] = mapped_column(JSONB, nullable=True)
+    stance: Mapped[float] = mapped_column(Float, nullable=True)
+    source: Mapped[str] = mapped_column(String(20), nullable=True)
+    pull: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    habit: Mapped[dict] = mapped_column(JSONB, nullable=True)
 
 
 class Brain(Base):
@@ -358,6 +364,22 @@ class Belief(Base):
     origin: Mapped[str] = mapped_column(String(30), nullable=False, default='experience')
     status: Mapped[str] = mapped_column(String(20), nullable=False, default='active')
     boosts: Mapped[dict] = mapped_column(JSONB, nullable=True)  # reserved, B6
+    # Facets (CONTEXT.md · Belief): all optional; a belief without them is
+    # a plain thought.
+    #   subject  [tag, ...] — the kind of being or place it is about: the
+    #            tags that count as 'the same thing' for this mind (a
+    #            family, a list of entities, a type).
+    #   stance   -1..1 — loathing to love. subject+stance = an Attitude
+    #            (being) or an Impression (place).
+    #   source   'lived' | 'heard' | 'legend'.
+    #   pull     {state, direction} — sensitivity to a declared Condition
+    #            state (phase 4).
+    #   habit    {resource, ...} — a ritual tied to a possession (phase 5).
+    subject: Mapped[list] = mapped_column(JSONB, nullable=True)
+    stance: Mapped[float] = mapped_column(Float, nullable=True)
+    source: Mapped[str] = mapped_column(String(20), nullable=True)
+    pull: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    habit: Mapped[dict] = mapped_column(JSONB, nullable=True)
     formed_episode: Mapped[int] = mapped_column(Integer, nullable=True)
     updated_episode: Mapped[int] = mapped_column(Integer, nullable=True)
 

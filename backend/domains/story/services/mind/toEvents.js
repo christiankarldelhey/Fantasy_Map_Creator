@@ -20,7 +20,8 @@
 //   meal      — one per meal slot: data: {slot, eaten, food, drink}
 //   rest      — overnight: data: {rest_quality, shadow_effect, place,
 //               description} — the place's own prose carries the night
-//   encounter — one per encounter: data: {entity, entity_type, danger,
+//   encounter — one per encounter: data: {entity, entity_type, family,
+//               danger,
 //               form, outcome, prose_hint, intensity, check,
 //               topic, substance} — form is how contact happened
 //               (sign_only/sound_only/confronts...), outcome only exists
@@ -160,6 +161,9 @@ function encounterEvents(day) {
           entity_name: e.entity.name || null,
           entity_id: e.entity.id,
           entity_type: e.entity.type || e.entity.entity_type || null,
+          // Kind-of-being between type and entity (foxes within
+          // carnivores) — attitudes match entity > family > type.
+          family: e.entity.family ?? null,
           danger: e.entity.danger_level ?? e.entity.danger ?? null,
           // How contact happened matters more than its mechanical result:
           // 'sign_only' is a different experience than 'confronts'.

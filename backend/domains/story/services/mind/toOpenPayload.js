@@ -67,7 +67,7 @@ function slimEncounter(e) {
     phase: e.phase ?? null,
     region: e.region ?? null,
     entity: e.entity
-      ? pick(e.entity, ['name', 'type', 'active', 'description', 'description_summary'])
+      ? pick(e.entity, ['name', 'type', 'family', 'active', 'description', 'description_summary'])
       : null,
     interaction: e.interaction
       ? pick(e.interaction, ['form', 'outcome', 'prose_hint', 'dialogue_content', 'hintKey', 'night_timing'])

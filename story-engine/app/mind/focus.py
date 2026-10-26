@@ -19,6 +19,7 @@
 # ============================================================================
 import re
 
+from app.mind.attitudes import is_attitude, match_level
 from app.mind.nl_resolver import phrases as nl_phrases
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.retrieval import _contact_tags
@@ -175,7 +176,8 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     bonus = w.get('belief_specificity_bonus', 0.25)
     belief_lines = []
     for b in beliefs or []:
-        btags = set(b.tags or [])
+        # An Attitude's Subject is part of what it answers to.
+        btags = set(b.tags or []) | set(getattr(b, 'subject', None) or [])
         hit, overlap = None, 0
         for m in moments:
             if btags:
@@ -223,8 +225,29 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
                 * (1 + bonus * (overlap - 1))
             ),
             'connects_to': hit['id'], 'tagged': bool(btags),
+            'att_level': (
+                match_level(b, hit['touch_tags']) if is_attitude(b) else 0
+            ),
             'why': f'at stake in: {hit["text"][:60]}',
         })
+    # One encounter, one attitude: the narrowest subject speaks for it
+    # (the horses of Mordor over horses); wider ones step back.
+    narrowest = {}
+    for line in belief_lines:
+        if line.get('att_level'):
+            key = line['connects_to']
+            narrowest[key] = max(narrowest.get(key, 0), line['att_level'])
+    kept = []
+    for line in belief_lines:
+        lvl = line.get('att_level')
+        if lvl and lvl < narrowest[line['connects_to']]:
+            silenced.append({
+                'kind': 'belief', 'text': line['text'], 'stage': 'filter',
+                'reason': 'a closer attitude speaks for this encounter',
+            })
+            continue
+        kept.append(line)
+    belief_lines = kept
 
     # --- memories: evoked by the day; anchored ones wait for their phase -
     memory_lines = []
@@ -402,7 +425,8 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     def strip(c):
         return {
             k: v for k, v in c.items()
-            if k not in ('tags', 'touch_tags', 'urgent', 'tagged')
+            if k not in ('tags', 'touch_tags', 'urgent', 'tagged',
+                         'att_level')
         }
 
     lines = [strip(c) for c in chosen]
@@ -416,7 +440,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         # from. Not stored: the caller pops it before persisting.
         'candidates': [
             {k: v for k, v in c.items()
-             if k not in ('tags', 'touch_tags', 'tagged')}
+             if k not in ('tags', 'touch_tags', 'tagged', 'att_level')}
             for c in events + pool
         ],
     }

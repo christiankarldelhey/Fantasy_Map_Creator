@@ -21,6 +21,7 @@ from datetime import datetime, timezone
 
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
+from app.mind.attitudes import drift as attitude_drift
 from app.mind.director import direct, director_enabled
 from app.mind.focus import brief_lines, build_brief, need_origins
 from app.mind.lens import (
@@ -443,6 +444,9 @@ def close_episode(
             )
             update_streak_counters(db, brain, episode)
             summary.update(close_episode_memory(db, brain, episode))
+            # Attitudes move by how their encounters went — before the
+            # reflection, so it reads the stance the day left behind.
+            summary['attitudes_moved'] = attitude_drift(db, brain, episode)
             # B4: the mind's only LLM call. Trigger-gated; a skipped or
             # failed reflection never breaks the close.
             summary['reflection'] = maybe_reflect(
@@ -757,7 +761,9 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
                 'id': b.id, 'kind': b.kind, 'horizon': b.horizon,
                 'statement': b.statement,
                 'confidence': b.confidence, 'origin': b.origin,
-                'status': b.status,
+                'status': b.status, 'subject': b.subject,
+                'stance': b.stance, 'source': b.source,
+                'pull': b.pull, 'habit': b.habit,
             }
             for b in beliefs
         ],

@@ -143,6 +143,17 @@ DEFAULT_WIRING = {
     # multiplies its score by (1 + bonus) — the specific thought (orc
     # SIGNS) outranks the generic one (orcs); rotation breaks true ties.
     'belief_specificity_bonus': 0.25,
+    # Attitudes (CONTEXT.md · Attitude): how far the stance leans what an
+    # encounter feels like, how much it adds to what the mind notices,
+    # and how it moves at close — a step per encounter, a big one when
+    # the world's valence marked the character (|v| >= marked), nothing
+    # for encounters that barely registered.
+    'attitude_affect_gain': 0.5,
+    'attitude_attention_gain': 0.3,
+    'attitude_drift': 0.05,
+    'attitude_drift_marked': 0.25,
+    'attitude_marked_valence': 0.6,
+    'attitude_drift_min_valence': 0.05,
     # Evidence gate (C7): beliefs need lived weight — a memory reaches
     # the reflection prompt only if it mattered (importance) or was felt
     # (|valence|); drizzle never becomes conviction. And a worldview
@@ -314,6 +325,10 @@ def seed_starter_beliefs(session, game_id, character_id, mold):
             statement=sb.statement, confidence=sb.confidence,
             tags=list(sb.tags or []), boosts=dict(sb.boosts or {}),
             evidence=[], origin='seed', status='active',
+            subject=list(sb.subject) if sb.subject else None,
+            stance=sb.stance, source=sb.source,
+            pull=dict(sb.pull) if sb.pull else None,
+            habit=dict(sb.habit) if sb.habit else None,
         )
         session.add(b)
         seeds.append(b)

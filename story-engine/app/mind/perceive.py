@@ -18,6 +18,7 @@
 # ============================================================================
 import re
 
+from app.mind.attitudes import active_attitudes, attitude_for, felt_valence
 from app.mind.boosts import effective_theme_weights
 from app.mind.checks import (
     asleep_check_result,
@@ -464,6 +465,7 @@ def perceive_events(session, game_id, brain, events, character=None):
     weights = effective_theme_weights(session, brain)
     w = {**DEFAULT_WIRING, **(brain.wiring or {})}
     state = character_state(character, events)
+    attitudes = active_attitudes(session, brain)
 
     perceived = []
     for index, event in enumerate(events or []):
@@ -537,6 +539,18 @@ def perceive_events(session, game_id, brain, events, character=None):
             'tags': tags,
             'evoked': [],
         }
+        # An Attitude colours how the encounter felt — unless the host
+        # declared the valence. world_valence keeps the uncoloured
+        # reading: it is what moves the attitude at close, so a love
+        # never feeds on its own echo.
+        attitude = (
+            attitude_for(tags, attitudes)
+            if host_valence is None and perception != 'unnoticed' else None
+        )
+        if attitude is not None:
+            item['world_valence'] = item['valence']
+            item['valence'] = round(felt_valence(valence, attitude, w), 3)
+            item['attitude'] = attitude.id
         if check_result:
             check_result['perception'] = perception
             item['check'] = check_result
