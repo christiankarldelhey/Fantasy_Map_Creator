@@ -143,19 +143,37 @@ async function regionsForPoints(points) {
 
 /** Entities whose probability_by_region includes the given region name. */
 async function entitiesForRegion(regionName) {
-  const { rows } = await pool.query(
-    `SELECT e.id, e.name, e.slug, e.type, e.active, e.danger, e.description, e.description_summary, e.url_path,
-            e.biomes, e.probability_by_region, e.shadow_weight,
-            COALESCE(e.family, p.slug) AS family
-     FROM entities e
-     LEFT JOIN entities p ON p.id = e.parent_id
-     WHERE EXISTS (
-       SELECT 1 FROM jsonb_array_elements(e.probability_by_region) pbr
-       WHERE pbr->>'region' = $1
-     )`,
-    [regionName]
-  );
-  return rows;
+  // family ships ahead of its migration: if the column isn't there yet
+  // (pre-deploy DB), fall back to the pre-family shape rather than
+  // breaking every encounter roll.
+  try {
+    const { rows } = await pool.query(
+      `SELECT e.id, e.name, e.slug, e.type, e.active, e.danger, e.description, e.description_summary, e.url_path,
+              e.biomes, e.probability_by_region, e.shadow_weight,
+              COALESCE(e.family, p.slug) AS family
+       FROM entities e
+       LEFT JOIN entities p ON p.id = e.parent_id
+       WHERE EXISTS (
+         SELECT 1 FROM jsonb_array_elements(e.probability_by_region) pbr
+         WHERE pbr->>'region' = $1
+       )`,
+      [regionName]
+    );
+    return rows;
+  } catch (err) {
+    if (err.code !== '42703') throw err; // undefined_column only
+    const { rows } = await pool.query(
+      `SELECT id, name, slug, type, active, danger, description, description_summary, url_path,
+              biomes, probability_by_region, shadow_weight
+       FROM entities
+       WHERE EXISTS (
+         SELECT 1 FROM jsonb_array_elements(probability_by_region) e
+         WHERE e->>'region' = $1
+       )`,
+      [regionName]
+    );
+    return rows;
+  }
 }
 
 // Daily checkpoints are computed in routing.js; tripDay.js uses them directly.

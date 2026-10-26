@@ -331,6 +331,77 @@ async function seedEntities() {
 }
 
 // ---------------------------------------------------------------------------
+// Backfill: entities.family (migration: add_family_to_entities.sql)
+// Runs after seedEntities so every deploy (and a fresh DB) ends classified:
+//   1. races inherit their parent's slug as family (noldor, common_orcs...);
+//   2. flat groups — animals, monsters, no parent — get a declared family
+//      (foxes inside carnivores, wargs kept apart from plain wolves).
+// The declared map is the source of truth for those slugs and re-asserts;
+// the parent fill only touches family IS NULL so hand-tuned rows keep theirs.
+// ---------------------------------------------------------------------------
+const DECLARED_FAMILIES = [
+  ['foxes', 'foxes'], ['red_foxes_of_calenardhon', 'foxes'], ['white_foxes', 'foxes'],
+  ['wolves', 'wolves'], ['grey_wolves', 'wolves'], ['red_wolves', 'wolves'],
+  ['white_wolves', 'wolves'], ['dire_wolves', 'wolves'],
+  ['warg_pack', 'wargs'], ['war_wolves', 'wargs'], ['werewolves', 'wargs'],
+  ['hounds', 'dogs'], ['sheep_hounds', 'dogs'], ['wild_dogs', 'dogs'],
+  ['dunmen_s_dogs', 'dogs'],
+  ['eagle', 'eagles'], ['great_eagles', 'eagles'], ['golden_eagle', 'eagles'],
+  ['sea_eagles', 'eagles'], ['red_eagles', 'eagles'], ['vereut_eagles', 'eagles'],
+  ['crows', 'crows'], ['crebain', 'crows'], ['gorcrows', 'crows'],
+  ['green_winged_crows', 'crows'],
+  ['owls', 'owls'], ['barrow_owls', 'owls'], ['short_eared_owls', 'owls'],
+  ['bats', 'bats'], ['great_bats', 'bats'], ['giant_vampire_bat', 'bats'],
+  ['hunting_bats', 'bats'], ['pond_bats', 'bats'], ['flying_foxes', 'bats'],
+  ['black_swans', 'swans'], ['pied_swans', 'swans'],
+  ['birds', 'birds'], ['chamber_birds', 'birds'], ['waterfowl', 'birds'],
+  ['woodland_birds_of_rhosgobel', 'birds'],
+  ['deer', 'deer'], ['dappled_deer', 'deer'], ['elk', 'deer'], ['great_elk', 'deer'],
+  ['elven_horses', 'horses'], ['horses_of_mordor', 'horses'],
+  ['horses_of_rohan', 'horses'], ['wild_horses', 'horses'], ['horse_herds', 'horses'],
+  ['goats', 'goats'], ['wild_goats', 'goats'], ['mountain_goat', 'goats'],
+  ['sheep', 'sheep'], ['sheep_pastures', 'sheep'],
+  ['cattle_herds', 'cattle'], ['mordor_cattle', 'cattle'],
+  ['boars', 'boars'], ['fen_boars', 'boars'],
+  ['bears', 'bears'], ['black_bears', 'bears'], ['blue_bears', 'bears'],
+  ['cave_bears', 'bears'], ['north_bears', 'bears'], ['sloth_bear', 'bears'],
+  ['cats', 'cats'], ['fishing_cats', 'cats'], ['grass_cats', 'cats'], ['cathfiar', 'cats'],
+  ['mammals_otters_minks_rodents', 'small_mammals'],
+  ['spiders', 'spiders'], ['giant_spiders', 'spiders'], ['king_spiders', 'spiders'],
+  ['trolls', 'trolls'], ['cave-trolls', 'trolls'], ['forest_trolls', 'trolls'],
+  ['half-trolls', 'trolls'], ['hill_troll', 'trolls'], ['snow_troll', 'trolls'],
+  ['stone-trolls', 'trolls'], ['tereg_trolls_of_dol_guldur', 'trolls'],
+  ['young_trolls', 'trolls'],
+  ['dragons', 'dragons'], ['greater_dragon', 'dragons'], ['lesser_dragon', 'dragons'],
+  ['balrogs', 'demons'],
+  ['undead', 'undead'], ['barrow_wights', 'undead'], ['ghosts', 'undead'],
+  ['great_serpent', 'serpents'],
+  ['ancient_mountain_pines_of_rhudaur', 'trees'],
+];
+
+async function backfillEntityFamilies() {
+  // Children inherit the parent's kind: elves_of_rivendell -> noldor,
+  // huorn -> ents, orc_patrol -> common_orcs.
+  const parents = await pool.query(`
+    UPDATE entities child
+    SET family = parent.slug
+    FROM entities parent
+    WHERE child.parent_id = parent.id
+      AND child.family IS NULL
+  `);
+  const declared = await pool.query(
+    `UPDATE entities e SET family = m.family
+     FROM (SELECT * FROM unnest($1::text[], $2::text[])) AS m(slug, family)
+     WHERE e.slug = m.slug`,
+    [
+      DECLARED_FAMILIES.map(([slug]) => slug),
+      DECLARED_FAMILIES.map(([, family]) => family),
+    ]
+  );
+  console.log(`✅ entities family: ${parents.rowCount} inherited from parent, ${declared.rowCount} declared`);
+}
+
+// ---------------------------------------------------------------------------
 // Seed: locations & roads (pure SQL INSERT files — safe to run via pool.query)
 // Uses ON CONFLICT (id) DO UPDATE to avoid TRUNCATE CASCADE, which would wipe
 // dependent tables like places_interactions and trip_days on every deploy.
@@ -849,6 +920,14 @@ async function ensureSchema() {
     ALTER TABLE entities
       ADD COLUMN IF NOT EXISTS is_npc BOOLEAN NOT NULL DEFAULT false
   `);
+
+  // entities: family — kind-of-being between type and entity
+  // (migration: add_family_to_entities.sql). The mind reads it as
+  // tag:family:* for attitude specificity (entity > family > type).
+  await pool.query(`
+    ALTER TABLE entities
+      ADD COLUMN IF NOT EXISTS family TEXT
+  `);
   await pool.query(`
     UPDATE entities
       SET is_npc = true
@@ -1081,6 +1160,7 @@ async function main() {
     await seedEncounterForms();
     await seedNpcInteractions();
     await seedEntities();
+    await backfillEntityFamilies();
     await seedRegionBiomeDescriptions();
     await seedRegionBiomeVariants();
     await seedRegionSeasonalDescriptions();
