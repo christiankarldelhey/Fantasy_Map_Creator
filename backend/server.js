@@ -169,6 +169,8 @@ app.listen(PORT, () => {
   console.log(`💧 Water: http://localhost:${PORT}/api/water`);
   console.log(`🔺 Peaks: http://localhost:${PORT}/api/peaks`);
   console.log(`🏔️  DEM: http://localhost:${PORT}/api/dem`);
+  const mindEngine = ['on', 'true', '1'].includes((process.env.MIND_ENGINE || '').toLowerCase());
+  console.log(`🧠 Mind engine: ${mindEngine ? 'on' : 'off'} (MIND_ENGINE=${process.env.MIND_ENGINE || 'unset'})`);
 
   // Preload the route graph in the background so /api/directions doesn't have to
   // pay the build cost on the first request.

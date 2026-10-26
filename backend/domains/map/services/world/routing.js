@@ -705,6 +705,36 @@ export function findShortestPath(roads, startCoord, endCoord, config, endpointTe
   return routeOnNetwork(network, startCoord, endCoord, config, endpointTerrain);
 }
 
+// ---------------------------------------------------------------------------
+// Water endpoints
+// Overland travel can't end on the water. Lakes/seas test by polygon,
+// rivers/streams by a small buffer around the line. A named location sitting
+// on water (a lake town) stays reachable — the place, not the water, is the
+// goal.
+// ---------------------------------------------------------------------------
+const WATER_LINE_BUFFER_M = 30;
+const WATER_LOCATION_EXEMPT_M = 2000;
+
+export async function endpointOnWater(lng, lat) {
+  const query = `
+    WITH pt AS (SELECT ST_SetSRID(ST_MakePoint($1, $2), 4326) AS geom)
+    SELECT
+      EXISTS (
+        SELECT 1 FROM water w, pt
+        WHERE w.geom IS NOT NULL AND (
+          (w.water_type IN ('lake', 'sea') AND ST_Intersects(w.geom, pt.geom))
+          OR (w.water_type IN ('river', 'stream') AND ST_DWithin(w.geom::geography, pt.geom::geography, $3))
+        )
+      ) AS in_water,
+      EXISTS (
+        SELECT 1 FROM locations l, pt
+        WHERE ST_DWithin(l.geom::geography, pt.geom::geography, $4)
+      ) AS near_location;
+  `;
+  const { rows } = await pool.query(query, [lng, lat, WATER_LINE_BUFFER_M, WATER_LOCATION_EXEMPT_M]);
+  return rows[0].in_water && !rows[0].near_location;
+}
+
 /**
  * Compute a hybrid shortest-path route between two coordinates.
  * Returns the same structure used by the /api/directions endpoint.

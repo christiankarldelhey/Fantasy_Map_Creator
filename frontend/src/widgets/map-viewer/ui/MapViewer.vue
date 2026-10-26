@@ -242,7 +242,7 @@ watch(() => props.mode, (newMode) => {
   applyModeTheme(mapViewerRoot.value, newMode || 'explore')
 }, { immediate: true })
 
-const { isDirectionsMode, origin, startDirections, exitDirections, setOrigin, setDestination, routeData, configureForMode } = useDirections()
+const { isDirectionsMode, origin, startDirections, exitDirections, setOrigin, setDestination, routeData, routeError, configureForMode } = useDirections()
 const { isMobile } = useBreakpoint()
 
 // Guest mode: no auth token present. In this mode there is no active character,
@@ -323,36 +323,43 @@ const combinedError = computed(() => mapError.value || error.value)
 const layersInitialized = ref(false)
 
 function handleAddMarker(lng: number, lat: number) {
-  if (map) {
-    addMarker(map, lng, lat)
-    lastSelectedCoordinates.value = [lng, lat]
+  if (!map) return
+  addMarker(map, lng, lat)
+  lastSelectedCoordinates.value = [lng, lat]
 
-    if (isDirectionsMode.value) {
-      // In explore/guest mode there is no active character, so the first map
-      // click sets the origin. Once an origin exists, further clicks set the
-      // destination (Google Maps-style).
-      if ((isGuest.value || props.mode === 'explore') && !origin.value) {
-        setOrigin({
-          name: t('map.pointLabel', { lng: lng.toFixed(2), lat: lat.toFixed(2) }),
-          type: 'custom',
-          coordinates: [lng, lat]
-        })
-      } else if (pendingDestinationLocation.value) {
-        setDestination({
-          name: pendingDestinationLocation.value.name,
-          type: pendingDestinationLocation.value.type === 'Region' ? 'region' : 'location',
-          coordinates: [lng, lat]
-        })
-        pendingDestinationLocation.value = null
-      } else {
-        setDestination({
-          name: t('map.pointLabel', { lng: lng.toFixed(2), lat: lat.toFixed(2) }),
-          type: 'custom',
-          coordinates: [lng, lat]
-        })
-      }
-    }
+  if (!isDirectionsMode.value) return
+
+  // The click handler resolves the point's details before calling us, so the
+  // pending details are fresh — consume them now to name the point after the
+  // place/region it sits in instead of a bare "Point [lng, lat]".
+  const pending = pendingDestinationLocation.value
+  pendingDestinationLocation.value = null
+
+  const coordsLabel = t('map.pointLabel', { lng: lng.toFixed(2), lat: lat.toFixed(2) })
+  const name = pending && pending.name && pending.name !== 'Unknown Location'
+    ? pending.name
+    : pending?.region?.name || coordsLabel
+  const type = pending?.type === 'Region'
+    ? 'region'
+    : pending && pending.type !== 'point' ? 'location' : 'custom'
+
+  // In explore/guest mode there is no active character, so the first map
+  // click sets the origin. Once an origin exists, further clicks set the
+  // destination (Google Maps-style).
+  if ((isGuest.value || props.mode === 'explore') && !origin.value) {
+    setOrigin({ name, type: 'custom', coordinates: [lng, lat] })
+    return
   }
+
+  // On foot, water can be clicked (marker + info) but never travelled to.
+  // Named locations are exempt — some sit on water by design (lake towns).
+  const isNamedLocation = !!pending && pending.type !== 'point' && pending.type !== 'Region'
+  if (pending?.water && !isNamedLocation) {
+    routeError.value = t('directions.waterDestination')
+    return
+  }
+
+  setDestination({ name, type, coordinates: [lng, lat] })
 }
 
 function updateCharacterMarker() {
@@ -559,6 +566,15 @@ onUnmounted(() => {
 
 function handleSearchSelect(result: SearchResult) {
   if (!map) return
+
+  // While picking a route, the searched name becomes the point's name —
+  // otherwise the destination field would show raw coordinates.
+  if (isDirectionsMode.value) {
+    pendingDestinationLocation.value = {
+      name: result.name,
+      type: result.type === 'region' ? 'Region' : 'location',
+    } as LocationDetails
+  }
 
   if (result.type === 'location') {
     // Reset region border highlight

@@ -3,6 +3,10 @@ set -uo pipefail
 
 export STORY_ENGINE_URL="${STORY_ENGINE_URL:-http://127.0.0.1:8001}"
 
+# Narration goes through the Mind Engine by default in prod; set MIND_ENGINE=off
+# in the host env to keep the stateless /narrate-day path.
+export MIND_ENGINE="${MIND_ENGINE:-on}"
+
 cd /app/story-engine
 if ! /opt/venv/bin/alembic upgrade head; then
   echo "WARN: alembic upgrade failed — mind endpoints will run degraded, narrator unaffected" >&2

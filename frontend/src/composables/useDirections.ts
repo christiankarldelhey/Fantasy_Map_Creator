@@ -135,7 +135,9 @@ async function calculateRoute() {
     routeData.value = response.data
   } catch (error: any) {
     console.error('Error fetching directions:', error)
-    routeError.value = error?.response?.data?.error || i18n.global.t('errors.routeCalcFailed')
+    routeError.value = error?.response?.data?.code === 'destination_on_water'
+      ? i18n.global.t('directions.waterDestination')
+      : error?.response?.data?.error || i18n.global.t('errors.routeCalcFailed')
     routeData.value = null
   } finally {
     routeLoading.value = false

@@ -5,6 +5,7 @@ import { createSeededRng } from '../services/world/encounters.js';
 import {
   computeRoute,
   climateStats,
+  endpointOnWater,
 } from '../adapters/mapClient.js';
 import {
   collectTravellerState,
@@ -70,6 +71,14 @@ router.post('/', authenticateToken, async (req, res, next) => {
 
     if ([startLng, startLat, endLng, endLat].some((n) => isNaN(n))) {
       return res.status(400).json({ error: 'Invalid coordinates' });
+    }
+
+    // Overland trips can't end on the water (locations on water are exempt).
+    if (await endpointOnWater(endLng, endLat)) {
+      return res.status(400).json({
+        error: 'Destination is on the water',
+        code: 'destination_on_water',
+      });
     }
 
     const route = await computeRoute({

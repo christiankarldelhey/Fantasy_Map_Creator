@@ -154,6 +154,7 @@
     "swap": "Swap origin and destination",
     "calculatingRoute": "Calculating route…",
     "errorPrefix": "⚠️ ",
+    "waterDestination": "You can't travel to a spot on the water. Pick somewhere on land.",
     "totalDistance": "Total distance",
     "itinerary": "Itinerary",
     "offRoadApproach": "Off-road approach",

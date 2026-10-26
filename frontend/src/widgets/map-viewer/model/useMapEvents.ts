@@ -69,12 +69,10 @@ export function useMapEvents() {
         return
       }
 
-      // For any other click (biome, road, water, or empty space), try to fetch region details
-      if (addMarker) {
-        addMarker(lng, lat)
-      }
-
-      // Try to fetch region details first (since we're not on a location)
+      // For any other click (biome, road, water, or empty space), resolve what
+      // the point actually is BEFORE placing the marker: the marker handler
+      // consumes the resolved details (pendingDestinationLocation) to name a
+      // directions destination, so it must run after onLocationClick.
       const regionDetails = await fetchRegionDetailsAtPoint(map, lng, lat, timestamp)
       if (regionDetails && onLocationClick) {
         onLocationClick(regionDetails)
@@ -84,6 +82,10 @@ export function useMapEvents() {
         if (locationDetails && onLocationClick) {
           onLocationClick(locationDetails)
         }
+      }
+
+      if (addMarker) {
+        addMarker(lng, lat)
       }
     })
   }

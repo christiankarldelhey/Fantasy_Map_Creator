@@ -1,5 +1,5 @@
 import express from 'express';
-import { computeRoute } from '../services/world/routing.js';
+import { computeRoute, endpointOnWater } from '../services/world/routing.js';
 
 const router = express.Router();
 
@@ -19,6 +19,15 @@ router.get('/', async (req, res, next) => {
 
     if (isNaN(startLng) || isNaN(startLat) || isNaN(endLng) || isNaN(endLat)) {
       return res.status(400).json({ error: 'Invalid coordinates' });
+    }
+
+    // All current transport modes are overland: a destination on the water is
+    // not routable. (Locations on water are exempt inside endpointOnWater.)
+    if (await endpointOnWater(endLng, endLat)) {
+      return res.status(400).json({
+        error: 'Destination is on the water',
+        code: 'destination_on_water',
+      });
     }
 
     const route = await computeRoute({
