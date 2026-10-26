@@ -284,7 +284,8 @@ def reflection_beliefs(session, brain, memories, since_idx, w):
     for b in seeds:
         btags = set(b.tags or [])
         by_tag = sum(1 for m in memories if btags & set(m.tags or []))
-        by_word = sum(
+        # Same rule as the Lens: a tagged seed touches by tag only.
+        by_word = 0 if btags else sum(
             1 for m in memories if _touches([], b.statement, [], m.desc)
         )
         is_voiced = b.id in voiced

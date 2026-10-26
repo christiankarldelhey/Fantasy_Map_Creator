@@ -20,7 +20,9 @@ from app.mind.provisioning import get_or_create_brain
 from app.mind.reflection import _apply_ops, reflection_beliefs
 from app.mind.retrieval import _CONTACT_AMBIENT_PREFIXES, _context_tags
 from app.mind.tables import Belief, BrainMold, Episode, MoldStarterBelief
-from app.mind.thought_packs import ARANATH_THOUGHTS, CELEBRIAN_THOUGHTS
+from app.mind.thought_packs import (
+    ARANATH_THOUGHTS, CELEBRIAN_THOUGHTS, LEGACY_REWRITES,
+)
 
 
 def _event(reading, salience, phase=None, tags=(), type_='encounter',
@@ -258,6 +260,10 @@ ALL_THOUGHTS = [
     for who, pack in (('celebrian', CELEBRIAN_THOUGHTS),
                       ('aranath', ARANATH_THOUGHTS))
     for t in pack
+] + [
+    pytest.param({'statement': new, 'tags': tags}, id=f'{who}:0014:{new[:30]}')
+    for who, rewrites in LEGACY_REWRITES.items()
+    for _old, new, _old_tags, tags in rewrites
 ]
 
 
@@ -408,3 +414,68 @@ def test_reflection_seed_cap_keeps_the_most_touched():
     assert len(weak) == 30
     session.rollback()
     session.close()
+
+
+# --- after the live run: quiet days, word luck, specificity, voice ---------
+
+def test_a_quiet_day_still_hears_the_campfire():
+    """Live run, day 5: a rest at salience 0.19 is no Focus candidate,
+    yet the thought about the campfire is exactly about it."""
+    fire = _belief('The small fire of a campfire…', tags=['type:rest'],
+                   id_='fire')
+    alone = _belief('Solitude is not emptiness.', tags=['context:solitude'],
+                    id_='alone')
+    day = QUIET + [_event('a small fire under old beeches', 0.19, 'night',
+                          ['type:rest'], type_='rest')]
+    brief = build_brief(day, [], [fire, alone], [], {}, episode_idx=0)
+    assert brief['focus'] is None
+    score = {l['text']: l['score'] for l in _all_lines(brief)}
+    assert fire.statement in score
+    # What the day touched outranks free-floating thought.
+    assert score[fire.statement] > score[alone.statement]
+
+
+def test_tagged_thoughts_do_not_match_by_word_luck():
+    """Live run, day 2: 'space' met 'wide-spaced'. A tagged belief now
+    touches by tag only; untagged ones keep the word door."""
+    poem = _belief('Solitude is not emptiness; it is space to remember.',
+                   tags=['tag:entity_type:elves'], id_='poem')
+    plain = _belief('Wide tracks mean many feet.', id_='plain')
+    tracks = [_event('orc boots in the mud, wide-spaced', 0.7, 'afternoon',
+                     ['type:encounter', 'tag:entity_type:orcs'])]
+    brief = build_brief(tracks, [], [poem, plain], [], {}, episode_idx=0)
+    texts = _texts(brief)
+    assert poem.statement not in texts
+    assert plain.statement in texts
+
+
+def test_the_more_specific_thought_wins():
+    """Live run, day 2: orcs AND signs beats orcs alone or signs alone,
+    whatever the rotation says."""
+    tracks = [_event('orc boots in the mud', 0.7, 'afternoon',
+                     ['type:encounter', 'tag:entity_type:orcs',
+                      'tag:form:sign_only'])]
+    generic = [
+        _belief(f'about orcs {i}', tags=['tag:entity_type:orcs'],
+                id_=f'g{i}')
+        for i in range(5)
+    ]
+    specific = _belief('orcs and their signs',
+                       tags=['tag:entity_type:orcs', 'tag:form:sign_only'],
+                       id_='s')
+    for idx in range(6):
+        brief = build_brief(tracks, [], generic + [specific], [], {},
+                            episode_idx=idx)
+        assert specific.statement in _texts(brief), idx
+
+
+def test_every_seed_speaks_in_the_first_person():
+    """Live run, day 4: 'She trusts growing things…' broke the voice."""
+    import re
+    third = re.compile(r'^(She|He)\b')
+    for pack in (CELEBRIAN_THOUGHTS, ARANATH_THOUGHTS):
+        for t in pack:
+            assert not third.match(t['statement']), t['statement']
+    for rewrites in LEGACY_REWRITES.values():
+        for _old, new, _o, _n in rewrites:
+            assert not third.match(new), new

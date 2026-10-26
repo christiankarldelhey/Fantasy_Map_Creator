@@ -139,6 +139,10 @@ DEFAULT_WIRING = {
     # (touch its memories, or voiced since the last reflection), at most
     # this many — a rich seed library must not flood the prompt.
     'reflection_seed_cap': 25,
+    # Lens: each extra tag a belief shares with the moment it touches
+    # multiplies its score by (1 + bonus) — the specific thought (orc
+    # SIGNS) outranks the generic one (orcs); rotation breaks true ties.
+    'belief_specificity_bonus': 0.25,
     # Evidence gate (C7): beliefs need lived weight — a memory reaches
     # the reflection prompt only if it mattered (importance) or was felt
     # (|valence|); drizzle never becomes conviction. And a worldview

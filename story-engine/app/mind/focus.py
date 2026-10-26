@@ -35,6 +35,9 @@ _ENGINE_FRAME_TYPES = {'body', 'need'}
 # Game-declared frame types — the pack's 'mind.focus_excluded' phrase list
 # (e.g. travel/terrain/climate in the built-in pack).
 FOCUS_EXCLUDED_KEY = 'mind.focus_excluded'
+# Score of a solitude line: below the weakest touched belief (confidence
+# 0.5 × the candidate floor 0.3), equal for all so rotation chooses.
+SOLITUDE_SCORE = 0.12
 _STOP = {
     'that', 'this', 'with', 'from', 'than', 'they', 'them', 'their', 'there',
     'what', 'when', 'have', 'been', 'into', 'only', 'more', 'still', 'every',
@@ -136,18 +139,17 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     )
     contact_seen = _had_contact(perceived_day)
 
-    # --- today's events: candidates for the Focus and day lines ----------
-    events = []
+    # --- today's moments: every noticed, read event; the salient ones are
+    # the Focus candidates and day lines ----------------------------------
+    moments = []
     for i, item in enumerate(perceived_day or []):
         if item.get('type') in frame_types or not item.get('reading'):
             continue
         if item.get('perception') == 'unnoticed':
             continue
         sal = item.get('salience') or 0.0
-        if sal < salient_min:
-            continue
         content = _contact_tags(item.get('tags') or [])
-        events.append({
+        moments.append({
             'id': _event_id(i), 'kind': 'event', 'part': 'day',
             'phase': _phase(item), 'text': item['reading'], 'score': sal,
             'tags': sorted(content),
@@ -158,17 +160,30 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             'touch_tags': sorted(content | {f"type:{item.get('type')}"}),
             'why': f'salience {sal:.2f}',
         })
+    events = [m for m in moments if m['score'] >= salient_min]
     day_tags = set().union(*(set(e['tags']) for e in events)) if events else set()
     day_text = ' '.join(e['text'] for e in events)
 
     # --- beliefs: what the day puts at stake, or what solitude brings up
+    # A belief may answer to a moment too small to be a Focus candidate —
+    # a forgettable night by the fire is still the campfire it is about.
+    # Tagged beliefs touch by tag only (a poem's 'space' must not meet a
+    # track's 'wide-spaced'); untagged ones keep the word door. Among the
+    # moments it touches, the one sharing the most tags wins, and every
+    # extra shared tag adds `belief_specificity_bonus` to its score — the
+    # thought about orc SIGNS beats the generic one about orcs.
+    bonus = w.get('belief_specificity_bonus', 0.25)
     belief_lines = []
     for b in beliefs or []:
-        hit = next(
-            (e for e in events
-             if _touches(b.tags, b.statement, e['touch_tags'], e['text'])),
-            None,
-        )
+        btags = set(b.tags or [])
+        hit, overlap = None, 0
+        for m in moments:
+            if btags:
+                n = len(btags & set(m['touch_tags']))
+            else:
+                n = 1 if _stems(b.statement) & _stems(m['text']) else 0
+            if n and (hit is None or (n, m['score']) > (overlap, hit['score'])):
+                hit, overlap = m, n
         if hit is None:
             # 'context:solitude' beliefs ask nothing of the day — they
             # speak when nobody touched the mind at all: the thoughts a
@@ -188,19 +203,26 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
                     'reason': 'the day had company',
                 })
                 continue
+            # A flat score, below anything the day actually touched:
+            # free-floating thought yields to what happened, and a wandering
+            # mind surfaces any of its thoughts — confidence doesn't pick,
+            # rotation does (else the most-held one speaks every quiet day).
             belief_lines.append({
                 'id': f'belief:{b.id}', 'kind': 'belief', 'part': 'carried',
                 'phase': None, 'text': b.statement,
-                'score': (b.confidence or 0.0) * 0.5,
-                'solitude': True,
+                'score': SOLITUDE_SCORE,
+                'solitude': True, 'tagged': True,
                 'why': 'the mind alone with itself',
             })
             continue
         belief_lines.append({
             'id': f'belief:{b.id}', 'kind': 'belief', 'part': 'day',
             'phase': hit['phase'], 'text': b.statement,
-            'score': (b.confidence or 0.0) * hit['score'],
-            'connects_to': hit['id'],
+            'score': (
+                (b.confidence or 0.0) * max(hit['score'], salient_min)
+                * (1 + bonus * (overlap - 1))
+            ),
+            'connects_to': hit['id'], 'tagged': bool(btags),
             'why': f'at stake in: {hit["text"][:60]}',
         })
 
@@ -330,8 +352,13 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         # needs that earned a place still speak; memories and beliefs
         # have nothing to connect to and stay silent — except solitude
         # thoughts, whose whole point is the day that touched nobody.
+        # A belief the day touched still speaks: a quiet day with a fire
+        # at night is a day for the thought about the fire.
         if focus is None:
-            return c['kind'] == 'need' or bool(c.get('solitude'))
+            return (
+                c['kind'] == 'need' or bool(c.get('solitude'))
+                or (c['kind'] == 'belief' and bool(c.get('connects_to')))
+            )
         # Solitude lines only exist on days nobody touched the mind; a
         # striking ruin seen alone is still a day alone.
         if c.get('solitude'):
@@ -346,6 +373,8 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             c.get('phase') == focus.get('phase')
         ) and c['kind'] != 'event':
             return True
+        if c.get('tagged'):
+            return False
         return _touches(
             c.get('tags'), c['text'], focus.get('tags'), focus['text']
         )
@@ -373,7 +402,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     def strip(c):
         return {
             k: v for k, v in c.items()
-            if k not in ('tags', 'touch_tags', 'urgent')
+            if k not in ('tags', 'touch_tags', 'urgent', 'tagged')
         }
 
     lines = [strip(c) for c in chosen]
@@ -386,7 +415,8 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         # Everything that passed the filter — what the director picks
         # from. Not stored: the caller pops it before persisting.
         'candidates': [
-            {k: v for k, v in c.items() if k not in ('tags', 'touch_tags')}
+            {k: v for k, v in c.items()
+             if k not in ('tags', 'touch_tags', 'tagged')}
             for c in events + pool
         ],
     }

@@ -27,7 +27,7 @@ import uuid
 import sqlalchemy as sa
 from alembic import op
 
-from app.mind.thought_packs import PACKS
+from app.mind.thought_packs import LEGACY_REWRITES, PACKS
 
 # revision identifiers, used by Alembic.
 revision = '0017'
@@ -37,9 +37,44 @@ depends_on = None
 
 GAME_ID = 'middle_earth'
 
+# Pack statements that 0014 had already seeded, with their 0014 tags —
+# upgrade retags them, downgrade must restore (not delete) them.
+SEEDED_BY_0014 = {
+    'aranath': {
+        'After danger passes, gratitude is the sharpest feeling.': [
+            'tag:form:attacks', 'tag:form:confronts', 'tag:form:sudden_peril',
+            'tag:entity_type:orcs', 'tag:entity_type:undead',
+            'tag:entity_type:trolls',
+        ],
+    },
+}
+
+
+def _rewrite(bind, slug, frm, to, tags):
+    """Swap one seed's text+tags in the mold and in every living brain of
+    that mold — confidence, evidence and status are lived and stay."""
+    params = {'g': GAME_ID, 's': slug, 'frm': frm, 'to': to,
+              'tags': json.dumps(tags)}
+    bind.execute(sa.text(
+        'UPDATE mind.mold_starter_beliefs SET statement = :to, '
+        'tags = CAST(:tags AS jsonb) WHERE statement = :frm AND mold_id = ('
+        '  SELECT id FROM mind.brain_molds WHERE game_id = :g AND slug = :s)'
+    ), params)
+    bind.execute(sa.text(
+        "UPDATE mind.beliefs SET statement = :to, tags = CAST(:tags AS jsonb) "
+        "WHERE game_id = :g AND origin = 'seed' AND statement = :frm "
+        'AND character_id IN ('
+        '  SELECT character_id FROM mind.brains '
+        '  WHERE game_id = :g AND mold_slug = :s)'
+    ), params)
+
 
 def upgrade():
     bind = op.get_bind()
+
+    for slug, rewrites in LEGACY_REWRITES.items():
+        for old, new, _old_tags, new_tags in rewrites:
+            _rewrite(bind, slug, old, new, new_tags)
 
     for slug, thoughts in PACKS.items():
         mold_id = bind.execute(
@@ -64,13 +99,11 @@ def upgrade():
                 bind.execute(
                     sa.text(
                         'UPDATE mind.mold_starter_beliefs '
-                        'SET kind = :k, confidence = :c, '
-                        'tags = CAST(:tags AS jsonb), '
+                        'SET tags = CAST(:tags AS jsonb), '
                         'boosts = CAST(:boosts AS jsonb) '
                         'WHERE id = :i'
                     ),
                     {
-                        'k': t['kind'], 'c': t['confidence'],
                         'tags': json.dumps(t['tags']),
                         'boosts': json.dumps(t['boosts']),
                         'i': existing,
@@ -143,7 +176,14 @@ def upgrade():
 def downgrade():
     bind = op.get_bind()
     for slug, thoughts in PACKS.items():
-        statements = [t['statement'] for t in thoughts]
+        # Statements 0014 already seeded go back to their 0014 tags; only
+        # what 0017 brought is deleted.
+        for statement, tags in SEEDED_BY_0014.get(slug, {}).items():
+            _rewrite(bind, slug, statement, statement, tags)
+        statements = [
+            t['statement'] for t in thoughts
+            if t['statement'] not in SEEDED_BY_0014.get(slug, {})
+        ]
         mold_id = bind.execute(
             sa.text(
                 'SELECT id FROM mind.brain_molds '
@@ -169,3 +209,7 @@ def downgrade():
             ),
             {'g': GAME_ID, 's': slug, 'st': statements},
         )
+
+    for slug, rewrites in LEGACY_REWRITES.items():
+        for old, new, old_tags, _new_tags in rewrites:
+            _rewrite(bind, slug, new, old, old_tags)

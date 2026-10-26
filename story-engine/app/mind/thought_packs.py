@@ -305,7 +305,7 @@ ARANATH_THOUGHTS = [
     _t('world', "Even a broken branch points the way; nature is full of signs for those who look.", TREES),
 
     # --- e) authored to fill the gaps — orcs, the watch, the Shire ---------
-    _t('self', "Orcs in these lands mean someone's home is next; that is a debt the watch intends to pay.", ORCS, boosts={'tag:entity_type:orcs': 0.25}),  # new
+    _t('self', "Orcs in these lands mean someone's home is next; that is a debt the watch intends to pay.", ORCS + SIGNS, boosts={'tag:entity_type:orcs': 0.25}),  # new
     _t('self', "The Enemy does not sleep; neither can the watch.", ORCS + UNDEAD + TROLLS),  # new
     _t('other', "The Shire-folk do not know what stands between them and the dark; that is the point of the watch.", HOBBITS, boosts={'tag:entity_type:hobbits': 0.2}),  # new
     _t('other', "Their peace is not luck; it is paid for quietly, by folk they will never meet.", HOBBITS + HUMANS),  # new
@@ -324,4 +324,52 @@ ARANATH_THOUGHTS = [
 PACKS = {
     'celebrian': CELEBRIAN_THOUGHTS,
     'aranath': ARANATH_THOUGHTS,
+}
+
+
+# ============================================================================
+# The first seeds (migration 0014) spoke of the character in the third
+# person and mostly carried no tags — they could only speak by word luck.
+# Rewritten in the pack's voice with tags the Lens can see:
+# (old statement, new statement, old tags, new tags). Applied to molds AND
+# living brains by 0017 (text and tags only — confidence/evidence, the
+# lived part, stay untouched); its downgrade restores the old pair.
+# ============================================================================
+_PEOPLE_0014 = [
+    'tag:entity_type:humans', 'tag:entity_type:elves',
+    'tag:entity_type:dwarves', 'tag:entity_type:hobbits',
+]
+LEGACY_REWRITES = {
+    'celebrian': [
+        ('She will not sail West. She means to be the last witness when '
+         'the lights go out.',
+         'I will not sail West. I mean to be the last witness when the '
+         'lights go out.',
+         [], SOLITUDE),
+        ('Everything that lives is already half in its grave — she has '
+         'buried lovers, friends and whole kingdoms.',
+         'Everything that lives is already half in its grave; I have '
+         'buried lovers, friends and whole kingdoms.',
+         [], SOLITUDE + HOSTILE),
+        ('She is not driven; she is drawn — the way water runs downhill. '
+         'She keeps no errand and does not hurry.',
+         'I am not driven; I am drawn, the way water runs downhill. I keep '
+         'no errand and do not hurry.',
+         [], SOLITUDE + WATER),
+        ('She trusts growing things more than people.',
+         'I trust growing things more than people.',
+         _PEOPLE_0014, _PEOPLE_0014 + TREES + PLANTS),
+    ],
+    'aranath': [
+        ('He has spent years walking the borders of fallen Arnor; this '
+         'time he walks alone.',
+         'I have spent years walking the borders of fallen Arnor; this '
+         'time I walk alone.',
+         [], SOLITUDE),
+        ('An old road does not die — it waits for the one who still '
+         'remembers it.',
+         'An old road does not die — it waits for the one who still '
+         'remembers it.',
+         [], SOLITUDE),
+    ],
 }
