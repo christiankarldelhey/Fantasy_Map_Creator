@@ -437,6 +437,51 @@ test('the open payload carries raw state, never rendered blocks (C10)', () => {
   assert.equal(narrate.fate, 'living');
 });
 
+test('the open payload only emits keys the wire model declares', () => {
+  // The story-engine models are extra='forbid': a host field that isn't
+  // whitelisted there turns POST /episodes into a 422 and the day silently
+  // narrates stateless. Keep these sets in sync with
+  // story-engine/app/mind/models.py — a new wire field means editing both.
+  const body = toOpenPayload({
+    gameId: 'middle_earth',
+    day: {
+      ...DAY,
+      encounters: [{
+        hour: '10:00', phase: 'morning', region: 'lone-lands',
+        entity: {
+          name: 'Wolves', type: 'beast', family: 'canines', active: 'all-day',
+          description: 'd', description_summary: 's',
+        },
+        interaction: {
+          form: 'attacks', outcome: 'wounded', prose_hint: 'p',
+          dialogue_content: { topic: 'threat' }, hintKey: 'k', night_timing: 'mid_night',
+        },
+      }],
+    },
+    trip: { id: 't1' },
+    character: { id: 4, name: 'Tester' },
+  });
+
+  assert.deepEqual(Object.keys(body).sort(), [
+    'character', 'character_state', 'day', 'episode_ref', 'equipment_state',
+    'events', 'fate', 'game_id', 'language', 'previous_day',
+    'recent_day_climates', 'trip_name',
+  ]);
+  const encounter = body.day.encounters[0];
+  assert.deepEqual(
+    Object.keys(encounter).sort(),
+    ['entity', 'hour', 'interaction', 'phase', 'region']
+  );
+  assert.deepEqual(
+    Object.keys(encounter.entity).sort(),
+    ['active', 'description', 'description_summary', 'family', 'name', 'type']
+  );
+  assert.deepEqual(
+    Object.keys(encounter.interaction).sort(),
+    ['dialogue_content', 'form', 'hintKey', 'night_timing', 'outcome', 'prose_hint']
+  );
+});
+
 test('mindClient throws when the mind is unreachable', async () => {
   // The rejection is what trips narrateDay's catch -> /narrate-day.
   await assert.rejects(

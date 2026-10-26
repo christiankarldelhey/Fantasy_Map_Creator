@@ -64,8 +64,14 @@ if _STUDIO_DIST.is_dir():
 @app.get('/health')
 def health():
     # db reports down instead of failing: Mind endpoints degrade, the
-    # stateless narrator keeps working.
-    return {'status': 'ok', 'ai_configured': is_ai_configured(), 'db': db_health()}
+    # stateless narrator keeps working. `mind` reports whether the episode
+    # router mounted at all — a failed import leaves /episodes answering 404.
+    return {
+        'status': 'ok',
+        'ai_configured': is_ai_configured(),
+        'db': db_health(),
+        'mind': 'mounted' if mind_router is not None else 'degraded',
+    }
 
 
 @app.get('/system-prompt')

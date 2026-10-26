@@ -89,6 +89,9 @@ class EncounterEntity(BaseModel):
 
     name: Optional[str] = None
     type: Optional[str] = None
+    # Kind-of-being between type and entity — attitudes match entity >
+    # family > type, so the narrator-facing copy carries it too.
+    family: Optional[str] = None
     active: Optional[str] = None
     description: Optional[str] = None
     description_summary: Optional[str] = None

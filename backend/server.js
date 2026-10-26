@@ -110,19 +110,34 @@ app.use('/api/users', usersRouter);
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
+  // Story-engine status rides along so prod can be diagnosed with one call:
+  // whether the mind router mounted, and whether its Postgres is reachable.
+  let storyEngine = { status: 'unreachable' };
+  try {
+    const target = new URL(process.env.STORY_ENGINE_URL || 'http://localhost:8001');
+    const r = await fetch(`${target.origin}/health`, { signal: AbortSignal.timeout(2000) });
+    storyEngine = await r.json();
+  } catch { /* keep 'unreachable' */ }
+
+  const mindEngine = ['on', 'true', '1'].includes((process.env.MIND_ENGINE || '').toLowerCase());
+
   try {
     const result = await pool.query('SELECT NOW(), COUNT(*) as locations FROM locations');
     res.json({
       status: 'healthy',
       database: 'connected',
       timestamp: result.rows[0].now,
-      locations: result.rows[0].locations
+      locations: result.rows[0].locations,
+      mind_engine: mindEngine ? 'on' : 'off',
+      story_engine: storyEngine,
     });
   } catch (error) {
     res.status(500).json({
       status: 'unhealthy',
       database: 'disconnected',
-      error: error.message
+      error: error.message,
+      mind_engine: mindEngine ? 'on' : 'off',
+      story_engine: storyEngine,
     });
   }
 });
