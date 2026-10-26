@@ -28,8 +28,13 @@ PHASES = {
     'morning': 'morning', 'midday': 'afternoon', 'afternoon': 'afternoon',
     'evening': 'night', 'night': 'night',
 }
-# Items that are the frame of every day, never its centre.
-_NEVER_FOCUS = {'body', 'travel', 'terrain', 'climate', 'need'}
+# Items the engine itself produces — the frame of every day, never its
+# centre (ADR 0005: 'body' is the host's own report; 'need' items are the
+# Mind's felt body, they earn lines through the needs path).
+_ENGINE_FRAME_TYPES = {'body', 'need'}
+# Game-declared frame types — the pack's 'mind.focus_excluded' phrase list
+# (e.g. travel/terrain/climate in the built-in pack).
+FOCUS_EXCLUDED_KEY = 'mind.focus_excluded'
 _STOP = {
     'that', 'this', 'with', 'from', 'than', 'they', 'them', 'their', 'there',
     'what', 'when', 'have', 'been', 'into', 'only', 'more', 'still', 'every',
@@ -101,7 +106,8 @@ def need_origins(session, game_id, needs, entering_mood, brain=None):
 
 
 def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
-                wiring=None, anchors=None, need_origins=None):
+                wiring=None, anchors=None, need_origins=None,
+                session=None, game_id=None, brain=None):
     """Narrow the Mind to this Episode. Returns
     {focus, carried, day, silenced} — each line a dict with id, kind,
     text, part ('carried'|'day'), phase (day lines), score and why."""
@@ -112,11 +118,14 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     anchors = anchors or {}
     need_origins = need_origins or {}
     silenced = []
+    frame_types = _ENGINE_FRAME_TYPES | set(
+        nl_phrases(session, game_id, FOCUS_EXCLUDED_KEY, brain=brain)
+    )
 
     # --- today's events: candidates for the Focus and day lines ----------
     events = []
     for i, item in enumerate(perceived_day or []):
-        if item.get('type') in _NEVER_FOCUS or not item.get('reading'):
+        if item.get('type') in frame_types or not item.get('reading'):
             continue
         if item.get('perception') == 'unnoticed':
             continue

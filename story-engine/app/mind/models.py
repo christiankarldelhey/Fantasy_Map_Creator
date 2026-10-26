@@ -38,7 +38,12 @@ class EventIn(BaseModel):
 class OpenCharacter(BaseModel):
     """One merged character: the mind reads id/name/skills/conditions/
     brain_profile; the narrator reads name/description/entity_name/
-    system_prompt/introduction_instructions/wounded."""
+    system_prompt/introduction_instructions/wounded.
+
+    `state` is the free-form Condition channel (ADR 0005): a host declares
+    its body's vitals — oxygen, sanity, suit_food_pct — as flat fields the
+    declared detectors read. The explicit energy/shadow/wounded fields
+    remain for the built-in pack's hosts; they land in the same map."""
 
     model_config = ConfigDict(extra='forbid')
 
@@ -55,6 +60,7 @@ class OpenCharacter(BaseModel):
     system_prompt: Optional[str] = None
     introduction_instructions: Optional[str] = None
     wounded: Optional[str] = None
+    state: Dict[str, Any] = {}
 
 
 class WeatherRecord(BaseModel):

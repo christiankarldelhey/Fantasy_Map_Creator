@@ -18,6 +18,7 @@
 # intentions the narrator may voice, never mechanics.
 # ============================================================================
 from app.mind.checks import _num, character_state
+from app.mind.detectors import detector_needs
 from app.mind.memory import episode_index
 from app.mind.nl_resolver import phrases as nl_phrases
 from app.mind.provisioning import DEFAULT_WIRING
@@ -61,53 +62,12 @@ def update_streak_counters(session, brain, episode):
     update_rule_streaks(session, brain, episode)
 
 
-def _detectors(state, w):
-    """Physiological detectors — each returns a need spec or None. Keys
-    double as NL phrase keys ('mind.need.hunger') and dedup keys.
-    Multi-day states (exposure, snowbound...) are B9 composite rules,
-    not detectors."""
-    fired = []
-    days_food = state.get('days_without_food')
-    if days_food is not None and days_food >= w.get('need_hunger_days', 1):
-        fired.append({
-            'key': 'hunger', 'type': 'physiological',
-            'urgency': min(1.0, 0.3 + 0.2 * days_food),
-            'source': {'detector': 'hunger', 'days': days_food},
-        })
-    days_water = state.get('days_without_water')
-    if days_water is not None and days_water >= w.get('need_thirst_days', 1):
-        fired.append({
-            'key': 'thirst', 'type': 'physiological',
-            'urgency': min(1.0, 0.5 + 0.25 * days_water),
-            'source': {'detector': 'thirst', 'days': days_water},
-        })
-    energy = state.get('energy')
-    floor = w.get('need_exhaustion_below', 0.25)
-    if energy is not None and energy <= floor:
-        fired.append({
-            'key': 'exhaustion', 'type': 'physiological',
-            'urgency': min(1.0, 0.5 + (floor - energy)),
-            'source': {'detector': 'exhaustion', 'energy': energy},
-        })
-    shadow = state.get('shadow')
-    if shadow is not None and shadow >= w.get('need_unrest_shadow_min', 0.45):
-        fired.append({
-            'key': 'unrest', 'type': 'physiological',
-            'urgency': min(1.0, 0.3 + shadow * 0.5),
-            'source': {'detector': 'unrest', 'shadow': shadow},
-        })
-    # An unhealed wound is an open need (C10): the lens voices it where
-    # the old host-side condition block used to instruct the narrator.
-    wounded = state.get('wounded')
-    if wounded in ('wounded', 'badly_wounded'):
-        fired.append({
-            'key': 'wound', 'type': 'physiological',
-            'urgency': w.get('need_wound_urgency', 0.35)
-                if wounded == 'wounded'
-                else w.get('need_badly_wound_urgency', 0.65),
-            'source': {'detector': 'wound', 'wounded': wounded},
-        })
-    return fired
+def _detectors(session, game_id, state, w):
+    """Physiological detectors — declared rows/defaults, never hardcoded
+    fields (ADR 0005). Keys double as NL phrase keys ('mind.need.hunger')
+    and dedup keys. Multi-day states (exposure, snowbound...) are B9
+    composite rules, not detectors."""
+    return detector_needs(session, game_id, state, w)
 
 
 def _threads(perceived):
@@ -151,7 +111,7 @@ def needs_pass(session, game_id, brain, episode, perceived, character=None):
     idx = episode_index(episode)
     state = character_state(character, episode.events)
 
-    fired = _detectors(state, w)
+    fired = _detectors(session, game_id, state, w)
     # B9: declarative multi-day rules (exposure, snowbound, ...) — the
     # streak counter is bumped at close; today counts optimistically.
     fired += rule_needs(session, brain, episode, w=w)

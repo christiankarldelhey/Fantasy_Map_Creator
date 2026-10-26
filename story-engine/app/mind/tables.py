@@ -491,6 +491,53 @@ class CompositeRule(Base):
     description: Mapped[str] = mapped_column(Text, nullable=True)
 
 
+class Detector(Base):
+    """ADR 0005: a declared rule that reads the Condition map
+    (checks.character_state). The engine knows no snapshot field the host
+    did not declare — everything it reads of the body is a row here or a
+    detectors.DEFAULT_DETECTORS entry.
+
+    kind='need':      field/op/value gates a physiological Need; urgency is
+                      urgency_base + urgency_per * value (or * distance to
+                      threshold when urgency_from='distance'), or an
+                      explicit urgency_map {field_value: urgency}.
+    kind='check_mod': adds `mod` to perception checks while firing; rows
+                      sharing group_key form an elif chain (first match by
+                      ordinal wins, so tiers don't stack).
+    kind='altered':   while firing, noticed readings can be misread.
+
+    `scale` normalizes numeric fields the host may send 0-1 or 0-100
+    (value > 1 divides by scale). `field`='conditions' + op='contains'
+    checks the synthesized conditions set. enabled=False silences a
+    built-in default for this game."""
+
+    __tablename__ = 'detectors'
+    __table_args__ = (
+        UniqueConstraint('game_id', 'kind', 'key', name='uq_detector'),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    kind: Mapped[str] = mapped_column(String(20), nullable=False)
+    key: Mapped[str] = mapped_column(String(120), nullable=False)
+    field: Mapped[str] = mapped_column(String(120), nullable=False)
+    op: Mapped[str] = mapped_column(String(10), nullable=False)
+    value: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    scale: Mapped[float] = mapped_column(Float, nullable=True)
+    group_key: Mapped[str] = mapped_column(String(120), nullable=True)
+    ordinal: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    mod: Mapped[float] = mapped_column(Float, nullable=True)
+    urgency_base: Mapped[float] = mapped_column(Float, nullable=True)
+    urgency_per: Mapped[float] = mapped_column(Float, nullable=True)
+    urgency_from: Mapped[str] = mapped_column(String(20), nullable=True)
+    urgency_map: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    need_type: Mapped[str] = mapped_column(String(30), nullable=False,
+                                           default='physiological')
+    description: Mapped[str] = mapped_column(Text, nullable=True)
+    enabled: Mapped[bool] = mapped_column(Boolean, nullable=False,
+                                          default=True)
+
+
 class Facet(Base):
     """Registry of bandable fields per event type — feeds admin autocomplete
     and the NL tester."""

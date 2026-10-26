@@ -397,6 +397,10 @@ DEFAULT_PHRASE_LISTS = {
     'mind.need_origin.unrest': ['it has gathered since {cause}'],
     'mind.need_origin.unrest.nameless': ['the shadow has been gathering, nameless'],
     'mind.need_origin.wound': ['since the wound was taken'],
+    # Event types that frame every Episode and never take the Focus
+    # (ADR 0005): the engine's own items ('body', 'need') are excluded in
+    # code; the world's frame types are declared here, per game.
+    'mind.focus_excluded': ['travel', 'terrain', 'climate'],
     # Traveller's condition / equipage / end (C10): the host ships raw
     # state and these lists own every word it becomes. {name} is the
     # character, {notes} the causal log notes. The mind path renders

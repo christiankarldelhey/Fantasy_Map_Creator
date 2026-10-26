@@ -14,6 +14,14 @@
 # THIS day's story — a shared tag with what was actually perceived, or
 # semantic similarity above the wiring floor — otherwise it stays a
 # memory, unevoked. On a day that touches nothing, nothing stirs.
+#
+# TODO(jev): the gate is the crudest judgment in the engine — tag overlap
+# plus hash-embedding cosine. Evaluate TypeSafe's Jev (Noul: "does this
+# memory touch this episode?") as a bounded rerank over the top-K
+# candidates, keeping this rule path as the deterministic fallback and
+# logging each verdict on the episode for replay honesty. Until then,
+# semantic judgment calls in the mind go through the LLM call pattern
+# already used by the lens director — never a full scan per memory.
 # ============================================================================
 import math
 from datetime import date, datetime

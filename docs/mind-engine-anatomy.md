@@ -1287,3 +1287,23 @@ eventos del mundo (genéricos)
 
 La regla que sostiene todo: **la config la escribe el humano, el contenido
 lo escribe la vida, el mundo lo decide el juego.**
+
+---
+
+## Epílogo — lo que el cerebro todavía no tiene
+
+Comparada con una mente real, la arquitectura cubre percepción, memoria,
+afecto, homeostasis y consolidación — pero deja huecos que podrían servir
+para contar historias (candidatos, no compromisos):
+
+- **Imaginación / prospección** — la mente solo reacciona; nunca anticipa
+  ("ya esperaba que el vado estuviera vigilado").
+- **Emociones discretas** — miedo, bronca y tristeza comparten valencia y
+  arousal; la etiqueta dominante es la única distinción.
+- **Memoria procedural** — la mente aprende *qué* pasó, nunca aprende *a
+  hacer*: un skill no mejora por haberlo vivido.
+- **Teoría de la mente** — no hay creencias sobre las creencias ajenas
+  ("cree que el posadero lo engañó").
+- **Identidad autobiográfica** — el relato que el personaje se cuenta de
+  sí mismo es fijo (foundational phrase) más beliefs sueltas; no se
+  reescribe solo.

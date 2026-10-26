@@ -1,5 +1,9 @@
 # Mind Engine
 
+> *La vida interior de un personaje: el mundo decide qué pasa; la mente decide cómo se vivió.*
+>
+> *Story Engine — the umbrella it lives in: la capa narrativa de cualquier historia: tu mundo pone los hechos; nosotros ponemos la mente que los vive y la voz que los cuenta.*
+
 The inner life of fictional or synthetic characters: who they are, what they notice, what they remember and believe. Any story, game, film or simulation can plug a character into it; the world around the character stays the host's.
 
 ## Language
@@ -49,8 +53,16 @@ Something the Mind holds true, with a confidence that grows or erodes with what 
 _Avoid_: core idea, main idea, value
 
 **Need**:
-What the body or spirit asks of the Character (food, water, rest, healing, relief from the shadow), always told with what caused it. Reaches the Lens when it is new, worsening or touched by the Episode; past an urgency threshold it always speaks, even unchanged.
-_Avoid_: drive, requirement, status effect
+What the Mind lacks and asks of the Episode: something the body or spirit wants (food, water, rest, healing, relief from the shadow) or an open loop it carries (a Thread). Always told with what caused it. Reaches the Lens when it is new, worsening or touched by the Episode; past an urgency threshold it always speaks, even unchanged.
+_Avoid_: drive, requirement, status effect, quest
+
+**Thread**:
+An open loop the Mind carries as a Need — a promise, an unfinished encounter, a goal of any horizon, short or lifelong. It opens when an Event declares it and resolves when the world closes it or the outcome says so; it is something the Character lived, never a flag the host tracks.
+_Avoid_: quest, goal, mission, plot hook
+
+**Detector**:
+A declared rule that reads the Condition snapshot: it opens a Need when a field crosses its threshold, bends a perception roll while a state holds, or marks the Mind as altered. The host teaches the Mind its body vocabulary as data — the Mind knows no field it was not told.
+_Avoid_: hardcoded check, built-in sensor
 
 **Mood**:
 How the Mind feels as it enters an Episode, always told through what caused it ("still uneasy since the orc tracks"), never as a bare label.

@@ -31,6 +31,10 @@ function slimCharacter(c) {
     },
     energy: c.energy ?? null,
     shadow: c.shadow ?? null,
+    // Free-form Condition channel (ADR 0005): a host may declare its own
+    // body vitals for the detectors pack to read; Middle Earth's named
+    // fields keep working alongside it.
+    state: c.state ?? {},
     conditions: [
       c.wounded && c.wounded !== 'none' ? 'wounded' : null,
       c.sick ? 'sick' : null,

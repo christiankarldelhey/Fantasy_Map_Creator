@@ -23,41 +23,53 @@
 # ============================================================================
 import random
 
+from app.mind.detectors import altered_by_state, state_mods
 from app.mind.nl_resolver import phrases as nl_phrases
 
 ALTERED_STATES_KEY = 'mind.altered_states'
 MISREAD_KEY = 'mind.misread'
+
+# Fields of the character snapshot that describe WHO the person is, not
+# how their body is — they never land in the Condition map.
+_IDENTITY_KEYS = {
+    'id', 'name', 'description', 'entity_name', 'portrait_url',
+    'system_prompt', 'introduction_instructions', 'brain_profile',
+    'skills', 'traits', 'conditions', 'state', 'resources',
+}
 
 
 def _num(v):
     return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
 
 
-def _norm01(v):
-    """Energy/shadow arrive 0-1 (body events) or 0-100 (state snapshots)."""
-    n = _num(v)
-    if n is None:
-        return None
-    return n / 100.0 if n > 1 else max(0.0, n)
-
-
 def character_state(character, events):
-    """The state that bends the die: snapshot fields first, the episode's
-    own `body` event as fallback (the host may only send it there)."""
+    """The Condition the host reports, flattened for detectors (ADR 0005):
+    every scalar of the snapshot, the free-form 'state'/'resources' dicts
+    and the episode's own `body` event — first non-null per field, in that
+    order of precedence. Nothing here knows a field's meaning; the
+    declared detectors do."""
     character = character or {}
-    resources = character.get('resources') or {}
     body_data = {}
     for e in events or []:
         if e.get('type') == 'body':
             body_data = e.get('data') or {}
             break
 
-    def _pick(key, normalized=True):
-        for src in (character, resources, body_data):
-            n = _num(src.get(key))
-            if n is not None:
-                return _norm01(n) if normalized else n
-        return None
+    state = {}
+    sources = (
+        {
+            k: v for k, v in character.items()
+            if k not in _IDENTITY_KEYS
+            and isinstance(v, (int, float, str, bool))
+        },
+        character.get('state'),
+        character.get('resources'),
+        body_data,
+    )
+    for src in sources:
+        for k, v in (src or {}).items():
+            if v is not None and k not in state and k != 'conditions':
+                state[k] = v
 
     conditions = set()
     for c in character.get('conditions') or []:
@@ -67,52 +79,26 @@ def character_state(character, events):
             name = c.get('name') or c.get('kind') or c.get('type')
             if name:
                 conditions.add(str(name).lower())
-    wounded = character.get('wounded') or body_data.get('wounded')
-    if isinstance(wounded, str) and wounded not in ('', 'none', 'false'):
+    wounded = state.get('wounded')
+    if (
+        isinstance(wounded, str)
+        and wounded.lower() not in ('', 'none', 'false')
+    ) or wounded is True:
         conditions.add('wounded')
-    elif wounded is True:
-        conditions.add('wounded')
-    return {
-        'energy': _pick('energy'),
-        'shadow': _pick('shadow'),
-        'fatigue': _pick('fatigue'),
-        # Day counts are raw numbers, not 0-1.
-        'days_without_food': _pick('days_without_food', normalized=False),
-        'days_without_water': _pick('days_without_water', normalized=False),
-        # Raw severity string ('wounded'|'badly_wounded') alongside the
-        # conditions set — the wound need weighs worse wounds heavier.
-        'wounded': (
-            wounded if isinstance(wounded, str) and 'wounded' in conditions
-            else ('wounded' if 'wounded' in conditions else None)
-        ),
-        'conditions': conditions,
-    }
-
-
-def _state_mods(state, w):
-    mods = 0.0
-    energy = state.get('energy')
-    if energy is not None:
-        if energy < w.get('energy_spent_below', 0.25):
-            mods += w.get('mod_energy_spent', -2.0)
-        elif energy < w.get('energy_worn_below', 0.5):
-            mods += w.get('mod_energy_worn', -1.0)
-    shadow = state.get('shadow')
-    if shadow is not None:
-        if shadow >= w.get('shadow_burdened_min', 0.7):
-            mods += w.get('mod_shadow_burdened', -2.0)
-        elif shadow >= w.get('shadow_shadowed_min', 0.45):
-            mods += w.get('mod_shadow_shadowed', -1.0)
-    if 'wounded' in state.get('conditions', ()):
-        mods += w.get('mod_wounded', -1.0)
-    return mods
+    # 'wounded' may arrive only inside the conditions list — the severity
+    # field is synthesized so a declared detector can still weigh it.
+    if 'wounded' in conditions and state.get('wounded') not in (
+        'wounded', 'badly_wounded'
+    ):
+        state['wounded'] = 'wounded'
+    state['conditions'] = conditions
+    return state
 
 
 def _is_altered(session, game_id, state, w, brain=None):
-    """Miedo/sombra: high shadow, or a condition the game declares an
-    altered state (editable list 'mind.altered_states')."""
-    shadow = state.get('shadow')
-    if shadow is not None and shadow >= w.get('misread_shadow_min', 0.45):
+    """A declared 'altered' detector firing, or a condition the game
+    declares an altered state (editable list 'mind.altered_states')."""
+    if altered_by_state(session, game_id, state, w):
         return True
     names = {n.lower() for n in nl_phrases(
         session, game_id, ALTERED_STATES_KEY, brain=brain
@@ -196,7 +182,8 @@ def resolve_check(session, game_id, character, event, index, state, w,
     difficulty = _num(check.get('difficulty'))
     if difficulty is None:
         difficulty = w.get('check_default_difficulty', 8.0)
-    mods = _state_mods(state, w) + (_num(check.get('mods')) or 0.0)
+    mods = state_mods(session, game_id, state, w) \
+        + (_num(check.get('mods')) or 0.0)
 
     rng = random.Random(_seed_for(game_id, event, index, skill_name))
     sides = max(2, int(w.get('check_die_sides', 10)))

@@ -4,6 +4,15 @@
 **Versión del documento**: 2.0
 **Estado**: propuesta de arquitectura / pre-implementación
 
+> **Nota de vigencia (2026-10-24)**: este documento describe la era previa al
+> Mind Engine. Sigue vigente: el principio rector de ownership (§5.1), el
+> patrón de comandos propuestos para mecánica, Story Tuner, los world packs
+> versionados y el análisis de agnosticismo (§13.1). **Superseded por
+> ADR 0004**: el pool de recuerdos/objetivos del host (filas de goals y
+> memories en §5.1, §5.4.1, §6.2, §7.1 paso 3, §8.1 capa de largo plazo,
+> comandos `memory_gain`/`clue`/`goal_*` en §8.3, y "Memory & Goal Ledger"
+> en §9.1) — toda la interioridad narrativa vive en `mind.*`.
+
 ---
 
 ## 1. Resumen ejecutivo

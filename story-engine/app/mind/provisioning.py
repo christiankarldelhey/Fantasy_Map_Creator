@@ -59,24 +59,11 @@ DEFAULT_WIRING = {
     'check_default_difficulty': 8.0,
     # success on a hard roll feeds w_perception: bonus = difficulty/scale.
     'check_difficulty_scale': 10.0,
-    # State modifiers mirror the host's bands (skills are 0-10, d10 rolls).
-    # Calibrated against the host's real scale: energy ends ~0.45 after a
-    # 12h day on foot; shadow hovers ~0.2-0.3 camping under Dol Guldur —
-    # thresholds at 0.7/0.45 were unreachable (the mind never felt worn
-    # or shadowed no matter what the world did).
-    'energy_worn_below': 0.6,
-    'energy_spent_below': 0.35,
-    'mod_energy_worn': -1.0,
-    'mod_energy_spent': -2.0,
-    'shadow_shadowed_min': 0.25,
-    'shadow_burdened_min': 0.5,
-    'mod_shadow_shadowed': -1.0,
-    'mod_shadow_burdened': -2.0,
-    'mod_wounded': -1.0,
-    # Failure while altered (shadow >= this, or an altered-state condition)
-    # turns unnoticed into misread; unnoticed keeps a dampened salience so a
-    # "difuso" unease may still lodge in memory.
-    'misread_shadow_min': 0.25,
+    # State modifiers (ADR 0005): thresholds and magnitudes live in the
+    # detectors pack — mind.detectors rows or detectors.DEFAULT_DETECTORS
+    # ('check_mod' kind). Per-brain overrides use 'detector.<key>.<param>';
+    # legacy wiring keys (energy_worn_below, mod_energy_spent, ...) still
+    # read on brains authored before the move.
     'unnoticed_salience': 0.5,
     # Sleep/wake (C4) — during a sleep phase the mind is unconscious:
     # checked events pass unheard unless the form physically wakes the
@@ -96,17 +83,10 @@ DEFAULT_WIRING = {
         'drifts_closer',
     ],
     'sleep_wake_outcomes': ['wounded', 'badly wounded'],
-    # Needs engine (B2) — detector triggers; urgency formulas live in
-    # app/mind/needs.py.
-    'need_hunger_days': 1.0,
-    'need_thirst_days': 1.0,
-    'need_exhaustion_below': 0.4,
-    'need_unrest_shadow_min': 0.25,
+    # Needs engine (B2) — detector triggers live in the detectors pack
+    # ('need' kind, ADR 0005); the streak knob stays here for B9 composite
+    # rules.
     'need_weather_streak': 3.0,
-    # An open wound is a need that wants tending (C10); badly hurt
-    # outweighs hunger.
-    'need_wound_urgency': 0.35,
-    'need_badly_wound_urgency': 0.65,
     # Homeostasis (C9): open needs weigh on the episode mood — each
     # contributes -urgency * scale, the day's total capped. Hunger at
     # day 3 (-0.27) doesn't need a bad event to darken the day.
