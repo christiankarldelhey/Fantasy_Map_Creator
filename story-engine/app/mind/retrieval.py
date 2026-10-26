@@ -32,11 +32,19 @@ from app.mind.tables import Belief, Memory
 
 
 def _context_tags(perceived_day, beliefs):
+    """The day's tags plus those of the beliefs the day ACTIVATED (share a
+    tag with it). Only those: a mind with a rich seed library holds a
+    belief about nearly everything, and folding all of them in made
+    relevance ~1.0 for every memory — 'what this mind believes about
+    what is happening today' is the signal, not 'everything it believes'."""
     tags = set()
     for item in perceived_day or []:
         tags.update(item.get('tags') or [])
+    day = set(tags)
     for belief in beliefs:
-        tags.update(belief.tags or [])
+        btags = set(belief.tags or [])
+        if btags & day:
+            tags.update(btags)
     return tags
 
 

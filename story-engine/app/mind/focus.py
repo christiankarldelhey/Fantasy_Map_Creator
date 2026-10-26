@@ -105,9 +105,22 @@ def need_origins(session, game_id, needs, entering_mood, brain=None):
     return out
 
 
+def _had_contact(perceived_day):
+    """Did anyone at all touch this mind today? A noticed event carrying
+    an entity (the host's own declaration that somebody was there) breaks
+    solitude; weather, roads and aches are not company."""
+    for item in perceived_day or []:
+        if item.get('perception') == 'unnoticed':
+            continue
+        for t in _contact_tags(item.get('tags') or []):
+            if t.startswith(('entity:', 'tag:entity_type:')):
+                return True
+    return False
+
+
 def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
                 wiring=None, anchors=None, need_origins=None,
-                session=None, game_id=None, brain=None):
+                session=None, game_id=None, brain=None, episode_idx=None):
     """Narrow the Mind to this Episode. Returns
     {focus, carried, day, silenced} — each line a dict with id, kind,
     text, part ('carried'|'day'), phase (day lines), score and why."""
@@ -121,6 +134,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     frame_types = _ENGINE_FRAME_TYPES | set(
         nl_phrases(session, game_id, FOCUS_EXCLUDED_KEY, brain=brain)
     )
+    contact_seen = _had_contact(perceived_day)
 
     # --- today's events: candidates for the Focus and day lines ----------
     events = []
@@ -132,27 +146,54 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         sal = item.get('salience') or 0.0
         if sal < salient_min:
             continue
+        content = _contact_tags(item.get('tags') or [])
         events.append({
             'id': _event_id(i), 'kind': 'event', 'part': 'day',
             'phase': _phase(item), 'text': item['reading'], 'score': sal,
-            'tags': sorted(_contact_tags(item.get('tags') or [])),
+            'tags': sorted(content),
+            # Beliefs may also answer to what KIND of moment this is (a
+            # night's rest, a meal, a crossing) — memories may not: the
+            # same rest must not evoke every past rest, but a belief
+            # about the campfire is exactly about any campfire.
+            'touch_tags': sorted(content | {f"type:{item.get('type')}"}),
             'why': f'salience {sal:.2f}',
         })
     day_tags = set().union(*(set(e['tags']) for e in events)) if events else set()
     day_text = ' '.join(e['text'] for e in events)
 
-    # --- beliefs: only what the day puts at stake ------------------------
+    # --- beliefs: what the day puts at stake, or what solitude brings up
     belief_lines = []
     for b in beliefs or []:
         hit = next(
             (e for e in events
-             if _touches(b.tags, b.statement, e['tags'], e['text'])),
+             if _touches(b.tags, b.statement, e['touch_tags'], e['text'])),
             None,
         )
         if hit is None:
-            silenced.append({
-                'kind': 'belief', 'text': b.statement, 'stage': 'filter',
-                'reason': 'nothing in the Episode puts it at stake',
+            # 'context:solitude' beliefs ask nothing of the day — they
+            # speak when nobody touched the mind at all: the thoughts a
+            # person keeps for themselves (seed thoughts, authored
+            # personality). Days with company keep them quiet.
+            if 'context:solitude' not in (b.tags or []):
+                silenced.append({
+                    'kind': 'belief', 'text': b.statement,
+                    'stage': 'filter',
+                    'reason': 'nothing in the Episode puts it at stake',
+                })
+                continue
+            if contact_seen:
+                silenced.append({
+                    'kind': 'belief', 'text': b.statement,
+                    'stage': 'filter',
+                    'reason': 'the day had company',
+                })
+                continue
+            belief_lines.append({
+                'id': f'belief:{b.id}', 'kind': 'belief', 'part': 'carried',
+                'phase': None, 'text': b.statement,
+                'score': (b.confidence or 0.0) * 0.5,
+                'solitude': True,
+                'why': 'the mind alone with itself',
             })
             continue
         belief_lines.append({
@@ -270,13 +311,31 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     # Lines are the inner side — the day's events reach the narrator
     # through the phase blocks anyway; only one of them is the Focus.
     pool = belief_lines + memory_lines + need_lines + mood_lines
+    # Deterministic variety for a mind with many thoughts: the beliefs
+    # that tie on score (same confidence, same touch) rotate by Episode,
+    # so a different one speaks each quiet day. Replay-stable: the order
+    # depends only on the Episode's own index.
+    if episode_idx is not None:
+        eligible = [c for c in pool if c['kind'] == 'belief']
+        if eligible:
+            off = (episode_idx * LINE_CAP) % len(eligible)
+            rotated = eligible[off:] + eligible[:off]
+            it = iter(rotated)
+            pool = [
+                next(it) if c['kind'] == 'belief' else c for c in pool
+            ]
 
     def connected(c):
         # A quiet Episode is 'the road and the body': with no Focus, the
         # needs that earned a place still speak; memories and beliefs
-        # have nothing to connect to and stay silent.
+        # have nothing to connect to and stay silent — except solitude
+        # thoughts, whose whole point is the day that touched nobody.
         if focus is None:
-            return c['kind'] == 'need'
+            return c['kind'] == 'need' or bool(c.get('solitude'))
+        # Solitude lines only exist on days nobody touched the mind; a
+        # striking ruin seen alone is still a day alone.
+        if c.get('solitude'):
+            return True
         if c.get('connects_to') == focus['id']:
             return True
         # A need born today is what the day did to the body — it belongs
@@ -312,7 +371,10 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         })
 
     def strip(c):
-        return {k: v for k, v in c.items() if k not in ('tags', 'urgent')}
+        return {
+            k: v for k, v in c.items()
+            if k not in ('tags', 'touch_tags', 'urgent')
+        }
 
     lines = [strip(c) for c in chosen]
     return {
@@ -324,7 +386,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         # Everything that passed the filter — what the director picks
         # from. Not stored: the caller pops it before persisting.
         'candidates': [
-            {k: v for k, v in c.items() if k != 'tags'}
+            {k: v for k, v in c.items() if k not in ('tags', 'touch_tags')}
             for c in events + pool
         ],
     }

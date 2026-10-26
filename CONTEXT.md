@@ -49,7 +49,7 @@ A Memory the Mind has lost: kept as a trace with the day it was lost so the Mind
 _Avoid_: deleted, erased
 
 **Belief**:
-Something the Mind holds true, with a confidence that grows or erodes with what it lives. Reaches the Lens only when the Episode puts it at stake; who the Character is lives in the Foundational phrase, not in its beliefs.
+Something the Mind holds true, with a confidence that grows or erodes with what it lives. Reaches the Lens only when the Episode puts it at stake — or, for the Beliefs that are the thoughts a person keeps for themselves, when nobody touched the Mind at all (a belief tagged `context:solitude` speaks on the days that met no one). Who the Character is lives in the Foundational phrase, not in its beliefs.
 _Avoid_: core idea, main idea, value
 
 **Need**:

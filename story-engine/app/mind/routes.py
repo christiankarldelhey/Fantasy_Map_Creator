@@ -347,6 +347,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                     entering_mood, brain=brain,
                 ),
                 session=db, game_id=payload.game_id, brain=brain,
+                episode_idx=episode_index_of(episode),
             )
             candidates = brief.pop('candidates', [])
             # The director chooses what the Episode turns on (protagonists

@@ -21,9 +21,10 @@ from sqlalchemy import or_
 
 from app.ai import generate_narrative
 from app.mind.boosts import clean_boosts
+from app.mind.focus import _touches, brief_lines
 from app.mind.memory import episode_index
 from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.tables import Belief, Memory
+from app.mind.tables import Belief, Episode, Memory
 
 log = logging.getLogger(__name__)
 
@@ -205,7 +206,14 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
     decay = w.get('belief_confidence_decay', 0.95)
     transient_decay = w.get('belief_transient_decay', 0.8)
     for belief in beliefs_by_id.values():
-        if belief.id in touched or belief.status != 'active':
+        # Enduring seed beliefs are nature, not evidence — a mind's
+        # personality doesn't fade because a reflection overlooked it
+        # (a transient seed is still a circumstance: unstated is gone).
+        # Reflection may still reinforce or contradict them deliberately.
+        if (
+            belief.id in touched or belief.status != 'active'
+            or (belief.origin == 'seed' and belief.horizon == 'enduring')
+        ):
             continue
         rate = transient_decay if belief.horizon == 'transient' else decay
         belief.confidence = (belief.confidence or 0) * rate
@@ -223,10 +231,70 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
         .order_by(Belief.confidence.desc())
         .all()
     )
-    for belief in active[cap:]:
+    # The cap thins acquired convictions; seeds are the person's nature
+    # and outlast it.
+    for belief in [b for b in active if b.origin != 'seed'][cap:]:
         belief.status = 'weakened'
         counts['weakened'] = counts.get('weakened', 0) + 1
     return counts
+
+
+def reflection_beliefs(session, brain, memories, since_idx, w):
+    """The beliefs this reflection may move — not the whole library.
+
+    Every acquired or transient belief (few, capped) plus the seeds the
+    evidence can bear on: those touching one of the reflected memories, and
+    those the Lens voiced since the last reflection (lived on the road
+    even without leaving a memory — solitude thoughts enter this way).
+    Voiced first, then by how many memories they touch by tag, then by
+    word; at most `reflection_seed_cap`. A seed left out can be neither
+    reinforced nor contradicted: nothing lived put it in question."""
+    active = (
+        session.query(Belief)
+        .filter_by(character_id=brain.character_id, status='active')
+        .all()
+    )
+    # Transient seeds are circumstances, not nature: they ride with the
+    # acquired beliefs so the reflection can keep fading them.
+    nature = [
+        b for b in active if b.origin == 'seed' and b.horizon != 'transient'
+    ]
+    learned = [b for b in active if b not in nature]
+    seeds = nature
+    if not seeds:
+        return learned
+
+    voiced = set()
+    briefs = (
+        session.query(Episode.brief)
+        .filter(
+            Episode.game_id == brain.game_id,
+            Episode.character_id == brain.character_id,
+            Episode.episode_idx > (since_idx or 0),
+        )
+        .all()
+    )
+    for (brief,) in briefs:
+        for line in brief_lines(brief):
+            lid = str((line or {}).get('id') or '')
+            if lid.startswith('belief:'):
+                voiced.add(lid.split(':', 1)[1])
+
+    ranked = []
+    for b in seeds:
+        btags = set(b.tags or [])
+        by_tag = sum(1 for m in memories if btags & set(m.tags or []))
+        by_word = sum(
+            1 for m in memories if _touches([], b.statement, [], m.desc)
+        )
+        is_voiced = b.id in voiced
+        if is_voiced or by_tag or by_word:
+            ranked.append(
+                ((is_voiced, by_tag, by_word, b.confidence or 0.0), b)
+            )
+    ranked.sort(key=lambda r: r[0], reverse=True)
+    cap = int(w.get('reflection_seed_cap', 25))
+    return learned + [b for _, b in ranked[:cap]]
 
 
 def _f(v, default):
@@ -292,11 +360,7 @@ def maybe_reflect(session, brain, episode, character_name=None):
         counters['last_reflection_episode'] = idx
         brain.counters = counters
         return {'reflected': False, 'reason': 'no_strong_evidence'}
-    beliefs = (
-        session.query(Belief)
-        .filter_by(character_id=brain.character_id, status='active')
-        .all()
-    )
+    beliefs = reflection_beliefs(session, brain, memories, last, w)
 
     prompt = _build_prompt(
         character_name or brain.character_id, memories, beliefs

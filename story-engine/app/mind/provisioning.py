@@ -135,6 +135,10 @@ DEFAULT_WIRING = {
     'belief_confidence_decay': 0.95,
     'belief_trauma_min': 0.9,
     'belief_cap': 12,
+    # Seeds shown to a reflection: only those the evidence bears on
+    # (touch its memories, or voiced since the last reflection), at most
+    # this many — a rich seed library must not flood the prompt.
+    'reflection_seed_cap': 25,
     # Evidence gate (C7): beliefs need lived weight — a memory reaches
     # the reflection prompt only if it mattered (importance) or was felt
     # (|valence|); drizzle never becomes conviction. And a worldview
