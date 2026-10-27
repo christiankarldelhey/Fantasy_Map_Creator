@@ -378,6 +378,17 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 <template>
   <!-- Desktop: right sidebar -->
   <div v-if="!mobile" class="chapter-viewer chapter-pages fixed right-0 top-0 h-full w-1/2 min-w-[28rem] bg-parchment-light flex flex-col z-50">
+    <!-- Old-book page edges: a slow wobble along the page, a faster jitter between pages, uneven wear. -->
+    <svg width="0" height="0" class="absolute" aria-hidden="true" focusable="false">
+      <filter id="chapter-book-edge" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.09 0.012" numOctaves="3" seed="11" result="warp" />
+        <feDisplacementMap in="SourceGraphic" in2="warp" scale="3.2" xChannelSelector="R" yChannelSelector="G" result="wavy" />
+        <feTurbulence type="fractalNoise" baseFrequency="0.35 0.025" numOctaves="2" seed="4" result="wear" />
+        <feColorMatrix in="wear" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.8 0.6" result="wearAlpha" />
+        <feComposite in="wavy" in2="wearAlpha" operator="in" />
+      </filter>
+    </svg>
+    <div class="chapter-pages-edge" aria-hidden="true"></div>
     <header class="px-6 pt-5 bg-parchment-light shrink-0">
       <div class="chapter-column flex items-center gap-2 pb-3 border-b border-earth-dark/20">
         <img
@@ -949,22 +960,34 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 }
 
 /* The panel is the top page of an open book: the pages beneath peek out on its
-   left edge. Each box-shadow layer is the panel shifted left; the visible part
-   alternates a 1px page edge with 2px of paper that darkens with depth. */
+   left edge. Each page is a 1px edge plus 2px of paper that darkens with depth;
+   an SVG filter (see the template) makes the edges slightly irregular. */
 .chapter-pages {
-  box-shadow:
-    -1px 0 0 0 color-mix(in srgb, var(--text-ink-brown) 55%, transparent),
-    -3px 0 0 0 color-mix(in srgb, var(--bg-parchment-light) 93%, #000),
-    -4px 0 0 0 color-mix(in srgb, var(--text-ink-brown) 46%, transparent),
-    -6px 0 0 0 color-mix(in srgb, var(--bg-parchment-light) 89%, #000),
-    -7px 0 0 0 color-mix(in srgb, var(--text-ink-brown) 38%, transparent),
-    -9px 0 0 0 color-mix(in srgb, var(--bg-parchment-light) 85%, #000),
-    -10px 0 0 0 color-mix(in srgb, var(--text-ink-brown) 30%, transparent),
-    -12px 0 0 0 color-mix(in srgb, var(--bg-parchment-light) 81%, #000),
-    -13px 0 0 0 color-mix(in srgb, var(--text-ink-brown) 22%, transparent),
-    -15px 0 0 0 color-mix(in srgb, var(--bg-parchment-light) 77%, #000),
-    -16px 0 0 0 color-mix(in srgb, var(--text-ink-brown) 15%, transparent),
-    -28px 0 30px -10px rgb(44 36 22 / 0.35);
+  box-shadow: -28px 0 30px -10px rgb(44 36 22 / 0.35);
+}
+.chapter-pages-edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: calc(100% - 3px);
+  width: 21px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to left,
+    var(--bg-parchment-light) 0 3px,
+    color-mix(in srgb, var(--text-ink-brown) 55%, transparent) 3px 4px,
+    color-mix(in srgb, var(--bg-parchment-light) 93%, #000) 4px 6px,
+    color-mix(in srgb, var(--text-ink-brown) 46%, transparent) 6px 7px,
+    color-mix(in srgb, var(--bg-parchment-light) 89%, #000) 7px 9px,
+    color-mix(in srgb, var(--text-ink-brown) 38%, transparent) 9px 10px,
+    color-mix(in srgb, var(--bg-parchment-light) 85%, #000) 10px 12px,
+    color-mix(in srgb, var(--text-ink-brown) 30%, transparent) 12px 13px,
+    color-mix(in srgb, var(--bg-parchment-light) 81%, #000) 13px 15px,
+    color-mix(in srgb, var(--text-ink-brown) 22%, transparent) 15px 16px,
+    color-mix(in srgb, var(--bg-parchment-light) 77%, #000) 16px 18px,
+    color-mix(in srgb, var(--text-ink-brown) 15%, transparent) 18px 19px,
+    color-mix(in srgb, var(--bg-parchment-light) 73%, #000) 19px 21px);
+  filter: url(#chapter-book-edge);
 }
 /* Paper curving into the spine: a soft shade along the inner left edge. */
 .chapter-pages::before {
