@@ -22,8 +22,8 @@ narrating a character's journey.
 - `backend`: `cd backend && npm test` (node --test)
 - `story-engine`: `cd story-engine && pytest` (large suite; run the touched
   module's tests first, full suite before finishing)
-- `frontend`: `cd frontend && npm run build` (vue-tsc + vite build; no unit
-  tests yet — see workflow.md, Vitest is being added)
+- `frontend`: `cd frontend && npm test` (vitest) + `npm run build`
+  (vue-tsc + vite build)
 
 No CI. Local verification + PR review are the only gates — hooks in
 `.devin/hooks.v1.json` enforce them.
