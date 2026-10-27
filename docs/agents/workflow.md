@@ -14,23 +14,23 @@ Classification is a human decision — picking the wrong lane wastes effort.
 
 | Input sounds like | Lane | First step |
 |---|---|---|
-| "X behaves wrong / used to work" | **Bug** | `/diagnose` |
-| "I want Y to exist / change" | **Feature** | grill (`/grill-with-docs`) → `/to-prd` |
-| "This code is ugly / repeated" | **Tech improvement** | short grill → `/to-issues` directly |
+| "X behaves wrong / used to work" | **Bug** | `/diagnosing-bugs` |
+| "I want Y to exist / change" | **Feature** | grill (`/grill-with-docs`) → `/to-spec` |
+| "This code is ugly / repeated" | **Tech improvement** | short grill → `/to-tickets` directly |
 | Not sure yet | **Triage** | label `needs-triage`, revisit later |
 
-Lanes are reversible: `/diagnose` may conclude "missing design → feature",
-`/to-prd` may discover "this is a bug in disguise".
+Lanes are reversible: `/diagnosing-bugs` may conclude "missing design → feature",
+`/to-spec` may discover "this is a bug in disguise".
 
 ## Flow
 
 ```mermaid
 flowchart TD
     A[Fuzzy input] --> B{Lane?}
-    B -->|bug| D[/diagnose: root cause via evidence]
-    B -->|feature| E[grill → PRD via /to-prd]
+    B -->|bug| D[/diagnosing-bugs: root cause via evidence]
+    B -->|feature| E[grill → PRD via /to-spec]
     B -->|tech| F[short spec]
-    D --> G[/to-issues → GitHub issue]
+    D --> G[/to-tickets → GitHub issue]
     E --> G
     F --> G
     G --> H{Tag: AFK or HITL?}
@@ -52,12 +52,12 @@ flowchart TD
 ## Step by step
 
 ### 1. Spec (feature lane)
-Grill the idea with `/grill-with-docs` until it's sharp, then `/to-prd` writes
+Grill the idea with `/grill-with-docs` until it's sharp, then `/to-spec` writes
 the PRD with acceptance criteria. A PRD is skipped for small bugs and tech
 improvements — ceremony is proportional to size.
 
 ### 2. Issues
-`/to-issues` breaks the PRD into vertical-slice GitHub issues. Each issue gets
+`/to-tickets` breaks the PRD into vertical-slice GitHub issues. Each issue gets
 an **AFK** or **HITL** label and — when it crosses a layer boundary — the
 contract pinned in its body (endpoint shape, field names).
 
@@ -118,8 +118,9 @@ tests and local git before dispatching; deny everything on the never-list.
 
 ### 7. Review
 Two axes: **Spec** (does it do what the issue asked, and only that?) then
-**Craft** (does it belong in this codebase?). `/code-review` does the first
-pass; the human does the second against `review-checklist.md`.
+**Craft/Standards** (does it belong in this codebase?). `/code-review` does
+the first pass — it runs exactly these two axes in parallel subagents; the
+human does the second against `review-checklist.md`.
 Rule: review the diff, not the PR description.
 
 ### 8. Performance check
@@ -160,7 +161,7 @@ self-sharpening.
 |---|---|
 | `grill-with-docs`, `grilling`, `grill-me` | Spec sharpening (feature lane entry) |
 | `domain-modeling` | CONTEXT.md glossary + ADRs, lazily |
-| `to-prd`, `to-issues`, `tdd`, `code-review`, `handoff`, `diagnose` | mattpocock pack — the pipeline |
+| `to-spec`, `to-tickets`, `triage`, `tdd`, `code-review`, `handoff`, `diagnosing-bugs`, `pr` | mattpocock pack — the pipeline |
 | `setup-matt-pocock-skills` | One-time: writes `docs/agents/issue-tracker.md` + domain doc pointers |
 | `log-run` (custom, this repo) | Appends run records to `runs.jsonl` |
 | `improve-codebase-architecture` | Postponed — for the architecture survey later |
