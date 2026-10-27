@@ -16,8 +16,11 @@ import { JsonViewer } from 'vue3-json-viewer'
 import 'vue3-json-viewer/dist/vue3-json-viewer.css'
 import './json-viewer-custom.css'
 import ChapterNarrative from './ChapterNarrative.vue'
+import { formatDistanceKm } from '../model/formatDistanceKm'
+import { useAuth } from '@/composables/useAuth'
 
 const { t, locale } = useI18n()
+const { isAdmin } = useAuth()
 
 const props = withDefaults(defineProps<{
   tripId: string
@@ -409,8 +412,8 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
               <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString(locale, { month: 'long', day: 'numeric' }) }}</span>
             </div>
           </div>
-          <p class="text-xs text-ink-brown mt-0.5 font-book">
-            {{ day.distance_km }} km ·
+          <p class="text-[0.9375rem] text-ink-black/75 mt-0.5 font-reading">
+            {{ formatDistanceKm(day.distance_km, locale) }} km ·
             {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
           </p>
         </div>
@@ -424,38 +427,40 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
             {{ t('chapter.tabs.narrative') }}
           </button>
-          <button
-            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'prompt' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-            @click="toggle(day, 'prompt')"
-          >
-            <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            {{ t('chapter.tabs.prompt') }}
-          </button>
-          <button
-            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'open' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-            @click="toggle(day, 'open')"
-          >
-            <component :is="expanded[day.id] === 'open' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            {{ t('chapter.tabs.open') }}
-          </button>
-          <button
-            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'close' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-            @click="toggle(day, 'close')"
-          >
-            <component :is="expanded[day.id] === 'close' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            {{ t('chapter.tabs.close') }}
-          </button>
-          <button
-            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'system' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-            @click="toggle(day, 'system')"
-          >
-            <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            {{ t('chapter.tabs.system') }}
-          </button>
+          <div v-if="isAdmin" class="ml-auto flex items-center">
+            <button
+              class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
+              :class="expanded[day.id] === 'prompt' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+              @click="toggle(day, 'prompt')"
+            >
+              <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+              {{ t('chapter.tabs.prompt') }}
+            </button>
+            <button
+              class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
+              :class="expanded[day.id] === 'open' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+              @click="toggle(day, 'open')"
+            >
+              <component :is="expanded[day.id] === 'open' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+              {{ t('chapter.tabs.open') }}
+            </button>
+            <button
+              class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
+              :class="expanded[day.id] === 'close' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+              @click="toggle(day, 'close')"
+            >
+              <component :is="expanded[day.id] === 'close' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+              {{ t('chapter.tabs.close') }}
+            </button>
+            <button
+              class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
+              :class="expanded[day.id] === 'system' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+              @click="toggle(day, 'system')"
+            >
+              <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+              {{ t('chapter.tabs.system') }}
+            </button>
+          </div>
         </div>
 
         <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
@@ -639,8 +644,8 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                   <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString(locale, { month: 'long', day: 'numeric' }) }}</span>
                 </div>
               </div>
-              <p class="text-xs text-ink-brown mt-0.5 font-book">
-                {{ day.distance_km }} km ·
+              <p class="text-[0.9375rem] text-ink-black/75 mt-0.5 font-reading">
+                {{ formatDistanceKm(day.distance_km, locale) }} km ·
                 {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
               </p>
             </div>
@@ -654,38 +659,40 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                 <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
                 {{ t('chapter.tabs.narrative') }}
               </button>
-              <button
-                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
-                :class="expanded[day.id] === 'prompt' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-                @click="toggle(day, 'prompt')"
-              >
-                <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                {{ t('chapter.tabs.prompt') }}
-              </button>
-              <button
-                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
-                :class="expanded[day.id] === 'open' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-                @click="toggle(day, 'open')"
-              >
-                <component :is="expanded[day.id] === 'open' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                {{ t('chapter.tabs.open') }}
-              </button>
-              <button
-                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
-                :class="expanded[day.id] === 'close' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-                @click="toggle(day, 'close')"
-              >
-                <component :is="expanded[day.id] === 'close' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                {{ t('chapter.tabs.close') }}
-              </button>
-              <button
-                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
-                :class="expanded[day.id] === 'system' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-                @click="toggle(day, 'system')"
-              >
-                <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                {{ t('chapter.tabs.system') }}
-              </button>
+              <div v-if="isAdmin" class="ml-auto flex items-center">
+                <button
+                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
+                  :class="expanded[day.id] === 'prompt' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+                  @click="toggle(day, 'prompt')"
+                >
+                  <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                  {{ t('chapter.tabs.prompt') }}
+                </button>
+                <button
+                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
+                  :class="expanded[day.id] === 'open' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+                  @click="toggle(day, 'open')"
+                >
+                  <component :is="expanded[day.id] === 'open' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                  {{ t('chapter.tabs.open') }}
+                </button>
+                <button
+                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
+                  :class="expanded[day.id] === 'close' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+                  @click="toggle(day, 'close')"
+                >
+                  <component :is="expanded[day.id] === 'close' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                  {{ t('chapter.tabs.close') }}
+                </button>
+                <button
+                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
+                  :class="expanded[day.id] === 'system' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+                  @click="toggle(day, 'system')"
+                >
+                  <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                  {{ t('chapter.tabs.system') }}
+                </button>
+              </div>
             </div>
 
             <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">

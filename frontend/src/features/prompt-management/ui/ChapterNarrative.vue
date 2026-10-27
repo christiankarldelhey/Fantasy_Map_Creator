@@ -23,7 +23,7 @@ const paragraphs = computed(() => splitParagraphs(props.text))
   font-size: 1.3125rem;
   line-height: 1.6;
   text-align: left;
-  hyphens: auto;
+  hyphens: manual;
   text-wrap: pretty;
   font-feature-settings: 'kern' 1, 'liga' 1, 'onum' 1;
 }
@@ -38,12 +38,12 @@ const paragraphs = computed(() => splitParagraphs(props.text))
   margin-top: 0.9em;
 }
 .chapter-narrative p:first-child::first-letter {
-  font-family: 'Cinzel', Georgia, serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
   font-weight: 600;
   float: left;
-  font-size: 3.3em;
-  line-height: 0.82;
-  padding: 0.04em 0.1em 0 0;
+  font-size: 3.9em;
+  line-height: 0.74;
+  padding: 0.03em 0.07em 0 0;
   color: theme('colors.gold.base');
 }
 </style>
