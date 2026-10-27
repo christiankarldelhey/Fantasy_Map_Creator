@@ -360,8 +360,8 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 
 <template>
   <!-- Desktop: right sidebar -->
-  <div v-if="!mobile" class="chapter-viewer fixed right-0 top-0 h-full w-1/2 min-w-[28rem] bg-parchment-base shadow-2xl border-l-2 border-gold flex flex-col z-50">
-    <header class="flex items-center justify-between px-5 py-4 border-b-2 border-earth-dark bg-parchment-light">
+  <div v-if="!mobile" class="chapter-viewer fixed right-0 top-0 h-full w-1/2 min-w-[28rem] bg-parchment-light shadow-2xl border-l border-gold flex flex-col z-50">
+    <header class="flex items-center justify-between px-5 py-4 border-b border-earth-dark/30 bg-parchment-light">
       <div class="flex items-center gap-2">
         <img
           v-if="activeCharacter"
@@ -381,7 +381,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </div>
     </header>
 
-    <div class="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+    <div class="flex-1 overflow-y-auto px-6 pb-2">
       <Loader v-if="loading && days.length === 0" variant="inline">
         {{ t('chapter.loadingChapters') }}
       </Loader>
@@ -391,15 +391,21 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </p>
 
       <article
-        v-for="day in days"
+        v-for="(day, dayIndex) in days"
         :key="day.id"
         :id="`chapter-${day.id}`"
-        class="bg-parchment-light rounded-lg border-2 border-earth-dark shadow-md overflow-hidden"
+        :class="dayIndex > 0 ? 'mt-10 pt-8 border-t border-earth-dark/25' : ''"
       >
-        <div class="px-4 py-3 border-b border-earth-dark bg-parchment-base">
-          <div class="flex items-center justify-between">
-            <h3 class="font-serif font-semibold text-ink-black/90">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
-            <div class="flex items-center gap-2">
+        <div class="px-4 pt-6">
+          <div class="flex items-baseline justify-between gap-3">
+            <div class="flex flex-wrap items-baseline gap-x-3 min-w-0">
+              <h3 class="font-serif font-semibold text-ink-black/90">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
+              <p class="text-[0.9375rem] text-ink-black/75 font-reading">
+            {{ formatDistanceKm(day.distance_km, locale) }} km ·
+            {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
+              </p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
               <button
                 class="p-1 rounded-md text-ink-brown/50 hover:text-gold-base hover:bg-parchment-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 :title="t('chapter.redo')"
@@ -412,16 +418,12 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
               <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString(locale, { month: 'long', day: 'numeric' }) }}</span>
             </div>
           </div>
-          <p class="text-[0.9375rem] text-ink-black/75 mt-0.5 font-reading">
-            {{ formatDistanceKm(day.distance_km, locale) }} km ·
-            {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
-          </p>
         </div>
 
-        <div class="flex border-b border-earth-dark text-sm">
+        <div class="flex border-b border-earth-dark/25 text-sm mt-3 px-2">
           <button
-            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'narrative' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+            class="flex items-center gap-1 px-4 py-2 font-medium border-b-2 -mb-px transition-colors"
+            :class="expanded[day.id] === 'narrative' ? 'text-gold-base border-gold' : 'border-transparent text-ink-brown hover:text-ink-black/90'"
             @click="toggle(day, 'narrative')"
           >
             <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
@@ -429,32 +431,32 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </button>
           <div v-if="isAdmin" class="ml-auto flex items-center">
             <button
-              class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
-              :class="expanded[day.id] === 'prompt' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+              class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+              :class="expanded[day.id] === 'prompt' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
               @click="toggle(day, 'prompt')"
             >
               <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
               {{ t('chapter.tabs.prompt') }}
             </button>
             <button
-              class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
-              :class="expanded[day.id] === 'open' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+              class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+              :class="expanded[day.id] === 'open' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
               @click="toggle(day, 'open')"
             >
               <component :is="expanded[day.id] === 'open' ? ChevronDown : ChevronRight" class="w-4 h-4" />
               {{ t('chapter.tabs.open') }}
             </button>
             <button
-              class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
-              :class="expanded[day.id] === 'close' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+              class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+              :class="expanded[day.id] === 'close' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
               @click="toggle(day, 'close')"
             >
               <component :is="expanded[day.id] === 'close' ? ChevronDown : ChevronRight" class="w-4 h-4" />
               {{ t('chapter.tabs.close') }}
             </button>
             <button
-              class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
-              :class="expanded[day.id] === 'system' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+              class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+              :class="expanded[day.id] === 'system' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
               @click="toggle(day, 'system')"
             >
               <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
@@ -463,7 +465,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </div>
         </div>
 
-        <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
+        <div v-if="expanded[day.id] === 'narrative'" class="px-4 pt-8 pb-6">
           <ChapterNarrative v-if="day.narrative" :text="day.narrative" />
           <p v-else class="text-sm text-ink-faded italic font-book">{{ t('chapter.noNarrative') }}</p>
         </div>
@@ -548,7 +550,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </p>
     </div>
 
-    <footer class="px-5 py-4 border-t-2 border-earth-dark bg-parchment-light">
+    <footer class="px-5 py-4 border-t border-earth-dark/30 bg-parchment-light">
       <div class="flex gap-3">
         <Button
           v-if="isTripComplete"
@@ -590,7 +592,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
   <BottomSheet v-else :expanded-vh="92" :collapsed-px="200">
     <template #default>
       <div class="flex flex-col h-full">
-        <header class="flex items-center justify-between px-4 py-3 border-b-2 border-earth-dark bg-parchment-light shrink-0">
+        <header class="flex items-center justify-between px-4 py-3 border-b border-earth-dark/30 bg-parchment-light shrink-0">
           <div class="flex items-center gap-2">
             <img
               v-if="activeCharacter"
@@ -613,7 +615,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </button>
         </header>
 
-        <div class="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+        <div class="flex-1 overflow-y-auto px-4 pb-2">
           <Loader v-if="loading && days.length === 0" variant="inline">
             {{ t('chapter.loadingChapters') }}
           </Loader>
@@ -623,15 +625,21 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </p>
 
           <article
-            v-for="day in days"
-            :key="day.id"
-            :id="`chapter-${day.id}`"
-            class="bg-parchment-light rounded-lg border-2 border-earth-dark shadow-md overflow-hidden"
-          >
-            <div class="px-4 py-3 border-b border-earth-dark bg-parchment-base">
-              <div class="flex items-center justify-between">
-                <h3 class="font-serif font-semibold text-ink-black/90">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
-                <div class="flex items-center gap-2">
+        v-for="(day, dayIndex) in days"
+        :key="day.id"
+        :id="`chapter-${day.id}`"
+        :class="dayIndex > 0 ? 'mt-10 pt-8 border-t border-earth-dark/25' : ''"
+      >
+            <div class="px-4 pt-6">
+              <div class="flex items-baseline justify-between gap-3">
+                <div class="flex flex-wrap items-baseline gap-x-3 min-w-0">
+                  <h3 class="font-serif font-semibold text-ink-black/90">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
+                  <p class="text-[0.9375rem] text-ink-black/75 font-reading">
+                {{ formatDistanceKm(day.distance_km, locale) }} km ·
+                {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
+                  </p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
                   <button
                     class="p-1 rounded-md text-ink-brown/50 hover:text-gold-base hover:bg-parchment-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                     :title="t('chapter.redo')"
@@ -644,16 +652,12 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                   <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString(locale, { month: 'long', day: 'numeric' }) }}</span>
                 </div>
               </div>
-              <p class="text-[0.9375rem] text-ink-black/75 mt-0.5 font-reading">
-                {{ formatDistanceKm(day.distance_km, locale) }} km ·
-                {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
-              </p>
             </div>
 
-            <div class="flex border-b border-earth-dark text-sm">
+            <div class="flex border-b border-earth-dark/25 text-sm mt-3 px-2">
               <button
-                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
-                :class="expanded[day.id] === 'narrative' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+                class="flex items-center gap-1 px-3 py-2 font-medium border-b-2 -mb-px transition-colors"
+                :class="expanded[day.id] === 'narrative' ? 'text-gold-base border-gold' : 'border-transparent text-ink-brown hover:text-ink-black/90'"
                 @click="toggle(day, 'narrative')"
               >
                 <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
@@ -661,32 +665,32 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
               </button>
               <div v-if="isAdmin" class="ml-auto flex items-center">
                 <button
-                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
-                  :class="expanded[day.id] === 'prompt' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+                  :class="expanded[day.id] === 'prompt' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
                   @click="toggle(day, 'prompt')"
                 >
                   <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
                   {{ t('chapter.tabs.prompt') }}
                 </button>
                 <button
-                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
-                  :class="expanded[day.id] === 'open' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+                  :class="expanded[day.id] === 'open' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
                   @click="toggle(day, 'open')"
                 >
                   <component :is="expanded[day.id] === 'open' ? ChevronDown : ChevronRight" class="w-4 h-4" />
                   {{ t('chapter.tabs.open') }}
                 </button>
                 <button
-                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
-                  :class="expanded[day.id] === 'close' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+                  :class="expanded[day.id] === 'close' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
                   @click="toggle(day, 'close')"
                 >
                   <component :is="expanded[day.id] === 'close' ? ChevronDown : ChevronRight" class="w-4 h-4" />
                   {{ t('chapter.tabs.close') }}
                 </button>
                 <button
-                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium transition-colors"
-                  :class="expanded[day.id] === 'system' ? 'text-gold-base bg-parchment-dark' : 'text-ink-faded hover:text-ink-black/90'"
+                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+                  :class="expanded[day.id] === 'system' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
                   @click="toggle(day, 'system')"
                 >
                   <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
@@ -695,7 +699,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
               </div>
             </div>
 
-            <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
+            <div v-if="expanded[day.id] === 'narrative'" class="px-4 pt-8 pb-6">
               <ChapterNarrative v-if="day.narrative" :text="day.narrative" compact />
               <p v-else class="text-sm text-ink-faded italic font-book">{{ t('chapter.noNarrative') }}</p>
             </div>
@@ -780,7 +784,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </p>
         </div>
 
-        <footer class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light shrink-0">
+        <footer class="px-4 py-3 border-t border-earth-dark/30 bg-parchment-light shrink-0">
           <div class="flex gap-3">
             <Button
               v-if="isTripComplete"
