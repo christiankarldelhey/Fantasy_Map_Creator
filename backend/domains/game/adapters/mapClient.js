@@ -7,7 +7,7 @@
 // deployed service, only this file needs to change (e.g. to fetch() calls).
 // ============================================================================
 
-export { computeRoute, endpointOnWater } from '../../map/services/world/routing.js';
+export { computeRoute, endpointOnWater, getDistance } from '../../map/services/world/routing.js';
 export { climateStats, innerClimate } from '../../map/services/data/climateData.js';
 export { getMoonPhase } from '../../map/services/data/moonPhase.js';
 export {
