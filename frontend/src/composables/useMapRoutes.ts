@@ -2,6 +2,7 @@ import maplibregl from 'maplibre-gl'
 import { lineString, point } from '@turf/helpers'
 import { medievalColors } from '@/app/theme/colors'
 import { i18n } from '@/app/i18n'
+import { chapterPanelMapPadding } from '@/shared/config/layout'
 
 const DANGER_RED = medievalColors.danger.base
 
@@ -97,7 +98,7 @@ export function initTripDayRoute(map: maplibregl.Map, allCoords: number[][], fit
   if (fitMap) {
     const bounds = new maplibregl.LngLatBounds()
     allCoords.forEach((c) => bounds.extend(c as [number, number]))
-    map.fitBounds(bounds, { padding: { top: 80, bottom: 80, left: 80, right: 620 }, maxZoom: 7, duration: 1200 })
+    map.fitBounds(bounds, { padding: { top: 80, bottom: 80, left: 80, right: chapterPanelMapPadding(window.innerWidth) }, maxZoom: 7, duration: 1200 })
   }
 }
 

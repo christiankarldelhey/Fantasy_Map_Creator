@@ -356,7 +356,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 
 <template>
   <!-- Desktop: right sidebar -->
-  <div v-if="!mobile" class="chapter-viewer fixed right-0 top-0 h-full w-full max-w-xl bg-parchment-base shadow-2xl border-l-2 border-gold flex flex-col z-50">
+  <div v-if="!mobile" class="chapter-viewer fixed right-0 top-0 h-full w-1/2 min-w-[28rem] bg-parchment-base shadow-2xl border-l-2 border-gold flex flex-col z-50">
     <header class="flex items-center justify-between px-5 py-4 border-b-2 border-earth-dark bg-parchment-light">
       <div class="flex items-center gap-2">
         <img
@@ -460,7 +460,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
           <p
             v-if="day.narrative"
-            class="font-book text-ink-black/90 leading-relaxed whitespace-pre-wrap"
+            class="font-book text-ink-black/90 leading-relaxed whitespace-pre-wrap max-w-[38rem] mx-auto"
           >{{ day.narrative }}</p>
           <p v-else class="text-sm text-ink-faded italic font-book">{{ t('chapter.noNarrative') }}</p>
         </div>

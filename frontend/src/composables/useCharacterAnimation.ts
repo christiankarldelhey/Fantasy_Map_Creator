@@ -10,6 +10,7 @@ import {
   drawCompletedRoute,
   drawRemainingRoute,
 } from './useMapRoutes'
+import { chapterPanelMapPadding } from '@/shared/config/layout'
 
 // ============================================================================
 // useCharacterAnimation
@@ -136,7 +137,7 @@ export function useCharacterAnimation() {
       new maplibregl.LngLatBounds(validCoords[0] as [number, number], validCoords[0] as [number, number])
     )
     map.fitBounds(bounds, {
-      padding: { top: 80, bottom: 80, left: 80, right: 620 },
+      padding: { top: 80, bottom: 80, left: 80, right: chapterPanelMapPadding(window.innerWidth) },
       maxZoom: 7,
       duration: 1200,
     })
