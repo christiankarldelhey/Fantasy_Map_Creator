@@ -45,12 +45,16 @@ export function resolveHoverName(features: HoverFeature[]): HoverHit | null {
   const locationFeature = features.find((f) => LOCATION_LAYER_IDS.has(f.layer?.id ?? ''))
   const regionFeature = features.find((f) => f.layer?.id === 'regions-fill')
 
+  const locName = locationFeature?.properties?.name
+  const regName = regionFeature?.properties?.name
   const name =
-    (locationFeature?.properties?.name as string | undefined) ??
-    (regionFeature?.properties?.name as string | undefined)
+    (typeof locName === 'string' && locName) ||
+    (typeof regName === 'string' && regName) ||
+    null
   if (!name) return null
 
-  const regionId = (regionFeature?.properties?.id as number | undefined) ?? null
+  const rawId = regionFeature?.properties?.id
+  const regionId = typeof rawId === 'number' ? rawId : null
   return { name, regionId }
 }
 
@@ -73,7 +77,7 @@ export function useMapHover({
     }
 
     map.on('mousemove', (e: MapMouseEvent) => {
-      if (e.originalEvent?.buttons) return hide()
+      if (e.originalEvent.buttons) return hide()
       const t = now()
       if (t - lastHitAt < throttleMs) return
       lastHitAt = t

@@ -45,6 +45,9 @@ export const MAP_COLORS = {
     outlineColor: '#0d9488',
     outlineWidth: 1.5,
     hoverColor: '#e2e8f0',     // Borde neutro al hacer hover (distinto del rojo de selección)
+    hoverWidth: 2,
+    selectedColor: '#ef4444',  // Borde rojo al seleccionar por click/búsqueda
+    selectedWidth: 3
   },
 
   // Capa de Altitud (DEM visual)

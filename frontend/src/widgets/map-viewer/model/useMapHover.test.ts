@@ -48,10 +48,9 @@ describe('useMapHover', () => {
     map.setFeatures([region('Eriador', 7)])
     const { popup } = makePopup()
 
+    let t = 1000
     const { hoveredRegionId, attachHover } = useMapHover({ now: () => t })
     attachHover(map, popup)
-
-    let t = 1000
     map.fire('mousemove', { point: { x: 1, y: 1 }, lngLat: { lng: -70, lat: -42 }, originalEvent: {} })
 
     expect(popup.setText).toHaveBeenCalledWith('Eriador')

@@ -462,12 +462,15 @@ onMounted(async () => {
         // Setup events
         setupClickHandler(map!, handleLocationClick, handleAddMarker, () => timestampISO.value, props.mode || 'explore')
 
-        // Hover shows a name-only popup and a neutral region border.
-        attachHover(map!, new maplibregl.Popup({
-          closeButton: false,
-          closeOnClick: false,
-          className: 'map-hover-popup'
-        }))
+        // Hover shows a name-only popup and a neutral region border. Wander
+        // mode already reveals names via its own hover labels — skip there.
+        if (props.mode !== 'wander') {
+          attachHover(map!, new maplibregl.Popup({
+            closeButton: false,
+            closeOnClick: false,
+            className: 'map-hover-popup'
+          }))
+        }
 
         // Load and display character/company cursor (only in wander mode)
         if (props.mode === 'wander') {

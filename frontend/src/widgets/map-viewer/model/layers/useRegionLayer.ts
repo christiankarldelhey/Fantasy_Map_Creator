@@ -1,13 +1,13 @@
 import type { Map as MapLibreMap } from 'maplibre-gl'
+import type { RegionCollection } from '@/entities/region'
+import { MAP_COLORS } from '../../config/mapColors'
+import { useMapLayer } from './useMapLayer'
 
 /** The slice of MapLibre the outline repaint needs — real Map and fakes fit. */
 type OutlinePaintMap = {
   getLayer(id: string): unknown
   setPaintProperty(layer: string, prop: string, value: unknown): unknown
 }
-import type { RegionCollection } from '@/entities/region'
-import { MAP_COLORS } from '../../config/mapColors'
-import { useMapLayer } from './useMapLayer'
 
 export function useRegionLayer() {
   const fillLayer = useMapLayer({
@@ -68,14 +68,14 @@ export function useRegionLayer() {
     const opacityCases: unknown[] = []
     if (selectedId !== null) {
       const match = ['==', ['get', 'id'], selectedId]
-      colorCases.push(match, '#ef4444') // Selected region: red
-      widthCases.push(match, 3)
+      colorCases.push(match, MAP_COLORS.regions.selectedColor) // Selected region: red
+      widthCases.push(match, MAP_COLORS.regions.selectedWidth)
       opacityCases.push(match, 1)
     }
     if (hoveredId !== null && hoveredId !== selectedId) {
       const match = ['==', ['get', 'id'], hoveredId]
       colorCases.push(match, MAP_COLORS.regions.hoverColor) // Hovered: neutral
-      widthCases.push(match, 2)
+      widthCases.push(match, MAP_COLORS.regions.hoverWidth)
       opacityCases.push(match, 1)
     }
 
