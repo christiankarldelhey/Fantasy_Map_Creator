@@ -44,3 +44,7 @@ __pycache__/
 
 # Wayfinder local-markdown tracker — local planning artifacts, not committed
 /wayfinder/
+
+# Devin CLI local config (personal, not committed)
+.devin/config.local.json
+.devin/session-log.jsonl
