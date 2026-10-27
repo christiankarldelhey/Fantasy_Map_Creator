@@ -21,6 +21,7 @@ import { useI18n } from 'vue-i18n'
 import { useGlobalClimateTime } from '@/composables/useGlobalClimateTime'
 import { useCharacter } from '@/composables/useCharacter'
 import { Leaf, Sprout, Sun, Snowflake } from '@lucide/vue'
+import { seasonForMonth } from '@/shared/lib/season'
 
 const emit = defineEmits<{
   click: []
@@ -44,13 +45,7 @@ const regionName = computed(() => {
   return activeCharacter.value?.current_region || t('common.unknownRegion')
 })
 
-const season = computed(() => {
-  const month = currentClimateTime.value.getMonth()
-  if (month >= 2 && month <= 4) return 'spring'
-  if (month >= 5 && month <= 7) return 'summer'
-  if (month >= 8 && month <= 10) return 'autumn'
-  return 'winter'
-})
+const season = computed(() => seasonForMonth(currentClimateTime.value.getMonth()))
 
 const seasonIcon = computed(() => {
   switch (season.value) {

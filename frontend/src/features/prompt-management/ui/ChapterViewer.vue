@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ChevronDown, ChevronRight, Plus, FileDown, Copy, Check, RotateCcw } from '@lucide/vue'
+import { ChevronDown, ChevronRight, Plus, FileDown, Copy, Check, RotateCcw, Sprout, Sun, Leaf, Snowflake } from '@lucide/vue'
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
 import { useLanguage } from '@/composables/useLanguage'
@@ -17,10 +17,14 @@ import 'vue3-json-viewer/dist/vue3-json-viewer.css'
 import './json-viewer-custom.css'
 import ChapterNarrative from './ChapterNarrative.vue'
 import { formatDistanceKm } from '../model/formatDistanceKm'
+import { seasonForMonth } from '@/shared/lib/season'
 import { useAuth } from '@/composables/useAuth'
 
 const { t, locale } = useI18n()
 const { isAdmin } = useAuth()
+
+const SEASON_ICONS = { spring: Sprout, summer: Sun, autumn: Leaf, winter: Snowflake }
+const seasonOf = (date: string) => seasonForMonth(new Date(date).getMonth())
 
 const props = withDefaults(defineProps<{
   tripId: string
@@ -361,16 +365,16 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 <template>
   <!-- Desktop: right sidebar -->
   <div v-if="!mobile" class="chapter-viewer fixed right-0 top-0 h-full w-1/2 min-w-[28rem] bg-parchment-light shadow-2xl border-l border-gold flex flex-col z-50">
-    <header class="flex items-center justify-between px-5 py-4 border-b border-earth-dark/30 bg-parchment-light">
-      <div class="flex items-center gap-2">
+    <header class="px-6 pt-5 bg-parchment-light shrink-0">
+      <div class="chapter-column flex items-center gap-2 pb-3 border-b border-earth-dark/20">
         <img
           v-if="activeCharacter"
           :src="getCharacterImage(activeCharacter.name)"
           :alt="activeCharacter.name"
-          class="w-8 h-8 rounded-full object-cover border border-gold"
+          class="w-7 h-7 rounded-full object-cover border border-gold"
           :style="{ filter: 'sepia(100%) brightness(0.7) opacity(0.8)' }"
         />
-        <h2 class="text-lg font-serif font-semibold text-ink-black/90">{{ title }}</h2>
+        <h2 class="min-w-0 truncate text-base font-serif font-semibold text-ink-black/90">{{ title }}</h2>
         <button
           class="p-1 rounded-md text-ink-brown/40 hover:text-ink-brown/80 hover:bg-parchment-dark transition-colors"
           :title="copiedAllCodes ? t('chapter.copiedAll') : t('chapter.copyAllCodes')"
@@ -381,7 +385,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </div>
     </header>
 
-    <div class="flex-1 overflow-y-auto px-6 pb-2">
+    <div class="chapter-scroll flex-1 overflow-y-auto px-6 pb-2">
       <Loader v-if="loading && days.length === 0" variant="inline">
         {{ t('chapter.loadingChapters') }}
       </Loader>
@@ -394,9 +398,9 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         v-for="(day, dayIndex) in days"
         :key="day.id"
         :id="`chapter-${day.id}`"
-        :class="dayIndex > 0 ? 'mt-10 pt-8 border-t border-earth-dark/25' : ''"
+        :class="['chapter-column', dayIndex > 0 ? 'mt-10 pt-8 border-t border-earth-dark/25' : '']"
       >
-        <div class="px-4 pt-6">
+        <div class="pt-6">
           <div class="flex items-baseline justify-between gap-3">
             <div class="flex flex-wrap items-baseline gap-x-3 min-w-0">
               <h3 class="font-serif font-semibold text-ink-black/90">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
@@ -406,30 +410,25 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
               </p>
             </div>
             <div class="flex items-center gap-2 shrink-0">
-              <button
-                class="p-1 rounded-md text-ink-brown/50 hover:text-gold-base hover:bg-parchment-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                :title="t('chapter.redo')"
-                :disabled="redoingDay !== null"
-                @click="handleRedoNarration(day)"
-              >
-                <Loader v-if="redoingDay === day.day_number" size="sm" variant="inline" class="w-4 h-4" />
-                <RotateCcw v-else class="w-4 h-4" />
-              </button>
+              <span class="text-gold-base" :title="t(`welcome.seasons.${seasonOf(day.date)}.title`)">
+                <component :is="SEASON_ICONS[seasonOf(day.date)]" class="w-4 h-4" />
+              </span>
               <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString(locale, { month: 'long', day: 'numeric' }) }}</span>
             </div>
           </div>
         </div>
 
-        <div class="flex border-b border-earth-dark/25 text-sm mt-3 px-2">
+        <div class="flex border-b border-earth-dark/25 text-sm mt-3">
           <button
-            class="flex items-center gap-1 px-4 py-2 font-medium border-b-2 -mb-px transition-colors"
+            class="flex items-center gap-1 pr-4 py-2 font-medium border-b-2 -mb-px transition-colors"
             :class="expanded[day.id] === 'narrative' ? 'text-gold-base border-gold' : 'border-transparent text-ink-brown hover:text-ink-black/90'"
             @click="toggle(day, 'narrative')"
           >
             <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
             {{ t('chapter.tabs.narrative') }}
           </button>
-          <div v-if="isAdmin" class="ml-auto flex items-center">
+          <div class="ml-auto flex items-center">
+            <template v-if="isAdmin">
             <button
               class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
               :class="expanded[day.id] === 'prompt' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
@@ -462,10 +461,20 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
               <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
               {{ t('chapter.tabs.system') }}
             </button>
+            </template>
+            <button
+              class="flex items-center px-2 py-2 text-xs border-b-2 border-transparent -mb-px text-ink-faded hover:text-gold-base transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              :title="t('chapter.redo')"
+              :disabled="redoingDay !== null"
+              @click="handleRedoNarration(day)"
+            >
+              <Loader v-if="redoingDay === day.day_number" size="sm" variant="inline" class="w-4 h-4" />
+              <RotateCcw v-else class="w-4 h-4" />
+            </button>
           </div>
         </div>
 
-        <div v-if="expanded[day.id] === 'narrative'" class="px-4 pt-8 pb-6">
+        <div v-if="expanded[day.id] === 'narrative'" class="pt-8 pb-6">
           <ChapterNarrative v-if="day.narrative" :text="day.narrative" />
           <p v-else class="text-sm text-ink-faded italic font-book">{{ t('chapter.noNarrative') }}</p>
         </div>
@@ -550,13 +559,19 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </p>
     </div>
 
-    <footer class="px-5 py-4 border-t border-earth-dark/30 bg-parchment-light">
-      <div class="flex gap-3">
+    <footer class="px-6 pt-2 pb-5 bg-parchment-light shrink-0">
+      <div class="chapter-column flex items-center justify-between gap-4">
+        <button
+          class="text-sm text-ink-brown/70 hover:text-destructive underline-offset-4 hover:underline transition-colors"
+          @click="isTripComplete ? emit('close') : handleCancelClick()"
+        >
+          {{ isTripComplete ? labels.closeBtn : labels.cancelBtn }}
+        </button>
         <Button
           v-if="isTripComplete"
           variant="secondary"
           size="md"
-          class="flex-1"
+          class="shadow-none"
           :disabled="exportingPdf"
           @click="generateAdventurePDF"
         >
@@ -568,21 +583,13 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           v-else
           variant="primary"
           size="md"
-          class="flex-1"
+          class="shadow-none"
           :disabled="generating || quotaReached"
           @click="handleGenerateNext"
         >
           <Loader v-if="generating" size="sm" variant="inline" class="mr-2" />
           <Plus v-else class="w-4 h-4 mr-2" />
           {{ generating ? labels.generatingBtn : labels.generateBtn }}
-        </Button>
-
-        <Button
-          variant="outline"
-          size="md"
-          @click="isTripComplete ? emit('close') : handleCancelClick()"
-        >
-          {{ isTripComplete ? labels.closeBtn : labels.cancelBtn }}
         </Button>
       </div>
     </footer>
@@ -640,15 +647,9 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                   </p>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
-                  <button
-                    class="p-1 rounded-md text-ink-brown/50 hover:text-gold-base hover:bg-parchment-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                    :title="t('chapter.redo')"
-                    :disabled="redoingDay !== null"
-                    @click="handleRedoNarration(day)"
-                  >
-                    <Loader v-if="redoingDay === day.day_number" size="sm" variant="inline" class="w-4 h-4" />
-                    <RotateCcw v-else class="w-4 h-4" />
-                  </button>
+                  <span class="text-gold-base" :title="t(`welcome.seasons.${seasonOf(day.date)}.title`)">
+                    <component :is="SEASON_ICONS[seasonOf(day.date)]" class="w-4 h-4" />
+                  </span>
                   <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString(locale, { month: 'long', day: 'numeric' }) }}</span>
                 </div>
               </div>
@@ -663,7 +664,8 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                 <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
                 {{ t('chapter.tabs.narrative') }}
               </button>
-              <div v-if="isAdmin" class="ml-auto flex items-center">
+              <div class="ml-auto flex items-center">
+                <template v-if="isAdmin">
                 <button
                   class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
                   :class="expanded[day.id] === 'prompt' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
@@ -695,6 +697,16 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                 >
                   <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
                   {{ t('chapter.tabs.system') }}
+                </button>
+                </template>
+                <button
+                  class="flex items-center px-2 py-2 text-xs border-b-2 border-transparent -mb-px text-ink-faded hover:text-gold-base transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  :title="t('chapter.redo')"
+                  :disabled="redoingDay !== null"
+                  @click="handleRedoNarration(day)"
+                >
+                  <Loader v-if="redoingDay === day.day_number" size="sm" variant="inline" class="w-4 h-4" />
+                  <RotateCcw v-else class="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -875,3 +887,17 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
     </template>
   </Modal>
 </template>
+
+<style scoped>
+/* One reading column shared by the header, chapter title, tabs, text and footer. */
+.chapter-column {
+  width: 100%;
+  max-width: 42rem;
+  margin-inline: auto;
+}
+/* The text fades into the footer instead of being cut by a rule. */
+.chapter-scroll {
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 1.75rem), transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 1.75rem), transparent);
+}
+</style>
