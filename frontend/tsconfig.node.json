@@ -4,7 +4,16 @@
     "target": "es2023",
     "lib": ["ES2023"],
     "module": "esnext",
-    "types": ["node"],
+    "types": ["node", "vite/client"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/app/*": ["./src/app/*"],
+      "@/pages/*": ["./src/pages/*"],
+      "@/widgets/*": ["./src/widgets/*"],
+      "@/features/*": ["./src/features/*"],
+      "@/entities/*": ["./src/entities/*"],
+      "@/shared/*": ["./src/shared/*"]
+    },
     "skipLibCheck": true,
 
     /* Bundler mode */

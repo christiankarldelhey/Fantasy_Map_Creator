@@ -184,7 +184,7 @@ import { useI18n } from 'vue-i18n'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { MAPLIBRE_CONFIG, MAPLIBRE_CONFIG_WANDER } from '@/shared/config/maplibre'
-import { useMapLayers, useMapEvents, useMapMarkers, useMapDataLoading } from '../model'
+import { useMapLayers, useMapEvents, useMapMarkers, useMapDataLoading, useMapHover } from '../model'
 import type { MapMode } from '../model/useMapLayers'
 import { fetchLocationDetailsAtPoint, fetchRegionDetailsAtPoint } from '../model/useLocationDetails'
 import { SearchInput } from '@/widgets/search-input'
@@ -317,6 +317,16 @@ const {
 // Map composables
 const { initializeLayers, removeLayers, locationLayer, biomeLayer, regionLayer, roadLayer, waterLayer, altitudeLayer } = useMapLayers()
 const { setupClickHandler } = useMapEvents()
+const { hoveredRegionId, attachHover } = useMapHover()
+
+// Click selection (red) and hover (neutral) write the same outline paint —
+// keep both ids in refs so a single watcher owns the layer update.
+const selectedRegionId = ref<number | null>(null)
+watch([selectedRegionId, hoveredRegionId], () => {
+  if (map) {
+    regionLayer.highlightRegionBorder(map, selectedRegionId.value, hoveredRegionId.value)
+  }
+})
 
 const mapError = ref<string | null>(null)
 const combinedError = computed(() => mapError.value || error.value)
@@ -452,6 +462,16 @@ onMounted(async () => {
         // Setup events
         setupClickHandler(map!, handleLocationClick, handleAddMarker, () => timestampISO.value, props.mode || 'explore')
 
+        // Hover shows a name-only popup and a neutral region border. Wander
+        // mode already reveals names via its own hover labels — skip there.
+        if (props.mode !== 'wander') {
+          attachHover(map!, new maplibregl.Popup({
+            closeButton: false,
+            closeOnClick: false,
+            className: 'map-hover-popup'
+          }))
+        }
+
         // Load and display character/company cursor (only in wander mode)
         if (props.mode === 'wander') {
           try {
@@ -578,7 +598,7 @@ function handleSearchSelect(result: SearchResult) {
 
   if (result.type === 'location') {
     // Reset region border highlight
-    regionLayer.highlightRegionBorder(map, null)
+    selectedRegionId.value = null
 
     // Zoom fijo para locations (Point)
     const coords = (result.geometry as GeoJSON.Point).coordinates
@@ -613,9 +633,7 @@ function handleSearchSelect(result: SearchResult) {
     map.once('moveend', () => {
       handleAddMarker(center.lng, center.lat)
       // Highlight the selected region border in red
-      if (map) {
-        regionLayer.highlightRegionBorder(map, result.id as number)
-      }
+      selectedRegionId.value = result.id as number
     })
   }
 }
@@ -629,28 +647,22 @@ function handleLocationClick(location: LocationDetails) {
   selectedLocation.value = location
 
   // Highlight region border if this is a region
-  if (location.type === 'Region' && location.regionId && map) {
-    regionLayer.highlightRegionBorder(map, location.regionId)
-  } else if (map) {
-    regionLayer.highlightRegionBorder(map, null)
-  }
+  selectedRegionId.value = location.type === 'Region' && location.regionId
+    ? location.regionId
+    : null
 }
 
 function handleClearSearch() {
   selectedLocation.value = null
   removeMarker()
-  if (map) {
-    regionLayer.highlightRegionBorder(map, null)
-  }
+  selectedRegionId.value = null
 }
 
 function handleCloseSidebar() {
   selectedLocation.value = null
   removeMarker()
   exitDirections()
-  if (map) {
-    regionLayer.highlightRegionBorder(map, null)
-  }
+  selectedRegionId.value = null
 }
 
 function handleDirectionsClick() {
@@ -716,9 +728,7 @@ function handleExitDirections() {
   exitDirections()
   selectedLocation.value = null
   removeMarker()
-  if (map) {
-    regionLayer.highlightRegionBorder(map, null)
-  }
+  selectedRegionId.value = null
 }
 
 async function handleStartAdventure(payload: { origin: any; destination: any; language: string }) {
@@ -833,6 +843,16 @@ async function refreshLocationDetails(lng: number, lat: number) {
 </script>
 
 <style scoped>
+/* Hover popup: name-only chip, no arrow, no close button */
+:deep(.map-hover-popup .maplibregl-popup-tip) {
+  display: none;
+}
+:deep(.map-hover-popup .maplibregl-popup-content) {
+  padding: 4px 10px;
+  font-size: 13px;
+  pointer-events: none;
+}
+
 /* Sobrescribir estilos globales de #app que interfieren con el posicionamiento absoluto */
 :deep(.search-container) {
   position: absolute !important;

@@ -3,6 +3,12 @@ import type { RegionCollection } from '@/entities/region'
 import { MAP_COLORS } from '../../config/mapColors'
 import { useMapLayer } from './useMapLayer'
 
+/** The slice of MapLibre the outline repaint needs — real Map and fakes fit. */
+type OutlinePaintMap = {
+  getLayer(id: string): unknown
+  setPaintProperty(layer: string, prop: string, value: unknown): unknown
+}
+
 export function useRegionLayer() {
   const fillLayer = useMapLayer({
     sourceId: 'regions',
@@ -44,30 +50,50 @@ export function useRegionLayer() {
     outlineLayer.addLayer(map, data) // Add last to be on top of all layers
   }
 
-  const highlightRegionBorder = (map: MapLibreMap, regionId: number | null) => {
+  const highlightRegionBorder = (
+    map: OutlinePaintMap,
+    selectedId: number | null,
+    hoveredId: number | null = null
+  ) => {
     if (!map.getLayer('regions-outline')) return
 
-    if (regionId === null) {
+    if (selectedId === null && hoveredId === null) {
       // Reset to transparent for all regions
       map.setPaintProperty('regions-outline', 'line-opacity', 0)
-    } else {
-      // Highlight selected region border in red, others stay transparent
-      map.setPaintProperty('regions-outline', 'line-color', [
-        'case',
-        ['==', ['get', 'id'], regionId], '#ef4444', // Selected region: red
-        MAP_COLORS.regions.outlineColor // Other regions: normal color (but transparent)
-      ])
-      map.setPaintProperty('regions-outline', 'line-width', [
-        'case',
-        ['==', ['get', 'id'], regionId], 3, // Selected region: thicker
-        MAP_COLORS.regions.outlineWidth // Other regions: normal width
-      ])
-      map.setPaintProperty('regions-outline', 'line-opacity', [
-        'case',
-        ['==', ['get', 'id'], regionId], 1, // Selected region: visible
-        0 // Other regions: transparent
-      ])
+      return
     }
+
+    const colorCases: unknown[] = []
+    const widthCases: unknown[] = []
+    const opacityCases: unknown[] = []
+    if (selectedId !== null) {
+      const match = ['==', ['get', 'id'], selectedId]
+      colorCases.push(match, MAP_COLORS.regions.selectedColor) // Selected region: red
+      widthCases.push(match, MAP_COLORS.regions.selectedWidth)
+      opacityCases.push(match, 1)
+    }
+    if (hoveredId !== null && hoveredId !== selectedId) {
+      const match = ['==', ['get', 'id'], hoveredId]
+      colorCases.push(match, MAP_COLORS.regions.hoverColor) // Hovered: neutral
+      widthCases.push(match, MAP_COLORS.regions.hoverWidth)
+      opacityCases.push(match, 1)
+    }
+
+    map.setPaintProperty('regions-outline', 'line-color', [
+      'case',
+      ...colorCases,
+      MAP_COLORS.regions.outlineColor
+    ])
+    map.setPaintProperty('regions-outline', 'line-width', [
+      'case',
+      ...widthCases,
+      MAP_COLORS.regions.outlineWidth
+    ])
+    map.setPaintProperty('regions-outline', 'line-opacity', [
+      'case',
+      ...opacityCases,
+      0
+    ])
   }
 
   const removeLayer = (map: MapLibreMap) => {
