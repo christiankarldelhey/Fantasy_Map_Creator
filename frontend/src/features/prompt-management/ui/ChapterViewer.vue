@@ -389,7 +389,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </filter>
     </svg>
     <div class="chapter-pages-edge" aria-hidden="true"></div>
-    <header class="px-6 pt-5 bg-parchment-light shrink-0">
+    <header class="px-6 pt-5 shrink-0">
       <div class="chapter-column flex items-center gap-2 pb-3 border-b border-earth-dark/20">
         <img
           v-if="activeCharacter"
@@ -600,7 +600,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </p>
     </div>
 
-    <footer class="px-6 pt-2 pb-5 bg-parchment-light shrink-0">
+    <footer class="px-6 pt-2 pb-5 shrink-0">
       <div class="chapter-column flex items-center justify-between gap-4">
         <button
           class="text-sm text-ink-brown/70 hover:text-destructive underline-offset-4 hover:underline transition-colors"
@@ -998,5 +998,32 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
   z-index: 1;
   pointer-events: none;
   background: linear-gradient(to right, rgb(44 36 22 / 0.08), transparent);
+}
+
+/* Aged paper: fine grain and large faint blotches over the parchment base,
+   a worn tint toward the edges, and a sparse fiber noise laid over the ink. */
+.chapter-pages {
+  background-image:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20220%20220%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.9%22%20numOctaves%3D%222%22%20seed%3D%227%22/%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200.25%20%200%200%200%200%200.19%20%200%200%200%200%200.11%20%200%200%200%200.07%200.03%22/%3E%3C/filter%3E%3Crect%20width%3D%22220%22%20height%3D%22220%22%20filter%3D%22url%28%23n%29%22/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%201200%201200%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.008%22%20numOctaves%3D%222%22%20seed%3D%223%22/%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200.32%20%200%200%200%200%200.22%20%200%200%200%200%200.09%20%200%200%200%200.05%200.0%22/%3E%3C/filter%3E%3Crect%20width%3D%221200%22%20height%3D%221200%22%20filter%3D%22url%28%23n%29%22/%3E%3C/svg%3E"),
+    radial-gradient(120% 140% at 50% 40%, transparent 55%, rgb(60 42 20 / 0.07));
+  background-size: 220px 220px, 1200px 1200px, 100% 100%;
+}
+.chapter-pages::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20180%20180%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.75%22%20numOctaves%3D%222%22%20seed%3D%2213%22/%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200.14%20%200%200%200%200%200.1%20%200%200%200%200%200.05%20%200%200%200%200.12%200.04%22/%3E%3C/filter%3E%3Crect%20width%3D%22180%22%20height%3D%22180%22%20filter%3D%22url%28%23n%29%22/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+}
+.dark .chapter-pages {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%201200%201200%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.008%22%20numOctaves%3D%222%22%20seed%3D%223%22/%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200.32%20%200%200%200%200%200.22%20%200%200%200%200%200.09%20%200%200%200%200.05%200.0%22/%3E%3C/filter%3E%3Crect%20width%3D%221200%22%20height%3D%221200%22%20filter%3D%22url%28%23n%29%22/%3E%3C/svg%3E");
+}
+.dark .chapter-pages::after {
+  opacity: 0.25;
 }
 </style>
