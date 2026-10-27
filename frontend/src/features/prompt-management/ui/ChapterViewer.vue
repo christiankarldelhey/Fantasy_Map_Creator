@@ -411,9 +411,9 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         v-for="(day, dayIndex) in days"
         :key="day.id"
         :id="`chapter-${day.id}`"
-        :class="['chapter-column', dayIndex > 0 ? 'mt-10 pt-8 border-t border-earth-dark/25' : '']"
+        :class="['chapter-column', dayIndex > 0 ? 'border-t border-earth-dark/25' : '']"
       >
-        <div class="pt-6">
+        <div class="py-3">
           <div
             class="group flex items-baseline justify-between gap-3 cursor-pointer select-none"
             role="button"
@@ -504,7 +504,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </div>
         </div>
 
-        <div v-if="expanded[day.id] === 'narrative'" class="pt-8 pb-6">
+        <div v-if="expanded[day.id] === 'narrative'" class="pt-5 pb-8">
           <ChapterNarrative v-if="day.narrative" :text="day.narrative" />
           <p v-else class="text-sm text-ink-faded italic font-book">{{ t('chapter.noNarrative') }}</p>
         </div>
@@ -665,9 +665,9 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         v-for="(day, dayIndex) in days"
         :key="day.id"
         :id="`chapter-${day.id}`"
-        :class="dayIndex > 0 ? 'mt-10 pt-8 border-t border-earth-dark/25' : ''"
+        :class="dayIndex > 0 ? 'border-t border-earth-dark/25' : ''"
       >
-            <div class="px-4 pt-6">
+            <div class="px-4 py-3">
               <div
             class="group flex items-baseline justify-between gap-3 cursor-pointer select-none"
             role="button"
@@ -758,7 +758,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
               </div>
             </div>
 
-            <div v-if="expanded[day.id] === 'narrative'" class="px-4 pt-8 pb-6">
+            <div v-if="expanded[day.id] === 'narrative'" class="px-4 pt-5 pb-8">
               <ChapterNarrative v-if="day.narrative" :text="day.narrative" compact />
               <p v-else class="text-sm text-ink-faded italic font-book">{{ t('chapter.noNarrative') }}</p>
             </div>
