@@ -15,6 +15,7 @@ import { BottomSheet } from '@/components/ui/bottom-sheet'
 import { JsonViewer } from 'vue3-json-viewer'
 import 'vue3-json-viewer/dist/vue3-json-viewer.css'
 import './json-viewer-custom.css'
+import ChapterNarrative from './ChapterNarrative.vue'
 
 const { t, locale } = useI18n()
 
@@ -458,10 +459,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         </div>
 
         <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
-          <p
-            v-if="day.narrative"
-            class="font-book text-ink-black/90 leading-relaxed whitespace-pre-wrap max-w-[38rem] mx-auto"
-          >{{ day.narrative }}</p>
+          <ChapterNarrative v-if="day.narrative" :text="day.narrative" />
           <p v-else class="text-sm text-ink-faded italic font-book">{{ t('chapter.noNarrative') }}</p>
         </div>
 
@@ -691,10 +689,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             </div>
 
             <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
-              <p
-                v-if="day.narrative"
-                class="font-book text-ink-black/90 leading-relaxed whitespace-pre-wrap"
-              >{{ day.narrative }}</p>
+              <ChapterNarrative v-if="day.narrative" :text="day.narrative" compact />
               <p v-else class="text-sm text-ink-faded italic font-book">{{ t('chapter.noNarrative') }}</p>
             </div>
 

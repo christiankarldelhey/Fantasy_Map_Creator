@@ -96,6 +96,7 @@ export default {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'sans-serif'],
         serif: ['Cinzel', 'Georgia', 'serif'],
         book: ['IM Fell English', 'Georgia', 'serif'],
+        reading: ['Cormorant Garamond', 'Georgia', 'serif'],
       }
     },
   },
