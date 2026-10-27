@@ -13,14 +13,14 @@ const paragraphs = computed(() => splitParagraphs(props.text))
 </script>
 
 <style scoped>
-/* Cormorant Garamond has fine strokes and a small x-height: Medium weight,
-   a larger size and full-strength ink keep it readable on screen. */
+/* Cormorant Garamond has fine strokes and a small x-height: full-strength
+   ink and a generous line-height keep Regular weight readable on screen. */
 .chapter-narrative {
   max-width: 38rem;
   margin-inline: auto;
   color: var(--text-ink-black);
-  font-weight: 500;
-  font-size: 1.375rem;
+  font-weight: 400;
+  font-size: 1.3125rem;
   line-height: 1.6;
   text-align: left;
   hyphens: auto;
@@ -28,7 +28,7 @@ const paragraphs = computed(() => splitParagraphs(props.text))
   font-feature-settings: 'kern' 1, 'liga' 1, 'onum' 1;
 }
 .chapter-narrative--compact {
-  font-size: 1.25rem;
+  font-size: 1.1875rem;
   line-height: 1.55;
 }
 .chapter-narrative p {
