@@ -2,15 +2,25 @@ import { describe, expect, it } from 'vitest'
 import { makeFakeMap } from './fakeMap'
 
 describe('makeFakeMap', () => {
-  it('delivers a fired mousemove to handlers registered with on', () => {
+  it('delivers a fired event to handlers registered with on', () => {
     const map = makeFakeMap()
     const seen: unknown[] = []
     map.on('mousemove', (e) => seen.push(e))
 
-    map.fire('mousemove', { lngLat: { lng: -70, lat: -42 }, point: { x: 10, y: 20 } })
+    map.fire('mousemove', { lngLat: { lng: -70, lat: -42 } })
 
     expect(seen).toHaveLength(1)
     expect(seen[0]).toMatchObject({ lngLat: { lng: -70, lat: -42 } })
+  })
+
+  it('supports the layer-scoped on(type, layerId, cb) form the codebase uses', () => {
+    const map = makeFakeMap({ layers: ['locations-major'] })
+    const seen: unknown[] = []
+    map.on('mouseenter', 'locations-major', (e) => seen.push(e))
+
+    map.fire('mouseenter', { point: { x: 1, y: 1 } })
+
+    expect(seen).toHaveLength(1)
   })
 
   it('queryRenderedFeatures returns only features of the requested layers', () => {
@@ -31,5 +41,12 @@ describe('makeFakeMap', () => {
 
     expect(map.getLayer('regions-fill')).toBeTruthy()
     expect(map.getLayer('water-fill')).toBeUndefined()
+  })
+
+  it('project returns a screen Point {x, y} like the real MapLibre signature', () => {
+    const map = makeFakeMap()
+
+    expect(map.project([-70, -42])).toEqual({ x: -70, y: -42 })
+    expect(map.project({ lng: -70, lat: -42 })).toEqual({ x: -70, y: -42 })
   })
 })

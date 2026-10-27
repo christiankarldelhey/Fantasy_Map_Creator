@@ -1,9 +1,13 @@
 import { vi } from 'vitest'
-import type { Map as MapLibreMap, MapMouseEvent } from 'maplibre-gl'
+import type {
+  LngLatLike,
+  Map as MapLibreMap,
+  MapMouseEvent,
+} from 'maplibre-gl'
 
 type Handler = (event: MapMouseEvent) => void
 
-type FakeFeature = {
+export type FakeFeature = {
   layer: { id: string }
   properties?: Record<string, unknown>
   geometry?: unknown
@@ -11,20 +15,15 @@ type FakeFeature = {
 
 /** Members the fake replaces; the rest of MapLibre's surface stays typed. */
 type FakedMembers =
-  | 'on' | 'off' | 'once' | 'fire'
+  | 'on' | 'off' | 'fire'
   | 'getLayer' | 'queryRenderedFeatures' | 'project'
 
 export type FakeMap = Omit<MapLibreMap, FakedMembers> & {
-  on: (type: string, cb: Handler) => FakeMap
-  off: (type: string, cb: Handler) => FakeMap
-  once: (type: string, cb: Handler) => FakeMap
+  /** Accepts both MapLibre forms: (type, cb) and (type, layerId, cb). */
+  on: (type: string, layerOrCb: string | Handler, cb?: Handler) => FakeMap
+  off: (type: string, layerOrCb: string | Handler, cb?: Handler) => FakeMap
   /** Fire a MapLibre-style event at every handler registered via `on`. */
   fire: (type: string, event?: Record<string, unknown>) => void
-  /** Sugar for the most common event in this codebase. */
-  mousemove: (
-    lngLat: { lng: number; lat: number },
-    point?: { x: number; y: number }
-  ) => void
   getLayer: (id: string) => { id: string } | undefined
   queryRenderedFeatures: (
     point: unknown,
@@ -34,14 +33,16 @@ export type FakeMap = Omit<MapLibreMap, FakedMembers> & {
   setFeatures: (features: FakeFeature[]) => void
   /** Register a layer id so getLayer() reports it. */
   addLayer: (id: string) => void
-  project: (lngLat: { lng: number; lat: number }) => { lng: number; lat: number }
+  /** Deterministic stand-in: echoes coords into x/y, not a real projection. */
+  project: (lngLat: LngLatLike) => { x: number; y: number }
 }
 
 /**
  * A fake of the MapLibre surface composables actually touch: event wiring
- * (on/off/once), layer queries (getLayer, queryRenderedFeatures) and
- * project(). Tests register layers, stage features and fire events — no GL,
- * no DOM.
+ * (on/off), layer queries (getLayer, queryRenderedFeatures) and project().
+ * Tests register layers, stage features and fire events — no GL, no DOM.
+ * Layer-scoped on() is accepted but not filtered: firing delivers to every
+ * handler of that event type.
  */
 export function makeFakeMap({ layers = [] as string[] } = {}): FakeMap {
   const handlers = new Map<string, Set<Handler>>()
@@ -49,30 +50,26 @@ export function makeFakeMap({ layers = [] as string[] } = {}): FakeMap {
   let stagedFeatures: FakeFeature[] = []
 
   const fire: FakeMap['fire'] = (type, event = {}) => {
-    handlers.get(type)?.forEach((handler) => handler({ type, ...event } as MapMouseEvent))
+    handlers
+      .get(type)
+      ?.forEach((handler) => handler({ type, ...event } as MapMouseEvent))
   }
 
   const map = {
-    on: vi.fn((type: string, cb: Handler) => {
+    on: vi.fn((type: string, layerOrCb: string | Handler, cb?: Handler) => {
+      const handler = typeof layerOrCb === 'function' ? layerOrCb : cb
+      if (!handler) return map
       const set = handlers.get(type) ?? new Set<Handler>()
-      set.add(cb)
+      set.add(handler)
       handlers.set(type, set)
       return map
     }),
-    off: vi.fn((type: string, cb: Handler) => {
-      handlers.get(type)?.delete(cb)
+    off: vi.fn((type: string, layerOrCb: string | Handler, cb?: Handler) => {
+      const handler = typeof layerOrCb === 'function' ? layerOrCb : cb
+      if (handler) handlers.get(type)?.delete(handler)
       return map
     }),
-    once: vi.fn((type: string, cb: Handler) => {
-      const wrapped: Handler = (e) => {
-        handlers.get(type)?.delete(wrapped)
-        cb(e)
-      }
-      return map.on(type, wrapped)
-    }),
     fire,
-    mousemove: (lngLat: { lng: number; lat: number }, point = { x: 0, y: 0 }) =>
-      fire('mousemove', { lngLat, point }),
     getLayer: vi.fn((id: string) => (layersPresent.has(id) ? { id } : undefined)),
     queryRenderedFeatures: vi.fn(
       (_point: unknown, options?: { layers?: string[] }) =>
@@ -86,9 +83,15 @@ export function makeFakeMap({ layers = [] as string[] } = {}): FakeMap {
     addLayer: (id: string) => {
       layersPresent.add(id)
     },
-    project: vi.fn((lngLat: { lng: number; lat: number }) => lngLat),
-    dragPan: { isActive: () => false }
+    project: vi.fn((lngLat: LngLatLike) => {
+      const [lng, lat] = Array.isArray(lngLat)
+        ? lngLat
+        : ['lng' in lngLat ? lngLat.lng : lngLat.lon, lngLat.lat]
+      return { x: lng, y: lat }
+    })
   }
 
+  // The object literal only covers the faked members; the rest of MapLibre's
+  // surface is unimplemented by design.
   return map as unknown as FakeMap
 }
