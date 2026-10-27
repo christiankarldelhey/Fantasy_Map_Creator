@@ -25,9 +25,11 @@ pids=()
 pids+=($!)
 "$root_dir/backend/node_modules/.bin/nodemon" "$root_dir/backend/server.js" &
 pids+=($!)
-"$root_dir/frontend/node_modules/.bin/vite" "$root_dir/frontend" &
+# exec replaces the subshell so the pid is vite's, and cd keeps cwd inside
+# the package — Tailwind resolves its config from cwd and breaks otherwise.
+(cd "$root_dir/frontend" && exec "$root_dir/frontend/node_modules/.bin/vite") &
 pids+=($!)
-"$root_dir/mind-studio/node_modules/.bin/vite" "$root_dir/mind-studio" &
+(cd "$root_dir/mind-studio" && exec "$root_dir/mind-studio/node_modules/.bin/vite") &
 pids+=($!)
 
 cat <<URLS
