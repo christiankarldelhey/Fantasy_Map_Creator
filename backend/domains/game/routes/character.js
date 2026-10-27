@@ -319,6 +319,12 @@ router.put('/:id/active', authenticateToken, async (req, res, next) => {
           await adminClient.query('ROLLBACK');
           return res.status(404).json({ error: 'Character not found' });
         }
+        // POST /api/trips reads users.active_character_id, so the admin's
+        // choice must persist there too — not only in the global flag.
+        await adminClient.query(
+          'UPDATE users SET active_character_id = $1, updated_at = NOW() WHERE id = $2',
+          [id, userId]
+        );
         await adminClient.query('COMMIT');
         return res.json(result.rows[0]);
       } catch (txError) {
