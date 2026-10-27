@@ -14,6 +14,7 @@ import {
   positionAtSeconds,
   sliceLeg,
   getMoonPhase,
+  getDistance,
 } from '../../adapters/mapClient.js';
 import {
   loadTerrainPhrases,
@@ -51,6 +52,12 @@ export function encountersBeforeSettlement(encounters, arrivalHourFloat, inSettl
  * The command's remaining fields (lodging_cost, meal, water) ride on
  * day.shelter_choice for resolveDayState's lodging/food paths.
  */
+/** Real distance in km between where the leg ends and the settlement the night is narrated in (null when unknown). */
+export function overnightDistanceKm(legEnd, settlementCoords) {
+  if (!legEnd || !settlementCoords) return null;
+  return Math.round(getDistance(legEnd, settlementCoords) / 100) / 10;
+}
+
 export function applyShelterChoice(day, shelter) {
   day.shelter_choice = shelter;
   day.overnight_location = {
@@ -640,7 +647,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       inhabitants: checkpoint.location.inhabitants,
       cultural_family: checkpoint.location.cultural_family,
       indoor: INDOOR_REST_TYPES.includes(checkpoint.location.type),
-      distance_km: 0,
+      distance_km: overnightDistanceKm(leg.end, checkpoint.coordinates),
     };
   }
 

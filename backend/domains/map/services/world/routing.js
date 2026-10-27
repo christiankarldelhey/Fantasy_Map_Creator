@@ -262,7 +262,26 @@ function routeLineWKT(coords) {
   return `LINESTRING(${pairs})`;
 }
 
-async function fetchLocationsAlongRoute(routeWKT, totalDist) {
+// PostGIS ST_LineLocatePoint on a lng/lat geometry returns a fraction of the
+// planar length in degrees, which is not proportional to metres (a degree of
+// longitude shrinks with latitude). Walk the route in degrees to find the
+// segment that fraction lands on, then place it using the real metre distances.
+export function distanceAtPlanarFraction(fraction, coords, dists) {
+  if (!coords || coords.length < 2) return 0;
+  const f = Math.min(1, Math.max(0, Number(fraction) || 0));
+  const planar = [0];
+  for (let i = 1; i < coords.length; i++) {
+    planar.push(planar[i - 1] + Math.hypot(coords[i][0] - coords[i - 1][0], coords[i][1] - coords[i - 1][1]));
+  }
+  const target = f * planar[planar.length - 1];
+  let i = 1;
+  while (i < planar.length - 1 && planar[i] < target) i++;
+  const span = planar[i] - planar[i - 1];
+  const t = span > 0 ? (target - planar[i - 1]) / span : 0;
+  return dists[i - 1] + t * (dists[i] - dists[i - 1]);
+}
+
+async function fetchLocationsAlongRoute(routeWKT, coords, dists) {
   const query = `
     WITH route AS (
       SELECT ST_SetSRID(ST_GeomFromText($1), 4326) AS geom
@@ -295,7 +314,7 @@ async function fetchLocationsAlongRoute(routeWKT, totalDist) {
     off_route_m: parseFloat(r.off_route_m) || 0,
     lng: parseFloat(r.lng),
     lat: parseFloat(r.lat),
-    distance_m: parseFloat(r.fraction) * totalDist
+    distance_m: distanceAtPlanarFraction(r.fraction, coords, dists)
   }));
 }
 
@@ -872,7 +891,7 @@ export async function computeRoute({ startLng, startLat, endLng, endLat, transpo
   const routeWKT = routeLineWKT(routeCoords);
   let candidates = [];
   if (routeWKT) {
-    candidates = await fetchLocationsAlongRoute(routeWKT, totalRouteDist);
+    candidates = await fetchLocationsAlongRoute(routeWKT, routeCoords, cumulativeDist);
   }
 
   const checkpoints = computeDailyCheckpoints(
