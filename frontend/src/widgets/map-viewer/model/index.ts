@@ -1,5 +1,6 @@
 export { useMapLayers } from './useMapLayers'
 export { useMapEvents } from './useMapEvents'
+export { useMapHover } from './useMapHover'
 export { useMapMarkers } from './useMapMarkers'
 export { useMapDataLoading } from './useMapDataLoading'
 export { useMapLayer } from './layers/useMapLayer'

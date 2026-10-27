@@ -43,7 +43,8 @@ export const MAP_COLORS = {
     fillColor: '#0d9488',
     fillOpacity: 0.0,         // Seteado en 0 para remover la película/capa de opacidad sobre el mapa
     outlineColor: '#0d9488',
-    outlineWidth: 1.5
+    outlineWidth: 1.5,
+    hoverColor: '#e2e8f0',     // Borde neutro al hacer hover (distinto del rojo de selección)
   },
 
   // Capa de Altitud (DEM visual)

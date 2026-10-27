@@ -16,7 +16,7 @@ export type FakeFeature = {
 /** Members the fake replaces; the rest of MapLibre's surface stays typed. */
 type FakedMembers =
   | 'on' | 'off' | 'fire'
-  | 'getLayer' | 'queryRenderedFeatures' | 'project'
+  | 'getLayer' | 'queryRenderedFeatures' | 'project' | 'setPaintProperty'
 
 export type FakeMap = Omit<MapLibreMap, FakedMembers> & {
   /** Accepts both MapLibre forms: (type, cb) and (type, layerId, cb). */
@@ -33,6 +33,7 @@ export type FakeMap = Omit<MapLibreMap, FakedMembers> & {
   setFeatures: (features: FakeFeature[]) => void
   /** Register a layer id so getLayer() reports it. */
   addLayer: (id: string) => void
+  setPaintProperty: (layer: string, prop: string, value: unknown) => void
   /** Deterministic stand-in: echoes coords into x/y, not a real projection. */
   project: (lngLat: LngLatLike) => { x: number; y: number }
 }
@@ -83,6 +84,7 @@ export function makeFakeMap({ layers = [] as string[] } = {}): FakeMap {
     addLayer: (id: string) => {
       layersPresent.add(id)
     },
+    setPaintProperty: vi.fn<(layer: string, prop: string, value: unknown) => void>(),
     project: vi.fn((lngLat: LngLatLike) => {
       const [lng, lat] = Array.isArray(lngLat)
         ? lngLat
