@@ -48,3 +48,17 @@ No CI. Local verification + PR review are the only gates — hooks in
 - Issues live in GitHub; every change lands via PR. AFK/HITL labels and the
   full agentic workflow are defined in `docs/agents/workflow.md`.
 - Review agent diffs with `docs/agents/review-checklist.md`.
+
+## Agent skills
+
+### Issue tracker
+
+Issues live as GitHub issues on this repo, managed with `gh`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Canonical triage labels: `ready-for-agent` (AFK) / `ready-for-human` (HITL) et al. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `CONTEXT.md` at the root is the Mind Engine glossary; ADRs in `docs/adr/`. See `docs/agents/domain.md`.

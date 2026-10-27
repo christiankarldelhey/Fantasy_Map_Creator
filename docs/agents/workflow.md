@@ -58,7 +58,8 @@ improvements — ceremony is proportional to size.
 
 ### 2. Issues
 `/to-tickets` breaks the PRD into vertical-slice GitHub issues. Each issue gets
-an **AFK** or **HITL** label and — when it crosses a layer boundary — the
+an **AFK** or **HITL** label — `ready-for-agent` / `ready-for-human` per
+`docs/agents/triage-labels.md` — and, when it crosses a layer boundary, the
 contract pinned in its body (endpoint shape, field names).
 
 ### 3. AFK vs HITL
