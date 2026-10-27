@@ -330,6 +330,8 @@ function checkpointLocation(c) {
     population: c.population,
     inhabitants: c.inhabitants,
     cultural_family: c.cultural_family,
+    lng: c.lng,
+    lat: c.lat,
     off_route_m: c.off_route_m != null ? Math.round(c.off_route_m) : null,
   };
 }
@@ -430,7 +432,7 @@ export function computeDailyCheckpoints(totalTime, totalDist, candidates, coords
       checkpoints.push({
         day_number: day,
         location: checkpointLocation(best),
-        coordinates: [best.lng, best.lat],
+        coordinates: coordinateAtDistance(actualDist, coords, dists),
         distance_m: actualDist,
         time_seconds: actualTime,
         is_destination: false

@@ -647,7 +647,10 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       inhabitants: checkpoint.location.inhabitants,
       cultural_family: checkpoint.location.cultural_family,
       indoor: INDOOR_REST_TYPES.includes(checkpoint.location.type),
-      distance_km: overnightDistanceKm(leg.end, checkpoint.coordinates),
+      distance_km: overnightDistanceKm(
+        leg.end,
+        checkpoint.location.lng != null ? [checkpoint.location.lng, checkpoint.location.lat] : checkpoint.coordinates
+      ),
     };
   }
 

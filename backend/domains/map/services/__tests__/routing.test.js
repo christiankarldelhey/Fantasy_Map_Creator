@@ -250,3 +250,22 @@ test('checkpoints: a place too far from the endpoint stays unvisited', () => {
   );
   assert.equal(cps.at(-1).location, null);
 });
+
+test('checkpoints: an off-route settlement ends the day at the nearest route point', () => {
+  const offRouteCity = { ...CITY_AT_30K, lng: 0.27, lat: 0.03 }; // 3.2 km beside the road
+  const cps = computeDailyCheckpoints(
+    72000, 100000, [offRouteCity], FLAT_COORDS, FLAT_DISTS, FLAT_TIMES, 0.9, 0,
+    { rng: alwaysStop }
+  );
+  assert.deepEqual(cps[0].coordinates, [0.27, 0]); // the route point, not the city
+});
+
+test('checkpoints: the settlement keeps its own coordinates on the location', () => {
+  const offRouteCity = { ...CITY_AT_30K, lng: 0.27, lat: 0.03 };
+  const cps = computeDailyCheckpoints(
+    72000, 100000, [offRouteCity], FLAT_COORDS, FLAT_DISTS, FLAT_TIMES, 0.9, 0,
+    { rng: alwaysStop }
+  );
+  assert.equal(cps[0].location.lng, 0.27);
+  assert.equal(cps[0].location.lat, 0.03);
+});
