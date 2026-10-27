@@ -18,6 +18,7 @@ import './json-viewer-custom.css'
 import ChapterNarrative from './ChapterNarrative.vue'
 import { formatDistanceKm } from '../model/formatDistanceKm'
 import { seasonForMonth } from '@/shared/lib/season'
+import { panelAfterChapterToggle, panelAfterToolsToggle } from '../model/chapterPanels'
 import { useAuth } from '@/composables/useAuth'
 
 const { t, locale } = useI18n()
@@ -46,6 +47,8 @@ const { saveUserSettings } = useUserSettings()
 const { setTripDate, resetToRealTime } = useGlobalClimateTime()
 
 const expanded = ref<Record<string, 'narrative' | 'prompt' | 'open' | 'close' | 'system' | null>>({})
+// Admin-only: whether a chapter's tab row (Narrativa/Prompt/Open/Close/Sistema + redo) is revealed.
+const toolsOpen = ref<Record<string, boolean>>({})
 const copied = ref<Record<string, { prompt?: boolean; open?: boolean; close?: boolean; system?: boolean }>>({})
 const systemPrompt = ref<string>('')
 const copiedAllCodes = ref(false)
@@ -88,6 +91,16 @@ const labels = computed(() => {
     closeBtn: t('chapter.close')
   }
 })
+
+function toggleChapter(day: TripDay) {
+  expanded.value = { ...expanded.value, [day.id]: panelAfterChapterToggle(expanded.value[day.id]) }
+}
+
+function toggleTools(day: TripDay) {
+  const open = !toolsOpen.value[day.id]
+  toolsOpen.value = { ...toolsOpen.value, [day.id]: open }
+  expanded.value = { ...expanded.value, [day.id]: panelAfterToolsToggle(expanded.value[day.id], open) }
+}
 
 function toggle(day: TripDay, panel: 'narrative' | 'prompt' | 'open' | 'close' | 'system') {
   const current = expanded.value[day.id]
@@ -401,9 +414,17 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         :class="['chapter-column', dayIndex > 0 ? 'mt-10 pt-8 border-t border-earth-dark/25' : '']"
       >
         <div class="pt-6">
-          <div class="flex items-baseline justify-between gap-3">
+          <div
+            class="group flex items-baseline justify-between gap-3 cursor-pointer select-none"
+            role="button"
+            tabindex="0"
+            :aria-expanded="!!expanded[day.id]"
+            @click="toggleChapter(day)"
+            @keydown.enter.prevent="toggleChapter(day)"
+            @keydown.space.prevent="toggleChapter(day)"
+          >
             <div class="flex flex-wrap items-baseline gap-x-3 min-w-0">
-              <h3 class="font-serif font-semibold text-ink-black/90">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
+              <h3 class="font-serif font-semibold text-ink-black/90 group-hover:text-gold-base transition-colors">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
               <p class="text-[0.9375rem] text-ink-black/75 font-reading">
             {{ formatDistanceKm(day.distance_km, locale) }} km ·
             {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
@@ -414,11 +435,20 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                 <component :is="SEASON_ICONS[seasonOf(day.date)]" class="w-4 h-4" />
               </span>
               <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString(locale, { month: 'long', day: 'numeric' }) }}</span>
+              <button
+                v-if="isAdmin && expanded[day.id]"
+                class="-mr-1 p-0.5 rounded text-ink-faded hover:text-ink-black/80 transition-colors"
+                :title="t('chapter.tools')"
+                :aria-expanded="!!toolsOpen[day.id]"
+                @click.stop="toggleTools(day)"
+              >
+                <ChevronDown class="w-3.5 h-3.5 transition-transform" :class="toolsOpen[day.id] ? 'rotate-180' : ''" />
+              </button>
             </div>
           </div>
         </div>
 
-        <div class="flex border-b border-earth-dark/25 text-sm mt-3">
+        <div v-if="isAdmin && expanded[day.id] && toolsOpen[day.id]" class="flex border-b border-earth-dark/25 text-sm mt-3">
           <button
             class="flex items-center gap-1 pr-4 py-2 font-medium border-b-2 -mb-px transition-colors"
             :class="expanded[day.id] === 'narrative' ? 'text-gold-base border-gold' : 'border-transparent text-ink-brown hover:text-ink-black/90'"
@@ -638,9 +668,17 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         :class="dayIndex > 0 ? 'mt-10 pt-8 border-t border-earth-dark/25' : ''"
       >
             <div class="px-4 pt-6">
-              <div class="flex items-baseline justify-between gap-3">
+              <div
+            class="group flex items-baseline justify-between gap-3 cursor-pointer select-none"
+            role="button"
+            tabindex="0"
+            :aria-expanded="!!expanded[day.id]"
+            @click="toggleChapter(day)"
+            @keydown.enter.prevent="toggleChapter(day)"
+            @keydown.space.prevent="toggleChapter(day)"
+          >
                 <div class="flex flex-wrap items-baseline gap-x-3 min-w-0">
-                  <h3 class="font-serif font-semibold text-ink-black/90">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
+                  <h3 class="font-serif font-semibold text-ink-black/90 group-hover:text-gold-base transition-colors">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
                   <p class="text-[0.9375rem] text-ink-black/75 font-reading">
                 {{ formatDistanceKm(day.distance_km, locale) }} km ·
                 {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
@@ -651,11 +689,20 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
                     <component :is="SEASON_ICONS[seasonOf(day.date)]" class="w-4 h-4" />
                   </span>
                   <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString(locale, { month: 'long', day: 'numeric' }) }}</span>
+                  <button
+                    v-if="isAdmin && expanded[day.id]"
+                    class="-mr-1 p-0.5 rounded text-ink-faded hover:text-ink-black/80 transition-colors"
+                    :title="t('chapter.tools')"
+                    :aria-expanded="!!toolsOpen[day.id]"
+                    @click.stop="toggleTools(day)"
+                  >
+                    <ChevronDown class="w-3.5 h-3.5 transition-transform" :class="toolsOpen[day.id] ? 'rotate-180' : ''" />
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div class="flex border-b border-earth-dark/25 text-sm mt-3 px-2">
+            <div v-if="isAdmin && expanded[day.id] && toolsOpen[day.id]" class="flex border-b border-earth-dark/25 text-sm mt-3 px-2">
               <button
                 class="flex items-center gap-1 px-3 py-2 font-medium border-b-2 -mb-px transition-colors"
                 :class="expanded[day.id] === 'narrative' ? 'text-gold-base border-gold' : 'border-transparent text-ink-brown hover:text-ink-black/90'"

@@ -1,12 +1,13 @@
 <template>
   <div class="chapter-narrative font-reading" :class="compact ? 'chapter-narrative--compact' : ''">
-    <p v-for="(paragraph, i) in paragraphs" :key="i">{{ paragraph }}</p>
+    <p v-for="(paragraph, i) in paragraphs" :key="i" :class="i === 0 && hasDropCap(paragraph) ? 'has-drop-cap' : ''">{{ paragraph }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { splitParagraphs } from '../model/splitParagraphs'
+import { hasDropCap } from '../model/hasDropCap'
 
 const props = defineProps<{ text: string | null | undefined; compact?: boolean }>()
 const paragraphs = computed(() => splitParagraphs(props.text))
@@ -37,7 +38,7 @@ const paragraphs = computed(() => splitParagraphs(props.text))
 .chapter-narrative p + p {
   margin-top: 0.9em;
 }
-.chapter-narrative p:first-child::first-letter {
+.chapter-narrative p.has-drop-cap::first-letter {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-weight: 600;
   float: left;

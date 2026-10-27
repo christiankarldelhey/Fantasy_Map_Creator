@@ -266,6 +266,7 @@
     "copyAllCodes": "Copy all mind payloads",
     "copiedAll": "Copied all mind payloads",
     "redo": "Redo narration",
+    "tools": "Tools",
     "copyPrompt": "Copy prompt to clipboard",
     "copied": "Copied",
     "copyJson": "Copy JSON object to clipboard",
