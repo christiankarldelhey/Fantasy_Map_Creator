@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ChevronDown, ChevronRight, Plus, FileDown, Copy, Check, RotateCcw } from '@lucide/vue'
+import { ChevronDown, ChevronRight, Plus, FileDown, Copy, Check, RotateCcw, Sprout, Sun, Leaf, Snowflake } from '@lucide/vue'
 import { useTrips, type TripDay } from '../model/useTrips'
 import { useCharacter } from '@/composables/useCharacter'
 import { useLanguage } from '@/composables/useLanguage'
@@ -16,8 +16,16 @@ import { JsonViewer } from 'vue3-json-viewer'
 import 'vue3-json-viewer/dist/vue3-json-viewer.css'
 import './json-viewer-custom.css'
 import ChapterNarrative from './ChapterNarrative.vue'
+import { formatDistanceKm } from '../model/formatDistanceKm'
+import { seasonForMonth } from '@/shared/lib/season'
+import { panelAfterChapterToggle, panelAfterToolsToggle } from '../model/chapterPanels'
+import { useAuth } from '@/composables/useAuth'
 
 const { t, locale } = useI18n()
+const { isAdmin } = useAuth()
+
+const SEASON_ICONS = { spring: Sprout, summer: Sun, autumn: Leaf, winter: Snowflake }
+const seasonOf = (date: string) => seasonForMonth(new Date(date).getMonth())
 
 const props = withDefaults(defineProps<{
   tripId: string
@@ -39,6 +47,8 @@ const { saveUserSettings } = useUserSettings()
 const { setTripDate, resetToRealTime } = useGlobalClimateTime()
 
 const expanded = ref<Record<string, 'narrative' | 'prompt' | 'open' | 'close' | 'system' | null>>({})
+// Admin-only: whether a chapter's tab row (Narrativa/Prompt/Open/Close/Sistema + redo) is revealed.
+const toolsOpen = ref<Record<string, boolean>>({})
 const copied = ref<Record<string, { prompt?: boolean; open?: boolean; close?: boolean; system?: boolean }>>({})
 const systemPrompt = ref<string>('')
 const copiedAllCodes = ref(false)
@@ -81,6 +91,16 @@ const labels = computed(() => {
     closeBtn: t('chapter.close')
   }
 })
+
+function toggleChapter(day: TripDay) {
+  expanded.value = { ...expanded.value, [day.id]: panelAfterChapterToggle(expanded.value[day.id]) }
+}
+
+function toggleTools(day: TripDay) {
+  const open = !toolsOpen.value[day.id]
+  toolsOpen.value = { ...toolsOpen.value, [day.id]: open }
+  expanded.value = { ...expanded.value, [day.id]: panelAfterToolsToggle(expanded.value[day.id], open) }
+}
 
 function toggle(day: TripDay, panel: 'narrative' | 'prompt' | 'open' | 'close' | 'system') {
   const current = expanded.value[day.id]
@@ -357,17 +377,28 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 
 <template>
   <!-- Desktop: right sidebar -->
-  <div v-if="!mobile" class="chapter-viewer fixed right-0 top-0 h-full w-1/2 min-w-[28rem] bg-parchment-base shadow-2xl border-l-2 border-gold flex flex-col z-50">
-    <header class="flex items-center justify-between px-5 py-4 border-b-2 border-earth-dark bg-parchment-light">
-      <div class="flex items-center gap-2">
+  <div v-if="!mobile" class="chapter-viewer chapter-pages fixed right-0 top-0 h-full w-1/2 min-w-[28rem] bg-parchment-light flex flex-col z-50">
+    <!-- Old-book page edges: a slow wobble along the page, a faster jitter between pages, uneven wear. -->
+    <svg width="0" height="0" class="absolute" aria-hidden="true" focusable="false">
+      <filter id="chapter-book-edge" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.09 0.012" numOctaves="3" seed="11" result="warp" />
+        <feDisplacementMap in="SourceGraphic" in2="warp" scale="3.2" xChannelSelector="R" yChannelSelector="G" result="wavy" />
+        <feTurbulence type="fractalNoise" baseFrequency="0.35 0.025" numOctaves="2" seed="4" result="wear" />
+        <feColorMatrix in="wear" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.8 0.6" result="wearAlpha" />
+        <feComposite in="wavy" in2="wearAlpha" operator="in" />
+      </filter>
+    </svg>
+    <div class="chapter-pages-edge" aria-hidden="true"></div>
+    <header class="px-6 pt-5 bg-parchment-light shrink-0">
+      <div class="chapter-column flex items-center gap-2 pb-3 border-b border-earth-dark/20">
         <img
           v-if="activeCharacter"
           :src="getCharacterImage(activeCharacter.name)"
           :alt="activeCharacter.name"
-          class="w-8 h-8 rounded-full object-cover border border-gold"
+          class="w-7 h-7 rounded-full object-cover border border-gold"
           :style="{ filter: 'sepia(100%) brightness(0.7) opacity(0.8)' }"
         />
-        <h2 class="text-lg font-serif font-semibold text-ink-black/90">{{ title }}</h2>
+        <h2 class="min-w-0 truncate text-base font-serif font-semibold text-ink-black/90">{{ title }}</h2>
         <button
           class="p-1 rounded-md text-ink-brown/40 hover:text-ink-brown/80 hover:bg-parchment-dark transition-colors"
           :title="copiedAllCodes ? t('chapter.copiedAll') : t('chapter.copyAllCodes')"
@@ -378,7 +409,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </div>
     </header>
 
-    <div class="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+    <div class="chapter-scroll flex-1 overflow-y-auto px-6 pb-2">
       <Loader v-if="loading && days.length === 0" variant="inline">
         {{ t('chapter.loadingChapters') }}
       </Loader>
@@ -388,77 +419,103 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </p>
 
       <article
-        v-for="day in days"
+        v-for="(day, dayIndex) in days"
         :key="day.id"
         :id="`chapter-${day.id}`"
-        class="bg-parchment-light rounded-lg border-2 border-earth-dark shadow-md overflow-hidden"
+        :class="['chapter-column', dayIndex > 0 ? 'border-t border-earth-dark/25' : '']"
       >
-        <div class="px-4 py-3 border-b border-earth-dark bg-parchment-base">
-          <div class="flex items-center justify-between">
-            <h3 class="font-serif font-semibold text-ink-black/90">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
-            <div class="flex items-center gap-2">
-              <button
-                class="p-1 rounded-md text-ink-brown/50 hover:text-gold-base hover:bg-parchment-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                :title="t('chapter.redo')"
-                :disabled="redoingDay !== null"
-                @click="handleRedoNarration(day)"
-              >
-                <Loader v-if="redoingDay === day.day_number" size="sm" variant="inline" class="w-4 h-4" />
-                <RotateCcw v-else class="w-4 h-4" />
-              </button>
+        <div class="py-3">
+          <div
+            class="group flex items-baseline justify-between gap-3 cursor-pointer select-none"
+            role="button"
+            tabindex="0"
+            :aria-expanded="!!expanded[day.id]"
+            @click="toggleChapter(day)"
+            @keydown.enter.prevent="toggleChapter(day)"
+            @keydown.space.prevent="toggleChapter(day)"
+          >
+            <div class="flex flex-wrap items-baseline gap-x-3 min-w-0">
+              <h3 class="font-serif font-semibold text-ink-black/90 group-hover:text-gold-base transition-colors">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
+              <p class="text-[0.9375rem] text-ink-black/75 font-reading">
+            {{ formatDistanceKm(day.distance_km, locale) }} km ·
+            {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
+              </p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <span class="text-gold-base" :title="t(`welcome.seasons.${seasonOf(day.date)}.title`)">
+                <component :is="SEASON_ICONS[seasonOf(day.date)]" class="w-4 h-4" />
+              </span>
               <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString(locale, { month: 'long', day: 'numeric' }) }}</span>
+              <button
+                v-if="isAdmin && expanded[day.id]"
+                class="-mr-1 p-0.5 rounded text-ink-faded hover:text-ink-black/80 transition-colors"
+                :title="t('chapter.tools')"
+                :aria-expanded="!!toolsOpen[day.id]"
+                @click.stop="toggleTools(day)"
+              >
+                <ChevronDown class="w-3.5 h-3.5 transition-transform" :class="toolsOpen[day.id] ? 'rotate-180' : ''" />
+              </button>
             </div>
           </div>
-          <p class="text-xs text-ink-brown mt-0.5 font-book">
-            {{ day.distance_km }} km ·
-            {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
-          </p>
         </div>
 
-        <div class="flex border-b border-earth-dark text-sm">
+        <div v-if="isAdmin && expanded[day.id] && toolsOpen[day.id]" class="flex border-b border-earth-dark/25 text-sm mt-3">
           <button
-            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'narrative' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+            class="flex items-center gap-1 pr-4 py-2 font-medium border-b-2 -mb-px transition-colors"
+            :class="expanded[day.id] === 'narrative' ? 'text-gold-base border-gold' : 'border-transparent text-ink-brown hover:text-ink-black/90'"
             @click="toggle(day, 'narrative')"
           >
             <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
             {{ t('chapter.tabs.narrative') }}
           </button>
-          <button
-            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'prompt' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-            @click="toggle(day, 'prompt')"
-          >
-            <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            {{ t('chapter.tabs.prompt') }}
-          </button>
-          <button
-            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'open' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-            @click="toggle(day, 'open')"
-          >
-            <component :is="expanded[day.id] === 'open' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            {{ t('chapter.tabs.open') }}
-          </button>
-          <button
-            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'close' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-            @click="toggle(day, 'close')"
-          >
-            <component :is="expanded[day.id] === 'close' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            {{ t('chapter.tabs.close') }}
-          </button>
-          <button
-            class="flex items-center gap-1 px-4 py-2 font-medium transition-colors"
-            :class="expanded[day.id] === 'system' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-            @click="toggle(day, 'system')"
-          >
-            <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-            {{ t('chapter.tabs.system') }}
-          </button>
+          <div class="ml-auto flex items-center">
+            <template v-if="isAdmin">
+            <button
+              class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+              :class="expanded[day.id] === 'prompt' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
+              @click="toggle(day, 'prompt')"
+            >
+              <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+              {{ t('chapter.tabs.prompt') }}
+            </button>
+            <button
+              class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+              :class="expanded[day.id] === 'open' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
+              @click="toggle(day, 'open')"
+            >
+              <component :is="expanded[day.id] === 'open' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+              {{ t('chapter.tabs.open') }}
+            </button>
+            <button
+              class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+              :class="expanded[day.id] === 'close' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
+              @click="toggle(day, 'close')"
+            >
+              <component :is="expanded[day.id] === 'close' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+              {{ t('chapter.tabs.close') }}
+            </button>
+            <button
+              class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+              :class="expanded[day.id] === 'system' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
+              @click="toggle(day, 'system')"
+            >
+              <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+              {{ t('chapter.tabs.system') }}
+            </button>
+            </template>
+            <button
+              class="flex items-center px-2 py-2 text-xs border-b-2 border-transparent -mb-px text-ink-faded hover:text-gold-base transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              :title="t('chapter.redo')"
+              :disabled="redoingDay !== null"
+              @click="handleRedoNarration(day)"
+            >
+              <Loader v-if="redoingDay === day.day_number" size="sm" variant="inline" class="w-4 h-4" />
+              <RotateCcw v-else class="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
-        <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
+        <div v-if="expanded[day.id] === 'narrative'" class="pt-5 pb-8">
           <ChapterNarrative v-if="day.narrative" :text="day.narrative" />
           <p v-else class="text-sm text-ink-faded italic font-book">{{ t('chapter.noNarrative') }}</p>
         </div>
@@ -543,13 +600,19 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
       </p>
     </div>
 
-    <footer class="px-5 py-4 border-t-2 border-earth-dark bg-parchment-light">
-      <div class="flex gap-3">
+    <footer class="px-6 pt-2 pb-5 bg-parchment-light shrink-0">
+      <div class="chapter-column flex items-center justify-between gap-4">
+        <button
+          class="text-sm text-ink-brown/70 hover:text-destructive underline-offset-4 hover:underline transition-colors"
+          @click="isTripComplete ? emit('close') : handleCancelClick()"
+        >
+          {{ isTripComplete ? labels.closeBtn : labels.cancelBtn }}
+        </button>
         <Button
           v-if="isTripComplete"
           variant="secondary"
           size="md"
-          class="flex-1"
+          class="shadow-none"
           :disabled="exportingPdf"
           @click="generateAdventurePDF"
         >
@@ -561,21 +624,13 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           v-else
           variant="primary"
           size="md"
-          class="flex-1"
+          class="shadow-none"
           :disabled="generating || quotaReached"
           @click="handleGenerateNext"
         >
           <Loader v-if="generating" size="sm" variant="inline" class="mr-2" />
           <Plus v-else class="w-4 h-4 mr-2" />
           {{ generating ? labels.generatingBtn : labels.generateBtn }}
-        </Button>
-
-        <Button
-          variant="outline"
-          size="md"
-          @click="isTripComplete ? emit('close') : handleCancelClick()"
-        >
-          {{ isTripComplete ? labels.closeBtn : labels.cancelBtn }}
         </Button>
       </div>
     </footer>
@@ -585,7 +640,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
   <BottomSheet v-else :expanded-vh="92" :collapsed-px="200">
     <template #default>
       <div class="flex flex-col h-full">
-        <header class="flex items-center justify-between px-4 py-3 border-b-2 border-earth-dark bg-parchment-light shrink-0">
+        <header class="flex items-center justify-between px-4 py-3 border-b border-earth-dark/30 bg-parchment-light shrink-0">
           <div class="flex items-center gap-2">
             <img
               v-if="activeCharacter"
@@ -608,7 +663,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </button>
         </header>
 
-        <div class="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+        <div class="flex-1 overflow-y-auto px-4 pb-2">
           <Loader v-if="loading && days.length === 0" variant="inline">
             {{ t('chapter.loadingChapters') }}
           </Loader>
@@ -618,77 +673,103 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </p>
 
           <article
-            v-for="day in days"
-            :key="day.id"
-            :id="`chapter-${day.id}`"
-            class="bg-parchment-light rounded-lg border-2 border-earth-dark shadow-md overflow-hidden"
+        v-for="(day, dayIndex) in days"
+        :key="day.id"
+        :id="`chapter-${day.id}`"
+        :class="dayIndex > 0 ? 'border-t border-earth-dark/25' : ''"
+      >
+            <div class="px-4 py-3">
+              <div
+            class="group flex items-baseline justify-between gap-3 cursor-pointer select-none"
+            role="button"
+            tabindex="0"
+            :aria-expanded="!!expanded[day.id]"
+            @click="toggleChapter(day)"
+            @keydown.enter.prevent="toggleChapter(day)"
+            @keydown.space.prevent="toggleChapter(day)"
           >
-            <div class="px-4 py-3 border-b border-earth-dark bg-parchment-base">
-              <div class="flex items-center justify-between">
-                <h3 class="font-serif font-semibold text-ink-black/90">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
-                <div class="flex items-center gap-2">
-                  <button
-                    class="p-1 rounded-md text-ink-brown/50 hover:text-gold-base hover:bg-parchment-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                    :title="t('chapter.redo')"
-                    :disabled="redoingDay !== null"
-                    @click="handleRedoNarration(day)"
-                  >
-                    <Loader v-if="redoingDay === day.day_number" size="sm" variant="inline" class="w-4 h-4" />
-                    <RotateCcw v-else class="w-4 h-4" />
-                  </button>
+                <div class="flex flex-wrap items-baseline gap-x-3 min-w-0">
+                  <h3 class="font-serif font-semibold text-ink-black/90 group-hover:text-gold-base transition-colors">{{ t('chapter.chapterN', { n: day.day_number }) }}</h3>
+                  <p class="text-[0.9375rem] text-ink-black/75 font-reading">
+                {{ formatDistanceKm(day.distance_km, locale) }} km ·
+                {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
+                  </p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <span class="text-gold-base" :title="t(`welcome.seasons.${seasonOf(day.date)}.title`)">
+                    <component :is="SEASON_ICONS[seasonOf(day.date)]" class="w-4 h-4" />
+                  </span>
                   <span class="font-serif text-sm text-ink-brown">{{ new Date(day.date).toLocaleDateString(locale, { month: 'long', day: 'numeric' }) }}</span>
+                  <button
+                    v-if="isAdmin && expanded[day.id]"
+                    class="-mr-1 p-0.5 rounded text-ink-faded hover:text-ink-black/80 transition-colors"
+                    :title="t('chapter.tools')"
+                    :aria-expanded="!!toolsOpen[day.id]"
+                    @click.stop="toggleTools(day)"
+                  >
+                    <ChevronDown class="w-3.5 h-3.5 transition-transform" :class="toolsOpen[day.id] ? 'rotate-180' : ''" />
+                  </button>
                 </div>
               </div>
-              <p class="text-xs text-ink-brown mt-0.5 font-book">
-                {{ day.distance_km }} km ·
-                {{ (day.regions || []).map((r) => r.name).join(', ') || t('chapter.unknownLands') }}
-              </p>
             </div>
 
-            <div class="flex border-b border-earth-dark text-sm">
+            <div v-if="isAdmin && expanded[day.id] && toolsOpen[day.id]" class="flex border-b border-earth-dark/25 text-sm mt-3 px-2">
               <button
-                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
-                :class="expanded[day.id] === 'narrative' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
+                class="flex items-center gap-1 px-3 py-2 font-medium border-b-2 -mb-px transition-colors"
+                :class="expanded[day.id] === 'narrative' ? 'text-gold-base border-gold' : 'border-transparent text-ink-brown hover:text-ink-black/90'"
                 @click="toggle(day, 'narrative')"
               >
                 <component :is="expanded[day.id] === 'narrative' ? ChevronDown : ChevronRight" class="w-4 h-4" />
                 {{ t('chapter.tabs.narrative') }}
               </button>
-              <button
-                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
-                :class="expanded[day.id] === 'prompt' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-                @click="toggle(day, 'prompt')"
-              >
-                <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                {{ t('chapter.tabs.prompt') }}
-              </button>
-              <button
-                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
-                :class="expanded[day.id] === 'open' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-                @click="toggle(day, 'open')"
-              >
-                <component :is="expanded[day.id] === 'open' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                {{ t('chapter.tabs.open') }}
-              </button>
-              <button
-                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
-                :class="expanded[day.id] === 'close' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-                @click="toggle(day, 'close')"
-              >
-                <component :is="expanded[day.id] === 'close' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                {{ t('chapter.tabs.close') }}
-              </button>
-              <button
-                class="flex items-center gap-1 px-3 py-2 font-medium transition-colors"
-                :class="expanded[day.id] === 'system' ? 'text-gold-base bg-parchment-dark' : 'text-ink-brown hover:text-ink-black/90'"
-                @click="toggle(day, 'system')"
-              >
-                <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
-                {{ t('chapter.tabs.system') }}
-              </button>
+              <div class="ml-auto flex items-center">
+                <template v-if="isAdmin">
+                <button
+                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+                  :class="expanded[day.id] === 'prompt' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
+                  @click="toggle(day, 'prompt')"
+                >
+                  <component :is="expanded[day.id] === 'prompt' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                  {{ t('chapter.tabs.prompt') }}
+                </button>
+                <button
+                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+                  :class="expanded[day.id] === 'open' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
+                  @click="toggle(day, 'open')"
+                >
+                  <component :is="expanded[day.id] === 'open' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                  {{ t('chapter.tabs.open') }}
+                </button>
+                <button
+                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+                  :class="expanded[day.id] === 'close' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
+                  @click="toggle(day, 'close')"
+                >
+                  <component :is="expanded[day.id] === 'close' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                  {{ t('chapter.tabs.close') }}
+                </button>
+                <button
+                  class="flex items-center gap-1 px-2 py-2 text-xs font-medium border-b-2 -mb-px transition-colors"
+                  :class="expanded[day.id] === 'system' ? 'text-gold-base border-gold' : 'border-transparent text-ink-faded hover:text-ink-black/90'"
+                  @click="toggle(day, 'system')"
+                >
+                  <component :is="expanded[day.id] === 'system' ? ChevronDown : ChevronRight" class="w-4 h-4" />
+                  {{ t('chapter.tabs.system') }}
+                </button>
+                </template>
+                <button
+                  class="flex items-center px-2 py-2 text-xs border-b-2 border-transparent -mb-px text-ink-faded hover:text-gold-base transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  :title="t('chapter.redo')"
+                  :disabled="redoingDay !== null"
+                  @click="handleRedoNarration(day)"
+                >
+                  <Loader v-if="redoingDay === day.day_number" size="sm" variant="inline" class="w-4 h-4" />
+                  <RotateCcw v-else class="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
-            <div v-if="expanded[day.id] === 'narrative'" class="px-4 py-4">
+            <div v-if="expanded[day.id] === 'narrative'" class="px-4 pt-5 pb-8">
               <ChapterNarrative v-if="day.narrative" :text="day.narrative" compact />
               <p v-else class="text-sm text-ink-faded italic font-book">{{ t('chapter.noNarrative') }}</p>
             </div>
@@ -773,7 +854,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
           </p>
         </div>
 
-        <footer class="px-4 py-3 border-t-2 border-earth-dark bg-parchment-light shrink-0">
+        <footer class="px-4 py-3 border-t border-earth-dark/30 bg-parchment-light shrink-0">
           <div class="flex gap-3">
             <Button
               v-if="isTripComplete"
@@ -864,3 +945,58 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
     </template>
   </Modal>
 </template>
+
+<style scoped>
+/* One reading column shared by the header, chapter title, tabs, text and footer. */
+.chapter-column {
+  width: 100%;
+  max-width: 42rem;
+  margin-inline: auto;
+}
+/* The text fades into the footer instead of being cut by a rule. */
+.chapter-scroll {
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 1.75rem), transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 1.75rem), transparent);
+}
+
+/* The panel is the top page of an open book: the pages beneath peek out on its
+   left edge. Each page is a 1px edge plus 2px of paper that darkens with depth;
+   an SVG filter (see the template) makes the edges slightly irregular. */
+.chapter-pages {
+  box-shadow: -28px 0 30px -10px rgb(44 36 22 / 0.35);
+}
+.chapter-pages-edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: calc(100% - 3px);
+  width: 21px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to left,
+    var(--bg-parchment-light) 0 3px,
+    color-mix(in srgb, var(--text-ink-brown) 55%, transparent) 3px 4px,
+    color-mix(in srgb, var(--bg-parchment-light) 93%, #000) 4px 6px,
+    color-mix(in srgb, var(--text-ink-brown) 46%, transparent) 6px 7px,
+    color-mix(in srgb, var(--bg-parchment-light) 89%, #000) 7px 9px,
+    color-mix(in srgb, var(--text-ink-brown) 38%, transparent) 9px 10px,
+    color-mix(in srgb, var(--bg-parchment-light) 85%, #000) 10px 12px,
+    color-mix(in srgb, var(--text-ink-brown) 30%, transparent) 12px 13px,
+    color-mix(in srgb, var(--bg-parchment-light) 81%, #000) 13px 15px,
+    color-mix(in srgb, var(--text-ink-brown) 22%, transparent) 15px 16px,
+    color-mix(in srgb, var(--bg-parchment-light) 77%, #000) 16px 18px,
+    color-mix(in srgb, var(--text-ink-brown) 15%, transparent) 18px 19px,
+    color-mix(in srgb, var(--bg-parchment-light) 73%, #000) 19px 21px);
+  filter: url(#chapter-book-edge);
+}
+/* Paper curving into the spine: a soft shade along the inner left edge. */
+.chapter-pages::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2rem;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to right, rgb(44 36 22 / 0.08), transparent);
+}
+</style>
