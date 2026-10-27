@@ -377,7 +377,7 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 
 <template>
   <!-- Desktop: right sidebar -->
-  <div v-if="!mobile" class="chapter-viewer fixed right-0 top-0 h-full w-1/2 min-w-[28rem] bg-parchment-light shadow-2xl border-l border-gold flex flex-col z-50">
+  <div v-if="!mobile" class="chapter-viewer chapter-pages fixed right-0 top-0 h-full w-1/2 min-w-[28rem] bg-parchment-light flex flex-col z-50">
     <header class="px-6 pt-5 bg-parchment-light shrink-0">
       <div class="chapter-column flex items-center gap-2 pb-3 border-b border-earth-dark/20">
         <img
@@ -946,5 +946,34 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
 .chapter-scroll {
   mask-image: linear-gradient(to bottom, #000 calc(100% - 1.75rem), transparent);
   -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 1.75rem), transparent);
+}
+
+/* The panel is the top page of an open book: the pages beneath peek out on its
+   left edge. Each box-shadow layer is the panel shifted left; the visible part
+   alternates a 1px page edge with 2px of paper that darkens with depth. */
+.chapter-pages {
+  box-shadow:
+    -1px 0 0 0 color-mix(in srgb, var(--text-ink-brown) 55%, transparent),
+    -3px 0 0 0 color-mix(in srgb, var(--bg-parchment-light) 93%, #000),
+    -4px 0 0 0 color-mix(in srgb, var(--text-ink-brown) 46%, transparent),
+    -6px 0 0 0 color-mix(in srgb, var(--bg-parchment-light) 89%, #000),
+    -7px 0 0 0 color-mix(in srgb, var(--text-ink-brown) 38%, transparent),
+    -9px 0 0 0 color-mix(in srgb, var(--bg-parchment-light) 85%, #000),
+    -10px 0 0 0 color-mix(in srgb, var(--text-ink-brown) 30%, transparent),
+    -12px 0 0 0 color-mix(in srgb, var(--bg-parchment-light) 81%, #000),
+    -13px 0 0 0 color-mix(in srgb, var(--text-ink-brown) 22%, transparent),
+    -15px 0 0 0 color-mix(in srgb, var(--bg-parchment-light) 77%, #000),
+    -16px 0 0 0 color-mix(in srgb, var(--text-ink-brown) 15%, transparent),
+    -28px 0 30px -10px rgb(44 36 22 / 0.35);
+}
+/* Paper curving into the spine: a soft shade along the inner left edge. */
+.chapter-pages::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2rem;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to right, rgb(44 36 22 / 0.08), transparent);
 }
 </style>
