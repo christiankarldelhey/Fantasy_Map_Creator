@@ -162,7 +162,7 @@
     "offRoadArrival": "Llegada fuera de camino",
     "toReachDestination": " para llegar al destino",
     "unnamedRoad": "Camino sin nombre",
-    "daysWalking": "{n} días caminando",
+    "daysWalking": "~{n} días caminando",
     "guestFooterText": "Inicia sesión para recorrer esta ruta como una aventura.",
     "guestFooterBtn": "Inicia sesión para comenzar tu aventura",
     "languageLabel": "Idioma:",

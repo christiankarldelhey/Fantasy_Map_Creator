@@ -162,7 +162,7 @@
     "offRoadArrival": "Off-road arrival",
     "toReachDestination": " to reach destination",
     "unnamedRoad": "Unnamed Road",
-    "daysWalking": "{n} days walking",
+    "daysWalking": "~{n} days walking",
     "guestFooterText": "Sign in to travel this route as an adventure.",
     "guestFooterBtn": "Sign in to begin your adventure",
     "languageLabel": "Language:",
