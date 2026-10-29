@@ -1057,6 +1057,7 @@ async function ensureSchema() {
   await runMigrationFile('add_portrait_url_to_character_state.sql');
   await runMigrationFile('add_variant_to_region_biome_descriptions.sql');
   await runMigrationFile('create_region_seasonal_descriptions.sql');
+  await runMigrationFile('create_movers_tables.sql');
 
   console.log('✅ Schema ready\n');
 }
