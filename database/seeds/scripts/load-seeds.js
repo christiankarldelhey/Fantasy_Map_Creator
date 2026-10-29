@@ -1022,6 +1022,7 @@ async function ensureSchema() {
   await pool.query(`
     ALTER TABLE trips
       ADD COLUMN IF NOT EXISTS used_region_descriptions JSONB DEFAULT '{}',
+      ADD COLUMN IF NOT EXISTS used_terrain_phrases    JSONB DEFAULT '{}',
       ADD COLUMN IF NOT EXISTS status    TEXT NOT NULL DEFAULT 'active',
       ADD COLUMN IF NOT EXISTS end_cause TEXT,
       ADD COLUMN IF NOT EXISTS ended_at  TIMESTAMP
