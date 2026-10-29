@@ -48,6 +48,11 @@ npm run db:seed:export
 - **regions** (87 registros) - Regiones con polígonos
 - **biomes** (1,190 registros) - Biomas con polígonos
 - **water** (792 registros) - Masas de agua con geometrías mixtas
+- **campaigns** (0 registros) - Arcos de historia que relacionan legs de distintos movers
+- **movers** (0 registros) - Seres autorados del Living Map (se pueblan por autoría, ver ADR-0012)
+- **mover_legs** (0 registros) - Tramos de historia de cada mover (march/presence/resident)
+- **mover_beats** (0 registros) - Contenido autorado del cruce por leg
+- **mover_trails** (0 registros) - Posiciones día a día horneadas (legs march)
 
 ### Datos de Usuario (No son seed data)
 - **users** - Cuentas de usuario
