@@ -446,9 +446,19 @@ CREATE TABLE IF NOT EXISTS movers (
 CREATE INDEX IF NOT EXISTS idx_movers_slug ON movers(slug);
 CREATE INDEX IF NOT EXISTS idx_movers_kind ON movers(kind);
 
+CREATE TABLE IF NOT EXISTS campaigns (
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    slug        VARCHAR(255) UNIQUE NOT NULL,
+    name        VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_at  TIMESTAMP DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_campaigns_slug ON campaigns(slug);
+
 CREATE TABLE IF NOT EXISTS mover_legs (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     mover_id    UUID NOT NULL REFERENCES movers(id) ON DELETE CASCADE,
+    campaign_id UUID REFERENCES campaigns(id),
     leg_index   INT NOT NULL,
     kind        TEXT NOT NULL,          -- 'march' | 'presence' | 'resident'
     date_from   DATE NOT NULL,
@@ -462,6 +472,7 @@ CREATE TABLE IF NOT EXISTS mover_legs (
     contact_radius_km NUMERIC,
     visibility  TEXT NOT NULL DEFAULT 'signs',
     greeting    BOOLEAN NOT NULL DEFAULT false,
+    active_phases TEXT[] NOT NULL DEFAULT '{morning,afternoon,before_sleep,mid_night}',
     trace       TEXT,
     hostile     BOOLEAN NOT NULL DEFAULT false,
     created_at  TIMESTAMP DEFAULT NOW(),
@@ -470,6 +481,10 @@ CREATE TABLE IF NOT EXISTS mover_legs (
     CONSTRAINT chk_mover_legs_visibility CHECK (visibility IN ('visible', 'signs', 'hidden')),
     CONSTRAINT chk_mover_legs_window CHECK (date_to >= date_from),
     CONSTRAINT chk_mover_legs_level CHECK (level IS NULL OR level BETWEEN 1 AND 8),
+    CONSTRAINT chk_mover_legs_phases CHECK (
+        active_phases <@ '{morning,afternoon,before_sleep,mid_night}'::text[]
+        AND array_length(active_phases, 1) >= 1
+    ),
     CONSTRAINT chk_mover_legs_scope CHECK (
          (kind = 'march')
       OR (kind = 'presence' AND region_id IS NOT NULL)
@@ -477,6 +492,7 @@ CREATE TABLE IF NOT EXISTS mover_legs (
     )
 );
 CREATE INDEX IF NOT EXISTS idx_mover_legs_mover    ON mover_legs(mover_id);
+CREATE INDEX IF NOT EXISTS idx_mover_legs_campaign ON mover_legs(campaign_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_region   ON mover_legs(region_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_location ON mover_legs(location_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_dates    ON mover_legs(date_from, date_to);

@@ -78,6 +78,11 @@ const VALIDATION_CONFIG = {
     },
     {
       table: 'mover_legs',
+      column: 'campaign_id',
+      references: 'campaigns.id'
+    },
+    {
+      table: 'mover_legs',
       column: 'region_id',
       references: 'regions.id'
     },

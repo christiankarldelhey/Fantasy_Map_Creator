@@ -58,13 +58,18 @@ const EXPORT_CONFIG = {
       filename: 'entities.csv'
     },
     {
+      table: 'campaigns',
+      columns: ['id', 'slug', 'name', 'description', 'created_at'],
+      filename: 'campaigns.csv'
+    },
+    {
       table: 'movers',
       columns: ['id', 'slug', 'name', 'kind', 'canon', 'motivation', 'description', 'created_at'],
       filename: 'movers.csv'
     },
     {
       table: 'mover_legs',
-      columns: ['id', 'mover_id', 'leg_index', 'kind', 'date_from', 'date_to', 'region_id', 'location_id', 'location_type', 'level', 'road_bias', 'notice_radius_km', 'contact_radius_km', 'visibility', 'greeting', 'trace', 'hostile', 'created_at'],
+      columns: ['id', 'mover_id', 'campaign_id', 'leg_index', 'kind', 'date_from', 'date_to', 'region_id', 'location_id', 'location_type', 'level', 'road_bias', 'notice_radius_km', 'contact_radius_km', 'visibility', 'greeting', 'active_phases', 'trace', 'hostile', 'created_at'],
       filename: 'mover_legs.csv'
     },
     {

@@ -41,6 +41,24 @@ COMMENT ON COLUMN movers.kind IS 'person (named individual), company (named grou
 COMMENT ON COLUMN movers.motivation IS 'Why this mover moves — the political or personal reason behind its legs';
 
 -- ============================================================================
+-- Table: campaigns
+-- Purpose: the story a leg belongs to — legs across different movers share a
+--          campaign (the Gollum hunt ties the escort, the captivity, the
+--          Woodland assault). Related campaigns can later link to each other.
+-- ============================================================================
+CREATE TABLE IF NOT EXISTS campaigns (
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    slug        VARCHAR(255) UNIQUE NOT NULL,
+    name        VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_at  TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_campaigns_slug ON campaigns(slug);
+
+COMMENT ON TABLE campaigns IS 'Named story arcs that relate legs across different movers (e.g. the hunt for Gollum)';
+
+-- ============================================================================
 -- Table: mover_legs
 -- Purpose: one stretch of a mover's story — where it is and what it is doing
 --          over a window of dates. Three kinds:
@@ -51,6 +69,7 @@ COMMENT ON COLUMN movers.motivation IS 'Why this mover moves — the political o
 CREATE TABLE IF NOT EXISTS mover_legs (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     mover_id    UUID NOT NULL REFERENCES movers(id) ON DELETE CASCADE,
+    campaign_id UUID REFERENCES campaigns(id),  -- which story this leg serves
     leg_index   INT NOT NULL,
 
     kind        TEXT NOT NULL,          -- 'march' | 'presence' | 'resident'
@@ -77,6 +96,10 @@ CREATE TABLE IF NOT EXISTS mover_legs (
     -- resident behaviour
     greeting    BOOLEAN NOT NULL DEFAULT false,  -- true: also fires on pass-through
 
+    -- day-phase availability: the day's four windows
+    -- (morning / afternoon / before_sleep / mid_night)
+    active_phases TEXT[] NOT NULL DEFAULT '{morning,afternoon,before_sleep,mid_night}',
+
     -- content
     trace       TEXT,                   -- authored distance-sign for this leg
     hostile     BOOLEAN NOT NULL DEFAULT false,  -- feeds region Unease
@@ -85,6 +108,12 @@ CREATE TABLE IF NOT EXISTS mover_legs (
 
     UNIQUE (mover_id, leg_index)
 );
+
+-- Upgrade path for DBs where the table exists already — must run BEFORE the
+-- constraint guards below (chk_mover_legs_phases reads active_phases).
+ALTER TABLE mover_legs
+    ADD COLUMN IF NOT EXISTS campaign_id UUID REFERENCES campaigns(id),
+    ADD COLUMN IF NOT EXISTS active_phases TEXT[] NOT NULL DEFAULT '{morning,afternoon,before_sleep,mid_night}';
 
 DO $$
 BEGIN
@@ -104,6 +133,13 @@ BEGIN
         ALTER TABLE mover_legs
             ADD CONSTRAINT chk_mover_legs_level CHECK (level IS NULL OR level BETWEEN 1 AND 8);
     END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_mover_legs_phases') THEN
+        ALTER TABLE mover_legs
+            ADD CONSTRAINT chk_mover_legs_phases CHECK (
+                active_phases <@ '{morning,afternoon,before_sleep,mid_night}'::text[]
+                AND array_length(active_phases, 1) >= 1
+            );
+    END IF;
     IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_mover_legs_scope') THEN
         ALTER TABLE mover_legs
             ADD CONSTRAINT chk_mover_legs_scope CHECK (
@@ -115,12 +151,15 @@ BEGIN
 END $$;
 
 CREATE INDEX IF NOT EXISTS idx_mover_legs_mover    ON mover_legs(mover_id);
+CREATE INDEX IF NOT EXISTS idx_mover_legs_campaign ON mover_legs(campaign_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_region   ON mover_legs(region_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_location ON mover_legs(location_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_dates    ON mover_legs(date_from, date_to);
 
 COMMENT ON TABLE mover_legs IS 'Legs of a mover story: march / presence / resident, each with its own window, visibility, trace and beats';
+COMMENT ON COLUMN mover_legs.campaign_id IS 'The story arc this leg belongs to (legs across movers share a campaign)';
 COMMENT ON COLUMN mover_legs.road_bias IS 'Per road_type level deltas for presence legs (e.g. {"off_road":2,"road_major":-2})';
+COMMENT ON COLUMN mover_legs.active_phases IS 'Day windows in which this leg can produce a crossing (morning/afternoon/before_sleep/mid_night)';
 COMMENT ON COLUMN mover_legs.hostile IS 'Active hostile leg tints its region with Unease';
 
 -- ============================================================================
