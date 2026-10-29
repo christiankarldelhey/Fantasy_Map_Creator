@@ -9,6 +9,7 @@
     "dev": "../start-development.sh",
     "test": "node --test",
     "db:seed": "node ../database/seeds/scripts/load-seeds.js",
+    "db:seed:movers": "node ../database/seeds/scripts/seed-movers.mjs",
     "db:seed:validate": "node ../database/seeds/scripts/validate-seeds.js",
     "db:seed:export": "node ../database/seeds/scripts/export-current-data.js",
     "postdeploy": "node ../database/seeds/scripts/post-deploy.js",

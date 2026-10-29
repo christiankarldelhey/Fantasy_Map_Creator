@@ -1,0 +1,63 @@
+# Authoring sample — exercises all three leg kinds (march / resident /
+# presence). The full Gandalf arc is authored in the wave-1 ticket.
+mover:
+  slug: gandalf
+  name: Gandalf the Grey
+  kind: person
+  canon: true
+  campaign: hunt-for-the-ring
+  motivation: >-
+    Proves beyond doubt that Bilbo's ring is the One: he rides south to read
+    Isildur's scroll in the archives of Minas Tirith, then returns to warn
+    Frodo — and is betrayed seeking Saruman's counsel.
+  description: The Grey Wanderer; when he moves, something in the world moves with him.
+
+legs:
+  # ---- MARCH: Hobbiton -> Minas Tirith, spring 3017 ------------------------
+  - kind: march
+    from: '3017-03-10'
+    to: '3017-05-01'
+    trail: gandalf-hobbiton-minas-tirith   # trails/<name>.geojson
+    visibility: signs
+    notice_radius_km: 12
+    contact_radius_km: 4
+    active_phases: [morning, afternoon, before_sleep]   # he rides by day
+    trace: A grey rider on a good horse passed east not many days ago, asking after the old roads.
+    beat:
+      title: The Grey Rider
+      text: >-
+        A grey-cloaked wanderer spurs past without stopping — broad hat bent
+        against the wind, staff laid across the saddle. He has the look of a
+        man with far to go and little time.
+      effects: { shadow: -1 }
+
+  # ---- RESIDENT: buried in the archives of Minas Tirith --------------------
+  - kind: resident
+    from: '3017-05-02'
+    to: '3018-04-10'
+    location: Minas Tirith
+    visibility: hidden
+    beat:
+      title: A guest in the archives
+      text: >-
+        A grey old man has been shut in the archive halls for long weeks,
+        the guards say — reading scrolls older than the city.
+      effects: {}
+
+  # ---- PRESENCE: loose in Rohan after Orthanc ------------------------------
+  - kind: presence
+    from: '3018-09-18'
+    to: '3018-09-23'
+    region: Rohan
+    level: 3
+    road_bias: { off_road: 1, road_major: -1 }
+    visibility: signs
+    active_phases: [morning, afternoon, before_sleep]
+    trace: A great eagle was seen flying west; and a beggar-man in grey asked for a horse at the king's hall.
+    beat:
+      title: The beggar who took Shadowfax
+      text: >-
+        A travel-worn grey figure walks the plain — staff in hand, hat gone,
+        moving with the speed of urgency rather than age. The mark Rohan left
+        on him is not kindness.
+      effects: { shadow: -1 }

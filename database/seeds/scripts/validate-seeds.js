@@ -13,7 +13,7 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import pg from 'pg';
 import dotenv from 'dotenv';
 
@@ -21,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables
-dotenv.config({ path: path.join(__dirname, '../../../../backend/.env') });
+dotenv.config({ path: path.join(__dirname, '../../../backend/.env') });
 
 const { Pool } = pg;
 
@@ -51,6 +51,7 @@ const VALIDATION_CONFIG = {
     'biomes',
     'water',
     'roads',
+    'mover_trails',
   ],
   
   // Foreign key relationships to validate
@@ -69,6 +70,36 @@ const VALIDATION_CONFIG = {
       table: 'character_state',
       column: 'entity_id',
       references: 'entities.id'
+    },
+    {
+      table: 'mover_legs',
+      column: 'mover_id',
+      references: 'movers.id'
+    },
+    {
+      table: 'mover_legs',
+      column: 'campaign_id',
+      references: 'campaigns.id'
+    },
+    {
+      table: 'mover_legs',
+      column: 'region_id',
+      references: 'regions.id'
+    },
+    {
+      table: 'mover_legs',
+      column: 'location_id',
+      references: 'locations.id'
+    },
+    {
+      table: 'mover_beats',
+      column: 'leg_id',
+      references: 'mover_legs.id'
+    },
+    {
+      table: 'mover_trails',
+      column: 'leg_id',
+      references: 'mover_legs.id'
     },
   ],
 };
@@ -117,7 +148,7 @@ async function validateGeometries() {
         SELECT column_name, data_type 
         FROM information_schema.columns 
         WHERE table_name = '${table}' 
-        AND data_type = 'user-defined'
+        AND LOWER(data_type) = 'user-defined'
         AND udt_name = 'geometry'
       `);
       
@@ -178,8 +209,8 @@ async function validateForeignKeys() {
       const result = await pool.query(`
         SELECT COUNT(*) as count 
         FROM ${fk.table} t
-        LEFT JOIN ${fk.references.split('.')[0]} r ON t.${fk.column} = ${fk.references}
-        WHERE t.${fk.column} IS NOT NULL AND ${fk.references.split('.')[0]}.id IS NULL
+        LEFT JOIN ${fk.references.split('.')[0]} r ON t.${fk.column} = r.id
+        WHERE t.${fk.column} IS NOT NULL AND r.id IS NULL
       `);
       
       const orphanCount = parseInt(result.rows[0].count);
@@ -192,6 +223,73 @@ async function validateForeignKeys() {
       
     } catch (error) {
       console.log(`❌ Error validating ${fk.table}.${fk.column}: ${error.message}`);
+    }
+  }
+}
+
+/**
+ * Validate mover leg rules (Living Map seed family).
+ * Tolerates empty tables: no movers authored yet is a valid state.
+ */
+async function validateMovers() {
+  console.log('\n🚶 Validating movers...');
+
+  const { rows: [t] } = await pool.query(`SELECT to_regclass('mover_legs') AS t`);
+  if (!t.t) {
+    console.log('⚠️  mover tables not present; run the movers migration first');
+    return;
+  }
+
+  const checks = [
+    {
+      label: 'date windows sane (date_to >= date_from)',
+      sql: `SELECT COUNT(*) AS n FROM mover_legs WHERE date_to < date_from`,
+    },
+    {
+      label: 'leg-kind scopes (presence→region, resident→location)',
+      sql: `SELECT COUNT(*) AS n FROM mover_legs
+            WHERE (kind = 'presence' AND region_id IS NULL)
+               OR (kind = 'resident' AND location_id IS NULL AND location_type IS NULL)`,
+    },
+    {
+      label: 'presence legs carry a level',
+      sql: `SELECT COUNT(*) AS n FROM mover_legs WHERE kind = 'presence' AND level IS NULL`,
+    },
+    {
+      label: 'march legs carry radii',
+      sql: `SELECT COUNT(*) AS n FROM mover_legs
+            WHERE kind = 'march' AND (notice_radius_km IS NULL OR contact_radius_km IS NULL)`,
+    },
+    {
+      label: 'march legs have baked trail rows',
+      sql: `SELECT COUNT(*) AS n FROM mover_legs l
+            WHERE l.kind = 'march'
+              AND NOT EXISTS (SELECT 1 FROM mover_trails tr WHERE tr.leg_id = l.id)`,
+    },
+    {
+      label: 'no overlapping legs per mover',
+      sql: `SELECT COUNT(*) AS n FROM mover_legs a
+            JOIN mover_legs b ON a.mover_id = b.mover_id AND a.id < b.id
+            WHERE a.date_from <= b.date_to AND b.date_from <= a.date_to`,
+    },
+    {
+      label: 'trail rows inside their leg window',
+      sql: `SELECT COUNT(*) AS n FROM mover_trails tr
+            JOIN mover_legs l ON tr.leg_id = l.id
+            WHERE tr.date < l.date_from OR tr.date > l.date_to`,
+    },
+  ];
+
+  for (const { label, sql } of checks) {
+    try {
+      const { rows: [{ n }] } = await pool.query(sql);
+      if (Number(n) === 0) {
+        console.log(`✅ ${label}`);
+      } else {
+        console.log(`⚠️  ${label}: ${n} violations`);
+      }
+    } catch (error) {
+      console.log(`❌ ${label}: ${error.message}`);
     }
   }
 }
@@ -344,6 +442,7 @@ async function main() {
     await validateTableCounts();
     await validateGeometries();
     await validateForeignKeys();
+    await validateMovers();
     await validateDataFormats();
     await generateReport();
     
@@ -357,8 +456,8 @@ async function main() {
   }
 }
 
-// Run if called directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Run if called directly (pathToFileURL handles spaces in the repo path)
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main();
 }
 

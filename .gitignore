@@ -48,3 +48,4 @@ __pycache__/
 # Devin CLI local config (personal, not committed)
 .devin/config.local.json
 .devin/session-log.jsonl
+database/seeds/validation-report-*.txt
