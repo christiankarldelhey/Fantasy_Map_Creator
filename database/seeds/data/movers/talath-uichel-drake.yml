@@ -1,0 +1,79 @@
+mover:
+  slug: talath-uichel-drake
+  name: The Drake of the Icy Plains
+  kind: person
+  canon: false
+  motivation: >-
+    An old, slow cold-drake that has hunted the plains of Talath Uichel
+    since before the Snowmen had words for it. It does not rage — it simply
+    outlasts, the way winter outlasts.
+  description: Older than the snowmen's memory and exactly as patient.
+
+legs:
+  - kind: presence
+    from: '3017-03-15'
+    to: '3017-12-15'
+    region: Talath Uichel
+    level: 5
+    road_bias: { off_road: 1 }
+    visibility: signs
+    hostile: true
+    trace: 'The Icemen leave a carved bone-post at the edge of the plains and do not say why; beyond it, the wind smells of sulphur.'
+    beat:
+      title: The thing the bone-post marks
+      text: >-
+        Beyond the carved post the plain is strangely empty — no bears, no
+        wolves, even the cold seems to keep its distance. Then the grey
+        ridge in the middle distance moves, and you understand the post is
+        not a warning to the drake. It is a warning to you.
+      effects: { shadow: 2 }
+
+  - kind: resident
+    from: '3017-12-16'
+    to: '3018-03-14'
+    region: Talath Uichel
+    location_type: cavern
+    visibility: hidden
+    hostile: true
+    trace: 'The Icemen say the mountain-shelter is spoken for until spring, by the smell of the forge beneath.'
+    beat:
+      title: Denned
+      text: >-
+        Under the ice the den is warm, and in the dark a slow breath keeps
+        a rhythm that has not changed in three hundred years. The bones
+        near the mouth are very old and very new.
+      effects: { shadow: 2 }
+
+  - kind: presence
+    from: '3018-03-15'
+    to: '3018-12-15'
+    region: Talath Uichel
+    level: 5
+    road_bias: { off_road: 1 }
+    visibility: signs
+    hostile: true
+    trace: 'The Icemen leave a carved bone-post at the edge of the plains and do not say why; beyond it, the wind smells of sulphur.'
+    beat:
+      title: The thing the bone-post marks
+      text: >-
+        Beyond the carved post the plain is strangely empty — no bears, no
+        wolves, even the cold seems to keep its distance. Then the grey
+        ridge in the middle distance moves, and you understand the post is
+        not a warning to the drake. It is a warning to you.
+      effects: { shadow: 2 }
+
+  - kind: resident
+    from: '3018-12-16'
+    to: '3018-12-31'
+    region: Talath Uichel
+    location_type: cavern
+    visibility: hidden
+    hostile: true
+    trace: 'The Icemen say the mountain-shelter is spoken for until spring, by the smell of the forge beneath.'
+    beat:
+      title: Denned
+      text: >-
+        Under the ice the den is warm, and in the dark a slow breath keeps
+        a rhythm that has not changed in three hundred years. The bones
+        near the mouth are very old and very new.
+      effects: { shadow: 2 }

@@ -1,0 +1,30 @@
+mover:
+  slug: dunadan-watcher
+  name: The woman who looks up
+  kind: person
+  canon: false
+  motivation: >-
+    A solitary woman of the dwindled northern people who walks the ruins
+    of Arnor looking at the sky — watching for something she half-believes
+    will come back, in an age when her people have almost stopped believing.
+  description: Loneliness dressed in old Dúnedain grey, reading the clouds over dead kings.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Wilderness of Arnor
+    level: 2
+    road_bias: { off_road: 1 }
+    visibility: signs
+    active_phases: [afternoon, before_sleep]
+    trace: 'A woman in grey standing alone on a ruin-wall, looking up — the hillfolk say she has been watching the same sky for a year.'
+    beat:
+      title: Watching for something
+      text: >-
+        A grey-wrapped woman of the old northern blood stands on a broken
+        wall and watches the western sky the way sailors watch horizons —
+        for sails. Whatever she hopes for out of the west, it has not come
+        yet. She accepts a traveller's company with grave courtesy, talks
+        little, and always ends up looking up.
+      effects: { shadow: 1, hope: 1 }

@@ -1,0 +1,81 @@
+mover:
+  slug: forovirian-drake
+  name: The Cold-drake of Forovirian
+  kind: person
+  canon: false
+  motivation: >-
+    Not one of the great worms of the ancient world — a cold-drake of the
+    northern wastes, fireless but not toothless, roaming the frozen moors
+    for reindeer and the occasional unlucky man, and denned through the
+    deep winter in a cave that smells like the inside of a forge.
+  description: 'The least of the old fire''s children — but still more than enough.'
+
+legs:
+  - kind: presence
+    from: '3017-04-01'
+    to: '3017-11-15'
+    region: Forovirian
+    level: 5
+    road_bias: { off_road: 1 }
+    visibility: signs
+    hostile: true
+    trace: 'A reek of sulphur hangs over the moor though there is no forge for a hundred miles, and the reindeer are running from nothing.'
+    beat:
+      title: Sulphur on the wind
+      text: >-
+        You smell it before you see it — sulphur and wet stone, like the
+        inside of a smithy buried under a mountain. Then the moor blinks.
+        A cold-drake, wingless and grey as old ice, watching you with the
+        patience of a thing that does not hurry its food. It is not Smaug.
+        It is only what is left of dragons — which is enough.
+      effects: { shadow: 2 }
+
+  - kind: resident
+    from: '3017-11-16'
+    to: '3018-03-31'
+    region: Forovirian
+    location_type: cavern
+    visibility: hidden
+    hostile: true
+    trace: Travellers know the cave by the smell — sulphur deep in the rock — and by the bones kicked out onto the ice.
+    beat:
+      title: The winter den
+      text: >-
+        The cave mouth breathes warm, sulphurous air into the frozen dark.
+        Inside, something mountain-sized turns over in its sleep and the
+        stone groans. Whatever you needed shelter from, this is worse.
+      effects: { shadow: 2 }
+
+  - kind: presence
+    from: '3018-04-01'
+    to: '3018-11-15'
+    region: Forovirian
+    level: 5
+    road_bias: { off_road: 1 }
+    visibility: signs
+    hostile: true
+    trace: 'A reek of sulphur hangs over the moor though there is no forge for a hundred miles, and the reindeer are running from nothing.'
+    beat:
+      title: Sulphur on the wind
+      text: >-
+        You smell it before you see it — sulphur and wet stone, like the
+        inside of a smithy buried under a mountain. Then the moor blinks.
+        A cold-drake, wingless and grey as old ice, watching you with the
+        patience of a thing that does not hurry its food.
+      effects: { shadow: 2 }
+
+  - kind: resident
+    from: '3018-11-16'
+    to: '3018-12-31'
+    region: Forovirian
+    location_type: cavern
+    visibility: hidden
+    hostile: true
+    trace: Travellers know the cave by the smell — sulphur deep in the rock — and by the bones kicked out onto the ice.
+    beat:
+      title: The winter den
+      text: >-
+        The cave mouth breathes warm, sulphurous air into the frozen dark.
+        Inside, something mountain-sized turns over in its sleep and the
+        stone groans. Whatever you needed shelter from, this is worse.
+      effects: { shadow: 2 }

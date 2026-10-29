@@ -1,0 +1,32 @@
+mover:
+  slug: apple-hobbit
+  name: The apple-farmer of Bree-land
+  kind: person
+  canon: false
+  motivation: >-
+    A hobbit with a spread of apple-trees outside Bree and three large
+    dogs with opinions — he sells cider at the Pony, mistrusts everyone
+        north of his gate on principle, and has been watching the strange
+        times with a loaded cart and a loaded worry.
+  description: Old Maggot's temper in a Bree-land orchard.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Bree
+    level: 1
+    road_bias: { road_major: 1 }
+    visibility: signs
+    active_phases: [morning, afternoon, before_sleep]
+    trace: 'Apple-rows running to the hedge, three large dog-shapes holding a line, and a hobbit on the cart watching the road like weather.'
+    beat:
+      title: The orchard with dogs
+      text: >-
+        A hobbit-farmer works the apple-rows with three serious dogs
+        holding a perimeter — Grip, Fang, and the big one that doesn't
+        need a name. If your business is apples or cider he is excellent
+        company; if it is any kind of funny business the dogs settle it.
+        He has opinions about the dark riders that are worth a pint to
+        hear.
+      effects: { hope: 1 }

@@ -1,0 +1,33 @@
+mover:
+  slug: troll-mother
+  name: Amma Granitecheek and her brood
+  kind: company
+  canon: false
+  motivation: >-
+    Driven out of the Ettenmoors by a bigger troll's temper, Amma led her
+    two younglings south into the Trollshaws where the picking is soft.
+    She is teaching them to dig for roots and badgers — and still arguing
+    with herself about whether travellers count as dinner or as trouble.
+  description: A troll-mother is a mountain with opinions.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Trollshaws
+    level: 4
+    road_bias: { off_road: 1, road_major: -1 }
+    visibility: signs
+    hostile: true
+    active_phases: [before_sleep, mid_night]   # sunlight turns them to stone
+    trace: 'In the morning there are diggings like giant mole-hills, a smell of damp quarry-stone, and one deep motherly voice still arguing far off.'
+    beat:
+      title: Amma's lesson
+      text: >-
+        Three trolls in a pine-hollow at dead of night: a huge old female
+        and two young ones half her size. She is teaching them to grub the
+        ground — 'Roots, you great lumps, roots fill a belly and don't
+        fight back' — while one youngling keeps eyeing your campfire and
+        being swatted for it. Hungry trolls are dangerous. A troll-mother
+        being pedagogical is something else entirely.
+      effects: { shadow: 1 }

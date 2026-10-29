@@ -1,0 +1,30 @@
+mover:
+  slug: lassemista
+  name: Lassemista
+  kind: person
+  canon: true
+  motivation: >-
+    One of the three eldest Ents, who loved the mountain-ash above all
+    growing things — and the orcs of the mountains cut his rowan-groves
+    for firewood. He walks the westward slopes now, and his sorrow is a
+    slow storm.
+  description: Greybark, who mourns his rowans.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Fangorn
+    level: 3
+    road_bias: { off_road: 1 }
+    visibility: hidden
+    active_phases: [afternoon, before_sleep, mid_night]
+    trace: In the high wood, the sound of a voice mourning in a tongue like wind through broken branches — over a hillside of stumps.
+    beat:
+      title: The mourner of the rowans
+      text: >-
+        A grey old ent stands over a hillside of stumps — orc-work, years
+        old now — and keens in a slow language that hurts to hear. He does
+        not notice you, or chooses not to. Grief this old does not need
+        witnesses.
+      effects: { shadow: 1 }

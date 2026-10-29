@@ -1,0 +1,31 @@
+mover:
+  slug: glass-eye
+  name: The man of the glass eyes
+  kind: person
+  canon: false
+  motivation: >-
+    A wandering eccentric who carries a small case of glass eyes and
+    changes them to match his mood — red-shot for fury, merry green for
+    good days, a sleepily drooping amber for the drowsy miles. Whether it
+    is affectation or something truer, nobody has asked him twice.
+  description: 'An extravagant walker whose eyes literally have weather.'
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Minhiriath
+    level: 2
+    road_bias: { road_major: 1, off_road: -1 }
+    visibility: signs
+    trace: 'A traveller was seen on the south roads with one eye of glass — the colour, witnesses insist, changes with his temper.'
+    beat:
+      title: The eye that changes
+      text: >-
+        A flamboyant stranger who greets you like a theatre and talks with
+        one eye too still — until mid-conversation he swaps it, from a
+        small velvet case, for one of a friendlier colour. 'For the road,'
+        he explains, offended you'd stare. It is impossible to tell whether
+        you have met a showman, a madman, or a courtesy you haven't
+        earned yet.
+      effects: {}

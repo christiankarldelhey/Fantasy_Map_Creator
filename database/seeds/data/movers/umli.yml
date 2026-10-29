@@ -1,0 +1,32 @@
+mover:
+  slug: umli
+  name: The young Umli
+  kind: person
+  canon: false
+  motivation: >-
+    Half-dwarf, though he would take a fist over the word 'half'. Twenty
+    winters, a new beard tended like a garden — and hungry. He left his
+    mother and sisters after his father's blood stayed on his hands; now
+    he forages the Wold's edges east of Rohan, one frightened meal at a
+    time.
+  description: A boy pretending to be a dwarf, trying to eat without being seen.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Rohan
+    level: 2
+    road_bias: { off_road: 1, road_major: -1 }
+    visibility: signs
+    active_phases: [morning, afternoon]
+    trace: 'A stocky youth foraging the field-edges — he flinches from voices like a deer but squares up like a dwarf.'
+    beat:
+      title: The half-dwarf
+      text: >-
+        A broad young figure scrabbling at a hedge-garden — unmistakably
+        dwarf-built, unmistakably too tall. He rounds on you all bristle
+        and knuckles until the smell of bread reaches him; fear has been
+        driving him longer than hunger. Feed him, and he eats like a
+        landslide and talks, carefully, of Moria and mothers.
+      effects: {}
