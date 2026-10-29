@@ -1,0 +1,22 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "The Woodland Realm to Rivendell, autumn 3018" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [18.4, 54.2],
+          [17.0, 53.7],
+          [15.8, 52.9],
+          [15.064, 52.084],
+          [13.8, 51.9],
+          [12.2, 51.75],
+          [10.9, 51.6],
+          [9.871, 51.528]
+        ]
+      }
+    }
+  ]
+}

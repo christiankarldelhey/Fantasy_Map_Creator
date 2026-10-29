@@ -1,0 +1,23 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Erebor to Rivendell by the old forest road" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [21.273, 53.881],
+          [20.2, 53.4],
+          [18.8, 52.9],
+          [17.0, 52.5],
+          [15.064, 52.084],
+          [13.8, 51.95],
+          [12.0, 51.75],
+          [10.8, 51.62],
+          [9.871, 51.528]
+        ]
+      }
+    }
+  ]
+}
