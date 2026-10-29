@@ -13,7 +13,7 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import pg from 'pg';
 import dotenv from 'dotenv';
 
@@ -21,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables
-dotenv.config({ path: path.join(__dirname, '../../../../backend/.env') });
+dotenv.config({ path: path.join(__dirname, '../../../backend/.env') });
 
 const { Pool } = pg;
 
@@ -148,7 +148,7 @@ async function validateGeometries() {
         SELECT column_name, data_type 
         FROM information_schema.columns 
         WHERE table_name = '${table}' 
-        AND data_type = 'user-defined'
+        AND LOWER(data_type) = 'user-defined'
         AND udt_name = 'geometry'
       `);
       
@@ -209,8 +209,8 @@ async function validateForeignKeys() {
       const result = await pool.query(`
         SELECT COUNT(*) as count 
         FROM ${fk.table} t
-        LEFT JOIN ${fk.references.split('.')[0]} r ON t.${fk.column} = ${fk.references}
-        WHERE t.${fk.column} IS NOT NULL AND ${fk.references.split('.')[0]}.id IS NULL
+        LEFT JOIN ${fk.references.split('.')[0]} r ON t.${fk.column} = r.id
+        WHERE t.${fk.column} IS NOT NULL AND r.id IS NULL
       `);
       
       const orphanCount = parseInt(result.rows[0].count);
@@ -456,8 +456,8 @@ async function main() {
   }
 }
 
-// Run if called directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Run if called directly (pathToFileURL handles spaces in the repo path)
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main();
 }
 

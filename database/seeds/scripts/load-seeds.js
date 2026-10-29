@@ -19,6 +19,7 @@ import path from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
 import pg from 'pg';
 import dotenv from 'dotenv';
+import yaml from 'js-yaml';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1145,6 +1146,215 @@ async function ensureConstraints() {
 }
 
 // ---------------------------------------------------------------------------
+// Seed: movers (Living Map)
+// ----------------------------------------------------------------------------
+// Authored YAML in data/movers/<slug>.yml + campaigns in campaigns.yml +
+// hand-drawn GeoJSON LineStrings in data/movers/trails/.
+// The bake happens here: each march LineString is resampled in PostGIS into
+// one mover_trails row per day of the leg window. Deterministic by
+// construction: same YAML + GeoJSON in, same rows out.
+// ---------------------------------------------------------------------------
+const MOVERS_DIR = path.join(DATA_DIR, 'movers');
+const DAY_PHASES = ['morning', 'afternoon', 'before_sleep', 'mid_night'];
+
+function failMover(file, legIdx, msg) {
+  throw new Error(`movers/${file}${legIdx != null ? ` leg #${legIdx}` : ''}: ${msg}`);
+}
+
+function normDate(v, file, legIdx) {
+  // YAML unquoted dates arrive as Date objects; quoted stay strings.
+  if (v instanceof Date) return v.toISOString().slice(0, 10);
+  const s = String(v ?? '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) failMover(file, legIdx, `bad date '${v}' (want YYYY-MM-DD)`);
+  return s;
+}
+
+async function seedMovers() {
+  console.log('🚶 Seeding movers (Living Map)...');
+
+  let entries;
+  try {
+    entries = await fs.readdir(MOVERS_DIR);
+  } catch {
+    console.log('   (no data/movers directory — skipping)');
+    return;
+  }
+
+  // --- campaigns first: legs reference them by slug -------------------------
+  const campaignIds = new Map();
+  try {
+    const doc = yaml.load(await fs.readFile(path.join(MOVERS_DIR, 'campaigns.yml'), 'utf8'));
+    for (const c of doc?.campaigns ?? []) {
+      const { rows: [row] } = await pool.query(
+        `INSERT INTO campaigns (slug, name, description) VALUES ($1, $2, $3)
+         ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name, description = EXCLUDED.description
+         RETURNING id`,
+        [c.slug, c.name, c.description ?? null]
+      );
+      campaignIds.set(c.slug, row.id);
+    }
+  } catch (e) {
+    if (e.code !== 'ENOENT') throw e;
+  }
+
+  const campaignId = async (slug, file, legIdx) => {
+    if (!slug) return null;
+    if (!campaignIds.has(slug)) {
+      const { rows } = await pool.query('SELECT id FROM campaigns WHERE slug = $1', [slug]);
+      if (rows[0]) campaignIds.set(slug, rows[0].id);
+      else failMover(file, legIdx, `unknown campaign '${slug}' (declare it in campaigns.yml)`);
+    }
+    return campaignIds.get(slug);
+  };
+
+  const resolveRegionId = async (leg, file, i) => {
+    if (leg.region_id != null) return Number(leg.region_id);
+    if (leg.region) {
+      const { rows } = await pool.query('SELECT id, name FROM regions WHERE name ILIKE $1', [leg.region]);
+      if (rows.length === 0) failMover(file, i, `unknown region '${leg.region}'`);
+      if (rows.length > 1) failMover(file, i, `region '${leg.region}' is ambiguous (${rows.map(r => r.name).join(', ')}) — use region_id`);
+      return rows[0].id;
+    }
+    return null;
+  };
+
+  const resolveLocationId = async (leg, file, i) => {
+    if (leg.location_id != null) return Number(leg.location_id);
+    if (leg.location) {
+      const { rows } = await pool.query('SELECT id, name FROM locations WHERE name ILIKE $1', [leg.location]);
+      if (rows.length === 0) failMover(file, i, `unknown location '${leg.location}'`);
+      if (rows.length > 1) failMover(file, i, `location '${leg.location}' is ambiguous (${rows.map(r => r.name).join(', ')}) — use location_id`);
+      return rows[0].id;
+    }
+    return null;
+  };
+
+  const moverFiles = entries.filter((f) => f.endsWith('.yml') && f !== 'campaigns.yml');
+  for (const file of moverFiles) {
+    const doc = yaml.load(await fs.readFile(path.join(MOVERS_DIR, file), 'utf8'));
+    const m = doc?.mover;
+    if (!m?.slug || !m.name || !m.kind) failMover(file, null, 'mover needs slug, name and kind');
+    if (!['person', 'company', 'host'].includes(m.kind)) failMover(file, null, `bad kind '${m.kind}'`);
+
+    // Legs are regenerated wholesale: seed data is rebuilt per deploy.
+    const legs = Array.isArray(doc.legs) ? doc.legs : [];
+    if (legs.length === 0) failMover(file, null, 'no legs declared');
+
+    // Pass 1: validate + resolve everything BEFORE writing, so a bad file
+    // never leaves a half-seeded mover.
+    const spans = legs.map((l, i) => ({
+      i: i + 1,
+      from: normDate(l.from, file, i + 1),
+      to: normDate(l.to, file, i + 1),
+    }));
+    for (const s of spans) if (s.to < s.from) failMover(file, s.i, `reversed window ${s.from} → ${s.to}`);
+    spans.sort((a, b) => a.from.localeCompare(b.from));
+    for (let k = 1; k < spans.length; k++) {
+      if (spans[k].from <= spans[k - 1].to)
+        failMover(file, spans[k].i, `overlaps leg #${spans[k - 1].i}`);
+    }
+
+    const resolved = [];
+    for (let i = 0; i < legs.length; i++) {
+      const leg = legs[i];
+      const n = i + 1;
+      const kind = leg.kind;
+      if (!['march', 'presence', 'resident'].includes(kind)) failMover(file, n, `bad leg kind '${kind}'`);
+
+      const phases = leg.active_phases ?? DAY_PHASES;
+      if (!Array.isArray(phases) || phases.length === 0 || phases.some((p) => !DAY_PHASES.includes(p)))
+        failMover(file, n, `active_phases must be a non-empty subset of ${DAY_PHASES.join('/')}`);
+
+      const camp = await campaignId(leg.campaign ?? m.campaign, file, n);
+      const regionId = await resolveRegionId(leg, file, n);
+      const locationId = await resolveLocationId(leg, file, n);
+
+      if (kind === 'presence' && (regionId == null || leg.level == null))
+        failMover(file, n, "presence legs need 'region' (or region_id) and 'level'");
+      if (kind === 'resident' && locationId == null && leg.location_type == null)
+        failMover(file, n, "resident legs need 'location'/'location_id' or 'location_type'");
+      if (kind === 'march' && (leg.notice_radius_km == null || leg.contact_radius_km == null))
+        failMover(file, n, "march legs need 'notice_radius_km' and 'contact_radius_km'");
+
+      const beats = leg.beats ?? (leg.beat ? [leg.beat] : []);
+      for (const b of beats) if (!b?.text) failMover(file, n, 'a beat needs at least text');
+
+      let trailGeom = null;
+      let trailDays = 0;
+      if (kind === 'march') {
+        if (!leg.trail) failMover(file, n, "march legs need 'trail' (a file in trails/)");
+        const gj = JSON.parse(await fs.readFile(path.join(MOVERS_DIR, 'trails', `${leg.trail}.geojson`), 'utf8'));
+        trailGeom = (gj.type === 'LineString' ? gj : (gj.features ?? []).map((f) => f.geometry).find((g) => g?.type === 'LineString'));
+        if (!trailGeom) failMover(file, n, `trail '${leg.trail}' has no LineString`);
+        const s = spans.find((sp) => sp.i === n);
+        trailDays = Math.round((new Date(s.to) - new Date(s.from)) / 86400000);
+      }
+
+      resolved.push({ leg, n, kind, phases, camp, regionId, locationId, beats, trailGeom, trailDays });
+    }
+
+    // Pass 2: write.
+    const { rows: [mrow] } = await pool.query(
+      `INSERT INTO movers (slug, name, kind, canon, motivation, description)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       ON CONFLICT (slug) DO UPDATE SET
+         name = EXCLUDED.name, kind = EXCLUDED.kind, canon = EXCLUDED.canon,
+         motivation = EXCLUDED.motivation, description = EXCLUDED.description
+       RETURNING id`,
+      [m.slug, m.name, m.kind, Boolean(m.canon), m.motivation ?? null, m.description ?? null]
+    );
+    const moverId = mrow.id;
+    await pool.query('DELETE FROM mover_legs WHERE mover_id = $1', [moverId]); // cascades beats + trails
+
+    for (const r of resolved) {
+      const s = spans.find((sp) => sp.i === r.n);
+      const { rows: [lrow] } = await pool.query(
+        `INSERT INTO mover_legs
+           (mover_id, campaign_id, leg_index, kind, date_from, date_to,
+            region_id, location_id, location_type, level, road_bias,
+            notice_radius_km, contact_radius_km, visibility, greeting,
+            active_phases, trace, hostile)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)
+         RETURNING id`,
+        [
+          moverId, r.camp, Number(r.leg.index ?? r.n), r.kind, s.from, s.to,
+          r.regionId, r.locationId, r.leg.location_type ?? null,
+          r.kind === 'presence' ? Number(r.leg.level) : null,
+          JSON.stringify(r.leg.road_bias ?? {}),
+          r.leg.notice_radius_km ?? null, r.leg.contact_radius_km ?? null,
+          r.leg.visibility ?? 'signs', Boolean(r.leg.greeting),
+          r.phases, r.leg.trace ?? null, Boolean(r.leg.hostile),
+        ]
+      );
+      const legId = lrow.id;
+
+      for (const b of r.beats) {
+        await pool.query(
+          `INSERT INTO mover_beats (leg_id, variant, title, text, effects)
+           VALUES ($1, $2, $3, $4, $5)`,
+          [legId, b.variant ?? 'base', b.title ?? null, b.text, JSON.stringify(b.effects ?? {})]
+        );
+      }
+
+      if (r.kind === 'march') {
+        await pool.query(
+          `INSERT INTO mover_trails (leg_id, date, geom)
+           SELECT $1, ($2::date + d)::date,
+                  ST_LineInterpolatePoint(ST_GeomFromGeoJSON($3), d::float / $4::float)
+           FROM generate_series(0, $4) d`,
+          [legId, s.from, JSON.stringify(r.trailGeom), r.trailDays]
+        );
+      }
+    }
+    console.log(`   ↳ ${m.slug}: ${legs.length} leg(s)`);
+  }
+
+  const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) AS count FROM movers');
+  const { rows: [{ tcount }] } = await pool.query('SELECT COUNT(*) AS tcount FROM mover_trails');
+  console.log(`✅ movers: ${count} movers, ${tcount} trail points`);
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 async function main() {
@@ -1260,6 +1470,8 @@ async function main() {
 
     await seedPlacesInteractions();
 
+    await seedMovers();
+
     console.log('\n🎉 All seed data loaded successfully!');
 
   } catch (error) {
@@ -1274,4 +1486,4 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main();
 }
 
-export { main as loadSeeds };
+export { main as loadSeeds, seedMovers, pool };

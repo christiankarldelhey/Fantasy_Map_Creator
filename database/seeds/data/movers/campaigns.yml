@@ -1,0 +1,24 @@
+# Story arcs that relate legs across different movers.
+# A leg names its campaign by slug; authors may override per leg and may set a
+# default at mover level (mover.campaign) which legs inherit.
+campaigns:
+  - slug: hunt-for-the-ring
+    name: The Hunt for the Ring
+    description: >-
+      Sauron learns the Ring is found. The Nine ride, Gandalf races to the
+      archives, messengers go north to Erebor, and every road in Eriador
+      grows dangerous.
+
+  - slug: gollum-hunt
+    name: The Hunt for Gollum
+    description: >-
+      The long chase for the creature who once held the Ring: Aragorn's
+      capture in the Dead Marshes, the march north, the captivity under
+      Thranduil's halls, and the escape under orc-fire.
+
+  - slug: war-begins
+    name: The War Begins
+    description: >-
+      Sauron's first open stroke, 20 June 3018: Osgiliath falls in the east
+      and Dol Guldur's army assaults the Woodland Realm — cover for Gollum's
+      escape.

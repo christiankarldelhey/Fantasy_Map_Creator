@@ -151,6 +151,66 @@ cat database/seeds/validation-report-*.txt
 4. Actualiza `validate-seeds.js`
 5. Prueba con `test-migrations.js`
 
+## 🚶 Authoring movers (Living Map)
+
+Movers are **authored** beings (canonical or invented) whose presence on the
+map depends on the in-world date: Gandalf's journeys, the Nine, armies,
+innkeepers. They are *not* `entities` — they live in their own seed family
+and are **read-only** at runtime (no gameplay writes).
+
+### Files
+
+```
+data/movers/
+├── campaigns.yml                    # shared story arcs (legs reference by slug)
+├── <mover-slug>.yml                 # one YAML per mover
+└── trails/
+    └── <trail-name>.geojson         # hand-drawn LineString per march leg
+```
+
+### Author workflow
+
+1. Draw the march in geojson.io / QGIS as a **LineString**, save under
+   `data/movers/trails/`.
+2. Write `data/movers/<slug>.yml` (see `gandalf.yml` for the full format):
+   - `mover:` — slug, name, `kind` (`person` | `company` | `host`), `canon`,
+     `motivation`, optional default `campaign` (legs inherit it).
+   - `legs:` — ordered stretches of the mover's story. Gaps between legs =
+     the mover is off the board (e.g. Gandalf in Orthanc).
+     - `march`: `trail`, `notice_radius_km`, `contact_radius_km`
+       (double radius: notice → Trace, contact → Crossing).
+     - `presence`: `region` (or `region_id`), `level` (1–8), `road_bias`.
+     - `resident`: `location` (or `location_id` / `location_type`), `greeting`.
+     - All legs: `from`/`to` (YYYY-MM-DD), `visibility`
+       (`visible` | `signs` | `hidden`), `active_phases` (subset of
+       `morning`/`afternoon`/`before_sleep`/`mid_night`), `trace` text,
+       `hostile`, `campaign` override, `beat` (or `beats` list with
+       `variant`s) — title, text, `effects`.
+3. Bake + load:
+
+   ```bash
+   cd backend && npm run db:seed:movers   # movers only (iterate fast)
+   npm run db:seed                       # or full reseed
+   npm run db:seed:validate              # must be green
+   ```
+
+### The bake
+
+`load-seeds.js → seedMovers()` parses each YAML, validates windows
+(no overlaps per mover) and per-kind required fields, resolves `region` /
+`location` **by name** to FK ids (exact ILIKE match; ambiguous → error, use
+`*_id`), then for each `march` resamples the LineString in PostGIS —
+`ST_LineInterpolatePoint` over `generate_series(date_from..date_to)` — into
+**one `mover_trails` row per day**. Deterministic: same inputs → same rows.
+Re-running a file replaces that mover's legs wholesale (idempotent).
+
+Rules the loader enforces loudly:
+
+- Overlapping or reversed leg windows → error naming file + leg index.
+- Unknown `campaign` slug → declare it in `campaigns.yml`.
+- `march` without `trail` file, or GeoJSON with no LineString → error.
+- Invalid `active_phases` values → error (and a DB CHECK backs it up).
+
 ## 🎯 Mejoras Futuras
 
 - [ ] Automatizar exportación periódica
