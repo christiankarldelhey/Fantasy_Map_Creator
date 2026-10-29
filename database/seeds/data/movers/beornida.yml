@@ -1,0 +1,31 @@
+mover:
+  slug: beornida
+  name: The old Beorning
+  kind: person
+  canon: false
+  motivation: >-
+    Seventy winters and still the strongest thing in the Vales. He keeps a
+    hidden cabin packed with meat and cheese against the day — he is sure
+    it is coming — when the Dark Lord takes everything. He resists. He
+    does not trust you yet.
+  description: A bear of a man who expects the end and keeps the larder full anyway.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Nan Anduin
+    level: 3
+    road_bias: { off_road: 1 }
+    visibility: signs
+    active_phases: [morning, afternoon, before_sleep, mid_night]
+    trace: 'A bear''s track that ends in a man''s boot-print, and a wood-path that is watched — the trail is honest but the ambush is not.'
+    beat:
+      title: The old bear of the Vales
+      text: >-
+        A grey-bearded old man, broad as a door, standing between you and
+        a wood-path that clearly goes somewhere he doesn't show. The Vales
+        folk say he is kind to the starving and terrible to the armed —
+        and that some nights what walks his woods is a bear the size of a
+        hay-cart. He is listening to your voice for the lie in it.
+      effects: { hope: 1 }

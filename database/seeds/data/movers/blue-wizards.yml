@@ -1,0 +1,30 @@
+mover:
+  slug: blue-wizards
+  name: The Ithryn Luin
+  kind: company
+  canon: true
+  motivation: >-
+    Alatar and Pallando — the two who went east and did not come back.
+    What they do out there is not written in any western book: some say
+    they stir up resistance against the Dark Lord, some say they shelter
+    the peoples the world forgot. Both are probably true.
+  description: Two old men in sea-blue, at work where the maps end.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Dor Rhunen
+    level: 2
+    road_bias: { off_road: 1 }
+    visibility: hidden
+    trace: 'The wain-folk speak, not loudly, of two old men in sea-blue who walk the east as if it were a garden they are weeding.'
+    beat:
+      title: The blues
+      text: >-
+        Two old men in sea-blue robes walk the wain-roads like they own
+        the weather. One is kind-eyed and says nothing; the other watches
+        everything. Where they pass, the talk in the caravans quiets — not
+        from fear, from a strange instinct that two very old arguments are
+        being carried on by these two, and have been for centuries.
+      effects: {}

@@ -1,0 +1,68 @@
+mover:
+  slug: iron-hills-drake
+  name: The Worm of the Iron Hills
+  kind: person
+  canon: false
+  motivation: >-
+    Young as dragons reckon it, hungry as dwarves reckon it. It denizens
+    the mined-out eastern galleries of the Iron Hills, stealing goats and
+    growing braver — and the dwarves of the Hills have a bounty on it that
+    nobody dares collect.
+  description: A dragon the way a knife is a sword — smaller, still fatal.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3017-12-31'
+    region: Iron Hills
+    level: 4
+    road_bias: { off_road: 1, road_major: -1 }
+    visibility: signs
+    hostile: true
+    trace: 'Goatherds of the Hills count their animals twice since spring, and the count keeps disagreeing; the rafters of an old mine-gallery stink of sulphur.'
+    beat:
+      title: The goat-thief of the galleries
+      text: >-
+        Something smaller than legend and bigger than a house slides
+        between the spoil-heaps, trailing a stink of sulphur and bad meat.
+        A young drake — clever enough to hunt close to dwarf-roads because
+        dwarves are rich and goats are not. It has not decided yet whether
+        you are the second kind.
+      effects: { shadow: 2 }
+
+  - kind: resident
+    from: '3018-01-01'
+    to: '3018-02-28'
+    region: Iron Hills
+    location_type: cavern
+    visibility: hidden
+    hostile: true
+    trace: 'The dwarves mark certain galleries on their maps with a red scratch and the word "his".'
+    beat:
+      title: The gallery that is spoken for
+      text: >-
+        Deep in a worked-out gallery the air is furnace-warm and the coins
+        and bones underfoot crunch the same way. Young dragons collect
+        things they don't understand, like children — coins, helmets, a
+        goat-bell. And there, atop the small hoard, breathing: the
+        collector.
+      effects: { shadow: 2 }
+
+  - kind: presence
+    from: '3018-03-01'
+    to: '3018-12-31'
+    region: Iron Hills
+    level: 4
+    road_bias: { off_road: 1, road_major: -1 }
+    visibility: signs
+    hostile: true
+    trace: 'Goatherds of the Hills count their animals twice since spring, and the count keeps disagreeing; the rafters of an old mine-gallery stink of sulphur.'
+    beat:
+      title: The goat-thief of the galleries
+      text: >-
+        Something smaller than legend and bigger than a house slides
+        between the spoil-heaps, trailing a stink of sulphur and bad meat.
+        A young drake — clever enough to hunt close to dwarf-roads because
+        dwarves are rich and goats are not. It has not decided yet whether
+        you are the second kind.
+      effects: { shadow: 2 }

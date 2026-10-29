@@ -1,0 +1,46 @@
+mover:
+  slug: joyful-pilgrims
+  name: A joyful company westbound
+  kind: company
+  canon: false
+  motivation: >-
+    Not every road to the Havens is sad: these go singing, young and old
+    together, as if the grey sea were a wedding and not a goodbye. For
+    them the leaving is the easiest thing they have ever done.
+  description: The happy kind of ending.
+
+legs:
+  - kind: march
+    from: '3017-09-01'
+    to: '3017-10-20'
+    trail: pilgrims-celairnen-mithlond
+    visibility: signs
+    notice_radius_km: 10
+    contact_radius_km: 3
+    active_phases: [morning, afternoon, before_sleep]
+    trace: Elven singing on the westward road — high, glad, and already half-turned toward the sea.
+    beat:
+      title: The singers westbound
+      text: >-
+        A company of elves in travel-green, singing in three voices about
+        white shores. They share their bread without being asked, laugh at
+        your hurry, and wave as if they will see you again — which, in the
+        way of elves going to the Sea, they never quite say.
+      effects: { hope: 1 }
+
+  - kind: march
+    from: '3018-07-01'
+    to: '3018-08-20'
+    trail: pilgrims-celairnen-mithlond
+    visibility: signs
+    notice_radius_km: 10
+    contact_radius_km: 3
+    active_phases: [morning, afternoon, before_sleep]
+    trace: Elven singing on the westward road — high, glad, and already half-turned toward the sea.
+    beat:
+      title: The singers westbound
+      text: >-
+        Another company on the same green road, summer flowers in their
+        hair as if it were a festival. The Sea is taking the elves the way
+        autumn takes the leaves — gladly, in singing, one band at a time.
+      effects: { hope: 1 }

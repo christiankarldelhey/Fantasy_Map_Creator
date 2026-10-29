@@ -1,0 +1,46 @@
+mover:
+  slug: radagast
+  name: Radagast the Brown
+  kind: person
+  canon: true
+  motivation: >-
+    Sent by Saruman to fetch Gandalf to Orthanc — an errand he runs in
+    honest ignorance, as honest men are made to run bad errands. Then home
+    to Rhosgobel, to the birds and the silence, before the world notices.
+  description: A wizard who would rather talk to thrushes than to wizards.
+
+legs:
+  - kind: march
+    from: '3018-06-15'
+    to: '3018-06-30'
+    trail: radagast-rhosgobel-south
+    visibility: signs
+    notice_radius_km: 8
+    contact_radius_km: 3
+    active_phases: [morning, afternoon]
+    trace: A queer brown-cloaked fellow rode west asking everywhere for Gandalf, as if the name were a lost dog.
+    beat:
+      title: The brown messenger
+      text: >-
+        A weathered man in earth-brown robes, kind-eyed and urgent, riding
+        with a cage of small birds at his saddle. He asks every traveller
+        the same thing: have you seen Gandalf the Grey? He does not say why
+        he asks, and does not seem to know that the question is dangerous.
+      effects: { shadow: 1 }
+
+  - kind: march
+    from: '3018-07-01'
+    to: '3018-07-14'
+    trail: radagast-south-rhosgobel
+    visibility: signs
+    notice_radius_km: 8
+    contact_radius_km: 3
+    active_phases: [morning, afternoon]
+    trace: The brown wanderer rode back east at an easier pace, whistling to the birds, his errand done.
+    beat:
+      title: Home to Rhosgobel
+      text: >-
+        Radagast the Brown goes home by the easy way, stopping often to
+        speak with jays and hedgehogs. His errand is delivered. He does not
+        know what it will cost.
+      effects: {}

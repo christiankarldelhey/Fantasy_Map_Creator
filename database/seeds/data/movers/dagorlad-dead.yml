@@ -1,0 +1,30 @@
+mover:
+  slug: dagorlad-dead
+  name: The Keepers of the Field
+  kind: company
+  canon: false
+  motivation: >-
+    The dead of the battle-plain do not sleep, and they remember being
+    burgled. Whatever is taken from Dagorlad is hunted across Dagorlad —
+    and the marsh is very good at keeping what it is given.
+  description: The spectres that answer theft in the field of the dead.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Dagorlad
+    level: 5
+    road_bias: { off_road: 1 }
+    visibility: hidden
+    hostile: true
+    active_phases: [mid_night]
+    trace: 'Lights like candle-flames stand above the pools at night — the old dead marshalling again, and where they pass the mists go cold as a crypt.'
+    beat:
+      title: The dead collect
+      text: >-
+        Pale lights marshal over the black water, and the mist itself
+        arranges into ranks — the armies of the plain rising one more time
+        to collect what is owed. Nothing living is meant to see this.
+        Nothing that sees it stays entirely living.
+      effects: { shadow: 3 }

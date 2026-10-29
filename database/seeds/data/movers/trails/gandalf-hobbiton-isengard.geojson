@@ -1,0 +1,22 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Hobbiton south to Isengard, early July 3018" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-1.266, 51.585],
+          [-0.4, 50.8],
+          [0.5, 50.2],
+          [1.8, 49.6],
+          [3.094, 48.841],
+          [4.8, 48.2],
+          [6.2, 47.6],
+          [7.669, 47.098]
+        ]
+      }
+    }
+  ]
+}

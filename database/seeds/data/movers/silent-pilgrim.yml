@@ -1,0 +1,29 @@
+mover:
+  slug: silent-pilgrim
+  name: The silent pilgrim
+  kind: person
+  canon: false
+  motivation: >-
+    He has said goodbye to everything already — house, tree, road, name —
+    and now walks the last miles in a silence so complete that the birds
+    keep singing around him, mistaking him for weather.
+  description: An elf so far into his goodbye that he has passed through it and out the other side.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: South Harlindon
+    level: 2
+    road_bias: { off_road: 1 }
+    visibility: signs
+    active_phases: [afternoon, before_sleep]
+    trace: A grey-cloaked figure walking the shore-road alone, never at a hurry, never looking back at the hills.
+    beat:
+      title: The quiet one
+      text: >-
+        He walks alone and he does not sing, and when you greet him he
+        answers with a nod — courteous, unhurried, utterly closed. Whatever
+        he is leaving, he has already left it. All that is left of him on
+        the road is a direction: west.
+      effects: { shadow: 1 }

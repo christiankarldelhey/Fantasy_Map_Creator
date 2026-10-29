@@ -1,0 +1,31 @@
+mover:
+  slug: elleth-medallion
+  name: The elleth with the medallion
+  kind: person
+  canon: false
+  motivation: >-
+    She is sailing. He would not. That is the whole story, and she has
+    carried it four hundred miles — with his medallion, the one she had
+    made for him, around her own neck now, because someone has to remember
+    what they looked like.
+  description: An elf walking west alone, a little behind the singing.
+
+legs:
+  - kind: march
+    from: '3018-03-15'
+    to: '3018-05-10'
+    trail: pilgrims-linnuis-mithlond
+    visibility: signs
+    notice_radius_km: 6
+    contact_radius_km: 2
+    active_phases: [morning, afternoon, before_sleep]
+    trace: An elf-woman passed west, walking a little behind the others, turning a small gold thing in her fingers as she went.
+    beat:
+      title: The medallion
+      text: >-
+        She walks at the back of the company, and while they sing the grey
+        shores she looks at the hills behind. Around her neck, on a chain
+        too fine for the road, a small medallion — made for a man who
+        would not come. If you ask her where she is going she says 'the
+        Sea'. If you ask her what she is leaving, she does not answer.
+      effects: { shadow: 1, hope: 1 }

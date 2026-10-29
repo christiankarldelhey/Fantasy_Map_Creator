@@ -1,0 +1,33 @@
+mover:
+  slug: masked-numenoreans
+  name: The Masked
+  kind: company
+  canon: false
+  campaign: mirror-hunt
+  motivation: >-
+    Descendants of the ones the Blue Wizards slipped out of the Downfall —
+    hidden among the wain-folk for two thousand years, smiths of the living
+    masks, hunting the scattered Númenórean mirrors and dreaming of a
+    Númenor that does not want them back. They are not Sauron's; they are
+    nobody's.
+  description: A refugee people who wear their survival on their faces.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Dor Rhunen
+    level: 4
+    road_bias: { road_major: 1, off_road: -1 }
+    visibility: hidden
+    trace: 'Among the wain-folk''s caravan you notice faces that are too still — masks like a second skin, watching for old things with eyes.'
+    beat:
+      title: Faces that do not move
+      text: >-
+        Halfway down the wain-caravan, three travellers whose faces are
+        perfect and dead — masks like a second skin, master-work that even
+        the Easterlings revere. They trade fine steel and ask quiet,
+        careful questions: about ruins, about old Númenórean things, about
+        mirrors that are not mirrors. Their courtesy is real and so is the
+        danger of knowing too much about them.
+      effects: { shadow: 1 }
