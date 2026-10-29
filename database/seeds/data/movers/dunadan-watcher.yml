@@ -1,6 +1,6 @@
 mover:
   slug: dunadan-watcher
-  name: The woman who looks up
+  name: Artheniel, the woman who looks up
   kind: person
   canon: false
   motivation: >-
@@ -24,7 +24,8 @@ legs:
       text: >-
         A grey-wrapped woman of the old northern blood stands on a broken
         wall and watches the western sky the way sailors watch horizons —
-        for sails. Whatever she hopes for out of the west, it has not come
-        yet. She accepts a traveller's company with grave courtesy, talks
-        little, and always ends up looking up.
+        for sails. She gives her name as Artheniel and little else. Whatever
+        she hopes for out of the west, it has not come yet. She accepts a
+        traveller's company with grave courtesy, talks little, and always
+        ends up looking up.
       effects: { shadow: 1, hope: 1 }

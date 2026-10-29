@@ -1,6 +1,6 @@
 mover:
   slug: masked-numenoreans
-  name: The Masked
+  name: The Zimrathân
   kind: company
   canon: false
   campaign: mirror-hunt
@@ -10,7 +10,7 @@ mover:
     masks, hunting the scattered Númenórean mirrors and dreaming of a
     Númenor that does not want them back. They are not Sauron's; they are
     nobody's.
-  description: A refugee people who wear their survival on their faces.
+  description: 'A refugee people who wear their survival on their faces — "the Masked", the Easterlings call them; among themselves, the Zimrathân.'
 
 legs:
   - kind: presence

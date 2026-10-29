@@ -1,6 +1,6 @@
 mover:
   slug: iron-hills-drake
-  name: The Worm of the Iron Hills
+  name: Gormr, the Goat-Drake
   kind: person
   canon: false
   motivation: >-
@@ -8,7 +8,7 @@ mover:
     the mined-out eastern galleries of the Iron Hills, stealing goats and
     growing braver — and the dwarves of the Hills have a bounty on it that
     nobody dares collect.
-  description: A dragon the way a knife is a sword — smaller, still fatal.
+  description: 'The dwarves call it Gormr — a dragon the way a knife is a sword: smaller, still fatal.'
 
 legs:
   - kind: presence

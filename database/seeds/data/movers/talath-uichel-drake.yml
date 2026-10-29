@@ -1,13 +1,13 @@
 mover:
   slug: talath-uichel-drake
-  name: The Drake of the Icy Plains
+  name: Routa, the Slow Drake
   kind: person
   canon: false
   motivation: >-
     An old, slow cold-drake that has hunted the plains of Talath Uichel
     since before the Snowmen had words for it. It does not rage — it simply
     outlasts, the way winter outlasts.
-  description: Older than the snowmen's memory and exactly as patient.
+  description: 'The Icemen name it Routa — older than their memory and exactly as patient.'
 
 legs:
   - kind: presence

@@ -1,6 +1,6 @@
 mover:
   slug: dagorlad-pair
-  name: The Pair of Dagorlad
+  name: Brog and Liss
   kind: company
   canon: false
   motivation: >-
@@ -11,9 +11,9 @@ mover:
     hating each other with the patience of the undying — the big one cannot
     fish, the small one cannot fight.
   description: >-
-    Two wretched immortals arguing in a speech that is almost Westron and
-    mostly splashing — condemned to each other in a swamp that does not
-    forget.
+    Brog does not fish and Liss does not fight — two wretched immortals
+    arguing in a speech that is almost Westron and mostly splashing,
+    condemned to each other in a swamp that does not forget.
 
 legs:
   - kind: presence
@@ -31,8 +31,8 @@ legs:
       text: >-
         They squat by a black pool over a meal of raw fish eaten with their
         fingers, and they do not stop bickering even as they size you up.
-        One is enormous — bald, stone-strong, white beard to the waist — and
-        the other is a small thin man with a glass eye that does not move.
+        Brog is enormous — bald, stone-strong, white beard to the waist —
+        and Liss is a small thin man with a glass eye that does not move.
         They speak a slurred, deformed Westron you can only half-follow:
         they are deciding whether your gear is worth the trouble, and the
         trouble is that nothing is allowed to leave the marsh. Not corpses'

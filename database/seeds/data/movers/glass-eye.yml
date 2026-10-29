@@ -1,6 +1,6 @@
 mover:
   slug: glass-eye
-  name: The man of the glass eyes
+  name: Amory Bellifont
   kind: person
   canon: false
   motivation: >-
@@ -22,10 +22,10 @@ legs:
     beat:
       title: The eye that changes
       text: >-
-        A flamboyant stranger who greets you like a theatre and talks with
-        one eye too still — until mid-conversation he swaps it, from a
-        small velvet case, for one of a friendlier colour. 'For the road,'
-        he explains, offended you'd stare. It is impossible to tell whether
-        you have met a showman, a madman, or a courtesy you haven't
-        earned yet.
+        A flamboyant stranger who introduces himself as Amory Bellifont,
+        greets you like a theatre and talks with one eye too still — until
+        mid-conversation he swaps it, from a small velvet case, for one of
+        a friendlier colour. 'For the road,' he explains, offended you'd
+        stare. It is impossible to tell whether you have met a showman, a
+        madman, or a courtesy you haven't earned yet.
       effects: {}

@@ -8,7 +8,7 @@ mover:
     two younglings south into the Trollshaws where the picking is soft.
     She is teaching them to dig for roots and badgers — and still arguing
     with herself about whether travellers count as dinner or as trouble.
-  description: A troll-mother is a mountain with opinions.
+  description: 'A troll-mother is a mountain with opinions — hers are called Nub and Skrit.'
 
 legs:
   - kind: presence
@@ -24,10 +24,11 @@ legs:
     beat:
       title: Amma's lesson
       text: >-
-        Three trolls in a pine-hollow at dead of night: a huge old female
-        and two young ones half her size. She is teaching them to grub the
-        ground — 'Roots, you great lumps, roots fill a belly and don't
-        fight back' — while one youngling keeps eyeing your campfire and
-        being swatted for it. Hungry trolls are dangerous. A troll-mother
-        being pedagogical is something else entirely.
+        Three trolls in a pine-hollow at dead of night: Amma Granitecheek
+        and her two younglings, Nub and Skrit, half her size and twice her
+        appetite. She is teaching them to grub the ground — 'Roots, you
+        great lumps, roots fill a belly and don't fight back' — while Skrit
+        keeps eyeing your campfire and being swatted for it. Hungry trolls
+        are dangerous. A troll-mother being pedagogical is something else
+        entirely.
       effects: { shadow: 1 }

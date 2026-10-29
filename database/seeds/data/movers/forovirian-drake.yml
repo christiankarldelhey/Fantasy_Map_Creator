@@ -1,6 +1,6 @@
 mover:
   slug: forovirian-drake
-  name: The Cold-drake of Forovirian
+  name: Tursas, the Pale Drake
   kind: person
   canon: false
   motivation: >-
@@ -8,7 +8,7 @@ mover:
     northern wastes, fireless but not toothless, roaming the frozen moors
     for reindeer and the occasional unlucky man, and denned through the
     deep winter in a cave that smells like the inside of a forge.
-  description: 'The least of the old fire''s children — but still more than enough.'
+  description: 'The Lossoth name it Tursas — the least of the old fire''s children, but still more than enough.'
 
 legs:
   - kind: presence
