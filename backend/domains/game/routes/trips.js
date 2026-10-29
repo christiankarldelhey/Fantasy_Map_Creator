@@ -338,6 +338,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     // Load consumed region-description indices for this trip
     const usedRegionDescriptions = trip.used_region_descriptions || {};
 
+    // Load terrain phrases already rendered for this trip (rotation state)
+    const usedTerrainPhrases = trip.used_terrain_phrases || {};
+
     // Gather forms from the previous 2–3 chapters for anti-repetition
     const recentForms = await loadRecentEncounterForms(trip.id, dayNumber);
 
@@ -348,6 +351,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       excludedEntityIds: encounteredEntities,
       characterId: character.id || null,
       usedRegionDescriptions,
+      usedTerrainPhrases,
       character,
       recentForms,
       shadowFactor: dayShadowFactor,
@@ -600,8 +604,8 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     const updatedEncounteredEntities = [...new Set([...encounteredEntities, ...newEntityIds])]; // deduplicate
     
     await pool.query(
-      'UPDATE trips SET encountered_entities = $1, used_region_descriptions = $2 WHERE id = $3',
-      [updatedEncounteredEntities, usedRegionDescriptions, trip.id]
+      'UPDATE trips SET encountered_entities = $1, used_region_descriptions = $2, used_terrain_phrases = $3 WHERE id = $4',
+      [updatedEncounteredEntities, usedRegionDescriptions, usedTerrainPhrases, trip.id]
     );
 
     // The day is persisted — tell the mind what actually happened so it can

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { encountersBeforeSettlement, overnightDistanceKm } from '../world/tripDay.js';
+import { encountersBeforeSettlement, overnightDistanceKm, terrainCategoriesFor, rotateTerrainPhrases } from '../world/tripDay.js';
 
 const ENCOUNTERS = [
   { hour_float: 9.5, phase: 'morning', entity: { name: 'Deer' } },
@@ -46,4 +46,72 @@ test('overnightDistanceKm: settlement 0.5 deg east at lat 45 is ~39.3 km away', 
 
 test('overnightDistanceKm: missing coordinates are unknown, not 0', () => {
   assert.equal(overnightDistanceKm([10, 45], null), null);
+});
+
+// --- terrainCategoriesFor ---------------------------------------------------
+
+test('terrainCategoriesFor: loads only the terrain actually crossed', () => {
+  const cats = terrainCategoriesFor(
+    { biomes: [{ type: 'forest' }], altitude: ['hills'] },
+    { trail: 30.0 }
+  );
+  assert.deepEqual([...cats].sort(), ['forest', 'hills', 'trail']);
+});
+
+test('terrainCategoriesFor: empty context falls back to plain', () => {
+  const cats = terrainCategoriesFor({ biomes: [], altitude: [] }, { trail: 10.0 });
+  assert.deepEqual([...cats].sort(), ['plain', 'trail']);
+});
+
+test('terrainCategoriesFor: road category only when road was walked', () => {
+  const cats = terrainCategoriesFor(
+    { biomes: [], altitude: ['mountains_low'] },
+    { road_major: 5.0, off_road: 12.0 }
+  );
+  assert.deepEqual([...cats].sort(), ['mountains_low']);
+});
+
+// --- rotateTerrainPhrases ----------------------------------------------------
+
+const PHRASES = () => ({
+  Fornost: {
+    trail: ['phrase A', 'phrase B', 'phrase C'],
+    hills: ['hill A'],
+  },
+});
+
+test('rotateTerrainPhrases: resolves each cell to a single phrase', () => {
+  const map = PHRASES();
+  rotateTerrainPhrases(map, {}, () => 0);
+  assert.deepEqual(map.Fornost.trail, ['phrase A']);
+  assert.deepEqual(map.Fornost.hills, ['hill A']);
+});
+
+test('rotateTerrainPhrases: never repeats a phrase while alternatives remain', () => {
+  const used = {};
+  const picks = new Set();
+  for (let i = 0; i < 3; i++) {
+    const map = PHRASES();
+    rotateTerrainPhrases(map, used, () => 0);
+    picks.add(map.Fornost.trail[0]);
+  }
+  assert.equal(picks.size, 3);
+});
+
+test('rotateTerrainPhrases: resets a cell once every phrase is used', () => {
+  const used = {};
+  for (let i = 0; i < 4; i++) {
+    rotateTerrainPhrases(PHRASES(), used, () => 0);
+  }
+  // After 3 picks the cell reset; the 4th pick starts the cycle again
+  assert.equal(used['Fornost|trail'].length, 1);
+});
+
+test('rotateTerrainPhrases: single-phrase cells always yield that phrase', () => {
+  const used = {};
+  for (let i = 0; i < 5; i++) {
+    const map = PHRASES();
+    rotateTerrainPhrases(map, used, Math.random);
+    assert.deepEqual(map.Fornost.hills, ['hill A']);
+  }
 });
