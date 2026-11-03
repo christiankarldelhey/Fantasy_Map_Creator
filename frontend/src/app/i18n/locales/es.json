@@ -266,6 +266,7 @@
     "copyAllCodes": "Copiar todos los payloads mind",
     "copiedAll": "Payloads mind copiados",
     "redo": "Rehacer narración",
+    "tools": "Herramientas",
     "copyPrompt": "Copiar prompt al portapapeles",
     "copied": "Copiado",
     "copyJson": "Copiar objeto JSON al portapapeles",

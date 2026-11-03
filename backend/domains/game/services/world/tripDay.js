@@ -102,6 +102,56 @@ export const TERRAIN_CATEGORIES = [
   'road', 'trail',
 ];
 
+/**
+ * Terrain phrase categories the day actually crossed: sampled biomes and
+ * altitude layers plus the road types underfoot. With no biome or altitude
+ * coverage the prompt renders open country, so 'plain' is loaded to give it
+ * regional prose. Road categories only load for road types actually walked —
+ * the narrator never hears about a trail nobody trod.
+ */
+export function terrainCategoriesFor(context, roadTypes) {
+  const categories = new Set();
+  for (const biome of context?.biomes || []) {
+    if (biome?.type) categories.add(biome.type);
+  }
+  for (const layer of context?.altitude || []) {
+    if (layer) categories.add(layer);
+  }
+  if (categories.size === 0) categories.add('plain');
+  if ((roadTypes?.road || 0) > 0) categories.add('road');
+  if ((roadTypes?.trail || 0) > 0) categories.add('trail');
+  return Array.from(categories);
+}
+
+/**
+ * Rotate terrain phrases across a trip: resolve each region×category cell to
+ * a single phrase the trip hasn't rendered yet, recording the pick in
+ * usedTerrainPhrases ("region|category" -> [phrase texts]). Once every seeded
+ * phrase in a cell has been used the cell resets and all of them become
+ * eligible again. Mutates the map to single-element arrays, which also means
+ * the story-engine renders the recorded choice verbatim.
+ */
+export function rotateTerrainPhrases(terrainPhrases, usedTerrainPhrases, rng = Math.random) {
+  const used = usedTerrainPhrases || {};
+  for (const [regionName, byCategory] of Object.entries(terrainPhrases || {})) {
+    for (const [category, phrases] of Object.entries(byCategory || {})) {
+      if (!Array.isArray(phrases) || phrases.length === 0) continue;
+      const key = `${regionName}|${category}`;
+      const consumed = Array.isArray(used[key]) ? used[key] : [];
+      let candidates = phrases.filter((p) => !consumed.includes(p));
+      if (candidates.length === 0) {
+        candidates = phrases;
+        consumed.length = 0;
+      }
+      const pick = candidates[Math.floor(rng() * candidates.length)];
+      consumed.push(pick);
+      used[key] = consumed;
+      byCategory[category] = [pick];
+    }
+  }
+  return terrainPhrases;
+}
+
 // ---------------------------------------------------------------------------
 // DB helpers
 // ---------------------------------------------------------------------------
@@ -509,7 +559,7 @@ async function buildNightRegionResolver(campPoint) {
  * @param {Array<string>} [params.recentForms] - forms used in previous chapters (anti-repetition)
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, characterSlug = null, usedRegionDescriptions = {} }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, characterSlug = null, usedRegionDescriptions = {}, usedTerrainPhrases = {} }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -611,21 +661,20 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     }
   }
 
-  // --- Region-specific terrain phrases for the prompt ---
-
-  // Map biomes to terrain phrase categories
-  const biomeCategories = new Set();
-  if (context.biomes && Array.isArray(context.biomes)) {
-    for (const biome of context.biomes) {
-      const type = biome.type;
-      if (type) {
-        biomeCategories.add(type);
-      }
-    }
+  // --- Road type breakdown (km) ---
+  // Resolved before phrase loading so the road/trail categories only come
+  // from the road the day actually walked.
+  const roadTypes = {};
+  for (const [type, meters] of Object.entries(leg.roadTypeBreakdown)) {
+    roadTypes[type] = Number((meters / 1000).toFixed(3));
   }
 
-  const categoriesToLoad = Array.from(biomeCategories);
+  // --- Region-specific terrain phrases for the prompt ---
+  // Only the categories the day actually crossed get loaded — an empty
+  // category list would otherwise load every category in the region.
+  const categoriesToLoad = terrainCategoriesFor(context, roadTypes);
   const terrainPhrases = await loadTerrainPhrases(regionNames, categoriesToLoad, variantOrder);
+  rotateTerrainPhrases(terrainPhrases, usedTerrainPhrases, rng);
 
   // --- Overnight climate at camp (dusk to 7am, sensation-focused) ---
   const nighttimeClimate = await sampleNighttimeClimate(segments, dayEndSeconds, date, moonPhase);
@@ -795,29 +844,6 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     if (Array.isArray(cmds)) {
       for (const c of cmds) {
         if (c && typeof c === 'object') dayCommands.push({ ...c, hour_float: e.hour_float ?? null });
-      }
-    }
-  }
-
-  // --- Road type breakdown (km) ---
-  const roadTypes = {};
-  for (const [type, meters] of Object.entries(leg.roadTypeBreakdown)) {
-    roadTypes[type] = Number((meters / 1000).toFixed(3));
-  }
-
-  // Add road/trail categories to terrain phrases if there are road types
-  if (Object.keys(roadTypes).length > 0) {
-    biomeCategories.add('road');
-    biomeCategories.add('trail');
-    const categoriesToLoad = Array.from(biomeCategories);
-    const additionalTerrainPhrases = await loadTerrainPhrases(regionNames, categoriesToLoad, variantOrder);
-    // Merge additional phrases into existing terrainPhrases
-    for (const region of regionNames) {
-      if (!terrainPhrases[region]) {
-        terrainPhrases[region] = {};
-      }
-      if (additionalTerrainPhrases[region]) {
-        Object.assign(terrainPhrases[region], additionalTerrainPhrases[region]);
       }
     }
   }
