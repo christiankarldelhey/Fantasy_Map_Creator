@@ -1,0 +1,30 @@
+mover:
+  slug: legolas
+  name: Legolas of the Woodland Realm
+  kind: person
+  canon: true
+  campaign: council-bound
+  motivation: >-
+    Carrying the worst news a messenger can carry: the prisoner is gone.
+    West across Mirkwood and the mountains to Imladris, to tell Elrond that
+    Gollum has escaped — and to arrive, as it happens, in time for a council
+    that will decide everything.
+  description: An elf-lord's son travelling under a burden of bad tidings.
+
+legs:
+  - kind: march
+    from: '3018-07-05'
+    to: '3018-10-24'
+    trail: legolas-thranduil-rivendell
+    visibility: signs
+    notice_radius_km: 8
+    contact_radius_km: 3
+    active_phases: [morning, afternoon, before_sleep]
+    trace: An elf of the woodland passed west — the woodmen say he sang less than elves usually do.
+    beat:
+      title: The messenger with ill news
+      text: >-
+        A tall elf with a long knife and a graver face than elves usually
+        show strangers, travelling fast and light. He is courteous but does
+        not linger; whatever he carries, it weighs more than his pack.
+      effects: {}

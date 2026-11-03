@@ -1,0 +1,29 @@
+mover:
+  slug: bombadil
+  name: Tom Bombadil
+  kind: person
+  canon: true
+  motivation: >-
+    Bright blue his jacket is and his boots are yellow — and he is master
+    of wood, water and hill, singing to it as it was and as it is, quite
+    indifferent to the Ring and everything the Ring will change.
+  description: Eldest; a song that has been in the forest longer than the forest.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Bree
+    level: 2
+    road_bias: { off_road: 1 }
+    visibility: signs
+    active_phases: [morning, afternoon]
+    trace: Singing in the Old Forest — nonsense-words and river-names, a voice too happy to be safe and too merry to fear.
+    beat:
+      title: Master of the wood
+      text: >-
+        A stout fellow in blue jacket and yellow boots, gathering water
+        lilies and singing to them as if they were guests. The old trees
+        lean away from him respectfully. He asks your name the way the sky
+        asks nothing; he has been here longer than the asking of questions.
+      effects: { hope: 1, shadow: -1 }

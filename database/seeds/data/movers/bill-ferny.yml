@@ -1,0 +1,28 @@
+mover:
+  slug: bill-ferny
+  name: Bill Ferny
+  kind: person
+  canon: true
+  campaign: hunt-for-the-ring
+  motivation: >-
+    Eyes and ears on the Bree gate for a southern paymaster he does not
+    name — every stranger noted, every unusual name repeated north. When
+    the raid comes he will already be gone.
+  description: A squint-eyed man of Bree whose curiosity is for sale.
+
+legs:
+  - kind: resident
+    from: '3018-03-01'
+    to: '3018-10-15'
+    location: Bree
+    visibility: hidden
+    hostile: true
+    active_phases: [afternoon, before_sleep, mid_night]   # a night worker
+    beat:
+      title: The watcher at the gate
+      text: >-
+        A squint-eyed man lounges where he can see who comes and goes, and
+        remembers names the way a merchant remembers debts. He asks after
+        queer names — elvish names, hobbit names — with a friendliness that
+        does not reach his eyes.
+      effects: { shadow: 1 }

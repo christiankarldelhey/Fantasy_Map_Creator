@@ -1,0 +1,30 @@
+mover:
+  slug: shire-riders
+  name: The Riders in the Shire
+  kind: company
+  canon: true
+  campaign: hunt-for-the-ring
+  motivation: >-
+    Four of the Nine sent into the green country itself: Khamûl and his
+    fellows among the hedges and lanes, sniffing out a name — Baggins of
+    Hobbiton — house by house if they must.
+  description: The part of the Hunt that came inside the fence.
+
+legs:
+  - kind: presence
+    from: '3018-09-23'
+    to: '3018-10-03'
+    region: The Shire
+    level: 4
+    road_bias: { road_major: 2, off_road: -1 }
+    visibility: signs
+    hostile: true
+    trace: A tall dark rider asked at a farm for Baggins — and the farmer said 'Hobbiton' and has been sorry since.
+    beat:
+      title: Asking for Baggins
+      text: >-
+        A rider, or several, in black, on the quiet lanes of the Shire at
+        dusk. They ask politely. That is the worst of it — they ask politely
+        for a name, Baggins, and dogs will not bark at them, and no one who
+        answered has slept well since.
+      effects: { shadow: 2, hope: -1 }

@@ -1,0 +1,29 @@
+mover:
+  slug: treebeard
+  name: Treebeard
+  kind: person
+  canon: true
+  motivation: >-
+    Fangorn, the eldest of the Ents — slow to anger, slower to decide, and
+    lately walking his woods counting how much is still worth keeping.
+    The hour of the Ents is coming, though he does not know it yet.
+  description: A shepherd of trees, old as the forest, patient as the forest, dangerous as the forest.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Fangorn
+    level: 4
+    road_bias: { off_road: 1, road_major: -1 }
+    visibility: signs
+    active_phases: [morning, afternoon, before_sleep]
+    trace: A sound like a very large man clearing a very deep throat, far off in the old wood — and a path of moss-deep footprints no man made.
+    beat:
+      title: The shepherd of the trees
+      text: >-
+        Fourteen feet of gnarled patience stops mid-stride to look at you
+        with eyes like wells. He is not hostile — he is deciding, and the
+        deciding takes a little while, and everything in Fangorn waits on
+        it.
+      effects: { hope: 1 }

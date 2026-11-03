@@ -1,0 +1,24 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Dead Marshes north to Thranduil's halls, spring 3017" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [16.8, 44.8],
+          [16.2, 45.7],
+          [15.6, 46.8],
+          [15.1, 48.0],
+          [14.9, 49.2],
+          [15.3, 50.4],
+          [16.0, 51.6],
+          [16.8, 52.7],
+          [17.6, 53.6],
+          [18.4, 54.2]
+        ]
+      }
+    }
+  ]
+}

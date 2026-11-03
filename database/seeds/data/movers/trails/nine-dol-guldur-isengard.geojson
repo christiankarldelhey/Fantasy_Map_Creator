@@ -1,0 +1,24 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Dol Guldur to Isengard, summer 3018" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [15.813, 49.378],
+          [16.2, 48.4],
+          [16.5, 47.2],
+          [16.7, 46.0],
+          [15.8, 45.4],
+          [13.5, 45.3],
+          [11.5, 45.7],
+          [9.8, 46.3],
+          [8.7, 46.8],
+          [7.669, 47.098]
+        ]
+      }
+    }
+  ]
+}

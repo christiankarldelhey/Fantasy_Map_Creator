@@ -1,0 +1,48 @@
+mover:
+  slug: erebor-emissary
+  name: The Emissary to Erebor
+  kind: person
+  canon: true
+  campaign: hunt-for-the-ring
+  motivation: >-
+    Out of Mordor to the Lonely Mountain, with the Lord's own courtesy: an
+    alliance for Dáin Ironfoot, friendship for the dwarves — and a small
+    price, a trifle, a little ring that a hobbit-thief once carried.
+  description: A messenger whose horse is black and whose terms are worse.
+
+legs:
+  - kind: march
+    from: '3018-02-10'
+    to: '3018-04-15'
+    trail: emissary-mordor-dale
+    visibility: signs
+    notice_radius_km: 15
+    contact_radius_km: 4
+    hostile: true
+    trace: A lone rider in dark mail went north through the wild lands; the horses he does not buy, he takes.
+    beat:
+      title: The messenger in dark mail
+      text: >-
+        A rider who travels by preference at dusk and asks his questions
+        through inn doors rather than inside them. He is bound for the
+        Mountain and speaks of friendship between great powers — but the
+        horse is black, the mail is black, and the men who let him pass
+        count themselves lucky afterwards.
+      effects: { shadow: 2 }
+
+  - kind: presence
+    from: '3018-04-16'
+    to: '3018-05-20'
+    region: Dale
+    level: 3
+    road_bias: { road_major: 1 }
+    visibility: signs
+    hostile: true
+    trace: The dark rider waits under the Mountain still; Dáin has sent no answer and opens no door.
+    beat:
+      title: Waiting on an answer
+      text: >-
+        At the gate of the Kingdom under the Mountain a messenger waits for
+        a reply that will not come, patient as grave-dirt. The dwarves will
+        not say what was asked, only that the asking must never be repeated.
+      effects: { shadow: 2 }

@@ -1,0 +1,47 @@
+mover:
+  slug: aragorn
+  name: Aragorn, son of Arathorn
+  kind: person
+  canon: true
+  motivation: >-
+    The long hunt is done: he took the creature in the Dead Marshes and now
+    walks it north, nine hundred miles of rope and patience, to Thranduil's
+    keeping. Afterwards — the wild again, watching the roads no one else
+    watches.
+  description: A ranger who looks like trouble to people who have not met him.
+
+legs:
+  - kind: march
+    from: '3017-02-05'
+    to: '3017-04-05'
+    trail: aragorn-marshes-thranduil
+    campaign: gollum-hunt
+    visibility: signs
+    notice_radius_km: 8
+    contact_radius_km: 3
+    active_phases: [morning, afternoon, before_sleep]
+    trace: A tall ranger passed leading something that was not a prisoner and not a man, on the end of a rope; they travelled by night where they could.
+    beat:
+      title: The ranger and his burden
+      text: >-
+        A hard-faced man in weathered green goes north with a hooded thing
+        on a rope — it whimpers and curses softly to itself. He warns you
+        off with a look rather than a word: this is errantry you do not
+        want to be curious about.
+      effects: { shadow: 1 }
+
+  - kind: presence
+    from: '3017-06-01'
+    to: '3018-12-31'
+    region: Wilderness of Arnor
+    level: 3
+    road_bias: { off_road: 1, road_major: -1 }
+    visibility: signs
+    trace: A ranger's pipe-smoke in the ruins at dusk; travellers say the watch on the northern roads is not wholly gone.
+    beat:
+      title: Strider
+      text: >-
+        A tall weather-beaten man who answers, eventually, to Strider. He
+        knows things about the roads that innkeepers don't, shares a fire
+        and little else, and is gone before first light.
+      effects: { hope: 1 }

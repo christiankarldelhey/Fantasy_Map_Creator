@@ -1,0 +1,30 @@
+mover:
+  slug: gloin-gimli
+  name: Glóin and Gimli
+  kind: company
+  canon: true
+  campaign: council-bound
+  motivation: >-
+    Dáin sends them west with two purposes: warn Elrond of the messenger
+    who came to Erebor asking after hobbits and a ring — and carry the
+    memory of an older road to the one house that remembers everything.
+  description: Two dwarves of Erebor, father and son, armed for a long road and a longer story.
+
+legs:
+  - kind: march
+    from: '3018-08-25'
+    to: '3018-10-24'
+    trail: gloin-erebor-rivendell
+    visibility: signs
+    notice_radius_km: 8
+    contact_radius_km: 3
+    active_phases: [morning, afternoon, before_sleep]
+    trace: Two dwarves of the Mountain were seen on the old forest road — a grey-beard and a young one — singing dwarf-songs under their breath.
+    beat:
+      title: The dwarves of Erebor
+      text: >-
+        Two dwarves, one grey and one young, mail under travel-cloaks and
+        axes they do not bother to hide. The old one talks of the King under
+        the Mountain and of a shadow-messenger who came to their gate asking
+        after hobbits; the young one watches the road and says little.
+      effects: { shadow: 1, hope: 1 }

@@ -1,0 +1,21 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Rhosgobel south-west to the Greenway, June 3018" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [15.954, 50.443],
+          [14.5, 49.9],
+          [12.5, 49.2],
+          [10.5, 48.5],
+          [8.5, 48.0],
+          [6.5, 48.1],
+          [4.8, 48.4]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+mover:
+  slug: old-man-willow
+  name: Old Man Willow
+  kind: person
+  canon: true
+  motivation: >-
+    The eldest and angriest willow in the Old Forest, rooted by the
+    Withywindle and lord of all the rooted hatred of trees against things
+    that go free upon the earth. He cannot walk — but the path can be
+    persuaded to bring you to him.
+  description: A willow that has learned to sing people to sleep.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: Bree
+    level: 4
+    road_bias: { off_road: 2 }
+    visibility: hidden
+    hostile: true
+    trace: The path through the old wood forgets the way, and the willows lean over the water closer than trees should lean.
+    beat:
+      title: The song of the willow
+      text: >-
+        The drowsiness is not natural — it comes in waves off the great
+        willow like heat off a hearth, and the water at its roots sings a
+        thin sleepy song. The crack in the trunk is exactly large enough
+        for a careless traveller, and it has closed before.
+      effects: { shadow: 2 }

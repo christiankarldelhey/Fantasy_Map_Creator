@@ -1,0 +1,32 @@
+mover:
+  slug: troll-brothers
+  name: Gram and Podge
+  kind: company
+  canon: false
+  motivation: >-
+    Two troll brothers who quarrelled their way out of a war-band over a
+    cooking pot — Gram wants to catch sheep like a sensible troll, Podge
+    wants 'a dwarf, proper, not this stringy rubbish', and the pot is
+    carried by whichever one lost the last argument.
+  description: 'Two hungry idiots the size of a barn, arguing since summer.'
+
+legs:
+  - kind: presence
+    from: '3017-06-01'
+    to: '3018-12-31'
+    region: Ettenmoors
+    level: 4
+    road_bias: { off_road: 1 }
+    visibility: signs
+    hostile: true
+    active_phases: [before_sleep, mid_night]
+    trace: 'A clanging like a blacksmith falling downhill, and two deep voices shouting "YER TURN" at nothing the night shows.'
+    beat:
+      title: The pot between them
+      text: >-
+        Two hill-trolls crash through the dark carrying — between them, on
+        a spear-haft — a cooking pot the size of a bathtub. Gram says sheep.
+        Podge says dwarf. The argument has been running for three valleys
+        and shows every sign of outlasting the moon. Your fire is the best
+        thing either of them has seen all week.
+      effects: { shadow: 1 }

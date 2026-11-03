@@ -1,0 +1,26 @@
+mover:
+  slug: butterbur
+  name: Barliman Butterbur
+  kind: person
+  canon: true
+  motivation: >-
+    Keep the Pony full and the guests fed — and worry, increasingly, about
+    the sort of folk the roads have started delivering to his door.
+  description: Master of the Prancing Pony; a good man with a bad memory and a worse autumn ahead.
+
+legs:
+  - kind: resident
+    from: '3017-01-01'
+    to: '3018-12-31'
+    location: Bree
+    visibility: hidden
+    active_phases: [morning, afternoon, before_sleep]   # the innkeeper sleeps like anyone
+    beat:
+      title: The host of the Pony
+      text: >-
+        Butterbur is everywhere at once in the big inn — tankards in both
+        hands, two conversations at once, apologising to a third. Business
+        is bad, he says, the roads are full of queer folk, and something in
+        the way he says it suggests he would rather you asked no questions
+        and took a room for the night.
+      effects: {}
