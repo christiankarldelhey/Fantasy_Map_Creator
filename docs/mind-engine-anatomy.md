@@ -4,7 +4,7 @@
 > mecánica, los archivos, el dato) y **a qué función cerebral equivale**
 > (la metáfora que le da sentido) — más qué *no* hace a propósito.
 >
-> Para el relato general sin código: `story-engine-explained.md`.
+> Para el relato general sin código: `mind-engine-explained.md`.
 > Para el spec formal: `psyche-engine-spec.md` y `mind-engine-prd.md`.
 >
 > El hilo conductor: un episodio pasa por **open → narrate → close**.
@@ -599,7 +599,7 @@ sigue valiendo lo que el evento meal vale). Y urgencia es lineal —
 el hambre del día 1 pesa la mitad que la del día 3, sin umbrales de
 desesperación.
 
-### C10 · Una sola boca: todo data→lenguaje vive en el story-engine
+### C10 · Una sola boca: todo data→lenguaje vive en el mind-engine
 
 **🔧 Técnica** — El host dejó de renderizar texto: `conditionBlock`/
 `equipmentBlock`/`endStateBlock` se murieron en ambos contratos
@@ -918,7 +918,7 @@ todo lo vivido:
   re-sembrar → repetir el reset no duplica seeds. Sin brain → respuesta
   de ceros, nunca 404.
 - **Degradación**: Node llama el reset dentro de un `try/catch` — si
-  Story Engine está caído, el personaje se regenera igual
+  Mind Engine está caído, el personaje se regenera igual
   (`mind_reset: false` en la respuesta) y solo queda un warning. La
   mente nunca bloquea el juego.
 - **UX**: personaje muerto → revive directo. Personaje vivo → confirm

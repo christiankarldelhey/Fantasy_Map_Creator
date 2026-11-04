@@ -1,9 +1,9 @@
 # ============================================================================
-# Story Engine — FastAPI entry point
+# Mind Engine — FastAPI entry point
 # ----------------------------------------------------------------------------
-# Literal 1:1 port of the Node narration pipeline. See README.md and
-# /Users/christiankarldelhey/.windsurf/plans/story-engine-python-phase1-908d15.md
-# for scope.
+# The agnostic interiority service: receives fragmented facts from a host,
+# lives them through a character's mind (perceive → remember → reflect →
+# decide → act) and narrates the corollary. See README.md.
 # ============================================================================
 from dotenv import load_dotenv
 
@@ -36,7 +36,7 @@ except Exception:  # noqa: BLE001
         return 'down'
 
 
-app = FastAPI(title='Story Engine', version='0.1.0')
+app = FastAPI(title='Mind Engine', version='0.1.0')
 
 if mind_router is not None:
     app.include_router(mind_router)

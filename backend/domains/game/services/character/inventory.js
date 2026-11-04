@@ -285,7 +285,7 @@ export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [],
   const waterPerMeal = slots.length > 0 ? waterDrunk / slots.length : 0;
 
   if (tavernMeal) {
-    // Canonical slugs, not prose (C13): the story-engine NL pack owns
+    // Canonical slugs, not prose (C13): the mind-engine NL pack owns
     // the display names via meal.name.<slug>. mealSlug overrides the
     // board for meals a shelter offers that are not inn fare (a
     // farmstead's shared pot).

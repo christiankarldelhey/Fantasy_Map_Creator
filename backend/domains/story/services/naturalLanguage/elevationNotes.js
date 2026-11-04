@@ -2,7 +2,7 @@
 // Elevation notes: the physical cost of the day's climbing
 // ----------------------------------------------------------------------------
 // Restored to Node as part of the world-voice migration (issue #52): the
-// story-engine Python copy is app/natural_language/elevation_notes.py.
+// mind-engine Python twin was removed in #54 — this module is the only copy.
 // ============================================================================
 
 import { pick } from './text.js';

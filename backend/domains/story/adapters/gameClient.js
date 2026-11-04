@@ -6,9 +6,9 @@
 // function re-exports (same process, single DB).
 //
 // Only DATA crosses this seam: the persisted log notes and the walking-day
-// constant. Every data→language translation lives in the story-engine's NL
-// pack (C10) — the old buildConditionBlock/buildEquipmentBlock/
-// buildEndStateBlock renderers moved there as raw-state-driven sections.
+// constant. The data→language translation lives here in the story domain
+// (naturalLanguage/stateBlocks.js) and reaches the mind-engine as
+// world_notes prose — the engine never sees raw state blocks.
 // ============================================================================
 
 export {

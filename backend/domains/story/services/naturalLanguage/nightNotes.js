@@ -2,7 +2,7 @@
 // Nighttime conditions at camp
 // ----------------------------------------------------------------------------
 // Restored to Node as part of the world-voice migration (issue #52): the
-// story-engine Python copy is app/natural_language/night_notes.py.
+// mind-engine Python twin was removed in #54 — this module is the only copy.
 // ============================================================================
 
 import { meanOf, sumOf, timedClimateRecords } from './climateSamples.js';

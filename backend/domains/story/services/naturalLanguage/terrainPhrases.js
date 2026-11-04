@@ -7,8 +7,8 @@
 //
 // NOTE: the pure lookup helpers (pickPhrase, pickPhraseForRegions) are back
 // at home in this file — the world-voice migration (#52) moved phrasing out
-// of the story-engine, so their Python copy
-// (story-engine/app/natural_language/terrain_phrases.py) is the dead twin.
+// of the mind-engine, so their Python copy
+// (mind-engine/app/natural_language/terrain_phrases.py) was removed in #54.
 // The DB read stays because the Game domain calls it during day generation
 // (domains/game/services/world/tripDay.js, via
 // domains/game/adapters/storyClient.js).

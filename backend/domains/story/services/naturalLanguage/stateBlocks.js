@@ -2,7 +2,7 @@
 // State blocks — the traveller's condition, equipage and end, rendered HERE
 // ----------------------------------------------------------------------------
 // Restored to Node as part of the world-voice migration (issue #52): the
-// story-engine Python copy is app/prompt/sections/state_blocks.py.
+// mind-engine Python twin was removed in #54 — this module is the only copy.
 // The host ships raw state (energy, shadow, supplies, fate); these phrases
 // are the world voice for it. Numbers NEVER reach the prompt.
 // ============================================================================

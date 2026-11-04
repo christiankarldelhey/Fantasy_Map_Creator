@@ -86,7 +86,7 @@ function openTour() {
     />
 
     <p v-if="rosterError || error" class="notice">
-      No pude leer la mente ({{ rosterError || error }}). ¿Está corriendo el story-engine?
+      No pude leer la mente ({{ rosterError || error }}). ¿Está corriendo el mind-engine?
     </p>
     <p v-else-if="!mind && !loading && !minds.length" class="notice">
       Todavía no hay mentes. Aparecen en cuanto un personaje vive su primer episodio.

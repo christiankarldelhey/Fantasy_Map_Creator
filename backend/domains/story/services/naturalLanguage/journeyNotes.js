@@ -2,7 +2,7 @@
 // Journey continuity notes — the "In Chapter N…" line
 // ----------------------------------------------------------------------------
 // Restored to Node as part of the world-voice migration (issue #52): the
-// story-engine Python copy lives in app/prompt/sections/journey.py. Stateless
+// mind-engine Python copy lives in app/prompt/sections/journey.py. Stateless
 // fallback only — mind-driven prompts recap yesterday inside the lens (C22).
 // ============================================================================
 

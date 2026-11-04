@@ -190,9 +190,9 @@ type MenuItem = {
 }
 
 const PROJECT_URL = 'https://christiandelhey.com/projects/middle-earth-wandering-simulator/'
-// Story Engine's Mind Studio — its own env-login, gated here so only
+// Mind Engine's Mind Studio — its own env-login, gated here so only
 // admin users even see the door.
-const ADMIN_URL = `${import.meta.env.VITE_STORY_ENGINE_URL || 'http://localhost:8001'}/studio`
+const ADMIN_URL = `${import.meta.env.VITE_MIND_ENGINE_URL || 'http://localhost:8001'}/studio`
 
 const menuItems = computed<MenuItem[]>(() => {
   const items: MenuItem[] = []

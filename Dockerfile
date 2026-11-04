@@ -8,12 +8,12 @@ WORKDIR /app
 
 COPY backend/ ./backend/
 COPY database/ ./database/
-COPY story-engine/requirements.txt ./story-engine/requirements.txt
+COPY mind-engine/requirements.txt ./mind-engine/requirements.txt
 
 RUN python3 -m venv /opt/venv \
-    && /opt/venv/bin/pip install --no-cache-dir -r ./story-engine/requirements.txt
+    && /opt/venv/bin/pip install --no-cache-dir -r ./mind-engine/requirements.txt
 
-COPY story-engine/ ./story-engine/
+COPY mind-engine/ ./mind-engine/
 COPY start-production.sh ./start-production.sh
 RUN chmod +x ./start-production.sh
 

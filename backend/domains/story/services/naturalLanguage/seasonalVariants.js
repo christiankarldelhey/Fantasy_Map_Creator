@@ -8,7 +8,7 @@
 //   - region_seasonal_descriptions.variant (the "lands crossed" summary)
 //
 // Both are resolved here in Node because the day generator already knows the
-// date and the sampled weather; the story-engine then sees plain phrase
+// date and the sampled weather; the mind-engine then sees plain phrase
 // lists, same shape as before — no contract change, and a database that
 // predates the variant column simply yields base phrases.
 //
@@ -19,7 +19,7 @@
 //   snow, rain, extreme heat/cold, season, mild cold/heat, base
 // So a clear winter day reads as 'winter', a snowy winter day as 'snow',
 // and an autumn cold snap as 'cold' rather than swallowing the season.
-// Thresholds mirror story-engine/app/natural_language/climate_notes.py.
+// Thresholds mirror mind-engine/app/natural_language/climate_notes.py.
 // ============================================================================
 
 import pool from '../../../../db.js';

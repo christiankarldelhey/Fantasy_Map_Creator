@@ -1,12 +1,12 @@
 // ============================================================================
 // Mind Engine client — open / narrate / close
 // ----------------------------------------------------------------------------
-// Thin HTTP wrapper over Story Engine's episode lifecycle. Every call has
-// an explicit timeout and throws on failure — narrateDay catches and falls
-// back to /narrate-day. The mind never blocks the game.
+// Thin HTTP wrapper over the Mind Engine's episode lifecycle. Every call
+// has an explicit timeout and throws on failure — narrateDay catches and
+// falls back to /narrate-day. The mind never blocks the game.
 // ============================================================================
 
-const STORY_ENGINE_URL = process.env.STORY_ENGINE_URL || 'http://localhost:8001';
+const MIND_ENGINE_URL = process.env.MIND_ENGINE_URL || 'http://localhost:8001';
 const GAME_ID = process.env.GAME_ID || 'middle_earth';
 
 // Open includes the Lens director's LLM pick (capped at 6s server-side).
@@ -16,7 +16,7 @@ const CLOSE_TIMEOUT_MS = 5000;
 const DECIDE_TIMEOUT_MS = 5000;
 
 async function post(path, body, timeoutMs) {
-  const response = await fetch(`${STORY_ENGINE_URL}${path}`, {
+  const response = await fetch(`${MIND_ENGINE_URL}${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
@@ -24,7 +24,7 @@ async function post(path, body, timeoutMs) {
   });
   if (!response.ok) {
     const text = await response.text().catch(() => '');
-    throw new Error(`story-engine ${path} failed (${response.status}): ${text}`);
+    throw new Error(`mind-engine ${path} failed (${response.status}): ${text}`);
   }
   return response.json();
 }

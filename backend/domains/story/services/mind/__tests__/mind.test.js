@@ -3,9 +3,9 @@
 // ----------------------------------------------------------------------------
 // Covers the Node half of the degradation contract: toEvents translates a
 // resolved day into the generic events[] contract, and mindClient throws
-// when Story Engine is unreachable — which is what trips narrateDay's catch
-// and routes it back to the stateless /narrate-day. (The fallback endpoint
-// itself is covered in story-engine/tests/test_mind_smoke.py.)
+// when the Mind Engine is unreachable — which is what trips narrateDay's
+// catch and routes it back to the stateless /narrate-day. (The fallback
+// endpoint itself is covered in mind-engine/tests/test_mind_smoke.py.)
 // ============================================================================
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -14,7 +14,7 @@ import { toNarrateDayBody, toOpenPayload } from '../toOpenPayload.js';
 
 // Point the client at a dead port BEFORE importing it — the URL is captured
 // at module load. Port 9 (discard) refuses connections: the mind is down.
-process.env.STORY_ENGINE_URL = 'http://127.0.0.1:9';
+process.env.MIND_ENGINE_URL = 'http://127.0.0.1:9';
 const { openEpisode, closeEpisode, resetBrain } = await import('../mindClient.js');
 
 // Real shapes as resolved days carry them (see toEvents.js header):
@@ -504,10 +504,10 @@ test('the open payload carries raw state, never rendered blocks (C10)', () => {
 });
 
 test('the open payload only emits keys the wire model declares', () => {
-  // The story-engine models are extra='forbid': a host field that isn't
+  // The mind-engine models are extra='forbid': a host field that isn't
   // whitelisted there turns POST /episodes into a 422 and the day silently
   // narrates stateless. Keep these sets in sync with
-  // story-engine/app/mind/models.py — a new wire field means editing both.
+  // mind-engine/app/mind/models.py — a new wire field means editing both.
   const body = toOpenPayload({
     gameId: 'middle_earth',
     day: {
@@ -563,7 +563,7 @@ test('closeEpisode rejects on failure — the caller swallows it', async () => {
 });
 
 test('resetBrain rejects when the mind is down — the game resets anyway (C19)', async () => {
-  // Character regeneration swallows this rejection: a dead Story Engine
+  // Character regeneration swallows this rejection: a dead Mind Engine
   // must never block the mechanical reset, it only skips the mind wipe.
   await assert.rejects(resetBrain('char_1'));
 });

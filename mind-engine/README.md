@@ -20,12 +20,12 @@ narration as the corollary. A FastAPI service with three parts:
 
 The mind never blocks the host: if the database is down, Mind endpoints answer
 503 and `/narrate-day` keeps working. Status overview:
-`../docs/story-engine-estado.md`.
+`../docs/mind-engine-estado.md`.
 
 ## Run locally
 
 ```bash
-cd story-engine
+cd mind-engine
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt

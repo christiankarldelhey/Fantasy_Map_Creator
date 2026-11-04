@@ -1,6 +1,6 @@
-# PRD — Story Engine
+# PRD — Mind Engine
 
-**Producto**: Story Engine (API + core narrativo) · Story Tuner (admin)
+**Producto**: Mind Engine (API + core narrativo) · Story Tuner (admin)
 **Versión del documento**: 2.0
 **Estado**: propuesta de arquitectura / pre-implementación
 
@@ -19,7 +19,7 @@
 
 **En una frase**: *El cerebro narrativo de tu juego — convierte estado de partida en prosa y decisiones, sin tocar tu base de datos.*
 
-Story Engine es un **motor de narrativa interactiva de personaje, agnóstico al motor de juego y a la base de datos del cliente**: recibe datos duros de un episodio (hechos, estado del personaje, pool de recuerdos/objetivos candidatos), recupera el contexto narrativo relevante, resuelve puntos de decisión, traduce todo a lenguaje natural vía LLM, y devuelve **órdenes propuestas** de cómo debería cambiar el estado — pero nunca escribe esas órdenes él mismo.
+Mind Engine es un **motor de narrativa interactiva de personaje, agnóstico al motor de juego y a la base de datos del cliente**: recibe datos duros de un episodio (hechos, estado del personaje, pool de recuerdos/objetivos candidatos), recupera el contexto narrativo relevante, resuelve puntos de decisión, traduce todo a lenguaje natural vía LLM, y devuelve **órdenes propuestas** de cómo debería cambiar el estado — pero nunca escribe esas órdenes él mismo.
 
 Story Tuner es el admin visual que permite editar todo el **contenido narrativo** — system prompt, bancos de frases, catálogos de skills e items, plantillas de encuentros, reglas de supervivencia — **sin programar**, previsualizar el prompt generado antes de llamar a la IA, y (vía la API del proyecto cliente) inspeccionar/editar instancias vivas como inventario o stats.
 
@@ -27,7 +27,7 @@ No es un wrapper de LLM, y no es la fuente de verdad de los datos del juego. El 
 
 ### 1.1 Posicionamiento de producto
 
-La categoría ya existe y tiene jugadores serios: **Charisma.ai** (memories + gates que condicionan ramas de la historia, agnóstico de motor vía SDK/API) e **Inworld AI** (Narrative Graph, routing multi-modelo con fallback, 100% API-first). Ninguno de los dos enfatiza como propuesta de valor explícita el **no ser dueño de los datos del cliente** — ahí está el diferencial de Story Engine: es un intérprete narrativo que nunca posee el estado de la partida, solo el contenido narrativo (voz, frases, catálogos) y la lógica de traducción/decisión.
+La categoría ya existe y tiene jugadores serios: **Charisma.ai** (memories + gates que condicionan ramas de la historia, agnóstico de motor vía SDK/API) e **Inworld AI** (Narrative Graph, routing multi-modelo con fallback, 100% API-first). Ninguno de los dos enfatiza como propuesta de valor explícita el **no ser dueño de los datos del cliente** — ahí está el diferencial de Mind Engine: es un intérprete narrativo que nunca posee el estado de la partida, solo el contenido narrativo (voz, frases, catálogos) y la lógica de traducción/decisión.
 
 ---
 
@@ -72,7 +72,7 @@ Consecuencia: el contenido narrativo — que es lo que más se itera — es lo m
 
 | Componente | Nombre |
 |---|---|
-| API / módulo core | **Story Engine** |
+| API / módulo core | **Mind Engine** |
 | Admin visual | **Story Tuner** |
 
 Razón: agnóstico de setting, corto, e implica mecánica de historia (no solo generación de texto).
@@ -143,7 +143,7 @@ app/
 ### 5.4 Patrón de comandos propuestos (command proposal, no write)
 
 ```
-Cliente (Node)                                   Story Engine (Python)
+Cliente (Node)                                   Mind Engine (Python)
 ---------------                                   ----------------------
 1. Arma el payload del episodio:
    - hechos duros (lugar, clima, entidad, evento)
@@ -179,12 +179,12 @@ La única base de datos que Python posee y escribe es la del **World Pack** (con
 
 Este "proponer sin ejecutar" es un patrón establecido, presente en herramientas que ya se consumen en producción:
 
-- **LLM tool/function calling** (OpenAI, Anthropic, Gemini): el modelo nunca ejecuta nada, devuelve `{name, arguments}` y la aplicación host decide si lo ejecuta. Es el análogo más directo — Story Engine anida el mismo patrón dos veces (LLM → Python propone → Node ejecuta).
+- **LLM tool/function calling** (OpenAI, Anthropic, Gemini): el modelo nunca ejecuta nada, devuelve `{name, arguments}` y la aplicación host decide si lo ejecuta. Es el análogo más directo — Mind Engine anida el mismo patrón dos veces (LLM → Python propone → Node ejecuta).
 - **Terraform** (`plan` → `apply`) y **Kubernetes** (`--dry-run`): separan calcular el cambio de aplicarlo, con el plan inspeccionable antes de tocar el estado real.
 - **CQRS** (Command Query Responsibility Segregation): un *Command* es una intención de cambio, validada y ejecutada por un *handler* separado del que la generó.
 - **Migraciones de base de datos** (Prisma Migrate, Django migrations): generan un diff propuesto que se revisa antes de aplicar.
 
-El caso de Story Engine combina las dos razones más comunes para este patrón: la fuente (LLM) es no-determinística, y el componente que decide (Python) no debe tener ownership del dato ajeno por diseño de seguridad/arquitectura.
+El caso de Mind Engine combina las dos razones más comunes para este patrón: la fuente (LLM) es no-determinística, y el componente que decide (Python) no debe tener ownership del dato ajeno por diseño de seguridad/arquitectura.
 
 ---
 
@@ -435,7 +435,7 @@ Devuelve narrativa de resolución + `proposed_commands` resultantes de la opció
 
 ## 12. Roadmap
 
-### Fase 1 — Story Engine v1 (setting inicial)
+### Fase 1 — Mind Engine v1 (setting inicial)
 
 - API FastAPI con endpoints de escena y decisión.
 - Core con modelos Pydantic, motor de bandas, rule engine, prompt builder.
@@ -512,9 +512,9 @@ Conclusión: el techo de agnosticismo no está en la mecánica ni en el contrato
 1. **No** migrar todo el backend a Python: el beneficio geoespacial esperado no se materializa porque PostGIS ya hace el trabajo pesado. El valor de Python está concentrado en la parte narrativa/IA.
 2. La frontera de migración es la costura que ya existe en `narrateDay` / `buildDayPrompt`.
 3. La unidad narrativa pasa de "día" a "escena hasta punto de decisión".
-4. El módulo se llama **Story Engine**; el admin, **Story Tuner**.
+4. El módulo se llama **Mind Engine**; el admin, **Story Tuner**.
 5. En v1 el contrato de entrada es fijo y el contenido editable; la agnosticidad de forma llega en fase 4.
 6. Admin con SQLAdmin sobre FastAPI para minimizar trabajo de CSS/frontend.
 7. **(Revisado)** Python **no** posee ninguna tabla de estado de juego (objetivos, recuerdos, condición, relaciones, inventario). Node/el proyecto cliente es el único dueño de escritura de esos datos. Python solo posee el World Pack (contenido narrativo) y opera de forma stateless respecto al juego, devolviendo `proposed_commands` que el cliente valida y aplica.
-8. Story Engine se reposiciona como **producto potencialmente multi-cliente**: motor narrativo headless agnóstico al motor de juego y a la base de datos, con precedentes de mercado validados (Charisma.ai, Inworld AI). El diferencial es no poseer nunca los datos del cliente.
+8. Mind Engine se reposiciona como **producto potencialmente multi-cliente**: motor narrativo headless agnóstico al motor de juego y a la base de datos, con precedentes de mercado validados (Charisma.ai, Inworld AI). El diferencial es no poseer nunca los datos del cliente.
 9. El agnosticismo tiene tres capas (mecánica, forma del dato, contenido) — solo la primera es 100% agnóstica sin trabajo adicional; la segunda requiere un adaptador por cliente; la tercera nunca debe ser agnóstica.

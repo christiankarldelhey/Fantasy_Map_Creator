@@ -44,12 +44,12 @@ app.use(cors({
   credentials: true
 }));
 
-// Mind Studio proxy — the story-engine only binds 127.0.0.1:8001 inside the
+// Mind Studio proxy — the mind-engine only binds 127.0.0.1:8001 inside the
 // container, so /studio (UI + /studio/api) is unreachable unless the public
 // backend forwards it. The upstream API enforces Basic Auth (ADMIN_USER /
 // ADMIN_PASSWORD; unset = closed), so this adds no unauthenticated surface.
 // Mounted before express.json() so request bodies stream through untouched.
-const studioTarget = new URL(process.env.STORY_ENGINE_URL || 'http://localhost:8001');
+const studioTarget = new URL(process.env.MIND_ENGINE_URL || 'http://localhost:8001');
 app.use('/studio', (req, res) => {
   const proxyReq = http.request({
     hostname: studioTarget.hostname,
@@ -61,7 +61,7 @@ app.use('/studio', (req, res) => {
     res.writeHead(proxyRes.statusCode, proxyRes.headers);
     proxyRes.pipe(res);
   });
-  proxyReq.on('error', () => res.status(502).json({ error: 'story-engine unavailable' }));
+  proxyReq.on('error', () => res.status(502).json({ error: 'mind-engine unavailable' }));
   req.pipe(proxyReq);
 });
 
@@ -110,13 +110,13 @@ app.use('/api/users', usersRouter);
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
-  // Story-engine status rides along so prod can be diagnosed with one call:
+  // Mind-engine status rides along so prod can be diagnosed with one call:
   // whether the mind router mounted, and whether its Postgres is reachable.
-  let storyEngine = { status: 'unreachable' };
+  let engineHealth = { status: 'unreachable' };
   try {
-    const target = new URL(process.env.STORY_ENGINE_URL || 'http://localhost:8001');
+    const target = new URL(process.env.MIND_ENGINE_URL || 'http://localhost:8001');
     const r = await fetch(`${target.origin}/health`, { signal: AbortSignal.timeout(2000) });
-    storyEngine = await r.json();
+    engineHealth = await r.json();
   } catch { /* keep 'unreachable' */ }
 
   const mindEngine = ['on', 'true', '1'].includes((process.env.MIND_ENGINE || '').toLowerCase());
@@ -129,7 +129,7 @@ app.get('/api/health', async (req, res) => {
       timestamp: result.rows[0].now,
       locations: result.rows[0].locations,
       mind_engine: mindEngine ? 'on' : 'off',
-      story_engine: storyEngine,
+      engine: engineHealth,
     });
   } catch (error) {
     res.status(500).json({
@@ -137,7 +137,7 @@ app.get('/api/health', async (req, res) => {
       database: 'disconnected',
       error: error.message,
       mind_engine: mindEngine ? 'on' : 'off',
-      story_engine: storyEngine,
+      engine: engineHealth,
     });
   }
 });

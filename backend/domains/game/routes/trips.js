@@ -44,8 +44,8 @@ const router = express.Router();
 // ---------------------------------------------------------------------------
 router.get('/meta/system-prompt', async (req, res) => {
   try {
-    const response = await fetch(`${process.env.STORY_ENGINE_URL || 'http://localhost:8001'}/system-prompt`);
-    if (!response.ok) throw new Error(`story-engine ${response.status}`);
+    const response = await fetch(`${process.env.MIND_ENGINE_URL || 'http://localhost:8001'}/system-prompt`);
+    if (!response.ok) throw new Error(`mind-engine ${response.status}`);
     res.json(await response.json());
   } catch (error) {
     res.status(502).json({ error: `system prompt unavailable: ${error.message}` });

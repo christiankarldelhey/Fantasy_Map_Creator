@@ -299,7 +299,7 @@ Se quitó del Studio toda la edición de natural language:
 - **Se conserva**: el mecanismo interno (`nl_resolver`, tablas `nl_*`,
   `brain_nl_overrides`) porque el narrador aún lo usa — solo se fue la
   edición. `voice_instructions` de la card queda (es la voz del personaje).
-- Verificado: 2331 tests de story-engine pasan; `npm run build` del
+- Verificado: 2331 tests de mind-engine pasan; `npm run build` del
   Studio OK. Cambios sin commitear todavía.
 
 ### Flecos cerrados ✅

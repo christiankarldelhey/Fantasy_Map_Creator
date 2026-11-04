@@ -1,7 +1,7 @@
 // ============================================================================
 // World notes — host-side world voice (issue #52)
 // ----------------------------------------------------------------------------
-// The day data must arrive at the story-engine already verbalized: phrases,
+// The day data must arrive at the mind-engine already verbalized: phrases,
 // never numbers. rng is fixed (() => 0 → always the first option) so the
 // output is deterministic.
 // ============================================================================

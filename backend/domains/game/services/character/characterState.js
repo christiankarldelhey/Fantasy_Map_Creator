@@ -588,7 +588,7 @@ export function shadowBand(shadow) {
  */
 // Notes are machine-readable 'kind:subject' markers (C13): the host
 // records WHAT drove the day's cost, never how to say it — the
-// story-engine NL pack owns the words ('a fight with X'). Legacy
+// mind-engine NL pack owns the words ('a fight with X'). Legacy
 // English notes pass through on the render side.
 export function buildDayNote(day, overnightInteraction) {
   const encounters = day?.encounters || [];

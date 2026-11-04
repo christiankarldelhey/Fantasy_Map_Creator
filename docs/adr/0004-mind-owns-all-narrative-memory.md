@@ -11,5 +11,5 @@ The old Story Engine contract — a host-owned pool of memories and goals fed to
 
 ## Consequences
 
-- The `memory_gain`, `clue`, `goal_create` and `goal_resolve` command types disappear from the contract; `story-engine-prd.md` sections describing the host-owned pool are superseded.
+- The `memory_gain`, `clue`, `goal_create` and `goal_resolve` command types disappear from the contract; `mind-engine-product-prd.md` sections describing the host-owned pool are superseded.
 - Open loops the world's rules must track (quest state, HUD markers) remain host bookkeeping outside the engine — nothing forces them to agree with the Mind's Threads, and nothing should pretend they are the same thing.

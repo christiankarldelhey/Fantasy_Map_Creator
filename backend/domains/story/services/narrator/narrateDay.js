@@ -3,19 +3,19 @@
 // ----------------------------------------------------------------------------
 // The single entry point for turning a resolved day into prose. Node still
 // owns the DB reads (the trip's own history: continuity + anti-repetition);
-// prompt assembly and the LLM call itself now live in the story-engine
-// Python service (backend/../story-engine), reached over HTTP. Both
+// prompt assembly and the LLM call itself now live in the mind-engine
+// Python service (backend/../mind-engine), reached over HTTP. Both
 // POST /trips/:id/days and POST .../redo-narration go through here, so a
 // re-narration is built exactly like the original.
 //
-// See story-engine/README.md for the service this calls.
+// See mind-engine/README.md for the service this calls.
 // ============================================================================
 
 import { loadPreviousDay, loadRecentDayClimates } from './tripHistory.js';
 import { openEpisode, narrateEpisode, decideEpisode } from '../mind/mindClient.js';
 import { toOpenPayload, toNarrateDayBody } from '../mind/toOpenPayload.js';
 
-const STORY_ENGINE_URL = process.env.STORY_ENGINE_URL || 'http://localhost:8001';
+const MIND_ENGINE_URL = process.env.MIND_ENGINE_URL || 'http://localhost:8001';
 const GAME_ID = process.env.GAME_ID || 'middle_earth';
 // Feature flag: 'on'/'true'/'1' routes narration through the Mind Engine
 // (open -> narrate); anything else keeps the stateless /narrate-day call.
@@ -24,7 +24,7 @@ const MIND_ENGINE = ['on', 'true', '1'].includes(
 );
 
 /**
- * Build the prompt for a day and generate its narrative via the story-engine service.
+ * Build the prompt for a day and generate its narrative via the mind-engine service.
  * @param {Object} params
  * @param {Object} params.day - resolved day (from generateDay or rehydrated)
  * @param {Object} params.trip
@@ -58,7 +58,7 @@ export async function narrateDay({
     loadRecentDayClimates(trip.id, day.day_number),
   ]);
 
-  // The flat episode-open body — OpenEpisodeRequest shape (story-engine
+  // The flat episode-open body — OpenEpisodeRequest shape (mind-engine
   // mind/models.py). One whitelist owns the wire for both paths below.
   const openBody = toOpenPayload({
     gameId: GAME_ID,
@@ -107,7 +107,7 @@ export async function narrateDay({
     }
   }
 
-  const response = await fetch(`${STORY_ENGINE_URL}/narrate-day`, {
+  const response = await fetch(`${MIND_ENGINE_URL}/narrate-day`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(toNarrateDayBody(openBody)),
@@ -115,7 +115,7 @@ export async function narrateDay({
 
   if (!response.ok) {
     const body = await response.text().catch(() => '');
-    throw new Error(`story-engine /narrate-day failed (${response.status}): ${body}`);
+    throw new Error(`mind-engine /narrate-day failed (${response.status}): ${body}`);
   }
 
   return response.json();
