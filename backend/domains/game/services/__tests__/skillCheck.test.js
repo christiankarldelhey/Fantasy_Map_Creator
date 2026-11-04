@@ -37,6 +37,13 @@ test('rollSkillCheck: shadow only penalises mind-based skills (persuasion/lore/e
   assert.equal(lore.total, 8);   // burdened = -2
 });
 
+test('rollSkillCheck: social skills (insight/deception/intimidation) are shadow-affected', () => {
+  for (const skillName of ['insight', 'deception', 'intimidation']) {
+    const { total } = rollSkillCheck({ skill: 5, difficulty: 10, skillName, shadow: 80, rng: dieRng(5) });
+    assert.equal(total, 8, `${skillName} should take the burdened -2`);
+  }
+});
+
 test('rollSkillCheck: endurance is shadow-affected, stealth is not', () => {
   const endurance = rollSkillCheck({ skill: 5, difficulty: 10, skillName: 'endurance', shadow: 80, rng: dieRng(5) });
   const stealth = rollSkillCheck({ skill: 5, difficulty: 10, skillName: 'stealth', shadow: 80, rng: dieRng(5) });
@@ -81,6 +88,17 @@ test('availableActions: persuade and identify_lore thresholds', () => {
   const actions = availableActions({ skills });
   assert.equal(actions.persuade, true);
   assert.equal(actions.identify_lore, true);
+});
+
+test('availableActions: social action thresholds (read_intent/deceive/intimidate)', () => {
+  const low = availableActions({ skills: { skill_insight: 2, skill_deception: 2, skill_intimidation: 2 } });
+  assert.equal(low.read_intent, false);
+  assert.equal(low.deceive, false);
+  assert.equal(low.intimidate, false);
+  const high = availableActions({ skills: { skill_insight: 3, skill_deception: 3, skill_intimidation: 3 } });
+  assert.equal(high.read_intent, true);
+  assert.equal(high.deceive, true);
+  assert.equal(high.intimidate, true);
 });
 
 test('availableActions: missing skills default to 0 and gate everything off', () => {

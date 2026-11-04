@@ -548,6 +548,24 @@ test('the open payload only emits keys the wire model declares', () => {
   );
 });
 
+test('the open payload forwards all ten character skills', () => {
+  const body = toOpenPayload({
+    gameId: 'middle_earth',
+    day: DAY,
+    trip: { id: 't1' },
+    character: {
+      id: 4, name: 'Tester',
+      skill_tracking: 7, skill_persuasion: 3, skill_ranged: 5, skill_melee: 6,
+      skill_lore: 3, skill_stealth: 7, skill_endurance: 6,
+      skill_insight: 5, skill_deception: 3, skill_intimidation: 5,
+    },
+  });
+  assert.deepEqual(body.character.skills, {
+    tracking: 7, persuasion: 3, ranged: 5, melee: 6, lore: 3,
+    stealth: 7, endurance: 6, insight: 5, deception: 3, intimidation: 5,
+  });
+});
+
 test('mindClient throws when the mind is unreachable', async () => {
   // The rejection is what trips narrateDay's catch -> /narrate-day.
   await assert.rejects(

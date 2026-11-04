@@ -126,7 +126,10 @@
       "melee": "Combate cuerpo a cuerpo",
       "lore": "Saber",
       "stealth": "Sigilo",
-      "endurance": "Resistencia"
+      "endurance": "Resistencia",
+      "insight": "Perspicacia",
+      "deception": "Engaño",
+      "intimidation": "Intimidación"
     },
     "categories": {
       "garment": "Vestimentas",

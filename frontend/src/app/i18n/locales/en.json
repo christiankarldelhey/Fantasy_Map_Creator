@@ -126,7 +126,10 @@
       "melee": "Melee",
       "lore": "Lore",
       "stealth": "Stealth",
-      "endurance": "Endurance"
+      "endurance": "Endurance",
+      "insight": "Insight",
+      "deception": "Deception",
+      "intimidation": "Intimidation"
     },
     "categories": {
       "garment": "Garments",
