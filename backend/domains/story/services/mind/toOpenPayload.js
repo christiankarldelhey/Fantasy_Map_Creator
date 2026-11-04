@@ -22,7 +22,7 @@ function slimCharacter(c) {
     // Mind identity + gates
     id: String(c.id ?? ''),
     name: c.name ?? null,
-    brain_profile: c.brain_profile || c.slug || null,
+    preset: c.preset || c.slug || null,
     skills: {
       tracking: c.skill_tracking ?? 0,
       persuasion: c.skill_persuasion ?? 0,

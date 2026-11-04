@@ -82,7 +82,7 @@ def brief_lines(brief):
     return focus + list(brief.get('carried') or []) + list(brief.get('day') or [])
 
 
-def need_origins(session, game_id, needs, entering_mood, brain=None):
+def need_origins(session, game_id, needs, entering_mood, mind=None):
     """Where each open Need comes from, in the World voice
     ('mind.need_origin.<key>'): '3 days without a proper meal'. The shadow
     is told through what the entering mood carries; with nothing carried
@@ -124,7 +124,7 @@ def _had_contact(perceived_day):
 
 def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
                 wiring=None, anchors=None, need_origins=None,
-                session=None, game_id=None, brain=None, episode_idx=None,
+                session=None, game_id=None, mind=None, episode_idx=None,
                 musings=None):
     """Narrow the Mind to this Episode. Returns
     {focus, carried, day, silenced} — each line a dict with id, kind,

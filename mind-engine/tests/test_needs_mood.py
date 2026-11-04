@@ -102,7 +102,7 @@ def test_pressure_grows_with_urgency_and_respects_the_cap(client):
 
 def test_eating_lifts_the_weight(client):
     """The detector clears at the next open — the pressure is gone, and
-    the brain's running mood only keeps the blended trace."""
+    the mind's running mood only keeps the blended trace."""
     char = _uid('relief')
     _open_and_close(client, char, 'd1', _calm_day(1, days_without_food=4))
     assert _mood(char)['valence'] < -0.2

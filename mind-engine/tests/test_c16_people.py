@@ -28,7 +28,7 @@ from app.mind.memory import (
     _release_resolved_needs,
     decay_pass,
 )
-from app.mind.tables import Brain, Memory, Need
+from app.mind.tables import Mind, Memory, Need
 
 
 @pytest.fixture()
@@ -76,11 +76,11 @@ def _memories(char):
 
 def _brain(char):
     session = SessionLocal()
-    brain = Brain(
-        game_id='middle_earth', character_id=char, mold_slug='default',
+    mind = Mind(
+        game_id='middle_earth', character_id=char, preset_slug='default',
         theme_weights={}, wiring={}, mood={}, counters={},
     )
-    session.add(brain)
+    session.add(mind)
     session.commit()
     session.close()
     return char
@@ -88,7 +88,7 @@ def _brain(char):
 
 def _session_brain(char):
     session = SessionLocal()
-    return session, session.query(Brain).filter_by(
+    return session, session.query(Mind).filter_by(
         game_id='middle_earth', character_id=char
     ).one()
 
@@ -207,7 +207,7 @@ def test_trivia_evoked_daily_never_consolidates():
     """The road-bread memory fixed at importance 0.06 because every meal
     re-evoked it. Recall without mattering no longer fixes."""
     char = _brain(_uid('trivia'))
-    session, brain = _session_brain(char)
+    session, mind = _session_brain(char)
     session.add(Memory(
         game_id='middle_earth', character_id=char, episode_ids=[],
         kind='episodic', tags=['type:meal'], desc='the daily bread',
@@ -215,7 +215,7 @@ def test_trivia_evoked_daily_never_consolidates():
         consolidated=False, origin='experience', created_episode=1,
     ))
     session.commit()
-    decay_pass(session, brain, current_episode_index=5)
+    decay_pass(session, mind, current_episode_index=5)
     mem = session.query(Memory).filter_by(character_id=char).one()
     assert mem.consolidated is False
     session.close()
@@ -225,7 +225,7 @@ def test_intense_memory_outlives_trivia():
     """A frightening memory decays at the sticky rate — the corpse
     candles should still haunt her when the hare is long gone."""
     char = _brain(_uid('sticky'))
-    session, brain = _session_brain(char)
+    session, mind = _session_brain(char)
     session.add_all([
         Memory(
             game_id='middle_earth', character_id=char, episode_ids=[],
@@ -242,7 +242,7 @@ def test_intense_memory_outlives_trivia():
         ),
     ])
     session.commit()
-    decay_pass(session, brain, current_episode_index=5)
+    decay_pass(session, mind, current_episode_index=5)
     by_desc = {
         m.desc: m.strength
         for m in session.query(Memory).filter_by(character_id=char)
@@ -256,7 +256,7 @@ def test_consolidated_still_fades_at_a_crawl():
     """Nothing is immortal — a fixed memory nobody ever stirs again
     thins at consolidated_decay and eventually goes."""
     char = _brain(_uid('slow-fade'))
-    session, brain = _session_brain(char)
+    session, mind = _session_brain(char)
     session.add(Memory(
         game_id='middle_earth', character_id=char, episode_ids=[],
         kind='episodic', tags=[], desc='an old fixed thing',
@@ -264,11 +264,11 @@ def test_consolidated_still_fades_at_a_crawl():
         consolidated=True, origin='experience', created_episode=1,
     ))
     session.commit()
-    decay_pass(session, brain, current_episode_index=5)
+    decay_pass(session, mind, current_episode_index=5)
     mem = session.query(Memory).filter_by(character_id=char).one()
     assert mem.strength == pytest.approx(0.25 * 0.98)
     for ep in range(6, 30):
-        decay_pass(session, brain, current_episode_index=ep)
+        decay_pass(session, mind, current_episode_index=ep)
     assert session.query(Memory).filter_by(character_id=char).count() == 0
     session.close()
 
@@ -279,7 +279,7 @@ def test_resolved_need_releases_its_memory():
     """'The hunger' resolved is a closed chapter: its bookkeeping memory
     rejoins the volatile pool and wears away."""
     char = _brain(_uid('closed-chapter'))
-    session, brain = _session_brain(char)
+    session, mind = _session_brain(char)
     session.add(Need(
         game_id='middle_earth', character_id=char, key='hunger',
         type='physiological', description='the hunger', urgency=0.0,
@@ -292,7 +292,7 @@ def test_resolved_need_releases_its_memory():
         consolidated=True, origin='experience', created_episode=1,
     ))
     session.commit()
-    assert _release_resolved_needs(session, brain) == 1
+    assert _release_resolved_needs(session, mind) == 1
     mem = session.query(Memory).filter_by(character_id=char).one()
     assert mem.consolidated is False
     session.close()
@@ -301,7 +301,7 @@ def test_resolved_need_releases_its_memory():
 def test_open_need_keeps_its_fixed_memory():
     """An open need's arc is still live — the release leaves it alone."""
     char = _brain(_uid('open-chapter'))
-    session, brain = _session_brain(char)
+    session, mind = _session_brain(char)
     session.add(Need(
         game_id='middle_earth', character_id=char, key='hunger',
         type='physiological', description='the hunger', urgency=0.5,
@@ -314,15 +314,15 @@ def test_open_need_keeps_its_fixed_memory():
         consolidated=True, origin='experience', created_episode=1,
     ))
     session.commit()
-    assert _release_resolved_needs(session, brain) == 0
+    assert _release_resolved_needs(session, mind) == 0
     session.close()
 
 
 def test_duplicate_memories_compact_every_close():
-    """Legacy brains carry three identical exposure rows — limpieza
+    """Legacy minds carry three identical exposure rows — limpieza
     folds them into one with the union of episodes and recall."""
     char = _brain(_uid('compact'))
-    session, brain = _session_brain(char)
+    session, mind = _session_brain(char)
     for i, ep in enumerate((1, 2, 3)):
         session.add(Memory(
             game_id='middle_earth', character_id=char,
@@ -333,7 +333,7 @@ def test_duplicate_memories_compact_every_close():
             consolidated=True, origin='experience', created_episode=ep,
         ))
     session.commit()
-    assert _compact_duplicates(session, brain) == 2
+    assert _compact_duplicates(session, mind) == 2
     survivors = session.query(Memory).filter_by(character_id=char).all()
     assert len(survivors) == 1
     keep = survivors[0]

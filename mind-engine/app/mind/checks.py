@@ -12,7 +12,7 @@
 #   roll:   d<check_die_sides> + skill + state_mods + check.mods vs
 #           difficulty. State mods mirror the host's bands (worn/spent
 #           energy, shadowed/burdened shadow, wounded) with magnitudes and
-#           cuts in the mold's wiring.
+#           cuts in the preset's wiring.
 #   result: success -> noticed (+perception bonus scaled by difficulty)
 #           failure -> unnoticed (dampened salience: malestar difuso)
 #           failure while altered (shadow or an altered-state condition)
@@ -33,7 +33,7 @@ MISREAD_KEY = 'mind.misread'
 # how their body is — they never land in the Condition map.
 _IDENTITY_KEYS = {
     'id', 'name', 'description', 'entity_name', 'portrait_url',
-    'system_prompt', 'introduction_instructions', 'brain_profile',
+    'system_prompt', 'introduction_instructions', 'preset',
     'skills', 'traits', 'conditions', 'state', 'resources',
 }
 
@@ -95,7 +95,7 @@ def character_state(character, events):
     return state
 
 
-def _is_altered(session, game_id, state, w, brain=None):
+def _is_altered(session, game_id, state, w, mind=None):
     """A declared 'altered' detector firing, or a condition the game
     declares an altered state (editable list 'mind.altered_states')."""
     if altered_by_state(session, game_id, state, w):
@@ -146,7 +146,7 @@ def _seed_for(game_id, event, index, skill):
 
 
 def resolve_check(session, game_id, character, event, index, state, w,
-                  brain=None):
+                  mind=None):
     """Resolve one event's check. Returns (check_result, perception).
 
     check_result lands verbatim in the packet's check_results and inside
@@ -195,13 +195,13 @@ def resolve_check(session, game_id, character, event, index, state, w,
     )
     if success:
         return result, 'noticed'
-    if _is_altered(session, game_id, state, w, brain=brain):
+    if _is_altered(session, game_id, state, w, mind=mind):
         return result, 'misread'
     return result, 'unnoticed'
 
 
 def misread_reading(session, game_id, event, true_reading, check_result,
-                    brain=None):
+                    mind=None):
     """A wrong reading for a misread event — a phrase from the editable
     'mind.misread' list, deterministic on the same seed as the roll."""
     data = event.get('data') or {}

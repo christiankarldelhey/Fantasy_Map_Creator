@@ -26,7 +26,7 @@ from app.mind.director import direct, director_enabled
 from app.mind.focus import brief_lines, build_brief, need_origins
 from app.mind.lens import (
     _age_phrase, brief_beats, episode_mood, line_text, mood_cause,
-    render_lens, update_brain_mood,
+    render_lens, update_mind_mood,
 )
 from app.mind.memory import (
     _compact_duplicates,
@@ -64,8 +64,8 @@ from app.mind.models import (
     PromotePackRequest,
     PromotePackResponse,
     PsychePacket,
-    ReassignMoldRequest,
-    ResetBrainRequest,
+    ReassignPresetRequest,
+    ResetMindRequest,
 )
 from app.models import NarrateDayRequest
 from app.narrate_day import INNER_LANGUAGE, narrate_day
@@ -85,9 +85,9 @@ from app.mind.provisioning import (
     DEFAULT_WIRING,
     NEUTRAL_MOOD,
     effective_character,
-    get_or_create_brain,
+    get_or_create_mind,
     get_or_create_character,
-    reassign_mold,
+    reassign_preset,
     seed_musings,
     seed_starter_beliefs,
 )
@@ -97,7 +97,7 @@ from app.mind.retrieval import (
     memory_age_days, retrieve,
 )
 from app.mind.tables import (
-    Belief, Brain, BrainMold, Episode, ForgottenMemory, Memory, Musing,
+    Belief, Mind, MindPreset, Episode, ForgottenMemory, Memory, Musing,
     Need, PackVersion,
 )
 
@@ -116,11 +116,11 @@ def _check_results(episode: Episode) -> list:
     ]
 
 
-def _build_packet(db, episode: Episode, brain: Brain = None) -> PsychePacket:
+def _build_packet(db, episode: Episode, mind: Mind = None) -> PsychePacket:
     """Packet from persisted state — perception, lens and mood are written
     once at open; re-open replays the same snapshot (idempotent)."""
     perceived = [PerceivedEvent(**e) for e in (episode.perceived_day or [])]
-    mood = Mood(**(brain.mood or {})) if brain else Mood()
+    mood = Mood(**(mind.mood or {})) if mind else Mood()
     return PsychePacket(
         episode_id=episode.id,
         perceived_day=perceived,
@@ -128,14 +128,14 @@ def _build_packet(db, episode: Episode, brain: Brain = None) -> PsychePacket:
         mood=mood,
         check_results=_check_results(episode),
         needs_active=episode.needs_active or [],
-        decision_point=pending_decision_point(db, brain, episode),
+        decision_point=pending_decision_point(db, mind, episode),
         brief=episode.brief,
     )
 
 
 def _episode_state(db, episode: Episode) -> EpisodeStateResponse:
-    brain = (
-        db.query(Brain)
+    mind = (
+        db.query(Mind)
         .filter_by(
             game_id=episode.game_id, character_id=episode.character_id
         )
@@ -158,7 +158,7 @@ def _episode_state(db, episode: Episode) -> EpisodeStateResponse:
         lens_block=episode.lens_block,
         mood=episode.mood,
         outcome=episode.outcome,
-        decision_point=pending_decision_point(db, brain, episode),
+        decision_point=pending_decision_point(db, mind, episode),
         decisions=episode.decisions or {},
         proposed_commands=proposed_commands(episode),
         lens_eval=episode.lens_eval,
@@ -183,11 +183,11 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 .one_or_none()
             )
         if episode is None:
-            # Lazy brain provisioning: first open clones the mold (the
-            # character's brain_profile hint applies only here).
-            brain = get_or_create_brain(
+            # Lazy mind provisioning: first open clones the preset (the
+            # character's preset hint applies only here).
+            mind = get_or_create_mind(
                 db, payload.game_id, payload.character.id,
-                hint_slug=getattr(payload.character, 'brain_profile', None),
+                hint_slug=getattr(payload.character, 'preset', None),
             )
             # ADR 0001: the card belongs to the Mind. The first payload
             # adopts it; from then on the Mind's copy answers identity
@@ -199,7 +199,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 character, payload.character.model_dump()
             )
             # C29: the mind keeps its own clock — episode_idx counts this
-            # brain's lived episodes monotonically, so a new trip's day 1
+            # mind's lived episodes monotonically, so a new trip's day 1
             # never collides with an old journey's day 1 in memory ages.
             prev_idx = (
                 db.query(func.max(Episode.episode_idx))
@@ -235,9 +235,9 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 # Admin edits apply to future episodes, not in-flight ones.
                 config_snapshot={
                     'pack_version': active_version(db, payload.game_id),
-                    'brain_mold': brain.mold_slug,
-                    'theme_weights': brain.theme_weights,
-                    'wiring': brain.wiring,
+                    'preset': mind.preset_slug,
+                    'theme_weights': mind.theme_weights,
+                    'wiring': mind.wiring,
                 },
             )
             # C30: the calendar clock — narrative age is measured in
@@ -246,26 +246,26 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             db.add(episode)
             db.flush()  # fires the id default before we build the packet
             perceived = perceive_events(
-                db, payload.game_id, brain,
+                db, payload.game_id, mind,
                 [e.model_dump() for e in payload.events],
                 character=card,
             )
             # The episode stirs memory: top-K evoked, strengthened, linked.
-            evoked = retrieve(db, brain, episode, perceived)
+            evoked = retrieve(db, mind, episode, perceived)
             episode.perceived_day = link_evoked(perceived, evoked)
             # C23: a spoken encounter queries memory on its own terms —
-            # what was asked embeds against what the brain retained, so
+            # what was asked embeds against what the mind retained, so
             # the traveller may answer from their own past. The hit joins
             # the item's evoked list and rides the RECALLS channel.
             episode_idx = episode_index_of(episode)
-            w_brain = {**DEFAULT_WIRING, **(brain.wiring or {})}
+            w_mind = {**DEFAULT_WIRING, **(mind.wiring or {})}
             evoked_ids = {m.id for m in evoked}
             for item in episode.perceived_day:
                 data = item.get('data') or {}
                 if item.get('type') != 'encounter' or not data.get('substance'):
                     continue
                 mem = dialogue_recall(
-                    db, brain, item, episode_idx, exclude_ids=evoked_ids
+                    db, mind, item, episode_idx, exclude_ids=evoked_ids
                 )
                 if mem is None:
                     continue
@@ -277,19 +277,19 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 mem.strength = min(
                     1.0,
                     (mem.strength or 0.0)
-                    + w_brain.get('retrieval_boost', 0.1),
+                    + w_mind.get('retrieval_boost', 0.1),
                 )
             # Needs: detectors fire from the snapshot/body state, threads
             # from what was just perceived. Snapshot lands on the episode.
             needs = needs_pass(
-                db, payload.game_id, brain, episode, perceived,
+                db, payload.game_id, mind, episode, perceived,
                 character=card,
             )
             episode.needs_active = need_snapshot(needs)
             # A streak that died while a watched need is open ended the
             # wrong way (C12) — 'no bread' while hungry is no relief.
             resolve_break_items(
-                db, payload.game_id, brain, perceived, needs, w_brain,
+                db, payload.game_id, mind, perceived, needs, w_mind,
             )
             # The felt body joins the perceived day (C11): 'need' items
             # encode as memory — the ache of these days, not just a fact.
@@ -300,19 +300,19 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             # into the running mood. The lens speaks the ENTERING mood —
             # captured before the blend — so the day never colours its own
             # opening with what has not happened yet.
-            entering_mood = dict(brain.mood or {})
+            entering_mood = dict(mind.mood or {})
             episode.mood = episode_mood(
-                db, payload.game_id, perceived, brain=brain, needs=needs
+                db, payload.game_id, perceived, mind=mind, needs=needs
             )
-            update_brain_mood(
-                db, payload.game_id, brain, episode.mood,
+            update_mind_mood(
+                db, payload.game_id, mind, episode.mood,
                 cause=mood_cause(perceived, needs),
                 when=episode.episode_date,
             )
             beliefs = (
                 db.query(Belief)
                 .filter_by(
-                    character_id=brain.character_id, status='active'
+                    character_id=mind.character_id, status='active'
                 )
                 .all()
             )
@@ -320,7 +320,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 db.query(Musing)
                 .filter_by(
                     game_id=payload.game_id,
-                    character_id=brain.character_id,
+                    character_id=mind.character_id,
                 )
                 .all()
             )
@@ -349,18 +349,18 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             brief = build_brief(
                 episode.perceived_day, evoked, beliefs,
                 episode.needs_active, entering_mood,
-                wiring=brain.wiring, anchors=anchor_index,
+                wiring=mind.wiring, anchors=anchor_index,
                 need_origins=need_origins(
                     db, payload.game_id, episode.needs_active,
-                    entering_mood, brain=brain,
+                    entering_mood, mind=mind,
                 ),
-                session=db, game_id=payload.game_id, brain=brain,
+                session=db, game_id=payload.game_id, mind=mind,
                 episode_idx=episode_index_of(episode), musings=musings,
             )
             candidates = brief.pop('candidates', [])
             # The director chooses what the Episode turns on (protagonists
             # only); any failure keeps the rules' pick, marked as such.
-            if director_enabled(w_brain):
+            if director_enabled(w_mind):
                 brief = direct(
                     brief, candidates,
                     payload.character.name or payload.character.id,
@@ -384,15 +384,15 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             db.commit()
             db.refresh(episode)
         else:
-            brain = (
-                db.query(Brain)
+            mind = (
+                db.query(Mind)
                 .filter_by(
                     game_id=payload.game_id,
                     character_id=payload.character.id,
                 )
                 .one_or_none()
             )
-        packet = _build_packet(db, episode, brain)
+        packet = _build_packet(db, episode, mind)
         return OpenEpisodeResponse(episode_id=episode.id, psyche_packet=packet)
     except SQLAlchemyError as exc:
         db.rollback()
@@ -433,31 +433,31 @@ def close_episode(
             return CloseEpisodeResponse(
                 episode_id=episode.id, status='closed', already_closed=True
             )
-        brain = (
-            db.query(Brain)
+        mind = (
+            db.query(Mind)
             .filter_by(
                 game_id=episode.game_id, character_id=episode.character_id
             )
             .one_or_none()
         )
         summary = {}
-        if brain:
+        if mind:
             # The host's outcome may settle open needs — resolved BEFORE
             # the memory pass so a closed chapter's memory is released in
             # the same sweep (C16); streak counters only count episodes
             # the host actually persisted.
             summary['needs_resolved'] = resolve_from_outcome(
-                db, brain, episode, payload.outcome,
+                db, mind, episode, payload.outcome,
             )
-            update_streak_counters(db, brain, episode)
-            summary.update(close_episode_memory(db, brain, episode))
+            update_streak_counters(db, mind, episode)
+            summary.update(close_episode_memory(db, mind, episode))
             # Attitudes move by how their encounters went — before the
             # reflection, so it reads the stance the day left behind.
-            summary['attitudes_moved'] = attitude_drift(db, brain, episode)
+            summary['attitudes_moved'] = attitude_drift(db, mind, episode)
             # B4: the mind's only LLM call. Trigger-gated; a skipped or
             # failed reflection never breaks the close.
             summary['reflection'] = maybe_reflect(
-                db, brain, episode,
+                db, mind, episode,
                 character_name=(
                     (episode.narrator_payload or {}).get('character') or {}
                 ).get('name'),
@@ -600,8 +600,8 @@ def narrate_episode(
                 status_code=422,
                 detail=f'invalid narrator_payload: {exc.errors()[:3]}',
             )
-        brain = (
-            db.query(Brain)
+        mind = (
+            db.query(Mind)
             .filter_by(
                 game_id=episode.game_id, character_id=episode.character_id
             )
@@ -654,12 +654,12 @@ def narrate_episode(
             perceived_day=[
                 PerceivedEvent(**e) for e in (episode.perceived_day or [])
             ],
-            mood=Mood(**(brain.mood or {})) if brain else Mood(),
+            mood=Mood(**(mind.mood or {})) if mind else Mood(),
             lens_block=episode.lens_block or '',
             check_results=_check_results(episode),
             needs_active=episode.needs_active or [],
             proposed_commands=proposed_commands(episode),
-            decision_point=pending_decision_point(db, brain, episode),
+            decision_point=pending_decision_point(db, mind, episode),
             lens_eval=episode.lens_eval,
             generation_meta={
                 k: v for k, v in generation.items()
@@ -686,8 +686,8 @@ def decide_episode(
         episode = db.get(Episode, episode_id)
         if episode is None:
             raise HTTPException(status_code=404, detail='episode not found')
-        brain = (
-            db.query(Brain)
+        mind = (
+            db.query(Mind)
             .filter_by(
                 game_id=episode.game_id, character_id=episode.character_id
             )
@@ -695,7 +695,7 @@ def decide_episode(
         )
         try:
             dec, option, already = resolve_decision(
-                db, brain, episode, payload.option_id, payload.decision_id
+                db, mind, episode, payload.option_id, payload.decision_id
             )
         except KeyError as exc:  # KeyError ⊂ LookupError — order matters
             raise HTTPException(status_code=422, detail=str(exc))
@@ -712,7 +712,7 @@ def decide_episode(
             decision_id=dec['decision_id'],
             option_id=option['id'],
             resolution=resolution_text(
-                db, episode.game_id, option, character_name, brain=brain
+                db, episode.game_id, option, character_name, mind=mind
             ),
             proposed_commands=option.get('commands') or [],
             already_decided=already,
@@ -726,28 +726,28 @@ def decide_episode(
 @router.get('/mind/state/{character_id}', response_model=MindStateResponse)
 def mind_state(character_id: str, db: Session = Depends(get_session)):
     try:
-        brain = db.query(Brain).filter_by(character_id=character_id).one_or_none()
+        mind = db.query(Mind).filter_by(character_id=character_id).one_or_none()
         beliefs = (
             db.query(Belief).filter_by(character_id=character_id).all()
-            if brain else []
+            if mind else []
         )
         memories = (
             db.query(Memory)
             .filter_by(character_id=character_id)
             .order_by(Memory.importance.desc())
             .all()
-            if brain else []
+            if mind else []
         )
         needs = (
             db.query(Need)
             .filter_by(character_id=character_id)
             .order_by(Need.urgency.desc())
             .all()
-            if brain else []
+            if mind else []
         )
         musings = (
             db.query(Musing).filter_by(character_id=character_id).all()
-            if brain else []
+            if mind else []
         )
         count = db.query(Episode).filter_by(character_id=character_id).count()
     except SQLAlchemyError as exc:
@@ -755,16 +755,16 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
     return MindStateResponse(
         character_id=character_id,
-        brain=(
+        mind=(
             {
-                'id': brain.id,
-                'mold_slug': brain.mold_slug,
-                'theme_weights': brain.theme_weights,
-                'wiring': brain.wiring,
-                'mood': brain.mood,
-                'counters': brain.counters,
+                'id': mind.id,
+                'preset_slug': mind.preset_slug,
+                'theme_weights': mind.theme_weights,
+                'wiring': mind.wiring,
+                'mood': mind.mood,
+                'counters': mind.counters,
             }
-            if brain else None
+            if mind else None
         ),
         beliefs=[
             {
@@ -804,55 +804,55 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
     )
 
 
-@router.post('/mind/brains/{character_id}/mold')
-def reassign_brain_mold(
+@router.post('/mind/minds/{character_id}/preset')
+def reassign_mind_preset(
     character_id: str,
-    payload: ReassignMoldRequest,
+    payload: ReassignPresetRequest,
     db: Session = Depends(get_session),
 ):
-    """Admin reassignment: point the brain at another mold. reclone=True also
-    resets config (theme_weights + wiring) to the mold's — memories and
+    """Admin reassignment: point the mind at another preset. reclone=True also
+    resets config (theme_weights + wiring) to the preset's — memories and
     beliefs are content and are never touched."""
     try:
-        brain = reassign_mold(
+        mind = reassign_preset(
             db, payload.game_id or 'middle_earth', character_id,
             payload.slug, reclone=payload.reclone,
         )
         db.commit()
     except SQLAlchemyError as exc:
         db.rollback()
-        log.warning('reassign_mold failed: %s', exc)
+        log.warning('reassign_preset failed: %s', exc)
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
-    if brain is None:
-        raise HTTPException(status_code=404, detail='brain not found')
+    if mind is None:
+        raise HTTPException(status_code=404, detail='mind not found')
     return {
         'character_id': character_id,
-        'mold_slug': brain.mold_slug,
+        'preset_slug': mind.preset_slug,
         'recloned': payload.reclone,
     }
 
 
-@router.post('/mind/brains/{character_id}/reset')
-def reset_brain(
+@router.post('/mind/minds/{character_id}/reset')
+def reset_mind(
     character_id: str,
-    payload: ResetBrainRequest,
+    payload: ResetMindRequest,
     db: Session = Depends(get_session),
 ):
     """Full mind wipe (C19): everything the character LIVED dies — every
     memory (volatile, consolidated, patterns), every learned belief, every
-    open need, every episode, every musing. The nature survives: mold,
-    theme_weights, wiring. Its mold's starter beliefs and musings are
+    open need, every episode, every musing. The nature survives: preset,
+    theme_weights, wiring. Its preset's starter beliefs and musings are
     re-seeded — a person with no past, not a different person. Idempotent."""
     try:
         game_id = payload.game_id or 'middle_earth'
-        brain = (
-            db.query(Brain)
+        mind = (
+            db.query(Mind)
             .filter_by(game_id=game_id, character_id=character_id)
             .one_or_none()
         )
-        if brain is None:
+        if mind is None:
             return {
-                'character_id': character_id, 'brain': None,
+                'character_id': character_id, 'mind': None,
                 'deleted': {'memories': 0, 'forgotten': 0, 'beliefs': 0,
                             'needs': 0, 'episodes': 0, 'musings': 0},
                 'seeds': 0,
@@ -871,25 +871,25 @@ def reset_brain(
             'musings': db.query(Musing).filter_by(
                 game_id=game_id, character_id=character_id).delete(),
         }
-        brain.mood = dict(NEUTRAL_MOOD)
-        brain.counters = {}
-        mold = (
-            db.query(BrainMold)
-            .filter_by(game_id=game_id, slug=brain.mold_slug)
+        mind.mood = dict(NEUTRAL_MOOD)
+        mind.counters = {}
+        preset = (
+            db.query(MindPreset)
+            .filter_by(game_id=game_id, slug=mind.preset_slug)
             .one_or_none()
         )
-        seeds = seed_starter_beliefs(db, game_id, character_id, mold)
-        musings = seed_musings(db, game_id, character_id, mold)
+        seeds = seed_starter_beliefs(db, game_id, character_id, preset)
+        musings = seed_musings(db, game_id, character_id, preset)
         db.commit()
         return {
             'character_id': character_id,
-            'brain': {'id': brain.id, 'mold_slug': brain.mold_slug},
+            'mind': {'id': mind.id, 'preset_slug': mind.preset_slug},
             'deleted': deleted,
             'seeds': len(seeds) + len(musings),
         }
     except SQLAlchemyError as exc:
         db.rollback()
-        log.warning('reset_brain failed: %s', exc)
+        log.warning('reset_mind failed: %s', exc)
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
 
 
@@ -898,49 +898,49 @@ def consolidate_degraded(
     payload: ConsolidateRequest,
     db: Session = Depends(get_session),
 ):
-    """B10: batch consolidation for degraded brains (NPCs). Their closes
+    """B10: batch consolidation for degraded minds (NPCs). Their closes
     only encode — this pass runs the deferred decay + pattern detection.
-    `brain_ids` pins specific brains (degraded or not — an explicit pin is
-    operator intent); otherwise every brain wired 'degraded', scoped by
+    `mind_ids` pins specific minds (degraded or not — an explicit pin is
+    operator intent); otherwise every mind wired 'degraded', scoped by
     `game_id` when given."""
     try:
-        query = db.query(Brain)
-        if payload.brain_ids:
-            query = query.filter(Brain.id.in_(payload.brain_ids))
+        query = db.query(Mind)
+        if payload.mind_ids:
+            query = query.filter(Mind.id.in_(payload.mind_ids))
         else:
             if payload.game_id:
                 query = query.filter_by(game_id=payload.game_id)
-        brains = query.all()
+        minds = query.all()
         results = []
-        for brain in brains:
-            w = {**DEFAULT_WIRING, **(brain.wiring or {})}
-            if not payload.brain_ids and not w.get('degraded'):
+        for mind in minds:
+            w = {**DEFAULT_WIRING, **(mind.wiring or {})}
+            if not payload.mind_ids and not w.get('degraded'):
                 continue
             latest = (
                 db.query(Episode)
-                .filter_by(character_id=brain.character_id)
+                .filter_by(character_id=mind.character_id)
                 .order_by(Episode.created_at.desc())
                 .first()
             )
             idx = episode_index(latest) if latest else None
             if idx is None:
                 continue
-            # Degraded brains clean in batch too (C16): resolved needs
+            # Degraded minds clean in batch too (C16): resolved needs
             # release their memory and duplicate rows fold in here.
-            released = _release_resolved_needs(db, brain)
-            merged = _compact_duplicates(db, brain)
-            patterns = detect_patterns(db, brain, latest, idx, w)
+            released = _release_resolved_needs(db, mind)
+            merged = _compact_duplicates(db, mind)
+            patterns = detect_patterns(db, mind, latest, idx, w)
             results.append({
-                'brain_id': brain.id,
-                'character_id': brain.character_id,
+                'mind_id': mind.id,
+                'character_id': mind.character_id,
                 'patterns': patterns['formed'],
                 'patterns_faded': patterns['faded'],
                 'needs_released': released,
                 'memories_merged': merged,
-                **decay_pass(db, brain, idx),
+                **decay_pass(db, mind, idx),
             })
         db.commit()
-        return ConsolidateResponse(brains=len(results), results=results)
+        return ConsolidateResponse(minds=len(results), results=results)
     except SQLAlchemyError as exc:
         db.rollback()
         log.warning('consolidate failed: %s', exc)

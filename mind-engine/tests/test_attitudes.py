@@ -20,7 +20,7 @@ from app.mind.attitudes import attitude_for, is_attitude
 from app.mind.boosts import effective_theme_weights
 from app.mind.reflection import _apply_ops
 from app.mind.tables import (
-    Belief, Brain, BrainMold, Episode, MoldStarterBelief,
+    Belief, Mind, MindPreset, Episode, PresetStarterBelief,
 )
 
 
@@ -33,10 +33,10 @@ def _uid(prefix):
     return f'{prefix}-{uuid.uuid4().hex[:8]}'
 
 
-def _open(client, char, events, ref='d1', brain_profile=None):
+def _open(client, char, events, ref='d1', preset=None):
     character = {'id': char}
-    if brain_profile:
-        character['brain_profile'] = brain_profile
+    if preset:
+        character['preset'] = preset
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': character,
         'episode_ref': ref, 'events': events, 'day': {},
@@ -45,8 +45,8 @@ def _open(client, char, events, ref='d1', brain_profile=None):
     return r.json()
 
 
-def _open_and_close(client, char, ref, events, brain_profile=None):
-    opened = _open(client, char, events, ref, brain_profile)
+def _open_and_close(client, char, ref, events, preset=None):
+    opened = _open(client, char, events, ref, preset)
     c = client.post(f"/episodes/{opened['episode_id']}/close", json={})
     assert c.status_code == 200, c.text
     return opened, c.json()
@@ -70,10 +70,10 @@ def _encounter(ep, entity='foxes', family='foxes', etype='carnivores',
 
 def _brain(char):
     session = SessionLocal()
-    brain = session.query(Brain).filter_by(character_id=char).one()
-    session.expunge(brain)
+    mind = session.query(Mind).filter_by(character_id=char).one()
+    session.expunge(mind)
     session.close()
-    return brain
+    return mind
 
 
 def _beliefs(char):
@@ -116,10 +116,10 @@ def _perceived(char, episode_index=0, item_index=0):
     return days[episode_index][0][item_index]
 
 
-def _new_brain(char):
+def _new_mind(char):
     session = SessionLocal()
-    session.add(Brain(
-        game_id='middle_earth', character_id=char, mold_slug='x',
+    session.add(Mind(
+        game_id='middle_earth', character_id=char, preset_slug='x',
         theme_weights={}, wiring={}, mood={}, counters={},
     ))
     session.commit()
@@ -127,27 +127,27 @@ def _new_brain(char):
 
 
 def test_provisioning_clones_every_facet(client):
-    """A mold's starter belief carries subject/stance/source into the
-    brain's copy — a belief without them stays a plain thought."""
+    """A preset's starter belief carries subject/stance/source into the
+    mind's copy — a belief without them stays a plain thought."""
     session = SessionLocal()
     slug = _uid('faceted')
-    mold = BrainMold(game_id='middle_earth', slug=slug, name='Faceted')
-    session.add(mold)
+    preset = MindPreset(game_id='middle_earth', slug=slug, name='Faceted')
+    session.add(preset)
     session.flush()
-    session.add(MoldStarterBelief(
-        mold_id=mold.id, kind='world', statement='Foxes are kin',
+    session.add(PresetStarterBelief(
+        preset_id=preset.id, kind='world', statement='Foxes are kin',
         strength=3, tags=[], boosts={},
         subject=['tag:family:foxes'], stance=0.6, source='lived',
     ))
-    session.add(MoldStarterBelief(
-        mold_id=mold.id, kind='self', statement='I keep my own counsel',
+    session.add(PresetStarterBelief(
+        preset_id=preset.id, kind='self', statement='I keep my own counsel',
         strength=3, tags=['context:solitude'], boosts={},
     ))
     session.commit()
     session.close()
 
     char = _uid('clone')
-    _open(client, char, [_encounter(1)], brain_profile=slug)
+    _open(client, char, [_encounter(1)], preset=slug)
     faceted, plain = _beliefs(char)
 
     assert faceted.subject == ['tag:family:foxes']
@@ -186,7 +186,7 @@ def test_stance_colours_how_the_encounter_feels(client):
     """reacts_withdraws reads +0.1 in the world; a mind that loves foxes
     feels it at 0.1 + 0.6*0.5 = +0.4."""
     char = _uid('foxlove')
-    _new_brain(char)
+    _new_mind(char)
     bid = _add_attitude(char, ['tag:family:foxes'], 0.6, 'Foxes are kin')
     _open_and_close(client, char, 'd1', [_encounter(1)])
 
@@ -200,7 +200,7 @@ def test_host_valence_leaves_the_attitude_out(client):
     """A host-declared valence owns the feeling entirely — no lean, no
     recorded prehistory to move."""
     char = _uid('hostvox')
-    _new_brain(char)
+    _new_mind(char)
     _add_attitude(char, ['tag:family:foxes'], 0.6)
     event = _encounter(1)
     event['data']['valence'] = -0.9
@@ -216,13 +216,13 @@ def test_attitudes_watch_what_they_love_or_loathe():
     both keep their eyes open."""
     char = _uid('watcher')
     session = SessionLocal()
-    session.add(Brain(
-        game_id='middle_earth', character_id=char, mold_slug='x',
+    session.add(Mind(
+        game_id='middle_earth', character_id=char, preset_slug='x',
         theme_weights={'tag:family:foxes': 0.1}, wiring={}, mood={},
         counters={},
     ))
     session.flush()
-    brain = session.query(Brain).filter_by(character_id=char).one()
+    mind = session.query(Mind).filter_by(character_id=char).one()
     session.add(Belief(
         game_id='middle_earth', character_id=char, kind='world',
         statement='Foxes are kin', strength=3, tags=[], boosts={},
@@ -236,7 +236,7 @@ def test_attitudes_watch_what_they_love_or_loathe():
         subject=['tag:family:wargs'], stance=-0.8,
     ))
     session.commit()
-    weights = effective_theme_weights(session, brain)
+    weights = effective_theme_weights(session, mind)
     session.close()
 
     assert weights['tag:family:foxes'] == pytest.approx(0.1 + 0.6 * 0.3)
@@ -247,7 +247,7 @@ def test_ordinary_encounter_nudges_the_stance(client):
     """A kind exchange with foxes (world +0.2) walks the love up one
     small step — not a rewrite."""
     char = _uid('nudge')
-    _new_brain(char)
+    _new_mind(char)
     bid = _add_attitude(char, ['tag:family:foxes'], 0.6, 'Foxes are kin')
     _, summary = _open_and_close(client, char, 'd1', [
         _encounter(1, form='aid_or_trade'),
@@ -263,7 +263,7 @@ def test_marked_encounter_moves_the_stance_hard(client):
     """Wounded by the thing you loved (world −0.8): the stance takes the
     marked step down."""
     char = _uid('marked')
-    _new_brain(char)
+    _new_mind(char)
     bid = _add_attitude(char, ['tag:family:foxes'], 0.6, 'Foxes are kin')
     _, summary = _open_and_close(client, char, 'd1', [
         _encounter(1, form='attacks', outcome='wounded', danger=3),
@@ -278,7 +278,7 @@ def test_the_stance_never_crosses_zero_on_drift(client):
     """A marked kindness can wear a prejudice down to almost nothing —
     turning it is the reflection's work, not one good day."""
     char = _uid('floor')
-    _new_brain(char)
+    _new_mind(char)
     bid = _add_attitude(char, ['tag:entity_type:dwarves'], -0.1,
                       'I keep my distance')
     _, summary = _open_and_close(client, char, 'd1', [
@@ -298,7 +298,7 @@ def test_the_stance_never_crosses_zero_on_drift(client):
 def test_stance_stays_inside_its_bounds(client):
     """Love cannot grow past +1 no matter how good the encounters."""
     char = _uid('bounded')
-    _new_brain(char)
+    _new_mind(char)
     bid = _add_attitude(char, ['tag:family:foxes'], 0.9, 'Foxes are kin')
     _open_and_close(client, char, 'd1', [
         _encounter(1, form='aid_or_trade', outcome='unscathed'),
@@ -313,7 +313,7 @@ def test_a_quiet_sighting_moves_nothing(client):
     """'watches' carries no affect — being seen by foxes is not yet an
     experience of foxes."""
     char = _uid('quiet')
-    _new_brain(char)
+    _new_mind(char)
     _add_attitude(char, ['tag:family:foxes'], 0.6)
     _, summary = _open_and_close(client, char, 'd1', [
         _encounter(1, form='watches', danger=0),
@@ -327,7 +327,7 @@ def test_only_the_narrowest_attitude_line_speaks(client):
     """In the Lens, the horses-of-Mordor attitude answers a Mordor-horse
     encounter; the general love of horses steps back."""
     char = _uid('narrow')
-    _new_brain(char)
+    _new_mind(char)
     _add_attitude(char, ['tag:family:horses'], 0.7,
                   'Horses are the last joy')
     _add_attitude(char, ['entity:horses_of_mordor'], -0.8,
@@ -352,12 +352,12 @@ def test_inverted_belief_keeps_its_facets():
     its subject — with the stance turned and 'lived' as its source."""
     char = _uid('turned')
     session = SessionLocal()
-    session.add(Brain(
-        game_id='middle_earth', character_id=char, mold_slug='x',
+    session.add(Mind(
+        game_id='middle_earth', character_id=char, preset_slug='x',
         theme_weights={}, wiring={}, mood={}, counters={},
     ))
     session.flush()
-    brain = session.query(Brain).filter_by(character_id=char).one()
+    mind = session.query(Mind).filter_by(character_id=char).one()
     old = Belief(
         game_id='middle_earth', character_id=char, kind='other',
         statement='I do not trust dwarves', strength=3,
@@ -367,7 +367,7 @@ def test_inverted_belief_keeps_its_facets():
     )
     session.add(old)
     session.flush()
-    _apply_ops(session, brain, [{
+    _apply_ops(session, mind, [{
         'op': 'invert', 'belief_id': old.id,
         'statement': 'The mountain folk kept their word when no one '
                      'else did', 'strength': 2.5,

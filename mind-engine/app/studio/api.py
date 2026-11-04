@@ -4,7 +4,7 @@
 # JSON for the Studio app (ADR 0002). Reads show what the Mind already
 # owns — the Character card, memories, Forgotten traces, beliefs, needs,
 # mood and every Episode with its Lens and narration; writes edit the
-# card, traits and concerns. Never reads Host tables.
+# card, traits, concerns and the running mood. Never reads Host tables.
 #
 # Auth: HTTP Basic against ADMIN_USER / ADMIN_PASSWORD — unset = closed.
 # ============================================================================
@@ -23,7 +23,7 @@ from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import (
-    Belief, Brain, Character, Episode, ForgottenMemory, Memory, Musing,
+    Belief, Mind, Character, Episode, ForgottenMemory, Memory, Musing,
     Need,
 )
 from app.mind.lens import MOOD_CAUSE_MIN_VALENCE
@@ -236,9 +236,9 @@ def list_minds(game: str = DEFAULT_GAME, db: Session = Depends(get_session)):
         .subquery()
     )
     rows = (
-        db.query(Brain, last.c.last_lived_at, last.c.episodes)
-        .outerjoin(last, last.c.character_id == Brain.character_id)
-        .filter(Brain.game_id == game)
+        db.query(Mind, last.c.last_lived_at, last.c.episodes)
+        .outerjoin(last, last.c.character_id == Mind.character_id)
+        .filter(Mind.game_id == game)
         .all()
     )
     mem_counts = dict(
@@ -252,23 +252,23 @@ def list_minds(game: str = DEFAULT_GAME, db: Session = Depends(get_session)):
         for c in db.query(Character).filter_by(game_id=game)
     }
     minds = []
-    for brain, lived_at, episodes in rows:
+    for mind, lived_at, episodes in rows:
         latest = (
             db.query(Episode)
-            .filter_by(game_id=game, character_id=brain.character_id)
+            .filter_by(game_id=game, character_id=mind.character_id)
             .order_by(Episode.created_at.desc())
             .first()
         ) if lived_at else None
         minds.append({
-            'character_id': brain.character_id,
+            'character_id': mind.character_id,
             'name': (
-                _card(cards.get(brain.character_id), latest)['name']
-                or brain.character_id
+                _card(cards.get(mind.character_id), latest)['name']
+                or mind.character_id
             ),
-            'preset': brain.mold_slug,
+            'preset': mind.preset_slug,
             'episodes': episodes or 0,
-            'memories': mem_counts.get(brain.character_id, 0),
-            'mood': brain.mood or {},
+            'memories': mem_counts.get(mind.character_id, 0),
+            'mood': mind.mood or {},
             'last_lived_at': lived_at.isoformat() if lived_at else None,
         })
     minds.sort(key=lambda m: m['last_lived_at'] or '', reverse=True)
@@ -288,12 +288,12 @@ def get_mind(
     """One Mind, whole: its card, what it holds now, what it lost, and
     every Episode it lived — enough for the timeline to rebuild the Mind
     as it stood on any of them."""
-    brain = (
-        db.query(Brain)
+    mind = (
+        db.query(Mind)
         .filter_by(game_id=game, character_id=character_id)
         .one_or_none()
     )
-    if brain is None:
+    if mind is None:
         raise HTTPException(status_code=404, detail='mind not found')
     scope = {'game_id': game, 'character_id': character_id}
     episodes = (
@@ -362,17 +362,17 @@ def get_mind(
     return {
         'character_id': character_id,
         'game': game,
-        'preset': brain.mold_slug,
+        'preset': mind.preset_slug,
         'character': card,
         'condition': _condition(latest),
-        'mood': brain.mood or {},
+        'mood': mind.mood or {},
         # The six human dials, read back from the effective wiring —
         # a raw knob edit still shows on the slider.
-        'traits': traits_of({**DEFAULT_WIRING, **(brain.wiring or {})}),
+        'traits': traits_of({**DEFAULT_WIRING, **(mind.wiring or {})}),
         # Concerns — "le pesa": what the Mind gives extra weight to.
-        'concerns': dict(brain.theme_weights or {}),
+        'concerns': dict(mind.theme_weights or {}),
         # Advanced view: the effective wiring (defaults + overrides).
-        'wiring': {**DEFAULT_WIRING, **(brain.wiring or {})},
+        'wiring': {**DEFAULT_WIRING, **(mind.wiring or {})},
         'memories': memories,
         'beliefs': [
             {
@@ -463,19 +463,19 @@ def patch_card(
     return _with_lineage(db, row, _card(row))
 
 
-def _brain_or_404(db, game, character_id):
-    brain = (
-        db.query(Brain)
+def _mind_or_404(db, game, character_id):
+    mind = (
+        db.query(Mind)
         .filter_by(game_id=game, character_id=character_id)
         .one_or_none()
     )
-    if brain is None:
+    if mind is None:
         raise HTTPException(status_code=404, detail='mind not found')
-    return brain
+    return mind
 
 
 class TraitsPatch(BaseModel):
-    """{trait: 0..1} — each dial writes its knobs into brain.wiring."""
+    """{trait: 0..1} — each dial writes its knobs into mind.wiring."""
     traits: Dict[str, float]
 
 
@@ -486,16 +486,16 @@ def patch_traits(
     game: str = DEFAULT_GAME,
     db: Session = Depends(get_session),
 ):
-    brain = _brain_or_404(db, game, character_id)
+    mind = _mind_or_404(db, game, character_id)
     unknown = set(body.traits) - set(TRAITS)
     if unknown:
         raise HTTPException(
             status_code=422, detail=f'unknown traits: {sorted(unknown)}'
         )
-    wiring = dict(brain.wiring or {})
+    wiring = dict(mind.wiring or {})
     for trait, t in body.traits.items():
         apply_trait(wiring, trait, t)
-    brain.wiring = wiring
+    mind.wiring = wiring
     db.commit()
     return traits_of({**DEFAULT_WIRING, **wiring})
 
@@ -512,14 +512,14 @@ def patch_concerns(
     game: str = DEFAULT_GAME,
     db: Session = Depends(get_session),
 ):
-    brain = _brain_or_404(db, game, character_id)
-    weights = dict(brain.theme_weights or {})
+    mind = _mind_or_404(db, game, character_id)
+    weights = dict(mind.theme_weights or {})
     for key, w in body.weights.items():
         if w is None:
             weights.pop(key, None)
         else:
             weights[key] = max(0.0, min(1.0, float(w)))
-    brain.theme_weights = weights
+    mind.theme_weights = weights
     db.commit()
     return weights
 
@@ -540,8 +540,8 @@ def patch_mood(
     game: str = DEFAULT_GAME,
     db: Session = Depends(get_session),
 ):
-    brain = _brain_or_404(db, game, character_id)
-    mood = dict(brain.mood or {})
+    mind = _mind_or_404(db, game, character_id)
+    mood = dict(mind.mood or {})
     if body.valence is not None:
         mood['valence'] = round(max(-1.0, min(1.0, body.valence)), 3)
     if body.arousal is not None:
@@ -556,7 +556,7 @@ def patch_mood(
     ):
         carried = None
     mood['cause'] = carried
-    brain.mood = mood
+    mind.mood = mood
     db.commit()
     return mood
 

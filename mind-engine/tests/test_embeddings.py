@@ -14,7 +14,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 from app.db import SessionLocal
 from app.mind.embeddings import cosine, embed
-from app.mind.tables import BrainMold, Memory, MoldWiring
+from app.mind.tables import MindPreset, Memory, PresetWiring
 
 
 @pytest.fixture()
@@ -26,14 +26,14 @@ def _uid(prefix):
     return f'{prefix}-{uuid.uuid4().hex[:8]}'
 
 
-def _mold(**wiring):
+def _preset(**wiring):
     session = SessionLocal()
-    slug = _uid('mold')
-    mold = BrainMold(game_id='middle_earth', slug=slug, name='Wired')
-    session.add(mold)
+    slug = _uid('preset')
+    preset = MindPreset(game_id='middle_earth', slug=slug, name='Wired')
+    session.add(preset)
     session.flush()
     for key, value in wiring.items():
-        session.add(MoldWiring(mold_id=mold.id, key=key, value=value))
+        session.add(PresetWiring(preset_id=preset.id, key=key, value=value))
     session.commit()
     session.close()
     return slug
@@ -60,10 +60,10 @@ def _rain_note(ep=2):
     }
 
 
-def _open(client, char, events, ref='d2', brain_profile=None):
+def _open(client, char, events, ref='d2', preset=None):
     character = {'id': char}
-    if brain_profile:
-        character['brain_profile'] = brain_profile
+    if preset:
+        character['preset'] = preset
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': character,
         'episode_ref': ref, 'events': events, 'day': {},
@@ -120,8 +120,8 @@ def test_semantic_recall_without_tag_overlap(client):
         'when': {'episode': 2, 'date': '1950-01-20'},
         'data': {'note': 'the rain soaked her cloak through'},
     }
-    slug = _mold(delta_embedding=0.6)
-    opened = _open(client, tuned, [close_note], brain_profile=slug)
+    slug = _preset(delta_embedding=0.6)
+    opened = _open(client, tuned, [close_note], preset=slug)
     assert desc in _brief_texts(opened)
 
     # Same memory, default wiring: base score < min_score → silent.

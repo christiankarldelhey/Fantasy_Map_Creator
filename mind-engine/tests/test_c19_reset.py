@@ -1,10 +1,10 @@
 # ============================================================================
 # C19 — character regeneration wipes the lived mind
 # ----------------------------------------------------------------------------
-# POST /mind/brains/{character_id}/reset: everything the character LIVED
-# dies — memories, learned beliefs, open needs, episodes — and the mold's
-# starter beliefs come back (origin='seed'). The nature survives: brain
-# row, mold, theme weights, wiring. Called by the game host on character
+# POST /mind/minds/{character_id}/reset: everything the character LIVED
+# dies — memories, learned beliefs, open needs, episodes — and the preset's
+# starter beliefs come back (origin='seed'). The nature survives: mind
+# row, preset, theme weights, wiring. Called by the game host on character
 # regeneration; never blocks gameplay upstream.
 # ============================================================================
 import uuid
@@ -16,8 +16,8 @@ import app.main as main_module
 from app.db import SessionLocal
 from app.mind.provisioning import NEUTRAL_MOOD
 from app.mind.tables import (
-    Belief, Brain, BrainMold, Episode, Memory, MoldMusing,
-    MoldStarterBelief, Musing, Need,
+    Belief, Mind, MindPreset, Episode, Memory, PresetMusing,
+    PresetStarterBelief, Musing, Need,
 )
 
 
@@ -33,10 +33,10 @@ def _uid(prefix):
     return f'{prefix}-{uuid.uuid4().hex[:8]}'
 
 
-def _open(client, character_id, brain_profile):
+def _open(client, character_id, preset):
     r = client.post('/episodes', json={
         'game_id': GAME,
-        'character': {'id': character_id, 'brain_profile': brain_profile},
+        'character': {'id': character_id, 'preset': preset},
         'episode_ref': _uid('ep'),
         'events': [{
             'type': 'encounter',
@@ -52,27 +52,27 @@ def _open(client, character_id, brain_profile):
 
 
 def _reset(client, character_id):
-    r = client.post(f'/mind/brains/{character_id}/reset', json={})
+    r = client.post(f'/mind/minds/{character_id}/reset', json={})
     assert r.status_code == 200, r.text
     return r.json()
 
 
 @pytest.fixture()
 def lived_brain(client):
-    """A committed brain with a personal mold, seed beliefs, lived
+    """A committed mind with a personal preset, seed beliefs, lived
     memories/needs/episodes and a disturbed mood — everything a reset
     must sort into 'survives' vs 'dies'."""
     session = SessionLocal()
-    slug = _uid('reset-mold')
-    mold = BrainMold(game_id=GAME, slug=slug, name='Reset test persona')
-    session.add(mold)
+    slug = _uid('reset-preset')
+    preset = MindPreset(game_id=GAME, slug=slug, name='Reset test persona')
+    session.add(preset)
     session.flush()
-    session.add(MoldStarterBelief(
-        mold_id=mold.id, kind='self', strength=4.5,
+    session.add(PresetStarterBelief(
+        preset_id=preset.id, kind='self', strength=4.5,
         statement='The road is all she has.', tags=[], boosts=None,
     ))
-    session.add(MoldMusing(
-        mold_id=mold.id, statement='The road hums under her feet.',
+    session.add(PresetMusing(
+        preset_id=preset.id, statement='The road hums under her feet.',
         tags=['context:solitude'],
     ))
     session.commit()
@@ -93,22 +93,22 @@ def lived_brain(client):
         game_id=GAME, character_id=character_id, key='hunger',
         type='physiological', description='the stomach aches', urgency=0.7,
     ))
-    brain = (
-        session.query(Brain)
+    mind = (
+        session.query(Mind)
         .filter_by(game_id=GAME, character_id=character_id).one()
     )
-    brain.mood = {'label': 'dread', 'valence': -0.8, 'arousal': 0.6}
-    brain.counters = {'days_since_meal': 3}
+    mind.mood = {'label': 'dread', 'valence': -0.8, 'arousal': 0.6}
+    mind.counters = {'days_since_meal': 3}
     session.commit()
     session.close()
 
-    yield {'character_id': character_id, 'mold_slug': slug, 'episode': ep}
+    yield {'character_id': character_id, 'preset_slug': slug, 'episode': ep}
 
     session = SessionLocal()
-    for model in (Memory, Belief, Need, Episode, Brain, Musing):
+    for model in (Memory, Belief, Need, Episode, Mind, Musing):
         session.query(model).filter_by(
             game_id=GAME, character_id=character_id).delete()
-    session.query(BrainMold).filter_by(game_id=GAME, slug=slug).delete()
+    session.query(MindPreset).filter_by(game_id=GAME, slug=slug).delete()
     session.commit()
     session.close()
 
@@ -118,7 +118,7 @@ def test_reset_wipes_lived_content_and_reseeds(client, lived_brain):
     out = _reset(client, character_id)
 
     assert out['character_id'] == character_id
-    assert out['brain']['mold_slug'] == lived_brain['mold_slug']
+    assert out['mind']['preset_slug'] == lived_brain['preset_slug']
     assert out['deleted']['episodes'] >= 1
     assert out['deleted']['memories'] >= 1
     assert out['deleted']['beliefs'] >= 2  # seed + learned, all die
@@ -127,13 +127,13 @@ def test_reset_wipes_lived_content_and_reseeds(client, lived_brain):
     assert out['seeds'] == 2
 
     session = SessionLocal()
-    brain = (
-        session.query(Brain)
+    mind = (
+        session.query(Mind)
         .filter_by(game_id=GAME, character_id=character_id).one()
     )
-    assert brain.mold_slug == lived_brain['mold_slug']
-    assert brain.mood == NEUTRAL_MOOD
-    assert brain.counters == {}
+    assert mind.preset_slug == lived_brain['preset_slug']
+    assert mind.mood == NEUTRAL_MOOD
+    assert mind.counters == {}
 
     assert session.query(Memory).filter_by(
         game_id=GAME, character_id=character_id).count() == 0
@@ -174,7 +174,7 @@ def test_reset_is_idempotent(client, lived_brain):
 
 def test_reset_without_brain_is_a_safe_noop(client):
     out = _reset(client, _uid('never-seen'))
-    assert out['brain'] is None
+    assert out['mind'] is None
     assert out['deleted'] == {
         'memories': 0, 'forgotten': 0, 'beliefs': 0, 'needs': 0,
         'episodes': 0, 'musings': 0,

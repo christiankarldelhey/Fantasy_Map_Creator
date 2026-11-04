@@ -2,7 +2,7 @@
 # Perception — events[] -> perceived_day
 # ----------------------------------------------------------------------------
 # Every event is annotated with a NL `reading`, derived `tags`, and a
-# `salience` (importance) weighted by the brain's wiring — two minds can
+# `salience` (importance) weighted by the mind's wiring — two minds can
 # notice the same world differently. Events carrying `data.check` are
 # gated and rolled (B1, app/mind/checks.py): the outcome bends perception
 # to `unnoticed`/`misread`, never the world's facts.
@@ -256,7 +256,7 @@ def _repetition_exempt(tag, exempt):
     return False
 
 
-def _recurrence_items(session, game_id, brain, perceived, w):
+def _recurrence_items(session, game_id, mind, perceived, w):
     """Repetition pressure + pattern breaks (C5).
 
     Repetition is mildly aversive on its own — rain on day one is
@@ -283,7 +283,7 @@ def _recurrence_items(session, game_id, brain, perceived, w):
     # empty days (in-flight or genuinely eventless) don't join history.
     recent = (
         session.query(Episode.perceived_day)
-        .filter_by(game_id=game_id, character_id=brain.character_id)
+        .filter_by(game_id=game_id, character_id=mind.character_id)
         .order_by(Episode.created_at.desc())
         .limit(EPISODE_LOOKBACK * 2)
         .all()
@@ -357,7 +357,7 @@ def _recurrence_items(session, game_id, brain, perceived, w):
     return items
 
 
-def resolve_break_items(session, game_id, brain, perceived, needs, w):
+def resolve_break_items(session, game_id, mind, perceived, needs, w):
     """A streak that died because the world took something is not relief
     (C12). 'No bread today' while hunger is open is warning, not good
     news: break_need_watch maps tag prefixes to need keys, and when the
@@ -391,19 +391,19 @@ def resolve_break_items(session, game_id, brain, perceived, needs, w):
         item['valence'] = w.get('break_loss_valence', -0.1)
 
 
-def perceive_events(session, game_id, brain, events, character=None):
+def perceive_events(session, game_id, mind, events, character=None):
     """Annotate each event: perception + reading + salience + tags.
 
     Returns plain dicts ready for `episodes.perceived_day`. Idempotent at the
     episode level because open() only calls this when creating the episode.
     """
-    seen = _seen_tags(session, game_id, brain.character_id)
+    seen = _seen_tags(session, game_id, mind.character_id)
     # B6: strong active beliefs bend what stands out — boosts add to the
     # cloned theme_weights for this perception pass only.
-    weights = effective_theme_weights(session, brain)
-    w = {**DEFAULT_WIRING, **(brain.wiring or {})}
+    weights = effective_theme_weights(session, mind)
+    w = {**DEFAULT_WIRING, **(mind.wiring or {})}
     state = character_state(character, events)
-    attitudes = active_attitudes(session, brain)
+    attitudes = active_attitudes(session, mind)
 
     perceived = []
     for index, event in enumerate(events or []):
@@ -422,13 +422,13 @@ def perceive_events(session, game_id, brain, events, character=None):
         else:
             check_result, perception = resolve_check(
                 session, game_id, character, event, index, state, w,
-                brain=brain,
+                mind=mind,
             )
         reading = resolve_event_reading(event)
         if perception == 'misread':
             reading = misread_reading(
                 session, game_id, event, reading, check_result,
-                brain=brain,
+                mind=mind,
             )
         elif perception == 'unnoticed':
             reading = None
@@ -497,6 +497,6 @@ def perceive_events(session, game_id, brain, events, character=None):
     # Repetition pressure + pattern breaks (C5): synthesized after the
     # real events so they join mood and memory like anything perceived.
     perceived.extend(
-        _recurrence_items(session, game_id, brain, perceived, w)
+        _recurrence_items(session, game_id, mind, perceived, w)
     )
     return perceived

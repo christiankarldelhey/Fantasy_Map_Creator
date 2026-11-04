@@ -4,7 +4,7 @@
 # An event's valence comes from the mind's own wiring ('affect.<tag>' /
 # 'affect.field:<name>' keys), never from raw plumbing — unless the host
 # declares data.valence, which always wins. Episode mood is the
-# salience-weighted mean of item valences and blends into the brain's
+# salience-weighted mean of item valences and blends into the mind's
 # running mood; memory stores the *perceived* valence, so the same world
 # can leave different traces in different minds.
 # ============================================================================
@@ -15,7 +15,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.tables import Brain, Episode, Memory
+from app.mind.tables import Mind, Episode, Memory
 
 
 @pytest.fixture()
@@ -86,20 +86,20 @@ def _episode_mood(char, episode_index=0):
 
 def _brain_mood(char):
     session = SessionLocal()
-    brain = session.query(Brain).filter_by(character_id=char).one()
-    mood = dict(brain.mood or {})
+    mind = session.query(Mind).filter_by(character_id=char).one()
+    mood = dict(mind.mood or {})
     session.close()
     return mood
 
 
 def _set_wiring(char, **wiring):
     session = SessionLocal()
-    brain = (
-        session.query(Brain)
+    mind = (
+        session.query(Mind)
         .filter_by(game_id='middle_earth', character_id=char)
         .one()
     )
-    brain.wiring = {**(brain.wiring or {}), **wiring}
+    mind.wiring = {**(mind.wiring or {}), **wiring}
     session.commit()
     session.close()
 
@@ -148,7 +148,7 @@ def test_numeric_fields_push_valence(client):
 
 
 def test_two_minds_feel_the_same_world_differently(client):
-    """The whole point: a brain wired to hate wet weather reads the same
+    """The whole point: a mind wired to hate wet weather reads the same
     rain as misery where the default mind stays neutral."""
     stoic = _uid('stoic')
     rain = {
@@ -161,7 +161,7 @@ def test_two_minds_feel_the_same_world_differently(client):
     assert _perceived(stoic)['valence'] == 0.0
 
     tender = _uid('tender')
-    _open_and_close(client, tender, 'd1', [rain])  # create the brain first
+    _open_and_close(client, tender, 'd1', [rain])  # create the mind first
     _set_wiring(tender, **{'affect.tag:weather:wet': -0.6})
     _open_and_close(client, tender, 'd2', [{
         **rain, 'when': {'episode': 2, 'date': '1950-01-20'},
@@ -171,7 +171,7 @@ def test_two_minds_feel_the_same_world_differently(client):
 
 def test_a_bad_day_leaves_a_morning_after(client):
     """Mood blends across episodes: the day after the wound is not a
-    reset — the brain's running mood still carries the trace."""
+    reset — the mind's running mood still carries the trace."""
     char = _uid('carrying')
     _open_and_close(client, char, 'd1', [_encounter(1)])
     assert _brain_mood(char)['valence'] < 0

@@ -2,7 +2,7 @@
 # Musings — the authored inner voice, beside (not inside) the beliefs
 # ----------------------------------------------------------------------------
 # A Musing (CONTEXT.md · Musing) is a line of inner voice: it clones with
-# the mold (origin='seed'), speaks through the Lens when the day's own
+# the preset (origin='seed'), speaks through the Lens when the day's own
 # tags call it up — including 'context:solitude' when nobody touched the
 # mind — and carries nothing a life could move: no strength, no status,
 # no facets, and Reflection never sees it.
@@ -18,11 +18,11 @@ import pytest
 from app.db import SessionLocal
 from app.mind.focus import _ENGINE_FRAME_TYPES, build_brief
 from app.mind.voice import PHRASES
-from app.mind.provisioning import get_or_create_brain
+from app.mind.provisioning import get_or_create_mind
 from app.mind.reflection import _apply_ops, reflection_beliefs
 from app.mind.retrieval import _CONTACT_AMBIENT_PREFIXES, _context_tags
 from app.mind.tables import (
-    Belief, BrainMold, Episode, MoldMusing, MoldStarterBelief, Musing,
+    Belief, MindPreset, Episode, PresetMusing, PresetStarterBelief, Musing,
 )
 from app.mind.musings import (
     ARANATH_MUSINGS, ATTITUDE_PACKS, CELEBRIAN_MUSINGS, LEGACY_REWRITES,
@@ -184,29 +184,29 @@ def test_pack_musings_clone_with_the_mold():
     session = SessionLocal()
     game_id = 'middle_earth'
     slug = f'celebrian-clone-{uuid.uuid4().hex[:8]}'
-    mold = BrainMold(game_id=game_id, slug=slug, name='Celebrian test')
-    session.add(mold)
+    preset = MindPreset(game_id=game_id, slug=slug, name='Celebrian test')
+    session.add(preset)
     session.flush()
     for m in CELEBRIAN_MUSINGS:
-        session.add(MoldMusing(
-            mold_id=mold.id, statement=m['statement'], tags=m['tags'],
+        session.add(PresetMusing(
+            preset_id=preset.id, statement=m['statement'], tags=m['tags'],
         ))
     session.flush()
 
-    brain = get_or_create_brain(
+    mind = get_or_create_mind(
         session, game_id, f'cel-{uuid.uuid4().hex[:8]}', slug
     )
     session.flush()
     musings = (
         session.query(Musing)
-        .filter_by(character_id=brain.character_id, origin='seed')
+        .filter_by(character_id=mind.character_id, origin='seed')
         .all()
     )
     assert len(musings) == len(CELEBRIAN_MUSINGS)
     # …and none of them leaked into the beliefs.
     beliefs = (
         session.query(Belief)
-        .filter_by(character_id=brain.character_id)
+        .filter_by(character_id=mind.character_id)
         .all()
     )
     assert beliefs == []
@@ -218,28 +218,28 @@ def test_reset_reseeds_musings_and_leaves_beliefs_alone():
     session = SessionLocal()
     game_id = 'middle_earth'
     slug = f'musing-reset-{uuid.uuid4().hex[:8]}'
-    mold = BrainMold(game_id=game_id, slug=slug, name='reset test')
-    session.add(mold)
+    preset = MindPreset(game_id=game_id, slug=slug, name='reset test')
+    session.add(preset)
     session.flush()
-    session.add(MoldMusing(
-        mold_id=mold.id, statement='a voice that returns', tags=['x'],
+    session.add(PresetMusing(
+        preset_id=preset.id, statement='a voice that returns', tags=['x'],
     ))
-    session.add(MoldStarterBelief(
-        mold_id=mold.id, kind='other', statement='a stance that returns',
+    session.add(PresetStarterBelief(
+        preset_id=preset.id, kind='other', statement='a stance that returns',
         strength=3, tags=[], subject=['tag:entity_type:orcs'],
         stance=-0.5, source='lived',
     ))
     session.flush()
-    brain = get_or_create_brain(
+    mind = get_or_create_mind(
         session, game_id, f'rst-{uuid.uuid4().hex[:8]}', slug
     )
     session.flush()
     kinds = {
         type(r).__name__ for r in session.query(Musing).filter_by(
-            character_id=brain.character_id).all()
+            character_id=mind.character_id).all()
     } | {
         type(r).__name__ for r in session.query(Belief).filter_by(
-            character_id=brain.character_id).all()
+            character_id=mind.character_id).all()
     }
     assert kinds == {'Musing', 'Belief'}
     session.rollback()
@@ -262,10 +262,10 @@ def test_a_musing_carries_nothing_a_life_could_move():
 
 def test_reflection_never_sees_a_musing():
     session = SessionLocal()
-    brain = get_or_create_brain(
+    mind = get_or_create_mind(
         session, 'middle_earth', f'rm-{uuid.uuid4().hex[:8]}', None
     )
-    char = brain.character_id
+    char = mind.character_id
     session.add(Musing(
         game_id='middle_earth', character_id=char,
         statement='Orcs ruin everything they touch.',
@@ -283,7 +283,7 @@ def test_reflection_never_sees_a_musing():
         tags=['tag:entity_type:orcs'], desc='orc boots in the mud',
     )]
 
-    shown = reflection_beliefs(session, brain, memories, 0, {})
+    shown = reflection_beliefs(session, mind, memories, 0, {})
     assert [b.id for b in shown] == [belief.id]
     session.rollback()
     session.close()
@@ -293,13 +293,13 @@ def test_reflection_never_sees_a_musing():
 
 def test_reflection_decay_and_cap_leave_seeds_alone():
     session = SessionLocal()
-    brain = get_or_create_brain(
+    mind = get_or_create_mind(
         session, 'middle_earth', f'refl-{uuid.uuid4().hex[:8]}', None
     )
     seeds = []
     for i in range(5):
         b = Belief(
-            game_id='middle_earth', character_id=brain.character_id,
+            game_id='middle_earth', character_id=mind.character_id,
             kind='self', statement=f'seed belief {i}', strength=3,
             tags=['tag:entity_type:orcs'], boosts={}, evidence=[],
             origin='seed', status='active',
@@ -310,7 +310,7 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
     acquired = []
     for i in range(20):
         b = Belief(
-            game_id='middle_earth', character_id=brain.character_id,
+            game_id='middle_earth', character_id=mind.character_id,
             kind='self', statement=f'acquired belief {i}', strength=2.5,
             tags=[], boosts={}, evidence=[], origin='reflected',
             status='active',
@@ -323,7 +323,7 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
     # A reflection that touched nothing: everything acquired decays and
     # the cap thins the crowd; the seeds must be exactly as they were.
     _apply_ops(
-        session, brain, [], beliefs_by_id, idx=1,
+        session, mind, [], beliefs_by_id, idx=1,
         w={'belief_strength_decay': 0.9, 'belief_cap': 8,
            'belief_weaken_below': 1.0},
     )
@@ -450,10 +450,10 @@ def _seed(session, char, statement, tags, origin='seed', horizon='enduring'):
 
 def test_reflection_sees_touched_voiced_and_learned_beliefs_only():
     session = SessionLocal()
-    brain = get_or_create_brain(
+    mind = get_or_create_mind(
         session, 'middle_earth', f'rb-{uuid.uuid4().hex[:8]}', None
     )
-    char = brain.character_id
+    char = mind.character_id
     orc = _seed(session, char, 'The watch never sleeps.',
                 ['tag:entity_type:orcs'])
     lonely = _seed(session, char, 'Quiet belief one.', ['context:solitude'])
@@ -474,7 +474,7 @@ def test_reflection_sees_touched_voiced_and_learned_beliefs_only():
         desc='orc boots in the mud by the ford',
     )]
 
-    shown = reflection_beliefs(session, brain, memories, 0, {})
+    shown = reflection_beliefs(session, mind, memories, 0, {})
     ids = {b.id for b in shown}
     assert {orc.id, voiced.id, learned.id, passing.id} <= ids
     assert lonely.id not in ids  # nothing lived puts it in question
@@ -484,12 +484,12 @@ def test_reflection_sees_touched_voiced_and_learned_beliefs_only():
 
 def test_reflection_seed_cap_keeps_the_most_touched():
     session = SessionLocal()
-    brain = get_or_create_brain(
+    mind = get_or_create_mind(
         session, 'middle_earth', f'rc-{uuid.uuid4().hex[:8]}', None
     )
-    weak = [_seed(session, brain.character_id, f'orc belief {i}',
+    weak = [_seed(session, mind.character_id, f'orc belief {i}',
                   ['tag:entity_type:orcs']) for i in range(30)]
-    strong = _seed(session, brain.character_id, 'orc and wound',
+    strong = _seed(session, mind.character_id, 'orc and wound',
                    ['tag:entity_type:orcs', 'tag:outcome:wounded'])
     session.flush()
     memories = [
@@ -497,7 +497,7 @@ def test_reflection_seed_cap_keeps_the_most_touched():
         SimpleNamespace(tags=['tag:outcome:wounded'], desc='y'),
     ]
     shown = reflection_beliefs(
-        session, brain, memories, 0, {'reflection_seed_cap': 10}
+        session, mind, memories, 0, {'reflection_seed_cap': 10}
     )
     assert len(shown) == 10
     assert shown[0].id == strong.id  # touches two memories, ranks first

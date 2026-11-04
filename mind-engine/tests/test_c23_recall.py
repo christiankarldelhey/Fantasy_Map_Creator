@@ -7,7 +7,7 @@
 #     never from when it was last recalled. Otherwise the same trivial
 #     sighting re-summons itself every day, ad infinitum.
 #  2. Dialogue recall (dialogue_recall): a spoken encounter probes memory
-#     on its own terms — what was asked embeds against what the brain
+#     on its own terms — what was asked embeds against what the mind
 #     retained, so the traveller may answer from their own past.
 # ============================================================================
 import uuid

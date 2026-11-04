@@ -1,21 +1,21 @@
 # ============================================================================
-# Brain provisioning — molds -> living clones
+# Mind provisioning — presets -> living clones
 # ----------------------------------------------------------------------------
 # Clone-and-own (PRD §7): the first open for a (game_id, character_id) lazily
-# materialises a brain as a copy of its mold's config. From then on the brain
-# diverges only by content (memories, beliefs, mood) and admin edits — a mold
-# edit never reconfigures an existing brain.
+# materialises a mind as a copy of its preset's config. From then on the mind
+# diverges only by content (memories, beliefs, mood) and admin edits — a preset
+# edit never reconfigures an existing mind.
 #
-# Hint: the character snapshot may carry `brain_profile: "<slug>"`; consulted
+# Hint: the character snapshot may carry `preset: "<slug>"`; consulted
 # only at creation, falls back to 'default', and never overrides an existing
-# assignment. Reassignment is admin territory: POST /mind/brains/{id}/mold.
+# assignment. Reassignment is admin territory: POST /mind/minds/{id}/preset.
 # ============================================================================
-from app.mind.tables import Belief, Brain, BrainMold, Character, Musing
+from app.mind.tables import Belief, Mind, MindPreset, Character, Musing
 
-DEFAULT_MOLD_SLUG = 'default'
+DEFAULT_PRESET_SLUG = 'default'
 
-# Guide values from spec §7/§8 — the default mold ships these, and they are
-# the code fallback when a game has no molds seeded at all.
+# Guide values from spec §7/§8 — the default preset ships these, and they are
+# the code fallback when a game has no presets seeded at all.
 DEFAULT_WIRING = {
     'decay': 0.85,
     'forget_threshold': 0.2,
@@ -61,14 +61,14 @@ DEFAULT_WIRING = {
     'check_difficulty_scale': 10.0,
     # State modifiers (ADR 0005): thresholds and magnitudes live in the
     # detectors pack — mind.detectors rows or detectors.DEFAULT_DETECTORS
-    # ('check_mod' kind). Per-brain overrides use 'detector.<key>.<param>';
+    # ('check_mod' kind). Per-mind overrides use 'detector.<key>.<param>';
     # legacy wiring keys (energy_worn_below, mod_energy_spent, ...) still
-    # read on brains authored before the move.
+    # read on minds authored before the move.
     'unnoticed_salience': 0.5,
     # Sleep/wake (C4) — during a sleep phase the mind is unconscious:
     # checked events pass unheard unless the form physically wakes the
     # sleeper or the outcome is harm already done. All wiring — a nocturnal
-    # creature mold empties sleep_phases entirely.
+    # creature preset empties sleep_phases entirely.
     'sleep_phases': ['night'],
     # Contact forms wake the sleeper (C16): if the world resolved a
     # brief exchange or an offered bed, contact already happened —
@@ -175,7 +175,7 @@ DEFAULT_WIRING = {
     # event contributes when that tag is present — wildcards allowed
     # ('affect.tag:outcome:*'). 'affect.field:<name>' scales a numeric
     # data field per unit. An explicit data.valence from the host always
-    # wins; these defaults are the generic emotional floor molds refine.
+    # wins; these defaults are the generic emotional floor presets refine.
     'affect.tag:form:attacks': -0.5,
     'affect.tag:form:sudden_peril': -0.5,
     'affect.tag:form:confronts': -0.35,
@@ -213,8 +213,8 @@ DEFAULT_WIRING = {
     # People weight (C16): 'salience_min.<tag>' floors lift a noticed
     # event carrying that tag — a conversation with thinking company
     # must outweigh the drizzle. Two channels: the FORM says how close
-    # contact came, the entity_type who it was. A mold re-weights
-    # either (a people-shy brain lowers the whole channel).
+    # contact came, the entity_type who it was. A preset re-weights
+    # either (a people-shy mind lowers the whole channel).
     'salience_min.entity:*': 0.12,
     'salience_min.tag:form:brief_exchange': 0.45,
     'salience_min.tag:form:aid_or_trade': 0.5,
@@ -244,7 +244,7 @@ DEFAULT_WIRING = {
     # world handed something (authored commands, a provided meal);
     # 'decision' — a fork stood in the day; 'changed' — a decided option
     # applied. Tiers so an offer declined still registers under the day
-    # that took the bed. A dull brain may lower the whole channel.
+    # that took the bed. A dull mind may lower the whole channel.
     'salience_min.tag:given': 0.6,
     'salience_min.tag:decision': 0.5,
     'salience_min.tag:changed': 0.65,
@@ -279,13 +279,13 @@ DEFAULT_WIRING = {
     'decay_sticky': 0.95,
     'consolidate_min_importance': 0.3,
     'consolidated_decay': 0.98,
-    # B10: degraded brains (NPCs) still perceive and encode — they remember
+    # B10: degraded minds (NPCs) still perceive and encode — they remember
     # the protagonist — but never reflect (LLM stays a protagonist cost)
     # and defer decay/pattern consolidation to POST /maintenance/consolidate.
     'degraded': False,
     # Dormant action traits (#59): who the character is when it acts —
     # data from day one, no mechanism reads them until Decision (#62).
-    # A mold overrides any of them in mold_wiring like any other key.
+    # A preset overrides any of them in preset_wiring like any other key.
     'trait_impulso': 0.5,
     'trait_deliberacion': 0.5,
     'trait_integridad': 0.5,
@@ -296,38 +296,38 @@ DEFAULT_WIRING = {
 NEUTRAL_MOOD = {'valence': 0.0, 'arousal': 0.0, 'dominant': 'neutral'}
 
 
-def _find_mold(session, game_id, *slugs):
+def _find_preset(session, game_id, *slugs):
     for slug in slugs:
         if not slug:
             continue
-        mold = (
-            session.query(BrainMold)
+        preset = (
+            session.query(MindPreset)
             .filter_by(game_id=game_id, slug=slug)
             .one_or_none()
         )
-        if mold is not None:
-            return mold
+        if preset is not None:
+            return preset
     return None
 
 
-def _mold_config(mold):
-    """Materialise a mold's child rows into the brain's config dicts."""
-    if mold is None:
+def _preset_config(preset):
+    """Materialise a preset's child rows into the mind's config dicts."""
+    if preset is None:
         return {}, dict(DEFAULT_WIRING)
-    theme_weights = {r.key: r.weight for r in mold.theme_weights}
-    wiring = {**DEFAULT_WIRING, **{r.key: r.value for r in mold.wiring}}
+    theme_weights = {r.key: r.weight for r in preset.theme_weights}
+    wiring = {**DEFAULT_WIRING, **{r.key: r.value for r in preset.wiring}}
     return theme_weights, wiring
 
 
-def seed_starter_beliefs(session, game_id, character_id, mold):
-    """Clone a mold's starter beliefs into the character (origin='seed':
+def seed_starter_beliefs(session, game_id, character_id, preset):
+    """Clone a preset's starter beliefs into the character (origin='seed':
     backstory, exempt from the evidence rule) — mutable like any belief.
-    Used at brain creation and again when a brain is wiped: the defaults
+    Used at mind creation and again when a mind is wiped: the defaults
     are the one content a reset restores."""
-    if mold is None:
+    if preset is None:
         return []
     seeds = []
-    for sb in mold.starter_beliefs:
+    for sb in preset.starter_beliefs:
         b = Belief(
             game_id=game_id, character_id=character_id, kind=sb.kind,
             statement=sb.statement, strength=sb.strength,
@@ -341,12 +341,12 @@ def seed_starter_beliefs(session, game_id, character_id, mold):
     return seeds
 
 
-def seed_musings(session, game_id, character_id, mold):
-    """Clone the mold's musings — the character's authored inner voice.
-    Not beliefs: voice only, seeded alongside them at brain creation and
+def seed_musings(session, game_id, character_id, preset):
+    """Clone the preset's musings — the character's authored inner voice.
+    Not beliefs: voice only, seeded alongside them at mind creation and
     restored by the same reset."""
     seeds = []
-    for m in (mold.musings if mold else []):
+    for m in (preset.musings if preset else []):
         mu = Musing(
             game_id=game_id, character_id=character_id,
             statement=m.statement, tags=list(m.tags or []), origin='seed',
@@ -356,38 +356,38 @@ def seed_musings(session, game_id, character_id, mold):
     return seeds
 
 
-def get_or_create_brain(session, game_id, character_id, hint_slug=None):
-    """The character's living brain, cloning its mold on first contact.
+def get_or_create_mind(session, game_id, character_id, hint_slug=None):
+    """The character's living mind, cloning its preset on first contact.
 
-    hint_slug applies only at creation; an existing brain is returned
+    hint_slug applies only at creation; an existing mind is returned
     untouched — reassignment is an explicit admin act.
     """
-    brain = (
-        session.query(Brain)
+    mind = (
+        session.query(Mind)
         .filter_by(game_id=game_id, character_id=character_id)
         .one_or_none()
     )
-    if brain is not None:
-        return brain
+    if mind is not None:
+        return mind
 
-    mold = _find_mold(session, game_id, hint_slug, DEFAULT_MOLD_SLUG)
-    theme_weights, wiring = _mold_config(mold)
+    preset = _find_preset(session, game_id, hint_slug, DEFAULT_PRESET_SLUG)
+    theme_weights, wiring = _preset_config(preset)
 
-    brain = Brain(
+    mind = Mind(
         game_id=game_id,
         character_id=character_id,
-        mold_id=mold.id if mold else None,
-        mold_slug=mold.slug if mold else (hint_slug or DEFAULT_MOLD_SLUG),
+        preset_id=preset.id if preset else None,
+        preset_slug=preset.slug if preset else (hint_slug or DEFAULT_PRESET_SLUG),
         theme_weights=theme_weights,
         wiring=wiring,
         mood=dict(NEUTRAL_MOOD),
         counters={},
     )
-    session.add(brain)
+    session.add(mind)
     session.flush()
-    seed_starter_beliefs(session, game_id, character_id, mold)
-    seed_musings(session, game_id, character_id, mold)
-    return brain
+    seed_starter_beliefs(session, game_id, character_id, preset)
+    seed_musings(session, game_id, character_id, preset)
+    return mind
 
 
 def get_or_create_character(session, game_id, card):
@@ -447,22 +447,22 @@ def effective_character(row, wire_card):
     return merged
 
 
-def reassign_mold(session, game_id, character_id, slug, reclone=False):
-    """Admin reassignment. reclone=True also resets the brain's config
-    (theme_weights + wiring) to the new mold's — memories and beliefs are
+def reassign_preset(session, game_id, character_id, slug, reclone=False):
+    """Admin reassignment. reclone=True also resets the mind's config
+    (theme_weights + wiring) to the new preset's — memories and beliefs are
     content and are never touched."""
-    brain = (
-        session.query(Brain)
+    mind = (
+        session.query(Mind)
         .filter_by(game_id=game_id, character_id=character_id)
         .one_or_none()
     )
-    if brain is None:
+    if mind is None:
         return None
-    mold = _find_mold(session, game_id, slug, DEFAULT_MOLD_SLUG)
-    brain.mold_id = mold.id if mold else None
-    brain.mold_slug = mold.slug if mold else slug
+    preset = _find_preset(session, game_id, slug, DEFAULT_PRESET_SLUG)
+    mind.preset_id = preset.id if preset else None
+    mind.preset_slug = preset.slug if preset else slug
     if reclone:
-        theme_weights, wiring = _mold_config(mold)
-        brain.theme_weights = theme_weights
-        brain.wiring = wiring
-    return brain
+        theme_weights, wiring = _preset_config(preset)
+        mind.theme_weights = theme_weights
+        mind.wiring = wiring
+    return mind

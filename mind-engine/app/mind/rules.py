@@ -15,7 +15,7 @@
 #     streak_days=None -> wiring 'need_weather_streak'
 #
 # DB rows merge over DEFAULT_RULES by key — a game row replaces the
-# built-in entirely. Streak counters live in brain.counters under
+# built-in entirely. Streak counters live in mind.counters under
 # 'rule:<key>', bumped at close (episodes the host persisted).
 # ============================================================================
 import operator
@@ -118,24 +118,24 @@ def rule_fired_today(rule, events):
     return False
 
 
-def update_rule_streaks(session, brain, episode):
+def update_rule_streaks(session, mind, episode):
     """Close-time bookkeeping: per-rule streaks only count episodes the
     host actually persisted."""
-    counters = dict(brain.counters or {})
+    counters = dict(mind.counters or {})
     for rule in active_rules(session, episode.game_id):
         key = f"{RULE_COUNTER_PREFIX}{rule['key']}"
         if rule_fired_today(rule, episode.events):
             counters[key] = (counters.get(key) or 0) + 1
         else:
             counters[key] = 0
-    brain.counters = counters
+    mind.counters = counters
 
 
-def rule_needs(session, brain, episode, w=None):
+def rule_needs(session, mind, episode, w=None):
     """Open-time pass: rules whose streak (persisted + today) reaches the
     threshold produce a need spec for needs_pass to upsert."""
-    w = w or {**DEFAULT_WIRING, **(brain.wiring or {})}
-    counters = brain.counters or {}
+    w = w or {**DEFAULT_WIRING, **(mind.wiring or {})}
+    counters = mind.counters or {}
     fired = []
     for rule in active_rules(session, episode.game_id):
         streak = counters.get(f"{RULE_COUNTER_PREFIX}{rule['key']}") or 0

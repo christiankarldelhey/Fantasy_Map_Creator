@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------
 # Sets MIND_SCHEMA before any app module is imported (conftest loads first),
 # then drops/recreates `mind_test` so each run starts empty. The suite mints
-# hundreds of molds/brains with random suffixes; without this they land in
+# hundreds of presets/minds with random suffixes; without this they land in
 # the real schema forever.
 # ============================================================================
 import os

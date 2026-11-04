@@ -5,7 +5,7 @@
 # is unconscious: an event that would take a check is slept through —
 # perception 'unnoticed', an 'asleep' trace instead of a roll — unless
 # the form is intrusive (sleep_wake_forms) or the outcome is harm already
-# done (sleep_wake_outcomes). A nocturnal mold empties sleep_phases.
+# done (sleep_wake_outcomes). A nocturnal preset empties sleep_phases.
 # ============================================================================
 import uuid
 
@@ -14,7 +14,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.tables import Brain
+from app.mind.tables import Mind
 
 
 @pytest.fixture()
@@ -24,12 +24,12 @@ def client():
 
 def _set_wiring(char, **wiring):
     session = SessionLocal()
-    brain = (
-        session.query(Brain)
+    mind = (
+        session.query(Mind)
         .filter_by(game_id='middle_earth', character_id=char)
         .one()
     )
-    brain.wiring = {**(brain.wiring or {}), **wiring}
+    mind.wiring = {**(mind.wiring or {}), **wiring}
     session.commit()
     session.close()
 
@@ -120,9 +120,9 @@ def test_daytime_encounter_unaffected(client):
 
 
 def test_nocturnal_brain_never_sleeps(client):
-    """A brain whose wiring empties sleep_phases rolls at night like day."""
+    """A mind whose wiring empties sleep_phases rolls at night like day."""
     char = _uid('noct')
-    _open(  # first contact creates the brain; then we rewire it.
+    _open(  # first contact creates the mind; then we rewire it.
         client, {'id': char, 'skills': {'tracking': 9}},
         [_night_encounter(form='sign_only')],
         ref='d0',

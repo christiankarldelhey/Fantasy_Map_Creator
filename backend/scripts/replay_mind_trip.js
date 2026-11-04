@@ -1,10 +1,10 @@
 // ============================================================================
-// Replay persisted trip_days through the Mind Engine on a fresh brain
+// Replay persisted trip_days through the Mind Engine on a fresh mind
 // ----------------------------------------------------------------------------
 // Reads the stored world of finished trips (trip_days rows — climate,
 // encounters, meals, overnight, energy/shadow columns), rebuilds each day,
 // runs the CURRENT toEvents contract, and opens/closes episodes on a
-// replay character id — a fresh brain living the same world, for
+// replay character id — a fresh mind living the same world, for
 // before/after comparison with the character's real mind.
 //
 //   node scripts/replay_mind_trip.js aranath-c3 f00e6689 05303e37
@@ -30,7 +30,7 @@ function slimCharacter(c, id) {
   return {
     id,
     name: c.name ?? null,
-    brain_profile: c.brain_profile || c.slug || null,
+    preset: c.preset || c.slug || null,
     skills: {
       tracking: c.skill_tracking ?? 0,
       persuasion: c.skill_persuasion ?? 0,
@@ -141,7 +141,7 @@ async function replayTrip(tripPrefix, character, episodeOffset, hungerStreak) {
 const sourceCharId = process.env.SOURCE_CHARACTER_ID || '142';
 const source = await loadNarratorCharacter(Number(sourceCharId));
 const character = slimCharacter(source, replayId);
-console.log(`replaying as ${replayId} (mold hint: ${character.brain_profile})`);
+console.log(`replaying as ${replayId} (preset hint: ${character.preset})`);
 
 let offset = 0;
 let hungerStreak = 0;
@@ -149,5 +149,5 @@ for (const prefix of tripPrefixes) {
   ({ offset, hungerStreak } = await replayTrip(prefix, character, offset, hungerStreak));
 }
 
-console.log('\ndone — inspect the brain via GET /mind/brains?character_id=' + replayId);
+console.log('\ndone — inspect the mind via GET /mind/minds?character_id=' + replayId);
 await pool.end();

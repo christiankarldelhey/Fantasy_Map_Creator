@@ -18,9 +18,9 @@
 # an unseeded game gets it, rows override per (game, key), and a row with
 # enabled=False silences a built-in for that game.
 #
-# Per-brain knobs: wiring keys 'detector.<key>.<param>' override value/mod/
-# urgency_base/urgency_per/urgency_map/scale for that brain. Legacy wiring
-# keys (need_hunger_days, mod_energy_spent, ...) still read so brains
+# Per-mind knobs: wiring keys 'detector.<key>.<param>' override value/mod/
+# urgency_base/urgency_per/urgency_map/scale for that mind. Legacy wiring
+# keys (need_hunger_days, mod_energy_spent, ...) still read so minds
 # authored before ADR 0005 keep their tuning.
 # ============================================================================
 import logging
@@ -110,7 +110,7 @@ DEFAULT_DETECTORS = [
     },
 ]
 
-# Wiring keys brains used before the values moved into detector rows.
+# Wiring keys minds used before the values moved into detector rows.
 _LEGACY_PARAMS = {
     ('hunger', 'value'): 'need_hunger_days',
     ('thirst', 'value'): 'need_thirst_days',
@@ -188,7 +188,7 @@ def invalidate(game_id=None):
 
 
 def _param(det, param, w, default=None):
-    """Brain-level override first ('detector.<key>.<param>'), then the
+    """Mind-level override first ('detector.<key>.<param>'), then the
     legacy wiring key, then the declared value."""
     v = (w or {}).get(f"detector.{det['key']}.{param}")
     if v is not None:

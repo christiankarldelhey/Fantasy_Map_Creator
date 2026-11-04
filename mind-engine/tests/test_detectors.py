@@ -17,7 +17,7 @@ import app.main as main_module
 from app.db import SessionLocal
 from app.mind.detectors import invalidate as invalidate_detectors
 from app.mind.focus import build_brief
-from app.mind.tables import Brain, Detector, Need
+from app.mind.tables import Mind, Detector, Need
 
 
 @pytest.fixture()
@@ -284,15 +284,15 @@ def test_second_host_check_mod_and_altered(client, deep_space):
     assert item['perception'] == 'misread'
 
 
-# --- per-brain overrides -----------------------------------------------------
+# --- per-mind overrides -----------------------------------------------------
 
-def test_brain_override_beats_declared_value(client):
-    """wiring 'detector.<key>.<param>' retunes one brain only."""
+def test_mind_override_beats_declared_value(client):
+    """wiring 'detector.<key>.<param>' retunes one mind only."""
     char = _uid('ascetic')
     _open(client, char, 'd1', [_body(1, days_without_food=0)])
     session = SessionLocal()
-    brain = session.query(Brain).filter_by(character_id=char).one()
-    brain.wiring = {**(brain.wiring or {}), 'detector.hunger.value': 5.0}
+    mind = session.query(Mind).filter_by(character_id=char).one()
+    mind.wiring = {**(mind.wiring or {}), 'detector.hunger.value': 5.0}
     session.commit()
     session.close()
     packet = _open(client, char, 'd2', [_body(2, days_without_food=2)])
@@ -300,12 +300,12 @@ def test_brain_override_beats_declared_value(client):
 
 
 def test_legacy_wiring_key_still_reads(client):
-    """Brains authored before the move keep their old knobs working."""
+    """Minds authored before the move keep their old knobs working."""
     char = _uid('legacy')
     _open(client, char, 'd1', [_body(1, days_without_food=0)])
     session = SessionLocal()
-    brain = session.query(Brain).filter_by(character_id=char).one()
-    brain.wiring = {**(brain.wiring or {}), 'need_hunger_days': 5.0}
+    mind = session.query(Mind).filter_by(character_id=char).one()
+    mind.wiring = {**(mind.wiring or {}), 'need_hunger_days': 5.0}
     session.commit()
     session.close()
     packet = _open(client, char, 'd2', [_body(2, days_without_food=2)])

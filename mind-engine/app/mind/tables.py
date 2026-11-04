@@ -2,7 +2,7 @@
 # SQLAlchemy tables for the Mind Engine
 # ----------------------------------------------------------------------------
 # All tables land in the `mind` schema via Base.metadata (app/db.py).
-# Episodes (A2), NL config (A3), brain molds/brains/beliefs (A5);
+# Episodes (A2), NL config (A3), mind presets/minds/beliefs (A5);
 # memories arrive in A7.
 # ============================================================================
 import uuid
@@ -25,7 +25,7 @@ def _new_id(prefix):
 
 
 new_episode_id = _new_id('ep')
-new_brain_id = _new_id('br')
+new_mind_id = _new_id('mind')
 new_belief_id = _new_id('bl')
 new_memory_id = _new_id('mem')
 new_character_id = _new_id('chr')
@@ -48,7 +48,7 @@ class Episode(Base):
     character_id: Mapped[str] = mapped_column(String(120), nullable=False)
     episode_ref: Mapped[str] = mapped_column(String(120), nullable=True)
     status: Mapped[str] = mapped_column(String(20), nullable=False, default='open')
-    # The mind's own clock (C29): a per-brain monotonic counter assigned
+    # The mind's own clock (C29): a per-mind monotonic counter assigned
     # at open — when.episode is the host's trip day and resets per trip;
     # aging memories by it let a new journey's day 2 resurrect an old
     # trip's day-2 memory as 'yesterday'. NULL = legacy row, pre-fix.
@@ -105,18 +105,18 @@ def _now():
 
 
 # ============================================================================
-# Brain molds -> living brains (A5)
+# Mind presets -> living minds (A5)
 # ----------------------------------------------------------------------------
-# Clone-and-own: a mold is an archetype (theme_weights + wiring + starter
-# beliefs in child tables, editable field by field); each character's brain is
+# Clone-and-own: a preset is an archetype (theme_weights + wiring + starter
+# beliefs in child tables, editable field by field); each character's mind is
 # a MATERIALISED copy (jsonb snapshot) that diverges only by content and admin
-# edits — editing the mold later never reconfigures existing brains.
+# edits — editing the preset later never reconfigures existing minds.
 # ============================================================================
 
 
-class BrainMold(Base):
-    __tablename__ = 'brain_molds'
-    __table_args__ = (UniqueConstraint('game_id', 'slug', name='uq_brain_mold'),)
+class MindPreset(Base):
+    __tablename__ = 'mind_presets'
+    __table_args__ = (UniqueConstraint('game_id', 'slug', name='uq_mind_preset'),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     game_id: Mapped[str] = mapped_column(String(120), nullable=False)
@@ -125,49 +125,49 @@ class BrainMold(Base):
     description: Mapped[str] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
 
-    theme_weights = relationship('MoldThemeWeight', lazy='selectin',
+    theme_weights = relationship('PresetThemeWeight', lazy='selectin',
                                  cascade='all, delete-orphan')
-    wiring = relationship('MoldWiring', lazy='selectin',
+    wiring = relationship('PresetWiring', lazy='selectin',
                           cascade='all, delete-orphan')
-    starter_beliefs = relationship('MoldStarterBelief', lazy='selectin',
+    starter_beliefs = relationship('PresetStarterBelief', lazy='selectin',
                                    cascade='all, delete-orphan')
-    musings = relationship('MoldMusing', lazy='selectin',
+    musings = relationship('PresetMusing', lazy='selectin',
                            cascade='all, delete-orphan')
 
 
-class MoldThemeWeight(Base):
+class PresetThemeWeight(Base):
     """key = 'type:<event_type>' | 'tag:<tag>' | 'entity:<id>' | 'tag:prefix:*'."""
 
-    __tablename__ = 'mold_theme_weights'
-    __table_args__ = (UniqueConstraint('mold_id', 'key', name='uq_mold_weight'),)
+    __tablename__ = 'preset_theme_weights'
+    __table_args__ = (UniqueConstraint('preset_id', 'key', name='uq_preset_weight'),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    mold_id: Mapped[int] = mapped_column(
-        ForeignKey(f'{MIND_SCHEMA}.brain_molds.id', ondelete='CASCADE'), nullable=False)
+    preset_id: Mapped[int] = mapped_column(
+        ForeignKey(f'{MIND_SCHEMA}.mind_presets.id', ondelete='CASCADE'), nullable=False)
     key: Mapped[str] = mapped_column(String(120), nullable=False)
     weight: Mapped[float] = mapped_column(Float, nullable=False)
 
 
-class MoldWiring(Base):
+class PresetWiring(Base):
     """Engine parameters: decay, forget_threshold, fixed_threshold, w_*,
     alpha/beta/gamma, lambda_recency, retrieval_top_k, evocations_to_fix."""
 
-    __tablename__ = 'mold_wiring'
-    __table_args__ = (UniqueConstraint('mold_id', 'key', name='uq_mold_wiring'),)
+    __tablename__ = 'preset_wiring'
+    __table_args__ = (UniqueConstraint('preset_id', 'key', name='uq_preset_wiring'),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    mold_id: Mapped[int] = mapped_column(
-        ForeignKey(f'{MIND_SCHEMA}.brain_molds.id', ondelete='CASCADE'), nullable=False)
+    preset_id: Mapped[int] = mapped_column(
+        ForeignKey(f'{MIND_SCHEMA}.mind_presets.id', ondelete='CASCADE'), nullable=False)
     key: Mapped[str] = mapped_column(String(60), nullable=False)
     value: Mapped[float] = mapped_column(Float, nullable=False)
 
 
-class MoldStarterBelief(Base):
-    __tablename__ = 'mold_starter_beliefs'
+class PresetStarterBelief(Base):
+    __tablename__ = 'preset_starter_beliefs'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    mold_id: Mapped[int] = mapped_column(
-        ForeignKey(f'{MIND_SCHEMA}.brain_molds.id', ondelete='CASCADE'), nullable=False)
+    preset_id: Mapped[int] = mapped_column(
+        ForeignKey(f'{MIND_SCHEMA}.mind_presets.id', ondelete='CASCADE'), nullable=False)
     kind: Mapped[str] = mapped_column(String(30), nullable=False)  # world|self|other
     statement: Mapped[str] = mapped_column(Text, nullable=False)
     strength: Mapped[float] = mapped_column(Float, nullable=False, default=2.5)
@@ -180,33 +180,33 @@ class MoldStarterBelief(Base):
     source: Mapped[str] = mapped_column(String(20), nullable=True)
 
 
-class MoldMusing(Base):
+class PresetMusing(Base):
     """A Musing at authoring time (CONTEXT.md · Musing): one line of the
-    character's inner voice for a kind of moment, cloned with the mold.
+    character's inner voice for a kind of moment, cloned with the preset.
     Voice only — no strength, no status, nothing for reflection to touch."""
 
-    __tablename__ = 'mold_musings'
+    __tablename__ = 'preset_musings'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    mold_id: Mapped[int] = mapped_column(
-        ForeignKey(f'{MIND_SCHEMA}.brain_molds.id', ondelete='CASCADE'), nullable=False)
+    preset_id: Mapped[int] = mapped_column(
+        ForeignKey(f'{MIND_SCHEMA}.mind_presets.id', ondelete='CASCADE'), nullable=False)
     statement: Mapped[str] = mapped_column(Text, nullable=False)
     tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
 
 
-class Brain(Base):
-    __tablename__ = 'brains'
+class Mind(Base):
+    __tablename__ = 'minds'
     __table_args__ = (
-        UniqueConstraint('game_id', 'character_id', name='uq_brain_character'),
+        UniqueConstraint('game_id', 'character_id', name='uq_mind_character'),
     )
 
-    id: Mapped[str] = mapped_column(String(40), primary_key=True, default=new_brain_id)
+    id: Mapped[str] = mapped_column(String(40), primary_key=True, default=new_mind_id)
     game_id: Mapped[str] = mapped_column(String(120), nullable=False)
     character_id: Mapped[str] = mapped_column(String(120), nullable=False)
-    mold_id: Mapped[int] = mapped_column(Integer, nullable=True)
-    mold_slug: Mapped[str] = mapped_column(String(60), nullable=False)
+    preset_id: Mapped[int] = mapped_column(Integer, nullable=True)
+    preset_slug: Mapped[str] = mapped_column(String(60), nullable=False)
 
-    # Materialised copy of the mold's config at clone time — the "nature".
+    # Materialised copy of the preset's config at clone time — the "nature".
     theme_weights: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     wiring: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
 
@@ -229,7 +229,7 @@ class Character(Base):
     payload a Host sends becomes the card's initial content — from then
     on the Mind's copy is authoritative.
 
-    character_id is the Host's external ref — the same key brains and
+    character_id is the Host's external ref — the same key minds and
     episodes use. For Middle Earth it is the character_state.id."""
 
     __tablename__ = 'characters'
