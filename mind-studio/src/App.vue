@@ -8,7 +8,6 @@ import MindGraph from './components/MindGraph.vue'
 import NodeDetail from './components/NodeDetail.vue'
 import ShapePanel from './components/ShapePanel.vue'
 import TopBar from './components/TopBar.vue'
-import VoicePanel from './components/VoicePanel.vue'
 import type { NodeRef } from './components/nodeRef'
 import { STEPS, type Spotlight } from './components/tour'
 import { useMind } from './composables/useMind'
@@ -24,7 +23,6 @@ const focus = shallowRef<NodeRef | null>(null)
 const picked = shallowRef<NodeRef | null>(null)
 const tourStep = shallowRef<number | null>(null)
 const shaping = shallowRef(false)
-const hearingVoice = shallowRef(false)
 
 const positions = computed(() =>
   mind.value ? layoutMind(mind.value.beliefs, mind.value.memories) : new Map(),
@@ -85,7 +83,6 @@ function openTour() {
       @select="select"
       @tour="openTour"
       @shape="shaping = true"
-      @voice="hearingVoice = true"
     />
 
     <p v-if="rosterError || error" class="notice">
@@ -164,7 +161,6 @@ function openTour() {
       @close="shaping = false"
       @saved="refresh"
     />
-    <VoicePanel v-if="hearingVoice" @close="hearingVoice = false" />
   </div>
 </template>
 

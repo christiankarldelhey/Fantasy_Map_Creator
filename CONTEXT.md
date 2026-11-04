@@ -33,8 +33,20 @@ _Avoid_: character state, stats
 ### The mind
 
 **Mind**:
-The lived interior of one Character: memories, beliefs, needs, mood. Exactly one per Character.
+The lived interior of one Character: memories, beliefs, needs, mood. Exactly one per Character. Everything it holds lives in one of three parts: Identity, State or Past. The body is not one of them — it stays in the Host's Condition.
 _Avoid_: brain, psyche
+
+**Identity**:
+Who the Mind is and what it holds true; changes slowly. The Foundational phrase, Beliefs, Traits and Concerns.
+_Avoid_: personality, profile, self
+
+**State**:
+How the Mind arrives at this moment; changes Episode to Episode. Mood and Needs.
+_Avoid_: status, condition, stats
+
+**Past**:
+What the Mind lived and kept: its Memories, the Forgotten and the patterns repetition left.
+_Avoid_: memory (one Memory is a single impression), history, log
 
 **Episode**:
 One stretch of life a Mind lives at once, whatever the Host calls it (a day, a scene, a session). The unit of the Mind's timeline.
@@ -49,8 +61,12 @@ A Memory the Mind has lost: kept as a trace with the day it was lost so the Mind
 _Avoid_: deleted, erased
 
 **Belief**:
-Something the Mind holds true, with a confidence that grows or erodes with what it lives. Reaches the Lens only when the Episode puts it at stake — or, for the Beliefs that are the thoughts a person keeps for themselves, when nobody touched the Mind at all (a belief tagged `context:solitude` speaks on the days that met no one). Who the Character is lives in the Foundational phrase, not in its beliefs. A Belief may carry facets that let the Mind act on it, not just voice it: a Subject and a Stance (an Attitude or an Impression), a Source, a Pull, or a ritual (a Habit). A Belief without facets is a plain thought.
-_Avoid_: core idea, main idea, value
+Something the Mind holds true: a statement, how firmly it is held (from barely to a way of life) and what it is about — the world, the self, others, or what matters (a Value). Only lived evidence moves it, never time alone: what confirms it hardens it, what contradicts it wears it down, and the firmer it is the harder it moves. An experience can start a Belief, but faintly. Reaches the Lens only when the Episode puts it at stake. When it is about something concrete it also carries a Subject, a Stance and a Source.
+_Avoid_: core idea, main idea, thought, latent belief
+
+**Value**:
+A Belief about what matters or what is right ("one does not abandon a companion"), as opposed to one about how the world is. Facts do not move it; acting for or against it, or seeing it put to the test, does.
+_Avoid_: morality score, alignment, principle
 
 **Subject**:
 What a Belief is about when it is about something in the world: a kind of being (horses, orcs, dwarves) or a place (a region, a named location). A Subject may be broad or narrow — the kind, the family within the kind, or one named being — and the narrowest match speaks for what happened (the horses of Mordor are not 'horses' to Celebrian).
@@ -69,20 +85,12 @@ A Belief with a Subject that is a place and a Stance toward it. Lived or only he
 _Avoid_: location note, region opinion, lore
 
 **Source**:
-How a Mind came to hold a Belief: lived it, heard it, or carries it as legend. Lived outweighs heard; a heard Belief turns lived the first time the Character meets its Subject.
+How a Mind came to hold a Belief: lived it or heard it (a legend is something heard long ago). Lived outweighs heard; a heard Belief turns lived the first time the Character meets its Subject.
 _Avoid_: provenance, origin, reliability
 
-**Pull**:
-A Belief's sensitivity to a state of the Character's Condition: as that state deepens, the Belief speaks more and weighs more (a darkening thought under the shadow), or less (a virtue the shadow dims). The state is one the Host declared.
-_Avoid_: modifier, corruption, buff
-
-**Latent belief**:
-A Belief held so faintly it rarely speaks, often the opposite of something the Character firmly holds — the virtue or the doubt that life can grow into conviction.
-_Avoid_: hidden belief, secret, potential
-
-**Habit**:
-A Belief about a small ritual the Character keeps (a pipe at the fire) tied to something it possesses. With the possession at hand the ritual can colour the Episode; when it runs out, the lack becomes a Need.
-_Avoid_: vice, routine, addiction
+**Musing**:
+An authored line of the Character's inner voice — how this person sounds inside in a kind of moment (solitude, a friendly encounter, after danger, near animals). Flavour for the narration, never evidence: no strength, no reinforcement, and Reflection never touches it. Not a Belief: nothing lived can contradict "the night knows me better than any face". A Character's old Accents — their own phrases for the world's weather and places — live here too.
+_Avoid_: thought, belief, quote
 
 **Need**:
 What the Mind lacks and asks of the Episode: something the body or spirit wants (food, water, rest, healing, relief from the shadow) or an open loop it carries (a Thread). Always told with what caused it. Reaches the Lens when it is new, worsening or touched by the Episode; past an urgency threshold it always speaks, even unchanged.
@@ -139,5 +147,5 @@ A place description the Host keeps in several conditioned versions — base plus
 _Avoid_: seasonal phrase, weather text, conditional description
 
 **Accent**:
-A Character's exceptions to the World voice: a few ranges or phrases they say differently. Everything not accented falls back to the World voice.
+(absorbed into **Musing**) — a Character's own phrasing for the world's conditions now lives among their authored inner voice, not in an exceptions table.
 _Avoid_: override, band override
