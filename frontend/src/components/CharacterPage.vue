@@ -40,6 +40,9 @@ const abilityList = computed(() => [
   { label: t('character.abilities.lore'), value: props.character.skill_lore ?? 0 },
   { label: t('character.abilities.stealth'), value: props.character.skill_stealth ?? 0 },
   { label: t('character.abilities.endurance'), value: props.character.skill_endurance ?? 0 },
+  { label: t('character.abilities.insight'), value: props.character.skill_insight ?? 0 },
+  { label: t('character.abilities.deception'), value: props.character.skill_deception ?? 0 },
+  { label: t('character.abilities.intimidation'), value: props.character.skill_intimidation ?? 0 },
 ])
 
 const isFatigued = computed(() => (props.character.fatigue ?? 0) > 40)
