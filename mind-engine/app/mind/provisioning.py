@@ -283,6 +283,14 @@ DEFAULT_WIRING = {
     # the protagonist — but never reflect (LLM stays a protagonist cost)
     # and defer decay/pattern consolidation to POST /maintenance/consolidate.
     'degraded': False,
+    # Dormant action traits (#59): who the character is when it acts —
+    # data from day one, no mechanism reads them until Decision (#62).
+    # A mold overrides any of them in mold_wiring like any other key.
+    'trait_impulso': 0.5,
+    'trait_deliberacion': 0.5,
+    'trait_integridad': 0.5,
+    'trait_coraje': 0.5,
+    'trait_corruptibilidad': 0.5,
 }
 
 NEUTRAL_MOOD = {'valence': 0.0, 'arousal': 0.0, 'dominant': 'neutral'}

@@ -160,6 +160,7 @@ export interface TraitView {
   label: string
   low: string
   high: string
+  dormant?: boolean
   help: string
 }
 
