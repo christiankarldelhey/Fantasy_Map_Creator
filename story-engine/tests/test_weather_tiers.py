@@ -1,10 +1,12 @@
 # ============================================================================
 # C6 smoke — severe weather is an event, mild weather is ambience
 # ----------------------------------------------------------------------------
-# _semantic_tags tiers climate data: mild tags (wet/windy) mark ambience;
-# severe tags (storm/snow/deep_cold/scorching) pair with 'severity.<tag>'
-# wiring floors so a hard day of weather carries real salience and
-# encodes — drizzle never does. Both feed 'affect.tag:weather:*' valence.
+# The host declares 'weather:*' tiers on climate events (#53 — the mind
+# never derives tags from raw numbers). Mild tags (wet/windy) mark
+# ambience; severe tags (storm/snow/deep_cold/scorching) pair with
+# 'severity.<tag>' wiring floors so a hard day of weather carries real
+# salience and encodes — drizzle never does. Both feed
+# 'affect.tag:weather:*' valence.
 # ============================================================================
 import uuid
 
@@ -23,11 +25,11 @@ def _uid(prefix):
     return f'{prefix}-{uuid.uuid4().hex[:8]}'
 
 
-def _climate(**data):
+def _climate(tags=(), **data):
     return {
         'type': 'climate',
         'when': {'episode': 1, 'date': '1950-04-15', 'phase': 'afternoon'},
-        'data': data,
+        'data': {**data, 'tags': list(tags)},
     }
 
 
@@ -46,6 +48,7 @@ def test_drizzle_stays_ambient(client):
     """A wet, breezy afternoon is background: wet/windy tags, low
     severity, low salience."""
     item = _open(client, _uid('drizzle'), [_climate(
+        ['weather:wet', 'weather:windy'],
         precipitation=1.0, wind_speed_10m=20, temperature_2m=12,
     )])
     assert 'tag:weather:wet' in item['tags']
@@ -55,9 +58,10 @@ def test_drizzle_stays_ambient(client):
 
 
 def test_storm_is_an_event(client):
-    """Gale-force wind crosses the storm tier: severity floor applies,
-    salience jumps, valence goes negative — the day is *about* weather."""
+    """A declared storm tier crosses the severity floor: salience jumps,
+    valence goes negative — the day is *about* weather."""
     storm = _open(client, _uid('storm'), [_climate(
+        ['weather:storm'],
         precipitation=2.0, wind_speed_10m=60, temperature_2m=8,
     )])
     assert 'tag:weather:storm' in storm['tags']
@@ -65,23 +69,17 @@ def test_storm_is_an_event(client):
     assert storm['valence'] < 0
 
     drizzle = _open(client, _uid('calm'), [_climate(
+        ['weather:wet', 'weather:windy'],
         precipitation=1.0, wind_speed_10m=20, temperature_2m=12,
     )])
     assert storm['salience'] > drizzle['salience']
 
 
-def test_storm_by_heavy_phase_precipitation(client):
-    """A phase with truly heavy summed precipitation is also a storm,
-    even without gale winds."""
-    item = _open(client, _uid('deluge'), [_climate(
-        precipitation=12.0, wind_speed_10m=10, temperature_2m=15,
-    )])
-    assert 'tag:weather:storm' in item['tags']
-    assert item['severity'] == 0.6
-
-
-def test_snow_and_deep_cold_tiers(client):
+def test_severe_tiers_carry_floors(client):
+    """Snow, deep cold and scorching all carry severity floors; the
+    strongest wins — declared tiers, not derived ones."""
     item = _open(client, _uid('snow'), [_climate(
+        ['weather:snow', 'weather:deep_cold', 'weather:freezing'],
         precipitation=2.0, temperature_2m=-12, wind_speed_10m=10,
     )])
     assert 'tag:weather:snow' in item['tags']

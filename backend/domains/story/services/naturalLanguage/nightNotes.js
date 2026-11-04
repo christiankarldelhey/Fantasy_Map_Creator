@@ -58,6 +58,12 @@ const CALM_PHRASES = [
   'A calm, uneventful night leaves the traveller rested by morning.',
 ];
 
+// A shelterless night, host-side (#53): the world voice — not the mind —
+// owns how open sky reads.
+export const REST_OPEN_SKY =
+  'No specific resting place presents itself. The night is spent under '
+  + 'open sky, with whatever shelter the land and the weather allow.';
+
 /** Aggregate the overnight samples into the few numbers the rules need. */
 function nightWeatherSummary(samples) {
   const winds = samples

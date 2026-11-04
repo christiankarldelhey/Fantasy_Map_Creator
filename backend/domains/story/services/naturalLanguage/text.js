@@ -40,3 +40,10 @@ export function readableType(type) {
 export function regionNamesOf(regions) {
   return (regions || []).map((r) => (typeof r === 'string' ? r : r.name));
 }
+
+/** A slug is a key, not a name: 'large_patrol' -> 'large patrol'. */
+export function humanize(value) {
+  if (value == null) return null;
+  const s = String(value).trim();
+  return s ? s.replace(/[_-]/g, ' ') : null;
+}

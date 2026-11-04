@@ -154,7 +154,8 @@ def test_two_minds_feel_the_same_world_differently(client):
     rain = {
         'type': 'climate',
         'when': {'episode': 1, 'date': '1950-01-19'},
-        'data': {'temperature_2m': 10, 'precipitation': 1.0},
+        'data': {'temperature_2m': 10, 'precipitation': 1.0,
+                 'tags': ['weather:wet']},
     }
     _open_and_close(client, stoic, 'd1', [rain])
     assert _perceived(stoic)['valence'] == 0.0

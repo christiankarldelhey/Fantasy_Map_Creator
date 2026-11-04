@@ -316,3 +316,56 @@ export function formatMoonNightPhrase(moon, meanCloud) {
   if (typeof meanCloud === 'number' && meanCloud >= HEAVY_CLOUD_COVER) return null;
   return MOON_NIGHT_PHRASES.full_moon;
 }
+
+// ============================================================================
+// Perception contract (#53): declared weather tiers + one-line readings
+// ----------------------------------------------------------------------------
+// A climate event carries aggregated numbers; the host — not the mind —
+// turns them into meaning. `weatherTags` declares the tiers the mind's
+// wiring keys against ('tag:weather:storm' severity floors, affect
+// valences, pattern streaks); `weatherReading` is the same one-line
+// perception the old resolver composed from the band tables.
+// ============================================================================
+
+const STORM_PRECIP_MIN = 8.0;
+
+/**
+ * 'weather:*' tags for one aggregated climate event
+ * {temperature_2m, precipitation, wind_speed_10m}. Severe tiers first —
+ * a snow day is also freezing, both tags apply.
+ */
+export function weatherTags(data = {}) {
+  const temp = data.temperature_2m;
+  const prec = data.precipitation;
+  const wind = data.wind_speed_10m;
+  const tags = [];
+  if (temp != null && temp <= SNOW_TEMP_MAX && prec != null
+      && prec >= WET_PRECIPITATION_MIN) tags.push('weather:snow');
+  if (temp != null && temp <= DEEP_COLD_MAX) tags.push('weather:deep_cold');
+  if (temp != null && temp >= SCORCHING_MIN) tags.push('weather:scorching');
+  if ((wind != null && wind >= STORM_WIND_MIN)
+      || (prec != null && prec >= STORM_PRECIP_MIN)) tags.push('weather:storm');
+  if (temp != null && temp <= SNOW_TEMP_MAX) tags.push('weather:freezing');
+  if (prec != null && prec >= WET_PRECIPITATION_MIN) tags.push('weather:wet');
+  if (wind != null && wind >= WINDY_SPEED_MIN) tags.push('weather:windy');
+  return tags;
+}
+
+/**
+ * One-line reading of an aggregated climate event — the deterministic
+ * band composition the mind used to perform itself.
+ */
+export function weatherReading(data = {}, rng = Math.random) {
+  const parts = [
+    bandPhrase(TEMPERATURE_BANDS, data.temperature_2m, rng),
+    bandPhrase(CLOUD_BANDS, data.cloud_cover, rng),
+  ];
+  const wind = data.wind_speed_10m;
+  if (wind != null && wind > WINDY_SPEED_MIN) parts.push('windy');
+  const prec = data.precipitation;
+  if (prec != null) {
+    if (prec > WET_PRECIPITATION_MIN) parts.push('wet');
+    else if (prec > 0) parts.push('a passing shower');
+  }
+  return parts.filter(Boolean).join(', ') || null;
+}

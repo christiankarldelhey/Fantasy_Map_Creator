@@ -122,6 +122,71 @@ test('toEvents emits the generic contract from a resolved day', () => {
   assert.equal(body.data.days_without_food, 3);
 });
 
+test('events declare readings and weather tiers (the tagger contract)', () => {
+  const events = toEvents({
+    day: DAY,
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    stateContext: {
+      startState: { energy: 90, shadow: 10, wounded: 'none' },
+      endState: { energy: 50, shadow: 30, wounded: 'light' },
+    },
+  });
+
+  // Climate: the host declares the tiers the mind's wiring keys
+  // against — a mild windy morning, a wet afternoon, a freezing night.
+  const byPhase = Object.fromEntries(
+    events.filter((e) => e.type === 'climate')
+      .map((e) => [e.when.phase, e.data]),
+  );
+  assert.deepEqual(byPhase.morning.tags, ['weather:windy']);
+  assert.deepEqual(byPhase.afternoon.tags, ['weather:wet']);
+  assert.deepEqual(byPhase.night.tags, ['weather:freezing']);
+  assert.equal(typeof byPhase.morning.reading, 'string');
+
+  // Every narrative event carries a one-line reading the mind keeps
+  // verbatim — subject and detail, never raw numbers.
+  const encounter = events.find((e) => e.type === 'encounter');
+  assert.equal(
+    encounter.data.reading,
+    'Corpse Candles — blocks the path outright',
+  );
+  const meals = events.filter((e) => e.type === 'meal');
+  assert.equal(meals[0].data.reading, 'bread, water');
+  assert.equal(meals[1].data.reading, 'water');
+  assert.equal(
+    events.find((e) => e.type === 'place').data.reading, 'Amon Sul',
+  );
+  assert.equal(
+    events.find((e) => e.type === 'rest').data.reading,
+    'The night is spent under open sky.',
+  );
+  assert.equal(
+    events.find((e) => e.type === 'terrain').data.reading,
+    'rocky slopes',
+  );
+  // Vitals and mileage never narrate — they speak through needs/mood.
+  assert.equal(events.find((e) => e.type === 'body').data.reading, undefined);
+  assert.equal(events.find((e) => e.type === 'travel').data.reading, undefined);
+});
+
+test('a shelterless night declares the open-sky reading itself', () => {
+  const events = toEvents({
+    day: {
+      ...DAY,
+      overnight_interaction: {
+        rest_quality: 'poor',
+        scope: 'hardcoded_fallback',
+      },
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    stateContext: {},
+  });
+  const rest = events.find((e) => e.type === 'rest');
+  assert.match(rest.data.reading, /under open sky/);
+});
+
 test('encounters carry the resolved substance of contact (C16)', () => {
   const events = toEvents({
     day: {

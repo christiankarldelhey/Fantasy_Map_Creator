@@ -77,9 +77,11 @@ def test_band_override_rewrites_the_reading(client):
     assert 'a bitter Shire frost' in reading_after
 
 
-def test_threshold_override_changes_semantic_tags(client):
-    """A brain with a sky-high rain threshold never feels 'wet' — its
-    climate events lose tag:weather:wet and the 'wet' reading."""
+def test_threshold_override_changes_the_fallback_reading(client):
+    """A brain with a sky-high rain threshold never feels 'wet' in its
+    *composed* reading. Tags are host-declared now (#53) — the mind no
+    longer derives 'tag:weather:wet' from numbers at all; the pack
+    threshold only survives inside the legacy reading fallback."""
     plain = _uid('plain')
     stoic = _uid('stoic')
     p0 = _open(client, plain, [_climate()])['psyche_packet']
@@ -89,10 +91,10 @@ def test_threshold_override_changes_semantic_tags(client):
     s0 = _open(client, stoic, [_climate()], ref='d2')['psyche_packet']
 
     assert 'wet' in p0['perceived_day'][0]['reading']
-    assert 'tag:weather:wet' in p0['perceived_day'][0]['tags']
     assert s0_before['perceived_day'][0]['reading'] == \
         p0['perceived_day'][0]['reading']
     assert 'wet' not in s0['perceived_day'][0]['reading']
+    # Undeclared means absent: no weather tags without the host saying so.
     assert 'tag:weather:wet' not in s0['perceived_day'][0]['tags']
 
 
