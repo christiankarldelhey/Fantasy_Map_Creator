@@ -109,8 +109,8 @@ How the Mind feels as it enters an Episode, always told through what caused it (
 _Avoid_: emotion label, affect, dominant
 
 **Trait**:
-A human-scale dial of how a Mind works (how fast it forgets, how much it notices, how deeply things affect it). One Trait moves many engine settings at once.
-_Avoid_: knob, wiring, parameter
+A human-scale dial of who the Mind is — how much things affect it, how much it notices, how it clings to what it believes, how the new attracts it. A living Trait acts every Episode (one dial moves many engine settings at once); a dormant Trait speaks to how the Character will act — carried as data from day one, waiting for its mechanism. Never a measure of memory or habit: those are internals, not personality.
+_Avoid_: knob, wiring, parameter, stat, ability
 
 **Concern**:
 Something a Mind gives weight to: it notices it more, remembers it more and evokes it more. Says nothing about whether the Mind likes or fears it.

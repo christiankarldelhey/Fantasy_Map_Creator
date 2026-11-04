@@ -36,7 +36,7 @@
 #      written inside each character's own logic (marked '# new')
 # ============================================================================
 
-CONFIDENCE = 0.6
+STRENGTH = 3.0
 
 # Non-hostile contact — how a friendly or neutral exchange arrived.
 FRIENDLY = [
@@ -95,12 +95,12 @@ def _m(statement, tags):
 
 
 def _a(kind, statement, subject, stance, source='lived',
-       confidence=CONFIDENCE, boosts=None):
+       strength=STRENGTH, boosts=None):
     """An Attitude (CONTEXT.md): a Belief with Subject + Stance. The
     subject does the touching — a narrowest match speaks for the
     encounter, leans its valence, and moves as the encounters go."""
     return {
-        'kind': kind, 'statement': statement, 'confidence': confidence,
+        'kind': kind, 'statement': statement, 'strength': strength,
         'tags': [], 'boosts': dict(boosts or {}),
         'subject': list(subject), 'stance': stance, 'source': source,
     }
@@ -370,7 +370,7 @@ MUSING_PACKS = {
 # person and mostly carried no tags — they could only speak by word luck.
 # Rewritten in the pack's voice with tags the Lens can see:
 # (old statement, new statement, old tags, new tags). Applied to molds AND
-# living brains by 0017 (text and tags only — confidence/evidence, the
+# living brains by 0017 (text and tags only — strength/evidence, the
 # lived part, stay untouched); its downgrade restores the old pair.
 # ============================================================================
 _PEOPLE_0014 = [
@@ -460,7 +460,7 @@ CELEBRIAN_ATTITUDES = [
        F_WOLVES, -0.3),
     _a('other', "The songs say they delved too greedily; we both know "
        "who wrote the songs — and still I keep my distance.",
-       DWARVES, -0.25, source='heard', confidence=0.5),
+       DWARVES, -0.25, source='heard', strength=2.5),
     _a('world', "A troll is malice wearing a mountain; there is nothing "
        "underneath it to mourn.",
        TROLLS, -0.5),

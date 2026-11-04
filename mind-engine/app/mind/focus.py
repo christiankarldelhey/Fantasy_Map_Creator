@@ -36,8 +36,8 @@ _ENGINE_FRAME_TYPES = {'body', 'need'}
 # Game-declared frame types — the pack's 'mind.focus_excluded' phrase list
 # (e.g. travel/terrain/climate in the built-in pack).
 FOCUS_EXCLUDED_KEY = 'mind.focus_excluded'
-# Score of a solitude line: below the weakest touched belief (confidence
-# 0.5 × the candidate floor 0.3), equal for all so rotation chooses.
+# Score of a solitude line: below the weakest touched belief (strength
+# 2.5/5 × the candidate floor 0.3), equal for all so rotation chooses.
 SOLITUDE_SCORE = 0.12
 _STOP = {
     'that', 'this', 'with', 'from', 'than', 'they', 'them', 'their', 'there',
@@ -208,7 +208,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
                 continue
             # A flat score, below anything the day actually touched:
             # free-floating thought yields to what happened, and a wandering
-            # mind surfaces any of its thoughts — confidence doesn't pick,
+            # mind surfaces any of its thoughts — strength doesn't pick,
             # rotation does (else the most-held one speaks every quiet day).
             belief_lines.append({
                 'id': f'belief:{b.id}', 'kind': 'belief', 'part': 'carried',
@@ -222,7 +222,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             'id': f'belief:{b.id}', 'kind': 'belief', 'part': 'day',
             'phase': hit['phase'], 'text': b.statement,
             'score': (
-                (b.confidence or 0.0) * max(hit['score'], salient_min)
+                ((b.strength or 0.0) / 5) * max(hit['score'], salient_min)
                 * (1 + bonus * (overlap - 1))
             ),
             'connects_to': hit['id'], 'tagged': bool(btags),
@@ -254,7 +254,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     # Same tag contact as beliefs (a musing tagged for orc signs still
     # beats a generic one), but a Musing carries nothing to weigh: the
     # moment's salience and tag specificity are the whole score — no
-    # confidence, no attitudes, and 'context:solitude' asks nothing of
+    # strength, no attitudes, and 'context:solitude' asks nothing of
     # the day exactly like a seed belief did.
     musing_lines = []
     for m in musings or []:
@@ -412,7 +412,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         + mood_lines
     )
     # Deterministic variety for a mind with many thoughts: the beliefs
-    # that tie on score (same confidence, same touch) rotate by Episode,
+    # that tie on score (same strength, same touch) rotate by Episode,
     # so a different one speaks each quiet day. Replay-stable: the order
     # depends only on the Episode's own index.
     if episode_idx is not None:

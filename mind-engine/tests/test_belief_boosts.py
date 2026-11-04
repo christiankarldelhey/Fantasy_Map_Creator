@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------
 # beliefs.boosts = {tag: magnitude} adds to the brain's effective
 # theme_weights while the belief stays active and confident
-# (>= belief_boost_min_confidence). Weakened/dead/low beliefs don't bend
+# (>= belief_boost_min_strength). Weakened/dead/low beliefs don't bend
 # anything. The boost lives in data — no config mutation.
 # ============================================================================
 import uuid
@@ -59,7 +59,7 @@ def _superstitious_mold():
     session.add(MoldStarterBelief(
         mold_id=mold.id, kind='world',
         statement='The rain always brings ruin',
-        confidence=0.8, tags=['tag:weather:wet'],
+        strength=4, tags=['tag:weather:wet'],
         boosts={'tag:weather:*': 0.9},
     ))
     session.commit()
@@ -79,7 +79,7 @@ def test_effective_weights_add_active_boosts():
     session.flush()
     session.add(Belief(
         game_id='middle_earth', character_id=char, kind='world',
-        statement='rain means ruin', confidence=0.8, status='active',
+        statement='rain means ruin', strength=4, status='active',
         tags=['tag:weather:wet'], boosts={'tag:weather:wet': 0.5},
     ))
     session.flush()  # autoflush is off project-wide
@@ -89,7 +89,7 @@ def test_effective_weights_add_active_boosts():
     session.close()
 
 
-def test_low_confidence_and_inactive_beliefs_dont_boost():
+def test_low_strength_and_inactive_beliefs_dont_boost():
     session = SessionLocal()
     char = _uid('boost')
     brain = Brain(
@@ -98,10 +98,10 @@ def test_low_confidence_and_inactive_beliefs_dont_boost():
     )
     session.add(brain)
     session.flush()
-    for conf, status in ((0.3, 'active'), (0.9, 'weakened')):
+    for conf, status in ((1.5, 'active'), (4.5, 'weakened')):
         session.add(Belief(
             game_id='middle_earth', character_id=char, kind='world',
-            statement='x', confidence=conf, status=status,
+            statement='x', strength=conf, status=status,
             tags=[], boosts={'tag:weather:wet': 0.9},
         ))
     session.flush()  # autoflush is off project-wide

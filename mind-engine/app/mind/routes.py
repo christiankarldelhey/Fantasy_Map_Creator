@@ -770,10 +770,9 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
             {
                 'id': b.id, 'kind': b.kind, 'horizon': b.horizon,
                 'statement': b.statement,
-                'confidence': b.confidence, 'origin': b.origin,
+                'strength': b.strength, 'origin': b.origin,
                 'status': b.status, 'subject': b.subject,
                 'stance': b.stance, 'source': b.source,
-                'pull': b.pull, 'habit': b.habit,
             }
             for b in beliefs
         ],

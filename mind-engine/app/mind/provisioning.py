@@ -129,11 +129,11 @@ DEFAULT_WIRING = {
     'reflection_every': 5,
     'reflection_importance_min': 0.85,
     'reflection_memory_top': 20,
-    'belief_reinforce_delta': 0.1,
-    'belief_contradict_delta': 0.15,
-    'belief_weaken_below': 0.3,
-    'belief_confidence_decay': 0.95,
-    'belief_trauma_min': 0.9,
+    'belief_reinforce_delta': 0.5,
+    'belief_contradict_delta': 0.75,
+    'belief_weaken_below': 1.5,
+    'belief_strength_decay': 0.95,
+    'belief_trauma_min': 4.5,
     'belief_cap': 12,
     # Seeds shown to a reflection: only those the evidence bears on
     # (touch its memories, or voiced since the last reflection), at most
@@ -161,12 +161,13 @@ DEFAULT_WIRING = {
     'belief_evidence_importance_min': 0.4,
     'belief_evidence_valence_min': 0.2,
     'belief_new_per_reflection': 2,
-    # C14: nothing in Identity fades with the calendar — beliefs only move
-    # on evidence. A transient belief a reflection ignores decays faster
-    # than an enduring one (circumstances unstated are circumstances gone).
+    # C14: a transient belief also fades each closed episode it is not
+    # refreshed (episode fade in memory.py, default ×0.9); a reflection
+    # that ignores it decays it faster still (circumstances unstated are
+    # circumstances gone). Enduring beliefs only know evidence.
     'belief_transient_decay': 0.8,
-    # B6: a belief only bends theme_weights while it stays confident.
-    'belief_boost_min_confidence': 0.6,
+    # B6: a belief only bends theme_weights while it stays strong.
+    'belief_boost_min_strength': 3.0,
     # B8: semantic similarity joins the retrieval score —
     # score += delta_embedding * cosine(episode, memory). 0 disables.
     'delta_embedding': 0.25,
@@ -282,6 +283,14 @@ DEFAULT_WIRING = {
     # the protagonist — but never reflect (LLM stays a protagonist cost)
     # and defer decay/pattern consolidation to POST /maintenance/consolidate.
     'degraded': False,
+    # Dormant action traits (#59): who the character is when it acts —
+    # data from day one, no mechanism reads them until Decision (#62).
+    # A mold overrides any of them in mold_wiring like any other key.
+    'trait_impulso': 0.5,
+    'trait_deliberacion': 0.5,
+    'trait_integridad': 0.5,
+    'trait_coraje': 0.5,
+    'trait_corruptibilidad': 0.5,
 }
 
 NEUTRAL_MOOD = {'valence': 0.0, 'arousal': 0.0, 'dominant': 'neutral'}
@@ -321,13 +330,11 @@ def seed_starter_beliefs(session, game_id, character_id, mold):
     for sb in mold.starter_beliefs:
         b = Belief(
             game_id=game_id, character_id=character_id, kind=sb.kind,
-            statement=sb.statement, confidence=sb.confidence,
+            statement=sb.statement, strength=sb.strength,
             tags=list(sb.tags or []), boosts=dict(sb.boosts or {}),
             evidence=[], origin='seed', status='active',
             subject=list(sb.subject) if sb.subject else None,
             stance=sb.stance, source=sb.source,
-            pull=dict(sb.pull) if sb.pull else None,
-            habit=dict(sb.habit) if sb.habit else None,
         )
         session.add(b)
         seeds.append(b)

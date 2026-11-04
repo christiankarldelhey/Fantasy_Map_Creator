@@ -74,7 +74,7 @@ const PHASE: Record<string, string> = {
       </p>
       <p class="body belief">{{ belief.statement }}</p>
       <dl class="facts">
-        <div><dt>convicción</dt><dd>{{ percent(belief.confidence) }}</dd></div>
+        <div><dt>convicción</dt><dd>{{ percent(belief.strength / 5) }}</dd></div>
         <div><dt>estado</dt><dd>{{ belief.status }}</dd></div>
         <div><dt>alcance</dt><dd>{{ belief.horizon }}</dd></div>
       </dl>
