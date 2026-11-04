@@ -1,12 +1,14 @@
 # ============================================================================
-# Thought packs — authored personality as seed beliefs
+# Musings — the authored inner voice, beside (not inside) the beliefs
 # ----------------------------------------------------------------------------
-# Each thought is a belief (thought_packs.py): it clones with the mold
-# (origin='seed'), speaks through the Lens when the day's own tags put it
-# at stake, and — for the thoughts a person keeps for themselves — when
-# nobody touched the mind at all ('context:solitude'). Seeds are nature:
-# reflection may reinforce or contradict them deliberately but never
-# decays or caps them out of neglect.
+# A Musing (CONTEXT.md · Musing) is a line of inner voice: it clones with
+# the mold (origin='seed'), speaks through the Lens when the day's own
+# tags call it up — including 'context:solitude' when nobody touched the
+# mind — and carries nothing a life could move: no confidence, no status,
+# no facets, and Reflection never sees it.
+#
+# Attitudes (ATTITUDE_PACKS) stay what they always were: faceted Beliefs
+# with Subject + Stance, tested here under the belief rules.
 # ============================================================================
 import uuid
 from types import SimpleNamespace
@@ -19,9 +21,11 @@ from app.mind.voice import PHRASES
 from app.mind.provisioning import get_or_create_brain
 from app.mind.reflection import _apply_ops, reflection_beliefs
 from app.mind.retrieval import _CONTACT_AMBIENT_PREFIXES, _context_tags
-from app.mind.tables import Belief, BrainMold, Episode, MoldStarterBelief
-from app.mind.thought_packs import (
-    ARANATH_THOUGHTS, ATTITUDE_PACKS, CELEBRIAN_THOUGHTS, LEGACY_REWRITES,
+from app.mind.tables import (
+    Belief, BrainMold, Episode, MoldMusing, MoldStarterBelief, Musing,
+)
+from app.mind.musings import (
+    ARANATH_MUSINGS, ATTITUDE_PACKS, CELEBRIAN_MUSINGS, LEGACY_REWRITES,
 )
 
 
@@ -39,6 +43,10 @@ def _belief(statement, tags=(), confidence=0.6, id_='b1'):
                            confidence=confidence)
 
 
+def _musing(statement, tags=(), id_='m1'):
+    return SimpleNamespace(id=id_, statement=statement, tags=list(tags))
+
+
 QUIET = [_event('open moor under a grey sky', 0.3, 'morning', type_='travel'),
          _event('cold drizzle', 0.2, 'afternoon', type_='climate')]
 FRIEND = [_event(
@@ -53,12 +61,12 @@ ORC_SIGN = [_event(
 )]
 
 
-def _belief_lines(brief):
+def _lines_of(brief, kind):
     return [
         l for c in (brief['carried'], *(brief['day'].values() if isinstance(
             brief['day'], dict) else [brief['day']]))
         for l in (c if isinstance(c, list) else [c])
-        if isinstance(l, dict) and l.get('kind') == 'belief'
+        if isinstance(l, dict) and l.get('kind') == kind
     ]
 
 
@@ -80,106 +88,108 @@ def _texts(brief):
 # --- the pack itself ---------------------------------------------------------
 
 def test_packs_are_well_formed():
-    for pack in (CELEBRIAN_THOUGHTS, ARANATH_THOUGHTS):
-        statements = [t['statement'] for t in pack]
+    for pack in (CELEBRIAN_MUSINGS, ARANATH_MUSINGS):
+        statements = [m['statement'] for m in pack]
         assert len(statements) == len(set(statements))
-        for t in pack:
-            assert t['kind'] in ('world', 'self', 'other')
-            assert t['tags'], t['statement']
-            assert 0 < t['confidence'] <= 1
+        for m in pack:
+            # Voice only: statement + the tags that call it up. Anything
+            # more — confidence, kind, boosts — would make it a belief.
+            assert set(m.keys()) == {'statement', 'tags'}
+            assert m['tags'], m['statement']
 
 
 def test_celebrian_speaks_of_orcs_as_a_person():
-    orc_thoughts = [
-        t for t in CELEBRIAN_THOUGHTS
-        if 'tag:entity_type:orcs' in t['tags']
+    orc_musings = [
+        m for m in CELEBRIAN_MUSINGS
+        if 'tag:entity_type:orcs' in m['tags']
     ]
-    assert len(orc_thoughts) >= 2
-    # Her orc-trauma sharpens what stands out — the pack wires the boost.
-    assert any(
-        (t['boosts'] or {}).get('tag:entity_type:orcs', 0) > 0
-        for t in orc_thoughts
-    )
+    assert len(orc_musings) >= 2
 
 
-# --- evocation: when each thought speaks ------------------------------------
+# --- evocation: when each musing speaks --------------------------------------
 
-def test_solitude_thoughts_speak_on_a_day_nobody_touched():
-    thought = _belief(
+def test_solitude_musings_speak_on_a_day_nobody_touched():
+    musing = _musing(
         'Night knows me better than any face I have ever loved.',
         tags=['context:solitude'],
     )
-    brief = build_brief(QUIET, [], [thought], [], {}, episode_idx=1)
-    assert thought.statement in _texts(brief)
-    line = next(l for l in _all_lines(brief) if l['kind'] == 'belief')
+    brief = build_brief(QUIET, [], [], [], {}, episode_idx=1,
+                        musings=[musing])
+    assert musing.statement in _texts(brief)
+    line = next(l for l in _all_lines(brief) if l['kind'] == 'musing')
     assert line['part'] == 'carried'
     assert line['why'] == 'the mind alone with itself'
 
 
-def test_solitude_thoughts_stay_quiet_when_the_day_had_company():
-    thought = _belief('x', tags=['context:solitude'])
-    brief = build_brief(FRIEND, [], [thought], [], {}, episode_idx=1)
+def test_solitude_musings_stay_quiet_when_the_day_had_company():
+    musing = _musing('x', tags=['context:solitude'])
+    brief = build_brief(FRIEND, [], [], [], {}, episode_idx=1,
+                        musings=[musing])
     assert 'x' not in _texts(brief)
+    assert brief['silenced'][0]['kind'] == 'musing'
     assert brief['silenced'][0]['reason'] == 'the day had company'
 
 
-def test_social_thoughts_touch_on_friendly_contact():
-    thought = _belief(
+def test_social_musings_touch_on_friendly_contact():
+    musing = _musing(
         'They speak of tomorrow as if it were a promise.',
         tags=['tag:form:brief_exchange'],
     )
-    brief = build_brief(FRIEND, [], [thought], [], {}, episode_idx=1)
-    assert thought.statement in _texts(brief)
+    brief = build_brief(FRIEND, [], [], [], {}, episode_idx=1,
+                        musings=[musing])
+    assert musing.statement in _texts(brief)
 
 
-def test_orc_thoughts_touch_on_orc_sign_not_on_quiet_days():
-    thought = _belief(
+def test_orc_musings_touch_on_orc_sign_not_on_quiet_days():
+    musing = _musing(
         'When the signs of orcs appear, an old part of me stops counting '
         'years and starts counting arrows.',
         tags=['tag:entity_type:orcs'],
     )
-    brief = build_brief(ORC_SIGN, [], [thought], [], {}, episode_idx=1)
-    assert thought.statement in _texts(brief)
-    brief = build_brief(QUIET, [], [thought], [], {}, episode_idx=1)
-    assert thought.statement not in _texts(brief)
+    brief = build_brief(ORC_SIGN, [], [], [], {}, episode_idx=1,
+                        musings=[musing])
+    assert musing.statement in _texts(brief)
+    brief = build_brief(QUIET, [], [], [], {}, episode_idx=1,
+                        musings=[musing])
+    assert musing.statement not in _texts(brief)
 
 
-def test_equal_thoughts_rotate_by_episode():
-    thoughts = [
-        _belief(f'thought {i}', tags=['context:solitude'], id_=f'b{i}')
+def test_equal_musings_rotate_by_episode():
+    musings = [
+        _musing(f'musing {i}', tags=['context:solitude'], id_=f'm{i}')
         for i in range(8)
     ]
     picks = []
     for idx in range(4):
         brief = build_brief(
-            QUIET, [], thoughts, [], {}, episode_idx=idx
+            QUIET, [], [], [], {}, episode_idx=idx, musings=musings
         )
         picks.append(tuple(
-            l['text'] for l in _all_lines(brief) if l['kind'] == 'belief'
+            l['text'] for l in _all_lines(brief) if l['kind'] == 'musing'
         ))
     # Same quiet day, different episodes: the voice that answers changes.
     assert len(set(picks)) > 1
     # Deterministic: same episode, same answer.
     assert tuple(
         l['text'] for l in _all_lines(
-            build_brief(QUIET, [], thoughts, [], {}, episode_idx=0)
-        ) if l['kind'] == 'belief'
+            build_brief(QUIET, [], [], [], {}, episode_idx=0,
+                        musings=musings)
+        ) if l['kind'] == 'musing'
     ) == picks[0]
 
 
 # --- cloning: the pack becomes the person ------------------------------------
 
-def test_pack_seed_beliefs_clone_with_the_mold():
+def test_pack_musings_clone_with_the_mold():
     session = SessionLocal()
     game_id = 'middle_earth'
     slug = f'celebrian-clone-{uuid.uuid4().hex[:8]}'
     mold = BrainMold(game_id=game_id, slug=slug, name='Celebrian test')
     session.add(mold)
     session.flush()
-    for t in CELEBRIAN_THOUGHTS:
-        session.add(MoldStarterBelief(
-            mold_id=mold.id, kind=t['kind'], statement=t['statement'],
-            confidence=t['confidence'], tags=t['tags'], boosts=t['boosts'],
+    for m in CELEBRIAN_MUSINGS:
+        session.add(MoldMusing(
+            mold_id=mold.id, statement=m['statement'], tags=m['tags'],
         ))
     session.flush()
 
@@ -187,19 +197,94 @@ def test_pack_seed_beliefs_clone_with_the_mold():
         session, game_id, f'cel-{uuid.uuid4().hex[:8]}', slug
     )
     session.flush()
-    seeds = (
-        session.query(Belief)
+    musings = (
+        session.query(Musing)
         .filter_by(character_id=brain.character_id, origin='seed')
         .all()
     )
-    assert len(seeds) == len(CELEBRIAN_THOUGHTS)
-    by_statement = {b.statement: b for b in seeds}
-    thought = next(
-        t for t in CELEBRIAN_THOUGHTS
-        if (t['boosts'] or {}).get('tag:entity_type:orcs')
+    assert len(musings) == len(CELEBRIAN_MUSINGS)
+    # …and none of them leaked into the beliefs.
+    beliefs = (
+        session.query(Belief)
+        .filter_by(character_id=brain.character_id)
+        .all()
     )
-    clone = by_statement[thought['statement']]
-    assert clone.boosts['tag:entity_type:orcs'] == pytest.approx(0.3)
+    assert beliefs == []
+    session.rollback()
+    session.close()
+
+
+def test_reset_reseeds_musings_and_leaves_beliefs_alone():
+    session = SessionLocal()
+    game_id = 'middle_earth'
+    slug = f'musing-reset-{uuid.uuid4().hex[:8]}'
+    mold = BrainMold(game_id=game_id, slug=slug, name='reset test')
+    session.add(mold)
+    session.flush()
+    session.add(MoldMusing(
+        mold_id=mold.id, statement='a voice that returns', tags=['x'],
+    ))
+    session.add(MoldStarterBelief(
+        mold_id=mold.id, kind='other', statement='a stance that returns',
+        confidence=0.6, tags=[], subject=['tag:entity_type:orcs'],
+        stance=-0.5, source='lived',
+    ))
+    session.flush()
+    brain = get_or_create_brain(
+        session, game_id, f'rst-{uuid.uuid4().hex[:8]}', slug
+    )
+    session.flush()
+    kinds = {
+        type(r).__name__ for r in session.query(Musing).filter_by(
+            character_id=brain.character_id).all()
+    } | {
+        type(r).__name__ for r in session.query(Belief).filter_by(
+            character_id=brain.character_id).all()
+    }
+    assert kinds == {'Musing', 'Belief'}
+    session.rollback()
+    session.close()
+
+
+# --- what a musing is NOT ----------------------------------------------------
+
+def test_a_musing_carries_nothing_a_life_could_move():
+    """The columns are the contract: no confidence, no status, no
+    evidence, no facets — nothing Reflection could touch."""
+    m = Musing(
+        game_id='g', character_id='c', statement='x', tags=[],
+    )
+    for absent in ('confidence', 'status', 'evidence', 'subject',
+                   'stance', 'source', 'boosts', 'pull', 'habit',
+                   'horizon', 'updated_episode'):
+        assert not hasattr(m, absent), absent
+
+
+def test_reflection_never_sees_a_musing():
+    session = SessionLocal()
+    brain = get_or_create_brain(
+        session, 'middle_earth', f'rm-{uuid.uuid4().hex[:8]}', None
+    )
+    char = brain.character_id
+    session.add(Musing(
+        game_id='middle_earth', character_id=char,
+        statement='Orcs ruin everything they touch.',
+        tags=['tag:entity_type:orcs'], origin='seed',
+    ))
+    belief = Belief(
+        game_id='middle_earth', character_id=char, kind='self',
+        statement='The watch never sleeps.', confidence=0.6,
+        tags=['tag:entity_type:orcs'], boosts={}, evidence=[],
+        origin='seed', status='active', horizon='enduring',
+    )
+    session.add(belief)
+    session.flush()
+    memories = [SimpleNamespace(
+        tags=['tag:entity_type:orcs'], desc='orc boots in the mud',
+    )]
+
+    shown = reflection_beliefs(session, brain, memories, 0, {})
+    assert [b.id for b in shown] == [belief.id]
     session.rollback()
     session.close()
 
@@ -215,8 +300,10 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
     for i in range(5):
         b = Belief(
             game_id='middle_earth', character_id=brain.character_id,
-            kind='self', statement=f'seed thought {i}', confidence=0.6,
-            tags=[], boosts={}, evidence=[], origin='seed', status='active',
+            kind='self', statement=f'seed belief {i}', confidence=0.6,
+            tags=['tag:entity_type:orcs'], boosts={}, evidence=[],
+            origin='seed', status='active',
+            subject=['tag:entity_type:orcs'], stance=-0.4,
         )
         session.add(b)
         seeds.append(b)
@@ -249,17 +336,17 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
     session.close()
 
 
-# --- the auditor: every thought in the pack must be able to speak -----------
+# --- the auditor: every musing in the pack must be able to speak -------------
 
 FRAME_TYPES = _ENGINE_FRAME_TYPES | set(
     PHRASES['mind.focus_excluded']
 )
 AMBIENT = tuple(p for p in _CONTACT_AMBIENT_PREFIXES if p != 'type:')
-ALL_THOUGHTS = [
-    pytest.param(t, id=f"{who}:{t['statement'][:40]}")
-    for who, pack in (('celebrian', CELEBRIAN_THOUGHTS),
-                      ('aranath', ARANATH_THOUGHTS))
-    for t in pack
+ALL_MUSINGS = [
+    pytest.param(m, id=f"{who}:{m['statement'][:40]}")
+    for who, pack in (('celebrian', CELEBRIAN_MUSINGS),
+                      ('aranath', ARANATH_MUSINGS))
+    for m in pack
 ] + [
     pytest.param({'statement': new, 'tags': tags}, id=f'{who}:0014:{new[:30]}')
     for who, rewrites in LEGACY_REWRITES.items()
@@ -278,12 +365,12 @@ def _day_for(tag):
                    ['type:encounter', tag])]
 
 
-@pytest.mark.parametrize('thought', ALL_THOUGHTS)
-def test_every_tag_is_one_the_lens_can_see(thought):
-    """A tag the Lens never compares is a silent bug: the thought looks
+@pytest.mark.parametrize('musing', ALL_MUSINGS)
+def test_every_tag_is_one_the_lens_can_see(musing):
+    """A tag the Lens never compares is a silent bug: the musing looks
     wired in Studio and never speaks. Frame types never reach the Lens
     as events; ambient prefixes are stripped before contact."""
-    for tag in thought['tags']:
+    for tag in musing['tags']:
         assert not tag.startswith(AMBIENT), tag
         if tag.startswith('type:'):
             assert tag.split(':', 1)[1] not in FRAME_TYPES, tag
@@ -292,31 +379,33 @@ def test_every_tag_is_one_the_lens_can_see(thought):
         ), tag
 
 
-@pytest.mark.parametrize('thought', ALL_THOUGHTS)
-def test_every_tag_actually_evokes_its_thought(thought):
+@pytest.mark.parametrize('musing', ALL_MUSINGS)
+def test_every_tag_actually_evokes_its_musing(musing):
     """Behavioural audit: for each of its tags, a day carrying that tag
-    makes the thought speak. Catches whatever filter comes next."""
-    b = _belief(thought['statement'], tags=thought['tags'])
-    for tag in thought['tags']:
-        brief = build_brief(_day_for(tag), [], [b], [], {}, episode_idx=0)
-        assert b.statement in _texts(brief), tag
+    makes the musing speak. Catches whatever filter comes next."""
+    m = _musing(musing['statement'], tags=musing['tags'])
+    for tag in musing['tags']:
+        brief = build_brief(_day_for(tag), [], [], [], {},
+                            episode_idx=0, musings=[m])
+        assert m.statement in _texts(brief), tag
 
 
-# --- fix A: beliefs answer to the kind of moment -----------------------------
+# --- musings answer to the kind of moment ------------------------------------
 
-def test_a_campfire_thought_speaks_on_a_night_of_rest():
-    fire = _belief(
+def test_a_campfire_musing_speaks_on_a_night_of_rest():
+    fire = _musing(
         'The small fire of a campfire is worth more than a thousand '
         'torches lit out of fear.', tags=['type:rest'],
     )
     night = [_event('they make camp under the beeches', 0.6, 'night',
                     ['type:rest', 'tag:rest_quality:fair'], type_='rest')]
-    brief = build_brief(night, [], [fire], [], {}, episode_idx=0)
+    brief = build_brief(night, [], [], [], {}, episode_idx=0,
+                        musings=[fire])
     assert fire.statement in _texts(brief)
 
 
 def test_memories_still_ignore_the_kind_of_moment():
-    """The kind of moment opens beliefs only — the brief never leaks
+    """The kind of moment opens voice lines only — the brief never leaks
     touch_tags, and events keep content-only tags."""
     night = [_event('camp', 0.6, 'night', ['type:rest'], type_='rest')]
     brief = build_brief(night, [], [], [], {}, episode_idx=0)
@@ -327,12 +416,13 @@ def test_memories_still_ignore_the_kind_of_moment():
 # --- fix C: alone with a striking sight is still alone -----------------------
 
 def test_solitude_speaks_beside_a_focus_when_nobody_was_there():
-    thought = _belief('Solitude is not emptiness.', tags=['context:solitude'])
+    musing = _musing('Solitude is not emptiness.', tags=['context:solitude'])
     ruin = [_event('the broken towers of Amon Sûl against the dusk', 0.8,
                    'afternoon', ['type:place', 'tag:ruin'], type_='place')]
-    brief = build_brief(ruin, [], [thought], [], {}, episode_idx=0)
+    brief = build_brief(ruin, [], [], [], {}, episode_idx=0,
+                        musings=[musing])
     assert brief['focus'] is not None
-    assert thought.statement in _texts(brief)
+    assert musing.statement in _texts(brief)
 
 
 # --- part 3: retrieval context holds only the beliefs the day activated ------
@@ -366,8 +456,8 @@ def test_reflection_sees_touched_voiced_and_learned_beliefs_only():
     char = brain.character_id
     orc = _seed(session, char, 'The watch never sleeps.',
                 ['tag:entity_type:orcs'])
-    lonely = _seed(session, char, 'Quiet thought one.', ['context:solitude'])
-    voiced = _seed(session, char, 'Quiet thought two.', ['context:solitude'])
+    lonely = _seed(session, char, 'Quiet belief one.', ['context:solitude'])
+    voiced = _seed(session, char, 'Quiet belief two.', ['context:solitude'])
     learned = _seed(session, char, 'This ford is watched.', [],
                     origin='reflected')
     passing = _seed(session, char, 'The inn is full tonight.', [],
@@ -397,7 +487,7 @@ def test_reflection_seed_cap_keeps_the_most_touched():
     brain = get_or_create_brain(
         session, 'middle_earth', f'rc-{uuid.uuid4().hex[:8]}', None
     )
-    weak = [_seed(session, brain.character_id, f'orc thought {i}',
+    weak = [_seed(session, brain.character_id, f'orc belief {i}',
                   ['tag:entity_type:orcs']) for i in range(30)]
     strong = _seed(session, brain.character_id, 'orc and wound',
                    ['tag:entity_type:orcs', 'tag:outcome:wounded'])
@@ -420,14 +510,15 @@ def test_reflection_seed_cap_keeps_the_most_touched():
 
 def test_a_quiet_day_still_hears_the_campfire():
     """Live run, day 5: a rest at salience 0.19 is no Focus candidate,
-    yet the thought about the campfire is exactly about it."""
-    fire = _belief('The small fire of a campfire…', tags=['type:rest'],
+    yet the musing about the campfire is exactly about it."""
+    fire = _musing('The small fire of a campfire…', tags=['type:rest'],
                    id_='fire')
-    alone = _belief('Solitude is not emptiness.', tags=['context:solitude'],
+    alone = _musing('Solitude is not emptiness.', tags=['context:solitude'],
                     id_='alone')
     day = QUIET + [_event('a small fire under old beeches', 0.19, 'night',
                           ['type:rest'], type_='rest')]
-    brief = build_brief(day, [], [fire, alone], [], {}, episode_idx=0)
+    brief = build_brief(day, [], [], [], {}, episode_idx=0,
+                        musings=[fire, alone])
     assert brief['focus'] is None
     score = {l['text']: l['score'] for l in _all_lines(brief)}
     assert fire.statement in score
@@ -435,47 +526,48 @@ def test_a_quiet_day_still_hears_the_campfire():
     assert score[fire.statement] > score[alone.statement]
 
 
-def test_tagged_thoughts_do_not_match_by_word_luck():
-    """Live run, day 2: 'space' met 'wide-spaced'. A tagged belief now
+def test_tagged_musings_do_not_match_by_word_luck():
+    """Live run, day 2: 'space' met 'wide-spaced'. A tagged line now
     touches by tag only; untagged ones keep the word door."""
-    poem = _belief('Solitude is not emptiness; it is space to remember.',
+    poem = _musing('Solitude is not emptiness; it is space to remember.',
                    tags=['tag:entity_type:elves'], id_='poem')
-    plain = _belief('Wide tracks mean many feet.', id_='plain')
+    plain = _musing('Wide tracks mean many feet.', id_='plain')
     tracks = [_event('orc boots in the mud, wide-spaced', 0.7, 'afternoon',
                      ['type:encounter', 'tag:entity_type:orcs'])]
-    brief = build_brief(tracks, [], [poem, plain], [], {}, episode_idx=0)
+    brief = build_brief(tracks, [], [], [], {}, episode_idx=0,
+                        musings=[poem, plain])
     texts = _texts(brief)
     assert poem.statement not in texts
     assert plain.statement in texts
 
 
-def test_the_more_specific_thought_wins():
+def test_the_more_specific_musing_wins():
     """Live run, day 2: orcs AND signs beats orcs alone or signs alone,
     whatever the rotation says."""
     tracks = [_event('orc boots in the mud', 0.7, 'afternoon',
                      ['type:encounter', 'tag:entity_type:orcs',
                       'tag:form:sign_only'])]
     generic = [
-        _belief(f'about orcs {i}', tags=['tag:entity_type:orcs'],
+        _musing(f'about orcs {i}', tags=['tag:entity_type:orcs'],
                 id_=f'g{i}')
         for i in range(5)
     ]
-    specific = _belief('orcs and their signs',
+    specific = _musing('orcs and their signs',
                        tags=['tag:entity_type:orcs', 'tag:form:sign_only'],
                        id_='s')
     for idx in range(6):
-        brief = build_brief(tracks, [], generic + [specific], [], {},
-                            episode_idx=idx)
+        brief = build_brief(tracks, [], [], [], {}, episode_idx=idx,
+                            musings=generic + [specific])
         assert specific.statement in _texts(brief), idx
 
 
-def test_every_seed_speaks_in_the_first_person():
+def test_every_musing_speaks_in_the_first_person():
     """Live run, day 4: 'She trusts growing things…' broke the voice."""
     import re
     third = re.compile(r'^(She|He)\b')
-    for pack in (CELEBRIAN_THOUGHTS, ARANATH_THOUGHTS):
-        for t in pack:
-            assert not third.match(t['statement']), t['statement']
+    for pack in (CELEBRIAN_MUSINGS, ARANATH_MUSINGS):
+        for m in pack:
+            assert not third.match(m['statement']), m['statement']
     for rewrites in LEGACY_REWRITES.values():
         for _old, new, _o, _n in rewrites:
             assert not third.match(new), new
@@ -511,7 +603,7 @@ def test_attitudes_are_well_formed():
 
 @pytest.mark.parametrize('who,attitude', ALL_ATTITUDES)
 def test_every_attitude_subject_actually_touches(who, attitude):
-    """Same behavioural audit as the thoughts: a day carrying each of
+    """Same behavioural audit as the musings: a day carrying each of
     the subject's tags makes the attitude speak in the brief."""
     b = _belief(attitude['statement'], id_=f'{who}-a')
     b.subject = list(attitude['subject'])

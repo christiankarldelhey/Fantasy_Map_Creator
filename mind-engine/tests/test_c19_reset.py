@@ -16,7 +16,8 @@ import app.main as main_module
 from app.db import SessionLocal
 from app.mind.provisioning import NEUTRAL_MOOD
 from app.mind.tables import (
-    Belief, Brain, BrainMold, Episode, Memory, MoldStarterBelief, Need,
+    Belief, Brain, BrainMold, Episode, Memory, MoldMusing,
+    MoldStarterBelief, Musing, Need,
 )
 
 
@@ -70,6 +71,10 @@ def lived_brain(client):
         mold_id=mold.id, kind='self', confidence=0.9,
         statement='The road is all she has.', tags=[], boosts=None,
     ))
+    session.add(MoldMusing(
+        mold_id=mold.id, statement='The road hums under her feet.',
+        tags=['context:solitude'],
+    ))
     session.commit()
 
     character_id = _uid('reset-char')
@@ -100,7 +105,7 @@ def lived_brain(client):
     yield {'character_id': character_id, 'mold_slug': slug, 'episode': ep}
 
     session = SessionLocal()
-    for model in (Memory, Belief, Need, Episode, Brain):
+    for model in (Memory, Belief, Need, Episode, Brain, Musing):
         session.query(model).filter_by(
             game_id=GAME, character_id=character_id).delete()
     session.query(BrainMold).filter_by(game_id=GAME, slug=slug).delete()
@@ -118,7 +123,8 @@ def test_reset_wipes_lived_content_and_reseeds(client, lived_brain):
     assert out['deleted']['memories'] >= 1
     assert out['deleted']['beliefs'] >= 2  # seed + learned, all die
     assert out['deleted']['needs'] >= 1
-    assert out['seeds'] == 1
+    assert out['deleted']['musings'] >= 1
+    assert out['seeds'] == 2
 
     session = SessionLocal()
     brain = (
@@ -142,6 +148,11 @@ def test_reset_wipes_lived_content_and_reseeds(client, lived_brain):
     assert beliefs[0].origin == 'seed'
     assert beliefs[0].statement == 'The road is all she has.'
     assert beliefs[0].status == 'active'
+    musings = session.query(Musing).filter_by(
+        game_id=GAME, character_id=character_id).all()
+    assert [m.statement for m in musings] == [
+        'The road hums under her feet.'
+    ]
     session.close()
 
 
@@ -149,12 +160,15 @@ def test_reset_is_idempotent(client, lived_brain):
     character_id = lived_brain['character_id']
     _reset(client, character_id)
     out = _reset(client, character_id)
-    assert out['seeds'] == 1
+    assert out['seeds'] == 2
 
     session = SessionLocal()
     beliefs = session.query(Belief).filter_by(
         game_id=GAME, character_id=character_id).all()
     assert len(beliefs) == 1
+    musings = session.query(Musing).filter_by(
+        game_id=GAME, character_id=character_id).all()
+    assert len(musings) == 1
     session.close()
 
 
@@ -163,6 +177,6 @@ def test_reset_without_brain_is_a_safe_noop(client):
     assert out['brain'] is None
     assert out['deleted'] == {
         'memories': 0, 'forgotten': 0, 'beliefs': 0, 'needs': 0,
-        'episodes': 0,
+        'episodes': 0, 'musings': 0,
     }
     assert out['seeds'] == 0

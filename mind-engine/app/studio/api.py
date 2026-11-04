@@ -23,7 +23,8 @@ from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import (
-    Belief, Brain, Character, Episode, ForgottenMemory, Memory, Need,
+    Belief, Brain, Character, Episode, ForgottenMemory, Memory, Musing,
+    Need,
 )
 from app.mind.traits import TRAITS, apply_trait, traits_of
 
@@ -143,7 +144,8 @@ def _brief_lens_lines(brief, narrative):
                 'why': line.get('why'),
                 'ref': (
                     {'kind': kind, 'id': ref_id}
-                    if kind in ('belief', 'memory', 'need') and ref_id
+                    if kind in ('belief', 'memory', 'need', 'musing')
+                    and ref_id
                     else None
                 ),
                 'resonated': bool(narrative) and memory_echoes_in_text(
@@ -299,6 +301,7 @@ def get_mind(
         .all()
     )
     beliefs = db.query(Belief).filter_by(**scope).all()
+    musings = db.query(Musing).filter_by(**scope).all()
     needs = db.query(Need).filter_by(**scope).all()
     memories = (
         [_memory_out(m) for m in db.query(Memory).filter_by(**scope)]
@@ -383,6 +386,16 @@ def get_mind(
                 'updated_episode': b.updated_episode,
             }
             for b in beliefs
+        ],
+        'musings': [
+            {
+                'id': m.id,
+                'statement': m.statement,
+                'tags': m.tags or [],
+                'origin': m.origin,
+                'born_episode': m.formed_episode,
+            }
+            for m in musings
         ],
         'needs': [
             {

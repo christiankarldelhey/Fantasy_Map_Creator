@@ -6,10 +6,10 @@
 //
 //   1. Reassigns each brain to the mold its character declares
 //      (template slug for clones, own slug for templates).
-//   2. Inserts that mold's starter beliefs as origin='seed' rows the
-//      character doesn't already have (matched by statement).
+//   2. Inserts that mold's starter beliefs and musings as origin='seed'
+//      rows the character doesn't already have (matched by statement).
 //
-// Idempotent — safe to re-run after adding starter beliefs to a mold.
+// Idempotent — safe to re-run after adding starter rows to a mold.
 //
 //   node scripts/mind_personality_backfill.js
 // ============================================================================
@@ -79,9 +79,31 @@ async function run() {
       );
       seeded += res.rowCount;
     }
+
+    const { rows: moldMusings } = await pool.query(
+      'SELECT statement, tags FROM mind.mold_musings WHERE mold_id = $1',
+      [mold.id]
+    );
+    for (const mm of moldMusings) {
+      const res = await pool.query(
+        `INSERT INTO mind.musings
+           (id, game_id, character_id, statement, tags, origin)
+         SELECT 'mu_' || md5(random()::text || clock_timestamp()::text),
+                $1::varchar, $2::varchar, $3, $4::jsonb, 'seed'
+         WHERE NOT EXISTS (
+           SELECT 1 FROM mind.musings
+           WHERE game_id = $1::varchar AND character_id = $2::varchar AND statement = $3
+         )`,
+        [
+          GAME_ID, characterId, mm.statement,
+          JSON.stringify(mm.tags || []),
+        ]
+      );
+      seeded += res.rowCount;
+    }
   }
 
-  console.log(`[backfill] brains reassigned: ${reassigned}, seed beliefs inserted: ${seeded}`);
+  console.log(`[backfill] brains reassigned: ${reassigned}, seeds inserted: ${seeded}`);
 }
 
 run()

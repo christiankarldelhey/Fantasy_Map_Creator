@@ -29,6 +29,7 @@ new_brain_id = _new_id('br')
 new_belief_id = _new_id('bl')
 new_memory_id = _new_id('mem')
 new_character_id = _new_id('chr')
+new_musing_id = _new_id('mu')
 
 
 class Episode(Base):
@@ -130,6 +131,8 @@ class BrainMold(Base):
                           cascade='all, delete-orphan')
     starter_beliefs = relationship('MoldStarterBelief', lazy='selectin',
                                    cascade='all, delete-orphan')
+    musings = relationship('MoldMusing', lazy='selectin',
+                           cascade='all, delete-orphan')
 
 
 class MoldThemeWeight(Base):
@@ -177,6 +180,20 @@ class MoldStarterBelief(Base):
     source: Mapped[str] = mapped_column(String(20), nullable=True)
     pull: Mapped[dict] = mapped_column(JSONB, nullable=True)
     habit: Mapped[dict] = mapped_column(JSONB, nullable=True)
+
+
+class MoldMusing(Base):
+    """A Musing at authoring time (CONTEXT.md · Musing): one line of the
+    character's inner voice for a kind of moment, cloned with the mold.
+    Voice only — no confidence, no status, nothing for reflection to touch."""
+
+    __tablename__ = 'mold_musings'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    mold_id: Mapped[int] = mapped_column(
+        ForeignKey(f'{MIND_SCHEMA}.brain_molds.id', ondelete='CASCADE'), nullable=False)
+    statement: Mapped[str] = mapped_column(Text, nullable=False)
+    tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
 
 
 class Brain(Base):
@@ -296,6 +313,24 @@ class Belief(Base):
     habit: Mapped[dict] = mapped_column(JSONB, nullable=True)
     formed_episode: Mapped[int] = mapped_column(Integer, nullable=True)
     updated_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+
+
+class Musing(Base):
+    """A Musing (CONTEXT.md · Musing): an authored line of the character's
+    inner voice — how this person sounds inside in a kind of moment. Flavour
+    for the narration, never evidence: no strength, no status, no facets;
+    Reflection never sees it. Evoked by tag contact exactly like a Belief,
+    through the same Lens lines."""
+
+    __tablename__ = 'musings'
+
+    id: Mapped[str] = mapped_column(String(40), primary_key=True, default=new_musing_id)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    character_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    statement: Mapped[str] = mapped_column(Text, nullable=False)
+    tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    origin: Mapped[str] = mapped_column(String(30), nullable=False, default='seed')
+    formed_episode: Mapped[int] = mapped_column(Integer, nullable=True)
 
 
 class Memory(Base):

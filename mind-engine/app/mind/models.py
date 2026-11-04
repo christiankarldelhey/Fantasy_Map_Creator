@@ -309,6 +309,7 @@ class MindStateResponse(BaseModel):
     beliefs: List[Dict[str, Any]] = []
     memories: List[Dict[str, Any]] = []
     needs: List[Dict[str, Any]] = []
+    musings: List[Dict[str, Any]] = []
     episodes: int = 0
 
 

@@ -2,11 +2,12 @@
 // Episodes — scrubbing the tape only lights, dims or reveals them — so
 // the Mind reads as one physical object that rewires, not a reshuffle.
 //
+//   musings   the innermost ring ("how this person sounds inside")
 //   beliefs   an inner ring around the centre ("what they hold true")
 //   memories  a spiral outward by birth order: the past coils outside;
 //             a memory that is evidence for a belief is pulled near it
 //   needs     hang below, weights on a string
-import type { BeliefNode, MemoryNode } from '../types'
+import type { BeliefNode, MemoryNode, MusingNode } from '../types'
 
 export const VIEW = { w: 1000, h: 680, cx: 500, cy: 300 }
 const GOLDEN = Math.PI * (3 - Math.sqrt(5))
@@ -25,8 +26,21 @@ function hash(s: string): number {
 export function layoutMind(
   beliefs: BeliefNode[],
   memories: MemoryNode[],
+  musings: MusingNode[] = [],
 ): Map<string, Point> {
   const pos = new Map<string, Point>()
+
+  const voice = [...musings].sort(
+    (a, b) => a.statement.localeCompare(b.statement),
+  )
+  voice.forEach((m, i) => {
+    const a = -Math.PI / 2 + (i / Math.max(voice.length, 1)) * Math.PI * 2
+    pos.set(m.id, {
+      x: VIEW.cx + Math.cos(a) * 62,
+      y: VIEW.cy + Math.sin(a) * 48,
+    })
+  })
+
   const ordered = [...beliefs].sort(
     (a, b) => (a.born_episode ?? -1) - (b.born_episode ?? -1)
       || a.statement.localeCompare(b.statement),

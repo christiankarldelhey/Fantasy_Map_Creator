@@ -7,6 +7,7 @@
 // which is how decay actually works (strength *= rate per Episode).
 import type {
   ActiveNeed, BeliefNode, EpisodeView, MemoryNode, MindDetail,
+  MusingNode,
 } from '../types'
 
 export type MemoryPhase = 'alive' | 'newborn' | 'fading' | 'trace'
@@ -24,12 +25,20 @@ export interface BeliefAt extends BeliefNode {
   resonatedNow: boolean
 }
 
+export interface MusingAt extends MusingNode {
+  inLens: boolean
+}
+
 export interface MindAt {
   episode: EpisodeView
   memories: MemoryAt[]
   beliefs: BeliefAt[]
+  musings: MusingAt[]
   needs: ActiveNeed[]
-  counts: { alive: number; forgotten: number; beliefs: number; born: number }
+  counts: {
+    alive: number; forgotten: number; beliefs: number; born: number
+    musings: number
+  }
 }
 
 function strengthAt(m: MemoryNode, k: number, lastIdx: number): number {
@@ -81,15 +90,26 @@ export function mindAt(mind: MindDetail, k: number): MindAt | null {
       resonatedNow: lensBeliefs.get(b.id) === true,
     }))
 
+  const lensMusings = new Set(
+    episode.lens
+      .filter((l) => l.ref?.kind === 'musing')
+      .map((l) => l.ref!.id),
+  )
+  const musings: MusingAt[] = (mind.musings ?? [])
+    .filter((m) => m.born_episode == null || m.born_episode <= k)
+    .map((m) => ({ ...m, inLens: lensMusings.has(m.id) }))
+
   return {
     episode,
     memories,
     beliefs,
+    musings,
     needs: episode.needs_active,
     counts: {
       alive: memories.filter((m) => m.phase !== 'trace' && m.phase !== 'fading').length,
       forgotten: memories.filter((m) => m.phase === 'trace' || m.phase === 'fading').length,
       beliefs: beliefs.length,
+      musings: musings.length,
       born: memories.filter((m) => m.phase === 'newborn').length,
     },
   }

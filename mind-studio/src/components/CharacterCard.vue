@@ -10,7 +10,7 @@ const props = defineProps<{
   condition: Record<string, unknown>
   mood: Mood
   preset: string
-  counts: { alive: number; forgotten: number; beliefs: number }
+  counts: { alive: number; forgotten: number; beliefs: number; musings?: number }
 }>()
 
 const emit = defineEmits<{ saved: [] }>()
@@ -161,6 +161,7 @@ const lineage = computed(() =>
       <div><dt>recuerdos</dt><dd>{{ counts.alive }}</dd></div>
       <div><dt>olvidados</dt><dd>{{ counts.forgotten }}</dd></div>
       <div><dt>creencias</dt><dd>{{ counts.beliefs }}</dd></div>
+      <div v-if="counts.musings != null"><dt>voces</dt><dd>{{ counts.musings }}</dd></div>
     </dl>
 
     <section v-if="character.foundational_phrase" class="block">

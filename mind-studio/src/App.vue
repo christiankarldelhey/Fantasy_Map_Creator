@@ -25,7 +25,9 @@ const tourStep = shallowRef<number | null>(null)
 const shaping = shallowRef(false)
 
 const positions = computed(() =>
-  mind.value ? layoutMind(mind.value.beliefs, mind.value.memories) : new Map(),
+  mind.value
+    ? layoutMind(mind.value.beliefs, mind.value.memories, mind.value.musings)
+    : new Map(),
 )
 const marks = computed(() => (mind.value ? episodeMarks(mind.value) : new Map()))
 
