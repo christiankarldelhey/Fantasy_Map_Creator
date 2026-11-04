@@ -13,7 +13,7 @@
 from datetime import date as date_type, datetime
 
 from app.mind.embeddings import embed
-from app.mind.nl_resolver import _humanize, phrases as nl_phrases
+from app.mind.voice import humanize, phrases
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Episode, ForgottenMemory, Memory, Need
 
@@ -104,12 +104,12 @@ def _describe(session, game_id, item, brain=None):
     # An unnoticed event never resolved into a reading — what may lodge in
     # memory is only the difuso it left behind (editable 'mind.unnoticed').
     if item.get('perception') == 'unnoticed':
-        vague = nl_phrases(session, game_id, 'mind.unnoticed', brain=brain)
+        vague = phrases('mind.unnoticed')
         return vague[0] if vague else 'a faint unease, its source unclear'
     data = item.get('data') or {}
     subject = (
         data.get('entity_name') or data.get('name')
-        or _humanize(data.get('entity') or data.get('entity_id'))
+        or humanize(data.get('entity') or data.get('entity_id'))
     )
     desc = item.get('reading') or (str(subject) if subject else None)
     # Unwordable items — 'body'/'travel' resolve no reading by design
@@ -422,7 +422,7 @@ def _pattern_desc(session, game_id, tag, count, brain=None):
     """A theme worded by the NL pack ('mind.pattern'), {subject} = the
     human end of the tag ('tag:food:lembas' -> 'lembas')."""
     subject = tag.rsplit(':', 1)[-1].replace('_', ' ').replace('-', ' ')
-    options = nl_phrases(session, game_id, 'mind.pattern', brain=brain)
+    options = phrases('mind.pattern')
     if options:
         return options[0].format(subject=subject, count=count)
     return f'{subject} keeps recurring'

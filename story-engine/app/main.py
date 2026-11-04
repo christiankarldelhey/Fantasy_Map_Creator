@@ -25,12 +25,10 @@ from app.prompt.system_prompt import SYSTEM_PROMPT  # noqa: E402
 # never dies because the mind can't persist.
 try:
     from app.db import SessionLocal, db_health  # noqa: E402
-    from app.mind.nl_resolver import NlPack  # noqa: E402
     from app.mind.routes import router as mind_router  # noqa: E402
     from app.studio.api import router as studio_router  # noqa: E402
 except Exception:  # noqa: BLE001
     SessionLocal = None
-    NlPack = None
     mind_router = None
     studio_router = None
 
@@ -100,7 +98,6 @@ def narrate_day_endpoint(payload: NarrateDayRequest):
             fate=payload.fate,
             previous_day=payload.previousDay,
             recent_day_climates=payload.recentDayClimates,
-            nl=NlPack(session, payload.game_id) if session else None,
         )
         return result
     finally:

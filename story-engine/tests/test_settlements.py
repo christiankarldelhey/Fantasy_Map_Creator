@@ -13,7 +13,6 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.mind.models import DayPayload
-from app.natural_language.place_notes import collect_location_notes
 
 
 @pytest.fixture()
@@ -91,15 +90,5 @@ def test_open_with_settlement_day_perceives_place_and_rest(client):
     assert not any(t.startswith('tag:lodging') for t in rest['tags'])
 
 
-def test_location_notes_tell_entry_from_passing_by():
-    notes = collect_location_notes([
-        {'name': 'Esgaroth', 'type': 'town', 'hour_float': 10.45,
-         'distance_km': 0.01, 'entered': True},
-        {'name': 'Amon Sul', 'type': 'ruins', 'distance_km': 4.0},
-        {'name': 'Dol Guldur', 'type': 'fortified city', 'distance_km': 0.3,
-         'hostile': True},
-    ])
-    assert 'the day ends here' in notes[0]
-    assert 'passed close by' not in notes[0]
-    assert 'passed at some distance' in notes[1]
-    assert 'enemy country' in notes[2]
+# The entry-vs-passing-by wording moved host-side with the world voice
+# (#54): covered by collectLocationNotes tests in the backend suite.

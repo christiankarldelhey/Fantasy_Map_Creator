@@ -15,7 +15,7 @@ import pytest
 
 from app.db import SessionLocal
 from app.mind.focus import _ENGINE_FRAME_TYPES, build_brief
-from app.mind.nl_defaults import DEFAULT_PHRASE_LISTS
+from app.mind.voice import PHRASES
 from app.mind.provisioning import get_or_create_brain
 from app.mind.reflection import _apply_ops, reflection_beliefs
 from app.mind.retrieval import _CONTACT_AMBIENT_PREFIXES, _context_tags
@@ -252,7 +252,7 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
 # --- the auditor: every thought in the pack must be able to speak -----------
 
 FRAME_TYPES = _ENGINE_FRAME_TYPES | set(
-    DEFAULT_PHRASE_LISTS['mind.focus_excluded']
+    PHRASES['mind.focus_excluded']
 )
 AMBIENT = tuple(p for p in _CONTACT_AMBIENT_PREFIXES if p != 'type:')
 ALL_THOUGHTS = [

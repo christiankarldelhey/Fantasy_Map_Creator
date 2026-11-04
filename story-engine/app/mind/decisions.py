@@ -17,7 +17,7 @@
 # application belong to the host.
 # ============================================================================
 from app.mind.boosts import effective_theme_weights
-from app.mind.nl_resolver import phrases, resolve_event_reading
+from app.mind.voice import phrases, resolve_event_reading
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Need
 
@@ -170,9 +170,7 @@ def _apply_choice_to_perceived(session, episode, dec, option, brain):
         substance['stance'] = option['stance']
         data['substance'] = substance
         perceived[idx] = {**perceived[idx], 'data': data}
-        perceived[idx]['reading'] = resolve_event_reading(
-            session, episode.game_id, perceived[idx], brain=brain
-        )
+        perceived[idx]['reading'] = resolve_event_reading(perceived[idx])
         if landed:
             _mark_changed(perceived[idx], w)
         changed = True
@@ -197,9 +195,7 @@ def _apply_choice_to_perceived(session, episode, dec, option, brain):
                 'scope': 'encounter_shelter',
             })
             item['data'] = data
-            item['reading'] = resolve_event_reading(
-                session, episode.game_id, item, brain=brain
-            )
+            item['reading'] = resolve_event_reading(item)
             _mark_changed(item, w)
             changed = True
         payload = dict(episode.narrator_payload or {})
@@ -225,7 +221,7 @@ def _apply_choice_to_perceived(session, episode, dec, option, brain):
 
 def resolution_text(session, game_id, option, character_name=None,
                     brain=None):
-    options = phrases(session, game_id, 'mind.decision', brain=brain)
+    options = phrases('mind.decision')
     label = option.get('label') or option.get('id') or ''
     for template in options:
         if '{choice}' in template:

@@ -20,8 +20,8 @@
 from app.mind.checks import _num, character_state
 from app.mind.detectors import detector_needs
 from app.mind.memory import episode_index
-from app.mind.nl_resolver import phrases as nl_phrases
 from app.mind.provisioning import DEFAULT_WIRING
+from app.mind.voice import phrases
 from app.mind.rules import rule_needs, update_rule_streaks
 from app.mind.tables import Need
 
@@ -29,8 +29,7 @@ NEED_PHRASE_PREFIX = 'mind.need.'
 THREAD_PREFIX = 'thread:'
 
 
-def _phrase(session, game_id, key, subject=None, brain=None, urgency=0.0,
-            idx=0, wiring=None):
+def _phrase(key, subject=None, urgency=0.0, idx=0, wiring=None):
     """Tiered + rotating voice for 'mind.need.<key>'. Urgency past
     need_deep_urgency speaks from '<key>.deep' instead; several variants
     per tier rotate by episode so a lasting need does not always wear the
@@ -40,15 +39,11 @@ def _phrase(session, game_id, key, subject=None, brain=None, urgency=0.0,
     base = NEED_PHRASE_PREFIX + key
     options = []
     if urgency >= deep_min:
-        options = nl_phrases(
-            session, game_id, base + '.deep', brain=brain
-        )
+        options = phrases(base + '.deep')
     if not options:
-        options = nl_phrases(session, game_id, base, brain=brain)
+        options = phrases(base)
     if not options and key.startswith(THREAD_PREFIX):
-        options = nl_phrases(
-            session, game_id, NEED_PHRASE_PREFIX + 'thread', brain=brain
-        )
+        options = phrases(NEED_PHRASE_PREFIX + 'thread')
     if not options:
         return key
     return options[idx % len(options)].format(
@@ -128,7 +123,7 @@ def needs_pass(session, game_id, brain, episode, perceived, character=None):
     for spec in fired:
         key = spec['key']
         desc = spec.get('desc') or _phrase(
-            session, game_id, key, spec.get('subject'), brain=brain,
+            key, spec.get('subject'),
             urgency=spec.get('urgency') or 0.0, idx=idx, wiring=w,
         )
         need = existing.get(key)

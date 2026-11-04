@@ -17,8 +17,7 @@ import app.main as main_module
 from app.db import SessionLocal
 from app.mind.detectors import invalidate as invalidate_detectors
 from app.mind.focus import build_brief
-from app.mind.nl_resolver import invalidate as invalidate_nl
-from app.mind.tables import Brain, Detector, Need, NlPhraseList
+from app.mind.tables import Brain, Detector, Need
 
 
 @pytest.fixture()
@@ -33,12 +32,6 @@ def deep_space():
     session = SessionLocal()
     session.execute(
         delete(Detector).where(Detector.game_id == 'deep_space')
-    )
-    session.execute(
-        delete(NlPhraseList).where(
-            NlPhraseList.game_id == 'deep_space',
-            NlPhraseList.key == 'mind.focus_excluded',
-        )
     )
     session.add_all([
         Detector(
@@ -56,27 +49,18 @@ def deep_space():
             game_id='deep_space', kind='altered', key='sanity_altered',
             field='sanity', op='<=', value=0.2,
         ),
-        NlPhraseList(
-            game_id='deep_space', key='mind.focus_excluded',
-            ordinal=0, phrase='transmission',
-        ),
     ])
     session.commit()
     session.close()
     invalidate_detectors('deep_space')
-    invalidate_nl('deep_space')
     yield 'deep_space'
     session = SessionLocal()
     session.execute(
         delete(Detector).where(Detector.game_id == 'deep_space')
     )
-    session.execute(
-        delete(NlPhraseList).where(NlPhraseList.game_id == 'deep_space')
-    )
     session.commit()
     session.close()
     invalidate_detectors('deep_space')
-    invalidate_nl('deep_space')
 
 
 def _uid(prefix):
@@ -335,23 +319,6 @@ def _day_item(t, reading='what passes', salience=0.9):
         'type': t, 'perception': 'noticed', 'reading': reading,
         'salience': salience, 'data': {},
     }
-
-
-def test_focus_exclusion_is_game_scoped(client, deep_space):
-    """'transmission' frames deep_space's episodes but could take the
-    Focus anywhere the pack doesn't declare it."""
-    session = SessionLocal()
-    day = [_day_item('transmission')]
-    brief = build_brief(
-        day, [], [], [], {}, session=session, game_id=deep_space,
-    )
-    assert brief['focus'] is None
-    brief = build_brief(
-        day, [], [], [], {}, session=session, game_id='middle_earth',
-    )
-    assert brief['focus'] is not None
-    assert brief['focus']['kind'] == 'event'
-    session.close()
 
 
 def test_builtin_pack_still_frames_travel(client):

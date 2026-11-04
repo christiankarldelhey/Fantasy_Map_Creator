@@ -126,3 +126,19 @@ test('a dead fate suppresses nothing the host still owes', () => {
   const wn = notes({ fate: 'living' });
   assert.equal(wn.end_state, '');
 });
+
+// Settlements lived, not just passed — 'entered' beats distance math and
+// 'hostile' is never "passed close by". (Ported from the Python suite
+// when the world voice moved host-side, #54.)
+test('collectLocationNotes tells entry from passing by', async () => {
+  const { collectLocationNotes } = await import('../placeNotes.js');
+  const notes = collectLocationNotes([
+    { name: 'Esgaroth', type: 'town', hour_float: 10.45, distance_km: 0.01, entered: true },
+    { name: 'Amon Sul', type: 'ruins', distance_km: 4.0 },
+    { name: 'Dol Guldur', type: 'fortified city', distance_km: 0.3, hostile: true },
+  ]);
+  assert.match(notes[0], /the day ends here/);
+  assert.doesNotMatch(notes[0], /passed close by/);
+  assert.match(notes[1], /passed at some distance/);
+  assert.match(notes[2], /enemy country/);
+});
