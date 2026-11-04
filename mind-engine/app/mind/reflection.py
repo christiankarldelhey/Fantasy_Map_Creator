@@ -141,7 +141,7 @@ def _strength(op):
     return min(5.0, max(0.0, conf * 5 if conf <= 1.0 else conf))
 
 
-def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
+def _apply_ops(session, mind, ops, beliefs_by_id, idx, w):
     counts = {'formed': 0, 'reinforced': 0, 'contradicted': 0, 'inverted': 0}
     reinforce = w.get('belief_reinforce_delta', 0.5)
     contradict = w.get('belief_contradict_delta', 0.75)
@@ -158,7 +158,7 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
             if counts['formed'] >= new_cap:
                 continue
             session.add(Belief(
-                game_id=brain.game_id, character_id=brain.character_id,
+                game_id=mind.game_id, character_id=mind.character_id,
                 kind=op['kind'], horizon=op.get('horizon', 'enduring'),
                 statement=str(op['statement'])[:2000],
                 strength=_strength(op),
@@ -205,7 +205,7 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
             belief.status = 'inverted'
             belief.updated_episode = idx
             session.add(Belief(
-                game_id=brain.game_id, character_id=brain.character_id,
+                game_id=mind.game_id, character_id=mind.character_id,
                 kind=belief.kind, horizon=belief.horizon,
                 statement=str(op['statement'])[:2000],
                 strength=_strength(op),
@@ -246,7 +246,7 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
     session.flush()
     active = (
         session.query(Belief)
-        .filter_by(character_id=brain.character_id, status='active')
+        .filter_by(character_id=mind.character_id, status='active')
         .order_by(Belief.strength.desc())
         .all()
     )
@@ -258,7 +258,7 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
     return counts
 
 
-def reflection_beliefs(session, brain, memories, since_idx, w):
+def reflection_beliefs(session, mind, memories, since_idx, w):
     """The beliefs this reflection may move — not the whole library.
 
     Every acquired or transient belief (few, capped) plus the seeds the
@@ -270,7 +270,7 @@ def reflection_beliefs(session, brain, memories, since_idx, w):
     reinforced nor contradicted: nothing lived put it in question."""
     active = (
         session.query(Belief)
-        .filter_by(character_id=brain.character_id, status='active')
+        .filter_by(character_id=mind.character_id, status='active')
         .all()
     )
     # Transient seeds are circumstances, not nature: they ride with the
@@ -287,8 +287,8 @@ def reflection_beliefs(session, brain, memories, since_idx, w):
     briefs = (
         session.query(Episode.brief)
         .filter(
-            Episode.game_id == brain.game_id,
-            Episode.character_id == brain.character_id,
+            Episode.game_id == mind.game_id,
+            Episode.character_id == mind.character_id,
             Episode.episode_idx > (since_idx or 0),
         )
         .all()
@@ -324,16 +324,16 @@ def _f(v, default):
         return default
 
 
-def maybe_reflect(session, brain, episode, character_name=None):
+def maybe_reflect(session, mind, episode, character_name=None):
     """Run one reflection if the trigger fires. Returns a summary dict or
     None when no trigger. Never raises on LLM failure — a skipped
     reflection is a valid outcome."""
-    w = {**DEFAULT_WIRING, **(brain.wiring or {})}
-    # B10: degraded brains never reflect — the LLM is a protagonist cost.
+    w = {**DEFAULT_WIRING, **(mind.wiring or {})}
+    # B10: degraded minds never reflect — the LLM is a protagonist cost.
     if w.get('degraded'):
-        return {'reflected': False, 'reason': 'degraded_brain'}
+        return {'reflected': False, 'reason': 'degraded_mind'}
     idx = episode_index(episode)
-    counters = dict(brain.counters or {})
+    counters = dict(mind.counters or {})
     last = counters.get('last_reflection_episode') or 0
     # Only the WORLD can spike a reflection: needs and recurrence items
     # are the mind's own bookkeeping, and an open need at full urgency
@@ -359,7 +359,7 @@ def maybe_reflect(session, brain, episode, character_name=None):
     top = int(w.get('reflection_memory_top', 20))
     candidates = (
         session.query(Memory)
-        .filter_by(character_id=brain.character_id)
+        .filter_by(character_id=mind.character_id)
         .filter(or_(
             Memory.importance >= imp_min,
             Memory.valence >= val_min,
@@ -378,12 +378,12 @@ def maybe_reflect(session, brain, episode, character_name=None):
     ][:top]
     if not memories:
         counters['last_reflection_episode'] = idx
-        brain.counters = counters
+        mind.counters = counters
         return {'reflected': False, 'reason': 'no_strong_evidence'}
-    beliefs = reflection_beliefs(session, brain, memories, last, w)
+    beliefs = reflection_beliefs(session, mind, memories, last, w)
 
     prompt = _build_prompt(
-        character_name or brain.character_id, memories, beliefs
+        character_name or mind.character_id, memories, beliefs
     )
     try:
         result = generate_narrative(prompt, day_number=idx)
@@ -395,11 +395,11 @@ def maybe_reflect(session, brain, episode, character_name=None):
     except Exception as exc:  # noqa: BLE001 — reflection is optional
         log.warning('reflection LLM failed: %s', exc)
         counters['last_reflection_episode'] = idx
-        brain.counters = counters
+        mind.counters = counters
         return {'reflected': False, 'reason': 'llm_unavailable'}
 
     beliefs_by_id = {b.id: b for b in beliefs}
-    counts = _apply_ops(session, brain, ops, beliefs_by_id, idx, w)
+    counts = _apply_ops(session, mind, ops, beliefs_by_id, idx, w)
     counters['last_reflection_episode'] = idx
-    brain.counters = counters
+    mind.counters = counters
     return {'reflected': True, **counts}

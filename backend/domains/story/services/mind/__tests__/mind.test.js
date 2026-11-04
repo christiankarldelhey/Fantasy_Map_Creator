@@ -15,7 +15,7 @@ import { toNarrateDayBody, toOpenPayload } from '../toOpenPayload.js';
 // Point the client at a dead port BEFORE importing it — the URL is captured
 // at module load. Port 9 (discard) refuses connections: the mind is down.
 process.env.MIND_ENGINE_URL = 'http://127.0.0.1:9';
-const { openEpisode, closeEpisode, resetBrain } = await import('../mindClient.js');
+const { openEpisode, closeEpisode, resetMind } = await import('../mindClient.js');
 
 // Real shapes as resolved days carry them (see toEvents.js header):
 // climate samples stamp `phase` explicitly and `time` uses a space
@@ -580,8 +580,8 @@ test('closeEpisode rejects on failure — the caller swallows it', async () => {
   await assert.rejects(closeEpisode('ep_missing', { outcome: null }));
 });
 
-test('resetBrain rejects when the mind is down — the game resets anyway (C19)', async () => {
+test('resetMind rejects when the mind is down — the game resets anyway (C19)', async () => {
   // Character regeneration swallows this rejection: a dead Mind Engine
   // must never block the mechanical reset, it only skips the mind wipe.
-  await assert.rejects(resetBrain('char_1'));
+  await assert.rejects(resetMind('char_1'));
 });

@@ -69,11 +69,11 @@ def attitude_for(tags, beliefs):
     return best
 
 
-def active_attitudes(session, brain):
+def active_attitudes(session, mind):
     return [
         b for b in (
             session.query(Belief)
-            .filter_by(character_id=brain.character_id, status='active')
+            .filter_by(character_id=mind.character_id, status='active')
             .filter(Belief.subject.isnot(None))
             .all()
         )
@@ -101,15 +101,15 @@ def attention_weights(beliefs, w):
     return out
 
 
-def drift(session, brain, episode):
+def drift(session, mind, episode):
     """Move each attitude by how its encounters went in the world.
     Returns [{belief_id, from, to}] for the close summary."""
-    w = {**DEFAULT_WIRING, **(brain.wiring or {})}
+    w = {**DEFAULT_WIRING, **(mind.wiring or {})}
     step = float(w.get('attitude_drift', 0.05))
     marked_step = float(w.get('attitude_drift_marked', 0.25))
     marked_at = float(w.get('attitude_marked_valence', 0.6))
     quiet = float(w.get('attitude_drift_min_valence', 0.05))
-    by_id = {b.id: b for b in active_attitudes(session, brain)}
+    by_id = {b.id: b for b in active_attitudes(session, mind)}
     if not by_id:
         return []
     before = {bid: b.stance for bid, b in by_id.items()}

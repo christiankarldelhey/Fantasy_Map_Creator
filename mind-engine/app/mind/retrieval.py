@@ -75,17 +75,17 @@ def _contact_tags(tags):
     }
 
 
-def retrieve(session, brain, episode, perceived_day):
+def retrieve(session, mind, episode, perceived_day):
     """Score the character's memories against this episode's context and
     evoke the top-K. Returns the evoked Memory rows (highest score first).
     Called once, at episode creation — re-open replays stored annotations."""
-    w = {**DEFAULT_WIRING, **(brain.wiring or {})}
+    w = {**DEFAULT_WIRING, **(mind.wiring or {})}
     idx = episode_index_of(episode)
     ep_date = episode_date_of(episode)
 
     beliefs = (
         session.query(Belief)
-        .filter_by(character_id=brain.character_id, status='active')
+        .filter_by(character_id=mind.character_id, status='active')
         .all()
     )
     context = _context_tags(perceived_day, beliefs)
@@ -98,7 +98,7 @@ def retrieve(session, brain, episode, perceived_day):
 
     candidates = (
         session.query(Memory)
-        .filter_by(character_id=brain.character_id)
+        .filter_by(character_id=mind.character_id)
         .all()
     )
     if not candidates:
@@ -193,13 +193,13 @@ def retrieve(session, brain, episode, perceived_day):
     return evoked
 
 
-def dialogue_recall(session, brain, item, idx, exclude_ids=()):
+def dialogue_recall(session, mind, item, idx, exclude_ids=()):
     """Focused recall for a spoken encounter (C23): embed what was
     actually asked/said and return the memory that best answers it —
     the traveller may reply from what they retained, not from nowhere.
 
     One probe text (topic + content + tension), one cosine pass over
-    the brain's memories, best hit above dialogue_recall_min wins.
+    the mind's memories, best hit above dialogue_recall_min wins.
     Same gates as retrieve(): no patterns, importance floor, refractory.
     The caller does the evocation bookkeeping."""
     data = item.get('data') or {}
@@ -216,7 +216,7 @@ def dialogue_recall(session, brain, item, idx, exclude_ids=()):
     if vec is None:
         return None
 
-    w = {**DEFAULT_WIRING, **(brain.wiring or {})}
+    w = {**DEFAULT_WIRING, **(mind.wiring or {})}
     floor = float(w.get('dialogue_recall_min', 0.4))
     imp_min = w.get('retrieval_importance_min', 0.15)
     refractory = int(w.get('refractory_episodes', 1))
@@ -225,7 +225,7 @@ def dialogue_recall(session, brain, item, idx, exclude_ids=()):
     best_sim = floor
     for mem in (
         session.query(Memory)
-        .filter_by(character_id=brain.character_id)
+        .filter_by(character_id=mind.character_id)
         .all()
     ):
         if mem.kind == 'pattern' or mem.id in exclude_ids:
@@ -288,7 +288,7 @@ def memory_age_days(episode, mem):
 
 
 def episode_index_of(episode):
-    """The mind's own clock (C29): episode.episode_idx — a per-brain
+    """The mind's own clock (C29): episode.episode_idx — a per-mind
     monotonic counter assigned at open. The host's when.episode (a
     trip's day_number) only remains as the legacy fallback for rows
     that predate the column."""

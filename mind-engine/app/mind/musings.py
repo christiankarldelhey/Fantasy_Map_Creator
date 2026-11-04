@@ -2,7 +2,7 @@
 # Character packs — authored personality: musings + attitudes
 # ----------------------------------------------------------------------------
 # A Musing (CONTEXT.md · Musing) is a line of inner voice, not a Belief:
-# it clones with the mold (origin='seed'), speaks through the Episode's
+# it clones with the preset (origin='seed'), speaks through the Episode's
 # Lens when the day touches its tags, and nothing ever moves it — no
 # strength, no reinforcement, Reflection never sees it. Attitudes (the _a
 # entries) are real Beliefs with Subject + Stance and live by belief rules.
@@ -369,8 +369,8 @@ MUSING_PACKS = {
 # The first seeds (migration 0014) spoke of the character in the third
 # person and mostly carried no tags — they could only speak by word luck.
 # Rewritten in the pack's voice with tags the Lens can see:
-# (old statement, new statement, old tags, new tags). Applied to molds AND
-# living brains by 0017 (text and tags only — strength/evidence, the
+# (old statement, new statement, old tags, new tags). Applied to presets AND
+# living minds by 0017 (text and tags only — strength/evidence, the
 # lived part, stay untouched); its downgrade restores the old pair.
 # ============================================================================
 _PEOPLE_0014 = [

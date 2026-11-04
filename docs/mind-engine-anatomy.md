@@ -71,8 +71,8 @@ de que "pasar a datos" es seguro.
 
 ### A5 · Moldes de cerebro + perfiles vivos
 
-**🔧 Técnica** — `brain_molds` (arquetipo: theme_weights + wiring +
-starter_beliefs en tablas hijas editables) → `brains` (copia materializada
+**🔧 Técnica** — `mind_presets` (arquetipo: theme_weights + wiring +
+starter_beliefs en tablas hijas editables) → `minds` (copia materializada
 por personaje, creada lazy en el primer open). Editar el molde no
 reconfigura cerebros existentes: clone-and-own.
 
@@ -117,7 +117,7 @@ distintos (cada evento es su recuerdo).
 `seed`, estáticas aún); `retrieve` ordena memorias por
 `α·recencia + β·importancia + γ·relevancia de tags` y marca las evocadas;
 `episode_mood` computa valencia/arousal/dominante del día y lo funde en
-`brain.mood`; `render_lens` comprime todo en el texto que el narrador lee.
+`mind.mood`; `render_lens` comprime todo en el texto que el narrador lee.
 
 **🧠 Cerebro** — El "en qué andás hoy": qué recuerdos te vinieron a la
 mente, qué creés, cómo te levantaste. El lente es la mente resumida en
@@ -141,7 +141,7 @@ sigue vivo como fallback.
 ### A10 · Mind Tuner + Narration Tuner + NL tester
 
 **🔧 Técnica** — SQLAdmin sobre todas las tablas editables (packs NL,
-molds e hijas, brains, beliefs, overrides, rules…) + vistas readonly
+molds e hijas, minds, beliefs, overrides, rules…) + vistas readonly
 (episodes, memories, needs) + un **tester**: escribís un valor y ves la
 banda/frase resuelta sin tocar el juego.
 
@@ -275,7 +275,7 @@ opaco que viaja del evento al host. La mente propone; el juego dispone.
 con `strength ≥ belief_boost_min_strength` suma su boost al
 `theme_weights` efectivo en percepción y recomendación de decisiones. Se
 computa al vuelo — la config base nunca se muta. Las semillas lo declaran
-en `MoldStarterBelief.boosts`; las creencias reflejadas reciben boosts
+en `PresetStarterBelief.boosts`; las creencias reflejadas reciben boosts
 sanitizados.
 
 **🧠 Cerebro** — Recableado por experiencia: si creés de verdad que "el
@@ -323,7 +323,7 @@ pgvector si aparece la extensión.
 **🔧 Técnica** — `composite_rules`: estados multi-día como datos —
 `conditions` es un OR-de-grupos-AND (`[[{field, op, value}…], …]`) sobre
 eventos (filtrados por `event_type`), sostenidos `streak_days`
-consecutivos (contados en `brain.counters` solo al close → solo episodios
+consecutivos (contados en `mind.counters` solo al close → solo episodios
 que el host persistió). La fila produce un Need con urgencia
 `base + per_day·streak`. El viejo detector `exposure` es hoy la entrada
 `DEFAULT_RULES` — mismo comportamiento, editable.
@@ -340,7 +340,7 @@ reglas son racha dura que abre needs.
 ### B10 · NPC degraded + versionado de packs
 
 **🔧 Técnica** — Dos piezas:
-- *Degraded*: `wiring.degraded` por mold o brain. El NPC percibe y encoda
+- *Degraded*: `wiring.degraded` por preset o mind. El NPC percibe y encoda
   normal (recuerda al protagonista), pero nunca llama al LLM de reflexión
   y difiere decay/patterns a `POST /maintenance/consolidate` — trabajo
   batch, costo LLM cero para masas.
@@ -417,7 +417,7 @@ recalibración de gates — ticket aparte.
 
 ### C3 · Canal afectivo: el valence se deriva, no se declara
 
-**🔧 Técnica** — `affect.*` keys dentro de `brain.wiring` (seedeable por
+**🔧 Técnica** — `affect.*` keys dentro de `mind.wiring` (seedeable por
 molde, editable por admin, sin migración): `affect.<tag>` da valencia
 firmada al evento que porta ese tag (`affect.tag:form:confronts: -0.35`,
 wildcards `affect.tag:outcome:*`), y `affect.field:<name>` escala un
@@ -868,11 +868,11 @@ después — voiced vs evoked se resuelve en C32.
 
 **🔧 Técnica** — La personalidad de Celebrian eran 1124 chars de
 `system_prompt` que pesaban en cada prompt. Ahora los rasgos viven como
-`mold_starter_beliefs` en molds por personaje — la belief se invoca
+`preset_starter_beliefs` en molds por personaje — la belief se invoca
 cuando el día la toca, no como dogma permanente:
 
 - **Molds por personaje**: `celebrian` (5 beliefs) y `aranath` (4) en
-  `brain_molds` — clonan el wiring de `default`; lo que las distingue es
+  `mind_presets` — clonan el wiring de `default`; lo que las distingue es
   el contenido seed. Las belief tags usan el vocabulario real de
   `perceived_day` (`tag:entity_type:*`, `tag:form:*`).
 - **`rank_beliefs`**: para el lens, beliefs se ordenan por
@@ -880,7 +880,7 @@ cuando el día la toca, no como dogma permanente:
   gente habla en people-days y calla en el páramo vacío; las
   convictions sin tags compiten por fuerza pura. `render_lens` ya no
   re-ordena: lee el top del ranking recibido.
-- **`brain_profile` por herencia**: `narratorCharacter` resuelve
+- **`preset` por herencia**: `narratorCharacter` resuelve
   `COALESCE(template.slug, c.slug)` — el clon `celebrian-user-7` piensa
   a través del mold `celebrian`. Los INSERT de clonación copian ahora
   `system_prompt` + `introduction_instructions` (antes el clon nacía
@@ -888,14 +888,14 @@ cuando el día la toca, no como dogma permanente:
 - **Prompt comprimido**: `system_prompt` de Celebrian 1124 → 374 chars
   (filtrar la escena por la muerte, sin auto-piedad, sin esperanza,
   habla poco). La migración SQL sincroniza clones desde su template.
-- **Backfill**: `scripts/mind_personality_backfill.js` reasigna brains
+- **Backfill**: `scripts/mind_personality_backfill.js` reasigna minds
   existentes a su mold declarado e inserta las seed beliefs que falten
-  (idempotente, por statement). Los brains de los clones dev quedaron
+  (idempotente, por statement). Los minds de los clones dev quedaron
   en su mold con 5/4 beliefs; los templates se provisionan solos en su
   primer episodio.
 
 **🚫 No hace** — No acorta la `description` (231 chars, ya era
-concisa). No propaga nuevas starter beliefs a brains viejos
+concisa). No propaga nuevas starter beliefs a minds viejos
 automáticamente — el backfill es el camino (rerunable). No escribe
 beliefs desde `character_thoughts`: los thoughts alimentaron las
 statements como material, la tabla sigue siendo del dominio game.
@@ -909,13 +909,13 @@ disponible siempre. Al usarse, el personaje renace completo: el juego
 restaura cuerpo/kit (`POST /api/character/:id/reset`) y la mente olvida
 todo lo vivido:
 
-- **`POST /mind/brains/{character_id}/reset`**: borra memories
+- **`POST /mind/minds/{character_id}/reset`**: borra memories
   (volátiles, consolidadas, patrones), beliefs (todas, incluidas las
   seed viejas), needs y episodes del `(game_id, character_id)`; mood →
   `NEUTRAL_MOOD`, counters → `{}`. Después re-siembra las starter
   beliefs del mold vía `seed_starter_beliefs` (el mismo helper que
-  provisiona el brain nuevo). Sobrevive la *naturaleza*: fila `brains`,
-  `mold_slug`, `theme_weights`, `wiring` — una persona sin pasado, no
+  provisiona el brain nuevo). Sobrevive la *naturaleza*: fila `minds`,
+  `preset_slug`, `theme_weights`, `wiring` — una persona sin pasado, no
   otra persona.
 - **Idempotente y seguro**: todas las beliefs mueren antes de
   re-sembrar → repetir el reset no duplica seeds. Sin brain → respuesta
@@ -1278,8 +1278,8 @@ recomendación B5) se normaliza `/5`. El prompt de reflexión pide
 qué importa, no un mecanismo aparte. `pull` y `habit` se van de la tabla
 y del modelo: se guardaban, se copiaban y nadie los leía (la regla #58:
 ningún concepto entra a la mente sin mecanismo que lo haga actuar).
-Migración 0021 renombra, re-escala y re-cablea `mold_wiring` +
-`brains.wiring`.
+Migración 0021 renombra, re-escala y re-cablea `preset_wiring` +
+`minds.wiring`.
 
 **🏗️ Arquitectura** — Belief queda como proposición facetada:
 `statement` + `strength` + `kind` (+ `subject`/`stance`/`source`

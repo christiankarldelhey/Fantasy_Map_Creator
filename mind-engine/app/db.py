@@ -30,7 +30,7 @@ DATABASE_URL = _psycopg_url(
 )
 
 # Overridable so the test suite can run in a throwaway schema instead of
-# polluting the real `mind` schema with minted molds/brains.
+# polluting the real `mind` schema with minted presets/minds.
 MIND_SCHEMA = os.environ.get('MIND_SCHEMA', 'mind')
 
 # connect_timeout matches the Node pool (backend/db.js uses 2000ms): a dead

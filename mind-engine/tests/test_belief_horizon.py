@@ -18,7 +18,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 import app.mind.reflection as reflection_module
 from app.db import SessionLocal
-from app.mind.tables import Belief, BrainMold, MoldWiring
+from app.mind.tables import Belief, MindPreset, PresetWiring
 
 
 @pytest.fixture()
@@ -33,26 +33,26 @@ def _uid(prefix):
 def _reflective_mold(**wiring_overrides):
     session = SessionLocal()
     slug = _uid('horizon')
-    mold = BrainMold(game_id='middle_earth', slug=slug, name='Horizon')
-    session.add(mold)
+    preset = MindPreset(game_id='middle_earth', slug=slug, name='Horizon')
+    session.add(preset)
     session.flush()
     for key, value in {'reflection_every': 1, **wiring_overrides}.items():
-        session.add(MoldWiring(mold_id=mold.id, key=key, value=value))
+        session.add(PresetWiring(preset_id=preset.id, key=key, value=value))
     session.commit()
     session.close()
     return slug
 
 
 def _quiet_mold():
-    """A mold that never reflects inside a test — the calendar fade must
+    """A preset that never reflects inside a test — the calendar fade must
     be measured without the LLM voting."""
     return _reflective_mold(reflection_every=999)
 
 
-def _open(client, char, ref, events, brain_profile=None):
+def _open(client, char, ref, events, preset=None):
     character = {'id': char}
-    if brain_profile:
-        character['brain_profile'] = brain_profile
+    if preset:
+        character['preset'] = preset
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': character,
         'episode_ref': ref, 'events': events, 'day': {},
@@ -104,7 +104,7 @@ def test_transient_belief_fades_with_the_days(client):
     _seed_belief(char, 'transient', 2.5)
     last = None
     for ep in range(1, 6):
-        opened = _open(client, char, f'd{ep}', [_meal(ep)], brain_profile=slug)
+        opened = _open(client, char, f'd{ep}', [_meal(ep)], preset=slug)
         last = _close(client, opened['episode_id'])
     assert last['beliefs_faded'] == 1
     b = _belief(char)
@@ -120,7 +120,7 @@ def test_enduring_belief_ignores_the_calendar(client):
     _seed_belief(char, 'enduring', 2.5)
     last = None
     for ep in range(1, 6):
-        opened = _open(client, char, f'd{ep}', [_meal(ep)], brain_profile=slug)
+        opened = _open(client, char, f'd{ep}', [_meal(ep)], preset=slug)
         last = _close(client, opened['episode_id'])
     assert last['beliefs_faded'] == 0
     b = _belief(char)
@@ -145,7 +145,7 @@ def test_reflection_reads_the_horizon(client, monkeypatch):
 
     char = _uid('parsed')
     slug = _reflective_mold()
-    opened = _open(client, char, 'd1', [_meal(1)], brain_profile=slug)
+    opened = _open(client, char, 'd1', [_meal(1)], preset=slug)
     _close(client, opened['episode_id'])
 
     session = SessionLocal()
@@ -171,7 +171,7 @@ def test_reflection_ignores_transient_harder(client, monkeypatch):
     char = _uid('ignored')
     _seed_belief(char, 'transient', 2.0)
     slug = _reflective_mold()
-    opened = _open(client, char, 'd1', [_meal(1)], brain_profile=slug)
+    opened = _open(client, char, 'd1', [_meal(1)], preset=slug)
     _close(client, opened['episode_id'])
 
     b = _belief(char)

@@ -1,7 +1,7 @@
 # ============================================================================
 # B10 smoke — NPC degraded mode + pack versioning
 # ----------------------------------------------------------------------------
-# Degraded brains (wiring 'degraded': true — the NPC tier) still perceive
+# Degraded minds (wiring 'degraded': true — the NPC tier) still perceive
 # and encode memories but never call the reflection LLM and defer
 # decay/pattern consolidation to POST /maintenance/consolidate.
 #
@@ -17,7 +17,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.tables import Brain, CompositeRule, Episode, Memory, PackVersion
+from app.mind.tables import Mind, CompositeRule, Episode, Memory, PackVersion
 
 GAME = 'middle_earth'
 TEST_PACK = 'pack-lab'
@@ -61,13 +61,13 @@ def _food_event(ep):
 
 def _degrade(char):
     session = SessionLocal()
-    brain = session.query(Brain).filter_by(
+    mind = session.query(Mind).filter_by(
         game_id=GAME, character_id=char
     ).one()
-    brain.wiring = {**(brain.wiring or {}), 'degraded': True}
+    mind.wiring = {**(mind.wiring or {}), 'degraded': True}
     session.commit()
     session.close()
-    return brain.id
+    return mind.id
 
 
 def test_degraded_close_encodes_but_never_reflects(client):
@@ -79,7 +79,7 @@ def test_degraded_close_encodes_but_never_reflects(client):
     assert closed['degraded'] is True
     assert closed['encoded'] >= 1           # NPCs still remember
     assert closed['reflection'] == {
-        'reflected': False, 'reason': 'degraded_brain',
+        'reflected': False, 'reason': 'degraded_mind',
     }
     # ...but no decay/pattern pass ran inline.
     assert closed['forgotten'] == 0
@@ -89,7 +89,7 @@ def test_degraded_close_encodes_but_never_reflects(client):
 def test_degraded_patterns_wait_for_batch(client):
     char = _uid('npc')
     _open(client, char, [_food_event(1)], 'd1')
-    brain_id = _degrade(char)
+    mind_id = _degrade(char)
     for ep in (2, 3, 4):
         opened = _open(client, char, [_food_event(ep)], f'd{ep}')
         _close(client, opened['episode_id'])
@@ -102,10 +102,10 @@ def test_degraded_patterns_wait_for_batch(client):
     assert patterns == 0  # deferred — no inline pattern detection
 
     r = client.post('/maintenance/consolidate',
-                    json={'brain_ids': [brain_id]})
+                    json={'mind_ids': [mind_id]})
     assert r.status_code == 200, r.text
     result = next(
-        b for b in r.json()['results'] if b['brain_id'] == brain_id
+        b for b in r.json()['results'] if b['mind_id'] == mind_id
     )
     assert result['patterns'] >= 1
 
@@ -118,7 +118,7 @@ def test_degraded_patterns_wait_for_batch(client):
 
 
 def test_normal_brains_untouched_by_degraded_gate(client):
-    """Sanity: a normal brain's close still decays and may reflect."""
+    """Sanity: a normal mind's close still decays and may reflect."""
     char = _uid('hero')
     opened = _open(client, char, [_food_event(1)], 'd1')
     closed = _close(client, opened['episode_id'])

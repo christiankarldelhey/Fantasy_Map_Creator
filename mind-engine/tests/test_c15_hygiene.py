@@ -22,7 +22,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 import app.mind.reflection as reflection_module
 from app.db import SessionLocal
-from app.mind.tables import BrainMold, Memory, MoldWiring
+from app.mind.tables import MindPreset, Memory, PresetWiring
 
 
 @pytest.fixture()
@@ -34,23 +34,23 @@ def _uid(prefix):
     return f'{prefix}-{uuid.uuid4().hex[:8]}'
 
 
-def _mold(**wiring):
+def _preset(**wiring):
     session = SessionLocal()
     slug = _uid('hygiene')
-    mold = BrainMold(game_id='middle_earth', slug=slug, name='Hygiene')
-    session.add(mold)
+    preset = MindPreset(game_id='middle_earth', slug=slug, name='Hygiene')
+    session.add(preset)
     session.flush()
     for key, value in wiring.items():
-        session.add(MoldWiring(mold_id=mold.id, key=key, value=value))
+        session.add(PresetWiring(preset_id=preset.id, key=key, value=value))
     session.commit()
     session.close()
     return slug
 
 
-def _open(client, char, ref, events, brain_profile=None):
+def _open(client, char, ref, events, preset=None):
     character = {'id': char}
-    if brain_profile:
-        character['brain_profile'] = brain_profile
+    if preset:
+        character['preset'] = preset
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': character,
         'episode_ref': ref, 'events': events, 'day': {},
@@ -85,8 +85,8 @@ def test_open_need_never_spikes_reflection(client, monkeypatch):
     char = _uid('quiet-need')
     # Cadence far away AND nothing else in the day — only the need's
     # salience could have fired the trigger.
-    slug = _mold(reflection_every=99)
-    opened = _open(client, char, 'd1', [_hungry_body(1)], brain_profile=slug)
+    slug = _preset(reflection_every=99)
+    opened = _open(client, char, 'd1', [_hungry_body(1)], preset=slug)
     close = _close(client, opened['episode_id'])
     assert close['reflection'] is None
     assert called == []
@@ -95,10 +95,10 @@ def test_open_need_never_spikes_reflection(client, monkeypatch):
 def test_a_need_is_one_memory_not_one_per_day(client):
     """Two hungry days, one hunger memory — episode_ids accrete."""
     char = _uid('hunger-arc')
-    slug = _mold(reflection_every=99)
+    slug = _preset(reflection_every=99)
     for ep in (1, 2):
         opened = _open(
-            client, char, f'd{ep}', [_hungry_body(ep)], brain_profile=slug,
+            client, char, f'd{ep}', [_hungry_body(ep)], preset=slug,
         )
         _close(client, opened['episode_id'])
 
@@ -117,7 +117,7 @@ def test_sentinel_tags_never_streak_or_break(client):
     """tag:wounded:none in history must not resurface as 'no none
     today' — absence is not a theme."""
     char = _uid('sentinel')
-    slug = _mold(reflection_every=99, repetition_min_streak=2)
+    slug = _preset(reflection_every=99, repetition_min_streak=2)
     body = lambda ep: {  # noqa: E731
         'type': 'body',
         'when': {'episode': ep, 'date': f'1950-05-0{ep}'},
@@ -125,7 +125,7 @@ def test_sentinel_tags_never_streak_or_break(client):
                  'days_without_food': 0, 'days_without_water': 0},
     }
     for ep in (1, 2, 3):
-        opened = _open(client, char, f'd{ep}', [body(ep)], brain_profile=slug)
+        opened = _open(client, char, f'd{ep}', [body(ep)], preset=slug)
         packet = opened['psyche_packet']
         assert not any(
             'none' in (i.get('reading') or '')
@@ -149,14 +149,14 @@ def test_need_memories_never_reach_the_reflection_prompt(
         ),
     )
     char = _uid('evidence')
-    slug = _mold(reflection_every=1)
+    slug = _preset(reflection_every=1)
     meal = {
         'type': 'meal',
         'when': {'episode': 1, 'date': '1950-05-01'},
         'data': {'food': 'lembas', 'valence': 0.4},
     }
     opened = _open(
-        client, char, 'd1', [_hungry_body(1), meal], brain_profile=slug,
+        client, char, 'd1', [_hungry_body(1), meal], preset=slug,
     )
     _close(client, opened['episode_id'])
 

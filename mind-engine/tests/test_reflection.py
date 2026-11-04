@@ -17,7 +17,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 import app.mind.reflection as reflection_module
 from app.db import SessionLocal
-from app.mind.tables import Belief, BrainMold, MoldWiring
+from app.mind.tables import Belief, MindPreset, PresetWiring
 
 
 @pytest.fixture()
@@ -30,23 +30,23 @@ def _uid(prefix):
 
 
 def _reflective_mold(**wiring_overrides):
-    """A mold that reflects every episode (plus any extra wiring)."""
+    """A preset that reflects every episode (plus any extra wiring)."""
     session = SessionLocal()
     slug = _uid('reflective')
-    mold = BrainMold(game_id='middle_earth', slug=slug, name='Reflective')
-    session.add(mold)
+    preset = MindPreset(game_id='middle_earth', slug=slug, name='Reflective')
+    session.add(preset)
     session.flush()
     for key, value in {'reflection_every': 1, **wiring_overrides}.items():
-        session.add(MoldWiring(mold_id=mold.id, key=key, value=value))
+        session.add(PresetWiring(preset_id=preset.id, key=key, value=value))
     session.commit()
     session.close()
     return slug
 
 
-def _open(client, char, ref, events, brain_profile=None):
+def _open(client, char, ref, events, preset=None):
     character = {'id': char}
-    if brain_profile:
-        character['brain_profile'] = brain_profile
+    if preset:
+        character['preset'] = preset
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': character,
         'episode_ref': ref, 'events': events, 'day': {},
@@ -93,7 +93,7 @@ def test_reflection_creates_belief_with_real_evidence(client, monkeypatch):
 
     char = _uid('reflect')
     slug = _reflective_mold()
-    opened = _open(client, char, 'd1', [_meal(1)], brain_profile=slug)
+    opened = _open(client, char, 'd1', [_meal(1)], preset=slug)
     close = _close(client, opened['episode_id'])
 
     assert close['reflection']['reflected'] is True
@@ -112,7 +112,7 @@ def test_no_trigger_without_schedule(client, monkeypatch):
         lambda *a, **k: called.append(1) or {'text': '{}'},
     )
     char = _uid('calm')
-    opened = _open(client, char, 'd1', [_meal(1)])  # default mold: every=5
+    opened = _open(client, char, 'd1', [_meal(1)])  # default preset: every=5
     close = _close(client, opened['episode_id'])
     assert close['reflection'] is None
     assert called == []
@@ -137,7 +137,7 @@ def test_reinforce_and_decay_of_the_untouched(client, monkeypatch):
     char = _uid('reinforce')
     slug = _reflective_mold()
     for ep in (1, 2):
-        opened = _open(client, char, f'd{ep}', [_meal(ep)], brain_profile=slug)
+        opened = _open(client, char, f'd{ep}', [_meal(ep)], preset=slug)
         _close(client, opened['episode_id'])
 
     beliefs = _beliefs(char)
@@ -168,7 +168,7 @@ def test_inversion_grows_the_opposite_belief(client, monkeypatch):
     char = _uid('growth')
     slug = _reflective_mold()
     for ep in (1, 2):
-        opened = _open(client, char, f'd{ep}', [_meal(ep)], brain_profile=slug)
+        opened = _open(client, char, f'd{ep}', [_meal(ep)], preset=slug)
         _close(client, opened['episode_id'])
 
     beliefs = _beliefs(char)
@@ -194,7 +194,7 @@ def test_ambient_memories_never_reach_the_prompt(client, monkeypatch):
         'when': {'episode': 1, 'date': '1950-01-18'},
         'data': {'precipitation': 1.0},  # wet tag, salience ~0.05, v=0
     }
-    opened = _open(client, char, 'd1', [drizzle], brain_profile=slug)
+    opened = _open(client, char, 'd1', [drizzle], preset=slug)
     close = _close(client, opened['episode_id'])
     assert close['reflection']['reflected'] is False
     assert close['reflection']['reason'] == 'no_strong_evidence'
@@ -215,7 +215,7 @@ def test_new_beliefs_cap_per_reflection(client, monkeypatch):
 
     char = _uid('prolific')
     slug = _reflective_mold()
-    opened = _open(client, char, 'd1', [_meal(1)], brain_profile=slug)
+    opened = _open(client, char, 'd1', [_meal(1)], preset=slug)
     close = _close(client, opened['episode_id'])
     assert close['reflection']['formed'] == 2
     assert len(_beliefs(char)) == 2
@@ -228,7 +228,7 @@ def test_llm_garbage_never_breaks_close(client, monkeypatch):
     )
     char = _uid('garbage')
     slug = _reflective_mold()
-    opened = _open(client, char, 'd1', [_meal(1)], brain_profile=slug)
+    opened = _open(client, char, 'd1', [_meal(1)], preset=slug)
     close = _close(client, opened['episode_id'])
     assert close['status'] == 'closed'
     assert close['reflection']['reflected'] is True

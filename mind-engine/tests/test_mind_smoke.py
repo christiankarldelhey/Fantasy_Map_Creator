@@ -1,8 +1,8 @@
 # ============================================================================
 # MVP smoke suite — the four acceptance behaviours of A12
 # ----------------------------------------------------------------------------
-# 1. Differential memory: a brain weighted for meals consolidates a meal
-#    memory at birth while a default brain lets it fade and die.
+# 1. Differential memory: a mind weighted for meals consolidates a meal
+#    memory at birth while a default mind lets it fade and die.
 # 2. Determinism: identical events[] -> identical perceived_day.
 # 3. Idempotency: open x2 and close x2 produce no duplicates.
 # 4. Narrative eval: the lens-reference check echoes evoked memories; the
@@ -10,7 +10,7 @@
 # 5. Degradation: /narrate-day works with the mind session dead.
 #
 # These tests run against the real local Postgres (schema `mind`) — the
-# characters/molds they create use unique ids per run.
+# characters/presets they create use unique ids per run.
 # ============================================================================
 import uuid
 
@@ -21,7 +21,7 @@ import app.main as main_module
 import app.narrate_day as narrate_module
 from app.db import SessionLocal
 from app.evals.narrative_checks import check_lens_reference
-from app.mind.tables import BrainMold, Memory, MoldThemeWeight
+from app.mind.tables import MindPreset, Memory, PresetThemeWeight
 
 
 @pytest.fixture()
@@ -33,10 +33,10 @@ def _uid(prefix):
     return f'{prefix}-{uuid.uuid4().hex[:8]}'
 
 
-def _open(client, character_id, ref, events, brain_profile=None):
+def _open(client, character_id, ref, events, preset=None):
     character = {'id': character_id}
-    if brain_profile:
-        character['brain_profile'] = brain_profile
+    if preset:
+        character['preset'] = preset
     r = client.post('/episodes', json={
         'game_id': 'middle_earth',
         'character': character,
@@ -54,8 +54,8 @@ def _close(client, episode_id):
     return r.json()
 
 
-def _open_and_close(client, character_id, ref, events, brain_profile=None):
-    opened = _open(client, character_id, ref, events, brain_profile)
+def _open_and_close(client, character_id, ref, events, preset=None):
+    opened = _open(client, character_id, ref, events, preset)
     return opened, _close(client, opened['episode_id'])
 
 
@@ -77,15 +77,15 @@ def _quiet_event(ep):
 
 
 def test_differential_memory(client):
-    """Character B (epicurean mold, heavy type:meal weight) consolidates the
+    """Character B (epicurean preset, heavy type:meal weight) consolidates the
     meal at birth; character A (default) holds it volatile and forgets it
     over a run of unrelated episodes."""
     session = SessionLocal()
     slug = _uid('epicurean')
-    mold = BrainMold(game_id='middle_earth', slug=slug, name='Epicurean')
-    session.add(mold)
+    preset = MindPreset(game_id='middle_earth', slug=slug, name='Epicurean')
+    session.add(preset)
     session.flush()
-    session.add(MoldThemeWeight(mold_id=mold.id, key='type:meal', weight=4.0))
+    session.add(PresetThemeWeight(preset_id=preset.id, key='type:meal', weight=4.0))
     session.commit()
     session.close()
 
@@ -93,7 +93,7 @@ def test_differential_memory(client):
     char_b = _uid('b')
     _, close_a = _open_and_close(client, char_a, 'd1', [MEAL_EVENT])
     _, close_b = _open_and_close(
-        client, char_b, 'd1', [MEAL_EVENT], brain_profile=slug
+        client, char_b, 'd1', [MEAL_EVENT], preset=slug
     )
     assert close_a['encoded'] == 1 and close_b['encoded'] == 1
     # B's meal was so important it fixed at birth; A's is just volatile.
@@ -122,7 +122,7 @@ def test_differential_memory(client):
 
 
 def test_determinism(client):
-    """Same events[] for two fresh default brains -> identical perceived_day."""
+    """Same events[] for two fresh default minds -> identical perceived_day."""
     events = [{
         'type': 'climate',
         'when': {'episode': 1, 'date': '1950-01-19', 'phase': 'morning'},

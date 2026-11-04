@@ -133,17 +133,17 @@ def test_decide_unknowns(client):
 
 
 def test_recommended_follows_theme_weights(client):
-    """A brain that weighs risk:bold high recommends the bold option;
+    """A mind that weighs risk:bold high recommends the bold option;
     one without opinionated wiring recommends nothing."""
     from app.db import SessionLocal
-    from app.mind.tables import BrainMold, MoldThemeWeight
+    from app.mind.tables import MindPreset, PresetThemeWeight
 
     session = SessionLocal()
     slug = _uid('bold')
-    mold = BrainMold(game_id='middle_earth', slug=slug, name='Bold')
-    session.add(mold)
+    preset = MindPreset(game_id='middle_earth', slug=slug, name='Bold')
+    session.add(preset)
     session.flush()
-    session.add(MoldThemeWeight(mold_id=mold.id,
+    session.add(PresetThemeWeight(preset_id=preset.id,
                                 key='risk:bold', weight=0.8))
     session.commit()
     session.close()
@@ -151,7 +151,7 @@ def test_recommended_follows_theme_weights(client):
     char = _uid('bold-heart')
     opened = client.post('/episodes', json={
         'game_id': 'middle_earth',
-        'character': {'id': char, 'brain_profile': slug},
+        'character': {'id': char, 'preset': slug},
         'episode_ref': 'd1',
         'events': [_decision_event()], 'day': {},
     }).json()

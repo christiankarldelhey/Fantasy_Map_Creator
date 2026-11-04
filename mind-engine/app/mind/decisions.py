@@ -38,7 +38,7 @@ def decisions_of(episode):
     return found
 
 
-def pending_decision_point(session, brain, episode):
+def pending_decision_point(session, mind, episode):
     """The first unresolved decision, annotated with the mind's pick.
     None when nothing is pending."""
     recorded = episode.decisions or {}
@@ -55,7 +55,7 @@ def pending_decision_point(session, brain, episode):
             'options': options,
         }
         recommended = _recommend(
-            session, brain, episode.character_id, dec['options']
+            session, mind, episode.character_id, dec['options']
         )
         if recommended is not None:
             point['recommended'] = recommended
@@ -63,13 +63,13 @@ def pending_decision_point(session, brain, episode):
     return None
 
 
-def _recommend(session, brain, character_id, options):
+def _recommend(session, mind, character_id, options):
     """Deterministic preference: theme affinity of option tags + the
     strength of active beliefs whose tags intersect + urgency of needs
     an option claims to serve (`need:<key>` tag). No positive signal →
     no opinion."""
     weights = (
-        effective_theme_weights(session, brain) if brain else {}
+        effective_theme_weights(session, mind) if mind else {}
     )
     beliefs = (
         session.query(Belief)
@@ -98,7 +98,7 @@ def _recommend(session, brain, character_id, options):
     return best
 
 
-def resolve_decision(session, brain, episode, option_id, decision_id=None):
+def resolve_decision(session, mind, episode, option_id, decision_id=None):
     """Validate and record the host's pick. Returns
     (decision, option, already_decided) or raises ValueError/KeyError —
     the route maps those to 404/409/422."""
@@ -133,7 +133,7 @@ def resolve_decision(session, brain, episode, option_id, decision_id=None):
     if not already:
         recorded[dec['decision_id']] = option_id
         episode.decisions = recorded
-        _apply_choice_to_perceived(session, episode, dec, option, brain)
+        _apply_choice_to_perceived(session, episode, dec, option, mind)
     return dec, option, already
 
 
@@ -151,7 +151,7 @@ def _mark_changed(item, w):
         item['salience'] = round(float(floor), 3)
 
 
-def _apply_choice_to_perceived(session, episode, dec, option, brain):
+def _apply_choice_to_perceived(session, episode, dec, option, mind):
     """The chosen option rewrites what the day claimed: an authored
     `stance` becomes what the traveller actually did, and an
     `overnight_shelter` command rewrites the rest item — so close encodes
@@ -160,7 +160,7 @@ def _apply_choice_to_perceived(session, episode, dec, option, brain):
     describe a wild camp while the mechanics say wayhouse."""
     perceived = [dict(item) for item in (episode.perceived_day or [])]
     changed = False
-    w = {**DEFAULT_WIRING, **((getattr(brain, 'wiring', None)) or {})}
+    w = {**DEFAULT_WIRING, **((getattr(mind, 'wiring', None)) or {})}
     landed = bool(option.get('commands'))
 
     idx = dec.get('event_index')
@@ -220,7 +220,7 @@ def _apply_choice_to_perceived(session, episode, dec, option, brain):
 
 
 def resolution_text(session, game_id, option, character_name=None,
-                    brain=None):
+                    mind=None):
     options = phrases('mind.decision')
     label = option.get('label') or option.get('id') or ''
     for template in options:

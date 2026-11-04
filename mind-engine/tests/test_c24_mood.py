@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------
 # Two review findings from a live day-7 packet (energy 0.07, hunger 0.9,
 # three days without food — and 'mood: steady'):
-#  1. update_brain_mood: under real need pressure the present weighs
+#  1. update_mind_mood: under real need pressure the present weighs
 #     more than half — a starving body does not blend away into
 #     'steady'; the day's need IS the mood.
 #  2. Yesterday-recap vs Stirring: a memory encoded yesterday AND evoked
@@ -19,7 +19,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.lens import update_brain_mood
+from app.mind.lens import update_mind_mood
 from app.mind.tables import Memory
 
 
@@ -39,7 +39,7 @@ def test_extreme_need_keeps_the_mood_honest():
     """Prior 'steady' + a despairing starving day must not resolve back
     to 'steady' — pressure makes the present dominate the blend."""
     session = SessionLocal()
-    brain = SimpleNamespace(
+    mind = SimpleNamespace(
         mood={'valence': 0.36, 'arousal': 0.3, 'dominant': 'steady'},
         wiring=None,
     )
@@ -47,7 +47,7 @@ def test_extreme_need_keeps_the_mood_honest():
         'valence': -0.81, 'arousal': 0.46,
         'dominant': 'despairing', 'need_pressure': 0.27,
     }
-    mood = update_brain_mood(session, GAME, brain, ep_mood)
+    mood = update_mind_mood(session, GAME, mind, ep_mood)
     session.rollback()
     session.close()
     assert mood['valence'] <= -0.25
@@ -57,7 +57,7 @@ def test_extreme_need_keeps_the_mood_honest():
 def test_calm_day_still_blends_half():
     """No need pressure: the running mood keeps its even keel."""
     session = SessionLocal()
-    brain = SimpleNamespace(
+    mind = SimpleNamespace(
         mood={'valence': 0.4, 'arousal': 0.2, 'dominant': 'heartened'},
         wiring=None,
     )
@@ -65,7 +65,7 @@ def test_calm_day_still_blends_half():
         'valence': -0.2, 'arousal': 0.3,
         'dominant': 'steady', 'need_pressure': 0.0,
     }
-    mood = update_brain_mood(session, GAME, brain, ep_mood)
+    mood = update_mind_mood(session, GAME, mind, ep_mood)
     session.rollback()
     session.close()
     assert -0.15 < mood['valence'] < 0.15
@@ -102,20 +102,20 @@ def test_mood_cause_picks_what_weighed_most():
     assert mood_cause(perceived[:1]) is None
 
 
-def test_brain_mood_carries_its_cause_and_drops_it_at_ease():
+def test_mind_mood_carries_its_cause_and_drops_it_at_ease():
     session = SessionLocal()
-    brain = SimpleNamespace(mood={'valence': 0.0, 'arousal': 0.0}, wiring=None)
+    mind = SimpleNamespace(mood={'valence': 0.0, 'arousal': 0.0}, wiring=None)
     cause = {'reading': 'orc boots, a pursuit gait', 'valence': -0.8}
-    mood = update_brain_mood(
-        session, GAME, brain,
+    mood = update_mind_mood(
+        session, GAME, mind,
         {'valence': -0.6, 'arousal': 0.5, 'need_pressure': 0.0},
         cause=cause, when=date(1950, 10, 7),
     )
     assert mood['cause']['reading'] == 'orc boots, a pursuit gait'
     assert mood['cause']['date'] == '1950-10-07'
     # A causeless calm day: the mood settles and lets the cause go.
-    mood = update_brain_mood(
-        session, GAME, brain,
+    mood = update_mind_mood(
+        session, GAME, mind,
         {'valence': 0.35, 'arousal': 0.1, 'need_pressure': 0.0},
     )
     session.rollback()

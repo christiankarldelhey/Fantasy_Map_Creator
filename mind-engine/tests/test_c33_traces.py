@@ -14,7 +14,7 @@ import app.main as main_module
 import app.narrate_day as narrate_module
 from app.db import SessionLocal
 from app.mind.memory import decay_pass
-from app.mind.tables import Brain, Episode, ForgottenMemory, Memory
+from app.mind.tables import Mind, Episode, ForgottenMemory, Memory
 
 
 @pytest.fixture()
@@ -29,8 +29,8 @@ def _uid(prefix):
 def _brain_with_fading_memory():
     char = _uid('trace')
     session = SessionLocal()
-    session.add(Brain(
-        game_id='middle_earth', character_id=char, mold_slug='default',
+    session.add(Mind(
+        game_id='middle_earth', character_id=char, preset_slug='default',
         theme_weights={}, wiring={}, mood={}, counters={},
     ))
     mem = Memory(
@@ -49,8 +49,8 @@ def _brain_with_fading_memory():
 def test_forgetting_leaves_a_trace_with_the_episode_it_was_lost():
     char, mem_id = _brain_with_fading_memory()
     session = SessionLocal()
-    brain = session.query(Brain).filter_by(character_id=char).one()
-    out = decay_pass(session, brain, current_episode_index=5)
+    mind = session.query(Mind).filter_by(character_id=char).one()
+    out = decay_pass(session, mind, current_episode_index=5)
     session.commit()
 
     assert out['forgotten'] == 1
@@ -67,12 +67,12 @@ def test_forgetting_leaves_a_trace_with_the_episode_it_was_lost():
 def test_reset_wipes_the_traces_too(client):
     char, _ = _brain_with_fading_memory()
     session = SessionLocal()
-    brain = session.query(Brain).filter_by(character_id=char).one()
-    decay_pass(session, brain, current_episode_index=5)
+    mind = session.query(Mind).filter_by(character_id=char).one()
+    decay_pass(session, mind, current_episode_index=5)
     session.commit()
     session.close()
 
-    r = client.post(f'/mind/brains/{char}/reset',
+    r = client.post(f'/mind/minds/{char}/reset',
                     json={'game_id': 'middle_earth'})
     assert r.status_code == 200, r.text
     assert r.json()['deleted']['forgotten'] == 1

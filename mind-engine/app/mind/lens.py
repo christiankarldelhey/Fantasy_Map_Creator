@@ -7,7 +7,7 @@
 #
 # Mood: importance-weighted mean valence of the perceived events, arousal
 # from severity; the dominant label resolves through the mood bands in
-# voice.py. The episode's mood blends into the brain's running mood
+# voice.py. The episode's mood blends into the mind's running mood
 # (half-life of one episode).
 # ============================================================================
 import re
@@ -29,7 +29,7 @@ def _weighted_mean(items, key):
     )
 
 
-def episode_mood(session, game_id, perceived_day, brain=None, needs=None):
+def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
     """What this episode felt like: weighted by how much each event
     mattered (salience), then weighed down by open needs — the body's
     own voice, urgency-scaled. dominant via the editable 'mood' band."""
@@ -38,7 +38,7 @@ def episode_mood(session, game_id, perceived_day, brain=None, needs=None):
     arousal = _weighted_mean(items, 'severity')
     pressure = 0.0
     if needs:
-        w = {**DEFAULT_WIRING, **((brain.wiring if brain else None) or {})}
+        w = {**DEFAULT_WIRING, **((mind.wiring if mind else None) or {})}
         scale = w.get('need_affect_scale', 0.3)
         cap = w.get('need_affect_cap', 0.4)
         pressure = min(cap, sum((n.urgency or 0.0) * scale for n in needs))
@@ -85,7 +85,7 @@ def mood_cause(perceived_day, needs=None):
     return best
 
 
-def update_brain_mood(session, game_id, brain, ep_mood, cause=None,
+def update_mind_mood(session, game_id, mind, ep_mood, cause=None,
                       when=None):
     """The running mood absorbs the episode's mood; dominant re-resolves
     on the blended valence. Under real need pressure the present weighs
@@ -95,7 +95,7 @@ def update_brain_mood(session, game_id, brain, ep_mood, cause=None,
     its cause go — nothing weighs any more."""
     pressure = ep_mood.get('need_pressure') or 0.0
     blend = min(0.9, MOOD_BLEND + pressure)
-    prior = brain.mood or {}
+    prior = mind.mood or {}
     valence = (
         (prior.get('valence') or 0.0) * (1 - blend)
         + ep_mood['valence'] * blend
@@ -114,13 +114,13 @@ def update_brain_mood(session, game_id, brain, ep_mood, cause=None,
         carried and (carried.get('valence') or 0.0) * valence < 0
     ):
         carried = None
-    brain.mood = {
+    mind.mood = {
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
         'dominant': dominant,
         'cause': carried,
     }
-    return brain.mood
+    return mind.mood
 
 
 def _mood_line(mood, today=None):

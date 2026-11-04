@@ -5,7 +5,7 @@
 #
 #   Detectors ('physiological') — read the character state (snapshot or the
 #   episode's body event): days without food/water, spent energy, rising
-#   shadow, hostile-weather streaks (brain.counters). They fire each open;
+#   shadow, hostile-weather streaks (mind.counters). They fire each open;
 #   urgency recomputes and grows with the underlying state; when the state
 #   clears, the need resolves itself at the next open.
 #
@@ -51,10 +51,10 @@ def _phrase(key, subject=None, urgency=0.0, idx=0, wiring=None):
     )
 
 
-def update_streak_counters(session, brain, episode):
+def update_streak_counters(session, mind, episode):
     """Close-time bookkeeping (B9): per-rule streaks only count episodes
     the host actually persisted (close), never abandoned opens."""
-    update_rule_streaks(session, brain, episode)
+    update_rule_streaks(session, mind, episode)
 
 
 def _detectors(session, game_id, state, w):
@@ -99,24 +99,24 @@ def _resolve(need, reason, idx):
     need.resolution = reason
 
 
-def needs_pass(session, game_id, brain, episode, perceived, character=None):
+def needs_pass(session, game_id, mind, episode, perceived, character=None):
     """Open-time pass: fire detectors + threads, refresh urgency, close what
     cleared. Returns the character's open needs (urgency desc)."""
-    w = {**DEFAULT_WIRING, **(brain.wiring or {})}
+    w = {**DEFAULT_WIRING, **(mind.wiring or {})}
     idx = episode_index(episode)
     state = character_state(character, episode.events)
 
     fired = _detectors(session, game_id, state, w)
     # B9: declarative multi-day rules (exposure, snowbound, ...) — the
     # streak counter is bumped at close; today counts optimistically.
-    fired += rule_needs(session, brain, episode, w=w)
+    fired += rule_needs(session, mind, episode, w=w)
     threads, resolved_refs = _threads(perceived)
     fired += threads
 
     existing = {
         n.key: n
         for n in session.query(Need).filter_by(
-            game_id=game_id, character_id=brain.character_id
+            game_id=game_id, character_id=mind.character_id
         ).all()
     }
     touched = set()
@@ -133,7 +133,7 @@ def needs_pass(session, game_id, brain, episode, perceived, character=None):
         prior_urgency = need.urgency if was_open else None
         if need is None:
             need = Need(
-                game_id=game_id, character_id=brain.character_id, key=key,
+                game_id=game_id, character_id=mind.character_id, key=key,
                 type=spec['type'], description=desc,
                 urgency=spec['urgency'], status='open',
                 source=spec.get('source'),
@@ -179,7 +179,7 @@ def needs_pass(session, game_id, brain, episode, perceived, character=None):
     )
 
 
-def resolve_from_outcome(session, brain, episode, outcome):
+def resolve_from_outcome(session, mind, episode, outcome):
     """Close-time: the host reports which needs its persisted outcome
     settled. Entries may be need ids, keys, thread slugs or types."""
     refs = (outcome or {}).get('resolved_needs') or []
@@ -189,7 +189,7 @@ def resolve_from_outcome(session, brain, episode, outcome):
         return 0
     idx = episode_index(episode)
     open_needs = session.query(Need).filter_by(
-        character_id=brain.character_id, status='open'
+        character_id=mind.character_id, status='open'
     ).all()
     resolved = 0
     for ref in refs:

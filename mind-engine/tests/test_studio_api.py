@@ -15,7 +15,7 @@ import app.main as main_module
 import app.narrate_day as narrate_module
 from app.db import SessionLocal
 from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.tables import Brain, Character, Episode, ForgottenMemory
+from app.mind.tables import Mind, Character, Episode, ForgottenMemory
 
 AUTH = ('studio-user', 'studio-pass')
 
@@ -138,11 +138,11 @@ def test_unknown_mind_is_404(client):
     assert r.status_code == 404
 
 
-def test_brain_without_episodes_is_listed_last(client):
+def test_mind_without_episodes_is_listed_last(client):
     char = _uid('unlived')
     session = SessionLocal()
-    session.add(Brain(
-        game_id='middle_earth', character_id=char, mold_slug='default',
+    session.add(Mind(
+        game_id='middle_earth', character_id=char, preset_slug='default',
         theme_weights={}, wiring={}, mood={}, counters={},
     ))
     session.commit()
@@ -213,13 +213,13 @@ def test_trait_dial_writes_its_knobs(client):
     assert r.status_code == 200, r.text
 
     session = SessionLocal()
-    brain = session.query(Brain).filter_by(character_id=char).one()
+    mind = session.query(Mind).filter_by(character_id=char).one()
     # curiosidad at full: the new weighs heavy, themes pull, talk sticks.
-    assert brain.wiring['w_novelty'] == pytest.approx(0.45)
-    assert brain.wiring['w_theme'] == pytest.approx(0.30)
+    assert mind.wiring['w_novelty'] == pytest.approx(0.45)
+    assert mind.wiring['w_theme'] == pytest.approx(0.30)
     # rumia at zero: the present wins — recency decays fast, few evoked.
-    assert brain.wiring['lambda_recency'] == pytest.approx(0.60)
-    assert brain.wiring['retrieval_top_k'] == 2
+    assert mind.wiring['lambda_recency'] == pytest.approx(0.60)
+    assert mind.wiring['retrieval_top_k'] == 2
     session.close()
 
     # …and the dials read back the extremes honestly.
@@ -242,14 +242,14 @@ def test_dormant_trait_stores_its_value(client):
     assert r.status_code == 200, r.text
 
     session = SessionLocal()
-    brain = session.query(Brain).filter_by(character_id=char).one()
-    assert brain.wiring['trait_integridad'] == pytest.approx(0.9)
-    assert brain.wiring['trait_coraje'] == pytest.approx(0.1)
+    mind = session.query(Mind).filter_by(character_id=char).one()
+    assert mind.wiring['trait_integridad'] == pytest.approx(0.9)
+    assert mind.wiring['trait_coraje'] == pytest.approx(0.1)
     # Nothing mechanical woke up — the dormant dial is data only.
-    assert brain.wiring.get('w_novelty') == pytest.approx(
+    assert mind.wiring.get('w_novelty') == pytest.approx(
         DEFAULT_WIRING['w_novelty']
     )
-    assert brain.wiring.get('decay') == pytest.approx(
+    assert mind.wiring.get('decay') == pytest.approx(
         DEFAULT_WIRING['decay']
     )
     session.close()
@@ -314,8 +314,8 @@ def test_mood_patch_clamps_and_drops_cause_near_neutral(client):
     char = _uid('mood')
     _live(client, char, 1)
     session = SessionLocal()
-    brain = session.query(Brain).filter_by(character_id=char).one()
-    brain.mood = {
+    mind = session.query(Mind).filter_by(character_id=char).one()
+    mind.mood = {
         'valence': -0.7, 'arousal': 0.5, 'dominant': 'heavy',
         'cause': {'reading': 'the wolves', 'valence': -0.6, 'tags': []},
     }

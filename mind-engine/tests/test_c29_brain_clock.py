@@ -4,7 +4,7 @@
 # when.episode is the host's trip day_number — it resets every journey.
 # Aging memories by it let a new trip's day 1 collide with an old trip's
 # day 1: a week-old memory scored as 'yesterday', and the refractory
-# window misfired. episodes.episode_idx counts the brain's lived episodes
+# window misfired. episodes.episode_idx counts the mind's lived episodes
 # monotonically; created_episode / last_evoked_episode / age phrases all
 # anchor on it.
 # ============================================================================
@@ -61,7 +61,7 @@ def _close(client, episode_id):
 
 
 def test_episode_idx_counts_lived_days_not_trip_days(client):
-    """Two trips, both starting at when.episode=1 — the brain's counter
+    """Two trips, both starting at when.episode=1 — the mind's counter
     never resets."""
     char = _uid('clock')
     a = _open(client, char, 'tripA:day:1', 1)
@@ -85,14 +85,14 @@ def test_reopen_replays_the_same_idx(client):
 
 def test_old_trip_memory_never_counts_as_fresh(client):
     """The exact bug: a memory encoded on trip A's day 1 must not read
-    as same-day when trip B's day 1 arrives — the brain's delta is the
+    as same-day when trip B's day 1 arrives — the mind's delta is the
     lived distance, not the day_number coincidence."""
     char = _uid('two-trips')
     first = _open(client, char, 'tripA:day:1', 1)
     _close(client, first['episode_id'])
 
     # New journey — the host's numbering restarts at day 1, but the
-    # brain's clock is already on its second lived episode.
+    # mind's clock is already on its second lived episode.
     second = _open(client, char, 'tripB:day:1', 1)
     assert _state(client, second['episode_id'])['episode_idx'] == 2
 
@@ -101,7 +101,7 @@ def test_old_trip_memory_never_counts_as_fresh(client):
         character_id=char, kind='episodic'
     ).first()
     session.close()
-    # Encoded on the brain's day 1, evoked on its day 2: under the old
+    # Encoded on the mind's day 1, evoked on its day 2: under the old
     # clock both stamps would read 1 — a memory of the last journey
     # posing as one of today.
     assert mem.created_episode == 1

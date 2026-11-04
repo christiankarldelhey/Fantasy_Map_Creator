@@ -16,4 +16,4 @@
 export { loadRecentEncounterForms } from './tripHistory.js';
 export { collectTravellerState, notableItemsOf } from './travellerBlocks.js';
 export { narrateDay } from './narrateDay.js';
-export { closeEpisode, resetBrain } from '../mind/mindClient.js';
+export { closeEpisode, resetMind } from '../mind/mindClient.js';

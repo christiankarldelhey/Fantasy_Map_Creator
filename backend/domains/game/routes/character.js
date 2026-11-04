@@ -3,7 +3,7 @@ import pool from '../../../db.js';
 import { authenticateToken } from '../../../middleware/auth.js';
 import { grantStartingKit, loadInventory } from '../services/character/inventory.js';
 import { TUNING } from '../services/character/characterState.js';
-import { resetBrain } from '../adapters/storyClient.js';
+import { resetMind } from '../adapters/storyClient.js';
 
 const router = express.Router();
 
@@ -584,15 +584,15 @@ router.post('/:id/reset', authenticateToken, async (req, res, next) => {
     }
 
     // A regenerated character is a new person: wipe the lived mind
-    // (memories, beliefs, needs, episodes) — the mold's seeds come back
+    // (memories, beliefs, needs, episodes) — the preset's seeds come back
     // by themselves. The mind never blocks the game: a failed wipe only
     // logs a warning, the character resets regardless.
     let mindReset = false;
     try {
-      await resetBrain(String(id));
+      await resetMind(String(id));
       mindReset = true;
     } catch (e) {
-      console.warn(`[mind] brain reset failed for character ${id}:`, e.message);
+      console.warn(`[mind] mind reset failed for character ${id}:`, e.message);
     }
 
     res.json({ ...result.rows[0], mind_reset: mindReset });

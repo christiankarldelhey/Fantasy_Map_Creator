@@ -37,7 +37,7 @@ class EventIn(BaseModel):
 
 class OpenCharacter(BaseModel):
     """One merged character: the mind reads id/name/skills/conditions/
-    brain_profile; the narrator reads name/description/entity_name/
+    preset; the narrator reads name/description/entity_name/
     system_prompt/introduction_instructions/wounded.
 
     `state` is the free-form Condition channel (ADR 0005): a host declares
@@ -49,7 +49,7 @@ class OpenCharacter(BaseModel):
 
     id: str = Field(min_length=1)
     name: Optional[str] = None
-    brain_profile: Optional[str] = None
+    preset: Optional[str] = None
     skills: Dict[str, Any] = {}
     conditions: List[Any] = []
     energy: Optional[float] = None
@@ -229,7 +229,7 @@ class OpenEpisodeRequest(BaseModel):
     equipment_state: Optional[Dict[str, Any]] = None
     fate: Optional[str] = None
     # Stateless-fallback continuity (C22): mind-driven prompts ignore
-    # this — the lens recaps what the brain retained instead. It still
+    # this — the lens recaps what the mind retained instead. It still
     # rides the wire so a mindless narrate keeps its 'In Chapter N' line.
     previous_day: Optional[Dict[str, Any]] = None
     recent_day_climates: List[Dict[str, Any]] = []
@@ -301,11 +301,11 @@ class EpisodeStateResponse(BaseModel):
 
 
 class MindStateResponse(BaseModel):
-    """GET /mind/state/{character_id} — the living brain: cloned config
+    """GET /mind/state/{character_id} — the living mind: cloned config
     (nature) plus lived content (nurture)."""
 
     character_id: str
-    brain: Optional[Dict[str, Any]] = None
+    mind: Optional[Dict[str, Any]] = None
     beliefs: List[Dict[str, Any]] = []
     memories: List[Dict[str, Any]] = []
     needs: List[Dict[str, Any]] = []
@@ -313,14 +313,14 @@ class MindStateResponse(BaseModel):
     episodes: int = 0
 
 
-class ReassignMoldRequest(BaseModel):
+class ReassignPresetRequest(BaseModel):
     slug: str = Field(min_length=1)
     game_id: Optional[str] = None
     reclone: bool = False
 
 
-class ResetBrainRequest(BaseModel):
-    """POST /mind/brains/{character_id}/reset — full mind wipe (C19).
+class ResetMindRequest(BaseModel):
+    """POST /mind/minds/{character_id}/reset — full mind wipe (C19).
     game_id scopes it; absent means the default game."""
     game_id: Optional[str] = None
 
@@ -388,16 +388,16 @@ class DecideEpisodeResponse(BaseModel):
 
 
 class ConsolidateRequest(BaseModel):
-    """POST /maintenance/consolidate — batch pass over degraded brains
-    (B10): the forgetting/pattern work their closes deferred. `brain_ids`
-    pins the pass; `game_id` scopes it; both empty → all degraded brains."""
+    """POST /maintenance/consolidate — batch pass over degraded minds
+    (B10): the forgetting/pattern work their closes deferred. `mind_ids`
+    pins the pass; `game_id` scopes it; both empty → all degraded minds."""
 
     game_id: Optional[str] = None
-    brain_ids: List[str] = []
+    mind_ids: List[str] = []
 
 
 class ConsolidateResponse(BaseModel):
-    brains: int = 0
+    minds: int = 0
     results: List[Dict[str, Any]] = []
 
 

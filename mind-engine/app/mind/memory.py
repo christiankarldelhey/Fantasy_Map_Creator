@@ -18,8 +18,8 @@ from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Episode, ForgottenMemory, Memory, Need
 
 
-def _wiring(brain):
-    return {**DEFAULT_WIRING, **(brain.wiring or {})}
+def _wiring(mind):
+    return {**DEFAULT_WIRING, **(mind.wiring or {})}
 
 
 def forget(session, mem, episode_idx):
@@ -49,7 +49,7 @@ def forget(session, mem, episode_idx):
 
 
 def episode_index(episode):
-    """The mind's own clock (C29): episode.episode_idx — a per-brain
+    """The mind's own clock (C29): episode.episode_idx — a per-mind
     monotonic counter assigned at open. The host's when.episode (a
     trip's day_number) only remains as the legacy fallback for rows
     that predate the column."""
@@ -100,7 +100,7 @@ def _entity_of(item):
     return data.get('entity') or data.get('entity_id')
 
 
-def _describe(session, game_id, item, brain=None):
+def _describe(session, game_id, item, mind=None):
     # An unnoticed event never resolved into a reading — what may lodge in
     # memory is only the difuso it left behind (editable 'mind.unnoticed').
     if item.get('perception') == 'unnoticed':
@@ -118,10 +118,10 @@ def _describe(session, game_id, item, brain=None):
     return desc
 
 
-def encode_episode(session, brain, episode):
+def encode_episode(session, mind, episode):
     """Turn this episode's perceived_day into memories. Idempotent: items
     already encoded for this episode are refreshed, never duplicated."""
-    w = _wiring(brain)
+    w = _wiring(mind)
     fixed = w.get('fixed_threshold', 0.8)
     idx = episode_index(episode)
 
@@ -160,7 +160,7 @@ def encode_episode(session, brain, episode):
             importance = min(1.0, importance + focus_boost)
         sig = _signature(item)
         consolidated = importance >= fixed
-        desc = _describe(session, episode.game_id, item, brain=brain)
+        desc = _describe(session, episode.game_id, item, mind=mind)
         if desc is None:
             continue
         # A need speaks in one voice across its whole arc: 'the hunger'
@@ -239,7 +239,7 @@ def _exempt_this_episode(mem, current_episode_index):
     )
 
 
-def decay_pass(session, brain, current_episode_index):
+def decay_pass(session, mind, current_episode_index):
     """One forgetting pass over the character's memories (C16 tiers).
 
     Volatiles decay — but intensity sticks: a memory of strong feeling
@@ -250,7 +250,7 @@ def decay_pass(session, brain, current_episode_index):
     long-term is months, not eternity; patterns keep their own
     recurrence lifecycle in detect_patterns.
     """
-    w = _wiring(brain)
+    w = _wiring(mind)
     decay = w.get('decay', 0.85)
     forget_below = w.get('forget_threshold', 0.2)
     fix_k = int(w.get('evocations_to_fix', 3))
@@ -264,7 +264,7 @@ def decay_pass(session, brain, current_episode_index):
     consolidated = 0
     for mem in (
         session.query(Memory)
-        .filter_by(character_id=brain.character_id, consolidated=False)
+        .filter_by(character_id=mind.character_id, consolidated=False)
         .all()
     ):
         if (
@@ -291,7 +291,7 @@ def decay_pass(session, brain, current_episode_index):
 
     for mem in (
         session.query(Memory)
-        .filter_by(character_id=brain.character_id, consolidated=True)
+        .filter_by(character_id=mind.character_id, consolidated=True)
         .all()
     ):
         if mem.kind == 'pattern':
@@ -308,14 +308,14 @@ def decay_pass(session, brain, current_episode_index):
     return {'forgotten': forgotten, 'consolidated': consolidated}
 
 
-def _release_resolved_needs(session, brain):
+def _release_resolved_needs(session, mind):
     """A closed chapter leaves a fading trace, not a fixed anchor
     (C16): a need memory stays consolidated only while the need is
     open — once resolved it rejoins the volatile pool and wears away
     over the following weeks."""
     resolved_keys = {
         n.key for n in session.query(Need).filter_by(
-            character_id=brain.character_id, status='resolved'
+            character_id=mind.character_id, status='resolved'
         )
     }
     if not resolved_keys:
@@ -323,7 +323,7 @@ def _release_resolved_needs(session, brain):
     released = 0
     for mem in (
         session.query(Memory)
-        .filter_by(character_id=brain.character_id, consolidated=True)
+        .filter_by(character_id=mind.character_id, consolidated=True)
         .all()
     ):
         need_tag = next(
@@ -336,7 +336,7 @@ def _release_resolved_needs(session, brain):
     return released
 
 
-def _compact_duplicates(session, brain):
+def _compact_duplicates(session, mind):
     """Limpieza (C16): copies of the same memory fold into one — need
     arcs written before the merge existed, or rows that only ever
     differed by id. The newest row keeps the union of episodes and the
@@ -344,7 +344,7 @@ def _compact_duplicates(session, brain):
     groups = {}
     for mem in (
         session.query(Memory)
-        .filter_by(character_id=brain.character_id)
+        .filter_by(character_id=mind.character_id)
         .all()
     ):
         need_tag = next(
@@ -387,7 +387,7 @@ def _compact_duplicates(session, brain):
     return merged
 
 
-def belief_fade_pass(session, brain, current_episode_index):
+def belief_fade_pass(session, mind, current_episode_index):
     """C14: transient beliefs fade with time, not just reflection —
     'this ford is dangerous these days' stops being true when the days
     move on. Each closed episode the belief was not refreshed (a
@@ -395,14 +395,14 @@ def belief_fade_pass(session, brain, current_episode_index):
     below the weaken floor it goes quiet like any ignored conviction."""
     if current_episode_index is None:
         return {'beliefs_faded': 0}
-    w = _wiring(brain)
+    w = _wiring(mind)
     decay = w.get('belief_transient_episode_decay', 0.9)
     weaken_below = w.get('belief_weaken_below', 1.5)
     faded = 0
     beliefs = (
         session.query(Belief)
         .filter_by(
-            character_id=brain.character_id,
+            character_id=mind.character_id,
             horizon='transient',
             status='active',
         )
@@ -418,7 +418,7 @@ def belief_fade_pass(session, brain, current_episode_index):
     return {'beliefs_faded': faded}
 
 
-def _pattern_desc(session, game_id, tag, count, brain=None):
+def _pattern_desc(session, game_id, tag, count, mind=None):
     """A theme worded by the NL pack ('mind.pattern'), {subject} = the
     human end of the tag ('tag:food:lembas' -> 'lembas')."""
     subject = tag.rsplit(':', 1)[-1].replace('_', ' ').replace('-', ' ')
@@ -439,7 +439,7 @@ def _pattern_eligible(tag):
     return tag.startswith('tag:') and ':' not in tag[len('tag:'):]
 
 
-def detect_patterns(session, brain, episode, idx, w):
+def detect_patterns(session, mind, episode, idx, w):
     """Second path to permanence (spec §7.3): a theme-eligible tag
     perceived in >= pattern_min_episodes of the last pattern_window
     episodes consolidates into a fixed kind='pattern' memory.
@@ -456,7 +456,7 @@ def detect_patterns(session, brain, episode, idx, w):
     min_hits = int(w.get('pattern_min_episodes', 3))
     recent = (
         session.query(Episode)
-        .filter_by(character_id=brain.character_id)
+        .filter_by(character_id=mind.character_id)
         .order_by(Episode.created_at.desc())
         .limit(window * 2)
         .all()
@@ -477,7 +477,7 @@ def detect_patterns(session, brain, episode, idx, w):
     existing = {
         (m.tags or [None])[0]: m
         for m in session.query(Memory)
-        .filter_by(character_id=brain.character_id, kind='pattern')
+        .filter_by(character_id=mind.character_id, kind='pattern')
         .all()
     }
     formed = 0
@@ -490,11 +490,11 @@ def detect_patterns(session, brain, episode, idx, w):
             pat.strength = 1.0
             pat.last_evoked_episode = idx
             continue
-        desc = _pattern_desc(session, brain.game_id, tag, len(eps),
-                             brain=brain)
+        desc = _pattern_desc(session, mind.game_id, tag, len(eps),
+                             mind=mind)
         session.add(Memory(
-            game_id=brain.game_id,
-            character_id=brain.character_id,
+            game_id=mind.game_id,
+            character_id=mind.character_id,
             episode_ids=[],
             kind='pattern',
             tags=[tag],
@@ -544,13 +544,13 @@ def detect_patterns(session, brain, episode, idx, w):
     return {'formed': formed, 'faded': faded}
 
 
-def close_episode_memory(session, brain, episode):
+def close_episode_memory(session, mind, episode):
     """Full consolidation pass for one close: encode, detect the recurring
-    themes, then decay the volatiles. Degraded brains (B10: NPCs) only
+    themes, then decay the volatiles. Degraded minds (B10: NPCs) only
     encode — their forgetting runs in batch via /maintenance/consolidate."""
     idx = episode_index(episode)
-    w = _wiring(brain)
-    enc = encode_episode(session, brain, episode)
+    w = _wiring(mind)
+    enc = encode_episode(session, mind, episode)
     if w.get('degraded'):
         return {
             'encoded': enc['encoded'],
@@ -560,11 +560,11 @@ def close_episode_memory(session, brain, episode):
             'patterns_faded': 0,
             'degraded': True,
         }
-    released = _release_resolved_needs(session, brain)
-    merged = _compact_duplicates(session, brain)
-    patterns = detect_patterns(session, brain, episode, idx, w)
-    decayed = decay_pass(session, brain, idx)
-    beliefs = belief_fade_pass(session, brain, idx)
+    released = _release_resolved_needs(session, mind)
+    merged = _compact_duplicates(session, mind)
+    patterns = detect_patterns(session, mind, episode, idx, w)
+    decayed = decay_pass(session, mind, idx)
+    beliefs = belief_fade_pass(session, mind, idx)
     return {
         'encoded': enc['encoded'],
         'forgotten': decayed['forgotten'],

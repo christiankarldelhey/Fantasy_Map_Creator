@@ -75,14 +75,14 @@ export async function closeEpisode(episodeId, outcome) {
 
 /**
  * Full mind wipe (C19): deletes everything the character lived —
- * memories, learned beliefs, needs, episodes — and re-seeds the mold's
+ * memories, learned beliefs, needs, episodes — and re-seeds the preset's
  * starter beliefs. Returns {request, response}; a failed reset must
  * never block the game request (catch upstream).
  */
-export async function resetBrain(characterId, gameId = GAME_ID) {
+export async function resetMind(characterId, gameId = GAME_ID) {
   const request = { game_id: gameId };
   const response = await post(
-    `/mind/brains/${characterId}/reset`, request, CLOSE_TIMEOUT_MS
+    `/mind/minds/${characterId}/reset`, request, CLOSE_TIMEOUT_MS
   );
   return { request, response };
 }

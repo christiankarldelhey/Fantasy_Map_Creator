@@ -96,7 +96,7 @@ def _echo_token(desc):
 
 
 def _evoked_episode(client):
-    """A brain with one encoded memory, then a second episode that
+    """A mind with one encoded memory, then a second episode that
     evokes it — returns (episode_id, memory_id)."""
     char = _uid('voiced')
     first = _open(client, char, 'd1', 1)

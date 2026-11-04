@@ -15,7 +15,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 from app.db import SessionLocal
 from app.mind.embeddings import embed
-from app.mind.tables import Brain, Episode, Memory
+from app.mind.tables import Mind, Episode, Memory
 
 
 @pytest.fixture()
@@ -87,12 +87,12 @@ def _all_tags(character_id):
 
 def _set_wiring(character_id, **wiring):
     session = SessionLocal()
-    brain = (
-        session.query(Brain)
+    mind = (
+        session.query(Mind)
         .filter_by(game_id='middle_earth', character_id=character_id)
         .one()
     )
-    brain.wiring = {**(brain.wiring or {}), **wiring}
+    mind.wiring = {**(mind.wiring or {}), **wiring}
     session.commit()
     session.close()
 
