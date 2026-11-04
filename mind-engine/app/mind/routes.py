@@ -31,7 +31,6 @@ from app.mind.lens import (
 from app.mind.memory import (
     _compact_duplicates,
     _release_resolved_needs,
-    belief_fade_pass,
     close_episode_memory,
     decay_pass,
     detect_patterns,
@@ -917,7 +916,6 @@ def consolidate_degraded(
                 'needs_released': released,
                 'memories_merged': merged,
                 **decay_pass(db, brain, idx),
-                **belief_fade_pass(db, brain, idx),
             })
         db.commit()
         return ConsolidateResponse(brains=len(results), results=results)
