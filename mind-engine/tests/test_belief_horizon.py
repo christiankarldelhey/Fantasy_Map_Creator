@@ -1,12 +1,12 @@
 # ============================================================================
-# C14 — beliefs move on evidence, never on the calendar
+# C14 — temporal beliefs (horizon: enduring | transient)
 # ----------------------------------------------------------------------------
 # A belief can bind to the world's nature (enduring — 'the Dunedain are
 # thieves') or to current circumstances (transient — 'this ford is
-# dangerous these days'). Neither fades with time: closing quiet
-# episodes leaves every belief untouched. The only time-shaped decay
-# left is at reflection — a belief the reflection does not touch decays
-# (transient ones faster: circumstances unstated are circumstances gone).
+# dangerous these days'). Transient beliefs fade each closed episode they
+# are not refreshed — time, not just reflection, dissolves them; below
+# belief_weaken_below they go quiet. Enduring beliefs ignore the
+# calendar and only decay when a reflection ignores them.
 # ============================================================================
 import json
 import re
@@ -96,19 +96,20 @@ def _belief(char):
     return b
 
 
-def test_no_belief_fades_with_the_calendar(client):
-    """Identity does not fade with time: five quiet closes leave a
-    transient circumstance ('this ford is dangerous these days') exactly
-    where it was — only evidence moves a belief."""
+def test_transient_belief_fades_with_the_days(client):
+    """'This ford is dangerous these days' — close five quiet episodes
+    and the circumstance stops being a belief: 0.5 * 0.9^5 < 0.3."""
     char = _uid('transient')
     slug = _quiet_mold()
     _seed_belief(char, 'transient', 0.5)
+    last = None
     for ep in range(1, 6):
         opened = _open(client, char, f'd{ep}', [_meal(ep)], brain_profile=slug)
-        _close(client, opened['episode_id'])
+        last = _close(client, opened['episode_id'])
+    assert last['beliefs_faded'] == 1
     b = _belief(char)
-    assert b.confidence == pytest.approx(0.5)
-    assert b.status == 'active'
+    assert b.confidence == pytest.approx(0.5 * 0.9 ** 5)
+    assert b.status == 'weakened'
 
 
 def test_enduring_belief_ignores_the_calendar(client):
@@ -117,9 +118,11 @@ def test_enduring_belief_ignores_the_calendar(client):
     char = _uid('enduring')
     slug = _quiet_mold()
     _seed_belief(char, 'enduring', 0.5)
+    last = None
     for ep in range(1, 6):
         opened = _open(client, char, f'd{ep}', [_meal(ep)], brain_profile=slug)
-        _close(client, opened['episode_id'])
+        last = _close(client, opened['episode_id'])
+    assert last['beliefs_faded'] == 0
     b = _belief(char)
     assert b.confidence == pytest.approx(0.5)
     assert b.status == 'active'
@@ -159,19 +162,19 @@ def test_reflection_reads_the_horizon(client, monkeypatch):
 
 def test_reflection_ignores_transient_harder(client, monkeypatch):
     """A transient belief a reflection does not touch decays at the
-    transient rate (x0.8) — circumstances unstated are circumstances
-    gone. No episode fade on top: the calendar does not move beliefs."""
+    transient rate (x0.8) on top of the episode fade — circumstances
+    unstated are circumstances gone."""
     monkeypatch.setattr(
         reflection_module, 'generate_narrative',
         lambda *a, **k: {'text': json.dumps({'reflections': []})},
     )
     char = _uid('ignored')
-    _seed_belief(char, 'transient', 0.35)
+    _seed_belief(char, 'transient', 0.4)
     slug = _reflective_mold()
     opened = _open(client, char, 'd1', [_meal(1)], brain_profile=slug)
     _close(client, opened['episode_id'])
 
     b = _belief(char)
-    # 0.35 * 0.8 (ignored at reflection) = 0.28 < 0.3 → quiet
-    assert b.confidence == pytest.approx(0.35 * 0.8)
+    # 0.4 * 0.9 (episode fade) * 0.8 (ignored at reflection) = 0.288
+    assert b.confidence == pytest.approx(0.4 * 0.9 * 0.8)
     assert b.status == 'weakened'

@@ -341,6 +341,7 @@ class CloseEpisodeResponse(BaseModel):
     needs_resolved: int = 0
     patterns: int = 0
     patterns_faded: int = 0
+    beliefs_faded: int = 0
     reflection: Optional[Dict[str, Any]] = None
     attitudes_moved: List[Dict[str, Any]] = []
     already_closed: bool = False

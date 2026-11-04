@@ -61,7 +61,7 @@ A Memory the Mind has lost: kept as a trace with the day it was lost so the Mind
 _Avoid_: deleted, erased
 
 **Belief**:
-Something the Mind holds true: a statement, how firmly it is held (from barely to a way of life) and what it is about — the world, the self, others, or what matters (a Value). Only lived evidence moves it, never time alone: what confirms it hardens it, what contradicts it wears it down, and the firmer it is the harder it moves. An experience can start a Belief, but faintly. Reaches the Lens only when the Episode puts it at stake. When it is about something concrete it also carries a Subject, a Stance and a Source.
+Something the Mind holds true: a statement, how firmly it is held (from barely to a way of life) and what it is about — the world, the self, others, or what matters (a Value). Lived evidence moves it: what confirms it hardens it, what contradicts it wears it down, and the firmer it is the harder it moves. A Belief about passing circumstances also fades as the days pass; one about how the world is does not. An experience can start a Belief, but faintly. Reaches the Lens only when the Episode puts it at stake. When it is about something concrete it also carries a Subject, a Stance and a Source.
 _Avoid_: core idea, main idea, thought, latent belief
 
 **Value**:

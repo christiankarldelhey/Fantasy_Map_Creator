@@ -734,16 +734,21 @@ entre "config editable" y "contenido del mundo".
 del otro, de uno mismo — *"los dúnedain son ladrones"*) vs `transient`
 (las circunstancias — *"este vado está vigilado estos días"*). El LLM
 declara el horizonte al crear; ausente o inválido cae a `enduring`.
-Nada en Identity decae por calendario: la única decadencia es en la
-reflexión — una creencia que la reflexión no toca decae, y más rápido
-si es transiente (`belief_transient_decay: 0.8` vs 0.95 de las
-duraderas): circunstancia no dicha, circunstancia ida. Migración 0013:
-todo lo existente backfillea `enduring`.
+Las transientes además se desvanecen con los días: cada episodio
+cerrado que no la refrescó le aplica `belief_transient_episode_decay:
+0.9` (`belief_fade_pass` en el close); debajo de `belief_weaken_below`
+se aquieta. Las enduring ignoran el paso del tiempo — solo decae la
+creencia que la reflexión no toca, y más rápido si es transiente
+(`belief_transient_decay: 0.8` vs 0.95 de las duraderas): circunstancia
+no dicha, circunstancia ida. Migración 0013: todo lo existente
+backfillea `enduring`.
 
-**🏗️ Arquitectura** — Las creencias se mueven solo por evidencia: un
+**🏗️ Arquitectura** — Las creencias se mueven por evidencia: un
 empujoncito de attitude por encuentro, o la reflexión que crea,
-refuerza, contradice o ignora. El close ya no reporta fade de
-creencias; el admin muestra y filtra por horizon.
+refuerza, contradice o ignora. A eso se le suma el tiempo solo para
+las transientes — lo que era "estos días" deja de serlo cuando los
+días pasan. El close reporta `beliefs_faded`; el admin muestra y
+filtra por horizon.
 
 **🚫 No hace** — No expira por fecha real (la vida corre por episodios,
 no por calendario). No revive sola una creencia debilitada — vuelve
