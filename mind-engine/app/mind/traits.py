@@ -87,11 +87,11 @@ TRAITS = {
         'help': 'cuánta evidencia pide una creencia y cuánto la suelta',
         'anchor': 'belief_reinforce_delta',
         'knobs': {
-            'belief_reinforce_delta': (0.05, 0.10, 0.20),
+            'belief_reinforce_delta': (0.25, 0.5, 1.0),
             # Inverted: the clingy mind barely drops a belief when the
             # world contradicts it; the doubting one sheds fast.
-            'belief_contradict_delta': (0.25, 0.15, 0.05),
-            'belief_confidence_decay': (0.90, 0.95, 0.99),
+            'belief_contradict_delta': (1.25, 0.75, 0.25),
+            'belief_strength_decay': (0.90, 0.95, 0.99),
             'belief_new_per_reflection': (1, 2, 3),
             'belief_cap': (8, 12, 16),
             'belief_evidence_importance_min': (0.55, 0.40, 0.25),

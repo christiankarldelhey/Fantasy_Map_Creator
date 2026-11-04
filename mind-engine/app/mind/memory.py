@@ -391,13 +391,13 @@ def belief_fade_pass(session, brain, current_episode_index):
     """C14: transient beliefs fade with time, not just reflection —
     'this ford is dangerous these days' stops being true when the days
     move on. Each closed episode the belief was not refreshed (a
-    reflection that touched it sets updated_episode), confidence decays;
+    reflection that touched it sets updated_episode), strength decays;
     below the weaken floor it goes quiet like any ignored conviction."""
     if current_episode_index is None:
         return {'beliefs_faded': 0}
     w = _wiring(brain)
     decay = w.get('belief_transient_episode_decay', 0.9)
-    weaken_below = w.get('belief_weaken_below', 0.3)
+    weaken_below = w.get('belief_weaken_below', 1.5)
     faded = 0
     beliefs = (
         session.query(Belief)
@@ -411,8 +411,8 @@ def belief_fade_pass(session, brain, current_episode_index):
     for belief in beliefs:
         if belief.updated_episode == current_episode_index:
             continue
-        belief.confidence = (belief.confidence or 0.0) * decay
-        if belief.confidence < weaken_below:
+        belief.strength = (belief.strength or 0.0) * decay
+        if belief.strength < weaken_below:
             belief.status = 'weakened'
         faded += 1
     return {'beliefs_faded': faded}

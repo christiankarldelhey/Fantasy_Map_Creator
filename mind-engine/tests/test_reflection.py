@@ -84,10 +84,10 @@ def test_reflection_creates_belief_with_real_evidence(client, monkeypatch):
         return {'text': json.dumps({'reflections': [
             {'op': 'create', 'kind': 'world',
              'statement': 'The road provides for those who walk it',
-             'confidence': 0.6, 'evidence': mem_ids[:1]},
+             'strength': 3, 'evidence': mem_ids[:1]},
             {'op': 'create', 'kind': 'self',
              'statement': 'I remember things that never happened',
-             'confidence': 0.9, 'evidence': ['mem_does_not_exist']},
+             'strength': 4.5, 'evidence': ['mem_does_not_exist']},
         ]})}
     monkeypatch.setattr(reflection_module, 'generate_narrative', fake_llm)
 
@@ -119,7 +119,7 @@ def test_no_trigger_without_schedule(client, monkeypatch):
 
 
 def test_reinforce_and_decay_of_the_untouched(client, monkeypatch):
-    """Reinforced belief gains confidence; an untouched seed loses it."""
+    """Reinforced belief gains strength; an untouched seed loses it."""
     def fake_llm(prompt, day_number=None):
         beliefs = re.findall(r'id=(bl_\w+)', prompt['user'])
         mems = re.findall(r'id=(mem_\w+)', prompt['user'])
@@ -127,7 +127,7 @@ def test_reinforce_and_decay_of_the_untouched(client, monkeypatch):
             return {'text': json.dumps({'reflections': [
                 {'op': 'create', 'kind': 'world',
                  'statement': 'Orcs keep finding the road',
-                 'confidence': 0.6, 'evidence': mems[:1]},
+                 'strength': 3, 'evidence': mems[:1]},
             ]})}
         return {'text': json.dumps({'reflections': [
             {'op': 'reinforce', 'belief_id': beliefs[0], 'evidence': mems[:1]},
@@ -142,7 +142,7 @@ def test_reinforce_and_decay_of_the_untouched(client, monkeypatch):
 
     beliefs = _beliefs(char)
     assert len(beliefs) == 1
-    assert beliefs[0].confidence == pytest.approx(0.7)  # 0.6 + 0.1
+    assert beliefs[0].strength == pytest.approx(3.5)  # 3 + 0.5
 
 
 def test_inversion_grows_the_opposite_belief(client, monkeypatch):
@@ -156,12 +156,12 @@ def test_inversion_grows_the_opposite_belief(client, monkeypatch):
             return {'text': json.dumps({'reflections': [
                 {'op': 'create', 'kind': 'other',
                  'statement': 'Strangers mean trouble',
-                 'confidence': 0.5, 'evidence': mems[:1]},
+                 'strength': 2.5, 'evidence': mems[:1]},
             ]})}
         return {'text': json.dumps({'reflections': [
             {'op': 'invert', 'belief_id': beliefs[0],
              'statement': 'Strangers have proven kind',
-             'confidence': 0.6, 'evidence': mems[:1]},
+             'strength': 3, 'evidence': mems[:1]},
         ]})}
     monkeypatch.setattr(reflection_module, 'generate_narrative', fake_llm)
 
@@ -208,7 +208,7 @@ def test_new_beliefs_cap_per_reflection(client, monkeypatch):
         mem_ids = re.findall(r'id=(mem_\w+)', prompt['user'])
         return {'text': json.dumps({'reflections': [
             {'op': 'create', 'kind': 'world', 'statement': f'lesson {i}',
-             'confidence': 0.7, 'evidence': mem_ids[:1]}
+             'strength': 3.5, 'evidence': mem_ids[:1]}
             for i in range(3)
         ]})}
     monkeypatch.setattr(reflection_module, 'generate_narrative', fake_llm)

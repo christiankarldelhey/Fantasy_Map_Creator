@@ -32,9 +32,9 @@ SHEEP = _event(
 DRIZZLE = _event('a faint drizzle', 0.1, 'morning', type_='climate')
 
 
-def _belief(statement, tags=(), confidence=0.8, id_='b1'):
+def _belief(statement, tags=(), strength=4, id_='b1'):
     return SimpleNamespace(id=id_, statement=statement, tags=list(tags),
-                           confidence=confidence)
+                           strength=strength)
 
 
 def test_loudest_event_is_the_focus_and_lives_in_its_phase():

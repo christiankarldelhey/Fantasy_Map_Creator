@@ -65,14 +65,14 @@ export interface BeliefNode {
   status: string
   kind: string
   horizon: string
-  confidence: number
+  strength: number
   evidence: string[]
   born_episode: number | null
   updated_episode: number | null
 }
 
 // A Musing (CONTEXT.md · Musing): an authored line of inner voice —
-// flavour for the narration, never evidence. No confidence, no status;
+// flavour for the narration, never evidence. No strength, no status;
 // Reflection never touches it.
 export interface MusingNode {
   id: string
