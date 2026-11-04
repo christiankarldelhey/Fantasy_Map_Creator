@@ -23,7 +23,7 @@ def test_starter_beliefs_seed_the_brain_on_first_open():
     session.add(mold)
     session.flush()
     session.add(MoldStarterBelief(
-        mold_id=mold.id, kind='self', confidence=0.9,
+        mold_id=mold.id, kind='self', strength=4.5,
         statement='She means to be the last witness.',
         tags=[], boosts=None,
     ))

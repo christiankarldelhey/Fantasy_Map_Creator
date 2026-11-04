@@ -380,7 +380,7 @@ def get_mind(
                 'status': b.status,
                 'kind': b.kind,
                 'horizon': b.horizon,
-                'confidence': b.confidence or 0.0,
+                'strength': b.strength or 0.0,
                 'evidence': b.evidence or [],
                 'born_episode': b.formed_episode,
                 'updated_episode': b.updated_episode,

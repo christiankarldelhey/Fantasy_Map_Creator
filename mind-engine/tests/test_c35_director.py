@@ -29,7 +29,7 @@ DWARVES = _event('dwarves with news of the eastern road', 0.5, 'morning',
                  ['entity:dwarves', 'tag:entity_type:dwarves'])
 GRATITUDE = SimpleNamespace(
     id='g', statement='After danger passes, gratitude is the sharpest feeling.',
-    tags=['tag:entity_type:orcs'], confidence=0.8,
+    tags=['tag:entity_type:orcs'], strength=4,
 )
 HUNGER = {'key': 'hunger', 'id': 'nd1', 'description': 'food crowds every thought',
           'urgency': 0.65, 'source': {'days': 3}}

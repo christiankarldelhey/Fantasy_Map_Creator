@@ -1,42 +1,24 @@
 # ============================================================================
-# Traits — the Mind's six human-scale dials
+# Traits — the Mind's human-scale dials (#59)
 # ----------------------------------------------------------------------------
-# Each Trait is a 0..1 slider in plain language that writes several wiring
-# knobs at once (CONTEXT.md: Trait). The mid pole (t=0.5) is the engine's
-# default; the extremes are the two personalities of the dial. Reading a
-# Trait back derives its value from the anchor knob, so raw wiring edits
-# still show up on the slider — the Trait is a view, not a shadow copy.
+# A Trait is a 0..1 slider in plain language. Two kinds:
+#
+#   living  — act every episode: the dial writes several wiring knobs at
+#             once, and reading it back derives the value from the anchor
+#             knob so raw wiring edits still show on the slider.
+#   dormant — action dials (#62 Decision wakes them): they exist as data
+#             from day one — a `trait_<name>` key in wiring the Studio can
+#             show and set — but no mechanism reads them yet. The rule
+#             that killed Pull/Habit applies: if an era passes and nothing
+#             wakes them, they get reviewed or removed.
+#
+# The mid pole (t=0.5) is the engine's default; the extremes are the two
+# personalities of the dial. Memoria and Costumbre left the catalog:
+# forgetting and routine are internal mechanisms, not personality —
+# Piel and Rumia already carry what they meant.
 # ============================================================================
 
 TRAITS = {
-    'memoria': {
-        'label': 'Memoria',
-        'low': 'olvida rápido',
-        'high': 'no olvida nada',
-        'help': 'cuánto tarda en apagarse lo que no vuelve a recordar',
-        'anchor': 'decay',
-        'knobs': {
-            'decay': (0.65, 0.85, 0.97),
-            'forget_threshold': (0.30, 0.20, 0.10),
-            'fixed_threshold': (0.90, 0.80, 0.60),
-            'evocations_to_fix': (5, 3, 1),
-            'consolidated_decay': (0.90, 0.98, 0.995),
-            'decay_sticky': (0.90, 0.95, 0.99),
-        },
-    },
-    'atencion': {
-        'label': 'Atención',
-        'low': 'distraído',
-        'high': 'todo lo nota',
-        'help': 'qué tan fina es la percepción ante lo que pasa',
-        'anchor': 'check_default_difficulty',
-        'knobs': {
-            'check_default_difficulty': (11.0, 8.0, 5.0),
-            'gate_default_min': (0.15, 0.0, 0.0),
-            'unnoticed_salience': (0.2, 0.5, 0.7),
-            'w_perception': (0.05, 0.10, 0.20),
-        },
-    },
     'piel': {
         'label': 'Piel',
         'low': 'impasible',
@@ -66,18 +48,17 @@ TRAITS = {
             'refractory_episodes': (3, 1, 0),
         },
     },
-    'costumbre': {
-        'label': 'Costumbre',
-        'low': 'lo repetido le resbala',
-        'high': 'la rutina lo marca',
-        'help': 'cuánto pesa que los días se repitan',
-        'anchor': 'repetition_growth',
+    'atencion': {
+        'label': 'Atención',
+        'low': 'distraído',
+        'high': 'todo lo nota',
+        'help': 'qué tan fina es la percepción ante lo que pasa',
+        'anchor': 'check_default_difficulty',
         'knobs': {
-            'repetition_growth': (0.03, 0.08, 0.15),
-            'repetition_salience': (0.15, 0.30, 0.50),
-            'repetition_valence_cap': (0.15, 0.30, 0.50),
-            'pattern_min_episodes': (6, 3, 2),
-            'pattern_window': (6, 4, 3),
+            'check_default_difficulty': (11.0, 8.0, 5.0),
+            'gate_default_min': (0.15, 0.0, 0.0),
+            'unnoticed_salience': (0.2, 0.5, 0.7),
+            'w_perception': (0.05, 0.10, 0.20),
         },
     },
     'conviccion': {
@@ -87,22 +68,71 @@ TRAITS = {
         'help': 'cuánta evidencia pide una creencia y cuánto la suelta',
         'anchor': 'belief_reinforce_delta',
         'knobs': {
-            'belief_reinforce_delta': (0.05, 0.10, 0.20),
+            'belief_reinforce_delta': (0.25, 0.5, 1.0),
             # Inverted: the clingy mind barely drops a belief when the
             # world contradicts it; the doubting one sheds fast.
-            'belief_contradict_delta': (0.25, 0.15, 0.05),
-            'belief_confidence_decay': (0.90, 0.95, 0.99),
+            'belief_contradict_delta': (1.25, 0.75, 0.25),
+            'belief_strength_decay': (0.90, 0.95, 0.99),
             'belief_new_per_reflection': (1, 2, 3),
             'belief_cap': (8, 12, 16),
             'belief_evidence_importance_min': (0.55, 0.40, 0.25),
         },
     },
+    'curiosidad': {
+        'label': 'Curiosidad',
+        'low': 'nada le llama',
+        'high': 'todo le interesa',
+        'help': 'cuánto le atrae lo nuevo y lo que resuena con sus temas',
+        'anchor': 'w_novelty',
+        'knobs': {
+            'w_novelty': (0.05, 0.25, 0.45),
+            'w_theme': (0.05, 0.15, 0.30),
+            'dialogue_recall_min': (0.55, 0.40, 0.25),
+        },
+    },
+    # --- dormant action dials (#62) ------------------------------------
+    # Stored as trait_<name> in wiring: the Studio shows and edits them,
+    # nothing acts on them yet.
+    'impulso': {
+        'label': 'Impulso',
+        'dormant': True,
+        'low': 'se aguanta',
+        'high': 'se calienta y actúa ya',
+        'help': 'actuar primero o aguantar — dormido hasta la Decisión',
+    },
+    'deliberacion': {
+        'label': 'Deliberación',
+        'dormant': True,
+        'low': 'el impulso primero',
+        'high': 'el bien mayor primero',
+        'help': 'cuánto pesa la consecuencia antes de moverse — dormido',
+    },
+    'integridad': {
+        'label': 'Integridad',
+        'dormant': True,
+        'low': 'el fin lo justifica',
+        'high': 'hay líneas que no se cruzan',
+        'help': 'qué cuesta traicionar lo que cree — dormido',
+    },
+    'coraje': {
+        'label': 'Coraje',
+        'dormant': True,
+        'low': 'la cautela primero',
+        'high': 'el miedo no decide',
+        'help': 'actuar bajo amenaza — dormido',
+    },
+    'corruptibilidad': {
+        'label': 'Corruptibilidad',
+        'dormant': True,
+        'low': 'la sombra no lo tienta',
+        'high': 'cae fácil',
+        'help': 'su propensión a corromperse — dormido',
+    },
 }
 
 _INT_KNOBS = {
-    'evocations_to_fix', 'retrieval_top_k', 'refractory_episodes',
-    'pattern_min_episodes', 'pattern_window', 'belief_new_per_reflection',
-    'belief_cap',
+    'retrieval_top_k', 'refractory_episodes',
+    'belief_new_per_reflection', 'belief_cap',
 }
 
 
@@ -135,19 +165,24 @@ def _piecewise_inv(actual, lo, mid, hi):
 
 
 def trait_value(wiring, trait):
-    """Where the anchor knob sits on the dial — the Trait's read-back is
-    honest: raw wiring edits move the slider."""
+    """Where the dial sits — living traits read the anchor knob back (raw
+    wiring edits move the slider); dormant ones read their stored value."""
     spec = TRAITS[trait]
+    if spec.get('dormant'):
+        return round(float(wiring.get(f'trait_{trait}', 0.5) or 0.5), 3)
     lo, mid, hi = spec['knobs'][spec['anchor']]
     actual = float(wiring.get(spec['anchor'], mid) or mid)
     return round(_piecewise_inv(actual, lo, mid, hi), 3)
 
 
 def apply_trait(wiring, trait, t):
-    """Write one Trait into a wiring dict (mutated in place). t in 0..1;
-    every knob of the dial moves together."""
+    """Write one Trait into a wiring dict (mutated in place). t in 0..1 —
+    a living dial moves every knob together; a dormant one stores itself."""
     spec = TRAITS[trait]
     t = max(0.0, min(1.0, float(t)))
+    if spec.get('dormant'):
+        wiring[f'trait_{trait}'] = round(t, 4)
+        return wiring
     for key, (lo, mid, hi) in spec['knobs'].items():
         v = _piecewise(t, lo, mid, hi)
         wiring[key] = int(round(v)) if key in _INT_KNOBS else round(v, 4)
@@ -155,7 +190,7 @@ def apply_trait(wiring, trait, t):
 
 
 def traits_of(wiring):
-    """{trait: {value, label, low, high, help}} — for the Studio."""
+    """{trait: {value, label, low, high, help, dormant}} — for the Studio."""
     return {
         key: {
             'value': trait_value(wiring, key),
@@ -163,6 +198,7 @@ def traits_of(wiring):
             'low': spec['low'],
             'high': spec['high'],
             'help': spec['help'],
+            'dormant': bool(spec.get('dormant')),
         }
         for key, spec in TRAITS.items()
     }

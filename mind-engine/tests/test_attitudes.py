@@ -92,7 +92,7 @@ def _add_attitude(char, subject, stance, statement='A feeling', **facets):
     session = SessionLocal()
     b = Belief(
         game_id='middle_earth', character_id=char, kind='world',
-        statement=statement, confidence=0.6, tags=[], boosts={},
+        statement=statement, strength=3, tags=[], boosts={},
         evidence=[], origin='seed', status='active',
         subject=list(subject), stance=stance,
         source=facets.pop('source', 'lived'), **facets,
@@ -127,8 +127,8 @@ def _new_brain(char):
 
 
 def test_provisioning_clones_every_facet(client):
-    """A mold's starter belief carries subject/stance/source/pull/habit
-    into the brain's copy — a belief without them stays a plain thought."""
+    """A mold's starter belief carries subject/stance/source into the
+    brain's copy — a belief without them stays a plain thought."""
     session = SessionLocal()
     slug = _uid('faceted')
     mold = BrainMold(game_id='middle_earth', slug=slug, name='Faceted')
@@ -136,14 +136,12 @@ def test_provisioning_clones_every_facet(client):
     session.flush()
     session.add(MoldStarterBelief(
         mold_id=mold.id, kind='world', statement='Foxes are kin',
-        confidence=0.6, tags=[], boosts={},
+        strength=3, tags=[], boosts={},
         subject=['tag:family:foxes'], stance=0.6, source='lived',
-        pull={'field': 'shadow', 'direction': 'up'},
-        habit={'resource': 'pipe-weed'},
     ))
     session.add(MoldStarterBelief(
         mold_id=mold.id, kind='self', statement='I keep my own counsel',
-        confidence=0.6, tags=['context:solitude'], boosts={},
+        strength=3, tags=['context:solitude'], boosts={},
     ))
     session.commit()
     session.close()
@@ -155,8 +153,6 @@ def test_provisioning_clones_every_facet(client):
     assert faceted.subject == ['tag:family:foxes']
     assert faceted.stance == 0.6
     assert faceted.source == 'lived'
-    assert faceted.pull == {'field': 'shadow', 'direction': 'up'}
-    assert faceted.habit == {'resource': 'pipe-weed'}
     assert is_attitude(faceted)
 
     assert plain.subject is None and plain.stance is None
@@ -169,7 +165,7 @@ def test_narrowest_subject_speaks_for_the_encounter():
     class _B:
         def __init__(self, subject, stance):
             self.subject, self.stance = subject, stance
-            self.tags, self.confidence = [], 0.6
+            self.tags, self.strength = [], 0.6
     broad = _B(['tag:entity_type:riding_animals'], 0.2)
     family = _B(['tag:family:horses'], 0.7)
     exact = _B(['entity:horses_of_mordor'], -0.8)
@@ -229,13 +225,13 @@ def test_attitudes_watch_what_they_love_or_loathe():
     brain = session.query(Brain).filter_by(character_id=char).one()
     session.add(Belief(
         game_id='middle_earth', character_id=char, kind='world',
-        statement='Foxes are kin', confidence=0.6, tags=[], boosts={},
+        statement='Foxes are kin', strength=3, tags=[], boosts={},
         evidence=[], origin='seed', status='active',
         subject=['tag:family:foxes'], stance=0.6,
     ))
     session.add(Belief(
         game_id='middle_earth', character_id=char, kind='world',
-        statement='Wargs took the coin', confidence=0.6, tags=[],
+        statement='Wargs took the coin', strength=3, tags=[],
         boosts={}, evidence=[], origin='seed', status='active',
         subject=['tag:family:wargs'], stance=-0.8,
     ))
@@ -364,18 +360,17 @@ def test_inverted_belief_keeps_its_facets():
     brain = session.query(Brain).filter_by(character_id=char).one()
     old = Belief(
         game_id='middle_earth', character_id=char, kind='other',
-        statement='I do not trust dwarves', confidence=0.6,
+        statement='I do not trust dwarves', strength=3,
         tags=['tag:entity_type:dwarves', 'trauma'], boosts={},
         evidence=['m1'], origin='seed', status='active',
         subject=['tag:entity_type:dwarves'], stance=-0.3, source='heard',
-        pull={'field': 'shadow', 'direction': 'up'},
     )
     session.add(old)
     session.flush()
     _apply_ops(session, brain, [{
         'op': 'invert', 'belief_id': old.id,
         'statement': 'The mountain folk kept their word when no one '
-                     'else did', 'confidence': 0.5,
+                     'else did', 'strength': 2.5,
         'evidence': ['m1'], 'boosts': {},
     }], {old.id: old}, 5, {})
     session.commit()
@@ -388,7 +383,6 @@ def test_inverted_belief_keeps_its_facets():
     assert grown.subject == ['tag:entity_type:dwarves']
     assert grown.stance == pytest.approx(0.3)
     assert grown.source == 'lived'
-    assert grown.pull == {'field': 'shadow', 'direction': 'up'}
     assert grown.tags == ['tag:entity_type:dwarves']  # trauma dropped
     assert old.status == 'inverted'
     session.close()

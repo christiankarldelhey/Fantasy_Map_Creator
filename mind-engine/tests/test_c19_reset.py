@@ -68,7 +68,7 @@ def lived_brain(client):
     session.add(mold)
     session.flush()
     session.add(MoldStarterBelief(
-        mold_id=mold.id, kind='self', confidence=0.9,
+        mold_id=mold.id, kind='self', strength=4.5,
         statement='The road is all she has.', tags=[], boosts=None,
     ))
     session.add(MoldMusing(
@@ -86,7 +86,7 @@ def lived_brain(client):
     ))
     session.add(Belief(
         game_id=GAME, character_id=character_id, kind='world',
-        statement='The north is closing.', confidence=0.6,
+        statement='The north is closing.', strength=3,
         origin='experience', status='active',
     ))
     session.add(Need(

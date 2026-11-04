@@ -272,7 +272,7 @@ opaco que viaja del evento al host. La mente propone; el juego dispone.
 ### B6 · Boosts de beliefs
 
 **🔧 Técnica** — `beliefs.boosts = {tag: magnitud}`: una creencia activa
-con `confidence ≥ belief_boost_min_confidence` suma su boost al
+con `strength ≥ belief_boost_min_strength` suma su boost al
 `theme_weights` efectivo en percepción y recomendación de decisiones. Se
 computa al vuelo — la config base nunca se muta. Las semillas lo declaran
 en `MoldStarterBelief.boosts`; las creencias reflejadas reciben boosts
@@ -734,16 +734,21 @@ entre "config editable" y "contenido del mundo".
 del otro, de uno mismo — *"los dúnedain son ladrones"*) vs `transient`
 (las circunstancias — *"este vado está vigilado estos días"*). El LLM
 declara el horizonte al crear; ausente o inválido cae a `enduring`.
-Nada en Identity decae por calendario: la única decadencia es en la
-reflexión — una creencia que la reflexión no toca decae, y más rápido
-si es transiente (`belief_transient_decay: 0.8` vs 0.95 de las
-duraderas): circunstancia no dicha, circunstancia ida. Migración 0013:
-todo lo existente backfillea `enduring`.
+Las transientes además se desvanecen con los días: cada episodio
+cerrado que no la refrescó le aplica `belief_transient_episode_decay:
+0.9` (`belief_fade_pass` en el close); debajo de `belief_weaken_below`
+se aquieta. Las enduring ignoran el paso del tiempo — solo decae la
+creencia que la reflexión no toca, y más rápido si es transiente
+(`belief_transient_decay: 0.8` vs 0.95 de las duraderas): circunstancia
+no dicha, circunstancia ida. Migración 0013: todo lo existente
+backfillea `enduring`.
 
-**🏗️ Arquitectura** — Las creencias se mueven solo por evidencia: un
+**🏗️ Arquitectura** — Las creencias se mueven por evidencia: un
 empujoncito de attitude por encuentro, o la reflexión que crea,
-refuerza, contradice o ignora. El close ya no reporta fade de
-creencias; el admin muestra y filtra por horizon.
+refuerza, contradice o ignora. A eso se le suma el tiempo solo para
+las transientes — lo que era "estos días" deja de serlo cuando los
+días pasan. El close reporta `beliefs_faded`; el admin muestra y
+filtra por horizon.
 
 **🚫 No hace** — No expira por fecha real (la vida corre por episodios,
 no por calendario). No revive sola una creencia debilitada — vuelve
@@ -871,9 +876,9 @@ cuando el día la toca, no como dogma permanente:
   el contenido seed. Las belief tags usan el vocabulario real de
   `perceived_day` (`tag:entity_type:*`, `tag:form:*`).
 - **`rank_beliefs`**: para el lens, beliefs se ordenan por
-  `confidence × (1 + tag-overlap con el día)` — una belief sobre la
+  `strength × (1 + tag-overlap con el día)` — una belief sobre la
   gente habla en people-days y calla en el páramo vacío; las
-  convictions sin tags compiten por confianza pura. `render_lens` ya no
+  convictions sin tags compiten por fuerza pura. `render_lens` ya no
   re-ordena: lee el top del ranking recibido.
 - **`brain_profile` por herencia**: `narratorCharacter` resuelve
   `COALESCE(template.slug, c.slug)` — el clon `celebrian-user-7` piensa
@@ -1259,6 +1264,35 @@ contadores. Migración: `memory_voiced_c32.sql`.
 
 ---
 
+### C33 · Una sola forma para creer: strength 0–5, sin pull ni habit
+
+**🔧 Técnica** — `beliefs.confidence` (0–1) pasa a ser `beliefs.strength`
+(0–5): la misma idea en la escala que se lee — *barely* a *way of life*,
+una creencia nueva nace ~2. Las mecánicas no cambian de forma: los decays
+siguen siendo multiplicativos (independientes de escala) y los umbrales
+re-escalan ×5 (`belief_weaken_below` 1.5, `belief_trauma_min` 4.5,
+`belief_boost_min_strength` 3.0, deltas de refuerzo/contradicción
+0.5/0.75). Donde la fuerza competía contra señales 0–1 (score del lens,
+recomendación B5) se normaliza `/5`. El prompt de reflexión pide
+`strength` 1–5 y `kind` acepta `value` — un Value es una creencia sobre
+qué importa, no un mecanismo aparte. `pull` y `habit` se van de la tabla
+y del modelo: se guardaban, se copiaban y nadie los leía (la regla #58:
+ningún concepto entra a la mente sin mecanismo que lo haga actuar).
+Migración 0021 renombra, re-escala y re-cablea `mold_wiring` +
+`brains.wiring`.
+
+**🏗️ Arquitectura** — Belief queda como proposición facetada:
+`statement` + `strength` + `kind` (+ `subject`/`stance`/`source`
+opcionales). Attitude e Impression son apodos para hablar — creencia
+con sujeto-ser o sujeto-lugar — no tablas ni clases.
+
+**🚫 No hace** — No inventa una escala ordinal: `strength` sigue siendo
+float 0–5, el 1–5 del prompt es cómo el LLM lo declara. `_strength()`
+tolera ops viejas que lleguen con `confidence` (las re-escala) para que
+una respuesta del LLM con el vocabulario anterior no pierda beliefs.
+
+---
+
 ## El mapa completo, en una pasada
 
 ```
@@ -1272,7 +1306,7 @@ eventos del mundo (genéricos, con prosa + tags declarados por el host)
         │      patrones por repetición (B3) · rachas declarativas (B9)
         ▼
   INTERIOR ── beliefs (A8) ← reflexión LLM (B4) · needs (B2) · mood (A8)
-        │      musings (#55): la voz interior authored — sin confidence,
+        │      musings (#55): la voz interior authored — sin strength,
         │      sin estado; la reflexión nunca las ve
         ▼  narrate
   LENTE ───── el texto que el narrador lee (A9)

@@ -3,8 +3,8 @@
 # ----------------------------------------------------------------------------
 # `beliefs.boosts` is data, not wiring: {tag: magnitude} edited per row
 # (SQLAdmin), declared on mold starter beliefs, or written by reflection.
-# While a belief stays active AND confident enough
-# (`belief_boost_min_confidence`), its boosts add to the brain's
+# While a belief stays active AND strong enough
+# (`belief_boost_min_strength`), its boosts add to the brain's
 # theme_weights — "the weather weighs more because she believes X". The
 # divergence lives in inspectable rows, not in mutated config; when the
 # belief weakens or dies, the weight simply falls away.
@@ -15,17 +15,17 @@ from app.mind.tables import Belief
 
 
 def effective_theme_weights(session, brain):
-    """theme_weights + boosts of active, confident-enough beliefs."""
+    """theme_weights + boosts of active, strong-enough beliefs."""
     weights = dict(brain.theme_weights or {})
     w = {**DEFAULT_WIRING, **(brain.wiring or {})}
-    floor = float(w.get('belief_boost_min_confidence', 0.6))
+    floor = float(w.get('belief_boost_min_strength', 3.0))
     beliefs = (
         session.query(Belief)
         .filter_by(character_id=brain.character_id, status='active')
         .all()
     )
     for belief in beliefs:
-        if (belief.confidence or 0) < floor:
+        if (belief.strength or 0) < floor:
             continue
         for tag, amount in (belief.boosts or {}).items():
             try:

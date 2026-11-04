@@ -65,7 +65,7 @@ def pending_decision_point(session, brain, episode):
 
 def _recommend(session, brain, character_id, options):
     """Deterministic preference: theme affinity of option tags + the
-    confidence of active beliefs whose tags intersect + urgency of needs
+    strength of active beliefs whose tags intersect + urgency of needs
     an option claims to serve (`need:<key>` tag). No positive signal →
     no opinion."""
     weights = (
@@ -86,7 +86,7 @@ def _recommend(session, brain, character_id, options):
         tags = set(option.get('tags') or [])
         score = sum(float(weights.get(t) or 0) for t in tags)
         score += sum(
-            float(b.confidence or 0)
+            float(b.strength or 0) / 5
             for b in beliefs if tags & set(b.tags or [])
         )
         score += sum(

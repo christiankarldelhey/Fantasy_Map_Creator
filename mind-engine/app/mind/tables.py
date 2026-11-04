@@ -170,7 +170,7 @@ class MoldStarterBelief(Base):
         ForeignKey(f'{MIND_SCHEMA}.brain_molds.id', ondelete='CASCADE'), nullable=False)
     kind: Mapped[str] = mapped_column(String(30), nullable=False)  # world|self|other
     statement: Mapped[str] = mapped_column(Text, nullable=False)
-    confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
+    strength: Mapped[float] = mapped_column(Float, nullable=False, default=2.5)
     tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
     # {tag: magnitude} cloned into beliefs.boosts — B6.
     boosts: Mapped[dict] = mapped_column(JSONB, nullable=True)
@@ -178,14 +178,12 @@ class MoldStarterBelief(Base):
     subject: Mapped[list] = mapped_column(JSONB, nullable=True)
     stance: Mapped[float] = mapped_column(Float, nullable=True)
     source: Mapped[str] = mapped_column(String(20), nullable=True)
-    pull: Mapped[dict] = mapped_column(JSONB, nullable=True)
-    habit: Mapped[dict] = mapped_column(JSONB, nullable=True)
 
 
 class MoldMusing(Base):
     """A Musing at authoring time (CONTEXT.md · Musing): one line of the
     character's inner voice for a kind of moment, cloned with the mold.
-    Voice only — no confidence, no status, nothing for reflection to touch."""
+    Voice only — no strength, no status, nothing for reflection to touch."""
 
     __tablename__ = 'mold_musings'
 
@@ -284,13 +282,14 @@ class Belief(Base):
     kind: Mapped[str] = mapped_column(String(30), nullable=False)
     # C14: 'enduring' (the world's nature, self, others) vs 'transient'
     # (current circumstances — this ford today, this stretch of road).
-    # A transient belief decays faster when a reflection ignores it;
-    # nothing in Identity fades with the calendar.
+    # Transient beliefs fade per closed episode, not per reflection.
     horizon: Mapped[str] = mapped_column(
         String(20), nullable=False, default='enduring', server_default='enduring'
     )
     statement: Mapped[str] = mapped_column(Text, nullable=False)
-    confidence: Mapped[float] = mapped_column(Float, nullable=False, default=0.5)
+    # Strength 0–5: barely held to a way of life. Evidence moves it,
+    # nothing else; a new belief starts weak (~2).
+    strength: Mapped[float] = mapped_column(Float, nullable=False, default=2.5)
     tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
     evidence: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
     origin: Mapped[str] = mapped_column(String(30), nullable=False, default='experience')
@@ -304,14 +303,9 @@ class Belief(Base):
     #   stance   -1..1 — loathing to love. subject+stance = an Attitude
     #            (being) or an Impression (place).
     #   source   'lived' | 'heard' | 'legend'.
-    #   pull     {state, direction} — sensitivity to a declared Condition
-    #            state (phase 4).
-    #   habit    {resource, ...} — a ritual tied to a possession (phase 5).
     subject: Mapped[list] = mapped_column(JSONB, nullable=True)
     stance: Mapped[float] = mapped_column(Float, nullable=True)
     source: Mapped[str] = mapped_column(String(20), nullable=True)
-    pull: Mapped[dict] = mapped_column(JSONB, nullable=True)
-    habit: Mapped[dict] = mapped_column(JSONB, nullable=True)
     formed_episode: Mapped[int] = mapped_column(Integer, nullable=True)
     updated_episode: Mapped[int] = mapped_column(Integer, nullable=True)
 

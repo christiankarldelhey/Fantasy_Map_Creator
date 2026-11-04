@@ -4,7 +4,7 @@
 # A Musing (CONTEXT.md · Musing) is a line of inner voice: it clones with
 # the mold (origin='seed'), speaks through the Lens when the day's own
 # tags call it up — including 'context:solitude' when nobody touched the
-# mind — and carries nothing a life could move: no confidence, no status,
+# mind — and carries nothing a life could move: no strength, no status,
 # no facets, and Reflection never sees it.
 #
 # Attitudes (ATTITUDE_PACKS) stay what they always were: faceted Beliefs
@@ -38,9 +38,9 @@ def _event(reading, salience, phase=None, tags=(), type_='encounter',
     }
 
 
-def _belief(statement, tags=(), confidence=0.6, id_='b1'):
+def _belief(statement, tags=(), strength=3, id_='b1'):
     return SimpleNamespace(id=id_, statement=statement, tags=list(tags),
-                           confidence=confidence)
+                           strength=strength)
 
 
 def _musing(statement, tags=(), id_='m1'):
@@ -93,7 +93,7 @@ def test_packs_are_well_formed():
         assert len(statements) == len(set(statements))
         for m in pack:
             # Voice only: statement + the tags that call it up. Anything
-            # more — confidence, kind, boosts — would make it a belief.
+            # more — strength, kind, boosts — would make it a belief.
             assert set(m.keys()) == {'statement', 'tags'}
             assert m['tags'], m['statement']
 
@@ -226,7 +226,7 @@ def test_reset_reseeds_musings_and_leaves_beliefs_alone():
     ))
     session.add(MoldStarterBelief(
         mold_id=mold.id, kind='other', statement='a stance that returns',
-        confidence=0.6, tags=[], subject=['tag:entity_type:orcs'],
+        strength=3, tags=[], subject=['tag:entity_type:orcs'],
         stance=-0.5, source='lived',
     ))
     session.flush()
@@ -249,12 +249,12 @@ def test_reset_reseeds_musings_and_leaves_beliefs_alone():
 # --- what a musing is NOT ----------------------------------------------------
 
 def test_a_musing_carries_nothing_a_life_could_move():
-    """The columns are the contract: no confidence, no status, no
+    """The columns are the contract: no strength, no status, no
     evidence, no facets — nothing Reflection could touch."""
     m = Musing(
         game_id='g', character_id='c', statement='x', tags=[],
     )
-    for absent in ('confidence', 'status', 'evidence', 'subject',
+    for absent in ('strength', 'status', 'evidence', 'subject',
                    'stance', 'source', 'boosts', 'pull', 'habit',
                    'horizon', 'updated_episode'):
         assert not hasattr(m, absent), absent
@@ -273,7 +273,7 @@ def test_reflection_never_sees_a_musing():
     ))
     belief = Belief(
         game_id='middle_earth', character_id=char, kind='self',
-        statement='The watch never sleeps.', confidence=0.6,
+        statement='The watch never sleeps.', strength=3,
         tags=['tag:entity_type:orcs'], boosts={}, evidence=[],
         origin='seed', status='active', horizon='enduring',
     )
@@ -300,7 +300,7 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
     for i in range(5):
         b = Belief(
             game_id='middle_earth', character_id=brain.character_id,
-            kind='self', statement=f'seed belief {i}', confidence=0.6,
+            kind='self', statement=f'seed belief {i}', strength=3,
             tags=['tag:entity_type:orcs'], boosts={}, evidence=[],
             origin='seed', status='active',
             subject=['tag:entity_type:orcs'], stance=-0.4,
@@ -311,7 +311,7 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
     for i in range(20):
         b = Belief(
             game_id='middle_earth', character_id=brain.character_id,
-            kind='self', statement=f'acquired belief {i}', confidence=0.5,
+            kind='self', statement=f'acquired belief {i}', strength=2.5,
             tags=[], boosts={}, evidence=[], origin='reflected',
             status='active',
         )
@@ -324,12 +324,12 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
     # the cap thins the crowd; the seeds must be exactly as they were.
     _apply_ops(
         session, brain, [], beliefs_by_id, idx=1,
-        w={'belief_confidence_decay': 0.9, 'belief_cap': 8,
-           'belief_weaken_below': 0.2},
+        w={'belief_strength_decay': 0.9, 'belief_cap': 8,
+           'belief_weaken_below': 1.0},
     )
     for b in seeds:
         assert b.status == 'active'
-        assert b.confidence == pytest.approx(0.6)
+        assert b.strength == pytest.approx(3.0)
     weakened = [b for b in acquired if b.status == 'weakened']
     assert len(weakened) >= len(acquired) - 8
     session.rollback()
@@ -441,7 +441,7 @@ def test_retrieval_context_takes_only_activated_beliefs():
 def _seed(session, char, statement, tags, origin='seed', horizon='enduring'):
     b = Belief(
         game_id='middle_earth', character_id=char, kind='self',
-        statement=statement, confidence=0.6, tags=tags, boosts={},
+        statement=statement, strength=3, tags=tags, boosts={},
         evidence=[], origin=origin, status='active', horizon=horizon,
     )
     session.add(b)
@@ -598,7 +598,7 @@ def test_attitudes_are_well_formed():
                 assert tag.startswith(_SUBJECT_PREFIXES), tag
             assert -1 <= a['stance'] <= 1
             assert a['source'] in ('lived', 'heard', 'legend')
-            assert 0 < a['confidence'] <= 1
+            assert 0 < a['strength'] <= 5
 
 
 @pytest.mark.parametrize('who,attitude', ALL_ATTITUDES)

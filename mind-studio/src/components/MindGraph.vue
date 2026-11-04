@@ -294,7 +294,7 @@ function focusOn(ref: NodeRef | null) {
         @mouseenter="focusOn({ kind: 'belief', id: b.id })"
         @click="emit('pick', { kind: 'belief', id: b.id })"
       >
-        <circle class="lamp-halo" :r="26 + b.confidence * 10" filter="url(#glow)" />
+        <circle class="lamp-halo" :r="26 + b.strength * 2" filter="url(#glow)" />
         <rect class="lamp" x="-15" y="-15" width="30" height="30" rx="7" />
         <path class="filament" d="M-7,4 L-3,-5 L0,3 L3,-5 L7,4" />
         <text class="belief-label" y="32" text-anchor="middle">

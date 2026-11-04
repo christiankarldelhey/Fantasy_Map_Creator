@@ -4,17 +4,19 @@ import { patchConcerns, patchTraits } from '../api'
 import { concernLabel, KNOWN_CONCERNS, percent } from '../lib/format'
 import type { MindDetail } from '../types'
 
-// 'Dar forma' — the Mind's six dials and what weighs on it. Writes land
-// per change; the parent refreshes the mind when the sheet closes.
+// 'Dar forma' — the Mind's living dials, the dormant action dials and
+// what weighs on it. Writes land per change; the parent refreshes the
+// mind when the sheet closes.
 
 const props = defineProps<{ mind: MindDetail }>()
 const emit = defineEmits<{ close: []; saved: [] }>()
 
-const ORDER = ['memoria', 'atencion', 'piel', 'rumia', 'costumbre', 'conviccion']
+const LIVING = ['piel', 'rumia', 'atencion', 'conviccion', 'curiosidad']
+const DORMANT = ['impulso', 'deliberacion', 'integridad', 'coraje', 'corruptibilidad']
 
 const traits = reactive<Record<string, number>>(
   Object.fromEntries(
-    ORDER.map((k) => [k, props.mind.traits[k]?.value ?? 0.5]),
+    [...LIVING, ...DORMANT].map((k) => [k, props.mind.traits[k]?.value ?? 0.5]),
   ),
 )
 const concerns = reactive<Record<string, number>>({ ...props.mind.concerns })
@@ -82,7 +84,30 @@ function close() {
 
       <section class="block">
         <h3 class="eyebrow">Cómo es</h3>
-        <div v-for="key in ORDER" :key="key" class="trait">
+        <div v-for="key in LIVING" :key="key" class="trait">
+          <div class="trait-head">
+            <span class="trait-name">{{ mind.traits[key]?.label ?? key }}</span>
+            <span class="trait-help">{{ mind.traits[key]?.help }}</span>
+          </div>
+          <div class="dial">
+            <span class="pole">{{ mind.traits[key]?.low }}</span>
+            <input
+              v-model.number="traits[key]"
+              type="range" min="0" max="1" step="0.05"
+              @change="saveTrait(key)"
+            />
+            <span class="pole">{{ mind.traits[key]?.high }}</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <h3 class="eyebrow">Cómo actúa <span class="asleep">· dormido</span></h3>
+        <p class="hint">
+          Diales de actuar: hoy son solo quién es — despiertan cuando la
+          mente decida (#62).
+        </p>
+        <div v-for="key in DORMANT" :key="key" class="trait dormant">
           <div class="trait-head">
             <span class="trait-name">{{ mind.traits[key]?.label ?? key }}</span>
             <span class="trait-help">{{ mind.traits[key]?.help }}</span>
@@ -191,6 +216,14 @@ function close() {
 .block .eyebrow { margin-bottom: 10px; }
 
 .trait { margin-bottom: 16px; }
+.trait.dormant { opacity: 0.75; }
+.asleep {
+  font-size: 8.5px;
+  color: var(--amber);
+  letter-spacing: 0.14em;
+  margin-left: 6px;
+  text-transform: uppercase;
+}
 .trait-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 2px; }
 .trait-name { font-family: var(--display); font-size: 19px; color: var(--paper); }
 .trait-help { font-family: var(--prose); font-style: italic; font-size: 11.5px; color: var(--chalk-dim); text-align: right; }

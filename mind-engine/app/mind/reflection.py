@@ -35,13 +35,13 @@ those beliefs should change. Answer with ONLY a JSON object — no prose,
 no fences:
 
 {"reflections": [
-  {"op": "create",     "kind": "world|self|other",
+  {"op": "create",     "kind": "world|self|other|value",
    "horizon": "enduring|transient", "statement": "...",
-   "confidence": 0.0-1.0, "evidence": ["mem_id", ...]},
+   "strength": 1-5, "evidence": ["mem_id", ...]},
   {"op": "reinforce",  "belief_id": "bl_...", "evidence": ["mem_id", ...]},
   {"op": "contradict", "belief_id": "bl_...", "evidence": ["mem_id", ...]},
   {"op": "invert",     "belief_id": "bl_...", "statement": "the inverted
-   belief", "confidence": 0.0-1.0, "evidence": ["mem_id", ...]}
+   belief", "strength": 1-5, "evidence": ["mem_id", ...]}
 ]}
 
 Rules:
@@ -82,7 +82,7 @@ def _build_prompt(character_name, memories, beliefs):
         for m in memories
     )
     belief_lines = '\n'.join(
-        f'- id={b.id} kind={b.kind} confidence={b.confidence:.2f}'
+        f'- id={b.id} kind={b.kind} strength={b.strength:.1f}'
         f' — {b.statement}'
         for b in beliefs
     ) or '- (none yet)'
@@ -109,7 +109,7 @@ def _valid_ops(ops, memory_ids, belief_ids):
         op['boosts'] = clean_boosts(op.get('boosts'))
         name = op.get('op')
         if name == 'create':
-            if op.get('kind') in ('world', 'self', 'other') and op.get('statement'):
+            if op.get('kind') in ('world', 'self', 'other', 'value') and op.get('statement'):
                 if op.get('horizon') not in ('enduring', 'transient'):
                     op['horizon'] = 'enduring'
                 valid.append(op)
@@ -130,12 +130,23 @@ def _mean_evidence_valence(session, evidence_ids):
     return sum(vals) / len(vals) if vals else 0.0
 
 
+def _strength(op):
+    """Declared strength on a 1–5 scale. Tolerates the old 'confidence'
+    word — a 0–1 value rescales; anything larger is read as strength."""
+    if op.get('strength') is not None:
+        return min(5.0, max(0.0, _f(op.get('strength'), 2.0)))
+    conf = _f(op.get('confidence'), None)
+    if conf is None:
+        return 2.0
+    return min(5.0, max(0.0, conf * 5 if conf <= 1.0 else conf))
+
+
 def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
     counts = {'formed': 0, 'reinforced': 0, 'contradicted': 0, 'inverted': 0}
-    reinforce = w.get('belief_reinforce_delta', 0.1)
-    contradict = w.get('belief_contradict_delta', 0.15)
-    weaken_below = w.get('belief_weaken_below', 0.3)
-    trauma_min = w.get('belief_trauma_min', 0.9)
+    reinforce = w.get('belief_reinforce_delta', 0.5)
+    contradict = w.get('belief_contradict_delta', 0.75)
+    weaken_below = w.get('belief_weaken_below', 1.5)
+    trauma_min = w.get('belief_trauma_min', 4.5)
     touched = set()
 
     new_cap = int(w.get('belief_new_per_reflection', 2))
@@ -150,7 +161,7 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
                 game_id=brain.game_id, character_id=brain.character_id,
                 kind=op['kind'], horizon=op.get('horizon', 'enduring'),
                 statement=str(op['statement'])[:2000],
-                confidence=min(1.0, max(0.0, _f(op.get('confidence'), 0.5))),
+                strength=_strength(op),
                 tags=[], boosts=op['boosts'],
                 evidence=op['evidence'], origin='reflected',
                 status='active', formed_episode=idx, updated_episode=idx,
@@ -163,25 +174,25 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
             continue
         touched.add(belief.id)
         if name == 'reinforce':
-            belief.confidence = min(1.0, (belief.confidence or 0) + reinforce)
+            belief.strength = min(5.0, (belief.strength or 0) + reinforce)
             belief.evidence = list(
                 dict.fromkeys((belief.evidence or []) + op['evidence'])
             )
             belief.updated_episode = idx
             # Trauma: a negative belief reinforced past the trauma floor
             # hardens into something that stops fading on its own.
-            if belief.confidence >= trauma_min and _mean_evidence_valence(
+            if belief.strength >= trauma_min and _mean_evidence_valence(
                 session, belief.evidence
             ) < 0:
                 belief.tags = list(set((belief.tags or []) + ['trauma']))
             counts['reinforced'] += 1
         elif name == 'contradict':
-            belief.confidence = (belief.confidence or 0) - contradict
+            belief.strength = (belief.strength or 0) - contradict
             belief.evidence = list(
                 dict.fromkeys((belief.evidence or []) + op['evidence'])
             )
             belief.updated_episode = idx
-            if belief.confidence < weaken_below:
+            if belief.strength < weaken_below:
                 belief.status = 'weakened'
             counts['contradicted'] += 1
         elif name == 'invert':
@@ -197,7 +208,7 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
                 game_id=brain.game_id, character_id=brain.character_id,
                 kind=belief.kind, horizon=belief.horizon,
                 statement=str(op['statement'])[:2000],
-                confidence=min(1.0, max(0.0, _f(op.get('confidence'), 0.5))),
+                strength=_strength(op),
                 tags=[t for t in (belief.tags or []) if t != 'trauma'],
                 boosts=op['boosts'],
                 evidence=op['evidence'], origin='reflected',
@@ -205,15 +216,13 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
                 subject=list(belief.subject) if belief.subject else None,
                 stance=-belief.stance if belief.stance is not None else None,
                 source='lived',
-                pull=dict(belief.pull) if belief.pull else None,
-                habit=dict(belief.habit) if belief.habit else None,
             ))
             counts['inverted'] += 1
 
-    # Confidence decays on beliefs this reflection ignored; below the floor
+    # Strength decays on beliefs this reflection ignored; below the floor
     # they go quiet (status='weakened', still listed, not loud). Transient
     # beliefs fade harder — circumstances stop being true (C14).
-    decay = w.get('belief_confidence_decay', 0.95)
+    decay = w.get('belief_strength_decay', 0.95)
     transient_decay = w.get('belief_transient_decay', 0.8)
     for belief in beliefs_by_id.values():
         # Enduring seed beliefs are nature, not evidence — a mind's
@@ -226,9 +235,9 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
         ):
             continue
         rate = transient_decay if belief.horizon == 'transient' else decay
-        belief.confidence = (belief.confidence or 0) * rate
+        belief.strength = (belief.strength or 0) * rate
         belief.updated_episode = idx
-        if belief.confidence < weaken_below:
+        if belief.strength < weaken_below:
             belief.status = 'weakened'
 
     # Cap: too many loud beliefs and the weakest go quiet. Flush first —
@@ -238,7 +247,7 @@ def _apply_ops(session, brain, ops, beliefs_by_id, idx, w):
     active = (
         session.query(Belief)
         .filter_by(character_id=brain.character_id, status='active')
-        .order_by(Belief.confidence.desc())
+        .order_by(Belief.strength.desc())
         .all()
     )
     # The cap thins acquired convictions; seeds are the person's nature
@@ -301,7 +310,7 @@ def reflection_beliefs(session, brain, memories, since_idx, w):
         is_voiced = b.id in voiced
         if is_voiced or by_tag or by_word:
             ranked.append(
-                ((is_voiced, by_tag, by_word, b.confidence or 0.0), b)
+                ((is_voiced, by_tag, by_word, b.strength or 0.0), b)
             )
     ranked.sort(key=lambda r: r[0], reverse=True)
     cap = int(w.get('reflection_seed_cap', 25))
