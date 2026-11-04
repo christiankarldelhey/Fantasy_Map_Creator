@@ -14,6 +14,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 import app.narrate_day as narrate_module
 from app.db import SessionLocal
+from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Brain, Character, Episode, ForgottenMemory
 
 AUTH = ('studio-user', 'studio-pass')
@@ -207,15 +208,15 @@ def test_trait_dial_writes_its_knobs(client):
 
     r = client.patch(
         f'/studio/api/minds/{char}/traits', auth=AUTH,
-        json={'traits': {'memoria': 1.0, 'rumia': 0.0}},
+        json={'traits': {'curiosidad': 1.0, 'rumia': 0.0}},
     )
     assert r.status_code == 200, r.text
 
     session = SessionLocal()
     brain = session.query(Brain).filter_by(character_id=char).one()
-    # memoria at full: near-immortal, fixes on a single recall.
-    assert brain.wiring['decay'] == pytest.approx(0.97)
-    assert brain.wiring['evocations_to_fix'] == 1
+    # curiosidad at full: the new weighs heavy, themes pull, talk sticks.
+    assert brain.wiring['w_novelty'] == pytest.approx(0.45)
+    assert brain.wiring['w_theme'] == pytest.approx(0.30)
     # rumia at zero: the present wins — recency decays fast, few evoked.
     assert brain.wiring['lambda_recency'] == pytest.approx(0.60)
     assert brain.wiring['retrieval_top_k'] == 2
@@ -223,9 +224,40 @@ def test_trait_dial_writes_its_knobs(client):
 
     # …and the dials read back the extremes honestly.
     mind = client.get(f'/studio/api/minds/{char}', auth=AUTH).json()
-    assert mind['traits']['memoria']['value'] == pytest.approx(1.0)
+    assert mind['traits']['curiosidad']['value'] == pytest.approx(1.0)
     assert mind['traits']['rumia']['value'] == pytest.approx(0.0)
-    assert mind['traits']['memoria']['label'] == 'Memoria'
+    assert mind['traits']['curiosidad']['label'] == 'Curiosidad'
+
+
+def test_dormant_trait_stores_its_value(client):
+    """The action dials (#62) carry no knobs — the PATCH stores their
+    value in wiring and the read-back is honest, nothing else moves."""
+    char = _uid('traits')
+    _live(client, char, 1)
+
+    r = client.patch(
+        f'/studio/api/minds/{char}/traits', auth=AUTH,
+        json={'traits': {'integridad': 0.9, 'coraje': 0.1}},
+    )
+    assert r.status_code == 200, r.text
+
+    session = SessionLocal()
+    brain = session.query(Brain).filter_by(character_id=char).one()
+    assert brain.wiring['trait_integridad'] == pytest.approx(0.9)
+    assert brain.wiring['trait_coraje'] == pytest.approx(0.1)
+    # Nothing mechanical woke up — the dormant dial is data only.
+    assert brain.wiring.get('w_novelty') == pytest.approx(
+        DEFAULT_WIRING['w_novelty']
+    )
+    assert brain.wiring.get('decay') == pytest.approx(
+        DEFAULT_WIRING['decay']
+    )
+    session.close()
+
+    mind = client.get(f'/studio/api/minds/{char}', auth=AUTH).json()
+    assert mind['traits']['integridad']['value'] == pytest.approx(0.9)
+    assert mind['traits']['integridad']['dormant'] is True
+    assert mind['traits']['corruptibilidad']['value'] == pytest.approx(0.5)
 
 
 def test_unknown_trait_is_422(client):
