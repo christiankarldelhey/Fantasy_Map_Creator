@@ -32,7 +32,8 @@ def _rainy_day(ep=1):
     return {
         'type': 'climate',
         'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
-        'data': {'temperature_2m': 8.0, 'precipitation': 4.0},
+        'data': {'temperature_2m': 8.0, 'precipitation': 4.0,
+                 'tags': ['weather:wet']},
     }
 
 

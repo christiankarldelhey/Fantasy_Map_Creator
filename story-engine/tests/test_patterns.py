@@ -213,15 +213,16 @@ def test_rest_reads_the_nights_own_prose(client):
     assert day[0]['reading'] == 'the will itself feels weighed and probed'
 
 
-def test_weather_pattern_via_semantic_tags(client):
-    """Climate events are numeric-only — the 'tag:weather:freezing' tag is
-    derived from NL thresholds, and three frozen days form the theme."""
+def test_weather_pattern_from_declared_tags(client):
+    """The host declares 'weather:freezing' on a climate event (#53);
+    three frozen days form the theme all the same."""
     char = _uid('frozenpat')
     for ep in (1, 2, 3):
         storm = {
             'type': 'climate',
             'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
-            'data': {'temperature_2m': -6, 'precipitation': 0},
+            'data': {'temperature_2m': -6, 'precipitation': 0,
+                     'tags': ['weather:freezing']},
         }
         _open_and_close(client, char, f'd{ep}', [storm])
     patterns = _patterns(char)

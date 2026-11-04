@@ -31,7 +31,7 @@ def _rain(ep):
     return {
         'type': 'climate',
         'when': {'episode': ep, 'date': f'1950-04-0{ep}', 'phase': 'afternoon'},
-        'data': {'precipitation': 5.0},
+        'data': {'precipitation': 5.0, 'tags': ['weather:wet']},
     }
 
 

@@ -238,10 +238,16 @@ def _first_string(values):
 
 def resolve_event_reading(session, game_id, event, brain=None):
     """One-line natural-language reading of an event's data — what the mind
-    would say it noticed. Climate uses the band tables; everything else falls
-    back to a generic field listing."""
+    would say it noticed. A host-declared `data.reading` always wins (#53:
+    the world says what it was; the mind consumes it). The composed
+    branches below are the legacy fallback for hosts that do not declare
+    one yet."""
     data = (event or {}).get('data') or {}
     etype = (event or {}).get('type')
+
+    reading = data.get('reading')
+    if reading:
+        return reading
 
     if etype == 'climate':
         parts = [
