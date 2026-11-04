@@ -2,7 +2,7 @@
 // Terrain notes: biomes and altitude layers crossed
 // ----------------------------------------------------------------------------
 // Restored to Node as part of the world-voice migration (issue #52): the
-// story-engine Python copy is app/natural_language/terrain_notes.py.
+// mind-engine Python twin was removed in #54 — this module is the only copy.
 // ============================================================================
 
 import { timeOfDayPhrase } from './dayPhases.js';

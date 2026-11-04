@@ -54,7 +54,7 @@ export async function resolveRegionAtPoint(lng, lat) {
 const FALLBACK = {
   id: null,
   title: null,
-  // No prose here (C13): an open-sky night is a fact; the story-engine
+  // No prose here (C13): an open-sky night is a fact; the mind-engine
   // NL pack owns how it reads (rest.open_sky).
   description: null,
   rest_quality: 1,

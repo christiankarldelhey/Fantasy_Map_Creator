@@ -1,8 +1,8 @@
 // ============================================================================
 // toOpenPayload — the flat episode-open wire body
 // ----------------------------------------------------------------------------
-// Builds exactly the OpenEpisodeRequest shape (story-engine/app/mind/models.py,
-// extra='forbid'). Whitelists are the contract: any field the story-engine
+// Builds exactly the OpenEpisodeRequest shape (mind-engine/app/mind/models.py,
+// extra='forbid'). Whitelists are the contract: any field the mind-engine
 // does not read stays out; a new unwhitelisted field would 422 loudly.
 //
 // Node owns day/trip/character; toEvents owns events[].data (the single

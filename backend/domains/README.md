@@ -1,8 +1,8 @@
 # Domains
 
-Internal boundaries for the eventual Map / Game / Story Engine split (see
+Internal boundaries for the eventual Map / Game / Mind Engine split (see
 `/Users/christiankarldelhey/Documents/Middle Earth Map/.windsurf/plans/three-api-split-eecbbd.md`
-and `docs/story-engine-prd.md`). Still one deploy, one process, one database —
+and `docs/mind-engine-prd.md`). Still one deploy, one process, one database —
 only the code is partitioned.
 
 ## Domains
@@ -12,14 +12,14 @@ only the code is partitioned.
 - **game/** — rules, persistence, mechanics. Auth, users, characters, trips,
   inventory, encounters selection, day generation. Owns every table that
   changes per user/character/trip.
-- **story/** — the Node-side half of Story Engine: contract translators
+- **story/** — the Node-side half of Mind Engine: contract translators
   (mind/toEvents.js, toOpenPayload.js), the HTTP seam (mindClient.js,
   narrateDay.js), narrative continuity *shaping* (tripHistory.js — SQL
   itself lives in game/services/world/tripHistoryReads.js, reached through
   story/adapters/gameClient.js) and story-owned phrase banks
   (naturalLanguage/terrainPhrases.js, phraseVices.js). Prompt assembly and
-  the LLM call itself live in the story-engine Python service
-  (../../story-engine); narrateDay.js calls it over HTTP
+  the LLM call itself live in the mind-engine Python service
+  (../../mind-engine); narrateDay.js calls it over HTTP
   (`POST /episodes`, `/narrate-day` fallback). No direct reads of game or
   map tables — those cross adapters/*Client.js only.
 
@@ -33,7 +33,7 @@ adapter is just a re-export — a plain function call, same process. That's the
 seam: if a domain is ever extracted into its own deployed service, only its
 callers' adapter files need to change (e.g. to `fetch()` calls), not the call
 sites themselves. `story/services/narrator/narrateDay.js` already does this
-for the story-engine (a real `fetch()`, since that domain is now a separate
+for the mind-engine (a real `fetch()`, since that domain is now a separate
 Python service).
 
 `db.js` and `middleware/auth.js` stay shared at the `backend/` root for this

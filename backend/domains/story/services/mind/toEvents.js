@@ -2,7 +2,7 @@
 // Day -> events[] translator
 // ----------------------------------------------------------------------------
 // Node is the host: it owns the mechanical world and must translate a
-// resolved day into the Story Engine's strict events[] contract before
+// resolved day into the Mind Engine's strict events[] contract before
 // calling the mind. Event types are free strings; the fields each type
 // carries are aligned with mind.facets (A3) so banding/readings resolve:
 //

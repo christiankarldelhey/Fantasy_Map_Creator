@@ -8,7 +8,7 @@ from sqlalchemy import create_engine, text
 
 load_dotenv()
 
-# story-engine/ is the working directory when running `alembic`; make `app`
+# mind-engine/ is the working directory when running `alembic`; make `app`
 # importable so migrations share the service's Base metadata and DATABASE_URL.
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

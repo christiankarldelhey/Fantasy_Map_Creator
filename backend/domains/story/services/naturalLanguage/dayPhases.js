@@ -2,7 +2,7 @@
 // Day phases and clock -> prose time
 // ----------------------------------------------------------------------------
 // Restored to Node as part of the world-voice migration (issue #52): the
-// story-engine Python copy is app/day_phases.py.
+// mind-engine Python copy is app/day_phases.py.
 // ============================================================================
 
 export const NARRATIVE_PHASES = ['morning', 'afternoon', 'night'];

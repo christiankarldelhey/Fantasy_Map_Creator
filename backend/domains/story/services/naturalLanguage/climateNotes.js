@@ -2,7 +2,7 @@
 // Weather notes, one short phrase per narrative phase and multi-day states
 // ----------------------------------------------------------------------------
 // Restored to Node as part of the world-voice migration (issue #52): the
-// story-engine Python copy is app/natural_language/climate_notes.py.
+// mind-engine Python twin was removed in #54 — this module is the only copy.
 // Weather is atmosphere, never a report: no figures and no clock times leave
 // this module.
 // ============================================================================

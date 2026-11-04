@@ -1,4 +1,4 @@
-// Shapes of the story-engine's /studio/api (app/studio/api.py).
+// Shapes of the mind-engine's /studio/api (app/studio/api.py).
 
 export interface Mood {
   valence?: number

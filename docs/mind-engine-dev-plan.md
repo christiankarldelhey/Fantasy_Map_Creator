@@ -1,4 +1,4 @@
-# Story Engine — Plan de desarrollo (Mind Engine + Tuners)
+# Mind Engine — Plan de desarrollo (Mind Engine + Tuners)
 
 > Plan ejecutable desde el estado actual del repo. Cada bloque es un prompt
 > técnico autocontenido, pensado para ser ejecutado por un dev o un agente en
@@ -6,23 +6,23 @@
 >
 > Referencias: `docs/psyche-engine-spec.md` (spec original, varias decisiones
 > revisadas acá), `docs/mind-engine-prd.md` (PRD técnico resultante),
-> `docs/story-engine-prd.md` (producto umbrella), `docs/story-engine-explained.md`.
+> `docs/mind-engine-product-prd.md` (producto umbrella), `docs/mind-engine-explained.md`.
 
 ## Estado actual (punto de partida)
 
-- `story-engine/` es un servicio FastAPI **stateless**: un solo endpoint
+- `mind-engine/` es un servicio FastAPI **stateless**: un solo endpoint
   `POST /narrate-day`, port 1:1 del pipeline de narración de Node. Sin DB.
-- `story-engine/app/natural_language/*` tiene las bandas/umbrales/frases
+- `mind-engine/app/natural_language/*` tiene las bandas/umbrales/frases
   **hardcodeadas como constantes** (`TEMPERATURE_BANDS`, `CLOUD_BANDS`,
   `WINDY_SPEED_MIN`, estados multi-día, etc.).
 - Node llama al servicio desde `backend/domains/story/services/narrator/narrateDay.js`
-  (`STORY_ENGINE_URL`, default `http://localhost:8001`).
+  (`MIND_ENGINE_URL`, default `http://localhost:8001`).
 - El proyecto ya tiene Postgres+PostGIS (el schema `mind` puede vivir en la
   misma instancia; schema separado = frontera de servicio futura).
 
 ## Convenciones del plan
 
-- Todo lo nuevo de la mente vive en `story-engine/app/mind/` y en el schema
+- Todo lo nuevo de la mente vive en `mind-engine/app/mind/` y en el schema
   `mind.*` de Postgres. El pipeline de narración existente NO se rompe:
   `/narrate-day` sigue funcionando igual todo el MVP.
 - Regla de oro ya decidida: **el host traduce su mundo a `events[]`**; el
@@ -37,7 +37,7 @@
 ## A1 — Persistencia: Postgres + SQLAlchemy + Alembic
 
 ```
-Contexto: story-engine/ es FastAPI stateless, requirements.txt tiene solo
+Contexto: mind-engine/ es FastAPI stateless, requirements.txt tiene solo
 fastapi/uvicorn/pydantic/groq/python-dotenv. No hay DB.
 
 Tareas:
@@ -47,7 +47,7 @@ Tareas:
 2. app/db.py: engine + SessionLocal + Base declarativo, DATABASE_URL por env
    (python-dotenv ya está en uso). Default: la misma Postgres del proyecto,
    database configurable.
-3. alembic init en story-engine/alembic/ con env.py apuntando a app.db.Base
+3. alembic init en mind-engine/alembic/ con env.py apuntando a app.db.Base
    y version_table en schema mind. Crear schema `mind` en la primera
    migración (CREATE SCHEMA IF NOT EXISTS mind).
 4. Dependency FastAPI get_session(); health check extendido: /health reporta
@@ -361,7 +361,7 @@ Tareas:
    con outcome {applied_deltas...}.
 4. Timeouts explícitos + fallo de mind → fallback a /narrate-day (la mente
    nunca bloquea el juego — invariante).
-5. Env: STORY_ENGINE_URL ya existe; agregar MIND_ENGINE, GAME_ID='middle_earth'.
+5. Env: MIND_ENGINE_URL ya existe; agregar MIND_ENGINE, GAME_ID='middle_earth'.
 
 Aceptación: con flag on, un día narrado pasa por open/narrate/close;
 psyche_db acumula memorias; con flag off o con servicio caído, el juego

@@ -129,7 +129,7 @@ export function terrainCategoriesFor(context, roadTypes) {
  * usedTerrainPhrases ("region|category" -> [phrase texts]). Once every seeded
  * phrase in a cell has been used the cell resets and all of them become
  * eligible again. Mutates the map to single-element arrays, which also means
- * the story-engine renders the recorded choice verbatim.
+ * the mind-engine renders the recorded choice verbatim.
  */
 export function rotateTerrainPhrases(terrainPhrases, usedTerrainPhrases, rng = Math.random) {
   const used = usedTerrainPhrases || {};

@@ -1,6 +1,6 @@
-# Story Engine — estado al 2026-11-03
+# Mind Engine — estado al 2026-11-03
 
-Resumen del servicio `story-engine/` (FastAPI + SQLAlchemy/Alembic, schema `mind`
+Resumen del servicio `mind-engine/` (FastAPI + SQLAlchemy/Alembic, schema `mind`
 en Postgres), del **Mind Engine** que vive adentro, y de su admin, **Mind Studio**
 (`mind-studio/`). Glosario: `CONTEXT.md`. Decisiones: `docs/adr/0001`–`0005`.
 
@@ -155,7 +155,7 @@ una opción; el host elige; el Mind devuelve los `commands` de esa opción como
 
 ## 6. Herramientas y calidad
 
-- **Tests**: `cd story-engine && pytest` — 45 archivos, ~285 tests (percepción,
+- **Tests**: `cd mind-engine && pytest` — 45 archivos, ~285 tests (percepción,
   memoria, needs, detectors, reflection, director, Lens, Studio API, etc.).
 - `scripts/replay_days.py`: reproduce días grabados (`trip_days.mind_open/close`)
   por el pipeline del Mind sin UI.
@@ -167,7 +167,7 @@ una opción; el host elige; el Mind devuelve los `commands` de esa opción como
 
 ## 7. Deuda conocida / próximos pasos
 
-- **README de `story-engine/` desactualizado**: todavía dice "port 1:1, sin admin,
+- **README de `mind-engine/` desactualizado**: todavía dice "port 1:1, sin admin,
   sin decision points"; hoy hay Mind Engine, Studio y decisiones.
 - El header de `app/studio/api.py` dice "Read-only (block 1)", pero ya tiene escrituras
   (card, traits, concerns, voice, accent).

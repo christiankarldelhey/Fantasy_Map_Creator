@@ -7,7 +7,7 @@ narrating a character's journey.
 
 - `backend/` — Express + PostGIS. Game state, trips, directions, routing.
 - `frontend/` — Vue 3 + TypeScript + Vite + MapLibre. The map UI.
-- `story-engine/` — FastAPI + SQLAlchemy/Alembic. Narration + Mind Engine.
+- `mind-engine/` — FastAPI + SQLAlchemy/Alembic. Narration + Mind Engine.
 - `mind-studio/` — separate Vue app for inspecting Mind state (built in Docker).
 - `database/` — seeds and seed-loading scripts.
 - `data_public/` — GeoJSON/JSON shipped to the client (~8MB; perf-sensitive).
@@ -20,7 +20,7 @@ narrating a character's journey.
 ## Verify
 
 - `backend`: `cd backend && npm test` (node --test)
-- `story-engine`: `cd story-engine && pytest` (large suite; run the touched
+- `mind-engine`: `cd mind-engine && pytest` (large suite; run the touched
   module's tests first, full suite before finishing)
 - `frontend`: `cd frontend && npm test` (vitest) + `npm run build`
   (vue-tsc + vite build)
@@ -31,7 +31,7 @@ No CI. Local verification + PR review are the only gates — hooks in
 ## Never
 
 - No production DB access (not even read-only) and no deploys without a human.
-- No edits to existing `story-engine/alembic/versions/*` files.
+- No edits to existing `mind-engine/alembic/versions/*` files.
 - No commits of secrets or `.env` files.
 - Work happens on branches and merges via PR — never push to `master` directly.
 - `database/seeds/` scripts that overwrite data require a human.

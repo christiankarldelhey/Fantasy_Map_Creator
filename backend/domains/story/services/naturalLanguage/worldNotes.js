@@ -1,7 +1,7 @@
 // ============================================================================
 // World notes — the day's world data already verbalized for the narrator
 // ----------------------------------------------------------------------------
-// The world-voice migration (issue #52): everything the story-engine used to
+// The world-voice migration (issue #52): everything the mind-engine used to
 // phrase itself is produced HERE, before the HTTP call. The engine receives
 // prose + structure and only assembles the prompt — it never sees a raw
 // world number it must turn into words.

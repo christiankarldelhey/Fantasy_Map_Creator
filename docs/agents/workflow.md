@@ -78,8 +78,8 @@ Zone defaults for this repo:
 
 | Zone | Default |
 |---|---|
-| `story-engine/app/mind/` semantics (lens, director, retrieval) | HITL (domain-model decisions) |
-| `story-engine/alembic/`, `database/seeds/` | HITL always (data, irreversible) |
+| `mind-engine/app/mind/` semantics (lens, director, retrieval) | HITL (domain-model decisions) |
+| `mind-engine/alembic/`, `database/seeds/` | HITL always (data, irreversible) |
 | `backend` routes/services with tests | AFK-friendly |
 | `backend` PostGIS/routing | HITL (subtle, thin coverage) |
 | `frontend/` | HITL until Vitest lands, then AFK-friendly |
@@ -138,7 +138,7 @@ Merge via PR (the PR is the measurement unit). `/log-run` appends one line to
 
 ```json
 {"date":"2025-10-27","issue":42,"pr":43,"lane":"bug","tag":"AFK",
- "areas":["story-engine"],"stats":{"files":3,"add":40,"del":5,"tests_added":2},
+ "areas":["mind-engine"],"stats":{"files":3,"add":40,"del":5,"tests_added":2},
  "human":{"review_rounds":1,"corrections":0},
  "duration_min":25,"outcome":"merged","lesson":""}
 ```

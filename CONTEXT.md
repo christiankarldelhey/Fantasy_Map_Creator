@@ -2,7 +2,7 @@
 
 > *La vida interior de un personaje: el mundo decide qué pasa; la mente decide cómo se vivió.*
 >
-> *Story Engine — the umbrella it lives in: la capa narrativa de cualquier historia: tu mundo pone los hechos; nosotros ponemos la mente que los vive y la voz que los cuenta.*
+> *Mind Engine — the umbrella it lives in: la capa narrativa de cualquier historia: tu mundo pone los hechos; nosotros ponemos la mente que los vive y la voz que los cuenta.*
 
 The inner life of fictional or synthetic characters: who they are, what they notice, what they remember and believe. Any story, game, film or simulation can plug a character into it; the world around the character stays the host's.
 

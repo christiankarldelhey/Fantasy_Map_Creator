@@ -1,4 +1,4 @@
-# Story Engine — Qué es, explicado sin código
+# Mind Engine — Qué es, explicado sin código
 
 > Documento para público general. No hace falta saber programar. Todo se explica
 > con la analogía que le da sentido: la mente de una persona.
@@ -12,7 +12,7 @@ cual ocurrieron: "llovieron 6mm, caminaste 14km, comiste una ración, viste unas
 huellas". Todos los personajes reciben el mismo mundo crudo, y por lo tanto
 todos lo cuentan igual.
 
-**Story Engine es el servicio que interpone una mente entre el mundo y el
+**Mind Engine es el servicio que interpone una mente entre el mundo y el
 narrador.** El narrador ya no recibe los hechos: recibe *lo que ese personaje
 percibió, recordó, creyó y sintió* de esos hechos. El mundo decide qué pasa;
 la mente decide cómo se vivió.
@@ -25,10 +25,10 @@ va a recordar. Si el narrador recibe "llovió 6mm" para ambos, escribe el mismo
 párrafo para dos personas distintas. Si recibe *cómo lo vivió cada uno*, la
 historia se vuelve personal sin que el juego tenga que inventar nada nuevo.
 
-## Story Engine por dentro: dos motores y dos paneles
+## Mind Engine por dentro: dos motores y dos paneles
 
 ```
-Story Engine  (el servicio completo)
+Mind Engine  (el servicio completo)
 │
 ├── Mind Engine      — la mente: percibe, recuerda, cree, siente
 │   └── Mind Tuner      → panel para tunear cada mente
@@ -205,6 +205,6 @@ lente. La mente nunca bloquea la partida.
 
 Nada de lo anterior sabe qué es un hobbit. La mente solo conoce eventos
 genéricos (`clima`, `encuentro`, `comida`, `cuerpo`...), y el juego que la
-usa es quien traduce su mundo a ese idioma. El mismo Story Engine puede darle
+usa es quien traduce su mundo a ese idioma. El mismo Mind Engine puede darle
 interioridad a un superviviente medieval, un piloto espacial o un detective —
 cada juego trae su mundo; la mente pone el modo de vivirlo.

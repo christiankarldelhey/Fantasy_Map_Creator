@@ -29,7 +29,7 @@ Options:
   --out FILE        full markdown report path
   --keep            do not wipe the sim brain at start (resume/accumulate)
 
-Requires the story-engine server running (STORY_ENGINE_URL or
+Requires the mind-engine server running (MIND_ENGINE_URL or
 http://localhost:8001) and the dev DB reachable (same as the app).
 
 Examples:
@@ -60,7 +60,7 @@ from app.db import SessionLocal  # noqa: E402
 
 import os  # noqa: E402
 
-SE = os.environ.get('STORY_ENGINE_URL', 'http://localhost:8001').rstrip('/')
+SE = os.environ.get('MIND_ENGINE_URL', 'http://localhost:8001').rstrip('/')
 GAME_ID = os.environ.get('GAME_ID', 'middle_earth')
 
 STOPWORDS = {

@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
-# Runs the whole local stack: story-engine (:8001), backend (nodemon),
+# Runs the whole local stack: mind-engine (:8001), backend (nodemon),
 # frontend (:5173) and mind-studio (:5180/studio/). Ctrl-C stops all four.
-# mind-studio proxies /studio/api to the story-engine; export STUDIO_AUTH
+# mind-studio proxies /studio/api to the mind-engine; export STUDIO_AUTH
 # (user:pass) beforehand if studio auth is enabled.
 
 root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export STORY_ENGINE_URL="${STORY_ENGINE_URL:-http://127.0.0.1:8001}"
+export MIND_ENGINE_URL="${MIND_ENGINE_URL:-http://127.0.0.1:8001}"
 
 for bin in \
-  "$root_dir/story-engine/.venv/bin/uvicorn" \
+  "$root_dir/mind-engine/.venv/bin/uvicorn" \
   "$root_dir/backend/node_modules/.bin/nodemon" \
   "$root_dir/frontend/node_modules/.bin/vite" \
   "$root_dir/mind-studio/node_modules/.bin/vite"; do
@@ -21,7 +21,7 @@ for bin in \
 done
 
 pids=()
-"$root_dir/story-engine/.venv/bin/uvicorn" app.main:app --app-dir "$root_dir/story-engine" --host 127.0.0.1 --port 8001 --reload --reload-dir "$root_dir/story-engine" &
+"$root_dir/mind-engine/.venv/bin/uvicorn" app.main:app --app-dir "$root_dir/mind-engine" --host 127.0.0.1 --port 8001 --reload --reload-dir "$root_dir/mind-engine" &
 pids+=($!)
 "$root_dir/backend/node_modules/.bin/nodemon" "$root_dir/backend/server.js" &
 pids+=($!)
@@ -37,7 +37,7 @@ cat <<URLS
   frontend    → http://localhost:5173
   mind-studio → http://localhost:5180/studio/
   backend     → http://localhost:5001
-  story-engine→ http://127.0.0.1:8001
+  mind-engine → http://127.0.0.1:8001
 
 URLS
 

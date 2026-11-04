@@ -1,21 +1,21 @@
-# PRD Técnico — Mind Engine (Psyche) dentro de Story Engine
+# PRD Técnico — Mind Engine (Psyche) dentro de Mind Engine
 
 **Versión**: 1.0 · **Estado**: aprobado por diseño conversado · **Audiencia**: desarrolladores
 **Docs relacionados**: `psyche-engine-spec.md` (spec original — este documento la implementa y
-revisa), `story-engine-prd.md` (producto umbrella), `story-engine-dev-plan.md` (plan por fases),
-`story-engine-explained.md` (versión no-técnica).
+revisa), `mind-engine-product-prd.md` (producto umbrella), `mind-engine-dev-plan.md` (plan por fases),
+`mind-engine-explained.md` (versión no-técnica).
 
 ---
 
 ## 1. Qué es
 
-Mind Engine es el subsistema de **vida interior** de Story Engine: recibe los hechos del mundo
+Mind Engine es el subsistema de **vida interior** de Mind Engine: recibe los hechos del mundo
 como `events[]`, los pasa por el lente de un personaje (percepción, memoria, creencias, ánimo) y
 produce un `psyche_packet` que el Narrator Engine usa para generar la narrativa. El mundo decide
 qué pasa; la mente decide cómo se vivió.
 
 ```
-Story Engine (servicio FastAPI, story-engine/)
+Mind Engine (servicio FastAPI, mind-engine/)
 ├── Mind Engine      ← NUEVO: app/mind/, schema mind.* en Postgres
 ├── Narrator Engine  ← EXISTE: app/natural_language/, app/prompt/, app/narrate_day.py, app/ai.py
 └── Tuners (SQLAdmin en /admin)
@@ -50,7 +50,7 @@ Heredados de la spec, con el matiz de ownership revisado:
 ## 4. Flujo de datos — el episodio como recurso
 
 ```
-Host (backend del juego)                     Story Engine
+Host (backend del juego)                     Mind Engine
 ─────────────                                ┌──────────────────────────┐
 genera episodio, traduce a events[]          │ Mind Engine              │
         │                                    │                          │
