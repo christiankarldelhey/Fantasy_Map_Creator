@@ -203,6 +203,10 @@ class DayPayload(BaseModel):
     # How the night was secured (paid bed, charity plea, turned away) —
     # host-owned shape; the prompt only narrates it.
     lodging: Optional[Dict[str, Any]] = None
+    # World voice (#52): the host's pre-verbalized world material. When
+    # present the prompt consumes it verbatim; absent, the engine phrases
+    # the raw fields itself (legacy fallback until the NL removal lands).
+    world_notes: Dict[str, Any] = {}
 
 
 class OpenEpisodeRequest(BaseModel):

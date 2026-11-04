@@ -426,7 +426,8 @@ test('the open payload carries raw state, never rendered blocks (C10)', () => {
   assert.deepEqual(body.character_state.recentNotes, ['a fight with wolves']);
   assert.equal(body.equipment_state.rations, 1);
   assert.equal(body.fate, 'living');
-  // No rendered text may travel: the story-engine owns data→language.
+  // No half-rendered blocks may travel: world phrasing lives whole in
+  // day.world_notes (#52), not in stray top-level fields.
   assert.equal(body.condition_block, undefined);
   assert.equal(body.equipment_block, undefined);
   assert.equal(body.end_state_block, undefined);
