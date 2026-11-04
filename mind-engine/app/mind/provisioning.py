@@ -10,7 +10,7 @@
 # only at creation, falls back to 'default', and never overrides an existing
 # assignment. Reassignment is admin territory: POST /mind/brains/{id}/mold.
 # ============================================================================
-from app.mind.tables import Belief, Brain, BrainMold, Character
+from app.mind.tables import Belief, Brain, BrainMold, Character, Musing
 
 DEFAULT_MOLD_SLUG = 'default'
 
@@ -139,9 +139,9 @@ DEFAULT_WIRING = {
     # (touch its memories, or voiced since the last reflection), at most
     # this many — a rich seed library must not flood the prompt.
     'reflection_seed_cap': 25,
-    # Lens: each extra tag a belief shares with the moment it touches
-    # multiplies its score by (1 + bonus) — the specific thought (orc
-    # SIGNS) outranks the generic one (orcs); rotation breaks true ties.
+    # Lens: each extra tag a belief or musing shares with the moment it
+    # touches multiplies its score by (1 + bonus) — the specific line
+    # (orc SIGNS) outranks the generic one (orcs); rotation breaks ties.
     'belief_specificity_bonus': 0.25,
     # Attitudes (CONTEXT.md · Attitude): how far the stance leans what an
     # encounter feels like, how much it adds to what the mind notices,
@@ -334,6 +334,21 @@ def seed_starter_beliefs(session, game_id, character_id, mold):
     return seeds
 
 
+def seed_musings(session, game_id, character_id, mold):
+    """Clone the mold's musings — the character's authored inner voice.
+    Not beliefs: voice only, seeded alongside them at brain creation and
+    restored by the same reset."""
+    seeds = []
+    for m in (mold.musings if mold else []):
+        mu = Musing(
+            game_id=game_id, character_id=character_id,
+            statement=m.statement, tags=list(m.tags or []), origin='seed',
+        )
+        session.add(mu)
+        seeds.append(mu)
+    return seeds
+
+
 def get_or_create_brain(session, game_id, character_id, hint_slug=None):
     """The character's living brain, cloning its mold on first contact.
 
@@ -364,6 +379,7 @@ def get_or_create_brain(session, game_id, character_id, hint_slug=None):
     session.add(brain)
     session.flush()
     seed_starter_beliefs(session, game_id, character_id, mold)
+    seed_musings(session, game_id, character_id, mold)
     return brain
 
 

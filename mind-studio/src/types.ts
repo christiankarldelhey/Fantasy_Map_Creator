@@ -71,6 +71,17 @@ export interface BeliefNode {
   updated_episode: number | null
 }
 
+// A Musing (CONTEXT.md · Musing): an authored line of inner voice —
+// flavour for the narration, never evidence. No confidence, no status;
+// Reflection never touches it.
+export interface MusingNode {
+  id: string
+  statement: string
+  tags: string[]
+  origin: 'seed' | string
+  born_episode: number | null
+}
+
 export interface ActiveNeed {
   id: string | null
   key: string
@@ -90,7 +101,7 @@ export interface LensLine {
   kind?: string | null
   phase?: string | null
   why?: string | null
-  ref: { kind: 'belief' | 'memory' | 'need'; id: string } | null
+  ref: { kind: 'belief' | 'memory' | 'need' | 'musing'; id: string } | null
   resonated: boolean
 }
 
@@ -164,6 +175,7 @@ export interface MindDetail {
   wiring: Record<string, unknown>
   memories: MemoryNode[]
   beliefs: BeliefNode[]
+  musings: MusingNode[]
   needs: { id: string; key: string; description: string; status: string }[]
   episodes: EpisodeView[]
 }

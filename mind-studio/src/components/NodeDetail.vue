@@ -29,6 +29,11 @@ const need = computed(() =>
     ? props.snapshot.needs.find((n) => (n.id ?? n.key) === props.picked.id) ?? null
     : null,
 )
+const musing = computed(() =>
+  props.picked.kind === 'musing'
+    ? props.snapshot.musings.find((m) => m.id === props.picked.id) ?? null
+    : null,
+)
 
 const evidence = computed(() =>
   (belief.value?.evidence ?? []).map((id) => ({
@@ -84,6 +89,16 @@ const PHASE: Record<string, string> = {
           </li>
         </ul>
       </template>
+    </template>
+
+    <template v-else-if="musing">
+      <p class="eyebrow">
+        Voz interior · {{ musing.origin === 'seed' ? 'de origen' : `nació en el episodio ${musing.born_episode}` }}
+      </p>
+      <p class="body belief">{{ musing.statement }}</p>
+      <dl class="facts">
+        <div><dt>habla de</dt><dd>{{ musing.tags.join(', ') || '—' }}</dd></div>
+      </dl>
     </template>
 
     <template v-else-if="need">

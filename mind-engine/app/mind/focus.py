@@ -9,8 +9,8 @@
 #
 # Two parts, by time — the Lens never names what has not been lived yet:
 #   carried  what the Character brings in before anything happens: the
-#            entering Mood's cause, Needs already open, Beliefs and
-#            Memories that connect to nothing scheduled today
+#            entering Mood's cause, Needs already open, Beliefs, Musings
+#            and Memories that connect to nothing scheduled today
 #   day      what the Episode does to it, each line anchored to the phase
 #            where it happens (morning / afternoon / night)
 #
@@ -124,7 +124,8 @@ def _had_contact(perceived_day):
 
 def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
                 wiring=None, anchors=None, need_origins=None,
-                session=None, game_id=None, brain=None, episode_idx=None):
+                session=None, game_id=None, brain=None, episode_idx=None,
+                musings=None):
     """Narrow the Mind to this Episode. Returns
     {focus, carried, day, silenced} — each line a dict with id, kind,
     text, part ('carried'|'day'), phase (day lines), score and why."""
@@ -249,6 +250,57 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         kept.append(line)
     belief_lines = kept
 
+    # --- musings: the authored inner voice ------------------------------
+    # Same tag contact as beliefs (a musing tagged for orc signs still
+    # beats a generic one), but a Musing carries nothing to weigh: the
+    # moment's salience and tag specificity are the whole score — no
+    # confidence, no attitudes, and 'context:solitude' asks nothing of
+    # the day exactly like a seed belief did.
+    musing_lines = []
+    for m in musings or []:
+        mtags = set(m.tags or [])
+        hit, overlap = None, 0
+        for mo in moments:
+            if mtags:
+                n = len(mtags & set(mo['touch_tags']))
+            else:
+                n = 1 if _stems(m.statement) & _stems(mo['text']) else 0
+            if n and (hit is None or (n, mo['score']) > (overlap, hit['score'])):
+                hit, overlap = mo, n
+        if hit is None:
+            if 'context:solitude' not in (m.tags or []):
+                silenced.append({
+                    'kind': 'musing', 'text': m.statement,
+                    'stage': 'filter',
+                    'reason': 'nothing in the Episode calls this voice up',
+                })
+                continue
+            if contact_seen:
+                silenced.append({
+                    'kind': 'musing', 'text': m.statement,
+                    'stage': 'filter',
+                    'reason': 'the day had company',
+                })
+                continue
+            musing_lines.append({
+                'id': f'musing:{m.id}', 'kind': 'musing', 'part': 'carried',
+                'phase': None, 'text': m.statement,
+                'score': SOLITUDE_SCORE,
+                'solitude': True, 'tagged': True,
+                'why': 'the mind alone with itself',
+            })
+            continue
+        musing_lines.append({
+            'id': f'musing:{m.id}', 'kind': 'musing', 'part': 'day',
+            'phase': hit['phase'], 'text': m.statement,
+            'score': (
+                max(hit['score'], salient_min)
+                * (1 + bonus * (overlap - 1))
+            ),
+            'connects_to': hit['id'], 'tagged': bool(mtags),
+            'why': f'called up by: {hit["text"][:60]}',
+        })
+
     # --- memories: evoked by the day; anchored ones wait for their phase -
     memory_lines = []
     for m in evoked or []:
@@ -355,19 +407,23 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     # --- lines: what connects to the Focus, capped; urgent needs always --
     # Lines are the inner side — the day's events reach the narrator
     # through the phase blocks anyway; only one of them is the Focus.
-    pool = belief_lines + memory_lines + need_lines + mood_lines
+    pool = (
+        belief_lines + musing_lines + memory_lines + need_lines
+        + mood_lines
+    )
     # Deterministic variety for a mind with many thoughts: the beliefs
     # that tie on score (same confidence, same touch) rotate by Episode,
     # so a different one speaks each quiet day. Replay-stable: the order
     # depends only on the Episode's own index.
     if episode_idx is not None:
-        eligible = [c for c in pool if c['kind'] == 'belief']
+        eligible = [c for c in pool if c['kind'] in ('belief', 'musing')]
         if eligible:
             off = (episode_idx * LINE_CAP) % len(eligible)
             rotated = eligible[off:] + eligible[:off]
             it = iter(rotated)
             pool = [
-                next(it) if c['kind'] == 'belief' else c for c in pool
+                next(it) if c['kind'] in ('belief', 'musing') else c
+                for c in pool
             ]
 
     def connected(c):
@@ -380,7 +436,8 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         if focus is None:
             return (
                 c['kind'] == 'need' or bool(c.get('solitude'))
-                or (c['kind'] == 'belief' and bool(c.get('connects_to')))
+                or (c['kind'] in ('belief', 'musing')
+                    and bool(c.get('connects_to')))
             )
         # Solitude lines only exist on days nobody touched the mind; a
         # striking ruin seen alone is still a day alone.

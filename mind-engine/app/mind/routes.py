@@ -88,6 +88,7 @@ from app.mind.provisioning import (
     get_or_create_brain,
     get_or_create_character,
     reassign_mold,
+    seed_musings,
     seed_starter_beliefs,
 )
 from app.mind.reflection import maybe_reflect
@@ -96,8 +97,8 @@ from app.mind.retrieval import (
     memory_age_days, retrieve,
 )
 from app.mind.tables import (
-    Belief, Brain, BrainMold, Episode, ForgottenMemory, Memory, Need,
-    PackVersion,
+    Belief, Brain, BrainMold, Episode, ForgottenMemory, Memory, Musing,
+    Need, PackVersion,
 )
 
 log = logging.getLogger(__name__)
@@ -315,6 +316,14 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 )
                 .all()
             )
+            musings = (
+                db.query(Musing)
+                .filter_by(
+                    game_id=payload.game_id,
+                    character_id=brain.character_id,
+                )
+                .all()
+            )
             # link_evoked already knows which perceived item stirred each
             # memory. A memory stirred by something that happens in a
             # phase waits for that phase (C21, C35) — it never speaks
@@ -346,7 +355,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                     entering_mood, brain=brain,
                 ),
                 session=db, game_id=payload.game_id, brain=brain,
-                episode_idx=episode_index_of(episode),
+                episode_idx=episode_index_of(episode), musings=musings,
             )
             candidates = brief.pop('candidates', [])
             # The director chooses what the Episode turns on (protagonists
@@ -736,6 +745,10 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
             .all()
             if brain else []
         )
+        musings = (
+            db.query(Musing).filter_by(character_id=character_id).all()
+            if brain else []
+        )
         count = db.query(Episode).filter_by(character_id=character_id).count()
     except SQLAlchemyError as exc:
         log.warning('mind_state failed: %s', exc)
@@ -781,6 +794,13 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
             }
             for n in needs
         ],
+        musings=[
+            {
+                'id': m.id, 'statement': m.statement, 'tags': m.tags,
+                'origin': m.origin,
+            }
+            for m in musings
+        ],
         episodes=count,
     )
 
@@ -821,9 +841,9 @@ def reset_brain(
 ):
     """Full mind wipe (C19): everything the character LIVED dies — every
     memory (volatile, consolidated, patterns), every learned belief, every
-    open need, every episode. The nature survives: mold, theme_weights,
-    wiring. Its mold's starter beliefs are re-seeded — a person with no
-    past, not a different person. Idempotent."""
+    open need, every episode, every musing. The nature survives: mold,
+    theme_weights, wiring. Its mold's starter beliefs and musings are
+    re-seeded — a person with no past, not a different person. Idempotent."""
     try:
         game_id = payload.game_id or 'middle_earth'
         brain = (
@@ -835,7 +855,7 @@ def reset_brain(
             return {
                 'character_id': character_id, 'brain': None,
                 'deleted': {'memories': 0, 'forgotten': 0, 'beliefs': 0,
-                            'needs': 0, 'episodes': 0},
+                            'needs': 0, 'episodes': 0, 'musings': 0},
                 'seeds': 0,
             }
         deleted = {
@@ -849,6 +869,8 @@ def reset_brain(
                 game_id=game_id, character_id=character_id).delete(),
             'episodes': db.query(Episode).filter_by(
                 game_id=game_id, character_id=character_id).delete(),
+            'musings': db.query(Musing).filter_by(
+                game_id=game_id, character_id=character_id).delete(),
         }
         brain.mood = dict(NEUTRAL_MOOD)
         brain.counters = {}
@@ -858,12 +880,13 @@ def reset_brain(
             .one_or_none()
         )
         seeds = seed_starter_beliefs(db, game_id, character_id, mold)
+        musings = seed_musings(db, game_id, character_id, mold)
         db.commit()
         return {
             'character_id': character_id,
             'brain': {'id': brain.id, 'mold_slug': brain.mold_slug},
             'deleted': deleted,
-            'seeds': len(seeds),
+            'seeds': len(seeds) + len(musings),
         }
     except SQLAlchemyError as exc:
         db.rollback()

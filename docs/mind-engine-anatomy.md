@@ -1262,24 +1262,24 @@ contadores. Migración: `memory_voiced_c32.sql`.
 ## El mapa completo, en una pasada
 
 ```
-eventos del mundo (genéricos)
+eventos del mundo (genéricos, con prosa + tags declarados por el host)
         │
         ▼  open
   PERCEPCIÓN ── gates/rolls (B1) filtran: noticed / unnoticed / misread
-        │      NL pack (A3) nombra · salience pondera (A6) · boosts (B6)
+        │      readings del host (#52/#53) · salience pondera (A6)
         ▼
   MEMORIA ──── evocación por score αβγδ (A8+B8) · encode/decay al close (A7)
         │      patrones por repetición (B3) · rachas declarativas (B9)
         ▼
   INTERIOR ── beliefs (A8) ← reflexión LLM (B4) · needs (B2) · mood (A8)
-        │      overrides por brain (B7) · degraded difiere (B10)
+        │      musings (#55): la voz interior authored — sin confidence,
+        │      sin estado; la reflexión nunca las ve
         ▼  narrate
   LENTE ───── el texto que el narrador lee (A9)
         ▼  close
   APRENDIZAJE ── encode + decay + patterns + reflexión · needs resueltos
               · streaks · decisiones registradas (B5)
 
-  Todo mutable en el Mind Tuner (A10) · packs versionados (B10)
   Si Mind cae: /narrate-day sigue narrando (A11)
 ```
 

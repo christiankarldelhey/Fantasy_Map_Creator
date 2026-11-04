@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { needLabel } from '../lib/format'
 import { VIEW, cable, type Point } from '../lib/layout'
-import type { BeliefAt, MemoryAt, MindAt } from '../lib/mindAt'
+import type { BeliefAt, MemoryAt, MindAt, MusingAt } from '../lib/mindAt'
 import type { NodeRef } from './nodeRef'
 import type { Spotlight } from './tour'
 
@@ -90,6 +90,16 @@ function memoryClass(m: MemoryAt) {
   ]
 }
 
+function musingClass(m: MusingAt) {
+  return [
+    'musing',
+    {
+      'is-lens': m.inLens,
+      'is-focus': isFocused('musing', m.id),
+    },
+  ]
+}
+
 function beliefClass(b: BeliefAt) {
   return [
     'belief', `is-${b.origin}`,
@@ -117,6 +127,10 @@ const focusLabel = computed(() => {
   if (f.kind === 'belief') {
     const b = props.snapshot.beliefs.find((x) => x.id === f.id)
     return b ? { p: at(b.id), text: b.statement } : null
+  }
+  if (f.kind === 'musing') {
+    const m = props.snapshot.musings.find((x) => x.id === f.id)
+    return m ? { p: at(m.id), text: m.statement } : null
   }
   const n = needs.value.find((x) => x.id === f.id || x.key === f.id)
   return n ? { p: { x: n.x, y: NEED_Y }, text: n.description } : null
@@ -251,6 +265,22 @@ function focusOn(ref: NodeRef | null) {
         <circle v-if="m.kind === 'pattern'" class="loop" :r="bulbRadius(m) + 5" />
         <circle v-if="m.evokedNow" class="evoked-ring" :r="bulbRadius(m) + 4" />
         <circle class="hit" :r="Math.max(12, bulbRadius(m) + 4)" />
+      </g>
+    </g>
+
+    <!-- Musings: the inner voice — small rings inside the lamps. -->
+    <g class="musings">
+      <g
+        v-for="m in snapshot.musings"
+        :key="m.id"
+        :class="musingClass(m)"
+        :transform="`translate(${at(m.id).x},${at(m.id).y})`"
+        @mouseenter="focusOn({ kind: 'musing', id: m.id })"
+        @click="emit('pick', { kind: 'musing', id: m.id })"
+      >
+        <circle class="voice" r="5" />
+        <circle v-if="m.inLens" class="voice-ring" r="9" />
+        <circle class="hit" r="12" />
       </g>
     </g>
 
@@ -426,6 +456,23 @@ function focusOn(ref: NodeRef | null) {
 }
 .belief.is-lens .belief-label { fill: var(--paper); }
 
+/* --- musings -------------------------------------------------------- */
+.musing { cursor: pointer; }
+.musing .voice {
+  fill: var(--night-3);
+  stroke: var(--chalk-dim);
+  stroke-width: 1;
+}
+.musing.is-lens .voice { stroke: var(--amber); fill: var(--amber); }
+.musing .voice-ring {
+  fill: none;
+  stroke: var(--amber);
+  stroke-width: 0.8;
+  stroke-dasharray: 2 3;
+}
+.musing.is-focus .voice { stroke: var(--paper); stroke-width: 1.8; }
+.musing .hit { fill: transparent; }
+
 /* --- needs ---------------------------------------------------------- */
 .need { cursor: pointer; }
 .need-string { fill: none; stroke: var(--chalk-dim); stroke-width: 0.9; opacity: 0.6; }
@@ -454,7 +501,7 @@ function focusOn(ref: NodeRef | null) {
 .graph > g { transition: opacity 0.5s; }
 .spot-memories > g:not(.memories),
 .spot-traces > g:not(.memories),
-.spot-beliefs > g:not(.beliefs):not(.threads),
+.spot-beliefs > g:not(.beliefs):not(.threads):not(.musings),
 .spot-resonance > g:not(.resonance):not(.memories):not(.beliefs) { opacity: 0.12; }
 .spot-traces .memory:not(.is-trace):not(.is-fading) { opacity: 0.15; }
 .spot-resonance .memory:not(.is-evoked),
