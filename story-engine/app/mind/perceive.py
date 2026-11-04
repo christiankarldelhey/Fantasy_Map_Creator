@@ -27,8 +27,7 @@ from app.mind.checks import (
     misread_reading,
     resolve_check,
 )
-from app.mind.nl_resolver import phrases as nl_phrases
-from app.mind.nl_resolver import resolve_event_reading
+from app.mind.voice import phrases, resolve_event_reading
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Episode
 
@@ -309,7 +308,7 @@ def _recurrence_items(session, game_id, brain, perceived, w):
 
     def _item(kind, tag, streak, valence, salience, phrase_key,
               extra_data=None, tags=None):
-        options = nl_phrases(session, game_id, phrase_key, brain=brain)
+        options = phrases(phrase_key)
         subject = _tag_subject(tag)
         reading = (
             options[0].format(subject=subject, count=streak)
@@ -384,9 +383,7 @@ def resolve_break_items(session, game_id, brain, perceived, needs, w):
         if need_key not in open_keys:
             continue
         subject = _tag_subject(tag)
-        options = nl_phrases(
-            session, game_id, 'mind.pattern_break_need', brain=brain
-        )
+        options = phrases('mind.pattern_break_need')
         if options:
             item['reading'] = options[0].format(
                 subject=subject, count=data.get('streak') or 0
@@ -427,8 +424,7 @@ def perceive_events(session, game_id, brain, events, character=None):
                 session, game_id, character, event, index, state, w,
                 brain=brain,
             )
-        reading = resolve_event_reading(session, game_id, event,
-                                        brain=brain)
+        reading = resolve_event_reading(event)
         if perception == 'misread':
             reading = misread_reading(
                 session, game_id, event, reading, check_result,

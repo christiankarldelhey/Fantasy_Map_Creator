@@ -14,9 +14,9 @@
 #   'altered'   — while firing the mind is 'altered': noticed readings can
 #                 be misread (checks.misread_reading).
 #
-# DEFAULT_DETECTORS is the built-in pack — same role as rules.DEFAULT_RULES
-# and nl_defaults: an unseeded game gets it, rows override per (game, key),
-# and a row with enabled=False silences a built-in for that game.
+# DEFAULT_DETECTORS is the built-in pack — same role as rules.DEFAULT_RULES:
+# an unseeded game gets it, rows override per (game, key), and a row with
+# enabled=False silences a built-in for that game.
 #
 # Per-brain knobs: wiring keys 'detector.<key>.<param>' override value/mod/
 # urgency_base/urgency_per/urgency_map/scale for that brain. Legacy wiring

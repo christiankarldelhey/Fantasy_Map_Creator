@@ -74,7 +74,7 @@ from app.mind.decisions import (
     pending_decision_point, proposed_commands, resolution_text,
     resolve_decision,
 )
-from app.mind.nl_resolver import NlPack, invalidate
+
 from app.mind.packs import (
     active_version,
     clone_pack,
@@ -234,7 +234,6 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 # Audit snapshot: the exact knobs this episode runs under.
                 # Admin edits apply to future episodes, not in-flight ones.
                 config_snapshot={
-                    'nl_pack': payload.game_id,
                     'pack_version': active_version(db, payload.game_id),
                     'brain_mold': brain.mold_slug,
                     'theme_weights': brain.theme_weights,
@@ -621,7 +620,6 @@ def narrate_episode(
                 else _evoked_beats(db, episode)
             ),
             impressions=_evoked_impressions(db, episode),
-            nl=NlPack(db, episode.game_id, brain=brain),
         )
         generation = result['generation'] or {}
         # ADR 0003: the Mind keeps and measures the inner-language text;
@@ -990,7 +988,6 @@ def pack_promote(
         if row is None:
             raise HTTPException(status_code=404, detail='draft not found')
         db.commit()
-        invalidate(game_id)
         return PromotePackResponse(
             game_id=game_id, version=row.version, status=row.status,
             archived_version=prev_active or 1,

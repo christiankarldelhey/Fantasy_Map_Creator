@@ -6,17 +6,12 @@
 # calls the LLM.
 #
 # Difference from the Node original: narrateDay.js calls tripHistory.js
-# itself (DB reads) to get previousDay/recentDayClimates. This service has
-# no DB access, so Node resolves those values first (tripHistory.js,
-# unchanged) and sends them in the payload. resolve_climate_state
-# (multi-day climate) is computed here from recent_day_climates, exactly
-# as narrateDay.js does with resolveClimateState.
+# itself (DB reads) to get previousDay/recentDayClimates, and verbalizes
+# the whole day into day.world_notes (#52) — this service consumes the
+# host's prose verbatim and never phrases world numbers itself.
 # ============================================================================
-import random
-
 from app.ai import generate_narrative, translate_text
 from app.evals.eval_runner import run_narrative_evals
-from app.natural_language import resolve_climate_state
 from app.prompt.builder import build_day_prompt
 
 INNER_LANGUAGE = 'english'
@@ -47,22 +42,12 @@ def narrate_day(
     mind_block='',
     impressions=None,
     memory_beats=None,
-    nl=None,
 ):
     trip = trip or {}
     character = character or {}
-    recent_day_climates = recent_day_climates or []
 
-    rng = day.get('rng') or random.random
-
-    # World voice (#52): the host's pre-verbalized notes win; absent, the
-    # engine phrases the raw fields itself until the NL removal lands.
     world_notes = day.get('world_notes') or {}
-
-    if 'climate_state' in world_notes:
-        climate_state_block = world_notes['climate_state']
-    else:
-        climate_state_block = resolve_climate_state(recent_day_climates, rng, nl)['narrative']
+    climate_state_block = world_notes.get('climate_state') or ''
 
     # ADR 0003: the narration is always written in the inner language
     # (English); another reader language is a translation of the finished
@@ -79,7 +64,6 @@ def narrate_day(
         climate_state_block=climate_state_block,
         mind_block=mind_block,
         memory_beats=memory_beats,
-        nl=nl,
         world_notes=world_notes,
     )
 

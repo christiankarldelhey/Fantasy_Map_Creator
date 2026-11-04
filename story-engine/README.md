@@ -1,17 +1,20 @@
-# Story Engine (Python)
+# Mind Engine (Python)
 
-The narrative layer of the monorepo: the host's world supplies the facts; the
-Story Engine supplies the mind that lives them and the voice that tells them.
-A FastAPI service with three parts:
+The interiority layer of the monorepo: the host's world decides what happens;
+the Mind Engine lives it — perception, memory, reflection, decision, and
+narration as the corollary. A FastAPI service with three parts:
 
-- **Narrator** (`app/narrate_day.py`, `app/prompt/`, `app/natural_language/`,
-  `app/ai.py`, `app/evals/`) — stateless. Turns one resolved day into prose:
-  rule-based phrase banks, prompt assembly, Groq with model/key fallback,
+- **Narrator** (`app/narrate_day.py`, `app/prompt/`, `app/ai.py`, `app/evals/`)
+  — stateless. Turns one resolved day into prose: prompt assembly over the
+  host's pre-verbalized `day.world_notes`, Groq with model/key fallback,
   post-generation evals. Needs no database.
 - **Mind Engine** (`app/mind/`) — stateful, in the Postgres `mind` schema. The
   inner life of a Character: perception and checks, memory, beliefs, needs,
-  mood, the Lens/Focus brief (with an LLM director) and reflection. Glossary:
-  `../CONTEXT.md`; decisions: `../docs/adr/0001`–`0005`.
+  mood, the Lens/Focus brief (with an LLM director) and reflection. The mind's
+  own words live as constants in `app/mind/voice.py`; the world's words are
+  never phrased here — the host declares prose and tags on the wire
+  (`day.world_notes`, `event.data.reading`). Glossary: `../CONTEXT.md`;
+  decisions: `../docs/adr/0001`–`0005`.
 - **Mind Studio** (`app/studio/api.py` + `../mind-studio/`) — the admin. A
   separate Vue app served at `/studio`, backed by `/studio/api` (ADR 0002).
 
@@ -55,8 +58,8 @@ rules' Lens pick), `MIND_DIRECTOR_MODEL`, `MIND_SCHEMA` (default `mind`),
 | `POST /mind/brains/{character_id}/mold` | Reassign a brain's mold |
 | `POST /mind/brains/{character_id}/reset` | Wipe everything lived; re-seed starter beliefs |
 | `POST /maintenance/consolidate` | Batch decay/patterns for degraded (NPC) brains |
-| `GET /packs/{game_id}/versions`, `POST /packs/{game_id}/{clone,promote}` | World voice pack versioning |
-| `/studio/api/*` | Mind Studio: minds, card, traits, concerns, World voice, Accents |
+| `GET /packs/{game_id}/versions`, `POST /packs/{game_id}/{clone,promote}` | Need-rules pack versioning |
+| `/studio/api/*` | Mind Studio: minds, card, traits, concerns |
 
 The host (`backend/domains/story/services/narrator/narrateDay.js`) uses the
 Episode lifecycle when `MIND_ENGINE` is on and falls back to `/narrate-day` on
@@ -64,6 +67,9 @@ any failure.
 
 ## Invariants
 
+- The world says what it was: the host declares prose and tags
+  (`day.world_notes`, `event.data.reading`); the mind consumes them verbatim
+  and never phrases world numbers or coins tags.
 - The Mind proposes, the host executes: `proposed_commands` are never run here.
 - The Mind knows no host field it was not told (ADR 0005): vitals are read
   through declared Detectors.
@@ -75,4 +81,3 @@ any failure.
 
 - `pytest` — the test suite (run the touched module's tests first).
 - `scripts/replay_days.py` — replay recorded trip days through the Mind, no UI.
-- `scripts/seed_nl_pack.py [game_id]` — seed the default World voice pack.

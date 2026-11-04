@@ -18,18 +18,14 @@ from datetime import datetime, timezone
 
 from sqlalchemy import func
 
-from app.mind.tables import (
-    CompositeRule, Facet, NlBand, NlPhraseList, NlThreshold, PackVersion,
-)
+from app.mind.tables import CompositeRule, PackVersion
 
 log = logging.getLogger(__name__)
 
-# The pack tables, with the columns carried between namespaces.
+# The pack tables, with the columns carried between namespaces. World
+# voice tables left with the NL removal (#54): what a pack versions now
+# is the composite need rules.
 PACK_TABLES = {
-    'nl_bands': (NlBand, ['table_name', 'ordinal', 'below', 'phrase', 'meta']),
-    'nl_thresholds': (NlThreshold, ['key', 'value']),
-    'nl_phrase_lists': (NlPhraseList, ['key', 'ordinal', 'phrase']),
-    'facets': (Facet, ['event_type', 'field_path', 'unit', 'description']),
     'composite_rules': (
         CompositeRule,
         ['key', 'need_type', 'event_type', 'streak_days', 'urgency_base',

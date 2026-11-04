@@ -24,7 +24,7 @@
 import random
 
 from app.mind.detectors import altered_by_state, state_mods
-from app.mind.nl_resolver import phrases as nl_phrases
+from app.mind.voice import phrases
 
 ALTERED_STATES_KEY = 'mind.altered_states'
 MISREAD_KEY = 'mind.misread'
@@ -100,9 +100,7 @@ def _is_altered(session, game_id, state, w, brain=None):
     declares an altered state (editable list 'mind.altered_states')."""
     if altered_by_state(session, game_id, state, w):
         return True
-    names = {n.lower() for n in nl_phrases(
-        session, game_id, ALTERED_STATES_KEY, brain=brain
-    )}
+    names = {n.lower() for n in phrases(ALTERED_STATES_KEY)}
     return bool(state.get('conditions', set()) & names)
 
 
@@ -211,7 +209,7 @@ def misread_reading(session, game_id, event, true_reading, check_result,
         data.get('entity') or data.get('entity_id')
         or data.get('name') or data.get('title') or true_reading
     )
-    pool = nl_phrases(session, game_id, MISREAD_KEY, brain=brain)
+    pool = phrases(MISREAD_KEY)
     if subject:
         options = pool
     else:

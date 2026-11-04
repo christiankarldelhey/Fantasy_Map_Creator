@@ -1,12 +1,12 @@
 # ============================================================================
-# C13 — the host sends facts/slugs, the pack owns every word
+# C13 — the host sends facts/slugs, prose and tags arrive declared
 # ----------------------------------------------------------------------------
-# previous_day arrives as raw names (never a composed sentence); meals as
-# canonical slugs; a shelterless night as a scope marker. All rendering —
-# including fallback words — lives in the NL pack.
+# previous_day arrives as raw names (never a composed sentence) and the
+# structural fallback joins them plainly; a rest night without a declared
+# reading falls back to the place's own words. World voice (#52/#53):
+# the host verbalizes — the engine lays out, it never phrases the world.
 # ============================================================================
-from app.mind.nl_resolver import resolve_event_reading
-from app.natural_language.meal_notes import describe_meal, meal_label
+from app.mind.voice import resolve_event_reading
 from app.prompt.sections.journey import journey_context_section
 
 
@@ -33,26 +33,31 @@ def test_previous_day_empty_lists_use_pack_words():
     assert 'no major encounters' in block
 
 
-def test_meal_slugs_render_display_names():
-    # nl=None: code fallback still yields prose, never the slug.
-    assert meal_label(None, 'tavern_meal') == 'a hot meal bought at the inn'
-    assert meal_label(None, 'waterskin') == 'water from the skin'
-    # Authored content passes through untouched.
-    assert meal_label(None, 'a ration of road bread') == 'a ration of road bread'
-    line = describe_meal(
-        {'slot': 'evening', 'food': 'tavern_meal', 'drink': 'tavern_ale'}
-    )
-    assert 'a hot meal bought at the inn' in line
-    assert 'ale and clean water' in line
-    assert 'tavern_meal' not in line
-
-
-def test_open_sky_rest_reading():
+def test_declared_reading_wins_verbatim():
+    # #53: the world says what it was — the mind consumes the line as-is.
     reading = resolve_event_reading(
-        None, 'middle_earth',
+        {'type': 'meal',
+         'data': {'reading': 'a hot meal bought at the inn and ale',
+                  'food': 'tavern_meal', 'drink': 'tavern_ale'}},
+    )
+    assert reading == 'a hot meal bought at the inn and ale'
+
+
+def test_open_sky_rest_reading_comes_declared():
+    # The shelterless night reads through data.reading, declared by the
+    # host (toEvents' REST_OPEN_SKY) — the engine adds no words of its own.
+    reading = resolve_event_reading(
         {'type': 'rest',
          'data': {'rest_quality': 1, 'place': None, 'description': None,
-                  'scope': 'hardcoded_fallback'}},
+                  'scope': 'hardcoded_fallback',
+                  'reading': 'The night is spent under open sky.'}},
     )
-    assert reading is not None
     assert 'open sky' in reading
+
+
+def test_rest_falls_back_to_the_place_words():
+    reading = resolve_event_reading(
+        {'type': 'rest',
+         'data': {'place': 'the Prancing Pony'}},
+    )
+    assert reading == 'the Prancing Pony'

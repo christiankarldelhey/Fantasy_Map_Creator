@@ -6,17 +6,16 @@
 # words. Stored on the episode so re-open replays the same snapshot.
 #
 # Mood: importance-weighted mean valence of the perceived events, arousal
-# from severity; the dominant label resolves through the editable NL table
-# nl_bands(table='mood'). The episode's mood blends into the brain's
-# running mood (half-life of one episode).
+# from severity; the dominant label resolves through the mood bands in
+# voice.py. The episode's mood blends into the brain's running mood
+# (half-life of one episode).
 # ============================================================================
 import re
 from datetime import date
 
-from app.mind.nl_resolver import band_phrase
+from app.mind.voice import mood_phrase
 from app.mind.provisioning import DEFAULT_WIRING
 
-MOOD_TABLE = 'mood'
 MOOD_BLEND = 0.5
 
 
@@ -44,9 +43,7 @@ def episode_mood(session, game_id, perceived_day, brain=None, needs=None):
         cap = w.get('need_affect_cap', 0.4)
         pressure = min(cap, sum((n.urgency or 0.0) * scale for n in needs))
         valence = max(-1.0, valence - pressure)
-    dominant = band_phrase(
-        session, game_id, MOOD_TABLE, valence, brain=brain
-    ) or 'neutral'
+    dominant = mood_phrase(valence) or 'neutral'
     return {
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
@@ -107,9 +104,7 @@ def update_brain_mood(session, game_id, brain, ep_mood, cause=None,
         (prior.get('arousal') or 0.0) * (1 - blend)
         + ep_mood['arousal'] * blend
     )
-    dominant = band_phrase(
-        session, game_id, MOOD_TABLE, valence, brain=brain
-    ) or 'neutral'
+    dominant = mood_phrase(valence) or 'neutral'
     carried = prior.get('cause')
     if cause:
         carried = {**cause, 'date': when.isoformat() if when else None}

@@ -20,7 +20,7 @@
 import re
 
 from app.mind.attitudes import is_attitude, match_level
-from app.mind.nl_resolver import phrases as nl_phrases
+from app.mind.voice import phrases
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.retrieval import _contact_tags
 
@@ -96,7 +96,7 @@ def need_origins(session, game_id, needs, entering_mood, brain=None):
             cause.get('reading') and (cause.get('valence') or 0.0) < 0
         ):
             phrase_key = 'mind.need_origin.unrest.nameless'
-        options = nl_phrases(session, game_id, phrase_key, brain=brain)
+        options = phrases(phrase_key)
         if not options:
             continue
         try:
@@ -136,7 +136,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     need_origins = need_origins or {}
     silenced = []
     frame_types = _ENGINE_FRAME_TYPES | set(
-        nl_phrases(session, game_id, FOCUS_EXCLUDED_KEY, brain=brain)
+        phrases(FOCUS_EXCLUDED_KEY)
     )
     contact_seen = _had_contact(perceived_day)
 

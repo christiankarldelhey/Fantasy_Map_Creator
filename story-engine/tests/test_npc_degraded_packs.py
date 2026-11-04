@@ -17,7 +17,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.tables import Brain, Episode, Memory, NlThreshold, PackVersion
+from app.mind.tables import Brain, CompositeRule, Episode, Memory, PackVersion
 
 GAME = 'middle_earth'
 TEST_PACK = 'pack-lab'
@@ -127,21 +127,24 @@ def test_normal_brains_untouched_by_degraded_gate(client):
 
 def test_clone_and_promote_pack(client):
     session = SessionLocal()
-    session.query(NlThreshold).filter(
-        NlThreshold.game_id.like(f'{TEST_PACK}%')
+    session.query(CompositeRule).filter(
+        CompositeRule.game_id.like(f'{TEST_PACK}%')
     ).delete(synchronize_session=False)
     session.query(PackVersion).filter_by(game_id=TEST_PACK).delete(
         synchronize_session=False
     )
-    session.add(NlThreshold(
-        game_id=TEST_PACK, key='climate.windy_speed_min', value=18.0
+    session.add(CompositeRule(
+        game_id=TEST_PACK, key='snowbound',
+        event_type='climate', streak_days=2,
+        urgency_base=0.5, urgency_per_day=0.1,
+        conditions=[[{'field': 'tag', 'op': 'has', 'value': 'weather:snow'}]],
     ))
     session.commit()
     session.close()
 
     # Clone → draft v2 in its own namespace, live untouched.
     r = client.post(f'/packs/{TEST_PACK}/clone',
-                    json={'note': 'windier shire'})
+                    json={'note': 'longer winters'})
     assert r.status_code == 200, r.text
     draft = r.json()
     assert draft['version'] == 2
@@ -151,10 +154,10 @@ def test_clone_and_promote_pack(client):
 
     # Experiment on the draft namespace — live pack unchanged.
     session = SessionLocal()
-    row = session.query(NlThreshold).filter_by(
-        game_id=ns, key='climate.windy_speed_min'
+    row = session.query(CompositeRule).filter_by(
+        game_id=ns, key='snowbound'
     ).one()
-    row.value = 4.0
+    row.streak_days = 5
     session.commit()
     session.close()
 
@@ -166,17 +169,17 @@ def test_clone_and_promote_pack(client):
     assert promoted['archived_version'] == 1
 
     session = SessionLocal()
-    live = session.query(NlThreshold).filter_by(
-        game_id=TEST_PACK, key='climate.windy_speed_min'
+    live = session.query(CompositeRule).filter_by(
+        game_id=TEST_PACK, key='snowbound'
     ).one()
-    assert live.value == 4.0
+    assert live.streak_days == 5
     archived = session.query(PackVersion).filter_by(
         game_id=TEST_PACK, version=1, status='archived'
     ).one()
     assert any(
-        r['value'] == 18.0
-        for r in archived.snapshot['nl_thresholds']
-        if r['key'] == 'climate.windy_speed_min'
+        r['streak_days'] == 2
+        for r in archived.snapshot['composite_rules']
+        if r['key'] == 'snowbound'
     )
     session.close()
 
@@ -197,7 +200,6 @@ def test_episode_snapshot_records_pack_version(client):
     session = SessionLocal()
     episode = session.get(Episode, opened['episode_id'])
     assert episode.config_snapshot['pack_version'] == version
-    assert episode.config_snapshot['nl_pack'] == TEST_PACK
     session.close()
 
 
