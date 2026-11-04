@@ -29,7 +29,6 @@ from app.mind.checks import (
 )
 from app.mind.nl_resolver import phrases as nl_phrases
 from app.mind.nl_resolver import resolve_event_reading
-from app.mind.nl_resolver import threshold as nl_threshold
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Episode
 
@@ -73,10 +72,12 @@ def derive_tags(event):
         # 'scope' is resolution bookkeeping (which places_interactions
         # row served the night) — 'scope:family' streaks once turned into
         # 'no family today' readings about a family that never existed.
+        # 'reading' is the host's declared perception — prose, not a tag.
         if key in ('entity', 'entity_id', 'entity_name', 'check',
                    'thread_desc', 'resolves', 'urgency', 'scope',
                    'description', 'description_es', 'inhabitants',
-                   'prose_hint', 'slot', 'substance', 'lodging'):
+                   'prose_hint', 'slot', 'substance', 'lodging',
+                   'reading'):
             continue
         if key == 'tags':
             values = value if isinstance(value, list) else [value]
@@ -100,66 +101,6 @@ def theme_weight(tags, weights):
         if key.endswith(':*') and any(t.startswith(key[:-1]) for t in tags):
             best = max(best, weight)
     return best
-
-
-def _semantic_tags(session, game_id, event, brain=None):
-    """Threshold-derived tags for numeric domains — climate data carries no
-    strings, so without these it could never feed theme weights or pattern
-    detection ('tag:weather:freezing' day after day...).
-
-    Tiered (C6): the mild tiers mark ambience (wet/windy), the severe
-    tiers mark *events* — storm, snow, deep cold, scorching heat. Those
-    pair with 'severity.<tag>' wiring so a hard day of weather carries
-    real salience while drizzle stays background."""
-    if event.get('type') != 'climate':
-        return []
-    data = event.get('data') or {}
-    tags = []
-    temp = _num(data.get('temperature_2m'))
-    prec = _num(data.get('precipitation'))
-    wind = _num(data.get('wind_speed_10m'))
-
-    # Severe tiers first — a snow day is also freezing; both tags apply.
-    snow_max = nl_threshold(
-        session, game_id, 'climate.snow_temp_max', 1.0, brain=brain
-    )
-    if (
-        temp is not None and temp <= snow_max
-        and prec is not None and prec >= nl_threshold(
-            session, game_id, 'climate.wet_precipitation_min', 0.2,
-            brain=brain,
-        )
-    ):
-        tags.append('tag:weather:snow')
-    if temp is not None and temp <= nl_threshold(
-        session, game_id, 'climate.deep_cold_max', -10.0, brain=brain
-    ):
-        tags.append('tag:weather:deep_cold')
-    if temp is not None and temp >= nl_threshold(
-        session, game_id, 'climate.scorching_min', 32.0, brain=brain
-    ):
-        tags.append('tag:weather:scorching')
-    if (wind is not None and wind >= nl_threshold(
-            session, game_id, 'climate.storm_wind_min', 25, brain=brain
-        )) or (prec is not None and prec >= nl_threshold(
-            # precipitation arrives as a per-phase SUM — heavier floor
-            # than the per-sample 'heavy_rain_min' key.
-            session, game_id, 'climate.storm_precip_min', 8.0, brain=brain
-        )):
-        tags.append('tag:weather:storm')
-
-    # Mild tiers — ambience, not events.
-    if temp is not None and temp <= snow_max:
-        tags.append('tag:weather:freezing')
-    if prec is not None and prec >= nl_threshold(
-        session, game_id, 'climate.wet_precipitation_min', 0.2, brain=brain
-    ):
-        tags.append('tag:weather:wet')
-    if wind is not None and wind >= nl_threshold(
-        session, game_id, 'climate.windy_speed_min', 18, brain=brain
-    ):
-        tags.append('tag:weather:windy')
-    return tags
 
 
 def _severity(data):
@@ -469,9 +410,9 @@ def perceive_events(session, game_id, brain, events, character=None):
 
     perceived = []
     for index, event in enumerate(events or []):
-        tags = derive_tags(event) + _semantic_tags(
-            session, game_id, event, brain=brain
-        )
+        # Tags are host-declared (#53): the world says what happened in
+        # words and tags; the mind never derives meaning from raw numbers.
+        tags = derive_tags(event)
         new_tags = [t for t in tags if t not in seen]
         novelty = len(new_tags) / len(tags) if tags else 0.0
         data = event.get('data') or {}

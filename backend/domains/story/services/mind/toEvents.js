@@ -8,20 +8,25 @@
 //
 //   climate   — one per phase, aggregated raw metrics
 //               data: {temperature_2m, cloud_cover, wind_speed_10m,
-//                      precipitation, hours}
+//                      precipitation, hours, reading, tags[]} — the host
+//               declares the weather tiers ('weather:storm'…) and the
+//               one-line reading; the mind never derives tags or prose
+//               from raw numbers
 //   travel    — data: {distance_km, walking_hours}
-//   terrain   — data: {terrain_phrases (map of phase->phrases)}
+//   terrain   — data: {terrain_phrases (map of phase->phrases), reading}
 //   place     — one per visited location: data: {name, kind, description,
-//               population, inhabitants, distance_km, tags[]} — 'settlement'
-//               for inhabited places, 'entered' for the one the traveller
-//               actually stopped at, 'hostile' for enemy-kingdom places
-//               that were skirted from outside
-//   water     — one per crossing: data: {name, kind}
-//   meal      — one per meal slot: data: {slot, eaten, food, drink}
+//               population, inhabitants, distance_km, tags[], reading} —
+//               'settlement' for inhabited places, 'entered' for the one
+//               the traveller actually stopped at, 'hostile' for
+//               enemy-kingdom places that were skirted from outside
+//   water     — one per crossing: data: {name, kind, reading}
+//   meal      — one per meal slot: data: {slot, eaten, food, drink,
+//               reading}
 //   rest      — overnight: data: {rest_quality, shadow_effect, place,
-//               description} — the place's own prose carries the night
+//               description, reading} — the place's own prose carries
+//               the night; reading is what the mind perceived
 //   encounter — one per encounter: data: {entity, entity_type, family,
-//               danger,
+//               danger, reading,
 //               form, outcome, prose_hint, intensity, check,
 //               topic, substance} — form is how contact happened
 //               (sign_only/sound_only/confronts...), outcome only exists
@@ -44,9 +49,23 @@
 //
 // All `when` share {episode: day.day_number, date: day.date}; phase-scoped
 // events add when.phase (+hour for encounters).
+//
+// Perception contract (#53 — the Universal Tagger's contract): every
+// event that should read as something carries `data.reading`, a one-line
+// host-authored perception, and `data.tags` — the declared 'weather:*'
+// tiers and markers the mind's wiring keys against. The mind consumes
+// both verbatim; deriving tags or prose from raw numbers is the host's
+// job, never the mind's.
 // ============================================================================
 
 import { innerClimate, meanOf, sumOf } from '../../adapters/mapClient.js';
+import {
+  weatherReading,
+  weatherTags,
+} from '../naturalLanguage/climateNotes.js';
+import { mealLabel } from '../naturalLanguage/mealNotes.js';
+import { REST_OPEN_SKY } from '../naturalLanguage/nightNotes.js';
+import { humanize } from '../naturalLanguage/text.js';
 
 function phaseOfHour(hourFloat) {
   if (hourFloat == null) return null;
@@ -97,16 +116,22 @@ function climateEvents(day) {
   const events = [];
   for (const [phase, records] of Object.entries(byPhase)) {
     if (records.length === 0) continue;
+    const data = {
+      temperature_2m: meanOf(records.map((w) => w.temperature_2m)),
+      cloud_cover: meanOf(records.map((w) => w.cloud_cover)),
+      wind_speed_10m: meanOf(records.map((w) => w.wind_speed_10m)),
+      precipitation: sumOf(records.map((w) => w.precipitation)),
+      hours: records.length,
+    };
+    const tags = weatherTags(data);
     events.push({
       type: 'climate',
       when: when(day, { phase }),
       where: where(regionOf(day, phase)),
       data: {
-        temperature_2m: meanOf(records.map((w) => w.temperature_2m)),
-        cloud_cover: meanOf(records.map((w) => w.cloud_cover)),
-        wind_speed_10m: meanOf(records.map((w) => w.wind_speed_10m)),
-        precipitation: sumOf(records.map((w) => w.precipitation)),
-        hours: records.length,
+        ...data,
+        reading: weatherReading(data),
+        ...(tags.length ? { tags } : {}),
       },
     });
   }
@@ -185,6 +210,18 @@ function encounterEvents(day) {
               stance: dc.traveller_stance ?? null,
             };
           })(),
+          // The one-line perception the mind keeps: resolved substance
+          // leads, the form's prose hint carries contact without words.
+          reading: (() => {
+            const subject = e.entity.name || humanize(slug);
+            const detail = e.interaction?.dialogue_content?.concrete_content
+              ?? e.interaction?.prose_hint ?? null;
+            if (subject && detail) {
+              const stance = e.interaction?.dialogue_content?.traveller_stance;
+              return `${subject} — ${detail}${stance ? ` ${stance}` : ''}`;
+            }
+            return subject || detail;
+          })(),
           outcome,
           check: encounterCheck(e.entity, e.interaction),
           // B5: a before_sleep encounter may carry a real choice —
@@ -242,6 +279,8 @@ function mealEvents(day) {
         eaten: food != null || m.itemId != null || m.slug === 'tavern_meal',
         food,
         drink: m.drink?.name || m.drink || null,
+        reading: [mealLabel(food), mealLabel(m.drink?.name || m.drink)]
+          .filter(Boolean).join(', ') || null,
         // C28: food the world provided — an encounter gift or a shelter
         // table — weighs more than another ration from the pack.
         tags: m.provided ? ['given'] : undefined,
@@ -273,6 +312,7 @@ function placeEvents(day) {
         description: loc.description ?? null,
         description_es: loc.description_es ?? null,
         distance_km: loc.distance_km ?? null,
+        reading: loc.name || loc.id || null,
         tags: tags.length ? tags : undefined,
       },
     };
@@ -284,7 +324,8 @@ function waterEvents(day) {
     type: 'water',
     when: when(day, { phase: w.phase || phaseOfHour(w.hour_float) }),
     where: where(w.region || regionOf(day)),
-    data: { name: w.name || null, kind: w.type || null },
+    data: { name: w.name || null, kind: w.type || null,
+            reading: w.name || null },
   }));
 }
 
@@ -312,9 +353,11 @@ function restEvent(day) {
       // ('the will itself feels weighed and probed') — numbers alone
       // left the worst nights invisible to the mind.
       description: overnight.description ?? null,
-      // 'hardcoded_fallback' = open sky: the mind supplies its own
-      // open-sky reading rather than trusting a host sentence (C13).
+      // 'hardcoded_fallback' = open sky: the host supplies the
+      // open-sky reading itself now (C13, #53).
       scope: overnight.scope ?? null,
+      reading: overnight.description ?? overnight.name ?? overnight.id
+        ?? REST_OPEN_SKY,
       lodging: {
         paid: lodging.paid ?? false,
         cost: lodging.cost ?? null,
@@ -387,6 +430,9 @@ export function toEvents({ day, trip, character, stateContext }) {
             biomes: (day.biomes || [])
               .map((b) => ({ type: b?.type || b?.name || null, hour_float: b?.hour_float ?? null }))
               .slice(0, 6),
+            reading: Object.values(day.terrain_phrases || {})
+              .flatMap((r) => Object.values(r)).flat()[0]
+              || (day.biomes || [])[0]?.type || null,
           },
         }]
       : []),
