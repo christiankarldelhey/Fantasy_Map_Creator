@@ -289,3 +289,51 @@ def test_concerns_set_and_remove(client):
         json={'weights': {'tag:entity_type:undead': None}},
     )
     assert 'tag:entity_type:undead' not in r.json()
+
+
+def test_mood_patch_sets_weather_and_recomputes_dominant(client):
+    char = _uid('mood')
+    _live(client, char, 1)
+
+    r = client.patch(
+        f'/studio/api/minds/{char}/mood', auth=AUTH,
+        json={'valence': -0.8, 'arousal': 0.6},
+    )
+    assert r.status_code == 200, r.text
+    mood = r.json()
+    assert mood['valence'] == -0.8
+    assert mood['arousal'] == 0.6
+    assert mood['dominant'] != 'neutral'
+
+    # …and the detail reads the same weather back.
+    mind = client.get(f'/studio/api/minds/{char}', auth=AUTH).json()
+    assert mind['mood']['valence'] == -0.8
+
+
+def test_mood_patch_clamps_and_drops_cause_near_neutral(client):
+    char = _uid('mood')
+    _live(client, char, 1)
+    session = SessionLocal()
+    brain = session.query(Brain).filter_by(character_id=char).one()
+    brain.mood = {
+        'valence': -0.7, 'arousal': 0.5, 'dominant': 'heavy',
+        'cause': {'reading': 'the wolves', 'valence': -0.6, 'tags': []},
+    }
+    session.commit()
+    session.close()
+
+    r = client.patch(
+        f'/studio/api/minds/{char}/mood', auth=AUTH,
+        json={'valence': 0.02},
+    )
+    mood = r.json()
+    assert mood['valence'] == 0.02
+    assert mood['cause'] is None  # near neutral: nothing weighs any more
+
+    # Out-of-band values clamp.
+    r = client.patch(
+        f'/studio/api/minds/{char}/mood', auth=AUTH,
+        json={'valence': -3, 'arousal': 4},
+    )
+    assert r.json()['valence'] == -1.0
+    assert r.json()['arousal'] == 1.0

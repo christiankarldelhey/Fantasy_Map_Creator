@@ -1,4 +1,4 @@
-import type { MindDetail, MindList } from './types'
+import type { MindDetail, MindList, Mood } from './types'
 
 const BASE = `${import.meta.env.BASE_URL}api`
 
@@ -31,7 +31,7 @@ export async function patchCard(
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
 }
 
-async function patchJson(path: string, body: unknown): Promise<void> {
+async function patchJson<T = void>(path: string, body: unknown): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
     method: 'PATCH',
     credentials: 'same-origin',
@@ -39,10 +39,16 @@ async function patchJson(path: string, body: unknown): Promise<void> {
     body: JSON.stringify(body),
   })
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
+  return res.json() as Promise<T>
 }
 
 export const patchTraits = (characterId: string, traits: Record<string, number>) =>
   patchJson(`/minds/${encodeURIComponent(characterId)}/traits`, { traits })
+
+export const patchMood = (
+  characterId: string,
+  mood: { valence?: number; arousal?: number },
+) => patchJson<Mood>(`/minds/${encodeURIComponent(characterId)}/mood`, mood)
 
 export const patchConcerns = (
   characterId: string,

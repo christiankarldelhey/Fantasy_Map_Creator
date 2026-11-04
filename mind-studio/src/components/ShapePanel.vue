@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, shallowRef } from 'vue'
-import { patchConcerns, patchTraits } from '../api'
+import { patchConcerns, patchMood, patchTraits } from '../api'
 import { concernLabel, KNOWN_CONCERNS, percent } from '../lib/format'
 import type { MindDetail } from '../types'
 
@@ -19,6 +19,7 @@ const traits = reactive<Record<string, number>>(
     [...LIVING, ...DORMANT].map((k) => [k, props.mind.traits[k]?.value ?? 0.5]),
   ),
 )
+const mood = reactive({ ...props.mind.mood })
 const concerns = reactive<Record<string, number>>({ ...props.mind.concerns })
 const newConcern = shallowRef('')
 const error = shallowRef<string | null>(null)
@@ -27,6 +28,19 @@ const dirty = shallowRef(false)
 async function saveTrait(key: string) {
   try {
     await patchTraits(props.mind.character_id, { [key]: traits[key]! })
+    dirty.value = true
+  } catch (e) {
+    error.value = (e as Error).message
+  }
+}
+
+async function saveMood() {
+  try {
+    const saved = await patchMood(props.mind.character_id, {
+      valence: mood.valence,
+      arousal: mood.arousal,
+    })
+    mood.dominant = saved.dominant
     dirty.value = true
   } catch (e) {
     error.value = (e as Error).message
@@ -81,6 +95,44 @@ function close() {
       </header>
 
       <p v-if="error" class="err">No se guardó: {{ error }}</p>
+
+      <section class="block">
+        <h3 class="eyebrow">Cómo está ahora</h3>
+        <p class="hint">
+          El clima emocional de este momento — se mezcla con lo que le
+          pase al personaje, no lo pisa para siempre.
+        </p>
+        <div class="trait">
+          <div class="trait-head">
+            <span class="trait-name">Ánimo</span>
+            <span class="trait-help">{{ mood.dominant ?? '—' }}</span>
+          </div>
+          <div class="dial">
+            <span class="pole">oscuro</span>
+            <input
+              v-model.number="mood.valence"
+              type="range" min="-1" max="1" step="0.05"
+              @change="saveMood"
+            />
+            <span class="pole">luminoso</span>
+          </div>
+        </div>
+        <div class="trait">
+          <div class="trait-head">
+            <span class="trait-name">Sacudida</span>
+            <span class="trait-help">cuánto lo revuelve</span>
+          </div>
+          <div class="dial">
+            <span class="pole">quieto</span>
+            <input
+              v-model.number="mood.arousal"
+              type="range" min="0" max="1" step="0.05"
+              @change="saveMood"
+            />
+            <span class="pole">alterado</span>
+          </div>
+        </div>
+      </section>
 
       <section class="block">
         <h3 class="eyebrow">Cómo es</h3>

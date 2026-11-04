@@ -26,7 +26,9 @@ from app.mind.tables import (
     Belief, Brain, Character, Episode, ForgottenMemory, Memory, Musing,
     Need,
 )
+from app.mind.lens import MOOD_CAUSE_MIN_VALENCE
 from app.mind.traits import TRAITS, apply_trait, traits_of
+from app.mind.voice import mood_phrase
 
 _basic = HTTPBasic()
 
@@ -520,6 +522,43 @@ def patch_concerns(
     brain.theme_weights = weights
     db.commit()
     return weights
+
+
+class MoodPatch(BaseModel):
+    """The mind's current weather: valence and arousal. `dominant`
+    re-resolves from valence and the carried cause follows the same
+    rule the episode blend applies — an admin never writes the
+    phrase or the cause directly."""
+    valence: Optional[float] = None
+    arousal: Optional[float] = None
+
+
+@router.patch('/minds/{character_id}/mood')
+def patch_mood(
+    character_id: str,
+    body: MoodPatch,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    brain = _brain_or_404(db, game, character_id)
+    mood = dict(brain.mood or {})
+    if body.valence is not None:
+        mood['valence'] = round(max(-1.0, min(1.0, body.valence)), 3)
+    if body.arousal is not None:
+        mood['arousal'] = round(max(0.0, min(1.0, body.arousal)), 3)
+    valence = mood.get('valence') or 0.0
+    mood['dominant'] = mood_phrase(valence) or 'neutral'
+    carried = mood.get('cause')
+    # A cause stays only while it explains the mood it rides with: gone
+    # near neutral or after the valence sign flipped past it.
+    if abs(valence) < MOOD_CAUSE_MIN_VALENCE or (
+        carried and (carried.get('valence') or 0.0) * valence < 0
+    ):
+        carried = None
+    mood['cause'] = carried
+    brain.mood = mood
+    db.commit()
+    return mood
 
 
 
