@@ -12,6 +12,7 @@
 // ============================================================================
 
 import { toEvents } from './toEvents.js';
+import { buildWorldNotes } from '../naturalLanguage/worldNotes.js';
 
 const pick = (obj, keys) =>
   Object.fromEntries(keys.filter((k) => obj?.[k] !== undefined).map((k) => [k, obj[k]]));
@@ -128,13 +129,27 @@ export function toOpenPayload({
   recentDayClimates = [],
   stateContext = null,
 }) {
+  const daySlim = slimDay(day);
+  // World voice (issue #52): the host verbalizes every world field before
+  // the wire — the engine assembles prose, it never phrases numbers.
+  daySlim.world_notes = buildWorldNotes({
+    day: daySlim,
+    tripName: trip.name ?? null,
+    characterName: character.name ?? 'The traveller',
+    characterState,
+    equipmentState,
+    fate,
+    previousDay,
+    recentDayClimates,
+    rng: typeof day.rng === 'function' ? day.rng : Math.random,
+  });
   return {
     game_id: gameId,
     episode_ref: `trip:${trip.id}:day:${day.day_number}`,
     language,
     character: slimCharacter(character),
     events: toEvents({ day, trip, character, stateContext }),
-    day: slimDay(day),
+    day: daySlim,
     trip_name: trip.name ?? null,
     character_state: characterState,
     equipment_state: equipmentState,

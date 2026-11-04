@@ -2,10 +2,10 @@
 // Traveller state for the narrator prompt
 // ----------------------------------------------------------------------------
 // Collects the mechanical state of the character (energy, shadow, gear, food,
-// coins, fate) and ships it RAW. Single-owner rule (C10): no data→language
-// translation lives in the host — the story-engine's NL pack renders the
-// condition, equipage and end-state sections. What remains here is pure
-// data gathering: the recent log notes and which gear is worth naming.
+// coins, fate) and ships it RAW alongside the day — the verbalized world
+// material rides separately in day.world_notes (issue #52), rendered by
+// naturalLanguage/*. What remains here is pure data gathering: the recent
+// log notes and which gear is worth naming.
 // ============================================================================
 
 import { recentNotes } from '../../adapters/gameClient.js';

@@ -22,6 +22,9 @@ def phase_block(
     extra_lead='',
     meal='',
     echoes=None,
+    terrain_notes=None,
+    location_notes=None,
+    water_notes=None,
 ):
     biomes = biomes or []
     locations = locations or []
@@ -35,18 +38,25 @@ def phase_block(
     if weather:
         subsections.append(f'Weather: {weather}')
 
-    if biomes:
-        terrain_notes = collect_terrain_notes(biomes, [], regions, terrain_phrases, rng)
-        if terrain_notes:
-            subsections.append(f"Terrain:\n{chr(10).join(terrain_notes)}")
+    # World voice (#52): pre-verbalized notes from the host win; absent,
+    # the engine phrases the raw fields itself until the removal lands.
+    notes = terrain_notes if terrain_notes is not None else (
+        collect_terrain_notes(biomes, [], regions, terrain_phrases, rng) if biomes else []
+    )
+    if notes:
+        subsections.append(f"Terrain:\n{chr(10).join(notes)}")
 
-    if locations:
-        subsections.append(f'Locations:\n{chr(10).join(collect_location_notes(locations))}')
+    notes = location_notes if location_notes is not None else (
+        collect_location_notes(locations) if locations else []
+    )
+    if notes:
+        subsections.append(f'Locations:\n{chr(10).join(notes)}')
 
-    if water_crossings:
-        water = describe_water_crossings(water_crossings, rng)
-        if water:
-            subsections.append(f'Water crossings:\n{water}')
+    water = water_notes if water_notes is not None else (
+        describe_water_crossings(water_crossings, rng) if water_crossings else None
+    )
+    if water:
+        subsections.append(f'Water crossings:\n{water}')
 
     if meal:
         subsections.append(f'Food and drink:\n{meal}')

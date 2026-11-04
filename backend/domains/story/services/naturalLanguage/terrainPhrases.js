@@ -5,15 +5,53 @@
 // region_biome_descriptions table. Falls back to null when no phrase exists,
 // letting callers keep their default descriptions.
 //
-// NOTE: the pure lookup helpers that used to live here (pickPhrase,
-// pickPhraseForRegions) moved to the story-engine Python port
-// (story-engine/app/natural_language/terrain_phrases.py), since prompt
-// assembly now happens there. This file keeps only the DB read, which the
-// Game domain still needs during day generation (domains/game/services/world/
-// tripDay.js, via domains/game/adapters/storyClient.js).
+// NOTE: the pure lookup helpers (pickPhrase, pickPhraseForRegions) are back
+// at home in this file — the world-voice migration (#52) moved phrasing out
+// of the story-engine, so their Python copy
+// (story-engine/app/natural_language/terrain_phrases.py) is the dead twin.
+// The DB read stays because the Game domain calls it during day generation
+// (domains/game/services/world/tripDay.js, via
+// domains/game/adapters/storyClient.js).
 // ============================================================================
 
 import pool from '../../../../db.js';
+
+/**
+ * Pick a random phrase for a region/category combination.
+ * @param {Object} phrasesMap { regionName: { category: [phrase, ...] } }
+ * @param {string} regionName
+ * @param {string} category
+ * @param {() => number} [rng]
+ * @returns {string|null}
+ */
+export function pickPhrase(phrasesMap, regionName, category, rng = Math.random) {
+  const phrases = phrasesMap?.[regionName]?.[category];
+  if (!Array.isArray(phrases) || phrases.length === 0) {
+    return null;
+  }
+  return phrases[Math.floor(rng() * phrases.length)];
+}
+
+/**
+ * Pick a phrase from the first region in the list that has one for the category.
+ * @param {Object} phrasesMap
+ * @param {string[]} regionNames
+ * @param {string} category
+ * @param {() => number} [rng]
+ * @returns {string|null}
+ */
+export function pickPhraseForRegions(phrasesMap, regionNames, category, rng = Math.random) {
+  if (!Array.isArray(regionNames)) {
+    return null;
+  }
+  for (const name of regionNames) {
+    const phrase = pickPhrase(phrasesMap, name, category, rng);
+    if (phrase) {
+      return phrase;
+    }
+  }
+  return null;
+}
 
 /**
  * Build a lookup map of region-specific phrases.

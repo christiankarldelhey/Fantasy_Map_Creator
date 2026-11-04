@@ -55,8 +55,14 @@ def narrate_day(
 
     rng = day.get('rng') or random.random
 
-    climate_state = resolve_climate_state(recent_day_climates, rng, nl)
-    climate_state_block = climate_state['narrative']
+    # World voice (#52): the host's pre-verbalized notes win; absent, the
+    # engine phrases the raw fields itself until the NL removal lands.
+    world_notes = day.get('world_notes') or {}
+
+    if 'climate_state' in world_notes:
+        climate_state_block = world_notes['climate_state']
+    else:
+        climate_state_block = resolve_climate_state(recent_day_climates, rng, nl)['narrative']
 
     # ADR 0003: the narration is always written in the inner language
     # (English); another reader language is a translation of the finished
@@ -74,6 +80,7 @@ def narrate_day(
         mind_block=mind_block,
         memory_beats=memory_beats,
         nl=nl,
+        world_notes=world_notes,
     )
 
     generation = generate_narrative(prompt, day.get('day_number'))
