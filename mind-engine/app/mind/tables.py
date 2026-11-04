@@ -267,7 +267,8 @@ class Belief(Base):
     kind: Mapped[str] = mapped_column(String(30), nullable=False)
     # C14: 'enduring' (the world's nature, self, others) vs 'transient'
     # (current circumstances — this ford today, this stretch of road).
-    # Transient beliefs fade per closed episode, not per reflection.
+    # A transient belief decays faster when a reflection ignores it;
+    # nothing in Identity fades with the calendar.
     horizon: Mapped[str] = mapped_column(
         String(20), nullable=False, default='enduring', server_default='enduring'
     )
