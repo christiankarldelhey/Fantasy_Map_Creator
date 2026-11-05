@@ -342,7 +342,66 @@ def test_duplicate_memories_compact_every_close():
     session.close()
 
 
-# --- G) the lens reads one impression, not three copies --------------------
+# --- G) #85 — the same lived thing, another day, is the same memory ------
+
+def _meal_event(ep):
+    return {
+        'type': 'meal',
+        'when': {'episode': ep, 'date': f'1950-05-0{ep}'},
+        'data': {
+            'food': 'tavern fare',
+            'reading': 'a hot meal bought at the inn, ale and clean water',
+            'valence': 0.4,
+        },
+    }
+
+
+def _hot_meals(char):
+    return [m for m in _memories(char) if 'hot meal' in (m.desc or '')]
+
+
+def test_identical_events_across_episodes_encode_one_memory(client):
+    """A recurring meal strengthens ONE row — episode_ids accrete (the
+    need-arc rule generalized): no fresh sibling per dawn to out-evoke
+    the warg attack."""
+    char = _uid('same-meal')
+    for ep in (1, 2):
+        opened = _open(client, char, f'd{ep}', [_meal_event(ep)])
+        _close(client, opened['episode_id'])
+    rows = _hot_meals(char)
+    assert len(rows) == 1
+    assert len(set(rows[0].episode_ids or [])) == 2
+
+
+def test_identical_events_within_one_episode_encode_one_memory(client):
+    """Two identical meals the same day — one row, not twins."""
+    char = _uid('same-meal-twice')
+    opened = _open(client, char, 'd1', [_meal_event(1), _meal_event(1)])
+    _close(client, opened['episode_id'])
+    rows = _hot_meals(char)
+    assert len(rows) == 1
+    assert len(rows[0].episode_ids or []) == 1
+
+
+def test_different_readings_still_encode_separate_memories(client):
+    """Dedup is exact-desc only: two DIFFERENT meals keep their rows."""
+    char = _uid('two-meals')
+    events = [
+        {
+            'type': 'meal',
+            'when': {'episode': 1, 'date': '1950-05-01'},
+            'data': {'reading': reading, 'valence': 0.4},
+        }
+        for reading in ("the farm wife's soup", 'stale bread and water')
+    ]
+    opened = _open(client, char, 'd1', events)
+    _close(client, opened['episode_id'])
+    descs = {m.desc for m in _memories(char)}
+    assert "the farm wife's soup" in descs
+    assert 'stale bread and water' in descs
+
+
+# --- H) the lens reads one impression, not three copies --------------------
 
 def test_lens_dedupes_identical_impressions():
     brief = {'focus': None, 'day': [], 'carried': [
