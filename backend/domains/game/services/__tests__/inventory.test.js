@@ -247,12 +247,33 @@ test('resolveDailyMeals: provided meal on a starving traveller still counts as e
 
 test('resolveDailyMeals at a paid inn feeds both meals without spending rations', () => {
   const rows = [provision(1, 'dried_meat', 8, 2)];
-  const r = resolveDailyMeals({ rations: 2, daysWithoutFood: 3, rows, waterDrunk: 1, tavernMeal: true });
+  const r = resolveDailyMeals({ rations: 2, daysWithoutFood: 3, rows, waterDrunk: 1, tavernMeal: true, mealPaid: true });
   assert.equal(r.consumed, true);
   assert.equal(r.rationsAfter, 2);
   assert.equal(r.newDaysWithoutFood, 0);
   assert.deepEqual(r.itemIds, []);
   assert.ok(r.meals.every((m) => m.food));
+});
+
+// #83: 'provided' means given — a paid board was bought, so it must not
+// carry the flag that downstream turns into a 'given' salience floor.
+test('resolveDailyMeals: a paid inn meal is bought, not given — paid, never provided', () => {
+  const r = resolveDailyMeals({
+    rations: 0, daysWithoutFood: 3, rows: [], waterDrunk: 1,
+    tavernMeal: true, mealPaid: true,
+  });
+  assert.equal(r.meals.every((m) => !m.provided), true);
+  assert.equal(r.meals.every((m) => m.paid === true), true);
+  assert.equal(r.consumed, true);
+});
+
+test('resolveDailyMeals: an unpaid shelter meal stays provided — hospitality is a gift', () => {
+  const r = resolveDailyMeals({
+    rations: 0, daysWithoutFood: 3, rows: [], waterDrunk: 1,
+    tavernMeal: true, mealPaid: false, mealSlug: 'farmstead_pot',
+  });
+  assert.equal(r.meals.every((m) => m.provided === true), true);
+  assert.equal(r.meals[0].food, 'farmstead_pot');
 });
 
 test('computeWaterNeed scales with temperature bands', () => {

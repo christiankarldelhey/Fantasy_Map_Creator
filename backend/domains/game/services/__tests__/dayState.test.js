@@ -122,6 +122,29 @@ test('commands: heal on an unwounded traveller is a no-op', () => {
   assert.equal(r.conditions.wounded, 'none');
 });
 
+// ---------------------------------------------------------------------------
+// #83: paid board is bought, not given
+// ---------------------------------------------------------------------------
+
+test('lodging: a paid inn board marks meals paid, never provided', () => {
+  const day = makeDay({
+    overnight_location: { name: 'Inn', type: 'inn', indoor: true },
+    overnight_interaction: { region: { cultural_family: null, name: 'Testland' }, rest_quality: 2 },
+  });
+  const r = resolveDayState({
+    day,
+    startState: { ...startState, coins: 10 },
+    effects: baseEffects,
+    inventoryRows: [],
+  });
+  assert.equal(r.lodging.paid, true);
+  assert.equal(r.meals.every((m) => !m.provided && m.paid === true), true);
+  // They still ate: the meal events report eaten, sourced to the tavern.
+  const mealEvents = r.dayEvents.filter((e) => e.type === 'meal');
+  assert.equal(mealEvents.length > 0, true);
+  assert.equal(mealEvents.every((e) => e.eaten === true && e.source === 'tavern'), true);
+});
+
 test('commands: unknown/malformed commands are ignored', () => {
   const day = makeDay({
     commands: [{ type: 'nonsense' }, null, 'not-an-object', { type: 'item', slug: 'x', qty: -3 }],

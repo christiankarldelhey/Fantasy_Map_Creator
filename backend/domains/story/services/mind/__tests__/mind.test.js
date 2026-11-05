@@ -321,6 +321,21 @@ test('mechanically consequential events carry weight markers (C28)', () => {
   assert.deepEqual(plain.data.tags, ['changed']); // wounded outcome only
 });
 
+test('toEvents: a paid meal carries no given marker (C28 gifts only)', () => {
+  const events = toEvents({
+    day: {
+      ...DAY,
+      meals: [{ slot: 'midday', food: 'tavern fare', paid: true }],
+      encounters: [],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    stateContext: {},
+  });
+  const meal = events.find((e) => e.type === 'meal');
+  assert.ok(!(meal.data.tags || []).includes('given'));
+});
+
 test('toEvents falls back to start-of-day vitals and clock-hour phases', () => {
   const events = toEvents({
     day: {
