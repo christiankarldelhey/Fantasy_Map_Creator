@@ -1,26 +1,23 @@
-/* Mind Studio — a winter night in Montauk, a lab that erases memories by
-   hand. Navy dark, chalk lines, incandescent bulbs, paper tape labels,
-   and two accents borrowed from a dyed head of hair: tangerine and
-   blue ruin. */
+/* Mind Studio — sober dark admin. One accent, readable sizes, room to breathe. */
 :root {
-  --night: #0b111c;
-  --night-2: #111a29;
-  --night-3: #1a2538;
-  --chalk: #c8d2dc;
-  --chalk-dim: #7d8a99;
-  --chalk-faint: #3b4759;
-  --paper: #ece3cf;
-  --paper-ink: #2b2620;
-  --amber: #ffbd59;
-  --amber-hot: #ffe2a8;
-  --tangerine: #ff7b3a;
-  --ruin: #3db7cc;
-  --rose: #e0606f;
+  --bg: #0f141b;
+  --surface: #161c25;
+  --surface-2: #1c2430;
+  --border: #283241;
+  --border-strong: #364254;
+  --text: #e4e8ee;
+  --text-dim: #9aa5b4;
+  --text-faint: #6b7787;
+  --accent: #e9b15c;
+  --accent-soft: rgba(233, 177, 92, 0.12);
+  --positive: #5cbcc8;
+  --danger: #e0707c;
 
-  --display: 'Instrument Serif', 'Times New Roman', serif;
-  --prose: 'Newsreader', Georgia, serif;
-  --type: 'Courier Prime', 'Courier New', monospace;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --serif: 'Newsreader', Georgia, serif;
 
+  --radius: 8px;
   color-scheme: dark;
 }
 
@@ -29,68 +26,71 @@
 html, body, #app { height: 100%; margin: 0; }
 
 body {
-  background:
-    radial-gradient(1200px 700px at 50% 40%, #142036 0%, transparent 70%),
-    radial-gradient(800px 500px at 85% 110%, #2a1a14 0%, transparent 70%),
-    var(--night);
-  color: var(--chalk);
-  font-family: var(--type);
-  font-size: 13px;
-  line-height: 1.45;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  overflow: hidden;
 }
 
-/* Film grain over everything — the image is a projection, not a screen. */
-body::after {
-  content: '';
-  position: fixed;
-  inset: -50%;
-  pointer-events: none;
-  z-index: 100;
-  opacity: 0.09;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: grain 0.9s steps(4) infinite;
-}
-
-@keyframes grain {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-3%, 2%); }
-  50% { transform: translate(2%, -3%); }
-  75% { transform: translate(-1%, -1%); }
-  100% { transform: translate(3%, 1%); }
-}
+h1, h2, h3, h4 { margin: 0; font-weight: 600; }
 
 button { font: inherit; color: inherit; cursor: pointer; }
+input, textarea, select { font: inherit; color: inherit; }
 
-/* A strip of masking tape with a typed label — the Studio's one button. */
-.tape-label {
+code { font-family: var(--mono); font-size: 12px; color: var(--text-faint); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface-2);
+  font-size: 13px;
+  font-weight: 500;
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn:hover:not(:disabled) { border-color: var(--accent); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #1a1408; }
+.btn-primary:hover:not(:disabled) { background: #f2c178; }
+.btn-ghost { background: none; border-color: transparent; color: var(--text-dim); }
+.btn-ghost:hover:not(:disabled) { color: var(--text); border-color: var(--border-strong); }
+
+.field {
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  font-size: 14px;
+}
+.field:focus { outline: none; border-color: var(--accent); }
+textarea.field { resize: vertical; line-height: 1.5; }
+
+input[type='range'] { width: 100%; accent-color: var(--accent); }
+
+.badge {
   display: inline-block;
-  background: var(--paper);
-  color: var(--paper-ink);
-  font-family: var(--type);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 3px 9px 2px;
-  border: 0;
-  transform: rotate(-1.2deg);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
-  clip-path: polygon(2% 0, 98% 4%, 100% 96%, 1% 100%);
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
 }
+.badge-accent { color: var(--accent); border-color: rgba(233, 177, 92, 0.35); background: var(--accent-soft); }
 
-.tape-label:nth-of-type(even) { transform: rotate(0.9deg); }
+.muted { color: var(--text-dim); }
+.empty { color: var(--text-faint); font-style: italic; margin: 0; }
+.error { color: var(--danger); margin: 0; }
 
-.eyebrow {
-  font-family: var(--type);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--chalk-dim);
-}
-
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-thumb { background: var(--chalk-faint); border-radius: 3px; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 
 @media (prefers-reduced-motion: reduce) {

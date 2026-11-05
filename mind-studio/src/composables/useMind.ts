@@ -1,13 +1,10 @@
-import { computed, shallowRef, watch, type Ref } from 'vue'
+import { shallowRef, watch, type Ref } from 'vue'
 import { fetchMind } from '../api'
-import { mindAt } from '../lib/mindAt'
 import type { MindDetail } from '../types'
 
-/** One Mind and the Episode the tape is parked on. Opens on its most
- *  recent Episode — the Mind as it is now. */
+/** The open Mind, re-fetched whenever the selection changes. */
 export function useMind(characterId: Ref<string | null>) {
   const mind = shallowRef<MindDetail | null>(null)
-  const episodeIdx = shallowRef<number | null>(null)
   const loading = shallowRef(false)
   const error = shallowRef<string | null>(null)
 
@@ -18,9 +15,7 @@ export function useMind(characterId: Ref<string | null>) {
     loading.value = true
     error.value = null
     try {
-      const detail = await fetchMind(id, controller.signal)
-      mind.value = detail
-      episodeIdx.value = detail.episodes.at(-1)?.idx ?? null
+      mind.value = await fetchMind(id, controller.signal)
     } catch (e) {
       if (!controller.signal.aborted) error.value = (e as Error).message
     } finally {
@@ -28,31 +23,11 @@ export function useMind(characterId: Ref<string | null>) {
     }
   }, { immediate: true })
 
-  /** Re-fetch after a mutation (card edit) without losing the tape. */
+  /** Re-fetch after an edit. */
   async function refresh() {
     const id = characterId.value
-    if (!id) return
-    mind.value = await fetchMind(id)
+    if (id) mind.value = await fetchMind(id)
   }
 
-  const indices = computed(() =>
-    (mind.value?.episodes ?? []).map((e) => e.idx).filter((i): i is number => i != null),
-  )
-
-  const snapshot = computed(() =>
-    mind.value && episodeIdx.value != null ? mindAt(mind.value, episodeIdx.value) : null,
-  )
-
-  function goTo(idx: number) {
-    if (indices.value.includes(idx)) episodeIdx.value = idx
-  }
-
-  function step(delta: number) {
-    const list = indices.value
-    const at = list.indexOf(episodeIdx.value ?? -1)
-    const next = list[Math.min(list.length - 1, Math.max(0, at + delta))]
-    if (next != null) episodeIdx.value = next
-  }
-
-  return { mind, episodeIdx, snapshot, indices, loading, error, goTo, step, refresh }
+  return { mind, loading, error, refresh }
 }
