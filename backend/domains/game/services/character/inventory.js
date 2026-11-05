@@ -280,7 +280,7 @@ function mealEnergyOf(row) {
  * @param {boolean} p.tavernMeal - lodging was paid, so meals come from the inn
  * @returns {{ meals:Array, consumed:boolean, itemIds:number[], energyBonus:number, newDaysWithoutFood:number, rationsAfter:number }}
  */
-export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [], waterDrunk = 0, tavernMeal = false, mealSlug = null, providedMeals = null } = {}) {
+export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [], waterDrunk = 0, tavernMeal = false, mealSlug = null, mealPaid = false, providedMeals = null } = {}) {
   const slots = ['midday', 'evening'].slice(0, TUNING.MEALS_PER_DAY);
   const waterPerMeal = slots.length > 0 ? waterDrunk / slots.length : 0;
 
@@ -290,11 +290,16 @@ export function resolveDailyMeals({ rations = 0, daysWithoutFood = 0, rows = [],
     // board for meals a shelter offers that are not inn fare (a
     // farmstead's shared pot).
     const slug = mealSlug || 'tavern_meal';
+    // #83: 'provided' means GIVEN — a shelter's hospitality or an
+    // encounter's gift. Paid board was bought: marking it 'provided'
+    // tags it 'given' downstream and floors its salience at a gift's
+    // weight (a routine purchased lunch out-scored real events).
+    const gifted = !mealPaid;
     const meals = slots.map((slot) => ({
       slot,
       itemId: null,
       slug,
-      provided: true,
+      ...(gifted ? { provided: true } : { paid: true }),
       food: slug,
       drink: mealSlug ? 'waterskin' : 'tavern_ale',
       waterLitres: waterPerMeal,
