@@ -107,10 +107,10 @@ def test_unsupported_language_goes_straight_to_groq(monkeypatch):
 def test_no_key_uses_the_groq_chain(monkeypatch):
     monkeypatch.delenv('DEEPL_API_KEY', raising=False)
     monkeypatch.setattr(ai, '_build_attempt_order', lambda: [
-        _attempt('m1', _Choice('sin key, groq', 'stop')),
+        _attempt('m1', _Choice('sin key, cae a la cadena groq', 'stop')),
     ])
 
-    assert ai.translate_text('The grey road stretched on.', 'spanish') == 'sin key, groq'
+    assert ai.translate_text('The grey road stretched on.', 'spanish') == 'sin key, cae a la cadena groq'
 
 
 def test_truncated_completion_falls_to_next_model(monkeypatch):
@@ -124,6 +124,33 @@ def test_truncated_completion_falls_to_next_model(monkeypatch):
     ])
 
     assert ai.translate_text('The evening had fallen.', 'spanish') == 'La tarde entera, completa.'
+
+
+def test_short_translation_falls_to_next_model(monkeypatch):
+    """finish=stop but half the chapter missing: a well-formed cut still
+    counts as a failed attempt. Spanish runs ~10-20% longer than the
+    English source, so under half its length is a mutilation."""
+    monkeypatch.delenv('DEEPL_API_KEY', raising=False)
+    full = 'El camino gris se extendía ante ellos, completo. ' * 5
+    monkeypatch.setattr(ai, '_build_attempt_order', lambda: [
+        _attempt('m1', _Choice('Corta.', 'stop')),
+        _attempt('m2', _Choice(full, 'stop')),
+    ])
+
+    source = 'The grey road stretched on before them, ' * 8
+    assert ai.translate_text(source, 'spanish') == full.strip()
+
+
+def test_translation_requests_a_larger_token_budget(monkeypatch):
+    """Long chapters need room: the translation call gets 8192 output
+    tokens while narration stays at 4096."""
+    captured = {}
+    monkeypatch.delenv('DEEPL_API_KEY', raising=False)
+    monkeypatch.setattr(ai, '_build_attempt_order', lambda: [
+        _attempt('m1', _Choice('x' * 400, 'stop'), capture=captured),
+    ])
+    ai.translate_text('x' * 200, 'spanish')
+    assert captured['max_tokens'] == 8192
 
 
 def test_gpt_oss_gets_low_reasoning_effort(monkeypatch):

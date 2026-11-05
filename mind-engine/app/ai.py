@@ -126,7 +126,7 @@ def _parse_messages(prompt):
     return messages
 
 
-def _try_generate_groq(client, messages, sampling, model):
+def _try_generate_groq(client, messages, sampling, model, max_tokens=4096):
     kwargs = dict(
         model=model,
         messages=messages,
@@ -134,7 +134,7 @@ def _try_generate_groq(client, messages, sampling, model):
         top_p=sampling['top_p'],
         frequency_penalty=sampling['frequency_penalty'],
         presence_penalty=sampling['presence_penalty'],
-        max_tokens=4096,
+        max_tokens=max_tokens,
     )
     # Qwen 3.x: skip thinking entirely (no reasoning token cost).
     if model in _REASONING_EFFORT_MODELS:
@@ -298,14 +298,27 @@ def translate_text(text, language):
         {'role': 'system', 'content': TRANSLATE_SYSTEM.format(language=language.capitalize())},
         {'role': 'user', 'content': text},
     ]
+    # A translation of the whole chapter lands near the source's length
+    # (Spanish runs ~10-20% longer than English). Under half the source
+    # means the model silently dropped text — count it as a failed
+    # attempt like a finish_reason=length, don't persist a mutilation.
+    min_len = len(text) * 0.5
     for attempt in _build_attempt_order():
         client = attempt['get_client']()
         if not client:
             continue
         try:
-            content = attempt['run'](client, messages, TRANSLATE_SAMPLING, attempt['model'])
-            if content:
+            content = attempt['run'](
+                client, messages, TRANSLATE_SAMPLING, attempt['model'],
+                max_tokens=8192,
+            )
+            if content and len(content) >= min_len:
                 return content
+            if content:
+                print(
+                    f'⚠️ {attempt["model"]} returned a suspiciously short '
+                    f'translation ({len(content)} < {int(min_len)}), trying next...'
+                )
         except Exception as error:  # noqa: BLE001 - mirrors generate_narrative
             print(f"⚠️ translation with {attempt['model']} failed:", error)
     return None
