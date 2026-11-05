@@ -86,6 +86,12 @@ def episode_date(episode):
     return max(parsed) if parsed else None
 
 
+def _norm_desc(desc):
+    """The desc-identity of a memory: same words, same memory — casing
+    and whitespace are accidents, not content."""
+    return ' '.join((desc or '').split()).lower()
+
+
 def _signature(item):
     """Dedup key for re-close: the event's tag-set + entity + region."""
     return (
@@ -135,6 +141,19 @@ def encode_episode(session, mind, episode):
         .all()
     )
     by_sig = {_signature_from_memory(m): m for m in prior}
+    # #85: the same lived thing, another day, is the same memory — a
+    # recurring meal strengthens one row instead of spawning a sibling
+    # that competes with it for retrieval (the need-arc rule below,
+    # generalized). Same key as _compact_duplicates: 'need:<key>' rows
+    # keep their arc identity; everything else is (kind, desc, entity).
+    by_desc = {}
+    for m in session.query(Memory).filter_by(
+        character_id=episode.character_id
+    ).all():
+        need_tag = next(
+            (t for t in (m.tags or []) if t.startswith('need:')), None
+        )
+        by_desc[need_tag or (m.kind, _norm_desc(m.desc), m.entity_id)] = m
     # C35: the Focus marks how the Episode is remembered — the event the
     # Mind put at the centre encodes a little stronger than its salience.
     focus = (getattr(episode, 'brief', None) or {}).get('focus') or {}
@@ -145,6 +164,7 @@ def encode_episode(session, mind, episode):
     focus_boost = w.get('focus_memory_boost', 0.15)
 
     encoded = 0
+    absorbed = 0
     born_consolidated = 0
     for i, item in enumerate(episode.perceived_day or []):
         # Synthetic repetition-pressure items (C5) weigh on the mood but
@@ -194,13 +214,33 @@ def encode_episode(session, mind, episode):
                 mem.embedding = embed(desc)  # re-embed on rewording
             mem.importance = importance
             continue
-        session.add(Memory(
+        entity_id = _entity_of(item)
+        existing = by_desc.get(
+            ('episodic', _norm_desc(desc), entity_id)
+        )
+        if existing is not None:
+            # Same words, another day: the row absorbs this episode and
+            # refreshes its weight — no sibling to out-evoke the warg.
+            if episode.id not in (existing.episode_ids or []):
+                existing.episode_ids = [
+                    *(existing.episode_ids or []), episode.id,
+                ]
+            existing.importance = max(
+                existing.importance or 0.0, importance
+            )
+            existing.strength = max(existing.strength or 0.0, importance)
+            if existing.desc != desc:
+                existing.desc = desc
+                existing.embedding = embed(desc)
+            absorbed += 1
+            continue
+        new_mem = Memory(
             game_id=episode.game_id,
             character_id=episode.character_id,
             episode_ids=[episode.id],
             kind='episodic',
             tags=item.get('tags') or [],
-            entity_id=_entity_of(item),
+            entity_id=entity_id,
             region=(item.get('where') or {}).get('region'),
             desc=desc,
             # The perceived valence — already derived by this mind's
@@ -214,10 +254,17 @@ def encode_episode(session, mind, episode):
             created_episode=idx,
             created_date=episode_date(episode),
             embedding=embed(desc),
-        ))
+        )
+        session.add(new_mem)
+        # Register so a twin later in this same pass absorbs into it.
+        by_desc[('episodic', _norm_desc(desc), entity_id)] = new_mem
         encoded += 1
         born_consolidated += int(consolidated)
-    return {'encoded': encoded, 'born_consolidated': born_consolidated}
+    return {
+        'encoded': encoded,
+        'absorbed': absorbed,
+        'born_consolidated': born_consolidated,
+    }
 
 
 def _signature_from_memory(memory):
@@ -574,4 +621,5 @@ def close_episode_memory(session, mind, episode):
         'beliefs_faded': beliefs['beliefs_faded'],
         'needs_released': released,
         'memories_merged': merged,
+        'memories_absorbed': enc['absorbed'],
     }
