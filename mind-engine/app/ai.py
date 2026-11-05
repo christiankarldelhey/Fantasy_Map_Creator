@@ -5,9 +5,11 @@
 # a single model deprecation or rate-limit does not break narration.
 # Primary key is tried across all models first, then secondary key.
 # ============================================================================
+import json
 import os
 import re
 from typing import Optional
+from urllib.request import Request, urlopen
 
 from groq import Groq
 
@@ -124,7 +126,7 @@ def _parse_messages(prompt):
     return messages
 
 
-def _try_generate_groq(client, messages, sampling, model):
+def _try_generate_groq(client, messages, sampling, model, max_tokens=4096):
     kwargs = dict(
         model=model,
         messages=messages,
@@ -132,13 +134,24 @@ def _try_generate_groq(client, messages, sampling, model):
         top_p=sampling['top_p'],
         frequency_penalty=sampling['frequency_penalty'],
         presence_penalty=sampling['presence_penalty'],
-        max_tokens=4096,
+        max_tokens=max_tokens,
     )
     # Qwen 3.x: skip thinking entirely (no reasoning token cost).
     if model in _REASONING_EFFORT_MODELS:
         kwargs['reasoning_effort'] = 'none'
+    # gpt-oss reasons before it writes — low effort leaves the budget for
+    # prose (a translation once burned 3.1k of 4k tokens thinking and
+    # truncated mid-sentence). Same guard complete_json already applies.
+    elif model.startswith('openai/gpt-oss'):
+        kwargs['reasoning_effort'] = 'low'
     response = client.chat.completions.create(**kwargs)
-    content = response.choices[0].message.content if response.choices else None
+    choice = response.choices[0] if response.choices else None
+    content = choice.message.content if choice else None
+    # finish_reason=length is a failure, not a result: fall through to the
+    # next model instead of persisting a truncated chapter.
+    if choice is not None and choice.finish_reason == 'length':
+        print(f'⚠️ {model} hit max_tokens (finish_reason=length), trying next...')
+        return None
     # Safety net: strip any residual <think> tags if the model emits them anyway.
     if content:
         content = _THINK_TAG_RE.sub('', content).strip()
@@ -214,23 +227,98 @@ TRANSLATE_SAMPLING = {
     'frequency_penalty': 0.0, 'presence_penalty': 0.0,
 }
 
+# DeepL is a dedicated translation service: deterministic output (no
+# reasoning tokens, no mid-sentence truncation), a strong literary
+# register, and a quota that does not compete with narration for Groq's
+# rate limit. Free tier: api-free.deepl.com (500k chars/month). The Groq
+# chain stays as fallback — for unsupported languages (e.g. Catalan) and
+# for when the key or the quota is missing.
+DEEPL_CONTEXT = (
+    'A chapter of literary fantasy fiction, third-person narrator. '
+    'Translate as literary fiction — keep every image, the rhythm, the '
+    'paragraph breaks and the tone. Proper nouns stay as they are.'
+)
+
+# Reader-language name → DeepL target_lang. Languages DeepL does not
+# cover are absent on purpose: they fall through to the Groq chain.
+_DEEPL_TARGETS = {
+    'english': 'EN', 'spanish': 'ES', 'french': 'FR', 'german': 'DE',
+    'italian': 'IT', 'portuguese': 'PT-PT', 'dutch': 'NL',
+}
+
+
+def _translate_deepl(text, language):
+    """One DeepL call; None when unconfigured, unsupported or failed, so
+    the caller falls back to the Groq chain."""
+    api_key = os.environ.get('DEEPL_API_KEY')
+    target = _DEEPL_TARGETS.get(language)
+    if not api_key or not target:
+        return None
+    # Free-tier keys end in ':fx' and only answer on the free host.
+    host = 'api-free.deepl.com' if api_key.endswith(':fx') else 'api.deepl.com'
+    request = Request(
+        f'https://{host}/v2/translate',
+        data=json.dumps({
+            'text': [text],
+            # translate_text only ever sees the inner-language text.
+            'source_lang': 'EN',
+            'target_lang': target,
+            'context': DEEPL_CONTEXT,
+        }).encode(),
+        headers={
+            'Authorization': f'DeepL-Auth-Key {api_key}',
+            'Content-Type': 'application/json',
+        },
+    )
+    try:
+        with urlopen(request, timeout=20) as response:
+            translations = (
+                (json.loads(response.read()) or {}).get('translations') or []
+            )
+    except Exception as error:  # noqa: BLE001 — any failure falls back to Groq
+        print('⚠️ DeepL translation failed:', error)
+        return None
+    translated = (translations[0].get('text') or '').strip() if translations else ''
+    if not translated:
+        print('⚠️ DeepL returned an empty translation, falling back to Groq')
+        return None
+    print(f'✅ Translated with DeepL → {language}, length:', len(translated))
+    return translated
+
 
 def translate_text(text, language):
     """The finished inner-language narration in the reader's language
-    (ADR 0003). Same model fallback chain as narration, fixed low-variance
-    sampling — a translation, not a second narration. None on failure."""
+    (ADR 0003). DeepL first, then the same model fallback chain as
+    narration with fixed low-variance sampling — a translation, not a
+    second narration. None on failure."""
+    translated = _translate_deepl(text, language)
+    if translated:
+        return translated
     messages = [
         {'role': 'system', 'content': TRANSLATE_SYSTEM.format(language=language.capitalize())},
         {'role': 'user', 'content': text},
     ]
+    # A translation of the whole chapter lands near the source's length
+    # (Spanish runs ~10-20% longer than English). Under half the source
+    # means the model silently dropped text — count it as a failed
+    # attempt like a finish_reason=length, don't persist a mutilation.
+    min_len = len(text) * 0.5
     for attempt in _build_attempt_order():
         client = attempt['get_client']()
         if not client:
             continue
         try:
-            content = attempt['run'](client, messages, TRANSLATE_SAMPLING, attempt['model'])
-            if content:
+            content = attempt['run'](
+                client, messages, TRANSLATE_SAMPLING, attempt['model'],
+                max_tokens=8192,
+            )
+            if content and len(content) >= min_len:
                 return content
+            if content:
+                print(
+                    f'⚠️ {attempt["model"]} returned a suspiciously short '
+                    f'translation ({len(content)} < {int(min_len)}), trying next...'
+                )
         except Exception as error:  # noqa: BLE001 - mirrors generate_narrative
             print(f"⚠️ translation with {attempt['model']} failed:", error)
     return None
