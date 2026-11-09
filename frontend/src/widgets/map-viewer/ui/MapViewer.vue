@@ -49,7 +49,7 @@
 
     <button
       v-if="isAdmin && mode === 'explore' && !isMobile"
-      class="absolute top-4 left-4 z-[9999] px-3 py-1.5 border text-sm font-semibold"
+      class="absolute top-4 left-4 z-[10000] px-3 py-1.5 border text-sm font-semibold"
       :class="georef.enabled.value ? 'bg-[#7c3aed] text-white border-[#7c3aed]' : 'bg-[#fffdf5] text-[#2b2015] border-[#b8a67a]'"
       @click="georef.toggle()"
     >

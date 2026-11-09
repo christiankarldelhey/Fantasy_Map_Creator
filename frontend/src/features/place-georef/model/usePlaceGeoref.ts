@@ -7,6 +7,7 @@ export interface GeorefPlaceItem {
   name: string | null
   type: string | null
   region_id: number | null
+  region_ids?: number[]
   location_id: number | null
   size_radius_km: number | null
   influence_radius_km: number | null
@@ -75,6 +76,7 @@ export function usePlaceGeoref() {
   const clickRegion = ref<{ id: number; name: string } | null>(null)
   const saving = ref(false)
   const error = ref<string | null>(null)
+  const regionFilter = ref<{ id: number; name: string } | null>(null)
 
   const draft = ref<GeorefDraft>(emptyDraft())
   let map: MapLibreMap | null = null
@@ -89,7 +91,14 @@ export function usePlaceGeoref() {
     }
   }
 
-  const list = computed(() => (mode.value === 'position' ? pending.value : positioned.value))
+  const list = computed(() => {
+    const base = mode.value === 'position' ? pending.value : positioned.value
+    if (!regionFilter.value) return base
+    return base.filter((p) =>
+      p.region_ids?.includes(regionFilter.value!.id) ||
+      p.region_id === regionFilter.value!.id
+    )
+  })
   const activeIndex = computed(() => list.value.findIndex((p) => p.id === activePlace.value?.id))
 
   // ------------------------------------------------------------------
@@ -139,17 +148,22 @@ export function usePlaceGeoref() {
       if (target) void selectPlace(target)
       return
     }
-    if (!activePlace.value) return
-    draft.value.lon = lngLat.lng
-    draft.value.lat = lngLat.lat
-    const { data } = await api.get<{ candidates: NearbyCandidate[]; region: { id: number; name: string } | null }>(
-      '/admin/georef/locations/nearby',
-      { params: { lon: lngLat.lng, lat: lngLat.lat, km: SEARCH_KM } }
-    )
-    candidates.value = data.candidates
-    clickRegion.value = data.region
-    if (!draft.value.region_id && data.region) draft.value.region_id = data.region.id
-    refreshMapSources()
+    try {
+      const { data } = await api.get<{ candidates: NearbyCandidate[]; region: { id: number; name: string } | null }>(
+        '/admin/georef/locations/nearby',
+        { params: { lon: lngLat.lng, lat: lngLat.lat, km: SEARCH_KM } }
+      )
+      candidates.value = data.candidates
+      clickRegion.value = data.region
+      regionFilter.value = data.region
+      if (!activePlace.value) return
+      draft.value.lon = lngLat.lng
+      draft.value.lat = lngLat.lat
+      if (!draft.value.region_id && data.region) draft.value.region_id = data.region.id
+      refreshMapSources()
+    } catch (e: any) {
+      error.value = e.response?.data?.error || e.message
+    }
   }
 
   async function saveAdopt(candidate: NearbyCandidate) {
@@ -180,7 +194,7 @@ export function usePlaceGeoref() {
       const { data: loc } = await api.post<{ id: number }>('/admin/georef/locations', {
         name: draft.value.loc_name || activePlace.value.name || 'Unnamed',
         location_type: draft.value.custom_type || draft.value.location_type,
-        description: draft.value.description || null,
+        description_es: draft.value.description || null,
         lon: draft.value.lon, lat: draft.value.lat,
         visible_in_map: draft.value.visible_in_map,
         region_id: draft.value.region_id
@@ -328,7 +342,7 @@ export function usePlaceGeoref() {
   }
 
   return {
-    enabled, mode, pending, positioned, list, activePlace, activeIndex,
+    enabled, mode, pending, positioned, list, activePlace, activeIndex, regionFilter,
     candidates, clickRegion, draft, saving, error,
     loadLists, selectPlace, step, onMapClick,
     saveAdopt, saveCreate, saveEdit,

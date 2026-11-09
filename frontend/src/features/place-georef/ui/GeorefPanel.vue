@@ -10,6 +10,10 @@
           Posicionadas ({{ georef.positioned.value.length }})
         </button>
       </div>
+      <div v-if="georef.regionFilter.value" class="filter-chip">
+        región: {{ georef.regionFilter.value.name }}
+        <button @click="georef.regionFilter.value = null">✕</button>
+      </div>
       <div class="row">
         <button @click="georef.step(-1)">‹</button>
         <span class="count">{{ georef.activeIndex.value + 1 || 0 }}/{{ georef.list.value.length }}</span>
@@ -139,13 +143,13 @@ const props = defineProps<{
   locationTypes: string[]
 }>()
 
-/** Bilingual field → display string (en first, es fallback, raw otherwise). */
+/** Bilingual field → display string (es first, en fallback, raw otherwise). */
 function txt(field: unknown): string {
   if (!field) return ''
   if (typeof field === 'string') return field
   if (typeof field === 'object') {
     const f = field as Record<string, unknown>
-    return (f.en as string) || (f.es as string) || ''
+    return (f.es as string) || (f.en as string) || ''
   }
   return String(field)
 }
@@ -166,7 +170,7 @@ export default { name: 'GeorefPanel' }
 
 <style scoped>
 .georef-root {
-  position: absolute; inset: 0; pointer-events: none; z-index: 9998;
+  position: absolute; inset: 0; pointer-events: none; z-index: 10000;
   display: flex; justify-content: space-between;
 }
 .georef-panel {
@@ -180,6 +184,12 @@ export default { name: 'GeorefPanel' }
 .row button { flex: 1; border: 1px solid #b8a67a; background: #f5eeda; padding: 3px 6px; cursor: pointer; }
 .row button.on { background: #7c3aed; color: #fff; }
 .count { flex: 1; text-align: center; align-self: center; }
+.filter-chip {
+  display: flex; justify-content: space-between; align-items: center;
+  background: #ead9ff; border: 1px solid #7c3aed; padding: 2px 6px;
+  margin-bottom: 6px; font-size: 12px;
+}
+.filter-chip button { border: 0; background: none; cursor: pointer; font-weight: bold; }
 .items { list-style: none; margin: 0; padding: 0; }
 .items li { padding: 3px 5px; cursor: pointer; border-bottom: 1px solid #eee3c8; }
 .items li.sel { background: #ead9ff; }

@@ -26,6 +26,7 @@ router.get('/places', async (req, res, next) => {
 
     const { rows } = await pool.query(
       `SELECT p.id, p.kind, p.name, p.type, p.region_id, p.location_id,
+              p.payload->'region_ids' AS region_ids,
               p.size_radius_km, p.influence_radius_km,
               p.geom IS NOT NULL AS positioned,
               ST_AsGeoJSON(p.geom)::json AS geom
