@@ -776,6 +776,161 @@ async function backfillLocationRegions() {
 }
 
 // ---------------------------------------------------------------------------
+// Places: authored narrative records (fichas) layered over locations — ADR-0013.
+// Loads data/json/places.json into `places`; anchors records whose name exactly
+// matches a location (location_id + inherited geom); infers the two radii from
+// type tables; then replaces the anchored location's description with the
+// ficha `base` (canonical TA 3018 text). Writes an anchor-candidates report for
+// the manual georeferencing pass.
+// ---------------------------------------------------------------------------
+
+// Radii midpoints, in km. [size_radius, influence_radius] — editable later.
+const LOCATION_TYPE_RADII = {
+  'city':              [3.0, 70],
+  'fortified city':    [2.5, 60],
+  'fortified town':    [0.8, 40],
+  'town':              [0.7, 35],
+  'village':           [0.4, 20],
+  'hamlet':            [0.3, 18],
+  'inn':               [0.1, 12],
+  'crossroads':        [0.3, 15],
+  'manor':             [0.3, 20],
+  'fortified manor':   [0.3, 25],
+  'castle':            [0.3, 20],
+  'keep':              [0.3, 20],
+  'citadel':           [0.4, 50],
+  'fortress':          [0.4, 50],
+  'palace':            [0.4, 50],
+  'tower':             [0.2, 25],
+  'watchtower':        [0.2, 25],
+  'camp':              [0.2, 12],
+  'dwarven mine':      [0.4, 30],
+  'mine':              [0.3, 20],
+  'cavern':            [0.3, 10],
+  'dungeon':           [0.2, 8],
+  'cemetery':          [0.2, 8],
+  'burial':            [0.2, 8],
+  'cultivated glade':  [0.4, 10],
+  'bridge':            [0.3, 20],
+  'ruins':             [0.2, 10],
+  'point of interest': [1.0, 15],
+};
+
+// Ficha `type` → radii via ordered keyword rules (first match wins).
+// The ficha type vocabulary is freeform narrative ("apparent refuge",
+// "poisoned resource", "recycled fortress"), so we classify by the most
+// meaningful keyword present, not by exact string.
+const PLACE_TYPE_RULES = [
+  [/\b(danger|trap|hostile|accident|conflict|warning|obstacle)\b/, [0.2, 5]],
+  [/\b(fortified village|garrison-village)\b/,                 [0.5, 30]],
+  [/\b(village|hamlet|settlements?|homestead|port village)\b/, [0.4, 20]],
+  [/\b(town|shrinking town)\b/,                                [0.7, 35]],
+  [/\bcity\b/,                                                 [3.0, 70]],
+  [/\bruin|barrow|battlefield\b/,                              [0.2, 10]],
+  [/\b(fortress|fortified|garrison|castle|citadel|defended)\b/,[0.4, 45]],
+  [/\b(harbour|haven|port)\b/,                                 [0.4, 50]],
+  [/\b(manor|seat|noble)\b/,                                   [0.3, 25]],
+  [/\btower\b/,                                                [0.2, 25]],
+  [/\b(inn|lodging|shelter|refuge|relief|camp|hidden place)\b/,[0.15, 10]],
+  [/\b(crossing|passage|pass|exit|bridge|road|transport|border|boundary|territory|limit|threshold|transition|navigation)\b/, [0.4, 15]],
+  [/\b(landmark|monument|marker|sign|destination|memorial|oracle|lookout)\b/, [0.3, 18]],
+  [/\b(sacred|taboo|cult|legend)\b/,                           [0.3, 15]],
+  [/\b(landscape|terrain|valley|coast|desert|forest|clearing|flora|natural|ground|mountain|water)\b/, [1.2, 12]],
+  [/\b(resource|work|industry|economy|trade)\b/,               [0.3, 10]],
+  [/\b(encounter|event|meeting|presence|ambient|fauna|social|cultural|curiosity|find|finding|knowledge|phenomenon|deception|decision)\b/, [0.2, 8]],
+];
+const DEFAULT_PLACE_RADII = [0.5, 15];
+
+function placeTypeRadii(typeText) {
+  const head = (typeText || '').toLowerCase();
+  for (const [re, radii] of PLACE_TYPE_RULES) {
+    if (re.test(head)) return radii;
+  }
+  return DEFAULT_PLACE_RADII;
+}
+
+async function seedPlaces() {
+  console.log('🗺️  Seeding places (authored fichas)...');
+  const file = path.join(DATA_DIR, 'json/places.json');
+  const { records } = JSON.parse(await fs.readFile(file, 'utf8'));
+
+  // locations name → row, for the exact-name anchor pass
+  const { rows: locs } = await pool.query(
+    'SELECT id, name, location_type FROM locations'
+  );
+  const locByName = new Map(locs.map((l) => [l.name.toLowerCase(), l]));
+
+  let anchored = 0;
+  const candidates = [];
+
+  for (const r of records) {
+    const name = typeof r.name === 'string'
+      ? r.name
+      : (r.name?.en || r.name?.es || r.id);
+    const typeText = typeof r.type === 'string'
+      ? r.type
+      : (r.type?.en || r.type?.es || null);
+    const regionId = (r.region_ids || [])[0] || null;
+
+    let locationId = null;
+    let radii = [null, null];
+    if (r.kind === 'place') {
+      const loc = locByName.get(name.toLowerCase());
+      if (loc) {
+        locationId = loc.id;
+        radii = LOCATION_TYPE_RADII[loc.location_type] || DEFAULT_PLACE_RADII;
+        anchored += 1;
+      } else {
+        radii = placeTypeRadii(typeText);
+        // fuzzy candidates for the manual pass: location names mentioned in the record
+        const blob = JSON.stringify(r).toLowerCase();
+        const hits = locs
+          .filter((l) => l.name.length > 4 && blob.includes(l.name.toLowerCase()))
+          .map((l) => `${l.id}:${l.name}`);
+        if (hits.length) candidates.push({ id: r.id, name, candidates: hits });
+      }
+    }
+
+    await pool.query(
+      `INSERT INTO places
+         (id, kind, location_id, place_ref, region_id, name, type, tags,
+          geom, size_radius_km, influence_radius_km, payload)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12::jsonb)
+       ON CONFLICT (id) DO UPDATE SET
+         kind=EXCLUDED.kind, location_id=EXCLUDED.location_id,
+         place_ref=EXCLUDED.place_ref, region_id=EXCLUDED.region_id,
+         name=EXCLUDED.name, type=EXCLUDED.type, tags=EXCLUDED.tags,
+         geom=EXCLUDED.geom,
+         size_radius_km=EXCLUDED.size_radius_km,
+         influence_radius_km=EXCLUDED.influence_radius_km,
+         payload=EXCLUDED.payload`,
+      [
+        r.id, r.kind, locationId, r.place_ref || null, regionId,
+        name, typeText, r.tags || [],
+        null, // geom: copied from the anchored location below, or hand-placed later
+        radii[0], radii[1],
+        JSON.stringify(r),
+      ]
+    );
+  }
+
+  // Anchored places inherit the location's geometry (hand-edited afterwards)
+  const geomRes = await pool.query(
+    `UPDATE places p SET geom = l.geom
+     FROM locations l
+     WHERE p.location_id = l.id AND p.geom IS NULL`
+  );
+
+  const reportPath = path.join(DATA_DIR, 'json/place-anchor-candidates.json');
+  await fs.writeFile(reportPath, JSON.stringify(candidates, null, 2));
+  console.log(
+    `✅ places: ${records.length} records, ${anchored} anchored by name, ` +
+    `${geomRes.rowCount} geom inherited, ` +
+    `${candidates.length} anchor candidates → data/json/place-anchor-candidates.json`
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Ensure schema that lives in migrations (not in the base schema applied to
 // prod). Idempotent: runs on every deploy so local and prod pick up recent
 // migration DDL automatically. Must run BEFORE the seeds that depend on it
@@ -1061,6 +1216,7 @@ async function ensureSchema() {
   await runMigrationFile('add_variant_to_region_biome_descriptions.sql');
   await runMigrationFile('create_region_seasonal_descriptions.sql');
   await runMigrationFile('create_movers_tables.sql');
+  await runMigrationFile('create_places_table.sql');
 
   console.log('✅ Schema ready\n');
 }
@@ -1469,6 +1625,8 @@ async function main() {
     });
 
     await backfillLocationRegions();
+
+    await seedPlaces();
 
     await seedPlacesInteractions();
 

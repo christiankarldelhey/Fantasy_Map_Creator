@@ -59,3 +59,29 @@ _Avoid_: heat, danger overlay, alert level
 **One-shot**:
 A Crossing is lived once per Leg: lingering where a host passes narrates further Traces, not repeated Beats.
 _Avoid_: cooldown, dedup
+
+### Places — where things happen
+
+**Location**:
+A named point of the gazetteer — geometry plus world facts (name, type, population, inhabitants, description), mostly sourced from TA ~1640 material. Answers "what exists and where"; carries no game logic.
+_Avoid_: POI, waypoint, marker
+
+**Place**:
+An authored narrative record — what the traveller finds at a spot, its variants, its secret, what he can do there, what the day remembers. Written for TA 3018; when a Place and its Location disagree, the Place is canonical. A Place's geometry can be a point (a town), a line (a named road), or a polygon (a forest) — whatever the traveller can be *on*. Ambients and arrivals are Places that belong to a region rather than a point, so they carry no geometry.
+_Avoid_: site, encounter card, quest
+
+**location_ref**:
+The link from a Place to the Location it is anchored to. One Location can host several Places; a Place may exist unanchored until it is positioned.
+_Avoid_: FK, parent
+
+**feature refs**:
+Provenance links from a Place to gazetteer features of other types — `payload.refs` such as `{"water": [42], "road": [12, 13], "biome": [7]}`. Audit metadata for the georeferencing pass: the operative geometry is always the Place's own `geom` (copied or merged from the source features), never a live join.
+_Avoid_: FK to roads/water/biomes, live reference
+
+**size radius**:
+The distance from a Place's point within which the traveller is *at* it — its variants, secret and options apply.
+_Avoid_: trigger zone, bounding box
+
+**influence radius**:
+The distance from a Place's point within which it already exists narratively — locals know it by name and can be asked about it, and its signs are felt before arrival.
+_Avoid_: aggro range, visibility radius

@@ -9,6 +9,7 @@ database/seeds/
 ├── data/
 │   ├── csv/          # Datos tabulares (kingdoms, entities, etc.)
 │   ├── geojson/      # Datos geoespaciales (regions, biomes, water)
+│   ├── json/         # Registros narrativos autorados (places.json — ADR-0013)
 │   └── sql/          # Datos complejos (locations, roads)
 ├── scripts/
 │   ├── load-seeds.js        # Cargar todos los seeds
@@ -44,6 +45,7 @@ npm run db:seed:export
 - **npc_interactions** (247 registros) - Diálogos y tópicos de conversación
 - **region_biome_descriptions** (n registros) - Frases narrativas por región y categoría de terreno
 - **locations** (512 registros) - Ubicaciones con puntos geográficos
+- **places** (1,058 registros) - Fichas narrativas autoradas (ADR-0013), ancladas a locations por `location_id`
 - **roads** (4,119 registros) - Caminos con líneas geográficas
 - **regions** (87 registros) - Regiones con polígonos
 - **biomes** (1,190 registros) - Biomas con polígonos
