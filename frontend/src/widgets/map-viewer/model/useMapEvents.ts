@@ -9,9 +9,12 @@ export function useMapEvents() {
     onLocationClick?: (location: LocationDetails) => void,
     addMarker?: (lng: number, lat: number) => void,
     getTimestamp?: () => string,
-    mode: MapMode = 'explore'
+    mode: MapMode = 'explore',
+    shouldSkip?: () => boolean
   ) => {
     map.on('click', async (e) => {
+      // Admin georef mode owns the click entirely — no info sidebar/marker.
+      if (shouldSkip?.()) return
       // Build layers list based on mode
       const layers: string[] = [
         'locations-major', 'locations-medium', 'locations-minor'

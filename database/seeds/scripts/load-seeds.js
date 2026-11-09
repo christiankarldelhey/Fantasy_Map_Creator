@@ -1217,6 +1217,7 @@ async function ensureSchema() {
   await runMigrationFile('create_region_seasonal_descriptions.sql');
   await runMigrationFile('create_movers_tables.sql');
   await runMigrationFile('create_places_table.sql');
+  await runMigrationFile('add_visible_in_map_to_locations.sql');
 
   console.log('✅ Schema ready\n');
 }
