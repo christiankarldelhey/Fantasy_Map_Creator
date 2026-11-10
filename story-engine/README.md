@@ -1,17 +1,23 @@
 # Story Engine (Python)
 
-Literal 1:1 port of the Node narration pipeline (`backend/domains/story/services/*`) to a
-standalone FastAPI service. No behavior changes, no new features: same phrase banks,
-same prompt assembly, same Groq fallback/sampling logic — just running in Python and
-called over HTTP instead of in-process.
+The narrative layer of the monorepo: the host's world supplies the facts; the
+Story Engine supplies the mind that lives them and the voice that tells them.
+A FastAPI service with three parts:
 
-See `/Users/christiankarldelhey/.windsurf/plans/story-engine-python-phase1-908d15.md` for
-the full migration plan and scope decisions.
+- **Narrator** (`app/narrate_day.py`, `app/prompt/`, `app/natural_language/`,
+  `app/ai.py`, `app/evals/`) — stateless. Turns one resolved day into prose:
+  rule-based phrase banks, prompt assembly, Groq with model/key fallback,
+  post-generation evals. Needs no database.
+- **Mind Engine** (`app/mind/`) — stateful, in the Postgres `mind` schema. The
+  inner life of a Character: perception and checks, memory, beliefs, needs,
+  mood, the Lens/Focus brief (with an LLM director) and reflection. Glossary:
+  `../CONTEXT.md`; decisions: `../docs/adr/0001`–`0005`.
+- **Mind Studio** (`app/studio/api.py` + `../mind-studio/`) — the admin. A
+  separate Vue app served at `/studio`, backed by `/studio/api` (ADR 0002).
 
-## What this is NOT
-
-No World Pack DB, no admin, no rules engine, no decision points, no `proposed_commands`.
-Those are PRD-only concepts not present in the system this ports.
+The mind never blocks the host: if the database is down, Mind endpoints answer
+503 and `/narrate-day` keeps working. Status overview:
+`../docs/story-engine-estado.md`.
 
 ## Run locally
 
@@ -20,20 +26,53 @@ cd story-engine
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # fill in GROQ_API_KEY (and optionally GROQ_API_KEY_2)
+cp .env.example .env   # GROQ_API_KEY (+ optional _2/_3), DATABASE_URL, ADMIN_USER/ADMIN_PASSWORD
+alembic upgrade head   # creates/updates the `mind` schema
 uvicorn app.main:app --reload --port 8001
 ```
 
-## Endpoint
+Mind Studio is served at `/studio` once `../mind-studio/dist` exists
+(`cd ../mind-studio && npm run build`). Studio auth is HTTP Basic against
+`ADMIN_USER`/`ADMIN_PASSWORD`; unset means closed.
 
-`POST /narrate-day` — mirrors `narrateDay()` from `backend/domains/story/services/narrator/narrateDay.js`:
+Optional knobs: `MIND_DIRECTOR` (`on` by default; anything else keeps the
+rules' Lens pick), `MIND_DIRECTOR_MODEL`, `MIND_SCHEMA` (default `mind`),
+`MIND_EMBEDDING_DIM` (default 256).
 
-- Input: `day`, `trip`, `character`, `language`, `conditionBlock`, `equipmentBlock`,
-  `endStateBlock`, plus the continuity fields that `tripHistory.js` resolves in Node
-  before calling this endpoint (`previousDay`, `recentDayClimates`).
-- Output: `{ prompt: { system, user }, generation: { text, ia_provider, temperature,
-  frequency_penalty, presence_penalty, top_p } }` — identical shape to the Node
-  `narrateDay()` return value.
+## Endpoints
 
-No database access — this service is fully stateless, matching the "DB per domain"
-architecture decision (see the plan doc).
+| Route | Purpose |
+|---|---|
+| `GET /health` | `ai_configured`, `db` (`ok`/`down`), `mind` (`mounted`/`degraded`) |
+| `GET /system-prompt` | The narrator system prompt (single source of truth) |
+| `POST /narrate-day` | Stateless narration of a resolved day |
+| `POST /episodes` | Open an Episode (idempotent per `episode_ref`): perceive, evoke, needs, mood, brief, Lens |
+| `GET /episodes/{id}` | Episode state |
+| `POST /episodes/{id}/decide` | Record the host's pick; returns the option's `proposed_commands` |
+| `POST /episodes/{id}/narrate` | Narrate through the Mind (English, then translated) and measure what resonated |
+| `POST /episodes/{id}/close` | Host reports the outcome; Mind encodes, decays, drifts attitudes, reflects |
+| `GET /mind/state/{character_id}` | A brain's memories, beliefs, needs |
+| `POST /mind/brains/{character_id}/mold` | Reassign a brain's mold |
+| `POST /mind/brains/{character_id}/reset` | Wipe everything lived; re-seed starter beliefs |
+| `POST /maintenance/consolidate` | Batch decay/patterns for degraded (NPC) brains |
+| `GET /packs/{game_id}/versions`, `POST /packs/{game_id}/{clone,promote}` | World voice pack versioning |
+| `/studio/api/*` | Mind Studio: minds, card, traits, concerns, World voice, Accents |
+
+The host (`backend/domains/story/services/narrator/narrateDay.js`) uses the
+Episode lifecycle when `MIND_ENGINE` is on and falls back to `/narrate-day` on
+any failure.
+
+## Invariants
+
+- The Mind proposes, the host executes: `proposed_commands` are never run here.
+- The Mind knows no host field it was not told (ADR 0005): vitals are read
+  through declared Detectors.
+- Inner language is English; other reader languages are a final translation
+  (ADR 0003).
+- Never edit existing `alembic/versions/*` files — add a new migration.
+
+## Tools
+
+- `pytest` — the test suite (run the touched module's tests first).
+- `scripts/replay_days.py` — replay recorded trip days through the Mind, no UI.
+- `scripts/seed_nl_pack.py [game_id]` — seed the default World voice pack.

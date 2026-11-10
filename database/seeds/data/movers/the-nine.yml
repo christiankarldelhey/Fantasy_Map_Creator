@@ -1,0 +1,84 @@
+mover:
+  slug: the-nine
+  name: The Nine
+  kind: company
+  canon: true
+  campaign: hunt-for-the-ring
+  motivation: >-
+    The Nazgûl ride again: gather the Ring. From Dol Guldur they pass the
+    Anduin unseen, wring answers from Saruman at Isengard, and hunt a name —
+    Baggins — across the width of Eriador.
+  description: >-
+    Nine black riders who were kings once. Their passing is a sickness in
+    the land before it is ever a shape on the road.
+
+legs:
+  - kind: march
+    from: '3018-06-26'
+    to: '3018-08-20'
+    trail: nine-dol-guldur-isengard
+    visibility: signs
+    notice_radius_km: 25
+    contact_radius_km: 5
+    hostile: true
+    trace: Travellers south of the river speak of riders in black who passed in the night, and of a fear they could not name.
+    beat:
+      title: Nine shadows on the plain
+      text: >-
+        Far off, nine horsemen move across the land in a silence that is not
+        natural. No bird crosses their path. Watching them, you feel the
+        memory of a cold that has not reached you yet — and you understand
+        that you must not be seen.
+      effects: { shadow: 2, hope: -1 }
+
+  - kind: march
+    from: '3018-08-21'
+    to: '3018-09-22'
+    trail: nine-isengard-sarn-ford
+    visibility: signs
+    notice_radius_km: 25
+    contact_radius_km: 5
+    hostile: true
+    trace: The Greenway is empty of honest travellers; at dusk a herdsman swears nine black horses drank at the ford and went on north.
+    beat:
+      title: The Greenway patrol
+      text: >-
+        They ride the old road and they are asking questions at every farm:
+        a name, a family's name, spoken soft as a favour. The horses are
+        blown but the riders are not tired. The riders are never tired.
+      effects: { shadow: 2, hope: -1 }
+
+  - kind: march
+    from: '3018-09-23'
+    to: '3018-10-20'
+    trail: nine-sarn-ford-bruinen
+    visibility: signs
+    notice_radius_km: 25
+    contact_radius_km: 5
+    hostile: true
+    trace: Bree-land whispers of the raid at the inn and the shuttered doors since; out on the Road, black riders pace the wilds like a closing hand.
+    beat:
+      title: The Hunt at Amon Sûl
+      text: >-
+        Five of them stand beneath the ruined tower, and the night itself
+        seems to lean toward them. Something small and bright somewhere to
+        the west is what they want — everything else in the world is only in
+        the way.
+      effects: { shadow: 3, hope: -1 }
+
+  - kind: march
+    from: '3018-10-21'
+    to: '3018-11-25'
+    trail: nine-bruinen-mordor
+    visibility: hidden
+    notice_radius_km: 30
+    contact_radius_km: 4
+    hostile: true
+    trace: A cold wind came out of the north that was no weather, and went south, and was gone.
+    beat:
+      title: Shapes without horses
+      text: >-
+        The flood took their horses and their shapes, but not them. What
+        passes south through the night now is a screaming on the wind that
+        no throat could make — going home to their master empty-handed.
+      effects: { shadow: 2 }

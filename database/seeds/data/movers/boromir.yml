@@ -1,0 +1,29 @@
+mover:
+  slug: boromir
+  name: Boromir of Gondor
+  kind: person
+  canon: true
+  campaign: council-bound
+  motivation: >-
+    Seek for the sword that was broken: a dream sent twice to his brother
+    and once to him, and no clearer answer in Gondor than a name — Imladris.
+    A hundred and ten days on the road for a riddle.
+  description: The Captain of the White Tower, riding alone into lands his maps call wild.
+
+legs:
+  - kind: march
+    from: '3018-07-04'
+    to: '3018-10-24'
+    trail: boromir-minas-tirith-rivendell
+    visibility: signs
+    notice_radius_km: 8
+    contact_radius_km: 3
+    trace: A tall soldier of the South passed asking the way to Imladris — proud-spoken, road-worn, travelling alone.
+    beat:
+      title: The Captain of the White Tower
+      text: >-
+        A big man on a tired horse, armed like a war-captain and dusty like
+        a beggar — the horn at his side is worth more than everything else
+        he owns. He asks about a valley called Imladris as if he expects
+        the name to hurt him. He has come a very long way for a dream.
+      effects: { hope: 1 }

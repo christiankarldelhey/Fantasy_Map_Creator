@@ -1,0 +1,65 @@
+mover:
+  slug: gollum
+  name: Gollum
+  kind: person
+  canon: true
+  campaign: gollum-hunt
+  motivation: >-
+    The thing in the dark remembers only two words: Baggins, and Precious.
+    Caught, caged, escaped — and now loose again in the world, swimming
+    west toward a name he does not understand but cannot let go.
+  description: Not quite a person anymore; not quite anything else either.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3017-02-04'
+    region: Talath Muil
+    level: 2
+    road_bias: { off_road: 1 }
+    visibility: hidden
+    active_phases: [mid_night]
+    trace: Fisher-folk on the marsh-edge lock their boats at night now; something thin has been seen slipping between the pools.
+    beat:
+      title: Something in the marshes
+      text: >-
+        Eyes like lamps between the reeds, gone when you look again, and a
+        voice — too thin, too hungry — talking to itself about a precious
+        thing that was stolen.
+      effects: { shadow: 1 }
+
+  # 3017-02 → 3018-06-20: captive under Thranduil's halls. Off the board.
+
+  - kind: presence
+    from: '3018-06-20'
+    to: '3018-07-31'
+    region: Mirkwood Wilds
+    level: 2
+    road_bias: { off_road: 1 }
+    visibility: hidden
+    active_phases: [mid_night]
+    trace: A woodman's camp raided in the night — only fish taken, only the small tracks left.
+    beat:
+      title: Loose in the wood
+      text: >-
+        In the confusion of the orc-fires something small went over the
+        wall and into the dark — and if you hear it, you will think it is
+        only the wind crying until it cries a word.
+      effects: { shadow: 1 }
+
+  - kind: presence
+    from: '3018-08-01'
+    to: '3018-12-31'
+    region: Moria
+    level: 2
+    road_bias: { off_road: 1 }
+    visibility: hidden
+    active_phases: [mid_night]
+    trace: A voice like a wet stone was heard cursing the sun near the eastern walls, and pale marks on the water's edge that are almost hands.
+    beat:
+      title: The watcher at the gates
+      text: >-
+        Something haunts the doors and the dim lake, pressing flat when
+        torches pass — it cannot go in and it will not go away, and it
+        whispers one name over and over to the dark water.
+      effects: { shadow: 1 }

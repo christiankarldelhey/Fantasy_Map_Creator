@@ -1,0 +1,57 @@
+mover:
+  slug: dol-guldur-army
+  name: The Host of Dol Guldur
+  kind: host
+  canon: true
+  campaign: war-begins
+  motivation: >-
+    The army that waits under the dead pines of the south moves at last:
+    north through Mirkwood to burn the Woodland Realm on the same night
+    Osgiliath falls — a war begun everywhere at once, and a door left open
+    for a small thing to escape.
+  description: >-
+    Not a company but a tide — thousands of orcs under the banner of the
+    Necromancer's tower, marching by night because they can.
+
+legs:
+  - kind: march
+    from: '3018-06-12'
+    to: '3018-07-08'
+    trail: dol-guldur-mirkwood-assault
+    visibility: signs
+    notice_radius_km: 30
+    contact_radius_km: 8
+    hostile: true
+    trace: The pines to the east are burning. There is a sound under the smoke like a forge the size of a valley, and the Woodmen have abandoned their villages without a word.
+    beat:
+      title: The forest itself is an army
+      text: >-
+        For a day and a night the trees to the east move. Not walking —
+        marching. Fires go up in ranks, like encampments that learned to
+        crawl, and the smoke lies flat across the woods as if the earth is
+        holding its breath. Whatever is inside that smoke has a direction,
+        and the direction is the Woodland Realm, and nothing that still
+        lives between here and there will live long. When it passes, the
+        forest it leaves behind is not merely burned — it is *occupied*:
+        the stumps stand in rows like drilled soldiers, and things with too
+        many eyes have been left behind in the roots to watch.
+      effects: { shadow: 3, hope: -2 }
+
+  - kind: presence
+    from: '3018-07-09'
+    to: '3018-12-31'
+    region: Mirkwood Wilds
+    level: 4
+    road_bias: { road_major: -2, off_road: 1 }
+    visibility: signs
+    hostile: true
+    active_phases: [before_sleep, mid_night, morning]
+    trace: 'Orc-sign fresh at dawn: a watch-post pulled down, tracks that double back, and a dead bird nailed to a waymark.'
+    beat:
+      title: Remnants of the host
+      text: >-
+        The army has gone back south to its pits, but it left pieces of
+        itself in the woods — a war-band that did not get the order, or did
+        not want it. They strip the dead, they mark the trees with the eye
+        of the southern tower, and they have not stopped being hungry.
+      effects: { shadow: 1 }

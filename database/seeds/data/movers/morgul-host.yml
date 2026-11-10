@@ -1,0 +1,54 @@
+mover:
+  slug: morgul-host
+  name: The Morgul-host
+  kind: host
+  canon: true
+  campaign: war-begins
+  motivation: >-
+    Out of Minas Morgul the first open stroke of the war: cross the river,
+    take the east bank of Osgiliath, and hold it while the real hunting
+    goes on elsewhere.
+  description: >-
+    The garrison-army of the corpse-city — soldiers of Mordor with orders
+    written in the Dark Tower itself.
+
+legs:
+  - kind: march
+    from: '3018-06-19'
+    to: '3018-06-20'
+    trail: morgul-osgiliath
+    visibility: signs
+    notice_radius_km: 30
+    contact_radius_km: 8
+    hostile: true
+    active_phases: [before_sleep, mid_night, morning]
+    trace: A greenish light stands over the vale of Morgul after dark, and the river-men say the bridge-wardens have doubled their watch.
+    beat:
+      title: The taking of Osgiliath
+      text: >-
+        In the small hours the Morgul Vale vomits an army — drums that echo
+        wrong off the dead walls, torches in a river of green fire, and the
+        men of Gondor giving ground across the eastern half of the broken
+        city. By dawn the east bank is held, the bridge is down, and the
+        thing that directs it all has already turned its attention west.
+      effects: { shadow: 3, hope: -1 }
+
+  - kind: presence
+    from: '3018-06-21'
+    to: '3018-12-31'
+    # east bank held from the morning after the assault
+    region: Forithilien
+    level: 5
+    road_bias: { road_major: 2, off_road: -1 }
+    visibility: signs
+    hostile: true
+    active_phases: [afternoon, before_sleep, mid_night]
+    trace: Smoke stands over Osgiliath permanently now; patrols of the east bank do not answer hail.
+    beat:
+      title: The garrison of the ruins
+      text: >-
+        Orcs and grim men work the ruins in shifts: raising barricades in
+        the east streets, sinking boats, watching the water. This is not a
+        raid that will go home — it is a door being bricked open from the
+        inside.
+      effects: { shadow: 2 }

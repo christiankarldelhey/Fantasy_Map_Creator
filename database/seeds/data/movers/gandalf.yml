@@ -1,5 +1,3 @@
-# Authoring sample — exercises all three leg kinds (march / resident /
-# presence). The full Gandalf arc is authored in the wave-1 ticket.
 mover:
   slug: gandalf
   name: Gandalf the Grey
@@ -8,20 +6,19 @@ mover:
   campaign: hunt-for-the-ring
   motivation: >-
     Proves beyond doubt that Bilbo's ring is the One: he rides south to read
-    Isildur's scroll in the archives of Minas Tirith, then returns to warn
-    Frodo — and is betrayed seeking Saruman's counsel.
+    Isildur's scroll in the archives of Minas Tirith, returns to warn Frodo —
+    and is betrayed seeking Saruman's counsel.
   description: The Grey Wanderer; when he moves, something in the world moves with him.
 
 legs:
-  # ---- MARCH: Hobbiton -> Minas Tirith, spring 3017 ------------------------
   - kind: march
     from: '3017-03-10'
     to: '3017-05-01'
-    trail: gandalf-hobbiton-minas-tirith   # trails/<name>.geojson
+    trail: gandalf-hobbiton-minas-tirith
     visibility: signs
     notice_radius_km: 12
     contact_radius_km: 4
-    active_phases: [morning, afternoon, before_sleep]   # he rides by day
+    active_phases: [morning, afternoon, before_sleep]
     trace: A grey rider on a good horse passed east not many days ago, asking after the old roads.
     beat:
       title: The Grey Rider
@@ -31,7 +28,6 @@ legs:
         man with far to go and little time.
       effects: { shadow: -1 }
 
-  # ---- RESIDENT: buried in the archives of Minas Tirith --------------------
   - kind: resident
     from: '3017-05-02'
     to: '3018-04-10'
@@ -44,10 +40,42 @@ legs:
         the guards say — reading scrolls older than the city.
       effects: {}
 
-  # ---- PRESENCE: loose in Rohan after Orthanc ------------------------------
+  - kind: resident
+    from: '3018-04-12'
+    to: '3018-06-28'
+    location: Hobbiton
+    visibility: hidden
+    active_phases: [morning, afternoon, before_sleep]
+    beat:
+      title: The wizard at Bag End
+      text: >-
+        Gandalf is a guest at Bag End, and the Ivy Bush is full of it —
+        he walks the lanes at dusk, talks long with Frodo behind closed
+        shutters, and looks ten years older than he did.
+      effects: { hope: 1 }
+
+  - kind: march
+    from: '3018-06-29'
+    to: '3018-07-10'
+    trail: gandalf-hobbiton-isengard
+    visibility: signs
+    notice_radius_km: 12
+    contact_radius_km: 4
+    active_phases: [morning, afternoon, before_sleep]
+    trace: The grey wanderer rode south at speed; a brown-cloaked oddity was seen asking for him on the same road.
+    beat:
+      title: South in haste
+      text: >-
+        Gandalf passes south with his hat pulled low. He answers greetings
+        but does not take his eyes off the road, and he does not say where
+        he is going — which, from him, is itself an answer.
+      effects: { shadow: -1 }
+
+  # 3018-07-10 → 3018-09-18: imprisoned on Orthanc. No legs — off the board.
+
   - kind: presence
     from: '3018-09-18'
-    to: '3018-09-23'
+    to: '3018-09-22'
     region: Rohan
     level: 3
     road_bias: { off_road: 1, road_major: -1 }
@@ -61,3 +89,50 @@ legs:
         moving with the speed of urgency rather than age. The mark Rohan left
         on him is not kindness.
       effects: { shadow: -1 }
+
+  - kind: march
+    from: '3018-09-23'
+    to: '3018-10-03'
+    trail: gandalf-edoras-amon-sul
+    visibility: signs
+    notice_radius_km: 15
+    contact_radius_km: 4
+    trace: A grey horse without equal was seen running the north road, faster than horses run.
+    beat:
+      title: The light on the hilltop
+      text: >-
+        If you passed near the ruin of Amon Sûl in these nights you saw what
+        the shepherds saw: a fire on the hilltop that leapt like lightning,
+        and thunder with no rain — and afterwards, silence, and hoofprints
+        going north faster than any rider should need to go.
+      effects: { shadow: 1 }
+
+  - kind: presence
+    from: '3018-10-04'
+    to: '3018-10-17'
+    region: Eregion
+    level: 3
+    road_bias: { off_road: 1, road_major: -1 }
+    visibility: hidden
+    active_phases: [mid_night]
+    trace: Shepherds speak of a tired grey rider slipping north through the wild in the dark hours only.
+    beat:
+      title: The decoy
+      text: >-
+        A grey figure rides the waste by night, leading shadows away from a
+        road he is not on. He is bait, and he knows it, and he is very good
+        at it.
+      effects: {}
+
+  - kind: resident
+    from: '3018-10-18'
+    to: '3018-12-31'
+    location: Imladris
+    visibility: hidden
+    beat:
+      title: A grey man by Elrond's fire
+      text: >-
+        A grey old man sits late by the fire in the Last Homely House,
+        smoking in silence. The servants say he asks every guest the same
+        question — whether the hobbit has come yet.
+      effects: { hope: 1 }

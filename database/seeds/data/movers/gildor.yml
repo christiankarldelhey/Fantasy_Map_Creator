@@ -1,0 +1,29 @@
+mover:
+  slug: gildor
+  name: The Company of Gildor Inglorion
+  kind: company
+  canon: true
+  motivation: >-
+    Noldor of the house of Finrod walking the woods they have always loved
+    before the Sea takes them — singing old songs under new stars, and this
+    year, watching the east more carefully than they let on.
+  description: High Elves wandering the Shire-woods by starlight, for the last of many autumns.
+
+legs:
+  - kind: presence
+    from: '3018-09-01'
+    to: '3018-10-15'
+    region: The Shire
+    level: 3
+    road_bias: { off_road: 1, road_major: -1 }
+    visibility: signs
+    active_phases: [before_sleep, mid_night]
+    trace: Lantern-light and singing in the woods of the east borders — elvish, high and sad, gone by morning.
+    beat:
+      title: Elves under the stars
+      text: >-
+        Lights in the wood that are not lanterns and a song that is not
+        men's — and for a moment the dark is not dark. They know of the
+        Black Riders, of the east wind, of more than they sing about; if
+        they choose to share it, it will be in their own time and in verse.
+      effects: { hope: 1 }

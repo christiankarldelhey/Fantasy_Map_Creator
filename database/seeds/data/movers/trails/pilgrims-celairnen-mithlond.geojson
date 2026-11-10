@@ -1,0 +1,19 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Caras Celairnen down to the Grey Havens" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-3.760, 52.928],
+          [-4.3, 52.6],
+          [-4.9, 52.2],
+          [-5.4, 51.9],
+          [-5.814, 51.636]
+        ]
+      }
+    }
+  ]
+}

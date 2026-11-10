@@ -1,0 +1,34 @@
+mover:
+  slug: abbot
+  name: Abbot of the Marshes
+  kind: person
+  canon: false
+  campaign: mirror-hunt
+  motivation: >-
+    A hundred years old, the last hobbit of a marsh emptied by the Plague —
+    fish, a pipe-weed patch he guards like treasure, traps on every path,
+    and carrier-pigeons to the few cousins left. He will guide you to the
+    strange mirror in the reeds for a hundred mo, not to cheat you: he needs
+    the tavern-money and there are no hobbit-women here.
+  description: The last hobbit of an emptied marsh, saving for the Shire.
+
+legs:
+  - kind: presence
+    from: '3017-01-01'
+    to: '3018-12-31'
+    region: The Shire
+    level: 2
+    road_bias: { off_road: 1 }
+    visibility: signs
+    active_phases: [morning, afternoon, before_sleep]
+    trace: 'Small neat snares along the marsh-paths, smoke from a hidden chimney, and a pigeon with a message-tube going east.'
+    beat:
+      title: The hermit of the Marish
+      text: >-
+        A tree-house in the drowned woods where a hobbit-village used to
+        stand — snares on every path, a little patch of pipe-weed hoed to
+        perfection, and a fat, bristling old hobbit who greets you through
+        a window with a fishing-rod. For a hundred mo he will take you to
+        the strange mirror in the reeds. He is not cheating; he is
+        fundraising.
+      effects: { hope: 1 }
