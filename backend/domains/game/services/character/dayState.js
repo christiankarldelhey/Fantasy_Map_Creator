@@ -58,7 +58,7 @@ function buildDayEvents(food, water, lodging) {
     events.push({
       type: 'meal',
       slot: meal.slot,
-      eaten: meal.itemId != null || meal.provided === true || meal.slug === 'tavern_meal',
+      eaten: meal.itemId != null || meal.provided === true || meal.paid === true || meal.slug === 'tavern_meal',
       food: meal.food,
       drink: meal.drink,
       source: lodging.paid ? 'tavern' : (meal.provided ? 'shelter' : 'rations'),
@@ -216,6 +216,7 @@ export function resolveDayState({
     waterDrunk: water.drank,
     tavernMeal: lodging.paid || !!shelterChoice?.meal,
     mealSlug: shelterChoice?.meal_slug ?? null,
+    mealPaid: lodging.paid,
     providedMeals,
   });
 
