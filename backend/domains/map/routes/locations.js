@@ -30,7 +30,8 @@ router.get('/', async (req, res, next) => {
         ), '[]'::json)
       ) as geojson
       FROM locations
-      WHERE geom IS NOT NULL;
+      WHERE geom IS NOT NULL
+        AND visible_in_map;
     `;
 
     const result = await pool.query(query);

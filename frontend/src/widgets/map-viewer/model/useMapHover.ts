@@ -70,13 +70,14 @@ export function useMapHover({
   const hoveredRegionId = ref<number | null>(null)
   let lastHitAt = 0
 
-  const attachHover = (map: HoverMap, popup: HoverPopup) => {
+  const attachHover = (map: HoverMap, popup: HoverPopup, shouldSkip?: () => boolean) => {
     const hide = () => {
       popup.remove()
       hoveredRegionId.value = null
     }
 
     map.on('mousemove', (e: MapMouseEvent) => {
+      if (shouldSkip?.()) return hide()
       if (e.originalEvent.buttons) return hide()
       const t = now()
       if (t - lastHitAt < throttleMs) return

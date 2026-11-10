@@ -23,8 +23,9 @@ router.get('/', async (req, res, next) => {
         'location' as type, 
         location_type,
         ST_AsGeoJSON(geom) as geometry
-      FROM locations 
-      WHERE geom IS NOT NULL 
+      FROM locations
+      WHERE geom IS NOT NULL
+        AND visible_in_map
         AND name ILIKE $1
       ORDER BY name
       LIMIT 10

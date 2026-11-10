@@ -47,6 +47,22 @@
       @clear="handleClearSearch"
     />
 
+    <button
+      v-if="isAdmin && mode === 'explore' && !isMobile"
+      class="absolute top-4 left-4 z-[10000] px-3 py-1.5 border text-sm font-semibold"
+      :class="georef.enabled.value ? 'bg-[#7c3aed] text-white border-[#7c3aed]' : 'bg-[#fffdf5] text-[#2b2015] border-[#b8a67a]'"
+      @click="georef.toggle()"
+    >
+      Georef
+    </button>
+
+    <GeorefPanel
+      v-if="isAdmin && georef.enabled.value"
+      :georef="georef"
+      :region-options="regionOptions"
+      :location-types="locationTypes"
+    />
+
     <div v-if="mode !== 'wander' && !isMobile" class="absolute top-4 right-[130px] z-[9999]">
       <CalendarPicker ref="calendarPickerRef" />
     </div>
@@ -55,7 +71,7 @@
     </div>
 
     <LocationSidebar
-      v-if="selectedLocation && !isDirectionsMode"
+      v-if="selectedLocation && !isDirectionsMode && !georef.enabled.value"
       :location="selectedLocation"
       :mobile="isMobile"
       @close="handleCloseSidebar"
@@ -215,6 +231,7 @@ import SeasonSelectModal from '@/pages/welcome/SeasonSelectModal.vue'
 import CharacterSelectModal from '@/pages/welcome/CharacterSelectModal.vue'
 import OptionsDropdown from '@/components/OptionsDropdown.vue'
 import { Loader } from '@/components/ui/loader'
+import { usePlaceGeoref, GeorefPanel } from '@/features/place-georef'
 import { Modal } from '@/components/ui/modal'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/composables/useAuth'
@@ -279,7 +296,7 @@ const adventurePhrases = computed(() => [
 ])
 
 // Auth
-const { logout } = useAuth()
+const { logout, isAdmin } = useAuth()
 const router = useRouter()
 
 function goToLogin() {
@@ -318,6 +335,20 @@ const {
 const { initializeLayers, removeLayers, locationLayer, biomeLayer, regionLayer, roadLayer, waterLayer, altitudeLayer } = useMapLayers()
 const { setupClickHandler } = useMapEvents()
 const { hoveredRegionId, attachHover } = useMapHover()
+
+// Admin georef (ficha positioning) — active only for isAdmin users in explore
+const georef = usePlaceGeoref()
+const regionOptions = computed(() =>
+  (regions.value?.features ?? [])
+    .map((f) => ({ id: f.properties?.id, name: f.properties?.name }))
+    .filter((r): r is { id: number; name: string } => r.id != null && !!r.name)
+    .sort((a, b) => a.name.localeCompare(b.name))
+)
+const locationTypes = computed(() =>
+  [...new Set((locations.value?.features ?? [])
+    .map((f) => f.properties?.type)
+    .filter((t): t is string => !!t))].sort()
+)
 
 // Click selection (red) and hover (neutral) write the same outline paint —
 // keep both ids in refs so a single watcher owns the layer update.
@@ -460,7 +491,16 @@ onMounted(async () => {
         }
 
         // Setup events
-        setupClickHandler(map!, handleLocationClick, handleAddMarker, () => timestampISO.value, props.mode || 'explore')
+        setupClickHandler(map!, handleLocationClick, handleAddMarker, () => timestampISO.value, props.mode || 'explore', () => georef.enabled.value)
+
+        // Admin georef owns its own click: position the active ficha, or open
+        // an already-positioned one.
+        map!.on('click', (e) => {
+          if (georef.enabled.value) {
+            georef.onMapClick(e.lngLat, [e.point.x, e.point.y])
+          }
+        })
+        georef.attachMap(map!, regions.value)
 
         // Hover shows a name-only popup and a neutral region border. Wander
         // mode already reveals names via its own hover labels — skip there.
@@ -469,7 +509,7 @@ onMounted(async () => {
             closeButton: false,
             closeOnClick: false,
             className: 'map-hover-popup'
-          }))
+          }), () => georef.enabled.value)
         }
 
         // Load and display character/company cursor (only in wander mode)
