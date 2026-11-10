@@ -288,10 +288,25 @@ async function seedEntities() {
       ? r.is_npc === 'true' || r.is_npc === 't'
       : NPC_TYPES.includes(r.type);
 
+    // Optional columns: region_ids ({1,2,3}), probability_by_region (JSON), danger (int).
+    // On conflict, COALESCE keeps existing values when the CSV leaves them empty.
+    let regionIds = null;
+    const rawRegionIds = nullIfEmpty(r.region_ids);
+    if (rawRegionIds) {
+      const cleaned = rawRegionIds.replace(/^{|}$/g, '').split(',').map(v => parseInt(v.trim(), 10)).filter(Number.isFinite);
+      regionIds = cleaned.length > 0 ? cleaned : null;
+    }
+    let probByRegion = null;
+    const rawProb = nullIfEmpty(r.probability_by_region);
+    if (rawProb) {
+      try { probByRegion = JSON.parse(rawProb); } catch { probByRegion = null; }
+    }
+    const danger = nullIfEmpty(r.danger) !== null ? parseInt(r.danger, 10) : null;
+
     try {
       await pool.query(
-        `INSERT INTO entities (id, name, slug, type, active, tier, parent_id, description, description_summary, url_path, biomes, shadow_weight, is_npc, created_at)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+        `INSERT INTO entities (id, name, slug, type, active, tier, parent_id, description, description_summary, url_path, biomes, shadow_weight, is_npc, created_at, region_ids, probability_by_region, danger)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
          ON CONFLICT (id) DO UPDATE SET
            name = EXCLUDED.name,
            slug = EXCLUDED.slug,
@@ -304,7 +319,10 @@ async function seedEntities() {
            url_path = EXCLUDED.url_path,
            biomes = EXCLUDED.biomes,
            shadow_weight = EXCLUDED.shadow_weight,
-           is_npc = EXCLUDED.is_npc`,
+           is_npc = EXCLUDED.is_npc,
+           region_ids = COALESCE(EXCLUDED.region_ids, entities.region_ids),
+           probability_by_region = COALESCE(EXCLUDED.probability_by_region, entities.probability_by_region),
+           danger = COALESCE(EXCLUDED.danger, entities.danger)`,
         [
           id,
           r.name,
@@ -320,6 +338,9 @@ async function seedEntities() {
           Number.isFinite(shadowWeight) ? shadowWeight : 0,
           isNpc,
           nullIfEmpty(r.created_at) ?? new Date(),
+          regionIds,
+          probByRegion ? JSON.stringify(probByRegion) : null,
+          Number.isFinite(danger) ? danger : null,
         ]
       );
       inserted++;
@@ -859,6 +880,7 @@ async function seedPlaces() {
     'SELECT id, name, location_type FROM locations'
   );
   const locByName = new Map(locs.map((l) => [l.name.toLowerCase(), l]));
+  const locById = new Map(locs.map((l) => [l.id, l]));
 
   let anchored = 0;
   const candidates = [];
@@ -875,7 +897,10 @@ async function seedPlaces() {
     let locationId = null;
     let radii = [null, null];
     if (r.kind === 'place') {
-      const loc = locByName.get(name.toLowerCase());
+      // explicit location_ref ({id, name}) wins over the exact-name match
+      const ref = r.location_ref;
+      const loc = (ref && (locById.get(ref.id) || locByName.get(ref.name?.toLowerCase())))
+        || locByName.get(name.toLowerCase());
       if (loc) {
         locationId = loc.id;
         radii = LOCATION_TYPE_RADII[loc.location_type] || DEFAULT_PLACE_RADII;
@@ -891,19 +916,22 @@ async function seedPlaces() {
       }
     }
 
+    // Once a place is positioned, the georef tool owns its geometry fields
+    // (geom, location_id, region_id, type, radii): a reseed must not wipe them.
     await pool.query(
       `INSERT INTO places
          (id, kind, location_id, place_ref, region_id, name, type, tags,
           geom, size_radius_km, influence_radius_km, payload)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12::jsonb)
        ON CONFLICT (id) DO UPDATE SET
-         kind=EXCLUDED.kind, location_id=EXCLUDED.location_id,
-         place_ref=EXCLUDED.place_ref, region_id=EXCLUDED.region_id,
-         name=EXCLUDED.name, type=EXCLUDED.type, tags=EXCLUDED.tags,
-         geom=EXCLUDED.geom,
-         size_radius_km=EXCLUDED.size_radius_km,
-         influence_radius_km=EXCLUDED.influence_radius_km,
-         payload=EXCLUDED.payload`,
+         kind=EXCLUDED.kind, place_ref=EXCLUDED.place_ref,
+         name=EXCLUDED.name, tags=EXCLUDED.tags, payload=EXCLUDED.payload,
+         location_id = CASE WHEN places.geom IS NULL THEN EXCLUDED.location_id ELSE places.location_id END,
+         region_id   = CASE WHEN places.geom IS NULL THEN EXCLUDED.region_id   ELSE places.region_id   END,
+         type        = CASE WHEN places.geom IS NULL THEN EXCLUDED.type        ELSE places.type        END,
+         size_radius_km      = CASE WHEN places.geom IS NULL THEN EXCLUDED.size_radius_km      ELSE places.size_radius_km      END,
+         influence_radius_km = CASE WHEN places.geom IS NULL THEN EXCLUDED.influence_radius_km ELSE places.influence_radius_km END,
+         geom = COALESCE(places.geom, EXCLUDED.geom)`,
       [
         r.id, r.kind, locationId, r.place_ref || null, regionId,
         name, typeText, r.tags || [],
@@ -913,6 +941,18 @@ async function seedPlaces() {
       ]
     );
   }
+
+  // Records removed from the JSON (merged, moved to encounter-candidates.json)
+  // are pruned only while unpositioned; positioned orphans are reported, not deleted.
+  const ids = records.map((r) => r.id);
+  const pruned = await pool.query(
+    'DELETE FROM places WHERE id <> ALL($1) AND geom IS NULL RETURNING id', [ids]
+  );
+  const { rows: orphans } = await pool.query(
+    'SELECT id FROM places WHERE id <> ALL($1)', [ids]
+  );
+  if (pruned.rowCount) console.log(`   🧹 pruned ${pruned.rowCount} unpositioned places no longer in JSON`);
+  if (orphans.length) console.warn(`   ⚠️ positioned places no longer in JSON (kept): ${orphans.map((o) => o.id).join(', ')}`);
 
   // Anchored places inherit the location's geometry (hand-edited afterwards)
   const geomRes = await pool.query(
@@ -1083,6 +1123,17 @@ async function ensureSchema() {
   await pool.query(`
     ALTER TABLE entities
       ADD COLUMN IF NOT EXISTS family TEXT
+  `);
+
+  // entities: encounter-engine columns (migrations:
+  // add_active_column_and_import_entities.sql, add_danger_column_and_import_entities.sql).
+  // Needed by the encounter pool: probability_by_region feeds buildRegionPool.
+  await pool.query(`
+    ALTER TABLE entities
+      ADD COLUMN IF NOT EXISTS active                VARCHAR,
+      ADD COLUMN IF NOT EXISTS danger                INTEGER DEFAULT 0,
+      ADD COLUMN IF NOT EXISTS region_ids            INTEGER[],
+      ADD COLUMN IF NOT EXISTS probability_by_region JSONB
   `);
   await pool.query(`
     UPDATE entities

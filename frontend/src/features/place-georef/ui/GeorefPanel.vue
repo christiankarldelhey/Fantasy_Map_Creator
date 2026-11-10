@@ -43,6 +43,19 @@
           {{ txt(georef.activePlace.value.payload?.type) }}
           <span v-if="georef.activePlace.value.tags?.length">· {{ georef.activePlace.value.tags.join(', ') }}</span>
         </p>
+        <p v-if="txt(georef.activePlace.value.payload?.anchor_hint)" class="anchor">
+          ⌖ {{ txt(georef.activePlace.value.payload?.anchor_hint) }}
+          <template v-if="georef.activePlace.value.payload?.location_ref">
+            · location {{ georef.activePlace.value.payload.location_ref.id }} {{ georef.activePlace.value.payload.location_ref.name }}
+          </template>
+          <template v-if="georef.activePlace.value.payload?.approx_point">
+            <br />
+            <button class="approx" @click="georef.useApproxPoint()">
+              ir a {{ georef.activePlace.value.payload.approx_point.lon }}, {{ georef.activePlace.value.payload.approx_point.lat }}
+            </button>
+            <span class="hint">{{ georef.activePlace.value.payload.approx_point.basis }}</span>
+          </template>
+        </p>
         <p v-if="txt(georef.activePlace.value.payload?.lore)"><i>{{ txt(georef.activePlace.value.payload?.lore) }}</i></p>
         <p v-if="txt(georef.activePlace.value.payload?.base)">{{ txt(georef.activePlace.value.payload?.base) }}</p>
         <div v-for="(v, i) in variants" :key="i" class="block">
@@ -197,6 +210,8 @@ header { border-bottom: 1px solid #b8a67a; margin-bottom: 6px; display: flex; ga
 .ficha { max-height: 40vh; overflow-y: auto; border-bottom: 1px solid #b8a67a; margin-bottom: 8px; padding-bottom: 6px; }
 .ficha .meta { color: #6b5a3a; font-size: 12px; }
 .ficha .block { margin: 6px 0; }
+.ficha .anchor { background: #f5eeda; border-left: 3px solid #7c3aed; padding: 3px 6px; font-size: 12px; }
+.ficha .anchor .approx { border: 1px solid #7c3aed; background: #fff; color: #7c3aed; padding: 1px 6px; margin: 3px 6px 0 0; cursor: pointer; font-size: 11px; }
 .form label { display: block; margin: 6px 0; font-size: 12px; }
 .form select, .form input, .form textarea {
   width: 100%; border: 1px solid #b8a67a; background: #fff; padding: 3px 5px; font: inherit;

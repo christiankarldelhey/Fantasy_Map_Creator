@@ -67,7 +67,8 @@ A named point of the gazetteer — geometry plus world facts (name, type, popula
 _Avoid_: POI, waypoint, marker
 
 **Place**:
-An authored narrative record — what the traveller finds at a spot, its variants, its secret, what he can do there, what the day remembers. Written for TA 3018; when a Place and its Location disagree, the Place is canonical. A Place's geometry can be a point (a town), a line (a named road), or a polygon (a forest) — whatever the traveller can be *on*. Ambients and arrivals are Places that belong to a region rather than a point, so they carry no geometry.
+An authored narrative record — what the traveller finds at a spot, its variants, its secret, what he can do there, what the day remembers. Written for TA 3018; when a Place and its Location disagree, the Place is canonical. A Place's geometry can be a point (a town), a line (a bridge, a causeway), or a polygon (a wood) — whatever the traveller can be *on*. Ambients and arrivals are Places that belong to a region rather than a point, so they carry no geometry.
+A `place` record is always one specific spot where the traveller feels something, something happens, or he must decide — a tower, a wood, a castle, a hill, a hollow; at most a small group of hills. A road is not a place (a crossroads or a fork is); a river is not a place (a ford, a bridge or a boat crossing is). A person met there is named inside the Place only if fixed there; people who move are encounters, region-wide traits are ambients. Small landform Places are always welcome — a lone copse, a named hill — however small the story: the tree species, what is heard there, the hill's shape, the wind on top, how it looks from outside. Anchor them to real biome polygons or elevation features when available (`payload.refs` records the source feature ids).
 _Avoid_: site, encounter card, quest
 
 **location_ref**:
