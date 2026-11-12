@@ -1,0 +1,908 @@
+{
+ "records": [
+  {
+   "id": "ctx_el_bosque_negro_mirkwood",
+   "kind": "lore",
+   "region_ids": [
+    3
+   ],
+   "region": "Mirkwood Wilds",
+   "region_confidence": "medium",
+   "name": {
+    "es": "El Bosque Negro / Mirkwood",
+    "en": "Mirkwood"
+   },
+   "lore": {
+    "es": "Cuatro zonas con registro propio. El prefijo del id dice cuál.\n| prefijo | zona | fuente |\n|---|---|---|\n| `M-` | común a toda la región | — |\n| `MW-` | Mirkwood Wilds, lo salvaje | Blackwood: el bosque como presencia sin intención |\n| `WR-` | Woodland Realm, el reino de Thranduil | Dunsany: alivio con el tiempo torcido |\n| `WM-` | Woodmen, los hombres de los bosques | folk horror: reglas sin motivo |\n| `DG-` | Dol Guldur | Blair Witch, M. R. James: no se ve nada, se ven cosas acomodadas |\n**Pendiente:** esta región está solo en castellano. Falta la pasada al inglés.\n---",
+    "en": "Four zones with their own register. The id prefix says which.\n| prefix | zone | source |\n|---|---|---|\n| `M-` | common to the whole region | — |\n| `MW-` | Mirkwood Wilds, the wild part | Blackwood: the forest as presence without intention |\n| `WR-` | Woodland Realm, Thranduil's kingdom | Dunsany: relief with twisted time |\n| `WM-` | Woodmen, the men of the woods | folk horror: rules without reason |\n| `DG-` | Dol Guldur | Blair Witch, M. R. James: nothing is seen, things are seen arranged |\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_las_landas_de_los_trolls_trollshaws",
+   "kind": "lore",
+   "region_ids": [
+    43
+   ],
+   "region": "Trollshaws",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Las Landas De Los Trolls / Trollshaws",
+    "en": "The Trollshaws"
+   },
+   "lore": {
+    "es": "**Registro:** gótico rural y cuento de hadas. No es la ruina élfica de Eregion:\nacá lo que cayó fue Rhudaur, un reino de hombres, y lo que quedó son granjas,\nmuros de pastoreo, un molino y un puente. Los trolls bajaron después de las\nEttenmoors y se instalaron en lo que había quedado vacío.\n**El paisaje** es serrano y seco: lomas de piedra con pinares ralos en las\nladeras, pastizal duro arriba, arroyos entre rocas, pozones de agua clara y\nmuy fría. Aire limpio, luz fuerte, piedra tibia al sol. **Es la región más\nhermosa del documento**, y el peligro no se nota en el paisaje.\n**La regla de la región:** de noche no se viaja. Los trolls salen cuando se va\nel sol y vuelven antes de que salga. Las Landas se cruzan de día o no se cruzan.\n**Lo que Tolkien fija:** terreno quebrado, colinas con pinos, caminos que suben\ny bajan, cuevas con botín acumulado de años cerca del camino, tres trolls\npetrificados, y ruinas de un reino de hombres. Lo demás está abierto.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Register:** rural Gothic and fairy tale. Not Eregion's Elvish ruin:\nwhat fell here was Rhudaur, a kingdom of Men, and what is left are farms,\npasture walls, a mill and a bridge. The trolls came down from the\nEttenmoors afterward and settled in what had emptied.\n**The landscape** is upland and dry: stony hills with thin pinewoods on the\nslopes, hard pasture on top, brooks between rocks, pools of clear\nvery cold water. Clean air, strong light, stone warm in the sun. **It is the\nloveliest region in the document**, and the danger does not show in the landscape.\n**The region's rule:** one does not travel at night. The trolls come out when\nthe sun goes and return before it rises. The Trollshaws are crossed by day or not crossed.\n**What Tolkien fixes:** broken ground, hills with pines, roads climbing\nand falling, caves with years of hoarded loot near the road, three\npetrified trolls, and ruins of a kingdom of Men. The rest is open.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_south_downs_quebradas_y_lomas",
+   "kind": "lore",
+   "region_ids": [
+    59
+   ],
+   "region": "South Downs",
+   "region_confidence": "medium",
+   "name": {
+    "es": "South Downs — Quebradas Y Lomas",
+    "en": "South Downs — Barrow-downs and Downs"
+   },
+   "lore": {
+    "es": "Una región con dos subzonas de registro opuesto, como el Bosque Negro.\n| prefijo | subzona | carácter |\n|---|---|---|\n| `BD-` | **Tyrn Gorthad**, las Quebradas de los Túmulos, al noroeste, pegadas al Bosque Viejo | M. R. James: paisaje luminoso, peligro enterrado |\n| `SD-` | **Tyrn Hyarmen**, las lomas del sur | **elegía pastoral inglesa**: Hardy, Edward Thomas, Richard Jefferies. Creta despoblada, sin monstruo y sin peligro. El tema es el trabajo de gente que ya no está, y lo que hay que evitar es que las seis fichas sean la misma nota |\n**Dato del mapa:** dentro del polígono no hay una sola localidad. Está rodeado de\npueblos por todos lados y adentro no hay nada.\n**Dato narrativo:** nadie pasa por las Quebradas yendo de la Comarca a Bree. El\ncamino va por el norte y es más corto y más seguro. Acá se llega saliendo del\nBosque Viejo o yéndose del camino a propósito. No es región de tránsito: el que\nestá, está porque se perdió o porque fue a buscar algo.\n**Las dos mecánicas propias**, que invierten lo que venimos usando:\n**la niebla no pierde, lleva**, y **dormir es lo peligroso**.\n**Pendiente:** solo en castellano.\n---",
+    "en": "A region with two subzones of opposite register, like Mirkwood.\n| prefix | subzone | character |\n|---|---|---|\n| `BD-` | **Tyrn Gorthad**, the Barrow-downs, northwest, hard against the Old Forest | M. R. James: bright landscape, buried danger |\n| `SD-` | **Tyrn Hyarmen**, the southern downs | **English pastoral elegy**: Hardy, Edward Thomas, Richard Jefferies. Emptied chalk, no monster and no danger. The subject is the work of people no longer there, and what must be avoided is six fichas being the same note |\n**Map fact:** inside the polygon there is not a single settlement. It is ringed by\ntowns on every side and inside there is nothing.\n**Narrative fact:** nobody passes through the Barrow-downs going from the Shire to Bree. The\nroad goes north and is shorter and safer. One arrives here leaving the\nOld Forest or going off the road on purpose. It is not a transit region: whoever\nis here is here because he got lost or came looking for something.\n**The two own mechanics**, which invert what we have been using:\n**the fog does not lose you, it leads you**, and **sleeping is the dangerous part**.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_andrast",
+   "kind": "lore",
+   "region_ids": [
+    79
+   ],
+   "region": "Andrast",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Andrast",
+    "en": "Andrast"
+   },
+   "lore": {
+    "es": "**Registro:** decadencia al sol. Lampedusa antes que Poe. No da miedo, y eso la\nhace valiosa: es la primera región del documento donde el peligro es menor que\nla melancolía.\n**Qué es.** El cabo más occidental de Gondor, donde las Montañas Blancas se\ncortan contra el mar en pared vertical. Clima mediterráneo: luz dura, piedra\nblanca, chicharras, sombra negra, mar abajo.\n**Quién vive.** Tres pueblos que no se mezclan. Una administración gondoriana\nque cumple formas mucho después de que dejaran de importar: manors con dos\nhabitaciones en uso, una guarnición de nueve hombres, un gobernador provincial\ncon tres sirvientes. Aldeas **Dunir** de pescadores y pastores, de sesenta a\nciento cuarenta personas, que estaban antes de Gondor y no se consideran venidos\na menos porque nunca estuvieron arriba. Y los **Drúedain Orodbedhrim** en los\nvalles de helecho y tejo, que según los registros de la propia región son\ninvisibles para las cartas de Gondor: **se dibujó la costa pero no a la gente**.\n**La economía:** doblar el cabo es peligroso. Haerlond vive de los barcos que\nllegan averiados, y de los que no llegan.\n**Campo nuevo: `near`.** Varias fichas se enganchan a una location existente\npara que el motor las dispare cuando la ruta pasa cerca.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Register:** decay in sunlight. Lampedusa rather than Poe. It is not frightening, and\nthat makes it valuable: it is the first region in the document where the danger is smaller than\nthe melancholy.\n**What it is.** Gondor's westernmost cape, where the White Mountains are\ncut against the sea in a vertical wall. Mediterranean climate: hard light,\nwhite stone, cicadas, black shade, sea below.\n**Who lives there.** Three peoples who do not mix. A Gondorian administration\nkeeping forms long after they stopped mattering: manors with two\nrooms in use, a nine-man garrison, a provincial governor with three servants.\n**Dunir** villages of fishermen and shepherds, sixty to\na hundred and forty people, who were there before Gondor and do not consider themselves\ncome down in the world because they were never up. And the **Drúedain Orodbedhrim** in the\nfern and yew valleys, who by the region's own records are\ninvisible to Gondor's maps: **the coast was drawn but not the people**.\n**The economy:** rounding the cape is dangerous. Haerlond lives off the ships that\narrive damaged, and off those that do not arrive.\n**New field: `near`.** Several fichas hook onto an existing location\nso the engine fires them when the route passes nearby.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_dagorlad",
+   "kind": "lore",
+   "region_ids": [
+    8
+   ],
+   "region": "Dagorlad",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Dagorlad",
+    "en": "Dagorlad"
+   },
+   "lore": {
+    "es": "**Dos paisajes y un nexo.** El **espinar**, monte bajo e impenetrable de\nespinillo gris, leguas y leguas sin un claro. El **pantano**, canon, con sus\nluces y sus caras bajo el agua. Y entre los dos, la **llanura** de grava donde\nno crece nada y no se esconde nadie.\n**Registro.** El espinar no es siniestro: es incómodo. Western seco, frontera\ndespoblada. El miedo ahí es práctico. El pantano es Tolkien y conviene tocarlo\npoco: lo que mejor funciona es no competir con él.\n**La diferencia que organiza la región:** el pantano tiene muertos de hace tres\nmil años y el espinar tiene muertos de la generación pasada. Es el único sitio\ndel documento donde la ruina no es de un reino sino de gente común y reciente.\n**Los bandidos.** Durante unos veinte años el espinar fue base de bandas que\nasaltaban en el norte de Ithilien y en el camino de Anórien. Cavaron un pozo,\nembalsaron un arroyo, abrieron sendas a machete, hicieron corrales de espina y\ncomieron vaina de algarrobo. Se fueron hace una generación: algunos porque ya no\npasaba nadie a quien robar, otros porque les ofrecieron algo mejor al este.\nToda esa economía está en el terreno y nadie la explica.\n**Prefijo `DL-`**, porque `DG-` ya es Dol Guldur.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Two landscapes and one link.** The **thornscrub**, an impenetrable low thicket\nof grey thornbush, leagues and leagues without a clearing. The **marsh**, canon, with its\nlights and its faces under the water. And between the two, the **plain** of gravel where\nnothing grows and nobody hides.\n**Register.** The scrub is not sinister: it is uncomfortable. Dry western,\nemptied frontier. The fear there is practical. The marsh is Tolkien and is best\ntouched lightly: what works best is not competing with it.\n**The difference that organises the region:** the marsh holds dead from three\nthousand years ago and the scrub holds dead from the last generation. It is the only place\nin the document where the ruin is not of a kingdom but of common, recent people.\n**The bandits.** For some twenty years the scrub was the base of bands that\nraided in northern Ithilien and on the Anórien road. They dug a well,\ndammed a brook, cut trails with machetes, built thorn corrals and\nate carob pods. They left a generation ago: some because nobody worth robbing\npassed anymore, others because they were offered something better in the east.\nAll that economy is in the ground and nobody explains it.\n**Prefix `DL-`**, because `DG-` is already Dol Guldur.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_angmar",
+   "kind": "lore",
+   "region_ids": [
+    46
+   ],
+   "region": "Angmar",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Angmar",
+    "en": "Angmar"
+   },
+   "lore": {
+    "es": "**Estado en 3018.** El reino cayó en 1975 y el Rey Brujo se fue al sur, pero\n**las piedras siguen en pie y alguien las mantiene en orden**. Tolkien nunca dice\nque Carn Dûm fuera arrasada: dice que el reino terminó. Acá se asume que un\nlugarteniente, o algo peor, se quedó al cuidado, y que todo Angmar le rinde\ntributo.\nEsto no es una ruina. Según las propias locations, es una provincia de más de\ndoce mil personas: Carn Dûm 5.000, Litash 3.400, Morkai 1.000, Gram 1.000,\nShedûn 940, Barad Eldanar 400, Kuska 390, Anghul 80, Cargash 50. Castillos\nocupados, caminos mantenidos, guarniciones con horario.\n**Registro: realismo de país ocupado.** Nada de gótico. **Kadaré** (*El palacio\nde los sueños*, *Abril quebrado*) para la sociedad: montaña, un Estado que\nadministra el miedo con formularios, y gente común cuya vida se organiza\nalrededor de una obligación que nadie discute. **Buzzati** (*El desierto de los\ntártaros*) para las guarniciones: fortalezas enormes esperando algo que no\nllega, con rutina y ascensos.\n**El paisaje** es estepa de altura: pasto duro y bajo, sin un árbol, horizonte\nen todas direcciones, lajas de caliza gris asomando. Invierno con nieve, verano\ncorto y seco, polvo.\n**La mecánica de la región: el agua está abajo.** La caliza se la traga, así que\nno hay arroyos: hay valles secos, dolinas y, contados, manantiales donde el agua\nvuelve a salir. **Cada manantial tiene dueño**, y el dueño le debe a otro. El\nviajero no elige ruta por distancia: la elige por dónde puede beber.\n**La cadena.** Los Hombres de las Colinas entregan a los orcos. Los orcos\nentregan arriba. Cada uno le cobra al que tiene debajo, y cuando el grano o el\nhierro no alcanzan, se completa de otra manera. No son víctimas nobles: hace mil\naños que resuelven la misma cuenta.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**State in 3018.** The kingdom fell in 1975 and the Witch-king went south, but\n**the stones still stand and somebody keeps them in order**. Tolkien never says\nCarn Dûm was razed: he says the kingdom ended. Here it is assumed that a\nlieutenant, or something worse, stayed in charge, and that all Angmar pays it\ntribute.\nThis is not a ruin. By the locations themselves it is a province of more than\ntwelve thousand people: Carn Dûm 5,000, Litash 3,400, Morkai 1,000, Gram 1,000,\nShedûn 940, Barad Eldanar 400, Kuska 390, Anghul 80, Cargash 50. Occupied\ncastles, maintained roads, garrisons on a schedule.\n**Register: occupied-country realism.** Nothing Gothic. **Kadaré** (*The Palace\nof Dreams*, *Broken April*) for the society: mountains, a State that\nadministers fear with forms, and common people whose lives organise\naround an obligation nobody discusses. **Buzzati** (*The Tartar Steppe*) for\nthe garrisons: huge fortresses waiting for something that does\nnot come, with routine and promotions.\n**The landscape** is high steppe: hard low grass, not a tree, horizon in every\ndirection, grey limestone slabs showing. Winter with snow, short dry\nsummer, dust.\n**The region's mechanic: the water is below.** The limestone swallows it, so\nthere are no brooks: there are dry valleys, dolines and, few, springs where the water\ncomes back out. **Every spring has an owner**, and the owner owes somebody else. The\ntraveller does not pick his route by distance: he picks it by where he can drink.\n**The chain.** The Hillmen hand over to the orcs. The orcs hand\nupward. Each collects from the one below, and when the grain or the\niron falls short, it is made up another way. They are not noble victims: they have\nbeen settling the same account for a thousand years.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_caradhras_el_cuerno_rojo",
+   "kind": "lore",
+   "region_ids": [
+    39
+   ],
+   "region": "Central Misty Mountains",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Caradhras · El Cuerno Rojo",
+    "en": "Caradhras · The Redhorn"
+   },
+   "lore": {
+    "es": "El paso más alto y el único con clima propio: nieva acá cuando abajo está\ndespejado. Del lado oeste no vive nadie, así que **nadie le avisa nada al\nviajero**. Sube a ciegas.\nFranjas: `base_oeste` · `subida_oeste` · `collado` · `bajada_este` · `valle_este`.\n---",
+    "en": "The highest pass and the only one with weather of its own: it snows here when below\nit is clear. Nobody lives on the west side, so **nobody warns the\ntraveller of anything**. He climbs blind.\nBands: `west_base` · `west_climb` · `gap` · `east_descent` · `east_valley`.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_mordor",
+   "kind": "lore",
+   "region_ids": [
+    74
+   ],
+   "region": "Mordor",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Mordor",
+    "en": "Mordor"
+   },
+   "lore": {
+    "es": "**Registro: industrial, no infernal.** Nada de demonios ni de atmósfera gótica:\nlo que Tolkien describe cuando Frodo y Sam entran son zanjas, caminos,\ncampamentos, humo de hornos y compañías marchando con horario. Mordor es\n**una economía de guerra que funciona**.\n**Los autores.** **Zola**, *Germinal*, para el pozo, los turnos, el polvo y la\nempresa como organismo que come gente. **Primo Levi**, con cuidado porque es\ntestimonio y no recurso estético, por el tono: la descripción precisa, química,\nde un sistema diseñado para consumir personas, narrada sin una palabra de\nindignación. Y **Platónov**, *La excavación*, para la obra enorme que no se\ntermina.\n**El principio:** el horror se narra desde el procedimiento y desde el cuerpo,\nnunca desde el adjetivo.\n**Regla dura de esta región: ninguna ficha sobrenatural.** Todo es trabajo,\nturno, cuota, polvo y sed. La única excepción es el escalón de `MD-20`, y está\ndicho como una medición.\n**La mecánica propia: el aire y el agua.** El aire no se renueva porque las dos\ncordilleras lo encierran, y lleva ceniza en suspensión todo el tiempo. No hay\nagua buena: la que se junta tiene ceniza y azufre, y la potable viene en carro,\nestá contada y es de alguien. **El contador de Mordor es el agua potable.**\n**Nota de nomenclatura:** en 3018 Minas Ithil se llama **Minas Morgul** desde\n2002. El nombre viejo queda como dato histórico; el viajero no lo oye nunca.\n**Nurn es región aparte**, con su propio registro: regadío, latifundio y mano de\nobra cautiva. Verde, y peor.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Register: industrial, not infernal.** No demons and no Gothic atmosphere:\nwhat Tolkien describes when Frodo and Sam enter is trenches, roads,\ncamps, furnace smoke and companies marching on a schedule. Mordor is\n**a war economy that works**.\n**The authors.** **Zola**, *Germinal*, for the pit, the shifts, the dust and the\nenterprise as an organism that eats people. **Primo Levi**, carefully because it is\ntestimony and not an aesthetic resource, for the tone: the precise, chemical\ndescription of a system designed to consume people, narrated without one word of\nindignation. And **Platonov**, *The Foundation Pit*, for the enormous work that is never\nfinished.\n**The principle:** horror is narrated from procedure and from the body,\nnever from the adjective.\n**Hard rule of this region: no supernatural ficha.** Everything is work,\nshift, quota, dust and thirst. The only exception is the `MD-20` step, and it is\nstated as a measurement.\n**The own mechanic: the air and the water.** The air does not renew because the two\nranges shut it in, and it carries suspended ash all the time. There is no\ngood water: what collects has ash and sulphur, and the drinkable comes by cart,\nis counted and belongs to somebody. **Mordor's counter is drinking water.**\n**Nomenclature note:** in 3018 Minas Ithil has been called **Minas Morgul** since\n2002. The old name remains as historical data; the traveller never hears it.\n**Nurn is a separate region**, with its own register: irrigation, latifundium and captive\nlabour. Green, and worse.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_dunland",
+   "kind": "lore",
+   "region_ids": [
+    72
+   ],
+   "region": "Dunland",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Dunland",
+    "en": "Dunland"
+   },
+   "lore": {
+    "es": "**Registro: folk horror celta.** Alan Garner (*The Owl Service*), los\n*Mabinogion*, y el páramo galés. Pueblo despojado, memoria larga y justicia\npropia. No hay monstruo: hay comunidades con reglas y un forastero que descubre\ntarde para qué sirven.\n**Clima:** Powys, Gales medio. Inviernos pelados, otoños mojados, y un viento\nque entra por el Paso con hielo adentro.\n**La historia que explica todo.** Calenardhon era tierra donde los dunlendinos\npastoreaban. En 2510 Gondor se la cedió entera a Eorl, y los rohirrim empujaron\na los dunlendinos a las colinas del oeste. Acá eso se cuenta como un despojo.\n**Dunlendinos y rohirrim se odian**, y de ahí salen Helm Manomartillo y Freca,\nWulf en Edoras, y que en la Guerra del Anillo vayan con Saruman a los Vados del\nIsen porque les prometió devolverles la tierra.\n**El hallazgo de las locations, y es la clave de la región:** los dunlendinos\nevitan las ruinas gondorianas y élficas, les pusieron nombre propio\n—Craig-y-Din, Dinas Gwydd, Dinas Yddryst, Dol Du— y las tienen por malditas.\n**Y los Montaraces del Norte acampan exactamente ahí.** El arreglo le conviene a\nlos dos.\nHay **tres presencias ocultas** en una tierra que todo el mundo cree vacía: los\nDúnedain en las ruinas, exploradores rohirrim en un solar de clan abandonado, y\nSaruman en el anillo del sur.\n**Clanes:** Arailt (extinguido, su refugio sigue teniendo dueño), Draig-lûth\n(Gwâl Draig, el templo con forma de cabeza de toro), Feargan (el vado y el\npeaje), Eogbann (Cillien, la Casa del Sanador). Un jefe gobierna con el consejo\nde alguien mayor que no manda.\n**La mecánica propia: la cuenta.** Al viajero no se lo juzga a él, se lo juzga\npor de dónde viene y por quién lo recibió antes. Ver `DU-A3`.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Register: Celtic folk horror.** Alan Garner (*The Owl Service*), the\n*Mabinogion*, and the Welsh moor. A dispossessed people, long memory and its\nown justice. There is no monster: there are communities with rules and an outsider who finds out\ntoo late what they are for.\n**Climate:** Powys, mid-Wales. Bare winters, wet autumns, and a wind\ncoming through the Pass with ice inside.\n**The history that explains everything.** Calenardhon was land where the Dunlendings\npastured. In 2510 Gondor granted it entire to Eorl, and the Rohirrim pushed\nthe Dunlendings to the western hills. Here that is told as a dispossession.\n**Dunlendings and Rohirrim hate each other**, and from that come Helm Hammerhand and Freca,\nWulf in Edoras, and that in the War of the Ring they go with Saruman to the Fords of\nIsen because he promised to give them back the land.\n**The locations' find, and it is the region's key:** the Dunlendings\navoid the Gondorian and Elvish ruins, gave them names of their own\n—Craig-y-Din, Dinas Gwydd, Dinas Yddryst, Dol Du— and hold them accursed.\n**And the Rangers of the North camp exactly there.** The arrangement suits both.\nThere are **three hidden presences** in a land everybody believes empty: the\nDúnedain in the ruins, Rohirrim explorers in an abandoned clan seat, and\nSaruman in the southern ring.\n**Clans:** Arailt (extinct, its refuge still has an owner), Draig-lûth\n(Gwâl Draig, the bull-head-shaped temple), Feargan (the ford and the\ntoll), Eogbann (Cillien, the Healer's House). A chief governs with the counsel\nof somebody older who does not command.\n**The own mechanic: the account.** The traveller is not judged for himself: he is judged\nby where he comes from and by who received him before. See `DU-A3`.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_lindon",
+   "kind": "lore",
+   "region_ids": [
+    40
+   ],
+   "region": "Tower Hills",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Lindon",
+    "en": "Lindon"
+   },
+   "lore": {
+    "es": "**Cubre las quince regiones sindarin** de Forlindon y Harlindon: Apariach,\nAscahiriand, Celanoriand, Mänoriand, Numeriador, Sandariand, Vinyalas,\nArdolyalinya, Ardquetto, Lairiardhon, Lildardhon, Ronalindon, South Harlindon,\nTower Hills y Tol Fuin. Las ambientales valen para todas; los lugares se\nreparten por terreno.\n**Registro: el twilight céltico adaptado.** W. B. Yeats, *The Celtic Twilight*\n(1893, dominio público, Gutenberg 10459). Lady Augusta Gregory, *Gods and\nFighting Men* (1904, Gutenberg 14465). Los *immrama* y los *echtrai*. James\nStephens, *Irish Fairy Tales* (1920). Y por debajo de todo, el hastío del mundo\nde Tolkien.\nCada ficha del Otro Mundo lleva anotado de qué relato sale.\n**Qué es canon y qué no.** Canon: el tiempo que no se siente pasar en tierras\nélficas, el canto con poder real, los ciervos blancos (están en *El hobbit*),\nlos animales que hablan, y que se puede morir de pena (Míriel, Arwen). **No**\ncanon: el rapto por las hadas, el Otro Mundo como dimensión aparte.\n**Cómo se muere acá:** no de magia. El viajero se demora, se olvida de contar\nlos días, se queda sin provisiones a cuatro jornadas de cualquier parte y lo\nagarra el otoño en el camino equivocado. **Lo mata el frío y el hambre**, y lo\núnico que hizo la región fue que no se diera cuenta.\n**El contador propio: la melancolía.** No mide ánimo: mide **cuánto tiempo\npierde sin notarlo**. A melancolía baja se detiene cinco minutos; a media, una\nhora que le parecen diez minutos; a alta, el motor le descuenta medio día y la\nnarración no lo menciona, porque el personaje tampoco se enteró.\n**Y lo que la hace una trampa:** a melancolía alta la prosa se vuelve más\nhermosa, hay más paisaje y se oye más la música. **El premio por melancolía alta\nes que el juego se pone más lindo.**\nSube: pararse a mirar, la música, dormir en los sitios buenos, seguir al ciervo,\nla lluvia. Baja: hambre, frío, que se le rompa algo, hablar con alguien que\ntenga apuro, y salir de la región, que tarda.\n**Nunca se nombra la emoción.** No hay \"lo invade la melancolía\": hay que se\nsienta a mirar el valle y cuando se levanta tiene las piernas dormidas.\n**Las tres respuestas.** Lindon no es unánime. **Embarcar** (el puerto, el\nastillero, el jardín). **Quedarse en un sitio** (los Renuentes). **Quedarse sin\nsitio** (los errantes, ficha global `GL-01`). Los tres grupos se conocen, se\nrespetan y no se entienden, y cada uno piensa que los otros dos no se animaron\na algo.\n**Amplitud térmica:** Forlindon al norte es más pelado y más frío; Harlindon al\nsur es más verde y más suave. Los naturales están repartidos por eso.\n**Prefijos:** `LI-A` ambientales · `LI-O` Otro Mundo · `LI-T` tradicionales ·\n`LI-N` naturales.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Covers the fifteen Sindarin regions** of Forlindon and Harlindon: Apariach,\nAscahiriand, Celanoriand, Mänoriand, Numeriador, Sandariand, Vinyalas,\nArdolyalinya, Ardquetto, Lairiardhon, Lildardhon, Ronalindon, South Harlindon,\nTower Hills and Tol Fuin. The ambients apply to all; the places are\nspread by terrain.\n**Register: the Celtic twilight adapted.** W. B. Yeats, *The Celtic Twilight*\n(1893, public domain, Gutenberg 10459). Lady Augusta Gregory, *Gods and\nFighting Men* (1904, Gutenberg 14465). The *immrama* and the *echtrai*. James\nStephens, *Irish Fairy Tales* (1920). And underneath it all, the world-weariness of Tolkien.\nEvery Otherworld ficha is annotated with which tale it comes from.\n**What is canon and what is not.** Canon: time not felt passing in Elvish\nlands, song with real power, white deer (they are in *The Hobbit*),\ntalking animals, and that one can die of grief (Míriel, Arwen). **Not**\ncanon: fairy abduction, the Otherworld as a separate dimension.\n**How one dies here:** not of magic. The traveller dawdles, loses count of\nthe days, runs out of provisions four days from anywhere and autumn\ncatches him on the wrong road. **Cold and hunger kill him**, and the\nonly thing the region did was keep him from noticing.\n**The own counter: melancholy.** It does not measure mood: it measures **how much time\nhe loses without noticing**. At low melancholy he stops five minutes; at medium, an\nhour that feels like ten minutes; at high, the engine deducts half a day and the\nnarration does not mention it, because the character did not notice either.\n**And what makes it a trap:** at high melancholy the prose turns more\nbeautiful, there is more landscape and the music is heard more. **The reward for high\nmelancholy is that the game gets prettier.**\nIt rises: stopping to look, the music, sleeping in the good spots, following the deer,\nthe rain. It falls: hunger, cold, something breaking, talking to somebody in a\nhurry, and leaving the region, which takes a while.\n**The emotion is never named.** There is no \"melancholy seizes him\": there is him\nsitting to watch the valley and finding his legs asleep when he gets up.\n**The three answers.** Lindon is not unanimous. **Sailing** (the haven, the\nshipyard, the garden). **Staying in a place** (the Unwilling). **Staying without a\nplace** (the wanderers, global ficha `GL-01`). The three groups know each other,\nrespect each other and do not understand each other, and each thinks the other two\ndid not dare something.\n**Thermal range:** Forlindon in the north is barer and colder; Harlindon in the\nsouth is greener and softer. The natural fichas are spread by that.\n**Prefixes:** `LI-A` ambients · `LI-O` Otherworld · `LI-T` traditional ·\n`LI-N` natural.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_la_comarca",
+   "kind": "lore",
+   "region_ids": [
+    85
+   ],
+   "region": "The Shire",
+   "region_confidence": "medium",
+   "name": {
+    "es": "La Comarca",
+    "en": "The Shire"
+   },
+   "lore": {
+    "es": "**Registro: comedia de costumbres rural.** Elizabeth Gaskell, *Cranford*, para\nla estructura: pueblo chico, vidas chicas, conflictos minúsculos narrados con\ncariño. P. G. Wodehouse para la sintaxis. Stella Gibbons, *Cold Comfort Farm*,\npara saber qué no hacer. Y el propio Tolkien, que escribió la Comarca desde ahí.\n**La regla de oro del registro: el narrador quiere a esta gente.** Esa es la\ndiferencia entre Gaskell y la parodia. Los conflictos se tratan con la misma\nseriedad con que los tratan sus protagonistas, sin guiño por encima de ellos.\nLo gracioso no es que sean tontos: es la distancia entre la importancia que le\ndan a algo y lo que ese algo vale.\n**Qué le aporta al documento.** Después de Angmar, Dagorlad y Mordor, que el\nconflicto más grave sea un mojón discutido durante ochenta años es un alivio\nnarrativo real, y hace que lo que venga después pegue más fuerte.\n**Lo más grave que puede pasar:** que unos chicos le roben algo y que al día\nsiguiente aparezca envuelto en un trapo con una manzana al lado.\n**Se come muy bien.** Se puede robar fruta y comida en todas partes, y en todas\npartes hay trampas y perros, y **nada de eso mata a nadie**: todo sirve para\ndelatar, nunca para herir. La sanción no es violencia: es vergüenza, y después\nchisme.\n**La mecánica propia: se sabe.** La información viaja más rápido que el viajero,\nsiempre. El motor lleva una marca sencilla —`bien visto`, `raro pero simpático`,\n`sospechoso`— y lo que la mueve no son acciones graves: es si comió lo que le\nofrecieron, si elogió el jardín de alguien, y si pisó un sembrado.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Register: rural comedy of manners.** Elizabeth Gaskell, *Cranford*, for\nthe structure: small town, small lives, tiny conflicts narrated with\naffection. P. G. Wodehouse for the syntax. Stella Gibbons, *Cold Comfort Farm*,\nfor knowing what not to do. And Tolkien himself, who wrote the Shire from there.\n**The register's golden rule: the narrator loves these people.** That is the\ndifference between Gaskell and parody. The conflicts are treated with the same\nseriousness their protagonists treat them, no wink over their heads.\nWhat is funny is not that they are silly: it is the distance between the importance they\ngive something and what that something is worth.\n**What it adds to the document.** After Angmar, Dagorlad and Mordor, the\ngravest conflict being a boundary stone disputed for eighty years is a real\nnarrative relief, and makes what comes after hit harder.\n**The worst that can happen:** that some lads steal something from him and that the next\nday it appears wrapped in a cloth with an apple beside it.\n**The food is very good.** Fruit and food can be stolen everywhere, and everywhere\nthere are traps and dogs, and **none of it kills anyone**: all of it serves to\ngive away, never to hurt. The sanction is not violence: it is shame, and then\ngossip.\n**The own mechanic: it is known.** Information travels faster than the traveller,\nalways. The engine keeps a simple mark —`well thought of`, `odd but likeable`,\n`suspicious`— and what moves it is not serious actions: it is whether he ate what he\nwas offered, whether he praised somebody's garden, and whether he stepped on a seedbed.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_las_tierras_de_bree",
+   "kind": "lore",
+   "region_ids": [
+    86
+   ],
+   "region": "Bree",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Las Tierras De Bree",
+    "en": "The Bree-land"
+   },
+   "lore": {
+    "es": "**Registro:** Gaskell con Hardy de fondo. La Comarca es un pueblo; **Bree es un\ncruce de caminos**, y eso lo cambia todo: acá pasa gente, llegan noticias, y el\nforastero no es noticia.\n**Lo que la diferencia de la Comarca.** En la Comarca todos son iguales; en Bree\nnadie es igual a nadie y funciona igual. Hombres y hobbits en el mismo pueblo,\nen el mismo cruce, desde hace mil quinientos años, sin que a nadie le parezca\nraro.\n**Clima:** Cotswolds, igual que la Comarca.\n**Qué abarca:** Bree y la Colina, el Bosque de Chet con Archet y Combe adentro,\ny las Ciénagas de Mosquitos al este, que ocupan casi la mitad de la región.\n**Y el fondo de 3018:** es una región feliz con una zanja recién profundizada.\nVer `BR-08`.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Register:** Gaskell with Hardy in the background. The Shire is a village; **Bree is a\ncrossroads**, and that changes everything: people pass through here, news arrives, and the\noutsider is not news.\n**What sets it apart from the Shire.** In the Shire everyone is alike; in Bree\nnobody is like anybody and it works the same. Men and hobbits in the same town,\nat the same crossroads, for fifteen hundred years, without it seeming\nstrange to anyone.\n**Climate:** Cotswolds, same as the Shire.\n**What it covers:** Bree and the Hill, the Chetwood with Archet and Combe inside,\nand the Midgewater Marshes to the east, taking up almost half the region.\n**And the 3018 background:** it is a happy region with a newly deepened ditch.\nSee `BR-08`.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_rhudaur_paquete_de_seis_regiones",
+   "kind": "lore",
+   "region_ids": [
+    44,
+    81,
+    45,
+    69,
+    42,
+    41
+   ],
+   "region": "Ettenmoors",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Rhudaur · Paquete De Seis Regiones",
+    "en": "Rhudaur · Six-Region Package"
+   },
+   "lore": {
+    "es": "**Cubre seis regiones** que comparten registro, historia y habitantes:\n| región | análogo real | Köppen | carácter |\n|---|---|---|---|\n| **Ettenmoors** | North Pennines | `Cfb-cold` | turbera alta, niebla, trolls |\n| **Lone-lands** | North Yorkshire Moors | `Cfb` | brezal |\n| **Coldfells** | Yorkshire Dales | `Cfb-cold` | caliza, mira al Paso Alto |\n| **Wilderness of Arnor** | Scottish Borders | `Cfb-cold` | caliza, mira al Paso Alto |\n| **En Egladil** | Białowieża | `Cfb` | el Ángulo: la mejor tierra, con gente |\n| **West Rhudaur** | NE de Bohemia | `Cfb-Dfb` | **continental**, el único pueblo de verdad |\n**Registro:** páramo inglés. Brontë, Machen, el *Hound of the Baskervilles*.\nPero el tema no es el brezo: es **un reino que todavía se puede reconocer**.\n**Las ruinas de Arnor no son élficas.** Son de hombres, de hace mil años, y son\nreconocibles: el viajero entiende para qué servía cada cosa, y eso es peor que\nno entenderlo. Una torre élfica es misteriosa; una casa de postas vacía es solo\nuna casa de postas vacía.\n**Los tres habitantes, que se evitan.** Hombres de las Colinas en aldeas\nempalizadas sobre las lomas. Bandidos ocupando los edificios con techo.\nMontaraces, muy pocos para el territorio, en los sitios que nadie usa.\n**Los bandidos no son un encuentro de combate.** Son gente pobre y asustada\nocupando un edificio, que prefiere que el viajero siga de largo. El motor ofrece\nprimero `rodear` y `hablar`.\n**Inspiración de páramo real**, y está en las fichas: *peat hags* y *groughs*,\nalgodón de pantano, *limestone pavement* con sus fisuras-jardín, sumideros,\nquema del brezo por franjas, ovejas aquerenciadas, *holloways*, *bields*,\n*peel towers* y *hushes*.\n**Pendiente:** solo en castellano.\n---\n## LOS HOMBRES DE LAS COLINAS\n*Contexto cultural del paquete entero. No es una ficha: se aplica a todas las\nregiones donde aparecen.*\n**Quiénes son.** Pueblo de las Edades Oscuras, pariente de los dunlendinos y de\nlos Muertos de Erech, que ocupaba Eriador cuando llegaron los Dúnedain. No los\nconquistaron: los absorbieron mal. Rhudaur fue el único de los tres reinos de\nArnor donde eran mayoría y los Dúnedain la minoría gobernante, y hacia 1350 un\nseñor de las colinas tomó el trono.\nDespués vino Angmar y los usó. Después Angmar cayó y ellos se quedaron, porque\nesta siempre fue su tierra. **Mil años después siguen acá y nadie los quiere.**\n**Las costumbres.**\n- **El clan antes que el pueblo.** Uno se presenta diciendo de quién es hijo.\n- **La altura.** Se vive arriba y se cultiva abajo, incluso donde no hay nada que temer.\n- **El ganado es la riqueza, no la tierra.** Robar ganado no es un delito: es un trámite con reglas (ver `RH-10`).\n- **El invierno manda.** Todo el año se organiza alrededor de tener suficiente en noviembre.\n- **No hay sacerdotes ni templos.** Hay sitios a los que se va, y una persona que sabe qué se hace ahí, casi siempre una mujer mayor sin título.\n- **La memoria se recita.** Genealogías, agravios, deudas y dónde está enterrado cada quién (ver `RH-09`).\n**Lo que piensan de los otros.** De los Dúnedain: que llegaron, se quedaron con\nlo mejor, se fueron y dejaron las torres. De los montaraces: que no molestan\nmucho y están en todas partes. **De Angmar no hablan**, y ese silencio de mil\naños no es vergüenza: es que ya se discutió y se cerró.\n---",
+    "en": "**Covers six regions** sharing register, history and inhabitants:\n| region | real analogue | Köppen | character |\n|---|---|---|---|\n| **Ettenmoors** | North Pennines | `Cfb-cold` | high peatbog, fog, trolls |\n| **Lone-lands** | North Yorkshire Moors | `Cfb` | heath |\n| **Coldfells** | Yorkshire Dales | `Cfb-cold` | limestone, faces the High Pass |\n| **Wilderness of Arnor** | Scottish Borders | `Cfb-cold` | limestone, faces the High Pass |\n| **En Egladil** | Białowieża | `Cfb` | the Angle: the best land, with people |\n| **West Rhudaur** | NE Bohemia | `Cfb-Dfb` | **continental**, the only real town |\n**Register:** English moor. Brontë, Machen, the *Hound of the Baskervilles*.\nBut the subject is not the heather: it is **a kingdom that can still be recognised**.\n**The ruins of Arnor are not Elvish.** They are of Men, a thousand years old, and\nrecognisable: the traveller understands what each thing was for, and that is worse than\nnot understanding it. An Elvish tower is mysterious; an empty coaching inn is just\nan empty coaching inn.\n**The three inhabitants, who avoid each other.** Hillmen in palisaded\nvillages on the hills. Bandits occupying the roofed buildings.\nRangers, very few for the territory, in the places nobody uses.\n**The bandits are not a combat encounter.** They are poor frightened\npeople occupying a building, who would rather the traveller walk on. The engine offers\n`go around` and `talk` first.\n**Real moor inspiration**, and it is in the fichas: *peat hags* and *groughs*,\nbog cotton, *limestone pavement* with its fissure-gardens, sinkholes,\nheather burning in strips, hefted sheep, *holloways*, *bields*,\n*peel towers* and *hushes*.\n**Pending:** Spanish only in the source.\n---\n## THE HILLMEN\n*Cultural context for the whole package. Not a ficha: it applies to every\nregion where they appear.*\n**Who they are.** A Dark Ages people, kin to the Dunlendings and to\nthe Dead of Erech, who held Eriador when the Dúnedain arrived. They were not\nconquered: they were badly absorbed. Rhudaur was the only one of Arnor's three\nkingdoms where they were the majority and the Dúnedain the ruling minority, and around 1350 a\nhill-lord took the throne.\nThen Angmar came and used them. Then Angmar fell and they stayed, because\nthis was always their land. **A thousand years on they are still here and nobody wants them.**\n**The customs.**\n- **The clan before the people.** One introduces oneself by whose son one is.\n- **The height.** One lives above and farms below, even where there is nothing to fear.\n- **Cattle is wealth, not land.** Stealing cattle is not a crime: it is a procedure with rules (see `RH-10`).\n- **Winter rules.** The whole year is organised around having enough in November.\n- **No priests and no temples.** There are places one goes to, and a person who knows what is done there, almost always an untitled older woman.\n- **Memory is recited.** Genealogies, grievances, debts and where each one is buried (see `RH-09`).\n**What they think of the others.** Of the Dúnedain: that they came, took\nthe best, left and abandoned the towers. Of the rangers: that they do not bother\nmuch and are everywhere. **Of Angmar they do not speak**, and that thousand-year\nsilence is not shame: it was already argued and closed.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_las_marcas_del_norte_paquete_de_tres_reg",
+   "kind": "lore",
+   "region_ids": [
+    54,
+    55,
+    61
+   ],
+   "region": "Talath Muil",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Las Marcas Del Norte · Paquete De Tres Regiones",
+    "en": "The Northern Marches · Three-Region Package"
+   },
+   "lore": {
+    "es": "| región | análogo real | Köppen | carácter |\n|---|---|---|---|\n| **Talath Muil** | Cairngorms | **`Cfc`** | tundra **húmeda**: pasto, agua, bosquecillos frecuentes. Los nómades viven acá |\n| **Rammas Formen** | Galloway | `Cfb` | tundra **seca y fría**: pasto ralo, piedra, bosquecillos lejos. Puestos fijos, casi sin nómades |\n| **Weather Hills** | Peak District | `Cfb` | cordón de colinas peladas con Amon Sûl en el extremo sur |\n**El registro:** no es abandono, es **frontera vigilada**. Buzzati otra vez, el\nde las almenaras de Anórien, pero con ochenta hombres para doscientos\nkilómetros y montaraces que entran y salen sin dar explicaciones.\n**La mecánica de la región: de noche no se está afuera.** Y de ahí sale todo:\nsi de noche no se está afuera, hay que llegar a algún lado antes de que\noscurezca; si hay que llegar, hay que saber dónde está el próximo fuego; y como\nlos fuegos se huelen desde kilómetros, **el olfato es el sistema de navegación**.\n**Los lobos.** Hace mucho que no son solo lobos: se les sumaron huargos que los\ndirigen, y a veces compañías de orcos de Angmar montadas en ellos. La gente de\nacá lo dice desde hace generaciones y nadie de afuera les cree. **Tienen razón y\nno saben hasta qué punto.**\n**El contraste al cruzar.** En Talath Muil el humo lleva a gente: hay\ncampamentos, fuegos de posta, y alguien que lo mete adentro si llegó tarde. En\nRammas Formen el humo lleva a una guarnición, y entre guarnición y guarnición\nno hay nada. Los huecos son más largos y hay noches en que no se llega.\n**La firma sensorial.** Es la única región del documento que se recuerda por\nalgo agradable: el olor del humo. Ver `TM-A1`.\n**Pendiente:** solo en castellano.\n---",
+    "en": "| region | real analogue | Köppen | character |\n|---|---|---|---|\n| **Talath Muil** | Cairngorms | **`Cfc`** | **wet** tundra: grass, water, frequent copses. The nomads live here |\n| **Rammas Formen** | Galloway | `Cfb` | **dry cold** tundra: thin grass, stone, distant copses. Fixed posts, almost no nomads |\n| **Weather Hills** | Peak District | `Cfb` | a line of bare hills with Amon Sûl at the southern end |\n**The register:** not abandonment, **watched frontier**. Buzzati again, the\none of Anórien's beacons, but with eighty men for two hundred\nkilometres and rangers coming and going without explanations.\n**The region's mechanic: at night one is not outside.** And everything comes from that:\nif at night one is not outside, one must get somewhere before\ndark; if one must get somewhere, one must know where the next fire is; and since\nfires can be smelled from kilometres, **smell is the navigation system**.\n**The wolves.** It has been a long time since they were only wolves: wargs\njoined them and lead them, and sometimes companies of Angmar orcs mounted on them. The people\nhere have been saying so for generations and nobody outside believes them. **They are right,\nand they do not know how right.**\n**The crossing contrast.** In Talath Muil smoke leads to people: there are\ncamps, post fires, and somebody who takes him in if he arrived late. In\nRammas Formen smoke leads to a garrison, and between garrison and garrison\nthere is nothing. The gaps are longer and there are nights when one does not make it.\n**The sensory signature.** It is the only region in the document remembered for\nsomething pleasant: the smell of smoke. See `TM-A1`.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_los_valles_del_anduin_paquete_de_tres_re",
+   "kind": "lore",
+   "region_ids": [
+    35,
+    38,
+    36
+   ],
+   "region": "Central Anduin",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Los Valles Del Anduin · Paquete De Tres Regiones",
+    "en": "The Anduin Vales · Three-Region Package"
+   },
+   "lore": {
+    "es": "| región | análogo real | Köppen | carácter |\n|---|---|---|---|\n| **Central Anduin** | Wachau, Baja Austria | `Dfb` | el río como camino, Maethelburg y el comercio del estaño, terrazas en el sur |\n| **Nan Anduin** | valle del Morava | `Dfb` | los beórnidas, el Carroca, las abejas, Rhosgobel, el pantano del Ninglor |\n| **Ronen-in-Anduin** | Zlín, Moravia | `Dfb` | el corredor entre Gundabad y el Bosque Negro: llano abierto y frontera |\n**Pendientes del grupo:** Parth Celebrant y Gramuz, que se tratan aparte.\n**Registro: campesinado de Europa central.** Maramureş, los Cárpatos, el\nDanubio austríaco y la Moravia de aldea. Casas de troncos, humo, portones\ntallados y costumbres que nadie explica.\n**El material folclórico es real** y está anotado en cada ficha: el *Ursul*\nrumano (hombres con piel de oso que bailan por las aldeas en año nuevo), las\npuertas labradas de Maramureş con soga, sol y árbol de la vida, el cementerio\npintado de Săpânţa con epitafios en verso poco amables, los molinos flotantes\ndel Danubio, las colmenas de tronco hueco, el aguardiente de ciruela y las\nreglas domésticas (no barrer de noche, no pasar pan por el umbral).\n**Lo que da el canon.** *El hobbit*: la casa de Beorn con su seto de espino, el\nsalón con el fuego en el medio, las colmenas, los animales que sirven la mesa y\nque nadie come carne bajo ese techo; la Carroca con sus escalones tallados; el\nViejo Vado; la Puerta de los Trasgos y las Águilas. Lo demás es nuestro.\n**Los pueblos:** Hombres del Norte en el río, Beórnidas en el valle alto,\nHombres de los Bosques en el linde.\n**El gradiente:** arriba frío y cerrado, abajo más suave, con fruta y viña en\nlas terrazas del río.\n**Decisión de tono:** metemos las costumbres de muertos y no los muertos. Las\naldeas tienen prácticas elaboradas y reglas sobre la noche, nadie las explica,\ny **nunca se confirma que hagan falta** — igual que las seis reglas de los\nWoodmen.\n**La casa:** larga, de troncos, con el establo bajo el mismo techo porque el\ncalor de los animales calienta la vivienda. Techo muy inclinado, alero largo,\nmadera ennegrecida. Una sola pieza con el fuego, poca ventana y mucho humo.\nGente que vive apretada y que le dedica un invierno entero a tallar una puerta.\n**Pendiente:** solo en castellano.\n---",
+    "en": "| region | real analogue | Köppen | character |\n|---|---|---|---|\n| **Central Anduin** | Wachau, Lower Austria | `Dfb` | the river as road, Maethelburg and the tin trade, terraces in the south |\n| **Nan Anduin** | Morava valley | `Dfb` | the Beornings, the Carrock, the bees, Rhosgobel, the Ninglor marsh |\n| **Ronen-in-Anduin** | Zlín, Moravia | `Dfb` | the corridor between Gundabad and Mirkwood: open plain and frontier |\n**Pending in the group:** Parth Celebrant and Gramuz, treated separately.\n**Register: Central European peasantry.** Maramureş, the Carpathians, the\nAustrian Danube and village Moravia. Log houses, smoke, carved\ngates and customs nobody explains.\n**The folkloric material is real** and is annotated in each ficha: the Romanian\n*Ursul* (men in bearskins dancing through the villages at New Year), the\ncarved Maramureş gates with rope, sun and tree of life, the painted\ncemetery of Săpânţa with unkind verse epitaphs, the floating\nmills of the Danube, hollow-log hives, plum brandy and\ndomestic rules (no sweeping at night, no passing bread over the threshold).\n**What the canon gives.** *The Hobbit*: Beorn's house with its thorn hedge, the\nhall with the fire in the middle, the hives, the animals that serve the table and\nthat nobody eats meat under that roof; the Carrock with its carved steps; the\nOld Ford; the Goblin Gate and the Eagles. The rest is ours.\n**The peoples:** Northmen on the river, Beornings in the high vale,\nWoodmen on the edge.\n**The gradient:** cold and closed above, softer below, with fruit and vine on\nthe river terraces.\n**Tone decision:** we use the customs of the dead and not the dead. The\nvillages have elaborate practices and rules about the night, nobody explains them,\nand **it is never confirmed that they are needed** — same as the Woodmen's six rules.\n**The house:** long, of logs, the byre under the same roof because the\nanimals' heat warms the dwelling. Very steep roof, long eaves,\nblackened timber. A single room with the fire, few windows and much smoke.\nPeople living packed who spend a whole winter carving a door.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_gramuz",
+   "kind": "lore",
+   "region_ids": [
+    2
+   ],
+   "region": "Gramuz",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Gramuz",
+    "en": "Gramuz"
+   },
+   "lore": {
+    "es": "**Prešov, Eslovaquia · `Dfb` continental.** Entre el Bosque Negro y el mar de\nRhûn, con el **Celduin** bajando del Lago Largo hacia el sudeste.\n**No pertenece a los valles del Anduin.** Está del otro lado del Bosque Negro y\nsu vecindario es otro: Erebor y Valle al noroeste, Esgaroth en el lago, y el\nCelduin como ruta. Comparte economía con ese bloque, no con el Anduin.\n**Lo que es:** la tierra por la que baja el comercio de Erebor y de Valle hacia\nel este, y por la que sube el vino de Dorwinion. Mucha distancia, casi nadie\nfijo, y tres grupos que no se llevan.\n**Registro:** ruta fluvial de frontera. Más cerca de los transportistas del\nVolga y de la estepa del Don que del campesinado de los valles.\n**Los tres grupos, y el matiz que importa:** no hay bando bueno. Los **Hombres\ndel Norte** mandan mercadería. Los **clanes del interior**, seminómadas, viven\nde pieles, caza y peaje, y pelean con los del norte por territorio y ganado. Y\nlos **mercaderes de Dorwinion**, que son orientales también, quieren\nexactamente lo contrario que los clanes: un camino tranquilo y previsible. Los\nde Dorwinion desprecian a los clanes, los clanes les cobran peaje, y a veces\nson del mismo pueblo.\n**Los bandidos no son un cuarto grupo organizado:** son gente suelta de los\ntres lados, y **los clanes también los detestan** porque les arruinan el\nnegocio del peaje.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prešov, Slovakia · `Dfb` continental.** Between Mirkwood and the Sea of\nRhûn, with the **Celduin** coming down from the Long Lake to the southeast.\n**It does not belong to the Anduin Vales.** It is on the far side of Mirkwood and\nits neighbourhood is another: Erebor and Dale to the northwest, Esgaroth on the lake, and the\nCelduin as the route. It shares its economy with that block, not with the Anduin.\n**What it is:** the land down which the trade of Erebor and Dale goes\neast, and up which Dorwinion's wine comes. Much distance, almost nobody\nsettled, and three groups that do not get on.\n**Register:** frontier river route. Closer to the Volga boatmen\nand the Don steppe than to the vales' peasantry.\n**The three groups, and the nuance that matters:** there is no good side. The **Northmen**\nship merchandise. The **inland clans**, seminomadic, live\noff furs, hunting and tolls, and fight the northerners over territory and cattle. And\nthe **Dorwinion merchants**, who are easterners too, want\nexactly the opposite of the clans: a quiet predictable road. The\nDorwinion people despise the clans, the clans charge them toll, and sometimes\nthey are from the same village.\n**The bandits are not a fourth organised group:** they are loose people from all\nthree sides, and **the clans detest them too** because they ruin the\ntoll business.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_valle_erebor_y_esgaroth",
+   "kind": "lore",
+   "region_ids": [
+    25,
+    10
+   ],
+   "region": "Dale",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Valle, Erebor Y Esgaroth",
+    "en": "Dale, Erebor and Esgaroth"
+   },
+   "lore": {
+    "es": "**Prefijo `ER-`.** Tres poderes que se necesitan: un reino de Hombres del Norte,\nun reino enano y una ciudad autónoma. Clima continental, lago profundo,\nMontaña al norte.\n**El eje de la región, y es único en el documento:** en 3018 este es **el único\nsitio del norte donde las cosas mejoraron**. Hace setenta y cinco años Valle era\nun montón de piedras, la Montaña estaba ocupada por un dragón y el lago vivía de\npescar. Hoy hay un rey, un mercado y una ruta comercial que llega al mar de Rhûn.\nTodo lo demás que escribimos está decayendo. Esto no, y el registro tiene que\nnotarlo.\n**Quién gobierna:** Brand, nieto de Bardo, desde 3007. Bardo mató a Smaug en\n2941 y reinó hasta 2977; su hijo Bain reinó entre los dos. **Bardo ya murió**:\nen 3018 nadie vivo lo trata como rey actual.\n**Registro:** la ciudad hanseática. Comercio báltico, gremios, actas, un\nayuntamiento. Y bajo eso, la memoria del dragón, que es de hace dos\ngeneraciones.\n**Nota de diseño — los tres pilotajes.** Hay tres construcciones sobre pilotes\nen la región y cuentan tres historias distintas. **Esgaroth** está sobre pilotes\npor defensa: en el agua, lejos de la orilla, con un solo puente que se levanta\nde noche. **Las casas del pantano** están sobre pilotes por la crecida: bajos,\nsuficientes para el año normal y no para el año del que hablan señalando una\nmarca. **Y las pilas viejas** son pilotes que ya no sostienen nada. La misma\ntécnica en tres estados: en uso, apenas alcanzando, y muerta.\n**Canon de *El hobbit*:** Esgaroth sobre pilotes con un solo puente, las ruinas\nde la ciudad vieja bajo el agua, el valle llano entre dos espolones, la Puerta\nPrincipal de donde sale el río caliente, la puerta secreta del espolón oeste con\nsu umbral y su escalón, la Colina del Cuervo, los cuervos que hablan, la\nDesolación, y la ruta de los barriles por el río del Bosque.\n**Gramuz es su vecina comercial** y pertenece a este bloque, no al del Anduin.\n**Pendiente:** solo en castellano. Faltan cuatro fichas: el camino de carga\nenano, el camino de Valle a la Puerta, la gente venida de afuera, y los Hombres\ndel Bosque de la orilla oeste.\n---",
+    "en": "**Prefix `ER-`.** Three powers that need each other: a kingdom of Northmen,\na dwarf-kingdom and a self-governing city. Continental climate, deep lake,\nthe Mountain to the north.\n**The region's axis, unique in the document:** in 3018 this is **the only\nplace in the north where things got better**. Seventy-five years ago Dale was\na heap of stones, the Mountain held a dragon and the lake lived\noff fishing. Today there is a king, a market and a trade route reaching the Sea of Rhûn.\nEverything else we write is decaying. This is not, and the register has to\nnotice it.\n**Who rules:** Brand, Bard's grandson, since 3007. Bard killed Smaug in\n2941 and reigned until 2977; his son Bain reigned in between. **Bard is dead**:\nin 3018 nobody living treats him as the current king.\n**Register:** the Hanseatic city. Baltic trade, guilds, minutes, a\ntown hall. And under that, the memory of the dragon, two\ngenerations old.\n**Design note — the three stilt-works.** There are three pile constructions\nin the region and they tell three different stories. **Esgaroth** is on piles\nfor defence: on the water, far from shore, a single bridge raised\nat night. **The marsh houses** are on piles for the flood: low,\nenough for the normal year and not for the year they talk about pointing at a\nmark. **And the old piles** are stumps holding nothing up. The same\ntechnique in three states: in use, barely coping, and dead.\n**Canon from *The Hobbit*:** Esgaroth on piles with a single bridge, the old\ntown's ruins under the water, the flat valley between two spurs, the Front\nGate out of which the hot river comes, the secret door on the western spur with\nits threshold and its step, Ravenhill, the talking ravens, the\nDesolation, and the barrel route down the Forest River.\n**Gramuz is its trade neighbour** and belongs to this block, not to the Anduin one.\n**Pending:** Spanish only in the source. Four fichas missing: the dwarf pack\nroad, the road from Dale to the Gate, the people come from outside, and the\nWoodmen of the western shore.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_forithilien",
+   "kind": "lore",
+   "region_ids": [
+    75
+   ],
+   "region": "Forithilien",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Forithilien",
+    "en": "Forithilien"
+   },
+   "lore": {
+    "es": "**Prefijo `IT-`.** El jardín sin gente.\n**Clima:** Val d'Orcia, Toscana (`Csb`). Mediterráneo de montaña: veranos secos\ny calientes, inviernos suaves y húmedos, y el calor que suelta los aromas.\n**Lo que es:** un bosque crecido sobre lo que fue la provincia más cuidada de\nGondor. Olivos, laureles, tamariscos, terrazas y fuentes que siguen\nfuncionando setenta años después de que se fuera la gente.\n**Qué abarca:** del Anduin a las Ephel Dúath, de Cair Andros a Osgiliath y las\nlomas de Emyn Arnen. **Minas Ithil y el valle de Morgul quedan fuera**: están\nescritos desde el otro lado, en `MD-02`.\n**Quién hay:** montaraces de Ithilien, pocos, en refugios escondidos. Y\ncolumnas que cruzan de sur a norte y no se quedan. **Nadie vive acá.**\n**El registro, y es el único de este tipo en el documento.** En todas las demás\nregiones el paisaje y el peligro apuntan en la misma dirección: Mordor es feo y\npeligroso, Dagorlad es incómodo y peligroso, las Quebradas son tristes y\npeligrosas. Acá no. Lo que el viajero ve y lo que sabe no coinciden.\n**Y la belleza no es el peligro: es la prueba.** Esos olivos los plantó alguien,\nesas terrazas las levantó alguien, esas fuentes las hizo alguien. Lo que el\nviajero ve no es naturaleza: es **el trabajo de gente que ya no está,\nsobreviviendo sin ellos**. Y eso es más triste que una ruina, porque una ruina\nya aceptó el final y un olivar no.\n**Fauna:** los encuentros de la base son todos de animales —lobos, zorros,\ngatos pescadores, aves acuáticas, ardillas—, y eso confirma lo que dice el\nmaterial de MERP: **en Ithilien no hay bestias peligrosas; las únicas amenazas\nandan en dos patas**. Ver `IT-A3`.\n**Material tomado de MERP** (*Gates of Mordor*, ICE 8105, 1987, ambientado en\n1640 T.E.): el río que se mete bajo la roca, Henneth Annûn como paseo con\npasamanos, el viaducto de mil pasos, las Colinas de los Cipreses, la villa\nvinatera con su perfumería, la piedra drúedain del vado, la marca de luna en\ntoda la obra de la calzada, y la aldea de Elfos silvanos. En el módulo esa\ntierra acaba de vaciarse por la Peste; en 3018 lleva mucho más tiempo vacía,\npero lo construido sigue ahí.\n**Pendiente:** solo en castellano. Harithilien se trata aparte.\n---",
+    "en": "**Prefix `IT-`.** The garden without people.\n**Climate:** Val d'Orcia, Tuscany (`Csb`). Mountain Mediterranean: dry hot\nsummers, mild wet winters, and the heat that releases the scents.\n**What it is:** a forest grown over what was Gondor's best-kept\nprovince. Olives, laurels, tamarisks, terraces and fountains still\nworking seventy years after the people left.\n**What it covers:** from the Anduin to the Ephel Dúath, from Cair Andros to Osgiliath and the\nEmyn Arnen hills. **Minas Ithil and the Morgul vale are out**: they are\nwritten from the other side, in `MD-02`.\n**Who is there:** Ithilien rangers, few, in hidden refuges. And\ncolumns crossing south to north that do not stay. **Nobody lives here.**\n**The register, the only one of its kind in the document.** In every other\nregion landscape and danger point the same way: Mordor is ugly and\ndangerous, Dagorlad is uncomfortable and dangerous, the Barrow-downs are sad and\ndangerous. Not here. What the traveller sees and what he knows do not match.\n**And the beauty is not the danger: it is the evidence.** Somebody planted those olives,\nsomebody raised those terraces, somebody made those fountains. What the\ntraveller sees is not nature: it is **the work of people no longer there,\nsurviving without them**. And that is sadder than a ruin, because a ruin\nhas already accepted the end and an olive grove has not.\n**Fauna:** the base encounters are all animals —wolves, foxes,\nfishing cats, water birds, squirrels—, and that confirms what the\nMERP material says: **in Ithilien there are no dangerous beasts; the only threats\nwalk on two legs**. See `IT-A3`.\n**Material taken from MERP** (*Gates of Mordor*, ICE 8105, 1987, set in\n1640 T.A.): the river going under the rock, Henneth Annûn as a railed\nwalk, the thousand-step viaduct, the Cypress Hills, the wine\nvilla with its perfumery, the Drúedain stone at the ford, the moon mark\non all the causeway work, and the Wood-elves' village. In the module that\nland has just been emptied by the Plague; in 3018 it has been empty much\nlonger, but what was built is still there.\n**Pending:** Spanish only in the source. Harithilien is treated separately.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_belfalas_y_el_sur_paquete_de_cuatro",
+   "kind": "lore",
+   "region_ids": [
+    20,
+    19,
+    23,
+    11
+   ],
+   "region": "Dor-en-Emyl",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Belfalas Y El Sur · Paquete De Cuatro",
+    "en": "Belfalas and the South · Four-Region Package"
+   },
+   "lore": {
+    "es": "**Prefijo `DE-`.** Cubre cuatro regiones del sur de Gondor:\n| región | análogo real | Köppen | carácter |\n|---|---|---|---|\n| **Dor-en-Ernil** | Alentejo, Portugal | `Csa` | el principado: Dol Amroth, Edhellond, la península de Belfalas |\n| **Lamedon** | Cilento, Italia | `Csa` | la montaña, y los Eredrim, que no son gondorianos |\n| **Tolfalas** | Gargano, Puglia | `Csa` | la isla en la boca del Anduin |\n| **Lebennin** (solo el borde oeste) | Emilia-Romagna | `Csa` | Linhir y el delta del Gilrain |\n**Lebennin entera queda pendiente**: necesita su propia tanda con Pelargir\ny los cinco ríos.\n**Registro:** Gondor que funciona. Nada de decadencia al sol, que eso ya está\nen Andrast. Acá hay mercados, gremios, aduana, obra pública en uso y gente\ntrabajando. Lo que amenaza no es el tiempo: son **los Corsarios de Umbar**, y\ncontra eso hay un sistema montado.\n**Material tomado de MERP** (*Havens of Gondor: Land of Belfalas*, ICE 3300,\n1987): la cadena de torres costeras con su triple sistema de aviso, la aldea\nde montaña de los Eredrim con las piedras púkel, Edhellond con sus cavernas\nportuarias, los Eredrim como pueblo aparte dentro del principado, la Colina de\nla Pira, los contrabandistas y los bandidos de montaña.\n**Reparto de fichas por región:** Dor-en-Ernil 10 · Lamedon 6 · Tolfalas 5 ·\nLebennin borde 2 · comunes 3.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `DE-`.** Covers four regions of southern Gondor:\n| region | real analogue | Köppen | character |\n|---|---|---|---|\n| **Dor-en-Ernil** | Alentejo, Portugal | `Csa` | the princedom: Dol Amroth, Edhellond, the Belfalas peninsula |\n| **Lamedon** | Cilento, Italy | `Csa` | the mountains, and the Eredrim, who are not Gondorians |\n| **Tolfalas** | Gargano, Puglia | `Csa` | the island in the Anduin's mouth |\n| **Lebennin** (west edge only) | Emilia-Romagna | `Csa` | Linhir and the Gilrain delta |\n**All of Lebennin remains pending**: it needs its own pass with Pelargir\nand the five rivers.\n**Register:** Gondor that works. No decay in the sun, that is already\nin Andrast. Here there are markets, guilds, a customs house, public works\nin use and people working. What threatens is not time: it is **the Corsairs of Umbar**, and\nagainst that there is a system in place.\n**Material taken from MERP** (*Havens of Gondor: Land of Belfalas*, ICE 3300,\n1987): the coastal tower chain with its triple warning system, the\nEredrim mountain village with the Púkel stones, Edhellond with its\nharbour caverns, the Eredrim as a people apart inside the princedom, the Beacon\nHill, the smugglers and the mountain bandits.\n**Fichas by region:** Dor-en-Ernil 10 · Lamedon 6 · Tolfalas 5 ·\nLebennin edge 2 · common 3.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_harithilien",
+   "kind": "lore",
+   "region_ids": [
+    18
+   ],
+   "region": "Harithilien",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Harithilien",
+    "en": "Harithilien"
+   },
+   "lore": {
+    "es": "**Prefijo `HI-`.** Ithilien del sur, y la contraparte de `IT-`.\n**Clima:** Gard, Provenza (`Csb`). Garriga de caliza: aulaga, brezo, tomillo,\nromero, lavándula, con bosquecillos de abeto y cedro en las hondonadas y suelos\nvolcánicos enriquecidos por las Ephel Dúath.\n**El contraste que da sentido a las dos regiones.** Al norte, un jardín sin\ngente: todo funcionando solo, setenta años después de que se fueran. Acá abajo,\n**gente que todavía está, en un sitio menos bonito, decidiendo si se queda**.\n**Lo que no esperaba y cambia el perfil:** Harithilien no es una frontera flaca.\nEs **una provincia de casas nobles**, con un condado —Glorel— y al menos cuatro\ncasas con solar propio: Faron en el Poros, Alagdor con su castillo sobre un\nespolón, Nethos en la desembocadura del río, y la que se rebautizó. Más tres\npueblos de comercio y Tir Ethraid con mil treinta habitantes.\n**El argumento de la región: el oeste no paga el precio que paga el este.** Una\ncasa con tierras en el Poros pierde gente cada pocos años; una casa frente a\nPelargir cobra peaje de una balsa. Y se supone que son la misma provincia.\n**El matiz que la separa de Dunland y de Gramuz:** estas casas **no están\nenemistadas, están resentidas**, que es otra cosa, es más lento y es más difícil\nde arreglar.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `HI-`.** Southern Ithilien, and `IT-`'s counterpart.\n**Climate:** Gard, Provence (`Csb`). Limestone garrigue: furze, heath, thyme,\nrosemary, lavender, with fir and cedar copses in the hollows and volcanic\nsoils enriched by the Ephel Dúath.\n**The contrast that gives both regions their meaning.** To the north, a garden\nwithout people: everything running by itself, seventy years after they left. Down here,\n**people still there, in a less pretty place, deciding whether to stay**.\n**The unexpected thing that changes the profile:** Harithilien is not a thin frontier.\nIt is **a province of noble houses**, with a county —Glorel— and at least four\nhouses with seats of their own: Faron on the Poros, Alagdor with its castle on a\nspur, Nethos at the river's mouth, and the one that renamed itself. Plus three\ntrading towns and Tir Ethraid with a thousand thirty inhabitants.\n**The region's argument: the west does not pay the price the east pays.** A\nhouse with lands on the Poros loses people every few years; a house facing\nPelargir collects toll off a raft. And they are supposed to be the same province.\n**The nuance setting it apart from Dunland and Gramuz:** these houses **are not\nfeuding, they are resentful**, which is another thing, slower and harder\nto mend.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_anorien_y_minas_tirith",
+   "kind": "lore",
+   "region_ids": [
+    7
+   ],
+   "region": "Anorien",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Anórien Y Minas Tirith",
+    "en": "Anórien and Minas Tirith"
+   },
+   "lore": {
+    "es": "**Dos prefijos.** `AO-` para la provincia y `MT-` para la ciudad.\n**Clima:** Umbría interior, Perugia (`Csa-Csb`). Veranos cálidos, inviernos\nduros y luminosos, y un viento que baja de la montaña al atardecer y que huele\na nieve incluso con los campos en flor.\n**Qué es Anórien:** la franja entre las laderas septentrionales de las Montañas\nBlancas y la orilla oeste del Anduin, enfrente de Ithilien del norte. Es el\núnico feudo gondoriano al norte de las montañas desde que Calenardhon se cedió\na los Éothéod. **Es el granero y la huerta de la Ciudad.**\n**Lo que la define:** la cadena de almenaras. Siete cumbres en línea por el pie\nde la montaña, con cuatrocientos hombres repartidos entre ellas, cuidando leña\ndesde el final de la Segunda Edad. **Nunca se encendieron.** Registro de\nfechas: la primera plataforma la ordenó Anárion en 3325 S.E.; Min-rimmon se\nterminó en 516 T.E., Halifirien en 529.\n**Registro:** Buzzati, *El desierto de los tártaros*, otra vez — pero acá la\nespera es legítima y la gente es campesina, no militar. Y Manzoni para la vida\ncivil del Pelennor, que funciona.\n---\n## ═══ MINAS TIRITH: UN PUNTO CON NIVELES ═══\n**Nota de diseño, importante para el motor.** Minas Tirith es **un solo punto\nen el mapa**, con una coordenada. Adentro, el personaje no se mueve entre\ncoordenadas: se mueve por **nivel**, exactamente igual que en Caradhras se\nmueve por franja de altura y como se planteó Moria.\n```\nMT- · un punto en el mapa\n├── nivel 1 ········· la Puerta y el barrio de afuera\n├── niveles 2-3 ····· talleres, gremios, mercados\n├── niveles 4-5 ····· casas buenas\n├── nivel 6 ········· Casas de Curación, archivos\n└── nivel 7 ········· el Patio de la Fuente\n```\n**La mecánica propia de la ciudad: a qué nivel lo dejan subir.** No se sube por\ncaminar: se sube por tener motivo. Cualquiera pasa la Puerta; poca gente pasa\ndel cuarto; el séptimo no lo ve nadie. Ver `MT-01`.\n**Nota de base:** Imloth Melui y Emlin están mal asignadas por point-in-polygon.\nSon de **Lossarnach**, al sur de las montañas. `AO-09` queda escrita y marcada\ncomo tal.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Two prefixes.** `AO-` for the province and `MT-` for the city.\n**Climate:** inland Umbria, Perugia (`Csa-Csb`). Warm summers,\nhard luminous winters, and a wind coming down off the mountain at dusk smelling\nof snow even with the fields in bloom.\n**What Anórien is:** the strip between the White Mountains' northern slopes\nand the Anduin's west bank, facing northern Ithilien. It is the\nonly Gondorian fief north of the mountains since Calenardhon was granted\nto the Éothéod. **It is the City's granary and orchard.**\n**What defines it:** the beacon chain. Seven peaks in a line at the mountain's\nfoot, four hundred men spread among them, keeping firewood\nsince the end of the Second Age. **They were never lit.** Date\nrecord: the first platform was ordered by Anárion in 3325 S.A.; Min-Rimmon was\nfinished in 516 T.A., Halifirien in 529.\n**Register:** Buzzati, *The Tartar Steppe*, again — but here the\nwait is legitimate and the people are peasants, not military. And Manzoni for the\ncivil life of the Pelennor, which works.\n---\n## ═══ MINAS TIRITH: A POINT WITH LEVELS ═══\n**Design note, important for the engine.** Minas Tirith is **a single point\non the map**, with one coordinate. Inside, the character does not move between\ncoordinates: he moves by **level**, exactly as on Caradhras he\nmoves by height band and as Moria was conceived.\n```\nMT- · one point on the map\n├── level 1 ········· the Gate and the outer quarter\n├── levels 2-3 ····· workshops, guilds, markets\n├── levels 4-5 ····· good houses\n├── level 6 ········· Houses of Healing, archives\n└── level 7 ········· the Court of the Fountain\n```\n**The city's own mechanic: which level they let him climb to.** One does not climb by\nwalking: one climbs by having a reason. Anyone passes the Gate; few pass\nthe fourth; nobody sees the seventh. See `MT-01`.\n**Base note:** Imloth Melui and Emlin are misassigned by point-in-polygon.\nThey belong to **Lossarnach**, south of the mountains. `AO-09` is written and marked\nas such.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_lebennin_y_pelargir",
+   "kind": "lore",
+   "region_ids": [
+    11
+   ],
+   "region": "Lebennin",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Lebennin Y Pelargir",
+    "en": "Lebennin and Pelargir"
+   },
+   "lore": {
+    "es": "**Dos prefijos.** `LB-` para la provincia y `PG-` para Pelargir.\n**Clima:** costa adriática de Emilia-Romagna (`Csa`). Marítimo suave, inviernos\nlluviosos, veranos cálidos y **nunca una sequía**: los cinco ríos se ocupan de\neso.\n**Lo que es:** la tierra más trabajada, más poblada y más rica de Gondor. No es\nfrontera y no es ruina. **Es el corazón.** Y la frase de las propias ambientales\nde la base la define sola: lleva tanto tiempo trabajada que casi no se acuerda\nde haber sido salvaje.\n**Los cinco ríos** que le dan el nombre: Erui, Sirith, Celos, Serni y Gilrain.\nCada uno con sus molinos, su peaje y su guarnición.\n**Registro:** Manzoni y la crónica municipal. Gremios, lonjas, peajes,\npleitos de agua. Esto es Gondor funcionando, y es el contrapunto exacto de\nAndrast, que es Gondor decayendo.\n---\n## ═══ PELARGIR: UN PUNTO, CUATRO ANILLOS ═══\n**Igual que Minas Tirith, Pelargir es un solo punto en el mapa.** Adentro, el\npersonaje se mueve por **anillo**, no por coordenada.\nY la lógica es la inversa de la Ciudad Blanca: allá se **sube**, acá se\n**entra**.\n```\nPG- · un punto en el mapa\n├── anillo 0 ···· los arrabales de fuera, al otro lado del Sirith\n├── anillo 1 ···· el Muro de Telumehtar, el más nuevo (1699-1702 T.E.)\n├── anillo 2 ···· el Muro de Tarannon (empezado 830, terminado 923)\n├── anillo 3 ···· el Muro del Puerto (2350 S.E.)\n└── el centro ··· la isla y el garth\n```\n**Pelargir es anterior a Gondor.** La fundaron los Fieles de Númenor en 2350 de\nla Segunda Edad, mil quinientos años antes del reino, y fue la colonia madre de\nlos Fieles en la Tierra Media. Es más vieja que Minas Tirith y que Osgiliath.\n**Y el núcleo es una isla artificial:** un islote central, tres islotes\ntriangulares unidos por puentes en la confluencia del Anduin y el Sirith, y un\nfoso excavado a mano que separa el triángulo del nordeste de la tierra firme.\n**Material tomado de MERP** (*Southern Gondor: The Land*, ICE 2021, 1996): las\ntres murallas con sus fechas y sus historias, el garth y los cobertizos de\nbarco, los seis barrios interiores, y los arrabales del otro lado del Sirith\nque se siguen llamando pueblos.\n**Nota de base:** Lindon, Bar Luindol y Echorost están mal asignadas por\npoint-in-polygon. La primera es élfica y está a mil leguas; las otras dos son\nde Lossarnach.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Two prefixes.** `LB-` for the province and `PG-` for Pelargir.\n**Climate:** Emilia-Romagna's Adriatic coast (`Csa`). Mild maritime, rainy\nwinters, warm summers and **never a drought**: the five rivers see to that.\n**What it is:** the most worked, most peopled and richest land in Gondor. It is not\nfrontier and it is not ruin. **It is the heart.** And a phrase from the base ambients\ndefines it by itself: it has been worked so long it can hardly remember\nhaving been wild.\n**The five rivers** that give it its name: Erui, Sirith, Celos, Serni and Gilrain.\nEach with its mills, its toll and its garrison.\n**Register:** Manzoni and the municipal chronicle. Guilds, exchanges, tolls,\nwater lawsuits. This is Gondor working, and it is the exact counterpoint to\nAndrast, which is Gondor decaying.\n---\n## ═══ PELARGIR: A POINT, FOUR RINGS ═══\n**Like Minas Tirith, Pelargir is a single point on the map.** Inside, the\ncharacter moves by **ring**, not by coordinate.\nAnd the logic is the White City's inverse: there one **climbs**, here one\n**enters**.\n```\nPG- · one point on the map\n├── ring 0 ···· the outskirts beyond, across the Sirith\n├── ring 1 ···· the Wall of Telumehtar, the newest (1699-1702 T.A.)\n├── ring 2 ···· the Wall of Tarannon (begun 830, finished 923)\n├── ring 3 ···· the Harbour Wall (2350 S.A.)\n└── the centre ·· the island and the garth\n```\n**Pelargir is older than Gondor.** The Faithful of Númenor founded it in 2350 of\nthe Second Age, fifteen hundred years before the kingdom, and it was the Faithful's mother\ncolony in Middle-earth. It is older than Minas Tirith and than Osgiliath.\n**And the core is an artificial island:** a central islet, three triangular\nislets joined by bridges at the meeting of the Anduin and the Sirith, and a\nhand-dug ditch separating the northeastern triangle from dry land.\n**Material taken from MERP** (*Southern Gondor: The Land*, ICE 2021, 1996): the\nthree walls with their dates and their stories, the garth and the ship\nsheds, the six inner quarters, and the outskirts across the Sirith\nthat are still called villages.\n**Base note:** Lindon, Bar Luindol and Echorost are misassigned by\npoint-in-polygon. The first is Elvish and a thousand leagues off; the other two belong\nto Lossarnach.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_anfalas",
+   "kind": "lore",
+   "region_ids": [
+    13
+   ],
+   "region": "Anfalas",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Anfalas",
+    "en": "Anfalas"
+   },
+   "lore": {
+    "es": "**Prefijo `AF-`.** La Playa Larga.\n**Clima:** costa del Languedoc, Hérault (`Csa`). Marítimo lluvioso: veranos\ntemplados pero muy mojados, inviernos suaves, y casi nunca el frío suficiente\npara que nieve o para que se hiele un río.\n**Lo que es:** una tierra pobre y apartada entre el Lefnui y el Morthond, donde\nlos Reyes de Gondor ejercen poca influencia directa, y a la que eso le viene muy\nbien.\n**Está dividida en dos**, geográfica y políticamente: **la costa**, de marisma,\nestuario y cañaveral, y **las Pinnath Gelin**, las lomas verdes de arriba, que\nson la espina de la región y de donde sale la lana.\nY la frase de las ambientales de la base que vale por todo el perfil: pescadores\nque conocen cada canal de marea, pastores que conocen cada paso de las lomas,\n**y los dos grupos bastante indiferentes a lo que Gondor decida en Minas\nTirith**.\n**No existe suplemento de MERP dedicado a Anfalas** — verificado. La región solo\naparece en los mapas generales y en el gazetteer. Lo que se tomó de ahí: la\ndivisión en Anfalas propiamente dicha y las Pinnath Gelin, los númenóreanos\nasentados desde mediados de la Segunda Edad en las bocas del Lefnui y el\nCelgalen, las ovejas domésticas como sustento principal, y que los Reyes\nejercían poca influencia directa.\n**Correcciones de base:** Edhellond y Tirith Cobas son de Dor-en-Ernil (y\nEdhellond ya está escrita en `DE-03`). Haerlond es de Andrast y ya está escrita\nen `AN-03`. Doldorth es de Ithilien.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `AF-`.** The Long Shore.\n**Climate:** Languedoc coast, Hérault (`Csa`). Rainy maritime: mild\nbut very wet summers, soft winters, and almost never cold enough\nfor snow or for a river to freeze.\n**What it is:** a poor out-of-the-way land between the Lefnui and the Morthond, where\nthe Kings of Gondor exercise little direct influence, and which suits it\nvery well.\n**It is divided in two**, geographically and politically: **the coast**, of marsh,\nestuary and reedbed, and **the Pinnath Gelin**, the green downs above, which\nare the region's spine and where the wool comes from.\nAnd the base ambients' phrase that stands for the whole profile: fishermen\nwho know every tidal channel, shepherds who know every pass in the downs,\n**and both groups fairly indifferent to whatever Gondor decides in Minas\nTirith**.\n**No MERP supplement is dedicated to Anfalas** — verified. The region only\nappears on the general maps and in the gazetteer. What was taken from there: the\ndivision into Anfalas proper and the Pinnath Gelin, the Númenóreans\nsettled since the mid-Second Age at the mouths of the Lefnui and the\nCelgalen, domestic sheep as the main livelihood, and that the Kings\nexercised little direct influence.\n**Base corrections:** Edhellond and Tirith Cobas belong to Dor-en-Ernil (and\nEdhellond is already written in `DE-03`). Haerlond belongs to Andrast and is already written\nin `AN-03`. Doldorth belongs to Ithilien.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_harondor",
+   "kind": "lore",
+   "region_ids": [
+    12
+   ],
+   "region": "Harondor",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Harondor",
+    "en": "Harondor"
+   },
+   "lore": {
+    "es": "**Prefijo `HR-`.** Gondor del Sur, la meseta discutida.\n**Clima:** Cabo de Gata, Almería (`BSh`). Semiárido caliente de verdad: sol sin\nsombra, dos lluvias al año, y la primera tierra seca que escribimos desde\nDagorlad.\n**Dónde está:** entre el Poros al norte y el valle del Harnen al sur, con las\nEphel Dúath al este y la costa de Belfalas al oeste.\n**Geología: roca ígnea.** Eso define el paisaje entero: estepa llana y gramínea\nsobre una plancha de basalto, cortada por cañones y por uadis, deshaciéndose por\nel oeste en cerros de cima plana.\n**Lo que la hace distinta de todo lo demás del documento:** acá **nadie es el\nenemigo**. Mil quinientos años de frontera disputada no produjeron dos bandos:\nprodujeron pueblos donde el setenta por ciento es haradan y el gobernador es\ngondoriano, guarniciones donde la mitad tiene madre del otro lado, y una\nfrontera sur que nadie marca con guarnición porque marcarla no le conviene a\nnadie.\n**La mecánica de la región (`HR-A3`):** en Harithilien preguntan en tierra de\nqué casa estás; en Gramuz, a quién servís. Acá no preguntan, porque la pregunta\nno sirve. Lo que miran es si pagás, si cumplís y si volvés.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `HR-`.** South Gondor, the disputed plateau.\n**Climate:** Cabo de Gata, Almería (`BSh`). Truly hot semiarid: shadeless\nsun, two rains a year, and the first dry land we write since\nDagorlad.\n**Where it is:** between the Poros to the north and the Harnen valley to the south, with the\nEphel Dúath to the east and the Belfalas coast to the west.\n**Geology: igneous rock.** That defines the whole landscape: flat grassy\nsteppe over a basalt slab, cut by canyons and wadis, breaking down\nwestward into flat-topped hills.\n**What makes it different from everything else in the document:** here **nobody is the\nenemy**. Fifteen hundred years of disputed frontier did not produce two sides:\nit produced towns seventy percent Harad-blooded with a Gondorian governor,\ngarrisons where half have a mother from the other side, and a\nsouthern border nobody marks with a garrison because marking it suits\nnobody.\n**The region's mechanic (`HR-A3`):** in Harithilien they ask in whose\nhouse's land you stand; in Gramuz, whom you serve. Here they do not ask, because the question\nis no use. What they watch is whether you pay, whether you deliver and whether you come back.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_lamedon_y_westmarch",
+   "kind": "lore",
+   "region_ids": [
+    19,
+    14
+   ],
+   "region": "Lamedon",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Lamedon Y Westmarch",
+    "en": "Lamedon and Westmarch"
+   },
+   "lore": {
+    "es": "**Dos prefijos.** `LM-` para el valle interior y `WM-` para la marca del otro\nlado.\nLas separa exactamente una cosa: **las Ered Nimrais**. Lamedon está al sur de la\ncordillera, en un valle cerrado; Westmarch al norte, en el llano que lleva a\nRohan. Y las une una cosa: **el Dwimorberg**, con la Puerta Oscura al pie.\n| región | análogo real | Köppen | carácter |\n|---|---|---|---|\n| **Lamedon** | Cilento, Campania | `Csa` | valle interior, cuatro pueblos con fuero, minas, el macizo de Tarlang |\n| **Westmarch** | Costa Brava, Girona | `Csa` | la marca que mira a Dunland, castillos aislados, pioneros diluidos |\n**Lamedon ya tenía seis fichas** en el paquete de Belfalas (`DE-07` a `DE-11`,\n`DE-17`): la aldea de montaña de los Eredrim con las piedras púkel, el\ncampamento de verano, la Colina de la Pira, el paso de los salteadores, el\ncastillo del paso y el valle de los túmulos. Con esta tanda queda en once.\n---\n## ═══ DECISIÓN DE DISEÑO: TODO EN SUPERFICIE ═══\n**El subsuelo queda fuera del documento, y no por falta de material.**\nEl interior de Moria no es una región: es una campaña entera. Días sin cielo,\nsin clima, con la luz como recurso y con un sistema de orientación propio. Eso\nno encaja en un motor que mueve a alguien entre puntos con coordenadas, clima\npor hora y NPCs que entran y salen de posadas: adentro no hay clima, no hay\nposadas y no hay amanecer.\n**Moria pasa a ser dos fichas de superficie** —la Puerta Oeste con su lago y sus\nacebos, y el Portón de Durin con el Espejo—, que se escribirán con Eregion y con\nel Valle del Arroyo Sombrío.\n**Y los Senderos de los Muertos (`LM-07`) son un lugar al que se llega, no un\ncamino que se recorre.** El viajero entra los primeros doscientos pasos, entiende\nqué fue esto, y vuelve. Cruzar eso lo hace Aragorn con la Compañía Gris, no un\nerrante; y además Moria ya era el cruce subterráneo, así que repetirlo sería\ntener dos regiones haciendo lo mismo.\nEl modelo es `ER-05`, la Puerta de Erebor: un umbral donde se llega hasta ahí y\nno se pasa.\n**Material tomado de MERP** (*Southern Gondor: The Land*): Lugh Gobha, la Sala\nde Gobha, concebida en el siglo sexto de la Segunda Edad como **una carretera\nsubterránea** que uniera a los pueblos de las dos vertientes de las Ered Nimrais,\ndel nacimiento del Morthond al refugio del norte; la cámara central como lugar\nde asamblea; y el cambio de nombre tras la maldición de Isildur. También la\nbiblioteca de lenguas pre-númenóreanas en la sede del Señor de Lamedon.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Two prefixes.** `LM-` for the inner valley and `WM-` for the march on the\nfar side.\nExactly one thing divides them: **the Ered Nimrais**. Lamedon is south of the\nrange, in a closed valley; Westmarch north of it, on the plain leading to\nRohan. And one thing joins them: **the Dwimorberg**, with the Dark Door at its foot.\n| region | real analogue | Köppen | character |\n|---|---|---|---|\n| **Lamedon** | Cilento, Campania | `Csa` | inner valley, four chartered towns, mines, the Tarlang massif |\n| **Westmarch** | Costa Brava, Girona | `Csa` | the march facing Dunland, isolated castles, diluted pioneers |\n**Lamedon already had six fichas** in the Belfalas package (`DE-07` to `DE-11`,\n`DE-17`): the Eredrim mountain village with the Púkel stones, the\nsummer camp, the Beacon Hill, the bandits' pass, the\npass castle and the vale of the mounds. With this batch it reaches eleven.\n---\n## ═══ DESIGN DECISION: EVERYTHING ON THE SURFACE ═══\n**The underground stays out of the document, and not for lack of material.**\nMoria's interior is not a region: it is a whole campaign. Days without sky,\nwithout weather, light as a resource and an orientation system of its own. That\ndoes not fit an engine moving somebody between points with coordinates, hourly\nweather and NPCs coming and going from inns: inside there is no weather, no\ninns and no dawn.\n**Moria becomes two surface fichas** —the West-gate with its lake and its\nholly trees, and Durin's Door with the Mirror—, which will be written with Eregion and\nwith the Dimrill Dale.\n**And the Paths of the Dead (`LM-07`) are a place one reaches, not a\nroad one travels.** The traveller goes in the first two hundred steps, understands\nwhat this was, and comes back. Crossing it is Aragorn's business with the Grey Company, not a\nwanderer's; and besides Moria was already the underground crossing, so repeating it would be\ntwo regions doing the same thing.\nThe model is `ER-05`, the Gate of Erebor: a threshold where one arrives and\none does not pass.\n**Material taken from MERP** (*Southern Gondor: The Land*): Lugh Gobha, Gobha's Hall,\nconceived in the sixth century of the Second Age as **an underground\nroad** joining the peoples of the two sides of the Ered Nimrais,\nfrom the Morthond's source to the northern refuge; the central chamber as\nassembly place; and the name change after Isildur's curse. Also the\npre-Númenórean language library at the Lord of Lamedon's seat.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_hairavercien",
+   "kind": "lore",
+   "region_ids": [
+    78
+   ],
+   "region": "Hairavercien",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Hairavercien",
+    "en": "Hairavercien"
+   },
+   "lore": {
+    "es": "**Prefijo `HV-`.** El alto Lefnui.\n**Clima:** Abruzzo (`Csa-Csb`). Montaña mediterránea: veranos secos abajo,\ninviernos de nieve arriba.\n**Lo que es:** un valle de montaña metido en la cordillera, al noroeste de\nAnfalas, con bosque denso, mucha agua y poca gente. Lo que lo sostiene es el\nmineral que baja de las minas del norte.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `HV-`.** The high Lefnui.\n**Climate:** Abruzzo (`Csa-Csb`). Mediterranean mountains: dry summers below, snowy winters above.\n**What it is:** a mountain valley set into the range, northwest of Anfalas, with dense forest, plenty of water and few people. What keeps it going is the ore coming down from the northern mines.\n**Pending:** Spanish only in the source."
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_druwaith_iaur",
+   "kind": "lore",
+   "region_ids": [
+    77
+   ],
+   "region": "Druwaith Laur",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Drúwaith Iaur",
+    "en": "Drúwaith Iaur"
+   },
+   "lore": {
+    "es": "**Prefijo `DI-`.** La Vieja Tierra de los Púkel.\n**Clima:** Pembrokeshire (`Cfb`). Atlántico de verdad, y el único de todo\nGondor: lluvia todo el año, gris, verde, sin verano seco.\n**Lo que es:** una provincia que Gondor reclamó y administró nominalmente, que\n**la Gran Peste de 1636 vació por completo**, y a la que nadie volvió.\nDespués de cincuenta y ocho regiones de gente aguantando, ésta es **la única\ndonde no aguantó nadie**.\n**Y lo que pasó después:** volvieron los que estaban antes, llegaron los que no\ncaben en ninguna otra parte, y en la costa quedó un pueblo portuario gondoriano\ndel que nadie se acuerda.\n**La mecánica de la región, y es la inversa de todas las demás.** En Dunland, en\nRhudaur o en Harithilien el contador mide si te aceptan. Acá mide **cuánto\npreguntaste**: el motor lleva un contador `preguntas` que sube cada vez que el\nviajero indaga en el origen, el pasado o el negocio de alguien, y no sube por\nhablar, comerciar ni quedarse. Ver `DI-A3`.\n**Hay dos pueblos en esta tierra y no se mezclan:** los Drúedain, que están y no\nse ven (`DI-A2`, `DI-05`, `DI-06`), y la gente de Hwalord y de la llanura, que\nvino de otra parte por un motivo que nadie pregunta.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `DI-`.** The Old Land of the Púkel-folk.\n**Climate:** Pembrokeshire (`Cfb`). Truly Atlantic, and the only one in all\nGondor: rain all year, grey, green, no dry summer.\n**What it is:** a province Gondor claimed and nominally administered, that\n**the Great Plague of 1636 emptied completely**, and to which nobody came back.\nAfter fifty-eight regions of people holding on, this is **the only\none where nobody held on**.\n**And what happened after:** the ones who had been there before came back, the ones who fit\nnowhere else arrived, and on the coast a Gondorian port town was left\nthat nobody remembers.\n**The region's mechanic, the inverse of all the others.** In Dunland,\nRhudaur or Harithilien the counter measures whether they accept you. Here it measures **how much\nyou asked**: the engine keeps a `questions` counter that rises every time the\ntraveller inquires into somebody's origin, past or business, and does not rise\nfor talking, trading or staying. See `DI-A3`.\n**There are two peoples in this land and they do not mix:** the Drúedain, who\nare there and are not seen (`DI-A2`, `DI-05`, `DI-06`), and the people of Hwalord\nand the plain, who came from elsewhere for a reason nobody asks.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_evendim_las_colinas_del_crepusculo",
+   "kind": "lore",
+   "region_ids": [
+    56
+   ],
+   "region": "Evendim Hills",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Evendim · Las Colinas Del Crepúsculo",
+    "en": "Evendim · The Hills of Twilight"
+   },
+   "lore": {
+    "es": "**Prefijo `EV-`.**\n**Lo que fue:** la comarca de recreo de Annúminas. Las familias de la capital\ntenían acá sus casas de campo, porque esto era lo más hermoso del reino y\nestaba a medio día de la ciudad.\n**Lo que es:** el lago está, las colinas están, **la belleza está intacta**. Y\nlas casas llevan mil años vacías.\n**La cuenta, y es lo que da el tono:** Annúminas fue arrasada en la invasión de\n1409 y Arthedain cayó en 1974. Estamos en 3018. Son **mil seiscientos años sin\nciudad** y **mil cuarenta sin reino**. Cuarenta generaciones.\n**Geografía:** Nenuial, el Lago del Crepúsculo, abierto solo por el este; las\nColinas del Crepúsculo (*Emyn Uial*) lo abrigan del norte y del oeste, lo cual\nle quita el viento y le da un aire sereno pero formidable. Orillas pedregosas\ncon espadañas tiesas y la hierba cortante de las tierras del norte.\n**Los manors en cuatro estados**, y la gracia es que el viajero los compare:\ndevorado por el bosque (`EV-02`), habitado por montaraces (`EV-03`), saqueado\nhasta los herrajes (`EV-04`), y entero (`EV-05`).\n**Las destilerías son dos familias, no una industria** (`EV-06`).\n**Material tomado de MERP** (*Rangers of the North*, ICE 3000, 1985, ambientado\nen 1640 T.E.): la geografía de Nenuial y las colinas, las espadañas y la hierba\nafilada, Annúminas como sede del palantír más septentrional y su destrucción en\n1409. El módulo está en 1640, con Arthedain todavía en pie; nosotros estamos\ncasi mil cuatrocientos años después.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `EV-`.**\n**What it was:** Annúminas's country retreat. The capital's\nfamilies kept their country houses here, because this was the loveliest\npart of the kingdom and half a day from the city.\n**What it is:** the lake is there, the hills are there, **the beauty is intact**. And\nthe houses have stood empty for a thousand years.\n**The count, and it sets the tone:** Annúminas was razed in the invasion of\n1409 and Arthedain fell in 1974. It is 3018. That is **sixteen hundred years without a\ncity** and **one thousand and forty without a kingdom**. Forty generations.\n**Geography:** Nenuial, the Lake of Twilight, open only eastward; the\nHills of Twilight (*Emyn Uial*) shelter it north and west, which\ntakes the wind and gives it a serene but formidable air. Stony shores\nwith stiff reed-maces and the cutting grass of the northern lands.\n**The manors in four states**, and the grace is the traveller comparing them:\ndevoured by the woods (`EV-02`), lived in by rangers (`EV-03`), stripped\ndown to the ironwork (`EV-04`), and whole (`EV-05`).\n**The distilleries are two families, not an industry** (`EV-06`).\n**Material taken from MERP** (*Rangers of the North*, ICE 3000, 1985, set\nin 1640 T.A.): the geography of Nenuial and the hills, the reed-maces and the\nsharp grass, Annúminas as seat of the northernmost palantír and its destruction in\n1409. The module is set in 1640, with Arthedain still standing; we are\nalmost fourteen hundred years later.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_talath_arthedain_la_llanura_del_reino",
+   "kind": "lore",
+   "region_ids": [
+    57
+   ],
+   "region": "Fornost",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Talath Arthedain · La Llanura Del Reino",
+    "en": "Talath Arthedain · The Plain of the Realm"
+   },
+   "lore": {
+    "es": "**Prefijo `AR-`.** Lo que quedaba del reino del norte cuando ya no quedaba nada\nmás.\n**Clima y análogo: Northumberland** (`Cfb` frío). Inviernos largos, primaveras\ngrises, viento del norte.\n**Y el análogo explica el conjunto entero:** el país donde un imperio puso un\nmuro, lo mantuvo tres siglos, se fue, y mil quinientos años después quedan las\ncalzadas rectas, los fortines en el páramo y las ovejas pastando entre las\nruinas.\n**La geografía:** una llanura entre tres defensas. El **Rammas Formen** al\nnorte, las **Tyrn Formen** (Quebradas del Norte) al este, las **Emyn Uial**\n(Colinas del Crepúsculo, `EV-`) al sudoeste. En el centro, tierra de labor. Y en\nel extremo sur, encaramada en las laderas meridionales de las Quebradas, la\ncapital.\n**La cuenta:** Fornost Erain cayó en 1974. Estamos entre 3016 y 3018. Han pasado\n**mil cuarenta y dos años**.\n**El hallazgo que da el tono, y sale de la propia base:** sus descripciones\nambientales están escritas en 1640, con la ciudad todavía viva, y dicen *más\ncasas vacías con cada generación*, *el pueblo genera su propio calor por una\ndensidad que está perdiendo*, y *Dúnedain que decidieron quedarse; no por\noptimismo —saben los números— sino por la terquedad particular de los que no van\na ser los que bajen la última bandera*.\n**O sea que Fornost no cayó desde la altura: cayó de agotamiento.** Llevaba\ntrescientos años vaciándose antes de que Angmar la tomara. Eso está en el\nsecreto de `AR-01`.\n**El nombre.** La capital tiene nombre propio y **nadie lo usa**. La gente de la\nllanura, de Bree y de la Comarca la llama el **Foso de los Muertos**, sin\ndramatismo, como quien nombra un accidente del terreno. Los Dúnedain la nombran.\nSon los únicos. Ver `AR-A3`.\n**Material tomado de MERP** (*Rangers of the North*, ICE 3000, 1985): las\nmurallas curvas de cincuenta pies siguiendo la forma del cerro, los diques de\ntierra y las empalizadas, los barracones de dos plantas y las torres de guardia,\nel Gremio de los Armeros con sus *eket*, los arqueros del rey practicando contra\nel muro con flechas de empenaje negro, la orden de Videntes, y la línea sobre\nlas colinas redondeadas que prestan a Fornost un aire engañoso de serenidad.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `AR-`.** What was left of the northern kingdom when nothing else was\nleft.\n**Climate and analogue: Northumberland** (cold `Cfb`). Long winters, grey\nsprings, northern wind.\n**And the analogue explains the whole thing:** the country where an empire built a\nwall, kept it three centuries, left, and fifteen hundred years later the\nstraight causeways are there, the hill-forts on the moor and sheep grazing among the\nruins.\n**The geography:** a plain between three defences. The **Rammas Formen** to the\nnorth, the **Tyrn Formen** (North Downs) to the east, the **Emyn Uial**\n(Hills of Twilight, `EV-`) to the southwest. In the centre, farmland. And at\nthe southern end, perched on the Downs' southern slopes, the\ncapital.\n**The count:** Fornost Erain fell in 1974. We are between 3016 and 3018. It has been\n**a thousand and forty-two years**.\n**The find that sets the tone, from the base itself:** its ambient\ndescriptions are written in 1640, with the city still alive, and say *more\nempty houses with each generation*, *the town generates its own warmth through a\ndensity it is losing*, and *Dúnedain who decided to stay; not out of\noptimism —they know the numbers— but the particular stubbornness of those who will not\nbe the ones to take down the last banner*.\n**Meaning Fornost did not fall from a height: it fell of exhaustion.** It had\nbeen emptying for three hundred years before Angmar took it. That is in\n`AR-01`'s secret.\n**The name.** The capital has a proper name and **nobody uses it**. The people of the\nplain, of Bree and of the Shire call it the **Deadman's Dike**, without\ndrama, as one names a feature of the terrain. The Dúnedain name it.\nThey are the only ones. See `AR-A3`.\n**Material taken from MERP** (*Rangers of the North*, ICE 3000, 1985): the\nfifty-foot curved walls following the hill's shape, the earth dikes\nand palisades, the two-storey barracks and the watchtowers,\nthe Armourers' Guild with their *eket*, the king's archers practising\nagainst the wall with black-fletched arrows, the order of Seers, and the line about\nthe rounded hills lending Fornost a deceptive air of serenity.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_cardolan_mindornath_y_minhiriath",
+   "kind": "lore",
+   "region_ids": [
+    60,
+    16
+   ],
+   "region": "Mintyrnath",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Cardolan · Mindornath Y Minhiriath",
+    "en": "Cardolan · Mindornath and Minhiriath"
+   },
+   "lore": {
+    "es": "**Dos prefijos.** `MN-` para Mindornath, «entre las quebradas», y `MH-` para\nMinhiriath.\n**El reino de Cardolan** abarcaba todo lo que hay entre el Baranduin, el Gwathló\ny el Mitheithel, hasta el Gran Camino del Este por el norte. Unas seiscientas\nmillas por ciento cincuenta. **Y se dividía en dos exactamente como la base lo\ntiene:** Minhiriath al sudoeste y Mindornath al nordeste.\n**El paisaje dominante de las dos es el mismo:** pradera ondulada sin árboles.\nUna desolación que en su día solo rompía Tharbad.\n**La cuenta:** Cardolan dejó de existir como reino en 1409 y se vació del todo\ncon la Gran Peste de 1636. Tharbad aguantó mil trescientos años más y la acabó\nuna inundación en **2912**, hace poco más de un siglo.\n**Lo que hace a Tharbad distinta de todo lo demás del documento: no la mató\nnadie.** Annúminas la arrasó un ejército y Fornost la tomó Angmar. Tharbad se\nhundió sola, durante siglos, contra la voluntad de generaciones de ingenieros, y\nen algún momento alguien decidió que no valía la pena seguir peleando.\n**REFERENCIA CRUZADA — las Quebradas de los Túmulos.** Tyrn Gorthad está en el\nlímite norte de Mindornath y es donde la familia real de Cardolan fue\nprácticamente aniquilada en 1409. **Ya están escritas**, como subzona de South\nDowns, con prefijo `BD-` (la niebla que lleva en vez de perder, dormir como lo\npeligroso). No duplicar.\n**La excepción que hace notar la regla.** `MN-A3` dice que en Cardolan la gente\nque queda no se considera nada. El **Ciento Rojo** de las Pinnath Ceren (`MN-06`\na `MN-10`) es lo contrario: sabe exactamente lo que es, lo sabe desde antes de\nNúmenor, y tiene una asamblea y una tabla de derechos que lo prueban.\n**Material tomado de MERP** (*Arnor: The Land*, ICE 2023, 1996, que es la\nrefundición ampliada de *Lost Realm of Cardolan*): la división en Minhiriath y\nMindornath, el Gwathló navegable por barcos de alta mar hasta Tharbad con sus\nbancos de barro móviles, la crecida anual que convierte a Tharbad en isla\ndurante semanas, Tharbad como obra númenórea mayor que se hunde en el fango y\nque creció sin plan desde una sola torre, los veinte pueblos del auge de la lana\nreducidos a seis, Metraith con su dique de seis pies y su Puerta Sur con\nrastrillo, el Argond octogonal revestido de cobre. Y de la tradición de MERP\nsobre las Pinnath Ceren: el latón de Cardolan, los francotenedores que\nconservaron sus derechos tras someterse en 2600 S.E., las minas tomadas por\ntrasgos en el siglo XXII, el Ciento Rojo, la amistad con Los Gamos desde 2340, y\nla invasión de los rufianes de Saruman en **3018** — que cae dentro de nuestra\nventana.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Two prefixes.** `MN-` for Mindornath, \"between the downs\", and `MH-` for\nMinhiriath.\n**The realm of Cardolan** covered everything between the Baranduin, the Gwathló\nand the Mitheithel, up to the Great East Road to the north. Some six hundred\nmiles by a hundred and fifty. **And it divided in two exactly as the base\nhas it:** Minhiriath to the southwest and Mindornath to the northeast.\n**The dominant landscape of both is the same:** rolling treeless\npasture. A desolation that in its day only Tharbad broke.\n**The count:** Cardolan ceased to exist as a kingdom in 1409 and emptied for good\nwith the Great Plague of 1636. Tharbad held on thirteen hundred years longer and\na flood finished it in **2912**, a little over a century ago.\n**What makes Tharbad different from everything else in the document: nobody killed it.**\nAn army razed Annúminas and Angmar took Fornost. Tharbad\nsank by itself, over centuries, against the will of generations of engineers, and\nat some point somebody decided it was not worth fighting on.\n**CROSS-REFERENCE — the Barrow-downs.** Tyrn Gorthad is on\nMindornath's northern edge and is where Cardolan's royal family was\nvirtually annihilated in 1409. **Already written**, as a South\nDowns subzone, prefix `BD-` (the fog that leads instead of losing you,\nsleeping as the dangerous part). Do not duplicate.\n**The exception that proves the rule.** `MN-A3` says that in Cardolan the people\nwho remain consider themselves nothing. The **Red Hundred** of the Pinnath Ceren (`MN-06`\nto `MN-10`) is the opposite: it knows exactly what it is, has known since before\nNúmenor, and has an assembly and a table of rights to prove it.\n**Material taken from MERP** (*Arnor: The Land*, ICE 2023, 1996, the expanded\nreissue of *Lost Realm of Cardolan*): the Minhiriath/Mindornath division,\nthe Gwathló navigable by deep-sea ships up to Tharbad with its\nshifting mudbanks, the annual flood turning Tharbad into an island\nfor weeks, Tharbad as a great Númenórean work sinking into the mire\nthat grew unplanned from a single tower, the twenty towns of the wool\nboom reduced to six, Metraith with its six-foot dike and its portcullised\nSouth Gate, the octagonal copper-clad Argond. And from the MERP tradition\nof the Pinnath Ceren: Cardolan brass, the freeholders who\nkept their rights after submitting in 2600 S.A., the mines taken by\ngoblins in the twenty-second century, the Red Hundred, the friendship\nwith Buckland since 2340, and the invasion of Saruman's ruffians in\n**3018** — which falls inside our window.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_el_forodwaith_forochel_y_talath_uichel",
+   "kind": "lore",
+   "region_ids": [
+    73,
+    67
+   ],
+   "region": "Forochel",
+   "region_confidence": "medium",
+   "name": {
+    "es": "El Forodwaith · Forochel Y Talath Uichel",
+    "en": "The Forodwaith · Forochel and Talath Uichel"
+   },
+   "lore": {
+    "es": "**Dos prefijos y están lejos.** `FC-` para Forochel, la península y la bahía del\nextremo noroeste; `TU-` para Talath Uichel, la tundra polar que está **muy al\neste**, pasada la Tundra del Wash.\nEntre una y otra hay semanas de marcha por terreno sin nadie. **No son vecinas:\nson los dos extremos del mismo yermo.** Las tres ambientales se comparten porque\nel clima lo es; los lugares no.\n| región | análogo real | Köppen |\n|---|---|---|\n| **Forochel** | costa de Finnmark, Noruega | `Dfc` frío |\n| **Talath Uichel** | Inari, Laponia finlandesa | `ET-Dfc` |\n---\n## ⚠ DESAMBIGUACIÓN Y REFERENCIAS CRUZADAS\n**Talath Uichel NO es Talath Muil.** Talath Muil (`TM-`) está en las Marcas del\nNorte, es Cairngorms, tundra húmeda y habitable con nómades. Ésta es Laponia,\ncon permafrost, y está a un mundo de distancia. Los nombres se parecen por\ncasualidad.\n**Forovirian (`F-`) ya es la región ártica del documento** y tiene 34 fichas de\ntundra, hielo y rebaños. **No duplicar:**\n| ya escrito en Forovirian | no volver a hacerlo |\n|---|---|\n| `F-08` El paso de los rebaños | migración de manadas, franja pisada, cuerna caída |\n| `F-09` La casa de hueso | refugio común de hueso y cuero, hospitalidad del norte |\n| `F-10` Los montículos | colinas de corazón de hielo levantadas por el permafrost |\n| `F-07` El barco | el casco entero en campo abierto, sin explicación |\n**Lo que hace a Talath Uichel distinta de Forovirian, y es lo único que la\njustifica:** el permafrost que invierte las estaciones de viaje, el verano de\nseis semanas, el borde donde se acaba el mundo, y los elfos del hielo. **Cinco\nfichas y ninguna de relleno.**\n---\n## LA COLUMNA HISTÓRICA\nEn 1975, con Fornost en ruinas, **Arvedui, último rey de Arthedain**, abandonó la\ndefensa de las Quebradas del Norte y huyó al norte con unos pocos compañeros,\nllevándose **los palantíri de Fornost y de Amon Sûl**.\nCruzó la Tundra del Wash en pleno invierno y llegó a las orillas de Forochel.\nAhí ocurrió **el último encuentro entre los Lossoth y los Dúnedain de\nArthedain**: el rey fugitivo invernó con los Ystävät Talven hasta que Lindon\npudo mandarle un barco.\nY cuando embarcó, **el hielo hundió la nave y las piedras videntes se fueron con\nél**. Hace mil cuarenta y un años.\n**Forochel no es solo tundra: es donde se terminó Arnor de verdad**, a mil millas\ndel sitio donde cayó. Es el final de la misma historia que `AR-07`.\n**Material tomado de MERP** (*The Northern Waste*, ICE 2025): Forodwaith como\nnombre de la región, los Lossoth llamándose a sí mismos **Ystävät Talven**, el\n**gurthul** o viento de la muerte con su comportamiento de banco de niebla, el\n**Helecthil** como resplandor de la esquirla de Illuin que señala el norte y\ntempla tres millas a la redonda, el **infrith** y la locura de la Tierra sin\nTierra, los elfos de las nieves de **Helloth**, las franjas de temperatura\nestacionales, y la huida y el naufragio de Arvedui.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Two prefixes and they are far apart.** `FC-` for Forochel, the peninsula and\nbay of the far northwest; `TU-` for Talath Uichel, the polar tundra that is **far\nto the east**, past the Tundra of the Wash.\nBetween one and the other are weeks of marching through empty terrain. **They are not\nneighbours: they are the two ends of the same waste.** The three ambients are shared because\nthe climate is; the places are not.\n| region | real analogue | Köppen |\n|---|---|---|\n| **Forochel** | Finnmark coast, Norway | cold `Dfc` |\n| **Talath Uichel** | Inari, Finnish Lapland | `ET-Dfc` |\n---\n## ⚠ DISAMBIGUATION AND CROSS-REFERENCES\n**Talath Uichel is NOT Talath Muil.** Talath Muil (`TM-`) is in the Northern\nMarches, it is Cairngorms, habitable wet tundra with nomads. This one is Lapland,\nwith permafrost, and a world away. The names look alike by\nchance.\n**Forovirian (`F-`) is already the document's arctic region** with 34 fichas of\ntundra, ice and herds. **Do not duplicate:**\n| already written in Forovirian | do not do it again |\n|---|---|\n| `F-08` The herds' crossing | herd migration, trampled band, fallen antler |\n| `F-09` The bone house | common refuge of bone and hide, northern hospitality |\n| `F-10` The mounds | ice-cored hills raised by permafrost |\n| `F-07` The ship | the whole hull in open field, no explanation |\n**What makes Talath Uichel different from Forovirian, and is the only thing that\njustifies it:** the permafrost that inverts the travelling seasons, the\nsix-week summer, the edge where the world ends, and the snow-elves. **Five\nfichas and none of them filler.**\n---\n## THE HISTORICAL BACKBONE\nIn 1975, with Fornost in ruins, **Arvedui, last King of Arthedain**, abandoned the\ndefence of the North Downs and fled north with a few companions,\ntaking **the palantíri of Fornost and Amon Sûl**.\nHe crossed the Tundra of the Wash in deep winter and reached Forochel's\nshores. There occurred **the last meeting between the Lossoth and the Dúnedain of\nArthedain**: the fugitive king wintered with the Ystävät Talven until Lindon\ncould send him a ship.\nAnd when he embarked, **the ice sank the ship and the seeing-stones went down with\nit**. That was a thousand and forty-one years ago.\n**Forochel is not just tundra: it is where Arnor truly ended**, a thousand miles\nfrom where it fell. It is the ending of the same story as `AR-07`.\n**Material taken from MERP** (*The Northern Waste*, ICE 2025): Forodwaith as\nthe region's name, the Lossoth calling themselves **Ystävät Talven**, the\n**gurthul** or death-wind with its fog-bank behaviour, the\n**Helecthil** as the radiance of Illuin's shard pointing north and\ntempering three miles around, the **infrith** and the madness of the Landless\nLand, the snow-elves of **Helloth**, the seasonal temperature\nbands, and Arvedui's flight and shipwreck.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_south_arthedain_lo_que_rodea_a_la_comarc",
+   "kind": "lore",
+   "region_ids": [
+    15
+   ],
+   "region": "South Arthedain",
+   "region_confidence": "medium",
+   "name": {
+    "es": "South Arthedain · Lo Que Rodea A La Comarca",
+    "en": "South Arthedain · What Surrounds the Shire"
+   },
+   "lore": {
+    "es": "**Prefijo `SA-`.**\n**Clima:** Cotswolds (`Cfb`). Más suave que el norte de Arthedain, con hierba\nbuena y veranos honestos. La nieve rara vez dura más de una semana en el llano.\n**Qué es:** todo lo que abraza a la Comarca sin ser la Comarca. Un brazo hacia\nel oeste que llega a los Puertos, otro hacia el este que llega a Bree y Dol\nOccum, y en el medio el contorno entero del país hobbit.\n**Lo que la distingue de las otras sesenta y seis: es la única que está bien.**\nNo se vació, no la quemaron, no la están invadiendo. El peor problema de esta\ntierra es una disputa de lindes.\n**El registro sale de la base:** la vegetación de acá es la versión domesticada\nde lo que Eriador fue alguna vez. Setos de olmo, pastos, huertos. **Lo salvaje\nse jardinó fuera del sur**, y eso resulta reconfortante o melancólico según\nquién seas.\n**Canon.** En 1601 Argeleb II cedió la Comarca a los hobbits de Marcho y Blanco\ny pidió tres cosas: reconocer su señorío, **mantener los puentes y los caminos**,\ny ayudar a sus mensajeros. El reino cayó en 1974 y **los hobbits siguieron\ncumpliendo**: mil cuatrocientos años manteniendo puentes para un rey que no\nexiste (`SA-01`, `SA-07`).\nY de la Introducción de *El Señor de los Anillos*: los hobbits viven en paz\nporque **los Montaraces guardan sus fronteras sin que ellos lo sepan**, y los\nhobbits los llaman despectivamente vagabundos. **South Arthedain es el sitio\ndonde ocurre esa vigilancia**: no es una región al lado de la Comarca, es el\nescudo. Acá los montaraces **se ven** (`SA-03`), y es el único sitio donde el\nviajero va a entender qué hacen.\n**Todas las fichas están ancladas a locations con nombre de la base.**\n**Pendientes de la región:** Endrist, Enerond, Cor Wilishar, Aran Nov (pueblos\nque se apagaron, como Fanduin) y Parth Ainatir (claro élfico abandonado tras la\ndesgracia de Elcaldil de Girithlin y Glorfindel).\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `SA-`.**\n**Climate:** Cotswolds (`Cfb`). Milder than northern Arthedain, with good\ngrass and honest summers. Snow rarely lasts more than a week on the flats.\n**What it is:** everything embracing the Shire without being the Shire. An arm\nwestward reaching the Havens, another eastward reaching Bree and\nDol Occum, and in between the whole outline of the hobbit country.\n**What sets it apart from the other sixty-six: it is the only one that is well.**\nIt did not empty, it was not burned, nobody is invading it. The worst problem in\nthis land is a boundary dispute.\n**The register comes from the base:** the vegetation here is the domesticated\nversion of what Eriador once was. Elm hedges, pastures, orchards. **The wild\nwas gardened out of the south**, and that is comforting or melancholy depending\non who you are.\n**Canon.** In 1601 Argeleb II granted the Shire to the hobbits Marcho and Blanco\nand asked three things: acknowledge his lordship, **keep the bridges and roads**,\nand aid his messengers. The kingdom fell in 1974 and **the hobbits kept\ncomplying**: fourteen hundred years maintaining bridges for a king who does\nnot exist (`SA-01`, `SA-07`).\nAnd from the Prologue of *The Lord of the Rings*: hobbits live in peace\nbecause **the Rangers guard their borders without them knowing it**, and the\nhobbits call them scornfully vagabonds. **South Arthedain is where that watch\nhappens**: it is not a region next to the Shire, it is the\nshield. Here the rangers **are seen** (`SA-03`), and it is the only place where\nthe traveller will understand what they do.\n**All fichas are anchored to named base locations.**\n**The region's pending sites:** Endrist, Enerond, Cor Wilishar, Aran Nov (towns\nthat went out, like Fanduin) and Parth Ainatir (an Elvish clearing abandoned after the\ntragedy of Elcaldil of Girithlin and Glorfindel).\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_ered_luin_las_montanas_azules",
+   "kind": "lore",
+   "region_ids": [
+    47,
+    34,
+    27
+   ],
+   "region": "Ered Luin",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Ered Luin · Las Montañas Azules",
+    "en": "Ered Luin · The Blue Mountains"
+   },
+   "lore": {
+    "es": "**Tres prefijos** para las tres regiones de la base:\n| prefijo | región | análogo real | Köppen |\n|---|---|---|---|\n| `EL-` | **Ered Luin Norte** | Voss, Noruega | `Dfc` |\n| `NG-` | **Nan-i-Naugrim, los Valles** | Connemara, Irlanda | `Cfb` |\n| `LS-` | **Ered Luin Sur** | — | `Cfb` |\n**La cordillera:** quinientas noventa millas desde la Bahía de Hielo de\nForochel hasta Orod Elu en el sur, separando Lindon de Eriador. Caliza y mármol,\nagujereada de cavernas naturales.\n**Por qué son azules, y es causa física, no atmosférica:** la roca es gris con\nun tinte azulado **por la alta concentración de minerales de cobre**. De cerca\nes un matiz; de lejos, con niebla marina de por medio, la cordillera entera es\nazul de verdad.\n**La mecánica de la región (`EL-A2`): dos países en una cordillera.** El viento\nviene del mar por el oeste, sube la ladera, se enfría y descarga. Cuando baja\ndel otro lado, baja seco. El lado de Lindon es helecho, musgo y agua corriendo;\nel lado de Eriador es brezo, roca y pasto duro. **Y la línea entre los dos es la\ncresta.**\n**Los enanos están de capa caída, y eso ordena todo el bloque.** El oro está\nagotado salvo vetas remotas. Nornhabar quedó muy deteriorada antes de la Guerra\nde la Última Alianza. Los de Tumnogoth Iaur son pobres y reservados porque sus\njóvenes emigraron a las Colinas de Hierro. Y hace setenta y cinco años se\nrecuperó Erebor y **mucha gente de estos valles se fue para allá** (`NG-03`).\n**No es una ruina: es una contracción.** Siguen aquí, siguen trabajando y siguen\nsiendo buenos en lo suyo. Son menos (`NG-02`).\n**Los dos clanes:** los **Anchas Vigas** tienen su capital en Buzdum Mazar desde\nla Segunda Edad. Los de los valles del sur son los **Barbas de Fuego**.\n**Decisión de alcance: no se entra en las minas.** Igual que con Moria y los\nSenderos, el interior queda fuera. El viajero llega a la explanada y a la puerta,\ny de ahí no pasa. Lo que se cuenta es la superficie: las fachadas, las\nexplanadas, el comercio, las estatuas, y lo que se oye desde abajo (`EL-A3`).\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Three prefixes** for the base's three regions:\n| prefix | region | real analogue | Köppen |\n|---|---|---|---|\n| `EL-` | **Ered Luin North** | Voss, Norway | `Dfc` |\n| `NG-` | **Nan-i-Naugrim, the Vales** | Connemara, Ireland | `Cfb` |\n| `LS-` | **Ered Luin South** | — | `Cfb` |\n**The range:** five hundred ninety miles from the Ice Bay of\nForochel to Orod Elu in the south, dividing Lindon from Eriador. Limestone and marble,\nperforated with natural caverns.\n**Why they are blue — a physical cause, not atmospheric:** the rock is grey with\na bluish tint **from its high concentration of copper minerals**. Up close\nit is a shade; from afar, with sea mist between, the whole range is\ntruly blue.\n**The region's mechanic (`EL-A2`): two countries in one range.** The wind\ncomes off the sea from the west, climbs the slope, cools and unloads. Coming down\nthe other side it comes down dry. The Lindon side is fern, moss and running\nwater; the Eriador side is heather, rock and hard grass. **And the line between the two is the\ncrest.**\n**The dwarves are in decline, and that orders the whole block.** The gold is\nworked out but for remote veins. Nornhabar fell into deep disrepair before the War\nof the Last Alliance. Those of Tumnogoth Iaur are poor and reserved because their\nyoung emigrated to the Iron Hills. And seventy-five years ago\nErebor was retaken and **many people of these vales went there** (`NG-03`).\n**Not a ruin: a contraction.** They are still here, still working and still\ngood at what they do. They are fewer (`NG-02`).\n**The two clans:** the **Broadbeams** have had their capital at Buzdum Mazar since\nthe Second Age. Those of the southern vales are the **Firebeards**.\n**Scope decision: no entering the mines.** Same as Moria and the\nPaths, the interior stays out. The traveller reaches the forecourt and the gate,\nand goes no further. What is told is the surface: the façades, the\nforecourts, the trade, the statues, and what is heard from below (`EL-A3`).\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_numeriador",
+   "kind": "lore",
+   "region_ids": [
+    48
+   ],
+   "region": "Numeriador",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Numeriador",
+    "en": "Numeriador"
+   },
+   "lore": {
+    "es": "**Prefijo `NU-`.** La meseta del norte de Eriador, al norte de las Colinas del\nCrepúsculo, entre las Ered Luin y el Annúduin.\n**Análogo:** Letterkenny, Donegal (`Cfc`). Oceánico subpolar: veranos cortos y\nfríos, inviernos largos y oscuros, viento siempre.\n**Lo que la define, y es lo único de su clase en setenta regiones: es la única\ntierra que nunca fue cultivada.**\nTodo lo demás del documento es paisaje que alguien trabajó y después abandonó o\nsigue trabajando. Acá no. El bosque de Numeriador **no es un bosque que volvió:\nes un bosque que nunca se cortó**, desde la Primera Edad.\n**Y es la única región del norte sin pasado que lamentar.** No hay reino caído\nque llorar, no hay capital vacía, nadie cuenta cuánta gente había antes. Esta\ntierra no decayó **porque nunca fue nada**, y por eso es el único sitio del\nnorte sin melancolía.\n**Por qué no se cultiva:** suelo fino sobre granito, temporada de crecimiento\ndemasiado corta, y en los valles demasiada piedra y demasiada pendiente. El\nbosque aguanta esas tres cosas; el trigo no. **Tiene techo de población y lo\nalcanzó hace mil años:** cuatro aldeas, ninguna de más de ciento cincuenta\npersonas, y ninguna va a crecer jamás.\n**Funciona en dos pisos** (`NU-A1`): arriba la meseta pelada de granito, enebro,\nbrezo y lobos; abajo los valles boscosos de las Ered Luin, con abrigo, agua y\n**toda la gente**.\n**Por qué alguien vendría, y son tres razones, ninguna épica:**\n- Porque acá crecen hierbas, muérdagos y hongos que no crecen en ninguna otra\n  parte, en un bosque sin talar de cinco mil años.\n- Porque **nadie pregunta**. No hay señor, no hay guarnición, no hay registro y\n  no hay frontera.\n- Porque es **el último sitio antes de la nada**: el que vaya a Forochel pasa por\n  acá a la fuerza y acá compra lo último que va a poder comprar.\n**Tolkien no nombró ninguno de estos sitios.** Numeriador, Eredimar, Eruimar,\nTawarobel y Enerond son de MERP y de la base. De lo cercano, el canon solo da\nForochel, las Ered Luin, el Lhûn, los Puertos Grises y **Gildor Inglorion**\n(cuya asociación con la casa señorial de Tawarobel es de MERP). **Acá hay manos\nlibres.**\n**Material tomado de MERP** (*Rogues of the Borderlands*, ICE 8014, que es un\nmódulo de aventuras sobre forajidos en tierra de frontera — lo cual encaja con\nel perfil): el río **Annúduin** como eje de la región, y los **Túmulos de\nCeleglin**, un anillo de colinas que ahueca un valle de hierba con tumbas de\nguerreros dúnedain, piedras erguidas, y un portal de piedra abierto.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `NU-`.** The plateau of northern Eriador, north of the Hills of\nTwilight, between the Ered Luin and the Annúduin.\n**Analogue:** Letterkenny, Donegal (`Cfc`). Subpolar oceanic: short cold\nsummers, long dark winters, wind always.\n**What defines it, the only one of its kind in seventy regions: it is the only\nland that was never farmed.**\nEverything else in the document is landscape somebody worked and then abandoned or\nkeeps working. Not here. Numeriador's forest **is not a forest that came back:\nit is a forest that was never cut**, not since the First Age.\n**And it is the only northern region with no past to mourn.** No fallen kingdom\nto weep for, no empty capital, nobody counting how many people there used to be. This\nland did not decay **because it was never anything**, and that is why it is the only place in the\nnorth without melancholy.\n**Why it is not farmed:** thin soil over granite, too short a growing\nseason, and in the vales too much stone and too much slope. The\nforest tolerates those three things; wheat does not. **It has a population ceiling and\nreached it a thousand years ago:** four villages, none over a hundred fifty\npeople, and none is ever going to grow.\n**It works on two floors** (`NU-A1`): above, the bare granite moor, juniper,\nheather and wolves; below, the wooded vales of the Ered Luin, with shelter, water\nand **all the people**.\n**Why anybody would come — three reasons, none epic:**\n- Because here grow herbs, mistletoes and fungi that grow nowhere else,\n  in a forest uncut for five thousand years.\n- Because **nobody asks**. No lord, no garrison, no register and\n  no border.\n- Because it is **the last place before nothing**: whoever is bound for Forochel\n  passes through perforce, and here buys the last thing he will be able to buy.\n**Tolkien named none of these places.** Numeriador, Eredimar, Eruimar,\nTawarobel and Enerond are from MERP and the base. Of the nearby, canon gives only\nForochel, the Ered Luin, the Lhûn, the Grey Havens and **Gildor Inglorion**\n(whose association with the manor of Tawarobel is MERP's). **Here we have free\nhands.**\n**Material taken from MERP** (*Rogues of the Borderlands*, ICE 8014, an\nadventure module about outlaws in borderland — which fits\nthe profile): the river **Annúduin** as the region's axis, and the **Mounds of\nCeleglin**, a ring of hills hollowing a grassy vale with Dunadan\nwarrior tombs, standing stones, and an open stone portal.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_enedhwaith",
+   "kind": "lore",
+   "region_ids": [
+    21
+   ],
+   "region": "Enedhwaith",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Enedhwaith",
+    "en": "Enedhwaith"
+   },
+   "lore": {
+    "es": "**Prefijo `EW-`.** La Tierra del Medio.\n**Dónde:** entre el Gwathló al norte y el Angren al sur, de Dunland al mar.\n**Lo que la hace única en setenta y una regiones: es la única donde el paisaje\nes la ruina.**\nEn todas las demás, lo que se perdió está en lo construido: una ciudad vacía, una\ngranja sin techo, un castillo cerrado. El paisaje aguanta y lo edificado se cae.\nAcá al revés. **Lo que se destruyó fue la tierra misma.** Los númenóreanos\ntalaron la cuenca entera del Gwathló para hacer barcos hace cuatro mil años, el\nsuelo se lavó con la lluvia, y nunca volvió a sostener lo que sostenía. Para la\nCaída de Númenor esto ya era semipradera erosionada con terreno de **badlands**,\nde los que normalmente solo se ven en el desierto.\n**Y es la única región que exige lectura.** En Annúminas el viajero ve una ciudad\ncaída y lo entiende solo. Acá tiene que mirar la franja negra a cuatro brazas de\nla pared de un barranco, las ondulaciones del pasto con el sol rasante, los lomos\nde arado donde no hay campo, el seto que no cerca nada, y los tocones de dos\npasos debajo de los de un palmo.\n**Nada de eso es obvio y nadie se lo va a explicar**, porque la gente que vive\nahí cree que esta tierra siempre fue así.\n**Registro: Inglaterra medieval.** Los páramos ingleses no son vírgenes: son\nbosque talado hace milenios, con el suelo lavado y acidificado, que ya no puede\nvolver a ser bosque. De ahí vienen las tres piezas que estructuran la región —\nlos *deserted medieval villages* que solo se ven con sol rasante, el\n*ridge and furrow* del arado fosilizado en el pasto, y los *sunken lanes*\nhundidos por siglos de uso.\n**⚠ CRONOLOGÍA: Tharbad no existe.** La arruinó la inundación de 2912, hace\nciento cuatro años. Todo el material de MERP sobre esta región está en 1640, con\nTharbad viva, expediciones madereras semimilitares y comercio de plumas de cisne.\n**Nada de eso pasa ya.** El Camino Real no une dos ciudades: sale de una ruina.\nY los bosques llevan un siglo sin que entre nadie (`EW-06`, `EW-08`).\n**⚠ NO DUPLICAR:** las Marismas del Cisne (Nin-in-Eilph) están fuera del\npolígono, al nordeste, y ya están escritas como `MN-05` en Mindornath.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `EW-`.** The Middle-land.\n**Where:** between the Gwathló to the north and the Angren to the south, from Dunland to the sea.\n**What makes it unique in seventy-one regions: it is the only one where the landscape\nis the ruin.**\nEverywhere else, what was lost is in the built: an empty city, a\nroofless farm, a shut castle. The landscape holds and the building falls.\nHere the reverse. **What was destroyed was the land itself.** The Númenóreans\nfelled the whole Gwathló basin to make ships four thousand years ago, the\nsoil washed off with the rain, and it never again sustained what it sustained. By the\nFall of Númenor this was already eroded semi-prairie with **badlands**\nterrain, of a kind normally only seen in the desert.\n**And it is the only region that demands reading.** At Annúminas the traveller sees a fallen\ncity and understands it by himself. Here he has to look at the black band four\nfathoms up a ravine wall, the grass ripples in raking sun, the plough\nridges where there is no field, the hedge fencing nothing, and the two-yard\nstumps below the hand-span ones.\n**None of it is obvious and nobody will explain it**, because the people living\nthere believe this land was always so.\n**Register: medieval England.** The English moors are not virgin: they are\nforest felled millennia ago, the soil washed and acidified, unable\nto be forest again. From there come the three pieces structuring the region —\nthe *deserted medieval villages* visible only in raking light, the\n*ridge and furrow* of ploughing fossilised in the pasture, and the *sunken lanes*\nsunk by centuries of use.\n**⚠ CHRONOLOGY: Tharbad does not exist.** The flood of 2912 ruined it, a hundred\nfour years ago. All the MERP material on this region is set in 1640, with\nTharbad alive, semi-military logging expeditions and swan-feather trade.\n**None of that happens now.** The Royal Road does not join two cities: it leaves a ruin.\nAnd the woods have gone a century with nobody entering (`EW-06`, `EW-08`).\n**⚠ DO NOT DUPLICATE:** the Swanfleet marshes (Nin-in-Eilph) lie outside the\npolygon, to the northeast, and are already written as `MN-05` in Mindornath.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_los_hombres_del_norte_paquete_de_cuatro",
+   "kind": "lore",
+   "region_ids": [
+    62,
+    63,
+    1,
+    6
+   ],
+   "region": "Rohan",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Los Hombres Del Norte · Paquete De Cuatro",
+    "en": "The Northmen · Four-Region Package"
+   },
+   "lore": {
+    "es": "| prefijo | región | análogo real | Köppen |\n|---|---|---|---|\n| `RO-` | **Rohan** | Hortobágy, Hungría | `Dfb` |\n| `WO-` | **Wold** | Dobruja, Rumanía | `BSk` |\n| `ET-` | **Éothraim** | Poltava, Ucrania | `BSk` |\n| `DR-` | **Dor Rhunen** | Extremadura | `Csa` |\n**Lo que une a las cuatro: son la misma gente en cuatro momentos.** Los Éothraim\nde las llanuras son de donde vinieron, Rohan es adonde llegaron, Wold es el\nborde que no llenaron, y Dor Rhunen es lo que perdieron.\n**Y el edificio es siempre el mismo:** empalizada sobre terraplén, y adentro\nsalones y casas largas de madera. *Buhr* es «burgo» en su lengua, igual que el\n*burh* anglosajón.\n**La columna de Rohan: tiene quinientos seis años.** Cirion se la cedió a Eorl en\n2510, y se la cedió porque la provincia estaba vacía: la Gran Peste de 1636\narrasó Calenardhon y Gondor nunca volvió a poblarla. **Los Rohirrim no\nconquistaron nada: se mudaron a una casa vacía.** Edoras es de 2569 — más nueva\nque la posada del cruce de la llanura de Arthedain. Y por eso las locations de la\nbase son 80-95% gondorianas, con fueros del siglo XIII: eso es Calenardhon, y\nRohan está encima (`RO-A3`).\n**Registro: vikingo, anglosajón y magiar mezclados.** Casa larga, salón de\njuramentos y bosquecillo sagrado de la tradición germánica; el kurgán con su\nfigura de piedra, el balbal y la aldea de carros de la estepa; y el espinar, el\nmanantial con trapos atados y el poste de clavos de la tradición de pradera.\n**Material tomado de MERP** (*Riders of Rohan*, ICE 3100, 1985): el **wuirprik**\no precio de cabeza con su escala completa, los tres clanes con su carácter, la\neconomía sin moneda, el falso amanecer de los Eoadar. Y (*Mouths of the\nEntwash*, ICE 8011): el delta con sus mil quinientas millas cuadradas, el canal\ndragado y la Patrulla Fluvial, Imdorad y el Maestro de Aduanas, el Comercio\nNegro, el truco del aliso y la leyenda de la dama.\n**⚠ NO DUPLICAR:** Buhr Fram ya está escrito como `VA-30` en Ronen-in-Anduin.\n**Pendiente:** solo en castellano.\n---",
+    "en": "| prefix | region | real analogue | Köppen |\n|---|---|---|---|\n| `RO-` | **Rohan** | Hortobágy, Hungary | `Dfb` |\n| `WO-` | **Wold** | Dobruja, Romania | `BSk` |\n| `ET-` | **Éothraim** | Poltava, Ukraine | `BSk` |\n| `DR-` | **Dor Rhunen** | Extremadura | `Csa` |\n**What joins the four: they are the same people at four moments.** The Éothraim\nof the plains are where they came from, Rohan is where they arrived, the Wold is the\nedge they never filled, and Dor Rhunen is what they lost.\n**And the building is always the same:** a palisade on a rampart, and inside\nhalls and long wooden houses. *Buhr* is \"burg\" in their tongue, same as the\nAnglo-Saxon *burh*.\n**Rohan's backbone: it is five hundred six years old.** Cirion granted it to Eorl in\n2510, and he granted it because the province was empty: the Great Plague of 1636\nravaged Calenardhon and Gondor never repopulated it. **The Rohirrim\nconquered nothing: they moved into an empty house.** Edoras dates from 2569 — newer\nthan the coaching inn on Arthedain's plain. And that is why the base locations are\n80-95% Gondorian, with thirteenth-century charters: that is Calenardhon, and\nRohan is on top (`RO-A3`).\n**Register: Viking, Anglo-Saxon and Magyar mixed.** Longhouse, oath-hall\nand sacred grove from the Germanic tradition; the kurgan with its\nstone figure, the balbal and the wagon-village from the steppe; and the thorn thicket, the\nspring with tied rags and the nail-post from prairie tradition.\n**Material taken from MERP** (*Riders of Rohan*, ICE 3100, 1985): the **wuirprik**\nor head-price with its full scale, the three clans with their characters, the\ncoinless economy, the Eoadar's false dawn. And (*Mouths of the\nEntwash*, ICE 8011): the delta with its fifteen hundred square miles, the dredged\nchannel and the River Patrol, Imdorad and the Master of Customs, the Dark\nTrade, the alder trick and the legend of the lady.\n**⚠ DO NOT DUPLICATE:** Buhr Fram is already written as `VA-30` in Ronen-in-Anduin.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_fangorn",
+   "kind": "lore",
+   "region_ids": [
+    82
+   ],
+   "region": "Fangorn",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Fangorn",
+    "en": "Fangorn"
+   },
+   "lore": {
+    "es": "**Prefijo `FG-`.** Análogo: Bosque Bávaro (`Cfb-Dfb`).\n**Lo que es:** el último gran resto del bosque inmenso que cubrió Eriador y\nCalenardhon enteros. Limita al norte con la llanura que va al Celebrant, al\noeste con las cumbres, al este con el Wold y al sur con las llanuras de\nCalenardhon. De él nacen el **Entaguas** y el **Limclaro**.\n**Lo que lo hace distinto de todos los bosques del documento: no es un bosque al\nque nadie tocó. Es un jardín.**\n- En Numeriador (`NU-02`) el bosque es viejo porque nadie lo cortó.\n- En Enedhwaith (`EW-06`) está roto porque lo cortaron todo.\n- **Acá alguien lo está cuidando, ahora mismo, y lleva milenios haciéndolo.**\n**Geología:** las colinas del este son de caliza, igual que el Wold, pero con un\nlecho de roca más pesado. Eso produce **cortados cortos** donde el clima y los\narroyos erosionan (`FG-02`).\n**La escala de la vigilancia, de menor a mayor,** y conviene leerla junta:\n`NU-04` el hacha desaparece del campamento por la noche → `EW-08` una flecha\ndesde donde no se la vio venir → `FG-07` **no hay intermediarios**.\n**Material tomado de MERP** (*Ents of Fangorn*, ICE 3500): el bosque como jardín\ncuidado durante milenios, con más variedad de árboles que ningún otro de la\nTierra Media y los ejemplares más grandes del mundo; la seccionalización\ndeliberada para que las especies débiles tengan bosquecillos propios; la\ncostumbre de los Ents de rodear su casa con sus árboles favoritos, que produce\nrodales fuera de lugar; la cubierta de copas que impide el sotobosque; las\nnevadas ligeras que no llegan al suelo; el Valle Emboscado con sus medidas, su\nseto, sus tres abedules y su pozo; Vadovenido como entorno artificial a\npropósito; y las Cascadas de la Niebla con su pozo de cincuenta pies y la\ncámara hueca del domo.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `FG-`.** Analogue: Bavarian Forest (`Cfb-Dfb`).\n**What it is:** the last great remnant of the immense forest that once covered\nall Eriador and Calenardhon. It is bounded north by the plain going to the\nCelebrant, west by the peaks, east by the Wold and south by the Calenardhon\nplains. The **Entwash** and the **Limlight** rise in it.\n**What makes it different from every forest in the document: it is not a forest\nnobody touched. It is a garden.**\n- In Numeriador (`NU-02`) the forest is old because nobody cut it.\n- In Enedhwaith (`EW-06`) it is broken because it was all cut.\n- **Here somebody is tending it, right now, and has been for millennia.**\n**Geology:** the eastern hills are limestone, same as the Wold, but on a\nheavier bedrock. That produces **short scarps** where climate and\nbrooks erode (`FG-02`).\n**The scale of the watch, smallest to largest,** best read together:\n`NU-04` the axe vanishes from camp at night → `EW-08` an arrow\nfrom where it was not seen coming → `FG-07` **there are no intermediaries**.\n**Material taken from MERP** (*Ents of Fangorn*, ICE 3500): the forest as a\ngarden tended for millennia, with more tree variety than any other in\nMiddle-earth and the largest specimens in the world; the deliberate\nsectionalisation so weaker species get groves of their own; the\nEnts' habit of ringing their houses with their favourite trees, producing\nout-of-place stands; the closed canopy keeping undergrowth down; the\nlight snows that never reach the ground; the Ambushed Vale with its measures, its\nhedge, its three birches and its well; Wellinghall as a deliberately\nartificial setting; and the Mist Falls with their fifty-foot shaft and the\ndome's hollow chamber.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_rivendel_el_valle_y_su_borde",
+   "kind": "lore",
+   "region_ids": [
+    80
+   ],
+   "region": "Rivendell",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Rivendel · El Valle Y Su Borde",
+    "en": "Rivendell · The Valley and Its Edge"
+   },
+   "lore": {
+    "es": "**Prefijo `RV-`.** Análogo: valles alpinos del Tirol (`Dfb`).\n**Particularidad climática:** el valle **tiene su propio clima**, varios grados\nmás templado que el páramo de arriba, porque está hundido y abrigado. Abajo hay\nverde en marzo cuando arriba todo está pardo (`RV-05`).\n**⚠ ALCANCE, Y ES DELIBERADO: esto es solo el borde.** Rhudaur entera (`RH-`,\n39 fichas), los Trollshaws y las Landas de los Trolls (`TS-`, 18 fichas, con los\ntres trolls, el vado y las cuevas) ya están escritos. No duplicar. El suplemento\nde MERP cubre Rhudaur completa; de ahí solo se tomó lo del valle y su entorno\ninmediato.\n**La condición de diseño: llegar es casi imposible si no quieren.** Pero la zona\nse puede recorrer, y es interesante, y **el viajero puede pasar a media milla\ndel sitio más famoso del norte sin verlo** (`RV-01`, `RV-03`).\n**Y la causa no es misteriosa, es geográfica:** el valle está en una **grieta**,\nuna hendidura profunda y estrecha en el borde del páramo, invisible desde arriba\nhasta que uno está en el borde mismo. Más el control del Bruinen y de su vado,\nque es la única manera de entrar (`RV-02`).\n**La escala de la vigilancia, comparada:** en Fangorn (`FG-A2`) el viajero sabe\nque lo miran. **Acá no se entera, y eso es lo que delata que es mejor**\n(`RV-A3`, `RV-06`).\n**Material tomado de MERP** (*Rivendell: The House of Elrond*, ICE 8080): la\ngeografía de Rhudaur con sus tres zonas, el páramo de granito con bloques del\ntamaño de una pelota al de una villa agrupados en revoltijos impenetrables, las\nlomas en líneas curvas irregulares con poco suelo, y el valle con sus salas y\nsus forjas.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `RV-`.** Analogue: Tyrolean Alpine valleys (`Dfb`).\n**Climatic peculiarity:** the valley **has its own climate**, several degrees\nmilder than the moor above, because it is sunken and sheltered. Below there is\ngreen in March when everything above is brown (`RV-05`).\n**⚠ SCOPE, AND IT IS DELIBERATE: this is only the edge.** All Rhudaur (`RH-`,\n39 fichas), the Trollshaws and the Troll-lands (`TS-`, 18 fichas, with the\nthree trolls, the ford and the caves) are already written. Do not duplicate. The\nMERP supplement covers all Rhudaur; only the valley and its immediate\nsurroundings were taken from it.\n**The design condition: getting there is nearly impossible unless they want it.**\nBut the zone can be travelled, and it is interesting, and **the traveller can pass\nhalf a mile from the most famous place in the north without seeing it** (`RV-01`, `RV-03`).\n**And the cause is not mysterious, it is geographic:** the valley lies in a\n**cleft**, a deep narrow gash in the moor's edge, invisible from above\nuntil one stands on the very brink. Plus the control of the Bruinen and its\nford, which is the only way in (`RV-02`).\n**The scale of the watch, compared:** in Fangorn (`FG-A2`) the traveller knows\nhe is being watched. **Here he never finds out, and that is what reveals it is better**\n(`RV-A3`, `RV-06`).\n**Material taken from MERP** (*Rivendell: The House of Elrond*, ICE 8080): the\ngeography of Rhudaur with its three zones, the granite moor with blocks from\nball-sized to house-sized grouped in impenetrable jumbles, the\nhills in irregular curving lines with little soil, and the valley with its halls and\nits forges.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_lorien_el_bosque_de_oro",
+   "kind": "lore",
+   "region_ids": [
+    84
+   ],
+   "region": "Lorien",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Lórien · El Bosque De Oro",
+    "en": "Lórien · The Golden Wood"
+   },
+   "lore": {
+    "es": "**Prefijo `LO-`.** Análogo: bosque ribereño templado (`Dfb` suave). Entre el\nCelebrant y el Anduin, con Fangorn al otro lado del río y Moria a la espalda.\n**El error que todo el mundo comete:** a un visitante casual le parece que acá\n**no se hace nada más que sentarse en los árboles y cantar día y noche**.\nEs falso, y el módulo lo desmiente expresamente. El que entra y presta atención\ndescubre enseguida que esta gente **está lejos de ser sedentaria**. Lórien es un\nsitio donde se trabaja, y está organizado por oficios.\n**La mecánica de la región: los claros.** Cada gremio se agrupa alrededor de un\nclaro del bosque, y a eso lo llaman **pelerin** (pl. *piliryn*), que significa\nliteralmente *rodeado de bosque*. Son ocho: Tejedores, Barqueros, Guardianes,\nHerreros, Panaderos, Juglares, Artesanos y Leñadores. Los grupos **ya se habían\nformado solos**; Galadriel, que es noldo y es reina, no iba a permitir que el\nreino viviera en el caos, así que los ordenó.\n**La consecuencia de diseño:** el viajero sabe dónde está **por el olor y por el\nruido**. Resina, pan, lana mojada, metal caliente (`LO-02`).\n**Y dos cosas que cambian lo que es el sitio:**\n- El aislamiento de Lórien no es magia ambiental: **es un trabajo**. Un gremio lo\n  sostiene cantando todos los días (`LO-06`).\n- **En Lórien no se corta un árbol.** Toda la madera viene de fuera (`LO-07`,\n  `LO-08`).\n**⚠ Eregion / Ost-in-Edhil queda fuera:** ya está escrita. El suplemento la\ncubre junto con Lórien; de ahí solo se tomó la parte del Bosque de Oro.\n**Material tomado de MERP** (*Lórien and the Halls of the Elven-smiths*, ICE\n3200): los ocho claros gremiales con su nombre y su función; la planta parecida\nal algodón y la hierba emparentada con el cáñamo de los Tejedores, con su\ntratamiento secreto; los hornos grandes al aire libre de los Panaderos y su\nproducción de queso, miel, vino, hidromiel y cerveza; los Juglares como\npreservadores del encantamiento que mantiene el bosque apartado; la madera\ntraída de fuera; el embarcadero del Celebrant con barcazas, canoas y naves\nmarineras; y Cerin Amroth y Caras Galadhon como los dos sitios de interés.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `LO-`.** Analogue: temperate riverine forest (mild `Dfb`). Between the\nCelebrant and the Anduin, with Fangorn across the river and Moria at its back.\n**The mistake everybody makes:** to a casual visitor it seems that here\n**nothing is done but sitting in the trees and singing day and night**.\nIt is false, and the module expressly denies it. Whoever enters and pays\nattention soon discovers that these people **are far from sedentary**. Lórien is\na place where people work, and it is organised by trades.\n**The region's mechanic: the clearings.** Each guild gathers around a\nforest clearing, and they call it **pelerin** (pl. *piliryn*), which means\nliterally *ringed by forest*. There are eight: Weavers, Boatmen, Wardens,\nSmiths, Bakers, Minstrels, Artisans and Woodsmen. The groups **had\nalready formed by themselves**; Galadriel, who is a Noldo and a queen, was not\ngoing to let the realm live in chaos, so she ordered them.\n**The design consequence:** the traveller knows where he is **by the smell and the\nnoise**. Resin, bread, wet wool, hot metal (`LO-02`).\n**And two things that change what the place is:**\n- Lórien's isolation is not ambient magic: **it is work**. A guild\n  sustains it by singing every day (`LO-06`).\n- **In Lórien no tree is cut.** All the wood comes from outside (`LO-07`,\n  `LO-08`).\n**⚠ Eregion / Ost-in-Edhil is out:** already written. The supplement\ncovers it together with Lórien; only the Golden Wood part was taken.\n**Material taken from MERP** (*Lórien and the Halls of the Elven-smiths*, ICE\n3200): the eight guild clearings with their names and functions; the\ncotton-like plant and the hemp-related herb of the Weavers, with their\nsecret treatment; the Bakers' large outdoor ovens and their\ncheese, honey, wine, mead and beer production; the Minstrels as\npreservers of the enchantment keeping the forest apart; the wood\nbrought from outside; the Celebrant wharf with barges, canoes and seagoing\nships; and Cerin Amroth and Caras Galadhon as the two sites of interest.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_el_bosque_viejo",
+   "kind": "lore",
+   "region_ids": [
+    58
+   ],
+   "region": "Old Forest",
+   "region_confidence": "medium",
+   "name": {
+    "es": "El Bosque Viejo",
+    "en": "The Old Forest"
+   },
+   "lore": {
+    "es": "**Prefijo `BV-`.**\n**Dónde:** mil millas cuadradas entre Los Gamos al oeste y las Quebradas de los\nTúmulos al este. El Tornasauce lo cruza de nordeste a sudoeste.\n**Cuándo: 3016-3018, antes de todo.** No ha pasado nada acá. Nadie entró en\naños.\n**Lo que es:** un resto del bosque primordial que cubría Eriador entero, y que\nsobrevivió a la tala numénorea — la misma tala que arrasó Minhiriath (`MH-01`)\ny Enedhwaith (`EW-A1`). **Éste sobrevivió.**\n**La comparación que lo explica, porque el documento ya tiene la otra mitad:**\néste y Fangorn son la misma cosa en dos estados. Los dos son restos del mismo\nbosque. Los dos están despiertos.\n**Fangorn tiene pastores. Éste no.**\nPor eso Fangorn es un jardín (`FG-01`) y éste es un bosque **que no quiere a\nnadie**. Y el tono se distingue: en Fangorn lo **evalúan**; acá lo **resienten**.\n**La mecánica de la región, y es la inversa de la esperable (`BV-A2`): el bosque\nno bloquea, conduce.** Siempre hay un camino cómodo, siempre va en la misma\ndirección, y esa dirección no es la que el viajero eligió. Contador propio:\n**`desvío`**, que sube cada vez que toma lo fácil. Todas las vaguadas del bosque\ndrenan al mismo valle (`BV-06`).\n**⚠ NO DUPLICAR:** las Quebradas de los Túmulos son `BD-` (11 fichas) y Bree es\n`BR-` (13). **No existe suplemento de MERP del Bosque Viejo**; el que lo roza es\n*Bree and the Barrow-Downs* (ICE 8010, 1984), centrado en Bree y los túmulos y\nambientado en 1700. Esta región se escribió desde el canon.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `BV-`.**\n**Where:** a thousand square miles between Buckland to the west and the\nBarrow-downs to the east. The Withywindle crosses it northeast to southwest.\n**When: 3016-3018, before everything.** Nothing has happened here. Nobody has come\nin for years.\n**What it is:** a remnant of the primordial forest covering all Eriador, that\nsurvived the Númenórean felling — the same felling that ravaged Minhiriath (`MH-01`)\nand Enedhwaith (`EW-A1`). **This one survived.**\n**The comparison that explains it, because the document already has the other half:**\nthis and Fangorn are the same thing in two states. Both are remnants of the same\nforest. Both are awake.\n**Fangorn has shepherds. This one does not.**\nThat is why Fangorn is a garden (`FG-01`) and this is a forest **that wants\nnobody**. And the tone differs: in Fangorn he is **judged**; here he is **resented**.\n**The region's mechanic, the inverse of the expected (`BV-A2`): the forest\ndoes not block, it leads.** There is always a comfortable path, it always goes\nthe same direction, and that direction is not the one the traveller chose. Its own counter:\n**`diversion`**, which rises every time he takes the easy way. All the forest's\nhollows drain to the same valley (`BV-06`).\n**⚠ DO NOT DUPLICATE:** the Barrow-downs are `BD-` (11 fichas) and Bree is\n`BR-` (13). **No MERP supplement exists for the Old Forest**; the closest is\n*Bree and the Barrow-Downs* (ICE 8010, 1984), centred on Bree and the barrows and\nset in 1700. This region was written from canon.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_rast_vorn_el_cabo_oscuro",
+   "kind": "lore",
+   "region_ids": [
+    17
+   ],
+   "region": "Rast Vorn",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Rast Vorn · El Cabo Oscuro",
+    "en": "Rast Vorn · The Dark Cape"
+   },
+   "lore": {
+    "es": "**Prefijo `RA-`.** Análogo: Cabo Fisterra, Galicia (`Cfb` costero). Ventoso,\nmojado y frío, pero no ártico: el mar impide que el invierno sea brutal y no\nhace nada contra el gris húmedo que dura de otoño a primavera.\n**Dónde:** un cabo de roca negra al sur del Gwathló, metido en el Belegaer, con\nlos acantilados cayendo al mar y el interior cubierto de **Eryn Vorn**, el\nBosque Negro de roble viejo y retorcido.\n**Lo que es:** uno de los terrenos más peligrosos de la Tierra Media, y por eso\nmismo **un refugio**. Los acantilados y las calas protegen a los que viven acá\nde toda autoridad exterior mejor que cualquier muralla. Hay clanes que están\ndesde antes de la tala numénorea y que piensan seguir estando después de lo que\nvenga.\n**Y su principal estrategia defensiva es la invisibilidad en el terreno**\n(`RA-A3`): seiscientas personas que el viajero no va a ver, porque pueden\nquedarse completamente inmóviles durante horas y a veces durante días. Contador\npropio: **`vistos`**, que sube cada vez que el viajero hace algo que los obliga a\ndecidir.\n**La forma de la región (`RA-A1`): no se recorre, se entra.** Cada jornada hacia\nel interior quita una cosa — primero los caminos, después las ruinas, después\nlas huellas, después los pájaros. El viajero no avanza por un mapa: avanza hacia\natrás en el tiempo.\n**Registro:** el río hacia adentro, la selva que se cierra, el ritual. Pero los\nque están al final **no son un monstruo: son un pueblo**, y están haciendo algo.\n**LO QUE LA VUELVE VIVA AHORA MISMO.** Cada pocos siglos nace entre los Beffraen\nalguien capaz de **canalizar directamente la voz de un dios**. Cuando aparece uno,\nlas aldeas normalmente dispersas **se unen bajo su autoridad** y empieza un\nperíodo de trabajo cooperativo en el que se levantan grandes tumbas y santuarios.\n**Y hay una Sherl ahora** (`RA-08`), con Maelglym, jefe y chamán, a su lado. En\n3016 las doce aldeas están unidas y están construyendo algo. Y como los\nmonumentos se levantaron en ráfagas separadas por siglos, **el viajero puede\ndatar a los oráculos pasados mirando la erosión de las piedras** (`RA-07`).\n**Material tomado de la tradición de MERP:** Rast Vorn como Cabo Oscuro y Eryn\nVorn como su bosque; los Beffraen como Drúedain, 600 almas y 120 cazadores, sin\nexportaciones y sin símbolo; aldeas con muros hechos de piedra saqueada de\nruinas numénoreas; pintura facial y tatuaje distintos por clan; los oráculos y\nsus períodos de obra común; los dardos envenenados; la inmovilidad absoluta; y\nque los cardolanos que vieron un Drûg **lo confundieron con los muertos que\nsegún ellos rondan la región** (`RA-01`).\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `RA-`.** Analogue: Cape Finisterre, Galicia (coastal `Cfb`). Windy,\nwet and cold, but not arctic: the sea keeps winter from being brutal and does\nnothing against the wet grey lasting autumn to spring.\n**Where:** a cape of black rock south of the Gwathló, jutting into the Belegaer,\nwith the cliffs dropping to the sea and the interior covered by **Eryn Vorn**,\nthe Black Wood of old twisted oaks.\n**What it is:** one of the most dangerous terrains in Middle-earth, and for that\nvery reason **a refuge**. The cliffs and coves protect those living here\nfrom all outside authority better than any wall. There are clans that have been\nhere since before the Númenórean felling and mean to stay after whatever\ncomes.\n**And their main defensive strategy is invisibility in the terrain**\n(`RA-A3`): six hundred people the traveller will not see, because they can\nstay completely still for hours and sometimes for days. Its own counter:\n**`seen`**, which rises every time the traveller does something forcing them to\ndecide.\n**The region's shape (`RA-A1`): it is not travelled, it is entered.** Each day\ninward takes one thing away — first the roads, then the ruins, then\nthe tracks, then the birds. The traveller does not advance across a map: he advances\nbackwards in time.\n**Register:** the river going in, the forest closing, the ritual. But those\nat the end **are not a monster: they are a people**, and they are doing something.\n**WHAT MAKES IT ALIVE RIGHT NOW.** Every few centuries someone is born among the\nBeffraen able to **channel a god's voice directly**. When one appears,\nthe normally scattered villages **unite under their authority** and a period\nof cooperative work begins in which great tombs and shrines are raised.\n**And there is a Sherl now** (`RA-08`), with Maelglym, chief and shaman, beside\nher. In 3016 the twelve villages are united and building something. And since the\nmonuments went up in bursts centuries apart, **the traveller can\ndate past oracles by the stones' erosion** (`RA-07`).\n**Material taken from the MERP tradition:** Rast Vorn as the Dark Cape and Eryn\nVorn as its forest; the Beffraen as Drúedain, 600 souls and 120 hunters, no\nexports and no symbol; villages walled with stone looted from\nNúmenórean ruins; facial paint and tattoo distinct by clan; the oracles and\ntheir periods of common work; the poisoned darts; the absolute stillness; and\nthat the Cardolanians who saw a Drûg **mistook him for the dead that,\nin their belief, haunt the region** (`RA-01`).\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ctx_las_colinas_de_hierro_emyn_engrin",
+   "kind": "lore",
+   "region_ids": [
+    24
+   ],
+   "region": "Iron Hills",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Las Colinas De Hierro · Emyn Engrin",
+    "en": "The Iron Hills · Emyn Engrin"
+   },
+   "lore": {
+    "es": "**Prefijo `EH-`.** Análogo: Urales del sur (`Dfb` continental). Inviernos largos\ny secos, veranos cortos.\n**Dónde:** en el nordeste de Rhovanion, al este de Erebor, donde se acaban las\nMontañas Grises.\n**Lo que hay que entender de entrada:** en la superficie, las Colinas de Hierro\nson **un paisaje desolado y poco impresionante**. Colinas dentadas, feas, que\nalbergan bestias salvajes y hombres salvajes.\n**Todo lo que vale está abajo. Y abajo no se entra**, igual que en las Ered Luin\ny en Moria — misma decisión de alcance.\n**El cierre de un hilo que el documento empezó hace tiempo:** en Tumnogoth Iaur\n(`NG-03`), en las Ered Luin, no hay nadie joven porque todos se fueron a las\nColinas de Hierro. **Acá es donde llegaron** (`EH-06`). Y las dos mitades de la\nmisma pregunta están a mil leguas una de otra, y ninguna recibe respuesta.\n**CON ESTO CIERRAN LOS ENANOS**, en tres casas y tres estados:\n- **Ered Luin** (`EL-` `NG-` `LS-`): catorce fortalezas, funcionan cuatro, una\n  tapiada desde afuera, un valle sin nadie joven. **Una contracción.**\n- **Moria**: dos puertas de superficie y nada más.\n- **Colinas de Hierro** (`EH-`): escombreras nuevas creciendo más rápido que\n  nunca y gente joven que llega y no vuelve. **Una expansión.**\n**No existe módulo de MERP dedicado a las Colinas de Hierro.** Las rozan\n*Mirkwood: The Wilds of Rhovanion* (1988/1995) y *The Grey Mountains* (1992).\nDel gacetero se tomó: el nombre **Emyn Engrin**; la superficie desolada con\nbestias y hombres salvajes; las minas trabajadas sin interés aparente por los\nasuntos de Hombres o Elfos; los enanos de acá como **recién llegados** comparados\ncon los de Moria o las Ered Luin; el comercio de alimentos que no pueden producir\nellos mismos, **en particular la cerveza de los Hombres del Norte**; los **doce\nclanes menores** bajo un señor descendiente directo del fundador; 700 enanos; y\nque evitan a los Elfos porque **tomaron como propia la animosidad de sus\nparientes** aunque su casa no tenga disputa con los Eldar.\n**Pendiente:** solo en castellano.\n---",
+    "en": "**Prefix `EH-`.** Analogue: southern Urals (continental `Dfb`). Long dry\nwinters, short summers.\n**Where:** northeastern Rhovanion, east of Erebor, where the\nGrey Mountains end.\n**What must be understood up front:** on the surface, the Iron Hills are\n**a desolate and unimpressive landscape**. Jagged, ugly hills harbouring\nwild beasts and wild men.\n**Everything worthwhile is below. And below is not entered**, same as the\nEred Luin and Moria — same scope decision.\n**The closing of a thread the document started long ago:** in Tumnogoth Iaur\n(`NG-03`), in the Ered Luin, there is nobody young because they all left for the\nIron Hills. **This is where they arrived** (`EH-06`). And the two halves of the\nsame question are a thousand leagues apart, and neither gets an answer.\n**WITH THIS THE DWARVES CLOSE**, in three houses and three states:\n- **Ered Luin** (`EL-` `NG-` `LS-`): fourteen holds, four working, one\n  walled up from outside, a vale with nobody young. **A contraction.**\n- **Moria**: two surface gates and nothing else.\n- **Iron Hills** (`EH-`): new slag heaps growing faster than ever\n  and young people arriving who do not come back. **An expansion.**\n**No MERP module is dedicated to the Iron Hills.** They are touched by\n*Mirkwood: The Wilds of Rhovanion* (1988/1995) and *The Grey Mountains* (1992).\nFrom the gazetteer was taken: the name **Emyn Engrin**; the desolate surface with\nbeasts and wild men; mines worked with no apparent interest in the\naffairs of Men or Elves; the dwarves here as **newcomers** compared\nto those of Moria or the Ered Luin; the trade in food they cannot produce\nthemselves, **in particular the Northmen's beer**; the **twelve\nlesser clans** under a lord directly descended from the founder; 700 dwarves; and\nthat they avoid Elves because **they adopted their kinsmen's\nanimosity** though their own house has no quarrel with the Eldar.\n**Pending:** Spanish only in the source.\n---"
+   },
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  }
+ ],
+ "note": "Documentos de diseño de authoring. No se seedean: contienen referencias al mundo real (fuentes, análogos climáticos/geográficos) que nunca deben llegar al narrador."
+}

@@ -86,3 +86,11 @@ _Avoid_: trigger zone, bounding box
 **influence radius**:
 The distance from a Place's point within which it already exists narratively — locals know it by name and can be asked about it, and its signs are felt before arrival.
 _Avoid_: aggro range, visibility radius
+
+**origin**:
+A Place's real-world inspiration — the folk motif, tale or building the record is modelled on (e.g. a Scottish peel tower, a folklore motif). Authoring metadata, `{es, en}`; it is never sent to the narrator and never informs prose.
+_Avoid_: source, reference, citation
+
+**in-world rule**:
+Every narratable field — `name`, `lore`, `base`, `base_lore`, `variants`, `sections`, `secret`, `beats`, `options`, `traveller_use` — is written entirely inside Middle-earth. Real-world sources (countries, authors, works, folklore traditions, historical analogues) never appear in them: name the model and the record loses its lore. Real-world material lives only in `origin` (per-record inspiration) or in `design-context.json` (region design packages — the un-seeded authoring notebooks that once were `ctx_*` lore records).
+_Avoid_: breaking the fourth wall, meta references
