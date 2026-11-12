@@ -34,6 +34,9 @@ export interface CharacterState {
   skill_lore?: number
   skill_stealth?: number
   skill_endurance?: number
+  skill_insight?: number
+  skill_deception?: number
+  skill_intimidation?: number
   fatigue?: number
   wounded?: 'none' | 'wounded' | 'badly_wounded'
 }
