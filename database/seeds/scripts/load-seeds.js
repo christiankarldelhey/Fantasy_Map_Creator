@@ -450,6 +450,14 @@ async function seedFromSqlFile(label, filePath) {
       // Each INSERT line gets ON CONFLICT (id) DO UPDATE SET <cols> = EXCLUDED.<cols>
       sql = transformToUpsert(sql, table);
       await client.query(sql);
+      // Explicit-id upserts never advance the serial sequence: re-sync it or
+      // runtime INSERTs (e.g. georef POST /locations) hit duplicate pkeys.
+      await client.query(
+        `SELECT setval(pg_get_serial_sequence($1, 'id'), COALESCE(MAX(id), 1))
+         FROM ${table}
+         WHERE pg_get_serial_sequence($1, 'id') IS NOT NULL`,
+        [`public.${table}`]
+      );
     }
 
     await client.query('COMMIT');
