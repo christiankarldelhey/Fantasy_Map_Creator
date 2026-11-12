@@ -425,7 +425,7 @@ router.post('/clone-all', authenticateToken, async (req, res, next) => {
           `INSERT INTO character_state
             (name, current_lng, current_lat, type, gender, description, description_es, system_prompt, introduction_instructions, resistance, permadeath, active, owner_user_id, template_id, slug, energy, shadow, energy_initial, shadow_initial, coins,
              skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, skill_stealth, skill_endurance, skill_insight, skill_deception, skill_intimidation)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, false, $11, $12, $13, $14, $15, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, false, $12, $13, $14, $15, $16, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)
            RETURNING id`,
           [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.description_es, t.system_prompt, t.introduction_instructions, t.resistance, t.permadeath, userId, t.id, cloneSlug, t.energy_initial ?? 100, t.shadow_initial ?? 0, TUNING.STARTING_COINS,
            t.skill_tracking ?? 0, t.skill_persuasion ?? 0, t.skill_ranged ?? 0, t.skill_melee ?? 0, t.skill_lore ?? 0, t.skill_stealth ?? 0, t.skill_endurance ?? 0, t.skill_insight ?? 0, t.skill_deception ?? 0, t.skill_intimidation ?? 0]
@@ -516,7 +516,7 @@ router.post('/clone/:templateId', authenticateToken, async (req, res, next) => {
         `INSERT INTO character_state
           (name, current_lng, current_lat, type, gender, description, description_es, system_prompt, introduction_instructions, resistance, permadeath, active, owner_user_id, template_id, slug, energy, shadow, energy_initial, shadow_initial, coins,
            skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, skill_stealth, skill_endurance, skill_insight, skill_deception, skill_intimidation)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, false, $11, $12, $13, $14, $15, $14, $15, $16, $17, $18, $19, $20, $21, $22)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, false, $12, $13, $14, $15, $16, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)
          RETURNING id`,
         [t.name, t.current_lng, t.current_lat, t.type, t.gender, t.description, t.description_es, t.system_prompt, t.introduction_instructions, t.resistance, t.permadeath, userId, t.id, cloneSlug, t.energy_initial ?? 100, t.shadow_initial ?? 0, TUNING.STARTING_COINS,
          t.skill_tracking ?? 0, t.skill_persuasion ?? 0, t.skill_ranged ?? 0, t.skill_melee ?? 0, t.skill_lore ?? 0, t.skill_stealth ?? 0, t.skill_endurance ?? 0, t.skill_insight ?? 0, t.skill_deception ?? 0, t.skill_intimidation ?? 0]
