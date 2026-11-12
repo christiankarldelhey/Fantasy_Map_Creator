@@ -4,12 +4,12 @@
     "name": "The green mounds",
     "candidates": [
       "88:The plain",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -23,12 +23,12 @@
     "id": "F-03",
     "name": "The markers",
     "candidates": [
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -43,12 +43,12 @@
     "id": "F-07",
     "name": "The ship",
     "candidates": [
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -78,8 +78,8 @@
     "id": "MW-02",
     "name": "The log bridge",
     "candidates": [
-      "156:The stones",
-      "27:The bridge"
+      "27:The bridge",
+      "156:The stones"
     ]
   },
   {
@@ -93,12 +93,12 @@
     "id": "MW-06",
     "name": "Where the paving ends",
     "candidates": [
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -160,8 +160,8 @@
     "id": "TS-15",
     "name": "The rangers' shelter",
     "candidates": [
-      "595:Stock",
-      "76:The wall"
+      "76:The wall",
+      "595:Stock"
     ]
   },
   {
@@ -190,25 +190,25 @@
     "name": "The ditch",
     "candidates": [
       "191:The barrow",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "SD-02",
     "name": "The green road",
     "candidates": [
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "245:The field",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -218,24 +218,24 @@
       "161:The well",
       "162:The well",
       "177:The well",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "SD-05",
     "name": "The shepherd's house",
     "candidates": [
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -243,13 +243,13 @@
     "name": "The ships",
     "candidates": [
       "7:The cape",
-      "156:The stones",
-      "554:Haerlond",
       "52:The beach",
       "76:The wall",
-      "455:Haerlond",
       "81:The house",
-      "174:The pebble beach"
+      "156:The stones",
+      "174:The pebble beach",
+      "455:Haerlond",
+      "554:Haerlond"
     ]
   },
   {
@@ -257,25 +257,25 @@
     "name": "The castle",
     "candidates": [
       "542:Bar Nevedui",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "AN-09",
     "name": "The causeway",
     "candidates": [
-      "904:ruins",
       "479:Minas Tirith",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -283,30 +283,30 @@
     "name": "The aqueduct",
     "candidates": [
       "6:The manor",
-      "559:Tir Eiliant",
-      "931:manor",
-      "933:manor",
-      "949:manor",
       "156:The stones",
-      "928:manor",
-      "940:manor",
-      "948:manor",
-      "929:manor",
-      "925:manor",
-      "939:manor",
-      "975:manor",
-      "950:manor",
-      "946:manor",
-      "904:ruins",
-      "918:ruins",
-      "934:manor",
-      "902:ruins",
       "255:The spring",
-      "968:manor",
-      "971:manor",
+      "559:Tir Eiliant",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins",
+      "925:manor",
+      "928:manor",
+      "929:manor",
+      "931:manor",
+      "933:manor",
+      "934:manor",
+      "939:manor",
+      "940:manor",
+      "946:manor",
+      "948:manor",
+      "949:manor",
+      "950:manor",
+      "968:manor",
+      "971:manor",
+      "975:manor"
     ]
   },
   {
@@ -314,27 +314,27 @@
     "name": "The chapel",
     "candidates": [
       "6:The manor",
-      "931:manor",
-      "933:manor",
-      "949:manor",
-      "928:manor",
-      "940:manor",
-      "948:manor",
-      "929:manor",
-      "925:manor",
-      "939:manor",
-      "975:manor",
-      "950:manor",
-      "946:manor",
-      "904:ruins",
-      "918:ruins",
-      "934:manor",
-      "902:ruins",
-      "968:manor",
-      "971:manor",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins",
+      "925:manor",
+      "928:manor",
+      "929:manor",
+      "931:manor",
+      "933:manor",
+      "934:manor",
+      "939:manor",
+      "940:manor",
+      "946:manor",
+      "948:manor",
+      "949:manor",
+      "950:manor",
+      "968:manor",
+      "971:manor",
+      "975:manor"
     ]
   },
   {
@@ -350,44 +350,44 @@
     "name": "The dry fountain",
     "candidates": [
       "21:The village",
-      "554:Haerlond",
       "39:The village",
       "455:Haerlond",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
+      "554:Haerlond",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "AN-15",
     "name": "The lighthouse that is not",
     "candidates": [
-      "923:tower",
-      "125:The lighthouse",
       "7:The cape",
-      "554:Haerlond",
-      "924:tower",
       "76:The wall",
-      "922:tower",
+      "125:The lighthouse",
+      "255:The spring",
       "455:Haerlond",
-      "255:The spring"
+      "554:Haerlond",
+      "922:tower",
+      "923:tower",
+      "924:tower"
     ]
   },
   {
     "id": "CD-01",
     "name": "The stair of the dwarves",
     "candidates": [
-      "164:The view",
       "68:The stair",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
+      "164:The view",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -402,12 +402,12 @@
     "name": "The ledge",
     "candidates": [
       "76:The wall",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -429,12 +429,12 @@
     "name": "The Sirannon",
     "candidates": [
       "156:The stones",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -467,26 +467,26 @@
     "id": "MD-04",
     "name": "The tunnel",
     "candidates": [
-      "923:tower",
-      "924:tower",
       "68:The stair",
-      "922:tower"
+      "922:tower",
+      "923:tower",
+      "924:tower"
     ]
   },
   {
     "id": "MD-05",
     "name": "The tower of the pass",
     "candidates": [
-      "923:tower",
-      "924:tower",
       "76:The wall",
-      "922:tower",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins",
+      "922:tower",
+      "923:tower",
+      "924:tower"
     ]
   },
   {
@@ -502,9 +502,9 @@
     "id": "MD-07",
     "name": "The road",
     "candidates": [
+      "83:The Morannon",
       "1165:Barad-dûr",
       "1180:Barad-dûr",
-      "83:The Morannon",
       "1230:Morannon"
     ]
   },
@@ -512,12 +512,12 @@
     "id": "MD-16",
     "name": "The tower, from afar",
     "candidates": [
+      "88:The plain",
+      "922:tower",
       "923:tower",
       "924:tower",
       "1165:Barad-dûr",
-      "1180:Barad-dûr",
-      "922:tower",
-      "88:The plain"
+      "1180:Barad-dûr"
     ]
   },
   {
@@ -532,8 +532,8 @@
     "id": "MD-22",
     "name": "The mouth",
     "candidates": [
-      "319:The walls",
-      "76:The wall"
+      "76:The wall",
+      "319:The walls"
     ]
   },
   {
@@ -541,13 +541,13 @@
     "name": "The hedge",
     "candidates": [
       "95:The two",
-      "904:ruins",
-      "918:ruins",
       "237:The Greenway",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -556,62 +556,62 @@
     "candidates": [
       "135:The boundary stone",
       "213:The boundary stone",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "RH-G3",
     "name": "The Mitheithel ford",
     "candidates": [
-      "494:Fennas Drunnin",
-      "79:The ford"
+      "79:The ford",
+      "494:Fennas Drunnin"
     ]
   },
   {
     "id": "RH-G4",
     "name": "The tower's cemetery",
     "candidates": [
-      "923:tower",
-      "924:tower",
       "76:The wall",
-      "922:tower",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "245:The field",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins",
+      "922:tower",
+      "923:tower",
+      "924:tower"
     ]
   },
   {
     "id": "TM-18",
     "name": "The occupied post",
     "candidates": [
+      "922:tower",
       "923:tower",
-      "924:tower",
-      "922:tower"
+      "924:tower"
     ]
   },
   {
     "id": "TM-19",
     "name": "The empty post",
     "candidates": [
-      "923:tower",
-      "924:tower",
       "76:The wall",
-      "922:tower",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins",
+      "922:tower",
+      "923:tower",
+      "924:tower"
     ]
   },
   {
@@ -627,8 +627,8 @@
     "name": "The halt on the trail",
     "candidates": [
       "11:The valley",
-      "562:Gundabad",
-      "88:The plain"
+      "88:The plain",
+      "562:Gundabad"
     ]
   },
   {
@@ -644,8 +644,8 @@
     "id": "GZ-05",
     "name": "The bend",
     "candidates": [
-      "578:Esgaroth",
-      "274:The camp"
+      "274:The camp",
+      "578:Esgaroth"
     ]
   },
   {
@@ -660,42 +660,42 @@
     "name": "The secret door",
     "candidates": [
       "164:The view",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "ER-07",
     "name": "Ravenhill",
     "candidates": [
-      "923:tower",
       "11:The valley",
-      "924:tower",
-      "1212:Erebor",
-      "922:tower",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins",
+      "922:tower",
+      "923:tower",
+      "924:tower",
+      "1212:Erebor"
     ]
   },
   {
     "id": "ER-10",
     "name": "The old piles",
     "candidates": [
-      "904:ruins",
       "578:Esgaroth",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -717,8 +717,8 @@
     "id": "ER-14",
     "name": "The eel mound",
     "candidates": [
-      "578:Esgaroth",
       "81:The house",
+      "578:Esgaroth",
       "625:Moria"
     ]
   },
@@ -740,47 +740,47 @@
     "id": "IT-06",
     "name": "The empty village",
     "candidates": [
-      "511:Minas Ithil",
       "21:The village",
       "39:The village",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
+      "511:Minas Ithil",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "IT-09",
     "name": "Emyn Arnen",
     "candidates": [
-      "931:manor",
-      "933:manor",
-      "949:manor",
-      "928:manor",
-      "188:The garden",
-      "940:manor",
-      "948:manor",
-      "929:manor",
-      "925:manor",
-      "939:manor",
       "72:The city",
-      "975:manor",
-      "950:manor",
-      "946:manor",
-      "904:ruins",
-      "479:Minas Tirith",
       "81:The house",
-      "918:ruins",
       "105:The garden",
-      "934:manor",
-      "902:ruins",
-      "968:manor",
-      "971:manor",
+      "188:The garden",
+      "479:Minas Tirith",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins",
+      "925:manor",
+      "928:manor",
+      "929:manor",
+      "931:manor",
+      "933:manor",
+      "934:manor",
+      "939:manor",
+      "940:manor",
+      "946:manor",
+      "948:manor",
+      "949:manor",
+      "950:manor",
+      "968:manor",
+      "971:manor",
+      "975:manor"
     ]
   },
   {
@@ -794,15 +794,15 @@
     "id": "IT-11",
     "name": "The garden somebody uses",
     "candidates": [
-      "188:The garden",
-      "904:ruins",
-      "918:ruins",
       "105:The garden",
-      "902:ruins",
+      "188:The garden",
       "255:The spring",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -810,12 +810,12 @@
     "name": "The Long Bridge",
     "candidates": [
       "11:The valley",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -831,29 +831,29 @@
     "name": "The wine house",
     "candidates": [
       "76:The wall",
-      "904:ruins",
       "81:The house",
-      "918:ruins",
-      "902:ruins",
       "255:The spring",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "IT-16",
     "name": "The perfumery",
     "candidates": [
-      "188:The garden",
       "76:The wall",
-      "904:ruins",
-      "918:ruins",
       "105:The garden",
-      "902:ruins",
+      "188:The garden",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -867,38 +867,38 @@
     "id": "IT-18",
     "name": "The moon road",
     "candidates": [
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "IT-19",
     "name": "The Elves' village",
     "candidates": [
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "DE-19",
     "name": "The boats' cove",
     "candidates": [
-      "923:tower",
       "21:The village",
       "39:The village",
-      "924:tower",
       "47:The cliff",
       "52:The beach",
-      "922:tower",
       "81:The house",
+      "922:tower",
+      "923:tower",
+      "924:tower",
       "1114:Edhellond"
     ]
   },
@@ -906,23 +906,23 @@
     "id": "DE-10",
     "name": "The raiders' pass",
     "candidates": [
-      "154:The raiders",
-      "461:Ethring",
-      "206:The echo",
       "93:The path",
-      "223:The gorge"
+      "154:The raiders",
+      "206:The echo",
+      "223:The gorge",
+      "461:Ethring"
     ]
   },
   {
     "id": "DE-11",
     "name": "The pass castle",
     "candidates": [
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -930,22 +930,22 @@
     "name": "The valley of the barrows",
     "candidates": [
       "11:The valley",
-      "456:Calembel",
       "191:The barrow",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
+      "456:Calembel",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "DE-20",
     "name": "The eastern cliffs",
     "candidates": [
-      "295:The island",
       "76:The wall",
+      "295:The island",
       "1045:Tolfalas"
     ]
   },
@@ -953,9 +953,9 @@
     "id": "DE-21",
     "name": "The southern caves",
     "candidates": [
-      "295:The island",
       "47:The cliff",
       "76:The wall",
+      "295:The island",
       "1045:Tolfalas"
     ]
   },
@@ -963,8 +963,8 @@
     "id": "DE-22",
     "name": "The wreck beach",
     "candidates": [
-      "295:The island",
       "52:The beach",
+      "295:The island",
       "1045:Tolfalas"
     ]
   },
@@ -972,13 +972,13 @@
     "id": "DE-23",
     "name": "The village on the land side",
     "candidates": [
-      "295:The island",
       "21:The village",
       "39:The village",
       "52:The beach",
-      "1257:Umbar",
+      "295:The island",
       "591:Dol Amroth",
-      "1045:Tolfalas"
+      "1045:Tolfalas",
+      "1257:Umbar"
     ]
   },
   {
@@ -1005,10 +1005,10 @@
     "id": "AO-01",
     "name": "The beacon",
     "candidates": [
-      "923:tower",
-      "924:tower",
       "72:The city",
-      "922:tower"
+      "922:tower",
+      "923:tower",
+      "924:tower"
     ]
   },
   {
@@ -1022,40 +1022,40 @@
     "id": "AO-03",
     "name": "The Rammas",
     "candidates": [
-      "923:tower",
-      "924:tower",
-      "209:The ram",
       "72:The city",
       "76:The wall",
-      "922:tower",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
+      "209:The ram",
       "245:The field",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins",
+      "922:tower",
+      "923:tower",
+      "924:tower"
     ]
   },
   {
     "id": "AO-04",
     "name": "The Pelennor",
     "candidates": [
-      "209:The ram",
       "72:The city",
-      "88:The plain"
+      "88:The plain",
+      "209:The ram"
     ]
   },
   {
     "id": "AO-05",
     "name": "The ford village",
     "candidates": [
-      "295:The island",
       "21:The village",
       "39:The village",
       "72:The city",
       "76:The wall",
       "79:The ford",
+      "295:The island",
       "450:Cair Andros"
     ]
   },
@@ -1064,31 +1064,31 @@
     "name": "The county seat",
     "candidates": [
       "6:The manor",
+      "81:The house",
+      "88:The plain",
+      "925:manor",
+      "928:manor",
+      "929:manor",
       "931:manor",
       "933:manor",
-      "949:manor",
-      "928:manor",
-      "940:manor",
-      "948:manor",
-      "929:manor",
-      "925:manor",
-      "939:manor",
-      "88:The plain",
-      "975:manor",
-      "950:manor",
-      "946:manor",
-      "81:The house",
       "934:manor",
+      "939:manor",
+      "940:manor",
+      "946:manor",
+      "948:manor",
+      "949:manor",
+      "950:manor",
       "968:manor",
-      "971:manor"
+      "971:manor",
+      "975:manor"
     ]
   },
   {
     "id": "AO-07",
     "name": "The Lonely Home",
     "candidates": [
-      "212:The pens",
-      "81:The house"
+      "81:The house",
+      "212:The pens"
     ]
   },
   {
@@ -1154,22 +1154,22 @@
     "id": "MT-07",
     "name": "The archive",
     "candidates": [
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "MT-08",
     "name": "The Court of the Fountain",
     "candidates": [
-      "923:tower",
-      "924:tower",
       "72:The city",
-      "922:tower"
+      "922:tower",
+      "923:tower",
+      "924:tower"
     ]
   },
   {
@@ -1184,18 +1184,18 @@
     "id": "LB-02",
     "name": "The birch tower",
     "candidates": [
-      "923:tower",
       "11:The valley",
-      "924:tower",
       "72:The city",
-      "922:tower",
-      "904:ruins",
       "81:The house",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins",
+      "922:tower",
+      "923:tower",
+      "924:tower"
     ]
   },
   {
@@ -1203,135 +1203,135 @@
     "name": "The Serni mill",
     "candidates": [
       "1:The channels",
+      "95:The two",
       "156:The stones",
-      "556:Pelargir",
-      "95:The two"
+      "556:Pelargir"
     ]
   },
   {
     "id": "LB-04",
     "name": "The knight's estate",
     "candidates": [
-      "923:tower",
-      "924:tower",
+      "81:The house",
       "556:Pelargir",
       "922:tower",
-      "81:The house"
+      "923:tower",
+      "924:tower"
     ]
   },
   {
     "id": "LB-05",
     "name": "The ring fort",
     "candidates": [
-      "923:tower",
-      "924:tower",
       "76:The wall",
-      "922:tower",
-      "904:ruins",
-      "225:The ring",
       "81:The house",
-      "918:ruins",
-      "902:ruins",
+      "225:The ring",
       "245:The field",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins",
+      "922:tower",
+      "923:tower",
+      "924:tower"
     ]
   },
   {
     "id": "LB-06",
     "name": "The promontory castle",
     "candidates": [
-      "923:tower",
       "21:The village",
       "39:The village",
-      "924:tower",
+      "483:Linhir",
       "922:tower",
-      "483:Linhir"
+      "923:tower",
+      "924:tower"
     ]
   },
   {
     "id": "PG-02",
     "name": "The garth",
     "candidates": [
-      "556:Pelargir",
-      "72:The city"
+      "72:The city",
+      "556:Pelargir"
     ]
   },
   {
     "id": "PG-03",
     "name": "The isle",
     "candidates": [
-      "923:tower",
-      "924:tower",
       "27:The bridge",
       "72:The city",
       "76:The wall",
+      "95:The two",
       "922:tower",
-      "95:The two"
+      "923:tower",
+      "924:tower"
     ]
   },
   {
     "id": "PG-04",
     "name": "The Faithful's Quarter",
     "candidates": [
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "245:The field",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
     "id": "PG-05",
     "name": "The Grove Quarter",
     "candidates": [
-      "556:Pelargir",
       "72:The city",
-      "226:The grove"
+      "226:The grove",
+      "556:Pelargir"
     ]
   },
   {
     "id": "AF-01",
     "name": "The capital",
     "candidates": [
-      "479:Minas Tirith",
-      "81:The house"
+      "81:The house",
+      "479:Minas Tirith"
     ]
   },
   {
     "id": "AF-02",
     "name": "The sister beacons",
     "candidates": [
-      "923:tower",
-      "924:tower",
       "556:Pelargir",
-      "922:tower"
+      "922:tower",
+      "923:tower",
+      "924:tower"
     ]
   },
   {
     "id": "AF-08",
     "name": "The beeches' castle",
     "candidates": [
-      "595:Stock",
-      "95:The two"
+      "95:The two",
+      "595:Stock"
     ]
   },
   {
     "id": "HR-04",
     "name": "The hidden spring",
     "candidates": [
-      "923:tower",
-      "137:The plateau",
-      "305:The Aegardh",
-      "924:tower",
-      "188:The garden",
-      "922:tower",
-      "479:Minas Tirith",
       "105:The garden",
-      "255:The spring"
+      "137:The plateau",
+      "188:The garden",
+      "255:The spring",
+      "305:The Aegardh",
+      "479:Minas Tirith",
+      "922:tower",
+      "923:tower",
+      "924:tower"
     ]
   },
   {
@@ -1359,11 +1359,11 @@
     "candidates": [
       "11:The valley",
       "21:The village",
-      "39:The village",
       "27:The bridge",
-      "595:Stock",
+      "39:The village",
       "79:The ford",
-      "225:The ring"
+      "225:The ring",
+      "595:Stock"
     ]
   },
   {
@@ -1379,15 +1379,15 @@
     "name": "The Dark Door",
     "candidates": [
       "11:The valley",
-      "319:The walls",
       "76:The wall",
       "95:The two",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
+      "319:The walls",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -1412,18 +1412,18 @@
     "id": "WM-02-westmarch",
     "name": "The pass tower",
     "candidates": [
+      "922:tower",
       "923:tower",
-      "924:tower",
-      "922:tower"
+      "924:tower"
     ]
   },
   {
     "id": "WM-03-westmarch",
     "name": "The trade post",
     "candidates": [
+      "922:tower",
       "923:tower",
-      "924:tower",
-      "922:tower"
+      "924:tower"
     ]
   },
   {
@@ -1454,12 +1454,12 @@
     "name": "Cûm Arelaid",
     "candidates": [
       "11:The valley",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {
@@ -1467,9 +1467,9 @@
     "name": "The falls in the gorge",
     "candidates": [
       "11:The valley",
-      "319:The walls",
       "76:The wall",
-      "223:The gorge"
+      "223:The gorge",
+      "319:The walls"
     ]
   },
   {
@@ -1483,8 +1483,8 @@
     "id": "DI-02",
     "name": "The Hwalord market",
     "candidates": [
-      "1212:Erebor",
-      "619:Hwalord"
+      "619:Hwalord",
+      "1212:Erebor"
     ]
   },
   {
@@ -1493,9 +1493,9 @@
     "candidates": [
       "21:The village",
       "39:The village",
-      "619:Hwalord",
       "76:The wall",
-      "81:The house"
+      "81:The house",
+      "619:Hwalord"
     ]
   },
   {
@@ -1527,8 +1527,8 @@
     "id": "EL-02",
     "name": "The three passes",
     "candidates": [
-      "1127:Lindon",
-      "100:The cart"
+      "100:The cart",
+      "1127:Lindon"
     ]
   },
   {
@@ -1543,14 +1543,14 @@
     "id": "NG-01",
     "name": "Merlost",
     "candidates": [
-      "904:ruins",
-      "918:ruins",
-      "1185:Belegost",
-      "902:ruins",
       "893:ruins",
       "894:ruins",
       "901:ruins",
-      "1170:Belegost"
+      "902:ruins",
+      "904:ruins",
+      "918:ruins",
+      "1170:Belegost",
+      "1185:Belegost"
     ]
   },
   {
@@ -1596,24 +1596,24 @@
     "id": "NU-06",
     "name": "Eruimar · the Lonely Home",
     "candidates": [
-      "137:The plateau",
       "40:The cliffs",
-      "166:The shelter",
-      "209:The ram",
-      "626:Eruimar",
       "47:The cliff",
       "76:The wall",
-      "81:The house"
+      "81:The house",
+      "137:The plateau",
+      "166:The shelter",
+      "209:The ram",
+      "626:Eruimar"
     ]
   },
   {
     "id": "NU-10",
     "name": "The Annúduin",
     "candidates": [
-      "137:The plateau",
       "21:The village",
       "39:The village",
-      "79:The ford"
+      "79:The ford",
+      "137:The plateau"
     ]
   },
   {
@@ -1666,14 +1666,14 @@
     "candidates": [
       "7:The cape",
       "21:The village",
-      "156:The stones",
       "39:The village",
-      "904:ruins",
-      "918:ruins",
-      "902:ruins",
+      "156:The stones",
       "893:ruins",
       "894:ruins",
-      "901:ruins"
+      "901:ruins",
+      "902:ruins",
+      "904:ruins",
+      "918:ruins"
     ]
   },
   {

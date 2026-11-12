@@ -877,7 +877,7 @@ async function seedPlaces() {
 
   // locations name → row, for the exact-name anchor pass
   const { rows: locs } = await pool.query(
-    'SELECT id, name, location_type FROM locations'
+    'SELECT id, name, location_type FROM locations ORDER BY id'
   );
   const locByName = new Map(locs.map((l) => [l.name.toLowerCase(), l]));
   const locById = new Map(locs.map((l) => [l.id, l]));
