@@ -154,15 +154,40 @@ router.patch('/places/:id', async (req, res, next) => {
     const params = [req.params.id];
     const add = (expr, value) => { params.push(value); sets.push(expr.replace('?', `$${params.length}`)); };
 
+    let lonIdx, latIdx;
     if (lon !== undefined && lat !== undefined) {
       if (Number.isNaN(parseFloat(lon)) || Number.isNaN(parseFloat(lat))) {
         return res.status(400).json({ error: 'lon and lat must be numbers' });
       }
       params.push(parseFloat(lon), parseFloat(lat));
-      sets.push(`geom = ST_SetSRID(ST_MakePoint($${params.length - 1}, $${params.length}), 4326)`);
+      lonIdx = params.length - 1;
+      latIdx = params.length;
+      sets.push(`geom = ST_SetSRID(ST_MakePoint($${lonIdx}, $${latIdx}), 4326)`);
     }
     if (location_id !== undefined) add('location_id = ?', location_id);
-    if (region_id !== undefined) add('region_id = ?', region_id);
+    // The containing region is spatial truth: derive it from the point unless
+    // the user picked one explicitly. payload.region/region_ids follow so the
+    // list filter never shows the ficha under its old region.
+    let regionExpr;
+    if (region_id != null) {
+      // Cast the param: a null/untyped bind inside CASE makes PG fail with
+      // "could not determine data type of parameter $N".
+      params.push(region_id);
+      regionExpr = `($${params.length})::int`;
+    } else if (region_id === null && lonIdx === undefined) {
+      sets.push('region_id = NULL');
+      sets.push(`payload = COALESCE(payload, '{}'::jsonb) - 'region' - 'region_ids'`);
+    } else if (lonIdx !== undefined) {
+      regionExpr = `(SELECT rr.id FROM regions rr WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($${lonIdx}, $${latIdx}), 4326)) LIMIT 1)`;
+    }
+    if (regionExpr) {
+      sets.push(`region_id = ${regionExpr}`);
+      sets.push(`payload = CASE WHEN (${regionExpr}) IS NULL THEN payload
+        ELSE (COALESCE(payload,'{}'::jsonb) - 'region' - 'region_ids') || jsonb_build_object(
+          'region_ids', jsonb_build_array((${regionExpr})::int),
+          'region', (SELECT r2.name FROM regions r2 WHERE r2.id = (${regionExpr})::int))
+        END`);
+    }
     if (type !== undefined) add('type = ?', type);
     if (size_radius_km !== undefined) add('size_radius_km = ?', size_radius_km);
     if (influence_radius_km !== undefined) add('influence_radius_km = ?', influence_radius_km);

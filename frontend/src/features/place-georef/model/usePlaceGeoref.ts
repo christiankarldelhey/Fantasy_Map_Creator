@@ -159,7 +159,9 @@ export function usePlaceGeoref() {
       if (!activePlace.value) return
       draft.value.lon = lngLat.lng
       draft.value.lat = lngLat.lat
-      if (!draft.value.region_id && data.region) draft.value.region_id = data.region.id
+      // The dropdown follows the click: the region is whichever polygon
+      // contains the point, so a dragged point can never keep a stale region.
+      if (data.region) draft.value.region_id = data.region.id
       refreshMapSources()
     } catch (e: any) {
       error.value = e.response?.data?.error || e.message
@@ -175,7 +177,10 @@ export function usePlaceGeoref() {
   }
 
   async function saveAdopt(candidate: NearbyCandidate) {
-    if (!activePlace.value || draft.value.lon === null) return
+    if (!activePlace.value || draft.value.lon === null) {
+      error.value = 'Sin punto en el draft: hacé click en el mapa (o "ir a" el approx) antes de guardar'
+      return
+    }
     saving.value = true
     error.value = null
     try {
@@ -195,7 +200,10 @@ export function usePlaceGeoref() {
   }
 
   async function saveCreate() {
-    if (!activePlace.value || draft.value.lon === null || draft.value.lat === null) return
+    if (!activePlace.value || draft.value.lon === null || draft.value.lat === null) {
+      error.value = 'Sin punto en el draft: hacé click en el mapa (o "ir a" el approx) antes de guardar'
+      return
+    }
     saving.value = true
     error.value = null
     try {
