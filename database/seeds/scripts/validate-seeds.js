@@ -420,6 +420,67 @@ async function validateDepictionLinks() {
 }
 
 /**
+ * Validate the normalized record shape (ADR-0014 → normalize_narration_columns):
+ *  - payload carries no scalar copies of real columns and no dead scratch keys
+ *    (name/type objects {en,es} are the authored bilingual form and may stay)
+ *  - region_id is region_ids' first element when the list is present
+ *  - kind/action coherence (only interactions carry action)
+ */
+async function validateNarrationShape() {
+  console.log('\n📐 Validating narration record shape...');
+
+  const { rows: [reg] } = await pool.query(`SELECT to_regclass('places_narration') AS t`);
+  if (!reg.t) {
+    console.log('⚠️  places_narration not present; run the narration migration first');
+    return;
+  }
+
+  try {
+    const COLUMN_KEYS = [
+      'id', 'kind', 'action', 'place_ref', 'tags',
+      'region', 'region_id', 'region_ids', 'region_confidence',
+      '_group', '_in_sit',
+    ];
+    const { rows: dirty } = await pool.query(
+      `SELECT id FROM places_narration
+       WHERE payload ?| $1::text[]
+          OR (payload ? 'name' AND jsonb_typeof(payload->'name') IS DISTINCT FROM 'object')
+          OR (payload ? 'type' AND jsonb_typeof(payload->'type') IS DISTINCT FROM 'object')
+       LIMIT 10`,
+      [COLUMN_KEYS]
+    );
+    if (dirty.length === 0) {
+      console.log('✅ payload: no column-duplicate or scratch keys');
+    } else {
+      console.log(`⚠️  ${dirty.length}+ records carry column-duplicate payload keys: ${dirty.map((d) => d.id).join(', ')}`);
+    }
+
+    const { rows: [misaligned] } = await pool.query(
+      `SELECT COUNT(*)::int AS n FROM places_narration
+       WHERE region_ids IS NOT NULL AND region_id IS DISTINCT FROM region_ids[1]`
+    );
+    if (misaligned.n === 0) {
+      console.log('✅ region_id is region_ids[1] wherever the list exists');
+    } else {
+      console.log(`⚠️  ${misaligned.n} records whose region_id is not region_ids[1]`);
+    }
+
+    const { rows: [badAction] } = await pool.query(
+      `SELECT COUNT(*)::int AS n FROM places_narration
+       WHERE NOT ((kind = 'interaction' AND action IN ('rest','offer'))
+               OR (kind <> 'interaction' AND action IS NULL))`
+    );
+    if (badAction.n === 0) {
+      console.log('✅ kind/action coherence');
+    } else {
+      console.log(`⚠️  ${badAction.n} records violate kind/action coherence`);
+    }
+  } catch (error) {
+    console.log(`❌ Error validating narration shape: ${error.message}`);
+  }
+}
+
+/**
  * Validate mover leg rules (Living Map seed family).
  * Tolerates empty tables: no movers authored yet is a valid state.
  */
@@ -636,6 +697,7 @@ async function main() {
     await validateLocationTypes();
     await validateForeignKeys();
     await validateDepictionLinks();
+    await validateNarrationShape();
     await validateMovers();
     await validateDataFormats();
     await generateReport();

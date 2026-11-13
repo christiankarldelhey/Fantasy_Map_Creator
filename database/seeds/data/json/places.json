@@ -2046,7 +2046,7 @@
   },
   {
    "id": "e04_second_night",
-   "kind": "offer",
+   "kind": "interaction",
    "region_id": 70,
    "region": "Eregion",
    "region_confidence": "high",
@@ -2104,11 +2104,12 @@
    "notes": [],
    "region_ids": [
     70
-   ]
+   ],
+   "action": "offer"
   },
   {
    "id": "e05_look_in",
-   "kind": "offer",
+   "kind": "interaction",
    "region_id": 70,
    "region": "Eregion",
    "region_confidence": "high",
@@ -2154,11 +2155,12 @@
    "notes": [],
    "region_ids": [
     70
-   ]
+   ],
+   "action": "offer"
   },
   {
    "id": "e08_stay",
-   "kind": "offer",
+   "kind": "interaction",
    "region_id": 70,
    "region": "Eregion",
    "region_confidence": "high",
@@ -2204,11 +2206,12 @@
    "notes": [],
    "region_ids": [
     70
-   ]
+   ],
+   "action": "offer"
   },
   {
    "id": "f02_doubtful_crossing",
-   "kind": "offer",
+   "kind": "interaction",
    "region_id": 66,
    "region": "Forovirian",
    "region_confidence": "high",
@@ -2266,11 +2269,12 @@
    "notes": [],
    "region_ids": [
     66
-   ]
+   ],
+   "action": "offer"
   },
   {
    "id": "f06_take_and_leave",
-   "kind": "offer",
+   "kind": "interaction",
    "region_id": 66,
    "region": "Forovirian",
    "region_confidence": "high",
@@ -2333,11 +2337,12 @@
    ],
    "region_ids": [
     66
-   ]
+   ],
+   "action": "offer"
   },
   {
    "id": "f12_take_a_fox",
-   "kind": "offer",
+   "kind": "interaction",
    "region_id": 66,
    "region": "Forovirian",
    "region_confidence": "high",
@@ -2400,11 +2405,12 @@
    ],
    "region_ids": [
     66
-   ]
+   ],
+   "action": "offer"
   },
   {
    "id": "f04_cross_or_round",
-   "kind": "offer",
+   "kind": "interaction",
    "region_id": 66,
    "region": "Forovirian",
    "region_confidence": "high",
@@ -2450,11 +2456,12 @@
    "notes": [],
    "region_ids": [
     66
-   ]
+   ],
+   "action": "offer"
   },
   {
    "id": "f08_wait_or_round",
-   "kind": "offer",
+   "kind": "interaction",
    "region_id": 66,
    "region": "Forovirian",
    "region_confidence": "high",
@@ -2512,7 +2519,8 @@
    "notes": [],
    "region_ids": [
     66
-   ]
+   ],
+   "action": "offer"
   },
   {
    "id": "M-00",
@@ -2663,7 +2671,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el tacto, y lo que el tacto deja de informar",
+   "channel": {
+    "es": "el tacto, y lo que el tacto deja de informar",
+    "en": "touch, and what touch stops telling him"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -2705,8 +2716,7 @@
      "mind": null,
      "trigger_en": "from day 3"
     }
-   ],
-   "channel_en": "touch, and what touch stops telling him"
+   ]
   },
   {
    "id": "M-A3",
@@ -2724,7 +2734,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el estómago. La que más pesa en la capa de supervivencia",
+   "channel": {
+    "es": "el estómago. La que más pesa en la capa de supervivencia",
+    "en": "the stomach. The heaviest layer of survival"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -2766,8 +2779,7 @@
      "mind": null,
      "trigger_en": "from day 5"
     }
-   ],
-   "channel_en": "the stomach. The heaviest layer of survival"
+   ]
   },
   {
    "id": "M-A4",
@@ -2785,7 +2797,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el oído. Base sobre la que se construye Dol Guldur",
+   "channel": {
+    "es": "el oído. Base sobre la que se construye Dol Guldur",
+    "en": "hearing. The foundation on which Dol Guldur is built"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -2852,8 +2867,7 @@
      "mind_en": "belief \"there is something out there at night\"",
      "trigger_en": "from night 4"
     }
-   ],
-   "channel_en": "hearing. The foundation on which Dol Guldur is built"
+   ]
   },
   {
    "id": "MW-01",
@@ -3322,7 +3336,7 @@
     "en": "Log hut beside the road on the road across the forest (Old Forest Road), with a spring fifty paces off."
    },
    "approx_point": {
-    "lon": 16.0,
+    "lon": 16,
     "lat": 51.69,
     "basis": "Camino Viejo del Bosque, trail 3608, primera jornada desde la entrada (15.58)"
    }
@@ -5033,7 +5047,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el cuerpo, el cansancio y el sueño",
+   "channel": {
+    "es": "el cuerpo, el cansancio y el sueño",
+    "en": "the body, tiredness and sleep"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -5087,8 +5104,7 @@
      "mind": null,
      "trigger_en": "clear night"
     }
-   ],
-   "channel_en": "the body, tiredness and sleep"
+   ]
   },
   {
    "id": "TS-A2",
@@ -5106,7 +5122,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el oído, y lo que tapa",
+   "channel": {
+    "es": "el oído, y lo que tapa",
+    "en": "hearing, and what it masks"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -5148,8 +5167,7 @@
      "mind": null,
      "trigger_en": "from day 3"
     }
-   ],
-   "channel_en": "hearing, and what it masks"
+   ]
   },
   {
    "id": "TS-01",
@@ -6776,7 +6794,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la ausencia, sin inquietud",
+   "channel": {
+    "es": "la ausencia, sin inquietud",
+    "en": "absence, without unease"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -6829,8 +6850,7 @@
      "mind": null,
      "trigger_en": "from day 3"
     }
-   ],
-   "channel_en": "absence, without unease"
+   ]
   },
   {
    "id": "SD-01",
@@ -7179,7 +7199,10 @@
     "es": null,
     "en": null
    },
-   "channel": "Canal dominante: la luz y el calor.",
+   "channel": {
+    "es": "Canal dominante: la luz y el calor.",
+    "en": "Dominant channel: light and heat."
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -7221,8 +7244,7 @@
      "mind": null,
      "trigger_en": "day 2"
     }
-   ],
-   "channel_en": "Dominant channel: light and heat."
+   ]
   },
   {
    "id": "AN-A1",
@@ -7240,7 +7262,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el calor y el ritmo del día",
+   "channel": {
+    "es": "el calor y el ritmo del día",
+    "en": "the heat and the rhythm of the day"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -7280,8 +7305,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the heat and the rhythm of the day"
+   ]
   },
   {
    "id": "AN-A2",
@@ -7299,7 +7323,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la sensación de ser visto sin amenaza",
+   "channel": {
+    "es": "la sensación de ser visto sin amenaza",
+    "en": "the feeling of being watched without threat"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -7351,8 +7378,7 @@
      "mind": "creencia \"acá hay gente que no veo\"",
      "mind_en": "belief \"there are people here I cannot see\""
     }
-   ],
-   "channel_en": "the feeling of being watched without threat"
+   ]
   },
   {
    "id": "AN-01",
@@ -9155,7 +9181,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el camino, que mejora donde debería empeorar",
+   "channel": {
+    "es": "el camino, que mejora donde debería empeorar",
+    "en": "the road, which improves where it should worsen"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -9211,8 +9240,7 @@
      "mind_en": "belief \"there is somebody in charge here\"",
      "trigger_en": "day 2"
     }
-   ],
-   "channel_en": "the road, which improves where it should worsen"
+   ]
   },
   {
    "id": "AM-A1",
@@ -9230,7 +9258,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el cuerpo y el ánimo",
+   "channel": {
+    "es": "el cuerpo y el ánimo",
+    "en": "the body and the spirits"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -9296,8 +9327,7 @@
      "mind": null,
      "trigger_en": "from day 5"
     }
-   ],
-   "channel_en": "the body and the spirits"
+   ]
   },
   {
    "id": "AM-A2",
@@ -9315,7 +9345,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la sed, y quién la administra",
+   "channel": {
+    "es": "la sed, y quién la administra",
+    "en": "thirst, and who administers it"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -9382,8 +9415,7 @@
      "mind": null,
      "trigger_en": "thirst in low band"
     }
-   ],
-   "channel_en": "thirst, and who administers it"
+   ]
   },
   {
    "id": "AM-01",
@@ -9851,7 +9883,7 @@
    "beats": [],
    "approx_point": {
     "lat": 55.25,
-    "lon": 7.0,
+    "lon": 7,
     "basis": "Valle seco en la estepa central"
    },
    "anchor_hint": {
@@ -10270,7 +10302,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la ausencia de gente",
+   "channel": {
+    "es": "la ausencia de gente",
+    "en": "the absence of people"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -10312,8 +10347,7 @@
      "mind": null,
      "trigger_en": "`west_base`"
     }
-   ],
-   "channel_en": "the absence of people"
+   ]
   },
   {
    "id": "CD-01",
@@ -10885,7 +10919,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el aire. Se entra por el norte, desde el Dagorlad",
+   "channel": {
+    "es": "el aire. Se entra por el norte, desde el Dagorlad",
+    "en": "the air. You enter from the north, from the Dagorlad"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -10940,8 +10977,7 @@
      "mind_en": "belief \"you cannot drink here\"",
      "trigger_en": "day 2"
     }
-   ],
-   "channel_en": "the air. You enter from the north, from the Dagorlad"
+   ]
   },
   {
    "id": "MD-A1",
@@ -10959,7 +10995,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la garganta",
+   "channel": {
+    "es": "la garganta",
+    "en": "the throat"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -11024,8 +11063,7 @@
      "mind_en": "high importance",
      "trigger_en": "from day 3"
     }
-   ],
-   "channel_en": "the throat"
+   ]
   },
   {
    "id": "MD-A2",
@@ -11043,7 +11081,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vista y el reloj",
+   "channel": {
+    "es": "la vista y el reloj",
+    "en": "sight and the clock"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -11096,8 +11137,7 @@
      "mind": null,
      "trigger_en": "at night, with Orodruin active"
     }
-   ],
-   "channel_en": "sight and the clock"
+   ]
   },
   {
    "id": "MD-A3",
@@ -11115,7 +11155,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la sed. Es el contador de la región",
+   "channel": {
+    "es": "la sed. Es el contador de la región",
+    "en": "thirst. It is the region's counter"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -11169,8 +11212,7 @@
      "mind_en": "high importance",
      "trigger_en": "thirst in low band"
     }
-   ],
-   "channel_en": "thirst. It is the region's counter"
+   ]
   },
   {
    "id": "MD-A4",
@@ -11188,7 +11230,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el tacto y lo que se acumula",
+   "channel": {
+    "es": "el tacto y lo que se acumula",
+    "en": "touch and what accumulates"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -11254,8 +11299,7 @@
      "mind": null,
      "trigger_en": "on leaving Mordor"
     }
-   ],
-   "channel_en": "touch and what accumulates"
+   ]
   },
   {
    "id": "MD-01",
@@ -12345,7 +12389,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la mirada ajena",
+   "channel": {
+    "es": "la mirada ajena",
+    "en": "another's gaze"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -12400,8 +12447,7 @@
      "mind": null,
      "trigger_en": "day 2"
     }
-   ],
-   "channel_en": "another's gaze"
+   ]
   },
   {
    "id": "DU-A1",
@@ -12419,7 +12465,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vigilancia, sin amenaza",
+   "channel": {
+    "es": "la vigilancia, sin amenaza",
+    "en": "watchfulness, without threat"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -12470,8 +12519,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "watchfulness, without threat"
+   ]
   },
   {
    "id": "DU-A2",
@@ -12489,7 +12537,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vista, y una herida con fecha",
+   "channel": {
+    "es": "la vista, y una herida con fecha",
+    "en": "sight, and a wound with a date"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -12540,8 +12591,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "sight, and a wound with a date"
+   ]
   },
   {
    "id": "DU-A3",
@@ -12559,7 +12609,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social. Es la mecánica de la región",
+   "channel": {
+    "es": "lo social. Es la mecánica de la región",
+    "en": "the social. It is the region's mechanic"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -12612,8 +12665,7 @@
      "mind": "creencia \"acá todo se sabe\"",
      "mind_en": "belief \"here everything is known\""
     }
-   ],
-   "channel_en": "the social. It is the region's mechanic"
+   ]
   },
   {
    "id": "DU-01",
@@ -13098,7 +13150,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el cuerpo, y el permiso para no moverse",
+   "channel": {
+    "es": "el cuerpo, y el permiso para no moverse",
+    "en": "the body, and the permission not to move"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -13150,8 +13205,7 @@
      "mind": null,
      "trigger_en": "*melancholy +*"
     }
-   ],
-   "channel_en": "the body, and the permission not to move"
+   ]
   },
   {
    "id": "LI-A2",
@@ -13169,7 +13223,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el oído. Es el motor de la región",
+   "channel": {
+    "es": "el oído. Es el motor de la región",
+    "en": "the ear. It is the region's engine"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -13233,7 +13290,6 @@
      "trigger_en": "high melancholy"
     }
    ],
-   "channel_en": "the ear. It is the region's engine",
    "origin": {
     "es": "**De dónde sale:** el *sí-draíochta*, la música de las hadas irlandesas, y el procedimiento de Yeats, donde lo sobrenatural se cuenta sin cambiar de tono. La regla de que el que la busca no la encuentra es de la tradición oral y aparece en Gregory.",
     "en": "**Where it comes from:** the *sí-draíochta*, the Irish fairy music, and Yeats's procedure, where the supernatural is told without a change of tone. The rule that whoever seeks it does not find it is from oral tradition and appears in Gregory."
@@ -13255,7 +13311,10 @@
     "es": null,
     "en": null
    },
-   "channel": "ninguno, y ese es el punto",
+   "channel": {
+    "es": "ninguno, y ese es el punto",
+    "en": "none, and that is the point"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -13331,7 +13390,6 @@
      "trigger_en": "high melancholy · *mechanical*"
     }
    ],
-   "channel_en": "none, and that is the point",
    "origin": {
     "es": "**De dónde sale:** Oisín en Tír na nÓg y el regreso de Bran, los dos en Gregory. En Tolkien está en Lórien.",
     "en": "**Where it comes from:** Oisín in Tír na nÓg and Bran's return, both in Gregory. In Tolkien it is in Lórien."
@@ -13353,7 +13411,10 @@
     "es": null,
     "en": null
    },
-   "channel": "Ambiental. El costo real, y es mundano.",
+   "channel": {
+    "es": "Ambiental. El costo real, y es mundano.",
+    "en": "Ambient. The real cost, and it is mundane."
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -13407,8 +13468,7 @@
      "mind": null,
      "trigger_en": "high melancholy and low hunger"
     }
-   ],
-   "channel_en": "Ambient. The real cost, and it is mundane."
+   ]
   },
   {
    "id": "LI-A5",
@@ -13426,7 +13486,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vista, y lo que deja de distinguir",
+   "channel": {
+    "es": "la vista, y lo que deja de distinguir",
+    "en": "the view, and what it stops telling apart"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -13479,8 +13542,7 @@
      "mind": null,
      "trigger_en": "on leaving Lindon"
     }
-   ],
-   "channel_en": "the view, and what it stops telling apart"
+   ]
   },
   {
    "id": "LI-A6",
@@ -13498,7 +13560,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vista, y cuarenta minutos",
+   "channel": {
+    "es": "la vista, y cuarenta minutos",
+    "en": "the view, and forty minutes"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -13551,8 +13616,7 @@
      "mind": null,
      "trigger_en": "*melancholy ++*"
     }
-   ],
-   "channel_en": "the view, and forty minutes"
+   ]
   },
   {
    "id": "LI-O2",
@@ -14235,7 +14299,7 @@
    "beats": [],
    "approx_point": {
     "lon": -5.75,
-    "lat": 51.0,
+    "lat": 51,
     "basis": "Dunas de la costa"
    },
    "anchor_hint": {
@@ -14816,7 +14880,7 @@
    "beats": [],
    "approx_point": {
     "lon": -4.5,
-    "lat": 51.0,
+    "lat": 51,
     "basis": "Junto al camino"
    },
    "anchor_hint": {
@@ -16056,7 +16120,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el alivio, y el desconcierto",
+   "channel": {
+    "es": "el alivio, y el desconcierto",
+    "en": "relief, and disorientation"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -16110,8 +16177,7 @@
      "mind": null,
      "trigger_en": "day 2"
     }
-   ],
-   "channel_en": "relief, and disorientation"
+   ]
   },
   {
    "id": "SH-A1",
@@ -16129,7 +16195,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el estómago, que acá nunca está vacío",
+   "channel": {
+    "es": "el estómago, que acá nunca está vacío",
+    "en": "the stomach, which is never empty here"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -16180,8 +16249,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the stomach, which is never empty here"
+   ]
   },
   {
    "id": "SH-A2",
@@ -16199,7 +16267,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social. Es la mecánica de la región",
+   "channel": {
+    "es": "lo social. Es la mecánica de la región",
+    "en": "the social. It is the region's mechanic"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -16251,8 +16322,7 @@
      "mind": "creencia \"acá todo se sabe\"",
      "mind_en": "belief \"here everything is known\""
     }
-   ],
-   "channel_en": "the social. It is the region's mechanic"
+   ]
   },
   {
    "id": "SH-A3",
@@ -16270,7 +16340,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la ausencia de amenaza, que a un viajero lo desarma",
+   "channel": {
+    "es": "la ausencia de amenaza, que a un viajero lo desarma",
+    "en": "the absence of threat, which disarms a traveller"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -16323,8 +16396,7 @@
      "mind": null,
      "trigger_en": "from day 4"
     }
-   ],
-   "channel_en": "the absence of threat, which disarms a traveller"
+   ]
   },
   {
    "id": "SH-01",
@@ -17297,7 +17369,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social, por sustracción",
+   "channel": {
+    "es": "lo social, por sustracción",
+    "en": "the social, by subtraction"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -17348,8 +17423,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the social, by subtraction"
+   ]
   },
   {
    "id": "BR-A2",
@@ -17367,7 +17441,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vista, y la arquitectura",
+   "channel": {
+    "es": "la vista, y la arquitectura",
+    "en": "sight, and architecture"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -17418,8 +17495,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "sight, and architecture"
+   ]
   },
   {
    "id": "BR-01",
@@ -17958,7 +18034,10 @@
     "es": null,
     "en": null
    },
-   "channel": "los pies y la orientación. Sobre todo Ettenmoors y Lone-lands",
+   "channel": {
+    "es": "los pies y la orientación. Sobre todo Ettenmoors y Lone-lands",
+    "en": "the feet and orientation. Above all Ettenmoors and Lone-lands"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -18022,8 +18101,7 @@
      "mind": null,
      "trigger_en": "in June"
     }
-   ],
-   "channel_en": "the feet and orientation. Above all Ettenmoors and Lone-lands"
+   ]
   },
   {
    "id": "RH-A2",
@@ -18046,7 +18124,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el hallazgo. Ettenmoors y Lone-lands",
+   "channel": {
+    "es": "el hallazgo. Ettenmoors y Lone-lands",
+    "en": "the find. Ettenmoors and Lone-lands"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -18098,8 +18179,7 @@
      "mind": "alta importancia",
      "mind_en": "high importance"
     }
-   ],
-   "channel_en": "the find. Ettenmoors and Lone-lands"
+   ]
   },
   {
    "id": "RH-A3",
@@ -18122,7 +18202,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la compañía equivocada. Las seis regiones",
+   "channel": {
+    "es": "la compañía equivocada. Las seis regiones",
+    "en": "the wrong company. The six regions"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -18173,8 +18256,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the wrong company. The six regions"
+   ]
   },
   {
    "id": "RH-01",
@@ -19967,7 +20049,7 @@
    "beats": [],
    "approx_point": {
     "lon": 6.3,
-    "lat": 51.0,
+    "lat": 51,
     "basis": "Llano central entre Fennas Drunnin y Nothva Rhaglaw"
    },
    "anchor_hint": {
@@ -21409,7 +21491,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el olfato y la vista, a distancia",
+   "channel": {
+    "es": "el olfato y la vista, a distancia",
+    "en": "smell and sight, at a distance"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -21460,8 +21545,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "smell and sight, at a distance"
+   ]
   },
   {
    "id": "VA-A2",
@@ -21481,7 +21565,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el movimiento",
+   "channel": {
+    "es": "el movimiento",
+    "en": "movement"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -21532,8 +21619,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "movement"
+   ]
   },
   {
    "id": "VA-A3",
@@ -21553,7 +21639,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el calendario",
+   "channel": {
+    "es": "el calendario",
+    "en": "the calendar"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -21607,8 +21696,7 @@
      "mind": null,
      "trigger_en": "winter"
     }
-   ],
-   "channel_en": "the calendar"
+   ]
   },
   {
    "id": "VA-01",
@@ -23064,7 +23152,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el cuerpo y el paisaje",
+   "channel": {
+    "es": "el cuerpo y el paisaje",
+    "en": "the body and the landscape"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -23116,8 +23207,7 @@
      "mind": "creencia \"acá se sabe dónde está el este\"",
      "mind_en": "belief \"here you know where east is\""
     }
-   ],
-   "channel_en": "the body and the landscape"
+   ]
   },
   {
    "id": "GZ-A2",
@@ -23135,7 +23225,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el cálculo",
+   "channel": {
+    "es": "el cálculo",
+    "en": "the reckoning"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -23186,8 +23279,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the reckoning"
+   ]
   },
   {
    "id": "GZ-A3",
@@ -23205,7 +23297,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social. Es la mecánica de la región",
+   "channel": {
+    "es": "lo social. Es la mecánica de la región",
+    "en": "the social. It is the region's mechanic"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -23256,8 +23351,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the social. It is the region's mechanic"
+   ]
   },
   {
    "id": "GZ-03",
@@ -23524,7 +23618,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el ánimo, que acá es distinto",
+   "channel": {
+    "es": "el ánimo, que acá es distinto",
+    "en": "the mood, which here is different"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -23575,8 +23672,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the mood, which here is different"
+   ]
   },
   {
    "id": "ER-A2",
@@ -23595,7 +23691,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la memoria, por sustracción",
+   "channel": {
+    "es": "la memoria, por sustracción",
+    "en": "memory, by subtraction"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -23646,8 +23745,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "memory, by subtraction"
+   ]
   },
   {
    "id": "ER-A3",
@@ -23666,7 +23764,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vista, y algo raro que nadie trata como raro",
+   "channel": {
+    "es": "la vista, y algo raro que nadie trata como raro",
+    "en": "the view, and something strange nobody treats as strange"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -23717,8 +23818,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the view, and something strange nobody treats as strange"
+   ]
   },
   {
    "id": "ER-01",
@@ -24620,7 +24720,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el olfato. Es la firma de la región",
+   "channel": {
+    "es": "el olfato. Es la firma de la región",
+    "en": "smell. It is the region's signature"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -24672,8 +24775,7 @@
      "mind": "alta importancia",
      "mind_en": "high importance"
     }
-   ],
-   "channel_en": "smell. It is the region's signature"
+   ]
   },
   {
    "id": "IT-A2",
@@ -24691,7 +24793,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la contradicción",
+   "channel": {
+    "es": "la contradicción",
+    "en": "the contradiction"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -24743,8 +24848,7 @@
      "mind": "creencia \"acá no se está tranquilo\"",
      "mind_en": "belief \"one is not at ease here\""
     }
-   ],
-   "channel_en": "the contradiction"
+   ]
   },
   {
    "id": "IT-A3",
@@ -24762,7 +24866,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la ausencia, y es distinta de la de otras regiones",
+   "channel": {
+    "es": "la ausencia, y es distinta de la de otras regiones",
+    "en": "the absence, and it is different from other regions'"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -24814,8 +24921,7 @@
      "mind": null,
      "trigger_en": "from day 3"
     }
-   ],
-   "channel_en": "the absence, and it is different from other regions'"
+   ]
   },
   {
    "id": "AN-16",
@@ -27238,7 +27344,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el olfato, y es distinto del de Forithilien",
+   "channel": {
+    "es": "el olfato, y es distinto del de Forithilien",
+    "en": "smell, and it is different from Forithilien's"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -27289,8 +27398,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "smell, and it is different from Forithilien's"
+   ]
   },
   {
    "id": "HI-A2",
@@ -27308,7 +27416,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el oído, y la esperanza",
+   "channel": {
+    "es": "el oído, y la esperanza",
+    "en": "hearing, and hope"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -27360,8 +27471,7 @@
      "mind": "creencia \"acá el agua manda\"",
      "mind_en": "belief \"here water rules\""
     }
-   ],
-   "channel_en": "hearing, and hope"
+   ]
   },
   {
    "id": "HI-A3",
@@ -27379,7 +27489,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social. Es la mecánica de la región",
+   "channel": {
+    "es": "lo social. Es la mecánica de la región",
+    "en": "the social. It is the region's mechanic"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -27430,8 +27543,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the social. It is the region's mechanic"
+   ]
   },
   {
    "id": "HI-01",
@@ -28279,7 +28391,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vista, siempre",
+   "channel": {
+    "es": "la vista, siempre",
+    "en": "sight, always"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -28330,8 +28445,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "sight, always"
+   ]
   },
   {
    "id": "AO-A2",
@@ -28349,7 +28463,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo que hay en el horizonte",
+   "channel": {
+    "es": "lo que hay en el horizonte",
+    "en": "what is on the horizon"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -28401,8 +28518,7 @@
      "mind": "alta importancia",
      "mind_en": "high importance"
     }
-   ],
-   "channel_en": "what is on the horizon"
+   ]
   },
   {
    "id": "AO-A3",
@@ -28420,7 +28536,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el paisaje trabajado",
+   "channel": {
+    "es": "el paisaje trabajado",
+    "en": "the worked landscape"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -28471,8 +28590,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the worked landscape"
+   ]
   },
   {
    "id": "AO-01",
@@ -29463,7 +29581,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la orientación y el ritmo",
+   "channel": {
+    "es": "la orientación y el ritmo",
+    "en": "orientation and rhythm"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -29514,8 +29635,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "orientation and rhythm"
+   ]
   },
   {
    "id": "LB-A2",
@@ -29533,7 +29653,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la densidad",
+   "channel": {
+    "es": "la densidad",
+    "en": "the density"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -29585,8 +29708,7 @@
      "mind": null,
      "trigger_en": "from day 3"
     }
-   ],
-   "channel_en": "the density"
+   ]
   },
   {
    "id": "LB-A3",
@@ -29604,7 +29726,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el peligro, que acá viene de abajo",
+   "channel": {
+    "es": "el peligro, que acá viene de abajo",
+    "en": "danger, which here comes from below"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -29655,8 +29780,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "danger, which here comes from below"
+   ]
   },
   {
    "id": "LB-01",
@@ -30417,7 +30541,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vista, y la dificultad de saber dónde estás",
+   "channel": {
+    "es": "la vista, y la dificultad de saber dónde estás",
+    "en": "the view, and the difficulty of knowing where you are"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -30469,8 +30596,7 @@
      "mind": "creencia \"acá no hay líneas\"",
      "mind_en": "belief \"there are no lines here\""
     }
-   ],
-   "channel_en": "the view, and the difficulty of knowing where you are"
+   ]
   },
   {
    "id": "AF-A2",
@@ -30488,7 +30614,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la humedad constante",
+   "channel": {
+    "es": "la humedad constante",
+    "en": "the constant damp"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -30539,8 +30668,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the constant damp"
+   ]
   },
   {
    "id": "AF-A3",
@@ -30558,7 +30686,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social. Es la mecánica de la región",
+   "channel": {
+    "es": "lo social. Es la mecánica de la región",
+    "en": "the social. It is the region's mechanic"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -30609,8 +30740,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the social. It is the region's mechanic"
+   ]
   },
   {
    "id": "AF-01",
@@ -31189,7 +31319,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el cuerpo, todo el día",
+   "channel": {
+    "es": "el cuerpo, todo el día",
+    "en": "the body, all day"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -31240,8 +31373,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the body, all day"
+   ]
   },
   {
    "id": "HR-A2",
@@ -31259,7 +31391,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el paisaje, y lo que estuvo",
+   "channel": {
+    "es": "el paisaje, y lo que estuvo",
+    "en": "the landscape, and what was"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -31311,8 +31446,7 @@
      "mind": "creencia \"acá el agua vuelve\"",
      "mind_en": "belief \"here the water comes back\""
     }
-   ],
-   "channel_en": "the landscape, and what was"
+   ]
   },
   {
    "id": "HR-A3",
@@ -31330,7 +31464,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social. Es la mecánica de la región",
+   "channel": {
+    "es": "lo social. Es la mecánica de la región",
+    "en": "the social. It is the region's mechanic"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -31381,8 +31518,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the social. It is the region's mechanic"
+   ]
   },
   {
    "id": "HR-01",
@@ -32808,7 +32944,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el sonido, permanente",
+   "channel": {
+    "es": "el sonido, permanente",
+    "en": "sound, permanent"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -32848,8 +32987,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "sound, permanent"
+   ]
   },
   {
    "id": "HV-A2",
@@ -32867,7 +33005,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el encierro",
+   "channel": {
+    "es": "el encierro",
+    "en": "the enclosure"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -32907,8 +33048,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the enclosure"
+   ]
   },
   {
    "id": "HV-01",
@@ -33161,7 +33301,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo que falta",
+   "channel": {
+    "es": "lo que falta",
+    "en": "what is missing"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -33212,8 +33355,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "what is missing"
+   ]
   },
   {
    "id": "DI-A2",
@@ -33231,7 +33373,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo que se intuye",
+   "channel": {
+    "es": "lo que se intuye",
+    "en": "what is intuited"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -33283,8 +33428,7 @@
      "mind": "creencia \"no estoy solo\"",
      "mind_en": "belief \"I am not alone\""
     }
-   ],
-   "channel_en": "what is intuited"
+   ]
   },
   {
    "id": "DI-A3",
@@ -33302,7 +33446,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social. **Es la mecánica de la región",
+   "channel": {
+    "es": "lo social. **Es la mecánica de la región",
+    "en": "the social. **It is the region's mechanic"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -33354,8 +33501,7 @@
      "mind": null,
      "trigger_en": "with high `questions`"
     }
-   ],
-   "channel_en": "the social. **It is the region's mechanic"
+   ]
   },
   {
    "id": "DI-01",
@@ -33737,7 +33883,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vista y el ánimo",
+   "channel": {
+    "es": "la vista y el ánimo",
+    "en": "the view and the mood"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -33789,8 +33938,7 @@
      "mind": "alta importancia",
      "mind_en": "high importance"
     }
-   ],
-   "channel_en": "the view and the mood"
+   ]
   },
   {
    "id": "EV-A2",
@@ -33808,7 +33956,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el oído, por sustracción",
+   "channel": {
+    "es": "el oído, por sustracción",
+    "en": "the ear, by subtraction"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -33860,8 +34011,7 @@
      "mind": null,
      "trigger_en": "from day 4"
     }
-   ],
-   "channel_en": "the ear, by subtraction"
+   ]
   },
   {
    "id": "EV-A3",
@@ -33879,7 +34029,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el cuerpo",
+   "channel": {
+    "es": "el cuerpo",
+    "en": "the body"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -33919,8 +34072,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the body"
+   ]
   },
   {
    "id": "EV-01",
@@ -34644,7 +34796,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el camino bajo los pies",
+   "channel": {
+    "es": "el camino bajo los pies",
+    "en": "the road under the feet"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -34695,8 +34850,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the road under the feet"
+   ]
   },
   {
    "id": "AR-A2",
@@ -34714,7 +34868,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo que se cuenta",
+   "channel": {
+    "es": "lo que se cuenta",
+    "en": "what is told"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -34765,8 +34922,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "what is told"
+   ]
   },
   {
    "id": "AR-A3",
@@ -34784,7 +34940,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social",
+   "channel": {
+    "es": "lo social",
+    "en": "the social"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -34835,8 +34994,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the social"
+   ]
   },
   {
    "id": "AR-01",
@@ -37519,7 +37677,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vista y el movimiento",
+   "channel": {
+    "es": "la vista y el movimiento",
+    "en": "sight and movement"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -37570,8 +37731,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "sight and movement"
+   ]
   },
   {
    "id": "SA-A2",
@@ -37589,7 +37749,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social",
+   "channel": {
+    "es": "lo social",
+    "en": "the social"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -37640,8 +37803,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the social"
+   ]
   },
   {
    "id": "SA-A3",
@@ -37659,7 +37821,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo que se ve en cada pueblo",
+   "channel": {
+    "es": "lo que se ve en cada pueblo",
+    "en": "what is seen in each village"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -37710,8 +37875,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "what is seen in each village"
+   ]
   },
   {
    "id": "SA-01",
@@ -39361,7 +39525,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el terreno y el viento",
+   "channel": {
+    "es": "el terreno y el viento",
+    "en": "the terrain and the wind"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -39412,8 +39579,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the terrain and the wind"
+   ]
   },
   {
    "id": "NU-A2",
@@ -39431,7 +39597,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el oído. **Es la firma de la región",
+   "channel": {
+    "es": "el oído. **Es la firma de la región",
+    "en": "the ear. It is the region's signature"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -39483,8 +39652,7 @@
      "mind": "recuerdo fijo",
      "mind_en": "lasting memory"
     }
-   ],
-   "channel_en": "the ear. It is the region's signature"
+   ]
   },
   {
    "id": "NU-A3",
@@ -39502,7 +39670,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social",
+   "channel": {
+    "es": "lo social",
+    "en": "the social"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -39553,8 +39724,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the social"
+   ]
   },
   {
    "id": "NU-01",
@@ -40163,7 +40333,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el suelo",
+   "channel": {
+    "es": "el suelo",
+    "en": "the ground"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -40215,8 +40388,7 @@
      "mind": "alta importancia",
      "mind_en": "high importance"
     }
-   ],
-   "channel_en": "the ground"
+   ]
   },
   {
    "id": "EW-A2",
@@ -40234,7 +40406,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el terreno y el paso",
+   "channel": {
+    "es": "el terreno y el paso",
+    "en": "the terrain and the passage"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -40285,8 +40460,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the terrain and the passage"
+   ]
   },
   {
    "id": "EW-A3",
@@ -40304,7 +40478,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social",
+   "channel": {
+    "es": "lo social",
+    "en": "the social"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -40355,8 +40532,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the social"
+   ]
   },
   {
    "id": "EW-01",
@@ -43611,7 +43787,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la luz y el suelo",
+   "channel": {
+    "es": "la luz y el suelo",
+    "en": "the light and the ground"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -43662,8 +43841,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the light and the ground"
+   ]
   },
   {
    "id": "FG-A2",
@@ -43681,7 +43859,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el oído, y lo que se intuye",
+   "channel": {
+    "es": "el oído, y lo que se intuye",
+    "en": "the ear, and what is sensed"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -43733,8 +43914,7 @@
      "mind": "alta importancia",
      "mind_en": "high importance"
     }
-   ],
-   "channel_en": "the ear, and what is sensed"
+   ]
   },
   {
    "id": "FG-A3",
@@ -43752,7 +43932,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la orientación",
+   "channel": {
+    "es": "la orientación",
+    "en": "orientation"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -43803,8 +43986,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "orientation"
+   ]
   },
   {
    "id": "FG-01",
@@ -44267,7 +44449,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la orientación",
+   "channel": {
+    "es": "la orientación",
+    "en": "orientation"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -44319,8 +44504,7 @@
      "mind": "creencia \"esto no es casualidad\"",
      "mind_en": "belief \"this is no accident\""
     }
-   ],
-   "channel_en": "orientation"
+   ]
   },
   {
    "id": "RV-A2",
@@ -44338,7 +44522,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el sonido y el obstáculo",
+   "channel": {
+    "es": "el sonido y el obstáculo",
+    "en": "the sound and the obstacle"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -44389,8 +44576,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the sound and the obstacle"
+   ]
   },
   {
    "id": "RV-A3",
@@ -44408,7 +44594,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo que se intuye",
+   "channel": {
+    "es": "lo que se intuye",
+    "en": "what is intuited"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -44459,8 +44648,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "what is intuited"
+   ]
   },
   {
    "id": "RV-01",
@@ -44961,7 +45149,7 @@
    ],
    "beats": [],
    "approx_point": {
-    "lon": 10.0,
+    "lon": 10,
     "lat": 51.52,
     "basis": "Borde este de la grieta"
    },
@@ -44986,7 +45174,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vista, y es lo primero",
+   "channel": {
+    "es": "la vista, y es lo primero",
+    "en": "the view, and it comes first"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -45038,8 +45229,7 @@
      "mind": "alta importancia",
      "mind_en": "high importance"
     }
-   ],
-   "channel_en": "the view, and it comes first"
+   ]
   },
   {
    "id": "LO-A2",
@@ -45057,7 +45247,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el cuerpo y el calendario",
+   "channel": {
+    "es": "el cuerpo y el calendario",
+    "en": "the body and the calendar"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -45109,8 +45302,7 @@
      "mind": null,
      "trigger_en": "on leaving"
     }
-   ],
-   "channel_en": "the body and the calendar"
+   ]
   },
   {
    "id": "LO-A3",
@@ -45128,7 +45320,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo social, y corrige la impresión",
+   "channel": {
+    "es": "lo social, y corrige la impresión",
+    "en": "the social, and it corrects the impression"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -45179,8 +45374,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the social, and it corrects the impression"
+   ]
   },
   {
    "id": "LO-01",
@@ -45778,7 +45972,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo que se intuye, y es constante",
+   "channel": {
+    "es": "lo que se intuye, y es constante",
+    "en": "what is sensed, and it is constant"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -45830,8 +46027,7 @@
      "mind": "creencia \"esto no me quiere acá\"",
      "mind_en": "belief \"this place does not want me here\""
     }
-   ],
-   "channel_en": "what is sensed, and it is constant"
+   ]
   },
   {
    "id": "BV-A2",
@@ -45849,7 +46045,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la orientación. **Es la mecánica de la región",
+   "channel": {
+    "es": "la orientación. **Es la mecánica de la región",
+    "en": "orientation. It is the region's mechanic"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -45901,8 +46100,7 @@
      "mind": null,
      "trigger_en": "with high `detour`"
     }
-   ],
-   "channel_en": "orientation. It is the region's mechanic"
+   ]
   },
   {
    "id": "BV-A3",
@@ -45920,7 +46118,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el cuerpo",
+   "channel": {
+    "es": "el cuerpo",
+    "en": "the body"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -45972,8 +46173,7 @@
      "mind": null,
      "trigger_en": "*important*"
     }
-   ],
-   "channel_en": "the body"
+   ]
   },
   {
    "id": "BV-01",
@@ -46521,7 +46721,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la estructura del viaje. **Es la forma de la región",
+   "channel": {
+    "es": "la estructura del viaje. **Es la forma de la región",
+    "en": "the journey's structure. It is the region's shape"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -46573,8 +46776,7 @@
      "mind": "alta importancia",
      "mind_en": "high importance"
     }
-   ],
-   "channel_en": "the journey's structure. It is the region's shape"
+   ]
   },
   {
    "id": "RA-A2",
@@ -46592,7 +46794,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el cuerpo, permanente",
+   "channel": {
+    "es": "el cuerpo, permanente",
+    "en": "the body, permanently"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -46643,8 +46848,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the body, permanently"
+   ]
   },
   {
    "id": "RA-A3",
@@ -46662,7 +46866,10 @@
     "es": null,
     "en": null
    },
-   "channel": "lo que no se ve. **Es la mecánica social",
+   "channel": {
+    "es": "lo que no se ve. **Es la mecánica social",
+    "en": "what is not seen. It is the social mechanic"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -46714,8 +46921,7 @@
      "mind": null,
      "trigger_en": "with high `seen`"
     }
-   ],
-   "channel_en": "what is not seen. It is the social mechanic"
+   ]
   },
   {
    "id": "RA-01",
@@ -47250,7 +47456,10 @@
     "es": null,
     "en": null
    },
-   "channel": "la vista",
+   "channel": {
+    "es": "la vista",
+    "en": "the view"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -47301,8 +47510,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the view"
+   ]
   },
   {
    "id": "EH-A2",
@@ -47320,7 +47528,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el color y el sabor",
+   "channel": {
+    "es": "el color y el sabor",
+    "en": "the colour and the taste"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -47371,8 +47582,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the colour and the taste"
+   ]
   },
   {
    "id": "EH-A3",
@@ -47390,7 +47600,10 @@
     "es": null,
     "en": null
    },
-   "channel": "el oído y lo que se deduce",
+   "channel": {
+    "es": "el oído y lo que se deduce",
+    "en": "the ear and what is deduced"
+   },
    "traveller_use": {
     "es": null,
     "en": null
@@ -47441,8 +47654,7 @@
      },
      "mind": null
     }
-   ],
-   "channel_en": "the ear and what is deduced"
+   ]
   },
   {
    "id": "EH-01",
@@ -47764,7 +47976,7 @@
   },
   {
    "id": "mw03_lights",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -47820,11 +48032,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "mw07_choice",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -47875,19 +48088,20 @@
     }
    ],
    "notes": [
-    "**Si habló con Woodmen o con el leñador antes**, conoce la regla y `izquierda` aparece recomendada."
+    {
+     "es": "**Si habló con Woodmen o con el leñador antes**, conoce la regla y `izquierda` aparece recomendada.",
+     "en": "**If he spoke with the Woodmen or the woodcutter before**, he knows the rule and `left` appears recommended."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**If he spoke with the Woodmen or the woodcutter before**, he knows the rule and `left` appears recommended."
-   ]
+   "action": "offer"
   },
   {
    "id": "mw08_firewood",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -47926,19 +48140,20 @@
     }
    ],
    "notes": [
-    "**Con `repuso`**, si vuelve a pasar, hay leña. Si no, alguna vez no va a haber."
+    {
+     "es": "**Con `repuso`**, si vuelve a pasar, hay leña. Si no, alguna vez no va a haber.",
+     "en": "**With `repuso`**, if he passes again, there is firewood. If not, someday there will not be."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**With `repuso`**, if he passes again, there is firewood. If not, someday there will not be."
-   ]
+   "action": "offer"
   },
   {
    "id": "mw09_ask",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48006,11 +48221,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "mw10_pass",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48078,11 +48294,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "dg01_take",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48133,19 +48350,20 @@
     }
    ],
    "notes": [
-    "**`carries_hers` no se nota al principio.** No hay aviso, no hay señal, no hay frase que lo indique. Abre encuentros que de otro modo no se disparan, en esta zona y fuera de ella, y sube sombra de a poco cada noche. Se rompe devolviendo el objeto a la cabaña, y el viajero no tiene manera de saber eso."
+    {
+     "es": "**`carries_hers` no se nota al principio.** No hay aviso, no hay señal, no hay frase que lo indique. Abre encuentros que de otro modo no se disparan, en esta zona y fuera de ella, y sube sombra de a poco cada noche. Se rompe devolviendo el objeto a la cabaña, y el viajero no tiene manera de saber eso.",
+     "en": "**`carries_hers` is not noticeable at first.** There is no warning, no sign, no phrase announcing it. It opens encounters that would otherwise never trigger, in this zone and outside it, and raises shadow a little each night. It is broken by returning the object to the cabin, and the traveller has no way of knowing that."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**`carries_hers` is not noticeable at first.** There is no warning, no sign, no phrase announcing it. It opens encounters that would otherwise never trigger, in this zone and outside it, and raises shadow a little each night. It is broken by returning the object to the cabin, and the traveller has no way of knowing that."
-   ]
+   "action": "offer"
   },
   {
    "id": "dg01_sleep",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48199,11 +48417,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "dg03_enter",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48254,19 +48473,20 @@
     }
    ],
    "notes": [
-    "**`seen` no tiene efecto visible.** Sube la probabilidad de encuentro en toda la zona y acelera `dg02`: los beats que tardaban tres días empiezan a aparecer el primero."
+    {
+     "es": "**`seen` no tiene efecto visible.** Sube la probabilidad de encuentro en toda la zona y acelera `dg02`: los beats que tardaban tres días empiezan a aparecer el primero.",
+     "en": "**`seen` has no visible effect.** It raises encounter probability across the whole zone and accelerates `dg02`: beats that took three days start appearing on the first."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**`seen` has no visible effect.** It raises encounter probability across the whole zone and accelerates `dg02`: beats that took three days start appearing on the first."
-   ]
+   "action": "offer"
   },
   {
    "id": "dg04_drink",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48319,19 +48539,20 @@
     }
    ],
    "notes": [
-    "**Si bebió y escuchó**, a partir de esa noche el eco aparece una vez por noche, lejos, en el bosque, cuando no está cerca de ningún pozo."
+    {
+     "es": "**Si bebió y escuchó**, a partir de esa noche el eco aparece una vez por noche, lejos, en el bosque, cuando no está cerca de ningún pozo.",
+     "en": "**If he drank and listened**, from that night on the echo appears once a night, far off, in the forest, when he is nowhere near any well."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**If he drank and listened**, from that night on the echo appears once a night, far off, in the forest, when he is nowhere near any well."
-   ]
+   "action": "offer"
   },
   {
    "id": "dg05_choice",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48387,11 +48608,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "dg08_use",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48430,19 +48652,20 @@
     }
    ],
    "notes": [
-    "**Esta es la salida del estado `perdido` en Dol Guldur.** Es deliberado: la única forma de volver a saber dónde estás es mirar hacia lo que deberías evitar."
+    {
+     "es": "**Esta es la salida del estado `perdido` en Dol Guldur.** Es deliberado: la única forma de volver a saber dónde estás es mirar hacia lo que deberías evitar.",
+     "en": "**This is the way out of the `lost` state in Dol Guldur.** It is deliberate: the only way to know where you are again is to look toward what you should avoid."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**This is the way out of the `lost` state in Dol Guldur.** It is deliberate: the only way to know where you are again is to look toward what you should avoid."
-   ]
+   "action": "offer"
   },
   {
    "id": "dg09_stay",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48498,11 +48721,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "wm03_night",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48572,11 +48796,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "wm05_follow",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48648,11 +48873,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "wm06_ask",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48708,11 +48934,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "wm07_sleep",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48751,19 +48978,20 @@
     }
    ],
    "notes": [
-    "**Con `durmio_en_la_vacia`**, al día siguiente lo tratan exactamente igual que antes, salvo una persona, que no lo mira."
+    {
+     "es": "**Con `durmio_en_la_vacia`**, al día siguiente lo tratan exactamente igual que antes, salvo una persona, que no lo mira.",
+     "en": "**With `durmio_en_la_vacia`**, the next day they treat him exactly as before, except one person, who does not look at him."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**With `durmio_en_la_vacia`**, the next day they treat him exactly as before, except one person, who does not look at him."
-   ]
+   "action": "offer"
   },
   {
    "id": "wm10_go_with",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48817,20 +49045,23 @@
     }
    ],
    "notes": [
-    "resultado | efectos |",
-    "**Si acompañó**, al volver le dan de comer sin que lo pida y alguien le pregunta por su familia, que es la primera pregunta personal que le hacen en todo el pueblo."
+    {
+     "es": "resultado | efectos |",
+     "en": "**If he went along**, on the way back they feed him without him asking and somebody asks about his family, the first personal question anyone has asked him in the whole village."
+    },
+    {
+     "es": "**Si acompañó**, al volver le dan de comer sin que lo pida y alguien le pregunta por su familia, que es la primera pregunta personal que le hacen en todo el pueblo."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**If he went along**, on the way back they feed him without him asking and somebody asks about his family, the first personal question anyone has asked him in the whole village."
-   ]
+   "action": "offer"
   },
   {
    "id": "wr02_cross",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48893,19 +49124,20 @@
     }
    ],
    "notes": [
-    "**Si duerme:** no es un salto en el tiempo. Al despertar está en la orilla, mojado, con frío y con un hambre que no se parece a ninguna. El motor descuenta los días y la mente los registra como un hueco, no como un recuerdo."
+    {
+     "es": "**Si duerme:** no es un salto en el tiempo. Al despertar está en la orilla, mojado, con frío y con un hambre que no se parece a ninguna. El motor descuenta los días y la mente los registra como un hueco, no como un recuerdo.",
+     "en": "**If he sleeps:** it is not a time jump. He wakes on the bank, wet, cold, hungry in a way unlike any other. The engine deducts the days and the mind registers them as a gap, not a memory."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**If he sleeps:** it is not a time jump. He wakes on the bank, wet, cold, hungry in a way unlike any other. The engine deducts the days and the mind registers them as a gap, not a memory."
-   ]
+   "action": "offer"
   },
   {
    "id": "wr03_enter",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -48956,19 +49188,20 @@
     }
    ],
    "notes": [
-    "**Si entró:** no hay una oferta para salir. Las puertas se abren cuando se abren."
+    {
+     "es": "**Si entró:** no hay una oferta para salir. Las puertas se abren cuando se abren.",
+     "en": "**If he went in:** there is no offer to come out. The doors open when they open."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**If he went in:** there is no offer to come out. The doors open when they open."
-   ]
+   "action": "offer"
   },
   {
    "id": "wr04_stay",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -49019,19 +49252,20 @@
     }
    ],
    "notes": [
-    "**La mente no registra los días perdidos como recuerdo.** Registra el descanso, la comida y el canto, y entre esos recuerdos no hay nada. El hueco solo aparece cuando algo de afuera lo contradice: la fecha, la estación, una cara que envejeció un poco."
+    {
+     "es": "**La mente no registra los días perdidos como recuerdo.** Registra el descanso, la comida y el canto, y entre esos recuerdos no hay nada. El hueco solo aparece cuando algo de afuera lo contradice: la fecha, la estación, una cara que envejeció un poco.",
+     "en": "**The mind does not register the lost days as memory.** It registers the rest, the food and the singing, and between those memories there is nothing. The gap only appears when something outside contradicts it: the date, the season, a face that aged a little."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**The mind does not register the lost days as memory.** It registers the rest, the food and the singing, and between those memories there is nothing. The gap only appears when something outside contradicts it: the date, the season, a face that aged a little."
-   ]
+   "action": "offer"
   },
   {
    "id": "wr07_firewood",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -49087,11 +49321,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "wr08_barrel",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -49142,19 +49377,20 @@
     }
    ],
    "notes": [
-    "**Esta es la única manera de salir del reino sin pagar el tiempo.**"
+    {
+     "es": "**Esta es la única manera de salir del reino sin pagar el tiempo.**",
+     "en": "**This is the only way out of the realm without paying the time.**"
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**This is the only way out of the realm without paying the time.**"
-   ]
+   "action": "offer"
   },
   {
    "id": "ts01_stay",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     43
    ],
@@ -49222,11 +49458,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "ts04_enter",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     43
    ],
@@ -49296,11 +49533,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "ts07_camp",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     43
    ],
@@ -49368,11 +49606,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "ts10_follow",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     43
    ],
@@ -49442,11 +49681,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "ts15_use",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     43
    ],
@@ -49497,19 +49737,20 @@
     }
    ],
    "notes": [
-    "**Con `shelter_honoured`**, si más adelante se cruza con montaraces, lo tratan como a alguien conocido."
+    {
+     "es": "**Con `shelter_honoured`**, si más adelante se cruza con montaraces, lo tratan como a alguien conocido.",
+     "en": "**With `shelter_honoured`**, if he runs into rangers later, they treat him as somebody known."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**With `shelter_honoured`**, if he runs into rangers later, they treat him as somebody known."
-   ]
+   "action": "offer"
   },
   {
    "id": "bd01_sleep",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     59
    ],
@@ -49565,11 +49806,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "bd04_camp",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     59
    ],
@@ -49625,11 +49867,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "bd05_enter",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     59
    ],
@@ -49692,19 +49935,20 @@
     }
    ],
    "notes": [
-    "**`wight_marked`** no hace nada de día. De noche, esté donde esté en las Quebradas, la niebla lo encuentra."
+    {
+     "es": "**`wight_marked`** no hace nada de día. De noche, esté donde esté en las Quebradas, la niebla lo encuentra.",
+     "en": "**`wight_marked`** does nothing by day. At night, wherever he is in the Barrow-downs, the fog finds him."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**`wight_marked`** does nothing by day. At night, wherever he is in the Barrow-downs, the fog finds him."
-   ]
+   "action": "offer"
   },
   {
    "id": "sd02_follow",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     59
    ],
@@ -49760,11 +50004,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "sd04_rope",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     59
    ],
@@ -49820,11 +50065,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "an01_guest",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     79
    ],
@@ -49880,11 +50126,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "an07_valley",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     79
    ],
@@ -49947,19 +50194,20 @@
     }
    ],
    "notes": [
-    "**Con `dejo_algo`**, si más adelante en la región se pierde, se lastima o se queda sin agua, el motor puede hacer que aparezca una solución sin explicación: un sendero donde no había, una fuente, un refugio. Nunca aparece nadie."
+    {
+     "es": "**Con `dejo_algo`**, si más adelante en la región se pierde, se lastima o se queda sin agua, el motor puede hacer que aparezca una solución sin explicación: un sendero donde no había, una fuente, un refugio. Nunca aparece nadie.",
+     "en": "**With `dejo_algo`**, if later in the region he gets lost, hurt or runs out of water, the engine can have a solution appear unexplained: a trail where there was none, a spring, a shelter. Nobody ever appears."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**With `dejo_algo`**, if later in the region he gets lost, hurt or runs out of water, the engine can have a solution appear unexplained: a trail where there was none, a spring, a shelter. Nobody ever appears."
-   ]
+   "action": "offer"
   },
   {
    "id": "an13_shepherds",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     79
    ],
@@ -50015,11 +50263,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "dl03_meet",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     8
    ],
@@ -50085,11 +50334,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "am01_tribute_day",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     46
    ],
@@ -50145,11 +50395,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "am01_stay",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     46
    ],
@@ -50200,19 +50451,20 @@
     }
    ],
    "notes": [
-    "**Con las dos marcas juntas**, el motor puede disparar, en la siguiente entrega, que el nombre de la lista se complete."
+    {
+     "es": "**Con las dos marcas juntas**, el motor puede disparar, en la siguiente entrega, que el nombre de la lista se complete.",
+     "en": "**With both marks together**, the engine can fire, at the next delivery, that the name on the list gets completed."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**With both marks together**, the engine can fire, at the next delivery, that the name on the list gets completed."
-   ]
+   "action": "offer"
   },
   {
    "id": "am02_tower",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     46
    ],
@@ -50275,19 +50527,20 @@
     }
    ],
    "notes": [
-    "**Si se equivocó de torre:** no hay pelea. Alguien baja, le hace dos preguntas, mira lo que lleva, y decide. Ver `AM-03`."
+    {
+     "es": "**Si se equivocó de torre:** no hay pelea. Alguien baja, le hace dos preguntas, mira lo que lleva, y decide. Ver `AM-03`.",
+     "en": "**If he guessed the wrong tower:** there is no fight. Somebody comes down, asks him two questions, looks at what he carries, and decides. See `AM-03`."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**If he guessed the wrong tower:** there is no fight. Somebody comes down, asks him two questions, looks at what he carries, and decides. See `AM-03`."
-   ]
+   "action": "offer"
   },
   {
    "id": "am06_road",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     46
    ],
@@ -50343,11 +50596,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "am10_drink",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     46
    ],
@@ -50413,11 +50667,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "cd02_wood",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     39
    ],
@@ -50473,11 +50728,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "cd06_pass",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     39
    ],
@@ -50528,19 +50784,20 @@
     }
    ],
    "notes": [
-    "**Si el cielo del sur está cerrado y el viajero sigue igual:** el motor decide. Es uno de los dos sitios del documento donde pasa eso; el otro es dormir arriba de un túmulo en las Quebradas."
+    {
+     "es": "**Si el cielo del sur está cerrado y el viajero sigue igual:** el motor decide. Es uno de los dos sitios del documento donde pasa eso; el otro es dormir arriba de un túmulo en las Quebradas.",
+     "en": "**If the southern sky is closed and the traveller goes on anyway:** the engine decides. It is one of two places in the document where that happens; the other is sleeping on a barrow in the Barrow-downs."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**If the southern sky is closed and the traveller goes on anyway:** the engine decides. It is one of two places in the document where that happens; the other is sleeping on a barrow in the Barrow-downs."
-   ]
+   "action": "offer"
   },
   {
    "id": "cd00_fork",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     39
    ],
@@ -50596,11 +50853,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "cdb2_shore",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     39
    ],
@@ -50668,11 +50926,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "cdb3_doors",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     39
    ],
@@ -50735,19 +50994,20 @@
     }
    ],
    "notes": [
-    "**Si abre:** entra a Moria, que es un sistema aparte con su propio prefijo `MO-`."
+    {
+     "es": "**Si abre:** entra a Moria, que es un sistema aparte con su propio prefijo `MO-`.",
+     "en": "**If opened:** it enters Moria, a separate system with its own `MO-` prefix."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**If opened:** it enters Moria, a separate system with its own `MO-` prefix."
-   ]
+   "action": "offer"
   },
   {
    "id": "md01_gate",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     74
    ],
@@ -50803,11 +51063,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "md02_valley",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     74
    ],
@@ -50863,11 +51124,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "md04_tunnel",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     74
    ],
@@ -50923,11 +51185,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "md06_rest",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     74
    ],
@@ -50983,11 +51246,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "md07_road",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     74
    ],
@@ -51043,11 +51307,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "md08_pass",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     74
    ],
@@ -51103,11 +51368,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "md11_cross",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     74
    ],
@@ -51163,11 +51429,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "md17_camp",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     74
    ],
@@ -51218,19 +51485,20 @@
     }
    ],
    "notes": [
-    "**Si llega una columna:** no hay pelea. Entran, arman y ocupan. El que esté adentro tiene dos minutos para no estar."
+    {
+     "es": "**Si llega una columna:** no hay pelea. Entran, arman y ocupan. El que esté adentro tiene dos minutos para no estar.",
+     "en": "**If a column arrives:** there is no fight. They come in, set up and occupy. Whoever is inside has two minutes not to be."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**If a column arrives:** there is no fight. They come in, set up and occupy. Whoever is inside has two minutes not to be."
-   ]
+   "action": "offer"
   },
   {
    "id": "md21_cross",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     74
    ],
@@ -51286,11 +51554,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "du01_guest",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     72
    ],
@@ -51358,11 +51627,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "du03_heal",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     72
    ],
@@ -51413,19 +51683,20 @@
     }
    ],
    "notes": [
-    "**La deuda no tiene plazo y no se olvida.** Alguna vez, en algún valle, alguien le va a pedir algo y va a mencionar esta casa."
+    {
+     "es": "**La deuda no tiene plazo y no se olvida.** Alguna vez, en algún valle, alguien le va a pedir algo y va a mencionar esta casa.",
+     "en": "**The debt has no deadline and is not forgotten.** Someday, in some valley, somebody will ask him for something and will mention this house."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**The debt has no deadline and is not forgotten.** Someday, in some valley, somebody will ask him for something and will mention this house."
-   ]
+   "action": "offer"
   },
   {
    "id": "du05_use",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     72
    ],
@@ -51476,19 +51747,20 @@
     }
    ],
    "notes": [
-    "**Contarlo es lo peor que puede hacer**, y el viajero no tiene cómo saberlo."
+    {
+     "es": "**Contarlo es lo peor que puede hacer**, y el viajero no tiene cómo saberlo.",
+     "en": "**Telling is the worst thing he can do**, and the traveller has no way of knowing it."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**Telling is the worst thing he can do**, and the traveller has no way of knowing it."
-   ]
+   "action": "offer"
   },
   {
    "id": "du06_scouts",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     72
    ],
@@ -51539,19 +51811,20 @@
     }
    ],
    "notes": [
-    "**Si vuelve a pasar por el solar una semana después:** el corral está vacío y hay cuervos."
+    {
+     "es": "**Si vuelve a pasar por el solar una semana después:** el corral está vacío y hay cuervos.",
+     "en": "**If he passes the homestead again a week later:** the corral is empty and there are crows."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**If he passes the homestead again a week later:** the corral is empty and there are crows."
-   ]
+   "action": "offer"
   },
   {
    "id": "du07_grove",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     72
    ],
@@ -51607,11 +51880,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lio2_stay",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -51667,11 +51941,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lio4_sleep",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -51727,11 +52002,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lio7_tide",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -51799,11 +52075,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lio8_well",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -51859,11 +52136,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lio13_enter",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -51929,11 +52207,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lio13_sleep",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -51999,11 +52278,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lit4_house",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -52059,11 +52339,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lit5_stay",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -52129,11 +52410,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lit9_forge",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -52189,11 +52471,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lit15_boat",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -52249,11 +52532,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lit19_route",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -52297,11 +52581,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lit21_evening",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -52355,11 +52640,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lin4_fall",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -52415,11 +52701,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lin10_cross",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     40
    ],
@@ -52475,11 +52762,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "sh01_orchard",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     85
    ],
@@ -52545,11 +52833,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "sh02_inn",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     85
    ],
@@ -52605,11 +52894,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "sh03_dispute",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     85
    ],
@@ -52677,11 +52967,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "sh05_pipeweed",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     85
    ],
@@ -52749,11 +53040,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "sh10_hole",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     85
    ],
@@ -52809,11 +53101,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "sh11_fair",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     85
    ],
@@ -52881,11 +53174,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "sh12_mill",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     85
    ],
@@ -52953,11 +53247,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "sh14_flowers",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     85
    ],
@@ -53013,11 +53308,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "br01_pony",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     86
    ],
@@ -53083,11 +53379,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "br07_marsh",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     86
    ],
@@ -53143,11 +53440,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "rh01_mill",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     44,
     81,
@@ -53222,11 +53520,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "rh03_posting",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     81
    ],
@@ -53292,11 +53591,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "rh04_tower",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     42,
     41
@@ -53365,11 +53665,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "rh06_granary",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     42,
     81
@@ -53421,19 +53722,20 @@
     }
    ],
    "notes": [
-    "**Si lo abre:** el motor decide entre tres cosas, y ninguna es un tesoro. Grano de hace mil años, seco e inútil. Nada, porque alguien lo vació antes de sellarlo. O cosas de una casa, guardadas con cuidado, de gente que pensaba volver."
+    {
+     "es": "**Si lo abre:** el motor decide entre tres cosas, y ninguna es un tesoro. Grano de hace mil años, seco e inútil. Nada, porque alguien lo vació antes de sellarlo. O cosas de una casa, guardadas con cuidado, de gente que pensaba volver.",
+     "en": "**If he opens it:** the engine decides between three things, none a treasure. Thousand-year-old grain, dry and useless. Nothing, because somebody emptied it before sealing. Or household things, carefully stored, by people who meant to come back."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**If he opens it:** the engine decides between three things, none a treasure. Thousand-year-old grain, dry and useless. Nothing, because somebody emptied it before sealing. Or household things, carefully stored, by people who meant to come back."
-   ]
+   "action": "offer"
   },
   {
    "id": "rh13_shelter",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     42,
     81,
@@ -53503,11 +53805,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "rhw4_hermit",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     41
    ],
@@ -53563,11 +53866,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "rh17_cache",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     81,
     42
@@ -53636,11 +53940,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "rh19_fair",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     42,
     41
@@ -53709,11 +54014,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "tm01_camp",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     54
    ],
@@ -53769,11 +54075,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "tm03_fire",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     54
    ],
@@ -53824,19 +54131,20 @@
     }
    ],
    "notes": [
-    "**Con `repuso`,** si el viajero vuelve a pasar por la región, el motor puede hacer que la gente del lugar ya lo conozca."
+    {
+     "es": "**Con `repuso`,** si el viajero vuelve a pasar por la región, el motor puede hacer que la gente del lugar ya lo conozca.",
+     "en": "**With `repuso`,** if the traveller passes through the region again, the engine can have the local people already know him."
+    }
    ],
    "traveller_use": {
     "es": null,
     "en": null
    },
-   "notes_en": [
-    "**With `repuso`,** if the traveller passes through the region again, the engine can have the local people already know him."
-   ]
+   "action": "offer"
   },
   {
    "id": "tm05_marks",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     54
    ],
@@ -53892,11 +54200,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "tm12_herbs",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     54
    ],
@@ -53964,11 +54273,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "tm14_faemar",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     54
    ],
@@ -54036,11 +54346,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "tm18_garrison",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     55
    ],
@@ -54108,11 +54419,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "tm19_empty",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     55
    ],
@@ -54168,11 +54480,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "va01_hall",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     38
    ],
@@ -54240,11 +54553,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "va05_house",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     35,
     38,
@@ -54302,11 +54616,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "va09_drink",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     35,
     38,
@@ -54364,11 +54679,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "va12_town",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     35
    ],
@@ -54436,11 +54752,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "va26_island",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     35
    ],
@@ -54494,11 +54811,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "va24_gladden",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     38
    ],
@@ -54566,11 +54884,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "va28_plain",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     36
    ],
@@ -54638,11 +54957,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "va29_frontier",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     36
    ],
@@ -54710,11 +55030,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "va31_colliers",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     36
    ],
@@ -54768,11 +55089,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "va32_north",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     36
    ],
@@ -54838,11 +55160,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "gz04_boats",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     2
    ],
@@ -54898,11 +55221,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "gz05_bend",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     2
    ],
@@ -54968,11 +55292,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "gz07_clan",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     2
    ],
@@ -55040,11 +55365,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "er01_city",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     25
    ],
@@ -55100,11 +55426,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "er02_law",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     25
    ],
@@ -55160,11 +55487,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "er05_gate",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     25
    ],
@@ -55220,11 +55548,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "er09_town",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     10
    ],
@@ -55280,11 +55609,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "er13_marsh",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     10
    ],
@@ -55352,11 +55682,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "it03_window",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     75
    ],
@@ -55410,11 +55741,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "it07_osgiliath",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     75
    ],
@@ -55482,11 +55814,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "it08_island",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     75
    ],
@@ -55542,11 +55875,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "it11_garden",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     75
    ],
@@ -55602,11 +55936,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "de02_city",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     20
    ],
@@ -55662,11 +55997,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "de05_cove",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     20
    ],
@@ -55734,11 +56070,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "de07_village",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     19
    ],
@@ -55794,11 +56131,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "de09_hill",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     19
    ],
@@ -55868,11 +56206,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "de10_pass",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     19
    ],
@@ -55940,11 +56279,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "de21_caves",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     23
    ],
@@ -56014,11 +56354,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "hi01_ferry",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     18
    ],
@@ -56074,11 +56415,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "hi04_ford",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     18
    ],
@@ -56134,11 +56476,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "hi12_road",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     18
    ],
@@ -56194,11 +56537,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "ao01_beacon",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     7
    ],
@@ -56254,11 +56598,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "mt01_gate",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     7
    ],
@@ -56314,11 +56659,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "pg06_quarter",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     11
    ],
@@ -56374,11 +56720,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "af03_channels",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     13
    ],
@@ -56434,11 +56781,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "hr01_steppe",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     12
    ],
@@ -56494,11 +56842,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "hr02_wadi",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     12
    ],
@@ -56566,11 +56915,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "hr05_port",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     12
    ],
@@ -56626,11 +56976,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lm07_door",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     14,
     19
@@ -56701,11 +57052,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "di06_valley",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     77
    ],
@@ -56761,11 +57113,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "ev10_hill",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     56
    ],
@@ -56823,11 +57176,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "ar01_fornost",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     57
    ],
@@ -56895,11 +57249,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "mn01_tharbad",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     60
    ],
@@ -56965,11 +57320,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "mn10_ruffians",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     60
    ],
@@ -57035,11 +57391,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "fc02_ice",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     73
    ],
@@ -57097,11 +57454,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "fc07_bog",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     73
    ],
@@ -57169,11 +57527,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "tu01_tundra",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     67
    ],
@@ -57229,11 +57588,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "sa12_silent",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     15
    ],
@@ -57313,11 +57673,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "el02_passes",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     47
    ],
@@ -57373,11 +57734,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "nu03_eredimar",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     48
    ],
@@ -57445,11 +57807,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "nu09_barrows",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     48
    ],
@@ -57517,11 +57880,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "ew06_wood",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     21
    ],
@@ -57587,11 +57951,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "ro11_ethir",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     62
    ],
@@ -57659,11 +58024,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "et08_grove",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     1
    ],
@@ -57731,11 +58097,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "fg03_dingle",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     82
    ],
@@ -57805,11 +58172,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "rv02_ford",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     80
    ],
@@ -57877,11 +58245,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "lo01_edge",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     84
    ],
@@ -57949,11 +58318,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "bv04_withy",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     58
    ],
@@ -58021,11 +58391,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "ra01_annon",
-   "kind": "offer",
+   "kind": "interaction",
    "region_ids": [
     17
    ],
@@ -58093,12 +58464,12 @@
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "m00_offroad",
-   "kind": "offer",
-   "_group": "FOROVIRIAN",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -58155,16 +58526,15 @@
     }
    ],
    "notes": [],
-   "_in_sit": false,
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "ma3_berries",
-   "kind": "offer",
-   "_group": "FOROVIRIAN",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -58225,16 +58595,15 @@
     }
    ],
    "notes": [],
-   "_in_sit": false,
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "id": "ma4_cry",
-   "kind": "offer",
-   "_group": "FOROVIRIAN",
+   "kind": "interaction",
    "region_ids": [
     3
    ],
@@ -58303,11 +58672,11 @@
     }
    ],
    "notes": [],
-   "_in_sit": false,
    "traveller_use": {
     "es": null,
     "en": null
-   }
+   },
+   "action": "offer"
   },
   {
    "channel": null,
@@ -58746,8 +59115,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "la vista y el viento",
-   "channel_en": "sight and wind",
+   "channel": {
+    "es": "la vista y el viento",
+    "en": "sight and wind"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -58778,8 +59149,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "lo social",
-   "channel_en": "the social",
+   "channel": {
+    "es": "lo social",
+    "en": "the social"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -58810,8 +59183,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el agua y el oído",
-   "channel_en": "water and hearing",
+   "channel": {
+    "es": "el agua y el oído",
+    "en": "water and hearing"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -58842,8 +59217,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el cuerpo y el oído",
-   "channel_en": "body and hearing",
+   "channel": {
+    "es": "el cuerpo y el oído",
+    "en": "body and hearing"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -58874,8 +59251,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "la vista",
-   "channel_en": "sight",
+   "channel": {
+    "es": "la vista",
+    "en": "sight"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -58906,8 +59285,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el oído",
-   "channel_en": "hearing",
+   "channel": {
+    "es": "el oído",
+    "en": "hearing"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -58938,8 +59319,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "la vista y el agua",
-   "channel_en": "sight and water",
+   "channel": {
+    "es": "la vista y el agua",
+    "en": "sight and water"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -58970,8 +59353,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "la vista",
-   "channel_en": "sight",
+   "channel": {
+    "es": "la vista",
+    "en": "sight"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59002,8 +59387,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el ánimo",
-   "channel_en": "the mood",
+   "channel": {
+    "es": "el ánimo",
+    "en": "the mood"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59034,8 +59421,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "la vista",
-   "channel_en": "sight",
+   "channel": {
+    "es": "la vista",
+    "en": "sight"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59066,8 +59455,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el cuerpo y el ánimo",
-   "channel_en": "body and mood",
+   "channel": {
+    "es": "el cuerpo y el ánimo",
+    "en": "body and mood"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59111,8 +59502,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el cuerpo",
-   "channel_en": "the body",
+   "channel": {
+    "es": "el cuerpo",
+    "en": "the body"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59143,8 +59536,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el ánimo",
-   "channel_en": "the mood",
+   "channel": {
+    "es": "el ánimo",
+    "en": "the mood"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59175,8 +59570,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el cuerpo",
-   "channel_en": "the body",
+   "channel": {
+    "es": "el cuerpo",
+    "en": "the body"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59207,8 +59604,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el oído",
-   "channel_en": "hearing",
+   "channel": {
+    "es": "el oído",
+    "en": "hearing"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59252,8 +59651,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "la vista",
-   "channel_en": "sight",
+   "channel": {
+    "es": "la vista",
+    "en": "sight"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59284,8 +59685,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "la vista y el ánimo",
-   "channel_en": "sight and mood",
+   "channel": {
+    "es": "la vista y el ánimo",
+    "en": "sight and mood"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59316,8 +59719,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el oído y el ánimo",
-   "channel_en": "hearing and mood",
+   "channel": {
+    "es": "el oído y el ánimo",
+    "en": "hearing and mood"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59361,8 +59766,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el cuerpo y el ánimo",
-   "channel_en": "body and mood",
+   "channel": {
+    "es": "el cuerpo y el ánimo",
+    "en": "body and mood"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59406,8 +59813,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el ánimo",
-   "channel_en": "the mood",
+   "channel": {
+    "es": "el ánimo",
+    "en": "the mood"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59438,8 +59847,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "la vista y el ánimo",
-   "channel_en": "sight and mood",
+   "channel": {
+    "es": "la vista y el ánimo",
+    "en": "sight and mood"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59483,8 +59894,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "lo social",
-   "channel_en": "the social",
+   "channel": {
+    "es": "lo social",
+    "en": "the social"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59515,8 +59928,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el ánimo",
-   "channel_en": "the mood",
+   "channel": {
+    "es": "el ánimo",
+    "en": "the mood"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59560,8 +59975,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el ánimo",
-   "channel_en": "the mood",
+   "channel": {
+    "es": "el ánimo",
+    "en": "the mood"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."
@@ -59605,8 +60022,10 @@
    "type": null,
    "traveller_use": null,
    "tags": [],
-   "channel": "el cuerpo",
-   "channel_en": "the body",
+   "channel": {
+    "es": "el cuerpo",
+    "en": "the body"
+   },
    "note": {
     "es": null,
     "en": "Fires once, on the day the traveller crosses into this region."

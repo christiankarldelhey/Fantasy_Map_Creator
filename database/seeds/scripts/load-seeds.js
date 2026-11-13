@@ -263,13 +263,21 @@ async function seedEntities() {
   const rows = parseCsv(text);
   let inserted = 0;
   let skipped = 0;
-  for (const r of rows) {
-    const id = nullIfEmpty(r.id);
-    if (!id) { skipped++; continue; }
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    if (!uuidRegex.test(id)) { skipped++; continue; }
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-    const parentId = nullIfEmpty(r.parent_id);
+  // parent_id FK: the CSV does not order parents before children. Rows whose
+  // parent hasn't landed yet retry until a pass inserts nothing new; only
+  // then are they counted as skipped.
+  let pending = rows.filter((r) => {
+    const id = nullIfEmpty(r.id);
+    if (!id || !uuidRegex.test(id)) { skipped++; return false; }
+    return true;
+  });
+  while (pending.length) {
+    const next = [];
+    for (const r of pending) {
+      const id = nullIfEmpty(r.id);
+      const parentId = nullIfEmpty(r.parent_id);
     const validParent = parentId && uuidRegex.test(parentId) ? parentId : null;
 
     let biomesArray = null;
@@ -345,8 +353,14 @@ async function seedEntities() {
       );
       inserted++;
     } catch (err) {
-      skipped++;
+      next.push(r);
     }
+    }
+    if (next.length === pending.length) {
+      skipped += next.length;
+      break;
+    }
+    pending = next;
   }
   const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) AS count FROM entities');
   console.log(`✅ entities: ${count} rows (inserted/updated: ${inserted}, skipped: ${skipped})`);
@@ -624,6 +638,18 @@ const REF_TABLES = {
 };
 const DEPICTION_TABLES = [...new Set(Object.values(REF_TABLES))];
 
+// Payload keeps only kind-unique spec + provenance: keys that duplicate real
+// columns (or are dead authoring scratch) are stripped before write. name/type
+// are handled apart — an {en,es} object carries more than the flat TEXT
+// columns, a scalar is a plain copy and goes.
+const PAYLOAD_COLUMN_KEYS = new Set([
+  'id', 'kind', 'action', 'place_ref', 'tags',
+  'region', 'region_id', 'region_ids', 'region_confidence',
+  'description', 'mechanics', 'cultural_family', 'priority',
+  'location_id', 'size_radius_km', 'influence_radius_km',
+  '_group', '_in_sit',
+]);
+
 function placeTypeRadii(typeText) {
   const head = (typeText || '').toLowerCase();
   for (const [re, radii] of PLACE_TYPE_RULES) {
@@ -645,13 +671,14 @@ async function seedNarrationRecords() {
   for (const r of records) {
     await pool.query(
       `INSERT INTO places_narration
-         (id, kind, action, location_id, place_ref, region_id, name, type,
+         (id, kind, action, location_id, place_ref, region_id, region_ids, name, type,
           cultural_family, priority, tags, size_radius_km, influence_radius_km,
           description, variants, mechanics, refs, payload)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14::jsonb,$15::jsonb,$16::jsonb,$17::jsonb,$18::jsonb)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16::jsonb,$17::jsonb,$18::jsonb,$19::jsonb)
        ON CONFLICT (id) DO UPDATE SET
          kind=EXCLUDED.kind, action=EXCLUDED.action, location_id=EXCLUDED.location_id,
-         place_ref=EXCLUDED.place_ref, region_id=EXCLUDED.region_id, name=EXCLUDED.name,
+         place_ref=EXCLUDED.place_ref, region_id=EXCLUDED.region_id, region_ids=EXCLUDED.region_ids,
+         name=EXCLUDED.name,
          type=EXCLUDED.type, cultural_family=EXCLUDED.cultural_family, priority=EXCLUDED.priority,
          tags=EXCLUDED.tags, size_radius_km=EXCLUDED.size_radius_km,
          influence_radius_km=EXCLUDED.influence_radius_km, description=EXCLUDED.description,
@@ -659,7 +686,7 @@ async function seedNarrationRecords() {
          refs=EXCLUDED.refs, payload=EXCLUDED.payload`,
       [
         r.id, r.kind, r.action ?? null, r.location_id ?? null, r.place_ref ?? null,
-        r.region_id ?? null, r.name ?? null, r.type ?? null, r.cultural_family ?? null,
+        r.region_id ?? null, r.region_ids ?? null, r.name ?? null, r.type ?? null, r.cultural_family ?? null,
         r.priority ?? 0, r.tags ?? [],
         r.size_radius_km ?? null, r.influence_radius_km ?? null,
         r.description ? JSON.stringify(r.description) : null,
@@ -784,7 +811,12 @@ async function seedPlaces() {
   let anchored = 0;
   const candidates = [];
 
-  for (const r of records) {
+  // place_ref is a self-FK: parents must exist before their offers insert.
+  const ordered = [...records].sort(
+    (a, b) => Number(a.place_ref != null) - Number(b.place_ref != null)
+  );
+
+  for (const r of ordered) {
     const name = typeof r.name === 'string'
       ? r.name
       : (r.name?.en || r.name?.es || r.id);
@@ -823,16 +855,23 @@ async function seedPlaces() {
     // only the ficha-unique spec. JSON refs win when authored; georef-authored
     // refs survive when the JSON carries none.
     const kind = r.kind === 'offer' ? 'interaction' : r.kind;
-    const action = r.kind === 'offer' ? 'offer' : null;
+    const action = r.kind === 'offer' ? 'offer' : (r.action ?? null);
+    const regionIds = Array.isArray(r.region_ids) && r.region_ids.length
+      ? r.region_ids
+      : (regionId != null ? [regionId] : null);
     const { variants, refs, ...spec } = r;
+    for (const k of PAYLOAD_COLUMN_KEYS) delete spec[k];
+    for (const k of ['name', 'type']) {
+      if (typeof spec[k] !== 'object' || spec[k] === null) delete spec[k];
+    }
     await pool.query(
       `INSERT INTO places_narration
-         (id, kind, action, location_id, place_ref, region_id, name, type, tags,
+         (id, kind, action, location_id, place_ref, region_id, region_ids, name, type, tags,
           size_radius_km, influence_radius_km, variants, refs, payload)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12::jsonb,$13::jsonb,$14::jsonb)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13::jsonb,$14::jsonb,$15::jsonb)
        ON CONFLICT (id) DO UPDATE SET
          kind=EXCLUDED.kind, action=EXCLUDED.action, place_ref=EXCLUDED.place_ref,
-         name=EXCLUDED.name, tags=EXCLUDED.tags,
+         name=EXCLUDED.name, tags=EXCLUDED.tags, region_ids=EXCLUDED.region_ids,
          variants=EXCLUDED.variants,
          refs=COALESCE(EXCLUDED.refs, places_narration.refs),
          payload=EXCLUDED.payload,
@@ -842,7 +881,7 @@ async function seedPlaces() {
          size_radius_km      = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.size_radius_km      ELSE places_narration.size_radius_km      END,
          influence_radius_km = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.influence_radius_km ELSE places_narration.influence_radius_km END`,
       [
-        r.id, kind, action, locationId, r.place_ref || null, regionId,
+        r.id, kind, action, locationId, r.place_ref || null, regionId, regionIds,
         name, typeText, r.tags || [],
         radii[0], radii[1],
         variants ? JSON.stringify(variants) : null,
@@ -938,6 +977,16 @@ async function seedPlaces() {
 // ---------------------------------------------------------------------------
 async function ensureSchema() {
   console.log('🔧 Ensuring schema (migrations: region_id, narration shape, energy/shadow, regions cols)...');
+
+  // --- Base app tables (idempotent create migrations) ---------------------
+  // The ALTERs below assume these exist; running their create files first is
+  // what lets a fresh DB (schema.sql alone) bootstrap end-to-end. Order:
+  // character_state + trips before users (users FKs into both).
+  await runMigrationFile('create_character_state_table.sql');
+  await runMigrationFile('create_trips_and_trip_days.sql');
+  await runMigrationFile('create_users_and_seed_admin.sql');
+  await runMigrationFile('add_auth_to_users.sql');
+  await runMigrationFile('create_npc_interactions_table.sql');
 
   // --- regions columns (migrations: add_cultural_family_to_regions.sql, add_population_ratio_to_regions.sql) ---
   await pool.query(`
@@ -1134,7 +1183,8 @@ async function ensureSchema() {
       ADD COLUMN IF NOT EXISTS used_terrain_phrases    JSONB DEFAULT '{}',
       ADD COLUMN IF NOT EXISTS status    TEXT NOT NULL DEFAULT 'active',
       ADD COLUMN IF NOT EXISTS end_cause TEXT,
-      ADD COLUMN IF NOT EXISTS ended_at  TIMESTAMP
+      ADD COLUMN IF NOT EXISTS ended_at  TIMESTAMP,
+      ADD COLUMN IF NOT EXISTS character_id INTEGER
   `);
   await pool.query(`
     DO $$
@@ -1142,6 +1192,13 @@ async function ensureSchema() {
       IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_trips_status') THEN
         ALTER TABLE trips
           ADD CONSTRAINT chk_trips_status CHECK (status IN ('active', 'dead', 'completed'));
+      END IF;
+      -- add_character_id_to_trips.sql is not re-runnable (drops the column);
+      -- the column + FK are ensured here instead.
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'trips_character_id_fkey') THEN
+        ALTER TABLE trips
+          ADD CONSTRAINT trips_character_id_fkey
+          FOREIGN KEY (character_id) REFERENCES character_state(id) ON DELETE SET NULL;
       END IF;
     END $$;
   `);
@@ -1173,6 +1230,7 @@ async function ensureSchema() {
   await runMigrationFile('add_visible_in_map_to_locations.sql');
   await runMigrationFile('add_source_to_locations.sql');
   await runMigrationFile('normalize_narration_shape.sql');
+  await runMigrationFile('normalize_narration_columns.sql');
   await runMigrationFile('add_places_narration_id_to_trip_days.sql');
 
   // Legacy prose stores drop last (#104): everything above is additive and
@@ -1248,11 +1306,19 @@ async function ensureConstraints() {
   ];
 
   for (const { table, constraint, sql } of checks) {
+    // Runs before ensureSchema: tables a migration creates later may not
+    // exist yet on a fresh DB — skip them rather than abort the seed.
     const { rows } = await pool.query(
-      `SELECT 1 FROM pg_constraint WHERE conname = $1 AND conrelid = $2::regclass`,
-      [constraint, table]
+      `SELECT to_regclass($2) AS tbl,
+              EXISTS (SELECT 1 FROM pg_constraint
+                       WHERE conname = $1 AND conrelid = to_regclass($2)) AS has`,
+      [constraint, `public.${table}`]
     );
-    if (rows.length === 0) {
+    if (!rows[0].tbl) {
+      console.log(`  ⏭️  ${table} not present yet — created by a later migration`);
+      continue;
+    }
+    if (!rows[0].has) {
       try {
         await pool.query(sql);
         console.log(`  ✅ Added constraint ${constraint}`);
@@ -1488,20 +1554,14 @@ async function main() {
     await ensureSchema();
     await seedKingdoms();
     await seedClimateZones();
-    await seedEncounterForms();
-    await seedNpcInteractions();
+    // entities before npc_interactions (FK entity_id → entities).
     await seedEntities();
     await backfillEntityFamilies();
+    await seedEncounterForms();
+    await seedNpcInteractions();
 
-    await seedFromSqlFile(
-      'locations',
-      path.join(DATA_DIR, 'sql/locations.sql')
-    );
-    await seedFromSqlFile(
-      'roads',
-      path.join(DATA_DIR, 'sql/roads.sql')
-    );
-
+    // Polygon layers first: locations.sql rows already carry region_id, so
+    // regions must exist before them (FK). Roads are independent.
     await seedGeoJson({
       label: 'regions',
       file: path.join(DATA_DIR, 'geojson/regions.geojson'),
@@ -1572,6 +1632,15 @@ async function main() {
         ],
       }),
     });
+
+    await seedFromSqlFile(
+      'locations',
+      path.join(DATA_DIR, 'sql/locations.sql')
+    );
+    await seedFromSqlFile(
+      'roads',
+      path.join(DATA_DIR, 'sql/roads.sql')
+    );
 
     await backfillLocationRegions();
 

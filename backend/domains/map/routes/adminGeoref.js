@@ -30,8 +30,7 @@ router.get('/places', async (req, res, next) => {
       status === 'positioned'   ? 'AND l.geom IS NOT NULL' : '';
 
     const { rows } = await pool.query(
-      `SELECT p.id, p.kind, p.name, p.type, p.region_id, p.location_id,
-              p.payload->'region_ids' AS region_ids,
+      `SELECT p.id, p.kind, p.name, p.type, p.region_id, p.region_ids, p.location_id,
               p.size_radius_km, p.influence_radius_km,
               l.geom IS NOT NULL AS positioned,
               ST_AsGeoJSON(l.geom)::json AS geom
@@ -52,7 +51,7 @@ router.get('/places/:id', async (req, res, next) => {
   try {
     const { rows } = await pool.query(
       `SELECT p.id, p.kind, p.action, p.name, p.type, p.region_id, p.place_ref,
-              p.location_id, p.cultural_family, p.priority,
+              p.location_id, p.region_ids, p.cultural_family, p.priority,
               p.tags, p.size_radius_km, p.influence_radius_km,
               p.description, p.variants, p.mechanics, p.refs,
               ST_AsGeoJSON(l.geom)::json AS geom, p.payload,
@@ -255,7 +254,7 @@ router.patch('/places/:id', async (req, res, next) => {
     if (anchorId !== undefined) add('location_id = ?', anchorId);
 
     // The containing region is spatial truth: derive it from the point unless
-    // the user picked one explicitly. payload.region/region_ids follow so the
+    // the user picked one explicitly. region_ids follows region_id so the
     // list filter never shows the ficha under its old region.
     let regionExpr;
     if (region_id != null) {
@@ -265,17 +264,14 @@ router.patch('/places/:id', async (req, res, next) => {
       regionExpr = `($${params.length})::int`;
     } else if (region_id === null && lonIdx === undefined) {
       sets.push('region_id = NULL');
-      sets.push(`payload = COALESCE(payload, '{}'::jsonb) - 'region' - 'region_ids'`);
+      sets.push('region_ids = NULL');
     } else if (lonIdx !== undefined) {
       regionExpr = `(SELECT rr.id FROM regions rr WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($${lonIdx}, $${latIdx}), 4326)) LIMIT 1)`;
     }
     if (regionExpr) {
       sets.push(`region_id = ${regionExpr}`);
-      sets.push(`payload = CASE WHEN (${regionExpr}) IS NULL THEN payload
-        ELSE (COALESCE(payload,'{}'::jsonb) - 'region' - 'region_ids') || jsonb_build_object(
-          'region_ids', jsonb_build_array((${regionExpr})::int),
-          'region', (SELECT r2.name FROM regions r2 WHERE r2.id = (${regionExpr})::int))
-        END`);
+      sets.push(`region_ids = CASE WHEN (${regionExpr}) IS NULL THEN region_ids
+        ELSE ARRAY[(${regionExpr})::int] END`);
     }
     if (type !== undefined) add('type = ?', type);
     if (cultural_family !== undefined) add('cultural_family = ?', cultural_family);

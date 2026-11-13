@@ -45,8 +45,13 @@ CREATE TABLE IF NOT EXISTS trips (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
-ALTER TABLE trips
-  ADD CONSTRAINT IF NOT EXISTS chk_trips_status CHECK (status IN ('active', 'dead', 'completed'));
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_trips_status') THEN
+    ALTER TABLE trips
+      ADD CONSTRAINT chk_trips_status CHECK (status IN ('active', 'dead', 'completed'));
+  END IF;
+END $$;
 
 COMMENT ON TABLE trips IS 'Journeys with their computed route and metadata';
 COMMENT ON COLUMN trips.route IS 'Full GeoJSON output of the directions/routing service';

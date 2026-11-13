@@ -12,9 +12,13 @@ INSERT INTO character_state (name, current_lng, current_lat)
 SELECT 'Company', ST_X(geom), ST_Y(geom)
 FROM locations
 WHERE name = 'Bree'
+  AND NOT EXISTS (SELECT 1 FROM character_state)
 LIMIT 1;
 
 -- If for any reason Bree is not in the locations table yet, seed with default coordinates
 INSERT INTO character_state (id, name, current_lng, current_lat)
 SELECT 1, 'Company', 27.5, -34.2
 WHERE NOT EXISTS (SELECT 1 FROM character_state);
+
+-- Keep the sequence ahead of any explicitly-inserted id
+SELECT setval('character_state_id_seq', (SELECT COALESCE(MAX(id), 1) FROM character_state));

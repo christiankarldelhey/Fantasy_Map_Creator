@@ -14,7 +14,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, '..', 'data');
 
 const { rows } = await pool.query(
-  `SELECT id, kind, action, location_id, place_ref, region_id, name, type,
+  `SELECT id, kind, action, location_id, place_ref, region_id, region_ids, name, type,
           cultural_family, priority, tags, size_radius_km, influence_radius_km,
           description, variants, mechanics, refs, payload
      FROM places_narration
@@ -23,7 +23,7 @@ const { rows } = await pool.query(
 );
 
 const COLS = [
-  'id', 'kind', 'action', 'location_id', 'place_ref', 'region_id', 'name', 'type',
+  'id', 'kind', 'action', 'location_id', 'place_ref', 'region_id', 'region_ids', 'name', 'type',
   'cultural_family', 'priority', 'tags', 'size_radius_km', 'influence_radius_km',
   'description', 'variants', 'mechanics', 'refs', 'payload',
 ];
