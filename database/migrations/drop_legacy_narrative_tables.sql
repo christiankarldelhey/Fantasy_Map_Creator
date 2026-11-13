@@ -76,6 +76,9 @@ ALTER TABLE water
 ALTER TABLE biomes
   DROP COLUMN IF EXISTS description;
 
+ALTER TABLE roads
+  DROP COLUMN IF EXISTS description;
+
 ALTER TABLE regions
   DROP COLUMN IF EXISTS description_text,
   DROP COLUMN IF EXISTS description_summary,

@@ -204,11 +204,9 @@ const metaLine = computed(() => {
   return parts.join(' · ')
 })
 
-/** Geo/biome/road references used by anchor hints (refs column since #106). */
+/** Feature bindings authored on the record (refs column, ADR-0014). */
 const refsText = computed(() => {
-  const a = props.georef.activePlace.value
-  const p = a?.payload as Record<string, unknown> | undefined
-  const refs = a?.refs ?? p?.geo
+  const refs = props.georef.activePlace.value?.refs
   if (refs == null) return ''
   return JSON.stringify(refs)
 })

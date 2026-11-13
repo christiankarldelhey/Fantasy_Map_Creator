@@ -69,7 +69,6 @@ CREATE TABLE IF NOT EXISTS roads (
     terrain_type VARCHAR(50),
     difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5),
     cost_factor DECIMAL DEFAULT 1.0,
-    description TEXT,
     created_at TIMESTAMP DEFAULT NOW(),
     geom GEOMETRY(LineString, 4326) NOT NULL,
     CONSTRAINT valid_road_geometry CHECK (ST_IsValid(geom)),
