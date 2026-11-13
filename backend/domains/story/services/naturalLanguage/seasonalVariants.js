@@ -127,15 +127,18 @@ export async function loadSeasonalSummaries(regionNames) {
   }
   try {
     const { rows } = await pool.query(
-      `SELECT region_name, variant, phrases
-       FROM region_seasonal_descriptions
-       WHERE region_name = ANY($1::text[])`,
+      `SELECT r.name AS region_name, rd.payload->'variants' AS variants
+       FROM regions r
+       JOIN places_narration rd ON rd.id = r.depiction_id
+       WHERE r.name = ANY($1::text[])
+         AND rd.payload ? 'variants'`,
       [regionNames]
     );
     const map = {};
     for (const row of rows) {
-      if (!map[row.region_name]) map[row.region_name] = {};
-      map[row.region_name][row.variant] = row.phrases || [];
+      if (row.variants && Object.keys(row.variants).length) {
+        map[row.region_name] = row.variants;
+      }
     }
     return map;
   } catch (err) {

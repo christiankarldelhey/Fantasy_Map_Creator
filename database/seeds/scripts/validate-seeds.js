@@ -126,6 +126,11 @@ const VALIDATION_CONFIG = {
       column: 'depiction_id',
       references: 'places_narration.id'
     },
+    {
+      table: 'kingdoms',
+      column: 'depiction_id',
+      references: 'places_narration.id'
+    },
   ],
 };
 
@@ -136,6 +141,7 @@ const REF_TABLES = {
   road: 'roads', roads: 'roads',
   location: 'locations', locations: 'locations',
   region: 'regions', regions: 'regions',
+  kingdom: 'kingdoms', kingdoms: 'kingdoms',
 };
 
 /**
@@ -336,7 +342,8 @@ async function validateDepictionLinks() {
          AND NOT EXISTS (SELECT 1 FROM water w     WHERE w.depiction_id = p.id)
          AND NOT EXISTS (SELECT 1 FROM biomes b    WHERE b.depiction_id = p.id)
          AND NOT EXISTS (SELECT 1 FROM roads r     WHERE r.depiction_id = p.id)
-         AND NOT EXISTS (SELECT 1 FROM regions g   WHERE g.depiction_id = p.id)`
+         AND NOT EXISTS (SELECT 1 FROM regions g   WHERE g.depiction_id = p.id)
+         AND NOT EXISTS (SELECT 1 FROM kingdoms k  WHERE k.depiction_id = p.id)`
     );
     if (dead.length === 0) {
       console.log('✅ no dead depiction records');

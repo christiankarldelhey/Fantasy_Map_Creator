@@ -159,9 +159,14 @@ export function rotateTerrainPhrases(terrainPhrases, usedTerrainPhrases, rng = M
 /** Region containing a point, or null. */
 async function regionAtPoint(lng, lat) {
   const { rows } = await pool.query(
-    `SELECT name, description_summary, cultural_family, COALESCE(population_ratio, 0.5) AS population_ratio
-     FROM regions
-     WHERE ST_Contains(geom, ST_SetSRID(ST_MakePoint($1, $2), 4326))
+    `SELECT r.name,
+            COALESCE((SELECT array_agg(x) FROM jsonb_array_elements_text(rd.payload->'rotation') x),
+                     r.description_summary) AS description_summary,
+            r.cultural_family,
+            COALESCE(r.population_ratio, 0.5) AS population_ratio
+     FROM regions r
+     LEFT JOIN places_narration rd ON rd.id = r.depiction_id
+     WHERE ST_Contains(r.geom, ST_SetSRID(ST_MakePoint($1, $2), 4326))
      LIMIT 1`,
     [lng, lat]
   );
@@ -181,9 +186,13 @@ async function regionsForPoints(points) {
             COALESCE(r.population_ratio, 0.5) AS population_ratio
      FROM jsonb_array_elements($1::jsonb) WITH ORDINALITY AS t(elem, idx)
      LEFT JOIN LATERAL (
-       SELECT id, name, description_summary, cultural_family, population_ratio
-       FROM regions
-       WHERE ST_Contains(geom, ST_SetSRID(ST_MakePoint((elem->>0)::float, (elem->>1)::float), 4326))
+       SELECT rg.id, rg.name,
+              COALESCE((SELECT array_agg(x) FROM jsonb_array_elements_text(rd.payload->'rotation') x),
+                       rg.description_summary) AS description_summary,
+              rg.cultural_family, rg.population_ratio
+       FROM regions rg
+       LEFT JOIN places_narration rd ON rd.id = rg.depiction_id
+       WHERE ST_Contains(rg.geom, ST_SetSRID(ST_MakePoint((elem->>0)::float, (elem->>1)::float), 4326))
        LIMIT 1
      ) r ON true
      ORDER BY t.idx`,

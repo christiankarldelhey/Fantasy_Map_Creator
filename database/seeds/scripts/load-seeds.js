@@ -878,6 +878,7 @@ const REF_TABLES = {
   road: 'roads', roads: 'roads',
   location: 'locations', locations: 'locations',
   region: 'regions', regions: 'regions',
+  kingdom: 'kingdoms', kingdoms: 'kingdoms',
 };
 const DEPICTION_TABLES = [...new Set(Object.values(REF_TABLES))];
 
@@ -937,6 +938,73 @@ async function backfillDepictions() {
   );
   console.log(
     `   🖼️  depictions: ${locRes.rowCount} locations + ${watRes.rowCount} water` +
+    (stale.rowCount ? `, ${stale.rowCount} stale dropped` : '')
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Region + kingdom records (ADR-0014, #99): regional prose, facts and
+// seasonal variants become kind='region'/'kingdom' records. Rotation stays a
+// per-day index over payload.rotation; weather/season rows fold into
+// payload.variants keyed by variant name. Source columns stay as reader
+// fallback until #104.
+// ---------------------------------------------------------------------------
+async function backfillRegionRecords() {
+  const regRes = await pool.query(
+    `INSERT INTO places_narration (id, kind, name, region_id, tags, payload)
+     SELECT 'dep:reg:' || r.id, 'region', r.name, r.id, '{}',
+       jsonb_build_object(
+         'description', jsonb_build_object('en', r.description_text),
+         'rotation',    COALESCE(to_jsonb(r.description_summary), '[]'::jsonb),
+         'variants',    COALESCE((
+           SELECT jsonb_object_agg(s.variant, to_jsonb(s.phrases))
+           FROM region_seasonal_descriptions s
+           WHERE s.region_name = r.name
+         ), '{}'::jsonb),
+         'facts', jsonb_build_object(
+           'land', r.land, 'people', r.people, 'products', r.products,
+           'notes', r.notes, 'source', r.source),
+         'refs',   jsonb_build_object('region', jsonb_build_array(r.id)),
+         'origin', 'backfill:regions')
+     FROM regions r
+     WHERE r.description_text IS NOT NULL
+        OR r.description_summary IS NOT NULL
+        OR r.land IS NOT NULL OR r.people IS NOT NULL
+        OR r.products IS NOT NULL OR r.notes IS NOT NULL OR r.source IS NOT NULL
+        OR EXISTS (SELECT 1 FROM region_seasonal_descriptions s
+                   WHERE s.region_name = r.name)
+     ON CONFLICT (id) DO UPDATE SET
+       name = EXCLUDED.name, region_id = EXCLUDED.region_id, payload = EXCLUDED.payload`
+  );
+  const kingRes = await pool.query(
+    `INSERT INTO places_narration (id, kind, name, tags, payload)
+     SELECT 'dep:king:' || k.id, 'kingdom', k.name, '{}',
+       jsonb_build_object(
+         'description', jsonb_build_object('en', k.description),
+         'refs',   jsonb_build_object('kingdom', jsonb_build_array(k.id)),
+         'origin', 'backfill:kingdoms')
+     FROM kingdoms k
+     ON CONFLICT (id) DO UPDATE SET
+       name = EXCLUDED.name, payload = EXCLUDED.payload`
+  );
+  const stale = await pool.query(
+    `DELETE FROM places_narration p
+     WHERE (p.id LIKE 'dep:reg:%' AND NOT EXISTS (
+              SELECT 1 FROM regions r
+              WHERE 'dep:reg:' || r.id = p.id
+                AND (r.description_text IS NOT NULL
+                     OR r.description_summary IS NOT NULL
+                     OR r.land IS NOT NULL OR r.people IS NOT NULL
+                     OR r.products IS NOT NULL OR r.notes IS NOT NULL
+                     OR r.source IS NOT NULL
+                     OR EXISTS (SELECT 1 FROM region_seasonal_descriptions s
+                                WHERE s.region_name = r.name))))
+        OR (p.id LIKE 'dep:king:%' AND NOT EXISTS (
+              SELECT 1 FROM kingdoms k WHERE 'dep:king:' || k.id = p.id))
+     RETURNING p.id`
+  );
+  console.log(
+    `   🏞️  region records: ${regRes.rowCount} + ${kingRes.rowCount} kingdoms` +
     (stale.rowCount ? `, ${stale.rowCount} stale dropped` : '')
   );
 }
@@ -1034,8 +1102,9 @@ async function seedPlaces() {
      WHERE p.location_id = l.id AND p.geom IS NULL`
   );
 
-  // Gazetteer prose → depiction records, then materialize links below.
+  // Gazetteer prose → depiction/region/kingdom records, then materialize.
   await backfillDepictions();
+  await backfillRegionRecords();
 
   // Materialize depiction_id from payload.refs (ADR-0014). refs is the
   // authored truth — read from the table so generated records (depictive
@@ -1387,6 +1456,7 @@ async function ensureSchema() {
   await runMigrationFile('create_movers_tables.sql');
   await runMigrationFile('create_places_narration_table.sql');
   await runMigrationFile('add_depiction_id_to_geometry_tables.sql');
+  await runMigrationFile('add_depiction_id_to_kingdoms.sql');
   await runMigrationFile('add_visible_in_map_to_locations.sql');
 
   console.log('✅ Schema ready\n');
