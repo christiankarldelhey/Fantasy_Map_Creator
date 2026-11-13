@@ -301,6 +301,7 @@ function placeEvents(day) {
     if (loc.entered) tags.push('entered');
     if (loc.hostile) tags.push('hostile');
     if (loc.sighted) tags.push('sighted');
+    if (loc.visited) tags.push('visited');
     return {
       type: 'place',
       // A distant place enters awareness when it is first sighted on the
@@ -315,6 +316,8 @@ function placeEvents(day) {
         description: loc.description ?? null,
         description_es: loc.description_es ?? null,
         distance_km: loc.distance_km ?? null,
+        base: loc.base ?? undefined,
+        base_es: loc.base_es ?? undefined,
         sighted: loc.sighted
           ? { hour_float: loc.sighted_hour_float ?? null, direction: loc.sighted_direction ?? null }
           : undefined,

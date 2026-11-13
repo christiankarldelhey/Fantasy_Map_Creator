@@ -71,7 +71,10 @@ export function collectLocationNotes(locations) {
     } else {
       proximity = `${sight}${proximityPhrase(l.distance_km, l.size_radius_km)}, ${when}`;
     }
-    notes.push(`- ${l.name}${kind}: ${proximity}.${descriptionSuffix(l.description)}`);
+    // A place the traveller is actually inside speaks with its ficha's
+    // "being there" prose; from the road only the distant depiction applies.
+    const prose = (l.visited || l.entered) ? (l.base || l.description) : l.description;
+    notes.push(`- ${l.name}${kind}: ${proximity}.${descriptionSuffix(prose)}`);
   }
   return notes;
 }

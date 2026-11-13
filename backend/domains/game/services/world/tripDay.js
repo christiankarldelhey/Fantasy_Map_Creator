@@ -326,6 +326,8 @@ async function sampleLegContext(legGeoJSON) {
           'distance_km', round((ST_Distance(l.geom::geography, leg.geom::geography) / 1000)::numeric, 2),
           'size_radius_km', rad.size_km,
           'influence_radius_km', rad.infl_km,
+          'base', ficha.base_en,
+          'base_es', ficha.base_es,
           -- Where the leg first crosses into the influence circle (the
           -- sighting moment) and the compass bearing from there to the
           -- place. NULL when the leg never reaches the circle at all —
@@ -348,6 +350,16 @@ async function sampleLegContext(legGeoJSON) {
                  MAX(p.size_radius_km) AS size_km
             FROM places_narration p WHERE p.location_id = l.id
         ) rad ON true
+        -- The anchored place ficha's "being there" prose: once the leg is
+        -- inside the size radius the place executes — this text, not a
+        -- choice, is what the traveller gets.
+        LEFT JOIN LATERAL (
+          SELECT f.payload->'base'->>'en' AS base_en,
+                 f.payload->'base'->>'es' AS base_es
+            FROM places_narration f
+           WHERE f.location_id = l.id AND f.kind = 'place'
+           LIMIT 1
+        ) ficha ON true
         LEFT JOIN LATERAL (
           SELECT CASE WHEN ST_Intersects(
                        ST_Buffer(l.geom::geography, COALESCE(rad.infl_km, 10) * 1000)::geometry,
@@ -932,10 +944,15 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     const hh = Math.floor(hourFloat);
     const mm = Math.round((hourFloat - hh) * 60);
     const entered = !!overnightLocation && overnightLocation.id === l.id;
+    // Inside the authored size radius the place executes: the traveller
+    // is IN it, and the ficha speaks — there is no choice to make.
+    const visited = !entered && l.distance_km != null
+      && (l.distance_km === 0
+        || (l.size_radius_km != null && l.distance_km <= l.size_radius_km));
     // A place that stays beyond its size radius is met first as a shape on
     // the horizon: the leg records where it crossed into the influence
     // circle and in which direction the place lies from there.
-    const sighted = !entered
+    const sighted = !entered && !visited
       && l.entry_fraction != null
       && l.distance_km != null
       && l.distance_km > Math.max(l.size_radius_km ?? 0, SIGHTING_MIN_DISTANCE_KM);
@@ -963,6 +980,9 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       sighted_hour_float: sighted ? Number(sHourFloat.toFixed(2)) : null,
       sighted_hour: sighted ? `${String(shh).padStart(2, '0')}:${String(smm).padStart(2, '0')}` : null,
       sighted_direction: sighted ? compassDirection(l.entry_bearing_deg) : null,
+      visited,
+      base: l.base ?? null,
+      base_es: l.base_es ?? null,
       entered,
       hostile: isHostileLocation(l),
     };

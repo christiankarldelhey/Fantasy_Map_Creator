@@ -158,3 +158,18 @@ test('collectLocationNotes voices a distant sighting before the passing', async 
   assert.match(notes[1], /sighted far off to the north/);
   assert.match(notes[1], /enemy country/);
 });
+
+// Inside the size radius the place executes: the note voices the ficha's
+// "being there" prose instead of the road-side depiction.
+test('collectLocationNotes voices the ficha prose for a visited place', async () => {
+  const { collectLocationNotes } = await import('../placeNotes.js');
+  const notes = collectLocationNotes([
+    { name: 'The Prancing Pony', type: 'inn', hour_float: 12, distance_km: 0.2,
+      size_radius_km: 0.5, visited: true,
+      description: 'A large inn seen from the road.',
+      base: 'A low room full of pipe smoke and Bree gossip.' },
+  ]);
+  assert.match(notes[0], /passes through/);
+  assert.match(notes[0], /pipe smoke and Bree gossip/);
+  assert.doesNotMatch(notes[0], /seen from the road/);
+});
