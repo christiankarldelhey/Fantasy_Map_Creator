@@ -29,7 +29,6 @@ router.get('/', async (req, res, next) => {
               'id', id,
               'name', name,
               'type', type,
-              'description', description,
               'area_km2', area_km2
             )
           )
