@@ -10,11 +10,30 @@
 // ============================================================================
 
 import pool from '../../../../db.js';
+import { loadScoped } from './resolveNarrative.js';
 
 const CACHE = new Map();
 
 export function clearPlacesInteractionsCache() {
   CACHE.clear();
+}
+
+// Map a kind='overnight' narration record back to the flat legacy row shape
+// the overnight ladder consumes (id stays the int legacy_id until #104).
+function overnightRecordToRow(r) {
+  return {
+    id: r.payload?.legacy_id ?? null,
+    interaction_type: 'overnight',
+    location_id: r.location_id,
+    location_type: r.type,
+    region_id: r.region_id,
+    cultural_family: r.cultural_family,
+    title: r.payload?.title ?? r.name ?? null,
+    description: r.payload?.description?.en ?? null,
+    rest_quality: r.payload?.mechanics?.rest_quality ?? null,
+    shadow_effect: r.payload?.mechanics?.shadow_effect ?? null,
+    priority: r.priority,
+  };
 }
 
 async function loadInteractions(interactionType) {
@@ -24,18 +43,7 @@ async function loadInteractions(interactionType) {
   // places_interactions stays as the seeded source until it drops in #104.
   let rows = [];
   if (interactionType === 'overnight') {
-    const res = await pool.query(
-      `SELECT (payload->>'legacy_id')::int AS id, 'overnight' AS interaction_type,
-              location_id, type AS location_type, region_id, cultural_family,
-              payload->>'title' AS title,
-              payload->'description'->>'en' AS description,
-              (payload->'mechanics'->>'rest_quality')::smallint AS rest_quality,
-              (payload->'mechanics'->>'shadow_effect')::smallint AS shadow_effect,
-              priority
-       FROM places_narration
-       WHERE kind = 'overnight'`
-    );
-    rows = res.rows;
+    rows = (await loadScoped('overnight')).map(overnightRecordToRow);
   }
   if (rows.length === 0) {
     const res = await pool.query(
