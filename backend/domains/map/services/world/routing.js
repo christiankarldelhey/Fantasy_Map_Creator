@@ -286,14 +286,17 @@ async function fetchLocationsAlongRoute(routeWKT, coords, dists) {
     WITH route AS (
       SELECT ST_SetSRID(ST_GeomFromText($1), 4326) AS geom
     )
-    SELECT l.id, l.name, l.location_type AS type, l.region, l.region_id, l.description,
-           l.description_es, l.population, l.inhabitants,
+    SELECT l.id, l.name, l.location_type AS type, l.region, l.region_id,
+           COALESCE(pd.payload->'description'->>'en', l.description) AS description,
+           COALESCE(pd.payload->'description'->>'es', l.description_es) AS description_es,
+           l.population, l.inhabitants,
            rg.cultural_family, rg.name AS region_name,
            ST_X(l.geom) AS lng, ST_Y(l.geom) AS lat,
            ST_Distance(l.geom::geography, route.geom::geography) AS off_route_m,
            ST_LineLocatePoint(route.geom, ST_ClosestPoint(route.geom, l.geom)) AS fraction
     FROM locations l
     LEFT JOIN regions rg ON rg.id = l.region_id
+    LEFT JOIN places_narration pd ON pd.id = l.depiction_id
     , route
     WHERE ST_DWithin(l.geom::geography, route.geom::geography, $2)
     ORDER BY fraction

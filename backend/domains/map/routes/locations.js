@@ -12,26 +12,27 @@ router.get('/', async (req, res, next) => {
         'features', COALESCE(json_agg(
           json_build_object(
             'type', 'Feature',
-            'id', id,
-            'geometry', ST_AsGeoJSON(geom)::json,
+            'id', l.id,
+            'geometry', ST_AsGeoJSON(l.geom)::json,
             'properties', json_build_object(
-              'id', id,
-              'name', name,
-              'type', location_type,
-              'slug', slug,
-              'url_path', url_path,
-              'region', region,
-              'description', description,
-              'description_es', description_es,
-              'population', population,
-              'inhabitants', inhabitants
+              'id', l.id,
+              'name', l.name,
+              'type', l.location_type,
+              'slug', l.slug,
+              'url_path', l.url_path,
+              'region', l.region,
+              'description', COALESCE(pd.payload->'description'->>'en', l.description),
+              'description_es', COALESCE(pd.payload->'description'->>'es', l.description_es),
+              'population', l.population,
+              'inhabitants', l.inhabitants
             )
           )
         ), '[]'::json)
       ) as geojson
-      FROM locations
-      WHERE geom IS NOT NULL
-        AND visible_in_map;
+      FROM locations l
+      LEFT JOIN places_narration pd ON pd.id = l.depiction_id
+      WHERE l.geom IS NOT NULL
+        AND l.visible_in_map;
     `;
 
     const result = await pool.query(query);
@@ -49,23 +50,24 @@ router.get('/:id', async (req, res, next) => {
     const query = `
       SELECT json_build_object(
         'type', 'Feature',
-        'id', id,
-        'geometry', ST_AsGeoJSON(geom)::json,
+        'id', l.id,
+        'geometry', ST_AsGeoJSON(l.geom)::json,
         'properties', json_build_object(
-          'id', id,
-          'name', name,
-          'type', location_type,
-          'slug', slug,
-          'url_path', url_path,
-          'region', region,
-          'description', description,
-          'description_es', description_es,
-          'population', population,
-          'inhabitants', inhabitants
+          'id', l.id,
+          'name', l.name,
+          'type', l.location_type,
+          'slug', l.slug,
+          'url_path', l.url_path,
+          'region', l.region,
+          'description', COALESCE(pd.payload->'description'->>'en', l.description),
+          'description_es', COALESCE(pd.payload->'description'->>'es', l.description_es),
+          'population', l.population,
+          'inhabitants', l.inhabitants
         )
       ) as feature
-      FROM locations
-      WHERE id = $1;
+      FROM locations l
+      LEFT JOIN places_narration pd ON pd.id = l.depiction_id
+      WHERE l.id = $1;
     `;
 
     const result = await pool.query(query, [id]);

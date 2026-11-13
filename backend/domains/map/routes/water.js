@@ -12,19 +12,20 @@ router.get('/', async (req, res, next) => {
         'features', COALESCE(json_agg(
           json_build_object(
             'type', 'Feature',
-            'id', id,
-            'geometry', ST_AsGeoJSON(geom)::json,
+            'id', w.id,
+            'geometry', ST_AsGeoJSON(w.geom)::json,
             'properties', json_build_object(
-              'id', id,
-              'name', name,
-              'water_type', water_type,
-              'description', description
+              'id', w.id,
+              'name', w.name,
+              'water_type', w.water_type,
+              'description', COALESCE(wd.payload->'description'->>'en', w.description)
             )
           )
         ), '[]'::json)
       ) as geojson
-      FROM water
-      WHERE geom IS NOT NULL;
+      FROM water w
+      LEFT JOIN places_narration wd ON wd.id = w.depiction_id
+      WHERE w.geom IS NOT NULL;
     `;
 
     const result = await pool.query(query);

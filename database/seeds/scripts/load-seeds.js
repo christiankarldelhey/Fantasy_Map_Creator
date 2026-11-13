@@ -889,6 +889,58 @@ function placeTypeRadii(typeText) {
   return DEFAULT_PLACE_RADII;
 }
 
+// ---------------------------------------------------------------------------
+// Depiction backfill (ADR-0014, #98): per-feature gazetteer prose becomes
+// kind='depiction' records in places_narration, linked through payload.refs
+// (materialized to depiction_id right after). Idempotent — regenerates the
+// dep:<table>:<id> records from the source columns on every run and drops
+// generated records whose source prose disappeared. The source columns stay
+// as reader fallback until the final drop (#104).
+// ---------------------------------------------------------------------------
+async function backfillDepictions() {
+  const locRes = await pool.query(
+    `INSERT INTO places_narration (id, kind, name, type, region_id, tags, payload)
+     SELECT 'dep:loc:' || l.id, 'depiction', l.name, l.location_type, l.region_id, '{}',
+       jsonb_build_object(
+         'description', jsonb_build_object('en', l.description, 'es', l.description_es),
+         'refs',        jsonb_build_object('location', jsonb_build_array(l.id)),
+         'origin',      'backfill:locations.description')
+     FROM locations l
+     WHERE NULLIF(BTRIM(l.description), '') IS NOT NULL
+     ON CONFLICT (id) DO UPDATE SET
+       name = EXCLUDED.name, type = EXCLUDED.type,
+       region_id = EXCLUDED.region_id, payload = EXCLUDED.payload`
+  );
+  const watRes = await pool.query(
+    `INSERT INTO places_narration (id, kind, name, type, tags, payload)
+     SELECT 'dep:wat:' || w.id, 'depiction', w.name, w.water_type, '{}',
+       jsonb_build_object(
+         'description', jsonb_build_object('en', w.description),
+         'refs',        jsonb_build_object('water', jsonb_build_array(w.id)),
+         'origin',      'backfill:water.description')
+     FROM water w
+     WHERE NULLIF(BTRIM(w.description), '') IS NOT NULL
+     ON CONFLICT (id) DO UPDATE SET
+       name = EXCLUDED.name, type = EXCLUDED.type, payload = EXCLUDED.payload`
+  );
+  const stale = await pool.query(
+    `DELETE FROM places_narration p
+     WHERE (p.id LIKE 'dep:loc:%' AND NOT EXISTS (
+              SELECT 1 FROM locations l
+              WHERE 'dep:loc:' || l.id = p.id
+                AND NULLIF(BTRIM(l.description), '') IS NOT NULL))
+        OR (p.id LIKE 'dep:wat:%' AND NOT EXISTS (
+              SELECT 1 FROM water w
+              WHERE 'dep:wat:' || w.id = p.id
+                AND NULLIF(BTRIM(w.description), '') IS NOT NULL))
+     RETURNING p.id`
+  );
+  console.log(
+    `   🖼️  depictions: ${locRes.rowCount} locations + ${watRes.rowCount} water` +
+    (stale.rowCount ? `, ${stale.rowCount} stale dropped` : '')
+  );
+}
+
 async function seedPlaces() {
   console.log('🗺️  Seeding places (authored fichas)...');
   const file = path.join(DATA_DIR, 'json/places.json');
@@ -965,10 +1017,12 @@ async function seedPlaces() {
   // are pruned only while unpositioned; positioned orphans are reported, not deleted.
   const ids = records.map((r) => r.id);
   const pruned = await pool.query(
-    'DELETE FROM places_narration WHERE id <> ALL($1) AND geom IS NULL RETURNING id', [ids]
+    `DELETE FROM places_narration WHERE id <> ALL($1) AND geom IS NULL
+       AND kind IN ('place','ambient','arrival','offer','lore') RETURNING id`, [ids]
   );
   const { rows: orphans } = await pool.query(
-    'SELECT id FROM places_narration WHERE id <> ALL($1)', [ids]
+    `SELECT id FROM places_narration WHERE id <> ALL($1)
+       AND kind IN ('place','ambient','arrival','offer','lore')`, [ids]
   );
   if (pruned.rowCount) console.log(`   🧹 pruned ${pruned.rowCount} unpositioned places no longer in JSON`);
   if (orphans.length) console.warn(`   ⚠️ positioned places no longer in JSON (kept): ${orphans.map((o) => o.id).join(', ')}`);
@@ -980,12 +1034,20 @@ async function seedPlaces() {
      WHERE p.location_id = l.id AND p.geom IS NULL`
   );
 
+  // Gazetteer prose → depiction records, then materialize links below.
+  await backfillDepictions();
+
   // Materialize depiction_id from payload.refs (ADR-0014). refs is the
-  // authored truth; the FK column is a derived link rebuilt on every seed —
+  // authored truth — read from the table so generated records (depictive
+  // backfill) and runtime-created ones participate, not only the JSON just
+  // upserted. The FK column is a derived link rebuilt on every seed:
   // clearing first makes reseeds and gazetteer re-imports converge to the
-  // JSON, never to drift.
+  // refs, never to drift.
+  const { rows: refRows } = await pool.query(
+    `SELECT id, payload->'refs' AS refs FROM places_narration WHERE payload ? 'refs'`
+  );
   const claims = [];
-  for (const r of records) {
+  for (const r of refRows) {
     for (const [key, ids] of Object.entries(r.refs || {})) {
       const table = REF_TABLES[key];
       if (!table) {

@@ -295,8 +295,8 @@ async function sampleLegContext(legGeoJSON) {
           'type', l.location_type,
           'region', l.region,
           'region_id', l.region_id,
-          'description', l.description,
-          'description_es', l.description_es,
+          'description', COALESCE(pd.payload->'description'->>'en', l.description),
+          'description_es', COALESCE(pd.payload->'description'->>'es', l.description_es),
           'population', l.population,
           'inhabitants', l.inhabitants,
           'cultural_family', rg.cultural_family,
@@ -305,13 +305,14 @@ async function sampleLegContext(legGeoJSON) {
         ) ORDER BY ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom))), '[]'::json)
         FROM locations l
         LEFT JOIN regions rg ON rg.id = l.region_id
+        LEFT JOIN places_narration pd ON pd.id = l.depiction_id
         , leg
         WHERE ST_DWithin(l.geom::geography, leg.geom::geography, 10000)
           AND ST_Distance(l.geom::geography, ST_StartPoint(leg.geom)::geography) > 3000) AS locations,
        (SELECT COALESCE(json_agg(json_build_object(
           'name', w.name,
           'type', w.water_type,
-          'description', w.description,
+          'description', COALESCE(wd.payload->'description'->>'en', w.description),
           'fraction', ST_LineLocatePoint(
             leg.geom,
             ST_ClosestPoint(leg.geom, ST_Centroid(ST_Intersection(leg.geom, w.geom)))
@@ -320,20 +321,24 @@ async function sampleLegContext(legGeoJSON) {
             leg.geom,
             ST_ClosestPoint(leg.geom, ST_Centroid(ST_Intersection(leg.geom, w.geom)))
         )), '[]'::json)
-        FROM water w, leg
+        FROM water w
+        LEFT JOIN places_narration wd ON wd.id = w.depiction_id
+        , leg
         WHERE w.water_type IN ('river', 'stream')
           AND ST_Intersects(w.geom, leg.geom)) AS water_crossings,
        (SELECT COALESCE(json_agg(json_build_object(
           'name', w.name,
           'type', w.water_type,
-          'description', w.description,
+          'description', COALESCE(wd.payload->'description'->>'en', w.description),
           'distance_km', round((ST_Distance(w.geom::geography, leg.geom::geography) / 1000)::numeric, 2),
           'fraction', ST_LineLocatePoint(
             leg.geom,
             ST_ClosestPoint(leg.geom, ST_Centroid(w.geom))
           )
         ) ORDER BY ST_Distance(w.geom::geography, leg.geom::geography)), '[]'::json)
-        FROM water w, leg
+        FROM water w
+        LEFT JOIN places_narration wd ON wd.id = w.depiction_id
+        , leg
         WHERE w.water_type = 'lake'
           AND ST_DWithin(w.geom::geography, leg.geom::geography, 1000)) AS water_sources`,
     [geojson]
