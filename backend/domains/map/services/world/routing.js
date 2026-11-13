@@ -287,8 +287,10 @@ async function fetchLocationsAlongRoute(routeWKT, coords, dists) {
       SELECT ST_SetSRID(ST_GeomFromText($1), 4326) AS geom
     )
     SELECT l.id, l.name, l.location_type AS type, l.region, l.region_id,
-           pd.description->>'en' AS description,
-           pd.description->>'es' AS description_es,
+           COALESCE(ficha.aspect_en, pd.aspect->>'en') AS aspect,
+           COALESCE(ficha.aspect_es, pd.aspect->>'es') AS aspect_es,
+           COALESCE(ficha.presence_en, pd.presence->>'en') AS presence,
+           COALESCE(ficha.presence_es, pd.presence->>'es') AS presence_es,
            l.population, l.inhabitants,
            rg.cultural_family, rg.name AS region_name,
            ST_X(l.geom) AS lng, ST_Y(l.geom) AS lat,
@@ -298,6 +300,15 @@ async function fetchLocationsAlongRoute(routeWKT, coords, dists) {
     FROM locations l
     LEFT JOIN regions rg ON rg.id = l.region_id
     LEFT JOIN places_narration pd ON pd.id = l.depiction_id
+    -- The anchored ficha is the authored voice of the place itself; the
+    -- depiction only speaks for it when no ficha exists.
+    LEFT JOIN LATERAL (
+      SELECT p.aspect->>'en' AS aspect_en, p.aspect->>'es' AS aspect_es,
+             p.presence->>'en' AS presence_en, p.presence->>'es' AS presence_es
+        FROM places_narration p
+       WHERE p.location_id = l.id AND p.kind = 'place'
+       ORDER BY p.id LIMIT 1
+    ) ficha ON true
     -- Authored footprint lives on the place's anchored ficha, if any.
     LEFT JOIN LATERAL (
       SELECT MAX(p.size_radius_km) AS size_km
@@ -314,8 +325,10 @@ async function fetchLocationsAlongRoute(routeWKT, coords, dists) {
     type: r.type,
     region: r.region,
     region_id: r.region_id,
-    description: r.description,
-    description_es: r.description_es,
+    aspect: r.aspect,
+    aspect_es: r.aspect_es,
+    presence: r.presence,
+    presence_es: r.presence_es,
     population: r.population,
     inhabitants: r.inhabitants,
     cultural_family: r.cultural_family,
@@ -335,8 +348,10 @@ function checkpointLocation(c) {
     type: c.type,
     region: c.region,
     region_id: c.region_id,
-    description: c.description,
-    description_es: c.description_es,
+    aspect: c.aspect,
+    aspect_es: c.aspect_es,
+    presence: c.presence,
+    presence_es: c.presence_es,
     population: c.population,
     inhabitants: c.inhabitants,
     cultural_family: c.cultural_family,
