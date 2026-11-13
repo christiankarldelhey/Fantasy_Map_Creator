@@ -39,19 +39,17 @@ BEGIN
   IF EXISTS (SELECT 1 FROM information_schema.columns
              WHERE table_name = 'trip_days' AND column_name = 'places_interaction_id') THEN
     ALTER TABLE trip_days DROP CONSTRAINT IF EXISTS trip_days_places_interaction_id_fkey;
+    -- The narration_id FK must go before the rewrite: on a pre-epic database
+    -- (prod) the ovn:* records are seeded AFTER the migrations run, so no
+    -- 'ovn:N' value can validate yet. The FK is re-added post-seed by
+    -- seedNarrationRecords() in load-seeds.js, after orphans are cleared.
+    ALTER TABLE trip_days DROP CONSTRAINT IF EXISTS trip_days_places_narration_id_fkey;
     ALTER TABLE trip_days ADD COLUMN IF NOT EXISTS places_narration_id TEXT;
     UPDATE trip_days td
        SET places_narration_id = 'ovn:' || td.places_interaction_id
      WHERE td.places_interaction_id IS NOT NULL
-       AND td.places_narration_id IS NULL
-       AND EXISTS (SELECT 1 FROM places_narration p
-                    WHERE p.id = 'ovn:' || td.places_interaction_id);
+       AND td.places_narration_id IS NULL;
     ALTER TABLE trip_days DROP COLUMN places_interaction_id;
-    ALTER TABLE trip_days DROP CONSTRAINT IF EXISTS trip_days_places_narration_id_fkey;
-    ALTER TABLE trip_days
-      ADD CONSTRAINT trip_days_places_narration_id_fkey
-      FOREIGN KEY (places_narration_id) REFERENCES places_narration(id)
-      ON DELETE SET NULL;
   END IF;
 END $$;
 

@@ -672,11 +672,43 @@ async function seedNarrationRecords() {
     upserted++;
   }
   const ids = records.map((r) => r.id);
+  // Prune only generated records (origin 'backfill:*') absent from the file;
+  // runtime-created records (admin:georef depictions and future writers)
+  // are never the file's to delete.
   const stale = await pool.query(
     `DELETE FROM places_narration p WHERE p.id <> ALL($1)
+       AND p.payload->>'origin' LIKE 'backfill:%'
        AND (p.id LIKE 'dep:%' OR p.id LIKE 'ovn:%') RETURNING p.id`,
     [ids]
   );
+
+  // trip_days.places_narration_id FK: the drop migration rewrote the ids but
+  // cannot add the constraint until the ovn:* records exist — which is now.
+  // Orphaned pointers (a trip day whose interaction never backfilled) are
+  // cleared loudly, then the FK lands idempotently.
+  const orphans = await pool.query(
+    `UPDATE trip_days td SET places_narration_id = NULL
+      WHERE td.places_narration_id IS NOT NULL
+        AND NOT EXISTS (SELECT 1 FROM places_narration p
+                         WHERE p.id = td.places_narration_id)
+      RETURNING td.id`
+  );
+  if (orphans.rowCount) {
+    console.warn(`   ⚠️ ${orphans.rowCount} trip_days point at missing narration records — places_narration_id cleared`);
+  }
+  await pool.query(`
+    DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint
+                      WHERE conname = 'trip_days_places_narration_id_fkey') THEN
+        ALTER TABLE trip_days
+          ADD CONSTRAINT trip_days_places_narration_id_fkey
+          FOREIGN KEY (places_narration_id) REFERENCES places_narration(id)
+          ON DELETE SET NULL;
+      END IF;
+    END $$;
+  `);
+
   console.log(
     `   📖 narration records: ${upserted} upserted` +
     (stale.rowCount ? `, ${stale.rowCount} stale dropped` : '')
