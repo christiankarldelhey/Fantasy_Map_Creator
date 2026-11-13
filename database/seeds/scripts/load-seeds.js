@@ -20,6 +20,7 @@ import { fileURLToPath, pathToFileURL } from 'url';
 import pg from 'pg';
 import dotenv from 'dotenv';
 import yaml from 'js-yaml';
+import { canonicalType, typeFromName } from './physical-types.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1094,6 +1095,59 @@ async function backfillBiomeRecords() {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Location normalization (ADR-0014, #103)
+// - provenance: georef-created anchors (name matches a ficha, no gazetteer
+//   type) get source='georef'; everything else source='gazetteer'. Set once
+//   and never overwritten — anchors stay distinguishable after typing.
+// - canonical types: legacy multiword values fold into the canonical set;
+//   null types inherit the anchored ficha's type when physical, else match
+//   name-obvious patterns, else point_of_interest.
+// ---------------------------------------------------------------------------
+async function normalizeLocations() {
+  const { rows: marked } = await pool.query(
+    `UPDATE locations l SET source = 'georef'
+     WHERE l.source IS DISTINCT FROM 'georef'
+       AND l.location_type IS NULL
+       AND EXISTS (SELECT 1 FROM places_narration p WHERE p.name = l.name)
+     RETURNING l.id`
+  );
+  await pool.query(`UPDATE locations SET source = 'gazetteer' WHERE source IS NULL`);
+
+  const { rows: nonCanonical } = await pool.query(
+    `SELECT id, name, location_type FROM locations
+     WHERE location_type IS NOT NULL`
+  );
+  let normalized = 0;
+  for (const l of nonCanonical) {
+    const canon = canonicalType(l.location_type);
+    if (canon && canon !== l.location_type) {
+      await pool.query('UPDATE locations SET location_type = $1 WHERE id = $2', [canon, l.id]);
+      normalized++;
+    }
+  }
+
+  const { rows: untyped } = await pool.query(
+    `SELECT l.id, l.name, l.region_id,
+            (SELECT p.type FROM places_narration p
+              WHERE p.location_id = l.id AND p.type IS NOT NULL
+              ORDER BY p.kind = 'place' DESC, p.id LIMIT 1) AS ficha_type
+       FROM locations l WHERE l.location_type IS NULL`
+  );
+  const byRule = {};
+  for (const l of untyped) {
+    const type = canonicalType(l.ficha_type) || typeFromName(l.name) || 'point_of_interest';
+    await pool.query('UPDATE locations SET location_type = $1 WHERE id = $2', [type, l.id]);
+    byRule[type] = (byRule[type] || 0) + 1;
+  }
+
+  console.log(
+    `   🧭 locations normalized: ${marked.length} georef anchors, ` +
+    `${normalized} types canonicalized, ${untyped.length} nulls typed` +
+    (untyped.length ? ` (${Object.entries(byRule).sort((a, b) => b[1] - a[1]).map(([t, n]) => `${t}:${n}`).join(', ')})` : '')
+  );
+}
+
 async function seedPlaces() {
   console.log('🗺️  Seeding places (authored fichas)...');
   const file = path.join(DATA_DIR, 'json/places.json');
@@ -1186,6 +1240,11 @@ async function seedPlaces() {
      FROM locations l
      WHERE p.location_id = l.id AND p.geom IS NULL`
   );
+
+  // Canonical physical types + anchor provenance (#103) — runs here, after
+  // the anchor-by-name pass, so anchors can inherit their ficha's type and
+  // depiction records copy the normalized type below.
+  await normalizeLocations();
 
   // Gazetteer prose → depiction/region/kingdom records, then links.
   // (overnight records come later in main(), after their source table seeds)
@@ -1544,6 +1603,7 @@ async function ensureSchema() {
   await runMigrationFile('add_depiction_id_to_geometry_tables.sql');
   await runMigrationFile('add_depiction_id_to_kingdoms.sql');
   await runMigrationFile('add_visible_in_map_to_locations.sql');
+  await runMigrationFile('add_source_to_locations.sql');
 
   console.log('✅ Schema ready\n');
 }

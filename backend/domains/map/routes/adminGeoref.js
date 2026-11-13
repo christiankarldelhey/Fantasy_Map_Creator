@@ -116,7 +116,7 @@ router.post('/locations', async (req, res, next) => {
     const { rows } = await pool.query(
       `INSERT INTO locations
          (name, location_type, description, description_es, region, region_id,
-          visible_in_map, geom)
+          visible_in_map, geom, source)
        VALUES (
          $1, $2, $3, $4,
          (SELECT r.name FROM regions r
@@ -128,7 +128,7 @@ router.post('/locations', async (req, res, next) => {
            (SELECT rr.id FROM regions rr
             WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($6, $7), 4326))
             LIMIT 1)),
-         $8, ST_SetSRID(ST_MakePoint($6, $7), 4326))
+         $8, ST_SetSRID(ST_MakePoint($6, $7), 4326), 'georef')
        RETURNING id, name, location_type, region, region_id, visible_in_map,
                  ST_AsGeoJSON(geom)::json AS geom`,
       [name.trim(), location_type, description, description_es,

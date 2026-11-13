@@ -15,9 +15,9 @@ import {
 
 test('typeClasses maps fine types to their classes', () => {
   assert.deepEqual(typeClasses('village').sort(), ['settlement'].sort());
-  assert.deepEqual(typeClasses('fortified town').sort(), ['fortification', 'settlement'].sort());
+  assert.deepEqual(typeClasses('fortified_town').sort(), ['fortification', 'settlement'].sort());
   assert.deepEqual(typeClasses('stream'), ['water']);
-  assert.deepEqual(typeClasses('ruin'), ['ruin']);
+  assert.deepEqual(typeClasses('ruins'), ['ruin']);
   assert.deepEqual(typeClasses('nonexistent'), []);
 });
 
@@ -28,7 +28,7 @@ test('typeMatches: exact match', () => {
 
 test('typeMatches: record class matches fine query, not the reverse', () => {
   assert.ok(typeMatches('settlement', 'village'));
-  assert.ok(typeMatches('fortification', 'fortified town'));
+  assert.ok(typeMatches('fortification', 'fortified_town'));
   assert.ok(!typeMatches('village', 'settlement'));
 });
 

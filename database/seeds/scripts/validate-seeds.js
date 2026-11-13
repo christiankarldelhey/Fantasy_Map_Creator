@@ -16,6 +16,7 @@ import path from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
 import pg from 'pg';
 import dotenv from 'dotenv';
+import { PHYSICAL_TYPES } from './physical-types.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -236,6 +237,42 @@ async function validateGeometries() {
       console.log(`❌ Error validating ${table} geometry: ${error.message}`);
     }
   }
+}
+
+/**
+ * Validate location type vocabulary + anchor provenance (ADR-0014, #103)
+ */
+async function validateLocationTypes() {
+  console.log('\n🧭 Validating location types...');
+
+  const { rows: [nulls] } = await pool.query(
+    `SELECT COUNT(*)::int AS n FROM locations WHERE location_type IS NULL`
+  );
+  if (nulls.n === 0) {
+    console.log('✅ location_type: no nulls');
+  } else {
+    console.log(`⚠️  ${nulls.n} locations have NULL location_type`);
+  }
+
+  const { rows: bad } = await pool.query(
+    `SELECT DISTINCT location_type FROM locations WHERE location_type IS NOT NULL`
+  );
+  const offVocab = bad.map((r) => r.location_type).filter((t) => !PHYSICAL_TYPES.has(t));
+  if (offVocab.length === 0) {
+    console.log(`✅ location_type: all ${bad.length} values in canonical set`);
+  } else {
+    console.log(`⚠️  location_type off-vocabulary: ${offVocab.join(', ')}`);
+  }
+
+  const { rows: src } = await pool.query(
+    `SELECT source, COUNT(*)::int AS n FROM locations GROUP BY source ORDER BY source NULLS FIRST`
+  );
+  const nullSource = src.find((r) => r.source === null)?.n || 0;
+  console.log(
+    nullSource === 0
+      ? `✅ source: ${src.map((r) => `${r.source}=${r.n}`).join(', ')}`
+      : `⚠️  ${nullSource} locations with NULL source (${src.filter((r) => r.source).map((r) => `${r.source}=${r.n}`).join(', ')})`
+  );
 }
 
 /**
@@ -590,6 +627,7 @@ async function main() {
     await validateSeedFiles();
     await validateTableCounts();
     await validateGeometries();
+    await validateLocationTypes();
     await validateForeignKeys();
     await validateDepictionLinks();
     await validateMovers();

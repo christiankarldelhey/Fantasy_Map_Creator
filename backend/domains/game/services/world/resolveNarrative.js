@@ -22,13 +22,13 @@ import pool from '../../../../db.js';
 // (e.g. type='settlement') matches queries for any fine type inside it; a
 // fine-scoped record never satisfies a class query.
 const CLASS_MEMBERS = {
-  settlement: ['village', 'town', 'fortified town', 'fortified village', 'city', 'fortified city', 'hamlet', 'manor', 'camp', 'inn', 'palace'],
-  fortification: ['castle', 'keep', 'fortress', 'citadel', 'watchtower', 'tower', 'fortified town', 'fortified village', 'fortified city'],
+  settlement: ['village', 'town', 'fortified_town', 'fortified_village', 'city', 'fortified_city', 'hamlet', 'manor', 'camp', 'inn', 'palace'],
+  fortification: ['castle', 'keep', 'fortress', 'citadel', 'watchtower', 'tower', 'fortified_town', 'fortified_village', 'fortified_city'],
   water: ['stream', 'river', 'lake', 'sea', 'marsh'],
-  natural: ['forest', 'hills', 'nature', 'cultivated glade', 'cavern', 'landscape'],
-  ruin: ['ruins', 'ruin'],
-  landmark: ['bridge', 'crossing', 'crossroads', 'dungeon', 'burial', 'cemetery', 'point of interest', 'dwarven mine'],
-  road: ['road', 'trail', 'main road', 'royal road'],
+  natural: ['forest', 'hills', 'nature', 'glade', 'cavern', 'landscape'],
+  ruin: ['ruins', 'major_ruin', 'dungeon', 'burial', 'cemetery'],
+  landmark: ['bridge', 'crossing', 'crossroads', 'mill', 'quarry', 'mine', 'landmark', 'point_of_interest'],
+  road: ['road', 'trail', 'main_road', 'royal_road'],
 };
 
 const TYPE_CLASSES = {};
