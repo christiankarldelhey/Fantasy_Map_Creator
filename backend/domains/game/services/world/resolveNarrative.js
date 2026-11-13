@@ -8,7 +8,7 @@ import pool from '../../../../db.js';
 //                                   via feature.depiction_id
 //   loadScoped / resolveScoped   → scope ladder over generic records
 //                                  (type, region_id, cultural_family, priority)
-//   pickVariant / pickRotation   → keyed variants and per-day rotation over
+//   pickVariant / pickRotation   → variants column + per-day rotation over
 //                                  a record's payload
 //
 // Host resolution (ficha by anchor + radii) stays in placeNotes — this module
@@ -50,7 +50,7 @@ export function typeMatches(recordType, queryType) {
 // ---------------------------------------------------------------------------
 // Depiction fetch — records bound to gazetteer features via depiction_id
 // ---------------------------------------------------------------------------
-// payload.refs keys → gazetteer table (authoring vocabulary; keep in sync
+// refs column keys → gazetteer table (authoring vocabulary; keep in sync
 // with REF_TABLES in database/seeds/scripts/load-seeds.js).
 export const REF_TABLES = {
   water: 'water',
@@ -89,16 +89,17 @@ export async function depictionsFor(table, featureIds) {
 const SCOPE_DIMS = ['location_id', 'type', 'region_id', 'cultural_family'];
 
 /**
- * Load all records of a kind with their scope + payload. Runtime readers map
- * them to their own row shapes.
+ * Load all records of a kind (optionally one interaction action) with their
+ * scope + content columns. Runtime readers map them to their own row shapes.
  */
-export async function loadScoped(kind) {
+export async function loadScoped(kind, action = null) {
   const { rows } = await pool.query(
-    `SELECT id, kind, location_id, type, region_id, cultural_family,
-            priority, name, geom, tags, payload
+    `SELECT id, kind, action, location_id, type, region_id, cultural_family,
+            priority, name, geom, tags,
+            description, variants, mechanics, refs, payload
        FROM places_narration
-      WHERE kind = $1`,
-    [kind],
+      WHERE kind = $1 AND ($2::text IS NULL OR action = $2)`,
+    [kind, action],
   );
   return rows;
 }
@@ -162,24 +163,16 @@ export function resolveScoped(records, ctx = {}, opts = {}) {
  * Pick a variant for an ordered list of context keys (e.g. the dayphase/
  * season/weather order from seasonalVariants.variantOrderForDay).
  *
- * Supports both payload shapes in the wild:
- *   map   — { 'winter': [phrases], 'snow': [phrases] }  (generated records)
- *   array — [{ key|id, text }]                           (ficha records)
- * Returns { key, phrases } / the variant object, or null.
+ * The variants column is always an array (#106):
+ *   [{ key|id, phrases|[…]|text|{en,es}, condition? }]
+ * Returns the matching variant object, or null.
  */
 export function pickVariant(record, keyOrder = []) {
-  const variants = record?.payload?.variants;
-  if (!variants || !keyOrder.length) return null;
-  if (Array.isArray(variants)) {
-    for (const key of keyOrder) {
-      const hit = variants.find((v) => v && (v.key === key || v.id === key));
-      if (hit) return hit;
-    }
-    return null;
-  }
+  const variants = record?.variants;
+  if (!Array.isArray(variants) || !keyOrder.length) return null;
   for (const key of keyOrder) {
-    const phrases = variants[key];
-    if (Array.isArray(phrases) ? phrases.length : phrases) return { key, phrases };
+    const hit = variants.find((v) => v && (v.key === key || v.id === key));
+    if (hit) return hit;
   }
   return null;
 }

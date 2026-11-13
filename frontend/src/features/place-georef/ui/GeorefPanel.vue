@@ -186,7 +186,8 @@ function payloadList(key: string): Record<string, any>[] {
   const v = active?.[key]
   return Array.isArray(v) ? v : []
 }
-const variants = computed(() => payloadList('variants'))
+// variants is a real column since #106; options/beats/sections stay in payload.
+const variants = computed(() => props.georef.activePlace.value?.variants ?? [])
 const options = computed(() => payloadList('options'))
 const beats = computed(() => payloadList('beats'))
 const sections = computed(() => payloadList('sections'))
@@ -203,11 +204,12 @@ const metaLine = computed(() => {
   return parts.join(' · ')
 })
 
-/** Geo/biome/road references used by anchor hints. */
+/** Geo/biome/road references used by anchor hints (refs column since #106). */
 const refsText = computed(() => {
-  const p = props.georef.activePlace.value?.payload as Record<string, unknown> | undefined
-  if (!p?.refs && !p?.geo) return ''
-  return JSON.stringify(p.refs ?? p.geo)
+  const a = props.georef.activePlace.value
+  const p = a?.payload as Record<string, unknown> | undefined
+  if (!a?.refs && !p?.geo) return ''
+  return JSON.stringify(a.refs ?? p.geo)
 })
 
 /** Features this record depicts (depiction_id bindings, ADR-0014). */

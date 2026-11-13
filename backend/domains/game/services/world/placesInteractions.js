@@ -18,8 +18,8 @@ export function clearPlacesInteractionsCache() {
   CACHE.clear();
 }
 
-// Map a kind='overnight' narration record back to the flat legacy row shape
-// the overnight ladder consumes (id stays the int legacy_id until #104).
+// Map a kind='interaction' + action='rest' record back to the flat legacy row
+// shape the overnight ladder consumes (id stays the int legacy_id until #104).
 function overnightRecordToRow(r) {
   return {
     id: r.payload?.legacy_id ?? null,
@@ -29,9 +29,9 @@ function overnightRecordToRow(r) {
     region_id: r.region_id,
     cultural_family: r.cultural_family,
     title: r.payload?.title ?? r.name ?? null,
-    description: r.payload?.description?.en ?? null,
-    rest_quality: r.payload?.mechanics?.rest_quality ?? null,
-    shadow_effect: r.payload?.mechanics?.shadow_effect ?? null,
+    description: r.description?.en ?? null,
+    rest_quality: r.mechanics?.rest_quality ?? null,
+    shadow_effect: r.mechanics?.shadow_effect ?? null,
     priority: r.priority,
   };
 }
@@ -39,11 +39,12 @@ function overnightRecordToRow(r) {
 async function loadInteractions(interactionType) {
   if (CACHE.has(interactionType)) return CACHE.get(interactionType);
 
-  // ADR-0014: kind='overnight' records in places_narration are canonical;
-  // places_interactions stays as the seeded source until it drops in #104.
+  // ADR-0014 → #106: kind='interaction' + action='rest' records in
+  // places_narration are canonical; places_interactions stays as the seeded
+  // source until it drops in #104.
   let rows = [];
   if (interactionType === 'overnight') {
-    rows = (await loadScoped('overnight')).map(overnightRecordToRow);
+    rows = (await loadScoped('interaction', 'rest')).map(overnightRecordToRow);
   }
   if (rows.length === 0) {
     const res = await pool.query(

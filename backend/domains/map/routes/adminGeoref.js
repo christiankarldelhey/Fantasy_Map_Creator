@@ -52,9 +52,10 @@ router.get('/places', async (req, res, next) => {
 router.get('/places/:id', async (req, res, next) => {
   try {
     const { rows } = await pool.query(
-      `SELECT p.id, p.kind, p.name, p.type, p.region_id, p.place_ref,
+      `SELECT p.id, p.kind, p.action, p.name, p.type, p.region_id, p.place_ref,
               p.location_id, p.cultural_family, p.priority,
               p.tags, p.size_radius_km, p.influence_radius_km,
+              p.description, p.variants, p.mechanics, p.refs,
               ST_AsGeoJSON(COALESCE(l.geom, p.geom))::json AS geom, p.payload,
               (SELECT jsonb_agg(jsonb_build_object('table', x.t, 'id', x.id, 'name', x.name))
                  FROM (
@@ -284,9 +285,9 @@ router.patch('/places/:id', async (req, res, next) => {
 
 // PATCH /api/admin/georef/places/:id/bindings
 // { refs: { water?: [id...], location?: [id...], road?, biome?, region?, kingdom? } }
-// payload.refs is the authored truth (ADR-0014); depiction_id materializes
-// immediately so the binding is visible before the next seed. A feature
-// claimed by another record is a conflict — rebind from that record first.
+// The refs column is the authored truth (ADR-0014 → #106); depiction_id
+// materializes immediately so the binding is visible before the next seed. A
+// feature claimed by another record is a conflict — rebind it there first.
 router.patch('/places/:id/bindings', async (req, res, next) => {
   try {
     const { refs } = req.body;
@@ -322,9 +323,7 @@ router.patch('/places/:id/bindings', async (req, res, next) => {
     }
 
     await pool.query(
-      `UPDATE places_narration
-          SET payload = COALESCE(payload, '{}'::jsonb) || jsonb_build_object('refs', $2::jsonb)
-        WHERE id = $1`,
+      `UPDATE places_narration SET refs = $2::jsonb WHERE id = $1`,
       [req.params.id, JSON.stringify(refs)]
     );
     for (const table of DEPICTION_TABLES) {

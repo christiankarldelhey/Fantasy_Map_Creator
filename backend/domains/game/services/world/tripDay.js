@@ -304,8 +304,8 @@ async function sampleLegContext(legGeoJSON) {
           'type', l.location_type,
           'region', l.region,
           'region_id', l.region_id,
-          'description', COALESCE(pd.payload->'description'->>'en', l.description),
-          'description_es', COALESCE(pd.payload->'description'->>'es', l.description_es),
+          'description', COALESCE(pd.description->>'en', l.description),
+          'description_es', COALESCE(pd.description->>'es', l.description_es),
           'population', l.population,
           'inhabitants', l.inhabitants,
           'cultural_family', rg.cultural_family,
@@ -321,7 +321,7 @@ async function sampleLegContext(legGeoJSON) {
        (SELECT COALESCE(json_agg(json_build_object(
           'name', w.name,
           'type', w.water_type,
-          'description', COALESCE(wd.payload->'description'->>'en', w.description),
+          'description', COALESCE(wd.description->>'en', w.description),
           'fraction', ST_LineLocatePoint(
             leg.geom,
             ST_ClosestPoint(leg.geom, ST_Centroid(ST_Intersection(leg.geom, w.geom)))
@@ -338,7 +338,7 @@ async function sampleLegContext(legGeoJSON) {
        (SELECT COALESCE(json_agg(json_build_object(
           'name', w.name,
           'type', w.water_type,
-          'description', COALESCE(wd.payload->'description'->>'en', w.description),
+          'description', COALESCE(wd.description->>'en', w.description),
           'distance_km', round((ST_Distance(w.geom::geography, leg.geom::geography) / 1000)::numeric, 2),
           'fraction', ST_LineLocatePoint(
             leg.geom,

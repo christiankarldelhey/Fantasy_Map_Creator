@@ -156,7 +156,7 @@ async function loadTerrainPhrasesFromNarration(regionNames, categories, variantO
   const { rows } = await pool.query(
     `SELECT p.payload->>'region_name' AS region_name,
             p.type AS category,
-            p.payload->'variants' AS variants
+            p.variants AS variants
        FROM places_narration p
       WHERE p.kind = 'depiction'
         AND p.payload->>'origin' = 'backfill:region_biome_descriptions'
@@ -168,11 +168,11 @@ async function loadTerrainPhrasesFromNarration(regionNames, categories, variantO
   const order = [...(variantOrder || []), 'base'];
   const map = {};
   for (const row of rows) {
-    const variants = row.variants || {};
+    // variants column: [{key, phrases}] (#106)
     for (const variant of order) {
-      const phrases = variants[variant];
-      if (Array.isArray(phrases) && phrases.length > 0) {
-        (map[row.region_name] ||= {})[row.category] = phrases;
+      const hit = (row.variants || []).find((v) => v && v.key === variant);
+      if (Array.isArray(hit?.phrases) && hit.phrases.length > 0) {
+        (map[row.region_name] ||= {})[row.category] = hit.phrases;
         break;
       }
     }

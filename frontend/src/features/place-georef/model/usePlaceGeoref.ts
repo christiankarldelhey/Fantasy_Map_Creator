@@ -17,10 +17,15 @@ export interface GeorefPlaceItem {
 
 export interface GeorefPlaceDetail extends GeorefPlaceItem {
   kind: string
+  action: string | null
   place_ref: string | null
   cultural_family: string | null
   priority: number | null
   tags: string[]
+  description: Record<string, any> | null
+  variants: Record<string, any>[] | null
+  mechanics: Record<string, any> | null
+  refs: Record<string, number[]> | null
   depictions: { table: string; id: number; name: string }[] | null
   payload: Record<string, any>
 }

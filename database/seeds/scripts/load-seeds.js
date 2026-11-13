@@ -901,29 +901,31 @@ function placeTypeRadii(typeText) {
 // ---------------------------------------------------------------------------
 async function backfillDepictions() {
   const locRes = await pool.query(
-    `INSERT INTO places_narration (id, kind, name, type, region_id, tags, payload)
+    `INSERT INTO places_narration (id, kind, name, type, region_id, tags, description, refs, payload)
      SELECT 'dep:loc:' || l.id, 'depiction', l.name, l.location_type, l.region_id, '{}',
-       jsonb_build_object(
-         'description', jsonb_build_object('en', l.description, 'es', l.description_es),
-         'refs',        jsonb_build_object('location', jsonb_build_array(l.id)),
-         'origin',      'backfill:locations.description')
+       jsonb_build_object('en', l.description, 'es', l.description_es),
+       jsonb_build_object('location', jsonb_build_array(l.id)),
+       jsonb_build_object('origin', 'backfill:locations.description')
      FROM locations l
      WHERE NULLIF(BTRIM(l.description), '') IS NOT NULL
      ON CONFLICT (id) DO UPDATE SET
        name = EXCLUDED.name, type = EXCLUDED.type,
-       region_id = EXCLUDED.region_id, payload = EXCLUDED.payload`
+       region_id = EXCLUDED.region_id,
+       description = EXCLUDED.description, refs = EXCLUDED.refs,
+       payload = EXCLUDED.payload`
   );
   const watRes = await pool.query(
-    `INSERT INTO places_narration (id, kind, name, type, tags, payload)
+    `INSERT INTO places_narration (id, kind, name, type, tags, description, refs, payload)
      SELECT 'dep:wat:' || w.id, 'depiction', w.name, w.water_type, '{}',
-       jsonb_build_object(
-         'description', jsonb_build_object('en', w.description),
-         'refs',        jsonb_build_object('water', jsonb_build_array(w.id)),
-         'origin',      'backfill:water.description')
+       jsonb_build_object('en', w.description),
+       jsonb_build_object('water', jsonb_build_array(w.id)),
+       jsonb_build_object('origin', 'backfill:water.description')
      FROM water w
      WHERE NULLIF(BTRIM(w.description), '') IS NOT NULL
      ON CONFLICT (id) DO UPDATE SET
-       name = EXCLUDED.name, type = EXCLUDED.type, payload = EXCLUDED.payload`
+       name = EXCLUDED.name, type = EXCLUDED.type,
+       description = EXCLUDED.description, refs = EXCLUDED.refs,
+       payload = EXCLUDED.payload`
   );
   const stale = await pool.query(
     `DELETE FROM places_narration p
@@ -944,28 +946,29 @@ async function backfillDepictions() {
 }
 
 // ---------------------------------------------------------------------------
-// Region + kingdom records (ADR-0014, #99): regional prose, facts and
-// seasonal variants become kind='region'/'kingdom' records. Rotation stays a
-// per-day index over payload.rotation; weather/season rows fold into
-// payload.variants keyed by variant name. Source columns stay as reader
-// fallback until #104.
+// Region + kingdom records (ADR-0014, #99 → #106): regional prose, facts and
+// seasonal variants become kind='depiction' records — richer depictions that
+// bind through regions.depiction_id / kingdoms.depiction_id. description,
+// variants and refs are real columns; rotation/facts stay in payload as the
+// region-unique spec. Source columns stay as reader fallback until #104.
 // ---------------------------------------------------------------------------
 async function backfillRegionRecords() {
   const regRes = await pool.query(
-    `INSERT INTO places_narration (id, kind, name, region_id, tags, payload)
-     SELECT 'dep:reg:' || r.id, 'region', r.name, r.id, '{}',
+    `INSERT INTO places_narration
+       (id, kind, name, region_id, tags, description, variants, refs, payload)
+     SELECT 'dep:reg:' || r.id, 'depiction', r.name, r.id, '{}',
+       jsonb_build_object('en', r.description_text),
+       COALESCE((
+         SELECT jsonb_agg(jsonb_build_object('key', s.variant, 'phrases', to_jsonb(s.phrases)))
+         FROM region_seasonal_descriptions s
+         WHERE s.region_name = r.name
+       ), '[]'::jsonb),
+       jsonb_build_object('region', jsonb_build_array(r.id)),
        jsonb_build_object(
-         'description', jsonb_build_object('en', r.description_text),
-         'rotation',    COALESCE(to_jsonb(r.description_summary), '[]'::jsonb),
-         'variants',    COALESCE((
-           SELECT jsonb_object_agg(s.variant, to_jsonb(s.phrases))
-           FROM region_seasonal_descriptions s
-           WHERE s.region_name = r.name
-         ), '{}'::jsonb),
+         'rotation', COALESCE(to_jsonb(r.description_summary), '[]'::jsonb),
          'facts', jsonb_build_object(
            'land', r.land, 'people', r.people, 'products', r.products,
            'notes', r.notes, 'source', r.source),
-         'refs',   jsonb_build_object('region', jsonb_build_array(r.id)),
          'origin', 'backfill:regions')
      FROM regions r
      WHERE r.description_text IS NOT NULL
@@ -975,18 +978,20 @@ async function backfillRegionRecords() {
         OR EXISTS (SELECT 1 FROM region_seasonal_descriptions s
                    WHERE s.region_name = r.name)
      ON CONFLICT (id) DO UPDATE SET
-       name = EXCLUDED.name, region_id = EXCLUDED.region_id, payload = EXCLUDED.payload`
+       name = EXCLUDED.name, region_id = EXCLUDED.region_id,
+       description = EXCLUDED.description, variants = EXCLUDED.variants,
+       refs = EXCLUDED.refs, payload = EXCLUDED.payload`
   );
   const kingRes = await pool.query(
-    `INSERT INTO places_narration (id, kind, name, tags, payload)
-     SELECT 'dep:king:' || k.id, 'kingdom', k.name, '{}',
-       jsonb_build_object(
-         'description', jsonb_build_object('en', k.description),
-         'refs',   jsonb_build_object('kingdom', jsonb_build_array(k.id)),
-         'origin', 'backfill:kingdoms')
+    `INSERT INTO places_narration (id, kind, name, tags, description, refs, payload)
+     SELECT 'dep:king:' || k.id, 'depiction', k.name, '{}',
+       jsonb_build_object('en', k.description),
+       jsonb_build_object('kingdom', jsonb_build_array(k.id)),
+       jsonb_build_object('origin', 'backfill:kingdoms')
      FROM kingdoms k
      ON CONFLICT (id) DO UPDATE SET
-       name = EXCLUDED.name, payload = EXCLUDED.payload`
+       name = EXCLUDED.name, description = EXCLUDED.description,
+       refs = EXCLUDED.refs, payload = EXCLUDED.payload`
   );
   const stale = await pool.query(
     `DELETE FROM places_narration p
@@ -1011,24 +1016,24 @@ async function backfillRegionRecords() {
 }
 
 // ---------------------------------------------------------------------------
-// Overnight records (ADR-0014, #101): places_interactions folds into
-// places_narration as kind='overnight'. Scope columns map 1:1
-// (location_id, location_type → type, region_id, cultural_family, priority);
-// mechanics and prose go to payload; legacy_id keeps trip_days' integer FK
-// valid until the source table drops in #104.
+// Overnight records (ADR-0014, #101 → #106): places_interactions folds into
+// places_narration as kind='interaction' + action='rest'. Scope columns map
+// 1:1 (location_id, location_type → type, region_id, cultural_family,
+// priority); description and mechanics are real columns; legacy_id keeps
+// trip_days' integer FK valid until the source table drops in #104.
 // ---------------------------------------------------------------------------
 async function backfillOvernightRecords() {
   const res = await pool.query(
     `INSERT INTO places_narration
-       (id, kind, location_id, region_id, name, type, cultural_family, priority, tags, payload)
-     SELECT 'ovn:' || pi.id, 'overnight', pi.location_id, pi.region_id, pi.title,
+       (id, kind, action, location_id, region_id, name, type, cultural_family, priority, tags, description, mechanics, payload)
+     SELECT 'ovn:' || pi.id, 'interaction', 'rest', pi.location_id, pi.region_id, pi.title,
             pi.location_type, pi.cultural_family, pi.priority, '{}',
+            jsonb_build_object('en', pi.description),
+            jsonb_build_object(
+              'rest_quality', pi.rest_quality,
+              'shadow_effect', pi.shadow_effect),
             jsonb_build_object(
               'title', pi.title,
-              'description', jsonb_build_object('en', pi.description),
-              'mechanics', jsonb_build_object(
-                'rest_quality', pi.rest_quality,
-                'shadow_effect', pi.shadow_effect),
               'legacy_id', pi.id,
               'origin', 'backfill:places_interactions')
      FROM places_interactions pi
@@ -1037,6 +1042,7 @@ async function backfillOvernightRecords() {
        location_id = EXCLUDED.location_id, region_id = EXCLUDED.region_id,
        name = EXCLUDED.name, type = EXCLUDED.type,
        cultural_family = EXCLUDED.cultural_family, priority = EXCLUDED.priority,
+       description = EXCLUDED.description, mechanics = EXCLUDED.mechanics,
        payload = EXCLUDED.payload`
   );
   const stale = await pool.query(
@@ -1053,25 +1059,26 @@ async function backfillOvernightRecords() {
 }
 
 // ---------------------------------------------------------------------------
-// Depiction backfill (ADR-0014, #102): region×category terrain phrase cells
-// become scope-bound kind='depiction' records — type=category × region_id,
-// season/weather phrase banks in payload.variants keyed by variant name.
+// Depiction backfill (ADR-0014, #102 → #106): region×category terrain phrase
+// cells become scope-bound kind='depiction' records — type=category ×
+// region_id, phrase banks in the variants column as [{key, phrases}].
 // Homonymous region names fan out to one record per matching region_id.
 // region_biome_descriptions stays as the seeded source (and reader fallback)
 // until it drops in #104.
 // ---------------------------------------------------------------------------
 async function backfillBiomeRecords() {
   const res = await pool.query(
-    `INSERT INTO places_narration (id, kind, region_id, name, type, priority, tags, payload)
+    `INSERT INTO places_narration (id, kind, region_id, name, type, priority, tags, variants, payload)
      SELECT 'dep:biome:' || r.id || ':' || c.category, 'depiction', r.id,
             c.category || ' of ' || r.name, c.category, 50, '{}',
+            c.variants,
             jsonb_build_object(
               'origin',      'backfill:region_biome_descriptions',
               'region_name', r.name,
-              'category',    c.category,
-              'variants',    c.variants)
+              'category',    c.category)
      FROM (
-       SELECT region_name, category, jsonb_object_agg(variant, phrases) AS variants
+       SELECT region_name, category,
+              jsonb_agg(jsonb_build_object('key', variant, 'phrases', to_jsonb(phrases))) AS variants
        FROM region_biome_descriptions
        GROUP BY region_name, category
      ) c
@@ -1079,7 +1086,7 @@ async function backfillBiomeRecords() {
      ON CONFLICT (id) DO UPDATE SET
        region_id = EXCLUDED.region_id, name = EXCLUDED.name,
        type = EXCLUDED.type, priority = EXCLUDED.priority,
-       payload = EXCLUDED.payload`
+       variants = EXCLUDED.variants, payload = EXCLUDED.payload`
   );
   const stale = await pool.query(
     `DELETE FROM places_narration p
@@ -1196,14 +1203,24 @@ async function seedPlaces() {
 
     // Once a place is positioned, the georef tool owns its geometry fields
     // (geom, location_id, region_id, type, radii): a reseed must not wipe them.
+    // (#106) 'offer' fichas fold into kind='interaction' + action='offer';
+    // variants/refs are real columns and are stripped from payload, which keeps
+    // only the ficha-unique spec. JSON refs win when authored; georef-authored
+    // refs survive when the JSON carries none.
+    const kind = r.kind === 'offer' ? 'interaction' : r.kind;
+    const action = r.kind === 'offer' ? 'offer' : null;
+    const { variants, refs, ...spec } = r;
     await pool.query(
       `INSERT INTO places_narration
-         (id, kind, location_id, place_ref, region_id, name, type, tags,
-          geom, size_radius_km, influence_radius_km, payload)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12::jsonb)
+         (id, kind, action, location_id, place_ref, region_id, name, type, tags,
+          geom, size_radius_km, influence_radius_km, variants, refs, payload)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13::jsonb,$14::jsonb,$15::jsonb)
        ON CONFLICT (id) DO UPDATE SET
-         kind=EXCLUDED.kind, place_ref=EXCLUDED.place_ref,
-         name=EXCLUDED.name, tags=EXCLUDED.tags, payload=EXCLUDED.payload,
+         kind=EXCLUDED.kind, action=EXCLUDED.action, place_ref=EXCLUDED.place_ref,
+         name=EXCLUDED.name, tags=EXCLUDED.tags,
+         variants=EXCLUDED.variants,
+         refs=COALESCE(EXCLUDED.refs, places_narration.refs),
+         payload=EXCLUDED.payload,
          location_id = CASE WHEN places_narration.geom IS NULL THEN EXCLUDED.location_id ELSE places_narration.location_id END,
          region_id   = CASE WHEN places_narration.geom IS NULL THEN EXCLUDED.region_id   ELSE places_narration.region_id   END,
          type        = CASE WHEN places_narration.geom IS NULL THEN EXCLUDED.type        ELSE places_narration.type        END,
@@ -1211,25 +1228,31 @@ async function seedPlaces() {
          influence_radius_km = CASE WHEN places_narration.geom IS NULL THEN EXCLUDED.influence_radius_km ELSE places_narration.influence_radius_km END,
          geom = COALESCE(places_narration.geom, EXCLUDED.geom)`,
       [
-        r.id, r.kind, locationId, r.place_ref || null, regionId,
+        r.id, kind, action, locationId, r.place_ref || null, regionId,
         name, typeText, r.tags || [],
         null, // geom: copied from the anchored location below, or hand-placed later
         radii[0], radii[1],
-        JSON.stringify(r),
+        variants ? JSON.stringify(variants) : null,
+        refs ? JSON.stringify(refs) : null,
+        JSON.stringify(spec),
       ]
     );
   }
 
   // Records removed from the JSON (merged, moved to encounter-candidates.json)
   // are pruned only while unpositioned; positioned orphans are reported, not deleted.
+  // 'offer' fichas became kind='interaction' + action='offer' (#106) — the
+  // action clause protects overnight records (action='rest'), which are not fichas.
   const ids = records.map((r) => r.id);
+  const fichaKinds = `kind IN ('place','ambient','arrival','lore')
+    OR (kind='interaction' AND action='offer')`;
   const pruned = await pool.query(
     `DELETE FROM places_narration WHERE id <> ALL($1) AND geom IS NULL
-       AND kind IN ('place','ambient','arrival','offer','lore') RETURNING id`, [ids]
+       AND (${fichaKinds}) RETURNING id`, [ids]
   );
   const { rows: orphans } = await pool.query(
     `SELECT id FROM places_narration WHERE id <> ALL($1)
-       AND kind IN ('place','ambient','arrival','offer','lore')`, [ids]
+       AND (${fichaKinds})`, [ids]
   );
   if (pruned.rowCount) console.log(`   🧹 pruned ${pruned.rowCount} unpositioned places no longer in JSON`);
   if (orphans.length) console.warn(`   ⚠️ positioned places no longer in JSON (kept): ${orphans.map((o) => o.id).join(', ')}`);
@@ -1251,14 +1274,14 @@ async function seedPlaces() {
   await backfillDepictions();
   await backfillRegionRecords();
 
-  // Materialize depiction_id from payload.refs (ADR-0014). refs is the
-  // authored truth — read from the table so generated records (depictive
+  // Materialize depiction_id from the refs column (ADR-0014 → #106). refs is
+  // the authored truth — read from the table so generated records (depictive
   // backfill) and runtime-created ones participate, not only the JSON just
   // upserted. The FK column is a derived link rebuilt on every seed:
   // clearing first makes reseeds and gazetteer re-imports converge to the
   // refs, never to drift.
   const { rows: refRows } = await pool.query(
-    `SELECT id, payload->'refs' AS refs FROM places_narration WHERE payload ? 'refs'`
+    `SELECT id, refs FROM places_narration WHERE refs IS NOT NULL`
   );
   const claims = [];
   for (const r of refRows) {
@@ -1604,6 +1627,7 @@ async function ensureSchema() {
   await runMigrationFile('add_depiction_id_to_kingdoms.sql');
   await runMigrationFile('add_visible_in_map_to_locations.sql');
   await runMigrationFile('add_source_to_locations.sql');
+  await runMigrationFile('normalize_narration_shape.sql');
 
   console.log('✅ Schema ready\n');
 }

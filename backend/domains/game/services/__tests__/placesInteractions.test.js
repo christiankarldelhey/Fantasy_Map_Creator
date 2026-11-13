@@ -120,6 +120,28 @@ const interactions = [
 
 const originalQuery = pool.query.bind(pool);
 
+// The canonical path reads kind='interaction' + action='rest' records; the
+// legacy table is only the fallback. Mock both so tests exercise the record
+// → legacy-row mapping (overnightRecordToRow).
+const narrationRecords = interactions.map((r) => ({
+  id: `ovn:${r.id}`,
+  kind: 'interaction',
+  action: 'rest',
+  location_id: r.location_id,
+  type: r.location_type,
+  region_id: r.region_id,
+  cultural_family: r.cultural_family,
+  priority: r.priority,
+  name: r.title,
+  geom: null,
+  tags: [],
+  description: { en: r.description },
+  variants: null,
+  mechanics: { rest_quality: r.rest_quality, shadow_effect: r.shadow_effect },
+  refs: null,
+  payload: { title: r.title, legacy_id: r.id, origin: 'backfill:places_interactions' },
+}));
+
 beforeEach(() => {
   clearPlacesInteractionsCache();
 });
@@ -129,6 +151,13 @@ function installMock() {
     if (text.includes('FROM regions WHERE id = $1')) {
       const region = regions.find((r) => r.id === params[0]);
       return { rows: region ? [region] : [] };
+    }
+    if (text.includes('FROM places_narration')) {
+      return {
+        rows: narrationRecords.filter(
+          (r) => r.kind === params[0] && (params[1] == null || r.action === params[1]),
+        ),
+      };
     }
     if (text.includes('FROM places_interactions')) {
       return { rows: interactions.filter((r) => r.interaction_type === params[0]) };

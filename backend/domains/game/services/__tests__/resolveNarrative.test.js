@@ -112,22 +112,23 @@ test('scopeOf reports the carried dimensions', () => {
 // Variants + rotation
 // ---------------------------------------------------------------------------
 
-test('pickVariant honors key order on map-shaped variants', () => {
-  const rec = { payload: { variants: { winter: ['w1'], snow: ['s1'], base: ['b1'] } } };
+test('pickVariant honors key order on the variants column', () => {
+  const rec = { variants: [{ key: 'winter', phrases: ['w1'] }, { key: 'snow', phrases: ['s1'] }, { key: 'base', phrases: ['b1'] }] };
   const { key } = pickVariant(rec, ['snow', 'winter', 'base']);
   assert.equal(key, 'snow');
 });
 
-test('pickVariant falls through missing keys; empty map returns null', () => {
-  const rec = { payload: { variants: { winter: ['w1'] } } };
+test('pickVariant falls through missing keys; empty column returns null', () => {
+  const rec = { variants: [{ key: 'winter', phrases: ['w1'] }] };
   const { key } = pickVariant(rec, ['snow', 'winter']);
   assert.equal(key, 'winter');
   assert.equal(pickVariant(rec, ['snow']), null);
-  assert.equal(pickVariant({ payload: {} }, ['snow']), null);
+  assert.equal(pickVariant({}, ['snow']), null);
+  assert.equal(pickVariant({ payload: { variants: { snow: ['s1'] } } }, ['snow']), null); // payload key no longer read
 });
 
-test('pickVariant matches array-shaped variants by key or id', () => {
-  const rec = { payload: { variants: [{ id: 'spring_grass', text: { en: 'x' } }] } };
+test('pickVariant matches ficha variants by id as well as key', () => {
+  const rec = { variants: [{ id: 'spring_grass', text: { en: 'x' } }] };
   assert.equal(pickVariant(rec, ['spring_grass']).id, 'spring_grass');
   assert.equal(pickVariant(rec, ['nope']), null);
 });

@@ -36,7 +36,7 @@
 -- ============================================================================
 
 -- ---------------------------------------------------------------------------
--- 1. places_interactions → kind='overnight' records (ovn:*)
+-- 1. places_interactions → kind='interaction' + action='rest' records (ovn:*)
 -- ---------------------------------------------------------------------------
 -- trip_days.places_interaction_id is an int FK into this table. Rewrite it as
 -- a text pointer to the record id before dropping.
@@ -66,7 +66,7 @@ DROP TABLE IF EXISTS places_interactions;
 -- 2. Generated phrase/prose banks → scope-bound records
 -- ---------------------------------------------------------------------------
 -- region_biome_descriptions → dep:biome:* (kind='depiction', type×region_id)
--- region_seasonal_descriptions → dep:reg:* payload.variants
+-- region_seasonal_descriptions → dep:reg:* variants column
 DROP TABLE IF EXISTS region_biome_descriptions;
 DROP TABLE IF EXISTS region_seasonal_descriptions;
 

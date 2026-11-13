@@ -322,7 +322,7 @@ async function validateDepictionLinks() {
 
   try {
     const { rows: records } = await pool.query(
-      `SELECT id, payload->'refs' AS refs FROM places_narration WHERE payload ? 'refs'`
+      `SELECT id, refs FROM places_narration WHERE refs IS NOT NULL`
     );
 
     // feature key → claiming record ids
@@ -384,7 +384,7 @@ async function validateDepictionLinks() {
          AND NOT EXISTS (SELECT 1 FROM regions g   WHERE g.depiction_id = p.id)
          AND NOT EXISTS (SELECT 1 FROM kingdoms k  WHERE k.depiction_id = p.id)
          AND NOT (
-           p.payload->'refs' IS NULL
+           p.refs IS NULL
            AND (p.type IS NOT NULL OR p.region_id IS NOT NULL
                 OR p.cultural_family IS NOT NULL OR p.location_id IS NOT NULL)
          )`
@@ -395,11 +395,12 @@ async function validateDepictionLinks() {
       console.log(`⚠️  ${dead.length} depiction records no feature points at: ${dead.map((d) => d.id).slice(0, 10).join(', ')}`);
     }
 
-    // overnight records must carry at least one scope dimension — a
-    // scopeless record can never be resolved (old chk_scope equivalent).
+    // overnight records (kind='interaction' + action='rest') must carry at
+    // least one scope dimension — a scopeless record can never be resolved
+    // (old chk_scope equivalent).
     const { rows: [scopeless] } = await pool.query(
       `SELECT COUNT(*)::int AS n FROM places_narration
-       WHERE kind = 'overnight'
+       WHERE kind = 'interaction' AND action = 'rest'
          AND location_id IS NULL AND type IS NULL
          AND region_id IS NULL AND cultural_family IS NULL`
     );

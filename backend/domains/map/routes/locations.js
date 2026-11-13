@@ -21,8 +21,8 @@ router.get('/', async (req, res, next) => {
               'slug', l.slug,
               'url_path', l.url_path,
               'region', l.region,
-              'description', COALESCE(pd.payload->'description'->>'en', l.description),
-              'description_es', COALESCE(pd.payload->'description'->>'es', l.description_es),
+              'description', COALESCE(pd.description->>'en', l.description),
+              'description_es', COALESCE(pd.description->>'es', l.description_es),
               'population', l.population,
               'inhabitants', l.inhabitants
             )
@@ -59,8 +59,8 @@ router.get('/:id', async (req, res, next) => {
           'slug', l.slug,
           'url_path', l.url_path,
           'region', l.region,
-          'description', COALESCE(pd.payload->'description'->>'en', l.description),
-          'description_es', COALESCE(pd.payload->'description'->>'es', l.description_es),
+          'description', COALESCE(pd.description->>'en', l.description),
+          'description_es', COALESCE(pd.description->>'es', l.description_es),
           'population', l.population,
           'inhabitants', l.inhabitants
         )
