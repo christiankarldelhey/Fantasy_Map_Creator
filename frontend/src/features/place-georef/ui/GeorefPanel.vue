@@ -82,6 +82,8 @@
           <p>{{ txt(b.text || b) }}</p>
         </div>
         <div v-if="refsText" class="block"><b>refs</b><p class="meta">{{ refsText }}</p></div>
+        <div v-if="depictionsText" class="block"><b>depicts</b><p class="meta">{{ depictionsText }}</p></div>
+        <p v-if="scopeLine" class="meta">{{ scopeLine }}</p>
         <details class="raw">
           <summary>JSON completo</summary>
           <pre>{{ rawPayload }}</pre>
@@ -206,6 +208,28 @@ const refsText = computed(() => {
   const p = props.georef.activePlace.value?.payload as Record<string, unknown> | undefined
   if (!p?.refs && !p?.geo) return ''
   return JSON.stringify(p.refs ?? p.geo)
+})
+
+/** Features this record depicts (depiction_id bindings, ADR-0014). */
+const depictionsText = computed(() => {
+  const d = props.georef.activePlace.value?.depictions as
+    | { table: string; id: number; name: string }[]
+    | undefined
+  if (!d?.length) return ''
+  return d.map((x) => `${x.table}:${x.id} ${x.name || ''}`).join(' · ')
+})
+
+/** Scope columns on the record: type, region, cultural_family, priority. */
+const scopeLine = computed(() => {
+  const p = props.georef.activePlace.value
+  if (!p) return ''
+  const parts = [
+    p.type ? `type: ${p.type}` : null,
+    p.region_id != null ? `region: ${p.region_id}` : null,
+    p.cultural_family ? `family: ${p.cultural_family}` : null,
+    p.priority != null ? `priority: ${p.priority}` : null,
+  ].filter(Boolean)
+  return parts.join(' · ')
 })
 
 const rawPayload = computed(() =>

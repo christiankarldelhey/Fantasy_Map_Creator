@@ -50,7 +50,18 @@ export function typeMatches(recordType, queryType) {
 // ---------------------------------------------------------------------------
 // Depiction fetch — records bound to gazetteer features via depiction_id
 // ---------------------------------------------------------------------------
-const DEPICTION_TABLES = new Set(['locations', 'water', 'biomes', 'roads', 'regions', 'kingdoms']);
+// payload.refs keys → gazetteer table (authoring vocabulary; keep in sync
+// with REF_TABLES in database/seeds/scripts/load-seeds.js).
+export const REF_TABLES = {
+  water: 'water',
+  biome: 'biomes', biomes: 'biomes',
+  road: 'roads', roads: 'roads',
+  location: 'locations', locations: 'locations',
+  region: 'regions', regions: 'regions',
+  kingdom: 'kingdoms', kingdoms: 'kingdoms',
+};
+
+const DEPICTION_TABLES = new Set(Object.values(REF_TABLES));
 
 /** The narration record depicting one feature, or null. */
 export async function depictionFor(table, featureId) {

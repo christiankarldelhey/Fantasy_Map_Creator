@@ -18,7 +18,10 @@ export interface GeorefPlaceItem {
 export interface GeorefPlaceDetail extends GeorefPlaceItem {
   kind: string
   place_ref: string | null
+  cultural_family: string | null
+  priority: number | null
   tags: string[]
+  depictions: { table: string; id: number; name: string }[] | null
   payload: Record<string, any>
 }
 
