@@ -102,6 +102,19 @@ export const TERRAIN_CATEGORIES = [
   'road', 'trail',
 ];
 
+// Closest-approach distance beyond which a place is only ever sighted
+// from afar — closer than this and the "passed close by" note stands alone.
+const SIGHTING_MIN_DISTANCE_KM = 1;
+
+const COMPASS = ['north', 'northeast', 'east', 'southeast',
+                 'south', 'southwest', 'west', 'northwest'];
+
+/** Azimuth degrees (0 = north, clockwise) → 8-wind compass word. */
+function compassDirection(deg) {
+  if (deg == null) return null;
+  return COMPASS[Math.round((((deg % 360) + 360) % 360) / 45) % 8];
+}
+
 /**
  * Terrain phrase categories the day actually crossed: sampled biomes and
  * altitude layers plus the road types underfoot. With no biome or altitude
@@ -312,9 +325,19 @@ async function sampleLegContext(legGeoJSON) {
           'fraction', ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom)),
           'distance_km', round((ST_Distance(l.geom::geography, leg.geom::geography) / 1000)::numeric, 2),
           'size_radius_km', rad.size_km,
-          'influence_radius_km', rad.infl_km
+          'influence_radius_km', rad.infl_km,
+          -- Where the leg first crosses into the influence circle (the
+          -- sighting moment) and the compass bearing from there to the
+          -- place. NULL when the leg never reaches the circle at all —
+          -- the ST_DWithin filter can still admit near-misses.
+          'entry_fraction', vis.frac,
+          'entry_bearing_deg', CASE WHEN vis.frac IS NOT NULL THEN
+            round(degrees(ST_Azimuth(
+              ST_LineInterpolatePoint(leg.geom, vis.frac),
+              ST_ClosestPoint(l.geom, ST_LineInterpolatePoint(leg.geom, vis.frac))
+            ))::numeric, 1) END
         ) ORDER BY ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom))), '[]'::json)
-        FROM locations l
+        FROM leg, locations l
         LEFT JOIN regions rg ON rg.id = l.region_id
         LEFT JOIN places_narration pd ON pd.id = l.depiction_id
         -- A place's voice reaches as far as its anchored ficha's influence
@@ -325,7 +348,17 @@ async function sampleLegContext(legGeoJSON) {
                  MAX(p.size_radius_km) AS size_km
             FROM places_narration p WHERE p.location_id = l.id
         ) rad ON true
-        , leg
+        LEFT JOIN LATERAL (
+          SELECT CASE WHEN ST_Intersects(
+                       ST_Buffer(l.geom::geography, COALESCE(rad.infl_km, 10) * 1000)::geometry,
+                       ST_StartPoint(leg.geom)) THEN 0.0
+                      ELSE MIN(ST_LineLocatePoint(leg.geom, p.geom)) END AS frac
+            FROM ST_Dump(ST_Intersection(
+              leg.geom,
+              ST_Boundary(ST_Buffer(l.geom::geography, COALESCE(rad.infl_km, 10) * 1000)::geometry)
+            )) p
+           WHERE ST_GeometryType(p.geom) = 'ST_Point'
+        ) vis ON true
         WHERE ST_DWithin(l.geom::geography, leg.geom::geography, COALESCE(rad.infl_km, 10) * 1000)
           AND ST_Distance(l.geom::geography, ST_StartPoint(leg.geom)::geography) > 3000) AS locations,
        (SELECT COALESCE(json_agg(json_build_object(
@@ -898,6 +931,18 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     const hourFloat = WALK_START_HOUR + frac * walkingHoursThisDay;
     const hh = Math.floor(hourFloat);
     const mm = Math.round((hourFloat - hh) * 60);
+    const entered = !!overnightLocation && overnightLocation.id === l.id;
+    // A place that stays beyond its size radius is met first as a shape on
+    // the horizon: the leg records where it crossed into the influence
+    // circle and in which direction the place lies from there.
+    const sighted = !entered
+      && l.entry_fraction != null
+      && l.distance_km != null
+      && l.distance_km > Math.max(l.size_radius_km ?? 0, SIGHTING_MIN_DISTANCE_KM);
+    const sFrac = sighted ? Math.max(0, Math.min(1, l.entry_fraction)) : null;
+    const sHourFloat = sFrac != null ? WALK_START_HOUR + sFrac * walkingHoursThisDay : null;
+    const shh = sHourFloat != null ? Math.floor(sHourFloat) : 0;
+    const smm = sHourFloat != null ? Math.round((sHourFloat - shh) * 60) : 0;
     return {
       id: l.id,
       name: l.name,
@@ -914,7 +959,11 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       influence_radius_km: l.influence_radius_km,
       hour_float: Number(hourFloat.toFixed(2)),
       hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,
-      entered: !!overnightLocation && overnightLocation.id === l.id,
+      sighted,
+      sighted_hour_float: sighted ? Number(sHourFloat.toFixed(2)) : null,
+      sighted_hour: sighted ? `${String(shh).padStart(2, '0')}:${String(smm).padStart(2, '0')}` : null,
+      sighted_direction: sighted ? compassDirection(l.entry_bearing_deg) : null,
+      entered,
       hostile: isHostileLocation(l),
     };
   });

@@ -142,3 +142,19 @@ test('collectLocationNotes tells entry from passing by', async () => {
   assert.match(notes[1], /passed at some distance/);
   assert.match(notes[2], /enemy country/);
 });
+
+// A place that never comes within reach is first met on the horizon: the
+// sighting (with compass direction and its own hour) precedes the passing.
+test('collectLocationNotes voices a distant sighting before the passing', async () => {
+  const { collectLocationNotes } = await import('../placeNotes.js');
+  const notes = collectLocationNotes([
+    { name: 'Hornburg', type: 'fortress', hour_float: 19, distance_km: 24.55,
+      sighted: true, sighted_hour_float: 9.5, sighted_direction: 'east' },
+    { name: 'Dol Guldur', type: 'fortified city', hour_float: 16, distance_km: 8, hostile: true,
+      sighted: true, sighted_hour_float: 11, sighted_direction: 'north' },
+  ]);
+  assert.match(notes[0], /sighted far off to the east/);
+  assert.match(notes[0], /passed at some distance/);
+  assert.match(notes[1], /sighted far off to the north/);
+  assert.match(notes[1], /enemy country/);
+});

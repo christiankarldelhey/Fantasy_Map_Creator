@@ -300,9 +300,12 @@ function placeEvents(day) {
     if (SETTLEMENT_KINDS.has(loc.type)) tags.push('settlement');
     if (loc.entered) tags.push('entered');
     if (loc.hostile) tags.push('hostile');
+    if (loc.sighted) tags.push('sighted');
     return {
       type: 'place',
-      when: when(day, { phase: loc.phase || phaseOfHour(loc.hour_float) }),
+      // A distant place enters awareness when it is first sighted on the
+      // horizon, not at the leg's closest approach.
+      when: when(day, { phase: loc.phase || phaseOfHour(loc.sighted ? loc.sighted_hour_float : loc.hour_float) }),
       where: where(loc.region || regionOf(day)),
       data: {
         name: loc.name || loc.id,
@@ -312,6 +315,9 @@ function placeEvents(day) {
         description: loc.description ?? null,
         description_es: loc.description_es ?? null,
         distance_km: loc.distance_km ?? null,
+        sighted: loc.sighted
+          ? { hour_float: loc.sighted_hour_float ?? null, direction: loc.sighted_direction ?? null }
+          : undefined,
         reading: loc.name || loc.id || null,
         tags: tags.length ? tags : undefined,
       },

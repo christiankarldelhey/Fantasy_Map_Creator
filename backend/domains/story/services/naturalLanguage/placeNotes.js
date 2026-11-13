@@ -58,13 +58,18 @@ export function collectLocationNotes(locations) {
     // the off-route metres say. 'hostile' is the opposite — an enemy
     // place skirted from outside, never entered.
     const when = timeOfDayPhrase(l.hour_float);
+    // A place the road never reaches is first sighted when the leg crosses
+    // into its influence circle — the horizon moment precedes the passing.
+    const sight = l.sighted
+      ? `sighted far off${l.sighted_direction ? ` to the ${l.sighted_direction}` : ''}, ${timeOfDayPhrase(l.sighted_hour_float)} — `
+      : '';
     let proximity;
     if (l.entered) {
       proximity = `reaches it ${when} and stays — the day ends here`;
     } else if (l.hostile) {
-      proximity = `passed outside, ${when} — enemy country, no welcome there`;
+      proximity = `${sight}passed outside, ${when} — enemy country, no welcome there`;
     } else {
-      proximity = `${proximityPhrase(l.distance_km, l.size_radius_km)}, ${when}`;
+      proximity = `${sight}${proximityPhrase(l.distance_km, l.size_radius_km)}, ${when}`;
     }
     notes.push(`- ${l.name}${kind}: ${proximity}.${descriptionSuffix(l.description)}`);
   }
