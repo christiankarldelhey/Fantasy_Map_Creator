@@ -208,8 +208,9 @@ const metaLine = computed(() => {
 const refsText = computed(() => {
   const a = props.georef.activePlace.value
   const p = a?.payload as Record<string, unknown> | undefined
-  if (!a?.refs && !p?.geo) return ''
-  return JSON.stringify(a.refs ?? p.geo)
+  const refs = a?.refs ?? p?.geo
+  if (refs == null) return ''
+  return JSON.stringify(refs)
 })
 
 /** Features this record depicts (depiction_id bindings, ADR-0014). */

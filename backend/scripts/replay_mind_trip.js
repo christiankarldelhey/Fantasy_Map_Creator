@@ -55,10 +55,12 @@ async function overnightOf(row) {
     rest_quality: row.rest_quality ?? null,
     shadow_effect: row.shadow_effect ?? null,
   };
-  if (row.places_interaction_id != null) {
+  if (row.places_narration_id != null) {
     const { rows } = await pool.query(
-      'SELECT title, description FROM places_interactions WHERE id = $1',
-      [row.places_interaction_id]
+      `SELECT COALESCE(payload->>'title', name) AS title,
+              description->>'en' AS description
+       FROM places_narration WHERE id = $1`,
+      [row.places_narration_id]
     );
     if (rows[0]) {
       interaction.name = rows[0].title || null;

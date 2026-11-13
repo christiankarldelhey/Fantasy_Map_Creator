@@ -4,9 +4,8 @@
 --              legacy `places` ficha table when present, creates
 --              `places_narration` when neither exists, widens the kind
 --              CHECK to the narration kinds, and adds the scope columns
---              (cultural_family, priority). `geom` is kept for now —
---              it goes dark as readers migrate and is dropped in the
---              final cleanup issue (#104).
+--              (cultural_family, priority). `geom` is gone (#104): position
+--              is always borrowed from the anchor feature.
 --              See docs/adr/0014 and backend/CONTEXT.md ("Narration").
 
 -- 1) Rename the legacy table. Guarded: a DB that already renamed (or never
@@ -45,8 +44,6 @@ CREATE TABLE IF NOT EXISTS places_narration (
   cultural_family     TEXT,                           -- scope dimension (generalized from places_interactions)
   priority            SMALLINT NOT NULL DEFAULT 0,    -- tie-breaker between competing records
   tags                TEXT[] NOT NULL DEFAULT '{}',
-  geom                geometry(Geometry, 4326),       -- DEPRECATED (ADR-0014): position is borrowed
-                                                      -- from the anchor feature; kept until #104
   size_radius_km      NUMERIC(8,2),                   -- traveller is *at* the place
   influence_radius_km NUMERIC(8,2),                   -- askable / felt from afar
   description         JSONB,                          -- canonical flat prose {en, es} (#106)
@@ -84,7 +81,6 @@ CREATE INDEX IF NOT EXISTS idx_pn_place_ref ON places_narration(place_ref)   WHE
 CREATE INDEX IF NOT EXISTS idx_pn_scope     ON places_narration(type, region_id, cultural_family)
   WHERE kind IN ('depiction','interaction');
 CREATE INDEX IF NOT EXISTS idx_pn_action    ON places_narration(action) WHERE action IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_pn_geom      ON places_narration USING GIST(geom) WHERE geom IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_pn_tags      ON places_narration USING GIN(tags);
 CREATE INDEX IF NOT EXISTS idx_pn_payload   ON places_narration USING GIN(payload);
 
@@ -100,7 +96,6 @@ COMMENT ON COLUMN places_narration.place_ref IS 'Offer → parent record id (no 
 COMMENT ON COLUMN places_narration.region_id IS 'Primary region (first of payload.region_ids); scope region for depictions';
 COMMENT ON COLUMN places_narration.cultural_family IS 'Scope dimension for generic records (from places_interactions)';
 COMMENT ON COLUMN places_narration.priority IS 'Tie-breaker when several records match a scope';
-COMMENT ON COLUMN places_narration.geom IS 'Deprecated: position is always borrowed (location_id / feature depiction_id). Kept until the final drop (#104)';
 COMMENT ON COLUMN places_narration.size_radius_km IS 'Within it the traveller is AT the place (variants/secret/options)';
 COMMENT ON COLUMN places_narration.influence_radius_km IS 'Within it the place is askable and felt from afar';
 COMMENT ON COLUMN places_narration.payload IS 'Kind-unique spec only: ficha base/sections/beats/options/secret, region rotation/facts, provenance (#106)';

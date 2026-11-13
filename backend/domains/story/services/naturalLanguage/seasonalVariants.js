@@ -2,10 +2,10 @@
 // Seasonal/weather variants of region descriptions
 // ----------------------------------------------------------------------------
 // Decides which variant a narrated day falls under and resolves the matching
-// seeded phrases. Two phrase sources exist:
+// seeded phrases. Both phrase sources live in places_narration (#104):
 //
-//   - region_biome_descriptions.variant   (terrain/road categories)
-//   - region_seasonal_descriptions.variant (the "lands crossed" summary)
+//   - scope-bound dep:biome:* depictions' variants (terrain/road categories)
+//   - the region depiction's variants      (the "lands crossed" summary)
 //
 // Both are resolved here in Node because the day generator already knows the
 // date and the sampled weather; the mind-engine then sees plain phrase

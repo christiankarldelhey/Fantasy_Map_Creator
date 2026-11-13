@@ -23,10 +23,7 @@ CREATE TABLE IF NOT EXISTS locations (
     -- Demographics
     population INTEGER,
     inhabitants TEXT,  -- Text description of inhabitants
-    
-    -- Description
-    description TEXT,
-    
+
     -- Geographic location
     region VARCHAR(100),  -- 'Eriador', 'Gondor', 'Rohan', etc. (legacy free-text)
     region_id INTEGER REFERENCES regions(id),  -- resolved from point-in-polygon
@@ -62,41 +59,6 @@ COMMENT ON COLUMN locations.location_type IS 'Settlement type: city, castle, tow
 COMMENT ON COLUMN locations.region_id IS 'Region containing the location point (resolved by point-in-polygon)';
 
 -- ============================================================================
--- Table: places_interactions
--- Purpose: Narrative/mechanical effects for spending time in a place or region
--- ============================================================================
-
-CREATE TABLE IF NOT EXISTS places_interactions (
-    id                SERIAL PRIMARY KEY,
-    interaction_type  TEXT    NOT NULL,          -- 'overnight' (only value for now)
-    location_id       INTEGER REFERENCES locations(id),   -- nullable
-    location_type     TEXT,                       -- 'village','town',… nullable
-    region_id         INTEGER REFERENCES regions(id),     -- nullable
-    cultural_family   TEXT,                       -- nullable
-    title             TEXT,                       -- e.g. 'The Prancing Pony'
-    description       TEXT    NOT NULL,           -- narrator reference material
-    rest_quality      SMALLINT,                   -- 0..3
-    shadow_effect     SMALLINT,                   -- -2..+2
-    priority          SMALLINT NOT NULL DEFAULT 0 -- higher wins on tie
-);
-
-CREATE INDEX IF NOT EXISTS idx_pi_location  ON places_interactions(interaction_type, location_id);
-CREATE INDEX IF NOT EXISTS idx_pi_type_reg  ON places_interactions(interaction_type, location_type, region_id);
-CREATE INDEX IF NOT EXISTS idx_pi_type_fam  ON places_interactions(interaction_type, location_type, cultural_family);
-CREATE INDEX IF NOT EXISTS idx_pi_region    ON places_interactions(interaction_type, region_id);
-CREATE INDEX IF NOT EXISTS idx_pi_family    ON places_interactions(interaction_type, cultural_family);
-
-ALTER TABLE places_interactions
-  ADD CONSTRAINT chk_scope CHECK (
-     (location_id IS NOT NULL)
-  OR (location_type IS NOT NULL AND region_id IS NOT NULL)
-  OR (location_type IS NOT NULL AND cultural_family IS NOT NULL)
-  OR (location_type IS NOT NULL AND region_id IS NULL AND cultural_family IS NULL)
-  OR (location_type IS NULL AND region_id IS NOT NULL)
-  OR (location_type IS NULL AND cultural_family IS NOT NULL)
-  );
-
--- ============================================================================
 -- Table: roads
 -- Purpose: Store linear features of roads/paths
 -- ============================================================================
@@ -127,7 +89,6 @@ CREATE TABLE IF NOT EXISTS water (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     water_type VARCHAR(50) NOT NULL, -- 'river', 'stream', 'lake', 'sea'
-    description TEXT,
     created_at TIMESTAMP DEFAULT NOW(),
     geom GEOMETRY(Geometry, 4326) NOT NULL, -- Supports both LineString (rivers) and Polygon (lakes)
     CONSTRAINT valid_water_geometry CHECK (ST_IsValid(geom)),
@@ -146,7 +107,6 @@ CREATE INDEX IF NOT EXISTS idx_water_type ON water(water_type);
 CREATE TABLE IF NOT EXISTS kingdoms (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL,
-    description TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -173,14 +133,8 @@ CREATE TABLE IF NOT EXISTS regions (
     -- Climate information
     climate_zone_id INTEGER REFERENCES climate_zones(id) ON DELETE SET NULL UNIQUE,
     
-    -- Description fields (flattened from JSONB)
-    land JSONB,  -- Array of land features
-    notes TEXT,  -- General notes
-    people JSONB,  -- People information (symbol, military, population, description)
-    source JSONB,  -- Source references (supplement, supplement_code)
-    products TEXT,  -- Products/resources
-    description_text TEXT,  -- Main description text
-    description_summary TEXT[],  -- Summary description of the region (array of rotating descriptions)
+    -- Prose lives in places_narration (the region's depiction record); this
+    -- table carries only physical/political facts (#104).
     cultural_family TEXT,  -- Resolved from regions.geojson; drives lodging/night logic
 
     -- Statistics
@@ -229,10 +183,7 @@ CREATE TABLE IF NOT EXISTS biomes (
     -- Basic information
     name VARCHAR(255) NOT NULL,  -- Standard type (e.g., "Forest") or specific name (e.g., "Fangorn")
     type VARCHAR(50),  -- 'forest', 'hills', 'marsh', 'mountains', 'river', 'lake', 'plateau', 'barrow'
-    
-    -- Description
-    description TEXT,  -- NULL for standard biomes, text for specific named locations
-    
+
     -- Statistics
     area_km2 DECIMAL,  -- Will be calculated with ST_Area
     
@@ -252,7 +203,6 @@ CREATE INDEX IF NOT EXISTS idx_biomes_type ON biomes(type);
 COMMENT ON TABLE biomes IS 'Environmental and geographic features (forests, mountains, rivers, etc.)';
 COMMENT ON COLUMN biomes.name IS 'Biome name - standard type (e.g., Forest) or specific name (e.g., Fangorn)';
 COMMENT ON COLUMN biomes.type IS 'Biome category: forest, hills, marsh, mountains, river, lake, plateau, barrow';
-COMMENT ON COLUMN biomes.description IS 'NULL for standard biomes, text for specific named locations';
 
 -- ============================================================================
 -- Table: climate_zones

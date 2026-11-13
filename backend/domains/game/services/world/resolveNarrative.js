@@ -95,7 +95,7 @@ const SCOPE_DIMS = ['location_id', 'type', 'region_id', 'cultural_family'];
 export async function loadScoped(kind, action = null) {
   const { rows } = await pool.query(
     `SELECT id, kind, action, location_id, type, region_id, cultural_family,
-            priority, name, geom, tags,
+            priority, name, tags,
             description, variants, mechanics, refs, payload
        FROM places_narration
       WHERE kind = $1 AND ($2::text IS NULL OR action = $2)`,

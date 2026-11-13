@@ -24,18 +24,17 @@ router.get('/places', async (req, res, next) => {
   try {
     const { status = 'unpositioned' } = req.query;
     // Position lives on the anchor (ADR-0014 #105): a record is positioned
-    // when its location has a point. places_narration.geom is the legacy
-    // copy (deprecated, drops in #104) — read it only as fallback.
+    // when its location has a point.
     const geomFilter =
-      status === 'unpositioned' ? 'AND COALESCE(l.geom, p.geom) IS NULL' :
-      status === 'positioned'   ? 'AND COALESCE(l.geom, p.geom) IS NOT NULL' : '';
+      status === 'unpositioned' ? 'AND l.geom IS NULL' :
+      status === 'positioned'   ? 'AND l.geom IS NOT NULL' : '';
 
     const { rows } = await pool.query(
       `SELECT p.id, p.kind, p.name, p.type, p.region_id, p.location_id,
               p.payload->'region_ids' AS region_ids,
               p.size_radius_km, p.influence_radius_km,
-              COALESCE(l.geom, p.geom) IS NOT NULL AS positioned,
-              ST_AsGeoJSON(COALESCE(l.geom, p.geom))::json AS geom
+              l.geom IS NOT NULL AS positioned,
+              ST_AsGeoJSON(l.geom)::json AS geom
        FROM places_narration p
        LEFT JOIN locations l ON l.id = p.location_id
        WHERE p.kind = 'place' ${geomFilter}
@@ -56,7 +55,7 @@ router.get('/places/:id', async (req, res, next) => {
               p.location_id, p.cultural_family, p.priority,
               p.tags, p.size_radius_km, p.influence_radius_km,
               p.description, p.variants, p.mechanics, p.refs,
-              ST_AsGeoJSON(COALESCE(l.geom, p.geom))::json AS geom, p.payload,
+              ST_AsGeoJSON(l.geom)::json AS geom, p.payload,
               (SELECT jsonb_agg(jsonb_build_object('table', x.t, 'id', x.id, 'name', x.name))
                  FROM (
                    SELECT 'locations' AS t, id, name FROM locations WHERE depiction_id = p.id
@@ -122,6 +121,8 @@ router.get('/locations/nearby', async (req, res, next) => {
 // { name, location_type?, description?, description_es?, lon, lat,
 //   visible_in_map?, region_id? } → creates an adventure anchor point.
 // region_id defaults to point-in-polygon; `region` legacy text follows it.
+// description/description_es create a depiction record bound to the anchor —
+// locations itself carries no prose columns (#104).
 router.post('/locations', async (req, res, next) => {
   try {
     const { name, location_type = null, description = null, description_es = null,
@@ -136,26 +137,51 @@ router.post('/locations', async (req, res, next) => {
 
     const { rows } = await pool.query(
       `INSERT INTO locations
-         (name, location_type, description, description_es, region, region_id,
+         (name, location_type, region, region_id,
           visible_in_map, geom, source)
        VALUES (
-         $1, $2, $3, $4,
+         $1, $2,
          (SELECT r.name FROM regions r
-          WHERE r.id = COALESCE($5,
+          WHERE r.id = COALESCE($3,
             (SELECT rr.id FROM regions rr
-             WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($6, $7), 4326))
+             WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($4, $5), 4326))
              LIMIT 1))),
-         COALESCE($5,
+         COALESCE($3,
            (SELECT rr.id FROM regions rr
-            WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($6, $7), 4326))
+            WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($4, $5), 4326))
             LIMIT 1)),
-         $8, ST_SetSRID(ST_MakePoint($6, $7), 4326), 'georef')
+         $6, ST_SetSRID(ST_MakePoint($4, $5), 4326), 'georef')
        RETURNING id, name, location_type, region, region_id, visible_in_map,
                  ST_AsGeoJSON(geom)::json AS geom`,
-      [name.trim(), location_type, description, description_es,
+      [name.trim(), location_type,
        region_id, lon, lat, visible_in_map === true]
     );
-    res.status(201).json(rows[0]);
+    const location = rows[0];
+
+    // Narrative input creates a depiction record bound to the new anchor
+    // (#104): locations carries no prose columns anymore.
+    if ((description && description.trim()) || (description_es && description_es.trim())) {
+      const recordId = `dep:loc:${location.id}`;
+      await pool.query(
+        `INSERT INTO places_narration
+           (id, kind, name, type, region_id, description, refs, payload)
+         VALUES ($1, 'depiction', $2, $3, $4, $5::jsonb, $6::jsonb, $7::jsonb)
+         ON CONFLICT (id) DO UPDATE SET
+           name=EXCLUDED.name, type=EXCLUDED.type, region_id=EXCLUDED.region_id,
+           description=EXCLUDED.description, refs=EXCLUDED.refs`,
+        [
+          recordId, location.name, location.location_type, location.region_id,
+          JSON.stringify({ en: description || null, es: description_es || null }),
+          JSON.stringify({ location: [location.id] }),
+          JSON.stringify({ origin: 'admin:georef' }),
+        ]
+      );
+      await pool.query(
+        'UPDATE locations SET depiction_id = $1 WHERE id = $2',
+        [recordId, location.id]
+      );
+    }
+    res.status(201).json(location);
   } catch (err) {
     next(err);
   }
@@ -271,7 +297,7 @@ router.patch('/places/:id', async (req, res, next) => {
       `SELECT p.id, p.name, p.type, p.region_id, p.location_id,
               p.cultural_family, p.priority,
               p.size_radius_km, p.influence_radius_km,
-              ST_AsGeoJSON(COALESCE(l.geom, p.geom))::json AS geom
+              ST_AsGeoJSON(l.geom)::json AS geom
        FROM places_narration p
        LEFT JOIN locations l ON l.id = p.location_id
        WHERE p.id = $1`,

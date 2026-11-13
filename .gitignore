@@ -49,3 +49,6 @@ __pycache__/
 .devin/config.local.json
 .devin/session-log.jsonl
 database/seeds/validation-report-*.txt
+
+# Local DB dumps (pg_dump gate for destructive migrations)
+backup*.sql

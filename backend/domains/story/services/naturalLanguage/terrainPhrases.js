@@ -1,9 +1,9 @@
 // ============================================================================
 // Terrain phrases service
 // ----------------------------------------------------------------------------
-// Loads region-specific narrative phrases for terrain/road categories from the
-// region_biome_descriptions table. Falls back to null when no phrase exists,
-// letting callers keep their default descriptions.
+// Loads region-specific narrative phrases for terrain/road categories from
+// scope-bound kind='depiction' records in places_narration. Returns null when
+// no phrase exists, letting callers keep their default descriptions.
 //
 // NOTE: the pure lookup helpers (pickPhrase, pickPhraseForRegions) are back
 // at home in this file — the world-voice migration (#52) moved phrasing out
@@ -67,84 +67,17 @@ export async function loadTerrainPhrases(regionNames, categories = [], variantOr
     return {};
   }
 
-  // ADR-0014 (#102): scope-bound kind='depiction' records are canonical;
-  // region_biome_descriptions stays as fallback until it drops in #104.
   try {
-    const narration = await loadTerrainPhrasesFromNarration(regionNames, categories, variantOrder);
-    if (Object.keys(narration).length > 0) {
-      return narration;
-    }
+    return await loadTerrainPhrasesFromNarration(regionNames, categories, variantOrder);
   } catch (err) {
     console.warn('⚠️ Could not load terrain phrases from places_narration:', err.message);
+    return {};
   }
-
-  const categoryFilter =
-    Array.isArray(categories) && categories.length > 0
-      ? 'AND category = ANY($2::text[])'
-      : '';
-  const params = categories.length > 0 ? [regionNames, categories] : [regionNames];
-
-  // variant-aware query; pre-migration databases lack the column, so the
-  // fallback below retries without it and every row counts as 'base'.
-  let rows;
-  try {
-    ({ rows } = await pool.query(
-      `SELECT region_name, category, variant, phrases
-       FROM region_biome_descriptions
-       WHERE region_name = ANY($1::text[])
-       ${categoryFilter}`,
-      params
-    ));
-  } catch (err) {
-    if (err.code === '42P01') {
-      console.warn('⚠️ region_biome_descriptions table not found; using fallback terrain descriptions.');
-      return {};
-    }
-    if (err.code !== '42703') {
-      console.warn('⚠️ Could not load terrain phrases:', err.message);
-      return {};
-    }
-    try {
-      ({ rows } = await pool.query(
-        `SELECT region_name, category, 'base' AS variant, phrases
-         FROM region_biome_descriptions
-         WHERE region_name = ANY($1::text[])
-         ${categoryFilter}`,
-        params
-      ));
-    } catch (err2) {
-      console.warn('⚠️ Could not load terrain phrases:', err2.message);
-      return {};
-    }
-  }
-
-  const order = [...(variantOrder || []), 'base'];
-  const byCell = {};
-  for (const row of rows) {
-    const variants = ((byCell[row.region_name] ||= {})[row.category] ||= {});
-    variants[row.variant || 'base'] = row.phrases || [];
-  }
-
-  const map = {};
-  for (const [region, cellCategories] of Object.entries(byCell)) {
-    for (const [category, variants] of Object.entries(cellCategories)) {
-      for (const variant of order) {
-        const phrases = variants[variant];
-        if (Array.isArray(phrases) && phrases.length > 0) {
-          (map[region] ||= {})[category] = phrases;
-          break;
-        }
-      }
-    }
-  }
-  return map;
 }
 
 /**
- * Narration path for loadTerrainPhrases: reads scope-bound kind='depiction'
- * records (backfilled from region_biome_descriptions) and picks the first
- * non-empty variant per region/category cell — same map shape as the
- * legacy path. Returns {} when no records exist yet (pre-backfill DBs).
+ * Reads scope-bound kind='depiction' records and picks the first non-empty
+ * variant per region/category cell. Returns {} when no records exist.
  */
 async function loadTerrainPhrasesFromNarration(regionNames, categories, variantOrder) {
   const categoryFilter =

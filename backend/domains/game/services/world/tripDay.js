@@ -160,8 +160,8 @@ export function rotateTerrainPhrases(terrainPhrases, usedTerrainPhrases, rng = M
 async function regionAtPoint(lng, lat) {
   const { rows } = await pool.query(
     `SELECT r.name,
-            COALESCE((SELECT array_agg(x) FROM jsonb_array_elements_text(rd.payload->'rotation') x),
-                     r.description_summary) AS description_summary,
+            (SELECT array_agg(x) FROM jsonb_array_elements_text(rd.payload->'rotation') x)
+              AS description_summary,
             r.cultural_family,
             COALESCE(r.population_ratio, 0.5) AS population_ratio
      FROM regions r
@@ -187,8 +187,8 @@ async function regionsForPoints(points) {
      FROM jsonb_array_elements($1::jsonb) WITH ORDINALITY AS t(elem, idx)
      LEFT JOIN LATERAL (
        SELECT rg.id, rg.name,
-              COALESCE((SELECT array_agg(x) FROM jsonb_array_elements_text(rd.payload->'rotation') x),
-                       rg.description_summary) AS description_summary,
+              (SELECT array_agg(x) FROM jsonb_array_elements_text(rd.payload->'rotation') x)
+                AS description_summary,
               rg.cultural_family, rg.population_ratio
        FROM regions rg
        LEFT JOIN places_narration rd ON rd.id = rg.depiction_id
@@ -304,8 +304,8 @@ async function sampleLegContext(legGeoJSON) {
           'type', l.location_type,
           'region', l.region,
           'region_id', l.region_id,
-          'description', COALESCE(pd.description->>'en', l.description),
-          'description_es', COALESCE(pd.description->>'es', l.description_es),
+          'description', pd.description->>'en',
+          'description_es', pd.description->>'es',
           'population', l.population,
           'inhabitants', l.inhabitants,
           'cultural_family', rg.cultural_family,
@@ -321,7 +321,7 @@ async function sampleLegContext(legGeoJSON) {
        (SELECT COALESCE(json_agg(json_build_object(
           'name', w.name,
           'type', w.water_type,
-          'description', COALESCE(wd.description->>'en', w.description),
+          'description', wd.description->>'en',
           'fraction', ST_LineLocatePoint(
             leg.geom,
             ST_ClosestPoint(leg.geom, ST_Centroid(ST_Intersection(leg.geom, w.geom)))
@@ -338,7 +338,7 @@ async function sampleLegContext(legGeoJSON) {
        (SELECT COALESCE(json_agg(json_build_object(
           'name', w.name,
           'type', w.water_type,
-          'description', COALESCE(wd.description->>'en', w.description),
+          'description', wd.description->>'en',
           'distance_km', round((ST_Distance(w.geom::geography, leg.geom::geography) / 1000)::numeric, 2),
           'fraction', ST_LineLocatePoint(
             leg.geom,

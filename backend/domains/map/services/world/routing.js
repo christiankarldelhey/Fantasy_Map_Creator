@@ -287,8 +287,8 @@ async function fetchLocationsAlongRoute(routeWKT, coords, dists) {
       SELECT ST_SetSRID(ST_GeomFromText($1), 4326) AS geom
     )
     SELECT l.id, l.name, l.location_type AS type, l.region, l.region_id,
-           COALESCE(pd.description->>'en', l.description) AS description,
-           COALESCE(pd.description->>'es', l.description_es) AS description_es,
+           pd.description->>'en' AS description,
+           pd.description->>'es' AS description_es,
            l.population, l.inhabitants,
            rg.cultural_family, rg.name AS region_name,
            ST_X(l.geom) AS lng, ST_Y(l.geom) AS lat,

@@ -79,7 +79,7 @@ const NO_SHELTER_NOTE = "No shelter of note lies near the day's end. The night i
 
 /**
  * Describe where the character spends the night, plus any reference
- * material from the resolved places_interactions row.
+ * material from the resolved overnight interaction record.
  */
 export function describeOvernightLocation(location, interaction = null) {
   let text = NO_SHELTER_NOTE;

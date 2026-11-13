@@ -132,6 +132,11 @@ const VALIDATION_CONFIG = {
       column: 'depiction_id',
       references: 'places_narration.id'
     },
+    {
+      table: 'trip_days',
+      column: 'places_narration_id',
+      references: 'places_narration.id'
+    },
   ],
 };
 

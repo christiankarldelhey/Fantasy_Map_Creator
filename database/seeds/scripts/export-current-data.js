@@ -34,7 +34,7 @@ const EXPORT_CONFIG = {
   csvTables: [
     {
       table: 'kingdoms',
-      columns: ['id', 'name', 'description', 'created_at'],
+      columns: ['id', 'name', 'created_at'],
       filename: 'kingdoms.csv'
     },
     {
@@ -83,17 +83,17 @@ const EXPORT_CONFIG = {
   geojsonTables: [
     {
       table: 'regions',
-      properties: ['id', 'name', 'region_type', 'kingdom_id', 'climate_zone_id', 'description_text', 'description_summary', 'area_km2', 'distance_for_encounter', 'chance_of_encounter', 'hours_to_encounter', 'population_ratio'],
+      properties: ['id', 'name', 'region_type', 'kingdom_id', 'climate_zone_id', 'area_km2', 'distance_for_encounter', 'chance_of_encounter', 'hours_to_encounter', 'population_ratio'],
       filename: 'regions.geojson'
     },
     {
       table: 'biomes',
-      properties: ['id', 'name', 'type', 'description', 'area_km2'],
+      properties: ['id', 'name', 'type', 'area_km2'],
       filename: 'biomes.geojson'
     },
     {
       table: 'water',
-      properties: ['id', 'name', 'water_type', 'description'],
+      properties: ['id', 'name', 'water_type'],
       filename: 'water.geojson'
     },
   ],
@@ -102,7 +102,7 @@ const EXPORT_CONFIG = {
   sqlTables: [
     {
       table: 'locations',
-      columns: ['id', 'name', 'location_type', 'population', 'inhabitants', 'description', 'description_es', 'region', 'region_id', 'visible_in_map', 'image_url', 'external_id', 'source'],
+      columns: ['id', 'name', 'location_type', 'population', 'inhabitants', 'region', 'region_id', 'visible_in_map', 'image_url', 'external_id', 'source'],
       filename: 'locations.sql'
     },
     {

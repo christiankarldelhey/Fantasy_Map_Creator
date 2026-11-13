@@ -10,29 +10,23 @@
 -- columns/tables as fallback (verified: readers COALESCE/join, all drifts
 -- were zero at migration time). After this file the fallbacks are gone.
 --
--- Code changes that must land in the same commit (readers/writers of the
+-- Code changes that landed in the same commit (readers/writers of the
 -- dropped objects):
---   backend/domains/game/routes/trips.js (~l.542)
---     trip_days INSERT writes places_interaction_id → write 'ovn:'||id into
---     places_narration_id instead.
---   backend/scripts/replay_mind_trip.js (~l.58)
---     overnight title/description from places_interactions → places_narration
---     payload ('ovn:'||id or places_narration_id).
+--   backend/domains/game/routes/trips.js
+--     trip_days INSERT writes places_narration_id ('ovn:'+legacy id).
+--   backend/scripts/replay_mind_trip.js
+--     overnight prose reads places_narration via places_narration_id.
 --   database/seeds/scripts/load-seeds.js
---     ensureSchema adds places_interaction_id+FK (~l.1396) → places_narration_id TEXT;
---     remove seedRegionBiomeDescriptions, seedRegionBiomeVariants,
---     seedRegionSeasonalDescriptions, seedPlacesInteractions and the
---     backfillOvernightRecords/backfillBiomeRecords calls + functions;
---     remove the record-geom inherit UPDATE and the geom column writes.
+--     legacy seeders (places_interactions, region biome/seasonal) removed;
+--     generated records seed from data/json/narration.json; record geom
+--     writes removed; COALESCE fallback arms removed from all readers.
 --   backend/domains/game/services/world/placesInteractions.js
---     delete the places_interactions fallback query.
+--     places_interactions fallback query removed.
 --   backend/domains/story/services/naturalLanguage/terrainPhrases.js
---     delete the region_biome_descriptions fallback query.
+--     region_biome_descriptions fallback query removed.
 --   backend/domains/map/routes/adminGeoref.js
---     POST /locations description/description_es params write legacy columns —
---     a description should create a depiction record instead.
---   locations.sql / export — seeded INSERTs may carry description columns;
---     regenerate or strip on export.
+--     POST /locations routes description params to a depiction record.
+--   locations.sql — regenerated without description columns.
 -- ============================================================================
 
 -- ---------------------------------------------------------------------------
@@ -53,6 +47,7 @@ BEGIN
        AND EXISTS (SELECT 1 FROM places_narration p
                     WHERE p.id = 'ovn:' || td.places_interaction_id);
     ALTER TABLE trip_days DROP COLUMN places_interaction_id;
+    ALTER TABLE trip_days DROP CONSTRAINT IF EXISTS trip_days_places_narration_id_fkey;
     ALTER TABLE trip_days
       ADD CONSTRAINT trip_days_places_narration_id_fkey
       FOREIGN KEY (places_narration_id) REFERENCES places_narration(id)

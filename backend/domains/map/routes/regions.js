@@ -19,12 +19,12 @@ router.get('/', async (req, res, next) => {
               'name', r.name,
               'slug', r.slug,
               'url_path', r.url_path,
-              'description', COALESCE(rd.payload->'rotation', to_jsonb(r.description_summary)),
-              'land', COALESCE(rd.payload->'facts'->'land', r.land),
-              'notes', COALESCE(rd.payload->'facts'->>'notes', r.notes),
-              'people', COALESCE(rd.payload->'facts'->'people', r.people),
-              'source', COALESCE(rd.payload->'facts'->'source', r.source),
-              'products', COALESCE(rd.payload->'facts'->>'products', r.products),
+              'description', rd.payload->'rotation',
+              'land', rd.payload->'facts'->'land',
+              'notes', rd.payload->'facts'->>'notes',
+              'people', rd.payload->'facts'->'people',
+              'source', rd.payload->'facts'->'source',
+              'products', rd.payload->'facts'->>'products',
               'kingdom', k.name
             )
           )

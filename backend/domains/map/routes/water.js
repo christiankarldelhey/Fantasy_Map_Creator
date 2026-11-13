@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
               'id', w.id,
               'name', w.name,
               'water_type', w.water_type,
-              'description', COALESCE(wd.description->>'en', w.description)
+              'description', wd.description->>'en'
             )
           )
         ), '[]'::json)
