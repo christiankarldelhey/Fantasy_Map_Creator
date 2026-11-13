@@ -334,7 +334,9 @@ async function validateDepictionLinks() {
     }
     if (dangling === 0) console.log('✅ refs: all feature ids exist');
 
-    // dead depictions: a record that depicts nothing
+    // dead depictions: a record that depicts nothing. Scope-bound depictions
+    // (biome phrase banks — no refs, but type/region scope) resolve through
+    // the ladder instead of depiction_id and are exempt.
     const { rows: dead } = await pool.query(
       `SELECT p.id FROM places_narration p
        WHERE p.kind = 'depiction'
@@ -343,7 +345,12 @@ async function validateDepictionLinks() {
          AND NOT EXISTS (SELECT 1 FROM biomes b    WHERE b.depiction_id = p.id)
          AND NOT EXISTS (SELECT 1 FROM roads r     WHERE r.depiction_id = p.id)
          AND NOT EXISTS (SELECT 1 FROM regions g   WHERE g.depiction_id = p.id)
-         AND NOT EXISTS (SELECT 1 FROM kingdoms k  WHERE k.depiction_id = p.id)`
+         AND NOT EXISTS (SELECT 1 FROM kingdoms k  WHERE k.depiction_id = p.id)
+         AND NOT (
+           p.payload->'refs' IS NULL
+           AND (p.type IS NOT NULL OR p.region_id IS NOT NULL
+                OR p.cultural_family IS NOT NULL OR p.location_id IS NOT NULL)
+         )`
     );
     if (dead.length === 0) {
       console.log('✅ no dead depiction records');

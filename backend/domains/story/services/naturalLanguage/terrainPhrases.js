@@ -67,6 +67,17 @@ export async function loadTerrainPhrases(regionNames, categories = [], variantOr
     return {};
   }
 
+  // ADR-0014 (#102): scope-bound kind='depiction' records are canonical;
+  // region_biome_descriptions stays as fallback until it drops in #104.
+  try {
+    const narration = await loadTerrainPhrasesFromNarration(regionNames, categories, variantOrder);
+    if (Object.keys(narration).length > 0) {
+      return narration;
+    }
+  } catch (err) {
+    console.warn('⚠️ Could not load terrain phrases from places_narration:', err.message);
+  }
+
   const categoryFilter =
     Array.isArray(categories) && categories.length > 0
       ? 'AND category = ANY($2::text[])'
@@ -123,6 +134,46 @@ export async function loadTerrainPhrases(regionNames, categories = [], variantOr
           (map[region] ||= {})[category] = phrases;
           break;
         }
+      }
+    }
+  }
+  return map;
+}
+
+/**
+ * Narration path for loadTerrainPhrases: reads scope-bound kind='depiction'
+ * records (backfilled from region_biome_descriptions) and picks the first
+ * non-empty variant per region/category cell — same map shape as the
+ * legacy path. Returns {} when no records exist yet (pre-backfill DBs).
+ */
+async function loadTerrainPhrasesFromNarration(regionNames, categories, variantOrder) {
+  const categoryFilter =
+    Array.isArray(categories) && categories.length > 0
+      ? 'AND p.type = ANY($2::text[])'
+      : '';
+  const params = categories.length > 0 ? [regionNames, categories] : [regionNames];
+
+  const { rows } = await pool.query(
+    `SELECT p.payload->>'region_name' AS region_name,
+            p.type AS category,
+            p.payload->'variants' AS variants
+       FROM places_narration p
+      WHERE p.kind = 'depiction'
+        AND p.payload->>'origin' = 'backfill:region_biome_descriptions'
+        AND p.payload->>'region_name' = ANY($1::text[])
+        ${categoryFilter}`,
+    params
+  );
+
+  const order = [...(variantOrder || []), 'base'];
+  const map = {};
+  for (const row of rows) {
+    const variants = row.variants || {};
+    for (const variant of order) {
+      const phrases = variants[variant];
+      if (Array.isArray(phrases) && phrases.length > 0) {
+        (map[row.region_name] ||= {})[row.category] = phrases;
+        break;
       }
     }
   }

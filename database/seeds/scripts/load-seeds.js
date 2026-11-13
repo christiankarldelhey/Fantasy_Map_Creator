@@ -1051,6 +1051,49 @@ async function backfillOvernightRecords() {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Depiction backfill (ADR-0014, #102): region×category terrain phrase cells
+// become scope-bound kind='depiction' records — type=category × region_id,
+// season/weather phrase banks in payload.variants keyed by variant name.
+// Homonymous region names fan out to one record per matching region_id.
+// region_biome_descriptions stays as the seeded source (and reader fallback)
+// until it drops in #104.
+// ---------------------------------------------------------------------------
+async function backfillBiomeRecords() {
+  const res = await pool.query(
+    `INSERT INTO places_narration (id, kind, region_id, name, type, priority, tags, payload)
+     SELECT 'dep:biome:' || r.id || ':' || c.category, 'depiction', r.id,
+            c.category || ' of ' || r.name, c.category, 50, '{}',
+            jsonb_build_object(
+              'origin',      'backfill:region_biome_descriptions',
+              'region_name', r.name,
+              'category',    c.category,
+              'variants',    c.variants)
+     FROM (
+       SELECT region_name, category, jsonb_object_agg(variant, phrases) AS variants
+       FROM region_biome_descriptions
+       GROUP BY region_name, category
+     ) c
+     JOIN regions r ON r.name = c.region_name
+     ON CONFLICT (id) DO UPDATE SET
+       region_id = EXCLUDED.region_id, name = EXCLUDED.name,
+       type = EXCLUDED.type, priority = EXCLUDED.priority,
+       payload = EXCLUDED.payload`
+  );
+  const stale = await pool.query(
+    `DELETE FROM places_narration p
+     WHERE p.id LIKE 'dep:biome:%' AND NOT EXISTS (
+       SELECT 1 FROM region_biome_descriptions b
+       JOIN regions r ON r.name = b.region_name
+       WHERE 'dep:biome:' || r.id || ':' || b.category = p.id)
+     RETURNING p.id`
+  );
+  console.log(
+    `   🏔️  biome depictions: ${res.rowCount}` +
+    (stale.rowCount ? `, ${stale.rowCount} stale dropped` : '')
+  );
+}
+
 async function seedPlaces() {
   console.log('🗺️  Seeding places (authored fichas)...');
   const file = path.join(DATA_DIR, 'json/places.json');
@@ -1916,6 +1959,9 @@ async function main() {
 
     // Overnight records backfill needs places_interactions freshly seeded.
     await backfillOvernightRecords();
+
+    // Biome depictions need region_biome_descriptions + variants seeded.
+    await backfillBiomeRecords();
 
     await seedMovers();
 
