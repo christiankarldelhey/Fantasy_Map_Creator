@@ -927,10 +927,9 @@ async function ensureSchema() {
     CREATE INDEX IF NOT EXISTS idx_locations_region_id ON locations(region_id)
   `);
 
-  // --- trip_days extra columns (migration: add_places_interaction_columns_to_trip_days.sql) ---
-  // places_interaction_id is intentionally NOT added anymore: the overnight
-  // pointer is places_narration_id (add_places_narration_id_to_trip_days.sql);
-  // the legacy column + table drop in drop_legacy_narrative_tables.sql (#104).
+  // --- trip_days rest tracking columns ---
+  // The overnight pointer is places_narration_id
+  // (add_places_narration_id_to_trip_days.sql, #104).
   await pool.query(`
     ALTER TABLE trip_days
       ADD COLUMN IF NOT EXISTS rest_quality  SMALLINT,
