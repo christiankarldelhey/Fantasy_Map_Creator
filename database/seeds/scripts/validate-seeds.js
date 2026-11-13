@@ -350,6 +350,20 @@ async function validateDepictionLinks() {
     } else {
       console.log(`⚠️  ${dead.length} depiction records no feature points at: ${dead.map((d) => d.id).slice(0, 10).join(', ')}`);
     }
+
+    // overnight records must carry at least one scope dimension — a
+    // scopeless record can never be resolved (old chk_scope equivalent).
+    const { rows: [scopeless] } = await pool.query(
+      `SELECT COUNT(*)::int AS n FROM places_narration
+       WHERE kind = 'overnight'
+         AND location_id IS NULL AND type IS NULL
+         AND region_id IS NULL AND cultural_family IS NULL`
+    );
+    if (scopeless.n === 0) {
+      console.log('✅ overnight records: all carry a scope');
+    } else {
+      console.log(`⚠️  ${scopeless.n} overnight records with no scope dimension (unresolvable)`);
+    }
   } catch (error) {
     console.log(`❌ Error validating depiction links: ${error.message}`);
   }

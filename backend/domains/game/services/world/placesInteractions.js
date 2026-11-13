@@ -20,13 +20,33 @@ export function clearPlacesInteractionsCache() {
 async function loadInteractions(interactionType) {
   if (CACHE.has(interactionType)) return CACHE.get(interactionType);
 
-  const { rows } = await pool.query(
-    `SELECT id, interaction_type, location_id, location_type, region_id,
-            cultural_family, title, description, rest_quality, shadow_effect, priority
-     FROM places_interactions
-     WHERE interaction_type = $1`,
-    [interactionType]
-  );
+  // ADR-0014: kind='overnight' records in places_narration are canonical;
+  // places_interactions stays as the seeded source until it drops in #104.
+  let rows = [];
+  if (interactionType === 'overnight') {
+    const res = await pool.query(
+      `SELECT (payload->>'legacy_id')::int AS id, 'overnight' AS interaction_type,
+              location_id, type AS location_type, region_id, cultural_family,
+              payload->>'title' AS title,
+              payload->'description'->>'en' AS description,
+              (payload->'mechanics'->>'rest_quality')::smallint AS rest_quality,
+              (payload->'mechanics'->>'shadow_effect')::smallint AS shadow_effect,
+              priority
+       FROM places_narration
+       WHERE kind = 'overnight'`
+    );
+    rows = res.rows;
+  }
+  if (rows.length === 0) {
+    const res = await pool.query(
+      `SELECT id, interaction_type, location_id, location_type, region_id,
+              cultural_family, title, description, rest_quality, shadow_effect, priority
+       FROM places_interactions
+       WHERE interaction_type = $1`,
+      [interactionType]
+    );
+    rows = res.rows;
+  }
 
   CACHE.set(interactionType, rows);
   return rows;

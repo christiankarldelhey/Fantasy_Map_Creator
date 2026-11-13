@@ -1009,6 +1009,48 @@ async function backfillRegionRecords() {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Overnight records (ADR-0014, #101): places_interactions folds into
+// places_narration as kind='overnight'. Scope columns map 1:1
+// (location_id, location_type → type, region_id, cultural_family, priority);
+// mechanics and prose go to payload; legacy_id keeps trip_days' integer FK
+// valid until the source table drops in #104.
+// ---------------------------------------------------------------------------
+async function backfillOvernightRecords() {
+  const res = await pool.query(
+    `INSERT INTO places_narration
+       (id, kind, location_id, region_id, name, type, cultural_family, priority, tags, payload)
+     SELECT 'ovn:' || pi.id, 'overnight', pi.location_id, pi.region_id, pi.title,
+            pi.location_type, pi.cultural_family, pi.priority, '{}',
+            jsonb_build_object(
+              'title', pi.title,
+              'description', jsonb_build_object('en', pi.description),
+              'mechanics', jsonb_build_object(
+                'rest_quality', pi.rest_quality,
+                'shadow_effect', pi.shadow_effect),
+              'legacy_id', pi.id,
+              'origin', 'backfill:places_interactions')
+     FROM places_interactions pi
+     WHERE pi.interaction_type = 'overnight'
+     ON CONFLICT (id) DO UPDATE SET
+       location_id = EXCLUDED.location_id, region_id = EXCLUDED.region_id,
+       name = EXCLUDED.name, type = EXCLUDED.type,
+       cultural_family = EXCLUDED.cultural_family, priority = EXCLUDED.priority,
+       payload = EXCLUDED.payload`
+  );
+  const stale = await pool.query(
+    `DELETE FROM places_narration p
+     WHERE p.id LIKE 'ovn:%' AND NOT EXISTS (
+       SELECT 1 FROM places_interactions pi
+       WHERE 'ovn:' || pi.id = p.id AND pi.interaction_type = 'overnight')
+     RETURNING p.id`
+  );
+  console.log(
+    `   🌙 overnight records: ${res.rowCount}` +
+    (stale.rowCount ? `, ${stale.rowCount} stale dropped` : '')
+  );
+}
+
 async function seedPlaces() {
   console.log('🗺️  Seeding places (authored fichas)...');
   const file = path.join(DATA_DIR, 'json/places.json');
@@ -1102,7 +1144,8 @@ async function seedPlaces() {
      WHERE p.location_id = l.id AND p.geom IS NULL`
   );
 
-  // Gazetteer prose → depiction/region/kingdom records, then materialize.
+  // Gazetteer prose → depiction/region/kingdom records, then links.
+  // (overnight records come later in main(), after their source table seeds)
   await backfillDepictions();
   await backfillRegionRecords();
 
@@ -1870,6 +1913,9 @@ async function main() {
     await seedPlaces();
 
     await seedPlacesInteractions();
+
+    // Overnight records backfill needs places_interactions freshly seeded.
+    await backfillOvernightRecords();
 
     await seedMovers();
 
