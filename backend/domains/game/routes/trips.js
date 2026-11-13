@@ -357,6 +357,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       shadowFactor: dayShadowFactor,
       shadowBand: sBand,
       characterSlug: character.slug || null,
+      startState,
     });
     if (!day) {
       return res.status(409).json({ error: 'Trip is already complete; no more days to generate' });

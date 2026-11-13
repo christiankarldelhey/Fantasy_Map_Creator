@@ -231,7 +231,11 @@ export function resolveDayState({
 
   const restQuality = day.overnight_interaction?.rest_quality ?? null;
   const effectiveRestQuality = lodging.restQuality != null ? lodging.restQuality : restQuality;
-  const shadowEffect = day.overnight_interaction?.shadow_effect ?? 0;
+  // Ambient situations (ADR-0015): the wind of Angmar wears the spirit too —
+  // their outcome shadow_effect rides the same rail as the night's.
+  const ambientShadow = (day.ambient || [])
+    .reduce((sum, a) => sum + (Number(a?.effects?.shadow_effect) || 0), 0);
+  const shadowEffect = (day.overnight_interaction?.shadow_effect ?? 0) + ambientShadow;
 
   // Energy and shadow deltas: the only place these are computed for a day.
   const { delta: energyDelta } = computeEnergyDelta({

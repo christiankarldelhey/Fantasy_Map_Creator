@@ -8,6 +8,7 @@ import {
 } from './encounters.js';
 import { resolveEncounter } from './interactionResolver.js';
 import { resolveOvernight, resolveRegionAtPoint } from './placesInteractions.js';
+import { resolveAmbientVoice } from './ambientVoice.js';
 import {
   flattenRoute,
   totalSeconds,
@@ -628,7 +629,7 @@ async function buildNightRegionResolver(campPoint) {
  * @param {Array<string>} [params.recentForms] - forms used in previous chapters (anti-repetition)
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, characterSlug = null, usedRegionDescriptions = {}, usedTerrainPhrases = {} }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, characterSlug = null, usedRegionDescriptions = {}, usedTerrainPhrases = {}, startState = null }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -1023,6 +1024,24 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     };
   });
 
+  // --- Ambient voice: tag-gated situations of the regions crossed today ---
+  // The world emits the day's tag set (stay counts, entry, season, weather,
+  // ground, body/mind); each ambient record's situations fire against it.
+  const crossedTypes = [
+    ...(context.biomes || []).map((b) => b.type),
+    ...(context.altitude || []),
+  ];
+  const ambient = await resolveAmbientVoice({
+    tripId: trip.id,
+    dayNumber,
+    todayRegions: orderedRegions,
+    dateISO: date,
+    variantOrder,
+    crossedTypes,
+    startState,
+    rng,
+  });
+
   // --- Elevation profile: 3-point DEM sampling ---
   const elevationProfile = await sampleElevationProfile(segments, dayStartSeconds, dayEndSeconds);
 
@@ -1049,6 +1068,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     water_sources: waterSources,
     overnight_location: overnightLocation,
     overnight_interaction: overnightInteraction,
+    ambient,
     commands: dayCommands,
     elevation_profile: elevationProfile || null,
     rng,

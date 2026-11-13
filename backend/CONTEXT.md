@@ -72,16 +72,20 @@ A `place` record is always one specific spot where the traveller feels something
 _Avoid_: site, encounter card, quest
 
 **Narration**:
-The whole quiet narrative layer — every record the world tells about a place, feature or scope, in one table (`places_narration`). Kinds: `place`, `ambient`, `arrival`, `lore` (fichas), `depiction` (a feature's or scope's description — including region and kingdom prose) and `interaction` (anything that changes the traveller's state: `action='rest'` for the old `places_interactions` overnights, `action='offer'` for authored offers). Beings are never Narration: entities and movers are encounters, a separate family.
-_Avoid_: places table, interactions table, descriptions
+The whole quiet narrative layer — every record the world tells about a place, feature or scope, in one table (`places_narration`, ADR-0015). Two kinds only: `place` (anchored ficha with radii) and `ambient` (every other scope-bound voice — region/biome/water depictions, atmosphere, arrivals, lore). All records share one shape: prose lives in universal columns (`aspect` for the face seen from outside, `presence` for being there, plus `lore`/`secret`/`sections`/`facts`/`notes`/`channel`/`traveller_use`/`variants`/`rotation`); `payload` keeps provenance only. Conditional and mechanical content lives in `interactive` — tag-gated situations with mutually-exclusive options whose outcomes carry text + effects; any record may carry it, it is not a kind. Beings are never Narration: entities and movers are encounters, a separate family.
+_Avoid_: places table, interactions table, description column, mechanics column
+
+**Tag set**:
+The closed vocabulary that gates conditional narrative (registry `tags.json` → `narration_tags`). The world emits it per day — `region_day:N`/`entry:first`/`entry_count:N`/`days_since_exit:N` (stay arithmetic from `trip_days.regions`), `season:*`, `weather:*`, `ground:*`, `phase:*`, plus state tags from the character (`mind:fatigue`, `mind:hunger`, `mind:thirst`, `mind:melancholy`). A situation is a candidate when all its `tags` are present and no `not_tags` are; `ambientVoice.js` resolves the day's situations and picks each option by driver tag — automatic selection by character state until the higher self exposes choices.
+_Avoid_: conditions DSL, triggers
 
 **Depiction**:
-A narrative record that says what a gazetteer feature *is like* — this lake, any river in Dunland, streams in general, or a whole region/kingdom. Bound 1:1 to its feature by `depiction_id`, or scope-bound by `type`/`region_id`/`cultural_family` when it is generic. Not a Place: it describes what exists, it does not add a spot.
+An `ambient` record that says what a gazetteer feature *is like* — this lake, any river in Dunland, or a whole region/kingdom. Bound 1:1 to its feature by `depiction_id` (its prose lives in `aspect`/`rotation`), or scope-bound by `payload.region_name`/`payload.category` when generic. Not a Place: it describes what exists, it does not add a spot.
 _Avoid_: description, feature text
 
-**Interaction**:
-A narrative record the traveller *does* rather than reads — sleeping somewhere (`action='rest'`: prose plus `mechanics.rest_quality`/`shadow_effect`) or a world opportunity (`action='offer'`: trigger + options). Resolved through the same scope ladder; an anchored rest at a named inn is still one Interaction record, not a Place.
-_Avoid_: overnight table, mechanic card
+**Situation**:
+One entry of a record's `interactive[]`: a tag-gated moment (`tags`, `not_tags`, narrative `when`) containing mutually-exclusive `options` — each a driver `tag`, optional `skill`/`difficulty`, and `outcomes.{success,failure}.{text,effects}`. A single-option situation is "something that happens without a choice"; the old beats, offers and overnight rests are all situations now. `context:overnight` marks the rest rail.
+_Avoid_: interaction record, mechanic card
 
 **depiction_id**:
 The FK a geometry row (`water`, `biomes`, `roads`, `regions`, `locations`) carries to its narrative record — the *described-as* link. One feature has at most one Depiction; many features may share a record (every segment of a named road). Materialized by the seed from `refs`; `ON DELETE SET NULL` drops the link, never the feature.

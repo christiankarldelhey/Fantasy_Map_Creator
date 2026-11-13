@@ -112,6 +112,9 @@ function slimDay(d) {
     meals: (d.meals || []).map((m) => pick(m, ['slot', 'food', 'drink'])),
     overnight_location: d.overnight_location ?? null,
     overnight_interaction: d.overnight_interaction ?? null,
+    ambient: (d.ambient || []).map((a) =>
+      pick(a, ['record_id', 'situation_id', 'option_id', 'name', 'when', 'text', 'effects'])
+    ),
     elevation_profile: d.elevation_profile ?? null,
   };
 }

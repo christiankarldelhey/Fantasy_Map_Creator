@@ -338,6 +338,32 @@ function waterEvents(day) {
   }));
 }
 
+// Ambient voices (ADR-0015): the tag-gated situations the world resolved
+// for this day — the wind of a region, the silence of a valley. One event
+// carries every voice that fired; the mind hears the outcome text the
+// resolver already chose, never the candidate list.
+function ambientEvent(day) {
+  const voices = (day.ambient || []).filter((a) => a?.text);
+  if (!voices.length) return null;
+  const text = (v) => (typeof v === 'string' ? v : v?.en ?? null);
+  return {
+    type: 'ambient',
+    when: when(day),
+    where: where(regionOf(day)),
+    data: {
+      voices: voices.map((a) => ({
+        record: a.record_id ?? null,
+        name: text(a.name) ?? a.name?.en ?? null,
+        situation: a.situation_id ?? null,
+        text: text(a.text),
+        text_es: typeof a.text === 'object' ? a.text?.es ?? null : null,
+        effects: a.effects ?? undefined,
+      })),
+      reading: text(voices[0].text),
+    },
+  };
+}
+
 function restEvent(day) {
   const overnight = day.overnight_interaction || day.overnight_location;
   if (!overnight) return null;
@@ -449,6 +475,7 @@ export function toEvents({ day, trip, character, stateContext }) {
     ...mealEvents(day),
     ...placeEvents(day),
     ...waterEvents(day),
+    ...(ambientEvent(day) ? [ambientEvent(day)] : []),
     ...(restEvent(day) ? [restEvent(day)] : []),
     ...(bodyEvent(day, stateContext) ? [bodyEvent(day, stateContext)] : []),
   ];
