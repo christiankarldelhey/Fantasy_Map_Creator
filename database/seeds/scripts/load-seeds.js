@@ -805,8 +805,8 @@ async function backfillLocationRegions() {
 }
 
 // ---------------------------------------------------------------------------
-// Places: authored narrative records (fichas) layered over locations — ADR-0013.
-// Loads data/json/places.json into `places`; anchors records whose name exactly
+// Places: authored narrative records (fichas) layered over locations — ADR-0013/0014.
+// Loads data/json/places.json into `places_narration`; anchors records whose name exactly
 // matches a location (location_id + inherited geom); infers the two radii from
 // type tables; then replaces the anchored location's description with the
 // ficha `base` (canonical TA 3018 text). Writes an anchor-candidates report for
@@ -927,19 +927,19 @@ async function seedPlaces() {
     // Once a place is positioned, the georef tool owns its geometry fields
     // (geom, location_id, region_id, type, radii): a reseed must not wipe them.
     await pool.query(
-      `INSERT INTO places
+      `INSERT INTO places_narration
          (id, kind, location_id, place_ref, region_id, name, type, tags,
           geom, size_radius_km, influence_radius_km, payload)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12::jsonb)
        ON CONFLICT (id) DO UPDATE SET
          kind=EXCLUDED.kind, place_ref=EXCLUDED.place_ref,
          name=EXCLUDED.name, tags=EXCLUDED.tags, payload=EXCLUDED.payload,
-         location_id = CASE WHEN places.geom IS NULL THEN EXCLUDED.location_id ELSE places.location_id END,
-         region_id   = CASE WHEN places.geom IS NULL THEN EXCLUDED.region_id   ELSE places.region_id   END,
-         type        = CASE WHEN places.geom IS NULL THEN EXCLUDED.type        ELSE places.type        END,
-         size_radius_km      = CASE WHEN places.geom IS NULL THEN EXCLUDED.size_radius_km      ELSE places.size_radius_km      END,
-         influence_radius_km = CASE WHEN places.geom IS NULL THEN EXCLUDED.influence_radius_km ELSE places.influence_radius_km END,
-         geom = COALESCE(places.geom, EXCLUDED.geom)`,
+         location_id = CASE WHEN places_narration.geom IS NULL THEN EXCLUDED.location_id ELSE places_narration.location_id END,
+         region_id   = CASE WHEN places_narration.geom IS NULL THEN EXCLUDED.region_id   ELSE places_narration.region_id   END,
+         type        = CASE WHEN places_narration.geom IS NULL THEN EXCLUDED.type        ELSE places_narration.type        END,
+         size_radius_km      = CASE WHEN places_narration.geom IS NULL THEN EXCLUDED.size_radius_km      ELSE places_narration.size_radius_km      END,
+         influence_radius_km = CASE WHEN places_narration.geom IS NULL THEN EXCLUDED.influence_radius_km ELSE places_narration.influence_radius_km END,
+         geom = COALESCE(places_narration.geom, EXCLUDED.geom)`,
       [
         r.id, r.kind, locationId, r.place_ref || null, regionId,
         name, typeText, r.tags || [],
@@ -954,17 +954,17 @@ async function seedPlaces() {
   // are pruned only while unpositioned; positioned orphans are reported, not deleted.
   const ids = records.map((r) => r.id);
   const pruned = await pool.query(
-    'DELETE FROM places WHERE id <> ALL($1) AND geom IS NULL RETURNING id', [ids]
+    'DELETE FROM places_narration WHERE id <> ALL($1) AND geom IS NULL RETURNING id', [ids]
   );
   const { rows: orphans } = await pool.query(
-    'SELECT id FROM places WHERE id <> ALL($1)', [ids]
+    'SELECT id FROM places_narration WHERE id <> ALL($1)', [ids]
   );
   if (pruned.rowCount) console.log(`   🧹 pruned ${pruned.rowCount} unpositioned places no longer in JSON`);
   if (orphans.length) console.warn(`   ⚠️ positioned places no longer in JSON (kept): ${orphans.map((o) => o.id).join(', ')}`);
 
   // Anchored places inherit the location's geometry (hand-edited afterwards)
   const geomRes = await pool.query(
-    `UPDATE places p SET geom = l.geom
+    `UPDATE places_narration p SET geom = l.geom
      FROM locations l
      WHERE p.location_id = l.id AND p.geom IS NULL`
   );
@@ -1275,7 +1275,8 @@ async function ensureSchema() {
   await runMigrationFile('add_variant_to_region_biome_descriptions.sql');
   await runMigrationFile('create_region_seasonal_descriptions.sql');
   await runMigrationFile('create_movers_tables.sql');
-  await runMigrationFile('create_places_table.sql');
+  await runMigrationFile('create_places_narration_table.sql');
+  await runMigrationFile('add_depiction_id_to_geometry_tables.sql');
   await runMigrationFile('add_visible_in_map_to_locations.sql');
 
   console.log('✅ Schema ready\n');

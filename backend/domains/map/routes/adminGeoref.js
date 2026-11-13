@@ -30,7 +30,7 @@ router.get('/places', async (req, res, next) => {
               p.size_radius_km, p.influence_radius_km,
               p.geom IS NOT NULL AS positioned,
               ST_AsGeoJSON(p.geom)::json AS geom
-       FROM places p
+       FROM places_narration p
        WHERE p.kind = 'place' ${geomFilter}
        ORDER BY p.id`
     );
@@ -47,7 +47,7 @@ router.get('/places/:id', async (req, res, next) => {
       `SELECT p.id, p.kind, p.name, p.type, p.region_id, p.place_ref,
               p.location_id, p.tags, p.size_radius_km, p.influence_radius_km,
               ST_AsGeoJSON(p.geom)::json AS geom, p.payload
-       FROM places p WHERE p.id = $1`,
+       FROM places_narration p WHERE p.id = $1`,
       [req.params.id]
     );
     if (rows.length === 0) return res.status(404).json({ error: 'Place not found' });
@@ -74,7 +74,7 @@ router.get('/locations/nearby', async (req, res, next) => {
         `SELECT l.id, l.name, l.location_type, l.region_id,
                 ST_AsGeoJSON(l.geom)::json AS geom,
                 ROUND((ST_Distance(l.geom::geography, ${point}) / 1000)::numeric, 2) AS distance_km,
-                (SELECT COUNT(*) FROM places p WHERE p.location_id = l.id) AS anchored_places
+                (SELECT COUNT(*) FROM places_narration p WHERE p.location_id = l.id) AS anchored_places
          FROM locations l
          WHERE l.geom IS NOT NULL
            AND ST_DWithin(l.geom::geography, ${point}, $3 * 1000)
@@ -197,7 +197,7 @@ router.patch('/places/:id', async (req, res, next) => {
     }
 
     const { rows } = await pool.query(
-      `UPDATE places SET ${sets.join(', ')} WHERE id = $1
+      `UPDATE places_narration SET ${sets.join(', ')} WHERE id = $1
        RETURNING id, name, type, region_id, location_id,
                  size_radius_km, influence_radius_km,
                  ST_AsGeoJSON(geom)::json AS geom`,
