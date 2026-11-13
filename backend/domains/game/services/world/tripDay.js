@@ -310,13 +310,23 @@ async function sampleLegContext(legGeoJSON) {
           'inhabitants', l.inhabitants,
           'cultural_family', rg.cultural_family,
           'fraction', ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom)),
-          'distance_km', round((ST_Distance(l.geom::geography, leg.geom::geography) / 1000)::numeric, 2)
+          'distance_km', round((ST_Distance(l.geom::geography, leg.geom::geography) / 1000)::numeric, 2),
+          'size_radius_km', rad.size_km,
+          'influence_radius_km', rad.infl_km
         ) ORDER BY ST_LineLocatePoint(leg.geom, ST_ClosestPoint(leg.geom, l.geom))), '[]'::json)
         FROM locations l
         LEFT JOIN regions rg ON rg.id = l.region_id
         LEFT JOIN places_narration pd ON pd.id = l.depiction_id
+        -- A place's voice reaches as far as its anchored ficha's influence
+        -- radius (authored on the record); without one, the flat 10km window
+        -- stands. An influence of 0 means hidden unless crossed exactly.
+        LEFT JOIN LATERAL (
+          SELECT MAX(p.influence_radius_km) AS infl_km,
+                 MAX(p.size_radius_km) AS size_km
+            FROM places_narration p WHERE p.location_id = l.id
+        ) rad ON true
         , leg
-        WHERE ST_DWithin(l.geom::geography, leg.geom::geography, 10000)
+        WHERE ST_DWithin(l.geom::geography, leg.geom::geography, COALESCE(rad.infl_km, 10) * 1000)
           AND ST_Distance(l.geom::geography, ST_StartPoint(leg.geom)::geography) > 3000) AS locations,
        (SELECT COALESCE(json_agg(json_build_object(
           'name', w.name,
@@ -900,6 +910,8 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       inhabitants: l.inhabitants,
       cultural_family: l.cultural_family,
       distance_km: l.distance_km,
+      size_radius_km: l.size_radius_km,
+      influence_radius_km: l.influence_radius_km,
       hour_float: Number(hourFloat.toFixed(2)),
       hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,
       entered: !!overnightLocation && overnightLocation.id === l.id,

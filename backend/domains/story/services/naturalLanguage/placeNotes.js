@@ -15,9 +15,13 @@ const PROXIMITY_THROUGH = 'passes through';
 const PROXIMITY_CLOSE = 'passed close by';
 const PROXIMITY_DISTANT = 'passed at some distance';
 
-/** How the traveller met this place, from its distance to the road. */
-function proximityPhrase(distanceKm) {
-  if (distanceKm === 0) return PROXIMITY_THROUGH;
+/** How the traveller met this place, from its distance to the road. Within
+ * the place's authored size radius counts as through — a town's footprint,
+ * not just its centre point. */
+function proximityPhrase(distanceKm, sizeRadiusKm) {
+  if (distanceKm === 0 || (sizeRadiusKm != null && distanceKm != null && distanceKm <= sizeRadiusKm)) {
+    return PROXIMITY_THROUGH;
+  }
   if (distanceKm != null && distanceKm > DISTANT_SIGHTING_KM) return PROXIMITY_DISTANT;
   return PROXIMITY_CLOSE;
 }
@@ -60,7 +64,7 @@ export function collectLocationNotes(locations) {
     } else if (l.hostile) {
       proximity = `passed outside, ${when} — enemy country, no welcome there`;
     } else {
-      proximity = `${proximityPhrase(l.distance_km)}, ${when}`;
+      proximity = `${proximityPhrase(l.distance_km, l.size_radius_km)}, ${when}`;
     }
     notes.push(`- ${l.name}${kind}: ${proximity}.${descriptionSuffix(l.description)}`);
   }

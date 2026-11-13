@@ -293,10 +293,16 @@ async function fetchLocationsAlongRoute(routeWKT, coords, dists) {
            rg.cultural_family, rg.name AS region_name,
            ST_X(l.geom) AS lng, ST_Y(l.geom) AS lat,
            ST_Distance(l.geom::geography, route.geom::geography) AS off_route_m,
-           ST_LineLocatePoint(route.geom, ST_ClosestPoint(route.geom, l.geom)) AS fraction
+           ST_LineLocatePoint(route.geom, ST_ClosestPoint(route.geom, l.geom)) AS fraction,
+           rad.size_km AS size_radius_km
     FROM locations l
     LEFT JOIN regions rg ON rg.id = l.region_id
     LEFT JOIN places_narration pd ON pd.id = l.depiction_id
+    -- Authored footprint lives on the place's anchored ficha, if any.
+    LEFT JOIN LATERAL (
+      SELECT MAX(p.size_radius_km) AS size_km
+        FROM places_narration p WHERE p.location_id = l.id
+    ) rad ON true
     , route
     WHERE ST_DWithin(l.geom::geography, route.geom::geography, $2)
     ORDER BY fraction
@@ -314,6 +320,7 @@ async function fetchLocationsAlongRoute(routeWKT, coords, dists) {
     inhabitants: r.inhabitants,
     cultural_family: r.cultural_family,
     region_name: r.region_name,
+    size_radius_km: r.size_radius_km != null ? parseFloat(r.size_radius_km) : null,
     off_route_m: parseFloat(r.off_route_m) || 0,
     lng: parseFloat(r.lng),
     lat: parseFloat(r.lat),
@@ -420,7 +427,10 @@ export function computeDailyCheckpoints(totalTime, totalDist, candidates, coords
         if (c.distance_m <= prevDist + MIN_ADVANCE_M) continue;
         if (c.distance_m < windowStart || c.distance_m > windowEnd) continue;
         if (SETTLEMENT_ATTRACTION[c.type] || isHostileLocation(c)) continue;
-        if (c.off_route_m > LOCATION_ON_ROUTE_BUFFER_M) continue;
+        // 'On the road' means inside the place's authored footprint —
+        // a hamlet's fields count, not just its centre point.
+        const onRouteM = (c.size_radius_km ?? LOCATION_ON_ROUTE_BUFFER_M / 1000) * 1000;
+        if (c.off_route_m > onRouteM) continue;
         const delta = Math.abs(c.distance_m - targetDist);
         if (delta < bestDelta) {
           bestDelta = delta;
