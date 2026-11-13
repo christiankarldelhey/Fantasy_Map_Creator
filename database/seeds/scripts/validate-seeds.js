@@ -101,7 +101,41 @@ const VALIDATION_CONFIG = {
       column: 'leg_id',
       references: 'mover_legs.id'
     },
+    {
+      table: 'locations',
+      column: 'depiction_id',
+      references: 'places_narration.id'
+    },
+    {
+      table: 'water',
+      column: 'depiction_id',
+      references: 'places_narration.id'
+    },
+    {
+      table: 'biomes',
+      column: 'depiction_id',
+      references: 'places_narration.id'
+    },
+    {
+      table: 'roads',
+      column: 'depiction_id',
+      references: 'places_narration.id'
+    },
+    {
+      table: 'regions',
+      column: 'depiction_id',
+      references: 'places_narration.id'
+    },
   ],
+};
+
+// refs key → gazetteer table (ADR-0014); keep in sync with load-seeds.js.
+const REF_TABLES = {
+  water: 'water',
+  biome: 'biomes', biomes: 'biomes',
+  road: 'roads', roads: 'roads',
+  location: 'locations', locations: 'locations',
+  region: 'regions', regions: 'regions',
 };
 
 /**
@@ -224,6 +258,93 @@ async function validateForeignKeys() {
     } catch (error) {
       console.log(`❌ Error validating ${fk.table}.${fk.column}: ${error.message}`);
     }
+  }
+}
+
+/**
+ * Validate depiction links (ADR-0014): refs is the authored truth,
+ * depiction_id the materialized link. Checks:
+ *  - duplicate claims: two records listing the same feature in refs
+ *  - dangling refs: refs pointing at feature ids that do not exist
+ *  - dead depictions: kind='depiction' records no feature points at
+ */
+async function validateDepictionLinks() {
+  console.log('\n🖼️  Validating depiction links...');
+
+  const { rows: [reg] } = await pool.query(`SELECT to_regclass('places_narration') AS t`);
+  if (!reg.t) {
+    console.log('⚠️  places_narration not present; run the narration migration first');
+    return;
+  }
+
+  try {
+    const { rows: records } = await pool.query(
+      `SELECT id, payload->'refs' AS refs FROM places_narration WHERE payload ? 'refs'`
+    );
+
+    // feature key → claiming record ids
+    const claims = new Map();
+    const unknownKeys = [];
+    for (const r of records) {
+      for (const [key, ids] of Object.entries(r.refs || {})) {
+        const table = REF_TABLES[key];
+        if (!table) { unknownKeys.push(`${r.id}:${key}`); continue; }
+        for (const fid of ids || []) {
+          const fk = `${table}#${fid}`;
+          if (!claims.has(fk)) claims.set(fk, []);
+          claims.get(fk).push(r.id);
+        }
+      }
+    }
+
+    const dupes = [...claims.entries()].filter(([, rs]) => rs.length > 1);
+    if (dupes.length === 0) {
+      console.log('✅ refs: no duplicate feature claims');
+    } else {
+      console.log(`⚠️  refs: ${dupes.length} features claimed by multiple records`);
+      for (const [fk, rs] of dupes.slice(0, 10)) console.log(`   - ${fk}: ${rs.join(', ')}`);
+    }
+
+    if (unknownKeys.length) {
+      console.log(`⚠️  refs: ${unknownKeys.length} unknown refs keys: ${unknownKeys.slice(0, 10).join(', ')}`);
+    }
+
+    // dangling refs → feature id not present in its table
+    const byTable = new Map();
+    for (const fk of claims.keys()) {
+      const [table, fid] = fk.split('#');
+      if (!byTable.has(table)) byTable.set(table, []);
+      byTable.get(table).push(Number(fid));
+    }
+    let dangling = 0;
+    for (const [table, ids] of byTable) {
+      const { rows } = await pool.query(
+        `SELECT id FROM ${table} WHERE id = ANY($1::int[])`, [ids]
+      );
+      const present = new Set(rows.map((r) => r.id));
+      const gone = ids.filter((i) => !present.has(i));
+      dangling += gone.length;
+      if (gone.length) console.log(`   - ${table}: ${gone.length} refs to missing ids (${gone.slice(0, 10).join(', ')})`);
+    }
+    if (dangling === 0) console.log('✅ refs: all feature ids exist');
+
+    // dead depictions: a record that depicts nothing
+    const { rows: dead } = await pool.query(
+      `SELECT p.id FROM places_narration p
+       WHERE p.kind = 'depiction'
+         AND NOT EXISTS (SELECT 1 FROM locations l WHERE l.depiction_id = p.id)
+         AND NOT EXISTS (SELECT 1 FROM water w     WHERE w.depiction_id = p.id)
+         AND NOT EXISTS (SELECT 1 FROM biomes b    WHERE b.depiction_id = p.id)
+         AND NOT EXISTS (SELECT 1 FROM roads r     WHERE r.depiction_id = p.id)
+         AND NOT EXISTS (SELECT 1 FROM regions g   WHERE g.depiction_id = p.id)`
+    );
+    if (dead.length === 0) {
+      console.log('✅ no dead depiction records');
+    } else {
+      console.log(`⚠️  ${dead.length} depiction records no feature points at: ${dead.map((d) => d.id).slice(0, 10).join(', ')}`);
+    }
+  } catch (error) {
+    console.log(`❌ Error validating depiction links: ${error.message}`);
   }
 }
 
@@ -442,6 +563,7 @@ async function main() {
     await validateTableCounts();
     await validateGeometries();
     await validateForeignKeys();
+    await validateDepictionLinks();
     await validateMovers();
     await validateDataFormats();
     await generateReport();

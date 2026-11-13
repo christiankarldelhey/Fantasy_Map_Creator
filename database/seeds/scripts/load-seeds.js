@@ -870,6 +870,17 @@ const PLACE_TYPE_RULES = [
 ];
 const DEFAULT_PLACE_RADII = [0.5, 15];
 
+// refs key → gazetteer table (ADR-0014): singular and plural spellings both
+// accepted; keep in sync with the copy in validate-seeds.js.
+const REF_TABLES = {
+  water: 'water',
+  biome: 'biomes', biomes: 'biomes',
+  road: 'roads', roads: 'roads',
+  location: 'locations', locations: 'locations',
+  region: 'regions', regions: 'regions',
+};
+const DEPICTION_TABLES = [...new Set(Object.values(REF_TABLES))];
+
 function placeTypeRadii(typeText) {
   const head = (typeText || '').toLowerCase();
   for (const [re, radii] of PLACE_TYPE_RULES) {
@@ -969,11 +980,48 @@ async function seedPlaces() {
      WHERE p.location_id = l.id AND p.geom IS NULL`
   );
 
+  // Materialize depiction_id from payload.refs (ADR-0014). refs is the
+  // authored truth; the FK column is a derived link rebuilt on every seed —
+  // clearing first makes reseeds and gazetteer re-imports converge to the
+  // JSON, never to drift.
+  const claims = [];
+  for (const r of records) {
+    for (const [key, ids] of Object.entries(r.refs || {})) {
+      const table = REF_TABLES[key];
+      if (!table) {
+        console.warn(`   ⚠️ ${r.id}: unknown refs key '${key}' (skipped)`);
+        continue;
+      }
+      for (const fid of ids || []) claims.push({ table, fid, rid: r.id });
+    }
+  }
+  for (const table of DEPICTION_TABLES) {
+    await pool.query(`UPDATE ${table} SET depiction_id = NULL WHERE depiction_id IS NOT NULL`);
+  }
+  let linked = 0, missing = 0;
+  const conflicts = [];
+  for (const { table, fid, rid } of claims) {
+    const res = await pool.query(
+      `UPDATE ${table} SET depiction_id = $1 WHERE id = $2 AND depiction_id IS NULL`,
+      [rid, fid]
+    );
+    if (res.rowCount === 1) { linked += 1; continue; }
+    const { rows } = await pool.query(
+      `SELECT depiction_id FROM ${table} WHERE id = $1`, [fid]
+    );
+    if (!rows.length) missing += 1;
+    else conflicts.push({ record: rid, table, feature: fid, claimedBy: rows[0].depiction_id });
+  }
+  if (conflicts.length || missing) {
+    console.warn(`   ⚠️ depiction links: ${conflicts.length} conflicts, ${missing} refs to missing feature ids`);
+    for (const c of conflicts) console.warn(`      ${c.record} → ${c.table}#${c.feature} already claimed by ${c.claimedBy}`);
+  }
+
   const reportPath = path.join(DATA_DIR, 'json/place-anchor-candidates.json');
   await fs.writeFile(reportPath, JSON.stringify(candidates, null, 2));
   console.log(
     `✅ places: ${records.length} records, ${anchored} anchored by name, ` +
-    `${geomRes.rowCount} geom inherited, ` +
+    `${geomRes.rowCount} geom inherited, ${linked} depiction links, ` +
     `${candidates.length} anchor candidates → data/json/place-anchor-candidates.json`
   );
 }
