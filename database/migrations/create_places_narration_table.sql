@@ -1,45 +1,90 @@
--- Migration: Create places table
--- Date: 2026-07-15
--- Description: Authored narrative records (Places) — the fichas layer that sits
---              on top of the locations gazetteer. One row per record of
---              data/json/places.json: places, ambients, arrivals, offers and
---              regional lore contexts. Columns hold everything the engine
---              filters by; nested content (variants, secret, sections, beats,
---              options) lives whole in payload JSONB.
---              See docs/adr/0013 and backend/CONTEXT.md ("Places").
+-- Migration: places → places_narration
+-- Date: 2026-11-13
+-- Description: ADR-0014 — one table for all quiet narrative. Renames the
+--              legacy `places` ficha table when present, creates
+--              `places_narration` when neither exists, widens the kind
+--              CHECK to the narration kinds, and adds the scope columns
+--              (cultural_family, priority). `geom` is kept for now —
+--              it goes dark as readers migrate and is dropped in the
+--              final cleanup issue (#104).
+--              See docs/adr/0014 and backend/CONTEXT.md ("Narration").
 
-CREATE TABLE IF NOT EXISTS places (
-  id                  TEXT PRIMARY KEY,               -- ficha code: 'E-01', 'ctx_...', offer ids
-  kind                TEXT NOT NULL                   -- place | ambient | arrival | offer | lore
-                      CHECK (kind IN ('place','ambient','arrival','offer','lore')),
-  location_id         INTEGER REFERENCES locations(id), -- NULL until anchored/positioned
-  place_ref           TEXT,                           -- offer → parent place id
-  region_id           INTEGER REFERENCES regions(id), -- primary region; full list in payload.region_ids
+-- 1) Rename the legacy table. Guarded: a DB that already renamed (or never
+--    had `places`) takes the create path below. The kind CHECK keeps its old
+--    name `places_kind_check` after rename, so drop it here while the legacy
+--    name is still known.
+DO $$
+BEGIN
+  IF to_regclass('public.places') IS NOT NULL
+     AND to_regclass('public.places_narration') IS NULL THEN
+    ALTER TABLE places RENAME TO places_narration;
+    ALTER TABLE places_narration DROP CONSTRAINT IF EXISTS places_kind_check;
+    -- Rename indexes so the CREATE INDEX IF NOT EXISTS statements below stay
+    -- no-ops on renamed databases (index names are schema-global).
+    ALTER INDEX IF EXISTS idx_places_kind      RENAME TO idx_pn_kind;
+    ALTER INDEX IF EXISTS idx_places_region    RENAME TO idx_pn_region;
+    ALTER INDEX IF EXISTS idx_places_location  RENAME TO idx_pn_location;
+    ALTER INDEX IF EXISTS idx_places_place_ref RENAME TO idx_pn_place_ref;
+    ALTER INDEX IF EXISTS idx_places_geom      RENAME TO idx_pn_geom;
+    ALTER INDEX IF EXISTS idx_places_tags      RENAME TO idx_pn_tags;
+    ALTER INDEX IF EXISTS idx_places_payload   RENAME TO idx_pn_payload;
+  END IF;
+END $$;
+
+CREATE TABLE IF NOT EXISTS places_narration (
+  id                  TEXT PRIMARY KEY,               -- ficha code: 'E-01', offer ids, 'dep:loc:…'
+  kind                TEXT NOT NULL                   -- narration kinds, see CHECK below
+                      CHECK (kind IN ('place','ambient','arrival','offer','lore',
+                                      'depiction','region','overnight','kingdom')),
+  location_id         INTEGER REFERENCES locations(id), -- hosted-at anchor (1:N); NULL until positioned
+  place_ref           TEXT,                           -- offer → parent record id
+  region_id           INTEGER REFERENCES regions(id), -- primary region / scope region
   name                TEXT,
-  type                TEXT,
+  type                TEXT,                           -- ficha type; depiction scope: feature class
+  cultural_family     TEXT,                           -- scope dimension (generalized from places_interactions)
+  priority            SMALLINT NOT NULL DEFAULT 0,    -- tie-breaker between competing records
   tags                TEXT[] NOT NULL DEFAULT '{}',
-  geom                geometry(Geometry, 4326),       -- Point | LineString | Polygon; NULL for
-                                                      -- ambients/arrivals/lore/offers or until
-                                                      -- a place is hand-positioned
+  geom                geometry(Geometry, 4326),       -- DEPRECATED (ADR-0014): position is borrowed
+                                                      -- from the anchor feature; kept until #104
   size_radius_km      NUMERIC(8,2),                   -- traveller is *at* the place
   influence_radius_km NUMERIC(8,2),                   -- askable / felt from afar
   payload             JSONB NOT NULL DEFAULT '{}'::jsonb
 );
 
-CREATE INDEX IF NOT EXISTS idx_places_kind      ON places(kind);
-CREATE INDEX IF NOT EXISTS idx_places_region    ON places(region_id);
-CREATE INDEX IF NOT EXISTS idx_places_location  ON places(location_id) WHERE location_id IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_places_place_ref ON places(place_ref)   WHERE place_ref IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_places_geom      ON places USING GIST(geom) WHERE geom IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_places_tags      ON places USING GIN(tags);
-CREATE INDEX IF NOT EXISTS idx_places_payload   ON places USING GIN(payload);
+-- Columns for tables that predate this definition (rename path above, or an
+-- early places_narration created before they were added).
+ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS cultural_family TEXT;
+ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS priority SMALLINT NOT NULL DEFAULT 0;
 
-COMMENT ON TABLE  places IS 'Authored narrative records (fichas) layered over the locations gazetteer — ADR-0013';
-COMMENT ON COLUMN places.kind IS 'place | ambient | arrival | offer | lore';
-COMMENT ON COLUMN places.location_id IS 'Anchors a place to its gazetteer location; NULL until anchored';
-COMMENT ON COLUMN places.place_ref IS 'Offer → parent place id (no FK: payload-first records)';
-COMMENT ON COLUMN places.region_id IS 'Primary region (first of payload.region_ids)';
-COMMENT ON COLUMN places.geom IS 'Working geometry of any type — point/line/polygon; copied or merged from the source feature (location point, road line, biome/water polygon) at seed or during georef; hand-edited afterwards. Provenance in payload.refs, e.g. {"water":[42],"road":[12,13]}';
-COMMENT ON COLUMN places.size_radius_km IS 'Within it the traveller is AT the place (variants/secret/options)';
-COMMENT ON COLUMN places.influence_radius_km IS 'Within it the place is askable and felt from afar';
-COMMENT ON COLUMN places.payload IS 'Whole record: bilingual prose, variants, secret, sections, beats, options';
+-- Named CHECK for renamed legacy tables (fresh creates get it inline above).
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'places_narration_kind_check') THEN
+    ALTER TABLE places_narration
+      ADD CONSTRAINT places_narration_kind_check
+      CHECK (kind IN ('place','ambient','arrival','offer','lore',
+                      'depiction','region','overnight','kingdom'));
+  END IF;
+END $$;
+
+CREATE INDEX IF NOT EXISTS idx_pn_kind      ON places_narration(kind);
+CREATE INDEX IF NOT EXISTS idx_pn_region    ON places_narration(region_id);
+CREATE INDEX IF NOT EXISTS idx_pn_location  ON places_narration(location_id) WHERE location_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_pn_place_ref ON places_narration(place_ref)   WHERE place_ref IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_pn_scope     ON places_narration(type, region_id, cultural_family)
+  WHERE kind IN ('depiction','overnight');
+CREATE INDEX IF NOT EXISTS idx_pn_geom      ON places_narration USING GIST(geom) WHERE geom IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_pn_tags      ON places_narration USING GIN(tags);
+CREATE INDEX IF NOT EXISTS idx_pn_payload   ON places_narration USING GIN(payload);
+
+COMMENT ON TABLE  places_narration IS 'All quiet narrative — fichas plus depictions, region and overnight records — over a mute gazetteer (ADR-0014)';
+COMMENT ON COLUMN places_narration.kind IS 'place | ambient | arrival | offer | lore | depiction | region | overnight | kingdom';
+COMMENT ON COLUMN places_narration.location_id IS 'Hosted-at anchor to a gazetteer location; NULL until positioned';
+COMMENT ON COLUMN places_narration.place_ref IS 'Offer → parent record id (no FK: payload-first records)';
+COMMENT ON COLUMN places_narration.region_id IS 'Primary region (first of payload.region_ids); scope region for depictions';
+COMMENT ON COLUMN places_narration.cultural_family IS 'Scope dimension for generic records (from places_interactions)';
+COMMENT ON COLUMN places_narration.priority IS 'Tie-breaker when several records match a scope';
+COMMENT ON COLUMN places_narration.geom IS 'Deprecated: position is always borrowed (location_id / feature depiction_id). Kept until the final drop (#104)';
+COMMENT ON COLUMN places_narration.size_radius_km IS 'Within it the traveller is AT the place (variants/secret/options)';
+COMMENT ON COLUMN places_narration.influence_radius_km IS 'Within it the place is askable and felt from afar';
+COMMENT ON COLUMN places_narration.payload IS 'Whole record: bilingual prose, variants, secret, sections, beats, options, refs';
