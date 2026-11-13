@@ -19,7 +19,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables
-dotenv.config({ path: path.join(__dirname, '../../../../backend/.env') });
+dotenv.config({ path: path.join(__dirname, '../../../backend/.env') });
 
 const { Pool } = pg;
 
@@ -102,7 +102,7 @@ const EXPORT_CONFIG = {
   sqlTables: [
     {
       table: 'locations',
-      columns: ['id', 'name', 'location_type', 'population', 'inhabitants', 'description', 'region', 'image_url', 'external_id'],
+      columns: ['id', 'name', 'location_type', 'population', 'inhabitants', 'description', 'description_es', 'region', 'region_id', 'visible_in_map', 'image_url', 'external_id'],
       filename: 'locations.sql'
     },
     {

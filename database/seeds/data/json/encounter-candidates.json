@@ -1,0 +1,3582 @@
+{
+ "source": "places.json (lugares-v1) — pasada de especificidad",
+ "schema": "lugares-v1 + routing",
+ "note": "Fichas que no son lugares: encuentros, sucesos y residentes. Staging, no se seedean. Cada record lleva routing.target con el destino propuesto (npc_interactions, mover, event).",
+ "records": [
+  {
+   "id": "GZ-01",
+   "kind": "place",
+   "region_ids": [
+    2
+   ],
+   "region": "Gramuz",
+   "region_confidence": "high",
+   "name": {
+    "es": "La caravana",
+    "en": "The caravan"
+   },
+   "type": {
+    "es": "encuentro y transporte",
+    "en": "encounter and transport"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "la manera segura de cruzar",
+    "en": "the safe way across"
+   },
+   "tags": [
+    "tag:trade",
+    "tag:people",
+    "tag:social",
+    "tag:rest",
+    "tag:danger"
+   ],
+   "lore": {
+    "es": "Veinte o treinta carros, sesenta personas, mulas, y guardias contratados que cobran por jornada.\nSuben vino, sal y tela desde el sudeste. Bajan hierro de Erebor, manufactura, y los juguetes y la mercadería de Valle.\nEl maestro de caravana decide todo y no se discute: cuándo se para, dónde se duerme, a quién se deja subir.",
+    "en": "Twenty or thirty carts, sixty people, mules, and hired guards paid by the day.\nThey carry wine, salt and cloth up from the southeast. They carry Erebor iron, manufacture, and Dale toys and goods down.\nThe caravan master decides everything and it is not debated: when to stop, where to sleep, who is let aboard."
+   },
+   "base": {
+    "es": "Polvo primero. Después el ruido, que es de ruedas y de animales y no se parece a nada más en la región.\nSi pide ir con ellos, el maestro lo va a mirar de arriba abajo y va a decidir en diez segundos.\nSi lo aceptan, se avanza despacio y se duerme en círculo, con los carros afuera y los animales adentro, y hay guardia toda la noche.\nY se come bien, porque una caravana lleva cocina.",
+    "en": "Dust first. Then the noise, of wheels and animals, unlike anything else in the region.\nIf he asks to travel with them, the master will look him up and down and decide in ten seconds.\nIf accepted, progress is slow and they sleep in a circle, carts outside and animals in, watch all night.\nAnd the food is good, because a caravan carries a kitchen."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "routing": {
+    "target": "mover (March)",
+    "note": "Caravana con ruta y calendario: Esgaroth ↔ Dorwinion por el Celduin.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "gramuz_caravan",
+     "entity_uuid": "6c8ea246-4b30-541b-b634-c55ce4bdb63b"
+    }
+   }
+  },
+  {
+   "id": "gz01_caravan",
+   "kind": "offer",
+   "region_ids": [
+    2
+   ],
+   "region": "Gramuz",
+   "place_ref": "GZ-01",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "pagar para ir con ellos",
+     "result": {
+      "es": "Caro y seguro. Lento.",
+      "en": "Expensive and safe. Slow."
+     },
+     "effects": {
+      "es": "cruza la región · `dorwinion` o `norte` según quién sea",
+      "en": "crosses the region · `dorwinion` or `norte` depending who it is"
+     },
+     "requires": null
+    },
+    {
+     "id": "ofrecerse de guardia",
+     "result": {
+      "es": "Si tiene aspecto de servir, lo toman.",
+      "en": "If he looks useful, they take him."
+     },
+     "effects": {
+      "es": "cruza · monedas · riesgo",
+      "en": "crosses · coins · risk"
+     },
+     "requires": null
+    },
+    {
+     "id": "ofrecerse para cargar",
+     "result": {
+      "es": "Siempre hace falta. Pagan en comida y en viaje.",
+      "en": "Always needed. They pay in food and travel."
+     },
+     "effects": {
+      "es": "cruza · sin monedas",
+      "en": "crosses · no coins"
+     },
+     "requires": null
+    },
+    {
+     "id": "dejarlos pasar",
+     "result": {
+      "es": "Cruza solo. Rápido y expuesto.",
+      "en": "He crosses alone. Fast and exposed."
+     },
+     "effects": {
+      "es": "rápido · riesgo alto",
+      "en": "fast · high risk"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "---"
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "GZ-02",
+   "kind": "place",
+   "region_ids": [
+    2
+   ],
+   "region": "Gramuz",
+   "region_confidence": "high",
+   "name": {
+    "es": "El peaje",
+    "en": "The toll"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "un trámite que parece un asalto",
+    "en": "a procedure that looks like an ambush"
+   },
+   "tags": [
+    "tag:people",
+    "tag:easterling",
+    "tag:social",
+    "tag:danger",
+    "tag:trade"
+   ],
+   "lore": {
+    "es": "Los clanes cobran por pasar por su territorio. No es bandidaje: es su sistema, tiene tarifa y tiene reglas.\nAl que paga se lo deja ir, y a veces se lo acompaña un tramo.\nAl que no paga se le quita algo equivalente, y tampoco se lo mata.",
+    "en": "The clans charge for crossing their territory. It is not banditry: it is their system, it has a tariff and it has rules.\nWhoever pays is let go, and sometimes escorted a stretch.\nWhoever does not pay has something equivalent taken, and is not killed either."
+   },
+   "base": {
+    "es": "Seis u ocho jinetes en caballos chicos, que aparecen de una loma y lo rodean sin apuro.\nNo sacan nada. Uno se adelanta y habla, y habla la lengua común lo suficiente.\nLe pregunta de dónde viene, qué lleva, y adónde va, en ese orden.\nY después le dice un número.\nEl número es razonable. Deliberadamente razonable, porque el objetivo es que el camino siga teniendo tránsito.",
+    "en": "Six or eight riders on small horses, appearing off a hill and circling him unhurried.\nThey draw nothing. One comes forward and talks, and speaks the common tongue enough.\nHe asks where he comes from, what he carries, and where he goes, in that order.\nAnd then he names a number.\nThe number is reasonable. Deliberately reasonable, because the objective is for the road to keep having traffic."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "routing": {
+    "target": "npc_interactions",
+    "note": "Jinetes de clan cobrando peaje; cualquier tramo del camino de caravanas.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "gramuz_toll",
+     "entity_uuid": "60d03034-c694-520f-83a9-52ef21f668db"
+    }
+   }
+  },
+  {
+   "id": "gz02_toll",
+   "kind": "offer",
+   "region_ids": [
+    2
+   ],
+   "region": "Gramuz",
+   "place_ref": "GZ-02",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "pagar",
+     "result": {
+      "es": "Lo dejan ir. Y si pagó bien, lo acompañan medio día.",
+      "en": "They let him go. And if he paid well, they escort him half a day."
+     },
+     "effects": {
+      "es": "`clanes` sube · pierde algo",
+      "en": "`clanes` rises · loses something"
+     },
+     "requires": null
+    },
+    {
+     "id": "regatear",
+     "result": {
+      "es": "Les divierte. Baja un poco.",
+      "en": "It amuses them. It comes down a bit."
+     },
+     "effects": {
+      "es": "`clanes` sube más · tiempo",
+      "en": "`clanes` rises more · time"
+     },
+     "requires": null
+    },
+    {
+     "id": "decir que no lleva nada",
+     "result": {
+      "es": "Lo van a revisar, con cortesía, y si era cierto lo dejan ir sin cobrar.",
+      "en": "They will check, courteously, and if it was true they let him go uncharged."
+     },
+     "effects": {
+      "es": "ninguno",
+      "en": "none"
+     },
+     "requires": null
+    },
+    {
+     "id": "pelear",
+     "result": {
+      "es": "Son ocho a caballo.",
+      "en": "They are eight on horseback."
+     },
+     "effects": {
+      "es": "muy mala idea",
+      "en": "very bad idea"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "**Si lo acompañan:** esa media jornada es la más segura que va a tener en Gramuz, y es también donde más va a aprender sobre la región."
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "notes_en": [
+    "**If they escort him:** that half-day is the safest he will have in Gramuz, and also where he will learn most about the region."
+   ]
+  },
+  {
+   "id": "GZ-06",
+   "kind": "place",
+   "region_ids": [
+    2
+   ],
+   "region": "Gramuz",
+   "region_confidence": "high",
+   "name": {
+    "es": "Los que no son de nadie",
+    "en": "Those who belong to nobody"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "lo más incómodo de la región",
+    "en": "the most uncomfortable thing in the region"
+   },
+   "tags": [
+    "tag:people",
+    "tag:bandits",
+    "tag:danger",
+    "tag:social",
+    "tag:melancholy"
+   ],
+   "lore": {
+    "es": "Los bandidos de Gramuz no son un clan y no son un grupo: son gente suelta de los tres lados.\nOrientales expulsados de su clan. Norteños que se fueron de Esgaroth y no pueden volver. Barqueros que perdieron la barca.\nSe juntan, hacen dos o tres golpes, y se deshacen.\nLos clanes los detestan, porque les arruinan el negocio del peaje, y a veces los cazan ellos.",
+    "en": "Gramuz's bandits are not a clan and not a group: they are loose people from the three sides.\nEasterlings expelled from their clan. Northerners who left Esgaroth and cannot go back. Boatmen who lost their boat.\nThey band together, do two or three jobs, and break up.\nThe clans hate them, because they ruin the toll business, and sometimes hunt them themselves."
+   },
+   "base": {
+    "es": "Un campamento mal hecho en un bosquecillo: sin corral, sin orden, con basura.\nSon cinco o seis, están mal armados y están peor alimentados.\nY lo primero que nota es que **no hablan entre ellos la misma lengua**, y que el que manda no manda del todo.\nNo son temibles. Son desesperados, que es otra cosa y en algunos sentidos peor.",
+    "en": "A badly made camp in a copse: no pen, no order, rubbish about.\nThere are five or six, badly armed and worse fed.\nAnd the first thing he notices is that **they do not speak the same tongue among themselves**, and that the one in charge is not fully in charge.\nThey are not fearsome. They are desperate, which is another thing and in some ways worse."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "routing": {
+    "target": "npc_interactions",
+    "note": "Banda suelta que se arma y se deshace; sin sitio propio.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "landless_men",
+     "entity_uuid": "089a1f30-2bbb-5812-86cc-aa6d1a02f2a7"
+    }
+   }
+  },
+  {
+   "id": "gz06_bandits",
+   "kind": "offer",
+   "region_ids": [
+    2
+   ],
+   "region": "Gramuz",
+   "place_ref": "GZ-06",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "rodear sin que lo vean",
+     "result": {
+      "es": "Posible si los vio primero.",
+      "en": "Possible if he saw them first."
+     },
+     "effects": {
+      "es": "ninguno",
+      "en": "none"
+     },
+     "requires": null
+    },
+    {
+     "id": "acercarse hablando",
+     "result": {
+      "es": "Se puede negociar. Quieren comida más que otra cosa.",
+      "en": "Negotiable. They want food more than anything."
+     },
+     "effects": {
+      "es": "pierde provisiones · pasa",
+      "en": "loses provisions · passes"
+     },
+     "requires": null
+    },
+    {
+     "id": "darles algo antes de que pidan",
+     "result": {
+      "es": "Funciona bien y es barato.",
+      "en": "Works well and is cheap."
+     },
+     "effects": {
+      "es": "pierde poco",
+      "en": "loses little"
+     },
+     "requires": null
+    },
+    {
+     "id": "contarlo a un clan",
+     "result": {
+      "es": "Les interesa mucho y van a ir.",
+      "en": "Very interested and they will go."
+     },
+     "effects": {
+      "es": "`clanes` sube · consecuencia que no se narra",
+      "en": "`clanes` rises · unnarrated consequence"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "---"
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "GZ-08",
+   "kind": "place",
+   "region_ids": [
+    2
+   ],
+   "region": "Gramuz",
+   "region_confidence": "high",
+   "name": {
+    "es": "El carro de Valle",
+    "en": "The Dale cart"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "lo que baja del noroeste",
+    "en": "what comes down from the northwest"
+   },
+   "tags": [
+    "tag:trade",
+    "tag:people",
+    "tag:social",
+    "tag:humour"
+   ],
+   "lore": {
+    "es": "De Valle y de Erebor baja mercadería que no se parece a nada de lo que hay en el este, y a veces baja sola: un carro, dos personas, sin caravana.\nEsa gente es optimista de una manera que a los de acá les resulta incomprensible.",
+    "en": "From Dale and Erebor comes merchandise unlike anything in the east, and sometimes it comes alone: one cart, two people, no caravan.\nThose people are optimistic in a way the locals find incomprehensible."
+   },
+   "base": {
+    "es": "Un carro bien hecho, pintado, con toldo, tirado por dos animales buenos, con dos personas adelante que van conversando.\nLlevan cosas increíbles: herramienta enana, campanas, juguetes mecánicos, telas teñidas.\nY van solos, por el camino, con eso encima, hacia el sudeste.\nSi el viajero les pregunta si no les da miedo, le van a decir que ya pasaron otras veces y que nunca les pasó nada.",
+    "en": "A well-made cart, painted, with awning, drawn by two good animals, two people up front talking.\nThey carry incredible things: dwarven tools, bells, mechanical toys, dyed cloth.\nAnd they go alone, on the road, with that on board, southeastward.\nIf the traveller asks whether they are not afraid, they will say they have come through before and nothing ever happened to them."
+   },
+   "variants": [
+    {
+     "id": "si_el_viajero_los_vuelve_a_cruzar_de_vuelta",
+     "label": {
+      "es": "si el viajero los vuelve a cruzar de vuelta",
+      "en": "if the traveller meets them on the way back"
+     },
+     "condition": null,
+     "text": {
+      "es": "Pueden volver con el carro vacío y el bolsillo lleno, muy contentos.",
+      "en": "They may come back with an empty cart and a full purse, very happy."
+     }
+    },
+    {
+     "id": "si_el_viajero_los_vuelve_a_cruzar_de_vuelta",
+     "label": {
+      "es": "si el viajero los vuelve a cruzar de vuelta",
+      "en": "if the traveller meets them on the way back"
+     },
+     "condition": null,
+     "text": {
+      "es": "O puede no cruzarlos.",
+      "en": "Or he may not meet them."
+     }
+    }
+   ],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "routing": {
+    "target": "mover (March)",
+    "note": "Carro de Valle bajando hacia el sudeste; puede volver a cruzarse de vuelta.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "dale_cart",
+     "entity_uuid": "90a138d0-3f17-562f-8670-1c7575a0cbb9"
+    }
+   }
+  },
+  {
+   "id": "DG-06",
+   "kind": "place",
+   "region_ids": [
+    3
+   ],
+   "region": "Mirkwood Wilds",
+   "region_confidence": "high",
+   "name": {
+    "es": "Los que vienen de allá",
+    "en": "Those coming from there"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "gente, por fin",
+    "en": "people, at last"
+   },
+   "tags": [
+    "tag:people",
+    "tag:danger",
+    "tag:social",
+    "tag:uncanny"
+   ],
+   "lore": {
+    "es": "Por el camino, a veces, viene gente en sentido contrario. Hombres, de a dos o de a tres, con aspecto de llevar mucho tiempo afuera. Vienen del sur, o sea de donde está la fortaleza.\nSaludan. Son corteses. Preguntan de dónde viene y hacia dónde va, y escuchan la respuesta con atención.\nNo piden nada, no ofrecen nada y no amenazan. Siguen camino.",
+    "en": "On the road, sometimes, people come the other way. Men, two or three, looking like they have been out a long time. They come from the south, that is, from where the fortress is.\nThey greet him. They are courteous. They ask where he comes from and where he is going, and they listen to the answer carefully.\nThey ask for nothing, offer nothing and threaten nothing. They walk on."
+   },
+   "base": {
+    "es": "Son los primeros que ve en días y le hablan en su propia lengua, bien, sin acento del bosque.\nPreguntan por el camino de atrás: si está transitable, si vio a alguien, cuánta gente hay en el claro quemado esta semana. Preguntas razonables de gente que viaja.\nÉl contesta. Es difícil no contestar: hace doce días que no habla con nadie.\nCuando se van, se queda con la impresión de que la conversación fue de un solo lado y no sabe en qué momento pasó eso.",
+    "en": "They are the first he has seen in days and they speak his own language, well, without a forest accent.\nThey ask about the road behind: whether it is passable, whether he saw anyone, how many people are at the burned clearing this week. Reasonable questions from people who travel.\nHe answers. It is hard not to answer: he has spoken to nobody for twelve days.\nWhen they leave he is left with the impression that the conversation was one-sided, and he does not know when that happened."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "routing": {
+    "target": "npc_interactions",
+    "note": "Hombres que suben desde Dol Guldur por el camino; preguntan por el claro quemado (MW-01).",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "from_dor_guldur",
+     "entity_uuid": "3a647c8a-c3de-55f2-9128-446ffdf487ff"
+    }
+   }
+  },
+  {
+   "id": "dg06_talk",
+   "kind": "offer",
+   "region_ids": [
+    3
+   ],
+   "region": "Mirkwood Wilds",
+   "place_ref": "DG-06",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "contestar con naturalidad",
+     "result": {
+      "es": "Se van cordialmente.",
+      "en": "They leave cordially."
+     },
+     "effects": {
+      "es": "**marca `reported`**",
+      "en": "**mark `reported`**"
+     },
+     "requires": null
+    },
+    {
+     "id": "contestar poco",
+     "result": {
+      "es": "Insisten un poco y después se van.",
+      "en": "They press a little and then go."
+     },
+     "effects": {
+      "es": "`reported` leve",
+      "en": "`reported` light"
+     },
+     "requires": null
+    },
+    {
+     "id": "mentir sobre el rumbo",
+     "result": {
+      "es": "Se van. Uno se da vuelta a mirarlo cuando ya se separaron.",
+      "en": "They go. One turns to look at him once they have parted."
+     },
+     "effects": {
+      "es": "sombra sube",
+      "en": "shadow rises"
+     },
+     "requires": null
+    },
+    {
+     "id": "no hablar",
+     "result": {
+      "es": "Pasan de largo sin forzar.",
+      "en": "They pass without pressing."
+     },
+     "effects": {
+      "es": "ninguno",
+      "en": "none"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "**`reported`** sube la probabilidad de encuentro durante los días siguientes y hace que los encuentros ocurran **adelante** y no atrás: se cruza cosas que estaban esperando, no que lo seguían."
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "notes_en": [
+    "**`reported`** raises encounter probability for the following days and makes encounters happen **ahead** rather than behind: he runs into things that were waiting, not following."
+   ]
+  },
+  {
+   "id": "DG-10",
+   "kind": "place",
+   "region_ids": [
+    3
+   ],
+   "region": "Mirkwood Wilds",
+   "region_confidence": "high",
+   "name": {
+    "es": "El campamento",
+    "en": "The camp"
+   },
+   "type": {
+    "es": "hallazgo",
+    "en": "find"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "alguien como él",
+    "en": "someone like him"
+   },
+   "tags": [
+    "tag:signs",
+    "tag:people",
+    "tag:uncanny",
+    "tag:melancholy",
+    "tag:secret"
+   ],
+   "lore": {
+    "es": "Un campamento apagado hace pocas horas, junto al camino. No es de los que vienen del sur: es de alguien que iba, como él, y que acampó acá anteanoche o anoche.\nEstá completo. Nadie levantó nada.",
+    "en": "A camp gone cold a few hours ago, beside the road. Not one of those coming from the south: somebody who was going, like him, and camped here the night before last or last night.\nIt is complete. Nobody took anything."
+   },
+   "base": {
+    "es": "Ceniza todavía tibia en el borde de abajo. Un sitio aplanado en la hojarasca donde durmió alguien. Un palo clavado con una tira de tela atada, de las que se usan para colgar cosas y que no se las coman.\nY las cosas, que están. Un bulto cerrado, apoyado contra un tronco, derecho.\nNo hay desorden, no hay sangre, no hay señal de que nada haya pasado. Lo único que falta es la persona.",
+    "en": "Ash still warm at the bottom edge. A flattened place in the leaf-litter where somebody slept. A stake driven in with a strip of cloth tied to it, the kind used to hang things so they do not get eaten.\nAnd the things, which are there. A closed bundle, leaning against a trunk, upright.\nNo disorder, no blood, no sign that anything happened. The only thing missing is the person."
+   },
+   "variants": [],
+   "secret": {
+    "condition": {
+     "es": null,
+     "en": null
+    },
+    "text": {
+     "es": "*Si el viajero abre el bulto, o si mira alrededor del claro con atención.*\nEl bulto está bien hecho, atado como lo ata alguien que sabe. Adentro hay comida para varios días, cosas de abrigo y lo que uno lleva.\nNadie deja esto.\nY alrededor del claro, a la altura de la cabeza, hay ramas atadas entre dos árboles formando una figura de cuatro lados, con cordel nuevo.",
+     "en": "*If the traveller opens the bundle, or looks around the clearing carefully.*\nThe bundle is well made, tied the way somebody who knows ties. Inside is food for several days, warm things, the things one carries.\nNobody leaves this.\nAnd around the clearing, at head height, branches are tied between two trees forming a four-sided figure, with new cord."
+    }
+   },
+   "sections": [],
+   "beats": [],
+   "routing": {
+    "target": "event",
+    "note": "Hallazgo único junto al camino, zona DG; no es un sitio, es algo que pasó.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "abandoned_camp",
+     "entity_uuid": "c70773f1-3fc0-58d2-ae9d-7d3ecc4c3bc3"
+    }
+   }
+  },
+  {
+   "id": "dg10_take",
+   "kind": "offer",
+   "region_ids": [
+    3
+   ],
+   "region": "Mirkwood Wilds",
+   "place_ref": "DG-10",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "llevarse la comida",
+     "result": {
+      "es": "Es buena y le hace falta.",
+      "en": "It is good and he needs it."
+     },
+     "effects": {
+      "es": "comida varios días · sombra sube",
+      "en": "food for several days · shadow rises"
+     },
+     "requires": null
+    },
+    {
+     "id": "llevarse todo",
+     "result": {
+      "es": "Carga el bulto.",
+      "en": "He shoulders the bundle."
+     },
+     "effects": {
+      "es": "comida y equipo · **marca `seen`** · sombra sube fuerte",
+      "en": "food and gear · **mark `seen`** · shadow rises sharply"
+     },
+     "requires": null
+    },
+    {
+     "id": "dejarlo como está",
+     "result": {
+      "es": "Sigue camino. Mira hacia atrás una vez.",
+      "en": "He walks on. Looks back once."
+     },
+     "effects": {
+      "es": "ninguno",
+      "en": "none"
+     },
+     "requires": null
+    },
+    {
+     "id": "buscar a la persona",
+     "result": {
+      "es": "Pasa medio día llamando fuera del camino. No contesta nadie.",
+      "en": "He spends half a day calling off the road. Nobody answers."
+     },
+     "effects": {
+      "es": "medio día · riesgo de perderse · sombra sube",
+      "en": "half a day · risk of getting lost · shadow rises"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "---"
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "WM-04",
+   "kind": "place",
+   "region_ids": [
+    3
+   ],
+   "region": "Mirkwood Wilds",
+   "region_confidence": "high",
+   "name": {
+    "es": "El que habla de más",
+    "en": "The one who talks too much"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "lo único que se explica",
+    "en": "the only thing that is explained"
+   },
+   "tags": [
+    "tag:people",
+    "tag:social",
+    "tag:knowledge",
+    "tag:uncanny"
+   ],
+   "lore": {
+    "es": "Siempre hay uno. No es el mismo cada vez y no es nadie importante: alguien de mediana edad que se sienta al lado del forastero la segunda noche y habla más de lo que hablan los demás.\nCuenta cosas. Cuenta de dónde salieron las reglas, o lo que él cree. Cuenta qué pasó el año que alguien no encontró las marcas en el camino. Cuenta que su hermano, o su padre, o un vecino.\nAl día siguiente nadie menciona que esa conversación ocurrió. Tampoco lo niegan. Simplemente no está en la conversación de nadie, incluido el que habló.",
+    "en": "There is always one. It is not the same one every time and it is nobody important: somebody middle-aged who sits next to the stranger on the second night and talks more than the others talk.\nHe tells things. He tells where the rules came from, or what he believes. He tells what happened the year somebody did not find the marks on the road. He tells it about his brother, or his father, or a neighbour.\nThe next day nobody mentions that the conversation happened. They do not deny it either. It simply is not in anyone's conversation, including the one who talked."
+   },
+   "base": {
+    "es": "Se le sienta al lado sin pedir permiso y empieza por una pregunta sobre el afuera: cómo está el camino, qué se ve en el norte, si es cierto que en Esgaroth hay mercado todo el año.\nEscucha la respuesta con hambre. Después habla él.\nLo que cuenta tiene detalle, tiene nombres y tiene fechas. No es una leyenda: es un relato de alguien que estuvo cerca de algo.\nCuando termina, se queda callado un momento y después dice que es tarde, y se va.",
+    "en": "He sits down beside him without asking leave and begins with a question about the outside: how the road is, what there is to see in the north, whether it is true that Esgaroth has a market all year.\nHe listens to the answer hungrily. Then he talks.\nWhat he tells has detail, names and dates. It is not a legend: it is the account of somebody who was close to something.\nWhen he finishes he stays quiet a moment, then says it is late, and leaves."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "routing": {
+    "target": "mover (Resident @ WM-01)",
+    "note": "Vecino que habla de más la segunda noche en el pueblo de los Woodmen.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "the_talker",
+     "entity_uuid": "80a240c2-b04f-5594-8d03-2f77f99b779b"
+    }
+   }
+  },
+  {
+   "id": "wm04_listen",
+   "kind": "offer",
+   "region_ids": [
+    3
+   ],
+   "region": "Mirkwood Wilds",
+   "place_ref": "WM-04",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "escuchar y no preguntar",
+     "result": {
+      "es": "Habla hasta que se cansa.",
+      "en": "He talks until he is tired."
+     },
+     "effects": {
+      "es": "abre los secretos de `WM-02`, `DG-07` y `MW-07`",
+      "en": "opens the secrets of `WM-02`, `DG-07` and `MW-07`"
+     },
+     "requires": null
+    },
+    {
+     "id": "preguntar por las reglas",
+     "result": {
+      "es": "Contesta tres y se traba en la cuarta. Se va antes.",
+      "en": "He answers three and stumbles on the fourth. He leaves early."
+     },
+     "effects": {
+      "es": "abre dos de los tres",
+      "en": "opens two of the three"
+     },
+     "requires": null
+    },
+    {
+     "id": "preguntar por qué no se fueron del bosque",
+     "result": {
+      "es": "Deja de hablar. Dice que es tarde. No vuelve a acercarse.",
+      "en": "He stops talking. Says it is late. Does not come near again."
+     },
+     "effects": {
+      "es": "no abre nada · marca `pregunto_de_mas`",
+      "en": "opens nothing · mark `pregunto_de_mas`"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "**Con `pregunto_de_mas`,** el pueblo sigue tratándolo bien y a la mañana siguiente alguien le pregunta, con naturalidad, cuándo pensaba seguir viaje."
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "notes_en": [
+    "**With `pregunto_de_mas`,** the village keeps treating him the same and the next morning somebody asks him, casually, when he was planning to move on."
+   ]
+  },
+  {
+   "id": "WR-06",
+   "kind": "place",
+   "region_ids": [
+    3
+   ],
+   "region": "Mirkwood Wilds",
+   "region_confidence": "high",
+   "name": {
+    "es": "El guardia",
+    "en": "The guard"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "permiso, o no",
+    "en": "leave to pass, or not"
+   },
+   "tags": [
+    "tag:elvish",
+    "tag:social",
+    "tag:people",
+    "tag:uncanny"
+   ],
+   "lore": {
+    "es": "El camino del reino está vigilado, y la vigilancia no se ve hasta que se deja ver. Un Elfo aparece en el camino, delante, donde un momento antes no había nadie. No sale de atrás de un árbol: está.\nPregunta quién es y adónde va. Escucha. Y después deja pasar o no deja pasar, y no explica el criterio ni cambia de opinión.\nNo son hostiles. Son gente ocupada en algo serio que hace trescientos años que no termina.",
+    "en": "The realm's road is watched, and the watch is not seen until it lets itself be seen. An Elf appears on the road, ahead, where a moment before there was nobody. He does not step out from behind a tree: he is there.\nHe asks who the traveller is and where he is going. He listens. And then he lets him pass or does not let him pass, and explains no criterion and changes no mind.\nThey are not hostile. They are busy people at something serious that has not ended in three hundred years."
+   },
+   "base": {
+    "es": "Está caminando y hay alguien adelante, a veinte pasos, quieto, mirándolo.\nLe habla en su propia lengua, bien, y le hace dos preguntas. El tono no es el de un interrogatorio: es el de alguien que necesita el dato.\nDespués se queda callado un momento, y en ese momento el viajero entiende que lo están evaluando y que no tiene nada que hacer al respecto.",
+    "en": "He is walking and there is somebody ahead, twenty paces off, still, watching him.\nIt speaks to him in his own language, well, and asks two questions. The tone is not an interrogation's: it is that of somebody who needs the datum.\nThen it goes quiet a moment, and in that moment the traveller understands he is being weighed and that there is nothing he can do about it."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "routing": {
+    "target": "npc_interactions",
+    "note": "Guardia élfico en el camino del reino; aparece en cualquier tramo.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "woodland_guard",
+     "entity_uuid": "10a2d0d2-7e32-577b-8a7a-69b38a70f4d8"
+    }
+   }
+  },
+  {
+   "id": "wr06_answer",
+   "kind": "offer",
+   "region_ids": [
+    3
+   ],
+   "region": "Mirkwood Wilds",
+   "place_ref": "WR-06",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "decir la verdad",
+     "result": {
+      "es": "Lo deja pasar, salvo que lleve algo de Dol Guldur.",
+      "en": "He lets him pass, unless he carries something from Dol Guldur."
+     },
+     "effects": {
+      "es": "paso franco",
+      "en": "free passage"
+     },
+     "requires": null
+    },
+    {
+     "id": "decir la verdad y pedir ayuda",
+     "result": {
+      "es": "Lo deja pasar y le indica agua y un sitio para dormir. No lo acompaña.",
+      "en": "He lets him pass and points out water and a place to sleep. Does not go with him."
+     },
+     "effects": {
+      "es": "paso · `WR-07` revelado",
+      "en": "passage · `WR-07` revealed"
+     },
+     "requires": null
+    },
+    {
+     "id": "mentir",
+     "result": {
+      "es": "Lo deja pasar igual. Pero a partir de ahí aparece un guardia cada jornada, siempre distinto, siempre con las mismas dos preguntas.",
+      "en": "He lets him pass anyway. But from then on a guard appears every day, always a different one, always the same two questions."
+     },
+     "effects": {
+      "es": "paso · vigilancia permanente",
+      "en": "passage · permanent watch"
+     },
+     "requires": null
+    },
+    {
+     "id": "no contestar",
+     "result": {
+      "es": "No insiste. Se aparta del camino y lo deja seguir. Nadie lo molesta en todo el reino, y tampoco nadie le da nada.",
+      "en": "He does not insist. He steps off the road and lets him go on. Nobody bothers him in the whole realm, and nobody gives him anything either."
+     },
+     "effects": {
+      "es": "paso · ninguna ayuda",
+      "en": "passage · no help"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "**Si lleva `carries_hers`** o cualquier marca de Dol Guldur, el guardia no la nombra. Se queda callado más tiempo del normal y después dice que no, y el camino al reino queda cerrado. No hay forma de discutirlo y no hay forma de saber por qué."
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "notes_en": [
+    "**If he carries `carries_hers`** or any Dol Guldur mark, the guard does not name it. He stays quiet longer than usual and then says no, and the road into the realm is closed. There is no way to argue and no way to know why."
+   ]
+  },
+  {
+   "id": "ET-05",
+   "kind": "place",
+   "region_ids": [
+    1
+   ],
+   "region": "Eothraim",
+   "region_confidence": "high",
+   "name": {
+    "es": "La Aldea de los Carros",
+    "en": "The Wagon Village"
+   },
+   "type": {
+    "es": "asentamiento móvil",
+    "en": "mobile settlement"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:people",
+    "tag:social",
+    "tag:food",
+    "tag:rest",
+    "tag:landscape"
+   ],
+   "lore": {
+    "es": "**Dónde:** no es un sitio fijo: es donde esté. Tres o cuatro puntos conocidos de las llanuras, según la estación.\nLa mayoría de los Éothraim **no vive en burgos**.\nVive siguiendo a los rebaños, y lo que tiene por casa es un carro.\nY cuando paran, los carros se juntan y forman un pueblo que existe durante tres semanas y después deja de existir.",
+    "en": "**Where:** it is not a fixed place: it is wherever it is. Three or four known points on the plains, by season.\nMost of the Éothraim **do not live in burghs**.\nThey live following the herds, and what they have for a house is a wagon.\nAnd when they stop, the wagons join and form a village that exists for three weeks and then stops existing."
+   },
+   "base": {
+    "es": "Un círculo de carros, de ochenta o cien, con las lanzas hacia adentro y las ruedas calzadas, formando un recinto cerrado.\nAdentro, el ganado.\nY alrededor del círculo, por fuera, las tiendas de fieltro y los fuegos.\nLos carros son grandes, de cuatro ruedas, con toldo de cuero sobre arcos, y la familia duerme adentro.",
+    "en": "A circle of wagons, eighty or a hundred, shafts inward and wheels chocked, forming a closed yard.\nInside, the livestock.\nAnd around the circle, outside, the felt tents and the fires.\nThe wagons are big, four-wheeled, leather awning over hoops, and the family sleeps inside."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [
+    {
+     "key": "Lo que no hay",
+     "es": "Rastro.\nCuando se van, **no queda marca**: solo la hierba comida y las rodadas de las ruedas, y en una temporada ni eso.\nEsa gente posee la tierra moviéndose por ella.",
+     "en": "Trace.\nWhen they leave, **no mark remains**: only eaten grass and wheel ruts, and in a season not even that.\nThose people own the land by moving through it."
+    },
+    {
+     "key": "Lo que pasa cuando el viajero llega",
+     "es": "Lo ven desde lejos, mandan a dos, y si lo dejan entrar lo meten en una tienda y le dan de comer.\nY le van a preguntar cuánto vale, con toda naturalidad, porque **necesitan saber dónde sentarlo**.",
+     "en": "They see him from afar, send two, and if they let him in they put him in a tent and feed him.\nAnd they will ask him how much he is worth, quite naturally, because **they need to know where to seat him**."
+    }
+   ],
+   "beats": [],
+   "routing": {
+    "target": "mover (Presence)",
+    "note": "La Aldea de los Carros no deja rastro: existe donde esté. Presencia estacional por las llanuras.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "wagon_village",
+     "entity_uuid": "2e5ba412-a008-5830-8dfe-e58b053eed15"
+    }
+   }
+  },
+  {
+   "id": "DR-03",
+   "kind": "place",
+   "region_ids": [
+    6
+   ],
+   "region": "Dor Rhunen",
+   "region_confidence": "high",
+   "name": {
+    "es": "Las columnas",
+    "en": "The columns"
+   },
+   "type": {
+    "es": "paisaje y peligro",
+    "en": "landscape and danger"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:people",
+    "tag:danger",
+    "tag:easterling",
+    "tag:landscape",
+    "tag:secret"
+   ],
+   "lore": {
+    "es": "**Dónde:** en los caminos del este, a través de la estepa.\nPor esta estepa se mueven tribus: variags, nuriags, asdriags y otras.\nNo pertenecen a ningún reino. **Sus lealtades cambian con el viento y con quien haga mejor oferta.**\nY la sombra del sudoeste les dio forma a toda su política.",
+    "en": "**Where:** on the eastern roads, across the steppe.\nTribes move across this steppe: variags, nuriags, asdriags and others.\nThey belong to no realm. **Their loyalties change with the wind and with whoever makes the better offer.**\nAnd the shadow of the southwest has shaped all their politics."
+   },
+   "base": {
+    "es": "Polvo primero, durante horas.\nDespués, una columna: carros, jinetes, ganado, gente a pie, moviéndose en orden, kilómetros de larga.\nCruzan la estepa deprisa, con el agua calculada hasta el último odre, y no paran salvo donde hay que parar.",
+    "en": "Dust first, for hours.\nThen, a column: wagons, riders, livestock, people on foot, moving in order, miles long.\nThey cross the steppe fast, water calculated to the last skin, and do not stop except where stopping is needed."
+   },
+   "variants": [],
+   "secret": {
+    "condition": {
+     "es": null,
+     "en": null
+    },
+    "text": {
+     "es": "*Si el viajero ve varias columnas a lo largo de una temporada.*\nTodas van en la misma dirección.\n**Y no es la dirección de los pastos.**",
+     "en": "*If the traveller sees several columns over a season.*\nThey all go the same direction.\n**And it is not the direction of the pastures.**"
+    }
+   },
+   "sections": [
+    {
+     "key": "Lo que hacen si lo ven",
+     "es": "Depende del año y depende de quién sea la columna.\nLo más probable es que lo ignoren. Un hombre solo no vale el desvío.\nLo segundo más probable es que manden a tres a ver qué tiene.",
+     "en": "It depends on the year and on whose column it is.\nMost likely they ignore him. A lone man is not worth the detour.\nSecond most likely, they send three to see what he carries."
+    }
+   ],
+   "beats": [],
+   "routing": {
+    "target": "mover (March)",
+    "note": "Columnas de tribus del este cruzando la estepa hacia el sudoeste.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "rhunen_columns",
+     "entity_uuid": "ea6ecfbd-cb09-5424-b8cf-843a38926bad"
+    }
+   }
+  },
+  {
+   "id": "EH-06",
+   "kind": "place",
+   "region_ids": [
+    24
+   ],
+   "region": "Iron Hills",
+   "region_confidence": "high",
+   "name": {
+    "es": "Los que llegaron",
+    "en": "Those who came"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:dwarves",
+    "tag:social",
+    "tag:melancholy",
+    "tag:secret"
+   ],
+   "lore": {
+    "es": "**Dónde:** en el pueblo de arriba y en la explanada de la puerta.\nHace setenta y cinco años se recuperó Erebor, y eso movió a mucha gente por todo el norte.\nY antes de eso, y después, **estas colinas llevan generaciones recibiendo enanos jóvenes** de las Ered Luin.\nAcá hay trabajo, hay veta y hay futuro.",
+    "en": "**Where:** in the town above and on the gate's forecourt.\nSeventy-five years ago Erebor was won back, and that moved many people across the north.\nAnd before that, and after, **these hills have been receiving young dwarves** from the Ered Luin for generations.\nHere there is work, there is lode and there is future."
+   },
+   "base": {
+    "es": "Enanos de acento distinto.\nSi estuvo en las Montañas Azules, lo va a notar enseguida: hablan la lengua común con otra música, y usan palabras que allá no se usaban.\nY son jóvenes. Es la única comunidad enana del documento donde la mayoría lo es.",
+    "en": "Dwarves with a different accent.\nIf he has been in the Blue Mountains he will notice at once: they speak the common tongue with another music, and use words not used there.\nAnd they are young. It is the only dwarven community in the document where the majority is."
+   },
+   "variants": [],
+   "secret": {
+    "condition": {
+     "es": null,
+     "en": null
+    },
+    "text": {
+     "es": "*Si el viajero menciona Tumnogoth Iaur, o cualquier valle de las Ered Luin.*\nLe van a preguntar.\nY le van a preguntar por nombres concretos, igual que le preguntaron allá, y con la misma cara.\nLo que el viajero va a entender entonces es que **las dos mitades de la misma pregunta están a mil leguas una de otra**, y que ninguna de las dos recibe respuesta.",
+     "en": "*If the traveller mentions Tumnogoth Iaur, or any Ered Luin valley.*\nThey will ask him.\nAnd they will ask by concrete names, just as they asked him there, and with the same face.\nWhat the traveller will then understand is that **the two halves of the same question are a thousand leagues apart**, and neither half gets an answer."
+    }
+   },
+   "sections": [
+    {
+     "key": "Lo que hacen",
+     "es": "Trabajar mucho.\nSon los que están en las vetas nuevas, los que abren galería y los que cargan.\nLlevan cinco, diez o veinte años acá.",
+     "en": "Work a great deal.\nThey are the ones on the new lodes, the ones driving galleries and the ones hauling.\nThey have been here five, ten or twenty years."
+    },
+    {
+     "key": "Lo que no hacen",
+     "es": "Volver.",
+     "en": "Go back."
+    }
+   ],
+   "beats": [],
+   "routing": {
+    "target": "npc_interactions",
+    "note": "Enanos jóvenes llegados de las Ered Luin; en EH-05 y EH-02.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "iron_hills_newcomers",
+     "entity_uuid": "7a2bb7d8-cec9-5eed-b203-25f30435baf8"
+    }
+   }
+  },
+  {
+   "id": "EH-07",
+   "kind": "place",
+   "region_ids": [
+    24
+   ],
+   "region": "Iron Hills",
+   "region_confidence": "high",
+   "name": {
+    "es": "Los hombres salvajes",
+    "en": "The wild men"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:people",
+    "tag:danger",
+    "tag:social",
+    "tag:landscape",
+    "tag:navigation"
+   ],
+   "lore": {
+    "es": "**Dónde:** en las colinas exteriores, lejos del camino, en los valles que no llevan a ninguna mina.\nArriba vive gente que no es enana.\nLas colinas dentadas albergan bestias salvajes y **hombres salvajes**, y esa gente lleva acá tanto o más que los enanos.\nNo son un reino, no son un clan y no tienen nombre que usen con forasteros.",
+    "en": "**Where:** in the outer hills, far from the road, in valleys that lead to no mine.\nPeople who are not dwarves live up here.\nThe jagged hills harbour wild beasts and **wild men**, and those people have been here as long as the dwarves or longer.\nThey are not a kingdom, not a clan and have no name they use with outsiders."
+   },
+   "base": {
+    "es": "Campamentos chicos, de cuatro o cinco tiendas de piel, en los valles altos.\nRebaños de cabra, que es lo único que esta tierra alimenta.\nY gente flaca, dura, vestida de piel, con arcos cortos.",
+    "en": "Small camps, four or five hide tents, in the high valleys.\nGoat herds, the only thing this land feeds.\nAnd lean hard people, hide-clad, with short bows."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [
+    {
+     "key": "Cómo son",
+     "es": "No atacan a un viajero solo y sin nada. No vale la pena.\nY a un carro cargado, sí.\nPor eso el camino del este se viaja en convoy y por eso los enanos mandan escolta.",
+     "en": "They do not attack a lone traveller with nothing. Not worth it.\nA loaded cart, yes.\nThat is why the eastern road is travelled in convoy and why the dwarves send escort."
+    },
+    {
+     "key": "Lo que saben",
+     "es": "Las colinas, enteras.\nEsa gente conoce pasos y vaguadas que no están en ningún mapa, y si el viajero consigue caerle bien a alguno, puede cruzar estas colinas por donde nadie pasa.",
+     "en": "The hills, all of them.\nThese people know passes and dells that are on no map, and if the traveller manages to get on with one of them, he can cross these hills where nobody goes."
+    },
+    {
+     "key": "La relación con los de abajo",
+     "es": "Es de indiferencia mutua con episodios.\nLos enanos no suben y ellos no bajan, salvo cuando alguno decide que un convoy vale el riesgo.\nY entonces hay muertos y después se vuelve a lo de antes.",
+     "en": "Mutual indifference with episodes.\nThe dwarves do not go up and they do not come down, except when somebody decides a convoy is worth the risk.\nAnd then there are dead and afterward things go back to before."
+    }
+   ],
+   "beats": [],
+   "routing": {
+    "target": "mover (Presence)",
+    "note": "Hombres salvajes de las colinas exteriores; campamentos móviles de cabreros.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "iron_hills_wild_men",
+     "entity_uuid": "ae171f11-235e-528b-a3c7-d4f8a67a165b"
+    }
+   }
+  },
+  {
+   "id": "WR-05",
+   "kind": "place",
+   "region_ids": [
+    4
+   ],
+   "region": "Woodland Realm",
+   "region_confidence": "high",
+   "name": {
+    "es": "La fiesta",
+    "en": "The feast"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "nada que se pueda tener",
+    "en": "nothing one can have"
+   },
+   "tags": [
+    "tag:elvish",
+    "tag:night",
+    "tag:light",
+    "tag:food",
+    "tag:uncanny",
+    "tag:canon"
+   ],
+   "lore": {
+    "es": "De noche, en los claros del reino, a veces hay fiesta. Hay fuego y hay mesas y hay comida y hay canto, y se ve desde lejos entre los troncos: una luz tibia y amarilla en un bosque que lleva semanas siendo verde y oscuro.\nSi un extraño entra, las luces se apagan. No por maldad: los Elfos del Bosque no quieren ser mirados mientras comen, y un hombre que aparece en el borde del claro es una intrusión.\nSe apagan todas a la vez y en silencio, y cuando los ojos se acostumbran no hay claro, no hay mesas y no hay nadie.",
+    "en": "At night, in the realm's clearings, there is sometimes a feast. There is fire and tables and food and singing, and it can be seen from far between the trunks: a warm yellow light in a forest that has been green and dark for weeks.\nIf a stranger walks in, the lights go out. Not out of malice: the Wood-elves do not want to be watched while they eat, and a Man appearing at the clearing's edge is an intrusion.\nThey all go out at once and in silence, and when the eyes adjust there is no clearing, no tables and nobody."
+   },
+   "base": {
+    "es": "Está acampado o está caminando de noche, y hay luz entre los árboles. Esta vez hay olor a comida y hay voces que cantan, y las voces son claramente voces y cantan claramente bien.\nSi ya vio `MW-03`, lo primero que va a pensar es que son las otras luces. Y va a tardar en aceptar que estas no lo son, porque la única diferencia es el canto, y el canto podría ser parte del engaño.",
+    "en": "He is camped or walking at night, and there is light between the trees. This time there is a smell of food and voices singing, and the voices are clearly voices and clearly singing well.\nIf he has already seen `MW-03`, the first thing he will think is that they are the other lights. And it will take him a while to accept these are not, because the only difference is the singing, and the singing could be part of the deception."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "mover (March)",
+    "note": "Festín errante de elfos en el bosque: luces y canto que se desplazan, no un sitio fijo.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "wandering_feast",
+     "entity_uuid": "b41bd3ff-e9fd-5214-9add-bbda882bbb39"
+    }
+   }
+  },
+  {
+   "id": "wr05_approach",
+   "kind": "offer",
+   "region_ids": [
+    3
+   ],
+   "region": "Mirkwood Wilds",
+   "place_ref": "WR-05",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "quedarse donde está y mirar",
+     "result": {
+      "es": "La fiesta sigue toda la noche. A la mañana hay ceniza y marcas de pies en un claro que de día es un claro común.",
+      "en": "The feast goes on all night. In the morning there is ash and footprints in a clearing that by day is an ordinary clearing."
+     },
+     "effects": {
+      "es": "sueño perdido",
+      "en": "lost sleep"
+     },
+     "requires": null,
+     "mind": "recuerdo fijo, carga positiva",
+     "mind_en": "lasting memory, positive charge"
+    },
+    {
+     "id": "acercarse",
+     "result": {
+      "es": "Se apagan cuando llega al borde. Queda a oscuras, fuera del camino, en un claro vacío.",
+      "en": "They go out when he reaches the edge. He is left in the dark, off the road, in an empty clearing."
+     },
+     "effects": {
+      "es": "pierde el camino hasta el amanecer",
+      "en": "loses the road until dawn"
+     },
+     "requires": null
+    },
+    {
+     "id": "acercarse y hablar",
+     "result": {
+      "es": "Se apagan antes de que termine la primera palabra.",
+      "en": "They go out before he finishes the first word."
+     },
+     "effects": {
+      "es": "igual · sombra sube",
+      "en": "same · shadow rises"
+     },
+     "requires": null
+    },
+    {
+     "id": "seguir de largo",
+     "result": {
+      "es": "Oye el canto durante media hora de marcha y después no.",
+      "en": "He hears the singing for half an hour's walk and then no more."
+     },
+     "effects": {
+      "es": "ninguno",
+      "en": "none"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "**Si pasó por `MW-03` y aprendió a no acercarse**, el motor ofrece primero `quedarse donde está`. La regla que lo salvó en las Wilds acá le hace perder lo único bueno que podía ver."
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "notes_en": [
+    "**If he passed `MW-03` and learned not to approach**, the engine offers `stay where he is` first. The rule that saved him in the Wilds here makes him lose the only good thing there was to see."
+   ]
+  },
+  {
+   "id": "RH-09",
+   "kind": "place",
+   "region_ids": [
+    42,
+    41
+   ],
+   "region": "En Egladil",
+   "region_confidence": "high",
+   "name": {
+    "es": "El cuentapalabras",
+    "en": "The word-counter"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:people",
+    "tag:hillmen",
+    "tag:knowledge",
+    "tag:social",
+    "tag:secret"
+   ],
+   "lore": {
+    "es": "En cada aldea hay alguien que se sabe las genealogías. No es un cargo: es una persona que se las aprendió de otra y que se las está enseñando a una tercera.\nCasi siempre es viejo. Casi siempre tiene otro oficio.",
+    "en": "In every village there is somebody who knows the genealogies. It is not an office: it is a person who learned them from another and is teaching them to a third.\nAlmost always old. Almost always has another trade."
+   },
+   "base": {
+    "es": "Alguien sentado a la puerta de una casa larga, haciendo algo con las manos.\nSi el viajero pregunta por un nombre, una familia o un sitio, se va a enderezar y va a empezar.\nY no va a parar. Once generaciones, con los nombres, de quién era hijo cada uno, con quién se casó, qué le pasó y dónde está enterrado.\nNada de eso le sirve al viajero, y en algún punto de la lista va a aparecer algo que sí.",
+    "en": "Somebody sitting at a longhouse door, doing something with their hands.\nIf the traveller asks about a name, a family or a place, they will straighten up and begin.\nAnd they will not stop. Eleven generations, with names, whose son each was, whom they married, what happened to them and where they are buried.\nNone of it serves the traveller, and somewhere in the list something that does will appear."
+   },
+   "variants": [],
+   "secret": {
+    "condition": {
+     "es": null,
+     "en": null
+    },
+    "text": {
+     "es": "*Si el viajero pregunta quién le enseñó.*\nLe va a dar el nombre de quien le enseñó, y el de quien le enseñó a esa, y así.\nLa lista llega hasta antes de que hubiera Dúnedain en Eriador.",
+     "en": "*If the traveller asks who taught them.*\nHe will get the name of who taught them, and of who taught that one, and so on.\nThe list reaches back to before there were Dúnedain in Eriador."
+    }
+   },
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "npc_interactions",
+    "note": "Genealogista residente en una casa larga: aparece cuando el viajero pregunta por nombres.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "word_counter",
+     "entity_uuid": "1ef12ae2-e53f-5ab9-ac4b-4eabab604a56"
+    }
+   }
+  },
+  {
+   "id": "RH-10",
+   "kind": "place",
+   "region_ids": [
+    42,
+    41
+   ],
+   "region": "En Egladil",
+   "region_confidence": "high",
+   "name": {
+    "es": "El robo de ganado",
+    "en": "The cattle raid"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:people",
+    "tag:hillmen",
+    "tag:social",
+    "tag:danger",
+    "tag:humour"
+   ],
+   "lore": {
+    "es": "Cada cierto tiempo, una aldea va a buscar ganado a otra. Es una institución, tiene reglas y las reglas se cumplen.\nSe lleva una cantidad proporcionada. No se mata a nadie. Y la aldea robada tiene derecho a ir a buscar lo suyo, o un equivalente, en un plazo.\nLo que **no** se hace es llevarse todo, o quemar algo, o matar. Eso rompe el sistema y entonces sí hay sangre.",
+    "en": "Every so often, one village goes to fetch cattle from another. It is an institution, it has rules and the rules are kept.\nA proportionate amount is taken. Nobody is killed. And the raided village has the right to fetch its own, or an equivalent, within a term.\nWhat is **not** done is taking everything, or burning something, or killing. That breaks the system and then there is blood."
+   },
+   "base": {
+    "es": "Puede toparse con el grupo que va, de noche, callados, con perros atados.\nO puede estar en la aldea cuando vuelven los que fueron a recuperar, de día, con el ganado y con muy buen humor.\nSi está en una aldea y llegan los otros, nadie lo va a involucrar. Y si él interviene, va a complicar algo que estaba perfectamente bajo control.",
+    "en": "He may run into the party going out, at night, quiet, dogs on leash.\nOr he may be in the village when the recovery party returns, by day, with the cattle and in very good humour.\nIf he is in a village when the others arrive, nobody will involve him. And if he intervenes, he will complicate something that was perfectly under control."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "mover (March)",
+    "note": "Partida de robo/recuperación de ganado: sale de noche, vuelve de día.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "cattle_raiders",
+     "entity_uuid": "7795076b-1aac-500a-9cd9-76bea349da88"
+    }
+   }
+  },
+  {
+   "id": "RH-14",
+   "kind": "place",
+   "region_ids": [
+    44,
+    81,
+    45,
+    69,
+    42,
+    41
+   ],
+   "region": "Ettenmoors",
+   "region_confidence": "medium",
+   "name": {
+    "es": "Los montaraces",
+    "en": "The rangers"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:dunedain",
+    "tag:people",
+    "tag:knowledge",
+    "tag:social"
+   ],
+   "lore": {
+    "es": "Van de a dos o de a tres y cubren un territorio imposible. Son muy pocos.\nSaben dónde está cada banda de bandidos y cuántos son. Saben qué aldea le debe ganado a cuál. No intervienen en casi nada.\nLo que hacen es mirar los caminos y los pasos, y a veces matar algo antes de que llegue a una aldea, sin que la aldea se entere.",
+    "en": "They travel in twos and threes and cover an impossible territory. They are very few.\nThey know where every bandit band is and how many. They know which village owes cattle to which. They intervene in almost nothing.\nWhat they do is watch the roads and the passes, and sometimes kill something before it reaches a village, without the village ever knowing."
+   },
+   "base": {
+    "es": "Dos hombres junto a un fuego chico, en un sitio que él no habría elegido y que resulta ser mejor que el que eligió.\nComparten lo que tengan. Preguntan poco y escuchan con mucha atención.\nSi el viajero menciona algo que vio en el camino —gente, humo, huellas—, le van a hacer cuatro preguntas precisas y después van a cambiar de tema.\nY no van a decirle qué piensan hacer al respecto.",
+    "en": "Two men beside a small fire, in a spot he would not have chosen and that turns out better than the one he chose.\nThey share what they have. They ask little and listen very carefully.\nIf the traveller mentions something he saw on the road — people, smoke, tracks — they will ask him four precise questions and then change the subject.\nAnd they will not tell him what they mean to do about it."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "npc_interactions",
+    "note": "Dos montaraces junto a un fuego: encuentro clásico de camino.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "rhudaur_rangers",
+     "entity_uuid": "2832af77-4db3-5188-bd7c-a646256db4b8"
+    }
+   }
+  },
+  {
+   "id": "RH-16",
+   "kind": "place",
+   "region_ids": [
+    44,
+    81,
+    45,
+    69,
+    42,
+    41
+   ],
+   "region": "Ettenmoors",
+   "region_confidence": "medium",
+   "name": {
+    "es": "El ganado suelto",
+    "en": "The loose cattle"
+   },
+   "type": {
+    "es": "recurso y problema",
+    "en": "resource and problem"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:food",
+    "tag:hillmen",
+    "tag:danger",
+    "tag:social"
+   ],
+   "lore": {
+    "es": "Hay vacas y ovejas sueltas por todo Rhudaur, lejos de cualquier aldea, sin pastor y sin cerco.\nTodas tienen dueño. Todas están marcadas, y la marca es un corte en la oreja que el viajero no sabe leer.",
+    "en": "There are cows and sheep loose all over Rhudaur, far from any village, no shepherd, no fence.\nAll of them have owners. All are marked, and the mark is an ear cut the traveller cannot read."
+   },
+   "base": {
+    "es": "Seis o siete reses pastando en un valle, a dos jornadas de la aldea más cercana, sin nadie.\nCarnear una es facilísimo. Es la comida más fácil de la región.\nY todo el mundo va a saber cuál era, de quién era, y quién pasó por ahí ese día.",
+    "en": "Six or seven head grazing in a valley, two days from the nearest village, nobody around.\nButchering one is very easy. It is the easiest food in the region.\nAnd everybody will know which it was, whose it was, and who passed there that day."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "event",
+    "note": "Ganado suelto en un valle: tentación y consecuencia.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "loose_cattle",
+     "entity_uuid": "90bcf2e3-ed31-5521-8ffb-6176051326f7"
+    }
+   }
+  },
+  {
+   "id": "FG-07",
+   "kind": "place",
+   "region_ids": [
+    82
+   ],
+   "region": "Fangorn",
+   "region_confidence": "high",
+   "name": {
+    "es": "El bosque que se mueve",
+    "en": "The forest that moves"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:uncanny",
+    "tag:danger",
+    "tag:flora",
+    "tag:canon"
+   ],
+   "lore": {
+    "es": "**Dónde:** en cualquier parte, raramente, y sobre todo cerca de los lindes.\nNo todos los árboles de Fangorn son solo árboles.\nHay algunos que están **despiertos**, y de esos, algunos están enfadados.\nEl viajero no va a saber cuál es cuál mirándolos.",
+    "en": "**Where:** anywhere, rarely, and mostly near the edges.\nNot all of Fangorn's trees are only trees.\nSome are **awake**, and of those, some are angry.\nThe traveller will not know which is which by looking at them."
+   },
+   "base": {
+    "es": "Casi siempre, nada. Camina entre árboles.\nPero en algún punto, en un rodal concreto, va a notar que la cosa cambió.\nEl silencio se vuelve más denso. Los pájaros no entran ahí. Y el aire está más frío de lo que corresponde.",
+    "en": "Almost always, nothing. He walks among trees.\nBut at some point, in a particular stand, he will notice that things changed.\nThe silence turns denser. Birds do not go in there. And the air is colder than it should be."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [
+    {
+     "key": "Lo que pasa si sigue",
+     "es": "Si va con las manos vacías y sin hacer daño, nada.\nPuede cruzar ese rodal entero, incómodo, y salir por el otro lado.\nSi lleva un hacha, es otra cosa.",
+     "en": "If he goes empty-handed and does no harm, nothing.\nHe can cross that whole stand, uncomfortable, and come out the other side.\nIf he carries an axe, it is another matter."
+    },
+    {
+     "key": "Y si corta algo",
+     "es": "No va a haber aviso.\nEl viajero no va a ver llegar nada, porque lo que lo rodea ya estaba ahí.",
+     "en": "There will be no warning.\nThe traveller will not see anything coming, because what surrounds him was already there."
+    },
+    {
+     "key": "Lo que esto es, comparado con lo demás",
+     "es": "En `NU-04`, en Numeriador, el hacha desaparece del campamento por la noche.\nEn `EW-08`, en Enedhwaith, una flecha desde donde no la vio venir.\n**Acá no hay intermediarios.**",
+     "en": "In `NU-04`, in Numeriador, the axe disappears from camp at night.\nIn `EW-08`, in Enedhwaith, an arrow from where he did not see it coming.\n**Here there are no intermediaries.**"
+    }
+   ],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "mover (Resident)",
+    "note": "Un huerno: el rodal que se mueve y donde el aire se enfría.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "the_huorn",
+     "entity_uuid": "3d00c73b-777b-5a18-af76-822784d1970d"
+    }
+   }
+  },
+  {
+   "id": "LO-02",
+   "kind": "place",
+   "region_ids": [
+    84
+   ],
+   "region": "Lorien",
+   "region_confidence": "high",
+   "name": {
+    "es": "Los vendados",
+    "en": "The blindfolded"
+   },
+   "type": {
+    "es": "social",
+    "en": "social"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:elvish",
+    "tag:social",
+    "tag:uncanny",
+    "tag:danger",
+    "tag:navigation"
+   ],
+   "lore": {
+    "es": "**Dónde:** en el camino desde el linde hacia dentro.\nAl forastero al que dejan pasar **no lo dejan ver por dónde pasa**.\nEs costumbre vieja y no es hostilidad: es que nadie de fuera tiene que poder volver solo.",
+    "en": "**Where:** on the way from the edge inward.\nThe outsider they let pass **is not allowed to see the way he goes**.\nIt is an old custom and not hostility: no one from outside must be able to come back alone."
+   },
+   "base": {
+    "es": "Le van a pedir que se deje vendar los ojos.\nSe lo van a pedir con cortesía y no se lo van a discutir. Si se niega, el trato se acaba y vuelve por donde vino.",
+    "en": "They will ask him to let them blindfold him.\nThey will ask courteously and they will not argue it. If he refuses, the matter is over and he goes back the way he came."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [
+    {
+     "key": "Lo que pasa mientras camina",
+     "es": "Lo llevan del brazo, y camina horas.\nY sin la vista, el bosque es otra cosa: el suelo blando, el agua a la izquierda y después a la derecha, el olor cambiando —a resina, a pan, a lana mojada, a metal caliente—, y voces arriba que se callan cuando pasa.\n**Va a cruzar cuatro o cinco claros sin verlos**, y los va a reconocer por el olor.",
+     "en": "They lead him by the arm, and he walks for hours.\nAnd sightless, the forest is another thing: the soft ground, water on the left and then on the right, the smell changing —resin, bread, wet wool, hot metal—, and voices above going quiet as he passes.\n**He will cross four or five clearings without seeing them**, and he will know them by their smell."
+    },
+    {
+     "key": "Lo que le van a decir al destaparlo",
+     "es": "Nada. Simplemente se lo quitan.\nY lo que ve entonces lo va a compensar.",
+     "en": "Nothing. They simply take it off.\nAnd what he sees then will repay him."
+    }
+   ],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "npc_interactions",
+    "note": "Guardas elfos que piden vendar los ojos para entrar en Lórien.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "the_blindfolded",
+     "entity_uuid": "d6a3224e-3b0d-5b86-b052-d9f6a0b30b7d"
+    }
+   }
+  },
+  {
+   "id": "rh09_reciter",
+   "kind": "offer",
+   "region_ids": [
+    42,
+    41
+   ],
+   "region": "En Egladil",
+   "place_ref": "RH-09",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "escuchar entero",
+     "result": {
+      "es": "Una hora larga.",
+      "en": "A long hour."
+     },
+     "effects": {
+      "es": "información inesperada · `bien visto`",
+      "en": "unexpected information · `bien visto`"
+     },
+     "requires": null
+    },
+    {
+     "id": "preguntar por una torre o una ruina",
+     "result": {
+      "es": "Sabe quién vivía ahí y en qué año se fue.",
+      "en": "He knows who lived there and in what year they left."
+     },
+     "effects": {
+      "es": "historia local precisa",
+      "en": "precise local history"
+     },
+     "requires": null
+    },
+    {
+     "id": "preguntar por Angmar",
+     "result": {
+      "es": "Para. Termina la frase que estaba diciendo y se queda callado.",
+      "en": "He stops. Finishes the sentence he was saying and goes quiet."
+     },
+     "effects": {
+      "es": "nada",
+      "en": "nothing"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "rh10_raid",
+   "kind": "offer",
+   "region_ids": [
+    42,
+    41
+   ],
+   "region": "En Egladil",
+   "place_ref": "RH-10",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "no meterse",
+     "result": {
+      "es": "Lo correcto. Nadie se lo reprocha.",
+      "en": "The right thing. Nobody reproaches him."
+     },
+     "effects": {
+      "es": "ninguno",
+      "en": "none"
+     },
+     "requires": null
+    },
+    {
+     "id": "avisar a la aldea",
+     "result": {
+      "es": "Lo agradecen. Y rompe el equilibrio.",
+      "en": "They are grateful. And it breaks the balance."
+     },
+     "effects": {
+      "es": "`bien visto` por una · `vedado` por otra",
+      "en": "`bien visto` by one · `vedado` by another"
+     },
+     "requires": null
+    },
+    {
+     "id": "ayudar a los que van",
+     "result": {
+      "es": "Lo aceptan y se van a divertir con él.",
+      "en": "They accept him and are going to have fun with him."
+     },
+     "effects": {
+      "es": "`bien visto` · ganado",
+      "en": "`bien visto` · cattle"
+     },
+     "requires": null
+    },
+    {
+     "id": "intentar detenerlos",
+     "result": {
+      "es": "Se detienen. Están desconcertados. Alguien le explica cómo funciona esto, con paciencia.",
+      "en": "They stop. They are baffled. Somebody explains how this works, patiently."
+     },
+     "effects": {
+      "es": "`raro`",
+      "en": "`raro`"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "---"
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "rh16_cattle",
+   "kind": "offer",
+   "region_ids": [
+    44,
+    81,
+    45,
+    69,
+    42,
+    41
+   ],
+   "region": "Ettenmoors",
+   "place_ref": "RH-16",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "dejarlas",
+     "result": {
+      "es": "Lo correcto.",
+      "en": "The right thing."
+     },
+     "effects": {
+      "es": "ninguno",
+      "en": "none"
+     },
+     "requires": null
+    },
+    {
+     "id": "carnear una",
+     "result": {
+      "es": "Comida para muchos días.",
+      "en": "Food for many days."
+     },
+     "effects": {
+      "es": "comida · **`vedado` en toda la región**",
+      "en": "food · **`vedado` in the whole region**"
+     },
+     "requires": null
+    },
+    {
+     "id": "ordeñar una",
+     "result": {
+      "es": "Nadie se opone a eso y se hace.",
+      "en": "Nobody objects to that and it is done."
+     },
+     "effects": {
+      "es": "comida",
+      "en": "food"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "---"
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "SH-07",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "region": "The Shire",
+   "region_confidence": "high",
+   "name": {
+    "es": "Los chicos",
+    "en": "The kids"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "lo más grave que va a pasar",
+    "en": "the most serious thing that will happen"
+   },
+   "tags": [
+    "tag:people",
+    "tag:humour",
+    "tag:social",
+    "tag:danger"
+   ],
+   "lore": {
+    "es": "Un grupo de hobbits adolescentes, de cuatro o cinco, que andan juntos haciendo lo que hacen los adolescentes en un sitio donde no pasa nada: inventar que pasa algo.",
+    "en": "A group of four or five adolescent hobbits, going about together doing what adolescents do in a place where nothing happens: inventing that something does."
+   },
+   "base": {
+    "es": "Los nota porque lo están siguiendo mal. Muy mal. A cincuenta pasos, metiéndose detrás de setos que no los tapan, hablando entre ellos en susurros que se oyen perfectamente.\nLlevan un rato así.\nEn algún momento uno se adelanta y le hace una pregunta preparada de antemano, sobre si es cierto que afuera hay dragones.\nY mientras ese habla, otro le está sacando algo del bulto.",
+    "en": "He notices them because they are following him badly. Very badly. At fifty paces, hiding behind hedges that do not cover them, talking to each other in perfectly audible whispers.\nThey have been at it a while.\nAt some point one steps forward and asks him a prepared question, about whether it is true there are dragons outside.\nAnd while that one talks, another is taking something out of his pack."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "npc_interactions",
+    "note": "Chicos hobbits que siguen al viajero y le sacan cosas del bulto.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "shire_kids",
+     "entity_uuid": "bfa9c354-8dca-575e-abea-28fe1d7e82e2"
+    }
+   }
+  },
+  {
+   "id": "TS-11",
+   "kind": "place",
+   "region_ids": [
+    43
+   ],
+   "region": "Trollshaws",
+   "region_confidence": "high",
+   "name": {
+    "es": "La noche",
+    "en": "The night"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "lo único de la región que habla",
+    "en": "the only thing in the region that talks"
+   },
+   "tags": [
+    "tag:troll",
+    "tag:night",
+    "tag:danger",
+    "tag:grotesque",
+    "tag:canon"
+   ],
+   "lore": {
+    "es": "Si el viajero está afuera cuando se va el sol, en algún momento hay fuego entre los árboles.\nEs fuego de verdad, grande, mal hecho, con ramas enteras tiradas encima. Y hay voces, y las voces discuten.\nSon tres. Hablan la lengua de los hombres, mal, con acento y con poco vocabulario, y lo que discuten es doméstico: de quién es el turno, si está crudo, si el otro siempre hace lo mismo, que ya van tres noches de lo mismo.\nNada de eso es gracioso cuando se oye desde cerca.",
+    "en": "If the traveller is outside when the sun goes, at some point there is fire between the trees.\nIt is real fire, big, badly made, whole branches thrown on. And there are voices, and the voices argue.\nThere are three. They speak the tongue of Men, badly, accented and short of words, and what they argue about is domestic: whose turn it is, whether it is raw, whether the other always does the same, that it is three nights of the same already.\nNone of that is funny when heard from close up."
+   },
+   "base": {
+    "es": "Ve el resplandor antes que el fuego, anaranjado entre los troncos, y lo primero que piensa es que es un campamento. Lo segundo, que acá no hay campamentos de noche.\nSe acerca lo suficiente para oír y entonces entiende, y lo que lo convence no es el tamaño de las siluetas: es el volumen. Hablan como habla alguien que no tiene ningún motivo para hablar bajo.\nUno se levanta y va hacia los árboles y vuelve con algo, y se oye el sonido de ese algo contra el suelo cuando lo suelta.\nLa discusión sigue. Ahora es sobre otra cosa.",
+    "en": "He sees the glow before the fire, orange between the trunks, and his first thought is a camp. His second, that there are no night camps here.\nHe comes close enough to hear and then he understands, and what convinces him is not the size of the silhouettes: it is the volume. They talk the way somebody talks who has no reason to keep their voice down.\nOne stands and goes to the trees and comes back with something, and the sound of that something hitting the ground can be heard when he drops it.\nThe argument goes on. It is about something else now."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "mover (March)",
+    "note": "Trolls que salen de noche y discuten junto al fuego.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "trolls_by_night",
+     "entity_uuid": "37c880ea-e343-52cc-8bba-9735c77ba88b"
+    }
+   }
+  },
+  {
+   "id": "BR-10",
+   "kind": "place",
+   "region_ids": [
+    86
+   ],
+   "region": "Bree",
+   "region_confidence": "high",
+   "name": {
+    "es": "Los que paran y no entran",
+    "en": "Those who stop and do not stay"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "la gente que Bree ve pasar",
+    "en": "the people Bree sees pass"
+   },
+   "tags": [
+    "tag:people",
+    "tag:dunedain",
+    "tag:social",
+    "tag:uncanny"
+   ],
+   "lore": {
+    "es": "Hay gente que llega a Bree, se queda una noche o dos, no da conversación y sigue.\nLos de Bree los llaman Montaraces y los tratan con una mezcla de desconfianza y de respeto que no se molestan en resolver.\nPagan, no molestan, y saben cosas.",
+    "en": "There are people who reach Bree, stay a night or two, give no conversation and move on.\nThe Bree folk call them Rangers and treat them with a mixture of distrust and respect they do not bother to resolve.\nThey pay, they do not bother anyone, and they know things."
+   },
+   "base": {
+    "es": "Uno o dos en el rincón del salón, con ropa gastada de buena calidad, callados, comiendo despacio.\nNo buscan conversación. Si el viajero se acerca bien, contestan con precisión y con pocas palabras.\nY saben exactamente por dónde viene el viajero, aunque él no lo haya dicho.",
+    "en": "One or two in the corner of the room, good-quality worn clothes, quiet, eating slowly.\nThey do not seek conversation. If the traveller approaches well, they answer precisely and in few words.\nAnd they know exactly where the traveller comes from, though he has not said it."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "npc_interactions",
+    "note": "Montaraces que paran en la posada sin entrar en conversación.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "rangers_at_the_inn",
+     "entity_uuid": "89e4d8a1-bee1-55f5-8832-470263a461e8"
+    }
+   }
+  },
+  {
+   "id": "sh07_kids",
+   "kind": "offer",
+   "region_ids": [
+    85
+   ],
+   "region": "The Shire",
+   "place_ref": "SH-07",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "dejar que se lo lleven",
+     "result": {
+      "es": "Al día siguiente aparece en el camino, envuelto en un trapo, con una manzana al lado.",
+      "en": "The next day it appears on the road, wrapped in a rag, with an apple beside it."
+     },
+     "effects": {
+      "es": "`bien visto` por los chicos",
+      "en": "`bien visto` by the kids"
+     },
+     "requires": null
+    },
+    {
+     "id": "agarrarlo en el acto",
+     "result": {
+      "es": "Pánico absoluto. Confiesan todo, incluidas cosas de hace años.",
+      "en": "Absolute panic. They confess everything, including things from years ago."
+     },
+     "effects": {
+      "es": "recupera el objeto · `bien visto` por los adultos",
+      "en": "recovers the object · `bien visto` by the adults"
+     },
+     "requires": null
+    },
+    {
+     "id": "contestarles sobre los dragones",
+     "result": {
+      "es": "Se quedan tres horas. Se olvidan de robar.",
+      "en": "They stay three hours. They forget about stealing."
+     },
+     "effects": {
+      "es": "tiempo · `bien visto`",
+      "en": "time · `bien visto`"
+     },
+     "requires": null
+    },
+    {
+     "id": "asustarlos",
+     "result": {
+      "es": "Funciona. Y las madres se van a enterar antes de que el viajero llegue a la aldea siguiente.",
+      "en": "It works. And the mothers will find out before the traveller reaches the next village."
+     },
+     "effects": {
+      "es": "`sospechoso`",
+      "en": "`sospechoso`"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "---"
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "ts11_encounter",
+   "kind": "offer",
+   "region_ids": [
+    43
+   ],
+   "region": "Trollshaws",
+   "place_ref": "TS-11",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "retroceder despacio",
+     "result": {
+      "es": "Son ruidosos y están ocupados. Se va sin que lo noten y pasa la noche subido a algo, sin dormir.",
+      "en": "They are noisy and busy. He gets away unnoticed and spends the night up on something, without sleep."
+     },
+     "effects": {
+      "es": "sueño perdido",
+      "en": "lost sleep"
+     },
+     "requires": null,
+     "mind": "recuerdo fijo",
+     "mind_en": "lasting memory"
+    },
+    {
+     "id": "quedarse a escuchar",
+     "result": {
+      "es": "Los oye un rato largo. Entiende varias cosas que habría preferido no entender.",
+      "en": "He listens a long while. Learns several things he would rather not have learned."
+     },
+     "effects": {
+      "es": "sueño perdido · sombra sube fuerte",
+      "en": "lost sleep · shadow rises sharply"
+     },
+     "requires": null,
+     "mind": "recuerdo fijo",
+     "mind_en": "lasting memory"
+    },
+    {
+     "id": "rodear por lo alto y seguir",
+     "result": {
+      "es": "Camina de noche por ladera de piedra.",
+      "en": "He walks at night on stony slope."
+     },
+     "effects": {
+      "es": "riesgo de caída · medio día de ventaja",
+      "en": "risk of falling · half a day's lead"
+     },
+     "requires": null
+    },
+    {
+     "id": "aguantar hasta el amanecer",
+     "result": {
+      "es": "Antes de que aclare se van. Dejan el fuego encendido y lo que había alrededor.",
+      "en": "Before dawn they go. They leave the fire lit and what was around it."
+     },
+     "effects": {
+      "es": "el claro queda disponible al alba",
+      "en": "the clearing is available at dawn"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "**Si aguantó hasta el alba:** en el claro hay un fuego apagándose, huesos, y cosas que trajeron y no se llevaron. Una de esas cosas es útil y a él le hace falta."
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "notes_en": [
+    "**If he held until dawn:** the clearing holds a dying fire, bones, and things they brought and did not take. One of those things is useful and he needs it."
+   ]
+  },
+  {
+   "id": "br10_rangers",
+   "kind": "offer",
+   "region_ids": [
+    86
+   ],
+   "region": "Bree",
+   "place_ref": "BR-10",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "invitarles una cerveza",
+     "result": {
+      "es": "La aceptan. No cambia mucho.",
+      "en": "They accept. It does not change much."
+     },
+     "effects": {
+      "es": "poco",
+      "en": "little"
+     },
+     "requires": null
+    },
+    {
+     "id": "preguntar por el camino del norte",
+     "result": {
+      "es": "Contestan con un detalle que no tiene nadie más.",
+      "en": "They answer with a detail nobody else has."
+     },
+     "effects": {
+      "es": "información de primera",
+      "en": "first-rate information"
+     },
+     "requires": null
+    },
+    {
+     "id": "preguntar quiénes son",
+     "result": {
+      "es": "Le contestan algo breve y cierto que no explica nada.",
+      "en": "They give him a brief true answer that explains nothing."
+     },
+     "effects": {
+      "es": "ninguno",
+      "en": "none"
+     },
+     "requires": null
+    },
+    {
+     "id": "mencionar lo que vio en el camino",
+     "result": {
+      "es": "Esto sí les interesa. Y a partir de ahí preguntan ellos.",
+      "en": "This does interest them. And from then on they do the asking."
+     },
+     "effects": {
+      "es": "lo tratan distinto",
+      "en": "they treat him differently"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "---"
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "GL-01",
+   "kind": "place",
+   "region_ids": [
+    40
+   ],
+   "region": "Tower Hills",
+   "region_confidence": "high",
+   "name": {
+    "es": "Los errantes",
+    "en": "The wanderers"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "compañía, fuego y conversación",
+    "en": "company, fire and conversation"
+   },
+   "tags": [
+    "tag:people",
+    "tag:elvish",
+    "tag:social",
+    "tag:knowledge",
+    "tag:melancholy",
+    "tag:global"
+   ],
+   "lore": {
+    "es": "*Ficha global. No pertenece a ninguna región: se dispara en cualquier camino de la Tierra Media.*",
+    "en": "*Global ficha. It belongs to no region: it can fire on any road in Middle-earth.*"
+   },
+   "base": {
+    "es": "Hay alguien sentado junto al fuego cuando él llega, o hay alguien que llega cuando él ya está.\nComparten lo que tengan sin discutirlo. Hablan de lo que haya alrededor: el estado del camino, un árbol, la lluvia, un pájaro que pasó.\nSi el viajero cuenta noticias —reyes, guerras, caminos cortados—, lo escuchan con cortesía y sin alarma, y de vez en cuando hacen una pregunta sobre un detalle que a él le parece lateral.\nSon cálidos. No desdeñosos: cálidos, y a mucha distancia.\nEn algún momento van a mencionar de pasada a alguien que para el viajero es una figura de leyenda, y lo van a mencionar por una costumbre personal irrelevante.\nA la mañana no están.",
+    "en": "There is somebody sitting by the fire when he arrives, or somebody arrives when he is already there.\nThey share whatever they have without discussing it. They talk of what is around: the state of the road, a tree, the rain, a bird that passed.\nIf the traveller tells news —kings, wars, cut roads—, they listen politely and without alarm, and now and then ask a question about a detail that seems marginal to him.\nThey are warm. Not dismissive: warm, and at a great distance.\nAt some point they will mention in passing somebody who to the traveller is a figure of legend, and they will mention them by some irrelevant personal habit.\nIn the morning they are not there."
+   },
+   "variants": [
+    {
+     "id": "dos_que_se_cruzan",
+     "label": {
+      "es": "dos que se cruzan",
+      "en": "two crossing paths"
+     },
+     "condition": null,
+     "text": {
+      "es": "Si el viajero está presente cuando se encuentran dos, lo que va a oír es una conversación empezada hace siglos.",
+      "en": "If the traveller is present when two of them meet, what he will hear is a conversation begun centuries ago."
+     }
+    },
+    {
+     "id": "dos_que_se_cruzan",
+     "label": {
+      "es": "dos que se cruzan",
+      "en": "two crossing paths"
+     },
+     "condition": null,
+     "text": {
+      "es": "No hay saludo y no hay puesta al día. Alguien retoma una frase y el otro contesta.",
+      "en": "There is no greeting and no catching up. Somebody resumes a sentence and the other answers."
+     }
+    },
+    {
+     "id": "dos_que_se_cruzan",
+     "label": {
+      "es": "dos que se cruzan",
+      "en": "two crossing paths"
+     },
+     "condition": null,
+     "text": {
+      "es": "El viajero entiende la mitad y la mitad que entiende no le sirve de nada.",
+      "en": "The traveller understands half, and the half he understands is of no use to him."
+     }
+    },
+    {
+     "id": "dos_que_se_cruzan",
+     "label": {
+      "es": "dos que se cruzan",
+      "en": "two crossing paths"
+     },
+     "condition": null,
+     "text": {
+      "es": "Son corteses con él y no lo excluyen. Pero no van a parar para explicarle.",
+      "en": "They are courteous to him and do not exclude him. But they will not stop to explain."
+     }
+    },
+    {
+     "id": "en_una_aldea_de_renuentes",
+     "label": {
+      "es": "en una aldea de Renuentes",
+      "en": "in an Unwilling village"
+     },
+     "condition": null,
+     "text": {
+      "es": "Se quedan una noche. Hablan con la gente de la aldea con afecto real y con interés verdadero, que es algo que no hacen en ningún otro sitio.",
+      "en": "They stay one night. They talk with the village people with real affection and genuine interest, which is something they do nowhere else."
+     }
+    },
+    {
+     "id": "en_una_aldea_de_renuentes",
+     "label": {
+      "es": "en una aldea de Renuentes",
+      "en": "in an Unwilling village"
+     },
+     "condition": null,
+     "text": {
+      "es": "Y a la mañana siguen.",
+      "en": "And in the morning they go on."
+     }
+    },
+    {
+     "id": "en_una_aldea_de_renuentes",
+     "label": {
+      "es": "en una aldea de Renuentes",
+      "en": "in an Unwilling village"
+     },
+     "condition": null,
+     "text": {
+      "es": "Los de la aldea los despiden como se despide a alguien a quien se quiere y con quien no se está de acuerdo en nada.",
+      "en": "The villagers see them off as one sees off somebody one loves and agrees with about nothing."
+     }
+    }
+   ],
+   "secret": null,
+   "sections": [
+    {
+     "key": "Quiénes son",
+     "es": "Elfos muy antiguos que no se van y tampoco se asientan. Llevan milenios caminando la Tierra Media.\nVan de a uno o de a dos. Llevan muy poco. Saben todos los caminos, incluidos los que ya no existen.\n**No preguntan adónde va el viajero y no dicen adónde van ellos.**\nSe conocen todos entre sí y hace muchísimo. Si dos se cruzan, no se explican nada: retoman.",
+     "en": "Very ancient Elves who do not leave and do not settle either. They have been walking Middle-earth for millennia.\nThey go alone or in twos. They carry very little. They know every road, including the ones that no longer exist.\n**They do not ask where the traveller is going and do not say where they are going.**\nThey all know each other and have for a very long time. If two meet, they explain nothing to each other: they resume."
+    },
+    {
+     "key": "Nota de diseño",
+     "es": "Modelo de comportamiento: los vampiros de Jarmusch en *Only Lovers Left Alive*. Se conocen hace milenios, están repartidos por el mundo, y cuando se encuentran retoman en vez de explicarse. El tedio no es dramático: se administra.\n**Lo que no hay que copiarle:** la ironía y el desdén. Jarmusch es un poco cool y Tolkien no. Los errantes son cálidos.",
+     "en": "Behaviour model: Jarmusch's vampires in *Only Lovers Left Alive*. They have known each other for millennia, are spread across the world, and when they meet they resume instead of explaining. The boredom is not dramatic: it is managed.\n**What must not be copied:** the irony and the disdain. Jarmusch is a bit cool and Tolkien is not. The wanderers are warm."
+    }
+   ],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "mover (March)",
+    "note": "Elfos errantes junto al fuego: ficha global, puede disparar en cualquier camino.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "errant_elves",
+     "entity_uuid": "3dc9a84a-ebfa-5dde-a21c-2a4d341e9277"
+    }
+   }
+  },
+  {
+   "id": "LI-O1",
+   "kind": "place",
+   "region_ids": [
+    40
+   ],
+   "region": "Tower Hills",
+   "region_confidence": "high",
+   "name": {
+    "es": "El que despeja los senderos",
+    "en": "The one who clears the paths"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "la mejor fuente de información de la región",
+    "en": "the region's best source of information"
+   },
+   "tags": [
+    "tag:people",
+    "tag:elvish",
+    "tag:knowledge",
+    "tag:social"
+   ],
+   "lore": {
+    "es": "**De dónde sale:** *Enchanted Woods*, en Yeats. El viejo que pasó la vida podando el olmo y el avellano de los caminos, y que pasa de una historia sobre un zorro a una sobre un espíritu con menos cambio de voz que cuando habla de una marta.\nUn elfo que lleva un número incontable de años haciendo lo mismo: despejar los senderos del bosque, podar lo que invade, levantar lo que cae.\nNo es importante. No lo mandaron. Es su trabajo y le gusta.",
+    "en": "**Where it comes from:** *Enchanted Woods*, in Yeats. The old man who spent his life pruning the elm and the hazel of the roads, and who moves from a story about a fox to one about a spirit with less change of voice than when he talks about a marten.\nAn elf who has spent an uncountable number of years doing the same thing: clearing the forest paths, pruning what encroaches, lifting what falls.\nHe is not important. Nobody sent him. It is his work and he likes it."
+   },
+   "base": {
+    "es": "Lo encuentra agachado, cortando, y no levanta la cabeza hasta que el viajero está al lado.\nContesta todo lo que se le pregunte y contesta bien, con información exacta sobre caminos, vados, distancias y clima.\nY en la misma respuesta, con el mismo tono y sin bajar la voz, le va a contar algo que no puede ser cierto.\nNo distingue. O distingue y no le parece que la diferencia importe.",
+    "en": "He finds him bent over, cutting, and the elf does not raise his head until the traveller is beside him.\nHe answers everything asked and answers well, with exact information on roads, fords, distances and weather.\nAnd in the same reply, in the same tone and without lowering his voice, he will tell him something that cannot be true.\nHe does not tell them apart. Or he does and does not think the difference matters."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "npc_interactions",
+    "note": "El elfo que despeja los senderos: trabajo móvil por todo el bosque.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "path_clearer",
+     "entity_uuid": "aa799cef-9248-5899-a1e8-982191081bc3"
+    }
+   }
+  },
+  {
+   "id": "LI-O3",
+   "kind": "place",
+   "region_ids": [
+    40
+   ],
+   "region": "Tower Hills",
+   "region_confidence": "high",
+   "name": {
+    "es": "El ciervo",
+    "en": "The deer"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "un camino mejor, a cambio de tiempo",
+    "en": "a better way, at the price of time"
+   },
+   "tags": [
+    "tag:fauna",
+    "tag:navigation",
+    "tag:uncanny",
+    "tag:elvish"
+   ],
+   "lore": {
+    "es": "**De dónde sale:** el ciervo blanco que lleva al Otro Mundo está en *Pwyll* del Mabinogion y en varios relatos irlandeses; en Gregory, Sadb es una cierva. **Y es canon tolkieniano:** en *El hobbit* la compañía ve un ciervo blanco en el Bosque Negro.\nHay un ciervo blanco en estos bosques. No es un animal albino: es blanco de un modo que se ve de lejos entre el verde y que no se confunde con otra cosa.\nNo huye y no se acerca. Mantiene la distancia que el viajero establezca.\nSi se lo sigue, lleva a alguna parte. Siempre a un sitio bueno.",
+    "en": "**Where it comes from:** the white deer leading to the Otherworld is in *Pwyll* of the Mabinogion and in several Irish tales; in Gregory, Sadb is a doe. **And it is Tolkien canon:** in *The Hobbit* the company sees a white deer in Mirkwood.\nThere is a white deer in these woods. It is not an albino animal: it is white in a way that can be seen from far among the green and cannot be confused with anything else.\nIt does not flee and does not approach. It keeps whatever distance the traveller sets.\nIf followed, it leads somewhere. Always to a good place."
+   },
+   "base": {
+    "es": "Lo ve entre los troncos, parado, mirándolo, a cuarenta pasos.\nCuando el viajero da un paso, el ciervo da un paso. Cuando para, para.\nY arranca a caminar en una dirección que no es la del camino, sin apuro, dándose vuelta cada tanto.",
+    "en": "He sees it among the trunks, standing, watching him, forty paces off.\nWhen the traveller takes a step, the deer takes a step. When he stops, it stops.\nAnd it starts walking in a direction that is not the path's, unhurried, looking back now and then."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "mover (March)",
+    "note": "El ciervo blanco que lleva a alguna parte.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "white_deer",
+     "entity_uuid": "8b95c011-e98f-5ad0-8fc0-754fea415a88"
+    }
+   }
+  },
+  {
+   "id": "LI-T7",
+   "kind": "place",
+   "region_ids": [
+    40
+   ],
+   "region": "Tower Hills",
+   "region_confidence": "high",
+   "name": {
+    "es": "La botadura",
+    "en": "The launching"
+   },
+   "type": {
+    "es": "evento",
+    "en": "event"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "ver lo que nadie vuelve a ver",
+    "en": "seeing what nobody sees again"
+   },
+   "tags": [
+    "tag:harbour",
+    "tag:social",
+    "tag:elvish",
+    "tag:melancholy"
+   ],
+   "lore": {
+    "es": "Cuando el casco del astillero está terminado, se bota. Pasa una o dos veces al año y la fecha se sabe con meses de anticipación.\nNo es una fiesta. Es un trabajo colectivo que después tiene una parte que no es trabajo.",
+    "en": "When the shipyard's hull is finished, it is launched. It happens once or twice a year and the date is known months ahead.\nIt is not a feast. It is collective work that afterward has a part that is not work."
+   },
+   "base": {
+    "es": "Si cae el día justo, el pueblo entero está en la bahía y hay gente que vino de tres jornadas.\nLa parte técnica dura la mañana: cuñas, sebo en las gradas, cabos, y treinta personas tirando a la vez de una maroma mientras alguien marca el ritmo con la voz.\nEl casco entra en el agua y flota, y hay un silencio corto antes de que alguien aplauda.\nDespués hay comida en los muelles, y vino, y música, y es alegre de verdad.\nY a la tarde, los que se van suben.",
+    "en": "If the day falls right, the whole town is at the bay and there are people who came from three days away.\nThe technical part takes the morning: wedges, grease on the ways, hawsers, and thirty people hauling a rope at once while somebody marks the rhythm with their voice.\nThe hull enters the water and floats, and there is a short silence before somebody applauds.\nThen there is food on the quays, and wine, and music, and it is truly cheerful.\nAnd in the afternoon, those who are leaving go aboard."
+   },
+   "variants": [
+    {
+     "id": "al_dia_siguiente",
+     "label": {
+      "es": "al día siguiente",
+      "en": "the next day"
+     },
+     "condition": null,
+     "text": {
+      "es": "El astillero está vacío con las gradas limpias, y hay tres personas marcando en el suelo las cuadernas del siguiente.",
+      "en": "The shipyard is empty with the ways clean, and three people are marking the next ship's frames on the ground."
+     }
+    }
+   ],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "event",
+    "note": "La botadura: evento del puerto, una o dos veces al año, fecha conocida.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "the_launching",
+     "entity_uuid": "9e61b5ff-6c35-5284-abd5-d67b98ead983"
+    }
+   }
+  },
+  {
+   "id": "SA-03",
+   "kind": "place",
+   "region_ids": [
+    15
+   ],
+   "region": "South Arthedain",
+   "region_confidence": "high",
+   "name": {
+    "es": "Los montaraces en la posada",
+    "en": "The rangers at the inn"
+   },
+   "type": {
+    "es": "encuentro fijo",
+    "en": "fixed encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:people",
+    "tag:dunedain",
+    "tag:social",
+    "tag:melancholy",
+    "tag:canon",
+    "tag:secret"
+   ],
+   "lore": {
+    "es": "**Dónde:** en cualquiera de las posadas de la región, y sobre todo en Long Cleeve y en el cruce de caminos del este.\nDel lado de adentro de la raya, los montaraces son sombras de las que nadie habla.\n**Acá se los ve.**\nEntran, paran, comen, compran y se van. La gente de los pueblos los conoce de cara, algunos de nombre, y los trata con una mezcla rara de respeto y desconfianza.\nY los hobbits los llaman **vagabundos**, con desprecio.",
+    "en": "**Where:** in any of the region's inns, above all in Long Cleeve and at the eastern crossroads.\nInside the Bounds, the rangers are shadows nobody talks about.\n**Here they can be seen.**\nThey come in, stop, eat, buy and go. The village people know them by face, some by name, and treat them with a strange mixture of respect and distrust.\nAnd the hobbits call them **vagabonds**, with contempt."
+   },
+   "base": {
+    "es": "Dos o tres hombres en un rincón de la sala, sentados con la espalda a la pared.\nAltos, de pelo oscuro, con capa gris o parda sin blasón, con botas gastadas y con el equipo en orden.\nEstán callados y están escuchando.\nNo son hostiles: si el viajero se acerca bien, hablan. Son corteses y son parcos, y preguntan más de lo que contestan.",
+    "en": "Two or three men in a corner of the room, sitting with their backs to the wall.\nTall, dark-haired, grey or brown cloaks without blazon, worn boots, gear in order.\nThey are quiet and they are listening.\nThey are not hostile: if the traveller approaches well, they talk. They are courteous and they are sparing, and they ask more than they answer."
+   },
+   "variants": [],
+   "secret": {
+    "condition": {
+     "es": null,
+     "en": null
+    },
+    "text": {
+     "es": "*Si el viajero está una noche entera en la sala y mira.*\nNo beben.\nPiden, pagan, y la jarra se queda llena.\nY cuando se van, uno sale primero, da una vuelta afuera, y después salen los otros.\n**Están trabajando.**",
+     "en": "*If the traveller spends a whole evening in the room and watches.*\nThey do not drink.\nThey order, they pay, and the tankard stays full.\nAnd when they leave, one goes out first, takes a turn outside, and then the others go.\n**They are working.**"
+    }
+   },
+   "sections": [
+    {
+     "key": "Lo que la gente del lugar dice de ellos",
+     "es": "Que van y vienen, que no se sabe de qué viven, y que no hacen daño.\nQue llevan ahí toda la vida.\nY que son unos vagos.",
+     "en": "That they come and go, that nobody knows what they live on, and that they do no harm.\nThat they have been there all their lives.\nAnd that they are lazy good-for-nothings."
+    }
+   ],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   },
+   "routing": {
+    "target": "npc_interactions",
+    "note": "Montaraces que paran en las posadas de la región.",
+    "origin": "places.json",
+    "integrated": {
+     "entity_slug": "rangers_in_the_inns",
+     "entity_uuid": "a7f2844a-25f4-5b1d-a98b-e6a4ecd28cc5"
+    }
+   }
+  },
+  {
+   "id": "gl01_errant",
+   "kind": "offer",
+   "region_ids": [
+    40
+   ],
+   "region": "Tower Hills",
+   "place_ref": "GL-01",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "compartir fuego y escuchar",
+     "result": {
+      "es": "Conversación larga sobre nada práctico.",
+      "en": "A long conversation about nothing practical."
+     },
+     "effects": {
+      "es": "descanso · melancolía ++",
+      "en": "rest · melancholy ++"
+     },
+     "requires": null
+    },
+    {
+     "id": "preguntar por un camino",
+     "result": {
+      "es": "Lo saben. Lo saben demasiado bien.",
+      "en": "They know. They know it too well."
+     },
+     "effects": {
+      "es": "rutas, incluidas las que ya no existen",
+      "en": "routes, including the ones that no longer exist"
+     },
+     "requires": null
+    },
+    {
+     "id": "preguntar por qué no embarcan",
+     "result": {
+      "es": "Contestan con naturalidad y la respuesta es breve.",
+      "en": "They answer matter-of-factly and the answer is short."
+     },
+     "effects": {
+      "es": "melancolía +++",
+      "en": "melancholy +++"
+     },
+     "requires": null
+    },
+    {
+     "id": "pedirles que lo acompañen",
+     "result": {
+      "es": "No. Con amabilidad.",
+      "en": "No. Kindly."
+     },
+     "effects": {
+      "es": "ninguno",
+      "en": "none"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "lio1_ask",
+   "kind": "offer",
+   "region_ids": [
+    40
+   ],
+   "region": "Tower Hills",
+   "place_ref": "LI-O1",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "preguntar por el camino",
+     "result": {
+      "es": "Le dice exactamente por dónde ir y cuánto tarda.",
+      "en": "He tells him exactly which way to go and how long it takes."
+     },
+     "effects": {
+      "es": "información · revela rutas",
+      "en": "information · reveals routes"
+     },
+     "requires": null
+    },
+    {
+     "id": "preguntar por la música",
+     "result": {
+      "es": "Le contesta con naturalidad, como quien explica dónde anida un pájaro.",
+      "en": "He answers matter-of-factly, as one explaining where a bird nests."
+     },
+     "effects": {
+      "es": "revela `LI-A2` · melancolía +",
+      "en": "reveals `LI-A2` · melancholy +"
+     },
+     "requires": null
+    },
+    {
+     "id": "ayudarlo un rato",
+     "result": {
+      "es": "Trabajan juntos. Habla mucho.",
+      "en": "They work together. He talks a lot."
+     },
+     "effects": {
+      "es": "medio día · melancolía ++ · abre todo",
+      "en": "half a day · melancholy ++ · opens everything"
+     },
+     "requires": null
+    },
+    {
+     "id": "preguntarle cuánto hace que está acá",
+     "result": {
+      "es": "Hace la cuenta y le da un número. Después se corrige. Después deja de corregirse.",
+      "en": "He does the count and gives a number. Then he corrects himself. Then he stops correcting himself."
+     },
+     "effects": {
+      "es": "melancolía ++",
+      "en": "melancholy ++"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "---"
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "lio3_follow",
+   "kind": "offer",
+   "region_ids": [
+    40
+   ],
+   "region": "Tower Hills",
+   "place_ref": "LI-O3",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "no seguirlo",
+     "result": {
+      "es": "Sigue camino. El ciervo lo acompaña a distancia un rato y después no está.",
+      "en": "He walks on. The deer accompanies him at a distance a while and then is not there."
+     },
+     "effects": {
+      "es": "melancolía +",
+      "en": "melancholy +"
+     },
+     "requires": null
+    },
+    {
+     "id": "seguirlo una vez",
+     "result": {
+      "es": "Lo lleva a un claro con agua buena y reparo. Campamento excelente.",
+      "en": "It leads him to a clearing with good water and shelter. Excellent camp."
+     },
+     "effects": {
+      "es": "descanso completo · medio día · melancolía ++",
+      "en": "full rest · half a day · melancholy ++"
+     },
+     "requires": null
+    },
+    {
+     "id": "seguirlo una segunda vez",
+     "result": {
+      "es": "Lo lleva a algo mejor.",
+      "en": "It leads him to something better."
+     },
+     "effects": {
+      "es": "melancolía +++",
+      "en": "melancholy +++"
+     },
+     "requires": null
+    },
+    {
+     "id": "seguirlo una tercera vez",
+     "result": {
+      "es": "—",
+      "en": "—"
+     },
+     "effects": {
+      "es": "a partir de acá `no seguirlo` deja de aparecer primero",
+      "en": "from here on `do not follow` stops appearing first"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "---"
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   }
+  },
+  {
+   "id": "AM-03",
+   "kind": "place",
+   "region_ids": [
+    46
+   ],
+   "region": "Angmar",
+   "region_confidence": "high",
+   "name": {
+    "es": "La patrulla",
+    "en": "The patrol"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": "perder cosas que le hacen falta",
+    "en": "losing things he needs"
+   },
+   "tags": [
+    "tag:orcs",
+    "tag:danger",
+    "tag:cold",
+    "tag:social"
+   ],
+   "lore": {
+    "es": "Seis o siete, bien armados, con un cabo. No son una banda: tienen tramo asignado, tienen horario y tienen que informar.\nY tienen que volver con algo. Si el tramo no dio nada, el que explica es el cabo.\nEso no los vuelve razonables. Los vuelve obligados.\n**Si le sacaron el abrigo o las botas**, el motor arranca un contador. En Angmar eso se resuelve en dos días: o lo consigue en el pueblo, o lo pasa mal, o no lo pasa.",
+    "en": "Six or seven, well armed, with a corporal. They are not a gang: they have an assigned stretch, a schedule and a report to file.\nAnd they have to come back with something. If the stretch yielded nothing, the one who explains is the corporal.\nThat does not make them reasonable. It makes them obliged.\n**If they took his coat or his boots**, the engine starts a counter. In Angmar that resolves in two days: either he gets it in the village, or he suffers it, or he does not."
+   },
+   "base": {
+    "es": "Los ve venir de frente, en fila, a paso constante. No se esconden y no se apuran.\nEl cabo levanta la mano y la columna para. Le habla en oestron, mal.\nLas preguntas son cortas. Quién, de dónde, adónde.\nDespués revisan. Le hacen soltar todo en el camino y lo abren ahí, en el suelo, con el viento llevándose lo que no pesa. Tardan mucho más de lo necesario.\nUno de los seis le saca el abrigo para mirarlo del derecho y del revés. Cuando termina no se lo devuelve enseguida: lo tiene colgado del brazo un rato, mirando otra cosa, mientras el viajero está parado con el viento del norte en la camisa.\nEl cabo lo ve y no dice nada.\nDespués le devuelven algunas cosas.",
+    "en": "He sees them coming head-on, in file, at a steady pace. They do not hide and do not hurry.\nThe corporal raises a hand and the column stops. He speaks to him in Westron, badly.\nThe questions are short. Who, from where, to where.\nThen they search. They make him drop everything on the road and open it there, on the ground, the wind taking whatever weighs nothing. They take much longer than needed.\nOne of the six takes his coat to look it over front and back. When done he does not hand it back at once: he keeps it over his arm a while, looking at something else, while the traveller stands in the north wind in his shirtsleeves.\nThe corporal sees it and says nothing.\nThen they give some things back."
+   },
+   "variants": [],
+   "secret": null,
+   "sections": [
+    {
+     "key": "Lo que se llevan",
+     "es": "No es un peaje y no hay tarifa. Se llevan lo que sirve y lo que les gusta.\nSi no lleva nada de valor, se llevan lo que lo mantiene vivo: el abrigo, las botas, la comida, la lumbre. A cuarenta leguas del sitio más cercano, con este viento, eso no es una pérdida: es un plazo.",
+     "en": "It is not a toll and there is no tariff. They take what is useful and what they like.\nIf he carries nothing of value, they take what keeps him alive: the coat, the boots, the food, the fire-kit. Forty leagues from the nearest place, in this wind, that is not a loss: it is a deadline."
+    }
+   ],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   }
+  },
+  {
+   "id": "am03_patrol",
+   "kind": "offer",
+   "region_ids": [
+    46
+   ],
+   "region": "Angmar",
+   "place_ref": "AM-03",
+   "name": null,
+   "trigger": null,
+   "situation": {
+    "es": null,
+    "en": null
+   },
+   "options": [
+    {
+     "id": "dejar que revisen",
+     "result": {
+      "es": "Pierde lo que decidan. Si no tenía nada que valiera, pierde abrigo o botas.",
+      "en": "He loses what they decide. If he had nothing worth anything, he loses coat or boots."
+     },
+     "effects": {
+      "es": "**riesgo de frío a plazo**",
+      "en": "**cold risk on a deadline**"
+     },
+     "requires": null
+    },
+    {
+     "id": "ofrecer algo primero",
+     "result": {
+      "es": "El cabo lo toma. Acorta el trámite a la mitad. Los otros igual se llevan algo.",
+      "en": "The corporal takes it. It shortens the procedure by half. The others take something anyway."
+     },
+     "effects": {
+      "es": "pierde un objeto bueno · pierde menos del resto",
+      "en": "loses a good object · loses less of the rest"
+     },
+     "requires": null
+    },
+    {
+     "id": "mentir sobre el rumbo",
+     "result": {
+      "es": "Lo anotan. El cabo se lo repite a otro al final de la fila.",
+      "en": "They write it down. The corporal repeats it to another at the end of the file."
+     },
+     "effects": {
+      "es": "marca `anotado`",
+      "en": "mark `anotado`"
+     },
+     "requires": null
+    },
+    {
+     "id": "decir que viene del pueblo y que lo conocen",
+     "result": {
+      "es": "El cabo pregunta un nombre. Si el viajero sabe uno, funciona a medias.",
+      "en": "The corporal asks a name. If the traveller knows one, it half works."
+     },
+     "effects": {
+      "es": "depende de `AM-01`",
+      "en": "depends on `AM-01`"
+     },
+     "requires": null
+    },
+    {
+     "id": "pelear",
+     "result": {
+      "es": "Son seis, están armados y es su oficio.",
+      "en": "They are six, they are armed and it is their trade."
+     },
+     "effects": {
+      "es": "muy alto riesgo",
+      "en": "very high risk"
+     },
+     "requires": null
+    }
+   ],
+   "notes": [
+    "**Con `anotado`**, la siguiente patrulla lo para más tiempo, revisa mejor, y pregunta por qué el rumbo que dio no coincide con dónde está."
+   ],
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "notes_en": [
+    "**With `anotado`**, the next patrol stops him longer, searches better, and asks why the heading he gave does not match where he is."
+   ]
+  },
+  {
+   "id": "TM-06",
+   "kind": "place",
+   "region_ids": [
+    54
+   ],
+   "region": "Talath Muil",
+   "region_confidence": "high",
+   "name": {
+    "es": "El oso",
+    "en": "The bear"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:fauna",
+    "tag:danger",
+    "tag:food",
+    "tag:social"
+   ],
+   "lore": {
+    "es": "Hay osos en los bosquecillos y en las laderas. Grandes, solitarios, y no particularmente agresivos.\nLa gente de acá los caza, con mucha preparación y entre varios, y es un acontecimiento.\nUn oso vale una temporada entera: carne, grasa, piel.",
+    "en": "There are bears in the copses and on the slopes. Big, solitary, and not particularly aggressive.\nThe people here hunt them, with much preparation and several together, and it is an event.\nA bear is worth a whole season: meat, fat, hide."
+   },
+   "base": {
+    "es": "Si se lo cruza solo, el oso lo va a mirar y lo más probable es que se vaya.\nLo que no hay que hacer es estar entre un oso y su comida, o cerca de las crías.",
+    "en": "If he meets one alone, the bear will look at him and most likely leave.\nWhat must not be done is standing between a bear and its food, or near the cubs."
+   },
+   "variants": [
+    {
+     "id": "en_una_caza",
+     "label": {
+      "es": "en una caza",
+      "en": "during a hunt"
+     },
+     "condition": null,
+     "text": {
+      "es": "Si el viajero está en un campamento cuando organizan una, lo van a invitar.",
+      "en": "If the traveller is in a camp when they organise one, they will invite him."
+     }
+    },
+    {
+     "id": "en_una_caza",
+     "label": {
+      "es": "en una caza",
+      "en": "during a hunt"
+     },
+     "condition": null,
+     "text": {
+      "es": "Dura dos días, es peligroso de verdad, y si sale bien hay fiesta.",
+      "en": "It lasts two days, it is truly dangerous, and if it goes well there is a feast."
+     }
+    }
+   ],
+   "secret": null,
+   "sections": [
+    {
+     "key": "Por qué importa",
+     "es": "Porque es el único peligro de la región que **se comporta como se espera**.\nDespués de los lobos, cruzarse un oso es casi un alivio: es un animal, hace cosas de animal, y las reglas se entienden.",
+     "en": "Because it is the region's only danger that **behaves as expected**.\nAfter the wolves, meeting a bear is almost a relief: it is an animal, it does animal things, and the rules are understood."
+    }
+   ],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   }
+  },
+  {
+   "id": "TM-09",
+   "kind": "place",
+   "region_ids": [
+    54
+   ],
+   "region": "Talath Muil",
+   "region_confidence": "high",
+   "name": {
+    "es": "Las huellas",
+    "en": "The tracks"
+   },
+   "type": {
+    "es": "hallazgo",
+    "en": "find"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:wolves",
+    "tag:orcs",
+    "tag:danger",
+    "tag:uncanny",
+    "tag:secret"
+   ],
+   "lore": {
+    "es": "Con nieve o con barro quedan rastros, y los rastros se leen.",
+    "en": "In snow or mud, tracks remain, and tracks are read."
+   },
+   "base": {
+    "es": "Un paso de lobos por la nieve: quince o veinte animales en fila, pisando cada uno la huella del anterior, que es lo que hacen los lobos y por lo cual es imposible contarlos bien.\nSe cruza con su rumbo y lo sigue un rato porque es cómodo caminar por ahí.",
+    "en": "A wolf trail in the snow: fifteen or twenty animals in single file, each stepping in the print before, which is what wolves do and why they cannot be counted well.\nIt crosses his course and he follows it a while because it is easy walking."
+   },
+   "variants": [],
+   "secret": {
+    "condition": {
+     "es": null,
+     "en": null
+    },
+    "text": {
+     "es": "*Si el viajero sigue la fila lo suficiente.*\nEn algún tramo la fila se abre y hay huellas sueltas.\nEntre las huellas de pata hay otras. Son de bota, están **al lado** de las de pata y no detrás, y la distancia entre una y la siguiente es demasiado larga para alguien que camina.",
+     "en": "*If the traveller follows the file far enough.*\nOn some stretch the file opens and there are loose prints.\nAmong the paw prints there are others. Boot prints, **beside** the paws and not behind, and the distance between one and the next is too long for someone walking."
+    }
+   },
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   }
+  },
+  {
+   "id": "TM-21",
+   "kind": "place",
+   "region_ids": [
+    55
+   ],
+   "region": "Rammas Formen",
+   "region_confidence": "high",
+   "name": {
+    "es": "El hambre de los lobos",
+    "en": "The wolves' hunger"
+   },
+   "type": {
+    "es": "peligro",
+    "en": "danger"
+   },
+   "channel": null,
+   "traveller_use": {
+    "es": null,
+    "en": null
+   },
+   "tags": [
+    "tag:wolves",
+    "tag:danger",
+    "tag:night",
+    "tag:fire"
+   ],
+   "lore": {
+    "es": "En la tundra húmeda hay alces y hay presas. Acá hay mucho menos.\nY hay muchos menos fuegos.",
+    "en": "On the wet tundra there are elk and there is prey. Here there is much less.\nAnd there are far fewer fires."
+   },
+   "base": {
+    "es": "Lo primero que nota es que hay más huellas y menos animales.\nLo segundo es que acá se acercan antes. No de noche cerrada: al atardecer, con luz todavía.\nLo tercero es que si tiene fuego, se quedan a treinta pasos, sentados, y no se van en toda la noche.",
+    "en": "The first thing he notices is more tracks and fewer animals.\nThe second is that here they come closer sooner. Not in full night: at dusk, in light still.\nThe third is that if he has a fire, they stay thirty paces off, sitting, and do not leave all night."
+   },
+   "variants": [
+    {
+     "id": "si_no_tiene_lena",
+     "label": {
+      "es": "si no tiene leña",
+      "en": "if he has no firewood"
+     },
+     "condition": null,
+     "text": {
+      "es": "Y en la tundra seca es perfectamente posible no tener leña.",
+      "en": "And in dry tundra it is perfectly possible to have no firewood."
+     }
+    },
+    {
+     "id": "si_no_tiene_lena",
+     "label": {
+      "es": "si no tiene leña",
+      "en": "if he has no firewood"
+     },
+     "condition": null,
+     "text": {
+      "es": "El viajero va a pasar la noche de pie, con lo que tenga en la mano, mirando hacia afuera.",
+      "en": "The traveller will spend the night standing, whatever is in his hand, looking outward."
+     }
+    },
+    {
+     "id": "si_no_tiene_lena",
+     "label": {
+      "es": "si no tiene leña",
+      "en": "if he has no firewood"
+     },
+     "condition": null,
+     "text": {
+      "es": "El motor no resuelve esto con un combate. Lo resuelve con la mañana, o no lo resuelve.",
+      "en": "The engine does not resolve this with a fight. It resolves it with morning, or it does not resolve it."
+     }
+    }
+   ],
+   "secret": null,
+   "sections": [],
+   "beats": [],
+   "geo": {
+    "point": null,
+    "size_radius": {
+     "value": null,
+     "unit": null
+    },
+    "influence_radius": {
+     "value": null,
+     "unit": null
+    }
+   }
+  },
+  {
+   "id": "TM-26",
+   "kind": "place",
+   "region_ids": [
+    54,
+    55,
+    61
+   ],
+   "region": "Talath Muil",
+   "region_confidence": "high",
+   "name": {
+    "es": "Los aullidos",
+    "en": "The howling"
+   },
+   "type": {
+    "es": "encuentro nocturno",
+    "en": "night encounter"
+   },
+   "channel": "hearing",
+   "traveller_use": {
+    "es": "no dormir",
+    "en": "not sleeping"
+   },
+   "tags": [
+    "tag:wolves",
+    "tag:night",
+    "tag:sound",
+    "tag:danger"
+   ],
+   "lore": {
+    "es": "Los lobos de la tundra se llaman de noche para juntarse y para marcar el territorio. Un aullido sale de un lado, otro contesta desde otro, y así la manada sabe dónde está cada uno.\nEl viajero no puede saber cuántos son ni si lo están buscando a él.",
+    "en": "Tundra wolves call at night to gather and to mark territory. One howl comes from one side, another answers from another, and that way the pack knows where each one is.\nThe traveller cannot know how many there are or whether they are looking for him."
+   },
+   "base": {
+    "es": "Ya es de noche cuando empieza. Un aullido largo, solo, que sube y se corta.\nDespués, desde otro lado, otro le contesta. Y después un tercero, y ya no se distingue cuántos son.\nEl viajero deja de hacer lo que estaba haciendo y escucha. Trata de calcular la distancia y no puede.\nDe golpe se callan todos a la vez, y ese silencio es peor que el ruido.",
+    "en": "It is already night when it starts. One long howl, alone, that rises and breaks off.\nThen, from another side, another answers. Then a third, and it is no longer possible to tell how many there are.\nThe traveller stops what he was doing and listens. He tries to judge the distance and cannot.\nSuddenly they all fall silent at once, and that silence is worse than the noise."
+   },
+   "variants": [
+    {
+     "id": "lejos",
+     "label": {
+      "es": "lejos",
+      "en": "far"
+     },
+     "condition": null,
+     "text": {
+      "es": "Vienen de detrás de una loma, a una legua o más. Se oyen claros porque en la tundra el sonido viaja sin nada que lo frene, pero están lejos. Esa noche no se acercan, y el viajero duerme a ratos.",
+      "en": "They come from behind a ridge, a league or more off. They are heard clearly because sound travels across the tundra with nothing to stop it, but they are far. That night they do not come closer, and the traveller sleeps in snatches."
+     }
+    },
+    {
+     "id": "cerca",
+     "label": {
+      "es": "cerca",
+      "en": "near"
+     },
+     "condition": null,
+     "text": {
+      "es": "El primero está cerca: entre él y el bosquecillo más próximo. El que contesta está del otro lado. El viajero está en el medio. Echa leña al fuego y no duerme. Al amanecer encuentra huellas frescas en un círculo a cuarenta pasos de donde estuvo sentado.",
+      "en": "The first one is near: between him and the nearest copse. The one answering is on the other side. The traveller is in the middle. He feeds the fire and does not sleep. At dawn he finds fresh tracks in a circle forty paces from where he sat."
+     }
+    },
+    {
+     "id": "sin_fuego",
+     "label": {
+      "es": "sin fuego",
+      "en": "without a fire"
+     },
+     "condition": null,
+     "text": {
+      "es": "Sin fuego, cada aullido suena un poco más cerca que el anterior. No llegan a verse. Pero el viajero pasa la noche de pie, con la espalda contra lo único que encuentra, y a la mañana está agotado.",
+      "en": "Without a fire, each howl sounds a little closer than the last. They never come into sight. But the traveller spends the night standing, his back against the only thing he can find, and in the morning he is exhausted."
+     }
+    }
+   ],
+   "secret": null,
+   "sections": [],
+   "beats": []
+  },
+  {
+   "id": "TM-27",
+   "kind": "place",
+   "region_ids": [
+    54,
+    55
+   ],
+   "region": "Talath Muil",
+   "region_confidence": "high",
+   "name": {
+    "es": "Las que juntan la hierba",
+    "en": "The herb gatherers"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": "smell",
+   "traveller_use": {
+    "es": "aprender qué planta es cuál",
+    "en": "learning which plant is which"
+   },
+   "tags": [
+    "tag:people",
+    "tag:herbs",
+    "tag:social",
+    "tag:smell"
+   ],
+   "lore": {
+    "es": "A fines del verano, las mujeres de los campamentos suben a las laderas a juntar la hierba gris que va al fuego. Van de a tres o cuatro, con bolsas de cuero, y vuelven antes del atardecer.\nCada una junta en su ladera y no en la de otra.",
+    "en": "At summer's end, the camp women climb the slopes to gather the grey herb that goes into the fire. They go in threes or fours, with leather bags, and are back before dusk.\nEach gathers on her own slope and not on another's."
+   },
+   "base": {
+    "es": "Lo huele antes de verlas: el olor del humo de los campamentos, pero crudo, más verde, sin el dulce de las bayas.\nSon tres mujeres agachadas en la ladera, arrancando matas de una hierba gris y baja y metiéndolas en bolsas de cuero. Cada mata que arrancan suelta ese olor.\nLo ven, lo saludan con la cabeza y siguen trabajando.\nSi se acerca, una de ellas le pone una hoja en la mano, la aprieta entre los dedos de él para que suelte el olor, y le dice que eso es lo que no deja dormir.",
+    "en": "He smells them before he sees them: the smell of the camp smoke, but raw, greener, without the sweetness of the berries.\nThree women are crouched on the slope, pulling up clumps of a low grey herb and putting them in leather bags. Every clump they pull releases that smell.\nThey see him, nod to him and keep working.\nIf he comes close, one of them puts a leaf in his hand, presses it between his fingers so it releases the smell, and tells him that this is what keeps you from sleeping."
+   },
+   "variants": [
+    {
+     "id": "si_ayuda",
+     "label": {
+      "es": "si ayuda",
+      "en": "if he helps"
+     },
+     "condition": null,
+     "text": {
+      "es": "Le muestran cuál se arranca y cuál se deja: se deja la mata que tiene flor, para que vuelva el año siguiente. Al atardecer le dan un puñado para llevar, atado con un cordel.",
+      "en": "They show him which to pull and which to leave: the clump in flower is left, so it comes back next year. At dusk they give him a handful to carry, tied with a cord."
+     }
+    },
+    {
+     "id": "si_pregunta_por_la_raiz",
+     "label": {
+      "es": "si pregunta por la raíz",
+      "en": "if he asks about the root"
+     },
+     "condition": null,
+     "text": {
+      "es": "Se miran entre ellas. La mayor le contesta que eso no crece en esta ladera, y las tres vuelven a agacharse. La conversación se terminó.",
+      "en": "They look at one another. The eldest answers that it does not grow on this slope, and the three bend down again. The conversation is over."
+     }
+    }
+   ],
+   "secret": null,
+   "sections": [],
+   "beats": []
+  },
+  {
+   "id": "TM-28",
+   "kind": "place",
+   "region_ids": [
+    54,
+    55
+   ],
+   "region": "Talath Muil",
+   "region_confidence": "high",
+   "name": {
+    "es": "El que lleva el fuego",
+    "en": "The fire-carrier"
+   },
+   "type": {
+    "es": "encuentro",
+    "en": "encounter"
+   },
+   "channel": "smell",
+   "traveller_use": {
+    "es": "fuego para la noche",
+    "en": "fire for the night"
+   },
+   "tags": [
+    "tag:people",
+    "tag:fire",
+    "tag:social",
+    "tag:smell",
+    "tag:wolves"
+   ],
+   "lore": {
+    "es": "Los fuegos de posta de los bosquecillos no se encienden solos. Hay gente que va de un campamento a otro con brasas vivas, guardadas en un cuerno con tapa, y enciende los fuegos del camino.\nEs un trabajo que se hereda, y el que lo hace no tiene que pagar por comer en ningún campamento.",
+    "en": "The post fires in the copses do not light themselves. Some people go from camp to camp carrying live embers, kept in a lidded horn, and light the fires along the way.\nIt is an inherited job, and whoever does it never pays for a meal in any camp."
+   },
+   "base": {
+    "es": "Un hombre solo, a pie, a media tarde, con un cuerno colgado del hombro del que sale un hilo de humo. El humo huele como el de los campamentos.\nNo se esconde y no se apura. Cuando se cruzan, levanta el cuerno a modo de saludo.\nVa hacia el bosquecillo más cercano. Si el viajero lo acompaña, lo ve destapar el cuerno, soplar las brasas sobre un puñado de corteza y echar encima la mezcla. Con el fuego encendido, el hombre carga la pila de leña y se va al siguiente bosquecillo.",
+    "en": "A man alone, on foot, in mid-afternoon, with a horn hung from his shoulder that trails a thread of smoke. The smoke smells like the camps'.\nHe does not hide and does not hurry. When they meet, he raises the horn by way of greeting.\nHe is heading for the nearest copse. If the traveller goes with him, he sees him uncover the horn, blow the embers onto a handful of bark and throw the mix on top. With the fire lit, the man stacks the woodpile and goes on to the next copse."
+   },
+   "variants": [
+    {
+     "id": "si_no_tiene_fuego",
+     "label": {
+      "es": "si el viajero no tiene fuego",
+      "en": "if the traveller has no fire"
+     },
+     "condition": null,
+     "text": {
+      "es": "El hombre le pasa una brasa a su propia yesca sin que se la pida, y le dice que antes del atardecer la alimente con la mezcla, no solo con leña.",
+      "en": "The man passes an ember to his tinder without being asked, and tells him to feed it with the mix before dusk, not only with wood."
+     }
+    },
+    {
+     "id": "al_atardecer",
+     "label": {
+      "es": "al atardecer",
+      "en": "at dusk"
+     },
+     "condition": null,
+     "text": {
+      "es": "Si los agarra la tarde juntos, el hombre no sigue. Se queda en el bosquecillo, al lado del fuego, y le hace lugar al viajero. Esa noche duermen por turnos.",
+      "en": "If dusk catches them together, the man goes no farther. He stays in the copse, by the fire, and makes room for the traveller. That night they sleep in turns."
+     }
+    }
+   ],
+   "secret": null,
+   "sections": [],
+   "beats": []
+  }
+ ]
+}

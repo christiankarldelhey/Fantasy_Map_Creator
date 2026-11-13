@@ -159,15 +159,28 @@ export function usePlaceGeoref() {
       if (!activePlace.value) return
       draft.value.lon = lngLat.lng
       draft.value.lat = lngLat.lat
-      if (!draft.value.region_id && data.region) draft.value.region_id = data.region.id
+      // The dropdown follows the click: the region is whichever polygon
+      // contains the point, so a dragged point can never keep a stale region.
+      if (data.region) draft.value.region_id = data.region.id
       refreshMapSources()
     } catch (e: any) {
       error.value = e.response?.data?.error || e.message
     }
   }
 
+  /** Fly to the ficha's suggested point and treat it as a map click (draft + nearby candidates). */
+  async function useApproxPoint() {
+    const p = activePlace.value?.payload?.approx_point as { lon: number; lat: number } | undefined
+    if (!p || !map) return
+    map.flyTo({ center: [p.lon, p.lat], zoom: Math.max(map.getZoom(), 8) })
+    if (mode.value === 'position') await onMapClick({ lng: p.lon, lat: p.lat }, [0, 0])
+  }
+
   async function saveAdopt(candidate: NearbyCandidate) {
-    if (!activePlace.value || draft.value.lon === null) return
+    if (!activePlace.value || draft.value.lon === null) {
+      error.value = 'Sin punto en el draft: hacé click en el mapa (o "ir a" el approx) antes de guardar'
+      return
+    }
     saving.value = true
     error.value = null
     try {
@@ -187,7 +200,10 @@ export function usePlaceGeoref() {
   }
 
   async function saveCreate() {
-    if (!activePlace.value || draft.value.lon === null || draft.value.lat === null) return
+    if (!activePlace.value || draft.value.lon === null || draft.value.lat === null) {
+      error.value = 'Sin punto en el draft: hacé click en el mapa (o "ir a" el approx) antes de guardar'
+      return
+    }
     saving.value = true
     error.value = null
     try {
@@ -344,7 +360,7 @@ export function usePlaceGeoref() {
   return {
     enabled, mode, pending, positioned, list, activePlace, activeIndex, regionFilter,
     candidates, clickRegion, draft, saving, error,
-    loadLists, selectPlace, step, onMapClick,
+    loadLists, selectPlace, step, onMapClick, useApproxPoint,
     saveAdopt, saveCreate, saveEdit,
     attachMap, refreshMapSources, toggle
   }

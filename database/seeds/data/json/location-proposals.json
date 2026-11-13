@@ -1,0 +1,160 @@
+{
+ "note": "Locations que faltan para anclar fichas. existing_location_id = ya existe en el gacetero pero sin geom (solo falta posicionarla); null = crear nueva. approx_point es un punto de partida, no una verdad.",
+ "proposals": [
+  {
+   "name": "Aradhrynd",
+   "location_type": "palace",
+   "existing_location_id": 1189,
+   "approx_point": [
+    19.756,
+    53.479
+   ],
+   "for_places": [
+    "WR-03",
+    "WR-04",
+    "WR-08",
+    "WR-09"
+   ],
+   "note": "Palacio de Thranduil, bajo una colina junto al Taurduin."
+  },
+  {
+   "name": "Erebor",
+   "location_type": "dwarven mine",
+   "existing_location_id": 1212,
+   "approx_point": [
+    21.27,
+    53.96
+   ],
+   "for_places": [
+    "ER-05"
+   ],
+   "note": "Cara sur de la Montaña Solitaria."
+  },
+  {
+   "name": "Azanulinbar-dûm",
+   "location_type": "dwarven mine",
+   "existing_location_id": 1190,
+   "approx_point": null,
+   "for_places": [
+    "EH-02",
+    "EH-03"
+   ],
+   "note": "Mansión de las Colinas de Hierro."
+  },
+  {
+   "name": "Buhr Waldmarh",
+   "location_type": "fortified town",
+   "existing_location_id": 1194,
+   "approx_point": null,
+   "for_places": [
+    "ET-01"
+   ],
+   "note": "Entre el Aguascálidas y el Surubeki."
+  },
+  {
+   "name": "Buhr Mahrling",
+   "location_type": "fortified town",
+   "existing_location_id": 1193,
+   "approx_point": null,
+   "for_places": [
+    "ET-03"
+   ],
+   "note": "Curso bajo del Celduin."
+  },
+  {
+   "name": "Beorn's House",
+   "location_type": "manor",
+   "existing_location_id": null,
+   "approx_point": [
+    15.3,
+    52.05
+   ],
+   "for_places": [
+    "VA-01"
+   ],
+   "note": "Al este de la Carroca."
+  },
+  {
+   "name": "Old Ford",
+   "location_type": "point of interest",
+   "existing_location_id": null,
+   "approx_point": [
+    14.815,
+    51.744
+   ],
+   "for_places": [
+    "VA-23"
+   ],
+   "note": "Camino Viejo del Bosque × Anduin."
+  },
+  {
+   "name": "Buhr Fram",
+   "location_type": "village",
+   "existing_location_id": null,
+   "approx_point": [
+    14.04,
+    54.15
+   ],
+   "for_places": [
+    "VA-30"
+   ],
+   "note": "Aldea abierta a media legua de Framsburg; la 1192 del gacetero es otra cosa (alias de Framsburg)."
+  },
+  {
+   "name": "Burned ford of the Celduin",
+   "location_type": "ruins",
+   "existing_location_id": null,
+   "approx_point": [
+    22.387,
+    52.076
+   ],
+   "for_places": [
+    "GZ-03"
+   ],
+   "note": "Road 4083 × Celduin."
+  },
+  {
+   "name": "Boatmen's post",
+   "location_type": "hamlet",
+   "existing_location_id": null,
+   "approx_point": [
+    22.557,
+    52.032
+   ],
+   "for_places": [
+    "GZ-04"
+   ],
+   "note": "Curva del Celduin aguas abajo del vado."
+  },
+  {
+   "name": "Carters' town (Iron Hills)",
+   "location_type": "village",
+   "existing_location_id": null,
+   "approx_point": null,
+   "for_places": [
+    "EH-05"
+   ],
+   "note": "Pueblo de los carreteros a media jornada de la Puerta."
+  },
+  {
+   "name": "Argonath",
+   "location_type": "ruins",
+   "existing_location_id": 1164,
+   "approx_point": [
+    16.15,
+    46.09
+   ],
+   "for_places": [
+    "RO-15"
+   ],
+   "note": "Entrada norte de Nen Hithoel; hay otra ficha duplicada en el gacetero (1179)."
+  }
+ ],
+ "gazetteer_duplicates": [
+  "Eolburg 442 = Buhr Ailgra (1188, 1173 sin geom)",
+  "Vidusbaurg 513 = Buhr Widu (1195 sin geom)",
+  "Melburg 638 = Maethelburg (1227 sin geom)",
+  "Framsburg 534 = Wraecaburg (1261 sin geom) = Buhr Fram (1192, según el gacetero)",
+  "Cor Angaladh 572 = Cor Angálaladh (1201 sin geom)"
+ ]
+}

@@ -43,8 +43,28 @@
           {{ txt(georef.activePlace.value.payload?.type) }}
           <span v-if="georef.activePlace.value.tags?.length">· {{ georef.activePlace.value.tags.join(', ') }}</span>
         </p>
+        <p v-if="txt(georef.activePlace.value.payload?.anchor_hint)" class="anchor">
+          ⌖ {{ txt(georef.activePlace.value.payload?.anchor_hint) }}
+          <template v-if="georef.activePlace.value.payload?.location_ref">
+            · location {{ georef.activePlace.value.payload.location_ref.id }} {{ georef.activePlace.value.payload.location_ref.name }}
+          </template>
+          <template v-if="georef.activePlace.value.payload?.approx_point">
+            <br />
+            <button class="approx" @click="georef.useApproxPoint()">
+              ir a {{ georef.activePlace.value.payload.approx_point.lon }}, {{ georef.activePlace.value.payload.approx_point.lat }}
+            </button>
+            <span class="hint">{{ georef.activePlace.value.payload.approx_point.basis }}</span>
+          </template>
+        </p>
+        <p v-if="metaLine" class="meta">{{ metaLine }}</p>
+        <p v-if="txt(georef.activePlace.value.payload?.note)"><i>{{ txt(georef.activePlace.value.payload?.note) }}</i></p>
         <p v-if="txt(georef.activePlace.value.payload?.lore)"><i>{{ txt(georef.activePlace.value.payload?.lore) }}</i></p>
+        <p v-if="txt(georef.activePlace.value.payload?.base_lore)">{{ txt(georef.activePlace.value.payload?.base_lore) }}</p>
         <p v-if="txt(georef.activePlace.value.payload?.base)">{{ txt(georef.activePlace.value.payload?.base) }}</p>
+        <div v-for="(s, i) in sections" :key="`s${i}`" class="block">
+          <b>{{ txt(s.label) || s.id }}</b>
+          <p>{{ txt(s.text) }}</p>
+        </div>
         <div v-for="(v, i) in variants" :key="i" class="block">
           <b>{{ txt(v.label) }}</b>
           <p>{{ txt(v.text) }}</p>
@@ -61,6 +81,11 @@
           <b>♦ {{ b.key || b.id || 'beat' }}</b>
           <p>{{ txt(b.text || b) }}</p>
         </div>
+        <div v-if="refsText" class="block"><b>refs</b><p class="meta">{{ refsText }}</p></div>
+        <details class="raw">
+          <summary>JSON completo</summary>
+          <pre>{{ rawPayload }}</pre>
+        </details>
       </section>
 
       <!-- Editable -->
@@ -154,7 +179,7 @@ function txt(field: unknown): string {
   return String(field)
 }
 
-function payloadList(key: string): unknown[] {
+function payloadList(key: string): Record<string, any>[] {
   const active = props.georef.activePlace.value?.payload as Record<string, unknown> | undefined
   const v = active?.[key]
   return Array.isArray(v) ? v : []
@@ -162,6 +187,29 @@ function payloadList(key: string): unknown[] {
 const variants = computed(() => payloadList('variants'))
 const options = computed(() => payloadList('options'))
 const beats = computed(() => payloadList('beats'))
+const sections = computed(() => payloadList('sections'))
+
+/** Small facts line: kind, region, channel, traveller_use. */
+const metaLine = computed(() => {
+  const p = props.georef.activePlace.value?.payload as Record<string, unknown> | undefined
+  if (!p) return ''
+  const parts = [
+    p.kind, p.region,
+    p.channel ? `canal: ${p.channel}` : null,
+    txt(p.traveller_use) ? `uso: ${txt(p.traveller_use)}` : null,
+  ].filter(Boolean)
+  return parts.join(' · ')
+})
+
+/** Geo/biome/road references used by anchor hints. */
+const refsText = computed(() => {
+  const p = props.georef.activePlace.value?.payload as Record<string, unknown> | undefined
+  if (!p?.refs && !p?.geo) return ''
+  return JSON.stringify(p.refs ?? p.geo)
+})
+
+const rawPayload = computed(() =>
+  JSON.stringify(props.georef.activePlace.value?.payload ?? {}, null, 1))
 </script>
 
 <script lang="ts">
@@ -194,9 +242,14 @@ export default { name: 'GeorefPanel' }
 .items li { padding: 3px 5px; cursor: pointer; border-bottom: 1px solid #eee3c8; }
 .items li.sel { background: #ead9ff; }
 header { border-bottom: 1px solid #b8a67a; margin-bottom: 6px; display: flex; gap: 8px; }
-.ficha { max-height: 40vh; overflow-y: auto; border-bottom: 1px solid #b8a67a; margin-bottom: 8px; padding-bottom: 6px; }
+.ficha { max-height: 46vh; overflow-y: auto; border-bottom: 1px solid #b8a67a; margin-bottom: 8px; padding-bottom: 6px; }
+.ficha .raw { margin-top: 6px; }
+.ficha .raw summary { cursor: pointer; color: #6b5a3a; font-size: 12px; }
+.ficha .raw pre { white-space: pre-wrap; word-break: break-word; font-size: 10px; max-height: 30vh; overflow-y: auto; background: #f5eeda; padding: 6px; }
 .ficha .meta { color: #6b5a3a; font-size: 12px; }
 .ficha .block { margin: 6px 0; }
+.ficha .anchor { background: #f5eeda; border-left: 3px solid #7c3aed; padding: 3px 6px; font-size: 12px; }
+.ficha .anchor .approx { border: 1px solid #7c3aed; background: #fff; color: #7c3aed; padding: 1px 6px; margin: 3px 6px 0 0; cursor: pointer; font-size: 11px; }
 .form label { display: block; margin: 6px 0; font-size: 12px; }
 .form select, .form input, .form textarea {
   width: 100%; border: 1px solid #b8a67a; background: #fff; padding: 3px 5px; font: inherit;
