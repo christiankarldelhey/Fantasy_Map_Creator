@@ -58,7 +58,7 @@ function describeCrossing(crossing, rng) {
       ? plankVariants(named, when)
       : fordVariants(named, when);
 
-  return `- ${pick(variants, rng)}${descriptionSuffix(crossing.description)}`;
+  return `- ${pick(variants, rng)}${descriptionSuffix(crossing.aspect)}`;
 }
 
 /** Describe the rivers and streams crossed during the day. */

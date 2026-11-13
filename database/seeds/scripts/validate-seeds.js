@@ -376,36 +376,32 @@ async function validateDepictionLinks() {
     }
     if (dangling === 0) console.log('✅ refs: all feature ids exist');
 
-    // dead depictions: a record that depicts nothing. Scope-bound depictions
-    // (biome phrase banks — no refs, but type/region scope) resolve through
-    // the ladder instead of depiction_id and are exempt.
+    // dead bindings: a record claims features in refs but no feature's
+    // depiction_id materialized back to it (refs is the authored truth —
+    // the seed materializes; a mismatch means the link never ran).
     const { rows: dead } = await pool.query(
       `SELECT p.id FROM places_narration p
-       WHERE p.kind = 'depiction'
+       WHERE p.refs IS NOT NULL
          AND NOT EXISTS (SELECT 1 FROM locations l WHERE l.depiction_id = p.id)
          AND NOT EXISTS (SELECT 1 FROM water w     WHERE w.depiction_id = p.id)
          AND NOT EXISTS (SELECT 1 FROM biomes b    WHERE b.depiction_id = p.id)
          AND NOT EXISTS (SELECT 1 FROM roads r     WHERE r.depiction_id = p.id)
          AND NOT EXISTS (SELECT 1 FROM regions g   WHERE g.depiction_id = p.id)
-         AND NOT EXISTS (SELECT 1 FROM kingdoms k  WHERE k.depiction_id = p.id)
-         AND NOT (
-           p.refs IS NULL
-           AND (p.type IS NOT NULL OR p.region_id IS NOT NULL
-                OR p.cultural_family IS NOT NULL OR p.location_id IS NOT NULL)
-         )`
+         AND NOT EXISTS (SELECT 1 FROM kingdoms k  WHERE k.depiction_id = p.id)`
     );
     if (dead.length === 0) {
       console.log('✅ no dead depiction records');
     } else {
-      console.log(`⚠️  ${dead.length} depiction records no feature points at: ${dead.map((d) => d.id).slice(0, 10).join(', ')}`);
+      console.log(`⚠️  ${dead.length} records with refs but no materialized depiction_id: ${dead.map((d) => d.id).slice(0, 10).join(', ')}`);
     }
 
-    // overnight records (kind='interaction' + action='rest') must carry at
-    // least one scope dimension — a scopeless record can never be resolved
+    // overnight records (interactive[] tagged 'context:overnight') must carry
+    // at least one scope dimension — a scopeless record can never be resolved
     // (old chk_scope equivalent).
     const { rows: [scopeless] } = await pool.query(
       `SELECT COUNT(*)::int AS n FROM places_narration
-       WHERE kind = 'interaction' AND action = 'rest'
+       WHERE EXISTS (SELECT 1 FROM jsonb_array_elements(interactive) s
+                     WHERE s->'tags' ? 'context:overnight')
          AND location_id IS NULL AND type IS NULL
          AND region_id IS NULL AND cultural_family IS NULL`
     );
@@ -420,11 +416,13 @@ async function validateDepictionLinks() {
 }
 
 /**
- * Validate the normalized record shape (ADR-0014 → normalize_narration_columns):
- *  - payload carries no scalar copies of real columns and no dead scratch keys
- *    (name/type objects {en,es} are the authored bilingual form and may stay)
+ * Validate the narration-v2 record shape (ADR-0015):
+ *  - kind is only 'place' or 'ambient'
+ *  - name/type are localized {en,es} objects when present
+ *  - payload carries only provenance/scope-metadata keys (no prose)
  *  - region_id is region_ids' first element when the list is present
- *  - kind/action coherence (only interactions carry action)
+ *  - every gating/driver tag exists in the narration_tags registry
+ *  - every situation carries at least one option with an outcome
  */
 async function validateNarrationShape() {
   console.log('\n📐 Validating narration record shape...');
@@ -436,23 +434,44 @@ async function validateNarrationShape() {
   }
 
   try {
-    const COLUMN_KEYS = [
-      'id', 'kind', 'action', 'place_ref', 'tags',
-      'region', 'region_id', 'region_ids', 'region_confidence',
-      '_group', '_in_sit',
+    const { rows: [badKinds] } = await pool.query(
+      `SELECT COUNT(*)::int AS n FROM places_narration WHERE kind NOT IN ('place','ambient')`
+    );
+    if (badKinds.n === 0) {
+      console.log('✅ kind vocabulary: only place/ambient');
+    } else {
+      console.log(`⚠️  ${badKinds.n} records with a kind outside place/ambient`);
+    }
+
+    // payload keeps provenance + scope metadata only — prose/spec keys that
+    // migrated to real columns must not linger.
+    const ALLOWED_PAYLOAD_KEYS = [
+      'origin', 'legacy_id', 'anchor_hint', 'location_ref', 'approx_point',
+      'region', 'region_confidence', 'place_ref', 'title',
+      'region_name', 'category',
     ];
     const { rows: dirty } = await pool.query(
-      `SELECT id FROM places_narration
-       WHERE payload ?| $1::text[]
-          OR (payload ? 'name' AND jsonb_typeof(payload->'name') IS DISTINCT FROM 'object')
-          OR (payload ? 'type' AND jsonb_typeof(payload->'type') IS DISTINCT FROM 'object')
+      `SELECT p.id, k.key FROM places_narration p,
+              jsonb_object_keys(p.payload) k(key)
+       WHERE NOT (k.key = ANY($1::text[]))
        LIMIT 10`,
-      [COLUMN_KEYS]
+      [ALLOWED_PAYLOAD_KEYS]
     );
     if (dirty.length === 0) {
-      console.log('✅ payload: no column-duplicate or scratch keys');
+      console.log('✅ payload: provenance keys only');
     } else {
-      console.log(`⚠️  ${dirty.length}+ records carry column-duplicate payload keys: ${dirty.map((d) => d.id).join(', ')}`);
+      console.log(`⚠️  unexpected payload keys: ${dirty.map((d) => `${d.id}.${d.key}`).join(', ')}`);
+    }
+
+    const { rows: [badLoc] } = await pool.query(
+      `SELECT COUNT(*)::int AS n FROM places_narration
+       WHERE (name IS NOT NULL AND jsonb_typeof(name) <> 'object')
+          OR (type IS NOT NULL AND jsonb_typeof(type) <> 'object')`
+    );
+    if (badLoc.n === 0) {
+      console.log('✅ name/type are localized objects');
+    } else {
+      console.log(`⚠️  ${badLoc.n} records with non-localized name/type`);
     }
 
     const { rows: [misaligned] } = await pool.query(
@@ -465,18 +484,81 @@ async function validateNarrationShape() {
       console.log(`⚠️  ${misaligned.n} records whose region_id is not region_ids[1]`);
     }
 
-    const { rows: [badAction] } = await pool.query(
+    const { rows: [emptySits] } = await pool.query(
       `SELECT COUNT(*)::int AS n FROM places_narration
-       WHERE NOT ((kind = 'interaction' AND action IN ('rest','offer'))
-               OR (kind <> 'interaction' AND action IS NULL))`
+       WHERE EXISTS (SELECT 1 FROM jsonb_array_elements(interactive) s
+                     WHERE jsonb_typeof(s->'options') <> 'array'
+                        OR jsonb_array_length(s->'options') = 0)`
     );
-    if (badAction.n === 0) {
-      console.log('✅ kind/action coherence');
+    if (emptySits.n === 0) {
+      console.log('✅ every situation carries at least one option');
     } else {
-      console.log(`⚠️  ${badAction.n} records violate kind/action coherence`);
+      console.log(`⚠️  ${emptySits.n} records have situations with no options`);
     }
+
+    await validateNarrationTags();
   } catch (error) {
     console.log(`❌ Error validating narration shape: ${error.message}`);
+  }
+}
+
+/**
+ * Every gating tag (situation/variant tags + not_tags + option drivers) must
+ * resolve against the narration_tags registry. Pattern families are stored
+ * as a single '*' row whose pattern lives in tags.json.
+ */
+async function validateNarrationTags() {
+  const { rows: [reg] } = await pool.query(`SELECT to_regclass('narration_tags') AS t`);
+  if (!reg.t) {
+    console.log('⚠️  narration_tags not present; run the narration migration first');
+    return;
+  }
+
+  const tagsFile = JSON.parse(
+    await fs.readFile(path.join(__dirname, '../data/json/tags.json'), 'utf8')
+  );
+  const patterns = new Map(
+    Object.entries(tagsFile.families || {})
+      .filter(([, d]) => d.pattern)
+      .map(([fam, d]) => [fam, new RegExp(d.pattern)])
+  );
+  const { rows: registered } = await pool.query(
+    `SELECT family, value FROM narration_tags`
+  );
+  const closed = new Map();
+  for (const r of registered) {
+    if (r.value === '*') continue;
+    (closed.get(r.family) || closed.set(r.family, new Set()).get(r.family)).add(r.value);
+  }
+  const tagOk = (tag) => {
+    const i = String(tag).indexOf(':');
+    if (i < 0) return false;
+    const [fam, val] = [tag.slice(0, i), tag.slice(i + 1)];
+    if (patterns.has(fam)) return patterns.get(fam).test(val);
+    return closed.get(fam)?.has(val) ?? false;
+  };
+
+  const { rows } = await pool.query(
+    `SELECT id, interactive, variants FROM places_narration
+      WHERE interactive IS NOT NULL OR variants IS NOT NULL`
+  );
+  const bad = [];
+  for (const r of rows) {
+    const check = (tag, where) => { if (!tagOk(tag)) bad.push(`${r.id}:${where}:${tag}`); };
+    for (const s of r.interactive || []) {
+      for (const t of s?.tags || []) check(t, 'interactive');
+      for (const t of s?.not_tags || []) check(t, 'interactive-not');
+      for (const o of s?.options || []) { if (o?.tag) check(o.tag, 'option-driver'); }
+    }
+    for (const v of r.variants || []) {
+      for (const t of v?.tags || []) check(t, 'variant');
+      for (const t of v?.not_tags || []) check(t, 'variant-not');
+    }
+  }
+  if (bad.length === 0) {
+    console.log('✅ all gating/driver tags resolve against narration_tags');
+  } else {
+    console.log(`⚠️  ${bad.length} tags outside the registry: ${bad.slice(0, 15).join(', ')}`);
   }
 }
 

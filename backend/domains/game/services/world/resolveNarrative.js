@@ -43,8 +43,11 @@ export function typeClasses(type) {
 
 /** A record's scope type matches the queried type exactly or as its class. */
 export function typeMatches(recordType, queryType) {
-  if (recordType == null || queryType == null) return false;
-  return recordType === queryType || typeClasses(queryType).includes(recordType);
+  // type is {en,es} in the ADR-0015 spec; legacy callers may pass a bare string
+  const rt = typeof recordType === 'object' && recordType !== null
+    ? (recordType.en ?? recordType.es) : recordType;
+  if (rt == null || queryType == null) return false;
+  return rt === queryType || typeClasses(queryType).includes(rt);
 }
 
 // ---------------------------------------------------------------------------
@@ -89,17 +92,22 @@ export async function depictionsFor(table, featureIds) {
 const SCOPE_DIMS = ['location_id', 'type', 'region_id', 'cultural_family'];
 
 /**
- * Load all records of a kind (optionally one interaction action) with their
- * scope + content columns. Runtime readers map them to their own row shapes.
+ * Load records of a kind with their scope + content columns (ADR-0015 spec).
+ * `situationTag` filters to records whose interactive[] carries a situation
+ * tagged with it (e.g. 'context:overnight'). Runtime readers map rows to
+ * their own shapes.
  */
-export async function loadScoped(kind, action = null) {
+export async function loadScoped(kind = null, situationTag = null) {
   const { rows } = await pool.query(
-    `SELECT id, kind, action, location_id, type, region_id, cultural_family,
+    `SELECT id, kind, location_id, type, region_id, cultural_family,
             priority, name, tags,
-            description, variants, mechanics, refs, payload
+            aspect, presence, variants, rotation, interactive, refs, payload
        FROM places_narration
-      WHERE kind = $1 AND ($2::text IS NULL OR action = $2)`,
-    [kind, action],
+      WHERE ($1::text IS NULL OR kind = $1)
+        AND ($2::text IS NULL OR EXISTS (
+              SELECT 1 FROM jsonb_array_elements(interactive) s
+              WHERE s->'tags' ? $2))`,
+    [kind, situationTag],
   );
   return rows;
 }
@@ -139,7 +147,7 @@ export function resolveScoped(records, ctx = {}, opts = {}) {
     if (opts.typeBound === true && r.type == null && r.location_id == null) return false;
     if (opts.typeBound === false && (r.type != null || r.location_id != null)) return false;
     if (r.location_id != null) return r.location_id === locationId;
-    if (r.type != null && !typeMatches(r.type, type)) return false;
+    if (r.type != null && !typeMatches(r.type?.en ?? r.type, type)) return false;
     if (r.region_id != null && r.region_id !== regionId) return false;
     if (r.cultural_family != null && r.cultural_family !== culturalFamily) return false;
     return scopeSpecificity(r) > 0;

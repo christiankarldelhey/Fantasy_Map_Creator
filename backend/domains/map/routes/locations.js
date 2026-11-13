@@ -21,8 +21,8 @@ router.get('/', async (req, res, next) => {
               'slug', l.slug,
               'url_path', l.url_path,
               'region', l.region,
-              'description', pd.description->>'en',
-              'description_es', pd.description->>'es',
+              'description', pd.aspect->>'en',
+              'description_es', pd.aspect->>'es',
               'population', l.population,
               'inhabitants', l.inhabitants
             )
@@ -59,8 +59,8 @@ router.get('/:id', async (req, res, next) => {
           'slug', l.slug,
           'url_path', l.url_path,
           'region', l.region,
-          'description', pd.description->>'en',
-          'description_es', pd.description->>'es',
+          'description', pd.aspect->>'en',
+          'description_es', pd.aspect->>'es',
           'population', l.population,
           'inhabitants', l.inhabitants
         )

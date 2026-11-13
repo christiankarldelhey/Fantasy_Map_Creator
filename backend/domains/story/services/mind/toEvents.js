@@ -313,11 +313,11 @@ function placeEvents(day) {
         kind: loc.type || null,
         population: loc.population ?? null,
         inhabitants: loc.inhabitants ?? null,
-        description: loc.description ?? null,
-        description_es: loc.description_es ?? null,
+        aspect: loc.aspect ?? null,
+        aspect_es: loc.aspect_es ?? null,
         distance_km: loc.distance_km ?? null,
-        base: loc.base ?? undefined,
-        base_es: loc.base_es ?? undefined,
+        presence: loc.presence ?? undefined,
+        presence_es: loc.presence_es ?? undefined,
         sighted: loc.sighted
           ? { hour_float: loc.sighted_hour_float ?? null, direction: loc.sighted_direction ?? null }
           : undefined,

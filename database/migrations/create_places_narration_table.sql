@@ -54,10 +54,12 @@ CREATE TABLE IF NOT EXISTS places_narration (
 );
 
 -- Columns for tables that predate this definition (rename path above, or an
--- early places_narration created before they were added).
+-- early places_narration created before they were added — including a
+-- schema.sql fresh table, whose CREATE above is a no-op).
 ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS cultural_family TEXT;
 ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS priority SMALLINT NOT NULL DEFAULT 0;
 ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS action TEXT;
+ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS place_ref TEXT;
 ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS description JSONB;
 ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS variants JSONB;
 ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS mechanics JSONB;

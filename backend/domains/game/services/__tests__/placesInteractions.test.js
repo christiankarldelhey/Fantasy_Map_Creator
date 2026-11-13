@@ -120,24 +120,36 @@ const interactions = [
 
 const originalQuery = pool.query.bind(pool);
 
-// The canonical path reads kind='interaction' + action='rest' records; the
-// legacy table is only the fallback. Mock both so tests exercise the record
-// → legacy-row mapping (overnightRecordToRow).
+// The canonical path reads ambient/place records whose interactive[] carries
+// a 'context:overnight' situation (ADR-0015); effects live on the option's
+// outcome. Mock both the record query and the scope ladder inputs.
 const narrationRecords = interactions.map((r) => ({
   id: `ovn:${r.id}`,
-  kind: 'interaction',
-  action: 'rest',
+  kind: 'ambient',
   location_id: r.location_id,
-  type: r.location_type,
+  type: r.location_type ? { en: r.location_type, es: null } : null,
   region_id: r.region_id,
   cultural_family: r.cultural_family,
   priority: r.priority,
-  name: r.title,
-  geom: null,
+  name: r.title ? { en: r.title, es: null } : null,
   tags: [],
-  description: { en: r.description },
+  presence: { en: r.description, es: null },
   variants: null,
-  mechanics: { rest_quality: r.rest_quality, shadow_effect: r.shadow_effect },
+  rotation: null,
+  interactive: [{
+    id: `ovn:${r.id}_night`,
+    tags: ['context:overnight'],
+    options: [{
+      id: 'rest',
+      tag: 'mind:fatigue',
+      outcomes: {
+        success: {
+          text: { en: r.description, es: null },
+          effects: { rest_quality: r.rest_quality, shadow_effect: r.shadow_effect },
+        },
+      },
+    }],
+  }],
   refs: null,
   payload: { title: r.title, legacy_id: r.id, origin: 'backfill:places_interactions' },
 }));
@@ -155,7 +167,8 @@ function installMock() {
     if (text.includes('FROM places_narration')) {
       return {
         rows: narrationRecords.filter(
-          (r) => r.kind === params[0] && (params[1] == null || r.action === params[1]),
+          (r) => (params[0] == null || r.kind === params[0])
+            && (params[1] == null || r.interactive.some((s) => (s.tags || []).includes(params[1]))),
         ),
       };
     }

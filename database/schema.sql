@@ -223,66 +223,95 @@ COMMENT ON COLUMN biomes.type IS 'Biome category: forest, hills, marsh, mountain
 
 -- ============================================================================
 -- Table: places_narration
--- Purpose: All quiet narrative — fichas plus depictions and interactions —
---          over a mute gazetteer (ADR-0013/0014). Records carry no geometry:
---          position is borrowed from the anchor location, a feature's
---          depiction_id, or a scope (type × region_id × cultural_family).
---          Columns first, payload last: shared fields are real columns;
---          payload keeps only kind-unique spec and provenance.
+-- Purpose: All quiet narrative over a mute gazetteer — one canonical record
+--          shape for every voice the world has (ADR-0014/0015). Records carry
+--          no geometry: position is borrowed from the anchor location, a
+--          feature's depiction_id, or a scope (type × region_id ×
+--          cultural_family). kind says what the voice is anchored to, not
+--          which legacy table it came from: 'place' is a location ficha with
+--          radii; 'ambient' is every other scope-bound voice (region, biome,
+--          water, arrival, lore). Every record may carry every prose field —
+--          aspect is the face seen from outside, presence what being there
+--          is like. Interactivity is a capability, not a kind: `interactive`
+--          holds situations whose options resolve by mind state today and by
+--          player choice later. Conditional content gates on universal tags
+--          (see narration_tags / tags.json), not per-kind condition strings.
 --          Seed data: database/seeds/data/json/places.json (authored fichas)
 --          + narration.json (generated dep:* / ovn:* records).
 -- ============================================================================
 
 CREATE TABLE IF NOT EXISTS places_narration (
     id                  TEXT PRIMARY KEY,                -- ficha code: 'E-01', 'dep:loc:…', 'ovn:*'
-    kind                TEXT NOT NULL
-                        CHECK (kind IN ('place', 'ambient', 'arrival', 'lore',
-                                        'depiction', 'interaction')),
-    action              TEXT,                            -- interaction family: 'rest' | 'offer'
+    kind                TEXT NOT NULL CHECK (kind IN ('place', 'ambient')),
     location_id         INTEGER REFERENCES locations(id), -- hosted-at anchor (1:N); NULL until positioned
-    place_ref           TEXT REFERENCES places_narration(id) ON DELETE SET NULL, -- offer → parent record
     region_id           INTEGER REFERENCES regions(id),  -- scope region (first of region_ids)
     region_ids          INTEGER[],                       -- authored multi-region list
-    name                TEXT,                            -- flat (en) name; {en,es} form lives in payload
-    type                TEXT,                            -- ficha type / depiction scope feature class
+    name                JSONB,                           -- {en, es}
+    type                JSONB,                           -- {en, es} — scope matching uses ->>'en'
     cultural_family     TEXT,                            -- scope dimension for generic records
     priority            SMALLINT NOT NULL DEFAULT 0,     -- tie-breaker between competing records
-    tags                TEXT[] NOT NULL DEFAULT '{}',
+    tags                TEXT[] NOT NULL DEFAULT '{}',    -- thematic tags ('people','vista',…)
     size_radius_km      NUMERIC(8,2),                    -- traveller is AT the record's place
     influence_radius_km NUMERIC(8,2),                    -- askable / felt from afar
-    description         JSONB,                           -- canonical flat prose {en, es}
-    variants            JSONB,                           -- [{key|id, phrases|text, condition?}]
-    mechanics           JSONB,                           -- rest_quality / shadow_effect / numbers
-    refs                JSONB,                           -- authored feature bindings → depiction_id
-    payload             JSONB NOT NULL DEFAULT '{}'::jsonb, -- kind-unique spec + provenance only
 
-    -- action is a closed set coherent with kind: only interactions carry one
-    CONSTRAINT places_narration_action_check
-        CHECK ((kind = 'interaction' AND action IN ('rest', 'offer'))
-            OR (kind <> 'interaction' AND action IS NULL))
+    -- Universal prose slots — any record may carry any of them
+    aspect              JSONB,                           -- {en, es}: the face seen from outside / afar
+    presence            JSONB,                           -- {en, es}: what being there is like
+    lore                JSONB,                           -- {en, es}: background, history, what is known
+    secret              JSONB,                           -- {when: {en,es}, text: {en,es}}
+    sections            JSONB,                           -- [{key, en, es}]
+    facts               JSONB,                           -- structured gazetteer reference data
+    notes               JSONB,                           -- {en, es} author/narrator notes
+    channel             JSONB,                           -- {en, es}: dominant sense/theme of the voice
+    traveller_use       JSONB,                           -- {en, es}: what the traveller can do with it
+
+    -- Conditional prose: [{id?, text: {en,es}, tags: [], not_tags: [], when: {en,es}}]
+    variants            JSONB,
+    -- Ordered prose list consumed one entry per day (region summaries)
+    rotation            JSONB,
+
+    -- Interactivity: [{id, tags, not_tags, when, options:
+    --   [{id, tag, skill, difficulty, outcomes:
+    --     {success: {text, effects}, failure: {text, effects}}}]}]
+    interactive         JSONB,
+
+    refs                JSONB,                           -- authored feature bindings → depiction_id
+    payload             JSONB NOT NULL DEFAULT '{}'::jsonb  -- provenance only (origin, legacy_id, anchor_hint)
 );
 
 CREATE INDEX IF NOT EXISTS idx_pn_kind      ON places_narration(kind);
 CREATE INDEX IF NOT EXISTS idx_pn_region    ON places_narration(region_id);
 CREATE INDEX IF NOT EXISTS idx_pn_location  ON places_narration(location_id) WHERE location_id IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_pn_place_ref ON places_narration(place_ref)   WHERE place_ref IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_pn_scope     ON places_narration(type, region_id, cultural_family)
-    WHERE kind IN ('depiction', 'interaction');
-CREATE INDEX IF NOT EXISTS idx_pn_action    ON places_narration(action) WHERE action IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_pn_region_ids ON places_narration USING GIN(region_ids);
 CREATE INDEX IF NOT EXISTS idx_pn_tags      ON places_narration USING GIN(tags);
 CREATE INDEX IF NOT EXISTS idx_pn_payload   ON places_narration USING GIN(payload);
 
-COMMENT ON TABLE  places_narration IS 'All quiet narrative — fichas plus depictions and interactions — over a mute gazetteer (ADR-0014)';
-COMMENT ON COLUMN places_narration.kind IS 'place | ambient | arrival | lore | depiction | interaction';
-COMMENT ON COLUMN places_narration.action IS 'interaction family discriminator: rest (overnight) | offer';
+COMMENT ON TABLE  places_narration IS 'One canonical record for every voice the world has (ADR-0014/0015)';
+COMMENT ON COLUMN places_narration.kind IS 'place (anchored ficha) | ambient (scope-bound voice)';
 COMMENT ON COLUMN places_narration.location_id IS 'Hosted-at anchor to a gazetteer location; NULL until positioned';
-COMMENT ON COLUMN places_narration.place_ref IS 'Offer → parent record';
 COMMENT ON COLUMN places_narration.region_id IS 'Scope region for the resolver ladder (first of region_ids)';
 COMMENT ON COLUMN places_narration.region_ids IS 'Authored multi-region list; region_id is its first element';
-COMMENT ON COLUMN places_narration.description IS 'Canonical flat prose {en, es}; fichas carry their spec in payload';
-COMMENT ON COLUMN places_narration.variants IS 'Array of {key|id, phrases|text, condition?}';
-COMMENT ON COLUMN places_narration.mechanics IS 'Numeric effects: rest_quality, shadow_effect';
+COMMENT ON COLUMN places_narration.aspect IS 'The face seen from outside or afar {en, es}';
+COMMENT ON COLUMN places_narration.presence IS 'What being there is like {en, es}';
+COMMENT ON COLUMN places_narration.interactive IS 'Situations with tag-gated, mind-weighted options and outcomes';
+
+-- ============================================================================
+-- Table: narration_tags
+-- Purpose: Closed registry of gating/driver tags (ADR-0015) seeded from
+--          database/seeds/data/json/tags.json. World and Mind emit a tag set
+--          each moment; conditional content declares tags/not_tags against
+--          this vocabulary. value='*' marks a pattern family (any value
+--          matching the seed's pattern is legal, e.g. region_day:12).
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS narration_tags (
+    family      TEXT NOT NULL,
+    value       TEXT NOT NULL,                 -- concrete value or '*'
+    description JSONB,                          -- {en, es}
+    PRIMARY KEY (family, value)
+);
+
+COMMENT ON TABLE narration_tags IS 'Closed registry of gating/driver tags (ADR-0015)';
 COMMENT ON COLUMN places_narration.refs IS 'Authored feature bindings {table-key: [ids]}; materializes to depiction_id';
 COMMENT ON COLUMN places_narration.cultural_family IS 'Scope dimension for generic records';
 COMMENT ON COLUMN places_narration.priority IS 'Tie-breaker when several records match a scope';

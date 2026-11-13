@@ -393,8 +393,8 @@ test('place events carry the settlement a traveller actually entered', () => {
       locations: [
         {
           name: 'Dale', type: 'city', region: 'rhovanion',
-          description: 'A city of toy-makers and river trade.',
-          description_es: 'Una ciudad de jugueteros y comercio fluvial.',
+          aspect: 'A city of toy-makers and river trade.',
+          aspect_es: 'Una ciudad de jugueteros y comercio fluvial.',
           population: 5800, inhabitants: 'northmen', indoor: true,
           hour_float: 17.5, distance_km: 0.3, entered: true,
         },
@@ -413,7 +413,7 @@ test('place events carry the settlement a traveller actually entered', () => {
   const dale = places.find((p) => p.data.name === 'Dale');
   // The entered city rides with its authored prose and census so the
   // lens can feel its scale — not just a bare name.
-  assert.equal(dale.data.description_es, 'Una ciudad de jugueteros y comercio fluvial.');
+  assert.equal(dale.data.aspect_es, 'Una ciudad de jugueteros y comercio fluvial.');
   assert.equal(dale.data.population, 5800);
   assert.deepEqual(dale.data.tags, ['settlement', 'entered']);
   // A ruin is scenery, not a settlement: no tags.
@@ -466,7 +466,7 @@ test('the open payload keeps settlement detail and the lodging outcome', () => {
       ...DAY,
       locations: [{
         name: 'Dale', type: 'city', region: 'rhovanion',
-        description_es: 'Una ciudad de jugueteros.', population: 5800,
+        aspect_es: 'Una ciudad de jugueteros.', population: 5800,
         inhabitants: 'northmen', cultural_family: 'northman',
         indoor: true, entered: true, distance_km: 0.3,
         // Noisy internals must not leak into the narrator's day.
@@ -483,7 +483,7 @@ test('the open payload keeps settlement detail and the lodging outcome', () => {
   });
   const dale = body.day.locations[0];
   assert.equal(dale.population, 5800);
-  assert.equal(dale.description_es, 'Una ciudad de jugueteros.');
+  assert.equal(dale.aspect_es, 'Una ciudad de jugueteros.');
   assert.equal(dale.entered, true);
   assert.equal(dale.cultural_family, 'northman');
   assert.equal(dale.geometry, undefined);

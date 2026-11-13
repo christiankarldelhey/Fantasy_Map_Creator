@@ -50,10 +50,12 @@ router.get('/places', async (req, res, next) => {
 router.get('/places/:id', async (req, res, next) => {
   try {
     const { rows } = await pool.query(
-      `SELECT p.id, p.kind, p.action, p.name, p.type, p.region_id, p.place_ref,
+      `SELECT p.id, p.kind, p.name, p.type, p.region_id,
               p.location_id, p.region_ids, p.cultural_family, p.priority,
               p.tags, p.size_radius_km, p.influence_radius_km,
-              p.description, p.variants, p.mechanics, p.refs,
+              p.aspect, p.presence, p.lore, p.secret, p.sections, p.facts,
+              p.notes, p.channel, p.traveller_use, p.variants, p.rotation,
+              p.interactive, p.refs,
               ST_AsGeoJSON(l.geom)::json AS geom, p.payload,
               (SELECT jsonb_agg(jsonb_build_object('table', x.t, 'id', x.id, 'name', x.name))
                  FROM (
@@ -157,19 +159,22 @@ router.post('/locations', async (req, res, next) => {
     );
     const location = rows[0];
 
-    // Narrative input creates a depiction record bound to the new anchor
+    // Narrative input creates an ambient record bound to the new anchor
     // (#104): locations carries no prose columns anymore.
     if ((description && description.trim()) || (description_es && description_es.trim())) {
       const recordId = `dep:loc:${location.id}`;
       await pool.query(
         `INSERT INTO places_narration
-           (id, kind, name, type, region_id, description, refs, payload)
-         VALUES ($1, 'depiction', $2, $3, $4, $5::jsonb, $6::jsonb, $7::jsonb)
+           (id, kind, name, type, region_id, aspect, refs, payload)
+         VALUES ($1, 'ambient', $2::jsonb, $3::jsonb, $4, $5::jsonb, $6::jsonb, $7::jsonb)
          ON CONFLICT (id) DO UPDATE SET
            name=EXCLUDED.name, type=EXCLUDED.type, region_id=EXCLUDED.region_id,
-           description=EXCLUDED.description, refs=EXCLUDED.refs`,
+           aspect=EXCLUDED.aspect, refs=EXCLUDED.refs`,
         [
-          recordId, location.name, location.location_type, location.region_id,
+          recordId,
+          JSON.stringify({ en: location.name, es: null }),
+          location.location_type ? JSON.stringify({ en: location.location_type, es: null }) : null,
+          location.region_id,
           JSON.stringify({ en: description || null, es: description_es || null }),
           JSON.stringify({ location: [location.id] }),
           JSON.stringify({ origin: 'admin:georef' }),
@@ -234,7 +239,7 @@ router.patch('/places/:id', async (req, res, next) => {
         }
       } else {
         const { rows: [pl] } = await pool.query(
-          'SELECT name FROM places_narration WHERE id = $1', [req.params.id]
+          `SELECT name->>'en' AS name FROM places_narration WHERE id = $1`, [req.params.id]
         );
         if (!pl) return res.status(404).json({ error: 'Place not found' });
         const { rows: [loc] } = await pool.query(
@@ -273,7 +278,9 @@ router.patch('/places/:id', async (req, res, next) => {
       sets.push(`region_ids = CASE WHEN (${regionExpr}) IS NULL THEN region_ids
         ELSE ARRAY[(${regionExpr})::int] END`);
     }
-    if (type !== undefined) add('type = ?', type);
+    // type is {en,es} jsonb in the ADR-0015 spec; the tool sends a plain
+    // string → wrap it.
+    if (type !== undefined) add('type = ?::jsonb', JSON.stringify({ en: type ?? null, es: null }));
     if (cultural_family !== undefined) add('cultural_family = ?', cultural_family);
     if (priority !== undefined) add('priority = ?', priority);
     if (size_radius_km !== undefined) add('size_radius_km = ?', size_radius_km);

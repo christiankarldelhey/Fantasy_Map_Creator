@@ -72,8 +72,8 @@ export function collectLocationNotes(locations) {
       proximity = `${sight}${proximityPhrase(l.distance_km, l.size_radius_km)}, ${when}`;
     }
     // A place the traveller is actually inside speaks with its ficha's
-    // "being there" prose; from the road only the distant depiction applies.
-    const prose = (l.visited || l.entered) ? (l.base || l.description) : l.description;
+    // "being there" prose; from the road only the distant aspect applies.
+    const prose = (l.visited || l.entered) ? (l.presence || l.aspect) : l.aspect;
     notes.push(`- ${l.name}${kind}: ${proximity}.${descriptionSuffix(prose)}`);
   }
   return notes;
@@ -98,7 +98,7 @@ export function describeOvernightLocation(location, interaction = null) {
 
   if (location) {
     const kind = location.type ? readableType(location.type) : 'place';
-    const description = location.description;
+    const description = location.presence || location.aspect;
     const firstSentence = description && description.trim()
       ? ` ${description.trim().split('.')[0]}.`
       : '';

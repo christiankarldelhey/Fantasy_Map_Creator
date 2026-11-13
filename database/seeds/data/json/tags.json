@@ -1,0 +1,58 @@
+{
+  "schema": "narration-tags-v1",
+  "comment": "Closed registry of gating/driver tags (ADR-0015). World and Mind emit a tag set each moment; conditional content declares required `tags` and forbidden `not_tags`. A family with `pattern` accepts any value matching it; otherwise `values` is the closed list.",
+  "families": {
+    "season": {
+      "description": { "en": "Time of year", "es": "Estación del año" },
+      "values": ["spring", "summer", "autumn", "winter"]
+    },
+    "ground": {
+      "description": { "en": "Underfoot condition", "es": "Condición del suelo" },
+      "values": ["soft", "hard", "doubtful"]
+    },
+    "weather": {
+      "description": { "en": "Current weather", "es": "Clima actual" },
+      "values": ["clear", "fog", "frost", "wet", "rain", "snow"]
+    },
+    "phase": {
+      "description": { "en": "Day phase", "es": "Fase del día" },
+      "values": ["morning", "afternoon", "evening", "night"]
+    },
+    "entry": {
+      "description": { "en": "How the scope is entered", "es": "Cómo se entra al ámbito" },
+      "values": ["first", "north", "south", "east", "west", "causeway"]
+    },
+    "region_day": {
+      "description": { "en": "Days spent inside the region (cumulative: N present means day N or more)", "es": "Días dentro de la región (acumulativo: N presente = día N o más)" },
+      "pattern": "^[1-9][0-9]*$"
+    },
+    "entry_count": {
+      "description": { "en": "Times the scope has been entered", "es": "Veces que se entró al ámbito" },
+      "pattern": "^[0-9]+$"
+    },
+    "days_since_exit": {
+      "description": { "en": "Days since last leaving the scope", "es": "Días desde la última salida" },
+      "pattern": "^[0-9]+$"
+    },
+    "context": {
+      "description": { "en": "Situational flags", "es": "Banderas de situación" },
+      "values": ["overnight", "camped", "in_settlement", "in_wild", "village_passed"]
+    },
+    "belief": {
+      "description": { "en": "Beliefs the Mind has formed (slugs authored alongside the records that reference them)", "es": "Creencias que el Mind formó (slugs declarados junto a los registros que las referencian)" },
+      "values": ["no_birds", "no_smell", "no_entry", "no_repair"]
+    },
+    "mind": {
+      "description": { "en": "Mind states and option drivers — an option's `tag` points here; the selector weights it by current intensity", "es": "Estados del Mind y drivers de options — el `tag` de una option apunta acá; el selector lo pesa por intensidad actual" },
+      "values": ["fear", "curiosity", "fatigue", "resolve", "melancholy", "hunger", "thirst", "warmth", "greed", "courage", "despair", "endurance", "wander"]
+    },
+    "energy": {
+      "description": { "en": "Energy band", "es": "Banda de energía" },
+      "values": ["fresh", "normal", "worn", "spent"]
+    },
+    "shadow": {
+      "description": { "en": "Shadow band", "es": "Banda de sombra" },
+      "values": ["clear", "unease", "shadowed", "burdened"]
+    }
+  }
+}

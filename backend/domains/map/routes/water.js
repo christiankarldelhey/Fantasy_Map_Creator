@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
               'id', w.id,
               'name', w.name,
               'water_type', w.water_type,
-              'description', wd.description->>'en'
+              'description', wd.aspect->>'en'
             )
           )
         ), '[]'::json)

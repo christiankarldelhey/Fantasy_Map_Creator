@@ -28,13 +28,13 @@ const DAY = {
   ],
   moon_phase: { phase: 'full_moon' },
   biomes: [{ type: 'forest', hour_float: 9.5, total_area_km2: 30 }],
-  locations: [{ name: 'Amon Sul', type: 'ruin', hour_float: 14.2, distance_km: 0.4, description: 'A broken watchtower.' }],
-  water_crossings: [{ name: 'The Brandywine', crossing_type: 'bridge', hour_float: 10.0, description: 'Wide and brown.' }],
+  locations: [{ name: 'Amon Sul', type: 'ruin', hour_float: 14.2, distance_km: 0.4, aspect: 'A broken watchtower.' }],
+  water_crossings: [{ name: 'The Brandywine', crossing_type: 'bridge', hour_float: 10.0, aspect: 'Wide and brown.' }],
   meals: [
     { slot: 'midday', food: 'tavern_meal', drink: 'waterskin' },
     { slot: 'evening', food: null, drink: 'water' },
   ],
-  overnight_location: { name: 'Dale', type: 'city', distance_km: 0.3, indoor: true, description: 'A town of toy-makers.' },
+  overnight_location: { name: 'Dale', type: 'city', distance_km: 0.3, indoor: true, aspect: 'A town of toy-makers.' },
   overnight_interaction: { title: 'Shelter', description: 'A warm hall.' },
   encounters: [],
 };
@@ -160,14 +160,14 @@ test('collectLocationNotes voices a distant sighting before the passing', async 
 });
 
 // Inside the size radius the place executes: the note voices the ficha's
-// "being there" prose instead of the road-side depiction.
+// "being there" prose (presence) instead of the road-side aspect.
 test('collectLocationNotes voices the ficha prose for a visited place', async () => {
   const { collectLocationNotes } = await import('../placeNotes.js');
   const notes = collectLocationNotes([
     { name: 'The Prancing Pony', type: 'inn', hour_float: 12, distance_km: 0.2,
       size_radius_km: 0.5, visited: true,
-      description: 'A large inn seen from the road.',
-      base: 'A low room full of pipe smoke and Bree gossip.' },
+      aspect: 'A large inn seen from the road.',
+      presence: 'A low room full of pipe smoke and Bree gossip.' },
   ]);
   assert.match(notes[0], /passes through/);
   assert.match(notes[0], /pipe smoke and Bree gossip/);

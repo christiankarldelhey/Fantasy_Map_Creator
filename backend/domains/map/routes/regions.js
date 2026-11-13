@@ -19,12 +19,12 @@ router.get('/', async (req, res, next) => {
               'name', r.name,
               'slug', r.slug,
               'url_path', r.url_path,
-              'description', rd.payload->'rotation',
-              'land', rd.payload->'facts'->'land',
-              'notes', rd.payload->'facts'->>'notes',
-              'people', rd.payload->'facts'->'people',
-              'source', rd.payload->'facts'->'source',
-              'products', rd.payload->'facts'->>'products',
+              'description', rd.rotation,
+              'land', rd.facts->'land',
+              'notes', rd.facts->>'notes',
+              'people', rd.facts->'people',
+              'source', rd.facts->'source',
+              'products', rd.facts->>'products',
               'kingdom', k.name
             )
           )

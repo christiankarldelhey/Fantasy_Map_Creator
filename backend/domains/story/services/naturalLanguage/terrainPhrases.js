@@ -2,7 +2,7 @@
 // Terrain phrases service
 // ----------------------------------------------------------------------------
 // Loads region-specific narrative phrases for terrain/road categories from
-// scope-bound kind='depiction' records in places_narration. Returns null when
+// scope-bound kind='ambient' records in places_narration. Returns null when
 // no phrase exists, letting callers keep their default descriptions.
 //
 // NOTE: the pure lookup helpers (pickPhrase, pickPhraseForRegions) are back
@@ -76,22 +76,23 @@ export async function loadTerrainPhrases(regionNames, categories = [], variantOr
 }
 
 /**
- * Reads scope-bound kind='depiction' records and picks the first non-empty
+ * Reads scope-bound biome depictions (kind='ambient', origin
+ * 'backfill:region_biome_descriptions') and picks the first non-empty
  * variant per region/category cell. Returns {} when no records exist.
  */
 async function loadTerrainPhrasesFromNarration(regionNames, categories, variantOrder) {
   const categoryFilter =
     Array.isArray(categories) && categories.length > 0
-      ? 'AND p.type = ANY($2::text[])'
+      ? 'AND p.payload->>\'category\' = ANY($2::text[])'
       : '';
   const params = categories.length > 0 ? [regionNames, categories] : [regionNames];
 
   const { rows } = await pool.query(
     `SELECT p.payload->>'region_name' AS region_name,
-            p.type AS category,
+            p.payload->>'category' AS category,
             p.variants AS variants
        FROM places_narration p
-      WHERE p.kind = 'depiction'
+      WHERE p.kind = 'ambient'
         AND p.payload->>'origin' = 'backfill:region_biome_descriptions'
         AND p.payload->>'region_name' = ANY($1::text[])
         ${categoryFilter}`,
@@ -101,9 +102,9 @@ async function loadTerrainPhrasesFromNarration(regionNames, categories, variantO
   const order = [...(variantOrder || []), 'base'];
   const map = {};
   for (const row of rows) {
-    // variants column: [{key, phrases}] (#106)
+    // variants column: [{id, tags, phrases}] (ADR-0015; legacy `key` = `id`)
     for (const variant of order) {
-      const hit = (row.variants || []).find((v) => v && v.key === variant);
+      const hit = (row.variants || []).find((v) => v && (v.id === variant || v.key === variant));
       if (Array.isArray(hit?.phrases) && hit.phrases.length > 0) {
         (map[row.region_name] ||= {})[row.category] = hit.phrases;
         break;

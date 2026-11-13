@@ -638,17 +638,12 @@ const REF_TABLES = {
 };
 const DEPICTION_TABLES = [...new Set(Object.values(REF_TABLES))];
 
-// Payload keeps only kind-unique spec + provenance: keys that duplicate real
-// columns (or are dead authoring scratch) are stripped before write. name/type
-// are handled apart — an {en,es} object carries more than the flat TEXT
-// columns, a scalar is a plain copy and goes.
-const PAYLOAD_COLUMN_KEYS = new Set([
-  'id', 'kind', 'action', 'place_ref', 'tags',
-  'region', 'region_id', 'region_ids', 'region_confidence',
-  'description', 'mechanics', 'cultural_family', 'priority',
-  'location_id', 'size_radius_km', 'influence_radius_km',
-  '_group', '_in_sit',
-]);
+// The narration-v2 spec (ADR-0015): JSON records map 1:1 to columns; payload
+// is provenance only (origin, legacy_id, anchor_hint, location_ref…).
+const PROSE_COLUMNS = [
+  'aspect', 'presence', 'lore', 'secret', 'sections', 'facts',
+  'notes', 'channel', 'traveller_use', 'variants', 'rotation', 'interactive',
+];
 
 function placeTypeRadii(typeText) {
   const head = (typeText || '').toLowerCase();
@@ -656,6 +651,87 @@ function placeTypeRadii(typeText) {
     if (re.test(head)) return radii;
   }
   return DEFAULT_PLACE_RADII;
+}
+
+// ---------------------------------------------------------------------------
+// Tag registry seed (ADR-0015): tags.json → narration_tags. The closed
+// vocabulary every gating/driver tag must belong to; pattern families land as
+// a single '*' row.
+// ---------------------------------------------------------------------------
+async function seedNarrationTags() {
+  const file = path.join(DATA_DIR, 'json/tags.json');
+  const { families } = JSON.parse(await fs.readFile(file, 'utf8'));
+  let n = 0;
+  for (const [family, def] of Object.entries(families || {})) {
+    const values = def.pattern ? ['*'] : (def.values || []);
+    for (const value of values) {
+      await pool.query(
+        `INSERT INTO narration_tags (family, value, description)
+         VALUES ($1, $2, $3::jsonb)
+         ON CONFLICT (family, value) DO UPDATE SET description = EXCLUDED.description`,
+        [family, value, JSON.stringify(def.description ?? {})]
+      );
+      n++;
+    }
+  }
+  console.log(`   🏷️  narration_tags: ${n} values across ${Object.keys(families || {}).length} families`);
+}
+
+// ---------------------------------------------------------------------------
+// Shared upsert for the narration-v2 spec (ADR-0015): every record maps 1:1
+// to columns. `extras` lets callers pin spatial fields computed at load time
+// (anchor location + radii for fichas).
+// ---------------------------------------------------------------------------
+async function upsertNarrationRecord(r, extras = {}) {
+  const locationId = extras.locationId !== undefined ? extras.locationId : (r.location_id ?? null);
+  const regionId = extras.regionId !== undefined ? extras.regionId : ((r.region_ids || [])[0] ?? null);
+  const regionIds = Array.isArray(r.region_ids) && r.region_ids.length ? r.region_ids
+    : (regionId != null ? [regionId] : null);
+  const sizeR = extras.sizeRadius !== undefined ? extras.sizeRadius : (r.size_radius_km ?? null);
+  const inflR = extras.inflRadius !== undefined ? extras.inflRadius : (r.influence_radius_km ?? null);
+  const proseCols = PROSE_COLUMNS.map((k) => r[k] ?? null);
+  const proseNames = PROSE_COLUMNS.join(', ');
+  const proseSet = PROSE_COLUMNS.map((k) => `${k}=EXCLUDED.${k}`).join(', ');
+  const params = [
+    r.id, r.kind, locationId, regionId, regionIds,
+    r.name ? JSON.stringify(r.name) : null,
+    r.type ? JSON.stringify(r.type) : null,
+    r.cultural_family ?? null, r.priority ?? 0, r.tags ?? [],
+    sizeR, inflR,
+    ...proseCols.map((v) => (v == null ? null : JSON.stringify(v))),
+    r.refs ? JSON.stringify(r.refs) : null,
+    JSON.stringify(r.payload ?? {}),
+  ];
+  // Once a place is anchored, the georef tool owns its spatial fields
+  // (location_id, region_id, type, radii): a reseed must not wipe them. The
+  // "unanchored" marker is location_id IS NULL (#104 — record geom is gone).
+  const spatialSet = extras.preserveSpatial
+    ? `location_id = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.location_id ELSE places_narration.location_id END,
+       region_id   = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.region_id   ELSE places_narration.region_id   END,
+       type        = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.type        ELSE places_narration.type        END,
+       size_radius_km      = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.size_radius_km      ELSE places_narration.size_radius_km      END,
+       influence_radius_km = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.influence_radius_km ELSE places_narration.influence_radius_km END`
+    : `location_id=EXCLUDED.location_id, region_id=EXCLUDED.region_id,
+       type=EXCLUDED.type, size_radius_km=EXCLUDED.size_radius_km,
+       influence_radius_km=EXCLUDED.influence_radius_km`;
+  await pool.query(
+    `INSERT INTO places_narration
+       (id, kind, location_id, region_id, region_ids, name, type,
+        cultural_family, priority, tags, size_radius_km, influence_radius_km,
+        ${proseNames}, refs, payload)
+     VALUES ($1,$2,$3,$4,$5,$6::jsonb,$7::jsonb,$8,$9,$10,$11,$12,
+             ${proseCols.map((_, i) => `$${13 + i}::jsonb`).join(',')},
+             $${13 + proseCols.length}::jsonb, $${14 + proseCols.length}::jsonb)
+     ON CONFLICT (id) DO UPDATE SET
+       kind=EXCLUDED.kind, region_ids=EXCLUDED.region_ids,
+       name=EXCLUDED.name,
+       cultural_family=EXCLUDED.cultural_family, priority=EXCLUDED.priority,
+       tags=EXCLUDED.tags,
+       ${spatialSet},
+       ${proseSet},
+       refs=COALESCE(EXCLUDED.refs, places_narration.refs), payload=EXCLUDED.payload`,
+    params
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -669,33 +745,7 @@ async function seedNarrationRecords() {
   const { records } = JSON.parse(await fs.readFile(file, 'utf8'));
   let upserted = 0;
   for (const r of records) {
-    await pool.query(
-      `INSERT INTO places_narration
-         (id, kind, action, location_id, place_ref, region_id, region_ids, name, type,
-          cultural_family, priority, tags, size_radius_km, influence_radius_km,
-          description, variants, mechanics, refs, payload)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16::jsonb,$17::jsonb,$18::jsonb,$19::jsonb)
-       ON CONFLICT (id) DO UPDATE SET
-         kind=EXCLUDED.kind, action=EXCLUDED.action, location_id=EXCLUDED.location_id,
-         place_ref=EXCLUDED.place_ref, region_id=EXCLUDED.region_id, region_ids=EXCLUDED.region_ids,
-         name=EXCLUDED.name,
-         type=EXCLUDED.type, cultural_family=EXCLUDED.cultural_family, priority=EXCLUDED.priority,
-         tags=EXCLUDED.tags, size_radius_km=EXCLUDED.size_radius_km,
-         influence_radius_km=EXCLUDED.influence_radius_km, description=EXCLUDED.description,
-         variants=EXCLUDED.variants, mechanics=EXCLUDED.mechanics,
-         refs=EXCLUDED.refs, payload=EXCLUDED.payload`,
-      [
-        r.id, r.kind, r.action ?? null, r.location_id ?? null, r.place_ref ?? null,
-        r.region_id ?? null, r.region_ids ?? null, r.name ?? null, r.type ?? null, r.cultural_family ?? null,
-        r.priority ?? 0, r.tags ?? [],
-        r.size_radius_km ?? null, r.influence_radius_km ?? null,
-        r.description ? JSON.stringify(r.description) : null,
-        r.variants ? JSON.stringify(r.variants) : null,
-        r.mechanics ? JSON.stringify(r.mechanics) : null,
-        r.refs ? JSON.stringify(r.refs) : null,
-        JSON.stringify(r.payload ?? {}),
-      ]
-    );
+    await upsertNarrationRecord(r);
     upserted++;
   }
   const ids = records.map((r) => r.id);
@@ -757,7 +807,7 @@ async function normalizeLocations() {
     `UPDATE locations l SET source = 'georef'
      WHERE l.source IS DISTINCT FROM 'georef'
        AND l.location_type IS NULL
-       AND EXISTS (SELECT 1 FROM places_narration p WHERE p.name = l.name)
+       AND EXISTS (SELECT 1 FROM places_narration p WHERE p.name->>'en' = l.name)
      RETURNING l.id`
   );
   await pool.query(`UPDATE locations SET source = 'gazetteer' WHERE source IS NULL`);
@@ -777,7 +827,7 @@ async function normalizeLocations() {
 
   const { rows: untyped } = await pool.query(
     `SELECT l.id, l.name, l.region_id,
-            (SELECT p.type FROM places_narration p
+            (SELECT p.type->>'en' FROM places_narration p
               WHERE p.location_id = l.id AND p.type IS NOT NULL
               ORDER BY p.kind = 'place' DESC, p.id LIMIT 1) AS ficha_type
        FROM locations l WHERE l.location_type IS NULL`
@@ -811,12 +861,7 @@ async function seedPlaces() {
   let anchored = 0;
   const candidates = [];
 
-  // place_ref is a self-FK: parents must exist before their offers insert.
-  const ordered = [...records].sort(
-    (a, b) => Number(a.place_ref != null) - Number(b.place_ref != null)
-  );
-
-  for (const r of ordered) {
+  for (const r of records) {
     const name = typeof r.name === 'string'
       ? r.name
       : (r.name?.en || r.name?.es || r.id);
@@ -828,8 +873,9 @@ async function seedPlaces() {
     let locationId = null;
     let radii = [null, null];
     if (r.kind === 'place') {
-      // explicit location_ref ({id, name}) wins over the exact-name match
-      const ref = r.location_ref;
+      // explicit location_ref ({id, name}, kept in payload) wins over the
+      // exact-name match
+      const ref = r.payload?.location_ref ?? r.location_ref;
       const loc = (ref && (locById.get(ref.id) || locByName.get(ref.name?.toLowerCase())))
         || locByName.get(name.toLowerCase());
       if (loc) {
@@ -847,64 +893,28 @@ async function seedPlaces() {
       }
     }
 
-    // Once a place is anchored, the georef tool owns its spatial fields
-    // (location_id, region_id, type, radii): a reseed must not wipe them. The
-    // "unanchored" marker is location_id IS NULL (#104 — record geom is gone).
-    // (#106) 'offer' fichas fold into kind='interaction' + action='offer';
-    // variants/refs are real columns and are stripped from payload, which keeps
-    // only the ficha-unique spec. JSON refs win when authored; georef-authored
-    // refs survive when the JSON carries none.
-    const kind = r.kind === 'offer' ? 'interaction' : r.kind;
-    const action = r.kind === 'offer' ? 'offer' : (r.action ?? null);
-    const regionIds = Array.isArray(r.region_ids) && r.region_ids.length
-      ? r.region_ids
-      : (regionId != null ? [regionId] : null);
-    const { variants, refs, ...spec } = r;
-    for (const k of PAYLOAD_COLUMN_KEYS) delete spec[k];
-    for (const k of ['name', 'type']) {
-      if (typeof spec[k] !== 'object' || spec[k] === null) delete spec[k];
-    }
-    await pool.query(
-      `INSERT INTO places_narration
-         (id, kind, action, location_id, place_ref, region_id, region_ids, name, type, tags,
-          size_radius_km, influence_radius_km, variants, refs, payload)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13::jsonb,$14::jsonb,$15::jsonb)
-       ON CONFLICT (id) DO UPDATE SET
-         kind=EXCLUDED.kind, action=EXCLUDED.action, place_ref=EXCLUDED.place_ref,
-         name=EXCLUDED.name, tags=EXCLUDED.tags, region_ids=EXCLUDED.region_ids,
-         variants=EXCLUDED.variants,
-         refs=COALESCE(EXCLUDED.refs, places_narration.refs),
-         payload=EXCLUDED.payload,
-         location_id = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.location_id ELSE places_narration.location_id END,
-         region_id   = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.region_id   ELSE places_narration.region_id   END,
-         type        = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.type        ELSE places_narration.type        END,
-         size_radius_km      = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.size_radius_km      ELSE places_narration.size_radius_km      END,
-         influence_radius_km = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.influence_radius_km ELSE places_narration.influence_radius_km END`,
-      [
-        r.id, kind, action, locationId, r.place_ref || null, regionId, regionIds,
-        name, typeText, r.tags || [],
-        radii[0], radii[1],
-        variants ? JSON.stringify(variants) : null,
-        refs ? JSON.stringify(refs) : null,
-        JSON.stringify(spec),
-      ]
-    );
+    await upsertNarrationRecord(r, {
+      locationId,
+      regionId,
+      sizeRadius: radii[0] ?? r.size_radius_km,
+      inflRadius: radii[1] ?? r.influence_radius_km,
+      preserveSpatial: true,
+    });
   }
 
   // Records removed from the JSON (merged, moved to encounter-candidates.json)
-  // are pruned only while unanchored; anchored orphans are reported, not deleted.
-  // 'offer' fichas became kind='interaction' + action='offer' (#106) — the
-  // action clause protects overnight records (action='rest'), which are not fichas.
+  // are pruned only while unanchored; anchored orphans are reported, not
+  // deleted. Generated records (dep:*/ovn:* ids) belong to narration.json's
+  // prune pass, not this one.
   const ids = records.map((r) => r.id);
-  const fichaKinds = `kind IN ('place','ambient','arrival','lore')
-    OR (kind='interaction' AND action='offer')`;
   const pruned = await pool.query(
     `DELETE FROM places_narration WHERE id <> ALL($1) AND location_id IS NULL
-       AND (${fichaKinds}) RETURNING id`, [ids]
+       AND id NOT LIKE 'dep:%' AND id NOT LIKE 'ovn:%' RETURNING id`, [ids]
   );
   const { rows: orphans } = await pool.query(
     `SELECT id FROM places_narration WHERE id <> ALL($1)
-       AND location_id IS NOT NULL AND (${fichaKinds})`, [ids]
+       AND location_id IS NOT NULL
+       AND id NOT LIKE 'dep:%' AND id NOT LIKE 'ovn:%'`, [ids]
   );
   if (pruned.rowCount) console.log(`   🧹 pruned ${pruned.rowCount} unpositioned places no longer in JSON`);
   if (orphans.length) console.warn(`   ⚠️ positioned places no longer in JSON (kept): ${orphans.map((o) => o.id).join(', ')}`);
@@ -1231,6 +1241,7 @@ async function ensureSchema() {
   await runMigrationFile('add_source_to_locations.sql');
   await runMigrationFile('normalize_narration_shape.sql');
   await runMigrationFile('normalize_narration_columns.sql');
+  await runMigrationFile('unify_narration_model.sql');
   await runMigrationFile('add_places_narration_id_to_trip_days.sql');
 
   // Legacy prose stores drop last (#104): everything above is additive and
@@ -1643,6 +1654,8 @@ async function main() {
     );
 
     await backfillLocationRegions();
+
+    await seedNarrationTags();
 
     // seedPlaces also upserts the generated narration records (dep:*, ovn:*)
     // from data/json/narration.json — the canonical prose source since #104.

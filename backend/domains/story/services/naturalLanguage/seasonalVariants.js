@@ -136,9 +136,9 @@ export async function loadSeasonalSummaries(regionNames) {
     );
     const map = {};
     for (const row of rows) {
-      // variants column is [{key, phrases}] (#106) — re-key to {key: phrases}
+      // variants column is [{id, tags, phrases}] (ADR-0015; legacy `key` = `id`)
       const keyed = Object.fromEntries(
-        (row.variants || []).filter((v) => v && v.key != null).map((v) => [v.key, v.phrases])
+        (row.variants || []).filter((v) => v && (v.id ?? v.key) != null).map((v) => [v.id ?? v.key, v.phrases])
       );
       if (Object.keys(keyed).length) map[row.region_name] = keyed;
     }

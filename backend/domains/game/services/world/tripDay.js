@@ -173,7 +173,7 @@ export function rotateTerrainPhrases(terrainPhrases, usedTerrainPhrases, rng = M
 async function regionAtPoint(lng, lat) {
   const { rows } = await pool.query(
     `SELECT r.name,
-            (SELECT array_agg(x) FROM jsonb_array_elements_text(rd.payload->'rotation') x)
+            (SELECT array_agg(x) FROM jsonb_array_elements_text(rd.rotation) x)
               AS description_summary,
             r.cultural_family,
             COALESCE(r.population_ratio, 0.5) AS population_ratio
@@ -200,7 +200,7 @@ async function regionsForPoints(points) {
      FROM jsonb_array_elements($1::jsonb) WITH ORDINALITY AS t(elem, idx)
      LEFT JOIN LATERAL (
        SELECT rg.id, rg.name,
-              (SELECT array_agg(x) FROM jsonb_array_elements_text(rd.payload->'rotation') x)
+              (SELECT array_agg(x) FROM jsonb_array_elements_text(rd.rotation) x)
                 AS description_summary,
               rg.cultural_family, rg.population_ratio
        FROM regions rg
@@ -317,8 +317,8 @@ async function sampleLegContext(legGeoJSON) {
           'type', l.location_type,
           'region', l.region,
           'region_id', l.region_id,
-          'description', pd.description->>'en',
-          'description_es', pd.description->>'es',
+          'aspect', pd.aspect->>'en',
+          'aspect_es', pd.aspect->>'es',
           'population', l.population,
           'inhabitants', l.inhabitants,
           'cultural_family', rg.cultural_family,
@@ -326,8 +326,8 @@ async function sampleLegContext(legGeoJSON) {
           'distance_km', round((ST_Distance(l.geom::geography, leg.geom::geography) / 1000)::numeric, 2),
           'size_radius_km', rad.size_km,
           'influence_radius_km', rad.infl_km,
-          'base', ficha.base_en,
-          'base_es', ficha.base_es,
+          'presence', ficha.presence_en,
+          'presence_es', ficha.presence_es,
           -- Where the leg first crosses into the influence circle (the
           -- sighting moment) and the compass bearing from there to the
           -- place. NULL when the leg never reaches the circle at all —
@@ -354,8 +354,8 @@ async function sampleLegContext(legGeoJSON) {
         -- inside the size radius the place executes — this text, not a
         -- choice, is what the traveller gets.
         LEFT JOIN LATERAL (
-          SELECT f.payload->'base'->>'en' AS base_en,
-                 f.payload->'base'->>'es' AS base_es
+          SELECT f.presence->>'en' AS presence_en,
+                 f.presence->>'es' AS presence_es
             FROM places_narration f
            WHERE f.location_id = l.id AND f.kind = 'place'
            LIMIT 1
@@ -376,7 +376,7 @@ async function sampleLegContext(legGeoJSON) {
        (SELECT COALESCE(json_agg(json_build_object(
           'name', w.name,
           'type', w.water_type,
-          'description', wd.description->>'en',
+          'aspect', wd.aspect->>'en',
           'fraction', ST_LineLocatePoint(
             leg.geom,
             ST_ClosestPoint(leg.geom, ST_Centroid(ST_Intersection(leg.geom, w.geom)))
@@ -393,7 +393,7 @@ async function sampleLegContext(legGeoJSON) {
        (SELECT COALESCE(json_agg(json_build_object(
           'name', w.name,
           'type', w.water_type,
-          'description', wd.description->>'en',
+          'aspect', wd.aspect->>'en',
           'distance_km', round((ST_Distance(w.geom::geography, leg.geom::geography) / 1000)::numeric, 2),
           'fraction', ST_LineLocatePoint(
             leg.geom,
@@ -759,8 +759,10 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       type: checkpoint.location.type,
       region: checkpoint.location.region,
       region_id: checkpoint.location.region_id,
-      description: checkpoint.location.description,
-      description_es: checkpoint.location.description_es,
+      aspect: checkpoint.location.aspect,
+      aspect_es: checkpoint.location.aspect_es,
+      presence: checkpoint.location.presence,
+      presence_es: checkpoint.location.presence_es,
       population: checkpoint.location.population,
       inhabitants: checkpoint.location.inhabitants,
       cultural_family: checkpoint.location.cultural_family,
@@ -966,8 +968,8 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       type: l.type,
       region: l.region,
       region_id: l.region_id,
-      description: l.description,
-      description_es: l.description_es,
+      aspect: l.aspect,
+      aspect_es: l.aspect_es,
       population: l.population,
       inhabitants: l.inhabitants,
       cultural_family: l.cultural_family,
@@ -981,8 +983,8 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       sighted_hour: sighted ? `${String(shh).padStart(2, '0')}:${String(smm).padStart(2, '0')}` : null,
       sighted_direction: sighted ? compassDirection(l.entry_bearing_deg) : null,
       visited,
-      base: l.base ?? null,
-      base_es: l.base_es ?? null,
+      presence: l.presence ?? null,
+      presence_es: l.presence_es ?? null,
       entered,
       hostile: isHostileLocation(l),
     };
@@ -998,7 +1000,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     return {
       name: w.name || null,
       type: w.type,
-      description: w.description || null,
+      aspect: w.aspect || null,
       crossing_type: crossingType,
       hour_float: Number(hourFloat.toFixed(2)),
       hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,
@@ -1014,7 +1016,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     return {
       name: w.name || null,
       type: w.type,
-      description: w.description || null,
+      aspect: w.aspect || null,
       distance_km: w.distance_km,
       hour_float: Number(hourFloat.toFixed(2)),
       hour: `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`,
