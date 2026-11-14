@@ -33,7 +33,8 @@
             ]"
           >
             <component :is="item.icon" v-if="item.icon" :size="14" />
-            {{ item.label }}
+            <span class="flex-1">{{ item.label }}</span>
+            <Check v-if="item.checked" :size="14" />
           </component>
           <!-- Language sub-options -->
           <div v-if="item.key === 'language'" class="flex gap-1 px-4 py-1">
@@ -134,7 +135,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, type Component } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { LogOut, Sun, User, Map, Compass, LogIn, Wrench, Trash2, Languages, SlidersHorizontal } from '@lucide/vue'
+import { LogOut, Sun, User, Map, Compass, LogIn, Wrench, Trash2, Languages, SlidersHorizontal, Eye, Check } from '@lucide/vue'
 import { useAuth } from '@/composables/useAuth'
 import { useLanguage } from '@/composables/useLanguage'
 import { Button } from '@/components/ui/button'
@@ -158,6 +159,7 @@ const props = defineProps<{
   mode: 'wander' | 'explore'
   isGuest: boolean
   hasActiveAdventure: boolean
+  showAllLocations?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -167,6 +169,7 @@ const emit = defineEmits<{
   'change-character': []
   'go-to-explore': []
   'go-to-wander': []
+  'toggle-show-all-locations': []
 }>()
 
 const { deleteAccount, isAdmin } = useAuth()
@@ -186,6 +189,7 @@ type MenuItem = {
   label: string
   icon?: Component
   href?: string
+  checked?: boolean
   onClick?: () => void
 }
 
@@ -212,6 +216,7 @@ const menuItems = computed<MenuItem[]>(() => {
 
     if (isAdmin.value) {
       items.push({ key: 'admin', label: t('nav.admin'), icon: SlidersHorizontal, href: ADMIN_URL, onClick: closeDropdown })
+      items.push({ key: 'show-all-locations', label: t('nav.showAllLocations'), icon: Eye, checked: props.showAllLocations, onClick: handleToggleShowAllLocations })
     }
 
     items.push({ key: 'sign-out', label: t('nav.signOut'), icon: LogOut, onClick: handleSignOut })
@@ -276,6 +281,11 @@ function handleGoToExplore() {
 function handleGoToWander() {
   closeDropdown()
   emit('go-to-wander')
+}
+
+function handleToggleShowAllLocations() {
+  closeDropdown()
+  emit('toggle-show-all-locations')
 }
 
 function handleDeleteAccount() {

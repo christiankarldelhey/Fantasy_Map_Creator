@@ -177,12 +177,14 @@
       :mode="mode || 'explore'"
       :is-guest="isGuest"
       :has-active-adventure="!!activeTripId"
+      :show-all-locations="showAllLocations"
       @sign-in="goToLogin"
       @sign-out="showLogoutModal = true"
       @change-season="handleChangeSeason"
       @change-character="handleChangeCharacter"
       @go-to-explore="handleGoToExplore"
       @go-to-wander="handleGoToWander"
+      @toggle-show-all-locations="handleToggleShowAllLocations"
     />
 
     <CharacterPage
@@ -232,6 +234,8 @@ import CharacterSelectModal from '@/pages/welcome/CharacterSelectModal.vue'
 import OptionsDropdown from '@/components/OptionsDropdown.vue'
 import { Loader } from '@/components/ui/loader'
 import { usePlaceGeoref, GeorefPanel } from '@/features/place-georef'
+import { useHiddenLocations } from '@/features/location-management'
+import { useHiddenLocationLayer } from '../model/layers/useHiddenLocationLayer'
 import { Modal } from '@/components/ui/modal'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/composables/useAuth'
@@ -338,6 +342,30 @@ const { hoveredRegionId, attachHover } = useMapHover()
 
 // Admin georef (ficha positioning) — active only for isAdmin users in explore
 const georef = usePlaceGeoref()
+
+// Admin "Show all locations": ghosts in the points `visible_in_map` hides,
+// fetched lazily on first enable (the endpoint is admin-gated).
+const showAllLocations = ref(false)
+const { loadHiddenLocations } = useHiddenLocations()
+const hiddenLocationLayer = useHiddenLocationLayer()
+
+async function handleToggleShowAllLocations() {
+  showAllLocations.value = !showAllLocations.value
+  if (!map) return
+  if (!showAllLocations.value) {
+    hiddenLocationLayer.removeHiddenLocationsLayer(map)
+    return
+  }
+  try {
+    const data = await loadHiddenLocations()
+    if (data && showAllLocations.value) {
+      hiddenLocationLayer.addHiddenLocationsLayer(map, data)
+    }
+  } catch (err) {
+    console.error('Failed to load hidden locations:', err)
+    showAllLocations.value = false
+  }
+}
 const regionOptions = computed(() =>
   (regions.value?.features ?? [])
     .map((f) => ({ id: f.properties?.id, name: f.properties?.name }))
@@ -618,6 +646,7 @@ onUnmounted(() => {
     clearDirectionsRoute(map)
     clearAllTripRoutes(map)
     removeMarker()
+    hiddenLocationLayer.removeHiddenLocationsLayer(map)
     removeLayers(map)
     map.remove()
     map = null

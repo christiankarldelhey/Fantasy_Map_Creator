@@ -17,7 +17,7 @@ export function useMapEvents() {
       if (shouldSkip?.()) return
       // Build layers list based on mode
       const layers: string[] = [
-        'locations-major', 'locations-medium', 'locations-minor'
+        'locations-major', 'locations-medium', 'locations-minor', 'locations-hidden-points'
       ]
 
       if (mode === 'explore') {
@@ -38,7 +38,8 @@ export function useMapEvents() {
       const locationFeature = features.find(f =>
         f.layer.id === 'locations-major' ||
         f.layer.id === 'locations-medium' ||
-        f.layer.id === 'locations-minor'
+        f.layer.id === 'locations-minor' ||
+        f.layer.id === 'locations-hidden-points'
       )
       const regionFeature = features.find(f => f.layer.id === 'regions-fill')
 

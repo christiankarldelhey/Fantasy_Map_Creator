@@ -83,7 +83,8 @@
     "dateAndTime": "Fecha y hora",
     "deleteAccount": "Eliminar cuenta",
     "language": "Idioma",
-    "admin": "Administración"
+    "admin": "Administración",
+    "showAllLocations": "Mostrar todas las ubicaciones"
   },
   "options": {
     "deleteTitle": "¿Eliminar tu cuenta?",

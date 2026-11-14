@@ -11,7 +11,7 @@ export async function fetchLocationDetailsAtPoint(
 ): Promise<LocationDetails | null> {
   // Build layers list - only include layers that exist in the map
   const allLayers = [
-    'locations-major', 'locations-medium', 'locations-minor',
+    'locations-major', 'locations-medium', 'locations-minor', 'locations-hidden-points',
     'biomes-fill', 'regions-fill',
     'roads-major', 'roads-medium', 'roads-minor',
     'water-fill', 'water-lines-river', 'water-lines-stream'
@@ -28,7 +28,8 @@ export async function fetchLocationDetailsAtPoint(
   const locationFeature = features.find(f =>
     f.layer.id === 'locations-major' ||
     f.layer.id === 'locations-medium' ||
-    f.layer.id === 'locations-minor'
+    f.layer.id === 'locations-minor' ||
+    f.layer.id === 'locations-hidden-points'
   )
   const biomeFeature = features.find(f => f.layer.id === 'biomes-fill')
   const regionFeature = features.find(f => f.layer.id === 'regions-fill')
@@ -53,6 +54,7 @@ export async function fetchLocationDetailsAtPoint(
     description_es: locationFeature?.properties?.description_es,
     population: locationFeature?.properties?.population,
     inhabitants: locationFeature?.properties?.inhabitants,
+    hidden: locationFeature?.properties?.hidden === true ? true : undefined,
   }
 
   // Biome Details
@@ -84,6 +86,8 @@ export async function fetchLocationDetailsAtPoint(
     locationDetails.region = {
       name: regionFeature.properties?.name || 'Unknown Region',
       kingdom: regionFeature.properties?.kingdom,
+      slug: regionFeature.properties?.slug,
+      url_path: regionFeature.properties?.url_path,
     }
   }
 
