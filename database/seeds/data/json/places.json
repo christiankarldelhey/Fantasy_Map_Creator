@@ -68910,15 +68910,14 @@
    ],
    "name": {
     "en": null,
-    "es": "El fuerte del río Nevduin"
+    "es": "El fuerte que los dunir siguen usando"
    },
    "type": {
     "en": null,
-    "es": "castillo"
+    "es": "fuerte semiocupado"
    },
    "priority": 0,
    "tags": [
-    "military",
     "people",
     "rest"
    ],
@@ -68926,20 +68925,20 @@
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "refugio bajo el muro del castillo de Bar Morthil"
+    "es": "castillo ocupado por los dependientes dunir — la guarnición se fue, la protección quedó"
    },
    "presence": {
     "en": null,
-    "es": "Un castillo modesto del sur de Andrast sobre el río Nevduin, parte del remoto condado de Bar Morthil.\nMuros de piedra gris del lugar, guarnición doméstica pequeña; los dependientes dunir de alrededor cultivan la tierra y proveen al fuerte a cambio de protección frente a los saqueadores corsarios.\nEl trato es viejo: ellos dan comida, el castillo da muro."
+    "es": "Bar Nevedui era el fuerte del remoto condado de Bar Morthil, sobre el río Nevduin, mantenido por una guarnición doméstica con sus dependientes dunir cultivando alrededor.\nLa guarnición del condado se fue hace mucho; los dependientes no tenían adónde ir — se quedaron en el fuerte y siguen cultivando lo mismo.\nFunciona como funcionaba pero sin amo: un fuerte de gente de campo, con la piedra que corta el viento de Andrast."
    },
    "lore": {
     "en": null,
-    "es": "En el confín de Gondor la protección también se compra: en grano, en manos, en lealtad.\nLos corsarios son la razón de que estas piedras existan."
+    "es": "Los dependientes de un fuerte no se van con el fuerte: se quedan siendo dependientes de la piedra."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la guarnición doméstica — techo en las dependencias si el viajero da buena cuenta de sí"
+     "es": "los dunir del fuerte — techo de gente de campo, desconfianza incluida"
     }
    },
    "interactive": [
@@ -68949,7 +68948,7 @@
      "situation": null,
      "options": [
       {
-       "id": "pedir alojamiento a la guarnición",
+       "id": "pedir entrada al fuerte de los dunir",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -68958,7 +68957,7 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Rancho de guarnición y un catre en las dependencias. A cambio: quién es, de dónde viene, y qué vio en la costa."
+          "es": "Lo miran desde el muro un rato largo. Si lo dejan: comida de campo dunir y un rincón entre la piedra que la guarnición dejó."
          },
          "effects": {
           "en": null,
@@ -70049,31 +70048,30 @@
    ],
    "name": {
     "en": null,
-    "es": "La boca que nadie cruzó dos veces"
+    "es": "La fortaleza orca que no se vació"
    },
    "type": {
     "en": null,
-    "es": "mina-fortaleza"
+    "es": "plaza orca ocupada"
    },
    "priority": 0,
    "tags": [
     "conflict",
-    "military",
     "landscape"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "nada — un lugar del que se huye, no al que se va"
+    "es": "plaza fuerte enemiga — evitar a toda costa"
    },
    "presence": {
     "en": null,
-    "es": "Una fortaleza de montaña en el ramal meridional de las Montañas Nubladas, erigida por los siervos del Rey Brujo.\nGram era la plaza fuerte orca más formidable al oeste de las montañas; ningún hombre escapó nunca de sus profundidades para dar una relación coherente de su interior.\nEl viajero sensato la observa desde muy lejos o no la observa."
+    "es": "Gram era la plaza fuerte orca más formidable al oeste de las Montañas Nubladas, y la caída del reino no la vació: los orcos que quedaron se atrincheraron en las profundidades.\nDe fuera parece ruina; de noche salen fuegos en las ventanas altas y a veces se oyen los cuernos.\nNadie ha entrado para contarlo. Los montaraces la rodean a media legua."
    },
    "lore": {
     "en": null,
-    "es": "Lo que se sabe de Gram cabe en una frase: nadie volvió a contarlo.\nEl límite de Nan Angmar empieza en sus muros."
+    "es": "El Rey Brujo cayó pero sus siervos no tenían adónde ir: Gram sigue siendo lo que siempre fue, solo que más hambrienta."
    },
    "interactive": [
     {
@@ -70082,7 +70080,7 @@
      "situation": null,
      "options": [
       {
-       "id": "rodear la fortaleza a distancia",
+       "id": "rodead Gram a media legua como hacen los montaraces",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -70091,11 +70089,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "El rodeo cuesta horas y calma. Cada piedra del camino parece mirada desde las torres."
+          "es": "El rodeo cuesta medio día y es lo único sensato: los fuegos de las ventanas altas dicen que la plaza sigue viva por dentro."
          },
          "effects": {
           "en": null,
-          "es": "tiempo · seguridad"
+          "es": "tiempo · seguridad · tensión"
          }
         }
        }
@@ -70109,6 +70107,16 @@
     "location_ref": {
      "id": 471
     }
+   },
+   "secret": {
+    "en": null,
+    "es": "Los orcos de Gram no son guarnición: son tribu. Salen a cazar de noche por el ramal meridional."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "una tribu orca atrincherada — hostil"
+    }
    }
   },
   {
@@ -70119,36 +70127,35 @@
    ],
    "name": {
     "en": null,
-    "es": "El pueblo que interroga en la puerta"
+    "es": "El pueblo-cuartel que sigue sirviendo"
    },
    "type": {
     "en": null,
-    "es": "pueblo-guarnición"
+    "es": "puesto enemigo"
    },
    "priority": 0,
    "tags": [
-    "military",
-    "people",
-    "conflict"
+    "conflict",
+    "people"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "pasar interrogado o no pasar"
+    "es": "puesto enemigo en los accesos orientales — gente armada, no posada"
    },
    "presence": {
     "en": null,
-    "es": "Litash guarda los accesos orientales de Angmar desde el pie de la montaña, con una guarnición numerosa de tropas humanas mixtas del Rey Brujo.\nCentro de instrucción de los sacerdotes de la Religión Oscura y base de recaudación de tributos en el este: un pueblo sombrío de cuarteles y salas rituales.\nLos sacerdotes visten túnicas oscuras; los soldados son bastos y desconfiados. A los que llegan del este se los detiene e interroga antes de dejarlos pasar."
+    "es": "Litash fue el pueblo de cuarteles y salas rituales que guardaba los accesos orientales de Angmar, y sigue guardándolos.\nCuando el reino cayó, los que estaban aquí no tenían a dónde volver: se quedaron en los cuarteles, mantuvieron las salas y siguen siendo un pueblo armado.\nViven de la tierra dura y de lo que saquean en la Tierra de Nadie; al viajero solo le ofrecen el filo."
    },
    "lore": {
     "en": null,
-    "es": "En Litash la puerta es una pregunta y la respuesta se paga.\nLos sacerdotes mandan en las salas; los soldados, en las calles."
+    "es": "Los pueblos de cuarteles que no se rindieron se volvieron algo peor que guarnición: se volvieron tribu armada."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "los guardias de la puerta — el interrogatorio es el precio del paso"
+     "es": "los hijos de la guarnición — hostiles, armados, leales a un reino muerto"
     }
    },
    "secret": {
@@ -70157,12 +70164,12 @@
    },
    "interactive": [
     {
-     "id": "am13_gate_offer",
+     "id": "am13_avoid",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "responder el interrogatorio y pasar",
+       "id": "pasar lejos de los cuarteles",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -70171,30 +70178,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Preguntas a quemarropa, manos en el equipaje, y al final un gesto seco hacia el interior. Dentro: rancho comprado caro y un catre sin mirar al techo."
+          "es": "Los cuarteles siguen habitados y la gente de Litash sigue siendo lo que era: el enemigo. No hay hospitalidad que pedir."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso menor · techo condicional · vigilancia"
-         }
-        }
-       }
-      },
-      {
-       "id": "retroceder y buscar otro paso",
-       "tag": null,
-       "skill": null,
-       "difficulty": null,
-       "requires": null,
-       "outcomes": {
-        "success": {
-         "text": {
-          "en": null,
-          "es": "Los guardias lo miran irse con la misma cara con que lo miraron llegar."
-         },
-         "effects": {
-          "en": null,
-          "es": "tiempo · seguridad"
+          "es": "tiempo · advertencia"
          }
         }
        }
@@ -70218,30 +70206,30 @@
    ],
    "name": {
     "en": null,
-    "es": "La torre que barre En Udanoriath"
+    "es": "La atalaya que sigue encendida"
    },
    "type": {
     "en": null,
-    "es": "torre de vigilancia"
+    "es": "atalaya enemiga"
    },
    "priority": 0,
    "tags": [
-    "military",
+    "conflict",
     "landscape"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "evitarla — su trabajo es verlo a usted"
+    "es": "atalaya habitada por el enemigo — te ven venir"
    },
    "presence": {
     "en": null,
-    "es": "Mindil Cargash, construida por el Rey Brujo hacia la T.E. 1400, existe para dos cosas: dar aviso de intrusos y servir de base desde la que golpear Arthedain.\nDe la torre parten patrullas regulares que barren En Udanoriath, la tierra de nadie entre Angmar y Arthedain.\nSu levantamiento es funcional y hostil; no hay nada amable en su silueta."
+    "es": "Mindil Cargash fue levantada por el Rey Brujo para tener aviso de intrusos y base para golpear Arthedain.\nLa torre sigue haciendo su primer trabajo: hay fuego en la cima las noches despejadas y de aquí salen bandas que barren En Udanoriath, como siempre.\nYa no sirve a un rey: sirve a los que se quedaron dentro. Para el viajero es lo mismo o peor."
    },
    "lore": {
     "en": null,
-    "es": "La torre no espera: patrulla. Ser visto cerca de ella es el problema del día."
+    "es": "Las atalayas no saben de política: saben de intrusos. Sigue marcando la raya que siempre marcó."
    },
    "interactive": [
     {
@@ -70250,7 +70238,7 @@
      "situation": null,
      "options": [
       {
-       "id": "mantenerse fuera de su vista",
+       "id": "cruzar En Udanoriath fuera de su vista",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -70259,11 +70247,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Bajar el perfil, usar los repliegues del terreno y moverse cuando la patrulla ya pasó. La torre sigue ahí; usted ya no."
+          "es": "La torre tiene fuego arriba: cruzar el llano de noche y pegado a los desmontes, como hacen todos."
          },
          "effects": {
           "en": null,
-          "es": "tiempo · seguridad"
+          "es": "tiempo · tensión · advertencia"
          }
         }
        }
@@ -70277,6 +70265,16 @@
     "location_ref": {
      "id": 509
     }
+   },
+   "secret": {
+    "en": null,
+    "es": "El fuego de la cima responde a veces a otro fuego más al norte: la red vieja de Angmar aún tiene ojos encendidos."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "una banda de rezagados — vigila y persigue"
+    }
    }
   },
   {
@@ -70287,15 +70285,14 @@
    ],
    "name": {
     "en": null,
-    "es": "La piedra negra sobre el Camino"
+    "es": "La fortaleza negra que sigue mirando"
    },
    "type": {
     "en": null,
-    "es": "fortaleza"
+    "es": "fortaleza enemiga"
    },
    "priority": 0,
    "tags": [
-    "military",
     "conflict",
     "landscape"
    ],
@@ -70303,24 +70300,24 @@
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "pasar bajo su mirada o dar el rodeo"
+    "es": "fortaleza ocupada sobre el Camino de Angmar — el peaje sigue cobrando"
    },
    "presence": {
     "en": null,
-    "es": "Barad Morkai se alza sobre un risco de granito por encima del Camino de Angmar: fortaleza de piedra negra construida por el Rey Brujo para vigilar todo movimiento que entre o salga de Nan Angmar.\nEl camino pasa justo bajo sus muros; el viajero siente el peso de esa vigilancia al pasar.\nUna guarnición numerosa la ocupa de forma permanente, y las llanuras anchas del sur sirven de campo de instrucción a los orcos."
+    "es": "Barad Morkai se alza sobre el risco de granito por encima del Camino de Angmar, igual que cuando la mandó construir el Rey Brujo.\nLa guarnición actual son los hijos y nietos de la primera: orcos mezclados con hombres del norte que nunca se rindieron.\nEl camino sigue pasando bajo sus muros y la vigilancia sigue siendo real: cobran peaje con la lanza o con la vida, según el día."
    },
    "lore": {
     "en": null,
-    "es": "Toda la arquitectura de Morkai dice lo mismo: el camino le pertenece.\nLas llanuras de abajo resuenan a ejercicios de guerra."
+    "es": "Una fortaleza sobre un camino no necesita rey para seguir cobrando: necesita gente con lanza y hambre."
    },
    "interactive": [
     {
-     "id": "am15_pass",
+     "id": "am15_avoid",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pasar rápido bajo los muros",
+       "id": "evitar el tramo bajo la fortaleza",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -70329,30 +70326,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cabeza baja, paso firme, sin mirar arriba. La sensación de ser contado dura hasta que el risco queda atrás."
+          "es": "El camino bajo Morkai sigue cobrando como siempre. El desvío por el risco cuesta horas y sale mejor."
          },
          "effects": {
           "en": null,
-          "es": "tiempo · tensión"
-         }
-        }
-       }
-      },
-      {
-       "id": "dar el rodeo por el terreno",
-       "tag": null,
-       "skill": null,
-       "difficulty": null,
-       "requires": null,
-       "outcomes": {
-        "success": {
-         "text": {
-          "en": null,
-          "es": "Horas de piedra suelta y ladera para no pasar una sola vez por debajo de la torre."
-         },
-         "effects": {
-          "en": null,
-          "es": "tiempo · seguridad"
+          "es": "tiempo · seguridad · tensión"
          }
         }
        }
@@ -70366,6 +70344,12 @@
     "location_ref": {
      "id": 514
     }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la guarnición heredada — peaje o muerte"
+    }
    }
   },
   {
@@ -70376,15 +70360,14 @@
    ],
    "name": {
     "en": null,
-    "es": "El Viento de Hierro"
+    "es": "El Viento de Hierro, todavía afilado"
    },
    "type": {
     "en": null,
-    "es": "fortaleza"
+    "es": "fortaleza enemiga"
    },
    "priority": 0,
    "tags": [
-    "military",
     "conflict",
     "landscape"
    ],
@@ -70392,15 +70375,15 @@
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "no detenerse — el Cuervo Negro no hospeda"
+    "es": "una de las seis fortalezas, aún guarnecida"
    },
    "presence": {
     "en": null,
-    "es": "Anghul, 'Viento de Hierro', es una de las seis grandes fortalezas de Angmar, en una colina sobre el Anghir, al pie del escarpe de Nan Angmar.\nVigila con ceño el Valle del Anghir y controla la Tierra de Nadie. Una guarnición de trescientos hombres busca espías; su comandante es uno de los Ashâktur del Rey Brujo.\nMuros de piedra oscura; el viento que baja del escarpe es amargo y constante. El estandarte es el Cuervo Negro sobre Rojo."
+    "es": "Anghul — 'Viento de Hierro' — sigue siendo una de las grandes fortalezas del norte: la guarnición de trescientos se fue reduciendo pero nunca se fue.\nBuscar espías sigue siendo su oficio; el comandante actual es un descendiente de los Ashâktur, si es que alguien de fuera puede comprobarlo.\nEl viento en la colina no cambió ni en mil años."
    },
    "lore": {
     "en": null,
-    "es": "El nombre lo puso el viento; la reputación la puso la guarnición.\nTrescientos hombres cuyo único trabajo es desconfiar."
+    "es": "Las fortalezas que nacen para vigilar una Tierra de Nadie encuentran siempre algo que vigilar."
    },
    "interactive": [
     {
@@ -70409,7 +70392,7 @@
      "situation": null,
      "options": [
       {
-       "id": "darle ancho a la fortaleza",
+       "id": "dar rodeo al valle del Anghir",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -70418,11 +70401,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "El viento de hierro corta la cara mientras el Cuervo Negro se aleja por el retrovisor del camino."
+          "es": "La fortaleza sigue mandando su gente a buscar espías: la Tierra de Nadie se cruza de noche o no se cruza."
          },
          "effects": {
           "en": null,
-          "es": "tiempo · seguridad"
+          "es": "tiempo · tensión"
          }
         }
        }
@@ -70436,6 +70419,12 @@
     "location_ref": {
      "id": 526
     }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la guarnición reducida — hostil y organizada"
+    }
    }
   },
   {
@@ -70446,44 +70435,43 @@
    ],
    "name": {
     "en": null,
-    "es": "El castillo robado a los Eldanar"
+    "es": "El castillo robado, aún ocupado"
    },
    "type": {
     "en": null,
-    "es": "castillo"
+    "es": "castillo enemigo"
    },
    "priority": 0,
    "tags": [
-    "military",
     "conflict",
-    "people"
+    "landscape"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "no es casa de nadie que quiera recibirlo"
+    "es": "fortificación numenóreana en manos enemigas desde hace siglos"
    },
    "presence": {
     "en": null,
-    "es": "Un antiguo castillo arnoriano en el borde oriental del Dyr Úvadan, hogar ancestral de la Casa Eldanar — una de las familias de los Fieles de Elendil y una de las fortificaciones númenóreanas más antiguas del noroeste.\nHacia la T.E. 1325 los angmarim lo tomaron; el señor legítimo, Elenuil, escapó por un túnel secreto, y desde entonces la familia habita en Fornost.\nHoy una guarnición angmarim bien armada ocupa los muros."
+    "es": "Barad Eldanar es una de las fortificaciones numenóreanas más antiguas del noroeste, hogar ancestral de la Casa Eldanar.\nLos angmarim la tomaron hacia el 1325 y nunca la devolvieron: quienes la ocupan hoy son descendientes de los que la robaron, instalados en una piedra que no construyeron.\nLa Casa Eldanar tiene descendientes entre los montaraces — el castillo sigue siendo una deuda abierta."
    },
    "lore": {
     "en": null,
-    "es": "La piedra es númenóreana; la bandera no.\nEn Fornost hay una familia que todavía dibuja esta planta de memoria."
+    "es": "Los montaraces la llaman 'la casa robada'. Algún día, dicen, volverá; mientras tanto, sus muros guardan a los hijos de los ladrones."
    },
    "secret": {
     "en": null,
-    "es": "Elenuil escapó por un túnel secreto cuya boca nadie encontró jamás."
+    "es": "El pasaje por el que escapó Elenuil existe aún y los ocupantes nunca lo encontraron: una grieta en el risco que da al valle."
    },
    "interactive": [
     {
-     "id": "am17_avoid",
+     "id": "am17_secret",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "no acercarse a los muros",
+       "id": "buscar la grieta de Elenuil en el risco",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -70492,7 +70480,26 @@
         "success": {
          "text": {
           "en": null,
-          "es": "La piedra antigua merece una mirada a distancia; la guarnición nueva, ninguna."
+          "es": "La grieta existe: angosta, baja, y sale al valle sin pasar por las puertas. Lo que usó el señor para salir, el viajero puede usarlo para entrar — si se atreve."
+         },
+         "effects": {
+          "en": null,
+          "es": "abre el secreto · pasaje oculto"
+         }
+        }
+       }
+      },
+      {
+       "id": "mantenerse lejos de los muros",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
          },
          "effects": {
           "en": null,
@@ -70510,6 +70517,12 @@
     "location_ref": {
      "id": 552
     }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "ocupantes herederos del robo — hostiles"
+    }
    }
   },
   {
@@ -70520,31 +70533,30 @@
    ],
    "name": {
     "en": null,
-    "es": "El patio de instrucción de los orcos"
+    "es": "La fortaleza de la llanura, aún mandando"
    },
    "type": {
     "en": null,
-    "es": "fortaleza"
+    "es": "fortaleza enemiga"
    },
    "priority": 0,
    "tags": [
-    "military",
     "conflict",
-    "landscape"
+    "people"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "alejarse — es un cuartel, no un pueblo"
+    "es": "centro de mando de los rezagados sobre la llanura"
    },
    "presence": {
     "en": null,
-    "es": "Shedûn es una fortaleza del Rey Brujo que domina las llanuras anchas al pie de Angmar, usada para la administración regional y como punto de reunión de las fuerzas orcas.\nSus muros son de factura angmarim — pesados y oscuros — y desde las almenas se abarca un campo de instrucción vasto donde las compañías orcas ejercitan con una eficiencia siniestra.\nEl ruido llega antes que la vista."
+    "es": "Shedûn dominaba las llanuras anchas al pie de Angmar y sigue dominándolas: la administración de los rezagados se hace aquí y los campos de instrucción de abajo vuelven a tener formaciones algunos días.\nLos muros angmarim, pesados y oscuros, están mejor mantenidos de lo que una ruina estaría.\nLo que se ve desde las almenas es lo que siempre se vio: la llanura y la Tierra de Nadie."
    },
    "lore": {
     "en": null,
-    "es": "De día se oyen los ejercicios; de noche, las hogueras del campamento.\nLo que se reúne en Shedûn no sale a pasear."
+    "es": "Donde los rezagados se organizan, hay capital informal. Shedûn es eso: el cuartel del norte."
    },
    "interactive": [
     {
@@ -70553,7 +70565,7 @@
      "situation": null,
      "options": [
       {
-       "id": "evitar la llanura de instrucción",
+       "id": "mantenerse fuera de la llanura dominada",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -70562,11 +70574,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "La llanura ancha no tiene dónde esconderse: el rodeo es largo y bajo. Las compañías siguen ejercitando detrás."
+          "es": "Desde las almenas se ve la llanura entera y ellos lo saben. Los montaraces la cruzan de noche o no la cruzan."
          },
          "effects": {
           "en": null,
-          "es": "tiempo · seguridad"
+          "es": "tiempo · advertencia"
          }
         }
        }
@@ -70580,6 +70592,16 @@
     "location_ref": {
      "id": 621
     }
+   },
+   "secret": {
+    "en": null,
+    "es": "Las formaciones de abajo no son solo tradición: los rezagados mantienen algo parecido a un ejército."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "los rezagados organizados — el cuartel del norte"
+    }
    }
   },
   {
@@ -70590,36 +70612,34 @@
    ],
    "name": {
     "en": null,
-    "es": "La capital debajo de la nube"
+    "es": "La capital del Rey Brujo, aún habitada"
    },
    "type": {
     "en": null,
-    "es": "ciudad fortificada"
+    "es": "fortaleza-capital enemiga"
    },
    "priority": 0,
    "tags": [
     "conflict",
-    "military",
-    "landscape",
-    "sacred"
+    "landscape"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "no hay trato: es Carn Dûm"
+    "es": "la ciudadela más temida del norte — habitada por lo que quedó"
    },
    "presence": {
     "en": null,
-    "es": "Carn Dûm se asienta en el extremo noroccidental de las Montañas Nubladas: última gran fortaleza del Rey Brujo y capital de Angmar.\nSus cavernas y túneles fueron cavados en origen por Enanos; el Rey Brujo los amplió y fortificó enormemente después de la T.E. 1300.\nCasi nada se sabe de su interior — pocos de los Pueblos Libres que se acercaron han vuelto. La montaña de encima está siempre oscura de nubes de nieve, y el camino a la puerta está vigilado en cada curva."
+    "es": "Carn Dûm fue la capital de Angmar: cavernas de origen enano en el extremo de las Montañas Nubladas, ampliadas por la mano que las oscureció.\nCayó en el 1975 y los vencedores no quisieron quedarse — pero los vencidos sí: orcos y hombres del norte se replegaron a los túneles y hoy la ciudadela vuelve a tener guarnición, si es que a eso se le puede llamar así.\nDel interior no hay relato fiable. Lo que sale de ahí sigue siendo malo."
    },
    "lore": {
     "en": null,
-    "es": "Todo camino hacia Carn Dûm es también una respuesta a la pregunta de si quiere volver.\nLa puerta no se abre para recibir."
+    "es": "La capital del enemigo nunca dejó de ser capital del enemigo: solo cambió quién manda en los túneles."
    },
    "secret": {
     "en": null,
-    "es": "Los túneles más hondos son de factura enana y los enanos no los hicieron para el Rey Brujo."
+    "es": "Los montaraces cuentan que algo más viejo que los orcos se movió a los túneles bajos cuando el reino cayó: los rezagados le dejan ofrendas en la entrada."
    },
    "interactive": [
     {
@@ -70628,7 +70648,7 @@
      "situation": null,
      "options": [
       {
-       "id": "dar la vuelta antes del primer vigía",
+       "id": "ver Carn Dûm desde lejos y no acercarse",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -70637,11 +70657,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "El camino sube vigilado curva a curva; dar la vuelta es la decisión que otros no tomaron."
+          "es": "La mole negra contra la montaña sigue siendo lo que fue. Los montaraces no la miran de frente ni de lejos si pueden evitarlo."
          },
          "effects": {
           "en": null,
-          "es": "tiempo · seguridad"
+          "es": "tiempo · advertencia · tensión"
          }
         }
        }
@@ -70655,6 +70675,12 @@
     "location_ref": {
      "id": 641
     }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la guarnición de los túneles — orcos, hombres y algo más abajo"
+    }
    }
   },
   {
@@ -70665,46 +70691,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La aldea que huele a guerra"
+    "es": "La aldea de los Hombres Crueles, todavía cruel"
    },
    "type": {
     "en": null,
-    "es": "aldea"
+    "es": "aldea enemiga"
    },
    "priority": 0,
    "tags": [
-    "people",
     "conflict",
-    "rest"
+    "people"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "refugio tosco bajo la sombra de Angsûl"
+    "es": "aldea de tribu guerrera — los hijos de los crueles"
    },
    "presence": {
     "en": null,
-    "es": "Una aldea tosca de los Hombres Crueles de Angmar, cerca de la fortaleza de Angsûl.\nChozas bajas de piedra y madera a la sombra de las colinas septentrionales; la tribu que vive aquí es leal al Rey Brujo.\nHuele a humo y a grasa animal; la vida es dura y guerrera, y a los forasteros rara vez se los recibe bien."
+    "es": "Ahus fue aldea de los Hombres Crueles de Angmar y lo sigue siendo: chozas bajas de piedra y madera a la sombra de las colinas, olor a humo y a grasa.\nLa tribu que juró lealtad al Rey Brujo no desapareció con él: se quedó en el sitio, endurecida y reducida, y los forasteros siguen sin durar aquí.\nLa vida sigue siendo dura y guerrera. La única diferencia es para quién pelean: para sí mismos."
    },
    "lore": {
     "en": null,
-    "es": "La lealtad aquí no es entusiasmo: es la forma que tiene el miedo de organizarse.\nUn forastero es, en el mejor de los casos, un recurso."
+    "es": "Las tribus de guerra no se rinden: se quedan siendo lo que eran, con un señor menos."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "los hombres de la tribu — fuego compartido solo si el forastero demuestra utilidad"
+     "es": "la tribu de Ahus — hostil, guerrera, reducida"
     }
    },
    "interactive": [
     {
-     "id": "am20_stay_offer",
+     "id": "am20_avoid",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "ganarse un sitio junto al fuego",
+       "id": "pasar lejos de las chozas",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -70713,30 +70738,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Lo miran con ojos que evalúan precio, no caridad. Si encuentran uso — trabajo, noticias, hierro — hay un sitio al fuego y grasa para comer. Si no, no."
+          "es": "La aldea huele a humo y a grasa como siempre, y la gente de adentro sigue siendo la gente de siempre."
          },
          "effects": {
           "en": null,
-          "es": "comida · techo condicional · tensión"
-         }
-        }
-       }
-      },
-      {
-       "id": "pasar de largo",
-       "tag": null,
-       "skill": null,
-       "difficulty": null,
-       "requires": null,
-       "outcomes": {
-        "success": {
-         "text": {
-          "en": null,
-          "es": "La aldea tampoco lo quiere cerca. Empate."
-         },
-         "effects": {
-          "en": null,
-          "es": "tiempo · seguridad"
+          "es": "tiempo · advertencia"
          }
         }
        }
@@ -70760,31 +70766,30 @@
    ],
    "name": {
     "en": null,
-    "es": "El pueblo que el reino dejó morir"
+    "es": "El municipio de Tulban, convertido en campamento"
    },
    "type": {
     "en": null,
-    "es": "pueblo en declive"
+    "es": "puesto enemigo"
    },
    "priority": 0,
    "tags": [
-    "people",
     "conflict",
-    "landscape"
+    "people"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "ruinas batidas por el viento"
+    "es": "pueblo convertido en campamento de guerra permanente"
    },
    "presence": {
     "en": null,
-    "es": "Un municipio del distrito de Tulban, construido a mediados de la Tercera Edad y hogar de unos 3.500 habitantes en su mejor momento.\nFue un lugar tosco de frontera — casas de madera oscura a la sombra de las colinas de Angmar, con su gente atada a la voluntad del Rey Brujo.\nCon la caída de Angmar el pueblo se vació; hoy solo quedan ruinas oscuras, batidas por el viento y evitadas por todos."
+    "es": "Phaluran fue un municipio de tres mil quinientas almas; lo que queda es un campamento de guerra que ocupa las casas viejas.\nLos rezagados lo usan como base: palizada nueva sobre cimientos viejos, humo de fogatas donde hubo chimeneas, bandas que salen y vuelven.\nEl pueblo murió; el campamento que lo ocupa está muy vivo."
    },
    "lore": {
     "en": null,
-    "es": "Los pueblos construidos por el miedo no sobreviven al amo.\nEl viento hace el inventario que nadie vino a hacer."
+    "es": "Los pueblos conquistados por el enemigo se vuelven otra cosa: campamento con techo."
    },
    "interactive": [
     {
@@ -70793,7 +70798,7 @@
      "situation": null,
      "options": [
       {
-       "id": "mirar las ruinas de lejos y seguir",
+       "id": "mantenerse lejos de la palizada nueva",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -70802,11 +70807,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Casas vacías con las puertas abiertas todas en la misma dirección del viento. No hay nada que quedarse a ver."
+          "es": "La palizada es nueva y las fogatas son de todos los días: no es un pueblo muerto, es un campamento."
          },
          "effects": {
           "en": null,
-          "es": "tiempo"
+          "es": "tiempo · advertencia"
          }
         }
        }
@@ -70820,6 +70825,12 @@
     "location_ref": {
      "id": 906
     }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "las bandas de los rezagados — hostiles"
+    }
    }
   },
   {
@@ -70830,31 +70841,30 @@
    ],
    "name": {
     "en": null,
-    "es": "La despensa de la fortaleza"
+    "es": "La aldea de abastecimiento, reocupada"
    },
    "type": {
     "en": null,
-    "es": "aldea de suministro"
+    "es": "puesto enemigo"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "military",
-    "conflict"
+    "conflict",
+    "people"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "nada para el viajero: todo sube a Morkai"
+    "es": "el depósito de Morkai sigue funcionando para la guarnición"
    },
    "presence": {
     "en": null,
-    "es": "Kuska se asienta en el Paso de Angmar, tres millas al oeste de Barad Morkai, fundada por las fuerzas de Angmar para mantener abastecida la fortaleza.\nBarracas y depósitos de madera tras una palizada tosca, poblada por la gente humana mezclada que sirve a los ejércitos — dunlendinos, brygath orientales, estaravë.\nLos suministros suben sin parar por el camino; el único propósito de Kuska es alimentar la máquina de guerra que tiene encima."
+    "es": "Kuska nació para mantener abastecida la fortaleza de Barad Morkai y nunca dejó de hacerlo: las barracas fueron reconstruidas, la palizada se rehizo, la gente mezclada sigue ahí.\nEs el puesto de víveres de los que se quedaron: menos ordenado que antes, igual de hostil.\nNo hay nada para el viajero excepto flechas, si lo ven."
    },
    "lore": {
     "en": null,
-    "es": "Nadie nació en Kuska: todos fueron puestos ahí por la guerra.\nLo que entra al pueblo sale hacia arriba; el pueblo no retiene nada, ni gente."
+    "es": "Los depósitos de guerra sobreviven mientras haya a quién abastecer. Kuska nunca se quedó sin clientes."
    },
    "interactive": [
     {
@@ -70863,7 +70873,7 @@
      "situation": null,
      "options": [
       {
-       "id": "no detenerse en la palizada",
+       "id": "pasar lejos del depósito",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -70872,11 +70882,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Los carros de suministro no paran y el viajero tampoco debería."
+          "es": "La palizada re-hecha y el humo de las barracas dicen lo mismo: el puesto funciona y no es para usted."
          },
          "effects": {
           "en": null,
-          "es": "tiempo · seguridad"
+          "es": "tiempo · advertencia"
          }
         }
        }
@@ -70889,6 +70899,12 @@
     "region_confidence": "high",
     "location_ref": {
      "id": 1091
+    }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la gente del depósito — hostil"
     }
    }
   },
@@ -73206,35 +73222,36 @@
    ],
    "name": {
     "en": null,
-    "es": "La aldea de los primeros hobbits"
+    "es": "La aldea hobbit fuera de la Comarca"
    },
    "type": {
     "en": null,
-    "es": "aldea hobbit"
+    "es": "aldea remanente"
    },
    "priority": 0,
    "tags": [
     "people",
-    "rest"
+    "rest",
+    "social"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "aldea de la primera migración hobbit"
+    "es": "una aldea hobbit que el tiempo casi olvidó — poca gente, puerta amable"
    },
    "presence": {
     "en": null,
-    "es": "Gamwich fue poblada durante la migración de los hobbits a la Comarca, T.E. 1601-1610.\nEs una comunidad agrícola de las que llevan la historia de los primeros años.\nEl nombre es la traducción al oestron del nombre kuduk Galabas."
+    "es": "Gamwich fue poblada por hobbits durante la gran migración a la Comarca, cuando la rama que se quedó corta decidió no cruzar el último río.\nQueda una aldea chica de smials y casas bajas, menos gente de la que las casas sugieren: muchas familias se terminaron yendo adentro, a la Comarca, donde está la vida.\nLos que quedan son pocos y tranquilos: pan, queso, un rincón para el viajero que no trae problemas."
    },
    "lore": {
     "en": null,
-    "es": "Aldea de la primera migración: aquí empezó la Comarca que los hobbits cuentan.\nEl nombre guarda el idioma viejo de los antepasados."
+    "es": "Galabas, decían los que se quedaron. Los hobbits de fuera de la Comarca son pocos y se cuentan.\nLa aldea se achica pero no muere: así son los hobbits."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "las familias de la aldea — mesa hobbit de la comarca primera"
+     "es": "las familias de Gamwich — hospitalidad hobbit en versión escasa"
     }
    },
    "interactive": [
@@ -73244,7 +73261,7 @@
      "situation": null,
      "options": [
       {
-       "id": "pedir mesa en la aldea de la migración",
+       "id": "pedir techo en un smial",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -73253,7 +73270,7 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena hobbit y un rincón: la hospitalidad de una de las aldeas más viejas de los peludos en estas tierras."
+          "es": "Pan, queso y un rincón de smial bajo tierra buena. La aldea es chica y se achica, pero la mesa hobbit no falla."
          },
          "effects": {
           "en": null,
@@ -73610,30 +73627,30 @@
    ],
    "name": {
     "en": null,
-    "es": "Las plataformas del risco"
+    "es": "La aldea del risco, colgada en el aire"
    },
    "type": {
     "en": null,
-    "es": "ruinas nando"
+    "es": "ruinas de aldea"
    },
    "priority": 0,
    "tags": [
     "landscape",
-    "water"
+    "forest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "ruina de aldea nando sobre el Baranduin"
+    "es": "ruinas élficas sobre el Baranduin — apoyos de piedra y nada más"
    },
    "presence": {
     "en": null,
-    "es": "Cor Wilishar fue un asentamiento nandorin construido sobre un risco alto por encima del Baranduin y el Nenglos.\nLa aldea fue abandonada en los años que siguieron a la Gran Plaga y al derrumbe de Cardolan, hacia la T.E. 1700.\nHoy los viajeros que se acercan al risco solo encuentran los apoyos de piedra de las plataformas viejas y los restos herrumbrados de las escalas de cuerda; los nandor que vivieron aquí ya no están."
+    "es": "Cor Wilishar fue un asentamiento nandorin construido sobre un risco alto por encima del Baranduin y el Nenglos, abandonado en los años que siguieron a la Gran Plaga.\nLo que queda en el risco son los apoyos de piedra de las plataformas y los restos oxidados de escaleras de cuerda: la aldea vivía en el aire y el aire se la llevó.\nLa vista desde arriba es la misma que tenían ellos: el río y el bosque, sin una casa a la vista."
    },
    "lore": {
     "en": null,
-    "es": "Los nandor vivían en el aire: las plataformas del risco son su firma.\nLa escala de cuerda que quedó es el último hilo que los une al suelo."
+    "es": "Las aldeas que vivían en el aire dejan las ruinas más limpias: no queda casi nada."
    },
    "interactive": [
     {
@@ -73642,7 +73659,7 @@
      "situation": null,
      "options": [
       {
-       "id": "mirar las plataformas desde abajo",
+       "id": "subir al risco de los apoyos",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -73651,11 +73668,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Los apoyos de piedra marcan dónde colgaban las casas. El risco sigue siendo buena posición aunque nadie la use."
+          "es": "Los apoyos de piedra marcan dónde colgaban las casas. La vista es la de ellos; la aldea no está."
          },
          "effects": {
           "en": null,
-          "es": "tiempo"
+          "es": "tiempo · orientación"
          }
         }
        }
@@ -73668,6 +73685,12 @@
     "region_confidence": "high",
     "location_ref": {
      "id": 957
+    }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "nadie"
     }
    }
   },
@@ -75157,45 +75180,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La fortaleza del norte desolado"
+    "es": "La fortaleza del norte desolado, caída"
    },
    "type": {
     "en": null,
-    "es": "fortaleza"
+    "es": "ruinas de fortaleza"
    },
    "priority": 0,
    "tags": [
-    "military",
-    "landscape"
+    "landscape",
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "plaza fuerte en la tierra de la batalla"
+    "es": "ruinas sobre la llanura de la gran batalla del norte"
    },
    "presence": {
     "en": null,
-    "es": "Una fortaleza del Rammas Formen, la tierra de la gran batalla del norte.\nEl nombre del lugar lleva la palabra 'batalla': Dagorath, la llanura que decidió la guerra.\nLa fortaleza mira el campo donde todo se decidió."
+    "es": "Bar en Dagorath fue una fortaleza sobre la llanura que lleva 'batalla' en el nombre, puesta para mirar el campo donde el norte se decidió.\nLo que vigilaba ya no existe: la llanura es pasto, la fortaleza es muros abiertos, y la batalla se terminó hace mil años.\nLas piedras caídas dan el mejor refugio de la comarca."
    },
    "lore": {
     "en": null,
-    "es": "Rammas Formen es tierra de memoria: la batalla que el mundo recuerda pasó aquí.\nLa fortaleza es puesto, no hogar."
+    "es": "Las fortalezas de las grandes batallas sobreviven a la guerra que las hizo inútiles."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la guarnición del puesto"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "tm26_stay_offer",
+     "id": "tm26_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pedir techo a la guarnición",
+       "id": "guarecerse entre los muros caídos",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -75204,11 +75227,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Rancho de puesto y un catre en la fortaleza que mira el campo de batalla. La historia del lugar se siente en las murallas."
+          "es": "Muros gruesos y vista del campo de batalla viejo. El viento de la llanura se corta bien entre la piedra."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso menor · techo condicional"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -75527,46 +75550,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La casa del muro norte"
+    "es": "La casa del muro norte, abierta al cielo"
    },
    "type": {
     "en": null,
-    "es": "solar"
+    "es": "ruinas de casa señorial"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "social",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "techo de solar en la frontera"
+    "es": "ruinas de casa de vigilancia — el orden que daba ya no existe"
    },
    "presence": {
     "en": null,
-    "es": "Una casa señorial del Rammas Formen, en la tierra que el muro norte marca.\nLa casa es el punto de orden en una región de vigilancia.\nLa mesa se abre al viajero que llega con respeto."
+    "es": "Una casa señorial del Rammas Formen que era el punto de orden de la vigilancia del norte.\nEl orden se fue con la administración que lo sostenía; la casa conserva sus muros gruesos y la mesa de piedra del salón, demasiado pesada para llevársela.\nSirve mejor de refugio que de lo que servía de casa."
    },
    "lore": {
     "en": null,
-    "es": "Las casas de la frontera son islas de permanencia en un mar de campamentos."
+    "es": "Las casas de orden quedan cuando el orden se va: piedra que sostiene el viento."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la familia de la casa"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "tm31_stay_offer",
+     "id": "tm31_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "aceptar la mesa de la casa",
+       "id": "dormir junto a la mesa de piedra",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -75575,11 +75597,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de solar fronterizo y un cuarto donde el muro se siente cerca."
+          "es": "La mesa del salón hace de banco y de reflejo de fuego: la casa da mejor servicio como refugio del que daba de casa."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -75690,45 +75712,45 @@
    ],
    "name": {
     "en": null,
-    "es": "El castillo de Himihiril"
+    "es": "El castillo de Himihiril, vacío"
    },
    "type": {
     "en": null,
-    "es": "castillo"
+    "es": "ruinas de castillo"
    },
    "priority": 0,
    "tags": [
-    "military",
-    "people"
+    "landscape",
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "castillo de Talath Muil"
+    "es": "ruinas de castillo de las llanuras del norte"
    },
    "presence": {
     "en": null,
-    "es": "Un castillo de Talath Muil, en la tierra de las llanuras del norte.\nPiedra de fortificación en la comarca de los muros.\nLa guarnición o el señor que la mantiene marca el trato."
+    "es": "Un castillo de Talath Muil que dominaba las llanuras del norte, de piedra de fortificación seria.\nLa guarnición se fue con la comarca; los muros aguantan y el foso se convirtió en una zanja de pasto.\nLo que queda sirve: muros que cortan el viento, un patio para el caballo, y silencio."
    },
    "lore": {
     "en": null,
-    "es": "Los castillos de Talath Muil son los que el norte dejó en la llanura."
+    "es": "Los castillos de llanura no caen: se quedan esperando una comarca que no vuelve."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la guarnición del castillo"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "tm33_stay_offer",
+     "id": "tm33_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pedir alojamiento a la guarnición",
+       "id": "dormir en el patio del castillo",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -75737,11 +75759,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Rancho y catre en las dependencias del castillo si la guardia lo decide."
+          "es": "Muros de fortificación seria, patio de pasto, silencio de llanura. Refugio completo."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso menor · techo condicional"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -75853,51 +75875,50 @@
    ],
    "name": {
     "en": null,
-    "es": "El torreón de las guarniciones muertas"
+    "es": "El torreón que cambia de manos"
    },
    "type": {
     "en": null,
-    "es": "torreón"
+    "es": "torre semiocupada"
    },
    "priority": 0,
    "tags": [
-    "military",
+    "conflict",
     "water",
-    "sacred",
-    "conflict"
+    "people"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "torre encantada sobre el Mitheithel: techo con historia"
+    "es": "torre ocupada por gente armada — quién la tiene hoy es la pregunta"
    },
    "presence": {
     "en": null,
-    "es": "Herubar Gûlar es un torreón de origen incierto — posiblemente numenóreano — sobre el Mitheithel, que controla el tránsito por el río y a través de él.\nSu antigüedad se nota en la calidad de la piedra, pero está claro que ha cambiado de manos muchas veces; los arreglos actuales de su interior son toscos y militares.\nSe dice que el torreón está encantado por los espíritus de guarniciones anteriores."
+    "es": "Herubar Gûlar es un torreón viejo — quizá numenóreano — sobre el Mitheithel, que controla el tránsito por el río y a través de él.\nCambió de manos tantas veces que la piedra dejó de importarle: los arreglos de adentro son toscos y militares, de la última banda que se instaló.\nHay gente dentro — hombres de las colinas o algo peor según la temporada — y su trato depende de quién mande este año."
    },
    "lore": {
     "en": null,
-    "es": "La torre cambió de manos tantas veces que ningún dueño la hizo suya del todo.\nLos espíritus de guarniciones viejas son la historia que las paredes no cuentan pero dejan sentir."
+    "es": "Un torreón sobre un vado no queda vacío: lo ocupa el último con fuerza para tomarlo.\nLos montaraces lo vigilan de lejos y no dan nombres."
    },
    "secret": {
     "en": null,
-    "es": "Las guarniciones anteriores no se fueron del todo: la torre las guarda."
+    "es": "Los ocupantes actuales son una banda de hombres de las colinas mezclados con algo peor; el torreón cambia de dueño cada pocos años y nadie del sur llega a saber quién tiene ahora."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la guarnición actual — rancho y catre con el río abajo"
+     "es": "la banda de turno — trato según quién mande"
     }
    },
    "interactive": [
     {
-     "id": "ts17_stay_offer",
+     "id": "ts17_avoid",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "dormir en el torreón del río",
+       "id": "cruzar el río lejos del torreón",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -75906,17 +75927,17 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Rancho militar, catre en la piedra numenóreana y el rumor de que la torre tiene inquilinos que no son de esta Edad."
+          "es": "El vado que el torreón controla es el único bueno, pero la banda de adentro cobra como puede. Cruzar más abajo, con el agua a la cintura."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso menor · techo condicional"
+          "es": "tiempo · tensión · advertencia"
          }
         }
        }
       },
       {
-       "id": "seguir camino",
+       "id": "acercarse a negociar el paso",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -75925,11 +75946,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "—"
+          "es": "La banda cobra: provisiones o noticias por el paso. Trato de gente armada — funciona mientras funcione."
          },
          "effects": {
           "en": null,
-          "es": "tiempo"
+          "es": "peaje · tensión"
          }
         }
        }
@@ -75953,37 +75974,36 @@
    ],
    "name": {
     "en": null,
-    "es": "La sede del rey Broggha"
+    "es": "La ciudadela de los montañeses"
    },
    "type": {
     "en": null,
-    "es": "ciudadela"
+    "es": "ciudadela semiocupada"
    },
    "priority": 0,
    "tags": [
-    "military",
     "people",
     "conflict",
-    "social"
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "capital del reino de los hombres de las colinas"
+    "es": "sede de los restos del pueblo de Broggha — trato de clan"
    },
    "presence": {
     "en": null,
-    "es": "Cameth Brin fue tomada y mejorada por los dúnedain en la T.E. 162 como centro estable de administración para Rhudaur y de dominación de las tribus locales de hombres de las colinas.\nEn la actualidad es la sede del rey Broggha, de los hombres de las colinas.\nLa ciudadela dúnadan sirve al gobernante que no la construyó."
+    "es": "Cameth Brin fue mejorada por los dúnedain como centro de administración de Rhudaur, y después fue sede del rey Broggha de los hombres de las colinas.\nRhudaur cayó pero los montañeses no: sus descendientes siguen en la ciudadela, gobernando el pedazo de los Trollshaws que les queda.\nEs una corte de clan, no de reino: la mesa se comparte con el que llega con causa, y el juicio es rápido."
    },
    "lore": {
     "en": null,
-    "es": "Piedra dúnadan, rey de las colinas: la ciudadela es el símbolo de cómo cambia el poder.\nEl trono de Broggha está en una sala que los dúnedain diseñaron."
+    "es": "Los hombres de las colinas sobrevivieron a su propio reino: perdieron el nombre y conservaron la piedra."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la corte de Broggha — hospitalidad de hombres de las colinas para el que llega con causa"
+     "es": "el clan de los descendientes de Broggha — hospitalidad de clan, juicio rápido"
     }
    },
    "interactive": [
@@ -75993,7 +76013,7 @@
      "situation": null,
      "options": [
       {
-       "id": "pedir audiencia al rey de las colinas",
+       "id": "pedir entrada al clan de la ciudadela",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -76002,11 +76022,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "La corte de Broggha recibe según su ley: comida de las colinas, un sitio bajo el techo dúnadan y el juicio del rey sobre el extraño."
+          "es": "El jefe lo mide en la puerta. Si entra: puchero de clan, banco junto al fuego y las preguntas de los montañeses — qué camino, qué gente, qué lado de la vieja rencilla."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo condicional"
+          "es": "comida · descanso · techo condicional · tensión"
          }
         }
        }
@@ -77013,47 +77033,45 @@
    ],
    "name": {
     "en": null,
-    "es": "El Puerto de Hierro"
+    "es": "El Puerto de Hierro, cerrado"
    },
    "type": {
     "en": null,
-    "es": "ciudad"
+    "es": "ruinas de ciudad-portuaria"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "water",
-    "trade",
-    "rest"
+    "landscape",
+    "water"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "ciudad númenóreana del Angren"
+    "es": "ruinas del viejo señorío del Angren"
    },
    "presence": {
     "en": null,
-    "es": "Lond Angren, 'Puerto de Hierro', empezó como un pequeño puesto númenóreano de la Segunda Edad y creció hasta ser una ciudad y un señorío que controlaba el oeste de Enedwaith, cerca de la desembocadura del río Angren.\nEl hierro le dio el nombre y el comercio le dio la ciudad.\nPiedra de los que vinieron del oeste, en tierra que nunca fue del todo de ellos."
+    "es": "Lond Angren empezó como puesto numenóreano de la Segunda Edad y llegó a ser ciudad y señorío que controlaba el oeste de Enedwaith, cerca de la desembocadura del Angren.\nEl hierro le dio el nombre y el comercio la vida; cuando murió el comercio del mar, el señorío no tuvo de qué vivir.\nQuedan los muelles de piedra entrando al agua y las manzanas de cimientos: una ciudad entera que el mar no llenó otra vez."
    },
    "lore": {
     "en": null,
-    "es": "El hierro subía por el Angren y la ciudad crecía con él.\nLond Angren es de las pocas piedras del oeste que la Tercera Edad no borró del todo."
+    "es": "Los puertos de hierro mueren cuando el hierro deja de salir: el mar solo no alcanza."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la gente del puerto — mesa de ciudad de la desembocadura"
+     "es": "nadie — a veces pescadores dunlendinos usan los muelles"
     }
    },
    "interactive": [
     {
-     "id": "ew13_stay_offer",
+     "id": "ew13_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "dormir en el puerto",
+       "id": "guarecerse entre las manzanas de cimientos",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -77062,11 +77080,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Comida de ciudad-puerto, cama decente y la vista del Angren yéndose al mar. La ciudad recuerda a los númenóreanos en la piedra."
+          "es": "Las manzanas enteras de cimientos cortan el viento del mar y los muelles dan pesca. Ciudad muerta, servicios vivos."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -78358,51 +78376,50 @@
    ],
    "name": {
     "en": null,
-    "es": "La Ciénaga de la Niebla"
+    "es": "La Ciénaga de la Niebla, aislada del todo"
    },
    "type": {
     "en": null,
-    "es": "pueblo de turbera"
+    "es": "ruinas de pueblo"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "conflict",
     "landscape",
-    "rest"
+    "water",
+    "conflict"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "techo duro en la única senda del pantano"
+    "es": "ruinas entre las turberas — la senda sigue siendo la única forma de entrar"
    },
    "presence": {
     "en": null,
-    "es": "Móin Dúldachd, 'Ciénaga de la Niebla', comparte su nombre con las turberas que lo rodean, en el norte de Rhudaur.\nUna sola senda atraviesa el pantano; quien la deja se arriesga a ciénagas ocultas prácticamente sin fondo.\nEs el centro de la poca vida económica de los Valles de los Trolls, y su fortificación principal — el Kaldabaurg — fue la ciudadela de los mercenarios de los Hombres del Norte que sirvieron a los dúnedain."
+    "es": "Móin Dúldachd compartía nombre con las turberas que lo rodeaban: una sola senda atravesaba el pantano y el pueblo era el centro de la poca vida económica de los Valles de los Trolls.\nRhudaur se fue y el pueblo con él; la senda sigue siendo la única forma segura de llegar a las chozas deshechas.\nQuien deja la senda se arriesga a las ciénagas, que no se fueron con el pueblo."
    },
    "lore": {
     "en": null,
-    "es": "Un pueblo en un pantano es un pueblo que sabe de supervivencia.\nLa senda es la única puerta y el pantano hace de muro."
+    "es": "Los pueblos de pantano no dejan ruinas de piedra: dejan sendas que aún hay que respetar."
    },
    "secret": {
     "en": null,
-    "es": "Las ciénagas sin fondo también sirven para deshacerse de cosas."
+    "es": "Las ciénagas sin fondo del pantano están a un paso de la senda: los que las conocían ya no están para advertir."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la gente del pueblo — hospitalidad de frontera, escasa pero real"
+     "es": "nadie — el pantano es el guardián"
     }
    },
    "interactive": [
     {
-     "id": "rh23_stay_offer",
+     "id": "rh23_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pedir techo en la única aldea del pantano",
+       "id": "guarecerse en una choza junto a la senda",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -78411,17 +78428,17 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena dura, un rincón con la humedad fuera y el consejo gratis: la senda no se deja ni de día."
+          "es": "Una choza junto a la senda, a pie firme. El pantano niebla todo de noche y corta mejor que un muro: nadie llega sin saber la senda."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso menor · techo precario · tensión"
          }
         }
        }
       },
       {
-       "id": "seguir la senda de largo",
+       "id": "seguir camino por la senda",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -78430,7 +78447,7 @@
         "success": {
          "text": {
           "en": null,
-          "es": "La senda es la única seguridad del pantano; quedarse en ella es la regla de supervivencia."
+          "es": "—"
          },
          "effects": {
           "en": null,
@@ -78730,39 +78747,39 @@
    ],
    "name": {
     "en": null,
-    "es": "La ciudad que el lago mira"
+    "es": "La ciudad muerta del norte del lago"
    },
    "type": {
     "en": null,
-    "es": "ciudad en ruinas"
+    "es": "ruinas de ciudad"
    },
    "priority": 0,
    "tags": [
     "landscape",
-    "water"
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "ruina a orillas del Nenuial"
+    "es": "refugio entre muros — la ciudad de Eketyar lleva casi mil años vacía"
    },
    "presence": {
     "en": null,
-    "es": "Bodroth era una ciudad de Eketyar, en Arthedain, en las orillas septentrionales del Lago Evendim, unas cuarenta millas al norte de Annúminas.\nTenía unos 4.900 habitantes en la T.E. 250; decayó a lo largo de la Tercera Edad y acabó abandonada, aunque sobrevivió a la caída del último Rey por varias generaciones.\nEl lago sigue; la ciudad no."
+    "es": "Bodroth fue una ciudad de casi cinco mil almas en la orilla norte del Nenuial, a cuarenta millas de Annúminas.\nSobrevivió a la caída del último rey por unas generaciones y después se vació del todo. Lo que queda es una ciudad entera de cimientos y muros a media altura, con las calles dibujadas en la hierba.\nEl viento del lago entra y sale por las casas abiertas como si la ciudad respirara."
    },
    "lore": {
     "en": null,
-    "es": "Sobrevivir al rey y morir igual: la historia de Bodroth es la de Arthedain en chico.\nEl Nenuial no notó la diferencia."
+    "es": "Murió despacio y no en la guerra: por eso queda tanto en pie.\nLas ciudades abandonadas por falta de gente conservan mejor su forma que las arrasadas."
    },
    "interactive": [
     {
-     "id": "ev16_look",
+     "id": "ev16_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "mirar la ciudad del lago y seguir",
+       "id": "guarecerse en una casa sin techo",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -78771,7 +78788,26 @@
         "success": {
          "text": {
           "en": null,
-          "es": "La orilla del Nenuial con el cascarón de la ciudad detrás: una de las vistas más tristes del norte, que lo dice todo."
+          "es": "Paredes a media altura cortan el viento del lago. Amanece con los pájaros entrando y saliendo por los vanos donde hubo puertas."
+         },
+         "effects": {
+          "en": null,
+          "es": "descanso menor · techo precario"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
          },
          "effects": {
           "en": null,
@@ -78788,6 +78824,12 @@
     "region_confidence": "high",
     "location_ref": {
      "id": 522
+    }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "nadie — el lago y el viento"
     }
    }
   },
@@ -78935,51 +78977,45 @@
    ],
    "name": {
     "en": null,
-    "es": "El centro dúnadan del oeste"
+    "es": "El pueblo de mercado que cerró"
    },
    "type": {
     "en": null,
-    "es": "pueblo"
+    "es": "ruinas de pueblo"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "trade",
-    "rest",
-    "social"
+    "landscape",
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "mercado dúnadan: posada y cultura del Norte"
+    "es": "ruinas transitables — el mercado más occidental del norte ya no abre"
    },
    "presence": {
     "en": null,
-    "es": "Caras Celairnen, poblada por primera vez alrededor de la T.E. 740, es pueblo de mercado regional en el suroeste de Arthedain.\nEs el centro de cultura puramente dúnadan más occidental del Norte.\nAquí la sangre y la costumbre de los dúnedain se conservan más que en cualquier otro lugar de la comarca."
+    "es": "Caras Celairnen fue el centro de cultura dúnadan más occidental del norte, un pueblo de mercado a medio camino entre el lago y el mar.\nHoy son calles de cimientos con el trazado aún legible y una plaza amplia donde los puestos no se arman desde hace ochocientos años.\nLos montaraces pasan a veces; el mercado no volvió."
    },
    "lore": {
     "en": null,
-    "es": "Si el viajero quiere ver cómo era el norte antes de que se vaciara, Caras Celairnen es el lugar.\nLa posada del pueblo es la mesa de la tradición."
+    "es": "Cuando cayó Arthedain el mercado perdió su razón de ser; el pueblo duró lo que tardó la última generación en morirse."
    },
    "facts": {
-    "inn_name": {
-     "en": null,
-     "es": "La Posada del Oeste"
-    },
     "keeper": {
      "en": null,
-     "es": "una familia de posaderos dúnadan de las de siempre"
+     "es": "nadie — los montaraces lo miran al pasar"
     }
    },
    "interactive": [
     {
-     "id": "ev19_stay_offer",
+     "id": "ev19_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "dormir en la Posada del Oeste",
+       "id": "dormir en la plaza vacía",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -78988,30 +79024,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de tradición dúnadan — más ceremonia que cantidad — y una cama en la casa que mejor guarda las costumbres del oeste."
+          "es": "La plaza del mercado, a cielo abierto y entre muros bajos, es mejor campamento que la mayoría de la llanura."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
-         }
-        }
-       }
-      },
-      {
-       "id": "hacer mercado",
-       "tag": null,
-       "skill": null,
-       "difficulty": null,
-       "requires": null,
-       "outcomes": {
-        "success": {
-         "text": {
-          "en": null,
-          "es": "El mercado regional tiene lo que el suroeste de Arthedain produce: provisión correcta a precio correcto."
-         },
-         "effects": {
-          "en": null,
-          "es": "comida · provisiones"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -79263,47 +79280,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La casa del vado de Barluin"
+    "es": "La casa del vado, caída"
    },
    "type": {
     "en": null,
-    "es": "casa señorial"
+    "es": "ruinas de casa señorial"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "water",
-    "social",
-    "rest"
+    "landscape",
+    "water"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "hospitalidad de casa arthedana del vado"
+    "es": "marca el vado del Barluin — el control que hacía ya no existe"
    },
    "presence": {
     "en": null,
-    "es": "Una casa señorial arthedana apartada, en un valle fluvial al oeste de los Páramos del Norte, cerca de la Cuaderna del Norte de la Comarca.\nRond Morvin controla el vado donde el Men Lindon cruza el arroyo Barluin; funciona como punto de reunión para las ferias locales y las levas de la milicia.\nLa casa es un edificio sólido de piedra con establos y graneros, y su gente está acostumbrada a alojar viajeros y partidas de leva."
+    "es": "Rond Morvin era la casa señorial que controlaba el vado donde el Men Lindon cruza el arroyo Barluin, punto de ferias y de levas de la milicia.\nEl vado sigue siendo el vado — eso no lo tumbó nadie. La casa sí: techo hundido, patio lleno de abedules, el muro de linde marcando todavía dónde terminaba el jardín.\nQuien cruza el Barluin pasa por delante de la casa que lo cobraba."
    },
    "lore": {
     "en": null,
-    "es": "El vado es el negocio: la casa existe porque el cruce existe.\nLa gente de Rond Morvin sabe recibir: lo hace hace generaciones."
+    "es": "Las casas de vado mueren con el tránsito que las sostiene; el vado sigue, la casa no."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la familia de Rond Morvin — hospitalidad de casa del vado, acostumbrada a extraños"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "ev23_stay_offer",
+     "id": "ev23_ford",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "aceptar la mesa de la casa del vado",
+       "id": "cruzar el vado bajo la casa caída",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -79312,26 +79327,7 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de finca, cuarto de huéspedes y la práctica de una casa que recibe gente de paso desde hace mucho. El vado cruza; la casa queda."
-         },
-         "effects": {
-          "en": null,
-          "es": "comida · descanso · techo"
-         }
-        }
-       }
-      },
-      {
-       "id": "seguir camino",
-       "tag": null,
-       "skill": null,
-       "difficulty": null,
-       "requires": null,
-       "outcomes": {
-        "success": {
-         "text": {
-          "en": null,
-          "es": "—"
+          "es": "El vado es el mismo que la casa cobraba: fondo firme, agua a la rodilla, nadie que cobre."
          },
          "effects": {
           "en": null,
@@ -79359,46 +79355,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La casa de Ron Hyarr"
+    "es": "La casa de la colina, apagada"
    },
    "type": {
     "en": null,
-    "es": "solar"
+    "es": "ruinas de casa señorial"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "social",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "techo de solar en las Evendim"
+    "es": "ruinas de casa grande — techo parcial"
    },
    "presence": {
     "en": null,
-    "es": "Una casa señorial de las Evendim, en la tierra de colinas que fue de Arthedain.\nPiedra y campos en la comarca de los solares del norte.\nLa casa sigue la regla de la comarca: recibir al viajero presentable."
+    "es": "Una casa señorial de las colinas, caída con el reino.\nLos muros exteriores aguantan en gran parte; el techo se fue hace siglos y los arces del patio ya son árboles.\nSe ve que fue una casa de gente con medios: la piedra está bien cortada y los vanos son anchos."
    },
    "lore": {
     "en": null,
-    "es": "Los solares de Evendim son todos parientes: misma piedra, mismo deber, mismo viento."
+    "es": "Las casas señoriales de las colinas no sobrevivieron a los señores."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la familia de la casa"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "ev24_stay_offer",
+     "id": "ev24_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "aceptar la mesa de la casa",
+       "id": "guarecerse en el patio de los arces",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -79407,11 +79402,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de finca y un cuarto de huéspedes en la casa de las colinas."
+          "es": "El patio con árboles guarda mejor el fuego que la sala abierta. Se duerme entre muros de la casa que fue."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -79454,39 +79449,38 @@
    ],
    "name": {
     "en": null,
-    "es": "La torre de la colina"
+    "es": "La torre partida de las colinas"
    },
    "type": {
     "en": null,
-    "es": "torre"
+    "es": "ruinas de torre"
    },
    "priority": 0,
    "tags": [
-    "military",
     "landscape"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "mojón de vigilancia en las colinas"
+    "es": "mojón de viaje — torre rota en las colinas"
    },
    "presence": {
     "en": null,
-    "es": "Una torre de las Evendim, de las que salpican las colinas del norte.\nPiedra en terreno elevado: la posición hace la función.\nLa guardia es poca; la vista, toda."
+    "es": "Una torre de vigilancia arnoriana, partida a media altura, en una loma de las colinas del Evendim.\nLa escalera de caracol sube hasta donde está el cielo.\nDesde el pie se ve cómo dominaba el valle — esa era su función entera."
    },
    "lore": {
     "en": null,
-    "es": "Las torres de Arthedain vigilaron una región que ya no existe; algunas siguen mirando igual."
+    "es": "Las torres de las colinas no cayeron por la guerra sino por los inviernos."
    },
    "interactive": [
     {
-     "id": "ev25_rest",
+     "id": "ev25_look",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "descansar bajo la torre",
+       "id": "subir hasta donde llega la escalera",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -79495,11 +79489,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "La piedra corta el viento y la vista hace el resto. Un rincón al abrigo de la torre vieja."
+          "es": "La vista justifica la torre: el valle entero, el lago al fondo, y ninguna señal de fuego que responder."
          },
          "effects": {
           "en": null,
-          "es": "descanso menor · techo precario"
+          "es": "tiempo · orientación"
          }
         }
        }
@@ -79513,6 +79507,12 @@
     "location_ref": {
      "id": 922
     }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "nadie"
+    }
    }
   },
   {
@@ -79523,39 +79523,38 @@
    ],
    "name": {
     "en": null,
-    "es": "La segunda torre"
+    "es": "La torre sin puerta"
    },
    "type": {
     "en": null,
-    "es": "torre"
+    "es": "ruinas de torre"
    },
    "priority": 0,
    "tags": [
-    "military",
     "landscape"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "mojón de vigilancia en las colinas"
+    "es": "mojón de viaje — torre rota en las colinas"
    },
    "presence": {
     "en": null,
-    "es": "Otra torre de las Evendim, hermana de las que la rodean.\nPiedra arnoriana en la colina, la función de siempre: ver y dejarse ver.\nLas torres del norte hacen una cadena que ya nadie contesta."
+    "es": "Otra torre rota de las colinas, con el vano de la puerta lleno de escombros.\nEl muro norte aguanta mejor que el resto, como si el viento hubiera elegido bando.\nNadie la usa; los cazadores la usan para orientarse."
    },
    "lore": {
     "en": null,
-    "es": "La cadena de torres de Arthedain era un idioma: hoy cada torre habla sola."
+    "es": "Las torres de vigilancia son las últimas en caer y las primeras en perder su función."
    },
    "interactive": [
     {
-     "id": "ev26_rest",
+     "id": "ev26_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "descansar bajo la torre",
+       "id": "guarecerse al pie del muro norte",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -79564,7 +79563,7 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Un hueco al abrigo de la piedra, la colina alrededor. El viento es la única compañía."
+          "es": "El muro que queda corta el viento dominante: la torre sigue haciendo su trabajo un poco."
          },
          "effects": {
           "en": null,
@@ -79582,6 +79581,12 @@
     "location_ref": {
      "id": 923
     }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "nadie"
+    }
    }
   },
   {
@@ -79592,39 +79597,38 @@
    ],
    "name": {
     "en": null,
-    "es": "La tercera torre"
+    "es": "La torre hundida"
    },
    "type": {
     "en": null,
-    "es": "torre"
+    "es": "ruinas de torre"
    },
    "priority": 0,
    "tags": [
-    "military",
     "landscape"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "mojón de vigilancia en las colinas"
+    "es": "mojón de viaje — casi nada queda"
    },
    "presence": {
     "en": null,
-    "es": "La tercera torre de la zona, parte de la red de vigilancia que Arthedain dejó en las colinas.\nLa posición hace la vista; la piedra hace el resto.\nEl norte está lleno de estas torres que siguen de pie sin que nadie las mire."
+    "es": "De la torre queda el anillo de los cimientos y un trozo de muro que no llega a dos varas.\nEl resto se ha ido colina abajo, piedra a piedra, en los carros de la gente que construyó sus cercas con ella.\nEs el tipo de ruina que se encuentra por accidente."
    },
    "lore": {
     "en": null,
-    "es": "Tres torres en las mismas colinas: la red de vigilancia de Arthedain era seria.\nLo que vigila hoy es el pasto."
+    "es": "Las ruinas más limpias son las que el vecindario se llevó piedra a piedra."
    },
    "interactive": [
     {
-     "id": "ev27_rest",
+     "id": "ev27_look",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "descansar bajo la torre",
+       "id": "parar un momento en el anillo de piedra",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -79633,11 +79637,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Techo parcial entre piedra vieja. La torre no molesta; el viento tampoco mucho."
+          "es": "Los cimientos marcan una torre que la hierba ya casi borró del todo."
          },
          "effects": {
           "en": null,
-          "es": "descanso menor · techo precario"
+          "es": "tiempo"
          }
         }
        }
@@ -79651,6 +79655,12 @@
     "location_ref": {
      "id": 924
     }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "nadie"
+    }
    }
   },
   {
@@ -79661,36 +79671,35 @@
    ],
    "name": {
     "en": null,
-    "es": "El Escudo de Adrahil"
+    "es": "La posada del escudo, a medio habitar"
    },
    "type": {
     "en": null,
-    "es": "posada"
+    "es": "posada semiocupada"
    },
    "priority": 0,
    "tags": [
     "people",
-    "rest",
-    "trade"
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "posada con nombre de blasón en las colinas"
+    "es": "una familia ocupa las cuadras — el salón sigue muerto pero hay fuego"
    },
    "presence": {
     "en": null,
-    "es": "Una posada de las Evendim que lleva nombre de escudo y de dueño.\nFuego, mesa y la compañía de los que cruzan las colinas del norte.\nDe las posadas que prometen escudo y dan techo."
+    "es": "Lo que fue la posada del Escudo de Adrahil está a medio habitar: el salón sigue abierto al cielo, el pescante oxidado sigue sin colgar nada, pero en las cuadras de atrás hay humo.\nUna familia se instaló en la mitad que conserva techo — no son posaderos, son gente que encontró paredes buenas y se quedó.\nAl viajero le venden lo que tienen: un rincón, puchero si sobró, y conversación escasa."
    },
    "lore": {
     "en": null,
-    "es": "Nombre de escudo, oficio de posada: en tierra de viajeros la promesa es la mitad del contrato."
+    "es": "Las posadas no se mueren del todo: las reocupa la gente que necesita paredes.\nLa familia del Escudo no heredó la posada: la encontró."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "el posadero — su nombre está en la puerta, su mesa responde"
+     "es": "la familia de las cuadras — techo compartido, no posada"
     }
    },
    "interactive": [
@@ -79700,7 +79709,7 @@
      "situation": null,
      "options": [
       {
-       "id": "dormir en el Escudo de Adrahil",
+       "id": "pedir un rincón a la familia",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -79709,11 +79718,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de posada de camino, cama y el cuento del escudo si el posadero tiene ganas."
+          "es": "Un rincón de las cuadras con techo, puchero compartido y la compañía desconfiada de la gente que vive entre ruinas."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "comida · descanso · techo condicional"
          }
         }
        }
@@ -79829,46 +79838,45 @@
    ],
    "name": {
     "en": null,
-    "es": "El Yunque de Azaghâl"
+    "es": "La posada del yunque, fría"
    },
    "type": {
     "en": null,
-    "es": "posada"
+    "es": "ruinas de posada"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "rest",
-    "trade"
+    "landscape",
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "posada con nombre de enano en las colinas"
+    "es": "ruinas de posada — queda la fragua apagada"
    },
    "presence": {
     "en": null,
-    "es": "Una posada de las Evendim cuyo nombre rinde memoria al enano Azaghâl.\nNombre de fragua, mesa de camino: en tierra donde los enanos dejaron marcas, las posadas los recuerdan.\nEl lugar atiende al tránsito de las colinas."
+    "es": "La posada del Yunque de Azaghâl fue la parada de los enanos que bajaban de las Ered Luin hacia el lago.\nLo que la distingue todavía es la fragua: un hogar de piedra más ancho que los de una posada normal, con el fuelle podrido hace siglos.\nEl salón está abierto al cielo; el yunque que le daba nombre ya no está."
    },
    "lore": {
     "en": null,
-    "es": "Poner el nombre de un enano a la posada es promesa de solidez: la mesa cumple."
+    "es": "Los enanos dejaron de bajar cuando dejó de haber a quién venderle. La posada siguió un tiempo por costumbre y después cerró para siempre."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "el posadero — cuenta la historia del nombre si se le paga la jarra"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "ev30_stay_offer",
+     "id": "ev30_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "dormir en el Yunque de Azaghâl",
+       "id": "hacer fuego en la vieja fragua",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -79877,11 +79885,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena contundente, cama firme y la historia del enano del nombre. Posada que hace honor al yunque."
+          "es": "La campana de la fragua tira bien todavía. Es el mejor fuego que se puede hacer en estas ruinas."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso menor · fuego · techo precario"
          }
         }
        }
@@ -79924,46 +79932,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La casa de la colina baja"
+    "es": "La casa de la ladera, abierta"
    },
    "type": {
     "en": null,
-    "es": "solar"
+    "es": "ruinas de casa señorial"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "social",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "techo de solar en las colinas"
+    "es": "ruinas — techo parcial entre las colinas"
    },
    "presence": {
     "en": null,
-    "es": "Una casa señorial de las Evendim, en la tierra que fue de Arthedain.\nPiedra y campos en la comarca de los solares del norte.\nLa casa cumple la regla: mesa para el que llega presentable."
+    "es": "Una casa señorial caída en una ladera de las colinas del lago.\nLos muros de la planta baja aguantan casi enteros; la escalera sube a un piso que ya no existe.\nEn el hueco del hogar anida una lechuza."
    },
    "lore": {
     "en": null,
-    "es": "Solares del norte: la hospitalidad es la única institución que no decayó."
+    "es": "Las casas de las colinas comparten todas el mismo final: el techo primero, los muros despacio."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la familia de la casa"
+     "es": "una lechuza"
     }
    },
    "interactive": [
     {
-     "id": "ev31_stay_offer",
+     "id": "ev31_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "aceptar la mesa de la casa",
+       "id": "guarecerse en la planta baja",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -79972,11 +79979,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de finca y un cuarto de huéspedes. Las colinas hacen el paisaje, la casa hace el resto."
+          "es": "Los muros de abajo aguantan y la lechuza no se queja. Techo parcial, viento cortado."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -80019,46 +80026,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La casa del señor del lugar"
+    "es": "La casa del señor sin nombre"
    },
    "type": {
     "en": null,
-    "es": "casa señorial"
+    "es": "ruinas de casa señorial"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "social",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "hospitalidad que depende del señor"
+    "es": "ruinas de casa grande — el señor local se fue con el reino"
    },
    "presence": {
     "en": null,
-    "es": "Una casa señorial de la región, cuyo carácter y cuya gente dependen del señor local.\nComo siempre en las casas de señor: la mesa y el trato los marca el de arriba.\nEl viajero se enterará de cómo es la casa por cómo es el recibimiento."
+    "es": "Rond Orro era una casa señorial de la región, de esas cuyo carácter dependía del señor que la mandaba.\nEl último señor se fue hace ochocientos años y la casa no heredó su carácter: heredó su tejado, que se cayó.\nQuedan los muros gruesos y un patio donde la hierba marca todavía los senderos."
    },
    "lore": {
     "en": null,
-    "es": "Las casas señoriales son el retrato del que las manda: si el señor es bueno, la mesa lo es."
+    "es": "Las casas sin carácter propio mueren con el que se lo daba."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "el señor local y su gente — la hospitalidad es la que él ordene"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "ev32_stay_offer",
+     "id": "ev32_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pedir la mesa de la casa",
+       "id": "dormir junto al muro grueso",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -80067,11 +80073,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Lo que el señor ordene: con un buen señor es comida, cuarto y conversación; con uno regular, lo justo. La casa es el retrato del de arriba."
+          "es": "El muro de dos codos aguanta el viento de las colinas. Casa fría, piedra buena."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo condicional"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -80114,36 +80120,36 @@
    ],
    "name": {
     "en": null,
-    "es": "La Esquina de Ralt"
+    "es": "La posada donde aún vive alguien"
    },
    "type": {
     "en": null,
-    "es": "posada"
+    "es": "posada remanente"
    },
    "priority": 0,
    "tags": [
     "people",
     "rest",
-    "trade"
+    "social"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "posada de esquina en las colinas"
+    "es": "el único fuego habitado de las colinas — una familia mantiene la puerta"
    },
    "presence": {
     "en": null,
-    "es": "Una posada de las Evendim con nombre de esquina: la que hace el recodo del camino.\nEl lugar es el punto donde el camino se detiene un rato.\nMesa, cama y la certeza de que la esquina siempre da a alguien."
+    "es": "La Esquina de Ralt es un edificio grande de piedra en un cruce de caminos que ya no cruzan.\nLa mitad está tapiada. La otra mitad está viva: hay humo en la chimenea, ropa tendida y una huerta cerrada con ramas.\nVive una familia — la última de las colinas, dicen ellos mismos. Mantienen la posada porque la mantuvieron siempre, y dan de comer al que llega porque de vez en cuando llega alguien."
    },
    "lore": {
     "en": null,
-    "es": "Las esquinas de camino son las posadas naturales: el viajero para donde el camino dobla."
+    "es": "Las posadas que sobreviven a su reino lo hacen así: una familia que no se fue cuando el mundo se fue.\nEl fuego de la Esquina de Ralt es el único entre el lago y las Ered Luin."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "el posadero de la esquina"
+     "es": "la familia de la Esquina — la última de las colinas"
     }
    },
    "interactive": [
@@ -80153,7 +80159,7 @@
      "situation": null,
      "options": [
       {
-       "id": "dormir en la Esquina de Ralt",
+       "id": "cenar y dormir en la Esquina de Ralt",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -80162,7 +80168,7 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de posada de camino y una cama donde el recodo para el ruido. Se descansa donde el camino descansa."
+          "es": "Puchero, pan de la familia y un catre en la mitad viva de la casa. La charla es escasa y verdadera: cómo se vive siendo los últimos de unas colinas."
          },
          "effects": {
           "en": null,
@@ -80199,6 +80205,10 @@
     "location_ref": {
      "id": 936
     }
+   },
+   "secret": {
+    "en": null,
+    "es": "Se quedaron cuando se quedaron todos: los abuelos de los abuelos no quisieron dejar la casa, y ahora la casa es lo único que queda del mundo que la construyó."
    }
   },
   {
@@ -80209,46 +80219,45 @@
    ],
    "name": {
     "en": null,
-    "es": "El Descanso de Brelmodoc"
+    "es": "El descanso que se quedó dormido"
    },
    "type": {
     "en": null,
-    "es": "posada"
+    "es": "ruinas de posada"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "rest",
-    "trade"
+    "landscape",
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "posada con nombre de descanso"
+    "es": "ruinas de posada de ruta"
    },
    "presence": {
     "en": null,
-    "es": "Una posada de las Evendim con nombre de descanso — promesa directa y cumplida.\nEl lugar es lo que el nombre dice: una parada para el que anda.\nMesa, cama y el silencio de las colinas."
+    "es": "El Descanso de Brelmodoc fue una posada de camino: el nombre sigue pintado, casi borrado, en una tabla torcida sobre el vano de la puerta.\nAdentro quedan el hogar de piedra, dos mesas volcadas y la escalera al piso que no está.\nEl nombre prometía descanso; ahora lo da la pared sur, que corta el viento."
    },
    "lore": {
     "en": null,
-    "es": "Nombre de descanso en tierra de caminantes: la promesa más simple es la más honrada."
+    "es": "El nombre de la posada le quedó profético: es un descanso permanente."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "el posadero del Descanso"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "ev34_stay_offer",
+     "id": "ev34_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "dormir en el Descanso de Brelmodoc",
+       "id": "dormir junto al viejo hogar",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -80257,11 +80266,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Lo que el nombre promete: cena, cama y descanso real. En las Evendim eso ya es lujo."
+          "es": "El hogar de piedra sigue haciendo su trabajo con un fuego nuevo. Descanso a la manera del nombre."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso menor · fuego · techo precario"
          }
         }
        }
@@ -80304,46 +80313,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La Posada de Blymiras"
+    "es": "La posada de la loma, vacía"
    },
    "type": {
     "en": null,
-    "es": "posada"
+    "es": "ruinas de posada"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "rest",
-    "trade"
+    "landscape",
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "posada de camino en las colinas"
+    "es": "ruinas de posada — marca el cruce viejo"
    },
    "presence": {
     "en": null,
-    "es": "Una posada de las Evendim con el nombre de su casa.\nFuego, mesa y el tránsito de las colinas del norte.\nDe las casas de paso que hacen su trabajo sin ceremonia."
+    "es": "La posada Blymiras está en una loma donde dos caminos viejos se encontraban.\nLos caminos se perdieron en la hierba pero la posada sigue ahí, muros de piedra y ventanas vacías, marcando un cruce que ya nadie cruza.\nDe lejos parece habitada. De cerca no hay duda."
    },
    "lore": {
     "en": null,
-    "es": "En las colinas del norte la posada es el servicio más útil que hay: techo, comida, la noticia del camino."
+    "es": "Las posadas de cruce sobreviven mientras el cruce sobrevive."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "el posadero de la casa"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "ev35_stay_offer",
+     "id": "ev35_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "dormir en la Posada de Blymiras",
+       "id": "guarecerse en la posada de la loma",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -80352,11 +80360,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena, cama y el rumor del camino que pasa. La posada hace su trabajo: simple y completo."
+          "es": "Muros sanos y vista del valle. Lo único que cruza ahora es el viento."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -80407,30 +80415,31 @@
    },
    "priority": 0,
    "tags": [
-    "landscape"
+    "landscape",
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "refugio natural en la colina"
+    "es": "refugio natural — mejor techo que muchas ruinas"
    },
    "presence": {
     "en": null,
-    "es": "Una caverna en las Evendim: boca de piedra en la ladera, techo natural y oscuridad.\nLas colinas del norte están llenas de huecos que la piedra hizo sola.\nEs refugio técnico: no es posada, es techo."
+    "es": "Una caverna natural en las colinas del lago, con la boca mirando al este.\nSeca, profunda lo justo y con una repisa interior donde cabe un fuego sin que el viento lo apague.\nLos cazadores la conocen; los animales también, a juzgar por los huesos."
    },
    "lore": {
     "en": null,
-    "es": "Las cavernas sirven de refugio y de escondite; la diferencia está en quién llega primero."
+    "es": "Las cavernas no envejecen: eran refugio antes de los reyes y lo seguirán siendo después."
    },
    "interactive": [
     {
-     "id": "ev36_camp",
+     "id": "ev36_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pernoctar en la caverna",
+       "id": "dormir en la repisa de la caverna",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -80439,11 +80448,30 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Techo de piedra, piso de tierra y el eco de la cueva. Refugio de manual: seco, oscuro, frío."
+          "es": "La repisa guarda el fuego y la boca da al este: se despierta con el sol. Mejor techo que cualquier ruina de la zona."
          },
          "effects": {
           "en": null,
-          "es": "descanso menor · techo precario"
+          "es": "descanso · techo natural"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
          }
         }
        }
@@ -80457,6 +80485,12 @@
     "location_ref": {
      "id": 944
     }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "nadie — pero revisar los huesos antes de dormir"
+    }
    }
   },
   {
@@ -80467,39 +80501,38 @@
    ],
    "name": {
     "en": null,
-    "es": "La torre de la luz"
+    "es": "La atalaya del lago, ciega"
    },
    "type": {
     "en": null,
-    "es": "torre de vigilancia"
+    "es": "ruinas de atalaya"
    },
    "priority": 0,
    "tags": [
-    "military",
     "landscape"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "mojón de vigilancia sobre el lago"
+    "es": "ruinas de atalaya — la vista sigue siendo buena"
    },
    "presence": {
     "en": null,
-    "es": "Mindo-o-Galad, torre de las Evendim cuyo nombre lleva la luz.\nDe las torres que Arthedain dejó vigilando el lago y las colinas.\nLa posición hace la vista; la piedra sigue haciendo su trabajo."
+    "es": "Mindo-o-Galad era una atalaya de Arthedain con vista al Nenuial y a los caminos del norte.\nLa torre está partida a dos tercios; la escalera interior sube a medias.\nLo que vigilaba ya no pasa. Lo que se ve desde ella sigue mereciendo la vista."
    },
    "lore": {
     "en": null,
-    "es": "Torre de la luz sobre el Nenuial: la vista del lago es la razón de ser."
+    "es": "Las atalayas pierden el ojo antes que la vista."
    },
    "interactive": [
     {
-     "id": "ev37_rest",
+     "id": "ev37_look",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "descansar bajo la torre",
+       "id": "subir lo que queda de escalera",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -80508,11 +80541,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Abrigo entre piedra vieja y la vista del agua abajo. La torre cumple su nombre."
+          "es": "Desde la media torre se ve el lago entero y las colinas de alrededor. Nadie manda señal a nadie; la vista es toda del viajero."
          },
          "effects": {
           "en": null,
-          "es": "descanso menor · techo precario"
+          "es": "tiempo · orientación"
          }
         }
        }
@@ -80526,6 +80559,12 @@
     "location_ref": {
      "id": 1067
     }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "nadie"
+    }
    }
   },
   {
@@ -80536,47 +80575,46 @@
    ],
    "name": {
     "en": null,
-    "es": "La hacienda de los Eketta"
+    "es": "La hacienda hermosa, en ruinas"
    },
    "type": {
     "en": null,
-    "es": "castillo-hacienda"
+    "es": "ruinas de hacienda"
    },
    "priority": 0,
    "tags": [
-    "people",
+    "landscape",
     "water",
-    "social",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "hospitalidad de una de las dos grandes casas de Arthedain"
+    "es": "ruinas sobre el Nenuial — la mesa de los Eketta se apagó con el reino"
    },
    "presence": {
     "en": null,
-    "es": "Bareketta es una hacienda hermosa en la orilla oriental del Nenuial, asiento principal de la familia Eketta — uno de los dos clanes nobles más poderosos de Arthedain.\nConstruida pensando en belleza y en defensa: torres gráciles de piedra miran sobre el lago y los jardines entre los muros se atienden con cuidado.\nLa hacienda es cómoda y tiene mucho servicio; a quien se le permite entrar encuentra una casa que se toma la hospitalidad en serio."
+    "es": "Bareketta fue la hacienda de los Eketta, uno de los dos clanes nobles más poderosos de Arthedain: torres gráciles de piedra mirando al lago y jardines atendidos con esmero.\nLas torres siguen siendo gráciles a medias — les falta el techo y les sobra la hiedra. Los jardines se leen todavía en el orden de los árboles, que nadie poda hace casi mil años.\nLa casa que se tomaba la hospitalidad en serio ofrece ahora lo que queda de sus muros."
    },
    "lore": {
     "en": null,
-    "es": "Los Eketta son de las casas que llevan el norte en la sangre.\nLa belleza de la hacienda no es lujo: es la forma de vivir de quien tiene tiempo."
+    "es": "Los Eketta cayeron con Arthedain en el 1974. La belleza del lugar no era lujo — era su manera de existir, y se nota todavía en la piedra que eligieron.\nLos montaraces lo señalan como uno de los sitios donde el norte fue bello de verdad."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la familia Eketta — hospitalidad de gran casa del norte para el que entra"
+     "es": "nadie — la piedra es lo único que queda de la familia"
     }
    },
    "interactive": [
     {
-     "id": "ev38_stay_offer",
+     "id": "ev38_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "aceptar la mesa de los Eketta",
+       "id": "guarecerse en la sala que mira al lago",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -80585,11 +80623,30 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de gran casa, cuarto que mira al lago y la atención de una servidumbre que sabe lo que hace. La hospitalidad del norte en su versión más cuidada."
+          "es": "La sala principal conserva muros a buena altura y el vano de la ventana enmarca el lago entero. La belleza del sitio no murió del todo con la casa."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso menor · techo precario"
+         }
+        }
+       }
+      },
+      {
+       "id": "buscar en la torre del lago",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Bajo la piedra suelta del piso, una despensa sellada: frascos de vidrio oscuros y un cofre de roble que la humedad no perdonó."
+         },
+         "effects": {
+          "en": null,
+          "es": "abre el secreto · hallazgo"
          }
         }
        }
@@ -80622,6 +80679,10 @@
     "location_ref": {
      "id": 1090
     }
+   },
+   "secret": {
+    "en": null,
+    "es": "En la torre del lago, bajo la piedra suelta del piso, la familia dejó sellada una despensa de los últimos días. Nadie la ha buscado en serio."
    }
   },
   {
@@ -80632,51 +80693,45 @@
    ],
    "name": {
     "en": null,
-    "es": "El pueblo del valle de hierbas"
+    "es": "El pueblo del valle de hierbas, cerrado"
    },
    "type": {
     "en": null,
-    "es": "pueblo"
+    "es": "pueblo deshabitado"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "water",
-    "trade",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "posada y mercado del valle del Dinnen"
+    "es": "pueblo abandonado — las casas aguantan, la gente se fue"
    },
    "presence": {
     "en": null,
-    "es": "Un pueblo de Harithilien, al sur de las Emyn Arnen, sobre el río Dinnen.\nSus casas de piedra y su plaza de mercado atienden a las tierras de labranza del sur de Ithilien; el valle del Dinnen es conocido por sus olivares y sus jardines de hierbas.\nEl puerto pequeño del pueblo maneja el tránsito fluvial desde y hacia Pelargir."
+    "es": "Rianbar fue un pueblo de Harithilien al sur de las Emyn Arnen, sobre el Dinnen: casas de piedra, plaza de mercado y el puerto chico que movía el tránsito fluvial hacia Pelargir.\nIthilien se vació hace unas décadas y el pueblo se fue entero: las casas siguen en pie, con los postigos cerrados como si sus dueños hubieran salido un rato.\nLos olivares y jardines de hierbas del valle crecen solos ahora."
    },
    "lore": {
     "en": null,
-    "es": "El valle da olivas y hierbas; el río lleva y trae.\nPueblo de mercado de Ithilien: de los que quedaron cuando el sur se vació."
+    "es": "Los pueblos de Ithilien no fueron destruidos: fueron abandonados en orden, y eso da más frío.\nLa guerra no quemó Rianbar; la hizo insostenible."
    },
    "facts": {
-    "inn_name": {
-     "en": null,
-     "es": "La Posada del Dinnen"
-    },
     "keeper": {
      "en": null,
-     "es": "una familia de posaderos que vive del tránsito del río"
+     "es": "nadie — a veces pasan los Montaraces de Ithilien"
     }
    },
    "interactive": [
     {
-     "id": "it20_stay_offer",
+     "id": "it20_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "dormir en la Posada del Dinnen",
+       "id": "dormir en una casa cerrada",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -80685,11 +80740,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Comida de valle — aceitunas, hierbas, pan — y una cama sobre el río. El tránsito de Pelargir se siente en la mesa."
+          "es": "Las casas conservan techo y camas: dormir en una casa abandonada hace décadas, con los olivares llenando el aire."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso · techo · inquietud"
          }
         }
        }
@@ -80732,39 +80787,39 @@
    ],
    "name": {
     "en": null,
-    "es": "El campamento del norte"
+    "es": "El campamento de la llanura"
    },
    "type": {
     "en": null,
-    "es": "campamento"
+    "es": "campamento ocasional"
    },
    "priority": 0,
    "tags": [
-    "military",
-    "people"
+    "landscape",
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "campamento en las tierras de Fornost"
+    "es": "sitio de campamento — usado a veces por los que pasan"
    },
    "presence": {
     "en": null,
-    "es": "Un campamento en las tierras de Fornost, la vieja capital del norte.\nTiendas y fuegos de quienes vigilan o viajan por la región.\nEl campamento no es el lugar: es la presencia de gente que anda."
+    "es": "Un llano marcado por los fuegos de muchos campamentos viejos: piedras de hogar, estacas hundidas, el pasto más corto donde armaron las tiendas.\nQuien viene por la llanura del norte sabe que es el mejor sitio para parar: agua cerca, viento cortado, vista limpia.\nA veces hay un fuego encendido; la mayoría de las veces solo las señales de los que pasaron."
    },
    "lore": {
     "en": null,
-    "es": "Alrededor de Fornost los campamentos van y vienen; la ciudad es la que permanece."
+    "es": "Los buenos campamentos no son de nadie: son de los que llegan."
    },
    "interactive": [
     {
-     "id": "ar13_stay_offer",
+     "id": "ar13_camp",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pedir sitio junto al fuego",
+       "id": "armar campamento en el llano",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -80773,11 +80828,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Fuego compartido y ración de campamento si los de la tienda deciden que el viajero no es problema."
+          "es": "Piedras de hogar ya puestas, agua cerca, viento cortado. El sitio está probado por generaciones de los que pasaron antes."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso menor · techo condicional"
+          "es": "descanso · campamento"
          }
         }
        }
@@ -80791,6 +80846,12 @@
     "location_ref": {
      "id": 916
     }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "quien llegue primero"
+    }
    }
   },
   {
@@ -80801,36 +80862,35 @@
    ],
    "name": {
     "en": null,
-    "es": "La casa de Fornost"
+    "es": "La casa del llano, habitada por dentro"
    },
    "type": {
     "en": null,
-    "es": "solar"
+    "es": "casa semiocupada"
    },
    "priority": 0,
    "tags": [
     "people",
-    "social",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "techo de solar en la vieja capital"
+    "es": "una familia vive en la mitad de la casa cerrada"
    },
    "presence": {
     "en": null,
-    "es": "Una casa señorial en las tierras de Fornost, la vieja capital de Arthedain.\nLa sombra de la ciudad muerta pesa; la casa sigue recibiendo.\nHospitalidad de solar del norte: lo que hay, se comparte."
+    "es": "Una casa señorial en la llanura de Fornost que alguien cerró con cuidado: ventanas tapiadas con sus propias piedras, puertas selladas, todo pensado para volver.\nNadie volvió — pero hace unos años una familia abrió la mitad de la casa y se instaló: hay humo en una sola chimenea y una huerta en el patio interior.\nLa otra mitad sigue sellada como la dejaron, con la esperanza de los que cerraron todavía en las piedras."
    },
    "lore": {
     "en": null,
-    "es": "Vivir cerca de una capital muerta es llevar el peso de la historia en la puerta.\nLa casa no habla de la ciudad: la ciudad habla sola."
+    "es": "Las casas cerradas con cuidado conservan todo: hasta la esperanza. La familia de adentro la encontró intacta."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la familia de la casa"
+     "es": "la familia de la mitad viva — recelan, pero comparten el fuego"
     }
    },
    "interactive": [
@@ -80840,7 +80900,7 @@
      "situation": null,
      "options": [
       {
-       "id": "aceptar la mesa de la casa",
+       "id": "pedir un rincón a la familia",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -80849,11 +80909,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de finca, cuarto y la vista lejana de Fornost al fondo. La casa es más viva que la ciudad."
+          "es": "Un rincón en la mitad habitada, cena de la huerta y las preguntas de rigor. La casa sellada guarda el frío mejor que cualquier muro."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "comida · descanso · techo condicional"
          }
         }
        }
@@ -80896,46 +80956,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La Estrella de Alcarin"
+    "es": "La estrella que se apagó"
    },
    "type": {
     "en": null,
-    "es": "posada"
+    "es": "ruinas de posada"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "rest",
-    "trade"
+    "landscape",
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "posada con nombre de estrella cerca de la capital muerta"
+    "es": "ruinas de posada de la calzada — la Estrella de Alcarin ya no alumbra"
    },
    "presence": {
     "en": null,
-    "es": "Una posada de la región de Fornost que lleva el nombre de la estrella gloriosa.\nNombre alto para techo honesto: el contrato de las posadas de camino.\nEl lugar vive del tránsito que aún pasa por la tierra de la vieja capital."
+    "es": "La Estrella de Alcarin fue la posada del camino real: edificio grande, dos plantas, patio para los carros.\nEl pescante del cartel sigue en la entrada, torcido, con la estrella de hierro oxidada colgando todavía — es lo único que le quedó al nombre.\nAdentro, el salón se abre al cielo y las cuadras son pajar de pájaros."
    },
    "lore": {
     "en": null,
-    "es": "Nombre de estrella en tierra de ruinas: la nostalgia también hace marcas de posada."
+    "es": "Las posadas del camino real murieron con el rey que las llenaba."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "el posadero — su mesa y su cuenta"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "ar15_stay_offer",
+     "id": "ar15_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "dormir en la Estrella de Alcarin",
+       "id": "dormir bajo la estrella oxidada",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -80944,11 +81003,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de posada, cama y la historia del nombre si el posadero se siente locuaz."
+          "es": "Las cuadras conservan algo de techo y el patio da resguardo. La estrella de hierro cruje al viento toda la noche."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -80991,45 +81050,45 @@
    ],
    "name": {
     "en": null,
-    "es": "El pueblo de las granjas del norte"
+    "es": "El pueblo del llano, a hierba"
    },
    "type": {
     "en": null,
-    "es": "pueblo"
+    "es": "ruinas de pueblo"
    },
    "priority": 0,
    "tags": [
-    "people",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "techo de pueblo de la comarca del norte"
+    "es": "ruinas de pueblo agrícola en la llanura de Fornost"
    },
    "presence": {
     "en": null,
-    "es": "Un pueblo de la Comarca o del norte de Eriador, de las comunidades agrícolas modestas de la región.\nCasas, granjas y la economía de la tierra: lo que hay es lo que el campo pide.\nEl viajero encuentra mesa y rincón si llega a hora."
+    "es": "Maenthirost fue un pueblo agrícola de la llanura, de los que comían de la tierra que rodeaba la capital.\nCuando la capital murió el pueblo la siguió: las casas son hoy lomas bajas de cimiento, los campos se volvieron aulaga y abedul.\nEl llano se quedó para los conejos y los montaraces."
    },
    "lore": {
     "en": null,
-    "es": "Pueblo de granja del norte: la hospitalidad es simple porque la vida es simple."
+    "es": "Los pueblos que comían de la ciudad murieron con la ciudad."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "las familias del pueblo"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "ar16_stay_offer",
+     "id": "ar16_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pedir mesa y rincón",
+       "id": "guarecerse entre las lomas de cimiento",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -81038,11 +81097,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Comida de la tierra del norte y un rincón para dormir. La simplicidad es la norma."
+          "es": "Las lomas bajas cortan el viento del llano. Techo de hierba, almohada de cimiento."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -81085,45 +81144,46 @@
    ],
    "name": {
     "en": null,
-    "es": "El castillo de Carondor"
+    "es": "El castillo del cerro, hueco"
    },
    "type": {
     "en": null,
-    "es": "castillo"
+    "es": "ruinas de castillo"
    },
    "priority": 0,
    "tags": [
-    "military",
-    "people"
+    "landscape",
+    "water",
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "castillo en tierra de Fornost"
+    "es": "ruinas de castillo en la llanura — muros que cortan el viento"
    },
    "presence": {
     "en": null,
-    "es": "Un castillo en las tierras de Fornost, de los que el norte levantó cuando aún levantaba.\nPiedra de fortificación en la región de la vieja capital.\nLa guarnición o el señor que la mantiene marca el trato."
+    "es": "Un castillo de la llanura de Fornost, caído con el reino.\nLos muros exteriores aguantan en la mayor parte del recorrido; el patio interior es un prado con un pozo que sigue dando agua.\nLo que defendía ya no existe: el castillo quedó guardando el viento."
    },
    "lore": {
     "en": null,
-    "es": "Castillos cerca de Fornost: la piedra recuerda mejor que las personas."
+    "es": "Los castillos de la llanura quedaron guardando la nada. Su última función es dar techo al viajero."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la guarnición del castillo"
+     "es": "nadie — el pozo sigue dando agua"
     }
    },
    "interactive": [
     {
-     "id": "ar17_stay_offer",
+     "id": "ar17_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pedir alojamiento a la guarnición",
+       "id": "hacer noche en el patio con pozo",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -81132,11 +81192,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Rancho y catre en las dependencias del castillo, si la guardia lo decide."
+          "es": "Pozo con agua, muros que aguantan, prado para el caballo. El mejor campamento de la llanura está dentro de un castillo."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso menor · techo condicional"
+          "es": "descanso · agua · techo precario"
          }
         }
        }
@@ -81179,39 +81239,38 @@
    ],
    "name": {
     "en": null,
-    "es": "La torre del norte"
+    "es": "La atalaya de la loma, ciega"
    },
    "type": {
     "en": null,
-    "es": "torre"
+    "es": "ruinas de torre"
    },
    "priority": 0,
    "tags": [
-    "military",
     "landscape"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "almenara del norte en terreno alto"
+    "es": "ruinas de atalaya arnoriana"
    },
    "presence": {
     "en": null,
-    "es": "Una torre del norte de la Comarca o de la región de Arthedain, cuyo carácter lo define su función de almenara o de puesto de guarnición.\nEs una estructura de piedra sin adornos en terreno elevado.\nDe las torres que hacen su trabajo sin que nadie las mire."
+    "es": "Barad Formen era una atalaya de piedra sin adornos en terreno elevado, puesta para mirar la llanura.\nLa torre está partida por la mitad: lo de arriba se vino abajo y lo de abajo sigue mirando.\nLa vista que cubría sigue estando: alcanza hasta la línea del Bosque."
    },
    "lore": {
     "en": null,
-    "es": "Torre funcional del norte: la piedra no luce porque no hace falta."
+    "es": "Las atalayas no pierden la vista: la pierden los que miraban."
    },
    "interactive": [
     {
-     "id": "ar18_rest",
+     "id": "ar18_look",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "descansar bajo la torre",
+       "id": "subir a lo que queda de la torre",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -81220,11 +81279,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Abrigo al pie de la piedra, vista del terreno alto. La torre da lo que puede."
+          "es": "Media torre basta para ver la llanura entera hasta el Bosque. Nadie responde la señal; nadie la manda."
          },
          "effects": {
           "en": null,
-          "es": "descanso menor · techo precario"
+          "es": "tiempo · orientación"
          }
         }
        }
@@ -81237,6 +81296,12 @@
     "region_confidence": "high",
     "location_ref": {
      "id": 1151
+    }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "nadie"
     }
    }
   },
@@ -81513,52 +81578,46 @@
    ],
    "name": {
     "en": null,
-    "es": "El vado del sur"
+    "es": "El vado que los Montaraces usan"
    },
    "type": {
     "en": null,
-    "es": "puesto del vado"
+    "es": "puesto semiocupado"
    },
    "priority": 0,
    "tags": [
     "people",
     "water",
-    "trade",
-    "military",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "la posta del vado en el camino del sur"
+    "es": "vado abandonado que los Montaraces cruzan — techo si llega de noche"
    },
    "presence": {
     "en": null,
-    "es": "El asentamiento del vado de Athrad Poros era una parada importante en la ruta comercial terrestre hacia el sur.\nEmpezó como guarnición militar para proteger la frontera entre el naciente Reino en el Exilio y la esfera de influencia de Umbar.\nCuando se abrió el Corredor del Harnen, Athrad Poros pasó a ser un cruce decisivo para el comercio con el Harad Cercano y Khand."
+    "es": "Athrad Poros fue el asentamiento del vado del sur, guarnición militar y después parada comercial de la ruta hacia Umbar.\nEl pueblo se fue con el resto de Ithilien, pero el vado sigue siendo el vado — y los Montaraces de Ithilien lo cruzan.\nA veces hay fuego en la posada vieja y nadie que lo atienda como posadero: solo hombres grises que pasan y no dan explicaciones."
    },
    "lore": {
     "en": null,
-    "es": "El vado es la frontera y la frontera es el negocio.\nDel norte bajan caravanas, del sur suben caravanas: el vado cobra las dos."
+    "es": "Los vados no se despueblan: se despueblan las casas alrededor del vado.\nLos Montaraces usan el cruce como usaban sus padres: de noche y sin ruido."
    },
    "facts": {
-    "inn_name": {
-     "en": null,
-     "es": "La Posta del Vado"
-    },
     "keeper": {
      "en": null,
-     "es": "una posadera que cobra a las caravanas de los dos lados"
+     "es": "los Montaraces, cuando están — nunca se anuncian"
     }
    },
    "interactive": [
     {
-     "id": "hi16_stay_offer",
+     "id": "hi16_rest",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "dormir en la Posta del Vado",
+       "id": "pasar la noche en la posada vieja",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -81567,11 +81626,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de frontera, cama y la conversación de las caravanas del sur: Harad, Khand, el precio de las cosas del desierto."
+          "es": "La posada vacía da techo y el olor de un fuego reciente que no es suyo. Si hay alguien, no se deja ver — pero no le molesta."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso · techo condicional"
          }
         }
        }
@@ -81604,6 +81663,10 @@
     "location_ref": {
      "id": 476
     }
+   },
+   "secret": {
+    "en": null,
+    "es": "La posada vieja tiene señales de uso regular: ceniza reciente, provisiones escondidas bajo el suelo. Es un puesto de los Montaraces."
    }
   },
   {
@@ -81614,47 +81677,45 @@
    ],
    "name": {
     "en": null,
-    "es": "El castillo de la Casa Faron"
+    "es": "El castillo de la Casa Faron, apagado"
    },
    "type": {
     "en": null,
-    "es": "castillo fronterizo"
+    "es": "castillo deshabitado"
    },
    "priority": 0,
    "tags": [
-    "military",
-    "people",
-    "water",
-    "social"
+    "landscape",
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "asiento fronterizo del oeste del Poros"
+    "es": "castillo abandonado de casa noble de Ithilien"
    },
    "presence": {
     "en": null,
-    "es": "Un castillo y casa señorial gondorianos en el suroeste de Ithilien, sobre las orillas septentrionales del Poros.\nEs el asiento fronterizo occidental de la Casa Faron, cuyo dominio guarda este tramo de las tierras de frontera.\nCasa señorial militar en servicio, de piedra labrada, con el patio siempre movido por caballos y hombres que van y vienen por el camino del Poros."
+    "es": "El castillo de la Casa Faron quedó cuando la casa se fue con el resto de los nobles de Ithilien.\nNo fue tomado ni quemado: fue cerrado. Los muros aguantan casi enteros, la torre conserva sus vanos, y dentro todo está como lo dejaron salvo por el polvo y el viento.\nLos Montaraces lo miran al pasar; no lo usan porque no lo necesitan."
    },
    "lore": {
     "en": null,
-    "es": "Los Faron llevan la frontera del oeste como oficio de casa.\nEl patio siempre movido es la señal: esta casa trabaja."
+    "es": "Las casas de Ithilien se fueron en orden y cerraron con llave. Lo que dejaron es un país de casas cerradas."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la Casa Faron — mesa de casa fronteriza para el que llega con causa"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "hi17_stay_offer",
+     "id": "hi17_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "aceptar la mesa de la Casa Faron",
+       "id": "dormir en la torre cerrada",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -81663,11 +81724,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Comida de casa militar, cuarto con el patio movido abajo. La frontera se siente en la mesa."
+          "es": "La torre conserva pisos enteros: el mejor techo de la provincia, en la casa de una familia que pensó volver."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso · techo · inquietud"
          }
         }
        }
@@ -81710,46 +81771,45 @@
    ],
    "name": {
     "en": null,
-    "es": "El pueblo del castillo en la roca"
+    "es": "El pueblo de la roca, vacío"
    },
    "type": {
     "en": null,
-    "es": "pueblo"
+    "es": "pueblo deshabitado"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "social",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "asiento de la Casa Alagdor: olivares, hierbas y nobleza vieja"
+    "es": "pueblo abandonado bajo su castillo"
    },
    "presence": {
     "en": null,
-    "es": "Un pueblo pequeño del suroeste de Harithilien, a mitad de camino entre Hyarpendë y Tir Ethraid, sobre el camino que atraviesa la región.\nEs el asiento de la Casa Alagdor, una de las familias nobles antiguas de Ithilien, cuyo castillo solar — Târik-Ûriyat — se alza en un espolón rocoso sobre los campos y los olivares de alrededor.\nCasas de piedra con techos de teja bordean el camino principal; el aire trae olor a hierbas y a terrazas cultivadas."
+    "es": "Un pueblo de Harithilien apretado bajo un castillo en la roca: las casas agrupadas, el castillo encima, todo callado.\nLa gente se fue con la provincia y dejó el pueblo ordenado: puertas cerradas, chimeneas frías, el castillo vigilando a nadie.\nLa roca sigue siendo defensible; ya no hay nada que defender."
    },
    "lore": {
     "en": null,
-    "es": "Pueblo de nobleza vieja: el castillo manda, la aldea sirve.\nEl olor a hierbas y a oliva es el perfume de Ithilien."
+    "es": "Los pueblos de Ithilien no quedaron destruidos: quedaron suspendidos, esperando una vuelta que nadie anuncia."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la Casa Alagdor — mesa de nobleza antigua y fonda del pueblo"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "hi18_stay_offer",
+     "id": "hi18_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pedir techo en el pueblo del castillo",
+       "id": "dormir en una casa del pueblo",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -81758,11 +81818,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de Ithilien — olivas, hierbas, pan — y un sitio a la sombra del castillo en la roca. La nobleza se ve; no se oye."
+          "es": "Las casas conservan techos y cerraduras que nadie pone ya. Techo entero, silencio completo."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso · techo · inquietud"
          }
         }
        }
@@ -81805,47 +81865,45 @@
    ],
    "name": {
     "en": null,
-    "es": "El pueblo de la torre del Nethos"
+    "es": "El pueblo de la torre, dormido"
    },
    "type": {
     "en": null,
-    "es": "pueblo"
+    "es": "pueblo deshabitado"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "water",
-    "military",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "solar de Nethos con torre en la confluencia"
+    "es": "pueblo abandonado junto a la torre del Nethos"
    },
    "presence": {
     "en": null,
-    "es": "Un pueblo pequeño con torre de vigilancia en la desembocadura del río Nethos, en el suroeste de Harithilien, solar de la casa noble de Nethos.\nLa torre domina la confluencia y el camino a Pelargir.\nLas casas del pueblo son compactas y de piedra; la torre es la estructura más alta en muchas millas."
+    "es": "Un pueblo de Harithilien junto a la torre del Nethos: casas de piedra alrededor de una plaza, la torre vigía arriba.\nSe fue con la provincia entera; las casas aguantan bien cerradas y la torre sigue en pie, solo que ya no mira por nadie.\nEl olor de los jardines de hierbas se nota aún en las calles."
    },
    "lore": {
     "en": null,
-    "es": "La torre marca el límite; la casa la mantiene.\nEn el suroeste de Harithilien la nobleza y la vigilancia van juntas."
+    "es": "Ithilien no perdió sus pueblos en la guerra: los fue perdiendo por cansancio, casa a casa."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la casa de Nethos — techo de pueblo con la torre siempre arriba"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "hi19_stay_offer",
+     "id": "hi19_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "dormir en el pueblo de la torre",
+       "id": "dormir en la plaza del pueblo",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -81854,11 +81912,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Comida de pueblo fronterizo y un rincón bajo la torre que nunca se apaga. La vigilancia es el aire."
+          "es": "Una casa cualquiera da techo completo: el pueblo entero es una posada vacía."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso · techo · inquietud"
          }
         }
        }
@@ -81901,55 +81959,49 @@
    ],
    "name": {
     "en": null,
-    "es": "La Casa de la Espada Negra"
+    "es": "La Casa de la Espada Negra, cerrada"
    },
    "type": {
     "en": null,
-    "es": "pueblo"
+    "es": "casa deshabitada"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "water",
-    "social",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "posada de orilla del Poros entre olivos"
+    "es": "solar abandonado de casa militar"
    },
    "presence": {
     "en": null,
-    "es": "Un pueblo pequeño de Harithilien sobre un afluente del Poros, conocido en otro tiempo como Bar Miruvor ('Casa del Jugo Precioso') y rebautizado Bar Morvegil ('Casa de la Espada Negra') cuando la familia noble del lugar adoptó un blasón guerrero.\nSus casas de piedra y su muelle fluvial pequeño atienden a los viajeros del camino del Poros; huertos y jardines de hierbas cubren las laderas suaves de alrededor."
+    "es": "La Casa de la Espada Negra era el solar de una familia de espadas: la casa fuerte del lugar, con su escudo negro todavía labrado sobre el dintel.\nLa familia se fue con Ithilien y la casa quedó cerrada con su nombre encima.\nAdentro, el salón de armas conserva los anaqueles vacíos donde colgaban las espadas que dieron nombre a la casa."
    },
    "lore": {
     "en": null,
-    "es": "El cambio de nombre cuenta la historia: de jugo dulce a espada negra.\nEl lugar sigue dando lo mismo, ahora con peor cara."
+    "es": "Las casas de espadas se fueron donde se fueron las espadas: a la guerra del otro lado del río."
    },
    "secret": {
     "en": null,
     "es": "La familia adoptó el blasón guerrero cuando la frontera apretó: el jugo precioso dejó de ser el asunto."
    },
    "facts": {
-    "inn_name": {
-     "en": null,
-     "es": "La Posada del Muelle"
-    },
     "keeper": {
      "en": null,
-     "es": "una posadera que recuerda el nombre viejo y lo prefiere"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "hi20_stay_offer",
+     "id": "hi20_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "dormir en la Posada del Muelle",
+       "id": "dormir en el salón de armas",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -81958,11 +82010,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Comida de huerto y río, cama y el relato de cuándo el lugar se llamaba Casa del Jugo Precioso. El blasón nuevo no quita la mesa."
+          "es": "El salón conserva techo completo y los anaqueles vacíos sirven de perchero. Techo de casa de guerra sin guerra."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso · techo · inquietud"
          }
         }
        }
@@ -82005,46 +82057,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La Casa gris que asciende"
+    "es": "La Casa gris, sin nadie que ascienda"
    },
    "type": {
     "en": null,
-    "es": "casa señorial"
+    "es": "casa deshabitada"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "social",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "solar del condado de Glorel"
+    "es": "solar abandonado sobre la ladera"
    },
    "presence": {
     "en": null,
-    "es": "Una casa señorial del oeste de Harithilien, asentamiento principal del condado de Glorel.\nConocida en sindarin como Thindamost, 'Casa gris que asciende', se asienta en una ladera suave sobre las tierras de labranza de Ithilien.\nLa casa es un salón gondoriano de piedra con construcciones anexas y jardines cerrados; el condado de alrededor es conocido por sus olivas y sus hierbas."
+    "es": "La Casa gris trepa por la ladera: una casa de pisos que mira al río desde arriba, de una familia que ascendía en la provincia.\nAscendió todo lo que podía ascender y después se fue cuando se fue la provincia.\nLa casa conserva sus escaleras y sus vanos: una casa de altura abandonada."
    },
    "lore": {
     "en": null,
-    "es": "Casa gris que sube por la ladera: el nombre es literal y el lugar lo cumple.\nEl condado de Glorel es tierra de olivas y de orden."
+    "es": "Las casas que subían dejaron de subir cuando dejó de haber a dónde subir."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la familia del solar — mesa de condado para el viajero presentable"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "hi21_stay_offer",
+     "id": "hi21_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "aceptar la mesa de la casa gris",
+       "id": "dormir en el piso alto de la Casa gris",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -82053,11 +82104,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de condado — oliva, hierbas, pan — y un cuarto en la casa que asciende. Orden de Gondor en versión fronteriza."
+          "es": "El piso de arriba conserva la vista del río y el mejor techo: la casa sigue dando lo que daba, sin la familia."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso · techo · inquietud"
          }
         }
        }
@@ -82100,47 +82151,46 @@
    ],
    "name": {
     "en": null,
-    "es": "El asiento del guardián de la isla"
+    "es": "El asiento del guardián, sin guardián"
    },
    "type": {
     "en": null,
-    "es": "pueblo del guardián"
+    "es": "casa deshabitada"
    },
    "priority": 0,
    "tags": [
-    "military",
+    "landscape",
     "water",
-    "people",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "pueblo del guardián de Tolfalas"
+    "es": "solar abandonado del guardián de Tolfalas"
    },
    "presence": {
     "en": null,
-    "es": "El asiento del guardián real de Tolfalas y el asentamiento principal de la isla, conocido también como Gobel Tolfalas.\nQueda en el extremo de una ría larga del sudeste, con un puerto para navíos de guerra.\nLas casas de piedra se apiñan al pie de una loma; el torreón pequeño del guardián se alza en la pendiente de arriba. El pueblo pasó de base militar a asentamiento civil modesto, aunque sigue siendo lugar de soldados y marinos más que de mercaderes."
+    "es": "Trenas era el asiento del guardián de la isla: la casa desde la que se vigilaba Tolfalas y la desembocadura.\nEl guardián se fue con la provincia y la casa quedó apuntando al mar, sin nadie que mire.\nLos muros conservan su sitio sobre el agua: un buen refugio para el que viene del sur."
    },
    "lore": {
     "en": null,
-    "es": "La isla es puesto, no hogar: los que la habitan están de servicio.\nEl torreón manda desde arriba; el pueblo, desde el agua."
+    "es": "El mar sigue haciendo el trabajo del guardián: avisa de todo lo que se acerca por él."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la gente del guardián — mesa de puesto militar para el que llega con causa"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "hi22_stay_offer",
+     "id": "hi22_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pedir techo en el pueblo del guardián",
+       "id": "dormir en la casa del guardián",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -82149,11 +82199,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Rancho de puesto, cama en la loma y la vista del torreón. La isla es estricta pero el techo es seguro."
+          "es": "La casa conserva techo y la vista de la desembocadura: el puesto de vigilancia mejor ubicado de la costa, ahora de quien llegue."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo condicional"
+          "es": "descanso · techo · inquietud"
          }
         }
        }
@@ -84323,46 +84373,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La ciudad del clan saerlannés"
+    "es": "La ciudad del clan que se vació"
    },
    "type": {
     "en": null,
-    "es": "ciudad"
+    "es": "ruinas de ciudad"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "conflict",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "asiento del poder Dynion — techo de ciudad de los hombres de las colinas"
+    "es": "ruinas de ciudad de clan — el asiento de los Dynion es piedra hueca"
    },
    "presence": {
     "en": null,
-    "es": "Levantada en su origen con el nombre de Mistalonde, la ciudad fue tomada en la T.E. 1503 por Gordaig de Saerlann, que la rebautizó Sunthra Unsar.\nLa ciudad reconstruida es el asiento del poder del clan saerlannés, los Dynion, y sus habitantes son casi por completo hombres de las colinas.\nPiedra de ciudad vieja habitada por gente nueva."
+    "es": "Sunthra Unsar — la vieja Mistalonde de la Segunda Edad, rebautizada por Gordaig de Saerlann — fue el asiento del poder de los Dynion, el clan saerlannés que mandó aquí.\nLo que queda es una ciudad entera de cimientos y muros partidos, con el trazado de las calles todavía legible bajo la hierba alta.\nNadie vive en ella; a veces la cruzan ganaderos o montaraces, que no se quedan a dormir."
    },
    "lore": {
     "en": null,
-    "es": "La ciudad cambió de nombre cuando cambió de dueño: Mistalonde fue, Sunthra Unsar es.\nLos Dynion gobiernan desde aquí lo que queda de Saerlann."
+    "es": "La Plaga del 1636 se llevó Minhiriath entera; los clanes que quedaron no necesitaban ciudades.\nUna ciudad de clan muere con el clan."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la gente del clan — mesa de los hombres de las colinas para el que entra"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "mh7_stay_offer",
+     "id": "mh7_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pedir mesa en la ciudad del clan",
+       "id": "guarecerse entre las calles muertas",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -84371,11 +84420,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Comida de hombres de las colinas y un sitio para dormir en la ciudad que cambió de nombre con el poder. El clan recibe según su ley."
+          "es": "Los muros a media altura cortan el viento y el fuego queda escondido entre ruinas. La ciudad vacía guarda silencio salvo por los pájaros."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo condicional"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -84418,35 +84467,36 @@
    ],
    "name": {
     "en": null,
-    "es": "El castillo recio del Gwathló"
+    "es": "El castillo que resiste, con gente dentro"
    },
    "type": {
     "en": null,
-    "es": "fortaleza"
+    "es": "fortaleza semiocupada"
    },
    "priority": 0,
    "tags": [
-    "military",
-    "landscape"
+    "people",
+    "rest",
+    "conflict"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "punto fuerte del valle entre Tharbad y Saralainn"
+    "es": "un clan ocupa el alcázar — muros que resistieron todo, habitados a medias"
    },
    "presence": {
     "en": null,
-    "es": "Balost fue terminado en la T.E. 923 por Hir Girithlin como base para la administración de las haciendas rurales del valle.\nEs punto fuerte estratégico en el valle del Gwathló, entre Tharbad y Saralainn.\nCastillo recio que ha resistido muchos ataques desde fuera — y se nota."
+    "es": "Balost fue terminado en el 923 por Hir Girithlin: castillo recio sobre el valle del Gwathló que resistió muchos ataques.\nLa guarnición se fue con los príncipes, pero un clan de las tierras se metió en el alcázar: unas veinte familias entre la torre vieja y el patio, con cabras en lo que fue el arsenal.\nNo son señores ni ladrones: son gente que encontró el mejor techo de la comarca y lo defiende como suyo."
    },
    "lore": {
     "en": null,
-    "es": "La fortaleza administra el valle: el campo paga a la piedra y la piedra protege al campo."
+    "es": "Las fortalezas que resisten todos los sitios terminan ocupadas por alguien: la piedra buena nunca queda vacía del todo."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la guarnición — rancho y catre para el que llega con causa"
+     "es": "el clan del alcázar — desconfiados, pero el fuego se comparte por noticias"
     }
    },
    "interactive": [
@@ -84456,7 +84506,7 @@
      "situation": null,
      "options": [
       {
-       "id": "pedir alojamiento a la guarnición",
+       "id": "pedir entrada al clan del alcázar",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -84465,11 +84515,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Rancho y catre en las dependencias del castillo recio. El muro que nunca cayó da un sueño tranquilo."
+          "es": "Lo evalúan en la puerta un buen rato. Si entra: fuego compartido, puchero de cabra y un rincón entre la torre vieja."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso menor · techo condicional"
+          "es": "comida · descanso · techo condicional"
          }
         }
        }
@@ -84649,47 +84699,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La casa del Príncipe de Girithlin"
+    "es": "El castillo de los Príncipes muertos"
    },
    "type": {
     "en": null,
-    "es": "castillo"
+    "es": "ruinas de castillo"
    },
    "priority": 0,
    "tags": [
-    "military",
-    "people",
-    "social",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "asiento de los Príncipes de Dol Girithlin"
+    "es": "ruinas del asiento de los Príncipes de Dol Girithlin"
    },
    "presence": {
     "en": null,
-    "es": "Minas Girithlin es un castillo recio asentado en las colinas, hogar ancestral de los Príncipes de Dol Girithlin, construido hacia la T.E. 590 para dominar la comarca circundante.\nSus muros han resistido varios sitios sin ser abiertos; la guarnición es leal y experimentada.\nEl salón del Príncipe es cómodo aunque no lujoso — la casa de un noble en servicio, con establos y una armería bien provista."
+    "es": "Minas Girithlin fue el hogar ancestral de los Príncipes de Dol Girithlin, levantado hacia el 590 para dominar la comarca.\nSus muros resistieron varios sitios sin ser abiertos; nadie tuvo que abrirlos la última vez — el Príncipe y la guarnición se fueron cuando la comarca dejó de existir.\nEl salón del Príncipe conserva su chimenea ancha y parte del techo; el resto son muros recios y vacíos."
    },
    "lore": {
     "en": null,
-    "es": "Los Girithlin son de las casas que el norte aún reconoce.\nEl salón sin lujo es la marca de una casa que trabaja."
+    "es": "No cayó por asalto: quedó sin comarca que dominar.\nUn castillo sin señor es una mole de piedra con habitaciones."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "el Príncipe de Girithlin — mesa de noble en servicio para el que llega con causa"
+     "es": "nadie — el salón del Príncipe tiene el mejor techo"
     }
    },
    "interactive": [
     {
-     "id": "mh11_stay_offer",
+     "id": "mh11_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pedir la mesa del Príncipe",
+       "id": "hacer fuego en el salón del Príncipe",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -84698,11 +84746,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Comida de casa en servicio, cuarto sin lujo y la seguridad de un muro que nunca se abrió. El Príncipe recibe según la costumbre del norte."
+          "es": "La chimenea del salón grande tira todavía. Se duerme bajo el techo que queda, en la sala donde el Príncipe comía."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo condicional"
+          "es": "descanso menor · fuego · techo precario"
          }
         }
        }
@@ -85629,36 +85677,36 @@
    ],
    "name": {
     "en": null,
-    "es": "Cuncan, el pueblo entre los cimientos"
+    "es": "El pueblo de las tierras bajas, achicándose"
    },
    "type": {
     "en": null,
-    "es": "asentamiento repoblado"
+    "es": "pueblo semiocupado"
    },
    "priority": 0,
    "tags": [
     "people",
-    "landscape",
-    "rest"
+    "rest",
+    "water"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "aldea de madera y barro dentro de la ciudad muerta"
+    "es": "medio pueblo habitado, medio pueblo bajo el agua"
    },
    "presence": {
     "en": null,
-    "es": "Gwahilmoth fue un municipio de Dol Caladir, en Minhiriath, unas sesenta millas al oeste de Tharbad, en las tierras bajas centrales del Baranduin. En su mejor momento tuvo unas 5.000 almas.\nHacia mediados de la Tercera Edad su población había mermado tras la Gran Plaga, y para la T.E. 1640 el asentamiento estaba abandonado en buena parte.\nDesde entonces el sitio fue repoblado a menor escala por tribus eriadoranas que lo llaman Cuncan: un grupo tosco de construcciones de madera y barro entre los cimientos del asentamiento anterior, mucho más grande."
+    "es": "Gwahilmoth fue un municipio de cinco mil almas en Dol Caladir, en las tierras bajas del Baranduin. La Plaga lo vació, el río se comió la mitad.\nPero el pueblo no está del todo muerto: en la parte alta quedan unas pocas familias que viven entre las casas cerradas — menos de un centenar donde hubo miles.\nPescan en la parte baja, cultivan entre las ruinas y reciben al viajero con la cortesía de los que quedan: escasa pero real."
    },
    "lore": {
     "en": null,
-    "es": "Cuncan vive dentro del fantasma de Gwahilmoth: la gente nueva usa la piedra vieja como quien usa ropa heredada.\nLa relación entre los de dentro y los de afuera es la de siempre entre ruina y ocupante."
+    "es": "Los pueblos grandes no se mueren de golpe: van dejando familias que se niegan a ser las últimas."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la gente de Cuncan — hospitalidad tosca entre cimientos viejos"
+     "es": "las familias de la parte alta — techo seco y pescado de la parte baja"
     }
    },
    "interactive": [
@@ -85668,7 +85716,7 @@
      "situation": null,
      "options": [
       {
-       "id": "pedir sitio en Cuncan",
+       "id": "pedir techo en la parte alta",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -85677,7 +85725,7 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Fuego de leña entre cimientos de piedra de ciudad. Comida tosca, techo honesto y la sensación de dormir en un pueblo que vive dentro de otro."
+          "es": "Pescado de la parte baja, techo de casa cerrada que alguien volvió a abrir, y la conversación de un pueblo que se achica con dignidad."
          },
          "effects": {
           "en": null,
@@ -85914,37 +85962,36 @@
    ],
    "name": {
     "en": null,
-    "es": "El segundo Cuncan del Baranduin"
+    "es": "Cuncan — el pueblo sobre la ciudad muerta"
    },
    "type": {
     "en": null,
-    "es": "asentamiento repoblado"
+    "es": "aldea remanente"
    },
    "priority": 0,
    "tags": [
     "people",
-    "water",
-    "landscape",
-    "rest"
+    "rest",
+    "social"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "chozas eriadoranas entre cimientos de ciudad vieja"
+    "es": "la única comunidad del tramo — tribus eriadoranas en ruinas viejas"
    },
    "presence": {
     "en": null,
-    "es": "Cithiel fue un municipio grande, de 4.400 habitantes, sobre el Baranduin, en Minhiriath. Hacia la T.E. 1400 el pueblo viejo estaba abandonado.\nDesde entonces el sitio ha sido repoblado a menor escala por tribus eriadoranas, que lo llaman Cuncan: un grupo tosco de construcciones de madera y barro entre los cimientos del asentamiento anterior, mucho más grande.\nEl río sigue igual; la ciudad encima cambió de especie."
+    "es": "Sobre el Baranduin hay una ciudad muerta de cuatro mil almas abandonada hacia el 1400, y encima de ella, Cuncan: un puñado de construcciones de madera y barro entre los cimientos del pueblo viejo.\nLa habitan tribus eriadoranas que repoblaron el sitio a escala de aldea — cabañas de barro, corrales, un fuego comunal.\nSon gente cerrada pero no hostil: el viajero que no da motivos recibe techo de choza y puchero compartido."
    },
    "lore": {
     "en": null,
-    "es": "Dos Cuncan en el Baranduin: la tribu eriadorana repuebla las ciudades muertas con el mismo gesto.\nLa madera sobre piedra es el símbolo de la Edad."
+    "es": "La ciudad vieja da piedra y sombra; la gente nueva da lo que la tierra permite.\nAsí sobrevive Minhiriath: aldeas sobre ciudades."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la gente de Cuncan — hospitalidad de tribu eriadorana"
+     "es": "las familias de Cuncan — techo de choza para el que no da motivos"
     }
    },
    "interactive": [
@@ -85954,7 +86001,7 @@
      "situation": null,
      "options": [
       {
-       "id": "pedir sitio en las chozas de Cuncan",
+       "id": "pedir un rincón junto al fuego comunal",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -85963,7 +86010,7 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Comida de tribu y un lugar junto al fuego entre los cimientos de la ciudad vieja. Los eriadoranos reciben al que no pregunta de más."
+          "es": "Puchero comunal y un rincón de choza de barro. La conversación es escasa; la hospitalidad, real. Alrededor, la ciudad vieja guarda el viento."
          },
          "effects": {
           "en": null,
@@ -86172,47 +86219,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La mansión ruinosa de los Príncipes de Tinare"
+    "es": "La residencia de verano, añeja del todo"
    },
    "type": {
     "en": null,
-    "es": "pueblo de mercado"
+    "es": "ruinas de pueblo"
    },
    "priority": 0,
    "tags": [
-    "people",
-    "trade",
-    "social",
+    "landscape",
     "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "mercado menor del Camino Verde con mansión principesca"
+    "es": "ruinas — la mansión de los Príncipes de Tinare es la más grande y la más hueca"
    },
    "presence": {
     "en": null,
-    "es": "Metraith fue fundada por Tarcil de Arnor como residencia de verano, en la T.E. 514.\nEs asiento de los Señores de Dol Tinare y centro de abastecimiento y mercado menor para el tránsito del Camino Verde.\nLos Príncipes de Tinare habitan en Metraith una mansión grande y ruinosa — la casa de una nobleza que ya no puede pagar lo que el edificio pide."
+    "es": "Metraith fue fundada por Tarcil de Arnor como residencia de verano y llegó a ser asiento de los Señores de Dol Tinare, centro de abastecimiento del tránsito del Camino Verde.\nLa mansión de los Príncipes sigue siendo el edificio más grande del pueblo muerto: ya era 'grande y ruinosa' cuando aún vivía gente; hoy es grande, ruinosa y vacía.\nEl mercado del Camino Verde no se arma desde que el camino dejó de tener a quién servir."
    },
    "lore": {
     "en": null,
-    "es": "La mansión es más grande que la fortuna que la mantiene: el norte en un solo edificio.\nEl mercado menor sigue funcionando porque el Camino Verde sigue pasando."
+    "es": "La ciudad que nació como residencia de verano murió cuando dejó de haber veranos de reyes."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la gente del mercado — posada modesta para el tránsito del Camino"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "mn12_stay_offer",
+     "id": "mn12_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "dormir en la posada del mercado",
+       "id": "guarecerse en la mansión de los Príncipes",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -86221,11 +86266,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cena de mercado menor y cama junto al camino. La mansión ruinosa de los Príncipes se ve desde la ventana como recordatorio de lo que fue Tinare."
+          "es": "La mansión conserva alas enteras con techo parcial: el mejor refugio del pueblo muerto, apropiado para el que fue su mejor edificio."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso · techo"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -86364,45 +86409,45 @@
    ],
    "name": {
     "en": null,
-    "es": "La plaza fuerte que nunca fue sitiada"
+    "es": "La plaza fuerte que nunca se probó"
    },
    "type": {
     "en": null,
-    "es": "castillo"
+    "es": "ruinas de fortaleza"
    },
    "priority": 0,
    "tags": [
-    "military",
-    "people"
+    "landscape",
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "centro administrativo de señorío rural"
+    "es": "ruinas del castillo de Dol Calantir — nunca probado en sitio en regla"
    },
    "presence": {
     "en": null,
-    "es": "Argond fue terminado por el Príncipe de Dol Calantir en la T.E. 887 como plaza fuerte y centro administrativo de un señorío rural.\nAunque parece formidable, no fue concebido pensando en la defensa.\nSu discutible disposición defensiva todavía no ha pasado la prueba de un sitio en regla."
+    "es": "Argond fue terminado por el Príncipe de Dol Calantir en el 887 como plaza fuerte y centro administrativo de su señorío.\nParecía formidable pero nunca se pensó de verdad para la defensa; la prueba nunca llegó — el señorío se deshizo antes de que nadie la pusiera a prueba.\nQueda el castillo entero: altos, anchos, pomposos y vacíos, como un traje de ceremonia colgado de un gancho."
    },
    "lore": {
     "en": null,
-    "es": "Castillo de administración, no de guerra: la apariencia defensiva es más teatro que realidad.\nNadie lo ha puesto a prueba; con suerte nadie lo hará."
+    "es": "Los castillos que no se construyeron para la guerra sobrevivieron a la guerra sin saberlo."
    },
    "facts": {
     "keeper": {
      "en": null,
-     "es": "la administración del señorío — techo de centro administrativo"
+     "es": "nadie"
     }
    },
    "interactive": [
     {
-     "id": "mn14_stay_offer",
+     "id": "mn14_shelter",
      "when": null,
      "situation": null,
      "options": [
       {
-       "id": "pedir alojamiento al señorío",
+       "id": "dormir en el salón de ceremonias",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -86411,11 +86456,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "Cuarto de administración y rancho de casa rural. El castillo luce fuerte; el servicio es el de una hacienda."
+          "es": "El castillo nunca probado da el mejor techo de Mintyrnath: salas anchas, muros sanos, ni un rasguño de sitio."
          },
          "effects": {
           "en": null,
-          "es": "comida · descanso menor · techo condicional"
+          "es": "descanso menor · techo precario"
          }
         }
        }
@@ -87599,30 +87644,30 @@
    ],
    "name": {
     "en": null,
-    "es": "La torre de la puerta de la llanura"
+    "es": "La torre de la puerta de la llanura, sin guarnición"
    },
    "type": {
     "en": null,
-    "es": "fortaleza"
+    "es": "ruinas de fortaleza"
    },
    "priority": 0,
    "tags": [
-    "military",
-    "landscape"
+    "landscape",
+    "conflict"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
    "traveller_use": {
     "en": null,
-    "es": "guardia de la entrada a la Dagorlad"
+    "es": "ruinas de la vigía de la Dagorlad"
    },
    "presence": {
     "en": null,
-    "es": "Una antigua fortaleza gondoriana construida para proteger y vigilar los accesos a la llanura de la Dagorlad.\nLa piedra es vieja y la vista desde sus almenas abarca el campo donde se decidieron guerras.\nPuesto de frontera contra lo que viene del este."
+    "es": "Tirith Nindir fue una fortaleza gondoriana construida para proteger y vigilar los accesos a la llanura de la Dagorlad.\nLa llanura no cambió — sigue siendo la misma tierra de batalla — pero la guarnición que la miraba se fue hace mucho.\nLa torre conserva su vista del campo donde se decidieron guerras: verla sin que lo vean a uno es la única ventaja que queda."
    },
    "lore": {
     "en": null,
-    "es": "La Dagorlad es la puerta de Mordor; Tirith Nindir era su portero.\nHoy la vigilia sigue, aunque el reino que la ordenó ya no es el mismo."
+    "es": "La Dagorlad no necesita vigía: lo que puede salir de ella ya salió."
    },
    "interactive": [
     {
@@ -87631,7 +87676,7 @@
      "situation": null,
      "options": [
       {
-       "id": "pasar bajo la torre vieja",
+       "id": "subir a ver la llanura desde la torre caída",
        "tag": null,
        "skill": null,
        "difficulty": null,
@@ -87640,11 +87685,11 @@
         "success": {
          "text": {
           "en": null,
-          "es": "La llanura de la Batalla se abre adelante. La torre mira hacia atrás mientras el camino sigue."
+          "es": "La vista de la Dagorlad entera desde la torre muerta: el campo donde se decidió todo, quieto como una tumba."
          },
          "effects": {
           "en": null,
-          "es": "tiempo"
+          "es": "tiempo · orientación"
          }
         }
        }
@@ -87657,6 +87702,12 @@
     "region_confidence": "high",
     "location_ref": {
      "id": 567
+    }
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "nadie"
     }
    }
   },
