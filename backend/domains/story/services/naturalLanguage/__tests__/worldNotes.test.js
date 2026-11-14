@@ -90,6 +90,26 @@ test('lands carries regions, road notes and the climbing effort', () => {
   assert.match(lands, /Terrain effort/);
 });
 
+// A land reached for the first time today is marked so the narrator names
+// the crossing — a held border stays a plain bullet.
+test('lands marks a land entered today, and only that one', () => {
+  const wn = buildWorldNotes({
+    day: {
+      ...DAY,
+      regions: [
+        { name: 'lone-lands', description_summary: 'Bleak open country.' },
+        { name: 'Fangorn', description_summary: 'The forest drinking.' },
+      ],
+    },
+    tripName: 'Bree to Rivendell',
+    characterName: 'Tester',
+    previousDay: { day_number: 2, regions: ['lone-lands'], locations: [], encounters: [] },
+    rng,
+  });
+  assert.match(wn.lands, /Fangorn \(entered today — a new land\): The forest drinking\./);
+  assert.doesNotMatch(wn.lands, /lone-lands \(entered/);
+});
+
 test('condition, equipage and end_state render bands, not numbers', () => {
   const wn = notes();
   assert.match(wn.condition, /TRAVELLER'S CONDITION/);

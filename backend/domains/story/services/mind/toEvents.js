@@ -20,6 +20,10 @@
 //               the traveller actually stopped at, 'hostile' for
 //               enemy-kingdom places that were skirted from outside
 //   water     — one per crossing: data: {name, kind, reading}
+//   region    — one per land ENTERED today (not in yesterday's regions):
+//               data: {name, description, reading, tags['region_entered']}
+//               — crossing a border is a lived moment, not context: it is
+//               what the Episode can turn on and what gets remembered
 //   meal      — one per meal slot: data: {slot, eaten, food, drink,
 //               reading}
 //   rest      — overnight: data: {rest_quality, shadow_effect, place,
@@ -328,6 +332,42 @@ function placeEvents(day) {
   });
 }
 
+// Entering a new land is an event, not just `where` metadata: yesterday's
+// region names decide which of today's are crossings. The hour the leg
+// first read as the new land anchors the moment; a land present from the
+// leg's start was crossed at first light (walking never reaches night).
+function regionEvents(day, previousDay) {
+  const prevNames = new Set(
+    (previousDay?.regions || [])
+      .map((r) => r?.name || r)
+      .filter(Boolean)
+  );
+  return (day.regions || [])
+    .filter((r) => {
+      const name = r?.name || r;
+      return name && !prevNames.has(name);
+    })
+    .map((r) => {
+      const name = r?.name || r;
+      const hourFloat = typeof r === 'object' ? r.first_seen_hour_float : null;
+      return {
+        type: 'region',
+        when: when(day, {
+          phase: hourFloat == null || hourFloat < 13 ? 'morning' : 'afternoon',
+          hour: hourFloat ?? undefined,
+        }),
+        where: where(name),
+        data: {
+          name,
+          description:
+            (r && typeof r === 'object' ? r.description_summary : null) ?? null,
+          reading: `crossed into ${name}`,
+          tags: ['region_entered'],
+        },
+      };
+    });
+}
+
 function waterEvents(day) {
   return (day.water_crossings || []).map((w) => ({
     type: 'water',
@@ -434,9 +474,10 @@ function bodyEvent(day, stateContext) {
  * @param {Object} params.trip
  * @param {Object} params.character - narrator character snapshot
  * @param {Object} [params.stateContext] - {startState, endState} for body
+ * @param {Object} [params.previousDay] - yesterday's names (region entries)
  * @returns {Array} events[] contract
  */
-export function toEvents({ day, trip, character, stateContext }) {
+export function toEvents({ day, trip, character, stateContext, previousDay }) {
   const events = [
     ...climateEvents(day),
     ...(day.distance_km
@@ -474,6 +515,7 @@ export function toEvents({ day, trip, character, stateContext }) {
     ...encounterEvents(day),
     ...mealEvents(day),
     ...placeEvents(day),
+    ...regionEvents(day, previousDay),
     ...waterEvents(day),
     ...(ambientEvent(day) ? [ambientEvent(day)] : []),
     ...(restEvent(day) ? [restEvent(day)] : []),

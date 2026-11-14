@@ -49,9 +49,9 @@ function nightLead(day, rng) {
 }
 
 /** Lands crossed + road notes + terrain effort — the day-level context block. */
-function landsContext(day, rng) {
+function landsContext(day, rng, enteredNames) {
   const parts = [
-    `Lands crossed (in order), with their character:\n${describeRegions(day.regions)}`,
+    `Lands crossed (in order), with their character:\n${describeRegions(day.regions, enteredNames)}`,
   ];
 
   const roadNotes = collectRoadNotes(day.road_types, day.regions, day.terrain_phrases, rng);
@@ -86,6 +86,19 @@ export function buildWorldNotes({
   const biomesByPhase = groupByPhase(day.biomes);
   const locationsByPhase = groupByPhase(day.locations);
   const waterByPhase = groupByPhase(day.water_crossings);
+  // Lands today's road reached for the first time — the narrator must be
+  // able to name the border the traveller crossed.
+  const enteredRegionNames = new Set(
+    (day.regions || [])
+      .map((r) => r?.name || r)
+      .filter(
+        (name) =>
+          name &&
+          !(previousDay?.regions || [])
+            .map((r) => r?.name || r)
+            .includes(name)
+      )
+  );
 
   const terrain = {};
   const locations = {};
@@ -110,7 +123,7 @@ export function buildWorldNotes({
     locations,
     water,
     night_lead: nightLead(day, rng),
-    lands: landsContext(day, rng),
+    lands: landsContext(day, rng, enteredRegionNames),
     condition: conditionSection(characterState, characterName),
     equipage: equipmentSection(equipmentState),
     end_state: endStateSection(fate, characterName),

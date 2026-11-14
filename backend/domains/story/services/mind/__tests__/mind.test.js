@@ -424,6 +424,55 @@ test('place events carry the settlement a traveller actually entered', () => {
   assert.deepEqual(dolGuldur.data.tags, ['settlement', 'hostile']);
 });
 
+test('a land entered today becomes a region event anchored to the crossing', () => {
+  const events = toEvents({
+    day: {
+      ...DAY,
+      regions: [
+        { name: 'Rohan', first_seen_hour_float: 7.5 },
+        { name: 'Fangorn', description_summary: 'The forest drinking.', first_seen_hour_float: 15.0 },
+      ],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    stateContext: {},
+    previousDay: { day_number: 2, regions: ['Rohan'] },
+  });
+  const regions = events.filter((e) => e.type === 'region');
+  // Rohan carries over from yesterday — only the new land speaks.
+  assert.equal(regions.length, 1);
+  const fangorn = regions[0];
+  assert.equal(fangorn.data.name, 'Fangorn');
+  assert.equal(fangorn.data.reading, 'crossed into Fangorn');
+  assert.deepEqual(fangorn.data.tags, ['region_entered']);
+  assert.equal(fangorn.where.region, 'Fangorn');
+  assert.equal(fangorn.when.phase, 'afternoon');
+  assert.equal(fangorn.when.hour, 15.0);
+  assert.equal(fangorn.data.description, 'The forest drinking.');
+});
+
+test('region events mark a first day, never a held border', () => {
+  const first = toEvents({
+    day: { ...DAY, regions: [{ name: 'Rohan', first_seen_hour_float: 7.5 }] },
+    trip: { id: 't1' },
+    character: {},
+    stateContext: {},
+    previousDay: null,
+  });
+  const entered = first.find((e) => e.type === 'region');
+  assert.equal(entered.when.phase, 'morning');
+  assert.equal(entered.data.reading, 'crossed into Rohan');
+
+  const held = toEvents({
+    day: DAY,
+    trip: { id: 't1' },
+    character: {},
+    stateContext: {},
+    previousDay: { day_number: 2, regions: ['lone-lands'] },
+  });
+  assert.ok(!held.some((e) => e.type === 'region'));
+});
+
 test('rest event tells how the night was secured', () => {
   const nightAt = (lodging) => toEvents({
     day: {
@@ -489,6 +538,38 @@ test('the open payload keeps settlement detail and the lodging outcome', () => {
   assert.equal(dale.geometry, undefined);
   assert.equal(body.day.lodging.paid, true);
   assert.equal(body.day.lodging.place, 'Dale');
+});
+
+test('the open payload keeps the sighting and presence fields notes read', () => {
+  const body = toOpenPayload({
+    gameId: 'middle_earth',
+    day: {
+      ...DAY,
+      locations: [{
+        name: 'The garden', type: 'point_of_interest', region: 'Fangorn',
+        distance_km: 50.98, size_radius_km: 70, influence_radius_km: 70,
+        visited: true, hour_float: 19,
+        presence: 'More kinds of tree than any other forest.',
+      }, {
+        name: 'Hornburg', type: 'fortress', distance_km: 24.5,
+        sighted: true, sighted_hour_float: 9.5, sighted_direction: 'east',
+      }],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+    stateContext: null,
+  });
+  const garden = body.day.locations[0];
+  // Inside the authored radius the traveller is IN the place — the notes
+  // need the size and the 'visited' flag to say so, not 'passed at some
+  // distance'.
+  assert.equal(garden.visited, true);
+  assert.equal(garden.size_radius_km, 70);
+  assert.equal(garden.presence, 'More kinds of tree than any other forest.');
+  const hornburg = body.day.locations[1];
+  assert.equal(hornburg.sighted, true);
+  assert.equal(hornburg.sighted_hour_float, 9.5);
+  assert.equal(hornburg.sighted_direction, 'east');
 });
 
 test('the open payload carries raw state, never rendered blocks (C10)', () => {

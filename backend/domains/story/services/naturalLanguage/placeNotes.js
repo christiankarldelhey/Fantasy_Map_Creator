@@ -26,8 +26,10 @@ function proximityPhrase(distanceKm, sizeRadiusKm) {
   return PROXIMITY_CLOSE;
 }
 
-/** The lands crossed in order, each with its character (description_summary). */
-export function describeRegions(regions) {
+/** The lands crossed in order, each with its character (description_summary).
+ *  `enteredNames` marks the lands the road reached for the first time today —
+ *  a border crossing is a moment, not just context. */
+export function describeRegions(regions, enteredNames = null) {
   if (!Array.isArray(regions) || regions.length === 0) {
     return 'The day passes through unnamed country.';
   }
@@ -36,10 +38,11 @@ export function describeRegions(regions) {
   for (const region of regions) {
     const name = typeof region === 'string' ? region : region.name;
     const summary = typeof region === 'string' ? null : region.description_summary;
+    const marker = enteredNames?.has(name) ? ' (entered today — a new land)' : '';
     if (summary && summary.trim()) {
-      lines.push(`- ${name}: ${summary.trim()}`);
+      lines.push(`- ${name}${marker}: ${summary.trim()}`);
     } else {
-      lines.push(`- ${name}`);
+      lines.push(`- ${name}${marker}`);
     }
   }
   return lines.join('\n');

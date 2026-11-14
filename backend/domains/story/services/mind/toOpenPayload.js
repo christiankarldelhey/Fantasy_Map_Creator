@@ -97,7 +97,7 @@ function slimDay(d) {
       pick(b, ['type', 'hour_float', 'fraction', 'total_area_km2'])
     ),
     locations: (d.locations || []).map((l) =>
-      pick(l, ['name', 'type', 'region', 'aspect', 'aspect_es', 'presence', 'presence_es', 'population', 'inhabitants', 'cultural_family', 'hour', 'hour_float', 'distance_km', 'title', 'indoor', 'entered', 'hostile'])
+      pick(l, ['id', 'name', 'type', 'region', 'region_id', 'aspect', 'aspect_es', 'presence', 'presence_es', 'population', 'inhabitants', 'cultural_family', 'hour', 'hour_float', 'distance_km', 'size_radius_km', 'influence_radius_km', 'sighted', 'sighted_hour_float', 'sighted_hour', 'sighted_direction', 'visited', 'title', 'indoor', 'entered', 'hostile'])
     ),
     lodging: d.lodging
       ? pick(d.lodging, ['paid', 'cost', 'coinsAfter', 'sheltered', 'turnedAway', 'charity', 'charityCheck', 'place'])
@@ -156,7 +156,7 @@ export function toOpenPayload({
     episode_ref: `trip:${trip.id}:day:${day.day_number}`,
     language,
     character: slimCharacter(character),
-    events: toEvents({ day, trip, character, stateContext }),
+    events: toEvents({ day, trip, character, stateContext, previousDay }),
     day: daySlim,
     trip_name: trip.name ?? null,
     character_state: characterState,

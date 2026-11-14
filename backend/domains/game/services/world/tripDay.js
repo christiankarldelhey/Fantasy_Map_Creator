@@ -696,6 +696,9 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
         name,
         description_summary: info.description_summary || null,
         cultural_family: info.cultural_family || null,
+        // When the leg first reads as this land — the crossing moment a
+        // `region` event hangs on (toEvents).
+        first_seen_hour_float: Number((WALK_START_HOUR + elapsed).toFixed(2)),
       });
     }
   }
