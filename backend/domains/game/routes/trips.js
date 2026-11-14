@@ -471,7 +471,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
 
     // Generate AI narrative (optional, if API key is configured). Provider and
     // sampling params rotate per day; capture what was actually used.
-    const { prompt, generation, mind_episode_id, mind_open } = await narrateDay({
+    const { prompt, generation, mind_episode_id, mind_open, mind_off } = await narrateDay({
       day,
       trip,
       character,
@@ -580,7 +580,11 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         generation.presence_penalty,
         generation.top_p,
         JSON.stringify(meals),
-        mind_open ? JSON.stringify(mind_open) : null,
+        mind_open
+          ? JSON.stringify(mind_open)
+          : mind_off
+            ? JSON.stringify({ status: 'off', ...mind_off })
+            : null,
       ]
     );
 
@@ -626,7 +630,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         encountered_entity_ids: newEntityIds,
       }).catch((err) => {
         console.warn('[mind] close failed (non-fatal):', err.message);
-        return null;
+        return { status: 'failed', detail: err.message };
       });
       if (mind_close) {
         await pool.query(
@@ -744,7 +748,7 @@ router.post('/:id/days/:dayNumber/redo-narration', authenticateToken, async (req
       rng: Math.random,
     };
 
-    const { prompt, generation } = await narrateDay({
+    const { prompt, generation, mind_off } = await narrateDay({
       day,
       trip,
       character,
@@ -758,7 +762,8 @@ router.post('/:id/days/:dayNumber/redo-narration', authenticateToken, async (req
       `UPDATE trip_days
        SET prompt = $1, narrative = $2,
            ia_provider = $3, temperature = $4, frequency_penalty = $5,
-           presence_penalty = $6, top_p = $7
+           presence_penalty = $6, top_p = $7,
+           mind_open = COALESCE(mind_open, $10)
        WHERE trip_id = $8 AND day_number = $9
        RETURNING *`,
       [
@@ -771,6 +776,7 @@ router.post('/:id/days/:dayNumber/redo-narration', authenticateToken, async (req
         generation.top_p,
         trip.id,
         dayNumber,
+        mind_off ? JSON.stringify({ status: 'off', ...mind_off }) : null,
       ]
     );
 
