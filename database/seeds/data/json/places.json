@@ -61381,6 +61381,3832 @@
     "region": "Weather Hills",
     "region_confidence": "high"
    }
+  },
+  {
+   "id": "SH-19",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "La ciudad del maíz"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "food",
+    "rest",
+    "trade"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "comida, techo y una mesa de lectores"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo grande para ser de hobbits, plantado en mitad de la mejor tierra de cultivo de la Cuaderna del Este.\nLos campos de maíz y lino llegan hasta las mismas casas; los carros pesados cruzan el vado del norte hacia Scary y los más livianos pasan el puente de madera a Waterbury.\nEn la taberna se huele a pan de maíz recién hecho y a sidra; en las mesas de al fondo se habla bajito de elfos."
+   },
+   "lore": {
+    "en": null,
+    "es": "Los vecinos la llaman Bankling; más adelante pasará a llamarse Whitfurrows.\nLa *Blushing Ivy Tavern* es la sede de la Brow, Pen and Scroll Society, un club de hobbits aficionados a la tradición élfica que les gana fama de raros a sus vecinos.\nEs la tierra más fértil de la Cuaderna del Este y la gente de la ruta lo sabe: aquí se come bien."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "Blushing Ivy Tavern"
+    },
+    "keeper": {
+     "en": null,
+     "es": "la familia de la Blushing Ivy — la taberna hace de casa común del club de lectores"
+    }
+   },
+   "sections": [
+    {
+     "key": "Lo que ofrece",
+     "en": null,
+     "es": "La Blushing Ivy da cama, mesa y conversación. Por la noche el fondo de la sala se llena del club de los lectores; un viajero que sepa contar una historia paga la cena con ella."
+    }
+   ],
+   "interactive": [
+    {
+     "id": "sh19_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir mesa y cama en la Blushing Ivy",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pan de maíz, queso, sidra y una cama pequeña y limpia. La cena la pagan las historias: en la mesa del fondo alguien siempre quiere oír del camino."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "oír a la sociedad de lectores",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Le dejan sentarse junto al fuego mientras los socios discuten fragmentos élficos mal copiados. Alguien le pone sidra delante sin pedírsela."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · noticias"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 875
+    }
+   }
+  },
+  {
+   "id": "SH-20",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "La posada del cruce"
+   },
+   "type": {
+    "en": null,
+    "es": "posada de camino"
+   },
+   "priority": 0,
+   "tags": [
+    "rest",
+    "food",
+    "trade",
+    "people"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "parada natural entre Bywater y Bree"
+   },
+   "presence": {
+    "en": null,
+    "es": "Donde el camino de Sarn Ford se junta con la Gran Ruta del Este hay una posada cómoda y unas pocas casas alrededor.\nLa sala común huele a manteca y a fuego de leña; el establo está lleno de caballos de carreteros.\nAquí paran todos: carreteros de Bywater, compradores de Bree, hobbits con carros de heno. El posadero sabe quién pasó, cuándo y con qué cargamento."
+   },
+   "lore": {
+    "en": null,
+    "es": "En tiempos de Arnor el cruce se llamaba Wood Junction; los hobbits lo acortaron a Waymoot.\nEstá a quince millas al oeste de Bywater y es la parada natural de la ruta: quien viaja al oeste duerme aquí o duerme al raso."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada del Vado"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un posadero fornido que colecciona noticias de la ruta como otros coleccionan sellos"
+    }
+   },
+   "sections": [
+    {
+     "key": "Lo que ofrece",
+     "en": null,
+     "es": "Cama, establo, cena caliente y la bolsa de noticias del camino. La Posada del Vado es el mejor sitio de la Cuaderna del Oeste para saber qué se mueve por la ruta."
+    }
+   ],
+   "interactive": [
+    {
+     "id": "sh20_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pasar la noche en la Posada del Vado",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cama limpia, cena de estofado y pan, caballo al establo. El posadero le pregunta por el camino de donde vino; es el precio de la conversación, no de la cama."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo · establo"
+         }
+        }
+       }
+      },
+      {
+       "id": "preguntar por la ruta al posadero",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Sale con la lista entera: quién pasó, quién no debería haber pasado, y qué tramo de la ruta conviene hacer de día."
+         },
+         "effects": {
+          "en": null,
+          "es": "noticias del camino"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 884
+    }
+   }
+  },
+  {
+   "id": "SH-21",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El segundo cruce de Waymoot"
+   },
+   "type": {
+    "en": null,
+    "es": "posada de camino"
+   },
+   "priority": 0,
+   "tags": [
+    "rest",
+    "food",
+    "people"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "otra puerta a la misma posada del cruce"
+   },
+   "presence": {
+    "en": null,
+    "es": "La misma encrucijada de Waymoot vista desde el otro lado: la posada, el establo, las casas pegadas al cruce.\nQuien viene por el camino de Sarn Ford entra al pueblo por aquí; el cartel de la posada se ve antes que el tejado."
+   },
+   "lore": {
+    "en": null,
+    "es": "El gazetteer la anota como 'Rendwalk and The Briary' pero describe la misma Waymoot de siempre: el cruce, la posada modesta, las casas.\nEl nombre arnoriano era Wood Junction; los hobbits dijeron Waymoot y se quedó."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada del Vado"
+    }
+   },
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 910
+    }
+   }
+  },
+  {
+   "id": "SH-22",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo de la rana"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "food",
+    "rest",
+    "trade"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "parada decente en plena Gran Ruta"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo hobbit cómodo en la Cuaderna del Este, en mitad de la Gran Ruta.\nLos granjeros traen la cosecha a mercado en días fijos; la posada del centro atiende el tráfico de la ruta con eficiencia de quien lleva años haciéndolo.\nTierra bien trabajada, gente tranquila: lo típico del este próspero de la Comarca."
+   },
+   "lore": {
+    "en": null,
+    "es": "Su posición central en la ruta la hace parada natural para quien cruza la Comarca de punta a punta.\nLos días de mercado la calle se llena de carros de granja."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Rana Gorda"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una posadera de pocas palabras que cobra lo justo y llena el plato dos veces"
+    }
+   },
+   "sections": [
+    {
+     "key": "Lo que ofrece",
+     "en": null,
+     "es": "La Rana Gorda da cama, cena y desayuno sin ceremonia ni sorpresa. Es la posada honesta del centro de la Comarca."
+    }
+   ],
+   "interactive": [
+    {
+     "id": "sh22_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Rana Gorda",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Plato hondo dos veces lleno, cama de paja limpia y silencio de pueblo agrícola. Nadie le pregunta nada; a la mañana siguiente el pan ya está cortado."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "comprar provisiones en el mercado",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Queso, pan de granja, manzanas de la estación. Precio de feria local, sin regateo necesario."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · provisiones"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 449
+    }
+   }
+  },
+  {
+   "id": "SH-23",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo de los champiñones"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "food",
+    "rest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "la mejor mesa de la Comarca y la posada más famosa"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo stoor de casas bajas de piedra y turba junto al Baranduin, de campos cuidados que producen los mejores champiñones de la Comarca.\nEn tiempo húmedo huele a tierra fresca y a camas de champiñón; el olor es agradable y todos los que pasan camino del ferry de Bucklebury lo notan.\nLa posada del pueblo es famosa tres comarcas a la redonda."
+   },
+   "lore": {
+    "en": null,
+    "es": "La *Percha Dorada* es la posada de Stock y probablemente la mejor mesa al este de Bree.\nLos vecinos están calladamente orgullosos de sus champiñones; preguntar por ellos es la manera más rápida de hacerse amigo."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Percha Dorada"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una familia stoor de posaderos que cocina los champiñones de la casa como quien sirve un asado"
+    }
+   },
+   "sections": [
+    {
+     "key": "Lo que ofrece",
+     "en": null,
+     "es": "La Percha Dorada da la mejor cena de la región: champiñones fritos en manteca, cerveza espumosa, cama con manta de lana. Quien pasa por Stock y no para aquí se lo cuenta después como un error."
+    }
+   ],
+   "interactive": [
+    {
+     "id": "sh23_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "cenar y dormir en la Percha Dorada",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Champiñones en manteca, pan, cerveza y una cama que parece más grande de lo que la casa permite. La cocina sigue oliendo a mantequilla cuando ya están apagadas las velas."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "preguntar por los champiñones",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Media hora de conversación orgullosa y una bolsa de champiñones para el camino. El orgullo es sincero y la bolsa también."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · provisiones"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 595
+    }
+   }
+  },
+  {
+   "id": "SH-24",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo del agua clara"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "food",
+    "rest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "cruce al camino del Este y techo de mineros"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo hobbit en la orilla norte del Fairwater, enfrente de Bankling, que da salida a la Gran Ruta a los mineros de las Colinas de Scary.\nEl puente de madera cruza a los campos de maíz del otro lado; los carros de mineral bajan de las colinas y se mezclan con los carros de granja.\nSuperó a su pueblo gemelo hace años; la orilla está viva."
+   },
+   "lore": {
+    "en": null,
+    "es": "Gemelo de Bankling en la otra orilla del Fairwater; la migración hobbit lo hizo crecer hasta pasarlo.\nEn años venideros se llamará Budgeford, por el vado de Budge al norte."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Casa del Puente"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una familia que hospeda mineros de Scary y carreteros por igual, sin hacer distinción de botas"
+    }
+   },
+   "sections": [
+    {
+     "key": "Lo que ofrece",
+     "en": null,
+     "es": "La Casa del Puente junto al vado da cama y cena a quien baja de las minas o cruza hacia la ruta. Comida de granja, precio de pueblo."
+    }
+   ],
+   "interactive": [
+    {
+     "id": "sh24_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Casa del Puente",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cena de granja y una cama que compite con el ruido del río y gana. A la mesa de al lado los mineros cuentan qué encontraron en la veta."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 887
+    }
+   }
+  },
+  {
+   "id": "SH-25",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo escondido en el bosque"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "forest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "un lugar apartado; techo si caes bien"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea hobbit de bosque en la Cuaderna del Sur, inusualmente retirada y silvestre.\nLos Pendle que la fundaron se fueron hace tiempo; ahora mandan los Goodbody, aunque la tierra es de los Took.\nEn las colecciones de trastos del pueblo aparecen a veces cosas élficas de Sîrrandra, que los vecinos guardan sin hacer preguntas."
+   },
+   "lore": {
+    "en": null,
+    "es": "Fama de lugar apartado incluso dentro de la Comarca: quien viene, viene a propósito.\nLos artefactos élficos que salen en los trastos sugieren un trato viejo con el bosque que nadie cuenta."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "los Goodbody — la mesa de la casa grande se abre al viajero que llega bien recomendado o con buena cara"
+    }
+   },
+   "secret": {
+    "en": null,
+    "es": "Los objetos élficos de los trasterías no son herencia: el bosque sigue devolviendo cosas."
+   },
+   "interactive": [
+    {
+     "id": "sh25_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir posada en casa de los Goodbody",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Lo miran un rato antes de decidir. Si pasa la mirada, le dan un banco junto al fuego y una cena sencilla de huerta. Si no, el pueblo entero se vuelve educado y vacío."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo condicional"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 881
+    }
+   }
+  },
+  {
+   "id": "SH-26",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo que no quiere gente grande"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea recelosa"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "danger",
+    "conflict"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "pasar de largo, o demostrar primero que no eres una amenaza"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea nueva al norte del Cerro del Grito, levantada por los clanes Barleycorn y Beechkins, que vinieron huyendo de bandidos.\nLas dos familias comparten una desconfianza hacia la Gente Grande que a veces se pone hostil.\nLas puertas se cierran cuando un hombre aparece por el camino; los otros hobbits hablan en voz baja de hombres que entraron hacia el recodo del arroyo y no volvieron."
+   },
+   "lore": {
+    "en": null,
+    "es": "Ambos clanes llegaron a la Comarca perseguidos; la desconfianza se aprendió a sangre, no de oídas.\nLos Baggins son dueños de mucha tierra de los alrededores. En tiempos más pacíficos será una granja cómoda; ahora no lo es."
+   },
+   "secret": {
+    "en": null,
+    "es": "Los hombres que desaparecen en el ángulo entre el arroyo Baining y el Cerro del Grito no son sólo un rumor: las dos familias saben más de lo que dicen."
+   },
+   "interactive": [
+    {
+     "id": "sh26_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir un rincón en el granero Barleycorn",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Lo dejan entrar después de un interrogatorio largo a puerta cerrada. El granero está frío, la cena es escasa y alguien se queda despierto mirándolo hasta que duerme."
+         },
+         "effects": {
+          "en": null,
+          "es": "descanso menor · techo condicional · tensión"
+         }
+        }
+       }
+      },
+      {
+       "id": "pasar de largo sin detenerse",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Es lo que el pueblo entero prefiere y casi lo único seguro."
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo · seguridad"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 886
+    }
+   }
+  },
+  {
+   "id": "SH-27",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El desembarcadero de los ribereños"
+   },
+   "type": {
+    "en": null,
+    "es": "campamento fluvial"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "work"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "techo precario entre barqueros; la casa vieja está vacía por algo"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un desembarcadero rústico y un puñado de cobertizos usados por las tripulaciones de las barcas.\nNo es un pueblo: es un lugar de trabajo que huele a pescado, brea y humo de fogatas.\nEn la orilla se alza la casa vieja de Deep Hallow, medio ruina, que los lugareños evitan sin explicar por qué."
+   },
+   "lore": {
+    "en": null,
+    "es": "Campamento de pesca y escala fluvial de los Hombres del Río; nada que ver con la comodidad hobbit.\nDeep Hallow House fue una casa grande; ahora se desmorona y nadie la usa, ni siquiera para guardar redes."
+   },
+   "secret": {
+    "en": null,
+    "es": "Los barqueros no entran a Deep Hallow ni de día. Si hay que elegir entre la casa y la lluvia, eligen la lluvia."
+   },
+   "interactive": [
+    {
+     "id": "sh27_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir un hueco en el cobertizo de las tripulaciones",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Un rincón entre redes y remos, pescado asado en la fogata común y compañía de barqueros que hablan más de corrientes que de personas."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso menor · techo precario"
+         }
+        }
+       }
+      },
+      {
+       "id": "mirar Deep Hallow desde la orilla",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Las ventanas vacías miran al río. Nadie se acerca, ni siquiera para leña. Lo que sea que la vació hace mucho, el recuerdo sigue fresco."
+         },
+         "effects": {
+          "en": null,
+          "es": "abre el secreto"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 879
+    }
+   }
+  },
+  {
+   "id": "SH-28",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo de las minas enanas"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo minero"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "work",
+    "rest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "techo en un smial minero y una curiosidad que ver"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo hobbit al oeste de las Colinas de Scary, centrado en minas de cobre y estaño que datan de los enanos de la Segunda Edad.\nLos Bolger usan las viejas galerías como smials e ignoran las historias de los ribereños sobre túneles embrujados.\nEn una caseta del parque exhiben los 'Neblin-nuggets': nódulos de cobre con forma de enanos dormidos, que enseñan como curiosidad."
+   },
+   "lore": {
+    "en": null,
+    "es": "Las minas son de la Segunda Edad, obra enana; los hobbits solo las heredaron.\nHay ruidos inexplicables, presencias que se sienten y caras que se entreven en los pasajes oscuros. Los Bolger lo niegan con una convicción que no termina de convencer."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "El Descanso del Cavador"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un Bolger orgulloso de sus nódulos y de su smial convertido"
+    }
+   },
+   "secret": {
+    "en": null,
+    "es": "Los mineros no bajan a las galerías viejas después de cierta hora. Nadie discute la regla."
+   },
+   "interactive": [
+    {
+     "id": "sh28_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en el smial del posadero Bolger",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Una cama dentro de la colina, fresca y quieta como solo lo está una casa excavada. La cena es de despensa de minero: abundante, pesada y honesta."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "ver los Neblin-nuggets",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Nódulos de cobre que parecen enanos durmiendo. El posadero los presenta uno por uno como si fueran parientes."
+         },
+         "effects": {
+          "en": null,
+          "es": "curiosidad"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 890
+    }
+   }
+  },
+  {
+   "id": "SH-29",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo de los cortadores"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "work"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "techo de gremio si el trabajo habla por ti"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea maderera junto al camino de Fairwater, entre Little Delving y Bywater.\nSu Gremio de Cortadores era conocido en toda la Cuaderna del Oeste; las pilas de madera ordenadas junto a las casas todavía dicen por qué.\nHuele a serrín y a corteza fresca."
+   },
+   "lore": {
+    "en": null,
+    "es": "El Cutters' Guild de Nobottle marcaba el precio de la madera de la Cuaderna del Oeste.\nPueblo de trabajo: las manos de la gente están tan curtidas como la madera que apilan."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la Casa del Gremio — da un catre y una cena al viajero que sabe llevar una sierra o contar una buena historia"
+    }
+   },
+   "interactive": [
+    {
+     "id": "sh29_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir el catre de la Casa del Gremio",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Un catre en la sala común del gremio, sopa de olla y conversación de maderas: vetas, precios, qué monte se corta el año que viene."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 895
+    }
+   }
+  },
+  {
+   "id": "SH-30",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo de los sauces"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "forest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "techo de cabaña y un vado que no es para ti"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea de la Cuaderna del Este junto al Baranduin, en paisaje de marisma y sauces: cabañas bajas de hobbits y huertos.\nCerca hay un vado escondido que usan las Compañías Errantes de los elfos; los lugareños lo saben y lo respetan.\nEl agua lo envuelve todo: el Thistle Brook entra aquí en el Shirebourn."
+   },
+   "lore": {
+    "en": null,
+    "es": "El vado cercano es paso élfico desde hace generaciones; los hobbits no lo usan ni lo señalan a extraños.\nPueblo pantanoso y callado: las huertas dan buenas cenas y pocas preguntas."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la viuda Puddifoot — cede un catre junto a la cocina a cambio de noticias de afuera"
+    }
+   },
+   "secret": {
+    "en": null,
+    "es": "Las noches sin luna se oye a veces música del lado del vado. Los de la aldea no comentan."
+   },
+   "interactive": [
+    {
+     "id": "sh30_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "aceptar el catre de la viuda Puddifoot",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cocina caliente, sopa de huerta, un catre junto a la estufa y una anciana que quiere saber todo del mundo menos de los elfos."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 880
+    }
+   }
+  },
+  {
+   "id": "SH-31",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "La escala del río"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea fluvial"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "rest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "escala tranquila para norteños y tráfico de río"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea junto a un arroyo que baja al Brandywine entre marismas: entrada relativamente desguarnecida desde Arthedain.\nLos ribereños de aquí quemaban carbón y hacían silencio, sabedores de una comunidad élfica a pocas millas al noroeste.\nDesde la caída de Arnor es una aldea hobbit pacífica: escala de norteños apacibles y base del tráfico fluvial hacia Rood."
+   },
+   "lore": {
+    "en": null,
+    "es": "Antes 'Dwola's Bank'; después de la caída de Arnor un acuerdo tranquilo dejó la orilla oeste del Brandywine a los de la Comarca.\nLa vecindad élfica del noroeste nunca se nombró; la aldea aprendió a no mirar."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "El Descanso del Ribereño"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un patrón de barca retirado que hospeda a quien baja del norte sin hacerle preguntas de más"
+    }
+   },
+   "interactive": [
+    {
+     "id": "sh31_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en el Descanso del Ribereño",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cama de escala fluvial, pescado del río y una taza de lo que haya. El patrón habla de corrientes y barcos; de otra cosa, poco."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 891
+    }
+   }
+  },
+  {
+   "id": "SH-32",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El valle de las flores y los huesos"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "landscape"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "techo de granja entre flores; el sendero viejo esconde otra historia"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea harfoot de granjas en un recodo del Fairwater, famosa por sus flores.\nLos senderos de la orilla están densos de arbustos de bayas y plantas en flor — era el paseo favorito del viejo Tour del Bosque.\nEl nombre del valle, sin embargo, viene de otra cosa: los huesos de hombres y caballos que también aparecían junto al sendero."
+   },
+   "lore": {
+    "en": null,
+    "es": "Una gran partida de Dúnedain fue emboscada aquí durante la Devastación de 1409.\nLos vecinos prefieren hablar de las flores."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "una familia harfoot que pone la mesa al viajero y le llena los bolsillos de bayas de la orilla"
+    }
+   },
+   "secret": {
+    "en": null,
+    "es": "El sendero viejo sigue dando flores sobre los huesos. En las noches de niebla del río, algún anciano jura haber oído caballos."
+   },
+   "interactive": [
+    {
+     "id": "sh32_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "aceptar la mesa de la granja",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cena de granja con flores en la mesa y un colchón de heno en el pajar. De los huesos del sendero no se habla en la mesa."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "preguntar por el nombre del valle",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Un silencio, un vistazo entre los viejos, y la historia sale: la emboscada, el año, por qué llaman el valle como lo llaman."
+         },
+         "effects": {
+          "en": null,
+          "es": "abre el secreto"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 909
+    }
+   }
+  },
+  {
+   "id": "SH-33",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "La casa de los Took"
+   },
+   "type": {
+    "en": null,
+    "es": "solar"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "social"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "hospitalidad de gentry, no de posada"
+   },
+   "presence": {
+    "en": null,
+    "es": "El asentamiento ancestral de la familia Took en el Green Hill Country de la Cuaderna del Oeste.\nAlrededor orbitan el mercado de Whitwell, la aldea de carpinteros de Tuckburrow y Dolwich, que baja madera y granito a las Cuadernas del sur.\nNo es un pueblo que recibe: es una casa que decide."
+   },
+   "lore": {
+    "en": null,
+    "es": "Los Took son la familia más importante de la Comarca y la más rara: sangre de aventureros, decían los vecinos.\nQuien llega con una recomendación entra a la mesa grande; quien llega sin ella ve el pueblo desde afuera."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la casa de los Took — la hospitalidad se concede, no se compra"
+    }
+   },
+   "interactive": [
+    {
+     "id": "sh33_audience",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "presentarse con una buena referencia",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Si la referencia pasa, la mesa de los Took es legendaria: comida sin fin, cerveza seria y una curiosidad por el mundo que ningún otro hobbit de la mesa comparte."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo condicional"
+         }
+        }
+       }
+      },
+      {
+       "id": "pasar por el pueblo sin tocar la puerta",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Los Took no le deben nada a nadie. El mercado de Whitwell abajo sí vende lo básico."
+         },
+         "effects": {
+          "en": null,
+          "es": "provisiones"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 585
+    }
+   }
+  },
+  {
+   "id": "SH-34",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo del mercado Took"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo de mercado"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "trade",
+    "food",
+    "rest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "mercado, posada y conversación de las colinas"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo de mercado en Tookland, ligado a la familia Took.\nLos días de mercado traen granjeros y artesanos de toda la comarca: quesos, herramientas, madera de las colinas verdes.\nLa posada de la plaza se llena cuando baja el mercado y se queda tranquila el resto de la semana."
+   },
+   "lore": {
+    "en": null,
+    "es": "Vive del mercado: sin los días de feria sería una aldea más de Tookland.\nEl verde de las Green Hills se ve desde cualquier puerta."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada de las Colinas Verdes"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un posadero que coordina mejor el mercado que el intendente del pueblo"
+    }
+   },
+   "interactive": [
+    {
+     "id": "sh34_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Posada de las Colinas Verdes",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cama, cena y —si es día de mercado— la sala llena de gente de media Cuaderna. Si no lo es, el pueblo entero duerme temprano."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "hacer compras de mercado",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Queso de colina, pan, fruta, alguna herramienta decente si la necesita. Precio de mercado."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · provisiones"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 882
+    }
+   }
+  },
+  {
+   "id": "SH-35",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo de las dos gentes"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea dividida"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "conflict"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "techo, pero elige bien de qué lado cenar"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea ribereña de la Marisma donde los Hombres del Río y los hobbits stoor conviven con incomodidad.\nEl viejo Euric Thuigildsun, patriarca canoso de los clanes ribereños, mira a los inmigrantes stoor con aceptación cautelosa y esperanza comercial; su rival Thuidimer de Flynettle le gana cada disputa.\nCorren rumores de criaturas reptilianas en los senderos de la marisma entre aquí y Flynettle."
+   },
+   "lore": {
+    "en": null,
+    "es": "La división no es metafórica: los ribereños y los stoor llevan cuentas separadas y hospitalidad separada.\nLo de las criaturas del pantano no es nuevo — los ribereños lo cuentan desde hace años."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "Las Dos Aguas"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un ribereño de la casa de Euric — el stoor de enfrente tiene su propia mesa y su propia versión de todo"
+    }
+   },
+   "secret": {
+    "en": null,
+    "es": "Las criaturas del pantano existen: dos barqueros las han visto de cerca y ninguno quiere volver a hablar de ello."
+   },
+   "interactive": [
+    {
+     "id": "sh35_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "cenar en las Dos Aguas, lado ribereño",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pescado del río y la versión de Euric de todo: los stoor, Thuidimer, y lo que se mueve en la marisma. Cena buena, opinión larga."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo · facción"
+         }
+        }
+       }
+      },
+      {
+       "id": "cenar en la mesa stoor de enfrente",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Comida hobbit estándar y la otra versión de todo. Elegir mesa es elegir bando: el pueblo lo registra."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo · facción contraria"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino sin elegir bando",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Ambos lados lo notan y ambos lo respetan un poco más por no elegir."
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 876
+    }
+   }
+  },
+  {
+   "id": "SH-36",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo fundado por hombres de Bree"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "rest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "techo amable con los hombres, que aquí son familia"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea agrícola fundada en 1625 por una familia venida de Bree.\nLos hobbits rurales de aquí tratan a los hombres con una familiaridad rara en la Comarca: los recuerdan como parientes lejanos, no como gigantes.\nAvena, huertos, casas bajas."
+   },
+   "lore": {
+    "en": null,
+    "es": "La fundadora vino de Bree y el pueblo lo recuerda: es de los pocos sitios de la Comarca donde un hombre no es una rareza.\nLa avena de los campos dio el nombre."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Gavilla de Avena"
+    },
+    "keeper": {
+     "en": null,
+     "es": "descendientes de la familia de Bree — tratan a un viajero humano como a un primo alto que vuelve"
+    }
+   },
+   "interactive": [
+    {
+     "id": "sh36_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Gavilla de Avena",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Gachas de avena, pan, mantequilla y una cama hecha para alguien de su tamaño — raro en la Comarca. La familia le cuenta del pariente de Bree que lo fundó todo."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 443
+    }
+   }
+  },
+  {
+   "id": "SH-37",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "La aldea de los smials"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea"
+   },
+   "priority": 0,
+   "tags": [
+    "people"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "techo bajo la colina en las White Downs"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una comunidad agrícola de las White Downs, asentada durante la primera migración hobbit a la Comarca.\nAquí hay más smials que en la mayoría de las aldeas: puertas redondas abiertas en la ladera blanca, huertos arriba.\nGente quieta de tierra blanca."
+   },
+   "lore": {
+    "en": null,
+    "es": "Fundada entre 1601 y 1610, en la migración original.\nLas White Downs dan smials secos y frescos; la mitad de la aldea vive literalmente dentro de la colina."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "una viuda de smial hondo — ofrece el cuarto de huéspedes excavado, el más fresco y silencioso de la aldea"
+    }
+   },
+   "interactive": [
+    {
+     "id": "sh37_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "tomar el cuarto de huéspedes del smial",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Un cuarto excavado en la ladera: oscuro, fresco, absolutamente silencioso. Cena de huerta y el sueño más profundo de la Cuaderna."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 592
+    }
+   }
+  },
+  {
+   "id": "SH-38",
+   "kind": "place",
+   "region_ids": [
+    85
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo de fama ruda"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea"
+   },
+   "priority": 0,
+   "tags": [
+    "people"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "techo rústico cerca de las Red Hills"
+   },
+   "presence": {
+    "en": null,
+    "es": "Otra aldea de la migración primera, agricultora y cerca de las Red Hills de Eriador.\nLa vecindad con los hombres rudos de las colinas le da a su gente fama de tosca — fama que ellos llevan con cierto orgullo.\nHablan más fuerte, trabajan más duro y rien más brusco que el hobbit estándar."
+   },
+   "lore": {
+    "en": null,
+    "es": "Fundada en la migración de 1601-1610.\nLa cercanía de los Red Hill men endureció las costumbres: aquí la cortesía se mide distinto."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada del Cerro Colorado"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un hobbit de pocas palabras que hospeda como quien hace un trato: rápido, justo, sin charla"
+    }
+   },
+   "interactive": [
+    {
+     "id": "sh38_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir cama en el Cerro Colorado",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cama dura, estofado fuerte, cerveza sin florituras. Nadie le pide cuentos; le cobran lo justo y punto. Descanso de gente ruda."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "The Shire",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 546
+    }
+   }
+  },
+  {
+   "id": "AF-14",
+   "kind": "place",
+   "region_ids": [
+    13
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo ordenado del Celgalen"
+   },
+   "type": {
+    "en": null,
+    "es": "ciudad"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "trade",
+    "food",
+    "rest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "mercado semanal, fonda correcta y cama limpia"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo de unos mil trescientos en el Celgalen: industria pequeña, comercio local, granja de subsistencia.\nCasas de piedra de una o dos plantas en las calles; el ayuntamiento es lo más alto.\nMercado semanal, feria anual. Es un asentamiento provincial gondoriano típico: ordenado, próspero a medias, sin sorpresas."
+   },
+   "lore": {
+    "en": null,
+    "es": "Vive de la ruta del Celgalen y del campo que lo rodea.\nLo típico es también su virtud: lo que hay aquí funciona."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Fonda del Celgalen"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un fondista de gremio — cobra tarifa de pueblo, sirve mesa de mercado"
+    }
+   },
+   "interactive": [
+    {
+     "id": "af14_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir mesa y cama en la Fonda del Celgalen",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pescado del río o cordero según el día, pan, vino ordinario y una cama limpia de posada de provincia. El fondista cobra lo que cuesta y no una moneda más."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "comprar en el mercado",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Queso, pan, fruta de la estación, algún arreglo de herramienta si hace falta. Precios de pueblo honesto."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · provisiones"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anfalas",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 612
+    }
+   }
+  },
+  {
+   "id": "AF-15",
+   "kind": "place",
+   "region_ids": [
+    13
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo del único puente"
+   },
+   "type": {
+    "en": null,
+    "es": "ciudad"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "trade",
+    "rest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "el único cruce del Lefnui en leguas — todo pasa por aquí"
+   },
+   "presence": {
+    "en": null,
+    "es": "El pueblo principal de Pinnath Gelin, en la punta de una lengua de tierra donde un arroyo del Ram Galen se une al Lefnui.\nSu gente mantiene el único puente del Lefnui en la región: el peaje natural del tráfico entero.\nPueblo modesto y ordenado, sin muralla — el interior de Gondor está en paz — con la casa grande del lugarteniente del Cáno junto a la plaza que baja al muelle fluvial."
+   },
+   "lore": {
+    "en": null,
+    "es": "Quien cruza el Lefnui cruza por Annulond o da un rodeo de días.\nLa casa del Knight of Annulond vigila las granjas de los feudatarios desde afuera del pueblo."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada del Puente"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una posadera que tiene trato con el encargado del puente — sabe quién cruza, con qué y hacia dónde"
+    }
+   },
+   "interactive": [
+    {
+     "id": "af15_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Posada del Puente",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Trucha del Lefnui, pan de granja y una cama con vistas al agua. La posadera pregunta por el camino con la precisión de quien cobra peaje."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo · noticias del cruce"
+         }
+        }
+       }
+      },
+      {
+       "id": "preguntar por el puente y el paso",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Estado del puente, estado del agua, quién cruzó esta semana. Datos de peaje: útiles y exactos."
+         },
+         "effects": {
+          "en": null,
+          "es": "noticias del camino"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anfalas",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 539
+    }
+   }
+  },
+  {
+   "id": "AF-16",
+   "kind": "place",
+   "region_ids": [
+    13
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo de la feria de lana"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "trade",
+    "rest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "techo de feria en primavera; el círculo de piedras es de los otros"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo pequeño junto a un afluente del Morthond, en el Pinnath Gelin oriental.\nDebe su nombre — 'Círculo de Piedras' — a un monumento en la colina cercana: un obelisco negro rodeado de doce menhires grises, de origen desconocido.\nEn primavera es el punto de reunión invernal de los rebaños del Mesta: los esquiladores llenan cada casa y la feria de lana se arma fuera del pueblo."
+   },
+   "lore": {
+    "en": null,
+    "es": "Los vecinos evitan el círculo; alguna oveja extraviada entra de vez en cuando y siempre sale.\nEl comercio de lana manda en la vida del pueblo: en temporada de esquila no hay cama libre."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "El Descanso de los Esquiladores"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un posadero que en primavera alquila hasta el pajar — el resto del año, tranquilo"
+    }
+   },
+   "secret": {
+    "en": null,
+    "es": "Nadie sabe quién levantó el obelisco ni los doce menhires. Los abuelos dicen que es más viejo que Gondor; nadie lo toca para comprobarlo."
+   },
+   "interactive": [
+    {
+     "id": "af16_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir cama en el Descanso de los Esquiladores",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Si es temporada, el pajar. Si no, una cama de verdad. Cordero, queso de oveja y conversación de vellones y pastos."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "subir a ver el círculo de piedras",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "El obelisco negro y los doce grises, quietos desde antes que nadie recuerde. Los lugareños no suben. La vista del valle desde arriba es hermosa y el silencio, raro."
+         },
+         "effects": {
+          "en": null,
+          "es": "abre el secreto"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anfalas",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 979
+    }
+   }
+  },
+  {
+   "id": "AF-17",
+   "kind": "place",
+   "region_ids": [
+    13
+   ],
+   "name": {
+    "en": null,
+    "es": "La torre de luz de los elfos"
+   },
+   "type": {
+    "en": null,
+    "es": "torre élfica"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "sacred"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "un fuego lejano primero, una bienvenida escasa después"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una torre élfica en la orilla oeste de Lond Cobas, fundada por Celeborn como puesto de Edhellond.\nSe alza sobre una colina alta y sirve de faro: se comunica con Tirith Aear, en Dol Amroth, al otro lado del agua, por señales de luz.\nQuien viene por mar ve la luz mucho antes que la torre. No es una posada ni lo pretende: es un lugar de encuentro y retiro de los linajes de Edhellond."
+   },
+   "lore": {
+    "en": null,
+    "es": "Los elfos de Edhellond usan la torre para reunirse y alejarse del mundo a la vez.\nLa bienvenida, cuando llega, es quieta: pan, miel, agua clara y un sitio donde el viento no da."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "los guardianes de la torre — gente de Edhellond que recibe al viajero de paz sin preguntar demasiado"
+    }
+   },
+   "secret": {
+    "en": null,
+    "es": "Las señales de luz entre Tirith Cobas y Tirith Aear no sólo guían barcos: los dos puestos se cuentan todo lo que ve el mar."
+   },
+   "interactive": [
+    {
+     "id": "af17_guest_welcome",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "aceptar el pan, la miel y el suelo de piedra",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pan con miel, agua fría, un rincón donde el viento no entra y estrellas por la ventana. Nadie habla mucho; la hospitalidad élfica no necesita hablar."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo condicional"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino con la luz a la espalda",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "La torre queda a su espalda, marcándole el rumbo un buen trecho más."
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo · guía"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anfalas",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 981
+    }
+   }
+  },
+  {
+   "id": "AF-18",
+   "kind": "place",
+   "region_ids": [
+    13
+   ],
+   "name": {
+    "en": null,
+    "es": "La hacienda de los Bannor"
+   },
+   "type": {
+    "en": null,
+    "es": "solar"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "food",
+    "rest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "hospitalidad de hacendado fronterizo"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una hacienda libre en el Condado de Nan Lefnui, sobre el bajo Lefnui.\nPertenece a la familia Bannor, que cultiva los campos y pastos de este rincón remoto de la frontera oeste de Gondor.\nCasa solariega de piedra sólida con patio pequeño y establo: una granja grande, no un castillo."
+   },
+   "lore": {
+    "en": null,
+    "es": "Freehold: la familia responde a Gondor pero la tierra es suya.\nEn la frontera oeste la hospitalidad es deber y costumbre a la vez — una mesa más no arruina a nadie."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "los Bannor — hacendados de frontera que ponen un plato más como quien pone una silla más"
+    }
+   },
+   "interactive": [
+    {
+     "id": "af18_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "aceptar la mesa de los Bannor",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Comida de hacienda: carne de la casa, pan, queso, lo que el huerto dio. Un catre en la sala y conversación de cosechas y de frontera."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anfalas",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 481
+    }
+   }
+  },
+  {
+   "id": "AF-19",
+   "kind": "place",
+   "region_ids": [
+    13
+   ],
+   "name": {
+    "en": null,
+    "es": "La casa del Cáno"
+   },
+   "type": {
+    "en": null,
+    "es": "solar"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "social"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "la sede de la provincia: audiencia, no posada"
+   },
+   "presence": {
+    "en": null,
+    "es": "La sede señorial de Anfalas, hogar tradicional del gobernador provincial — el Cáno.\nUna casa de piedra con dependencias en posición defendible dominando la llanura costera; la servidumbre la mantiene como sede principal de la autoridad de Anfalas.\nAquí se cobra, se juzga y se despacha. La puerta existe para ser llamada."
+   },
+   "lore": {
+    "en": null,
+    "es": "El Cáno gobierna la provincia desde esta casa; es la autoridad que el viajero ve de lejos y rara vez de cerca.\nQuien trae asunto o credenciales entra; quien no, mira la piedra y sigue."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la casa del Cáno — recibirá al viajero con credenciales, asunto o noticias que valgan una audiencia"
+    }
+   },
+   "interactive": [
+    {
+     "id": "af19_audience",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir audiencia con un mensaje digno",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Si el mensaje vale, entra: vino de la casa, un oído oficial y quizá una cama de la servidumbre. Si no vale, un escriba lo registra y lo despide con corrección."
+         },
+         "effects": {
+          "en": null,
+          "es": "audiencia condicional · techo posible"
+         }
+        }
+       }
+      },
+      {
+       "id": "pasar sin llamar",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "El Cáno tiene asuntos mejores que un caminante. La piedra queda atrás."
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anfalas",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 559
+    }
+   }
+  },
+  {
+   "id": "AF-20",
+   "kind": "place",
+   "region_ids": [
+    13
+   ],
+   "name": {
+    "en": null,
+    "es": "La casa de los cerros"
+   },
+   "type": {
+    "en": null,
+    "es": "solar"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "rest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "hospitalidad tranquila de nobleza menor"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una casa solariega escondida en los cerros del norte de Anfalas, entre Umb Estelwain y Rond Rhandir, en el Condado de Agarinna.\nCasa de piedra con granjas anexas — una finca quieta y bien mantenida de una familia noble menor de Gondor que cuida sus tierras y se mantiene fuera de la política.\nEl silencio aquí no es pobreza: es elección."
+   },
+   "lore": {
+    "en": null,
+    "es": "Nobleza menor que sobrevive a los siglos cuidando lo suyo y no llamando la atención.\nLa mesa es modesta y la bienvenida, cortés: la de una casa que no necesita impresionar."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la familia de la casa — nobleza menor que hospeda con corrección y sin preguntas incómodas"
+    }
+   },
+   "interactive": [
+    {
+     "id": "af20_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "aceptar la hospitalidad de la casa",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cena de finca bien mantenida: lo que el campo dio, servido con cuidado. Un cuarto de huéspedes que huele a limpio. Nadie pregunta de dónde viene."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anfalas",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 438
+    }
+   }
+  },
+  {
+   "id": "AF-21",
+   "kind": "place",
+   "region_ids": [
+    13
+   ],
+   "name": {
+    "en": null,
+    "es": "La aldea de las hierbas"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "food"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "techo de granja entre huertos de hierbas"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea modesta de casas de piedra rodeada de jardines de hierbas y huertos.\nEl viajero que llega en primavera o verano percibe primero el olor: hierbas en flor y terrazas ordenadas que suben la ladera.\nLa vida es tranquila; la gente cultiva hierbas, olivos y grano."
+   },
+   "lore": {
+    "en": null,
+    "es": "Los jardines de hierbas de la aldea son su economía entera: secan, atan y venden.\nPueblo de trabajo paciente, hecho a imagen de lo que cultiva."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "una herbolaria con un desván de secado — ofrece catre bajo los manojos colgados a quien la ayuda con la mano de obra"
+    }
+   },
+   "interactive": [
+    {
+     "id": "af21_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en el desván de las hierbas",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Un catre entre manojos de salvia y tomillo colgados: dormir aquí es oler el verano entero con los ojos cerrados. Cena de huerto."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "comprar hierbas y provisiones",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Atados de hierbas secas, aceitunas, pan de la aldea. La herbolaria explica para qué sirve cada cosa si se le pregunta."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · provisiones"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anfalas",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1097
+    }
+   }
+  },
+  {
+   "id": "AF-22",
+   "kind": "place",
+   "region_ids": [
+    13
+   ],
+   "name": {
+    "en": null,
+    "es": "La aldea del grano y la madera"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "work",
+    "food"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "techo de granjero tras la esquila o antes de la tala"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea en la cara norte del Ram Galen: unas cincuenta familias, trescientas personas.\nGranjeros — feudatarios, arrendatarios o pequeños propietarios — que crían grano y heno.\nCasas de piedra de una planta y uno o dos cuartos; sólo la casa del noble local tiene dos pisos.\nEn invierno los hombres suben al bosque a cortar y bajan los troncos flotando hacia los molinos del Morthond."
+   },
+   "lore": {
+    "en": null,
+    "es": "La feria del pueblo se hace fuera, después de la esquila.\nEl trabajo marca el año: siembra, heno, esquila, tala de invierno."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la casa del noble menor — un cuarto de arriba para el viajero, el único segundo piso de la aldea"
+    }
+   },
+   "interactive": [
+    {
+     "id": "af22_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir el cuarto de arriba de la casa noble",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "El único segundo piso del pueblo, sobre la única sala con chimenea. Comida de granja y una ventana que da al Ram Galen entero."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anfalas",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 978
+    }
+   }
+  },
+  {
+   "id": "AF-23",
+   "kind": "place",
+   "region_ids": [
+    13
+   ],
+   "name": {
+    "en": null,
+    "es": "La escala del paso"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "rest",
+    "trade"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "el último cruce fácil antes de las montañas — vive de los viajeros"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea pequeña en la orilla este del Lefnui, donde el río se junta con el Rámanen.\nEs la escala de los viajeros que buscan cruzar las Montañas Blancas por el Cirith Iaur, a unas cuarenta millas al noroeste.\nUn ferry hace aquí el último cruce fácil antes de que el río se estreche en país de botes de fondo plano.\nCasas de piedra y madera agrupadas alrededor del embarcadero; la gente vive de guiar viajeros y trabajar el río."
+   },
+   "lore": {
+    "en": null,
+    "es": "Todo en la aldea apunta al paso: guías, mulas, provisiones de montaña.\nQuien pasa aquí sin prepararse para el Cirith Iaur es porque no le preguntó a nadie."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Casa del Barquero"
+    },
+    "keeper": {
+     "en": null,
+     "es": "el barquero y su familia — hospedan, guían y venden lo que el paso exige"
+    }
+   },
+   "interactive": [
+    {
+     "id": "af23_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Casa del Barquero",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pescado del río y cama de escala. El barquero le dice en qué estado está el Cirith Iaur y qué no puede faltarle arriba."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo · noticias del paso"
+         }
+        }
+       }
+      },
+      {
+       "id": "contratar guía o comprar provisiones de montaña",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Queso duro, carne seca, un hombre que conoce el paso si lo necesita. Los precios suben donde el río se acaba."
+         },
+         "effects": {
+          "en": null,
+          "es": "provisiones · guía"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anfalas",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 508
+    }
+   }
+  },
+  {
+   "id": "DU-12",
+   "kind": "place",
+   "region_ids": [
+    72
+   ],
+   "name": {
+    "en": null,
+    "es": "La aldea de los curanderos"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea de clan"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "rest",
+    "social"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "la puerta más abierta de Dunland: curan a cualquiera que llegue"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea dunnish en las colinas de Enedhwaith, punto de encuentro de las familias dispersas del Clan Eogbann.\nSu edificio más notable es la Casa de los Curanderos: una longhouse de madera donde los sanadores del clan practican su oficio, al servicio de cualquiera de la región que haga el viaje.\nLa aldea es pequeña y autocontenida; las longhouses forman un círculo rústico alrededor de un fogón común."
+   },
+   "lore": {
+    "en": null,
+    "es": "La Casa de los Curanderos atiende a todos los clanes — es lo más parecido a neutral que existe en Dunland.\nAquí la hospitalidad no se compra con hierro ni con noticias: se paga dejándose curar, y a veces con la historia de cómo llegó uno a necesitarlos."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "los curanderos de la Casa — reciben, alimentan y examinan al viajero como parte del mismo gesto"
+    }
+   },
+   "interactive": [
+    {
+     "id": "du12_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "aceptar un banco en la Casa de los Curanderos",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Un banco junto al fogón, olla común y manos que revisan sus rozaduras sin preguntar permiso. El precio lo pone la curandera mayor: la historia entera de cómo llegó hasta aquí."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo · cura"
+         }
+        }
+       }
+      },
+      {
+       "id": "pedir sólo ungüento y seguir",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Le dan el ungüento, le miran las manos de todos modos, y le dejan ir con un gesto que no es del todo despedida."
+         },
+         "effects": {
+          "en": null,
+          "es": "cura menor"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dunland",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1099
+    }
+   }
+  },
+  {
+   "id": "DU-13",
+   "kind": "place",
+   "region_ids": [
+    72
+   ],
+   "name": {
+    "en": null,
+    "es": "El fuego antiguo"
+   },
+   "type": {
+    "en": null,
+    "es": "fortaleza de clan"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "social",
+    "conflict"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "hospitalidad de clan-hold: el jefe juzga, el conjurador mira"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un clan-hold dunnish en Dunfearn, cerca de las Montañas Nubladas — su nombre significa 'Fuego Antiguo'.\nAldea rústica de las tierras altas: longhouses de madera y corrales de ganado, gobernada por el jefe Menu con el consejo del conjurador local Selyf Hen.\nLas mañanas frías el humo de los fuegos cuelga bajo en el valle."
+   },
+   "lore": {
+    "en": null,
+    "es": "El jefe decide; el conjurador aconseja qué decide.\nAquí un extraño no compra una cama: pide permiso para calentarse, y la respuesta depende de lo que el fuego diga de él."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "el jefe Menu y el conjurador Selyf Hen — el permiso para quedarse sale de los dos"
+    }
+   },
+   "interactive": [
+    {
+     "id": "du13_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir un lugar junto al fuego de turba",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "El jefe lo escucha a la puerta de la longhouse antes de decidir nada. Si la respuesta es sí: cordero, cuajada y un lugar junto al fuego de turba, a cambio de noticias rectas del camino del este y de si se han contado jinetes en él."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo condicional · intercambio"
+         }
+        }
+       }
+      },
+      {
+       "id": "ofrecer hierro trabajado por pan y guía",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Un cuchillo o una punta de lanza compran pan, un guía por el hombro de las colinas y silencio sobre lo que él no quiere contar."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · guía · intercambio"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "La decisión más simple y la que el clan prefiere de los que no demuestran nada."
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dunland",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1108
+    }
+   }
+  },
+  {
+   "id": "DU-14",
+   "kind": "place",
+   "region_ids": [
+    72
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo del toro de piedra"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo-templo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "sacred",
+    "conflict"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "refugio bajo vigilancia, a la sombra de un templo"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea dunlending en Dunfearn que creció alrededor de un antiguo Templo de Justicia, levantado hacia el año 1200.\nEl templo original — una gran cabeza de toro de piedra de sesenta pies — es ahora el corazón del pueblo, hogar de la tribu Draig-lûth, descendientes de sus primeros fieles. Aún llevan al Dragón Turukulon por emblema.\nCasas de madera rústicas alrededor de la piedra vieja; guardias de túnicas blancas con hachas de hoja ancha vigilan la entrada."
+   },
+   "lore": {
+    "en": null,
+    "es": "La tribu desciende de los servidores del templo y no lo ha olvidado: el Dragón sigue siendo su signo y su ley.\nAquí el viajero no es bienvenido ni rechazado: es observado. Todo lo que se le da se le cobra en conducta."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "los guardianes de túnicas blancas — deciden quién duerme dentro del círculo y quién duerme fuera"
+    }
+   },
+   "secret": {
+    "en": null,
+    "es": "El toro de piedra no es sólo un templo viejo: la jerarquía oscura que lo levantó sigue teniendo mano en lo que la tribu decide."
+   },
+   "interactive": [
+    {
+     "id": "du14_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "aceptar el refugio del círculo exterior",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Le permiten dormir bajo techo en el borde del pueblo, comida de la olla común y silencio vigilante. Los guardias de blanco cuentan sus pasos mientras camina."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo condicional · vigilancia"
+         }
+        }
+       }
+      },
+      {
+       "id": "mostrar respeto ante el toro de piedra",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "El gesto correcto, sea cual sea, relaja los hombros de los guardias un dedo. Lo que sea que esa piedra signifique para ellos, él acaba de dar un paso dentro de su territorio."
+         },
+         "effects": {
+          "en": null,
+          "es": "respeto ganado · abre el secreto"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Los ojos de los guardias lo acompañan hasta que la aldea queda atrás."
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dunland",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1106
+    }
+   }
+  },
+  {
+   "id": "DU-15",
+   "kind": "place",
+   "region_ids": [
+    72
+   ],
+   "name": {
+    "en": null,
+    "es": "El campamento de los Rangers entre las piedras"
+   },
+   "type": {
+    "en": null,
+    "es": "ruina habitada"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "rest",
+    "danger"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "el fuego de un Ranger, si hueles a neutro"
+   },
+   "presence": {
+    "en": null,
+    "es": "En el Coit Cerdd, en la frontera de Dunfearn, quedan las ruinas de una vieja atalaya gondoriana llamada Harndirion — 'Atalaya del Sur'.\nLos Rangers del Norte mantienen un campamento semipermanente entre las piedras antiguas.\nLos dunlendings del lugar la llaman Craig-y-Din, 'la Roca del Castillo', y le dan un rodeo ancho."
+   },
+   "lore": {
+    "en": null,
+    "es": "Los locales la evitan; los Rangers la usan. Ambos por la misma razón: es el mejor punto de vigilancia en leguas.\nEl fuego de un Ranger se comparte con quien no huele ni a espía ni a enemigo."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "los Rangers de guardia — comparten su fuego con quien demuestra neutralidad"
+    }
+   },
+   "interactive": [
+    {
+     "id": "du15_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "acercarse al fuego de los Rangers",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Lo leen antes de que llegue: las botas, el petate, la manera de caminar. Si huele a neutro — carne seca, un sitio junto al fuego y preguntas cortas y exactas."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo condicional"
+         }
+        }
+       }
+      },
+      {
+       "id": "pasar de largo como hacen los del lugar",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Es lo que hace todo el mundo por aquí. Quien esté acampado arriba ya lo vio venir de todos modos."
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dunland",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1105
+    }
+   }
+  },
+  {
+   "id": "DU-16",
+   "kind": "place",
+   "region_ids": [
+    72
+   ],
+   "name": {
+    "en": null,
+    "es": "El peaje oscuro"
+   },
+   "type": {
+    "en": null,
+    "es": "ruina"
+   },
+   "priority": 0,
+   "tags": [
+    "danger",
+    "sacred",
+    "landscape"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "hueco entre piedras si hay campamento; sólo un lugar siniestro si no lo hay"
+   },
+   "presence": {
+    "en": null,
+    "es": "Echad Dagoras, 'el Campamento de Dagoras': una vieja ruina élfica al sur de Eregion, a unas sesenta millas al sureste de Ost-in-Edhil.\nLos Rangers del Norte la usan como campamento temporario; los dunlendings la llaman Dinas Yddryst o Dol Du, 'el peaje oscuro', y la rehúyen.\nUnos pocos muros rotos y cimientos entre la maleza — la atmósfera es inquietante."
+   },
+   "lore": {
+    "en": null,
+    "es": "Fue élfica antes de ser ruina y los dunlendings lo saben sin saber cómo lo saben.\nCuando los Rangers están, hay fuego y compañía; cuando no, son sólo piedras que pesan."
+   },
+   "secret": {
+    "en": null,
+    "es": "El nombre de peaje no es casual: los ancianos dicen que algo se cobraba aquí antes de que hubiera camino."
+   },
+   "interactive": [
+    {
+     "id": "du16_camp_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "acampar entre las piedras",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Si hay Rangers, su fuego y sus reglas. Si no, un muro a la espalda, el viento de Eregion y un sueño que se interrumpe solo."
+         },
+         "effects": {
+          "en": null,
+          "es": "descanso menor · techo precario · inquietud"
+         }
+        }
+       }
+      },
+      {
+       "id": "pasar de largo",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Lo que hacen los dunlendings, que llevan generaciones sabiendo cosas de este lugar."
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo · seguridad"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dunland",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1104
+    }
+   }
+  },
+  {
+   "id": "DU-17",
+   "kind": "place",
+   "region_ids": [
+    72
+   ],
+   "name": {
+    "en": null,
+    "es": "La colina entre los huecos"
+   },
+   "type": {
+    "en": null,
+    "es": "ruina"
+   },
+   "priority": 0,
+   "tags": [
+    "danger",
+    "landscape",
+    "rest"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "un campamento ocasional entre piedras sobre la Greenway"
+   },
+   "presence": {
+    "en": null,
+    "es": "Lo que fue la fortaleza dúnadan de Amon Mîn, 'la Colina entre los Huecos': un puesto de vigilancia que dominaba la Greenway en Dor Wathui.\nAbandonada hace mucho; los Rangers del Norte la mantuvieron un tiempo tras la caída de Arnor y al fin la dejaron decaer.\nLos dunlendings llaman a las ruinas Dinas Gwydd; un pequeño campamento de Rangers se refugia aquí de vez en cuando."
+   },
+   "lore": {
+    "en": null,
+    "es": "La atalaya veía la Greenway entera; ahora ve pasar los días.\nCuando hay Rangers, hay fuego; cuando no, quedan las piedras y la mejor vista del camino que hay."
+   },
+   "interactive": [
+    {
+     "id": "du17_camp_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "refugiarse entre los muros",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Un muro que corta el viento y la vista de la Greenway completa. Si hay campamento, comparte el fuego; si no, la vigilia la hace él solo."
+         },
+         "effects": {
+          "en": null,
+          "es": "descanso menor · techo precario"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dunland",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1103
+    }
+   }
+  },
+  {
+   "id": "DU-18",
+   "kind": "place",
+   "region_ids": [
+    72
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo que los dunlendings no pisan"
+   },
+   "type": {
+    "en": null,
+    "es": "ruina maldita"
+   },
+   "priority": 0,
+   "tags": [
+    "danger",
+    "sacred",
+    "landscape"
+   ],
+   "traveller_use": {
+    "en": null,
+    "es": "shelter técnico entre ruinas que todos evitan — cuesta dormir"
+   },
+   "presence": {
+    "en": null,
+    "es": "Ost-Dunhoth fue una villa de unos tres mil doscientos en Enedhwaith. Hacia 1400 su población se había vaciado por completo.\nLo que queda es un campo de ruinas cubiertas de hierba: muros rotos de piedra vieja medio enterrados entre el matorral, sin habitantes permanentes.\nLos dunlendings del lugar dicen que está maldita y no construyen aquí."
+   },
+   "lore": {
+    "en": null,
+    "es": "Nadie reconstruyó, nadie repobló, nadie explica.\nLos muros dan sombra y cortan el viento; el sueño que dan es otra cosa."
+   },
+   "secret": {
+    "en": null,
+    "es": "La maldición la cuentan los vecinos como quien repite una advertencia, no un cuento. Nadie dice qué pasó; todos actúan como si no hiciera falta."
+   },
+   "interactive": [
+    {
+     "id": "du18_camp_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "acampar entre los muros rotos",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Las piedras cortan el viento y no hay nadie que lo moleste: esas dos cosas son todo lo que el lugar ofrece. Duerme mal y se despierta antes del alba sin saber por qué."
+         },
+         "effects": {
+          "en": null,
+          "es": "descanso menor · inquietud · techo precario"
+         }
+        }
+       }
+      },
+      {
+       "id": "pasar de largo como hacen todos",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Los dunlendings han elegido por él generación tras generación."
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo · seguridad"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dunland",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1109
+    }
+   }
   }
  ]
 }
