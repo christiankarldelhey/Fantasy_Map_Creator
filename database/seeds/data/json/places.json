@@ -65207,6 +65207,3415 @@
      "id": 1109
     }
    }
+  },
+  {
+   "id": "AO-10",
+   "kind": "place",
+   "region_ids": [
+    7
+   ],
+   "name": {
+    "en": null,
+    "es": "El valle de las rosas"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "food",
+    "rest",
+    "sacred"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "las salas de curación más famosas del sur de Gondor"
+   },
+   "presence": {
+    "en": null,
+    "es": "Imloth Melui, 'el valle de las flores dulces': un valle fértil de Lossarnach sembrado de caseríos, huertos y jardines de hierbas.\nEl viajero que lo cruza en primavera recibe primero el color y después la fragancia de las laderas en terrazas.\nEl asentamiento principal es Arnach, sede de Forlong el Gordo, señor de Lossarnach.\nLa Sala de la Mano Gentil y la Sala de la Dama Vanyalos son conocidas en todo el sur de Gondor por sus curanderos."
+   },
+   "lore": {
+    "en": null,
+    "es": "Las rosas del valle son fama; las hierbas, oficio.\nQuien llega herido a Lossarnach no busca posada: busca las dos salas, y las dos salas lo reciben."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "los curanderos de la Sala de la Mano Gentil y de la Sala de la Dama Vanyalos — reciben al enfermo como parte del oficio"
+    }
+   },
+   "interactive": [
+    {
+     "id": "ao10_healing_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir entrada en la Sala de la Mano Gentil",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Lo tienden entre hierbas colgadas y rosas en la ventana. Le revisan lo que le duele con manos pacientes y le dan cama, caldo y silencio. El precio es dejarse curar."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo · cura"
+         }
+        }
+       }
+      },
+      {
+       "id": "pedir sólo hierbas para el camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Un atado de lo que el valle da: para la fiebre, para el estómago, para el sueño. La curandera explica cada una sin apuro."
+         },
+         "effects": {
+          "en": null,
+          "es": "provisiones · cura menor"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anorien",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1056
+    }
+   }
+  },
+  {
+   "id": "AO-11",
+   "kind": "place",
+   "region_ids": [
+    7
+   ],
+   "name": {
+    "en": null,
+    "es": "La taberna del Riachuelo Alegre"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea de montaña"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "rest",
+    "trade"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "una noche de cuentos de montañeros en la Lonely Home"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea de montaña de no más de treinta y cinco casas en las estribaciones de las Montañas Azules, llamada Eruimar: 'el Hogar Solitario'.\nRemota pero visible de lejos; un Riachuelo Alegre la atraviesa.\nNació como puesto comercial dúnadan para tramperos y montañeros, y conserva ese carácter: la taberna puede llenar una noche entera con cuentos salvajes de las colinas."
+   },
+   "lore": {
+    "en": null,
+    "es": "El Hogar Solitario vive del trueque de la montaña: pieles, guías, cuentos.\nLa taberna es el centro de todo — en una aldea de treinta y cinco casas no hay competencia."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Taberna del Riachuelo Alegre"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un tabernero que no cree ni la mitad de lo que se cuenta en su sala y la cuenta igual"
+    }
+   },
+   "interactive": [
+    {
+     "id": "ao11_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pasar la noche en la taberna",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cama de montaña, cena de caza y un salón que no para de contar: huellas imposibles, luces en las cumbres, el trapero que volvió sin sombra. La mitad es mentira; nadie sabe cuál mitad."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo · cuentos"
+         }
+        }
+       }
+      },
+      {
+       "id": "comprar pieles o preguntar por los montes",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pieles buenas y advertencias mejores: qué ladera no se cruza de noche, qué arroyo baja bravo en deshielo."
+         },
+         "effects": {
+          "en": null,
+          "es": "provisiones · noticias de la montaña"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anorien",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1055
+    }
+   }
+  },
+  {
+   "id": "AO-12",
+   "kind": "place",
+   "region_ids": [
+    7
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo frente a la fortaleza"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo de guarnición"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "rest",
+    "military"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "la escala del ferry de Cair Andros"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo de Anórien en el Anduin, frente a la isla-fortaleza de Cair Andros.\nLa posición lo hace escala natural de soldados, mensajeros y provisiones que cruzan hacia la fortaleza: el campamento de guarnición y el embarcadero dominan la orilla.\nCasas de piedra y barracones de madera a lo largo del camino que baja al ferry."
+   },
+   "lore": {
+    "en": null,
+    "es": "Todo el pueblo gira alrededor de lo que cruza el río.\nLa cantina del vado cobra en moneda y paga en rumores de frontera."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Cantina del Vado"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una cantinera que da de comer a la guarnición hace años — sabe lo que pasa en Cair Andros antes que los oficiales"
+    }
+   },
+   "interactive": [
+    {
+     "id": "ao12_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "comer y dormir en la Cantina del Vado",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Estofado de rancho, cerveza de campamento y una cama entre soldados que cruzan mañana. Las noticias de la orilla de enfrente vienen solas con la segunda jarra."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo · noticias de frontera"
+         }
+        }
+       }
+      },
+      {
+       "id": "preguntar por el ferry",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Horarios, corriente, y quién tiene permiso para cruzar a la isla — dato que no sobra."
+         },
+         "effects": {
+          "en": null,
+          "es": "noticias del camino"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anorien",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1120
+    }
+   }
+  },
+  {
+   "id": "AO-13",
+   "kind": "place",
+   "region_ids": [
+    7
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo del ferry del Caranthôn"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "posada de orilla entre soldados y mercaderes"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo de Anórien en la orilla oeste del Anduin, al norte de Cair Andros, sede de la familia noble Caranthôn.\nLas casas de piedra miran al gran río; el embarcadero del ferry ve pasar soldados y mercaderes con regularidad.\nEl salón de los Caranthôn es el edificio más grande del lugar."
+   },
+   "lore": {
+    "en": null,
+    "es": "El ferry mantiene el pueblo vivo: donde cruza la gente, se come y se duerme.\nLos Caranthôn miran el tráfico desde su salón como quien mira su renta."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Casa del Ferry"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un posadero que atiende por igual al mercader que baja y al soldado que sube"
+    }
+   },
+   "interactive": [
+    {
+     "id": "ao13_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Casa del Ferry",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pescado del Anduin, pan y una cama que da al río. La sala mezcla mercaderes con soldados sin que nadie lo note como raro."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anorien",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 586
+    }
+   }
+  },
+  {
+   "id": "AO-14",
+   "kind": "place",
+   "region_ids": [
+    7
+   ],
+   "name": {
+    "en": null,
+    "es": "La villa del oeste"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "trade",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "mercado pequeño y orden provincial"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo pequeño o aldea grande del centro de Anórien — 'asentamiento del oeste' en Sindarin — sede del condado y solar ancestral de la familia que le da nombre.\nCasas de piedra, un solar y un mercado pequeño: el asentamiento provincial ordenado de manual."
+   },
+   "lore": {
+    "en": null,
+    "es": "Pueblo de condado: el mercado ordena la semana y el solar ordena el resto.\nNada aquí sorprende; todo funciona."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Fonda del Oeste"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un fondista que lleva la casa desde que su padre la llevaba"
+    }
+   },
+   "interactive": [
+    {
+     "id": "ao14_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Fonda del Oeste",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Mesa de mercado, cama limpia, factura exacta. La provincia profunda en su forma más honesta."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anorien",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 634
+    }
+   }
+  },
+  {
+   "id": "AO-15",
+   "kind": "place",
+   "region_ids": [
+    7
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo al borde del bosque que mira"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "forest",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "último techo antes de los árboles del Drúadan"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo gondoriano pequeño de Anórien en las faldas nororientales del Bosque Drúadan — capital y sede de la Casa Elenion, los barones locales.\nCasas de piedra con tejados de teja a lo largo del camino; el bosque está justo tras el lindero, al sur.\nLos Woses del bosque nunca se ven en el pueblo, pero su presencia se siente siempre."
+   },
+   "lore": {
+    "en": null,
+    "es": "El lindero no es una línea: es un acuerdo. El pueblo no entra al bosque; el bosque no sale al pueblo.\nLos barones de la Casa Elenion llevan generaciones sosteniendo esa paz que nadie firmó."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada del Lindero"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un posadero que no comenta los tambores que a veces se oyen de noche en el bosque"
+    }
+   },
+   "secret": {
+    "en": null,
+    "es": "Los Woses miran. Los viejos dejan a veces ofrendas en el lindero y lo llaman 'costumbre', nunca 'precio'."
+   },
+   "interactive": [
+    {
+     "id": "ao15_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Posada del Lindero",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cama, cena y una advertencia gratis: no seguir los senderos que entran al bosque, ninguno, ni el más claro. Nadie explica la regla; todos la cumplen."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo · advertencia"
+         }
+        }
+       }
+      },
+      {
+       "id": "preguntar por los tambores del bosque",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "El posadero mira al lindero un momento y cambia de tema. La respuesta está en lo que no dice."
+         },
+         "effects": {
+          "en": null,
+          "es": "abre el secreto"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anorien",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 444
+    }
+   }
+  },
+  {
+   "id": "AO-16",
+   "kind": "place",
+   "region_ids": [
+    7
+   ],
+   "name": {
+    "en": null,
+    "es": "El solar de los Astorion"
+   },
+   "type": {
+    "en": null,
+    "es": "solar"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "social"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "hospitalidad de casa noble antigua"
+   },
+   "presence": {
+    "en": null,
+    "es": "El solar ancestral de la Casa Astorion, familia noble gondoriana de Anórien, en las afueras de las Bocas del Entwash, al norte de Min-Rimmon.\nUna casa de campo de piedra sólida rodeada de granjas y pastos extensos.\nLos Astorion tienen estas tierras desde los primeros años de la Tercera Edad; su salón se alza como un hito quieto sobre la llanura verde."
+   },
+   "lore": {
+    "en": null,
+    "es": "Familia de las que llevan el peso de los siglos sin llamarlo peso.\nLa mesa de un solar así se abre al viajero presentable: es deber de la casa, no negocio."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la Casa Astorion — hospitalidad de nobleza antigua para el que llega con modales"
+    }
+   },
+   "interactive": [
+    {
+     "id": "ao16_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "aceptar la mesa de la casa",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cena de casa noble de campo: carne de la finca, vino guardado, conversación que sabe medir. Un cuarto de huéspedes como deben ser."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anorien",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1119
+    }
+   }
+  },
+  {
+   "id": "AO-17",
+   "kind": "place",
+   "region_ids": [
+    7
+   ],
+   "name": {
+    "en": null,
+    "es": "La casa que fue de los Astorion"
+   },
+   "type": {
+    "en": null,
+    "es": "solar en declive"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "landscape"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "una casa grande que ya no da lo que daba"
+   },
+   "presence": {
+    "en": null,
+    "es": "Bâr Astorion fue el hogar de la Casa Astorion, en las afueras de las Bocas del Entwash, al norte de Min-Rimmon, donde la familia tenía tierras extensas.\n'Fue' es la palabra importante: la casa sigue en pie pero el centro de la familia está en otra parte.\nEl viajero encuentra una finca noble en escala mayor que su presente."
+   },
+   "lore": {
+    "en": null,
+    "es": "Las casas también envejecen: esta lleva el aire de un lugar que fue sede y ahora es propiedad.\nLo que queda de servidumbre mantiene la piedra; el alma se fue con los señores."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "los pocos que quedan al cuidado — un fuego modesto para un viajero, si se les pide bien"
+    }
+   },
+   "interactive": [
+    {
+     "id": "ao17_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir un rincón a los que cuidan la casa",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Lo dejan dormir en una dependencia que fue de criados. Comida de despensa de finca. La casa grande al lado está apagada y se nota."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso menor · techo precario"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Anorien",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 469
+    }
+   }
+  },
+  {
+   "id": "DE-24",
+   "kind": "place",
+   "region_ids": [
+    20
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo del puerto de sal"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo portuario"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "trade",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "taberna de puerto entre pescadores y cabotaje"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo-puerto del sureste de Belfalas y capital del Condado de Eregost.\nLos muelles de piedra miran a la Bahía de Belfalas abierta; barcos de pesca y pequeños mercantes mantienen el puerto movido.\nCasas encaladas con tejados de teja; el olor a sal y a brea es constante."
+   },
+   "lore": {
+    "en": null,
+    "es": "Capital de condado: el puerto paga los impuestos y la pesca paga el resto.\nDonde atracan barcos, la taberna del muelle es la primera casa útil del mapa."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Taberna del Puerto"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un viejo contramaestre reconvertido — cobra en moneda y pregunta en idioma de mar"
+    }
+   },
+   "interactive": [
+    {
+     "id": "de24_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Taberna del Puerto",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pescado del día, pan, vino y una cama que huele a lonja. Los de la mesa de al lado hablan de corrientes y de lo que vieron los mercantes que subieron de la bahía."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "preguntar por el mar y los cabotajes",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Qué barcos entraron, qué trajeron, y si corren noticias de los corsarios por la bahía — la pregunta que todos hacen primero."
+         },
+         "effects": {
+          "en": null,
+          "es": "noticias del mar"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dor-en-Emyl",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1047
+    }
+   }
+  },
+  {
+   "id": "DE-25",
+   "kind": "place",
+   "region_ids": [
+    20
+   ],
+   "name": {
+    "en": null,
+    "es": "La parada del camino de la costa"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "trade",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "posada a mitad del camino costero entre Ráma y Endil"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo de Belfalas en el camino de la costa, más o menos a mitad entre Ráma y Endil — capital del condado que lleva su nombre.\nCasas de piedra, barcos de pesca y pequeños mercantes: el camino de la costa lo mantiene conectado a la economía del cabo.\nLugar de paso honrado: ni puerto grande ni aldea dormida."
+   },
+   "lore": {
+    "en": null,
+    "es": "Suerte geográfica: estar justo donde el viajero de la costa necesita parar.\nEl pueblo lo sabe y la posada lo cobra, con corrección gondoriana."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada de la Costa"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una posadera que mide la semana por los carros que paran, no por los días"
+    }
+   },
+   "interactive": [
+    {
+     "id": "de25_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "parar en la Posada de la Costa",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pescado, pan, cama y la certeza de que a mitad de camino se para siempre aquí. La posadera cuenta quién pasó esta semana y hacia dónde."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dor-en-Emyl",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1050
+    }
+   }
+  },
+  {
+   "id": "DE-26",
+   "kind": "place",
+   "region_ids": [
+    20
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo del cisne"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "trade",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "posada a la sombra de Dol Amroth"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo pequeño del oeste de Belfalas, a tiro de la gran sede de Dol Amroth y dentro del mismo Grithion.\nLas casas de piedra y el puerto pequeño miran a la Bahía de Belfalas; el pueblo vive de la pesca y del comercio con la corte del Príncipe, que está ahí nomás.\nSe nota la vecindad: las cosas están un poco mejor cuidadas que en un pueblo de su tamaño."
+   },
+   "lore": {
+    "en": null,
+    "es": "Vivir al lado de Dol Amroth es vivir un poco a préstamo: la corte da trabajo, noticias y un barniz.\nEl emblema del cisne del Príncipe aparece hasta en la herrería del pueblo."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada del Cisne"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un posadero orgulloso de servir a quienes sirven a la corte — guarda un barril aparte 'para cuando bajan los de arriba'"
+    }
+   },
+   "interactive": [
+    {
+     "id": "de26_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Posada del Cisne",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pescado de la bahía, pan y —si hay suerte— el barril bueno. El posadero cuenta de la corte como si trabajara en ella, que a su manera es verdad."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "preguntar por Dol Amroth",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Quién subió a la corte esta semana, qué se mueve en el puerto grande y si el Príncipe anda por la provincia."
+         },
+         "effects": {
+          "en": null,
+          "es": "noticias"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dor-en-Emyl",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1052
+    }
+   }
+  },
+  {
+   "id": "DE-27",
+   "kind": "place",
+   "region_ids": [
+    20
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo del valle en sombra"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "trade",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "mercado de las granjas dispersas de Lamedon"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo de Lamedon en el valle del río homónimo, bajo cerros empinados — el nombre, 'Dim', alude a la sombra que el valle recoge.\nPueblo de mercado modesto de casas de piedra con tejados de pizarra, que sirve a las granjas y pastos dispersos de las tierras altas de alrededor.\nAquí la luz se va antes que en la costa."
+   },
+   "lore": {
+    "en": null,
+    "es": "Las granjas de los altos bajan al mercado; el mercado es el pueblo.\nLa pizarra de los techos sale de los mismos cerros que dan la sombra."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada de la Sombra"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una posadera que prende el fuego temprano porque el valle enfría antes de lo que el cielo anuncia"
+    }
+   },
+   "interactive": [
+    {
+     "id": "de27_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Posada de la Sombra",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Fuego temprano, cena de pastor — cordero, queso, pan denso — y una cama antes de que el valle se apague. El frío de la noche queda afuera."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dor-en-Emyl",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1121
+    }
+   }
+  },
+  {
+   "id": "DE-28",
+   "kind": "place",
+   "region_ids": [
+    20
+   ],
+   "name": {
+    "en": null,
+    "es": "El único paso pavimentado del cabo"
+   },
+   "type": {
+    "en": null,
+    "es": "paso de montaña"
+   },
+   "priority": 0,
+   "tags": [
+    "landscape",
+    "military",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "la escala bajo la fortaleza de Naur Amrûn"
+   },
+   "presence": {
+    "en": null,
+    "es": "Cirith Dudhrandir es el único paso de montaña importante de la península de Belfalas y el único con camino pavimentado: vital para la defensa del sur de Gondor.\nA 5.800 pies y más de sesenta millas de este a oeste, lo guarda la fortaleza de Naur Amrûn.\nEl paso recibió su nombre en la Segunda Edad, cuando Edhelion de Eldalonde recibió Belfalas en feudo."
+   },
+   "lore": {
+    "en": null,
+    "es": "No hay pueblo: hay camino, piedra y la fortaleza que lo vigila.\nLa escala la hace la guarnición del Naur Amrûn — techo de piedra para quien la fortaleza deja pasar."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la guarnición de Naur Amrûn — fuego compartido y rancho para el que cruza con buena cara"
+    }
+   },
+   "interactive": [
+    {
+     "id": "de28_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir el rancho de la guarnición",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Los soldados lo miden y —si pasa la mirada— le dejan un sitio junto al fuego de la guardia: rancho, techo de piedra y las noticias de a quién detuvo el paso últimamente."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo condicional"
+         }
+        }
+       }
+      },
+      {
+       "id": "cruzar el paso de largo",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Sesenta millas de piedra pavimentada y la fortaleza mirándolo hasta que el camino baja."
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dor-en-Emyl",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 525
+    }
+   }
+  },
+  {
+   "id": "DE-29",
+   "kind": "place",
+   "region_ids": [
+    20
+   ],
+   "name": {
+    "en": null,
+    "es": "La aldea de los despojos antiguos"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "sacred",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "techo de aldea con ruinas de los Daen Coentis al norte"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea asentada durante la expansión númenóreana en Gondor, hacia el 2500 de la Segunda Edad.\nFue un sitio ritual dunnish importante en el centro de la península de Belfalas; las ruinas que datan de los Daen Coentis quedan justo al norte del pueblo.\nLas casas son de piedra y la vida es de aldea costera; los despojos no se comentan a la ligera."
+   },
+   "lore": {
+    "en": null,
+    "es": "Antes del pueblo hubo el sitio ritual; antes del sitio ritual, los Daen Coentis.\nLa aldea vive encima de capas que nadie nombra en la mesa."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "las familias de la aldea — un banco junto al fuego para el que no pregunta por las ruinas antes de cenar"
+    }
+   },
+   "secret": {
+    "en": null,
+    "es": "Los de la aldea no van a las ruinas del norte. Los niños lo aprenden antes de aprender a nadar."
+   },
+   "interactive": [
+    {
+     "id": "de29_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir un banco junto al fuego",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Olla común, pan, un banco y la conversación de aldea: peces, hijos, precios. De las ruinas se habla al final, si acaso, y en voz más baja."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "preguntar por las ruinas del norte",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Le cuentan lo que cuentan a los niños: que son viejas, que no son del pueblo, que no se va. Lo que no le cuentan pesa más."
+         },
+         "effects": {
+          "en": null,
+          "es": "abre el secreto"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dor-en-Emyl",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1053
+    }
+   }
+  },
+  {
+   "id": "DE-30",
+   "kind": "place",
+   "region_ids": [
+    20
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo del viento salado"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo costero"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "techo de pescador al extremo este de Belfalas"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo costero pequeño en el extremo oriental de Belfalas, en la parte oeste de la bahía Gilrain-Serni.\nLas casas de piedra de los pescadores miran al agua; la bahía da buen fondeo y pesca rica.\nUn asentamiento quieto, batido por el viento de sal, que depende del mar para todo."
+   },
+   "lore": {
+    "en": null,
+    "es": "El mar da y el mar cobra: el pueblo lo sabe en la mesa y en el cementerio.\nLa hospitalidad aquí es de pescadores: lo que hay se comparte porque mañana puede ser al revés."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "una viuda de pescador que da la mesa común — pescado y un rincón seco, a cambio de noticias de afuera"
+    }
+   },
+   "interactive": [
+    {
+     "id": "de30_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "aceptar la mesa de la viuda",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Sopa de pescado, pan, un rincón seco y una anciana que quiere saber del mundo: qué guerra, qué precio, qué camino."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dor-en-Emyl",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1049
+    }
+   }
+  },
+  {
+   "id": "DE-31",
+   "kind": "place",
+   "region_ids": [
+    20
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo del condado"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "trade",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "fonda y mercado menor del Condado de Eregost"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo gondoriano pequeño del sureste de Belfalas, dentro del Condado de Eregost.\nLas casas de piedra miran a los cerros del interior; sirve como centro administrativo menor y mercado para las granjas y pequeñas fincas de alrededor.\nPueblo de escritorio y mercado: ordenado, sin sal."
+   },
+   "lore": {
+    "en": null,
+    "es": "La administración menor también emplea: aquí se cobra, se mide y se anota.\nLa fonda es para los que vienen a las cuentas y se quedan a cenar."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Fonda del Condado"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un fondista que conoce a medio condado por las cuentas que vienen a hacer"
+    }
+   },
+   "interactive": [
+    {
+     "id": "de31_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Fonda del Condado",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Comida de mercado, cama y sobremesa de cuentas: quién debe, quién pagó, qué cosecha salió mala. La provincia en números."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dor-en-Emyl",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1046
+    }
+   }
+  },
+  {
+   "id": "DE-32",
+   "kind": "place",
+   "region_ids": [
+    20
+   ],
+   "name": {
+    "en": null,
+    "es": "La aldea del barón del Gilrain"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "techo de baronía pequeña entre granja y pesca"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea en el Condado de Gilrain, capital de la pequeña baronía que lleva su nombre.\nCasas de piedra y una plazuela de mercado junto al camino; las granjas de alrededor y la pesca en el afluente del Gilrain sostienen una población modesta.\nEl levante trae olor a mar; el poniente, a tierra labrada."
+   },
+   "lore": {
+    "en": null,
+    "es": "Baronía pequeña: el señor y el pescador se conocen de vista.\nLa mesa de la aldea mezcla grano y pescado en el mismo plato."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Casa del Barón"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una familia que hospeda por encargo de la baronía — corrección de Gondor a escala aldea"
+    }
+   },
+   "interactive": [
+    {
+     "id": "de32_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir techo en la Casa del Barón",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cena mitad granja mitad río, un cuarto limpio y la conversación de una baronía que es más familia que gobierno."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dor-en-Emyl",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1125
+    }
+   }
+  },
+  {
+   "id": "DE-33",
+   "kind": "place",
+   "region_ids": [
+    20
+   ],
+   "name": {
+    "en": null,
+    "es": "La parada de Ráma"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "trade",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "fonda de pueblo en la ruta de la costa"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo de la costa de Gondor cuyo carácter y economía responden a la geografía del lugar.\nCasas de piedra, gente del mar y del campo repartidas en la misma calle.\nDe los pueblos que un viajero reconoce sin que nadie se lo nombre: hay fonda, hay pozo, hay quien vende."
+   },
+   "lore": {
+    "en": null,
+    "es": "La ruta de la costa lo atraviesa y lo define.\nPueblo de paso: lo importante de Ráma es lo que va y lo que viene."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Fonda de Ráma"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una familia de fondistas que vio pasar tres generaciones de la misma ruta"
+    }
+   },
+   "interactive": [
+    {
+     "id": "de33_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Fonda de Ráma",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cama, pescado o guiso según el día, y el mapa de la ruta dibujado por quien lo transita todas las semanas."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dor-en-Emyl",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1051
+    }
+   }
+  },
+  {
+   "id": "DE-34",
+   "kind": "place",
+   "region_ids": [
+    20
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo entre las granjas"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "fonda modesta en tierra de granjas"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo de Gondor en tierra de granjas — modesto asentamiento de casas de piedra que sirve a las comunidades agrícolas de alrededor.\nLo que hay es lo que el campo pide: una calle, un pozo, una fonda, un sitio donde pesar el grano.\nLos días de mercado se llena; los otros, duerme."
+   },
+   "lore": {
+    "en": null,
+    "es": "Pueblo de servicio: existe porque las granjas de alrededor necesitaban un centro.\nLa fonda atiende con lo que la misma tierra da."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Fonda de Tumladen"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un matrimonio que cocina lo que los vecinos traen"
+    }
+   },
+   "interactive": [
+    {
+     "id": "de34_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Fonda de Tumladen",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Comida de la tierra alrededor: grano, verdura, queso. Una cama simple en un pueblo que se acuesta con las gallinas."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Dor-en-Emyl",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1122
+    }
+   }
+  },
+  {
+   "id": "LB-09",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "La ciudad del cruce del Erui"
+   },
+   "type": {
+    "en": null,
+    "es": "ciudad"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "trade",
+    "food",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "ciudad completa: posada, mercado, el cruce del Erui"
+   },
+   "presence": {
+    "en": null,
+    "es": "Minas Arthor, otrora capital de Arnach, en los cruces del Erui — aquí hay asentamiento desde las primeras crónicas.\nFundada al comienzo de la Tercera Edad, creció como centro de un distrito agrícola próspero.\nPiedra gondoriana, campos ricos y el río mandando en todo: el cruce es la razón de la ciudad."
+   },
+   "lore": {
+    "en": null,
+    "es": "La capitalidad se fue hace tiempo; la prosperidad agrícola se quedó.\nQuien cruza el Erui por Lebennin pasa por aquí."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada del Cruce del Erui"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una casa de posaderos que atiende el tráfico del cruce desde hace generaciones"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb09_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Posada del Cruce",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Mesa de ciudad de provincia rica: pan bueno, vino, carne del distrito. Cama de posada establecida y la lista de lo que cruza el Erui esta temporada."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "hacer mercado",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Un distrito agrícola próspero vende todo: grano, queso, fruta, carne. Precios de ciudad grande, selección idem."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · provisiones"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 466
+    }
+   }
+  },
+  {
+   "id": "LB-10",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "La ciudad del abedul plateado"
+   },
+   "type": {
+    "en": null,
+    "es": "ciudad"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "trade",
+    "food",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "capital de Celossien: posada y mercado del alto Serni"
+   },
+   "presence": {
+    "en": null,
+    "es": "Minas Brethil — 'Torre del Abedul Plateado' — capital de Celossien, en el valle alto del Serni, centro agrícola entre el Glinduin y el Serni.\nDespués de la Lucha de Parientes tenía unos cuatro mil habitantes; la Gran Plaga lo redujo a la mitad y la recuperación fue lenta.\nLa ciudad lleva la escala de lo que fue en la memoria de sus calles."
+   },
+   "lore": {
+    "en": null,
+    "es": "La plaga dejó casas vacías que aún se ven; la tierra siguió dando igual.\nLa fonda central lleva el nombre de la torre y la ciudad entera la llama simplemente 'la fonda'."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Fonda del Abedul"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una familia de fondistas que recuerda la ciudad antes de la plaga y la sirve igual"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb10_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Fonda del Abedul",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Mesa de valle del Serni: pan, queso, carne, fruta del alto valle. Una cama grande en una ciudad que alguna vez fue más grande todavía."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 549
+    }
+   }
+  },
+  {
+   "id": "LB-11",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo que los corsarios no logran quitar"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo pesquero"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "conflict",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "techo duro entre pescadores de la desembocadura"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo pesquero gondoriano en el Ethir Anduin, habitado sin interrupción desde la primera Tercera Edad y repetidamente objetivo de razias corsarias.\nSu posición en la desembocadura hace que la gente vuelva siempre pese al peligro; los pescadores son curtidos y duros.\nLas murallas se reconstruyeron más de una vez. El puerto — pequeño — mueve un volumen de tráfico fluvial sorprendente."
+   },
+   "lore": {
+    "en": null,
+    "es": "Los corsarios vinieron varias veces. El pueblo sigue: eso es lo que hay que saber de Fanuilond.\nLa hospitalidad es de gente que ha resistido: seca, directa, sin dramatismo."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Casa del Malecón"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un patrón de barco que vio quemar el malecón una vez y lo reconstruyó dos"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb11_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Casa del Malecón",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pescado fuerte, pan duro, cama firme. La conversación es del mar y de corsarios — y de cuántas veces este pueblo no se dejó quitar."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "preguntar por los corsarios",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "La lista es larga y la cuentan sin miedo: quién vino, quién cayó, qué pasa en la desembocadura ahora."
+         },
+         "effects": {
+          "en": null,
+          "es": "noticias del mar"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 565
+    }
+   }
+  },
+  {
+   "id": "LB-12",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "La escala entre Brethil y Linhir"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "trade",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "posada de escala del medio Serni"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo de Lebennin en el medio Serni, a mitad entre Brethil y Linhir.\nPueblo de mercado modesto de casas de piedra, sirve a las granjas del valle del Serni y hace de escala en el camino entre las dos ciudades.\nPueblo de medianías: de río, de mercado, de camino."
+   },
+   "lore": {
+    "en": null,
+    "es": "Suerte de escala: ni muy cerca ni muy lejos de las dos cabezas del valle.\nLa posada atiende el tráfico del camino con la regularidad del que no tiene competencia."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Escala del Serni"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un posadero que cronometra a los viajeros por lo que tardan entre Brethil y Linhir"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb12_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Escala del Serni",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cama, cena del valle y la estadística del camino: quién bajó, quién subió, cuánto tarda cada tramo."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1128
+    }
+   }
+  },
+  {
+   "id": "LB-13",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "El asiento de los Luindol"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "social",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "hospitalidad de casa noble en tierra de Lossarnach"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo pequeño de Lossarnach sobre un afluente del Erui, a unas leguas al sur de Minas Arthoron en el Rathon Gondor.\nEs el asiento ancestral de la familia noble de Bar Luindol.\nLas casas de piedra y las terrazas cultivadas aprovechan el suelo rico de Lossarnach."
+   },
+   "lore": {
+    "en": null,
+    "es": "La familia es el pueblo: la casa grande ordena lo que el resto de las casas hacen.\nSuelo de Lossarnach: lo que se planta acá, sale."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la casa de Bar Luindol — mesa de nobleza de comarca para el viajero presentable"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb13_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "aceptar la mesa de Bar Luindol",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Comida de la tierra de Lossarnach servida con protocolo de casa: pan, carne, fruta de terraza. Un cuarto de huéspedes correcto."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1134
+    }
+   }
+  },
+  {
+   "id": "LB-14",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo del valle"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "fonda y mercado del valle fluvial"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo del oeste de Lebennin cuyas casas de piedra y mercado pequeño sirven a las comunidades agrícolas del valle fluvial que lo rodea.\nPueblo estándar de Lebennin: piedra, mercado, granjas.\nLo que no tiene de particular lo tiene de útil: es un lugar donde se come, se duerme y se sigue."
+   },
+   "lore": {
+    "en": null,
+    "es": "El valle da; el pueblo administra.\nLa fonda vive de los días de mercado y de los viajeros que el camino le regala."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada del Valle"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una familia de posaderos que aprendió el oficio alimentando días de mercado"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb14_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Posada del Valle",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Comida de valle y cama decente. Pueblo sin sorpresas, que es exactamente lo que un caminante necesita a veces."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1133
+    }
+   }
+  },
+  {
+   "id": "LB-15",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "La posada del Camino Real"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "trade",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "posada del cruce bajo los plátanos"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo pequeño del este de Methed Lebennin, capital del Grithion que lleva su nombre.\nSu nombre — 'Camino Real' en Sindarin — alude a una ruta vieja que cruzaba su centro.\nCasas de piedra y un salón de mercado modesto alrededor de un cruce sombreado por plátanos; las granjas de alrededor dan grano y olivos."
+   },
+   "lore": {
+    "en": null,
+    "es": "El camino viejo ya no lleva a ninguna corte, pero la sombra de los plátanos sigue marcando el cruce.\nPueblo de encrucijada: quien para, para bajo los árboles."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada del Camino Real"
+    },
+    "keeper": {
+     "en": null,
+     "es": "un posadero que cobra igual a mercaderes y heraldos — 'el camino ya no distingue'"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb15_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Posada del Camino Real",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cena de grano y oliva, cama y la sombra de los plátanos por la ventana. El posadero cuenta la historia del nombre y cobra igual que a todos."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1131
+    }
+   }
+  },
+  {
+   "id": "LB-16",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "El asiento de los Gilraen"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "social",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "plaza, mercado y mesa de la familia del condado"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo pequeño de Lebennin en el bajo Gilrain, a unas leguas al noreste de Linhir.\nEs el asiento de la familia noble de Bar Gilraen, que tiene el condado que lo rodea.\nCasas de piedra ordenadas con techos planos o de teja mirando a una plaza central; las orillas fértiles del Gilrain sostienen grano y algo de lana."
+   },
+   "lore": {
+    "en": null,
+    "es": "La plaza es el centro literal: la casa de la familia, el mercado, las casas.\nGilraen es apellido que pesa en Lebennin; el pueblo lo lleva con la naturalidad de lo heredado."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la familia de Bar Gilraen y la fonda de la plaza — entre ambos, el viajero consigue lo que necesite"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb16_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la fonda de la plaza",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cama y comida de plaza de condado. La casa de los Gilraen se ve desde la puerta; la gente del condado pasa por aquí para todo."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1124
+    }
+   }
+  },
+  {
+   "id": "LB-17",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "La caleta de los pescadores"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo pesquero"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "techo tranquilo a la sombra de Pelargir"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo pesquero pequeño de Lebennin en el Anduin, al sudoeste de Pelargir.\nCasas de piedra con las redes colgadas a secar, frente a una caleta resguardada; la gente pesca el río y vende la captura en el mercado más cercano.\nPequeño y tranquilo: el Anduin ancho y lento le da el tono."
+   },
+   "lore": {
+    "en": null,
+    "es": "Vive en la órbita de Pelargir sin ser ella: la quietud que la ciudad grande no tiene.\nEl río da pescado; la sombra de Pelargir da mercado."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "una familia de la caleta — mesa de pescador para el que acepta la quietud del lugar"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb17_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir mesa a la familia de la caleta",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pescado del Anduin ese mismo día, pan, un cuarto sobre el agua. La noche llega con el río y se va igual."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1130
+    }
+   }
+  },
+  {
+   "id": "LB-18",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "El pueblo de los elfos del mar"
+   },
+   "type": {
+    "en": null,
+    "es": "asentamiento élfico"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "sacred"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "una bienvenida élfica junto al mar"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un asentamiento costero élfico, uno de los últimos dominios de los elfos en el oeste de la Tierra Media.\nEl lugar es pequeño y quieto: edificios elegantes de madera y piedra medio escondidos entre árboles cerca de la orilla, mantenidos por elfos que prefieren la compañía del mar a la de los hombres.\nEl viajero percibe el orden y la belleza de todo: herramientas guardadas con cuidado, jardines atendidos, y siempre de fondo música o voces bajas."
+   },
+   "lore": {
+    "en": null,
+    "es": "El mar los llama al oeste; los que quedan son los que aún no zarparon.\nLa bienvenida, cuando la hay, es como la del resto de su gente: quieta y suficiente."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "los que mantienen las casas — reciben al viajero de paz con pan, miel y un sitio donde escuchar el agua"
+    }
+   },
+   "secret": {
+    "en": null,
+    "es": "Las casas más hermosas del lugar están deshabitadas hace años: se cuidan por los que se fueron, no por los que vendrán."
+   },
+   "interactive": [
+    {
+     "id": "lb18_guest_welcome",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "aceptar el pan, la miel y el sonido del agua",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Pan, miel, agua clara y un banco donde el mar se oye debajo de todo lo demás. Si hablan, es de mareas y de años, no de él."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo condicional"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino dejando la música atrás",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "La música lo sigue un rato por el camino de la costa."
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1127
+    }
+   }
+  },
+  {
+   "id": "LB-19",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "La posada del castillo del Serni"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "rest",
+    "military"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "escala de río bajo el castillo del bajo Serni"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo y castillo de Lebennin en el bajo Serni, a unas cuarenta y cinco millas al este de Linhir.\nLa posición lo hace escala del tráfico fluvial; el castillo mira el agua desde un promontorio bajo.\nLas casas de piedra y el mercado pequeño sirven a los granjeros del valle del Serni."
+   },
+   "lore": {
+    "en": null,
+    "es": "El castillo mira el río; el pueblo vive de lo que el río mueve.\nLa escala es vieja: la piedra del castillo lo sabe desde antes que la posada."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada del Castillo"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una posadera que hospeda por igual al guardia del castillo y al barquero de paso"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb19_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Posada del Castillo",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Comida del valle, cama y la silueta del castillo por la ventana. La posadera sabe qué barcos pasaron por el Serni esta semana."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1142
+    }
+   }
+  },
+  {
+   "id": "LB-20",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "La hacienda de los Tâlhir"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "social",
+    "rest"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "hospitalidad de freehold de caballeros"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo pequeño o aldea del este de Lebennin, unas veinticinco millas al noreste de Pelargir, en el Condado de Landor.\nTambién llamada Barath Tâlhir, es hacienda libre de la Casa Tâlhir, familia caballeresca local.\nCasas de piedra y un solar modesto; grano y ganado son lo que la finca produce."
+   },
+   "lore": {
+    "en": null,
+    "es": "Freehold: la familia debe a Gondor pero la tierra es suya.\nLos Tâlhir son caballeros de comarca: la hospitalidad es parte del código que heredaron."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "la Casa Tâlhir — la mesa del freehold se abre al viajero por costumbre caballeresca"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb20_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "aceptar la mesa de los Tâlhir",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Comida de la finca, vino modesto y el relato de lo que la familia hizo en las últimas guerras. Un cuarto de la casa para la noche."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1132
+    }
+   }
+  },
+  {
+   "id": "LB-21",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "La posada de la muralla nueva"
+   },
+   "type": {
+    "en": null,
+    "es": "pueblo"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "rest",
+    "trade"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "la posada pequeña a mitad entre Minas Brethil y Pelargir"
+   },
+   "presence": {
+    "en": null,
+    "es": "Un pueblo de Lebennin sobre un afluente del Serni, a mitad de camino entre Minas Brethil y Pelargir — su posición lo hace parada regular de viajeros.\nCasas de piedra y una posada pequeña; en los últimos años el pueblo se fortificó con una muralla exterior nueva.\nLa muralla es lo nuevo; la posada es lo de siempre."
+   },
+   "lore": {
+    "en": null,
+    "es": "La muralla dice algo de los tiempos; la posada dice que el camino siguió igual.\nParada de ruta: la mitad exacta entre dos lugares siempre termina siendo un lugar propio."
+   },
+   "facts": {
+    "inn_name": {
+     "en": null,
+     "es": "La Posada de la Muralla"
+    },
+    "keeper": {
+     "en": null,
+     "es": "una posadera que recuerda el pueblo sin muralla y cobra lo mismo"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb21_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "dormir en la Posada de la Muralla",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Cama, cena y la rara seguridad de una muralla nueva alrededor. El tránsito del camino le cuenta el mundo por la mesa."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 1129
+    }
+   }
+  },
+  {
+   "id": "LB-22",
+   "kind": "place",
+   "region_ids": [
+    11
+   ],
+   "name": {
+    "en": null,
+    "es": "La aldea fortificada del delta"
+   },
+   "type": {
+    "en": null,
+    "es": "aldea fortificada"
+   },
+   "priority": 0,
+   "tags": [
+    "people",
+    "water",
+    "conflict"
+   ],
+   "size_radius_km": null,
+   "influence_radius_km": null,
+   "traveller_use": {
+    "en": null,
+    "es": "techo entre murallas en el Ethir Anduin"
+   },
+   "presence": {
+    "en": null,
+    "es": "Una aldea fortificada de Lebennin en el Ethir Anduin, a unas setenta y cinco millas aguas abajo de Pelargir, a mitad entre la ciudad y el cabo occidental.\nLas murallas no son ornamento: el delta ve pasar barcos que no todos llevan bandera amiga.\nDentro, vida de aldea del río: redes, huertos, canoas."
+   },
+   "lore": {
+    "en": null,
+    "es": "La distancia a Pelargir es la distancia a la ayuda: la muralla es la respuesta.\nLa gente mide a un extraño por cómo llegó: por agua o por tierra no es lo mismo."
+   },
+   "facts": {
+    "keeper": {
+     "en": null,
+     "es": "las familias dentro de la muralla — techo al que entra con las manos visibles"
+    }
+   },
+   "interactive": [
+    {
+     "id": "lb22_stay_offer",
+     "when": null,
+     "situation": null,
+     "options": [
+      {
+       "id": "pedir entrada con las manos visibles",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "Lo registran con los ojos de arriba abajo antes de abrir. Adentro: pescado, pan y un rincón bajo techo entre gente que aprendió a no regalar confianza."
+         },
+         "effects": {
+          "en": null,
+          "es": "comida · descanso · techo condicional"
+         }
+        }
+       }
+      },
+      {
+       "id": "seguir camino",
+       "tag": null,
+       "skill": null,
+       "difficulty": null,
+       "requires": null,
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": null,
+          "es": "—"
+         },
+         "effects": {
+          "en": null,
+          "es": "tiempo"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "region": "Lebennin",
+    "region_confidence": "high",
+    "location_ref": {
+     "id": 543
+    }
+   }
   }
  ]
 }
