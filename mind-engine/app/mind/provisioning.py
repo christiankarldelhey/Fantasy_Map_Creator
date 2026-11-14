@@ -255,6 +255,10 @@ DEFAULT_WIRING = {
     # truth: a stranger's mercy or a door shut in the face.
     'salience_min.tag:settlement': 0.3,
     'salience_min.tag:entered': 0.55,
+    # A border crossed: the host's 'region' event marks a land reached
+    # for the first time this journey — entering Fangorn outweighs a
+    # deer herd and is the kind of moment an Episode turns on.
+    'salience_min.tag:region_entered': 0.55,
     'salience_min.tag:hostile': 0.45,
     'salience_min.tag:charity': 0.5,
     'salience_min.tag:turned_away': 0.5,

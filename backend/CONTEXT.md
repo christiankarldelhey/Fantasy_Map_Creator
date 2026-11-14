@@ -67,17 +67,25 @@ A named point of the gazetteer — geometry plus world facts (name, type, popula
 _Avoid_: POI, waypoint, marker
 
 **Place**:
-An authored narrative record — what the traveller finds at a spot, its variants, its secret, what he can do there, what the day remembers. Written for TA 3018; when a Place and its Location disagree, the Place is canonical. A narrative record never owns geometry: its position is always borrowed — a point from its anchor Location, a feature's geometry via `depiction_id`, or a region by scope (ambients, arrivals, region records). Mechanics columns like radii stay on the record; prose lives in `payload`.
-A `place` record is always one specific spot where the traveller feels something, something happens, or he must decide — a tower, a wood, a castle, a hill, a hollow; at most a small group of hills. A road is not a place (a crossroads or a fork is); a river is not a place (a ford, a bridge or a boat crossing is). A person met there is named inside the Place only if fixed there; people who move are encounters, region-wide traits are ambients. Small landform Places are always welcome — a lone copse, a named hill — however small the story: the tree species, what is heard there, the hill's shape, the wind on top, how it looks from outside. Anchor them to real biome polygons or elevation features when available (`payload.refs` records the source feature ids).
+An authored narrative record — what the traveller finds at a spot, its variants, its secret, what he can do there, what the day remembers. Written for TA 3018; when a Place and its Location disagree, the Place is canonical. A narrative record never owns geometry: its position is always borrowed — a point from its anchor Location, a feature's geometry via `depiction_id`, or a region by scope (ambients, arrivals, regional depictions). Shared fields are real columns (`description`, `variants`, `mechanics`, `refs`, `region_ids`); `payload` keeps only the kind-unique spec (ficha base/sections/beats/options/secret, region rotation/facts, provenance) — never scalar copies of columns, though an `{en,es}` `name`/`type` object stays (it carries more than the flat TEXT columns).
+A `place` record is always one specific spot where the traveller feels something, something happens, or he must decide — a tower, a wood, a castle, a hill, a hollow; at most a small group of hills. A road is not a place (a crossroads or a fork is); a river is not a place (a ford, a bridge or a boat crossing is). A person met there is named inside the Place only if fixed there; people who move are encounters, region-wide traits are ambients. Small landform Places are always welcome — a lone copse, a named hill — however small the story: the tree species, what is heard there, the hill's shape, the wind on top, how it looks from outside. Anchor them to real biome polygons or elevation features when available (the `refs` column records the source feature ids).
 _Avoid_: site, encounter card, quest
 
 **Narration**:
-The whole quiet narrative layer — every record the world tells about a place, feature or scope, in one table (`places_narration`). Kinds: `place`, `ambient`, `offer`, `arrival`, `lore` (fichas), plus `depiction` (a feature's description), `region` (a region's prose and facts) and `overnight` (the old `places_interactions`). Beings are never Narration: entities and movers are encounters, a separate family.
-_Avoid_: places table, interactions table, descriptions
+The whole quiet narrative layer — every record the world tells about a place, feature or scope, in one table (`places_narration`, ADR-0015). Two kinds only: `place` (anchored ficha with radii) and `ambient` (every other scope-bound voice — region/biome/water depictions, atmosphere, arrivals, lore). All records share one shape: prose lives in universal columns (`aspect` for the face seen from outside, `presence` for being there, plus `lore`/`secret`/`sections`/`facts`/`notes`/`channel`/`traveller_use`/`variants`/`rotation`); `payload` keeps provenance only. Conditional and mechanical content lives in `interactive` — tag-gated situations with mutually-exclusive options whose outcomes carry text + effects; any record may carry it, it is not a kind. Beings are never Narration: entities and movers are encounters, a separate family.
+_Avoid_: places table, interactions table, description column, mechanics column
+
+**Tag set**:
+The closed vocabulary that gates conditional narrative (registry `tags.json` → `narration_tags`). The world emits it per day — `region_day:N`/`entry:first`/`entry_count:N`/`days_since_exit:N` (stay arithmetic from `trip_days.regions`), `season:*`, `weather:*`, `ground:*`, `phase:*`, plus state tags from the character (`mind:fatigue`, `mind:hunger`, `mind:thirst`, `mind:melancholy`). A situation is a candidate when all its `tags` are present and no `not_tags` are; `ambientVoice.js` resolves the day's situations and picks each option by driver tag — automatic selection by character state until the higher self exposes choices.
+_Avoid_: conditions DSL, triggers
 
 **Depiction**:
-A narrative record that says what a gazetteer feature *is like* — this lake, any river in Dunland, streams in general. Bound 1:1 to its feature by `depiction_id`, or scope-bound by `type`/`region_id`/`cultural_family` when it is generic. Not a Place: it describes what exists, it does not add a spot.
+An `ambient` record that says what a gazetteer feature *is like* — this lake, any river in Dunland, or a whole region/kingdom. Bound 1:1 to its feature by `depiction_id` (its prose lives in `aspect`/`rotation`), or scope-bound by `payload.region_name`/`payload.category` when generic. Not a Place: it describes what exists, it does not add a spot.
 _Avoid_: description, feature text
+
+**Situation**:
+One entry of a record's `interactive[]`: a tag-gated moment (`tags`, `not_tags`, narrative `when`) containing mutually-exclusive `options` — each a driver `tag`, optional `skill`/`difficulty`, and `outcomes.{success,failure}.{text,effects}`. A single-option situation is "something that happens without a choice"; the old beats, offers and overnight rests are all situations now. `context:overnight` marks the rest rail.
+_Avoid_: interaction record, mechanic card
 
 **depiction_id**:
 The FK a geometry row (`water`, `biomes`, `roads`, `regions`, `locations`) carries to its narrative record — the *described-as* link. One feature has at most one Depiction; many features may share a record (every segment of a named road). Materialized by the seed from `refs`; `ON DELETE SET NULL` drops the link, never the feature.
@@ -92,7 +100,7 @@ The authoring-side name of the hosted-at anchor, as written in the JSON record (
 _Avoid_: FK, parent
 
 **feature refs**:
-Authored links from a record to the gazetteer features it speaks about — `payload.refs` such as `{"water": [42], "road": [12, 13], "biome": [7]}`. The durable truth for described-as bindings: the seed materializes `depiction_id` on the geometry rows from them, so a gazetteer re-import re-attaches every link.
+Authored links from a record to the gazetteer features it speaks about — the `refs` column such as `{"water": [42], "road": [12, 13], "biome": [7]}`. The durable truth for described-as bindings: the seed materializes `depiction_id` on the geometry rows from them, so a gazetteer re-import re-attaches every link.
 _Avoid_: FK to roads/water/biomes, live reference
 
 **scope**:

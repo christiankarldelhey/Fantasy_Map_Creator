@@ -23,23 +23,23 @@ CREATE TABLE IF NOT EXISTS locations (
     -- Demographics
     population INTEGER,
     inhabitants TEXT,  -- Text description of inhabitants
-    
-    -- Description
-    description TEXT,
-    
+
     -- Geographic location
     region VARCHAR(100),  -- 'Eriador', 'Gondor', 'Rohan', etc. (legacy free-text)
-    region_id INTEGER REFERENCES regions(id),  -- resolved from point-in-polygon
+    region_id INTEGER,  -- → regions.id; resolved from point-in-polygon (FK lands below)
 
     -- Multimedia
     image_url TEXT,
     
+    -- Narrative link
+    depiction_id TEXT,  -- → places_narration.id (FK added below; mute gazetteer keeps no prose)
+
     -- Metadata
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
-    
+
     -- GEOMETRY (most important)
-    geom GEOMETRY(Point, 4326) NOT NULL,
+    geom GEOMETRY(Point, 4326),  -- NULL until the admin georef anchors the place
     
     -- Constraints
     CONSTRAINT valid_geometry CHECK (ST_IsValid(geom)),
@@ -54,47 +54,13 @@ CREATE INDEX IF NOT EXISTS idx_locations_name ON locations(name);
 CREATE INDEX IF NOT EXISTS idx_locations_type ON locations(location_type);
 CREATE INDEX IF NOT EXISTS idx_locations_region ON locations(region);
 CREATE INDEX IF NOT EXISTS idx_locations_region_id ON locations(region_id);
+CREATE INDEX IF NOT EXISTS idx_locations_depiction ON locations(depiction_id) WHERE depiction_id IS NOT NULL;
 
 -- Comments for documentation
 COMMENT ON TABLE locations IS 'Point locations in Middle Earth (cities, castles, towns)';
 COMMENT ON COLUMN locations.geom IS 'POINT geometry in EPSG:4326 (WGS84)';
 COMMENT ON COLUMN locations.location_type IS 'Settlement type: city, castle, town, mansion, fortress, ruins';
 COMMENT ON COLUMN locations.region_id IS 'Region containing the location point (resolved by point-in-polygon)';
-
--- ============================================================================
--- Table: places_interactions
--- Purpose: Narrative/mechanical effects for spending time in a place or region
--- ============================================================================
-
-CREATE TABLE IF NOT EXISTS places_interactions (
-    id                SERIAL PRIMARY KEY,
-    interaction_type  TEXT    NOT NULL,          -- 'overnight' (only value for now)
-    location_id       INTEGER REFERENCES locations(id),   -- nullable
-    location_type     TEXT,                       -- 'village','town',… nullable
-    region_id         INTEGER REFERENCES regions(id),     -- nullable
-    cultural_family   TEXT,                       -- nullable
-    title             TEXT,                       -- e.g. 'The Prancing Pony'
-    description       TEXT    NOT NULL,           -- narrator reference material
-    rest_quality      SMALLINT,                   -- 0..3
-    shadow_effect     SMALLINT,                   -- -2..+2
-    priority          SMALLINT NOT NULL DEFAULT 0 -- higher wins on tie
-);
-
-CREATE INDEX IF NOT EXISTS idx_pi_location  ON places_interactions(interaction_type, location_id);
-CREATE INDEX IF NOT EXISTS idx_pi_type_reg  ON places_interactions(interaction_type, location_type, region_id);
-CREATE INDEX IF NOT EXISTS idx_pi_type_fam  ON places_interactions(interaction_type, location_type, cultural_family);
-CREATE INDEX IF NOT EXISTS idx_pi_region    ON places_interactions(interaction_type, region_id);
-CREATE INDEX IF NOT EXISTS idx_pi_family    ON places_interactions(interaction_type, cultural_family);
-
-ALTER TABLE places_interactions
-  ADD CONSTRAINT chk_scope CHECK (
-     (location_id IS NOT NULL)
-  OR (location_type IS NOT NULL AND region_id IS NOT NULL)
-  OR (location_type IS NOT NULL AND cultural_family IS NOT NULL)
-  OR (location_type IS NOT NULL AND region_id IS NULL AND cultural_family IS NULL)
-  OR (location_type IS NULL AND region_id IS NOT NULL)
-  OR (location_type IS NULL AND cultural_family IS NOT NULL)
-  );
 
 -- ============================================================================
 -- Table: roads
@@ -107,7 +73,7 @@ CREATE TABLE IF NOT EXISTS roads (
     terrain_type VARCHAR(50),
     difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5),
     cost_factor DECIMAL DEFAULT 1.0,
-    description TEXT,
+    depiction_id TEXT,  -- → places_narration.id
     created_at TIMESTAMP DEFAULT NOW(),
     geom GEOMETRY(LineString, 4326) NOT NULL,
     CONSTRAINT valid_road_geometry CHECK (ST_IsValid(geom)),
@@ -117,6 +83,7 @@ CREATE TABLE IF NOT EXISTS roads (
 -- Spatial index
 CREATE INDEX IF NOT EXISTS idx_roads_geom ON roads USING GIST(geom);
 CREATE INDEX IF NOT EXISTS idx_roads_name ON roads(name);
+CREATE INDEX IF NOT EXISTS idx_roads_depiction ON roads(depiction_id) WHERE depiction_id IS NOT NULL;
 
 -- ============================================================================
 -- Table: water
@@ -127,7 +94,7 @@ CREATE TABLE IF NOT EXISTS water (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     water_type VARCHAR(50) NOT NULL, -- 'river', 'stream', 'lake', 'sea'
-    description TEXT,
+    depiction_id TEXT,  -- → places_narration.id
     created_at TIMESTAMP DEFAULT NOW(),
     geom GEOMETRY(Geometry, 4326) NOT NULL, -- Supports both LineString (rivers) and Polygon (lakes)
     CONSTRAINT valid_water_geometry CHECK (ST_IsValid(geom)),
@@ -137,6 +104,7 @@ CREATE TABLE IF NOT EXISTS water (
 -- Spatial index
 CREATE INDEX IF NOT EXISTS idx_water_geom ON water USING GIST(geom);
 CREATE INDEX IF NOT EXISTS idx_water_type ON water(water_type);
+CREATE INDEX IF NOT EXISTS idx_water_depiction ON water(depiction_id) WHERE depiction_id IS NOT NULL;
 
 -- ============================================================================
 -- Table: kingdoms
@@ -146,11 +114,12 @@ CREATE INDEX IF NOT EXISTS idx_water_type ON water(water_type);
 CREATE TABLE IF NOT EXISTS kingdoms (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL,
-    description TEXT,
+    depiction_id TEXT,  -- → places_narration.id (kingdom prose lives on the record)
     created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE INDEX IF NOT EXISTS idx_kingdoms_name ON kingdoms(name);
+CREATE INDEX IF NOT EXISTS idx_kingdoms_depiction ON kingdoms(depiction_id) WHERE depiction_id IS NOT NULL;
 
 COMMENT ON TABLE kingdoms IS 'Kingdoms and political entities of Middle Earth';
 
@@ -171,16 +140,10 @@ CREATE TABLE IF NOT EXISTS regions (
     kingdom_id INTEGER REFERENCES kingdoms(id),
     
     -- Climate information
-    climate_zone_id INTEGER REFERENCES climate_zones(id) ON DELETE SET NULL UNIQUE,
+    climate_zone_id INTEGER UNIQUE,  -- → climate_zones.id ON DELETE SET NULL (FK lands below)
     
-    -- Description fields (flattened from JSONB)
-    land JSONB,  -- Array of land features
-    notes TEXT,  -- General notes
-    people JSONB,  -- People information (symbol, military, population, description)
-    source JSONB,  -- Source references (supplement, supplement_code)
-    products TEXT,  -- Products/resources
-    description_text TEXT,  -- Main description text
-    description_summary TEXT[],  -- Summary description of the region (array of rotating descriptions)
+    -- Prose lives in places_narration (the region's depiction record); this
+    -- table carries only physical/political facts (#104).
     cultural_family TEXT,  -- Resolved from regions.geojson; drives lodging/night logic
 
     -- Statistics
@@ -191,12 +154,15 @@ CREATE TABLE IF NOT EXISTS regions (
     chance_of_encounter DECIMAL(5,2),  -- Percentage chance of encounter (0-100)
     hours_to_encounter DECIMAL(5,2),  -- Time in hours to reach encounter location
     
+    -- Narrative link
+    depiction_id TEXT,  -- → places_narration.id (region prose + facts live on the record)
+
     -- Metadata
     created_at TIMESTAMP DEFAULT NOW(),
-    
+
     -- GEOMETRY
-    geom GEOMETRY(Polygon, 4326) NOT NULL,
-    
+    geom GEOMETRY(Geometry, 4326) NOT NULL,
+
     -- Constraints
     CONSTRAINT valid_region_geometry CHECK (ST_IsValid(geom)),
     CONSTRAINT valid_region_srid CHECK (ST_SRID(geom) = 4326),
@@ -209,6 +175,7 @@ CREATE INDEX IF NOT EXISTS idx_regions_geom ON regions USING GIST(geom);
 -- Additional indexes
 CREATE INDEX IF NOT EXISTS idx_regions_type ON regions(region_type);
 CREATE INDEX IF NOT EXISTS idx_regions_kingdom_id ON regions(kingdom_id);
+CREATE INDEX IF NOT EXISTS idx_regions_depiction ON regions(depiction_id) WHERE depiction_id IS NOT NULL;
 
 COMMENT ON TABLE regions IS 'Regions, kingdoms and biomes of Middle Earth';
 COMMENT ON COLUMN regions.area_km2 IS 'Area in square kilometers (calculated with ST_Area)';
@@ -229,18 +196,18 @@ CREATE TABLE IF NOT EXISTS biomes (
     -- Basic information
     name VARCHAR(255) NOT NULL,  -- Standard type (e.g., "Forest") or specific name (e.g., "Fangorn")
     type VARCHAR(50),  -- 'forest', 'hills', 'marsh', 'mountains', 'river', 'lake', 'plateau', 'barrow'
-    
-    -- Description
-    description TEXT,  -- NULL for standard biomes, text for specific named locations
-    
+
     -- Statistics
     area_km2 DECIMAL,  -- Will be calculated with ST_Area
     
+    -- Narrative link
+    depiction_id TEXT,  -- → places_narration.id
+
     -- Metadata
     created_at TIMESTAMP DEFAULT NOW(),
-    
+
     -- GEOMETRY
-    geom GEOMETRY(Polygon, 4326) NOT NULL
+    geom GEOMETRY(Geometry, 4326) NOT NULL -- seed data mixes Polygon and MultiPolygon
 );
 
 -- Spatial index
@@ -248,11 +215,141 @@ CREATE INDEX IF NOT EXISTS idx_biomes_geom ON biomes USING GIST(geom);
 
 -- Additional indexes
 CREATE INDEX IF NOT EXISTS idx_biomes_type ON biomes(type);
+CREATE INDEX IF NOT EXISTS idx_biomes_depiction ON biomes(depiction_id) WHERE depiction_id IS NOT NULL;
 
 COMMENT ON TABLE biomes IS 'Environmental and geographic features (forests, mountains, rivers, etc.)';
 COMMENT ON COLUMN biomes.name IS 'Biome name - standard type (e.g., Forest) or specific name (e.g., Fangorn)';
 COMMENT ON COLUMN biomes.type IS 'Biome category: forest, hills, marsh, mountains, river, lake, plateau, barrow';
-COMMENT ON COLUMN biomes.description IS 'NULL for standard biomes, text for specific named locations';
+
+-- ============================================================================
+-- Table: places_narration
+-- Purpose: All quiet narrative over a mute gazetteer — one canonical record
+--          shape for every voice the world has (ADR-0014/0015). Records carry
+--          no geometry: position is borrowed from the anchor location, a
+--          feature's depiction_id, or a scope (type × region_id ×
+--          cultural_family). kind says what the voice is anchored to, not
+--          which legacy table it came from: 'place' is a location ficha with
+--          radii; 'ambient' is every other scope-bound voice (region, biome,
+--          water, arrival, lore). Every record may carry every prose field —
+--          aspect is the face seen from outside, presence what being there
+--          is like. Interactivity is a capability, not a kind: `interactive`
+--          holds situations whose options resolve by mind state today and by
+--          player choice later. Conditional content gates on universal tags
+--          (see narration_tags / tags.json), not per-kind condition strings.
+--          Seed data: database/seeds/data/json/places.json (authored fichas)
+--          + narration.json (generated dep:* / ovn:* records).
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS places_narration (
+    id                  TEXT PRIMARY KEY,                -- ficha code: 'E-01', 'dep:loc:…', 'ovn:*'
+    kind                TEXT NOT NULL CHECK (kind IN ('place', 'ambient')),
+    location_id         INTEGER REFERENCES locations(id), -- hosted-at anchor (1:N); NULL until positioned
+    region_id           INTEGER REFERENCES regions(id),  -- scope region (first of region_ids)
+    region_ids          INTEGER[],                       -- authored multi-region list
+    name                JSONB,                           -- {en, es}
+    type                JSONB,                           -- {en, es} — scope matching uses ->>'en'
+    cultural_family     TEXT,                            -- scope dimension for generic records
+    priority            SMALLINT NOT NULL DEFAULT 0,     -- tie-breaker between competing records
+    tags                TEXT[] NOT NULL DEFAULT '{}',    -- thematic tags ('people','vista',…)
+    size_radius_km      NUMERIC(8,2),                    -- traveller is AT the record's place
+    influence_radius_km NUMERIC(8,2),                    -- askable / felt from afar
+
+    -- Universal prose slots — any record may carry any of them
+    aspect              JSONB,                           -- {en, es}: the face seen from outside / afar
+    presence            JSONB,                           -- {en, es}: what being there is like
+    lore                JSONB,                           -- {en, es}: background, history, what is known
+    secret              JSONB,                           -- {when: {en,es}, text: {en,es}}
+    sections            JSONB,                           -- [{key, en, es}]
+    facts               JSONB,                           -- structured gazetteer reference data
+    notes               JSONB,                           -- {en, es} author/narrator notes
+    channel             JSONB,                           -- {en, es}: dominant sense/theme of the voice
+    traveller_use       JSONB,                           -- {en, es}: what the traveller can do with it
+
+    -- Conditional prose: [{id?, text: {en,es}, tags: [], not_tags: [], when: {en,es}}]
+    variants            JSONB,
+    -- Ordered prose list consumed one entry per day (region summaries)
+    rotation            JSONB,
+
+    -- Interactivity: [{id, tags, not_tags, when, options:
+    --   [{id, tag, skill, difficulty, outcomes:
+    --     {success: {text, effects}, failure: {text, effects}}}]}]
+    interactive         JSONB,
+
+    refs                JSONB,                           -- authored feature bindings → depiction_id
+    payload             JSONB NOT NULL DEFAULT '{}'::jsonb  -- provenance only (origin, legacy_id, anchor_hint)
+);
+
+CREATE INDEX IF NOT EXISTS idx_pn_kind      ON places_narration(kind);
+CREATE INDEX IF NOT EXISTS idx_pn_region    ON places_narration(region_id);
+CREATE INDEX IF NOT EXISTS idx_pn_location  ON places_narration(location_id) WHERE location_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_pn_region_ids ON places_narration USING GIN(region_ids);
+CREATE INDEX IF NOT EXISTS idx_pn_tags      ON places_narration USING GIN(tags);
+CREATE INDEX IF NOT EXISTS idx_pn_payload   ON places_narration USING GIN(payload);
+
+COMMENT ON TABLE  places_narration IS 'One canonical record for every voice the world has (ADR-0014/0015)';
+COMMENT ON COLUMN places_narration.kind IS 'place (anchored ficha) | ambient (scope-bound voice)';
+COMMENT ON COLUMN places_narration.location_id IS 'Hosted-at anchor to a gazetteer location; NULL until positioned';
+COMMENT ON COLUMN places_narration.region_id IS 'Scope region for the resolver ladder (first of region_ids)';
+COMMENT ON COLUMN places_narration.region_ids IS 'Authored multi-region list; region_id is its first element';
+COMMENT ON COLUMN places_narration.aspect IS 'The face seen from outside or afar {en, es}';
+COMMENT ON COLUMN places_narration.presence IS 'What being there is like {en, es}';
+COMMENT ON COLUMN places_narration.interactive IS 'Situations with tag-gated, mind-weighted options and outcomes';
+
+-- ============================================================================
+-- Table: narration_tags
+-- Purpose: Closed registry of gating/driver tags (ADR-0015) seeded from
+--          database/seeds/data/json/tags.json. World and Mind emit a tag set
+--          each moment; conditional content declares tags/not_tags against
+--          this vocabulary. value='*' marks a pattern family (any value
+--          matching the seed's pattern is legal, e.g. region_day:12).
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS narration_tags (
+    family      TEXT NOT NULL,
+    value       TEXT NOT NULL,                 -- concrete value or '*'
+    description JSONB,                          -- {en, es}
+    PRIMARY KEY (family, value)
+);
+
+COMMENT ON TABLE narration_tags IS 'Closed registry of gating/driver tags (ADR-0015)';
+COMMENT ON COLUMN places_narration.refs IS 'Authored feature bindings {table-key: [ids]}; materializes to depiction_id';
+COMMENT ON COLUMN places_narration.cultural_family IS 'Scope dimension for generic records';
+COMMENT ON COLUMN places_narration.priority IS 'Tie-breaker when several records match a scope';
+COMMENT ON COLUMN places_narration.size_radius_km IS 'Within it the traveller is AT the place';
+COMMENT ON COLUMN places_narration.influence_radius_km IS 'Within it the place is askable and felt from afar';
+COMMENT ON COLUMN places_narration.payload IS 'Kind-unique spec + provenance only — never scalar copies of columns';
+
+-- The described-as link: every gazetteer feature may point at the single
+-- narration record that depicts it. Columns are declared on the tables
+-- above; the FKs land here once places_narration exists (mirror of
+-- add_depiction_id_to_geometry_tables.sql / _to_kingdoms.sql).
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'locations_depiction_id_fkey') THEN
+    ALTER TABLE locations ADD CONSTRAINT locations_depiction_id_fkey
+      FOREIGN KEY (depiction_id) REFERENCES places_narration(id) ON DELETE SET NULL;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'water_depiction_id_fkey') THEN
+    ALTER TABLE water ADD CONSTRAINT water_depiction_id_fkey
+      FOREIGN KEY (depiction_id) REFERENCES places_narration(id) ON DELETE SET NULL;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'biomes_depiction_id_fkey') THEN
+    ALTER TABLE biomes ADD CONSTRAINT biomes_depiction_id_fkey
+      FOREIGN KEY (depiction_id) REFERENCES places_narration(id) ON DELETE SET NULL;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'roads_depiction_id_fkey') THEN
+    ALTER TABLE roads ADD CONSTRAINT roads_depiction_id_fkey
+      FOREIGN KEY (depiction_id) REFERENCES places_narration(id) ON DELETE SET NULL;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'regions_depiction_id_fkey') THEN
+    ALTER TABLE regions ADD CONSTRAINT regions_depiction_id_fkey
+      FOREIGN KEY (depiction_id) REFERENCES places_narration(id) ON DELETE SET NULL;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'kingdoms_depiction_id_fkey') THEN
+    ALTER TABLE kingdoms ADD CONSTRAINT kingdoms_depiction_id_fkey
+      FOREIGN KEY (depiction_id) REFERENCES places_narration(id) ON DELETE SET NULL;
+  END IF;
+END $$;
 
 -- ============================================================================
 -- Table: climate_zones
@@ -283,6 +380,20 @@ COMMENT ON COLUMN climate_zones.koppen IS 'Köppen climate classification code';
 COMMENT ON COLUMN climate_zones.analog_location IS 'Real-world location with similar climate';
 COMMENT ON COLUMN climate_zones.analog_lat IS 'Latitude of the analog location';
 COMMENT ON COLUMN climate_zones.analog_lon IS 'Longitude of the analog location';
+
+-- Deferred foreign keys for references declared before their tables exist in
+-- this file's creation order (locations → regions, regions → climate_zones).
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'locations_region_id_fkey') THEN
+    ALTER TABLE locations ADD CONSTRAINT locations_region_id_fkey
+      FOREIGN KEY (region_id) REFERENCES regions(id);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'regions_climate_zone_id_fkey') THEN
+    ALTER TABLE regions ADD CONSTRAINT regions_climate_zone_id_fkey
+      FOREIGN KEY (climate_zone_id) REFERENCES climate_zones(id) ON DELETE SET NULL;
+  END IF;
+END $$;
 
 -- ============================================================================
 -- Table: entities

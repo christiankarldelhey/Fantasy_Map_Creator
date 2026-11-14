@@ -83,7 +83,8 @@
     "dateAndTime": "Date & Time",
     "deleteAccount": "Delete account",
     "language": "Language",
-    "admin": "Admin"
+    "admin": "Admin",
+    "showAllLocations": "Show all locations"
   },
   "options": {
     "deleteTitle": "Delete your account?",

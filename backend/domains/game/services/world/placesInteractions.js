@@ -3,13 +3,15 @@
 // ----------------------------------------------------------------------------
 // Resolves the single best place/region interaction record (currently only
 // 'overnight') by reading the region's cultural_family from the database and
-// matching against the priority scopes defined in places_interactions.
+// matching against the priority scopes defined in places_narration
+// (records whose interactive[] carries a 'context:overnight' situation).
 //
 // No cultural family is ever hard-coded here; it is always fetched from
 // regions.cultural_family for the supplied region_id.
 // ============================================================================
 
 import pool from '../../../../db.js';
+import { loadScoped } from './resolveNarrative.js';
 
 const CACHE = new Map();
 
@@ -17,16 +19,40 @@ export function clearPlacesInteractionsCache() {
   CACHE.clear();
 }
 
+// Map a record's overnight situation (ADR-0015: interactive[] entries tagged
+// 'context:overnight') back to the flat row shape the ladder consumes. Effects
+// live on the option's outcome now — the single-option rest situation applies
+// them without a choice. `id` is the narration record id ('ovn:*') —
+// trip_days.places_narration_id points at it.
+function overnightRecordToRow(r) {
+  const situation = (r.interactive || []).find(
+    (s) => Array.isArray(s?.tags) && s.tags.includes('context:overnight')
+  );
+  const outcome = situation?.options?.[0]?.outcomes?.success || {};
+  const effects = outcome.effects || {};
+  return {
+    id: r.id,
+    interaction_type: 'overnight',
+    location_id: r.location_id,
+    location_type: typeof r.type === 'object' && r.type !== null
+      ? (r.type.en ?? r.type.es) : r.type,
+    region_id: r.region_id,
+    cultural_family: r.cultural_family,
+    title: r.name?.en ?? r.name ?? r.payload?.title ?? null,
+    description: outcome.text?.en ?? r.presence?.en ?? null,
+    rest_quality: effects.rest_quality ?? null,
+    shadow_effect: effects.shadow_effect ?? null,
+    priority: r.priority,
+  };
+}
+
 async function loadInteractions(interactionType) {
   if (CACHE.has(interactionType)) return CACHE.get(interactionType);
 
-  const { rows } = await pool.query(
-    `SELECT id, interaction_type, location_id, location_type, region_id,
-            cultural_family, title, description, rest_quality, shadow_effect, priority
-     FROM places_interactions
-     WHERE interaction_type = $1`,
-    [interactionType]
-  );
+  let rows = [];
+  if (interactionType === 'overnight') {
+    rows = (await loadScoped(null, 'context:overnight')).map(overnightRecordToRow);
+  }
 
   CACHE.set(interactionType, rows);
   return rows;

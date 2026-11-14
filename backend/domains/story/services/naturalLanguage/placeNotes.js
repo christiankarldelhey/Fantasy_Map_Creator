@@ -15,15 +15,21 @@ const PROXIMITY_THROUGH = 'passes through';
 const PROXIMITY_CLOSE = 'passed close by';
 const PROXIMITY_DISTANT = 'passed at some distance';
 
-/** How the traveller met this place, from its distance to the road. */
-function proximityPhrase(distanceKm) {
-  if (distanceKm === 0) return PROXIMITY_THROUGH;
+/** How the traveller met this place, from its distance to the road. Within
+ * the place's authored size radius counts as through — a town's footprint,
+ * not just its centre point. */
+function proximityPhrase(distanceKm, sizeRadiusKm) {
+  if (distanceKm === 0 || (sizeRadiusKm != null && distanceKm != null && distanceKm <= sizeRadiusKm)) {
+    return PROXIMITY_THROUGH;
+  }
   if (distanceKm != null && distanceKm > DISTANT_SIGHTING_KM) return PROXIMITY_DISTANT;
   return PROXIMITY_CLOSE;
 }
 
-/** The lands crossed in order, each with its character (description_summary). */
-export function describeRegions(regions) {
+/** The lands crossed in order, each with its character (description_summary).
+ *  `enteredNames` marks the lands the road reached for the first time today —
+ *  a border crossing is a moment, not just context. */
+export function describeRegions(regions, enteredNames = null) {
   if (!Array.isArray(regions) || regions.length === 0) {
     return 'The day passes through unnamed country.';
   }
@@ -32,10 +38,11 @@ export function describeRegions(regions) {
   for (const region of regions) {
     const name = typeof region === 'string' ? region : region.name;
     const summary = typeof region === 'string' ? null : region.description_summary;
+    const marker = enteredNames?.has(name) ? ' (entered today — a new land)' : '';
     if (summary && summary.trim()) {
-      lines.push(`- ${name}: ${summary.trim()}`);
+      lines.push(`- ${name}${marker}: ${summary.trim()}`);
     } else {
-      lines.push(`- ${name}`);
+      lines.push(`- ${name}${marker}`);
     }
   }
   return lines.join('\n');
@@ -54,15 +61,23 @@ export function collectLocationNotes(locations) {
     // the off-route metres say. 'hostile' is the opposite — an enemy
     // place skirted from outside, never entered.
     const when = timeOfDayPhrase(l.hour_float);
+    // A place the road never reaches is first sighted when the leg crosses
+    // into its influence circle — the horizon moment precedes the passing.
+    const sight = l.sighted
+      ? `sighted far off${l.sighted_direction ? ` to the ${l.sighted_direction}` : ''}, ${timeOfDayPhrase(l.sighted_hour_float)} — `
+      : '';
     let proximity;
     if (l.entered) {
       proximity = `reaches it ${when} and stays — the day ends here`;
     } else if (l.hostile) {
-      proximity = `passed outside, ${when} — enemy country, no welcome there`;
+      proximity = `${sight}passed outside, ${when} — enemy country, no welcome there`;
     } else {
-      proximity = `${proximityPhrase(l.distance_km)}, ${when}`;
+      proximity = `${sight}${proximityPhrase(l.distance_km, l.size_radius_km)}, ${when}`;
     }
-    notes.push(`- ${l.name}${kind}: ${proximity}.${descriptionSuffix(l.description)}`);
+    // A place the traveller is actually inside speaks with its ficha's
+    // "being there" prose; from the road only the distant aspect applies.
+    const prose = (l.visited || l.entered) ? (l.presence || l.aspect) : l.aspect;
+    notes.push(`- ${l.name}${kind}: ${proximity}.${descriptionSuffix(prose)}`);
   }
   return notes;
 }
@@ -79,14 +94,14 @@ const NO_SHELTER_NOTE = "No shelter of note lies near the day's end. The night i
 
 /**
  * Describe where the character spends the night, plus any reference
- * material from the resolved places_interactions row.
+ * material from the resolved overnight interaction record.
  */
 export function describeOvernightLocation(location, interaction = null) {
   let text = NO_SHELTER_NOTE;
 
   if (location) {
     const kind = location.type ? readableType(location.type) : 'place';
-    const description = location.description;
+    const description = location.presence || location.aspect;
     const firstSentence = description && description.trim()
       ? ` ${description.trim().split('.')[0]}.`
       : '';

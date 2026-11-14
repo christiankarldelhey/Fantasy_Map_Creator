@@ -8,10 +8,20 @@ export function useLocationImage(location: Ref<LocationDetails | null>) {
 
   const imageUrls = computed(() => {
     if (!location.value) return []
-    
+
+    // Hidden (admin ghost) points have no art of their own — the region's
+    // picture stands in for the place.
+    if (location.value.hidden && location.value.region?.name) {
+      return generateImageUrls('region', {
+        url_path: location.value.region.url_path,
+        slug: location.value.region.slug,
+        name: location.value.region.name
+      })
+    }
+
     // Determine if this is a region or location based on the type
     const isRegion = location.value.type === 'Region' || location.value.region_type !== undefined
-    
+
     const urls = generateImageUrls(isRegion ? 'region' : 'location', {
       url_path: location.value.url_path,
       location_type: location.value.type,

@@ -1,12 +1,15 @@
 import express from 'express';
 import pool from '../../../db.js';
 import { authenticateToken } from '../../../middleware/auth.js';
+import { REF_TABLES } from '../../game/services/world/resolveNarrative.js';
 
 // Admin-only georeferencing tool (ADR-0013): positions fichas on the map by
 // creating/adopting `locations` anchor points. Every route requires a valid
 // JWT whose payload carries isAdmin.
 
 const router = express.Router();
+
+const DEPICTION_TABLES = [...new Set(Object.values(REF_TABLES))];
 
 router.use(authenticateToken, (req, res, next) => {
   if (!req.isAdmin) {
@@ -20,17 +23,19 @@ router.use(authenticateToken, (req, res, next) => {
 router.get('/places', async (req, res, next) => {
   try {
     const { status = 'unpositioned' } = req.query;
+    // Position lives on the anchor (ADR-0014 #105): a record is positioned
+    // when its location has a point.
     const geomFilter =
-      status === 'unpositioned' ? 'AND p.geom IS NULL' :
-      status === 'positioned'   ? 'AND p.geom IS NOT NULL' : '';
+      status === 'unpositioned' ? 'AND l.geom IS NULL' :
+      status === 'positioned'   ? 'AND l.geom IS NOT NULL' : '';
 
     const { rows } = await pool.query(
-      `SELECT p.id, p.kind, p.name, p.type, p.region_id, p.location_id,
-              p.payload->'region_ids' AS region_ids,
+      `SELECT p.id, p.kind, p.name, p.type, p.region_id, p.region_ids, p.location_id,
               p.size_radius_km, p.influence_radius_km,
-              p.geom IS NOT NULL AS positioned,
-              ST_AsGeoJSON(p.geom)::json AS geom
-       FROM places p
+              l.geom IS NOT NULL AS positioned,
+              ST_AsGeoJSON(l.geom)::json AS geom
+       FROM places_narration p
+       LEFT JOIN locations l ON l.id = p.location_id
        WHERE p.kind = 'place' ${geomFilter}
        ORDER BY p.id`
     );
@@ -40,14 +45,30 @@ router.get('/places', async (req, res, next) => {
   }
 });
 
-// GET /api/admin/georef/places/:id — full record for the read panel.
+// GET /api/admin/georef/places/:id — full record for the read panel,
+// including the features this record depicts (depiction bindings).
 router.get('/places/:id', async (req, res, next) => {
   try {
     const { rows } = await pool.query(
-      `SELECT p.id, p.kind, p.name, p.type, p.region_id, p.place_ref,
-              p.location_id, p.tags, p.size_radius_km, p.influence_radius_km,
-              ST_AsGeoJSON(p.geom)::json AS geom, p.payload
-       FROM places p WHERE p.id = $1`,
+      `SELECT p.id, p.kind, p.name, p.type, p.region_id,
+              p.location_id, p.region_ids, p.cultural_family, p.priority,
+              p.tags, p.size_radius_km, p.influence_radius_km,
+              p.aspect, p.presence, p.lore, p.secret, p.sections, p.facts,
+              p.notes, p.channel, p.traveller_use, p.variants, p.rotation,
+              p.interactive, p.refs,
+              ST_AsGeoJSON(l.geom)::json AS geom, p.payload,
+              (SELECT jsonb_agg(jsonb_build_object('table', x.t, 'id', x.id, 'name', x.name))
+                 FROM (
+                   SELECT 'locations' AS t, id, name FROM locations WHERE depiction_id = p.id
+                   UNION ALL SELECT 'water',    id, name FROM water    WHERE depiction_id = p.id
+                   UNION ALL SELECT 'biomes',   id, name FROM biomes   WHERE depiction_id = p.id
+                   UNION ALL SELECT 'roads',    id, name FROM roads    WHERE depiction_id = p.id
+                   UNION ALL SELECT 'regions',  id, name FROM regions  WHERE depiction_id = p.id
+                   UNION ALL SELECT 'kingdoms', id, name FROM kingdoms WHERE depiction_id = p.id
+                 ) x) AS depictions
+       FROM places_narration p
+       LEFT JOIN locations l ON l.id = p.location_id
+       WHERE p.id = $1`,
       [req.params.id]
     );
     if (rows.length === 0) return res.status(404).json({ error: 'Place not found' });
@@ -74,7 +95,7 @@ router.get('/locations/nearby', async (req, res, next) => {
         `SELECT l.id, l.name, l.location_type, l.region_id,
                 ST_AsGeoJSON(l.geom)::json AS geom,
                 ROUND((ST_Distance(l.geom::geography, ${point}) / 1000)::numeric, 2) AS distance_km,
-                (SELECT COUNT(*) FROM places p WHERE p.location_id = l.id) AS anchored_places
+                (SELECT COUNT(*) FROM places_narration p WHERE p.location_id = l.id) AS anchored_places
          FROM locations l
          WHERE l.geom IS NOT NULL
            AND ST_DWithin(l.geom::geography, ${point}, $3 * 1000)
@@ -101,6 +122,8 @@ router.get('/locations/nearby', async (req, res, next) => {
 // { name, location_type?, description?, description_es?, lon, lat,
 //   visible_in_map?, region_id? } → creates an adventure anchor point.
 // region_id defaults to point-in-polygon; `region` legacy text follows it.
+// description/description_es create a depiction record bound to the anchor —
+// locations itself carries no prose columns (#104).
 router.post('/locations', async (req, res, next) => {
   try {
     const { name, location_type = null, description = null, description_es = null,
@@ -115,39 +138,70 @@ router.post('/locations', async (req, res, next) => {
 
     const { rows } = await pool.query(
       `INSERT INTO locations
-         (name, location_type, description, description_es, region, region_id,
-          visible_in_map, geom)
+         (name, location_type, region, region_id,
+          visible_in_map, geom, source)
        VALUES (
-         $1, $2, $3, $4,
+         $1, $2,
          (SELECT r.name FROM regions r
-          WHERE r.id = COALESCE($5,
+          WHERE r.id = COALESCE($3,
             (SELECT rr.id FROM regions rr
-             WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($6, $7), 4326))
+             WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($4, $5), 4326))
              LIMIT 1))),
-         COALESCE($5,
+         COALESCE($3,
            (SELECT rr.id FROM regions rr
-            WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($6, $7), 4326))
+            WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($4, $5), 4326))
             LIMIT 1)),
-         $8, ST_SetSRID(ST_MakePoint($6, $7), 4326))
+         $6, ST_SetSRID(ST_MakePoint($4, $5), 4326), 'georef')
        RETURNING id, name, location_type, region, region_id, visible_in_map,
                  ST_AsGeoJSON(geom)::json AS geom`,
-      [name.trim(), location_type, description, description_es,
+      [name.trim(), location_type,
        region_id, lon, lat, visible_in_map === true]
     );
-    res.status(201).json(rows[0]);
+    const location = rows[0];
+
+    // Narrative input creates an ambient record bound to the new anchor
+    // (#104): locations carries no prose columns anymore.
+    if ((description && description.trim()) || (description_es && description_es.trim())) {
+      const recordId = `dep:loc:${location.id}`;
+      await pool.query(
+        `INSERT INTO places_narration
+           (id, kind, name, type, region_id, aspect, refs, payload)
+         VALUES ($1, 'ambient', $2::jsonb, $3::jsonb, $4, $5::jsonb, $6::jsonb, $7::jsonb)
+         ON CONFLICT (id) DO UPDATE SET
+           name=EXCLUDED.name, type=EXCLUDED.type, region_id=EXCLUDED.region_id,
+           aspect=EXCLUDED.aspect, refs=EXCLUDED.refs`,
+        [
+          recordId,
+          JSON.stringify({ en: location.name, es: null }),
+          location.location_type ? JSON.stringify({ en: location.location_type, es: null }) : null,
+          location.region_id,
+          JSON.stringify({ en: description || null, es: description_es || null }),
+          JSON.stringify({ location: [location.id] }),
+          JSON.stringify({ origin: 'admin:georef' }),
+        ]
+      );
+      await pool.query(
+        'UPDATE locations SET depiction_id = $1 WHERE id = $2',
+        [recordId, location.id]
+      );
+    }
+    res.status(201).json(location);
   } catch (err) {
     next(err);
   }
 });
 
 // PATCH /api/admin/georef/places/:id
-// { lon?, lat?, location_id?, region_id?, type?,
+// { lon?, lat?, location_id?, region_id?, type?, cultural_family?, priority?,
 //   size_radius_km?, influence_radius_km? }
-// Moves/edits the ficha only — never writes locations.geom (several fichas can
-// share one location).
+// ADR-0014 (#105): position writes go to the anchor, never to the record —
+//   location_id + point → moves that anchor's geom
+//   point alone         → moves the record's current anchor, or creates a
+//                         georef anchor named after the record and links it
+//   location_id alone   → links only
 router.patch('/places/:id', async (req, res, next) => {
   try {
-    const { lon, lat, location_id, region_id, type,
+    const { lon, lat, location_id, region_id, type, cultural_family, priority,
             size_radius_km, influence_radius_km } = req.body;
 
     const sets = [];
@@ -162,11 +216,50 @@ router.patch('/places/:id', async (req, res, next) => {
       params.push(parseFloat(lon), parseFloat(lat));
       lonIdx = params.length - 1;
       latIdx = params.length;
-      sets.push(`geom = ST_SetSRID(ST_MakePoint($${lonIdx}, $${latIdx}), 4326)`);
     }
-    if (location_id !== undefined) add('location_id = ?', location_id);
+
+    // Anchor write path. anchorId is undefined when untouched, null on
+    // explicit unlink, or the anchor to write/link.
+    let anchorId = location_id;
+    if (lonIdx !== undefined) {
+      if (anchorId === undefined) {
+        const { rows: [cur] } = await pool.query(
+          'SELECT location_id FROM places_narration WHERE id = $1', [req.params.id]
+        );
+        if (!cur) return res.status(404).json({ error: 'Place not found' });
+        anchorId = cur.location_id;
+      }
+      if (anchorId != null) {
+        const moved = await pool.query(
+          'UPDATE locations SET geom = ST_SetSRID(ST_MakePoint($1, $2), 4326) WHERE id = $3 RETURNING id',
+          [lon, lat, anchorId]
+        );
+        if (moved.rowCount === 0) {
+          return res.status(404).json({ error: `location ${anchorId} not found` });
+        }
+      } else {
+        const { rows: [pl] } = await pool.query(
+          `SELECT name->>'en' AS name FROM places_narration WHERE id = $1`, [req.params.id]
+        );
+        if (!pl) return res.status(404).json({ error: 'Place not found' });
+        const { rows: [loc] } = await pool.query(
+          `INSERT INTO locations (name, region, region_id, geom, source)
+           VALUES ($1,
+             (SELECT rr.name FROM regions rr
+               WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($2, $3), 4326)) LIMIT 1),
+             (SELECT rr.id FROM regions rr
+               WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($2, $3), 4326)) LIMIT 1),
+             ST_SetSRID(ST_MakePoint($2, $3), 4326), 'georef')
+           RETURNING id`,
+          [pl.name, lon, lat]
+        );
+        anchorId = loc.id;
+      }
+    }
+    if (anchorId !== undefined) add('location_id = ?', anchorId);
+
     // The containing region is spatial truth: derive it from the point unless
-    // the user picked one explicitly. payload.region/region_ids follow so the
+    // the user picked one explicitly. region_ids follows region_id so the
     // list filter never shows the ficha under its old region.
     let regionExpr;
     if (region_id != null) {
@@ -176,19 +269,20 @@ router.patch('/places/:id', async (req, res, next) => {
       regionExpr = `($${params.length})::int`;
     } else if (region_id === null && lonIdx === undefined) {
       sets.push('region_id = NULL');
-      sets.push(`payload = COALESCE(payload, '{}'::jsonb) - 'region' - 'region_ids'`);
+      sets.push('region_ids = NULL');
     } else if (lonIdx !== undefined) {
       regionExpr = `(SELECT rr.id FROM regions rr WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($${lonIdx}, $${latIdx}), 4326)) LIMIT 1)`;
     }
     if (regionExpr) {
       sets.push(`region_id = ${regionExpr}`);
-      sets.push(`payload = CASE WHEN (${regionExpr}) IS NULL THEN payload
-        ELSE (COALESCE(payload,'{}'::jsonb) - 'region' - 'region_ids') || jsonb_build_object(
-          'region_ids', jsonb_build_array((${regionExpr})::int),
-          'region', (SELECT r2.name FROM regions r2 WHERE r2.id = (${regionExpr})::int))
-        END`);
+      sets.push(`region_ids = CASE WHEN (${regionExpr}) IS NULL THEN region_ids
+        ELSE ARRAY[(${regionExpr})::int] END`);
     }
-    if (type !== undefined) add('type = ?', type);
+    // type is {en,es} jsonb in the ADR-0015 spec; the tool sends a plain
+    // string → wrap it.
+    if (type !== undefined) add('type = ?::jsonb', JSON.stringify({ en: type ?? null, es: null }));
+    if (cultural_family !== undefined) add('cultural_family = ?', cultural_family);
+    if (priority !== undefined) add('priority = ?', priority);
     if (size_radius_km !== undefined) add('size_radius_km = ?', size_radius_km);
     if (influence_radius_km !== undefined) add('influence_radius_km = ?', influence_radius_km);
 
@@ -197,14 +291,78 @@ router.patch('/places/:id', async (req, res, next) => {
     }
 
     const { rows } = await pool.query(
-      `UPDATE places SET ${sets.join(', ')} WHERE id = $1
-       RETURNING id, name, type, region_id, location_id,
-                 size_radius_km, influence_radius_km,
-                 ST_AsGeoJSON(geom)::json AS geom`,
+      `UPDATE places_narration SET ${sets.join(', ')} WHERE id = $1 RETURNING id`,
       params
     );
     if (rows.length === 0) return res.status(404).json({ error: 'Place not found' });
-    res.json(rows[0]);
+
+    const { rows: [row] } = await pool.query(
+      `SELECT p.id, p.name, p.type, p.region_id, p.location_id,
+              p.cultural_family, p.priority,
+              p.size_radius_km, p.influence_radius_km,
+              ST_AsGeoJSON(l.geom)::json AS geom
+       FROM places_narration p
+       LEFT JOIN locations l ON l.id = p.location_id
+       WHERE p.id = $1`,
+      [req.params.id]
+    );
+    res.json(row);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// PATCH /api/admin/georef/places/:id/bindings
+// { refs: { water?: [id...], location?: [id...], road?, biome?, region?, kingdom? } }
+// The refs column is the authored truth (ADR-0014 → #106); depiction_id
+// materializes immediately so the binding is visible before the next seed. A
+// feature claimed by another record is a conflict — rebind it there first.
+router.patch('/places/:id/bindings', async (req, res, next) => {
+  try {
+    const { refs } = req.body;
+    if (!refs || typeof refs !== 'object' || Array.isArray(refs)) {
+      return res.status(400).json({ error: 'refs object required' });
+    }
+
+    const { rows: [rec] } = await pool.query(
+      'SELECT id FROM places_narration WHERE id = $1', [req.params.id]
+    );
+    if (!rec) return res.status(404).json({ error: 'Place not found' });
+
+    const claims = [];
+    for (const [key, ids] of Object.entries(refs)) {
+      const table = REF_TABLES[key];
+      if (!table) return res.status(400).json({ error: `unknown refs key '${key}'` });
+      if (!Array.isArray(ids) || ids.some((i) => !Number.isInteger(i))) {
+        return res.status(400).json({ error: `refs.${key} must be an array of integer ids` });
+      }
+      for (const fid of ids) claims.push({ table, fid });
+    }
+
+    for (const { table, fid } of claims) {
+      const { rows: [f] } = await pool.query(
+        `SELECT id, depiction_id FROM ${table} WHERE id = $1`, [fid]
+      );
+      if (!f) return res.status(404).json({ error: `${table} ${fid} not found` });
+      if (f.depiction_id != null && f.depiction_id !== req.params.id) {
+        return res.status(409).json({
+          error: `${table} ${fid} already depicted by '${f.depiction_id}' — rebind it there first`,
+        });
+      }
+    }
+
+    await pool.query(
+      `UPDATE places_narration SET refs = $2::jsonb WHERE id = $1`,
+      [req.params.id, JSON.stringify(refs)]
+    );
+    for (const table of DEPICTION_TABLES) {
+      await pool.query('UPDATE ' + table + ' SET depiction_id = NULL WHERE depiction_id = $1', [req.params.id]);
+    }
+    for (const { table, fid } of claims) {
+      await pool.query('UPDATE ' + table + ' SET depiction_id = $1 WHERE id = $2', [req.params.id, fid]);
+    }
+
+    res.json({ ok: true, linked: claims.length });
   } catch (err) {
     next(err);
   }

@@ -28,13 +28,13 @@ const DAY = {
   ],
   moon_phase: { phase: 'full_moon' },
   biomes: [{ type: 'forest', hour_float: 9.5, total_area_km2: 30 }],
-  locations: [{ name: 'Amon Sul', type: 'ruin', hour_float: 14.2, distance_km: 0.4, description: 'A broken watchtower.' }],
-  water_crossings: [{ name: 'The Brandywine', crossing_type: 'bridge', hour_float: 10.0, description: 'Wide and brown.' }],
+  locations: [{ name: 'Amon Sul', type: 'ruin', hour_float: 14.2, distance_km: 0.4, aspect: 'A broken watchtower.' }],
+  water_crossings: [{ name: 'The Brandywine', crossing_type: 'bridge', hour_float: 10.0, aspect: 'Wide and brown.' }],
   meals: [
     { slot: 'midday', food: 'tavern_meal', drink: 'waterskin' },
     { slot: 'evening', food: null, drink: 'water' },
   ],
-  overnight_location: { name: 'Dale', type: 'city', distance_km: 0.3, indoor: true, description: 'A town of toy-makers.' },
+  overnight_location: { name: 'Dale', type: 'city', distance_km: 0.3, indoor: true, aspect: 'A town of toy-makers.' },
   overnight_interaction: { title: 'Shelter', description: 'A warm hall.' },
   encounters: [],
 };
@@ -90,6 +90,26 @@ test('lands carries regions, road notes and the climbing effort', () => {
   assert.match(lands, /Terrain effort/);
 });
 
+// A land reached for the first time today is marked so the narrator names
+// the crossing — a held border stays a plain bullet.
+test('lands marks a land entered today, and only that one', () => {
+  const wn = buildWorldNotes({
+    day: {
+      ...DAY,
+      regions: [
+        { name: 'lone-lands', description_summary: 'Bleak open country.' },
+        { name: 'Fangorn', description_summary: 'The forest drinking.' },
+      ],
+    },
+    tripName: 'Bree to Rivendell',
+    characterName: 'Tester',
+    previousDay: { day_number: 2, regions: ['lone-lands'], locations: [], encounters: [] },
+    rng,
+  });
+  assert.match(wn.lands, /Fangorn \(entered today — a new land\): The forest drinking\./);
+  assert.doesNotMatch(wn.lands, /lone-lands \(entered/);
+});
+
 test('condition, equipage and end_state render bands, not numbers', () => {
   const wn = notes();
   assert.match(wn.condition, /TRAVELLER'S CONDITION/);
@@ -141,4 +161,35 @@ test('collectLocationNotes tells entry from passing by', async () => {
   assert.doesNotMatch(notes[0], /passed close by/);
   assert.match(notes[1], /passed at some distance/);
   assert.match(notes[2], /enemy country/);
+});
+
+// A place that never comes within reach is first met on the horizon: the
+// sighting (with compass direction and its own hour) precedes the passing.
+test('collectLocationNotes voices a distant sighting before the passing', async () => {
+  const { collectLocationNotes } = await import('../placeNotes.js');
+  const notes = collectLocationNotes([
+    { name: 'Hornburg', type: 'fortress', hour_float: 19, distance_km: 24.55,
+      sighted: true, sighted_hour_float: 9.5, sighted_direction: 'east' },
+    { name: 'Dol Guldur', type: 'fortified city', hour_float: 16, distance_km: 8, hostile: true,
+      sighted: true, sighted_hour_float: 11, sighted_direction: 'north' },
+  ]);
+  assert.match(notes[0], /sighted far off to the east/);
+  assert.match(notes[0], /passed at some distance/);
+  assert.match(notes[1], /sighted far off to the north/);
+  assert.match(notes[1], /enemy country/);
+});
+
+// Inside the size radius the place executes: the note voices the ficha's
+// "being there" prose (presence) instead of the road-side aspect.
+test('collectLocationNotes voices the ficha prose for a visited place', async () => {
+  const { collectLocationNotes } = await import('../placeNotes.js');
+  const notes = collectLocationNotes([
+    { name: 'The Prancing Pony', type: 'inn', hour_float: 12, distance_km: 0.2,
+      size_radius_km: 0.5, visited: true,
+      aspect: 'A large inn seen from the road.',
+      presence: 'A low room full of pipe smoke and Bree gossip.' },
+  ]);
+  assert.match(notes[0], /passes through/);
+  assert.match(notes[0], /pipe smoke and Bree gossip/);
+  assert.doesNotMatch(notes[0], /seen from the road/);
 });

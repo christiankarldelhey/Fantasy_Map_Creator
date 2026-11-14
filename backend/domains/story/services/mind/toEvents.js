@@ -20,6 +20,10 @@
 //               the traveller actually stopped at, 'hostile' for
 //               enemy-kingdom places that were skirted from outside
 //   water     — one per crossing: data: {name, kind, reading}
+//   region    — one per land ENTERED today (not in yesterday's regions):
+//               data: {name, description, reading, tags['region_entered']}
+//               — crossing a border is a lived moment, not context: it is
+//               what the Episode can turn on and what gets remembered
 //   meal      — one per meal slot: data: {slot, eaten, food, drink,
 //               reading}
 //   rest      — overnight: data: {rest_quality, shadow_effect, place,
@@ -300,23 +304,68 @@ function placeEvents(day) {
     if (SETTLEMENT_KINDS.has(loc.type)) tags.push('settlement');
     if (loc.entered) tags.push('entered');
     if (loc.hostile) tags.push('hostile');
+    if (loc.sighted) tags.push('sighted');
+    if (loc.visited) tags.push('visited');
     return {
       type: 'place',
-      when: when(day, { phase: loc.phase || phaseOfHour(loc.hour_float) }),
+      // A distant place enters awareness when it is first sighted on the
+      // horizon, not at the leg's closest approach.
+      when: when(day, { phase: loc.phase || phaseOfHour(loc.sighted ? loc.sighted_hour_float : loc.hour_float) }),
       where: where(loc.region || regionOf(day)),
       data: {
         name: loc.name || loc.id,
         kind: loc.type || null,
         population: loc.population ?? null,
         inhabitants: loc.inhabitants ?? null,
-        description: loc.description ?? null,
-        description_es: loc.description_es ?? null,
+        aspect: loc.aspect ?? null,
+        aspect_es: loc.aspect_es ?? null,
         distance_km: loc.distance_km ?? null,
+        presence: loc.presence ?? undefined,
+        presence_es: loc.presence_es ?? undefined,
+        sighted: loc.sighted
+          ? { hour_float: loc.sighted_hour_float ?? null, direction: loc.sighted_direction ?? null }
+          : undefined,
         reading: loc.name || loc.id || null,
         tags: tags.length ? tags : undefined,
       },
     };
   });
+}
+
+// Entering a new land is an event, not just `where` metadata: yesterday's
+// region names decide which of today's are crossings. The hour the leg
+// first read as the new land anchors the moment; a land present from the
+// leg's start was crossed at first light (walking never reaches night).
+function regionEvents(day, previousDay) {
+  const prevNames = new Set(
+    (previousDay?.regions || [])
+      .map((r) => r?.name || r)
+      .filter(Boolean)
+  );
+  return (day.regions || [])
+    .filter((r) => {
+      const name = r?.name || r;
+      return name && !prevNames.has(name);
+    })
+    .map((r) => {
+      const name = r?.name || r;
+      const hourFloat = typeof r === 'object' ? r.first_seen_hour_float : null;
+      return {
+        type: 'region',
+        when: when(day, {
+          phase: hourFloat == null || hourFloat < 13 ? 'morning' : 'afternoon',
+          hour: hourFloat ?? undefined,
+        }),
+        where: where(name),
+        data: {
+          name,
+          description:
+            (r && typeof r === 'object' ? r.description_summary : null) ?? null,
+          reading: `crossed into ${name}`,
+          tags: ['region_entered'],
+        },
+      };
+    });
 }
 
 function waterEvents(day) {
@@ -327,6 +376,32 @@ function waterEvents(day) {
     data: { name: w.name || null, kind: w.type || null,
             reading: w.name || null },
   }));
+}
+
+// Ambient voices (ADR-0015): the tag-gated situations the world resolved
+// for this day — the wind of a region, the silence of a valley. One event
+// carries every voice that fired; the mind hears the outcome text the
+// resolver already chose, never the candidate list.
+function ambientEvent(day) {
+  const voices = (day.ambient || []).filter((a) => a?.text);
+  if (!voices.length) return null;
+  const text = (v) => (typeof v === 'string' ? v : v?.en ?? null);
+  return {
+    type: 'ambient',
+    when: when(day),
+    where: where(regionOf(day)),
+    data: {
+      voices: voices.map((a) => ({
+        record: a.record_id ?? null,
+        name: text(a.name) ?? a.name?.en ?? null,
+        situation: a.situation_id ?? null,
+        text: text(a.text),
+        text_es: typeof a.text === 'object' ? a.text?.es ?? null : null,
+        effects: a.effects ?? undefined,
+      })),
+      reading: text(voices[0].text),
+    },
+  };
 }
 
 function restEvent(day) {
@@ -399,9 +474,10 @@ function bodyEvent(day, stateContext) {
  * @param {Object} params.trip
  * @param {Object} params.character - narrator character snapshot
  * @param {Object} [params.stateContext] - {startState, endState} for body
+ * @param {Object} [params.previousDay] - yesterday's names (region entries)
  * @returns {Array} events[] contract
  */
-export function toEvents({ day, trip, character, stateContext }) {
+export function toEvents({ day, trip, character, stateContext, previousDay }) {
   const events = [
     ...climateEvents(day),
     ...(day.distance_km
@@ -439,7 +515,9 @@ export function toEvents({ day, trip, character, stateContext }) {
     ...encounterEvents(day),
     ...mealEvents(day),
     ...placeEvents(day),
+    ...regionEvents(day, previousDay),
     ...waterEvents(day),
+    ...(ambientEvent(day) ? [ambientEvent(day)] : []),
     ...(restEvent(day) ? [restEvent(day)] : []),
     ...(bodyEvent(day, stateContext) ? [bodyEvent(day, stateContext)] : []),
   ];

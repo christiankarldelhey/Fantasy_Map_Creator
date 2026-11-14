@@ -26,7 +26,12 @@ export interface LocationDetails {
   region?: {
     name: string
     kingdom?: string
+    slug?: string
+    url_path?: string
   }
+  // Admin ghost point (`visible_in_map` off): the sidebar shows the
+  // region's picture in place of location art.
+  hidden?: boolean
   climate?: {
     temperature: number
     humidity: number

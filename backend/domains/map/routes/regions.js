@@ -19,12 +19,12 @@ router.get('/', async (req, res, next) => {
               'name', r.name,
               'slug', r.slug,
               'url_path', r.url_path,
-              'description', to_jsonb(r.description_summary),
-              'land', r.land,
-              'notes', r.notes,
-              'people', r.people,
-              'source', r.source,
-              'products', r.products,
+              'description', rd.rotation,
+              'land', rd.facts->'land',
+              'notes', rd.facts->>'notes',
+              'people', rd.facts->'people',
+              'source', rd.facts->'source',
+              'products', rd.facts->>'products',
               'kingdom', k.name
             )
           )
@@ -32,6 +32,7 @@ router.get('/', async (req, res, next) => {
       ) as geojson
       FROM regions r
       LEFT JOIN kingdoms k ON r.kingdom_id = k.id
+      LEFT JOIN places_narration rd ON rd.id = r.depiction_id
       WHERE r.geom IS NOT NULL;
     `;
 

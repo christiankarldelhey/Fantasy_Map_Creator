@@ -357,6 +357,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       shadowFactor: dayShadowFactor,
       shadowBand: sBand,
       characterSlug: character.slug || null,
+      startState,
     });
     if (!day) {
       return res.status(409).json({ error: 'Trip is already complete; no more days to generate' });
@@ -539,7 +540,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
          (trip_id, day_number, date, start_lng, start_lat, end_lng, end_lat,
           distance_km, walking_hours, geometry, regions, terrain_phrases, biomes, altitude,
           road_types, locations, climate, encounters, prompt, narrative, is_last_day,
-          overnight_location, elevation_profile, places_interaction_id, rest_quality, shadow_effect,
+          overnight_location, elevation_profile, places_narration_id, rest_quality, shadow_effect,
           energy_start, energy_end, shadow_start, shadow_end,
           ia_provider, temperature, frequency_penalty, presence_penalty, top_p, meals, mind_open)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37)

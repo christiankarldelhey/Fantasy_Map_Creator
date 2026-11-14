@@ -2,10 +2,10 @@
 // Seasonal/weather variants of region descriptions
 // ----------------------------------------------------------------------------
 // Decides which variant a narrated day falls under and resolves the matching
-// seeded phrases. Two phrase sources exist:
+// seeded phrases. Both phrase sources live in places_narration (#104):
 //
-//   - region_biome_descriptions.variant   (terrain/road categories)
-//   - region_seasonal_descriptions.variant (the "lands crossed" summary)
+//   - scope-bound dep:biome:* depictions' variants (terrain/road categories)
+//   - the region depiction's variants      (the "lands crossed" summary)
 //
 // Both are resolved here in Node because the day generator already knows the
 // date and the sampled weather; the mind-engine then sees plain phrase
@@ -127,15 +127,20 @@ export async function loadSeasonalSummaries(regionNames) {
   }
   try {
     const { rows } = await pool.query(
-      `SELECT region_name, variant, phrases
-       FROM region_seasonal_descriptions
-       WHERE region_name = ANY($1::text[])`,
+      `SELECT r.name AS region_name, rd.variants AS variants
+       FROM regions r
+       JOIN places_narration rd ON rd.id = r.depiction_id
+       WHERE r.name = ANY($1::text[])
+         AND rd.variants IS NOT NULL`,
       [regionNames]
     );
     const map = {};
     for (const row of rows) {
-      if (!map[row.region_name]) map[row.region_name] = {};
-      map[row.region_name][row.variant] = row.phrases || [];
+      // variants column is [{id, tags, phrases}] (ADR-0015; legacy `key` = `id`)
+      const keyed = Object.fromEntries(
+        (row.variants || []).filter((v) => v && (v.id ?? v.key) != null).map((v) => [v.id ?? v.key, v.phrases])
+      );
+      if (Object.keys(keyed).length) map[row.region_name] = keyed;
     }
     return map;
   } catch (err) {

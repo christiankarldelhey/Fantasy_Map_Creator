@@ -97,13 +97,13 @@ function slimDay(d) {
       pick(b, ['type', 'hour_float', 'fraction', 'total_area_km2'])
     ),
     locations: (d.locations || []).map((l) =>
-      pick(l, ['name', 'type', 'region', 'description', 'description_es', 'population', 'inhabitants', 'cultural_family', 'hour', 'hour_float', 'distance_km', 'title', 'indoor', 'entered', 'hostile'])
+      pick(l, ['id', 'name', 'type', 'region', 'region_id', 'aspect', 'aspect_es', 'presence', 'presence_es', 'population', 'inhabitants', 'cultural_family', 'hour', 'hour_float', 'distance_km', 'size_radius_km', 'influence_radius_km', 'sighted', 'sighted_hour_float', 'sighted_hour', 'sighted_direction', 'visited', 'title', 'indoor', 'entered', 'hostile'])
     ),
     lodging: d.lodging
       ? pick(d.lodging, ['paid', 'cost', 'coinsAfter', 'sheltered', 'turnedAway', 'charity', 'charityCheck', 'place'])
       : null,
     water_crossings: (d.water_crossings || []).map((w) =>
-      pick(w, ['name', 'type', 'description', 'crossing_type', 'hour_float'])
+      pick(w, ['name', 'type', 'aspect', 'crossing_type', 'hour_float'])
     ),
     climate: (d.climate || []).map(slimClimate).filter(Boolean),
     nighttime_climate: (d.nighttime_climate || []).map(slimClimate).filter(Boolean),
@@ -112,6 +112,9 @@ function slimDay(d) {
     meals: (d.meals || []).map((m) => pick(m, ['slot', 'food', 'drink'])),
     overnight_location: d.overnight_location ?? null,
     overnight_interaction: d.overnight_interaction ?? null,
+    ambient: (d.ambient || []).map((a) =>
+      pick(a, ['record_id', 'situation_id', 'option_id', 'name', 'when', 'text', 'effects'])
+    ),
     elevation_profile: d.elevation_profile ?? null,
   };
 }
@@ -153,7 +156,7 @@ export function toOpenPayload({
     episode_ref: `trip:${trip.id}:day:${day.day_number}`,
     language,
     character: slimCharacter(character),
-    events: toEvents({ day, trip, character, stateContext }),
+    events: toEvents({ day, trip, character, stateContext, previousDay }),
     day: daySlim,
     trip_name: trip.name ?? null,
     character_state: characterState,

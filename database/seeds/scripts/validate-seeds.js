@@ -16,6 +16,7 @@ import path from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
 import pg from 'pg';
 import dotenv from 'dotenv';
+import { PHYSICAL_TYPES } from './physical-types.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -101,7 +102,52 @@ const VALIDATION_CONFIG = {
       column: 'leg_id',
       references: 'mover_legs.id'
     },
+    {
+      table: 'locations',
+      column: 'depiction_id',
+      references: 'places_narration.id'
+    },
+    {
+      table: 'water',
+      column: 'depiction_id',
+      references: 'places_narration.id'
+    },
+    {
+      table: 'biomes',
+      column: 'depiction_id',
+      references: 'places_narration.id'
+    },
+    {
+      table: 'roads',
+      column: 'depiction_id',
+      references: 'places_narration.id'
+    },
+    {
+      table: 'regions',
+      column: 'depiction_id',
+      references: 'places_narration.id'
+    },
+    {
+      table: 'kingdoms',
+      column: 'depiction_id',
+      references: 'places_narration.id'
+    },
+    {
+      table: 'trip_days',
+      column: 'places_narration_id',
+      references: 'places_narration.id'
+    },
   ],
+};
+
+// refs key → gazetteer table (ADR-0014); keep in sync with load-seeds.js.
+const REF_TABLES = {
+  water: 'water',
+  biome: 'biomes', biomes: 'biomes',
+  road: 'roads', roads: 'roads',
+  location: 'locations', locations: 'locations',
+  region: 'regions', regions: 'regions',
+  kingdom: 'kingdoms', kingdoms: 'kingdoms',
 };
 
 /**
@@ -199,6 +245,42 @@ async function validateGeometries() {
 }
 
 /**
+ * Validate location type vocabulary + anchor provenance (ADR-0014, #103)
+ */
+async function validateLocationTypes() {
+  console.log('\n🧭 Validating location types...');
+
+  const { rows: [nulls] } = await pool.query(
+    `SELECT COUNT(*)::int AS n FROM locations WHERE location_type IS NULL`
+  );
+  if (nulls.n === 0) {
+    console.log('✅ location_type: no nulls');
+  } else {
+    console.log(`⚠️  ${nulls.n} locations have NULL location_type`);
+  }
+
+  const { rows: bad } = await pool.query(
+    `SELECT DISTINCT location_type FROM locations WHERE location_type IS NOT NULL`
+  );
+  const offVocab = bad.map((r) => r.location_type).filter((t) => !PHYSICAL_TYPES.has(t));
+  if (offVocab.length === 0) {
+    console.log(`✅ location_type: all ${bad.length} values in canonical set`);
+  } else {
+    console.log(`⚠️  location_type off-vocabulary: ${offVocab.join(', ')}`);
+  }
+
+  const { rows: src } = await pool.query(
+    `SELECT source, COUNT(*)::int AS n FROM locations GROUP BY source ORDER BY source NULLS FIRST`
+  );
+  const nullSource = src.find((r) => r.source === null)?.n || 0;
+  console.log(
+    nullSource === 0
+      ? `✅ source: ${src.map((r) => `${r.source}=${r.n}`).join(', ')}`
+      : `⚠️  ${nullSource} locations with NULL source (${src.filter((r) => r.source).map((r) => `${r.source}=${r.n}`).join(', ')})`
+  );
+}
+
+/**
  * Validate foreign key integrity
  */
 async function validateForeignKeys() {
@@ -224,6 +306,259 @@ async function validateForeignKeys() {
     } catch (error) {
       console.log(`❌ Error validating ${fk.table}.${fk.column}: ${error.message}`);
     }
+  }
+}
+
+/**
+ * Validate depiction links (ADR-0014): refs is the authored truth,
+ * depiction_id the materialized link. Checks:
+ *  - duplicate claims: two records listing the same feature in refs
+ *  - dangling refs: refs pointing at feature ids that do not exist
+ *  - dead depictions: kind='depiction' records no feature points at
+ */
+async function validateDepictionLinks() {
+  console.log('\n🖼️  Validating depiction links...');
+
+  const { rows: [reg] } = await pool.query(`SELECT to_regclass('places_narration') AS t`);
+  if (!reg.t) {
+    console.log('⚠️  places_narration not present; run the narration migration first');
+    return;
+  }
+
+  try {
+    const { rows: records } = await pool.query(
+      `SELECT id, refs FROM places_narration WHERE refs IS NOT NULL`
+    );
+
+    // feature key → claiming record ids
+    const claims = new Map();
+    const unknownKeys = [];
+    for (const r of records) {
+      for (const [key, ids] of Object.entries(r.refs || {})) {
+        const table = REF_TABLES[key];
+        if (!table) { unknownKeys.push(`${r.id}:${key}`); continue; }
+        for (const fid of ids || []) {
+          const fk = `${table}#${fid}`;
+          if (!claims.has(fk)) claims.set(fk, []);
+          claims.get(fk).push(r.id);
+        }
+      }
+    }
+
+    const dupes = [...claims.entries()].filter(([, rs]) => rs.length > 1);
+    if (dupes.length === 0) {
+      console.log('✅ refs: no duplicate feature claims');
+    } else {
+      console.log(`⚠️  refs: ${dupes.length} features claimed by multiple records`);
+      for (const [fk, rs] of dupes.slice(0, 10)) console.log(`   - ${fk}: ${rs.join(', ')}`);
+    }
+
+    if (unknownKeys.length) {
+      console.log(`⚠️  refs: ${unknownKeys.length} unknown refs keys: ${unknownKeys.slice(0, 10).join(', ')}`);
+    }
+
+    // dangling refs → feature id not present in its table
+    const byTable = new Map();
+    for (const fk of claims.keys()) {
+      const [table, fid] = fk.split('#');
+      if (!byTable.has(table)) byTable.set(table, []);
+      byTable.get(table).push(Number(fid));
+    }
+    let dangling = 0;
+    for (const [table, ids] of byTable) {
+      const { rows } = await pool.query(
+        `SELECT id FROM ${table} WHERE id = ANY($1::int[])`, [ids]
+      );
+      const present = new Set(rows.map((r) => r.id));
+      const gone = ids.filter((i) => !present.has(i));
+      dangling += gone.length;
+      if (gone.length) console.log(`   - ${table}: ${gone.length} refs to missing ids (${gone.slice(0, 10).join(', ')})`);
+    }
+    if (dangling === 0) console.log('✅ refs: all feature ids exist');
+
+    // dead bindings: a record claims features in refs but no feature's
+    // depiction_id materialized back to it (refs is the authored truth —
+    // the seed materializes; a mismatch means the link never ran).
+    const { rows: dead } = await pool.query(
+      `SELECT p.id FROM places_narration p
+       WHERE p.refs IS NOT NULL
+         AND NOT EXISTS (SELECT 1 FROM locations l WHERE l.depiction_id = p.id)
+         AND NOT EXISTS (SELECT 1 FROM water w     WHERE w.depiction_id = p.id)
+         AND NOT EXISTS (SELECT 1 FROM biomes b    WHERE b.depiction_id = p.id)
+         AND NOT EXISTS (SELECT 1 FROM roads r     WHERE r.depiction_id = p.id)
+         AND NOT EXISTS (SELECT 1 FROM regions g   WHERE g.depiction_id = p.id)
+         AND NOT EXISTS (SELECT 1 FROM kingdoms k  WHERE k.depiction_id = p.id)`
+    );
+    if (dead.length === 0) {
+      console.log('✅ no dead depiction records');
+    } else {
+      console.log(`⚠️  ${dead.length} records with refs but no materialized depiction_id: ${dead.map((d) => d.id).slice(0, 10).join(', ')}`);
+    }
+
+    // overnight records (interactive[] tagged 'context:overnight') must carry
+    // at least one scope dimension — a scopeless record can never be resolved
+    // (old chk_scope equivalent).
+    const { rows: [scopeless] } = await pool.query(
+      `SELECT COUNT(*)::int AS n FROM places_narration
+       WHERE EXISTS (SELECT 1 FROM jsonb_array_elements(interactive) s
+                     WHERE s->'tags' ? 'context:overnight')
+         AND location_id IS NULL AND type IS NULL
+         AND region_id IS NULL AND cultural_family IS NULL`
+    );
+    if (scopeless.n === 0) {
+      console.log('✅ overnight records: all carry a scope');
+    } else {
+      console.log(`⚠️  ${scopeless.n} overnight records with no scope dimension (unresolvable)`);
+    }
+  } catch (error) {
+    console.log(`❌ Error validating depiction links: ${error.message}`);
+  }
+}
+
+/**
+ * Validate the narration-v2 record shape (ADR-0015):
+ *  - kind is only 'place' or 'ambient'
+ *  - name/type are localized {en,es} objects when present
+ *  - payload carries only provenance/scope-metadata keys (no prose)
+ *  - region_id is region_ids' first element when the list is present
+ *  - every gating/driver tag exists in the narration_tags registry
+ *  - every situation carries at least one option with an outcome
+ */
+async function validateNarrationShape() {
+  console.log('\n📐 Validating narration record shape...');
+
+  const { rows: [reg] } = await pool.query(`SELECT to_regclass('places_narration') AS t`);
+  if (!reg.t) {
+    console.log('⚠️  places_narration not present; run the narration migration first');
+    return;
+  }
+
+  try {
+    const { rows: [badKinds] } = await pool.query(
+      `SELECT COUNT(*)::int AS n FROM places_narration WHERE kind NOT IN ('place','ambient')`
+    );
+    if (badKinds.n === 0) {
+      console.log('✅ kind vocabulary: only place/ambient');
+    } else {
+      console.log(`⚠️  ${badKinds.n} records with a kind outside place/ambient`);
+    }
+
+    // payload keeps provenance + scope metadata only — prose/spec keys that
+    // migrated to real columns must not linger.
+    const ALLOWED_PAYLOAD_KEYS = [
+      'origin', 'legacy_id', 'anchor_hint', 'location_ref', 'approx_point',
+      'region', 'region_confidence', 'place_ref', 'title',
+      'region_name', 'category',
+    ];
+    const { rows: dirty } = await pool.query(
+      `SELECT p.id, k.key FROM places_narration p,
+              jsonb_object_keys(p.payload) k(key)
+       WHERE NOT (k.key = ANY($1::text[]))
+       LIMIT 10`,
+      [ALLOWED_PAYLOAD_KEYS]
+    );
+    if (dirty.length === 0) {
+      console.log('✅ payload: provenance keys only');
+    } else {
+      console.log(`⚠️  unexpected payload keys: ${dirty.map((d) => `${d.id}.${d.key}`).join(', ')}`);
+    }
+
+    const { rows: [badLoc] } = await pool.query(
+      `SELECT COUNT(*)::int AS n FROM places_narration
+       WHERE (name IS NOT NULL AND jsonb_typeof(name) <> 'object')
+          OR (type IS NOT NULL AND jsonb_typeof(type) <> 'object')`
+    );
+    if (badLoc.n === 0) {
+      console.log('✅ name/type are localized objects');
+    } else {
+      console.log(`⚠️  ${badLoc.n} records with non-localized name/type`);
+    }
+
+    const { rows: [misaligned] } = await pool.query(
+      `SELECT COUNT(*)::int AS n FROM places_narration
+       WHERE region_ids IS NOT NULL AND region_id IS DISTINCT FROM region_ids[1]`
+    );
+    if (misaligned.n === 0) {
+      console.log('✅ region_id is region_ids[1] wherever the list exists');
+    } else {
+      console.log(`⚠️  ${misaligned.n} records whose region_id is not region_ids[1]`);
+    }
+
+    const { rows: [emptySits] } = await pool.query(
+      `SELECT COUNT(*)::int AS n FROM places_narration
+       WHERE EXISTS (SELECT 1 FROM jsonb_array_elements(interactive) s
+                     WHERE jsonb_typeof(s->'options') <> 'array'
+                        OR jsonb_array_length(s->'options') = 0)`
+    );
+    if (emptySits.n === 0) {
+      console.log('✅ every situation carries at least one option');
+    } else {
+      console.log(`⚠️  ${emptySits.n} records have situations with no options`);
+    }
+
+    await validateNarrationTags();
+  } catch (error) {
+    console.log(`❌ Error validating narration shape: ${error.message}`);
+  }
+}
+
+/**
+ * Every gating tag (situation/variant tags + not_tags + option drivers) must
+ * resolve against the narration_tags registry. Pattern families are stored
+ * as a single '*' row whose pattern lives in tags.json.
+ */
+async function validateNarrationTags() {
+  const { rows: [reg] } = await pool.query(`SELECT to_regclass('narration_tags') AS t`);
+  if (!reg.t) {
+    console.log('⚠️  narration_tags not present; run the narration migration first');
+    return;
+  }
+
+  const tagsFile = JSON.parse(
+    await fs.readFile(path.join(__dirname, '../data/json/tags.json'), 'utf8')
+  );
+  const patterns = new Map(
+    Object.entries(tagsFile.families || {})
+      .filter(([, d]) => d.pattern)
+      .map(([fam, d]) => [fam, new RegExp(d.pattern)])
+  );
+  const { rows: registered } = await pool.query(
+    `SELECT family, value FROM narration_tags`
+  );
+  const closed = new Map();
+  for (const r of registered) {
+    if (r.value === '*') continue;
+    (closed.get(r.family) || closed.set(r.family, new Set()).get(r.family)).add(r.value);
+  }
+  const tagOk = (tag) => {
+    const i = String(tag).indexOf(':');
+    if (i < 0) return false;
+    const [fam, val] = [tag.slice(0, i), tag.slice(i + 1)];
+    if (patterns.has(fam)) return patterns.get(fam).test(val);
+    return closed.get(fam)?.has(val) ?? false;
+  };
+
+  const { rows } = await pool.query(
+    `SELECT id, interactive, variants FROM places_narration
+      WHERE interactive IS NOT NULL OR variants IS NOT NULL`
+  );
+  const bad = [];
+  for (const r of rows) {
+    const check = (tag, where) => { if (!tagOk(tag)) bad.push(`${r.id}:${where}:${tag}`); };
+    for (const s of r.interactive || []) {
+      for (const t of s?.tags || []) check(t, 'interactive');
+      for (const t of s?.not_tags || []) check(t, 'interactive-not');
+      for (const o of s?.options || []) { if (o?.tag) check(o.tag, 'option-driver'); }
+    }
+    for (const v of r.variants || []) {
+      for (const t of v?.tags || []) check(t, 'variant');
+      for (const t of v?.not_tags || []) check(t, 'variant-not');
+    }
+  }
+  if (bad.length === 0) {
+    console.log('✅ all gating/driver tags resolve against narration_tags');
+  } else {
+    console.log(`⚠️  ${bad.length} tags outside the registry: ${bad.slice(0, 15).join(', ')}`);
   }
 }
 
@@ -441,7 +776,10 @@ async function main() {
     await validateSeedFiles();
     await validateTableCounts();
     await validateGeometries();
+    await validateLocationTypes();
     await validateForeignKeys();
+    await validateDepictionLinks();
+    await validateNarrationShape();
     await validateMovers();
     await validateDataFormats();
     await generateReport();
