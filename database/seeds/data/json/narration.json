@@ -15838,8 +15838,8 @@
     "es": null
    },
    "type": {
-    "en": "town",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -15850,11 +15850,15 @@
     ]
    },
    "aspect": {
-    "en": "A town of Harithilien, situated south of the Emyn Arnen along the river Dinnen. Its stone houses and market square serve the southern Ithilien farmlands; the Dinnen valley is known for its olive groves and herb gardens, and the town's small harbour handles river traffic to and from Pelargir.",
-    "es": "Un pueblo de Harithilien, situado al sur de las Emyn Arnen, sobre el río Dinnen. Sus casas de piedra y su plaza de mercado atienden a las tierras de labranza del sur de Ithilien; el valle del Dinnen es conocido por sus olivares y sus jardines de hierbas, y el puerto pequeño del pueblo maneja el tránsito fluvial desde y hacia Pelargir."
+    "en": "Rianbar stands shuttered above the Dinnen — stone houses with their doors barred, a market square gone quiet, the little riverport still mooring nothing. The herb-gardens and olive-terraces of the valley grow on their own now. Ithilien's towns were not destroyed: they were left, in order, and that is somehow colder.",
+    "es": "Rianbar quedó cerrado sobre el Dinnen — casas de piedra con las puertas atrancadas, una plaza de mercado en silencio, el puerto fluvial chico que ya no amarra nada. Los jardines de hierbas y las terrazas de olivos del valle crecen solos ahora. Los pueblos de Ithilien no fueron destruidos: fueron abandonados en orden, y eso da más frío."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A town of Harithilien, situated south of the Emyn Arnen along the river Dinnen. Its stone houses and market square serve the southern Ithilien farmlands; the Dinnen valley is known for its olive groves and herb gardens, and the town's small harbour handles river traffic to and from Pelargir.",
+    "es": "Un pueblo de Harithilien, situado al sur de las Emyn Arnen, sobre el río Dinnen. Sus casas de piedra y su plaza de mercado atienden a las tierras de labranza del sur de Ithilien; el valle del Dinnen es conocido por sus olivares y sus jardines de hierbas, y el puerto pequeño del pueblo maneja el tránsito fluvial desde y hacia Pelargir."
    }
   },
   {
@@ -15898,8 +15902,8 @@
     "es": null
    },
    "type": {
-    "en": "town",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -15910,11 +15914,15 @@
     ]
    },
    "aspect": {
-    "en": "A small town in southwestern Harithilien, set halfway between Hyarpendë and Tir Ethraid on the road through the region. The town is notable as the seat of House Alagdor, one of Ithilien's ancient noble families, whose home castle Târik-Ûriyat rises on a rocky spur above the surrounding fields and olive groves. Stone houses with tiled roofs line the main road; the air carries the scent of herbs and cultivated terraces.",
-    "es": "Un pueblo pequeño del suroeste de Harithilien, a mitad de camino entre Hyarpendë y Tir Ethraid, sobre el camino que atraviesa la región. Es notable por ser el asiento de la Casa Alagdor, una de las familias nobles antiguas de Ithilien, cuyo castillo solar, Târik-Ûriyat, se alza en un espolón rocoso sobre los campos y los olivares de alrededor. Casas de piedra con techos de teja bordean el camino principal; el aire trae olor a hierbas y a terrazas cultivadas."
+    "en": "Aludor is a town of barred doors under a watching castle. Târik-Ûriyat, the seat of House Alagdor, still stands on its rocky spur over the olives — intact, locked, empty. The stone houses along the road kept their tiled roofs and lost their people; what remains is one of Ithilien's held breaths, waiting for a return nobody announces.",
+    "es": "Aludor es un pueblo de puertas atrancadas bajo un castillo que vigila. Târik-Ûriyat, la sede de la Casa Alagdor, sigue en su espolón rocoso sobre los olivos — intacto, cerrado, vacío. Las casas de piedra junto al camino conservaron sus techos de teja y perdieron a su gente; lo que queda es una de las respiraciones contenidas de Ithilien, esperando una vuelta que nadie anuncia."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A small town in southwestern Harithilien, set halfway between Hyarpendë and Tir Ethraid on the road through the region. The town is notable as the seat of House Alagdor, one of Ithilien's ancient noble families, whose home castle Târik-Ûriyat rises on a rocky spur above the surrounding fields and olive groves. Stone houses with tiled roofs line the main road; the air carries the scent of herbs and cultivated terraces.",
+    "es": "Un pueblo pequeño del suroeste de Harithilien, a mitad de camino entre Hyarpendë y Tir Ethraid, sobre el camino que atraviesa la región. Es notable por ser el asiento de la Casa Alagdor, una de las familias nobles antiguas de Ithilien, cuyo castillo solar, Târik-Ûriyat, se alza en un espolón rocoso sobre los campos y los olivares de alrededor. Casas de piedra con techos de teja bordean el camino principal; el aire trae olor a hierbas y a terrazas cultivadas."
    }
   },
   {
@@ -15928,8 +15936,8 @@
     "es": null
    },
    "type": {
-    "en": "town",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -15940,11 +15948,15 @@
     ]
    },
    "aspect": {
-    "en": "A small town and watchtower at the mouth of the river Nethos in southwestern Harithilien, home of the noble house of Nethos. The tower overlooks the river confluence and the road to Pelargir. The town's houses are compact and stone-built; the watchtower is the tallest structure for miles.",
-    "es": "Un pueblo pequeño con torre de vigilancia en la desembocadura del río Nethos, en el suroeste de Harithilien, solar de la casa noble de Nethos. La torre domina la confluencia y el camino a Pelargir. Las casas del pueblo son compactas y de piedra; la torre es la estructura más alta en muchas millas."
+    "en": "Bar Nepos keeps its watchtower and loses everything else. The little town at the Nethos mouth emptied with the province; the tower — tallest thing for miles — still commands the confluence and the Pelargir road, watching over houses that have nobody left to watch. Good stone, good view, no garrison.",
+    "es": "Bar Nepos conserva su torre de vigilancia y perdió todo lo demás. El pueblo chico en la desembocadura del Nethos se vació con la provincia; la torre — lo más alto en millas — sigue dominando la confluencia y el camino a Pelargir, vigilando casas que ya no tienen a quién cuidar. Buena piedra, buena vista, sin guarnición."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A small town and watchtower at the mouth of the river Nethos in southwestern Harithilien, home of the noble house of Nethos. The tower overlooks the river confluence and the road to Pelargir. The town's houses are compact and stone-built; the watchtower is the tallest structure for miles.",
+    "es": "Un pueblo pequeño con torre de vigilancia en la desembocadura del río Nethos, en el suroeste de Harithilien, solar de la casa noble de Nethos. La torre domina la confluencia y el camino a Pelargir. Las casas del pueblo son compactas y de piedra; la torre es la estructura más alta en muchas millas."
    }
   },
   {
@@ -15958,8 +15970,8 @@
     "es": null
    },
    "type": {
-    "en": "town",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -15970,11 +15982,15 @@
     ]
    },
    "aspect": {
-    "en": "A small town of Harithilien on a tributary of the Poros, once known as Bar Miruvor ('House of Precious-juice') and renamed Bar Morvegil ('House of the Black-sword') when the local noble family took a martial crest. Its stone houses and small river-wharf serve travellers on the Poros road; orchards and herb-gardens cover the gentle slopes around it.",
-    "es": "Un pueblo pequeño de Harithilien sobre un afluente del Poros, conocido en otro tiempo como Bar Miruvor ('Casa del Jugo Precioso') y rebautizado Bar Morvegil ('Casa de la Espada Negra') cuando la familia noble del lugar adoptó un blasón guerrero. Sus casas de piedra y su muelle fluvial pequeño atienden a los viajeros del camino del Poros; huertos y jardines de hierbas cubren las laderas suaves de alrededor."
+    "en": "Bar Morvegil — 'House of the Black Sword' — keeps its blazon over an empty hearth. The noble family that renamed it went where the swords went: across the river, to the war. The river-quay still serves, the herb-gardens on the soft slopes still grow, and the stone houses stand shuttered in a town that answered a call and never came back.",
+    "es": "Bar Morvegil — 'Casa de la Espada Negra' — conserva su blasón sobre un hogar vacío. La familia noble que le cambió el nombre se fue donde se fueron las espadas: al otro lado del río, a la guerra. El muelle fluvial sigue sirviendo, los jardines de hierbas de las laderas suaves siguen creciendo, y las casas de piedra quedan cerradas en un pueblo que respondió a un llamado y nunca volvió."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A small town of Harithilien on a tributary of the Poros, once known as Bar Miruvor ('House of Precious-juice') and renamed Bar Morvegil ('House of the Black-sword') when the local noble family took a martial crest. Its stone houses and small river-wharf serve travellers on the Poros road; orchards and herb-gardens cover the gentle slopes around it.",
+    "es": "Un pueblo pequeño de Harithilien sobre un afluente del Poros, conocido en otro tiempo como Bar Miruvor ('Casa del Jugo Precioso') y rebautizado Bar Morvegil ('Casa de la Espada Negra') cuando la familia noble del lugar adoptó un blasón guerrero. Sus casas de piedra y su muelle fluvial pequeño atienden a los viajeros del camino del Poros; huertos y jardines de hierbas cubren las laderas suaves de alrededor."
    }
   },
   {
@@ -16018,8 +16034,8 @@
     "es": null
    },
    "type": {
-    "en": "manor",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -16030,11 +16046,15 @@
     ]
    },
    "aspect": {
-    "en": "A lordly manor in western Harithilien, the main settlement of the county of Glorel. Known in Sindarin as Thindamost ('Grey ascending house'), it sits on a gentle slope above the Ithilien farmlands. The manor house is a Gondorian stone hall with outbuildings and enclosed gardens; the surrounding county is known for olives and herbs.",
-    "es": "Una casa señorial del oeste de Harithilien, asentamiento principal del condado de Glorel. Conocida en sindarin como Thindamost ('Casa gris que asciende'), se asienta en una ladera suave sobre las tierras de labranza de Ithilien. La casa es un salón gondoriano de piedra con construcciones anexas y jardines cerrados; el condado de alrededor es conocido por sus olivas y sus hierbas."
+    "en": "Sindamos — 'the grey house ascending' — climbs its gentle slope over farmland nobody farms. The Gondorian stone hall with its walled gardens was the seat of the county of Glorel; now it is a fine roofless shell above the olives, the county's administration reduced to the crows that hold its tower.",
+    "es": "Sindamos — 'la casa gris que asciende' — trepa su ladera suave sobre tierras de labranza que nadie labra. El salón gondoriano de piedra con sus jardines cerrados era la sede del condado de Glorel; ahora es una concha elegante sin techo sobre los olivos, y la administración del condado se redujo a los cuervos que ocupan su torre."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A lordly manor in western Harithilien, the main settlement of the county of Glorel. Known in Sindarin as Thindamost ('Grey ascending house'), it sits on a gentle slope above the Ithilien farmlands. The manor house is a Gondorian stone hall with outbuildings and enclosed gardens; the surrounding county is known for olives and herbs.",
+    "es": "Una casa señorial del oeste de Harithilien, asentamiento principal del condado de Glorel. Conocida en sindarin como Thindamost ('Casa gris que asciende'), se asienta en una ladera suave sobre las tierras de labranza de Ithilien. La casa es un salón gondoriano de piedra con construcciones anexas y jardines cerrados; el condado de alrededor es conocido por sus olivas y sus hierbas."
    }
   },
   {
@@ -16048,8 +16068,8 @@
     "es": null
    },
    "type": {
-    "en": "manor",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -16060,11 +16080,15 @@
     ]
    },
    "aspect": {
-    "en": "The seat of Tolfalas' royal warden and the island's principal settlement (also known as Gobel Tolfalas). Located at the end of a long southeastern firth, with a haven for warships. Stone houses cluster at the foot of a ridge; the warden's small keep stands on the slope above. The town grew from a military base into a modest civilian settlement during the Third Age, though it remains a place of soldiers and sailors more than merchants.",
-    "es": "El asiento del guardián real de Tolfalas y el asentamiento principal de la isla (conocido también como Gobel Tolfalas). Queda en el extremo de una ría larga del sudeste, con un puerto para navíos de guerra. Las casas de piedra se apiñan al pie de una loma; el torreón pequeño del guardián se alza en la pendiente de arriba. El pueblo pasó de base militar a asentamiento civil modesto durante la Tercera Edad, aunque sigue siendo un lugar de soldados y marinos más que de mercaderes."
+    "en": "Trenas keeps its post over the ria and has nobody to report to. The seat of Tolfalas' warden — houses packed at the lom's foot, the little keep on the slope above, the war-harbour at the ria's end — emptied with the rest of the coast-guard's holdings. The sea still brings news to the doorstep; there is just nobody left to read it.",
+    "es": "Trenas conserva su puesto sobre la ría y no tiene a quién reportar. La sede del guardián de Tolfalas — casas apiñadas al pie de la loma, el torreón chico en la pendiente de arriba, el puerto de guerra al fondo de la ría — se vació con el resto de las posesiones de la guardia costera. El mar sigue trayendo noticias hasta la puerta; solo que ya no queda nadie para leerlas."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "The seat of Tolfalas' royal warden and the island's principal settlement (also known as Gobel Tolfalas). Located at the end of a long southeastern firth, with a haven for warships. Stone houses cluster at the foot of a ridge; the warden's small keep stands on the slope above. The town grew from a military base into a modest civilian settlement during the Third Age, though it remains a place of soldiers and sailors more than merchants.",
+    "es": "El asiento del guardián real de Tolfalas y el asentamiento principal de la isla (conocido también como Gobel Tolfalas). Queda en el extremo de una ría larga del sudeste, con un puerto para navíos de guerra. Las casas de piedra se apiñan al pie de una loma; el torreón pequeño del guardián se alza en la pendiente de arriba. El pueblo pasó de base militar a asentamiento civil modesto durante la Tercera Edad, aunque sigue siendo un lugar de soldados y marinos más que de mercaderes."
    }
   },
   {
@@ -16678,8 +16702,8 @@
     "es": null
    },
    "type": {
-    "en": "castle",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -16690,11 +16714,15 @@
     ]
    },
    "aspect": {
-    "en": "Bareketta is a handsome estate on the eastern shore of Nenuial, the primary seat of the Eketta family — one of the two most powerful noble clans in Arthedain. It was built with beauty as much as defence in mind: graceful stone towers look out over the lake, and the gardens between the walls are carefully tended. The estate is comfortable and well-staffed; those granted admittance find a household that takes hospitality seriously.",
-    "es": "Bareketta es una hacienda hermosa en la orilla oriental del Nenuial, asiento principal de la familia Eketta — uno de los dos clanes nobles más poderosos de Arthedain. Fue construida pensando tanto en la belleza como en la defensa: torres gráciles de piedra miran sobre el lago, y los jardines entre los muros se atienden con cuidado. La hacienda es cómoda y tiene mucho servicio; a quien se le permite entrar encuentra una casa que se toma la hospitalidad en serio."
+    "en": "Bareketta is the most beautiful ruin on Nenuial. The Eketta estate on the eastern shore kept its graceful towers and its garden-walls; what it lost was everyone who tended them. The towers stand roofless over the lake, the gardens went to briar and wild rose, and the house that took hospitality seriously now offers it to anyone — swallows in the hall, wind in the corridors, and the best-proportioned shelter for miles around.",
+    "es": "Bareketta es la ruina más hermosa del Nenuial. La hacienda de los Eketta en la orilla oriental conservó sus torres gráciles y los muros de sus jardines; lo que perdió fue a todos los que los cuidaban. Las torres quedan sin techo sobre el lago, los jardines se volvieron zarza y rosal silvestre, y la casa que se tomaba la hospitalidad en serio ahora la ofrece a cualquiera — golondrinas en el salón, viento en los corredores y el refugio mejor proporcionado en millas a la redonda."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "Bareketta is a handsome estate on the eastern shore of Nenuial, the primary seat of the Eketta family — one of the two most powerful noble clans in Arthedain. It was built with beauty as much as defence in mind: graceful stone towers look out over the lake, and the gardens between the walls are carefully tended. The estate is comfortable and well-staffed; those granted admittance find a household that takes hospitality seriously.",
+    "es": "Bareketta es una hacienda hermosa en la orilla oriental del Nenuial, asiento principal de la familia Eketta — uno de los dos clanes nobles más poderosos de Arthedain. Fue construida pensando tanto en la belleza como en la defensa: torres gráciles de piedra miran sobre el lago, y los jardines entre los muros se atienden con cuidado. La hacienda es cómoda y tiene mucho servicio; a quien se le permite entrar encuentra una casa que se toma la hospitalidad en serio."
    }
   },
   {
@@ -17098,8 +17126,8 @@
     "es": null
    },
    "type": {
-    "en": "town",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -17110,11 +17138,15 @@
     ]
    },
    "aspect": {
-    "en": "A town in the Shire or northern Eriador whose character reflects the modest farming communities of the region.",
-    "es": "Un pueblo de la Comarca o del norte de Eriador, cuyo carácter refleja las comunidades agrícolas modestas de la región."
+    "en": "Maenthirost is a modest farming town that stopped being a town — houses of the northern sort, emptied like everything else this side of the old kingdom. What remains is the shape: roof-lines against the sky, a well that still draws, and the silence that settled over the Fornost country when the King fell.",
+    "es": "Maenthirost es un pueblo agrícola modesto que dejó de ser pueblo — casas del estilo del norte, vaciadas como todo lo demás de este lado del viejo reino. Lo que queda es la forma: líneas de techo contra el cielo, un pozo que todavía saca agua, y el silencio que se posó sobre la comarca de Fornost cuando cayó el Rey."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A town in the Shire or northern Eriador whose character reflects the modest farming communities of the region.",
+    "es": "Un pueblo de la Comarca o del norte de Eriador, cuyo carácter refleja las comunidades agrícolas modestas de la región."
    }
   },
   {
@@ -18058,8 +18090,8 @@
     "es": null
    },
    "type": {
-    "en": "tower",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -18070,11 +18102,15 @@
     ]
    },
    "aspect": {
-    "en": "A tower of the northern Shire or Arthedain region, its function as a beacon or garrison post defining its character. A plain stone structure on elevated ground.",
-    "es": "Una torre del norte de la Comarca o de la región de Arthedain, cuyo carácter lo define su función de almenara o de puesto de guarnición. Es una estructura de piedra sin adornos en terreno elevado."
+    "en": "A bare stone tower on high ground — the kind that dotted the old kingdom's skyline as beacon or guard-post. The stair still climbs, the top still sees for miles, and whatever it watched for either came long ago or stopped mattering. Now it marks the road for travellers the way a milestone does.",
+    "es": "Una torre de piedra desnuda en terreno alto — de las que salpicaban el horizonte del viejo reino como almenara o puesto de guarnición. La escalera todavía sube, la cima todavía ve a millas, y lo que fuera que vigilaba o llegó hace mucho o dejó de importar. Ahora marca el camino a los viajeros como lo hace un mojón."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A tower of the northern Shire or Arthedain region, its function as a beacon or garrison post defining its character. A plain stone structure on elevated ground.",
+    "es": "Una torre del norte de la Comarca o de la región de Arthedain, cuyo carácter lo define su función de almenara o de puesto de guarnición. Es una estructura de piedra sin adornos en terreno elevado."
    }
   },
   {
@@ -21092,8 +21128,8 @@
     "es": null
    },
    "type": {
-    "en": "city",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -21104,11 +21140,15 @@
     ]
    },
    "aspect": {
-    "en": "Originally built under the name Mistalonde, the city appeared in records from the mid-Second Age until T.A. 1503, when Gordaig of Saerlann captured and renamed it Sunthra Unsar. The rebuilt city became the seat of power of the Saerlannish (Dynion) clan, and its inhabitants were almost entirely hillmen.",
-    "es": "Levantada en su origen con el nombre de Mistalonde, la ciudad aparece en los registros desde mediados de la Segunda Edad hasta la T.E. 1503, cuando Gordaig de Saerlann la tomó y la rebautizó Sunthra Unsar. La ciudad reconstruida se convirtió en el asiento del poder del clan saerlannés (Dynion), y sus habitantes eran casi por completo hombres de las colinas."
+    "en": "Sunthra Unsar is a city-shape under grass now: the seat of the Dynion clan of Saerlann died with Cardolan, and what the plague and the wars left standing, the centuries took down. Streets read as low ridges between foundation stones; the clan-hall's outline still shows on the rise where Gordaig's rebuilt city once stood. Shepherds cross it without stopping — there is nothing left to take and nothing left to fear except the wind off the Gwathló.",
+    "es": "Sunthra Unsar es hoy la forma de una ciudad bajo el pasto: la sede del clan Dynion de Saerlann murió con Cardolan, y lo que la plaga y las guerras dejaron en pie se lo llevó el tiempo. Las calles se leen como lomadas bajas entre piedras de cimiento; el contorno del salón del clan aún se ve en la loma donde estuvo la ciudad que Gordaig reconstruyó. Los pastores la cruzan sin detenerse — ya no hay nada que llevarse ni nada que temer, salvo el viento del Gwathló."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "Originally built under the name Mistalonde, the city appeared in records from the mid-Second Age until T.A. 1503, when Gordaig of Saerlann captured and renamed it Sunthra Unsar. The rebuilt city became the seat of power of the Saerlannish (Dynion) clan, and its inhabitants were almost entirely hillmen.",
+    "es": "Levantada en su origen con el nombre de Mistalonde, la ciudad aparece en los registros desde mediados de la Segunda Edad hasta la T.E. 1503, cuando Gordaig de Saerlann la tomó y la rebautizó Sunthra Unsar. La ciudad reconstruida se convirtió en el asiento del poder del clan saerlannés (Dynion), y sus habitantes eran casi por completo hombres de las colinas."
    }
   },
   {
@@ -21254,11 +21294,15 @@
     ]
    },
    "aspect": {
-    "en": "Completed in T.A. 923 by Hir Girithlin.. A base for administration of rural estates; a strategic strong point in Gwathló valley between Tharbad and Saralainn.. Balost is a sturdy castle which withstood many attacks from without.",
-    "es": "Terminado en la T.E. 923 por Hir Girithlin.. Base para la administración de las haciendas rurales; punto fuerte estratégico en el valle del Gwathló, entre Tharbad y Saralainn.. Balost es un castillo recio que resistió muchos ataques desde fuera."
+    "en": "Balost still stands where Hir Girithlin raised it: a hard castle over the Gwathló valley that outside attacks never opened. But the power that garrisoned it is gone — what holds the walls now is a remnant, a few families of the old dependants who never left and keep the gates shut against a world they no longer name. Smoke rises from one corner of the yard; the rest is empty stone.",
+    "es": "Balost sigue en pie donde lo levantó Hir Girithlin: un castillo duro sobre el valle del Gwathló que los ataques de afuera nunca abrieron. Pero el poder que lo guarnecía ya no existe — lo que sostiene los muros ahora es un remanente: unas pocas familias de los viejos dependientes que nunca se fueron y mantienen las puertas cerradas contra un mundo que ya no nombran. Del patio sube humo de un solo rincón; el resto es piedra vacía."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "Completed in T.A. 923 by Hir Girithlin.. A base for administration of rural estates; a strategic strong point in Gwathló valley between Tharbad and Saralainn.. Balost is a sturdy castle which withstood many attacks from without.",
+    "es": "Terminado en la T.E. 923 por Hir Girithlin.. Base para la administración de las haciendas rurales; punto fuerte estratégico en el valle del Gwathló, entre Tharbad y Saralainn.. Balost es un castillo recio que resistió muchos ataques desde fuera."
    }
   },
   {
@@ -22094,11 +22138,15 @@
     ]
    },
    "aspect": {
-    "en": "The ford settlement of Athrad Poros was an important stop on the land trade route south. It began as a military garrison protecting the border between the nascent Kingdom-in-Exile and the Umbarean sphere of influence. When the Harnen Corridor opened, Athrad Poros became a critical juncture for trade with Near Harad and Khand.",
-    "es": "El asentamiento del vado de Athrad Poros era una parada importante en la ruta comercial terrestre hacia el sur. Empezó como guarnición militar para proteger la frontera entre el naciente Reino en el Exilio y la esfera de influencia de Umbar. Cuando se abrió el Corredor del Harnen, Athrad Poros pasó a ser un cruce decisivo para el comercio con el Harad Cercano y Khand."
+    "en": "The ford-settlement of Athrad Poros emptied with the rest of Ithilien — the houses stand shuttered above the crossing, the inn's sign long since fallen. But the ford is still the ford, and those who watch the South road know it: grey cloaks pass here without announcing themselves, and the old inn keeps fresh ash and hidden provisions for men who never give their names.",
+    "es": "El asentamiento del vado de Athrad Poros se vació con el resto de Ithilien — las casas siguen cerradas sobre el cruce y el letrero de la posada cayó hace tiempo. Pero el vado sigue siendo el vado, y quienes vigilan el camino del Sur lo saben: capas grises pasan por aquí sin anunciarse, y la posada vieja guarda ceniza fresca y provisiones escondidas para hombres que nunca dan su nombre."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "The ford settlement of Athrad Poros was an important stop on the land trade route south. It began as a military garrison protecting the border between the nascent Kingdom-in-Exile and the Umbarean sphere of influence. When the Harnen Corridor opened, Athrad Poros became a critical juncture for trade with Near Harad and Khand.",
+    "es": "El asentamiento del vado de Athrad Poros era una parada importante en la ruta comercial terrestre hacia el sur. Empezó como guarnición militar para proteger la frontera entre el naciente Reino en el Exilio y la esfera de influencia de Umbar. Cuando se abrió el Corredor del Harnen, Athrad Poros pasó a ser un cruce decisivo para el comercio con el Harad Cercano y Khand."
    }
   },
   {
@@ -22772,8 +22820,8 @@
     "es": null
    },
    "type": {
-    "en": "castle",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -22784,11 +22832,15 @@
     ]
    },
    "aspect": {
-    "en": "Minas Girithlin is a stout castle set in the hills, ancestral home of the Princes of Dol Girithlin, built around T.A. 590 to dominate the surrounding countryside. Its walls have withstood several sieges without being breached; the garrison is loyal and experienced. The Prince's hall within is comfortable if not luxurious — a working noble's house, with stables and a well-stocked armoury.",
-    "es": "Minas Girithlin es un castillo recio asentado en las colinas, hogar ancestral de los Príncipes de Dol Girithlin, construido hacia la T.E. 590 para dominar la comarca circundante. Sus muros han resistido varios sitios sin ser abiertos; la guarnición es leal y experimentada. El salón del Príncipe, dentro, es cómodo aunque no lujoso — la casa de un noble en servicio, con establos y una armería bien provista."
+    "en": "Minas Girithlin outlasted its princes. The strong castle in the hills — seat of Dol Girithlin since the sixth century — kept walls no siege ever opened, and then the land around it simply emptied. The gates hang open now; the Prince's hall keeps its roof and its emptiness, the armoury its empty racks. A fortress that was never taken, abandoned anyway.",
+    "es": "Minas Girithlin sobrevivió a sus príncipes. El castillo recio de las colinas — sede de Dol Girithlin desde el siglo sexto — conserva muros que ningún sitio abrió, y después la tierra alrededor simplemente se vació. Las puertas cuelgan abiertas ahora; el salón del Príncipe conserva su techo y su vacío, la armería sus anaqueles vacíos. Una fortaleza que nunca fue tomada, abandonada de todos modos."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "Minas Girithlin is a stout castle set in the hills, ancestral home of the Princes of Dol Girithlin, built around T.A. 590 to dominate the surrounding countryside. Its walls have withstood several sieges without being breached; the garrison is loyal and experienced. The Prince's hall within is comfortable if not luxurious — a working noble's house, with stables and a well-stocked armoury.",
+    "es": "Minas Girithlin es un castillo recio asentado en las colinas, hogar ancestral de los Príncipes de Dol Girithlin, construido hacia la T.E. 590 para dominar la comarca circundante. Sus muros han resistido varios sitios sin ser abiertos; la guarnición es leal y experimentada. El salón del Príncipe, dentro, es cómodo aunque no lujoso — la casa de un noble en servicio, con establos y una armería bien provista."
    }
   },
   {
@@ -23324,11 +23376,15 @@
     ]
    },
    "aspect": {
-    "en": "Anghul ('Iron-wind' in Sindarin) is one of the six great fortresses of Angmar, situated on a hill above the Anghir below the escarpment of Nan Angmar. It broods over the Anghir Vale and controls the No Man's Land. A garrison of 300 men watches for spies; the commander is one of the Witch-king's Ashâktur. Dark stone walls; the wind off the escarpment is bitter and constant. The Black Raven on Red is the garrison's banner.",
-    "es": "Anghul ('Viento de Hierro' en sindarin) es una de las seis grandes fortalezas de Angmar, situada en una colina sobre el Anghir, al pie del escarpe de Nan Angmar. Vigila con ceño el Valle del Anghir y controla la Tierra de Nadie. Una guarnición de trescientos hombres busca espías; su comandante es uno de los Ashâktur del Rey Brujo. Muros de piedra oscura; el viento que baja del escarpe es amargo y constante. El estandarte de la guarnición es el Cuervo Negro sobre Rojo."
+    "en": "Anghul still frowns over the Anghir valley from its hill at the foot of the Nan Angmar escarpment — and it is still held. The Witch-king's realm fell, but the Iron Wind did not empty: a garrison of the old sort keeps the walls, mixed men and worse, watching the No Man's Land for whatever the dark powers still send west. The wind off the escarpment is as bitter as the welcome.",
+    "es": "Anghul sigue mirando con ceño el valle del Anghir desde su colina al pie del escarpe de Nan Angmar — y sigue habitado. El reino del Rey Brujo cayó, pero el Viento de Hierro no se vació: una guarnición de la vieja estirpe sostiene los muros, hombres mezclados y cosas peores, vigilando la Tierra de Nadie por lo que los poderes oscuros aún mandan al oeste. El viento que baja del escarpe es tan amargo como la bienvenida."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "Anghul ('Iron-wind' in Sindarin) is one of the six great fortresses of Angmar, situated on a hill above the Anghir below the escarpment of Nan Angmar. It broods over the Anghir Vale and controls the No Man's Land. A garrison of 300 men watches for spies; the commander is one of the Witch-king's Ashâktur. Dark stone walls; the wind off the escarpment is bitter and constant. The Black Raven on Red is the garrison's banner.",
+    "es": "Anghul ('Viento de Hierro' en sindarin) es una de las seis grandes fortalezas de Angmar, situada en una colina sobre el Anghir, al pie del escarpe de Nan Angmar. Vigila con ceño el Valle del Anghir y controla la Tierra de Nadie. Una guarnición de trescientos hombres busca espías; su comandante es uno de los Ashâktur del Rey Brujo. Muros de piedra oscura; el viento que baja del escarpe es amargo y constante. El estandarte de la guarnición es el Cuervo Negro sobre Rojo."
    }
   },
   {
@@ -23714,11 +23770,15 @@
     ]
    },
    "aspect": {
-    "en": "Settled during the migration of Hobbits into the Shire, T.A. 1601-1610.. An agricultural community.. Gamwich is the Westron translation of the Kuduk name Galabas.",
-    "es": "Poblada durante la migración de los hobbits a la Comarca, T.E. 1601-1610.. Comunidad agrícola.. Gamwich es la traducción al oestron del nombre kuduk Galabas."
+    "en": "Gamwich is a hobbit-village grown old: a handful of smials and small farms on land the Shire never quite reached. Most windows are dark at dusk — the young went east or west long ago — but a few families still work their strips and keep their fires, stubborn the way border folk are stubborn.",
+    "es": "Gamwich es una aldea hobbit envejecida: un puñado de smials y granjas chicas en una tierra a la que la Comarca nunca llegó del todo. La mayoría de las ventanas quedan oscuras al atardecer — los jóvenes se fueron al este o al oeste hace mucho — pero unas pocas familias siguen trabajando sus tiras de tierra y manteniendo sus fuegos, tercas como es terca la gente de frontera."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "Settled during the migration of Hobbits into the Shire, T.A. 1601-1610.. An agricultural community.. Gamwich is the Westron translation of the Kuduk name Galabas.",
+    "es": "Poblada durante la migración de los hobbits a la Comarca, T.E. 1601-1610.. Comunidad agrícola.. Gamwich es la traducción al oestron del nombre kuduk Galabas."
    }
   },
   {
@@ -23744,11 +23804,15 @@
     ]
    },
    "aspect": {
-    "en": "A modest castle of southern Andrast on the river Nevduin, part of the remote county of Bar Morthil. Its walls are of local grey stone, maintained by a small household garrison; the surrounding land is sparsely farmed by Dunir dependants who provide the fort with supplies in exchange for protection from Corsair raiders.",
-    "es": "Un castillo modesto del sur de Andrast, sobre el río Nevduin, parte del remoto condado de Bar Morthil. Sus muros son de piedra gris del lugar y los mantiene una guarnición doméstica pequeña; la tierra de alrededor la cultivan de forma dispersa unos dependientes dunir que proveen al fuerte de suministros a cambio de protección frente a los saqueadores Corsarios."
+    "en": "Bar Nevedui still squats over the Nevduin, but it is no longer a county castle — the garrison of Bar Morthil left generations ago. What remains is the dependants: dunir families who had nowhere to go and stayed inside the walls, farming the same plots, keeping the grey stone patched the way their fathers did. A fort of field folk now, wary of the sea-raiders their old lords once guarded them against.",
+    "es": "Bar Nevedui sigue en cuclillas sobre el Nevduin, pero ya no es el castillo de un condado — la guarnición de Bar Morthil se fue hace generaciones. Lo que queda son los dependientes: familias dunir que no tenían adónde ir y se quedaron dentro de los muros, cultivando las mismas parcelas, remendando la piedra gris como lo hacían sus padres. Un fuerte de gente de campo ahora, recelosa de los saqueadores del mar contra los que sus viejos señores la protegían."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A modest castle of southern Andrast on the river Nevduin, part of the remote county of Bar Morthil. Its walls are of local grey stone, maintained by a small household garrison; the surrounding land is sparsely farmed by Dunir dependants who provide the fort with supplies in exchange for protection from Corsair raiders.",
+    "es": "Un castillo modesto del sur de Andrast, sobre el río Nevduin, parte del remoto condado de Bar Morthil. Sus muros son de piedra gris del lugar y los mantiene una guarnición doméstica pequeña; la tierra de alrededor la cultivan de forma dispersa unos dependientes dunir que proveen al fuerte de suministros a cambio de protección frente a los saqueadores Corsarios."
    }
   },
   {
@@ -24182,8 +24246,8 @@
     "es": null
    },
    "type": {
-    "en": "town",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -24194,11 +24258,15 @@
     ]
    },
    "aspect": {
-    "en": "Founded by Tarcil of Arnor as a summer residence, T.A. 514.. Seat of the Lords of Dol Tinare; a supply center and minor market for traffic on the Greenway.. The Princes of Tinare inhabit a large and crumbling mansion in Metraith.",
-    "es": "Fundada por Tarcil de Arnor como residencia de verano, T.E. 514.. Asiento de los Señores de Dol Tinare; centro de abastecimiento y mercado menor para el tránsito del Camino Verde.. Los Príncipes de Tinare habitan en Metraith una mansión grande y ruinosa."
+    "en": "Metraith is a market-square gone to grass. The summer seat Tarcil built and the manor of the Lords of Dol Tinare are both roofs open to the sky now; the Green Road still passes but nobody stops to trade. What was a town of supply and levy is a line of broken gables between hedgerows — the princes' ruinous mansion finally finished ruining.",
+    "es": "Metraith es una plaza de mercado convertida en pasto. La residencia de verano que Tarcil construyó y la mansión de los Señores de Dol Tinare son hoy techos abiertos al cielo; el Camino Verde sigue pasando pero nadie se detiene a comerciar. Lo que era un pueblo de abastecimiento y levas es una hilera de hastiales rotos entre setos — la mansión ruinosa de los príncipes por fin terminó de arruinarse."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "Founded by Tarcil of Arnor as a summer residence, T.A. 514.. Seat of the Lords of Dol Tinare; a supply center and minor market for traffic on the Greenway.. The Princes of Tinare inhabit a large and crumbling mansion in Metraith.",
+    "es": "Fundada por Tarcil de Arnor como residencia de verano, T.E. 514.. Asiento de los Señores de Dol Tinare; centro de abastecimiento y mercado menor para el tránsito del Camino Verde.. Los Príncipes de Tinare habitan en Metraith una mansión grande y ruinosa."
    }
   },
   {
@@ -24332,8 +24400,8 @@
     "es": null
    },
    "type": {
-    "en": "town",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -24344,11 +24412,15 @@
     ]
    },
    "aspect": {
-    "en": "First settled around T.A. 740.. A regional market town in southwestern Arthedain.. Caras Celairnen is the westernmost center of purely Dúnadan culture in the North.",
-    "es": "Poblada por primera vez alrededor de la T.E. 740.. Pueblo de mercado regional en el suroeste de Arthedain.. Caras Celairnen es el centro de cultura puramente dúnadan más occidental del Norte."
+    "en": "Caras Celairnen, the westernmost centre of pure Dúnadan culture in the North, is a town of wall-lines and cellar-pits. The market that served south-western Arthedain closed when the kingdom closed; grass grows in the square and the stone houses stand open-doored, picked clean of everything but their shape.",
+    "es": "Caras Celairnen, el centro de cultura puramente dúnadan más occidental del Norte, es hoy un pueblo de líneas de muro y pozos de sótano. El mercado que servía al sudoeste de Arthedain cerró cuando cerró el reino; el pasto crece en la plaza y las casas de piedra quedan de puertas abiertas, vacías de todo salvo de su forma."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "First settled around T.A. 740.. A regional market town in southwestern Arthedain.. Caras Celairnen is the westernmost center of purely Dúnadan culture in the North.",
+    "es": "Poblada por primera vez alrededor de la T.E. 740.. Pueblo de mercado regional en el suroeste de Arthedain.. Caras Celairnen es el centro de cultura puramente dúnadan más occidental del Norte."
    }
   },
   {
@@ -24422,8 +24494,8 @@
     "es": null
    },
    "type": {
-    "en": "castle",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -24434,11 +24506,15 @@
     ]
    },
    "aspect": {
-    "en": "An ancient Gondorian fortress built to protect and guard the approaches to the Dagorlad plain.",
-    "es": "Una antigua fortaleza gondoriana construida para proteger y vigilar los accesos a la llanura de la Dagorlad."
+    "en": "Tirith Nindir keeps its watch over an empty land. The Gondorian fortress built to guard the Dagorlad's approaches lost its garrison long ago; the tower still gives the best view in miles of the plain where wars were decided, but now it serves whoever camps inside — which is nobody, most years.",
+    "es": "Tirith Nindir sigue vigilando una tierra vacía. La fortaleza gondoriana construida para guardar los accesos de la Dagorlad perdió su guarnición hace mucho; la torre sigue dando la mejor vista en millas de la llanura donde se decidieron guerras, pero ahora sirve a quien acampe dentro — que no es nadie, la mayoría de los años."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "An ancient Gondorian fortress built to protect and guard the approaches to the Dagorlad plain.",
+    "es": "Una antigua fortaleza gondoriana construida para proteger y vigilar los accesos a la llanura de la Dagorlad."
    }
   },
   {
@@ -24452,8 +24528,8 @@
     "es": null
    },
    "type": {
-    "en": "city",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -24464,11 +24540,15 @@
     ]
    },
    "aspect": {
-    "en": "Lond Angren (S. Iron Port) began as a small Númenórean outpost of the Second Age and grew into a city and lordship controlling western Enedwaith near the mouth of the River Angren.",
-    "es": "Lond Angren (S. Puerto de Hierro) empezó como un pequeño puesto numenóreano de la Segunda Edad y creció hasta ser una ciudad y un señorío que controlaba el oeste de Enedwaith, cerca de la desembocadura del río Angren."
+    "en": "Lond Angren is a harbour of stone piers walking into the sea and a city reduced to foundation-blocks. The iron that named it stopped flowing centuries ago; the lordship that controlled western Enedwaith has no heirs. Dunlending fishermen tie up at the old piers sometimes — the sea still gives what the city cannot.",
+    "es": "Lond Angren es un puerto de muelles de piedra que entran al mar y una ciudad reducida a bloques de cimientos. El hierro que le dio el nombre dejó de correr hace siglos; el señorío que controlaba el oeste de Enedwaith no tiene herederos. A veces los pescadores dunlendinos amarran en los muelles viejos — el mar sigue dando lo que la ciudad ya no puede."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "Lond Angren (S. Iron Port) began as a small Númenórean outpost of the Second Age and grew into a city and lordship controlling western Enedwaith near the mouth of the River Angren.",
+    "es": "Lond Angren (S. Puerto de Hierro) empezó como un pequeño puesto numenóreano de la Segunda Edad y creció hasta ser una ciudad y un señorío que controlaba el oeste de Enedwaith, cerca de la desembocadura del río Angren."
    }
   },
   {
@@ -24722,8 +24802,8 @@
     "es": null
    },
    "type": {
-    "en": "manor",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -24734,11 +24814,15 @@
     ]
    },
    "aspect": {
-    "en": "A Gondorian castle and lordly manor in southwestern Ithilien, on the northern banks of the Poros. It is the western frontier seat of House Faron, whose domain guards this stretch of the borderlands. The castle is a working military manor of dressed stone, its courtyard always busy with horses and men moving on the Poros road.",
-    "es": "Un castillo y casa señorial gondorianos en el suroeste de Ithilien, sobre las orillas septentrionales del Poros. Es el asiento fronterizo occidental de la Casa Faron, cuyo dominio guarda este tramo de las tierras de frontera. El castillo es una casa señorial militar en servicio, de piedra labrada, con el patio siempre movido por caballos y hombres que van y vienen por el camino del Poros."
+    "en": "Porosir stands shuttered above the Poros — the western seat of House Faron closed, not taken. When Ithilien emptied, the family barred the doors and left; the stone-built manor keeps its yard, its stables, its view of the border road, and nobody to use any of them. The horses and men that once moved the courtyard are a memory the walls still hold the shape of.",
+    "es": "Porosir quedó cerrado sobre el Poros — el asiento occidental de la Casa Faron cerrado, no tomado. Cuando Ithilien se vació, la familia atrancó las puertas y se fue; la casa señorial de piedra conserva su patio, sus establos, su vista del camino de la frontera, y a nadie que los use. Los caballos y los hombres que alguna vez movían el patio son una memoria cuya forma los muros aún guardan."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A Gondorian castle and lordly manor in southwestern Ithilien, on the northern banks of the Poros. It is the western frontier seat of House Faron, whose domain guards this stretch of the borderlands. The castle is a working military manor of dressed stone, its courtyard always busy with horses and men moving on the Poros road.",
+    "es": "Un castillo y casa señorial gondorianos en el suroeste de Ithilien, sobre las orillas septentrionales del Poros. Es el asiento fronterizo occidental de la Casa Faron, cuyo dominio guarda este tramo de las tierras de frontera. El castillo es una casa señorial militar en servicio, de piedra labrada, con el patio siempre movido por caballos y hombres que van y vienen por el camino del Poros."
    }
   },
   {
@@ -24944,11 +25028,15 @@
     ]
    },
    "aspect": {
-    "en": "Captured and enhanced by Dúnedain, T.A. 162.. A stable center of administration for Rhudaur; domination of local Hillman tribes.. Currently, Cameth Brin serves as the seat of the Hillman King Broggha.",
-    "es": "Tomada y mejorada por los dúnedain, T.E. 162.. Centro estable de administración para Rhudaur; dominación de las tribus locales de hombres de las colinas.. En la actualidad, Cameth Brin es la sede del rey Broggha, de los hombres de las colinas."
+    "en": "Cameth Brin is still held, but by less than a kingdom. The citadel the Dúnedain raised to rule Rhudaur now houses what is left of Broggha's hill-folk — a clan keeping the stone their kings once kept, a court of clansmen rather than a royal seat. They hold this much of the Trollshaws and no more, and they judge travellers the old way: quickly, at the door.",
+    "es": "Cameth Brin sigue habitada, pero por menos que un reino. La ciudadela que los dúnedain levantaron para gobernar Rhudaur aloja ahora lo que queda de la gente de las colinas de Broggha — un clan que conserva la piedra que sus reyes conservaban, una corte de clanes más que una sede real. Sostienen este pedazo de los Trollshaws y nada más, y juzgan a los viajeros a la vieja usanza: rápido, en la puerta."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "Captured and enhanced by Dúnedain, T.A. 162.. A stable center of administration for Rhudaur; domination of local Hillman tribes.. Currently, Cameth Brin serves as the seat of the Hillman King Broggha.",
+    "es": "Tomada y mejorada por los dúnedain, T.E. 162.. Centro estable de administración para Rhudaur; dominación de las tribus locales de hombres de las colinas.. En la actualidad, Cameth Brin es la sede del rey Broggha, de los hombres de las colinas."
    }
   },
   {
@@ -25694,11 +25782,15 @@
     ]
    },
    "aspect": {
-    "en": "Shedûn is a Witch-king fortress overlooking the broad plains below Angmar, used for regional administration and as a mustering point for the Orc forces trained on the plain below. Its stone walls are of Angmarim construction — heavy and dark — and the view from the battlements encompasses a vast training ground where Orc companies drill with a grim efficiency.",
-    "es": "Shedûn es una fortaleza del Rey Brujo que domina las llanuras anchas al pie de Angmar, usada para la administración regional y como punto de reunión de las fuerzas orcas que se instruyen en la llanura de abajo. Sus muros de piedra son de factura angmarim — pesados y oscuros — y la vista desde las almenas abarca un campo de instrucción vasto donde las compañías orcas ejercitan con una eficiencia siniestra."
+    "en": "Shedûn still dominates the wide plains below Angmar, and the drill-ground below its walls is not empty — the fortress that once mustered the Witch-king's orcs still gathers what serves the shadow in these parts: companies of orcs and hard men whose exercises make the plain unsafe. Heavy dark angmarim stonework, and a welcome to match.",
+    "es": "Shedûn sigue dominando las llanuras anchas al pie de Angmar, y el campo de instrucción bajo sus muros no está vacío — la fortaleza que alguna vez reunió a los orcos del Rey Brujo sigue juntando lo que sirve a la sombra en estas tierras: compañías de orcos y hombres duros cuyos ejercicios hacen la llanura insegura. Piedra angmarim pesada y oscura, y una bienvenida a juego."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "Shedûn is a Witch-king fortress overlooking the broad plains below Angmar, used for regional administration and as a mustering point for the Orc forces trained on the plain below. Its stone walls are of Angmarim construction — heavy and dark — and the view from the battlements encompasses a vast training ground where Orc companies drill with a grim efficiency.",
+    "es": "Shedûn es una fortaleza del Rey Brujo que domina las llanuras anchas al pie de Angmar, usada para la administración regional y como punto de reunión de las fuerzas orcas que se instruyen en la llanura de abajo. Sus muros de piedra son de factura angmarim — pesados y oscuros — y la vista desde las almenas abarca un campo de instrucción vasto donde las compañías orcas ejercitan con una eficiencia siniestra."
    }
   },
   {
@@ -26912,8 +27004,8 @@
     "es": null
    },
    "type": {
-    "en": "town",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -26924,11 +27016,15 @@
     ]
    },
    "aspect": {
-    "en": "The town of Móin Dúldachd ('Marsh of Mist') shares its name with the surrounding peat bogs of northern Rhudaur. A single track threads the swamp; those who leave it risk hidden bogs that are virtually bottomless. The town itself is the centre of what economic life exists in the Ettendales, and its chief fortification — the Kaldabaurg — was once the citadel of Northman mercenaries who served the Dúnedain. A grim, isolated place.",
-    "es": "El pueblo de Móin Dúldachd ('Ciénaga de la Niebla') comparte su nombre con las turberas que lo rodean, en el norte de Rhudaur. Una sola senda atraviesa el pantano; quien la deja se arriesga a ciénagas ocultas que son prácticamente sin fondo. El pueblo en sí es el centro de la poca vida económica que hay en los Valles de los Trolls, y su fortificación principal — el Kaldabaurg — fue en su momento la ciudadela de mercenarios de los Hombres del Norte que sirvieron a los dúnedain. Un lugar sombrío y aislado."
+    "en": "Móin Dúldachd drowned with Rhudaur — not in water, in abandonment. The single causeway through the fog-marshes still leads to the village, but the village leads nowhere: sunken huts, the Kaldabaurg's broken mound, and the bottomless bogs that never needed a garrison anyway. The path is still the only safe way in; the swamp still keeps its dead.",
+    "es": "Móin Dúldachd se hundió con Rhudaur — no en agua, en abandono. La única calzada a través de las turberas de niebla aún lleva al pueblo, pero el pueblo ya no lleva a ninguna parte: chozas hundidas, el montículo roto del Kaldabaurg y las ciénagas sin fondo que nunca necesitaron guarnición. La senda sigue siendo la única forma segura de entrar; el pantano sigue guardando a sus muertos."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "The town of Móin Dúldachd ('Marsh of Mist') shares its name with the surrounding peat bogs of northern Rhudaur. A single track threads the swamp; those who leave it risk hidden bogs that are virtually bottomless. The town itself is the centre of what economic life exists in the Ettendales, and its chief fortification — the Kaldabaurg — was once the citadel of Northman mercenaries who served the Dúnedain. A grim, isolated place.",
+    "es": "El pueblo de Móin Dúldachd ('Ciénaga de la Niebla') comparte su nombre con las turberas que lo rodean, en el norte de Rhudaur. Una sola senda atraviesa el pantano; quien la deja se arriesga a ciénagas ocultas que son prácticamente sin fondo. El pueblo en sí es el centro de la poca vida económica que hay en los Valles de los Trolls, y su fortificación principal — el Kaldabaurg — fue en su momento la ciudadela de mercenarios de los Hombres del Norte que sirvieron a los dúnedain. Un lugar sombrío y aislado."
    }
   },
   {
@@ -26984,11 +27080,15 @@
     ]
    },
    "aspect": {
-    "en": "A township of the Tulban district of Angmar, built in the mid-Third Age and home to about 3,500 at its peak. The settlement is a rough frontier place — dark timber houses in the shadow of the Angmar hills, its people bound by the Witch-king's will. With the fall of Angmar, the town is eventually abandoned. By the late Third Age only ruins remain: dark and windswept, avoided by all.",
-    "es": "Un municipio del distrito de Tulban, en Angmar, construido a mediados de la Tercera Edad y hogar de unos 3.500 habitantes en su mejor momento. El asentamiento es un lugar tosco de frontera — casas de madera oscura a la sombra de las colinas de Angmar, con su gente atada a la voluntad del Rey Brujo. Con la caída de Angmar, el pueblo termina abandonado. Hacia el final de la Tercera Edad solo quedan ruinas: oscuras, batidas por el viento y evitadas por todos."
+    "en": "Phaluran did not stay abandoned. When Angmar fell the township emptied, but the dark never quite left these hills — a remnant crept back: hard-eyed men and the orcs they serve with, quartered in the old dark-timber houses, levying the old taxes on whoever is left to pay them. A shadow of the shadow-realm, still taking tribute.",
+    "es": "Phaluran no se quedó abandonada. Cuando Angmar cayó el pueblo se vació, pero la oscuridad nunca se fue del todo de estas colinas — un remanente volvió a instalarse: hombres de ojos duros y los orcos a los que sirven, acuartelados en las viejas casas de madera oscura, cobrando los impuestos de siempre a quien quede para pagarlos. Una sombra del reino-sombra, que aún cobra tributo."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A township of the Tulban district of Angmar, built in the mid-Third Age and home to about 3,500 at its peak. The settlement is a rough frontier place — dark timber houses in the shadow of the Angmar hills, its people bound by the Witch-king's will. With the fall of Angmar, the town is eventually abandoned. By the late Third Age only ruins remain: dark and windswept, avoided by all.",
+    "es": "Un municipio del distrito de Tulban, en Angmar, construido a mediados de la Tercera Edad y hogar de unos 3.500 habitantes en su mejor momento. El asentamiento es un lugar tosco de frontera — casas de madera oscura a la sombra de las colinas de Angmar, con su gente atada a la voluntad del Rey Brujo. Con la caída de Angmar, el pueblo termina abandonado. Hacia el final de la Tercera Edad solo quedan ruinas: oscuras, batidas por el viento y evitadas por todos."
    }
   },
   {
@@ -27092,8 +27192,8 @@
     "es": null
    },
    "type": {
-    "en": "manor",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -27104,11 +27204,15 @@
     ]
    },
    "aspect": {
-    "en": "A secluded Arthadan manor in a river-valley west of the North Moors, close to the North Farthing of the Shire. Rond Morvin controls the ford where the Men Lindon crosses the Barluin Stream; it serves as a gathering point for local fairs and militia musters. The manor is a solid stone house with stables and barns, its household accustomed to hosting travellers and muster-parties.",
-    "es": "Una casa señorial arthedana apartada, en un valle fluvial al oeste de los Páramos del Norte, cerca de la Cuaderna del Norte de la Comarca. Rond Morvin controla el vado donde el Men Lindon cruza el arroyo Barluin; funciona como punto de reunión para las ferias locales y las levas de la milicia. La casa es un edificio sólido de piedra con establos y graneros, y su gente está acostumbrada a alojar viajeros y partidas de leva."
+    "en": "Rond Morvin is a manor with its doors unbarred and nobody inside. The Arthedain country-house that marshalled the local levies and hosted travellers at the Barluin ford kept its stone, its stables and its granaries — and lost its people. The ford it controlled is still the best crossing in miles; the house just watches it now.",
+    "es": "Rond Morvin es una casa señorial con las puertas sin atrancar y nadie dentro. La casa de campo arthedana que reunía las levas locales y hospedaba viajeros en el vado del Barluin conserva su piedra, sus establos y sus graneros — y perdió a su gente. El vado que controlaba sigue siendo el mejor cruce en millas; la casa ahora solo lo mira."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A secluded Arthadan manor in a river-valley west of the North Moors, close to the North Farthing of the Shire. Rond Morvin controls the ford where the Men Lindon crosses the Barluin Stream; it serves as a gathering point for local fairs and militia musters. The manor is a solid stone house with stables and barns, its household accustomed to hosting travellers and muster-parties.",
+    "es": "Una casa señorial arthedana apartada, en un valle fluvial al oeste de los Páramos del Norte, cerca de la Cuaderna del Norte de la Comarca. Rond Morvin controla el vado donde el Men Lindon cruza el arroyo Barluin; funciona como punto de reunión para las ferias locales y las levas de la milicia. La casa es un edificio sólido de piedra con establos y graneros, y su gente está acostumbrada a alojar viajeros y partidas de leva."
    }
   },
   {
@@ -27212,8 +27316,8 @@
     "es": null
    },
    "type": {
-    "en": "manor",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -27224,11 +27328,15 @@
     ]
    },
    "aspect": {
-    "en": "A manor in the region, its character and household determined by its local lord.",
-    "es": "Una casa señorial de la región, cuyo carácter y cuya gente dependen del señor local."
+    "en": "A country manor whose lord is long gone — the kind of house that filled the lost kingdoms' maps. The hall stands roofless, the yard grows briars, and a family of jackdaws holds the one tower that still has a top. Shelter from the wind, nothing more.",
+    "es": "Una casa señorial cuyo señor hace mucho que no está — de esas casas que llenaban los mapas de los reinos perdidos. El salón está sin techo, en el patio crecen zarzas, y una familia de grajos ocupa la única torre que todavía tiene remate. Refugio del viento, nada más."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A manor in the region, its character and household determined by its local lord.",
+    "es": "Una casa señorial de la región, cuyo carácter y cuya gente dependen del señor local."
    }
   },
   {
@@ -27362,8 +27470,8 @@
     "es": null
    },
    "type": {
-    "en": "castle",
-    "es": null
+    "en": "ruins",
+    "es": "ruinas"
    },
    "cultural_family": null,
    "priority": 0,
@@ -27374,11 +27482,15 @@
     ]
    },
    "aspect": {
-    "en": "Finished by the Prince of Dol Calantir in T.A. 887.. A stronghold and administrative center for rural lordship.. Though it appears formidable, the Argond was not designed with defense in mind. Its questionable defensive arrangement has yet to stand the test of a full siege.",
-    "es": "Terminado por el Príncipe de Dol Calantir en la T.E. 887.. Plaza fuerte y centro administrativo de un señorío rural.. Aunque parece formidable, el Argond no fue concebido pensando en la defensa. Su discutible disposición defensiva todavía no ha pasado la prueba de un sitio en regla."
+    "en": "Argond never got its siege. The stronghold the Prince of Dol Calantir finished in 887 — more administrative seat than real fortress — stands unbreached and unused, its questionable defences never tested, its halls empty of the clerks and stores they were built for. A castle that outlived its paperwork.",
+    "es": "Argond nunca tuvo su sitio. La plaza fuerte que el Príncipe de Dol Calantir terminó en el 887 — más sede administrativa que fortaleza de verdad — sigue intacta y sin uso, sus dudosas defensas jamás puestas a prueba, sus salones vacíos de los escribas y depósitos para los que fueron hechos. Un castillo que sobrevivió a su burocracia."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "Finished by the Prince of Dol Calantir in T.A. 887.. A stronghold and administrative center for rural lordship.. Though it appears formidable, the Argond was not designed with defense in mind. Its questionable defensive arrangement has yet to stand the test of a full siege.",
+    "es": "Terminado por el Príncipe de Dol Calantir en la T.E. 887.. Plaza fuerte y centro administrativo de un señorío rural.. Aunque parece formidable, el Argond no fue concebido pensando en la defensa. Su discutible disposición defensiva todavía no ha pasado la prueba de un sitio en regla."
    }
   },
   {
@@ -27464,11 +27576,15 @@
     ]
    },
    "aspect": {
-    "en": "A township of Dol Caladir in Minhiriath, about sixty miles west of Tharbad in the central Baranduinean lowlands. In its prime (T.A. 250) it held some 5,000 souls. However by the mid-Third Age its population had dwindled sharply following the Great Plague and regional instability, and the settlement is largely abandoned by T.A. 1640. A traveller finds a melancholy landscape of empty stone foundations and overgrown lanes where grass pushes through the old cobbles.",
-    "es": "Un municipio de Dol Caladir, en Minhiriath, unas sesenta millas al oeste de Tharbad, en las tierras bajas centrales del Baranduin. En su mejor momento (T.E. 250) tuvo unas 5.000 almas. Sin embargo, hacia mediados de la Tercera Edad su población había mermado mucho, tras la Gran Plaga y la inestabilidad de la región, y para la T.E. 1640 el asentamiento está abandonado en buena parte. El viajero encuentra un paisaje melancólico de cimientos de piedra vacíos y callejones cubiertos de maleza, donde el pasto empuja entre los adoquines viejos."
+    "en": "Gwahilmoth is a town dying by inches. The five thousand souls of its best year are a few hundred now, crowded into the quarter that still has roofs, while whole streets of it stand open to the weather. The people who remain are the kind who remain anywhere: too stubborn or too poor to leave, and not unfriendly to those who share their fire.",
+    "es": "Gwahilmoth es un pueblo que se muere de a poco. Las cinco mil almas de su mejor año son ahora unos pocos cientos, apretados en el barrio que aún tiene techos, mientras calles enteras quedan abiertas a la intemperie. La gente que queda es de la clase que queda en todas partes: demasiado terca o demasiado pobre para irse, y no poco amable con quien comparte su fuego."
    },
    "payload": {
     "origin": "backfill:locations.description"
+   },
+   "lore": {
+    "en": "A township of Dol Caladir in Minhiriath, about sixty miles west of Tharbad in the central Baranduinean lowlands. In its prime (T.A. 250) it held some 5,000 souls. However by the mid-Third Age its population had dwindled sharply following the Great Plague and regional instability, and the settlement is largely abandoned by T.A. 1640. A traveller finds a melancholy landscape of empty stone foundations and overgrown lanes where grass pushes through the old cobbles.",
+    "es": "Un municipio de Dol Caladir, en Minhiriath, unas sesenta millas al oeste de Tharbad, en las tierras bajas centrales del Baranduin. En su mejor momento (T.E. 250) tuvo unas 5.000 almas. Sin embargo, hacia mediados de la Tercera Edad su población había mermado mucho, tras la Gran Plaga y la inestabilidad de la región, y para la T.E. 1640 el asentamiento está abandonado en buena parte. El viajero encuentra un paisaje melancólico de cimientos de piedra vacíos y callejones cubiertos de maleza, donde el pasto empuja entre los adoquines viejos."
    }
   },
   {
