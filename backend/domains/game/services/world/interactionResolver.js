@@ -282,6 +282,52 @@ function toDialogueContent(row, rng) {
 }
 
 // ---------------------------------------------------------------------------
+// Mover contacts — the living-map rail
+// ---------------------------------------------------------------------------
+//
+// A leg contact is pre-scoped by mover_leg_id (detectMoverCrossings already
+// decided the leg applies today). Here we only translate the authored record
+// into the interaction shape the encounter pipeline expects:
+//   crossing → the meeting text (a picked variant), form 'confronts'
+//   trace    → the distance-sign (aspect),            form 'sign_only'
+// The race gate applies like any contact: a race:* tag speaks only to that
+// traveller; untagged speaks to everyone.
+function resolveMoverContact(leg, contact, moverKind, characterSlug, rng = Math.random) {
+  const raceTag = raceTagFor(characterSlug);
+  const tags = contact?.contact_tags ?? contact?.tags ?? [];
+  if (tags.some((t) => t.startsWith('race:') && t !== raceTag)) return null;
+
+  const isTrace = moverKind === 'trace';
+  const variants = Array.isArray(contact?.variants) ? contact.variants : [];
+  const variant = isTrace ? null : randomPick(variants, rng);
+  const concrete = isTrace
+    ? (contact?.aspect?.en ?? null)
+    : (variant?.text?.en ?? contact?.aspect?.en ?? null);
+
+  const sit = pickSituation(contact ?? {}, rng);
+  const dialogueContent = contact ? {
+    id: contact.contact_id ?? contact.id,
+    topic: contact.facts?.topic ?? null,
+    npc_attitude: contact.disposition?.en ?? null,
+    concrete_content: concrete,
+    tension: sit?.situation?.en ?? null,
+    traveller_stance: sit?.stance?.en ?? null,
+    options: sit?.options ?? null,
+    commands: sit?.commands ?? null,
+    narration: contact,
+  } : (concrete ? { concrete_content: concrete } : null);
+
+  return {
+    form: isTrace ? 'sign_only' : 'confronts',
+    prose_hint: contact?.aspect?.en ?? null,
+    intensity: leg?.hostile ? 3 : 1,
+    outcome: null,
+    dialogue_content: dialogueContent,
+    decision: null,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Random helpers
 // ---------------------------------------------------------------------------
 
@@ -456,3 +502,5 @@ export async function resolveEncounter(
     decision,
   };
 }
+
+export { resolveMoverContact };
