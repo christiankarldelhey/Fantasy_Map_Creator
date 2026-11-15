@@ -6,7 +6,13 @@ import {
   PHASE_AFTERNOON,
   PHASE_NIGHT,
 } from './encounters.js';
-import { resolveEncounter } from './interactionResolver.js';
+import { resolveEncounter, resolveMoverContact } from './interactionResolver.js';
+import {
+  loadActiveLegs,
+  marchPositions,
+  detectMoverCrossings,
+  presencePoolEntries,
+} from './moverCrossings.js';
 import { resolveOvernight, resolveRegionAtPoint } from './placesInteractions.js';
 import { resolveAmbientVoice } from './ambientVoice.js';
 import {
@@ -41,7 +47,9 @@ function countEvilEncounters(encounters) {
 export function encountersBeforeSettlement(encounters, arrivalHourFloat, inSettlement) {
   if (!inSettlement) return encounters;
   return (encounters || []).filter(
-    (e) => e.hour_float < arrivalHourFloat && e.phase !== PHASE_NIGHT
+    // Mover crossings are authored meetings, not wilderness spawns —
+    // a resident is met *because* the traveller reached the place.
+    (e) => e._mover || (e.hour_float < arrivalHourFloat && e.phase !== PHASE_NIGHT)
   );
 }
 
@@ -568,7 +576,7 @@ function roadTypeAtSeconds(segments, targetSeconds) {
  * Regions and entities are precomputed/cached for the sampled time steps.
  * Also includes road_type and population_ratio for the encounter engine.
  */
-async function buildWalkingPhaseResolver(segments, dayStartSeconds, phaseHours, timeStep) {
+async function buildWalkingPhaseResolver(segments, dayStartSeconds, phaseHours, timeStep, presenceLegs = []) {
   const steps = [];
   for (let elapsed = timeStep; elapsed <= phaseHours + 1e-9; elapsed += timeStep) {
     steps.push(Number(elapsed.toFixed(6)));
@@ -588,15 +596,41 @@ async function buildWalkingPhaseResolver(segments, dayStartSeconds, phaseHours, 
     }
   }
 
+  const phaseOfElapsed = (elapsed) =>
+    WALK_START_HOUR + elapsed < MORNING_END_HOUR ? PHASE_MORNING : PHASE_AFTERNOON;
+
   const byStep = new Map();
+  const dayPath = [];
   steps.forEach((elapsed, i) => {
     const region = regions[i];
     const absoluteSeconds = dayStartSeconds + elapsed * SECONDS_PER_HOUR;
     const road_type = roadTypeAtSeconds(segments, absoluteSeconds);
+    const phase = phaseOfElapsed(elapsed);
+    const point = points[i];
+    if (point) {
+      dayPath.push({
+        lng: point[0],
+        lat: point[1],
+        hour_float: Number((WALK_START_HOUR + elapsed).toFixed(2)),
+        phase,
+        region: region?.name ?? null,
+        region_id: region?.id ?? null,
+      });
+    }
     if (region) {
       byStep.set(elapsed, {
         ...region,
-        entities: entityCache.get(region.name) || [],
+        entities: [
+          ...(entityCache.get(region.name) || []),
+          // Living-map rail: presence legs join the phase pool as
+          // synthetic entities carrying their authored level.
+          ...presencePoolEntries(presenceLegs, {
+            regionName: region.name,
+            regionId: region.id,
+            road_type,
+            phase,
+          }),
+        ],
         road_type,
       });
     } else {
@@ -604,7 +638,10 @@ async function buildWalkingPhaseResolver(segments, dayStartSeconds, phaseHours, 
     }
   });
 
-  return (elapsed) => byStep.get(Number(elapsed.toFixed(6))) || null;
+  return {
+    resolve: (elapsed) => byStep.get(Number(elapsed.toFixed(6))) || null,
+    dayPath,
+  };
 }
 
 /**
@@ -686,9 +723,20 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   // --- Geographic sampling ---
   const context = await sampleLegContext(legGeoJSON);
 
-  // Ordered unique regions crossed during the walking phase (with description_summary)
+  // --- Living-map rail: movers with an authored agenda today ---
+  // Loaded before the walking resolver so presence legs can join the
+  // encounter pools, and before encounters so march/resident legs can
+  // become crossings and traces along the day's path.
+  const activeMoverLegs = await loadActiveLegs(date);
+  const trailsByLeg = activeMoverLegs.some((l) => l.leg_kind === 'march')
+    ? await marchPositions(date)
+    : new Map();
+
   const timeStep = 0.5; // Fixed time step for region sampling
-  const walkingResolver = await buildWalkingPhaseResolver(segments, dayStartSeconds, walkingHoursThisDay, timeStep);
+  const walkingPhase = await buildWalkingPhaseResolver(segments, dayStartSeconds, walkingHoursThisDay, timeStep, activeMoverLegs);
+  const walkingResolver = walkingPhase.resolve;
+
+  // Ordered unique regions crossed during the walking phase (with description_summary)
   const orderedRegions = [];
   const seenRegions = new Set(); // Track seen regions to avoid duplicates
 
@@ -818,6 +866,48 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   const arrivalHourFloat = WALK_START_HOUR + walkingHoursThisDay;
   const inSettlement = !!overnightLocation && SETTLEMENT_TYPES.includes(overnightLocation.type);
 
+  // --- Mover crossings: the authored agenda meets the walked path ---
+  // March legs sit at today's trail point (Crossing within contact radius,
+  // Trace within notice radius); resident legs fire at the overnight stop
+  // or on a greeting pass-through. Deterministic — the world promised.
+  const moverFindings = detectMoverCrossings({
+    legs: activeMoverLegs,
+    trailsByLeg,
+    dayPath: walkingPhase.dayPath,
+    overnightLocation,
+    arrivalHourFloat,
+  });
+
+  const formatClock = (h) => `${String(Math.floor(h)).padStart(2, '0')}:${String(Math.round((h - Math.floor(h)) * 60)).padStart(2, '0')}`;
+
+  // One event per mover entity — a Crossing supersedes a Trace of the same being.
+  const moverEventsByEntity = new Map();
+  for (const m of moverFindings.traces) {
+    if (!moverEventsByEntity.has(m.leg.entity_id)) {
+      moverEventsByEntity.set(m.leg.entity_id, { ...m, kind: 'trace' });
+    }
+  }
+  for (const m of moverFindings.crossings) {
+    moverEventsByEntity.set(m.leg.entity_id, { ...m, kind: 'crossing' });
+  }
+  const moverEncounters = [...moverEventsByEntity.values()].map((m) => ({
+    hour: formatClock(m.hour_float),
+    hour_float: ((m.hour_float % 24) + 24) % 24,
+    phase: m.phase ?? null,
+    region: m.region ?? null,
+    entity: {
+      id: m.leg.entity_id,
+      name: m.leg.entity_name,
+      slug: m.leg.entity_slug,
+      type: m.leg.entity_type,
+      danger: m.leg.danger,
+      family: m.leg.family ?? null,
+      shadow_weight: m.leg.shadow_weight ?? 0,
+    },
+    _mover: { leg: m.leg, kind: m.kind },
+  }));
+  const scheduledMoverIds = new Set(moverEncounters.map((m) => m.entity.id));
+
   // --- Encounters ---
   // The shadow loop biases the spawn toward evil entities, capped per day and
   // damped in friendly regions.
@@ -841,7 +931,9 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     startHour: MORNING_END_HOUR,
     phaseHours: AFTERNOON_HOURS,
     phase: PHASE_AFTERNOON,
-    getRegionInfo: walkingResolver,
+    // The resolver maps elapsed to absolute walking hours — offset the
+    // afternoon lookup so its midpoint samples the 16:00 position, not 10:00.
+    getRegionInfo: (elapsed) => walkingResolver(MORNING_HOURS + elapsed),
     rng,
     excludedEntityIds: [...excludedEntityIds, ...morningResult.usedEntityIds],
     shadowFactor,
@@ -865,19 +957,32 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   });
 
   // Collect raw encounters in phase order, strip internal field.
+  // Mover crossings ride along as authored meetings; a presence leg the
+  // pool also drew is dropped — the deterministic crossing already stands.
   const rawEncounters = encountersBeforeSettlement(
-    [...morningResult.encounters, ...afternoonResult.encounters, ...nightResult.encounters],
+    [...morningResult.encounters, ...afternoonResult.encounters, ...nightResult.encounters]
+      .filter((e) => !(e.entity?._moverLeg && scheduledMoverIds.has(e.entity.id)))
+      .concat(moverEncounters),
     arrivalHourFloat,
     inSettlement
   )
     .sort((a, b) => a.hour_float - b.hour_float)
-    .map((e) => ({
-      ...e,
-      entity: {
-        ...e.entity,
-        probability_by_region: undefined
-      }
-    }));
+    .map((e) => {
+      // Hoist the mover marker off the entity — scheduled crossings carry
+      // `e._mover` already; a presence leg drawn by the pool gets one too
+      // (kind 'crossing' — the meeting happened).
+      const moverLeg = e._mover?.leg ?? e.entity?._moverLeg ?? null;
+      const out = {
+        ...e,
+        entity: {
+          ...e.entity,
+          probability_by_region: undefined,
+          _moverLeg: undefined,
+        }
+      };
+      if (moverLeg && !out._mover) out._mover = { leg: moverLeg, kind: 'crossing' };
+      return out;
+    });
 
   // --- Resolve interaction forms for each encounter ---
   const chapterForms = []; // tracks forms used within this chapter
@@ -899,20 +1004,30 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   for (const e of rawEncounters) {
     const encounterCulturalFamily = culturalFamilyByRegion.get(e.region) || null;
     const encounterRegionId = regionIdByRegion.get(e.region) || null;
-    const interaction = await resolveEncounter(
-      e.entity,
-      character,
-      recentForms,
-      rng,
-      chapterForms,
-      {
-        shadowBand,
-        characterSlug,
-        culturalFamily: encounterCulturalFamily,
-        regionId: encounterRegionId,
-        nightTiming: e.night_timing ?? null,
-      }
-    );
+
+    // The living-map rail: a scheduled crossing/trace (or a presence pick)
+    // resolves through its own leg contact — aspect for the sign, a picked
+    // variant for the meeting — not through the form lottery.
+    const moverLeg = e._mover?.leg ?? null;
+    const interaction = moverLeg
+      ? resolveMoverContact(moverLeg, moverLeg, e._mover?.kind ?? 'crossing', characterSlug, rng)
+      : await resolveEncounter(
+        e.entity,
+        character,
+        recentForms,
+        rng,
+        chapterForms,
+        {
+          shadowBand,
+          characterSlug,
+          culturalFamily: encounterCulturalFamily,
+          regionId: encounterRegionId,
+          nightTiming: e.night_timing ?? null,
+        }
+      );
+    // A race-gated leg contact speaks to no one here — the meeting
+    // never happened for this traveller.
+    if (!interaction) continue;
     chapterForms.push(interaction.form);
     encounters.push({ ...e, interaction });
   }
