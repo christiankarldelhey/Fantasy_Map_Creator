@@ -111,6 +111,31 @@ function jsonCopy(payload: unknown) {
   return JSON.stringify(payload ?? null, null, 2)
 }
 
+// mind_open/mind_close hold either the episode wire ({request, response}) or
+// a sentinel the host persists when the day ran without an episode.
+interface MindMarker { status?: string; reason?: string; detail?: string }
+
+function mindMarker(v: unknown): MindMarker {
+  return v && typeof v === 'object' ? (v as MindMarker) : {}
+}
+function hasWire(v: unknown): boolean {
+  return !!v && !mindMarker(v).status
+}
+function mindDetail(v: unknown): string | null {
+  return mindMarker(v).detail ?? null
+}
+function mindOpenMessage(day: TripDay): string {
+  const reason = mindMarker(day.mind_open).reason
+  if (reason === 'flag_off') return t('chapter.mindOffFlag')
+  if (reason === 'open_failed') return t('chapter.mindOffFailed')
+  return t('chapter.mindOff')
+}
+function mindCloseMessage(day: TripDay): string {
+  if (mindMarker(day.mind_close).status === 'failed') return t('chapter.mindCloseFailed')
+  if (hasWire(day.mind_open)) return t('chapter.mindCloseMissing')
+  return t('chapter.mindOff')
+}
+
 async function copyToClipboard(text: string | null | undefined, dayId: string, type: 'prompt' | 'open' | 'close' | 'system') {
   try {
     await navigator.clipboard.writeText(text ?? '')
@@ -532,43 +557,49 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
         </div>
 
         <div v-if="expanded[day.id] === 'open'" class="px-4 py-4 relative">
-          <button
-            v-if="day.mind_open"
-            class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
-            :title="copied[day.id]?.open ? t('chapter.copied') : t('chapter.copyJson')"
-            @click="copyToClipboard(jsonCopy(day.mind_open), day.id, 'open')"
-          >
-            <component :is="copied[day.id]?.open ? Check : Copy" class="w-4 h-4" />
-          </button>
-          <JsonViewer
-            v-if="day.mind_open"
-            :value="day.mind_open"
-            :expand-depth="1"
-            :copyable="false"
-            :sort="false"
-            theme="dark"
-          />
-          <p v-else class="text-sm text-ink-faded italic">{{ t('chapter.notAvailable') }}</p>
+          <template v-if="hasWire(day.mind_open)">
+            <button
+              class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
+              :title="copied[day.id]?.open ? t('chapter.copied') : t('chapter.copyJson')"
+              @click="copyToClipboard(jsonCopy(day.mind_open), day.id, 'open')"
+            >
+              <component :is="copied[day.id]?.open ? Check : Copy" class="w-4 h-4" />
+            </button>
+            <JsonViewer
+              :value="day.mind_open"
+              :expand-depth="1"
+              :copyable="false"
+              :sort="false"
+              theme="dark"
+            />
+          </template>
+          <p v-else class="text-sm text-ink-faded italic">
+            {{ mindOpenMessage(day) }}
+            <span v-if="mindDetail(day.mind_open)" class="block mt-1 not-italic text-xs">{{ mindDetail(day.mind_open) }}</span>
+          </p>
         </div>
 
         <div v-if="expanded[day.id] === 'close'" class="px-4 py-4 relative">
-          <button
-            v-if="day.mind_close"
-            class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
-            :title="copied[day.id]?.close ? t('chapter.copied') : t('chapter.copyJson')"
-            @click="copyToClipboard(jsonCopy(day.mind_close), day.id, 'close')"
-          >
-            <component :is="copied[day.id]?.close ? Check : Copy" class="w-4 h-4" />
-          </button>
-          <JsonViewer
-            v-if="day.mind_close"
-            :value="day.mind_close"
-            :expand-depth="1"
-            :copyable="false"
-            :sort="false"
-            theme="dark"
-          />
-          <p v-else class="text-sm text-ink-faded italic">{{ t('chapter.notAvailable') }}</p>
+          <template v-if="hasWire(day.mind_close)">
+            <button
+              class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
+              :title="copied[day.id]?.close ? t('chapter.copied') : t('chapter.copyJson')"
+              @click="copyToClipboard(jsonCopy(day.mind_close), day.id, 'close')"
+            >
+              <component :is="copied[day.id]?.close ? Check : Copy" class="w-4 h-4" />
+            </button>
+            <JsonViewer
+              :value="day.mind_close"
+              :expand-depth="1"
+              :copyable="false"
+              :sort="false"
+              theme="dark"
+            />
+          </template>
+          <p v-else class="text-sm text-ink-faded italic">
+            {{ mindCloseMessage(day) }}
+            <span v-if="mindDetail(day.mind_close)" class="block mt-1 not-italic text-xs">{{ mindDetail(day.mind_close) }}</span>
+          </p>
         </div>
 
         <div v-if="expanded[day.id] === 'system'" class="px-4 py-4 relative">
@@ -786,43 +817,49 @@ watch(() => props.tripId, (newTripId, oldTripId) => {
             </div>
 
             <div v-if="expanded[day.id] === 'open'" class="px-4 py-4 relative">
-              <button
-                v-if="day.mind_open"
-                class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
-                :title="copied[day.id]?.open ? t('chapter.copied') : t('chapter.copyJson')"
-                @click="copyToClipboard(jsonCopy(day.mind_open), day.id, 'open')"
-              >
-                <component :is="copied[day.id]?.open ? Check : Copy" class="w-4 h-4" />
-              </button>
-              <JsonViewer
-                v-if="day.mind_open"
-                :value="day.mind_open"
-                :expand-depth="1"
-                :copyable="false"
-                :sort="false"
-                theme="dark"
-              />
-              <p v-else class="text-sm text-ink-faded italic">{{ t('chapter.notAvailable') }}</p>
+              <template v-if="hasWire(day.mind_open)">
+                <button
+                  class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
+                  :title="copied[day.id]?.open ? t('chapter.copied') : t('chapter.copyJson')"
+                  @click="copyToClipboard(jsonCopy(day.mind_open), day.id, 'open')"
+                >
+                  <component :is="copied[day.id]?.open ? Check : Copy" class="w-4 h-4" />
+                </button>
+                <JsonViewer
+                  :value="day.mind_open"
+                  :expand-depth="1"
+                  :copyable="false"
+                  :sort="false"
+                  theme="dark"
+                />
+              </template>
+              <p v-else class="text-sm text-ink-faded italic">
+                {{ mindOpenMessage(day) }}
+                <span v-if="mindDetail(day.mind_open)" class="block mt-1 not-italic text-xs">{{ mindDetail(day.mind_open) }}</span>
+              </p>
             </div>
 
             <div v-if="expanded[day.id] === 'close'" class="px-4 py-4 relative">
-              <button
-                v-if="day.mind_close"
-                class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
-                :title="copied[day.id]?.close ? t('chapter.copied') : t('chapter.copyJson')"
-                @click="copyToClipboard(jsonCopy(day.mind_close), day.id, 'close')"
-              >
-                <component :is="copied[day.id]?.close ? Check : Copy" class="w-4 h-4" />
-              </button>
-              <JsonViewer
-                v-if="day.mind_close"
-                :value="day.mind_close"
-                :expand-depth="1"
-                :copyable="false"
-                :sort="false"
-                theme="dark"
-              />
-              <p v-else class="text-sm text-ink-faded italic">{{ t('chapter.notAvailable') }}</p>
+              <template v-if="hasWire(day.mind_close)">
+                <button
+                  class="absolute top-5 right-5 p-1.5 rounded-md hover:bg-parchment-base text-ink-brown hover:text-ink-black/90 transition-colors z-10"
+                  :title="copied[day.id]?.close ? t('chapter.copied') : t('chapter.copyJson')"
+                  @click="copyToClipboard(jsonCopy(day.mind_close), day.id, 'close')"
+                >
+                  <component :is="copied[day.id]?.close ? Check : Copy" class="w-4 h-4" />
+                </button>
+                <JsonViewer
+                  :value="day.mind_close"
+                  :expand-depth="1"
+                  :copyable="false"
+                  :sort="false"
+                  theme="dark"
+                />
+              </template>
+              <p v-else class="text-sm text-ink-faded italic">
+                {{ mindCloseMessage(day) }}
+                <span v-if="mindDetail(day.mind_close)" class="block mt-1 not-italic text-xs">{{ mindDetail(day.mind_close) }}</span>
+              </p>
             </div>
 
             <div v-if="expanded[day.id] === 'system'" class="px-4 py-4 relative">

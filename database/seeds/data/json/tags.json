@@ -1,62 +1,160 @@
 {
-  "schema": "narration-tags-v1",
-  "comment": "Closed registry of gating/driver tags (ADR-0015). World and Mind emit a tag set each moment; conditional content declares required `tags` and forbidden `not_tags`. A family with `pattern` accepts any value matching it; otherwise `values` is the closed list.",
+  "schema": "narration-tags-v2",
+  "comment": "Closed registry of tags (ADR-0015, ADR-0016): one flat vocabulary every consumer consults. Gating tags (situation/variant `tags`/`not_tags`, option drivers) and event/memory tags live together — a tag is a word; each consumer decides how to read it. `consumers` documents who reads the family: gating (authored content selection), memory (event/memory tags), retrieval (evocation matching), needs (mind needs), attitudes (subject matching). A family with `pattern` accepts any value matching it; otherwise `values` is the closed list.",
   "families": {
     "season": {
+      "consumers": ["gating"],
       "description": { "en": "Time of year", "es": "Estación del año" },
       "values": ["spring", "summer", "autumn", "winter"]
     },
     "ground": {
+      "consumers": ["gating"],
       "description": { "en": "Underfoot condition", "es": "Condición del suelo" },
       "values": ["soft", "hard", "doubtful"]
     },
     "weather": {
-      "description": { "en": "Current weather", "es": "Clima actual" },
-      "values": ["clear", "fog", "frost", "wet", "rain", "snow"]
+      "consumers": ["gating", "memory"],
+      "description": { "en": "Weather states — as a gating condition (weather:rain = it is raining) and as an event/memory tag (tag:weather:storm = a storm was lived)", "es": "Estados del clima — como condición de gating (weather:rain = está lloviendo) y como tag de evento/memoria (tag:weather:storm = se vivió una tormenta)" },
+      "values": ["clear", "fog", "frost", "wet", "rain", "snow", "storm", "windy", "freezing", "deep_cold", "scorching"]
     },
     "phase": {
+      "consumers": ["gating"],
       "description": { "en": "Day phase", "es": "Fase del día" },
       "values": ["morning", "afternoon", "evening", "night"]
     },
     "entry": {
+      "consumers": ["gating"],
       "description": { "en": "How the scope is entered", "es": "Cómo se entra al ámbito" },
       "values": ["first", "north", "south", "east", "west", "causeway"]
     },
     "region_day": {
+      "consumers": ["gating"],
       "description": { "en": "Days spent inside the region (cumulative: N present means day N or more)", "es": "Días dentro de la región (acumulativo: N presente = día N o más)" },
       "pattern": "^[1-9][0-9]*$"
     },
     "entry_count": {
+      "consumers": ["gating"],
       "description": { "en": "Times the scope has been entered", "es": "Veces que se entró al ámbito" },
       "pattern": "^[0-9]+$"
     },
     "days_since_exit": {
+      "consumers": ["gating"],
       "description": { "en": "Days since last leaving the scope", "es": "Días desde la última salida" },
       "pattern": "^[0-9]+$"
     },
     "context": {
+      "consumers": ["gating"],
       "description": { "en": "Situational flags", "es": "Banderas de situación" },
       "values": ["overnight", "camped", "in_settlement", "in_wild", "village_passed"]
     },
     "belief": {
+      "consumers": ["gating", "memory"],
       "description": { "en": "Beliefs the Mind has formed (slugs authored alongside the records that reference them)", "es": "Creencias que el Mind formó (slugs declarados junto a los registros que las referencian)" },
       "values": ["no_birds", "no_smell", "no_entry", "no_repair"]
     },
     "mind": {
+      "consumers": ["gating", "memory"],
       "description": { "en": "Mind states and option drivers — an option's `tag` points here; the selector weights it by current intensity", "es": "Estados del Mind y drivers de options — el `tag` de una option apunta acá; el selector lo pesa por intensidad actual" },
       "values": ["fear", "curiosity", "fatigue", "resolve", "melancholy", "hunger", "thirst", "warmth", "greed", "courage", "despair", "endurance", "wander"]
     },
     "energy": {
+      "consumers": ["gating"],
       "description": { "en": "Energy band", "es": "Banda de energía" },
       "values": ["fresh", "normal", "worn", "spent"]
     },
     "shadow": {
+      "consumers": ["gating"],
       "description": { "en": "Shadow band", "es": "Banda de sombra" },
       "values": ["clear", "unease", "shadowed", "burdened"]
     },
     "race": {
       "description": { "en": "The traveller's race — gates content written for a people (was character_id in npc_interactions)", "es": "La raza del viajero — filtra contenido escrito para un pueblo (era character_id en npc_interactions)" },
       "values": ["elf", "dunedain", "hobbit", "dwarf", "human", "orc", "maiar", "ent"]
+    },
+    "type": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "Event type tag — `type:<event.type>` derived for every event; the experience's kind, not its source record", "es": "Tag de tipo de evento — `type:<event.type>` derivado en cada evento; el tipo de la experiencia, no el registro del que salió" },
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "entity": {
+      "consumers": ["memory", "retrieval", "attitudes"],
+      "description": { "en": "A specific being or subject — `entity:<id>` from event data; the narrowest level attitudes and subjects match", "es": "Un ser o sujeto concreto — `entity:<id>` del data del evento; el nivel más fino que actitudes y sujetos matchean" },
+      "pattern": "^.+$"
+    },
+    "entity_type": {
+      "consumers": ["memory", "retrieval", "attitudes"],
+      "description": { "en": "Kind of being — `tag:entity_type:orcs`; the middle level attitudes match (entity > family > entity_type)", "es": "Tipo de ser — `tag:entity_type:orcs`; el nivel medio que las actitudes matchean (entity > family > entity_type)" },
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "family": {
+      "consumers": ["memory", "retrieval", "attitudes"],
+      "description": { "en": "A family within a kind of being — `tag:family:<name>`; between entity and entity_type for attitude matching", "es": "Una familia dentro de un tipo de ser — `tag:family:<nombre>`; entre entity y entity_type para matcheo de actitudes" },
+      "pattern": "^.+$"
+    },
+    "form": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "How contact happened — `tag:form:<form>`; the host's own vocabulary (attacks, watches, brief_exchange, presence_felt…)", "es": "Cómo ocurrió el contacto — `tag:form:<forma>`; el vocabulario propio del host (attacks, watches, brief_exchange, presence_felt…)" },
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "outcome": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "How an experience ended — `tag:outcome:<outcome>` (wounded, unscathed, turned_away…)", "es": "Cómo terminó una experiencia — `tag:outcome:<resultado>` (wounded, unscathed, turned_away…)" },
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "food": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "A foodstuff the character ate — `tag:food:<food>`", "es": "Un alimento que el personaje comió — `tag:food:<comida>`" },
+      "pattern": "^.+$"
+    },
+    "drink": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "A drink the character had — `tag:drink:<drink>`", "es": "Una bebida que el personaje tomó — `tag:drink:<bebida>`" },
+      "pattern": "^.+$"
+    },
+    "topic": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "The subject of talk, rumour or news — `tag:topic:<topic>`", "es": "El tema de una conversación, rumor o noticia — `tag:topic:<tema>`" },
+      "pattern": "^.+$"
+    },
+    "name": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "A proper name surfaced as content — `tag:name:<name>`", "es": "Un nombre propio que aparece como contenido — `tag:name:<nombre>`" },
+      "pattern": "^.+$"
+    },
+    "kind": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "A kind classification — `tag:kind:<kind>` (settlement, ruin, ford…)", "es": "Una clasificación de tipo — `tag:kind:<tipo>` (settlement, ruin, ford…)" },
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "place": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "A place anchor — `tag:place:<slug>`; connects an experience to the ficha it happened at", "es": "Un ancla de lugar — `tag:place:<slug>`; conecta una experiencia con la ficha donde pasó" },
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "record": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "The authored record that voiced a moment — `tag:record:<id>`; the same voice speaking again connects", "es": "El registro autorado que dio voz a un momento — `tag:record:<id>`; la misma voz hablando otra vez conecta" },
+      "pattern": "^.+$"
+    },
+    "situation": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "The gated variant within a record — `tag:situation:<id>`; the finest provenance grain of a moment", "es": "La variante gateada dentro de un registro — `tag:situation:<id>`; el grano de provenance más fino de un momento" },
+      "pattern": "^.+$"
+    },
+    "region": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "A region name — `region:<name>` from an event's where; ambient connection, not a strong anchor on its own", "es": "Un nombre de región — `region:<nombre>` del where del evento; conexión ambiental, no un ancla fuerte por sí sola" },
+      "pattern": "^.+$"
+    },
+    "need": {
+      "consumers": ["memory", "needs"],
+      "description": { "en": "A need the mind carries — `need:<key>`; marks memories born from what the body or spirit lacked", "es": "Una necesidad que la mente carga — `need:<key>`; marca los recuerdos nacidos de lo que el cuerpo o el espíritu pidió" },
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "tag": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "A single-segment semantic flag — `tag:<word>` (given, settlement, hostile, region_entered); the host's free marks", "es": "Una bandera semántica de un solo segmento — `tag:<palabra>` (given, settlement, hostile, region_entered); las marcas libres del host" },
+      "pattern": "^[a-z0-9_]+$"
     }
   }
 }

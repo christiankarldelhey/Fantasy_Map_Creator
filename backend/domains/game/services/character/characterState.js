@@ -51,6 +51,15 @@ export const TUNING = {
 
   // Shadow
   SHADOW_EFFECT_MULTIPLIER: 10, // shadow_effect (-2..+2) × 10
+  // Willpower: the character's `resistance` stat (0–100) blunts corruption
+  // gains — a full-strength will takes SHADOW_RESIST_MAX less shadow from
+  // every positive source (encounters, dread nights, enemy lands). Relief
+  // is never reduced: strength helps you resist, not to be comforted.
+  SHADOW_RESIST_MAX: 0.4,
+  // One horror marks the day; more of them mostly blur together. The day's
+  // largest positive shadow_weight counts in full, each further one at this
+  // fraction. (Two orcs and a bat should not break a seasoned traveller.)
+  ENCOUNTER_SHADOW_FALLOFF: 0.5,
   ENEMY_REGION_RISE: 3,         // per day passing through an enemy-family region
   QUIET_FRIENDLY_FALL: 2,       // day without hostile encounters in non-enemy land
   // Shadow relief from a restful night in a non-enemy populated location,
@@ -347,6 +356,21 @@ export function sumShadowWeight(encounters) {
   }, 0);
 }
 
+/** Diminishing shadow_weight: the day's worst horror counts in full, each
+ * additional positive-weight encounter at ENCOUNTER_SHADOW_FALLOFF.
+ * Negative weights (merciful beings) never diminish. */
+export function sumShadowWeightDiminished(encounters) {
+  const weights = (encounters || [])
+    .map((e) => e?.entity?.shadow_weight)
+    .filter((w) => Number.isFinite(w));
+  const positive = weights.filter((w) => w > 0).sort((a, b) => b - a);
+  const negative = weights.filter((w) => w <= 0);
+  const posSum = positive.length
+    ? positive[0] + positive.slice(1).reduce((s, w) => s + w * TUNING.ENCOUNTER_SHADOW_FALLOFF, 0)
+    : 0;
+  return posSum + negative.reduce((s, w) => s + w, 0);
+}
+
 /**
  * Count friendly dialogue encounters with good, intelligent beings — a warm
  * word with an elf, dwarf, hobbit or fair human/maia eases the spirit.
@@ -462,9 +486,9 @@ export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQualit
  * @param {boolean} p.sanctuary         - elven sanctuary: strong shadow relief
  * @returns {{ delta:number, parts:Object }}
  */
-export function computeShadowDelta({ shadowEffect = 0, encounters = [], throughEnemyRegion = false, quietFriendlyDay = false, restQuality = null, restInLocation = false, restNonEnemy = false, sanctuary = false }) {
+export function computeShadowDelta({ shadowEffect = 0, encounters = [], throughEnemyRegion = false, quietFriendlyDay = false, restQuality = null, restInLocation = false, restNonEnemy = false, sanctuary = false, resistance = 0 }) {
   const overnight = (shadowEffect || 0) * TUNING.SHADOW_EFFECT_MULTIPLIER; // signed
-  const encounterSum = sumShadowWeight(encounters);                        // signed
+  const encounterSum = sumShadowWeightDiminished(encounters);              // signed
   const enemyRegion = throughEnemyRegion ? TUNING.ENEMY_REGION_RISE : 0;
   const friendlyFall = quietFriendlyDay ? -TUNING.QUIET_FRIENDLY_FALL : 0;
 
@@ -485,11 +509,17 @@ export function computeShadowDelta({ shadowEffect = 0, encounters = [], throughE
   // Strong relief from a night in an elven sanctuary.
   const sanctuaryFall = sanctuary ? -TUNING.SANCTUARY_SHADOW_FALL : 0;
 
-  const delta = overnight + encounterSum + enemyRegion + friendlyFall
-    + restfulRefuge + friendlyTalk + naturalDecay + sanctuaryFall;
+  // Willpower blunts only what corrupts: each positive contribution is
+  // scaled by (1 - resistance/100 × SHADOW_RESIST_MAX). A dúnadan at
+  // resistance 100 takes 40% less; relief arrives undiminished.
+  const resistFactor = 1 - clamp(resistance, 0, 100) / 100 * TUNING.SHADOW_RESIST_MAX;
+  const resist = (v) => (v > 0 ? v * resistFactor : v);
+
+  const delta = resist(overnight) + resist(encounterSum) + resist(enemyRegion)
+    + friendlyFall + restfulRefuge + friendlyTalk + naturalDecay + sanctuaryFall;
   return {
     delta,
-    parts: { overnight, encounterSum, enemyRegion, friendlyFall, restfulRefuge, friendlyTalk, naturalDecay, sanctuaryFall },
+    parts: { overnight, encounterSum, enemyRegion, friendlyFall, restfulRefuge, friendlyTalk, naturalDecay, sanctuaryFall, resistFactor },
   };
 }
 
@@ -620,7 +650,7 @@ export function buildDayNote(day, overnightInteraction) {
 export async function loadCharacterState(characterId) {
   if (!characterId) return null;
   const { rows } = await pool.query(
-    `SELECT id, name, energy, shadow, energy_initial, shadow_initial, last_rest_at, coins, days_without_food, days_without_water,
+    `SELECT id, name, energy, shadow, energy_initial, shadow_initial, last_rest_at, coins, days_without_food, days_without_water, resistance,
             skill_tracking, skill_persuasion, skill_ranged, skill_melee, skill_lore, skill_stealth, skill_endurance, skill_insight, skill_deception, skill_intimidation, fatigue, wounded, sick
      FROM character_state WHERE id = $1`,
     [characterId]

@@ -8,7 +8,7 @@
 # ============================================================================
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from app.models import GenerationResponse, PromptResponse
 
@@ -203,16 +203,36 @@ class DayPayload(BaseModel):
     # How the night was secured (paid bed, charity plea, turned away) —
     # host-owned shape; the prompt only narrates it.
     lodging: Optional[Dict[str, Any]] = None
+    # Ambient situations the leg triggered (ADR-0015): host-owned shape —
+    # record/situation/option ids plus the resolved text/effects.
+    ambient: List[Dict[str, Any]] = []
     # World voice (#52): the host's pre-verbalized world material. When
     # present the prompt consumes it verbatim; absent, the engine phrases
     # the raw fields itself (legacy fallback until the NL removal lands).
     world_notes: Dict[str, Any] = {}
 
 
+class EpisodeFrame(BaseModel):
+    """Where the Episode sits in the host's timeline (ADR-0016): its
+    position, the in-world time label, and whether the stretch closes
+    the Arc. Replaces day_number/date/is_last_day."""
+
+    model_config = ConfigDict(extra='forbid')
+
+    index: Optional[int] = None
+    at: Optional[str] = None
+    terminal: Optional[bool] = None
+
+
 class OpenEpisodeRequest(BaseModel):
     """Flat wire contract: everything the episode needs, nothing it doesn't.
     `events[].data` is the single free-form field — the host's event domain
-    is its own; the mind only reads what facets declare."""
+    is its own; the mind only reads what facets declare.
+
+    Canonical shape (ADR-0016): `episode`/`arc`/`condition`/`world_notes`.
+    The legacy `day`/`trip_name`/`character_state`/`equipment_state`
+    fields are still accepted for one release — `_fold_legacy` merges
+    them into the canonical fields so nothing downstream reads both."""
 
     model_config = ConfigDict(extra='forbid')
 
@@ -221,18 +241,51 @@ class OpenEpisodeRequest(BaseModel):
     language: str = 'english'
     character: OpenCharacter
     events: List[EventIn] = []
-    day: DayPayload
+    # The Episode's frame in the host's timeline: position, in-world
+    # time, whether the Arc closes here.
+    episode: Optional[EpisodeFrame] = None
+    # The larger narrative this Episode belongs to ('a journey', 'a
+    # season' — whatever the host calls it).
+    arc: Optional[str] = None
+    # The live Condition: one flat map — character_state and
+    # equipment_state merged. The only channel where numbers are legal;
+    # detectors read it, the narrator never phrases from it.
+    condition: Dict[str, Any] = {}
+    # World voice (#52): the host's pre-verbalized world material. When
+    # present the prompt consumes it verbatim; absent, the engine phrases
+    # the raw fields itself (legacy fallback until the NL removal lands).
+    world_notes: Dict[str, Any] = {}
+    fate: Optional[str] = None
+    # --- Legacy fields, dual-read window (ADR-0016) ---
+    day: Optional[DayPayload] = None
     trip_name: Optional[str] = None
-    # Raw state, not rendered blocks: the host reports numbers and facts,
-    # this service owns every translation into words (C10).
     character_state: Optional[Dict[str, Any]] = None
     equipment_state: Optional[Dict[str, Any]] = None
-    fate: Optional[str] = None
     # Stateless-fallback continuity (C22): mind-driven prompts ignore
     # this — the lens recaps what the mind retained instead. It still
     # rides the wire so a mindless narrate keeps its 'In Chapter N' line.
     previous_day: Optional[Dict[str, Any]] = None
     recent_day_climates: List[Dict[str, Any]] = []
+
+    @model_validator(mode='after')
+    def _fold_legacy(self):
+        """Dual-read window (ADR-0016): fold the legacy shape into the
+        canonical fields so every consumer reads one form only."""
+        if self.episode is None and self.day is not None:
+            self.episode = EpisodeFrame(
+                index=self.day.day_number,
+                at=self.day.date,
+                terminal=self.day.is_last_day,
+            )
+        if self.arc is None:
+            self.arc = self.trip_name
+        for src in (self.character_state, self.equipment_state):
+            for k, v in (src or {}).items():
+                if k not in self.condition:
+                    self.condition[k] = v
+        if not self.world_notes and self.day is not None:
+            self.world_notes = dict(self.day.world_notes or {})
+        return self
 
 
 class PerceivedEvent(BaseModel):
