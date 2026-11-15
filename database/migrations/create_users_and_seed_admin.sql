@@ -28,6 +28,13 @@ COMMENT ON COLUMN users.settings IS 'JSONB settings: { narrative_language, curre
 -- ============================================================================
 -- Seed admin user (if not exists)
 -- ============================================================================
+-- Drift hardening: `users` may predate this file on databases created by
+-- other paths (prod). CREATE TABLE IF NOT EXISTS never alters an existing
+-- table, so guarantee the columns and the unique the ON CONFLICT needs.
+ALTER TABLE users ADD COLUMN IF NOT EXISTS email VARCHAR(255);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS settings JSONB DEFAULT '{}'::jsonb;
+CREATE UNIQUE INDEX IF NOT EXISTS users_email_unique ON users(email);
+
 INSERT INTO users (email, settings)
 VALUES ('admin@middleearth.com', '{}'::jsonb)
 ON CONFLICT (email) DO NOTHING;
