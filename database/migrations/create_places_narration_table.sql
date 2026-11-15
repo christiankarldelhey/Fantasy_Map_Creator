@@ -65,6 +65,22 @@ ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS variants JSONB;
 ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS mechanics JSONB;
 ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS refs JSONB;
 
+-- Drift hardening: a places_narration that predates this vocabulary (prod
+-- was seeded by older paths) has no kind CHECK and may carry kinds the
+-- constraint below would reject. Apply the same remaps
+-- normalize_narration_shape runs later (idempotent there — already-mapped
+-- rows no longer match) plus a catch-all: whatever is left outside the
+-- six-kind set collapses to 'ambient', the floor unify assigns anyway.
+UPDATE places_narration SET kind = 'depiction'
+ WHERE kind IN ('region', 'kingdom');
+UPDATE places_narration SET
+    action = CASE kind WHEN 'overnight' THEN 'rest' WHEN 'offer' THEN 'offer' END,
+    kind = 'interaction'
+ WHERE kind IN ('overnight', 'offer');
+UPDATE places_narration SET kind = 'ambient'
+ WHERE kind NOT IN ('place', 'ambient', 'arrival', 'lore',
+                    'depiction', 'interaction');
+
 -- Named CHECK for renamed legacy tables (fresh creates get it inline above).
 DO $$
 BEGIN
