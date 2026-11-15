@@ -2,6 +2,7 @@ mover:
   slug: treebeard
   name: Treebeard
   kind: person
+  type: living_trees
   canon: true
   motivation: >-
     Fangorn, the eldest of the Ents — slow to anger, slower to decide, and

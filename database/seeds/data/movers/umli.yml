@@ -1,7 +1,8 @@
 mover:
-  slug: umli
+  slug: ruki
   name: Rûki, the young Umli
   kind: person
+  type: dwarves
   canon: false
   motivation: >-
     Half-dwarf, though he would take a fist over the word 'half'. Twenty

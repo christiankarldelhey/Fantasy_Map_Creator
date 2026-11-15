@@ -2,6 +2,7 @@ mover:
   slug: legolas
   name: Legolas of the Woodland Realm
   kind: person
+  type: elves
   canon: true
   campaign: council-bound
   motivation: >-

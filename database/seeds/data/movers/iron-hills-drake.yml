@@ -2,6 +2,7 @@ mover:
   slug: iron-hills-drake
   name: Gormr, the Goat-Drake
   kind: person
+  type: drakes
   canon: false
   motivation: >-
     Young as dragons reckon it, hungry as dwarves reckon it. It denizens

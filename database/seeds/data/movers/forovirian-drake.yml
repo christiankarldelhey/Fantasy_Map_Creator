@@ -2,6 +2,7 @@ mover:
   slug: forovirian-drake
   name: Tursas, the Pale Drake
   kind: person
+  type: drakes
   canon: false
   motivation: >-
     Not one of the great worms of the ancient world — a cold-drake of the

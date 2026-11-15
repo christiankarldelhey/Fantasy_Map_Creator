@@ -2,6 +2,7 @@ mover:
   slug: glass-eye
   name: Amory Bellifont
   kind: person
+  type: humans
   canon: false
   motivation: >-
     A wandering eccentric who carries a small case of glass eyes and

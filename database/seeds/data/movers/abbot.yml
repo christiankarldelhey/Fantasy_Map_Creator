@@ -2,6 +2,7 @@ mover:
   slug: abbot
   name: Abbot of the Marshes
   kind: person
+  type: humans
   canon: false
   campaign: mirror-hunt
   motivation: >-

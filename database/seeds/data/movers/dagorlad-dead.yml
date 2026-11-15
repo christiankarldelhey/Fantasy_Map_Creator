@@ -2,6 +2,7 @@ mover:
   slug: dagorlad-dead
   name: The Keepers of the Field
   kind: company
+  type: undead
   canon: false
   motivation: >-
     The dead of the battle-plain do not sleep, and they remember being

@@ -2,6 +2,7 @@ mover:
   slug: silent-pilgrim
   name: Elentir, the silent pilgrim
   kind: person
+  type: elves
   canon: false
   motivation: >-
     He has said goodbye to everything already — house, tree, road, name —

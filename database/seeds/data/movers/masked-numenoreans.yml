@@ -2,6 +2,7 @@ mover:
   slug: masked-numenoreans
   name: The Zimrathân
   kind: company
+  type: humans
   canon: false
   campaign: mirror-hunt
   motivation: >-
