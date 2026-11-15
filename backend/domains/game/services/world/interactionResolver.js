@@ -2,10 +2,16 @@
 // Interaction Resolver
 // ----------------------------------------------------------------------------
 // Given an entity chosen for an encounter slot, resolves:
-//   - a FORM from the encounter_forms table
-//   - optional DIALOGUE content for speaking forms
+//   - a FORM from entities_narration (kind='form')
+//   - optional DIALOGUE content from entities_narration (kind='contact')
 //   - optional OUTCOME from a resistance roll
 // before the LLM prompt is built.
+//
+// entities_narration is the single voice table for beings (ADR: the facts
+// live in `entities`/`mover_legs`, the voice lives here). The scope ladder —
+// entity+leg > entity+region > entity > type+region > type — replaces the old
+// shadow_band chain: the band axis was dropped from the source data, the mind
+// carries the shadow; the world does not anticipate it.
 //
 // Exports:
 //   resolveEncounter(entity, character, recentForms, rng, chapterForms, options) -> ResolvedEncounter
@@ -16,8 +22,9 @@
 //   prose_hint:     string,
 //   intensity:      number,
 //   outcome:        string | null,
-//   dialogue_content: { topic, topic_prose_hint, npc_attitude, concrete_content,
-//                       tension, traveller_stance } | null,
+//   dialogue_content: { id, topic, npc_attitude, concrete_content,
+//                       tension, traveller_stance, options, commands,
+//                       narration } | null,
 //   decision:         { id, prompt, options } | null,  // B5: only for
 //                     // before_sleep encounters on rows that author options —
 //                     // the mind weighs, the host applies.
@@ -53,48 +60,54 @@ const FALLBACK_INTERACTION = {
   outcome: null,
 };
 
+// The traveller's race — content written for a people carries a `race:*` tag
+// (the old character_id axis, re-expressed). Clone slugs strip to the base.
+const CHARACTER_RACE = { aranath: 'dunedain', celebrian: 'elf' };
+
+// A row tagged `race:X` only speaks to a traveller of race X. Rows with no
+// race tag speak to everyone. $n is the traveller's tag ('race:dunedain') or
+// NULL — in which case any race tag excludes the row.
+const RACE_GATE = `AND NOT EXISTS (
+  SELECT 1 FROM unnest(n.tags) AS t
+  WHERE t LIKE 'race:%' AND t IS DISTINCT FROM $3::text
+)`;
+
 // ---------------------------------------------------------------------------
 // Caches (tables are static between restarts)
 // ---------------------------------------------------------------------------
 
-const interactionCache = new Map();
-const npcInteractionCache = new Map();
+const formCache = new Map();
+const contactCache = new Map();
 
 export function clearInteractionCache() {
-  interactionCache.clear();
+  formCache.clear();
 }
 
 export function clearAllEncounterCaches() {
-  interactionCache.clear();
-  npcInteractionCache.clear();
+  formCache.clear();
+  contactCache.clear();
 }
 
 // ---------------------------------------------------------------------------
-// Fetchers
+// Fetchers — kind='form' (the contact-shape draw)
 // ---------------------------------------------------------------------------
 
-async function fetchInteractions(entityType) {
-  if (interactionCache.has(entityType)) return interactionCache.get(entityType);
+async function fetchForms(entityType) {
+  if (formCache.has(entityType)) return formCache.get(entityType);
   const { rows } = await pool.query(
-    `SELECT interaction_form AS form, intensity, weight, min_danger, max_danger, triggers_roll, prose_hint
-     FROM encounter_forms
-     WHERE entity_type = $1`,
+    `SELECT form, intensity, weight, min_danger, max_danger, triggers_roll,
+            aspect->>'en' AS prose_hint
+     FROM entities_narration
+     WHERE kind = 'form' AND entity_type = $1`,
     [entityType]
   );
-  interactionCache.set(entityType, rows);
+  formCache.set(entityType, rows);
   return rows;
 }
 
 // ---------------------------------------------------------------------------
-// NPC interaction helpers (shadow band mapping + clone slug stripping)
+// Contact helpers (kind='contact' — the substance of the encounter)
 // ---------------------------------------------------------------------------
-
-export function shadowBandToDbBand(band) {
-  if (band === 'clear') return 'low';
-  if (band === 'unease') return 'mid';
-  // 'shadowed' and 'burdened' both map to 'high'
-  return 'high';
-}
 
 function stripCloneSlug(slug) {
   if (!slug) return null;
@@ -102,201 +115,170 @@ function stripCloneSlug(slug) {
   return slug.replace(/-user-\d+$/, '');
 }
 
-// Relax a shadow band one step: high -> mid -> low (low has no relaxation)
-function relaxBand(band) {
-  if (band === 'high') return 'mid';
-  if (band === 'mid') return 'low';
-  return null;
+function raceTagFor(characterSlug) {
+  const race = CHARACTER_RACE[stripCloneSlug(characterSlug)] ?? null;
+  return race ? `race:${race}` : null;
 }
 
-// Score how specific a row is, preferring rows whose optional columns MATCH the
-// encounter context (character, cultural family, region).  A row with a
-// non-matching cultural_family scores the same as one with no cultural_family
-// at all, so region-specific dialogue written for one culture is never
-// preferred when the encounter is in a different culture.
+// Score how specific a row is, preferring rows whose optional scope columns
+// MATCH the encounter context (cultural family, region).  A row with a
+// non-matching cultural_family scores the same as one with none at all, so
+// region-specific dialogue written for one culture is never preferred when
+// the encounter is in a different culture.
 function specificityScore(row, culturalFamily, regionId) {
   let score = 0;
-  if (row.character_id) score++;
   if (row.cultural_family && row.cultural_family === culturalFamily) score++;
   if (row.region_id && Number(row.region_id) === Number(regionId)) score++;
   return score;
 }
 
 /**
- * Fetch the best rich npc_interactions row for an encounter, using a fallback chain:
- *   1. entity_id + interaction_form + shadow_band (with optional character/cultural/region preference)
- *   2. Relax shadow_band (high -> mid -> low)
- *   3. entity_type + interaction_form + shadow_band, entity-agnostic rows only
- *   4. Relax shadow_band on entity_type match
- *   5. Return null (caller falls back to a generic topic row from npc_interactions)
- *
- * Within the winning step, every equally-specific row is a candidate and one is
- * picked at random, so repeated encounters with the same entity vary.
+ * Fetch the best contact row for an encounter, down the scope ladder:
+ *   1. entity-scoped rows (entity_id, or entity_ids whitelist) — context
+ *      columns score but never filter
+ *   2. entity_type generic rows + context filters (truly agnostic: no
+ *      entity_id/entity_ids, so prose written for one being never bleeds
+ *      onto another)
+ *   3. entity_type generic rows, no context filters
+ * Leg-scoped contacts (mover_leg_id) stay out of the procedural ladder —
+ * they belong to the living-map rail. Every step applies the race gate and
+ * picks at random among equally-specific rows.
  */
-async function fetchNpcInteraction({
+async function fetchContact({
   entityId,
   entityType,
   interactionForm,
-  shadowBand: dbBand,
-  characterSlug,
+  raceTag,
   culturalFamily,
   regionId,
   rng = Math.random,
 }) {
-  const baseSlug = stripCloneSlug(characterSlug);
-  const cacheKey = `${entityId}|${entityType}|${interactionForm}|${dbBand}|${baseSlug}|${culturalFamily}|${regionId}`;
-  if (npcInteractionCache.has(cacheKey)) {
-    return randomPick(npcInteractionCache.get(cacheKey), rng);
+  const cacheKey = `${entityId}|${entityType}|${interactionForm}|${raceTag}|${culturalFamily}|${regionId}`;
+  if (contactCache.has(cacheKey)) {
+    return randomPick(contactCache.get(cacheKey), rng);
   }
 
   let candidates = [];
 
-  // Helper: query by entity_id or entity_type, with band, keeping only the most
-  // specific tier of matches (character > cultural family > region).
-  //
-  // entity_id lookups do NOT filter by cultural_family or region_id — the
-  // entity_id already identifies the entity, and those columns are used only
-  // for specificity scoring (a row that matches the encounter context scores
-  // higher than one written for a different region/culture).
-  //
-  // entity_type lookups ARE filtered by cultural_family/region_id (with a
-  // fallback to unfiltered) so that generic dialogue matches the encounter's
-  // cultural context.  entity_type lookups are also restricted to truly
-  // entity-agnostic rows (entity_id IS NULL AND entity_ids IS NULL, C26)
-  // so substance written for one entity never bleeds onto another.
-  const queryByDimension = async (dimensionCol, dimensionVal, band, useContextFilters = true) => {
-    const isEntityType = dimensionCol === 'entity_type';
-    // C26: entity_ids is a whitelist — a row that lists entities describes
-    // only those. The entity_id lookup also accepts whitelists; generic
-    // (entity_type) rows must list nothing, so concrete prose never
-    // leaks onto an entity it wasn't written for.
-    const entityScope = isEntityType
-      ? 'AND entity_id IS NULL AND entity_ids IS NULL'
+  const queryScope = async (whereEntity, useContextFilters, params) => {
+    const contextFilter = useContextFilters
+      ? `AND (n.cultural_family IS NULL OR n.cultural_family = $4)
+         AND (n.region_id IS NULL OR n.region_id = $5)`
       : '';
-    const dimensionMatch = isEntityType
-      ? 'entity_type = $1'
-      : '(entity_id = $1 OR entity_ids @> ARRAY[$1]::uuid[])';
-    // Context filters only apply to entity_type queries, and only when requested
-    const useFilters = isEntityType && useContextFilters;
-    const contextFilter = useFilters
-      ? `AND (cultural_family IS NULL OR cultural_family = $5)
-         AND (region_id IS NULL OR region_id::numeric = $6::numeric)`
-      : '';
-    const params = useFilters
-      ? [dimensionVal, interactionForm, band, baseSlug, culturalFamily, regionId]
-      : [dimensionVal, interactionForm, band, baseSlug];
     const { rows } = await pool.query(
-      `SELECT * FROM npc_interactions
-       WHERE ${dimensionMatch} AND interaction_form = $2 AND shadow_band = $3
-         ${entityScope}
-         AND (character_id IS NULL OR character_id = $4)
+      `SELECT n.* FROM entities_narration n
+       WHERE n.kind = 'contact' AND ${whereEntity}
+         AND n.form = $2
+         AND n.mover_leg_id IS NULL
+         ${RACE_GATE}
          ${contextFilter}`,
       params
     );
     if (rows.length === 0) return [];
-    const bestScore = Math.max(...rows.map(r => specificityScore(r, culturalFamily, regionId)));
-    return rows.filter((row) => specificityScore(row, culturalFamily, regionId) === bestScore);
+    const best = Math.max(...rows.map((r) => specificityScore(r, culturalFamily, regionId)));
+    return rows.filter((r) => specificityScore(r, culturalFamily, regionId) === best);
   };
 
-  // Attempt 1: entity_id match with exact band (no context filters — entity_id
-  // is specific enough; cultural_family/region_id are used only for scoring)
+  // Step 1: entity-specific (id or whitelist membership)
   if (entityId) {
-    candidates = await queryByDimension('entity_id', entityId, dbBand);
+    candidates = await queryScope(
+      '(n.entity_id = $1 OR n.entity_ids @> ARRAY[$1]::uuid[])',
+      false,
+      [entityId, interactionForm, raceTag]
+    );
   }
 
-  // Attempt 2: entity_id match with relaxed band
-  if (candidates.length === 0 && entityId) {
-    let band = relaxBand(dbBand);
-    while (band && candidates.length === 0) {
-      candidates = await queryByDimension('entity_id', entityId, band);
-      band = relaxBand(band);
-    }
-  }
-
-  // Attempt 3: entity_type match with exact band + context filters
+  // Step 2: entity_type generic, with context filters
   if (candidates.length === 0 && entityType) {
-    candidates = await queryByDimension('entity_type', entityType, dbBand, true);
+    candidates = await queryScope(
+      `n.entity_type = $1 AND n.entity_id IS NULL AND n.entity_ids IS NULL`,
+      true,
+      [entityType, interactionForm, raceTag, culturalFamily, regionId]
+    );
   }
 
-  // Attempt 4: entity_type match with relaxed band + context filters
+  // Step 3: entity_type generic, no context filters
   if (candidates.length === 0 && entityType) {
-    let band = relaxBand(dbBand);
-    while (band && candidates.length === 0) {
-      candidates = await queryByDimension('entity_type', entityType, band, true);
-      band = relaxBand(band);
-    }
+    candidates = await queryScope(
+      `n.entity_type = $1 AND n.entity_id IS NULL AND n.entity_ids IS NULL`,
+      false,
+      [entityType, interactionForm, raceTag]
+    );
   }
 
-  // Attempt 5: entity_type match with exact band, no context filters (fallback)
-  if (candidates.length === 0 && entityType) {
-    candidates = await queryByDimension('entity_type', entityType, dbBand, false);
-  }
-
-  // Attempt 6: entity_type match with relaxed band, no context filters (fallback)
-  if (candidates.length === 0 && entityType) {
-    let band = relaxBand(dbBand);
-    while (band && candidates.length === 0) {
-      candidates = await queryByDimension('entity_type', entityType, band, false);
-      band = relaxBand(band);
-    }
-  }
-
-  npcInteractionCache.set(cacheKey, candidates);
+  contactCache.set(cacheKey, candidates);
   return randomPick(candidates, rng);
 }
 
 /**
- * Fallback to a generic topic row when no rich npc_interactions row exists.
- * Generic rows have interaction_form = 'topic' and no concrete content.
+ * Fallback to a generic topic contact when no form-matched row exists.
+ * Topic rows carry form = 'topic' and no concrete content.
  */
 async function fetchGenericTopic({
   entityType,
-  shadowBand: dbBand,
-  characterSlug,
+  raceTag,
   culturalFamily,
   regionId,
   rng,
 }) {
   if (!entityType) return null;
-  const baseSlug = stripCloneSlug(characterSlug);
-  const candidates = [];
 
-  const queryByBand = async (band, useContextFilters = true) => {
+  const queryTopic = async (useContextFilters) => {
     const contextFilter = useContextFilters
-      ? `AND (cultural_family IS NULL OR cultural_family = $4)
-         AND (region_id IS NULL OR region_id::numeric = $5::numeric)`
+      ? `AND (n.cultural_family IS NULL OR n.cultural_family = $4)
+         AND (n.region_id IS NULL OR n.region_id = $5)`
       : '';
     const params = useContextFilters
-      ? [entityType, band, baseSlug, culturalFamily, regionId]
-      : [entityType, band, baseSlug];
+      ? [entityType, 'topic', raceTag, culturalFamily, regionId]
+      : [entityType, 'topic', raceTag];
     const { rows } = await pool.query(
-      `SELECT * FROM npc_interactions
-       WHERE entity_type = $1 AND interaction_form = 'topic' AND shadow_band = $2
-         AND entity_id IS NULL AND entity_ids IS NULL
-         AND (character_id IS NULL OR character_id = $3)
+      `SELECT n.* FROM entities_narration n
+       WHERE n.kind = 'contact' AND n.entity_type = $1 AND n.form = $2
+         AND n.entity_id IS NULL AND n.entity_ids IS NULL
+         AND n.mover_leg_id IS NULL
+         ${RACE_GATE}
          ${contextFilter}`,
       params
     );
     return rows;
   };
 
-  // Try with context filters first
-  let band = dbBand;
-  while (band && candidates.length === 0) {
-    candidates.push(...(await queryByBand(band, true)));
-    band = relaxBand(band);
-  }
-
-  // Fallback: try without context filters
-  if (candidates.length === 0) {
-    band = dbBand;
-    while (band && candidates.length === 0) {
-      candidates.push(...(await queryByBand(band, false)));
-      band = relaxBand(band);
-    }
-  }
+  let candidates = await queryTopic(true);
+  if (candidates.length === 0) candidates = await queryTopic(false);
 
   return randomPick(candidates, rng);
+}
+
+// ---------------------------------------------------------------------------
+// Contact row → dialogue_content (the shape downstream consumers already read)
+// ---------------------------------------------------------------------------
+
+// Pick one interactive situation. Situations may carry gating tags; until the
+// encounter tag-set lands, only ungated situations are eligible — and if a row
+// authors none, its gated situations still serve (nothing else to pick).
+function pickSituation(row, rng) {
+  const sits = Array.isArray(row.interactive) ? row.interactive : [];
+  if (!sits.length) return null;
+  const ungated = sits.filter((s) => !(s.tags || []).length);
+  const pool_ = ungated.length ? ungated : sits;
+  return pool_[Math.floor(rng() * pool_.length)];
+}
+
+function toDialogueContent(row, rng) {
+  const sit = pickSituation(row, rng);
+  return {
+    id: row.id,
+    topic: row.facts?.topic ?? null,
+    npc_attitude: row.disposition?.en ?? null,
+    concrete_content: row.presence?.en ?? null,
+    tension: sit?.situation?.en ?? null,
+    traveller_stance: sit?.stance?.en ?? null,
+    options: sit?.options ?? null,
+    commands: sit?.commands ?? null,
+    // The full record rides along — variants, disposition, interactive —
+    // for the shared option-selector chapter.
+    narration: row,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -350,10 +332,11 @@ export async function resolveEncounter(
 ) {
   const entityType = entity?.type;
   const danger = typeof entity?.danger === 'number' ? entity.danger : 0;
-  const { shadowBand: sBand, characterSlug, culturalFamily, regionId, nightTiming } = options;
+  const { characterSlug, culturalFamily, regionId, nightTiming } = options;
+  const raceTag = raceTagFor(characterSlug);
 
-  // Load all interaction rows for this entity type
-  const rows = entityType ? await fetchInteractions(entityType) : [];
+  // Load all form rows for this entity type
+  const rows = entityType ? await fetchForms(entityType) : [];
 
   // Filter by danger range
   const candidates = rows.filter(
@@ -410,32 +393,30 @@ export async function resolveEncounter(
     return { ...FALLBACK_INTERACTION, dialogue_content: null };
   }
 
-  // Dialogue selection: one unified block from npc_interactions
-  let dialogueContent = null;
+  // Dialogue selection: one unified contact from entities_narration
+  let contactRow = null;
   if (DIALOGUE_FORMS.includes(chosen.form)) {
-    const dbBand = sBand ? shadowBandToDbBand(sBand) : 'low';
-    dialogueContent = await fetchNpcInteraction({
+    contactRow = await fetchContact({
       entityId: entity?.id || null,
       entityType,
       interactionForm: chosen.form,
-      shadowBand: dbBand,
-      characterSlug,
+      raceTag,
       culturalFamily,
       regionId,
       rng,
     });
 
-    if (!dialogueContent) {
-      dialogueContent = await fetchGenericTopic({
+    if (!contactRow) {
+      contactRow = await fetchGenericTopic({
         entityType,
-        shadowBand: dbBand,
-        characterSlug,
+        raceTag,
         culturalFamily,
         regionId,
         rng,
       });
     }
   }
+  const dialogueContent = contactRow ? toDialogueContent(contactRow, rng) : null;
 
   // Resistance roll (only when enabled, triggers_roll AND danger >= 3)
   let outcome = null;
@@ -462,7 +443,7 @@ export async function resolveEncounter(
   console.log(
     `[ENCOUNTER] entity=${entity?.name} type=${entityType} danger=${danger} ` +
     `pool_size=${candidates.length} form=${chosen.form} weight=${chosen.effectiveWeight} ` +
-    `topic=${dialogueContent?.topic ?? 'none'} npc_interaction=${dialogueContent ? 'yes' : 'no'} ` +
+    `topic=${dialogueContent?.topic ?? 'none'} contact=${dialogueContent ? dialogueContent.id : 'no'} ` +
     `decision=${decision ? decision.id : 'none'} outcome=${outcome ?? 'none'}`
   );
 
