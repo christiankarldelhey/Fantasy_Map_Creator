@@ -1243,6 +1243,8 @@ async function ensureSchema() {
   await runMigrationFile('normalize_narration_columns.sql');
   await runMigrationFile('unify_narration_model.sql');
   await runMigrationFile('add_places_narration_id_to_trip_days.sql');
+  // Fossil {en:{en:…}} corruption: unwrap type/name to the innermost leaf.
+  await runMigrationFile('fix_places_narration_nested_lang.sql');
 
   // Legacy prose stores drop last (#104): everything above is additive and
   // convergent; this tears down what the narration records replaced. All
