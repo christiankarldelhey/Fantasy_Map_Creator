@@ -182,3 +182,45 @@ def test_db_rule_overrides_default_exposure(client):
     exposure = next(n for n in needs if n['key'] == 'exposure')
     assert exposure['description'] == \
         'the wind has not let up — the body is worn'
+
+
+def _tagged(ep, tag):
+    return {
+        'type': 'climate',
+        'when': {'phase': 'afternoon'},
+        'data': {'tags': [tag]},
+    }
+
+
+def test_default_exposure_reads_tags(client):
+    """The built-in exposure rule speaks the registry, not raw metrics:
+    three consecutive 'weather:wet' days open the need even when the
+    event carries no numbers at all."""
+    char = _uid('soaked')
+    for ep in (1, 2):
+        opened = _day(client, char, ep, [_tagged(ep, 'weather:wet')])
+        assert 'exposure' not in _need_keys(opened)
+    opened = _day(client, char, 3, [_tagged(3, 'weather:wet')])
+    assert 'exposure' in _need_keys(opened)
+
+
+def test_gloom_opens_on_sunless_streak(client):
+    """Three consecutive overcast days open 'gloom' — the mind misses
+    the light itself, softer urgency than hostile weather."""
+    char = _uid('grey')
+    for ep in (1, 2):
+        opened = _day(client, char, ep, [_tagged(ep, 'weather:overcast')])
+        assert 'gloom' not in _need_keys(opened)
+    opened = _day(client, char, 3, [_tagged(3, 'weather:overcast')])
+    needs = opened['psyche_packet']['needs_active']
+    gloom = next(n for n in needs if n['key'] == 'gloom')
+    assert gloom['urgency'] < 0.7
+
+
+def test_gloom_breaks_on_a_clear_day(client):
+    char = _uid('grey')
+    _day(client, char, 1, [_tagged(1, 'weather:overcast')])
+    _day(client, char, 2, [_tagged(2, 'weather:overcast')])
+    _day(client, char, 3, [_tagged(3, 'weather:clear')])   # the sun returns
+    opened = _day(client, char, 4, [_tagged(4, 'weather:overcast')])
+    assert 'gloom' not in _need_keys(opened)

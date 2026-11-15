@@ -148,7 +148,7 @@ def test_weather_streak_opens_exposure(client):
         storm = {
             'type': 'climate',
             'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
-            'data': {'temperature_2m': -6, 'precipitation': 0},
+            'data': {'tags': ['weather:freezing', 'weather:snow']},
         }
         opened = _open(client, char, f'd{ep}', [storm])
         assert 'exposure' not in _need_keys(opened)
@@ -157,7 +157,7 @@ def test_weather_streak_opens_exposure(client):
     third = {
         'type': 'climate',
         'when': {'episode': 3, 'date': '1950-01-21'},
-        'data': {'temperature_2m': -6, 'precipitation': 0},
+        'data': {'tags': ['weather:freezing', 'weather:snow']},
     }
     opened = _open(client, char, 'd3', [third])
     assert 'exposure' in _need_keys(opened)

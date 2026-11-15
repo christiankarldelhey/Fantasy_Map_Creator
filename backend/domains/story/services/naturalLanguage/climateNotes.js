@@ -170,6 +170,8 @@ const HEAVY_RAIN_MIN = 0.4;
 const STORM_WIND_MIN = 25;
 const DEEP_COLD_MAX = -10;
 const SCORCHING_MIN = 32;
+// Cloud cover (0-100) at which the day counts as sunless for the mind.
+const OVERCAST_CLOUD_MIN = 80;
 
 // Minimum consecutive days to become a *state* rather than a one-day note.
 const CONSECUTIVE_DAYS = 2;
@@ -331,13 +333,14 @@ const STORM_PRECIP_MIN = 8.0;
 
 /**
  * 'weather:*' tags for one aggregated climate event
- * {temperature_2m, precipitation, wind_speed_10m}. Severe tiers first —
- * a snow day is also freezing, both tags apply.
+ * {temperature_2m, precipitation, wind_speed_10m, cloud_cover}. Severe
+ * tiers first — a snow day is also freezing, both tags apply.
  */
 export function weatherTags(data = {}) {
   const temp = data.temperature_2m;
   const prec = data.precipitation;
   const wind = data.wind_speed_10m;
+  const cloud = data.cloud_cover;
   const tags = [];
   if (temp != null && temp <= SNOW_TEMP_MAX && prec != null
       && prec >= WET_PRECIPITATION_MIN) tags.push('weather:snow');
@@ -348,6 +351,7 @@ export function weatherTags(data = {}) {
   if (temp != null && temp <= SNOW_TEMP_MAX) tags.push('weather:freezing');
   if (prec != null && prec >= WET_PRECIPITATION_MIN) tags.push('weather:wet');
   if (wind != null && wind >= WINDY_SPEED_MIN) tags.push('weather:windy');
+  if (cloud != null && cloud >= OVERCAST_CLOUD_MIN) tags.push('weather:overcast');
   return tags;
 }
 

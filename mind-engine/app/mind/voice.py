@@ -95,6 +95,9 @@ PHRASES = {
     'mind.need.exposure': [
         'day upon day of hostile weather has worn the spirit thin — shelter is needed',
     ],
+    'mind.need.gloom': [
+        'day upon day beneath a sunless sky — the light itself is missed',
+    ],
     'mind.need.thread': [
         'unfinished business with {subject} — the matter will not stay quiet',
     ],
@@ -107,6 +110,7 @@ PHRASES = {
     'mind.need_origin.unrest': ['it has gathered since {cause}'],
     'mind.need_origin.unrest.nameless': ['the shadow has been gathering, nameless'],
     'mind.need_origin.wound': ['since the wound was taken'],
+    'mind.need_origin.gloom': ['{days} days beneath a sunless sky'],
     # Event types that frame every Episode and never take the Focus
     # (ADR 0005): the engine's own items ('body', 'need') are excluded in
     # code; the world's frame types are declared here, per game.
