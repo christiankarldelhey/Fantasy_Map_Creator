@@ -48,11 +48,32 @@ def _context_tags(perceived_day, beliefs):
     return tags
 
 
-def _relevance(memory_tags, context_tags):
+def _tag_facet(tag):
+    """The coarse facet a `tag:<key>:<value>` tag belongs to — 'tag:food:
+    lembas' -> 'tag:food'. One-segment tags ('entity:orcs', 'tag:given',
+    'type:meal') have no meaningful facet: 'some entity' or 'some flag'
+    is too broad to connect anything (ADR-0016)."""
+    facet = str(tag).rsplit(':', 1)[0]
+    return facet if ':' in facet else None
+
+
+def _relevance(memory_tags, context_tags, facet_weight=0.0):
+    """Share of the memory's tags touching the context: an exact tag hit
+    weighs 1.0, a shared coarse facet weighs `facet_weight` (ADR-0016)."""
     tags = set(memory_tags or [])
     if not tags:
         return 0.0
-    return min(1.0, len(tags & context_tags) / len(tags))
+    context = set(context_tags or [])
+    context_facets = {
+        f for f in (_tag_facet(t) for t in context) if f
+    }
+    hit = 0.0
+    for t in tags:
+        if t in context:
+            hit += 1.0
+        elif facet_weight and _tag_facet(t) in context_facets:
+            hit += facet_weight
+    return min(1.0, hit / len(tags))
 
 
 # C20 gate refinement: contact must be about WHAT happened, not the
@@ -116,6 +137,7 @@ def retrieve(session, mind, episode, perceived_day):
     scored = []
     imp_min = w.get('retrieval_importance_min', 0.15)
     sem_min = w.get('retrieval_semantic_min', 0.5)
+    facet_w = w.get('retrieval_facet_weight', 0.4)
     refractory = int(w.get('refractory_episodes', 1))
     for mem in candidates:
         # Patterns are background bookkeeping, not impressions (C5):
@@ -149,9 +171,10 @@ def retrieve(session, mind, episode, perceived_day):
             cosine(episode_vec, ensure_embedding(mem))
             if episode_vec is not None else 0.0
         )
-        # Contact gate: no content tag shared with today, no semantic
-        # overlap — no evocation, however fresh or important the memory.
-        if _relevance(mem_contact, day_tags) <= 0.0 and sim < sem_min:
+        # Contact gate: no content tag shared with today — exact or
+        # through a shared coarse facet — no semantic overlap either:
+        # no evocation, however fresh or important the memory.
+        if _relevance(mem_contact, day_tags, facet_w) <= 0.0 and sim < sem_min:
             continue
         # C23: recency ages from when the event HAPPENED, never from
         # when it was last recalled — evoking the fox does not make
@@ -165,7 +188,7 @@ def retrieve(session, mind, episode, perceived_day):
         score = (
             alpha * recency
             + beta * (mem.importance or 0.0)
-            + gamma * _relevance(mem.tags, context)
+            + gamma * _relevance(mem.tags, context, facet_w)
         )
         if episode_vec is not None:
             score += delta_w * sim

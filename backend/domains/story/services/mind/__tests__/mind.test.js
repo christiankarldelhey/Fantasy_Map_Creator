@@ -625,9 +625,10 @@ test('the open payload only emits keys the wire model declares', () => {
   });
 
   assert.deepEqual(Object.keys(body).sort(), [
-    'character', 'character_state', 'day', 'episode_ref', 'equipment_state',
-    'events', 'fate', 'game_id', 'language', 'previous_day',
-    'recent_day_climates', 'trip_name',
+    'arc', 'character', 'character_state', 'condition', 'day', 'episode',
+    'episode_ref', 'equipment_state', 'events', 'fate', 'game_id',
+    'language', 'previous_day', 'recent_day_climates', 'trip_name',
+    'world_notes',
   ]);
   const encounter = body.day.encounters[0];
   assert.deepEqual(
@@ -680,4 +681,46 @@ test('resetMind rejects when the mind is down — the game resets anyway (C19)',
   // Character regeneration swallows this rejection: a dead Mind Engine
   // must never block the mechanical reset, it only skips the mind wipe.
   await assert.rejects(resetMind('char_1'));
+});
+
+test('ambient situations ride the wire as moment events, never a day field (ADR-0016)', () => {
+  const body = toOpenPayload({
+    gameId: 'middle_earth',
+    day: {
+      ...DAY,
+      ambient: [
+        {
+          record_id: 'M-A4', situation_id: 's1', option_id: 'o1',
+          name: { en: 'The night', es: 'La noche' },
+          when: 'first night',
+          text: { en: 'the fire lights three paces; beyond it a wall, and the wall makes noise', es: 'x' },
+          effects: { shadow_effect: -1 },
+        },
+      ],
+    },
+    trip: { id: 't1' },
+    character: { id: 4, name: 'Tester' },
+  });
+  const moments = body.events.filter((e) => e.type === 'moment');
+  assert.equal(moments.length, 1);
+  // The voice arrives verbalized; its effects never cross the wire.
+  assert.equal(moments[0].data.reading, 'the fire lights three paces; beyond it a wall, and the wall makes noise');
+  assert.equal(moments[0].data.record, 'M-A4');
+  assert.equal(moments[0].data.effects, undefined);
+  assert.equal(body.day.ambient, undefined);
+});
+
+test('the open payload carries the canonical v2 channels (ADR-0016)', () => {
+  const body = toOpenPayload({
+    gameId: 'middle_earth',
+    day: { ...DAY, day_number: 3, date: '3018-03-15', is_last_day: false },
+    trip: { id: 't1', name: 'The Long Road North' },
+    character: { id: 4, name: 'Tester' },
+    characterState: { energy: 35 },
+    equipmentState: { rations: 2 },
+  });
+  assert.deepEqual(body.episode, { index: 3, at: '3018-03-15', terminal: false });
+  assert.equal(body.arc, 'The Long Road North');
+  assert.deepEqual(body.condition, { energy: 35, rations: 2 });
+  assert.ok(body.world_notes && typeof body.world_notes === 'object');
 });

@@ -42547,6 +42547,534 @@
     "origin": "backfill:places_interactions",
     "legacy_id": 99
    }
+  },
+  {
+   "id": "ovn:122",
+   "kind": "ambient",
+   "location_id": 446,
+   "region_ids": null,
+   "name": {
+    "en": "Balost",
+    "es": "Balost"
+   },
+   "type": null,
+   "cultural_family": null,
+   "priority": 90,
+   "tags": [],
+   "presence": {
+    "en": "The remnant holds the keep: a few families of the old dependants who never left, gates shut, smoke from one corner of the yard. If they let you in — and they weigh you at the door first — the night is stone walls, a shared pot and the strange safety of people who decided staying was worth it.",
+    "es": "El remanente sostiene la fortaleza: unas pocas familias de los viejos dependientes que nunca se fueron, puertas cerradas, humo de un solo rincón del patio. Si te dejan entrar — y primero te miden en la puerta — la noche es muros de piedra, una olla compartida y la seguridad rara de gente que decidió que quedarse valía la pena."
+   },
+   "interactive": [
+    {
+     "id": "ovn:122_night",
+     "tags": [
+      "context:overnight"
+     ],
+     "options": [
+      {
+       "id": "rest",
+       "tag": "mind:fatigue",
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": "The remnant holds the keep: a few families of the old dependants who never left, gates shut, smoke from one corner of the yard. If they let you in — and they weigh you at the door first — the night is stone walls, a shared pot and the strange safety of people who decided staying was worth it.",
+          "es": "El remanente sostiene la fortaleza: unas pocas familias de los viejos dependientes que nunca se fueron, puertas cerradas, humo de un solo rincón del patio. Si te dejan entrar — y primero te miden en la puerta — la noche es muros de piedra, una olla compartida y la seguridad rara de gente que decidió que quedarse valía la pena."
+         },
+         "effects": {
+          "rest_quality": 3,
+          "shadow_effect": 0
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 122
+   }
+  },
+  {
+   "id": "ovn:123",
+   "kind": "ambient",
+   "location_id": 962,
+   "region_ids": null,
+   "name": {
+    "en": "Gwahilmoth",
+    "es": "Gwahilmoth"
+   },
+   "type": null,
+   "cultural_family": null,
+   "priority": 90,
+   "tags": [],
+   "presence": {
+    "en": "A town dying by inches, but dying people still keep fires. The few hundred who remain crowd into the quarter that still has roofs; a shared hearth is offered plainly, without ceremony — the hospitality of those who know what an empty street looks like.",
+    "es": "Un pueblo que se muere de a poco, pero la gente que se muere también mantiene fuegos. Los pocos cientos que quedan se apretujan en el barrio con techos; se ofrece un hogar compartido de manera llana, sin ceremonia — la hospitalidad de quien conoce cómo se ve una calle vacía."
+   },
+   "interactive": [
+    {
+     "id": "ovn:123_night",
+     "tags": [
+      "context:overnight"
+     ],
+     "options": [
+      {
+       "id": "rest",
+       "tag": "mind:fatigue",
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": "A town dying by inches, but dying people still keep fires. The few hundred who remain crowd into the quarter that still has roofs; a shared hearth is offered plainly, without ceremony — the hospitality of those who know what an empty street looks like.",
+          "es": "Un pueblo que se muere de a poco, pero la gente que se muere también mantiene fuegos. Los pocos cientos que quedan se apretujan en el barrio con techos; se ofrece un hogar compartido de manera llana, sin ceremonia — la hospitalidad de quien conoce cómo se ve una calle vacía."
+         },
+         "effects": {
+          "rest_quality": 2,
+          "shadow_effect": 0
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 123
+   }
+  },
+  {
+   "id": "ovn:124",
+   "kind": "ambient",
+   "location_id": 939,
+   "region_ids": null,
+   "name": {
+    "en": "The house on the plain",
+    "es": "La casa del llano"
+   },
+   "type": null,
+   "cultural_family": null,
+   "priority": 90,
+   "tags": [],
+   "presence": {
+    "en": "One house inside the ring of Fornost still has people in it — a family that kept the roof and the door while everything around them became the Deadmen's Dike. Their fire is small and real; outside it, the dark is older than they are.",
+    "es": "Una casa dentro del anillo de Fornost todavía tiene gente — una familia que conservó el techo y la puerta mientras todo alrededor se volvía los Cercas de los Muertos. Su fuego es chico y real; afuera, la oscuridad es más vieja que ellos."
+   },
+   "interactive": [
+    {
+     "id": "ovn:124_night",
+     "tags": [
+      "context:overnight"
+     ],
+     "options": [
+      {
+       "id": "rest",
+       "tag": "mind:fatigue",
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": "One house inside the ring of Fornost still has people in it — a family that kept the roof and the door while everything around them became the Deadmen's Dike. Their fire is small and real; outside it, the dark is older than they are.",
+          "es": "Una casa dentro del anillo de Fornost todavía tiene gente — una familia que conservó el techo y la puerta mientras todo alrededor se volvía los Cercas de los Muertos. Su fuego es chico y real; afuera, la oscuridad es más vieja que ellos."
+         },
+         "effects": {
+          "rest_quality": 2,
+          "shadow_effect": 0
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 124
+   }
+  },
+  {
+   "id": "ovn:125",
+   "kind": "ambient",
+   "location_id": 926,
+   "region_ids": null,
+   "name": {
+    "en": "Adrahil's Shield",
+    "es": "El Escudo de Adrahil"
+   },
+   "type": null,
+   "cultural_family": null,
+   "priority": 90,
+   "tags": [],
+   "presence": {
+    "en": "The inn is half a ruin, but the stables are not empty — a family lives in the part that still stands and takes a traveller in out of the same weather. A dry corner, a shared pot, and a wall between you and the old north-kingdom's night.",
+    "es": "La posada es media ruina, pero las cuadras no están vacías — una familia vive en la parte que sigue en pie y recibe al viajero por el mismo mal tiempo. Un rincón seco, una olla compartida y una pared entre vos y la noche del viejo reino del norte."
+   },
+   "interactive": [
+    {
+     "id": "ovn:125_night",
+     "tags": [
+      "context:overnight"
+     ],
+     "options": [
+      {
+       "id": "rest",
+       "tag": "mind:fatigue",
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": "The inn is half a ruin, but the stables are not empty — a family lives in the part that still stands and takes a traveller in out of the same weather. A dry corner, a shared pot, and a wall between you and the old north-kingdom's night.",
+          "es": "La posada es media ruina, pero las cuadras no están vacías — una familia vive en la parte que sigue en pie y recibe al viajero por el mismo mal tiempo. Un rincón seco, una olla compartida y una pared entre vos y la noche del viejo reino del norte."
+         },
+         "effects": {
+          "rest_quality": 2,
+          "shadow_effect": 0
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 125
+   }
+  },
+  {
+   "id": "ovn:126",
+   "kind": "ambient",
+   "location_id": 476,
+   "region_ids": null,
+   "name": {
+    "en": "Athrad Poros",
+    "es": "Athrad Poros"
+   },
+   "type": null,
+   "cultural_family": null,
+   "priority": 90,
+   "tags": [],
+   "presence": {
+    "en": "The ford-settlement is shuttered, but the old inn keeps fresh ash and hidden provisions for men who never give their names. A traveller the grey cloaks don't mind gets a dry floor and a night without questions — the safest sleep in southern Ithilien, if you can find who's keeping it.",
+    "es": "El asentamiento del vado está cerrado, pero la posada vieja guarda ceniza fresca y provisiones escondidas para hombres que nunca dan su nombre. Un viajero que no molesta a las capas grises consigue un piso seco y una noche sin preguntas — el sueño más seguro del sur de Ithilien, si encontrás quién lo guarda."
+   },
+   "interactive": [
+    {
+     "id": "ovn:126_night",
+     "tags": [
+      "context:overnight"
+     ],
+     "options": [
+      {
+       "id": "rest",
+       "tag": "mind:fatigue",
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": "The ford-settlement is shuttered, but the old inn keeps fresh ash and hidden provisions for men who never give their names. A traveller the grey cloaks don't mind gets a dry floor and a night without questions — the safest sleep in southern Ithilien, if you can find who's keeping it.",
+          "es": "El asentamiento del vado está cerrado, pero la posada vieja guarda ceniza fresca y provisiones escondidas para hombres que nunca dan su nombre. Un viajero que no molesta a las capas grises consigue un piso seco y una noche sin preguntas — el sueño más seguro del sur de Ithilien, si encontrás quién lo guarda."
+         },
+         "effects": {
+          "rest_quality": 2,
+          "shadow_effect": -1
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 126
+   }
+  },
+  {
+   "id": "ovn:127",
+   "kind": "ambient",
+   "location_id": 495,
+   "region_ids": null,
+   "name": {
+    "en": "Herubar Gûlar",
+    "es": "Herubar Gûlar"
+   },
+   "type": null,
+   "cultural_family": null,
+   "priority": 90,
+   "tags": [],
+   "presence": {
+    "en": "The tower above the ford is held by whoever holds it this year — hard men, or worse. If you sleep inside it is because they allowed it, and you sleep the way you do among armed strangers: with a roof, a wall and one eye open.",
+    "es": "La torre sobre el vado la tiene quien la tiene este año — hombres duros, o peor. Si dormís adentro es porque lo permitieron, y dormís como se duerme entre desconocidos armados: con techo, con pared y con un ojo abierto."
+   },
+   "interactive": [
+    {
+     "id": "ovn:127_night",
+     "tags": [
+      "context:overnight"
+     ],
+     "options": [
+      {
+       "id": "rest",
+       "tag": "mind:fatigue",
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": "The tower above the ford is held by whoever holds it this year — hard men, or worse. If you sleep inside it is because they allowed it, and you sleep the way you do among armed strangers: with a roof, a wall and one eye open.",
+          "es": "La torre sobre el vado la tiene quien la tiene este año — hombres duros, o peor. Si dormís adentro es porque lo permitieron, y dormís como se duerme entre desconocidos armados: con techo, con pared y con un ojo abierto."
+         },
+         "effects": {
+          "rest_quality": 2,
+          "shadow_effect": 3
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 127
+   }
+  },
+  {
+   "id": "ovn:128",
+   "kind": "ambient",
+   "location_id": 588,
+   "region_ids": null,
+   "name": {
+    "en": "Cameth Brin",
+    "es": "Cameth Brin"
+   },
+   "type": null,
+   "cultural_family": null,
+   "priority": 90,
+   "tags": [],
+   "presence": {
+    "en": "The citadel of the hill-folk is a court of clan, not kingdom — but a fire in a great hall is a fire. Taken in by the door's judgement, a guest gets the bench, the pot and the rules; sleep comes easier inside walls that have held for a thousand years.",
+    "es": "La ciudadela de la gente de las colinas es una corte de clan, no de reino — pero un fuego en un gran salón es un fuego. Admitido por el juicio de la puerta, un huésped recibe el banco, la olla y las reglas; el sueño viene más fácil dentro de muros que aguantan desde hace mil años."
+   },
+   "interactive": [
+    {
+     "id": "ovn:128_night",
+     "tags": [
+      "context:overnight"
+     ],
+     "options": [
+      {
+       "id": "rest",
+       "tag": "mind:fatigue",
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": "The citadel of the hill-folk is a court of clan, not kingdom — but a fire in a great hall is a fire. Taken in by the door's judgement, a guest gets the bench, the pot and the rules; sleep comes easier inside walls that have held for a thousand years.",
+          "es": "La ciudadela de la gente de las colinas es una corte de clan, no de reino — pero un fuego en un gran salón es un fuego. Admitido por el juicio de la puerta, un huésped recibe el banco, la olla y las reglas; el sueño viene más fácil dentro de muros que aguantan desde hace mil años."
+         },
+         "effects": {
+          "rest_quality": 3,
+          "shadow_effect": -1
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 128
+   }
+  },
+  {
+   "id": "ovn:129",
+   "kind": "ambient",
+   "location_id": 542,
+   "region_ids": null,
+   "name": {
+    "en": "Bar Nevedui",
+    "es": "Bar Nevedui"
+   },
+   "type": null,
+   "cultural_family": null,
+   "priority": 90,
+   "tags": [],
+   "presence": {
+    "en": "The dunir who stayed inside the old fort keep its stone patched and its fields worked. Their welcome is slow — they watch from the wall a long while first — but the roof is real and the pot is shared once the door decides.",
+    "es": "Los dunir que se quedaron dentro del viejo fuerte mantienen la piedra remendada y los campos trabajados. Su bienvenida es lenta — miran desde el muro un buen rato primero — pero el techo es real y la olla se comparte una vez que la puerta decide."
+   },
+   "interactive": [
+    {
+     "id": "ovn:129_night",
+     "tags": [
+      "context:overnight"
+     ],
+     "options": [
+      {
+       "id": "rest",
+       "tag": "mind:fatigue",
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": "The dunir who stayed inside the old fort keep its stone patched and its fields worked. Their welcome is slow — they watch from the wall a long while first — but the roof is real and the pot is shared once the door decides.",
+          "es": "Los dunir que se quedaron dentro del viejo fuerte mantienen la piedra remendada y los campos trabajados. Su bienvenida es lenta — miran desde el muro un buen rato primero — pero el techo es real y la olla se comparte una vez que la puerta decide."
+         },
+         "effects": {
+          "rest_quality": 2,
+          "shadow_effect": 0
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 129
+   }
+  },
+  {
+   "id": "ovn:130",
+   "kind": "ambient",
+   "location_id": 1085,
+   "region_ids": null,
+   "name": {
+    "en": "Cuncan",
+    "es": "Cuncan"
+   },
+   "type": null,
+   "cultural_family": null,
+   "priority": 90,
+   "tags": [],
+   "presence": {
+    "en": "The little village sits on the bones of a much bigger town — mud-and-wood huts among old foundations, rough people, an open fire. They take in travellers the way border people do: plainly, and with questions. The dead city around them is just stone; the living part is warm.",
+    "es": "La aldeíta se asienta sobre los huesos de un pueblo mucho más grande — chozas de barro y madera entre cimientos viejos, gente tosca, un fuego abierto. Reciben al viajero como lo hace la gente de frontera: llanamente y con preguntas. La ciudad muerta alrededor es solo piedra; la parte viva es tibia."
+   },
+   "interactive": [
+    {
+     "id": "ovn:130_night",
+     "tags": [
+      "context:overnight"
+     ],
+     "options": [
+      {
+       "id": "rest",
+       "tag": "mind:fatigue",
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": "The little village sits on the bones of a much bigger town — mud-and-wood huts among old foundations, rough people, an open fire. They take in travellers the way border people do: plainly, and with questions. The dead city around them is just stone; the living part is warm.",
+          "es": "La aldeíta se asienta sobre los huesos de un pueblo mucho más grande — chozas de barro y madera entre cimientos viejos, gente tosca, un fuego abierto. Reciben al viajero como lo hace la gente de frontera: llanamente y con preguntas. La ciudad muerta alrededor es solo piedra; la parte viva es tibia."
+         },
+         "effects": {
+          "rest_quality": 2,
+          "shadow_effect": 0
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 130
+   }
+  },
+  {
+   "id": "ovn:131",
+   "kind": "ambient",
+   "location_id": 540,
+   "region_ids": null,
+   "name": {
+    "en": "Gamwich",
+    "es": "Gamwich"
+   },
+   "type": null,
+   "cultural_family": null,
+   "priority": 90,
+   "tags": [],
+   "presence": {
+    "en": "An old hobbit-village where most windows go dark at dusk — but the families that remain keep their smials the way hobbits do. A traveller who is let in gets a low ceiling, a full table and the deep quiet of a hole dug into good earth.",
+    "es": "Una aldea hobbit envejecida donde la mayoría de las ventanas se apagan al atardecer — pero las familias que quedan mantienen sus smials como los hobbits saben hacerlo. Un viajero admitido recibe un techo bajo, una mesa llena y la quietud profunda de un agujero cavado en buena tierra."
+   },
+   "interactive": [
+    {
+     "id": "ovn:131_night",
+     "tags": [
+      "context:overnight"
+     ],
+     "options": [
+      {
+       "id": "rest",
+       "tag": "mind:fatigue",
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": "An old hobbit-village where most windows go dark at dusk — but the families that remain keep their smials the way hobbits do. A traveller who is let in gets a low ceiling, a full table and the deep quiet of a hole dug into good earth.",
+          "es": "Una aldea hobbit envejecida donde la mayoría de las ventanas se apagan al atardecer — pero las familias que quedan mantienen sus smials como los hobbits saben hacerlo. Un viajero admitido recibe un techo bajo, una mesa llena y la quietud profunda de un agujero cavado en buena tierra."
+         },
+         "effects": {
+          "rest_quality": 3,
+          "shadow_effect": -1
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 131
+   }
+  },
+  {
+   "id": "ovn:132",
+   "kind": "ambient",
+   "location_id": 936,
+   "region_ids": null,
+   "name": {
+    "en": "Ralt's Corner",
+    "es": "La Esquina de Ralt"
+   },
+   "type": null,
+   "cultural_family": null,
+   "priority": 90,
+   "tags": [],
+   "presence": {
+    "en": "The big stone building at the crossroads keeps one family where an inn used to keep dozens — and they keep the old customs too: a fire in the hearth, a pot that is always on, a bed for anyone the door decides to like. It is less than it was, and more than the road offers anywhere else for miles.",
+    "es": "El edificio grande de piedra en el cruce conserva una familia donde antes una posada alojaba a docenas — y conservan las viejas costumbres también: fuego en el hogar, una olla siempre puesta, una cama para quien la puerta decide querer. Es menos de lo que fue, y más de lo que el camino ofrece en millas a la redonda."
+   },
+   "interactive": [
+    {
+     "id": "ovn:132_night",
+     "tags": [
+      "context:overnight"
+     ],
+     "options": [
+      {
+       "id": "rest",
+       "tag": "mind:fatigue",
+       "outcomes": {
+        "success": {
+         "text": {
+          "en": "The big stone building at the crossroads keeps one family where an inn used to keep dozens — and they keep the old customs too: a fire in the hearth, a pot that is always on, a bed for anyone the door decides to like. It is less than it was, and more than the road offers anywhere else for miles.",
+          "es": "El edificio grande de piedra en el cruce conserva una familia donde antes una posada alojaba a docenas — y conservan las viejas costumbres también: fuego en el hogar, una olla siempre puesta, una cama para quien la puerta decide querer. Es menos de lo que fue, y más de lo que el camino ofrece en millas a la redonda."
+         },
+         "effects": {
+          "rest_quality": 3,
+          "shadow_effect": -1
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 132
+   }
   }
  ],
  "schema": "narration-v2"

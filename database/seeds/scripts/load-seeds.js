@@ -654,9 +654,10 @@ function placeTypeRadii(typeText) {
 }
 
 // ---------------------------------------------------------------------------
-// Tag registry seed (ADR-0015): tags.json → narration_tags. The closed
+// Tag registry seed (ADR-0015/0016): tags.json → narration_tags. The closed
 // vocabulary every gating/driver tag must belong to; pattern families land as
-// a single '*' row.
+// a single '*' row. `consumers` rides inside description so the admin view
+// can show who reads each family.
 // ---------------------------------------------------------------------------
 async function seedNarrationTags() {
   const file = path.join(DATA_DIR, 'json/tags.json');
@@ -664,12 +665,16 @@ async function seedNarrationTags() {
   let n = 0;
   for (const [family, def] of Object.entries(families || {})) {
     const values = def.pattern ? ['*'] : (def.values || []);
+    const description = {
+      ...(def.description ?? {}),
+      ...(def.consumers ? { consumers: def.consumers } : {}),
+    };
     for (const value of values) {
       await pool.query(
         `INSERT INTO narration_tags (family, value, description)
          VALUES ($1, $2, $3::jsonb)
          ON CONFLICT (family, value) DO UPDATE SET description = EXCLUDED.description`,
-        [family, value, JSON.stringify(def.description ?? {})]
+        [family, value, JSON.stringify(description)]
       );
       n++;
     }
