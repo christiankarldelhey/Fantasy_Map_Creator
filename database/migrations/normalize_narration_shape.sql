@@ -50,6 +50,15 @@ UPDATE places_narration SET
     kind = 'interaction'
  WHERE kind IN ('overnight', 'offer');
 
+-- Drift catch-all: a database carrying kinds from before this vocabulary
+-- (prod was seeded by older paths) fails the CHECK re-added below on its
+-- existing rows. Anything the known remaps did not claim collapses to
+-- 'ambient' — the same floor unify_narration_model assigns them one
+-- migration later anyway.
+UPDATE places_narration SET kind = 'ambient'
+ WHERE kind NOT IN ('place', 'ambient', 'arrival', 'lore',
+                    'depiction', 'interaction');
+
 -- 4. Drop promoted keys from payload
 UPDATE places_narration
    SET payload = payload - 'description' - 'variants' - 'mechanics' - 'refs'
