@@ -2,6 +2,7 @@ mover:
   slug: bill-ferny
   name: Bill Ferny
   kind: person
+  type: humans
   canon: true
   campaign: hunt-for-the-ring
   motivation: >-

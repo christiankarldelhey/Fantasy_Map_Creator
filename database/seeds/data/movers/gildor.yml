@@ -2,6 +2,7 @@ mover:
   slug: gildor
   name: The Company of Gildor Inglorion
   kind: company
+  type: elves
   canon: true
   motivation: >-
     Noldor of the house of Finrod walking the woods they have always loved

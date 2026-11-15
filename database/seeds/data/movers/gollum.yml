@@ -2,6 +2,7 @@ mover:
   slug: gollum
   name: Gollum
   kind: person
+  type: hobbits
   canon: true
   campaign: gollum-hunt
   motivation: >-

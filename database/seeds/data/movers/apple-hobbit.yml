@@ -2,6 +2,7 @@ mover:
   slug: apple-hobbit
   name: Rowan Appledore
   kind: person
+  type: hobbits
   canon: false
   motivation: >-
     A hobbit with a spread of apple-trees outside Bree and three large

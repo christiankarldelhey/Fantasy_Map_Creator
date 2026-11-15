@@ -2,6 +2,7 @@ mover:
   slug: lassemista
   name: Lassemista
   kind: person
+  type: living_trees
   canon: true
   motivation: >-
     One of the three eldest Ents, who loved the mountain-ash above all

@@ -2,6 +2,7 @@ mover:
   slug: aragorn
   name: Aragorn, son of Arathorn
   kind: person
+  type: humans
   canon: true
   motivation: >-
     The long hunt is done: he took the creature in the Dead Marshes and now

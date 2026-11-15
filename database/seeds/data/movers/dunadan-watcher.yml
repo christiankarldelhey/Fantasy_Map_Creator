@@ -2,6 +2,7 @@ mover:
   slug: dunadan-watcher
   name: Artheniel, the woman who looks up
   kind: person
+  type: humans
   canon: false
   motivation: >-
     A solitary woman of the dwindled northern people who walks the ruins

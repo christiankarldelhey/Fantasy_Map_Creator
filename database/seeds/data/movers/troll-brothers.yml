@@ -2,6 +2,7 @@ mover:
   slug: troll-brothers
   name: Gram and Podge
   kind: company
+  type: trolls
   canon: false
   motivation: >-
     Two troll brothers who quarrelled their way out of a war-band over a

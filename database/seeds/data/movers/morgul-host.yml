@@ -2,6 +2,7 @@ mover:
   slug: morgul-host
   name: The Morgul-host
   kind: host
+  type: orcs
   canon: true
   campaign: war-begins
   motivation: >-

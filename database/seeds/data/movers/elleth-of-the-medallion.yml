@@ -2,6 +2,7 @@ mover:
   slug: elleth-medallion
   name: Silivren, the elleth with the medallion
   kind: person
+  type: elves
   canon: false
   motivation: >-
     She is sailing. He would not. That is the whole story, and she has

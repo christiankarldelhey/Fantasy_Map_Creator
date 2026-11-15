@@ -2,6 +2,7 @@ mover:
   slug: bombadil
   name: Tom Bombadil
   kind: person
+  type: other
   canon: true
   motivation: >-
     Bright blue his jacket is and his boots are yellow — and he is master

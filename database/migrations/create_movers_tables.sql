@@ -6,46 +6,14 @@
 --   Trail, Crossing, Trace, Beat, Unease). Decision: ADR-0012.
 -- Idempotent: safe to run on every deploy.
 --
---   movers        — who it is (person / company / faceless host)
+--   entities      — who it is: the being row (tier='mover'), shared identity
 --   mover_legs    — the stretches of its story, each with a date window
 --   mover_beats   — authored crossing content per leg (1:N for variants)
 --   mover_trails  — baked day-by-day points (march legs only)
+--
+--   (the standalone `movers` table was dropped: identity unified into
+--    entities — see movers_identity_into_entities.sql)
 
--- ============================================================================
--- Table: movers
--- ============================================================================
-CREATE TABLE IF NOT EXISTS movers (
-    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    slug        VARCHAR(255) UNIQUE NOT NULL,
-    name        VARCHAR(255) NOT NULL,
-    kind        TEXT NOT NULL,          -- 'person' | 'company' | 'host'
-    canon       BOOLEAN NOT NULL DEFAULT false,
-    motivation  TEXT,                   -- why they move; also fuels narration
-    description TEXT,
-    created_at  TIMESTAMP DEFAULT NOW()
-);
-
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_movers_kind') THEN
-        ALTER TABLE movers
-            ADD CONSTRAINT chk_movers_kind CHECK (kind IN ('person', 'company', 'host'));
-    END IF;
-END $$;
-
-CREATE INDEX IF NOT EXISTS idx_movers_slug ON movers(slug);
-CREATE INDEX IF NOT EXISTS idx_movers_kind ON movers(kind);
-
-COMMENT ON TABLE movers IS 'Authored beings that move through the world on a calendar (Living Map). Read-only at runtime.';
-COMMENT ON COLUMN movers.kind IS 'person (named individual), company (named group), host (faceless army/multitude)';
-COMMENT ON COLUMN movers.motivation IS 'Why this mover moves — the political or personal reason behind its legs';
-
--- ============================================================================
--- Table: campaigns
--- Purpose: the story a leg belongs to — legs across different movers share a
---          campaign (the Gollum hunt ties the escort, the captivity, the
---          Woodland assault). Related campaigns can later link to each other.
--- ============================================================================
 CREATE TABLE IF NOT EXISTS campaigns (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     slug        VARCHAR(255) UNIQUE NOT NULL,
@@ -68,7 +36,7 @@ COMMENT ON TABLE campaigns IS 'Named story arcs that relate legs across differen
 -- ============================================================================
 CREATE TABLE IF NOT EXISTS mover_legs (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    mover_id    UUID NOT NULL REFERENCES movers(id) ON DELETE CASCADE,
+    entity_id   UUID NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
     campaign_id UUID REFERENCES campaigns(id),  -- which story this leg serves
     leg_index   INT NOT NULL,
 
@@ -106,7 +74,7 @@ CREATE TABLE IF NOT EXISTS mover_legs (
 
     created_at  TIMESTAMP DEFAULT NOW(),
 
-    UNIQUE (mover_id, leg_index)
+    UNIQUE (entity_id, leg_index)
 );
 
 -- Upgrade path for DBs where the table exists already — must run BEFORE the
@@ -150,7 +118,15 @@ BEGIN
     END IF;
 END $$;
 
-CREATE INDEX IF NOT EXISTS idx_mover_legs_mover    ON mover_legs(mover_id);
+DO $$
+BEGIN
+    -- Sur une base ancienne la colonne s'appelle encore mover_id : la
+    -- migration movers_identity_into_entities.sql la renomme juste après.
+    IF EXISTS (SELECT 1 FROM information_schema.columns
+               WHERE table_name = 'mover_legs' AND column_name = 'entity_id') THEN
+        CREATE INDEX IF NOT EXISTS idx_mover_legs_entity ON mover_legs(entity_id);
+    END IF;
+END $$;
 CREATE INDEX IF NOT EXISTS idx_mover_legs_campaign ON mover_legs(campaign_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_region   ON mover_legs(region_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_location ON mover_legs(location_id);

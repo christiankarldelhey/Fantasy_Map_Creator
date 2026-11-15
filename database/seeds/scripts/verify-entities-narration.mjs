@@ -26,8 +26,8 @@ const g = await pool.query(
   `SELECT n.id, l.leg_index, l.kind AS leg_kind, l.date_from
      FROM entities_narration n
      JOIN mover_legs l ON l.id = n.mover_leg_id
-     JOIN movers m ON m.id = l.mover_id
-    WHERE m.slug = 'gandalf' ORDER BY l.leg_index`
+     JOIN entities e ON e.id = l.entity_id
+    WHERE e.slug = 'gandalf' ORDER BY l.leg_index`
 );
 console.log('gandalf contacts:', g.rows);
 

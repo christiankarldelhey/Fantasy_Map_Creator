@@ -2,6 +2,7 @@ mover:
   slug: talath-uichel-drake
   name: Routa, the Slow Drake
   kind: person
+  type: drakes
   canon: false
   motivation: >-
     An old, slow cold-drake that has hunted the plains of Talath Uichel
