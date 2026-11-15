@@ -735,6 +735,86 @@ async function upsertNarrationRecord(r, extras = {}) {
 }
 
 // ---------------------------------------------------------------------------
+// entities_narration seed — the voice of beings, sibling of places_narration.
+// JSON source: data/json/entities_narration.json (converted from
+// encounter_forms / npc_interactions / entities / mover YAMLs).
+// Stable refs are resolved to real FKs here: entity_slug → entities.id,
+// leg_ref {mover, leg_index} → mover_legs.id (legs regenerate each seed).
+// ---------------------------------------------------------------------------
+const EN_PROSE = [
+  'aspect', 'presence', 'lore', 'secret', 'sections', 'facts', 'notes',
+  'channel', 'traveller_use', 'rotation', 'variants', 'interactive',
+  'disposition',
+];
+
+async function seedEntitiesNarration() {
+  console.log('🧝 Seeding entities_narration (voice of beings)...');
+  const file = path.join(DATA_DIR, 'json/entities_narration.json');
+  const records = JSON.parse(await fs.readFile(file, 'utf8'));
+
+  const { rows: entRows } = await pool.query('SELECT id, slug FROM entities');
+  const entBySlug = new Map(entRows.map((e) => [e.slug, e.id]));
+  const { rows: legRows } = await pool.query(
+    `SELECT l.id, m.slug AS mover, l.leg_index
+       FROM mover_legs l JOIN movers m ON m.id = l.mover_id`
+  );
+  const legByKey = new Map(legRows.map((l) => [`${l.mover}:${l.leg_index}`, l.id]));
+
+  const unresolved = new Set();
+  const proseNames = EN_PROSE.join(', ');
+  for (const r of records) {
+    const entityId = r.entity_id ?? (r.entity_slug ? entBySlug.get(r.entity_slug) : null);
+    const legId = r.leg_ref ? legByKey.get(`${r.leg_ref.mover}:${r.leg_ref.leg_index}`) : null;
+    if (r.entity_slug && !entityId) unresolved.add(`entity:${r.entity_slug}`);
+    if (r.leg_ref && !legId) unresolved.add(`leg:${r.leg_ref.mover}:${r.leg_ref.leg_index}`);
+
+    const proseCols = EN_PROSE.map((k) => (r[k] == null ? null : JSON.stringify(r[k])));
+    await pool.query(
+      `INSERT INTO entities_narration
+         (id, kind, entity_id, entity_ids, entity_type, family, mover_leg_id,
+          region_id, region_ids, location_id, cultural_family, form,
+          priority, tags, ${proseNames},
+          weight, intensity, min_danger, max_danger, triggers_roll, payload)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,
+               ${proseCols.map((_, i) => `$${15 + i}::jsonb`).join(',')},
+               $${15 + EN_PROSE.length},$${16 + EN_PROSE.length},
+               $${17 + EN_PROSE.length},$${18 + EN_PROSE.length},
+               $${19 + EN_PROSE.length},$${20 + EN_PROSE.length}::jsonb)
+       ON CONFLICT (id) DO UPDATE SET
+         kind=EXCLUDED.kind, entity_id=EXCLUDED.entity_id,
+         entity_ids=EXCLUDED.entity_ids, entity_type=EXCLUDED.entity_type,
+         family=EXCLUDED.family, mover_leg_id=EXCLUDED.mover_leg_id,
+         region_id=EXCLUDED.region_id, region_ids=EXCLUDED.region_ids,
+         location_id=EXCLUDED.location_id,
+         cultural_family=EXCLUDED.cultural_family, form=EXCLUDED.form,
+         priority=EXCLUDED.priority, tags=EXCLUDED.tags,
+         ${EN_PROSE.map((k) => `${k}=EXCLUDED.${k}`).join(', ')},
+         weight=EXCLUDED.weight, intensity=EXCLUDED.intensity,
+         min_danger=EXCLUDED.min_danger, max_danger=EXCLUDED.max_danger,
+         triggers_roll=EXCLUDED.triggers_roll, payload=EXCLUDED.payload`,
+      [
+        r.id, r.kind, entityId, r.entity_ids ?? null, r.entity_type ?? null,
+        r.family ?? null, legId, r.region_id ?? null, r.region_ids ?? null,
+        r.location_id ?? null, r.cultural_family ?? null, r.form ?? null,
+        r.priority ?? 0, r.tags ?? [],
+        ...proseCols,
+        r.weight ?? null, r.intensity ?? null, r.min_danger ?? null,
+        r.max_danger ?? null, r.triggers_roll ?? null,
+        JSON.stringify(r.payload ?? {}),
+      ]
+    );
+  }
+
+  const ids = records.map((r) => r.id);
+  const pruned = await pool.query(
+    'DELETE FROM entities_narration WHERE id <> ALL($1) RETURNING id', [ids]
+  );
+  if (unresolved.size)
+    console.warn(`   ⚠️ unresolved refs (kept, NULL fk): ${[...unresolved].slice(0, 10).join(', ')}${unresolved.size > 10 ? ` +${unresolved.size - 10}` : ''}`);
+  console.log(`✅ entities_narration: ${records.length} records${pruned.rowCount ? ` (pruned ${pruned.rowCount})` : ''}`);
+}
+
+// ---------------------------------------------------------------------------
 // Narration records seed (ADR-0014 → #104): every generated record (dep:*,
 // ovn:*) upserts from data/json/narration.json — the canonical source since
 // the legacy prose stores dropped. Idempotent; records gone from the file are
@@ -1243,6 +1323,7 @@ async function ensureSchema() {
   await runMigrationFile('normalize_narration_columns.sql');
   await runMigrationFile('unify_narration_model.sql');
   await runMigrationFile('add_places_narration_id_to_trip_days.sql');
+  await runMigrationFile('create_entities_narration_table.sql');
 
   // Legacy prose stores drop last (#104): everything above is additive and
   // convergent; this tears down what the narration records replaced. All
@@ -1665,6 +1746,9 @@ async function main() {
     await seedPlaces();
 
     await seedMovers();
+
+    // Entities narration — after movers so leg_ref resolves to live legs.
+    await seedEntitiesNarration();
 
     console.log('\n🎉 All seed data loaded successfully!');
 

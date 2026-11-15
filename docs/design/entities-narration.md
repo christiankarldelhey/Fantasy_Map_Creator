@@ -233,13 +233,15 @@ y el código ya lo sabe: `memory.py` los marca "no reading by design" y
 - **Interactividad la decide el `form`** (presence-forms →
   interactivas; `glimpsed_far` → no, con puerta abierta a opciones
   futuras tipo "seguirlos").
-- **`npc_attitude` → `demeanor`** — DECIDIDO: **dato** de lista
-  cerrada (`wary`, `hostile`, `curious`…) en el registro contact,
-  no prosa. La mente lo siente como disposición; la prosa queda en
-  variants. NO `trait`: el glosario ya usa **Trait** para los
-  diales de personalidad de la mente. Mismo concepto que el
-  "cómo es la tierra" de places — `demeanor` queda como nombre
-  compartido para ambos.
+- **`npc_attitude` → `disposition`** — DECIDIDO (corregido sobre
+  datos reales): **prosa** `JSONB {en, es}` en el registro
+  contact. `npc_attitude` hoy es texto autorado por fila
+  ("Waits without hand on weapon"), no una lista cerrada — va a
+  un slot de voz como `aspect`/`presence`. El dato mecánico
+  (wary/hostile) queda para después: `tags` o campo aparte si la
+  mente algún día lo pesa. NO `trait` como nombre: el glosario ya
+  usa **Trait** para los diales de la mente. `disposition` queda
+  compartido con places cuando las tierras la declaren.
 
 - **`shadow_band` se DROPEA** — ni columna ni tag. Gatear la voz por
   el estado de ánimo del personaje autorrefuerza la sombra ("estás
@@ -247,15 +249,27 @@ y el código ya lo sabe: `memory.py` los marca "no reading by design" y
   demasiado destinado. La mente se encarga de sentir la sombra; el
   mundo no la anticipa. (Las 649 filas pierden ese eje de scope.)
 
-- **`encounters` = presencia + spawn, todo junto (b)**: la fila
-  declara `entity_id` + scope (`region_id` y/o `location_id` con
-  radio — el fantasma en una ruina de Eregion) + `level` 1-8 +
-  `phases` (de día / de noche — "momento del día", no solo fecha) +
-  `biome` + ventana `date_from`/`date_to` para agendados +
-  `mover_leg_id` nullable. `entities` pierde `region_ids`,
-  `biomes`, `probability_by_region`, `active` — migran a filas.
-  Al implementar: sembrar samples de presencia por location
-  (fantasma en la ruina).
+- **`encounters` NO se crea (revisado)**: la tabla dura de
+  presencia quedó descartada — `entities` conserva la data cruda
+  de presencia procedural (`region_ids`, `biomes`,
+  `probability_by_region`, `active`) y la presencia *agendada*
+  ya la hace `mover_legs` (100% en tal lugar, tal ventana de
+  fechas; `kind='resident'` cubre el fantasma en la ruina de
+  Eregion). Una sola tabla nueva entonces: `entities_narration`.
+
+- **`movers` (la tabla de identidad) MUERE → `entities`**: todo
+  ser — canon o genérico — es una fila de `entities` (type
+  `npc`, etc.). `mover_legs`/`mover_trails` sobreviven como la
+  presencia agendada + geometría, re-apuntando `mover_id` →
+  `entity_id`. Los legs conservan SOLO hechos (fechas, scope,
+  radios, fases, visibilidad) — `greeting`/`trace`/prosa emigra
+  a `entities_narration`.
+
+- **`mover_leg_id` = columna scope con FK** en
+  `entities_narration`: la dimensión más específica de la
+  escalera ("este contact solo existe mientras ese leg vive").
+  Cada leg genera una fila `kind='contact'` y sus `mover_beats`
+  entran como `variants` (variant/effects mapean 1:1).
 
 - **Movers → entities (a)**: un solo espacio de sujetos. Todo ser —
   NPC o no, canon o genérico — es una fila de `entities` (type,
@@ -279,6 +293,39 @@ y el código ya lo sabe: `memory.py` los marca "no reading by design" y
   **Capítulo futuro**: la función compartida de opciones — cada
   option declara *en qué se fija* (skills, state, race, beliefs…)
   y la mente pesa. Por ahora: funcional, calcado a places.
+
+## Mapeo implementado (converter → loader)
+
+`convert-entities-narration.mjs` genera
+`data/json/entities_narration.json` (1434 records) y
+`seedEntitiesNarration()` lo siembra. Refs estables → FKs
+en seed-time: `entity_slug`→`entities.id`,
+`leg_ref {mover, leg_index}`→`mover_legs.id`
+(los legs se regeneran por reseed; `mover_leg_id` es
+`ON DELETE CASCADE` — el contact muere con el leg y el
+seed lo re-vincula).
+
+| fuente | campo | destino |
+|---|---|---|
+| encounter_forms | entity_type, interaction_form, weight/intensity/min–max_danger/triggers_roll, prose_hint | `kind='form'` mismos campos + `aspect` |
+| npc_interactions | npc_attitude | `disposition` |
+| | concrete_content | `presence` |
+| | tension / traveller_stance | `interactive[].situation` / `.stance` |
+| | topic / topic_prose_hint | `facts.topic` / `channel` |
+| | options + commands | `interactive[0]` (un situation por fila) |
+| | character_id (aranath/celebrian) | `tags: [race:dunedain|elf]` + `payload.legacy_character` |
+| | entity_id/entity_ids/entity_type/region_id/cultural_family/interaction_form | scope 1:1 |
+| | shadow_band | **drop** |
+| entities.csv | description_summary / description | `kind='entity'`: `aspect` / `lore` |
+| movers *.yml | description/motivation/canon/kind/campaign | `ent:mover:{slug}` ficha: `lore`/`notes`/`facts` |
+| | legs[].trace | `cnt:{slug}:leg:{i}` `aspect` |
+| | legs[].beats {variant,title,text,effects} | `variants` (mapeo 1:1) |
+
+Notas: ids de contact `cnt:{uuid-legacy}`; `umli` colisiona
+(pueblo vs individuo) → movers usan `ent:mover:{slug}`.
+36 slugs de mover aún no existen en `entities` → `entity_id`
+NULL transitorio (warn en seed), resuelve cuando `movers`
+migre a `entities`. Nueva familia de tags `race`.
 
 ## Preguntas abiertas (cuando se retome)
 

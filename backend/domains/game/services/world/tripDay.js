@@ -875,7 +875,8 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   const chapterForms = []; // tracks forms used within this chapter
   const encounters = [];
 
-  // Build region name -> cultural_family and region name -> id maps for npc_interactions queries
+  // Build region name -> cultural_family and region name -> id maps for
+  // entities_narration contact queries (specificity scoring + context filters)
   const culturalFamilyByRegion = new Map();
   const regionIdByRegion = new Map();
   for (const r of orderedRegions) {
