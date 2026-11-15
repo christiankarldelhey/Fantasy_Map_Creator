@@ -15,7 +15,7 @@ import secrets
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel
-from sqlalchemy import func
+from sqlalchemy import func, text
 from sqlalchemy.orm import Session
 from typing import Dict, List, Optional
 
@@ -562,3 +562,46 @@ def patch_mood(
 
 
 
+
+
+@router.get('/tags')
+def tag_registry(db: Session = Depends(get_session)):
+    """The shared Tag registry (ADR-0016): the one flat vocabulary that
+    gating, memory, retrieval, needs and attitudes all consult. Read-only
+    for now — the seed file is the source of truth.
+
+    Exception to 'never reads Host tables': `public.narration_tags` is
+    the shared registry by design — the Mind consults the same table
+    the Host validates against, so both speak one vocabulary."""
+    try:
+        rows = db.execute(
+            text(
+                'SELECT family, value, description '
+                'FROM public.narration_tags ORDER BY family, value'
+            )
+        ).all()
+    except Exception:  # noqa: BLE001 — host DB may not share our engine
+        raise HTTPException(
+            status_code=503,
+            detail='tag registry unavailable (public.narration_tags)',
+        )
+    families: Dict[str, Dict] = {}
+    for fam, value, desc in rows:
+        desc = desc or {}
+        entry = families.setdefault(
+            fam,
+            {
+                'family': fam,
+                'consumers': desc.get('consumers') or [],
+                'description': {
+                    k: v for k, v in desc.items() if k != 'consumers'
+                },
+                'open': False,
+                'values': [],
+            },
+        )
+        if value == '*':
+            entry['open'] = True
+        else:
+            entry['values'].append(value)
+    return {'families': list(families.values())}

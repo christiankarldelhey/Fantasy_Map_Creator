@@ -16,7 +16,9 @@ from pydantic import BaseModel, ConfigDict
 class NarrateDayRequest(BaseModel):
     model_config = ConfigDict(extra='allow')
 
-    day: Dict[str, Any]
+    # Optional since ADR-0016: v2 episodes store the canonical channels
+    # (episode/arc/condition/world_notes) and no `day` at all.
+    day: Optional[Dict[str, Any]] = None
     trip: Dict[str, Any] = {}
     character: Dict[str, Any] = {}
     # Optional: the game whose NL pack overrides the code constants. Absent

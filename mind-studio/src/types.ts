@@ -180,3 +180,17 @@ export interface MindDetail {
   needs: { id: string; key: string; description: string; status: string }[]
   episodes: EpisodeView[]
 }
+
+// GET /studio/api/tags — the shared tag registry (ADR-0016).
+export interface TagFamily {
+  family: string
+  consumers: string[]
+  description: Record<string, string>
+  // true when the family accepts any value matching its pattern ('*' row).
+  open: boolean
+  values: string[]
+}
+
+export interface TagRegistry {
+  families: TagFamily[]
+}
