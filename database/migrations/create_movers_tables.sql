@@ -69,7 +69,6 @@ CREATE TABLE IF NOT EXISTS mover_legs (
     active_phases TEXT[] NOT NULL DEFAULT '{morning,afternoon,before_sleep,mid_night}',
 
     -- content
-    trace       TEXT,                   -- authored distance-sign for this leg
     hostile     BOOLEAN NOT NULL DEFAULT false,  -- feeds region Unease
 
     created_at  TIMESTAMP DEFAULT NOW(),

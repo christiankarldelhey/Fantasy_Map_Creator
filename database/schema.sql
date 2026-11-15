@@ -570,7 +570,6 @@ CREATE TABLE IF NOT EXISTS mover_legs (
     visibility  TEXT NOT NULL DEFAULT 'signs',
     greeting    BOOLEAN NOT NULL DEFAULT false,
     active_phases TEXT[] NOT NULL DEFAULT '{morning,afternoon,before_sleep,mid_night}',
-    trace       TEXT,
     hostile     BOOLEAN NOT NULL DEFAULT false,
     created_at  TIMESTAMP DEFAULT NOW(),
     UNIQUE (entity_id, leg_index),

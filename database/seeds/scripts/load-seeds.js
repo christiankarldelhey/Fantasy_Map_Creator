@@ -1367,8 +1367,7 @@ async function seedMovers() {
   for (const file of moverFiles) {
     const doc = yaml.load(await fs.readFile(path.join(MOVERS_DIR, file), 'utf8'));
     const m = doc?.mover;
-    if (!m?.slug || !m.name || !m.kind) failMover(file, null, 'mover needs slug, name and kind');
-    if (!['person', 'company', 'host'].includes(m.kind)) failMover(file, null, `bad kind '${m.kind}'`);
+    if (!m?.slug || !m.name) failMover(file, null, 'mover needs slug and name');
     if (!m.type) failMover(file, null, "mover needs 'type' (an entities.type vocabulary value)");
 
     // Legs are regenerated wholesale: seed data is rebuilt per deploy.
@@ -1411,9 +1410,6 @@ async function seedMovers() {
       if (kind === 'march' && (leg.notice_radius_km == null || leg.contact_radius_km == null))
         failMover(file, n, "march legs need 'notice_radius_km' and 'contact_radius_km'");
 
-      const beats = leg.beats ?? (leg.beat ? [leg.beat] : []);
-      for (const b of beats) if (!b?.text) failMover(file, n, 'a beat needs at least text');
-
       let trailGeom = null;
       let trailDays = 0;
       if (kind === 'march') {
@@ -1425,7 +1421,7 @@ async function seedMovers() {
         trailDays = Math.round((new Date(s.to) - new Date(s.from)) / 86400000);
       }
 
-      resolved.push({ leg, n, kind, phases, camp, regionId, locationId, beats, trailGeom, trailDays });
+      resolved.push({ leg, n, kind, phases, camp, regionId, locationId, trailGeom, trailDays });
     }
 
     // Pass 2: write. Identity lives in entities (tier='mover'): the being row.
@@ -1456,8 +1452,8 @@ async function seedMovers() {
            (entity_id, campaign_id, leg_index, kind, date_from, date_to,
             region_id, location_id, location_type, level, road_bias,
             notice_radius_km, contact_radius_km, visibility, greeting,
-            active_phases, trace, hostile)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)
+            active_phases, hostile)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
          RETURNING id`,
         [
           moverId, r.camp, Number(r.leg.index ?? r.n), r.kind, s.from, s.to,
@@ -1466,7 +1462,7 @@ async function seedMovers() {
           JSON.stringify(r.leg.road_bias ?? {}),
           r.leg.notice_radius_km ?? null, r.leg.contact_radius_km ?? null,
           r.leg.visibility ?? 'signs', Boolean(r.leg.greeting),
-          r.phases, r.leg.trace ?? null, Boolean(r.leg.hostile),
+          r.phases, Boolean(r.leg.hostile),
         ]
       );
       const legId = lrow.id;

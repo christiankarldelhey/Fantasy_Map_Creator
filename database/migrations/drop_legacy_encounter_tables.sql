@@ -13,6 +13,7 @@
 --   mover_beats       → leg contacts' variants + leg mechanics in mover_legs
 --   entities.description / description_summary
 --                     → entities_narration kind='entity' (lore / aspect)
+--   mover_legs.trace  → the leg contact's aspect in entities_narration
 --
 -- Idempotent: safe to run on every deploy.
 -- ============================================================================
@@ -25,3 +26,7 @@ DROP TABLE IF EXISTS interactions;   -- pre-rename ancestor of encounter_forms, 
 ALTER TABLE entities
     DROP COLUMN IF EXISTS description,
     DROP COLUMN IF EXISTS description_summary;
+
+-- mover_legs.trace duplicated into the leg contact's aspect — legs keep
+-- only schedule mechanics.
+ALTER TABLE mover_legs DROP COLUMN IF EXISTS trace;
