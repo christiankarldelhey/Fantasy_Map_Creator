@@ -109,15 +109,7 @@ async function replayTrip(tripPrefix, character, episodeOffset, hungerStreak) {
       overnight_location: row.overnight_location || null,
       overnight_interaction: await overnightOf(row),
     };
-    const stateContext = {
-      startState: { energy: row.energy_start, shadow: row.shadow_start },
-      endState: {
-        energy: row.energy_end,
-        shadow: row.shadow_end,
-        days_without_food: hungerStreak,
-      },
-    };
-    const events = toEvents({ day, trip, character, stateContext });
+    const events = toEvents({ day, trip, character });
     // Monotonic episode index across trips — the mind reads when.episode.
     for (const e of events) e.when.episode = row.day_number + episodeOffset;
 

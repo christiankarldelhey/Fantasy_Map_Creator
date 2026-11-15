@@ -120,8 +120,6 @@ function slimDay(d) {
 
 /**
  * The flat POST /episodes body — OpenEpisodeRequest, snake_case throughout.
- * `stateContext` feeds only the mind's `body` event (via toEvents), it is
- * not part of the wire itself.
  */
 export function toOpenPayload({
   gameId,
@@ -134,7 +132,6 @@ export function toOpenPayload({
   fate = null,
   previousDay = null,
   recentDayClimates = [],
-  stateContext = null,
 }) {
   // The narrator's briefing (ADR-0016): only the world material that is
   // NOT a lived event — climate continuity, the camp lead-in, lands,
@@ -156,7 +153,7 @@ export function toOpenPayload({
     episode_ref: `trip:${trip.id}:day:${day.day_number}`,
     language,
     character: slimCharacter(character),
-    events: toEvents({ day, trip, character, stateContext, previousDay }),
+    events: toEvents({ day, trip, character, previousDay }),
     episode: {
       index: day.day_number ?? null,
       at: day.date ?? null,
