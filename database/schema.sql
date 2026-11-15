@@ -538,27 +538,14 @@ COMMENT ON COLUMN character_state.system_prompt IS 'Custom narrator voice instru
 COMMENT ON COLUMN character_state.introduction_instructions IS 'Custom introduction instructions for this character (replaces default introduction)';
 
 -- ============================================================================
--- Tables: movers, mover_legs, mover_beats, mover_trails
+-- Tables: mover_legs, mover_beats, mover_trails
 -- Purpose: Living Map — authored beings whose reach is a function of the
---          in-world date (TA 3017-3018). Immutable seed data. Canonical DDL
---          lives in database/migrations/create_movers_tables.sql (applied by
+--          in-world date (TA 3017-3018). Immutable seed data. Identity lives
+--          in entities (tier='mover'); the old `movers` table is gone.
+--          Canonical DDL lives in database/migrations/ (applied by
 --          ensureSchema in load-seeds.js); kept here in sync for reference.
 -- Vocabulary: backend/CONTEXT.md. Decision: docs/adr/0012.
 -- ============================================================================
-
-CREATE TABLE IF NOT EXISTS movers (
-    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    slug        VARCHAR(255) UNIQUE NOT NULL,
-    name        VARCHAR(255) NOT NULL,
-    kind        TEXT NOT NULL,          -- 'person' | 'company' | 'host'
-    canon       BOOLEAN NOT NULL DEFAULT false,
-    motivation  TEXT,
-    description TEXT,
-    created_at  TIMESTAMP DEFAULT NOW(),
-    CONSTRAINT chk_movers_kind CHECK (kind IN ('person', 'company', 'host'))
-);
-CREATE INDEX IF NOT EXISTS idx_movers_slug ON movers(slug);
-CREATE INDEX IF NOT EXISTS idx_movers_kind ON movers(kind);
 
 CREATE TABLE IF NOT EXISTS campaigns (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -571,7 +558,7 @@ CREATE INDEX IF NOT EXISTS idx_campaigns_slug ON campaigns(slug);
 
 CREATE TABLE IF NOT EXISTS mover_legs (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    mover_id    UUID NOT NULL REFERENCES movers(id) ON DELETE CASCADE,
+    entity_id   UUID NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
     campaign_id UUID REFERENCES campaigns(id),
     leg_index   INT NOT NULL,
     kind        TEXT NOT NULL,          -- 'march' | 'presence' | 'resident'
@@ -590,7 +577,7 @@ CREATE TABLE IF NOT EXISTS mover_legs (
     trace       TEXT,
     hostile     BOOLEAN NOT NULL DEFAULT false,
     created_at  TIMESTAMP DEFAULT NOW(),
-    UNIQUE (mover_id, leg_index),
+    UNIQUE (entity_id, leg_index),
     CONSTRAINT chk_mover_legs_kind CHECK (kind IN ('march', 'presence', 'resident')),
     CONSTRAINT chk_mover_legs_visibility CHECK (visibility IN ('visible', 'signs', 'hidden')),
     CONSTRAINT chk_mover_legs_window CHECK (date_to >= date_from),
@@ -605,7 +592,7 @@ CREATE TABLE IF NOT EXISTS mover_legs (
       OR (kind = 'resident' AND (location_id IS NOT NULL OR location_type IS NOT NULL))
     )
 );
-CREATE INDEX IF NOT EXISTS idx_mover_legs_mover    ON mover_legs(mover_id);
+CREATE INDEX IF NOT EXISTS idx_mover_legs_entity   ON mover_legs(entity_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_campaign ON mover_legs(campaign_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_region   ON mover_legs(region_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_location ON mover_legs(location_id);

@@ -2,6 +2,7 @@ mover:
   slug: shire-riders
   name: The Riders in the Shire
   kind: company
+  type: undead
   canon: true
   campaign: hunt-for-the-ring
   motivation: >-

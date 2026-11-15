@@ -760,8 +760,8 @@ async function seedEntitiesNarration() {
   const { rows: entRows } = await pool.query('SELECT id, slug FROM entities');
   const entBySlug = new Map(entRows.map((e) => [e.slug, e.id]));
   const { rows: legRows } = await pool.query(
-    `SELECT l.id, m.slug AS mover, l.leg_index
-       FROM mover_legs l JOIN movers m ON m.id = l.mover_id`
+    `SELECT l.id, e.slug AS mover, l.leg_index
+       FROM mover_legs l JOIN entities e ON e.id = l.entity_id`
   );
   const legByKey = new Map(legRows.map((l) => [`${l.mover}:${l.leg_index}`, l.id]));
 
@@ -1331,6 +1331,7 @@ async function ensureSchema() {
   // Fossil {en:{en:…}} corruption: unwrap type/name to the innermost leaf.
   await runMigrationFile('fix_places_narration_nested_lang.sql');
   await runMigrationFile('create_entities_narration_table.sql');
+  await runMigrationFile('movers_identity_into_entities.sql');
 
   // Legacy prose stores drop last (#104): everything above is additive and
   // convergent; this tears down what the narration records replaced. All
@@ -1523,6 +1524,7 @@ async function seedMovers() {
     const m = doc?.mover;
     if (!m?.slug || !m.name || !m.kind) failMover(file, null, 'mover needs slug, name and kind');
     if (!['person', 'company', 'host'].includes(m.kind)) failMover(file, null, `bad kind '${m.kind}'`);
+    if (!m.type) failMover(file, null, "mover needs 'type' (an entities.type vocabulary value)");
 
     // Legs are regenerated wholesale: seed data is rebuilt per deploy.
     const legs = Array.isArray(doc.legs) ? doc.legs : [];
@@ -1581,24 +1583,32 @@ async function seedMovers() {
       resolved.push({ leg, n, kind, phases, camp, regionId, locationId, beats, trailGeom, trailDays });
     }
 
-    // Pass 2: write.
+    // Pass 2: write. Identity lives in entities (tier='mover'): the being row.
+    // A slug collision with a non-mover entity means the YAML is naming an
+    // already-existing species/type — rename the mover's slug, don't hijack.
+    const { rows: [collision] } = await pool.query(
+      'SELECT 1 FROM entities WHERE slug = $1 AND tier IS DISTINCT FROM $2',
+      [m.slug, 'mover']
+    );
+    if (collision) failMover(file, null, `slug '${m.slug}' collides with an existing entity (tier<>'mover')`);
+
     const { rows: [mrow] } = await pool.query(
-      `INSERT INTO movers (slug, name, kind, canon, motivation, description)
-       VALUES ($1, $2, $3, $4, $5, $6)
+      `INSERT INTO entities (slug, name, type, is_npc, tier)
+       VALUES ($1, $2, $3, true, 'mover')
        ON CONFLICT (slug) DO UPDATE SET
-         name = EXCLUDED.name, kind = EXCLUDED.kind, canon = EXCLUDED.canon,
-         motivation = EXCLUDED.motivation, description = EXCLUDED.description
+         name = EXCLUDED.name, type = EXCLUDED.type,
+         is_npc = true, tier = 'mover'
        RETURNING id`,
-      [m.slug, m.name, m.kind, Boolean(m.canon), m.motivation ?? null, m.description ?? null]
+      [m.slug, m.name, m.type]
     );
     const moverId = mrow.id;
-    await pool.query('DELETE FROM mover_legs WHERE mover_id = $1', [moverId]); // cascades beats + trails
+    await pool.query('DELETE FROM mover_legs WHERE entity_id = $1', [moverId]); // cascades beats + trails
 
     for (const r of resolved) {
       const s = spans.find((sp) => sp.i === r.n);
       const { rows: [lrow] } = await pool.query(
         `INSERT INTO mover_legs
-           (mover_id, campaign_id, leg_index, kind, date_from, date_to,
+           (entity_id, campaign_id, leg_index, kind, date_from, date_to,
             region_id, location_id, location_type, level, road_bias,
             notice_radius_km, contact_radius_km, visibility, greeting,
             active_phases, trace, hostile)
@@ -1637,7 +1647,7 @@ async function seedMovers() {
     console.log(`   ↳ ${m.slug}: ${legs.length} leg(s)`);
   }
 
-  const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) AS count FROM movers');
+  const { rows: [{ count }] } = await pool.query("SELECT COUNT(*) AS count FROM entities WHERE tier = 'mover'");
   const { rows: [{ tcount }] } = await pool.query('SELECT COUNT(*) AS tcount FROM mover_trails');
   console.log(`✅ movers: ${count} movers, ${tcount} trail points`);
 }

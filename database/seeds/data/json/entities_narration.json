@@ -40340,9 +40340,9 @@
     }
   },
   {
-    "id": "ent:mover:umli",
+    "id": "ent:mover:ruki",
     "kind": "entity",
-    "entity_slug": "umli",
+    "entity_slug": "ruki",
     "entity_type": "npc",
     "lore": {
       "en": "A boy pretending to be a dwarf, trying to eat without being seen."
@@ -40361,12 +40361,12 @@
     }
   },
   {
-    "id": "cnt:umli:leg:1",
+    "id": "cnt:ruki:leg:1",
     "kind": "contact",
-    "entity_slug": "umli",
+    "entity_slug": "ruki",
     "entity_type": "npc",
     "leg_ref": {
-      "mover": "umli",
+      "mover": "ruki",
       "leg_index": 1
     },
     "form": null,

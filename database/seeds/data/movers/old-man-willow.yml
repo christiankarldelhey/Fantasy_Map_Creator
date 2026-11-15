@@ -2,6 +2,7 @@ mover:
   slug: old-man-willow
   name: Old Man Willow
   kind: person
+  type: living_trees
   canon: true
   motivation: >-
     The eldest and angriest willow in the Old Forest, rooted by the

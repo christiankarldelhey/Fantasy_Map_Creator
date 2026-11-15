@@ -2,6 +2,7 @@ mover:
   slug: boromir
   name: Boromir of Gondor
   kind: person
+  type: humans
   canon: true
   campaign: council-bound
   motivation: >-

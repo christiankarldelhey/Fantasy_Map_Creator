@@ -2,6 +2,7 @@ mover:
   slug: beornida
   name: Hunwald of the Vales
   kind: person
+  type: humans
   canon: false
   motivation: >-
     Seventy winters and still the strongest thing in the Vales. He keeps a

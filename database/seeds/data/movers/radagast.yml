@@ -2,6 +2,7 @@ mover:
   slug: radagast
   name: Radagast the Brown
   kind: person
+  type: maiar
   canon: true
   motivation: >-
     Sent by Saruman to fetch Gandalf to Orthanc — an errand he runs in

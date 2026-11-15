@@ -2,6 +2,7 @@ mover:
   slug: dol-guldur-army
   name: The Host of Dol Guldur
   kind: host
+  type: orcs
   canon: true
   campaign: war-begins
   motivation: >-

@@ -2,6 +2,7 @@ mover:
   slug: gloin-gimli
   name: Glóin and Gimli
   kind: company
+  type: dwarves
   canon: true
   campaign: council-bound
   motivation: >-

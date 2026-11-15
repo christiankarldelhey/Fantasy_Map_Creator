@@ -2,6 +2,7 @@ mover:
   slug: blue-wizards
   name: The Ithryn Luin
   kind: company
+  type: maiar
   canon: true
   motivation: >-
     Alatar and Pallando — the two who went east and did not come back.

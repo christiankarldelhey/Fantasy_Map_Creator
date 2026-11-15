@@ -2,6 +2,7 @@ mover:
   slug: erebor-emissary
   name: The Emissary to Erebor
   kind: person
+  type: dwarves
   canon: true
   campaign: hunt-for-the-ring
   motivation: >-

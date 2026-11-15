@@ -2,6 +2,7 @@ mover:
   slug: gandalf
   name: Gandalf the Grey
   kind: person
+  type: maiar
   canon: true
   campaign: hunt-for-the-ring
   motivation: >-

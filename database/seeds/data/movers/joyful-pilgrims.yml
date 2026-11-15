@@ -2,6 +2,7 @@ mover:
   slug: joyful-pilgrims
   name: The Company of Merilin
   kind: company
+  type: elves
   canon: false
   motivation: >-
     Not every road to the Havens is sad: these go singing, young and old
