@@ -269,6 +269,7 @@ export function resolveDayState({
     restInLocation,
     restNonEnemy: restInLocation && !restIsEnemy,
     sanctuary,
+    resistance: startState?.resistance ?? 0,
   });
 
   // Apply wounds and fate

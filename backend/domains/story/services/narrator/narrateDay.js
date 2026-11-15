@@ -74,6 +74,9 @@ export async function narrateDay({
     stateContext,
   });
 
+  // Why there is no episode on this day — persisted on the trip_day so
+  // admin can tell 'mind off' apart from 'episode wire missing'.
+  let mind_off = null;
   if (MIND_ENGINE) {
     try {
       const { request: openReq, response: opened } = await openEpisode(openBody);
@@ -104,7 +107,10 @@ export async function narrateDay({
       // Invariant: the mind never blocks the game. Fall back to the
       // stateless narrator exactly as if the flag were off.
       console.warn('[mind] open/narrate failed, falling back to /narrate-day:', error.message);
+      mind_off = { reason: 'open_failed', detail: error.message };
     }
+  } else {
+    mind_off = { reason: 'flag_off' };
   }
 
   const response = await fetch(`${MIND_ENGINE_URL}/narrate-day`, {
@@ -118,5 +124,5 @@ export async function narrateDay({
     throw new Error(`mind-engine /narrate-day failed (${response.status}): ${body}`);
   }
 
-  return response.json();
+  return { ...(await response.json()), mind_off };
 }

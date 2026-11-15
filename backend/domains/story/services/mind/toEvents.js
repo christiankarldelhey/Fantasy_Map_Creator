@@ -393,26 +393,27 @@ function waterEvents(day) {
 // for this day — the wind of a region, the silence of a valley. One event
 // carries every voice that fired; the mind hears the outcome text the
 // resolver already chose, never the candidate list.
-function ambientEvent(day) {
-  const voices = (day.ambient || []).filter((a) => a?.text);
-  if (!voices.length) return null;
-  const text = (v) => (typeof v === 'string' ? v : v?.en ?? null);
-  return {
-    type: 'ambient',
-    when: when(day),
-    where: where(regionOf(day)),
-    data: {
-      voices: voices.map((a) => ({
+// ADR-0016: a resolved ambient situation is a 'moment' — the world's
+// voice making itself felt ("the wall that makes noise, night 1"), one
+// event per situation. The mechanical `effects` were already applied
+// host-side; they never cross the wire. `record`/`situation` ride as
+// provenance anchors: the same authored voice speaking again connects
+// as memory.
+function momentEvents(day) {
+  const text = (v) => (typeof v === 'string' ? v : v?.en ?? v?.es ?? null);
+  return (day.ambient || [])
+    .filter((a) => a?.text)
+    .map((a) => ({
+      type: 'moment',
+      when: when(day),
+      where: where(regionOf(day)),
+      data: {
         record: a.record_id ?? null,
-        name: text(a.name) ?? a.name?.en ?? null,
         situation: a.situation_id ?? null,
-        text: text(a.text),
-        text_es: typeof a.text === 'object' ? a.text?.es ?? null : null,
-        effects: a.effects ?? undefined,
-      })),
-      reading: text(voices[0].text),
-    },
-  };
+        name: text(a.name) ?? null,
+        reading: text(a.text),
+      },
+    }));
 }
 
 function restEvent(day) {
@@ -528,7 +529,7 @@ export function toEvents({ day, trip, character, stateContext, previousDay }) {
     ...placeEvents(day),
     ...regionEvents(day, previousDay),
     ...waterEvents(day),
-    ...(ambientEvent(day) ? [ambientEvent(day)] : []),
+    ...momentEvents(day),
     ...(restEvent(day) ? [restEvent(day)] : []),
     ...(bodyEvent(day, stateContext) ? [bodyEvent(day, stateContext)] : []),
   ];

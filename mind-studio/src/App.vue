@@ -6,10 +6,11 @@ import EpisodesTab from './components/episodes/EpisodesTab.vue'
 import MemoryTab from './components/memory/MemoryTab.vue'
 import PersonalityTab from './components/personality/PersonalityTab.vue'
 import SummaryTab from './components/summary/SummaryTab.vue'
+import TagsTab from './components/tags/TagsTab.vue'
 import { useMind } from './composables/useMind'
 import { useMinds } from './composables/useMinds'
 
-type Tab = 'summary' | 'personality' | 'memory' | 'episodes'
+type Tab = 'summary' | 'personality' | 'memory' | 'episodes' | 'tags'
 
 const { minds, selectedId, error: rosterError, select } = useMinds()
 const { mind, loading, error, refresh } = useMind(selectedId)
@@ -21,6 +22,7 @@ const tabs = computed(() => [
   { id: 'personality' as const, label: 'Personalidad' },
   { id: 'memory' as const, label: 'Memoria', count: mind.value?.memories.length },
   { id: 'episodes' as const, label: 'Episodios', count: mind.value?.episodes.length },
+  { id: 'tags' as const, label: 'Tags' },
 ])
 </script>
 
@@ -41,7 +43,8 @@ const tabs = computed(() => [
         <SummaryTab v-if="tab === 'summary'" :mind="mind" @saved="refresh" />
         <PersonalityTab v-else-if="tab === 'personality'" :key="mind.character_id" :mind="mind" @saved="refresh" />
         <MemoryTab v-else-if="tab === 'memory'" :mind="mind" />
-        <EpisodesTab v-else :key="mind.character_id" :mind="mind" />
+        <EpisodesTab v-else-if="tab === 'episodes'" :key="mind.character_id" :mind="mind" />
+        <TagsTab v-else />
       </div>
     </main>
   </div>

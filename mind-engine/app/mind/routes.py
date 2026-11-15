@@ -106,6 +106,37 @@ log = logging.getLogger(__name__)
 router = APIRouter(tags=['mind'])
 
 
+def _encounter_prompt_shape(event):
+    """A narrator-payload encounter rebuilt from its event (ADR-0016):
+    the section needs the legacy entity/interaction shape; the event
+    carries the same facts flat in data."""
+    data = event.get('data') or {}
+    substance = data.get('substance') or {}
+    dialogue = {
+        k: v for k, v in {
+            'topic': data.get('topic'),
+            'npc_attitude': substance.get('attitude'),
+            'concrete_content': substance.get('content'),
+            'tension': substance.get('tension'),
+            'traveller_stance': substance.get('stance'),
+        }.items() if v is not None
+    }
+    return {
+        'phase': (event.get('when') or {}).get('phase'),
+        'region': (event.get('where') or {}).get('region'),
+        'entity': {
+            'name': data.get('entity_name') or data.get('entity'),
+            'type': data.get('entity_type'),
+        },
+        'interaction': {
+            'form': data.get('form'),
+            'prose_hint': data.get('prose_hint'),
+            'outcome': data.get('outcome'),
+            'dialogue_content': dialogue or None,
+        },
+    }
+
+
 def _check_results(episode: Episode) -> list:
     """The checks the mind threw at open, lifted out of perceived_day —
     they live on the items so no separate column is needed."""
@@ -198,6 +229,12 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             card = effective_character(
                 character, payload.character.model_dump()
             )
+            # ADR-0016: the wire `condition` is the live Condition report —
+            # it overrides the card's stored scalars so detectors and
+            # checks read the freshest body, never yesterday's snapshot.
+            for k, v in (payload.condition or {}).items():
+                if v is not None:
+                    card[k] = v
             # C29: the mind keeps its own clock — episode_idx counts this
             # mind's lived episodes monotonically, so a new trip's day 1
             # never collides with an old journey's day 1 in memory ages.
@@ -219,17 +256,32 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 # The flat open body IS the narrator input — store it in
                 # NarrateDayRequest shape so narrate stays untouched.
                 narrator_payload={
-                    'day': payload.day.model_dump(exclude_none=True),
-                    'trip': {'name': payload.trip_name},
+                    'day': (
+                        payload.day.model_dump(exclude_none=True)
+                        if payload.day else None
+                    ),
+                    'trip': {'name': payload.arc},
                     'character': {
                         k: v for k, v in card.items() if v is not None
                     },
                     'language': payload.language,
-                    'characterState': payload.character_state,
+                    # condition is the merged map (character_state +
+                    # equipment_state folded by _fold_legacy); the legacy
+                    # keys stay for the dual-read window.
+                    'characterState': payload.condition,
                     'equipmentState': payload.equipment_state,
                     'fate': payload.fate,
                     'previousDay': payload.previous_day,
                     'recentDayClimates': payload.recent_day_climates,
+                    # Canonical channels (ADR-0016) the narrate path
+                    # back-fills the legacy `day` from.
+                    'episode': (
+                        payload.episode.model_dump(exclude_none=True)
+                        if payload.episode else None
+                    ),
+                    'arc': payload.arc,
+                    'condition': payload.condition,
+                    'world_notes': payload.world_notes,
                 },
                 # Audit snapshot: the exact knobs this episode runs under.
                 # Admin edits apply to future episodes, not in-flight ones.
@@ -588,13 +640,40 @@ def narrate_episode(
         episode = db.get(Episode, episode_id)
         if episode is None:
             raise HTTPException(status_code=404, detail='episode not found')
-        if not ((episode.narrator_payload or {}).get('day') or {}).get('date'):
+        stored = episode.narrator_payload or {}
+        # ADR-0016: a v2 episode has no `day` — its frame carries `at`.
+        if not (
+            (stored.get('day') or {}).get('date')
+            or (stored.get('episode') or {}).get('at')
+        ):
             raise HTTPException(
                 status_code=422,
                 detail='episode has no narratable day',
             )
         try:
             req = NarrateDayRequest.model_validate(episode.narrator_payload)
+            # ADR-0016: v2 episodes carry episode/arc/world_notes instead
+            # of `day`; back-fill the legacy day keys the prompt still
+            # reads so narrate stays untouched during the window.
+            day = dict(req.day or {})
+            frame = getattr(req, 'episode', None) or {}
+            if frame.get('at') is not None:
+                day.setdefault('date', frame['at'])
+            if frame.get('index') is not None:
+                day.setdefault('day_number', frame['index'])
+            if frame.get('terminal') is not None:
+                day.setdefault('is_last_day', frame['terminal'])
+            stored_notes = getattr(req, 'world_notes', None) or {}
+            if stored_notes:
+                day.setdefault('world_notes', stored_notes)
+            # Encounters reach the narrator through events now (ADR-0016):
+            # rebuild the legacy per-phase shape from episode.events.
+            if not day.get('encounters'):
+                day['encounters'] = [
+                    _encounter_prompt_shape(e)
+                    for e in (episode.events or [])
+                    if e.get('type') == 'encounter'
+                ]
         except ValidationError as exc:
             raise HTTPException(
                 status_code=422,
@@ -608,7 +687,7 @@ def narrate_episode(
             .one_or_none()
         )
         result = narrate_day(
-            day=req.day,
+            day=day,
             trip=req.trip,
             character=req.character,
             language=payload.language or req.language,
