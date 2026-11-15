@@ -42,11 +42,17 @@ def narrate_day(
     mind_block='',
     impressions=None,
     memory_beats=None,
+    world_notes=None,
 ):
+    day = day or {}
     trip = trip or {}
     character = character or {}
 
-    world_notes = day.get('world_notes') or {}
+    # ADR-0016: world_notes is a canonical wire channel; a v2 caller may
+    # send it top-level instead of nested in `day`.
+    world_notes = world_notes if world_notes is not None else (
+        day.get('world_notes') or {}
+    )
     climate_state_block = world_notes.get('climate_state') or ''
 
     # ADR 0003: the narration is always written in the inner language

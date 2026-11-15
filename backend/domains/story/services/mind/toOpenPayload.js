@@ -112,9 +112,8 @@ function slimDay(d) {
     meals: (d.meals || []).map((m) => pick(m, ['slot', 'food', 'drink'])),
     overnight_location: d.overnight_location ?? null,
     overnight_interaction: d.overnight_interaction ?? null,
-    ambient: (d.ambient || []).map((a) =>
-      pick(a, ['record_id', 'situation_id', 'option_id', 'name', 'when', 'text', 'effects'])
-    ),
+    // ADR-0016: `ambient` left the wire — resolved situations ride
+    // events[] as 'moment' events (toEvents.momentEvents).
     elevation_profile: d.elevation_profile ?? null,
   };
 }
@@ -157,11 +156,23 @@ export function toOpenPayload({
     language,
     character: slimCharacter(character),
     events: toEvents({ day, trip, character, stateContext, previousDay }),
+    // Canonical channels (ADR-0016): the episode frame, the arc it
+    // belongs to, the live Condition as one flat map, and the World
+    // voice briefing.
+    episode: {
+      index: day.day_number ?? null,
+      at: day.date ?? null,
+      terminal: day.is_last_day ?? null,
+    },
+    arc: trip.name ?? null,
+    condition: { ...(characterState || {}), ...(equipmentState || {}) },
+    world_notes: daySlim.world_notes,
+    fate,
+    // --- Legacy fields, dual-read window (ADR-0016) ---
     day: daySlim,
     trip_name: trip.name ?? null,
     character_state: characterState,
     equipment_state: equipmentState,
-    fate,
     previous_day: previousDay,
     recent_day_climates: recentDayClimates,
   };
@@ -182,5 +193,8 @@ export function toNarrateDayBody(openBody) {
     fate: openBody.fate,
     previousDay: openBody.previous_day,
     recentDayClimates: openBody.recent_day_climates,
+    // Canonical channel (ADR-0016): the stateless path verbalizes from
+    // it too when `day.world_notes` is absent.
+    world_notes: openBody.world_notes,
   };
 }

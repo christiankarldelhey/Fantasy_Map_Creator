@@ -62,16 +62,52 @@ def _day(*tags, reading='wolf-prints crossing the path'):
 
 
 def test_fresh_and_important_memory_without_contact_stays_unevoked():
-    """Yesterday's Dúnedain on a wolf-sign day: recency and importance
-    alone do not summon it — it must touch today's story."""
+    """A memory whose tags share neither a tag nor a coarse facet with
+    today stays quiet: recency and importance alone do not summon it —
+    it must touch today's story."""
     session, char = _session_with_memories({
         'desc': 'a ranger asked about the roads north',
-        'tags': ['tag:entity_type:humans'],
+        'tags': ['tag:form:brief_exchange'],
         'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
     })
     evoked = retrieve(
         session, _brain(char), _episode(10),
         _day('tag:entity_type:carnivores'),
+    )
+    assert evoked == []
+    session.rollback()
+    session.close()
+
+
+def test_shared_facet_evokes_as_a_weaker_contact():
+    """ADR-0016: 'tag:form:attacks' meeting 'tag:form:confronts' is the
+    same kind of contact — the facet carries a weaker link than an
+    exact tag but still counts as touching today."""
+    session, char = _session_with_memories({
+        'desc': 'the warg leapt at them by the marsh',
+        'tags': ['tag:form:attacks'],
+        'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
+    })
+    evoked = retrieve(
+        session, _brain(char), _episode(10),
+        _day('tag:form:confronts'),
+    )
+    assert [m.desc for m in evoked] == ['the warg leapt at them by the marsh']
+    session.rollback()
+    session.close()
+
+
+def test_single_segment_tags_share_no_facet():
+    """'entity:orcs' and 'entity:wolves' are different beings — 'some
+    entity' is too broad to count as contact (ADR-0016)."""
+    session, char = _session_with_memories({
+        'desc': 'an orc patrol crossed the road east',
+        'tags': ['entity:orcs'],
+        'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
+    })
+    evoked = retrieve(
+        session, _brain(char), _episode(10),
+        _day('entity:wolves'),
     )
     assert evoked == []
     session.rollback()
@@ -175,8 +211,9 @@ def test_region_alone_does_not_make_contact():
     Dúnedain she met in this country stays quiet on a wolf-sign day."""
     session, char = _session_with_memories({
         'desc': 'Dúnedain — the settlement is real and occupied',
-        'tags': ['type:encounter', 'entity:dunedain_3',
-                 'tag:entity_type:humans', 'region:Rast Vorn'],
+        # Only a region in common with today: the entity tag shares no
+        # coarse facet either (single-segment tags have none, ADR-0016).
+        'tags': ['type:encounter', 'entity:dunedain_3', 'region:Rast Vorn'],
         'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
     })
     evoked = retrieve(

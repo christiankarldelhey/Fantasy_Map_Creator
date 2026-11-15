@@ -42,6 +42,12 @@ DEFAULT_WIRING = {
     # day stirs up — otherwise the daily bread out-recalls a warg
     # attack (C16).
     'retrieval_importance_min': 0.15,
+    # Facet-aware matching (ADR-0016): an exact tag hit weighs 1.0; a
+    # shared coarse facet — 'tag:food:bread' meeting 'tag:food:lembas' —
+    # weighs this much. The kind is connection, the value is detail.
+    # One-segment tags ('entity:orcs', 'tag:given') have no facet: 'some
+    # entity' or 'some flag' is too broad to connect anything.
+    'retrieval_facet_weight': 0.4,
     # C23 refractory: a memory evoked within this many episodes sits
     # quiet — dwelling must not re-summon itself. Recency also ages from
     # when the event happened, never from when it was last recalled.

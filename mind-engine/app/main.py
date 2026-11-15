@@ -98,6 +98,7 @@ def narrate_day_endpoint(payload: NarrateDayRequest):
             fate=payload.fate,
             previous_day=payload.previousDay,
             recent_day_climates=payload.recentDayClimates,
+            world_notes=getattr(payload, 'world_notes', None),
         )
         return result
     finally:

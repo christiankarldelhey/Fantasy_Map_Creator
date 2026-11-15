@@ -27,8 +27,30 @@ The authored text that defines who a Character is and how they think; the root o
 _Avoid_: system prompt, persona
 
 **Condition**:
-What the host's world says about a Character right now: position, body, counters, possessions, alive or dead. Owned by the host and reported to the Mind Engine as a read-only snapshot.
+What the host's world says about a Character right now: position, body, counters, possessions, alive or dead. Owned by the host and reported to the Mind Engine as a read-only snapshot — the one channel where numbers are legal.
 _Avoid_: character state, stats
+
+### The report
+
+**Arc**:
+The larger narrative an Episode belongs to, whatever the Host calls it — a journey, a season, a chapter of a longer tale. It names what the stretch is part of.
+_Avoid_: trip, storyline, campaign
+
+**Event**:
+Something the Character lived in an Episode, reported by the Host already put into words — a reading plus the Tags it connects by. Events are the only channel by which the world reaches the Past: a Memory is born from what was lived or not at all. An Event's type names the kind of experience, not the shelf its source record sat on.
+_Avoid_: log entry, action, occurrence
+
+**Fate**:
+The Host's verdict on how an Episode ends, declared before the Episode is narrated, so the Mind knows the closing before it tells the stretch. Not the close's outcome, which records what was actually kept.
+_Avoid_: ending, result
+
+**Tag**:
+A word from the Tag registry — `family:value` — marking what an Event or Memory can connect to. One thing may carry several Tags: an exact match links strongly, a shared family weakly.
+_Avoid_: flag, label, keyword
+
+**Tag registry**:
+The closed catalog of Tag families and values every consumer consults — content gating, Event streams, Memory, the admin view alike. Families are fixed; a family's values may be fixed or open by pattern.
+_Avoid_: taxonomy, vocabulary
 
 ### The mind
 
