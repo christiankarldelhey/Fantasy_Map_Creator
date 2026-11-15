@@ -143,9 +143,10 @@ function climateEvents(day) {
       when: when({ phase }),
       where: where(regionOf(day, phase)),
       data: {
-        ...data,
         // The chapter's weather prose IS the memory's reading (ADR-0016):
-        // one verbalization, narrated and remembered alike.
+        // one verbalization, narrated and remembered alike. The raw
+        // metrics stay on the host — the mind knows the day through its
+        // reading and its declared tags ('weather:wet' feeds exposure).
         reading: summariseWeather(records, rngOf(day))
           ?? weatherReading(data),
         ...(tags.length ? { tags } : {}),

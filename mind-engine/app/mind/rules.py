@@ -10,9 +10,10 @@
 #     conditions=[[{temperature_2m <= 1}, {precipitation > 0}]]
 #     streak_days=2
 #
-#   exposure (the B2 detector, now declarative):
-#     conditions=[[precip >= 0.4], [temp <= 1.0], [wind >= 25]]
-#     streak_days=None -> wiring 'need_weather_streak'
+#   tag clauses ({'tag': 'weather:wet'}) match membership of the event's
+#   data.tags — the world declares the tier, the rule only reads it:
+#     exposure = wet OR freezing OR windy, N days running
+#     gloom    = overcast skies that never lift, N days running
 #
 # DB rows merge over DEFAULT_RULES by key — a game row replaces the
 # built-in entirely. Streak counters live in mind.counters under
@@ -35,9 +36,21 @@ DEFAULT_RULES = [
         'urgency_base': 0.3,
         'urgency_per_day': 0.15,
         'conditions': [
-            [{'field': 'precipitation', 'op': '>=', 'value': 0.4}],
-            [{'field': 'temperature_2m', 'op': '<=', 'value': 1.0}],
-            [{'field': 'wind_speed_10m', 'op': '>=', 'value': 25}],
+            [{'tag': 'weather:wet'}],
+            [{'tag': 'weather:freezing'}],
+            [{'tag': 'weather:windy'}],
+        ],
+        'description': None,          # falls back to 'mind.need.<key>'
+    },
+    {
+        'key': 'gloom',
+        'need_type': 'physiological',
+        'event_type': 'climate',
+        'streak_days': None,          # falls back to need_weather_streak
+        'urgency_base': 0.2,
+        'urgency_per_day': 0.1,
+        'conditions': [
+            [{'tag': 'weather:overcast'}],
         ],
         'description': None,          # falls back to 'mind.need.<key>'
     },
@@ -87,6 +100,9 @@ def active_rules(session, game_id):
 def _clause(clause, data):
     if not isinstance(clause, dict):
         return False
+    # {'tag': 'family:value'} — membership of the event's declared tags.
+    if 'tag' in clause:
+        return clause.get('tag') in (data.get('tags') or [])
     op = _OPS.get(clause.get('op'))
     if op is None:
         return False

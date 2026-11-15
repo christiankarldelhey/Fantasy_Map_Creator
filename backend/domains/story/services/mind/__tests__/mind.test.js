@@ -28,8 +28,8 @@ const DAY = {
   rng: () => 0,
   regions: [{ name: 'lone-lands' }],
   climate: [
-    { time: '1950-01-21 07:00:00', phase: 'morning', climate: { temperature_2m: 4.2, cloud_cover: 80, wind_speed_10m: 22, precipitation: 0 } },
-    { time: '1950-01-21 10:00:00', phase: 'morning', climate: { temperature_2m: 6.0, cloud_cover: 70, wind_speed_10m: 20, precipitation: 0 } },
+    { time: '1950-01-21 07:00:00', phase: 'morning', climate: { temperature_2m: 4.2, cloud_cover: 90, wind_speed_10m: 22, precipitation: 0 } },
+    { time: '1950-01-21 10:00:00', phase: 'morning', climate: { temperature_2m: 6.0, cloud_cover: 85, wind_speed_10m: 20, precipitation: 0 } },
     { time: '1950-01-21 13:00:00', phase: 'afternoon', climate: { temperature_2m: 8.1, cloud_cover: 60, wind_speed_10m: 15, precipitation: 0.4 } },
     { time: '1950-01-21 19:00:00', phase: 'night', climate: { temperature_2m: -1.0, cloud_cover: 20, wind_speed_10m: 8, precipitation: 0 } },
     { time: '1950-01-22 04:00:00', phase: 'night', climate: { temperature_2m: -3.0, cloud_cover: 10, wind_speed_10m: 5, precipitation: 0 } },
@@ -87,10 +87,13 @@ test('toEvents emits the generic contract from a resolved day', () => {
     climates.map((c) => c.when.phase).sort(),
     ['afternoon', 'morning', 'night']
   );
-  assert.equal(
-    climates.find((c) => c.when.phase === 'morning').data.temperature_2m,
-    5.1
-  );
+  // Climate events are pure semantics: the mind knows the weather
+  // through its reading and declared tags, never through raw metrics.
+  const morningClimate = climates.find((c) => c.when.phase === 'morning');
+  for (const metric of
+    ['temperature_2m', 'cloud_cover', 'wind_speed_10m', 'precipitation']) {
+    assert.equal(morningClimate.data[metric], undefined);
+  }
 
   // Encounters carry how contact happened, not only its outcome.
   const encounter = events.find((e) => e.type === 'encounter');
@@ -147,7 +150,7 @@ test('events declare readings and weather tiers (the tagger contract)', () => {
     events.filter((e) => e.type === 'climate')
       .map((e) => [e.when.phase, e.data]),
   );
-  assert.deepEqual(byPhase.morning.tags, ['weather:windy']);
+  assert.deepEqual(byPhase.morning.tags, ['weather:windy', 'weather:overcast']);
   assert.deepEqual(byPhase.afternoon.tags, ['weather:wet']);
   assert.deepEqual(byPhase.night.tags, ['weather:freezing']);
   assert.equal(typeof byPhase.morning.reading, 'string');

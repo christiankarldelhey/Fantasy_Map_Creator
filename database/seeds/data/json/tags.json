@@ -15,7 +15,7 @@
     "weather": {
       "consumers": ["gating", "memory"],
       "description": { "en": "Weather states — as a gating condition (weather:rain = it is raining) and as an event/memory tag (tag:weather:storm = a storm was lived)", "es": "Estados del clima — como condición de gating (weather:rain = está lloviendo) y como tag de evento/memoria (tag:weather:storm = se vivió una tormenta)" },
-      "values": ["clear", "fog", "frost", "wet", "rain", "snow", "storm", "windy", "freezing", "deep_cold", "scorching"]
+      "values": ["clear", "fog", "overcast", "frost", "wet", "rain", "snow", "storm", "windy", "freezing", "deep_cold", "scorching"]
     },
     "phase": {
       "consumers": ["gating"],
