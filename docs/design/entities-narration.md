@@ -294,6 +294,39 @@ y el código ya lo sabe: `memory.py` los marca "no reading by design" y
   option declara *en qué se fija* (skills, state, race, beliefs…)
   y la mente pesa. Por ahora: funcional, calcado a places.
 
+## Mapeo implementado (converter → loader)
+
+`convert-entities-narration.mjs` genera
+`data/json/entities_narration.json` (1434 records) y
+`seedEntitiesNarration()` lo siembra. Refs estables → FKs
+en seed-time: `entity_slug`→`entities.id`,
+`leg_ref {mover, leg_index}`→`mover_legs.id`
+(los legs se regeneran por reseed; `mover_leg_id` es
+`ON DELETE CASCADE` — el contact muere con el leg y el
+seed lo re-vincula).
+
+| fuente | campo | destino |
+|---|---|---|
+| encounter_forms | entity_type, interaction_form, weight/intensity/min–max_danger/triggers_roll, prose_hint | `kind='form'` mismos campos + `aspect` |
+| npc_interactions | npc_attitude | `disposition` |
+| | concrete_content | `presence` |
+| | tension / traveller_stance | `interactive[].situation` / `.stance` |
+| | topic / topic_prose_hint | `facts.topic` / `channel` |
+| | options + commands | `interactive[0]` (un situation por fila) |
+| | character_id (aranath/celebrian) | `tags: [race:dunedain|elf]` + `payload.legacy_character` |
+| | entity_id/entity_ids/entity_type/region_id/cultural_family/interaction_form | scope 1:1 |
+| | shadow_band | **drop** |
+| entities.csv | description_summary / description | `kind='entity'`: `aspect` / `lore` |
+| movers *.yml | description/motivation/canon/kind/campaign | `ent:mover:{slug}` ficha: `lore`/`notes`/`facts` |
+| | legs[].trace | `cnt:{slug}:leg:{i}` `aspect` |
+| | legs[].beats {variant,title,text,effects} | `variants` (mapeo 1:1) |
+
+Notas: ids de contact `cnt:{uuid-legacy}`; `umli` colisiona
+(pueblo vs individuo) → movers usan `ent:mover:{slug}`.
+36 slugs de mover aún no existen en `entities` → `entity_id`
+NULL transitorio (warn en seed), resuelve cuando `movers`
+migre a `entities`. Nueva familia de tags `race`.
+
 ## Preguntas abiertas (cuando se retome)
 
 1. ¿Cuál es el vocabulario común mínimo de un evento? Candidato:

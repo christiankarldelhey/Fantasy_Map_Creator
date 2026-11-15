@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS entities_narration (
     entity_ids      UUID[],                        -- a band of named beings
     entity_type     TEXT,                          -- 'orcs' | 'eagles' | 'npc'…
     family          TEXT,
-    mover_leg_id    UUID REFERENCES mover_legs(id),-- narrowest: this leg's story
+    mover_leg_id    UUID REFERENCES mover_legs(id) ON DELETE CASCADE, -- dies with the leg; reseed re-links from leg_ref
     region_id       INTEGER REFERENCES regions(id),-- scope region (first of region_ids)
     region_ids      INTEGER[],
     location_id     INTEGER REFERENCES locations(id),

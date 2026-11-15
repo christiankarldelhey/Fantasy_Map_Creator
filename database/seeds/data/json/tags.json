@@ -53,6 +53,10 @@
     "shadow": {
       "description": { "en": "Shadow band", "es": "Banda de sombra" },
       "values": ["clear", "unease", "shadowed", "burdened"]
+    },
+    "race": {
+      "description": { "en": "The traveller's race — gates content written for a people (was character_id in npc_interactions)", "es": "La raza del viajero — filtra contenido escrito para un pueblo (era character_id en npc_interactions)" },
+      "values": ["elf", "dunedain", "hobbit", "dwarf", "human", "orc", "maiar", "ent"]
     }
   }
 }

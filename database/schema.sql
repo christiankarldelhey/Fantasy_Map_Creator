@@ -653,7 +653,7 @@ CREATE TABLE IF NOT EXISTS entities_narration (
     entity_ids      UUID[],
     entity_type     TEXT,
     family          TEXT,
-    mover_leg_id    UUID REFERENCES mover_legs(id),
+    mover_leg_id    UUID REFERENCES mover_legs(id) ON DELETE CASCADE,
     region_id       INTEGER REFERENCES regions(id),
     region_ids      INTEGER[],
     location_id     INTEGER REFERENCES locations(id),
