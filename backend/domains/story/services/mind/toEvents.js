@@ -64,11 +64,16 @@
 
 import { innerClimate, meanOf, sumOf } from '../../adapters/mapClient.js';
 import {
+  summariseWeather,
   weatherReading,
   weatherTags,
 } from '../naturalLanguage/climateNotes.js';
-import { mealLabel } from '../naturalLanguage/mealNotes.js';
+import { describeMeal, mealLabel } from '../naturalLanguage/mealNotes.js';
+import { collectTerrainNotes } from '../naturalLanguage/terrainNotes.js';
+import { collectLocationNotes } from '../naturalLanguage/placeNotes.js';
+import { describeWaterCrossings } from '../naturalLanguage/waterNotes.js';
 import { REST_OPEN_SKY } from '../naturalLanguage/nightNotes.js';
+import { groupByPhase } from '../naturalLanguage/dayPhases.js';
 import { humanize } from '../naturalLanguage/text.js';
 
 function phaseOfHour(hourFloat) {
@@ -100,8 +105,14 @@ function regionOf(day, phase = null) {
   return regions.name || null;
 }
 
-function when(day, extra = {}) {
-  return { episode: day.day_number, date: day.date, ...extra };
+function when(extra = {}) {
+  return Object.fromEntries(
+    Object.entries(extra).filter(([, v]) => v != null)
+  );
+}
+
+function rngOf(day) {
+  return typeof day?.rng === 'function' ? day.rng : Math.random;
 }
 
 function where(region) {
@@ -125,16 +136,18 @@ function climateEvents(day) {
       cloud_cover: meanOf(records.map((w) => w.cloud_cover)),
       wind_speed_10m: meanOf(records.map((w) => w.wind_speed_10m)),
       precipitation: sumOf(records.map((w) => w.precipitation)),
-      hours: records.length,
     };
     const tags = weatherTags(data);
     events.push({
       type: 'climate',
-      when: when(day, { phase }),
+      when: when({ phase }),
       where: where(regionOf(day, phase)),
       data: {
         ...data,
-        reading: weatherReading(data),
+        // The chapter's weather prose IS the memory's reading (ADR-0016):
+        // one verbalization, narrated and remembered alike.
+        reading: summariseWeather(records, rngOf(day))
+          ?? weatherReading(data),
         ...(tags.length ? { tags } : {}),
       },
     });
@@ -180,7 +193,7 @@ function encounterEvents(day) {
     .filter((e) => e && e.entity)
     .map((e) => ({
       type: 'encounter',
-      when: when(day, { phase: e.phase || phaseOfHour(e.hour_float), hour: e.hour_float }),
+      when: when({ phase: e.phase || phaseOfHour(e.hour_float), hour: e.hour_float }),
       where: where(e.region || regionOf(day, e.phase)),
       data: (() => {
         const slug = e.entity.slug || e.entity.name || e.entity.id;
@@ -188,7 +201,6 @@ function encounterEvents(day) {
         const data = {
           entity: slug,
           entity_name: e.entity.name || null,
-          entity_id: e.entity.id,
           entity_type: e.entity.type || e.entity.entity_type || null,
           // Kind-of-being between type and entity (foxes within
           // carnivores) — attitudes match entity > family > type.
@@ -197,7 +209,11 @@ function encounterEvents(day) {
           // How contact happened matters more than its mechanical result:
           // 'sign_only' is a different experience than 'confronts'.
           form: e.interaction?.form ?? null,
-          prose_hint: e.interaction?.prose_hint ?? null,
+          // prose_hint only rides when no dialogue resolved — where a
+          // substance.content exists it would say the same prose twice.
+          prose_hint: e.interaction?.dialogue_content
+            ? undefined
+            : e.interaction?.prose_hint ?? null,
           intensity: e.interaction?.intensity ?? null,
           // C16: the substance of contact. 'topic' is tag material
           // ('news_and_rumor' recurring is a theme); 'substance' is
@@ -284,7 +300,7 @@ function mealEvents(day) {
     const food = m.food?.name || m.food || null;
     return {
       type: 'meal',
-      when: when(day, {
+      when: when({
         phase: SLOT_PHASE[m.slot] || m.phase || phaseOfHour(m.hour_float),
       }),
       where: where(regionOf(day)),
@@ -294,8 +310,11 @@ function mealEvents(day) {
         eaten: food != null || m.itemId != null || m.slug === 'tavern_meal',
         food,
         drink: m.drink?.name || m.drink || null,
-        reading: [mealLabel(food), mealLabel(m.drink?.name || m.drink)]
-          .filter(Boolean).join(', ') || null,
+        // The narrator's meal prose is the memory's reading — including
+        // the hungry variants when the table was empty.
+        reading: describeMeal(m, rngOf(day))
+          || [mealLabel(food), mealLabel(m.drink?.name || m.drink)]
+            .filter(Boolean).join(', ') || null,
         // C28: food the world provided — an encounter gift or a shelter
         // table — weighs more than another ration from the pack.
         tags: m.provided ? ['given'] : undefined,
@@ -321,7 +340,7 @@ function placeEvents(day) {
       type: 'place',
       // A distant place enters awareness when it is first sighted on the
       // horizon, not at the leg's closest approach.
-      when: when(day, { phase: loc.phase || phaseOfHour(loc.sighted ? loc.sighted_hour_float : loc.hour_float) }),
+      when: when({ phase: loc.phase || phaseOfHour(loc.sighted ? loc.sighted_hour_float : loc.hour_float) }),
       where: where(loc.region || regionOf(day)),
       data: {
         name: loc.name || loc.id,
@@ -336,7 +355,10 @@ function placeEvents(day) {
         sighted: loc.sighted
           ? { hour_float: loc.sighted_hour_float ?? null, direction: loc.sighted_direction ?? null }
           : undefined,
-        reading: loc.name || loc.id || null,
+        // The narrator's place line (name, proximity, authored aspect) is
+        // also the memory's reading.
+        reading: (collectLocationNotes([loc])[0] || '')
+          .replace(/^- /, '') || loc.name || loc.id || null,
         tags: tags.length ? tags : undefined,
       },
     };
@@ -363,7 +385,7 @@ function regionEvents(day, previousDay) {
       const hourFloat = typeof r === 'object' ? r.first_seen_hour_float : null;
       return {
         type: 'region',
-        when: when(day, {
+        when: when({
           phase: hourFloat == null || hourFloat < 13 ? 'morning' : 'afternoon',
           hour: hourFloat ?? undefined,
         }),
@@ -379,13 +401,49 @@ function regionEvents(day, previousDay) {
     });
 }
 
+// One terrain event per phase the road crossed — the narrator's terrain
+// prose for that phase is also the memory's reading.
+function terrainEvents(day) {
+  const biomesByPhase = groupByPhase(day.biomes);
+  const events = [];
+  for (const phase of ['morning', 'afternoon', 'night']) {
+    const biomes = biomesByPhase[phase] || [];
+    if (!biomes.length) continue;
+    const notes = collectTerrainNotes(
+      biomes, [], day.regions, day.terrain_phrases, rngOf(day)
+    );
+    events.push({
+      type: 'terrain',
+      when: when({ phase }),
+      where: where(regionOf(day, phase)),
+      data: {
+        biomes: biomes
+          .map((b) => ({ type: b?.type || b?.name || null, hour_float: b?.hour_float ?? null }))
+          .slice(0, 6),
+        reading: notes.join(' ') || biomes[0]?.type || null,
+      },
+    });
+  }
+  if (!events.length && day.terrain_phrases) {
+    const phrases = Object.values(day.terrain_phrases || {})
+      .flatMap((r) => Object.values(r)).flat().slice(0, 6);
+    events.push({
+      type: 'terrain',
+      when: when(),
+      where: where(regionOf(day)),
+      data: { terrain_phrases: phrases, reading: phrases[0] ?? null },
+    });
+  }
+  return events;
+}
+
 function waterEvents(day) {
   return (day.water_crossings || []).map((w) => ({
     type: 'water',
-    when: when(day, { phase: w.phase || phaseOfHour(w.hour_float) }),
+    when: when({ phase: w.phase || phaseOfHour(w.hour_float) }),
     where: where(w.region || regionOf(day)),
     data: { name: w.name || null, kind: w.type || null,
-            reading: w.name || null },
+            reading: describeWaterCrossings([w], rngOf(day)) || w.name || null },
   }));
 }
 
@@ -405,7 +463,7 @@ function momentEvents(day) {
     .filter((a) => a?.text)
     .map((a) => ({
       type: 'moment',
-      when: when(day),
+      when: when(),
       where: where(regionOf(day)),
       data: {
         record: a.record_id ?? null,
@@ -430,7 +488,7 @@ function restEvent(day) {
   if (day.overnight_location?.indoor && !lodging.turnedAway) tags.push('indoor');
   return {
     type: 'rest',
-    when: when(day, { phase: 'night' }),
+    when: when({ phase: 'night' }),
     where: where(regionOf(day)),
     data: {
       rest_quality: overnight.rest_quality ?? null,
@@ -463,7 +521,7 @@ function bodyEvent(day, stateContext) {
   if (!startState && !endState) return null;
   return {
     type: 'body',
-    when: when(day),
+    when: when(),
     data: {
       // Facets declare 0-1; state is 0-100 in the game DB.
       energy: (endState?.energy ?? startState?.energy ?? 100) / 100,
@@ -495,7 +553,7 @@ export function toEvents({ day, trip, character, stateContext, previousDay }) {
     ...(day.distance_km
       ? [{
           type: 'travel',
-          when: when(day),
+          when: when(),
           where: where(regionOf(day)),
           data: {
             distance_km: day.distance_km,
@@ -503,27 +561,7 @@ export function toEvents({ day, trip, character, stateContext, previousDay }) {
           },
         }]
       : []),
-    ...(day.terrain_phrases
-      ? [{
-          type: 'terrain',
-          when: when(day),
-          where: where(regionOf(day)),
-          data: {
-            // terrain_phrases is {region: {category: [phrases]}} — two
-            // levels of nesting before the strings.
-            terrain_phrases: Object.values(day.terrain_phrases || {})
-              .flatMap((r) => Object.values(r))
-              .flat()
-              .slice(0, 6),
-            biomes: (day.biomes || [])
-              .map((b) => ({ type: b?.type || b?.name || null, hour_float: b?.hour_float ?? null }))
-              .slice(0, 6),
-            reading: Object.values(day.terrain_phrases || {})
-              .flatMap((r) => Object.values(r)).flat()[0]
-              || (day.biomes || [])[0]?.type || null,
-          },
-        }]
-      : []),
+    ...terrainEvents(day),
     ...encounterEvents(day),
     ...mealEvents(day),
     ...placeEvents(day),

@@ -47,8 +47,8 @@ def _open(client, char, ref, when_episode):
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': {'id': char},
         'episode_ref': ref, 'events': [_event(when_episode)],
-        'day': {'day_number': when_episode, 'date': '1950-06-01'},
-        'trip_name': 'T', 'language': 'english',
+        'episode': {'at': '1950-06-01'},
+        'arc': 'T', 'language': 'english',
     })
     assert r.status_code == 200, r.text
     return r.json()

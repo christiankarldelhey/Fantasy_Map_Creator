@@ -43,13 +43,19 @@ def narrate_day(
     impressions=None,
     memory_beats=None,
     world_notes=None,
+    events=None,
 ):
     day = day or {}
     trip = trip or {}
     character = character or {}
 
-    # ADR-0016: world_notes is a canonical wire channel; a v2 caller may
-    # send it top-level instead of nested in `day`.
+    # The world's voice reaches the prompt through two channels
+    # (ADR-0016): `events` carry the per-phase lived prose (weather,
+    # meals, terrain, places, water as data.reading); `world_notes` —
+    # or the episode's narration_notes — carries what is no lived
+    # event (climate continuity, the camp lead-in, lands, equipage,
+    # end state, journey context). The stateless path sends only
+    # world_notes; an episode narrates from its own events.
     world_notes = world_notes if world_notes is not None else (
         day.get('world_notes') or {}
     )
@@ -71,6 +77,7 @@ def narrate_day(
         mind_block=mind_block,
         memory_beats=memory_beats,
         world_notes=world_notes,
+        events=events,
     )
 
     generation = generate_narrative(prompt, day.get('day_number'))

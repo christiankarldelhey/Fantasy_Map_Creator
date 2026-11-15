@@ -28,7 +28,7 @@ def _uid(prefix):
 def _open(client, char, events, ref='d1'):
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': {'id': char},
-        'episode_ref': ref, 'events': events, 'day': {},
+        'episode_ref': ref, 'events': events,
     })
     assert r.status_code == 200, r.text
     return r.json()

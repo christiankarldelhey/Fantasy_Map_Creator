@@ -38,7 +38,7 @@ def _open(client, char, events):
         'game_id': 'middle_earth',
         'character': {'id': char},
         'episode_ref': 'd1',
-        'events': events, 'day': {},
+        'events': events,
     })
     assert r.status_code == 200, r.text
     return r.json()['psyche_packet']['perceived_day'][0]
@@ -101,7 +101,6 @@ def test_severity_tag_wiring_is_generic(client):
             'when': {'episode': 1, 'date': '1950-04-15'},
             'data': {'entity': 'wolves', 'tags': ['omen-of-war']},
         }],
-        'day': {},
     })
     assert r.status_code == 200
     # The tag exists but carries no floor by default — severity stays 0.

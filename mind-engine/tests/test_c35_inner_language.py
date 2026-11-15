@@ -86,7 +86,7 @@ def _open_with_memory(client):
     char = f'inner-{uuid.uuid4().hex[:8]}'
     first = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': {'id': char},
-        'episode_ref': 'd1', 'day': {'day_number': 1, 'date': '1950-06-01'},
+        'episode_ref': 'd1', 'episode': {'index': 1, 'at': '1950-06-01'},
         'events': [{
             'type': 'encounter',
             'when': {'episode': 1, 'date': '1950-06-01'},
@@ -98,7 +98,7 @@ def _open_with_memory(client):
     client.post(f"/episodes/{first['episode_id']}/close", json={'outcome': {}})
     second = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': {'id': char},
-        'episode_ref': 'd2', 'day': {'day_number': 2, 'date': '1950-06-02'},
+        'episode_ref': 'd2', 'episode': {'index': 2, 'at': '1950-06-02'},
         'events': [{
             'type': 'encounter',
             'when': {'episode': 2, 'date': '1950-06-02'},

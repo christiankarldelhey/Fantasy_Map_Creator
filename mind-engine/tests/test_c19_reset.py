@@ -45,7 +45,6 @@ def _open(client, character_id, preset):
                      'entity_type': 'humans', 'form': 'brief_exchange',
                      'danger': 0.0, 'noticed': True},
         }],
-        'day': {},
     })
     assert r.status_code == 200, r.text
     return r.json()

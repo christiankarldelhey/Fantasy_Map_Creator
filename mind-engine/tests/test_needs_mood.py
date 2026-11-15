@@ -30,7 +30,6 @@ def _open_and_close(client, char, ref, events):
         'character': {'id': char},
         'episode_ref': ref,
         'events': events,
-        'day': {},
     })
     assert r.status_code == 200, r.text
     c = client.post(f"/episodes/{r.json()['episode_id']}/close", json={})

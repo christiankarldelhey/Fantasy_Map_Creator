@@ -116,7 +116,19 @@ export async function narrateDay({
   const response = await fetch(`${MIND_ENGINE_URL}/narrate-day`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(toNarrateDayBody(openBody)),
+    // The stateless contract is its own — built from the resolved day,
+    // not re-mapped from the episode wire.
+    body: JSON.stringify(toNarrateDayBody({
+      day,
+      trip,
+      character,
+      language,
+      characterState,
+      equipmentState,
+      fate,
+      previousDay,
+      recentDayClimates,
+    })),
   });
 
   if (!response.ok) {

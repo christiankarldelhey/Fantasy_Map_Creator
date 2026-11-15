@@ -54,8 +54,8 @@ def _live(client, char, n, name='Ilmare'):
             'skills': {'lore': 7},
         },
         'episode_ref': f'd{n}', 'events': [_encounter(n)],
-        'day': {'day_number': n, 'date': f'1950-06-0{n}'},
-        'trip_name': 'T', 'language': 'english',
+        'episode': {'index': n, 'at': f'1950-06-0{n}'},
+        'arc': 'T', 'language': 'english',
     })
     assert r.status_code == 200, r.text
     return r.json()['episode_id']
@@ -172,7 +172,7 @@ def test_card_edit_writes_the_minds_copy(client):
     client.post('/episodes', json={
         'game_id': 'middle_earth',
         'character': {'id': char, 'system_prompt': 'Wire says otherwise.'},
-        'episode_ref': 'd2', 'events': [], 'day': {},
+        'episode_ref': 'd2', 'events': [],
     })
     session = SessionLocal()
     ep = (

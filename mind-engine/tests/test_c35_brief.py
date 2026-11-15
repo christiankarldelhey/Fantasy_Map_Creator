@@ -181,7 +181,7 @@ def test_the_focus_encodes_a_little_stronger():
     char = f'focusmem-{uuid.uuid4().hex[:8]}'
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': {'id': char},
-        'episode_ref': 'd1', 'day': {},
+        'episode_ref': 'd1',
         'events': [{
             'type': 'encounter',
             'when': {'episode': 1, 'date': '1950-10-08', 'phase': 'afternoon'},

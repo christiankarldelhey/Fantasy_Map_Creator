@@ -120,7 +120,6 @@ def test_open_uses_the_director_when_enabled(monkeypatch):
                      'entity_type': 'orcs', 'form': 'attacks', 'danger': 4,
                      'prose_hint': 'orc boots, a pursuit gait'},
         }],
-        'day': {},
     })
     assert r.status_code == 200, r.text
     brief = r.json()['psyche_packet']['brief']

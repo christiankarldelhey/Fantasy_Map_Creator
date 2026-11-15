@@ -12,7 +12,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 import app.main as main_module
-from app.mind.models import DayPayload
+from app.mind.models import EventIn
 
 
 @pytest.fixture()
@@ -20,26 +20,31 @@ def client():
     return TestClient(main_module.app)
 
 
-def test_day_payload_accepts_lodging_and_rich_locations():
-    # Regression: DayPayload is extra='forbid' — a settlement day must not
-    # 422 the episode open.
-    day = DayPayload(**{
-        'date': '1950-10-09',
-        'day_number': 4,
-        'is_last_day': True,
-        'lodging': {
-            'paid': True, 'cost': 5, 'coinsAfter': 12,
-            'place': 'Esgaroth',
+def test_event_wire_accepts_lodging_and_rich_places():
+    # The settlement's facts ride events[].data — free-form by contract:
+    # how the night was secured and a town 'entered', not passed.
+    rest = EventIn(**{
+        'type': 'rest',
+        'when': {'phase': 'night'},
+        'data': {
+            'place': 'Esgaroth', 'rest_quality': 3,
+            'lodging': {
+                'paid': True, 'cost': 5, 'coinsAfter': 12,
+                'place': 'Esgaroth',
+            },
         },
-        'locations': [{
-            'name': 'Esgaroth', 'type': 'town', 'region': 'Rhovanion',
-            'description_es': 'Una ciudad lacustre sobre el Lago Largo.',
+    })
+    place = EventIn(**{
+        'type': 'place',
+        'when': {'phase': 'morning'},
+        'data': {
+            'name': 'Esgaroth', 'kind': 'town', 'region': 'Rhovanion',
             'population': 910, 'inhabitants': 'lake-men',
             'indoor': True, 'entered': True, 'distance_km': 0.01,
-        }],
+        },
     })
-    assert day.lodging['paid'] is True
-    assert day.locations[0].entered is True
+    assert rest.data['lodging']['paid'] is True
+    assert place.data['entered'] is True
 
 
 def test_open_with_settlement_day_perceives_place_and_rest(client):
@@ -48,10 +53,11 @@ def test_open_with_settlement_day_perceives_place_and_rest(client):
         'game_id': 'middle_earth',
         'character': {'id': f'settle-{uuid.uuid4().hex[:8]}'},
         'episode_ref': ref,
+        'episode': {'index': 4, 'at': '1950-10-09'},
         'events': [
             {
                 'type': 'place',
-                'when': {'episode': 4, 'phase': 'morning', 'date': '1950-10-09'},
+                'when': {'phase': 'morning'},
                 'where': {'region': 'Rhovanion'},
                 'data': {
                     'name': 'Esgaroth', 'kind': 'town', 'population': 910,
@@ -62,7 +68,7 @@ def test_open_with_settlement_day_perceives_place_and_rest(client):
             },
             {
                 'type': 'rest',
-                'when': {'episode': 4, 'phase': 'night', 'date': '1950-10-09'},
+                'when': {'phase': 'night'},
                 'where': {'region': 'Rhovanion'},
                 'data': {
                     'place': 'Esgaroth', 'rest_quality': 3,
@@ -71,7 +77,6 @@ def test_open_with_settlement_day_perceives_place_and_rest(client):
                 },
             },
         ],
-        'day': {'day_number': 4, 'lodging': {'paid': True, 'place': 'Esgaroth'}},
     })
     assert r.status_code == 200, r.text
     perceived = r.json()['psyche_packet']['perceived_day']

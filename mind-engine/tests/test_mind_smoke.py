@@ -42,7 +42,6 @@ def _open(client, character_id, ref, events, preset=None):
         'character': character,
         'episode_ref': ref,
         'events': events,
-        'day': {},
     })
     assert r.status_code == 200, r.text
     return r.json()
@@ -195,8 +194,8 @@ def test_narrate_episode_injects_mind(client, monkeypatch):
         'game_id': 'middle_earth', 'character': {'id': char, 'name': 'Tester'},
         'episode_ref': 'd3',
         'events': [MEAL_EVENT],
-        'day': {'day_number': 3, 'date': '1950-01-21'},
-        'trip_name': 'T',
+        'episode': {'index': 3, 'at': '1950-01-21'},
+        'arc': 'T',
         'language': 'english',
     }
     r = client.post('/episodes', json=payload)
