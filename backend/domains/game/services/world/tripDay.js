@@ -228,11 +228,15 @@ async function entitiesForRegion(regionName) {
   // breaking every encounter roll.
   try {
     const { rows } = await pool.query(
-      `SELECT e.id, e.name, e.slug, e.type, e.active, e.danger, e.description, e.description_summary, e.url_path,
+      `SELECT e.id, e.name, e.slug, e.type, e.active, e.danger, e.url_path,
               e.biomes, e.probability_by_region, e.shadow_weight,
-              COALESCE(e.family, p.slug) AS family
+              COALESCE(e.family, p.slug) AS family,
+              en.lore->>'en'   AS description,
+              en.aspect->>'en' AS description_summary
        FROM entities e
        LEFT JOIN entities p ON p.id = e.parent_id
+       LEFT JOIN entities_narration en
+              ON en.entity_id = e.id AND en.kind = 'entity'
        WHERE EXISTS (
          SELECT 1 FROM jsonb_array_elements(e.probability_by_region) pbr
          WHERE pbr->>'region' = $1
@@ -243,11 +247,15 @@ async function entitiesForRegion(regionName) {
   } catch (err) {
     if (err.code !== '42703') throw err; // undefined_column only
     const { rows } = await pool.query(
-      `SELECT id, name, slug, type, active, danger, description, description_summary, url_path,
-              biomes, probability_by_region, shadow_weight
-       FROM entities
+      `SELECT e.id, e.name, e.slug, e.type, e.active, e.danger, e.url_path,
+              e.biomes, e.probability_by_region, e.shadow_weight,
+              en.lore->>'en'   AS description,
+              en.aspect->>'en' AS description_summary
+       FROM entities e
+       LEFT JOIN entities_narration en
+              ON en.entity_id = e.id AND en.kind = 'entity'
        WHERE EXISTS (
-         SELECT 1 FROM jsonb_array_elements(probability_by_region) e
+         SELECT 1 FROM jsonb_array_elements(e.probability_by_region) e
          WHERE e->>'region' = $1
        )`,
       [regionName]

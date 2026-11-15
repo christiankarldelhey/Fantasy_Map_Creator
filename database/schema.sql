@@ -411,8 +411,6 @@ CREATE TABLE IF NOT EXISTS entities (
     active VARCHAR(50) DEFAULT 'all-day',  -- Activity pattern: 'day', 'night', 'all-day'
     tier VARCHAR(50),  -- Entity tier (e.g., encounter, etc.)
     parent_id UUID REFERENCES entities(id) ON DELETE SET NULL,  -- Parent entity for hierarchical relationships
-    description TEXT,
-    description_summary TEXT,  -- Summary description of the entity (used for encounter prompts)
     
     -- Multimedia
     url_path TEXT,  -- Path to image file (NULL for now)
@@ -450,10 +448,8 @@ COMMENT ON COLUMN entities.name IS 'Display name of the entity';
 COMMENT ON COLUMN entities.slug IS 'URL-friendly unique identifier (lowercase with underscores)';
 COMMENT ON COLUMN entities.type IS 'Entity type category';
 COMMENT ON COLUMN entities.active IS 'Activity pattern: day, night, or all-day';
-COMMENT ON COLUMN entities.tier IS 'Entity tier (e.g., encounter, etc.)';
+COMMENT ON COLUMN entities.tier IS 'Entity tier: encounter (procedural pool), group, mover (being with an agenda)';
 COMMENT ON COLUMN entities.parent_id IS 'Parent entity for hierarchical relationships';
-COMMENT ON COLUMN entities.description IS 'Detailed description of the entity';
-COMMENT ON COLUMN entities.description_summary IS 'Summary description of the entity (used for encounter prompts)';
 COMMENT ON COLUMN entities.url_path IS 'Path to image file (NULL for now)';
 COMMENT ON COLUMN entities.region_ids IS 'Array of region IDs where this entity can be found';
 COMMENT ON COLUMN entities.biomes IS 'Array of biome names where this entity can be found';
@@ -538,7 +534,7 @@ COMMENT ON COLUMN character_state.system_prompt IS 'Custom narrator voice instru
 COMMENT ON COLUMN character_state.introduction_instructions IS 'Custom introduction instructions for this character (replaces default introduction)';
 
 -- ============================================================================
--- Tables: mover_legs, mover_beats, mover_trails
+-- Tables: mover_legs, mover_trails
 -- Purpose: Living Map — authored beings whose reach is a function of the
 --          in-world date (TA 3017-3018). Immutable seed data. Identity lives
 --          in entities (tier='mover'); the old `movers` table is gone.
@@ -597,18 +593,6 @@ CREATE INDEX IF NOT EXISTS idx_mover_legs_campaign ON mover_legs(campaign_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_region   ON mover_legs(region_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_location ON mover_legs(location_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_dates    ON mover_legs(date_from, date_to);
-
-CREATE TABLE IF NOT EXISTS mover_beats (
-    id       UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    leg_id   UUID NOT NULL REFERENCES mover_legs(id) ON DELETE CASCADE,
-    variant  TEXT NOT NULL DEFAULT 'base',
-    title    VARCHAR(255),
-    text     TEXT NOT NULL,
-    effects  JSONB NOT NULL DEFAULT '{}'::jsonb,
-    created_at TIMESTAMP DEFAULT NOW(),
-    UNIQUE (leg_id, variant)
-);
-CREATE INDEX IF NOT EXISTS idx_mover_beats_leg ON mover_beats(leg_id);
 
 CREATE TABLE IF NOT EXISTS mover_trails (
     id      BIGSERIAL PRIMARY KEY,
