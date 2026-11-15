@@ -61393,7 +61393,7 @@
     "es": "La ciudad del maíz"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -61517,7 +61517,7 @@
     "es": "La posada del cruce"
    },
    "type": {
-    "en": null,
+    "en": "wayside inn",
     "es": "posada de camino"
    },
    "priority": 0,
@@ -61641,7 +61641,7 @@
     "es": "El segundo cruce de Waymoot"
    },
    "type": {
-    "en": null,
+    "en": "wayside inn",
     "es": "posada de camino"
    },
    "priority": 0,
@@ -61687,7 +61687,7 @@
     "es": "El pueblo de la rana"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -61811,7 +61811,7 @@
     "es": "El pueblo de los champiñones"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -61934,7 +61934,7 @@
     "es": "El pueblo del agua clara"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -62039,7 +62039,7 @@
     "es": "El pueblo escondido en el bosque"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -62135,7 +62135,7 @@
     "es": "El pueblo que no quiere gente grande"
    },
    "type": {
-    "en": null,
+    "en": "wary village",
     "es": "aldea recelosa"
    },
    "priority": 0,
@@ -62226,7 +62226,7 @@
     "es": "El desembarcadero de los ribereños"
    },
    "type": {
-    "en": null,
+    "en": "river camp",
     "es": "campamento fluvial"
    },
    "priority": 0,
@@ -62336,7 +62336,7 @@
     "es": "El pueblo de las minas enanas"
    },
    "type": {
-    "en": null,
+    "en": "mining town",
     "es": "pueblo minero"
    },
    "priority": 0,
@@ -62456,7 +62456,7 @@
     "es": "El pueblo de los cortadores"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -62548,7 +62548,7 @@
     "es": "El pueblo de los sauces"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -62645,7 +62645,7 @@
     "es": "La escala del río"
    },
    "type": {
-    "en": null,
+    "en": "river village",
     "es": "aldea fluvial"
    },
    "priority": 0,
@@ -62742,7 +62742,7 @@
     "es": "El valle de las flores y los huesos"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -62857,7 +62857,7 @@
     "es": "La casa de los Took"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -62949,7 +62949,7 @@
     "es": "El pueblo del mercado Took"
    },
    "type": {
-    "en": null,
+    "en": "market town",
     "es": "pueblo de mercado"
    },
    "priority": 0,
@@ -63066,7 +63066,7 @@
     "es": "El pueblo de las dos gentes"
    },
    "type": {
-    "en": null,
+    "en": "divided village",
     "es": "aldea dividida"
    },
    "priority": 0,
@@ -63186,7 +63186,7 @@
     "es": "El pueblo fundado por hombres de Bree"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -63282,7 +63282,7 @@
     "es": "La aldea de los smials"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -63373,7 +63373,7 @@
     "es": "El pueblo de fama ruda"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -63468,7 +63468,7 @@
     "es": "El pueblo ordenado del Celgalen"
    },
    "type": {
-    "en": null,
+    "en": "city",
     "es": "ciudad"
    },
    "priority": 0,
@@ -63585,7 +63585,7 @@
     "es": "El pueblo del único puente"
    },
    "type": {
-    "en": null,
+    "en": "city",
     "es": "ciudad"
    },
    "priority": 0,
@@ -63702,7 +63702,7 @@
     "es": "El pueblo de la feria de lana"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -63822,7 +63822,7 @@
     "es": "La torre de luz de los elfos"
    },
    "type": {
-    "en": null,
+    "en": "elven tower",
     "es": "torre élfica"
    },
    "priority": 0,
@@ -63919,7 +63919,7 @@
     "es": "La hacienda de los Bannor"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -64012,7 +64012,7 @@
     "es": "La casa del Cáno"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -64104,7 +64104,7 @@
     "es": "La casa de los cerros"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -64196,7 +64196,7 @@
     "es": "La aldea de las hierbas"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -64307,7 +64307,7 @@
     "es": "La aldea del grano y la madera"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -64400,7 +64400,7 @@
     "es": "La escala del paso"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -64517,7 +64517,7 @@
     "es": "La aldea de los curanderos"
    },
    "type": {
-    "en": null,
+    "en": "clan village",
     "es": "aldea de clan"
    },
    "priority": 0,
@@ -64629,7 +64629,7 @@
     "es": "El fuego antiguo"
    },
    "type": {
-    "en": null,
+    "en": "clan fortress",
     "es": "fortaleza de clan"
    },
    "priority": 0,
@@ -64741,7 +64741,7 @@
     "es": "El pueblo del toro de piedra"
    },
    "type": {
-    "en": null,
+    "en": "temple town",
     "es": "pueblo-templo"
    },
    "priority": 0,
@@ -64857,7 +64857,7 @@
     "es": "El campamento de los Rangers entre las piedras"
    },
    "type": {
-    "en": null,
+    "en": "inhabited ruin",
     "es": "ruina habitada"
    },
    "priority": 0,
@@ -64950,7 +64950,7 @@
     "es": "El peaje oscuro"
    },
    "type": {
-    "en": null,
+    "en": "ruin",
     "es": "ruina"
    },
    "priority": 0,
@@ -65041,7 +65041,7 @@
     "es": "La colina entre los huecos"
    },
    "type": {
-    "en": null,
+    "en": "ruin",
     "es": "ruina"
    },
    "priority": 0,
@@ -65128,7 +65128,7 @@
     "es": "El pueblo que los dunlendings no pisan"
    },
    "type": {
-    "en": null,
+    "en": "cursed ruin",
     "es": "ruina maldita"
    },
    "priority": 0,
@@ -65219,7 +65219,7 @@
     "es": "El valle de las rosas"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -65334,7 +65334,7 @@
     "es": "La taberna del Riachuelo Alegre"
    },
    "type": {
-    "en": null,
+    "en": "mountain village",
     "es": "aldea de montaña"
    },
    "priority": 0,
@@ -65452,7 +65452,7 @@
     "es": "El pueblo frente a la fortaleza"
    },
    "type": {
-    "en": null,
+    "en": "garrison town",
     "es": "pueblo de guarnición"
    },
    "priority": 0,
@@ -65571,7 +65571,7 @@
     "es": "El pueblo del ferry del Caranthôn"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -65670,7 +65670,7 @@
     "es": "La villa del oeste"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -65769,7 +65769,7 @@
     "es": "El pueblo al borde del bosque que mira"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -65891,7 +65891,7 @@
     "es": "El solar de los Astorion"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -65985,7 +65985,7 @@
     "es": "La casa que fue de los Astorion"
    },
    "type": {
-    "en": null,
+    "en": "declining seat",
     "es": "solar en declive"
    },
    "priority": 0,
@@ -66079,7 +66079,7 @@
     "es": "El pueblo del puerto de sal"
    },
    "type": {
-    "en": null,
+    "en": "port village",
     "es": "pueblo portuario"
    },
    "priority": 0,
@@ -66198,7 +66198,7 @@
     "es": "La parada del camino de la costa"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -66298,7 +66298,7 @@
     "es": "El pueblo del cisne"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -66417,7 +66417,7 @@
     "es": "El pueblo del valle en sombra"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -66516,7 +66516,7 @@
     "es": "El único paso pavimentado del cabo"
    },
    "type": {
-    "en": null,
+    "en": "mountain pass",
     "es": "paso de montaña"
    },
    "priority": 0,
@@ -66611,7 +66611,7 @@
     "es": "La aldea de los despojos antiguos"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -66729,7 +66729,7 @@
     "es": "El pueblo del viento salado"
    },
    "type": {
-    "en": null,
+    "en": "coastal town",
     "es": "pueblo costero"
    },
    "priority": 0,
@@ -66824,7 +66824,7 @@
     "es": "El pueblo del condado"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -66923,7 +66923,7 @@
     "es": "La aldea del barón del Gilrain"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -67022,7 +67022,7 @@
     "es": "La parada de Ráma"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -67121,7 +67121,7 @@
     "es": "El pueblo entre las granjas"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -67219,7 +67219,7 @@
     "es": "La ciudad del cruce del Erui"
    },
    "type": {
-    "en": null,
+    "en": "city",
     "es": "ciudad"
    },
    "priority": 0,
@@ -67339,7 +67339,7 @@
     "es": "La ciudad del abedul plateado"
    },
    "type": {
-    "en": null,
+    "en": "city",
     "es": "ciudad"
    },
    "priority": 0,
@@ -67440,7 +67440,7 @@
     "es": "El pueblo que los corsarios no logran quitar"
    },
    "type": {
-    "en": null,
+    "en": "fishing town",
     "es": "pueblo pesquero"
    },
    "priority": 0,
@@ -67559,7 +67559,7 @@
     "es": "La escala entre Brethil y Linhir"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -67658,7 +67658,7 @@
     "es": "El asiento de los Luindol"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -67753,7 +67753,7 @@
     "es": "El pueblo del valle"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -67851,7 +67851,7 @@
     "es": "La posada del Camino Real"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -67950,7 +67950,7 @@
     "es": "El asiento de los Gilraen"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -68045,7 +68045,7 @@
     "es": "La caleta de los pescadores"
    },
    "type": {
-    "en": null,
+    "en": "fishing town",
     "es": "pueblo pesquero"
    },
    "priority": 0,
@@ -68140,7 +68140,7 @@
     "es": "El pueblo de los elfos del mar"
    },
    "type": {
-    "en": null,
+    "en": "elven settlement",
     "es": "asentamiento élfico"
    },
    "priority": 0,
@@ -68239,7 +68239,7 @@
     "es": "La posada del castillo del Serni"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -68339,7 +68339,7 @@
     "es": "La hacienda de los Tâlhir"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -68434,7 +68434,7 @@
     "es": "La posada de la muralla nueva"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -68533,7 +68533,7 @@
     "es": "La aldea fortificada del delta"
    },
    "type": {
-    "en": null,
+    "en": "fortified village",
     "es": "aldea fortificada"
    },
    "priority": 0,
@@ -68628,7 +68628,7 @@
     "es": "La cala que no quiere miradas"
    },
    "type": {
-    "en": null,
+    "en": "fishing village",
     "es": "aldea de pescadores"
    },
    "priority": 0,
@@ -68723,7 +68723,7 @@
     "es": "La bahía que no sale al mar"
    },
    "type": {
-    "en": null,
+    "en": "fishing village",
     "es": "aldea de pescadores"
    },
    "priority": 0,
@@ -68818,7 +68818,7 @@
     "es": "El caserío del río Engui"
    },
    "type": {
-    "en": null,
+    "en": "hamlet",
     "es": "caserío"
    },
    "priority": 0,
@@ -68913,7 +68913,7 @@
     "es": "El fuerte que los dunir siguen usando"
    },
    "type": {
-    "en": null,
+    "en": "half-occupied fort",
     "es": "fuerte semiocupado"
    },
    "priority": 0,
@@ -69007,7 +69007,7 @@
     "es": "El castillo-hacienda de los Maldring"
    },
    "type": {
-    "en": null,
+    "en": "castle",
     "es": "castillo"
    },
    "priority": 0,
@@ -69103,7 +69103,7 @@
     "es": "El último refugio antes del cabo"
    },
    "type": {
-    "en": null,
+    "en": "port village",
     "es": "aldea portuaria"
    },
    "priority": 0,
@@ -69199,7 +69199,7 @@
     "es": "La Fortaleza del Eco"
    },
    "type": {
-    "en": null,
+    "en": "beacon",
     "es": "almenara"
    },
    "priority": 0,
@@ -69294,7 +69294,7 @@
     "es": "La Guarda de las Hayas"
    },
    "type": {
-    "en": null,
+    "en": "castle",
     "es": "castillo"
    },
    "priority": 0,
@@ -69390,7 +69390,7 @@
     "es": "La casa de Osgar"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -69485,7 +69485,7 @@
     "es": "La aldea de Druabad"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -69579,7 +69579,7 @@
     "es": "El solar del valle arbolado"
    },
    "type": {
-    "en": null,
+    "en": "manor house",
     "es": "casa señorial"
    },
    "priority": 0,
@@ -69674,7 +69674,7 @@
     "es": "La ciudad que el campo se tragó"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -69765,7 +69765,7 @@
     "es": "El pueblo sin nombre de la costa"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -69863,7 +69863,7 @@
     "es": "La aldea de Limmon"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -69957,7 +69957,7 @@
     "es": "La aldea de Calenin"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -70051,7 +70051,7 @@
     "es": "La fortaleza orca que no se vació"
    },
    "type": {
-    "en": null,
+    "en": "occupied orc hold",
     "es": "plaza orca ocupada"
    },
    "priority": 0,
@@ -70130,7 +70130,7 @@
     "es": "El pueblo-cuartel que sigue sirviendo"
    },
    "type": {
-    "en": null,
+    "en": "enemy post",
     "es": "puesto enemigo"
    },
    "priority": 0,
@@ -70209,7 +70209,7 @@
     "es": "La atalaya que sigue encendida"
    },
    "type": {
-    "en": null,
+    "en": "enemy watchtower",
     "es": "atalaya enemiga"
    },
    "priority": 0,
@@ -70288,7 +70288,7 @@
     "es": "La fortaleza negra que sigue mirando"
    },
    "type": {
-    "en": null,
+    "en": "enemy fortress",
     "es": "fortaleza enemiga"
    },
    "priority": 0,
@@ -70363,7 +70363,7 @@
     "es": "El Viento de Hierro, todavía afilado"
    },
    "type": {
-    "en": null,
+    "en": "enemy fortress",
     "es": "fortaleza enemiga"
    },
    "priority": 0,
@@ -70438,7 +70438,7 @@
     "es": "El castillo robado, aún ocupado"
    },
    "type": {
-    "en": null,
+    "en": "enemy castle",
     "es": "castillo enemigo"
    },
    "priority": 0,
@@ -70536,7 +70536,7 @@
     "es": "La fortaleza de la llanura, aún mandando"
    },
    "type": {
-    "en": null,
+    "en": "enemy fortress",
     "es": "fortaleza enemiga"
    },
    "priority": 0,
@@ -70615,7 +70615,7 @@
     "es": "La capital del Rey Brujo, aún habitada"
    },
    "type": {
-    "en": null,
+    "en": "enemy capital fortress",
     "es": "fortaleza-capital enemiga"
    },
    "priority": 0,
@@ -70694,7 +70694,7 @@
     "es": "La aldea de los Hombres Crueles, todavía cruel"
    },
    "type": {
-    "en": null,
+    "en": "enemy village",
     "es": "aldea enemiga"
    },
    "priority": 0,
@@ -70769,7 +70769,7 @@
     "es": "El municipio de Tulban, convertido en campamento"
    },
    "type": {
-    "en": null,
+    "en": "enemy post",
     "es": "puesto enemigo"
    },
    "priority": 0,
@@ -70844,7 +70844,7 @@
     "es": "La aldea de abastecimiento, reocupada"
    },
    "type": {
-    "en": null,
+    "en": "enemy post",
     "es": "puesto enemigo"
    },
    "priority": 0,
@@ -70919,7 +70919,7 @@
     "es": "La sexta almenara"
    },
    "type": {
-    "en": null,
+    "en": "beacon tower",
     "es": "torre de almenara"
    },
    "priority": 0,
@@ -71007,7 +71007,7 @@
     "es": "La primera de las siete"
    },
    "type": {
-    "en": null,
+    "en": "beacon tower",
     "es": "torre de almenara"
    },
    "priority": 0,
@@ -71095,7 +71095,7 @@
     "es": "La almenara del límite"
    },
    "type": {
-    "en": null,
+    "en": "beacon tower",
     "es": "torre de almenara"
    },
    "priority": 0,
@@ -71188,7 +71188,7 @@
     "es": "La quinta, sobre el Rimmon"
    },
    "type": {
-    "en": null,
+    "en": "beacon tower",
     "es": "torre de almenara"
    },
    "priority": 0,
@@ -71276,7 +71276,7 @@
     "es": "La ciudad del golfo"
    },
    "type": {
-    "en": null,
+    "en": "city",
     "es": "ciudad"
    },
    "priority": 0,
@@ -71372,7 +71372,7 @@
     "es": "El puerto de los martillos"
    },
    "type": {
-    "en": null,
+    "en": "elven port",
     "es": "puerto élfico"
    },
    "priority": 0,
@@ -71467,7 +71467,7 @@
     "es": "La torre del golfo"
    },
    "type": {
-    "en": null,
+    "en": "city",
     "es": "ciudad"
    },
    "priority": 0,
@@ -71562,7 +71562,7 @@
     "es": "El Vado Nuevo"
    },
    "type": {
-    "en": null,
+    "en": "ford village",
     "es": "aldea del vado"
    },
    "priority": 0,
@@ -71658,7 +71658,7 @@
     "es": "La casa de Iovithil"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -71752,7 +71752,7 @@
     "es": "La Casa de la Paz sobre la colina"
    },
    "type": {
-    "en": null,
+    "en": "healer's tower-house",
     "es": "torre-casa de sanadores"
    },
    "priority": 0,
@@ -71847,7 +71847,7 @@
     "es": "El puerto de Minas Anor"
    },
    "type": {
-    "en": null,
+    "en": "port",
     "es": "puerto"
    },
    "priority": 0,
@@ -71966,7 +71966,7 @@
     "es": "El Puerto de los Teleri"
    },
    "type": {
-    "en": null,
+    "en": "elven port",
     "es": "puerto élfico"
    },
    "priority": 0,
@@ -72066,7 +72066,7 @@
     "es": "La caída del agua"
    },
    "type": {
-    "en": null,
+    "en": "waterfall",
     "es": "cascada"
    },
    "priority": 0,
@@ -72135,7 +72135,7 @@
     "es": "El pueblo de las tierras del sur"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -72229,7 +72229,7 @@
     "es": "La Taberna de Dodind"
    },
    "type": {
-    "en": null,
+    "en": "inn",
     "es": "posada"
    },
    "priority": 0,
@@ -72324,7 +72324,7 @@
     "es": "El Escudo de Zant"
    },
    "type": {
-    "en": null,
+    "en": "inn",
     "es": "posada"
    },
    "priority": 0,
@@ -72419,7 +72419,7 @@
     "es": "La Hoja de Aglahad"
    },
    "type": {
-    "en": null,
+    "en": "inn",
     "es": "posada"
    },
    "priority": 0,
@@ -72514,7 +72514,7 @@
     "es": "La Posada de Dremant"
    },
    "type": {
-    "en": null,
+    "en": "inn",
     "es": "posada"
    },
    "priority": 0,
@@ -72609,7 +72609,7 @@
     "es": "Los Reacios"
    },
    "type": {
-    "en": null,
+    "en": "point of interest",
     "es": "punto de interés"
    },
    "priority": 0,
@@ -72678,7 +72678,7 @@
     "es": "El Gran Smial de los Brandigamo"
    },
    "type": {
-    "en": null,
+    "en": "hobbit seat",
     "es": "solar hobbit"
    },
    "priority": 0,
@@ -72773,7 +72773,7 @@
     "es": "La aldea de la Casa de los Mathoms"
    },
    "type": {
-    "en": null,
+    "en": "hobbit village",
     "es": "aldea hobbit"
    },
    "priority": 0,
@@ -72868,7 +72868,7 @@
     "es": "La aldea de los Brandigamo pobres"
    },
    "type": {
-    "en": null,
+    "en": "hobbit village",
     "es": "aldea hobbit"
    },
    "priority": 0,
@@ -72962,7 +72962,7 @@
     "es": "La aldea del pantano del Tornasauce"
    },
    "type": {
-    "en": null,
+    "en": "hobbit village",
     "es": "aldea hobbit"
    },
    "priority": 0,
@@ -73076,7 +73076,7 @@
     "es": "El agujero-hobbit de la puerta verde"
    },
    "type": {
-    "en": null,
+    "en": "smial",
     "es": "smial"
    },
    "priority": 0,
@@ -73156,7 +73156,7 @@
     "es": "La ciudad del Lhûn que decayó"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -73225,7 +73225,7 @@
     "es": "La aldea hobbit fuera de la Comarca"
    },
    "type": {
-    "en": null,
+    "en": "surviving village",
     "es": "aldea remanente"
    },
    "priority": 0,
@@ -73320,7 +73320,7 @@
     "es": "El pueblo de Aran Nov"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -73414,7 +73414,7 @@
     "es": "El Castillo Silencioso"
    },
    "type": {
-    "en": null,
+    "en": "elven ruins",
     "es": "ruinas élficas"
    },
    "priority": 0,
@@ -73488,7 +73488,7 @@
     "es": "El Prado de la Guardia Sagrada"
    },
    "type": {
-    "en": null,
+    "en": "elven clearing",
     "es": "claro élfico"
    },
    "priority": 0,
@@ -73562,7 +73562,7 @@
     "es": "Los cimientos fantasma de Enedhriss"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -73630,7 +73630,7 @@
     "es": "La aldea del risco, colgada en el aire"
    },
    "type": {
-    "en": null,
+    "en": "village ruins",
     "es": "ruinas de aldea"
    },
    "priority": 0,
@@ -73705,7 +73705,7 @@
     "es": "Las del sur"
    },
    "type": {
-    "en": null,
+    "en": "point of interest",
     "es": "punto de interés"
    },
    "priority": 0,
@@ -73773,7 +73773,7 @@
     "es": "El Hogar del Ruiseñor"
    },
    "type": {
-    "en": null,
+    "en": "point of interest",
     "es": "punto de interés"
    },
    "priority": 0,
@@ -73842,7 +73842,7 @@
     "es": "La aldea de Caras Denethora"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -73936,7 +73936,7 @@
     "es": "La aldea de flets más vieja de Harlindon"
    },
    "type": {
-    "en": null,
+    "en": "elven village",
     "es": "aldea élfica"
    },
    "priority": 0,
@@ -74032,7 +74032,7 @@
     "es": "La aldea del Ruiseñor"
    },
    "type": {
-    "en": null,
+    "en": "fishing village",
     "es": "aldea pesquera"
    },
    "priority": 0,
@@ -74128,7 +74128,7 @@
     "es": "El pueblo de Danwaith"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -74222,7 +74222,7 @@
     "es": "El pueblo del viento del norte"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -74317,7 +74317,7 @@
     "es": "La ruina tranquila de las colinas"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -74389,7 +74389,7 @@
     "es": "La colina agujereada por los enanos"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -74458,7 +74458,7 @@
     "es": "Los Puertos Grises"
    },
    "type": {
-    "en": null,
+    "en": "elven port city",
     "es": "ciudad-puerto élfica"
    },
    "priority": 0,
@@ -74555,7 +74555,7 @@
     "es": "La Torre de la Luna Creciente"
    },
    "type": {
-    "en": null,
+    "en": "fortified city",
     "es": "ciudad fortificada"
    },
    "priority": 0,
@@ -74651,7 +74651,7 @@
     "es": "El torreón del espolón"
    },
    "type": {
-    "en": null,
+    "en": "garrison castle",
     "es": "castillo-guarnición"
    },
    "priority": 0,
@@ -74746,7 +74746,7 @@
     "es": "El Paso Encantado"
    },
    "type": {
-    "en": null,
+    "en": "mountain pass",
     "es": "paso montañoso"
    },
    "priority": 0,
@@ -74820,7 +74820,7 @@
     "es": "El paso de la araña"
    },
    "type": {
-    "en": null,
+    "en": "pass fortress",
     "es": "fortaleza del paso"
    },
    "priority": 0,
@@ -74919,7 +74919,7 @@
     "es": "El pueblo del mar interior"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -75014,7 +75014,7 @@
     "es": "El pueblo bajo el ojo"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -75109,7 +75109,7 @@
     "es": "La capital del reino orco del norte"
    },
    "type": {
-    "en": null,
+    "en": "taken dwarven citadel",
     "es": "ciudadela enana tomada"
    },
    "priority": 0,
@@ -75183,7 +75183,7 @@
     "es": "La fortaleza del norte desolado, caída"
    },
    "type": {
-    "en": null,
+    "en": "fortress ruins",
     "es": "ruinas de fortaleza"
    },
    "priority": 0,
@@ -75277,7 +75277,7 @@
     "es": "El campamento del muro norte"
    },
    "type": {
-    "en": null,
+    "en": "camp",
     "es": "campamento"
    },
    "priority": 0,
@@ -75346,7 +75346,7 @@
     "es": "El segundo campamento"
    },
    "type": {
-    "en": null,
+    "en": "camp",
     "es": "campamento"
    },
    "priority": 0,
@@ -75415,7 +75415,7 @@
     "es": "El tercer campamento"
    },
    "type": {
-    "en": null,
+    "en": "camp",
     "es": "campamento"
    },
    "priority": 0,
@@ -75484,7 +75484,7 @@
     "es": "El cuarto campamento"
    },
    "type": {
-    "en": null,
+    "en": "camp",
     "es": "campamento"
    },
    "priority": 0,
@@ -75553,7 +75553,7 @@
     "es": "La casa del muro norte, abierta al cielo"
    },
    "type": {
-    "en": null,
+    "en": "manor ruins",
     "es": "ruinas de casa señorial"
    },
    "priority": 0,
@@ -75647,7 +75647,7 @@
     "es": "Las ruinas del muro"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -75715,7 +75715,7 @@
     "es": "El castillo de Himihiril, vacío"
    },
    "type": {
-    "en": null,
+    "en": "castle ruins",
     "es": "ruinas de castillo"
    },
    "priority": 0,
@@ -75809,7 +75809,7 @@
     "es": "La ciudad que el río guarda"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -75878,7 +75878,7 @@
     "es": "El torreón que cambia de manos"
    },
    "type": {
-    "en": null,
+    "en": "half-occupied tower",
     "es": "torre semiocupada"
    },
    "priority": 0,
@@ -75977,7 +75977,7 @@
     "es": "La ciudadela de los montañeses"
    },
    "type": {
-    "en": null,
+    "en": "half-occupied citadel",
     "es": "ciudadela semiocupada"
    },
    "priority": 0,
@@ -76072,7 +76072,7 @@
     "es": "Las ruinas del oeste"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -76140,7 +76140,7 @@
     "es": "Las ruinas del sur"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -76208,7 +76208,7 @@
     "es": "La segunda ruina del sur"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -76276,7 +76276,7 @@
     "es": "El refugio que los Rohirrim vigilan"
    },
    "type": {
-    "en": null,
+    "en": "ruined fortress",
     "es": "fortaleza en ruinas"
    },
    "priority": 0,
@@ -76371,7 +76371,7 @@
     "es": "El pueblo de Vindacil"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -76465,7 +76465,7 @@
     "es": "El pueblo de Beanach"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -76559,7 +76559,7 @@
     "es": "El pueblo de Odharn"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -76653,7 +76653,7 @@
     "es": "El pueblo de Golgoch"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -76747,7 +76747,7 @@
     "es": "La torre negra del Paso"
    },
    "type": {
-    "en": null,
+    "en": "citadel",
     "es": "ciudadela"
    },
    "priority": 0,
@@ -76840,7 +76840,7 @@
     "es": "El Último Puente y la Última Posada"
    },
    "type": {
-    "en": null,
+    "en": "bridge inn",
     "es": "puente-posada"
    },
    "priority": 0,
@@ -76940,7 +76940,7 @@
     "es": "El puesto entre rohirrim y dunlendinos"
    },
    "type": {
-    "en": null,
+    "en": "trading post",
     "es": "puesto comercial"
    },
    "priority": 0,
@@ -77036,7 +77036,7 @@
     "es": "El Puerto de Hierro, cerrado"
    },
    "type": {
-    "en": null,
+    "en": "port city ruins",
     "es": "ruinas de ciudad-portuaria"
    },
    "priority": 0,
@@ -77130,7 +77130,7 @@
     "es": "El bosque de Enedhwaith"
    },
    "type": {
-    "en": null,
+    "en": "forest",
     "es": "bosque"
    },
    "priority": 0,
@@ -77199,7 +77199,7 @@
     "es": "El pueblo de Ostiras"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -77293,7 +77293,7 @@
     "es": "El pueblo del bosque"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -77388,7 +77388,7 @@
     "es": "La aldea de Alclud"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -77482,7 +77482,7 @@
     "es": "La capital de los Enanos de Anchas Vigas"
    },
    "type": {
-    "en": null,
+    "en": "mine-city",
     "es": "mina-ciudad"
    },
    "priority": 0,
@@ -77578,7 +77578,7 @@
     "es": "La casa de las Montañas Azules"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -77673,7 +77673,7 @@
     "es": "La casa de la ladera"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -77768,7 +77768,7 @@
     "es": "La Yegua de Éadcwén"
    },
    "type": {
-    "en": null,
+    "en": "inn",
     "es": "posada"
    },
    "priority": 0,
@@ -77863,7 +77863,7 @@
     "es": "La casa del valle"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -77958,7 +77958,7 @@
     "es": "La mina medio vacía del valle"
    },
    "type": {
-    "en": null,
+    "en": "mine",
     "es": "mina"
    },
    "priority": 0,
@@ -78052,7 +78052,7 @@
     "es": "La Fragua de Bril"
    },
    "type": {
-    "en": null,
+    "en": "inn-forge",
     "es": "posada-forja"
    },
    "priority": 0,
@@ -78147,7 +78147,7 @@
     "es": "La aldea tranquila de las colinas"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -78241,7 +78241,7 @@
     "es": "Los Pilares de Piedra"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -78310,7 +78310,7 @@
     "es": "La torre del miel"
    },
    "type": {
-    "en": null,
+    "en": "point of interest",
     "es": "punto de interés"
    },
    "priority": 0,
@@ -78379,7 +78379,7 @@
     "es": "La Ciénaga de la Niebla, aislada del todo"
    },
    "type": {
-    "en": null,
+    "en": "town ruins",
     "es": "ruinas de pueblo"
    },
    "priority": 0,
@@ -78478,7 +78478,7 @@
     "es": "El cascarón de la fortaleza"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -78546,7 +78546,7 @@
     "es": "La torre de la vista"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -78614,7 +78614,7 @@
     "es": "El fantasma de asentamiento"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -78682,7 +78682,7 @@
     "es": "La ciudad que el viento limpia"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -78750,7 +78750,7 @@
     "es": "La ciudad muerta del norte del lago"
    },
    "type": {
-    "en": null,
+    "en": "city ruins",
     "es": "ruinas de ciudad"
    },
    "priority": 0,
@@ -78844,7 +78844,7 @@
     "es": "Las calles bajo la maleza"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -78912,7 +78912,7 @@
     "es": "Los escombros de Maegoth"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -78980,7 +78980,7 @@
     "es": "El pueblo de mercado que cerró"
    },
    "type": {
-    "en": null,
+    "en": "town ruins",
     "es": "ruinas de pueblo"
    },
    "priority": 0,
@@ -79074,7 +79074,7 @@
     "es": "La mansión élfica que el musgo cubre"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -79147,7 +79147,7 @@
     "es": "La aldea del pozo partido"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -79215,7 +79215,7 @@
     "es": "Las plazas del mercado vacío"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -79283,7 +79283,7 @@
     "es": "La casa del vado, caída"
    },
    "type": {
-    "en": null,
+    "en": "manor ruins",
     "es": "ruinas de casa señorial"
    },
    "priority": 0,
@@ -79358,7 +79358,7 @@
     "es": "La casa de la colina, apagada"
    },
    "type": {
-    "en": null,
+    "en": "manor ruins",
     "es": "ruinas de casa señorial"
    },
    "priority": 0,
@@ -79452,7 +79452,7 @@
     "es": "La torre partida de las colinas"
    },
    "type": {
-    "en": null,
+    "en": "tower ruins",
     "es": "ruinas de torre"
    },
    "priority": 0,
@@ -79526,7 +79526,7 @@
     "es": "La torre sin puerta"
    },
    "type": {
-    "en": null,
+    "en": "tower ruins",
     "es": "ruinas de torre"
    },
    "priority": 0,
@@ -79600,7 +79600,7 @@
     "es": "La torre hundida"
    },
    "type": {
-    "en": null,
+    "en": "tower ruins",
     "es": "ruinas de torre"
    },
    "priority": 0,
@@ -79674,7 +79674,7 @@
     "es": "La posada del escudo, a medio habitar"
    },
    "type": {
-    "en": null,
+    "en": "half-occupied inn",
     "es": "posada semiocupada"
    },
    "priority": 0,
@@ -79768,7 +79768,7 @@
     "es": "La Aldea del Puño de Fuego"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -79841,7 +79841,7 @@
     "es": "La posada del yunque, fría"
    },
    "type": {
-    "en": null,
+    "en": "inn ruins",
     "es": "ruinas de posada"
    },
    "priority": 0,
@@ -79935,7 +79935,7 @@
     "es": "La casa de la ladera, abierta"
    },
    "type": {
-    "en": null,
+    "en": "manor ruins",
     "es": "ruinas de casa señorial"
    },
    "priority": 0,
@@ -80029,7 +80029,7 @@
     "es": "La casa del señor sin nombre"
    },
    "type": {
-    "en": null,
+    "en": "manor ruins",
     "es": "ruinas de casa señorial"
    },
    "priority": 0,
@@ -80123,7 +80123,7 @@
     "es": "La posada donde aún vive alguien"
    },
    "type": {
-    "en": null,
+    "en": "surviving inn",
     "es": "posada remanente"
    },
    "priority": 0,
@@ -80222,7 +80222,7 @@
     "es": "El descanso que se quedó dormido"
    },
    "type": {
-    "en": null,
+    "en": "inn ruins",
     "es": "ruinas de posada"
    },
    "priority": 0,
@@ -80316,7 +80316,7 @@
     "es": "La posada de la loma, vacía"
    },
    "type": {
-    "en": null,
+    "en": "inn ruins",
     "es": "ruinas de posada"
    },
    "priority": 0,
@@ -80410,7 +80410,7 @@
     "es": "La caverna de las colinas"
    },
    "type": {
-    "en": null,
+    "en": "cavern",
     "es": "caverna"
    },
    "priority": 0,
@@ -80504,7 +80504,7 @@
     "es": "La atalaya del lago, ciega"
    },
    "type": {
-    "en": null,
+    "en": "watchtower ruins",
     "es": "ruinas de atalaya"
    },
    "priority": 0,
@@ -80578,7 +80578,7 @@
     "es": "La hacienda hermosa, en ruinas"
    },
    "type": {
-    "en": null,
+    "en": "estate ruins",
     "es": "ruinas de hacienda"
    },
    "priority": 0,
@@ -80696,7 +80696,7 @@
     "es": "El pueblo del valle de hierbas, cerrado"
    },
    "type": {
-    "en": null,
+    "en": "abandoned town",
     "es": "pueblo deshabitado"
    },
    "priority": 0,
@@ -80790,7 +80790,7 @@
     "es": "El campamento de la llanura"
    },
    "type": {
-    "en": null,
+    "en": "occasional camp",
     "es": "campamento ocasional"
    },
    "priority": 0,
@@ -80865,7 +80865,7 @@
     "es": "La casa del llano, habitada por dentro"
    },
    "type": {
-    "en": null,
+    "en": "half-occupied house",
     "es": "casa semiocupada"
    },
    "priority": 0,
@@ -80959,7 +80959,7 @@
     "es": "La estrella que se apagó"
    },
    "type": {
-    "en": null,
+    "en": "inn ruins",
     "es": "ruinas de posada"
    },
    "priority": 0,
@@ -81053,7 +81053,7 @@
     "es": "El pueblo del llano, a hierba"
    },
    "type": {
-    "en": null,
+    "en": "town ruins",
     "es": "ruinas de pueblo"
    },
    "priority": 0,
@@ -81147,7 +81147,7 @@
     "es": "El castillo del cerro, hueco"
    },
    "type": {
-    "en": null,
+    "en": "castle ruins",
     "es": "ruinas de castillo"
    },
    "priority": 0,
@@ -81242,7 +81242,7 @@
     "es": "La atalaya de la loma, ciega"
    },
    "type": {
-    "en": null,
+    "en": "tower ruins",
     "es": "ruinas de torre"
    },
    "priority": 0,
@@ -81316,7 +81316,7 @@
     "es": "La casa de Lindabad"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -81411,7 +81411,7 @@
     "es": "La fortaleza de los pantanos de hierba"
    },
    "type": {
-    "en": null,
+    "en": "fortress",
     "es": "fortaleza"
    },
    "priority": 0,
@@ -81481,7 +81481,7 @@
     "es": "El pueblo del mineral y los abetos"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -81581,7 +81581,7 @@
     "es": "El vado que los Montaraces usan"
    },
    "type": {
-    "en": null,
+    "en": "half-occupied post",
     "es": "puesto semiocupado"
    },
    "priority": 0,
@@ -81680,7 +81680,7 @@
     "es": "El castillo de la Casa Faron, apagado"
    },
    "type": {
-    "en": null,
+    "en": "abandoned castle",
     "es": "castillo deshabitado"
    },
    "priority": 0,
@@ -81774,7 +81774,7 @@
     "es": "El pueblo de la roca, vacío"
    },
    "type": {
-    "en": null,
+    "en": "abandoned town",
     "es": "pueblo deshabitado"
    },
    "priority": 0,
@@ -81868,7 +81868,7 @@
     "es": "El pueblo de la torre, dormido"
    },
    "type": {
-    "en": null,
+    "en": "abandoned town",
     "es": "pueblo deshabitado"
    },
    "priority": 0,
@@ -81962,7 +81962,7 @@
     "es": "La Casa de la Espada Negra, cerrada"
    },
    "type": {
-    "en": null,
+    "en": "abandoned house",
     "es": "casa deshabitada"
    },
    "priority": 0,
@@ -82060,7 +82060,7 @@
     "es": "La Casa gris, sin nadie que ascienda"
    },
    "type": {
-    "en": null,
+    "en": "abandoned house",
     "es": "casa deshabitada"
    },
    "priority": 0,
@@ -82154,7 +82154,7 @@
     "es": "El asiento del guardián, sin guardián"
    },
    "type": {
-    "en": null,
+    "en": "abandoned house",
     "es": "casa deshabitada"
    },
    "priority": 0,
@@ -82249,7 +82249,7 @@
     "es": "El pueblo-guarnición de la frontera"
    },
    "type": {
-    "en": null,
+    "en": "garrison village",
     "es": "pueblo-guarnición"
    },
    "priority": 0,
@@ -82346,7 +82346,7 @@
     "es": "La posta que el haradrim saqueó"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -82442,7 +82442,7 @@
     "es": "El último puesto del sur"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -82543,7 +82543,7 @@
     "es": "El páramo sobre el Anghir"
    },
    "type": {
-    "en": null,
+    "en": "moor",
     "es": "páramo"
    },
    "priority": 0,
@@ -82612,7 +82612,7 @@
     "es": "La casa de Falastir"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -82707,7 +82707,7 @@
     "es": "La casa del norte"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -82802,7 +82802,7 @@
     "es": "El Refugio de Dend"
    },
    "type": {
-    "en": null,
+    "en": "inn",
     "es": "posada"
    },
    "priority": 0,
@@ -82897,7 +82897,7 @@
     "es": "La casa de la ladera norte"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -82992,7 +82992,7 @@
     "es": "La casa del valle frío"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -83087,7 +83087,7 @@
     "es": "La casa de la mesa larga"
    },
    "type": {
-    "en": null,
+    "en": "seat",
     "es": "solar"
    },
    "priority": 0,
@@ -83182,7 +83182,7 @@
     "es": "El Pueblo de los Flets"
    },
    "type": {
-    "en": null,
+    "en": "elven village",
     "es": "aldea élfica"
    },
    "priority": 0,
@@ -83278,7 +83278,7 @@
     "es": "El pueblo del Señor Protector"
    },
    "type": {
-    "en": null,
+    "en": "fortified village",
     "es": "pueblo fortificado"
    },
    "priority": 0,
@@ -83378,7 +83378,7 @@
     "es": "El mercado del Camino de Gondor"
    },
    "type": {
-    "en": null,
+    "en": "fortified village",
     "es": "pueblo fortificado"
    },
    "priority": 0,
@@ -83496,7 +83496,7 @@
     "es": "El pueblo de los picos"
    },
    "type": {
-    "en": null,
+    "en": "mining town",
     "es": "pueblo minero"
    },
    "priority": 0,
@@ -83596,7 +83596,7 @@
     "es": "La Puerta de Anfalas"
    },
    "type": {
-    "en": null,
+    "en": "fortified village",
     "es": "pueblo fortificado"
    },
    "priority": 0,
@@ -83700,7 +83700,7 @@
     "es": "El lugar de Caborlad"
    },
    "type": {
-    "en": null,
+    "en": "point of interest",
     "es": "punto de interés"
    },
    "priority": 0,
@@ -83768,7 +83768,7 @@
     "es": "El pueblo de Bar Olchaldor"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -83862,7 +83862,7 @@
     "es": "El pueblo de Bar Annuland"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -83956,7 +83956,7 @@
     "es": "El pueblo de Lildamar"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -84051,7 +84051,7 @@
     "es": "El lago del circo"
    },
    "type": {
-    "en": null,
+    "en": "lake",
     "es": "lago"
    },
    "priority": 0,
@@ -84120,7 +84120,7 @@
     "es": "La ciudad del norte frío"
    },
    "type": {
-    "en": null,
+    "en": "city",
     "es": "ciudad"
    },
    "priority": 0,
@@ -84214,7 +84214,7 @@
     "es": "El pueblo del este"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -84308,7 +84308,7 @@
     "es": "La colina que ve el mar"
    },
    "type": {
-    "en": null,
+    "en": "hill",
     "es": "colina"
    },
    "priority": 0,
@@ -84376,7 +84376,7 @@
     "es": "La ciudad del clan que se vació"
    },
    "type": {
-    "en": null,
+    "en": "city ruins",
     "es": "ruinas de ciudad"
    },
    "priority": 0,
@@ -84470,7 +84470,7 @@
     "es": "El castillo que resiste, con gente dentro"
    },
    "type": {
-    "en": null,
+    "en": "half-occupied fortress",
     "es": "fortaleza semiocupada"
    },
    "priority": 0,
@@ -84565,7 +84565,7 @@
     "es": "La ciudad que el Gwathló olvidó"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -84634,7 +84634,7 @@
     "es": "Los arcos partidos de Fangoth"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -84702,7 +84702,7 @@
     "es": "El castillo de los Príncipes muertos"
    },
    "type": {
-    "en": null,
+    "en": "castle ruins",
     "es": "ruinas de castillo"
    },
    "priority": 0,
@@ -84796,7 +84796,7 @@
     "es": "La aldea que el musgo se llevó"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -84864,7 +84864,7 @@
     "es": "El puerto de trabajo de Fonntir"
    },
    "type": {
-    "en": null,
+    "en": "coastal village",
     "es": "aldea costera"
    },
    "priority": 0,
@@ -84960,7 +84960,7 @@
     "es": "La ciudad de la bahía vacía"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -85029,7 +85029,7 @@
     "es": "La ruina sin nombre"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -85097,7 +85097,7 @@
     "es": "El lugar de la mala suerte"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -85169,7 +85169,7 @@
     "es": "Los Yelmos manchados"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -85237,7 +85237,7 @@
     "es": "El pueblo de Linnuis"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -85331,7 +85331,7 @@
     "es": "Las gaviotas de Dol Ilfin"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -85400,7 +85400,7 @@
     "es": "El pueblo del vicio"
    },
    "type": {
-    "en": null,
+    "en": "border town",
     "es": "pueblo fronterizo"
    },
    "priority": 0,
@@ -85518,7 +85518,7 @@
     "es": "El pueblo de Carathel"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -85612,7 +85612,7 @@
     "es": "La ciudad libre que fue"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -85680,7 +85680,7 @@
     "es": "El pueblo de las tierras bajas, achicándose"
    },
    "type": {
-    "en": null,
+    "en": "half-occupied town",
     "es": "pueblo semiocupado"
    },
    "priority": 0,
@@ -85775,7 +85775,7 @@
     "es": "La Colina del Agua Silenciosa"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -85871,7 +85871,7 @@
     "es": "El pueblo sin nombre propio"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -85965,7 +85965,7 @@
     "es": "Cuncan — el pueblo sobre la ciudad muerta"
    },
    "type": {
-    "en": null,
+    "en": "surviving village",
     "es": "aldea remanente"
    },
    "priority": 0,
@@ -86060,7 +86060,7 @@
     "es": "La aldea del camino"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -86154,7 +86154,7 @@
     "es": "La ruina que el pasto se traga"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -86222,7 +86222,7 @@
     "es": "La residencia de verano, añeja del todo"
    },
    "type": {
-    "en": null,
+    "en": "town ruins",
     "es": "ruinas de pueblo"
    },
    "priority": 0,
@@ -86316,7 +86316,7 @@
     "es": "La posta del puente arnoriano"
    },
    "type": {
-    "en": null,
+    "en": "garrison post",
     "es": "posta-guarnición"
    },
    "priority": 0,
@@ -86412,7 +86412,7 @@
     "es": "La plaza fuerte que nunca se probó"
    },
    "type": {
-    "en": null,
+    "en": "fortress ruins",
     "es": "ruinas de fortaleza"
    },
    "priority": 0,
@@ -86506,7 +86506,7 @@
     "es": "La Bóveda oculta y profunda"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -86575,7 +86575,7 @@
     "es": "El pueblo de Entamundo"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -86669,7 +86669,7 @@
     "es": "La ciudad de las agujas"
    },
    "type": {
-    "en": null,
+    "en": "elven city",
     "es": "ciudad élfica"
    },
    "priority": 0,
@@ -86764,7 +86764,7 @@
     "es": "El puerto de los herbolarios"
    },
    "type": {
-    "en": null,
+    "en": "port",
     "es": "puerto"
    },
    "priority": 0,
@@ -86860,7 +86860,7 @@
     "es": "La Espuma Sonora"
    },
    "type": {
-    "en": null,
+    "en": "sawmill",
     "es": "aserradero"
    },
    "priority": 0,
@@ -86956,7 +86956,7 @@
     "es": "El astillero de la bahía"
    },
    "type": {
-    "en": null,
+    "en": "shipyard",
     "es": "astillero"
    },
    "priority": 0,
@@ -87026,7 +87026,7 @@
     "es": "La isla del embarque del oeste"
    },
    "type": {
-    "en": null,
+    "en": "tower-port",
     "es": "torre-puerto"
    },
    "priority": 0,
@@ -87121,7 +87121,7 @@
     "es": "La torre de la costa élfica"
    },
    "type": {
-    "en": null,
+    "en": "watchtower",
     "es": "torre de vigilancia"
    },
    "priority": 0,
@@ -87216,7 +87216,7 @@
     "es": "La torre del norte frío"
    },
    "type": {
-    "en": null,
+    "en": "elven city",
     "es": "ciudad élfica"
    },
    "priority": 0,
@@ -87311,7 +87311,7 @@
     "es": "El Sueño de Joya que quemó el dragón"
    },
    "type": {
-    "en": null,
+    "en": "elven city",
     "es": "ciudad élfica"
    },
    "priority": 0,
@@ -87385,7 +87385,7 @@
     "es": "La ciudad del este frío"
    },
    "type": {
-    "en": null,
+    "en": "elven city",
     "es": "ciudad élfica"
    },
    "priority": 0,
@@ -87479,7 +87479,7 @@
     "es": "La casa de la lámpara alta"
    },
    "type": {
-    "en": null,
+    "en": "lighthouse house",
     "es": "casa-faro"
    },
    "priority": 0,
@@ -87579,7 +87579,7 @@
     "es": "Las ruinas de las colinas frías"
    },
    "type": {
-    "en": null,
+    "en": "ruins",
     "es": "ruinas"
    },
    "priority": 0,
@@ -87647,7 +87647,7 @@
     "es": "La torre de la puerta de la llanura, sin guarnición"
    },
    "type": {
-    "en": null,
+    "en": "fortress ruins",
     "es": "ruinas de fortaleza"
    },
    "priority": 0,
@@ -87722,7 +87722,7 @@
     "es": "La Colina de la Hechicería"
    },
    "type": {
-    "en": null,
+    "en": "dark fortress",
     "es": "fortaleza oscura"
    },
    "priority": 0,
@@ -87793,7 +87793,7 @@
     "es": "El cabo de las focas y los pilotos"
    },
    "type": {
-    "en": null,
+    "en": "beacon cape",
     "es": "cabo-almenara"
    },
    "priority": 0,
@@ -87888,7 +87888,7 @@
     "es": "La luz que avisa a Dol Amroth"
    },
    "type": {
-    "en": null,
+    "en": "watchtower",
     "es": "torre de vigilancia"
    },
    "priority": 0,
@@ -87983,7 +87983,7 @@
     "es": "El pueblo del muro largo"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -88077,7 +88077,7 @@
     "es": "El Hogar del Camino Azul"
    },
    "type": {
-    "en": null,
+    "en": "municipality",
     "es": "municipio"
    },
    "priority": 0,
@@ -88173,7 +88173,7 @@
     "es": "El pueblo que le da la espalda al bosque"
    },
    "type": {
-    "en": null,
+    "en": "town",
     "es": "pueblo"
    },
    "priority": 0,
@@ -88276,7 +88276,7 @@
     "es": "El pueblo naval de la desembocadura"
    },
    "type": {
-    "en": null,
+    "en": "port town",
     "es": "pueblo-portuaria"
    },
    "priority": 0,
@@ -88373,7 +88373,7 @@
     "es": "El castillo del puente del Isen"
    },
    "type": {
-    "en": null,
+    "en": "castle settlement",
     "es": "castillo-asentamiento"
    },
    "priority": 0,
@@ -88469,7 +88469,7 @@
     "es": "La torre que Gondor dejó"
    },
    "type": {
-    "en": null,
+    "en": "castle",
     "es": "castillo"
    },
    "priority": 0,
@@ -88563,7 +88563,7 @@
     "es": "El mejor punto de partida a Anfalas"
    },
    "type": {
-    "en": null,
+    "en": "fortified village",
     "es": "pueblo fortificado"
    },
    "priority": 0,
@@ -88664,7 +88664,7 @@
     "es": "Los Bosques Húmedos del Señor de Mornan"
    },
    "type": {
-    "en": null,
+    "en": "marshy forest",
     "es": "bosque pantanoso"
    },
    "priority": 0,
@@ -88738,7 +88738,7 @@
     "es": "La aldea de Ehuir"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -88832,7 +88832,7 @@
     "es": "La aldea de Vervain"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -88926,7 +88926,7 @@
     "es": "La aldea de Morven"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -89020,7 +89020,7 @@
     "es": "La torre del paso del este"
    },
    "type": {
-    "en": null,
+    "en": "beacon",
     "es": "almenara"
    },
    "priority": 0,
@@ -89089,7 +89089,7 @@
     "es": "El Vado de Piedra de los Enanos"
    },
    "type": {
-    "en": null,
+    "en": "historic ford",
     "es": "vado histórico"
    },
    "priority": 0,
@@ -89159,7 +89159,7 @@
     "es": "La torre del Paso de Caranthir"
    },
    "type": {
-    "en": null,
+    "en": "beacon",
     "es": "almenara"
    },
    "priority": 0,
@@ -89253,7 +89253,7 @@
     "es": "La aldea del Descanso del Viajero"
    },
    "type": {
-    "en": null,
+    "en": "village",
     "es": "aldea"
    },
    "priority": 0,
@@ -89353,7 +89353,7 @@
     "es": "El campo de bloques"
    },
    "type": {
-    "en": null,
+    "en": "point of interest",
     "es": "punto de interés"
    },
    "priority": 0,
@@ -89421,7 +89421,7 @@
     "es": "El campo sagrado que el bosque oscureció"
    },
    "type": {
-    "en": null,
+    "en": "ritual ground",
     "es": "terreno ritual"
    },
    "priority": 0,
@@ -89495,7 +89495,7 @@
     "es": "La aldea de contacto del Taurduin"
    },
    "type": {
-    "en": null,
+    "en": "elven village",
     "es": "aldea élfica"
    },
    "priority": 0,
@@ -89592,7 +89592,7 @@
     "es": "El pozo"
    },
    "type": {
-    "en": null,
+    "en": "point of interest",
     "es": "punto de interés"
    },
    "priority": 0,

@@ -278,9 +278,17 @@ router.patch('/places/:id', async (req, res, next) => {
       sets.push(`region_ids = CASE WHEN (${regionExpr}) IS NULL THEN region_ids
         ELSE ARRAY[(${regionExpr})::int] END`);
     }
-    // type is {en,es} jsonb in the ADR-0015 spec; the tool sends a plain
-    // string → wrap it.
-    if (type !== undefined) add('type = ?::jsonb', JSON.stringify({ en: type ?? null, es: null }));
+    // type is {en,es} jsonb in the ADR-0015 spec; callers send either a
+    // plain string or the whole object back (an edit round-trip). Unwrap
+    // to the scalar before re-wrapping — wrapping an object nests
+    // {en:{en:…}} and the corruption compounds per save.
+    if (type !== undefined) {
+      let scalar = type;
+      while (scalar && typeof scalar === 'object' && !Array.isArray(scalar)) {
+        scalar = scalar.en ?? scalar.es ?? null;
+      }
+      add('type = ?::jsonb', JSON.stringify({ en: scalar ?? null, es: null }));
+    }
     if (cultural_family !== undefined) add('cultural_family = ?', cultural_family);
     if (priority !== undefined) add('priority = ?', priority);
     if (size_radius_km !== undefined) add('size_radius_km = ?', size_radius_km);
