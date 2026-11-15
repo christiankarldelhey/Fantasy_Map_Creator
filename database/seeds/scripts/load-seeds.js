@@ -160,101 +160,6 @@ async function seedClimateZones() {
 }
 
 // ---------------------------------------------------------------------------
-// Seed: npc_interactions
-// ---------------------------------------------------------------------------
-async function seedNpcInteractions() {
-  console.log('🎭 Seeding npc_interactions...');
-  const text = await fs.readFile(path.join(DATA_DIR, 'csv/npc_interactions.csv'), 'utf8');
-  const rows = parseCsv(text);
-  for (const r of rows) {
-    await pool.query(
-      `INSERT INTO npc_interactions (id, entity_id, entity_type, interaction_form, shadow_band,
-         character_id, cultural_family, region_id, npc_attitude, concrete_content,
-         tension, traveller_stance, topic, topic_prose_hint, options, entity_ids, commands)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15::jsonb, $16::uuid[], $17::jsonb)
-       ON CONFLICT (id) DO UPDATE SET
-         entity_id        = EXCLUDED.entity_id,
-         entity_type      = EXCLUDED.entity_type,
-         interaction_form = EXCLUDED.interaction_form,
-         shadow_band      = EXCLUDED.shadow_band,
-         character_id     = EXCLUDED.character_id,
-         cultural_family  = EXCLUDED.cultural_family,
-         region_id        = EXCLUDED.region_id,
-         npc_attitude     = EXCLUDED.npc_attitude,
-         concrete_content = EXCLUDED.concrete_content,
-         tension          = EXCLUDED.tension,
-         traveller_stance = EXCLUDED.traveller_stance,
-         topic            = EXCLUDED.topic,
-         topic_prose_hint = EXCLUDED.topic_prose_hint,
-         options          = EXCLUDED.options,
-         entity_ids       = EXCLUDED.entity_ids,
-         commands         = EXCLUDED.commands`,
-      [
-        nullIfEmpty(r.id),
-        nullIfEmpty(r.entity_id),
-        r.entity_type,
-        r.interaction_form,
-        r.shadow_band,
-        nullIfEmpty(r.character_id),
-        nullIfEmpty(r.cultural_family),
-        nullIfEmpty(r.region_id),
-        nullIfEmpty(r.npc_attitude),
-        nullIfEmpty(r.concrete_content),
-        nullIfEmpty(r.tension),
-        nullIfEmpty(r.traveller_stance),
-        nullIfEmpty(r.topic),
-        nullIfEmpty(r.topic_prose_hint),
-        nullIfEmpty(r.options),
-        parseUuidList(r.entity_ids),
-        nullIfEmpty(r.commands),
-      ]
-    );
-  }
-  const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) AS count FROM npc_interactions');
-  console.log(`✅ npc_interactions: ${count} rows`);
-}
-
-// ---------------------------------------------------------------------------
-// Seed: encounter_forms
-// ---------------------------------------------------------------------------
-async function seedEncounterForms() {
-  console.log('🎲 Seeding encounter_forms...');
-  const text = await fs.readFile(path.join(DATA_DIR, 'csv/encounter_forms.csv'), 'utf8');
-  const rows = parseCsv(text);
-  for (const r of rows) {
-    await pool.query(
-      `INSERT INTO encounter_forms (
-         id, entity_type, interaction_form, intensity, weight,
-         min_danger, max_danger, triggers_roll, prose_hint
-       )
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-       ON CONFLICT (id) DO UPDATE SET
-         entity_type = EXCLUDED.entity_type,
-         interaction_form = EXCLUDED.interaction_form,
-         intensity = EXCLUDED.intensity,
-         weight = EXCLUDED.weight,
-         min_danger = EXCLUDED.min_danger,
-         max_danger = EXCLUDED.max_danger,
-         triggers_roll = EXCLUDED.triggers_roll,
-         prose_hint = EXCLUDED.prose_hint`,
-      [
-        r.id,
-        r.entity_type,
-        r.interaction_form,
-        parseInt(r.intensity, 10),
-        parseInt(r.weight, 10),
-        parseInt(r.min_danger, 10),
-        parseInt(r.max_danger, 10),
-        r.triggers_roll.toLowerCase() === 'true',
-        r.prose_hint,
-      ]
-    );
-  }
-  const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) AS count FROM encounter_forms');
-  console.log(`✅ encounter_forms: ${count} rows`);
-}
-
-// ---------------------------------------------------------------------------
 // Seed: entities
 // ---------------------------------------------------------------------------
 async function seedEntities() {
@@ -313,8 +218,8 @@ async function seedEntities() {
 
     try {
       await pool.query(
-        `INSERT INTO entities (id, name, slug, type, active, tier, parent_id, description, description_summary, url_path, biomes, shadow_weight, is_npc, created_at, region_ids, probability_by_region, danger)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+        `INSERT INTO entities (id, name, slug, type, active, tier, parent_id, url_path, biomes, shadow_weight, is_npc, created_at, region_ids, probability_by_region, danger)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
          ON CONFLICT (id) DO UPDATE SET
            name = EXCLUDED.name,
            slug = EXCLUDED.slug,
@@ -322,8 +227,6 @@ async function seedEntities() {
            active = EXCLUDED.active,
            tier = EXCLUDED.tier,
            parent_id = EXCLUDED.parent_id,
-           description = EXCLUDED.description,
-           description_summary = EXCLUDED.description_summary,
            url_path = EXCLUDED.url_path,
            biomes = EXCLUDED.biomes,
            shadow_weight = EXCLUDED.shadow_weight,
@@ -339,8 +242,6 @@ async function seedEntities() {
           nullIfEmpty(r.active) ?? 'all-day',
           nullIfEmpty(r.tier),
           validParent,
-          nullIfEmpty(r.description),
-          nullIfEmpty(r.description_summary),
           nullIfEmpty(r.url_path),
           biomesArray,
           Number.isFinite(shadowWeight) ? shadowWeight : 0,
@@ -1081,7 +982,7 @@ async function ensureSchema() {
   await runMigrationFile('create_trips_and_trip_days.sql');
   await runMigrationFile('create_users_and_seed_admin.sql');
   await runMigrationFile('add_auth_to_users.sql');
-  await runMigrationFile('create_npc_interactions_table.sql');
+  await runMigrationFile('create_npc_interactions_table.sql'); // no-op: the table dies in drop_legacy_encounter_tables
 
   // --- regions columns (migrations: add_cultural_family_to_regions.sql, add_population_ratio_to_regions.sql) ---
   await pool.query(`
@@ -1223,56 +1124,6 @@ async function ensureSchema() {
   `);
 
   await pool.query(`
-    ALTER TABLE npc_interactions
-      ADD COLUMN IF NOT EXISTS topic_prose_hint TEXT
-  `);
-
-  await pool.query(`
-    DO $$
-    BEGIN
-      IF to_regclass('public.interactions') IS NOT NULL
-         AND to_regclass('public.encounter_forms') IS NULL THEN
-        ALTER TABLE interactions DROP CONSTRAINT IF EXISTS interactions_pkey;
-        ALTER TABLE interactions RENAME COLUMN id TO legacy_id;
-        ALTER TABLE interactions RENAME COLUMN form TO interaction_form;
-        ALTER TABLE interactions RENAME TO encounter_forms;
-        ALTER TABLE encounter_forms ADD COLUMN id UUID;
-        UPDATE encounter_forms
-        SET id = (
-          SUBSTRING(md5(entity_type || '|' || interaction_form), 1, 8) || '-' ||
-          SUBSTRING(md5(entity_type || '|' || interaction_form), 9, 4) || '-5' ||
-          SUBSTRING(md5(entity_type || '|' || interaction_form), 14, 3) || '-a' ||
-          SUBSTRING(md5(entity_type || '|' || interaction_form), 18, 3) || '-' ||
-          SUBSTRING(md5(entity_type || '|' || interaction_form), 21, 12)
-        )::UUID;
-        ALTER TABLE encounter_forms ALTER COLUMN id SET NOT NULL;
-        ALTER TABLE encounter_forms ADD PRIMARY KEY (id);
-        ALTER TABLE encounter_forms DROP COLUMN legacy_id;
-        ALTER INDEX IF EXISTS idx_interactions_entity_type RENAME TO idx_encounter_forms_entity_type;
-      END IF;
-    END $$;
-  `);
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS encounter_forms (
-      id UUID PRIMARY KEY,
-      entity_type TEXT NOT NULL,
-      interaction_form TEXT NOT NULL,
-      intensity INT NOT NULL CHECK (intensity BETWEEN 0 AND 4),
-      weight INT NOT NULL CHECK (weight > 0),
-      min_danger INT NOT NULL DEFAULT 0,
-      max_danger INT NOT NULL DEFAULT 5,
-      triggers_roll BOOLEAN NOT NULL DEFAULT false,
-      prose_hint TEXT NOT NULL,
-      UNIQUE (entity_type, interaction_form)
-    )
-  `);
-  await pool.query(`
-    CREATE INDEX IF NOT EXISTS idx_encounter_forms_entity_type
-      ON encounter_forms (entity_type)
-  `);
-
-  await pool.query(`
     ALTER TABLE trips
       ADD COLUMN IF NOT EXISTS used_region_descriptions JSONB DEFAULT '{}',
       ADD COLUMN IF NOT EXISTS used_terrain_phrases    JSONB DEFAULT '{}',
@@ -1337,6 +1188,7 @@ async function ensureSchema() {
   // convergent; this tears down what the narration records replaced. All
   // guards are idempotent — a fresh DB ends with the same shape.
   await runMigrationFile('drop_legacy_narrative_tables.sql');
+  await runMigrationFile('drop_legacy_encounter_tables.sql');
 
   console.log('✅ Schema ready\n');
 }
@@ -1522,8 +1374,7 @@ async function seedMovers() {
   for (const file of moverFiles) {
     const doc = yaml.load(await fs.readFile(path.join(MOVERS_DIR, file), 'utf8'));
     const m = doc?.mover;
-    if (!m?.slug || !m.name || !m.kind) failMover(file, null, 'mover needs slug, name and kind');
-    if (!['person', 'company', 'host'].includes(m.kind)) failMover(file, null, `bad kind '${m.kind}'`);
+    if (!m?.slug || !m.name) failMover(file, null, 'mover needs slug and name');
     if (!m.type) failMover(file, null, "mover needs 'type' (an entities.type vocabulary value)");
 
     // Legs are regenerated wholesale: seed data is rebuilt per deploy.
@@ -1566,9 +1417,6 @@ async function seedMovers() {
       if (kind === 'march' && (leg.notice_radius_km == null || leg.contact_radius_km == null))
         failMover(file, n, "march legs need 'notice_radius_km' and 'contact_radius_km'");
 
-      const beats = leg.beats ?? (leg.beat ? [leg.beat] : []);
-      for (const b of beats) if (!b?.text) failMover(file, n, 'a beat needs at least text');
-
       let trailGeom = null;
       let trailDays = 0;
       if (kind === 'march') {
@@ -1580,7 +1428,7 @@ async function seedMovers() {
         trailDays = Math.round((new Date(s.to) - new Date(s.from)) / 86400000);
       }
 
-      resolved.push({ leg, n, kind, phases, camp, regionId, locationId, beats, trailGeom, trailDays });
+      resolved.push({ leg, n, kind, phases, camp, regionId, locationId, trailGeom, trailDays });
     }
 
     // Pass 2: write. Identity lives in entities (tier='mover'): the being row.
@@ -1611,8 +1459,8 @@ async function seedMovers() {
            (entity_id, campaign_id, leg_index, kind, date_from, date_to,
             region_id, location_id, location_type, level, road_bias,
             notice_radius_km, contact_radius_km, visibility, greeting,
-            active_phases, trace, hostile)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)
+            active_phases, hostile)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
          RETURNING id`,
         [
           moverId, r.camp, Number(r.leg.index ?? r.n), r.kind, s.from, s.to,
@@ -1621,18 +1469,10 @@ async function seedMovers() {
           JSON.stringify(r.leg.road_bias ?? {}),
           r.leg.notice_radius_km ?? null, r.leg.contact_radius_km ?? null,
           r.leg.visibility ?? 'signs', Boolean(r.leg.greeting),
-          r.phases, r.leg.trace ?? null, Boolean(r.leg.hostile),
+          r.phases, Boolean(r.leg.hostile),
         ]
       );
       const legId = lrow.id;
-
-      for (const b of r.beats) {
-        await pool.query(
-          `INSERT INTO mover_beats (leg_id, variant, title, text, effects)
-           VALUES ($1, $2, $3, $4, $5)`,
-          [legId, b.variant ?? 'base', b.title ?? null, b.text, JSON.stringify(b.effects ?? {})]
-        );
-      }
 
       if (r.kind === 'march') {
         await pool.query(
@@ -1666,11 +1506,8 @@ async function main() {
     await ensureSchema();
     await seedKingdoms();
     await seedClimateZones();
-    // entities before npc_interactions (FK entity_id → entities).
     await seedEntities();
     await backfillEntityFamilies();
-    await seedEncounterForms();
-    await seedNpcInteractions();
 
     // Polygon layers first: locations.sql rows already carry region_id, so
     // regions must exist before them (FK). Roads are independent.
