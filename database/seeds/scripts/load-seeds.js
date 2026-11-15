@@ -1258,6 +1258,9 @@ async function ensureSchema() {
 async function runMigrationFile(fileName) {
   const filePath = path.join(__dirname, '../../migrations', fileName);
   const sql = await fs.readFile(filePath, 'utf-8');
+  // Log BEFORE running: 'applied' only prints on success, so a crash
+  // mid-chain otherwise leaves no trace of which file died.
+  console.log(`   ↳ applying ${fileName}`);
   await pool.query(sql);
   console.log(`   ↳ applied ${fileName}`);
 }
