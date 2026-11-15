@@ -637,6 +637,75 @@ CREATE INDEX IF NOT EXISTS idx_mover_trails_date ON mover_trails(date);
 CREATE INDEX IF NOT EXISTS idx_mover_trails_leg  ON mover_trails(leg_id);
 
 -- ============================================================================
+-- Table: entities_narration
+-- Purpose: the voice of beings — sibling of places_narration, same record
+--          anatomy. Absorbs encounter_forms (kind='form'), npc_interactions
+--          (kind='contact') and entity prose (kind='entity'). Facts stay on
+--          entities (procedural presence) and mover_legs (scheduled presence).
+--          See docs/design/entities-narration.md.
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS entities_narration (
+    id              TEXT PRIMARY KEY,              -- 'ent:*' | 'form:*' | 'cnt:*'
+    kind            TEXT NOT NULL
+                    CHECK (kind IN ('entity', 'form', 'contact')),
+    entity_id       UUID REFERENCES entities(id),
+    entity_ids      UUID[],
+    entity_type     TEXT,
+    family          TEXT,
+    mover_leg_id    UUID REFERENCES mover_legs(id),
+    region_id       INTEGER REFERENCES regions(id),
+    region_ids      INTEGER[],
+    location_id     INTEGER REFERENCES locations(id),
+    cultural_family TEXT,
+    form            TEXT,
+    priority        SMALLINT NOT NULL DEFAULT 0,
+    tags            TEXT[] NOT NULL DEFAULT '{}',
+
+    aspect          JSONB,
+    presence        JSONB,
+    lore            JSONB,
+    secret          JSONB,
+    sections        JSONB,
+    facts           JSONB,
+    notes           JSONB,
+    channel         JSONB,
+    traveller_use   JSONB,
+    variants        JSONB,
+    rotation        JSONB,
+    interactive     JSONB,
+    disposition     JSONB,
+
+    weight          INTEGER,
+    intensity       INTEGER,
+    min_danger      INTEGER,
+    max_danger      INTEGER,
+    triggers_roll   BOOLEAN,
+
+    payload         JSONB NOT NULL DEFAULT '{}'::jsonb
+);
+
+CREATE INDEX IF NOT EXISTS idx_en_kind        ON entities_narration(kind);
+CREATE INDEX IF NOT EXISTS idx_en_entity      ON entities_narration(entity_id)      WHERE entity_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_entity_ids  ON entities_narration USING GIN(entity_ids);
+CREATE INDEX IF NOT EXISTS idx_en_entity_type ON entities_narration(entity_type)    WHERE entity_type IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_family      ON entities_narration(family)         WHERE family IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_mover_leg   ON entities_narration(mover_leg_id)   WHERE mover_leg_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_region      ON entities_narration(region_id)      WHERE region_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_region_ids  ON entities_narration USING GIN(region_ids);
+CREATE INDEX IF NOT EXISTS idx_en_location    ON entities_narration(location_id)    WHERE location_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_form        ON entities_narration(form)           WHERE form IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_scope       ON entities_narration(kind, entity_type, region_id, form);
+CREATE INDEX IF NOT EXISTS idx_en_tags        ON entities_narration USING GIN(tags);
+CREATE INDEX IF NOT EXISTS idx_en_payload     ON entities_narration USING GIN(payload);
+
+COMMENT ON TABLE  entities_narration IS 'The voice of beings — sibling of places_narration. entity ficha | contact-shape draw | contact substance';
+COMMENT ON COLUMN entities_narration.kind IS 'entity (ficha) | form (contact-shape draw) | contact (substance per scope+form)';
+COMMENT ON COLUMN entities_narration.mover_leg_id IS 'Narrowest scope: this record exists while that leg is live; mover_beats arrive as variants';
+COMMENT ON COLUMN entities_narration.form IS 'Contact-shape key (glimpsed_far, stalks, parley…); on contact rows NULL = wildcard';
+COMMENT ON COLUMN entities_narration.disposition IS 'How the being is disposed in the contact {en, es} (was npc_attitude)';
+
+-- ============================================================================
 -- Verification queries
 -- ============================================================================
 

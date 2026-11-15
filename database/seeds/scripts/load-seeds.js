@@ -1243,6 +1243,7 @@ async function ensureSchema() {
   await runMigrationFile('normalize_narration_columns.sql');
   await runMigrationFile('unify_narration_model.sql');
   await runMigrationFile('add_places_narration_id_to_trip_days.sql');
+  await runMigrationFile('create_entities_narration_table.sql');
 
   // Legacy prose stores drop last (#104): everything above is additive and
   // convergent; this tears down what the narration records replaced. All
