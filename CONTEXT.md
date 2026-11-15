@@ -45,7 +45,7 @@ The Host's verdict on how an Episode ends, declared before the Episode is narrat
 _Avoid_: ending, result
 
 **Narration notes**:
-The Host's pre-verbalized world material for the narrator — what is not itself a lived Event: climate continuity, the camp's lead-in, lands crossed, equipage, end state, journey context. The per-phase world prose rides the Events' own readings; one verbalization serves Memory and narration alike.
+The Host's pre-verbalized world material for the narrator — what is not itself a lived Event: climate continuity, lands crossed, equipage, end state, journey context. The per-phase world prose rides the Events' own readings; one verbalization serves Memory and narration alike.
 _Avoid_: world notes, briefing, prompt material
 
 **Tag**:

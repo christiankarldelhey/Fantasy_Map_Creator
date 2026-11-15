@@ -44,6 +44,7 @@ _EVENT_PHASE_KEYS = {
     'terrain': ('terrain',),
     'locations': ('place',),
     'water': ('water',),
+    'camp': ('rest',),
 }
 
 
@@ -160,7 +161,7 @@ def build_day_prompt(
         f"{wn.get('lands') or ''}\n\n"
         f"{block_for('MORNING', 'morning')}\n\n"
         f"{block_for('AFTERNOON', 'afternoon')}\n\n"
-        f"{'' if is_terminal else block_for('NIGHT AT CAMP', 'night', wn.get('night_lead') or '')}\n\n"
+        f"{'' if is_terminal else block_for('NIGHT AT CAMP', 'night', ' '.join(phase_get('camp', 'night')) or (wn.get('night_lead') or ''))}\n\n"
         f"{terminal_closing_instruction(char_name) if is_terminal else closing_instruction(day.get('day_number'))}\n"
         f"{'' if is_terminal else OVERNIGHT_COLOUR_NOTE}\n\n"
         f"{SPANISH_INSTRUCTION if language == 'spanish' else ''}"

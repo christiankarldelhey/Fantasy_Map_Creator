@@ -162,7 +162,7 @@ export function toOpenPayload({
     arc: trip.name ?? null,
     condition: { ...(characterState || {}), ...(equipmentState || {}) },
     narration_notes: pick(worldNotes, [
-      'climate_state', 'night_lead', 'lands',
+      'climate_state', 'lands',
       'equipage', 'end_state', 'journey_context',
     ]),
     fate,

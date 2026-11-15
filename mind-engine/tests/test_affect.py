@@ -140,10 +140,48 @@ def test_numeric_fields_push_valence(client):
     rest = {
         'type': 'rest',
         'when': {'episode': 1, 'date': '1950-01-19'},
-        'data': {'rest_quality': 0, 'shadow_effect': 2},
+        'data': {'shadow_effect': 2},
     }
     _open_and_close(client, char, 'd1', [rest])
     assert _perceived(char)['valence'] == pytest.approx(-0.3)
+
+
+def test_a_shut_door_is_felt_and_remembered(client):
+    """The night's social truth travels as tags: 'lodging:turned_away'
+    wounds (-0.3) and clears its salience floor — the mind does not need
+    a number to know a refused bed hurt."""
+    char = _uid('refused')
+    rest = {
+        'type': 'rest',
+        'when': {'episode': 1, 'date': '1950-01-19'},
+        'data': {
+            'entity_name': 'The Prancing Pony',
+            'reading': 'The door of The Prancing Pony shut on an empty purse.',
+            'tags': ['lodging:turned_away', 'rest:poor', 'rest:open_sky'],
+        },
+    }
+    _open_and_close(client, char, 'd1', [rest])
+    item = _perceived(char)
+    assert item['valence'] == pytest.approx(-0.3)
+    assert item['salience'] >= 0.5
+
+
+def test_a_kind_night_warms(client):
+    """'lodging:charity' is felt as mercy — the strongest tag wins, so a
+    charitable roof reads warmer than its mere goodness."""
+    char = _uid('sheltered')
+    rest = {
+        'type': 'rest',
+        'when': {'episode': 1, 'date': '1950-01-19'},
+        'data': {
+            'reading': 'A corner by the fire, freely given.',
+            'tags': ['lodging:charity', 'rest:good', 'rest:indoor'],
+        },
+    }
+    _open_and_close(client, char, 'd1', [rest])
+    item = _perceived(char)
+    assert item['valence'] == pytest.approx(0.2)
+    assert item['salience'] >= 0.5
 
 
 def test_two_minds_feel_the_same_world_differently(client):

@@ -101,6 +101,16 @@
       "description": { "en": "How an experience ended — `tag:outcome:<outcome>` (wounded, unscathed, turned_away…)", "es": "Cómo terminó una experiencia — `tag:outcome:<resultado>` (wounded, unscathed, turned_away…)" },
       "pattern": "^[a-z0-9_]+$"
     },
+    "rest": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "The kind of night slept — `tag:rest:<kind>` (open_sky, indoor, good, poor, shelter)", "es": "La clase de noche dormida — `tag:rest:<clase>` (open_sky, indoor, good, poor, shelter)" },
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "lodging": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "How the night's shelter was secured — `tag:lodging:<how>` (paid, charity, turned_away, shelter)", "es": "Cómo se consiguió techo para la noche — `tag:lodging:<cómo>` (paid, charity, turned_away, shelter)" },
+      "pattern": "^[a-z0-9_]+$"
+    },
     "food": {
       "consumers": ["memory", "retrieval"],
       "description": { "en": "A foodstuff the character ate — `tag:food:<food>`", "es": "Un alimento que el personaje comió — `tag:food:<comida>`" },

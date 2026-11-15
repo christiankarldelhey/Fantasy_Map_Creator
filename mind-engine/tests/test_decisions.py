@@ -224,9 +224,13 @@ def test_decide_rewrites_what_happened(client):
     assert 'Takes the bed' in (encounter['reading'] or '')
 
     rest = next(i for i in perceived if i['type'] == 'rest')
-    assert rest['data']['place'] == 'the wayhouse'
-    assert rest['data']['rest_quality'] == 4
-    assert rest['data']['scope'] == 'encounter_shelter'
+    assert rest['data']['entity_name'] == 'the wayhouse'
+    assert 'lodging:shelter' in (rest['data']['tags'] or [])
+    assert 'rest:indoor' in (rest['data']['tags'] or [])
+    assert 'rest:good' in (rest['data']['tags'] or [])
+    assert 'tag:lodging:shelter' in rest['tags']
+    # The wild night's marks are gone — the night that was lived was this.
+    assert 'tag:rest:open_sky' not in rest['tags']
     assert 'a lamp lit for the road' in (rest['reading'] or '')
 
 
