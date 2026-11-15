@@ -253,35 +253,24 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 status='open',
                 episode_idx=(prev_idx or 0) + 1,
                 events=[e.model_dump() for e in payload.events],
-                # The flat open body IS the narrator input — store it in
-                # NarrateDayRequest shape so narrate stays untouched.
+                # The flat open body IS the narrator input — store the
+                # canonical channels; narrate rebuilds the day's phase
+                # material from episode.events themselves.
                 narrator_payload={
-                    'day': (
-                        payload.day.model_dump(exclude_none=True)
-                        if payload.day else None
-                    ),
                     'trip': {'name': payload.arc},
                     'character': {
                         k: v for k, v in card.items() if v is not None
                     },
                     'language': payload.language,
-                    # condition is the merged map (character_state +
-                    # equipment_state folded by _fold_legacy); the legacy
-                    # keys stay for the dual-read window.
                     'characterState': payload.condition,
-                    'equipmentState': payload.equipment_state,
                     'fate': payload.fate,
-                    'previousDay': payload.previous_day,
-                    'recentDayClimates': payload.recent_day_climates,
-                    # Canonical channels (ADR-0016) the narrate path
-                    # back-fills the legacy `day` from.
                     'episode': (
                         payload.episode.model_dump(exclude_none=True)
                         if payload.episode else None
                     ),
                     'arc': payload.arc,
                     'condition': payload.condition,
-                    'world_notes': payload.world_notes,
+                    'narration_notes': payload.narration_notes,
                 },
                 # Audit snapshot: the exact knobs this episode runs under.
                 # Admin edits apply to future episodes, not in-flight ones.
@@ -652,18 +641,22 @@ def narrate_episode(
             )
         try:
             req = NarrateDayRequest.model_validate(episode.narrator_payload)
-            # ADR-0016: v2 episodes carry episode/arc/world_notes instead
-            # of `day`; back-fill the legacy day keys the prompt still
-            # reads so narrate stays untouched during the window.
+            # ADR-0016: episodes carry episode/arc/narration_notes and no
+            # `day`; the prompt's frame is back-filled and the per-phase
+            # world material is rebuilt from episode.events themselves.
             day = dict(req.day or {})
-            frame = getattr(req, 'episode', None) or {}
+            frame = stored.get('episode') or {}
             if frame.get('at') is not None:
                 day.setdefault('date', frame['at'])
             if frame.get('index') is not None:
                 day.setdefault('day_number', frame['index'])
             if frame.get('terminal') is not None:
                 day.setdefault('is_last_day', frame['terminal'])
-            stored_notes = getattr(req, 'world_notes', None) or {}
+            stored_notes = (
+                stored.get('narration_notes')
+                or stored.get('world_notes')
+                or {}
+            )
             if stored_notes:
                 day.setdefault('world_notes', stored_notes)
             # Encounters reach the narrator through events now (ADR-0016):
@@ -692,13 +685,14 @@ def narrate_episode(
             character=req.character,
             language=payload.language or req.language,
             character_state=req.characterState,
-            equipment_state=req.equipmentState,
             fate=req.fate,
+            # The episode's own events carry the per-phase world prose
+            # (weather/meal/terrain/place/water readings).
+            events=episode.events or [],
             # Forwarded, not dead: an episode without lens_block falls
             # back to the stateless prompt, where this is the only
             # continuity. With a lens, build_day_prompt drops it.
             previous_day=req.previousDay,
-            recent_day_climates=req.recentDayClimates,
             mind_block=episode.lens_block or '',
             # C35: the brief's day lines ride inside their phase; legacy
             # episodes (no brief) keep the C21 memory beats.

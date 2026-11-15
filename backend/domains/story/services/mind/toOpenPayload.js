@@ -136,11 +136,12 @@ export function toOpenPayload({
   recentDayClimates = [],
   stateContext = null,
 }) {
-  const daySlim = slimDay(day);
-  // World voice (issue #52): the host verbalizes every world field before
-  // the wire — the engine assembles prose, it never phrases numbers.
-  daySlim.world_notes = buildWorldNotes({
-    day: daySlim,
+  // The narrator's briefing (ADR-0016): only the world material that is
+  // NOT a lived event — climate continuity, the camp lead-in, lands,
+  // equipage, end state, journey context. The per-phase world prose
+  // (weather, meals, terrain, places, water) rides events[].data.reading.
+  const worldNotes = buildWorldNotes({
+    day: slimDay(day),
     tripName: trip.name ?? null,
     characterName: character.name ?? 'The traveller',
     characterState,
@@ -156,9 +157,6 @@ export function toOpenPayload({
     language,
     character: slimCharacter(character),
     events: toEvents({ day, trip, character, stateContext, previousDay }),
-    // Canonical channels (ADR-0016): the episode frame, the arc it
-    // belongs to, the live Condition as one flat map, and the World
-    // voice briefing.
     episode: {
       index: day.day_number ?? null,
       at: day.date ?? null,
@@ -166,35 +164,55 @@ export function toOpenPayload({
     },
     arc: trip.name ?? null,
     condition: { ...(characterState || {}), ...(equipmentState || {}) },
-    world_notes: daySlim.world_notes,
+    narration_notes: pick(worldNotes, [
+      'climate_state', 'night_lead', 'lands',
+      'equipage', 'end_state', 'journey_context',
+    ]),
     fate,
-    // --- Legacy fields, dual-read window (ADR-0016) ---
-    day: daySlim,
-    trip_name: trip.name ?? null,
-    character_state: characterState,
-    equipment_state: equipmentState,
-    previous_day: previousDay,
-    recent_day_climates: recentDayClimates,
   };
 }
 
 /**
- * Map the flat open body back onto the stateless /narrate-day contract
- * (NarrateDayRequest, camelCase) — used by the fallback path only.
+ * Build the stateless /narrate-day body (NarrateDayRequest, camelCase).
+ * A narrator without a mind has no Memory to consult — it needs the
+ * resolved day itself plus explicit continuity. Its contract is its own;
+ * nothing of the episode wire shapes it.
  */
-export function toNarrateDayBody(openBody) {
+export function toNarrateDayBody({
+  day,
+  trip,
+  character,
+  language = 'english',
+  characterState = null,
+  equipmentState = null,
+  fate = null,
+  previousDay = null,
+  recentDayClimates = [],
+}) {
+  const daySlim = slimDay(day);
+  // World voice (issue #52): the stateless prompt has no events to read,
+  // so the whole verbalized day rides here.
+  daySlim.world_notes = buildWorldNotes({
+    day: daySlim,
+    tripName: trip.name ?? null,
+    characterName: character.name ?? 'The traveller',
+    characterState,
+    equipmentState,
+    fate,
+    previousDay,
+    recentDayClimates,
+    rng: typeof day.rng === 'function' ? day.rng : Math.random,
+  });
   return {
-    day: openBody.day,
-    trip: { name: openBody.trip_name },
-    character: openBody.character,
-    language: openBody.language,
-    characterState: openBody.character_state,
-    equipmentState: openBody.equipment_state,
-    fate: openBody.fate,
-    previousDay: openBody.previous_day,
-    recentDayClimates: openBody.recent_day_climates,
-    // Canonical channel (ADR-0016): the stateless path verbalizes from
-    // it too when `day.world_notes` is absent.
-    world_notes: openBody.world_notes,
+    day: daySlim,
+    trip: { name: trip.name ?? null },
+    character: slimCharacter(character),
+    language,
+    characterState,
+    equipmentState,
+    fate,
+    previousDay,
+    recentDayClimates,
+    world_notes: daySlim.world_notes,
   };
 }

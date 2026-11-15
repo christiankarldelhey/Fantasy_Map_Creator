@@ -91,8 +91,8 @@ def test_narrate_keeps_the_last_narration(client, monkeypatch):
             'when': {'episode': 1, 'date': '1950-06-01'},
             'data': {},
         }],
-        'day': {'day_number': 1, 'date': '1950-06-01'},
-        'trip_name': 'T', 'language': 'english',
+        'episode': {'index': 1, 'at': '1950-06-01'},
+        'arc': 'T', 'language': 'english',
     })
     assert r.status_code == 200, r.text
     ep_id = r.json()['episode_id']

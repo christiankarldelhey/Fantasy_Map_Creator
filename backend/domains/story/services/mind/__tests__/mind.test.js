@@ -24,6 +24,8 @@ const { openEpisode, closeEpisode, resetMind } = await import('../mindClient.js'
 const DAY = {
   day_number: 3,
   date: '1950-01-21',
+  // Deterministic verbalization: every pick lands its first option.
+  rng: () => 0,
   regions: [{ name: 'lone-lands' }],
   climate: [
     { time: '1950-01-21 07:00:00', phase: 'morning', climate: { temperature_2m: 4.2, cloud_cover: 80, wind_speed_10m: 22, precipitation: 0 } },
@@ -35,7 +37,7 @@ const DAY = {
   distance_km: 14.5,
   walking_hours: 5.5,
   terrain_phrases: { morning: ['rocky slopes'], afternoon: ['bare hills'] },
-  biomes: [{ name: 'hills' }],
+  biomes: [{ type: 'hills', hour_float: 9 }],
   locations: [{ name: 'Amon Sul', type: 'ruin' }],
   meals: [
     { slot: 'midday', food: 'bread', drink: 'water', itemId: 7 },
@@ -72,7 +74,10 @@ test('toEvents emits the generic contract from a resolved day', () => {
   }
   for (const e of events) {
     assert.equal(typeof e.type, 'string');
-    assert.ok(e.when && e.when.episode === 3, 'when.episode = day_number');
+    // `when` is the moment within the episode only — index/date live
+    // once, in the episode frame.
+    assert.ok(e.when && !('episode' in e.when) && !('date' in e.when),
+      'when carries only phase/hour');
   }
 
   // Climate buckets by the sample's own phase — the walking day must not
@@ -82,7 +87,10 @@ test('toEvents emits the generic contract from a resolved day', () => {
     climates.map((c) => c.when.phase).sort(),
     ['afternoon', 'morning', 'night']
   );
-  assert.equal(climates.find((c) => c.when.phase === 'morning').data.hours, 2);
+  assert.equal(
+    climates.find((c) => c.when.phase === 'morning').data.temperature_2m,
+    5.1
+  );
 
   // Encounters carry how contact happened, not only its outcome.
   const encounter = events.find((e) => e.type === 'encounter');
@@ -151,19 +159,21 @@ test('events declare readings and weather tiers (the tagger contract)', () => {
     encounter.data.reading,
     'Corpse Candles — blocks the path outright',
   );
+  // Meal readings are the narrator's prose itself — food and drink
+  // appear in the day's own words, hunger in the evening's.
   const meals = events.filter((e) => e.type === 'meal');
-  assert.equal(meals[0].data.reading, 'bread, water');
-  assert.equal(meals[1].data.reading, 'water');
-  assert.equal(
-    events.find((e) => e.type === 'place').data.reading, 'Amon Sul',
+  assert.match(meals[0].data.reading, /bread.*water/);
+  assert.match(meals[1].data.reading, /water|hungry|fast/i);
+  assert.match(
+    events.find((e) => e.type === 'place').data.reading, /Amon Sul/,
   );
   assert.equal(
     events.find((e) => e.type === 'rest').data.reading,
     'The night is spent under open sky.',
   );
-  assert.equal(
+  assert.match(
     events.find((e) => e.type === 'terrain').data.reading,
-    'rocky slopes',
+    /hills|rocky slopes/,
   );
   // Vitals and mileage never narrate — they speak through needs/mood.
   assert.equal(events.find((e) => e.type === 'body').data.reading, undefined);
@@ -530,14 +540,13 @@ test('the open payload keeps settlement detail and the lodging outcome', () => {
     fate: 'living',
     stateContext: null,
   });
-  const dale = body.day.locations[0];
+  const dale = body.events.find((e) => e.type === 'place').data;
   assert.equal(dale.population, 5800);
   assert.equal(dale.aspect_es, 'Una ciudad de jugueteros.');
-  assert.equal(dale.entered, true);
-  assert.equal(dale.cultural_family, 'northman');
   assert.equal(dale.geometry, undefined);
-  assert.equal(body.day.lodging.paid, true);
-  assert.equal(body.day.lodging.place, 'Dale');
+  assert.ok(dale.tags.includes('entered'));
+  const rest = body.events.find((e) => e.type === 'rest').data;
+  assert.equal(rest.lodging.paid, true);
 });
 
 test('the open payload keeps the sighting and presence fields notes read', () => {
@@ -559,17 +568,15 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
     character: { name: 'Tester' },
     stateContext: null,
   });
-  const garden = body.day.locations[0];
+  const places = body.events.filter((e) => e.type === 'place');
+  const garden = places[0].data;
   // Inside the authored radius the traveller is IN the place — the notes
-  // need the size and the 'visited' flag to say so, not 'passed at some
-  // distance'.
-  assert.equal(garden.visited, true);
-  assert.equal(garden.size_radius_km, 70);
+  // need the 'visited' flag and the ficha's presence prose to say so.
+  assert.ok(garden.tags.includes('visited'));
   assert.equal(garden.presence, 'More kinds of tree than any other forest.');
-  const hornburg = body.day.locations[1];
-  assert.equal(hornburg.sighted, true);
-  assert.equal(hornburg.sighted_hour_float, 9.5);
-  assert.equal(hornburg.sighted_direction, 'east');
+  const hornburg = places[1].data;
+  assert.equal(hornburg.sighted.hour_float, 9.5);
+  assert.equal(hornburg.sighted.direction, 'east');
 });
 
 test('the open payload carries raw state, never rendered blocks (C10)', () => {
@@ -583,17 +590,26 @@ test('the open payload carries raw state, never rendered blocks (C10)', () => {
     fate: 'living',
     stateContext: null,
   });
-  assert.deepEqual(body.character_state.energy, 40);
-  assert.deepEqual(body.character_state.recentNotes, ['a fight with wolves']);
-  assert.equal(body.equipment_state.rations, 1);
+  // The live Condition is one flat map — the only channel where
+  // numbers are legal.
+  assert.deepEqual(body.condition.energy, 40);
+  assert.deepEqual(body.condition.recentNotes, ['a fight with wolves']);
+  assert.equal(body.condition.rations, 1);
   assert.equal(body.fate, 'living');
-  // No half-rendered blocks may travel: world phrasing lives whole in
-  // day.world_notes (#52), not in stray top-level fields.
+  // No half-rendered blocks may travel: the narrator's material rides
+  // narration_notes + the events' readings, not stray top-level fields.
   assert.equal(body.condition_block, undefined);
   assert.equal(body.equipment_block, undefined);
   assert.equal(body.end_state_block, undefined);
 
-  const narrate = toNarrateDayBody(body);
+  const narrate = toNarrateDayBody({
+    day: DAY,
+    trip: { id: 't1', name: 'Test trip' },
+    character: { name: 'Tester' },
+    characterState: { energy: 40, shadow: 55 },
+    equipmentState: { rations: 1, waterHeld: 0, waterCapacity: 1 },
+    fate: 'living',
+  });
   assert.equal(narrate.characterState.shadow, 55);
   assert.equal(narrate.equipmentState.waterCapacity, 1);
   assert.equal(narrate.fate, 'living');
@@ -625,12 +641,30 @@ test('the open payload only emits keys the wire model declares', () => {
   });
 
   assert.deepEqual(Object.keys(body).sort(), [
-    'arc', 'character', 'character_state', 'condition', 'day', 'episode',
-    'episode_ref', 'equipment_state', 'events', 'fate', 'game_id',
-    'language', 'previous_day', 'recent_day_climates', 'trip_name',
-    'world_notes',
+    'arc', 'character', 'condition', 'episode', 'episode_ref', 'events',
+    'fate', 'game_id', 'language', 'narration_notes',
   ]);
-  const encounter = body.day.encounters[0];
+  // The stateless contract keeps its own day shape — the slim whitelist
+  // still applies to it, built separately by toNarrateDayBody.
+  const narrate = toNarrateDayBody({
+    day: {
+      ...DAY,
+      encounters: [{
+        hour: '10:00', phase: 'morning', region: 'lone-lands',
+        entity: {
+          name: 'Wolves', type: 'beast', family: 'canines', active: 'all-day',
+          description: 'd', description_summary: 's',
+        },
+        interaction: {
+          form: 'attacks', outcome: 'wounded', prose_hint: 'p',
+          dialogue_content: { topic: 'threat' }, hintKey: 'k', night_timing: 'mid_night',
+        },
+      }],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+  });
+  const encounter = narrate.day.encounters[0];
   assert.deepEqual(
     Object.keys(encounter).sort(),
     ['entity', 'hour', 'interaction', 'phase', 'region']
@@ -707,7 +741,8 @@ test('ambient situations ride the wire as moment events, never a day field (ADR-
   assert.equal(moments[0].data.reading, 'the fire lights three paces; beyond it a wall, and the wall makes noise');
   assert.equal(moments[0].data.record, 'M-A4');
   assert.equal(moments[0].data.effects, undefined);
-  assert.equal(body.day.ambient, undefined);
+  // The episode wire carries no `day` at all — ambient lived as events.
+  assert.equal(body.day, undefined);
 });
 
 test('the open payload carries the canonical v2 channels (ADR-0016)', () => {
@@ -722,5 +757,9 @@ test('the open payload carries the canonical v2 channels (ADR-0016)', () => {
   assert.deepEqual(body.episode, { index: 3, at: '3018-03-15', terminal: false });
   assert.equal(body.arc, 'The Long Road North');
   assert.deepEqual(body.condition, { energy: 35, rations: 2 });
-  assert.ok(body.world_notes && typeof body.world_notes === 'object');
+  assert.ok(body.narration_notes && typeof body.narration_notes === 'object');
+  // Only the briefing that is no lived event rides here — the per-phase
+  // world prose lives in the events' readings.
+  assert.equal(body.narration_notes.weather, undefined);
+  assert.equal(body.narration_notes.meals, undefined);
 });

@@ -52,7 +52,7 @@ def _decision_event(ep=1):
 def _open(client, char, events, ref='d1'):
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': {'id': char},
-        'episode_ref': ref, 'events': events, 'day': {},
+        'episode_ref': ref, 'events': events,
     })
     assert r.status_code == 200, r.text
     return r.json()
@@ -153,7 +153,7 @@ def test_recommended_follows_theme_weights(client):
         'game_id': 'middle_earth',
         'character': {'id': char, 'preset': slug},
         'episode_ref': 'd1',
-        'events': [_decision_event()], 'day': {},
+        'events': [_decision_event()],
     }).json()
     point = opened['psyche_packet']['decision_point']
     assert point['recommended'] == 'bridge'

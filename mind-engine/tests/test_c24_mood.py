@@ -76,7 +76,8 @@ def _open(client, char, ep, events):
         'game_id': GAME,
         'character': {'id': char},
         'episode_ref': f'd{ep}',
-        'events': events, 'day': {},
+        'episode': {'index': ep, 'at': f'1950-10-0{6 + ep}'},
+        'events': events,
     })
     assert r.status_code == 200, r.text
     return r.json()

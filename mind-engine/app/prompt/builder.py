@@ -38,6 +38,32 @@ def _encounters_by_phase(encounters):
     return buckets
 
 
+_EVENT_PHASE_KEYS = {
+    'weather': ('climate',),
+    'meal': ('meal',),
+    'terrain': ('terrain',),
+    'locations': ('place',),
+    'water': ('water',),
+}
+
+
+def _events_phase_material(events):
+    """Rebuild the per-phase world notes from the events' own readings
+    (ADR-0016): the episode's events carry the prose the narrator lays
+    out — one verbalization, remembered and narrated alike."""
+    material = {k: empty_phase_buckets() for k in _EVENT_PHASE_KEYS}
+    for event in (events or []):
+        reading = ((event.get('data') or {}).get('reading')) or ''
+        if not reading:
+            continue
+        phase = (event.get('when') or {}).get('phase') or 'night'
+        for key, types in _EVENT_PHASE_KEYS.items():
+            if event.get('type') in types and phase in material[key]:
+                material[key][phase].append(reading)
+                break
+    return material
+
+
 def build_day_prompt(
     day,
     trip=None,
@@ -51,12 +77,15 @@ def build_day_prompt(
     mind_block='',
     memory_beats=None,
     world_notes=None,
+    events=None,
 ):
     trip = trip or {}
     character = character or {}
-    # World voice (#52): the day arrives already verbalized — the engine
-    # lays out the host's prose and never phrases the world itself.
+    # World voice (#52): the world arrives already verbalized — either as
+    # events' readings (episode path) or as world_notes (stateless path).
+    # The engine lays out the host's prose and never phrases numbers.
     wn = world_notes if world_notes is not None else (day.get('world_notes') or {})
+    ev = _events_phase_material(events) if events else None
 
     char_name = character_name(character)
     destination = destination_name(trip.get('name'))
@@ -67,12 +96,29 @@ def build_day_prompt(
 
     todays_way_in = pick_todays_way_in(rng)
     opening_strategy = pick_opening_strategy(rng)
-    weather_by_phase = wn.get('weather') or {}
     encounter_by_phase = _encounters_by_phase(day.get('encounters'))
-    meal_by_phase = wn.get('meals') or {}
-    wn_terrain = wn.get('terrain') or {}
-    wn_locations = wn.get('locations') or {}
-    wn_water = wn.get('water') or {}
+
+    def phase_get(key, phase):
+        """Event readings first (episode path); world_notes otherwise."""
+        if ev is not None:
+            return ev[key].get(phase) or []
+        value = (wn.get(key) or {}).get(phase)
+        return value if isinstance(value, list) else ([value] if value else [])
+
+    weather_by_phase = {
+        p: ' '.join(phase_get('weather', p)) or None
+        for p in ('morning', 'afternoon', 'night')
+    }
+    meal_by_phase = {
+        p: '\n'.join(phase_get('meal', p))
+        for p in ('morning', 'afternoon', 'night')
+    }
+    wn_terrain = {p: phase_get('terrain', p) for p in ('morning', 'afternoon', 'night')}
+    wn_locations = {p: phase_get('locations', p) for p in ('morning', 'afternoon', 'night')}
+    wn_water = {
+        p: '\n'.join(phase_get('water', p)) or None
+        for p in ('morning', 'afternoon', 'night')
+    }
 
     def block_for(title, phase, extra_lead=''):
         return phase_block(

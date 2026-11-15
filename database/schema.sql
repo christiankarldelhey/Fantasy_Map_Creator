@@ -411,8 +411,6 @@ CREATE TABLE IF NOT EXISTS entities (
     active VARCHAR(50) DEFAULT 'all-day',  -- Activity pattern: 'day', 'night', 'all-day'
     tier VARCHAR(50),  -- Entity tier (e.g., encounter, etc.)
     parent_id UUID REFERENCES entities(id) ON DELETE SET NULL,  -- Parent entity for hierarchical relationships
-    description TEXT,
-    description_summary TEXT,  -- Summary description of the entity (used for encounter prompts)
     
     -- Multimedia
     url_path TEXT,  -- Path to image file (NULL for now)
@@ -450,10 +448,8 @@ COMMENT ON COLUMN entities.name IS 'Display name of the entity';
 COMMENT ON COLUMN entities.slug IS 'URL-friendly unique identifier (lowercase with underscores)';
 COMMENT ON COLUMN entities.type IS 'Entity type category';
 COMMENT ON COLUMN entities.active IS 'Activity pattern: day, night, or all-day';
-COMMENT ON COLUMN entities.tier IS 'Entity tier (e.g., encounter, etc.)';
+COMMENT ON COLUMN entities.tier IS 'Entity tier: encounter (procedural pool), group, mover (being with an agenda)';
 COMMENT ON COLUMN entities.parent_id IS 'Parent entity for hierarchical relationships';
-COMMENT ON COLUMN entities.description IS 'Detailed description of the entity';
-COMMENT ON COLUMN entities.description_summary IS 'Summary description of the entity (used for encounter prompts)';
 COMMENT ON COLUMN entities.url_path IS 'Path to image file (NULL for now)';
 COMMENT ON COLUMN entities.region_ids IS 'Array of region IDs where this entity can be found';
 COMMENT ON COLUMN entities.biomes IS 'Array of biome names where this entity can be found';
@@ -538,27 +534,14 @@ COMMENT ON COLUMN character_state.system_prompt IS 'Custom narrator voice instru
 COMMENT ON COLUMN character_state.introduction_instructions IS 'Custom introduction instructions for this character (replaces default introduction)';
 
 -- ============================================================================
--- Tables: movers, mover_legs, mover_beats, mover_trails
+-- Tables: mover_legs, mover_trails
 -- Purpose: Living Map — authored beings whose reach is a function of the
---          in-world date (TA 3017-3018). Immutable seed data. Canonical DDL
---          lives in database/migrations/create_movers_tables.sql (applied by
+--          in-world date (TA 3017-3018). Immutable seed data. Identity lives
+--          in entities (tier='mover'); the old `movers` table is gone.
+--          Canonical DDL lives in database/migrations/ (applied by
 --          ensureSchema in load-seeds.js); kept here in sync for reference.
 -- Vocabulary: backend/CONTEXT.md. Decision: docs/adr/0012.
 -- ============================================================================
-
-CREATE TABLE IF NOT EXISTS movers (
-    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    slug        VARCHAR(255) UNIQUE NOT NULL,
-    name        VARCHAR(255) NOT NULL,
-    kind        TEXT NOT NULL,          -- 'person' | 'company' | 'host'
-    canon       BOOLEAN NOT NULL DEFAULT false,
-    motivation  TEXT,
-    description TEXT,
-    created_at  TIMESTAMP DEFAULT NOW(),
-    CONSTRAINT chk_movers_kind CHECK (kind IN ('person', 'company', 'host'))
-);
-CREATE INDEX IF NOT EXISTS idx_movers_slug ON movers(slug);
-CREATE INDEX IF NOT EXISTS idx_movers_kind ON movers(kind);
 
 CREATE TABLE IF NOT EXISTS campaigns (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -571,7 +554,7 @@ CREATE INDEX IF NOT EXISTS idx_campaigns_slug ON campaigns(slug);
 
 CREATE TABLE IF NOT EXISTS mover_legs (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    mover_id    UUID NOT NULL REFERENCES movers(id) ON DELETE CASCADE,
+    entity_id   UUID NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
     campaign_id UUID REFERENCES campaigns(id),
     leg_index   INT NOT NULL,
     kind        TEXT NOT NULL,          -- 'march' | 'presence' | 'resident'
@@ -587,10 +570,9 @@ CREATE TABLE IF NOT EXISTS mover_legs (
     visibility  TEXT NOT NULL DEFAULT 'signs',
     greeting    BOOLEAN NOT NULL DEFAULT false,
     active_phases TEXT[] NOT NULL DEFAULT '{morning,afternoon,before_sleep,mid_night}',
-    trace       TEXT,
     hostile     BOOLEAN NOT NULL DEFAULT false,
     created_at  TIMESTAMP DEFAULT NOW(),
-    UNIQUE (mover_id, leg_index),
+    UNIQUE (entity_id, leg_index),
     CONSTRAINT chk_mover_legs_kind CHECK (kind IN ('march', 'presence', 'resident')),
     CONSTRAINT chk_mover_legs_visibility CHECK (visibility IN ('visible', 'signs', 'hidden')),
     CONSTRAINT chk_mover_legs_window CHECK (date_to >= date_from),
@@ -605,23 +587,11 @@ CREATE TABLE IF NOT EXISTS mover_legs (
       OR (kind = 'resident' AND (location_id IS NOT NULL OR location_type IS NOT NULL))
     )
 );
-CREATE INDEX IF NOT EXISTS idx_mover_legs_mover    ON mover_legs(mover_id);
+CREATE INDEX IF NOT EXISTS idx_mover_legs_entity   ON mover_legs(entity_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_campaign ON mover_legs(campaign_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_region   ON mover_legs(region_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_location ON mover_legs(location_id);
 CREATE INDEX IF NOT EXISTS idx_mover_legs_dates    ON mover_legs(date_from, date_to);
-
-CREATE TABLE IF NOT EXISTS mover_beats (
-    id       UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    leg_id   UUID NOT NULL REFERENCES mover_legs(id) ON DELETE CASCADE,
-    variant  TEXT NOT NULL DEFAULT 'base',
-    title    VARCHAR(255),
-    text     TEXT NOT NULL,
-    effects  JSONB NOT NULL DEFAULT '{}'::jsonb,
-    created_at TIMESTAMP DEFAULT NOW(),
-    UNIQUE (leg_id, variant)
-);
-CREATE INDEX IF NOT EXISTS idx_mover_beats_leg ON mover_beats(leg_id);
 
 CREATE TABLE IF NOT EXISTS mover_trails (
     id      BIGSERIAL PRIMARY KEY,
@@ -635,6 +605,75 @@ CREATE TABLE IF NOT EXISTS mover_trails (
 CREATE INDEX IF NOT EXISTS idx_mover_trails_geom ON mover_trails USING GIST(geom);
 CREATE INDEX IF NOT EXISTS idx_mover_trails_date ON mover_trails(date);
 CREATE INDEX IF NOT EXISTS idx_mover_trails_leg  ON mover_trails(leg_id);
+
+-- ============================================================================
+-- Table: entities_narration
+-- Purpose: the voice of beings — sibling of places_narration, same record
+--          anatomy. Absorbs encounter_forms (kind='form'), npc_interactions
+--          (kind='contact') and entity prose (kind='entity'). Facts stay on
+--          entities (procedural presence) and mover_legs (scheduled presence).
+--          See docs/design/entities-narration.md.
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS entities_narration (
+    id              TEXT PRIMARY KEY,              -- 'ent:*' | 'form:*' | 'cnt:*'
+    kind            TEXT NOT NULL
+                    CHECK (kind IN ('entity', 'form', 'contact')),
+    entity_id       UUID REFERENCES entities(id),
+    entity_ids      UUID[],
+    entity_type     TEXT,
+    family          TEXT,
+    mover_leg_id    UUID REFERENCES mover_legs(id) ON DELETE CASCADE,
+    region_id       INTEGER REFERENCES regions(id),
+    region_ids      INTEGER[],
+    location_id     INTEGER REFERENCES locations(id),
+    cultural_family TEXT,
+    form            TEXT,
+    priority        SMALLINT NOT NULL DEFAULT 0,
+    tags            TEXT[] NOT NULL DEFAULT '{}',
+
+    aspect          JSONB,
+    presence        JSONB,
+    lore            JSONB,
+    secret          JSONB,
+    sections        JSONB,
+    facts           JSONB,
+    notes           JSONB,
+    channel         JSONB,
+    traveller_use   JSONB,
+    variants        JSONB,
+    rotation        JSONB,
+    interactive     JSONB,
+    disposition     JSONB,
+
+    weight          INTEGER,
+    intensity       INTEGER,
+    min_danger      INTEGER,
+    max_danger      INTEGER,
+    triggers_roll   BOOLEAN,
+
+    payload         JSONB NOT NULL DEFAULT '{}'::jsonb
+);
+
+CREATE INDEX IF NOT EXISTS idx_en_kind        ON entities_narration(kind);
+CREATE INDEX IF NOT EXISTS idx_en_entity      ON entities_narration(entity_id)      WHERE entity_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_entity_ids  ON entities_narration USING GIN(entity_ids);
+CREATE INDEX IF NOT EXISTS idx_en_entity_type ON entities_narration(entity_type)    WHERE entity_type IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_family      ON entities_narration(family)         WHERE family IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_mover_leg   ON entities_narration(mover_leg_id)   WHERE mover_leg_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_region      ON entities_narration(region_id)      WHERE region_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_region_ids  ON entities_narration USING GIN(region_ids);
+CREATE INDEX IF NOT EXISTS idx_en_location    ON entities_narration(location_id)    WHERE location_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_form        ON entities_narration(form)           WHERE form IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_en_scope       ON entities_narration(kind, entity_type, region_id, form);
+CREATE INDEX IF NOT EXISTS idx_en_tags        ON entities_narration USING GIN(tags);
+CREATE INDEX IF NOT EXISTS idx_en_payload     ON entities_narration USING GIN(payload);
+
+COMMENT ON TABLE  entities_narration IS 'The voice of beings — sibling of places_narration. entity ficha | contact-shape draw | contact substance';
+COMMENT ON COLUMN entities_narration.kind IS 'entity (ficha) | form (contact-shape draw) | contact (substance per scope+form)';
+COMMENT ON COLUMN entities_narration.mover_leg_id IS 'Narrowest scope: this record exists while that leg is live; mover_beats arrive as variants';
+COMMENT ON COLUMN entities_narration.form IS 'Contact-shape key (glimpsed_far, stalks, parley…); on contact rows NULL = wildcard';
+COMMENT ON COLUMN entities_narration.disposition IS 'How the being is disposed in the contact {en, es} (was npc_attitude)';
 
 -- ============================================================================
 -- Verification queries

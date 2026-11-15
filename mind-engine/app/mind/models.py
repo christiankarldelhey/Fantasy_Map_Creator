@@ -8,14 +8,14 @@
 # ============================================================================
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field
 
 from app.models import GenerationResponse, PromptResponse
 
 
 class EventWhen(BaseModel):
-    episode: int
-    date: str
+    """Where in the Episode's day this sits. The Episode itself owns
+    index/date — events only carry the moment within it."""
     hour: Optional[float] = None
     phase: Optional[str] = None
 
@@ -63,155 +63,6 @@ class OpenCharacter(BaseModel):
     state: Dict[str, Any] = {}
 
 
-class WeatherRecord(BaseModel):
-    """Inner climate numbers the narrator turns into weather prose."""
-
-    model_config = ConfigDict(extra='forbid')
-
-    cloud_cover: Optional[float] = None
-    precipitation: Optional[float] = None
-    temperature_2m: Optional[float] = None
-    wind_speed_10m: Optional[float] = None
-
-
-class ClimateSample(BaseModel):
-    """One weather sample — flat: time/phase + the weather record."""
-
-    model_config = ConfigDict(extra='forbid')
-
-    time: Optional[str] = None
-    phase: Optional[str] = None
-    climate: Optional[WeatherRecord] = None
-
-
-class EncounterEntity(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    name: Optional[str] = None
-    type: Optional[str] = None
-    # Kind-of-being between type and entity — attitudes match entity >
-    # family > type, so the narrator-facing copy carries it too.
-    family: Optional[str] = None
-    active: Optional[str] = None
-    description: Optional[str] = None
-    description_summary: Optional[str] = None
-
-
-class EncounterInteraction(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    form: Optional[str] = None
-    outcome: Optional[str] = None
-    prose_hint: Optional[str] = None
-    dialogue_content: Optional[Dict[str, Any]] = None
-    hintKey: Optional[str] = None
-    night_timing: Optional[str] = None
-
-
-class DayEncounter(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    hour: Optional[Any] = None
-    phase: Optional[str] = None
-    region: Optional[str] = None
-    entity: Optional[EncounterEntity] = None
-    interaction: Optional[EncounterInteraction] = None
-
-
-class MealEntry(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    slot: Optional[str] = None
-    food: Optional[str] = None
-    drink: Optional[str] = None
-
-
-class BiomeEntry(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    type: Optional[str] = None
-    hour_float: Optional[float] = None
-    fraction: Optional[float] = None
-    total_area_km2: Optional[float] = None
-
-
-class LocationItem(BaseModel):
-    """Loose — locations/water crossings carry small host-specific keys."""
-
-    model_config = ConfigDict(extra='allow')
-
-    name: Optional[str] = None
-    type: Optional[str] = None
-    region: Optional[str] = None
-    hour: Optional[Any] = None
-    hour_float: Optional[float] = None
-    distance_km: Optional[float] = None
-
-
-class RegionRef(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    id: Optional[Any] = None
-    name: Optional[str] = None
-    cultural_family: Optional[str] = None
-    description: Optional[str] = None
-    description_summary: Optional[str] = None
-
-
-class MoonPhase(BaseModel):
-    model_config = ConfigDict(extra='allow')
-
-    phase: Optional[str] = None
-
-
-class ElevationProfile(BaseModel):
-    model_config = ConfigDict(extra='allow')
-
-    dawn_m: Optional[float] = None
-    dusk_m: Optional[float] = None
-    midday_m: Optional[float] = None
-    significant: Optional[bool] = None
-    total_gain_m: Optional[float] = None
-    total_loss_m: Optional[float] = None
-
-
-class DayPayload(BaseModel):
-    """The resolved day, whitelisted to exactly what the prompt pipeline
-    reads. Anything else Node produced is dead weight and gets 422'd."""
-
-    model_config = ConfigDict(extra='forbid')
-
-    date: Optional[str] = None
-    day_number: Optional[int] = None
-    is_last_day: Optional[bool] = None
-    distance_km: Optional[float] = None
-    walking_hours: Optional[float] = None
-    road_types: Dict[str, Any] = {}
-    regions: List[RegionRef] = []
-    terrain_phrases: Dict[str, Any] = {}
-    biomes: List[BiomeEntry] = []
-    locations: List[LocationItem] = []
-    water_crossings: List[LocationItem] = []
-    climate: List[ClimateSample] = []
-    nighttime_climate: List[ClimateSample] = []
-    moon_phase: Optional[MoonPhase] = None
-    encounters: List[DayEncounter] = []
-    meals: List[MealEntry] = []
-    overnight_location: Optional[Dict[str, Any]] = None
-    overnight_interaction: Optional[Dict[str, Any]] = None
-    elevation_profile: Optional[ElevationProfile] = None
-    # How the night was secured (paid bed, charity plea, turned away) —
-    # host-owned shape; the prompt only narrates it.
-    lodging: Optional[Dict[str, Any]] = None
-    # Ambient situations the leg triggered (ADR-0015): host-owned shape —
-    # record/situation/option ids plus the resolved text/effects.
-    ambient: List[Dict[str, Any]] = []
-    # World voice (#52): the host's pre-verbalized world material. When
-    # present the prompt consumes it verbatim; absent, the engine phrases
-    # the raw fields itself (legacy fallback until the NL removal lands).
-    world_notes: Dict[str, Any] = {}
-
-
 class EpisodeFrame(BaseModel):
     """Where the Episode sits in the host's timeline (ADR-0016): its
     position, the in-world time label, and whether the stretch closes
@@ -229,10 +80,11 @@ class OpenEpisodeRequest(BaseModel):
     `events[].data` is the single free-form field — the host's event domain
     is its own; the mind only reads what facets declare.
 
-    Canonical shape (ADR-0016): `episode`/`arc`/`condition`/`world_notes`.
-    The legacy `day`/`trip_name`/`character_state`/`equipment_state`
-    fields are still accepted for one release — `_fold_legacy` merges
-    them into the canonical fields so nothing downstream reads both."""
+    Canonical shape (ADR-0016): `episode`/`arc`/`condition`/
+    `narration_notes`. The world reaches the Past only through `events`;
+    `narration_notes` is the narrator's briefing — world material that is
+    no lived event (climate continuity, the camp lead-in, journey
+    context)."""
 
     model_config = ConfigDict(extra='forbid')
 
@@ -251,41 +103,12 @@ class OpenEpisodeRequest(BaseModel):
     # equipment_state merged. The only channel where numbers are legal;
     # detectors read it, the narrator never phrases from it.
     condition: Dict[str, Any] = {}
-    # World voice (#52): the host's pre-verbalized world material. When
-    # present the prompt consumes it verbatim; absent, the engine phrases
-    # the raw fields itself (legacy fallback until the NL removal lands).
-    world_notes: Dict[str, Any] = {}
+    # The narrator's briefing (#52): the host's pre-verbalized world
+    # material that is not itself a lived event — climate continuity,
+    # the camp lead-in, lands crossed, equipage, end state, journey
+    # context. The per-phase world prose rides events[].data.reading.
+    narration_notes: Dict[str, Any] = {}
     fate: Optional[str] = None
-    # --- Legacy fields, dual-read window (ADR-0016) ---
-    day: Optional[DayPayload] = None
-    trip_name: Optional[str] = None
-    character_state: Optional[Dict[str, Any]] = None
-    equipment_state: Optional[Dict[str, Any]] = None
-    # Stateless-fallback continuity (C22): mind-driven prompts ignore
-    # this — the lens recaps what the mind retained instead. It still
-    # rides the wire so a mindless narrate keeps its 'In Chapter N' line.
-    previous_day: Optional[Dict[str, Any]] = None
-    recent_day_climates: List[Dict[str, Any]] = []
-
-    @model_validator(mode='after')
-    def _fold_legacy(self):
-        """Dual-read window (ADR-0016): fold the legacy shape into the
-        canonical fields so every consumer reads one form only."""
-        if self.episode is None and self.day is not None:
-            self.episode = EpisodeFrame(
-                index=self.day.day_number,
-                at=self.day.date,
-                terminal=self.day.is_last_day,
-            )
-        if self.arc is None:
-            self.arc = self.trip_name
-        for src in (self.character_state, self.equipment_state):
-            for k, v in (src or {}).items():
-                if k not in self.condition:
-                    self.condition[k] = v
-        if not self.world_notes and self.day is not None:
-            self.world_notes = dict(self.day.world_notes or {})
-        return self
 
 
 class PerceivedEvent(BaseModel):

@@ -1,16 +1,8 @@
 mover:
   slug: masked-numenoreans
   name: The Zimrathân
-  kind: company
-  canon: false
+  type: humans
   campaign: mirror-hunt
-  motivation: >-
-    Descendants of the ones the Blue Wizards slipped out of the Downfall —
-    hidden among the wain-folk for two thousand years, smiths of the living
-    masks, hunting the scattered Númenórean mirrors and dreaming of a
-    Númenor that does not want them back. They are not Sauron's; they are
-    nobody's.
-  description: 'A refugee people who wear their survival on their faces — "the Masked", the Easterlings call them; among themselves, the Zimrathân.'
 
 legs:
   - kind: presence
@@ -20,14 +12,3 @@ legs:
     level: 4
     road_bias: { road_major: 1, off_road: -1 }
     visibility: hidden
-    trace: 'Among the wain-folk''s caravan you notice faces that are too still — masks like a second skin, watching for old things with eyes.'
-    beat:
-      title: Faces that do not move
-      text: >-
-        Halfway down the wain-caravan, three travellers whose faces are
-        perfect and dead — masks like a second skin, master-work that even
-        the Easterlings revere. They trade fine steel and ask quiet,
-        careful questions: about ruins, about old Númenórean things, about
-        mirrors that are not mirrors. Their courtesy is real and so is the
-        danger of knowing too much about them.
-      effects: { shadow: 1 }

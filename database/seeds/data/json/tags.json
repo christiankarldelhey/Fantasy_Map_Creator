@@ -67,6 +67,10 @@
       "description": { "en": "Shadow band", "es": "Banda de sombra" },
       "values": ["clear", "unease", "shadowed", "burdened"]
     },
+    "race": {
+      "description": { "en": "The traveller's race — gates content written for a people (was character_id in npc_interactions)", "es": "La raza del viajero — filtra contenido escrito para un pueblo (era character_id en npc_interactions)" },
+      "values": ["elf", "dunedain", "hobbit", "dwarf", "human", "orc", "maiar", "ent"]
+    },
     "type": {
       "consumers": ["memory", "retrieval"],
       "description": { "en": "Event type tag — `type:<event.type>` derived for every event; the experience's kind, not its source record", "es": "Tag de tipo de evento — `type:<event.type>` derivado en cada evento; el tipo de la experiencia, no el registro del que salió" },

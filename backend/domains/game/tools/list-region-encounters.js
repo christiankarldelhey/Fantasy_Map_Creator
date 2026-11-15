@@ -18,10 +18,13 @@ async function loadRegions() {
 
 async function loadEntities() {
   const { rows } = await pool.query(
-    `SELECT id, name, slug, type, active, danger, description_summary,
-            probability_by_region
-     FROM entities
-     ORDER BY name`
+    `SELECT e.id, e.name, e.slug, e.type, e.active, e.danger,
+            en.aspect->>'en' AS description_summary,
+            e.probability_by_region
+     FROM entities e
+     LEFT JOIN entities_narration en
+            ON en.entity_id = e.id AND en.kind = 'entity'
+     ORDER BY e.name`
   );
   return rows;
 }

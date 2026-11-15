@@ -44,6 +44,10 @@ _Avoid_: log entry, action, occurrence
 The Host's verdict on how an Episode ends, declared before the Episode is narrated, so the Mind knows the closing before it tells the stretch. Not the close's outcome, which records what was actually kept.
 _Avoid_: ending, result
 
+**Narration notes**:
+The Host's pre-verbalized world material for the narrator — what is not itself a lived Event: climate continuity, the camp's lead-in, lands crossed, equipage, end state, journey context. The per-phase world prose rides the Events' own readings; one verbalization serves Memory and narration alike.
+_Avoid_: world notes, briefing, prompt material
+
 **Tag**:
 A word from the Tag registry — `family:value` — marking what an Event or Memory can connect to. One thing may carry several Tags: an exact match links strongly, a shared family weakly.
 _Avoid_: flag, label, keyword
