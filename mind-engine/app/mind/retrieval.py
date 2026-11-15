@@ -283,12 +283,20 @@ def _as_date(v):
 
 def episode_date_of(episode):
     """The in-world date the episode was lived (C30): the stored
-    episode_date column, else derived from the events' when.date.
+    episode_date column, else the Episode frame's `at`.
     episode_idx counts lived days for mechanics; this measures
     narrative age — the calendar distance to 'now'."""
     d = getattr(episode, 'episode_date', None)
     if d is not None:
         return d
+    frame = (
+        (getattr(episode, 'narrator_payload', None) or {}).get('episode')
+        or {}
+    )
+    at = _as_date(frame.get('at'))
+    if at:
+        return at
+    # Pre-v2 episodes still carry when.date on their stored events.
     dates = [
         _as_date((e.get('when') or {}).get('date'))
         for e in (episode.events or [])

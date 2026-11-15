@@ -48,7 +48,7 @@ def _open(client, char, ep, events):
         'game_id': 'middle_earth',
         'character': {'id': char},
         'episode_ref': f'd{ep}',
-        'events': events, 'day': {},
+        'events': events,
     })
     assert r.status_code == 200, r.text
     return r.json()

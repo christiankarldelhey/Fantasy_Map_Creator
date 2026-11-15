@@ -44,7 +44,7 @@ def _open(client, char, ref, events, skills=None):
     r = client.post('/episodes', json={
         'game_id': 'middle_earth',
         'character': {'id': char, 'skills': skills or {}},
-        'episode_ref': ref, 'events': events, 'day': {},
+        'episode_ref': ref, 'events': events,
     })
     assert r.status_code == 200, r.text
     return r.json()

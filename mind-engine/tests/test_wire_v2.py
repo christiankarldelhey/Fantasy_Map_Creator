@@ -1,11 +1,11 @@
 # ============================================================================
-# ADR-0016 — agnostic episode wire: canonical fields + legacy dual-read
+# ADR-0016 — agnostic episode wire: canonical fields only
 # ----------------------------------------------------------------------------
-# The canonical payload speaks episode/arc/condition/world_notes; the
-# legacy day/trip_name/character_state/equipment_state fields are folded
-# in by _fold_legacy so every consumer reads one shape. The narrator
-# payload stores both forms; narrate back-fills the legacy `day` keys
-# from the Episode frame.
+# The payload speaks episode/arc/condition/narration_notes/events; the
+# legacy day/trip_name/character_state/equipment_state fields are gone —
+# /narrate-day keeps its own contract for the mindless path. The narrator
+# payload stores the canonical channels; narrate rebuilds the day's
+# per-phase world material from episode.events.
 # ============================================================================
 import uuid
 
@@ -28,52 +28,24 @@ def _uid(prefix):
 
 TRAVEL_EVENT = {
     'type': 'travel',
-    'when': {'episode': 3, 'date': '1950-01-21', 'phase': 'morning'},
+    'when': {'phase': 'morning'},
     'data': {'distance_km': 12.0},
 }
 
 
-def test_fold_legacy_fills_canonical_fields():
-    """A legacy payload lands already translated: episode frame, arc,
-    merged condition and lifted world_notes."""
-    req = OpenEpisodeRequest(
-        game_id='middle_earth',
-        character={'id': 'c1'},
-        day={
-            'day_number': 4, 'date': '3018-03-15', 'is_last_day': True,
-            'world_notes': {'climate_state': 'third day of rain'},
-        },
-        trip_name='The Long Road North',
-        character_state={'energy': 35, 'shadow': 19},
-        equipment_state={'rations': 2},
-    )
-    assert req.episode is not None
-    assert req.episode.index == 4
-    assert req.episode.at == '3018-03-15'
-    assert req.episode.terminal is True
-    assert req.arc == 'The Long Road North'
-    assert req.condition == {'energy': 35, 'shadow': 19, 'rations': 2}
-    assert req.world_notes == {'climate_state': 'third day of rain'}
-
-
-def test_fold_legacy_explicit_canonical_wins():
-    """Canonical fields the caller set are never overwritten by legacy."""
-    req = OpenEpisodeRequest(
-        game_id='middle_earth',
-        character={'id': 'c1'},
-        episode={'index': 9, 'at': 'now', 'terminal': False},
-        arc='Victorian scandal',
-        condition={'reputation': 12},
-        world_notes={'weather': 'a parlour, gaslit'},
-        day={'day_number': 4, 'date': '3018-03-15'},
-        trip_name='ignored',
-        character_state={'reputation': 99, 'laudanum_doses': 3},
-    )
-    assert req.episode.index == 9
-    assert req.arc == 'Victorian scandal'
-    # explicit condition key wins; the legacy-only key still folds in
-    assert req.condition == {'reputation': 12, 'laudanum_doses': 3}
-    assert req.world_notes == {'weather': 'a parlour, gaslit'}
+def test_open_rejects_legacy_fields():
+    """The dual-read window is closed: day/trip_name/character_state and
+    friends now 422 like any unknown field."""
+    import pydantic
+    for legacy in ('day', 'trip_name', 'character_state',
+                   'equipment_state', 'previous_day', 'recent_day_climates',
+                   'world_notes'):
+        with pytest.raises(pydantic.ValidationError):
+            OpenEpisodeRequest(
+                game_id='middle_earth',
+                character={'id': 'c1'},
+                **{legacy: {} if legacy != 'trip_name' else 'x'},
+            )
 
 
 def test_open_accepts_v2_without_day(client):
@@ -88,7 +60,7 @@ def test_open_accepts_v2_without_day(client):
         'episode': {'index': 1, 'at': '3018-03-15', 'terminal': False},
         'arc': 'The Long Road North',
         'condition': {'energy': 80, 'rations': 2},
-        'world_notes': {'climate_state': 'a clear cold morning'},
+        'narration_notes': {'climate_state': 'a clear cold morning'},
         'events': [TRAVEL_EVENT],
         'fate': 'living',
     })
@@ -99,8 +71,8 @@ def test_open_accepts_v2_without_day(client):
 
 
 def test_open_v2_narrate_uses_episode_frame(client, monkeypatch):
-    """A v2 episode narrates: the guard accepts episode.at and the prompt
-    back-fills the legacy day keys from the frame."""
+    """A v2 episode narrates: the prompt back-fills the frame and reads
+    the per-phase world prose from the episode's own events."""
     fake = {
         'text': 'The road went on, and he went with it.',
         'ia_provider': 'test', 'temperature': 0.7,
@@ -117,31 +89,33 @@ def test_open_v2_narrate_uses_episode_frame(client, monkeypatch):
         'episode': {'index': 3, 'at': '3018-03-15', 'terminal': False},
         'arc': 'The Long Road North',
         'condition': {'energy': 60},
-        'world_notes': {'climate_state': 'a clear cold morning'},
-        'events': [TRAVEL_EVENT],
+        'narration_notes': {'climate_state': 'a clear cold morning'},
+        'events': [
+            TRAVEL_EVENT,
+            {
+                'type': 'climate',
+                'when': {'phase': 'morning'},
+                'data': {
+                    'reading': 'a thin cold rain, steady since dawn',
+                    'tags': ['weather:wet'],
+                },
+            },
+            {
+                'type': 'meal',
+                'when': {'phase': 'afternoon'},
+                'data': {'reading': 'A halt in the lee: salt pork; water.'},
+            },
+        ],
     })
     assert r.status_code == 200, r.text
     rn = client.post(f"/episodes/{r.json()['episode_id']}/narrate", json={})
     assert rn.status_code == 200, rn.text
     body = rn.json()
     assert body['generation']['text'] == fake['text']
-
-
-def test_open_legacy_still_works(client):
-    """The dual-read window: a payload speaking only `day`/`trip_name`
-    opens and folds into the canonical fields untouched."""
-    char = _uid('legacy')
-    r = client.post('/episodes', json={
-        'game_id': 'middle_earth',
-        'character': {'id': char, 'name': 'Tester'},
-        'episode_ref': 'leg-d1',
-        'events': [TRAVEL_EVENT],
-        'day': {'day_number': 1, 'date': '1950-01-21'},
-        'trip_name': 'Old Shape',
-        'character_state': {'energy': 70},
-    })
-    assert r.status_code == 200, r.text
-    assert r.json()['episode_id']
+    # The events' readings reached the prompt as the phase's world prose.
+    prompt_user = body['prompt']['user']
+    assert 'a thin cold rain, steady since dawn' in prompt_user
+    assert 'A halt in the lee: salt pork; water.' in prompt_user
 
 
 def test_studio_tag_registry_read_only_view(client, monkeypatch):
@@ -176,7 +150,7 @@ def test_moment_event_perceives_with_provenance_tags(client):
         'episode': {'index': 1, 'at': '3018-03-15'},
         'events': [{
             'type': 'moment',
-            'when': {'episode': 1, 'date': '3018-03-15'},
+            'when': {},
             'where': {'region': 'Ettenmoors'},
             'data': {
                 'record': 'M-A4',

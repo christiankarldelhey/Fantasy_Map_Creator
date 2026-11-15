@@ -33,12 +33,14 @@ def _uid(prefix):
 def _open(client, char, ref, when_episode, day_date, events=None):
     events = events or [{
         'type': 'body',
-        'when': {'episode': when_episode, 'date': day_date},
+        'when': {},
         'data': {'energy': 0.8, 'wounded': 'none'},
     }]
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': {'id': char},
-        'episode_ref': ref, 'events': events, 'day': {},
+        'episode_ref': ref,
+        'episode': {'index': when_episode, 'at': day_date},
+        'events': events,
     })
     assert r.status_code == 200, r.text
     return r.json()

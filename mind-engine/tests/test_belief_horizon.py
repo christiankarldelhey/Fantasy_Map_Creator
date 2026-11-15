@@ -55,7 +55,7 @@ def _open(client, char, ref, events, preset=None):
         character['preset'] = preset
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': character,
-        'episode_ref': ref, 'events': events, 'day': {},
+        'episode_ref': ref, 'events': events,
     })
     assert r.status_code == 200, r.text
     return r.json()
