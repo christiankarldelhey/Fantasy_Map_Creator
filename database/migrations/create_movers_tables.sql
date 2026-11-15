@@ -8,11 +8,11 @@
 --
 --   entities      — who it is: the being row (tier='mover'), shared identity
 --   mover_legs    — the stretches of its story, each with a date window
---   mover_beats   — authored crossing content per leg (1:N for variants)
 --   mover_trails  — baked day-by-day points (march legs only)
 --
 --   (the standalone `movers` table was dropped: identity unified into
---    entities — see movers_identity_into_entities.sql)
+--    entities — see movers_identity_into_entities.sql; mover_beats dropped
+--    too: authored leg content lives in entities_narration variants)
 
 CREATE TABLE IF NOT EXISTS campaigns (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -69,7 +69,6 @@ CREATE TABLE IF NOT EXISTS mover_legs (
     active_phases TEXT[] NOT NULL DEFAULT '{morning,afternoon,before_sleep,mid_night}',
 
     -- content
-    trace       TEXT,                   -- authored distance-sign for this leg
     hostile     BOOLEAN NOT NULL DEFAULT false,  -- feeds region Unease
 
     created_at  TIMESTAMP DEFAULT NOW(),
@@ -137,28 +136,6 @@ COMMENT ON COLUMN mover_legs.campaign_id IS 'The story arc this leg belongs to (
 COMMENT ON COLUMN mover_legs.road_bias IS 'Per road_type level deltas for presence legs (e.g. {"off_road":2,"road_major":-2})';
 COMMENT ON COLUMN mover_legs.active_phases IS 'Day windows in which this leg can produce a crossing (morning/afternoon/before_sleep/mid_night)';
 COMMENT ON COLUMN mover_legs.hostile IS 'Active hostile leg tints its region with Unease';
-
--- ============================================================================
--- Table: mover_beats
--- Purpose: authored crossing content per leg. 1:N via variant — 'base' today,
---          room for seasonal/repeat variants without re-migrating.
--- ============================================================================
-CREATE TABLE IF NOT EXISTS mover_beats (
-    id       UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    leg_id   UUID NOT NULL REFERENCES mover_legs(id) ON DELETE CASCADE,
-    variant  TEXT NOT NULL DEFAULT 'base',
-    title    VARCHAR(255),
-    text     TEXT NOT NULL,
-    effects  JSONB NOT NULL DEFAULT '{}'::jsonb,  -- fixed v1 effects, e.g. {"shadow": -1}
-    created_at TIMESTAMP DEFAULT NOW(),
-
-    UNIQUE (leg_id, variant)
-);
-
-CREATE INDEX IF NOT EXISTS idx_mover_beats_leg ON mover_beats(leg_id);
-
-COMMENT ON TABLE mover_beats IS 'Authored encounter content of a leg: who is met, what they are doing, what it leaves';
-COMMENT ON COLUMN mover_beats.effects IS 'Optional fixed effects applied by the crossing, e.g. {"shadow": -1, "info": "..."}';
 
 -- ============================================================================
 -- Table: mover_trails

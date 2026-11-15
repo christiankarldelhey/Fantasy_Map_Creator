@@ -267,6 +267,17 @@ function encounterEvents(day) {
           tags.push('changed');
         }
         if (tags.length) data.tags = tags;
+        // Living-map rail: the meeting was authored (a leg of the
+        // mover's agenda), not drawn from the phase pool. The mind
+        // weighs a scheduled crossing differently than a stray spawn.
+        const moverLeg = e._mover?.leg ?? null;
+        if (moverLeg) {
+          data.mover = {
+            leg_kind: moverLeg.leg_kind ?? null,
+            kind: e._mover.kind ?? null,
+            hostile: !!moverLeg.hostile,
+          };
+        }
         // Needs (B2): surviving a hostile contact leaves an open thread
         // the mind keeps alive until the same entity is faced unscathed
         // or the host resolves it in the close outcome.
