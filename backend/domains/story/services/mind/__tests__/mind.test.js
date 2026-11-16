@@ -63,13 +63,9 @@ test('toEvents emits the generic contract from a resolved day', () => {
     day: DAY,
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: {
-      startState: { energy: 90, shadow: 10, wounded: 'none', days_without_food: 0 },
-      endState: { energy: 50, shadow: 30, wounded: 'light', days_without_food: 3 },
-    },
   });
   const types = events.map((e) => e.type);
-  for (const t of ['terrain', 'place', 'meal', 'rest', 'encounter', 'body']) {
+  for (const t of ['terrain', 'place', 'meal', 'rest', 'encounter']) {
     assert.ok(types.includes(t), `missing event type ${t}`);
   }
   for (const e of events) {
@@ -126,11 +122,12 @@ test('toEvents emits the generic contract from a resolved day', () => {
   const rest = events.find((e) => e.type === 'rest');
   assert.equal(rest.data.description, 'The night is spent under open sky.');
 
-  // The body snapshot reports end-of-day truth, not the morning's.
-  const body = events.find((e) => e.type === 'body');
-  assert.equal(body.data.energy, 0.5); // game scale 0-100 -> facets scale 0-1
-  assert.equal(body.data.wounded, 'light');
-  assert.equal(body.data.days_without_food, 3);
+  // Vitals are condition, not events — the wire's `condition` channel
+  // carries them (toOpenPayload); nothing named 'body' or 'travel'
+  // may appear in events[].
+  for (const dead of ['body', 'travel']) {
+    assert.ok(!types.includes(dead), `'${dead}' is not an event`);
+  }
 });
 
 test('events declare readings and weather tiers (the tagger contract)', () => {
@@ -138,10 +135,6 @@ test('events declare readings and weather tiers (the tagger contract)', () => {
     day: DAY,
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: {
-      startState: { energy: 90, shadow: 10, wounded: 'none' },
-      endState: { energy: 50, shadow: 30, wounded: 'light' },
-    },
   });
 
   // Climate: the host declares the tiers the mind's wiring keys
@@ -178,13 +171,10 @@ test('events declare readings and weather tiers (the tagger contract)', () => {
     events.find((e) => e.type === 'terrain').data.reading,
     /hills|rocky slopes/,
   );
-  // Vitals and mileage never narrate — they speak through needs/mood.
-  assert.equal(events.find((e) => e.type === 'body').data.reading, undefined);
-  // Mileage is not an event: it rides the body channel for detectors.
+  // Vitals and mileage never narrate — they ride the `condition`
+  // channel and speak through needs/mood, not events.
   assert.ok(!events.some((e) => e.type === 'travel'));
-  const body = events.find((e) => e.type === 'body');
-  assert.equal(body.data.distance_km, 14.5);
-  assert.equal(body.data.walking_hours, 5.5);
+  assert.ok(!events.some((e) => e.type === 'body'));
 });
 
 test('a shelterless night declares the open-sky reading itself', () => {
@@ -198,7 +188,6 @@ test('a shelterless night declares the open-sky reading itself', () => {
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: {},
   });
   const rest = events.find((e) => e.type === 'rest');
   assert.match(rest.data.reading, /under open sky/);
@@ -226,7 +215,6 @@ test('encounters carry the resolved substance of contact (C16)', () => {
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: {},
   });
   const encounter = events.find((e) => e.type === 'encounter');
   // The theme tags; the lived content rides as prose material.
@@ -246,7 +234,6 @@ test('encounters carry the resolved substance of contact (C16)', () => {
     day: { ...DAY, encounters: DAY.encounters },
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: {},
   }).find((e) => e.type === 'encounter');
   assert.equal(plain.data.substance, null);
   assert.equal(plain.data.topic, null);
@@ -321,7 +308,6 @@ test('mechanically consequential events carry weight markers (C28)', () => {
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: {},
   });
   const byEntity = (slug) =>
     events.find((e) => e.type === 'encounter' && e.data.entity === slug);
@@ -333,7 +319,7 @@ test('mechanically consequential events carry weight markers (C28)', () => {
   // A plain exchange invents no marker.
   const plain = toEvents({
     day: { ...DAY, meals: [], encounters: DAY.encounters },
-    trip: { id: 't1' }, character: {}, stateContext: {},
+    trip: { id: 't1' }, character: {},
   }).find((e) => e.type === 'encounter');
   assert.deepEqual(plain.data.tags, ['changed']); // wounded outcome only
 });
@@ -347,26 +333,31 @@ test('toEvents: a paid meal carries no given marker (C28 gifts only)', () => {
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: {},
   });
   const meal = events.find((e) => e.type === 'meal');
   assert.ok(!(meal.data.tags || []).includes('given'));
 });
 
-test('toEvents falls back to start-of-day vitals and clock-hour phases', () => {
-  const events = toEvents({
-    day: {
-      ...DAY,
-      meals: [{ slot: 'midday', food: 'bread', drink: 'water' }],
-      encounters: [],
-    },
+test('the condition channel carries vitals and mileage as detector fields', () => {
+  const body = toOpenPayload({
+    gameId: 'middle_earth',
+    day: DAY,
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: { startState: { wounded: 'none', days_without_food: 2 } },
+    characterState: { energy: 40, shadow: 55, wounded: 'wounded' },
+    equipmentState: { daysWithoutFood: 2, daysWithoutWater: 0 },
   });
-  const body = events.find((e) => e.type === 'body');
-  assert.equal(body.data.wounded, 'none');
-  assert.equal(body.data.days_without_food, 2);
+  // Detectors declare snake_case fields — the host's camelCase reports
+  // are aliased so the Condition names what the detectors read.
+  assert.equal(body.condition.days_without_food, 2);
+  assert.equal(body.condition.days_without_water, 0);
+  assert.equal(body.condition.distance_km, 14.5);
+  assert.equal(body.condition.walking_hours, 5.5);
+  // The raw reports travel untouched alongside the aliases.
+  assert.equal(body.condition.energy, 40);
+  assert.equal(body.condition.wounded, 'wounded');
+  // None of it is an event — events[] holds only lived moments.
+  assert.ok(!body.events.some((e) => e.type === 'body'));
 });
 
 test('check difficulty follows detectability, not danger', () => {
@@ -381,7 +372,6 @@ test('check difficulty follows detectability, not danger', () => {
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: {},
   }).find((e) => e.type === 'encounter');
   // A deadly thing whose only trace is a boot-print: hard to read,
   // whatever its danger — the mind may well miss it.
@@ -398,7 +388,6 @@ test('check difficulty follows detectability, not danger', () => {
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: {},
   }).find((e) => e.type === 'encounter');
   assert.equal(formless.data.check.difficulty, 6); // 4 + 0.4*5 fallback
 });
@@ -424,7 +413,6 @@ test('place events carry the settlement a traveller actually entered', () => {
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: {},
   });
   const places = events.filter((e) => e.type === 'place');
   const dale = places.find((p) => p.data.name === 'Dale');
@@ -452,7 +440,6 @@ test('a land entered today becomes a region event anchored to the crossing', () 
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: {},
     previousDay: { day_number: 2, regions: ['Rohan'] },
   });
   const regions = events.filter((e) => e.type === 'region');
@@ -473,7 +460,6 @@ test('region events mark a first day, never a held border', () => {
     day: { ...DAY, regions: [{ name: 'Rohan', first_seen_hour_float: 7.5 }] },
     trip: { id: 't1' },
     character: {},
-    stateContext: {},
     previousDay: null,
   });
   const entered = first.find((e) => e.type === 'region');
@@ -484,7 +470,6 @@ test('region events mark a first day, never a held border', () => {
     day: DAY,
     trip: { id: 't1' },
     character: {},
-    stateContext: {},
     previousDay: { day_number: 2, regions: ['lone-lands'] },
   });
   assert.ok(!held.some((e) => e.type === 'region'));
@@ -500,7 +485,6 @@ test('rest event tells how the night was secured', () => {
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: {},
   }).find((e) => e.type === 'rest');
 
   const paid = nightAt({ paid: true, cost: 5, coinsAfter: 12, place: 'Dale' });
@@ -545,7 +529,6 @@ test('the open payload keeps settlement detail and the lodging outcome', () => {
     characterState: { energy: 40, shadow: 55 },
     equipmentState: {},
     fate: 'living',
-    stateContext: null,
   });
   const dale = body.events.find((e) => e.type === 'place').data;
   assert.equal(dale.population, 5800);
@@ -578,7 +561,6 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
-    stateContext: null,
   });
   const places = body.events.filter((e) => e.type === 'place');
   const garden = places[0].data;
@@ -608,7 +590,6 @@ test('the open payload carries raw state, never rendered blocks (C10)', () => {
     characterState: { energy: 40, shadow: 55, wounded: 'wounded', recentNotes: ['a fight with wolves'] },
     equipmentState: { rations: 1, waterHeld: 0, waterCapacity: 1, coins: 3 },
     fate: 'living',
-    stateContext: null,
   });
   // The live Condition is one flat map — the only channel where
   // numbers are legal.
@@ -778,7 +759,9 @@ test('the open payload carries the canonical v2 channels (ADR-0016)', () => {
   });
   assert.deepEqual(body.episode, { index: 3, at: '3018-03-15', terminal: false });
   assert.equal(body.arc, 'The Long Road North');
-  assert.deepEqual(body.condition, { energy: 35, rations: 2 });
+  assert.deepEqual(body.condition, {
+    energy: 35, rations: 2, distance_km: 14.5, walking_hours: 5.5,
+  });
   assert.ok(body.narration_notes && typeof body.narration_notes === 'object');
   // Only the briefing that is no lived event rides here — the per-phase
   // world prose lives in the events' readings.

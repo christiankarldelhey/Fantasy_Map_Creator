@@ -43,12 +43,6 @@
 //               traveller did) — the mind's memory of contact is a
 //               happening, not a noun.
 //               where: {region} from the encounter's own region
-//   body      — characterState snapshot: data: {energy, shadow, wounded,
-//               fatigue, days_without_food, days_without_water,
-//               distance_km, walking_hours};
-//               end-of-day values win over start-of-day when present.
-//               The day's mileage is not an event — it rides this channel
-//               so declared detectors can read it, like any other vital.
 //   region    — region transitions implicit: every event carries
 //               where.region when known
 //
@@ -535,43 +529,18 @@ function restEvent(day) {
   };
 }
 
-function bodyEvent(day, stateContext) {
-  if (!stateContext) return null;
-  const { startState, endState } = stateContext;
-  if (!startState && !endState) return null;
-  return {
-    type: 'body',
-    when: when(),
-    data: {
-      // Facets declare 0-1; state is 0-100 in the game DB.
-      energy: (endState?.energy ?? startState?.energy ?? 100) / 100,
-      shadow: (endState?.shadow ?? startState?.shadow ?? 0) / 100,
-      // End-of-day truth wins over the morning snapshot: the hunger streak
-      // after today's meals, the wound after today's outcomes.
-      wounded: endState?.wounded ?? startState?.wounded ?? null,
-      days_without_food:
-        endState?.days_without_food ?? startState?.days_without_food ?? null,
-      days_without_water:
-        endState?.days_without_water ?? startState?.days_without_water ?? null,
-      // Mileage is condition, not event: it feeds detectors through
-      // character_state like any other vital, never a reading.
-      distance_km: day.distance_km ?? null,
-      walking_hours: day.walking_hours ?? null,
-    },
-  };
-}
-
 /**
  * Translate a resolved game day into the events[] the mind perceives.
+ * Vitals and mileage are NOT events — the body's state rides the wire's
+ * `condition` channel (toOpenPayload), which is what detectors read.
  * @param {Object} params
  * @param {Object} params.day - resolved day (same object narrateDay receives)
  * @param {Object} params.trip
  * @param {Object} params.character - narrator character snapshot
- * @param {Object} [params.stateContext] - {startState, endState} for body
  * @param {Object} [params.previousDay] - yesterday's names (region entries)
  * @returns {Array} events[] contract
  */
-export function toEvents({ day, trip, character, stateContext, previousDay }) {
+export function toEvents({ day, trip, character, previousDay }) {
   const events = [
     ...climateEvents(day),
     ...terrainEvents(day),
@@ -582,7 +551,6 @@ export function toEvents({ day, trip, character, stateContext, previousDay }) {
     ...waterEvents(day),
     ...momentEvents(day),
     ...(restEvent(day) ? [restEvent(day)] : []),
-    ...(bodyEvent(day, stateContext) ? [bodyEvent(day, stateContext)] : []),
   ];
   return events;
 }

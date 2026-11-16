@@ -121,10 +121,31 @@ function slimDay(d) {
   };
 }
 
+// Detectors declare snake_case fields (detectors.py: 'days_without_food',
+// 'distance_km', ...); the host reports some of them camelCase. The
+// Condition names what the detectors declare — mileage is body state
+// too (what the road cost), never an event.
+function conditionOf({ characterState, equipmentState, day }) {
+  const condition = { ...(characterState || {}), ...(equipmentState || {}) };
+  const aliases = {
+    days_without_food: equipmentState?.daysWithoutFood,
+    days_without_water: equipmentState?.daysWithoutWater,
+    distance_km: day?.distance_km,
+    walking_hours: day?.walking_hours,
+  };
+  for (const [key, value] of Object.entries(aliases)) {
+    if (value != null && condition[key] === undefined) {
+      condition[key] = value;
+    }
+  }
+  return condition;
+}
+
 /**
  * The flat POST /episodes body — OpenEpisodeRequest, snake_case throughout.
- * `stateContext` feeds only the mind's `body` event (via toEvents), it is
- * not part of the wire itself.
+ * `condition` is the live Condition report (ADR-0016): vitals and the
+ * day's cost, merged over the card mind-side so detectors and checks
+ * read the freshest body. It is not an event.
  */
 export function toOpenPayload({
   gameId,
@@ -137,7 +158,6 @@ export function toOpenPayload({
   fate = null,
   previousDay = null,
   recentDayClimates = [],
-  stateContext = null,
 }) {
   // The narrator's briefing (ADR-0016): only the world material that is
   // NOT a lived event — climate continuity, the camp lead-in, lands,
@@ -159,14 +179,14 @@ export function toOpenPayload({
     episode_ref: `trip:${trip.id}:day:${day.day_number}`,
     language,
     character: slimCharacter(character),
-    events: toEvents({ day, trip, character, stateContext, previousDay }),
+    events: toEvents({ day, trip, character, previousDay }),
     episode: {
       index: day.day_number ?? null,
       at: day.date ?? null,
       terminal: day.is_last_day ?? null,
     },
     arc: trip.name ?? null,
-    condition: { ...(characterState || {}), ...(equipmentState || {}) },
+    condition: conditionOf({ characterState, equipmentState, day }),
     narration_notes: pick(worldNotes, [
       'climate_state', 'night_lead', 'lands',
       'equipage', 'end_state', 'journey_context',

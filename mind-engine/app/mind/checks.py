@@ -44,10 +44,11 @@ def _num(v):
 
 def character_state(character, events):
     """The Condition the host reports, flattened for detectors (ADR 0005):
-    every scalar of the snapshot, the free-form 'state'/'resources' dicts
-    and the episode's own `body` event — first non-null per field, in that
-    order of precedence. Nothing here knows a field's meaning; the
-    declared detectors do."""
+    every scalar of the snapshot (the wire's `condition` channel merged
+    in upstream), the free-form 'state'/'resources' dicts and a legacy
+    `body` event if a caller still sends one — first non-null per field,
+    in that order of precedence. Nothing here knows a field's meaning;
+    the declared detectors do."""
     character = character or {}
     body_data = {}
     for e in events or []:

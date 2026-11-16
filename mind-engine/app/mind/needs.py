@@ -3,8 +3,9 @@
 # ----------------------------------------------------------------------------
 # Two deterministic sources, per spec §9:
 #
-#   Detectors ('physiological') — read the character state (snapshot or the
-#   episode's body event): days without food/water, spent energy, rising
+#   Detectors ('physiological') — read the character state (the wire's
+#   `condition` channel, or a legacy `body` event): days without
+#   food/water, spent energy, rising
 #   shadow, hostile-weather streaks (mind.counters). They fire each open;
 #   urgency recomputes and grows with the underlying state; when the state
 #   clears, the need resolves itself at the next open.

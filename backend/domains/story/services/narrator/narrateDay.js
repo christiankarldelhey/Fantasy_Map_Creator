@@ -33,8 +33,6 @@ const MIND_ENGINE = ['on', 'true', '1'].includes(
  * @param {Object} [params.characterState] - raw energy/shadow/wounded/notes
  * @param {Object} [params.equipmentState] - raw supplies/gear state
  * @param {string} [params.fate] - resolved fate; non-'living' is terminal
- * @param {Object} [params.stateContext] - {startState, endState} for the
- *        mind's `body` event; ignored unless MIND_ENGINE is on.
  * @param {Function} [params.onDecisionPoint] - called between open and
  *        narrate when the episode declares an unresolved decision
  *        (B5): `(decisionPoint, decide) => Promise<void>` where
@@ -50,7 +48,6 @@ export async function narrateDay({
   characterState = null,
   equipmentState = null,
   fate = null,
-  stateContext = null,
   onDecisionPoint = null,
 }) {
   const [previousDay, recentDayClimates] = await Promise.all([
@@ -71,7 +68,6 @@ export async function narrateDay({
     fate,
     previousDay,
     recentDayClimates,
-    stateContext,
   });
 
   // Why there is no episode on this day — persisted on the trip_day so

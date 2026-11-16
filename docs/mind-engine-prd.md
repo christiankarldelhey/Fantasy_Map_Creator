@@ -91,7 +91,7 @@ Idéntico a spec §3, con la traducción en el host:
 ```jsonc
 {
   "type": "climate" | "encounter" | "terrain" | "place" | "water"
-        | "meal" | "rest" | "body" | "region" | ...,  // str libre, registry por facets
+        | "meal" | "rest" | "region" | ...,  // str libre, registry por facets
   "when":  { "episode": 2, "date": "1950-01-19", "hour": 10.0, "phase": "morning" },
   "where": { "region": "...", "family": "...", "point": [x, y] },
   "data":  { ... }   // libre; los facets declaran qué campos son bandeables
@@ -100,7 +100,7 @@ Idéntico a spec §3, con la traducción en el host:
 
 - Validación Pydantic estricta en el borde → `422` si llega mal.
 - `type` no es enum en código: los tipos conocidos de un juego se declaran vía `mind.facets`.
-- `body` es un type más: el cuerpo reportando (energía, heridas, días sin comer).
+- El cuerpo no es un evento: vitales y kilometraje viajan en `condition` (el live Condition report); un type `body` legacy se tolera mind-side pero el host ya no lo emite.
 - `narrator_payload` (opcional): blob opaco que Narrator Engine usa para armar el prompt
   legacy (en Middle Earth: `day`, `trip`, `character`, bloques). Mind nunca lo interpreta.
 
