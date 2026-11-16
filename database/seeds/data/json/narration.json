@@ -28587,7 +28587,8 @@
     "Birch and bracken on the old field-systems, bramble over the village foundations. The land is slowly making its own decisions about what comes next, with no one watching closely enough to object.",
     "Flat, broad and waterlogged in the wet seasons, when the Gwathló and Baranduin both push their floodplains outward. In summer it dries to a country of pale grass and old earthworks.",
     "Atlantic weather from the west meets nothing to stop it on this plain. Rain arrives in long grey curtains; the winters are damp rather than severe, which doesn't mean they're easy.",
-    "Wandering Gwathuirim tribes and the occasional Dúnedain Ranger who comes through quickly and tells no one why. No permanent settlements; the last ones died with the Great Plague."
+    "Wandering Gwathuirim tribes and the occasional Dúnedain Ranger who comes through quickly and tells no one why. No permanent settlements; the last ones died with the Great Plague.",
+    "Coastal marshland where the Baranduin and Gwathló combine their flood-plains before meeting the sea. Shifting sandbars, tidal fords only the Gwathuirim can read, and the smell of estuary mud at every tide."
    ],
    "facts": {
     "land": [
@@ -32880,12 +32881,9 @@
     "es": null
    },
    "rotation": [
-    "Marshy coastal strip where the Baranduin and Gwathló meet Belegaer in a labyrinth of marshes and shifting sandbars. Migratory birds in their thousands in autumn, tidal fords only the Gwathuirim know and land that changes with every tide.",
-    "Coastal marshland where the Baranduin and Gwathló combine their flood-plains before meeting the sea. Shifting sandbars, tidal fords only the Gwathuirim can read, and the smell of estuary mud at every tide.",
-    "Migratory birds in their thousands in autumn — godwits and knots and grey plovers in flocks that darken the sky above the sandbars. The estuaries are rich; the birds find them before the Gwathuirim have finished counting the numbers.",
-    "The land here is genuinely uncertain about what it is. Tidal flats at high water; mud-and-reed banks at low water; the channels shift with the spring floods and the autumn storms. Nothing stays where it was.",
-    "Mild maritime climate controlled entirely by the sea. The wind off Belegaer is constant; the rain follows the tide more than the season. Frost is rare; genuinely warm days are rarer.",
-    "Gwathuirim who know which channels can be forded at which tides, which fords shift, which ones are permanent. That knowledge is their only navigational advantage in a landscape that resists outsiders."
+    "The northeastern half of Cardolan — high, wind-scoured country of red downs and barrow-crowned ridges, thin turf breaking against the richer floodplain pockets of the upper Gwathló.",
+    "Red earth under pale grass. Long ridges run northeast toward the Pinnath Ceren and the grave-mounds of Tyrn Gorthad; more stone and sky than soil, and sheep where anything grows at all.",
+    "Tharbad, where the road crosses the Gwathló on its old stone bridge, is the land's one claim to consequence. Beyond it the country empties into moor and ridge and the graves of kings no one names."
    ],
    "facts": {
     "land": [
