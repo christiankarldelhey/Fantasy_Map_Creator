@@ -740,8 +740,10 @@ test('ambient situations ride the wire as moment events, never a day field (ADR-
   });
   const moments = body.events.filter((e) => e.type === 'moment');
   assert.equal(moments.length, 1);
-  // The voice arrives verbalized; its effects never cross the wire.
+  // The voice arrives verbalized and phased — a moment without a phase
+  // would never reach a narrator's phase block.
   assert.equal(moments[0].data.reading, 'the fire lights three paces; beyond it a wall, and the wall makes noise');
+  assert.ok(['morning', 'afternoon', 'night'].includes(moments[0].when.phase));
   assert.equal(moments[0].data.record, 'M-A4');
   assert.equal(moments[0].data.effects, undefined);
   // The episode wire carries no `day` at all — ambient lived as events.

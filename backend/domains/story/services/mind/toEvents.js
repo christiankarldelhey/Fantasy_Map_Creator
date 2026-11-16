@@ -464,7 +464,12 @@ function momentEvents(day) {
     .filter((a) => a?.text)
     .map((a) => ({
       type: 'moment',
-      when: when(),
+      // The resolver stamps the phase; payloads that lack it (older days,
+      // foreign callers) still get a walking phase — a phase-less moment
+      // would never reach a phase block.
+      when: when({
+        phase: a.phase ?? (rngOf(day)() < 0.5 ? 'morning' : 'afternoon'),
+      }),
       where: where(regionOf(day)),
       data: {
         record: a.record_id ?? null,

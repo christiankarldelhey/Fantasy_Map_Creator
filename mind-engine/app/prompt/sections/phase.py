@@ -18,6 +18,7 @@ def phase_block(
     terrain_notes=None,
     location_notes=None,
     water_notes=None,
+    ambient_notes=None,
 ):
     encounters = encounters or []
 
@@ -34,6 +35,12 @@ def phase_block(
 
     if water_notes:
         subsections.append(f'Water crossings:\n{water_notes}')
+
+    # The land's own voice: small authored vignettes the world resolved
+    # for this part of the day (ADR-0015/16) — noticed things, not
+    # encounters. Reference only, like every other note.
+    if ambient_notes:
+        subsections.append('Ambient:\n' + '\n'.join(ambient_notes))
 
     if meal:
         subsections.append(f'Food and drink:\n{meal}')

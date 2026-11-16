@@ -8,8 +8,8 @@
 //
 // Keys mirror the fields the prompt pipeline consumes:
 //   climate_state, weather{phase}, meals{phase}, terrain{phase},
-//   locations{phase}, water{phase}, night_lead, lands, condition, equipage,
-//   end_state, journey_context
+//   locations{phase}, water{phase}, moments{phase}, night_lead, lands,
+//   condition, equipage, end_state, journey_context
 // ============================================================================
 
 import { collectClimateNotesByPhase, resolveClimateState } from './climateNotes.js';
@@ -100,9 +100,24 @@ export function buildWorldNotes({
       )
   );
 
+  // Resolved ambient situations ride per-phase too — the stateless path
+  // has no `moment` events to read them from. The resolver stamps a
+  // phase; callers without one still land on a walking phase, never on
+  // a `when:{}` that no block reads.
+  const ambientText = (v) =>
+    typeof v === 'string' ? v : v?.en ?? v?.es ?? null;
+  const ambientByPhase = { morning: [], afternoon: [], night: [] };
+  for (const a of day.ambient || []) {
+    const phase = ['morning', 'afternoon', 'night'].includes(a.phase)
+      ? a.phase
+      : rng() < 0.5 ? 'morning' : 'afternoon';
+    ambientByPhase[phase].push({ ...a, text: ambientText(a.text) });
+  }
+
   const terrain = {};
   const locations = {};
   const water = {};
+  const moments = {};
   for (const phase of ['morning', 'afternoon', 'night']) {
     terrain[phase] = biomesByPhase[phase].length
       ? collectTerrainNotes(biomesByPhase[phase], [], day.regions, day.terrain_phrases, rng)
@@ -113,6 +128,9 @@ export function buildWorldNotes({
     water[phase] = waterByPhase[phase].length
       ? describeWaterCrossings(waterByPhase[phase], rng)
       : null;
+    moments[phase] = ambientByPhase[phase]
+      .filter((a) => a.text)
+      .map((a) => a.text);
   }
 
   return {
@@ -122,6 +140,7 @@ export function buildWorldNotes({
     terrain,
     locations,
     water,
+    moments,
     night_lead: nightLead(day, rng),
     lands: landsContext(day, rng, enteredRegionNames),
     condition: conditionSection(characterState, characterName),

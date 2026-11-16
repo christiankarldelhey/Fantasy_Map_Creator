@@ -269,12 +269,22 @@ export async function resolveAmbientVoice({
     const option = pickOption(situation.options, tagSet, rng);
     if (!option) continue;
     const outcome = option.outcomes?.success || {};
+    // The moment belongs to a part of the day: an authored `when` wins,
+    // else it lands on a walking phase — ambient voices are road things,
+    // they never fall into the night on their own (overnight situations
+    // were filtered out above). The phase lets the moment reach the
+    // narrator's phase blocks, not just the mind's Past.
+    const authored = situation.when?.phase ?? situation.when ?? null;
+    const phase = ['morning', 'afternoon', 'night'].includes(authored)
+      ? authored
+      : rng() < 0.5 ? 'morning' : 'afternoon';
     events.push({
       record_id: record.id,
       situation_id: situation.id ?? null,
       option_id: option.id ?? null,
       name: record.name || null,
       when: situation.when || null,
+      phase,
       text: outcome.text || null,
       effects: outcome.effects || null,
     });
