@@ -569,6 +569,11 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
       }, {
         name: 'Hornburg', type: 'fortress', distance_km: 24.5,
         sighted: true, sighted_hour_float: 9.5, sighted_direction: 'east',
+        // Beyond reach none of this may cross the wire — a silhouette
+        // earns no census and no ficha prose.
+        aspect: 'The great fortress of Helm\'s Deep.',
+        presence: 'A hall of stone.', population: 300, inhabitants: 'rohirrim',
+        sighted_far: 'a dark wall beneath the cliffs',
       }],
     },
     trip: { id: 't1' },
@@ -584,6 +589,14 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
   const hornburg = places[1].data;
   assert.equal(hornburg.sighted.hour_float, 9.5);
   assert.equal(hornburg.sighted.direction, 'east');
+  // A place met only from afar carries its silhouette and nothing else:
+  // no aspect, no presence, no population — what nobody got close to know.
+  assert.equal(hornburg.sighted_far, 'a dark wall beneath the cliffs');
+  assert.equal(hornburg.aspect, undefined);
+  assert.equal(hornburg.presence, undefined);
+  assert.equal(hornburg.population, undefined);
+  assert.match(hornburg.reading, /a fortress: sighted far off to the east/);
+  assert.doesNotMatch(hornburg.reading, /Hornburg|Helm/);
 });
 
 test('the open payload carries raw state, never rendered blocks (C10)', () => {

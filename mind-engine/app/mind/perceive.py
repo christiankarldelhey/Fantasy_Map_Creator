@@ -72,11 +72,14 @@ def derive_tags(event):
         # row served the night) — 'scope:family' streaks once turned into
         # 'no family today' readings about a family that never existed.
         # 'reading' is the host's declared perception — prose, not a tag.
+        # The ficha's prose slots are the same: 'aspect'/'presence'/
+        # 'sighted_far' are sentences to narrate, never tag vocabulary.
         if key in ('entity', 'entity_id', 'entity_name', 'check',
                    'thread_desc', 'resolves', 'urgency', 'scope',
                    'description', 'description_es', 'inhabitants',
                    'prose_hint', 'slot', 'substance', 'lodging',
-                   'reading'):
+                   'aspect', 'aspect_es', 'presence', 'presence_es',
+                   'sighted_far', 'reading'):
             continue
         if key == 'tags':
             values = value if isinstance(value, list) else [value]

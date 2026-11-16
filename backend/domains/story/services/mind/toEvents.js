@@ -17,7 +17,11 @@
 //               population, inhabitants, distance_km, tags[], reading} —
 //               'settlement' for inhabited places, 'entered' for the one
 //               the traveller actually stopped at, 'hostile' for
-//               enemy-kingdom places that were skirted from outside
+//               enemy-kingdom places that were skirted from outside.
+//               Beyond its reach (>1km, never inside) a place is only a
+//               silhouette: it carries sighted_far and drops aspect,
+//               presence, population and inhabitants — what nobody got
+//               close enough to know
 //   water     — one per crossing: data: {name, kind, reading}
 //   region    — one per land ENTERED today (not in yesterday's regions):
 //               data: {name, description, reading, tags['region_entered']}
@@ -72,7 +76,7 @@ import {
 } from '../naturalLanguage/climateNotes.js';
 import { describeMeal, mealLabel } from '../naturalLanguage/mealNotes.js';
 import { collectTerrainNotes } from '../naturalLanguage/terrainNotes.js';
-import { collectLocationNotes } from '../naturalLanguage/placeNotes.js';
+import { collectLocationNotes, isDistantSighting, sightedShape } from '../naturalLanguage/placeNotes.js';
 import { describeWaterCrossings } from '../naturalLanguage/waterNotes.js';
 import { REST_OPEN_SKY } from '../naturalLanguage/nightNotes.js';
 import { groupByPhase } from '../naturalLanguage/dayPhases.js';
@@ -348,18 +352,25 @@ function placeEvents(day) {
       data: {
         name: loc.name || loc.id,
         kind: loc.type || null,
-        population: loc.population ?? null,
-        inhabitants: loc.inhabitants ?? null,
-        aspect: loc.aspect ?? null,
-        aspect_es: loc.aspect_es ?? null,
         distance_km: loc.distance_km ?? null,
-        presence: loc.presence ?? undefined,
-        presence_es: loc.presence_es ?? undefined,
+        // Beyond its reach a place is only a silhouette: the sighted_far
+        // line is all it says — census and ficha prose belong to a
+        // traveller who got close or went in.
+        ...(isDistantSighting(loc)
+          ? { sighted_far: loc.sighted_far ?? sightedShape(loc) }
+          : {
+              population: loc.population ?? null,
+              inhabitants: loc.inhabitants ?? null,
+              aspect: loc.aspect ?? null,
+              aspect_es: loc.aspect_es ?? null,
+              presence: loc.presence ?? undefined,
+              presence_es: loc.presence_es ?? undefined,
+            }),
         sighted: loc.sighted
           ? { hour_float: loc.sighted_hour_float ?? null, direction: loc.sighted_direction ?? null }
           : undefined,
-        // The narrator's place line (name, proximity, authored aspect) is
-        // also the memory's reading.
+        // The narrator's place line (proximity, far silhouette or ficha
+        // prose) is also the memory's reading.
         reading: (collectLocationNotes([loc])[0] || '')
           .replace(/^- /, '') || loc.name || loc.id || null,
         tags: tags.length ? tags : undefined,

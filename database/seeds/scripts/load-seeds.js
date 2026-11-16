@@ -542,7 +542,7 @@ const DEPICTION_TABLES = [...new Set(Object.values(REF_TABLES))];
 // The narration-v2 spec (ADR-0015): JSON records map 1:1 to columns; payload
 // is provenance only (origin, legacy_id, anchor_hint, location_ref…).
 const PROSE_COLUMNS = [
-  'aspect', 'presence', 'lore', 'secret', 'sections', 'facts',
+  'aspect', 'sighted_far', 'presence', 'lore', 'secret', 'sections', 'facts',
   'notes', 'channel', 'traveller_use', 'variants', 'rotation', 'interactive',
 ];
 

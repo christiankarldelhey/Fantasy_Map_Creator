@@ -9,7 +9,51 @@ import { timeOfDayPhrase } from './dayPhases.js';
 import { descriptionSuffix, readableType } from './text.js';
 
 // Beyond this distance the traveller only sees the place on the horizon.
-const DISTANT_SIGHTING_KM = 1;
+export const DISTANT_SIGHTING_KM = 1;
+
+// The silhouette a kind gives from beyond reach, before the place is
+// known — the fallback while a record carries no authored sighted_far.
+const SIGHTED_SHAPES = {
+  'fortified city': 'walls and a haze of chimney-smoke',
+  'fortified town': 'walls and a haze of chimney-smoke',
+  citadel: 'walls and a haze of chimney-smoke',
+  city: 'walls and a haze of chimney-smoke',
+  fortress: 'a keep against the sky',
+  castle: 'a keep against the sky',
+  tower: 'a tall shape against the sky',
+  town: 'rooftops and a thread of smoke',
+  village: 'rooftops and a thread of smoke',
+  inn: 'rooftops and a thread of smoke',
+  tavern: 'rooftops and a thread of smoke',
+  manor: 'rooftops and a thread of smoke',
+  camp: 'a scatter of tents and fires',
+  ruin: 'a broken shape against the sky',
+  ruins: 'a broken shape against the sky',
+};
+
+/** What a place reads as from beyond its reach when nothing is authored. */
+export function sightedShape(location) {
+  return SIGHTED_SHAPES[location?.type] || 'a shape on the horizon';
+}
+
+const PLURAL_SIGHTED = new Set(['ruins']);
+
+/** The anonymous subject a distant sighting gets: 'a town', 'some ruins' —
+ * the authored sighted_far is where the place earns its name back. */
+function sightedSubject(location) {
+  const kindWord = readableType(location?.type) || 'place';
+  const article = PLURAL_SIGHTED.has(location?.type) ? 'some'
+    : /^[aeiou]/i.test(kindWord) ? 'an' : 'a';
+  return `${article} ${kindWord}`;
+}
+
+/** A place met only from afar: never inside its size radius, never
+ * within sighting detail — whatever the flags say, distance is the fact. */
+export function isDistantSighting(location) {
+  return !location?.entered && !location?.visited
+    && location?.distance_km != null
+    && location.distance_km > DISTANT_SIGHTING_KM;
+}
 
 const PROXIMITY_THROUGH = 'passes through';
 const PROXIMITY_CLOSE = 'passed close by';
@@ -74,10 +118,15 @@ export function collectLocationNotes(locations) {
     } else {
       proximity = `${sight}${proximityPhrase(l.distance_km, l.size_radius_km)}, ${when}`;
     }
-    // A place the traveller is actually inside speaks with its ficha's
-    // "being there" prose; from the road only the distant aspect applies.
-    const prose = (l.visited || l.entered) ? (l.presence || l.aspect) : l.aspect;
-    notes.push(`- ${l.name}${kind}: ${proximity}.${descriptionSuffix(prose)}`);
+    // From beyond its reach a place is only its silhouette — anonymous
+    // unless the authored sighted_far chooses to name it. aspect is the
+    // face seen from outside up close; presence is being there.
+    const distant = isDistantSighting(l);
+    const subject = distant ? sightedSubject(l) : `${l.name}${kind}`;
+    const prose = distant
+      ? (l.sighted_far || sightedShape(l))
+      : (l.visited || l.entered) ? (l.presence || l.aspect) : l.aspect;
+    notes.push(`- ${subject}: ${proximity}.${descriptionSuffix(prose)}`);
   }
   return notes;
 }

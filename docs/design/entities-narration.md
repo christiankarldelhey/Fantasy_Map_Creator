@@ -191,8 +191,8 @@ y el código ya lo sabe: `memory.py` los marca "no reading by design" y
 **`places_narration`** (el modelo a espejar):
 - Scope: `location_id`, `region_id`/`region_ids[]`,
   `cultural_family`, `type`, `priority`, radios
-- Prosa: `aspect`, `presence`, `lore`, `secret`, `sections`,
-  `channel`, `traveller_use`, `notes`
+- Prosa: `aspect`, `sighted_far`, `presence`, `lore`, `secret`,
+  `sections`, `channel`, `traveller_use`, `notes`
 - Condicional: `variants[]` (tags/not_tags/when), `rotation[]`
 - `interactive[]`: situaciones tag-gateadas con options → outcomes
   {success, failure} {text, effects}

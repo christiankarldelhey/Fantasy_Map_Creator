@@ -255,7 +255,8 @@ CREATE TABLE IF NOT EXISTS places_narration (
     influence_radius_km NUMERIC(8,2),                    -- askable / felt from afar
 
     -- Universal prose slots — any record may carry any of them
-    aspect              JSONB,                           -- {en, es}: the face seen from outside / afar
+    aspect              JSONB,                           -- {en, es}: the face seen from outside, up close
+    sighted_far         JSONB,                           -- {en, es}: the silhouette from beyond reach, before it is known
     presence            JSONB,                           -- {en, es}: what being there is like
     lore                JSONB,                           -- {en, es}: background, history, what is known
     secret              JSONB,                           -- {when: {en,es}, text: {en,es}}
@@ -291,7 +292,8 @@ COMMENT ON COLUMN places_narration.kind IS 'place (anchored ficha) | ambient (sc
 COMMENT ON COLUMN places_narration.location_id IS 'Hosted-at anchor to a gazetteer location; NULL until positioned';
 COMMENT ON COLUMN places_narration.region_id IS 'Scope region for the resolver ladder (first of region_ids)';
 COMMENT ON COLUMN places_narration.region_ids IS 'Authored multi-region list; region_id is its first element';
-COMMENT ON COLUMN places_narration.aspect IS 'The face seen from outside or afar {en, es}';
+COMMENT ON COLUMN places_narration.aspect IS 'The face seen from outside, up close {en, es}';
+COMMENT ON COLUMN places_narration.sighted_far IS 'The silhouette seen from beyond reach — what a place reads as before it is known {en, es}';
 COMMENT ON COLUMN places_narration.presence IS 'What being there is like {en, es}';
 COMMENT ON COLUMN places_narration.interactive IS 'Situations with tag-gated, mind-weighted options and outcomes';
 
