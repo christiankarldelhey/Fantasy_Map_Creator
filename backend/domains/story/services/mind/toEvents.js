@@ -12,7 +12,6 @@
 //               declares the weather tiers ('weather:storm'…) and the
 //               one-line reading; the mind never derives tags or prose
 //               from raw numbers
-//   travel    — data: {distance_km, walking_hours}
 //   terrain   — data: {terrain_phrases (map of phase->phrases), reading}
 //   place     — one per visited location: data: {name, kind, description,
 //               population, inhabitants, distance_km, tags[], reading} —
@@ -41,8 +40,11 @@
 //               happening, not a noun.
 //               where: {region} from the encounter's own region
 //   body      — characterState snapshot: data: {energy, shadow, wounded,
-//               fatigue, days_without_food, days_without_water};
-//               end-of-day values win over start-of-day when present
+//               fatigue, days_without_food, days_without_water,
+//               distance_km, walking_hours};
+//               end-of-day values win over start-of-day when present.
+//               The day's mileage is not an event — it rides this channel
+//               so declared detectors can read it, like any other vital.
 //   region    — region transitions implicit: every event carries
 //               where.region when known
 //
@@ -428,6 +430,7 @@ function terrainEvents(day) {
   if (!events.length && day.terrain_phrases) {
     const phrases = Object.values(day.terrain_phrases || {})
       .flatMap((r) => Object.values(r)).flat().slice(0, 6);
+    if (!phrases.length) return events;
     events.push({
       type: 'terrain',
       when: when(),
@@ -539,6 +542,10 @@ function bodyEvent(day, stateContext) {
         endState?.days_without_food ?? startState?.days_without_food ?? null,
       days_without_water:
         endState?.days_without_water ?? startState?.days_without_water ?? null,
+      // Mileage is condition, not event: it feeds detectors through
+      // character_state like any other vital, never a reading.
+      distance_km: day.distance_km ?? null,
+      walking_hours: day.walking_hours ?? null,
     },
   };
 }
@@ -556,17 +563,6 @@ function bodyEvent(day, stateContext) {
 export function toEvents({ day, trip, character, stateContext, previousDay }) {
   const events = [
     ...climateEvents(day),
-    ...(day.distance_km
-      ? [{
-          type: 'travel',
-          when: when(),
-          where: where(regionOf(day)),
-          data: {
-            distance_km: day.distance_km,
-            walking_hours: day.walking_hours,
-          },
-        }]
-      : []),
     ...terrainEvents(day),
     ...encounterEvents(day),
     ...mealEvents(day),

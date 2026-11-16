@@ -44,7 +44,7 @@ El host no le manda "el mundo"; le manda **un stream plano de experiencias** del
 ```jsonc
 {
   "type": "climate" | "encounter" | "terrain" | "place" | "water"
-        | "meal" | "rest" | "travel" | "body" | "region" | ...,  // extensible
+        | "meal" | "rest" | "body" | "region" | ...,  // extensible
   "when":  { "episode": 2, "date": "1950-01-19", "hour": 10.0, "phase": "morning" },
   "where": { "region": "...", "family": "...", "point": [x, y] },
   "data":  { ... }   // libre: los hechos duros del juego

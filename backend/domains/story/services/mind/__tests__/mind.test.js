@@ -69,7 +69,7 @@ test('toEvents emits the generic contract from a resolved day', () => {
     },
   });
   const types = events.map((e) => e.type);
-  for (const t of ['travel', 'terrain', 'place', 'meal', 'rest', 'encounter', 'body']) {
+  for (const t of ['terrain', 'place', 'meal', 'rest', 'encounter', 'body']) {
     assert.ok(types.includes(t), `missing event type ${t}`);
   }
   for (const e of events) {
@@ -180,7 +180,11 @@ test('events declare readings and weather tiers (the tagger contract)', () => {
   );
   // Vitals and mileage never narrate — they speak through needs/mood.
   assert.equal(events.find((e) => e.type === 'body').data.reading, undefined);
-  assert.equal(events.find((e) => e.type === 'travel').data.reading, undefined);
+  // Mileage is not an event: it rides the body channel for detectors.
+  assert.ok(!events.some((e) => e.type === 'travel'));
+  const body = events.find((e) => e.type === 'body');
+  assert.equal(body.data.distance_km, 14.5);
+  assert.equal(body.data.walking_hours, 5.5);
 });
 
 test('a shelterless night declares the open-sky reading itself', () => {

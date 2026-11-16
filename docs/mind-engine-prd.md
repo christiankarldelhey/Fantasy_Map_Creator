@@ -91,7 +91,7 @@ Idéntico a spec §3, con la traducción en el host:
 ```jsonc
 {
   "type": "climate" | "encounter" | "terrain" | "place" | "water"
-        | "meal" | "rest" | "travel" | "body" | "region" | ...,  // str libre, registry por facets
+        | "meal" | "rest" | "body" | "region" | ...,  // str libre, registry por facets
   "when":  { "episode": 2, "date": "1950-01-19", "hour": 10.0, "phase": "morning" },
   "where": { "region": "...", "family": "...", "point": [x, y] },
   "data":  { ... }   // libre; los facets declaran qué campos son bandeables
