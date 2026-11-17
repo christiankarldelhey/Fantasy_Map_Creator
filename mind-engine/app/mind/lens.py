@@ -13,6 +13,7 @@
 import re
 from datetime import date
 
+from app.mind.tags import cause_tags
 from app.mind.voice import mood_phrase
 from app.mind.provisioning import DEFAULT_WIRING
 
@@ -68,12 +69,9 @@ def mood_cause(perceived_day, needs=None):
         if weight > best_w:
             best = {
                 'reading': p['reading'], 'valence': p.get('valence') or 0.0,
-                # Contact tags let the brief connect the carried mood to
+                # Cause tags let the brief connect the carried mood to
                 # today's Focus (orc tracks yesterday, orcs today).
-                'tags': [
-                    t for t in (p.get('tags') or [])
-                    if t.startswith(('entity:', 'tag:entity_type:', 'tag:form:'))
-                ],
+                'tags': cause_tags(p.get('tags')),
             }
             best_w = weight
     for n in needs or []:

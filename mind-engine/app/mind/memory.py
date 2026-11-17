@@ -16,6 +16,7 @@ from app.mind.embeddings import embed
 from app.mind.voice import humanize, phrases
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Episode, ForgottenMemory, Memory, Need
+from app.mind.tags import pattern_tag
 
 
 def _wiring(mind):
@@ -490,14 +491,10 @@ def _pattern_desc(session, game_id, tag, count, mind=None):
 
 
 def _pattern_eligible(tag):
-    """A recurring theme must be a named thing: an entity, a region, a
-    curated semantic tag ('tag:weather:*'), or a single-segment host tag
-    ('tag:omen'). 'type:*' is too generic — every day has travel and
-    meals — and 'tag:<field>:<value>' is raw bookkeeping: 'food: lembas'
-    every day is what happened, not what means anything."""
-    if tag.startswith(('entity:', 'region:', 'tag:weather:')):
-        return True
-    return tag.startswith('tag:') and ':' not in tag[len('tag:'):]
+    """A recurring theme must be a named thing — see tags.pattern_tag:
+    pattern-classed families (entity, region, weather) plus bare
+    single-segment host tags."""
+    return pattern_tag(tag)
 
 
 def detect_patterns(session, mind, episode, idx, w):

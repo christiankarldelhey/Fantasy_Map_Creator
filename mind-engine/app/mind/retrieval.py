@@ -29,6 +29,7 @@ from app.mind.embeddings import cosine, embed, ensure_embedding, episode_embeddi
 from app.mind.memory import episode_date, episode_index
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Memory
+from app.mind.tags import contact_tags as _contact_tags
 
 
 def _context_tags(perceived_day, beliefs):
@@ -80,20 +81,8 @@ def _relevance(memory_tags, context_tags, facet_weight=0.0):
 # day's weather report, menu, mileage or coordinates. Ambient tags —
 # the event's own class, the sky, the ration, the region — are
 # background: without them, the same rain 'evokes' every past rain and
-# the road-bread out-recalls every encounter.
-_CONTACT_AMBIENT_PREFIXES = (
-    'type:', 'tag:weather:', 'tag:food:', 'tag:drink:', 'region:',
-)
-
-
-def _contact_tags(tags):
-    """The subset of tags that can make a memory TOUCH today: entity,
-    entity_type, form, topic, name, need — the story's nouns, not its
-    weather."""
-    return {
-        t for t in (tags or [])
-        if not t.startswith(_CONTACT_AMBIENT_PREFIXES)
-    }
+# the road-bread out-recalls every encounter. The ambient/content split
+# is declared once in tags.py (TAG_CLASSES).
 
 
 def retrieve(session, mind, episode, perceived_day):

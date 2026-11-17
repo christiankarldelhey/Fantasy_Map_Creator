@@ -20,7 +20,8 @@ from app.mind.focus import _ENGINE_FRAME_TYPES, build_brief
 from app.mind.voice import PHRASES
 from app.mind.provisioning import get_or_create_mind
 from app.mind.reflection import _apply_ops, reflection_beliefs
-from app.mind.retrieval import _CONTACT_AMBIENT_PREFIXES, _context_tags
+from app.mind.retrieval import _context_tags
+from app.mind.tags import TAG_CLASSES
 from app.mind.tables import (
     Belief, MindPreset, Episode, PresetMusing, PresetStarterBelief, Musing,
 )
@@ -341,7 +342,11 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
 FRAME_TYPES = _ENGINE_FRAME_TYPES | set(
     PHRASES['mind.focus_excluded']
 )
-AMBIENT = tuple(p for p in _CONTACT_AMBIENT_PREFIXES if p != 'type:')
+AMBIENT = tuple(
+    prefix for family, classes in TAG_CLASSES.items()
+    if 'ambient' in classes and family != 'type'
+    for prefix in (f'{family}:', f'tag:{family}:')
+)
 ALL_MUSINGS = [
     pytest.param(m, id=f"{who}:{m['statement'][:40]}")
     for who, pack in (('celebrian', CELEBRIAN_MUSINGS),
