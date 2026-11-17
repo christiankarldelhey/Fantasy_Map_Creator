@@ -27,11 +27,12 @@ def _uid(prefix):
     return f'{prefix}-{uuid.uuid4().hex[:8]}'
 
 
-def _open_and_close(client, character_id, ref, events):
+def _open_and_close(client, character_id, ref, events, condition=None):
     r = client.post('/episodes', json={
         'game_id': 'middle_earth',
         'character': {'id': character_id},
         'episode_ref': ref,
+        'condition': condition or {},
         'events': events,
     })
     assert r.status_code == 200, r.text
@@ -160,12 +161,12 @@ def test_absence_markers_never_tag_or_pattern(client):
     alone become the mind's strongest recurring memory."""
     char = _uid('unwounded')
     for ep in (1, 2, 3):
-        body = {
-            'type': 'body',
+        day = {
+            'type': 'climate',
             'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
             'data': {'wounded': 'none', 'food': None, 'rest': 'Null'},
         }
-        _open_and_close(client, char, f'd{ep}', [body])
+        _open_and_close(client, char, f'd{ep}', [day])
     tags = _all_tags(char)
     assert 'tag:wounded:none' not in tags
     assert 'tag:rest:Null' not in tags

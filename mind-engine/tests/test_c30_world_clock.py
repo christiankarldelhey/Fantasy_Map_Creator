@@ -17,7 +17,8 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.retrieval import episode_date_of, memory_age_days
+from app.mind.memory import episode_date
+from app.mind.retrieval import memory_age_days
 from app.mind.tables import Memory
 
 
@@ -31,16 +32,11 @@ def _uid(prefix):
 
 
 def _open(client, char, ref, when_episode, day_date, events=None):
-    events = events or [{
-        'type': 'body',
-        'when': {},
-        'data': {'energy': 0.8, 'wounded': 'none'},
-    }]
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': {'id': char},
         'episode_ref': ref,
         'episode': {'index': when_episode, 'at': day_date},
-        'events': events,
+        'events': events or [],
     })
     assert r.status_code == 200, r.text
     return r.json()
@@ -112,12 +108,13 @@ def test_memory_age_days_legacy_fallback():
     assert memory_age_days(ep, mem) == 2
 
 
-def test_episode_date_of_parses_when_date():
+def test_episode_date_parses_when_date():
     ep = SimpleNamespace(
         episode_date=None,
+        narrator_payload=None,
         events=[{'when': {'date': '1950-06-21 13:00:00'}}],
     )
-    assert episode_date_of(ep) == date(1950, 6, 21)
+    assert episode_date(ep) == date(1950, 6, 21)
 
 
 def test_month_gap_recaps_under_true_age_not_yesterday(client):

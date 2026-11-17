@@ -19,29 +19,19 @@
 # enabled=False silences a built-in for that game.
 #
 # Per-mind knobs: wiring keys 'detector.<key>.<param>' override value/mod/
-# urgency_base/urgency_per/urgency_map/scale for that mind. Legacy wiring
-# keys (need_hunger_days, mod_energy_spent, ...) still read so minds
-# authored before ADR 0005 keep their tuning.
+# urgency_base/urgency_per/urgency_map/scale for that mind.
 # ============================================================================
 import logging
 import operator
 import time
 
 from app.mind.tables import Detector
+from app.mind.util import OPS, num
 
 log = logging.getLogger(__name__)
 
 CACHE_TTL_SECONDS = 30
 _cache = {}
-
-_OPS = {
-    '>=': operator.ge,
-    '<=': operator.le,
-    '>': operator.gt,
-    '<': operator.lt,
-    '==': operator.eq,
-    '!=': operator.ne,
-}
 
 # The built-in pack. Everything the engine used to read by name lives here
 # as data now — a game replaces or silences any of it with its own rows.
@@ -110,34 +100,6 @@ DEFAULT_DETECTORS = [
     },
 ]
 
-# Wiring keys minds used before the values moved into detector rows.
-_LEGACY_PARAMS = {
-    ('hunger', 'value'): 'need_hunger_days',
-    ('thirst', 'value'): 'need_thirst_days',
-    ('exhaustion', 'value'): 'need_exhaustion_below',
-    ('unrest', 'value'): 'need_unrest_shadow_min',
-    ('energy_worn', 'value'): 'energy_worn_below',
-    ('energy_spent', 'value'): 'energy_spent_below',
-    ('energy_worn', 'mod'): 'mod_energy_worn',
-    ('energy_spent', 'mod'): 'mod_energy_spent',
-    ('shadow_shadowed', 'value'): 'shadow_shadowed_min',
-    ('shadow_burdened', 'value'): 'shadow_burdened_min',
-    ('shadow_shadowed', 'mod'): 'mod_shadow_shadowed',
-    ('shadow_burdened', 'mod'): 'mod_shadow_burdened',
-    ('wounded', 'mod'): 'mod_wounded',
-    ('shadow_altered', 'value'): 'misread_shadow_min',
-    ('wound', 'urgency_map.wounded'): 'need_wound_urgency',
-    ('wound', 'urgency_map.badly_wounded'): 'need_badly_wound_urgency',
-}
-
-def _num(value):
-    return (
-        value
-        if isinstance(value, (int, float)) and not isinstance(value, bool)
-        else None
-    )
-
-
 def _rule_dict(row):
     return {
         'key': row.key, 'kind': row.kind, 'field': row.field, 'op': row.op,
@@ -189,13 +151,10 @@ def invalidate(game_id=None):
 
 def _param(det, param, w, default=None):
     """Mind-level override first ('detector.<key>.<param>'), then the
-    legacy wiring key, then the declared value."""
+    declared value."""
     v = (w or {}).get(f"detector.{det['key']}.{param}")
     if v is not None:
         return v
-    legacy = _LEGACY_PARAMS.get((det['key'], param))
-    if legacy and (w or {}).get(legacy) is not None:
-        return w[legacy]
     return det.get(param, default)
 
 
@@ -206,8 +165,8 @@ def field_value(det, state, w=None):
     if det.get('field') == 'conditions':
         return state.get('conditions') or set()
     raw = state.get(det.get('field'))
-    n = _num(raw)
-    scale = _num(_param(det, 'scale', w))
+    n = num(raw)
+    scale = num(_param(det, 'scale', w))
     if n is not None and scale:
         return max(0.0, n / scale if n > 1 else n)
     return raw
@@ -229,10 +188,10 @@ def matches(det, state, w=None):
         return actual in (expected or [])
     if op == 'contains':
         return expected in (actual or [])
-    fn = _OPS.get(op)
+    fn = OPS.get(op)
     if fn is None:
         return False
-    an, en = _num(actual), _num(expected)
+    an, en = num(actual), num(expected)
     if an is not None and en is not None:
         return bool(fn(an, en))
     if fn in (operator.eq, operator.ne):
@@ -249,17 +208,14 @@ def _urgency(det, actual, w):
         override = (w or {}).get(
             f"detector.{det['key']}.urgency_map.{key}"
         )
-        legacy = _LEGACY_PARAMS.get((det['key'], f'urgency_map.{key}'))
-        if legacy and (w or {}).get(legacy) is not None:
-            override = w[legacy]
         if override is not None:
-            return min(1.0, _num(override) or 0.0)
-        return min(1.0, _num(umap.get(key) or umap.get(actual)) or 0.0)
-    base = _num(_param(det, 'urgency_base', w, 0.3)) or 0.0
-    per = _num(_param(det, 'urgency_per', w, 0.0)) or 0.0
-    n = _num(actual) or 0.0
+            return min(1.0, num(override) or 0.0)
+        return min(1.0, num(umap.get(key) or umap.get(actual)) or 0.0)
+    base = num(_param(det, 'urgency_base', w, 0.3)) or 0.0
+    per = num(_param(det, 'urgency_per', w, 0.0)) or 0.0
+    n = num(actual) or 0.0
     if det.get('urgency_from') == 'distance':
-        threshold = _num(_param(det, 'value', w)) or 0.0
+        threshold = num(_param(det, 'value', w)) or 0.0
         dist = (
             threshold - n
             if det.get('op') in ('<=', '<')
@@ -307,7 +263,7 @@ def state_mods(session, game_id, state, w=None):
     for group in groups.values():
         for det in sorted(group, key=lambda d: d.get('ordinal') or 0):
             if matches(det, state, w):
-                mods += _num(_param(det, 'mod', w, 0.0)) or 0.0
+                mods += num(_param(det, 'mod', w, 0.0)) or 0.0
                 break
     return mods
 

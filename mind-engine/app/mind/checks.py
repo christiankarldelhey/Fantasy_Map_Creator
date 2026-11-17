@@ -24,6 +24,7 @@
 import random
 
 from app.mind.detectors import altered_by_state, state_mods
+from app.mind.util import num
 from app.mind.voice import phrases
 
 ALTERED_STATES_KEY = 'mind.altered_states'
@@ -38,23 +39,13 @@ _IDENTITY_KEYS = {
 }
 
 
-def _num(v):
-    return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
-
-
 def character_state(character, events):
     """The Condition the host reports, flattened for detectors (ADR 0005):
     every scalar of the snapshot (the wire's `condition` channel merged
-    in upstream), the free-form 'state'/'resources' dicts and a legacy
-    `body` event if a caller still sends one — first non-null per field,
-    in that order of precedence. Nothing here knows a field's meaning;
-    the declared detectors do."""
+    in upstream) and the free-form 'state'/'resources' dicts — first
+    non-null per field, in that order of precedence. Nothing here knows
+    a field's meaning; the declared detectors do."""
     character = character or {}
-    body_data = {}
-    for e in events or []:
-        if e.get('type') == 'body':
-            body_data = e.get('data') or {}
-            break
 
     state = {}
     sources = (
@@ -65,7 +56,6 @@ def character_state(character, events):
         },
         character.get('state'),
         character.get('resources'),
-        body_data,
     )
     for src in sources:
         for k, v in (src or {}).items():
@@ -159,11 +149,11 @@ def resolve_check(session, game_id, character, event, index, state, w,
 
     skill_name = str(check['skill'])
     skills = (character or {}).get('skills') or {}
-    skill = _num(skills.get(skill_name))
+    skill = num(skills.get(skill_name))
     if skill is None:
-        skill = _num(skills.get(f'skill_{skill_name}')) or 0.0
+        skill = num(skills.get(f'skill_{skill_name}')) or 0.0
 
-    minimum = _num(check.get('gate'))
+    minimum = num(check.get('gate'))
     if minimum is None:
         minimum = w.get(
             f'gate_min.{skill_name}', w.get('gate_default_min', 0.0)
@@ -178,11 +168,11 @@ def resolve_check(session, game_id, character, event, index, state, w,
         result.update(attempted=False, success=False)
         return result, 'unnoticed'
 
-    difficulty = _num(check.get('difficulty'))
+    difficulty = num(check.get('difficulty'))
     if difficulty is None:
         difficulty = w.get('check_default_difficulty', 8.0)
     mods = state_mods(session, game_id, state, w) \
-        + (_num(check.get('mods')) or 0.0)
+        + (num(check.get('mods')) or 0.0)
 
     rng = random.Random(_seed_for(game_id, event, index, skill_name))
     sides = max(2, int(w.get('check_die_sides', 10)))

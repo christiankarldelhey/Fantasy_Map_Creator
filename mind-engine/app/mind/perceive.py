@@ -30,6 +30,7 @@ from app.mind.checks import (
 from app.mind.voice import phrases, resolve_event_reading
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Episode
+from app.mind.util import best_tag_weight, num, tag_matches
 
 # data fields that count as explicit severity when numeric (0-1 normalized).
 SEVERITY_FIELDS = (
@@ -38,10 +39,6 @@ SEVERITY_FIELDS = (
 )
 
 EPISODE_LOOKBACK = 20
-
-
-def _num(v):
-    return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
 
 
 # Values that report an absence, not an observation — 'wounded: none' is
@@ -95,19 +92,12 @@ def derive_tags(event):
 def theme_weight(tags, weights):
     """Max matching weight across the event's tags; wildcards 'prefix:*'
     match any tag with that prefix. 0 = this mind is indifferent."""
-    best = 0.0
-    for tag in tags:
-        if tag in weights:
-            best = max(best, weights[tag])
-    for key, weight in (weights or {}).items():
-        if key.endswith(':*') and any(t.startswith(key[:-1]) for t in tags):
-            best = max(best, weight)
-    return best
+    return best_tag_weight(tags, weights or {})
 
 
 def _severity(data):
     """0-1: explicit data['severity'] or the max severity-ish field."""
-    vals = [_num(data.get(f)) for f in SEVERITY_FIELDS]
+    vals = [num(data.get(f)) for f in SEVERITY_FIELDS]
     vals = [v for v in vals if v is not None]
     return min(1.0, max(vals)) if vals else 0.0
 
@@ -117,20 +107,7 @@ def _tag_severity(tags, w):
     'severity.tag:weather:storm: 0.6' makes the storm an *event* in the
     salience arithmetic while drizzle stays ambient. Host-declared
     severity still wins via max."""
-    best = 0.0
-    for tag in tags:
-        v = _num(w.get(f'severity.{tag}'))
-        if v is not None and v > best:
-            best = v
-    for key, v in w.items():
-        if not key.startswith('severity.') or not key.endswith(':*'):
-            continue
-        prefix = key[len('severity.'):-1]
-        if any(t.startswith(prefix) for t in tags):
-            num = _num(v)
-            if num is not None and num > best:
-                best = num
-    return best
+    return best_tag_weight(tags, w, 'severity.')
 
 
 def _salience_floor(tags, w):
@@ -139,27 +116,14 @@ def _salience_floor(tags, w):
     humans: 0.35' means thinking company is never background to this
     mind, 'salience_min.tag:form:brief_exchange' that a real exchange
     outweighs the weather. Wildcards allowed ('salience_min.entity:*')."""
-    best = 0.0
-    for tag in tags:
-        v = _num(w.get(f'salience_min.{tag}'))
-        if v is not None and v > best:
-            best = v
-    for key, v in w.items():
-        if not key.startswith('salience_min.') or not key.endswith(':*'):
-            continue
-        prefix = key[len('salience_min.'):-1]
-        if any(t.startswith(prefix) for t in tags):
-            num = _num(v)
-            if num is not None and num > best:
-                best = num
-    return best
+    return best_tag_weight(tags, w, 'salience_min.')
 
 
 def _emotional_charge(data):
-    v = _num(data.get('emotional_charge'))
+    v = num(data.get('emotional_charge'))
     if v is not None:
         return min(1.0, abs(v))
-    v = _num(data.get('valence'))
+    v = num(data.get('valence'))
     return min(1.0, abs(v)) if v is not None else 0.0
 
 
@@ -169,27 +133,14 @@ def _affect(tags, data, w):
     allowed) and 'affect.field:<name>' keys scale a numeric data field
     per unit. Two minds differ exactly here — the same confrontation is
     not the same wound to every character."""
-    best = 0.0
-    for tag in tags:
-        v = _num(w.get(f'affect.{tag}'))
-        if v is not None and abs(v) > abs(best):
-            best = v
-    for key, v in w.items():
-        if not key.startswith('affect.') or not key.endswith(':*'):
-            continue
-        prefix = key[len('affect.'):-1]
-        if any(t.startswith(prefix) for t in tags):
-            num = _num(v)
-            if num is not None and abs(num) > abs(best):
-                best = num
-    valence = best
+    valence = best_tag_weight(tags, w, 'affect.')
     for key, gain in w.items():
         if not key.startswith('affect.field:'):
             continue
-        num = _num(data.get(key[len('affect.field:'):]))
-        g = _num(gain)
-        if num is not None and g is not None:
-            valence += g * num
+        field = num(data.get(key[len('affect.field:'):]))
+        g = num(gain)
+        if field is not None and g is not None:
+            valence += g * field
     return valence
 
 
@@ -250,13 +201,7 @@ def _repetition_exempt(tag, exempt):
     every day is the week closing in. Exempt entries are exact tags or
     'prefix:*' wildcards — the absence channel (thirst/hunger needs) is
     untouched: exempt presence, alarming absence."""
-    for entry in exempt or ():
-        if entry.endswith(':*'):
-            if tag.startswith(entry[:-1]):
-                return True
-        elif tag == entry:
-            return True
-    return False
+    return any(tag_matches(tag, entry) for entry in exempt or ())
 
 
 def _recurrence_items(session, game_id, mind, perceived, w):
@@ -378,8 +323,7 @@ def resolve_break_items(session, game_id, mind, perceived, needs, w):
         need_key = next(
             (
                 v for prefix, v in watch.items()
-                if (tag.startswith(prefix[:-1]) if prefix.endswith(':*')
-                    else tag == prefix)
+                if tag_matches(tag, prefix)
             ),
             None,
         )
@@ -438,7 +382,7 @@ def perceive_events(session, game_id, mind, events, character=None):
 
         # A hard roll won sharpens the impression; the host's explicit
         # perception_bonus takes precedence when present.
-        bonus = _num(data.get('perception_bonus'))
+        bonus = num(data.get('perception_bonus'))
         if bonus is None and check_result and check_result.get('success'):
             bonus = min(
                 1.0,
@@ -465,7 +409,7 @@ def perceive_events(session, game_id, mind, events, character=None):
 
         # Host-declared valence always wins; otherwise this mind's own
         # affect wiring decides how the event felt.
-        host_valence = _num(data.get('valence'))
+        host_valence = num(data.get('valence'))
         valence = host_valence if host_valence is not None else _affect(
             tags, data, w
         )

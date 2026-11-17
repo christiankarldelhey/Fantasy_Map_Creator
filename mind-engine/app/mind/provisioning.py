@@ -67,9 +67,7 @@ DEFAULT_WIRING = {
     'check_difficulty_scale': 10.0,
     # State modifiers (ADR 0005): thresholds and magnitudes live in the
     # detectors pack — mind.detectors rows or detectors.DEFAULT_DETECTORS
-    # ('check_mod' kind). Per-mind overrides use 'detector.<key>.<param>';
-    # legacy wiring keys (energy_worn_below, mod_energy_spent, ...) still
-    # read on minds authored before the move.
+    # ('check_mod' kind). Per-mind overrides use 'detector.<key>.<param>'.
     'unnoticed_salience': 0.5,
     # Sleep/wake (C4) — during a sleep phase the mind is unconscious:
     # checked events pass unheard unless the form physically wakes the
@@ -168,10 +166,11 @@ DEFAULT_WIRING = {
     'belief_evidence_valence_min': 0.2,
     'belief_new_per_reflection': 2,
     # C14: a transient belief also fades each closed episode it is not
-    # refreshed (episode fade in memory.py, default ×0.9); a reflection
-    # that ignores it decays it faster still (circumstances unstated are
+    # refreshed (episode fade in memory.py); a reflection that ignores
+    # it decays it faster still (circumstances unstated are
     # circumstances gone). Enduring beliefs only know evidence.
     'belief_transient_decay': 0.8,
+    'belief_transient_episode_decay': 0.9,
     # B6: a belief only bends theme_weights while it stays strong.
     'belief_boost_min_strength': 3.0,
     # B8: semantic similarity joins the retrieval score —

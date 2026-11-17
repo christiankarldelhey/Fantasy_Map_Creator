@@ -24,9 +24,9 @@
 # already used by the lens director — never a full scan per memory.
 # ============================================================================
 import math
-from datetime import date, datetime
 
 from app.mind.embeddings import cosine, embed, ensure_embedding, episode_embedding
+from app.mind.memory import episode_date, episode_index
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Memory
 
@@ -101,8 +101,8 @@ def retrieve(session, mind, episode, perceived_day):
     evoke the top-K. Returns the evoked Memory rows (highest score first).
     Called once, at episode creation — re-open replays stored annotations."""
     w = {**DEFAULT_WIRING, **(mind.wiring or {})}
-    idx = episode_index_of(episode)
-    ep_date = episode_date_of(episode)
+    idx = episode_index(episode)
+    ep_date = episode_date(episode)
 
     beliefs = (
         session.query(Belief)
@@ -267,71 +267,17 @@ def dialogue_recall(session, mind, item, idx, exclude_ids=()):
     return best
 
 
-def _as_date(v):
-    """'1950-06-21' (or '1950-06-21 13:00:00') → date; else None."""
-    if isinstance(v, datetime):
-        return v.date()
-    if isinstance(v, date):
-        return v
-    if isinstance(v, str):
-        try:
-            return date.fromisoformat(v[:10])
-        except ValueError:
-            return None
-    return None
-
-
-def episode_date_of(episode):
-    """The in-world date the episode was lived (C30): the stored
-    episode_date column, else the Episode frame's `at`.
-    episode_idx counts lived days for mechanics; this measures
-    narrative age — the calendar distance to 'now'."""
-    d = getattr(episode, 'episode_date', None)
-    if d is not None:
-        return d
-    frame = (
-        (getattr(episode, 'narrator_payload', None) or {}).get('episode')
-        or {}
-    )
-    at = _as_date(frame.get('at'))
-    if at:
-        return at
-    # Pre-v2 episodes still carry when.date on their stored events.
-    dates = [
-        _as_date((e.get('when') or {}).get('date'))
-        for e in (episode.events or [])
-    ]
-    dates = [d for d in dates if d]
-    return max(dates) if dates else None
-
-
 def memory_age_days(episode, mem):
     """How long ago this memory happened, in calendar days (C30):
     episode_date − created_date. Falls back to lived-episode distance
     for rows that predate the calendar columns."""
-    ep_date = episode_date_of(episode)
+    ep_date = episode_date(episode)
     if ep_date is not None and getattr(mem, 'created_date', None):
         return max(0, (ep_date - mem.created_date).days)
-    idx = episode_index_of(episode)
+    idx = episode_index(episode)
     if idx is None or getattr(mem, 'created_episode', None) is None:
         return None
     return max(0, idx - mem.created_episode)
-
-
-def episode_index_of(episode):
-    """The mind's own clock (C29): episode.episode_idx — a per-mind
-    monotonic counter assigned at open. The host's when.episode (a
-    trip's day_number) only remains as the legacy fallback for rows
-    that predate the column."""
-    idx = getattr(episode, 'episode_idx', None)
-    if isinstance(idx, int) and not isinstance(idx, bool):
-        return idx
-    nums = [
-        (e.get('when') or {}).get('episode')
-        for e in (episode.events or [])
-    ]
-    nums = [n for n in nums if isinstance(n, int)]
-    return max(nums) if nums else None
 
 
 def link_evoked(perceived_day, evoked):

@@ -30,9 +30,9 @@ PHASES = {
     'evening': 'night', 'night': 'night',
 }
 # Items the engine itself produces — the frame of every day, never its
-# centre (ADR 0005: 'body' is the host's own report; 'need' items are the
-# Mind's felt body, they earn lines through the needs path).
-_ENGINE_FRAME_TYPES = {'body', 'need'}
+# centre ('need' items are the Mind's felt body, they earn lines through
+# the needs path).
+_ENGINE_FRAME_TYPES = {'need'}
 # Game-declared frame types — the pack's 'mind.focus_excluded' phrase list
 # (e.g. travel/terrain/climate in the built-in pack).
 FOCUS_EXCLUDED_KEY = 'mind.focus_excluded'

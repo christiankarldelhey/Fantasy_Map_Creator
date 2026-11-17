@@ -92,9 +92,9 @@ from app.mind.provisioning import (
     seed_starter_beliefs,
 )
 from app.mind.reflection import maybe_reflect
+from app.mind.memory import episode_date, episode_index
 from app.mind.retrieval import (
-    dialogue_recall, episode_date_of, episode_index_of, link_evoked,
-    memory_age_days, retrieve,
+    dialogue_recall, link_evoked, memory_age_days, retrieve,
 )
 from app.mind.tables import (
     Belief, Mind, MindPreset, Episode, ForgottenMemory, Memory, Musing,
@@ -283,7 +283,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             )
             # C30: the calendar clock — narrative age is measured in
             # in-world days, so rest between journeys counts.
-            episode.episode_date = episode_date_of(episode)
+            episode.episode_date = episode_date(episode)
             db.add(episode)
             db.flush()  # fires the id default before we build the packet
             perceived = perceive_events(
@@ -298,7 +298,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             # what was asked embeds against what the mind retained, so
             # the traveller may answer from their own past. The hit joins
             # the item's evoked list and rides the RECALLS channel.
-            episode_idx = episode_index_of(episode)
+            episode_idx = episode_index(episode)
             w_mind = {**DEFAULT_WIRING, **(mind.wiring or {})}
             evoked_ids = {m.id for m in evoked}
             for item in episode.perceived_day:
@@ -396,7 +396,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                     entering_mood, mind=mind,
                 ),
                 session=db, game_id=payload.game_id, mind=mind,
-                episode_idx=episode_index_of(episode), musings=musings,
+                episode_idx=episode_index(episode), musings=musings,
             )
             candidates = brief.pop('candidates', [])
             # The director chooses what the Episode turns on (protagonists

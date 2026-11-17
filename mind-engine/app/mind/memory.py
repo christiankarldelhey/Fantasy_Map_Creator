@@ -64,26 +64,40 @@ def episode_index(episode):
     return max(nums) if nums else None
 
 
+def _as_date(v):
+    """'1950-06-21' (or '1950-06-21 13:00:00', datetime) → date; else None."""
+    if isinstance(v, datetime):
+        return v.date()
+    if isinstance(v, date_type):
+        return v
+    if isinstance(v, str):
+        try:
+            return date_type.fromisoformat(v[:10])
+        except ValueError:
+            return None
+    return None
+
+
 def episode_date(episode):
     """The calendar clock (C30): the in-world date the episode was
-    lived — stored column first, events' when.date as fallback."""
-    d = getattr(episode, 'episode_date', None)
+    lived — stored column first, the Episode frame's `at` next, then
+    events' when.date as fallback."""
+    d = _as_date(getattr(episode, 'episode_date', None))
     if d is not None:
-        return d.date() if isinstance(d, datetime) else d
+        return d
+    frame = (
+        (getattr(episode, 'narrator_payload', None) or {}).get('episode')
+        or {}
+    )
+    at = _as_date(frame.get('at'))
+    if at:
+        return at
     dates = [
-        (e.get('when') or {}).get('date')
+        _as_date((e.get('when') or {}).get('date'))
         for e in (episode.events or [])
     ]
-    parsed = []
-    for v in dates:
-        if isinstance(v, datetime):
-            parsed.append(v.date())
-        elif isinstance(v, str):
-            try:
-                parsed.append(date_type.fromisoformat(v[:10]))
-            except ValueError:
-                continue
-    return max(parsed) if parsed else None
+    dates = [d for d in dates if d]
+    return max(dates) if dates else None
 
 
 def _norm_desc(desc):
@@ -118,9 +132,9 @@ def _describe(session, game_id, item, mind=None):
         or humanize(data.get('entity') or data.get('entity_id'))
     )
     desc = item.get('reading') or (str(subject) if subject else None)
-    # Unwordable items — 'body'/'travel' resolve no reading by design
-    # (vitals speak through needs/mood) and carry no subject. Without
-    # words there is no impression to keep; 'a body' is not a memory.
+    # Unwordable items — 'travel' resolves no reading by design
+    # (mileage rides the condition) and carries no subject. Without
+    # words there is no impression to keep.
     return desc
 
 

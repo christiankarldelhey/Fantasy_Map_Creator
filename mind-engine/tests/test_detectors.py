@@ -67,23 +67,17 @@ def _uid(prefix):
     return f'{prefix}-{uuid.uuid4().hex[:8]}'
 
 
-def _open(client, character_id, ref, events, extra=None, game_id='middle_earth'):
+def _open(client, character_id, ref, events, extra=None,
+          game_id='middle_earth', condition=None):
     r = client.post('/episodes', json={
         'game_id': game_id,
         'character': {'id': character_id, **(extra or {})},
         'episode_ref': ref,
+        'condition': condition or {},
         'events': events,
     })
     assert r.status_code == 200, r.text
     return r.json()
-
-
-def _body(ep, **data):
-    return {
-        'type': 'body',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
-        'data': data,
-    }
 
 
 def _need_keys(packet):
@@ -104,9 +98,9 @@ def test_builtin_pack_urgencies(client):
     """Exhaustion/unrest/wound urgencies match the formulas the hardcoded
     detectors used."""
     char = _uid('worn')
-    packet = _open(client, char, 'd1', [
-        _body(1, energy=0.2, shadow=0.5, wounded='badly_wounded'),
-    ])
+    packet = _open(client, char, 'd1', [], condition={
+        'energy': 0.2, 'shadow': 0.5, 'wounded': 'badly_wounded',
+    })
     needs = {
         n['key']: n for n in packet['psyche_packet']['needs_active']
     }
@@ -156,13 +150,15 @@ def test_declared_row_overrides_default_threshold(client):
     session.close()
     invalidate_detectors('middle_earth')
     try:
-        packet = _open(client, _uid('patient'), 'd1', [
-            _body(1, days_without_food=2),
-        ])
+        packet = _open(
+            client, _uid('patient'), 'd1', [],
+            condition={'days_without_food': 2},
+        )
         assert 'hunger' not in _need_keys(packet)
-        packet = _open(client, _uid('starving'), 'd1', [
-            _body(1, days_without_food=4),
-        ])
+        packet = _open(
+            client, _uid('starving'), 'd1', [],
+            condition={'days_without_food': 4},
+        )
         assert 'hunger' in _need_keys(packet)
     finally:
         session = SessionLocal()
@@ -188,9 +184,10 @@ def test_disabled_row_silences_default(client):
     session.close()
     invalidate_detectors('middle_earth')
     try:
-        packet = _open(client, _uid('no-hunger'), 'd1', [
-            _body(1, days_without_food=9),
-        ])
+        packet = _open(
+            client, _uid('no-hunger'), 'd1', [],
+            condition={'days_without_food': 9},
+        )
         assert 'hunger' not in _need_keys(packet)
     finally:
         session = SessionLocal()
@@ -223,17 +220,6 @@ def test_second_host_lives_off_its_own_fields(client, deep_space):
     assert needs['hypoxia']['urgency'] == pytest.approx(0.5)
     # The built-in pack's fields were never sent, so nothing fires.
     assert 'hunger' not in needs and 'unrest' not in needs
-
-
-def test_second_host_body_event_also_reads(client, deep_space):
-    """The Condition may also arrive in the episode's body event —
-    same flat map."""
-    packet = _open(
-        client, _uid('astronaut'), 'd1',
-        [_body(1, oxygen=0.1)],
-        game_id=deep_space,
-    )
-    assert 'hypoxia' in _need_keys(packet)
 
 
 def test_second_host_need_auto_resolves(client, deep_space):
@@ -289,26 +275,15 @@ def test_second_host_check_mod_and_altered(client, deep_space):
 def test_mind_override_beats_declared_value(client):
     """wiring 'detector.<key>.<param>' retunes one mind only."""
     char = _uid('ascetic')
-    _open(client, char, 'd1', [_body(1, days_without_food=0)])
+    _open(client, char, 'd1', [], condition={'days_without_food': 0})
     session = SessionLocal()
     mind = session.query(Mind).filter_by(character_id=char).one()
     mind.wiring = {**(mind.wiring or {}), 'detector.hunger.value': 5.0}
     session.commit()
     session.close()
-    packet = _open(client, char, 'd2', [_body(2, days_without_food=2)])
-    assert 'hunger' not in _need_keys(packet)
-
-
-def test_legacy_wiring_key_still_reads(client):
-    """Minds authored before the move keep their old knobs working."""
-    char = _uid('legacy')
-    _open(client, char, 'd1', [_body(1, days_without_food=0)])
-    session = SessionLocal()
-    mind = session.query(Mind).filter_by(character_id=char).one()
-    mind.wiring = {**(mind.wiring or {}), 'need_hunger_days': 5.0}
-    session.commit()
-    session.close()
-    packet = _open(client, char, 'd2', [_body(2, days_without_food=2)])
+    packet = _open(
+        client, char, 'd2', [], condition={'days_without_food': 2}
+    )
     assert 'hunger' not in _need_keys(packet)
 
 

@@ -71,12 +71,13 @@ def test_calm_day_still_blends_half():
     assert -0.15 < mood['valence'] < 0.15
 
 
-def _open(client, char, ep, events):
+def _open(client, char, ep, events, condition=None):
     r = client.post('/episodes', json={
         'game_id': GAME,
         'character': {'id': char},
         'episode_ref': f'd{ep}',
         'episode': {'index': ep, 'at': f'1950-10-0{6 + ep}'},
+        'condition': condition or {},
         'events': events,
     })
     assert r.status_code == 200, r.text
@@ -154,10 +155,8 @@ def test_episode_lens_never_carries_its_own_day_into_the_mood(client):
     }]
     first = _open(client, char, 1, orc_day)['psyche_packet']['lens_block']
     assert 'Still weighing on them' not in first
-    second = _open(client, char, 2, [{
-        'type': 'body',
-        'when': {'episode': 2, 'date': '1950-10-08'},
-        'data': {'energy': 0.8, 'wounded': 'none'},
-    }])['psyche_packet']['lens_block']
+    second = _open(
+        client, char, 2, [], condition={'energy': 0.8, 'wounded': 'none'},
+    )['psyche_packet']['lens_block']
     assert 'Still weighing on them (from yesterday)' in second
     assert 'Orc Trackers' in second

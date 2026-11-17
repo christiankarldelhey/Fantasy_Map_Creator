@@ -4,8 +4,7 @@
 # Two deterministic sources, per spec §9:
 #
 #   Detectors ('physiological') — read the character state (the wire's
-#   `condition` channel, or a legacy `body` event): days without
-#   food/water, spent energy, rising
+#   `condition` channel): days without food/water, spent energy, rising
 #   shadow, hostile-weather streaks (mind.counters). They fire each open;
 #   urgency recomputes and grows with the underlying state; when the state
 #   clears, the need resolves itself at the next open.
@@ -18,7 +17,8 @@
 # Needs surface as needs_active in the packet and the lens' Needs section —
 # intentions the narrator may voice, never mechanics.
 # ============================================================================
-from app.mind.checks import _num, character_state
+from app.mind.checks import character_state
+from app.mind.util import num
 from app.mind.detectors import detector_needs
 from app.mind.memory import episode_index
 from app.mind.provisioning import DEFAULT_WIRING
@@ -80,7 +80,7 @@ def _threads(perceived):
             subject = data.get('entity') or data.get('entity_id') or data.get('name')
             fired.append({
                 'key': f'{THREAD_PREFIX}{slug}', 'type': 'thread',
-                'urgency': min(1.0, _num(data.get('urgency')) or 0.5),
+                'urgency': min(1.0, num(data.get('urgency')) or 0.5),
                 'desc': data.get('thread_desc'),
                 'subject': subject,
                 'entity': subject,

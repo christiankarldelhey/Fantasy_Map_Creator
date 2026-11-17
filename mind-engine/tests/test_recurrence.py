@@ -43,11 +43,12 @@ def _dry(ep):
     }
 
 
-def _open(client, char, ep, events):
+def _open(client, char, ep, events, condition=None):
     r = client.post('/episodes', json={
         'game_id': 'middle_earth',
         'character': {'id': char},
         'episode_ref': f'd{ep}',
+        'condition': condition or {},
         'events': events,
     })
     assert r.status_code == 200, r.text
@@ -177,12 +178,10 @@ def test_a_break_that_starves_is_no_relief(client):
                      'drink': 'waterskin'},
         }]))
 
-    # Day 4: no lembas, and the body reports a day without food.
-    p4 = _open(client, char, 4, [{
-        'type': 'body',
-        'when': {'episode': 4, 'date': '1950-04-04'},
-        'data': {'days_without_food': 2},
-    }])
+    # Day 4: no lembas, and the condition reports days without food.
+    p4 = _open(
+        client, char, 4, [], condition={'days_without_food': 2},
+    )
     breaks = [i for i in _recurrences(p4) if i['data'].get('break_of')]
     assert len(breaks) == 1
     assert breaks[0]['valence'] == pytest.approx(-0.1)

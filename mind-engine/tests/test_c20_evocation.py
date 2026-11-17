@@ -179,8 +179,8 @@ def test_purely_ambient_memories_never_evoke():
 
 
 def test_unwordable_items_never_encode():
-    """'body'/'travel' resolve no reading by design — without words
-    there is no impression, so no 'a body' row is ever written."""
+    """Items without a reading or subject resolve no impression by
+    design — without words there is no memory to write."""
     from app.mind.memory import encode_episode
     session = SessionLocal()
     char = f'c20-{uuid.uuid4().hex[:8]}'
@@ -188,8 +188,8 @@ def test_unwordable_items_never_encode():
         id=f'ep-{uuid.uuid4().hex[:8]}', game_id=GAME, character_id=char,
         events=[{'when': {'episode': 1, 'date': '1950-01-18'}}],
         perceived_day=[
-            {'type': 'body', 'salience': 0.5, 'perception': 'noticed',
-             'data': {'energy': 40, 'shadow': 30}, 'tags': ['type:body']},
+            {'type': 'condition', 'salience': 0.5, 'perception': 'noticed',
+             'data': {'energy': 40, 'shadow': 30}, 'tags': ['type:condition']},
             {'type': 'travel', 'salience': 0.5, 'perception': 'noticed',
              'data': {'distance_km': 10}, 'tags': ['type:travel']},
             {'type': 'encounter', 'salience': 0.5, 'perception': 'noticed',
