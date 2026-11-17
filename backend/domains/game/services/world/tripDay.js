@@ -14,7 +14,6 @@ import {
   presencePoolEntries,
 } from './moverCrossings.js';
 import { resolveOvernight, resolveRegionAtPoint } from './placesInteractions.js';
-import { hostForPlace } from '../../../story/services/naturalLanguage/npcNames.js';
 import { resolveAmbientVoice } from './ambientVoice.js';
 import {
   flattenRoute,
@@ -356,8 +355,10 @@ async function sampleLegContext(legGeoJSON) {
           'record_tags', COALESCE(ficha.tags, pd.tags),
           -- Who keeps the door, when the ficha says so — 'una viuda de
           -- smial hondo' names the host's people and gender before any
-          -- name is drawn for her.
+          -- name is drawn for her. payload.host is the drawn person
+          -- herself, assigned at seed time and stable across trips.
           'keeper', COALESCE(ficha.keeper_en, ficha.keeper_es),
+          'host', ficha.host,
           -- Where the leg first crosses into the influence circle (the
           -- sighting moment) and the compass bearing from there to the
           -- place. NULL when the leg never reaches the circle at all —
@@ -390,7 +391,8 @@ async function sampleLegContext(legGeoJSON) {
                  f.type->>'en' AS type_en,
                  f.tags AS tags,
                  f.facts->'keeper'->>'en' AS keeper_en,
-                 f.facts->'keeper'->>'es' AS keeper_es
+                 f.facts->'keeper'->>'es' AS keeper_es,
+                 f.payload->'host' AS host
             FROM places_narration f
            WHERE f.location_id = l.id AND f.kind = 'place'
            LIMIT 1
@@ -845,6 +847,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       population: checkpoint.location.population,
       inhabitants: checkpoint.location.inhabitants,
       keeper: checkpoint.location.keeper,
+      host: checkpoint.location.host ?? null,
       cultural_family: checkpoint.location.cultural_family,
       indoor: INDOOR_REST_TYPES.includes(checkpoint.location.type),
       distance_km: overnightDistanceKm(
@@ -870,15 +873,6 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     locationType: overnightContext === 'IN_LOCATION' ? overnightLocation.type : null,
     regionId: overnightRegionId,
   });
-
-  // Who opens the door, when the place keeps somebody: the keeper is
-  // stable per place — the widow of the deep smial keeps her name
-  // across visits, and her people come from the place's own words
-  // ('smial' → hobbits) before the region's family.
-  if (overnightLocation) {
-    overnightLocation.host = hostForPlace(
-      overnightLocation, overnightLocation.cultural_family);
-  }
 
   console.log(
     `[OVERNIGHT] context=${overnightContext} ` +

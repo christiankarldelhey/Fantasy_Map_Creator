@@ -34,7 +34,6 @@
 // ============================================================================
 
 import pool from '../../../../db.js';
-import { npcForEncounter } from '../../../story/services/naturalLanguage/npcNames.js';
 
 // Weight multiplier applied to recently-used forms (anti-repetition)
 const RECENT_PENALTY = 0.3;
@@ -94,6 +93,23 @@ export function clearAllEncounterCaches() {
 // ---------------------------------------------------------------------------
 // Fetchers — kind='form' (the contact-shape draw)
 // ---------------------------------------------------------------------------
+
+// The entity ficha's fixed person — assigned at seed into payload.npc,
+// so the same band answers with the same name on every trip. An entity
+// without a ficha stays anonymous, as unwritten things should.
+const npcCache = new Map();
+async function fetchEntityNpc(entityId) {
+  if (!entityId) return null;
+  if (npcCache.has(entityId)) return npcCache.get(entityId);
+  const { rows } = await pool.query(
+    `SELECT payload->'npc' AS npc FROM entities_narration
+       WHERE kind = 'entity' AND entity_id = $1 LIMIT 1`,
+    [entityId]
+  );
+  const npc = rows[0]?.npc ?? null;
+  npcCache.set(entityId, npc);
+  return npc;
+}
 
 async function fetchForms(entityType) {
   if (formCache.has(entityType)) return formCache.get(entityType);
@@ -467,10 +483,11 @@ export async function resolveEncounter(
   }
   const dialogueContent = contactRow ? toDialogueContent(contactRow, rng) : null;
 
-  // Words passed: the being earns a name. Sign-read or stayed-silent
-  // contact keeps its anonymity — nobody learns a name from tracks.
+  // Words passed: the being earns its name — the one stored on its
+  // ficha, not a draw. Sign-read or stayed-silent contact keeps its
+  // anonymity — nobody learns a name from tracks.
   const npc = dialogueContent
-    ? npcForEncounter(entity, culturalFamily, rng)
+    ? await fetchEntityNpc(entity?.id ?? null)
     : null;
 
   // Resistance roll (only when enabled, triggers_roll AND danger >= 3)
