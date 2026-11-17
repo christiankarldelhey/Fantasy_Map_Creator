@@ -86,6 +86,10 @@ _Avoid_: record, entry
 A Memory the Mind has lost: kept as a trace with the day it was lost so the Mind's history can be seen, but never evoked again.
 _Avoid_: deleted, erased
 
+**Evocation**:
+When a Memory connects to the Episode and comes forward — it is not only read but lightly re-felt: a dampened share of its imprint stirs the Mood and feeds the Relation again, never as much as living it. Remembering keeps feelings alive; how much it stirs is the Personalidad's.
+_Avoid_: recall, retrieval, flashback
+
 **Belief**:
 Something the Mind holds true: a statement, how firmly it is held (from barely to a way of life) and what it is about — the world, the self, others, or what matters (a Value). Lived evidence moves it: what confirms it hardens it, what contradicts it wears it down, and the firmer it is the harder it moves. A Belief about passing circumstances also fades as the days pass; one about how the world is does not. An experience can start a Belief, but faintly. Reaches the Lens only when the Episode puts it at stake. When it is about something concrete it also carries a Subject, a Stance and a Source.
 _Avoid_: core idea, main idea, thought, latent belief
@@ -110,6 +114,10 @@ _Avoid_: relationship, reputation, faction standing
 A Belief with a Subject that is a place and a Stance toward it. Lived or only heard (its Source); the first visit tests a heard Impression, and the gap between what the Mind expected and what it found is felt.
 _Avoid_: location note, region opinion, lore
 
+**Relation**:
+The emotional sediment a Subject leaves in the Mind: not an entity in the world but the standing sum of everything the Mind has felt about it — the love for a place, the fear of a kind, the trust in a person. Born only from lived experience (a Relation is never declared, only accreted), it outlives the Memories that made it: the bite is forgotten, the fear of dogs stays. Without new evidence it slowly fades toward indifference. Attitudes and Impressions are its seeds — what the Mind arrived already feeling.
+_Avoid_: relationship, reputation, attitude, affinity
+
 **Source**:
 How a Mind came to hold a Belief: lived it or heard it (a legend is something heard long ago). Lived outweighs heard; a heard Belief turns lived the first time the Character meets its Subject.
 _Avoid_: provenance, origin, reliability
@@ -133,6 +141,18 @@ _Avoid_: hardcoded check, built-in sensor
 **Mood**:
 How the Mind feels as it enters an Episode, always told through what caused it ("still uneasy since the orc tracks"), never as a bare label.
 _Avoid_: emotion label, affect, dominant
+
+**Carácter**:
+The point in the Mood's own space where the Mood falls by inertia when nothing happens — the resting feeling a Mind returns to, from a hobbit's warm contentment to Celebrían's cool calm. Not a second state: every quiet Episode the Mood drifts back toward it, at the pace the Personalidad sets.
+_Avoid_: baseline, temperament, default mood
+
+**Personalidad**:
+How a Mind's engine is tuned: how strongly lived experience swings the Mood versus how firmly it returns to the Carácter, how sensitive each kind of feeling is, how fast Relations accrete or let go. Authored through Traits and presets — the engine is one; every Character's Personalidad tunes it differently.
+_Avoid_: personality type, trait list, stats
+
+**Feeling**:
+A literary word the engine derives for the narration by matching the live vector state — Mood, Relations, Body and how long they have held — against a declared lexicon: fear with no dominance becomes dread, long-held low valence becomes melancholy, full-grown affection and trust become deep friendship. The physics stay numbers; the Lens carries the word and its cause.
+_Avoid_: emotion label, mood name
 
 **Trait**:
 A human-scale dial of who the Mind is — how much things affect it, how much it notices, how it clings to what it believes, how the new attracts it. A living Trait acts every Episode (one dial moves many engine settings at once); a dormant Trait speaks to how the Character will act — carried as data from day one, waiting for its mechanism. Never a measure of memory or habit: those are internals, not personality.
