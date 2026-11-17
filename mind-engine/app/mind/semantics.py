@@ -176,6 +176,29 @@ DEFAULT_SEMANTICS = {
     'tag:region_entered': {'delta': {'familiarity': 0.2}, 'weight': 0.55},
     'tag:settlement': {'delta': {'familiarity': 0.1}, 'weight': 0.3},
     'tag:hostile': {'delta': {'fear': 0.2}, 'weight': 0.45},
+    # What a place's nature gives away at a distance (the record's own
+    # tags): a dead place is read by its absence, a dangerous one by its
+    # warning, a sheltered one by its promise. Light shares — a sighting
+    # tints the Relation, it does not fill it.
+    'tag:dead_place': {
+        'delta': {'fear': 0.07, 'affection': -0.04, 'familiarity': 0.05},
+        'weight': 0.25,
+    },
+    'tag:danger': {'delta': {'fear': 0.12}, 'weight': 0.3},
+    'tag:uncanny': {
+        'delta': {'fear': 0.08, 'familiarity': 0.05}, 'weight': 0.25,
+    },
+    'tag:melancholy': {
+        'delta': {'affection': -0.05, 'familiarity': 0.04},
+        'weight': 0.2,
+    },
+    'tag:shelter': {
+        'delta': {'affection': 0.05, 'trust': 0.04, 'familiarity': 0.05},
+        'weight': 0.2,
+    },
+    'tag:sacred': {
+        'delta': {'trust': 0.04, 'familiarity': 0.05}, 'weight': 0.2,
+    },
     'tag:indoor': {'delta': {}, 'weight': 0.2, 'body': {'cold': -0.2}},
     'tag:paid': {
         'delta': {'affection': 0.1, 'familiarity': 0.1},

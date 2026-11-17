@@ -79,7 +79,7 @@ import {
 } from '../naturalLanguage/climateNotes.js';
 import { describeMeal, mealLabel } from '../naturalLanguage/mealNotes.js';
 import { collectTerrainNotes } from '../naturalLanguage/terrainNotes.js';
-import { collectLocationNotes, isDistantSighting, sightedShape } from '../naturalLanguage/placeNotes.js';
+import { collectLocationNotes, isDeadPlace, isDistantSighting, sightedShape } from '../naturalLanguage/placeNotes.js';
 import { describeWaterCrossings } from '../naturalLanguage/waterNotes.js';
 import { REST_OPEN_SKY } from '../naturalLanguage/nightNotes.js';
 import { groupByPhase } from '../naturalLanguage/dayPhases.js';
@@ -355,6 +355,11 @@ const SETTLEMENT_KINDS = new Set([
   'fortified city', 'fortified town', 'citadel', 'manor', 'camp',
 ]);
 
+// The record's thematic tags that carry felt meaning at a distance —
+// a curated pass-through of the closed registry (ADR-0015), so a dead
+// keep and a sheltered one do not sediment alike.
+const FELT_PLACE_TAGS = ['danger', 'uncanny', 'melancholy', 'shelter', 'sacred'];
+
 function placeEvents(day) {
   return (day.locations || []).map((loc) => {
     const tags = [];
@@ -363,6 +368,13 @@ function placeEvents(day) {
     if (loc.hostile) tags.push('hostile');
     if (loc.sighted) tags.push('sighted');
     if (loc.visited) tags.push('visited');
+    // A dead place is a fact the eye reads from afar — the burned inn
+    // shows no smoke. Its felt tags come too: a ruin's melancholy and
+    // a refuge's promise mean different things to the mind.
+    if (isDeadPlace(loc)) tags.push('dead_place');
+    for (const t of FELT_PLACE_TAGS) {
+      if ((loc.record_tags || []).includes(t)) tags.push(t);
+    }
     return {
       type: 'land',
       // A distant place enters awareness when it is first sighted on the

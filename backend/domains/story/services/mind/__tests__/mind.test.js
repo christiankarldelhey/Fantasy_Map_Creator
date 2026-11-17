@@ -426,9 +426,10 @@ test('place events carry the settlement a traveller actually entered', () => {
   assert.equal(dale.data.aspect_es, 'Una ciudad de jugueteros y comercio fluvial.');
   assert.equal(dale.data.population, 5800);
   assert.deepEqual(dale.data.tags, ['settlement', 'entered']);
-  // A ruin is scenery, not a settlement: no tags.
+  // A ruin is dead ground the eye reads from afar — not a settlement,
+  // but not silent either: 'dead_place' tells the mind its shape.
   const amonSul = places.find((p) => p.data.name === 'Amon Sul');
-  assert.equal(amonSul.data.tags, undefined);
+  assert.deepEqual(amonSul.data.tags, ['dead_place']);
   // An enemy town passed from outside is flagged, never entered.
   const dolGuldur = places.find((p) => p.data.name === 'Dol Guldur');
   assert.deepEqual(dolGuldur.data.tags, ['settlement', 'hostile']);
@@ -589,6 +590,41 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
   assert.equal(hornburg.population, undefined);
   assert.match(hornburg.reading, /a fortress: sighted far off to the east/);
   assert.doesNotMatch(hornburg.reading, /Hornburg|Helm/);
+});
+
+test('a dead place sighted far shows its absence, not a living shape', () => {
+  const events = toEvents({
+    day: {
+      ...DAY,
+      locations: [{
+        name: 'The burned inn', type: 'inn', distance_km: 8.8,
+        sighted: true, sighted_hour_float: 7.92, sighted_direction: 'southwest',
+      }, {
+        // The record's own words carry the case: kind 'major ruin' and
+        // registry tags make the silhouette true, never default.
+        name: 'Ost-in-Edhil', type: 'ruin', distance_km: 6.1,
+        narration_type: 'major ruin',
+        record_tags: ['ruins', 'melancholy', 'landmark'],
+        sighted: true, sighted_hour_float: 11, sighted_direction: 'east',
+      }],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+  });
+  const places = events.filter(
+    (e) => e.type === 'land' && e.data.subtype === 'place');
+  const burned = places.find((p) => p.data.place === 'the_burned_inn').data;
+  // A burned inn shows no smoke — the absence IS the sighting, and the
+  // event marks the place as dead so the mind reads it for what it is.
+  assert.equal(burned.sighted_far, 'a blackened roofline — no smoke, no lamps');
+  assert.ok(burned.tags.includes('dead_place'));
+  assert.match(burned.reading, /blackened roofline/);
+  const ost = places.find((p) => p.data.place === 'ost_in_edhil').data;
+  assert.equal(
+    ost.sighted_far,
+    'a field of mounds where a city stood — one wall still upright');
+  assert.ok(ost.tags.includes('dead_place'));
+  assert.ok(ost.tags.includes('melancholy'));
 });
 
 test('the open payload carries raw state, never rendered blocks (C10)', () => {

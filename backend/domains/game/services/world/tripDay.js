@@ -348,6 +348,11 @@ async function sampleLegContext(legGeoJSON) {
           -- What the place reads as from beyond its reach — the anchored
           -- ficha's own far-face wins over the depiction's (en only).
           'sighted_far', COALESCE(ficha.sighted_far_en, pd.sighted_far->>'en'),
+          -- The record's own words for what the place IS — kind and the
+          -- closed-registry thematic tags (ruins, danger, melancholy…) —
+          -- so a distant sighting can be true to the case, not default.
+          'narration_type', COALESCE(ficha.type_en, pd.type->>'en'),
+          'record_tags', COALESCE(ficha.tags, pd.tags),
           -- Where the leg first crosses into the influence circle (the
           -- sighting moment) and the compass bearing from there to the
           -- place. NULL when the leg never reaches the circle at all —
@@ -376,7 +381,9 @@ async function sampleLegContext(legGeoJSON) {
         LEFT JOIN LATERAL (
           SELECT f.presence->>'en' AS presence_en,
                  f.presence->>'es' AS presence_es,
-                 f.sighted_far->>'en' AS sighted_far_en
+                 f.sighted_far->>'en' AS sighted_far_en,
+                 f.type->>'en' AS type_en,
+                 f.tags AS tags
             FROM places_narration f
            WHERE f.location_id = l.id AND f.kind = 'place'
            LIMIT 1
@@ -1119,6 +1126,8 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       presence: l.presence ?? null,
       presence_es: l.presence_es ?? null,
       sighted_far: l.sighted_far ?? null,
+      narration_type: l.narration_type ?? null,
+      record_tags: l.record_tags || [],
       entered,
       hostile: isHostileLocation(l),
     };

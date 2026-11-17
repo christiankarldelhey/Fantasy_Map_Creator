@@ -13,27 +13,189 @@ export const DISTANT_SIGHTING_KM = 1;
 
 // The silhouette a kind gives from beyond reach, before the place is
 // known — the fallback while a record carries no authored sighted_far.
+// Two states per kind: what life gives away at distance (smoke, lamps,
+// banners, movement) or — when the place is dead — its absence, which
+// is what the eye actually reads. A burned inn shows no smoke; a sacked
+// wall shows no watch-fires. `live`/`dead` per kind.
 const SIGHTED_SHAPES = {
-  'fortified city': 'walls and a haze of chimney-smoke',
-  'fortified town': 'walls and a haze of chimney-smoke',
-  citadel: 'walls and a haze of chimney-smoke',
-  city: 'walls and a haze of chimney-smoke',
-  fortress: 'a keep against the sky',
-  castle: 'a keep against the sky',
-  tower: 'a tall shape against the sky',
-  town: 'rooftops and a thread of smoke',
-  village: 'rooftops and a thread of smoke',
-  inn: 'rooftops and a thread of smoke',
-  tavern: 'rooftops and a thread of smoke',
-  manor: 'rooftops and a thread of smoke',
-  camp: 'a scatter of tents and fires',
-  ruin: 'a broken shape against the sky',
-  ruins: 'a broken shape against the sky',
+  'fortified city': {
+    live: 'walls and a haze of chimney-smoke',
+    dead: 'walls standing open — no smoke above them, no guard-fires',
+  },
+  'fortified town': {
+    live: 'walls and a haze of chimney-smoke',
+    dead: 'walls standing open — no smoke above them, no guard-fires',
+  },
+  'fortified village': {
+    live: 'rooftops behind a palisade, a thread of smoke',
+    dead: 'a palisade with no smoke behind it',
+  },
+  citadel: {
+    live: 'walls and a haze of chimney-smoke',
+    dead: 'walls standing open — no smoke above them, no guard-fires',
+  },
+  city: {
+    live: 'walls and a haze of chimney-smoke',
+    dead: 'walls standing open — no smoke above them, no guard-fires',
+  },
+  fortress: {
+    live: 'a keep against the sky, banners on the wall',
+    dead: 'a keep against the sky — no banners, no watch-fires',
+  },
+  castle: {
+    live: 'a keep against the sky, banners on the wall',
+    dead: 'a keep against the sky — no banners, no watch-fires',
+  },
+  tower: {
+    live: 'a tall shape against the sky',
+    dead: 'a broken crown against the sky',
+  },
+  watchtower: {
+    live: 'a tall shape against the sky',
+    dead: 'a broken crown against the sky',
+  },
+  lookout: {
+    live: 'a high perch against the sky',
+    dead: 'a broken perch against the sky',
+  },
+  town: {
+    live: 'rooftops and a thread of smoke',
+    dead: 'rooftops, and no smoke above them — nothing moves',
+  },
+  village: {
+    live: 'rooftops and a thread of smoke',
+    dead: 'rooftops, and no smoke above them — nothing moves',
+  },
+  settlement: {
+    live: 'rooftops and a thread of smoke',
+    dead: 'rooftops, and no smoke above them — nothing moves',
+  },
+  inn: {
+    live: 'rooftops and a thread of smoke',
+    dead: 'a blackened roofline — no smoke, no lamps',
+  },
+  tavern: {
+    live: 'rooftops and a thread of smoke',
+    dead: 'a blackened roofline — no smoke, no lamps',
+  },
+  manor: {
+    live: 'rooftops and a thread of smoke',
+    dead: 'a great house, and no lamps lit',
+  },
+  mansion: {
+    live: 'rooftops and a thread of smoke',
+    dead: 'a great house, and no lamps lit',
+  },
+  seat: {
+    live: 'rooftops and a thread of smoke',
+    dead: 'a great house, and no lamps lit',
+  },
+  hall: {
+    live: 'a long roof and a thread of smoke',
+    dead: 'a long roof, and no lamps lit',
+  },
+  house: {
+    live: 'a lone roof under a thread of smoke',
+    dead: 'a lone roof — no smoke, the door standing open',
+  },
+  cottage: {
+    live: 'a lone roof under a thread of smoke',
+    dead: 'a lone roof — no smoke, the door standing open',
+  },
+  farm: {
+    live: 'a lone roof under a thread of smoke',
+    dead: 'a lone roof — no smoke, no stock in the field',
+  },
+  refuge: {
+    live: 'a low roof tucked in the lee, a thread of smoke',
+    dead: 'a low roof in the lee, its door open to the weather',
+  },
+  shelter: {
+    live: 'a low roof tucked in the lee, a thread of smoke',
+    dead: 'a low roof in the lee, its door open to the weather',
+  },
+  camp: {
+    live: 'a scatter of tents and fires',
+    dead: 'fire-rings gone cold, and nobody by them',
+  },
+  mill: {
+    live: 'a wheel turning on the water',
+    dead: 'a wheel dead on the water',
+  },
+  bridge: {
+    live: 'a span across the water',
+    dead: 'a span broken at the water',
+  },
+  crossing: {
+    live: 'a way over the water',
+    dead: 'a way broken at the water',
+  },
+  port: {
+    live: 'masts and a haze of smoke by the water',
+    dead: 'empty wharves, and no masts',
+  },
+  harbour: {
+    live: 'masts and a haze of smoke by the water',
+    dead: 'empty wharves, and no masts',
+  },
+  mine: {
+    live: 'workings in the hillside, smoke and carts',
+    dead: 'workings gone quiet — no smoke, no carts',
+  },
+  ruin: {
+    live: 'a broken shape against the sky',
+    dead: 'a broken shape against the sky',
+  },
+  ruins: {
+    live: 'a broken shape against the sky',
+    dead: 'a broken shape against the sky',
+  },
+  'major ruin': {
+    live: 'a field of mounds where a city stood — one wall still upright',
+    dead: 'a field of mounds where a city stood — one wall still upright',
+  },
+  barrow: {
+    live: 'a green mound against the sky',
+    dead: 'a green mound against the sky',
+  },
+  'standing stones': {
+    live: 'stones leaning on the hilltop',
+    dead: 'stones leaning on the hilltop',
+  },
+  beacon: {
+    live: 'a bare height with a cold fire-basket',
+    dead: 'a bare height with a cold fire-basket',
+  },
 };
 
-/** What a place reads as from beyond its reach when nothing is authored. */
+// Words that mark a place as dead before you are near enough to know:
+// in the name ('The Burned Inn'), the record's kind ('ruin'), or the
+// closed-registry tags ('ruins').
+const DEAD_PLACE = /burn|char|ruin|abandon|dead|fallen|sack|destroy|desert|collaps|blight|forsaken|overgrown|broken/i;
+
+/** Whether the place is alive or dead as far as the eye can tell —
+ * a burned inn shows a blackened roofline, not a thread of smoke. */
+export function isDeadPlace(location) {
+  const hay = [
+    location?.type, location?.narration_type, location?.name,
+    ...(location?.record_tags || []),
+  ].filter(Boolean).join(' ');
+  return DEAD_PLACE.test(hay);
+}
+
+/** What a place reads as from beyond its reach when nothing is authored:
+ * its kind's silhouette in the state the eye can actually see. */
 export function sightedShape(location) {
-  return SIGHTED_SHAPES[location?.type] || 'a shape on the horizon';
+  // The record's authored kind ('major ruin') knows the place better
+  // than the gazetteer's coarse class ('ruin') — it speaks first.
+  const shapes = SIGHTED_SHAPES[location?.narration_type]
+    || SIGHTED_SHAPES[location?.type];
+  if (!shapes) {
+    return isDeadPlace(location)
+      ? 'a shape on the horizon, nothing moving'
+      : 'a shape on the horizon';
+  }
+  return isDeadPlace(location) ? shapes.dead : shapes.live;
 }
 
 const PLURAL_SIGHTED = new Set(['ruins']);
@@ -116,7 +278,11 @@ export function collectLocationNotes(locations) {
     } else if (l.hostile) {
       proximity = `${sight}passed outside, ${when} — enemy country, no welcome there`;
     } else {
-      proximity = `${sight}${proximityPhrase(l.distance_km, l.size_radius_km)}, ${when}`;
+      // A sighting clause already carries its hour ('sighted far off to
+      // the southwest, in the early morning — …'); the passing needs no
+      // second stamp.
+      const time = sight ? '' : `, ${when}`;
+      proximity = `${sight}${proximityPhrase(l.distance_km, l.size_radius_km)}${time}`;
     }
     // From beyond its reach a place is only its silhouette — anonymous
     // unless the authored sighted_far chooses to name it. aspect is the
@@ -126,7 +292,7 @@ export function collectLocationNotes(locations) {
     const prose = distant
       ? (l.sighted_far || sightedShape(l))
       : (l.visited || l.entered) ? (l.presence || l.aspect) : l.aspect;
-    notes.push(`- ${subject}: ${proximity}.${descriptionSuffix(prose)}`);
+    notes.push(`- ${subject}: ${proximity}${prose ? descriptionSuffix(prose) : '.'}`);
   }
   return notes;
 }
