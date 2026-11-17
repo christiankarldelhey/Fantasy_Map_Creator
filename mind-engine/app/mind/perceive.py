@@ -331,6 +331,18 @@ def resolve_break_items(session, game_id, mind, perceived, needs, w):
         item['imprint'] = {'affection': item['valence']}
 
 
+def _subject_displays(data):
+    """subject tag -> the name the host worded it with. The slug is the
+    Relation's identity; this is how it is said — 'The Prancing Pony',
+    never 'prancing_pony' the guessed animal."""
+    out = {}
+    if data.get('entity') and data.get('entity_name'):
+        out[f"entity:{data['entity']}"] = data['entity_name']
+    if data.get('place') and data.get('name'):
+        out[f"tag:place:{data['place']}"] = data['name']
+    return out
+
+
 def perceive_events(session, game_id, mind, events, character=None,
                     episode_idx=None):
     """Annotate each event: perception + reading + salience + tags, and the
@@ -433,6 +445,7 @@ def perceive_events(session, game_id, mind, events, character=None,
             primary, standing = feed_event(
                 session, mind, subjects, world_delta,
                 episode_idx=episode_idx,
+                displays=_subject_displays(data),
             )
             felt = felt_through(world_delta, standing, mind.personality)
         if body_hit:

@@ -318,13 +318,17 @@ def inner_lines(session, mind):
             continue
         if r.feeling and mag < _DISPOSITION_MIN_DIM:
             continue
-        subj = humanize(r.subject.rsplit(':', 1)[-1])
+        # The host's own wording wins ('The Prancing Pony'); the
+        # humanized slug is the fallback, never the other way round.
+        subj = r.display_name or humanize(r.subject.rsplit(':', 1)[-1])
         template = _DISPOSITION_RENDER.get(r.feeling)
         if template:
             text = template.format(subj=subj)
         else:
             text = f'{subj} is known ground to them now'
-        scored.append((mag, subj, {'subject': r.subject, 'line': text}))
+        scored.append((mag, subj, {
+            'subject': r.subject, 'line': text, 'display': subj,
+        }))
     scored.sort(key=lambda t: -t[0])
     # 'entity:orcs' and 'tag:entity_type:orcs' render the same 'orcs' —
     # the strongest relation speaks for the subject, the rest stay silent.
@@ -377,7 +381,8 @@ def disposition_beats(dispositions, items):
             quietest,
         )
         beats.setdefault(phase, []).append({
-            'subject': humanize(d['subject'].rsplit(':', 1)[-1]),
+            'subject': d.get('display')
+                or humanize(d['subject'].rsplit(':', 1)[-1]),
             'line': d['line'],
         })
     return beats

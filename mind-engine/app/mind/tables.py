@@ -447,6 +447,9 @@ class Relation(Base):
     game_id: Mapped[str] = mapped_column(String(120), nullable=False)
     character_id: Mapped[str] = mapped_column(String(120), nullable=False)
     subject: Mapped[str] = mapped_column(String(160), nullable=False)
+    # The subject's display name as the host worded it ('The Prancing
+    # Pony') — the slug is identity; this is how it is said.
+    display_name: Mapped[str] = mapped_column(String(160), nullable=True)
     affection: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
     trust: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
     fear: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)

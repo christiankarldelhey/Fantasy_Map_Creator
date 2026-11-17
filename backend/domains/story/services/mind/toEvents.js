@@ -544,6 +544,7 @@ function restEvent(day) {
       rest_quality: overnight.rest_quality ?? null,
       shadow_effect: overnight.shadow_effect ?? null,
       place: slugify(overnight.name) || overnight.id || null,
+      name: overnight.name ?? null,
       // The place's authored prose carries the texture of the night
       // ('the will itself feels weighed and probed') — numbers alone
       // left the worst nights invisible to the mind.

@@ -57,7 +57,8 @@ def _write(row, vec, episode_idx=None):
 
 
 def feed(session, game_id, character_id, subject, delta, *,
-         resistance=0.0, origin='lived', episode_idx=None, create=True):
+         resistance=0.0, origin='lived', episode_idx=None, create=True,
+         display_name=None):
     """Sediment one subject's Relation by a world delta (already contact-
     weighted). Returns the row — None when the subject had no row and an
     empty delta asked for none to be created."""
@@ -67,23 +68,30 @@ def feed(session, game_id, character_id, subject, delta, *,
             return None
         row = Relation(
             game_id=game_id, character_id=character_id, subject=subject,
-            origin=origin,
+            origin=origin, display_name=display_name,
         )
         session.add(row)
         # autoflush is off: a second subject touching this relation in
         # the same perception pass must find the row or INSERT twice.
         session.flush()
+    elif display_name and not row.display_name:
+        # The slug met its name late — the row keeps the first wording
+        # the host gave it.
+        row.display_name = display_name
     vec = sediment(relation_vector(row), delta, resistance=resistance)
     _write(row, vec, episode_idx)
     return row
 
 
-def feed_event(session, mind, subjects, world_delta, episode_idx=None):
+def feed_event(session, mind, subjects, world_delta, episode_idx=None,
+               displays=None):
     """One perceived event's sediment pass over its subject tags: the
     narrowest subject takes the whole delta, broader ones the splash.
     Returns (primary_subject, standing_relation_vector) — the relation
     the event's felt delta must be read through (pre-sediment, so the
-    landing is bent by what WAS felt, never by the echo)."""
+    landing is bent by what WAS felt, never by the echo). `displays`
+    maps subject -> the name the host worded it with ('The Prancing
+    Pony'), so narration never has to guess from the slug."""
     resistance = ((mind.personality or {}).get('resistance'))
     resistance = 0.5 if resistance is None else resistance
     ranked = sorted(subjects or [], key=_specificity, reverse=True)
@@ -97,12 +105,14 @@ def feed_event(session, mind, subjects, world_delta, episode_idx=None):
         if row is not None:
             standing = relation_vector(row)
             break
+    displays = displays or {}
     for subject in ranked:
         scale = 1.0 if subject == primary else CATEGORY_SPLASH
         feed(
             session, mind.game_id, mind.character_id, subject,
             {d: v * scale for d, v in (world_delta or {}).items()},
             resistance=resistance, episode_idx=episode_idx,
+            display_name=displays.get(subject),
         )
     return primary, standing
 
