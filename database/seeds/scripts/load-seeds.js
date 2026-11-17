@@ -1335,11 +1335,6 @@ async function ensureConstraints() {
       sql: 'ALTER TABLE climate_zones ADD PRIMARY KEY (id)',
     },
     {
-      table: 'npc_interactions',
-      constraint: 'npc_interactions_pkey',
-      sql: 'ALTER TABLE npc_interactions ADD PRIMARY KEY (id)',
-    },
-    {
       table: 'entities',
       constraint: 'entities_pkey',
       sql: 'ALTER TABLE entities ADD PRIMARY KEY (id)',

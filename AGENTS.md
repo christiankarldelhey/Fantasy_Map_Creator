@@ -10,8 +10,8 @@ narrating a character's journey.
 - `mind-engine/` — FastAPI + SQLAlchemy/Alembic. Narration + Mind Engine.
 - `mind-studio/` — separate Vue app for inspecting Mind state (built in Docker).
 - `database/` — seeds and seed-loading scripts.
-- `data_public/` — GeoJSON/JSON shipped to the client (~8MB; perf-sensitive).
-- `data/` — source rasters/DEM (685MB, not shipped).
+- `data/`, `data_public/` — local source material only (gitignored; the
+  client is served by the backend API, not by files).
 - `graft/` — generated architecture notes index.
 - `docs/adr/` — architecture decision records.
 - `docs/agents/` — agentic workflow docs (see workflow.md).

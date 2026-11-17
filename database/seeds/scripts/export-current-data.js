@@ -43,16 +43,6 @@ const EXPORT_CONFIG = {
       filename: 'climate_zones.csv'
     },
     {
-      table: 'encounter_forms',
-      columns: ['id', 'entity_type', 'interaction_form', 'intensity', 'weight', 'min_danger', 'max_danger', 'triggers_roll', 'prose_hint'],
-      filename: 'encounter_forms.csv'
-    },
-    {
-      table: 'npc_interactions',
-      columns: ['id', 'entity_id', 'entity_type', 'interaction_form', 'shadow_band', 'character_id', 'cultural_family', 'region_id', 'npc_attitude', 'concrete_content', 'tension', 'traveller_stance', 'topic', 'topic_prose_hint'],
-      filename: 'npc_interactions.csv'
-    },
-    {
       table: 'entities',
       columns: ['id', 'name', 'slug', 'type', 'active', 'tier', 'parent_id', 'description', 'description_summary', 'url_path', 'biomes', 'created_at'],
       filename: 'entities.csv'

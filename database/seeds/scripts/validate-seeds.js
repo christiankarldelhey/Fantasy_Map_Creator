@@ -41,8 +41,9 @@ const VALIDATION_CONFIG = {
     locations: 100,
     regions: 20,
     biomes: 15,
-    encounter_forms: 130,
-    npc_interactions: 120,
+    places_narration: 2000,
+    entities_narration: 1500,
+    interactions: 2000,
   },
   
   // Tables with geometry that need validation
@@ -698,29 +699,13 @@ async function validateSeedFiles() {
   const migrationsDir = path.join(__dirname, '../migrations');
   
   // Check data directories
-  const dataDirs = ['csv', 'geojson', 'sql'];
+  const dataDirs = ['csv', 'geojson', 'sql', 'json', 'movers'];
   for (const dir of dataDirs) {
     try {
       await fs.access(path.join(seedDir, dir));
       console.log(`✅ data/${dir}/ directory exists`);
     } catch (error) {
       console.log(`⚠️  data/${dir}/ directory missing`);
-    }
-  }
-  
-  // Check migration files
-  const migrationFiles = [
-    '001_seed_kingdoms.sql',
-    '002_seed_climate_zones.sql',
-    '010_seed_npc_interactions.sql',
-  ];
-  
-  for (const file of migrationFiles) {
-    try {
-      await fs.access(path.join(migrationsDir, file));
-      console.log(`✅ migrations/${file} exists`);
-    } catch (error) {
-      console.log(`⚠️  migrations/${file} missing`);
     }
   }
 }
