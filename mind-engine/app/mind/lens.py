@@ -280,16 +280,19 @@ def line_text(line, mood=None, today=None):
 _DISPOSITION_RENDER = {
     'dread': '{subj} weighs on them like a coming dark',
     'fear': '{subj} tightens their chest before it means to',
+    'wary': '{subj} puts them on their guard',
     'feared and hated': '{subj} — feared, and hated for it',
     'hatred': '{subj} earns no love from them',
     'distrust': '{subj} has never quite earned their trust',
     'fondness': '{subj} sits warm in their memory',
+    'gratitude': '{subj} has earned their thanks',
+    'warmth': '{subj} — a small good thing to them',
     'deep friendship': '{subj} — they would walk far for that one',
 }
 
 # A relation earns a line when some dim crosses the bar, or when it is
 # simply KNOWN — familiarity alone is a way of standing in the world.
-_DISPOSITION_MIN_DIM = 0.35
+_DISPOSITION_MIN_DIM = 0.3
 _DISPOSITION_MIN_FAMILIARITY = 0.6
 _DISPOSITION_MAX_LINES = 5
 
@@ -321,9 +324,19 @@ def inner_lines(session, mind):
             text = template.format(subj=subj)
         else:
             text = f'{subj} is known ground to them now'
-        scored.append((mag, {'subject': r.subject, 'line': text}))
+        scored.append((mag, subj, {'subject': r.subject, 'line': text}))
     scored.sort(key=lambda t: -t[0])
-    return [d for _, d in scored[:_DISPOSITION_MAX_LINES]]
+    # 'entity:orcs' and 'tag:entity_type:orcs' render the same 'orcs' —
+    # the strongest relation speaks for the subject, the rest stay silent.
+    seen, out = set(), []
+    for _, subj, d in scored:
+        if subj in seen:
+            continue
+        seen.add(subj)
+        out.append(d)
+        if len(out) >= _DISPOSITION_MAX_LINES:
+            break
+    return out
 
 
 # when.phase → the prompt's three blocks. Single source for every

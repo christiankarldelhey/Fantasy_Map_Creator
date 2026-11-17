@@ -47,7 +47,7 @@ DEFAULT_SEMANTICS = {
         'delta': {'affection': 0.15, 'trust': 0.3}, 'weight': 0.5,
     },
     'tag:form:harvest_shelter': {
-        'delta': {'affection': 0.2, 'trust': 0.25, 'familiarity': 0.15},
+        'delta': {'affection': 0.25, 'trust': 0.3, 'familiarity': 0.15},
         'weight': 0.5, 'body': {'cold': -0.4},
     },
     'tag:form:brief_exchange': {
@@ -115,7 +115,7 @@ DEFAULT_SEMANTICS = {
         'delta': {'affection': 0.15, 'trust': 0.05},
         'weight': 0.4, 'body': {'hunger': -0.5},
     },
-    'tag:food:*': {'delta': {'affection': 0.1}, 'weight': 0.3},
+    'tag:food:*': {'delta': {'affection': 0.15}, 'weight': 0.3},
     'tag:drink:*': {
         'delta': {'affection': 0.05}, 'weight': 0.25,
         'body': {'thirst': -0.4},
@@ -126,14 +126,14 @@ DEFAULT_SEMANTICS = {
     },
     # What touched the mechanics: the world handed something over.
     'tag:given': {
-        'delta': {'affection': 0.2, 'trust': 0.2}, 'weight': 0.6,
+        'delta': {'affection': 0.25, 'trust': 0.25}, 'weight': 0.6,
     },
     'tag:charity': {
-        'delta': {'affection': 0.2, 'trust': 0.2},
+        'delta': {'affection': 0.35, 'trust': 0.3},
         'weight': 0.5, 'body': {'cold': -0.3},
     },
     'tag:turned_away': {
-        'delta': {'affection': -0.15, 'trust': -0.15}, 'weight': 0.5,
+        'delta': {'affection': -0.2, 'trust': -0.2}, 'weight': 0.5,
     },
     # Weather — climate as contact: it presses the body, and the severe
     # tiers carry honest fear too.
@@ -178,7 +178,7 @@ DEFAULT_SEMANTICS = {
     'tag:hostile': {'delta': {'fear': 0.2}, 'weight': 0.45},
     'tag:indoor': {'delta': {}, 'weight': 0.2, 'body': {'cold': -0.2}},
     'tag:paid': {
-        'delta': {'affection': 0.05, 'familiarity': 0.05},
+        'delta': {'affection': 0.1, 'familiarity': 0.1},
         'weight': 0.3, 'body': {'cold': -0.2},
     },
     # The bare contact shapes — every perceived day touches where it
