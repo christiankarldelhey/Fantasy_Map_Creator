@@ -30,6 +30,7 @@ new_belief_id = _new_id('bl')
 new_memory_id = _new_id('mem')
 new_character_id = _new_id('chr')
 new_musing_id = _new_id('mu')
+new_relation_id = _new_id('rel')
 
 
 class Episode(Base):
@@ -213,6 +214,13 @@ class Mind(Base):
     # Lived content — the "nurture".
     mood: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     counters: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    # The vector substrate (ADR 0017): temperament is the resting point the
+    # Mood regresses to; personality the couplings (sensitivity, weight
+    # biases, moodiness, drift resistance); body the continuous projection
+    # of the Host's Condition. All named-key dicts, inspectable as-is.
+    temperament: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    personality: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    body: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
 
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
 
@@ -368,6 +376,58 @@ class Memory(Base):
     # integers stay for mechanics; the dates answer 'how long ago'.
     created_date: Mapped[date] = mapped_column(Date, nullable=True)
     last_evoked_date: Mapped[date] = mapped_column(Date, nullable=True)
+    # The vector substrate (ADR 0017): `imprint` is the sparse feeling
+    # vector the lived day left ({'fear': 0.45, 'affection': -0.2});
+    # `subjects` the Subject tags it touches (entity, kind, region,
+    # place); `feeling` the derived lexicon word at encode; `depth` the
+    # tier of the memory continuum — fresh | consolidated | conviction —
+    # into which beliefs fold; `mutable` whether Reflection may rewrite
+    # the conviction's wording. `valence` stays as the derived scalar
+    # summary, no longer canonical.
+    imprint: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    subjects: Mapped[list] = mapped_column(JSONB, nullable=True)
+    feeling: Mapped[str] = mapped_column(String(60), nullable=True)
+    depth: Mapped[str] = mapped_column(String(20), nullable=True)
+    mutable: Mapped[bool] = mapped_column(Boolean, nullable=True)
+
+
+class Relation(Base):
+    """The emotional sediment a Subject leaves in the Mind (CONTEXT.md ·
+    Relation; ADR 0017): one row per (character, subject tag) fed solely
+    by perceived Events and Evocation — never declared directly, only
+    accreted. `subject` is a subject-classed tag (tags.py): 'entity:X',
+    'tag:entity_type:orcs', 'tag:race:dunedain', 'region:mirkwood',
+    'tag:place:<slug>'.
+
+    The vector: affection/trust are bipolar (−1 is hatred and active
+    distrust, not indifference); fear/familiarity are unipolar (fear has
+    no single opposite — courage is fear met by dominance). `feeling` is
+    the derived lexicon word, rewritten on each write so the row reads
+    as words at a glance. `origin` marks provenance the way beliefs did:
+    a Relation can be seeded, heard, or lived — a heard fear erodes
+    faster when met. `last_fed_episode` supports decay and recency."""
+
+    __tablename__ = 'relations'
+    __table_args__ = (
+        UniqueConstraint(
+            'game_id', 'character_id', 'subject', name='uq_relation_subject'
+        ),
+        Index('ix_relations_character', 'character_id'),
+    )
+
+    id: Mapped[str] = mapped_column(String(40), primary_key=True,
+                                    default=new_relation_id)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    character_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    subject: Mapped[str] = mapped_column(String(160), nullable=False)
+    affection: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    trust: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    fear: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    familiarity: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    feeling: Mapped[str] = mapped_column(String(80), nullable=True)
+    origin: Mapped[str] = mapped_column(String(20), nullable=False,
+                                        default='lived')
+    last_fed_episode: Mapped[int] = mapped_column(Integer, nullable=True)
 
 
 class ForgottenMemory(Base):
