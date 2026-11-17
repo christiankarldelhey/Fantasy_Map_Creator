@@ -667,6 +667,14 @@ function restEvent(day) {
  * @param {Object} [params.previousDay] - yesterday's names (region entries)
  * @returns {Array} events[] contract
  */
+// The day's resolved Interactions (Wave C): minted by the engine during
+// sequential choosing and already sedimented by the interim /perceive —
+// they ride the wire so the episode annotates them for narration and
+// memory, while open's dedup keeps them from re-feeding the Relations.
+function interactionEvents(day) {
+  return Array.isArray(day.interaction_events) ? day.interaction_events : [];
+}
+
 export function toEvents({ day, trip, character, previousDay }) {
   const events = [
     ...climateEvents(day),
@@ -677,6 +685,7 @@ export function toEvents({ day, trip, character, previousDay }) {
     ...regionEvents(day, previousDay),
     ...waterEvents(day),
     ...momentEvents(day),
+    ...interactionEvents(day),
     ...(restEvent(day) ? [restEvent(day)] : []),
   ];
   return events;

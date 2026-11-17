@@ -32,6 +32,9 @@ class EventWhere(BaseModel):
 class EventIn(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
+    # Stable id minted by the host: lets the day be perceived piecemeal
+    # (Wave C interim /perceive) without double-sedimenting at open.
+    id: Optional[str] = None
     type: str = Field(min_length=1)
     when: EventWhen
     where: Optional[EventWhere] = None
@@ -310,6 +313,25 @@ class ChooseRequest(BaseModel):
 class ChooseResponse(BaseModel):
     temperature: float
     choices: List[Dict[str, Any]] = []
+
+
+class PerceiveRequest(BaseModel):
+    """POST /mind/minds/{character_id}/perceive — mid-day digestion (Wave
+    C): the host reports outcome events as each Situation resolves so the
+    NEXT choose sees the evolved state. Sediment lands now; the episode
+    open later annotates the same ids without re-feeding them.
+    `character` is the host's projected Condition — needs refresh off it.
+    """
+
+    game_id: str = Field(min_length=1)
+    events: List[EventIn] = []
+    character: Optional[Dict[str, Any]] = None
+
+
+class PerceiveResponse(BaseModel):
+    perceived: int = 0
+    skipped: int = 0
+    needs: List[Dict[str, Any]] = []
 
 
 class ConsolidateRequest(BaseModel):

@@ -22,7 +22,9 @@ from datetime import datetime, timezone
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.director import direct, director_enabled
-from app.mind.engine import derive_feeling, regress
+from app.mind.engine import (
+    acute_hit, derive_feeling, project_body, regress,
+)
 from app.mind.focus import brief_lines, build_brief, need_origins
 from app.mind.lens import (
     PROMPT_PHASES, _age_phrase, brief_beats, disposition_beats,
@@ -42,6 +44,7 @@ from app.mind.needs import (
     need_items,
     need_snapshot,
     needs_pass,
+    refresh_state_needs,
     resolve_from_outcome,
     update_streak_counters,
 )
@@ -65,6 +68,8 @@ from app.mind.models import (
     PackVersionOut,
     PackVersionsResponse,
     PerceivedEvent,
+    PerceiveRequest,
+    PerceiveResponse,
     PromotePackRequest,
     PromotePackResponse,
     PsychePacket,
@@ -84,8 +89,15 @@ from app.mind.packs import (
     list_versions,
     promote_pack,
 )
-from app.mind.perceive import perceive_events, resolve_break_items
-from app.mind.relations import decay_all
+from app.mind.perceive import (
+    derive_tags, perceive_events, resolve_break_items,
+)
+from app.mind.relations import decay_all, feed_event
+from app.mind.semantics import (
+    BODY_PROJECTION, load_semantics, semantic_delta,
+)
+from app.mind.tags import subject_tags
+from app.mind.checks import character_state
 from app.mind.voice import mood_phrase
 from app.mind.provisioning import (
     DEFAULT_WIRING,
@@ -293,12 +305,23 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             episode.episode_date = episode_date(episode)
             db.add(episode)
             db.flush()  # fires the id default before we build the packet
+            # Wave C: events already sedimented by interim /perceive are
+            # annotated for narration but never re-fed — the counters the
+            # interim pass left are consumed here, once.
+            felt_ids = set(
+                (mind.counters or {}).get('felt_event_ids') or []
+            )
             perceived = perceive_events(
                 db, payload.game_id, mind,
                 [e.model_dump() for e in payload.events],
                 character=card,
                 episode_idx=episode.episode_idx,
+                felt_ids=felt_ids,
             )
+            if felt_ids:
+                counters = dict(mind.counters or {})
+                counters['felt_event_ids'] = []
+                mind.counters = counters
             # The episode stirs memory: top-K evoked, strengthened, linked.
             evoked = retrieve(db, mind, episode, perceived)
             episode.perceived_day = link_evoked(perceived, evoked)
@@ -970,6 +993,98 @@ def choose_interactions(
     except SQLAlchemyError as exc:
         db.rollback()
         log.warning('choose_interactions failed: %s', exc)
+        raise HTTPException(status_code=503, detail='mind persistence unavailable')
+
+
+@router.post('/mind/minds/{character_id}/perceive',
+             response_model=PerceiveResponse)
+def perceive_interim(
+    character_id: str,
+    payload: PerceiveRequest,
+    db: Session = Depends(get_session),
+):
+    """Mid-day digestion for sequential choosing (Wave C): the host hands
+    over each Situation's outcome event as it resolves — the sediment
+    (Relations via feed_event, body via acute_hit) lands NOW so the next
+    /choose reads the evolved state, not the morning's.
+
+    Each event carries the host's stable id; `mind.counters.felt_event_ids`
+    remembers what already sedimented — a regenerated day with the same
+    picks skips rather than double-feeds, and episode open annotates the
+    same ids for narration without re-feeding them either. Events with no
+    id sediment unconditionally (pre-Wave-C wire).
+
+    Outcome events are the traveller's own acts: always 'noticed', no
+    perception roll. Needs refresh off the reported Condition so a meal
+    closes 'hunger' before the afternoon's pool is chosen.
+    """
+    try:
+        mind = (
+            db.query(Mind)
+            .filter_by(
+                game_id=payload.game_id, character_id=character_id
+            )
+            .one_or_none()
+        )
+        if mind is None:
+            return PerceiveResponse(perceived=0, skipped=len(payload.events))
+
+        counters = dict(mind.counters or {})
+        felt = set(counters.get('felt_event_ids') or [])
+        semantics = load_semantics(db, payload.game_id)
+
+        # The reported Condition re-anchors the body projection; this
+        # batch's hits land on top (same contract as open's perceive).
+        dumped = [e.model_dump() for e in payload.events]
+        if payload.character is not None:
+            state = character_state(payload.character, dumped)
+            mind.body = project_body(state, BODY_PROJECTION)
+
+        perceived_n = skipped_n = 0
+        for event in (e.model_dump() for e in payload.events):
+            eid = event.get('id')
+            if eid and eid in felt:
+                skipped_n += 1
+                continue
+            tags = derive_tags(event)
+            data = event.get('data') or {}
+            world_delta, _contact_w, body_hit = semantic_delta(
+                tags, data, semantics
+            )
+            subjects = sorted(subject_tags(tags))
+            if subjects:
+                feed_event(
+                    db, mind, subjects, world_delta,
+                    displays={
+                        s: (data.get('entity_name')
+                            or data.get('name') or s)
+                        for s in subjects
+                    },
+                )
+            if body_hit:
+                acute_hit(mind.body, body_hit)
+            if eid:
+                felt.add(eid)
+            perceived_n += 1
+
+        counters['felt_event_ids'] = sorted(felt)
+        mind.counters = counters
+
+        needs = []
+        if payload.character is not None:
+            needs = refresh_state_needs(
+                db, payload.game_id, mind,
+                character_state(payload.character, dumped),
+            )
+        db.commit()
+        return PerceiveResponse(
+            perceived=perceived_n,
+            skipped=skipped_n,
+            needs=need_snapshot(needs),
+        )
+    except SQLAlchemyError as exc:
+        db.rollback()
+        log.warning('perceive_interim failed: %s', exc)
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
 
 

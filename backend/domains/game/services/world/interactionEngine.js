@@ -13,7 +13,10 @@
 // ============================================================================
 
 import pool from '../../../../db.js';
-import { choose as mindChoose } from '../../../story/services/mind/mindClient.js';
+import {
+  choose as mindChoose,
+  perceive as mindPerceive,
+} from '../../../story/services/mind/mindClient.js';
 import { rollSkillCheck } from '../character/skillCheck.js';
 import { applyShelterChoice } from './tripDay.js';
 
@@ -139,16 +142,20 @@ function applyShelterOutcome(day, outcome) {
 // The day's choosable Situations
 // ---------------------------------------------------------------------------
 
+const slugify = (s) => (s ?? '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
 // The night's own Situation — what the place itself offers at sleep.
 function overnightPool(day) {
   const id = day.overnight_interaction?.id;
   if (!id) return null;
-  const slug = (day.overnight_location?.name ?? id).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   return {
     kind: 'overnight',
     situation_id: id,
-    subject: `tag:place:${slug}`,
+    subject: `tag:place:${slugify(day.overnight_location?.name ?? id)}`,
     parent: { placesNarrationId: id },
+    hour: 24, // the night always resolves last in narrative order
+    phase: 'night',
+    placeSlug: slugify(day.overnight_location?.name),
     apply: (day_, outcome) => applyOvernightOutcome(day_, outcome),
   };
 }
@@ -162,30 +169,102 @@ function shelterOfferPools(day) {
     .map((e) => ({
       kind: 'shelter_offer',
       situation_id: e.interaction.decision.id,
-      subject: e.entity?.slug ? `npc:${e.entity.slug}` : null,
+      // Relation subjects are full tags ('tag:npc:hal'), per relations.py.
+      subject: e.entity?.slug ? `tag:npc:${e.entity.slug}` : null,
       parent: { entitiesNarrationId: e.interaction.dialogue_content.id },
       optionIds: new Set((e.interaction.decision.options || []).map((o) => o.id)),
       encounter: e,
+      hour: e.hour_float ?? 20.5,
+      phase: e.phase ?? 'night',
+      placeSlug: slugify(day.overnight_location?.name),
       apply: (day_, outcome) => applyShelterOutcome(day_, outcome),
     }));
 }
 
 // ---------------------------------------------------------------------------
-// resolveDayChoices — the one pre-resolution choosing
+// Sequential choosing (Wave C): pools resolve in narrative order, each
+// outcome lands in the Mind BEFORE the next pool is scored
 // ---------------------------------------------------------------------------
 
+// The Condition the next pool is read against: start state plus the deltas
+// the picks so far declared. resolveDayState computes the true end-of-day
+// numbers later; this is the honest mid-day projection.
+function projectCondition(startState) {
+  const p = {};
+  for (const [k, v] of Object.entries(startState || {})) {
+    if (typeof v === 'number' || typeof v === 'string') p[k] = v;
+  }
+  return p;
+}
+
+function applyConditionDeltas(projected, effects) {
+  for (const e of effects || []) {
+    if (e.type === 'coins' && Number.isFinite(e.amount)) {
+      projected.coins = Math.max(0, (projected.coins ?? 0) + e.amount);
+    } else if (e.type === 'energy' && Number.isFinite(e.amount)) {
+      projected.energy = Math.max(0, Math.min(100, (projected.energy ?? 100) + e.amount));
+    } else if (e.type === 'shadow' && Number.isFinite(e.amount)) {
+      projected.shadow = Math.max(0, Math.min(100, (projected.shadow ?? 0) + e.amount));
+    } else if (e.type === 'meal') {
+      projected.days_without_food = 0;
+    } else if (e.type === 'water' && e.refill) {
+      projected.days_without_water = 0;
+    }
+  }
+}
+
+// The resolved pick as an Event: rides the interim /perceive now AND the
+// episode's events[] at open — the stable id makes it count once.
+export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome) {
+  const data = {
+    act: interaction.act,
+    situation_id: pool_.situation_id,
+    interaction_id: interaction.id,
+    outcome: outcomeKey,
+    description: outcome?.text?.en ?? null,
+    tags: [interaction.act, ...(interaction.need_tags || [])],
+  };
+  const shadowFx = (outcome?.effects || [])
+    .filter((e) => e.type === 'shadow' && Number.isFinite(e.amount))
+    .reduce((s, e) => s + e.amount, 0);
+  if (shadowFx) data.shadow_effect = shadowFx;
+  const npc = pool_.subject?.startsWith('tag:npc:') ? pool_.subject.slice(8) : null;
+  if (npc) {
+    data.npc = npc;
+    data.npc_name = pool_.encounter?.entity?.name ?? npc;
+    if (Number.isFinite(pool_.encounter?.entity?.danger)) {
+      data.danger = pool_.encounter.entity.danger;
+    }
+  }
+  return {
+    id: `d${day.day_number}:sit:${pool_.situation_id}:${interaction.id.split(':').pop()}`,
+    type: 'interaction',
+    when: { hour: pool_.hour ?? null, phase: pool_.phase ?? null },
+    where: {
+      region: day.regions?.[0]?.name ?? null,
+      place: pool_.placeSlug || null,
+    },
+    data,
+  };
+}
+
 export async function resolveDayChoices(day, { characterId, startState = {}, rng = Math.random }) {
-  const pools = [overnightPool(day), ...shelterOfferPools(day)].filter(Boolean);
+  // Narrative order: dusk offers by their hour, the night itself last.
+  const pools = [...shelterOfferPools(day), overnightPool(day)]
+    .filter(Boolean)
+    .sort((a, b) => a.hour - b.hour);
   if (!pools.length) return [];
 
+  const projected = projectCondition(startState);
   const ctx = {
     skills: startState,
-    coins: startState?.coins ?? 0,
-    energy: startState?.energy ?? 100,
-    shadow: startState?.shadow ?? 0,
+    get coins() { return projected.coins ?? 0; },
+    get energy() { return projected.energy ?? 100; },
+    get shadow() { return projected.shadow ?? 0; },
   };
 
-  // 1. Fetch + feasibility (host).
+  const applied = [];
+  const events = [];
   for (const pool_ of pools) {
     let rows = await fetchInteractions(pool_.parent);
     // Shelter offers: only the authored option ids are on the table (the
@@ -193,45 +272,36 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
     if (pool_.optionIds) {
       rows = rows.filter((r) => pool_.optionIds.has(r.id.split(':').pop()));
     }
-    pool_.feasible = rows.filter((r) => isFeasible(r, ctx));
-  }
+    // Feasibility is checked NOW — earlier picks may have spent the coins
+    // or dropped the energy this option would have needed.
+    const feasible = rows.filter((r) => isFeasible(r, ctx));
+    if (!feasible.length) continue;
 
-  const live = pools.filter((p) => p.feasible.length);
-  if (!live.length) return [];
-
-  // 2. Preference (Mind) — one call for every pool with a real choice.
-  // Single-option pools are inevitable (destino manifiesto): no call needed.
-  const chosen = new Map();
-  const contested = live.filter((p) => p.feasible.length > 1);
-  if (contested.length) {
-    try {
-      const res = await mindChoose(characterId, {
-        choices: contested.map((p) => ({
-          situation_id: p.situation_id,
-          subject: p.subject,
-          options: p.feasible.map((r) => ({
-            interaction_id: r.id,
-            act: r.act,
-            need_tags: r.need_tags,
-            p_success: successProbability(r, ctx),
-          })),
-        })),
-      });
-      for (const c of res?.choices ?? []) {
-        if (c.interaction_id) chosen.set(c.situation_id, c.interaction_id);
+    // Preference (Mind). A single-option pool is inevitable — no call.
+    let interaction = feasible[0];
+    if (feasible.length > 1) {
+      try {
+        const res = await mindChoose(characterId, {
+          choices: [{
+            situation_id: pool_.situation_id,
+            subject: pool_.subject,
+            options: feasible.map((r) => ({
+              interaction_id: r.id,
+              act: r.act,
+              need_tags: r.need_tags,
+              p_success: successProbability(r, ctx),
+            })),
+          }],
+        });
+        const pickId = res?.choices?.[0]?.interaction_id;
+        interaction = feasible.find((r) => r.id === pickId) ?? feasible[0];
+      } catch (err) {
+        // The mind never blocks the game: fall back to the first feasible.
+        console.warn('[mind] choose failed (non-fatal):', err.message);
       }
-    } catch (err) {
-      // The mind never blocks the game: fall back to the first feasible.
-      console.warn('[mind] choose failed (non-fatal):', err.message);
     }
-  }
 
-  // 3. Roll + apply (host) — before resolveDayState, before the episode.
-  const applied = [];
-  for (const pool_ of live) {
-    const pickId = chosen.get(pool_.situation_id) ?? pool_.feasible[0].id;
-    const interaction = pool_.feasible.find((r) => r.id === pickId) ?? pool_.feasible[0];
-
+    // Roll + apply (host) — before resolveDayState, before the episode.
     let outcomeKey = 'success';
     let check = null;
     if (interaction.skill?.difficulty != null) {
@@ -263,8 +333,20 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
       check,
       text: outcome.text?.en ?? null,
     });
+
+    // The day felt what happened: project the Condition forward, report
+    // the outcome event so the NEXT pool is scored by the evolved Mind.
+    const event = outcomeEvent(day, pool_, interaction, outcomeKey, outcome);
+    events.push(event);
+    applyConditionDeltas(projected, outcome?.effects);
+    try {
+      await mindPerceive(characterId, { events: [event], character: projected });
+    } catch (err) {
+      console.warn('[mind] perceive failed (non-fatal):', err.message);
+    }
   }
 
   day.interaction_choices = applied;
+  day.interaction_events = events;
   return applied;
 }

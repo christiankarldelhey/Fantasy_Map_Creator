@@ -399,8 +399,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         rng: day.rng,
       });
 
-      // Baseline resolution: the day as generated, overnight at the
-      // checkpoint. A dusk shelter decision may re-resolve this below.
+      // Baseline resolution: the day as generated and chosen — the
+      // night's situation and any dusk shelter offer already landed
+      // via resolveDayChoices; resolveDayState turns it into Condition.
       resolution = resolveDayState({
         day,
         startState,
