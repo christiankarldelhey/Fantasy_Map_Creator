@@ -380,7 +380,6 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     let fate = { fate: 'living', status: 'active', halted: false };
     let dayEvents = [];
     let meals = [];
-    let endVitals = null; // post-resolution truth for the mind's body event
     let resolution = null;
     let effects = null;
     let onDecisionPoint = null;
@@ -408,11 +407,6 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         // How the night was secured (paid bed, charity plea, turned away)
         // rides on the day so toEvents' rest event can tell it.
         day.lodging = resolution.lodging;
-        endVitals = {
-          days_without_food: resolution.food.newDaysWithoutFood,
-          days_without_water: resolution.water.newDaysWithoutWater,
-          wounded: resolution.conditions?.wounded ?? null,
-        };
       };
       refreshResolution();
 
@@ -479,12 +473,6 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       characterState,
       equipmentState,
       fate: endFate,
-      stateContext: startState
-        ? {
-            startState,
-            endState: { energy: newEnergy, shadow: newShadow, ...(endVitals || {}) },
-          }
-        : null,
       onDecisionPoint,
     });
 

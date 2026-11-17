@@ -44,10 +44,13 @@ def _num(v):
 
 def character_state(character, events):
     """The Condition the host reports, flattened for detectors (ADR 0005):
-    every scalar of the snapshot, the free-form 'state'/'resources' dicts
-    and the episode's own `body` event — first non-null per field, in that
-    order of precedence. Nothing here knows a field's meaning; the
-    declared detectors do."""
+    every scalar of the snapshot and the free-form 'state'/'resources'
+    dicts — first non-null per field, in that order of precedence.
+    Nothing here knows a field's meaning; the declared detectors do.
+
+    Legacy tolerance: episodes persisted before vitals moved to
+    `condition` may still carry a `body` event in their stored events[];
+    its data folds in last, filling only fields the card lacks."""
     character = character or {}
     body_data = {}
     for e in events or []:

@@ -88,10 +88,6 @@ const openBody = toOpenPayload({
   trip,
   character,
   characterState: { energy: character.energy, shadow: character.shadow },
-  stateContext: {
-    startState: { energy: character.energy, shadow: character.shadow, wounded: character.wounded, days_without_food: character.days_without_food, days_without_water: character.days_without_water },
-    endState: { energy: character.energy, shadow: character.shadow, wounded: character.wounded, days_without_food: character.days_without_food, days_without_water: character.days_without_water },
-  },
 });
 const decEvent = openBody.events.find(e => e.data?.decision);
 console.log(`\nwire: ${openBody.events.length} events, decision on encounter event: ${decEvent ? 'YES' : 'NO'}`);
