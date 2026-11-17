@@ -784,15 +784,21 @@ function commandToEffects(cmd) {
 
 // Place overnight options carry a flat {rest_quality, shadow_effect} object —
 // translate each key to its typed effect. Unknown keys degrade to {type, amount}
-// rather than being dropped.
+// rather than being dropped. But the newer authored places write effects as
+// *intent prose* ({en, es} strings: "food · mark `cache_taken`") — that is not
+// executable and stays in effects_note until a human types it.
 const LEGACY_EFFECT_TO_TYPE = {
   rest_quality: (v) => ({ type: 'rest', quality: v }),
   shadow_effect: (v) => ({ type: 'shadow', amount: v }),
   energy: (v) => ({ type: 'energy', amount: v }),
 };
+const isLangNote = (v) =>
+  v && typeof v === 'object' && !Array.isArray(v) && ('en' in v || 'es' in v) &&
+  Object.values(v).every((x) => x == null || typeof x === 'string');
 function effectsToList(effects) {
   if (!effects) return [];
   if (Array.isArray(effects)) return effects;
+  if (isLangNote(effects)) return []; // intent prose → effects_note, not an effect
   return Object.entries(effects).map(([k, v]) =>
     LEGACY_EFFECT_TO_TYPE[k] ? LEGACY_EFFECT_TO_TYPE[k](v) : { type: k, amount: v }
   );
@@ -820,10 +826,15 @@ async function seedInteractions() {
   const push = (row) => interactions.push(row);
 
   // Places — options carry {outcomes:{success:{text,effects}}} already.
+  // Legacy effects are a flat {key:amount} map; newer authored options write
+  // effects as intent prose {en, es} — kept as effects_note, not an effect.
+  // opt.skill/difficulty land in `skill` when authored; `requires` rides
+  // payload until the feasibility filter knows what to do with it.
   for (const rec of placeRows) {
     for (const sit of rec.interactive) {
       for (const opt of sit.options ?? []) {
         const success = opt.outcomes?.success ?? {};
+        const note = isLangNote(success.effects) ? { effects_note: success.effects } : {};
         push({
           id: `${sit.id}:${opt.id}`,
           places_narration_id: rec.id,
@@ -831,14 +842,19 @@ async function seedInteractions() {
           act: OPTION_TO_ACT[opt.id] ?? DERIVED_DEFAULT_ACT,
           label: opt.label ? { en: opt.label } : null,
           need_tags: opt.tags ?? (opt.tag ? [opt.tag] : []),
-          skill: null,
+          skill: opt.skill != null
+            ? { name: opt.skill, ...(opt.difficulty != null ? { difficulty: opt.difficulty } : {}) }
+            : null,
           outcomes: {
-            success: { text: toLang(success.text), effects: effectsToList(success.effects) },
+            success: { text: toLang(success.text), effects: effectsToList(success.effects), ...note },
             ...(opt.outcomes?.failure
               ? { failure: { text: toLang(opt.outcomes.failure.text), effects: effectsToList(opt.outcomes.failure.effects) } }
               : {}),
           },
-          payload: { origin: 'backfill:interactive', situation: sit.id },
+          payload: {
+            origin: 'backfill:interactive', situation: sit.id,
+            ...(opt.requires != null ? { requires: opt.requires } : {}),
+          },
         });
       }
     }

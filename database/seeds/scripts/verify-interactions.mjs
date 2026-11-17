@@ -43,13 +43,18 @@ const orphans = await q(`
      OR (i.entities_narration_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM entities_narration e WHERE e.id = i.entities_narration_id))`);
 const badEffects = await q(`
   SELECT count(*)::int c FROM interactions
-  WHERE jsonb_typeof(outcomes->'success'->'effects') <> 'array'`);
+  WHERE jsonb_typeof(outcomes->'success'->'effects') <> 'array'
+     OR EXISTS (SELECT 1 FROM jsonb_array_elements(outcomes->'success'->'effects') e
+                WHERE e->>'type' IN ('en','es'))`);
+const notes = await q(`
+  SELECT count(*)::int c FROM interactions
+  WHERE outcomes->'success' ? 'effects_note'`);
 
 console.log(`source: ${placeSits.length} place recs + ${entSits.length} entity recs w/ interactive`);
 console.log(`expected interactions: ${expected} (${expectedFromOpts} from options + ${expectedSole} derived sole; ${narrativeOnly} narrative-only skipped)`);
 console.log(`actual:   ${actual[0].total} (${actual[0].place} place + ${actual[0].entity} entity)`);
 console.log(`by act:   ${byAct.map((r) => `${r.act}:${r.c}`).join(' ')}`);
-console.log(`orphan parents: ${orphans[0].c} | non-array effects: ${badEffects[0].c}`);
+console.log(`orphan parents: ${orphans[0].c} | bad/lang effects: ${badEffects[0].c} | effects_note (intent prose): ${notes[0].c}`);
 console.log(actual[0].total === expected && !orphans[0].c && !badEffects[0].c
   ? '✅ backfill matches the authored source'
   : '❌ MISMATCH — investigate');
