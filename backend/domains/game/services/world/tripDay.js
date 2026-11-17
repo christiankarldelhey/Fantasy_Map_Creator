@@ -345,6 +345,20 @@ async function sampleLegContext(legGeoJSON) {
           'influence_radius_km', rad.infl_km,
           'presence', ficha.presence_en,
           'presence_es', ficha.presence_es,
+          -- What the place reads as from beyond its reach — the anchored
+          -- ficha's own far-face wins over the depiction's (en only).
+          'sighted_far', COALESCE(ficha.sighted_far_en, pd.sighted_far->>'en'),
+          -- The record's own words for what the place IS — kind and the
+          -- closed-registry thematic tags (ruins, danger, melancholy…) —
+          -- so a distant sighting can be true to the case, not default.
+          'narration_type', COALESCE(ficha.type_en, pd.type->>'en'),
+          'record_tags', COALESCE(ficha.tags, pd.tags),
+          -- Who keeps the door, when the ficha says so — 'una viuda de
+          -- smial hondo' names the host's people and gender before any
+          -- name is drawn for her. payload.host is the drawn person
+          -- herself, assigned at seed time and stable across trips.
+          'keeper', COALESCE(ficha.keeper_en, ficha.keeper_es),
+          'host', ficha.host,
           -- Where the leg first crosses into the influence circle (the
           -- sighting moment) and the compass bearing from there to the
           -- place. NULL when the leg never reaches the circle at all —
@@ -372,7 +386,13 @@ async function sampleLegContext(legGeoJSON) {
         -- choice, is what the traveller gets.
         LEFT JOIN LATERAL (
           SELECT f.presence->>'en' AS presence_en,
-                 f.presence->>'es' AS presence_es
+                 f.presence->>'es' AS presence_es,
+                 f.sighted_far->>'en' AS sighted_far_en,
+                 f.type->>'en' AS type_en,
+                 f.tags AS tags,
+                 f.facts->'keeper'->>'en' AS keeper_en,
+                 f.facts->'keeper'->>'es' AS keeper_es,
+                 f.payload->'host' AS host
             FROM places_narration f
            WHERE f.location_id = l.id AND f.kind = 'place'
            LIMIT 1
@@ -826,6 +846,8 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       presence_es: checkpoint.location.presence_es ?? null,
       population: checkpoint.location.population,
       inhabitants: checkpoint.location.inhabitants,
+      keeper: checkpoint.location.keeper,
+      host: checkpoint.location.host ?? null,
       cultural_family: checkpoint.location.cultural_family,
       indoor: INDOOR_REST_TYPES.includes(checkpoint.location.type),
       distance_km: overnightDistanceKm(
@@ -1114,6 +1136,9 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       visited,
       presence: l.presence ?? null,
       presence_es: l.presence_es ?? null,
+      sighted_far: l.sighted_far ?? null,
+      narration_type: l.narration_type ?? null,
+      record_tags: l.record_tags || [],
       entered,
       hostile: isHostileLocation(l),
     };

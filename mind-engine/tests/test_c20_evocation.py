@@ -148,16 +148,11 @@ def test_semantic_overlap_evokes_even_without_shared_tags():
 
 
 def test_purely_ambient_memories_never_evoke():
-    """Meal, weather, mileage and vitals are ambience — the recurrence
-    channel owns their repetition. All-ambient tags means no door at
-    all, not even the semantic one."""
+    """Weather and vitals are ambience — the recurrence channel owns
+    their repetition. All-ambient tags means no door at all, not even
+    the semantic one. (Food/drink became subjects under ADR 0017 —
+    the bread's memory may evoke now; the rain's may not.)"""
     session, char = _session_with_memories(
-        {   # the eternal road-bread: identical desc to today's reading
-            'desc': 'a ration of road-bread and dried fruit, water from the skin',
-            'tags': ['type:meal', 'tag:food:a ration of road-bread',
-                     'tag:drink:waterskin', 'region:South Arthedain'],
-            'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
-        },
         {   # a wet day on a wet day — same sky is not a story
             'desc': 'cool, partly cloudy, a passing shower',
             'tags': ['type:climate', 'tag:weather:wet', 'region:X'],
@@ -171,16 +166,35 @@ def test_purely_ambient_memories_never_evoke():
     evoked = retrieve(
         session, _brain(char), _episode(10),
         _day('tag:weather:wet', 'type:meal',
-             reading='a ration of road-bread and dried fruit, water from the skin'),
+             reading='cool, partly cloudy, a passing shower'),
     )
     assert evoked == []
     session.rollback()
     session.close()
 
 
+def test_a_meal_memory_can_evoke_on_food():
+    """Food is a subject now — the road-bread IS a thing you can think
+    about, not mere ambience. Today's bread may stir yesterday's."""
+    desc = 'a ration of road-bread and dried fruit, water from the skin'
+    session, char = _session_with_memories({
+        'desc': desc,
+        'tags': ['type:meal', 'tag:food:road-bread',
+                 'tag:drink:waterskin', 'region:South Arthedain'],
+        'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
+    })
+    evoked = retrieve(
+        session, _brain(char), _episode(10),
+        _day('tag:food:road-bread', 'type:meal', reading=desc),
+    )
+    assert len(evoked) == 1
+    session.rollback()
+    session.close()
+
+
 def test_unwordable_items_never_encode():
-    """'body'/'travel' resolve no reading by design — without words
-    there is no impression, so no 'a body' row is ever written."""
+    """Items without a reading or subject resolve no impression by
+    design — without words there is no memory to write."""
     from app.mind.memory import encode_episode
     session = SessionLocal()
     char = f'c20-{uuid.uuid4().hex[:8]}'
@@ -188,8 +202,8 @@ def test_unwordable_items_never_encode():
         id=f'ep-{uuid.uuid4().hex[:8]}', game_id=GAME, character_id=char,
         events=[{'when': {'episode': 1, 'date': '1950-01-18'}}],
         perceived_day=[
-            {'type': 'body', 'salience': 0.5, 'perception': 'noticed',
-             'data': {'energy': 40, 'shadow': 30}, 'tags': ['type:body']},
+            {'type': 'condition', 'salience': 0.5, 'perception': 'noticed',
+             'data': {'energy': 40, 'shadow': 30}, 'tags': ['type:condition']},
             {'type': 'travel', 'salience': 0.5, 'perception': 'noticed',
              'data': {'distance_km': 10}, 'tags': ['type:travel']},
             {'type': 'encounter', 'salience': 0.5, 'perception': 'noticed',

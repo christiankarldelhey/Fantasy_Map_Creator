@@ -13,10 +13,13 @@
 import re
 from datetime import date
 
-from app.mind.voice import mood_phrase
+from app.mind.engine import (
+    MOOD_DIMS, add_delta, couple_mood, derive_feeling, mood_delta,
+    weigh_body,
+)
+from app.mind.tags import cause_tags
+from app.mind.voice import humanize, mood_phrase
 from app.mind.provisioning import DEFAULT_WIRING
-
-MOOD_BLEND = 0.5
 
 
 def _weighted_mean(items, key):
@@ -32,24 +35,116 @@ def _weighted_mean(items, key):
 def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
     """What this episode felt like: weighted by how much each event
     mattered (salience), then weighed down by open needs — the body's
-    own voice, urgency-scaled. dominant via the editable 'mood' band."""
+    own voice, urgency-scaled. dominant via the editable 'mood' band.
+    `felt` is the day's accumulated felt delta (engine, ADR 0017) and
+    `trace` the per-event record of it — the day's emotional plot."""
     items = perceived_day or []
     valence = _weighted_mean(items, 'valence')
     arousal = _weighted_mean(items, 'severity')
     pressure = 0.0
+    thread_pressure = 0.0
     if needs:
         w = {**DEFAULT_WIRING, **((mind.wiring if mind else None) or {})}
         scale = w.get('need_affect_scale', 0.3)
         cap = w.get('need_affect_cap', 0.4)
         pressure = min(cap, sum((n.urgency or 0.0) * scale for n in needs))
         valence = max(-1.0, valence - pressure)
+        # The projected body already drags physiological needs — a
+        # thread (an open intention, a promise) is what weighs extra.
+        thread_pressure = min(cap, sum(
+            (n.urgency or 0.0) * scale for n in needs
+            if n.type != 'physiological'
+        ))
     dominant = mood_phrase(valence) or 'neutral'
+    felt = {}
+    trace = []
+    for i in items:
+        imprint = i.get('imprint') or {}
+        if not imprint:
+            continue
+        add_delta(felt, imprint)
+        trace.append({
+            'subject': i.get('subject'),
+            'reading': i.get('reading'),
+            'felt': imprint,
+        })
+    arc, turn = mood_arc(items)
     return {
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
         'dominant': dominant,
         'need_pressure': round(pressure, 3),
+        'thread_pressure': round(thread_pressure, 3),
+        'felt': {d: round(v, 3) for d, v in felt.items()},
+        'trace': trace,
+        'arc': arc,
+        'turn': turn,
     }
+
+
+_PHASE_ORDER = ('morning', 'afternoon', 'night')
+
+# How hard the standing mood must swing between phases to call it a
+# turn — a quiet ebb is the day breathing, not the day breaking.
+TURN_MIN_SWING = 0.3
+
+
+def mood_arc(items):
+    """The day's emotional plot by phase (ADR 0017): the felt deltas
+    accumulated morning -> afternoon -> night, each point carrying the
+    phase's heaviest reading as its cause. And the TURN — the phase
+    where the standing mood swung hard or flipped sign, with the
+    reading that did it ('the afternoon turned at the ford'). A day
+    may be a pleasant morning and a sad afternoon; one number for the
+    day could never say that.
+    Returns (arc, turn)."""
+    arc = []
+    running = {}
+    prev_valence = None
+    turn = None
+    for phase in _PHASE_ORDER:
+        felt = {}
+        cause, cause_w = None, 0.0
+        for i in items:
+            if (i.get('when') or {}).get('phase') != phase:
+                continue
+            imprint = i.get('imprint') or {}
+            add_delta(felt, imprint)
+            weight = abs(i.get('valence') or 0.0) * (
+                i.get('salience') or 0.0)
+            if i.get('reading') and weight > cause_w:
+                cause, cause_w = i['reading'], weight
+        if not felt:
+            continue
+        add_delta(running, felt)
+        valence = couple_valence(running)
+        point = {
+            'phase': phase,
+            'felt': {d: round(v, 3) for d, v in felt.items()},
+            'valence': round(valence, 3),
+            'mood': mood_phrase(valence),
+            'cause': cause,
+        }
+        arc.append(point)
+        if prev_valence is not None:
+            swing = valence - prev_valence
+            if abs(swing) >= TURN_MIN_SWING or (
+                    swing and (valence > 0) != (prev_valence > 0)):
+                turn = {
+                    'phase': phase,
+                    'from': round(prev_valence, 3),
+                    'to': round(valence, 3),
+                    'cause': cause,
+                }
+        prev_valence = valence
+    return arc, turn
+
+
+def couple_valence(felt):
+    """The mood-space valence of a felt vector — mood_delta read for
+    its valence only (the arc tracks the day's colour, not its whole
+    posture)."""
+    return mood_delta(felt).get('valence', 0.0)
 
 
 MOOD_CAUSE_MIN_WEIGHT = 0.15
@@ -68,12 +163,9 @@ def mood_cause(perceived_day, needs=None):
         if weight > best_w:
             best = {
                 'reading': p['reading'], 'valence': p.get('valence') or 0.0,
-                # Contact tags let the brief connect the carried mood to
+                # Cause tags let the brief connect the carried mood to
                 # today's Focus (orc tracks yesterday, orcs today).
-                'tags': [
-                    t for t in (p.get('tags') or [])
-                    if t.startswith(('entity:', 'tag:entity_type:', 'tag:form:'))
-                ],
+                'tags': cause_tags(p.get('tags')),
             }
             best_w = weight
     for n in needs or []:
@@ -87,37 +179,39 @@ def mood_cause(perceived_day, needs=None):
 
 def update_mind_mood(session, game_id, mind, ep_mood, cause=None,
                       when=None):
-    """The running mood absorbs the episode's mood; dominant re-resolves
-    on the blended valence. Under real need pressure the present weighs
-    more (C24): a starving body does not blend away into 'steady' —
-    the day's need IS the mood. `cause` (mood_cause) replaces the carried
+    """The running mood absorbs the day's felt deltas (ADR 0017): each
+    perceived event already moved its Relations; here their felt share
+    lands on the mood vector through W_RM — the mood never reads the
+    events. The body speaks too: open needs press valence down and lift
+    arousal (C24) — a starving body does not fade into 'steady'; the
+    day's need IS the mood. `cause` (mood_cause) replaces the carried
     one when the episode had one; a mood that settles near neutral lets
     its cause go — nothing weighs any more."""
-    pressure = ep_mood.get('need_pressure') or 0.0
-    blend = min(0.9, MOOD_BLEND + pressure)
     prior = mind.mood or {}
-    valence = (
-        (prior.get('valence') or 0.0) * (1 - blend)
-        + ep_mood['valence'] * blend
-    )
-    arousal = (
-        (prior.get('arousal') or 0.0) * (1 - blend)
-        + ep_mood['arousal'] * blend
-    )
+    mood = {d: prior.get(d) or 0.0 for d in MOOD_DIMS}
+    couple_mood(mood, [ep_mood.get('felt') or {}])
+    # The body's voice (ADR 0017 · W_BM): the projected Condition drags
+    # the mood by its load; thread needs — intentions, not flesh — press
+    # valence down on top, urgency-scaled.
+    weigh_body(mood, getattr(mind, 'body', None) or {})
+    pressure = ep_mood.get('thread_pressure') or 0.0
+    mood['valence'] = max(-1.0, mood.get('valence', 0.0) - pressure)
+    mood['arousal'] = min(1.0, mood.get('arousal', 0.0) + pressure * 0.5)
+    valence = mood['valence']
     dominant = mood_phrase(valence) or 'neutral'
     carried = prior.get('cause')
     if cause:
         carried = {**cause, 'date': when.isoformat() if when else None}
     # A cause must explain the mood it rides with: none once the mood
-    # settles near neutral, none if the blend flipped past its sign.
+    # settles near neutral, none if the day flipped past its sign.
     if abs(valence) < MOOD_CAUSE_MIN_VALENCE or (
         carried and (carried.get('valence') or 0.0) * valence < 0
     ):
         carried = None
     mind.mood = {
-        'valence': round(valence, 3),
-        'arousal': round(arousal, 3),
+        **{d: round(mood.get(d) or 0.0, 3) for d in MOOD_DIMS},
         'dominant': dominant,
+        'feeling': derive_feeling(mood),
         'cause': carried,
     }
     return mind.mood
@@ -178,6 +272,120 @@ def line_text(line, mood=None, today=None):
     if line.get('kind') == 'mood':
         return _mood_line(mood, today) or line['text']
     return f"{line.get('age') or ''}{line['text']}"
+
+
+# The standing self, rendered (ADR 0017): a Relation over the bar earns
+# one disposition line — facts-of-feeling for the narrator to weave,
+# never prose to quote. The subject is humanized from its tag.
+_DISPOSITION_RENDER = {
+    'dread': '{subj} weighs on them like a coming dark',
+    'fear': '{subj} tightens their chest before it means to',
+    'wary': '{subj} puts them on their guard',
+    'feared and hated': '{subj} — feared, and hated for it',
+    'hatred': '{subj} earns no love from them',
+    'distrust': '{subj} has never quite earned their trust',
+    'fondness': '{subj} sits warm in their memory',
+    'gratitude': '{subj} has earned their thanks',
+    'warmth': '{subj} — a small good thing to them',
+    'deep friendship': '{subj} — they would walk far for that one',
+}
+
+# A relation earns a line when some dim crosses the bar, or when it is
+# simply KNOWN — familiarity alone is a way of standing in the world.
+_DISPOSITION_MIN_DIM = 0.3
+_DISPOSITION_MIN_FAMILIARITY = 0.6
+_DISPOSITION_MAX_LINES = 5
+
+
+def inner_lines(session, mind):
+    """Who this mind IS about the world: each strong Relation rendered
+    as one disposition ('orcs tighten their chest before they mean to')
+    carrying its raw subject so it can be anchored where the day touches
+    it. The luggage, not the receipts."""
+    from app.mind.tables import Relation
+    from app.mind.relations import relation_vector
+    rows = (
+        session.query(Relation)
+        .filter_by(character_id=mind.character_id)
+        .all()
+    )
+    scored = []
+    for r in rows:
+        vec = relation_vector(r)
+        mag = max(abs(v) for v in vec.values())
+        if not r.feeling and vec.get('familiarity', 0) < (
+                _DISPOSITION_MIN_FAMILIARITY):
+            continue
+        if r.feeling and mag < _DISPOSITION_MIN_DIM:
+            continue
+        # The host's own wording wins ('The Prancing Pony'); the
+        # humanized slug is the fallback, never the other way round.
+        subj = r.display_name or humanize(r.subject.rsplit(':', 1)[-1])
+        template = _DISPOSITION_RENDER.get(r.feeling)
+        if template:
+            text = template.format(subj=subj)
+        else:
+            text = f'{subj} is known ground to them now'
+        scored.append((mag, subj, {
+            'subject': r.subject, 'line': text, 'display': subj,
+        }))
+    scored.sort(key=lambda t: -t[0])
+    # 'entity:orcs' and 'tag:entity_type:orcs' render the same 'orcs' —
+    # the strongest relation speaks for the subject, the rest stay silent.
+    seen, out = set(), []
+    for _, subj, d in scored:
+        if subj in seen:
+            continue
+        seen.add(subj)
+        out.append(d)
+        if len(out) >= _DISPOSITION_MAX_LINES:
+            break
+    return out
+
+
+# when.phase → the prompt's three blocks. Single source for every
+# beat-placing rule (memory echoes, brief lines, dispositions).
+PROMPT_PHASES = {
+    'morning': 'morning', 'midday': 'afternoon', 'afternoon': 'afternoon',
+    'evening': 'night', 'night': 'night',
+}
+
+# A disposition with no anchor still speaks — in the day's emptiest hour,
+# camp by preference: the night is where reflection lives.
+_REFLECTION_ORDER = ('night', 'afternoon', 'morning')
+
+
+def disposition_beats(dispositions, items):
+    """Route each standing disposition into the phase where the world
+    touches it: a Relation speaks in scene, not in preamble, because
+    what floats unattached is what the narrator skips. An anchored
+    disposition lands in the first phase whose perceived subjects carry
+    it; an untouched one waits for the quietest hour."""
+    phase_subjects = {p: set() for p in PROMPT_PHASES.values()}
+    phase_load = {p: 0 for p in PROMPT_PHASES.values()}
+    for item in items or []:
+        phase = PROMPT_PHASES.get((item.get('when') or {}).get('phase'))
+        if not phase:
+            continue
+        phase_load[phase] += 1
+        phase_subjects[phase] |= set(item.get('subjects') or [])
+    quietest = min(
+        set(PROMPT_PHASES.values()),
+        key=lambda p: (phase_load[p], _REFLECTION_ORDER.index(p)),
+    )
+    beats = {}
+    for d in dispositions:
+        phase = next(
+            (p for p in ('morning', 'afternoon', 'night')
+             if d['subject'] in phase_subjects[p]),
+            quietest,
+        )
+        beats.setdefault(phase, []).append({
+            'subject': d.get('display')
+                or humanize(d['subject'].rsplit(':', 1)[-1]),
+            'line': d['line'],
+        })
+    return beats
 
 
 def render_lens(character_name, brief, mood=None, today=None):

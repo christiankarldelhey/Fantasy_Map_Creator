@@ -44,7 +44,7 @@ El host no le manda "el mundo"; le manda **un stream plano de experiencias** del
 ```jsonc
 {
   "type": "climate" | "encounter" | "terrain" | "place" | "water"
-        | "meal" | "rest" | "travel" | "body" | "region" | ...,  // extensible
+        | "meal" | "rest" | "region" | ...,  // extensible
   "when":  { "episode": 2, "date": "1950-01-19", "hour": 10.0, "phase": "morning" },
   "where": { "region": "...", "family": "...", "point": [x, y] },
   "data":  { ... }   // libre: los hechos duros del juego
@@ -55,7 +55,7 @@ El host no le manda "el mundo"; le manda **un stream plano de experiencias** del
 - **`when`**: fecha/hora/fase dentro de la ficción — el cerebro necesita saber *en qué momento* pasó cada cosa para ordenar memorias y detectar repeticiones.
 - **`where`**: contexto espacial/social izado a la envoltura (región, cultura, coordenadas) para que cualquier evento sea localizable sin conocer el esquema del juego.
 - **`data`**: hechos duros, libres por type. El módulo no necesita entenderlos semánticamente: los usa para tags, salience y para generar el `desc` del recuerdo.
-- **`body`** es un type especial: el cuerpo reportando (energía, heridas, días sin comer/beber). La mente recibe señales del cuerpo como un evento más.
+- El cuerpo **no es un evento**: energía, heridas, días sin comer/beber y el kilometraje del día viajan en el canal `condition` del wire (el Condition report en vivo), que es lo que detectores y checks leen. Un type `body` legacy sigue siendo tolerado — `character_state` lo mergea si llega — pero el host de Middle Earth no lo emite.
 
 ### 3.1 Normalización
 
@@ -212,7 +212,7 @@ Top-K pasan al lente como impresiones y reciben `evocations++`, `strength += boo
 
 Dos fuentes, ambas deterministas:
 
-- **Detectores de estado** (del evento `body` y contadores del profile): días sin comer/beber, fatiga acumulada, monotonía de dieta, asentamientos esquivados, streaks de clima hostil. Cada detector define cuándo abre una need, su `urgency` creciente y cuándo se cierra.
+- **Detectores de estado** (del canal `condition` y contadores del profile): días sin comer/beber, fatiga acumulada, monotonía de dieta, asentamientos esquivados, streaks de clima hostil. Cada detector define cuándo abre una need, su `urgency` creciente y cuándo se cierra.
 - **Threads narrativos** (de eventos percibidos): una promesa, un encuentro sin resolver, un pedido, un peligro avistado. Se anclan a `entity_id`/`region`/episodio.
 
 Las needs abiertas salen en el packet como **intenciones** ("resolver el hambre", "¿en qué quedó lo del hobbit?") que el narrador puede hacer actuar en la prosa — sin tocar mecánica.

@@ -21,6 +21,7 @@ import pg from 'pg';
 import dotenv from 'dotenv';
 import yaml from 'js-yaml';
 import { canonicalType, typeFromName } from './physical-types.js';
+import { assignEntityNpc, assignPlaceHost } from './npc-names.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -542,7 +543,7 @@ const DEPICTION_TABLES = [...new Set(Object.values(REF_TABLES))];
 // The narration-v2 spec (ADR-0015): JSON records map 1:1 to columns; payload
 // is provenance only (origin, legacy_id, anchor_hint, location_ref…).
 const PROSE_COLUMNS = [
-  'aspect', 'presence', 'lore', 'secret', 'sections', 'facts',
+  'aspect', 'sighted_far', 'presence', 'lore', 'secret', 'sections', 'facts',
   'notes', 'channel', 'traveller_use', 'variants', 'rotation', 'interactive',
 ];
 
@@ -668,7 +669,13 @@ async function seedEntitiesNarration() {
 
   const unresolved = new Set();
   const proseNames = EN_PROSE.join(', ');
+  let named = 0;
   for (const r of records) {
+    // A sentient entity keeps a person: drawn once, hashed off the
+    // record id, stored in payload.npc — the same dunlending is always
+    // 'Brogradoc'. Authored names are never overwritten.
+    const npc = assignEntityNpc(r);
+    if (npc) { r.payload = { ...(r.payload ?? {}), npc }; named++; }
     const entityId = r.entity_id ?? (r.entity_slug ? entBySlug.get(r.entity_slug) : null);
     const legId = r.leg_ref ? legByKey.get(`${r.leg_ref.mover}:${r.leg_ref.leg_index}`) : null;
     if (r.entity_slug && !entityId) unresolved.add(`entity:${r.entity_slug}`);
@@ -717,7 +724,7 @@ async function seedEntitiesNarration() {
   );
   if (unresolved.size)
     console.warn(`   ⚠️ unresolved refs (kept, NULL fk): ${[...unresolved].slice(0, 10).join(', ')}${unresolved.size > 10 ? ` +${unresolved.size - 10}` : ''}`);
-  console.log(`✅ entities_narration: ${records.length} records${pruned.rowCount ? ` (pruned ${pruned.rowCount})` : ''}`);
+  console.log(`✅ entities_narration: ${records.length} records${pruned.rowCount ? ` (pruned ${pruned.rowCount})` : ''}${named ? ` — ${named} sentient entities named` : ''}`);
 }
 
 // ---------------------------------------------------------------------------
@@ -844,10 +851,23 @@ async function seedPlaces() {
   const locByName = new Map(locs.map((l) => [l.name.toLowerCase(), l]));
   const locById = new Map(locs.map((l) => [l.id, l]));
 
+  // Region → cultural family, so a kept place's host draws from its
+  // people's pool when the record's own words don't say who keeps it.
+  const { rows: famRows } = await pool.query(
+    'SELECT id, cultural_family FROM regions'
+  );
+  const famByRegion = new Map(famRows.map((r) => [r.id, r.cultural_family]));
+
   let anchored = 0;
+  let hosted = 0;
   const candidates = [];
 
   for (const r of records) {
+    // A place that keeps somebody keeps a name: drawn once, hashed off
+    // the record id, stored in payload.host — 'Pearl, a hobbit' keeps
+    // the smial across every trip. Dead places keep nobody.
+    const host = assignPlaceHost(r, famByRegion);
+    if (host) { r.payload = { ...(r.payload ?? {}), host }; hosted++; }
     const name = typeof r.name === 'string'
       ? r.name
       : (r.name?.en || r.name?.es || r.id);
@@ -902,6 +922,7 @@ async function seedPlaces() {
        AND location_id IS NOT NULL
        AND id NOT LIKE 'dep:%' AND id NOT LIKE 'ovn:%'`, [ids]
   );
+  if (hosted) console.log(`   🧝 ${hosted} kept places keep a named host`);
   if (pruned.rowCount) console.log(`   🧹 pruned ${pruned.rowCount} unpositioned places no longer in JSON`);
   if (orphans.length) console.warn(`   ⚠️ positioned places no longer in JSON (kept): ${orphans.map((o) => o.id).join(', ')}`);
 

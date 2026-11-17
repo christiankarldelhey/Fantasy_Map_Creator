@@ -121,9 +121,9 @@ Por esa vara, `travel` (km + horas: el outcome del día) y `body`
 y el código ya lo sabe: `memory.py` los marca "no reading by design" y
 `voice.py` los excluye de la prosa. Van a la raíz / al canal de estado.
 
-**Inventario real de tipos hoy (11):** `climate`, `encounter`, `meal`,
-`place`, `region`, `water`, `moment`, `terrain`, `rest`, `travel`,
-`body`.
+**Inventario real de tipos hoy (9):** `climate`, `encounter`, `meal`,
+`place`, `region`, `water`, `moment`, `terrain`, `rest`.
+(`travel` y `body` salieron del wire — son estado, no vivencia.)
 
 **Decidido:**
 
@@ -144,8 +144,9 @@ y el código ya lo sabe: `memory.py` los marca "no reading by design" y
 - `terrain`, `region`, `moment`, `water` → familia **place** con
   subtype (verificado: los dos primeros ya leen `places_narration`;
   `moment` son las situaciones ambient resueltas).
-- `body` → raíz/estado (ya existe `condition.body`; el evento queda
-  solo porque `needs.py` lo lee — hay que apuntar needs a condition).
+- `body` → **hecho**: sale de `events[]`; vitales y kilometraje van por
+  `condition` (los detectores ya leen la Condition aplanada vía
+  `character_state`, que mergea el canal sobre la card).
 
 ## Anatomía real del encuentro (verificado en schema + resolvers)
 
@@ -191,8 +192,8 @@ y el código ya lo sabe: `memory.py` los marca "no reading by design" y
 **`places_narration`** (el modelo a espejar):
 - Scope: `location_id`, `region_id`/`region_ids[]`,
   `cultural_family`, `type`, `priority`, radios
-- Prosa: `aspect`, `presence`, `lore`, `secret`, `sections`,
-  `channel`, `traveller_use`, `notes`
+- Prosa: `aspect`, `sighted_far`, `presence`, `lore`, `secret`,
+  `sections`, `channel`, `traveller_use`, `notes`
 - Condicional: `variants[]` (tags/not_tags/when), `rotation[]`
 - `interactive[]`: situaciones tag-gateadas con options → outcomes
   {success, failure} {text, effects}

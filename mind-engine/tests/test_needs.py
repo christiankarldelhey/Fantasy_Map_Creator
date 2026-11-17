@@ -26,11 +26,12 @@ def _uid(prefix):
     return f'{prefix}-{uuid.uuid4().hex[:8]}'
 
 
-def _open(client, character_id, ref, events, extra=None):
+def _open(client, character_id, ref, events, extra=None, condition=None):
     r = client.post('/episodes', json={
         'game_id': 'middle_earth',
         'character': {'id': character_id, **(extra or {})},
         'episode_ref': ref,
+        'condition': condition or {},
         'events': events,
     })
     assert r.status_code == 200, r.text
@@ -43,14 +44,6 @@ def _close(client, episode_id, outcome=None):
     )
     assert r.status_code == 200, r.text
     return r.json()
-
-
-def _body(ep, **data):
-    return {
-        'type': 'body',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
-        'data': data,
-    }
 
 
 def _quiet(ep):
@@ -67,7 +60,9 @@ def _need_keys(packet):
 
 def test_hunger_detector_opens_need(client):
     char = _uid('hungry')
-    packet = _open(client, char, 'd1', [_body(1, days_without_food=2)])
+    packet = _open(
+        client, char, 'd1', [], condition={'days_without_food': 2}
+    )
     needs = packet['psyche_packet']['needs_active']
     hunger = next(n for n in needs if n['key'] == 'hunger')
     assert hunger['type'] == 'physiological'
@@ -81,8 +76,10 @@ def test_hunger_detector_opens_need(client):
 
 def test_detector_need_clears_when_state_clears(client):
     char = _uid('fed')
-    _open(client, char, 'd1', [_body(1, days_without_food=2)])
-    second = _open(client, char, 'd2', [_body(2, days_without_food=0)])
+    _open(client, char, 'd1', [], condition={'days_without_food': 2})
+    second = _open(
+        client, char, 'd2', [], condition={'days_without_food': 0}
+    )
     assert 'hunger' not in _need_keys(second)
 
     session = SessionLocal()
@@ -131,7 +128,9 @@ def test_thread_resolves_via_event_marker(client):
 
 def test_outcome_resolves_need_at_close(client):
     char = _uid('host-resolved')
-    opened = _open(client, char, 'd1', [_body(1, days_without_food=1)])
+    opened = _open(
+        client, char, 'd1', [], condition={'days_without_food': 1}
+    )
     assert 'hunger' in _need_keys(opened)
     closed = _close(client, opened['episode_id'], {'resolved_needs': ['hunger']})
     assert closed['needs_resolved'] == 1

@@ -10,7 +10,11 @@
 # only at creation, falls back to 'default', and never overrides an existing
 # assignment. Reassignment is admin territory: POST /mind/minds/{id}/preset.
 # ============================================================================
-from app.mind.tables import Belief, Mind, MindPreset, Character, Musing
+from app.mind.engine import derive_feeling
+from app.mind.relations import seed_relations
+from app.mind.tables import (
+    Belief, Memory, Mind, MindPreset, Character, Musing,
+)
 
 DEFAULT_PRESET_SLUG = 'default'
 
@@ -67,9 +71,7 @@ DEFAULT_WIRING = {
     'check_difficulty_scale': 10.0,
     # State modifiers (ADR 0005): thresholds and magnitudes live in the
     # detectors pack — mind.detectors rows or detectors.DEFAULT_DETECTORS
-    # ('check_mod' kind). Per-mind overrides use 'detector.<key>.<param>';
-    # legacy wiring keys (energy_worn_below, mod_energy_spent, ...) still
-    # read on minds authored before the move.
+    # ('check_mod' kind). Per-mind overrides use 'detector.<key>.<param>'.
     'unnoticed_salience': 0.5,
     # Sleep/wake (C4) — during a sleep phase the mind is unconscious:
     # checked events pass unheard unless the form physically wakes the
@@ -149,17 +151,12 @@ DEFAULT_WIRING = {
     # touches multiplies its score by (1 + bonus) — the specific line
     # (orc SIGNS) outranks the generic one (orcs); rotation breaks ties.
     'belief_specificity_bonus': 0.25,
-    # Attitudes (CONTEXT.md · Attitude): how far the stance leans what an
-    # encounter feels like, how much it adds to what the mind notices,
-    # and how it moves at close — a step per encounter, a big one when
-    # the world's valence marked the character (|v| >= marked), nothing
-    # for encounters that barely registered.
-    'attitude_affect_gain': 0.5,
-    'attitude_attention_gain': 0.3,
-    'attitude_drift': 0.05,
-    'attitude_drift_marked': 0.25,
-    'attitude_marked_valence': 0.6,
-    'attitude_drift_min_valence': 0.05,
+    # Relations (ADR 0017 · Relation): the sediment watches what it
+    # loves or fears — max|dim| * gain lands on the subject's tags each
+    # perception pass; and each closed episode every Relation cools
+    # toward indifference (dims shrink, never crossing their sign).
+    'relation_attention_gain': 0.3,
+    'relation_decay': 0.98,
     # Evidence gate (C7): beliefs need lived weight — a memory reaches
     # the reflection prompt only if it mattered (importance) or was felt
     # (|valence|); drizzle never becomes conviction. And a worldview
@@ -168,56 +165,20 @@ DEFAULT_WIRING = {
     'belief_evidence_valence_min': 0.2,
     'belief_new_per_reflection': 2,
     # C14: a transient belief also fades each closed episode it is not
-    # refreshed (episode fade in memory.py, default ×0.9); a reflection
-    # that ignores it decays it faster still (circumstances unstated are
+    # refreshed (episode fade in memory.py); a reflection that ignores
+    # it decays it faster still (circumstances unstated are
     # circumstances gone). Enduring beliefs only know evidence.
     'belief_transient_decay': 0.8,
+    'belief_transient_episode_decay': 0.9,
     # B6: a belief only bends theme_weights while it stays strong.
     'belief_boost_min_strength': 3.0,
     # B8: semantic similarity joins the retrieval score —
     # score += delta_embedding * cosine(episode, memory). 0 disables.
     'delta_embedding': 0.25,
-    # Affect channel: 'affect.<tag>' keys are signed valence (-1..1) an
-    # event contributes when that tag is present — wildcards allowed
-    # ('affect.tag:outcome:*'). 'affect.field:<name>' scales a numeric
-    # data field per unit. An explicit data.valence from the host always
-    # wins; these defaults are the generic emotional floor presets refine.
-    'affect.tag:form:attacks': -0.5,
-    'affect.tag:form:sudden_peril': -0.5,
-    'affect.tag:form:confronts': -0.35,
-    'affect.tag:form:stalks': -0.25,
-    'affect.tag:form:hinders_passage': -0.15,
-    'affect.tag:form:aid_or_trade': 0.2,
-    # Company on the road is felt, however mildly (C16) — a real
-    # exchange registers as something, never nothing.
-    'affect.tag:form:brief_exchange': 0.15,
-    'affect.tag:form:reacts_withdraws': 0.1,
-    'affect.tag:outcome:wounded': -0.5,
-    'affect.tag:outcome:badly wounded': -0.7,
-    'affect.tag:outcome:unscathed': 0.1,
-    # C28: an unsolicited gift is felt as kindness — the farm wife's soup
-    # warms the day it landed in, not just the ledger.
-    'affect.tag:given': 0.25,
-    'affect.tag:weather:freezing': -0.15,
-    'affect.tag:weather:storm': -0.3,
-    'affect.tag:weather:snow': -0.1,
-    'affect.tag:weather:deep_cold': -0.3,
-    'affect.tag:weather:scorching': -0.2,
-    # The night is felt, not just endured: how it was secured colours it
-    # (a shut door wounds, a stranger's mercy warms) and its quality says
-    # whether the body actually rested.
-    'affect.tag:rest:poor': -0.15,
-    'affect.tag:rest:good': 0.15,
-    'affect.tag:rest:open_sky': -0.05,
-    'affect.tag:lodging:paid': 0.1,
-    'affect.tag:lodging:charity': 0.2,
-    'affect.tag:lodging:shelter': 0.2,
-    'affect.tag:lodging:turned_away': -0.3,
-    'affect.field:shadow_effect': -0.15,
-    # Host-declared entity danger (0-5 game scale) is felt as continuous
-    # menace — distinct from detectability (check difficulty, host-side):
-    # a harmless thing is easy to notice AND easy to ignore.
-    'affect.field:danger': -0.1,
+    # The old affect channel is dead (ADR 0017): what a tag means lives
+    # in the semantics pack (semantics.DEFAULT_SEMANTICS + the game's
+    # `semantics` rows), and how this mind feels it in its Relations —
+    # the host never declares valence any more.
     # Severity floors by tag (C6): severe weather tiers make the climate
     # an *event* in the salience arithmetic — a storm day encodes, a
     # drizzle day stays background. 'severity.<tag>' works for any tag.
@@ -361,6 +322,25 @@ def seed_starter_beliefs(session, game_id, character_id, preset):
         )
         session.add(b)
         seeds.append(b)
+        # A stanced belief is also an impression — 'I grew up hearing
+        # this' — so the seed lands in the memory continuum too
+        # (ADR 0017): born consolidated, never forgotten by disuse,
+        # echoing its imprint back into the Relation on evocation.
+        if sb.subject and sb.stance is not None:
+            imprint = {'affection': float(sb.stance)}
+            session.add(Memory(
+                game_id=game_id, character_id=character_id,
+                kind='conviction', depth='conviction', mutable=True,
+                consolidated=True, strength=1.0,
+                desc=sb.statement,
+                tags=list(sb.tags or []),
+                valence=sb.stance,
+                importance=max(abs(sb.stance), 0.4),
+                imprint=imprint,
+                subjects=list(sb.subject),
+                feeling=derive_feeling(imprint),
+                origin=sb.source or 'seed',
+            ))
     return seeds
 
 
@@ -405,11 +385,18 @@ def get_or_create_mind(session, game_id, character_id, hint_slug=None):
         wiring=wiring,
         mood=dict(NEUTRAL_MOOD),
         counters={},
+        # ADR 0017: the preset's authored resting point and couplings —
+        # empty dicts read as neutral/default everywhere downstream.
+        temperament=dict(preset.temperament or {}) if preset else {},
+        personality=dict(preset.personality or {}) if preset else {},
     )
     session.add(mind)
     session.flush()
     seed_starter_beliefs(session, game_id, character_id, preset)
     seed_musings(session, game_id, character_id, preset)
+    # The character's authored dispositions land as seed Relations —
+    # the preset's leans plus the numeric shadow of its stanced beliefs.
+    seed_relations(session, game_id, character_id, preset)
     return mind
 
 

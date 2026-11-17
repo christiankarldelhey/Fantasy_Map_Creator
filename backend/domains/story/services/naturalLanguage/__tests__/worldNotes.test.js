@@ -165,18 +165,34 @@ test('collectLocationNotes tells entry from passing by', async () => {
 
 // A place that never comes within reach is first met on the horizon: the
 // sighting (with compass direction and its own hour) precedes the passing.
+// Beyond reach it is anonymous — a silhouette by kind, never the ficha's
+// aspect or census; the authored sighted_far is where it earns a name back.
 test('collectLocationNotes voices a distant sighting before the passing', async () => {
   const { collectLocationNotes } = await import('../placeNotes.js');
   const notes = collectLocationNotes([
     { name: 'Hornburg', type: 'fortress', hour_float: 19, distance_km: 24.55,
+      aspect: 'The great fortress of Helm\'s Deep.', population: 300,
       sighted: true, sighted_hour_float: 9.5, sighted_direction: 'east' },
     { name: 'Dol Guldur', type: 'fortified city', hour_float: 16, distance_km: 8, hostile: true,
       sighted: true, sighted_hour_float: 11, sighted_direction: 'north' },
+    { name: 'Newbury', type: 'town', hour_float: 17, distance_km: 14.4,
+      aspect: 'A Buckland village.', population: 220,
+      sighted: true, sighted_hour_float: 10.4, sighted_direction: 'east',
+      sighted_far: 'a hobbit village — smoke above its chimneys' },
   ]);
   assert.match(notes[0], /sighted far off to the east/);
   assert.match(notes[0], /passed at some distance/);
+  // Anonymous: no name, no aspect, no census — just the kind's silhouette.
+  assert.doesNotMatch(notes[0], /Hornburg|Helm|fortress of/);
+  assert.match(notes[0], /^- a fortress:/);
+  assert.match(notes[0], /a keep against the sky/);
   assert.match(notes[1], /sighted far off to the north/);
   assert.match(notes[1], /enemy country/);
+  assert.match(notes[1], /^- a fortified city:/);
+  // The authored line rides instead of the fallback shape.
+  assert.match(notes[2], /^- a town:/);
+  assert.match(notes[2], /smoke above its chimneys/);
+  assert.doesNotMatch(notes[2], /Newbury|Buckland/);
 });
 
 // Inside the size radius the place executes: the note voices the ficha's

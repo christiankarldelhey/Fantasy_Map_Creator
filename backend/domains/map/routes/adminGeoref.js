@@ -53,7 +53,7 @@ router.get('/places/:id', async (req, res, next) => {
       `SELECT p.id, p.kind, p.name, p.type, p.region_id,
               p.location_id, p.region_ids, p.cultural_family, p.priority,
               p.tags, p.size_radius_km, p.influence_radius_km,
-              p.aspect, p.presence, p.lore, p.secret, p.sections, p.facts,
+              p.aspect, p.sighted_far, p.presence, p.lore, p.secret, p.sections, p.facts,
               p.notes, p.channel, p.traveller_use, p.variants, p.rotation,
               p.interactive, p.refs,
               ST_AsGeoJSON(l.geom)::json AS geom, p.payload,

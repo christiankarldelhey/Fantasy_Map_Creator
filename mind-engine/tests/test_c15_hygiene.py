@@ -47,13 +47,14 @@ def _preset(**wiring):
     return slug
 
 
-def _open(client, char, ref, events, preset=None):
+def _open(client, char, ref, events, preset=None, condition=None):
     character = {'id': char}
     if preset:
         character['preset'] = preset
     r = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': character,
         'episode_ref': ref, 'events': events,
+        'condition': condition or {},
     })
     assert r.status_code == 200, r.text
     return r.json()
@@ -65,13 +66,8 @@ def _close(client, episode_id):
     return r.json()
 
 
-def _hungry_body(ep):
-    return {
-        'type': 'body',
-        'when': {'episode': ep, 'date': f'1950-05-0{ep}'},
-        'data': {'energy': 0.8, 'days_without_food': 2,
-                 'days_without_water': 0},
-    }
+def _hungry_condition():
+    return {'energy': 0.8, 'days_without_food': 2, 'days_without_water': 0}
 
 
 def test_open_need_never_spikes_reflection(client, monkeypatch):
@@ -86,7 +82,10 @@ def test_open_need_never_spikes_reflection(client, monkeypatch):
     # Cadence far away AND nothing else in the day — only the need's
     # salience could have fired the trigger.
     slug = _preset(reflection_every=99)
-    opened = _open(client, char, 'd1', [_hungry_body(1)], preset=slug)
+    opened = _open(
+        client, char, 'd1', [], preset=slug,
+        condition=_hungry_condition(),
+    )
     close = _close(client, opened['episode_id'])
     assert close['reflection'] is None
     assert called == []
@@ -98,7 +97,8 @@ def test_a_need_is_one_memory_not_one_per_day(client):
     slug = _preset(reflection_every=99)
     for ep in (1, 2):
         opened = _open(
-            client, char, f'd{ep}', [_hungry_body(ep)], preset=slug,
+            client, char, f'd{ep}', [], preset=slug,
+            condition=_hungry_condition(),
         )
         _close(client, opened['episode_id'])
 
@@ -118,14 +118,13 @@ def test_sentinel_tags_never_streak_or_break(client):
     today' — absence is not a theme."""
     char = _uid('sentinel')
     slug = _preset(reflection_every=99, repetition_min_streak=2)
-    body = lambda ep: {  # noqa: E731
-        'type': 'body',
+    day = lambda ep: {  # noqa: E731
+        'type': 'climate',
         'when': {'episode': ep, 'date': f'1950-05-0{ep}'},
-        'data': {'energy': 0.8, 'wounded': 'none',
-                 'days_without_food': 0, 'days_without_water': 0},
+        'data': {'tags': ['wounded:none']},
     }
     for ep in (1, 2, 3):
-        opened = _open(client, char, f'd{ep}', [body(ep)], preset=slug)
+        opened = _open(client, char, f'd{ep}', [day(ep)], preset=slug)
         packet = opened['psyche_packet']
         assert not any(
             'none' in (i.get('reading') or '')
@@ -153,10 +152,13 @@ def test_need_memories_never_reach_the_reflection_prompt(
     meal = {
         'type': 'meal',
         'when': {'episode': 1, 'date': '1950-05-01'},
-        'data': {'food': 'lembas', 'valence': 0.4},
+        # 'given' marks it a provided meal — felt as kindness, strong
+        # enough to be reflection evidence; need memories still stay out.
+        'data': {'food': 'lembas', 'tags': ['given']},
     }
     opened = _open(
-        client, char, 'd1', [_hungry_body(1), meal], preset=slug,
+        client, char, 'd1', [meal], preset=slug,
+        condition=_hungry_condition(),
     )
     _close(client, opened['episode_id'])
 

@@ -18,7 +18,6 @@
 # ============================================================================
 import re
 
-from app.mind.attitudes import active_attitudes, attitude_for, felt_valence
 from app.mind.boosts import effective_theme_weights
 from app.mind.checks import (
     asleep_check_result,
@@ -27,9 +26,16 @@ from app.mind.checks import (
     misread_reading,
     resolve_check,
 )
+from app.mind.engine import acute_hit, mood_delta, project_body
+from app.mind.relations import feed, feed_event, felt_through
+from app.mind.semantics import (
+    BODY_PROJECTION, load_semantics, semantic_delta,
+)
 from app.mind.voice import phrases, resolve_event_reading
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Episode
+from app.mind.tags import UNTAGGED_FIELDS, subject_tags, tag_is
+from app.mind.util import best_tag_weight, num, tag_matches
 
 # data fields that count as explicit severity when numeric (0-1 normalized).
 SEVERITY_FIELDS = (
@@ -38,10 +44,6 @@ SEVERITY_FIELDS = (
 )
 
 EPISODE_LOOKBACK = 20
-
-
-def _num(v):
-    return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
 
 
 # Values that report an absence, not an observation — 'wounded: none' is
@@ -64,47 +66,35 @@ def derive_tags(event):
     if entity:
         tags.append(f'entity:{entity}')
     for key, value in data.items():
-        # Check/needs machinery is signal, not content — it never tags.
-        # Free prose (description, prose_hint) is words, not a tag space.
-        # 'slot' already travels as when.phase — a 'midday again'
-        # streak is bookkeeping noise, not a lived repetition.
-        # 'scope' is resolution bookkeeping (which places_interactions
-        # row served the night) — 'scope:family' streaks once turned into
-        # 'no family today' readings about a family that never existed.
-        # 'reading' is the host's declared perception — prose, not a tag.
-        if key in ('entity', 'entity_id', 'entity_name', 'check',
-                   'thread_desc', 'resolves', 'urgency', 'scope',
-                   'description', 'description_es', 'inhabitants',
-                   'prose_hint', 'slot', 'substance', 'lodging',
-                   'reading'):
+        if key in UNTAGGED_FIELDS:
             continue
         if key == 'tags':
             values = value if isinstance(value, list) else [value]
             tags.extend(f'tag:{v}' for v in values if _is_content(v))
         elif _is_content(value):
             tags.append(f'tag:{key}:{value}')
-    region = (event.get('where') or {}).get('region')
+    where = event.get('where') or {}
+    region = where.get('region')
     if region:
         tags.append(f'region:{region}')
+    # Something lived AT a named place marks the place too — the orcs
+    # at the ford leave their fear on the ford (a splash share, as a
+    # secondary subject), not only on the orcs.
+    place = where.get('place')
+    if place:
+        tags.append(f'tag:place:{place}')
     return tags
 
 
 def theme_weight(tags, weights):
     """Max matching weight across the event's tags; wildcards 'prefix:*'
     match any tag with that prefix. 0 = this mind is indifferent."""
-    best = 0.0
-    for tag in tags:
-        if tag in weights:
-            best = max(best, weights[tag])
-    for key, weight in (weights or {}).items():
-        if key.endswith(':*') and any(t.startswith(key[:-1]) for t in tags):
-            best = max(best, weight)
-    return best
+    return best_tag_weight(tags, weights or {})
 
 
 def _severity(data):
     """0-1: explicit data['severity'] or the max severity-ish field."""
-    vals = [_num(data.get(f)) for f in SEVERITY_FIELDS]
+    vals = [num(data.get(f)) for f in SEVERITY_FIELDS]
     vals = [v for v in vals if v is not None]
     return min(1.0, max(vals)) if vals else 0.0
 
@@ -114,20 +104,7 @@ def _tag_severity(tags, w):
     'severity.tag:weather:storm: 0.6' makes the storm an *event* in the
     salience arithmetic while drizzle stays ambient. Host-declared
     severity still wins via max."""
-    best = 0.0
-    for tag in tags:
-        v = _num(w.get(f'severity.{tag}'))
-        if v is not None and v > best:
-            best = v
-    for key, v in w.items():
-        if not key.startswith('severity.') or not key.endswith(':*'):
-            continue
-        prefix = key[len('severity.'):-1]
-        if any(t.startswith(prefix) for t in tags):
-            num = _num(v)
-            if num is not None and num > best:
-                best = num
-    return best
+    return best_tag_weight(tags, w, 'severity.')
 
 
 def _salience_floor(tags, w):
@@ -136,58 +113,7 @@ def _salience_floor(tags, w):
     humans: 0.35' means thinking company is never background to this
     mind, 'salience_min.tag:form:brief_exchange' that a real exchange
     outweighs the weather. Wildcards allowed ('salience_min.entity:*')."""
-    best = 0.0
-    for tag in tags:
-        v = _num(w.get(f'salience_min.{tag}'))
-        if v is not None and v > best:
-            best = v
-    for key, v in w.items():
-        if not key.startswith('salience_min.') or not key.endswith(':*'):
-            continue
-        prefix = key[len('salience_min.'):-1]
-        if any(t.startswith(prefix) for t in tags):
-            num = _num(v)
-            if num is not None and num > best:
-                best = num
-    return best
-
-
-def _emotional_charge(data):
-    v = _num(data.get('emotional_charge'))
-    if v is not None:
-        return min(1.0, abs(v))
-    v = _num(data.get('valence'))
-    return min(1.0, abs(v)) if v is not None else 0.0
-
-
-def _affect(tags, data, w):
-    """The signed valence (-1..1) this mind assigns to the event:
-    'affect.<tag>' wiring keys fire when the tag is present (wildcards
-    allowed) and 'affect.field:<name>' keys scale a numeric data field
-    per unit. Two minds differ exactly here — the same confrontation is
-    not the same wound to every character."""
-    best = 0.0
-    for tag in tags:
-        v = _num(w.get(f'affect.{tag}'))
-        if v is not None and abs(v) > abs(best):
-            best = v
-    for key, v in w.items():
-        if not key.startswith('affect.') or not key.endswith(':*'):
-            continue
-        prefix = key[len('affect.'):-1]
-        if any(t.startswith(prefix) for t in tags):
-            num = _num(v)
-            if num is not None and abs(num) > abs(best):
-                best = num
-    valence = best
-    for key, gain in w.items():
-        if not key.startswith('affect.field:'):
-            continue
-        num = _num(data.get(key[len('affect.field:'):]))
-        g = _num(gain)
-        if num is not None and g is not None:
-            valence += g * num
-    return valence
+    return best_tag_weight(tags, w, 'salience_min.')
 
 
 def _seen_tags(session, game_id, character_id):
@@ -223,6 +149,11 @@ def _content_tags(day):
         tags.update(
             t for t in (it.get('tags') or [])
             if not t.startswith('type:')
+            # Pure background is not a streak: ambient-only tags (the
+            # land subtype, the day's frame) are how it happened, never
+            # a theme — 'weather:wet' can wear because it is also a
+            # declared pattern, 'tag:subtype:place' cannot.
+            and not (tag_is(t, 'ambient') and not tag_is(t, 'pattern'))
             # Sentinel values are absence, not content: 'wounded:none'
             # repeating is not a stretch, and breaking it must never
             # read 'no none today'.
@@ -247,13 +178,7 @@ def _repetition_exempt(tag, exempt):
     every day is the week closing in. Exempt entries are exact tags or
     'prefix:*' wildcards — the absence channel (thirst/hunger needs) is
     untouched: exempt presence, alarming absence."""
-    for entry in exempt or ():
-        if entry.endswith(':*'):
-            if tag.startswith(entry[:-1]):
-                return True
-        elif tag == entry:
-            return True
-    return False
+    return any(tag_matches(tag, entry) for entry in exempt or ())
 
 
 def _recurrence_items(session, game_id, mind, perceived, w):
@@ -328,10 +253,16 @@ def _recurrence_items(session, game_id, mind, perceived, w):
             'valence': round(max(-1.0, min(1.0, valence)), 3),
             'severity': 0.0,
             'tags': tags or [],
+            # The wear/relief is felt like any perception — the valence
+            # as a small affection imprint, so it moves the mood too.
+            'imprint': {'affection': round(
+                max(-1.0, min(1.0, valence)), 3)},
             'evoked': [],
         }
 
     items = []
+    resistance = (mind.personality or {}).get('resistance')
+    resistance = 0.5 if resistance is None else resistance
     for tag in sorted(today):
         if _repetition_exempt(tag, exempt):
             continue
@@ -342,6 +273,15 @@ def _recurrence_items(session, game_id, mind, perceived, w):
                 'repetition', tag, streak, valence, pressure_sal,
                 'mind.repetition', extra_data={'synthetic': True},
             ))
+            # Monotony on a subject sediments too: the fifth straight
+            # fruit-bread wears on 'tag:food:fruit_bread' itself, not
+            # only on the day — a loved bread resists souring through
+            # the same contradiction damping as any evidence.
+            if tag_is(tag, 'subject'):
+                feed(
+                    session, game_id, mind.character_id, tag,
+                    {'affection': valence}, resistance=resistance,
+                )
     if prior:
         for tag in sorted(prior[0]):
             if tag in today or _repetition_exempt(tag, exempt):
@@ -375,8 +315,7 @@ def resolve_break_items(session, game_id, mind, perceived, needs, w):
         need_key = next(
             (
                 v for prefix, v in watch.items()
-                if (tag.startswith(prefix[:-1]) if prefix.endswith(':*')
-                    else tag == prefix)
+                if tag_matches(tag, prefix)
             ),
             None,
         )
@@ -389,10 +328,31 @@ def resolve_break_items(session, game_id, mind, perceived, needs, w):
                 subject=subject, count=data.get('streak') or 0
             )
         item['valence'] = w.get('break_loss_valence', -0.1)
+        item['imprint'] = {'affection': item['valence']}
 
 
-def perceive_events(session, game_id, mind, events, character=None):
-    """Annotate each event: perception + reading + salience + tags.
+def _subject_displays(data):
+    """subject tag -> the name the host worded it with. The slug is the
+    Relation's identity; this is how it is said — 'The Prancing Pony',
+    never 'prancing_pony' the guessed animal."""
+    out = {}
+    if data.get('entity') and data.get('entity_name'):
+        out[f"entity:{data['entity']}"] = data['entity_name']
+    # A named person says itself — 'Bungo', never 'bungo' the word.
+    if data.get('npc') and data.get('npc_name'):
+        out[f"tag:npc:{data['npc']}"] = data['npc_name']
+    if data.get('place') and data.get('name'):
+        out[f"tag:place:{data['place']}"] = data['name']
+    return out
+
+
+def perceive_events(session, game_id, mind, events, character=None,
+                    episode_idx=None):
+    """Annotate each event: perception + reading + salience + tags, and the
+    vector engine's two channels (ADR 0017): the semantic pack reads the
+    event's objective delta, Relations sediment it (narrowest subject whole,
+    the rest by splash), and the felt delta — bent by the standing
+    Relation — is what the item reports as valence and imprint.
 
     Returns plain dicts ready for `episodes.perceived_day`. Idempotent at the
     episode level because open() only calls this when creating the episode.
@@ -403,7 +363,11 @@ def perceive_events(session, game_id, mind, events, character=None):
     weights = effective_theme_weights(session, mind)
     w = {**DEFAULT_WIRING, **(mind.wiring or {})}
     state = character_state(character, events)
-    attitudes = active_attitudes(session, mind)
+    semantics = load_semantics(session, game_id)
+    # The body the day starts from: the Condition projected through the
+    # declared map — acute event hits land on top of this base, and the
+    # next Condition report resets it.
+    mind.body = project_body(state, BODY_PROJECTION)
 
     perceived = []
     for index, event in enumerate(events or []):
@@ -435,7 +399,7 @@ def perceive_events(session, game_id, mind, events, character=None):
 
         # A hard roll won sharpens the impression; the host's explicit
         # perception_bonus takes precedence when present.
-        bonus = _num(data.get('perception_bonus'))
+        bonus = num(data.get('perception_bonus'))
         if bonus is None and check_result and check_result.get('success'):
             bonus = min(
                 1.0,
@@ -443,10 +407,21 @@ def perceive_events(session, game_id, mind, events, character=None):
                 / w.get('check_difficulty_scale', 10.0),
             )
         severity = max(_severity(data), _tag_severity(tags, w))
+
+        # The event's objective reading (ADR 0017): what the semantic
+        # pack declares this kind of contact meant. Only registered
+        # events carry meaning — a favour slept through never happened.
+        if perception == 'unnoticed':
+            world_delta, contact_w, body_hit = {}, 0.0, {}
+        else:
+            world_delta, contact_w, body_hit = semantic_delta(
+                tags, data, semantics
+            )
+        charge = min(1.0, sum(abs(v) for v in world_delta.values()))
         salience = min(1.0, (
             w.get('w_severity', 0) * severity
             + w.get('w_novelty', 0) * novelty
-            + w.get('w_emotional', 0) * _emotional_charge(data)
+            + w.get('w_emotional', 0) * charge
             + w.get('w_theme', 0) * theme_weight(tags, weights)
             + w.get('w_perception', 0) * (bonus or 0.0)
         ))
@@ -460,34 +435,42 @@ def perceive_events(session, game_id, mind, events, character=None):
             if floor > salience:
                 salience = floor
 
-        # Host-declared valence always wins; otherwise this mind's own
-        # affect wiring decides how the event felt.
-        host_valence = _num(data.get('valence'))
-        valence = host_valence if host_valence is not None else _affect(
-            tags, data, w
-        )
+        # Two channels: the world delta sediments the Relations it
+        # touched (the narrowest subject whole); the felt delta — bent
+        # by the standing Relation — is how the event landed on this
+        # mind. world_valence keeps the unbent reading.
+        subjects = sorted(subject_tags(tags))
+        if perception == 'unnoticed' or not subjects:
+            felt, primary = {}, None
+            if world_delta:
+                felt = felt_through(world_delta, {}, mind.personality)
+        else:
+            primary, standing = feed_event(
+                session, mind, subjects, world_delta,
+                episode_idx=episode_idx,
+                displays=_subject_displays(data),
+            )
+            felt = felt_through(world_delta, standing, mind.personality)
+        if body_hit:
+            acute_hit(mind.body, body_hit)
+        valence = mood_delta(felt).get('valence', 0.0)
         item = {
             **event,
             'perception': perception,
             'reading': reading,
             'salience': round(salience, 3),
-            'valence': round(max(-1.0, min(1.0, valence)), 3),
+            'valence': round(valence, 3),
+            'world_valence': round(
+                mood_delta(world_delta).get('valence', 0.0), 3
+            ),
             'severity': round(severity, 3),
             'tags': tags,
+            'subjects': subjects,
+            'imprint': felt,
             'evoked': [],
         }
-        # An Attitude colours how the encounter felt — unless the host
-        # declared the valence. world_valence keeps the uncoloured
-        # reading: it is what moves the attitude at close, so a love
-        # never feeds on its own echo.
-        attitude = (
-            attitude_for(tags, attitudes)
-            if host_valence is None and perception != 'unnoticed' else None
-        )
-        if attitude is not None:
-            item['world_valence'] = item['valence']
-            item['valence'] = round(felt_valence(valence, attitude, w), 3)
-            item['attitude'] = attitude.id
+        if primary:
+            item['subject'] = primary
         if check_result:
             check_result['perception'] = perception
             item['check'] = check_result

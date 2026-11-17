@@ -21,9 +21,9 @@
 # ============================================================================
 import operator
 
-from app.mind.checks import _num
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import CompositeRule
+from app.mind.util import OPS, num
 
 RULE_COUNTER_PREFIX = 'rule:'
 
@@ -55,13 +55,6 @@ DEFAULT_RULES = [
         'description': None,          # falls back to 'mind.need.<key>'
     },
 ]
-
-_OPS = {
-    '>=': operator.ge, '<=': operator.le,
-    '>': operator.gt, '<': operator.lt,
-    '==': operator.eq, '!=': operator.ne,
-}
-
 
 def _row_to_rule(row):
     return {
@@ -103,14 +96,14 @@ def _clause(clause, data):
     # {'tag': 'family:value'} — membership of the event's declared tags.
     if 'tag' in clause:
         return clause.get('tag') in (data.get('tags') or [])
-    op = _OPS.get(clause.get('op'))
+    op = OPS.get(clause.get('op'))
     if op is None:
         return False
     actual = data.get(clause.get('field'))
     expected = clause.get('value')
     if actual is None or expected is None:
         return False
-    an, en = _num(actual), _num(expected)
+    an, en = num(actual), num(expected)
     if an is not None and en is not None:
         return bool(op(an, en))
     # Mixed/non-numeric operands: only equality is meaningful.

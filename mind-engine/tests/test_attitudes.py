@@ -1,13 +1,9 @@
 # ============================================================================
-# Attitudes — the prehistory every encounter carries (CONTEXT.md · Attitude)
-# ----------------------------------------------------------------------------
-# A Belief with Subject + Stance: it colours how an encounter feels
-# (attitude_affect_gain), adds attention to the subject's tags
-# (attitude_attention_gain), and at close its stance drifts by how the
-# encounter went IN THE WORLD — slowly for ordinary days, a big step for
-# marked ones. Narrowest subject wins (entity > family > type) and the
-# stance never crosses zero on drift: turning a prejudice is the
-# reflection's work.
+# Belief facets — subject matching for the brief/reflection (CONTEXT.md ·
+# Attitude facets). The motion lives in Relations now (test_relations.py,
+# ADR 0017): a stanced starter belief also seeds its subject's Relation at
+# provisioning, but at runtime nothing here colours or drifts — the facets
+# only match who/what a thought is about.
 # ============================================================================
 import uuid
 
@@ -16,11 +12,10 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.attitudes import attitude_for, is_attitude
-from app.mind.boosts import effective_theme_weights
+from app.mind.attitudes import is_attitude, match_level
 from app.mind.reflection import _apply_ops
 from app.mind.tables import (
-    Belief, Mind, MindPreset, Episode, PresetStarterBelief,
+    Belief, Mind, MindPreset, PresetStarterBelief,
 )
 
 
@@ -45,37 +40,6 @@ def _open(client, char, events, ref='d1', preset=None):
     return r.json()
 
 
-def _open_and_close(client, char, ref, events, preset=None):
-    opened = _open(client, char, events, ref, preset)
-    c = client.post(f"/episodes/{opened['episode_id']}/close", json={})
-    assert c.status_code == 200, c.text
-    return opened, c.json()
-
-
-def _encounter(ep, entity='foxes', family='foxes', etype='carnivores',
-               form='reacts_withdraws', outcome=None, danger=None):
-    data = {'entity': entity, 'entity_type': etype, 'form': form}
-    if family:
-        data['family'] = family
-    if outcome:
-        data['outcome'] = outcome
-    if danger is not None:
-        data['danger'] = danger
-    return {
-        'type': 'encounter',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
-        'data': data,
-    }
-
-
-def _brain(char):
-    session = SessionLocal()
-    mind = session.query(Mind).filter_by(character_id=char).one()
-    session.expunge(mind)
-    session.close()
-    return mind
-
-
 def _beliefs(char):
     session = SessionLocal()
     rows = (
@@ -86,34 +50,6 @@ def _beliefs(char):
         session.expunge(r)
     session.close()
     return rows
-
-
-def _add_attitude(char, subject, stance, statement='A feeling', **facets):
-    session = SessionLocal()
-    b = Belief(
-        game_id='middle_earth', character_id=char, kind='world',
-        statement=statement, strength=3, tags=[], boosts={},
-        evidence=[], origin='seed', status='active',
-        subject=list(subject), stance=stance,
-        source=facets.pop('source', 'lived'), **facets,
-    )
-    session.add(b)
-    session.commit()
-    bid = b.id
-    session.close()
-    return bid
-
-
-def _perceived(char, episode_index=0, item_index=0):
-    session = SessionLocal()
-    days = (
-        session.query(Episode.perceived_day)
-        .filter_by(character_id=char)
-        .order_by(Episode.created_at)
-        .all()
-    )
-    session.close()
-    return days[episode_index][0][item_index]
 
 
 def _new_mind(char):
@@ -147,7 +83,8 @@ def test_provisioning_clones_every_facet(client):
     session.close()
 
     char = _uid('clone')
-    _open(client, char, [_encounter(1)], preset=slug)
+    _open(client, char, [{'type': 'travel', 'when': {'episode': 1},
+                          'data': {}}], preset=slug)
     faceted, plain = _beliefs(char)
 
     assert faceted.subject == ['tag:family:foxes']
@@ -172,155 +109,17 @@ def test_narrowest_subject_speaks_for_the_encounter():
 
     tags = ['entity:horses_of_mordor', 'tag:family:horses',
             'tag:entity_type:riding_animals']
-    assert attitude_for(tags, [broad, family, exact]) is exact
-    assert attitude_for(tags, [broad, family]) is family
-    assert attitude_for(['entity:wild_horses', 'tag:family:horses',
-                         'tag:entity_type:riding_animals'],
-                        [broad, family, exact]) is family
+    # The narrowest match speaks: entity (3) > family (2) > type (1).
+    assert match_level(exact, tags) == 3
+    assert match_level(family, tags) == 2
+    assert match_level(broad, tags) == 1
+    wild = ['entity:wild_horses', 'tag:family:horses',
+            'tag:entity_type:riding_animals']
+    assert match_level(family, wild) == 2
+    # The exact subject doesn't answer for a different entity.
+    assert match_level(exact, wild) == 0
     # No touch — no attitude.
-    assert attitude_for(['entity:orcs', 'tag:entity_type:orcs'],
-                        [family]) is None
-
-
-def test_stance_colours_how_the_encounter_feels(client):
-    """reacts_withdraws reads +0.1 in the world; a mind that loves foxes
-    feels it at 0.1 + 0.6*0.5 = +0.4."""
-    char = _uid('foxlove')
-    _new_mind(char)
-    bid = _add_attitude(char, ['tag:family:foxes'], 0.6, 'Foxes are kin')
-    _open_and_close(client, char, 'd1', [_encounter(1)])
-
-    item = _perceived(char)
-    assert item['world_valence'] == pytest.approx(0.1)
-    assert item['valence'] == pytest.approx(0.4)
-    assert item['attitude'] == bid
-
-
-def test_host_valence_leaves_the_attitude_out(client):
-    """A host-declared valence owns the feeling entirely — no lean, no
-    recorded prehistory to move."""
-    char = _uid('hostvox')
-    _new_mind(char)
-    _add_attitude(char, ['tag:family:foxes'], 0.6)
-    event = _encounter(1)
-    event['data']['valence'] = -0.9
-    _open_and_close(client, char, 'd1', [event])
-
-    item = _perceived(char)
-    assert item['valence'] == -0.9
-    assert 'attitude' not in item
-
-
-def test_attitudes_watch_what_they_love_or_loathe():
-    """|stance| adds attention to the subject's tags — love and loathing
-    both keep their eyes open."""
-    char = _uid('watcher')
-    session = SessionLocal()
-    session.add(Mind(
-        game_id='middle_earth', character_id=char, preset_slug='x',
-        theme_weights={'tag:family:foxes': 0.1}, wiring={}, mood={},
-        counters={},
-    ))
-    session.flush()
-    mind = session.query(Mind).filter_by(character_id=char).one()
-    session.add(Belief(
-        game_id='middle_earth', character_id=char, kind='world',
-        statement='Foxes are kin', strength=3, tags=[], boosts={},
-        evidence=[], origin='seed', status='active',
-        subject=['tag:family:foxes'], stance=0.6,
-    ))
-    session.add(Belief(
-        game_id='middle_earth', character_id=char, kind='world',
-        statement='Wargs took the coin', strength=3, tags=[],
-        boosts={}, evidence=[], origin='seed', status='active',
-        subject=['tag:family:wargs'], stance=-0.8,
-    ))
-    session.commit()
-    weights = effective_theme_weights(session, mind)
-    session.close()
-
-    assert weights['tag:family:foxes'] == pytest.approx(0.1 + 0.6 * 0.3)
-    assert weights['tag:family:wargs'] == pytest.approx(0.8 * 0.3)
-
-
-def test_ordinary_encounter_nudges_the_stance(client):
-    """A kind exchange with foxes (world +0.2) walks the love up one
-    small step — not a rewrite."""
-    char = _uid('nudge')
-    _new_mind(char)
-    bid = _add_attitude(char, ['tag:family:foxes'], 0.6, 'Foxes are kin')
-    _, summary = _open_and_close(client, char, 'd1', [
-        _encounter(1, form='aid_or_trade'),
-    ])
-
-    assert summary['attitudes_moved'] == [
-        {'belief_id': bid, 'from': 0.6, 'to': 0.65},
-    ]
-    assert _beliefs(char)[0].stance == pytest.approx(0.65)
-
-
-def test_marked_encounter_moves_the_stance_hard(client):
-    """Wounded by the thing you loved (world −0.8): the stance takes the
-    marked step down."""
-    char = _uid('marked')
-    _new_mind(char)
-    bid = _add_attitude(char, ['tag:family:foxes'], 0.6, 'Foxes are kin')
-    _, summary = _open_and_close(client, char, 'd1', [
-        _encounter(1, form='attacks', outcome='wounded', danger=3),
-    ])
-
-    assert summary['attitudes_moved'] == [
-        {'belief_id': bid, 'from': 0.6, 'to': 0.35},
-    ]
-
-
-def test_the_stance_never_crosses_zero_on_drift(client):
-    """A marked kindness can wear a prejudice down to almost nothing —
-    turning it is the reflection's work, not one good day."""
-    char = _uid('floor')
-    _new_mind(char)
-    bid = _add_attitude(char, ['tag:entity_type:dwarves'], -0.1,
-                      'I keep my distance')
-    _, summary = _open_and_close(client, char, 'd1', [
-        _encounter(1, entity='dwarves_of_erebor', family=None,
-                   etype='dwarves', form='aid_or_trade',
-                   outcome='unscathed', danger=0),
-    ])
-
-    moved = summary['attitudes_moved']
-    assert moved[0]['belief_id'] == bid
-    # world +0.3 (aid_or_trade 0.2 + unscathed 0.1) → not marked; a small
-    # step up that still must not cross zero.
-    assert moved[0]['to'] == pytest.approx(-0.05)
-    assert _beliefs(char)[0].stance == pytest.approx(-0.05)
-
-
-def test_stance_stays_inside_its_bounds(client):
-    """Love cannot grow past +1 no matter how good the encounters."""
-    char = _uid('bounded')
-    _new_mind(char)
-    bid = _add_attitude(char, ['tag:family:foxes'], 0.9, 'Foxes are kin')
-    _open_and_close(client, char, 'd1', [
-        _encounter(1, form='aid_or_trade', outcome='unscathed'),
-        _encounter(1, entity='red_foxes', form='aid_or_trade'),
-    ])
-
-    assert _beliefs(char)[0].stance == pytest.approx(1.0)
-    assert bid == bid  # (the row is the same belief — it moved, not grew)
-
-
-def test_a_quiet_sighting_moves_nothing(client):
-    """'watches' carries no affect — being seen by foxes is not yet an
-    experience of foxes."""
-    char = _uid('quiet')
-    _new_mind(char)
-    _add_attitude(char, ['tag:family:foxes'], 0.6)
-    _, summary = _open_and_close(client, char, 'd1', [
-        _encounter(1, form='watches', danger=0),
-    ])
-
-    assert summary['attitudes_moved'] == []
-    assert _beliefs(char)[0].stance == 0.6
+    assert match_level(family, ['entity:orcs', 'tag:entity_type:orcs']) == 0
 
 
 def test_only_the_narrowest_attitude_line_speaks(client):
@@ -328,14 +127,27 @@ def test_only_the_narrowest_attitude_line_speaks(client):
     encounter; the general love of horses steps back."""
     char = _uid('narrow')
     _new_mind(char)
-    _add_attitude(char, ['tag:family:horses'], 0.7,
-                  'Horses are the last joy')
-    _add_attitude(char, ['entity:horses_of_mordor'], -0.8,
-                  'I pity those horses')
-    opened = _open(client, char, [
-        _encounter(1, entity='horses_of_mordor', family='horses',
-                   etype='riding_animals', form='confronts', danger=4),
-    ])
+    session = SessionLocal()
+    for subject, stance, stmt in (
+        (['tag:family:horses'], 0.7, 'Horses are the last joy'),
+        (['entity:horses_of_mordor'], -0.8, 'I pity those horses'),
+    ):
+        session.add(Belief(
+            game_id='middle_earth', character_id=char, kind='world',
+            statement=stmt, strength=3, tags=[], boosts={},
+            evidence=[], origin='seed', status='active',
+            subject=subject, stance=stance,
+        ))
+    session.commit()
+    session.close()
+
+    opened = _open(client, char, [{
+        'type': 'encounter',
+        'when': {'episode': 1, 'date': '1950-01-19'},
+        'data': {'entity': 'horses_of_mordor', 'family': 'horses',
+                 'entity_type': 'riding_animals', 'form': 'confronts',
+                 'danger': 4},
+    }])
 
     brief = opened['psyche_packet']['brief']
     lines = [

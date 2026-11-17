@@ -21,12 +21,13 @@ from datetime import datetime, timezone
 
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
-from app.mind.attitudes import drift as attitude_drift
 from app.mind.director import direct, director_enabled
+from app.mind.engine import derive_feeling, regress
 from app.mind.focus import brief_lines, build_brief, need_origins
 from app.mind.lens import (
-    _age_phrase, brief_beats, episode_mood, line_text, mood_cause,
-    render_lens, update_mind_mood,
+    PROMPT_PHASES, _age_phrase, brief_beats, disposition_beats,
+    episode_mood, inner_lines, line_text, mood_cause, render_lens,
+    update_mind_mood,
 )
 from app.mind.memory import (
     _compact_duplicates,
@@ -81,6 +82,8 @@ from app.mind.packs import (
     promote_pack,
 )
 from app.mind.perceive import perceive_events, resolve_break_items
+from app.mind.relations import decay_all
+from app.mind.voice import mood_phrase
 from app.mind.provisioning import (
     DEFAULT_WIRING,
     NEUTRAL_MOOD,
@@ -92,9 +95,9 @@ from app.mind.provisioning import (
     seed_starter_beliefs,
 )
 from app.mind.reflection import maybe_reflect
+from app.mind.memory import episode_date, episode_index
 from app.mind.retrieval import (
-    dialogue_recall, episode_date_of, episode_index_of, link_evoked,
-    memory_age_days, retrieve,
+    dialogue_recall, link_evoked, memory_age_days, retrieve,
 )
 from app.mind.tables import (
     Belief, Mind, MindPreset, Episode, ForgottenMemory, Memory, Musing,
@@ -157,6 +160,7 @@ def _build_packet(db, episode: Episode, mind: Mind = None) -> PsychePacket:
         perceived_day=perceived,
         lens_block=episode.lens_block or '',
         mood=mood,
+        day_mood=Mood(**(episode.mood or {})),
         check_results=_check_results(episode),
         needs_active=episode.needs_active or [],
         decision_point=pending_decision_point(db, mind, episode),
@@ -283,13 +287,14 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             )
             # C30: the calendar clock — narrative age is measured in
             # in-world days, so rest between journeys counts.
-            episode.episode_date = episode_date_of(episode)
+            episode.episode_date = episode_date(episode)
             db.add(episode)
             db.flush()  # fires the id default before we build the packet
             perceived = perceive_events(
                 db, payload.game_id, mind,
                 [e.model_dump() for e in payload.events],
                 character=card,
+                episode_idx=episode.episode_idx,
             )
             # The episode stirs memory: top-K evoked, strengthened, linked.
             evoked = retrieve(db, mind, episode, perceived)
@@ -298,7 +303,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             # what was asked embeds against what the mind retained, so
             # the traveller may answer from their own past. The hit joins
             # the item's evoked list and rides the RECALLS channel.
-            episode_idx = episode_index_of(episode)
+            episode_idx = episode_index(episode)
             w_mind = {**DEFAULT_WIRING, **(mind.wiring or {})}
             evoked_ids = {m.id for m in evoked}
             for item in episode.perceived_day:
@@ -396,7 +401,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                     entering_mood, mind=mind,
                 ),
                 session=db, game_id=payload.game_id, mind=mind,
-                episode_idx=episode_index_of(episode), musings=musings,
+                episode_idx=episode_index(episode), musings=musings,
             )
             candidates = brief.pop('candidates', [])
             # The director chooses what the Episode turns on (protagonists
@@ -492,9 +497,24 @@ def close_episode(
             )
             update_streak_counters(db, mind, episode)
             summary.update(close_episode_memory(db, mind, episode))
-            # Attitudes move by how their encounters went — before the
-            # reflection, so it reads the stance the day left behind.
-            summary['attitudes_moved'] = attitude_drift(db, mind, episode)
+            # The quiet tick (ADR 0017): the mood drifts back toward its
+            # Temperament by the Personality's moodiness, and every
+            # Relation cools toward indifference — the sediment lives on
+            # what was fed, never on what was merely not contradicted.
+            mood = dict(mind.mood or {})
+            regress(
+                mood, mind.temperament or {},
+                (mind.personality or {}).get('moodiness', 0.3),
+            )
+            mood['dominant'] = mood_phrase(mood.get('valence') or 0.0) or 'neutral'
+            mood['feeling'] = derive_feeling(mood)
+            mind.mood = mood
+            decay_all(
+                db, mind,
+                {**DEFAULT_WIRING, **(mind.wiring or {})}.get(
+                    'relation_decay', 0.98
+                ),
+            )
             # B4: the mind's only LLM call. Trigger-gated; a skipped or
             # failed reflection never breaks the close.
             summary['reflection'] = maybe_reflect(
@@ -513,13 +533,7 @@ def close_episode(
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
 
 
-_PHASE_MAP = {
-    'morning': 'morning',
-    'midday': 'afternoon',
-    'afternoon': 'afternoon',
-    'evening': 'night',
-    'night': 'night',
-}
+_PHASE_MAP = PROMPT_PHASES
 
 
 def _beat_phase(item):
@@ -568,6 +582,24 @@ def _evoked_beats(db, episode):
                 'subject': subj,
                 'line': f'{age}{m.desc}'.strip(),
             })
+    return beats
+
+
+def _merged_beats(db, episode, mind):
+    """The phase beats the narrator gets: the brief's day lines (or, for
+    legacy episodes, the evoked-memory beats) plus the standing self —
+    each disposition routed to where the world touches it, so nothing
+    floats unattached for the narrator to skip."""
+    beats = (
+        brief_beats(episode.brief) if episode.brief
+        else _evoked_beats(db, episode)
+    )
+    if mind is None:
+        return beats
+    for phase, ds in disposition_beats(
+        inner_lines(db, mind), episode.perceived_day or []
+    ).items():
+        beats.setdefault(phase, []).extend(ds)
     return beats
 
 
@@ -695,11 +727,11 @@ def narrate_episode(
             previous_day=req.previousDay,
             mind_block=episode.lens_block or '',
             # C35: the brief's day lines ride inside their phase; legacy
-            # episodes (no brief) keep the C21 memory beats.
-            memory_beats=(
-                brief_beats(episode.brief) if episode.brief
-                else _evoked_beats(db, episode)
-            ),
+            # episodes (no brief) keep the C21 memory beats. And the
+            # standing self speaks in scene, not in preamble — each
+            # disposition lands where the world touches it, or waits
+            # for the quietest hour (ADR 0017).
+            memory_beats=_merged_beats(db, episode, mind),
             impressions=_evoked_impressions(db, episode),
         )
         generation = result['generation'] or {}

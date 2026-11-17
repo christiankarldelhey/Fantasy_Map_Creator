@@ -112,8 +112,8 @@ PHRASES = {
     'mind.need_origin.wound': ['since the wound was taken'],
     'mind.need_origin.gloom': ['{days} days beneath a sunless sky'],
     # Event types that frame every Episode and never take the Focus
-    # (ADR 0005): the engine's own items ('body', 'need') are excluded in
-    # code; the world's frame types are declared here, per game.
+    # (ADR 0005): the engine's own items ('need') are excluded in code;
+    # the world's frame types are declared here, per game.
     'mind.focus_excluded': ['travel', 'terrain', 'climate'],
     # Encounter readings (C16): the mind's one-line memory of contact —
     # {subject} the entity met, {detail} what passed (the host's resolved
@@ -236,7 +236,7 @@ def resolve_event_reading(event):
             x for x in (humanize(data.get('food')),
                         humanize(data.get('drink'))) if x
         ) or subject
-    if etype == 'terrain':
+    if etype == 'terrain' or data.get('subtype') == 'terrain':
         return _first_string(
             data.get('terrain_phrases') or data.get('biomes')
         )
@@ -248,8 +248,8 @@ def resolve_event_reading(event):
             data.get('description') or subject
             or (place if isinstance(place, str) else None)
         )
-    if etype in ('travel', 'body'):
-        # Vitals and mileage speak through needs/mood, never a reading.
+    if etype == 'travel':
+        # Mileage speaks through the condition, never a reading.
         return None
     if etype == 'note':
         # A note IS prose — the data field is already words.

@@ -5,8 +5,8 @@
 # never derives tags from raw numbers). Mild tags (wet/windy) mark
 # ambience; severe tags (storm/snow/deep_cold/scorching) pair with
 # 'severity.<tag>' wiring floors so a hard day of weather carries real
-# salience and encodes — drizzle never does. Both feed
-# 'affect.tag:weather:*' valence.
+# salience and encodes — drizzle never does. The felt channel reads the
+# 'tag:weather:*' semantics rows (ADR 0017).
 # ============================================================================
 import uuid
 
@@ -86,7 +86,10 @@ def test_severe_tiers_carry_floors(client):
     assert 'tag:weather:deep_cold' in item['tags']
     assert 'tag:weather:freezing' in item['tags']
     assert item['severity'] == 0.55  # deep_cold beats snow's floor
-    assert item['valence'] == -0.3
+    # The semantic rows stack: snow/freezing affection, deep_cold fear —
+    # read through W_RM (affection -> valence, fear -> -valence).
+    assert item['valence'] == pytest.approx(-0.22, abs=0.02)
+    assert item['imprint']['fear'] > 0
 
 
 def test_severity_tag_wiring_is_generic(client):

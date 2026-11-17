@@ -97,7 +97,7 @@ function slimDay(d) {
       pick(b, ['type', 'hour_float', 'fraction', 'total_area_km2'])
     ),
     locations: (d.locations || []).map((l) =>
-      pick(l, ['id', 'name', 'type', 'region', 'region_id', 'aspect', 'aspect_es', 'presence', 'presence_es', 'population', 'inhabitants', 'cultural_family', 'hour', 'hour_float', 'distance_km', 'size_radius_km', 'influence_radius_km', 'sighted', 'sighted_hour_float', 'sighted_hour', 'sighted_direction', 'visited', 'title', 'indoor', 'entered', 'hostile'])
+      pick(l, ['id', 'name', 'type', 'region', 'region_id', 'aspect', 'aspect_es', 'sighted_far', 'presence', 'presence_es', 'population', 'inhabitants', 'cultural_family', 'hour', 'hour_float', 'distance_km', 'size_radius_km', 'influence_radius_km', 'sighted', 'sighted_hour_float', 'sighted_hour', 'sighted_direction', 'visited', 'title', 'indoor', 'entered', 'hostile'])
     ),
     lodging: d.lodging
       ? pick(d.lodging, ['paid', 'cost', 'coinsAfter', 'sheltered', 'turnedAway', 'charity', 'charityCheck', 'place'])
@@ -112,14 +112,40 @@ function slimDay(d) {
     meals: (d.meals || []).map((m) => pick(m, ['slot', 'food', 'drink'])),
     overnight_location: d.overnight_location ?? null,
     overnight_interaction: d.overnight_interaction ?? null,
-    // ADR-0016: `ambient` left the wire — resolved situations ride
-    // events[] as 'moment' events (toEvents.momentEvents).
+    // ADR-0016: on the episode wire `ambient` is absent — resolved
+    // situations ride events[] as 'moment' events (toEvents.momentEvents).
+    // The STATELESS payload keeps it: without events[], buildWorldNotes
+    // needs the resolved items to lay them into `moments` per phase.
+    ambient: d.ambient ?? null,
     elevation_profile: d.elevation_profile ?? null,
   };
 }
 
+// Detectors declare snake_case fields (detectors.py: 'days_without_food',
+// 'distance_km', ...); the host reports some of them camelCase. The
+// Condition names what the detectors declare — mileage is body state
+// too (what the road cost), never an event.
+function conditionOf({ characterState, equipmentState, day }) {
+  const condition = { ...(characterState || {}), ...(equipmentState || {}) };
+  const aliases = {
+    days_without_food: equipmentState?.daysWithoutFood,
+    days_without_water: equipmentState?.daysWithoutWater,
+    distance_km: day?.distance_km,
+    walking_hours: day?.walking_hours,
+  };
+  for (const [key, value] of Object.entries(aliases)) {
+    if (value != null && condition[key] === undefined) {
+      condition[key] = value;
+    }
+  }
+  return condition;
+}
+
 /**
  * The flat POST /episodes body — OpenEpisodeRequest, snake_case throughout.
+ * `condition` is the live Condition report (ADR-0016): vitals and the
+ * day's cost, merged over the card mind-side so detectors and checks
+ * read the freshest body. It is not an event.
  */
 export function toOpenPayload({
   gameId,
@@ -160,7 +186,7 @@ export function toOpenPayload({
       terminal: day.is_last_day ?? null,
     },
     arc: trip.name ?? null,
-    condition: { ...(characterState || {}), ...(equipmentState || {}) },
+    condition: conditionOf({ characterState, equipmentState, day }),
     narration_notes: pick(worldNotes, [
       'climate_state', 'lands',
       'equipage', 'end_state', 'journey_context',

@@ -47,3 +47,13 @@ export function humanize(value) {
   const s = String(value).trim();
   return s ? s.replace(/[_-]/g, ' ') : null;
 }
+
+/** A name is prose, a slug is identity: 'The Prancing Pony' ->
+ * 'the_prancing_pony'. The mind keys relations by this, not by the
+ * display name — same word, same subject, whatever the casing. */
+export function slugify(value) {
+  if (value == null) return null;
+  const s = String(value).trim().toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  return s || null;
+}

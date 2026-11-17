@@ -1,12 +1,12 @@
 # ============================================================================
-# Affect channel — derived valence
+# The felt channel — what the semantics pack + Relations do to an event
 # ----------------------------------------------------------------------------
-# An event's valence comes from the mind's own wiring ('affect.<tag>' /
-# 'affect.field:<name>' keys), never from raw plumbing — unless the host
-# declares data.valence, which always wins. Episode mood is the
-# salience-weighted mean of item valences and blends into the mind's
-# running mood; memory stores the *perceived* valence, so the same world
-# can leave different traces in different minds.
+# Events travel clean — facts and words, never valence (ADR 0017). The
+# semantic pack reads what the contact objectively meant (the world
+# delta), Relations sediment it, and the felt delta — bent by the
+# standing Relation — is what the item reports. Memory stores the
+# *felt* imprint, so the same world can leave different traces in
+# different minds.
 # ============================================================================
 import uuid
 
@@ -15,7 +15,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.tables import Mind, Episode, Memory
+from app.mind.tables import Mind, MindPreset, Episode, Memory, PresetLean
 
 
 @pytest.fixture()
@@ -27,10 +27,13 @@ def _uid(prefix):
     return f'{prefix}-{uuid.uuid4().hex[:8]}'
 
 
-def _open(client, char, events, ref):
+def _open(client, char, events, ref, preset=None):
+    character = {'id': char}
+    if preset:
+        character['preset'] = preset
     r = client.post('/episodes', json={
         'game_id': 'middle_earth',
-        'character': {'id': char},
+        'character': character,
         'episode_ref': ref,
         'events': events,
     })
@@ -38,8 +41,8 @@ def _open(client, char, events, ref):
     return r.json()
 
 
-def _open_and_close(client, char, ref, events):
-    opened = _open(client, char, events, ref)
+def _open_and_close(client, char, ref, events, preset=None):
+    opened = _open(client, char, events, ref, preset)
     c = client.post(f"/episodes/{opened['episode_id']}/close", json={})
     assert c.status_code == 200, c.text
     return opened, c.json()
@@ -52,6 +55,7 @@ def _encounter(ep, form='confronts', outcome='wounded', danger=3):
         'data': {
             'entity': 'corpse-candles',
             'entity_name': 'Corpse Candles',
+            'entity_type': 'undead',
             'danger': danger,
             'form': form,
             'outcome': outcome,
@@ -91,51 +95,46 @@ def _brain_mood(char):
     return mood
 
 
-def _set_wiring(char, **wiring):
-    session = SessionLocal()
-    mind = (
-        session.query(Mind)
-        .filter_by(game_id='middle_earth', character_id=char)
-        .one()
-    )
-    mind.wiring = {**(mind.wiring or {}), **wiring}
-    session.commit()
-    session.close()
-
-
 def test_hostile_encounter_darkens_the_day(client):
-    """A confrontation that wounds is a bad day — valence flows from the
-    affect wiring into the item, the episode mood and the memory."""
+    """A confrontation that wounds is a bad day — the semantic pack reads
+    the contact, the felt delta lands on the item, the mood, the memory."""
     char = _uid('hurt')
     _open_and_close(client, char, 'd1', [_encounter(1)])
 
     item = _perceived(char)
-    # 'tag:outcome:wounded' (-0.5) beats 'confronts'; 'affect.field:danger'
-    # stacks the entity's deadliness (3 × -0.1) on top.
-    assert item['valence'] == pytest.approx(-0.8)
+    # confronts + wounded + the entity's declared danger, all objective.
+    assert item['world_valence'] < -0.4
+    assert item['valence'] < -0.4
+    assert item['imprint']['fear'] > 0.4
     mood = _episode_mood(char)
     assert mood['valence'] < 0
     assert mood['dominant'] != 'steady'
+    assert mood['felt']['fear'] > 0.4
+    assert mood['trace'][0]['subject'].startswith('entity:')
 
     session = SessionLocal()
     mem = session.query(Memory).filter_by(character_id=char).one()
     session.close()
-    assert mem.valence == pytest.approx(-0.8)
+    assert mem.valence == pytest.approx(item['valence'])
+    assert mem.imprint['fear'] > 0.4
+    assert 'entity:corpse-candles' in mem.subjects
 
 
-def test_host_valence_always_wins(client):
-    """An explicit data.valence is the host overriding the mind's read."""
+def test_host_valence_is_not_the_hosts_to_declare(client):
+    """data.valence is dead on the wire — the mind reads the world's
+    facts; a declared feeling is just an unknown field, ignored."""
     char = _uid('host')
     event = {**_encounter(1), 'data': {
         **_encounter(1)['data'], 'valence': 0.8,
     }}
     _open_and_close(client, char, 'd1', [event])
-    assert _perceived(char)['valence'] == 0.8
+    item = _perceived(char)
+    assert item['valence'] < -0.4  # the confrontation, not the 0.8
 
 
 def test_numeric_fields_push_valence(client):
-    """'affect.field:shadow_effect' scales a number into feeling — the
-    night under a haunted place hurts without needing a tag."""
+    """'shadow_effect' is a declared numeric fact — it reads as menace
+    scaled by contact, no tag needed."""
     char = _uid('haunted')
     rest = {
         'type': 'rest',
@@ -143,13 +142,15 @@ def test_numeric_fields_push_valence(client):
         'data': {'shadow_effect': 2},
     }
     _open_and_close(client, char, 'd1', [rest])
-    assert _perceived(char)['valence'] == pytest.approx(-0.3)
+    assert _perceived(char)['valence'] < 0
 
 
 def test_a_shut_door_is_felt_and_remembered(client):
     """The night's social truth travels as tags: 'lodging:turned_away'
-    wounds (-0.3) and clears its salience floor — the mind does not need
-    a number to know a refused bed hurt."""
+    wounds and clears its salience floor — the mind does not need a
+    number to know a refused bed hurt. Under the semantic pack the
+    valence is emergent (affection/trust deltas through Relations), so
+    the contract is the sign and the floor, not a declared figure."""
     char = _uid('refused')
     rest = {
         'type': 'rest',
@@ -162,13 +163,13 @@ def test_a_shut_door_is_felt_and_remembered(client):
     }
     _open_and_close(client, char, 'd1', [rest])
     item = _perceived(char)
-    assert item['valence'] == pytest.approx(-0.3)
+    assert item['valence'] < 0
     assert item['salience'] >= 0.5
 
 
 def test_a_kind_night_warms(client):
-    """'lodging:charity' is felt as mercy — the strongest tag wins, so a
-    charitable roof reads warmer than its mere goodness."""
+    """'lodging:charity' is felt as mercy — a charitable roof reads
+    warmer than a merely adequate one (emergent valence, positive)."""
     char = _uid('sheltered')
     rest = {
         'type': 'rest',
@@ -180,35 +181,49 @@ def test_a_kind_night_warms(client):
     }
     _open_and_close(client, char, 'd1', [rest])
     item = _perceived(char)
-    assert item['valence'] == pytest.approx(0.2)
+    assert item['valence'] > 0
     assert item['salience'] >= 0.5
 
 
 def test_two_minds_feel_the_same_world_differently(client):
-    """The whole point: a mind wired to hate wet weather reads the same
-    rain as misery where the default mind stays neutral."""
-    stoic = _uid('stoic')
-    rain = {
-        'type': 'climate',
-        'when': {'episode': 1, 'date': '1950-01-19'},
-        'data': {'temperature_2m': 10, 'precipitation': 1.0,
-                 'tags': ['weather:wet']},
-    }
-    _open_and_close(client, stoic, 'd1', [rain])
-    assert _perceived(stoic)['valence'] == 0.0
+    """The whole point: a preset leaning 'orcs are dreaded' meets the
+    same orc sighting as a feared thing where the default mind merely
+    registers it."""
+    session = SessionLocal()
+    slug = _uid('orcdread')
+    preset = MindPreset(game_id='middle_earth', slug=slug, name='Orcdread')
+    session.add(preset)
+    session.flush()
+    session.add(PresetLean(
+        preset_id=preset.id, subject='tag:entity_type:orcs',
+        fear=0.8, affection=-0.6,
+    ))
+    session.commit()
+    session.close()
 
-    tender = _uid('tender')
-    _open_and_close(client, tender, 'd1', [rain])  # create the mind first
-    _set_wiring(tender, **{'affect.tag:weather:wet': -0.6})
-    _open_and_close(client, tender, 'd2', [{
-        **rain, 'when': {'episode': 2, 'date': '1950-01-20'},
-    }])
-    assert _perceived(tender, 1)['valence'] == -0.6
+    orcs = {
+        'type': 'encounter',
+        'when': {'episode': 1, 'date': '1950-01-19'},
+        'data': {'entity': 'orc_scouts', 'entity_type': 'orcs',
+                 'form': 'stalks', 'danger': 3},
+    }
+    calm = _uid('calm')
+    _open_and_close(client, calm, 'd1', [orcs])
+    neutral = _perceived(calm)
+
+    dreading = _uid('dreading')
+    _open_and_close(client, dreading, 'd1', [orcs], preset=slug)
+    feared = _perceived(dreading)
+    # The standing fear amplifies the landing (1 + k·fear) — same world,
+    # heavier felt.
+    assert feared['valence'] < neutral['valence']
+    assert feared['imprint']['fear'] > neutral['imprint']['fear']
+    assert feared['imprint']['fear'] > 0.0
 
 
 def test_a_bad_day_leaves_a_morning_after(client):
-    """Mood blends across episodes: the day after the wound is not a
-    reset — the mind's running mood still carries the trace."""
+    """The felt day carries into the running mood: the day after the
+    wound is not a reset — the trace persists through the night."""
     char = _uid('carrying')
     _open_and_close(client, char, 'd1', [_encounter(1)])
     assert _brain_mood(char)['valence'] < 0

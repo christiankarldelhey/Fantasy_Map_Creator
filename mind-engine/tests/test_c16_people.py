@@ -351,7 +351,6 @@ def _meal_event(ep):
         'data': {
             'food': 'tavern fare',
             'reading': 'a hot meal bought at the inn, ale and clean water',
-            'valence': 0.4,
         },
     }
 
@@ -390,7 +389,7 @@ def test_different_readings_still_encode_separate_memories(client):
         {
             'type': 'meal',
             'when': {'episode': 1, 'date': '1950-05-01'},
-            'data': {'reading': reading, 'valence': 0.4},
+            'data': {'reading': reading},
         }
         for reading in ("the farm wife's soup", 'stale bread and water')
     ]

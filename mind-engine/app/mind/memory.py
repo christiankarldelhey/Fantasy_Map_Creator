@@ -13,9 +13,11 @@
 from datetime import date as date_type, datetime
 
 from app.mind.embeddings import embed
+from app.mind.engine import derive_feeling
 from app.mind.voice import humanize, phrases
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Episode, ForgottenMemory, Memory, Need
+from app.mind.tags import pattern_tag
 
 
 def _wiring(mind):
@@ -64,26 +66,40 @@ def episode_index(episode):
     return max(nums) if nums else None
 
 
+def _as_date(v):
+    """'1950-06-21' (or '1950-06-21 13:00:00', datetime) → date; else None."""
+    if isinstance(v, datetime):
+        return v.date()
+    if isinstance(v, date_type):
+        return v
+    if isinstance(v, str):
+        try:
+            return date_type.fromisoformat(v[:10])
+        except ValueError:
+            return None
+    return None
+
+
 def episode_date(episode):
     """The calendar clock (C30): the in-world date the episode was
-    lived — stored column first, events' when.date as fallback."""
-    d = getattr(episode, 'episode_date', None)
+    lived — stored column first, the Episode frame's `at` next, then
+    events' when.date as fallback."""
+    d = _as_date(getattr(episode, 'episode_date', None))
     if d is not None:
-        return d.date() if isinstance(d, datetime) else d
+        return d
+    frame = (
+        (getattr(episode, 'narrator_payload', None) or {}).get('episode')
+        or {}
+    )
+    at = _as_date(frame.get('at'))
+    if at:
+        return at
     dates = [
-        (e.get('when') or {}).get('date')
+        _as_date((e.get('when') or {}).get('date'))
         for e in (episode.events or [])
     ]
-    parsed = []
-    for v in dates:
-        if isinstance(v, datetime):
-            parsed.append(v.date())
-        elif isinstance(v, str):
-            try:
-                parsed.append(date_type.fromisoformat(v[:10]))
-            except ValueError:
-                continue
-    return max(parsed) if parsed else None
+    dates = [d for d in dates if d]
+    return max(dates) if dates else None
 
 
 def _norm_desc(desc):
@@ -118,9 +134,9 @@ def _describe(session, game_id, item, mind=None):
         or humanize(data.get('entity') or data.get('entity_id'))
     )
     desc = item.get('reading') or (str(subject) if subject else None)
-    # Unwordable items — 'body'/'travel' resolve no reading by design
-    # (vitals speak through needs/mood) and carry no subject. Without
-    # words there is no impression to keep; 'a body' is not a memory.
+    # Unwordable items — 'travel' resolves no reading by design
+    # (mileage rides the condition) and carries no subject. Without
+    # words there is no impression to keep.
     return desc
 
 
@@ -234,6 +250,13 @@ def encode_episode(session, mind, episode):
                 existing.embedding = embed(desc)
             absorbed += 1
             continue
+        # The vector substrate (ADR 0017): imprint is the felt delta the
+        # item carried (a need's ache reads as a small affection dip),
+        # subjects the Relation-bearing tags it touched; depth follows
+        # the consolidation tier; feeling is the derived lexicon word.
+        imprint = item.get('imprint') or {}
+        if not imprint and item.get('valence'):
+            imprint = {'affection': float(item['valence'])}
         new_mem = Memory(
             game_id=episode.game_id,
             character_id=episode.character_id,
@@ -243,8 +266,8 @@ def encode_episode(session, mind, episode):
             entity_id=entity_id,
             region=(item.get('where') or {}).get('region'),
             desc=desc,
-            # The perceived valence — already derived by this mind's
-            # affect wiring, or the host's explicit data.valence.
+            # The perceived valence — the felt delta's mood share the
+            # engine derived at perception (the imprint's summary).
             valence=float(item.get('valence') or 0.0),
             importance=importance,
             strength=importance,
@@ -254,6 +277,11 @@ def encode_episode(session, mind, episode):
             created_episode=idx,
             created_date=episode_date(episode),
             embedding=embed(desc),
+            imprint=imprint or None,
+            subjects=item.get('subjects') or None,
+            feeling=derive_feeling(imprint) if imprint else None,
+            depth='consolidated' if consolidated else 'fresh',
+            mutable=True,
         )
         session.add(new_mem)
         # Register so a twin later in this same pass absorbs into it.
@@ -341,7 +369,9 @@ def decay_pass(session, mind, current_episode_index):
         .filter_by(character_id=mind.character_id, consolidated=True)
         .all()
     ):
-        if mem.kind == 'pattern':
+        # Convictions never rot by disuse — a prejudice isn't forgotten,
+        # it is turned (Reflection ops) or survives as a whisper.
+        if mem.kind in ('pattern', 'conviction'):
             continue
         if _exempt_this_episode(mem, current_episode_index):
             continue
@@ -476,14 +506,10 @@ def _pattern_desc(session, game_id, tag, count, mind=None):
 
 
 def _pattern_eligible(tag):
-    """A recurring theme must be a named thing: an entity, a region, a
-    curated semantic tag ('tag:weather:*'), or a single-segment host tag
-    ('tag:omen'). 'type:*' is too generic — every day has travel and
-    meals — and 'tag:<field>:<value>' is raw bookkeeping: 'food: lembas'
-    every day is what happened, not what means anything."""
-    if tag.startswith(('entity:', 'region:', 'tag:weather:')):
-        return True
-    return tag.startswith('tag:') and ':' not in tag[len('tag:'):]
+    """A recurring theme must be a named thing — see tags.pattern_tag:
+    pattern-classed families (entity, region, weather) plus bare
+    single-segment host tags."""
+    return pattern_tag(tag)
 
 
 def detect_patterns(session, mind, episode, idx, w):

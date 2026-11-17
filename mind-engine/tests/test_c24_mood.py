@@ -37,15 +37,17 @@ def _uid(prefix):
 
 def test_extreme_need_keeps_the_mood_honest():
     """Prior 'steady' + a despairing starving day must not resolve back
-    to 'steady' — pressure makes the present dominate the blend."""
+    to 'steady' — the projected body drags the mood down on its own."""
     session = SessionLocal()
     mind = SimpleNamespace(
         mood={'valence': 0.36, 'arousal': 0.3, 'dominant': 'steady'},
         wiring=None,
+        body={'hunger': 0.9, 'pain': 0.5},
     )
     ep_mood = {
         'valence': -0.81, 'arousal': 0.46,
         'dominant': 'despairing', 'need_pressure': 0.27,
+        'felt': {'fear': 0.4},
     }
     mood = update_mind_mood(session, GAME, mind, ep_mood)
     session.rollback()
@@ -54,29 +56,33 @@ def test_extreme_need_keeps_the_mood_honest():
     assert mood['dominant'] != 'steady'
 
 
-def test_calm_day_still_blends_half():
-    """No need pressure: the running mood keeps its even keel."""
+def test_calm_day_keeps_the_running_mood():
+    """A small bad moment nudges the mood; with no felt weight and a
+    sound body the running mood keeps its even keel."""
     session = SessionLocal()
     mind = SimpleNamespace(
         mood={'valence': 0.4, 'arousal': 0.2, 'dominant': 'heartened'},
         wiring=None,
+        body={},
     )
     ep_mood = {
         'valence': -0.2, 'arousal': 0.3,
         'dominant': 'steady', 'need_pressure': 0.0,
+        'felt': {'affection': -0.15},
     }
     mood = update_mind_mood(session, GAME, mind, ep_mood)
     session.rollback()
     session.close()
-    assert -0.15 < mood['valence'] < 0.15
+    assert 0.15 < mood['valence'] < 0.35
 
 
-def _open(client, char, ep, events):
+def _open(client, char, ep, events, condition=None):
     r = client.post('/episodes', json={
         'game_id': GAME,
         'character': {'id': char},
         'episode_ref': f'd{ep}',
         'episode': {'index': ep, 'at': f'1950-10-0{6 + ep}'},
+        'condition': condition or {},
         'events': events,
     })
     assert r.status_code == 200, r.text
@@ -105,11 +111,14 @@ def test_mood_cause_picks_what_weighed_most():
 
 def test_mind_mood_carries_its_cause_and_drops_it_at_ease():
     session = SessionLocal()
-    mind = SimpleNamespace(mood={'valence': 0.0, 'arousal': 0.0}, wiring=None)
+    mind = SimpleNamespace(
+        mood={'valence': 0.0, 'arousal': 0.0}, wiring=None, body={},
+    )
     cause = {'reading': 'orc boots, a pursuit gait', 'valence': -0.8}
     mood = update_mind_mood(
         session, GAME, mind,
-        {'valence': -0.6, 'arousal': 0.5, 'need_pressure': 0.0},
+        {'valence': -0.6, 'arousal': 0.5, 'need_pressure': 0.0,
+         'felt': {'fear': 0.6}},
         cause=cause, when=date(1950, 10, 7),
     )
     assert mood['cause']['reading'] == 'orc boots, a pursuit gait'
@@ -117,7 +126,8 @@ def test_mind_mood_carries_its_cause_and_drops_it_at_ease():
     # A causeless calm day: the mood settles and lets the cause go.
     mood = update_mind_mood(
         session, GAME, mind,
-        {'valence': 0.35, 'arousal': 0.1, 'need_pressure': 0.0},
+        {'valence': 0.35, 'arousal': 0.1, 'need_pressure': 0.0,
+         'felt': {'affection': 0.35}},
     )
     session.rollback()
     session.close()
@@ -154,10 +164,8 @@ def test_episode_lens_never_carries_its_own_day_into_the_mood(client):
     }]
     first = _open(client, char, 1, orc_day)['psyche_packet']['lens_block']
     assert 'Still weighing on them' not in first
-    second = _open(client, char, 2, [{
-        'type': 'body',
-        'when': {'episode': 2, 'date': '1950-10-08'},
-        'data': {'energy': 0.8, 'wounded': 'none'},
-    }])['psyche_packet']['lens_block']
+    second = _open(
+        client, char, 2, [], condition={'energy': 0.8, 'wounded': 'none'},
+    )['psyche_packet']['lens_block']
     assert 'Still weighing on them (from yesterday)' in second
     assert 'Orc Trackers' in second

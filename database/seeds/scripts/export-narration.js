@@ -17,7 +17,7 @@ const DATA_DIR = path.join(__dirname, '..', 'data');
 const COLS = [
   'id', 'kind', 'location_id', 'region_id', 'region_ids', 'name', 'type',
   'cultural_family', 'priority', 'tags', 'size_radius_km', 'influence_radius_km',
-  'aspect', 'presence', 'lore', 'secret', 'sections', 'facts',
+  'aspect', 'sighted_far', 'presence', 'lore', 'secret', 'sections', 'facts',
   'notes', 'channel', 'traveller_use', 'variants', 'rotation', 'interactive',
   'refs', 'payload',
 ];

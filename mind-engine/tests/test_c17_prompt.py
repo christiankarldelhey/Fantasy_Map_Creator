@@ -94,6 +94,25 @@ def test_render_lens_quiet_episode_says_so():
     assert 'quiet stretch' in block
 
 
+def test_moment_event_reading_lands_in_its_phase_block():
+    """A resolved ambient situation is a 'moment' event (ADR-0016); its
+    reading must reach the narrator — phase-stamped, inside the block of
+    the part of the day it belongs to."""
+    prompt = build_day_prompt(
+        day={'day_number': 3, 'date': '1950-01-19'},
+        character={'name': 'Aranath'},
+        events=[
+            {'type': 'moment', 'when': {'phase': 'afternoon'},
+             'data': {'reading': 'a stump, huge and rotten, two leagues from the nearest tree'}},
+        ],
+    )
+    user = prompt['user']
+    afternoon = user.index('=== AFTERNOON ===')
+    night = user.index('=== NIGHT AT CAMP ===')
+    ambient_i = user.index('a stump, huge and rotten')
+    assert afternoon < ambient_i < night
+
+
 def test_render_lens_twin_memory_rows_read_once():
     desc = 'Dwarves of Erebor — news of the eastern road'
     brief = {'focus': None, 'day': [], 'carried': [

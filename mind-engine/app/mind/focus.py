@@ -30,9 +30,9 @@ PHASES = {
     'evening': 'night', 'night': 'night',
 }
 # Items the engine itself produces — the frame of every day, never its
-# centre (ADR 0005: 'body' is the host's own report; 'need' items are the
-# Mind's felt body, they earn lines through the needs path).
-_ENGINE_FRAME_TYPES = {'body', 'need'}
+# centre ('need' items are the Mind's felt body, they earn lines through
+# the needs path).
+_ENGINE_FRAME_TYPES = {'need'}
 # Game-declared frame types — the pack's 'mind.focus_excluded' phrase list
 # (e.g. travel/terrain/climate in the built-in pack).
 FOCUS_EXCLUDED_KEY = 'mind.focus_excluded'
@@ -145,7 +145,12 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     # the Focus candidates and day lines ----------------------------------
     moments = []
     for i, item in enumerate(perceived_day or []):
-        if item.get('type') in frame_types or not item.get('reading'):
+        # Frame check matches the type OR its subtype — 'terrain' in the
+        # excluded list still frames a land/terrain event under the
+        # umbrella, and 'land' would frame them all.
+        if (item.get('type') in frame_types
+                or (item.get('data') or {}).get('subtype') in frame_types
+                or not item.get('reading')):
             continue
         if item.get('perception') == 'unnoticed':
             continue
@@ -158,8 +163,14 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             # Beliefs may also answer to what KIND of moment this is (a
             # night's rest, a meal, a crossing) — memories may not: the
             # same rest must not evoke every past rest, but a belief
-            # about the campfire is exactly about any campfire.
-            'touch_tags': sorted(content | {f"type:{item.get('type')}"}),
+            # about the campfire is exactly about any campfire. The land
+            # subtype rides along as the umbrella's shape-tag.
+            'touch_tags': sorted(
+                content
+                | {f"type:{item.get('type')}"}
+                | ({f"tag:subtype:{(item.get('data') or {}).get('subtype')}"}
+                   if (item.get('data') or {}).get('subtype') else set())
+            ),
             'why': f'salience {sal:.2f}',
         })
     events = [m for m in moments if m['score'] >= salient_min]

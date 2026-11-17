@@ -18,6 +18,7 @@ def phase_block(
     terrain_notes=None,
     location_notes=None,
     water_notes=None,
+    ambient_notes=None,
 ):
     encounters = encounters or []
 
@@ -34,6 +35,12 @@ def phase_block(
 
     if water_notes:
         subsections.append(f'Water crossings:\n{water_notes}')
+
+    # The land's own voice: small authored vignettes the world resolved
+    # for this part of the day (ADR-0015/16) — noticed things, not
+    # encounters. Reference only, like every other note.
+    if ambient_notes:
+        subsections.append('Ambient:\n' + '\n'.join(ambient_notes))
 
     if meal:
         subsections.append(f'Food and drink:\n{meal}')
@@ -56,8 +63,11 @@ def phase_block(
         for enc in encounters:
             name = ((enc.get('entity') or {}).get('name') or '').lower()
             subj = (echo.get('subject') or '').lower()
-            if subj and name and (subj in name or name in subj):
-                enc.setdefault('echo', echo['line'])
+            # An encounter carries ONE echo inside its block; a second
+            # match must not be swallowed — it falls to the stirs list.
+            if subj and name and 'echo' not in enc and (
+                    subj in name or name in subj):
+                enc['echo'] = echo['line']
                 placed = True
                 break
         if not placed:

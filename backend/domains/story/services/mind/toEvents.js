@@ -12,18 +12,28 @@
 //               declares the weather tiers ('weather:storm'…) and the
 //               one-line reading; the mind never derives tags or prose
 //               from raw numbers
-//   travel    — data: {distance_km, walking_hours}
-//   terrain   — data: {terrain_phrases (map of phase->phrases), reading}
-//   place     — one per visited location: data: {name, kind, description,
-//               population, inhabitants, distance_km, tags[], reading} —
-//               'settlement' for inhabited places, 'entered' for the one
-//               the traveller actually stopped at, 'hostile' for
-//               enemy-kingdom places that were skirted from outside
-//   water     — one per crossing: data: {name, kind, reading}
-//   region    — one per land ENTERED today (not in yesterday's regions):
-//               data: {name, description, reading, tags['region_entered']}
-//               — crossing a border is a lived moment, not context: it is
-//               what the Episode can turn on and what gets remembered
+//   land      — the umbrella for every kind of land-contact; data.subtype
+//               discriminates the shape:
+//               · terrain — data: {subtype:'terrain', terrain_phrases
+//                 (map of phase->phrases), reading}
+//               · place — one per visited/sighted location:
+//                 data: {subtype:'place', name, place (subject slug),
+//                 kind, description, population, inhabitants,
+//                 distance_km, tags[], reading} — 'settlement' for
+//                 inhabited places, 'entered' for the one the traveller
+//                 actually stopped at, 'hostile' for enemy-kingdom
+//                 places skirted from outside. Beyond its reach (>1km,
+//                 never inside) a place is only a silhouette: it carries
+//                 sighted_far and drops aspect, presence, population and
+//                 inhabitants — what nobody got close enough to know
+//               · water — one per crossing: data: {subtype:'water',
+//                 name, place, kind, reading}
+//               · region — one per land ENTERED today (not in
+//                 yesterday's regions): data: {subtype:'region', name,
+//                 description, reading, tags['region_entered']} —
+//                 crossing a border is a lived moment, not context: it
+//                 is what the Episode can turn on and what gets
+//                 remembered
 //   meal      — one per meal slot: data: {slot, eaten, food, drink,
 //               reading}
 //   rest      — overnight: data: {entity, entity_name, entity_type,
@@ -44,7 +54,9 @@
 //               lived content (what passed between them, what the
 //               traveller did) — the mind's memory of contact is a
 //               happening, not a noun.
-//               where: {region} from the encounter's own region
+//               where: {region} from the encounter's own region, plus
+//               {place} when the meeting is anchored to a named spot —
+//               what was lived AT a place marks the place too
 //   region    — region transitions implicit: every event carries
 //               where.region when known
 //
@@ -72,7 +84,7 @@ import {
 } from '../naturalLanguage/climateNotes.js';
 import { describeMeal, mealLabel } from '../naturalLanguage/mealNotes.js';
 import { collectTerrainNotes } from '../naturalLanguage/terrainNotes.js';
-import { collectLocationNotes } from '../naturalLanguage/placeNotes.js';
+import { collectLocationNotes, isDeadPlace, isDistantSighting, sightedShape } from '../naturalLanguage/placeNotes.js';
 import { describeWaterCrossings } from '../naturalLanguage/waterNotes.js';
 import {
   REST_OPEN_SKY,
@@ -80,7 +92,7 @@ import {
   restReading,
 } from '../naturalLanguage/nightNotes.js';
 import { groupByPhase } from '../naturalLanguage/dayPhases.js';
-import { humanize } from '../naturalLanguage/text.js';
+import { humanize, slugify } from '../naturalLanguage/text.js';
 
 function phaseOfHour(hourFloat) {
   if (hourFloat == null) return null;
@@ -121,8 +133,14 @@ function rngOf(day) {
   return typeof day?.rng === 'function' ? day.rng : Math.random;
 }
 
-function where(region) {
-  return region ? { region } : undefined;
+// where.region is the land the day happened in; where.place is the
+// named spot the event happened AT — the mind reads both as subjects,
+// the place hearing only a splash of what was lived there.
+function where(region, place = null) {
+  const w = {};
+  if (region) w.region = region;
+  if (place) w.place = place;
+  return Object.keys(w).length ? w : undefined;
 }
 
 function climateEvents(day) {
@@ -201,14 +219,26 @@ function encounterEvents(day) {
     .map((e) => ({
       type: 'encounter',
       when: when({ phase: e.phase || phaseOfHour(e.hour_float), hour: e.hour_float }),
-      where: where(e.region || regionOf(day, e.phase)),
+      // An encounter anchored to a named spot (a mover leg at a gate,
+      // an ambush at the ford) marks the place too.
+      where: where(e.region || regionOf(day, e.phase),
+        slugify(e.location?.name || e.location)),
       data: (() => {
         const slug = e.entity.slug || e.entity.name || e.entity.id;
         const outcome = e.interaction?.outcome ?? null;
+        const npc = e.interaction?.npc ?? null;
         const data = {
           entity: slug,
           entity_name: e.entity.name || null,
           entity_type: e.entity.type || e.entity.entity_type || null,
+          // Who spoke, when words passed — the slug tags the person as
+          // its own subject ('npc:hal'), the name is how the mind says
+          // them, the gloss what kind of being it saw ('a hobbit').
+          npc: npc ? slugify(npc.name) : null,
+          npc_name: npc?.name ?? null,
+          npc_people: npc?.people ?? null,
+          npc_gloss: npc?.gloss ?? null,
+          npc_gender: npc?.gender ?? null,
           // Kind-of-being between type and entity (foxes within
           // carnivores) — attitudes match entity > family > type.
           family: e.entity.family ?? null,
@@ -240,7 +270,11 @@ function encounterEvents(day) {
           // The one-line perception the mind keeps: resolved substance
           // leads, the form's prose hint carries contact without words.
           reading: (() => {
-            const subject = e.entity.name || humanize(slug);
+            // A named being leads with its name — 'Bungo, a hobbit —
+            // shared news' remembers better than 'humans — shared news'.
+            const subject = npc
+              ? `${npc.name}, ${npc.gloss}`
+              : e.entity.name || humanize(slug);
             const detail = e.interaction?.dialogue_content?.concrete_content
               ?? e.interaction?.prose_hint ?? null;
             if (subject && detail) {
@@ -303,20 +337,28 @@ function encounterEvents(day) {
 const SLOT_PHASE = { midday: 'afternoon', evening: 'night' };
 
 function mealEvents(day) {
+  const overnight = day.overnight_location?.name || null;
   return (day.meals || []).map((m) => {
     const food = m.food?.name || m.food || null;
+    // The evening table is the night's table: a meal eaten where you
+    // lodge lands on the lodging's Relation too — the inn that fed you
+    // is not just where dinner happened.
+    const atLodging = (m.slot === 'evening' || m.slug === 'tavern_meal')
+      ? slugify(overnight) : null;
     return {
       type: 'meal',
       when: when({
         phase: SLOT_PHASE[m.slot] || m.phase || phaseOfHour(m.hour_float),
       }),
-      where: where(regionOf(day)),
+      where: where(regionOf(day), atLodging),
       data: {
         slot: m.slot || null,
         // A skipped meal is an absence the mind should feel, not a gap.
         eaten: food != null || m.itemId != null || m.slug === 'tavern_meal',
-        food,
-        drink: m.drink?.name || m.drink || null,
+        // Subject slugs, not display names — 'Fruit Bread' and
+        // 'fruit bread' must land on the same Relation.
+        food: slugify(food),
+        drink: slugify(m.drink?.name || m.drink) || null,
         // The narrator's meal prose is the memory's reading — including
         // the hungry variants when the table was empty.
         reading: describeMeal(m, rngOf(day))
@@ -335,6 +377,11 @@ const SETTLEMENT_KINDS = new Set([
   'fortified city', 'fortified town', 'citadel', 'manor', 'camp',
 ]);
 
+// The record's thematic tags that carry felt meaning at a distance —
+// a curated pass-through of the closed registry (ADR-0015), so a dead
+// keep and a sheltered one do not sediment alike.
+const FELT_PLACE_TAGS = ['danger', 'uncanny', 'melancholy', 'shelter', 'sacred'];
+
 function placeEvents(day) {
   return (day.locations || []).map((loc) => {
     const tags = [];
@@ -343,27 +390,46 @@ function placeEvents(day) {
     if (loc.hostile) tags.push('hostile');
     if (loc.sighted) tags.push('sighted');
     if (loc.visited) tags.push('visited');
+    // A dead place is a fact the eye reads from afar — the burned inn
+    // shows no smoke. Its felt tags come too: a ruin's melancholy and
+    // a refuge's promise mean different things to the mind.
+    if (isDeadPlace(loc)) tags.push('dead_place');
+    for (const t of FELT_PLACE_TAGS) {
+      if ((loc.record_tags || []).includes(t)) tags.push(t);
+    }
     return {
-      type: 'place',
+      type: 'land',
       // A distant place enters awareness when it is first sighted on the
       // horizon, not at the leg's closest approach.
       when: when({ phase: loc.phase || phaseOfHour(loc.sighted ? loc.sighted_hour_float : loc.hour_float) }),
       where: where(loc.region || regionOf(day)),
       data: {
+        subtype: 'place',
         name: loc.name || loc.id,
-        kind: loc.type || null,
-        population: loc.population ?? null,
-        inhabitants: loc.inhabitants ?? null,
-        aspect: loc.aspect ?? null,
-        aspect_es: loc.aspect_es ?? null,
+        // The subject slug — 'name' is prose, 'place' is what the
+        // Relation accretes on (tag:place:esgaroth). Every sighting,
+        // visit and stay feeds the same identity.
+        place: slugify(loc.name || loc.id),
+        kind: slugify(loc.type) || null,
         distance_km: loc.distance_km ?? null,
-        presence: loc.presence ?? undefined,
-        presence_es: loc.presence_es ?? undefined,
+        // Beyond its reach a place is only a silhouette: the sighted_far
+        // line is all it says — census and ficha prose belong to a
+        // traveller who got close or went in.
+        ...(isDistantSighting(loc)
+          ? { sighted_far: loc.sighted_far ?? sightedShape(loc) }
+          : {
+              population: loc.population ?? null,
+              inhabitants: loc.inhabitants ?? null,
+              aspect: loc.aspect ?? null,
+              aspect_es: loc.aspect_es ?? null,
+              presence: loc.presence ?? undefined,
+              presence_es: loc.presence_es ?? undefined,
+            }),
         sighted: loc.sighted
           ? { hour_float: loc.sighted_hour_float ?? null, direction: loc.sighted_direction ?? null }
           : undefined,
-        // The narrator's place line (name, proximity, authored aspect) is
-        // also the memory's reading.
+        // The narrator's place line (proximity, far silhouette or ficha
+        // prose) is also the memory's reading.
         reading: (collectLocationNotes([loc])[0] || '')
           .replace(/^- /, '') || loc.name || loc.id || null,
         tags: tags.length ? tags : undefined,
@@ -391,13 +457,14 @@ function regionEvents(day, previousDay) {
       const name = r?.name || r;
       const hourFloat = typeof r === 'object' ? r.first_seen_hour_float : null;
       return {
-        type: 'region',
+        type: 'land',
         when: when({
           phase: hourFloat == null || hourFloat < 13 ? 'morning' : 'afternoon',
           hour: hourFloat ?? undefined,
         }),
         where: where(name),
         data: {
+          subtype: 'region',
           name,
           description:
             (r && typeof r === 'object' ? r.description_summary : null) ?? null,
@@ -420,10 +487,11 @@ function terrainEvents(day) {
       biomes, [], day.regions, day.terrain_phrases, rngOf(day)
     );
     events.push({
-      type: 'terrain',
+      type: 'land',
       when: when({ phase }),
       where: where(regionOf(day, phase)),
       data: {
+        subtype: 'terrain',
         biomes: biomes
           .map((b) => ({ type: b?.type || b?.name || null, hour_float: b?.hour_float ?? null }))
           .slice(0, 6),
@@ -434,11 +502,12 @@ function terrainEvents(day) {
   if (!events.length && day.terrain_phrases) {
     const phrases = Object.values(day.terrain_phrases || {})
       .flatMap((r) => Object.values(r)).flat().slice(0, 6);
+    if (!phrases.length) return events;
     events.push({
-      type: 'terrain',
+      type: 'land',
       when: when(),
       where: where(regionOf(day)),
-      data: { terrain_phrases: phrases, reading: phrases[0] ?? null },
+      data: { subtype: 'terrain', terrain_phrases: phrases, reading: phrases[0] ?? null },
     });
   }
   return events;
@@ -446,10 +515,13 @@ function terrainEvents(day) {
 
 function waterEvents(day) {
   return (day.water_crossings || []).map((w) => ({
-    type: 'water',
+    type: 'land',
     when: when({ phase: w.phase || phaseOfHour(w.hour_float) }),
     where: where(w.region || regionOf(day)),
-    data: { name: w.name || null, kind: w.type || null,
+    data: { subtype: 'water', name: w.name || null,
+            // A crossing is contact with a place-subject — the Bruinen
+            // is a ford you come to know, not just where it happened.
+            place: slugify(w.name), kind: slugify(w.type) || null,
             reading: describeWaterCrossings([w], rngOf(day)) || w.name || null },
   }));
 }
@@ -470,7 +542,12 @@ function momentEvents(day) {
     .filter((a) => a?.text)
     .map((a) => ({
       type: 'moment',
-      when: when(),
+      // The resolver stamps the phase; payloads that lack it (older days,
+      // foreign callers) still get a walking phase — a phase-less moment
+      // would never reach a phase block.
+      when: when({
+        phase: a.phase ?? (rngOf(day)() < 0.5 ? 'morning' : 'afternoon'),
+      }),
       where: where(regionOf(day)),
       data: {
         record: a.record_id ?? null,
@@ -521,6 +598,13 @@ function restEvent(day) {
   const conditions = indoor
     ? []
     : collectNighttimeConditions(day.nighttime_climate, rngOf(day));
+  // Who keeps the place, when somebody does — the host is the mind's
+  // person ('npc:mimosa'), so the widow of the deep smial is remembered
+  // by name and her door stays familiar.
+  const host = day.overnight_location?.host ?? null;
+  const nightReading = restReading({
+    overnight, lodging, conditions, rng: rngOf(day),
+  });
   return {
     type: 'rest',
     when: when({ phase: 'night' }),
@@ -537,9 +621,16 @@ function restEvent(day) {
         ?? overnight.title ?? overnight.name ?? null,
       entity_type: day.overnight_location?.type
         ?? overnight.location_type ?? overnight.type ?? null,
-      reading: restReading({
-        overnight, lodging, conditions, rng: rngOf(day),
-      }),
+      // The person who keeps the place — their own npc subject, so the
+      // mind can hold a relation with the keeper and not only the door.
+      npc: host ? slugify(host.name) : null,
+      npc_name: host?.name ?? null,
+      npc_people: host?.people ?? null,
+      npc_gloss: host?.gloss ?? null,
+      npc_gender: host?.gender ?? null,
+      reading: host
+        ? `${host.name}, ${host.gloss} — ${nightReading}`
+        : nightReading,
       shadow_effect: overnight.shadow_effect ?? null,
       tags: tags.length ? tags : undefined,
     },
@@ -548,6 +639,8 @@ function restEvent(day) {
 
 /**
  * Translate a resolved game day into the events[] the mind perceives.
+ * Vitals and mileage are NOT events — the body's state rides the wire's
+ * `condition` channel (toOpenPayload), which is what detectors read.
  * @param {Object} params
  * @param {Object} params.day - resolved day (same object narrateDay receives)
  * @param {Object} params.trip
@@ -558,17 +651,6 @@ function restEvent(day) {
 export function toEvents({ day, trip, character, previousDay }) {
   const events = [
     ...climateEvents(day),
-    ...(day.distance_km
-      ? [{
-          type: 'travel',
-          when: when(),
-          where: where(regionOf(day)),
-          data: {
-            distance_km: day.distance_km,
-            walking_hours: day.walking_hours,
-          },
-        }]
-      : []),
     ...terrainEvents(day),
     ...encounterEvents(day),
     ...mealEvents(day),

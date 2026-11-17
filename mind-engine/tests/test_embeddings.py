@@ -87,7 +87,7 @@ def test_memory_stored_with_embedding(client):
     ep = _open(client, char, [{
         'type': 'meal',
         'when': {'episode': 1, 'date': '1950-01-19'},
-        'data': {'food': 'lembas', 'valence': 0.4},
+        'data': {'food': 'lembas', 'tags': ['given']},
     }], ref='d1')
     client.post(f"/episodes/{ep['episode_id']}/close", json={})
     session = SessionLocal()

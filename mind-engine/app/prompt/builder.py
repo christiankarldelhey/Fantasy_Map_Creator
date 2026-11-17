@@ -44,6 +44,7 @@ _EVENT_PHASE_KEYS = {
     'terrain': ('terrain',),
     'locations': ('place',),
     'water': ('water',),
+    'moments': ('moment',),
     'camp': ('rest',),
 }
 
@@ -120,6 +121,7 @@ def build_day_prompt(
         p: '\n'.join(phase_get('water', p)) or None
         for p in ('morning', 'afternoon', 'night')
     }
+    wn_moments = {p: phase_get('moments', p) for p in ('morning', 'afternoon', 'night')}
 
     def block_for(title, phase, extra_lead=''):
         return phase_block(
@@ -132,6 +134,7 @@ def build_day_prompt(
             terrain_notes=wn_terrain.get(phase),
             location_notes=wn_locations.get(phase),
             water_notes=wn_water.get(phase),
+            ambient_notes=wn_moments.get(phase),
         )
 
     # When a mind is driving, the lens already voices the body's condition
