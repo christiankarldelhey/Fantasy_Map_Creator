@@ -406,6 +406,28 @@ def test_the_place_accretes_its_own_relation(client):
     assert kind['familiarity'] < rel['familiarity']
 
 
+def test_the_lens_speaks_the_standing_self(client):
+    """A mind that has met orcs carries them into the next day: the
+    lens renders the standing Relation as a disposition line, so the
+    narrator knows what the world has already made of her."""
+    char = _uid('selfmade')
+    _open_and_close(client, char, 'd1', [{
+        'type': 'encounter',
+        'when': {'phase': 'afternoon'},
+        'data': {'entity': 'orcs', 'entity_type': 'orcs',
+                 'form': 'attacks', 'danger': 3,
+                 'reading': 'orcs — attacked without warning'},
+    }])
+    opened = _open(client, char, [{
+        'type': 'meal',
+        'when': {'phase': 'morning'},
+        'data': {'food': 'bread', 'reading': 'bread and water'},
+    }], ref='d2')
+    block = opened['psyche_packet']['lens_block']
+    assert 'What the world has made of them' in block
+    assert 'orcs' in block
+
+
 def test_the_day_turns_at_the_ford(client):
     """A kind morning and a grim afternoon: the arc carries both — the
     day is not one number — and the turn names the afternoon and what

@@ -18,7 +18,7 @@ from app.mind.engine import (
     weigh_body,
 )
 from app.mind.tags import cause_tags
-from app.mind.voice import mood_phrase
+from app.mind.voice import humanize, mood_phrase
 from app.mind.provisioning import DEFAULT_WIRING
 
 
@@ -274,7 +274,60 @@ def line_text(line, mood=None, today=None):
     return f"{line.get('age') or ''}{line['text']}"
 
 
-def render_lens(character_name, brief, mood=None, today=None):
+# The standing self, rendered (ADR 0017): a Relation over the bar earns
+# one disposition line — facts-of-feeling for the narrator to weave,
+# never prose to quote. The subject is humanized from its tag.
+_DISPOSITION_RENDER = {
+    'dread': '{subj} weighs on them like a coming dark',
+    'fear': '{subj} tightens their chest before it means to',
+    'feared and hated': '{subj} — feared, and hated for it',
+    'hatred': '{subj} earns no love from them',
+    'distrust': '{subj} has never quite earned their trust',
+    'fondness': '{subj} sits warm in their memory',
+    'deep friendship': '{subj} — they would walk far for that one',
+}
+
+# A relation earns a line when some dim crosses the bar, or when it is
+# simply KNOWN — familiarity alone is a way of standing in the world.
+_DISPOSITION_MIN_DIM = 0.35
+_DISPOSITION_MIN_FAMILIARITY = 0.6
+_DISPOSITION_MAX_LINES = 5
+
+
+def inner_lines(session, mind):
+    """Who this mind IS about the world, in lines: each strong Relation
+    rendered as one disposition ('orcs tighten their chest before they
+    mean to'). What makes day 40 sound different from day 1 even when
+    the events are the same — the luggage, not the receipts."""
+    from app.mind.tables import Relation
+    from app.mind.relations import relation_vector
+    rows = (
+        session.query(Relation)
+        .filter_by(character_id=mind.character_id)
+        .all()
+    )
+    scored = []
+    for r in rows:
+        vec = relation_vector(r)
+        mag = max(abs(v) for v in vec.values())
+        if not r.feeling and vec.get('familiarity', 0) < (
+                _DISPOSITION_MIN_FAMILIARITY):
+            continue
+        if r.feeling and mag < _DISPOSITION_MIN_DIM:
+            continue
+        subj = humanize(r.subject.rsplit(':', 1)[-1])
+        template = _DISPOSITION_RENDER.get(r.feeling)
+        if template:
+            text = template.format(subj=subj)
+        else:
+            text = f'{subj} is known ground to them now'
+        scored.append((mag, text))
+    scored.sort(key=lambda t: -t[0])
+    return [t for _, t in scored[:_DISPOSITION_MAX_LINES]]
+
+
+def render_lens(character_name, brief, mood=None, today=None,
+                dispositions=None):
     """The Lens as an Episode brief (C35, CONTEXT.md · Lens): only what the
     Character CARRIES IN renders here — the entering mood through its
     cause, open needs with their origin, memories that resonate with the
@@ -284,6 +337,11 @@ def render_lens(character_name, brief, mood=None, today=None):
     already worded; the lens never invents."""
     brief = brief or {}
     lines = [f'{character_name} today.']
+    if dispositions:
+        # Who they are about the world speaks before what today carries
+        # — the standing self is the ground the day lands on.
+        lines.append('What the world has made of them:')
+        lines.extend(f'- {t}' for t in dispositions)
     focus = brief.get('focus')
     carried, seen = [], set()
     for line in brief.get('carried') or []:

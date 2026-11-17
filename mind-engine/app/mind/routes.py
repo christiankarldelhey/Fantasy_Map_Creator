@@ -25,8 +25,8 @@ from app.mind.director import direct, director_enabled
 from app.mind.engine import derive_feeling, regress
 from app.mind.focus import brief_lines, build_brief, need_origins
 from app.mind.lens import (
-    _age_phrase, brief_beats, episode_mood, line_text, mood_cause,
-    render_lens, update_mind_mood,
+    _age_phrase, brief_beats, episode_mood, inner_lines, line_text,
+    mood_cause, render_lens, update_mind_mood,
 )
 from app.mind.memory import (
     _compact_duplicates,
@@ -425,6 +425,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             episode.brief = brief
             episode.lens_block = render_lens(
                 payload.character.name or payload.character.id, brief,
+                dispositions=inner_lines(db, mind),
             )
             db.commit()
             db.refresh(episode)
