@@ -285,10 +285,11 @@ function encounterEvents(day) {
           })(),
           outcome,
           check: encounterCheck(e.entity, e.interaction),
-          // B5: a before_sleep encounter may carry a real choice —
-          // stay or move on — with authored options. The mind weighs
-          // them; the host decides and applies their commands.
+          // Wave C: a fork on this encounter was chosen pre-episode by
+          // the interaction engine — the resolved pick rides for the
+          // narrator (the outcome event carries the felt side).
           decision: e.interaction?.decision ?? null,
+          resolved_choice: e.interaction?.resolved_choice ?? null,
         };
         // C28: what touched the mechanics is weight-space. 'given' — an
         // authored gift the host applies unconditionally (dialogue

@@ -1071,21 +1071,11 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     encounters.push({ ...e, interaction });
   }
 
-  // C27: encounter gifts — rows may carry `commands`, unconditional effects
-  // the world applies outright (a shared meal, a refilled skin, a bundle of
-  // arrows). No decision: the stance already says what was given; the host
-  // makes it true. Encounters that carry a `decision` instead route their
-  // effects through the decide rail — never both.
+  // C27/Wave C: encounter gifts ride the interaction engine now — each
+  // picked situation's sole/shared Interactions carry the same effects,
+  // applied by resolveDayChoices before resolution (and felt by the mind
+  // mid-day). `day.commands` stays the rail they land on.
   const dayCommands = [];
-  for (const e of encounters) {
-    if (e.interaction?.decision) continue;
-    const cmds = e.interaction?.dialogue_content?.commands;
-    if (Array.isArray(cmds)) {
-      for (const c of cmds) {
-        if (c && typeof c === 'object') dayCommands.push({ ...c, hour_float: e.hour_float ?? null });
-      }
-    }
-  }
 
   // --- Biomes: derive the clock hour each is crossed from its leg fraction ---
   const biomesWithTime = (context.biomes || []).map((b) => {
