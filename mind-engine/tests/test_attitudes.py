@@ -12,7 +12,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.attitudes import attitude_for, is_attitude
+from app.mind.attitudes import is_attitude, match_level
 from app.mind.reflection import _apply_ops
 from app.mind.tables import (
     Belief, Mind, MindPreset, PresetStarterBelief,
@@ -109,14 +109,17 @@ def test_narrowest_subject_speaks_for_the_encounter():
 
     tags = ['entity:horses_of_mordor', 'tag:family:horses',
             'tag:entity_type:riding_animals']
-    assert attitude_for(tags, [broad, family, exact]) is exact
-    assert attitude_for(tags, [broad, family]) is family
-    assert attitude_for(['entity:wild_horses', 'tag:family:horses',
-                         'tag:entity_type:riding_animals'],
-                        [broad, family, exact]) is family
+    # The narrowest match speaks: entity (3) > family (2) > type (1).
+    assert match_level(exact, tags) == 3
+    assert match_level(family, tags) == 2
+    assert match_level(broad, tags) == 1
+    wild = ['entity:wild_horses', 'tag:family:horses',
+            'tag:entity_type:riding_animals']
+    assert match_level(family, wild) == 2
+    # The exact subject doesn't answer for a different entity.
+    assert match_level(exact, wild) == 0
     # No touch — no attitude.
-    assert attitude_for(['entity:orcs', 'tag:entity_type:orcs'],
-                        [family]) is None
+    assert match_level(family, ['entity:orcs', 'tag:entity_type:orcs']) == 0
 
 
 def test_only_the_narrowest_attitude_line_speaks(client):

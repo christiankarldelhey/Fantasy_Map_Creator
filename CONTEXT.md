@@ -86,6 +86,10 @@ _Avoid_: record, entry
 A Memory the Mind has lost: kept as a trace with the day it was lost so the Mind's history can be seen, but never evoked again.
 _Avoid_: deleted, erased
 
+**Conviction**:
+A Memory at the deepest tier — the impression of a held Belief ("I grew up hearing this"), seeded with the Mind rather than lived. Convictions evoke and re-feel like any Memory, but forgetting never eats them: a prejudice is not mislaid, it is turned — the Reflection's words rewrite the Belief and turn the Conviction's imprint with them; a weakened one fades to a whisper below the Evocation floor, never to silence.
+_Avoid_: core memory, truth memory
+
 **Evocation**:
 When a Memory connects to the Episode and comes forward — it is not only read but lightly re-felt: a dampened share of its imprint stirs the Mood and feeds the Relation again, never as much as living it. Remembering keeps feelings alive; how much it stirs is the Personality's.
 _Avoid_: recall, retrieval, flashback
