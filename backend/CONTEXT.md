@@ -9,8 +9,12 @@ The host world the traveller journeys through: geography, the in-world calendar 
 ### Beings
 
 **Entity**:
-A kind of thing that can be met on the road — orcs, a bear, elves. An archetype with probabilities per region, never someone in particular.
+A kind of thing that can be met on the road — orcs, a bear, elves — and also the uncategorizable the world puts in your path: hazards (severe weather), sites, resources. An archetype with probabilities per region, never someone in particular; `is_npc` marks which kinds can talk. The `entities` table is the catalogue of what exists and houses three families: Entities (encounter draws), Movers (`tier='mover'`), and Place-hosts (`tier='resident'`).
 _Avoid_: creature, NPC, monster
+
+**Place-host**:
+The person a kept place keeps — a real `entities` row (`is_npc`, `tier='resident'`, `location_id` → her home) minted once at seed from the place's own words: the keeper's people and gender pick the pool, the record's id draws the name, so the same smial keeps the same Mimosa on every trip. Never in encounter draws (no presence fields); met only by arriving at her door. Not a Mover — no Legs, no campaign, no calendar; she is simply *there*. A group-archetype is never named as data — a band's chief may be named in its aspect's prose; only individuals carry a person-name.
+_Avoid_: NPC blob, keeper field, generated name
 
 **Mover**:
 An authored being whose reach is a function of the in-world date: a named person, a company, or a faceless host. Appears, moves and vanishes by the calendar on tracks the traveller cannot change. Owns a motivation and a story told Leg by Leg; not an Entity and never in the encounter pools' data.

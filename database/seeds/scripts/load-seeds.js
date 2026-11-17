@@ -21,7 +21,7 @@ import pg from 'pg';
 import dotenv from 'dotenv';
 import yaml from 'js-yaml';
 import { canonicalType, typeFromName } from './physical-types.js';
-import { assignEntityNpc, assignPlaceHost } from './npc-names.mjs';
+import { mintPlaceHost } from './npc-names.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -654,10 +654,15 @@ const EN_PROSE = [
   'disposition',
 ];
 
-async function seedEntitiesNarration() {
+async function seedEntitiesNarration(extraRecords = []) {
   console.log('🧝 Seeding entities_narration (voice of beings)...');
   const file = path.join(DATA_DIR, 'json/entities_narration.json');
-  const records = JSON.parse(await fs.readFile(file, 'utf8'));
+  // JSON records plus generated ones — the place hosts minted by
+  // seedPlaces ride the same insert + prune pass ('ent:npc_*' fichas).
+  const records = [
+    ...JSON.parse(await fs.readFile(file, 'utf8')),
+    ...extraRecords,
+  ];
 
   const { rows: entRows } = await pool.query('SELECT id, slug FROM entities');
   const entBySlug = new Map(entRows.map((e) => [e.slug, e.id]));
@@ -669,13 +674,7 @@ async function seedEntitiesNarration() {
 
   const unresolved = new Set();
   const proseNames = EN_PROSE.join(', ');
-  let named = 0;
   for (const r of records) {
-    // A sentient entity keeps a person: drawn once, hashed off the
-    // record id, stored in payload.npc — the same dunlending is always
-    // 'Brogradoc'. Authored names are never overwritten.
-    const npc = assignEntityNpc(r);
-    if (npc) { r.payload = { ...(r.payload ?? {}), npc }; named++; }
     const entityId = r.entity_id ?? (r.entity_slug ? entBySlug.get(r.entity_slug) : null);
     const legId = r.leg_ref ? legByKey.get(`${r.leg_ref.mover}:${r.leg_ref.leg_index}`) : null;
     if (r.entity_slug && !entityId) unresolved.add(`entity:${r.entity_slug}`);
@@ -724,7 +723,7 @@ async function seedEntitiesNarration() {
   );
   if (unresolved.size)
     console.warn(`   ⚠️ unresolved refs (kept, NULL fk): ${[...unresolved].slice(0, 10).join(', ')}${unresolved.size > 10 ? ` +${unresolved.size - 10}` : ''}`);
-  console.log(`✅ entities_narration: ${records.length} records${pruned.rowCount ? ` (pruned ${pruned.rowCount})` : ''}${named ? ` — ${named} sentient entities named` : ''}`);
+  console.log(`✅ entities_narration: ${records.length} records${pruned.rowCount ? ` (pruned ${pruned.rowCount})` : ''}${extraRecords.length ? ` — ${extraRecords.length} minted place-host fichas` : ''}`);
 }
 
 // ---------------------------------------------------------------------------
@@ -859,15 +858,11 @@ async function seedPlaces() {
   const famByRegion = new Map(famRows.map((r) => [r.id, r.cultural_family]));
 
   let anchored = 0;
-  let hosted = 0;
   const candidates = [];
+  const hostEntities = [];
+  const hostFichas = [];
 
   for (const r of records) {
-    // A place that keeps somebody keeps a name: drawn once, hashed off
-    // the record id, stored in payload.host — 'Pearl, a hobbit' keeps
-    // the smial across every trip. Dead places keep nobody.
-    const host = assignPlaceHost(r, famByRegion);
-    if (host) { r.payload = { ...(r.payload ?? {}), host }; hosted++; }
     const name = typeof r.name === 'string'
       ? r.name
       : (r.name?.en || r.name?.es || r.id);
@@ -899,6 +894,18 @@ async function seedPlaces() {
       }
     }
 
+    // A kept place keeps a PERSON: the widow of the deep smial is a
+    // real entity (is_npc, location-anchored) with her own ficha — the
+    // traveller's Relation is with Mimosa, not with the smial's walls.
+    // Only anchored places mint: no coordinates, no resident.
+    if (locationId) {
+      const mint = mintPlaceHost(r, locationId, famByRegion.get(regionId));
+      if (mint) {
+        hostEntities.push(mint.entity);
+        hostFichas.push(mint.ficha);
+      }
+    }
+
     await upsertNarrationRecord(r, {
       locationId,
       regionId,
@@ -907,6 +914,34 @@ async function seedPlaces() {
       preserveSpatial: true,
     });
   }
+
+  // Minted residents are entities like any other — inserted here, and
+  // pruned when their place loses its anchor or stops keeping someone.
+  for (const e of hostEntities) {
+    await pool.query(
+      `INSERT INTO entities (id, name, slug, type, active, tier, is_npc,
+                             shadow_weight, location_id, created_at)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,NOW())
+       ON CONFLICT (id) DO UPDATE SET
+         name=EXCLUDED.name, slug=EXCLUDED.slug, type=EXCLUDED.type,
+         tier=EXCLUDED.tier, is_npc=EXCLUDED.is_npc,
+         location_id=EXCLUDED.location_id`,
+      [e.id, e.name, e.slug, e.type, e.active, e.tier,
+       e.is_npc, e.shadow_weight, e.location_id]
+    );
+  }
+  if (hostEntities.length)
+    console.log(`   🧝 ${hostEntities.length} kept places keep a resident entity`);
+  const mintedIds = hostEntities.map((e) => e.id);
+  const mintedFichaIds = hostFichas.map((f) => f.id);
+  await pool.query(
+    `DELETE FROM entities_narration WHERE id LIKE 'ent:npc\_%' AND id <> ALL($1::text[])`,
+    [mintedFichaIds.length ? mintedFichaIds : ['∅']]
+  );
+  await pool.query(
+    `DELETE FROM entities WHERE slug LIKE 'npc\_%' AND id <> ALL($1::uuid[])`,
+    [mintedIds.length ? mintedIds : ['00000000-0000-0000-0000-000000000000']]
+  );
 
   // Records removed from the JSON (merged, moved to encounter-candidates.json)
   // are pruned only while unanchored; anchored orphans are reported, not
@@ -922,7 +957,6 @@ async function seedPlaces() {
        AND location_id IS NOT NULL
        AND id NOT LIKE 'dep:%' AND id NOT LIKE 'ovn:%'`, [ids]
   );
-  if (hosted) console.log(`   🧝 ${hosted} kept places keep a named host`);
   if (pruned.rowCount) console.log(`   🧹 pruned ${pruned.rowCount} unpositioned places no longer in JSON`);
   if (orphans.length) console.warn(`   ⚠️ positioned places no longer in JSON (kept): ${orphans.map((o) => o.id).join(', ')}`);
 
@@ -984,6 +1018,9 @@ async function seedPlaces() {
     `${linked} depiction links, ` +
     `${candidates.length} anchor candidates → data/json/place-anchor-candidates.json`
   );
+  // The minted fichas ride seedEntitiesNarration's own insert + prune
+  // pass — caller forwards them.
+  return hostFichas;
 }
 
 // ---------------------------------------------------------------------------
@@ -1205,6 +1242,7 @@ async function ensureSchema() {
   await runMigrationFile('create_entities_narration_table.sql');
   await runMigrationFile('add_sighted_far_to_places_narration.sql');
   await runMigrationFile('movers_identity_into_entities.sql');
+  await runMigrationFile('add_location_id_to_entities.sql');
 
   // Legacy prose stores drop last (#104): everything above is additive and
   // convergent; this tears down what the narration records replaced. All
@@ -1638,12 +1676,12 @@ async function main() {
 
     // seedPlaces also upserts the generated narration records (dep:*, ovn:*)
     // from data/json/narration.json — the canonical prose source since #104.
-    await seedPlaces();
+    const hostFichas = await seedPlaces();
 
     await seedMovers();
 
     // Entities narration — after movers so leg_ref resolves to live legs.
-    await seedEntitiesNarration();
+    await seedEntitiesNarration(hostFichas);
 
     console.log('\n🎉 All seed data loaded successfully!');
 

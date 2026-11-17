@@ -647,9 +647,37 @@ test('a being who spoke is remembered by name; a kept place keeps its keeper', (
       }],
       overnight_location: {
         name: 'La aldea de los smials', type: 'village',
-        host: { name: 'Pearl', people: 'hobbits', gloss: 'a hobbit', gender: 'f' },
+        // The resident entity, as the overnight SQL joins it: her own
+        // slug keys the mind's Relation — 'Pearl' is only how she's said.
+        host: {
+          name: 'Pearl', slug: 'npc_sh_37',
+          people: 'hobbits', gloss: 'a hobbit', gender: 'f',
+        },
       },
       overnight_interaction: null,
+      locations: [
+        {
+          // Being at the lighthouse means meeting its keeper — Hallas
+          // rides as his own subject and the reading names him.
+          name: 'The lighthouse', type: 'lighthouse', entered: true,
+          region: 'Andrast',
+          aspect: 'a stubby tower above the white strand',
+          host: {
+            name: 'Hallas', slug: 'npc_e_04',
+            people: 'gondor', gloss: 'a man of Gondor',
+          },
+        },
+        {
+          // The same tower seen from the downs is only a silhouette —
+          // no keeper can be told apart at that distance.
+          name: 'The other lighthouse', type: 'lighthouse', sighted: true,
+          sighted_hour_float: 9.5, region: 'Andrast', distance_km: 6.2,
+          host: {
+            name: 'Ingold', slug: 'npc_x_01',
+            people: 'gondor', gloss: 'a man of Gondor',
+          },
+        },
+      ],
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
@@ -664,11 +692,23 @@ test('a being who spoke is remembered by name; a kept place keeps its keeper', (
   assert.equal(
     enc.reading, 'Bungo, a hobbit — shared news of the northern circuit');
   const rest = events.find((e) => e.type === 'rest').data;
-  // A widow keeps the smial — a woman's name, and the wire knows her.
-  assert.equal(rest.npc, 'pearl');
+  // A widow keeps the smial — her entity slug is the subject, a woman's
+  // name and people ride for the telling.
+  assert.equal(rest.npc, 'npc_sh_37');
   assert.equal(rest.npc_name, 'Pearl');
   assert.equal(rest.npc_gender, 'f');
   assert.match(rest.reading, /^Pearl, a hobbit — /);
+  const tower = events.find(
+    (e) => e.type === 'land' && e.data.name === 'The lighthouse').data;
+  // Standing before it, the keeper is met — his slug is the subject.
+  assert.equal(tower.npc, 'npc_e_04');
+  assert.equal(tower.npc_name, 'Hallas');
+  assert.equal(tower.npc_people, 'gondor');
+  assert.match(tower.reading, /kept by Hallas, a man of Gondor$/);
+  const far = events.find(
+    (e) => e.type === 'land' && e.data.name === 'The other lighthouse').data;
+  // From afar the place is a silhouette — the keeper cannot be told apart.
+  assert.equal(far.npc ?? null, null);
 });
 
 test('the open payload carries raw state, never rendered blocks (C10)', () => {

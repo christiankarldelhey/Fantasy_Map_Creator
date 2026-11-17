@@ -424,14 +424,32 @@ function placeEvents(day) {
               aspect_es: loc.aspect_es ?? null,
               presence: loc.presence ?? undefined,
               presence_es: loc.presence_es ?? undefined,
+              // Within reach, whoever keeps the place is met: the resident
+              // entity rides as her own subject ('npc:npc_sh_37') — you
+              // can't see Hallas from afar, but in his lighthouse he opens
+              // the door. The Relation accretes on the person, not the walls.
+              ...(loc.host ? {
+                npc: loc.host.slug ?? slugify(loc.host.name),
+                npc_name: loc.host.name ?? null,
+                npc_people: loc.host.people ?? null,
+                npc_gloss: loc.host.gloss ?? null,
+                npc_gender: loc.host.gender ?? null,
+              } : {}),
             }),
         sighted: loc.sighted
           ? { hour_float: loc.sighted_hour_float ?? null, direction: loc.sighted_direction ?? null }
           : undefined,
         // The narrator's place line (proximity, far silhouette or ficha
-        // prose) is also the memory's reading.
-        reading: (collectLocationNotes([loc])[0] || '')
-          .replace(/^- /, '') || loc.name || loc.id || null,
+        // prose) is also the memory's reading — and a keeper met at her
+        // own door is part of the scene, named by her entity.
+        reading: (() => {
+          const line = (collectLocationNotes([loc])[0] || '')
+            .replace(/^- /, '') || loc.name || loc.id || null;
+          const keeper = !isDistantSighting(loc) && loc.host
+            ? `${loc.host.name}${loc.host.gloss ? `, ${loc.host.gloss}` : ''}`
+            : null;
+          return keeper && line ? `${line} — kept by ${keeper}` : line;
+        })(),
         tags: tags.length ? tags : undefined,
       },
     };
@@ -621,9 +639,10 @@ function restEvent(day) {
         ?? overnight.title ?? overnight.name ?? null,
       entity_type: day.overnight_location?.type
         ?? overnight.location_type ?? overnight.type ?? null,
-      // The person who keeps the place — their own npc subject, so the
-      // mind can hold a relation with the keeper and not only the door.
-      npc: host ? slugify(host.name) : null,
+      // The person who keeps the place — her own npc subject keyed by
+      // her entity slug, so the mind's Relation is with the person the
+      // DB says lives here, stable across every trip.
+      npc: host?.slug ?? (host ? slugify(host.name) : null),
       npc_name: host?.name ?? null,
       npc_people: host?.people ?? null,
       npc_gloss: host?.gloss ?? null,

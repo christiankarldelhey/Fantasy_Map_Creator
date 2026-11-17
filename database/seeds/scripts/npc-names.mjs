@@ -1,20 +1,24 @@
 // ============================================================================
-// NPC name assignment — seed-time, deterministic, stored (ADR-0015)
+// Place-host minting — seed-time, deterministic, stored (ADR-0015)
 // ----------------------------------------------------------------------------
-// A name is DATA, not a draw: assigned once here, written into the record's
-// payload, and read verbatim at runtime. Re-run the seed and the same widow
-// keeps the same name, because the draw is a hash of the record id — and a
-// name authored by hand (payload.npc.name / payload.host.name already set)
-// is never overwritten by the draw.
+// A kept place's host is a REAL entity, not a field on the place: one row in
+// `entities` (is_npc, type='npc', location_id = where she lives) plus one
+// entities_narration kind='entity' ficha for her voice. Names are drawn once
+// here — hash of the place record id picks from the curated pools, a uuid5
+// of the same id keys the row — so every reseed mints the same Mimosa and
+// runtime only reads what the DB says. Unanchored fichas mint nobody: a
+// person with no coordinates is a ghost.
 //
-//   entities_narration kind='entity' (sentient types) → payload.npc
-//   places_narration   kind='place'  (kept/hosted, not dead) → payload.host
+// Archetypes keep their collective names — 'Dunlendings Warriors' is a band,
+// not a Brogradoc. A group's chief may be NAMED IN THE ASPECT'S PROSE, never
+// as structured data; only individuals carry a person-name in entities.name.
 //
 // Pools: ../data/json/npc_names.json — curated from pnj-names.json with the
 // canon names removed; names_f holds women's names where the culture gives
 // them (hobbits as flowers, Rohirrim -wyn/-hild, elvish -iel/-wen).
 // ============================================================================
 
+import { createHash } from 'crypto';
 import { readFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -25,10 +29,20 @@ const POOLS = JSON.parse(readFileSync(
   'utf8'
 ));
 
-// Kinds of being that can hold a name — trolls ride the orcish pool.
-const NAMEABLE_TYPES = new Set([
-  'humans', 'elves', 'dwarves', 'hobbits', 'npc', 'orcs', 'trolls',
-]);
+// Fixed uuid5 namespace for minted host entities — the place record id is
+// the name inside it, so SH-37's keeper has the same uuid forever.
+const HOST_NS = '3f1c9a2e-7b4d-4e5f-9a6b-1c2d3e4f5a6b';
+
+function uuid5(name) {
+  const ns = Buffer.from(HOST_NS.replace(/-/g, ''), 'hex');
+  const b = createHash('sha1').update(ns).update(String(name), 'utf8')
+    .digest().subarray(0, 16);
+  b[6] = (b[6] & 0x0f) | 0x50;
+  b[8] = (b[8] & 0x3f) | 0x80;
+  const h = b.toString('hex');
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}` +
+    `-${h.slice(16, 20)}-${h.slice(20)}`;
+}
 
 // Slug/name → people. First match wins; the most specific peoples lead so
 // 'rangers_of_ithilien' never lands in the northern pool.
@@ -51,7 +65,7 @@ const PEOPLE_RULES = [
   [/orc|goblin|uruk|olog|troll|tereg/i, 'orcs'],
 ];
 
-// regions.cultural_family → people: the land says who a generic traveller is.
+// regions.cultural_family → people: the land says who a generic keeper is.
 const FAMILY_PEOPLE = {
   dunlending: 'dunlendings',
   gondorian: 'gondor',
@@ -68,22 +82,10 @@ const FAMILY_PEOPLE = {
   wild_wose: 'woses',
 };
 
-const TYPE_PEOPLE = {
-  humans: null,
-  elves: 'elves',
-  dwarves: 'dwarves',
-  hobbits: 'hobbits',
-  npc: null,
-  orcs: 'orcs',
-  trolls: 'orcs',
-};
-
-function peopleOf(hay, entityType, culturalFamily) {
+function peopleOf(hay, culturalFamily) {
   for (const [re, people] of PEOPLE_RULES) {
     if (re.test(hay)) return people;
   }
-  const byType = TYPE_PEOPLE[entityType];
-  if (byType) return byType;
   return FAMILY_PEOPLE[culturalFamily] || 'eriador';
 }
 
@@ -127,30 +129,12 @@ function draw(people, seed, gender = null) {
   return { name: list[idx], people, gloss };
 }
 
-/** The fixed person an entity is — 'Brogradoc' for the dunlending band.
- * An authored name already in the payload wins and is never redrawn. */
-export function assignEntityNpc(record) {
-  if (record?.kind !== 'entity') return null;
-  if (record.payload?.npc?.name) return record.payload.npc;
-  const entityType = record.entity_type;
-  if (!NAMEABLE_TYPES.has(entityType)) return null;
-  const hay = [record.entity_slug, record.name?.en, record.name, record.family]
-    .filter(Boolean).join(' ');
-  const gender = genderOf(hay);
-  const host = draw(
-    peopleOf(hay, entityType, record.cultural_family),
-    record.id,
-    gender,
-  );
-  return gender ? { ...host, gender } : host;
-}
-
-/** The keeper of a place — 'Pearl, a hobbit' for the widow of the deep
- * smial. Dead places keep nobody; hosted-kind places do even when the
- * ficha never spelled the keeper out. */
-export function assignPlaceHost(record, familyByRegion = new Map()) {
-  if (record?.kind !== 'place') return null;
-  if (record.payload?.host?.name) return record.payload.host;
+/** The keeper of a place — the entity row minted for her. Dead places
+ * keep nobody; keeper text or a hosted kind says somebody is home. A
+ * place without an anchored location mints no one (no coordinates, no
+ * person). Returns {entity, ficha} or null. */
+export function mintPlaceHost(record, locationId, culturalFamily) {
+  if (record?.kind !== 'place' || !locationId) return null;
   const typeText = record.type?.en || record.type || '';
   const keeperRaw = record.facts?.keeper || null;
   const keeper = typeof keeperRaw === 'string'
@@ -162,10 +146,46 @@ export function assignPlaceHost(record, familyByRegion = new Map()) {
   ].filter(Boolean).join(' ');
   if (DEAD_PLACE.test(hay) && !STILL_LIVED.test(hay)) return null;
   if (!keeper && !HOSTED_KIND.test(hay)) return null;
-  const family = record.cultural_family
-    || familyByRegion.get((record.region_ids || [])[0])
-    || null;
+
   const gender = genderOf([keeper, record.inhabitants].filter(Boolean).join(' '));
-  const host = draw(peopleOf(hay, null, family), record.id, gender);
-  return gender ? { ...host, gender } : host;
+  const host = draw(peopleOf(hay, culturalFamily), record.id, gender);
+
+  const id = uuid5(`host:${record.id}`);
+  const slug = `npc_${String(record.id).toLowerCase().replace(/[^a-z0-9]+/g, '_')}`;
+  const placeName = record.name?.en || record.name?.es
+    || (typeof record.name === 'string' ? record.name : record.id);
+
+  const entity = {
+    id,
+    name: host.name,
+    slug,
+    type: 'npc',
+    active: 'all-day',
+    tier: 'resident',
+    is_npc: true,
+    shadow_weight: 0,
+    location_id: locationId,
+  };
+  const ficha = {
+    id: `ent:${slug}`,
+    kind: 'entity',
+    entity_id: id,
+    entity_type: 'npc',
+    location_id: locationId,
+    aspect: {
+      en: keeper
+        ? `${host.name}, ${host.gloss} — ${keeper}`
+        : `${host.name}, ${host.gloss}, keeper of ${placeName}.`,
+    },
+    lore: record.lore ?? null,
+    tags: [],
+    payload: {
+      source: 'place-host',
+      place: record.id,
+      // Display metadata — the NAME lives on entities.name; the people
+      // and the keeper's own words give the rest of who she is.
+      npc: { people: host.people, gloss: host.gloss, ...(gender ? { gender } : {}) },
+    },
+  };
+  return { entity, ficha };
 }

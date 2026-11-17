@@ -354,11 +354,20 @@ async function sampleLegContext(legGeoJSON) {
           'narration_type', COALESCE(ficha.type_en, pd.type->>'en'),
           'record_tags', COALESCE(ficha.tags, pd.tags),
           -- Who keeps the door, when the ficha says so — 'una viuda de
-          -- smial hondo' names the host's people and gender before any
-          -- name is drawn for her. payload.host is the drawn person
-          -- herself, assigned at seed time and stable across trips.
+          -- smial hondo' names the host's people and gender in prose.
           'keeper', COALESCE(ficha.keeper_en, ficha.keeper_es),
-          'host', ficha.host,
+          -- The resident herself: the entity living at this location
+          -- (is_npc, tier='resident'), her person-gloss on her ficha.
+          -- A real entity row — the traveller's Relation is with her,
+          -- not with a blob on the place.
+          'host', CASE WHEN host_e.name IS NULL THEN NULL
+                       ELSE jsonb_build_object(
+                         'name', host_e.name,
+                         'slug', host_e.slug,
+                         'people', host_e.npc_meta->>'people',
+                         'gloss', host_e.npc_meta->>'gloss',
+                         'gender', host_e.npc_meta->>'gender')
+                  END,
           -- Where the leg first crosses into the influence circle (the
           -- sighting moment) and the compass bearing from there to the
           -- place. NULL when the leg never reaches the circle at all —
@@ -391,12 +400,20 @@ async function sampleLegContext(legGeoJSON) {
                  f.type->>'en' AS type_en,
                  f.tags AS tags,
                  f.facts->'keeper'->>'en' AS keeper_en,
-                 f.facts->'keeper'->>'es' AS keeper_es,
-                 f.payload->'host' AS host
+                 f.facts->'keeper'->>'es' AS keeper_es
             FROM places_narration f
            WHERE f.location_id = l.id AND f.kind = 'place'
            LIMIT 1
         ) ficha ON true
+        LEFT JOIN LATERAL (
+          SELECT e.name, e.slug, en.payload->'npc' AS npc_meta
+            FROM entities e
+            LEFT JOIN entities_narration en
+              ON en.entity_id = e.id AND en.kind = 'entity'
+           WHERE e.location_id = l.id AND e.is_npc
+           ORDER BY (e.tier = 'resident') DESC, e.id
+           LIMIT 1
+        ) host_e ON true
         LEFT JOIN LATERAL (
           SELECT CASE WHEN ST_Intersects(
                        ST_Buffer(l.geom::geography, COALESCE(rad.infl_km, 10) * 1000)::geometry,
@@ -1139,6 +1156,9 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       sighted_far: l.sighted_far ?? null,
       narration_type: l.narration_type ?? null,
       record_tags: l.record_tags || [],
+      // The resident entity joined by location — a keeper met at her
+      // own door, not only at the overnight stop.
+      host: l.host ?? null,
       entered,
       hostile: isHostileLocation(l),
     };

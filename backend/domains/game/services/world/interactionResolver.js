@@ -28,9 +28,11 @@
 //   decision:         { id, prompt, options } | null,  // B5: only for
 //                     // before_sleep encounters on rows that author options —
 //                     // the mind weighs, the host applies.
-//   npc:              { name, people, gloss } | null,  // only when words
-//                     // passed — nobody learns a name from tracks.
 // }
+// Encounters stay anonymous: archetypes are kinds, not persons — a band's
+// chief may be named in the aspect's prose, never as structured data.
+// Person-entities (place hosts, movers) carry their name on the entity
+// itself; nobody learns a name from tracks.
 // ============================================================================
 
 import pool from '../../../../db.js';
@@ -93,23 +95,6 @@ export function clearAllEncounterCaches() {
 // ---------------------------------------------------------------------------
 // Fetchers — kind='form' (the contact-shape draw)
 // ---------------------------------------------------------------------------
-
-// The entity ficha's fixed person — assigned at seed into payload.npc,
-// so the same band answers with the same name on every trip. An entity
-// without a ficha stays anonymous, as unwritten things should.
-const npcCache = new Map();
-async function fetchEntityNpc(entityId) {
-  if (!entityId) return null;
-  if (npcCache.has(entityId)) return npcCache.get(entityId);
-  const { rows } = await pool.query(
-    `SELECT payload->'npc' AS npc FROM entities_narration
-       WHERE kind = 'entity' AND entity_id = $1 LIMIT 1`,
-    [entityId]
-  );
-  const npc = rows[0]?.npc ?? null;
-  npcCache.set(entityId, npc);
-  return npc;
-}
 
 async function fetchForms(entityType) {
   if (formCache.has(entityType)) return formCache.get(entityType);
@@ -483,13 +468,6 @@ export async function resolveEncounter(
   }
   const dialogueContent = contactRow ? toDialogueContent(contactRow, rng) : null;
 
-  // Words passed: the being earns its name — the one stored on its
-  // ficha, not a draw. Sign-read or stayed-silent contact keeps its
-  // anonymity — nobody learns a name from tracks.
-  const npc = dialogueContent
-    ? await fetchEntityNpc(entity?.id ?? null)
-    : null;
-
   // Resistance roll (only when enabled, triggers_roll AND danger >= 3)
   let outcome = null;
   if (ENABLE_RESISTANCE_ROLL && chosen.triggers_roll && danger >= 3) {
@@ -526,7 +504,6 @@ export async function resolveEncounter(
     outcome,
     dialogue_content: dialogueContent,
     decision,
-    npc,
   };
 }
 
