@@ -181,15 +181,17 @@ DEFAULT_SEMANTICS = {
         'delta': {'affection': 0.05, 'familiarity': 0.05},
         'weight': 0.3, 'body': {'cold': -0.2},
     },
-    # The bare contact types — every perceived day touches where it
+    # The bare contact shapes — every perceived day touches where it
     # happened, even when nothing about it was an event in itself. A
     # light familiarity share is the "I know this stretch" channel:
-    # useful without being valent.
+    # useful without being valent. The land subtypes discriminate the
+    # 'land' umbrella (place/terrain/region/water on the wire).
     'type:climate': {'delta': {'familiarity': 0.02}, 'weight': 0.1},
-    'type:terrain': {'delta': {'familiarity': 0.05}, 'weight': 0.2},
-    'type:water': {'delta': {'familiarity': 0.1}, 'weight': 0.3},
     'type:moment': {'delta': {'familiarity': 0.03}, 'weight': 0.15},
-    'type:place': {'delta': {'familiarity': 0.08}, 'weight': 0.25},
+    'tag:subtype:terrain': {'delta': {'familiarity': 0.05}, 'weight': 0.2},
+    'tag:subtype:water': {'delta': {'familiarity': 0.1}, 'weight': 0.3},
+    'tag:subtype:place': {'delta': {'familiarity': 0.08}, 'weight': 0.25},
+    'tag:subtype:region': {'delta': {'familiarity': 0.05}, 'weight': 0.2},
     # A being registered at all means it can be met again — the root of
     # familiarity growing by contact alone.
     'entity:*': {'delta': {'familiarity': 0.1}, 'weight': 0.3},

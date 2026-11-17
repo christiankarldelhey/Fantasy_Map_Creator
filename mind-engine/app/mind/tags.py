@@ -34,6 +34,10 @@ TAG_CLASSES = {
     # 'news_and_rumor' every night IS a recurring theme (the wire's own
     # contract); the topic is what was talked about, not who.
     'topic':       {'pattern'},
+    # The land event's shape (place/terrain/region/water under the
+    # 'land' umbrella): how the land-contact happened, never a subject
+    # nor a theme — 'a place again' is not a streak.
+    'subtype':     {'ambient'},
 }
 
 # Data keys that never enter the tag space (the wire's contract, not a

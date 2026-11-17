@@ -24,6 +24,9 @@ class EventWhere(BaseModel):
     region: Optional[str] = None
     family: Optional[str] = None
     point: Optional[List[float]] = None
+    # The named spot the event happened AT — the orcs at the ford mark
+    # the ford too (a splash share as a secondary subject).
+    place: Optional[str] = None
 
 
 class EventIn(BaseModel):

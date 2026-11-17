@@ -378,10 +378,10 @@ def test_the_place_accretes_its_own_relation(client):
     sleeping there feed 'tag:place:esgaroth' — the town, not the land."""
     char = _uid('esgaroth')
     _open_and_close(client, char, 'd1', [{
-        'type': 'place',
+        'type': 'land',
         'when': {'phase': 'morning'},
         'where': {'region': 'Rhovanion'},
-        'data': {'place': 'esgaroth', 'kind': 'town',
+        'data': {'subtype': 'place', 'place': 'esgaroth', 'kind': 'town',
                  'tags': ['settlement', 'sighted'],
                  'reading': 'Esgaroth on the lake'},
     }])
@@ -394,16 +394,38 @@ def test_the_place_accretes_its_own_relation(client):
     assert kind['familiarity'] < rel['familiarity']
 
 
+def test_what_happened_at_a_place_marks_the_place(client):
+    """The orcs attacked AT the ford: 'where.place' makes the ford a
+    secondary subject — it hears a splash of the meeting's fear, not
+    the full share the orcs get. You do not hate the ford like the
+    orcs, but you cross it warier."""
+    char = _uid('fordmark')
+    _open_and_close(client, char, 'd1', [{
+        'type': 'encounter',
+        'when': {'phase': 'afternoon'},
+        'where': {'region': 'Rhovanion', 'place': 'old_ford'},
+        'data': {'entity': 'orcs', 'entity_type': 'orcs',
+                 'form': 'attacks', 'danger': 3,
+                 'reading': 'orcs — attacked without warning'},
+    }])
+    orcs = _relation(char, 'entity:orcs')
+    ford = _relation(char, 'tag:place:old_ford')
+    assert orcs['fear'] > 0.3
+    assert 0 < ford['fear'] < orcs['fear']
+    # The splash is a share, not a copy — the place is marked, not blamed.
+    assert ford['fear'] == pytest.approx(orcs['fear'] * 0.3, abs=0.05)
+
+
 def test_sighted_far_barely_touches(client):
     """A city glimpsed from afar is a sighting, not contact — its
     Relation accretes a sighting's share, not a visit's."""
     char = _uid('far')
     _open_and_close(client, char, 'd1', [{
-        'type': 'place',
+        'type': 'land',
         'when': {'phase': 'morning'},
         'where': {'region': 'Rhovanion'},
-        'data': {'place': 'esgaroth', 'kind': 'town', 'sighted_far': True,
-                 'tags': ['settlement']},
+        'data': {'subtype': 'place', 'place': 'esgaroth', 'kind': 'town',
+                 'sighted_far': True, 'tags': ['settlement']},
     }])
     rel = _relation(char, 'tag:place:esgaroth')
     assert rel is not None

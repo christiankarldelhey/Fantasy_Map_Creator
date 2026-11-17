@@ -12,21 +12,28 @@
 //               declares the weather tiers ('weather:storm'…) and the
 //               one-line reading; the mind never derives tags or prose
 //               from raw numbers
-//   terrain   — data: {terrain_phrases (map of phase->phrases), reading}
-//   place     — one per visited location: data: {name, kind, description,
-//               population, inhabitants, distance_km, tags[], reading} —
-//               'settlement' for inhabited places, 'entered' for the one
-//               the traveller actually stopped at, 'hostile' for
-//               enemy-kingdom places that were skirted from outside.
-//               Beyond its reach (>1km, never inside) a place is only a
-//               silhouette: it carries sighted_far and drops aspect,
-//               presence, population and inhabitants — what nobody got
-//               close enough to know
-//   water     — one per crossing: data: {name, kind, reading}
-//   region    — one per land ENTERED today (not in yesterday's regions):
-//               data: {name, description, reading, tags['region_entered']}
-//               — crossing a border is a lived moment, not context: it is
-//               what the Episode can turn on and what gets remembered
+//   land      — the umbrella for every kind of land-contact; data.subtype
+//               discriminates the shape:
+//               · terrain — data: {subtype:'terrain', terrain_phrases
+//                 (map of phase->phrases), reading}
+//               · place — one per visited/sighted location:
+//                 data: {subtype:'place', name, place (subject slug),
+//                 kind, description, population, inhabitants,
+//                 distance_km, tags[], reading} — 'settlement' for
+//                 inhabited places, 'entered' for the one the traveller
+//                 actually stopped at, 'hostile' for enemy-kingdom
+//                 places skirted from outside. Beyond its reach (>1km,
+//                 never inside) a place is only a silhouette: it carries
+//                 sighted_far and drops aspect, presence, population and
+//                 inhabitants — what nobody got close enough to know
+//               · water — one per crossing: data: {subtype:'water',
+//                 name, place, kind, reading}
+//               · region — one per land ENTERED today (not in
+//                 yesterday's regions): data: {subtype:'region', name,
+//                 description, reading, tags['region_entered']} —
+//                 crossing a border is a lived moment, not context: it
+//                 is what the Episode can turn on and what gets
+//                 remembered
 //   meal      — one per meal slot: data: {slot, eaten, food, drink,
 //               reading}
 //   rest      — overnight: data: {rest_quality, shadow_effect, place,
@@ -42,7 +49,9 @@
 //               lived content (what passed between them, what the
 //               traveller did) — the mind's memory of contact is a
 //               happening, not a noun.
-//               where: {region} from the encounter's own region
+//               where: {region} from the encounter's own region, plus
+//               {place} when the meeting is anchored to a named spot —
+//               what was lived AT a place marks the place too
 //   region    — region transitions implicit: every event carries
 //               where.region when known
 //
@@ -115,8 +124,14 @@ function rngOf(day) {
   return typeof day?.rng === 'function' ? day.rng : Math.random;
 }
 
-function where(region) {
-  return region ? { region } : undefined;
+// where.region is the land the day happened in; where.place is the
+// named spot the event happened AT — the mind reads both as subjects,
+// the place hearing only a splash of what was lived there.
+function where(region, place = null) {
+  const w = {};
+  if (region) w.region = region;
+  if (place) w.place = place;
+  return Object.keys(w).length ? w : undefined;
 }
 
 function climateEvents(day) {
@@ -195,7 +210,10 @@ function encounterEvents(day) {
     .map((e) => ({
       type: 'encounter',
       when: when({ phase: e.phase || phaseOfHour(e.hour_float), hour: e.hour_float }),
-      where: where(e.region || regionOf(day, e.phase)),
+      // An encounter anchored to a named spot (a mover leg at a gate,
+      // an ambush at the ford) marks the place too.
+      where: where(e.region || regionOf(day, e.phase),
+        slugify(e.location?.name || e.location)),
       data: (() => {
         const slug = e.entity.slug || e.entity.name || e.entity.id;
         const outcome = e.interaction?.outcome ?? null;
@@ -297,14 +315,20 @@ function encounterEvents(day) {
 const SLOT_PHASE = { midday: 'afternoon', evening: 'night' };
 
 function mealEvents(day) {
+  const overnight = day.overnight_location?.name || null;
   return (day.meals || []).map((m) => {
     const food = m.food?.name || m.food || null;
+    // The evening table is the night's table: a meal eaten where you
+    // lodge lands on the lodging's Relation too — the inn that fed you
+    // is not just where dinner happened.
+    const atLodging = (m.slot === 'evening' || m.slug === 'tavern_meal')
+      ? slugify(overnight) : null;
     return {
       type: 'meal',
       when: when({
         phase: SLOT_PHASE[m.slot] || m.phase || phaseOfHour(m.hour_float),
       }),
-      where: where(regionOf(day)),
+      where: where(regionOf(day), atLodging),
       data: {
         slot: m.slot || null,
         // A skipped meal is an absence the mind should feel, not a gap.
@@ -340,12 +364,13 @@ function placeEvents(day) {
     if (loc.sighted) tags.push('sighted');
     if (loc.visited) tags.push('visited');
     return {
-      type: 'place',
+      type: 'land',
       // A distant place enters awareness when it is first sighted on the
       // horizon, not at the leg's closest approach.
       when: when({ phase: loc.phase || phaseOfHour(loc.sighted ? loc.sighted_hour_float : loc.hour_float) }),
       where: where(loc.region || regionOf(day)),
       data: {
+        subtype: 'place',
         name: loc.name || loc.id,
         // The subject slug — 'name' is prose, 'place' is what the
         // Relation accretes on (tag:place:esgaroth). Every sighting,
@@ -398,13 +423,14 @@ function regionEvents(day, previousDay) {
       const name = r?.name || r;
       const hourFloat = typeof r === 'object' ? r.first_seen_hour_float : null;
       return {
-        type: 'region',
+        type: 'land',
         when: when({
           phase: hourFloat == null || hourFloat < 13 ? 'morning' : 'afternoon',
           hour: hourFloat ?? undefined,
         }),
         where: where(name),
         data: {
+          subtype: 'region',
           name,
           description:
             (r && typeof r === 'object' ? r.description_summary : null) ?? null,
@@ -427,10 +453,11 @@ function terrainEvents(day) {
       biomes, [], day.regions, day.terrain_phrases, rngOf(day)
     );
     events.push({
-      type: 'terrain',
+      type: 'land',
       when: when({ phase }),
       where: where(regionOf(day, phase)),
       data: {
+        subtype: 'terrain',
         biomes: biomes
           .map((b) => ({ type: b?.type || b?.name || null, hour_float: b?.hour_float ?? null }))
           .slice(0, 6),
@@ -443,10 +470,10 @@ function terrainEvents(day) {
       .flatMap((r) => Object.values(r)).flat().slice(0, 6);
     if (!phrases.length) return events;
     events.push({
-      type: 'terrain',
+      type: 'land',
       when: when(),
       where: where(regionOf(day)),
-      data: { terrain_phrases: phrases, reading: phrases[0] ?? null },
+      data: { subtype: 'terrain', terrain_phrases: phrases, reading: phrases[0] ?? null },
     });
   }
   return events;
@@ -454,10 +481,10 @@ function terrainEvents(day) {
 
 function waterEvents(day) {
   return (day.water_crossings || []).map((w) => ({
-    type: 'water',
+    type: 'land',
     when: when({ phase: w.phase || phaseOfHour(w.hour_float) }),
     where: where(w.region || regionOf(day)),
-    data: { name: w.name || null,
+    data: { subtype: 'water', name: w.name || null,
             // A crossing is contact with a place-subject — the Bruinen
             // is a ford you come to know, not just where it happened.
             place: slugify(w.name), kind: slugify(w.type) || null,

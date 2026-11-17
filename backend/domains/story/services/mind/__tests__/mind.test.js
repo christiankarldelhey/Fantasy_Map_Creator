@@ -65,8 +65,14 @@ test('toEvents emits the generic contract from a resolved day', () => {
     character: { name: 'Tester' },
   });
   const types = events.map((e) => e.type);
-  for (const t of ['terrain', 'place', 'meal', 'rest', 'encounter']) {
+  for (const t of ['land', 'meal', 'rest', 'encounter']) {
     assert.ok(types.includes(t), `missing event type ${t}`);
+  }
+  // The land umbrella discriminates by subtype — terrain and places
+  // are land-contact shapes, not types of their own.
+  const subtypes = events.map((e) => e.data?.subtype);
+  for (const s of ['terrain', 'place']) {
+    assert.ok(subtypes.includes(s), `missing land subtype ${s}`);
   }
   for (const e of events) {
     assert.equal(typeof e.type, 'string');
@@ -160,17 +166,15 @@ test('events declare readings and weather tiers (the tagger contract)', () => {
   const meals = events.filter((e) => e.type === 'meal');
   assert.match(meals[0].data.reading, /bread.*water/);
   assert.match(meals[1].data.reading, /water|hungry|fast/i);
-  assert.match(
-    events.find((e) => e.type === 'place').data.reading, /Amon Sul/,
+  const landOf = (s) => events.find(
+    (e) => e.type === 'land' && e.data.subtype === s,
   );
+  assert.match(landOf('place').data.reading, /Amon Sul/);
   assert.equal(
     events.find((e) => e.type === 'rest').data.reading,
     'The night is spent under open sky.',
   );
-  assert.match(
-    events.find((e) => e.type === 'terrain').data.reading,
-    /hills|rocky slopes/,
-  );
+  assert.match(landOf('terrain').data.reading, /hills|rocky slopes/);
   // Vitals and mileage never narrate — they ride the `condition`
   // channel and speak through needs/mood, not events.
   assert.ok(!events.some((e) => e.type === 'travel'));
@@ -414,7 +418,8 @@ test('place events carry the settlement a traveller actually entered', () => {
     trip: { id: 't1' },
     character: { name: 'Tester' },
   });
-  const places = events.filter((e) => e.type === 'place');
+  const places = events.filter(
+    (e) => e.type === 'land' && e.data.subtype === 'place');
   const dale = places.find((p) => p.data.name === 'Dale');
   // The entered city rides with its authored prose and census so the
   // lens can feel its scale — not just a bare name.
@@ -442,7 +447,8 @@ test('a land entered today becomes a region event anchored to the crossing', () 
     character: { name: 'Tester' },
     previousDay: { day_number: 2, regions: ['Rohan'] },
   });
-  const regions = events.filter((e) => e.type === 'region');
+  const regions = events.filter(
+    (e) => e.type === 'land' && e.data.subtype === 'region');
   // Rohan carries over from yesterday — only the new land speaks.
   assert.equal(regions.length, 1);
   const fangorn = regions[0];
@@ -462,7 +468,8 @@ test('region events mark a first day, never a held border', () => {
     character: {},
     previousDay: null,
   });
-  const entered = first.find((e) => e.type === 'region');
+  const entered = first.find(
+    (e) => e.type === 'land' && e.data.subtype === 'region');
   assert.equal(entered.when.phase, 'morning');
   assert.equal(entered.data.reading, 'crossed into Rohan');
 
@@ -472,7 +479,8 @@ test('region events mark a first day, never a held border', () => {
     character: {},
     previousDay: { day_number: 2, regions: ['lone-lands'] },
   });
-  assert.ok(!held.some((e) => e.type === 'region'));
+  assert.ok(!held.some(
+    (e) => e.type === 'land' && e.data.subtype === 'region'));
 });
 
 test('rest event tells how the night was secured', () => {
@@ -530,7 +538,8 @@ test('the open payload keeps settlement detail and the lodging outcome', () => {
     equipmentState: {},
     fate: 'living',
   });
-  const dale = body.events.find((e) => e.type === 'place').data;
+  const dale = body.events.find(
+    (e) => e.type === 'land' && e.data.subtype === 'place').data;
   assert.equal(dale.population, 5800);
   assert.equal(dale.aspect_es, 'Una ciudad de jugueteros.');
   assert.equal(dale.geometry, undefined);
@@ -562,7 +571,8 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
     trip: { id: 't1' },
     character: { name: 'Tester' },
   });
-  const places = body.events.filter((e) => e.type === 'place');
+  const places = body.events.filter(
+    (e) => e.type === 'land' && e.data.subtype === 'place');
   const garden = places[0].data;
   // Inside the authored radius the traveller is IN the place — the notes
   // need the 'visited' flag and the ficha's presence prose to say so.

@@ -73,9 +73,16 @@ def derive_tags(event):
             tags.extend(f'tag:{v}' for v in values if _is_content(v))
         elif _is_content(value):
             tags.append(f'tag:{key}:{value}')
-    region = (event.get('where') or {}).get('region')
+    where = event.get('where') or {}
+    region = where.get('region')
     if region:
         tags.append(f'region:{region}')
+    # Something lived AT a named place marks the place too — the orcs
+    # at the ford leave their fear on the ford (a splash share, as a
+    # secondary subject), not only on the orcs.
+    place = where.get('place')
+    if place:
+        tags.append(f'tag:place:{place}')
     return tags
 
 
@@ -142,6 +149,11 @@ def _content_tags(day):
         tags.update(
             t for t in (it.get('tags') or [])
             if not t.startswith('type:')
+            # Pure background is not a streak: ambient-only tags (the
+            # land subtype, the day's frame) are how it happened, never
+            # a theme — 'weather:wet' can wear because it is also a
+            # declared pattern, 'tag:subtype:place' cannot.
+            and not (tag_is(t, 'ambient') and not tag_is(t, 'pattern'))
             # Sentinel values are absence, not content: 'wounded:none'
             # repeating is not a stretch, and breaking it must never
             # read 'no none today'.

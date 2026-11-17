@@ -236,7 +236,7 @@ def resolve_event_reading(event):
             x for x in (humanize(data.get('food')),
                         humanize(data.get('drink'))) if x
         ) or subject
-    if etype == 'terrain':
+    if etype == 'terrain' or data.get('subtype') == 'terrain':
         return _first_string(
             data.get('terrain_phrases') or data.get('biomes')
         )

@@ -36,6 +36,10 @@ WIRE_MARKERS = [
     'indoor', 'given',
 ]
 
+# The 'land' umbrella's subtypes — every land-contact shape has its
+# light familiarity share.
+WIRE_LAND_SUBTYPES = ['place', 'terrain', 'region', 'water']
+
 
 def _covered(tag):
     return any(
@@ -64,3 +68,9 @@ def test_every_wire_weather_tier_has_meaning():
 def test_every_wire_marker_has_meaning():
     missing = [m for m in WIRE_MARKERS if not _covered(f'tag:{m}')]
     assert not missing, f'markers without semantic row: {missing}'
+
+
+def test_every_land_subtype_has_meaning():
+    missing = [s for s in WIRE_LAND_SUBTYPES
+               if not _covered(f'tag:subtype:{s}')]
+    assert not missing, f'land subtypes without row: {missing}'
