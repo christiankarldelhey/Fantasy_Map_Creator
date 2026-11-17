@@ -166,12 +166,85 @@ const SIGHTED_SHAPES = {
     live: 'a bare height with a cold fire-basket',
     dead: 'a bare height with a cold fire-basket',
   },
+  monument: {
+    live: 'a stone raised against the sky',
+    dead: 'a stone raised against the sky',
+  },
 };
+
+// Kinds in the wild are compositional — 'enemy watchtower', 'manor
+// ruins', 'tower and village', 'beacon cape'. The first structure word
+// in the string wins, because that is the thing the eye would catch
+// first. Each maps onto the canonical silhouette above.
+const STRUCTURE_KIND = [
+  ['watchtower', 'watchtower'], ['standing stones', 'standing stones'],
+  ['fortified city', 'fortified city'], ['fortified town', 'fortified town'],
+  ['fortified village', 'fortified village'], ['citadel', 'citadel'],
+  ['fortress', 'fortress'], ['castle', 'castle'], ['beacon', 'beacon'],
+  ['tower', 'tower'], ['lookout', 'lookout'], ['city', 'city'],
+  ['town', 'town'], ['village', 'village'], ['settlement', 'settlement'],
+  ['settlements', 'settlement'], ['hamlet', 'village'], ['inn', 'inn'],
+  ['tavern', 'tavern'], ['lodging', 'inn'], ['manor', 'manor'], ['mansion', 'mansion'],
+  ['estate', 'manor'], ['seat', 'seat'], ['hall', 'hall'],
+  ['temple', 'hall'], ['shrine', 'standing stones'], ['sacred', 'standing stones'],
+  ['ritual', 'standing stones'], ['oracle', 'standing stones'],
+  ['monument', 'monument'], ['memorial', 'monument'], ['stones', 'standing stones'],
+  ['house', 'house'], ['cottage', 'cottage'], ['smial', 'house'],
+  ['lodge', 'house'], ['farm', 'farm'], ['refuge', 'refuge'],
+  ['shelter', 'shelter'], ['camp', 'camp'], ['sawmill', 'mill'],
+  ['mill', 'mill'], ['forge', 'mill'], ['smithy', 'mill'],
+  ['shipyard', 'port'], ['lighthouse', 'tower'], ['bridge', 'bridge'],
+  ['crossing', 'crossing'], ['ford', 'crossing'], ['port', 'port'],
+  ['harbour', 'harbour'], ['mine', 'mine'], ['hold', 'fortress'],
+  ['post', 'camp'], ['garrison', 'fortress'], ['ruin', 'ruin'],
+];
+
+// No roofline to see, but still a shape the horizon carries.
+const LANDSCAPE_SHAPE = [
+  ['waterfall', 'a white thread on the rock'],
+  ['forest', 'a dark line of trees'],
+  ['copse', 'a stand of trees'],
+  ['clearing', 'a break in the trees'],
+  ['lake', 'water under the sky'],
+  ['water', 'water under the sky'],
+  ['moor', 'open moor to the sky'],
+  ['marsh', 'wet ground under a low sky'],
+  ['desert', 'bare ground to the horizon'],
+  ['hill', 'a bare rise'],
+  ['valley', 'the fall of a valley'],
+  ['passage', 'a notch in the ridge'],
+  ['pass', 'a notch in the ridge'],
+  ['coast', 'the line where land meets water'],
+  ['ledge', 'a shelf on the rock'],
+  ['cavern', 'a dark mouth in the rock'],
+  ['tree', 'a great tree against the sky'],
+  ['battlefield', 'open ground where something happened'],
+  ['road', 'the line of an old road'],
+  ['landmark', 'a shape you could steer by'],
+  ['border', 'the line where the land changes'],
+  ['boundary', 'the line where the land changes'],
+  ['threshold', 'the line where the land changes'],
+  ['limit', 'the line where the land changes'],
+  ['work', 'workings against the sky'],
+  ['landscape', 'open country under the sky'],
+  ['terrain', 'open ground under the sky'],
+  ['difficult', 'rough ground, hard going'],
+  ['ground', 'open ground'],
+];
+
+const STRUCTURE_RE = new RegExp(
+  `\\b(${STRUCTURE_KIND.map(([w]) => w).join('|')})\\b`);
+const LANDSCAPE_RE = new RegExp(
+  `\\b(${LANDSCAPE_SHAPE.map(([w]) => w).join('|')})\\b`);
+const STRUCTURE_OF = Object.fromEntries(STRUCTURE_KIND);
+const LANDSCAPE_OF = Object.fromEntries(LANDSCAPE_SHAPE);
 
 // Words that mark a place as dead before you are near enough to know:
 // in the name ('The Burned Inn'), the record's kind ('ruin'), or the
-// closed-registry tags ('ruins').
+// closed-registry tags ('ruins'). And the words that override it — an
+// 'inhabited ruin' shows smoke among the stones, not a dead shape.
 const DEAD_PLACE = /burn|char|ruin|abandon|dead|fallen|sack|destroy|desert|collaps|blight|forsaken|overgrown|broken/i;
+const STILL_LIVED = /inhabit|occupi|habitab|working|functional|recycl|surviv|taken|kept/i;
 
 /** Whether the place is alive or dead as far as the eye can tell —
  * a burned inn shows a blackened roofline, not a thread of smoke. */
@@ -180,22 +253,33 @@ export function isDeadPlace(location) {
     location?.type, location?.narration_type, location?.name,
     ...(location?.record_tags || []),
   ].filter(Boolean).join(' ');
-  return DEAD_PLACE.test(hay);
+  return DEAD_PLACE.test(hay) && !STILL_LIVED.test(hay);
 }
 
 /** What a place reads as from beyond its reach when nothing is authored:
- * its kind's silhouette in the state the eye can actually see. */
+ * its kind's silhouette in the state the eye can actually see. The
+ * record's authored kind ('major ruin') knows the place better than the
+ * gazetteer's coarse class ('ruin') — it speaks first; inside either
+ * string, the first structure word wins ('beacon tower' reads as the
+ * beacon, 'manor ruins' as the dead manor). */
 export function sightedShape(location) {
-  // The record's authored kind ('major ruin') knows the place better
-  // than the gazetteer's coarse class ('ruin') — it speaks first.
-  const shapes = SIGHTED_SHAPES[location?.narration_type]
-    || SIGHTED_SHAPES[location?.type];
-  if (!shapes) {
-    return isDeadPlace(location)
-      ? 'a shape on the horizon, nothing moving'
-      : 'a shape on the horizon';
+  for (const raw of [location?.narration_type, location?.type]) {
+    const kind = String(raw || '').toLowerCase().replace(/\*/g, '');
+    if (!kind) continue;
+    let shape = SIGHTED_SHAPES[kind];
+    if (!shape) {
+      const built = kind.match(STRUCTURE_RE);
+      if (built) shape = SIGHTED_SHAPES[STRUCTURE_OF[built[1]]];
+    }
+    if (!shape) {
+      const land = kind.match(LANDSCAPE_RE);
+      if (land) shape = { live: LANDSCAPE_OF[land[1]], dead: LANDSCAPE_OF[land[1]] };
+    }
+    if (shape) return isDeadPlace(location) ? shape.dead : shape.live;
   }
-  return isDeadPlace(location) ? shapes.dead : shapes.live;
+  return isDeadPlace(location)
+    ? 'a shape on the horizon, nothing moving'
+    : 'a shape on the horizon';
 }
 
 const PLURAL_SIGHTED = new Set(['ruins']);
