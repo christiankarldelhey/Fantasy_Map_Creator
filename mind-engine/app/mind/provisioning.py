@@ -10,8 +10,11 @@
 # only at creation, falls back to 'default', and never overrides an existing
 # assignment. Reassignment is admin territory: POST /mind/minds/{id}/preset.
 # ============================================================================
+from app.mind.engine import derive_feeling
 from app.mind.relations import seed_relations
-from app.mind.tables import Belief, Mind, MindPreset, Character, Musing
+from app.mind.tables import (
+    Belief, Memory, Mind, MindPreset, Character, Musing,
+)
 
 DEFAULT_PRESET_SLUG = 'default'
 
@@ -316,6 +319,25 @@ def seed_starter_beliefs(session, game_id, character_id, preset):
         )
         session.add(b)
         seeds.append(b)
+        # A stanced belief is also an impression — 'I grew up hearing
+        # this' — so the seed lands in the memory continuum too
+        # (ADR 0017): born consolidated, never forgotten by disuse,
+        # echoing its imprint back into the Relation on evocation.
+        if sb.subject and sb.stance is not None:
+            imprint = {'affection': float(sb.stance)}
+            session.add(Memory(
+                game_id=game_id, character_id=character_id,
+                kind='conviction', depth='conviction', mutable=True,
+                consolidated=True, strength=1.0,
+                desc=sb.statement,
+                tags=list(sb.tags or []),
+                valence=sb.stance,
+                importance=max(abs(sb.stance), 0.4),
+                imprint=imprint,
+                subjects=list(sb.subject),
+                feeling=derive_feeling(imprint),
+                origin=sb.source or 'seed',
+            ))
     return seeds
 
 

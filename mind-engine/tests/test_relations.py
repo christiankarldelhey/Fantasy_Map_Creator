@@ -15,7 +15,8 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 from app.db import SessionLocal
 from app.mind.tables import (
-    Mind, MindPreset, Episode, PresetLean, PresetStarterBelief, Relation,
+    Memory, Mind, MindPreset, Episode, PresetLean, PresetStarterBelief,
+    Relation,
 )
 
 
@@ -260,6 +261,54 @@ def test_the_sediment_watches_its_subject(client):
     session.close()
     # trust .15 -> the foxes' tags gain attention from the relation.
     assert weights.get('entity:red_foxes', 0) > 0
+
+
+def test_stanced_belief_leaves_a_conviction_memory(client):
+    """The seed lands three ways (ADR 0017 · B): the written conviction
+    (Belief), its numeric shadow (Relation), and the impression of
+    having always held it — a conviction Memory that never rots and
+    echoes its imprint back when evoked."""
+    slug = _preset_with(beliefs=[
+        {'kind': 'other', 'statement': 'I do not trust dwarves',
+         'strength': 3, 'tags': [], 'boosts': {},
+         'subject': ['tag:entity_type:dwarves'], 'stance': -0.6,
+         'source': 'heard'},
+    ])
+    char = _uid('convict')
+    _open(client, char, [{'type': 'travel', 'when': {'episode': 1},
+                          'data': {}}], preset=slug)
+
+    session = SessionLocal()
+    mem = (
+        session.query(Memory)
+        .filter_by(character_id=char, kind='conviction')
+        .one()
+    )
+    assert mem.desc == 'I do not trust dwarves'
+    assert mem.depth == 'conviction'
+    assert mem.mutable is True
+    assert mem.consolidated is True
+    assert mem.imprint == {'affection': -0.6}
+    assert mem.subjects == ['tag:entity_type:dwarves']
+    assert mem.feeling
+    session.close()
+
+    # Quiet episodes pass: the conviction is not a volatile impression —
+    # forgetting never eats it.
+    for ep in (2, 3, 4, 5):
+        _open_and_close(client, char, f'd{ep}', [
+            {'type': 'travel',
+             'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+             'data': {}},
+        ])
+    session = SessionLocal()
+    still = (
+        session.query(Memory)
+        .filter_by(character_id=char, kind='conviction')
+        .one()
+    )
+    assert still.strength == 1.0
+    session.close()
 
 
 def test_evocation_refeeds_the_relation(client):

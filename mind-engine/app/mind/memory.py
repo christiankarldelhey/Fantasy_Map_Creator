@@ -369,7 +369,9 @@ def decay_pass(session, mind, current_episode_index):
         .filter_by(character_id=mind.character_id, consolidated=True)
         .all()
     ):
-        if mem.kind == 'pattern':
+        # Convictions never rot by disuse — a prejudice isn't forgotten,
+        # it is turned (Reflection ops) or survives as a whisper.
+        if mem.kind in ('pattern', 'conviction'):
             continue
         if _exempt_this_episode(mem, current_episode_index):
             continue

@@ -21,6 +21,7 @@ from sqlalchemy import or_
 
 from app.ai import generate_narrative
 from app.mind.boosts import clean_boosts
+from app.mind.engine import derive_feeling
 from app.mind.focus import _touches, brief_lines
 from app.mind.memory import episode_index
 from app.mind.provisioning import DEFAULT_WIRING
@@ -141,6 +142,21 @@ def _strength(op):
     return min(5.0, max(0.0, conf * 5 if conf <= 1.0 else conf))
 
 
+def _conviction_memory(session, character_id, statement):
+    """The memory-side shadow of a written conviction (ADR 0017 · B): a
+    stanced starter belief also lives as a conviction memory — the
+    impression of having always held it. Reflection's words turn the
+    Belief; this keeps the impression's imprint in step."""
+    return (
+        session.query(Memory)
+        .filter_by(
+            character_id=character_id, kind='conviction',
+            desc=statement,
+        )
+        .one_or_none()
+    )
+
+
 def _apply_ops(session, mind, ops, beliefs_by_id, idx, w):
     counts = {'formed': 0, 'reinforced': 0, 'contradicted': 0, 'inverted': 0}
     reinforce = w.get('belief_reinforce_delta', 0.5)
@@ -194,6 +210,14 @@ def _apply_ops(session, mind, ops, beliefs_by_id, idx, w):
             belief.updated_episode = idx
             if belief.strength < weaken_below:
                 belief.status = 'weakened'
+                # The written conviction quieted — its impression fades
+                # to a whisper too (below the retrieval floor it stops
+                # echoing into the Relation, but it is never forgotten).
+                mem = _conviction_memory(
+                    session, mind.character_id, belief.statement)
+                if mem is not None:
+                    mem.importance = min(mem.importance or 0.0, 0.05)
+                    mem.strength = min(mem.strength or 0.0, 0.3)
             counts['contradicted'] += 1
         elif name == 'invert':
             # Growth: the old conviction turns. The row is marked inverted
@@ -204,6 +228,19 @@ def _apply_ops(session, mind, ops, beliefs_by_id, idx, w):
             # what turned it.
             belief.status = 'inverted'
             belief.updated_episode = idx
+            # The turned conviction's memory turns with it — the mind
+            # now remembers the prejudice it unlearned as the grown
+            # impression: new wording, imprint flipped, source 'lived'.
+            mem = _conviction_memory(
+                session, mind.character_id, belief.statement)
+            if mem is not None:
+                mem.desc = str(op['statement'])[:2000]
+                mem.imprint = {
+                    d: -v for d, v in (mem.imprint or {}).items()
+                } or mem.imprint
+                mem.valence = -(mem.valence or 0.0)
+                mem.feeling = derive_feeling(mem.imprint or {})
+                mem.origin = 'lived'
             session.add(Belief(
                 game_id=mind.game_id, character_id=mind.character_id,
                 kind=belief.kind, horizon=belief.horizon,
