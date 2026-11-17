@@ -727,6 +727,206 @@ async function seedEntitiesNarration(extraRecords = []) {
 }
 
 // ---------------------------------------------------------------------------
+// interactions backfill — Situations stay authored in the narration tables'
+// interactive[] JSONB (still the source of truth until Wave D); this derives
+// the rows the unified chooser reads. Ids are deterministic
+// ('<situation>:<option>' / '<situation>:sole') so re-runs are idempotent and
+// prunes only touch backfill rows — hand-authored interactions are safe.
+// ---------------------------------------------------------------------------
+
+// Contact-shape → Act for derived single interactions (stance/commands-only
+// situations). Rough first cut — payload.mapped_from keeps the form so a hand
+// pass can re-act them later without re-deriving.
+const FORM_TO_ACT = {
+  brief_exchange: 'talk', topic: 'talk', sign_only: 'talk', confronts: 'talk',
+  aid_or_trade: 'accept',
+  harvest_shelter: 'rest',
+  attacks: 'defy', sudden_peril: 'defy',
+  // watches/stalks/glimpsed/observed/reacts_withdraws/hinders_passage/
+  // sound_only/scenery/presence_felt/drifts_closer/mistaken_for_object
+  // default below — the traveller keeps distance or walks on.
+};
+const DERIVED_DEFAULT_ACT = 'avoid';
+
+// Authored option id → Act. 'stay' is rest: taking the offered bed is the same
+// outcome family as a place's overnight 'rest'.
+const OPTION_TO_ACT = { rest: 'rest', stay: 'rest', move_on: 'avoid' };
+
+// A legacy command becomes one or more typed effects. overnight_shelter is
+// decomposed into its atoms — lodging, the coin it costs, the meal, the rest,
+// the shadow relief — never kept as one opaque command.
+function commandToEffects(cmd) {
+  switch (cmd.type) {
+    case 'meal':
+      return [{ type: 'meal', ...(cmd.food ? { food: cmd.food } : {}), ...(cmd.meal_slug ? { slug: cmd.meal_slug } : {}) }];
+    case 'item':
+      return [{ type: 'item', slug: cmd.slug, qty: cmd.qty ?? 1 }];
+    case 'water_refill':
+      return [{ type: 'water', refill: true }];
+    case 'coins':
+      return [{ type: 'coins', amount: cmd.amount }];
+    case 'heal':
+      return [{ type: 'heal', ...(cmd.amount != null ? { amount: cmd.amount } : {}) }];
+    case 'overnight_shelter': {
+      const effects = [
+        { type: 'lodging', name: cmd.name, description: cmd.description, indoor: !!cmd.indoor },
+      ];
+      if (cmd.lodging_cost) effects.push({ type: 'coins', amount: -cmd.lodging_cost });
+      if (cmd.meal) effects.push({ type: 'meal', ...(cmd.meal_slug ? { slug: cmd.meal_slug } : {}) });
+      if (cmd.rest_quality) effects.push({ type: 'rest', quality: cmd.rest_quality });
+      if (cmd.shadow_effect) effects.push({ type: 'shadow', amount: cmd.shadow_effect });
+      return effects;
+    }
+    default:
+      return [{ type: cmd.type, ...cmd }];
+  }
+}
+
+// Place overnight options carry a flat {rest_quality, shadow_effect} object —
+// translate each key to its typed effect. Unknown keys degrade to {type, amount}
+// rather than being dropped.
+const LEGACY_EFFECT_TO_TYPE = {
+  rest_quality: (v) => ({ type: 'rest', quality: v }),
+  shadow_effect: (v) => ({ type: 'shadow', amount: v }),
+  energy: (v) => ({ type: 'energy', amount: v }),
+};
+function effectsToList(effects) {
+  if (!effects) return [];
+  if (Array.isArray(effects)) return effects;
+  return Object.entries(effects).map(([k, v]) =>
+    LEGACY_EFFECT_TO_TYPE[k] ? LEGACY_EFFECT_TO_TYPE[k](v) : { type: k, amount: v }
+  );
+}
+
+// Lang fields arrive as 'text' | {en, es}; outcome text keeps the {en, es} shape.
+function toLang(v) {
+  if (v == null) return null;
+  return typeof v === 'string' ? { en: v } : v;
+}
+
+async function seedInteractions() {
+  console.log('🤝 Backfilling interactions (Situation options → chooser rows)...');
+
+  const { rows: placeRows } = await pool.query(
+    `SELECT id, interactive FROM places_narration
+     WHERE jsonb_typeof(interactive) = 'array' AND jsonb_array_length(interactive) > 0`
+  );
+  const { rows: entityRows } = await pool.query(
+    `SELECT id, form, interactive FROM entities_narration
+     WHERE jsonb_typeof(interactive) = 'array' AND jsonb_array_length(interactive) > 0`
+  );
+
+  const interactions = [];
+  const push = (row) => interactions.push(row);
+
+  // Places — options carry {outcomes:{success:{text,effects}}} already.
+  for (const rec of placeRows) {
+    for (const sit of rec.interactive) {
+      for (const opt of sit.options ?? []) {
+        const success = opt.outcomes?.success ?? {};
+        push({
+          id: `${sit.id}:${opt.id}`,
+          places_narration_id: rec.id,
+          entities_narration_id: null,
+          act: OPTION_TO_ACT[opt.id] ?? DERIVED_DEFAULT_ACT,
+          label: opt.label ? { en: opt.label } : null,
+          need_tags: opt.tags ?? (opt.tag ? [opt.tag] : []),
+          skill: null,
+          outcomes: {
+            success: { text: toLang(success.text), effects: effectsToList(success.effects) },
+            ...(opt.outcomes?.failure
+              ? { failure: { text: toLang(opt.outcomes.failure.text), effects: effectsToList(opt.outcomes.failure.effects) } }
+              : {}),
+          },
+          payload: { origin: 'backfill:interactive', situation: sit.id },
+        });
+      }
+    }
+  }
+
+  // Entities — options carry {label, tags, stance, commands}; situation-level
+  // commands apply to every option of that situation (the meal they give you
+  // even when you walk on). Stance/commands-only situations become a single
+  // inevitable interaction.
+  for (const rec of entityRows) {
+    for (const sit of rec.interactive) {
+      const sharedEffects = (sit.commands ?? []).flatMap(commandToEffects);
+      const options = sit.options ?? [];
+
+      if (options.length) {
+        for (const opt of options) {
+          push({
+            id: `${sit.id}:${opt.id}`,
+            places_narration_id: null,
+            entities_narration_id: rec.id,
+            act: OPTION_TO_ACT[opt.id] ?? FORM_TO_ACT[rec.form] ?? DERIVED_DEFAULT_ACT,
+            label: opt.label ? { en: opt.label } : null,
+            need_tags: opt.tags ?? (opt.tag ? [opt.tag] : []),
+            skill: null,
+            outcomes: {
+              success: {
+                text: toLang(opt.stance ?? opt.label),
+                effects: [...sharedEffects, ...(opt.commands ?? []).flatMap(commandToEffects)],
+              },
+            },
+            payload: { origin: 'backfill:interactive', situation: sit.id },
+          });
+        }
+        continue;
+      }
+
+      if (!sit.stance && !sharedEffects.length) continue; // narrative-only Situation
+
+      push({
+        id: `${sit.id}:sole`,
+        places_narration_id: null,
+        entities_narration_id: rec.id,
+        act: FORM_TO_ACT[rec.form] ?? DERIVED_DEFAULT_ACT,
+        label: null,
+        need_tags: sit.tags ?? [],
+        skill: null,
+        outcomes: { success: { text: toLang(sit.stance), effects: sharedEffects } },
+        payload: {
+          origin: 'backfill:interactive',
+          situation: sit.id,
+          ...(rec.form ? { mapped_from_form: rec.form } : {}),
+        },
+      });
+    }
+  }
+
+  const actCount = {};
+  for (const i of interactions) {
+    await pool.query(
+      `INSERT INTO interactions
+         (id, places_narration_id, entities_narration_id, act, label, need_tags, skill, outcomes, payload)
+       VALUES ($1, $2, $3, $4, $5::jsonb, $6, $7::jsonb, $8::jsonb, $9::jsonb)
+       ON CONFLICT (id) DO UPDATE SET
+         places_narration_id = EXCLUDED.places_narration_id,
+         entities_narration_id = EXCLUDED.entities_narration_id,
+         act = EXCLUDED.act, label = EXCLUDED.label, need_tags = EXCLUDED.need_tags,
+         skill = EXCLUDED.skill, outcomes = EXCLUDED.outcomes, payload = EXCLUDED.payload`,
+      [
+        i.id, i.places_narration_id, i.entities_narration_id, i.act,
+        JSON.stringify(i.label), i.need_tags,
+        i.skill ? JSON.stringify(i.skill) : null,
+        JSON.stringify(i.outcomes), JSON.stringify(i.payload),
+      ]
+    );
+    actCount[i.act] = (actCount[i.act] ?? 0) + 1;
+  }
+
+  const ids = interactions.map((i) => i.id);
+  const pruned = await pool.query(
+    `DELETE FROM interactions
+     WHERE payload->>'origin' = 'backfill:interactive' AND id <> ALL($1)
+     RETURNING id`, [ids]
+  );
+  const byActs = Object.entries(actCount).map(([a, n]) => `${a}:${n}`).join(' ');
+  console.log(`✅ interactions: ${interactions.length} rows (${byActs})${pruned.rowCount ? ` — pruned ${pruned.rowCount}` : ''}`);
+}
+
+// ---------------------------------------------------------------------------
 // Narration records seed (ADR-0014 → #104): every generated record (dep:*,
 // ovn:*) upserts from data/json/narration.json — the canonical source since
 // the legacy prose stores dropped. Idempotent; records gone from the file are
@@ -1250,6 +1450,11 @@ async function ensureSchema() {
   await runMigrationFile('drop_legacy_narrative_tables.sql');
   await runMigrationFile('drop_legacy_encounter_tables.sql');
 
+  // interactions goes after the legacy drops on purpose: a very old DB may
+  // still carry an unrelated ancestor table named `interactions`, which the
+  // shape-guarded drop above removes first so the new table can take the name.
+  await runMigrationFile('create_interactions_table.sql');
+
   console.log('✅ Schema ready\n');
 }
 
@@ -1682,6 +1887,10 @@ async function main() {
 
     // Entities narration — after movers so leg_ref resolves to live legs.
     await seedEntitiesNarration(hostFichas);
+
+    // Interactions — last: derives chooser rows from both narration tables'
+    // interactive[] (still the authored source until the columns drop).
+    await seedInteractions();
 
     console.log('\n🎉 All seed data loaded successfully!');
 

@@ -21,7 +21,20 @@
 DROP TABLE IF EXISTS encounter_forms;
 DROP TABLE IF EXISTS npc_interactions;
 DROP TABLE IF EXISTS mover_beats;
-DROP TABLE IF EXISTS interactions;   -- pre-rename ancestor of encounter_forms, if a very old DB still has it
+-- Pre-rename ancestor of encounter_forms — a very old DB may still have it.
+-- Shape-guarded: `interactions` is reclaimed by the Situation→Interaction
+-- table (ADR-0019); only drop when it is NOT that table (no `act` column).
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.tables
+               WHERE table_schema = 'public' AND table_name = 'interactions')
+       AND NOT EXISTS (SELECT 1 FROM information_schema.columns
+                       WHERE table_schema = 'public' AND table_name = 'interactions'
+                         AND column_name = 'act')
+    THEN
+        DROP TABLE interactions;
+    END IF;
+END $$;
 
 ALTER TABLE entities
     DROP COLUMN IF EXISTS description,

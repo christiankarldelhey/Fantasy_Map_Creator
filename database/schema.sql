@@ -684,6 +684,44 @@ COMMENT ON COLUMN entities_narration.form IS 'Contact-shape key (glimpsed_far, s
 COMMENT ON COLUMN entities_narration.disposition IS 'How the being is disposed in the contact {en, es} (was npc_attitude)';
 
 -- ============================================================================
+-- Table: interactions
+-- What the traveller can do inside a Situation. One row per option — a lone
+-- row means an inevitable action. Every row points to exactly one parent
+-- Situation (places_narration XOR entities_narration). Outcomes mutate host
+-- Condition only — body, items, coins, lodging, shadow; never Mood.
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS interactions (
+    id                      TEXT PRIMARY KEY,
+    places_narration_id     TEXT REFERENCES places_narration(id)   ON DELETE CASCADE,
+    entities_narration_id   TEXT REFERENCES entities_narration(id) ON DELETE CASCADE,
+
+    act                     TEXT NOT NULL,        -- Mind-owned closed vocabulary
+    label                   JSONB,                -- {en, es} — player-facing choice text
+    need_tags               TEXT[] NOT NULL DEFAULT '{}',
+    skill                   JSONB,                -- {name, min?, difficulty?}; NULL = automatic success
+    outcomes                JSONB NOT NULL,       -- {success:{text?,effects[]}, failure?}
+    payload                 JSONB NOT NULL DEFAULT '{}',
+    created_at              TIMESTAMP DEFAULT NOW(),
+
+    CONSTRAINT interactions_one_parent
+        CHECK (num_nonnulls(places_narration_id, entities_narration_id) = 1)
+);
+
+CREATE INDEX IF NOT EXISTS idx_interactions_place
+    ON interactions(places_narration_id)   WHERE places_narration_id   IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_interactions_entity
+    ON interactions(entities_narration_id) WHERE entities_narration_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_interactions_act ON interactions(act);
+
+COMMENT ON TABLE interactions IS
+    'What the traveller can do inside a Situation. One row per option — a lone row means an inevitable action (destino manifiesto). Outcomes mutate host Condition only.';
+COMMENT ON COLUMN interactions.act IS
+    'Mind-owned closed vocabulary (approach/avoid/talk/trade/accept/help/defy/rest). Shared by preference scoring and Event representation.';
+COMMENT ON COLUMN interactions.outcomes IS
+    '{success, failure?} each {text?, effects: typed list}. Effects touch host Condition only — body, items, coins, lodging, shadow. Never Mood.';
+
+-- ============================================================================
 -- Verification queries
 -- ============================================================================
 
