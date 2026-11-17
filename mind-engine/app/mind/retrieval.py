@@ -26,8 +26,10 @@
 import math
 
 from app.mind.embeddings import cosine, embed, ensure_embedding, episode_embedding
+from app.mind.engine import EVOKE_SHARE, MOOD_DIMS, add_delta, mood_delta
 from app.mind.memory import episode_date, episode_index
 from app.mind.provisioning import DEFAULT_WIRING
+from app.mind.relations import feed
 from app.mind.tables import Belief, Memory
 from app.mind.tags import contact_tags as _contact_tags
 
@@ -192,6 +194,13 @@ def retrieve(session, mind, episode, perceived_day):
     min_score = w.get('retrieval_min_score', 0.5)
 
     evoked = []
+    refelt = {}
+    # Evocation re-feels (ADR 0017): the stirred memory's imprint lands
+    # again at EVOKE_SHARE — on the mood through W_RM, and on each
+    # touched subject's Relation through the same sediment rule. The
+    # echo feeds what it still believes; contradiction pays resistance.
+    resistance = (getattr(mind, 'personality', None) or {}).get('resistance')
+    resistance = 0.5 if resistance is None else resistance
     for score, mem in scored[:top_k]:
         if score < min_score:
             break
@@ -202,6 +211,24 @@ def retrieve(session, mind, episode, perceived_day):
             mem.last_evoked_date = ep_date
         mem.strength = min(1.0, (mem.strength or 0.0) + boost)
         evoked.append(mem)
+        imprint = getattr(mem, 'imprint', None) or {}
+        if not imprint:
+            continue
+        share = {d: v * EVOKE_SHARE for d, v in imprint.items()}
+        for subject in (mem.subjects or []):
+            feed(
+                session, mind.game_id, mind.character_id, subject,
+                share, resistance=resistance, episode_idx=idx,
+            )
+        add_delta(refelt, mood_delta(share))
+    if refelt:
+        prior = mind.mood or {}
+        mind.mood = {
+            **prior,
+            **{d: round(max(-1.0, min(1.0,
+                    (prior.get(d) or 0.0) + refelt.get(d, 0.0))), 3)
+               for d in MOOD_DIMS},
+        }
     return evoked
 
 

@@ -262,6 +262,22 @@ def test_the_sediment_watches_its_subject(client):
     assert weights.get('entity:red_foxes', 0) > 0
 
 
+def test_evocation_refeeds_the_relation(client):
+    """The loop closes: meeting the foxes again stirs yesterday's
+    memory, and its imprint lands on the Relation a second time —
+    smaller (EVOKE_SHARE), through the same sediment rule."""
+    char = _uid('echo')
+    _open_and_close(client, char, 'd1', [_encounter(1)])
+    day1 = _relations(char)['entity:red_foxes']['trust']
+    _open_and_close(client, char, 'd2', [_encounter(2)])
+    day2 = _relations(char)['entity:red_foxes']['trust']
+    # Without the echo: (day1 + .15) * .98 ≈ .29. With it, the evoked
+    # imprint (.15 x .3 = .045) feeds again -> ~.33.
+    assert day2 > day1 + 0.15
+    assert day2 == pytest.approx(
+        (day1 / 0.98 + 0.15 + 0.15 * 0.3) * 0.98, abs=0.02)
+
+
 def test_sighted_far_barely_touches(client):
     """A city glimpsed from afar is a sighting, not contact — its
     Relation accretes a sighting's share, not a visit's."""
