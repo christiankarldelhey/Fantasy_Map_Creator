@@ -74,7 +74,7 @@ import { collectLocationNotes, isDistantSighting, sightedShape } from '../natura
 import { describeWaterCrossings } from '../naturalLanguage/waterNotes.js';
 import { REST_OPEN_SKY } from '../naturalLanguage/nightNotes.js';
 import { groupByPhase } from '../naturalLanguage/dayPhases.js';
-import { humanize } from '../naturalLanguage/text.js';
+import { humanize, slugify } from '../naturalLanguage/text.js';
 
 function phaseOfHour(hourFloat) {
   if (hourFloat == null) return null;
@@ -345,6 +345,10 @@ function placeEvents(day) {
       where: where(loc.region || regionOf(day)),
       data: {
         name: loc.name || loc.id,
+        // The subject slug — 'name' is prose, 'place' is what the
+        // Relation accretes on (tag:place:esgaroth). Every sighting,
+        // visit and stay feeds the same identity.
+        place: slugify(loc.name || loc.id),
         kind: loc.type || null,
         distance_km: loc.distance_km ?? null,
         // Beyond its reach a place is only a silhouette: the sighted_far
@@ -451,7 +455,10 @@ function waterEvents(day) {
     type: 'water',
     when: when({ phase: w.phase || phaseOfHour(w.hour_float) }),
     where: where(w.region || regionOf(day)),
-    data: { name: w.name || null, kind: w.type || null,
+    data: { name: w.name || null,
+            // A crossing is contact with a place-subject — the Bruinen
+            // is a ford you come to know, not just where it happened.
+            place: slugify(w.name), kind: w.type || null,
             reading: describeWaterCrossings([w], rngOf(day)) || w.name || null },
   }));
 }
@@ -507,7 +514,7 @@ function restEvent(day) {
     data: {
       rest_quality: overnight.rest_quality ?? null,
       shadow_effect: overnight.shadow_effect ?? null,
-      place: overnight.name || overnight.id || null,
+      place: slugify(overnight.name) || overnight.id || null,
       // The place's authored prose carries the texture of the night
       // ('the will itself feels weighed and probed') — numbers alone
       // left the worst nights invisible to the mind.

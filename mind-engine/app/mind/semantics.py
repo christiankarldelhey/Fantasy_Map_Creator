@@ -120,11 +120,26 @@ DEFAULT_SEMANTICS = {
     # Presence vs sighting — the distance IS the meaning: a city seen
     # from afar touches familiarity a little and nothing else.
     'tag:sighted_far': {'delta': {'familiarity': 0.05}, 'weight': 0.15},
+    'tag:sighted': {'delta': {'familiarity': 0.1}, 'weight': 0.3},
+    'tag:visited': {'delta': {'familiarity': 0.2}, 'weight': 0.4},
     'tag:entered': {'delta': {'familiarity': 0.3}, 'weight': 0.5},
     'tag:region_entered': {'delta': {'familiarity': 0.2}, 'weight': 0.55},
     'tag:settlement': {'delta': {'familiarity': 0.1}, 'weight': 0.3},
     'tag:hostile': {'delta': {'fear': 0.2}, 'weight': 0.45},
     'tag:indoor': {'delta': {}, 'weight': 0.2, 'body': {'cold': -0.2}},
+    'tag:paid': {
+        'delta': {'affection': 0.05, 'familiarity': 0.05},
+        'weight': 0.3, 'body': {'cold': -0.2},
+    },
+    # The bare contact types — every perceived day touches where it
+    # happened, even when nothing about it was an event in itself. A
+    # light familiarity share is the "I know this stretch" channel:
+    # useful without being valent.
+    'type:climate': {'delta': {'familiarity': 0.02}, 'weight': 0.1},
+    'type:terrain': {'delta': {'familiarity': 0.05}, 'weight': 0.2},
+    'type:water': {'delta': {'familiarity': 0.1}, 'weight': 0.3},
+    'type:moment': {'delta': {'familiarity': 0.03}, 'weight': 0.15},
+    'type:place': {'delta': {'familiarity': 0.08}, 'weight': 0.25},
     # A being registered at all means it can be met again — the root of
     # familiarity growing by contact alone.
     'entity:*': {'delta': {'familiarity': 0.1}, 'weight': 0.3},

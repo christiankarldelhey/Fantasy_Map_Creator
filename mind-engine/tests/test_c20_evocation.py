@@ -148,16 +148,11 @@ def test_semantic_overlap_evokes_even_without_shared_tags():
 
 
 def test_purely_ambient_memories_never_evoke():
-    """Meal, weather, mileage and vitals are ambience — the recurrence
-    channel owns their repetition. All-ambient tags means no door at
-    all, not even the semantic one."""
+    """Weather and vitals are ambience — the recurrence channel owns
+    their repetition. All-ambient tags means no door at all, not even
+    the semantic one. (Food/drink became subjects under ADR 0017 —
+    the bread's memory may evoke now; the rain's may not.)"""
     session, char = _session_with_memories(
-        {   # the eternal road-bread: identical desc to today's reading
-            'desc': 'a ration of road-bread and dried fruit, water from the skin',
-            'tags': ['type:meal', 'tag:food:a ration of road-bread',
-                     'tag:drink:waterskin', 'region:South Arthedain'],
-            'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
-        },
         {   # a wet day on a wet day — same sky is not a story
             'desc': 'cool, partly cloudy, a passing shower',
             'tags': ['type:climate', 'tag:weather:wet', 'region:X'],
@@ -171,9 +166,28 @@ def test_purely_ambient_memories_never_evoke():
     evoked = retrieve(
         session, _brain(char), _episode(10),
         _day('tag:weather:wet', 'type:meal',
-             reading='a ration of road-bread and dried fruit, water from the skin'),
+             reading='cool, partly cloudy, a passing shower'),
     )
     assert evoked == []
+    session.rollback()
+    session.close()
+
+
+def test_a_meal_memory_can_evoke_on_food():
+    """Food is a subject now — the road-bread IS a thing you can think
+    about, not mere ambience. Today's bread may stir yesterday's."""
+    desc = 'a ration of road-bread and dried fruit, water from the skin'
+    session, char = _session_with_memories({
+        'desc': desc,
+        'tags': ['type:meal', 'tag:food:road-bread',
+                 'tag:drink:waterskin', 'region:South Arthedain'],
+        'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
+    })
+    evoked = retrieve(
+        session, _brain(char), _episode(10),
+        _day('tag:food:road-bread', 'type:meal', reading=desc),
+    )
+    assert len(evoked) == 1
     session.rollback()
     session.close()
 

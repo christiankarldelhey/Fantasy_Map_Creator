@@ -327,6 +327,73 @@ def test_evocation_refeeds_the_relation(client):
         (day1 / 0.98 + 0.15 + 0.15 * 0.3) * 0.98, abs=0.02)
 
 
+def test_a_meal_feeds_the_food_itself(client):
+    """The mushrooms are a subject: the day's comfort lands on THEM
+    (primary), the land only hears the splash — 'she came to love the
+    mushrooms', not 'she came to love Rhovanion's mushrooms'."""
+    char = _uid('mushroom')
+    _open_and_close(client, char, 'd1', [{
+        'type': 'meal',
+        'when': {'episode': 1, 'date': '1950-01-19'},
+        'where': {'region': 'Rhovanion'},
+        'data': {'food': 'mushrooms', 'drink': 'ale',
+                 'reading': 'mushrooms fried in butter'},
+    }])
+    rels = _relations(char)
+    assert 'tag:food:mushrooms' in rels
+    # type:meal {aff .15} x .4 + tag:food:* {aff .1} x .3 = .09 on the
+    # food (primary); drink and land hear only the splash, in equal
+    # share.
+    food = rels['tag:food:mushrooms']['affection']
+    assert food > rels['tag:drink:ale']['affection']
+    assert food > rels['region:Rhovanion']['affection']
+
+
+def test_monotony_sours_the_daily_bread(client):
+    """The same bread every day wears on the bread itself: the streak's
+    pressure sediments negative affection on the food's Relation. A
+    bread that comforted early on resists (the standing Relation dams
+    the wear through the same contradiction mechanism as any evidence),
+    but the curve turns — 'the fruit-bread again' starts becoming
+    'the fruit-bread, ugh'."""
+    char = _uid('soured')
+    curve = []
+    for ep in range(1, 7):
+        _open_and_close(client, char, f'd{ep}', [{
+            'type': 'meal',
+            'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+            'data': {'food': 'fruit-bread',
+                     'reading': 'fruit-bread again'},
+        }])
+        curve.append(
+            _relation(char, 'tag:food:fruit-bread')['affection'])
+    # Growth while the bread is still a comfort (days 1-3), then the
+    # streak's sediment eats the climb back — the wear wins the trend.
+    assert curve[2] > curve[0]
+    assert curve[5] < curve[3]
+
+
+def test_the_place_accretes_its_own_relation(client):
+    """Esgaroth is a subject apart from Rhovanion: seeing it and
+    sleeping there feed 'tag:place:esgaroth' — the town, not the land."""
+    char = _uid('esgaroth')
+    _open_and_close(client, char, 'd1', [{
+        'type': 'place',
+        'when': {'phase': 'morning'},
+        'where': {'region': 'Rhovanion'},
+        'data': {'place': 'esgaroth', 'kind': 'town',
+                 'tags': ['settlement', 'sighted'],
+                 'reading': 'Esgaroth on the lake'},
+    }])
+    rel = _relation(char, 'tag:place:esgaroth')
+    assert rel is not None
+    assert rel['familiarity'] > 0
+    # The kind accretes too — 'towns' as a category (a lower shelf).
+    kind = _relation(char, 'tag:kind:town')
+    assert kind is not None
+    assert kind['familiarity'] < rel['familiarity']
+
+
 def test_sighted_far_barely_touches(client):
     """A city glimpsed from afar is a sighting, not contact — its
     Relation accretes a sighting's share, not a visit's."""

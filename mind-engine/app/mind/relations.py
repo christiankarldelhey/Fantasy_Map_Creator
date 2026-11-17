@@ -15,10 +15,14 @@ from app.mind.tags import tag_family
 
 # How specific a subject is — the narrowest match owns the felt reading
 # and sediments whole; the rest get CATEGORY_SPLASH. Meeting THAT elf
-# moves her Relation fully, 'elves' only by splash.
+# moves her Relation fully, 'elves' only by splash. The region is the
+# broadest shelf — any narrower subject present speaks first.
 _SPECIFICITY = {
     'entity': 4, 'family': 3, 'race': 3, 'entity_type': 2,
-    'place': 2, 'region': 1,
+    # Food outranks drink at the same table — the meal is about the
+    # bread, the ale goes along. Both beat the kind of place and the
+    # land itself.
+    'place': 2, 'food': 2, 'drink': 1, 'kind': 1, 'region': 0,
 }
 
 

@@ -27,14 +27,14 @@ from app.mind.checks import (
     resolve_check,
 )
 from app.mind.engine import acute_hit, mood_delta, project_body
-from app.mind.relations import feed_event, felt_through
+from app.mind.relations import feed, feed_event, felt_through
 from app.mind.semantics import (
     BODY_PROJECTION, load_semantics, semantic_delta,
 )
 from app.mind.voice import phrases, resolve_event_reading
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Episode
-from app.mind.tags import UNTAGGED_FIELDS, subject_tags
+from app.mind.tags import UNTAGGED_FIELDS, subject_tags, tag_is
 from app.mind.util import best_tag_weight, num, tag_matches
 
 # data fields that count as explicit severity when numeric (0-1 normalized).
@@ -249,6 +249,8 @@ def _recurrence_items(session, game_id, mind, perceived, w):
         }
 
     items = []
+    resistance = (mind.personality or {}).get('resistance')
+    resistance = 0.5 if resistance is None else resistance
     for tag in sorted(today):
         if _repetition_exempt(tag, exempt):
             continue
@@ -259,6 +261,15 @@ def _recurrence_items(session, game_id, mind, perceived, w):
                 'repetition', tag, streak, valence, pressure_sal,
                 'mind.repetition', extra_data={'synthetic': True},
             ))
+            # Monotony on a subject sediments too: the fifth straight
+            # fruit-bread wears on 'tag:food:fruit_bread' itself, not
+            # only on the day — a loved bread resists souring through
+            # the same contradiction damping as any evidence.
+            if tag_is(tag, 'subject'):
+                feed(
+                    session, game_id, mind.character_id, tag,
+                    {'affection': valence}, resistance=resistance,
+                )
     if prior:
         for tag in sorted(prior[0]):
             if tag in today or _repetition_exempt(tag, exempt):

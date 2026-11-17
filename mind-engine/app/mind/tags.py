@@ -19,8 +19,11 @@
 TAG_CLASSES = {
     'type':        {'ambient'},
     'weather':     {'ambient', 'pattern'},
-    'food':        {'ambient'},
-    'drink':       {'ambient'},
+    # What you can come to love or hate: the mushrooms, the fruit-bread.
+    # Not ambient — a thing felt about IS contact, not background.
+    'food':        {'subject'},
+    'drink':       {'subject'},
+    'kind':        {'subject'},
     'region':      {'ambient', 'subject', 'pattern'},
     'entity':      {'subject', 'pattern', 'cause'},
     'entity_type': {'subject', 'cause'},
