@@ -936,7 +936,7 @@ async function seedPlaces() {
   const mintedFichaIds = hostFichas.map((f) => f.id);
   await pool.query(
     `DELETE FROM entities_narration WHERE id LIKE 'ent:npc\_%' AND id <> ALL($1::text[])`,
-    [mintedFichas.length ? mintedFichaIds : ['∅']]
+    [mintedFichaIds.length ? mintedFichaIds : ['∅']]
   );
   await pool.query(
     `DELETE FROM entities WHERE slug LIKE 'npc\_%' AND id <> ALL($1::uuid[])`,
@@ -1241,6 +1241,7 @@ async function ensureSchema() {
   await runMigrationFile('fix_places_narration_nested_lang.sql');
   await runMigrationFile('create_entities_narration_table.sql');
   await runMigrationFile('movers_identity_into_entities.sql');
+  await runMigrationFile('add_location_id_to_entities.sql');
 
   // Legacy prose stores drop last (#104): everything above is additive and
   // convergent; this tears down what the narration records replaced. All
