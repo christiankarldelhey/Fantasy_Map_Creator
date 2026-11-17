@@ -1280,6 +1280,25 @@ async function ensureConstraints() {
       constraint: 'water_pkey',
       sql: 'ALTER TABLE water ADD PRIMARY KEY (id)',
     },
+    // ON CONFLICT (slug) upserts in seedMovers need a unique index on
+    // entities.slug / campaigns.slug — declared inline in schema.sql, but a
+    // table that predates the constraint (or lost it to a rebuild) makes the
+    // upsert fail with 'no unique or exclusion constraint matching'.
+    {
+      table: 'entities',
+      constraint: 'entities_slug_key',
+      sql: 'ALTER TABLE entities ADD CONSTRAINT entities_slug_key UNIQUE (slug)',
+    },
+    {
+      table: 'campaigns',
+      constraint: 'campaigns_slug_key',
+      sql: 'ALTER TABLE campaigns ADD CONSTRAINT campaigns_slug_key UNIQUE (slug)',
+    },
+    {
+      table: 'entities_narration',
+      constraint: 'entities_narration_pkey',
+      sql: 'ALTER TABLE entities_narration ADD PRIMARY KEY (id)',
+    },
   ];
 
   for (const { table, constraint, sql } of checks) {
