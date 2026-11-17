@@ -295,10 +295,10 @@ _DISPOSITION_MAX_LINES = 5
 
 
 def inner_lines(session, mind):
-    """Who this mind IS about the world, in lines: each strong Relation
-    rendered as one disposition ('orcs tighten their chest before they
-    mean to'). What makes day 40 sound different from day 1 even when
-    the events are the same — the luggage, not the receipts."""
+    """Who this mind IS about the world: each strong Relation rendered
+    as one disposition ('orcs tighten their chest before they mean to')
+    carrying its raw subject so it can be anchored where the day touches
+    it. The luggage, not the receipts."""
     from app.mind.tables import Relation
     from app.mind.relations import relation_vector
     rows = (
@@ -321,13 +321,56 @@ def inner_lines(session, mind):
             text = template.format(subj=subj)
         else:
             text = f'{subj} is known ground to them now'
-        scored.append((mag, text))
+        scored.append((mag, {'subject': r.subject, 'line': text}))
     scored.sort(key=lambda t: -t[0])
-    return [t for _, t in scored[:_DISPOSITION_MAX_LINES]]
+    return [d for _, d in scored[:_DISPOSITION_MAX_LINES]]
 
 
-def render_lens(character_name, brief, mood=None, today=None,
-                dispositions=None):
+# when.phase → the prompt's three blocks. Single source for every
+# beat-placing rule (memory echoes, brief lines, dispositions).
+PROMPT_PHASES = {
+    'morning': 'morning', 'midday': 'afternoon', 'afternoon': 'afternoon',
+    'evening': 'night', 'night': 'night',
+}
+
+# A disposition with no anchor still speaks — in the day's emptiest hour,
+# camp by preference: the night is where reflection lives.
+_REFLECTION_ORDER = ('night', 'afternoon', 'morning')
+
+
+def disposition_beats(dispositions, items):
+    """Route each standing disposition into the phase where the world
+    touches it: a Relation speaks in scene, not in preamble, because
+    what floats unattached is what the narrator skips. An anchored
+    disposition lands in the first phase whose perceived subjects carry
+    it; an untouched one waits for the quietest hour."""
+    phase_subjects = {p: set() for p in PROMPT_PHASES.values()}
+    phase_load = {p: 0 for p in PROMPT_PHASES.values()}
+    for item in items or []:
+        phase = PROMPT_PHASES.get((item.get('when') or {}).get('phase'))
+        if not phase:
+            continue
+        phase_load[phase] += 1
+        phase_subjects[phase] |= set(item.get('subjects') or [])
+    quietest = min(
+        set(PROMPT_PHASES.values()),
+        key=lambda p: (phase_load[p], _REFLECTION_ORDER.index(p)),
+    )
+    beats = {}
+    for d in dispositions:
+        phase = next(
+            (p for p in ('morning', 'afternoon', 'night')
+             if d['subject'] in phase_subjects[p]),
+            quietest,
+        )
+        beats.setdefault(phase, []).append({
+            'subject': humanize(d['subject'].rsplit(':', 1)[-1]),
+            'line': d['line'],
+        })
+    return beats
+
+
+def render_lens(character_name, brief, mood=None, today=None):
     """The Lens as an Episode brief (C35, CONTEXT.md · Lens): only what the
     Character CARRIES IN renders here — the entering mood through its
     cause, open needs with their origin, memories that resonate with the
@@ -337,11 +380,6 @@ def render_lens(character_name, brief, mood=None, today=None,
     already worded; the lens never invents."""
     brief = brief or {}
     lines = [f'{character_name} today.']
-    if dispositions:
-        # Who they are about the world speaks before what today carries
-        # — the standing self is the ground the day lands on.
-        lines.append('What the world has made of them:')
-        lines.extend(f'- {t}' for t in dispositions)
     focus = brief.get('focus')
     carried, seen = [], set()
     for line in brief.get('carried') or []:

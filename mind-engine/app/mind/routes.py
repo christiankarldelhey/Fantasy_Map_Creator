@@ -25,8 +25,9 @@ from app.mind.director import direct, director_enabled
 from app.mind.engine import derive_feeling, regress
 from app.mind.focus import brief_lines, build_brief, need_origins
 from app.mind.lens import (
-    _age_phrase, brief_beats, episode_mood, inner_lines, line_text,
-    mood_cause, render_lens, update_mind_mood,
+    PROMPT_PHASES, _age_phrase, brief_beats, disposition_beats,
+    episode_mood, inner_lines, line_text, mood_cause, render_lens,
+    update_mind_mood,
 )
 from app.mind.memory import (
     _compact_duplicates,
@@ -425,7 +426,6 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             episode.brief = brief
             episode.lens_block = render_lens(
                 payload.character.name or payload.character.id, brief,
-                dispositions=inner_lines(db, mind),
             )
             db.commit()
             db.refresh(episode)
@@ -533,13 +533,7 @@ def close_episode(
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
 
 
-_PHASE_MAP = {
-    'morning': 'morning',
-    'midday': 'afternoon',
-    'afternoon': 'afternoon',
-    'evening': 'night',
-    'night': 'night',
-}
+_PHASE_MAP = PROMPT_PHASES
 
 
 def _beat_phase(item):
@@ -588,6 +582,24 @@ def _evoked_beats(db, episode):
                 'subject': subj,
                 'line': f'{age}{m.desc}'.strip(),
             })
+    return beats
+
+
+def _merged_beats(db, episode, mind):
+    """The phase beats the narrator gets: the brief's day lines (or, for
+    legacy episodes, the evoked-memory beats) plus the standing self —
+    each disposition routed to where the world touches it, so nothing
+    floats unattached for the narrator to skip."""
+    beats = (
+        brief_beats(episode.brief) if episode.brief
+        else _evoked_beats(db, episode)
+    )
+    if mind is None:
+        return beats
+    for phase, ds in disposition_beats(
+        inner_lines(db, mind), episode.perceived_day or []
+    ).items():
+        beats.setdefault(phase, []).extend(ds)
     return beats
 
 
@@ -715,11 +727,11 @@ def narrate_episode(
             previous_day=req.previousDay,
             mind_block=episode.lens_block or '',
             # C35: the brief's day lines ride inside their phase; legacy
-            # episodes (no brief) keep the C21 memory beats.
-            memory_beats=(
-                brief_beats(episode.brief) if episode.brief
-                else _evoked_beats(db, episode)
-            ),
+            # episodes (no brief) keep the C21 memory beats. And the
+            # standing self speaks in scene, not in preamble — each
+            # disposition lands where the world touches it, or waits
+            # for the quietest hour (ADR 0017).
+            memory_beats=_merged_beats(db, episode, mind),
             impressions=_evoked_impressions(db, episode),
         )
         generation = result['generation'] or {}

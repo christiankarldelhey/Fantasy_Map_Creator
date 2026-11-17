@@ -63,8 +63,11 @@ def phase_block(
         for enc in encounters:
             name = ((enc.get('entity') or {}).get('name') or '').lower()
             subj = (echo.get('subject') or '').lower()
-            if subj and name and (subj in name or name in subj):
-                enc.setdefault('echo', echo['line'])
+            # An encounter carries ONE echo inside its block; a second
+            # match must not be swallowed — it falls to the stirs list.
+            if subj and name and 'echo' not in enc and (
+                    subj in name or name in subj):
+                enc['echo'] = echo['line']
                 placed = True
                 break
         if not placed:

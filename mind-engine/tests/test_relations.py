@@ -406,11 +406,20 @@ def test_the_place_accretes_its_own_relation(client):
     assert kind['familiarity'] < rel['familiarity']
 
 
-def test_the_lens_speaks_the_standing_self(client):
-    """A mind that has met orcs carries them into the next day: the
-    lens renders the standing Relation as a disposition line, so the
-    narrator knows what the world has already made of her."""
-    char = _uid('selfmade')
+def test_the_standing_self_speaks_in_scene(client, monkeypatch):
+    """A mind that has met orcs carries them — and the fear SPEAKS where
+    the world touches it: the narrated prompt's afternoon block carries
+    the disposition, the lens header does not. Nothing floats."""
+    import app.narrate_day as narrate_module
+    monkeypatch.setattr(
+        narrate_module, 'generate_narrative',
+        lambda *a, **k: {
+            'text': 'narrated', 'ia_provider': 'test',
+            'temperature': 0.7, 'frequency_penalty': 0.0,
+            'presence_penalty': 0.0, 'top_p': 1.0,
+        },
+    )
+    char = _uid('inscene')
     _open_and_close(client, char, 'd1', [{
         'type': 'encounter',
         'when': {'phase': 'afternoon'},
@@ -418,14 +427,41 @@ def test_the_lens_speaks_the_standing_self(client):
                  'form': 'attacks', 'danger': 3,
                  'reading': 'orcs — attacked without warning'},
     }])
-    opened = _open(client, char, [{
-        'type': 'meal',
-        'when': {'phase': 'morning'},
-        'data': {'food': 'bread', 'reading': 'bread and water'},
-    }], ref='d2')
-    block = opened['psyche_packet']['lens_block']
-    assert 'What the world has made of them' in block
-    assert 'orcs' in block
+    r = client.post('/episodes', json={
+        'game_id': 'middle_earth', 'character': {'id': char},
+        'episode_ref': 'd2',
+        'episode': {'index': 2, 'at': '1950-01-21'},
+        'events': [{
+            'type': 'encounter',
+            'when': {'phase': 'afternoon'},
+            'data': {'entity': 'orcs', 'entity_type': 'orcs',
+                     'form': 'drifts_closer',
+                     'reading': 'orc-sign in the mud by the water'},
+        }],
+    })
+    assert r.status_code == 200, r.text
+    ep_id = r.json()['episode_id']
+    r = client.post(f"/episodes/{ep_id}/narrate", json={})
+    assert r.status_code == 200, r.text
+    user = r.json()['prompt']['user']
+    assert 'What the world has made of them' not in user
+    afternoon = user.index('=== AFTERNOON')
+    assert user.index('feared, and hated for it') > afternoon, user
+
+
+def test_an_untouched_disposition_waits_for_the_quietest_hour(client):
+    """The fear no event touches is not dropped: it speaks in the day's
+    emptiest hour — the camp night, where reflection lives."""
+    from app.mind.lens import disposition_beats
+    disps = [{'subject': 'entity:orcs',
+              'line': 'orcs tighten their chest before they mean to'}]
+    items = [
+        {'when': {'phase': 'morning'}, 'subjects': ['tag:food:bread']},
+        {'when': {'phase': 'afternoon'},
+         'subjects': ['tag:place:old_ford', 'region:rhovanion']},
+    ]
+    beats = disposition_beats(disps, items)
+    assert list(beats) == ['night']
 
 
 def test_the_day_turns_at_the_ford(client):
