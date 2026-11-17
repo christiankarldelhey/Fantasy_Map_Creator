@@ -22,12 +22,11 @@
 //   prose_hint:     string,
 //   intensity:      number,
 //   outcome:        string | null,
-//   dialogue_content: { id, topic, npc_attitude, concrete_content,
-//                       tension, traveller_stance, options, commands,
-//                       narration } | null,
-//   decision:         { id, prompt, options } | null,  // B5: only for
-//                     // before_sleep encounters on rows that author options —
-//                     // the mind weighs, the host applies.
+//   dialogue_content: { id, situation_id, topic, npc_attitude,
+//                       concrete_content, tension, traveller_stance,
+//                       narration } | null,  // prose + the chosen Situation
+//                     // id; the executable options live in `interactions`
+//                     // and resolve through the engine, not here.
 // }
 // Encounters stay anonymous: archetypes are kinds, not persons — a band's
 // chief may be named in the aspect's prose, never as structured data.
@@ -278,8 +277,6 @@ function toDialogueContent(row, rng) {
     concrete_content: row.presence?.en ?? null,
     tension: sit?.situation?.en ?? null,
     traveller_stance: sit?.stance?.en ?? null,
-    options: sit?.options ?? null,
-    commands: sit?.commands ?? null,
     // The full record rides along — variants, disposition, interactive —
     // for the shared option-selector chapter.
     narration: row,
@@ -318,8 +315,6 @@ function resolveMoverContact(leg, contact, moverKind, characterSlug, rng = Math.
     concrete_content: concrete,
     tension: sit?.situation?.en ?? null,
     traveller_stance: sit?.stance?.en ?? null,
-    options: sit?.options ?? null,
-    commands: sit?.commands ?? null,
     narration: contact,
   } : (concrete ? { concrete_content: concrete } : null);
 
@@ -329,7 +324,6 @@ function resolveMoverContact(leg, contact, moverKind, characterSlug, rng = Math.
     intensity: leg?.hostile ? 3 : 1,
     outcome: null,
     dialogue_content: dialogueContent,
-    decision: null,
   };
 }
 
@@ -476,27 +470,11 @@ export async function resolveEncounter(
     outcome = rollResistance(entity, character, rng);
   }
 
-  // B5: an offer found at dusk is a real choice — stay or walk on —
-  // when the row authors options. Mid-march sightings of the same place
-  // keep the plain pass-by stance: there is nothing to decide at 10am.
-  let decision = null;
-  if (
-    nightTiming === 'before_sleep' &&
-    Array.isArray(dialogueContent?.options) &&
-    dialogueContent.options.length > 0
-  ) {
-    decision = {
-      id: `shelter-${dialogueContent.id}`,
-      prompt: dialogueContent.tension ?? null,
-      options: dialogueContent.options,
-    };
-  }
-
   console.log(
     `[ENCOUNTER] entity=${entity?.name} type=${entityType} danger=${danger} ` +
     `pool_size=${candidates.length} form=${chosen.form} weight=${chosen.effectiveWeight} ` +
     `topic=${dialogueContent?.topic ?? 'none'} contact=${dialogueContent ? dialogueContent.id : 'no'} ` +
-    `decision=${decision ? decision.id : 'none'} outcome=${outcome ?? 'none'}`
+    `outcome=${outcome ?? 'none'}`
   );
 
   return {
@@ -505,7 +483,6 @@ export async function resolveEncounter(
     intensity: chosen.intensity,
     outcome,
     dialogue_content: dialogueContent,
-    decision,
   };
 }
 

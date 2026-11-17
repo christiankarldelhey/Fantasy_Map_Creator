@@ -283,9 +283,8 @@ test('mechanically consequential events carry weight markers (C28)', () => {
           hour_float: 13.0,
           interaction: {
             form: 'aid_or_trade',
-            dialogue_content: {
-              commands: [{ type: 'meal', slot: 'midday', food: "the farm wife's soup" }],
-            },
+            given: true, // the engine applied the stance's shared meal
+            dialogue_content: {},
           },
         },
         {

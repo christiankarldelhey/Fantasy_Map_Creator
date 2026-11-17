@@ -11972,46 +11972,7 @@
         },
         "stance": {
           "en": "Takes the fire and the share of the pot. Pays in news and an hour of hands before walking on."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "thin barley bread and a share of the pot"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the byre-loft",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the byre-loft. Pays in news and an hour of hands at the evening work.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the byre-loft",
-                "description": "a dry loft above the byre — coin refused, the price is news and hands",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Pay in news and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12049,14 +12010,7 @@
         },
         "stance": {
           "en": "Answers the question about the road honestly. Does not ask what happened here."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12094,16 +12048,7 @@
         },
         "stance": {
           "en": "Eats what is given at the gate. Leaves the bowl clean and something small beside it."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "what was left on the gate-stone"
-          },
-          {
-            "type": "water_refill"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12143,51 +12088,7 @@
         },
         "stance": {
           "en": "Gives the road honestly and names the two places he would not stop at. Takes only what he can carry."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "hot food at the farmhouse table"
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the dry corner for the night",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the dry corner. Gives them the Greenway honestly — the watched stretch and the quiet one.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the farm's dry corner",
-                "description": "a dry corner under the farmhouse roof, earned with word of the road",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Give the road news and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12269,13 +12170,7 @@
         },
         "stance": {
           "en": "Eats what they give. Tells them only what they can use. Walks on while the light lasts."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "a share of the pot"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12316,14 +12211,7 @@
         },
         "stance": {
           "en": "Accepts the cup. Looks at the child. Says what can be done in words a farmer can use."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "new bread and honey",
-            "drink": "the one good cup"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12364,40 +12252,7 @@
         },
         "stance": {
           "en": "Agrees to the back path. Does not make them explain it."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Share their fire, leave unseen",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Shares the fire and the pot. Leaves by the back path before the village is awake.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the unwitnessed fire",
-                "description": "a place by a fire whose owners ask not to be seen being kind",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Agree to the back path and go now",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12438,38 +12293,7 @@
         },
         "stance": {
           "en": "Answers truthfully and briefly. Does not dress it up for her."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the hearth-place for the night",
-            "tags": [
-              "need:exhaustion",
-              "need:unrest"
-            ],
-            "stance": "Takes the hearth-place for the night. Gives the old woman the true answer and does not dress it up.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the hearth-place",
-                "description": "a place by the hearth of a woman who has waited her whole life to ask",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": false,
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Answer her and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12508,40 +12332,7 @@
         },
         "stance": {
           "en": "Answers plainly. Neither defends the Rohirrim nor flatters the hill-folk."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the place at the peat-fire",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the place at the peat-fire. Eats their mutton and curds. Answers plainly about the riders.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the peat-fire",
-                "description": "a place at a peat-fire in hill-country, bought with a straight answer",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 2,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Answer plainly and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12579,13 +12370,7 @@
         },
         "stance": {
           "en": "Gives up the knife. Says what he knows of the burning and no more than that."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "their bread"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12623,52 +12408,7 @@
         },
         "stance": {
           "en": "Eats well. Gives news freely. Keeps his own errand out of it."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "meat and ale at the bench"
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the bench in the hall",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the bench in the hall. Gives news freely until the ale runs out.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the hall bench",
-                "description": "a bench by the hall fire, with the whole household listening",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Give the road news and keep walking",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Gives them the news of the southern roads. Declines the bench and keeps his own errand out of it.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12706,14 +12446,7 @@
         },
         "stance": {
           "en": "Takes the message. Carries it. Repeats it exactly as given."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 3
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12751,47 +12484,7 @@
         },
         "stance": {
           "en": "Gives a name they can write down. Eats the bread and olives. Leaves while the light holds."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "bread, oil and olives"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the place in the outbuilding",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the place in the outbuilding. Eats the bread and olives. Lets the tally have his name.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the outbuilding",
-                "description": "a place in the outbuilding of a village that writes travellers into a tally",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": 0
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Give the tally a name and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Gives a name they can write down. Reads the tally for what it is. Walks on.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12829,17 +12522,7 @@
         },
         "stance": {
           "en": "Pays the asked price. Marks the milestone. Does not press him further."
-        },
-        "commands": [
-          {
-            "type": "coins",
-            "amount": -2
-          },
-          {
-            "type": "meal",
-            "food": "food bought at last year's price"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12877,52 +12560,7 @@
         },
         "stance": {
           "en": "Takes the arrows. Gives a true answer about the north even where the truth is thin."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "the household's hot food"
-          },
-          {
-            "type": "item",
-            "slug": "common_arrows",
-            "qty": 8
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the dry loft",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the dry loft and the arrows. Gives a true answer about the north even where the truth is thin.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the dry loft",
-                "description": "a dry loft over a house that keeps faith with a ruined kingdom",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Give the north honestly and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Gives a true answer about the north even where the truth is thin. Leaves the bundle where it lies.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -12960,46 +12598,7 @@
         },
         "stance": {
           "en": "Takes the oar for the crossing. Earns the breakfast. Walks on."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "smoked fish and flat bread"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the berth in the net-loft",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger"
-            ],
-            "stance": "Takes the berth in the net-loft. Takes the oar before dawn if the boat goes out.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the net-loft",
-                "description": "a berth among the drying nets, paid for with an oar before dawn",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 2,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Take the fish and camp upshore",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Takes the smoked fish. Camps upshore of the net-lofts.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13037,47 +12636,7 @@
         },
         "stance": {
           "en": "Accepts the seal-meat and the grass packing. Repays the kindness as he can."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "seal-meat at the fire"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the place out of the wind",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the place out of the wind. Sleeps with the seal-meat and the grass packing earned.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the place out of the wind",
-                "description": "a place out of the wind in country where wind kills",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Repay the kindness and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Repays the kindness as he can. Walks on while the wind allows.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13115,47 +12674,7 @@
         },
         "stance": {
           "en": "Sits where he is put. Eats his share. Gives them word of the war-bands and moves on."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "a share of what is on the spit"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the place at the firelight edge",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the place at the edge of the firelight. Eats his share of the spit. Gives them word of the war-bands.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the edge of the firelight",
-                "description": "a place at the edge of a camp that trusts nothing unproven",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 2,
-                "shadow_effect": 0
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Give the war-band news and move on",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Gives them word of the war-bands. Does not take the place at the firelight edge.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13193,14 +12712,7 @@
         },
         "stance": {
           "en": "Carries the ewe down. Takes the short way."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13238,13 +12750,7 @@
         },
         "stance": {
           "en": "Reads the sticks. Leaves dried meat on the stone. Walks around the marked place."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "roasted roots and water"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13282,16 +12788,7 @@
         },
         "stance": {
           "en": "Pays without haggling. Leaves by the road they name."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "roots and water"
-          },
-          {
-            "type": "water_refill"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13329,14 +12826,7 @@
         },
         "stance": {
           "en": "Answers about the riders without pretending not to have seen them. Eats what is put in his hand."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "oatcake and mutton fat",
-            "drink": "thin beer"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13374,39 +12864,7 @@
         },
         "stance": {
           "en": "Trades word of the lower fords for the name of the dry crossing. Does not press toward their fire."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Give the salt and the oath",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger"
-            ],
-            "stance": "Gives the salt. Gives the promise and means it. Sleeps with his boots on.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the hidden camp's fire",
-                "description": "a place by a fire in a camp that is not supposed to be here",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 2,
-                "shadow_effect": 0
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Take the crossing name and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13444,46 +12902,7 @@
         },
         "stance": {
           "en": "Eats. Understands what is not being asked. Decides whether the track is his business."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "food at their fire"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the food and the hide",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger"
-            ],
-            "stance": "Takes the food and the hide. Sleeps light, deciding nothing about the track.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the offered hide",
-                "description": "a hide to sleep under, offered by people who need a stranger to walk a bad track",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 2,
-                "shadow_effect": 0
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Take the warning and walk on",
-            "tags": [
-              "risk:cautious"
-            ],
-            "stance": "Understands what is not being asked. Walks on before they can offer the hide.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13523,13 +12942,7 @@
         },
         "stance": {
           "en": "Names himself Dúnedain and nothing more. Takes the track they name."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "curds and barley bread"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13570,46 +12983,7 @@
         },
         "stance": {
           "en": "Looks at the spring. Gives them the plain cause and the plain remedy. Lets the story die."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "what they give"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Sleep within the ring of the camp",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Eats what they give. Sleeps within the ring of the camp. Lets the story die.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the camp ring",
-                "description": "a place to sleep inside the ring of a camp that is afraid of being seen",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Tell them the remedy and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13686,17 +13060,7 @@
         },
         "stance": {
           "en": "Accepts. Answers where he is bound. Does not ask for an escort."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 2
-          },
-          {
-            "type": "water_refill"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13734,18 +13098,7 @@
         },
         "stance": {
           "en": "Gives only what he actually saw. Refuses to guess at numbers."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "food and grain at their fire"
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13783,47 +13136,7 @@
         },
         "stance": {
           "en": "Describes the grass and the water honestly. Eats and moves on."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "meat and mare's milk"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the place at the fire",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the place at the fire. Eats their meat and drinks their mare's milk.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the herd-camp fire",
-                "description": "a place at the fire of people who move with the grass",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 2,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Describe the grazing and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Describes the grass and the water honestly. Does not take the place at the fire.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13861,16 +13174,7 @@
         },
         "stance": {
           "en": "Eats. Leaves a strip of dried meat where the food was set. Does not try to make talk."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "roots and smoked meat"
-          },
-          {
-            "type": "water_refill"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13908,40 +13212,7 @@
         },
         "stance": {
           "en": "Gives an edited version of the road. Listens to the whole state of the Bree-land laid out unasked."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the bed — a copper or two",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Pays the coppers. Gives an edited version of the road. Sleeps warm.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the bed of straw",
-                "description": "a bed of straw and the whole state of the Bree-land laid out unasked",
-                "indoor": true,
-                "lodging_cost": 2,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Give the short version and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -13979,38 +13250,7 @@
         },
         "stance": {
           "en": "Takes the warning about the south road. Notes the month and the road. Walks on."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the room",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger"
-            ],
-            "stance": "Takes the room. Notes the month and the road. Says he will keep his eyes open, and means it.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the room",
-                "description": "a roof for a fair price and a warning that comes free with it",
-                "indoor": true,
-                "lodging_cost": 5,
-                "meal": true,
-                "rest_quality": 4,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Take the warning and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14048,45 +13288,7 @@
         },
         "stance": {
           "en": "Takes the pole for three hours. Rides the barge as far as it goes."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "a share of the fish"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the dry place among the bales",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger"
-            ],
-            "stance": "Takes the dry place among the bales. Takes the pole for three hours.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the bales",
-                "description": "a dry place among the bales of a river barge, earned at the pole",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 2,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Take the pole and get off at the landing",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14124,13 +13326,7 @@
         },
         "stance": {
           "en": "Gets the boot mended. Sorts the rumours quietly into true and useless."
-        },
-        "commands": [
-          {
-            "type": "coins",
-            "amount": -1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14168,47 +13364,7 @@
         },
         "stance": {
           "en": "Eats what is set out. Answers about the hunting truthfully. Does not ask about the bees."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "bread, cream and honey"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the bed in the hay",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the bed in the hay. Eats what is set out. Answers about the hunting truthfully.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the hay",
-                "description": "a bed in the hay of a board where no meat is set",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Account for the hunt and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Answers about the hunting truthfully. Does not ask about the bees. Finds his own ground.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14246,40 +13402,7 @@
         },
         "stance": {
           "en": "Takes the directions. Marks the clearing for a harder night."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Camp in the hidden clearing",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the share of the pot and the resin-torches. Camps in the one clearing a fire cannot be seen from.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the hidden clearing",
-                "description": "the one clearing where a fire will not be seen from the eastern slopes",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Mark the clearing and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14317,40 +13440,7 @@
         },
         "stance": {
           "en": "Talks at the fire a while. Gives the honest answer about the lower fords."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the dog and the second watch",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Talks. Takes the dog. Returns it in the morning.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the shepherd's fire",
-                "description": "a place at a shepherd's fire with a dog borrowed for the watch",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Give the ford answer and camp alone",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14388,40 +13478,7 @@
         },
         "stance": {
           "en": "Trades the hooks. Copies how they bank the fire."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the place in the snow-house",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the place in the snow-house. Trades the hooks. Wears the overshirt.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the snow-house",
-                "description": "a shared snow-house, built by people who know what weather costs",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 4,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Trade the hooks and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14459,13 +13516,7 @@
         },
         "stance": {
           "en": "Takes the punt. Remembers which channel is which."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "eel and flat reed-bread"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14503,20 +13554,7 @@
         },
         "stance": {
           "en": "Buys the food. Uses the ford. Remembers the complaint."
-        },
-        "commands": [
-          {
-            "type": "coins",
-            "amount": -2
-          },
-          {
-            "type": "meal",
-            "food": "bread, oil and dried figs"
-          },
-          {
-            "type": "water_refill"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14554,45 +13592,7 @@
         },
         "stance": {
           "en": "Walks with the waggons while the road allows. Trades road news at their fires."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "food from the cook-waggon"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Stand the watch in the waggon circle",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger"
-            ],
-            "stance": "Takes the watch in the waggon circle. Eats at the cook-fire. Walks with them as far as the roads run together.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the waggon circle",
-                "description": "a place inside the waggon circle, earned standing their watch",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 2,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Walk with them a while and camp alone",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14630,39 +13630,7 @@
         },
         "stance": {
           "en": "Notes the three men behind the caravan. Keeps his own distance."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the coin and walk the rear watch",
-            "tags": [
-              "need:hunger",
-              "risk:bold"
-            ],
-            "stance": "Takes the coin. Walks the rear watch. Does not let the three men out of counting.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the caravan's night picket",
-                "description": "a place at the caravan's picket, paid for with a sword at the rear",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 1,
-                "shadow_effect": 0
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Note the three men and camp elsewhere",
-            "tags": [
-              "risk:cautious"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14700,18 +13668,7 @@
         },
         "stance": {
           "en": "Pays a little over. Takes the news. Notes the mule is better shod than the man."
-        },
-        "commands": [
-          {
-            "type": "coins",
-            "amount": -3
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14749,47 +13706,7 @@
         },
         "stance": {
           "en": "Gives the northern news. Takes the crossing. Does not haggle over the fish."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the bed in the byre",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Gives the salt and the northern news. Takes the bed in the byre.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the byre",
-                "description": "a bed in the byre of a woman who prices what she knows",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Take the crossing line and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14827,14 +13744,7 @@
         },
         "stance": {
           "en": "Takes the rope and the stick. Goes up at the hour they name."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14872,19 +13782,7 @@
         },
         "stance": {
           "en": "Takes only what he will use. Says what he has left behind him for the next man."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "common_arrows",
-            "qty": 6
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14922,40 +13820,7 @@
         },
         "stance": {
           "en": "Trades what he knows of the road behind for what they know of the road ahead."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Put his rations in and take the second watch",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Puts his rations into the pot. Takes the second watch. Parts from them at the crossroads.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the shared fire",
-                "description": "a shared fire with watches split — nobody asks anything beyond the morning",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Trade road news and camp alone",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -14993,13 +13858,7 @@
         },
         "stance": {
           "en": "Eats the fish. Agrees to look upstream. Does not promise to come back."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "the fresh fish"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15037,51 +13896,7 @@
         },
         "stance": {
           "en": "Accepts without protesting. Asks one question, well chosen."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "lembas",
-            "qty": 1
-          },
-          {
-            "type": "water_refill"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the night under the hythe",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest",
-              "need:thirst"
-            ],
-            "stance": "Takes the night under the hythe of woven branches. Asks one question, well chosen.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the hythe",
-                "description": "a night under a hythe of woven branches, lent by elves",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": false,
-                "water": true,
-                "rest_quality": 4,
-                "shadow_effect": -2
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Take the waybread and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15119,50 +13934,7 @@
         },
         "stance": {
           "en": "Takes the healing. Accepts the boundary without argument."
-        },
-        "commands": [
-          {
-            "type": "heal"
-          },
-          {
-            "type": "meal",
-            "food": "food at their fire"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the healing and a place at their fire",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the food and a place at their fire. Accepts the boundary without argument.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the healers' fire",
-                "description": "a place at the fire of those who heal and then let go",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 4,
-                "shadow_effect": -2
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Take the path they showed and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Accepts the boundary without argument. Walks on with the path they showed her.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15200,40 +13972,7 @@
         },
         "stance": {
           "en": "Sits for it. Does not ask what they saw in him."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Sit for the singing and sleep under their keep",
-            "tags": [
-              "need:exhaustion",
-              "need:unrest"
-            ],
-            "stance": "Sits for the singing. Sleeps under their keep and wakes lighter than he lay down.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the sung watch",
-                "description": "a place to sleep kept by those who sing over what ails the traveller",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 4,
-                "shadow_effect": -2
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Sit a while and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Sits for it a while. Does not stay the night.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15273,19 +14012,7 @@
         },
         "stance": {
           "en": "Gives the greeting in Sindarin. Takes the arrows. Reports what the north looks like from his side."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "common_arrows",
-            "qty": 6
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15326,14 +14053,7 @@
         },
         "stance": {
           "en": "Takes the provisions. Changes the line. Files the fact that they would not say why."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 4
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15374,52 +14094,7 @@
         },
         "stance": {
           "en": "Accepts the meal and the hot water. Answers about the road. Does not confirm the assumption."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "a meal at the camp they made"
-          },
-          {
-            "type": "water_refill"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the camp they made",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:thirst",
-              "need:unrest"
-            ],
-            "stance": "Takes the camp they made without being asked. Eats the meal. Drinks the hot water.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the camp they made",
-                "description": "a proper camp made for her without being asked",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "water": true,
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Answer about the road and make her own camp",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Answers about the road. Does not confirm the assumption. Makes her own camp.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15460,45 +14135,7 @@
         },
         "stance": {
           "en": "Refuses the escort. Takes what they press on her for the road. Does not answer the question."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 2
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the shelter, refuse the escort",
-            "tags": [
-              "need:exhaustion",
-              "need:unrest"
-            ],
-            "stance": "Takes the shelter. Refuses the horse and the escort. Does not answer the question.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the offered shelter",
-                "description": "shelter offered by elves who ask only one question too kind to answer",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": false,
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Refuse the escort and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15539,39 +14176,7 @@
         },
         "stance": {
           "en": "Eats little. Rests at the edge of their firelight a while. Says nothing about why the place was made there."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the place made ready",
-            "tags": [
-              "need:exhaustion",
-              "need:unrest"
-            ],
-            "stance": "Takes the place made ready in the middle of their camp. Eats little. Says nothing about why it was made there.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the place made ready",
-                "description": "a place made ready in the middle of their camp — deliberately, so that she is surrounded",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": false,
-                "rest_quality": 3,
-                "shadow_effect": -2
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Rest at the firelight edge and go",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Eats little. Rests at the edge of their firelight a while. Walks on before the place made ready can hold her.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15610,17 +14215,7 @@
         },
         "stance": {
           "en": "Lets them repack it. Learns the landmarks by heart."
-        },
-        "commands": [
-          {
-            "type": "heal"
-          },
-          {
-            "type": "item",
-            "slug": "lembas",
-            "qty": 1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15658,17 +14253,7 @@
         },
         "stance": {
           "en": "Accepts the terms. Takes the low road. Keeps it to himself."
-        },
-        "commands": [
-          {
-            "type": "heal"
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 3
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15706,46 +14291,7 @@
         },
         "stance": {
           "en": "Takes the lembas and the coil of grey rope. Promises the wood his feet and his knife."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "lembas",
-            "qty": 1
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the flet on their terms",
-            "tags": [
-              "need:exhaustion",
-              "need:unrest"
-            ],
-            "stance": "Sleeps where he is put. Cuts nothing. Leaves at the hour they name.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the flet",
-                "description": "a talan above the ground, lent for a night on their terms",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": false,
-                "rest_quality": 4,
-                "shadow_effect": -2
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Thank them and keep out of the wood",
-            "tags": [
-              "risk:cautious"
-            ],
-            "stance": "Thanks them for the terms. Does not take the flet. Keeps walking while the light holds.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15783,14 +14329,7 @@
         },
         "stance": {
           "en": "Drinks less than they pour. Gives the river honestly. Walks out where they lead him."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "a hot meal at their fire",
-            "drink": "their strong wine"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15828,13 +14367,7 @@
         },
         "stance": {
           "en": "Takes the lantern. Asks what is at the two places. Gets a straight answer."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "food from their own store"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15872,16 +14405,7 @@
         },
         "stance": {
           "en": "Takes the day's loss without arguing about it."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "dried fruit"
-          },
-          {
-            "type": "water_refill"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15919,13 +14443,7 @@
         },
         "stance": {
           "en": "Takes the crossing. Does not ask when the next ship sails."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "ship's bread and salt fish"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -15963,14 +14481,7 @@
         },
         "stance": {
           "en": "Takes the arrows. Marks the spring. Asks nothing about his errand."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "common_arrows",
-            "qty": 6
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -16046,13 +14557,7 @@
         },
         "stance": {
           "en": "Drinks it. Follows their line and not his own judgement."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "drink": "the hot drink he cannot identify"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -16090,16 +14595,7 @@
         },
         "stance": {
           "en": "Takes the boat. Bails when told to. Leaves something at the shrine-stone on landing."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "grilled fish"
-          },
-          {
-            "type": "water_refill"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -16137,13 +14633,7 @@
         },
         "stance": {
           "en": "Accepts it. Does not press for the reason."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "the food he did not know he needed"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -16181,46 +14671,7 @@
         },
         "stance": {
           "en": "Eats. Rests in the shelter of their fire a while. Remembers the counsel word for word."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "the hot meal that should not exist where it is standing"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the shelter that should not exist",
-            "tags": [
-              "need:exhaustion",
-              "need:unrest"
-            ],
-            "stance": "Takes the night's shelter that should not exist where it is standing. Eats. Remembers the counsel word for word.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the shelter that should not exist",
-                "description": "a night's shelter standing where no shelter should be",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 4,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Keep the counsel and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "stance": "Remembers the counsel word for word. Does not ask what the shelter costs.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -16296,13 +14747,7 @@
         },
         "stance": {
           "en": "Takes the herbs. Believes the crow. Says thank you to both of them."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "a warm mash of something wholesome"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -16340,12 +14785,7 @@
         },
         "stance": {
           "en": "Carries the beast. Loses the two miles. Gets more than two miles of value back."
-        },
-        "commands": [
-          {
-            "type": "heal"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -16383,46 +14823,7 @@
         },
         "stance": {
           "en": "Eats far too much. Learns the rhyme. Walks on before the light goes."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "yellow cream, honeycomb, bread and butter"
-          }
-        ],
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the bed of dry rushes",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the bed of dry rushes. Eats far too much. Sleeps like the dead.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the house of Tom Bombadil",
-                "description": "a bed of dry rushes in the one house the forest cannot touch",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 5,
-                "shadow_effect": -2
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Eat, learn the rhyme, and go before dark",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -16460,40 +14861,7 @@
         },
         "stance": {
           "en": "Follows the directions exactly. Does not improve on them."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the night's lodging",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "stance": "Takes the night's lodging. Eats all he can hold. Follows the directions exactly come morning.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the house of Tom Bombadil",
-                "description": "a night's lodging where gear dries by morning and directions must be followed exactly",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 5,
-                "shadow_effect": -2
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Take the directions and keep walking",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -16533,13 +14901,7 @@
         },
         "stance": {
           "en": "Eats. Laughs, which surprises her. Notes the remark about the water."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "bread, honey and yellow cream"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -16578,40 +14940,7 @@
         },
         "stance": {
           "en": "Notices how easy it has become. Breaks off eastward travel and pays for the harder road."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the easy eastern line",
-            "tags": [
-              "need:exhaustion",
-              "need:thirst",
-              "need:unrest"
-            ],
-            "stance": "Takes the water, the shelter, the dry wood. Lets the road go where it is being steered.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the offered ease",
-                "description": "water, shelter and dry wood, suddenly available on the eastern line of march",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": false,
-                "water": true,
-                "rest_quality": 4,
-                "shadow_effect": 2
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Break east and pay for the harder road",
-            "tags": [
-              "risk:cautious"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -16649,39 +14978,7 @@
         },
         "stance": {
           "en": "Marks the offered ground and does not take it. Walks on while the light holds."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the offered rest",
-            "tags": [
-              "need:exhaustion",
-              "need:unrest"
-            ],
-            "stance": "Takes the offered ground. Sleeps deeply, the first real rest in weeks — and wakes not knowing what it cost.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the chosen ground",
-                "description": "ground that some old instinct says was chosen for him",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": false,
-                "rest_quality": 4,
-                "shadow_effect": 3
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Refuse the ground and sleep worse",
-            "tags": [
-              "risk:cautious"
-            ],
-            "stance": "Refuses the ground. Sleeps badly somewhere worse and wakes up himself.",
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -16795,14 +15092,7 @@
         },
         "stance": {
           "en": "Takes the cake. Answers about the road honestly, gently."
-        },
-        "commands": [
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -17144,18 +15434,7 @@
         },
         "stance": {
           "en": "Pays the named price. Gets full value. Learns not to bargain with him."
-        },
-        "commands": [
-          {
-            "type": "coins",
-            "amount": -2
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -17193,39 +15472,7 @@
         },
         "stance": {
           "en": "Shares the road's news at the edge of his fire. Does not ask what is behind him."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the first watch",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger"
-            ],
-            "stance": "Takes the first watch. Eats at his fire. Wakes him only if it matters. Does not mention the pass.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the watch-fire",
-                "description": "a place at a fire that needed another pair of eyes",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 2,
-                "shadow_effect": -1
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Share the news and leave him his watch",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -17265,13 +15512,7 @@
         },
         "stance": {
           "en": "Gives him the old name. Takes the road-notes. Appreciates being asked as a source rather than a wonder."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "food at his fire"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -17386,18 +15627,7 @@
         },
         "stance": {
           "en": "Buys the knife. Takes the road-news. Pays the carriage without complaint."
-        },
-        "commands": [
-          {
-            "type": "coins",
-            "amount": -3
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -17435,18 +15665,7 @@
         },
         "stance": {
           "en": "Buys the biscuit and the nails. Refuses the mirror twice. Buys the mirror."
-        },
-        "commands": [
-          {
-            "type": "coins",
-            "amount": -3
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -17598,16 +15817,7 @@
         },
         "stance": {
           "en": "Turns the windlass. Eats their food. Gives them every scrap of news he has."
-        },
-        "commands": [
-          {
-            "type": "meal",
-            "food": "the hot meal at the mine-mouth"
-          },
-          {
-            "type": "water_refill"
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -22080,39 +20290,7 @@
         },
         "stance": {
           "en": "Weighs the coin against the miles left in the day. Trades the road news owed at the door. Marks the lamp for the road back."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the bed — a small coin",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the wayhouse",
-                "description": "a lamp lit for whoever comes in off the road",
-                "indoor": true,
-                "lodging_cost": 5,
-                "meal": true,
-                "rest_quality": 4,
-                "shadow_effect": -2
-              }
-            ],
-            "stance": "Takes the bed. Eats what the pot offers. The coin is spent without regret."
-          },
-          {
-            "id": "move_on",
-            "label": "Mark the lamp and keep to the road",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -22152,40 +20330,7 @@
         },
         "stance": {
           "en": "Answers the raised hand. An hour at the fence trading road news — the barn stays an offer, the day is not done."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the barn's dry corner",
-            "tags": [
-              "need:exhaustion",
-              "need:hunger",
-              "need:unrest"
-            ],
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the farmstead barn",
-                "description": "a dry corner under the hay, the yard lamp long out",
-                "indoor": true,
-                "lodging_cost": 0,
-                "meal": true,
-                "meal_slug": "shared_pot",
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ],
-            "stance": "Takes the barn's dry corner. Shares the pot and the road's news until the lamp goes out."
-          },
-          {
-            "id": "move_on",
-            "label": "Trade news at the fence and walk on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -22433,38 +20578,7 @@
         },
         "stance": {
           "en": "Rests a while in the dry lee. Reads the road it is set to watch. Marks the overhang for a harder night."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Make camp under the stone",
-            "tags": [
-              "need:exhaustion",
-              "need:unrest"
-            ],
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the overhang",
-                "description": "a dry lee above the road, fire-rings old as the path itself",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": false,
-                "rest_quality": 3,
-                "shadow_effect": -1
-              }
-            ],
-            "stance": "Makes camp under the stone. The beam serves as it was left to serve."
-          },
-          {
-            "id": "move_on",
-            "label": "Rest a while, mark it, and move on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -22503,40 +20617,7 @@
         },
         "stance": {
           "en": "Drinks from the spring. Leaves the stand rooted. Marks where athelas grows."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Camp beside the spring",
-            "tags": [
-              "need:thirst",
-              "need:exhaustion",
-              "need:unrest"
-            ],
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the spring",
-                "description": "clean water and a stand of athelas — the ground keeps itself",
-                "indoor": false,
-                "lodging_cost": 0,
-                "meal": false,
-                "water": true,
-                "rest_quality": 2,
-                "shadow_effect": -1
-              }
-            ],
-            "stance": "Camps beside the spring. The athelas stays rooted for the next traveller."
-          },
-          {
-            "id": "move_on",
-            "label": "Drink, mark the stand, and move on",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -28377,38 +26458,7 @@
         },
         "stance": {
           "en": "Reads who works this ground and how well. Notes the sheltered corner. Continues."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the sheltered corner for the night",
-            "tags": [
-              "need:exhaustion",
-              "need:unrest"
-            ],
-            "stance": "Takes the dry corner for the night. Sleeps rough but out of the wind.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the sheltered corner",
-                "indoor": false,
-                "description": "a lee of tended ground, out of the wind",
-                "lodging_cost": 0,
-                "rest_quality": 1,
-                "shadow_effect": 0,
-                "meal": false
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Mark it and keep to the road",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
@@ -28480,38 +26530,7 @@
         },
         "stance": {
           "en": "Marks the sheltered corner for a harder night. Continues."
-        },
-        "options": [
-          {
-            "id": "stay",
-            "label": "Take the sheltered corner for the night",
-            "tags": [
-              "need:exhaustion",
-              "need:unrest"
-            ],
-            "stance": "Takes the dry corner of the old work for the night. Sleeps rough but roofed against the dew.",
-            "commands": [
-              {
-                "type": "overnight_shelter",
-                "name": "the standing stone",
-                "indoor": false,
-                "description": "a lee of old masonry, weather-worn but dry",
-                "lodging_cost": 0,
-                "rest_quality": 1,
-                "shadow_effect": 0,
-                "meal": false
-              }
-            ]
-          },
-          {
-            "id": "move_on",
-            "label": "Mark it and keep to the road",
-            "tags": [
-              "risk:bold"
-            ],
-            "commands": []
-          }
-        ]
+        }
       }
     ],
     "payload": {
