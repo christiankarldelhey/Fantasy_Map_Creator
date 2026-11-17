@@ -76,19 +76,6 @@ export function perceive(characterId, { events, character = null }) {
 }
 
 /**
- * Record the host's pick for a pending decision (B5). Returns the
- * episode state including `proposed_commands` — the host validates and
- * applies them; the mind never executes mechanics.
- */
-export function decideEpisode(episodeId, { optionId, decisionId = null }) {
-  return post(
-    `/episodes/${episodeId}/decide`,
-    { option_id: optionId, decision_id: decisionId },
-    DECIDE_TIMEOUT_MS
-  );
-}
-
-/**
  * Report what the host actually persisted; consolidates memory. Returns
  * {request, response} — the outcome sent plus the consolidation summary
  * back. A failed close must never break the game request (catch upstream).

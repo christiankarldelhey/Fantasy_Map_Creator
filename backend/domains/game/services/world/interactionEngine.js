@@ -406,7 +406,12 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
     const feasible = pool_.feasible
       ? pool_.feasible(rows, ctx)
       : rows.filter((r) => isFeasible(r, ctx));
-    if (!feasible.length) continue;
+    if (!feasible.length) {
+      // An offer the traveller cannot take is not a fork — the episode
+      // must not surface it as a decision waiting on an answer.
+      if (pool_.encounter) pool_.encounter.interaction.decision = null;
+      continue;
+    }
 
     // Preference (Mind). A single-option pool is inevitable — no call.
     // Without a mind the land draws at random (its old way); forks that
@@ -463,6 +468,9 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
       pool_.encounter.interaction.resolved_choice = {
         interaction_id: interaction.id, act: interaction.act,
         text: outcome.text?.en ?? null,
+        // A 'walked on' pick changes nothing — 'changed' marks only a
+        // choice the body actually felt (the old option.commands rule).
+        changed: (outcome.effects || []).length > 0,
       };
     }
 

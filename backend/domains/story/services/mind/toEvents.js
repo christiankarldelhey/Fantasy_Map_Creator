@@ -288,24 +288,21 @@ function encounterEvents(day) {
           // Wave C: a fork on this encounter was chosen pre-episode by
           // the interaction engine — the resolved pick rides for the
           // narrator (the outcome event carries the felt side).
-          decision: e.interaction?.decision ?? null,
           resolved_choice: e.interaction?.resolved_choice ?? null,
         };
         // C28: what touched the mechanics is weight-space. 'given' — an
-        // authored gift the host applies unconditionally (dialogue
-        // commands); 'decision' — a fork stood in the day; 'changed' —
-        // the encounter left a mark on the body. The mind's
-        // 'salience_min.tag:*' wiring lifts these out of background.
+        // authored gift the host applies unconditionally (the contact
+        // pool's sole/shared effects); 'changed' — the encounter left a
+        // mark on the body, or a fork stood and was taken (the engine's
+        // resolved_choice). The mind's 'salience_min.tag:*' wiring lifts
+        // these out of background.
         const tags = [];
-        // 'given' claims the commands actually applied — generateDay
-        // skips them when a decision governs the encounter, so the mark
-        // follows the same rule.
         if (e.interaction?.dialogue_content?.commands?.length
             && !e.interaction?.decision) {
           tags.push('given');
         }
-        if (e.interaction?.decision) tags.push('decision');
-        if (outcome === 'wounded' || outcome === 'badly wounded') {
+        if (e.interaction?.resolved_choice?.changed
+            || outcome === 'wounded' || outcome === 'badly wounded') {
           tags.push('changed');
         }
         if (tags.length) data.tags = tags;

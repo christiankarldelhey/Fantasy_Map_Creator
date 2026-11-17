@@ -146,8 +146,7 @@ class Mood(BaseModel):
 
 
 class PsychePacket(BaseModel):
-    """What the Narrator consumes. Contract is stable from day one —
-    proposed_commands ships empty until `decide` exists."""
+    """What the Narrator consumes. Contract is stable from day one."""
 
     episode_id: str
     perceived_day: List[PerceivedEvent] = []
@@ -159,8 +158,6 @@ class PsychePacket(BaseModel):
     day_mood: Mood = Mood()
     needs_active: List[Any] = []
     check_results: List[Any] = []
-    proposed_commands: List[Any] = []
-    decision_point: Optional[Dict[str, Any]] = None
     # The Episode brief behind the Lens (C35): Focus, connected lines,
     # silenced candidates with reasons.
     brief: Optional[Dict[str, Any]] = None
@@ -186,9 +183,7 @@ class EpisodeStateResponse(BaseModel):
     lens_block: Optional[str] = None
     mood: Optional[Dict[str, Any]] = None
     outcome: Optional[Dict[str, Any]]
-    decision_point: Optional[Dict[str, Any]] = None
     decisions: Dict[str, Any] = {}
-    proposed_commands: List[Any] = []
     lens_eval: Optional[Dict[str, Any]] = None
     created_at: str
     narrated_at: Optional[str]
@@ -258,27 +253,8 @@ class NarrateEpisodeResponse(BaseModel):
     lens_block: str = ''
     check_results: List[Dict[str, Any]] = []
     needs_active: List[Dict[str, Any]] = []
-    proposed_commands: List[Any] = []
-    decision_point: Optional[Dict[str, Any]] = None
     lens_eval: Optional[Dict[str, Any]] = None
     generation_meta: Dict[str, Any] = {}
-
-
-class DecideEpisodeRequest(BaseModel):
-    """The host reports which option the character takes. `decision_id`
-    selects among several decision points; omitted → the first."""
-
-    option_id: str = Field(min_length=1)
-    decision_id: Optional[str] = None
-
-
-class DecideEpisodeResponse(BaseModel):
-    episode_id: str
-    decision_id: str
-    option_id: str
-    resolution: str = ''
-    proposed_commands: List[Any] = []
-    already_decided: bool = False
 
 
 class ChooseOption(BaseModel):

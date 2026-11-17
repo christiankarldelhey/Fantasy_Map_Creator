@@ -54,7 +54,7 @@ export function encountersBeforeSettlement(encounters, arrivalHourFloat, inSettl
 }
 
 /**
- * Apply a chosen `overnight_shelter` command (B5): the dusk offer the
+ * Apply a chosen shelter outcome (the dusk offer the interaction engine
  * traveller accepted becomes the night's roof. Mutates the day's
  * overnight fields so resolveDayState, the persisted trip_days row and
  * any downstream consumer all see the night that actually happened.

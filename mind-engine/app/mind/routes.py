@@ -56,8 +56,6 @@ from app.mind.models import (
     CloseEpisodeResponse,
     ConsolidateRequest,
     ConsolidateResponse,
-    DecideEpisodeRequest,
-    DecideEpisodeResponse,
     EpisodeStateResponse,
     MindStateResponse,
     Mood,
@@ -78,11 +76,6 @@ from app.mind.models import (
 )
 from app.models import NarrateDayRequest
 from app.narrate_day import INNER_LANGUAGE, narrate_day
-from app.mind.decisions import (
-    pending_decision_point, proposed_commands, resolution_text,
-    resolve_decision,
-)
-
 from app.mind.packs import (
     active_version,
     clone_pack,
@@ -178,19 +171,11 @@ def _build_packet(db, episode: Episode, mind: Mind = None) -> PsychePacket:
         day_mood=Mood(**(episode.mood or {})),
         check_results=_check_results(episode),
         needs_active=episode.needs_active or [],
-        decision_point=pending_decision_point(db, mind, episode),
         brief=episode.brief,
     )
 
 
 def _episode_state(db, episode: Episode) -> EpisodeStateResponse:
-    mind = (
-        db.query(Mind)
-        .filter_by(
-            game_id=episode.game_id, character_id=episode.character_id
-        )
-        .one_or_none()
-    )
     return EpisodeStateResponse(
         episode_id=episode.id,
         game_id=episode.game_id,
@@ -208,9 +193,7 @@ def _episode_state(db, episode: Episode) -> EpisodeStateResponse:
         lens_block=episode.lens_block,
         mood=episode.mood,
         outcome=episode.outcome,
-        decision_point=pending_decision_point(db, mind, episode),
         decisions=episode.decisions or {},
-        proposed_commands=proposed_commands(episode),
         lens_eval=episode.lens_eval,
         created_at=episode.created_at.isoformat(),
         narrated_at=episode.narrated_at.isoformat() if episode.narrated_at else None,
@@ -789,8 +772,6 @@ def narrate_episode(
             lens_block=episode.lens_block or '',
             check_results=_check_results(episode),
             needs_active=episode.needs_active or [],
-            proposed_commands=proposed_commands(episode),
-            decision_point=pending_decision_point(db, mind, episode),
             lens_eval=episode.lens_eval,
             generation_meta={
                 k: v for k, v in generation.items()
@@ -800,57 +781,6 @@ def narrate_episode(
     except SQLAlchemyError as exc:
         db.rollback()
         log.warning('narrate_episode failed: %s', exc)
-        raise HTTPException(status_code=503, detail='mind persistence unavailable')
-
-
-@router.post('/episodes/{episode_id}/decide', response_model=DecideEpisodeResponse)
-def decide_episode(
-    episode_id: str,
-    payload: DecideEpisodeRequest,
-    db: Session = Depends(get_session),
-):
-    """Record which option the host picked for an open decision point.
-    Returns a resolution line + the option's `proposed_commands` — Mind
-    proposes, the host validates and applies. Re-deciding the same option
-    replays idempotently; a different option is a 409."""
-    try:
-        episode = db.get(Episode, episode_id)
-        if episode is None:
-            raise HTTPException(status_code=404, detail='episode not found')
-        mind = (
-            db.query(Mind)
-            .filter_by(
-                game_id=episode.game_id, character_id=episode.character_id
-            )
-            .one_or_none()
-        )
-        try:
-            dec, option, already = resolve_decision(
-                db, mind, episode, payload.option_id, payload.decision_id
-            )
-        except KeyError as exc:  # KeyError ⊂ LookupError — order matters
-            raise HTTPException(status_code=422, detail=str(exc))
-        except LookupError as exc:
-            raise HTTPException(status_code=404, detail=str(exc))
-        except ValueError as exc:
-            raise HTTPException(status_code=409, detail=str(exc))
-        db.commit()
-        character_name = (
-            (episode.narrator_payload or {}).get('character') or {}
-        ).get('name')
-        return DecideEpisodeResponse(
-            episode_id=episode.id,
-            decision_id=dec['decision_id'],
-            option_id=option['id'],
-            resolution=resolution_text(
-                db, episode.game_id, option, character_name, mind=mind
-            ),
-            proposed_commands=option.get('commands') or [],
-            already_decided=already,
-        )
-    except SQLAlchemyError as exc:
-        db.rollback()
-        log.warning('decide_episode failed: %s', exc)
         raise HTTPException(status_code=503, detail='mind persistence unavailable')
 
 

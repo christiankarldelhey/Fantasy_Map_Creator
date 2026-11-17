@@ -1,6 +1,6 @@
 import express from 'express';
 import pool from '../../../db.js';
-import { generateDay, applyShelterChoice } from '../services/world/tripDay.js';
+import { generateDay } from '../services/world/tripDay.js';
 import { resolveDayChoices } from '../services/world/interactionEngine.js';
 import { createSeededRng } from '../services/world/encounters.js';
 import {
@@ -383,7 +383,6 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     let meals = [];
     let resolution = null;
     let effects = null;
-    let onDecisionPoint = null;
 
     // Interaction engine (ADR-0019): the day's resolved Situations choose
     // their Interactions BEFORE the day resolves — ambient voices,
@@ -441,38 +440,6 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         turnedAway: resolution.lodging.turnedAway,
         notableItems: resolution.notableItems,
       }));
-
-      // B5: the mind weighs the dusk offer, the host decides and applies.
-      // NPCs take the mind's recommendation outright; no recommendation
-      // falls back to the option that carries no commands (walk on).
-      // The pick rewrites the night's overnight_* and re-resolves the
-      // day, so persistence and narration describe the same night.
-      onDecisionPoint = async (point, decide) => {
-        try {
-          const pendingDecision = (day.encounters || [])
-            .map((e) => e.interaction?.decision)
-            .find((d) => d && d.id === point.decision_id) ?? null;
-          const options = pendingDecision?.options || [];
-          const fallback = options.find((o) => !(o.commands || []).length)
-            ?? options[0];
-          const optionId = point.recommended ?? fallback?.id;
-          if (!optionId) return;
-          const res = await decide(optionId);
-          for (const cmd of res?.proposed_commands || []) {
-            if (cmd?.type === 'overnight_shelter') {
-              applyShelterChoice(day, cmd);
-            }
-          }
-          if (day.shelter_choice) {
-            resolution = resolveDayState({ day, startState, effects, inventoryRows });
-            refreshResolution();
-          }
-        } catch (err) {
-          // The mind never blocks the game: a failed decide leaves the
-          // baseline night in place.
-          console.warn('[mind] decide failed (non-fatal):', err.message);
-        }
-      };
     }
 
     // Generate AI narrative (optional, if API key is configured). Provider and
@@ -485,7 +452,6 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       characterState,
       equipmentState,
       fate: endFate,
-      onDecisionPoint,
     });
 
     if (trip.character_id && resolution) {
