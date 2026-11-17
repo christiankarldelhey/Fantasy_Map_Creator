@@ -434,6 +434,11 @@ CREATE TABLE IF NOT EXISTS entities (
     --   false for animals, plants, hazards, etc.
     is_npc BOOLEAN NOT NULL DEFAULT false,
 
+    -- Home anchor: where this entity lives — place hosts only.
+    --   NULL for roamers (encounter draws, mover legs, hazards).
+    --   Several entities may share one location (a household).
+    location_id INTEGER REFERENCES locations(id),
+
     -- Metadata
     created_at TIMESTAMP DEFAULT NOW()
 );
@@ -443,6 +448,7 @@ CREATE INDEX IF NOT EXISTS idx_entities_type ON entities(type);
 CREATE INDEX IF NOT EXISTS idx_entities_name ON entities(name);
 CREATE INDEX IF NOT EXISTS idx_entities_region_ids ON entities USING GIN(region_ids);
 CREATE INDEX IF NOT EXISTS idx_entities_parent_id ON entities(parent_id);
+CREATE INDEX IF NOT EXISTS idx_entities_location_id ON entities(location_id) WHERE location_id IS NOT NULL;
 
 COMMENT ON TABLE entities IS 'Unified entities table combining previous entities and encounters data';
 COMMENT ON COLUMN entities.id IS 'UUID primary key';

@@ -647,7 +647,12 @@ test('a being who spoke is remembered by name; a kept place keeps its keeper', (
       }],
       overnight_location: {
         name: 'La aldea de los smials', type: 'village',
-        host: { name: 'Pearl', people: 'hobbits', gloss: 'a hobbit', gender: 'f' },
+        // The resident entity, as the overnight SQL joins it: her own
+        // slug keys the mind's Relation — 'Pearl' is only how she's said.
+        host: {
+          name: 'Pearl', slug: 'npc_sh_37',
+          people: 'hobbits', gloss: 'a hobbit', gender: 'f',
+        },
       },
       overnight_interaction: null,
     },
@@ -664,8 +669,9 @@ test('a being who spoke is remembered by name; a kept place keeps its keeper', (
   assert.equal(
     enc.reading, 'Bungo, a hobbit — shared news of the northern circuit');
   const rest = events.find((e) => e.type === 'rest').data;
-  // A widow keeps the smial — a woman's name, and the wire knows her.
-  assert.equal(rest.npc, 'pearl');
+  // A widow keeps the smial — her entity slug is the subject, a woman's
+  // name and people ride for the telling.
+  assert.equal(rest.npc, 'npc_sh_37');
   assert.equal(rest.npc_name, 'Pearl');
   assert.equal(rest.npc_gender, 'f');
   assert.match(rest.reading, /^Pearl, a hobbit — /);

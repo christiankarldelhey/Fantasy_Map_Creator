@@ -621,9 +621,10 @@ function restEvent(day) {
         ?? overnight.title ?? overnight.name ?? null,
       entity_type: day.overnight_location?.type
         ?? overnight.location_type ?? overnight.type ?? null,
-      // The person who keeps the place — their own npc subject, so the
-      // mind can hold a relation with the keeper and not only the door.
-      npc: host ? slugify(host.name) : null,
+      // The person who keeps the place — her own npc subject keyed by
+      // her entity slug, so the mind's Relation is with the person the
+      // DB says lives here, stable across every trip.
+      npc: host?.slug ?? (host ? slugify(host.name) : null),
       npc_name: host?.name ?? null,
       npc_people: host?.people ?? null,
       npc_gloss: host?.gloss ?? null,
