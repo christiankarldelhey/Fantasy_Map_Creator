@@ -86,7 +86,7 @@ const originalQuery = pool.query.bind(pool);
 const records = [
   {
     id: 'AM-A1', name: { en: 'The wind' }, region_ids: [46], priority: 0,
-    interactive: [
+    situations: [
       { id: 's1', tags: ['region_day:1'], options: [{ id: 'o1', outcomes: { success: { text: { en: 'day one wind' } } } }] },
       { id: 's2', tags: ['region_day:2'], options: [{ id: 'o2', outcomes: { success: { text: { en: 'day two wind' }, effects: { shadow_effect: 1 } } } }] },
       { id: 's3', tags: ['region_day:3'], options: [{ id: 'o3', outcomes: { success: { text: { en: 'day three wind' } } } }] },
@@ -94,20 +94,20 @@ const records = [
   },
   {
     id: 'F-00', name: { en: 'Coming in' }, region_ids: [46], priority: 5,
-    interactive: [
+    situations: [
       { id: 'arr1', tags: ['region_day:1', 'entry:first'], options: [{ id: 'o', outcomes: { success: { text: { en: 'first arrival' } } } }] },
       { id: 're', tags: ['entry_count:2'], options: [{ id: 'o', outcomes: { success: { text: { en: 're-entry' } } } }] },
     ],
   },
   {
     id: 'ovn:9', name: { en: 'Night' }, region_ids: [46], priority: 0,
-    interactive: [
+    situations: [
       { id: 'night', tags: ['context:overnight'], options: [{ id: 'rest', outcomes: { success: { text: { en: 'the night' } } } }] },
     ],
   },
   {
     id: 'G-00', name: { en: 'Elsewhere' }, region_ids: [70], priority: 0,
-    interactive: [
+    situations: [
       { id: 'g1', tags: ['region_day:1'], options: [{ id: 'o', outcomes: { success: { text: { en: 'other region' } } } }] },
     ],
   },

@@ -9,7 +9,7 @@
 // Mind before the next pool — the day is felt while it happens.
 //
 // Executable facts (options, acts, effects) live only in the interactions
-// table — the narration records' interactive[] is a descriptor store
+// table — the narration records' situations[] is a descriptor store
 // (situation ids, gates, prose). Fork detection is row-count, not JSONB.
 // ============================================================================
 

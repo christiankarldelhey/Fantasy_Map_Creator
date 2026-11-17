@@ -396,12 +396,12 @@ async function validateDepictionLinks() {
       console.log(`⚠️  ${dead.length} records with refs but no materialized depiction_id: ${dead.map((d) => d.id).slice(0, 10).join(', ')}`);
     }
 
-    // overnight records (interactive[] tagged 'context:overnight') must carry
+    // overnight records (situations[] tagged 'context:overnight') must carry
     // at least one scope dimension — a scopeless record can never be resolved
     // (old chk_scope equivalent).
     const { rows: [scopeless] } = await pool.query(
       `SELECT COUNT(*)::int AS n FROM places_narration
-       WHERE EXISTS (SELECT 1 FROM jsonb_array_elements(interactive) s
+       WHERE EXISTS (SELECT 1 FROM jsonb_array_elements(situations) s
                      WHERE s->'tags' ? 'context:overnight')
          AND location_id IS NULL AND type IS NULL
          AND region_id IS NULL AND cultural_family IS NULL`
@@ -487,7 +487,7 @@ async function validateNarrationShape() {
 
     const { rows: [emptySits] } = await pool.query(
       `SELECT COUNT(*)::int AS n FROM places_narration
-       WHERE EXISTS (SELECT 1 FROM jsonb_array_elements(interactive) s
+       WHERE EXISTS (SELECT 1 FROM jsonb_array_elements(situations) s
                      WHERE jsonb_typeof(s->'options') <> 'array'
                         OR jsonb_array_length(s->'options') = 0)`
     );
@@ -540,15 +540,15 @@ async function validateNarrationTags() {
   };
 
   const { rows } = await pool.query(
-    `SELECT id, interactive, variants FROM places_narration
-      WHERE interactive IS NOT NULL OR variants IS NOT NULL`
+    `SELECT id, situations, variants FROM places_narration
+      WHERE situations IS NOT NULL OR variants IS NOT NULL`
   );
   const bad = [];
   for (const r of rows) {
     const check = (tag, where) => { if (!tagOk(tag)) bad.push(`${r.id}:${where}:${tag}`); };
-    for (const s of r.interactive || []) {
-      for (const t of s?.tags || []) check(t, 'interactive');
-      for (const t of s?.not_tags || []) check(t, 'interactive-not');
+    for (const s of r.situations || []) {
+      for (const t of s?.tags || []) check(t, 'situations');
+      for (const t of s?.not_tags || []) check(t, 'situations-not');
       for (const o of s?.options || []) { if (o?.tag) check(o.tag, 'option-driver'); }
     }
     for (const v of r.variants || []) {

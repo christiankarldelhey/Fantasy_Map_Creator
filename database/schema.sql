@@ -232,9 +232,10 @@ COMMENT ON COLUMN biomes.type IS 'Biome category: forest, hills, marsh, mountain
 --          radii; 'ambient' is every other scope-bound voice (region, biome,
 --          water, arrival, lore). Every record may carry every prose field —
 --          aspect is the face seen from outside, presence what being there
---          is like. Interactivity is a capability, not a kind: `interactive`
---          holds situations whose options resolve by mind state today and by
---          player choice later. Conditional content gates on universal tags
+--          is like. A record may also own Situations — the authored moments
+--          it can speak, gated by tags/when; what the traveller does inside
+--          them lives in `interactions`. Conditional content gates on
+--          universal tags
 --          (see narration_tags / tags.json), not per-kind condition strings.
 --          Seed data: database/seeds/data/json/places.json (authored fichas)
 --          + narration.json (generated dep:* / ovn:* records).
@@ -271,10 +272,11 @@ CREATE TABLE IF NOT EXISTS places_narration (
     -- Ordered prose list consumed one entry per day (region summaries)
     rotation            JSONB,
 
-    -- Interactivity: [{id, tags, not_tags, when, options:
-    --   [{id, tag, skill, difficulty, outcomes:
-    --     {success: {text, effects}, failure: {text, effects}}}]}]
-    interactive         JSONB,
+    -- Situation descriptors: [{id, tags, not_tags, when, once, mind,
+    --   situation: {en,es}, stance: {en,es}}] — gating + prose only.
+    --   The executable options (acts, effects) live in `interactions`,
+    --   linked by payload.situation → situations[].id.
+    situations          JSONB,
 
     refs                JSONB,                           -- authored feature bindings → depiction_id
     payload             JSONB NOT NULL DEFAULT '{}'::jsonb  -- provenance only (origin, legacy_id, anchor_hint)
@@ -295,7 +297,7 @@ COMMENT ON COLUMN places_narration.region_ids IS 'Authored multi-region list; re
 COMMENT ON COLUMN places_narration.aspect IS 'The face seen from outside, up close {en, es}';
 COMMENT ON COLUMN places_narration.sighted_far IS 'The silhouette seen from beyond reach — what a place reads as before it is known {en, es}';
 COMMENT ON COLUMN places_narration.presence IS 'What being there is like {en, es}';
-COMMENT ON COLUMN places_narration.interactive IS 'Situations with tag-gated, mind-weighted options and outcomes';
+COMMENT ON COLUMN places_narration.situations IS 'Situation descriptors: tag-gated authored moments (prose + gates); their options live in `interactions`';
 
 -- ============================================================================
 -- Table: narration_tags
@@ -651,7 +653,7 @@ CREATE TABLE IF NOT EXISTS entities_narration (
     traveller_use   JSONB,
     variants        JSONB,
     rotation        JSONB,
-    interactive     JSONB,
+    situations      JSONB,
     disposition     JSONB,
 
     weight          INTEGER,

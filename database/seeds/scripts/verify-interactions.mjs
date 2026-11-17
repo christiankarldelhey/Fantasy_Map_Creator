@@ -38,10 +38,10 @@ const placeIds = new Set((await q(`SELECT id FROM places_narration`)).map((r) =>
 const entIds = new Set((await q(`SELECT id FROM entities_narration`)).map((r) => r.id));
 const sitIdsByRecord = new Map();
 for (const r of await q(
-  `SELECT id, interactive FROM places_narration WHERE interactive IS NOT NULL
-   UNION ALL SELECT id, interactive FROM entities_narration WHERE interactive IS NOT NULL`
+  `SELECT id, situations FROM places_narration WHERE situations IS NOT NULL
+   UNION ALL SELECT id, situations FROM entities_narration WHERE situations IS NOT NULL`
 )) {
-  sitIdsByRecord.set(r.id, new Set((r.interactive || []).map((s) => s.id)));
+  sitIdsByRecord.set(r.id, new Set((r.situations || []).map((s) => s.id)));
 }
 
 let orphanParent = 0, orphanSit = 0, badEffects = 0;

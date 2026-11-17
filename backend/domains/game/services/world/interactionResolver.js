@@ -256,11 +256,11 @@ async function fetchGenericTopic({
 // Contact row → dialogue_content (the shape downstream consumers already read)
 // ---------------------------------------------------------------------------
 
-// Pick one interactive situation. Situations may carry gating tags; until the
+// Pick one situations situation. Situations may carry gating tags; until the
 // encounter tag-set lands, only ungated situations are eligible — and if a row
 // authors none, its gated situations still serve (nothing else to pick).
 function pickSituation(row, rng) {
-  const sits = Array.isArray(row.interactive) ? row.interactive : [];
+  const sits = Array.isArray(row.situations) ? row.situations : [];
   if (!sits.length) return null;
   const ungated = sits.filter((s) => !(s.tags || []).length);
   const pool_ = ungated.length ? ungated : sits;
@@ -277,7 +277,7 @@ function toDialogueContent(row, rng) {
     concrete_content: row.presence?.en ?? null,
     tension: sit?.situation?.en ?? null,
     traveller_stance: sit?.stance?.en ?? null,
-    // The full record rides along — variants, disposition, interactive —
+    // The full record rides along — variants, disposition, situations —
     // for the shared option-selector chapter.
     narration: row,
   };

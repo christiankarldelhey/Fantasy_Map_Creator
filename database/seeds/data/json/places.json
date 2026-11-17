@@ -144,7 +144,7 @@
      ]
     }
    ],
-   "interactive": [
+   "situations": [
     {
      "id": "e00_arrival_1",
      "tags": [
@@ -430,7 +430,7 @@
     "region": "Eregion",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "e04_second_night_offer",
      "when": {
@@ -510,7 +510,7 @@
     "region": "Eregion",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "e05_look_in_offer",
      "when": {
@@ -722,7 +722,7 @@
     "region": "Eregion",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "e08_stay_offer",
      "when": {
@@ -769,7 +769,7 @@
     "en": "no game. Food is brought in",
     "es": "no hay caza. La comida se trae"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ea1_stay_1",
      "tags": [
@@ -858,7 +858,7 @@
      ]
     }
    ],
-   "interactive": [
+   "situations": [
     {
      "id": "f00_arrival_1",
      "tags": [
@@ -981,7 +981,7 @@
     "en": "a day's march cannot be reckoned by eye. It has to be measured with the body.",
     "es": "no se puede calcular una jornada a ojo. Hay que medirla con el cuerpo."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "fa1_stay_1",
      "tags": [
@@ -1104,7 +1104,7 @@
     "en": "nothing can be tracked by smell, camp smoke cannot be smelled, there is no telling if meat has gone off.",
     "es": "no se rastrea por olfato, no se huele el humo de un campamento, no se sabe si la carne está mala."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "fa2_stay_1",
      "tags": [
@@ -1316,7 +1316,7 @@
     "region": "Forovirian",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "f02_doubtful_crossing_offer",
      "when": {
@@ -1456,7 +1456,7 @@
     "region": "Forovirian",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "f04_cross_or_round_offer",
      "when": {
@@ -1607,7 +1607,7 @@
     "region": "Forovirian",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "f06_take_and_leave_offer",
      "when": {
@@ -1741,7 +1741,7 @@
     "region": "Forovirian",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "f08_wait_or_round_offer",
      "when": {
@@ -1986,7 +1986,7 @@
     "region": "Forovirian",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "f12_take_a_fox_offer",
      "when": {
@@ -2091,7 +2091,7 @@
     "en": "*Fires once, on crossing into the region. Dominant channel: the air.*\n*one single image, chapter close*\n> The forest air comes out through the arch and hits him in the face, warmer than the air outside, and it does not move. It smells of wet leaves and something sweet underneath. He takes four steps and turns around, and the way out is already a hole of light the size of a coin.",
     "es": "*Se dispara una sola vez, al cruzar a la región. Canal dominante: el aire.*\n*una sola imagen, cierre de capítulo*\n> El aire del bosque sale por el arco y le da en la cara, y está más caliente que el de afuera y no se mueve. Huele a hoja mojada y a algo dulce debajo. Da cuatro pasos y se da vuelta, y la salida ya es un agujero de luz del tamaño de una moneda."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "m00_arrival_1",
      "tags": [
@@ -2163,7 +2163,7 @@
     "en": "*Ambient, whole region. Channel: sight.*",
     "es": "*Ambiental, toda la región. Canal: la vista.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ma1_stay_1",
      "tags": [
@@ -2215,7 +2215,7 @@
     "en": "touch, and what touch stops telling him",
     "es": "el tacto, y lo que el tacto deja de informar"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ma2_stay_1",
      "tags": [
@@ -2271,7 +2271,7 @@
     "en": "the stomach. The heaviest layer of survival",
     "es": "el estómago. La que más pesa en la capa de supervivencia"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ma3_stay_1",
      "tags": [
@@ -2334,7 +2334,7 @@
     "en": "hearing. The foundation on which Dol Guldur is built",
     "es": "el oído. Base sobre la que se construye Dol Guldur"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ma4_stay_1",
      "tags": [
@@ -2558,7 +2558,7 @@
     "region": "Mirkwood Wilds",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mw03_lights_offer",
      "when": null,
@@ -2782,7 +2782,7 @@
      "basis": "Camino Viejo del Bosque, trail 3608 al 50%, a la altura del pueblo de los Woodmen"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mw07_choice_offer",
      "when": null,
@@ -2863,7 +2863,7 @@
      "basis": "Camino Viejo del Bosque, trail 3608, primera jornada desde la entrada (15.58)"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mw08_firewood_offer",
      "when": null,
@@ -2943,7 +2943,7 @@
      "basis": "media legua al sur del trail 3608, hacia el pueblo de los Woodmen (490)"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mw09_ask_offer",
      "when": null,
@@ -2999,7 +2999,7 @@
      "basis": "Camino Viejo del Bosque, trail 3764 al 60%"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mw10_pass_offer",
      "when": null,
@@ -3028,7 +3028,7 @@
     "en": "*Ambient, Dol Guldur only. Channel: certainty, which is not a sense.*",
     "es": "*Ambiental, solo Dol Guldur. Canal: la certeza, que no es un sentido.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dga1_stay_1",
      "tags": [
@@ -3158,7 +3158,7 @@
      "basis": "junto al trail 3736, a dos jornadas del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dg01_take_offer",
      "when": null,
@@ -3200,7 +3200,7 @@
     "en": "there is nothing to do",
     "es": "no hay nada que hacer"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dg02_stay_1",
      "tags": [
@@ -3279,7 +3279,7 @@
      "basis": "trail 3736, cerca de su extremo sur"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dg03_enter_offer",
      "when": null,
@@ -3348,7 +3348,7 @@
      "basis": "trail 3744 al 50%"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dg04_drink_offer",
      "when": null,
@@ -3404,7 +3404,7 @@
      "basis": "cruce real de trails 3744/3619/3793/3794: el ramal del este es el «cuidado»"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dg05_choice_offer",
      "when": null,
@@ -3488,7 +3488,7 @@
      "basis": "fin del trail 3714: una jornada larga al sur del pueblo de los Woodmen"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm10_go_with_offer",
      "when": {
@@ -3533,7 +3533,7 @@
     "region": "Mirkwood Wilds",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dg08_use_offer",
      "when": null,
@@ -3589,7 +3589,7 @@
      "basis": "sobre el trail 3619, ~110 km al NE de Dol Guldur (610)"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dg09_stay_offer",
      "when": null,
@@ -3796,7 +3796,7 @@
      "name": "The house at the edge"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm03_night_offer",
      "when": null,
@@ -3859,7 +3859,7 @@
      "name": "The spot"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm05_follow_offer",
      "when": null,
@@ -3940,7 +3940,7 @@
      "basis": "al norte del pueblo (490)"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm06_ask_offer",
      "when": null,
@@ -4003,7 +4003,7 @@
      "en": "Inside the village palisade: same location as WM-01."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm07_sleep_offer",
      "when": null,
@@ -4160,7 +4160,7 @@
     "en": "the forest stops weighing",
     "es": "el bosque deja de pesar"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wr01_arrival",
      "intensity": "foreground",
@@ -4221,7 +4221,7 @@
      "basis": "cruce del trail 3840 con el Gulduin (water 237)"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wr02_cross_offer",
      "when": null,
@@ -4305,7 +4305,7 @@
      "basis": "Taurduin al 65% de su curso, ~30 km aguas arriba de Celebannon"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wr03_enter_offer",
      "when": null,
@@ -4374,7 +4374,7 @@
      "basis": "Taurduin al 65% de su curso, ~30 km aguas arriba de Celebannon"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wr04_stay_offer",
      "when": null,
@@ -4431,7 +4431,7 @@
      "basis": "a menos de una jornada al norte de Aradhrynd (aprox.)"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wr07_firewood_offer",
      "when": null,
@@ -4492,7 +4492,7 @@
      "basis": "Taurduin al 65% de su curso, ~30 km aguas arriba de Celebannon"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wr08_barrel_offer",
      "when": null,
@@ -4582,7 +4582,7 @@
     "en": "*Fires on crossing into the region. Dominant channel: the air and the lungs.*",
     "es": "*Se dispara al cruzar a la región. Canal dominante: el aire y el pulmón.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ts00_arrival_1",
      "tags": [
@@ -4650,7 +4650,7 @@
     "en": "the body, tiredness and sleep",
     "es": "el cuerpo, el cansancio y el sueño"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tsa1_stay_1",
      "tags": [
@@ -4715,7 +4715,7 @@
     "en": "hearing, and what it masks",
     "es": "el oído, y lo que tapa"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tsa2_stay_1",
      "tags": [
@@ -4817,7 +4817,7 @@
      "en": "Already positioned: anchored to location 74 (The pools), created via georef."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ts01_stay_offer",
      "when": null,
@@ -5015,7 +5015,7 @@
      "en": "The trolls' cave on the hill south of the road, half a league in."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ts04_enter_offer",
      "when": null,
@@ -5197,7 +5197,7 @@
      "en": "Already positioned: anchored to location 77 (The warm stone), created via georef."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ts07_camp_offer",
      "when": null,
@@ -5404,7 +5404,7 @@
      "en": "The point where the trolls' trail crosses the road, coming down from the hill toward the water."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ts10_follow_offer",
      "when": null,
@@ -5661,7 +5661,7 @@
      "en": "The rangers' shelter: the crack behind the projection, off the road to the north."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ts15_use_offer",
      "when": null,
@@ -5690,7 +5690,7 @@
     "en": "*Ambient of the Barrow-downs. Channel: sight, and direction.*",
     "es": "*Ambiental de las Quebradas. Canal: la vista, y la dirección.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bda1_stay_1",
      "intensity": "background",
@@ -5733,7 +5733,7 @@
     "en": "*Ambient of the Barrow-downs. Channel: hearing and stillness.*",
     "es": "*Ambiental de las Quebradas. Canal: el oído y la quietud.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bda2_stay_1",
      "tags": [
@@ -5811,7 +5811,7 @@
     "region": "South Downs",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bd01_sleep_offer",
      "when": null,
@@ -5969,7 +5969,7 @@
     "region": "Eregion",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bd04_camp_offer",
      "when": null,
@@ -6016,7 +6016,7 @@
     "region": "South Downs",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bd05_enter_offer",
      "when": null,
@@ -6284,7 +6284,7 @@
     "en": "*Ambient of the southern downs. Channel: hearing and patience.*",
     "es": "*Ambiental de las lomas del sur. Canal: el oído y la paciencia.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sda1_stay_1",
      "intensity": "background",
@@ -6327,7 +6327,7 @@
     "en": "absence, without unease",
     "es": "la ausencia, sin inquietud"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sda2_stay_1",
      "intensity": "background",
@@ -6480,7 +6480,7 @@
     "region": "South Downs",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sd02_follow_offer",
      "when": null,
@@ -6593,7 +6593,7 @@
     "region": "South Downs",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sd04_rope_offer",
      "when": null,
@@ -6716,7 +6716,7 @@
     "en": "Dominant channel: light and heat.",
     "es": "Canal dominante: la luz y el calor."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "an00_arrival_1",
      "tags": [
@@ -6768,7 +6768,7 @@
     "en": "the heat and the rhythm of the day",
     "es": "el calor y el ritmo del día"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ana1_stay_1",
      "intensity": "background",
@@ -6806,7 +6806,7 @@
     "en": "the feeling of being watched without threat",
     "es": "la sensación de ser visto sin amenaza"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ana2_stay_1",
      "intensity": "background",
@@ -6868,7 +6868,7 @@
     "region": "Andrast",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "an01_guest_offer",
      "when": null,
@@ -7192,7 +7192,7 @@
     "region": "Andrast",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "an07_valley_offer",
      "when": null,
@@ -7512,7 +7512,7 @@
     "region": "Andrast",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "an13_shepherds_offer",
      "when": null,
@@ -7644,7 +7644,7 @@
    "type": null,
    "priority": 0,
    "tags": [],
-   "interactive": [
+   "situations": [
     {
      "id": "dl00_arrival_1",
      "tags": [
@@ -7696,7 +7696,7 @@
     "en": "*Ambient of the scrub zone. Channel: the skin.*",
     "es": "*Ambiental de la zona de monte. Canal: la piel.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dla1_stay_1",
      "intensity": "background",
@@ -7739,7 +7739,7 @@
     "en": "*Ambient of the marsh. Channel: sight, at night. Canon.*",
     "es": "*Ambiental del pantano. Canal: la vista, de noche. Canon.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dla2_stay_1",
      "tags": [
@@ -7798,7 +7798,7 @@
      "en": "| thing | effect |\n|---|---|\n| smoke | works at night, in camp, and obliges keeping the fire |\n| wind on the plain | the scrub has no wind; the plain does, and that is why it is a relief though ugly |\n| dry mud on the skin | the people who lived here did it |\n| the marsh | fewer bugs, other problems |"
     }
    ],
-   "interactive": [
+   "situations": [
     {
      "id": "dla3_stay_1",
      "tags": [
@@ -7886,7 +7886,7 @@
     "en": "*Ambient of the marsh. Channel: absence.*\n*Design note: Liss fishes and they eat fish. If no fish jump in the marsh, where does he get it. Nowhere is it answered.*",
     "es": "*Ambiental del pantano. Canal: la ausencia.*\n*Nota de diseño: Liss pesca y comen pescado. Si en el pantano no hay peces que\nsalten, de dónde lo saca. No se contesta en ninguna parte.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dla4_stay_1",
      "tags": [
@@ -8076,7 +8076,7 @@
     "region": "Dagorlad",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dl03_meet_offer",
      "when": null,
@@ -8561,7 +8561,7 @@
     "en": "the road, which improves where it should worsen",
     "es": "el camino, que mejora donde debería empeorar"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am00_arrival_1",
      "tags": [
@@ -8625,7 +8625,7 @@
     "en": "the body and the spirits",
     "es": "el cuerpo y el ánimo"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ama1_stay_1",
      "tags": [
@@ -8701,7 +8701,7 @@
     "en": "thirst, and who administers it",
     "es": "la sed, y quién la administra"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ama2_stay_1",
      "tags": [
@@ -8883,7 +8883,7 @@
     "region": "Angmar",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am01_tribute_day_offer",
      "when": null,
@@ -8936,7 +8936,7 @@
     "region": "Angmar",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am02_tower_offer",
      "when": null,
@@ -9110,7 +9110,7 @@
     "region": "Angmar",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am06_road_offer",
      "when": null,
@@ -9370,7 +9370,7 @@
      "en": "The spring: at the foot of the slope where limestone meets hard rock, near Morkai and its owner."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am10_drink_offer",
      "when": null,
@@ -9456,7 +9456,7 @@
     "en": "*Ambient of the whole pass. Channel: the sky.*",
     "es": "*Ambiental de todo el paso. Canal: el cielo.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "cda1_stay_1",
      "when": {
@@ -9511,7 +9511,7 @@
     "en": "*Ambient from `subida_oeste` upward. Channel: the body.*",
     "es": "*Ambiental desde `subida_oeste` hacia arriba. Canal: el cuerpo.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "cda2_stay_1",
      "intensity": "background",
@@ -9558,7 +9558,7 @@
     "en": "*Ambient of both slopes. Channel: hearing.*",
     "es": "*Ambiental de las dos laderas. Canal: el oído.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "cda3_stay_1",
      "intensity": "background",
@@ -9592,7 +9592,7 @@
     "en": "the absence of people",
     "es": "la ausencia de gente"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "cd00_arrival_1",
      "when": {
@@ -9686,7 +9686,7 @@
     "region": "Central Misty Mountains",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "cd02_wood_offer",
      "when": null,
@@ -9868,7 +9868,7 @@
     "region": "Central Misty Mountains",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "cd06_pass_offer",
      "when": null,
@@ -10041,7 +10041,7 @@
     "region": "Central Misty Mountains",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "cd00_fork_offer",
      "when": null,
@@ -10110,7 +10110,7 @@
     "region": "Central Misty Mountains",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "cdb2_shore_offer",
      "when": null,
@@ -10148,7 +10148,7 @@
     "region": "Central Misty Mountains",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "cdb3_doors_offer",
      "when": null,
@@ -10173,7 +10173,7 @@
     "en": "the air. You enter from the north, from the Dagorlad",
     "es": "el aire. Se entra por el norte, desde el Dagorlad"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md00_arrival_1",
      "tags": [
@@ -10237,7 +10237,7 @@
     "en": "the throat",
     "es": "la garganta"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mda1_stay_1",
      "intensity": "background",
@@ -10299,7 +10299,7 @@
     "en": "sight and the clock",
     "es": "la vista y el reloj"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mda2_stay_1",
      "intensity": "background",
@@ -10353,7 +10353,7 @@
     "en": "thirst. It is the region's counter",
     "es": "la sed. Es el contador de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mda3_stay_1",
      "intensity": "background",
@@ -10410,7 +10410,7 @@
     "en": "touch and what accumulates",
     "es": "el tacto y lo que se acumula"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mda4_stay_1",
      "intensity": "background",
@@ -10494,7 +10494,7 @@
     "region": "Mordor",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md01_gate_offer",
      "when": null,
@@ -10541,7 +10541,7 @@
     "region": "Mordor",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md02_valley_offer",
      "when": null,
@@ -10635,7 +10635,7 @@
     "region": "Mordor",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md04_tunnel_offer",
      "when": null,
@@ -10755,7 +10755,7 @@
     "region": "Mordor",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md06_rest_offer",
      "when": null,
@@ -10809,7 +10809,7 @@
     "region": "Mordor",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md07_road_offer",
      "when": null,
@@ -10856,7 +10856,7 @@
     "region": "Mordor",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md08_pass_offer",
      "when": null,
@@ -11025,7 +11025,7 @@
     "region": "Mordor",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md11_cross_offer",
      "when": null,
@@ -11318,7 +11318,7 @@
     "region": "Mordor",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md17_camp_offer",
      "when": null,
@@ -11527,7 +11527,7 @@
     "region": "Mordor",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md21_cross_offer",
      "when": null,
@@ -11592,7 +11592,7 @@
     "en": "another's gaze",
     "es": "la mirada ajena"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du00_arrival_1",
      "tags": [
@@ -11656,7 +11656,7 @@
     "en": "watchfulness, without threat",
     "es": "la vigilancia, sin amenaza"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dua1_stay_1",
      "intensity": "background",
@@ -11699,7 +11699,7 @@
     "en": "sight, and a wound with a date",
     "es": "la vista, y una herida con fecha"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dua2_stay_1",
      "intensity": "background",
@@ -11746,7 +11746,7 @@
     "en": "the social. It is the region's mechanic",
     "es": "lo social. Es la mecánica de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dua3_stay_1",
      "when": {
@@ -11812,7 +11812,7 @@
     "region": "Dunland",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du01_guest_offer",
      "when": null,
@@ -11907,7 +11907,7 @@
     "region": "Dunland",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du03_heal_offer",
      "when": null,
@@ -12009,7 +12009,7 @@
     "region": "Dunland",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du05_use_offer",
      "when": null,
@@ -12057,7 +12057,7 @@
     "region": "Dunland",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du06_scouts_offer",
      "when": null,
@@ -12105,7 +12105,7 @@
     "region": "Dunland",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du07_grove_offer",
      "when": null,
@@ -12292,7 +12292,7 @@
     "en": "the body, and the permission not to move",
     "es": "el cuerpo, y el permiso para no moverse"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lia1_stay_1",
      "intensity": "background",
@@ -12342,7 +12342,7 @@
     "en": "the ear. It is the region's engine",
     "es": "el oído. Es el motor de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lia2_stay_1",
      "tags": [
@@ -12424,7 +12424,7 @@
     "en": "none, and that is the point",
     "es": "ninguno, y ese es el punto"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lia3_stay_1",
      "tags": [
@@ -12516,7 +12516,7 @@
     "en": "Ambient. The real cost, and it is mundane.",
     "es": "Ambiental. El costo real, y es mundano."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lia4_stay_1",
      "tags": [
@@ -12581,7 +12581,7 @@
     "en": "the view, and what it stops telling apart",
     "es": "la vista, y lo que deja de distinguir"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lia5_stay_1",
      "intensity": "background",
@@ -12635,7 +12635,7 @@
     "en": "the view, and forty minutes",
     "es": "la vista, y cuarenta minutos"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lia6_stay_1",
      "intensity": "background",
@@ -12730,7 +12730,7 @@
      "en": "**Where it comes from:** *Kidnappers*, in Yeats, almost verbatim. North of Sligo, on Ben Bulben's slope, there is a small white square in the limestone no mortal ever touched and beside which no sheep ever grazed. Yeats says it is the door to fairyland and that it opens at midnight. **What I changed:** here it does not open and nobody says what it is."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lio2_stay_offer",
      "when": null,
@@ -12798,7 +12798,7 @@
      "en": "**Where it comes from:** the rule against sleeping on the *sídhe* is from Irish oral tradition, in Gregory and in Yeats. The animal that speaks in dreams and says something true that is of no use is from the *echtrai*."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lio4_sleep_offer",
      "when": null,
@@ -12960,7 +12960,7 @@
      "en": "**Where it comes from:** the islands of the *immrama*, where each has a single law of its own. And the motif of the causeway the sea covers, from Atlantic folklore."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lio7_tide_offer",
      "when": null,
@@ -13016,7 +13016,7 @@
      "en": "**Where it comes from:** the Irish holy wells, everywhere in Gregory and in Yeats, where the custom is to leave something and **ask for nothing**."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lio8_well_offer",
      "when": null,
@@ -13332,7 +13332,7 @@
      "en": "The dunes of the Sleepers: the harsh-grass dune system behind the long beach."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lio13_enter_offer",
      "when": null,
@@ -13663,7 +13663,7 @@
      "en": "The guest house: one of the causeway houses, an exact day's march from the next."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lit4_house_offer",
      "when": null,
@@ -13751,7 +13751,7 @@
      "en": "The Unwilling: the ring of old oaks with the brook, the sea heard from above."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lit5_stay_offer",
      "when": null,
@@ -13926,7 +13926,7 @@
      "en": "The smithy: the shed open on three sides, beside the road."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lit9_forge_offer",
      "when": null,
@@ -14313,7 +14313,7 @@
      "en": "The river landing: where stream 437 becomes navigable, the wooden wharf with the flat-bottomed boats."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lit15_boat_offer",
      "when": null,
@@ -14537,7 +14537,7 @@
     "region": "Tower Hills",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lit19_route_offer",
      "when": null,
@@ -14658,7 +14658,7 @@
      "en": "The southern ones: the second Unwilling village, on the cliff over the cove, farther south."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lit21_evening_offer",
      "when": null,
@@ -14822,7 +14822,7 @@
      "en": "The waterfall: where stream 358 drops over the rock step into the oak amphitheatre."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lin4_fall_offer",
      "when": null,
@@ -15081,7 +15081,7 @@
      "en": "Already positioned: anchored to location 48 (The tidal causeway)."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lin10_cross_offer",
      "when": null,
@@ -15145,7 +15145,7 @@
     "en": "relief, and disorientation",
     "es": "el alivio, y el desconcierto"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh00_arrival_1",
      "tags": [
@@ -15209,7 +15209,7 @@
     "en": "the stomach, which is never empty here",
     "es": "el estómago, que acá nunca está vacío"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sha1_stay_1",
      "intensity": "background",
@@ -15252,7 +15252,7 @@
     "en": "the social. It is the region's mechanic",
     "es": "lo social. Es la mecánica de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sha2_stay_1",
      "intensity": "background",
@@ -15295,7 +15295,7 @@
     "en": "the absence of threat, which disarms a traveller",
     "es": "la ausencia de amenaza, que a un viajero lo desarma"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sha3_stay_1",
      "intensity": "background",
@@ -15386,7 +15386,7 @@
      "en": "The defended orchard with tins and ditches, by the road on the outskirts of Frogmorton (loc 449)."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh01_orchard_offer",
      "when": null,
@@ -15442,7 +15442,7 @@
      "en": "The road inn in the Green Dragon's village: it is Bywater (loc 885)."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh02_inn_offer",
      "when": null,
@@ -15497,7 +15497,7 @@
      "en": "The field with the boundary stone and the three-metre strip nobody works, between two farms south of Tuckborough."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh03_dispute_offer",
      "when": null,
@@ -15607,7 +15607,7 @@
      "en": "The pipe-weed fields with their drying sheds: it is Longbottom (loc 889), the weed capital."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh05_pipeweed_offer",
      "when": null,
@@ -15851,7 +15851,7 @@
      "en": "The empty north-facing hole, on the outskirts of Overhill (loc 886)."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh10_hole_offer",
      "when": null,
@@ -15907,7 +15907,7 @@
      "en": "The Free Fair: it is held at Michel Delving (loc 512)."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh11_fair_offer",
      "when": null,
@@ -15962,7 +15962,7 @@
      "en": "The two rival mills on the stream: it is Hobbiton (loc 603), Sandyman's mill."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh12_mill_offer",
      "when": null,
@@ -16073,7 +16073,7 @@
      "en": "The village of flower beds: it is Whitwell (loc 883)."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh14_flowers_offer",
      "when": null,
@@ -16284,7 +16284,7 @@
    "type": null,
    "priority": 0,
    "tags": [],
-   "interactive": [
+   "situations": [
     {
      "id": "br00_arrival_1",
      "intensity": "mid",
@@ -16322,7 +16322,7 @@
     "en": "the social, by subtraction",
     "es": "lo social, por sustracción"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bra1_stay_1",
      "intensity": "background",
@@ -16365,7 +16365,7 @@
     "en": "sight, and architecture",
     "es": "la vista, y la arquitectura"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bra2_stay_1",
      "intensity": "background",
@@ -16444,7 +16444,7 @@
      "en": "The Prancing Pony: it is in Bree (loc 457), by the courtyard arch."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "br01_pony_offer",
      "when": null,
@@ -16780,7 +16780,7 @@
      "en": "The Midgewater Marshes, east of Bree, on the road toward the Trollshaws."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "br07_marsh_offer",
      "when": null,
@@ -16933,7 +16933,7 @@
     "en": "the feet and orientation. Above all Ettenmoors and Lone-lands",
     "es": "los pies y la orientación. Sobre todo Ettenmoors y Lone-lands"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rha1_stay_1",
      "intensity": "background",
@@ -16993,7 +16993,7 @@
     "en": "the find. Ettenmoors and Lone-lands",
     "es": "el hallazgo. Ettenmoors y Lone-lands"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rha2_stay_1",
      "intensity": "background",
@@ -17041,7 +17041,7 @@
     "en": "the wrong company. The six regions",
     "es": "la compañía equivocada. Las seis regiones"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rha3_stay_1",
      "intensity": "background",
@@ -17112,7 +17112,7 @@
      "en": "Already positioned: anchored to location 23 (The windmill), created via georef."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rh01_mill_offer",
      "when": null,
@@ -17225,7 +17225,7 @@
      "en": "Already positioned: anchored to location 25 (The posting house), created via georef."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rh03_posting_offer",
      "when": null,
@@ -17282,7 +17282,7 @@
      "en": "The model is the Scottish-border *peel tower*."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rh04_tower_offer",
      "when": null,
@@ -17397,7 +17397,7 @@
      "en": "Already positioned: anchored to location 28 (The granary), created via georef."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rh06_granary_offer",
      "when": null,
@@ -17645,7 +17645,7 @@
      "en": "Already positioned: anchored to location 33 (The ranger's shelter), created via georef."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rh13_shelter_offer",
      "when": null,
@@ -18564,7 +18564,7 @@
      "en": "The man's cabin inside the pinewood (location 80): the man is fixed, he lives there year-round."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rhw4_hermit_offer",
      "when": null,
@@ -18617,7 +18617,7 @@
      "en": "Already positioned: anchored to location 901 (ruins), created via georef."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rh17_cache_offer",
      "when": null,
@@ -18753,7 +18753,7 @@
      "en": "The cattle-fair field, on the central moor between Fennas Drunnin (494) and Nothva Rhaglaw (587)."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rh19_fair_offer",
      "when": null,
@@ -18784,7 +18784,7 @@
     "en": "*The three regions. Channel: smell, which here is orientation, signal and medicine.*\n**The counterpart:** there is smoke that does not smell like this. The traveller does not know what it is, but he knows it is not one of theirs, and he understands that on the first day without anyone explaining.",
     "es": "*Las tres regiones. Canal: el olfato, que acá es orientación, señal y medicina.*\n**La contrapartida:** hay humo que no huele así. El viajero no sabe de qué es, pero sabe que no es de los de acá, y eso lo entiende el primer día sin que nadie se lo explique."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tma1_stay_1",
      "intensity": "background",
@@ -18845,7 +18845,7 @@
     "en": "*The three regions, worse in Rammas Formen. Channel: the body and practical anxiety.*",
     "es": "*Las tres regiones, peor en Rammas Formen. Canal: el cuerpo y la ansiedad práctica.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tma2_stay_1",
      "intensity": "background",
@@ -18890,7 +18890,7 @@
     "en": "*The three regions. Channel: hearing. It is the danger.*",
     "es": "*Las tres regiones. Canal: el oído. Es el peligro.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tma3_stay_1",
      "tags": [
@@ -19005,7 +19005,7 @@
     "region": "Talath Muil",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm01_camp_offer",
      "when": null,
@@ -19109,7 +19109,7 @@
     "region": "Talath Muil",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm03_fire_offer",
      "when": null,
@@ -19195,7 +19195,7 @@
     "region": "Talath Muil",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm05_marks_offer",
      "when": null,
@@ -19366,7 +19366,7 @@
     "region": "Talath Muil",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm12_herbs_offer",
      "when": null,
@@ -19507,7 +19507,7 @@
     "region": "Talath Muil",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm14_faemar_offer",
      "when": null,
@@ -19582,7 +19582,7 @@
     "en": "Between the two tundras there is no border: there is a two-day gradient where the grass shortens, water spaces out and the copses stop being three hours apart.",
     "es": "Entre las dos tundras no hay frontera: hay un gradiente de dos jornadas donde el pasto se acorta, el agua se espacia y los bosquecillos dejan de estar a tres horas."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm16_cross_1",
      "intensity": "mid",
@@ -19682,7 +19682,7 @@
     "region": "Rammas Formen",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm18_garrison_offer",
      "when": null,
@@ -19733,7 +19733,7 @@
     "region": "Rammas Formen",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm19_empty_offer",
      "when": null,
@@ -20060,7 +20060,7 @@
     "en": "smell and sight, at a distance",
     "es": "el olfato y la vista, a distancia"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "vaa1_stay_1",
      "intensity": "background",
@@ -20105,7 +20105,7 @@
     "en": "movement",
     "es": "el movimiento"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "vaa2_stay_1",
      "intensity": "background",
@@ -20150,7 +20150,7 @@
     "en": "the calendar",
     "es": "el calendario"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "vaa3_stay_1",
      "tags": [
@@ -20242,7 +20242,7 @@
      "basis": "a ~17 km al este de la Carroca (aprox., canon de El hobbit)"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "va01_hall_offer",
      "when": null,
@@ -20516,7 +20516,7 @@
      "en": "It is Thingastathbaurg: anchor to the existing location."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "va05_house_offer",
      "when": null,
@@ -20689,7 +20689,7 @@
      "en": "The upper Anduin town: the gazetteer calls it Melburg (= Maethelburg); the ficha keeps the canonical name."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "va12_town_offer",
      "when": null,
@@ -20966,7 +20966,7 @@
      "basis": "punto del Anduin más cercano, ~7 km aguas abajo de Maethelburg"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "va26_island_offer",
      "when": null,
@@ -21191,7 +21191,7 @@
      "basis": "desembocadura del stream 668 en el Anduin"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "va24_gladden_offer",
      "when": null,
@@ -21351,7 +21351,7 @@
     "region": "Ronen-in-Anduin",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "va28_plain_offer",
      "when": null,
@@ -21406,7 +21406,7 @@
      "en": "The palisade between the two rivers: it is the gazetteer location (its text calls it Wraecaburg)."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "va29_frontier_offer",
      "when": null,
@@ -21525,7 +21525,7 @@
      "en": "Western eaves of Mirkwood in Ronen-in-Anduin, in sight of the plain."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "va31_colliers_offer",
      "when": null,
@@ -21580,7 +21580,7 @@
      "en": "On the track climbing from the Ronen-in-Anduin plain towards Gundabad (562), a day and a half from the plain."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "va32_north_offer",
      "when": null,
@@ -21609,7 +21609,7 @@
     "en": "the body and the landscape",
     "es": "el cuerpo y el paisaje"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "gza1_stay_1",
      "intensity": "background",
@@ -21652,7 +21652,7 @@
     "en": "the reckoning",
     "es": "el cálculo"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "gza2_stay_1",
      "intensity": "background",
@@ -21699,7 +21699,7 @@
     "en": "the social. It is the region's mechanic",
     "es": "lo social. Es la mecánica de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "gza3_stay_1",
      "intensity": "background",
@@ -21834,7 +21834,7 @@
      "basis": "Celduin al 30% de su curso, aguas abajo del vado"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "gz04_boats_offer",
      "when": null,
@@ -21898,7 +21898,7 @@
      "basis": "trail 4087 (Esgaroth–Dorwinion) al 20%"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "gz05_bend_offer",
      "when": null,
@@ -21982,7 +21982,7 @@
      "en": "Inland Gramuz, away from the Celduin and the road: a hollow with a stream sheltered by a rise on its northeast side."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "gz07_clan_offer",
      "when": null,
@@ -22012,7 +22012,7 @@
     "en": "the mood, which here is different",
     "es": "el ánimo, que acá es distinto"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "era1_stay_1",
      "intensity": "background",
@@ -22056,7 +22056,7 @@
     "en": "memory, by subtraction",
     "es": "la memoria, por sustracción"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "era2_stay_1",
      "intensity": "background",
@@ -22100,7 +22100,7 @@
     "en": "the view, and something strange nobody treats as strange",
     "es": "la vista, y algo raro que nadie trata como raro"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "era3_stay_1",
      "intensity": "background",
@@ -22170,7 +22170,7 @@
      "en": "It is Dale: anchor to the existing location."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "er01_city_offer",
      "when": null,
@@ -22225,7 +22225,7 @@
      "en": "A building inside Dale: same location."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "er02_law_offer",
      "when": null,
@@ -22399,7 +22399,7 @@
      "basis": "~9 km al norte de Valle (aprox.)"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "er05_gate_offer",
      "when": null,
@@ -22628,7 +22628,7 @@
      "en": "It is Esgaroth: anchor to the existing location."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "er09_town_offer",
      "when": null,
@@ -22871,7 +22871,7 @@
      "basis": "Taurduin al 88% de su curso"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "er13_marsh_offer",
      "when": null,
@@ -23007,7 +23007,7 @@
     "en": "smell. It is the region's signature",
     "es": "el olfato. Es la firma de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ita1_stay_1",
      "intensity": "background",
@@ -23050,7 +23050,7 @@
     "en": "the contradiction",
     "es": "la contradicción"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ita2_stay_1",
      "intensity": "background",
@@ -23093,7 +23093,7 @@
     "en": "the absence, and it is different from other regions'",
     "es": "la ausencia, y es distinta de la de otras regiones"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ita3_stay_1",
      "intensity": "background",
@@ -23262,7 +23262,7 @@
     "region": "Forithilien",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "it03_window_offer",
      "when": null,
@@ -23467,7 +23467,7 @@
     "region": "Forithilien",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "it07_osgiliath_offer",
      "when": null,
@@ -23516,7 +23516,7 @@
     "region": "Forithilien",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "it08_island_offer",
      "when": null,
@@ -23675,7 +23675,7 @@
     "region": "Forithilien",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "it11_garden_offer",
      "when": null,
@@ -24128,7 +24128,7 @@
     "en": "*The four regions. Channel: hearing and air.*",
     "es": "*Las cuatro regiones. Canal: el oído y el aire.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dea1_stay_1",
      "intensity": "background",
@@ -24174,7 +24174,7 @@
     "en": "*Dor-en-Ernil, Tolfalas and the coast. Channel: what people watch.*",
     "es": "*Dor-en-Ernil, Tolfalas y la costa. Canal: lo que la gente mira.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dea2_stay_1",
      "intensity": "background",
@@ -24220,7 +24220,7 @@
     "en": "*Dor-en-Ernil and Lamedon. Channel: the social.*",
     "es": "*Dor-en-Ernil y Lamedon. Canal: lo social.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dea3_stay_1",
      "intensity": "background",
@@ -24337,7 +24337,7 @@
     "region": "Dor-en-Emyl",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de02_city_offer",
      "when": null,
@@ -24481,7 +24481,7 @@
     "region": "Dor-en-Emyl",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de05_cove_offer",
      "when": null,
@@ -24813,7 +24813,7 @@
     "region": "Lamedon",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de07_village_offer",
      "when": null,
@@ -24901,7 +24901,7 @@
     "region": "Lamedon",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de09_hill_offer",
      "when": null,
@@ -24975,7 +24975,7 @@
     "region": "Lamedon",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de10_pass_offer",
      "when": null,
@@ -25179,7 +25179,7 @@
     "region": "Tolfalas",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de21_caves_offer",
      "when": null,
@@ -25392,7 +25392,7 @@
     "en": "smell, and it is different from Forithilien's",
     "es": "el olfato, y es distinto del de Forithilien"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hia1_stay_1",
      "intensity": "background",
@@ -25435,7 +25435,7 @@
     "en": "hearing, and hope",
     "es": "el oído, y la esperanza"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hia2_stay_1",
      "intensity": "background",
@@ -25482,7 +25482,7 @@
     "en": "the social. It is the region's mechanic",
     "es": "lo social. Es la mecánica de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hia3_stay_1",
      "intensity": "background",
@@ -25547,7 +25547,7 @@
     "region": "Harithilien",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hi01_ferry_offer",
      "when": null,
@@ -25718,7 +25718,7 @@
     "region": "Harithilien",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hi04_ford_offer",
      "when": null,
@@ -26091,7 +26091,7 @@
     "region": "Harithilien",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hi12_road_offer",
      "when": null,
@@ -26316,7 +26316,7 @@
     "en": "sight, always",
     "es": "la vista, siempre"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "aoa1_stay_1",
      "intensity": "background",
@@ -26359,7 +26359,7 @@
     "en": "what is on the horizon",
     "es": "lo que hay en el horizonte"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "aoa2_stay_1",
      "intensity": "background",
@@ -26402,7 +26402,7 @@
     "en": "the worked landscape",
     "es": "el paisaje trabajado"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "aoa3_stay_1",
      "intensity": "background",
@@ -26468,7 +26468,7 @@
     "region": "Anorien",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao01_beacon_offer",
      "when": null,
@@ -26900,7 +26900,7 @@
     "en": "*City ambient. Channel: the legs.*",
     "es": "*Ambiental de la ciudad. Canal: las piernas.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mta1_stay_1",
      "intensity": "background",
@@ -26943,7 +26943,7 @@
     "en": "*City ambient. Channel: sight and hearing.*",
     "es": "*Ambiental de la ciudad. Canal: la vista y el oído.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mta2_stay_1",
      "intensity": "background",
@@ -26999,7 +26999,7 @@
     "region": "Anorien",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mt01_gate_offer",
      "when": null,
@@ -27294,7 +27294,7 @@
     "en": "orientation and rhythm",
     "es": "la orientación y el ritmo"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lba1_stay_1",
      "intensity": "background",
@@ -27337,7 +27337,7 @@
     "en": "the density",
     "es": "la densidad"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lba2_stay_1",
      "intensity": "background",
@@ -27387,7 +27387,7 @@
     "en": "danger, which here comes from below",
     "es": "el peligro, que acá viene de abajo"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lba3_stay_1",
      "intensity": "background",
@@ -27807,7 +27807,7 @@
     "en": "*City ambient. Channel: the feeling of being on top of something.*",
     "es": "*Ambiental de la ciudad. Canal: la sensación de estar sobre algo.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "pga1_stay_1",
      "intensity": "background",
@@ -28010,7 +28010,7 @@
     "region": "Lebennin",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "pg06_quarter_offer",
      "when": null,
@@ -28074,7 +28074,7 @@
     "en": "the view, and the difficulty of knowing where you are",
     "es": "la vista, y la dificultad de saber dónde estás"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "afa1_stay_1",
      "intensity": "background",
@@ -28117,7 +28117,7 @@
     "en": "the constant damp",
     "es": "la humedad constante"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "afa2_stay_1",
      "intensity": "background",
@@ -28160,7 +28160,7 @@
     "en": "the social. It is the region's mechanic",
     "es": "lo social. Es la mecánica de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "afa3_stay_1",
      "intensity": "background",
@@ -28313,7 +28313,7 @@
     "region": "Anfalas",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af03_channels_offer",
      "when": null,
@@ -28732,7 +28732,7 @@
     "en": "the body, all day",
     "es": "el cuerpo, todo el día"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hra1_stay_1",
      "intensity": "background",
@@ -28775,7 +28775,7 @@
     "en": "the landscape, and what was",
     "es": "el paisaje, y lo que estuvo"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hra2_stay_1",
      "intensity": "background",
@@ -28818,7 +28818,7 @@
     "en": "the social. It is the region's mechanic",
     "es": "lo social. Es la mecánica de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hra3_stay_1",
      "intensity": "background",
@@ -28883,7 +28883,7 @@
     "region": "Harondor",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hr01_steppe_offer",
      "when": null,
@@ -28939,7 +28939,7 @@
     "region": "Harondor",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hr02_wadi_offer",
      "when": null,
@@ -29090,7 +29090,7 @@
     "region": "Harondor",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hr05_port_offer",
      "when": null,
@@ -29366,7 +29366,7 @@
     "en": "*Lamedon ambient. Channel: the view and the enclosure.*",
     "es": "*Ambiental de Lamedon. Canal: la vista y el encierro.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lma1_stay_1",
      "intensity": "background",
@@ -29410,7 +29410,7 @@
     "en": "*Lamedon ambient. Channel: movement.*",
     "es": "*Ambiental de Lamedon. Canal: el movimiento.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lma2_stay_1",
      "intensity": "background",
@@ -29454,7 +29454,7 @@
     "en": "*Lamedon ambient. Channel: what is heard and what is seen working.*",
     "es": "*Ambiental de Lamedon. Canal: lo que se oye y lo que se ve trabajar.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lma3_stay_1",
      "intensity": "background",
@@ -29819,7 +29819,7 @@
     "region": "Westmarch",
     "region_confidence": "medium"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lm07_door_offer",
      "when": null,
@@ -29898,7 +29898,7 @@
     "en": "*Westmarch ambient. Channel: mental orientation.*",
     "es": "*Ambiental de Westmarch. Canal: la orientación mental.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wma1_stay_1",
      "intensity": "background",
@@ -30116,7 +30116,7 @@
     "en": "sound, permanent",
     "es": "el sonido, permanente"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hva1_stay_1",
      "intensity": "background",
@@ -30154,7 +30154,7 @@
     "en": "the enclosure",
     "es": "el encierro"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hva2_stay_1",
      "intensity": "background",
@@ -30409,7 +30409,7 @@
     "en": "what is missing",
     "es": "lo que falta"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dia1_stay_1",
      "intensity": "background",
@@ -30452,7 +30452,7 @@
     "en": "what is intuited",
     "es": "lo que se intuye"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dia2_stay_1",
      "intensity": "background",
@@ -30495,7 +30495,7 @@
     "en": "the social. **It is the region's mechanic",
     "es": "lo social. **Es la mecánica de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dia3_stay_1",
      "intensity": "background",
@@ -30811,7 +30811,7 @@
     "region": "Druwaith Laur",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "di06_valley_offer",
      "when": null,
@@ -30889,7 +30889,7 @@
     "en": "the view and the mood",
     "es": "la vista y el ánimo"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "eva1_stay_1",
      "intensity": "background",
@@ -30932,7 +30932,7 @@
     "en": "the ear, by subtraction",
     "es": "el oído, por sustracción"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "eva2_stay_1",
      "intensity": "background",
@@ -30982,7 +30982,7 @@
     "en": "the body",
     "es": "el cuerpo"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "eva3_stay_1",
      "intensity": "background",
@@ -31599,7 +31599,7 @@
      "en": "Already positioned: anchored to location 64 (Amon Ethir · the Watchman's Hill)."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev10_hill_offer",
      "when": null,
@@ -31690,7 +31690,7 @@
     "en": "the road under the feet",
     "es": "el camino bajo los pies"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ara1_stay_1",
      "intensity": "background",
@@ -31733,7 +31733,7 @@
     "en": "what is told",
     "es": "lo que se cuenta"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ara2_stay_1",
      "intensity": "background",
@@ -31776,7 +31776,7 @@
     "en": "the social",
     "es": "lo social"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ara3_stay_1",
      "intensity": "background",
@@ -31862,7 +31862,7 @@
      "en": "The Dead Men's Dike is Fornost Erain (loc 462), the capital at the Downs' foot."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ar01_fornost_offer",
      "when": null,
@@ -32512,7 +32512,7 @@
     "en": "*Ambient for both regions. Channel: the monotony.*",
     "es": "*Ambiental de las dos regiones. Canal: la monotonía.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mna1_stay_1",
      "intensity": "background",
@@ -32556,7 +32556,7 @@
     "en": "*Ambient for both. Channel: what is told.*",
     "es": "*Ambiental de las dos. Canal: lo que se cuenta.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mna2_stay_1",
      "intensity": "background",
@@ -32600,7 +32600,7 @@
     "en": "*Ambient for both. Channel: the social.*",
     "es": "*Ambiental de las dos. Canal: lo social.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mna3_stay_1",
      "intensity": "background",
@@ -32673,7 +32673,7 @@
     "region": "Mintyrnath",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mn01_tharbad_offer",
      "when": null,
@@ -33116,7 +33116,7 @@
     "region": "Mintyrnath",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mn10_ruffians_offer",
      "when": null,
@@ -33413,7 +33413,7 @@
     "en": "*Ambient for both. Channel: the body, and the calendar.*",
     "es": "*Ambiental de las dos. Canal: el cuerpo, y el calendario.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "fca1_stay_1",
      "intensity": "background",
@@ -33464,7 +33464,7 @@
      "en": "Get inside. Whatever there is: a rock shelter, a hole in the snow, under an overturned sled.\nEnduring it standing in the open **is not an option**.\nThe Lossoth see it coming and have half an hour. An outsider sees it coming and thinks it is fog."
     }
    ],
-   "interactive": [
+   "situations": [
     {
      "id": "fca2_stay_1",
      "intensity": "background",
@@ -33508,7 +33508,7 @@
     "en": "*Ambient for both. Channel: the sky, at night.*",
     "es": "*Ambiental de las dos. Canal: el cielo, de noche.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "fca3_stay_1",
      "intensity": "background",
@@ -33622,7 +33622,7 @@
     "region": "Forochel",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "fc02_ice_offer",
      "when": null,
@@ -33875,7 +33875,7 @@
     "region": "Forochel",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "fc07_bog_offer",
      "when": null,
@@ -33981,7 +33981,7 @@
     "region": "Talath Uichel",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tu01_tundra_offer",
      "when": null,
@@ -34209,7 +34209,7 @@
     "en": "sight and movement",
     "es": "la vista y el movimiento"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "saa1_stay_1",
      "intensity": "background",
@@ -34252,7 +34252,7 @@
     "en": "the social",
     "es": "lo social"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "saa2_stay_1",
      "intensity": "background",
@@ -34295,7 +34295,7 @@
     "en": "what is seen in each village",
     "es": "lo que se ve en cada pueblo"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "saa3_stay_1",
      "intensity": "background",
@@ -34978,7 +34978,7 @@
      "en": "The Silent Castle: it is Bar Irlossiel (loc 499), the House of the Lonely Snow Maiden."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sa12_silent_offer",
      "when": null,
@@ -35009,7 +35009,7 @@
     "en": "*Ambient for the three. Channel: the view.*",
     "es": "*Ambiental de las tres. Canal: la vista.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ela1_stay_1",
      "intensity": "background",
@@ -35054,7 +35054,7 @@
     "en": "*Ambient for the three. Channel: the climate. **It is the region's mechanic.***",
     "es": "*Ambiental de las tres. Canal: el clima. **Es la mecánica de la región.***"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ela2_stay_1",
      "intensity": "background",
@@ -35099,7 +35099,7 @@
     "en": "*Ambient for the three. Channel: the ear.*",
     "es": "*Ambiental de las tres. Canal: el oído.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ela3_stay_1",
      "intensity": "background",
@@ -35228,7 +35228,7 @@
     "region": "Ered Luin",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "el02_passes_offer",
      "when": null,
@@ -35811,7 +35811,7 @@
     "en": "the terrain and the wind",
     "es": "el terreno y el viento"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "nua1_stay_1",
      "intensity": "background",
@@ -35854,7 +35854,7 @@
     "en": "the ear. It is the region's signature",
     "es": "el oído. **Es la firma de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "nua2_stay_1",
      "intensity": "background",
@@ -35897,7 +35897,7 @@
     "en": "the social",
     "es": "lo social"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "nua3_stay_1",
      "intensity": "background",
@@ -36075,7 +36075,7 @@
     "region": "Numeriador",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "nu03_eredimar_offer",
      "when": null,
@@ -36404,7 +36404,7 @@
     "region": "Numeriador",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "nu09_barrows_offer",
      "when": null,
@@ -36506,7 +36506,7 @@
     "en": "the ground",
     "es": "el suelo"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ewa1_stay_1",
      "intensity": "background",
@@ -36549,7 +36549,7 @@
     "en": "the terrain and the passage",
     "es": "el terreno y el paso"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ewa2_stay_1",
      "intensity": "background",
@@ -36592,7 +36592,7 @@
     "en": "the social",
     "es": "lo social"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ewa3_stay_1",
      "intensity": "background",
@@ -36918,7 +36918,7 @@
     "region": "Enedhwaith",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ew06_wood_offer",
      "when": null,
@@ -37230,7 +37230,7 @@
      "en": "A warrior commands six freedmen. A chief owes loyalty to his high chief and holds the bonds of twenty warriors, a hundred and twenty freedmen and up to fourteen hundred and forty slaves.\nAnd the one above **is responsible for his people's punishment and welfare**.\nIf he falls in battle, his people are bound to recover his head, or die trying."
     }
    ],
-   "interactive": [
+   "situations": [
     {
      "id": "eta1_stay_1",
      "intensity": "background",
@@ -37276,7 +37276,7 @@
     "en": "*All four regions' ambient. Channel: what is seen on people.*",
     "es": "*Ambiental de las cuatro. Canal: lo que se ve encima de la gente.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "eta2_stay_1",
      "intensity": "background",
@@ -37322,7 +37322,7 @@
     "en": "*All four regions' ambient. Channel: the building.*",
     "es": "*Ambiental de las cuatro. Canal: el edificio.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "eta3_stay_1",
      "intensity": "background",
@@ -37368,7 +37368,7 @@
     "en": "*Rohan and Wold ambient. Channel: the body, all day.*",
     "es": "*Ambiental de Rohan y Wold. Canal: el cuerpo, todo el día.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "roa1_stay_1",
      "intensity": "background",
@@ -37414,7 +37414,7 @@
     "en": "*All four regions' ambient. Channel: the social.*",
     "es": "*Ambiental de las cuatro. Canal: lo social.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "roa2_stay_1",
      "intensity": "background",
@@ -37460,7 +37460,7 @@
     "en": "*Rohan ambient. Channel: what is seen and not mentioned.*",
     "es": "*Ambiental de Rohan. Canal: lo que se ve y no se menciona.*"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "roa3_stay_1",
      "intensity": "background",
@@ -38130,7 +38130,7 @@
      "en": "Already positioned: anchored to location 114 (The Mouths of the Entwash), created via georef."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ro11_ethir_offer",
      "when": null,
@@ -39163,7 +39163,7 @@
      "en": "Stand of willow and poplar over a hidden stream in the Éothraim plains."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "et08_grove_offer",
      "when": null,
@@ -39529,7 +39529,7 @@
     "en": "the light and the ground",
     "es": "la luz y el suelo"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "fga1_stay_1",
      "intensity": "background",
@@ -39572,7 +39572,7 @@
     "en": "the ear, and what is sensed",
     "es": "el oído, y lo que se intuye"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "fga2_stay_1",
      "intensity": "background",
@@ -39615,7 +39615,7 @@
     "en": "orientation",
     "es": "la orientación"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "fga3_stay_1",
      "intensity": "background",
@@ -39815,7 +39815,7 @@
      "en": "Already positioned: anchored to location 107 (Derndingle), created via georef."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "fg03_dingle_offer",
      "when": null,
@@ -40085,7 +40085,7 @@
     "en": "orientation",
     "es": "la orientación"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rva1_stay_1",
      "intensity": "background",
@@ -40128,7 +40128,7 @@
     "en": "the sound and the obstacle",
     "es": "el sonido y el obstáculo"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rva2_stay_1",
      "intensity": "background",
@@ -40171,7 +40171,7 @@
     "en": "what is intuited",
     "es": "lo que se intuye"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rva3_stay_1",
      "intensity": "background",
@@ -40304,7 +40304,7 @@
      "en": "The Ford of Bruinen: the road comes down to the water where the river broadens (road 2425 × Bruinen)."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rv02_ford_offer",
      "when": null,
@@ -40697,7 +40697,7 @@
     "en": "the view, and it comes first",
     "es": "la vista, y es lo primero"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "loa1_stay_1",
      "intensity": "background",
@@ -40740,7 +40740,7 @@
     "en": "the body and the calendar",
     "es": "el cuerpo y el calendario"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "loa2_stay_1",
      "intensity": "background",
@@ -40787,7 +40787,7 @@
     "en": "the social, and it corrects the impression",
     "es": "lo social, y corrige la impresión"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "loa3_stay_1",
      "intensity": "background",
@@ -40860,7 +40860,7 @@
     "region": "Lorien",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lo01_edge_offer",
      "when": null,
@@ -41382,7 +41382,7 @@
     "en": "what is sensed, and it is constant",
     "es": "lo que se intuye, y es constante"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bva1_stay_1",
      "intensity": "background",
@@ -41425,7 +41425,7 @@
     "en": "orientation. It is the region's mechanic",
     "es": "la orientación. **Es la mecánica de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bva2_stay_1",
      "intensity": "background",
@@ -41475,7 +41475,7 @@
     "en": "the body",
     "es": "el cuerpo"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bva3_stay_1",
      "intensity": "background",
@@ -41736,7 +41736,7 @@
      "en": "The Withywindle valley: stream 352 winding among the willows."
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bv04_withy_offer",
      "when": null,
@@ -42027,7 +42027,7 @@
     "en": "the journey's structure. It is the region's shape",
     "es": "la estructura del viaje. **Es la forma de la región"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "raa1_stay_1",
      "intensity": "background",
@@ -42070,7 +42070,7 @@
     "en": "the body, permanently",
     "es": "el cuerpo, permanente"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "raa2_stay_1",
      "intensity": "background",
@@ -42113,7 +42113,7 @@
     "en": "what is not seen. It is the social mechanic",
     "es": "lo que no se ve. **Es la mecánica social"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "raa3_stay_1",
      "intensity": "background",
@@ -42190,7 +42190,7 @@
     "region": "Rast Vorn",
     "region_confidence": "high"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ra01_annon_offer",
      "when": null,
@@ -42652,7 +42652,7 @@
     "en": "the view",
     "es": "la vista"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "eha1_stay_1",
      "intensity": "background",
@@ -42695,7 +42695,7 @@
     "en": "the colour and the taste",
     "es": "el color y el sabor"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "eha2_stay_1",
      "intensity": "background",
@@ -42738,7 +42738,7 @@
     "en": "the ear and what is deduced",
     "es": "el oído y lo que se deduce"
    },
-   "interactive": [
+   "situations": [
     {
      "id": "eha3_stay_1",
      "intensity": "background",
@@ -44306,7 +44306,7 @@
      "es": "La Blushing Ivy da cama, mesa y conversación. Por la noche el fondo de la sala se llena del club de los lectores; un viajero que sepa contar una historia paga la cena con ella."
     }
    ],
-   "interactive": [
+   "situations": [
     {
      "id": "sh19_stay_offer",
      "when": null,
@@ -44371,7 +44371,7 @@
      "es": "Cama, establo, cena caliente y la bolsa de noticias del camino. La Posada del Vado es el mejor sitio de la Cuaderna del Oeste para saber qué se mueve por la ruta."
     }
    ],
-   "interactive": [
+   "situations": [
     {
      "id": "sh20_stay_offer",
      "when": null,
@@ -44482,7 +44482,7 @@
      "es": "La Rana Gorda da cama, cena y desayuno sin ceremonia ni sorpresa. Es la posada honesta del centro de la Comarca."
     }
    ],
-   "interactive": [
+   "situations": [
     {
      "id": "sh22_stay_offer",
      "when": null,
@@ -44546,7 +44546,7 @@
      "es": "La Percha Dorada da la mejor cena de la región: champiñones fritos en manteca, cerveza espumosa, cama con manta de lana. Quien pasa por Stock y no para aquí se lo cuenta después como un error."
     }
    ],
-   "interactive": [
+   "situations": [
     {
      "id": "sh23_stay_offer",
      "when": null,
@@ -44611,7 +44611,7 @@
      "es": "La Casa del Puente junto al vado da cama y cena a quien baja de las minas o cruza hacia la ruta. Comida de granja, precio de pueblo."
     }
    ],
-   "interactive": [
+   "situations": [
     {
      "id": "sh24_stay_offer",
      "when": null,
@@ -44667,7 +44667,7 @@
     "en": null,
     "es": "Los objetos élficos de los trasterías no son herencia: el bosque sigue devolviendo cosas."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh25_stay_offer",
      "when": null,
@@ -44718,7 +44718,7 @@
     "en": null,
     "es": "Los hombres que desaparecen en el ángulo entre el arroyo Baining y el Cerro del Grito no son sólo un rumor: las dos familias saben más de lo que dicen."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh26_stay_offer",
      "when": null,
@@ -44769,7 +44769,7 @@
     "en": null,
     "es": "Los barqueros no entran a Deep Hallow ni de día. Si hay que elegir entre la casa y la lluvia, eligen la lluvia."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh27_stay_offer",
      "when": null,
@@ -44830,7 +44830,7 @@
     "en": null,
     "es": "Los mineros no bajan a las galerías viejas después de cierta hora. Nadie discute la regla."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh28_stay_offer",
      "when": null,
@@ -44882,7 +44882,7 @@
      "es": "la Casa del Gremio — da un catre y una cena al viajero que sabe llevar una sierra o contar una buena historia"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh29_stay_offer",
      "when": null,
@@ -44939,7 +44939,7 @@
     "en": null,
     "es": "Las noches sin luna se oye a veces música del lado del vado. Los de la aldea no comentan."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh30_stay_offer",
      "when": null,
@@ -44996,7 +44996,7 @@
      "es": "un patrón de barca retirado que hospeda a quien baja del norte sin hacerle preguntas de más"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh31_stay_offer",
      "when": null,
@@ -45052,7 +45052,7 @@
     "en": null,
     "es": "El sendero viejo sigue dando flores sobre los huesos. En las noches de niebla del río, algún anciano jura haber oído caballos."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh32_stay_offer",
      "when": null,
@@ -45104,7 +45104,7 @@
      "es": "la casa de los Took — la hospitalidad se concede, no se compra"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh33_audience",
      "when": null,
@@ -45162,7 +45162,7 @@
      "es": "un posadero que coordina mejor el mercado que el intendente del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh34_stay_offer",
      "when": null,
@@ -45223,7 +45223,7 @@
     "en": null,
     "es": "Las criaturas del pantano existen: dos barqueros las han visto de cerca y ninguno quiere volver a hablar de ello."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh35_stay_offer",
      "when": null,
@@ -45279,7 +45279,7 @@
      "es": "descendientes de la familia de Bree — tratan a un viajero humano como a un primo alto que vuelve"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh36_stay_offer",
      "when": null,
@@ -45330,7 +45330,7 @@
      "es": "una viuda de smial hondo — ofrece el cuarto de huéspedes excavado, el más fresco y silencioso de la aldea"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh37_stay_offer",
      "when": null,
@@ -45385,7 +45385,7 @@
      "es": "un hobbit de pocas palabras que hospeda como quien hace un trato: rápido, justo, sin charla"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh38_stay_offer",
      "when": null,
@@ -45443,7 +45443,7 @@
      "es": "un fondista de gremio — cobra tarifa de pueblo, sirve mesa de mercado"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af14_stay_offer",
      "when": null,
@@ -45501,7 +45501,7 @@
      "es": "una posadera que tiene trato con el encargado del puente — sabe quién cruza, con qué y hacia dónde"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af15_stay_offer",
      "when": null,
@@ -45562,7 +45562,7 @@
     "en": null,
     "es": "Nadie sabe quién levantó el obelisco ni los doce menhires. Los abuelos dicen que es más viejo que Gondor; nadie lo toca para comprobarlo."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af16_stay_offer",
      "when": null,
@@ -45619,7 +45619,7 @@
     "en": null,
     "es": "Las señales de luz entre Tirith Cobas y Tirith Aear no sólo guían barcos: los dos puestos se cuentan todo lo que ve el mar."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af17_guest_welcome",
      "when": null,
@@ -45672,7 +45672,7 @@
      "es": "los Bannor — hacendados de frontera que ponen un plato más como quien pone una silla más"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af18_stay_offer",
      "when": null,
@@ -45724,7 +45724,7 @@
      "es": "la casa del Cáno — recibirá al viajero con credenciales, asunto o noticias que valgan una audiencia"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af19_audience",
      "when": null,
@@ -45776,7 +45776,7 @@
      "es": "la familia de la casa — nobleza menor que hospeda con corrección y sin preguntas incómodas"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af20_stay_offer",
      "when": null,
@@ -45828,7 +45828,7 @@
      "es": "una herbolaria con un desván de secado — ofrece catre bajo los manojos colgados a quien la ayuda con la mano de obra"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af21_stay_offer",
      "when": null,
@@ -45881,7 +45881,7 @@
      "es": "la casa del noble menor — un cuarto de arriba para el viajero, el único segundo piso de la aldea"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af22_stay_offer",
      "when": null,
@@ -45939,7 +45939,7 @@
      "es": "el barquero y su familia — hospedan, guían y venden lo que el paso exige"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af23_stay_offer",
      "when": null,
@@ -45992,7 +45992,7 @@
      "es": "los curanderos de la Casa — reciben, alimentan y examinan al viajero como parte del mismo gesto"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du12_stay_offer",
      "when": null,
@@ -46045,7 +46045,7 @@
      "es": "el jefe Menu y el conjurador Selyf Hen — el permiso para quedarse sale de los dos"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du13_stay_offer",
      "when": null,
@@ -46102,7 +46102,7 @@
     "en": null,
     "es": "El toro de piedra no es sólo un templo viejo: la jerarquía oscura que lo levantó sigue teniendo mano en lo que la tribu decide."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du14_stay_offer",
      "when": null,
@@ -46155,7 +46155,7 @@
      "es": "los Rangers de guardia — comparten su fuego con quien demuestra neutralidad"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du15_stay_offer",
      "when": null,
@@ -46206,7 +46206,7 @@
     "en": null,
     "es": "El nombre de peaje no es casual: los ancianos dicen que algo se cobraba aquí antes de que hubiera camino."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du16_camp_offer",
      "when": null,
@@ -46253,7 +46253,7 @@
     "en": null,
     "es": "La atalaya veía la Greenway entera; ahora ve pasar los días.\nCuando hay Rangers, hay fuego; cuando no, quedan las piedras y la mejor vista del camino que hay."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du17_camp_offer",
      "when": null,
@@ -46304,7 +46304,7 @@
     "en": null,
     "es": "La maldición la cuentan los vecinos como quien repite una advertencia, no un cuento. Nadie dice qué pasó; todos actúan como si no hiciera falta."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du18_camp_offer",
      "when": null,
@@ -46360,7 +46360,7 @@
      "es": "los curanderos de la Sala de la Mano Gentil y de la Sala de la Dama Vanyalos — reciben al enfermo como parte del oficio"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao10_healing_offer",
      "when": null,
@@ -46419,7 +46419,7 @@
      "es": "un tabernero que no cree ni la mitad de lo que se cuenta en su sala y la cuenta igual"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao11_stay_offer",
      "when": null,
@@ -46479,7 +46479,7 @@
      "es": "una cantinera que da de comer a la guarnición hace años — sabe lo que pasa en Cair Andros antes que los oficiales"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao12_stay_offer",
      "when": null,
@@ -46538,7 +46538,7 @@
      "es": "un posadero que atiende por igual al mercader que baja y al soldado que sube"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao13_stay_offer",
      "when": null,
@@ -46597,7 +46597,7 @@
      "es": "un fondista que lleva la casa desde que su padre la llevaba"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao14_stay_offer",
      "when": null,
@@ -46660,7 +46660,7 @@
     "en": null,
     "es": "Los Woses miran. Los viejos dejan a veces ofrendas en el lindero y lo llaman 'costumbre', nunca 'precio'."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao15_stay_offer",
      "when": null,
@@ -46714,7 +46714,7 @@
      "es": "la Casa Astorion — hospitalidad de nobleza antigua para el que llega con modales"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao16_stay_offer",
      "when": null,
@@ -46768,7 +46768,7 @@
      "es": "los pocos que quedan al cuidado — un fuego modesto para un viajero, si se les pide bien"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao17_stay_offer",
      "when": null,
@@ -46828,7 +46828,7 @@
      "es": "un viejo contramaestre reconvertido — cobra en moneda y pregunta en idioma de mar"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de24_stay_offer",
      "when": null,
@@ -46888,7 +46888,7 @@
      "es": "una posadera que mide la semana por los carros que paran, no por los días"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de25_stay_offer",
      "when": null,
@@ -46948,7 +46948,7 @@
      "es": "un posadero orgulloso de servir a quienes sirven a la corte — guarda un barril aparte 'para cuando bajan los de arriba'"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de26_stay_offer",
      "when": null,
@@ -47007,7 +47007,7 @@
      "es": "una posadera que prende el fuego temprano porque el valle enfría antes de lo que el cielo anuncia"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de27_stay_offer",
      "when": null,
@@ -47062,7 +47062,7 @@
      "es": "la guarnición de Naur Amrûn — fuego compartido y rancho para el que cruza con buena cara"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de28_stay_offer",
      "when": null,
@@ -47121,7 +47121,7 @@
     "en": null,
     "es": "Los de la aldea no van a las ruinas del norte. Los niños lo aprenden antes de aprender a nadar."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de29_stay_offer",
      "when": null,
@@ -47176,7 +47176,7 @@
      "es": "una viuda de pescador que da la mesa común — pescado y un rincón seco, a cambio de noticias de afuera"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de30_stay_offer",
      "when": null,
@@ -47235,7 +47235,7 @@
      "es": "un fondista que conoce a medio condado por las cuentas que vienen a hacer"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de31_stay_offer",
      "when": null,
@@ -47294,7 +47294,7 @@
      "es": "una familia que hospeda por encargo de la baronía — corrección de Gondor a escala aldea"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de32_stay_offer",
      "when": null,
@@ -47353,7 +47353,7 @@
      "es": "una familia de fondistas que vio pasar tres generaciones de la misma ruta"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de33_stay_offer",
      "when": null,
@@ -47411,7 +47411,7 @@
      "es": "un matrimonio que cocina lo que los vecinos traen"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de34_stay_offer",
      "when": null,
@@ -47472,7 +47472,7 @@
      "es": "una casa de posaderos que atiende el tráfico del cruce desde hace generaciones"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb09_stay_offer",
      "when": null,
@@ -47533,7 +47533,7 @@
      "es": "una familia de fondistas que recuerda la ciudad antes de la plaga y la sirve igual"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb10_stay_offer",
      "when": null,
@@ -47593,7 +47593,7 @@
      "es": "un patrón de barco que vio quemar el malecón una vez y lo reconstruyó dos"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb11_stay_offer",
      "when": null,
@@ -47652,7 +47652,7 @@
      "es": "un posadero que cronometra a los viajeros por lo que tardan entre Brethil y Linhir"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb12_stay_offer",
      "when": null,
@@ -47707,7 +47707,7 @@
      "es": "la casa de Bar Luindol — mesa de nobleza de comarca para el viajero presentable"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb13_stay_offer",
      "when": null,
@@ -47765,7 +47765,7 @@
      "es": "una familia de posaderos que aprendió el oficio alimentando días de mercado"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb14_stay_offer",
      "when": null,
@@ -47824,7 +47824,7 @@
      "es": "un posadero que cobra igual a mercaderes y heraldos — 'el camino ya no distingue'"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb15_stay_offer",
      "when": null,
@@ -47879,7 +47879,7 @@
      "es": "la familia de Bar Gilraen y la fonda de la plaza — entre ambos, el viajero consigue lo que necesite"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb16_stay_offer",
      "when": null,
@@ -47934,7 +47934,7 @@
      "es": "una familia de la caleta — mesa de pescador para el que acepta la quietud del lugar"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb17_stay_offer",
      "when": null,
@@ -47993,7 +47993,7 @@
     "en": null,
     "es": "Las casas más hermosas del lugar están deshabitadas hace años: se cuidan por los que se fueron, no por los que vendrán."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb18_guest_welcome",
      "when": null,
@@ -48053,7 +48053,7 @@
      "es": "una posadera que hospeda por igual al guardia del castillo y al barquero de paso"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb19_stay_offer",
      "when": null,
@@ -48108,7 +48108,7 @@
      "es": "la Casa Tâlhir — la mesa del freehold se abre al viajero por costumbre caballeresca"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb20_stay_offer",
      "when": null,
@@ -48167,7 +48167,7 @@
      "es": "una posadera que recuerda el pueblo sin muralla y cobra lo mismo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb21_stay_offer",
      "when": null,
@@ -48222,7 +48222,7 @@
      "es": "las familias dentro de la muralla — techo al que entra con las manos visibles"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb22_stay_offer",
      "when": null,
@@ -48277,7 +48277,7 @@
      "es": "las familias de la cala — mesa de pescador para el que llega sin aspavientos"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "an18_stay_offer",
      "when": null,
@@ -48332,7 +48332,7 @@
      "es": "los pescadores de la bahía — hospitalidad escueta, de gente que mide palabras"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "an19_stay_offer",
      "when": null,
@@ -48387,7 +48387,7 @@
      "es": "las familias del caserío — curiosidad primero, mesa después"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "an20_stay_offer",
      "when": null,
@@ -48441,7 +48441,7 @@
      "es": "los dunir del fuerte — techo de gente de campo, desconfianza incluida"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "an21_stay_offer",
      "when": null,
@@ -48497,7 +48497,7 @@
      "es": "la Casa Maldring — mesa de nobleza fronteriza, sin ceremonia pero con ojo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af24_stay_offer",
      "when": null,
@@ -48553,7 +48553,7 @@
      "es": "los carpinteros de ribera y las familias del muelle — tabla, rancho y techo de marinero"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af25_stay_offer",
      "when": null,
@@ -48608,7 +48608,7 @@
      "es": "la guarnición — rancho y un catre en la torre para el viajero que no dé problemas"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af26_stay_offer",
      "when": null,
@@ -48664,7 +48664,7 @@
      "es": "la casa del señor — hospitalidad de frontera para el viajero correcto"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af27_stay_offer",
      "when": null,
@@ -48719,7 +48719,7 @@
      "es": "la familia de la casa — mesa de solar para el que llega presentable"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af28_stay_offer",
      "when": null,
@@ -48773,7 +48773,7 @@
      "es": "las familias de la aldea — mesa de pastores y segadores"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af29_stay_offer",
      "when": null,
@@ -48828,7 +48828,7 @@
      "es": "la familia del solar — mesa gondoriana de nobleza menor"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af30_stay_offer",
      "when": null,
@@ -48879,7 +48879,7 @@
     "en": null,
     "es": "Las plazas vacías todavía tienen el empedrado del mercado debajo de la hierba."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af31_camp_offer",
      "when": null,
@@ -48937,7 +48937,7 @@
      "es": "una familia de fondistas de la ruta costera"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af32_stay_offer",
      "when": null,
@@ -48991,7 +48991,7 @@
      "es": "las familias de la aldea"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af33_stay_offer",
      "when": null,
@@ -49045,7 +49045,7 @@
      "es": "las familias de la aldea"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "af34_stay_offer",
      "when": null,
@@ -49093,7 +49093,7 @@
     "en": null,
     "es": "El Rey Brujo cayó pero sus siervos no tenían adónde ir: Gram sigue siendo lo que siempre fue, solo que más hambrienta."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am12_avoid",
      "when": null,
@@ -49161,7 +49161,7 @@
     "en": null,
     "es": "En las salas rituales se instruye a los sacerdotes de la Religión Oscura; los forasteros que hacen preguntas sobre ellas terminan respondiendo otras."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am13_avoid",
      "when": null,
@@ -49209,7 +49209,7 @@
     "en": null,
     "es": "Las atalayas no saben de política: saben de intrusos. Sigue marcando la raya que siempre marcó."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am14_avoid",
      "when": null,
@@ -49267,7 +49267,7 @@
     "en": null,
     "es": "Una fortaleza sobre un camino no necesita rey para seguir cobrando: necesita gente con lanza y hambre."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am15_avoid",
      "when": null,
@@ -49321,7 +49321,7 @@
     "en": null,
     "es": "Las fortalezas que nacen para vigilar una Tierra de Nadie encuentran siempre algo que vigilar."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am16_avoid",
      "when": null,
@@ -49379,7 +49379,7 @@
     "en": null,
     "es": "El pasaje por el que escapó Elenuil existe aún y los ocupantes nunca lo encontraron: una grieta en el risco que da al valle."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am17_secret",
      "when": null,
@@ -49433,7 +49433,7 @@
     "en": null,
     "es": "Donde los rezagados se organizan, hay capital informal. Shedûn es eso: el cuartel del norte."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am18_avoid",
      "when": null,
@@ -49495,7 +49495,7 @@
     "en": null,
     "es": "Los montaraces cuentan que algo más viejo que los orcos se movió a los túneles bajos cuando el reino cayó: los rezagados le dejan ofrendas en la entrada."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am19_avoid",
      "when": null,
@@ -49555,7 +49555,7 @@
      "es": "la tribu de Ahus — hostil, guerrera, reducida"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am20_avoid",
      "when": null,
@@ -49603,7 +49603,7 @@
     "en": null,
     "es": "Los pueblos conquistados por el enemigo se vuelven otra cosa: campamento con techo."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am21_avoid",
      "when": null,
@@ -49657,7 +49657,7 @@
     "en": null,
     "es": "Los depósitos de guerra sobreviven mientras haya a quién abastecer. Kuska nunca se quedó sin clientes."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "am22_avoid",
      "when": null,
@@ -49711,7 +49711,7 @@
     "en": null,
     "es": "Siete colinas, siete fuegos, un solo mensaje.\nLa guardia de Calenhad vive para la noche en que se la necesite."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao18_stay_offer",
      "when": null,
@@ -49759,7 +49759,7 @@
     "en": null,
     "es": "La torre más vieja de la cadena: lleva una Edad entera diciendo una sola frase — 'viene algo'.\nEs también la más quieta, la más contemplada por los viajeros."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao19_stay_offer",
      "when": null,
@@ -49812,7 +49812,7 @@
     "en": null,
     "es": "La montaña es más antigua que la torre y que el reino: los que la guardan lo sienten."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao20_stay_offer",
      "when": null,
@@ -49860,7 +49860,7 @@
     "en": null,
     "es": "Cada torre de la cadena es también un puesto de guardia: pocos hombres, mucha vista, una leña que no debe faltar."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ao21_stay_offer",
      "when": null,
@@ -49916,7 +49916,7 @@
      "es": "los guardianes de la ciudad — bienvenida quieta para el viajero de paz"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ap1_stay_offer",
      "when": null,
@@ -49971,7 +49971,7 @@
      "es": "los constructores de naves — más acostumbrados a mortales que la mayoría de los suyos"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ap2_stay_offer",
      "when": null,
@@ -50026,7 +50026,7 @@
      "es": "los guardianes de la ciudad"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ap3_stay_offer",
      "when": null,
@@ -50082,7 +50082,7 @@
      "es": "Amboron, jefe de la aldea — su casa es la primera puerta útil"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ap4_stay_offer",
      "when": null,
@@ -50136,7 +50136,7 @@
      "es": "la familia de la casa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ap5_guest_offer",
      "when": null,
@@ -50191,7 +50191,7 @@
      "es": "los sanadores de Car Sidh — reciben al que llega necesitado, como siempre hicieron"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ap6_healing_offer",
      "when": null,
@@ -50251,7 +50251,7 @@
      "es": "una familia de posaderos que vio pasar tres generaciones de carga"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ad1_stay_offer",
      "when": null,
@@ -50311,7 +50311,7 @@
     "en": null,
     "es": "El rumor del dragón pequeño en el Taur-in-Telerrim se repite hace años sin prueba ni desmentida."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ad2_guest_offer",
      "when": null,
@@ -50359,7 +50359,7 @@
     "en": null,
     "es": "Los lugares de agua siempre fueron mojones del viajero: se bebe, se descansa, se sigue."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ad3_rest_offer",
      "when": null,
@@ -50413,7 +50413,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ad4_stay_offer",
      "when": null,
@@ -50468,7 +50468,7 @@
      "es": "Dodind — el nombre que está en la puerta es el que cobra y el que cocina"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "aq1_stay_offer",
      "when": null,
@@ -50523,7 +50523,7 @@
      "es": "el posadero — orgulloso del nombre, más aún de la mesa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "aq2_stay_offer",
      "when": null,
@@ -50578,7 +50578,7 @@
      "es": "el posadero — sabe la historia del nombre y la cuenta si se le pregunta"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "aq3_stay_offer",
      "when": null,
@@ -50633,7 +50633,7 @@
      "es": "Dremant — la casa que lleva su nombre le sale por la mesa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "aq4_stay_offer",
      "when": null,
@@ -50681,7 +50681,7 @@
     "en": null,
     "es": "Los nombres así no se ponen por casualidad ni por humor."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "aq5_pass",
      "when": null,
@@ -50736,7 +50736,7 @@
      "es": "el Señor de Los Gamos y su familia — mesa de la casa más vieja de la ribera"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bv9_stay_offer",
      "when": null,
@@ -50791,7 +50791,7 @@
      "es": "los Gorbuck de Gorbuck Hall — mesa de casa acomodada"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bv10_stay_offer",
      "when": null,
@@ -50845,7 +50845,7 @@
      "es": "las familias de la aldea — mesa de criadores, simple y suficiente"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bv11_stay_offer",
      "when": null,
@@ -50900,7 +50900,7 @@
      "es": "los pescadores de la aldea — mesa de ciénaga y barca río abajo para el que paga"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "bv12_stay_offer",
      "when": null,
@@ -50959,7 +50959,7 @@
      "es": "la familia Bolsón — la casa de la Colina no es posada pero su mesa es leyenda"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sh39_look",
      "when": null,
@@ -51007,7 +51007,7 @@
     "en": null,
     "es": "Las ciudades del Lhûn se fueron con Arthedain: el río es más viejo que todas."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sa15_camp",
      "when": null,
@@ -51062,7 +51062,7 @@
      "es": "las familias de Gamwich — hospitalidad hobbit en versión escasa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sa16_stay_offer",
      "when": null,
@@ -51116,7 +51116,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sa17_stay_offer",
      "when": null,
@@ -51169,7 +51169,7 @@
     "en": null,
     "es": "Airlossiel la Callada sigue en la torre — una de los Sin Casa, atada al lugar que juró proteger."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sa18_avoid",
      "when": null,
@@ -51222,7 +51222,7 @@
     "en": null,
     "es": "La desgracia del claro marcó a la Casa Girithlin para siempre: los elfos no vuelven."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sa19_look",
      "when": null,
@@ -51269,7 +51269,7 @@
     "en": null,
     "es": "El trazado fantasma es lo último que queda: ni siquiera piedra en pie, solo la idea del pueblo."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sa20_look",
      "when": null,
@@ -51317,7 +51317,7 @@
     "en": null,
     "es": "Las aldeas que vivían en el aire dejan las ruinas más limpias: no queda casi nada."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sa21_look",
      "when": null,
@@ -51370,7 +51370,7 @@
     "en": null,
     "es": "Los nombres de posición son los más viejos: el sur es el sur desde siempre."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hl1_look",
      "when": null,
@@ -51418,7 +51418,7 @@
     "en": null,
     "es": "Nombre de pájaro en lengua antigua: el lugar era bello cuando lo nombraron."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hl2_look",
      "when": null,
@@ -51472,7 +51472,7 @@
      "es": "la gente de la aldea"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hl3_stay_offer",
      "when": null,
@@ -51528,7 +51528,7 @@
      "es": "los elfos de la aldea — hospitalidad de los que recuerdan"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hl4_guest_offer",
      "when": null,
@@ -51584,7 +51584,7 @@
      "es": "los pescadores de la aldea — mesa del mar y catre para el que llega"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hl5_stay_offer",
      "when": null,
@@ -51638,7 +51638,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hl6_stay_offer",
      "when": null,
@@ -51693,7 +51693,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hl7_stay_offer",
      "when": null,
@@ -51744,7 +51744,7 @@
     "en": null,
     "es": "Los que saben la historia de Endrist no la cuentan: la evitan."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "li2_camp",
      "when": null,
@@ -51792,7 +51792,7 @@
     "en": null,
     "es": "Los enanos cavaron la colina y la guerra la firmó: los túneles son el recuerdo de ambas.\nLa cresta dentada se ve de lejos y se siente de cerca."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "li3_camp",
      "when": null,
@@ -51849,7 +51849,7 @@
      "es": "los elfos de Círdan — hospitalidad de los Puertos Grises para el que llega en paz"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rl1_guest_offer",
      "when": null,
@@ -51905,7 +51905,7 @@
      "es": "la guarnición de la ciudad — rancho y catre para el que entra con causa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md23_stay_offer",
      "when": null,
@@ -51960,7 +51960,7 @@
      "es": "la guarnición — rancho de puesto para el que llega con causa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md24_stay_offer",
      "when": null,
@@ -52013,7 +52013,7 @@
     "en": null,
     "es": "Las Torres de los Dientes no solo vigilan: advierten. El que las pasa ya está dentro."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md25_look",
      "when": null,
@@ -52072,7 +52072,7 @@
      "es": "la guarnición menguante — rancho de puesto que se está vaciando"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "md26_stay_offer",
      "when": null,
@@ -52127,7 +52127,7 @@
      "es": "las familias del pueblo — mesa escasa y sin preguntas"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "nr1_stay_offer",
      "when": null,
@@ -52182,7 +52182,7 @@
      "es": "la gente del pueblo — hospitalidad mínima y vigilada"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "nr2_stay_offer",
      "when": null,
@@ -52235,7 +52235,7 @@
     "en": null,
     "es": "La ciudadela orca guarda lo que la montaña escondía cuando era sagrada."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rn1_avoid",
      "when": null,
@@ -52289,7 +52289,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm26_shelter",
      "when": null,
@@ -52337,7 +52337,7 @@
     "en": null,
     "es": "El muro norte necesita gente que lo mire: los campamentos son la forma que toma."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm27_stay_offer",
      "when": null,
@@ -52385,7 +52385,7 @@
     "en": null,
     "es": "Los campamentos del muro van y vienen: la frontera los pone donde hacen falta."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm28_stay_offer",
      "when": null,
@@ -52433,7 +52433,7 @@
     "en": null,
     "es": "La frontera repite sus campamentos como la costa repite sus faros."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm29_stay_offer",
      "when": null,
@@ -52481,7 +52481,7 @@
     "en": null,
     "es": "Cuatro campamentos, una misma función: la frontera se sostiene con gente, no con piedra."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm30_stay_offer",
      "when": null,
@@ -52535,7 +52535,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm31_shelter",
      "when": null,
@@ -52582,7 +52582,7 @@
     "en": null,
     "es": "La tierra de la batalla está llena de ruinas que nadie nombra."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm32_camp",
      "when": null,
@@ -52636,7 +52636,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm33_shelter",
      "when": null,
@@ -52684,7 +52684,7 @@
     "en": null,
     "es": "Ruina de pastor: el uso actual es el más honesto que una ciudad muerta puede tener."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tm34_camp",
      "when": null,
@@ -52743,7 +52743,7 @@
      "es": "la banda de turno — trato según quién mande"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ts17_avoid",
      "when": null,
@@ -52798,7 +52798,7 @@
      "es": "el clan de los descendientes de Broggha — hospitalidad de clan, juicio rápido"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ts18_stay_offer",
      "when": null,
@@ -52845,7 +52845,7 @@
     "en": null,
     "es": "West Rhudaur tiene más ruinas que historias contadas de ellas."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wrh1_camp",
      "when": null,
@@ -52892,7 +52892,7 @@
     "en": null,
     "es": "Las Colinas del Sur están llenas de piedra que fue de alguien."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sd7_camp",
      "when": null,
@@ -52939,7 +52939,7 @@
     "en": null,
     "es": "Dos ruinas en las mismas colinas: la región fue más habitada de lo que ahora muestra."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sd8_camp",
      "when": null,
@@ -52994,7 +52994,7 @@
      "es": "los exploradores rohirrim — fuego compartido solo si el viajero demuestra neutralidad"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du19_stay_offer",
      "when": null,
@@ -53048,7 +53048,7 @@
      "es": "el jefe del clan — la puerta de la longhouse es la primera aduana"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du20_stay_offer",
      "when": null,
@@ -53102,7 +53102,7 @@
      "es": "el jefe local"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du21_stay_offer",
      "when": null,
@@ -53156,7 +53156,7 @@
      "es": "el jefe local"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du22_stay_offer",
      "when": null,
@@ -53210,7 +53210,7 @@
      "es": "el jefe local"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du23_stay_offer",
      "when": null,
@@ -53263,7 +53263,7 @@
     "en": null,
     "es": "La torre no fue hecha por mano de hombre según lo que se sabe hacer torres."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "du24_pass",
      "when": null,
@@ -53323,7 +53323,7 @@
      "es": "la familia Grumm — posaderos del puente desde hace generaciones"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rh22_stay_offer",
      "when": null,
@@ -53379,7 +53379,7 @@
      "es": "los comerciantes del puesto — mesa de frontera para quien paga en cualquier moneda"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ew12_stay_offer",
      "when": null,
@@ -53433,7 +53433,7 @@
      "es": "nadie — a veces pescadores dunlendinos usan los muelles"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ew13_shelter",
      "when": null,
@@ -53481,7 +53481,7 @@
     "en": null,
     "es": "Tierra intermedia: ni Gondor ni Arnor ni los dunlendinos la reclaman del todo.\nEl bosque hace la frontera que los mapas no ponen."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ew14_pass",
      "when": null,
@@ -53535,7 +53535,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ew15_stay_offer",
      "when": null,
@@ -53590,7 +53590,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ew16_stay_offer",
      "when": null,
@@ -53644,7 +53644,7 @@
      "es": "las familias de la aldea"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ew17_stay_offer",
      "when": null,
@@ -53700,7 +53700,7 @@
      "es": "los enanos de la mina — hospitalidad de piedra, mesa de la montaña"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "el7_stay_offer",
      "when": null,
@@ -53755,7 +53755,7 @@
      "es": "la familia de la casa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ls4_stay_offer",
      "when": null,
@@ -53810,7 +53810,7 @@
      "es": "la familia de la casa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ls5_stay_offer",
      "when": null,
@@ -53865,7 +53865,7 @@
      "es": "el posadero — atiende caballos y gente con el mismo ojo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ls6_stay_offer",
      "when": null,
@@ -53920,7 +53920,7 @@
      "es": "la familia de la casa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ls7_stay_offer",
      "when": null,
@@ -53974,7 +53974,7 @@
      "es": "los pocos enanos que quedan — mesa de la montaña para el que la montaña no espanta"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ng5_stay_offer",
      "when": null,
@@ -54029,7 +54029,7 @@
      "es": "la familia de la fragua-posada — mesa junto al fuego que nunca se apaga del todo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ng6_stay_offer",
      "when": null,
@@ -54083,7 +54083,7 @@
      "es": "las familias de la aldea"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ng7_stay_offer",
      "when": null,
@@ -54131,7 +54131,7 @@
     "en": null,
     "es": "Eregion fue la tierra de los herreros élficos: lo que queda es la sombra de la mejor mano que hubo.\nLos pilares no son ruina cualquiera: son anuncio de lo que se perdió."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "e10_look",
      "when": null,
@@ -54179,7 +54179,7 @@
     "en": null,
     "es": "Los nombres dulces se ponen en los lugares que alguna vez fueron dulces."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "e11_look",
      "when": null,
@@ -54238,7 +54238,7 @@
      "es": "nadie — el pantano es el guardián"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "rh23_shelter",
      "when": null,
@@ -54285,7 +54285,7 @@
     "en": null,
     "es": "Las fortalezas vacías son de los lugares más honestos: no prometen nada y cumplen.\nEl viento es la guarnición actual."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev12_camp",
      "when": null,
@@ -54332,7 +54332,7 @@
     "en": null,
     "es": "La vista que hizo fuerte al lugar sigue siendo la misma aunque ya nadie la mire."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev13_rest",
      "when": null,
@@ -54379,7 +54379,7 @@
     "en": null,
     "es": "Los pueblos muertos de las Evendim son muchos; Firaen es uno de los más quietos."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev14_camp",
      "when": null,
@@ -54426,7 +54426,7 @@
     "en": null,
     "es": "Una ciudad que fue grande se nota aunque esté vacía: el trazado sigue hablando.\nEl viento hace el mantenimiento que nadie paga."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev15_look",
      "when": null,
@@ -54474,7 +54474,7 @@
     "en": null,
     "es": "Murió despacio y no en la guerra: por eso queda tanto en pie.\nLas ciudades abandonadas por falta de gente conservan mejor su forma que las arrasadas."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev16_shelter",
      "when": null,
@@ -54527,7 +54527,7 @@
     "en": null,
     "es": "Arnor dejó pueblos por todas las Evendim; Rildolach es uno de los que el pasto se llevó primero."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev17_camp",
      "when": null,
@@ -54574,7 +54574,7 @@
     "en": null,
     "es": "Las Evendim están llenas de pueblos que ya no están: Maegoth es uno de los grandes."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev18_look",
      "when": null,
@@ -54628,7 +54628,7 @@
      "es": "nadie — los montaraces lo miran al pasar"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev19_shelter",
      "when": null,
@@ -54680,7 +54680,7 @@
     "en": null,
     "es": "La piedra es de los Altos Elfos: la mano que la hizo ya no existe en esta Edad."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev20_rest",
      "when": null,
@@ -54727,7 +54727,7 @@
     "en": null,
     "es": "Las ruinas chicas son las más honestas: ni gloria ni tragedia, solo un pueblo que se fue."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev21_rest",
      "when": null,
@@ -54774,7 +54774,7 @@
     "en": null,
     "es": "Las plazas de mercado vacías son las ruinas más elocuentes: la escala del comercio se lee en la piedra."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev22_look",
      "when": null,
@@ -54828,7 +54828,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev23_ford",
      "when": null,
@@ -54882,7 +54882,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev24_shelter",
      "when": null,
@@ -54929,7 +54929,7 @@
     "en": null,
     "es": "Las torres de las colinas no cayeron por la guerra sino por los inviernos."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev25_look",
      "when": null,
@@ -54982,7 +54982,7 @@
     "en": null,
     "es": "Las torres de vigilancia son las últimas en caer y las primeras en perder su función."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev26_shelter",
      "when": null,
@@ -55035,7 +55035,7 @@
     "en": null,
     "es": "Las ruinas más limpias son las que el vecindario se llevó piedra a piedra."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev27_look",
      "when": null,
@@ -55095,7 +55095,7 @@
      "es": "la familia de las cuadras — techo compartido, no posada"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev28_stay_offer",
      "when": null,
@@ -55147,7 +55147,7 @@
     "en": null,
     "es": "Los lugareños dicen que el puño de fuego aún marca su sitio de noche. Nadie se queda a comprobarlo."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev29_avoid",
      "when": null,
@@ -55201,7 +55201,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev30_shelter",
      "when": null,
@@ -55255,7 +55255,7 @@
      "es": "una lechuza"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev31_shelter",
      "when": null,
@@ -55309,7 +55309,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev32_shelter",
      "when": null,
@@ -55364,7 +55364,7 @@
      "es": "la familia de la Esquina — la última de las colinas"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev33_stay_offer",
      "when": null,
@@ -55422,7 +55422,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev34_shelter",
      "when": null,
@@ -55476,7 +55476,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev35_shelter",
      "when": null,
@@ -55524,7 +55524,7 @@
     "en": null,
     "es": "Las cavernas no envejecen: eran refugio antes de los reyes y lo seguirán siendo después."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev36_shelter",
      "when": null,
@@ -55577,7 +55577,7 @@
     "en": null,
     "es": "Las atalayas pierden el ojo antes que la vista."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev37_look",
      "when": null,
@@ -55638,7 +55638,7 @@
      "es": "nadie — la piedra es lo único que queda de la familia"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ev38_shelter",
      "when": null,
@@ -55696,7 +55696,7 @@
      "es": "nadie — a veces pasan los Montaraces de Ithilien"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "it20_shelter",
      "when": null,
@@ -55744,7 +55744,7 @@
     "en": null,
     "es": "Los buenos campamentos no son de nadie: son de los que llegan."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ar13_camp",
      "when": null,
@@ -55804,7 +55804,7 @@
      "es": "la familia de la mitad viva — recelan, pero comparten el fuego"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ar14_stay_offer",
      "when": null,
@@ -55858,7 +55858,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ar15_shelter",
      "when": null,
@@ -55912,7 +55912,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ar16_shelter",
      "when": null,
@@ -55967,7 +55967,7 @@
      "es": "nadie — el pozo sigue dando agua"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ar17_shelter",
      "when": null,
@@ -56014,7 +56014,7 @@
     "en": null,
     "es": "Las atalayas no pierden la vista: la pierden los que miraban."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ar18_look",
      "when": null,
@@ -56075,7 +56075,7 @@
      "es": "la familia de la casa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hv6_stay_offer",
      "when": null,
@@ -56124,7 +56124,7 @@
     "en": null,
     "es": "La fortaleza miraba el oeste; el oeste terminó ganando.\nLa torre de fuego que la unía a la hermana hoy no se enciende."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hv7_look",
      "when": null,
@@ -56184,7 +56184,7 @@
      "es": "una familia de posaderos del tránsito del mineral"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hv8_stay_offer",
      "when": null,
@@ -56239,7 +56239,7 @@
      "es": "los Montaraces, cuando están — nunca se anuncian"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hi16_rest",
      "when": null,
@@ -56297,7 +56297,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hi17_shelter",
      "when": null,
@@ -56351,7 +56351,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hi18_shelter",
      "when": null,
@@ -56405,7 +56405,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hi19_shelter",
      "when": null,
@@ -56463,7 +56463,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hi20_shelter",
      "when": null,
@@ -56517,7 +56517,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hi21_shelter",
      "when": null,
@@ -56572,7 +56572,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hi22_shelter",
      "when": null,
@@ -56629,7 +56629,7 @@
      "es": "la autoridad del pueblo — techo dentro de las murallas para el que llega con causa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hr11_stay_offer",
      "when": null,
@@ -56685,7 +56685,7 @@
      "es": "las familias que volvieron — mesa escasa pero la posta sigue siendo posta"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hr12_stay_offer",
      "when": null,
@@ -56746,7 +56746,7 @@
      "es": "la autoridad del puesto — techo dentro de la muralla para el que llega con causa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "hr13_stay_offer",
      "when": null,
@@ -56794,7 +56794,7 @@
     "en": null,
     "es": "El páramo no tiene nombre propio: tiene la sombra de la fortaleza que domina abajo."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "la1_avoid",
      "when": null,
@@ -56849,7 +56849,7 @@
      "es": "la familia de la casa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "la2_stay_offer",
      "when": null,
@@ -56904,7 +56904,7 @@
      "es": "la familia de la casa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "la3_stay_offer",
      "when": null,
@@ -56959,7 +56959,7 @@
      "es": "el posadero — su fuego es el anuncio de la casa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "la4_stay_offer",
      "when": null,
@@ -57014,7 +57014,7 @@
      "es": "la familia de la casa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "la5_stay_offer",
      "when": null,
@@ -57069,7 +57069,7 @@
      "es": "la familia de la casa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "la6_stay_offer",
      "when": null,
@@ -57124,7 +57124,7 @@
      "es": "la familia de la casa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "la7_stay_offer",
      "when": null,
@@ -57180,7 +57180,7 @@
      "es": "los nando de la aldea — reciben con la hospitalidad de los árboles"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "la8_guest_offer",
      "when": null,
@@ -57240,7 +57240,7 @@
      "es": "una familia de posaderos que atiende el tránsito de las minas"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lm10_stay_offer",
      "when": null,
@@ -57299,7 +57299,7 @@
      "es": "una familia de fondistas que conoce el precio de todo lo de Lamedon"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lm11_stay_offer",
      "when": null,
@@ -57359,7 +57359,7 @@
      "es": "una posadera que atiende al turno de la mina"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lm12_stay_offer",
      "when": null,
@@ -57423,7 +57423,7 @@
      "es": "un posadero que vive del acopio del grano y del río"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lm13_stay_offer",
      "when": null,
@@ -57470,7 +57470,7 @@
     "en": null,
     "es": "Los puntos nombrados de Lamedon son los que la comarca usa como mojones."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lm14_look",
      "when": null,
@@ -57524,7 +57524,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb23_stay_offer",
      "when": null,
@@ -57578,7 +57578,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "lb24_stay_offer",
      "when": null,
@@ -57633,7 +57633,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "li1_stay_offer",
      "when": null,
@@ -57681,7 +57681,7 @@
     "en": null,
     "es": "Los circos de montaña guardan los lagos más quietos: el viento no baja y el agua no se mueve."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ma1_rest",
      "when": null,
@@ -57735,7 +57735,7 @@
      "es": "los guardianes de la ciudad"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ma2_guest_offer",
      "when": null,
@@ -57789,7 +57789,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ma3_stay_offer",
      "when": null,
@@ -57836,7 +57836,7 @@
     "en": null,
     "es": "La colina más alta es el mirador natural de la comarca: todo se ordena desde arriba."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ma4_look",
      "when": null,
@@ -57890,7 +57890,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh7_shelter",
      "when": null,
@@ -57945,7 +57945,7 @@
      "es": "el clan del alcázar — desconfiados, pero el fuego se comparte por noticias"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh8_stay_offer",
      "when": null,
@@ -57993,7 +57993,7 @@
     "en": null,
     "es": "Las ciudades del Gwathló vivían del tráfico del río; cuando el tráfico murió, murieron ellas."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh9_camp",
      "when": null,
@@ -58040,7 +58040,7 @@
     "en": null,
     "es": "Los arcos partidos son lo último que se cae: la firma de una ciudad que fue."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh10_camp",
      "when": null,
@@ -58094,7 +58094,7 @@
      "es": "nadie — el salón del Príncipe tiene el mejor techo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh11_shelter",
      "when": null,
@@ -58141,7 +58141,7 @@
     "en": null,
     "es": "Las aldeas chicas no dejan ruinas que impresionen: dejan musgo y silencio."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh12_camp",
      "when": null,
@@ -58197,7 +58197,7 @@
      "es": "la gente del puerto — mesa de pescado y catre para el que llega del camino"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh13_stay_offer",
      "when": null,
@@ -58245,7 +58245,7 @@
     "en": null,
     "es": "Puerto muerto en costa vacía: la geografía sigue ofreciendo lo que la historia retiró."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh14_camp",
      "when": null,
@@ -58292,7 +58292,7 @@
     "en": null,
     "es": "Perder el nombre es la muerte segunda de una ciudad."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh15_camp",
      "when": null,
@@ -58343,7 +58343,7 @@
     "en": null,
     "es": "La 'mala suerte' de Amrelor es superstición con origen olvidado — o no del todo olvidado."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh16_camp",
      "when": null,
@@ -58390,7 +58390,7 @@
     "en": null,
     "es": "Nombre de yelmos manchados para pueblo que no resistió: la ironía también es ruina."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh17_camp",
      "when": null,
@@ -58444,7 +58444,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh18_stay_offer",
      "when": null,
@@ -58492,7 +58492,7 @@
     "en": null,
     "es": "Las gaviotas son las únicas vecinas que quedan: hacen la guardia sin cobrar."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh19_camp",
      "when": null,
@@ -58551,7 +58551,7 @@
      "es": "Cyllin, el jefe — todo se paga, todo tiene precio"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh20_stay_offer",
      "when": null,
@@ -58605,7 +58605,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh21_stay_offer",
      "when": null,
@@ -58652,7 +58652,7 @@
     "en": null,
     "es": "Ciudad libre: el nombre que el orgullo le puso y que la ruina no le quitó."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh22_camp",
      "when": null,
@@ -58707,7 +58707,7 @@
      "es": "las familias de la parte alta — techo seco y pescado de la parte baja"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh23_stay_offer",
      "when": null,
@@ -58763,7 +58763,7 @@
      "es": "la autoridad de turno — el pueblo aprendió a no preguntar de qué bando"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh24_stay_offer",
      "when": null,
@@ -58817,7 +58817,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh25_stay_offer",
      "when": null,
@@ -58872,7 +58872,7 @@
      "es": "las familias de Cuncan — techo de choza para el que no da motivos"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh26_stay_offer",
      "when": null,
@@ -58926,7 +58926,7 @@
      "es": "las familias de la aldea"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mh27_stay_offer",
      "when": null,
@@ -58973,7 +58973,7 @@
     "en": null,
     "es": "Ni siquiera la leyenda quedó: el pasto se lo llevó todo, incluso la historia."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mn11_camp",
      "when": null,
@@ -59027,7 +59027,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mn12_shelter",
      "when": null,
@@ -59083,7 +59083,7 @@
      "es": "la guarnición de la torre vieja y los que viven del tránsito"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mn13_stay_offer",
      "when": null,
@@ -59137,7 +59137,7 @@
      "es": "nadie"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mn14_shelter",
      "when": null,
@@ -59185,7 +59185,7 @@
     "en": null,
     "es": "Nombre de bóveda profunda para ciudad que ya no esconde nada: solo el río la guarda."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mn15_camp",
      "when": null,
@@ -59239,7 +59239,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mn16_stay_offer",
      "when": null,
@@ -59294,7 +59294,7 @@
      "es": "los noldor de la ciudad — bienvenida medida a quien llega con el respeto debido"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "as1_guest_offer",
      "when": null,
@@ -59350,7 +59350,7 @@
      "es": "los herbolarios del puerto — mesa y ungüento si el viajero lo necesita"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "as2_stay_offer",
      "when": null,
@@ -59406,7 +59406,7 @@
      "es": "las familias del aserradero — mesa de trabajadores, catre junto al fuego"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "as3_stay_offer",
      "when": null,
@@ -59455,7 +59455,7 @@
     "en": null,
     "es": "En el oeste el mar es la puerta y el astillero, su cerrajero."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "as4_look",
      "when": null,
@@ -59510,7 +59510,7 @@
      "es": "los pocos que mantienen el muelle — agua, pan, la compañía de los que esperan el viento"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "be1_rest_offer",
      "when": null,
@@ -59565,7 +59565,7 @@
      "es": "la guarnición de la torre — un sitio al abrigo para el que sube de buen paso"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "be2_stay_offer",
      "when": null,
@@ -59620,7 +59620,7 @@
      "es": "los guardianes de la ciudad"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ce1_guest_offer",
      "when": null,
@@ -59673,7 +59673,7 @@
     "en": null,
     "es": "Maglor la fundó; el dragón del Largo Invierno la quemó. Entre ambas fechas hay una Edad entera."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ce2_look",
      "when": null,
@@ -59727,7 +59727,7 @@
      "es": "los guardianes de la ciudad"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ce3_guest_offer",
      "when": null,
@@ -59787,7 +59787,7 @@
      "es": "los pocos noldor que quedan — vigilancia, disciplina, una mesa para el que la merece"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ce4_guest_offer",
      "when": null,
@@ -59834,7 +59834,7 @@
     "en": null,
     "es": "Los collados fríos no tienen dueño: tienen ruinas y viento.\nLas piedras siguen cortando la ventisca aunque ya no guarden a nadie."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "cf1_camp_offer",
      "when": null,
@@ -59882,7 +59882,7 @@
     "en": null,
     "es": "La Dagorlad no necesita vigía: lo que puede salir de ella ya salió."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dl13_look",
      "when": null,
@@ -59938,7 +59938,7 @@
     "en": null,
     "es": "La sombra del sur del bosque tiene dirección y es hacia aquí.\nLos árboles mueren mirándola."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "dg10_avoid",
      "when": null,
@@ -59993,7 +59993,7 @@
      "es": "los vigías del puesto — abrigo y rancho para el que sube de buen paso"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de35_rest_offer",
      "when": null,
@@ -60048,7 +60048,7 @@
      "es": "la guarnición de la torre — mesa de puesto para el viajero de paz"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de36_stay_offer",
      "when": null,
@@ -60102,7 +60102,7 @@
      "es": "las familias del pueblo"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de37_stay_offer",
      "when": null,
@@ -60158,7 +60158,7 @@
      "es": "los notables del municipio — mesa de mercado para el que llega de la ruta"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "de38_stay_offer",
      "when": null,
@@ -60221,7 +60221,7 @@
      "es": "una fondista que no nombra a los del bosque y les deja pan a la puerta"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "df1_stay_offer",
      "when": null,
@@ -60278,7 +60278,7 @@
      "es": "la gente del puerto naval — mesa de puesto para el que llega con causa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "tf1_stay_offer",
      "when": null,
@@ -60334,7 +60334,7 @@
      "es": "la guarnición dúnadan — rancho y catre para el que llega con causa"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm10_stay_offer",
      "when": null,
@@ -60388,7 +60388,7 @@
      "es": "la guarnición de la torre"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm11_stay_offer",
      "when": null,
@@ -60449,7 +60449,7 @@
      "es": "una familia de posaderos que conoce el camino del interior"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm12_stay_offer",
      "when": null,
@@ -60502,7 +60502,7 @@
     "en": null,
     "es": "La multa por caza furtiva es dura pero la niebla del pantano perdona lo que el señor no ve."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm13_avoid",
      "when": null,
@@ -60556,7 +60556,7 @@
      "es": "las familias de la aldea"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm14_stay_offer",
      "when": null,
@@ -60610,7 +60610,7 @@
      "es": "las familias de la aldea"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm15_stay_offer",
      "when": null,
@@ -60664,7 +60664,7 @@
      "es": "las familias de la aldea"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm16_stay_offer",
      "when": null,
@@ -60712,7 +60712,7 @@
     "en": null,
     "es": "Las torres de Sandariand miran el este como las del oeste miran el mar."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sn1_rest",
      "when": null,
@@ -60761,7 +60761,7 @@
     "en": null,
     "es": "El vado es historia doble: camino de los Enanos y campo de batalla entre pueblos.\nLa piedra del cruce recuerda a los dos lados por igual."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sn2_look",
      "when": null,
@@ -60815,7 +60815,7 @@
      "es": "la guardia de la almenara — compañía breve y profesional"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "sn3_stay_offer",
      "when": null,
@@ -60875,7 +60875,7 @@
      "es": "una posadera que atiende al tránsito del Gran Camino"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "ro18_stay_offer",
      "when": null,
@@ -60922,7 +60922,7 @@
     "en": null,
     "es": "Los campos de bloques cerca de Moria tienen su explicación en la piedra, no en la leyenda."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mo1_look",
      "when": null,
@@ -60975,7 +60975,7 @@
     "en": null,
     "es": "La maldición que los hombres del norte le temen es del Bosque Negro, no del lugar — pero el lugar la absorbe."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "mw11_avoid",
      "when": null,
@@ -61032,7 +61032,7 @@
      "es": "los elfos de la aldea — hospitalidad del Reino del Bosque en versión abierta"
     }
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wr10_guest_offer",
      "when": null,
@@ -61080,7 +61080,7 @@
     "en": null,
     "es": "Un pozo en tierra sin caminos es un servicio que alguien hace por todos."
    },
-   "interactive": [
+   "situations": [
     {
      "id": "wm17_rest",
      "when": null,

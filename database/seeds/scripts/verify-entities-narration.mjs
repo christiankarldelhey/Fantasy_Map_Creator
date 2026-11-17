@@ -45,10 +45,10 @@ const race = await pool.query(
 console.log('race-gated:', race.rows);
 
 const inter = await pool.query(
-  `SELECT id, jsonb_array_length(interactive) AS sits
+  `SELECT id, jsonb_array_length(situations) AS sits
      FROM entities_narration
-    WHERE interactive IS NOT NULL AND kind = 'contact' LIMIT 3`
+    WHERE situations IS NOT NULL AND kind = 'contact' LIMIT 3`
 );
-console.log('interactive:', inter.rows);
+console.log('situations:', inter.rows);
 
 await pool.end();

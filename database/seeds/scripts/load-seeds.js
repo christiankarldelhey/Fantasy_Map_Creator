@@ -544,7 +544,7 @@ const DEPICTION_TABLES = [...new Set(Object.values(REF_TABLES))];
 // is provenance only (origin, legacy_id, anchor_hint, location_ref…).
 const PROSE_COLUMNS = [
   'aspect', 'sighted_far', 'presence', 'lore', 'secret', 'sections', 'facts',
-  'notes', 'channel', 'traveller_use', 'variants', 'rotation', 'interactive',
+  'notes', 'channel', 'traveller_use', 'variants', 'rotation', 'situations',
 ];
 
 function placeTypeRadii(typeText) {
@@ -650,7 +650,7 @@ async function upsertNarrationRecord(r, extras = {}) {
 // ---------------------------------------------------------------------------
 const EN_PROSE = [
   'aspect', 'presence', 'lore', 'secret', 'sections', 'facts', 'notes',
-  'channel', 'traveller_use', 'rotation', 'variants', 'interactive',
+  'channel', 'traveller_use', 'rotation', 'variants', 'situations',
   'disposition',
 ];
 
@@ -729,7 +729,7 @@ async function seedEntitiesNarration(extraRecords = []) {
 // ---------------------------------------------------------------------------
 // interactions seed — a db madre like every other: data/json/interactions.json
 // is the authored source (acts, labels, need_tags, typed effects). Situations
-// stay in the narration tables' interactive[] as pure descriptors — the
+// stay in the narration tables' situations[] as pure descriptors — the
 // executable keys were stripped when this file was generated
 // (scripts/derive-interactions.mjs). Ids are stable ('<situation>:<option>' /
 // '<situation>:sole') so re-runs are idempotent; the prune only touches
@@ -1300,6 +1300,7 @@ async function ensureSchema() {
   // still carry an unrelated ancestor table named `interactions`, which the
   // shape-guarded drop above removes first so the new table can take the name.
   await runMigrationFile('create_interactions_table.sql');
+  await runMigrationFile('rename_interactive_to_situations.sql');
 
   console.log('✅ Schema ready\n');
 }

@@ -254,7 +254,7 @@ const legContact = {
   ],
   disposition: { en: 'guarded' },
   facts: { topic: 'news_and_rumor' },
-  interactive: [],
+  situations: [],
   contact_tags: [],
 };
 

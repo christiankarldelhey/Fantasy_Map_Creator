@@ -4,7 +4,7 @@
 // Resolves the single best place/region interaction record (currently only
 // 'overnight') by reading the region's cultural_family from the database and
 // matching against the priority scopes defined in places_narration
-// (records whose interactive[] carries a 'context:overnight' situation).
+// (records whose situations[] carries a 'context:overnight' situation).
 //
 // No cultural family is ever hard-coded here; it is always fetched from
 // regions.cultural_family for the supplied region_id.
