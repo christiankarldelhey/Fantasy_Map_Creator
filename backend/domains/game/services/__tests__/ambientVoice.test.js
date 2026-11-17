@@ -5,7 +5,7 @@ import {
   regionStay,
   stayTags,
   dayWideTags,
-  resolveAmbientVoice,
+  resolveAmbientSituations,
 } from '../world/ambientVoice.js';
 
 // ---------------------------------------------------------------------------
@@ -78,7 +78,7 @@ test('dayWideTags: no startState emits no mind tags', () => {
 });
 
 // ---------------------------------------------------------------------------
-// resolveAmbientVoice (mocked pool)
+// resolveAmbientSituations (mocked pool)
 // ---------------------------------------------------------------------------
 
 const originalQuery = pool.query.bind(pool);
@@ -141,10 +141,14 @@ const DAY = {
 test('day 1 in region fires the day-1 situation, not the others', async () => {
   installMock({ history: [] });
   try {
-    const events = await resolveAmbientVoice({ ...DAY, dayNumber: 1 });
+    const events = await resolveAmbientSituations({ ...DAY, dayNumber: 1 });
     const ids = events.map((e) => e.situation_id);
     assert.deepEqual(ids, ['arr1', 's1']);
-    assert.equal(events.find((e) => e.record_id === 'AM-A1').text.en, 'day one wind');
+    // Situations carry what the engine needs to pick + materialize:
+    // the day tag set (option gating) and the phase (narrative order).
+    const wind = events.find((e) => e.record_id === 'AM-A1');
+    assert.ok(wind.tagSet instanceof Set && wind.tagSet.has('season:spring'));
+    assert.ok(['morning', 'afternoon'].includes(wind.phase));
   } finally {
     pool.query = originalQuery;
   }
@@ -153,7 +157,7 @@ test('day 1 in region fires the day-1 situation, not the others', async () => {
 test('day 3 fires the most specific eligible beat (cumulative tags)', async () => {
   installMock({ history: [[{ id: 46 }], [{ id: 46 }]] });
   try {
-    const events = await resolveAmbientVoice({ ...DAY, dayNumber: 3 });
+    const events = await resolveAmbientSituations({ ...DAY, dayNumber: 3 });
     const wind = events.find((e) => e.record_id === 'AM-A1');
     assert.equal(wind.situation_id, 's3');
   } finally {
@@ -164,7 +168,7 @@ test('day 3 fires the most specific eligible beat (cumulative tags)', async () =
 test('overnight situations never fire on the walking day', async () => {
   installMock({ history: [] });
   try {
-    const events = await resolveAmbientVoice({ ...DAY, dayNumber: 1 });
+    const events = await resolveAmbientSituations({ ...DAY, dayNumber: 1 });
     assert.ok(!events.some((e) => e.record_id === 'ovn:9'));
   } finally {
     pool.query = originalQuery;
@@ -174,7 +178,7 @@ test('overnight situations never fire on the walking day', async () => {
 test('records scoped to other regions are excluded', async () => {
   installMock({ history: [] });
   try {
-    const events = await resolveAmbientVoice({ ...DAY, dayNumber: 1 });
+    const events = await resolveAmbientSituations({ ...DAY, dayNumber: 1 });
     assert.ok(!events.some((e) => e.record_id === 'G-00'));
   } finally {
     pool.query = originalQuery;
@@ -185,7 +189,7 @@ test('re-entry fires the entry_count situation, not the first-arrival one', asyn
   const history = [[{ id: 46 }], [{ id: 46 }], ...Array(20).fill([{ id: 99 }])];
   installMock({ history });
   try {
-    const events = await resolveAmbientVoice({ ...DAY, dayNumber: 24 });
+    const events = await resolveAmbientSituations({ ...DAY, dayNumber: 24 });
     const coming = events.find((e) => e.record_id === 'F-00');
     assert.equal(coming.situation_id, 're');
   } finally {

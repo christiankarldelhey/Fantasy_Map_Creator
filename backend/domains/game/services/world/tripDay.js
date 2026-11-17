@@ -14,7 +14,7 @@ import {
   presencePoolEntries,
 } from './moverCrossings.js';
 import { resolveOvernight, resolveRegionAtPoint } from './placesInteractions.js';
-import { resolveAmbientVoice } from './ambientVoice.js';
+import { resolveAmbientSituations } from './ambientVoice.js';
 import {
   flattenRoute,
   totalSeconds,
@@ -1194,7 +1194,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     ...(context.biomes || []).map((b) => b.type),
     ...(context.altitude || []),
   ];
-  const ambient = await resolveAmbientVoice({
+  const ambientSituations = await resolveAmbientSituations({
     tripId: trip.id,
     dayNumber,
     todayRegions: orderedRegions,
@@ -1231,7 +1231,8 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     water_sources: waterSources,
     overnight_location: overnightLocation,
     overnight_interaction: overnightInteraction,
-    ambient,
+    ambient: [],
+    ambient_situations: ambientSituations,
     commands: dayCommands,
     elevation_profile: elevationProfile || null,
     rng,

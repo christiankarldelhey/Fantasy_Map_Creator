@@ -207,6 +207,56 @@ function contactPools(day) {
     }));
 }
 
+// A phase's narrative position — ambient voices carry no hour, only the
+// stretch of day the moment belongs to.
+const PHASE_HOUR = { morning: 9, afternoon: 15, night: 21 };
+
+// The land's voice: region ambient situations gated by the day's tag set.
+// Option tags are gates here (the option only speaks when the day carries
+// its tag) — the old favoured/untagged rule becomes the feasible set.
+function ambientPools(day) {
+  return (day.ambient_situations || [])
+    .filter((s) => s.situation_id && s.record_id)
+    .map((s) => ({
+      kind: 'ambient',
+      situation_id: s.situation_id,
+      subject: null,
+      parent: { placesNarrationId: s.record_id },
+      rowFilter: (r) => r.payload?.situation === s.situation_id,
+      ambient: s,
+      hour: PHASE_HOUR[s.phase] ?? 12,
+      phase: s.phase,
+      placeSlug: slugify(typeof s.name === 'string' ? s.name : s.name?.en),
+      fallbackRng: true, // the land draws at random when no mind weighs it
+      // Tag gate, then the usual feasibility.
+      feasible: (rows, ctx) => {
+        const fav = rows.filter((r) => r.need_tags?.length && r.need_tags.every((t) => s.tagSet?.has(t)));
+        const plain = rows.filter((r) => !r.need_tags?.length);
+        const candidates = fav.length ? fav : (plain.length ? plain : rows);
+        return candidates.filter((r) => isFeasible(r, ctx));
+      },
+      apply: (day_, outcome, interaction) => {
+        const shadowFx = (outcome.effects || [])
+          .filter((e) => e.type === 'shadow' && Number.isFinite(e.amount))
+          .reduce((x, e) => x + e.amount, 0);
+        day_.ambient.push({
+          record_id: s.record_id,
+          situation_id: s.situation_id,
+          option_id: interaction.id.split(':').pop(),
+          name: s.name,
+          when: s.when,
+          phase: s.phase,
+          text: outcome.text ?? null,
+          // resolveDayState reads the ambient rail's shadow through this
+          // legacy shape; the rest of the effects land on day.commands.
+          effects: shadowFx ? { shadow_effect: shadowFx } : null,
+        });
+        day_.commands = [...(day_.commands || []), ...effectsToCommands(outcome.effects)
+          .map((c) => ({ ...c, hour_float: PHASE_HOUR[s.phase] ?? null }))];
+      },
+    }));
+}
+
 // ---------------------------------------------------------------------------
 // Sequential choosing (Wave C): pools resolve in narrative order, each
 // outcome lands in the Mind BEFORE the next pool is scored
@@ -290,8 +340,9 @@ function sharedEffects(rows) {
 }
 
 export async function resolveDayChoices(day, { characterId, startState = {}, rng = Math.random }) {
-  // Narrative order: contacts by their hour, the night itself last.
-  const pools = [...contactPools(day), ...shelterOfferPools(day), overnightPool(day)]
+  // Narrative order: ambient voices and contacts by their hour, the
+  // night itself last.
+  const pools = [...ambientPools(day), ...contactPools(day), ...shelterOfferPools(day), overnightPool(day)]
     .filter(Boolean)
     .sort((a, b) => a.hour - b.hour);
   if (!pools.length) return [];
@@ -352,11 +403,17 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
 
     // Feasibility is checked NOW — earlier picks may have spent the coins
     // or dropped the energy this option would have needed.
-    const feasible = rows.filter((r) => isFeasible(r, ctx));
+    const feasible = pool_.feasible
+      ? pool_.feasible(rows, ctx)
+      : rows.filter((r) => isFeasible(r, ctx));
     if (!feasible.length) continue;
 
     // Preference (Mind). A single-option pool is inevitable — no call.
-    let interaction = feasible[0];
+    // Without a mind the land draws at random (its old way); forks that
+    // belong to a being fall back to the first feasible.
+    let interaction = pool_.fallbackRng
+      ? feasible[Math.floor(rng() * feasible.length)]
+      : feasible[0];
     if (characterId && feasible.length > 1) {
       await flush();
       try {
@@ -398,7 +455,7 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
     }
 
     const outcome = interaction.outcomes?.[outcomeKey] ?? {};
-    pool_.apply(day, outcome);
+    pool_.apply(day, outcome, interaction);
 
     // The choice is consumed: B5's in-episode /decide must not see it again.
     if (pool_.encounter) {
@@ -421,7 +478,11 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
 
     // The day felt what happened: project the Condition forward, report
     // the outcome event so the NEXT pool is scored by the evolved Mind.
-    events.push(outcomeEvent(day, pool_, interaction, outcomeKey, outcome));
+    // Ambient voices already reach the episode as 'moment' events —
+    // minting a second, id-less event here would sediment them twice.
+    if (pool_.kind !== 'ambient') {
+      events.push(outcomeEvent(day, pool_, interaction, outcomeKey, outcome));
+    }
     applyConditionDeltas(projected, outcome?.effects);
     await flush();
   }

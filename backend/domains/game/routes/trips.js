@@ -385,19 +385,19 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     let effects = null;
     let onDecisionPoint = null;
 
+    // Interaction engine (ADR-0019): the day's resolved Situations choose
+    // their Interactions BEFORE the day resolves — ambient voices,
+    // contacts, dusk offers, the night itself. Mind-weighted when the
+    // traveller has one; the land draws at random when it doesn't.
+    await resolveDayChoices(day, {
+      characterId: trip.character_id ?? null,
+      startState: startState ?? {},
+      rng: day.rng,
+    });
+
     if (trip.character_id) {
       const inventoryRows = await loadInventory(trip.character_id);
       effects = aggregateEffects(inventoryRows);
-
-      // Interaction engine (ADR-0019, Wave B): the day's resolved Situations
-      // choose their Interactions BEFORE the day resolves — the night's
-      // overnight record and any dusk shelter offer land already applied.
-      // Feasibility is the host's; preference is the Mind's.
-      await resolveDayChoices(day, {
-        characterId: trip.character_id,
-        startState,
-        rng: day.rng,
-      });
 
       // Baseline resolution: the day as generated and chosen — the
       // night's situation and any dusk shelter offer already landed
