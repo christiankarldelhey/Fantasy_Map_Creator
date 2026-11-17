@@ -87,7 +87,7 @@ A Memory the Mind has lost: kept as a trace with the day it was lost so the Mind
 _Avoid_: deleted, erased
 
 **Evocation**:
-When a Memory connects to the Episode and comes forward — it is not only read but lightly re-felt: a dampened share of its imprint stirs the Mood and feeds the Relation again, never as much as living it. Remembering keeps feelings alive; how much it stirs is the Personalidad's.
+When a Memory connects to the Episode and comes forward — it is not only read but lightly re-felt: a dampened share of its imprint stirs the Mood and feeds the Relation again, never as much as living it. Remembering keeps feelings alive; how much it stirs is the Personality's.
 _Avoid_: recall, retrieval, flashback
 
 **Belief**:
@@ -142,12 +142,12 @@ _Avoid_: hardcoded check, built-in sensor
 How the Mind feels as it enters an Episode, always told through what caused it ("still uneasy since the orc tracks"), never as a bare label.
 _Avoid_: emotion label, affect, dominant
 
-**Carácter**:
-The point in the Mood's own space where the Mood falls by inertia when nothing happens — the resting feeling a Mind returns to, from a hobbit's warm contentment to Celebrían's cool calm. Not a second state: every quiet Episode the Mood drifts back toward it, at the pace the Personalidad sets.
-_Avoid_: baseline, temperament, default mood
+**Temperament**:
+The point in the Mood's own space where the Mood falls by inertia when nothing happens — the resting feeling a Mind returns to, from a hobbit's warm contentment to Celebrían's cool calm. Not a second state: every quiet Episode the Mood drifts back toward it, at the pace the Personality sets.
+_Avoid_: baseline, default mood, character
 
-**Personalidad**:
-How a Mind's engine is tuned: how strongly lived experience swings the Mood versus how firmly it returns to the Carácter, how sensitive each kind of feeling is, how fast Relations accrete or let go. Authored through Traits and presets — the engine is one; every Character's Personalidad tunes it differently.
+**Personality**:
+How a Mind's engine is tuned: how strongly lived experience swings the Mood versus how firmly it returns to the Temperament, how sensitive each kind of feeling is, how fast Relations accrete or let go. Authored through Traits and presets — the engine is one; every Character's Personality tunes it differently.
 _Avoid_: personality type, trait list, stats
 
 **Feeling**:
