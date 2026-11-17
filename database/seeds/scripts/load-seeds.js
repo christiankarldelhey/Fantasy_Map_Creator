@@ -1203,6 +1203,7 @@ async function ensureSchema() {
   // Fossil {en:{en:…}} corruption: unwrap type/name to the innermost leaf.
   await runMigrationFile('fix_places_narration_nested_lang.sql');
   await runMigrationFile('create_entities_narration_table.sql');
+  await runMigrationFile('add_sighted_far_to_places_narration.sql');
   await runMigrationFile('movers_identity_into_entities.sql');
 
   // Legacy prose stores drop last (#104): everything above is additive and
