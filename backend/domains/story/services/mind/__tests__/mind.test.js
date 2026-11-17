@@ -627,6 +627,43 @@ test('a dead place sighted far shows its absence, not a living shape', () => {
   assert.ok(ost.tags.includes('melancholy'));
 });
 
+test('a being who spoke is remembered by name; a kept place keeps its keeper', () => {
+  const events = toEvents({
+    day: {
+      ...DAY,
+      encounters: [{
+        entity: { slug: 'hobbits', id: 'e2', name: 'hobbits', type: 'hobbits', danger_level: 0 },
+        hour_float: 15.0,
+        interaction: {
+          form: 'brief_exchange', intensity: 1,
+          npc: { name: 'Bungo', people: 'hobbits', gloss: 'a hobbit' },
+          dialogue_content: { concrete_content: 'shared news of the northern circuit' },
+        },
+      }],
+      overnight_location: {
+        name: 'La aldea de los smials', type: 'village',
+        host: { name: 'Odo', people: 'hobbits', gloss: 'a hobbit' },
+      },
+      overnight_interaction: null,
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+  });
+  const enc = events.find((e) => e.type === 'encounter').data;
+  // The person is its own subject — the mind may hold 'Bungo' apart
+  // from 'hobbits' in general.
+  assert.equal(enc.npc, 'bungo');
+  assert.equal(enc.npc_name, 'Bungo');
+  assert.equal(enc.npc_people, 'hobbits');
+  assert.equal(enc.npc_gloss, 'a hobbit');
+  assert.equal(
+    enc.reading, 'Bungo, a hobbit — shared news of the northern circuit');
+  const rest = events.find((e) => e.type === 'rest').data;
+  assert.equal(rest.npc, 'odo');
+  assert.equal(rest.npc_name, 'Odo');
+  assert.match(rest.reading, /^Odo, a hobbit — /);
+});
+
 test('the open payload carries raw state, never rendered blocks (C10)', () => {
   const body = toOpenPayload({
     gameId: 'middle_earth',

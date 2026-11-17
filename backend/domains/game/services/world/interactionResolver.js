@@ -28,10 +28,13 @@
 //   decision:         { id, prompt, options } | null,  // B5: only for
 //                     // before_sleep encounters on rows that author options —
 //                     // the mind weighs, the host applies.
+//   npc:              { name, people, gloss } | null,  // only when words
+//                     // passed — nobody learns a name from tracks.
 // }
 // ============================================================================
 
 import pool from '../../../../db.js';
+import { npcForEncounter } from '../../../story/services/naturalLanguage/npcNames.js';
 
 // Weight multiplier applied to recently-used forms (anti-repetition)
 const RECENT_PENALTY = 0.3;
@@ -464,6 +467,12 @@ export async function resolveEncounter(
   }
   const dialogueContent = contactRow ? toDialogueContent(contactRow, rng) : null;
 
+  // Words passed: the being earns a name. Sign-read or stayed-silent
+  // contact keeps its anonymity — nobody learns a name from tracks.
+  const npc = dialogueContent
+    ? npcForEncounter(entity, culturalFamily, rng)
+    : null;
+
   // Resistance roll (only when enabled, triggers_roll AND danger >= 3)
   let outcome = null;
   if (ENABLE_RESISTANCE_ROLL && chosen.triggers_roll && danger >= 3) {
@@ -500,6 +509,7 @@ export async function resolveEncounter(
     outcome,
     dialogue_content: dialogueContent,
     decision,
+    npc,
   };
 }
 

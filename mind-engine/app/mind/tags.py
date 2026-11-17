@@ -27,6 +27,9 @@ TAG_CLASSES = {
     'region':      {'ambient', 'subject', 'pattern'},
     'entity':      {'subject', 'pattern', 'cause'},
     'entity_type': {'subject', 'cause'},
+    # A named person — 'npc:bungo'. A being you can hold apart from its
+    # kind: remembered, evoked, mourned by name.
+    'npc':         {'subject', 'pattern', 'cause'},
     'family':      {'subject'},
     'race':        {'subject'},
     'place':       {'subject'},
@@ -48,6 +51,7 @@ TAG_CLASSES = {
 # 'reading'…) are sentences to narrate, never vocabulary.
 UNTAGGED_FIELDS = frozenset({
     'entity', 'entity_id', 'entity_name', 'check', 'thread_desc',
+    'npc_name', 'npc_people', 'npc_gloss',
     'resolves', 'urgency', 'scope', 'description', 'description_es',
     'inhabitants', 'prose_hint', 'slot', 'substance', 'lodging',
     'aspect', 'aspect_es', 'presence', 'presence_es',

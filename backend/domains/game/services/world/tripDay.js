@@ -14,6 +14,7 @@ import {
   presencePoolEntries,
 } from './moverCrossings.js';
 import { resolveOvernight, resolveRegionAtPoint } from './placesInteractions.js';
+import { hostForPlace } from '../../../story/services/naturalLanguage/npcNames.js';
 import { resolveAmbientVoice } from './ambientVoice.js';
 import {
   flattenRoute,
@@ -862,6 +863,15 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     locationType: overnightContext === 'IN_LOCATION' ? overnightLocation.type : null,
     regionId: overnightRegionId,
   });
+
+  // Who opens the door, when the place keeps somebody: the keeper is
+  // stable per place — the widow of the deep smial keeps her name
+  // across visits, and her people come from the place's own words
+  // ('smial' → hobbits) before the region's family.
+  if (overnightLocation) {
+    overnightLocation.host = hostForPlace(
+      overnightLocation, overnightLocation.cultural_family);
+  }
 
   console.log(
     `[OVERNIGHT] context=${overnightContext} ` +

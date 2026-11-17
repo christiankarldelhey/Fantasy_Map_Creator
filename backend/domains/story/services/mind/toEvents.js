@@ -217,10 +217,18 @@ function encounterEvents(day) {
       data: (() => {
         const slug = e.entity.slug || e.entity.name || e.entity.id;
         const outcome = e.interaction?.outcome ?? null;
+        const npc = e.interaction?.npc ?? null;
         const data = {
           entity: slug,
           entity_name: e.entity.name || null,
           entity_type: e.entity.type || e.entity.entity_type || null,
+          // Who spoke, when words passed — the slug tags the person as
+          // its own subject ('npc:hal'), the name is how the mind says
+          // them, the gloss what kind of being it saw ('a hobbit').
+          npc: npc ? slugify(npc.name) : null,
+          npc_name: npc?.name ?? null,
+          npc_people: npc?.people ?? null,
+          npc_gloss: npc?.gloss ?? null,
           // Kind-of-being between type and entity (foxes within
           // carnivores) — attitudes match entity > family > type.
           family: e.entity.family ?? null,
@@ -252,7 +260,11 @@ function encounterEvents(day) {
           // The one-line perception the mind keeps: resolved substance
           // leads, the form's prose hint carries contact without words.
           reading: (() => {
-            const subject = e.entity.name || humanize(slug);
+            // A named being leads with its name — 'Bungo, a hobbit —
+            // shared news' remembers better than 'humans — shared news'.
+            const subject = npc
+              ? `${npc.name}, ${npc.gloss}`
+              : e.entity.name || humanize(slug);
             const detail = e.interaction?.dialogue_content?.concrete_content
               ?? e.interaction?.prose_hint ?? null;
             if (subject && detail) {
@@ -548,6 +560,12 @@ function restEvent(day) {
   if (lodging.charity) tags.push('charity');
   if (lodging.turnedAway) tags.push('turned_away');
   if (day.overnight_location?.indoor && !lodging.turnedAway) tags.push('indoor');
+  // Who keeps the place, when somebody does — the host is the mind's
+  // person ('npc:bungo'), so the widow of the deep smial is remembered
+  // by name and her door stays familiar.
+  const host = day.overnight_location?.host ?? null;
+  const nightReading = overnight.description ?? overnight.name
+    ?? overnight.id ?? REST_OPEN_SKY;
   return {
     type: 'rest',
     when: when({ phase: 'night' }),
@@ -557,6 +575,10 @@ function restEvent(day) {
       shadow_effect: overnight.shadow_effect ?? null,
       place: slugify(overnight.name) || overnight.id || null,
       name: overnight.name ?? null,
+      npc: host ? slugify(host.name) : null,
+      npc_name: host?.name ?? null,
+      npc_people: host?.people ?? null,
+      npc_gloss: host?.gloss ?? null,
       // The place's authored prose carries the texture of the night
       // ('the will itself feels weighed and probed') — numbers alone
       // left the worst nights invisible to the mind.
@@ -564,8 +586,9 @@ function restEvent(day) {
       // 'hardcoded_fallback' = open sky: the host supplies the
       // open-sky reading itself now (C13, #53).
       scope: overnight.scope ?? null,
-      reading: overnight.description ?? overnight.name ?? overnight.id
-        ?? REST_OPEN_SKY,
+      reading: host
+        ? `${host.name}, ${host.gloss} — ${nightReading}`
+        : nightReading,
       lodging: {
         paid: lodging.paid ?? false,
         cost: lodging.cost ?? null,

@@ -338,6 +338,9 @@ def _subject_displays(data):
     out = {}
     if data.get('entity') and data.get('entity_name'):
         out[f"entity:{data['entity']}"] = data['entity_name']
+    # A named person says itself — 'Bungo', never 'bungo' the word.
+    if data.get('npc') and data.get('npc_name'):
+        out[f"tag:npc:{data['npc']}"] = data['npc_name']
     if data.get('place') and data.get('name'):
         out[f"tag:place:{data['place']}"] = data['name']
     return out
