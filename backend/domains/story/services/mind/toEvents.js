@@ -309,8 +309,10 @@ function mealEvents(day) {
         slot: m.slot || null,
         // A skipped meal is an absence the mind should feel, not a gap.
         eaten: food != null || m.itemId != null || m.slug === 'tavern_meal',
-        food,
-        drink: m.drink?.name || m.drink || null,
+        // Subject slugs, not display names — 'Fruit Bread' and
+        // 'fruit bread' must land on the same Relation.
+        food: slugify(food),
+        drink: slugify(m.drink?.name || m.drink) || null,
         // The narrator's meal prose is the memory's reading — including
         // the hungry variants when the table was empty.
         reading: describeMeal(m, rngOf(day))
@@ -349,7 +351,7 @@ function placeEvents(day) {
         // Relation accretes on (tag:place:esgaroth). Every sighting,
         // visit and stay feeds the same identity.
         place: slugify(loc.name || loc.id),
-        kind: loc.type || null,
+        kind: slugify(loc.type) || null,
         distance_km: loc.distance_km ?? null,
         // Beyond its reach a place is only a silhouette: the sighted_far
         // line is all it says — census and ficha prose belong to a
@@ -458,7 +460,7 @@ function waterEvents(day) {
     data: { name: w.name || null,
             // A crossing is contact with a place-subject — the Bruinen
             // is a ford you come to know, not just where it happened.
-            place: slugify(w.name), kind: w.type || null,
+            place: slugify(w.name), kind: slugify(w.type) || null,
             reading: describeWaterCrossings([w], rngOf(day)) || w.name || null },
   }));
 }

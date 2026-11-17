@@ -63,6 +63,39 @@ DEFAULT_SEMANTICS = {
     'tag:form:watches': {
         'delta': {'fear': 0.1, 'familiarity': 0.05}, 'weight': 0.3,
     },
+    # Contact without touch — the thing was registered, not met: signs,
+    # glimpses, sounds, a presence felt. All of it is the familiarity
+    # root ('I know this thing lives here'), the unseen ones carry a
+    # touch of the uncanny — the howl unnerves, the footprint warns.
+    'tag:form:observed_activity': {
+        'delta': {'familiarity': 0.12}, 'weight': 0.3,
+    },
+    'tag:form:sign_only': {
+        'delta': {'familiarity': 0.1, 'fear': 0.05}, 'weight': 0.25,
+    },
+    'tag:form:glimpsed_far': {
+        'delta': {'familiarity': 0.08}, 'weight': 0.2,
+    },
+    'tag:form:sound_only': {
+        'delta': {'familiarity': 0.06, 'fear': 0.08}, 'weight': 0.3,
+    },
+    'tag:form:presence_felt': {
+        'delta': {'familiarity': 0.04, 'fear': 0.12}, 'weight': 0.35,
+    },
+    'tag:form:scenery': {
+        'delta': {'familiarity': 0.05}, 'weight': 0.15,
+    },
+    'tag:form:passed_by': {
+        'delta': {'familiarity': 0.06}, 'weight': 0.2,
+    },
+    'tag:form:mistaken_for_object': {
+        'delta': {'familiarity': 0.08}, 'weight': 0.2,
+    },
+    # 'topic' is the generic contact fallback — words traded without an
+    # authored form: a shade of an exchange.
+    'tag:form:topic': {
+        'delta': {'familiarity': 0.1, 'affection': 0.03}, 'weight': 0.3,
+    },
     # Outcomes — how the meeting resolved.
     'tag:outcome:wounded': {
         'delta': {'fear': 0.3, 'trust': -0.1},
@@ -73,6 +106,10 @@ DEFAULT_SEMANTICS = {
         'weight': 0.85, 'body': {'pain': 0.6},
     },
     'tag:outcome:unscathed': {'delta': {'affection': 0.05}, 'weight': 0.3},
+    'tag:outcome:slain': {
+        'delta': {'fear': 0.6, 'trust': -0.2},
+        'weight': 1.0, 'body': {'pain': 0.9},
+    },
     # Sustenance — a meal is comfort AND it feeds the body.
     'type:meal': {
         'delta': {'affection': 0.15, 'trust': 0.05},
@@ -116,6 +153,19 @@ DEFAULT_SEMANTICS = {
     },
     'tag:weather:scorching': {
         'delta': {'affection': -0.1}, 'weight': 0.4, 'body': {'fatigue': 0.15},
+    },
+    # The milder tiers the host also declares: a wet road, a gusty
+    # ridge, a grey sky — small miseries, still honest.
+    'tag:weather:wet': {
+        'delta': {'affection': -0.05}, 'weight': 0.25,
+        'body': {'cold': 0.1},
+    },
+    'tag:weather:windy': {
+        'delta': {'affection': -0.03}, 'weight': 0.2,
+        'body': {'cold': 0.05},
+    },
+    'tag:weather:overcast': {
+        'delta': {'affection': -0.02}, 'weight': 0.15,
     },
     # Presence vs sighting — the distance IS the meaning: a city seen
     # from afar touches familiarity a little and nothing else.

@@ -31,6 +31,9 @@ TAG_CLASSES = {
     'race':        {'subject'},
     'place':       {'subject'},
     'form':        {'cause'},
+    # 'news_and_rumor' every night IS a recurring theme (the wire's own
+    # contract); the topic is what was talked about, not who.
+    'topic':       {'pattern'},
 }
 
 # Data keys that never enter the tag space (the wire's contract, not a
