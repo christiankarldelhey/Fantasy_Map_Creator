@@ -37,6 +37,7 @@ from app.mind.memory import (
     detect_patterns,
     episode_index,
 )
+from app.mind.choosing import choose
 from app.mind.needs import (
     need_items,
     need_snapshot,
@@ -45,6 +46,8 @@ from app.mind.needs import (
     update_streak_counters,
 )
 from app.mind.models import (
+    ChooseRequest,
+    ChooseResponse,
     ClonePackRequest,
     CloseEpisodeRequest,
     CloseEpisodeResponse,
@@ -935,6 +938,39 @@ def reassign_mind_preset(
         'preset_slug': mind.preset_slug,
         'recloned': payload.reclone,
     }
+
+
+@router.post('/mind/minds/{character_id}/choose', response_model=ChooseResponse)
+def choose_interactions(
+    character_id: str,
+    payload: ChooseRequest,
+    db: Session = Depends(get_session),
+):
+    """The host hands over each resolved Situation's feasible Interactions
+    (ADR-0019); the Mind returns one interaction_id per situation, drawn by
+    softmax over its own preference — Needs, the Relation with the concrete
+    subject, theme affinity — tempered by `personality.choice_variability`.
+    Runs before the episode opens: effects are applied by the host and the
+    Events arrive saying what happened. Mind missing → neutral draw; the
+    choice never blocks the game."""
+    try:
+        mind = (
+            db.query(Mind)
+            .filter_by(
+                game_id=payload.game_id, character_id=character_id
+            )
+            .one_or_none()
+        )
+        return ChooseResponse(
+            **choose(
+                db, mind, payload.game_id, character_id,
+                [c.model_dump() for c in payload.choices],
+            )
+        )
+    except SQLAlchemyError as exc:
+        db.rollback()
+        log.warning('choose_interactions failed: %s', exc)
+        raise HTTPException(status_code=503, detail='mind persistence unavailable')
 
 
 @router.post('/mind/minds/{character_id}/reset')

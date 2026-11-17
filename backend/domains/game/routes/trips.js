@@ -1,6 +1,7 @@
 import express from 'express';
 import pool from '../../../db.js';
 import { generateDay, applyShelterChoice } from '../services/world/tripDay.js';
+import { resolveDayChoices } from '../services/world/interactionEngine.js';
 import { createSeededRng } from '../services/world/encounters.js';
 import {
   computeRoute,
@@ -387,6 +388,16 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     if (trip.character_id) {
       const inventoryRows = await loadInventory(trip.character_id);
       effects = aggregateEffects(inventoryRows);
+
+      // Interaction engine (ADR-0019, Wave B): the day's resolved Situations
+      // choose their Interactions BEFORE the day resolves — the night's
+      // overnight record and any dusk shelter offer land already applied.
+      // Feasibility is the host's; preference is the Mind's.
+      await resolveDayChoices(day, {
+        characterId: trip.character_id,
+        startState,
+        rng: day.rng,
+      });
 
       // Baseline resolution: the day as generated, overnight at the
       // checkpoint. A dusk shelter decision may re-resolve this below.
