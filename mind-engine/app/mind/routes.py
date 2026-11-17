@@ -21,8 +21,8 @@ from datetime import datetime, timezone
 
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
-from app.mind.attitudes import drift as attitude_drift
 from app.mind.director import direct, director_enabled
+from app.mind.engine import derive_feeling, regress
 from app.mind.focus import brief_lines, build_brief, need_origins
 from app.mind.lens import (
     _age_phrase, brief_beats, episode_mood, line_text, mood_cause,
@@ -81,6 +81,8 @@ from app.mind.packs import (
     promote_pack,
 )
 from app.mind.perceive import perceive_events, resolve_break_items
+from app.mind.relations import decay_all
+from app.mind.voice import mood_phrase
 from app.mind.provisioning import (
     DEFAULT_WIRING,
     NEUTRAL_MOOD,
@@ -290,6 +292,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 db, payload.game_id, mind,
                 [e.model_dump() for e in payload.events],
                 character=card,
+                episode_idx=episode.episode_idx,
             )
             # The episode stirs memory: top-K evoked, strengthened, linked.
             evoked = retrieve(db, mind, episode, perceived)
@@ -492,9 +495,24 @@ def close_episode(
             )
             update_streak_counters(db, mind, episode)
             summary.update(close_episode_memory(db, mind, episode))
-            # Attitudes move by how their encounters went — before the
-            # reflection, so it reads the stance the day left behind.
-            summary['attitudes_moved'] = attitude_drift(db, mind, episode)
+            # The quiet tick (ADR 0017): the mood drifts back toward its
+            # Temperament by the Personality's moodiness, and every
+            # Relation cools toward indifference — the sediment lives on
+            # what was fed, never on what was merely not contradicted.
+            mood = dict(mind.mood or {})
+            regress(
+                mood, mind.temperament or {},
+                (mind.personality or {}).get('moodiness', 0.3),
+            )
+            mood['dominant'] = mood_phrase(mood.get('valence') or 0.0) or 'neutral'
+            mood['feeling'] = derive_feeling(mood)
+            mind.mood = mood
+            decay_all(
+                db, mind,
+                {**DEFAULT_WIRING, **(mind.wiring or {})}.get(
+                    'relation_decay', 0.98
+                ),
+            )
             # B4: the mind's only LLM call. Trigger-gated; a skipped or
             # failed reflection never breaks the close.
             summary['reflection'] = maybe_reflect(

@@ -73,7 +73,7 @@ def _clip(dim, v):
     return max(lo, min(1.0, v))
 
 
-def _add(vec, delta, scale=1.0):
+def add_delta(vec, delta, scale=1.0):
     """vec += delta * scale, clipped per dim. Sparse in, sparse out."""
     for dim, v in (delta or {}).items():
         vec[dim] = _clip(dim, vec.get(dim, 0.0) + v * scale)
@@ -108,13 +108,22 @@ def sediment(vec, delta, resistance=0.0):
     return vec
 
 
+def mood_delta(felt):
+    """The mood-space reading of one felt delta: W_RM · felt, clipped —
+    what this event would add to each mood dim on its own."""
+    out = {}
+    for dim, v in (felt or {}).items():
+        for mdim, w in (W_RM.get(dim) or {}).items():
+            out[mdim] = out.get(mdim, 0.0) + v * w
+    return {d: _clip(d, v) for d, v in out.items()}
+
+
 def couple_mood(mood, felt_deltas):
     """The day's relation movements coloured into mood:
     mood += W_RM · Σ felt_deltas. The Mood never reads the Event."""
     for delta in felt_deltas or ():
-        for dim, v in (delta or {}).items():
-            for mdim, w in (W_RM.get(dim) or {}).items():
-                mood[mdim] = _clip(mdim, mood.get(mdim, 0.0) + v * w)
+        for dim, v in mood_delta(delta).items():
+            mood[dim] = _clip(dim, mood.get(dim, 0.0) + v)
     return mood
 
 
@@ -150,12 +159,14 @@ def project_body(condition, mapping):
     """Condition → body dims: a declared field→dim map ({'hunger':
     {'field': 'days_without_food', 'scale': 5}}) — scale is how many
     units saturate the dim, so 3 days without food at scale 5 is 0.6.
-    Detectors evolve into this mapping."""
+    Detectors evolve into this mapping. `invert` reads a resource-style
+    field the other way — 'energy' 35 is fatigue .65."""
     body = {}
     for dim, spec in (mapping or {}).items():
         raw = (condition or {}).get(spec['field'])
         if isinstance(raw, (int, float)) and not isinstance(raw, bool):
-            body[dim] = _clip(dim, raw / (spec.get('scale') or 1.0))
+            v = raw / (spec.get('scale') or 1.0)
+            body[dim] = _clip(dim, (1.0 - v) if spec.get('invert') else v)
     return body
 
 
@@ -163,7 +174,7 @@ def acute_hit(body, hit):
     """The one exception to projected body: an Event lands a direct
     blow ('wounded' → pain:+0.4) that decays back to what the next
     Condition reports."""
-    return _add(body, hit)
+    return add_delta(body, hit)
 
 
 def derive_feeling(vector, lexicon=None):

@@ -61,7 +61,7 @@ def _open_and_close(client, character_id, ref, events, preset=None):
 MEAL_EVENT = {
     'type': 'meal',
     'when': {'episode': 1, 'date': '1950-01-19', 'phase': 'night'},
-    'data': {'food': 'lembas', 'valence': 0.6},
+    'data': {'food': 'lembas', 'tags': ['given']},
 }
 
 QUIET_TRAVEL = {

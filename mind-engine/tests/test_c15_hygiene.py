@@ -152,7 +152,9 @@ def test_need_memories_never_reach_the_reflection_prompt(
     meal = {
         'type': 'meal',
         'when': {'episode': 1, 'date': '1950-05-01'},
-        'data': {'food': 'lembas', 'valence': 0.4},
+        # 'given' marks it a provided meal — felt as kindness, strong
+        # enough to be reflection evidence; need memories still stay out.
+        'data': {'food': 'lembas', 'tags': ['given']},
     }
     opened = _open(
         client, char, 'd1', [meal], preset=slug,

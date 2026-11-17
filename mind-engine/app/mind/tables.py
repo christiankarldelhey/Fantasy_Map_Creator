@@ -126,6 +126,11 @@ class MindPreset(Base):
     description: Mapped[str] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
 
+    # ADR 0017: the preset's authored resting point and couplings —
+    # cloned into minds.temperament/personality at provisioning.
+    temperament: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    personality: Mapped[dict] = mapped_column(JSONB, nullable=True)
+
     theme_weights = relationship('PresetThemeWeight', lazy='selectin',
                                  cascade='all, delete-orphan')
     wiring = relationship('PresetWiring', lazy='selectin',
@@ -134,6 +139,8 @@ class MindPreset(Base):
                                    cascade='all, delete-orphan')
     musings = relationship('PresetMusing', lazy='selectin',
                            cascade='all, delete-orphan')
+    leans = relationship('PresetLean', lazy='selectin',
+                         cascade='all, delete-orphan')
 
 
 class PresetThemeWeight(Base):
@@ -179,6 +186,26 @@ class PresetStarterBelief(Base):
     subject: Mapped[list] = mapped_column(JSONB, nullable=True)
     stance: Mapped[float] = mapped_column(Float, nullable=True)
     source: Mapped[str] = mapped_column(String(20), nullable=True)
+
+
+class PresetLean(Base):
+    """A preset's authored disposition toward a subject (ADR 0017 · lean):
+    the vector a seed Relation starts from — 'orcs' feared AND hated,
+    'rainy days' quietly disliked (a lembas-less taste needs no belief
+    words). Weight biases that make the subject matter more live in
+    theme_weights, as before."""
+
+    __tablename__ = 'preset_leans'
+    __table_args__ = (UniqueConstraint('preset_id', 'subject', name='uq_preset_lean'),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    preset_id: Mapped[int] = mapped_column(
+        ForeignKey(f'{MIND_SCHEMA}.mind_presets.id', ondelete='CASCADE'), nullable=False)
+    subject: Mapped[str] = mapped_column(String(160), nullable=False)
+    affection: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    trust: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    fear: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    familiarity: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
 
 
 class PresetMusing(Base):
@@ -560,6 +587,29 @@ class Detector(Base):
     need_type: Mapped[str] = mapped_column(String(30), nullable=False,
                                            default='physiological')
     description: Mapped[str] = mapped_column(Text, nullable=True)
+    enabled: Mapped[bool] = mapped_column(Boolean, nullable=False,
+                                          default=True)
+
+
+class Semantic(Base):
+    """A game's declared meaning for a tag pattern (ADR 0017): the shared
+    semantics pack, overridable per game exactly like Detectors —
+    'form:corrupts' can mean something in one world it does not in
+    another. key matches perceived tags (wildcards allowed); delta is
+    the sparse relation-dim the world objectively carried; weight how
+    strongly this contact lands; body an acute hit."""
+
+    __tablename__ = 'semantics'
+    __table_args__ = (
+        UniqueConstraint('game_id', 'key', name='uq_semantic'),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    key: Mapped[str] = mapped_column(String(160), nullable=False)
+    delta: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    weight: Mapped[float] = mapped_column(Float, nullable=True)
+    body: Mapped[dict] = mapped_column(JSONB, nullable=True)
     enabled: Mapped[bool] = mapped_column(Boolean, nullable=False,
                                           default=True)
 

@@ -13,6 +13,7 @@
 from datetime import date as date_type, datetime
 
 from app.mind.embeddings import embed
+from app.mind.engine import derive_feeling
 from app.mind.voice import humanize, phrases
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Episode, ForgottenMemory, Memory, Need
@@ -249,6 +250,13 @@ def encode_episode(session, mind, episode):
                 existing.embedding = embed(desc)
             absorbed += 1
             continue
+        # The vector substrate (ADR 0017): imprint is the felt delta the
+        # item carried (a need's ache reads as a small affection dip),
+        # subjects the Relation-bearing tags it touched; depth follows
+        # the consolidation tier; feeling is the derived lexicon word.
+        imprint = item.get('imprint') or {}
+        if not imprint and item.get('valence'):
+            imprint = {'affection': float(item['valence'])}
         new_mem = Memory(
             game_id=episode.game_id,
             character_id=episode.character_id,
@@ -258,8 +266,8 @@ def encode_episode(session, mind, episode):
             entity_id=entity_id,
             region=(item.get('where') or {}).get('region'),
             desc=desc,
-            # The perceived valence — already derived by this mind's
-            # affect wiring, or the host's explicit data.valence.
+            # The perceived valence — the felt delta's mood share the
+            # engine derived at perception (the imprint's summary).
             valence=float(item.get('valence') or 0.0),
             importance=importance,
             strength=importance,
@@ -269,6 +277,11 @@ def encode_episode(session, mind, episode):
             created_episode=idx,
             created_date=episode_date(episode),
             embedding=embed(desc),
+            imprint=imprint or None,
+            subjects=item.get('subjects') or None,
+            feeling=derive_feeling(imprint) if imprint else None,
+            depth='consolidated' if consolidated else 'fresh',
+            mutable=True,
         )
         session.add(new_mem)
         # Register so a twin later in this same pass absorbs into it.

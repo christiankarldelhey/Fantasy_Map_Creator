@@ -13,11 +13,12 @@
 import re
 from datetime import date
 
+from app.mind.engine import (
+    MOOD_DIMS, add_delta, couple_mood, derive_feeling, weigh_body,
+)
 from app.mind.tags import cause_tags
 from app.mind.voice import mood_phrase
 from app.mind.provisioning import DEFAULT_WIRING
-
-MOOD_BLEND = 0.5
 
 
 def _weighted_mean(items, key):
@@ -33,23 +34,47 @@ def _weighted_mean(items, key):
 def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
     """What this episode felt like: weighted by how much each event
     mattered (salience), then weighed down by open needs — the body's
-    own voice, urgency-scaled. dominant via the editable 'mood' band."""
+    own voice, urgency-scaled. dominant via the editable 'mood' band.
+    `felt` is the day's accumulated felt delta (engine, ADR 0017) and
+    `trace` the per-event record of it — the day's emotional plot."""
     items = perceived_day or []
     valence = _weighted_mean(items, 'valence')
     arousal = _weighted_mean(items, 'severity')
     pressure = 0.0
+    thread_pressure = 0.0
     if needs:
         w = {**DEFAULT_WIRING, **((mind.wiring if mind else None) or {})}
         scale = w.get('need_affect_scale', 0.3)
         cap = w.get('need_affect_cap', 0.4)
         pressure = min(cap, sum((n.urgency or 0.0) * scale for n in needs))
         valence = max(-1.0, valence - pressure)
+        # The projected body already drags physiological needs — a
+        # thread (an open intention, a promise) is what weighs extra.
+        thread_pressure = min(cap, sum(
+            (n.urgency or 0.0) * scale for n in needs
+            if n.type != 'physiological'
+        ))
     dominant = mood_phrase(valence) or 'neutral'
+    felt = {}
+    trace = []
+    for i in items:
+        imprint = i.get('imprint') or {}
+        if not imprint:
+            continue
+        add_delta(felt, imprint)
+        trace.append({
+            'subject': i.get('subject'),
+            'reading': i.get('reading'),
+            'felt': imprint,
+        })
     return {
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
         'dominant': dominant,
         'need_pressure': round(pressure, 3),
+        'thread_pressure': round(thread_pressure, 3),
+        'felt': {d: round(v, 3) for d, v in felt.items()},
+        'trace': trace,
     }
 
 
@@ -85,37 +110,39 @@ def mood_cause(perceived_day, needs=None):
 
 def update_mind_mood(session, game_id, mind, ep_mood, cause=None,
                       when=None):
-    """The running mood absorbs the episode's mood; dominant re-resolves
-    on the blended valence. Under real need pressure the present weighs
-    more (C24): a starving body does not blend away into 'steady' —
-    the day's need IS the mood. `cause` (mood_cause) replaces the carried
+    """The running mood absorbs the day's felt deltas (ADR 0017): each
+    perceived event already moved its Relations; here their felt share
+    lands on the mood vector through W_RM — the mood never reads the
+    events. The body speaks too: open needs press valence down and lift
+    arousal (C24) — a starving body does not fade into 'steady'; the
+    day's need IS the mood. `cause` (mood_cause) replaces the carried
     one when the episode had one; a mood that settles near neutral lets
     its cause go — nothing weighs any more."""
-    pressure = ep_mood.get('need_pressure') or 0.0
-    blend = min(0.9, MOOD_BLEND + pressure)
     prior = mind.mood or {}
-    valence = (
-        (prior.get('valence') or 0.0) * (1 - blend)
-        + ep_mood['valence'] * blend
-    )
-    arousal = (
-        (prior.get('arousal') or 0.0) * (1 - blend)
-        + ep_mood['arousal'] * blend
-    )
+    mood = {d: prior.get(d) or 0.0 for d in MOOD_DIMS}
+    couple_mood(mood, [ep_mood.get('felt') or {}])
+    # The body's voice (ADR 0017 · W_BM): the projected Condition drags
+    # the mood by its load; thread needs — intentions, not flesh — press
+    # valence down on top, urgency-scaled.
+    weigh_body(mood, getattr(mind, 'body', None) or {})
+    pressure = ep_mood.get('thread_pressure') or 0.0
+    mood['valence'] = max(-1.0, mood.get('valence', 0.0) - pressure)
+    mood['arousal'] = min(1.0, mood.get('arousal', 0.0) + pressure * 0.5)
+    valence = mood['valence']
     dominant = mood_phrase(valence) or 'neutral'
     carried = prior.get('cause')
     if cause:
         carried = {**cause, 'date': when.isoformat() if when else None}
     # A cause must explain the mood it rides with: none once the mood
-    # settles near neutral, none if the blend flipped past its sign.
+    # settles near neutral, none if the day flipped past its sign.
     if abs(valence) < MOOD_CAUSE_MIN_VALENCE or (
         carried and (carried.get('valence') or 0.0) * valence < 0
     ):
         carried = None
     mind.mood = {
-        'valence': round(valence, 3),
-        'arousal': round(arousal, 3),
+        **{d: round(mood.get(d) or 0.0, 3) for d in MOOD_DIMS},
         'dominant': dominant,
+        'feeling': derive_feeling(mood),
         'cause': carried,
     }
     return mind.mood

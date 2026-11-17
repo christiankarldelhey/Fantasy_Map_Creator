@@ -18,7 +18,6 @@
 # ============================================================================
 import re
 
-from app.mind.attitudes import active_attitudes, attitude_for, felt_valence
 from app.mind.boosts import effective_theme_weights
 from app.mind.checks import (
     asleep_check_result,
@@ -27,10 +26,15 @@ from app.mind.checks import (
     misread_reading,
     resolve_check,
 )
+from app.mind.engine import acute_hit, mood_delta, project_body
+from app.mind.relations import feed_event, felt_through
+from app.mind.semantics import (
+    BODY_PROJECTION, load_semantics, semantic_delta,
+)
 from app.mind.voice import phrases, resolve_event_reading
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Episode
-from app.mind.tags import UNTAGGED_FIELDS
+from app.mind.tags import UNTAGGED_FIELDS, subject_tags
 from app.mind.util import best_tag_weight, num, tag_matches
 
 # data fields that count as explicit severity when numeric (0-1 normalized).
@@ -103,31 +107,6 @@ def _salience_floor(tags, w):
     mind, 'salience_min.tag:form:brief_exchange' that a real exchange
     outweighs the weather. Wildcards allowed ('salience_min.entity:*')."""
     return best_tag_weight(tags, w, 'salience_min.')
-
-
-def _emotional_charge(data):
-    v = num(data.get('emotional_charge'))
-    if v is not None:
-        return min(1.0, abs(v))
-    v = num(data.get('valence'))
-    return min(1.0, abs(v)) if v is not None else 0.0
-
-
-def _affect(tags, data, w):
-    """The signed valence (-1..1) this mind assigns to the event:
-    'affect.<tag>' wiring keys fire when the tag is present (wildcards
-    allowed) and 'affect.field:<name>' keys scale a numeric data field
-    per unit. Two minds differ exactly here — the same confrontation is
-    not the same wound to every character."""
-    valence = best_tag_weight(tags, w, 'affect.')
-    for key, gain in w.items():
-        if not key.startswith('affect.field:'):
-            continue
-        field = num(data.get(key[len('affect.field:'):]))
-        g = num(gain)
-        if field is not None and g is not None:
-            valence += g * field
-    return valence
 
 
 def _seen_tags(session, game_id, character_id):
@@ -262,6 +241,10 @@ def _recurrence_items(session, game_id, mind, perceived, w):
             'valence': round(max(-1.0, min(1.0, valence)), 3),
             'severity': 0.0,
             'tags': tags or [],
+            # The wear/relief is felt like any perception — the valence
+            # as a small affection imprint, so it moves the mood too.
+            'imprint': {'affection': round(
+                max(-1.0, min(1.0, valence)), 3)},
             'evoked': [],
         }
 
@@ -322,10 +305,16 @@ def resolve_break_items(session, game_id, mind, perceived, needs, w):
                 subject=subject, count=data.get('streak') or 0
             )
         item['valence'] = w.get('break_loss_valence', -0.1)
+        item['imprint'] = {'affection': item['valence']}
 
 
-def perceive_events(session, game_id, mind, events, character=None):
-    """Annotate each event: perception + reading + salience + tags.
+def perceive_events(session, game_id, mind, events, character=None,
+                    episode_idx=None):
+    """Annotate each event: perception + reading + salience + tags, and the
+    vector engine's two channels (ADR 0017): the semantic pack reads the
+    event's objective delta, Relations sediment it (narrowest subject whole,
+    the rest by splash), and the felt delta — bent by the standing
+    Relation — is what the item reports as valence and imprint.
 
     Returns plain dicts ready for `episodes.perceived_day`. Idempotent at the
     episode level because open() only calls this when creating the episode.
@@ -336,7 +325,11 @@ def perceive_events(session, game_id, mind, events, character=None):
     weights = effective_theme_weights(session, mind)
     w = {**DEFAULT_WIRING, **(mind.wiring or {})}
     state = character_state(character, events)
-    attitudes = active_attitudes(session, mind)
+    semantics = load_semantics(session, game_id)
+    # The body the day starts from: the Condition projected through the
+    # declared map — acute event hits land on top of this base, and the
+    # next Condition report resets it.
+    mind.body = project_body(state, BODY_PROJECTION)
 
     perceived = []
     for index, event in enumerate(events or []):
@@ -376,10 +369,21 @@ def perceive_events(session, game_id, mind, events, character=None):
                 / w.get('check_difficulty_scale', 10.0),
             )
         severity = max(_severity(data), _tag_severity(tags, w))
+
+        # The event's objective reading (ADR 0017): what the semantic
+        # pack declares this kind of contact meant. Only registered
+        # events carry meaning — a favour slept through never happened.
+        if perception == 'unnoticed':
+            world_delta, contact_w, body_hit = {}, 0.0, {}
+        else:
+            world_delta, contact_w, body_hit = semantic_delta(
+                tags, data, semantics
+            )
+        charge = min(1.0, sum(abs(v) for v in world_delta.values()))
         salience = min(1.0, (
             w.get('w_severity', 0) * severity
             + w.get('w_novelty', 0) * novelty
-            + w.get('w_emotional', 0) * _emotional_charge(data)
+            + w.get('w_emotional', 0) * charge
             + w.get('w_theme', 0) * theme_weight(tags, weights)
             + w.get('w_perception', 0) * (bonus or 0.0)
         ))
@@ -393,34 +397,41 @@ def perceive_events(session, game_id, mind, events, character=None):
             if floor > salience:
                 salience = floor
 
-        # Host-declared valence always wins; otherwise this mind's own
-        # affect wiring decides how the event felt.
-        host_valence = num(data.get('valence'))
-        valence = host_valence if host_valence is not None else _affect(
-            tags, data, w
-        )
+        # Two channels: the world delta sediments the Relations it
+        # touched (the narrowest subject whole); the felt delta — bent
+        # by the standing Relation — is how the event landed on this
+        # mind. world_valence keeps the unbent reading.
+        subjects = sorted(subject_tags(tags))
+        if perception == 'unnoticed' or not subjects:
+            felt, primary = {}, None
+            if world_delta:
+                felt = felt_through(world_delta, {}, mind.personality)
+        else:
+            primary, standing = feed_event(
+                session, mind, subjects, world_delta,
+                episode_idx=episode_idx,
+            )
+            felt = felt_through(world_delta, standing, mind.personality)
+        if body_hit:
+            acute_hit(mind.body, body_hit)
+        valence = mood_delta(felt).get('valence', 0.0)
         item = {
             **event,
             'perception': perception,
             'reading': reading,
             'salience': round(salience, 3),
-            'valence': round(max(-1.0, min(1.0, valence)), 3),
+            'valence': round(valence, 3),
+            'world_valence': round(
+                mood_delta(world_delta).get('valence', 0.0), 3
+            ),
             'severity': round(severity, 3),
             'tags': tags,
+            'subjects': subjects,
+            'imprint': felt,
             'evoked': [],
         }
-        # An Attitude colours how the encounter felt — unless the host
-        # declared the valence. world_valence keeps the uncoloured
-        # reading: it is what moves the attitude at close, so a love
-        # never feeds on its own echo.
-        attitude = (
-            attitude_for(tags, attitudes)
-            if host_valence is None and perception != 'unnoticed' else None
-        )
-        if attitude is not None:
-            item['world_valence'] = item['valence']
-            item['valence'] = round(felt_valence(valence, attitude, w), 3)
-            item['attitude'] = attitude.id
+        if primary:
+            item['subject'] = primary
         if check_result:
             check_result['perception'] = perception
             item['check'] = check_result

@@ -65,7 +65,7 @@ def _meal(ep):
     return {
         'type': 'meal',
         'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
-        'data': {'food': 'lembas', 'valence': 0.4},
+        'data': {'food': 'lembas', 'tags': ['given']},
     }
 
 

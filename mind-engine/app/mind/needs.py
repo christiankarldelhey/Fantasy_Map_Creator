@@ -221,6 +221,9 @@ def need_items(needs):
             'reading': n.description,
             'salience': round(urgency, 3),
             'valence': round(-urgency, 3),
+            # The ache's imprint (ADR 0017): a body's remembered distress
+            # reads as a small affection dip — re-felt on evocation.
+            'imprint': {'affection': -round(urgency, 3)},
             'severity': round(urgency, 3),
             'tags': [f'need:{n.key}'],
             'data': {'need': n.key, 'urgency': urgency},
