@@ -1156,6 +1156,9 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       sighted_far: l.sighted_far ?? null,
       narration_type: l.narration_type ?? null,
       record_tags: l.record_tags || [],
+      // The resident entity joined by location — a keeper met at her
+      // own door, not only at the overnight stop.
+      host: l.host ?? null,
       entered,
       hostile: isHostileLocation(l),
     };
