@@ -228,8 +228,9 @@ DEFAULT_WIRING = {
     # Places lived, not just passed: 'entered' marks the settlement the
     # traveller actually stopped at — its name and streets should reach
     # the lens. 'hostile' is an enemy place skirted from outside — fear
-    # keeps it noticed. 'charity'/'turned_away' carry the night's social
-    # truth: a stranger's mercy or a door shut in the face.
+    # keeps it noticed. The 'lodging:*' tags carry the night's social
+    # truth: a stranger's mercy or a door shut in the face — and
+    # 'rest:poor' marks the nights the body barely slept through.
     'salience_min.tag:settlement': 0.3,
     'salience_min.tag:entered': 0.55,
     # A border crossed: the host's 'region' event marks a land reached
@@ -237,10 +238,12 @@ DEFAULT_WIRING = {
     # deer herd and is the kind of moment an Episode turns on.
     'salience_min.tag:region_entered': 0.55,
     'salience_min.tag:hostile': 0.45,
-    'salience_min.tag:charity': 0.5,
-    'salience_min.tag:turned_away': 0.5,
-    'salience_min.tag:indoor': 0.3,
-    'salience_min.tag:paid': 0.35,
+    'salience_min.tag:lodging:charity': 0.5,
+    'salience_min.tag:lodging:turned_away': 0.5,
+    'salience_min.tag:lodging:shelter': 0.45,
+    'salience_min.tag:lodging:paid': 0.35,
+    'salience_min.tag:rest:indoor': 0.3,
+    'salience_min.tag:rest:poor': 0.3,
     # The Episode brief (C35): an event needs focus_min_salience to be the
     # Focus and focus_candidate_min_salience to be considered at all; a
     # memory takes the centre past focus_memory_min; a mood this strong

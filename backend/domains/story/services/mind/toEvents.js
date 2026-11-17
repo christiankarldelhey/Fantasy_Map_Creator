@@ -36,9 +36,14 @@
 //                 remembered
 //   meal      — one per meal slot: data: {slot, eaten, food, drink,
 //               reading}
-//   rest      — overnight: data: {rest_quality, shadow_effect, place,
-//               description, reading} — the place's own prose carries
-//               the night; reading is what the mind perceived
+//   rest      — overnight: data: {entity, entity_name, entity_type,
+//               reading, shadow_effect, tags[]} — the night's place climbs
+//               the identity ladder like any other entity; 'rest:*' tags
+//               declare the night's kind (open_sky, indoor, good, poor)
+//               and 'lodging:*' how it was secured (paid, charity,
+//               turned_away, shelter). shadow_effect stays numeric — the
+//               affect.field hook that says how much the place pressed
+//               on the shadow.
 //   encounter — one per encounter: data: {entity, entity_type, family,
 //               danger, reading,
 //               form, outcome, prose_hint, intensity, check,
@@ -81,7 +86,11 @@ import { describeMeal, mealLabel } from '../naturalLanguage/mealNotes.js';
 import { collectTerrainNotes } from '../naturalLanguage/terrainNotes.js';
 import { collectLocationNotes, isDeadPlace, isDistantSighting, sightedShape } from '../naturalLanguage/placeNotes.js';
 import { describeWaterCrossings } from '../naturalLanguage/waterNotes.js';
-import { REST_OPEN_SKY } from '../naturalLanguage/nightNotes.js';
+import {
+  REST_OPEN_SKY,
+  collectNighttimeConditions,
+  restReading,
+} from '../naturalLanguage/nightNotes.js';
 import { groupByPhase } from '../naturalLanguage/dayPhases.js';
 import { humanize, slugify } from '../naturalLanguage/text.js';
 
@@ -549,6 +558,21 @@ function momentEvents(day) {
     }));
 }
 
+// rest_quality (0..3, 'poor'/'good' in older data) says how the night
+// actually rested — only the extremes tag: >=3 is a good night, <=1 is
+// one the mechanics themselves don't count as rest (REST_TRACK_MIN).
+function restQualityTag(quality) {
+  if (quality == null) return null;
+  if (typeof quality === 'string') {
+    if (quality === 'good' || quality === 'great') return 'rest:good';
+    if (quality === 'poor' || quality === 'bad') return 'rest:poor';
+    return null;
+  }
+  if (quality >= 3) return 'rest:good';
+  if (quality <= 1) return 'rest:poor';
+  return null;
+}
+
 function restEvent(day) {
   const overnight = day.overnight_interaction || day.overnight_location;
   if (!overnight) return null;
@@ -556,48 +580,58 @@ function restEvent(day) {
   // a stranger's mercy after a persuasion plea, or a door shut in the face.
   // day.lodging is attached by the host after dayState resolution.
   const lodging = day.lodging || {};
+  const indoor = !!day.overnight_location?.indoor && !lodging.turnedAway;
   const tags = [];
-  if (lodging.paid) tags.push('paid');
-  if (lodging.charity) tags.push('charity');
-  if (lodging.turnedAway) tags.push('turned_away');
-  if (day.overnight_location?.indoor && !lodging.turnedAway) tags.push('indoor');
+  if (lodging.paid) tags.push('lodging:paid');
+  if (lodging.charity) tags.push('lodging:charity');
+  if (lodging.turnedAway) tags.push('lodging:turned_away');
+  // A door shut in the face means the night's real quality was rough —
+  // the offered bed's tier was never lived.
+  const quality = lodging.turnedAway
+    ? 'rest:poor'
+    : restQualityTag(overnight.rest_quality);
+  if (quality) tags.push(quality);
+  if (indoor) tags.push('rest:indoor');
+  if (!indoor) tags.push('rest:open_sky');
+  // Under open sky the sleeper lives the night's weather; an indoor bed
+  // muffles it — conditions only join the reading of a rough night.
+  const conditions = indoor
+    ? []
+    : collectNighttimeConditions(day.nighttime_climate, rngOf(day));
   // Who keeps the place, when somebody does — the host is the mind's
-  // person ('npc:bungo'), so the widow of the deep smial is remembered
+  // person ('npc:mimosa'), so the widow of the deep smial is remembered
   // by name and her door stays familiar.
   const host = day.overnight_location?.host ?? null;
-  const nightReading = overnight.description ?? overnight.name
-    ?? overnight.id ?? REST_OPEN_SKY;
+  const nightReading = restReading({
+    overnight, lodging, conditions, rng: rngOf(day),
+  });
   return {
     type: 'rest',
     when: when({ phase: 'night' }),
     where: where(regionOf(day)),
     data: {
-      rest_quality: overnight.rest_quality ?? null,
-      shadow_effect: overnight.shadow_effect ?? null,
-      place: slugify(overnight.name) || overnight.id || null,
-      name: overnight.name ?? null,
+      // The night anchors to its PLACE like any other entity — the inn
+      // that sheltered you is as relatable as the one that shut its door.
+      // The location is the entity; the interaction record ('ovn:*') is
+      // only the night's voice, never the anchor.
+      entity: day.overnight_location?.slug
+        ?? day.overnight_location?.name ?? day.overnight_location?.id
+        ?? null,
+      entity_name: day.overnight_location?.name
+        ?? overnight.title ?? overnight.name ?? null,
+      entity_type: day.overnight_location?.type
+        ?? overnight.location_type ?? overnight.type ?? null,
+      // The person who keeps the place — their own npc subject, so the
+      // mind can hold a relation with the keeper and not only the door.
       npc: host ? slugify(host.name) : null,
       npc_name: host?.name ?? null,
       npc_people: host?.people ?? null,
       npc_gloss: host?.gloss ?? null,
       npc_gender: host?.gender ?? null,
-      // The place's authored prose carries the texture of the night
-      // ('the will itself feels weighed and probed') — numbers alone
-      // left the worst nights invisible to the mind.
-      description: overnight.description ?? null,
-      // 'hardcoded_fallback' = open sky: the host supplies the
-      // open-sky reading itself now (C13, #53).
-      scope: overnight.scope ?? null,
       reading: host
         ? `${host.name}, ${host.gloss} — ${nightReading}`
         : nightReading,
-      lodging: {
-        paid: lodging.paid ?? false,
-        cost: lodging.cost ?? null,
-        charity: lodging.charity ?? false,
-        turned_away: lodging.turnedAway ?? false,
-        check: lodging.charityCheck ?? null,
-      },
+      shadow_effect: overnight.shadow_effect ?? null,
       tags: tags.length ? tags : undefined,
     },
   };

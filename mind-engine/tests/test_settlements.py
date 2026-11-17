@@ -71,9 +71,9 @@ def test_open_with_settlement_day_perceives_place_and_rest(client):
                 'when': {'phase': 'night'},
                 'where': {'region': 'Rhovanion'},
                 'data': {
-                    'place': 'Esgaroth', 'rest_quality': 3,
-                    'lodging': {'paid': True, 'cost': 5},
-                    'tags': ['paid', 'indoor'],
+                    'entity_name': 'Esgaroth',
+                    'reading': 'A bed bought for coin at Esgaroth.',
+                    'tags': ['lodging:paid', 'rest:good', 'rest:indoor'],
                 },
             },
         ],
@@ -86,13 +86,13 @@ def test_open_with_settlement_day_perceives_place_and_rest(client):
     # a night inside walls is never background noise.
     assert 'tag:entered' in place['tags']
     assert place['salience'] >= 0.55
-    assert 'tag:paid' in rest['tags']
-    assert 'tag:indoor' in rest['tags']
-    assert rest['salience'] >= 0.3
+    assert 'tag:lodging:paid' in rest['tags']
+    assert 'tag:rest:indoor' in rest['tags']
+    assert rest['salience'] >= 0.35
     # Prose fields never leak into the tag space.
     assert not any(t.startswith('tag:description') for t in place['tags'])
     assert not any(t.startswith('tag:inhabitants') for t in place['tags'])
-    assert not any(t.startswith('tag:lodging') for t in rest['tags'])
+    assert not any(t.startswith('tag:reading') for t in rest['tags'])
 
 
 # The entry-vs-passing-by wording moved host-side with the world voice

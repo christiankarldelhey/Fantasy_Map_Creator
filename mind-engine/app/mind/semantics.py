@@ -128,11 +128,11 @@ DEFAULT_SEMANTICS = {
     'tag:given': {
         'delta': {'affection': 0.25, 'trust': 0.25}, 'weight': 0.6,
     },
-    'tag:charity': {
+    'tag:lodging:charity': {
         'delta': {'affection': 0.35, 'trust': 0.3},
         'weight': 0.5, 'body': {'cold': -0.3},
     },
-    'tag:turned_away': {
+    'tag:lodging:turned_away': {
         'delta': {'affection': -0.2, 'trust': -0.2}, 'weight': 0.5,
     },
     # Weather — climate as contact: it presses the body, and the severe
@@ -199,8 +199,23 @@ DEFAULT_SEMANTICS = {
     'tag:sacred': {
         'delta': {'trust': 0.04, 'familiarity': 0.05}, 'weight': 0.2,
     },
-    'tag:indoor': {'delta': {}, 'weight': 0.2, 'body': {'cold': -0.2}},
-    'tag:paid': {
+    # The night itself, as the wire classifies it: how it rested and
+    # how it was secured. Indoor muffles, open sky exposes, a poor
+    # night costs the body what a good one returns.
+    'tag:rest:indoor': {'delta': {}, 'weight': 0.2, 'body': {'cold': -0.2}},
+    'tag:rest:open_sky': {
+        'delta': {'affection': -0.03}, 'weight': 0.2,
+        'body': {'cold': 0.1},
+    },
+    'tag:rest:poor': {
+        'delta': {'affection': -0.05}, 'weight': 0.3,
+        'body': {'fatigue': 0.15},
+    },
+    'tag:rest:good': {
+        'delta': {'affection': 0.05}, 'weight': 0.25,
+        'body': {'fatigue': -0.15},
+    },
+    'tag:lodging:paid': {
         'delta': {'affection': 0.1, 'familiarity': 0.1},
         'weight': 0.3, 'body': {'cold': -0.2},
     },

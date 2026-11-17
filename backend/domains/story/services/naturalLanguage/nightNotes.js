@@ -64,6 +64,57 @@ export const REST_OPEN_SKY =
   'No specific resting place presents itself. The night is spent under '
   + 'open sky, with whatever shelter the land and the weather allow.';
 
+const REST_PAID_PHRASES = [
+  'A bed bought for coin at {place}: a roof, a locked door, the murmur of the common room below.',
+  'Coin buys the night at {place} — a real bed, and sleep that comes easy under a roof.',
+];
+
+const REST_CHARITY_PHRASES = [
+  'Strangers share what they have at {place} — a corner by the fire, freely given.',
+  'No coin changes hands at {place}; kindness opens a door instead.',
+];
+
+const REST_TURNED_AWAY_PHRASES = [
+  'The door of {place} shut on an empty purse; the night is spent under open sky.',
+  'No welcome at {place} — the cold ground outside its lights is all the night offers.',
+];
+
+function placeName(overnight) {
+  return overnight?.title || overnight?.name || 'the settlement';
+}
+
+/**
+ * The night's own reading (ADR-0016): one verbalization that feeds the
+ * chapter AND the memory. How the night was secured leads (a paid bed, a
+ * stranger's mercy, a door shut in the face), then the place's authored
+ * prose — and when the night is spent rough, the nighttime conditions
+ * join, because a sleeper under open sky lives the weather an indoor bed
+ * muffles.
+ */
+export function restReading({ overnight, lodging = {}, conditions = [], rng = Math.random }) {
+  const parts = [];
+  if (lodging.paid) {
+    parts.push(pick(REST_PAID_PHRASES, rng).replace('{place}', placeName(overnight)));
+  } else if (lodging.charity) {
+    parts.push(pick(REST_CHARITY_PHRASES, rng).replace('{place}', placeName(overnight)));
+  } else if (lodging.turnedAway) {
+    parts.push(pick(REST_TURNED_AWAY_PHRASES, rng).replace('{place}', placeName(overnight)));
+  }
+
+  // The authored night prose — a turned-away traveller does NOT get to
+  // live the inn's description; the door's shut is their whole night.
+  if (!lodging.turnedAway && overnight?.description) {
+    parts.push(overnight.description);
+  }
+
+  if (!parts.length) parts.push(REST_OPEN_SKY);
+
+  for (const c of conditions) {
+    parts.push(c.replace(/^-\s*/, ''));
+  }
+  return parts.join(' ');
+}
+
 /** Aggregate the overnight samples into the few numbers the rules need. */
 function nightWeatherSummary(samples) {
   const winds = samples

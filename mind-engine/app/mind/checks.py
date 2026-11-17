@@ -44,8 +44,18 @@ def character_state(character, events):
     every scalar of the snapshot (the wire's `condition` channel merged
     in upstream) and the free-form 'state'/'resources' dicts — first
     non-null per field, in that order of precedence. Nothing here knows
-    a field's meaning; the declared detectors do."""
+    a field's meaning; the declared detectors do.
+
+    Legacy tolerance: episodes persisted before vitals moved to
+    `condition` may still carry a `body` event in their stored events[];
+    its data folds in last, filling only fields the card lacks."""
     character = character or {}
+
+    body_data = {}
+    for e in events or []:
+        if e.get('type') == 'body':
+            body_data = e.get('data') or {}
+            break
 
     state = {}
     sources = (
@@ -56,6 +66,7 @@ def character_state(character, events):
         },
         character.get('state'),
         character.get('resources'),
+        body_data,
     )
     for src in sources:
         for k, v in (src or {}).items():

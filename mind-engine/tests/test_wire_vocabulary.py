@@ -32,8 +32,9 @@ WIRE_WEATHER = [
 # not meaning — deliberately absent.
 WIRE_MARKERS = [
     'settlement', 'hostile', 'sighted_far', 'sighted', 'visited',
-    'entered', 'region_entered', 'paid', 'charity', 'turned_away',
-    'indoor', 'given',
+    'entered', 'region_entered', 'lodging:paid', 'lodging:charity',
+    'lodging:turned_away', 'rest:indoor', 'rest:open_sky', 'rest:poor',
+    'rest:good', 'given',
 ]
 
 # The 'land' umbrella's subtypes — every land-contact shape has its

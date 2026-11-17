@@ -139,10 +139,50 @@ def test_numeric_fields_push_valence(client):
     rest = {
         'type': 'rest',
         'when': {'episode': 1, 'date': '1950-01-19'},
-        'data': {'rest_quality': 0, 'shadow_effect': 2},
+        'data': {'shadow_effect': 2},
     }
     _open_and_close(client, char, 'd1', [rest])
     assert _perceived(char)['valence'] < 0
+
+
+def test_a_shut_door_is_felt_and_remembered(client):
+    """The night's social truth travels as tags: 'lodging:turned_away'
+    wounds and clears its salience floor — the mind does not need a
+    number to know a refused bed hurt. Under the semantic pack the
+    valence is emergent (affection/trust deltas through Relations), so
+    the contract is the sign and the floor, not a declared figure."""
+    char = _uid('refused')
+    rest = {
+        'type': 'rest',
+        'when': {'episode': 1, 'date': '1950-01-19'},
+        'data': {
+            'entity_name': 'The Prancing Pony',
+            'reading': 'The door of The Prancing Pony shut on an empty purse.',
+            'tags': ['lodging:turned_away', 'rest:poor', 'rest:open_sky'],
+        },
+    }
+    _open_and_close(client, char, 'd1', [rest])
+    item = _perceived(char)
+    assert item['valence'] < 0
+    assert item['salience'] >= 0.5
+
+
+def test_a_kind_night_warms(client):
+    """'lodging:charity' is felt as mercy — a charitable roof reads
+    warmer than a merely adequate one (emergent valence, positive)."""
+    char = _uid('sheltered')
+    rest = {
+        'type': 'rest',
+        'when': {'episode': 1, 'date': '1950-01-19'},
+        'data': {
+            'reading': 'A corner by the fire, freely given.',
+            'tags': ['lodging:charity', 'rest:good', 'rest:indoor'],
+        },
+    }
+    _open_and_close(client, char, 'd1', [rest])
+    item = _perceived(char)
+    assert item['valence'] > 0
+    assert item['salience'] >= 0.5
 
 
 def test_two_minds_feel_the_same_world_differently(client):
