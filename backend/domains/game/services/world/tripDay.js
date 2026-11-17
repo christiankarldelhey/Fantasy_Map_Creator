@@ -354,6 +354,10 @@ async function sampleLegContext(legGeoJSON) {
           -- so a distant sighting can be true to the case, not default.
           'narration_type', COALESCE(ficha.type_en, pd.type->>'en'),
           'record_tags', COALESCE(ficha.tags, pd.tags),
+          -- Who keeps the door, when the ficha says so — 'una viuda de
+          -- smial hondo' names the host's people and gender before any
+          -- name is drawn for her.
+          'keeper', COALESCE(ficha.keeper_en, ficha.keeper_es),
           -- Where the leg first crosses into the influence circle (the
           -- sighting moment) and the compass bearing from there to the
           -- place. NULL when the leg never reaches the circle at all —
@@ -384,7 +388,9 @@ async function sampleLegContext(legGeoJSON) {
                  f.presence->>'es' AS presence_es,
                  f.sighted_far->>'en' AS sighted_far_en,
                  f.type->>'en' AS type_en,
-                 f.tags AS tags
+                 f.tags AS tags,
+                 f.facts->'keeper'->>'en' AS keeper_en,
+                 f.facts->'keeper'->>'es' AS keeper_es
             FROM places_narration f
            WHERE f.location_id = l.id AND f.kind = 'place'
            LIMIT 1
@@ -838,6 +844,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       presence_es: checkpoint.location.presence_es ?? null,
       population: checkpoint.location.population,
       inhabitants: checkpoint.location.inhabitants,
+      keeper: checkpoint.location.keeper,
       cultural_family: checkpoint.location.cultural_family,
       indoor: INDOOR_REST_TYPES.includes(checkpoint.location.type),
       distance_km: overnightDistanceKm(

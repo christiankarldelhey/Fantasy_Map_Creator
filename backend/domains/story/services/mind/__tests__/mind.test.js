@@ -642,7 +642,7 @@ test('a being who spoke is remembered by name; a kept place keeps its keeper', (
       }],
       overnight_location: {
         name: 'La aldea de los smials', type: 'village',
-        host: { name: 'Odo', people: 'hobbits', gloss: 'a hobbit' },
+        host: { name: 'Pearl', people: 'hobbits', gloss: 'a hobbit', gender: 'f' },
       },
       overnight_interaction: null,
     },
@@ -659,9 +659,11 @@ test('a being who spoke is remembered by name; a kept place keeps its keeper', (
   assert.equal(
     enc.reading, 'Bungo, a hobbit — shared news of the northern circuit');
   const rest = events.find((e) => e.type === 'rest').data;
-  assert.equal(rest.npc, 'odo');
-  assert.equal(rest.npc_name, 'Odo');
-  assert.match(rest.reading, /^Odo, a hobbit — /);
+  // A widow keeps the smial — a woman's name, and the wire knows her.
+  assert.equal(rest.npc, 'pearl');
+  assert.equal(rest.npc_name, 'Pearl');
+  assert.equal(rest.npc_gender, 'f');
+  assert.match(rest.reading, /^Pearl, a hobbit — /);
 });
 
 test('the open payload carries raw state, never rendered blocks (C10)', () => {

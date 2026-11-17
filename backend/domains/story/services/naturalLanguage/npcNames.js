@@ -99,10 +99,32 @@ function hashString(s) {
   return Math.abs(h);
 }
 
-function draw(people, roll) {
+// The keeper's own words say who keeps the door: 'una viuda de smial
+// hondo' is a woman before she is a name. Checked before the draw so
+// the pools can answer with a woman's name where the culture gives one.
+const FEMALE_WORD = /viuda|widow|mujer|woman|madre|mother\b|dama|lady\b|señora|esposa|wife|hija|daughter|doncella|matron|abuela|grandmother|matriarch|anciana|bruja|witch|curandera|healer-woman|maiden|wench/i;
+const MALE_WORD = /viudo|widower|hombre|\bman\b|padre|father|señor|lord\b|marido|husband|hijo|\bson\b|muchacho|abuelo|grandfather|anciano|curandero|innkeeper|keeper|patriarch/i;
+
+function genderOf(text) {
+  if (!text) return null;
+  const female = FEMALE_WORD.test(text);
+  const male = MALE_WORD.test(text);
+  if (female && !male) return 'f';
+  if (male && !female) return 'm';
+  return null;
+}
+
+function draw(people, roll, gender = null) {
   const pool = POOLS[people] || POOLS.eriador;
-  const idx = Math.floor(roll * pool.names.length) % pool.names.length;
-  return { name: pool.names[idx], people, gloss: pool.gloss };
+  const list = (gender === 'f' && pool.names_f?.length)
+    ? pool.names_f : pool.names;
+  const idx = Math.floor(roll * list.length) % list.length;
+  // 'a man of Gondor' says itself wrong for a woman — the people stays,
+  // the word bends.
+  const gloss = gender === 'f'
+    ? pool.gloss.replace(/^a man\b/, 'a woman')
+    : pool.gloss;
+  return { name: list[idx], people, gloss };
 }
 
 /** Who spoke, when words actually passed. Deterministic per the day's
@@ -126,14 +148,21 @@ export function hostForPlace(place, culturalFamily = null) {
     place.type, place.name, place.inhabitants,
     ...(place.record_tags || place.tags || []),
   ].filter(Boolean).join(' ');
-  const keeper = place.facts?.keeper || place.keeper;
+  const keeperRaw = place.facts?.keeper || place.keeper;
+  const keeper = typeof keeperRaw === 'string'
+    ? keeperRaw
+    : keeperRaw?.en || keeperRaw?.es || null;
   if (!keeper && !HOSTED_KIND.test(hay)) return null;
-  // Who keeps it: the record's own words first ('hobbit' in the
-  // inhabitants), then the land's family.
+  // Who keeps it: the record's own words first ('viuda de smial hondo'
+  // says hobbit before the region ever does), then the land's family.
   const entityLike = {
-    slug: [place.inhabitants, place.type, place.name].filter(Boolean).join(' '),
+    slug: [keeper, place.inhabitants, place.type, place.name]
+      .filter(Boolean).join(' '),
     type: null,
   };
   const people = peopleForEntity(entityLike, culturalFamily);
-  return draw(people, (hashString(place.id ?? place.name) % 1000) / 1000);
+  const roll = (hashString(place.id ?? place.name) % 1000) / 1000;
+  const gender = genderOf([keeper, place.inhabitants].filter(Boolean).join(' '));
+  const host = draw(people, roll, gender);
+  return gender ? { ...host, gender } : host;
 }

@@ -79,6 +79,26 @@
       "Massánië",
       "Menelmacar",
       "Minastan"
+    ],
+    "names_f": [
+      "Ailinel",
+      "Almáriel",
+      "Amarië",
+      "Anairë",
+      "Aranwen",
+      "Arien",
+      "Elwing",
+      "Findis",
+      "Ivriniel",
+      "Lindis",
+      "Mithrellas",
+      "Nimloth",
+      "Nellas",
+      "Aerin",
+      "Aelinor",
+      "Caladwen",
+      "Elaniel",
+      "Meril"
     ]
   },
   "elves_silvan": {
@@ -120,6 +140,21 @@
       "Tuiligon",
       "Ulgar",
       "Uthrin"
+    ],
+    "names_f": [
+      "Nellas",
+      "Nimloth",
+      "Mithrellas",
+      "Lómelindë",
+      "Eglantine",
+      "Avariellë",
+      "Culwen",
+      "Gildís",
+      "Morwenna",
+      "Nimphelos",
+      "Rhosgwen",
+      "Taurnil",
+      "Yavannë"
     ]
   },
   "numenoreans_black": {
@@ -223,10 +258,24 @@
       "Ohtar",
       "Gilraen",
       "Ivorwen",
-      "Malbeth",
       "Dervorin",
       "Araphant",
       "Arvegil"
+    ],
+    "names_f": [
+      "Gilraen",
+      "Ivorwen",
+      "Andreth",
+      "Silmariën",
+      "Tindómiel",
+      "Vardilmë",
+      "Lindissë",
+      "Ûnien",
+      "Almáriel",
+      "Zamîn",
+      "Berúthien",
+      "Ivriniel",
+      "Elanor"
     ]
   },
   "haradrim": {
@@ -309,6 +358,26 @@
       "Turyalander",
       "Valkotukka",
       "Yalmari"
+    ],
+    "names_f": [
+      "Gunnil",
+      "Ilmatar",
+      "Lyyti",
+      "Marjo",
+      "Ailu",
+      "Biehttar",
+      "Eija",
+      "Hildá",
+      "Kaija",
+      "Leena",
+      "Maarit",
+      "Nilla",
+      "Outi",
+      "Pihla",
+      "Riikka",
+      "Saija",
+      "Tuuli",
+      "Vuokko"
     ]
   },
   "orcs": {
@@ -390,6 +459,28 @@
       "Sonreld",
       "Berlirf",
       "Nadift"
+    ],
+    "names_f": [
+      "Branwen",
+      "Cerys",
+      "Gwyneth",
+      "Morfudd",
+      "Rhiannon",
+      "Tegau",
+      "Angharad",
+      "Bronwen",
+      "Ceinwen",
+      "Eleri",
+      "Glenys",
+      "Heledd",
+      "Luned",
+      "Nesta",
+      "Olwen",
+      "Rhonwen",
+      "Sian",
+      "Teleri",
+      "Winifred",
+      "Eira"
     ]
   },
   "woses": {
@@ -472,6 +563,32 @@
       "Mott",
       "Oswidu",
       "Selbym"
+    ],
+    "names_f": [
+      "Élfled",
+      "Freda",
+      "Haleth",
+      "Gléowine",
+      "Elfhild",
+      "Ealhild",
+      "Wynflæd",
+      "Hild",
+      "Léofe",
+      "Cwen",
+      "Eadgyth",
+      "Fréawyn",
+      "Godefe",
+      "Heuwyn",
+      "Leofwyn",
+      "Maerwyn",
+      "Rowena",
+      "Saewyn",
+      "Theodgifu",
+      "Wilnoth",
+      "Blosoma",
+      "Edhild",
+      "Etheltryth",
+      "Goldidis"
     ]
   },
   "easterlings": {
@@ -554,6 +671,28 @@
       "Viloric",
       "Wedeast",
       "Widuhad"
+    ],
+    "names_f": [
+      "Brunhild",
+      "Gisela",
+      "Hilda",
+      "Irma",
+      "Odilia",
+      "Roswitha",
+      "Siglinde",
+      "Trude",
+      "Walburga",
+      "Adalgisa",
+      "Berthild",
+      "Clothilde",
+      "Ermenhild",
+      "Fredegund",
+      "Gertrud",
+      "Hildegard",
+      "Leofrun",
+      "Mathilda",
+      "Ositha",
+      "Swanhild"
     ]
   },
   "hobbits": {
@@ -599,6 +738,47 @@
       "Posco",
       "Rollo",
       "Rufus"
+    ],
+    "names_f": [
+      "Belladonna",
+      "Lobelia",
+      "Esmeralda",
+      "Primula",
+      "Rosamunda",
+      "Marigold",
+      "Elanor",
+      "Poppy",
+      "Daisy",
+      "Lily",
+      "Rose",
+      "Peony",
+      "Lavender",
+      "Myrtle",
+      "Ruby",
+      "Angelica",
+      "Eglantine",
+      "Melilot",
+      "Camellia",
+      "Amaranth",
+      "Asphodel",
+      "Beryl",
+      "Diamond",
+      "Donnamira",
+      "Dora",
+      "Hilda",
+      "Malva",
+      "Mimosa",
+      "Pansy",
+      "Pearl",
+      "Pervinca",
+      "Primrose",
+      "Prisca",
+      "Rowan",
+      "Tanta",
+      "Vanda",
+      "Wilma",
+      "Celandine",
+      "Mentha"
     ]
   },
   "eriador": {
@@ -640,6 +820,33 @@
       "Titmass",
       "Trevor",
       "Will"
+    ],
+    "names_f": [
+      "Marigold",
+      "Rose",
+      "Lily",
+      "Daisy",
+      "May",
+      "Tilly",
+      "Hilda",
+      "Willa",
+      "Elsie",
+      "Aggie",
+      "Bess",
+      "Cilly",
+      "Daffodil",
+      "Fern",
+      "Goldie",
+      "Ivy",
+      "Joy",
+      "Lila",
+      "Maud",
+      "Hazel",
+      "Nell",
+      "Peg",
+      "Posy",
+      "Tansy",
+      "Winnie"
     ]
   },
   "gondor": {
@@ -677,6 +884,21 @@
       "Ivriniel",
       "Minohtar",
       "Dervorin"
+    ],
+    "names_f": [
+      "Finduilas",
+      "Ivriniel",
+      "Vanyamarë",
+      "Almarian",
+      "Berúthiel",
+      "Míriel",
+      "Silmaris",
+      "Tári",
+      "Elphien",
+      "Morwenna",
+      "Gilraen",
+      "Andreth",
+      "Lalaith"
     ]
   }
 }

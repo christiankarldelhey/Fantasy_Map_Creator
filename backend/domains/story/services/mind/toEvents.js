@@ -229,6 +229,7 @@ function encounterEvents(day) {
           npc_name: npc?.name ?? null,
           npc_people: npc?.people ?? null,
           npc_gloss: npc?.gloss ?? null,
+          npc_gender: npc?.gender ?? null,
           // Kind-of-being between type and entity (foxes within
           // carnivores) — attitudes match entity > family > type.
           family: e.entity.family ?? null,
@@ -579,6 +580,7 @@ function restEvent(day) {
       npc_name: host?.name ?? null,
       npc_people: host?.people ?? null,
       npc_gloss: host?.gloss ?? null,
+      npc_gender: host?.gender ?? null,
       // The place's authored prose carries the texture of the night
       // ('the will itself feels weighed and probed') — numbers alone
       // left the worst nights invisible to the mind.
