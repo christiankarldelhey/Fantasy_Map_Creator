@@ -69,7 +69,7 @@ def test_beliefs_speak_only_when_the_day_puts_them_at_stake():
 def test_a_belief_touched_by_words_alone_still_counts():
     meal = _belief('A warm meal and ale renew my spirit for the road ahead.', id_='m')
     inn = _event('a hot meal bought at the inn, ale and clean water', 0.5,
-                 'night', ['type:rest', 'tag:paid'], type_='rest')
+                 'night', ['type:rest', 'tag:lodging:paid'], type_='rest')
     brief = build_brief([inn], [], [meal], [], {})
     assert meal.statement in [l['text'] for l in brief['day']]
 

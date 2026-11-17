@@ -17,6 +17,7 @@
 # application belong to the host.
 # ============================================================================
 from app.mind.boosts import effective_theme_weights
+from app.mind.perceive import derive_tags
 from app.mind.voice import phrases, resolve_event_reading
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Need
@@ -187,14 +188,35 @@ def _apply_choice_to_perceived(session, episode, dec, option, mind):
             if item.get('type') != 'rest':
                 continue
             data = dict(item.get('data') or {})
+            for dead in ('place', 'rest_quality', 'scope', 'description'):
+                data.pop(dead, None)
             data.update({
-                'place': shelter.get('name') or data.get('place'),
-                'description': shelter.get('description') or data.get('description'),
-                'rest_quality': shelter.get('rest_quality', data.get('rest_quality')),
-                'shadow_effect': shelter.get('shadow_effect', data.get('shadow_effect')),
-                'scope': 'encounter_shelter',
+                'entity_name': shelter.get('name') or data.get('entity_name'),
+                'reading': shelter.get('description') or data.get('reading'),
+                'shadow_effect': shelter.get(
+                    'shadow_effect', data.get('shadow_effect')),
             })
+            # The night's kind changes with the choice: the wild tags fall
+            # and the shelter declares itself — 'lodging:shelter' says the
+            # bed was granted, not bought nor begged.
+            rough = {'rest:open_sky', 'rest:poor'}
+            tags = [
+                t for t in (data.get('tags') or [])
+                if t not in rough
+            ]
+            tags.append('lodging:shelter')
+            if shelter.get('indoor'):
+                tags.append('rest:indoor')
+            q = shelter.get('rest_quality')
+            if isinstance(q, (int, float)) and q >= 3:
+                tags.append('rest:good')
+            elif isinstance(q, (int, float)) and q <= 1:
+                tags.append('rest:poor')
+            data['tags'] = tags
             item['data'] = data
+            # Re-derive the weight-space tags too — 'tag:rest:poor' of the
+            # wild night must not stain the sheltered one.
+            item['tags'] = derive_tags(item)
             item['reading'] = resolve_event_reading(item)
             _mark_changed(item, w)
             changed = True

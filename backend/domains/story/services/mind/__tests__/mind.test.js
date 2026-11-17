@@ -118,9 +118,10 @@ test('toEvents emits the generic contract from a resolved day', () => {
   assert.equal(meals[1].when.phase, 'night');
   assert.equal(meals[1].data.eaten, false);
 
-  // The night's own prose rides with the rest event.
+  // The night's own prose rides with the rest event's reading.
   const rest = events.find((e) => e.type === 'rest');
-  assert.equal(rest.data.description, 'The night is spent under open sky.');
+  assert.equal(rest.data.reading, 'The night is spent under open sky.');
+  assert.deepEqual(rest.data.tags, ['rest:poor', 'rest:open_sky']);
 
   // The body is Condition, not an Event: energy/wounded/hunger travel in
   // the open body's `condition` map, never as a lived item in events[].
@@ -453,7 +454,10 @@ test('rest event tells how the night was secured', () => {
     day: {
       ...DAY,
       lodging,
-      overnight_interaction: { rest_quality: 'good', description: 'A warm common room.' },
+      overnight_interaction: {
+        rest_quality: 'good', description: 'A warm common room.',
+        name: 'Dale', type: 'city',
+      },
       overnight_location: { name: 'Dale', indoor: true },
     },
     trip: { id: 't1' },
@@ -461,25 +465,26 @@ test('rest event tells how the night was secured', () => {
   }).find((e) => e.type === 'rest');
 
   const paid = nightAt({ paid: true, cost: 5, coinsAfter: 12, place: 'Dale' });
-  assert.equal(paid.data.lodging.paid, true);
-  assert.equal(paid.data.lodging.cost, 5);
-  assert.deepEqual(paid.data.tags, ['paid', 'indoor']);
+  assert.deepEqual(paid.data.tags, ['lodging:paid', 'rest:good', 'rest:indoor']);
+  // The night's place climbs the identity ladder — the inn is an entity.
+  assert.equal(paid.data.entity_name, 'Dale');
+  assert.match(paid.data.reading, /coin|bed/i);
+  assert.match(paid.data.reading, /warm common room/);
 
-  const charity = nightAt({
-    charity: true, place: 'Dale',
-    charityCheck: { skill: 'persuasion', difficulty: 6, roll: 8, total: 11 },
-  });
-  assert.equal(charity.data.lodging.charity, true);
-  assert.equal(charity.data.lodging.check.total, 11);
-  assert.deepEqual(charity.data.tags, ['charity', 'indoor']);
+  const charity = nightAt({ charity: true, place: 'Dale' });
+  assert.deepEqual(charity.data.tags, ['lodging:charity', 'rest:good', 'rest:indoor']);
+  assert.match(charity.data.reading, /strangers|kindness|given/i);
 
-  const turnedAway = nightAt({
-    turnedAway: true, place: 'Dale',
-    charityCheck: { skill: 'persuasion', difficulty: 6, roll: 2, total: 4 },
-  });
-  assert.equal(turnedAway.data.lodging.turned_away, true);
-  // A door shut in the face is not an indoor night.
-  assert.deepEqual(turnedAway.data.tags, ['turned_away']);
+  const turnedAway = nightAt({ turnedAway: true, place: 'Dale' });
+  assert.deepEqual(
+    turnedAway.data.tags,
+    ['lodging:turned_away', 'rest:poor', 'rest:open_sky'],
+  );
+  // The door's shut is the whole night — the inn's cozy prose is denied.
+  assert.match(turnedAway.data.reading, /shut|no welcome/i);
+  assert.ok(!/warm common room/.test(turnedAway.data.reading));
+  // Yet the inn still anchors the slight — attitudes can form toward it.
+  assert.equal(turnedAway.data.entity_name, 'Dale');
 });
 
 test('the open payload keeps settlement detail and the lodging outcome', () => {
@@ -509,7 +514,7 @@ test('the open payload keeps settlement detail and the lodging outcome', () => {
   assert.equal(dale.geometry, undefined);
   assert.ok(dale.tags.includes('entered'));
   const rest = body.events.find((e) => e.type === 'rest').data;
-  assert.equal(rest.lodging.paid, true);
+  assert.ok(rest.tags.includes('lodging:paid'));
 });
 
 test('the open payload keeps the sighting and presence fields notes read', () => {
@@ -723,4 +728,6 @@ test('the open payload carries the canonical v2 channels (ADR-0016)', () => {
   // world prose lives in the events' readings.
   assert.equal(body.narration_notes.weather, undefined);
   assert.equal(body.narration_notes.meals, undefined);
+  // The night's lead-in IS a lived event: the rest event carries it now.
+  assert.equal(body.narration_notes.night_lead, undefined);
 });
