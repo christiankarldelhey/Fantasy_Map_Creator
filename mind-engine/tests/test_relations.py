@@ -97,6 +97,18 @@ def _relation(char, subject):
     return out
 
 
+def _episode_mood(char, episode_index=0):
+    session = SessionLocal()
+    moods = (
+        session.query(Episode.mood)
+        .filter_by(character_id=char)
+        .order_by(Episode.created_at)
+        .all()
+    )
+    session.close()
+    return moods[episode_index][0]
+
+
 def _relations(char):
     session = SessionLocal()
     rows = session.query(Relation).filter_by(character_id=char).all()
@@ -392,6 +404,42 @@ def test_the_place_accretes_its_own_relation(client):
     kind = _relation(char, 'tag:kind:town')
     assert kind is not None
     assert kind['familiarity'] < rel['familiarity']
+
+
+def test_the_day_turns_at_the_ford(client):
+    """A kind morning and a grim afternoon: the arc carries both — the
+    day is not one number — and the turn names the afternoon and what
+    darkened it."""
+    char = _uid('turn')
+    opened, _ = _open_and_close(client, char, 'd1', [
+        {
+            'type': 'meal',
+            'when': {'phase': 'morning'},
+            'data': {'food': 'mushrooms',
+                     'reading': 'mushrooms fried in butter'},
+        },
+        {
+            'type': 'encounter',
+            'when': {'phase': 'afternoon'},
+            'where': {'region': 'Rhovanion', 'place': 'old_ford'},
+            'data': {'entity': 'orcs', 'entity_type': 'orcs',
+                     'form': 'attacks', 'danger': 3,
+                     'reading': 'orcs — attacked without warning'},
+        },
+    ])
+    mood = _episode_mood(char)
+    arc = mood.get('arc') or []
+    assert [p['phase'] for p in arc] == ['morning', 'afternoon']
+    assert arc[0]['valence'] > 0 > arc[1]['valence']
+    turn = mood.get('turn')
+    assert turn is not None
+    assert turn['phase'] == 'afternoon'
+    assert turn['cause'] == 'orcs — attacked without warning'
+    # And it ships: the packet's day_mood carries the plot to the
+    # narrator ('mood' stays the running mood — how she stands now).
+    day_mood = opened['psyche_packet']['day_mood']
+    assert day_mood['turn']['phase'] == 'afternoon'
+    assert len(day_mood['arc']) == 2
 
 
 def test_what_happened_at_a_place_marks_the_place(client):

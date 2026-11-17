@@ -14,7 +14,8 @@ import re
 from datetime import date
 
 from app.mind.engine import (
-    MOOD_DIMS, add_delta, couple_mood, derive_feeling, weigh_body,
+    MOOD_DIMS, add_delta, couple_mood, derive_feeling, mood_delta,
+    weigh_body,
 )
 from app.mind.tags import cause_tags
 from app.mind.voice import mood_phrase
@@ -67,6 +68,7 @@ def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
             'reading': i.get('reading'),
             'felt': imprint,
         })
+    arc, turn = mood_arc(items)
     return {
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
@@ -75,7 +77,74 @@ def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
         'thread_pressure': round(thread_pressure, 3),
         'felt': {d: round(v, 3) for d, v in felt.items()},
         'trace': trace,
+        'arc': arc,
+        'turn': turn,
     }
+
+
+_PHASE_ORDER = ('morning', 'afternoon', 'night')
+
+# How hard the standing mood must swing between phases to call it a
+# turn — a quiet ebb is the day breathing, not the day breaking.
+TURN_MIN_SWING = 0.3
+
+
+def mood_arc(items):
+    """The day's emotional plot by phase (ADR 0017): the felt deltas
+    accumulated morning -> afternoon -> night, each point carrying the
+    phase's heaviest reading as its cause. And the TURN — the phase
+    where the standing mood swung hard or flipped sign, with the
+    reading that did it ('the afternoon turned at the ford'). A day
+    may be a pleasant morning and a sad afternoon; one number for the
+    day could never say that.
+    Returns (arc, turn)."""
+    arc = []
+    running = {}
+    prev_valence = None
+    turn = None
+    for phase in _PHASE_ORDER:
+        felt = {}
+        cause, cause_w = None, 0.0
+        for i in items:
+            if (i.get('when') or {}).get('phase') != phase:
+                continue
+            imprint = i.get('imprint') or {}
+            add_delta(felt, imprint)
+            weight = abs(i.get('valence') or 0.0) * (
+                i.get('salience') or 0.0)
+            if i.get('reading') and weight > cause_w:
+                cause, cause_w = i['reading'], weight
+        if not felt:
+            continue
+        add_delta(running, felt)
+        valence = couple_valence(running)
+        point = {
+            'phase': phase,
+            'felt': {d: round(v, 3) for d, v in felt.items()},
+            'valence': round(valence, 3),
+            'mood': mood_phrase(valence),
+            'cause': cause,
+        }
+        arc.append(point)
+        if prev_valence is not None:
+            swing = valence - prev_valence
+            if abs(swing) >= TURN_MIN_SWING or (
+                    swing and (valence > 0) != (prev_valence > 0)):
+                turn = {
+                    'phase': phase,
+                    'from': round(prev_valence, 3),
+                    'to': round(valence, 3),
+                    'cause': cause,
+                }
+        prev_valence = valence
+    return arc, turn
+
+
+def couple_valence(felt):
+    """The mood-space valence of a felt vector — mood_delta read for
+    its valence only (the arc tracks the day's colour, not its whole
+    posture)."""
+    return mood_delta(felt).get('valence', 0.0)
 
 
 MOOD_CAUSE_MIN_WEIGHT = 0.15

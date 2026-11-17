@@ -131,6 +131,15 @@ class Mood(BaseModel):
     valence: float = 0.0
     arousal: float = 0.0
     dominant: str = 'neutral'
+    # The day's emotional plot (ADR 0017): the accumulated felt delta,
+    # the per-event trace, and the phase arc + turn — a pleasant
+    # morning and a sad afternoon are two different colours of one day.
+    felt: Dict[str, Any] = {}
+    trace: List[Dict[str, Any]] = []
+    arc: List[Dict[str, Any]] = []
+    turn: Optional[Dict[str, Any]] = None
+    need_pressure: float = 0.0
+    thread_pressure: float = 0.0
 
 
 class PsychePacket(BaseModel):
@@ -141,6 +150,10 @@ class PsychePacket(BaseModel):
     perceived_day: List[PerceivedEvent] = []
     lens_block: str = ''
     mood: Mood = Mood()
+    # The day's emotional plot, separate from the running mood: 'mood'
+    # is how she stands now, 'day_mood' is how this day felt — its
+    # phases, its turn, the felt deltas that coloured it.
+    day_mood: Mood = Mood()
     needs_active: List[Any] = []
     check_results: List[Any] = []
     proposed_commands: List[Any] = []

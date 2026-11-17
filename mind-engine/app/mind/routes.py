@@ -159,6 +159,7 @@ def _build_packet(db, episode: Episode, mind: Mind = None) -> PsychePacket:
         perceived_day=perceived,
         lens_block=episode.lens_block or '',
         mood=mood,
+        day_mood=Mood(**(episode.mood or {})),
         check_results=_check_results(episode),
         needs_active=episode.needs_active or [],
         decision_point=pending_decision_point(db, mind, episode),
