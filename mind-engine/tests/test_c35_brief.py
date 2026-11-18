@@ -128,6 +128,23 @@ def test_anchored_memory_waits_for_its_phase():
     assert line['connects_to'] == brief['focus']['id']
 
 
+def test_an_anchored_memory_speaks_even_when_the_focus_is_elsewhere():
+    """The day itself stirred the memory — evocation already was the
+    relevance vote, so a Focus on something else (an urgent need) does
+    not get to silence what the road brought back to mind."""
+    cold = {'key': 'exposure', 'description': 'shelter is needed',
+            'urgency': 0.95}
+    troll = SimpleNamespace(
+        id='m1', desc='the cave-troll that claimed the road at night',
+        importance=0.8)
+    brief = build_brief([SHEEP], [troll], [], [cold], {},
+                        anchors={'m1': 0})
+    assert brief['focus']['kind'] == 'need'
+    line = next(l for l in brief['day'] if l['kind'] == 'memory')
+    assert line['text'] == 'the cave-troll that claimed the road at night'
+    assert line['phase'] == 'morning'
+
+
 def test_lines_are_capped():
     beliefs = [
         _belief(f'orcs belief {i}', tags=['tag:entity_type:orcs'], id_=f'b{i}')

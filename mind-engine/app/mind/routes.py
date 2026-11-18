@@ -101,6 +101,7 @@ from app.mind.retrieval import (
 )
 from app.mind.tables import (
     Belief, Mind, MindPreset, Episode, ForgottenMemory, Memory, Musing,
+    Relation,
     Need, PackVersion,
 )
 
@@ -631,10 +632,21 @@ def _merged_beats(db, episode, mind):
     )
     if mind is None:
         return beats
+    dispositions = inner_lines(
+        db, mind, as_of_episode=episode.episode_idx)
     for phase, ds in disposition_beats(
-        inner_lines(db, mind), episode.perceived_day or []
+        dispositions, episode.perceived_day or []
     ).items():
         beats.setdefault(phase, []).extend(ds)
+    # What spoke is recorded: the same disposition rests a few episodes
+    # (the daily waterskin stops narrating every day), mirroring
+    # Memory.last_voiced_episode. Idempotent under re-narration.
+    if episode.episode_idx is not None:
+        for d in dispositions:
+            if d.get('id'):
+                rel = db.get(Relation, d['id'])
+                if rel is not None:
+                    rel.last_surfaced_episode = episode.episode_idx
     return beats
 
 
