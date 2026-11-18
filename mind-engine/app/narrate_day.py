@@ -38,6 +38,7 @@ def narrate_day(
     equipment_state=None,
     fate=None,
     previous_day=None,
+    previous_rest=None,
     recent_day_climates=None,
     mind_block='',
     impressions=None,
@@ -70,6 +71,13 @@ def narrate_day(
         character=character,
         language=INNER_LANGUAGE,
         previous_day=previous_day,
+        # ADR-0019: where last night was spent — the skeleton's first
+        # fixed point. The episode path passes the previous episode's
+        # rest reading; the stateless path may name it in previousDay.
+        previous_rest=previous_rest or (
+            (previous_day or {}).get('overnight')
+            or (previous_day or {}).get('rest')
+        ),
         character_state=character_state,
         equipment_state=equipment_state,
         fate=fate,

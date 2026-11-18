@@ -432,7 +432,10 @@ class Relation(Base):
     the derived lexicon word, rewritten on each write so the row reads
     as words at a glance. `origin` marks provenance the way beliefs did:
     a Relation can be seeded, heard, or lived — a heard fear erodes
-    faster when met. `last_fed_episode` supports decay and recency."""
+    faster when met. `last_fed_episode` supports decay and recency;
+    `last_surfaced_episode` is the narrator-facing mirror — a Relation
+    that already spoke in the prompt rests for a few days so the same
+    fondness does not narrate every chapter."""
 
     __tablename__ = 'relations'
     __table_args__ = (
@@ -458,6 +461,9 @@ class Relation(Base):
     origin: Mapped[str] = mapped_column(String(20), nullable=False,
                                         default='lived')
     last_fed_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+    # When the disposition last reached the prompt — the mind rests what
+    # it already said (the daily waterskin does not narrate every day).
+    last_surfaced_episode: Mapped[int] = mapped_column(Integer, nullable=True)
 
 
 class ForgottenMemory(Base):

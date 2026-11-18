@@ -50,7 +50,7 @@ def test_prompt_has_no_anti_repetition_context():
     user = prompt['user']
     assert 'AVOID THESE PHRASES' not in user
     assert 'Earlier chapters opened' not in user
-    assert "TODAY'S WAY IN" in user
+    assert "TODAY'S WAY IN" not in user
 
 
 def test_prompt_places_mind_inside_the_lens_before_the_road():
@@ -62,7 +62,7 @@ def test_prompt_places_mind_inside_the_lens_before_the_road():
     user = prompt['user']
     lens_i = user.index("NARRATOR'S LENS FOR CELEBRIAN")
     mind_i = user.index('Celebrian today — mood: grave.')
-    road_i = user.index("TODAY'S ROAD")
+    road_i = user.index('=== TODAY ===')
     assert lens_i < mind_i < road_i
     assert 'THE MIND OF' not in user
 
@@ -94,23 +94,53 @@ def test_render_lens_quiet_episode_says_so():
     assert 'quiet stretch' in block
 
 
-def test_moment_event_reading_lands_in_its_phase_block():
+def test_moment_event_reading_lands_in_the_timeline():
     """A resolved ambient situation is a 'moment' event (ADR-0016); its
-    reading must reach the narrator — phase-stamped, inside the block of
-    the part of the day it belongs to."""
+    reading must reach the narrator, at the day's position it belongs
+    to (ADR-0019)."""
     prompt = build_day_prompt(
         day={'day_number': 3, 'date': '1950-01-19'},
         character={'name': 'Aranath'},
         events=[
-            {'type': 'moment', 'when': {'phase': 'afternoon'},
+            {'type': 'moment', 'when': {'phase': 'afternoon', 'hour': 15},
              'data': {'reading': 'a stump, huge and rotten, two leagues from the nearest tree'}},
+            {'type': 'rest', 'when': {'phase': 'night'},
+             'data': {'reading': 'a hedge for a windbreak'}},
         ],
     )
     user = prompt['user']
-    afternoon = user.index('=== AFTERNOON ===')
-    night = user.index('=== NIGHT AT CAMP ===')
-    ambient_i = user.index('a stump, huge and rotten')
-    assert afternoon < ambient_i < night
+    today = user.index('=== TODAY ===')
+    assert today < user.index('a stump, huge and rotten') < user.index('a hedge for a windbreak')
+
+
+def test_land_events_reach_the_timeline_in_order():
+    """Land-contact events ride the wire under the 'land' umbrella keyed
+    by data.subtype (toEvents.js): place sightings and pass-throughs,
+    terrain phrases, water crossings and region entries all carry the
+    prose the narrator lays out — the day's whole spatial skeleton, in
+    the order the road met it."""
+    prompt = build_day_prompt(
+        day={'day_number': 4, 'date': '1950-01-19'},
+        character={'name': 'Aranath'},
+        events=[
+            {'type': 'land', 'when': {'phase': 'morning'},
+             'data': {'subtype': 'place',
+                      'reading': 'a village: sighted far off to the east'}},
+            {'type': 'land', 'when': {'phase': 'morning'},
+             'data': {'subtype': 'terrain',
+                      'reading': 'the chalk lies open to the sky'}},
+            {'type': 'land', 'when': {'phase': 'afternoon'},
+             'data': {'subtype': 'water',
+                      'reading': 'a ford of brown water'}},
+            {'type': 'land', 'when': {'phase': 'afternoon'},
+             'data': {'subtype': 'region', 'reading': 'crossed into Bree'}},
+        ],
+    )
+    user = prompt['user']
+    assert '=== TODAY ===' in user
+    assert user.index('the chalk lies open to the sky') < user.index('a ford of brown water')
+    assert user.index('a ford of brown water') < user.index('crossed into Bree')
+    assert 'a village: sighted far off to the east' in user
 
 
 def test_render_lens_twin_memory_rows_read_once():

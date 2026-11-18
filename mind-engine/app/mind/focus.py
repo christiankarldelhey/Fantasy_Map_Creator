@@ -438,6 +438,11 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             ]
 
     def connected(c):
+        # A memory the day itself stirred is connected BY the day —
+        # evocation already was the relevance vote; the Focus does not
+        # get to veto what the road brought back to mind.
+        if c['kind'] == 'memory' and c.get('connects_to'):
+            return True
         # A quiet Episode is 'the road and the body': with no Focus, the
         # needs that earned a place still speak; memories and beliefs
         # have nothing to connect to and stay silent — except solitude

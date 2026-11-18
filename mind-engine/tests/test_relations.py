@@ -445,8 +445,7 @@ def test_the_standing_self_speaks_in_scene(client, monkeypatch):
     assert r.status_code == 200, r.text
     user = r.json()['prompt']['user']
     assert 'What the world has made of them' not in user
-    afternoon = user.index('=== AFTERNOON')
-    assert user.index('feared, and hated for it') > afternoon, user
+    assert user.index('feared, and hated for it') > user.index('drifts_closer'), user
 
 
 def test_an_untouched_disposition_waits_for_the_quietest_hour(client):
@@ -536,3 +535,97 @@ def test_sighted_far_barely_touches(client):
     rel = _relation(char, 'tag:place:esgaroth')
     assert rel is not None
     assert rel['familiarity'] < 0.05  # a glimpse, not an entry
+
+
+def _session_with_relations(char, *rels):
+    session = SessionLocal()
+    for r in rels:
+        session.add(Relation(
+            game_id='middle_earth', character_id=char, **r))
+    session.flush()
+    return session
+
+
+def test_the_fresh_fear_outranks_the_saturated_gear():
+    """The weight of the experience: a fear the road fed yesterday
+    speaks ahead of a fondness that sedimented long ago — the daily
+    waterskin should not outrank the troll."""
+    from types import SimpleNamespace
+
+    from app.mind.lens import inner_lines
+    char = _uid('weight')
+    session = _session_with_relations(
+        char,
+        {'subject': 'tag:drink:waterskin', 'feeling': 'fondness',
+         'affection': 0.98, 'last_fed_episode': 3},
+        {'subject': 'entity:cave_trolls', 'feeling': 'fear',
+         'fear': 0.53, 'last_fed_episode': 9},
+    )
+    lines = inner_lines(
+        session, SimpleNamespace(character_id=char), as_of_episode=10)
+    assert lines[0]['subject'] == 'entity:cave_trolls'
+    session.rollback()
+    session.close()
+
+
+def test_what_already_spoke_rests_a_few_days():
+    """A disposition the prompt already voiced is damped — the same
+    warmth does not narrate every chapter."""
+    from types import SimpleNamespace
+
+    from app.mind.lens import inner_lines
+    char = _uid('said')
+    session = _session_with_relations(
+        char,
+        {'subject': 'tag:food:road_bread', 'feeling': 'fondness',
+         'affection': 0.9, 'last_surfaced_episode': 9},
+        {'subject': 'tag:drink:good_ale', 'feeling': 'fondness',
+         'affection': 0.6},
+    )
+    lines = inner_lines(
+        session, SimpleNamespace(character_id=char), as_of_episode=10)
+    assert lines[0]['subject'] == 'tag:drink:good_ale'
+    session.rollback()
+    session.close()
+
+
+def test_a_tag_is_never_a_display_name():
+    """A display_name carrying the tag separator is the tag itself, not a
+    name — feed() drops it so the Lens humanizes the slug instead of
+    reading 'tag:npc:orc-scout' aloud."""
+    from app.mind.relations import feed
+    char = _uid('display')
+    session = SessionLocal()
+    row = feed(
+        session, 'middle_earth', char, 'tag:npc:orc-scout',
+        {'fear': 0.5}, display_name='tag:npc:orc-scout')
+    assert row.display_name is None
+    row2 = feed(
+        session, 'middle_earth', char, 'entity:cave_trolls',
+        {'fear': 0.5}, display_name='Cave-trolls')
+    assert row2.display_name == 'Cave-trolls'
+    session.rollback()
+    session.close()
+
+
+def test_the_prompt_marks_what_it_voiced():
+    """_merged_beats records last_surfaced_episode on every disposition
+    it handed the narrator — feeding the rest above. Idempotent under
+    re-narration of the same episode."""
+    from types import SimpleNamespace
+
+    from app.mind.routes import _merged_beats
+    char = _uid('surfaced')
+    session = _session_with_relations(
+        char,
+        {'subject': 'tag:drink:waterskin', 'feeling': 'fondness',
+         'affection': 0.9},
+    )
+    episode = SimpleNamespace(
+        brief=None, perceived_day=[], episode_idx=10)
+    _merged_beats(session, episode, SimpleNamespace(character_id=char))
+    rel = session.query(Relation).filter_by(
+        character_id=char, subject='tag:drink:waterskin').one()
+    assert rel.last_surfaced_episode == 10
+    session.rollback()
+    session.close()

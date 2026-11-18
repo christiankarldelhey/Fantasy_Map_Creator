@@ -214,7 +214,8 @@ def echo_lines(prompt_user):
     lines, in_echo = [], False
     for ln in (prompt_user or '').splitlines():
         stripped = ln.strip()
-        if stripped.startswith('RECALLS'):
+        if stripped.startswith(('RECALLS', 'May call to mind',
+                                'May inform what the traveller answers')):
             lines.append(stripped.split('):', 1)[-1].strip())
             continue
         if stripped.startswith('Echoes of the mind'):
