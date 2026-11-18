@@ -62,6 +62,10 @@ def feed(session, game_id, character_id, subject, delta, *,
     """Sediment one subject's Relation by a world delta (already contact-
     weighted). Returns the row — None when the subject had no row and an
     empty delta asked for none to be created."""
+    if display_name and ':' in display_name:
+        # A display_name carrying the tag separator is the tag itself
+        # passed off as a name — keep no wording rather than a raw slug.
+        display_name = None
     row = _get(session, game_id, character_id, subject)
     if row is None:
         if not create or not delta:
