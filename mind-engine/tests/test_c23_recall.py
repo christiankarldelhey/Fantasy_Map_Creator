@@ -186,5 +186,5 @@ def test_recalls_label_speaks_to_the_answer_when_dialogue():
     }
     silent = dict(base)
 
-    assert 'may inform what the traveller answers' in _describe_encounter(spoken)
-    assert 'brief beat of recollection' in _describe_encounter(silent)
+    assert 'May inform what the traveller answers' in _describe_encounter(spoken)
+    assert 'May call to mind' in _describe_encounter(silent)

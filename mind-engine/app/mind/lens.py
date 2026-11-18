@@ -296,12 +296,43 @@ _DISPOSITION_MIN_DIM = 0.3
 _DISPOSITION_MIN_FAMILIARITY = 0.6
 _DISPOSITION_MAX_LINES = 5
 
+# How the standing self ranks for lines (the weight of the experience):
+# familiarity is the quietest dim — the daily waterskin should not
+# outrank a fresh fear; a relation the world just fed speaks louder; a
+# relation the prompt already voiced lately goes quiet — the narrator
+# has said that piece and the mind moves on.
+_FELT_FAMILIARITY = 0.5
+_RECENTLY = 2          # episodes: 'just now', for feed and for surface
+_FRESH_FEELING = 2.0   # fed within _RECENTLY episodes
+_ALREADY_SAID = 0.3    # surfaced within _RECENTLY episodes
 
-def inner_lines(session, mind):
+
+def _disposition_weight(r, vec, as_of_episode):
+    """The experience's weight: felt dims whole, familiarity halved,
+    fresh sediment boosted, recently-spoken lines damped."""
+    felt = max(
+        abs(vec.get('affection', 0)), abs(vec.get('trust', 0)),
+        vec.get('fear', 0),
+        vec.get('familiarity', 0) * _FELT_FAMILIARITY,
+    )
+    if as_of_episode is None:
+        return felt
+    if (r.last_fed_episode is not None
+            and 0 <= as_of_episode - r.last_fed_episode <= _RECENTLY):
+        felt *= _FRESH_FEELING
+    if (r.last_surfaced_episode is not None
+            and 0 <= as_of_episode - r.last_surfaced_episode <= _RECENTLY):
+        felt *= _ALREADY_SAID
+    return felt
+
+
+def inner_lines(session, mind, as_of_episode=None):
     """Who this mind IS about the world: each strong Relation rendered
     as one disposition ('orcs tighten their chest before they mean to')
     carrying its raw subject so it can be anchored where the day touches
-    it. The luggage, not the receipts."""
+    it. The luggage, not the receipts. `as_of_episode` is the mind's own
+    clock — it weighs fresh experience over stale and rests what the
+    prompt just voiced."""
     from app.mind.tables import Relation
     from app.mind.relations import relation_vector
     rows = (
@@ -326,9 +357,11 @@ def inner_lines(session, mind):
             text = template.format(subj=subj)
         else:
             text = f'{subj} is known ground to them now'
-        scored.append((mag, subj, {
-            'subject': r.subject, 'line': text, 'display': subj,
-        }))
+        scored.append((
+            _disposition_weight(r, vec, as_of_episode), subj, {
+                'id': r.id,
+                'subject': r.subject, 'line': text, 'display': subj,
+            }))
     scored.sort(key=lambda t: -t[0])
     # 'entity:orcs' and 'tag:entity_type:orcs' render the same 'orcs' —
     # the strongest relation speaks for the subject, the rest stay silent.

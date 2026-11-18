@@ -17,7 +17,7 @@ from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
@@ -101,6 +101,7 @@ from app.mind.retrieval import (
 )
 from app.mind.tables import (
     Belief, Mind, MindPreset, Episode, ForgottenMemory, Memory, Musing,
+    Relation,
     Need, PackVersion,
 )
 
@@ -126,9 +127,15 @@ def _encounter_prompt_shape(event):
     }
     return {
         'phase': (event.get('when') or {}).get('phase'),
+        # ADR-0019: the clock position survives to the timeline — the
+        # narrator reads 'late in the afternoon', not '16:00'.
+        'hour': (event.get('when') or {}).get('hour'),
         'region': (event.get('where') or {}).get('region'),
         'entity': {
-            'name': data.get('entity_name') or data.get('entity'),
+            # A resolved person names herself — 'Bungo', 'Pearl'; passive
+            # encounters (signs, sightings) have no one to name.
+            'name': (data.get('npc_name') or data.get('entity_name')
+                     or data.get('entity')),
             'type': data.get('entity_type'),
         },
         'interaction': {
@@ -138,6 +145,35 @@ def _encounter_prompt_shape(event):
             'dialogue_content': dialogue or None,
         },
     }
+
+
+def _previous_rest_reading(db, episode):
+    """Where last night was spent (ADR-0019): the previous episode's rest
+    reading becomes the dawn anchor of today's timeline. Only a literally
+    consecutive night counts — a gap between journeys is not 'yesterday'."""
+    today = episode_date(episode)
+    idx = episode_index(episode)
+    if today is None or idx is None:
+        return None
+    prev = (
+        db.query(Episode)
+        .filter(
+            Episode.game_id == episode.game_id,
+            Episode.character_id == episode.character_id,
+            Episode.episode_idx == idx - 1,
+        )
+        .one_or_none()
+    )
+    if prev is None or episode_date(prev) != today - timedelta(days=1):
+        return None
+    return next(
+        (
+            (e.get('data') or {}).get('reading')
+            for e in (prev.events or [])
+            if e.get('type') == 'rest'
+        ),
+        None,
+    )
 
 
 def _check_results(episode: Episode) -> list:
@@ -596,10 +632,21 @@ def _merged_beats(db, episode, mind):
     )
     if mind is None:
         return beats
+    dispositions = inner_lines(
+        db, mind, as_of_episode=episode.episode_idx)
     for phase, ds in disposition_beats(
-        inner_lines(db, mind), episode.perceived_day or []
+        dispositions, episode.perceived_day or []
     ).items():
         beats.setdefault(phase, []).extend(ds)
+    # What spoke is recorded: the same disposition rests a few episodes
+    # (the daily waterskin stops narrating every day), mirroring
+    # Memory.last_voiced_episode. Idempotent under re-narration.
+    if episode.episode_idx is not None:
+        for d in dispositions:
+            if d.get('id'):
+                rel = db.get(Relation, d['id'])
+                if rel is not None:
+                    rel.last_surfaced_episode = episode.episode_idx
     return beats
 
 
@@ -725,6 +772,9 @@ def narrate_episode(
             # back to the stateless prompt, where this is the only
             # continuity. With a lens, build_day_prompt drops it.
             previous_day=req.previousDay,
+            # The spine's first fixed point: today's dawn opens where
+            # last night was spent.
+            previous_rest=_previous_rest_reading(db, episode),
             mind_block=episode.lens_block or '',
             # C35: the brief's day lines ride inside their phase; legacy
             # episodes (no brief) keep the C21 memory beats. And the
