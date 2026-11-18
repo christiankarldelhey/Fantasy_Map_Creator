@@ -139,8 +139,10 @@ def test_lines_are_capped():
 
 
 def test_the_focus_and_day_lines_appear_only_in_their_phase():
-    """The orcs of the afternoon are named in the afternoon block and
-    nowhere before it — not in the Lens, not in the morning."""
+    """The orcs of the afternoon are named inside the day's afternoon —
+    nowhere before it: not in the Lens, not ahead of the morning's own
+    beats (ADR-0019: the timeline keeps the phase boundary without the
+    banner)."""
     from app.mind.lens import brief_beats, render_lens
     from app.prompt.builder import build_day_prompt
 
@@ -158,12 +160,14 @@ def test_the_focus_and_day_lines_appear_only_in_their_phase():
         day, trip={'name': 'Bree to Dale'}, character={'name': 'Aranath'},
         mind_block=render_lens('Aranath', brief),
         memory_beats=brief_beats(brief),
+        events=[{'type': 'moment', 'when': {'phase': 'morning', 'hour': 9},
+                 'data': {'reading': 'a lark over the stubble'}}],
     )['user']
-    afternoon = user.index('=== AFTERNOON')
+    lark = user.index('a lark over the stubble')
     first_orc = user.index('orc boots')
-    assert first_orc > afternoon
-    assert 'The centre of this Episode for them' in user[afternoon:]
-    assert user.index('gratitude is the sharpest') > afternoon
+    assert lark < first_orc
+    assert 'The centre of this Episode for them' in user[first_orc - 400:]
+    assert user.index('gratitude is the sharpest') > lark
 
 
 def test_the_focus_encodes_a_little_stronger():

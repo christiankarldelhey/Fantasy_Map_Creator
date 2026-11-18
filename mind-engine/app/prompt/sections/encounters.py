@@ -54,7 +54,9 @@ def _describe_encounter(encounter):
     lines = [f'{header}.']
     if about:
         lines.append(f'    ABOUT: {about}')
-    lines.append(f"    FORM: {interaction.get('form')}. {interaction.get('prose_hint')}")
+    form = interaction.get('form')
+    hint = interaction.get('prose_hint')
+    lines.append(f"    FORM: {form}." + (f" {hint}" if hint else ''))
     lines.extend(_dialogue_lines(interaction.get('dialogue_content')))
     # C21: a memory that this encounter called back lands HERE, inside
     # the beat the narrator is writing — not in a list elsewhere.

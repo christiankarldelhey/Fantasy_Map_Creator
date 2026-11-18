@@ -62,6 +62,36 @@ def phase_for_climate_sample(sample):
     return phase_for_hour(hour)
 
 
+# Daylight anchors (ADR-0019): fixed for now — a future daylight engine
+# (season, latitude) will move these; every caller goes through
+# day_time_phrase so the change stays local.
+DAWN_HOUR = 7
+DUSK_HOUR = 19
+
+
+def day_time_phrase(hour):
+    """Map a clock hour to the narrator-facing time expression (ADR-0019).
+    The prompt never carries digits — 'late in the afternoon', never
+    '16:00'. None → no phrase (the reading names its own time)."""
+    if hour is None:
+        return None
+    if hour < DAWN_HOUR:
+        return 'Before first light'
+    if hour < 9:
+        return 'At dawn'
+    if hour < 12:
+        return 'Mid-morning'
+    if hour < 13.5:
+        return 'Toward midday'
+    if hour < 16:
+        return 'Early in the afternoon'
+    if hour < 18:
+        return 'Late in the afternoon'
+    if hour < DUSK_HOUR:
+        return 'Toward dusk'
+    return 'After dark'
+
+
 def time_of_day_phrase(hour_float):
     """Map a clock hour (float) to a coarse time-of-day phrase for the notes."""
     if hour_float is None:

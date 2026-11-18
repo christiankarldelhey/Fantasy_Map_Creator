@@ -445,8 +445,7 @@ def test_the_standing_self_speaks_in_scene(client, monkeypatch):
     assert r.status_code == 200, r.text
     user = r.json()['prompt']['user']
     assert 'What the world has made of them' not in user
-    afternoon = user.index('=== AFTERNOON')
-    assert user.index('feared, and hated for it') > afternoon, user
+    assert user.index('feared, and hated for it') > user.index('drifts_closer'), user
 
 
 def test_an_untouched_disposition_waits_for_the_quietest_hour(client):

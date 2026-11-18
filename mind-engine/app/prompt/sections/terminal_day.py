@@ -6,12 +6,12 @@
 
 
 def terminal_notice_section(character_name):
-    """Warning that the NIGHT AT CAMP block must be ignored."""
-    return f"=== FINAL DAY STRUCTURE ===\nBecause this is the final day, this chapter ends with {character_name}'s death. Ignore the NIGHT AT CAMP block below. The narrative must stop at the moment of death; do not continue to overnight camp.\n\n"
+    """Warning that the day's timeline must stop at the death."""
+    return f"=== FINAL DAY STRUCTURE ===\nBecause this is the final day, this chapter ends with {character_name}'s death. The timeline's night is not narrated. The narrative must stop at the moment of death; do not continue to overnight rest.\n\n"
 
 
 def terminal_road_intro(day_number, character_name):
-    """Opening line of TODAY'S ROAD for a terminal day."""
+    """Opening line of === TODAY === for a terminal day."""
     return f'Day {day_number}. This is the final day. {character_name} dies in this chapter. Narrate the morning and afternoon, then describe the death explicitly. Do not narrate a night at camp.'
 
 
