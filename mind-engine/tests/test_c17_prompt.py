@@ -113,6 +113,37 @@ def test_moment_event_reading_lands_in_its_phase_block():
     assert afternoon < ambient_i < night
 
 
+def test_land_events_reach_their_phase_blocks():
+    """Land-contact events ride the wire under the 'land' umbrella keyed
+    by data.subtype (toEvents.js): place sightings and pass-throughs,
+    terrain phrases, water crossings and region entries all carry the
+    prose the narrator lays out — the day's whole spatial skeleton."""
+    prompt = build_day_prompt(
+        day={'day_number': 4, 'date': '1950-01-19'},
+        character={'name': 'Aranath'},
+        events=[
+            {'type': 'land', 'when': {'phase': 'morning'},
+             'data': {'subtype': 'place',
+                      'reading': 'a village: sighted far off to the east'}},
+            {'type': 'land', 'when': {'phase': 'morning'},
+             'data': {'subtype': 'terrain',
+                      'reading': 'the chalk lies open to the sky'}},
+            {'type': 'land', 'when': {'phase': 'afternoon'},
+             'data': {'subtype': 'water',
+                      'reading': 'a ford of brown water'}},
+            {'type': 'land', 'when': {'phase': 'afternoon'},
+             'data': {'subtype': 'region', 'reading': 'crossed into Bree'}},
+        ],
+    )
+    user = prompt['user']
+    morning = user[user.index('=== MORNING ==='):user.index('=== AFTERNOON ===')]
+    afternoon = user[user.index('=== AFTERNOON ==='):user.index('=== NIGHT AT CAMP ===')]
+    assert 'a village: sighted far off to the east' in morning
+    assert 'the chalk lies open to the sky' in morning
+    assert 'a ford of brown water' in afternoon
+    assert 'crossed into Bree' in afternoon
+
+
 def test_render_lens_twin_memory_rows_read_once():
     desc = 'Dwarves of Erebor — news of the eastern road'
     brief = {'focus': None, 'day': [], 'carried': [
