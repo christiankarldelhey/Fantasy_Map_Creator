@@ -201,6 +201,80 @@ def test_stirs_land_in_their_own_part_of_the_day():
     assert lark < hedges < stir
 
 
+def test_an_echo_that_restates_the_encounter_is_consumed():
+    """Entity narration is authored once and reused — a memory of a past
+    'Sheep Pastures' literally repeats today's seeds. An echo that only
+    restates the encounter it rides into is dropped, not printed twice."""
+    user = _prompt(
+        day={
+            'day_number': 4, 'date': '1950-10-08',
+            'encounters': [{
+                'phase': 'morning', 'hour': 10.0, 'region': 'South Arthedain',
+                'entity': {'name': 'Sheep Pastures', 'type': 'resources'},
+                'interaction': {
+                    'form': 'harvest_shelter',
+                    'dialogue_content': {
+                        'concrete_content': 'A corner out of the wind can be found where land is kept: a hedge lee, a stacked-stone angle.',
+                    },
+                },
+            }],
+        },
+        memory_beats={
+            'morning': [{
+                'line': 'Sheep Pastures — A corner out of the wind can be found where land is kept: a hedge lee, a stacked-stone angle. Reads who works this ground.',
+                'subject': 'Sheep Pastures',
+            }],
+        },
+    )
+    assert 'call to mind' not in user
+    assert 'inform what the traveller answers' not in user
+    # The substance appears once — in the encounter, not twice.
+    assert user.count('corner out of the wind') == 1
+
+
+def test_a_sign_only_echo_calls_to_mind_not_answers():
+    """No one stands behind a Ranger sign — the echo is a beat of
+    recollection, not something to answer with."""
+    user = _prompt(
+        day={
+            'day_number': 4, 'date': '1950-10-08',
+            'encounters': [{
+                'phase': 'night', 'hour': 20.5, 'region': 'South Arthedain',
+                'entity': {'name': 'Bree-landers', 'type': 'humans'},
+                'interaction': {
+                    'form': 'sign_only',
+                    'dialogue_content': {
+                        'concrete_content': 'Three nicks on the waypost, fresh, pale inside.',
+                    },
+                },
+            }],
+        },
+        memory_beats={
+            'night': [{
+                'line': 'Tribesmen — a dry loft, hot food and the loan of a whetstone.',
+                'subject': 'Bree-landers',
+            }],
+        },
+    )
+    assert 'May call to mind' in user
+    assert 'inform what the traveller answers' not in user
+
+
+def test_a_resolved_npc_names_herself():
+    """The backend names real NPCs (Bungo, Pearl) — the name must reach
+    the narrator, not the entity slug."""
+    user = _prompt(events=[
+        {'type': 'encounter', 'when': {'phase': 'night', 'hour': 21.0},
+         'where': {'region': 'Bree'},
+         'data': {
+             'entity_name': 'Prancing Pony host', 'entity_type': 'people',
+             'npc_name': 'Pearl',
+             'form': 'brief_exchange',
+         }},
+    ])
+    assert 'Pearl' in user
+
+
 def test_the_night_is_named_by_what_it_is():
     """No fixed NIGHT AT CAMP banner: the rest reading is the day's last
     beat — a bought bed reads as an inn, a hedge as open country."""

@@ -131,7 +131,10 @@ def _encounter_prompt_shape(event):
         'hour': (event.get('when') or {}).get('hour'),
         'region': (event.get('where') or {}).get('region'),
         'entity': {
-            'name': data.get('entity_name') or data.get('entity'),
+            # A resolved person names herself — 'Bungo', 'Pearl'; passive
+            # encounters (signs, sightings) have no one to name.
+            'name': (data.get('npc_name') or data.get('entity_name')
+                     or data.get('entity')),
             'type': data.get('entity_type'),
         },
         'interaction': {

@@ -13,6 +13,13 @@
 _SEED_KEYS = (
     'npc_attitude', 'concrete_content', 'tension', 'traveller_stance')
 
+# Forms with an actual interlocutor: only there can a recall inform what
+# the traveller answers. A sign on a waypost carries seeds too, but no
+# one stands behind it to hear a reply.
+SPOKEN_FORMS = {
+    'talks', 'brief_exchange', 'aid_or_trade', 'confronts',
+}
+
 
 def _seed_lines(dialogue_content):
     """The optional dialogue seeds of an interaction, verbatim — the
@@ -54,7 +61,7 @@ def _describe_encounter(encounter):
     if encounter.get('echo'):
         lead = (
             'May inform what the traveller answers'
-            if interaction.get('dialogue_content')
+            if form in SPOKEN_FORMS and interaction.get('dialogue_content')
             else 'May call to mind'
         )
         lines.append(f'    {lead} (or stay silent): {encounter["echo"]}')

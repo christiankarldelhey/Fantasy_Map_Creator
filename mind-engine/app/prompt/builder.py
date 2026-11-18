@@ -11,6 +11,8 @@
 # are spoken as natural time, weather is told once and re-told only on
 # change, and the day opens where last night was spent.
 # ============================================================================
+import re
+
 from app.day_phases import DAWN_HOUR, implied_hour, phase_for_hour
 from app.prompt.sections.anti_repetition import closing_instruction
 from app.prompt.sections.character import character_header_section, character_name, narrator_lens_section
@@ -140,7 +142,8 @@ def _encounter_from_event(event):
         'hour': when.get('hour'),
         'region': (event.get('where') or {}).get('region'),
         'entity': {
-            'name': data.get('entity_name') or data.get('entity'),
+            'name': (data.get('npc_name') or data.get('entity_name')
+                     or data.get('entity')),
             'type': data.get('entity_type'),
         },
         'interaction': {
@@ -150,6 +153,33 @@ def _encounter_from_event(event):
             'dialogue_content': dialogue or None,
         },
     }
+
+
+def _echo_is_redundant(echo, encounter):
+    """An echo that restates this encounter's own substance is the world
+    narrating itself — entity narration is authored once and reused, so
+    a memory of a past 'Sheep Pastures' literally repeats today's seeds.
+    Redundant either way: an echo sentence already among the seeds, or
+    a seed sentence already inside the echo."""
+    interaction = encounter.get('interaction') or {}
+    entity = encounter.get('entity') or {}
+    seed_text = ' '.join(
+        str(v) for v in [
+            *(interaction.get('dialogue_content') or {}).values(),
+            interaction.get('prose_hint'),
+            entity.get('description_summary'),
+            entity.get('description'),
+        ] if v
+    ).lower()
+    echo_text = (echo or '').lower()
+    split = lambda t: [
+        s.rstrip('.') for s in re.split(r'(?<=[.!?])\s+', t) if len(s) > 25
+    ]
+    return any(
+        s in seed_text for s in split(echo_text)
+    ) or any(
+        s in echo_text for s in split(seed_text)
+    )
 
 
 def _stir_beats(memory_beats, encounter_beats, is_terminal):
@@ -174,11 +204,14 @@ def _stir_beats(memory_beats, encounter_beats, is_terminal):
                 name = ((enc.get('entity') or {}).get('name') or '').lower()
                 subj = (stir.get('subject') or '').lower()
                 # An encounter carries ONE echo inside its block; a second
-                # match falls back to the stirs list.
+                # match falls back to the stirs list. An echo that merely
+                # restates the encounter's own substance is consumed —
+                # placing it anywhere would repeat the same authored text.
                 if subj and name and 'echo' not in enc and (
                         subj in name or name in subj):
-                    enc['echo'] = stir['line']
                     placed = True
+                    if not _echo_is_redundant(stir['line'], enc):
+                        enc['echo'] = stir['line']
                     break
             if not placed:
                 leftovers.append(stir)
