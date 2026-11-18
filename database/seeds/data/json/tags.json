@@ -151,6 +151,26 @@
       "description": { "en": "The gated variant within a record — `tag:situation:<id>`; the finest provenance grain of a moment", "es": "La variante gateada dentro de un registro — `tag:situation:<id>`; el grano de provenance más fino de un momento" },
       "pattern": "^.+$"
     },
+    "situation_id": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "The Situation an interaction resolved in — `tag:situation_id:<id>`; provenance of the resolved offer", "es": "La Situación en la que se resolvió una interacción — `tag:situation_id:<id>`; provenance de la oferta resuelta" },
+      "pattern": "^.+$"
+    },
+    "interaction_id": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "The interaction row the traveller took — `tag:interaction_id:<id>`; the concrete act's provenance", "es": "La fila de interaction que el viajero tomó — `tag:interaction_id:<id>`; provenance del acto concreto" },
+      "pattern": "^.+$"
+    },
+    "act": {
+      "consumers": ["memory", "retrieval", "choosing"],
+      "description": { "en": "What the traveller did — `tag:act:<act>` (approach, avoid, talk, trade, accept, help, defy, rest); the resolved choice's verb", "es": "Lo que hizo el viajero — `tag:act:<acto>` (approach, avoid, talk, trade, accept, help, defy, rest); el verbo de la elección resuelta" },
+      "values": ["approach", "avoid", "talk", "trade", "accept", "help", "defy", "rest"]
+    },
+    "risk": {
+      "consumers": ["choosing", "gating", "memory"],
+      "description": { "en": "How bold a choice feels — `risk:bold` | `risk:cautious` on an interaction's need_tags; lets the mind weigh daring against its nature", "es": "Qué tan audaz se siente una elección — `risk:bold` | `risk:cautious` en los need_tags de una interacción; permite a la mente pesar el coraje contra su naturaleza" },
+      "values": ["bold", "cautious"]
+    },
     "region": {
       "consumers": ["memory", "retrieval"],
       "description": { "en": "A region name — `region:<name>` from an event's where; ambient connection, not a strong anchor on its own", "es": "Un nombre de región — `region:<nombre>` del where del evento; conexión ambiental, no un ancla fuerte por sí sola" },
