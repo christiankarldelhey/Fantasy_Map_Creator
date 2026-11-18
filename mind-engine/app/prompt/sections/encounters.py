@@ -7,76 +7,63 @@
 # given form, dialogue seeds and outcome, never changes them.
 # ============================================================================
 
-# Dialogue fields, in the order they should reach the narrator. Each is optional.
-DIALOGUE_LINES = [
-    {'key': 'topic', 'label': 'TOPIC', 'hintKey': 'topic_prose_hint'},
-    {'key': 'npc_attitude', 'label': 'NPC ATTITUDE'},
-    {'key': 'concrete_content', 'label': 'CONTENT SEED'},
-    {'key': 'tension', 'label': 'TENSION'},
-    {'key': 'traveller_stance', 'label': 'TRAVELLER STANCE'},
-]
+# The dialogue seeds in the order they reach the narrator — authored
+# prose, printed verbatim. 'topic' is resolver taxonomy and stays out;
+# its prose_hint, when authored, leads the seeds instead.
+_SEED_KEYS = (
+    'npc_attitude', 'concrete_content', 'tension', 'traveller_stance')
 
 
-def _encounter_header(encounter):
-    """"Warg (beast, night) in Eregion" — who was met, and where."""
-    entity = encounter.get('entity') or {}
-    kind = entity.get('type') or 'creature'
-    activity = entity.get('active') or 'all-day'
-    return f"{entity.get('name')} ({kind}, {activity}) in {encounter.get('region')}"
-
-
-def _dialogue_lines(dialogue_content):
-    """The optional dialogue seeds of an interaction, as indented reference lines."""
+def _seed_lines(dialogue_content):
+    """The optional dialogue seeds of an interaction, verbatim — the
+    values are already world prose; field labels were machine noise."""
     if not dialogue_content:
         return []
-
     lines = []
-    for spec in DIALOGUE_LINES:
-        value = dialogue_content.get(spec['key'])
-        if not value:
-            continue
-        hint_key = spec.get('hintKey')
-        hint = f" — {dialogue_content[hint_key]}" if hint_key and dialogue_content.get(hint_key) else ''
-        lines.append(f"    {spec['label']}: {value}{hint}")
+    hint = dialogue_content.get('topic_prose_hint')
+    if hint:
+        lines.append(f'    {hint}')
+    lines.extend(
+        f'    {dialogue_content[k]}'
+        for k in _SEED_KEYS if dialogue_content.get(k)
+    )
     return lines
 
 
 def _describe_encounter(encounter):
-    """One bullet block for a single encounter."""
-    header = f'  * {_encounter_header(encounter)}'
-    interaction = encounter.get('interaction')
-    if not interaction:
-        return f'{header}.'
-
+    """One bullet block: name and given form on the first line, then the
+    authored seeds verbatim. Form and outcome stay binding — narrate
+    them, never change them."""
     entity = encounter.get('entity') or {}
-    about = entity.get('description_summary') or entity.get('description') or ''
-
-    lines = [f'{header}.']
-    if about:
-        lines.append(f'    ABOUT: {about}')
+    interaction = encounter.get('interaction') or {}
     form = interaction.get('form')
+    header = f"  * {entity.get('name')}"
+    header += f' — {form}.' if form else '.'
     hint = interaction.get('prose_hint')
-    lines.append(f"    FORM: {form}." + (f" {hint}" if hint else ''))
-    lines.extend(_dialogue_lines(interaction.get('dialogue_content')))
-    # C21: a memory that this encounter called back lands HERE, inside
-    # the beat the narrator is writing — not in a list elsewhere.
-    # C23: when the encounter is a spoken exchange, the recall may
-    # inform what the traveller answers — it is memory being consulted,
-    # not just color.
-    if encounter.get('echo'):
-        label = (
-            'RECALLS (may inform what the traveller answers, or stay '
-            'silent if it does not fit)'
-            if interaction.get('dialogue_content')
-            else 'RECALLS (may surface as a brief beat of recollection, '
-                 'or stay silent if it does not fit)'
-        )
-        lines.append(f'    {label}: {encounter["echo"]}')
+    if hint:
+        header += f' {hint}'
 
-    block = '\n'.join(lines)
+    lines = [header]
+    about = entity.get('description_summary') or entity.get('description')
+    if about:
+        lines.append(f'    {about}')
+    lines.extend(_seed_lines(interaction.get('dialogue_content')))
+    # C21/C23: a memory this encounter called back lands INSIDE the beat
+    # — in a spoken exchange it may inform the reply; otherwise it is a
+    # beat of recollection. Either way it may stay silent.
+    if encounter.get('echo'):
+        lead = (
+            'May inform what the traveller answers'
+            if interaction.get('dialogue_content')
+            else 'May call to mind'
+        )
+        lines.append(f'    {lead} (or stay silent): {encounter["echo"]}')
     if interaction.get('outcome'):
-        block += f"\n\n    OUTCOME (narrate this, do not change it): {interaction['outcome']}."
-    return block
+        lines.append(
+            f"    OUTCOME (narrate this, do not change it): "
+            f"{interaction['outcome']}."
+        )
+    return '\n'.join(lines)
 
 
 def encounters_section(encounters):
