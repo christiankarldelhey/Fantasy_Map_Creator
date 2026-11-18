@@ -43,3 +43,30 @@ ALTER TABLE entities_narration
     ADD COLUMN IF NOT EXISTS triggers_roll   BOOLEAN,
 
     ADD COLUMN IF NOT EXISTS payload         JSONB NOT NULL DEFAULT '{}'::jsonb;
+
+-- places_narration drifted differently: the interactive slot landed there
+-- under its earlier name, `situations` (ADR-0015). 757 rows carry live
+-- situation data in that column — add `interactive` and move the data
+-- across (both tables; entities_narration has 618 the same way). The old
+-- column stays: dropping it is a later, deliberate call.
+ALTER TABLE places_narration
+    ADD COLUMN IF NOT EXISTS interactive JSONB;
+
+-- The copy is conditional: a healthy table has no `situations` column at
+-- all, and referencing it would fail at parse time.
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.columns
+               WHERE table_name = 'places_narration'
+                 AND column_name = 'situations') THEN
+        UPDATE places_narration SET interactive = situations
+         WHERE interactive IS NULL AND situations IS NOT NULL;
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM information_schema.columns
+               WHERE table_name = 'entities_narration'
+                 AND column_name = 'situations') THEN
+        UPDATE entities_narration SET interactive = situations
+         WHERE interactive IS NULL AND situations IS NOT NULL;
+    END IF;
+END $$;
