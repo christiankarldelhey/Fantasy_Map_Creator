@@ -1301,6 +1301,7 @@ async function ensureSchema() {
   // shape-guarded drop above removes first so the new table can take the name.
   await runMigrationFile('create_interactions_table.sql');
   await runMigrationFile('rename_interactive_to_situations.sql');
+  await runMigrationFile('add_character_race.sql');
 
   console.log('✅ Schema ready\n');
 }

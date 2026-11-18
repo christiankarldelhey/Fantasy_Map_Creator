@@ -18,7 +18,9 @@ const NARRATOR_CHARACTER_QUERY = `
          e.name AS entity_name,
          -- A clone inherits its template's mind archetype: 'celebrian-user-7'
          -- still thinks through the 'celebrian' preset (C18).
-         COALESCE(t.slug, c.slug) AS preset
+         COALESCE(t.slug, c.slug) AS preset,
+         -- Same for the narration race gate: 'aranath-user-7' is a ranger.
+         COALESCE(c.race, t.race) AS race
   FROM character_state c
   LEFT JOIN entities e ON e.id = c.entity_id
   LEFT JOIN character_state t ON t.id = c.template_id

@@ -63,9 +63,12 @@ const FALLBACK_INTERACTION = {
   outcome: null,
 };
 
-// The traveller's race — content written for a people carries a `race:*` tag
-// (the old character_id axis, re-expressed). Clone slugs strip to the base.
-const CHARACTER_RACE = { aranath: 'dunedain', celebrian: 'elf' };
+// The traveller's race — content written for a people carries a `race:*` tag.
+// The race itself is a character_state column; clones inherit their
+// template's. A traveller with no race hears only untagged content.
+function raceTagOf(character) {
+  return character?.race ? `race:${character.race}` : null;
+}
 
 // A row tagged `race:X` only speaks to a traveller of race X. Rows with no
 // race tag speak to everyone. $n is the traveller's tag ('race:dunedain') or
@@ -111,17 +114,6 @@ async function fetchForms(entityType) {
 // ---------------------------------------------------------------------------
 // Contact helpers (kind='contact' — the substance of the encounter)
 // ---------------------------------------------------------------------------
-
-function stripCloneSlug(slug) {
-  if (!slug) return null;
-  // Clone slugs look like 'aranath-user-1' — strip the -user-\d+ suffix
-  return slug.replace(/-user-\d+$/, '');
-}
-
-function raceTagFor(characterSlug) {
-  const race = CHARACTER_RACE[stripCloneSlug(characterSlug)] ?? null;
-  return race ? `race:${race}` : null;
-}
 
 // Score how specific a row is, preferring rows whose optional scope columns
 // MATCH the encounter context (cultural family, region).  A row with a
@@ -296,8 +288,8 @@ function toDialogueContent(row, rng) {
 //   trace    → the distance-sign (aspect),            form 'sign_only'
 // The race gate applies like any contact: a race:* tag speaks only to that
 // traveller; untagged speaks to everyone.
-function resolveMoverContact(leg, contact, moverKind, characterSlug, rng = Math.random) {
-  const raceTag = raceTagFor(characterSlug);
+function resolveMoverContact(leg, contact, moverKind, character, rng = Math.random) {
+  const raceTag = raceTagOf(character);
   const tags = contact?.contact_tags ?? contact?.tags ?? [];
   if (tags.some((t) => t.startsWith('race:') && t !== raceTag)) return null;
 
@@ -380,8 +372,8 @@ export async function resolveEncounter(
 ) {
   const entityType = entity?.type;
   const danger = typeof entity?.danger === 'number' ? entity.danger : 0;
-  const { characterSlug, culturalFamily, regionId, nightTiming } = options;
-  const raceTag = raceTagFor(characterSlug);
+  const { culturalFamily, regionId, nightTiming } = options;
+  const raceTag = raceTagOf(character);
 
   // Load all form rows for this entity type
   const rows = entityType ? await fetchForms(entityType) : [];

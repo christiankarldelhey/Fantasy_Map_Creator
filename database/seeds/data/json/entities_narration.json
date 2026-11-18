@@ -2820,7 +2820,7 @@
         "id": "cnt:5786ea63-9338-4ce8-8928-e2f46d0e46a2:sit",
         "tags": [],
         "situation": {
-          "en": "He shares the gap in coverage as a peer, not a report. Expects Aranath to know what it means."
+          "en": "He shares the gap in coverage as a peer, not a report. Expects the traveller to know what it means."
         }
       }
     ],
@@ -2894,7 +2894,7 @@
         "id": "cnt:9a0833ee-b837-436a-a6f4-e6de4b988c5b:sit",
         "tags": [],
         "situation": {
-          "en": "He wants Aranath on the northern circuit while he continues south. He cannot cover both and he does not trust anyone else he has met on this road in a month."
+          "en": "He wants the traveller on the northern circuit while he continues south. He cannot cover both and he does not trust anyone else he has met on this road in a month."
         }
       }
     ],
@@ -3477,7 +3477,7 @@
       "en": "Testing what the traveller knows before committing to anything."
     },
     "presence": {
-      "en": "He found something in a collapsed shaft — old, made, pre-Númenórean. He will not describe it precisely until he knows who he is talking to. He asks first about the shaft's location to see if Aranath knows it."
+      "en": "He found something in a collapsed shaft — old, made, pre-Númenórean. He will not describe it precisely until he knows who he is talking to. He asks first about the shaft's location to see if the traveller knows it."
     },
     "channel": {
       "en": "Have him speak of a mansion or mine lost to dragon or goblin, and the wealth and kin buried with it."
@@ -3700,10 +3700,10 @@
       "race:dunedain"
     ],
     "disposition": {
-      "en": "On the road alone with a pack that is too large for him. He does not flinch when Aranath comes around the bend."
+      "en": "On the road alone with a pack that is too large for him. He does not flinch when the traveller comes around the bend."
     },
     "presence": {
-      "en": "He is looking for a cousin who went east to trade and did not come back. He has been looking for three weeks. He asks if Aranath has seen a hobbit-sized camp east of the Weather Hills."
+      "en": "He is looking for a cousin who went east to trade and did not come back. He has been looking for three weeks. He asks if the traveller has seen a hobbit-sized camp east of the Weather Hills."
     },
     "channel": null,
     "facts": {
@@ -3902,7 +3902,7 @@
         "id": "cnt:cb9a0fdd-e3ed-4000-b668-3181b61420fa:sit",
         "tags": [],
         "situation": {
-          "en": "The formation is the argument. What Aranath says in the next thirty seconds determines whether this stays a conversation."
+          "en": "The formation is the argument. What the traveller says in the next thirty seconds determines whether this stays a conversation."
         }
       }
     ],
@@ -4307,7 +4307,7 @@
       "en": "Watchful. Takes the time to look at the gear before speaking."
     },
     "presence": {
-      "en": "He has a Gondorian road-permit issued to his father, no longer valid. He does not know what to do with it. Asks if Aranath knows where the nearest garrison would reissue one."
+      "en": "He has a Gondorian road-permit issued to his father, no longer valid. He does not know what to do with it. Asks if the traveller knows where the nearest garrison would reissue one."
     },
     "channel": {
       "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
@@ -4495,7 +4495,7 @@
       "en": "Stopped him on the road. Not aggressive yet — testing first."
     },
     "presence": {
-      "en": "Three men. The speaker wants to know if he is Gondorian, Arthedain, or something else. The question has a correct answer and a wrong answer and Aranath needs to give the correct one."
+      "en": "Three men. The speaker wants to know if he is Gondorian, Arthedain, or something else. The question has a correct answer and a wrong answer and the traveller needs to give the correct one."
     },
     "channel": {
       "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
@@ -4533,7 +4533,7 @@
       "en": "Letting him pass but just barely. One hand resting on a belt-knife."
     },
     "presence": {
-      "en": "He wants to know if Aranath has seen Gondorian soldiers on this road in the last week. Not asking for help — checking whether the road is being watched."
+      "en": "He wants to know if the traveller has seen Gondorian soldiers on this road in the last week. Not asking for help — checking whether the road is being watched."
     },
     "channel": {
       "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
@@ -4546,7 +4546,7 @@
         "id": "cnt:1b9c2524-7749-4420-83fd-769f673d2bed:sit",
         "tags": [],
         "situation": {
-          "en": "The question is information-gathering. He answers it and the answer will determine whether Aranath's road gets easier or harder."
+          "en": "The question is information-gathering. He answers it and the answer will determine whether the traveller's road gets easier or harder."
         }
       }
     ],
@@ -5057,7 +5057,7 @@
       "en": "An Elf on the road, moving west. Moving with the weight of someone who has decided something final."
     },
     "presence": {
-      "en": "He pauses when he sees Aranath — a Dúnedain on this road is unusual. He studies him for a moment with a look that is not quite sympathy and not quite warning. He sees in Aranath the child of a people carrying what the Elves are leaving behind."
+      "en": "He pauses when he sees the traveller — a Dúnedain on this road is unusual. He studies him for a moment with a look that is not quite sympathy and not quite warning. He sees in the traveller the child of a people carrying what the Elves are leaving behind."
     },
     "channel": {
       "en": "Have them turn the talk to the call of the Sea and the road West: who will take ship, and who will stay and dwindle."
@@ -5260,7 +5260,7 @@
         "id": "cnt:e62e93b2-f164-4929-a9f4-1b78d6448ced:sit",
         "tags": [],
         "situation": {
-          "en": "He is telling Aranath because Aranath looks like someone who deals with strangers-on-roads-at-night. He is right."
+          "en": "He is telling the traveller because the traveller looks like someone who deals with strangers-on-roads-at-night. He is right."
         }
       }
     ],
@@ -5358,7 +5358,7 @@
       "race:dunedain"
     ],
     "disposition": {
-      "en": "A Tharbad factor at a wayhouse, drinking alone. Looks up when Aranath enters."
+      "en": "A Tharbad factor at a wayhouse, drinking alone. Looks up when the traveller enters."
     },
     "presence": {
       "en": "Stranded four days — the Gwathlo crossing closed without notice. Gondorian authority he thinks, though no Gondorian livery. He is losing money every day. He knows who closed the crossing, or believes he does, and will tell anyone who buys him a drink."
@@ -5804,7 +5804,7 @@
         "id": "cnt:89ca1012-c9d9-42f9-8a7b-2116cea276f5:sit",
         "tags": [],
         "situation": {
-          "en": "He has not seen Aranath. If he reports back, the road ahead is compromised. If he does not report back, the group he serves knows within hours."
+          "en": "He has not seen the traveller. If he reports back, the road ahead is compromised. If he does not report back, the group he serves knows within hours."
         }
       }
     ],
@@ -6286,7 +6286,7 @@
         "id": "cnt:c7b907df-0a3e-45cb-a2d6-d7b9e5ae667f:sit",
         "tags": [],
         "situation": {
-          "en": "Aranath has seen half-orcs before. This one does not yet know he has been identified."
+          "en": "the traveller has seen half-orcs before. This one does not yet know he has been identified."
         }
       }
     ],
@@ -6673,7 +6673,7 @@
         "id": "cnt:0b54e486-cbfd-41f0-86b4-82194d63be23:sit",
         "tags": [],
         "situation": {
-          "en": "The Witch-king's lands extend further south than they did a year ago. Aranath is standing in them."
+          "en": "The Witch-king's lands extend further south than they did a year ago. the traveller is standing in them."
         }
       }
     ],
@@ -7205,7 +7205,7 @@
       "race:dunedain"
     ],
     "disposition": {
-      "en": "A man in old Arnorian gear — the cut is two centuries out of fashion — at the edge of a barrow. He speaks when Aranath approaches."
+      "en": "A man in old Arnorian gear — the cut is two centuries out of fashion — at the edge of a barrow. He speaks when the traveller approaches."
     },
     "presence": {
       "en": "He says he was the last warden of a specific tower on the Weather Hills. He wants to know if the tower is still standing. He asks it simply, like a man asking after a house he built."
@@ -7555,7 +7555,7 @@
       "race:dunedain"
     ],
     "disposition": {
-      "en": "He steps onto the road and stops Aranath specifically — he has been waiting."
+      "en": "He steps onto the road and stops the traveller specifically — he has been waiting."
     },
     "presence": {
       "en": "He says that the animals on the north road have gone quiet for two miles in a specific direction, and that this kind of quiet has happened twice before that he remembers, and both times it preceded something the Rangers needed to know about."
@@ -8315,7 +8315,7 @@
       "en": "Alone on the road with a full pack, moving at the steady pace of someone who has been walking for days and will walk for days more."
     },
     "presence": {
-      "en": "He nods at Aranath in the way travelers acknowledge each other on empty roads. Then, after a few steps, stops. Asks which direction the nearest garrison is. Not the road — the garrison specifically."
+      "en": "He nods at the traveller in the way travelers acknowledge each other on empty roads. Then, after a few steps, stops. Asks which direction the nearest garrison is. Not the road — the garrison specifically."
     },
     "channel": null,
     "facts": {
@@ -8389,7 +8389,7 @@
       "en": "On the road ahead, not moving. Just standing and looking at the sky to the north."
     },
     "presence": {
-      "en": "He says, when Aranath reaches him, that he has been watching a column of smoke from the direction of the northern hold for two days. No one has come south on the road since. He cannot go north to look because he is one and whatever made that smoke was large."
+      "en": "He says, when the traveller reaches him, that he has been watching a column of smoke from the direction of the northern hold for two days. No one has come south on the road since. He cannot go north to look because he is one and whatever made that smoke was large."
     },
     "channel": null,
     "facts": {
@@ -8422,10 +8422,10 @@
       "race:dunedain"
     ],
     "disposition": {
-      "en": "A figure in yellow and blue, already singing when Aranath comes around the bend. He stops singing when he sees Aranath and looks at him with bright eyes."
+      "en": "A figure in yellow and blue, already singing when the traveller comes around the bend. He stops singing when he sees the traveller and looks at him with bright eyes."
     },
     "presence": {
-      "en": "He says: a Ranger! and seems genuinely delighted by this, the way someone is delighted by a specific bird they have not seen that season. He says he knew Aranath's grandfather, or his grandfather's grandfather, or someone in that line. He is not precise about which."
+      "en": "He says: a Ranger! and seems genuinely delighted by this, the way someone is delighted by a specific bird they have not seen that season. He says he knew the traveller's grandfather, or his grandfather's grandfather, or someone in that line. He is not precise about which."
     },
     "channel": {
       "en": "Have them speak words that carry more than they say — a warning, a riddle, or counsel from one far older than he seems."
@@ -8460,10 +8460,10 @@
       "race:dunedain"
     ],
     "disposition": {
-      "en": "He is waiting on the path — not blocking it, just standing there with the look of someone who knew Aranath would come this way today."
+      "en": "He is waiting on the path — not blocking it, just standing there with the look of someone who knew the traveller would come this way today."
     },
     "presence": {
-      "en": "He says that the Old Forest is pulling at its edges — not the trees moving, the edges themselves, the places where forest meets road. He says this the way someone reports that a door is sticking. He says Aranath's people used to know what to do when the edges pulled."
+      "en": "He says that the Old Forest is pulling at its edges — not the trees moving, the edges themselves, the places where forest meets road. He says this the way someone reports that a door is sticking. He says the traveller's people used to know what to do when the edges pulled."
     },
     "channel": {
       "en": "Have them speak words that carry more than they say — a warning, a riddle, or counsel from one far older than he seems."
@@ -8476,7 +8476,7 @@
         "id": "cnt:7bedd435-2f2e-4f34-96b4-37b238bff6bb:sit",
         "tags": [],
         "situation": {
-          "en": "He is not certain Aranath knows. He is asking by telling him."
+          "en": "He is not certain the traveller knows. He is asking by telling him."
         }
       }
     ],
@@ -8548,7 +8548,7 @@
         "id": "cnt:acaca425-d161-4ccf-accd-cf6aa21f9bb3:sit",
         "tags": [],
         "situation": {
-          "en": "Aranath does not know what it is. He knows what it feels like and he knows what Rangers are told to do when a road feels like this: leave it and circle wide."
+          "en": "the traveller does not know what it is. He knows what it feels like and he knows what Rangers are told to do when a road feels like this: leave it and circle wide."
         }
       }
     ],

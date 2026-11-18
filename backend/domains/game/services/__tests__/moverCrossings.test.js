@@ -259,27 +259,27 @@ const legContact = {
 };
 
 test('resolveMoverContact: trace → sign_only with the aspect as content', () => {
-  const i = resolveMoverContact(marchLeg(), legContact, 'trace', 'aranath', () => 0);
+  const i = resolveMoverContact(marchLeg(), legContact, 'trace', { race: 'dunedain' }, () => 0);
   assert.equal(i.form, 'sign_only');
   assert.equal(i.dialogue_content.concrete_content, legContact.aspect.en);
   assert.equal(i.prose_hint, legContact.aspect.en);
 });
 
 test('resolveMoverContact: crossing → confronts with a picked variant', () => {
-  const i = resolveMoverContact(marchLeg(), legContact, 'crossing', 'aranath', () => 0);
+  const i = resolveMoverContact(marchLeg(), legContact, 'crossing', { race: 'dunedain' }, () => 0);
   assert.equal(i.form, 'confronts');
   assert.equal(i.dialogue_content.concrete_content, legContact.variants[0].text.en);
   assert.equal(i.dialogue_content.topic, 'news_and_rumor');
 });
 
 test('resolveMoverContact: hostile legs carry high intensity', () => {
-  const i = resolveMoverContact(marchLeg({ hostile: true }), legContact, 'crossing', 'aranath', () => 0);
+  const i = resolveMoverContact(marchLeg({ hostile: true }), legContact, 'crossing', { race: 'dunedain' }, () => 0);
   assert.equal(i.intensity, 3);
 });
 
 test('resolveMoverContact: race-gated contact returns null', () => {
   const gated = { ...legContact, contact_tags: ['race:elf'] };
-  const i = resolveMoverContact(marchLeg(), gated, 'crossing', 'aranath', () => 0); // dunedain
+  const i = resolveMoverContact(marchLeg(), gated, 'crossing', { race: 'dunedain' }, () => 0); // dunedain
   assert.equal(i, null);
 });
 

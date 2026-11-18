@@ -476,6 +476,7 @@ CREATE TABLE IF NOT EXISTS character_state (
     current_lng DOUBLE PRECISION,
     current_lat DOUBLE PRECISION,
     type VARCHAR(50),  -- Character type (e.g., Noldor, Sindar, Human, Dwarf)
+    race TEXT,  -- Narration race-gate value (race:* tags on entities_narration): dunedain, elf, ...
     gender VARCHAR(20),  -- Character gender (male, female)
     active BOOLEAN DEFAULT false,  -- Whether this character is currently active
     description TEXT,  -- Character description
