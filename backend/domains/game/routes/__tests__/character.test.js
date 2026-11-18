@@ -73,7 +73,7 @@ test('admin switching character persists users.active_character_id', async () =>
 // and dropped the trailing skill placeholders, so clone-all always 500'd
 // and fresh users got an empty character picker.
 const template = {
-  id: 1, name: 'Aranath', slug: 'aranath', type: 'ranger', gender: 'm',
+  id: 1, name: 'Aranath', slug: 'aranath', type: 'ranger', gender: 'm', race: 'dunedain',
   description: 'd', description_es: 'd', system_prompt: 'p',
   introduction_instructions: 'i', resistance: 5, permadeath: true,
   energy_initial: 100, shadow_initial: 0,
@@ -103,17 +103,19 @@ function assertCloneInsertAligned() {
   assert.equal(vals.length, cols.length, 'VALUES must cover every target column');
 
   const at = (col) => vals[cols.indexOf(col)];
-  assert.equal(at('permadeath'), '$11');
+  assert.equal(at('race'), '$6');
+  assert.equal(at('permadeath'), '$12');
   assert.equal(at('active'), 'false');
-  assert.equal(at('owner_user_id'), '$12');
-  assert.equal(at('template_id'), '$13');
-  assert.equal(at('slug'), '$14');
-  assert.equal(at('shadow'), '$16');
+  assert.equal(at('owner_user_id'), '$13');
+  assert.equal(at('template_id'), '$14');
+  assert.equal(at('slug'), '$15');
+  assert.equal(at('shadow'), '$17');
 
   const maxRef = Math.max(...vals.flatMap((v) => [...v.matchAll(/\$(\d+)/g)].map((m) => +m[1])));
   assert.equal(insert.params.length, maxRef, 'every param must be bound');
-  assert.equal(insert.params[10], true, '$11 binds permadeath');
-  assert.equal(insert.params[11], 7, '$12 binds userId');
+  assert.equal(insert.params[5], 'dunedain', '$6 binds the template race');
+  assert.equal(insert.params[11], true, '$12 binds permadeath');
+  assert.equal(insert.params[12], 7, '$13 binds userId');
 }
 
 async function runHandler(path, method, req) {

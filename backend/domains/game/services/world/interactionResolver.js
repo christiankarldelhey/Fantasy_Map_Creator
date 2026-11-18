@@ -63,9 +63,12 @@ const FALLBACK_INTERACTION = {
   outcome: null,
 };
 
-// The traveller's race — content written for a people carries a `race:*` tag
-// (the old character_id axis, re-expressed). Clone slugs strip to the base.
-const CHARACTER_RACE = { aranath: 'dunedain', celebrian: 'elf' };
+// The traveller's race — content written for a people carries a `race:*` tag.
+// The race itself is a character_state column; clones inherit their
+// template's. A traveller with no race hears only untagged content.
+function raceTagOf(character) {
+  return character?.race ? `race:${character.race}` : null;
+}
 
 // A row tagged `race:X` only speaks to a traveller of race X. Rows with no
 // race tag speak to everyone. $n is the traveller's tag ('race:dunedain') or
@@ -111,17 +114,6 @@ async function fetchForms(entityType) {
 // ---------------------------------------------------------------------------
 // Contact helpers (kind='contact' — the substance of the encounter)
 // ---------------------------------------------------------------------------
-
-function stripCloneSlug(slug) {
-  if (!slug) return null;
-  // Clone slugs look like 'aranath-user-1' — strip the -user-\d+ suffix
-  return slug.replace(/-user-\d+$/, '');
-}
-
-function raceTagFor(characterSlug) {
-  const race = CHARACTER_RACE[stripCloneSlug(characterSlug)] ?? null;
-  return race ? `race:${race}` : null;
-}
 
 // Score how specific a row is, preferring rows whose optional scope columns
 // MATCH the encounter context (cultural family, region).  A row with a
@@ -256,11 +248,11 @@ async function fetchGenericTopic({
 // Contact row → dialogue_content (the shape downstream consumers already read)
 // ---------------------------------------------------------------------------
 
-// Pick one interactive situation. Situations may carry gating tags; until the
+// Pick one situations situation. Situations may carry gating tags; until the
 // encounter tag-set lands, only ungated situations are eligible — and if a row
 // authors none, its gated situations still serve (nothing else to pick).
 function pickSituation(row, rng) {
-  const sits = Array.isArray(row.interactive) ? row.interactive : [];
+  const sits = Array.isArray(row.situations) ? row.situations : [];
   if (!sits.length) return null;
   const ungated = sits.filter((s) => !(s.tags || []).length);
   const pool_ = ungated.length ? ungated : sits;
@@ -276,8 +268,10 @@ function toDialogueContent(row, rng) {
     npc_attitude: row.disposition?.en ?? null,
     concrete_content: row.presence?.en ?? null,
     tension: sit?.situation?.en ?? null,
-    traveller_stance: sit?.stance?.en ?? null,
-    // The full record rides along — variants, disposition, interactive —
+    // Filled by the engine with the applied outcome's text — what the
+    // traveller did lives in the interaction row, not the descriptor.
+    traveller_stance: null,
+    // The full record rides along — variants, disposition, situations —
     // for the shared option-selector chapter.
     narration: row,
   };
@@ -294,8 +288,8 @@ function toDialogueContent(row, rng) {
 //   trace    → the distance-sign (aspect),            form 'sign_only'
 // The race gate applies like any contact: a race:* tag speaks only to that
 // traveller; untagged speaks to everyone.
-function resolveMoverContact(leg, contact, moverKind, characterSlug, rng = Math.random) {
-  const raceTag = raceTagFor(characterSlug);
+function resolveMoverContact(leg, contact, moverKind, character, rng = Math.random) {
+  const raceTag = raceTagOf(character);
   const tags = contact?.contact_tags ?? contact?.tags ?? [];
   if (tags.some((t) => t.startsWith('race:') && t !== raceTag)) return null;
 
@@ -314,7 +308,7 @@ function resolveMoverContact(leg, contact, moverKind, characterSlug, rng = Math.
     npc_attitude: contact.disposition?.en ?? null,
     concrete_content: concrete,
     tension: sit?.situation?.en ?? null,
-    traveller_stance: sit?.stance?.en ?? null,
+    traveller_stance: null, // engine-stamped from the applied outcome
     narration: contact,
   } : (concrete ? { concrete_content: concrete } : null);
 
@@ -378,8 +372,8 @@ export async function resolveEncounter(
 ) {
   const entityType = entity?.type;
   const danger = typeof entity?.danger === 'number' ? entity.danger : 0;
-  const { characterSlug, culturalFamily, regionId, nightTiming } = options;
-  const raceTag = raceTagFor(characterSlug);
+  const { culturalFamily, regionId, nightTiming } = options;
+  const raceTag = raceTagOf(character);
 
   // Load all form rows for this entity type
   const rows = entityType ? await fetchForms(entityType) : [];

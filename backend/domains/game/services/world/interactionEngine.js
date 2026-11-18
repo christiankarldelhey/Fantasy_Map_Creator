@@ -9,7 +9,7 @@
 // Mind before the next pool — the day is felt while it happens.
 //
 // Executable facts (options, acts, effects) live only in the interactions
-// table — the narration records' interactive[] is a descriptor store
+// table — the narration records' situations[] is a descriptor store
 // (situation ids, gates, prose). Fork detection is row-count, not JSONB.
 // ============================================================================
 
@@ -283,7 +283,7 @@ function applyConditionDeltas(projected, effects) {
 
 // The resolved pick as an Event: rides the interim /perceive now AND the
 // episode's events[] at open — the stable id makes it count once.
-export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome) {
+export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome, after = null) {
   const data = {
     act: interaction.act,
     situation_id: pool_.situation_id,
@@ -292,6 +292,11 @@ export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome) {
     description: outcome?.text?.en ?? null,
     tags: [interaction.act, ...(interaction.need_tags || [])],
   };
+  // The body after the outcome landed — per-event vitals so the Studio
+  // day chart can draw energy/shadow between event points.
+  if (after) {
+    data.after = { energy: after.energy ?? null, shadow: after.shadow ?? null };
+  }
   const shadowFx = (outcome?.effects || [])
     .filter((e) => e.type === 'shadow' && Number.isFinite(e.amount))
     .reduce((s, e) => s + e.amount, 0);
@@ -375,7 +380,12 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
         pool_.apply(day, outcome, r);
         applyConditionDeltas(projected, outcome.effects);
         if ((outcome.effects || []).length) pool_.encounter.interaction.given = true;
-        events.push(outcomeEvent(day, pool_, r, 'success', outcome));
+        // traveller_stance is what the traveller did — the applied
+        // outcome's prose, stamped post-resolution (its single home is
+        // the interaction row, not the situation descriptor).
+        const dc = pool_.encounter?.interaction?.dialogue_content;
+        if (dc && outcome.text?.en) dc.traveller_stance = outcome.text.en;
+        events.push(outcomeEvent(day, pool_, r, 'success', outcome, projected));
       }
 
       // The shared part of an options situation (sit-level commands
@@ -464,6 +474,8 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
         // choice the body actually felt (the old option.commands rule).
         changed: (outcome.effects || []).length > 0,
       };
+      const dc = pool_.encounter.interaction.dialogue_content;
+      if (dc && outcome.text?.en) dc.traveller_stance = outcome.text.en;
     }
 
     applied.push({
@@ -480,10 +492,10 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
     // the outcome event so the NEXT pool is scored by the evolved Mind.
     // Ambient voices already reach the episode as 'moment' events —
     // minting a second, id-less event here would sediment them twice.
-    if (pool_.kind !== 'ambient') {
-      events.push(outcomeEvent(day, pool_, interaction, outcomeKey, outcome));
-    }
     applyConditionDeltas(projected, outcome?.effects);
+    if (pool_.kind !== 'ambient') {
+      events.push(outcomeEvent(day, pool_, interaction, outcomeKey, outcome, projected));
+    }
     await flush();
   }
 

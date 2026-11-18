@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 // ============================================================================
-// derive-interactions.mjs — one-time generator: interactive[] → interactions.json
+// derive-interactions.mjs — one-time generator: situations[] → interactions.json
 // ----------------------------------------------------------------------------
 // Wave D: `interactions` becomes an authored seed like any other (db madre).
 // This tool derives it ONCE from the legacy authored options inside
-// interactive[] — every option becomes a typed interaction row — and slims
+// situations[] — every option becomes a typed interaction row — and slims
 // the narration sources to pure situation descriptors (the executable keys
 // options/commands now live only in interactions.json).
 //
@@ -104,7 +104,7 @@ function toLang(v) {
 // payload until the feasibility filter knows what to do with it.
 function placeInteractions(rec) {
   const rows = [];
-  for (const sit of rec.interactive ?? []) {
+  for (const sit of rec.situations ?? []) {
     for (const opt of sit.options ?? []) {
       const success = opt.outcomes?.success ?? {};
       const note = isLangNote(success.effects) ? { effects_note: success.effects } : {};
@@ -140,7 +140,7 @@ function placeInteractions(rec) {
 // inevitable interaction.
 function entityInteractions(rec) {
   const rows = [];
-  for (const sit of rec.interactive ?? []) {
+  for (const sit of rec.situations ?? []) {
     const sharedEffects = (sit.commands ?? []).flatMap(commandToEffects);
     const options = sit.options ?? [];
 
@@ -176,6 +176,9 @@ function entityInteractions(rec) {
       label: null,
       need_tags: sit.tags ?? [],
       skill: null,
+      // The stance IS the outcome — it moves wholesale into the row.
+      // The descriptor keeps only the world's part (gates + situation);
+      // traveller-action prose lives solely in interactions.
       outcomes: { success: { text: toLang(sit.stance), effects: sharedEffects } },
       payload: {
         origin: 'seed:interactions',
@@ -190,11 +193,13 @@ function entityInteractions(rec) {
 // Situations stay on their record — but only the authored descriptor
 // (gating + prose). Everything executable (options, commands) now lives
 // solely in interactions.json.
-const EXECUTABLE_SIT_KEYS = new Set(['options', 'commands']);
+// 'stance' too: it is traveller-action prose — an outcome, not a
+// descriptor. Its only home is interactions.outcomes.*.text.
+const EXECUTABLE_SIT_KEYS = new Set(['options', 'commands', 'stance']);
 function slimInteractive(records) {
   let stripped = 0;
   for (const rec of records) {
-    for (const sit of rec.interactive ?? []) {
+    for (const sit of rec.situations ?? []) {
       for (const k of EXECUTABLE_SIT_KEYS) {
         if (k in sit) { delete sit[k]; stripped++; }
       }
@@ -238,7 +243,7 @@ async function main() {
 
   const stripped =
     slimInteractive(placeRecords) + slimInteractive(narrationRecords) + slimInteractive(entities);
-  console.log(`sources slimmed: ${stripped} executable keys removed from interactive[]`);
+  console.log(`sources slimmed: ${stripped} executable keys removed from situations[]`);
 
   if (DRY) { console.log('--dry-run: nothing written'); return; }
 

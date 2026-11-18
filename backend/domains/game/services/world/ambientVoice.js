@@ -213,10 +213,10 @@ export async function resolveAmbientSituations({
   }
 
   const { rows } = await pool.query(
-    `SELECT id, name, region_ids, priority, interactive
+    `SELECT id, name, region_ids, priority, situations
        FROM places_narration
       WHERE kind = 'ambient'
-        AND interactive IS NOT NULL
+        AND situations IS NOT NULL
         AND region_ids && $1::int[]`,
     [regionIds]
   );
@@ -230,7 +230,7 @@ export async function resolveAmbientSituations({
     const tagSet = new Set();
     for (const id of scoped) for (const t of tagSetByRegion.get(id)) tagSet.add(t);
 
-    for (const situation of record.interactive || []) {
+    for (const situation of record.situations || []) {
       if (!eligible(situation, tagSet)) continue;
       // Overnight situations belong to the rest rail, not the walking day.
       if ((situation.tags || []).includes('context:overnight')) continue;

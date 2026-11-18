@@ -357,7 +357,6 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       recentForms,
       shadowFactor: dayShadowFactor,
       shadowBand: sBand,
-      characterSlug: character.slug || null,
       startState,
     });
     if (!day) {

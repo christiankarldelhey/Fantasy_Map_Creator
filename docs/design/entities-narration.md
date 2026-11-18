@@ -195,7 +195,7 @@ y el código ya lo sabe: `memory.py` los marca "no reading by design" y
 - Prosa: `aspect`, `sighted_far`, `presence`, `lore`, `secret`,
   `sections`, `channel`, `traveller_use`, `notes`
 - Condicional: `variants[]` (tags/not_tags/when), `rotation[]`
-- `interactive[]`: situaciones tag-gateadas con options → outcomes
+- `situations[]`: situaciones tag-gateadas con options → outcomes
   {success, failure} {text, effects}
 
 ## Tercera vuelta — refinamientos del usuario (encounters-first)
@@ -311,9 +311,9 @@ seed lo re-vincula).
 | encounter_forms | entity_type, interaction_form, weight/intensity/min–max_danger/triggers_roll, prose_hint | `kind='form'` mismos campos + `aspect` |
 | npc_interactions | npc_attitude | `disposition` |
 | | concrete_content | `presence` |
-| | tension / traveller_stance | `interactive[].situation` / `.stance` |
+| | tension / traveller_stance | `situations[].situation` / `.stance` |
 | | topic / topic_prose_hint | `facts.topic` / `channel` |
-| | options + commands | `interactive[0]` (un situation por fila) |
+| | options + commands | `situations[0]` (un situation por fila) |
 | | character_id (aranath/celebrian) | `tags: [race:dunedain|elf]` + `payload.legacy_character` |
 | | entity_id/entity_ids/entity_type/region_id/cultural_family/interaction_form | scope 1:1 |
 | | shadow_band | **drop** |

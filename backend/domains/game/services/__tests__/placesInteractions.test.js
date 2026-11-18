@@ -120,7 +120,7 @@ const interactions = [
 
 const originalQuery = pool.query.bind(pool);
 
-// The canonical path reads ambient/place records whose interactive[] carries
+// The canonical path reads ambient/place records whose situations[] carries
 // a 'context:overnight' situation (ADR-0015); effects live on the option's
 // outcome. Mock both the record query and the scope ladder inputs.
 const narrationRecords = interactions.map((r) => ({
@@ -136,7 +136,7 @@ const narrationRecords = interactions.map((r) => ({
   presence: { en: r.description, es: null },
   variants: null,
   rotation: null,
-  interactive: [{
+  situations: [{
     id: `ovn:${r.id}_night`,
     tags: ['context:overnight'],
     options: [{
@@ -168,7 +168,7 @@ function installMock() {
       return {
         rows: narrationRecords.filter(
           (r) => (params[0] == null || r.kind === params[0])
-            && (params[1] == null || r.interactive.some((s) => (s.tags || []).includes(params[1]))),
+            && (params[1] == null || r.situations.some((s) => (s.tags || []).includes(params[1]))),
         ),
       };
     }

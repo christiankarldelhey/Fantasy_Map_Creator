@@ -21,6 +21,13 @@ data/*.tif
 data/*.tiff
 data/dem_elevation.tif
 
+# Local source material — kept on disk, not in the repo (nothing serves it;
+# the client is fed by the backend API)
+data_public/
+
+# Seed-run output, regenerated every db:seed — not a source
+database/seeds/data/json/place-anchor-candidates.json
+
 # Node modules
 node_modules/
 

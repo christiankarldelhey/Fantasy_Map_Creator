@@ -711,7 +711,7 @@ async function buildNightRegionResolver(campPoint) {
  * @param {Array<string>} [params.recentForms] - forms used in previous chapters (anti-repetition)
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, characterSlug = null, usedRegionDescriptions = {}, usedTerrainPhrases = {}, startState = null }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, usedRegionDescriptions = {}, usedTerrainPhrases = {}, startState = null }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -1049,7 +1049,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     // variant for the meeting — not through the form lottery.
     const moverLeg = e._mover?.leg ?? null;
     const interaction = moverLeg
-      ? resolveMoverContact(moverLeg, moverLeg, e._mover?.kind ?? 'crossing', characterSlug, rng)
+      ? resolveMoverContact(moverLeg, moverLeg, e._mover?.kind ?? 'crossing', character, rng)
       : await resolveEncounter(
         e.entity,
         character,
@@ -1058,7 +1058,6 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
         chapterForms,
         {
           shadowBand,
-          characterSlug,
           culturalFamily: encounterCulturalFamily,
           regionId: encounterRegionId,
           nightTiming: e.night_timing ?? null,

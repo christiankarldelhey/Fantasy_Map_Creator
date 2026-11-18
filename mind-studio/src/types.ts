@@ -6,6 +6,59 @@ export interface Mood {
   dominant?: string
 }
 
+// The episode's emotional plot (ADR 0017 · lens.mood_arc): one point per
+// lived phase with the heaviest reading as its cause, plus the turn.
+export interface MoodArcPoint {
+  phase: string
+  felt: Record<string, number>
+  valence: number
+  mood?: string | null
+  cause?: string | null
+}
+
+export interface MoodTurn {
+  phase: string
+  swing: number
+  reading?: string | null
+}
+
+export interface EpisodeMood extends Mood {
+  need_pressure?: number
+  thread_pressure?: number
+  felt?: Record<string, number>
+  trace?: { subject?: string | null; reading?: string | null; felt?: Record<string, number> }[]
+  arc?: MoodArcPoint[]
+  turn?: MoodTurn | null
+}
+
+// A perceived event's numeric payload — everything the day chart can
+// draw: when it happened, what it felt like, what the body paid.
+export interface PerceivedEvent {
+  type: string
+  perception: string
+  reading: string | null
+  salience: number
+  evoked: string[]
+  when: { hour?: number | null; phase?: string | null }
+  subject?: string | null
+  valence?: number | null
+  severity?: number | null
+  world_valence?: number | null
+  imprint: Record<string, number>
+  data: {
+    description?: string | null
+    act?: string
+    outcome?: string
+    name?: string
+    record?: string
+    situation?: string
+    npc_name?: string
+    shadow_effect?: number
+    after?: { energy?: number | null; shadow?: number | null }
+    reading?: string | null
+  }
+}
+
 export interface MindSummary {
   character_id: string
   name: string
@@ -137,15 +190,9 @@ export interface EpisodeView {
   ref: string | null
   date: string | null
   status: string
-  mood: Mood
+  mood: EpisodeMood
   needs_active: ActiveNeed[]
-  perceived: {
-    type: string
-    perception: string
-    reading: string | null
-    salience: number
-    evoked: string[]
-  }[]
+  perceived: PerceivedEvent[]
   evoked: string[]
   voiced: string[]
   lens: LensLine[]
@@ -164,6 +211,16 @@ export interface TraitView {
   help: string
 }
 
+// A preset's nature as the personality picker shows it — what applying
+// it would imprint (temperament + personality), nothing lived.
+export interface PresetNature {
+  slug: string
+  name: string | null
+  description: string | null
+  temperament: Record<string, number>
+  personality: Record<string, unknown>
+}
+
 export interface MindDetail {
   character_id: string
   game: string
@@ -171,6 +228,10 @@ export interface MindDetail {
   character: CharacterCard
   condition: Record<string, unknown>
   mood: Mood
+  // ADR 0017: the resting point mood regresses to (fixed, nature) and
+  // the couplings — moodiness, resistance, choice_variability…
+  temperament: Record<string, number>
+  personality: Record<string, unknown>
   traits: Record<string, TraitView>
   concerns: Record<string, number>
   wiring: Record<string, unknown>

@@ -5,6 +5,8 @@ import {
 } from '../../lib/labels'
 import type { EpisodeView, LensLine } from '../../types'
 import PanelCard from '../ui/PanelCard.vue'
+import DayChart from './DayChart.vue'
+import MoodArc from './MoodArc.vue'
 
 const props = defineProps<{ episode: EpisodeView }>()
 
@@ -69,6 +71,14 @@ const phase = (line: Pick<LensLine, 'phase'>) => (line.phase ? label(PHASES, lin
       </template>
       <p v-else class="empty">Un día tranquilo: nada pesó lo suficiente para ser el centro.</p>
       <p v-if="brief?.chosen_by === 'rules'" class="muted small">Elegido por reglas automáticas (el director no intervino).</p>
+    </PanelCard>
+
+    <PanelCard
+      title="Cómo fue el día"
+      description="El ánimo por tramos con lo que lo causó, y todas las mediciones del día contra la hora. Los puntos del eje son los eventos."
+    >
+      <MoodArc :mood="episode.mood" />
+      <DayChart v-if="episode.perceived.length" :episode="episode" />
     </PanelCard>
 
     <PanelCard

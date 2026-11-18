@@ -18,7 +18,7 @@ const COLS = [
   'id', 'kind', 'location_id', 'region_id', 'region_ids', 'name', 'type',
   'cultural_family', 'priority', 'tags', 'size_radius_km', 'influence_radius_km',
   'aspect', 'sighted_far', 'presence', 'lore', 'secret', 'sections', 'facts',
-  'notes', 'channel', 'traveller_use', 'variants', 'rotation', 'interactive',
+  'notes', 'channel', 'traveller_use', 'variants', 'rotation', 'situations',
   'refs', 'payload',
 ];
 

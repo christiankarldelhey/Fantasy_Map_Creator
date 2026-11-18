@@ -55,5 +55,37 @@ export const patchConcerns = (
   weights: Record<string, number | null>,
 ) => patchJson(`/minds/${encodeURIComponent(characterId)}/concerns`, { weights })
 
+export const patchTemperament = (
+  characterId: string,
+  temperament: { valence?: number; arousal?: number },
+) => patchJson<Record<string, number>>(
+  `/minds/${encodeURIComponent(characterId)}/temperament`, temperament)
+
+export const patchPersonality = (
+  characterId: string,
+  values: Record<string, unknown>,
+) => patchJson<Record<string, unknown>>(
+  `/minds/${encodeURIComponent(characterId)}/personality`, { values })
+
+export const fetchPresets = (signal?: AbortSignal) =>
+  getJson<import('./types').PresetNature[]>('/presets', signal)
+
+export async function applyPersonalityPreset(
+  characterId: string,
+  slug: string,
+): Promise<{ temperament: Record<string, number>; personality: Record<string, unknown> }> {
+  const res = await fetch(
+    `${BASE}/minds/${encodeURIComponent(characterId)}/personality-preset`,
+    {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug }),
+    },
+  )
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
+  return res.json()
+}
+
 export const fetchTags = (signal?: AbortSignal) =>
   getJson<import('./types').TagRegistry>('/tags', signal)
