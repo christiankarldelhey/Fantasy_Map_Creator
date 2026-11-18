@@ -291,14 +291,13 @@ function encounterEvents(day) {
           resolved_choice: e.interaction?.resolved_choice ?? null,
         };
         // C28: what touched the mechanics is weight-space. 'given' — an
-        // authored gift the host applies unconditionally (the contact
-        // pool's sole/shared effects); 'changed' — the encounter left a
-        // mark on the body, or a fork stood and was taken (the engine's
-        // resolved_choice). The mind's 'salience_min.tag:*' wiring lifts
-        // these out of background.
+        // authored gift the host applied unconditionally (stamped by the
+        // engine when sole/shared effects landed); 'changed' — the
+        // encounter left a mark on the body, or a fork stood and was
+        // taken (the engine's resolved_choice). The mind's
+        // 'salience_min.tag:*' wiring lifts these out of background.
         const tags = [];
-        if (e.interaction?.dialogue_content?.commands?.length
-            && !e.interaction?.decision) {
+        if (e.interaction?.given) {
           tags.push('given');
         }
         if (e.interaction?.resolved_choice?.changed

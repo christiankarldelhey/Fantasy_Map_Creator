@@ -1,15 +1,16 @@
 // ============================================================================
-// Interaction engine (ADR-0019, Wave B)
+// Interaction engine (ADR-0019, Wave C)
 // ----------------------------------------------------------------------------
 // One choosing for every resolved Situation: the host says what is
 // *feasible*, asks the Mind which it prefers (`POST /mind/minds/:id/choose`),
 // rolls the skill, and applies the outcome — all BEFORE the day resolves and
-// the episode opens. No re-resolution, no in-episode /decide for these.
+// the episode opens. Situations resolve in narrative order; each outcome
+// updates the projected Condition, emits an Event, and is perceived by the
+// Mind before the next pool — the day is felt while it happens.
 //
-// Wave B pilot scope: the night's own Situation (the place's overnight
-// record) plus before_sleep shelter offers on encounters. Everything else —
-// contact substance, ambient situations — still rides the legacy path until
-// Wave C.
+// Executable facts (options, acts, effects) live only in the interactions
+// table — the narration records' interactive[] is a descriptor store
+// (situation ids, gates, prose). Fork detection is row-count, not JSONB.
 // ============================================================================
 
 import pool from '../../../../db.js';
@@ -120,6 +121,7 @@ export function applyOvernightOutcome(day, outcome) {
   }
   day.overnight_interaction = {
     ...(day.overnight_interaction || {}),
+    description: outcome?.text?.en ?? day.overnight_interaction?.description ?? null,
     rest_quality: shelter.rest_quality ?? day.overnight_interaction?.rest_quality ?? null,
     shadow_effect: shelter.shadow_effect ?? day.overnight_interaction?.shadow_effect ?? 0,
   };
@@ -160,36 +162,15 @@ function overnightPool(day) {
   };
 }
 
-// A dusk shelter offer on an encounter — `interaction.decision` was built
-// by resolveEncounter from the contact's authored options; the same options
-// live as interactions keyed `<record>:<sit>:<option>`.
-function shelterOfferPools(day) {
-  return (day.encounters || [])
-    .filter((e) => e.interaction?.decision && e.interaction?.dialogue_content?.id)
-    .map((e) => ({
-      kind: 'shelter_offer',
-      situation_id: e.interaction.decision.id,
-      // Relation subjects are full tags ('tag:npc:hal'), per relations.py.
-      subject: e.entity?.slug ? `tag:npc:${e.entity.slug}` : null,
-      parent: { entitiesNarrationId: e.interaction.dialogue_content.id },
-      optionIds: new Set((e.interaction.decision.options || []).map((o) => o.id)),
-      encounter: e,
-      hour: e.hour_float ?? 20.5,
-      phase: e.phase ?? 'night',
-      placeSlug: slugify(day.overnight_location?.name),
-      apply: (day_, outcome) => applyShelterOutcome(day_, outcome),
-    }));
-}
-
-// An encounter's chosen situation with no fork on the table — the picked
-// `sit` is known by its preserved id; its sole Interaction carries the
-// gifts the stance declares (a shared meal, a refilled skin). The host
-// applies, the mind digests — nothing to choose.
+// Every encounter's chosen situation — contact, crossing, or mover leg.
+// Sole interactions apply their stance outright; the shared part of an
+// options situation is the world's unconditional gift; the options
+// themselves contest only at the shelter window (every authored contact
+// fork is a "stay the night or walk on" offer — nothing to decide at
+// 10am on the road).
 function contactPools(day) {
   return (day.encounters || [])
-    .filter((e) =>
-      !e.interaction?.decision
-      && e.interaction?.dialogue_content?.id
+    .filter((e) => e.interaction?.dialogue_content?.id
       && e.interaction?.dialogue_content?.situation_id)
     .map((e) => ({
       kind: 'contact',
@@ -200,10 +181,21 @@ function contactPools(day) {
       // not what the traveller lived.
       rowFilter: (r) => r.payload?.situation === e.interaction.dialogue_content.situation_id,
       encounter: e,
+      offerWindow: e.night_timing === 'before_sleep',
       hour: e.hour_float ?? 12,
       phase: e.phase ?? 'afternoon',
-      placeSlug: slugify(e.location?.name ?? e.location),
-      apply: null, // command rail — applied per effect below
+      placeSlug: slugify(e.location?.name ?? e.location ?? day.overnight_location?.name),
+      apply: (day_, outcome) => {
+        const shelter = effectsToShelter(outcome?.effects ?? []);
+        if (Object.keys(shelter).length) {
+          applyShelterChoice(day_, shelter);
+          day_.commands = [...(day_.commands || []), ...effectsToCommands(outcome?.effects ?? [], { inShelter: true })
+            .map((c) => ({ ...c, hour_float: e.hour_float ?? null }))];
+        } else {
+          day_.commands = [...(day_.commands || []), ...effectsToCommands(outcome?.effects ?? [])
+            .map((c) => ({ ...c, hour_float: e.hour_float ?? null }))];
+        }
+      },
     }));
 }
 
@@ -342,7 +334,7 @@ function sharedEffects(rows) {
 export async function resolveDayChoices(day, { characterId, startState = {}, rng = Math.random }) {
   // Narrative order: ambient voices and contacts by their hour, the
   // night itself last.
-  const pools = [...ambientPools(day), ...contactPools(day), ...shelterOfferPools(day), overnightPool(day)]
+  const pools = [...ambientPools(day), ...contactPools(day), overnightPool(day)]
     .filter(Boolean)
     .sort((a, b) => a.hour - b.hour);
   if (!pools.length) return [];
@@ -373,32 +365,34 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
   for (const pool_ of pools) {
     let rows = await fetchInteractions(pool_.parent);
     if (pool_.rowFilter) rows = rows.filter(pool_.rowFilter);
-    // Shelter offers: only the authored option ids are on the table (the
-    // record's other derived sole interactions are not this choice).
-    if (pool_.optionIds) {
-      rows = rows.filter((r) => pool_.optionIds.has(r.id.split(':').pop()));
-    }
-
     if (pool_.kind === 'contact') {
-      // Inevitable: the stance's own effects + the shared gift. Feasible
-      // by construction — the stance happened; the gift is the world's.
       const sole = rows.filter((r) => r.id.endsWith(':sole'));
       const optionRows = rows.filter((r) => !r.id.endsWith(':sole'));
-      const gifts = [...effectsToCommands(sharedEffects(optionRows), { inShelter: false })]
-        .map((c) => ({ ...c, hour_float: pool_.hour }));
-      if (gifts.length) {
-        day.commands = [...(day.commands || []), ...gifts];
-        applyConditionDeltas(projected, sharedEffects(optionRows));
-      }
+
+      // The stance happened; its effects are the world's to give.
       for (const r of sole) {
         const outcome = r.outcomes?.success ?? {};
-        const cmds = effectsToCommands(outcome.effects, { inShelter: false })
-          .map((c) => ({ ...c, hour_float: pool_.hour }));
-        day.commands = [...(day.commands || []), ...cmds];
+        pool_.apply(day, outcome, r);
         applyConditionDeltas(projected, outcome.effects);
+        if ((outcome.effects || []).length) pool_.encounter.interaction.given = true;
         events.push(outcomeEvent(day, pool_, r, 'success', outcome));
       }
-      continue;
+
+      // The shared part of an options situation (sit-level commands
+      // replicated into every option) is the unconditional gift — it
+      // lands whether or not the fork is offered.
+      const shared = sharedEffects(optionRows);
+      if (shared.length) {
+        pool_.apply(day, { effects: shared }, optionRows[0]);
+        applyConditionDeltas(projected, shared);
+        pool_.encounter.interaction.given = true;
+      }
+
+      // The options themselves only contest at the shelter window —
+      // every authored contact fork is an evening offer.
+      if (!pool_.offerWindow || optionRows.length <= 1) continue;
+      rows = optionRows;
+      // Fall through to feasibility + choose below.
     }
 
     // Feasibility is checked NOW — earlier picks may have spent the coins
@@ -408,8 +402,7 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
       : rows.filter((r) => isFeasible(r, ctx));
     if (!feasible.length) {
       // An offer the traveller cannot take is not a fork — the episode
-      // must not surface it as a decision waiting on an answer.
-      if (pool_.encounter) pool_.encounter.interaction.decision = null;
+      // never sees it.
       continue;
     }
 
@@ -462,9 +455,8 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
     const outcome = interaction.outcomes?.[outcomeKey] ?? {};
     pool_.apply(day, outcome, interaction);
 
-    // The choice is consumed: B5's in-episode /decide must not see it again.
+    // The pick rides to the episode for the narrator.
     if (pool_.encounter) {
-      pool_.encounter.interaction.decision = null;
       pool_.encounter.interaction.resolved_choice = {
         interaction_id: interaction.id, act: interaction.act,
         text: outcome.text?.en ?? null,

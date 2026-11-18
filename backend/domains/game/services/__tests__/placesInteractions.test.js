@@ -201,7 +201,9 @@ test('Rohan village in location context picks L2 type+region row', async () => {
       regionId: 62,
     });
     assert.equal(result.description, 'A Rohirrim village of the plains.');
-    assert.equal(result.rest_quality, 3);
+    // Mechanics are null until the interaction engine applies the night's
+    // outcome — the ladder only picks which record owns it.
+    assert.equal(result.rest_quality, null);
     assert.equal(result.scope, 'type_region');
   } finally {
     restoreMock();
@@ -271,8 +273,6 @@ test('Region with no unique wild row falls back to generic wild family row', asy
     // the generic 'wild' family record as required by the spec.
     assert.equal(result.description, 'A night in wild, unpeopled country.');
     assert.equal(result.scope, 'family_wild');
-    assert.equal(result.rest_quality, 1);
-    assert.equal(result.shadow_effect, 0);
   } finally {
     restoreMock();
   }
