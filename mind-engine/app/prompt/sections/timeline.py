@@ -64,6 +64,32 @@ def _stirs_beat(stirs):
     return '\n'.join(parts)
 
 
+# How a remarkable night reaches the waking — only the extremes the
+# world tags ('rest:poor', 'rest:good') earn a word; an unremarkable
+# night stays silent, as it should most mornings.
+_REST_NOTE = {
+    'rest:poor': 'the night gave little rest',
+    'rest:good': 'the night gave deep rest',
+}
+
+
+def _dawn_anchor(previous_rest):
+    """The skeleton's first fixed point: where the traveller wakes.
+    A rest record {place, reading, tags} names the roof itself; a plain
+    reading string (stateless path) falls back to its first clause."""
+    if isinstance(previous_rest, dict):
+        wake = previous_rest.get('place') or re.split(
+            r' — |(?<=\.)\s', previous_rest.get('reading') or ''
+        )[0].rstrip('.')
+        if previous_rest.get('place'):
+            wake = f'they wake at {wake}'
+        tags = set(previous_rest.get('tags') or [])
+        note = next(
+            (_REST_NOTE[t] for t in _REST_NOTE if t in tags), None)
+        return f'{wake} — {note}' if note else wake
+    return re.split(r' — |(?<=\.)\s', previous_rest)[0].rstrip('.')
+
+
 def timeline_section(*, intro, beats, previous_rest=None):
     """The === TODAY === skeleton. `beats` carries {phase, hour, kind, ...}
     entries already tagged by the builder; this function only orders,
@@ -71,8 +97,10 @@ def timeline_section(*, intro, beats, previous_rest=None):
     lines = [f'=== TODAY ===\n{intro}', '']
 
     if previous_rest:
-        first = re.split(r' — |(?<=\.)\s', previous_rest)[0].rstrip('.')
-        lines.append(f'The day begins where last night ended — {first}.')
+        lines.append(
+            f'The day begins where last night ended — '
+            f'{_dawn_anchor(previous_rest)}.'
+        )
 
     ordered = sorted(beats, key=_sort_key)
     # The day's sky is the first fact of the morning: the first weather

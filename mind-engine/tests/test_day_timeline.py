@@ -152,6 +152,43 @@ def test_the_day_opens_where_last_night_was_spent():
     assert user.index('The Prancing Pony') < user.index('he leaves southward')
 
 
+def test_the_day_opens_where_the_roof_was():
+    """A rest record names the place itself — 'they wake at the dry
+    loft', never a clause carved out of the night's prose (a hosted
+    reading leads with the host's name, not the roof)."""
+    user = _prompt(
+        previous_rest={
+            'place': 'the dry loft',
+            'reading': 'Edrahil, a keeper of the northern road — a night '
+                       'under a dry roof.',
+            'tags': ['rest:indoor', 'rest:good'],
+        },
+        events=[
+            {'type': 'land', 'when': {'phase': 'morning', 'hour': 8.0},
+             'data': {'subtype': 'place', 'reading': 'he leaves southward'}},
+        ],
+    )
+    assert 'they wake at the dry loft' in user
+    assert 'the night gave deep rest' in user
+    assert user.index('the dry loft') < user.index('he leaves southward')
+
+
+def test_an_unremarkable_night_says_nothing_about_sleep():
+    """Most mornings the waking is only a place — rest tags mark the
+    extremes (poor/good), so a middling night earns no remark. The
+    world decides when sleep is worth a word, not the narrator."""
+    user = _prompt(
+        previous_rest={
+            'place': 'a hollow out of the wind',
+            'reading': 'A night in the open lands.',
+            'tags': ['rest:open_sky'],
+        },
+        events=[],
+    )
+    assert 'they wake at a hollow out of the wind' in user
+    assert 'gave little rest' not in user and 'gave deep rest' not in user
+
+
 def test_the_first_weather_opens_the_skeleton():
     """The day's sky is the first fact of the morning — even when the
     climate event carries no hour, it precedes the clocked beats."""

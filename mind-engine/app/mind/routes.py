@@ -147,10 +147,13 @@ def _encounter_prompt_shape(event):
     }
 
 
-def _previous_rest_reading(db, episode):
+def _previous_rest(db, episode):
     """Where last night was spent (ADR-0019): the previous episode's rest
-    reading becomes the dawn anchor of today's timeline. Only a literally
-    consecutive night counts — a gap between journeys is not 'yesterday'."""
+    event becomes the dawn anchor of today's timeline — the place named
+    so the traveller wakes THERE, and the rest tags so a remarkable
+    night (rest:poor/rest:good mark the extremes only) can colour the
+    waking. Only a literally consecutive night counts — a gap between
+    journeys is not 'yesterday'."""
     today = episode_date(episode)
     idx = episode_index(episode)
     if today is None or idx is None:
@@ -166,14 +169,21 @@ def _previous_rest_reading(db, episode):
     )
     if prev is None or episode_date(prev) != today - timedelta(days=1):
         return None
-    return next(
+    rest = next(
         (
-            (e.get('data') or {}).get('reading')
+            (e.get('data') or {})
             for e in (prev.events or [])
             if e.get('type') == 'rest'
         ),
         None,
     )
+    if not rest:
+        return None
+    return {
+        'place': rest.get('entity_name'),
+        'reading': rest.get('reading'),
+        'tags': rest.get('tags') or [],
+    }
 
 
 def _check_results(episode: Episode) -> list:
@@ -774,7 +784,7 @@ def narrate_episode(
             previous_day=req.previousDay,
             # The spine's first fixed point: today's dawn opens where
             # last night was spent.
-            previous_rest=_previous_rest_reading(db, episode),
+            previous_rest=_previous_rest(db, episode),
             mind_block=episode.lens_block or '',
             # C35: the brief's day lines ride inside their phase; legacy
             # episodes (no brief) keep the C21 memory beats. And the
