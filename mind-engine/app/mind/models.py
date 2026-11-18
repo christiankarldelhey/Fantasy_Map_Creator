@@ -278,6 +278,40 @@ class DecideEpisodeResponse(BaseModel):
     already_decided: bool = False
 
 
+class ChooseOption(BaseModel):
+    """One feasible Interaction the host offers (ADR-0019). `act` is the
+    Mind-owned vocabulary; `need_tags` the tags the Mind weighs; `p_success`
+    the host's honest read of the roll, weighed like anything else."""
+
+    interaction_id: str = Field(min_length=1)
+    act: Optional[str] = None
+    need_tags: List[str] = []
+    p_success: Optional[float] = None
+
+
+class ChooseSituation(BaseModel):
+    """A resolved Situation needing a pick. `subject` is the concrete source
+    met (npc:hallas, place:prancing-pony) — generic Situations still ride the
+    concrete subject so the Relation that applies is the lived one."""
+
+    situation_id: str = Field(min_length=1)
+    subject: Optional[str] = None
+    options: List[ChooseOption] = []
+
+
+class ChooseRequest(BaseModel):
+    """POST /mind/minds/{character_id}/choose — the host hands over the
+    day's feasible pools; the Mind returns one interaction_id each."""
+
+    game_id: str = Field(min_length=1)
+    choices: List[ChooseSituation] = []
+
+
+class ChooseResponse(BaseModel):
+    temperature: float
+    choices: List[Dict[str, Any]] = []
+
+
 class ConsolidateRequest(BaseModel):
     """POST /maintenance/consolidate — batch pass over degraded minds
     (B10): the forgetting/pattern work their closes deferred. `mind_ids`
