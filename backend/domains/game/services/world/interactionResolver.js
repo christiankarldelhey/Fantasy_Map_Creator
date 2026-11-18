@@ -276,7 +276,9 @@ function toDialogueContent(row, rng) {
     npc_attitude: row.disposition?.en ?? null,
     concrete_content: row.presence?.en ?? null,
     tension: sit?.situation?.en ?? null,
-    traveller_stance: sit?.stance?.en ?? null,
+    // Filled by the engine with the applied outcome's text — what the
+    // traveller did lives in the interaction row, not the descriptor.
+    traveller_stance: null,
     // The full record rides along — variants, disposition, situations —
     // for the shared option-selector chapter.
     narration: row,
@@ -314,7 +316,7 @@ function resolveMoverContact(leg, contact, moverKind, characterSlug, rng = Math.
     npc_attitude: contact.disposition?.en ?? null,
     concrete_content: concrete,
     tension: sit?.situation?.en ?? null,
-    traveller_stance: sit?.stance?.en ?? null,
+    traveller_stance: null, // engine-stamped from the applied outcome
     narration: contact,
   } : (concrete ? { concrete_content: concrete } : null);
 

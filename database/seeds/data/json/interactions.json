@@ -44070,7 +44070,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives the countersign. Receives the patrol intelligence. Files the missing men."
+        },
         "effects": []
       }
     },
@@ -44090,7 +44092,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not fill the silence after. Lets the weight of the missing report sit between them."
+        },
         "effects": []
       }
     },
@@ -44110,7 +44114,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Runs the calculation of what the northern circuit costs in time. Then agrees."
+        },
         "effects": []
       }
     },
@@ -44130,7 +44136,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers what she knows. Sees in him the grandson of the man she knew. Does not say so."
+        },
         "effects": []
       }
     },
@@ -44150,7 +44158,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Considers whether to answer fully. Gives him one true thing and watches what he does with it."
+        },
         "effects": []
       }
     },
@@ -44170,7 +44180,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Recognizes real attention. Gives him the minimum that is also true."
+        },
         "effects": []
       }
     },
@@ -44190,7 +44202,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Watches them pass without speaking. Is not certain he could have."
+        },
         "effects": []
       }
     },
@@ -44210,7 +44224,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Receives the news. Thanks them in Sindarin. Watches their faces when he does."
+        },
         "effects": []
       }
     },
@@ -44230,7 +44246,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells them the direction but not the reason. There is kindness in not explaining."
+        },
         "effects": []
       }
     },
@@ -44250,7 +44268,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not react immediately. Then asks: when. Listens to the answer."
+        },
         "effects": []
       }
     },
@@ -44270,7 +44290,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Holds his gaze. Then: I know."
+        },
         "effects": []
       }
     },
@@ -44290,7 +44312,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the sign correctly. Leaves dried meat at the base of the marker stone. Walks on."
+        },
         "effects": []
       }
     },
@@ -44310,7 +44334,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes where they stopped. Approaches the barrow with full attention."
+        },
         "effects": []
       }
     },
@@ -44330,7 +44356,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stops. Waits. Takes the longer path around."
+        },
         "effects": []
       }
     },
@@ -44350,7 +44378,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stops. Looks at the staff without pointing at it. Then meets his eyes."
+        },
         "effects": []
       }
     },
@@ -44370,7 +44400,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not react to the token. Gives them the old sign. Waits."
+        },
         "effects": []
       }
     },
@@ -44390,7 +44422,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Returns the sign. Asks with her hands: how recently. He holds up three fingers."
+        },
         "effects": []
       }
     },
@@ -44410,7 +44444,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives him the road conditions precisely. Watches him update a small book."
+        },
         "effects": []
       }
     },
@@ -44430,7 +44466,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Describes the shaft's location without mentioning the artifact. Watches the Dwarf decide whether to trust further."
+        },
         "effects": []
       }
     },
@@ -44450,7 +44488,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Was alive when Moria fell. Tells him the name the first landmark had before the map was drawn."
+        },
         "effects": []
       }
     },
@@ -44470,7 +44510,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not ask what was in the passages. Asks where the western passages exit on the surface."
+        },
         "effects": []
       }
     },
@@ -44490,7 +44532,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Says she was not there at the beginning. Tells him she knows who was. Watches what he does with that."
+        },
         "effects": []
       }
     },
@@ -44510,7 +44554,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not slow. Does not make eye contact with the face in the bracken. Passes at normal pace."
+        },
         "effects": []
       }
     },
@@ -44530,7 +44576,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks about the ford. Gets an answer, with conditions attached."
+        },
         "effects": []
       }
     },
@@ -44550,7 +44598,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Has not seen the camp. Asks for a description. Decides to watch for it."
+        },
         "effects": []
       }
     },
@@ -44570,7 +44620,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Picks up the apple. Sets it on a stone off the road so it is findable. Continues."
+        },
         "effects": []
       }
     },
@@ -44590,7 +44642,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Sits down at the edge of the fire uninvited. Nobody objects."
+        },
         "effects": []
       }
     },
@@ -44610,7 +44664,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks how close. He tells her. Recalibrates where she will camp."
+        },
         "effects": []
       }
     },
@@ -44630,7 +44686,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers the question about cargo. Does not answer the question about origin. Keeps his hands visible."
+        },
         "effects": []
       }
     },
@@ -44650,7 +44708,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Has already counted them and found the formation wanting. Answers the first question with a question of his own."
+        },
         "effects": []
       }
     },
@@ -44670,7 +44730,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Lets him decide. Does not help him decide."
+        },
         "effects": []
       }
     },
@@ -44690,7 +44752,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Has already counted them and identified what each of them will do. Waits for his decision."
+        },
         "effects": []
       }
     },
@@ -44710,7 +44774,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Has already decided. Lets them begin."
+        },
         "effects": []
       }
     },
@@ -44730,7 +44796,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Names what he knows from the north. Watches her decide if it is enough."
+        },
         "effects": []
       }
     },
@@ -44750,7 +44818,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Agrees to carry it. Specifies what north means."
+        },
         "effects": []
       }
     },
@@ -44770,7 +44840,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks her which direction the lights move. Gets the answer. Adjusts the route."
+        },
         "effects": []
       }
     },
@@ -44790,7 +44862,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Offers the company. Walks with her to the settlement. Does not speak much."
+        },
         "effects": []
       }
     },
@@ -44810,7 +44884,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notices what is not said. Asks for it."
+        },
         "effects": []
       }
     },
@@ -44830,7 +44906,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Lets the silence last a beat. Then: I know what those lights are. I will not tell you it is safe to go near them."
+        },
         "effects": []
       }
     },
@@ -44850,7 +44928,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks what the schedule is. Goes with him."
+        },
         "effects": []
       }
     },
@@ -44870,7 +44950,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives him the garrison location and says the permit expired but they will reissue in person."
+        },
         "effects": []
       }
     },
@@ -44890,7 +44972,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks which stones. He describes them. She knows exactly what they are. Tells him what the inscription says."
+        },
         "effects": []
       }
     },
@@ -44910,7 +44994,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks what the symptoms are. Listens. Asks about the mine shaft. Gives him what he needs without explaining how she knows it."
+        },
         "effects": []
       }
     },
@@ -44930,7 +45016,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Considers it. Does not decide immediately."
+        },
         "effects": []
       }
     },
@@ -44950,7 +45038,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the territorial mark. Adjusts the route to skirt the claim."
+        },
         "effects": []
       }
     },
@@ -44970,7 +45060,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Names himself Dúnedain, not Gondorian. Watches their faces."
+        },
         "effects": []
       }
     },
@@ -44990,7 +45082,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers honestly. No soldiers seen. Watches the hand on the knife-belt relax slightly."
+        },
         "effects": []
       }
     },
@@ -45010,7 +45104,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the long way around."
+        },
         "effects": []
       }
     },
@@ -45030,7 +45126,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Walks past slowly. Does not give him evidence. Does not correct him."
+        },
         "effects": []
       }
     },
@@ -45050,7 +45148,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Maps the location. Continues. This goes in the next report."
+        },
         "effects": []
       }
     },
@@ -45070,7 +45170,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not slow. Does not look at them directly. Moves with the ease of someone who belongs on this road."
+        },
         "effects": []
       }
     },
@@ -45090,7 +45192,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Passes without acknowledging. What they are doing is not her concern. What they will do because of it may be."
+        },
         "effects": []
       }
     },
@@ -45110,7 +45214,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not stop. Does not show recognition. Files it."
+        },
         "effects": []
       }
     },
@@ -45130,7 +45236,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the western branch at the split. Watches them disappear from the eastern treeline."
+        },
         "effects": []
       }
     },
@@ -45150,7 +45258,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stops. Looks at the marked stone. Then looks up at the watcher. Moves the stone to the secondary position. Waits."
+        },
         "effects": []
       }
     },
@@ -45170,7 +45280,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not approach. Does not startle them. When they look up and see her seeing the marks, she gives them the old sign."
+        },
         "effects": []
       }
     },
@@ -45190,7 +45302,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives them the acknowledgment sign. Waits."
+        },
         "effects": []
       }
     },
@@ -45210,7 +45324,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells them what she has seen. Watches them understand what it means."
+        },
         "effects": []
       }
     },
@@ -45230,7 +45346,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks him what he means by holding. Listens to the answer."
+        },
         "effects": []
       }
     },
@@ -45250,7 +45368,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Watches from respectful distance. Does not interrupt. Continues with the information filed."
+        },
         "effects": []
       }
     },
@@ -45270,7 +45390,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Meets the look. Moves aside to let him pass."
+        },
         "effects": []
       }
     },
@@ -45290,7 +45412,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not respond immediately. Then: I know."
+        },
         "effects": []
       }
     },
@@ -45310,7 +45434,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the letter. Does not open it while he watches."
+        },
         "effects": []
       }
     },
@@ -45330,7 +45456,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Waves back. Continues."
+        },
         "effects": []
       }
     },
@@ -45350,7 +45478,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Watches them until they disappear over the hill. Then continues."
+        },
         "effects": []
       }
     },
@@ -45370,7 +45500,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks which direction they moved. Thanks him. Adjusts the patrol."
+        },
         "effects": []
       }
     },
@@ -45390,7 +45522,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Listens to the whole thing. Does not offer hope. Offers: I will remember his name."
+        },
         "effects": []
       }
     },
@@ -45410,7 +45544,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction. Continues."
+        },
         "effects": []
       }
     },
@@ -45430,7 +45566,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Buys the drink. Gets the name."
+        },
         "effects": []
       }
     },
@@ -45450,7 +45588,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues. Does not stop to watch."
+        },
         "effects": []
       }
     },
@@ -45470,7 +45610,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the ford upstream. Adds an hour. They never know he was there."
+        },
         "effects": []
       }
     },
@@ -45490,7 +45632,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Identifies where the crossbow must be given the bolt-case position. Plans accordingly."
+        },
         "effects": []
       }
     },
@@ -45510,7 +45654,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the duration. Walks past on the far side of the ruin wall. They do not see her."
+        },
         "effects": []
       }
     },
@@ -45530,7 +45676,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Counts the men. Notes the captive's condition. Makes a decision."
+        },
         "effects": []
       }
     },
@@ -45550,7 +45698,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the tracks. Adjusts the route to keep the ridge on the left."
+        },
         "effects": []
       }
     },
@@ -45570,7 +45720,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not answer the question. Reads the spacing. Decides which one to move toward."
+        },
         "effects": []
       }
     },
@@ -45590,7 +45742,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Hears the difference between kill-on-sight and bring-back. Adjusts accordingly."
+        },
         "effects": []
       }
     },
@@ -45610,7 +45764,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Has approximately ten seconds before the captain decides."
+        },
         "effects": []
       }
     },
@@ -45630,7 +45786,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not change pace. Changes route at the next junction."
+        },
         "effects": []
       }
     },
@@ -45650,7 +45808,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not look up. Does not slow. Finds cover before the junction."
+        },
         "effects": []
       }
     },
@@ -45670,7 +45830,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Has three options. Runs the cost of each. Chooses the one that costs the road least."
+        },
         "effects": []
       }
     },
@@ -45690,7 +45852,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Walks the road at the exact pace that makes her uninteresting. Does not look at the hollow."
+        },
         "effects": []
       }
     },
@@ -45710,7 +45874,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Lets them decide. Does not volunteer information about the trail."
+        },
         "effects": []
       }
     },
@@ -45730,7 +45896,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the timing. Continues on the road knowing what is ahead of them."
+        },
         "effects": []
       }
     },
@@ -45750,7 +45918,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not go down to the road. Watches until the column passes. Then waits another hour."
+        },
         "effects": []
       }
     },
@@ -45770,7 +45940,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Counts them. Identifies the banner. Moves."
+        },
         "effects": []
       }
     },
@@ -45790,7 +45962,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Files the banner. Continues. This is not a coincidence."
+        },
         "effects": []
       }
     },
@@ -45810,7 +45984,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not go down to the road."
+        },
         "effects": []
       }
     },
@@ -45830,7 +46006,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Finds the angle. Finds the timing. Decides."
+        },
         "effects": []
       }
     },
@@ -45850,7 +46028,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Goes down to the road."
+        },
         "effects": []
       }
     },
@@ -45870,7 +46050,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Holds the gaze for the three seconds. Then continues."
+        },
         "effects": []
       }
     },
@@ -45890,7 +46072,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Says: I see you. I will remember this road."
+        },
         "effects": []
       }
     },
@@ -45910,7 +46094,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes what is wrong about the face. Does not indicate it. Continues."
+        },
         "effects": []
       }
     },
@@ -45930,7 +46116,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers the questions with plausible misdirection. Files the encounter."
+        },
         "effects": []
       }
     },
@@ -45950,7 +46138,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the seat across the fire. Speaks first. Watches what the mercenary does with the initiative."
+        },
         "effects": []
       }
     },
@@ -45970,7 +46160,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks who sends it. The answer is not one she expected."
+        },
         "effects": []
       }
     },
@@ -45990,7 +46182,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stops. Asks on whose authority."
+        },
         "effects": []
       }
     },
@@ -46010,7 +46204,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not approach the bridge. Looks for the ford."
+        },
         "effects": []
       }
     },
@@ -46030,7 +46226,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers the first question before it is asked. Watches the captain decide whether the answer fits."
+        },
         "effects": []
       }
     },
@@ -46050,7 +46248,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction. Continues west."
+        },
         "effects": []
       }
     },
@@ -46070,7 +46270,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Uses them correctly."
+        },
         "effects": []
       }
     },
@@ -46090,7 +46292,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not enter the chamber. Does not reveal presence. Listens."
+        },
         "effects": []
       }
     },
@@ -46110,7 +46314,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks him where he heard that name. The answer is worse than any she would have constructed herself."
+        },
         "effects": []
       }
     },
@@ -46130,7 +46336,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Goes forward. Notes where they would not let them go back."
+        },
         "effects": []
       }
     },
@@ -46150,7 +46358,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Has no papers. Has a story instead. Watches to see which one the Man prefers."
+        },
         "effects": []
       }
     },
@@ -46170,7 +46380,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Measures the distance to the road's edge. Then measures the distance to the tower he can see behind the patrol. Leaves the road."
+        },
         "effects": []
       }
     },
@@ -46190,7 +46402,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not run. Running on a snowfield goes badly. Continues at the same pace."
+        },
         "effects": []
       }
     },
@@ -46210,7 +46424,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves toward the forward exit. Does not run yet."
+        },
         "effects": []
       }
     },
@@ -46230,7 +46446,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Sits across the junction. Asks him what he remembers of the forges on the third level."
+        },
         "effects": []
       }
     },
@@ -46250,7 +46468,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Listens to what the negotiation is. Does not agree to anything immediately."
+        },
         "effects": []
       }
     },
@@ -46270,7 +46490,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not step on anything. Does not breathe loudly. Moves around the fire's light."
+        },
         "effects": []
       }
     },
@@ -46290,7 +46512,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers the question. Tells him the direction. Watches him go."
+        },
         "effects": []
       }
     },
@@ -46310,7 +46534,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Thinks about what he can spare. Considers what walking out of the Trollshaws is worth."
+        },
         "effects": []
       }
     },
@@ -46330,7 +46556,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him what she is. Asks what he is. He finds this extremely funny."
+        },
         "effects": []
       }
     },
@@ -46350,7 +46578,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not run. Does not retreat. Stands."
+        },
         "effects": []
       }
     },
@@ -46370,7 +46600,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not look at the circling one. Keeps eyes on the one that spoke."
+        },
         "effects": []
       }
     },
@@ -46390,7 +46622,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Has approximately four options. Three of them are bad."
+        },
         "effects": []
       }
     },
@@ -46410,7 +46644,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Looks for what is behind it — what it is guarding. Then looks for the way around."
+        },
         "effects": []
       }
     },
@@ -46430,7 +46666,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Produces what papers exist. Watches how he reads them."
+        },
         "effects": []
       }
     },
@@ -46450,7 +46688,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the right side. Moves fast."
+        },
         "effects": []
       }
     },
@@ -46470,7 +46710,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Acknowledges it. Waits."
+        },
         "effects": []
       }
     },
@@ -46490,7 +46732,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him the tower fell. Watches the ghost receive this."
+        },
         "effects": []
       }
     },
@@ -46510,7 +46754,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells her which road leads east. Does not tell her the rest."
+        },
         "effects": []
       }
     },
@@ -46530,7 +46776,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not engage with the shape. Asks what it actually is."
+        },
         "effects": []
       }
     },
@@ -46550,7 +46798,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks it what is on this road."
+        },
         "effects": []
       }
     },
@@ -46570,7 +46820,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not move. Does not flee. Waits for it to speak."
+        },
         "effects": []
       }
     },
@@ -46590,7 +46842,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers with his name said back at it. Watches whether that matters."
+        },
         "effects": []
       }
     },
@@ -46610,7 +46864,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers it in the same tongue. Says: so should you."
+        },
         "effects": []
       }
     },
@@ -46630,7 +46886,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not move toward it. Finds the secondary exit that all Khazad passages have."
+        },
         "effects": []
       }
     },
@@ -46650,7 +46908,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks what two-footed thing moves at night for three nights in the same area."
+        },
         "effects": []
       }
     },
@@ -46670,7 +46930,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks which direction it is organized toward."
+        },
         "effects": []
       }
     },
@@ -46690,7 +46952,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks where the quiet starts."
+        },
         "effects": []
       }
     },
@@ -46710,7 +46974,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells the raven it is correct. Watches Radagast receive this secondhand."
+        },
         "effects": []
       }
     },
@@ -46730,7 +46996,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him what she has felt. Watches him decide what to do with the confirmation."
+        },
         "effects": []
       }
     },
@@ -46750,7 +47018,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Accepts the dinner. Does not ask how he knew."
+        },
         "effects": []
       }
     },
@@ -46770,7 +47040,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks what outside means."
+        },
         "effects": []
       }
     },
@@ -46790,7 +47062,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks when the questions started."
+        },
         "effects": []
       }
     },
@@ -46810,7 +47084,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues. Does not look toward the south-east."
+        },
         "effects": []
       }
     },
@@ -46830,7 +47106,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not look south-east. Does not acknowledge. Continues."
+        },
         "effects": []
       }
     },
@@ -46850,7 +47128,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves without haste. Does not break branches. Does not take anything."
+        },
         "effects": []
       }
     },
@@ -46870,7 +47150,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the time the question deserves. Answers honestly."
+        },
         "effects": []
       }
     },
@@ -46890,7 +47172,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Sits down at its roots. Asks what the forest saw."
+        },
         "effects": []
       }
     },
@@ -46910,7 +47194,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Confirms it. Asks what the Ents have seen on the eastern edge recently."
+        },
         "effects": []
       }
     },
@@ -46930,7 +47216,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Considers the timeframe. Tells him she was not there at the beginning but knew those who were."
+        },
         "effects": []
       }
     },
@@ -46950,7 +47238,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the map. Names what she can. Tells him what the missing landmark was."
+        },
         "effects": []
       }
     },
@@ -46970,7 +47260,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells them what it is. Watches them decide what to do with that information."
+        },
         "effects": []
       }
     },
@@ -46990,7 +47282,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives him what food she can spare. Tells him which road is safer."
+        },
         "effects": []
       }
     },
@@ -47010,7 +47304,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not ask what he found. Walks with him for half a mile. Then lets him go."
+        },
         "effects": []
       }
     },
@@ -47030,7 +47326,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks whose road this is. Waits to see how he answers."
+        },
         "effects": []
       }
     },
@@ -47050,7 +47348,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers the first question before he asks it. Watches whether that unsettles him."
+        },
         "effects": []
       }
     },
@@ -47070,7 +47370,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Keeps her attention on the Man. Does not look at the orc."
+        },
         "effects": []
       }
     },
@@ -47090,7 +47392,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Lets the fear be visible to him. Then walks past."
+        },
         "effects": []
       }
     },
@@ -47110,7 +47414,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him the garrison direction. Asks what is on the road behind him."
+        },
         "effects": []
       }
     },
@@ -47130,7 +47436,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks where the shaft is. Files it."
+        },
         "effects": []
       }
     },
@@ -47150,7 +47458,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction and the duration. Continues north."
+        },
         "effects": []
       }
     },
@@ -47170,7 +47480,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks what he knew of that man."
+        },
         "effects": []
       }
     },
@@ -47190,7 +47502,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks what the old protocols were. Gets an answer he half-remembers."
+        },
         "effects": []
       }
     },
@@ -47210,7 +47524,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not enter. Listens. Maps the chamber location. Withdraws."
+        },
         "effects": []
       }
     },
@@ -47230,7 +47546,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Marks the road on his mental map. Circles wide."
+        },
         "effects": []
       }
     },
@@ -47250,7 +47568,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves toward the forward exit before they realize he is there."
+        },
         "effects": []
       }
     },
@@ -47270,7 +47590,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Thanks them. Notes the mill crossing."
+        },
         "effects": []
       }
     },
@@ -47290,7 +47612,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives him the honest read of the northern road. Gets his read of the south in return."
+        },
         "effects": []
       }
     },
@@ -47310,7 +47634,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes what they will not name. Takes it with them."
+        },
         "effects": []
       }
     },
@@ -47330,7 +47656,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Trades road conditions. Gets a detailed picture of the next three days."
+        },
         "effects": []
       }
     },
@@ -47350,7 +47678,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Listens to the full description. Files the location."
+        },
         "effects": []
       }
     },
@@ -47370,7 +47700,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the junction. Notes the direction."
+        },
         "effects": []
       }
     },
@@ -47390,7 +47722,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads it. Continues."
+        },
         "effects": []
       }
     },
@@ -47410,7 +47744,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him what the northern road looked like. Watches him calculate."
+        },
         "effects": []
       }
     },
@@ -47430,7 +47766,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stays still. Does not explain anything until asked."
+        },
         "effects": []
       }
     },
@@ -47450,7 +47788,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him the road condition. Does not ask about the letter."
+        },
         "effects": []
       }
     },
@@ -47470,7 +47810,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Listens without offering an opinion. That is what is wanted."
+        },
         "effects": []
       }
     },
@@ -47490,7 +47832,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the ridge track."
+        },
         "effects": []
       }
     },
@@ -47510,7 +47854,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Trades road news. Gets a detailed account of the southern road."
+        },
         "effects": []
       }
     },
@@ -47530,7 +47876,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives him the northern rumour as he heard it. Gets the southern picture in return."
+        },
         "effects": []
       }
     },
@@ -47550,7 +47898,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction they came from. Continues north."
+        },
         "effects": []
       }
     },
@@ -47570,7 +47920,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Returns the acknowledgment. Continues."
+        },
         "effects": []
       }
     },
@@ -47590,7 +47942,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives him the western road conditions directly. He nods, thanks them in Rohirric, and rides back."
+        },
         "effects": []
       }
     },
@@ -47610,7 +47964,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks when the closure will lift. The captain does not know."
+        },
         "effects": []
       }
     },
@@ -47630,7 +47986,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues without looking up."
+        },
         "effects": []
       }
     },
@@ -47650,7 +48008,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks what direction the disturbances are coming from."
+        },
         "effects": []
       }
     },
@@ -47670,7 +48030,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks what they have seen. Gets a partial answer."
+        },
         "effects": []
       }
     },
@@ -47690,7 +48052,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Pays the toll. Continues on a better road than most."
+        },
         "effects": []
       }
     },
@@ -47710,7 +48074,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him what the southern road looked like at night."
+        },
         "effects": []
       }
     },
@@ -47730,7 +48096,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Trades what the northern road looked like. Gets the full picture of what Bree currently knows."
+        },
         "effects": []
       }
     },
@@ -47750,7 +48118,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks what kind of questions. Gets: who came through recently and which way they went."
+        },
         "effects": []
       }
     },
@@ -47770,7 +48140,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells them what the eastern road looked like. Watches them receive it."
+        },
         "effects": []
       }
     },
@@ -47790,7 +48162,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stays at the edge of the firelight. Does not interrupt."
+        },
         "effects": []
       }
     },
@@ -47810,7 +48184,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks what the something is."
+        },
         "effects": []
       }
     },
@@ -47830,7 +48206,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks who sent the message. He will not say. Asks what is ahead. He will not say that either."
+        },
         "effects": []
       }
     },
@@ -47850,7 +48228,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the offer seriously."
+        },
         "effects": []
       }
     },
@@ -47870,7 +48250,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Listens to the description. Carries it."
+        },
         "effects": []
       }
     },
@@ -47890,7 +48272,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Accepts the verdict."
+        },
         "effects": []
       }
     },
@@ -47910,7 +48294,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Thinks back over the night road. Tells her what was unusual."
+        },
         "effects": []
       }
     },
@@ -47930,7 +48316,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Describes the mercenary from the wayhouse two days back. Watches her recognize it."
+        },
         "effects": []
       }
     },
@@ -47950,7 +48338,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues past. Or stops and asks."
+        },
         "effects": []
       }
     },
@@ -47970,7 +48360,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him what was unusual. He listens without interrupting."
+        },
         "effects": []
       }
     },
@@ -47990,7 +48382,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers the questions directly. Notes the bridge."
+        },
         "effects": []
       }
     },
@@ -48010,7 +48404,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Thinks through the recent road. Gives an honest answer."
+        },
         "effects": []
       }
     },
@@ -48030,7 +48426,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks how long the restriction will last. The sergeant genuinely does not know."
+        },
         "effects": []
       }
     },
@@ -48050,7 +48448,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Considers the offer. Accepts or continues."
+        },
         "effects": []
       }
     },
@@ -48070,7 +48470,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Decides whether an hour is affordable."
+        },
         "effects": []
       }
     },
@@ -48090,7 +48492,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks which direction the marks are on the post."
+        },
         "effects": []
       }
     },
@@ -48110,7 +48514,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives them the honest state of the northern markets."
+        },
         "effects": []
       }
     },
@@ -48130,7 +48536,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him where the nearest garrison is. Does not ask what he did."
+        },
         "effects": []
       }
     },
@@ -48150,7 +48558,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes what they are running from is north. Continues."
+        },
         "effects": []
       }
     },
@@ -48170,7 +48580,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Trades road news for road news."
+        },
         "effects": []
       }
     },
@@ -48190,7 +48602,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks how many families have left. He thinks. Then says: seven."
+        },
         "effects": []
       }
     },
@@ -48210,7 +48624,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues without addressing them."
+        },
         "effects": []
       }
     },
@@ -48230,7 +48646,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Memorizes the message. Agrees to deliver it."
+        },
         "effects": []
       }
     },
@@ -48250,7 +48668,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not step on anything. Goes around."
+        },
         "effects": []
       }
     },
@@ -48270,7 +48690,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Names what can be spared. Gives it over. Continues."
+        },
         "effects": []
       }
     },
@@ -48290,7 +48712,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not argue. Turns back. Finds another way."
+        },
         "effects": []
       }
     },
@@ -48310,7 +48734,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not look at the distraction."
+        },
         "effects": []
       }
     },
@@ -48330,7 +48756,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Looks for what it is guarding. Then finds the way around."
+        },
         "effects": []
       }
     },
@@ -48350,7 +48778,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Produces what papers exist. Waits while he records them."
+        },
         "effects": []
       }
     },
@@ -48370,7 +48800,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not move. Does not flee. Waits for it to declare itself."
+        },
         "effects": []
       }
     },
@@ -48390,7 +48822,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives them what food can be spared. Continues."
+        },
         "effects": []
       }
     },
@@ -48410,7 +48844,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks which road he came from. Notes it."
+        },
         "effects": []
       }
     },
@@ -48430,7 +48866,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not try to convince them to move. Asks what is on the road ahead."
+        },
         "effects": []
       }
     },
@@ -48530,7 +48968,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers the question about the road honestly. Does not ask what happened here."
+        },
         "effects": [
           {
             "type": "item",
@@ -48556,7 +48996,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Eats what is given at the gate. Leaves the bowl clean and something small beside it."
+        },
         "effects": [
           {
             "type": "meal",
@@ -48675,7 +49117,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the bundle. Reads the writing. Says nothing of what it means to him."
+        },
         "effects": []
       }
     },
@@ -48695,7 +49139,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Eats what they give. Tells them only what they can use. Walks on while the light lasts."
+        },
         "effects": [
           {
             "type": "meal",
@@ -48720,7 +49166,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Accepts the cup. Looks at the child. Says what can be done in words a farmer can use."
+        },
         "effects": [
           {
             "type": "meal",
@@ -48953,7 +49401,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives up the knife. Says what he knows of the burning and no more than that."
+        },
         "effects": [
           {
             "type": "meal",
@@ -49068,7 +49518,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the message. Carries it. Repeats it exactly as given."
+        },
         "effects": [
           {
             "type": "item",
@@ -49170,7 +49622,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Pays the asked price. Marks the milestone. Does not press him further."
+        },
         "effects": [
           {
             "type": "coins",
@@ -49524,7 +49978,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Carries the ewe down. Takes the short way."
+        },
         "effects": [
           {
             "type": "item",
@@ -49550,7 +50006,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the sticks. Leaves dried meat on the stone. Walks around the marked place."
+        },
         "effects": [
           {
             "type": "meal",
@@ -49575,7 +50033,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Pays without haggling. Leaves by the road they name."
+        },
         "effects": [
           {
             "type": "meal",
@@ -49604,7 +50064,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers about the riders without pretending not to have seen them. Eats what is put in his hand."
+        },
         "effects": [
           {
             "type": "meal",
@@ -49770,7 +50232,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Names himself Dúnedain and nothing more. Takes the track they name."
+        },
         "effects": [
           {
             "type": "meal",
@@ -49875,7 +50339,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Trades the needles. Takes the yarrow. Listens to how she says it should be used."
+        },
         "effects": []
       }
     },
@@ -49895,7 +50361,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Accepts. Answers where he is bound. Does not ask for an escort."
+        },
         "effects": [
           {
             "type": "item",
@@ -49925,7 +50393,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives only what he actually saw. Refuses to guess at numbers."
+        },
         "effects": [
           {
             "type": "meal",
@@ -50035,7 +50505,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Eats. Leaves a strip of dried meat where the food was set. Does not try to make talk."
+        },
         "effects": [
           {
             "type": "meal",
@@ -50291,7 +50763,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gets the boot mended. Sorts the rumours quietly into true and useless."
+        },
         "effects": [
           {
             "type": "coins",
@@ -50609,7 +51083,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the punt. Remembers which channel is which."
+        },
         "effects": [
           {
             "type": "meal",
@@ -50634,7 +51110,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Buys the food. Uses the ford. Remembers the complaint."
+        },
         "effects": [
           {
             "type": "coins",
@@ -50812,7 +51290,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Pays a little over. Takes the news. Notes the mule is better shod than the man."
+        },
         "effects": [
           {
             "type": "coins",
@@ -50924,7 +51404,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the rope and the stick. Goes up at the hour they name."
+        },
         "effects": [
           {
             "type": "item",
@@ -50950,7 +51432,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes only what he will use. Says what he has left behind him for the next man."
+        },
         "effects": [
           {
             "type": "item",
@@ -51052,7 +51536,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Eats the fish. Agrees to look upstream. Does not promise to come back."
+        },
         "effects": [
           {
             "type": "meal",
@@ -51320,7 +51806,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives the greeting in Sindarin. Takes the arrows. Reports what the north looks like from his side."
+        },
         "effects": [
           {
             "type": "item",
@@ -51351,7 +51839,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the provisions. Changes the line. Files the fact that they would not say why."
+        },
         "effects": [
           {
             "type": "item",
@@ -51609,7 +52099,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Lets them repack it. Learns the landmarks by heart."
+        },
         "effects": [
           {
             "type": "heal"
@@ -51638,7 +52130,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Accepts the terms. Takes the low road. Keeps it to himself."
+        },
         "effects": [
           {
             "type": "heal"
@@ -51744,7 +52238,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Drinks less than they pour. Gives the river honestly. Walks out where they lead him."
+        },
         "effects": [
           {
             "type": "meal",
@@ -51769,7 +52265,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the lantern. Asks what is at the two places. Gets a straight answer."
+        },
         "effects": [
           {
             "type": "meal",
@@ -51794,7 +52292,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the day's loss without arguing about it."
+        },
         "effects": [
           {
             "type": "meal",
@@ -51823,7 +52323,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the crossing. Does not ask when the next ship sails."
+        },
         "effects": [
           {
             "type": "meal",
@@ -51848,7 +52350,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the arrows. Marks the spring. Asks nothing about his errand."
+        },
         "effects": [
           {
             "type": "item",
@@ -51874,7 +52378,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives a full and accurate account. Takes the maps. Learns the stones."
+        },
         "effects": []
       }
     },
@@ -51894,7 +52400,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Drinks it. Follows their line and not his own judgement."
+        },
         "effects": [
           {
             "type": "meal"
@@ -51918,7 +52426,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the boat. Bails when told to. Leaves something at the shrine-stone on landing."
+        },
         "effects": [
           {
             "type": "meal",
@@ -51947,7 +52457,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Accepts it. Does not press for the reason."
+        },
         "effects": [
           {
             "type": "meal",
@@ -52051,7 +52563,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Weighs the condition. Chooses. Is not argued with either way."
+        },
         "effects": []
       }
     },
@@ -52071,7 +52585,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the herbs. Believes the crow. Says thank you to both of them."
+        },
         "effects": [
           {
             "type": "meal",
@@ -52096,7 +52612,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Carries the beast. Loses the two miles. Gets more than two miles of value back."
+        },
         "effects": [
           {
             "type": "heal"
@@ -52271,7 +52789,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Eats. Laughs, which surprises her. Notes the remark about the water."
+        },
         "effects": [
           {
             "type": "meal",
@@ -52429,7 +52949,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers the plum question properly. Is remembered kindly for it."
+        },
         "effects": []
       }
     },
@@ -52449,7 +52971,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the road. Does not ask them to describe the strangers twice."
+        },
         "effects": []
       }
     },
@@ -52469,7 +52993,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the cake. Answers about the road honestly, gently."
+        },
         "effects": [
           {
             "type": "item",
@@ -52495,7 +53021,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Sits down. Listens about the ditch. Avoids the ditch."
+        },
         "effects": []
       }
     },
@@ -52515,7 +53043,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers the easy questions. Deflects one. Lets them walk a mile."
+        },
         "effects": []
       }
     },
@@ -52535,7 +53065,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks about the cut reeds. Gets a longer answer than expected."
+        },
         "effects": []
       }
     },
@@ -52555,7 +53087,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Keeps his distance. Thanks them once. Lets them go."
+        },
         "effects": []
       }
     },
@@ -52575,7 +53109,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him the truth about the road. Shares food. Does not laugh at the pack."
+        },
         "effects": []
       }
     },
@@ -52595,7 +53131,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Trades road for road. Does not look at the oilcloth twice."
+        },
         "effects": []
       }
     },
@@ -52615,7 +53153,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the name and the crossing. Agrees the toll is theft. Moves on."
+        },
         "effects": []
       }
     },
@@ -52635,7 +53175,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the warning. Does not ask him to elaborate."
+        },
         "effects": []
       }
     },
@@ -52655,7 +53197,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Pays the named price. Gets full value. Learns not to bargain with him."
+        },
         "effects": [
           {
             "type": "coins",
@@ -52755,7 +53299,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives him the old name. Takes the road-notes. Appreciates being asked as a source rather than a wonder."
+        },
         "effects": [
           {
             "type": "meal",
@@ -52780,7 +53326,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Lets him talk. Keeps the price of iron. Does not comment on the Lake-men."
+        },
         "effects": []
       }
     },
@@ -52800,7 +53348,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers what he saw. Does not ask what he is planning."
+        },
         "effects": []
       }
     },
@@ -52820,7 +53370,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Buys the knife. Takes the road-news. Pays the carriage without complaint."
+        },
         "effects": [
           {
             "type": "coins",
@@ -52850,7 +53402,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Buys the biscuit and the nails. Refuses the mirror twice. Buys the mirror."
+        },
         "effects": [
           {
             "type": "coins",
@@ -52880,7 +53434,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers plainly. Shows no interest in the stream-head. Walks where he is told to walk."
+        },
         "effects": []
       }
     },
@@ -52900,7 +53456,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives name and road. Names what he saw on the high tracks. Uses the open gate."
+        },
         "effects": []
       }
     },
@@ -52920,7 +53478,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Trades iron for the furs. Takes the remark seriously."
+        },
         "effects": []
       }
     },
@@ -52940,7 +53500,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Turns the windlass. Eats their food. Gives them every scrap of news he has."
+        },
         "effects": [
           {
             "type": "meal",
@@ -52969,7 +53531,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Pays the coin or refuses it, and either way keeps his hands where they can be seen."
+        },
         "effects": []
       }
     },
@@ -52989,7 +53553,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Names the contents. Gives up what is replaceable. Does not turn his back."
+        },
         "effects": []
       }
     },
@@ -53009,7 +53575,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers the first question and not the second. Chooses the ground he will stand on."
+        },
         "effects": []
       }
     },
@@ -53029,7 +53597,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Marks the one who is actually leading. Speaks only to him."
+        },
         "effects": []
       }
     },
@@ -53049,7 +53619,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Lets the pretence stand. Pays the false toll. Remembers the uniforms."
+        },
         "effects": []
       }
     },
@@ -53069,7 +53641,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Steps sideways so all three are in front of him. Keeps talking pleasantly."
+        },
         "effects": []
       }
     },
@@ -53089,7 +53663,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the coin or refuses it plainly. Does not pretend not to understand the offer."
+        },
         "effects": []
       }
     },
@@ -53109,7 +53685,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives true answers that reveal nothing. Notices which questions he does not ask."
+        },
         "effects": []
       }
     },
@@ -53129,7 +53707,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Says the words. Means them. Walks the line they point out."
+        },
         "effects": []
       }
     },
@@ -53149,7 +53729,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Chooses which tribute to pay. Does not attempt to negotiate the formula."
+        },
         "effects": []
       }
     },
@@ -53169,7 +53751,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers in a way that gives them a category to file him under. Keeps walking west."
+        },
         "effects": []
       }
     },
@@ -53189,7 +53773,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives a plain and unremarkable account of himself. Does not embellish it."
+        },
         "effects": []
       }
     },
@@ -53209,7 +53795,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers about his lineage as little as courtesy allows. Gives nothing they can use."
+        },
         "effects": []
       }
     },
@@ -53229,7 +53817,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells the plainest possible truth about the four days. Gives them nothing to catch."
+        },
         "effects": []
       }
     },
@@ -53249,7 +53839,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives them the coin. Keeps the pack. Lets the hurry do the arguing."
+        },
         "effects": []
       }
     },
@@ -53269,7 +53861,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Puts food on the ground and steps back. Does not draw."
+        },
         "effects": []
       }
     },
@@ -53289,7 +53883,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Says nothing. Picks the ground. Watches the flanks rather than the loud one."
+        },
         "effects": []
       }
     },
@@ -53309,7 +53905,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Uses the argument between them. Does not answer any question directly."
+        },
         "effects": []
       }
     },
@@ -53329,7 +53927,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stands still. Lets the argument at the back get louder. Chooses a moment."
+        },
         "effects": []
       }
     },
@@ -53349,7 +53949,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stops listening. Gets his back to something solid."
+        },
         "effects": []
       }
     },
@@ -53369,7 +53971,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Considers turning back. Decides what the road ahead is worth."
+        },
         "effects": []
       }
     },
@@ -53389,7 +53993,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Refuses all three. Notes exactly what was asked."
+        },
         "effects": []
       }
     },
@@ -53409,7 +54015,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Kneels or does not, and lives with the choice while the column goes by."
+        },
         "effects": []
       }
     },
@@ -53429,7 +54037,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not comment on what they are. Deals with them exactly as he would with brigands."
+        },
         "effects": []
       }
     },
@@ -53449,7 +54059,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gets off the road. Counts the carts. Sees what is on them."
+        },
         "effects": []
       }
     },
@@ -53469,7 +54081,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers or does not. Understands that this time the choice is the whole of it."
+        },
         "effects": []
       }
     },
@@ -53489,7 +54103,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers about where he slept. Hears the warning inside the remark."
+        },
         "effects": []
       }
     },
@@ -53509,7 +54125,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "States his business briefly. Does not step off the path."
+        },
         "effects": []
       }
     },
@@ -53529,7 +54147,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Lets the older name stand without correcting it. Listens."
+        },
         "effects": []
       }
     },
@@ -53549,7 +54169,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers accurately. Resists the urge to perform."
+        },
         "effects": []
       }
     },
@@ -53569,7 +54191,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks about the light. Walks to it."
+        },
         "effects": []
       }
     },
@@ -53589,7 +54213,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers about the fires. Takes the ice seriously."
+        },
         "effects": []
       }
     },
@@ -53609,7 +54235,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers honestly. Does not ask them the same thing back."
+        },
         "effects": []
       }
     },
@@ -53629,7 +54257,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Declines pleasantly. Does not take the shorter way. Does not turn his back on the parting."
+        },
         "effects": []
       }
     },
@@ -53649,7 +54279,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Describes the ruin precisely. Accepts that they will not say how they knew his name."
+        },
         "effects": []
       }
     },
@@ -53669,7 +54301,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the southern shore. Does not test the order."
+        },
         "effects": []
       }
     },
@@ -53689,7 +54323,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Walks with him a while. Does not ask why now."
+        },
         "effects": []
       }
     },
@@ -53709,7 +54345,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers formally. Takes the information. Lets the manner pass."
+        },
         "effects": []
       }
     },
@@ -53729,7 +54367,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives them the news they ask for. Notices what is not said about the quay."
+        },
         "effects": []
       }
     },
@@ -53749,7 +54389,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Follows the route. Believes the diagnosis."
+        },
         "effects": []
       }
     },
@@ -53769,7 +54411,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers about the wells. Observes the courtesy without pretending to understand it."
+        },
         "effects": []
       }
     },
@@ -53789,7 +54433,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the cistern. Does not repeat what he heard to anyone in a uniform."
+        },
         "effects": []
       }
     },
@@ -53809,7 +54455,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives the road-news. Sends no letter. Buys nothing and is liked anyway."
+        },
         "effects": []
       }
     },
@@ -53829,7 +54477,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers only what he saw. Refuses to guess whose camp it was."
+        },
         "effects": []
       }
     },
@@ -53849,7 +54499,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers the boy seriously. Gives him something to carry back."
+        },
         "effects": []
       }
     },
@@ -53869,7 +54521,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Lets the story run. Keeps the name of the captain."
+        },
         "effects": []
       }
     },
@@ -53889,7 +54543,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers all three questions. Thanks them for the part that was not official."
+        },
         "effects": []
       }
     },
@@ -53909,7 +54565,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Is off the ground by dusk. Does not light a fire."
+        },
         "effects": []
       }
     },
@@ -53929,7 +54587,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Trades the ledger honestly. Marks the missing name."
+        },
         "effects": []
       }
     },
@@ -53949,7 +54609,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Shares the bread. Asks about the stones. Stops suspecting."
+        },
         "effects": []
       }
     },
@@ -53969,7 +54631,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers about the waggon road. Keeps the market days."
+        },
         "effects": []
       }
     },
@@ -53989,7 +54653,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Uses the good causeway. Says nothing about the north side."
+        },
         "effects": []
       }
     },
@@ -54009,7 +54675,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Accepts the well. Files the news. Does not react to it."
+        },
         "effects": []
       }
     },
@@ -54029,7 +54697,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Believes the weather warning over his own eyes. Moves."
+        },
         "effects": []
       }
     },
@@ -54049,7 +54719,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the height and spacing. Continues with the ridge on their right."
+        },
         "effects": []
       }
     },
@@ -54069,7 +54741,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not linger. Moves into denser cover and away from the open hillside."
+        },
         "effects": []
       }
     },
@@ -54089,7 +54763,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not go into the valley. Takes the ridge track east."
+        },
         "effects": []
       }
     },
@@ -54109,7 +54785,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Identifies the direction. Checks whether the road goes under it. Plans accordingly."
+        },
         "effects": []
       }
     },
@@ -54129,7 +54807,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves off the road onto higher ground. Watches for where the passage opens below."
+        },
         "effects": []
       }
     },
@@ -54149,7 +54829,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction. Notes the approximate size. Continues."
+        },
         "effects": []
       }
     },
@@ -54169,7 +54851,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Adjusts the route to pass east of the circling point."
+        },
         "effects": []
       }
     },
@@ -54189,7 +54873,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not run. Does not stop. Maintains exactly the same pace across the open ground."
+        },
         "effects": []
       }
     },
@@ -54209,7 +54895,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not slow. Does not look up. Calculates the distance to the next cover."
+        },
         "effects": []
       }
     },
@@ -54229,7 +54917,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not run. Does not approach. Holds position. Makes the size of the decision as clear as possible."
+        },
         "effects": []
       }
     },
@@ -54249,7 +54939,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not stop. Does not acknowledge it. Continues at the same pace."
+        },
         "effects": []
       }
     },
@@ -54269,7 +54961,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not answer. Does not stop. Puts distance between this place and the next camp."
+        },
         "effects": []
       }
     },
@@ -54289,7 +54983,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not look directly at the place the shadow bent. Keeps moving."
+        },
         "effects": []
       }
     },
@@ -54309,7 +55005,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Watches until it disappears. Chooses a route that diverges from its direction."
+        },
         "effects": []
       }
     },
@@ -54329,7 +55027,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves away from the fire. Moves fast."
+        },
         "effects": []
       }
     },
@@ -54349,7 +55049,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Turns around. Finds another way."
+        },
         "effects": []
       }
     },
@@ -54369,7 +55071,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the clean fracture. Continues. Stays under the cliff-face rather than in the open."
+        },
         "effects": []
       }
     },
@@ -54389,7 +55093,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves away from the cliff-base. Does not look up."
+        },
         "effects": []
       }
     },
@@ -54409,7 +55115,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Waits until the rhythm goes quiet before entering the pass."
+        },
         "effects": []
       }
     },
@@ -54429,7 +55137,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not respond. Moves through the narrows quickly."
+        },
         "effects": []
       }
     },
@@ -54449,7 +55159,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Watches where it goes. Times the crossing of the open ground."
+        },
         "effects": []
       }
     },
@@ -54469,7 +55181,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Times the crossing. Moves when both are seated."
+        },
         "effects": []
       }
     },
@@ -54489,7 +55203,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Ducks under the strands. Does not break them. Moves carefully."
+        },
         "effects": []
       }
     },
@@ -54509,7 +55225,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not approach the cocoon. Notes the height of the branch. Moves fast through this section."
+        },
         "effects": []
       }
     },
@@ -54529,7 +55247,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not enter. Finds the way around."
+        },
         "effects": []
       }
     },
@@ -54549,7 +55269,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not stop. Does not look up directly. Moves at a pace that says: aware but not afraid."
+        },
         "effects": []
       }
     },
@@ -54569,7 +55291,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not stop under the tree. Does not look up. Keeps moving."
+        },
         "effects": []
       }
     },
@@ -54589,7 +55313,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Studies it without approaching. Takes the western path. Does not go back the way it came."
+        },
         "effects": []
       }
     },
@@ -54609,7 +55335,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not touch it. Does not get closer. Leaves the forest edge."
+        },
         "effects": []
       }
     },
@@ -54629,7 +55357,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not cross the path. Goes around."
+        },
         "effects": []
       }
     },
@@ -54649,7 +55379,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stops. Addresses the forest directly. Says: I mean no harm to this wood. Then waits."
+        },
         "effects": []
       }
     },
@@ -54669,7 +55401,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Agrees that yes, it is small. Continues."
+        },
         "effects": []
       }
     },
@@ -54689,7 +55423,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks who said the road would be clear. Watches it decide whether to answer."
+        },
         "effects": []
       }
     },
@@ -54709,7 +55445,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not approach. Addresses it from outside the barrow's influence. Asks its name."
+        },
         "effects": []
       }
     },
@@ -54729,7 +55467,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stops. Does not approach. Lets it make its determination without interference."
+        },
         "effects": []
       }
     },
@@ -54749,7 +55489,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not invite it closer. Does not drive it away. Lets it stand there."
+        },
         "effects": []
       }
     },
@@ -54769,7 +55511,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Turns to face it. Says: that person is dead. Says it clearly. Waits to see if it can receive this."
+        },
         "effects": []
       }
     },
@@ -54789,7 +55533,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells it what the road has looked like from ground-level. Takes the time the answer deserves."
+        },
         "effects": []
       }
     },
@@ -54809,7 +55555,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks it: what does wrong smell like, specifically? What did it smell like in the second age?"
+        },
         "effects": []
       }
     },
@@ -54829,7 +55577,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Finds the shallowest crossing. Wades."
+        },
         "effects": []
       }
     },
@@ -54849,7 +55599,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Crosses fast, under the overhang, without stopping."
+        },
         "effects": []
       }
     },
@@ -54869,7 +55621,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tests the edge with a stick. Crosses close to the high side where the ground is more solid."
+        },
         "effects": []
       }
     },
@@ -54889,7 +55643,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Goes around the root-ball on the lower side where the ground is firmer."
+        },
         "effects": []
       }
     },
@@ -54909,7 +55665,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tests each step. Moves to the verge when the road softens. Takes twice the time."
+        },
         "effects": []
       }
     },
@@ -54929,7 +55687,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not cross. Turns upstream. Moves carefully."
+        },
         "effects": []
       }
     },
@@ -54949,7 +55709,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Pushes back hard. Finds the solid edge. Does not look down. Continues."
+        },
         "effects": []
       }
     },
@@ -54969,7 +55731,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves out from under the canopy. Keeps moving."
+        },
         "effects": []
       }
     },
@@ -54989,7 +55753,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Steps back from the crumbling edge. Goes around. Does not hurry — the ground here is clearly not reliable."
+        },
         "effects": []
       }
     },
@@ -55009,7 +55775,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction. Continues."
+        },
         "effects": []
       }
     },
@@ -55029,7 +55797,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the direction of the herd's arrival. Considers what was behind them."
+        },
         "effects": []
       }
     },
@@ -55049,7 +55819,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Studies the ground. Notes the direction the elk was facing when it stopped. Continues with the ridge on one side."
+        },
         "effects": []
       }
     },
@@ -55069,7 +55841,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the count. Continues."
+        },
         "effects": []
       }
     },
@@ -55089,7 +55863,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the size and direction. Keeps moving."
+        },
         "effects": []
       }
     },
@@ -55109,7 +55885,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Passes without disturbing them. Uses the observation."
+        },
         "effects": []
       }
     },
@@ -55129,7 +55907,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the calm. Continues."
+        },
         "effects": []
       }
     },
@@ -55149,7 +55929,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues without pursuing them."
+        },
         "effects": []
       }
     },
@@ -55169,7 +55951,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the encounter. Continues. Wonders what the boar smelled."
+        },
         "effects": []
       }
     },
@@ -55189,7 +55973,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction. Checks behind. Continues."
+        },
         "effects": []
       }
     },
@@ -55209,7 +55995,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the size from the print-depth in the mud beside the kill. Continues. Keeps the road open on both sides."
+        },
         "effects": []
       }
     },
@@ -55229,7 +56017,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not touch the marks. Continues. Moves quietly."
+        },
         "effects": []
       }
     },
@@ -55249,7 +56039,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not stop. Does not look back directly. Moves onto open ground where the follower will have to cross open space to close the distance."
+        },
         "effects": []
       }
     },
@@ -55269,7 +56061,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not watch right. Moves to the center of the road. Increases pace."
+        },
         "effects": []
       }
     },
@@ -55289,7 +56083,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the stonework. Takes the right fork."
+        },
         "effects": []
       }
     },
@@ -55309,7 +56105,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not approach the gate. Continues on the road past the village. Watches the faces watch."
+        },
         "effects": []
       }
     },
@@ -55329,7 +56127,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not enter. Notes the direction of the footprints leaving. Continues."
+        },
         "effects": []
       }
     },
@@ -55494,7 +56294,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Walks through. Reads the goods. Notes the roads that are represented."
+        },
         "effects": []
       }
     },
@@ -55514,7 +56316,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Returns the nod. Continues without stopping."
+        },
         "effects": []
       }
     },
@@ -55534,7 +56338,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not stop under the gate-arch. Passes it on the open side."
+        },
         "effects": []
       }
     },
@@ -55554,7 +56360,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not approach the opening. Notes the direction the capstone moved. Continues."
+        },
         "effects": []
       }
     },
@@ -55574,7 +56382,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks why. Gets: \"town business.\" Takes the lane around."
+        },
         "effects": []
       }
     },
@@ -55727,7 +56537,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the keeper's mark. Continues."
+        },
         "effects": []
       }
     },
@@ -55747,7 +56559,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the settlement's implied prosperity. Continues."
+        },
         "effects": []
       }
     },
@@ -55767,7 +56581,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Waits at the edge of the work. Watches the operation."
+        },
         "effects": []
       }
     },
@@ -55787,7 +56603,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the colour. Continues."
+        },
         "effects": []
       }
     },
@@ -55807,7 +56625,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not investigate. Passes through it quickly."
+        },
         "effects": []
       }
     },
@@ -55827,7 +56647,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the lichen. Enters the forest accordingly."
+        },
         "effects": []
       }
     },
@@ -55847,7 +56669,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not force through the scrub. Looks for the reason the path was abandoned."
+        },
         "effects": []
       }
     },
@@ -55867,7 +56691,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Cuts back the closing stems with a blade. Moves through. Does not linger."
+        },
         "effects": []
       }
     },
@@ -55887,7 +56713,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Adds nothing to the marks. The tree has enough."
+        },
         "effects": []
       }
     },
@@ -55907,7 +56735,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Walks without stopping. Does not disturb the undergrowth."
+        },
         "effects": []
       }
     },
@@ -55927,7 +56757,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not stop. Does not make noise. Passes through without meeting the rhythm."
+        },
         "effects": []
       }
     },
@@ -55947,7 +56779,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Steps over the root. Continues."
+        },
         "effects": []
       }
     },
@@ -55967,7 +56801,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Turns back. Finds the point where the path was still open. Chooses differently."
+        },
         "effects": []
       }
     },
@@ -55987,7 +56823,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction of their attention. Continues toward it with awareness up."
+        },
         "effects": []
       }
     },
@@ -56007,7 +56845,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Kills the fire. Does not move. Waits."
+        },
         "effects": []
       }
     },
@@ -56027,7 +56867,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues. Does not make sudden movements."
+        },
         "effects": []
       }
     },
@@ -56047,7 +56889,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the direction of the murmuration's drift. Continues with that information."
+        },
         "effects": []
       }
     },
@@ -56067,7 +56911,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the calm. Continues."
+        },
         "effects": []
       }
     },
@@ -56087,7 +56933,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Watches it go. Continues."
+        },
         "effects": []
       }
     },
@@ -56107,7 +56955,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the health of the river. Continues."
+        },
         "effects": []
       }
     },
@@ -56127,7 +56977,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction it was moving. Does not swim in this lake."
+        },
         "effects": []
       }
     },
@@ -56147,7 +56999,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the new dam. Adjusts the ford expectation."
+        },
         "effects": []
       }
     },
@@ -56167,7 +57021,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not attempt the ford. Finds the boat crossing."
+        },
         "effects": []
       }
     },
@@ -56187,7 +57043,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not fish here. Does not fill water from this stretch. Moves on."
+        },
         "effects": []
       }
     },
@@ -56207,7 +57065,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not enter the water. Moves away from the bank."
+        },
         "effects": []
       }
     },
@@ -56227,7 +57087,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves away from the lake's edge. Takes the high path."
+        },
         "effects": []
       }
     },
@@ -56247,7 +57109,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Steps around the track's crossing-point. Continues."
+        },
         "effects": []
       }
     },
@@ -56267,7 +57131,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Passes below the rock without approaching. The snake does not respond."
+        },
         "effects": []
       }
     },
@@ -56287,7 +57153,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the calm. Continues."
+        },
         "effects": []
       }
     },
@@ -56307,7 +57175,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues without incident."
+        },
         "effects": []
       }
     },
@@ -56327,7 +57197,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues."
+        },
         "effects": []
       }
     },
@@ -56347,7 +57219,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives the dispersed stragglers a wide berth. Continues."
+        },
         "effects": []
       }
     },
@@ -56367,7 +57241,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stops. Waits at the road edge. Watches the swarm pass."
+        },
         "effects": []
       }
     },
@@ -56387,7 +57263,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves off the path at ninety degrees. Fast. Downwind."
+        },
         "effects": []
       }
     },
@@ -56407,7 +57285,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Watches them for a moment. Sets up camp."
+        },
         "effects": []
       }
     },
@@ -56427,7 +57307,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues."
+        },
         "effects": []
       }
     },
@@ -56447,7 +57329,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the season in the body rather than the mind. Continues."
+        },
         "effects": []
       }
     },
@@ -56467,7 +57351,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues at the same pace. Does not make eye contact. Does not run."
+        },
         "effects": []
       }
     },
@@ -56487,7 +57373,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Waits for the shaking to stop. Continues."
+        },
         "effects": []
       }
     },
@@ -56507,7 +57395,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Watches it go. Considers what it smelled."
+        },
         "effects": []
       }
     },
@@ -56527,7 +57417,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the number and direction. Continues."
+        },
         "effects": []
       }
     },
@@ -56547,7 +57439,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the condition of the horses. Continues."
+        },
         "effects": []
       }
     },
@@ -56567,7 +57461,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the herd's comfort. Continues."
+        },
         "effects": []
       }
     },
@@ -56587,7 +57483,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Watches them go. Considers what they read in the scent."
+        },
         "effects": []
       }
     },
@@ -56607,7 +57505,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the chorus. Uses the noise as a cover for their own movement."
+        },
         "effects": []
       }
     },
@@ -56627,7 +57527,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Picks a way through without stopping. The toads ignore them."
+        },
         "effects": []
       }
     },
@@ -56647,7 +57549,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Considers the three-day wait against the alternative. Wades."
+        },
         "effects": []
       }
     },
@@ -56667,7 +57571,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Names the road. Describes who was on it. Lets her draw her own conclusions."
+        },
         "effects": []
       }
     },
@@ -56687,7 +57593,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes what he could not say clearly. Takes the western road."
+        },
         "effects": []
       }
     },
@@ -56707,7 +57615,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Sits at the same fire. Does not ask the question directly."
+        },
         "effects": []
       }
     },
@@ -56727,7 +57637,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him what the southern road looked like."
+        },
         "effects": []
       }
     },
@@ -56747,7 +57659,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Trades road information. Takes the Orc-sign."
+        },
         "effects": []
       }
     },
@@ -56767,7 +57681,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him what the road ahead looks like. Does not ask what he is carrying."
+        },
         "effects": []
       }
     },
@@ -56787,7 +57703,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks where north he started from. Gets a careful, partial answer."
+        },
         "effects": []
       }
     },
@@ -56807,7 +57725,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the notice. Asks if she filed it."
+        },
         "effects": []
       }
     },
@@ -56827,7 +57747,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells him what the road has looked like. Asks if he wants company for the northern section."
+        },
         "effects": []
       }
     },
@@ -56847,7 +57769,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Trades road-news. Does not ask about the pack."
+        },
         "effects": []
       }
     },
@@ -56867,7 +57791,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks what manner of men. Gets a description that is sparse but accurate."
+        },
         "effects": []
       }
     },
@@ -56887,7 +57813,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Agrees that yes, the road has been long."
+        },
         "effects": []
       }
     },
@@ -56907,7 +57835,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Trades inland news for river news. Gets more than was given."
+        },
         "effects": []
       }
     },
@@ -56927,7 +57857,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the look and the relaxation. Files the encounter."
+        },
         "effects": []
       }
     },
@@ -56947,7 +57879,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Waits. Does not press. Lets him decide."
+        },
         "effects": []
       }
     },
@@ -56967,7 +57901,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks if there is a way around the unstable section."
+        },
         "effects": []
       }
     },
@@ -56987,7 +57923,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Provides what is required. Notes the ledger."
+        },
         "effects": []
       }
     },
@@ -57007,7 +57945,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks who. Gets a title, not a name."
+        },
         "effects": []
       }
     },
@@ -57027,7 +57967,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Names the road. Gives the road-news. Watches the anxiety resolve or deepen."
+        },
         "effects": []
       }
     },
@@ -57047,7 +57989,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks if this is about a specific event or a general watch."
+        },
         "effects": []
       }
     },
@@ -57067,7 +58011,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Tells them what the northern road looked like."
+        },
         "effects": []
       }
     },
@@ -57087,7 +58033,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives the honest road report. Notes what they are specifically interested in."
+        },
         "effects": []
       }
     },
@@ -57107,7 +58055,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Names the time. Describes what was on the road. Lets the sergeant connect what he connects."
+        },
         "effects": []
       }
     },
@@ -57127,7 +58077,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks when it will reopen. The sergeant does not know."
+        },
         "effects": []
       }
     },
@@ -57147,7 +58099,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not run. Asks to read the order."
+        },
         "effects": []
       }
     },
@@ -57167,7 +58121,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Answers the confirmation question honestly. Watches the sergeant decide."
+        },
         "effects": []
       }
     },
@@ -57187,7 +58143,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction and discipline. Continues."
+        },
         "effects": []
       }
     },
@@ -57207,7 +58165,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues on the road. Does not look up for more than a glance."
+        },
         "effects": []
       }
     },
@@ -57227,7 +58187,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Names the destination. Names the load honestly."
+        },
         "effects": []
       }
     },
@@ -57247,7 +58209,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Names the nominal authority on this road. Watches how he receives it."
+        },
         "effects": []
       }
     },
@@ -57267,7 +58231,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Names what was on the road behind. Does not ask why he wants to know."
+        },
         "effects": []
       }
     },
@@ -57287,7 +58253,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Declines politely. Watches which way he goes to report back."
+        },
         "effects": []
       }
     },
@@ -57307,7 +58275,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Thanks him. Asks what is on the eastern road."
+        },
         "effects": []
       }
     },
@@ -57327,7 +58297,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Listens to the description. Gives nothing away."
+        },
         "effects": []
       }
     },
@@ -57347,7 +58319,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Names the destination. Describes the road honestly without counting soldiers."
+        },
         "effects": []
       }
     },
@@ -57367,7 +58341,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives him directions. Notes which direction he was actually heading before asking."
+        },
         "effects": []
       }
     },
@@ -57387,7 +58363,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Gives nothing useful. Keeps moving."
+        },
         "effects": []
       }
     },
@@ -57407,7 +58385,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks what is wrong about it."
+        },
         "effects": []
       }
     },
@@ -57427,7 +58407,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Asks with gestures: what kind of three?"
+        },
         "effects": []
       }
     },
@@ -57447,7 +58429,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves off the road. Does not run on it."
+        },
         "effects": []
       }
     },
@@ -57467,7 +58451,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not freeze. Identifies the weakest corner. Moves toward it."
+        },
         "effects": []
       }
     },
@@ -57487,7 +58473,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not stop. Does not run straight. Moves toward the nearest cover at an angle."
+        },
         "effects": []
       }
     },
@@ -57507,7 +58495,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not think about the implications now. Survives first."
+        },
         "effects": []
       }
     },
@@ -57527,7 +58517,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Keeps it in sight. Moves toward open ground where the air is different."
+        },
         "effects": []
       }
     },
@@ -57547,7 +58539,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Ducks under it. Runs. Does not look up."
+        },
         "effects": []
       }
     },
@@ -57567,7 +58561,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not attempt to cut through. Cuts at an angle toward the least-dense section of the forest."
+        },
         "effects": []
       }
     },
@@ -57587,7 +58583,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stops. Does not look at it directly. Identifies the strongest light source available and moves toward it."
+        },
         "effects": []
       }
     },
@@ -57607,7 +58605,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not stop moving. Reaches the bank before the shift completes."
+        },
         "effects": []
       }
     },
@@ -57627,7 +58627,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Drives the nearest hard object into the grip. Makes the three steps."
+        },
         "effects": []
       }
     },
@@ -57647,7 +58649,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves perpendicular to the approach vector on the first pass."
+        },
         "effects": []
       }
     },
@@ -57667,7 +58671,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not look away. Does not blink. Moves toward the nearest threshold — a door, a crossroads, running water."
+        },
         "effects": []
       }
     },
@@ -57687,7 +58693,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not run. Running is its preferred prey-state. Stops and faces it."
+        },
         "effects": []
       }
     },
@@ -57707,7 +58715,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not stop near the barrow. Increases distance from it. Notes it for whoever should know."
+        },
         "effects": []
       }
     },
@@ -57727,7 +58737,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not move. Does not draw attention. Waits for the shadow to pass."
+        },
         "effects": []
       }
     },
@@ -57747,7 +58759,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the break-height. Notes the direction of travel. Continues."
+        },
         "effects": []
       }
     },
@@ -57767,7 +58781,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Waits until the sound stops. Gives it another ten minutes. Takes the ridge route."
+        },
         "effects": []
       }
     },
@@ -57787,7 +58803,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves off the road before the light fails. Camps away from the road."
+        },
         "effects": []
       }
     },
@@ -57807,7 +58825,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction. Counts the repetitions. Adjusts the route."
+        },
         "effects": []
       }
     },
@@ -57827,7 +58847,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not skyline. Stays in the valley-bottom until the patrol is out of sight."
+        },
         "effects": []
       }
     },
@@ -57847,7 +58869,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Changes route unpredictably. Tests whether the shadow follows the change."
+        },
         "effects": []
       }
     },
@@ -57867,7 +58891,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves toward the nearest cover. Builds the fire larger than usual tonight."
+        },
         "effects": []
       }
     },
@@ -57887,7 +58913,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes it. Does not stop. Keeps moving."
+        },
         "effects": []
       }
     },
@@ -57907,7 +58935,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes which side of the road it entered. Continues without relaxing."
+        },
         "effects": []
       }
     },
@@ -57927,7 +58957,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues on the path. Does not look up again."
+        },
         "effects": []
       }
     },
@@ -57947,7 +58979,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction it faced. Notes where it was standing on the boundary."
+        },
         "effects": []
       }
     },
@@ -57967,7 +59001,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues on the road. Does not enter the forest."
+        },
         "effects": []
       }
     },
@@ -57987,7 +59023,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the marks. Continues."
+        },
         "effects": []
       }
     },
@@ -58007,7 +59045,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Passes them with a nod. Notes what the road looks like to creatures who have been on it longer today."
+        },
         "effects": []
       }
     },
@@ -58027,7 +59067,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Approaches openly. Does not enter the camp without invitation."
+        },
         "effects": []
       }
     },
@@ -58047,7 +59089,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction the birds are moving. Considers whether to follow the same direction."
+        },
         "effects": []
       }
     },
@@ -58067,7 +59111,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not approach the smoke. Notes its direction and the approximate time."
+        },
         "effects": []
       }
     },
@@ -58087,7 +59133,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Passes it with the particular care that old things deserve."
+        },
         "effects": []
       }
     },
@@ -58107,7 +59155,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves through without stopping. Does not break anything."
+        },
         "effects": []
       }
     },
@@ -58127,7 +59177,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not stop. Does not answer. Keeps moving through."
+        },
         "effects": []
       }
     },
@@ -58147,7 +59199,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Returns the look. Continues."
+        },
         "effects": []
       }
     },
@@ -58167,7 +59221,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction. If the road leads that way, good hospitality may follow."
+        },
         "effects": []
       }
     },
@@ -58187,7 +59243,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Passes through without stopping. Reads the settlement's mood as a road-condition report."
+        },
         "effects": []
       }
     },
@@ -58207,7 +59265,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not stop. Notes the behavior. Takes it with them."
+        },
         "effects": []
       }
     },
@@ -58227,7 +59287,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not enter. Continues on the road. Moves with less visibility than usual."
+        },
         "effects": []
       }
     },
@@ -58247,7 +59309,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Passes without stopping. Notes the horse-condition as a regional health indicator."
+        },
         "effects": []
       }
     },
@@ -58267,7 +59331,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Approaches at normal pace. Does not try to overtake quietly."
+        },
         "effects": []
       }
     },
@@ -58287,7 +59353,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not approach. Notes the number and the directions the horses came from."
+        },
         "effects": []
       }
     },
@@ -58307,7 +59375,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Takes the ferry. Trades a coin for passage and road-news."
+        },
         "effects": []
       }
     },
@@ -58327,7 +59397,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Passes at normal pace. Does not give the garrison reason to stop them."
+        },
         "effects": []
       }
     },
@@ -58347,7 +59419,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not approach the gate. Continues on the road."
+        },
         "effects": []
       }
     },
@@ -58367,7 +59441,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Passes without stopping. Does not linger near the road-watchers."
+        },
         "effects": []
       }
     },
@@ -58387,7 +59463,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Returns the nod. Continues. Notes what direction they were watching."
+        },
         "effects": []
       }
     },
@@ -58407,7 +59485,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not enter. Notes the horse-count and condition. Continues."
+        },
         "effects": []
       }
     },
@@ -58427,7 +59507,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues on the road below. Does not cut up toward the settlement without invitation."
+        },
         "effects": []
       }
     },
@@ -58447,7 +59529,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Nods at the eldest. Continues without stopping unless invited."
+        },
         "effects": []
       }
     },
@@ -58467,7 +59551,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the number and position. Continues. Moves with less visibility than usual."
+        },
         "effects": []
       }
     },
@@ -58487,7 +59573,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Passes through. Notes what the cargo is and which direction it is going."
+        },
         "effects": []
       }
     },
@@ -58507,7 +59595,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not approach the waterfront. Continues inland."
+        },
         "effects": []
       }
     },
@@ -58527,7 +59617,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Steps well off the road. Does not make eye contact. Waits for them to pass."
+        },
         "effects": []
       }
     },
@@ -58547,7 +59639,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Watches from cover until they pass. Does not intervene. Does not forget."
+        },
         "effects": []
       }
     },
@@ -58567,7 +59661,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues at the same pace. Does not change direction. Does not reach for anything."
+        },
         "effects": []
       }
     },
@@ -58587,7 +59683,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the direction of departure. Continues on the road."
+        },
         "effects": []
       }
     },
@@ -58607,7 +59705,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues on the road. Does not try to approach them."
+        },
         "effects": []
       }
     },
@@ -58627,7 +59727,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Moves through the pass faster than planned. Notes the absence."
+        },
         "effects": []
       }
     },
@@ -58647,7 +59749,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Approaches openly from a direction they can see clearly."
+        },
         "effects": []
       }
     },
@@ -58667,7 +59771,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction. Continues."
+        },
         "effects": []
       }
     },
@@ -58687,7 +59793,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction. Considers whether the same road serves both purposes."
+        },
         "effects": []
       }
     },
@@ -58707,7 +59815,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues. Notes which section of the road was under observation."
+        },
         "effects": []
       }
     },
@@ -58727,7 +59837,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues at normal pace. Does not acknowledge the observation."
+        },
         "effects": []
       }
     },
@@ -58747,7 +59859,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Does not approach the junction. Finds the detour."
+        },
         "effects": []
       }
     },
@@ -58767,7 +59881,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction and escort configuration. Continues."
+        },
         "effects": []
       }
     },
@@ -58787,7 +59903,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the camp-quality. Notes the direction of departure."
+        },
         "effects": []
       }
     },
@@ -58807,7 +59925,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads it. Continues on the cleared route."
+        },
         "effects": []
       }
     },
@@ -58827,7 +59947,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Stops. Reads the prints carefully. Notes the direction they went. Continues with awareness raised."
+        },
         "effects": []
       }
     },
@@ -58847,7 +59969,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues without stopping. Does not interpret the withdrawal as hostile."
+        },
         "effects": []
       }
     },
@@ -58867,7 +59991,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction he went. Notes the direction he was watching."
+        },
         "effects": []
       }
     },
@@ -58887,7 +60013,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues. Does not follow into the trees. Considers what they saw."
+        },
         "effects": []
       }
     },
@@ -58907,7 +60035,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Continues. Does not approach the farmstead."
+        },
         "effects": []
       }
     },
@@ -58989,7 +60119,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the state of the work. Continues."
+        },
         "effects": []
       }
     },
@@ -59071,7 +60203,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes that the place is in use. Continues on the road's side of it."
+        },
         "effects": []
       }
     },
@@ -59091,7 +60225,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Reads the place for what it was. Continues."
+        },
         "effects": []
       }
     },
@@ -59111,7 +60247,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the sky is calm. Continues."
+        },
         "effects": []
       }
     },
@@ -59131,7 +60269,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the calm. Continues."
+        },
         "effects": []
       }
     },
@@ -59151,7 +60291,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Listens until it fades. Continues."
+        },
         "effects": []
       }
     },
@@ -59171,7 +60313,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes the direction it chose. Continues."
+        },
         "effects": []
       }
     },
@@ -59191,7 +60335,9 @@
     "skill": null,
     "outcomes": {
       "success": {
-        "text": null,
+        "text": {
+          "en": "Notes direction and count. Continues."
+        },
         "effects": []
       }
     },

@@ -176,10 +176,10 @@ function entityInteractions(rec) {
       label: null,
       need_tags: sit.tags ?? [],
       skill: null,
-      // text stays null: the stance prose already owns this utterance in
-      // situations[].stance and rides the episode as traveller_stance —
-      // the engine falls back to it. One authored sentence, one home.
-      outcomes: { success: { text: null, effects: sharedEffects } },
+      // The stance IS the outcome — it moves wholesale into the row.
+      // The descriptor keeps only the world's part (gates + situation);
+      // traveller-action prose lives solely in interactions.
+      outcomes: { success: { text: toLang(sit.stance), effects: sharedEffects } },
       payload: {
         origin: 'seed:interactions',
         situation: sit.id,
@@ -193,7 +193,9 @@ function entityInteractions(rec) {
 // Situations stay on their record — but only the authored descriptor
 // (gating + prose). Everything executable (options, commands) now lives
 // solely in interactions.json.
-const EXECUTABLE_SIT_KEYS = new Set(['options', 'commands']);
+// 'stance' too: it is traveller-action prose — an outcome, not a
+// descriptor. Its only home is interactions.outcomes.*.text.
+const EXECUTABLE_SIT_KEYS = new Set(['options', 'commands', 'stance']);
 function slimInteractive(records) {
   let stripped = 0;
   for (const rec of records) {

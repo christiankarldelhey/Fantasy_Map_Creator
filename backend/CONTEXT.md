@@ -88,7 +88,7 @@ An `ambient` record that says what a gazetteer feature *is like* — this lake, 
 _Avoid_: description, feature text
 
 **Situation**:
-One entry of a record's `situations[]` — the authored moment, pure descriptor: `id`, gating (`tags`, `not_tags`, narrative `when`, `once`), `mind` notes, and prose (`situation`, `stance`). What the traveller can *do* inside it lives in the `interactions` table (`<situation>:<option>` / `<situation>:sole` rows: `act`, `need_tags`, `skill`, `outcomes.{success,failure}.{text,effects}`); the engine resolves each Situation through one chooser. `context:overnight` marks the rest rail.
+One entry of a record's `situations[]` — the authored moment, pure descriptor: `id`, gating (`tags`, `not_tags`, narrative `when`, `once`), `mind` notes, and the world's prose (`situation`). What the traveller can *do* inside it lives wholly in the `interactions` table (`<situation>:<option>` / `<situation>:sole` rows: `act`, `need_tags`, `skill`, `outcomes.{success,failure}.{text,effects}`) — traveller-action prose (the old `stance`) is outcome text, stamped onto `dialogue_content.traveller_stance` when the engine applies it. The engine resolves each Situation through one chooser. `context:overnight` marks the rest rail.
 _Avoid_: interaction record, mechanic card
 
 **depiction_id**:
