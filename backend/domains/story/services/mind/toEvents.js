@@ -285,26 +285,23 @@ function encounterEvents(day) {
           })(),
           outcome,
           check: encounterCheck(e.entity, e.interaction),
-          // B5: a before_sleep encounter may carry a real choice —
-          // stay or move on — with authored options. The mind weighs
-          // them; the host decides and applies their commands.
-          decision: e.interaction?.decision ?? null,
+          // Wave C: a fork on this encounter was chosen pre-episode by
+          // the interaction engine — the resolved pick rides for the
+          // narrator (the outcome event carries the felt side).
+          resolved_choice: e.interaction?.resolved_choice ?? null,
         };
         // C28: what touched the mechanics is weight-space. 'given' — an
-        // authored gift the host applies unconditionally (dialogue
-        // commands); 'decision' — a fork stood in the day; 'changed' —
-        // the encounter left a mark on the body. The mind's
+        // authored gift the host applied unconditionally (stamped by the
+        // engine when sole/shared effects landed); 'changed' — the
+        // encounter left a mark on the body, or a fork stood and was
+        // taken (the engine's resolved_choice). The mind's
         // 'salience_min.tag:*' wiring lifts these out of background.
         const tags = [];
-        // 'given' claims the commands actually applied — generateDay
-        // skips them when a decision governs the encounter, so the mark
-        // follows the same rule.
-        if (e.interaction?.dialogue_content?.commands?.length
-            && !e.interaction?.decision) {
+        if (e.interaction?.given) {
           tags.push('given');
         }
-        if (e.interaction?.decision) tags.push('decision');
-        if (outcome === 'wounded' || outcome === 'badly wounded') {
+        if (e.interaction?.resolved_choice?.changed
+            || outcome === 'wounded' || outcome === 'badly wounded') {
           tags.push('changed');
         }
         if (tags.length) data.tags = tags;
@@ -401,7 +398,10 @@ function placeEvents(day) {
       type: 'land',
       // A distant place enters awareness when it is first sighted on the
       // horizon, not at the leg's closest approach.
-      when: when({ phase: loc.phase || phaseOfHour(loc.sighted ? loc.sighted_hour_float : loc.hour_float) }),
+      when: when({
+        phase: loc.phase || phaseOfHour(loc.sighted ? loc.sighted_hour_float : loc.hour_float),
+        hour: (loc.sighted ? loc.sighted_hour_float : loc.hour_float) ?? undefined,
+      }),
       where: where(loc.region || regionOf(day)),
       data: {
         subtype: 'place',
@@ -534,7 +534,10 @@ function terrainEvents(day) {
 function waterEvents(day) {
   return (day.water_crossings || []).map((w) => ({
     type: 'land',
-    when: when({ phase: w.phase || phaseOfHour(w.hour_float) }),
+    when: when({
+      phase: w.phase || phaseOfHour(w.hour_float),
+      hour: w.hour_float ?? undefined,
+    }),
     where: where(w.region || regionOf(day)),
     data: { subtype: 'water', name: w.name || null,
             // A crossing is contact with a place-subject — the Bruinen
@@ -667,6 +670,14 @@ function restEvent(day) {
  * @param {Object} [params.previousDay] - yesterday's names (region entries)
  * @returns {Array} events[] contract
  */
+// The day's resolved Interactions (Wave C): minted by the engine during
+// sequential choosing and already sedimented by the interim /perceive —
+// they ride the wire so the episode annotates them for narration and
+// memory, while open's dedup keeps them from re-feeding the Relations.
+function interactionEvents(day) {
+  return Array.isArray(day.interaction_events) ? day.interaction_events : [];
+}
+
 export function toEvents({ day, trip, character, previousDay }) {
   const events = [
     ...climateEvents(day),
@@ -677,6 +688,7 @@ export function toEvents({ day, trip, character, previousDay }) {
     ...regionEvents(day, previousDay),
     ...waterEvents(day),
     ...momentEvents(day),
+    ...interactionEvents(day),
     ...(restEvent(day) ? [restEvent(day)] : []),
   ];
   return events;

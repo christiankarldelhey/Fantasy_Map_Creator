@@ -55,7 +55,7 @@ router.get('/places/:id', async (req, res, next) => {
               p.tags, p.size_radius_km, p.influence_radius_km,
               p.aspect, p.sighted_far, p.presence, p.lore, p.secret, p.sections, p.facts,
               p.notes, p.channel, p.traveller_use, p.variants, p.rotation,
-              p.interactive, p.refs,
+              p.situations, p.refs,
               ST_AsGeoJSON(l.geom)::json AS geom, p.payload,
               (SELECT jsonb_agg(jsonb_build_object('table', x.t, 'id', x.id, 'name', x.name))
                  FROM (

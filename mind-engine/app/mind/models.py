@@ -32,6 +32,9 @@ class EventWhere(BaseModel):
 class EventIn(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
+    # Stable id minted by the host: lets the day be perceived piecemeal
+    # (Wave C interim /perceive) without double-sedimenting at open.
+    id: Optional[str] = None
     type: str = Field(min_length=1)
     when: EventWhen
     where: Optional[EventWhere] = None
@@ -143,8 +146,7 @@ class Mood(BaseModel):
 
 
 class PsychePacket(BaseModel):
-    """What the Narrator consumes. Contract is stable from day one —
-    proposed_commands ships empty until `decide` exists."""
+    """What the Narrator consumes. Contract is stable from day one."""
 
     episode_id: str
     perceived_day: List[PerceivedEvent] = []
@@ -156,8 +158,6 @@ class PsychePacket(BaseModel):
     day_mood: Mood = Mood()
     needs_active: List[Any] = []
     check_results: List[Any] = []
-    proposed_commands: List[Any] = []
-    decision_point: Optional[Dict[str, Any]] = None
     # The Episode brief behind the Lens (C35): Focus, connected lines,
     # silenced candidates with reasons.
     brief: Optional[Dict[str, Any]] = None
@@ -183,9 +183,7 @@ class EpisodeStateResponse(BaseModel):
     lens_block: Optional[str] = None
     mood: Optional[Dict[str, Any]] = None
     outcome: Optional[Dict[str, Any]]
-    decision_point: Optional[Dict[str, Any]] = None
     decisions: Dict[str, Any] = {}
-    proposed_commands: List[Any] = []
     lens_eval: Optional[Dict[str, Any]] = None
     created_at: str
     narrated_at: Optional[str]
@@ -255,27 +253,61 @@ class NarrateEpisodeResponse(BaseModel):
     lens_block: str = ''
     check_results: List[Dict[str, Any]] = []
     needs_active: List[Dict[str, Any]] = []
-    proposed_commands: List[Any] = []
-    decision_point: Optional[Dict[str, Any]] = None
     lens_eval: Optional[Dict[str, Any]] = None
     generation_meta: Dict[str, Any] = {}
 
 
-class DecideEpisodeRequest(BaseModel):
-    """The host reports which option the character takes. `decision_id`
-    selects among several decision points; omitted → the first."""
+class ChooseOption(BaseModel):
+    """One feasible Interaction the host offers (ADR-0019). `act` is the
+    Mind-owned vocabulary; `need_tags` the tags the Mind weighs; `p_success`
+    the host's honest read of the roll, weighed like anything else."""
 
-    option_id: str = Field(min_length=1)
-    decision_id: Optional[str] = None
+    interaction_id: str = Field(min_length=1)
+    act: Optional[str] = None
+    need_tags: List[str] = []
+    p_success: Optional[float] = None
 
 
-class DecideEpisodeResponse(BaseModel):
-    episode_id: str
-    decision_id: str
-    option_id: str
-    resolution: str = ''
-    proposed_commands: List[Any] = []
-    already_decided: bool = False
+class ChooseSituation(BaseModel):
+    """A resolved Situation needing a pick. `subject` is the concrete source
+    met (npc:hallas, place:prancing-pony) — generic Situations still ride the
+    concrete subject so the Relation that applies is the lived one."""
+
+    situation_id: str = Field(min_length=1)
+    subject: Optional[str] = None
+    options: List[ChooseOption] = []
+
+
+class ChooseRequest(BaseModel):
+    """POST /mind/minds/{character_id}/choose — the host hands over the
+    day's feasible pools; the Mind returns one interaction_id each."""
+
+    game_id: str = Field(min_length=1)
+    choices: List[ChooseSituation] = []
+
+
+class ChooseResponse(BaseModel):
+    temperature: float
+    choices: List[Dict[str, Any]] = []
+
+
+class PerceiveRequest(BaseModel):
+    """POST /mind/minds/{character_id}/perceive — mid-day digestion (Wave
+    C): the host reports outcome events as each Situation resolves so the
+    NEXT choose sees the evolved state. Sediment lands now; the episode
+    open later annotates the same ids without re-feeding them.
+    `character` is the host's projected Condition — needs refresh off it.
+    """
+
+    game_id: str = Field(min_length=1)
+    events: List[EventIn] = []
+    character: Optional[Dict[str, Any]] = None
+
+
+class PerceiveResponse(BaseModel):
+    perceived: int = 0
+    skipped: int = 0
+    needs: List[Dict[str, Any]] = []
 
 
 class ConsolidateRequest(BaseModel):

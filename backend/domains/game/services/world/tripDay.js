@@ -14,7 +14,7 @@ import {
   presencePoolEntries,
 } from './moverCrossings.js';
 import { resolveOvernight, resolveRegionAtPoint } from './placesInteractions.js';
-import { resolveAmbientVoice } from './ambientVoice.js';
+import { resolveAmbientSituations } from './ambientVoice.js';
 import {
   flattenRoute,
   totalSeconds,
@@ -54,7 +54,7 @@ export function encountersBeforeSettlement(encounters, arrivalHourFloat, inSettl
 }
 
 /**
- * Apply a chosen `overnight_shelter` command (B5): the dusk offer the
+ * Apply a chosen shelter outcome (the dusk offer the interaction engine
  * traveller accepted becomes the night's roof. Mutates the day's
  * overnight fields so resolveDayState, the persisted trip_days row and
  * any downstream consumer all see the night that actually happened.
@@ -714,7 +714,7 @@ async function buildNightRegionResolver(campPoint) {
  * @param {Array<string>} [params.recentForms] - forms used in previous chapters (anti-repetition)
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, characterSlug = null, usedRegionDescriptions = {}, usedTerrainPhrases = {}, startState = null }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, usedRegionDescriptions = {}, usedTerrainPhrases = {}, startState = null }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -1052,7 +1052,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     // variant for the meeting — not through the form lottery.
     const moverLeg = e._mover?.leg ?? null;
     const interaction = moverLeg
-      ? resolveMoverContact(moverLeg, moverLeg, e._mover?.kind ?? 'crossing', characterSlug, rng)
+      ? resolveMoverContact(moverLeg, moverLeg, e._mover?.kind ?? 'crossing', character, rng)
       : await resolveEncounter(
         e.entity,
         character,
@@ -1061,7 +1061,6 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
         chapterForms,
         {
           shadowBand,
-          characterSlug,
           culturalFamily: encounterCulturalFamily,
           regionId: encounterRegionId,
           nightTiming: e.night_timing ?? null,
@@ -1074,21 +1073,11 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     encounters.push({ ...e, interaction });
   }
 
-  // C27: encounter gifts — rows may carry `commands`, unconditional effects
-  // the world applies outright (a shared meal, a refilled skin, a bundle of
-  // arrows). No decision: the stance already says what was given; the host
-  // makes it true. Encounters that carry a `decision` instead route their
-  // effects through the decide rail — never both.
+  // C27/Wave C: encounter gifts ride the interaction engine now — each
+  // picked situation's sole/shared Interactions carry the same effects,
+  // applied by resolveDayChoices before resolution (and felt by the mind
+  // mid-day). `day.commands` stays the rail they land on.
   const dayCommands = [];
-  for (const e of encounters) {
-    if (e.interaction?.decision) continue;
-    const cmds = e.interaction?.dialogue_content?.commands;
-    if (Array.isArray(cmds)) {
-      for (const c of cmds) {
-        if (c && typeof c === 'object') dayCommands.push({ ...c, hour_float: e.hour_float ?? null });
-      }
-    }
-  }
 
   // --- Biomes: derive the clock hour each is crossed from its leg fraction ---
   const biomesWithTime = (context.biomes || []).map((b) => {
@@ -1207,7 +1196,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     ...(context.biomes || []).map((b) => b.type),
     ...(context.altitude || []),
   ];
-  const ambient = await resolveAmbientVoice({
+  const ambientSituations = await resolveAmbientSituations({
     tripId: trip.id,
     dayNumber,
     todayRegions: orderedRegions,
@@ -1244,7 +1233,8 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     water_sources: waterSources,
     overnight_location: overnightLocation,
     overnight_interaction: overnightInteraction,
-    ambient,
+    ambient: [],
+    ambient_situations: ambientSituations,
     commands: dayCommands,
     elevation_profile: elevationProfile || null,
     rng,

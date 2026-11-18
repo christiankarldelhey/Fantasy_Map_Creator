@@ -31,3 +31,22 @@ ADR-0018 deferred the interactions unification because the trigger hadn't arrive
 - Seed migration: 618 contact situations, 132 overnight situations and 63 mover-leg variants (whose dead `effects` — `shadow`, `hope` — become Interactions, `hope` → shadow relief) map through a `form → act` default corrected by hand where needed.
 - Every Interaction lands as an Event on its source's own type (`land/place`, `encounter`) — a door accretes on two Relations at once.
 - Mind Studio: the choosing coupling and the day's resolved tag set become visible and editable per character.
+
+## Amendment (Wave D) — `interactive` lives, as `situations`
+
+The original ADR had the `interactive` column dying outright. The final
+cut kept it, slimmed and renamed to `situations` (the old name collided
+with the `interactions` table): a record's `situations[]` is the authored
+*Situation descriptor* store — `{id, tags, when, not_tags, once, mind,
+situation, stance}` — gating and prose, the same job `variants` and
+`facts` already do in JSONB. What died there is the executable half:
+`options`, `commands`, `outcomes` moved to `interactions` and are not
+duplicated. Fork detection reads the table's row count for a Situation,
+never the JSONB.
+
+Each table became a repository *db madre*: `interactions.json` is authored
+first-class (acts, labels, need_tags, typed effects — `derive-interactions.mjs`
+was the one-time migration, kept for provenance), and `places.json`,
+`narration.json`, `entities_narration.json` carry only descriptors under
+the `situations` key. The loader inserts each seed verbatim —
+`interactions` is no longer a runtime derivation.

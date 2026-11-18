@@ -12,7 +12,7 @@
 // ============================================================================
 
 import { loadPreviousDay, loadRecentDayClimates } from './tripHistory.js';
-import { openEpisode, narrateEpisode, decideEpisode } from '../mind/mindClient.js';
+import { openEpisode, narrateEpisode } from '../mind/mindClient.js';
 import { toOpenPayload, toNarrateDayBody } from '../mind/toOpenPayload.js';
 
 const MIND_ENGINE_URL = process.env.MIND_ENGINE_URL || 'http://localhost:8001';
@@ -33,11 +33,6 @@ const MIND_ENGINE = ['on', 'true', '1'].includes(
  * @param {Object} [params.characterState] - raw energy/shadow/wounded/notes
  * @param {Object} [params.equipmentState] - raw supplies/gear state
  * @param {string} [params.fate] - resolved fate; non-'living' is terminal
- * @param {Function} [params.onDecisionPoint] - called between open and
- *        narrate when the episode declares an unresolved decision
- *        (B5): `(decisionPoint, decide) => Promise<void>` where
- *        `decide(optionId)` posts the host's pick and returns the
- *        response with `proposed_commands` for the caller to apply.
  * @returns {Promise<{prompt: {system:string,user:string}, generation: Object, mind_episode_id?: string, psyche_packet?: Object}>}
  */
 export async function narrateDay({
@@ -48,7 +43,6 @@ export async function narrateDay({
   characterState = null,
   equipmentState = null,
   fate = null,
-  onDecisionPoint = null,
 }) {
   const [previousDay, recentDayClimates] = await Promise.all([
     loadPreviousDay(trip.id, day.day_number),
@@ -76,19 +70,6 @@ export async function narrateDay({
   if (MIND_ENGINE) {
     try {
       const { request: openReq, response: opened } = await openEpisode(openBody);
-      // B5: an unresolved decision point (a dusk shelter offer) is the
-      // host's to settle — the mind recommends, the caller picks and
-      // applies the commands before narration so prose and mechanics
-      // tell the same night.
-      const point = opened.psyche_packet?.decision_point;
-      if (point && typeof onDecisionPoint === 'function') {
-        await onDecisionPoint(point, (optionId) =>
-          decideEpisode(opened.episode_id, {
-            optionId,
-            decisionId: point.decision_id,
-          })
-        );
-      }
       const narrated = await narrateEpisode(opened.episode_id, language);
       // Same response shape as /narrate-day, plus the episode handle so the
       // caller can close() after it persists the day's outcome.

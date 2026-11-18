@@ -93,7 +93,7 @@ const SCOPE_DIMS = ['location_id', 'type', 'region_id', 'cultural_family'];
 
 /**
  * Load records of a kind with their scope + content columns (ADR-0015 spec).
- * `situationTag` filters to records whose interactive[] carries a situation
+ * `situationTag` filters to records whose situations[] carries a situation
  * tagged with it (e.g. 'context:overnight'). Runtime readers map rows to
  * their own shapes.
  */
@@ -101,11 +101,11 @@ export async function loadScoped(kind = null, situationTag = null) {
   const { rows } = await pool.query(
     `SELECT id, kind, location_id, type, region_id, cultural_family,
             priority, name, tags,
-            aspect, presence, variants, rotation, interactive, refs, payload
+            aspect, presence, variants, rotation, situations, refs, payload
        FROM places_narration
       WHERE ($1::text IS NULL OR kind = $1)
         AND ($2::text IS NULL OR EXISTS (
-              SELECT 1 FROM jsonb_array_elements(interactive) s
+              SELECT 1 FROM jsonb_array_elements(situations) s
               WHERE s->'tags' ? $2))`,
     [kind, situationTag],
   );
