@@ -15,19 +15,42 @@ import type { EpisodeMood, PerceivedEvent } from '../../types'
 
 const props = defineProps<{ episode: { perceived: PerceivedEvent[]; mood: EpisodeMood } }>()
 
-// Phase → a representative hour, for events that carry a phase but no
-// exact hour (and for the mood arc's three anchor points).
-const PHASE_HOUR: Record<string, number> = {
-  dawn: 6, morning: 9, midday: 12, afternoon: 15, evening: 18,
-  before_sleep: 21, night: 22, mid_night: 2,
+// Phase → its hour window, for events that carry a phase but no exact
+// hour: they spread inside the window so stacked events stay visible
+// instead of collapsing into a single dot.
+const PHASE_SPAN: Record<string, [number, number]> = {
+  dawn: [5, 7], morning: [7, 12], midday: [11, 13], afternoon: [13, 17],
+  evening: [17, 20], before_sleep: [20, 22], night: [22, 24],
+  mid_night: [0, 3],
 }
+// Midpoint of each phase's window — the mood arc anchors here.
+const PHASE_HOUR = Object.fromEntries(
+  Object.entries(PHASE_SPAN).map(([k, [a, b]]) => [k, (a + b) / 2]),
+)
 
-function hourOf(e: PerceivedEvent, i: number): number {
-  if (typeof e.when?.hour === 'number') return e.when.hour
-  const ph = e.when?.phase
-  if (ph && PHASE_HOUR[ph] != null) return PHASE_HOUR[ph]
-  return 4 + i // untimed: spread along the morning so it still shows
-}
+const hours = computed<number[]>(() => {
+  const evs = props.episode.perceived
+  // Group untimed events by phase so each spreads across its window.
+  const buckets = new Map<string, number[]>()
+  evs.forEach((e, i) => {
+    if (typeof e.when?.hour === 'number') return
+    const ph = e.when?.phase ?? ''
+    if (!buckets.has(ph)) buckets.set(ph, [])
+    buckets.get(ph)!.push(i)
+  })
+  const out = new Array<number>(evs.length)
+  evs.forEach((e, i) => {
+    if (typeof e.when?.hour === 'number') { out[i] = e.when.hour; return }
+    const [a, b] = PHASE_SPAN[e.when?.phase ?? ''] ?? [6, 22]
+    const idx = buckets.get(e.when?.phase ?? '')!
+    const n = idx.length
+    // Spread inside the window, first event a bit in, last a bit out.
+    out[i] = n === 1 ? (a + b) / 2 : a + 0.6 + (idx.indexOf(i) / (n - 1)) * (b - a - 1.2)
+  })
+  return out
+})
+
+const hourOf = (_e: PerceivedEvent, i: number) => hours.value[i]
 
 // -- series -------------------------------------------------------------
 interface Pt { h: number; v: number }
@@ -100,9 +123,9 @@ const series = computed<Series[]>(() => {
 
 // -- toggles --------------------------------------------------------------
 const enabled = reactive<Record<string, boolean>>({})
-const active = computed(() =>
-  series.value.filter((s) => enabled[s.key] ?? (s.group === 'mood' || s.group === 'body')),
-)
+const defaultOn = (s: Series) => s.group !== 'otras'
+const isOn = (s: Series) => enabled[s.key] ?? defaultOn(s)
+const active = computed(() => series.value.filter(isOn))
 const groups = computed(() =>
   GROUPS.map((g) => ({
     key: g,
@@ -121,20 +144,26 @@ const H = 240
 const PAD = { t: 14, r: 14, b: 26, l: 36 }
 const X = (h: number) => PAD.l + (h / 24) * (W - PAD.l - PAD.r)
 
-const yRange = computed(() => {
-  const vals = active.value.flatMap((s) => s.points.map((p) => p.v))
-  if (!vals.length) return [-1, 1]
-  let lo = Math.min(...vals, 0)
-  let hi = Math.max(...vals, 0)
-  if (hi - lo < 0.2) { hi += 0.1; lo -= 0.1 }
-  const pad = (hi - lo) * 0.08
-  return [lo - pad, hi + pad]
-})
-const Y = (v: number) => {
-  const [lo, hi] = yRange.value
+// Each series owns its full height — units differ wildly (energy ~50 vs
+// valence ~1), so values normalise to the plot and the legend carries
+// the real min–max. The popup always shows raw numbers.
+function spanOf(s: Series): [number, number] {
+  const vals = s.points.map((p) => p.v)
+  let lo = Math.min(...vals)
+  let hi = Math.max(...vals)
+  if (hi - lo < 0.05) { hi = lo + 0.05 }
+  return [lo, hi]
+}
+const Y = (s: Series, v: number) => {
+  const [lo, hi] = spanOf(s)
   return PAD.t + (1 - (v - lo) / (hi - lo)) * (H - PAD.t - PAD.b)
 }
-const path = (pts: Pt[]) => pts.map((p, i) => `${i ? 'L' : 'M'}${X(p.h).toFixed(1)},${Y(p.v).toFixed(1)}`).join(' ')
+const path = (s: Series) =>
+  s.points.map((p, i) => `${i ? 'L' : 'M'}${X(p.h).toFixed(1)},${Y(s, p.v).toFixed(1)}`).join(' ')
+const range = (s: Series) => {
+  const [lo, hi] = spanOf(s)
+  return `${lo.toFixed(2)}…${hi.toFixed(2)}`
+}
 
 const ticks = [0, 6, 12, 18, 24]
 
@@ -158,45 +187,42 @@ const titleOf = (e: PerceivedEvent) =>
         <label class="group-toggle" :style="{ color: g.color }">
           <input
             type="checkbox"
-            :checked="g.series.every((s) => enabled[s.key] ?? (s.group !== 'otras'))"
+            :checked="g.series.every(isOn)"
+            :indeterminate="g.series.some(isOn) && !g.series.every(isOn)"
             @change="toggleGroup(g.key, ($event.target as HTMLInputElement).checked)"
           />
           <strong>{{ g.label }}</strong>
         </label>
         <label v-for="s in g.series" :key="s.key" class="series-toggle">
-          <input v-model="enabled[s.key]" type="checkbox" />
+          <input
+            type="checkbox"
+            :checked="isOn(s)"
+            @change="enabled[s.key] = ($event.target as HTMLInputElement).checked"
+          />
           <span class="swatch" :style="{ background: s.color }" />
-          {{ s.label }}
+          {{ s.label }} <span class="range mono">{{ range(s) }}</span>
         </label>
       </div>
     </div>
 
     <div class="plot">
       <svg :viewBox="`0 0 ${W} ${H}`" class="svg" @click.self="selected = null">
-        <!-- zero line -->
-        <line
-          v-if="yRange[0] < 0 && yRange[1] > 0"
-          :x1="PAD.l" :x2="W - PAD.r" :y1="Y(0)" :y2="Y(0)"
-          class="zero"
-        />
         <!-- hour ticks -->
         <g v-for="t in ticks" :key="t">
           <line :x1="X(t)" :x2="X(t)" :y1="PAD.t" :y2="H - PAD.b" class="grid" />
           <text :x="X(t)" :y="H - 8" class="tick">{{ t }}h</text>
         </g>
-        <text :x="6" :y="Y(yRange[1]) + 4" class="tick">{{ yRange[1].toFixed(1) }}</text>
-        <text :x="6" :y="Y(yRange[0]) + 4" class="tick">{{ yRange[0].toFixed(1) }}</text>
 
-        <!-- series -->
+        <!-- series (each normalised to full height; real range in legend) -->
         <path
           v-for="s in active" :key="s.key"
-          :d="path(s.points)" :stroke="s.color" class="line"
+          :d="path(s)" :stroke="s.color" class="line"
           :class="{ dashed: s.key === 'mood_arc' }"
         />
         <g v-for="s in active" :key="s.key + '-dots'">
           <circle
             v-for="(p, i) in s.points" :key="i"
-            :cx="X(p.h)" :cy="Y(p.v)" r="2.4" :fill="s.color" class="pt"
+            :cx="X(p.h)" :cy="Y(s, p.v)" r="2.4" :fill="s.color" class="pt"
           />
         </g>
 
@@ -253,6 +279,7 @@ const titleOf = (e: PerceivedEvent) =>
 .group-toggle { display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; }
 .series-toggle { display: flex; align-items: center; gap: 5px; font-size: 12px; cursor: pointer; color: var(--text-dim); }
 .swatch { width: 10px; height: 3px; border-radius: 2px; display: inline-block; }
+.range { font-size: 11px; color: var(--text-faint); }
 
 .plot { position: relative; }
 .svg { width: 100%; display: block; }

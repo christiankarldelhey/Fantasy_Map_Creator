@@ -398,7 +398,10 @@ function placeEvents(day) {
       type: 'land',
       // A distant place enters awareness when it is first sighted on the
       // horizon, not at the leg's closest approach.
-      when: when({ phase: loc.phase || phaseOfHour(loc.sighted ? loc.sighted_hour_float : loc.hour_float) }),
+      when: when({
+        phase: loc.phase || phaseOfHour(loc.sighted ? loc.sighted_hour_float : loc.hour_float),
+        hour: (loc.sighted ? loc.sighted_hour_float : loc.hour_float) ?? undefined,
+      }),
       where: where(loc.region || regionOf(day)),
       data: {
         subtype: 'place',
@@ -531,7 +534,10 @@ function terrainEvents(day) {
 function waterEvents(day) {
   return (day.water_crossings || []).map((w) => ({
     type: 'land',
-    when: when({ phase: w.phase || phaseOfHour(w.hour_float) }),
+    when: when({
+      phase: w.phase || phaseOfHour(w.hour_float),
+      hour: w.hour_float ?? undefined,
+    }),
     where: where(w.region || regionOf(day)),
     data: { subtype: 'water', name: w.name || null,
             // A crossing is contact with a place-subject — the Bruinen
