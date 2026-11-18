@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { encountersBeforeSettlement, overnightDistanceKm, terrainCategoriesFor, rotateTerrainPhrases } from '../world/tripDay.js';
+import { applyShelterChoice, encountersBeforeSettlement, overnightDistanceKm, terrainCategoriesFor, rotateTerrainPhrases } from '../world/tripDay.js';
 
 const ENCOUNTERS = [
   { hour_float: 9.5, phase: 'morning', entity: { name: 'Deer' } },
@@ -29,6 +29,24 @@ test('encountersBeforeSettlement: night encounters never happen inside walls', (
 test('encountersBeforeSettlement: empty input stays empty', () => {
   assert.deepEqual(encountersBeforeSettlement([], 15.0, true), []);
   assert.deepEqual(encountersBeforeSettlement(null, 15.0, true), []);
+});
+
+// --- applyShelterChoice -----------------------------------------------------
+
+test('applyShelterChoice: an authored keeper rides the night', () => {
+  const day = { overnight_location: { name: 'open lands', type: 'wild' } };
+  applyShelterChoice(day, {
+    name: 'the dry loft', indoor: true,
+    host: { name: 'Edrahil', gloss: 'a keeper of the northern road', people: 'dunedain', gender: 'm' },
+  });
+  assert.equal(day.overnight_location.host.name, 'Edrahil');
+  assert.equal(day.overnight_location.type, 'shelter');
+});
+
+test('applyShelterChoice: no authored keeper leaves the night anonymous', () => {
+  const day = { overnight_location: { name: 'open lands', type: 'wild' } };
+  applyShelterChoice(day, { name: 'the hay', indoor: true });
+  assert.equal(day.overnight_location.host, null);
 });
 
 // 0.5 deg of latitude is ~55.6 km everywhere; 0.5 deg of longitude at lat 45 is ~39.3 km.

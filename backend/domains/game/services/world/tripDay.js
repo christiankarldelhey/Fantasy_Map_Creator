@@ -74,6 +74,9 @@ export function applyShelterChoice(day, shelter) {
     name: shelter.name ?? day.overnight_location?.name ?? null,
     type: 'shelter',
     indoor: !!shelter.indoor,
+    // Who keeps the roof, when the command says so — the person earns a
+    // name by hosting ('npc:edrahil'), like a location's resident host.
+    host: shelter.host ?? day.overnight_location?.host ?? null,
   };
   day.overnight_interaction = {
     ...(day.overnight_interaction || {}),

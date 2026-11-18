@@ -12904,6 +12904,12 @@
                 "type": "overnight_shelter",
                 "name": "the dry loft",
                 "description": "a dry loft over a house that keeps faith with a ruined kingdom",
+                "host": {
+                  "name": "Edrahil",
+                  "gloss": "a keeper of the northern road",
+                  "people": "dunedain",
+                  "gender": "m"
+                },
                 "indoor": true,
                 "lodging_cost": 0,
                 "meal": true,
