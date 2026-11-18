@@ -281,6 +281,15 @@ function applyConditionDeltas(projected, effects) {
   }
 }
 
+// The "what happened" line for a resolved pick: authored option prose when
+// it exists; for sole contact interactions the stance already rides the
+// episode as traveller_stance — one authored sentence, one home.
+function outcomeText(pool_, outcome) {
+  return outcome?.text?.en
+    ?? pool_.encounter?.interaction?.dialogue_content?.traveller_stance
+    ?? null;
+}
+
 // The resolved pick as an Event: rides the interim /perceive now AND the
 // episode's events[] at open — the stable id makes it count once.
 export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome) {
@@ -289,7 +298,7 @@ export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome) {
     situation_id: pool_.situation_id,
     interaction_id: interaction.id,
     outcome: outcomeKey,
-    description: outcome?.text?.en ?? null,
+    description: outcomeText(pool_, outcome),
     tags: [interaction.act, ...(interaction.need_tags || [])],
   };
   const shadowFx = (outcome?.effects || [])
@@ -459,7 +468,7 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
     if (pool_.encounter) {
       pool_.encounter.interaction.resolved_choice = {
         interaction_id: interaction.id, act: interaction.act,
-        text: outcome.text?.en ?? null,
+        text: outcomeText(pool_, outcome),
         // A 'walked on' pick changes nothing — 'changed' marks only a
         // choice the body actually felt (the old option.commands rule).
         changed: (outcome.effects || []).length > 0,
@@ -473,7 +482,7 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
       act: interaction.act,
       outcome: outcomeKey,
       check,
-      text: outcome.text?.en ?? null,
+      text: outcomeText(pool_, outcome),
     });
 
     // The day felt what happened: project the Condition forward, report

@@ -176,7 +176,10 @@ function entityInteractions(rec) {
       label: null,
       need_tags: sit.tags ?? [],
       skill: null,
-      outcomes: { success: { text: toLang(sit.stance), effects: sharedEffects } },
+      // text stays null: the stance prose already owns this utterance in
+      // situations[].stance and rides the episode as traveller_stance —
+      // the engine falls back to it. One authored sentence, one home.
+      outcomes: { success: { text: null, effects: sharedEffects } },
       payload: {
         origin: 'seed:interactions',
         situation: sit.id,
