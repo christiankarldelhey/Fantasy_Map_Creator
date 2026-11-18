@@ -7,7 +7,8 @@ The day now reaches the narrator as a single `=== TODAY ===` skeleton (ADR-0016'
 ## Consequences
 
 - `phase_block` and the phase banners die; `=== TODAY ===` is the skeleton — headings exist in the prompt only, never in the prose.
-- `_encounter_prompt_shape` keeps `when.hour`; hour-less beats (readings that already name their own time) sort after their phase's clocked beats.
+- `_encounter_prompt_shape` keeps `when.hour`; beats without one recover their position from the time phrase their own reading already carries (`implied_hour` — the first time word in the text anchors it, sort-only). An event with neither phase nor implied hour is day-level material and opens the skeleton rather than falling into the night bucket.
+- `TODAY'S WAY IN` is gone: the prescribed sensory opening produced the same tic every chapter; the dawn anchor gives the opening its shape instead.
 - The night's rest is a beat like any other — a bought bed reads as an inn, a hedge as open country; no banner prejudges it.
 - Terminal days emit no night beats and the death-notice no longer references a block that is not there.
 - `previous_rest` threads `narrate_episode` → `narrate_day` → `build_day_prompt`; only a literally consecutive `episode_date` counts as "yesterday".

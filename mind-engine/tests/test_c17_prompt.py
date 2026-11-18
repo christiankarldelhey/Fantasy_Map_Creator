@@ -50,7 +50,7 @@ def test_prompt_has_no_anti_repetition_context():
     user = prompt['user']
     assert 'AVOID THESE PHRASES' not in user
     assert 'Earlier chapters opened' not in user
-    assert "TODAY'S WAY IN" in user
+    assert "TODAY'S WAY IN" not in user
 
 
 def test_prompt_places_mind_inside_the_lens_before_the_road():

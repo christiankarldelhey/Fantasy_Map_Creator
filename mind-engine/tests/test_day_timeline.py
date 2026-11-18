@@ -77,6 +77,50 @@ def test_encounter_lands_at_its_clock_position():
     assert user.index('road-bread and dried fruit') < user.index('Dunlendings')
 
 
+def test_hourless_events_sort_by_the_time_their_reading_names():
+    """Land, meal and climate events arrive without when.hour — their
+    readings already say 'the early afternoon', 'the midday halt'. The
+    timeline recovers that position instead of dumping them at the end
+    of the phase, after the clocked encounters they precede."""
+    user = _prompt(
+        day={
+            'day_number': 4, 'date': '1950-10-08',
+            'encounters': [{
+                'phase': 'afternoon', 'hour': 16.0, 'region': 'the Greenway',
+                'entity': {'name': 'Dunlendings', 'type': 'people'},
+                'interaction': {'form': 'glimpsed_far'},
+            }],
+        },
+        events=[
+            {'type': 'land', 'when': {'phase': 'afternoon'},
+             'data': {'subtype': 'water',
+                      'reading': 'a stream waded in the early afternoon'}},
+            {'type': 'meal', 'when': {'phase': 'afternoon'},
+             'data': {'reading': 'the midday halt, taken standing'}},
+            {'type': 'land', 'when': {'phase': 'afternoon'},
+             'data': {'subtype': 'place',
+                      'reading': 'a village sighted in the late afternoon'}},
+        ],
+    )
+    assert (user.index('the midday halt')
+            < user.index('a stream waded')
+            < user.index('Dunlendings')
+            < user.index('a village sighted'))
+
+
+def test_an_untimed_event_opens_the_day_not_the_night():
+    """An event with no phase and no hour is day-level material (the
+    road's character) — it belongs at the open, not after supper."""
+    user = _prompt(events=[
+        {'type': 'land', 'when': {},
+         'data': {'subtype': 'terrain',
+                  'reading': 'drove-lanes join the road from the sheep-walks'}},
+        {'type': 'rest', 'when': {'phase': 'night'},
+         'data': {'reading': 'a hollow out of the wind'}},
+    ])
+    assert user.index('drove-lanes') < user.index('a hollow out of the wind')
+
+
 def test_weather_is_told_once_and_only_change_is_retold():
     """An unchanging sky earns one line, not one per phase. Only a real
     shift — rain beginning, cloud gathering — re-enters the timeline."""
@@ -103,7 +147,29 @@ def test_the_day_opens_where_last_night_was_spent():
              'data': {'subtype': 'place', 'reading': 'he leaves southward'}},
         ],
     )
+    assert 'The day begins where last night ended' in user
+    assert 'dark..' not in user and 'Pony..' not in user
     assert user.index('The Prancing Pony') < user.index('he leaves southward')
+
+
+def test_the_first_weather_opens_the_skeleton():
+    """The day's sky is the first fact of the morning — even when the
+    climate event carries no hour, it precedes the clocked beats."""
+    user = _prompt(
+        day={
+            'day_number': 4, 'date': '1950-10-08',
+            'encounters': [{
+                'phase': 'morning', 'hour': 10.0, 'region': 'the Greenway',
+                'entity': {'name': 'Wandering Company', 'type': 'people'},
+                'interaction': {'form': 'glimpsed_far'},
+            }],
+        },
+        events=[
+            {'type': 'climate', 'when': {'phase': 'morning'},
+             'data': {'reading': 'a raw cold and a low grey sky'}},
+        ],
+    )
+    assert user.index('a raw cold') < user.index('Wandering Company')
 
 
 def test_no_encounters_is_stated_not_implied():

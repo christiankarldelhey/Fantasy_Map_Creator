@@ -11,8 +11,7 @@
 # are spoken as natural time, weather is told once and re-told only on
 # change, and the day opens where last night was spent.
 # ============================================================================
-import random
-
+from app.day_phases import DAWN_HOUR, implied_hour, phase_for_hour
 from app.prompt.sections.anti_repetition import closing_instruction
 from app.prompt.sections.character import character_header_section, character_name, narrator_lens_section
 from app.prompt.sections.climate import climate_state_section
@@ -21,10 +20,7 @@ from app.prompt.sections.instructions import (
     LAND_NOTES_RULES,
     OVERNIGHT_COLOUR_NOTE,
     SPANISH_INSTRUCTION,
-    pick_opening_strategy,
-    pick_todays_way_in,
     road_intro,
-    todays_way_in_section,
 )
 from app.prompt.sections.journey import destination_name, journey_context_section, season_phrase, special_instructions_section
 from app.prompt.sections.terminal_day import terminal_closing_instruction, terminal_notice_section, terminal_road_intro
@@ -54,7 +50,7 @@ def _event_beats(events, is_terminal):
     beats = []
     for event in (events or []):
         when = event.get('when') or {}
-        phase = when.get('phase') or 'night'
+        phase = when.get('phase')
         if is_terminal and phase == 'night':
             continue
         if event.get('type') == 'encounter':
@@ -62,8 +58,20 @@ def _event_beats(events, is_terminal):
         reading = ((event.get('data') or {}).get('reading')) or ''
         if not reading:
             continue
+        # Only encounters carry when.hour today; land, meal and climate
+        # events recover their clock position from the time phrase the
+        # reading already contains (implied_hour — sort only).
+        hour = when.get('hour')
+        if hour is None:
+            hour = implied_hour(reading)
+        if phase is None:
+            # Untimed event (e.g. the road's day-character): it opens the
+            # day — the old 'night' default dumped it after supper.
+            phase = (
+                phase_for_hour(hour) if hour is not None else 'morning')
+            hour = hour if hour is not None else DAWN_HOUR - 1
         kind = 'weather' if event.get('type') == 'climate' else 'note'
-        beats.append(_beat(phase, when.get('hour'), kind, text=reading))
+        beats.append(_beat(phase, hour, kind, text=reading))
     return beats
 
 
@@ -204,13 +212,9 @@ def build_day_prompt(
 
     char_name = character_name(character)
     destination = destination_name(trip.get('name'))
-    rng = day.get('rng') or random.random
     # A non-living fate means the character dies today: no night, and the
     # chapter must close on the death.
     is_terminal = bool(fate and fate != 'living')
-
-    todays_way_in = pick_todays_way_in(rng)
-    opening_strategy = pick_opening_strategy(rng)
 
     encounter_beats = _encounter_beats(
         day.get('encounters'), events, is_terminal)
@@ -251,7 +255,6 @@ def build_day_prompt(
         f"{terminal_notice_section(char_name) if is_terminal else ''}"
         f"{LAND_NOTES_RULES}\n\n"
         f"{ENCOUNTER_RULES}\n\n"
-        f"{todays_way_in_section(todays_way_in, opening_strategy, char_name)}\n\n"
         f"{wn.get('lands') or ''}"
         f"{chr(10) * 2 if wn.get('lands') else ''}"
         f"{timeline}\n\n"

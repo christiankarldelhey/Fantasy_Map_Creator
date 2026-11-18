@@ -71,12 +71,21 @@ def timeline_section(*, intro, beats, previous_rest=None):
     lines = [f'=== TODAY ===\n{intro}', '']
 
     if previous_rest:
-        first = re.split(r' — |(?<=\.)\s', previous_rest)[0]
-        lines.append(f'The day begins — {first}.')
+        first = re.split(r' — |(?<=\.)\s', previous_rest)[0].rstrip('.')
+        lines.append(f'The day begins where last night ended — {first}.')
+
+    ordered = sorted(beats, key=_sort_key)
+    # The day's sky is the first fact of the morning: the first weather
+    # beat opens the skeleton even if it arrived without a clock position.
+    first_weather = next(
+        (i for i, b in enumerate(ordered) if b.get('kind') == 'weather'),
+        None)
+    if first_weather:
+        ordered.insert(0, ordered.pop(first_weather))
 
     weather_seen = set()
     weather_told = False
-    for beat in sorted(beats, key=_sort_key):
+    for beat in ordered:
         kind = beat.get('kind')
         if kind == 'weather':
             clauses = _clauses(beat['text'])
