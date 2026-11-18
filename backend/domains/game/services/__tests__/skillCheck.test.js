@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { rollSkillCheck, availableActions, ACTION_THRESHOLDS } from '../character/skillCheck.js';
+import { rollSkillCheck } from '../character/skillCheck.js';
 
 // A fixed rng makes rolls deterministic: rng() * 10 + 1 == fixed die.
 const dieRng = (die) => () => (die - 1) / 10;
@@ -67,43 +67,4 @@ test('rollSkillCheck: failure when total is below difficulty', () => {
   const { success, margin } = rollSkillCheck({ skill: 0, difficulty: 15, rng: dieRng(1) });
   assert.equal(success, false);
   assert.equal(margin, 1 - 15);
-});
-
-// ---------------------------------------------------------------------------
-// availableActions
-// ---------------------------------------------------------------------------
-test('availableActions: track requires skill_tracking >= 3', () => {
-  assert.equal(availableActions({ skills: { skill_tracking: 2 } }).track, false);
-  assert.equal(availableActions({ skills: { skill_tracking: 3 } }).track, true);
-});
-
-test('availableActions: hunt is enabled by EITHER ranged>=2 OR tracking>=4', () => {
-  assert.equal(availableActions({ skills: { skill_ranged: 1, skill_tracking: 1 } }).hunt, false);
-  assert.equal(availableActions({ skills: { skill_ranged: 2, skill_tracking: 0 } }).hunt, true);
-  assert.equal(availableActions({ skills: { skill_ranged: 0, skill_tracking: 4 } }).hunt, true);
-});
-
-test('availableActions: persuade and identify_lore thresholds', () => {
-  const skills = { skill_persuasion: 2, skill_lore: 3 };
-  const actions = availableActions({ skills });
-  assert.equal(actions.persuade, true);
-  assert.equal(actions.identify_lore, true);
-});
-
-test('availableActions: social action thresholds (read_intent/deceive/intimidate)', () => {
-  const low = availableActions({ skills: { skill_insight: 2, skill_deception: 2, skill_intimidation: 2 } });
-  assert.equal(low.read_intent, false);
-  assert.equal(low.deceive, false);
-  assert.equal(low.intimidate, false);
-  const high = availableActions({ skills: { skill_insight: 3, skill_deception: 3, skill_intimidation: 3 } });
-  assert.equal(high.read_intent, true);
-  assert.equal(high.deceive, true);
-  assert.equal(high.intimidate, true);
-});
-
-test('availableActions: missing skills default to 0 and gate everything off', () => {
-  const actions = availableActions({ skills: {} });
-  for (const action of Object.keys(ACTION_THRESHOLDS)) {
-    assert.equal(actions[action], false);
-  }
 });

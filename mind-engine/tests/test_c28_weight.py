@@ -2,11 +2,11 @@
 # C28 — what touched the mechanics weighs more
 # ----------------------------------------------------------------------------
 # A soup that closed hunger is not the drizzle. The host marks mechanically
-# consequential events ('given', 'decision'); the mind's salience_min
+# consequential events ('given', 'changed'); the mind's salience_min
 # floors lift them out of background and 'affect.tag:given' makes a gift
-# feel like kindness. When /decide applies an option's commands the
-# perceived items gain 'tag:changed' — the night taken outweighs the
-# offer declined.
+# feel like kindness. A fork the interaction engine resolved carries
+# 'changed' on the encounter — the night taken outweighs the offer
+# walked on.
 # ============================================================================
 import uuid
 
@@ -80,38 +80,10 @@ def test_given_outweighs_ambience(client):
     assert meal['valence'] > 0
 
 
-def test_decision_offer_registers(client):
-    """An offer weighed and declined is still a moment — the fork lifts
-    to the 'decision' floor even before the host's answer arrives."""
-    char = _uid('offered')
-    opened = _open(client, char, [{
-        'type': 'encounter',
-        'when': {'episode': 1, 'date': '1950-06-01'},
-        'data': {
-            'entity': 'wayhouse', 'entity_type': 'sites',
-            'form': 'harvest_shelter',
-            'tags': ['decision'],
-            'decision': {
-                'id': 'shelter-1',
-                'options': [
-                    {'id': 'stay', 'label': 'take the bed',
-                     'commands': [{'type': 'overnight_shelter',
-                                   'name': 'the wayhouse',
-                                   'rest_quality': 4}]},
-                    {'id': 'move_on', 'label': 'walk on', 'commands': []},
-                ],
-            },
-        },
-    }])
-    item = opened['psyche_packet']['perceived_day'][0]
-    assert 'tag:decision' in item['tags']
-    assert item['salience'] >= 0.5
-
-
-def test_applied_decision_marks_changed(client):
-    """When the host's pick lands commands, the items the choice touched
-    gain 'tag:changed' and rise to its floor — the bed taken weighs more
-    than the bed merely offered."""
+def test_taken_fork_marks_changed(client):
+    """A fork the interaction engine resolved lands as 'changed' — the
+    host declares the tag on the encounter event (the bed taken weighs
+    more than the bed merely offered)."""
     char = _uid('taken')
     opened = _open(client, char, [
         {
@@ -120,50 +92,31 @@ def test_applied_decision_marks_changed(client):
             'data': {
                 'entity': 'wayhouse', 'entity_type': 'sites',
                 'form': 'harvest_shelter',
-                'substance': {'stance': 'Marks the lamp for the road back.'},
-                'decision': {
-                    'id': 'shelter-1',
-                    'options': [
-                        {'id': 'stay', 'label': 'take the bed',
-                         'commands': [{
-                             'type': 'overnight_shelter',
-                             'name': 'the wayhouse',
-                             'rest_quality': 4,
-                             'indoor': True}],
-                         'stance': 'Takes the bed. Eats the pot.'},
-                        {'id': 'move_on', 'label': 'walk on',
-                         'commands': []},
-                    ],
+                'substance': {'stance': 'Takes the bed. Eats the pot.'},
+                'resolved_choice': {
+                    'interaction_id': 'cnt:1:stay',
+                    'act': 'accept',
+                    'changed': True,
                 },
+                'tags': ['changed'],
             },
         },
         {
             'type': 'rest',
             'when': {'episode': 1, 'date': '1950-06-01'},
-            'data': {'place': 'open ground', 'rest_quality': 0,
+            'data': {'place': 'the wayhouse', 'rest_quality': 4,
                      'scope': 'region'},
         },
     ])
-    r = client.post(
-        f"/episodes/{opened['episode_id']}/decide",
-        json={'option_id': 'stay'},
-    )
-    assert r.status_code == 200, r.text
-
-    perceived = client.get(
-        f"/episodes/{opened['episode_id']}"
-    ).json()['perceived_day']
+    perceived = opened['psyche_packet']['perceived_day']
     encounter = next(i for i in perceived if i['type'] == 'encounter')
-    rest = next(i for i in perceived if i['type'] == 'rest')
     assert 'tag:changed' in encounter['tags']
     assert encounter['salience'] >= 0.65
-    assert 'tag:changed' in rest['tags']
-    assert rest['salience'] >= 0.65
 
 
-def test_declined_offer_stays_unmarked(client):
-    """Walking on applies no command — the contact keeps its offer's
-    weight but is never claimed as a thing that changed the body."""
+def test_walked_on_fork_stays_unmarked(client):
+    """A 'moved on' pick changes nothing — the host leaves 'changed' off
+    and the contact is never claimed as a thing that touched the body."""
     char = _uid('walked')
     opened = _open(client, char, [{
         'type': 'encounter',
@@ -171,25 +124,13 @@ def test_declined_offer_stays_unmarked(client):
         'data': {
             'entity': 'wayhouse', 'entity_type': 'sites',
             'form': 'harvest_shelter',
-            'decision': {
-                'id': 'shelter-1',
-                'options': [
-                    {'id': 'stay', 'label': 'take the bed',
-                     'commands': [{'type': 'overnight_shelter',
-                                   'name': 'the wayhouse'}]},
-                    {'id': 'move_on', 'label': 'walk on',
-                     'commands': []},
-                ],
+            'resolved_choice': {
+                'interaction_id': 'cnt:1:move_on',
+                'act': 'avoid',
+                'changed': False,
             },
         },
     }])
-    r = client.post(
-        f"/episodes/{opened['episode_id']}/decide",
-        json={'option_id': 'move_on'},
-    )
-    assert r.status_code == 200, r.text
-    perceived = client.get(
-        f"/episodes/{opened['episode_id']}"
-    ).json()['perceived_day']
+    perceived = opened['psyche_packet']['perceived_day']
     encounter = next(i for i in perceived if i['type'] == 'encounter')
     assert 'tag:changed' not in encounter['tags']

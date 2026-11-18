@@ -13,7 +13,10 @@
 // ============================================================================
 
 import pool from '../../../../db.js';
-import { choose as mindChoose } from '../../../story/services/mind/mindClient.js';
+import {
+  choose as mindChoose,
+  perceive as mindPerceive,
+} from '../../../story/services/mind/mindClient.js';
 import { rollSkillCheck } from '../character/skillCheck.js';
 import { applyShelterChoice } from './tripDay.js';
 
@@ -25,7 +28,7 @@ async function fetchInteractions({ placesNarrationId = null, entitiesNarrationId
   const col = placesNarrationId ? 'places_narration_id' : 'entities_narration_id';
   const id = placesNarrationId ?? entitiesNarrationId;
   const { rows } = await pool.query(
-    `SELECT id, act, label, need_tags, skill, outcomes FROM interactions WHERE ${col} = $1`,
+    `SELECT id, act, label, need_tags, skill, outcomes, payload FROM interactions WHERE ${col} = $1`,
     [id]
   );
   return rows;
@@ -139,16 +142,20 @@ function applyShelterOutcome(day, outcome) {
 // The day's choosable Situations
 // ---------------------------------------------------------------------------
 
+const slugify = (s) => (s ?? '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
 // The night's own Situation — what the place itself offers at sleep.
 function overnightPool(day) {
   const id = day.overnight_interaction?.id;
   if (!id) return null;
-  const slug = (day.overnight_location?.name ?? id).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   return {
     kind: 'overnight',
     situation_id: id,
-    subject: `tag:place:${slug}`,
+    subject: `tag:place:${slugify(day.overnight_location?.name ?? id)}`,
     parent: { placesNarrationId: id },
+    hour: 24, // the night always resolves last in narrative order
+    phase: 'night',
+    placeSlug: slugify(day.overnight_location?.name),
     apply: (day_, outcome) => applyOvernightOutcome(day_, outcome),
   };
 }
@@ -162,76 +169,280 @@ function shelterOfferPools(day) {
     .map((e) => ({
       kind: 'shelter_offer',
       situation_id: e.interaction.decision.id,
-      subject: e.entity?.slug ? `npc:${e.entity.slug}` : null,
+      // Relation subjects are full tags ('tag:npc:hal'), per relations.py.
+      subject: e.entity?.slug ? `tag:npc:${e.entity.slug}` : null,
       parent: { entitiesNarrationId: e.interaction.dialogue_content.id },
       optionIds: new Set((e.interaction.decision.options || []).map((o) => o.id)),
       encounter: e,
+      hour: e.hour_float ?? 20.5,
+      phase: e.phase ?? 'night',
+      placeSlug: slugify(day.overnight_location?.name),
       apply: (day_, outcome) => applyShelterOutcome(day_, outcome),
     }));
 }
 
+// An encounter's chosen situation with no fork on the table — the picked
+// `sit` is known by its preserved id; its sole Interaction carries the
+// gifts the stance declares (a shared meal, a refilled skin). The host
+// applies, the mind digests — nothing to choose.
+function contactPools(day) {
+  return (day.encounters || [])
+    .filter((e) =>
+      !e.interaction?.decision
+      && e.interaction?.dialogue_content?.id
+      && e.interaction?.dialogue_content?.situation_id)
+    .map((e) => ({
+      kind: 'contact',
+      situation_id: e.interaction.dialogue_content.situation_id,
+      subject: e.entity?.slug ? `tag:npc:${e.entity.slug}` : null,
+      parent: { entitiesNarrationId: e.interaction.dialogue_content.id },
+      // Only this situation's rows: the record's other situations are
+      // not what the traveller lived.
+      rowFilter: (r) => r.payload?.situation === e.interaction.dialogue_content.situation_id,
+      encounter: e,
+      hour: e.hour_float ?? 12,
+      phase: e.phase ?? 'afternoon',
+      placeSlug: slugify(e.location?.name ?? e.location),
+      apply: null, // command rail — applied per effect below
+    }));
+}
+
+// A phase's narrative position — ambient voices carry no hour, only the
+// stretch of day the moment belongs to.
+const PHASE_HOUR = { morning: 9, afternoon: 15, night: 21 };
+
+// The land's voice: region ambient situations gated by the day's tag set.
+// Option tags are gates here (the option only speaks when the day carries
+// its tag) — the old favoured/untagged rule becomes the feasible set.
+function ambientPools(day) {
+  return (day.ambient_situations || [])
+    .filter((s) => s.situation_id && s.record_id)
+    .map((s) => ({
+      kind: 'ambient',
+      situation_id: s.situation_id,
+      subject: null,
+      parent: { placesNarrationId: s.record_id },
+      rowFilter: (r) => r.payload?.situation === s.situation_id,
+      ambient: s,
+      hour: PHASE_HOUR[s.phase] ?? 12,
+      phase: s.phase,
+      placeSlug: slugify(typeof s.name === 'string' ? s.name : s.name?.en),
+      fallbackRng: true, // the land draws at random when no mind weighs it
+      // Tag gate, then the usual feasibility.
+      feasible: (rows, ctx) => {
+        const fav = rows.filter((r) => r.need_tags?.length && r.need_tags.every((t) => s.tagSet?.has(t)));
+        const plain = rows.filter((r) => !r.need_tags?.length);
+        const candidates = fav.length ? fav : (plain.length ? plain : rows);
+        return candidates.filter((r) => isFeasible(r, ctx));
+      },
+      apply: (day_, outcome, interaction) => {
+        const shadowFx = (outcome.effects || [])
+          .filter((e) => e.type === 'shadow' && Number.isFinite(e.amount))
+          .reduce((x, e) => x + e.amount, 0);
+        day_.ambient.push({
+          record_id: s.record_id,
+          situation_id: s.situation_id,
+          option_id: interaction.id.split(':').pop(),
+          name: s.name,
+          when: s.when,
+          phase: s.phase,
+          text: outcome.text ?? null,
+          // resolveDayState reads the ambient rail's shadow through this
+          // legacy shape; the rest of the effects land on day.commands.
+          effects: shadowFx ? { shadow_effect: shadowFx } : null,
+        });
+        day_.commands = [...(day_.commands || []), ...effectsToCommands(outcome.effects)
+          .map((c) => ({ ...c, hour_float: PHASE_HOUR[s.phase] ?? null }))];
+      },
+    }));
+}
+
 // ---------------------------------------------------------------------------
-// resolveDayChoices — the one pre-resolution choosing
+// Sequential choosing (Wave C): pools resolve in narrative order, each
+// outcome lands in the Mind BEFORE the next pool is scored
 // ---------------------------------------------------------------------------
+
+// The Condition the next pool is read against: start state plus the deltas
+// the picks so far declared. resolveDayState computes the true end-of-day
+// numbers later; this is the honest mid-day projection.
+function projectCondition(startState) {
+  const p = {};
+  for (const [k, v] of Object.entries(startState || {})) {
+    if (typeof v === 'number' || typeof v === 'string') p[k] = v;
+  }
+  return p;
+}
+
+function applyConditionDeltas(projected, effects) {
+  for (const e of effects || []) {
+    if (e.type === 'coins' && Number.isFinite(e.amount)) {
+      projected.coins = Math.max(0, (projected.coins ?? 0) + e.amount);
+    } else if (e.type === 'energy' && Number.isFinite(e.amount)) {
+      projected.energy = Math.max(0, Math.min(100, (projected.energy ?? 100) + e.amount));
+    } else if (e.type === 'shadow' && Number.isFinite(e.amount)) {
+      projected.shadow = Math.max(0, Math.min(100, (projected.shadow ?? 0) + e.amount));
+    } else if (e.type === 'meal') {
+      projected.days_without_food = 0;
+    } else if (e.type === 'water' && e.refill) {
+      projected.days_without_water = 0;
+    }
+  }
+}
+
+// The resolved pick as an Event: rides the interim /perceive now AND the
+// episode's events[] at open — the stable id makes it count once.
+export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome) {
+  const data = {
+    act: interaction.act,
+    situation_id: pool_.situation_id,
+    interaction_id: interaction.id,
+    outcome: outcomeKey,
+    description: outcome?.text?.en ?? null,
+    tags: [interaction.act, ...(interaction.need_tags || [])],
+  };
+  const shadowFx = (outcome?.effects || [])
+    .filter((e) => e.type === 'shadow' && Number.isFinite(e.amount))
+    .reduce((s, e) => s + e.amount, 0);
+  if (shadowFx) data.shadow_effect = shadowFx;
+  const npc = pool_.subject?.startsWith('tag:npc:') ? pool_.subject.slice(8) : null;
+  if (npc) {
+    data.npc = npc;
+    data.npc_name = pool_.encounter?.entity?.name ?? npc;
+    if (Number.isFinite(pool_.encounter?.entity?.danger)) {
+      data.danger = pool_.encounter.entity.danger;
+    }
+  }
+  return {
+    id: `d${day.day_number}:sit:${pool_.situation_id}:${interaction.id.split(':').pop()}`,
+    type: 'interaction',
+    when: { hour: pool_.hour ?? null, phase: pool_.phase ?? null },
+    where: {
+      region: day.regions?.[0]?.name ?? null,
+      place: pool_.placeSlug || null,
+    },
+    data,
+  };
+}
+
+// The shared part of an options situation — sit-level commands were
+// replicated into every option's effects at backfill; their intersection
+// is the gift the traveller receives no matter which way the scene plays.
+function sharedEffects(rows) {
+  const lists = rows.map((r) => r.outcomes?.success?.effects ?? []);
+  if (!lists.length || lists.some((l) => !l.length)) return [];
+  const key = (e) => JSON.stringify(e);
+  const first = new Set(lists[0].map(key));
+  for (const l of lists.slice(1)) {
+    const s = new Set(l.map(key));
+    for (const k of [...first]) if (!s.has(k)) first.delete(k);
+  }
+  return lists[0].filter((e) => first.has(key(e)));
+}
 
 export async function resolveDayChoices(day, { characterId, startState = {}, rng = Math.random }) {
-  const pools = [overnightPool(day), ...shelterOfferPools(day)].filter(Boolean);
+  // Narrative order: ambient voices and contacts by their hour, the
+  // night itself last.
+  const pools = [...ambientPools(day), ...contactPools(day), ...shelterOfferPools(day), overnightPool(day)]
+    .filter(Boolean)
+    .sort((a, b) => a.hour - b.hour);
   if (!pools.length) return [];
 
+  const projected = projectCondition(startState);
   const ctx = {
     skills: startState,
-    coins: startState?.coins ?? 0,
-    energy: startState?.energy ?? 100,
-    shadow: startState?.shadow ?? 0,
+    get coins() { return projected.coins ?? 0; },
+    get energy() { return projected.energy ?? 100; },
+    get shadow() { return projected.shadow ?? 0; },
   };
 
-  // 1. Fetch + feasibility (host).
+  const applied = [];
+  const events = [];
+  // Outcome events flush before the next choose — the next pool is
+  // scored by the Mind as it stands after everything felt so far.
+  const flush = async () => {
+    const pending = events.filter((e) => !e._felt);
+    if (!pending.length || !characterId) return;
+    try {
+      await mindPerceive(characterId, { events: pending, character: projected });
+      for (const e of pending) e._felt = true;
+    } catch (err) {
+      console.warn('[mind] perceive failed (non-fatal):', err.message);
+    }
+  };
+
   for (const pool_ of pools) {
     let rows = await fetchInteractions(pool_.parent);
+    if (pool_.rowFilter) rows = rows.filter(pool_.rowFilter);
     // Shelter offers: only the authored option ids are on the table (the
     // record's other derived sole interactions are not this choice).
     if (pool_.optionIds) {
       rows = rows.filter((r) => pool_.optionIds.has(r.id.split(':').pop()));
     }
-    pool_.feasible = rows.filter((r) => isFeasible(r, ctx));
-  }
 
-  const live = pools.filter((p) => p.feasible.length);
-  if (!live.length) return [];
-
-  // 2. Preference (Mind) — one call for every pool with a real choice.
-  // Single-option pools are inevitable (destino manifiesto): no call needed.
-  const chosen = new Map();
-  const contested = live.filter((p) => p.feasible.length > 1);
-  if (contested.length) {
-    try {
-      const res = await mindChoose(characterId, {
-        choices: contested.map((p) => ({
-          situation_id: p.situation_id,
-          subject: p.subject,
-          options: p.feasible.map((r) => ({
-            interaction_id: r.id,
-            act: r.act,
-            need_tags: r.need_tags,
-            p_success: successProbability(r, ctx),
-          })),
-        })),
-      });
-      for (const c of res?.choices ?? []) {
-        if (c.interaction_id) chosen.set(c.situation_id, c.interaction_id);
+    if (pool_.kind === 'contact') {
+      // Inevitable: the stance's own effects + the shared gift. Feasible
+      // by construction — the stance happened; the gift is the world's.
+      const sole = rows.filter((r) => r.id.endsWith(':sole'));
+      const optionRows = rows.filter((r) => !r.id.endsWith(':sole'));
+      const gifts = [...effectsToCommands(sharedEffects(optionRows), { inShelter: false })]
+        .map((c) => ({ ...c, hour_float: pool_.hour }));
+      if (gifts.length) {
+        day.commands = [...(day.commands || []), ...gifts];
+        applyConditionDeltas(projected, sharedEffects(optionRows));
       }
-    } catch (err) {
-      // The mind never blocks the game: fall back to the first feasible.
-      console.warn('[mind] choose failed (non-fatal):', err.message);
+      for (const r of sole) {
+        const outcome = r.outcomes?.success ?? {};
+        const cmds = effectsToCommands(outcome.effects, { inShelter: false })
+          .map((c) => ({ ...c, hour_float: pool_.hour }));
+        day.commands = [...(day.commands || []), ...cmds];
+        applyConditionDeltas(projected, outcome.effects);
+        events.push(outcomeEvent(day, pool_, r, 'success', outcome));
+      }
+      continue;
     }
-  }
 
-  // 3. Roll + apply (host) — before resolveDayState, before the episode.
-  const applied = [];
-  for (const pool_ of live) {
-    const pickId = chosen.get(pool_.situation_id) ?? pool_.feasible[0].id;
-    const interaction = pool_.feasible.find((r) => r.id === pickId) ?? pool_.feasible[0];
+    // Feasibility is checked NOW — earlier picks may have spent the coins
+    // or dropped the energy this option would have needed.
+    const feasible = pool_.feasible
+      ? pool_.feasible(rows, ctx)
+      : rows.filter((r) => isFeasible(r, ctx));
+    if (!feasible.length) {
+      // An offer the traveller cannot take is not a fork — the episode
+      // must not surface it as a decision waiting on an answer.
+      if (pool_.encounter) pool_.encounter.interaction.decision = null;
+      continue;
+    }
 
+    // Preference (Mind). A single-option pool is inevitable — no call.
+    // Without a mind the land draws at random (its old way); forks that
+    // belong to a being fall back to the first feasible.
+    let interaction = pool_.fallbackRng
+      ? feasible[Math.floor(rng() * feasible.length)]
+      : feasible[0];
+    if (characterId && feasible.length > 1) {
+      await flush();
+      try {
+        const res = await mindChoose(characterId, {
+          choices: [{
+            situation_id: pool_.situation_id,
+            subject: pool_.subject,
+            options: feasible.map((r) => ({
+              interaction_id: r.id,
+              act: r.act,
+              need_tags: r.need_tags,
+              p_success: successProbability(r, ctx),
+            })),
+          }],
+        });
+        const pickId = res?.choices?.[0]?.interaction_id;
+        interaction = feasible.find((r) => r.id === pickId) ?? feasible[0];
+      } catch (err) {
+        // The mind never blocks the game: fall back to the first feasible.
+        console.warn('[mind] choose failed (non-fatal):', err.message);
+      }
+    }
+
+    // Roll + apply (host) — before resolveDayState, before the episode.
     let outcomeKey = 'success';
     let check = null;
     if (interaction.skill?.difficulty != null) {
@@ -249,10 +460,19 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
     }
 
     const outcome = interaction.outcomes?.[outcomeKey] ?? {};
-    pool_.apply(day, outcome);
+    pool_.apply(day, outcome, interaction);
 
     // The choice is consumed: B5's in-episode /decide must not see it again.
-    if (pool_.encounter) pool_.encounter.interaction.decision = null;
+    if (pool_.encounter) {
+      pool_.encounter.interaction.decision = null;
+      pool_.encounter.interaction.resolved_choice = {
+        interaction_id: interaction.id, act: interaction.act,
+        text: outcome.text?.en ?? null,
+        // A 'walked on' pick changes nothing — 'changed' marks only a
+        // choice the body actually felt (the old option.commands rule).
+        changed: (outcome.effects || []).length > 0,
+      };
+    }
 
     applied.push({
       situation_id: pool_.situation_id,
@@ -263,8 +483,20 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
       check,
       text: outcome.text?.en ?? null,
     });
+
+    // The day felt what happened: project the Condition forward, report
+    // the outcome event so the NEXT pool is scored by the evolved Mind.
+    // Ambient voices already reach the episode as 'moment' events —
+    // minting a second, id-less event here would sediment them twice.
+    if (pool_.kind !== 'ambient') {
+      events.push(outcomeEvent(day, pool_, interaction, outcomeKey, outcome));
+    }
+    applyConditionDeltas(projected, outcome?.effects);
+    await flush();
   }
 
+  await flush();
   day.interaction_choices = applied;
+  day.interaction_events = events.map(({ _felt, ...e }) => e);
   return applied;
 }

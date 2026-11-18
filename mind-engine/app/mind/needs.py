@@ -100,20 +100,11 @@ def _resolve(need, reason, idx):
     need.resolution = reason
 
 
-def needs_pass(session, game_id, mind, episode, perceived, character=None):
-    """Open-time pass: fire detectors + threads, refresh urgency, close what
-    cleared. Returns the character's open needs (urgency desc)."""
+def _apply_fired(session, game_id, mind, fired, resolved_refs, idx):
+    """The state-of-the-world applied to the need table: open or refresh
+    what fired, auto-resolve physiological needs that cleared, honour
+    explicit resolutions. Returns open needs (urgency desc)."""
     w = {**DEFAULT_WIRING, **(mind.wiring or {})}
-    idx = episode_index(episode)
-    state = character_state(character, episode.events)
-
-    fired = _detectors(session, game_id, state, w)
-    # B9: declarative multi-day rules (exposure, snowbound, ...) — the
-    # streak counter is bumped at close; today counts optimistically.
-    fired += rule_needs(session, mind, episode, w=w)
-    threads, resolved_refs = _threads(perceived)
-    fired += threads
-
     existing = {
         n.key: n
         for n in session.query(Need).filter_by(
@@ -178,6 +169,32 @@ def needs_pass(session, game_id, mind, episode, perceived, character=None):
         (n for n in existing.values() if n.status == 'open'),
         key=lambda n: n.urgency or 0.0, reverse=True,
     )
+
+
+def needs_pass(session, game_id, mind, episode, perceived, character=None):
+    """Open-time pass: fire detectors + threads, refresh urgency, close what
+    cleared. Returns the character's open needs (urgency desc)."""
+    w = {**DEFAULT_WIRING, **(mind.wiring or {})}
+    idx = episode_index(episode)
+    state = character_state(character, episode.events)
+
+    fired = _detectors(session, game_id, state, w)
+    # B9: declarative multi-day rules (exposure, snowbound, ...) — the
+    # streak counter is bumped at close; today counts optimistically.
+    fired += rule_needs(session, mind, episode, w=w)
+    threads, resolved_refs = _threads(perceived)
+    fired += threads
+    return _apply_fired(session, game_id, mind, fired, resolved_refs, idx)
+
+
+def refresh_state_needs(session, game_id, mind, state, idx=None):
+    """The mid-day core (Wave C): detectors alone, over the Condition the
+    host reports NOW — no episode, no threads, no streak rules. An outcome
+    that fed the traveller closes 'hunger' before the next situation is
+    chosen, so sequential choosing feels the day as it unfolds."""
+    w = {**DEFAULT_WIRING, **(mind.wiring or {})}
+    fired = _detectors(session, game_id, state or {}, w)
+    return _apply_fired(session, game_id, mind, fired, [], idx)
 
 
 def resolve_from_outcome(session, mind, episode, outcome):

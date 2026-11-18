@@ -129,7 +129,7 @@ DEFAULT_WIRING = {
     # ordinary, not a pattern break worth a 'no given today' reading.
     'repetition_exempt_tags': [
         'tag:drink:*', 'tag:form:*',
-        'tag:given', 'tag:changed', 'tag:decision',
+        'tag:given', 'tag:changed',
     ],
     # Reflection (B4) — the mind's only LLM call, at close: every N
     # episodes or on a salience spike. Reconciliation deltas, active cap
@@ -219,11 +219,9 @@ DEFAULT_WIRING = {
     'salience_min.tag:entity_type:pukel_constructs': 0.35,
     # C28: what touched the mechanics outranks ambience. 'given' — the
     # world handed something (authored commands, a provided meal);
-    # 'decision' — a fork stood in the day; 'changed' — a decided option
-    # applied. Tiers so an offer declined still registers under the day
-    # that took the bed. A dull mind may lower the whole channel.
+    # 'changed' — a taken fork or a wound marked the body. A dull mind
+    # may lower the whole channel.
     'salience_min.tag:given': 0.6,
-    'salience_min.tag:decision': 0.5,
     'salience_min.tag:changed': 0.65,
     # Places lived, not just passed: 'entered' marks the settlement the
     # traveller actually stopped at — its name and streets should reach

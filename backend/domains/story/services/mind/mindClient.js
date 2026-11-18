@@ -62,14 +62,15 @@ export function choose(characterId, { choices }) {
 }
 
 /**
- * Record the host's pick for a pending decision (B5). Returns the
- * episode state including `proposed_commands` — the host validates and
- * applies them; the mind never executes mechanics.
+ * Mid-day digestion (Wave C): hand the Mind resolved outcome events as
+ * each Situation lands so the NEXT /choose reads the evolved state.
+ * Events carry stable ids — episode open annotates them without
+ * re-feeding. `character` is the host's projected Condition.
  */
-export function decideEpisode(episodeId, { optionId, decisionId = null }) {
+export function perceive(characterId, { events, character = null }) {
   return post(
-    `/episodes/${episodeId}/decide`,
-    { option_id: optionId, decision_id: decisionId },
+    `/mind/minds/${characterId}/perceive`,
+    { game_id: GAME_ID, events, character },
     DECIDE_TIMEOUT_MS
   );
 }

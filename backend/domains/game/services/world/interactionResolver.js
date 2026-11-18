@@ -272,6 +272,7 @@ function toDialogueContent(row, rng) {
   const sit = pickSituation(row, rng);
   return {
     id: row.id,
+    situation_id: sit?.id ?? null,
     topic: row.facts?.topic ?? null,
     npc_attitude: row.disposition?.en ?? null,
     concrete_content: row.presence?.en ?? null,
@@ -311,6 +312,7 @@ function resolveMoverContact(leg, contact, moverKind, characterSlug, rng = Math.
   const sit = pickSituation(contact ?? {}, rng);
   const dialogueContent = contact ? {
     id: contact.contact_id ?? contact.id,
+    situation_id: sit?.id ?? null,
     topic: contact.facts?.topic ?? null,
     npc_attitude: contact.disposition?.en ?? null,
     concrete_content: concrete,

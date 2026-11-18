@@ -244,20 +244,12 @@ test('encounters carry the resolved substance of contact (C16)', () => {
   assert.equal(plain.data.topic, null);
 });
 
-test('encounters carry a dusk decision when the host resolved one (C25)', () => {
-  const decision = {
-    id: 'shelter-wayhouse-1',
-    prompt: 'A night spent here costs a small coin.',
-    options: [
-      {
-        id: 'stay',
-        label: 'Take the bed — a small coin',
-        tags: ['need:exhaustion', 'need:hunger'],
-        commands: [{ type: 'overnight_shelter', name: 'the wayhouse', indoor: true }],
-        stance: 'Takes the bed. Eats what the pot offers.',
-      },
-      { id: 'move_on', label: 'Mark the lamp and keep to the road', tags: ['risk:bold'], commands: [] },
-    ],
+test('encounters carry the engine-resolved pick when there was a fork (Wave C)', () => {
+  const resolved_choice = {
+    interaction_id: 'cnt:e-shelter:stay',
+    act: 'accept',
+    text: 'Takes the bed. Eats what the pot offers.',
+    changed: true,
   };
   const events = toEvents({
     day: {
@@ -267,17 +259,17 @@ test('encounters carry a dusk decision when the host resolved one (C25)', () => 
         hour_float: 20.5,
         phase: 'night',
         region: 'lone-lands',
-        interaction: { form: 'harvest_shelter', prose_hint: 'a lit lamp at the roadside', decision },
+        interaction: { form: 'harvest_shelter', prose_hint: 'a lit lamp at the roadside', resolved_choice },
       }],
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
   });
   const encounter = events.find((e) => e.type === 'encounter');
-  assert.deepEqual(encounter.data.decision, decision);
-  // Mid-march sightings without a decision emit none.
+  assert.deepEqual(encounter.data.resolved_choice, resolved_choice);
+  // Mid-march sightings without a resolved fork emit none.
   const plain = toEvents({ day: { ...DAY, encounters: [] }, trip: { id: 't1' }, character: {} });
-  assert.ok(!plain.some((e) => e.data?.decision));
+  assert.ok(!plain.some((e) => e.data?.resolved_choice));
 });
 
 test('mechanically consequential events carry weight markers (C28)', () => {
@@ -301,7 +293,7 @@ test('mechanically consequential events carry weight markers (C28)', () => {
           hour_float: 20.5, phase: 'night',
           interaction: {
             form: 'harvest_shelter',
-            decision: { id: 'shelter-1', options: [{ id: 'stay' }, { id: 'move_on' }] },
+            resolved_choice: { interaction_id: 'cnt:e-shelter:stay', act: 'accept', changed: true },
           },
         },
         {
@@ -317,7 +309,7 @@ test('mechanically consequential events carry weight markers (C28)', () => {
   const byEntity = (slug) =>
     events.find((e) => e.type === 'encounter' && e.data.entity === slug);
   assert.ok(byEntity('northman').data.tags.includes('given'));
-  assert.ok(byEntity('wayhouse').data.tags.includes('decision'));
+  assert.ok(byEntity('wayhouse').data.tags.includes('changed'));
   assert.ok(byEntity('wolves').data.tags.includes('changed'));
   const meal = events.find((e) => e.type === 'meal');
   assert.deepEqual(meal.data.tags, ['given']);
