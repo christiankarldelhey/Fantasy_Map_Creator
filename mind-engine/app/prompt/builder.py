@@ -42,11 +42,20 @@ _EVENT_PHASE_KEYS = {
     'weather': ('climate',),
     'meal': ('meal',),
     'terrain': ('terrain',),
-    'locations': ('place',),
+    'locations': ('place', 'region'),
     'water': ('water',),
     'moments': ('moment',),
     'camp': ('rest',),
 }
+
+
+def _event_material_kind(event):
+    """The routing key for an event's reading. Land-contact events ride
+    the wire under the 'land' umbrella keyed by data.subtype (place,
+    terrain, water, region — toEvents.js); everything else keys on type."""
+    if event.get('type') == 'land':
+        return ((event.get('data') or {}).get('subtype')) or ''
+    return event.get('type') or ''
 
 
 def _events_phase_material(events):
@@ -58,9 +67,10 @@ def _events_phase_material(events):
         reading = ((event.get('data') or {}).get('reading')) or ''
         if not reading:
             continue
+        kind = _event_material_kind(event)
         phase = (event.get('when') or {}).get('phase') or 'night'
         for key, types in _EVENT_PHASE_KEYS.items():
-            if event.get('type') in types and phase in material[key]:
+            if kind in types and phase in material[key]:
                 material[key][phase].append(reading)
                 break
     return material
