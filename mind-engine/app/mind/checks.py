@@ -24,6 +24,7 @@
 import random
 
 from app.mind.detectors import altered_by_state, state_mods
+from app.mind.semantics import wakes_sleeper
 from app.mind.util import num
 from app.mind.voice import phrases
 
@@ -95,12 +96,12 @@ def _is_altered(session, game_id, state, w, mind=None):
     return bool(state.get('conditions', set()) & names)
 
 
-def is_asleep(event, w):
+def is_asleep(event, tags, w, semantics):
     """Night is a state of the mind, not just a timestamp: during a sleep
     phase an event that would take a check to perceive passes unheard —
-    unless contact is intrusive (a form that physically wakes the sleeper:
-    attacks, confronts, sudden peril) or harm already landed (a wounded
-    outcome). A distant howl at 02:30 stays a distant howl."""
+    unless contact is intrusive (a kind the semantic pack marks 'wakes':
+    attacks, confronts, sudden peril) or harm already landed. A distant
+    howl at 02:30 stays a distant howl."""
     phase = (event.get('when') or {}).get('phase')
     # [] is a deliberate "never sleeps" — distinct from an unset knob.
     phases = w.get('sleep_phases')
@@ -111,9 +112,7 @@ def is_asleep(event, w):
     data = event.get('data') or {}
     if not isinstance(data.get('check'), dict) or not data['check'].get('skill'):
         return False
-    if data.get('form') in (w.get('sleep_wake_forms') or ()):
-        return False
-    if data.get('outcome') in (w.get('sleep_wake_outcomes') or ()):
+    if wakes_sleeper(tags, semantics):
         return False
     return True
 

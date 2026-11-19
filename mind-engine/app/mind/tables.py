@@ -624,6 +624,7 @@ class Semantic(Base):
     body: Mapped[dict] = mapped_column(JSONB, nullable=True)
     salience_min: Mapped[float] = mapped_column(Float, nullable=True)
     severity: Mapped[float] = mapped_column(Float, nullable=True)
+    wakes: Mapped[bool] = mapped_column(Boolean, nullable=True)
     enabled: Mapped[bool] = mapped_column(Boolean, nullable=False,
                                           default=True)
 

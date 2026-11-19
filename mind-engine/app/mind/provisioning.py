@@ -74,23 +74,11 @@ DEFAULT_WIRING = {
     # ('check_mod' kind). Per-mind overrides use 'detector.<key>.<param>'.
     'unnoticed_salience': 0.5,
     # Sleep/wake (C4) — during a sleep phase the mind is unconscious:
-    # checked events pass unheard unless the form physically wakes the
-    # sleeper or the outcome is harm already done. All wiring — a nocturnal
-    # creature preset empties sleep_phases entirely.
+    # checked events pass unheard unless contact is intrusive enough to
+    # wake the sleeper. WHEN the mind sleeps is wiring — a nocturnal
+    # creature preset empties sleep_phases entirely; WHICH kinds wake it
+    # is the contact's own meaning — 'wakes' on the semantic row (C16).
     'sleep_phases': ['night'],
-    # Contact forms wake the sleeper (C16): if the world resolved a
-    # brief exchange or an offered bed, contact already happened —
-    # the mind cannot sleep through what canonically occurred (the
-    # tracking roll still runs; waking is not auto-noticing). Distant
-    # perception events — signs, sounds, a far-off shape — stay
-    # sleep-missable.
-    'sleep_wake_forms': [
-        'attacks', 'confronts', 'sudden_peril',
-        'brief_exchange', 'aid_or_trade', 'harvest_shelter',
-        'reacts_withdraws', 'hinders_passage', 'mistaken_for_object',
-        'drifts_closer',
-    ],
-    'sleep_wake_outcomes': ['wounded', 'badly wounded'],
     # Needs engine (B2) — detector triggers live in the detectors pack
     # ('need' kind, ADR 0005); the streak knob stays here for B9 composite
     # rules.

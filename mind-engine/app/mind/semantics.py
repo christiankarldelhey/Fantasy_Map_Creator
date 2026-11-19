@@ -28,48 +28,50 @@
 # Game-level overrides live in the `semantics` table, declared like
 # Detectors: DEFAULT_SEMANTICS is the built-in pack.
 # ============================================================================
-from app.mind.util import tag_matches
+from app.mind.util import num, tag_matches
 
 DEFAULT_SEMANTICS = {
     # Contact forms — how the meeting happened.
     'tag:form:attacks': {
         'delta': {'fear': 0.5, 'affection': -0.2, 'trust': -0.1},
         'weight': 0.9, 'body': {'pain': 0.15}, 'salience_min': 0.6,
+        'wakes': True,
     },
     'tag:form:sudden_peril': {
         'delta': {'fear': 0.5, 'trust': -0.1}, 'weight': 0.8,
-        'salience_min': 0.55,
+        'salience_min': 0.55, 'wakes': True,
     },
     'tag:form:confronts': {
         'delta': {'fear': 0.3, 'affection': -0.1, 'trust': -0.1},
-        'weight': 0.6, 'salience_min': 0.5,
+        'weight': 0.6, 'salience_min': 0.5, 'wakes': True,
     },
     'tag:form:stalks': {
         'delta': {'fear': 0.25}, 'weight': 0.4, 'salience_min': 0.35,
     },
     'tag:form:hinders_passage': {
         'delta': {'affection': -0.15, 'trust': -0.05}, 'weight': 0.45,
-        'salience_min': 0.4,
+        'salience_min': 0.4, 'wakes': True,
     },
     'tag:form:aid_or_trade': {
         'delta': {'affection': 0.15, 'trust': 0.3}, 'weight': 0.5,
-        'salience_min': 0.5,
+        'salience_min': 0.5, 'wakes': True,
     },
     'tag:form:harvest_shelter': {
         'delta': {'affection': 0.25, 'trust': 0.3, 'familiarity': 0.15},
         'weight': 0.5, 'body': {'cold': -0.4}, 'salience_min': 0.45,
+        'wakes': True,
     },
     'tag:form:brief_exchange': {
         'delta': {'affection': 0.1, 'trust': 0.1, 'familiarity': 0.15},
-        'weight': 0.45, 'salience_min': 0.45,
+        'weight': 0.45, 'salience_min': 0.45, 'wakes': True,
     },
     'tag:form:reacts_withdraws': {
         'delta': {'affection': 0.05, 'familiarity': 0.1}, 'weight': 0.35,
-        'salience_min': 0.35,
+        'salience_min': 0.35, 'wakes': True,
     },
     'tag:form:drifts_closer': {
         'delta': {'familiarity': 0.1}, 'weight': 0.3,
-        'salience_min': 0.3,
+        'salience_min': 0.3, 'wakes': True,
     },
     'tag:form:watches': {
         'delta': {'fear': 0.1, 'familiarity': 0.05}, 'weight': 0.3,
@@ -101,7 +103,7 @@ DEFAULT_SEMANTICS = {
         'delta': {'familiarity': 0.06}, 'weight': 0.2,
     },
     'tag:form:mistaken_for_object': {
-        'delta': {'familiarity': 0.08}, 'weight': 0.2,
+        'delta': {'familiarity': 0.08}, 'weight': 0.2, 'wakes': True,
     },
     # 'topic' is the generic contact fallback — words traded without an
     # authored form: a shade of an exchange.
@@ -111,11 +113,11 @@ DEFAULT_SEMANTICS = {
     # Outcomes — how the meeting resolved.
     'tag:outcome:wounded': {
         'delta': {'fear': 0.3, 'trust': -0.1},
-        'weight': 0.7, 'body': {'pain': 0.4},
+        'weight': 0.7, 'body': {'pain': 0.4}, 'wakes': True,
     },
     'tag:outcome:badly wounded': {
         'delta': {'fear': 0.4, 'trust': -0.15},
-        'weight': 0.85, 'body': {'pain': 0.6},
+        'weight': 0.85, 'body': {'pain': 0.6}, 'wakes': True,
     },
     'tag:outcome:unscathed': {'delta': {'affection': 0.05}, 'weight': 0.3},
     'tag:outcome:slain': {
@@ -308,32 +310,29 @@ DEFAULT_SEMANTICS = {
     'tag:entity_type:maiar': {
         'delta': {}, 'weight': 0.0, 'salience_min': 0.5,
     },
-}
-
-# Numeric data fields that carry objective meaning per unit — scaled by
-# the event's contact weight like any tag delta.
-DEFAULT_SEMANTIC_FIELDS = {
-    'danger': {'fear': 0.1, 'affection': -0.05},
-    'shadow_effect': {'fear': 0.1, 'affection': -0.1},
+    # Numeric data fields — the wire's declared fact channels. 'field:X'
+    # rows read the event's data, not its tags: 'delta' is per-unit
+    # meaning scaled by the event's contact weight ('danger' 0-5 is
+    # objectively menacing), and 'severity' marks a field whose value
+    # counts toward the event's severity outright (0-1 normalized).
+    'field:danger': {
+        'delta': {'fear': 0.1, 'affection': -0.05}, 'severity': 1.0,
+    },
+    'field:shadow_effect': {
+        'delta': {'fear': 0.1, 'affection': -0.1},
+    },
+    'field:severity': {'severity': 1.0},
+    'field:threat': {'severity': 1.0},
+    'field:damage': {'severity': 1.0},
+    'field:wound': {'severity': 1.0},
+    'field:pain': {'severity': 1.0},
+    'field:hostility': {'severity': 1.0},
+    'field:risk': {'severity': 1.0},
+    'field:lethality': {'severity': 1.0},
 }
 
 # A sighting is never full contact — however severe the thing seen.
 SIGHTED_FAR_CAP = 0.15
-
-# Condition -> body (ADR 0017): the continuous projection — the host's
-# scalars read through this declared map, scale = units that saturate
-# the dim. Detectors stay the need-firing vocabulary; this is the felt
-# body. `invert` reads a resource field backwards (energy 35 = fatigue
-# .65). Acute event hits land on top, next Condition resets the base.
-BODY_PROJECTION = {
-    'hunger':  {'field': 'days_without_food', 'scale': 5.0},
-    'thirst':  {'field': 'days_without_water', 'scale': 3.0},
-    'fatigue': {'field': 'energy', 'scale': 100.0, 'invert': True},
-    'unrest':  {'field': 'shadow', 'scale': 100.0},
-    'cold':    {'field': 'cold', 'scale': 1.0},
-    'pain':    {'field': 'pain', 'scale': 1.0},
-    'illness': {'field': 'illness', 'scale': 1.0},
-}
 
 
 def load_semantics(session, game_id):
@@ -352,6 +351,7 @@ def load_semantics(session, game_id):
             'body': dict(row.body or {}),
             'salience_min': row.salience_min,
             'severity': row.severity,
+            'wakes': row.wakes,
         }
     return pack
 
@@ -370,14 +370,46 @@ def tag_floors(tags, semantics):
     return salience_min, severity
 
 
+def field_severity(data, semantics):
+    """The wire's explicit severity (C6): 'field:' rows declare which
+    numeric data fields count as severity — the host's word, not the
+    engine's. A row's 'severity' is the rate the value applies at."""
+    best = 0.0
+    for key, row in (semantics or {}).items():
+        if not key.startswith('field:'):
+            continue
+        rate = row.get('severity')
+        if rate is None:
+            continue
+        raw = num((data or {}).get(key[6:]))
+        if raw is not None:
+            best = max(best, raw * rate)
+    return best
+
+
+def wakes_sleeper(tags, semantics):
+    """A matched row declaring 'wakes' is contact intrusive enough to
+    break sleep (C16): the world already resolved the exchange, the
+    mind cannot sleep through what canonically occurred."""
+    for key, row in (semantics or {}).items():
+        if row.get('wakes') and any(
+            tag_matches(t, key) for t in tags or []
+        ):
+            return True
+    return False
+
+
 def semantic_delta(tags, data, semantics):
     """The event's objective reading: the summed sparse delta its matched
     semantic rows declare (each scaled by its row's contact weight), plus
-    numeric fields at the event's overall contact weight.
+    'field:' rows for the wire's numeric fact channels at the event's
+    overall contact weight.
     Returns (world_delta, contact_weight, body_hit)."""
     world, body_hit = {}, {}
     weight = 0.0
     for key, row in (semantics or {}).items():
+        if key.startswith('field:'):
+            continue
         if not any(tag_matches(t, key) for t in tags or []):
             continue
         row_w = row.get('weight')
@@ -387,11 +419,14 @@ def semantic_delta(tags, data, semantics):
         for dim, v in (row.get('body') or {}).items():
             body_hit[dim] = body_hit.get(dim, 0.0) + v
     contact = weight or 0.5
-    for field, delta in DEFAULT_SEMANTIC_FIELDS.items():
-        raw = (data or {}).get(field)
-        if isinstance(raw, (int, float)) and not isinstance(raw, bool):
-            for dim, v in delta.items():
-                world[dim] = world.get(dim, 0.0) + v * raw * contact
+    for key, row in (semantics or {}).items():
+        if not key.startswith('field:'):
+            continue
+        raw = num((data or {}).get(key[6:]))
+        if raw is None:
+            continue
+        for dim, v in (row.get('delta') or {}).items():
+            world[dim] = world.get(dim, 0.0) + v * raw * contact
     if (data or {}).get('sighted_far') and contact > SIGHTED_FAR_CAP:
         # Seen from afar: whatever heavier row matched, the sighting
         # carries only a sighting's share of it.
