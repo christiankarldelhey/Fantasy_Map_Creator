@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue'
-import { DORMANT_TRAITS, LIVING_TRAITS } from '../../lib/labels'
 import type { MindDetail } from '../../types'
 import PanelCard from '../ui/PanelCard.vue'
-import ConcernsEditor from './ConcernsEditor.vue'
 import MoodEditor from './MoodEditor.vue'
 import SkillsEditor from './SkillsEditor.vue'
-import TraitsEditor from './TraitsEditor.vue'
 
 const props = defineProps<{ mind: MindDetail }>()
 const emit = defineEmits<{ saved: [] }>()
@@ -47,32 +44,10 @@ const wiring = computed(() => Object.entries(props.mind.wiring))
     </PanelCard>
 
     <PanelCard
-      title="Rasgos de personalidad"
-      description="Definen cómo percibe, recuerda y cree. Ya afectan cada episodio."
-    >
-      <TraitsEditor :mind="mind" :keys="LIVING_TRAITS" @saved="onSaved" @error="onError" />
-    </PanelCard>
-
-    <PanelCard
-      title="Rasgos de decisión"
-      description="Se guardan con el personaje pero todavía no tienen efecto: se van a usar cuando la mente tome decisiones por su cuenta."
-    >
-      <template #actions><span class="badge">Sin efecto todavía</span></template>
-      <TraitsEditor :mind="mind" :keys="DORMANT_TRAITS" @saved="onSaved" @error="onError" />
-    </PanelCard>
-
-    <PanelCard
       title="Habilidades"
       description="Lo que sabe hacer, de 0 a 10. El juego las usa para resolver pruebas y la mente para saber de qué es capaz."
     >
       <SkillsEditor :mind="mind" :editable="skillsEditable" @saved="onSaved" @error="onError" />
-    </PanelCard>
-
-    <PanelCard
-      title="Temas que le importan"
-      description="Cosas a las que presta más atención y que recuerda mejor. No indica si le gustan o le dan miedo, solo que le importan."
-    >
-      <ConcernsEditor :mind="mind" @saved="onSaved" @error="onError" />
     </PanelCard>
 
     <details class="advanced">

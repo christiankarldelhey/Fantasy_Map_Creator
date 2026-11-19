@@ -78,7 +78,7 @@ def _brain(char):
     session = SessionLocal()
     mind = Mind(
         game_id='middle_earth', character_id=char, preset_slug='default',
-        theme_weights={}, wiring={}, mood={}, counters={},
+        wiring={}, mood={}, counters={},
     )
     session.add(mind)
     session.commit()

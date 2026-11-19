@@ -132,26 +132,26 @@ def test_decide_unknowns(client):
     assert r.status_code == 404
 
 
-def test_recommended_follows_theme_weights(client):
-    """A mind that weighs risk:bold high recommends the bold option;
-    one without opinionated wiring recommends nothing."""
+def test_recommended_follows_relations(client):
+    """A mind holding strong feeling toward the bold option's tag
+    recommends it; one with no standing recommends nothing."""
     from app.db import SessionLocal
-    from app.mind.tables import MindPreset, PresetThemeWeight
+    from app.mind.tables import Relation
 
+    char = _uid('bold-heart')
+    # A lived scar/love toward the option's tag: the Relation is the
+    # only per-mind attention channel left (#165).
     session = SessionLocal()
-    slug = _uid('bold')
-    preset = MindPreset(game_id='middle_earth', slug=slug, name='Bold')
-    session.add(preset)
-    session.flush()
-    session.add(PresetThemeWeight(preset_id=preset.id,
-                                key='risk:bold', weight=0.8))
+    session.add(Relation(
+        game_id='middle_earth', character_id=char,
+        subject='risk:bold', affection=0.8, origin='lived',
+    ))
     session.commit()
     session.close()
 
-    char = _uid('bold-heart')
     opened = client.post('/episodes', json={
         'game_id': 'middle_earth',
-        'character': {'id': char, 'preset': slug},
+        'character': {'id': char},
         'episode_ref': 'd1',
         'events': [_decision_event()],
     }).json()

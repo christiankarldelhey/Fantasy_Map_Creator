@@ -131,9 +131,10 @@ def test_pattern_does_not_duplicate(client):
     assert len(_patterns(char)) == 1
 
 
-def test_host_theme_tags_form_patterns(client):
-    """A single-segment host tag ('tags': ['omen']) is curated semantics —
-    eligible for patterns. Multi-segment 'tag:<field>:<value>' is not."""
+def test_bare_host_tags_never_form_patterns(client):
+    """A bare 'tag:x' marker is bookkeeping, not a theme (#147): only
+    declared pattern families can consolidate — 'road-weariness'
+    repeated three days runs still mints nothing."""
     char = _uid('theme')
     for ep in (1, 2, 3):
         event = {
@@ -142,18 +143,18 @@ def test_host_theme_tags_form_patterns(client):
             'data': {'tags': ['road-weariness']},
         }
         _open_and_close(client, char, f'd{ep}', [event])
-    patterns = _patterns(char)
-    assert [p.tags for p in patterns] == [['tag:road-weariness']]
+    assert _patterns(char) == []
 
 
-def test_field_values_never_form_patterns(client):
-    """The daily ration is bookkeeping: 'tag:food:lembas' feeds weights and
-    retrieval but must never consolidate into a recurring theme."""
+def test_daily_ration_can_become_a_theme(client):
+    """'tag:food:lembas' is a declared pattern family (#147): the same
+    bread every day IS the kind of thing a mind notices as a theme —
+    'lembas keeps recurring'."""
     char = _uid('ration')
     for ep in (1, 2, 3):
         _open_and_close(client, char, f'd{ep}', [_meal(ep)])
-    assert _patterns(char) == []
-    assert 'tag:food:lembas' in _all_tags(char)
+    patterns = _patterns(char)
+    assert [p.tags for p in patterns] == [['tag:food:lembas']]
 
 
 def test_absence_markers_never_tag_or_pattern(client):

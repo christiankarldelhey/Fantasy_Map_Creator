@@ -27,7 +27,7 @@ DEFAULT_WIRING = {
     'w_severity': 0.35,
     'w_novelty': 0.25,
     'w_emotional': 0.15,
-    'w_theme': 0.15,
+    'w_attention': 0.15,
     'w_perception': 0.10,
     'alpha': 0.4,
     'beta': 0.4,
@@ -105,21 +105,25 @@ DEFAULT_WIRING = {
     'repetition_valence_cap': 0.3,
     'repetition_salience': 0.3,
     'repetition_relief': 0.15,
+    # A salient novel event owns the day (#149): when the loudest
+    # noticed thing that is not the streak reaches this salience, the
+    # sameness still erodes but does not spend the day's words.
+    'recurrence_yield_salience': 0.45,
     # Breaks that end badly (C12): when a watched streak dies while the
     # linked need is open, the break is warning, not relief — 'the bread
     # ran out' is no dry-day news when the body is already counting meals.
     'break_need_watch': {'tag:food:*': 'hunger'},
     'break_loss_valence': -0.1,
     'repetition_relief_salience': 0.45,
+    # The break's sign follows standing (#148): relief_val minus
+    # like*scale — losing a loved streak reads as a gap, losing a hated
+    # one as deeper relief. 0.3 makes like=+1 a small loss.
+    'break_standing_scale': 0.3,
     # Base routine never grates: 'tag:drink:*' is hydration, not
-    # monotony (its absence is the thirst need's job), 'tag:form:*' is
-    # how contact happened, not content that repeats. The C28 weight
-    # markers are meta-signal, not content — a day without a gift is
-    # ordinary, not a pattern break worth a 'no given today' reading.
-    'repetition_exempt_tags': [
-        'tag:drink:*', 'tag:form:*',
-        'tag:given', 'tag:changed', 'tag:decision',
-    ],
+    # monotony (its absence is the thirst need's job). Everything else
+    # that used to sit here is simply ineligible now — only
+    # pattern-classed families can form a streak at all (#147).
+    'repetition_exempt_tags': ['tag:drink:*'],
     # Reflection (B4) — the mind's only LLM call, at close: every N
     # episodes or on a salience spike. Reconciliation deltas, active cap
     # and the decay of unreinforced beliefs.
@@ -140,6 +144,10 @@ DEFAULT_WIRING = {
     # touches multiplies its score by (1 + bonus) — the specific line
     # (orc SIGNS) outranks the generic one (orcs); rotation breaks ties.
     'belief_specificity_bonus': 0.25,
+    # Inner voice refractory (#86): a Musing that spoke this many
+    # episodes ago (or fewer) stays quiet — the thought needs time to
+    # gather before it can be the mind's reply again. 0 disables.
+    'musing_refractory_episodes': 2,
     # Relations (ADR 0017 · Relation): the sediment watches what it
     # loves or fears — max|dim| * gain lands on the subject's tags each
     # perception pass; and each closed episode every Relation cools
@@ -159,8 +167,6 @@ DEFAULT_WIRING = {
     # circumstances gone). Enduring beliefs only know evidence.
     'belief_transient_decay': 0.8,
     'belief_transient_episode_decay': 0.9,
-    # B6: a belief only bends theme_weights while it stays strong.
-    'belief_boost_min_strength': 3.0,
     # B8: semantic similarity joins the retrieval score —
     # score += delta_embedding * cosine(episode, memory). 0 disables.
     'delta_embedding': 0.25,
@@ -195,14 +201,6 @@ DEFAULT_WIRING = {
     # the protagonist — but never reflect (LLM stays a protagonist cost)
     # and defer decay/pattern consolidation to POST /maintenance/consolidate.
     'degraded': False,
-    # Dormant action traits (#59): who the character is when it acts —
-    # data from day one, no mechanism reads them until Decision (#62).
-    # A preset overrides any of them in preset_wiring like any other key.
-    'trait_impulso': 0.5,
-    'trait_deliberacion': 0.5,
-    'trait_integridad': 0.5,
-    'trait_coraje': 0.5,
-    'trait_corruptibilidad': 0.5,
 }
 
 NEUTRAL_MOOD = {'valence': 0.0, 'arousal': 0.0, 'dominant': 'neutral'}
@@ -222,13 +220,11 @@ def _find_preset(session, game_id, *slugs):
     return None
 
 
-def _preset_config(preset):
-    """Materialise a preset's child rows into the mind's config dicts."""
+def _preset_wiring(preset):
+    """Materialise a preset's wiring rows over the engine defaults."""
     if preset is None:
-        return {}, dict(DEFAULT_WIRING)
-    theme_weights = {r.key: r.weight for r in preset.theme_weights}
-    wiring = {**DEFAULT_WIRING, **{r.key: r.value for r in preset.wiring}}
-    return theme_weights, wiring
+        return dict(DEFAULT_WIRING)
+    return {**DEFAULT_WIRING, **{r.key: r.value for r in preset.wiring}}
 
 
 def seed_starter_beliefs(session, game_id, character_id, preset):
@@ -303,14 +299,13 @@ def get_or_create_mind(session, game_id, character_id, hint_slug=None):
         return mind
 
     preset = _find_preset(session, game_id, hint_slug, DEFAULT_PRESET_SLUG)
-    theme_weights, wiring = _preset_config(preset)
+    wiring = _preset_wiring(preset)
 
     mind = Mind(
         game_id=game_id,
         character_id=character_id,
         preset_id=preset.id if preset else None,
         preset_slug=preset.slug if preset else (hint_slug or DEFAULT_PRESET_SLUG),
-        theme_weights=theme_weights,
         wiring=wiring,
         mood=dict(NEUTRAL_MOOD),
         counters={},
@@ -387,8 +382,8 @@ def effective_character(row, wire_card):
 
 
 def reassign_preset(session, game_id, character_id, slug, reclone=False):
-    """Admin reassignment. reclone=True also resets the mind's config
-    (theme_weights + wiring) to the new preset's — memories and beliefs are
+    """Admin reassignment. reclone=True also resets the mind's wiring
+    to the new preset's — memories and beliefs are
     content and are never touched."""
     mind = (
         session.query(Mind)
@@ -401,7 +396,5 @@ def reassign_preset(session, game_id, character_id, slug, reclone=False):
     mind.preset_id = preset.id if preset else None
     mind.preset_slug = preset.slug if preset else slug
     if reclone:
-        theme_weights, wiring = _preset_config(preset)
-        mind.theme_weights = theme_weights
-        mind.wiring = wiring
+        mind.wiring = _preset_wiring(preset)
     return mind

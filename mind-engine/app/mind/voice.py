@@ -118,13 +118,13 @@ PHRASES = {
     # Where a need comes from (the Lens brief): a Need always speaks with
     # its cause. {days} from the detector; {cause} is what the entering
     # mood carries — the shadow is told through what fed it.
-    'mind.need_origin.hunger': ['{days} days without a proper meal'],
-    'mind.need_origin.thirst': ['{days} days without enough water'],
+    'mind.need_origin.hunger': ['{days_text} without a proper meal'],
+    'mind.need_origin.thirst': ['{days_text} without enough water'],
     'mind.need_origin.exhaustion': ['the body has been spent faster than it rests'],
     'mind.need_origin.unrest': ['it has gathered since {cause}'],
     'mind.need_origin.unrest.nameless': ['the shadow has been gathering, nameless'],
     'mind.need_origin.wound': ['since the wound was taken'],
-    'mind.need_origin.gloom': ['{days} days beneath a sunless sky'],
+    'mind.need_origin.gloom': ['{days_text} beneath a sunless sky'],
     # Event types that frame every Episode and never take the Focus
     # (ADR 0005): the engine's own items ('need') are excluded in code;
     # the world's frame types are declared here, per game.
@@ -154,8 +154,12 @@ PHRASES = {
         'no {subject} today — the first break in the stretch',
         'the {subject} let up at last; the change itself is noticed',
     ],
-    # C12: the streak broke the wrong way — what fed it ran out while a
-    # need was already open. Warning, not relief.
+    # C12/#148: the streak that ended was loved or needed — the bread
+    # ran out, the good rain stopped. The gap is felt, not the relief.
+    'mind.pattern_break_loss': [
+        'no {subject} today — and the gap of it is felt',
+        'the {subject} is gone now; something steady went with it',
+    ],
     'mind.pattern_break_need': [
         'no {subject} today — the stretch ended the wrong way',
         'the {subject} is gone now; the days of it ended badly',
@@ -178,6 +182,14 @@ MOOD_BANDS = [
     {'below': 0.6, 'phrase': 'heartened'},
     {'below': None, 'phrase': 'exultant'},
 ]
+
+# Streak subjects that are not the tag's tail (#147): non-noun tags need
+# a worded subject — 'the poor let up at last' is broken English, 'the
+# sleepless nights let up' is the thought the streak carries.
+STREAK_SUBJECTS_KEY = 'mind.streak_subjects'
+STREAK_SUBJECTS = {
+    'tag:rest:poor': 'sleepless nights',
+}
 
 
 def _game_entries(session, game_id):
@@ -221,6 +233,14 @@ def phrases(key, session=None, game_id=None):
     """The variants the mind has for a phrase key ([] when undeclared
     or silenced)."""
     return list(pack_value(session, game_id, key, PHRASES.get(key) or []) or [])
+
+
+def streak_subjects(session=None, game_id=None):
+    """{tag: worded subject} — exact-tag overrides for streak readings."""
+    return dict(
+        pack_value(session, game_id, STREAK_SUBJECTS_KEY, STREAK_SUBJECTS)
+        or {}
+    )
 
 
 def mood_phrase(valence, session=None, game_id=None):

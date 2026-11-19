@@ -14,6 +14,19 @@
 # Narrowest first: a match on an entity outranks a family, a family a type.
 _LEVELS = (('entity:', 3), ('tag:family:', 2), ('tag:entity_type:', 1))
 
+# The people ladder (#86): 'dunlendings' is the same folk whether the
+# host worded them 'tag:family:' or 'tag:entity_type:' — the levels are
+# naming, not identity. Matching normalizes both sides to the type form
+# so a belief's subject and the day's tag agree on the terminal slug.
+_LADDER = ('tag:family:', 'tag:entity_type:')
+
+
+def ladder_norm(tag):
+    for prefix in _LADDER:
+        if tag.startswith(prefix):
+            return f'tag:entity_type:{tag[len(prefix):]}'
+    return tag
+
 
 def is_attitude(belief):
     return bool(getattr(belief, 'subject', None)) and (
@@ -29,6 +42,12 @@ def subject_level(tag):
 
 
 def match_level(belief, tags):
-    """How narrowly this attitude's subject meets the tags; 0 = no touch."""
-    hits = set(belief.subject or []) & set(tags or [])
+    """How narrowly this attitude's subject meets the tags; 0 = no touch.
+    Ladder-normalized (#86): a family subject meets an entity_type tag
+    on the same slug — the level is the subject's own narrowness."""
+    tags = {ladder_norm(t) for t in tags or []}
+    hits = [
+        s for s in (belief.subject or [])
+        if ladder_norm(s) in tags
+    ]
     return max((subject_level(t) for t in hits), default=0)

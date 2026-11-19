@@ -2,79 +2,6 @@
 // speaks in keys (piel, tag:weather:storm, HUNGER); the Studio owns how
 // they read in Spanish.
 
-export interface TraitCopy {
-  label: string
-  help: string
-  low: string
-  high: string
-}
-
-export const LIVING_TRAITS = ['piel', 'rumia', 'atencion', 'conviccion', 'curiosidad'] as const
-export const DORMANT_TRAITS = ['impulso', 'deliberacion', 'integridad', 'coraje', 'corruptibilidad'] as const
-
-export const TRAITS: Record<string, TraitCopy> = {
-  piel: {
-    label: 'Sensibilidad',
-    help: 'Cuánto le cambia el ánimo lo que vive.',
-    low: 'Imperturbable',
-    high: 'Todo le afecta',
-  },
-  rumia: {
-    label: 'Peso del pasado',
-    help: 'Cuánto vuelven los recuerdos viejos frente a lo reciente.',
-    low: 'Vive el presente',
-    high: 'Vuelve al pasado',
-  },
-  atencion: {
-    label: 'Atención',
-    help: 'Cuántos detalles del día registra y recuerda.',
-    low: 'Distraído',
-    high: 'Lo nota todo',
-  },
-  conviccion: {
-    label: 'Convicción',
-    help: 'Cuánta evidencia necesita para creer algo, y cuánto le cuesta dejar de creerlo.',
-    low: 'Duda de todo',
-    high: 'Se aferra a lo que cree',
-  },
-  curiosidad: {
-    label: 'Curiosidad',
-    help: 'Cuánto le llama la atención lo nuevo y lo que conecta con sus temas.',
-    low: 'Nada le interesa',
-    high: 'Todo le interesa',
-  },
-  impulso: {
-    label: 'Impulsividad',
-    help: 'Si actúa en el momento o se contiene.',
-    low: 'Se contiene',
-    high: 'Actúa enseguida',
-  },
-  deliberacion: {
-    label: 'Reflexión',
-    help: 'Cuánto piensa en las consecuencias antes de actuar.',
-    low: 'Actúa sin pensar',
-    high: 'Piensa antes de actuar',
-  },
-  integridad: {
-    label: 'Integridad',
-    help: 'Cuánto le cuesta ir en contra de lo que cree.',
-    low: 'El fin justifica los medios',
-    high: 'Hay límites que no cruza',
-  },
-  coraje: {
-    label: 'Coraje',
-    help: 'Si el miedo le impide actuar.',
-    low: 'Prudente',
-    high: 'El miedo no lo frena',
-  },
-  corruptibilidad: {
-    label: 'Corruptibilidad',
-    help: 'Cuánto lo tienta la Sombra.',
-    low: 'Incorruptible',
-    high: 'Fácil de tentar',
-  },
-}
-
 export const SKILLS: Record<string, { label: string; help: string }> = {
   tracking: { label: 'Rastreo', help: 'Seguir huellas y leer el terreno.' },
   persuasion: { label: 'Persuasión', help: 'Convencer a otros.' },
@@ -172,7 +99,7 @@ export const SILENCED_REASON: Record<string, string> = {
   'the director left it out': 'El director la dejó afuera',
 }
 
-const CONCERNS: Record<string, string> = {
+const TAG_LABELS: Record<string, string> = {
   'tag:entity_type:humans': 'Humanos',
   'tag:entity_type:hobbits': 'Hobbits',
   'tag:entity_type:elves': 'Elfos',
@@ -212,8 +139,6 @@ const CONCERNS: Record<string, string> = {
   'type:body': 'El cuerpo',
 }
 
-export const KNOWN_CONCERNS = Object.keys(CONCERNS)
-
 export function humanize(key: string): string {
   return key
     .replace(/^skill_/, '')
@@ -225,8 +150,8 @@ export function humanize(key: string): string {
 export const label = (map: Record<string, string>, key: string | null | undefined) =>
   key ? (map[key] ?? map[key.toLowerCase()] ?? humanize(key)) : '—'
 
-export function concernLabel(key: string): string {
-  return CONCERNS[key] ?? humanize(key.replace(/^(tag|type|entity):/, '').replace(/^[^:]+:/, ''))
+export function tagLabel(key: string): string {
+  return TAG_LABELS[key] ?? humanize(key.replace(/^(tag|type|entity):/, '').replace(/^[^:]+:/, ''))
 }
 
 export function skillLabel(key: string): string {

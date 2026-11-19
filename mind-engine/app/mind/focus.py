@@ -19,7 +19,7 @@
 # ============================================================================
 import re
 
-from app.mind.attitudes import is_attitude, match_level
+from app.mind.attitudes import is_attitude, ladder_norm, match_level
 from app.mind.voice import phrases
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.retrieval import _contact_tags
@@ -99,9 +99,17 @@ def need_origins(session, game_id, needs, entering_mood, mind=None):
         options = phrases(phrase_key, session, game_id)
         if not options:
             continue
+        days = (n.get('source') or {}).get('days')
+        # Singular/plural (#86): '{days_text}' reads 'a day' / '3 days'
+        # so a lone day never speaks '1 days'; raw {days} stays for
+        # pack rows that still use it.
+        days_text = (
+            'a day' if days == 1
+            else f'{days} days' if days is not None else 'days')
         try:
             out[key] = options[0].format(
-                days=(n.get('source') or {}).get('days'),
+                days=days,
+                days_text=days_text,
                 cause=cause.get('reading'),
             )
         except (KeyError, IndexError):
@@ -190,10 +198,11 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     for b in beliefs or []:
         # An Attitude's Subject is part of what it answers to.
         btags = set(b.tags or []) | set(getattr(b, 'subject', None) or [])
+        btags = {ladder_norm(t) for t in btags}
         hit, overlap = None, 0
         for m in moments:
             if btags:
-                n = len(btags & set(m['touch_tags']))
+                n = len(btags & {ladder_norm(t) for t in m['touch_tags']})
             else:
                 n = 1 if _stems(b.statement) & _stems(m['text']) else 0
             if n and (hit is None or (n, m['score']) > (overlap, hit['score'])):
@@ -266,14 +275,32 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     # beats a generic one), but a Musing carries nothing to weigh: the
     # moment's salience and tag specificity are the whole score — no
     # strength, no attitudes, and 'context:solitude' asks nothing of
-    # the day exactly like a seed belief did.
+    # the day exactly like a seed belief did. A line that spoke lately
+    # stays quiet for 'musing_refractory_episodes' — the thought needs
+    # time to gather before it can be the mind's reply again (#86).
+    refractory = int(w.get('musing_refractory_episodes') or 0)
+    musing_by_id = {m.id: m for m in musings or []}
     musing_lines = []
     for m in musings or []:
-        mtags = set(m.tags or [])
+        if (
+            refractory and episode_idx is not None
+            and getattr(m, 'last_spoke_episode', None) is not None
+            # Strictly a PAST episode: diff 0 is this same Episode being
+            # rebuilt — its own answer must stay replayable.
+            and 0 < episode_idx - m.last_spoke_episode <= refractory
+        ):
+            silenced.append({
+                'kind': 'musing', 'text': m.statement,
+                'stage': 'filter',
+                'reason': 'it spoke lately; the thought is still settling',
+            })
+            continue
+        mtags = {ladder_norm(t) for t in (m.tags or [])}
         hit, overlap = None, 0
         for mo in moments:
             if mtags:
-                n = len(mtags & set(mo['touch_tags']))
+                n = len(
+                    mtags & {ladder_norm(t) for t in mo['touch_tags']})
             else:
                 n = 1 if _stems(m.statement) & _stems(mo['text']) else 0
             if n and (hit is None or (n, mo['score']) > (overlap, hit['score'])):
@@ -311,6 +338,13 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             'connects_to': hit['id'], 'tagged': bool(mtags),
             'why': f'called up by: {hit["text"][:60]}',
         })
+
+    # A line that made the brief has spoken: the refractory clock starts
+    # now, whether the narrator ends up using the words or not.
+    for line in musing_lines:
+        m = musing_by_id.get(line['id'].split(':', 1)[1])
+        if m is not None and episode_idx is not None:
+            m.last_spoke_episode = episode_idx
 
     # --- memories: evoked by the day; anchored ones wait for their phase -
     memory_lines = []

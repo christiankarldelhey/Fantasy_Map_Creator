@@ -11,12 +11,12 @@
 #
 # The decision point surfaces in open/narrate responses while unresolved,
 # with the mind's `recommended` option scored deterministically from
-# theme_weights, belief tag overlap and active needs. `POST /decide`
+# relation attention, belief tag overlap and active needs. `POST /decide`
 # records the host's choice and returns the option's commands as
 # `proposed_commands` — Mind NEVER executes them; validation and
 # application belong to the host.
 # ============================================================================
-from app.mind.boosts import effective_theme_weights
+from app.mind.relations import attention_weights
 from app.mind.perceive import derive_tags
 from app.mind.semantics import load_semantics, tag_floors
 from app.mind.voice import phrases, resolve_event_reading
@@ -65,12 +65,12 @@ def pending_decision_point(session, mind, episode):
 
 
 def _recommend(session, mind, character_id, options):
-    """Deterministic preference: theme affinity of option tags + the
+    """Deterministic preference: relation attention over option tags + the
     strength of active beliefs whose tags intersect + urgency of needs
     an option claims to serve (`need:<key>` tag). No positive signal →
     no opinion."""
     weights = (
-        effective_theme_weights(session, mind) if mind else {}
+        attention_weights(session, mind) if mind else {}
     )
     beliefs = (
         session.query(Belief)
