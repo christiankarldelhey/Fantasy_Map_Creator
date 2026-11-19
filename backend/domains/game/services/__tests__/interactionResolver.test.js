@@ -49,6 +49,13 @@ const GONDORIAN_COLUMN = {
 function installMock({ contactRows = [GONDORIAN_COLUMN] } = {}) {
   const queries = [];
   pool.query = async (text, params) => {
+    // Postgres' extended protocol rejects extra binds — the mock applies
+    // the same rule so a relaxed query step can't ship stray params.
+    const maxParam = Math.max(
+      0, ...[...text.matchAll(/\$(\d+)/g)].map((m) => Number(m[1])));
+    assert.equal(
+      (params ?? []).length, maxParam,
+      `bind count mismatch: ${(params ?? []).length} params for $${maxParam}`);
     queries.push(text);
     if (text.includes("kind = 'form'")) return { rows: [GLIMPSED_FAR_FORM] };
     if (text.includes("kind = 'contact'")) {
