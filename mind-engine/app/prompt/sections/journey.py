@@ -21,14 +21,22 @@ def destination_name(trip_name=None):
 def _parse_date(date):
     if isinstance(date, datetime):
         return date
-    # Accept 'YYYY-MM-DD' or full ISO timestamps; JS `new Date().getMonth()` is 0-indexed.
+    # Accept 'YYYY-MM-DD' or full ISO timestamps; JS `new Date().getMonth() is 0-indexed.
+    # None returns None — a host that ships no date still gets its chapter.
     text = str(date)[:10]
-    return datetime.strptime(text, '%Y-%m-%d')
+    try:
+        return datetime.strptime(text, '%Y-%m-%d')
+    except ValueError:
+        return None
 
 
 def season_phrase(date):
-    """One sentence placing the day in the year."""
-    month = _parse_date(date).month  # 1-indexed here, JS getMonth() is 0-indexed
+    """One sentence placing the day in the year. No parseable date → no
+    sentence: the narrator never dies on a missing fact."""
+    parsed = _parse_date(date)
+    if parsed is None:
+        return ''
+    month = parsed.month  # 1-indexed here, JS getMonth() is 0-indexed
     js_month = month - 1
     if js_month in SPRING_MONTHS:
         return 'It is spring.'
