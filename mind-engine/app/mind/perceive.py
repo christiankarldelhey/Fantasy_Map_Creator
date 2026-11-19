@@ -28,6 +28,7 @@ from app.mind.checks import (
     resolve_check,
 )
 from app.mind.engine import acute_hit, mood_delta, project_body
+from app.mind.kinds import SOURCE_MIND, is_mind_item, kind_of
 from app.mind.relations import (
     attention_weights, feed, feed_event, felt_through, standing,
 )
@@ -135,7 +136,7 @@ def _content_tags(day):
     for it in day or []:
         if it.get('perception') == 'unnoticed':
             continue
-        if it.get('type') in ('recurrence', 'need'):
+        if is_mind_item(it):
             continue
         tags.update(
             t for t in (it.get('tags') or [])
@@ -290,6 +291,7 @@ def _recurrence_items(session, game_id, mind, perceived, w):
         )
         return {
             'type': 'recurrence',
+            'source': SOURCE_MIND,
             'when': when,
             'where': {},
             'data': {
@@ -545,9 +547,11 @@ def perceive_events(session, game_id, mind, events, character=None,
         if body_hit:
             acute_hit(mind.body, body_hit)
         valence = mood_delta(felt).get('valence', 0.0)
+        kind = kind_of(session, game_id, event.get('type'))
         item = {
             **event,
             'perception': perception,
+            'source': kind.get('source', 'world'),
             'reading': reading,
             'salience': round(salience, 3),
             'valence': round(valence, 3),
@@ -562,6 +566,8 @@ def perceive_events(session, game_id, mind, events, character=None,
         }
         if primary:
             item['subject'] = primary
+        if kind.get('mood_cause') is False:
+            item['mood_cause'] = False
         if check_result:
             check_result['perception'] = perception
             item['check'] = check_result

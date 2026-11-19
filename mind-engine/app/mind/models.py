@@ -3,8 +3,9 @@
 # ----------------------------------------------------------------------------
 # events[] is the STRICT input contract: the host translates its own domain
 # data into these shapes before calling (PRD §5). `type` is a free string —
-# the known types of a game are declared via mind.facets (A3), not a code
-# enum — and `data` is free-form; facets declare which fields are bandable.
+# what a kind means (role, source, reading strategy, expected fields) is
+# declared in the Kind Registry ('mind.kinds', #167), not a code enum —
+# and `data` is free-form.
 # ============================================================================
 from typing import Any, Dict, List, Optional
 
@@ -81,7 +82,7 @@ class EpisodeFrame(BaseModel):
 class OpenEpisodeRequest(BaseModel):
     """Flat wire contract: everything the episode needs, nothing it doesn't.
     `events[].data` is the single free-form field — the host's event domain
-    is its own; the mind only reads what facets declare.
+    is its own; the mind reads what the Kind Registry declares.
 
     Canonical shape (ADR-0016): `episode`/`arc`/`condition`/
     `narration_notes`. The world reaches the Past only through `events`;

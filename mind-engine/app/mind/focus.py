@@ -20,6 +20,7 @@
 import re
 
 from app.mind.attitudes import is_attitude, ladder_norm, match_level
+from app.mind.kinds import ROLE_FRAME, ROLE_VOICE, kinds
 from app.mind.voice import phrases
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.retrieval import _contact_tags
@@ -29,13 +30,9 @@ PHASES = {
     'morning': 'morning', 'midday': 'afternoon', 'afternoon': 'afternoon',
     'evening': 'night', 'night': 'night',
 }
-# Items the engine itself produces — the frame of every day, never its
-# centre ('need' items are the Mind's felt body, they earn lines through
-# the needs path).
-_ENGINE_FRAME_TYPES = {'need'}
-# Game-declared frame types — the pack's 'mind.focus_excluded' phrase list
-# (e.g. travel/terrain/climate in the built-in pack).
-FOCUS_EXCLUDED_KEY = 'mind.focus_excluded'
+# Focus eligibility is declared in the Kind Registry ('mind.kinds',
+# #167): 'frame' kinds narrate the day's context and 'voice' kinds are
+# the mind's own body — neither can take the Focus.
 # Score of a solitude line: below the weakest touched belief (strength
 # 2.5/5 × the candidate floor 0.3), equal for all so rotation chooses.
 SOLITUDE_SCORE = 0.12
@@ -144,9 +141,13 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     anchors = anchors or {}
     need_origins = need_origins or {}
     silenced = []
-    frame_types = _ENGINE_FRAME_TYPES | set(
-        phrases(FOCUS_EXCLUDED_KEY, session, game_id)
-    )
+    # The day's frame: kinds the registry declares 'frame' (weather,
+    # land, mileage) or 'voice' (needs earn lines through the needs
+    # path, never the Focus).
+    frame_types = {
+        k for k, v in kinds(session, game_id).items()
+        if v.get('role') in (ROLE_FRAME, ROLE_VOICE)
+    }
     contact_seen = _had_contact(perceived_day)
 
     # --- today's moments: every noticed, read event; the salient ones are

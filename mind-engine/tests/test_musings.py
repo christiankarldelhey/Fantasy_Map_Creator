@@ -16,7 +16,8 @@ from types import SimpleNamespace
 import pytest
 
 from app.db import SessionLocal
-from app.mind.focus import _ENGINE_FRAME_TYPES, build_brief
+from app.mind.focus import build_brief
+from app.mind.kinds import ROLE_FRAME, ROLE_VOICE, kinds
 from app.mind.voice import PHRASES
 from app.mind.provisioning import get_or_create_mind
 from app.mind.reflection import _apply_ops, reflection_beliefs
@@ -339,9 +340,10 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
 
 # --- the auditor: every musing in the pack must be able to speak -------------
 
-FRAME_TYPES = _ENGINE_FRAME_TYPES | set(
-    PHRASES['mind.focus_excluded']
-)
+FRAME_TYPES = {
+    k for k, v in kinds().items()
+    if v.get('role') in (ROLE_FRAME, ROLE_VOICE)
+}
 AMBIENT = tuple(
     prefix for family, classes in TAG_CLASSES.items()
     if 'ambient' in classes and family != 'type'

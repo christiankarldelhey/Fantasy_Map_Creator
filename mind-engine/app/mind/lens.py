@@ -156,7 +156,11 @@ def mood_cause(perceived_day, needs=None):
     its cause, never as a bare label — this is that cause, already worded."""
     best, best_w = None, MOOD_CAUSE_MIN_WEIGHT
     for p in perceived_day or []:
-        if p.get('type') == 'need' or not p.get('reading'):
+        # 'mood_cause' is the kind registry's flag — 'the hunger' is the
+        # lens's own voice, not a cause of the day. The type check
+        # covers items persisted before the flag existed.
+        if (p.get('mood_cause') is False or p.get('type') == 'need'
+                or not p.get('reading')):
             continue
         weight = abs(p.get('valence') or 0.0) * (p.get('salience') or 0.0)
         if weight > best_w:

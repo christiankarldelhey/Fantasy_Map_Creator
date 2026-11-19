@@ -37,8 +37,24 @@ The larger narrative an Episode belongs to, whatever the Host calls it — a jou
 _Avoid_: trip, storyline, campaign
 
 **Event**:
-Something the Character lived in an Episode, reported by the Host already put into words — a reading plus the Tags it connects by. Events are the only channel by which the world reaches the Past: a Memory is born from what was lived or not at all. An Event's type names the kind of experience, not the shelf its source record sat on.
+Something the Character lived in an Episode, reported by the Host already put into words — a reading plus the Tags it connects by. Events are the only channel by which the world reaches the Past: a Memory is born from what was lived or not at all. An Event's type names its Kind, not the shelf its source record sat on.
 _Avoid_: log entry, action, occurrence
+
+**Kind**:
+What an Event's type names — the kind of experience (a meal, a river crossing, a night's rest, the Mind's own hunger). A Kind is declared data, not code: an undeclared Kind is still an Event and the Mind treats it as a worldly Moment by default.
+_Avoid_: event type enum, event class
+
+**Kind registry**:
+The declared contract of every Kind the Mind knows: the Role it plays in the Episode, its Event source, how it is put into words, whether it may become a Memory, the fields it expects and which of them can feed Relations. Adding a new Kind is a declaration here — the engine never branches on a type name.
+_Avoid_: event schema, type config
+
+**Role**:
+The part a Kind plays in the Episode's telling: a **Frame** kind sets the day's backdrop (weather, land, mileage) — narrated, never the Focus; a **Moment** is something that happened — it can take the Focus; a **Voice** is the Mind's own body speaking (a Need) — it earns its own lines through the Needs path and is never world-evidence.
+_Avoid_: event category, event tier
+
+**Event source**:
+Which channel an item of the perceived day came from: the **world** (something that happened to the Character), the **ambient** frame (the backdrop that colours it), a **Decision** the Character made, or the **Mind** itself (a Need, a streak's wear). Mind items feel and speak but never pose as world-evidence — they spike no Reflection and feed no streaks. Not the Source of a Belief (lived or heard) — that says how the Mind came to hold something true, this says where a lived thing entered from.
+_Avoid_: origin, channel
 
 **Fate**:
 The Host's verdict on how an Episode ends, declared before the Episode is narrated, so the Mind knows the closing before it tells the stretch. Not the close's outcome, which records what was actually kept.
