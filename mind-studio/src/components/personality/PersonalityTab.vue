@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue'
-import { DORMANT_TRAITS, LIVING_TRAITS } from '../../lib/labels'
 import type { MindDetail } from '../../types'
 import PanelCard from '../ui/PanelCard.vue'
 import ConcernsEditor from './ConcernsEditor.vue'
 import MoodEditor from './MoodEditor.vue'
 import SkillsEditor from './SkillsEditor.vue'
-import TraitsEditor from './TraitsEditor.vue'
 
 const props = defineProps<{ mind: MindDetail }>()
 const emit = defineEmits<{ saved: [] }>()
@@ -44,21 +42,6 @@ const wiring = computed(() => Object.entries(props.mind.wiring))
       description="Cómo se siente la mente en este momento. Lo que viva en el próximo episodio lo va a ir modificando."
     >
       <MoodEditor :mind="mind" @saved="onSaved" @error="onError" />
-    </PanelCard>
-
-    <PanelCard
-      title="Rasgos de personalidad"
-      description="Definen cómo percibe, recuerda y cree. Ya afectan cada episodio."
-    >
-      <TraitsEditor :mind="mind" :keys="LIVING_TRAITS" @saved="onSaved" @error="onError" />
-    </PanelCard>
-
-    <PanelCard
-      title="Rasgos de decisión"
-      description="Se guardan con el personaje pero todavía no tienen efecto: se van a usar cuando la mente tome decisiones por su cuenta."
-    >
-      <template #actions><span class="badge">Sin efecto todavía</span></template>
-      <TraitsEditor :mind="mind" :keys="DORMANT_TRAITS" @saved="onSaved" @error="onError" />
     </PanelCard>
 
     <PanelCard

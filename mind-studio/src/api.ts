@@ -42,9 +42,6 @@ async function patchJson<T = void>(path: string, body: unknown): Promise<T> {
   return res.json() as Promise<T>
 }
 
-export const patchTraits = (characterId: string, traits: Record<string, number>) =>
-  patchJson(`/minds/${encodeURIComponent(characterId)}/traits`, { traits })
-
 export const patchMood = (
   characterId: string,
   mood: { valence?: number; arousal?: number },

@@ -4,7 +4,7 @@
 # JSON for the Studio app (ADR 0002). Reads show what the Mind already
 # owns — the Character card, memories, Forgotten traces, beliefs, needs,
 # mood and every Episode with its Lens and narration; writes edit the
-# card, traits, concerns and the running mood. Never reads Host tables.
+# card, concerns and the running mood. Never reads Host tables.
 #
 # Auth: HTTP Basic against ADMIN_USER / ADMIN_PASSWORD — unset = closed.
 # ============================================================================
@@ -27,7 +27,6 @@ from app.mind.tables import (
     Need,
 )
 from app.mind.lens import MOOD_CAUSE_MIN_VALENCE
-from app.mind.traits import TRAITS, apply_trait, traits_of
 from app.mind.voice import mood_phrase
 
 _basic = HTTPBasic()
@@ -366,9 +365,6 @@ def get_mind(
         'character': card,
         'condition': _condition(latest),
         'mood': mind.mood or {},
-        # The six human dials, read back from the effective wiring —
-        # a raw knob edit still shows on the slider.
-        'traits': traits_of({**DEFAULT_WIRING, **(mind.wiring or {})}),
         # Concerns — "le pesa": what the Mind gives extra weight to.
         'concerns': dict(mind.theme_weights or {}),
         # Advanced view: the effective wiring (defaults + overrides).
@@ -472,32 +468,6 @@ def _mind_or_404(db, game, character_id):
     if mind is None:
         raise HTTPException(status_code=404, detail='mind not found')
     return mind
-
-
-class TraitsPatch(BaseModel):
-    """{trait: 0..1} — each dial writes its knobs into mind.wiring."""
-    traits: Dict[str, float]
-
-
-@router.patch('/minds/{character_id}/traits')
-def patch_traits(
-    character_id: str,
-    body: TraitsPatch,
-    game: str = DEFAULT_GAME,
-    db: Session = Depends(get_session),
-):
-    mind = _mind_or_404(db, game, character_id)
-    unknown = set(body.traits) - set(TRAITS)
-    if unknown:
-        raise HTTPException(
-            status_code=422, detail=f'unknown traits: {sorted(unknown)}'
-        )
-    wiring = dict(mind.wiring or {})
-    for trait, t in body.traits.items():
-        apply_trait(wiring, trait, t)
-    mind.wiring = wiring
-    db.commit()
-    return traits_of({**DEFAULT_WIRING, **wiring})
 
 
 class ConcernsPatch(BaseModel):
