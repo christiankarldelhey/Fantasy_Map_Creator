@@ -15,7 +15,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.tables import Episode, Memory
+from app.mind.tables import Episode, Memory, Relation
 
 
 @pytest.fixture()
@@ -244,6 +244,164 @@ def test_sleepless_nights_read_as_sleepless_nights(client):
     assert len(reps) == 1
     assert 'sleepless nights' in reps[0]['reading']
     assert 'poor' not in reps[0]['reading']
+
+
+def _seed_relation(char, subject, **dims):
+    session = SessionLocal()
+    session.add(Relation(
+        game_id='middle_earth', character_id=char, subject=subject,
+        origin='seed', **dims))
+    session.commit()
+    session.close()
+
+
+def test_dreaded_streak_wears_faster_and_its_break_is_deeper_relief(
+        client):
+    """#148: standing amplifies the wear — 'orcs again' on day four
+    hurts more than the neutral formula because the orcs are feared;
+    and when the streak finally dies, losing a hated thing is deeper
+    relief than the flat default."""
+    char = _uid('dread')
+    _seed_relation(char, 'tag:entity_type:orcs', fear=0.8)
+    for ep in (1, 2, 3):
+        _close(client, _open(client, char, ep, [{
+            'type': 'omen',
+            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'data': {'tags': ['entity_type:orcs']},
+        }]))
+
+    p4 = _open(client, char, 4, [{
+        'type': 'omen',
+        'when': {'episode': 4, 'date': '1950-04-04'},
+        'data': {'tags': ['entity_type:orcs']},
+    }])
+    reps = [i for i in _recurrences(p4)
+            if i['data']['tag'] == 'tag:entity_type:orcs']
+    # Neutral would be -(0.08 * 2) = -0.16; fear ~0.9 -> ~-0.3.
+    assert reps[0]['valence'] < -0.2
+    _close(client, p4)
+
+    p5 = _open(client, char, 5, [])
+    breaks = [i for i in _recurrences(p5) if i['data'].get('break_of')]
+    assert len(breaks) == 1
+    assert breaks[0]['valence'] > 0.3  # relief_val 0.15 + like*scale
+
+
+def test_loved_streak_wears_slower_and_its_break_is_a_gap(client):
+    """#148: affection slows the wear — the loved bread's day-four
+    pressure is milder than the neutral formula — and the day the
+    bread runs out is no relief: losing a loved streak is a gap."""
+    char = _uid('loved')
+    _seed_relation(char, 'tag:food:lembas', affection=0.8)
+    for ep in (1, 2, 3):
+        _close(client, _open(client, char, ep, [{
+            'type': 'meal',
+            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'data': {'slot': 'midday', 'food': 'lembas'},
+        }]))
+
+    p4 = _open(client, char, 4, [{
+        'type': 'meal',
+        'when': {'episode': 4, 'date': '1950-04-04'},
+        'data': {'slot': 'midday', 'food': 'lembas'},
+    }])
+    reps = [i for i in _recurrences(p4)
+            if i['data']['tag'] == 'tag:food:lembas']
+    # Neutral would be -0.16; affection halves the wear at most.
+    assert len(reps) == 1
+    assert -0.16 < reps[0]['valence'] < 0
+    _close(client, p4)
+
+    p5 = _open(client, char, 5, [])
+    breaks = [i for i in _recurrences(p5) if i['data'].get('break_of')]
+    assert len(breaks) == 1
+    assert breaks[0]['valence'] < 0
+    assert 'gap' in breaks[0]['reading']
+
+
+def test_pressure_anchors_to_its_own_beat(client):
+    """#149: the bread complaint sits beside the meal beat, not on the
+    first item of the day — 'when' follows the item that carried the
+    streaking tag."""
+    char = _uid('anchor')
+    for ep in (1, 2, 3):
+        packet = _open(client, char, ep, [
+            {
+                'type': 'land',
+                'when': {'episode': ep, 'date': f'1950-04-0{ep}',
+                         'phase': 'morning'},
+                'data': {'tags': ['scenery']},
+            },
+            {
+                'type': 'meal',
+                'when': {'episode': ep, 'date': f'1950-04-0{ep}',
+                         'phase': 'night'},
+                'data': {'slot': 'midday', 'food': 'lembas'},
+            },
+        ])
+        _close(client, packet)
+
+    p4 = _open(client, char, 4, [
+        {
+            'type': 'land',
+            'when': {'episode': 4, 'date': '1950-04-04',
+                     'phase': 'morning'},
+            'data': {'tags': ['scenery']},
+        },
+        {
+            'type': 'meal',
+            'when': {'episode': 4, 'date': '1950-04-04',
+                     'phase': 'night'},
+            'data': {'slot': 'midday', 'food': 'lembas'},
+        },
+    ])
+    rep = [i for i in _recurrences(p4)
+           if i['data']['tag'] == 'tag:food:lembas'][0]
+    assert rep['when']['phase'] == 'night'
+
+
+def test_a_salient_novel_event_makes_sameness_yield(client):
+    """#149: rain on day four still counts, but a dragon at noon owns
+    the day — the pressure item is not voiced (the streak lives)."""
+    char = _uid('yield')
+    for ep in (1, 2, 3):
+        _close(client, _open(client, char, ep, [_rain(ep)]))
+
+    p4 = _open(client, char, 4, [
+        _rain(4),
+        {
+            'type': 'encounter',
+            'when': {'episode': 4, 'date': '1950-04-04',
+                     'phase': 'afternoon'},
+            'data': {'entity': 'dragon_1', 'entity_name': 'a dragon',
+                     'tags': ['entity_type:dragons'],
+                     'severity': 0.9},
+        },
+    ])
+    assert _recurrences(p4) == []
+
+
+def test_the_streaks_own_salience_does_not_silence_it(client):
+    """#149: yield looks past the streak itself — orcs at their floor
+    do not suppress the orc-streak complaint; they ARE the complaint."""
+    char = _uid('ownsal')
+    for ep in (1, 2, 3):
+        _close(client, _open(client, char, ep, [{
+            'type': 'encounter',
+            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'data': {'entity': f'orc_{ep}', 'entity_name': 'orcs',
+                     'tags': ['entity_type:orcs']},
+        }]))
+
+    p4 = _open(client, char, 4, [{
+        'type': 'encounter',
+        'when': {'episode': 4, 'date': '1950-04-04'},
+        'data': {'entity': 'orc_4', 'entity_name': 'orcs',
+                 'tags': ['entity_type:orcs']},
+    }])
+    reps = [i for i in _recurrences(p4)
+            if i['data']['tag'] == 'tag:entity_type:orcs']
+    assert len(reps) == 1
 
 
 def test_patterns_never_enter_retrieval(client):

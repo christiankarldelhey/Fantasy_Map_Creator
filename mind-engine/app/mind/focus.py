@@ -99,9 +99,17 @@ def need_origins(session, game_id, needs, entering_mood, mind=None):
         options = phrases(phrase_key, session, game_id)
         if not options:
             continue
+        days = (n.get('source') or {}).get('days')
+        # Singular/plural (#86): '{days_text}' reads 'a day' / '3 days'
+        # so a lone day never speaks '1 days'; raw {days} stays for
+        # pack rows that still use it.
+        days_text = (
+            'a day' if days == 1
+            else f'{days} days' if days is not None else 'days')
         try:
             out[key] = options[0].format(
-                days=(n.get('source') or {}).get('days'),
+                days=days,
+                days_text=days_text,
                 cause=cause.get('reading'),
             )
         except (KeyError, IndexError):

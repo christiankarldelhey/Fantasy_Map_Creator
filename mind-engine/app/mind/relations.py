@@ -57,6 +57,13 @@ def _write(row, vec, lexicon=None, episode_idx=None):
         row.last_fed_episode = episode_idx
 
 
+def standing(session, game_id, character_id, subject):
+    """The vector a subject's Relation currently holds — None when this
+    mind has no standing on it yet."""
+    row = _get(session, game_id, character_id, subject)
+    return relation_vector(row) if row is not None else None
+
+
 def feed(session, game_id, character_id, subject, delta, *,
          resistance=0.0, origin='lived', episode_idx=None, create=True,
          display_name=None):

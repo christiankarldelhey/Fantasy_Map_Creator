@@ -105,12 +105,20 @@ DEFAULT_WIRING = {
     'repetition_valence_cap': 0.3,
     'repetition_salience': 0.3,
     'repetition_relief': 0.15,
+    # A salient novel event owns the day (#149): when the loudest
+    # noticed thing that is not the streak reaches this salience, the
+    # sameness still erodes but does not spend the day's words.
+    'recurrence_yield_salience': 0.45,
     # Breaks that end badly (C12): when a watched streak dies while the
     # linked need is open, the break is warning, not relief — 'the bread
     # ran out' is no dry-day news when the body is already counting meals.
     'break_need_watch': {'tag:food:*': 'hunger'},
     'break_loss_valence': -0.1,
     'repetition_relief_salience': 0.45,
+    # The break's sign follows standing (#148): relief_val minus
+    # like*scale — losing a loved streak reads as a gap, losing a hated
+    # one as deeper relief. 0.3 makes like=+1 a small loss.
+    'break_standing_scale': 0.3,
     # Base routine never grates: 'tag:drink:*' is hydration, not
     # monotony (its absence is the thirst need's job). Everything else
     # that used to sit here is simply ineligible now — only

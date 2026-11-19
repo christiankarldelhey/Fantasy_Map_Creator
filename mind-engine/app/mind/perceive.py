@@ -18,6 +18,7 @@
 # ============================================================================
 import re
 
+from app.day_phases import NARRATIVE_PHASES
 from app.mind.detectors import body_projection
 from app.mind.checks import (
     asleep_check_result,
@@ -28,7 +29,7 @@ from app.mind.checks import (
 )
 from app.mind.engine import acute_hit, mood_delta, project_body
 from app.mind.relations import (
-    attention_weights, feed, feed_event, felt_through,
+    attention_weights, feed, feed_event, felt_through, standing,
 )
 from app.mind.semantics import (
     field_severity, load_semantics, semantic_delta, tag_floors,
@@ -214,6 +215,43 @@ def _recurrence_items(session, game_id, mind, perceived, w):
         (i.get('when') for i in perceived if i.get('when')), {}
     )
 
+    def _anchor_when(tag):
+        """The clock position a streak belongs to (#149): the noticed
+        item that carried the tag today — a bread complaint sits
+        beside the meal beat, a weather complaint beside the weather
+        beat, never adrift on the first item of the day."""
+        for i in perceived:
+            if i.get('type') == 'recurrence':
+                continue
+            if tag in (i.get('tags') or []) and i.get('when'):
+                return i['when']
+        return None
+
+    def _quietest_when():
+        """No anchor: the narrative phase the day used least (#149)."""
+        counts = {p: 0 for p in NARRATIVE_PHASES}
+        for i in perceived:
+            phase = (i.get('when') or {}).get('phase')
+            if phase in counts:
+                counts[phase] += 1
+        quietest = min(counts, key=counts.get)
+        return {**when, 'phase': quietest}
+
+    def _loudest_other_salience(tag):
+        """The day's loudest noticed thing that is NOT this streak —
+        a salient novel event makes the sameness yield (#149): the
+        orc attack's own salience does not silence the orc streak,
+        the dragon does."""
+        return max(
+            (
+                i.get('salience') or 0.0 for i in perceived
+                if i.get('type') != 'recurrence'
+                and i.get('perception') != 'unnoticed'
+                and tag not in (i.get('tags') or [])
+            ),
+            default=0.0,
+        )
+
     def streak_in(history, tag):
         n = 0
         for past in history:
@@ -224,6 +262,23 @@ def _recurrence_items(session, game_id, mind, perceived, w):
         return n
 
     subject_map = streak_subjects(session, game_id)
+    semantics = load_semantics(session, game_id)
+
+    def _streak_like(tag):
+        """How this mind stands toward the recurring thing, in [-1, 1]
+        (#148): a subject's Relation speaks — lembas loved, orcs
+        feared; with no Relation the semantic pack's own delta is the
+        proxy (steady rain is mildly aversive to anyone). Positive:
+        liked; negative: disliked or feared."""
+        if tag_is(tag, 'subject'):
+            vec = standing(session, game_id, mind.character_id, tag)
+            if vec is not None:
+                return max(-1.0, min(
+                    1.0, vec['affection'] - vec['fear']))
+        world, _, _ = semantic_delta([tag], {}, semantics)
+        return max(-1.0, min(
+            1.0,
+            world.get('affection', 0.0) - world.get('fear', 0.0)))
 
     def _item(kind, tag, streak, valence, salience, phrase_key,
               extra_data=None, tags=None):
@@ -255,39 +310,73 @@ def _recurrence_items(session, game_id, mind, perceived, w):
         }
 
     items = []
-    resistance = (mind.personality or {}).get('resistance')
-    resistance = 0.5 if resistance is None else resistance
+    break_scale = w.get('break_standing_scale', 0.3)
+    yield_sal = w.get('recurrence_yield_salience', 0.45)
     for tag in sorted(today):
         if _repetition_exempt(tag, exempt):
             continue
         streak = 1 + streak_in(prior, tag)
-        if streak >= min_streak:
-            valence = -min(cap, growth * (streak - min_streak + 1))
-            items.append(_item(
+        if streak < min_streak:
+            continue
+        # Wear scaled by standing (#148): what is feared or hated grates
+        # up to twice as fast; what is loved grates slower — halved at
+        # most, never zero, because sameness tires even what is
+        # cherished. The slowdown self-reinforces: once a loved thing
+        # starts souring, the standing falls and the wear speeds up.
+        like = _streak_like(tag)
+        factor = 1 - (0.5 * like if like > 0 else like)
+        valence = -min(
+            cap, growth * (streak - min_streak + 1) * factor)
+        if valence > -0.01:
+            continue
+        items.append({
+            **_item(
                 'repetition', tag, streak, valence, pressure_sal,
                 'mind.repetition', extra_data={'synthetic': True},
-            ))
-            # Monotony on a subject sediments too: the fifth straight
-            # fruit-bread wears on 'tag:food:fruit_bread' itself, not
-            # only on the day — a loved bread resists souring through
-            # the same contradiction damping as any evidence.
-            if tag_is(tag, 'subject'):
-                feed(
-                    session, game_id, mind.character_id, tag,
-                    {'affection': valence}, resistance=resistance,
-                )
+            ),
+            'when': _anchor_when(tag) or _quietest_when(),
+        })
+        # Monotony on a subject sediments too: the fifth straight
+        # fruit-bread wears on 'tag:food:fruit-bread' itself, not
+        # only on the day. It is erosion, not contradictory evidence —
+        # resistance does not dam it; the standing already slowed the
+        # wear through the like factor above.
+        if tag_is(tag, 'subject'):
+            feed(
+                session, game_id, mind.character_id, tag,
+                {'affection': valence}, resistance=0.0,
+            )
+        if _loudest_other_salience(tag) >= yield_sal:
+            # A salient novel event owns this day (#149): the sameness
+            # still erodes the standing above, but it does not spend
+            # the day's words on itself.
+            items.pop()
     if prior:
         for tag in sorted(prior[0]):
             if tag in today or _repetition_exempt(tag, exempt):
                 continue
             streak = streak_in(prior, tag)
             if streak >= min_streak:
-                items.append(_item(
-                    'break', tag, streak, relief_val, relief_sal,
-                    'mind.pattern_break',
-                    extra_data={'break_of': tag},
-                    tags=[f'rupture:{tag}'],
-                ))
+                # The break's sign follows the standing (#148): the rain
+                # stopping is relief, the loved bread running out is a
+                # gap — a break is not universally good news.
+                like = _streak_like(tag)
+                valence = relief_val - like * break_scale
+                # Ambient absences are noticed on stepping out — a dry
+                # dawn; the rest land on the day's quietest phase.
+                anchor = (
+                    {**when, 'phase': 'morning'}
+                    if tag_is(tag, 'ambient') else _quietest_when())
+                items.append({
+                    **_item(
+                        'break', tag, streak, valence, relief_sal,
+                        'mind.pattern_break' if valence >= 0
+                        else 'mind.pattern_break_loss',
+                        extra_data={'break_of': tag},
+                        tags=[f'rupture:{tag}'],
+                    ),
+                    'when': anchor,
+                })
     return items
 
 
