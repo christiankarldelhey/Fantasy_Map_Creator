@@ -205,7 +205,7 @@ async function fetchContact({
     candidates = await queryScope(
       `n.entity_type = $1 AND n.entity_id IS NULL AND n.entity_ids IS NULL`,
       'culture',
-      [entityType, interactionForm, raceTag, culturalFamily, regionId]
+      [entityType, interactionForm, raceTag, culturalFamily]
     );
   }
 
@@ -234,7 +234,9 @@ async function fetchGenericTopic({
         ? `AND (n.cultural_family IS NULL OR n.cultural_family = $4)
            AND (n.region_id IS NULL OR n.region_id = $5)`
         : `AND (n.cultural_family IS NULL OR n.cultural_family = $4)`;
-    const params = [entityType, 'topic', raceTag, culturalFamily, regionId];
+    const params = context === 'full'
+      ? [entityType, 'topic', raceTag, culturalFamily, regionId]
+      : [entityType, 'topic', raceTag, culturalFamily];
     const { rows } = await pool.query(
       `SELECT n.* FROM entities_narration n
        WHERE n.kind = 'contact' AND n.entity_type = $1 AND n.form = $2
