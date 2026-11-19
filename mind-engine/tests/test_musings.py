@@ -25,7 +25,7 @@ from app.mind.tags import TAG_CLASSES
 from app.mind.tables import (
     Belief, MindPreset, Episode, PresetMusing, PresetStarterBelief, Musing,
 )
-from app.mind.musings import (
+from app.mind.seed_packs import (
     ARANATH_MUSINGS, ATTITUDE_PACKS, CELEBRIAN_MUSINGS, LEGACY_REWRITES,
 )
 
