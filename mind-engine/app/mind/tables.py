@@ -345,6 +345,10 @@ class Musing(Base):
     tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
     origin: Mapped[str] = mapped_column(String(30), nullable=False, default='seed')
     formed_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+    # The episode this line last spoke in: the refractory window
+    # silences a Musing that answered lately — a thought needs time to
+    # gather before it can be the mind's reply again (#86).
+    last_spoke_episode: Mapped[int] = mapped_column(Integer, nullable=True)
 
 
 class Memory(Base):

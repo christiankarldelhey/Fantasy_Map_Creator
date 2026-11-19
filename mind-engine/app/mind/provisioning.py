@@ -144,6 +144,10 @@ DEFAULT_WIRING = {
     # touches multiplies its score by (1 + bonus) — the specific line
     # (orc SIGNS) outranks the generic one (orcs); rotation breaks ties.
     'belief_specificity_bonus': 0.25,
+    # Inner voice refractory (#86): a Musing that spoke this many
+    # episodes ago (or fewer) stays quiet — the thought needs time to
+    # gather before it can be the mind's reply again. 0 disables.
+    'musing_refractory_episodes': 2,
     # Relations (ADR 0017 · Relation): the sediment watches what it
     # loves or fears — max|dim| * gain lands on the subject's tags each
     # perception pass; and each closed episode every Relation cools

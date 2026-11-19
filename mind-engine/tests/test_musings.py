@@ -548,19 +548,26 @@ def test_tagged_musings_do_not_match_by_word_luck():
 
 def test_the_more_specific_musing_wins():
     """Live run, day 2: orcs AND signs beats orcs alone or signs alone,
-    whatever the rotation says."""
+    whatever the rotation says. Fresh musing objects each episode —
+    a spoken line carries a refractory stamp (#86), and the question
+    here is who wins when it CAN speak, not whether it should."""
     tracks = [_event('orc boots in the mud', 0.7, 'afternoon',
                      ['type:encounter', 'tag:entity_type:orcs',
                       'tag:form:sign_only'])]
-    generic = [
-        _musing(f'about orcs {i}', tags=['tag:entity_type:orcs'],
-                id_=f'g{i}')
-        for i in range(5)
-    ]
-    specific = _musing('orcs and their signs',
-                       tags=['tag:entity_type:orcs', 'tag:form:sign_only'],
-                       id_='s')
+
+    def cast():
+        generic = [
+            _musing(f'about orcs {i}', tags=['tag:entity_type:orcs'],
+                    id_=f'g{i}')
+            for i in range(5)
+        ]
+        specific = _musing('orcs and their signs',
+                           tags=['tag:entity_type:orcs', 'tag:form:sign_only'],
+                           id_='s')
+        return generic, specific
+
     for idx in range(6):
+        generic, specific = cast()
         brief = build_brief(tracks, [], [], [], {}, episode_idx=idx,
                             musings=generic + [specific])
         assert specific.statement in _texts(brief), idx
