@@ -220,7 +220,7 @@ def _recurrence_items(session, game_id, mind, perceived, w):
 
     def _item(kind, tag, streak, valence, salience, phrase_key,
               extra_data=None, tags=None):
-        options = phrases(phrase_key)
+        options = phrases(phrase_key, session, game_id)
         subject = _tag_subject(tag)
         reading = (
             options[0].format(subject=subject, count=streak)
@@ -309,7 +309,7 @@ def resolve_break_items(session, game_id, mind, perceived, needs, w):
         if need_key not in open_keys:
             continue
         subject = _tag_subject(tag)
-        options = phrases('mind.pattern_break_need')
+        options = phrases('mind.pattern_break_need', session, game_id)
         if options:
             item['reading'] = options[0].format(
                 subject=subject, count=data.get('streak') or 0
@@ -375,7 +375,7 @@ def perceive_events(session, game_id, mind, events, character=None,
                 session, game_id, character, event, index, state, w,
                 mind=mind,
             )
-        reading = resolve_event_reading(event)
+        reading = resolve_event_reading(event, session, game_id)
         if perception == 'misread':
             reading = misread_reading(
                 session, game_id, event, reading, check_result,

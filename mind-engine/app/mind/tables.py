@@ -629,6 +629,26 @@ class Semantic(Base):
                                           default=True)
 
 
+class PackEntry(Base):
+    """A game's declared value for one pack key (ADR 0017): the mind's
+    own voice and vocabulary as data — phrase banks ('mind.need.hunger'),
+    the mood bands, the feeling lexicon, the disposition render. Built-in
+    defaults live in code; a row replaces its key's value wholesale for
+    that game, and enabled=False silences the default entirely."""
+
+    __tablename__ = 'pack_entries'
+    __table_args__ = (
+        UniqueConstraint('game_id', 'key', name='uq_pack_entry'),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    key: Mapped[str] = mapped_column(String(160), nullable=False)
+    value: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    enabled: Mapped[bool] = mapped_column(Boolean, nullable=False,
+                                          default=True)
+
+
 class PackVersion(Base):
     """B10 (PRD §9.2): a versioned world pack. The live pack is the rows
     under `game_id`; a draft is a copy under `namespace` (a sibling

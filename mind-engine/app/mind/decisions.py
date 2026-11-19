@@ -172,7 +172,8 @@ def _apply_choice_to_perceived(session, episode, dec, option, mind):
         substance['stance'] = option['stance']
         data['substance'] = substance
         perceived[idx] = {**perceived[idx], 'data': data}
-        perceived[idx]['reading'] = resolve_event_reading(perceived[idx])
+        perceived[idx]['reading'] = resolve_event_reading(
+            perceived[idx], session, episode.game_id)
         if landed:
             _mark_changed(perceived[idx], changed_floor)
         changed = True
@@ -218,7 +219,8 @@ def _apply_choice_to_perceived(session, episode, dec, option, mind):
             # Re-derive the weight-space tags too — 'tag:rest:poor' of the
             # wild night must not stain the sheltered one.
             item['tags'] = derive_tags(item)
-            item['reading'] = resolve_event_reading(item)
+            item['reading'] = resolve_event_reading(
+                item, session, episode.game_id)
             _mark_changed(item, changed_floor)
             changed = True
         payload = dict(episode.narrator_payload or {})
@@ -244,7 +246,7 @@ def _apply_choice_to_perceived(session, episode, dec, option, mind):
 
 def resolution_text(session, game_id, option, character_name=None,
                     mind=None):
-    options = phrases('mind.decision')
+    options = phrases('mind.decision', session, game_id)
     label = option.get('label') or option.get('id') or ''
     for template in options:
         if '{choice}' in template:

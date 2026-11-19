@@ -13,7 +13,7 @@
 from datetime import date as date_type, datetime
 
 from app.mind.embeddings import embed
-from app.mind.engine import derive_feeling
+from app.mind.engine import derive_feeling, feeling_lexicon
 from app.mind.voice import humanize, phrases
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Episode, ForgottenMemory, Memory, Need
@@ -126,7 +126,7 @@ def _describe(session, game_id, item, mind=None):
     # An unnoticed event never resolved into a reading — what may lodge in
     # memory is only the difuso it left behind (editable 'mind.unnoticed').
     if item.get('perception') == 'unnoticed':
-        vague = phrases('mind.unnoticed')
+        vague = phrases('mind.unnoticed', session, game_id)
         return vague[0] if vague else 'a faint unease, its source unclear'
     data = item.get('data') or {}
     subject = (
@@ -146,6 +146,7 @@ def encode_episode(session, mind, episode):
     w = _wiring(mind)
     fixed = w.get('fixed_threshold', 0.8)
     idx = episode_index(episode)
+    lexicon = feeling_lexicon(session, getattr(mind, 'game_id', None))
 
     # Memories already written for this episode -> the dedup baseline.
     prior = (
@@ -279,7 +280,7 @@ def encode_episode(session, mind, episode):
             embedding=embed(desc),
             imprint=imprint or None,
             subjects=item.get('subjects') or None,
-            feeling=derive_feeling(imprint) if imprint else None,
+            feeling=derive_feeling(imprint, lexicon) if imprint else None,
             depth='consolidated' if consolidated else 'fresh',
             mutable=True,
         )
@@ -499,7 +500,7 @@ def _pattern_desc(session, game_id, tag, count, mind=None):
     """A theme worded by the NL pack ('mind.pattern'), {subject} = the
     human end of the tag ('tag:food:lembas' -> 'lembas')."""
     subject = tag.rsplit(':', 1)[-1].replace('_', ' ').replace('-', ' ')
-    options = phrases('mind.pattern')
+    options = phrases('mind.pattern', session, game_id)
     if options:
         return options[0].format(subject=subject, count=count)
     return f'{subject} keeps recurring'

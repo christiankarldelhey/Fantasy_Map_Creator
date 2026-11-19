@@ -10,7 +10,7 @@
 # only at creation, falls back to 'default', and never overrides an existing
 # assignment. Reassignment is admin territory: POST /mind/minds/{id}/preset.
 # ============================================================================
-from app.mind.engine import derive_feeling
+from app.mind.engine import derive_feeling, feeling_lexicon
 from app.mind.relations import seed_relations
 from app.mind.tables import (
     Belief, Memory, Mind, MindPreset, Character, Musing,
@@ -266,7 +266,8 @@ def seed_starter_beliefs(session, game_id, character_id, preset):
                 importance=max(abs(sb.stance), 0.4),
                 imprint=imprint,
                 subjects=list(sb.subject),
-                feeling=derive_feeling(imprint),
+                feeling=derive_feeling(
+                    imprint, feeling_lexicon(session, game_id)),
                 origin=sb.source or 'seed',
             ))
     return seeds

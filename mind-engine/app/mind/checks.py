@@ -92,7 +92,9 @@ def _is_altered(session, game_id, state, w, mind=None):
     declares an altered state (editable list 'mind.altered_states')."""
     if altered_by_state(session, game_id, state, w):
         return True
-    names = {n.lower() for n in phrases(ALTERED_STATES_KEY)}
+    names = {
+        n.lower() for n in phrases(ALTERED_STATES_KEY, session, game_id)
+    }
     return bool(state.get('conditions', set()) & names)
 
 
@@ -199,7 +201,7 @@ def misread_reading(session, game_id, event, true_reading, check_result,
         data.get('entity') or data.get('entity_id')
         or data.get('name') or data.get('title') or true_reading
     )
-    pool = phrases(MISREAD_KEY)
+    pool = phrases(MISREAD_KEY, session, game_id)
     if subject:
         options = pool
     else:

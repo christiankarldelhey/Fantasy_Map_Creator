@@ -30,7 +30,8 @@ NEED_PHRASE_PREFIX = 'mind.need.'
 THREAD_PREFIX = 'thread:'
 
 
-def _phrase(key, subject=None, urgency=0.0, idx=0, wiring=None):
+def _phrase(key, subject=None, urgency=0.0, idx=0, wiring=None,
+            session=None, game_id=None):
     """Tiered + rotating voice for 'mind.need.<key>'. Urgency past
     need_deep_urgency speaks from '<key>.deep' instead; several variants
     per tier rotate by episode so a lasting need does not always wear the
@@ -40,11 +41,11 @@ def _phrase(key, subject=None, urgency=0.0, idx=0, wiring=None):
     base = NEED_PHRASE_PREFIX + key
     options = []
     if urgency >= deep_min:
-        options = phrases(base + '.deep')
+        options = phrases(base + '.deep', session, game_id)
     if not options:
-        options = phrases(base)
+        options = phrases(base, session, game_id)
     if not options and key.startswith(THREAD_PREFIX):
-        options = phrases(NEED_PHRASE_PREFIX + 'thread')
+        options = phrases(NEED_PHRASE_PREFIX + 'thread', session, game_id)
     if not options:
         return key
     return options[idx % len(options)].format(
@@ -126,6 +127,7 @@ def needs_pass(session, game_id, mind, episode, perceived, character=None):
         desc = spec.get('desc') or _phrase(
             key, spec.get('subject'),
             urgency=spec.get('urgency') or 0.0, idx=idx, wiring=w,
+            session=session, game_id=game_id,
         )
         need = existing.get(key)
         # The brief speaks a need when it is new or worsening — remember

@@ -8,7 +8,8 @@
 # nothing declares a Relation; it only accretes or decays.
 # ============================================================================
 from app.mind.engine import (
-    CATEGORY_SPLASH, decay, derive_feeling, felt_delta, sediment,
+    CATEGORY_SPLASH, decay, derive_feeling, feeling_lexicon, felt_delta,
+    sediment,
 )
 from app.mind.tables import Relation
 from app.mind.tags import tag_family
@@ -46,12 +47,12 @@ def _get(session, game_id, character_id, subject):
     )
 
 
-def _write(row, vec, episode_idx=None):
+def _write(row, vec, lexicon=None, episode_idx=None):
     row.affection = vec.get('affection', 0.0)
     row.trust = vec.get('trust', 0.0)
     row.fear = vec.get('fear', 0.0)
     row.familiarity = vec.get('familiarity', 0.0)
-    row.feeling = derive_feeling(vec)
+    row.feeling = derive_feeling(vec, lexicon)
     if episode_idx is not None:
         row.last_fed_episode = episode_idx
 
@@ -79,7 +80,7 @@ def feed(session, game_id, character_id, subject, delta, *,
         # the host gave it.
         row.display_name = display_name
     vec = sediment(relation_vector(row), delta, resistance=resistance)
-    _write(row, vec, episode_idx)
+    _write(row, vec, feeling_lexicon(session, game_id), episode_idx)
     return row
 
 
@@ -159,7 +160,7 @@ def seed_relations(session, game_id, character_id, preset):
             origin=origins[subject],
         )
         session.add(row)
-        _write(row, vec)
+        _write(row, vec, feeling_lexicon(session, game_id))
         made.append(row)
     return made
 
@@ -186,4 +187,7 @@ def decay_all(session, mind, rate=0.98):
     for r in session.query(Relation).filter_by(
         character_id=mind.character_id
     ).all():
-        _write(r, decay(relation_vector(r), rate))
+        _write(
+            r, decay(relation_vector(r), rate),
+            feeling_lexicon(session, getattr(mind, 'game_id', None)),
+        )
