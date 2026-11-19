@@ -13,7 +13,8 @@
 # ============================================================================
 import re
 
-from app.day_phases import DAWN_HOUR, implied_hour, phase_for_hour
+from app.day_phases import (
+    DAWN_HOUR, clock_hour, implied_hour, phase_for_hour)
 from app.prompt.sections.anti_repetition import closing_instruction
 from app.prompt.sections.character import character_header_section, character_name, narrator_lens_section
 from app.prompt.sections.climate import climate_state_section
@@ -63,7 +64,7 @@ def _event_beats(events, is_terminal):
         # Only encounters carry when.hour today; land, meal and climate
         # events recover their clock position from the time phrase the
         # reading already contains (implied_hour — sort only).
-        hour = when.get('hour')
+        hour = clock_hour(when.get('hour'))
         if hour is None:
             hour = implied_hour(reading)
         if phase is None:
@@ -115,10 +116,11 @@ def _encounter_beats(day_encounters, events, is_terminal):
         phase = enc.get('phase') or 'night'
         if is_terminal and phase == 'night':
             continue
-        hour = enc.get('hour')
+        hour = clock_hour(enc.get('hour_float'))
         if hour is None:
-            hour = enc.get('hour_float')
-        beats.append(_beat(phase, hour, 'encounter', encounter=dict(enc)))
+            hour = clock_hour(enc.get('hour'))
+        beats.append(
+            _beat(phase, hour, 'encounter', encounter=dict(enc, hour=hour)))
     return beats
 
 

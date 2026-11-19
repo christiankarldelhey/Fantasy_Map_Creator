@@ -9,7 +9,7 @@
 # ============================================================================
 import re
 
-from app.day_phases import day_time_phrase
+from app.day_phases import clock_hour, day_time_phrase
 from app.prompt.sections.encounters import _describe_encounter
 
 _PHASE_ORDER = {'morning': 0, 'afternoon': 1, 'night': 2}
@@ -23,7 +23,8 @@ _NO_HOUR = float('inf')
 
 def _sort_key(beat):
     phase = _PHASE_ORDER.get(beat.get('phase'), 2)
-    return (phase, beat.get('hour') if beat.get('hour') is not None else _NO_HOUR)
+    hour = clock_hour(beat.get('hour'))
+    return (phase, hour if hour is not None else _NO_HOUR)
 
 
 def _clauses(reading):

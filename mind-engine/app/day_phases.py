@@ -21,6 +21,23 @@ def empty_phase_buckets():
     return {'morning': [], 'afternoon': [], 'night': []}
 
 
+_CLOCK_RE = re.compile(r'(\d{1,2})(?::(\d{2}))?')
+
+
+def clock_hour(value):
+    """A clock position as float, from whatever the wire carried —
+    16.0, '16', '16:30' all read the same. None when unreadable."""
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    if isinstance(value, str):
+        m = _CLOCK_RE.match(value.strip())
+        if m:
+            return int(m.group(1)) + (int(m.group(2) or 0) / 60)
+    return None
+
+
 def phase_for_hour(hour_float):
     """Map a clock hour (float) to a narrative phase."""
     if hour_float is None:
