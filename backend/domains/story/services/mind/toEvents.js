@@ -293,8 +293,8 @@ function encounterEvents(day) {
         // C28: what touched the mechanics is weight-space. 'given' — an
         // authored gift the host applies unconditionally (dialogue
         // commands); 'decision' — a fork stood in the day; 'changed' —
-        // the encounter left a mark on the body. The mind's
-        // 'salience_min.tag:*' wiring lifts these out of background.
+        // the encounter left a mark on the body. The mind's semantic
+        // pack ('salience_min' on the row) lifts these out of background.
         const tags = [];
         // 'given' claims the commands actually applied — generateDay
         // skips them when a decision governs the encounter, so the mark

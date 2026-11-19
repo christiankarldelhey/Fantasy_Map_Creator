@@ -29,7 +29,7 @@ from app.mind.checks import (
 from app.mind.engine import acute_hit, mood_delta, project_body
 from app.mind.relations import feed, feed_event, felt_through
 from app.mind.semantics import (
-    BODY_PROJECTION, load_semantics, semantic_delta,
+    BODY_PROJECTION, load_semantics, semantic_delta, tag_floors,
 )
 from app.mind.voice import phrases, resolve_event_reading
 from app.mind.provisioning import DEFAULT_WIRING
@@ -99,21 +99,20 @@ def _severity(data):
     return min(1.0, max(vals)) if vals else 0.0
 
 
-def _tag_severity(tags, w):
-    """'severity.<tag>' wiring lets a tag carry a severity floor (C6):
-    'severity.tag:weather:storm: 0.6' makes the storm an *event* in the
-    salience arithmetic while drizzle stays ambient. Host-declared
-    severity still wins via max."""
-    return best_tag_weight(tags, w, 'severity.')
+def _tag_severity(tags, semantics):
+    """A tag carries a severity floor through the semantic pack (C6):
+    'weather:storm: 0.6' makes the storm an *event* in the salience
+    arithmetic while drizzle stays ambient. Host-declared severity
+    still wins via max."""
+    return tag_floors(tags, semantics)[1]
 
 
-def _salience_floor(tags, w):
-    """'salience_min.<tag>' wiring lets a perceived thing matter by what
-    it IS, not how loud it arrived (C16): 'salience_min.tag:entity_type:
-    humans: 0.35' means thinking company is never background to this
-    mind, 'salience_min.tag:form:brief_exchange' that a real exchange
-    outweighs the weather. Wildcards allowed ('salience_min.entity:*')."""
-    return best_tag_weight(tags, w, 'salience_min.')
+def _salience_floor(tags, semantics):
+    """The pack's salience floor lets a perceived thing matter by what
+    it IS, not how loud it arrived (C16): 'entity_type:orcs: 0.45'
+    means the patrol is never background, 'form:brief_exchange: 0.45'
+    that a real exchange outweighs the weather."""
+    return tag_floors(tags, semantics)[0]
 
 
 def _seen_tags(session, game_id, character_id):
@@ -406,7 +405,7 @@ def perceive_events(session, game_id, mind, events, character=None,
                 check_result['difficulty']
                 / w.get('check_difficulty_scale', 10.0),
             )
-        severity = max(_severity(data), _tag_severity(tags, w))
+        severity = max(_severity(data), _tag_severity(tags, semantics))
 
         # The event's objective reading (ADR 0017): what the semantic
         # pack declares this kind of contact meant. Only registered
@@ -431,7 +430,7 @@ def perceive_events(session, game_id, mind, events, character=None,
             # The floor lifts only what registered (C16) — a noticed
             # exchange with thinking company is never drowned out by
             # bookkeeping; an unnoticed one stays a difuso.
-            floor = _salience_floor(tags, w)
+            floor = _salience_floor(tags, semantics)
             if floor > salience:
                 salience = floor
 

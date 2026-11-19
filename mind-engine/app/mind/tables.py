@@ -606,7 +606,10 @@ class Semantic(Base):
     'form:corrupts' can mean something in one world it does not in
     another. key matches perceived tags (wildcards allowed); delta is
     the sparse relation-dim the world objectively carried; weight how
-    strongly this contact lands; body an acute hit."""
+    strongly this contact lands; body an acute hit. salience_min and
+    severity are the kind's declared floors — how much contact of this
+    kind must matter once noticed; what a tag IS, not how loud it
+    arrived (weight 0 declares floors without claiming contact)."""
 
     __tablename__ = 'semantics'
     __table_args__ = (
@@ -619,6 +622,8 @@ class Semantic(Base):
     delta: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     weight: Mapped[float] = mapped_column(Float, nullable=True)
     body: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    salience_min: Mapped[float] = mapped_column(Float, nullable=True)
+    severity: Mapped[float] = mapped_column(Float, nullable=True)
     enabled: Mapped[bool] = mapped_column(Boolean, nullable=False,
                                           default=True)
 

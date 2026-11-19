@@ -179,72 +179,11 @@ DEFAULT_WIRING = {
     # The old affect channel is dead (ADR 0017): what a tag means lives
     # in the semantics pack (semantics.DEFAULT_SEMANTICS + the game's
     # `semantics` rows), and how this mind feels it in its Relations —
-    # the host never declares valence any more.
-    # Severity floors by tag (C6): severe weather tiers make the climate
-    # an *event* in the salience arithmetic — a storm day encodes, a
-    # drizzle day stays background. 'severity.<tag>' works for any tag.
-    'severity.tag:weather:storm': 0.6,
-    'severity.tag:weather:snow': 0.45,
-    'severity.tag:weather:deep_cold': 0.55,
-    'severity.tag:weather:scorching': 0.5,
-    'severity.tag:weather:freezing': 0.3,
-    # People weight (C16): 'salience_min.<tag>' floors lift a noticed
-    # event carrying that tag — a conversation with thinking company
-    # must outweigh the drizzle. Two channels: the FORM says how close
-    # contact came, the entity_type who it was. A preset re-weights
-    # either (a people-shy mind lowers the whole channel).
-    'salience_min.entity:*': 0.12,
-    'salience_min.tag:form:brief_exchange': 0.45,
-    'salience_min.tag:form:aid_or_trade': 0.5,
-    'salience_min.tag:form:harvest_shelter': 0.45,
-    'salience_min.tag:form:confronts': 0.5,
-    'salience_min.tag:form:attacks': 0.6,
-    'salience_min.tag:form:sudden_peril': 0.55,
-    'salience_min.tag:form:hinders_passage': 0.4,
-    'salience_min.tag:form:reacts_withdraws': 0.35,
-    'salience_min.tag:form:drifts_closer': 0.3,
-    'salience_min.tag:form:stalks': 0.35,
-    'salience_min.tag:form:watches': 0.3,
-    'salience_min.tag:entity_type:humans': 0.35,
-    'salience_min.tag:entity_type:hobbits': 0.35,
-    'salience_min.tag:entity_type:elves': 0.35,
-    'salience_min.tag:entity_type:dwarves': 0.35,
-    'salience_min.tag:entity_type:woses': 0.35,
-    'salience_min.tag:entity_type:orcs': 0.45,
-    'salience_min.tag:entity_type:trolls': 0.45,
-    'salience_min.tag:entity_type:giants': 0.45,
-    'salience_min.tag:entity_type:undead': 0.5,
-    'salience_min.tag:entity_type:demons': 0.5,
-    'salience_min.tag:entity_type:maiar': 0.5,
-    'salience_min.tag:entity_type:living_trees': 0.4,
-    'salience_min.tag:entity_type:pukel_constructs': 0.35,
-    # C28: what touched the mechanics outranks ambience. 'given' — the
-    # world handed something (authored commands, a provided meal);
-    # 'decision' — a fork stood in the day; 'changed' — a decided option
-    # applied. Tiers so an offer declined still registers under the day
-    # that took the bed. A dull mind may lower the whole channel.
-    'salience_min.tag:given': 0.6,
-    'salience_min.tag:decision': 0.5,
-    'salience_min.tag:changed': 0.65,
-    # Places lived, not just passed: 'entered' marks the settlement the
-    # traveller actually stopped at — its name and streets should reach
-    # the lens. 'hostile' is an enemy place skirted from outside — fear
-    # keeps it noticed. The 'lodging:*' tags carry the night's social
-    # truth: a stranger's mercy or a door shut in the face — and
-    # 'rest:poor' marks the nights the body barely slept through.
-    'salience_min.tag:settlement': 0.3,
-    'salience_min.tag:entered': 0.55,
-    # A border crossed: the host's 'region' event marks a land reached
-    # for the first time this journey — entering Fangorn outweighs a
-    # deer herd and is the kind of moment an Episode turns on.
-    'salience_min.tag:region_entered': 0.55,
-    'salience_min.tag:hostile': 0.45,
-    'salience_min.tag:lodging:charity': 0.5,
-    'salience_min.tag:lodging:turned_away': 0.5,
-    'salience_min.tag:lodging:shelter': 0.45,
-    'salience_min.tag:lodging:paid': 0.35,
-    'salience_min.tag:rest:indoor': 0.3,
-    'salience_min.tag:rest:poor': 0.3,
+    # the host never declares valence any more. The salience_min and
+    # severity tag floors live there too (C6/C16): a floor is meaning —
+    # a storm IS severe, thinking company IS never background — so it
+    # sits on the semantic row next to delta/weight/body, per-game
+    # overridable like the rest of the pack.
     # The Episode brief (C35): an event needs focus_min_salience to be the
     # Focus and focus_candidate_min_salience to be considered at all; a
     # memory takes the centre past focus_memory_min; a mood this strong
