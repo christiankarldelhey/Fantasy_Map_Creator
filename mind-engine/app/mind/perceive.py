@@ -31,6 +31,7 @@ from app.mind.engine import acute_hit, mood_delta, project_body
 from app.mind.kinds import SOURCE_MIND, is_mind_item, kind_of
 from app.mind.relations import (
     attention_weights, feed, feed_event, felt_through, standing,
+    standing_relation,
 )
 from app.mind.semantics import (
     field_severity, load_semantics, semantic_delta, tag_floors,
@@ -435,12 +436,17 @@ def _subject_displays(data):
 
 
 def perceive_events(session, game_id, mind, events, character=None,
-                    episode_idx=None):
+                    episode_idx=None, felt_ids=None):
     """Annotate each event: perception + reading + salience + tags, and the
     vector engine's two channels (ADR 0017): the semantic pack reads the
     event's objective delta, Relations sediment it (narrowest subject whole,
     the rest by splash), and the felt delta — bent by the standing
     Relation — is what the item reports as valence and imprint.
+
+    `felt_ids` carries events already sedimented by an interim perceive
+    (Wave C sequential choosing): they are still annotated for narration
+    and memory, but their Relation sediment and body hit are skipped —
+    the day counts its blows once.
 
     Returns plain dicts ready for `episodes.perceived_day`. Idempotent at the
     episode level because open() only calls this when creating the episode.
@@ -531,12 +537,22 @@ def perceive_events(session, game_id, mind, events, character=None,
         # Two channels: the world delta sediments the Relations it
         # touched (the narrowest subject whole); the felt delta — bent
         # by the standing Relation — is how the event landed on this
-        # mind. world_valence keeps the unbent reading.
+        # mind. world_valence keeps the unbent reading. An event the
+        # interim perceive already felt skips the sediment but still
+        # reads through the standing it helped build.
+        already_felt = (
+            felt_ids is not None and event.get('id') in felt_ids
+        )
         subjects = sorted(subject_tags(tags))
         if perception == 'unnoticed' or not subjects:
             felt, primary = {}, None
             if world_delta:
                 felt = felt_through(world_delta, {}, mind.personality)
+        elif already_felt:
+            primary, standing = standing_relation(
+                session, game_id, mind.character_id, subjects,
+            )
+            felt = felt_through(world_delta, standing, mind.personality)
         else:
             primary, standing = feed_event(
                 session, mind, subjects, world_delta,
@@ -544,7 +560,7 @@ def perceive_events(session, game_id, mind, events, character=None,
                 displays=_subject_displays(data),
             )
             felt = felt_through(world_delta, standing, mind.personality)
-        if body_hit:
+        if body_hit and not already_felt:
             acute_hit(mind.body, body_hit)
         valence = mood_delta(felt).get('valence', 0.0)
         kind = kind_of(session, game_id, event.get('type'))

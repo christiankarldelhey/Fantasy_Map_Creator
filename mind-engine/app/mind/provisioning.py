@@ -120,10 +120,15 @@ DEFAULT_WIRING = {
     # one as deeper relief. 0.3 makes like=+1 a small loss.
     'break_standing_scale': 0.3,
     # Base routine never grates: 'tag:drink:*' is hydration, not
-    # monotony (its absence is the thirst need's job). Everything else
-    # that used to sit here is simply ineligible now — only
-    # pattern-classed families can form a streak at all (#147).
-    'repetition_exempt_tags': ['tag:drink:*'],
+    # monotony (its absence is the thirst need's job); 'tag:form:*',
+    # 'tag:given' and 'tag:changed' are mechanical stamps from the
+    # interaction wire, not lived repetition. Only pattern-classed
+    # families can form a streak at all (#147), so these are belts
+    # around an already-closed door.
+    'repetition_exempt_tags': [
+        'tag:drink:*', 'tag:form:*',
+        'tag:given', 'tag:changed',
+    ],
     # Reflection (B4) — the mind's only LLM call, at close: every N
     # episodes or on a salience spike. Reconciliation deltas, active cap
     # and the decay of unreinforced beliefs.

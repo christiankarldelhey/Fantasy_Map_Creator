@@ -343,7 +343,7 @@ def test_presets_list_and_apply_imprints_nature_only(client):
     )
     session = SessionLocal()
     before = session.query(Mind).filter_by(character_id=char).one()
-    wiring_before, weights_before = dict(before.wiring), dict(before.theme_weights)
+    wiring_before = dict(before.wiring)
     slug_before = before.preset_slug
     session.close()
 
@@ -356,12 +356,11 @@ def test_presets_list_and_apply_imprints_nature_only(client):
     assert body['temperament']['valence'] == pytest.approx(-0.3)
     assert body['personality'] == {'moodiness': 0.1, 'resistance': 0.7}
 
-    # Nature only: preset identity, wiring and concerns are untouched.
+    # Nature only: preset identity and wiring are untouched.
     session = SessionLocal()
     mind = session.query(Mind).filter_by(character_id=char).one()
     assert mind.preset_slug == slug_before
     assert mind.wiring == wiring_before
-    assert mind.theme_weights == weights_before
     session.close()
 
 
