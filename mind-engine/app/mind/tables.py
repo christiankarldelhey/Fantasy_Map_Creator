@@ -606,7 +606,10 @@ class Semantic(Base):
     'form:corrupts' can mean something in one world it does not in
     another. key matches perceived tags (wildcards allowed); delta is
     the sparse relation-dim the world objectively carried; weight how
-    strongly this contact lands; body an acute hit."""
+    strongly this contact lands; body an acute hit. salience_min and
+    severity are the kind's declared floors — how much contact of this
+    kind must matter once noticed; what a tag IS, not how loud it
+    arrived (weight 0 declares floors without claiming contact)."""
 
     __tablename__ = 'semantics'
     __table_args__ = (
@@ -619,6 +622,29 @@ class Semantic(Base):
     delta: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     weight: Mapped[float] = mapped_column(Float, nullable=True)
     body: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    salience_min: Mapped[float] = mapped_column(Float, nullable=True)
+    severity: Mapped[float] = mapped_column(Float, nullable=True)
+    wakes: Mapped[bool] = mapped_column(Boolean, nullable=True)
+    enabled: Mapped[bool] = mapped_column(Boolean, nullable=False,
+                                          default=True)
+
+
+class PackEntry(Base):
+    """A game's declared value for one pack key (ADR 0017): the mind's
+    own voice and vocabulary as data — phrase banks ('mind.need.hunger'),
+    the mood bands, the feeling lexicon, the disposition render. Built-in
+    defaults live in code; a row replaces its key's value wholesale for
+    that game, and enabled=False silences the default entirely."""
+
+    __tablename__ = 'pack_entries'
+    __table_args__ = (
+        UniqueConstraint('game_id', 'key', name='uq_pack_entry'),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    key: Mapped[str] = mapped_column(String(160), nullable=False)
+    value: Mapped[dict] = mapped_column(JSONB, nullable=False)
     enabled: Mapped[bool] = mapped_column(Boolean, nullable=False,
                                           default=True)
 

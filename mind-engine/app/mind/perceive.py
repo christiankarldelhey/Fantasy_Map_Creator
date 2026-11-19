@@ -19,6 +19,7 @@
 import re
 
 from app.mind.boosts import effective_theme_weights
+from app.mind.detectors import body_projection
 from app.mind.checks import (
     asleep_check_result,
     character_state,
@@ -29,19 +30,13 @@ from app.mind.checks import (
 from app.mind.engine import acute_hit, mood_delta, project_body
 from app.mind.relations import feed, feed_event, felt_through
 from app.mind.semantics import (
-    BODY_PROJECTION, load_semantics, semantic_delta,
+    field_severity, load_semantics, semantic_delta, tag_floors,
 )
 from app.mind.voice import phrases, resolve_event_reading
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Episode
 from app.mind.tags import UNTAGGED_FIELDS, subject_tags, tag_is
 from app.mind.util import best_tag_weight, num, tag_matches
-
-# data fields that count as explicit severity when numeric (0-1 normalized).
-SEVERITY_FIELDS = (
-    'severity', 'danger', 'threat', 'damage', 'wound',
-    'pain', 'hostility', 'risk', 'lethality',
-)
 
 EPISODE_LOOKBACK = 20
 
@@ -92,28 +87,20 @@ def theme_weight(tags, weights):
     return best_tag_weight(tags, weights or {})
 
 
-def _severity(data):
-    """0-1: explicit data['severity'] or the max severity-ish field."""
-    vals = [num(data.get(f)) for f in SEVERITY_FIELDS]
-    vals = [v for v in vals if v is not None]
-    return min(1.0, max(vals)) if vals else 0.0
+def _tag_severity(tags, semantics):
+    """A tag carries a severity floor through the semantic pack (C6):
+    'weather:storm: 0.6' makes the storm an *event* in the salience
+    arithmetic while drizzle stays ambient. Host-declared severity
+    still wins via max."""
+    return tag_floors(tags, semantics)[1]
 
 
-def _tag_severity(tags, w):
-    """'severity.<tag>' wiring lets a tag carry a severity floor (C6):
-    'severity.tag:weather:storm: 0.6' makes the storm an *event* in the
-    salience arithmetic while drizzle stays ambient. Host-declared
-    severity still wins via max."""
-    return best_tag_weight(tags, w, 'severity.')
-
-
-def _salience_floor(tags, w):
-    """'salience_min.<tag>' wiring lets a perceived thing matter by what
-    it IS, not how loud it arrived (C16): 'salience_min.tag:entity_type:
-    humans: 0.35' means thinking company is never background to this
-    mind, 'salience_min.tag:form:brief_exchange' that a real exchange
-    outweighs the weather. Wildcards allowed ('salience_min.entity:*')."""
-    return best_tag_weight(tags, w, 'salience_min.')
+def _salience_floor(tags, semantics):
+    """The pack's salience floor lets a perceived thing matter by what
+    it IS, not how loud it arrived (C16): 'entity_type:orcs: 0.45'
+    means the patrol is never background, 'form:brief_exchange: 0.45'
+    that a real exchange outweighs the weather."""
+    return tag_floors(tags, semantics)[0]
 
 
 def _seen_tags(session, game_id, character_id):
@@ -233,7 +220,7 @@ def _recurrence_items(session, game_id, mind, perceived, w):
 
     def _item(kind, tag, streak, valence, salience, phrase_key,
               extra_data=None, tags=None):
-        options = phrases(phrase_key)
+        options = phrases(phrase_key, session, game_id)
         subject = _tag_subject(tag)
         reading = (
             options[0].format(subject=subject, count=streak)
@@ -322,7 +309,7 @@ def resolve_break_items(session, game_id, mind, perceived, needs, w):
         if need_key not in open_keys:
             continue
         subject = _tag_subject(tag)
-        options = phrases('mind.pattern_break_need')
+        options = phrases('mind.pattern_break_need', session, game_id)
         if options:
             item['reading'] = options[0].format(
                 subject=subject, count=data.get('streak') or 0
@@ -367,7 +354,7 @@ def perceive_events(session, game_id, mind, events, character=None,
     # The body the day starts from: the Condition projected through the
     # declared map — acute event hits land on top of this base, and the
     # next Condition report resets it.
-    mind.body = project_body(state, BODY_PROJECTION)
+    mind.body = project_body(state, body_projection(session, game_id))
 
     perceived = []
     for index, event in enumerate(events or []):
@@ -380,7 +367,7 @@ def perceive_events(session, game_id, mind, events, character=None,
 
         # Sleep phases (C4): a checked event at night is slept through
         # unless its form/outcome is intrusive enough to wake the mind.
-        if is_asleep(event, w):
+        if is_asleep(event, tags, w, semantics):
             check_result = asleep_check_result(event, index)
             perception = 'unnoticed'
         else:
@@ -388,7 +375,7 @@ def perceive_events(session, game_id, mind, events, character=None,
                 session, game_id, character, event, index, state, w,
                 mind=mind,
             )
-        reading = resolve_event_reading(event)
+        reading = resolve_event_reading(event, session, game_id)
         if perception == 'misread':
             reading = misread_reading(
                 session, game_id, event, reading, check_result,
@@ -406,7 +393,10 @@ def perceive_events(session, game_id, mind, events, character=None,
                 check_result['difficulty']
                 / w.get('check_difficulty_scale', 10.0),
             )
-        severity = max(_severity(data), _tag_severity(tags, w))
+        severity = min(1.0, max(
+            field_severity(data, semantics),
+            _tag_severity(tags, semantics),
+        ))
 
         # The event's objective reading (ADR 0017): what the semantic
         # pack declares this kind of contact meant. Only registered
@@ -431,7 +421,7 @@ def perceive_events(session, game_id, mind, events, character=None,
             # The floor lifts only what registered (C16) — a noticed
             # exchange with thinking company is never drowned out by
             # bookkeeping; an unnoticed one stays a difuso.
-            floor = _salience_floor(tags, w)
+            floor = _salience_floor(tags, semantics)
             if floor > salience:
                 salience = floor
 

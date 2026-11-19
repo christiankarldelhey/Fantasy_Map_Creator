@@ -22,7 +22,7 @@ from datetime import datetime, timedelta, timezone
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.director import direct, director_enabled
-from app.mind.engine import derive_feeling, regress
+from app.mind.engine import derive_feeling, feeling_lexicon, regress
 from app.mind.focus import brief_lines, build_brief, need_origins
 from app.mind.lens import (
     PROMPT_PHASES, _age_phrase, brief_beats, disposition_beats,
@@ -555,8 +555,11 @@ def close_episode(
                 mood, mind.temperament or {},
                 (mind.personality or {}).get('moodiness', 0.3),
             )
-            mood['dominant'] = mood_phrase(mood.get('valence') or 0.0) or 'neutral'
-            mood['feeling'] = derive_feeling(mood)
+            mood['dominant'] = mood_phrase(
+                mood.get('valence') or 0.0, db,
+                getattr(mind, 'game_id', None)) or 'neutral'
+            mood['feeling'] = derive_feeling(
+                mood, feeling_lexicon(db, getattr(mind, 'game_id', None)))
             mind.mood = mood
             decay_all(
                 db, mind,

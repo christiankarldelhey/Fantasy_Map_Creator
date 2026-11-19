@@ -2,13 +2,27 @@
 # Voice — the mind's own words
 # ----------------------------------------------------------------------------
 # The phrase bank the mind uses to speak about ITSELF: needs, moods,
-# misreads, repetitions, decisions. Plain constants — no session, no
-# per-game pack, no overrides.
+# misreads, repetitions, decisions. The constants here are the built-in
+# pack; a game's `pack_entries` row replaces any key's value wholesale
+# ('mind.need.hunger' -> variants, 'mind.mood_bands' -> bands,
+# 'mind.feeling_lexicon' -> entries, 'mind.disposition_render' -> map)
+# and enabled=False silences the key entirely.
 #
 # The world's words never live here: the host declares prose and tags on
 # the wire (issues #52/#53 — `day.world_notes`, `event.data.reading`) and
 # the mind consumes them verbatim. What remains is interiority only.
 # ============================================================================
+import logging
+import time
+
+from app.mind.tables import PackEntry
+
+log = logging.getLogger(__name__)
+
+CACHE_TTL_SECONDS = 30
+_entry_cache = {}
+_SILENCED = object()
+
 
 PHRASES = {
     # Gates & rolls (B1): wrong readings for `misread` ({subject} = entity or
@@ -155,7 +169,8 @@ PHRASES = {
 }
 
 # The Lens' word for how the day finds them — first band the valence
-# falls under.
+# falls under. A game declares its own under 'mind.mood_bands'.
+MOOD_BANDS_KEY = 'mind.mood_bands'
 MOOD_BANDS = [
     {'below': -0.6, 'phrase': 'despairing'},
     {'below': -0.25, 'phrase': 'troubled'},
@@ -165,18 +180,57 @@ MOOD_BANDS = [
 ]
 
 
-def phrases(key):
-    """The variants the mind has for a phrase key ([] when undeclared)."""
-    return list(PHRASES.get(key) or [])
+def _game_entries(session, game_id):
+    """All pack_entries for a game, cached briefly — pack data is config,
+    not hot data (same TTL discipline as detectors)."""
+    entry = _entry_cache.get(game_id)
+    if entry and time.monotonic() - entry['at'] < CACHE_TTL_SECONDS:
+        return entry['values']
+    values = {}
+    if session is not None and game_id:
+        try:
+            for row in (
+                session.query(PackEntry).filter_by(game_id=game_id).all()
+            ):
+                values[row.key] = row.value if row.enabled else _SILENCED
+        except Exception as exc:  # DB down: run on the built-in pack
+            log.warning('pack entries load failed for %s: %s', game_id, exc)
+    _entry_cache[game_id] = {'at': time.monotonic(), 'values': values}
+    return values
 
 
-def mood_phrase(valence):
+def invalidate_entries(game_id=None):
+    """Drop cached pack entries — call after admin edits."""
+    if game_id is None:
+        _entry_cache.clear()
+    else:
+        _entry_cache.pop(game_id, None)
+
+
+def pack_value(session, game_id, key, default):
+    """One pack key's value: the game's declared row wins wholesale, a
+    disabled row silences the key (None), no row keeps the default."""
+    values = _game_entries(session, game_id)
+    if key not in values:
+        return default
+    v = values[key]
+    return None if v is _SILENCED else v
+
+
+def phrases(key, session=None, game_id=None):
+    """The variants the mind has for a phrase key ([] when undeclared
+    or silenced)."""
+    return list(pack_value(session, game_id, key, PHRASES.get(key) or []) or [])
+
+
+def mood_phrase(valence, session=None, game_id=None):
     """First mood band whose threshold the valence falls under."""
     if valence is None:
         return None
-    for band in MOOD_BANDS:
-        if band['below'] is None or valence < band['below']:
-            return band['phrase']
+    bands = pack_value(session, game_id, MOOD_BANDS_KEY, MOOD_BANDS) or []
+    for band in bands:
+        if band.get('below') is None or valence < band['below']:
+            return band.get('phrase')
     return None
 
 
@@ -209,7 +263,7 @@ def _first_string(values):
     return None
 
 
-def resolve_event_reading(event):
+def resolve_event_reading(event, session=None, game_id=None):
     """One-line natural-language reading of an event's data — what the mind
     would say it noticed. A host-declared `data.reading` always wins (#53:
     the world says what it was; the mind consumes it). Undeclared events
@@ -262,7 +316,7 @@ def resolve_event_reading(event):
         substance = data.get('substance') or {}
         detail = substance.get('content') or data.get('prose_hint')
         if subject and detail:
-            opts = phrases('mind.encounter')
+            opts = phrases('mind.encounter', session, game_id)
             template = opts[0] if opts else '{subject} — {detail}'
             line = template.format(subject=subject, detail=detail)
             stance = substance.get('stance')

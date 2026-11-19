@@ -21,7 +21,7 @@ from sqlalchemy import or_
 
 from app.ai import generate_narrative
 from app.mind.boosts import clean_boosts
-from app.mind.engine import derive_feeling
+from app.mind.engine import derive_feeling, feeling_lexicon
 from app.mind.focus import _touches, brief_lines
 from app.mind.memory import episode_index
 from app.mind.provisioning import DEFAULT_WIRING
@@ -239,7 +239,9 @@ def _apply_ops(session, mind, ops, beliefs_by_id, idx, w):
                     d: -v for d, v in (mem.imprint or {}).items()
                 } or mem.imprint
                 mem.valence = -(mem.valence or 0.0)
-                mem.feeling = derive_feeling(mem.imprint or {})
+                mem.feeling = derive_feeling(
+                    mem.imprint or {},
+                    feeling_lexicon(session, getattr(mind, 'game_id', None)))
                 mem.origin = 'lived'
             session.add(Belief(
                 game_id=mind.game_id, character_id=mind.character_id,

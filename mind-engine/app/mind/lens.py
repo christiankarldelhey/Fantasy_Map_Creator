@@ -14,8 +14,8 @@ import re
 from datetime import date
 
 from app.mind.engine import (
-    MOOD_DIMS, add_delta, couple_mood, derive_feeling, mood_delta,
-    weigh_body,
+    MOOD_DIMS, add_delta, couple_mood, derive_feeling, feeling_lexicon,
+    mood_delta, weigh_body,
 )
 from app.mind.tags import cause_tags
 from app.mind.voice import humanize, mood_phrase
@@ -55,7 +55,7 @@ def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
             if n.type != 'physiological'
         ))
         valence = max(-1.0, valence - thread_pressure)
-    dominant = mood_phrase(valence) or 'neutral'
+    dominant = mood_phrase(valence, session, game_id) or 'neutral'
     felt = {}
     trace = []
     for i in items:
@@ -68,7 +68,7 @@ def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
             'reading': i.get('reading'),
             'felt': imprint,
         })
-    arc, turn = mood_arc(items)
+    arc, turn = mood_arc(items, session, game_id)
     return {
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
@@ -88,7 +88,7 @@ _PHASE_ORDER = ('morning', 'afternoon', 'night')
 TURN_MIN_SWING = 0.3
 
 
-def mood_arc(items):
+def mood_arc(items, session=None, game_id=None):
     """The day's emotional plot by phase (ADR 0017): the felt deltas
     accumulated morning -> afternoon -> night, each point carrying the
     phase's heaviest reading as its cause. And the TURN — the phase
@@ -121,7 +121,7 @@ def mood_arc(items):
             'phase': phase,
             'felt': {d: round(v, 3) for d, v in felt.items()},
             'valence': round(valence, 3),
-            'mood': mood_phrase(valence),
+            'mood': mood_phrase(valence, session, game_id),
             'cause': cause,
         }
         arc.append(point)
@@ -197,7 +197,7 @@ def update_mind_mood(session, game_id, mind, ep_mood, cause=None,
     mood['valence'] = max(-1.0, mood.get('valence', 0.0) - pressure)
     mood['arousal'] = min(1.0, mood.get('arousal', 0.0) + pressure * 0.5)
     valence = mood['valence']
-    dominant = mood_phrase(valence) or 'neutral'
+    dominant = mood_phrase(valence, session, game_id) or 'neutral'
     carried = prior.get('cause')
     if cause:
         carried = {**cause, 'date': when.isoformat() if when else None}
@@ -210,7 +210,7 @@ def update_mind_mood(session, game_id, mind, ep_mood, cause=None,
     mind.mood = {
         **{d: round(mood.get(d) or 0.0, 3) for d in MOOD_DIMS},
         'dominant': dominant,
-        'feeling': derive_feeling(mood),
+        'feeling': derive_feeling(mood, feeling_lexicon(session, game_id)),
         'cause': carried,
     }
     return mind.mood
@@ -334,6 +334,11 @@ def inner_lines(session, mind, as_of_episode=None):
     prompt just voiced."""
     from app.mind.tables import Relation
     from app.mind.relations import relation_vector
+    from app.mind.voice import pack_value
+    render_map = pack_value(
+        session, getattr(mind, 'game_id', None), 'mind.disposition_render',
+        _DISPOSITION_RENDER,
+    ) or {}
     rows = (
         session.query(Relation)
         .filter_by(character_id=mind.character_id)
@@ -351,7 +356,7 @@ def inner_lines(session, mind, as_of_episode=None):
         # The host's own wording wins ('The Prancing Pony'); the
         # humanized slug is the fallback, never the other way round.
         subj = r.display_name or humanize(r.subject.rsplit(':', 1)[-1])
-        template = _DISPOSITION_RENDER.get(r.feeling)
+        template = render_map.get(r.feeling)
         if template:
             text = template.format(subj=subj)
         else:

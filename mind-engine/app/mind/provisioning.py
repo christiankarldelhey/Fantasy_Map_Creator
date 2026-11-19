@@ -10,7 +10,7 @@
 # only at creation, falls back to 'default', and never overrides an existing
 # assignment. Reassignment is admin territory: POST /mind/minds/{id}/preset.
 # ============================================================================
-from app.mind.engine import derive_feeling
+from app.mind.engine import derive_feeling, feeling_lexicon
 from app.mind.relations import seed_relations
 from app.mind.tables import (
     Belief, Memory, Mind, MindPreset, Character, Musing,
@@ -74,23 +74,11 @@ DEFAULT_WIRING = {
     # ('check_mod' kind). Per-mind overrides use 'detector.<key>.<param>'.
     'unnoticed_salience': 0.5,
     # Sleep/wake (C4) — during a sleep phase the mind is unconscious:
-    # checked events pass unheard unless the form physically wakes the
-    # sleeper or the outcome is harm already done. All wiring — a nocturnal
-    # creature preset empties sleep_phases entirely.
+    # checked events pass unheard unless contact is intrusive enough to
+    # wake the sleeper. WHEN the mind sleeps is wiring — a nocturnal
+    # creature preset empties sleep_phases entirely; WHICH kinds wake it
+    # is the contact's own meaning — 'wakes' on the semantic row (C16).
     'sleep_phases': ['night'],
-    # Contact forms wake the sleeper (C16): if the world resolved a
-    # brief exchange or an offered bed, contact already happened —
-    # the mind cannot sleep through what canonically occurred (the
-    # tracking roll still runs; waking is not auto-noticing). Distant
-    # perception events — signs, sounds, a far-off shape — stay
-    # sleep-missable.
-    'sleep_wake_forms': [
-        'attacks', 'confronts', 'sudden_peril',
-        'brief_exchange', 'aid_or_trade', 'harvest_shelter',
-        'reacts_withdraws', 'hinders_passage', 'mistaken_for_object',
-        'drifts_closer',
-    ],
-    'sleep_wake_outcomes': ['wounded', 'badly wounded'],
     # Needs engine (B2) — detector triggers live in the detectors pack
     # ('need' kind, ADR 0005); the streak knob stays here for B9 composite
     # rules.
@@ -179,72 +167,11 @@ DEFAULT_WIRING = {
     # The old affect channel is dead (ADR 0017): what a tag means lives
     # in the semantics pack (semantics.DEFAULT_SEMANTICS + the game's
     # `semantics` rows), and how this mind feels it in its Relations —
-    # the host never declares valence any more.
-    # Severity floors by tag (C6): severe weather tiers make the climate
-    # an *event* in the salience arithmetic — a storm day encodes, a
-    # drizzle day stays background. 'severity.<tag>' works for any tag.
-    'severity.tag:weather:storm': 0.6,
-    'severity.tag:weather:snow': 0.45,
-    'severity.tag:weather:deep_cold': 0.55,
-    'severity.tag:weather:scorching': 0.5,
-    'severity.tag:weather:freezing': 0.3,
-    # People weight (C16): 'salience_min.<tag>' floors lift a noticed
-    # event carrying that tag — a conversation with thinking company
-    # must outweigh the drizzle. Two channels: the FORM says how close
-    # contact came, the entity_type who it was. A preset re-weights
-    # either (a people-shy mind lowers the whole channel).
-    'salience_min.entity:*': 0.12,
-    'salience_min.tag:form:brief_exchange': 0.45,
-    'salience_min.tag:form:aid_or_trade': 0.5,
-    'salience_min.tag:form:harvest_shelter': 0.45,
-    'salience_min.tag:form:confronts': 0.5,
-    'salience_min.tag:form:attacks': 0.6,
-    'salience_min.tag:form:sudden_peril': 0.55,
-    'salience_min.tag:form:hinders_passage': 0.4,
-    'salience_min.tag:form:reacts_withdraws': 0.35,
-    'salience_min.tag:form:drifts_closer': 0.3,
-    'salience_min.tag:form:stalks': 0.35,
-    'salience_min.tag:form:watches': 0.3,
-    'salience_min.tag:entity_type:humans': 0.35,
-    'salience_min.tag:entity_type:hobbits': 0.35,
-    'salience_min.tag:entity_type:elves': 0.35,
-    'salience_min.tag:entity_type:dwarves': 0.35,
-    'salience_min.tag:entity_type:woses': 0.35,
-    'salience_min.tag:entity_type:orcs': 0.45,
-    'salience_min.tag:entity_type:trolls': 0.45,
-    'salience_min.tag:entity_type:giants': 0.45,
-    'salience_min.tag:entity_type:undead': 0.5,
-    'salience_min.tag:entity_type:demons': 0.5,
-    'salience_min.tag:entity_type:maiar': 0.5,
-    'salience_min.tag:entity_type:living_trees': 0.4,
-    'salience_min.tag:entity_type:pukel_constructs': 0.35,
-    # C28: what touched the mechanics outranks ambience. 'given' — the
-    # world handed something (authored commands, a provided meal);
-    # 'decision' — a fork stood in the day; 'changed' — a decided option
-    # applied. Tiers so an offer declined still registers under the day
-    # that took the bed. A dull mind may lower the whole channel.
-    'salience_min.tag:given': 0.6,
-    'salience_min.tag:decision': 0.5,
-    'salience_min.tag:changed': 0.65,
-    # Places lived, not just passed: 'entered' marks the settlement the
-    # traveller actually stopped at — its name and streets should reach
-    # the lens. 'hostile' is an enemy place skirted from outside — fear
-    # keeps it noticed. The 'lodging:*' tags carry the night's social
-    # truth: a stranger's mercy or a door shut in the face — and
-    # 'rest:poor' marks the nights the body barely slept through.
-    'salience_min.tag:settlement': 0.3,
-    'salience_min.tag:entered': 0.55,
-    # A border crossed: the host's 'region' event marks a land reached
-    # for the first time this journey — entering Fangorn outweighs a
-    # deer herd and is the kind of moment an Episode turns on.
-    'salience_min.tag:region_entered': 0.55,
-    'salience_min.tag:hostile': 0.45,
-    'salience_min.tag:lodging:charity': 0.5,
-    'salience_min.tag:lodging:turned_away': 0.5,
-    'salience_min.tag:lodging:shelter': 0.45,
-    'salience_min.tag:lodging:paid': 0.35,
-    'salience_min.tag:rest:indoor': 0.3,
-    'salience_min.tag:rest:poor': 0.3,
+    # the host never declares valence any more. The salience_min and
+    # severity tag floors live there too (C6/C16): a floor is meaning —
+    # a storm IS severe, thinking company IS never background — so it
+    # sits on the semantic row next to delta/weight/body, per-game
+    # overridable like the rest of the pack.
     # The Episode brief (C35): an event needs focus_min_salience to be the
     # Focus and focus_candidate_min_salience to be considered at all; a
     # memory takes the centre past focus_memory_min; a mood this strong
@@ -339,7 +266,8 @@ def seed_starter_beliefs(session, game_id, character_id, preset):
                 importance=max(abs(sb.stance), 0.4),
                 imprint=imprint,
                 subjects=list(sb.subject),
-                feeling=derive_feeling(imprint),
+                feeling=derive_feeling(
+                    imprint, feeling_lexicon(session, game_id)),
                 origin=sb.source or 'seed',
             ))
     return seeds

@@ -98,6 +98,39 @@ DEFAULT_DETECTORS = [
         'key': 'shadow_altered', 'kind': 'altered',
         'field': 'shadow', 'op': '>=', 'value': 0.25, 'scale': 100.0,
     },
+    # -- body projection (ADR 0017) --------------------------------------------
+    # The Condition → felt-body map: field counts units, scale is how
+    # many saturate the dim, op='invert' reads a resource field back-
+    # wards (energy 35 = fatigue .65). Acute event hits land on top;
+    # the next Condition report resets the base.
+    {
+        'key': 'hunger', 'kind': 'body',
+        'field': 'days_without_food', 'op': 'direct', 'scale': 5.0,
+    },
+    {
+        'key': 'thirst', 'kind': 'body',
+        'field': 'days_without_water', 'op': 'direct', 'scale': 3.0,
+    },
+    {
+        'key': 'fatigue', 'kind': 'body',
+        'field': 'energy', 'op': 'invert', 'scale': 100.0,
+    },
+    {
+        'key': 'unrest', 'kind': 'body',
+        'field': 'shadow', 'op': 'direct', 'scale': 100.0,
+    },
+    {
+        'key': 'cold', 'kind': 'body',
+        'field': 'cold', 'op': 'direct', 'scale': 1.0,
+    },
+    {
+        'key': 'pain', 'kind': 'body',
+        'field': 'pain', 'op': 'direct', 'scale': 1.0,
+    },
+    {
+        'key': 'illness', 'kind': 'body',
+        'field': 'illness', 'op': 'direct', 'scale': 1.0,
+    },
 ]
 
 def _rule_dict(row):
@@ -275,3 +308,19 @@ def altered_by_state(session, game_id, state, w=None):
         for det in active_detectors(session, game_id)
         if det.get('kind') == 'altered'
     )
+
+
+def body_projection(session, game_id):
+    """The Condition → felt-body map (ADR 0017): 'body'-kind detector
+    rows declare field→dim projections — scale the units that saturate
+    the dim, op='invert' a resource-style field read backwards. The map
+    engine.project_body consumes."""
+    return {
+        det['key']: {
+            'field': det.get('field'),
+            'scale': det.get('scale'),
+            'invert': det.get('op') == 'invert',
+        }
+        for det in active_detectors(session, game_id)
+        if det.get('kind') == 'body'
+    }

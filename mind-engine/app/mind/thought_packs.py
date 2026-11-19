@@ -1,12 +1,13 @@
 # ============================================================================
-# Compatibility shim — the packs moved to app/mind/musings.py (#55)
+# Compatibility shim — the packs moved to app/mind/musings.py (#55),
+# renamed to seed_packs.py when it became pure seed content (#164)
 # ----------------------------------------------------------------------------
 # Alembic 0017 (thought packs) and 0018 (faceted beliefs) import this module
 # and read the pre-musing shape: PACKS entries carry kind/confidence/boosts,
 # which musings no longer have. This file only exists so old migrations can
 # still run from scratch — nothing else should import it.
 # ============================================================================
-from app.mind.musings import (  # noqa: F401
+from app.mind.seed_packs import (  # noqa: F401
     ATTITUDE_PACKS, LEGACY_REWRITES, MUSING_PACKS,
 )
 

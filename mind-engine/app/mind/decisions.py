@@ -18,8 +18,8 @@
 # ============================================================================
 from app.mind.boosts import effective_theme_weights
 from app.mind.perceive import derive_tags
+from app.mind.semantics import load_semantics, tag_floors
 from app.mind.voice import phrases, resolve_event_reading
-from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Need
 
 
@@ -138,17 +138,16 @@ def resolve_decision(session, mind, episode, option_id, decision_id=None):
     return dec, option, already
 
 
-def _mark_changed(item, w):
+def _mark_changed(item, floor):
     """An applied command raised the stakes of what was perceived (C28):
     the contact is no longer an offer, it is a thing that happened to
-    the body. Tags it 'tag:changed' and lifts salience to that tag's
-    wiring floor, so close() encodes the night that occurred — never
+    the body. Tags it 'tag:changed' and lifts salience to that kind's
+    declared floor, so close() encodes the night that occurred — never
     the one that was merely proposed."""
     tags = list(item.get('tags') or [])
     if 'tag:changed' not in tags:
         item['tags'] = tags + ['tag:changed']
-    floor = w.get('salience_min.tag:changed')
-    if floor is not None and floor > (item.get('salience') or 0):
+    if floor and floor > (item.get('salience') or 0):
         item['salience'] = round(float(floor), 3)
 
 
@@ -161,7 +160,9 @@ def _apply_choice_to_perceived(session, episode, dec, option, mind):
     describe a wild camp while the mechanics say wayhouse."""
     perceived = [dict(item) for item in (episode.perceived_day or [])]
     changed = False
-    w = {**DEFAULT_WIRING, **((getattr(mind, 'wiring', None)) or {})}
+    changed_floor = tag_floors(
+        ['tag:changed'], load_semantics(session, episode.game_id)
+    )[0]
     landed = bool(option.get('commands'))
 
     idx = dec.get('event_index')
@@ -171,9 +172,10 @@ def _apply_choice_to_perceived(session, episode, dec, option, mind):
         substance['stance'] = option['stance']
         data['substance'] = substance
         perceived[idx] = {**perceived[idx], 'data': data}
-        perceived[idx]['reading'] = resolve_event_reading(perceived[idx])
+        perceived[idx]['reading'] = resolve_event_reading(
+            perceived[idx], session, episode.game_id)
         if landed:
-            _mark_changed(perceived[idx], w)
+            _mark_changed(perceived[idx], changed_floor)
         changed = True
 
     shelter = next(
@@ -217,8 +219,9 @@ def _apply_choice_to_perceived(session, episode, dec, option, mind):
             # Re-derive the weight-space tags too — 'tag:rest:poor' of the
             # wild night must not stain the sheltered one.
             item['tags'] = derive_tags(item)
-            item['reading'] = resolve_event_reading(item)
-            _mark_changed(item, w)
+            item['reading'] = resolve_event_reading(
+                item, session, episode.game_id)
+            _mark_changed(item, changed_floor)
             changed = True
         payload = dict(episode.narrator_payload or {})
         day = dict(payload.get('day') or {})
@@ -243,7 +246,7 @@ def _apply_choice_to_perceived(session, episode, dec, option, mind):
 
 def resolution_text(session, game_id, option, character_name=None,
                     mind=None):
-    options = phrases('mind.decision')
+    options = phrases('mind.decision', session, game_id)
     label = option.get('label') or option.get('id') or ''
     for template in options:
         if '{choice}' in template:

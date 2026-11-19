@@ -96,7 +96,7 @@ def need_origins(session, game_id, needs, entering_mood, mind=None):
             cause.get('reading') and (cause.get('valence') or 0.0) < 0
         ):
             phrase_key = 'mind.need_origin.unrest.nameless'
-        options = phrases(phrase_key)
+        options = phrases(phrase_key, session, game_id)
         if not options:
             continue
         try:
@@ -137,7 +137,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     need_origins = need_origins or {}
     silenced = []
     frame_types = _ENGINE_FRAME_TYPES | set(
-        phrases(FOCUS_EXCLUDED_KEY)
+        phrases(FOCUS_EXCLUDED_KEY, session, game_id)
     )
     contact_seen = _had_contact(perceived_day)
 
