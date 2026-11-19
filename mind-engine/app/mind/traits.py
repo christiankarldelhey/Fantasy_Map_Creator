@@ -27,8 +27,6 @@ TRAITS = {
         'anchor': 'w_emotional',
         'knobs': {
             'w_emotional': (0.05, 0.15, 0.35),
-            'need_affect_scale': (0.10, 0.30, 0.50),
-            'need_affect_cap': (0.15, 0.40, 0.60),
             'break_loss_valence': (-0.03, -0.10, -0.25),
         },
     },

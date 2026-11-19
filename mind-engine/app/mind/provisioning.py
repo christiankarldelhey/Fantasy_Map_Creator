@@ -95,11 +95,12 @@ DEFAULT_WIRING = {
     # ('need' kind, ADR 0005); the streak knob stays here for B9 composite
     # rules.
     'need_weather_streak': 3.0,
-    # Homeostasis (C9): open needs weigh on the episode mood — each
-    # contributes -urgency * scale, the day's total capped. Hunger at
-    # day 3 (-0.27) doesn't need a bad event to darken the day.
-    'need_affect_scale': 0.3,
-    'need_affect_cap': 0.4,
+    # Thread pressure (C24): open non-physiological needs — intentions,
+    # promises — press the mood urgency-scaled, capped. Physiological
+    # needs never press this way: they already speak through their
+    # perceived items and the body's drag.
+    'thread_pressure_scale': 0.3,
+    'thread_pressure_cap': 0.4,
     # A need this urgent speaks from its '.deep' phrase tier (C11) —
     # hunger crosses it around day 3, unrest past shadow ~0.6.
     'need_deep_urgency': 0.6,

@@ -105,7 +105,7 @@ def needs_pass(session, game_id, mind, episode, perceived, character=None):
     cleared. Returns the character's open needs (urgency desc)."""
     w = {**DEFAULT_WIRING, **(mind.wiring or {})}
     idx = episode_index(episode)
-    state = character_state(character, episode.events)
+    state = character_state(character)
 
     fired = _detectors(session, game_id, state, w)
     # B9: declarative multi-day rules (exposure, snowbound, ...) — the

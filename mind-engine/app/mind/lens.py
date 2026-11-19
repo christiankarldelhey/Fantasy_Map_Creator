@@ -34,27 +34,27 @@ def _weighted_mean(items, key):
 
 def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
     """What this episode felt like: weighted by how much each event
-    mattered (salience), then weighed down by open needs — the body's
-    own voice, urgency-scaled. dominant via the editable 'mood' band.
-    `felt` is the day's accumulated felt delta (engine, ADR 0017) and
-    `trace` the per-event record of it — the day's emotional plot."""
+    mattered (salience), then pressed by open threads — an intention is
+    a weight the body channels can't carry. Physiological needs speak
+    through their perceived items and the body's drag, never twice.
+    dominant via the editable 'mood' band. `felt` is the day's
+    accumulated felt delta (engine, ADR 0017) and `trace` the per-event
+    record of it — the day's emotional plot."""
     items = perceived_day or []
     valence = _weighted_mean(items, 'valence')
     arousal = _weighted_mean(items, 'severity')
-    pressure = 0.0
     thread_pressure = 0.0
     if needs:
         w = {**DEFAULT_WIRING, **((mind.wiring if mind else None) or {})}
-        scale = w.get('need_affect_scale', 0.3)
-        cap = w.get('need_affect_cap', 0.4)
-        pressure = min(cap, sum((n.urgency or 0.0) * scale for n in needs))
-        valence = max(-1.0, valence - pressure)
+        scale = w.get('thread_pressure_scale', 0.3)
+        cap = w.get('thread_pressure_cap', 0.4)
         # The projected body already drags physiological needs — a
         # thread (an open intention, a promise) is what weighs extra.
         thread_pressure = min(cap, sum(
             (n.urgency or 0.0) * scale for n in needs
             if n.type != 'physiological'
         ))
+        valence = max(-1.0, valence - thread_pressure)
     dominant = mood_phrase(valence) or 'neutral'
     felt = {}
     trace = []
@@ -73,7 +73,6 @@ def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
         'dominant': dominant,
-        'need_pressure': round(pressure, 3),
         'thread_pressure': round(thread_pressure, 3),
         'felt': {d: round(v, 3) for d, v in felt.items()},
         'trace': trace,

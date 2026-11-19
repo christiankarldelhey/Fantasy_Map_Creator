@@ -362,7 +362,7 @@ def perceive_events(session, game_id, mind, events, character=None,
     # cloned theme_weights for this perception pass only.
     weights = effective_theme_weights(session, mind)
     w = {**DEFAULT_WIRING, **(mind.wiring or {})}
-    state = character_state(character, events)
+    state = character_state(character)
     semantics = load_semantics(session, game_id)
     # The body the day starts from: the Condition projected through the
     # declared map — acute event hits land on top of this base, and the

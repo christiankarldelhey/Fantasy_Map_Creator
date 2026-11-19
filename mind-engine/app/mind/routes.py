@@ -388,13 +388,16 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             episode.perceived_day = (
                 episode.perceived_day or []
             ) + need_items(needs)
-            # Mood: this episode's feel, weighed by open needs, blended
-            # into the running mood. The lens speaks the ENTERING mood —
-            # captured before the blend — so the day never colours its own
-            # opening with what has not happened yet.
+            # Mood: this episode's feel — the perceived day INCLUDING the
+            # body's own need items (the single need channel: their
+            # valence weighs the day, their imprint the running mood) —
+            # blended into the running mood. The lens speaks the ENTERING
+            # mood — captured before the blend — so the day never colours
+            # its own opening with what has not happened yet.
             entering_mood = dict(mind.mood or {})
             episode.mood = episode_mood(
-                db, payload.game_id, perceived, mind=mind, needs=needs
+                db, payload.game_id, episode.perceived_day,
+                mind=mind, needs=needs,
             )
             update_mind_mood(
                 db, payload.game_id, mind, episode.mood,
@@ -719,11 +722,8 @@ def narrate_episode(
         if episode is None:
             raise HTTPException(status_code=404, detail='episode not found')
         stored = episode.narrator_payload or {}
-        # ADR-0016: a v2 episode has no `day` — its frame carries `at`.
-        if not (
-            (stored.get('day') or {}).get('date')
-            or (stored.get('episode') or {}).get('at')
-        ):
+        frame = stored.get('episode') or {}
+        if not frame.get('at'):
             raise HTTPException(
                 status_code=422,
                 detail='episode has no narratable day',
@@ -733,21 +733,13 @@ def narrate_episode(
             # ADR-0016: episodes carry episode/arc/narration_notes and no
             # `day`; the prompt's frame is back-filled and the per-phase
             # world material is rebuilt from episode.events themselves.
-            day = dict(req.day or {})
-            frame = stored.get('episode') or {}
-            if frame.get('at') is not None:
-                day.setdefault('date', frame['at'])
+            day = {'date': frame['at']}
             if frame.get('index') is not None:
-                day.setdefault('day_number', frame['index'])
+                day['day_number'] = frame['index']
             if frame.get('terminal') is not None:
-                day.setdefault('is_last_day', frame['terminal'])
-            stored_notes = (
-                stored.get('narration_notes')
-                or stored.get('world_notes')
-                or {}
-            )
-            if stored_notes:
-                day.setdefault('world_notes', stored_notes)
+                day['is_last_day'] = frame['terminal']
+            if stored.get('narration_notes'):
+                day['world_notes'] = stored['narration_notes']
             # Encounters reach the narrator through events now (ADR-0016):
             # rebuild the legacy per-phase shape from episode.events.
             if not day.get('encounters'):

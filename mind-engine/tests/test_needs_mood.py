@@ -1,9 +1,11 @@
 # ============================================================================
 # C9 — homeostasis: open needs weigh on the mood
 # ----------------------------------------------------------------------------
-# The body's voice: an open need pulls the episode's valence down by
-# urgency * need_affect_scale (capped by need_affect_cap), independent
-# of what the day held. need_pressure is recorded on the mood dict.
+# The body's voice: an open physiological need speaks as a perceived
+# 'need' item — its valence (−urgency) joins the day's weighted mean and
+# its imprint joins the felt delta. There is no separate pressure
+# channel: the body speaks through its own perception, once. Threads
+# (open intentions) press the mood apart, via thread_pressure.
 # ============================================================================
 import uuid
 
@@ -69,31 +71,34 @@ def test_an_open_need_darkens_a_fine_day(client):
 
     fine = _mood(fed)
     hungry = _mood(starved)
-    assert fine['need_pressure'] == 0.0
     assert fine['valence'] == 0.0
-    # hunger urgency min(1, 0.3 + 0.2*3) = 0.9 -> pressure 0.27
-    assert hungry['need_pressure'] == pytest.approx(0.27)
-    assert hungry['valence'] == pytest.approx(-0.27)
+    # hunger urgency min(1, 0.3 + 0.2*3) = 0.9 -> need item valence -0.9
+    # at salience 0.9 — it outweighs the calm day in the mean.
+    assert hungry['valence'] < fine['valence']
+    assert hungry['valence'] <= -0.4
     assert hungry['dominant'] != fine['dominant'] or hungry['valence'] < 0
 
 
-def test_pressure_grows_with_urgency_and_respects_the_cap(client):
-    """More days hungry -> heavier. Stacked needs can't exceed the cap."""
+def test_the_ache_deepens_with_urgency(client):
+    """More days hungry -> the need item weighs darker in the day's
+    mean. Stacked needs stack as stacked items — each speaks, the day
+    darkens."""
     growing = _uid('grow')
     for days in (1, 4):
         _open_and_close(
             client, growing, f'd{days}',
             _calm_day(days), condition={'days_without_food': days},
         )
-    assert _mood(growing, 0)['need_pressure'] == pytest.approx(0.15)   # urg 0.5
-    assert _mood(growing, 1)['need_pressure'] == pytest.approx(0.3)    # urg 1.0
+    assert _mood(growing, 0)['valence'] < 0.0                      # urg 0.5
+    assert _mood(growing, 1)['valence'] < _mood(growing, 0)['valence']
 
-    capped = _uid('cap')
-    _open_and_close(client, capped, 'd1', _calm_day(1), condition={
+    stacked = _uid('stack')
+    _open_and_close(client, stacked, 'd1', _calm_day(1), condition={
         'days_without_food': 4, 'days_without_water': 3, 'energy': 0.1,
     })
-    # hunger 1.0 + thirst 1.0 + exhaustion ~0.8 -> 2.8 * 0.3 = 0.84, capped
-    assert _mood(capped)['need_pressure'] == pytest.approx(0.4)
+    # hunger 1.0 + thirst 1.0 + exhaustion ~0.8: three ache items pull
+    # the mean far below any single one.
+    assert _mood(stacked)['valence'] <= -0.4
 
 
 def test_eating_lifts_the_weight(client):
@@ -108,7 +113,6 @@ def test_eating_lifts_the_weight(client):
 
     _open_and_close(client, char, 'd2', _calm_day(2))
     mood = _mood(char, 1)
-    assert mood['need_pressure'] == 0.0
     assert mood['valence'] == 0.0
 
     session = SessionLocal()
@@ -139,7 +143,7 @@ def test_an_open_wound_is_a_need(client):
     session.close()
     assert wound.status == 'open'
     assert wound.urgency == pytest.approx(0.65)
-    assert _mood(char)['need_pressure'] == pytest.approx(0.195)
+    assert _mood(char)['valence'] <= -0.2
 
 
 def _need(char, key):
