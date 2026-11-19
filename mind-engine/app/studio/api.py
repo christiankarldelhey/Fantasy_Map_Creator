@@ -23,7 +23,7 @@ from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import (
-    Belief, Mind, Character, Episode, ForgottenMemory, Memory, Musing,
+    Mind, Character, Episode, ForgottenMemory, Memory, Musing,
     Need,
 )
 from app.mind.lens import MOOD_CAUSE_MIN_VALENCE
@@ -161,7 +161,7 @@ def _lens_lines(lens_block, beliefs, memories, needs, evoked, narrative):
     the node it came from (belief / memory / need) so the Studio can draw
     the thread; `resonated` is the C32 echo rule applied per line."""
     out, section = [], None
-    by_statement = {b.statement.strip().lower(): b.id for b in beliefs}
+    by_statement = {(b.desc or '').strip().lower(): b.id for b in beliefs}
     by_desc = {
         (m['desc'] or '').strip().lower(): m['id'] for m in memories
         if m['id'] in evoked
@@ -301,7 +301,9 @@ def get_mind(
                   Episode.created_at.asc())
         .all()
     )
-    beliefs = db.query(Belief).filter_by(**scope).all()
+    beliefs = (
+        db.query(Memory).filter_by(kind='conviction', **scope).all()
+    )
     musings = db.query(Musing).filter_by(**scope).all()
     needs = db.query(Need).filter_by(**scope).all()
     memories = (
@@ -371,15 +373,15 @@ def get_mind(
         'beliefs': [
             {
                 'id': b.id,
-                'statement': b.statement,
+                'statement': b.desc,
                 'origin': b.origin,
-                'status': b.status,
-                'kind': b.kind,
-                'horizon': b.horizon,
-                'strength': b.strength or 0.0,
-                'evidence': b.evidence or [],
-                'born_episode': b.formed_episode,
-                'updated_episode': b.updated_episode,
+                'status': (b.conviction or {}).get('status'),
+                'kind': (b.conviction or {}).get('kind'),
+                'horizon': (b.conviction or {}).get('horizon'),
+                'strength': (b.conviction or {}).get('strength') or 0.0,
+                'evidence': (b.conviction or {}).get('evidence') or [],
+                'born_episode': b.created_episode,
+                'updated_episode': (b.conviction or {}).get('updated'),
             }
             for b in beliefs
         ],

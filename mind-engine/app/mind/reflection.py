@@ -20,13 +20,12 @@ import re
 from sqlalchemy import or_
 
 from app.ai import generate_narrative
-from app.mind.boosts import clean_boosts
 from app.mind.engine import derive_feeling, feeling_lexicon
 from app.mind.focus import _touches, brief_lines
 from app.mind.kinds import is_mind_item
 from app.mind.memory import episode_index
 from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.tables import Belief, Episode, Memory
+from app.mind.tables import Episode, Memory
 
 log = logging.getLogger(__name__)
 
@@ -84,8 +83,9 @@ def _build_prompt(character_name, memories, beliefs):
         for m in memories
     )
     belief_lines = '\n'.join(
-        f'- id={b.id} kind={b.kind} strength={b.strength:.1f}'
-        f' — {b.statement}'
+        f'- id={b.id} kind={(b.conviction or {}).get("kind")}'
+        f' strength={(b.conviction or {}).get("strength") or 0.0:.1f}'
+        f' — {b.desc}'
         for b in beliefs
     ) or '- (none yet)'
     return {
@@ -108,7 +108,6 @@ def _valid_ops(ops, memory_ids, belief_ids):
         if not evidence:
             continue
         op['evidence'] = evidence
-        op['boosts'] = clean_boosts(op.get('boosts'))
         name = op.get('op')
         if name == 'create':
             if op.get('kind') in ('world', 'self', 'other', 'value') and op.get('statement'):
@@ -143,18 +142,38 @@ def _strength(op):
     return min(5.0, max(0.0, conf * 5 if conf <= 1.0 else conf))
 
 
-def _conviction_memory(session, character_id, statement):
-    """The memory-side shadow of a written conviction (ADR 0017 · B): a
-    stanced starter belief also lives as a conviction memory — the
-    impression of having always held it. Reflection's words turn the
-    Belief; this keeps the impression's imprint in step."""
-    return (
-        session.query(Memory)
-        .filter_by(
-            character_id=character_id, kind='conviction',
-            desc=statement,
-        )
-        .one_or_none()
+def _conviction(session, op_data, mind, idx, inherited=None):
+    """A conviction-tier Memory carrying a belief facet (#168): one row,
+    one truth — the impression IS the belief."""
+    inherited = inherited or {}
+    statement = str(op_data['statement'])[:2000]
+    imprint = inherited.get('imprint')
+    return Memory(
+        game_id=mind.game_id, character_id=mind.character_id,
+        kind='conviction', depth='conviction', mutable=True,
+        consolidated=True, strength=1.0,
+        desc=statement,
+        tags=list(inherited.get('tags') or []),
+        valence=(imprint or {}).get('affection', 0.0),
+        importance=max(
+            abs((imprint or {}).get('affection', 0.0)), 0.4),
+        imprint=imprint,
+        subjects=inherited.get('subjects'),
+        feeling=derive_feeling(
+            imprint or {},
+            feeling_lexicon(session, getattr(mind, 'game_id', None))),
+        origin='reflected',
+        created_episode=idx,
+        conviction={
+            'kind': op_data.get('kind') or inherited.get('kind', 'world'),
+            'horizon': op_data.get('horizon')
+                       or inherited.get('horizon', 'enduring'),
+            'status': 'active',
+            'strength': _strength(op_data),
+            'evidence': list(op_data['evidence']),
+            'source': inherited.get('source'),
+            'updated': idx,
+        },
     )
 
 
@@ -174,15 +193,7 @@ def _apply_ops(session, mind, ops, beliefs_by_id, idx, w):
             # mint a worldview (the LLM orders its ops by weight).
             if counts['formed'] >= new_cap:
                 continue
-            session.add(Belief(
-                game_id=mind.game_id, character_id=mind.character_id,
-                kind=op['kind'], horizon=op.get('horizon', 'enduring'),
-                statement=str(op['statement'])[:2000],
-                strength=_strength(op),
-                tags=[], boosts=op['boosts'],
-                evidence=op['evidence'], origin='reflected',
-                status='active', formed_episode=idx, updated_episode=idx,
-            ))
+            session.add(_conviction(session, op, mind, idx))
             counts['formed'] += 1
             continue
 
@@ -190,72 +201,58 @@ def _apply_ops(session, mind, ops, beliefs_by_id, idx, w):
         if belief is None:
             continue
         touched.add(belief.id)
+        facet = belief.conviction or {}
         if name == 'reinforce':
-            belief.strength = min(5.0, (belief.strength or 0) + reinforce)
-            belief.evidence = list(
-                dict.fromkeys((belief.evidence or []) + op['evidence'])
+            facet['strength'] = min(
+                5.0, (facet.get('strength') or 0) + reinforce)
+            facet['evidence'] = list(
+                dict.fromkeys((facet.get('evidence') or []) + op['evidence'])
             )
-            belief.updated_episode = idx
+            facet['updated'] = idx
             # Trauma: a negative belief reinforced past the trauma floor
             # hardens into something that stops fading on its own.
-            if belief.strength >= trauma_min and _mean_evidence_valence(
-                session, belief.evidence
+            if facet['strength'] >= trauma_min and _mean_evidence_valence(
+                session, facet['evidence']
             ) < 0:
                 belief.tags = list(set((belief.tags or []) + ['trauma']))
             counts['reinforced'] += 1
         elif name == 'contradict':
-            belief.strength = (belief.strength or 0) - contradict
-            belief.evidence = list(
-                dict.fromkeys((belief.evidence or []) + op['evidence'])
+            facet['strength'] = (facet.get('strength') or 0) - contradict
+            facet['evidence'] = list(
+                dict.fromkeys((facet.get('evidence') or []) + op['evidence'])
             )
-            belief.updated_episode = idx
-            if belief.strength < weaken_below:
-                belief.status = 'weakened'
+            facet['updated'] = idx
+            if facet['strength'] < weaken_below:
+                facet['status'] = 'weakened'
                 # The written conviction quieted — its impression fades
                 # to a whisper too (below the retrieval floor it stops
                 # echoing into the Relation, but it is never forgotten).
-                mem = _conviction_memory(
-                    session, mind.character_id, belief.statement)
-                if mem is not None:
-                    mem.importance = min(mem.importance or 0.0, 0.05)
-                    mem.strength = min(mem.strength or 0.0, 0.3)
+                belief.importance = min(belief.importance or 0.0, 0.05)
+                belief.strength = min(belief.strength or 0.0, 0.3)
             counts['contradicted'] += 1
         elif name == 'invert':
             # Growth: the old conviction turns. The row is marked inverted
-            # and the new opposite belief is born from the same evidence —
-            # keeping the facets: same subject and tags (it still answers
-            # to the same encounters, 'trauma' excepted), the stance
-            # turned sign, and 'lived' as its source, since living it is
-            # what turned it.
-            belief.status = 'inverted'
-            belief.updated_episode = idx
-            # The turned conviction's memory turns with it — the mind
-            # now remembers the prejudice it unlearned as the grown
-            # impression: new wording, imprint flipped, source 'lived'.
-            mem = _conviction_memory(
-                session, mind.character_id, belief.statement)
-            if mem is not None:
-                mem.desc = str(op['statement'])[:2000]
-                mem.imprint = {
-                    d: -v for d, v in (mem.imprint or {}).items()
-                } or mem.imprint
-                mem.valence = -(mem.valence or 0.0)
-                mem.feeling = derive_feeling(
-                    mem.imprint or {},
-                    feeling_lexicon(session, getattr(mind, 'game_id', None)))
-                mem.origin = 'lived'
-            session.add(Belief(
-                game_id=mind.game_id, character_id=mind.character_id,
-                kind=belief.kind, horizon=belief.horizon,
-                statement=str(op['statement'])[:2000],
-                strength=_strength(op),
-                tags=[t for t in (belief.tags or []) if t != 'trauma'],
-                boosts=op['boosts'],
-                evidence=op['evidence'], origin='reflected',
-                status='active', formed_episode=idx, updated_episode=idx,
-                subject=list(belief.subject) if belief.subject else None,
-                stance=-belief.stance if belief.stance is not None else None,
-                source='lived',
+            # and the new opposite conviction is born from the same
+            # evidence — keeping the facets: same subject and tags (it
+            # still answers to the same encounters, 'trauma' excepted),
+            # the stance turned sign, and 'lived' as its source, since
+            # living it is what turned it.
+            facet['status'] = 'inverted'
+            facet['updated'] = idx
+            flipped = {
+                d: -v for d, v in (belief.imprint or {}).items()
+            } or belief.imprint
+            session.add(_conviction(
+                session, op, mind, idx, inherited={
+                    'kind': facet.get('kind'),
+                    'horizon': facet.get('horizon'),
+                    'source': 'lived',
+                    'imprint': flipped,
+                    'subjects': list(belief.subjects)
+                                if belief.subjects else None,
+                    'tags': [t for t in (belief.tags or [])
+                             if t != 'trauma'],
+                },
             ))
             counts['inverted'] += 1
 
@@ -265,35 +262,44 @@ def _apply_ops(session, mind, ops, beliefs_by_id, idx, w):
     decay = w.get('belief_strength_decay', 0.95)
     transient_decay = w.get('belief_transient_decay', 0.8)
     for belief in beliefs_by_id.values():
+        facet = belief.conviction or {}
         # Enduring seed beliefs are nature, not evidence — a mind's
         # personality doesn't fade because a reflection overlooked it
         # (a transient seed is still a circumstance: unstated is gone).
         # Reflection may still reinforce or contradict them deliberately.
         if (
-            belief.id in touched or belief.status != 'active'
-            or (belief.origin == 'seed' and belief.horizon == 'enduring')
+            belief.id in touched or facet.get('status') != 'active'
+            or (belief.origin == 'seed'
+                and facet.get('horizon') == 'enduring')
         ):
             continue
-        rate = transient_decay if belief.horizon == 'transient' else decay
-        belief.strength = (belief.strength or 0) * rate
-        belief.updated_episode = idx
-        if belief.strength < weaken_below:
-            belief.status = 'weakened'
+        rate = (
+            transient_decay
+            if facet.get('horizon') == 'transient' else decay
+        )
+        facet['strength'] = (facet.get('strength') or 0) * rate
+        facet['updated'] = idx
+        if facet['strength'] < weaken_below:
+            facet['status'] = 'weakened'
 
     # Cap: too many loud beliefs and the weakest go quiet. Flush first —
     # beliefs created just above are session-only until flushed.
     cap = int(w.get('belief_cap', 12))
     session.flush()
-    active = (
-        session.query(Belief)
-        .filter_by(character_id=mind.character_id, status='active')
-        .order_by(Belief.strength.desc())
+    active = [
+        m for m in session.query(Memory)
+        .filter_by(character_id=mind.character_id, kind='conviction')
         .all()
+        if (m.conviction or {}).get('status') == 'active'
+    ]
+    active.sort(
+        key=lambda m: (m.conviction or {}).get('strength') or 0.0,
+        reverse=True,
     )
     # The cap thins acquired convictions; seeds are the person's nature
     # and outlast it.
     for belief in [b for b in active if b.origin != 'seed'][cap:]:
-        belief.status = 'weakened'
+        (belief.conviction or {})['status'] = 'weakened'
         counts['weakened'] = counts.get('weakened', 0) + 1
     return counts
 
@@ -308,15 +314,18 @@ def reflection_beliefs(session, mind, memories, since_idx, w):
     Voiced first, then by how many memories they touch by tag, then by
     word; at most `reflection_seed_cap`. A seed left out can be neither
     reinforced nor contradicted: nothing lived put it in question."""
-    active = (
-        session.query(Belief)
-        .filter_by(character_id=mind.character_id, status='active')
+    active = [
+        m for m in session.query(Memory)
+        .filter_by(character_id=mind.character_id, kind='conviction')
         .all()
-    )
+        if (m.conviction or {}).get('status') == 'active'
+    ]
     # Transient seeds are circumstances, not nature: they ride with the
     # acquired beliefs so the reflection can keep fading them.
     nature = [
-        b for b in active if b.origin == 'seed' and b.horizon != 'transient'
+        b for b in active
+        if b.origin == 'seed'
+        and (b.conviction or {}).get('horizon') != 'transient'
     ]
     learned = [b for b in active if b not in nature]
     seeds = nature
@@ -345,12 +354,13 @@ def reflection_beliefs(session, mind, memories, since_idx, w):
         by_tag = sum(1 for m in memories if btags & set(m.tags or []))
         # Same rule as the Lens: a tagged seed touches by tag only.
         by_word = 0 if btags else sum(
-            1 for m in memories if _touches([], b.statement, [], m.desc)
+            1 for m in memories if _touches([], b.desc, [], m.desc)
         )
         is_voiced = b.id in voiced
         if is_voiced or by_tag or by_word:
             ranked.append(
-                ((is_voiced, by_tag, by_word, b.strength or 0.0), b)
+                ((is_voiced, by_tag, by_word,
+                  (b.conviction or {}).get('strength') or 0.0), b)
             )
     ranked.sort(key=lambda r: r[0], reverse=True)
     cap = int(w.get('reflection_seed_cap', 25))

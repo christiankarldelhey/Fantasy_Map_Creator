@@ -20,7 +20,8 @@ from app.mind.relations import attention_weights
 from app.mind.perceive import derive_tags
 from app.mind.semantics import load_semantics, tag_floors
 from app.mind.voice import phrases, resolve_event_reading
-from app.mind.tables import Belief, Need
+from app.mind.attitudes import active_convictions
+from app.mind.tables import Need
 
 
 def decisions_of(episode):
@@ -72,11 +73,7 @@ def _recommend(session, mind, character_id, options):
     weights = (
         attention_weights(session, mind) if mind else {}
     )
-    beliefs = (
-        session.query(Belief)
-        .filter_by(character_id=character_id, status='active')
-        .all()
-    )
+    beliefs = active_convictions(session, character_id)
     needs = (
         session.query(Need)
         .filter_by(character_id=character_id, status='open')
@@ -87,7 +84,7 @@ def _recommend(session, mind, character_id, options):
         tags = set(option.get('tags') or [])
         score = sum(float(weights.get(t) or 0) for t in tags)
         score += sum(
-            float(b.strength or 0) / 5
+            float((b.conviction or {}).get('strength') or 0) / 5
             for b in beliefs if tags & set(b.tags or [])
         )
         score += sum(

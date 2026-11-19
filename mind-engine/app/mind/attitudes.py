@@ -28,10 +28,60 @@ def ladder_norm(tag):
     return tag
 
 
+def conviction_stance(row):
+    """A conviction's Stance lives in its imprint (#168): the affection
+    the belief carries toward its subjects. `stance` kept for test
+    fixtures."""
+    imprint = getattr(row, 'imprint', None) or {}
+    if 'affection' in imprint:
+        return imprint['affection']
+    return getattr(row, 'stance', None)
+
+
+def conviction_statement(row):
+    """A conviction's statement is its memory desc (`statement` kept for
+    test fixtures)."""
+    return getattr(row, 'desc', None) or getattr(row, 'statement', None)
+
+
+def conviction_subjects(row):
+    """A conviction's Subject list — `subjects` on the folded Memory
+    row; `subject` kept for SimpleNamespace test fixtures."""
+    return getattr(row, 'subjects', None) or getattr(row, 'subject', None)
+
+
+def conviction_facet(row, key, default=None):
+    """One field of the conviction facet — strength/status/horizon/etc.
+    `conviction` on the folded row; direct attribute kept for test
+    fixtures."""
+    conv = getattr(row, 'conviction', None)
+    if isinstance(conv, dict) and key in conv:
+        return conv[key]
+    return getattr(row, key, default)
+
+
+def is_conviction(row):
+    """The row is a conviction-tier memory that carries a belief facet."""
+    return isinstance(getattr(row, 'conviction', None), dict)
+
+
 def is_attitude(belief):
-    return bool(getattr(belief, 'subject', None)) and (
-        getattr(belief, 'stance', None) is not None
+    return bool(conviction_subjects(belief)) and (
+        conviction_stance(belief) is not None
     )
+
+
+def active_convictions(session, character_id):
+    """The 'loud' beliefs: conviction-tier memories whose facet status is
+    active (#168). Status is JSONB-filtered in Python — a mind's
+    convictions are few by design (the cap sees to it)."""
+    from app.mind.tables import Memory
+    return [
+        m for m in session.query(Memory)
+        .filter_by(character_id=character_id, kind='conviction')
+        .all()
+        if (m.conviction or {}).get('status') == 'active'
+    ]
 
 
 def subject_level(tag):
@@ -47,7 +97,7 @@ def match_level(belief, tags):
     on the same slug — the level is the subject's own narrowness."""
     tags = {ladder_norm(t) for t in tags or []}
     hits = [
-        s for s in (belief.subject or [])
+        s for s in (conviction_subjects(belief) or [])
         if ladder_norm(s) in tags
     ]
     return max((subject_level(t) for t in hits), default=0)
