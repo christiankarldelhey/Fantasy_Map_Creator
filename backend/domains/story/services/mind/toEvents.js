@@ -548,21 +548,22 @@ function waterEvents(day) {
 // for this day — the wind of a region, the silence of a valley. One event
 // carries every voice that fired; the mind hears the outcome text the
 // resolver already chose, never the candidate list.
-// ADR-0016: a resolved ambient situation is a 'moment' — the world's
-// voice making itself felt ("the wall that makes noise, night 1"), one
-// event per situation. The mechanical `effects` were already applied
-// host-side; they never cross the wire. `record`/`situation` ride as
-// provenance anchors: the same authored voice speaking again connects
-// as memory.
-function momentEvents(day) {
+// ADR-0016: a resolved ambient situation is an 'ambience' event — the
+// world's own voice making itself felt ("the wall that makes noise,
+// night 1"), one event per situation (named 'moment' until #158 — the
+// name competed with the inner voice it is not). The mechanical
+// `effects` were already applied host-side; they never cross the wire.
+// `record`/`situation` ride as provenance anchors: the same authored
+// voice speaking again connects as memory.
+function ambienceEvents(day) {
   const text = (v) => (typeof v === 'string' ? v : v?.en ?? v?.es ?? null);
   return (day.ambient || [])
     .filter((a) => a?.text)
     .map((a) => ({
-      type: 'moment',
+      type: 'ambience',
       // The resolver stamps the phase; payloads that lack it (older days,
-      // foreign callers) still get a walking phase — a phase-less moment
-      // would never reach a phase block.
+      // foreign callers) still get a walking phase — a phase-less
+      // ambience would never reach a phase block.
       when: when({
         phase: a.phase ?? (rngOf(day)() < 0.5 ? 'morning' : 'afternoon'),
       }),
@@ -676,7 +677,7 @@ export function toEvents({ day, trip, character, previousDay }) {
     ...placeEvents(day),
     ...regionEvents(day, previousDay),
     ...waterEvents(day),
-    ...momentEvents(day),
+    ...ambienceEvents(day),
     ...(restEvent(day) ? [restEvent(day)] : []),
   ];
   return events;

@@ -76,6 +76,13 @@ def test_undeclared_kinds_are_worldly_moments():
     assert entry['reading'] == 'declared'
 
 
+def test_moment_is_ambience_now():
+    """#158 renamed the world's voice 'moment' → 'ambience'; perceived
+    items and hosts still sending 'moment' resolve to the same entry."""
+    assert kind_of(None, None, 'moment') == kind_of(None, None, 'ambience')
+    assert 'moment' not in kinds()
+
+
 def test_pack_overrides_merge_per_key():
     """A 'mind.kinds' row declares only what it changes: 'meal' made a
     frame kind keeps its reading strategy — entries merge, not replace."""
@@ -210,7 +217,7 @@ def test_the_registry_lists_every_known_kind():
     registry = kinds()
     for expected in ('climate', 'terrain', 'land', 'water', 'travel',
                      'body', 'encounter', 'contact', 'meal', 'rest',
-                     'note', 'place', 'moment', 'need', 'recurrence'):
+                     'note', 'place', 'ambience', 'need', 'recurrence'):
         assert expected in registry, expected
         entry = registry[expected]
         assert entry['role'] in ('frame', 'moment', 'voice')

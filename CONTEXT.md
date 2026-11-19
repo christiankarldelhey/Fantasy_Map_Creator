@@ -56,6 +56,10 @@ _Avoid_: event category, event tier
 Which channel an item of the perceived day came from: the **world** (something that happened to the Character), the **ambient** frame (the backdrop that colours it), a **Decision** the Character made, or the **Mind** itself (a Need, a streak's wear). Mind items feel and speak but never pose as world-evidence — they spike no Reflection and feed no streaks. Not the Source of a Belief (lived or heard) — that says how the Mind came to hold something true, this says where a lived thing entered from.
 _Avoid_: origin, channel
 
+**Ambience**:
+The world's own voice made into an Event — a resolved ambient situation the world fired for the Episode ("the wall that hums, night 1"), one Event per situation with its authored reading. A Moment-role Kind: it can take the Focus and it can call up a Musing, but it is world, not interiority — the inner voice is the Musing. Named 'moment' until #158.
+_Avoid_: moment (the old name; Moment is a Role, not this Kind), ambience as mood
+
 **Fate**:
 The Host's verdict on how an Episode ends, declared before the Episode is narrated, so the Mind knows the closing before it tells the stretch. Not the close's outcome, which records what was actually kept.
 _Avoid_: ending, result

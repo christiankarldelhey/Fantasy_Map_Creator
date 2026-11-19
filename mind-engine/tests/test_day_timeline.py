@@ -31,9 +31,9 @@ def test_events_sort_by_hour_inside_the_phase():
     """Phase buckets flattened the afternoon: a 16:00 beat must come after
     the 13:00 one, even if the wire lists them out of order."""
     user = _prompt(events=[
-        {'type': 'moment', 'when': {'phase': 'afternoon', 'hour': 16.0},
+        {'type': 'ambience', 'when': {'phase': 'afternoon', 'hour': 16.0},
          'data': {'reading': 'a wolf watched from the treeline'}},
-        {'type': 'moment', 'when': {'phase': 'afternoon', 'hour': 13.5},
+        {'type': 'ambience', 'when': {'phase': 'afternoon', 'hour': 13.5},
          'data': {'reading': 'a shepherd waved from the field'}},
     ])
     assert user.index('a shepherd waved') < user.index('a wolf watched')
@@ -223,9 +223,9 @@ def test_stirs_land_in_their_own_part_of_the_day():
     not wait at a faraway list."""
     user = _prompt(
         events=[
-            {'type': 'moment', 'when': {'phase': 'morning', 'hour': 9.0},
+            {'type': 'ambience', 'when': {'phase': 'morning', 'hour': 9.0},
              'data': {'reading': 'a lark over the stubble'}},
-            {'type': 'moment', 'when': {'phase': 'afternoon', 'hour': 15.0},
+            {'type': 'ambience', 'when': {'phase': 'afternoon', 'hour': 15.0},
              'data': {'reading': 'the road narrows between hedges'}},
         ],
         memory_beats={

@@ -94,15 +94,15 @@ def test_render_lens_quiet_episode_says_so():
     assert 'quiet stretch' in block
 
 
-def test_moment_event_reading_lands_in_the_timeline():
-    """A resolved ambient situation is a 'moment' event (ADR-0016); its
+def test_ambience_event_reading_lands_in_the_timeline():
+    """A resolved ambient situation is an 'ambience' event (#158); its
     reading must reach the narrator, at the day's position it belongs
     to (ADR-0019)."""
     prompt = build_day_prompt(
         day={'day_number': 3, 'date': '1950-01-19'},
         character={'name': 'Aranath'},
         events=[
-            {'type': 'moment', 'when': {'phase': 'afternoon', 'hour': 15},
+            {'type': 'ambience', 'when': {'phase': 'afternoon', 'hour': 15},
              'data': {'reading': 'a stump, huge and rotten, two leagues from the nearest tree'}},
             {'type': 'rest', 'when': {'phase': 'night'},
              'data': {'reading': 'a hedge for a windbreak'}},

@@ -138,18 +138,18 @@ def test_studio_tag_registry_read_only_view(client, monkeypatch):
     assert any(f['values'] for f in families.values())
 
 
-def test_moment_event_perceives_with_provenance_tags(client):
-    """A resolved ambient situation rides as a 'moment' event (ADR-0016):
+def test_ambience_event_perceives_with_provenance_tags(client):
+    """A resolved ambient situation rides as an 'ambience' event (#158):
     the mind perceives its authored reading and derives the record /
     situation provenance tags — 'the same voice again' can connect."""
-    char = _uid('moment')
+    char = _uid('ambience')
     r = client.post('/episodes', json={
         'game_id': 'middle_earth',
         'character': {'id': char, 'name': 'Tester'},
         'episode_ref': 'mom-d1',
         'episode': {'index': 1, 'at': '3018-03-15'},
         'events': [{
-            'type': 'moment',
+            'type': 'ambience',
             'when': {},
             'where': {'region': 'Ettenmoors'},
             'data': {
@@ -162,8 +162,8 @@ def test_moment_event_perceives_with_provenance_tags(client):
     })
     assert r.status_code == 200, r.text
     item = r.json()['psyche_packet']['perceived_day'][0]
-    assert item['type'] == 'moment'
+    assert item['type'] == 'ambience'
     assert item['reading'] == 'the fire lights three paces; the wall makes noise'
     assert 'tag:record:M-A4' in item['tags']
     assert 'tag:situation:night-1' in item['tags']
-    assert 'type:moment' in item['tags']
+    assert 'type:ambience' in item['tags']

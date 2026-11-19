@@ -216,7 +216,7 @@ def test_the_focus_and_day_lines_appear_only_in_their_phase():
         day, trip={'name': 'Bree to Dale'}, character={'name': 'Aranath'},
         mind_block=render_lens('Aranath', brief),
         memory_beats=brief_beats(brief),
-        events=[{'type': 'moment', 'when': {'phase': 'morning', 'hour': 9},
+        events=[{'type': 'ambience', 'when': {'phase': 'morning', 'hour': 9},
                  'data': {'reading': 'a lark over the stubble'}}],
     )['user']
     lark = user.index('a lark over the stubble')

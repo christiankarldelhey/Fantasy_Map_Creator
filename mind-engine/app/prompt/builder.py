@@ -88,7 +88,10 @@ def _note_beats(wn, is_terminal):
         bucket = lambda key: _as_list((wn.get(key) or {}).get(phase))
         for line in bucket('weather'):
             beats.append(_beat(phase, None, 'weather', text=line))
-        for key in ('terrain', 'locations', 'water', 'moments', 'meal'):
+        # 'ambience' is the resolved ambient voice; 'moments' its name on
+        # older payloads (#158).
+        for key in ('terrain', 'locations', 'water', 'ambience',
+                    'moments', 'meal'):
             for line in bucket(key):
                 beats.append(_beat(phase, None, 'note', text=line))
         if phase == 'night':
