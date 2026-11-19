@@ -77,6 +77,36 @@ def test_encounter_lands_at_its_clock_position():
     assert user.index('road-bread and dried fruit') < user.index('Dunlendings')
 
 
+def test_encounter_clock_string_sorts_at_its_hour():
+    """The backend wire sends encounter hour as the display string
+    'HH:MM' beside the numeric hour_float (formatClock). The timeline
+    must read the clock position — never compare a string to a float."""
+    user = _prompt(
+        day={
+            'day_number': 4, 'date': '1950-10-08',
+            'encounters': [{
+                'phase': 'afternoon', 'hour': '16:30', 'hour_float': 16.5,
+                'region': 'the Greenway',
+                'entity': {'name': 'Dunlendings', 'type': 'people'},
+                'interaction': {'form': 'glimpsed_far'},
+            }, {
+                'phase': 'morning', 'hour': '10:00',
+                'region': 'the Greenway',
+                'entity': {'name': 'Wandering Company', 'type': 'people'},
+                'interaction': {'form': 'glimpsed_far'},
+            }],
+        },
+        events=[
+            {'type': 'meal', 'when': {'phase': 'afternoon', 'hour': 13.0},
+             'data': {'reading': 'road-bread and dried fruit'}},
+        ],
+    )
+    assert (user.index('Wandering Company')
+            < user.index('road-bread and dried fruit')
+            < user.index('Dunlendings'))
+    assert '16:30' not in user
+
+
 def test_hourless_events_sort_by_the_time_their_reading_names():
     """Land, meal and climate events arrive without when.hour — their
     readings already say 'the early afternoon', 'the midday halt'. The
