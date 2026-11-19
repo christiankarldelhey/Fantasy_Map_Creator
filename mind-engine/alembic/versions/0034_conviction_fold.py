@@ -1,7 +1,7 @@
 """conviction-tier memories — beliefs fold into memories (#168)
 
-Revision ID: 0033
-Revises: 0032
+Revision ID: 0034
+Revises: 0033
 
 A Belief and its memory-side shadow were two rows for one truth. The fold
 makes it one: memories with kind='conviction' carry a `conviction` JSONB
@@ -23,8 +23,8 @@ import sqlalchemy as sa
 from alembic import op
 from sqlalchemy.dialects import postgresql
 
-revision = '0033'
-down_revision = '0032'
+revision = '0034'
+down_revision = '0033'
 branch_labels = None
 depends_on = None
 

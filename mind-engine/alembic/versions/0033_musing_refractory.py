@@ -1,7 +1,7 @@
 """musings.last_spoke_episode — a spoken line goes quiet for a while
 
-Revision ID: 0032
-Revises: 0031
+Revision ID: 0033
+Revises: 0032
 
 The authored inner voice used to answer every contact, so a hot tag
 made the same line speak day after day. The refractory window
@@ -12,8 +12,8 @@ the mind's reply.
 import sqlalchemy as sa
 from alembic import op
 
-revision = '0032'
-down_revision = '0031'
+revision = '0033'
+down_revision = '0032'
 branch_labels = None
 depends_on = None
 

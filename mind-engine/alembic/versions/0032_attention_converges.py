@@ -1,7 +1,7 @@
 """attention converges: theme_weights dies (#165)
 
-Revision ID: 0031
-Revises: 0030
+Revision ID: 0032
+Revises: 0031
 
 The theme_weights channel is dead (ADR 0017): what a tag means lives in
 the semantics pack, and what this mind watches lives in its Relations —
@@ -13,8 +13,8 @@ wiring rows and every materialised mind.
 import sqlalchemy as sa
 from alembic import op
 
-revision = '0031'
-down_revision = '0030'
+revision = '0032'
+down_revision = '0031'
 branch_labels = None
 depends_on = None
 
