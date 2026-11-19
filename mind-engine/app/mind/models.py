@@ -138,7 +138,6 @@ class Mood(BaseModel):
     trace: List[Dict[str, Any]] = []
     arc: List[Dict[str, Any]] = []
     turn: Optional[Dict[str, Any]] = None
-    need_pressure: float = 0.0
     thread_pressure: float = 0.0
 
 

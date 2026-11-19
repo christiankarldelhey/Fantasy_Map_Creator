@@ -46,7 +46,7 @@ def test_extreme_need_keeps_the_mood_honest():
     )
     ep_mood = {
         'valence': -0.81, 'arousal': 0.46,
-        'dominant': 'despairing', 'need_pressure': 0.27,
+        'dominant': 'despairing', 'thread_pressure': 0.27,
         'felt': {'fear': 0.4},
     }
     mood = update_mind_mood(session, GAME, mind, ep_mood)
@@ -67,7 +67,7 @@ def test_calm_day_keeps_the_running_mood():
     )
     ep_mood = {
         'valence': -0.2, 'arousal': 0.3,
-        'dominant': 'steady', 'need_pressure': 0.0,
+        'dominant': 'steady', 'thread_pressure': 0.0,
         'felt': {'affection': -0.15},
     }
     mood = update_mind_mood(session, GAME, mind, ep_mood)
@@ -117,7 +117,7 @@ def test_mind_mood_carries_its_cause_and_drops_it_at_ease():
     cause = {'reading': 'orc boots, a pursuit gait', 'valence': -0.8}
     mood = update_mind_mood(
         session, GAME, mind,
-        {'valence': -0.6, 'arousal': 0.5, 'need_pressure': 0.0,
+        {'valence': -0.6, 'arousal': 0.5, 'thread_pressure': 0.0,
          'felt': {'fear': 0.6}},
         cause=cause, when=date(1950, 10, 7),
     )
@@ -126,7 +126,7 @@ def test_mind_mood_carries_its_cause_and_drops_it_at_ease():
     # A causeless calm day: the mood settles and lets the cause go.
     mood = update_mind_mood(
         session, GAME, mind,
-        {'valence': 0.35, 'arousal': 0.1, 'need_pressure': 0.0,
+        {'valence': 0.35, 'arousal': 0.1, 'thread_pressure': 0.0,
          'felt': {'affection': 0.35}},
     )
     session.rollback()
