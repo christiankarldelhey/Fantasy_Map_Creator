@@ -340,11 +340,14 @@ def _recurrence_items(session, game_id, mind, perceived, w):
         # fruit-bread wears on 'tag:food:fruit-bread' itself, not
         # only on the day. It is erosion, not contradictory evidence —
         # resistance does not dam it; the standing already slowed the
-        # wear through the like factor above.
+        # wear through the like factor above. And the streak IS
+        # familiarity accreting (#166): what repeats becomes known,
+        # and the known reads calmer the next time it touches.
         if tag_is(tag, 'subject'):
             feed(
                 session, game_id, mind.character_id, tag,
-                {'affection': valence}, resistance=0.0,
+                {'affection': valence, 'familiarity': 0.05},
+                resistance=0.0,
             )
         if _loudest_other_salience(tag) >= yield_sal:
             # A salient novel event owns this day (#149): the sameness
