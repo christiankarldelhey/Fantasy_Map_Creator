@@ -45,7 +45,7 @@ const RESTLESS_WIND_PHRASES = [
 
 const FREEZING_PHRASES = [
   'The cold sinks deep; sleep comes in shivers until the fire dies entirely.',
-  'Frost forms on cloak and grass, and the traveller wakes stiff and slow.',
+  'Frost forms on cloak and grass through the depth of the night.',
 ];
 
 const CHILLY_PHRASES = [

@@ -3,6 +3,7 @@ import { computed, shallowRef } from 'vue'
 import type { MindDetail } from '../../types'
 import PanelCard from '../ui/PanelCard.vue'
 import MoodEditor from './MoodEditor.vue'
+import NatureEditor from './NatureEditor.vue'
 import SkillsEditor from './SkillsEditor.vue'
 
 const props = defineProps<{ mind: MindDetail }>()
@@ -41,6 +42,13 @@ const wiring = computed(() => Object.entries(props.mind.wiring))
       description="Cómo se siente la mente en este momento. Lo que viva en el próximo episodio lo va a ir modificando."
     >
       <MoodEditor :mind="mind" @saved="onSaved" @error="onError" />
+    </PanelCard>
+
+    <PanelCard
+      title="Naturaleza"
+      description="Lo que el personaje ES: el punto de reposo al que el ánimo regresa y cómo lo sacude lo vivido. Si el ánimo de arriba es el tiempo de hoy, esto es el clima."
+    >
+      <NatureEditor :mind="mind" @saved="onSaved" @error="onError" />
     </PanelCard>
 
     <PanelCard

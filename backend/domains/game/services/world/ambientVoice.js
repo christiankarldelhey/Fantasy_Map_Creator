@@ -154,15 +154,6 @@ function specificity(situation) {
   return max;
 }
 
-/** Pick the option the character's state favours; ties break on rng. */
-function pickOption(options, tagSet, rng) {
-  if (!Array.isArray(options) || options.length === 0) return null;
-  const favoured = options.filter((o) => o.tag && tagSet.has(o.tag));
-  const untagged = options.filter((o) => !o.tag);
-  const candidates = favoured.length ? favoured : (untagged.length ? untagged : options);
-  return candidates[Math.floor(rng() * candidates.length)];
-}
-
 /**
  * Load the trip's prior days' region lists (chronological, today excluded).
  */
@@ -180,8 +171,9 @@ async function loadRegionHistory(tripId, dayNumber) {
 
 /**
  * Resolve the day's ambient situations: region-scoped ambient records whose
- * tag gates the day's tag set satisfies. Returns narrator-facing events:
- * the chosen option's outcome text plus its mechanical effects.
+ * tag gates the day's tag set satisfies. Returns the chosen situations —
+ * which option the moment takes is the interaction engine's pick (Wave C:
+ * the mind weighs them; the host applies what wins).
  *
  * @param {Object} params
  * @param {string|number} params.tripId - trip id (region history lookup)
@@ -192,9 +184,9 @@ async function loadRegionHistory(tripId, dayNumber) {
  * @param {string[]} params.crossedTypes - biome/altitude categories crossed
  * @param {Object} [params.startState] - character state at day start
  * @param {() => number} [params.rng]
- * @returns {Promise<Array<{record_id,situation_id,option_id,name,when,text,effects}>>}
+ * @returns {Promise<Array<{record_id,situation_id,name,when,phase,tagSet}>>}
  */
-export async function resolveAmbientVoice({
+export async function resolveAmbientSituations({
   tripId,
   dayNumber,
   todayRegions,
@@ -221,10 +213,10 @@ export async function resolveAmbientVoice({
   }
 
   const { rows } = await pool.query(
-    `SELECT id, name, region_ids, priority, interactive
+    `SELECT id, name, region_ids, priority, situations
        FROM places_narration
       WHERE kind = 'ambient'
-        AND interactive IS NOT NULL
+        AND situations IS NOT NULL
         AND region_ids && $1::int[]`,
     [regionIds]
   );
@@ -238,7 +230,7 @@ export async function resolveAmbientVoice({
     const tagSet = new Set();
     for (const id of scoped) for (const t of tagSetByRegion.get(id)) tagSet.add(t);
 
-    for (const situation of record.interactive || []) {
+    for (const situation of record.situations || []) {
       if (!eligible(situation, tagSet)) continue;
       // Overnight situations belong to the rest rail, not the walking day.
       if ((situation.tags || []).includes('context:overnight')) continue;
@@ -264,11 +256,8 @@ export async function resolveAmbientVoice({
     i = j;
   }
 
-  const events = [];
+  const situations = [];
   for (const { record, situation, tagSet } of chosen) {
-    const option = pickOption(situation.options, tagSet, rng);
-    if (!option) continue;
-    const outcome = option.outcomes?.success || {};
     // The moment belongs to a part of the day: an authored `when` wins,
     // else it lands on a walking phase — ambient voices are road things,
     // they never fall into the night on their own (overnight situations
@@ -278,16 +267,14 @@ export async function resolveAmbientVoice({
     const phase = ['morning', 'afternoon', 'night'].includes(authored)
       ? authored
       : rng() < 0.5 ? 'morning' : 'afternoon';
-    events.push({
+    situations.push({
       record_id: record.id,
       situation_id: situation.id ?? null,
-      option_id: option.id ?? null,
       name: record.name || null,
       when: situation.when || null,
       phase,
-      text: outcome.text || null,
-      effects: outcome.effects || null,
+      tagSet,
     });
   }
-  return events;
+  return situations;
 }

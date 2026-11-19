@@ -70,6 +70,10 @@ def feed(session, game_id, character_id, subject, delta, *,
     """Sediment one subject's Relation by a world delta (already contact-
     weighted). Returns the row — None when the subject had no row and an
     empty delta asked for none to be created."""
+    if display_name and ':' in display_name:
+        # A display_name carrying the tag separator is the tag itself
+        # passed off as a name — keep no wording rather than a raw slug.
+        display_name = None
     row = _get(session, game_id, character_id, subject)
     if row is None:
         if not create or not delta:
@@ -123,6 +127,18 @@ def feed_event(session, mind, subjects, world_delta, episode_idx=None,
             display_name=displays.get(subject),
         )
     return primary, standing
+
+
+def standing_relation(session, game_id, character_id, subjects):
+    """(primary_subject, standing_vector) without sedimenting — for
+    already-felt events the open pass re-reads through the standing the
+    interim sediment built, never double-feeds."""
+    ranked = sorted(subjects or [], key=_specificity, reverse=True)
+    for subject in ranked:
+        row = _get(session, game_id, character_id, subject)
+        if row is not None:
+            return subject, relation_vector(row)
+    return (ranked[0] if ranked else None), {}
 
 
 def felt_through(world_delta, standing, personality):

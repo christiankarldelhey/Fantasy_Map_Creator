@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue'
 import { CONDITION, label, moodLabel, NEEDS } from '../../lib/labels'
+import { assetSrc } from '../../lib/urls'
 import type { MindDetail } from '../../types'
 import PanelCard from '../ui/PanelCard.vue'
 import CardEditForm from './CardEditForm.vue'
@@ -75,7 +76,7 @@ function onSaved() {
       />
 
       <div v-else class="identity">
-        <img v-if="character.portrait_url" :src="character.portrait_url" alt="" class="portrait" />
+        <img v-if="character.portrait_url" :src="assetSrc(character.portrait_url) ?? ''" alt="" class="portrait" />
         <div v-else class="portrait placeholder" aria-hidden="true">
           {{ (character.name ?? '?').charAt(0).toUpperCase() }}
         </div>

@@ -232,9 +232,10 @@ COMMENT ON COLUMN biomes.type IS 'Biome category: forest, hills, marsh, mountain
 --          radii; 'ambient' is every other scope-bound voice (region, biome,
 --          water, arrival, lore). Every record may carry every prose field —
 --          aspect is the face seen from outside, presence what being there
---          is like. Interactivity is a capability, not a kind: `interactive`
---          holds situations whose options resolve by mind state today and by
---          player choice later. Conditional content gates on universal tags
+--          is like. A record may also own Situations — the authored moments
+--          it can speak, gated by tags/when; what the traveller does inside
+--          them lives in `interactions`. Conditional content gates on
+--          universal tags
 --          (see narration_tags / tags.json), not per-kind condition strings.
 --          Seed data: database/seeds/data/json/places.json (authored fichas)
 --          + narration.json (generated dep:* / ovn:* records).
@@ -271,10 +272,11 @@ CREATE TABLE IF NOT EXISTS places_narration (
     -- Ordered prose list consumed one entry per day (region summaries)
     rotation            JSONB,
 
-    -- Interactivity: [{id, tags, not_tags, when, options:
-    --   [{id, tag, skill, difficulty, outcomes:
-    --     {success: {text, effects}, failure: {text, effects}}}]}]
-    interactive         JSONB,
+    -- Situation descriptors: [{id, tags, not_tags, when, once, mind,
+    --   situation: {en,es}, stance: {en,es}}] — gating + prose only.
+    --   The executable options (acts, effects) live in `interactions`,
+    --   linked by payload.situation → situations[].id.
+    situations          JSONB,
 
     refs                JSONB,                           -- authored feature bindings → depiction_id
     payload             JSONB NOT NULL DEFAULT '{}'::jsonb  -- provenance only (origin, legacy_id, anchor_hint)
@@ -295,7 +297,7 @@ COMMENT ON COLUMN places_narration.region_ids IS 'Authored multi-region list; re
 COMMENT ON COLUMN places_narration.aspect IS 'The face seen from outside, up close {en, es}';
 COMMENT ON COLUMN places_narration.sighted_far IS 'The silhouette seen from beyond reach — what a place reads as before it is known {en, es}';
 COMMENT ON COLUMN places_narration.presence IS 'What being there is like {en, es}';
-COMMENT ON COLUMN places_narration.interactive IS 'Situations with tag-gated, mind-weighted options and outcomes';
+COMMENT ON COLUMN places_narration.situations IS 'Situation descriptors: tag-gated authored moments (prose + gates); their options live in `interactions`';
 
 -- ============================================================================
 -- Table: narration_tags
@@ -474,6 +476,7 @@ CREATE TABLE IF NOT EXISTS character_state (
     current_lng DOUBLE PRECISION,
     current_lat DOUBLE PRECISION,
     type VARCHAR(50),  -- Character type (e.g., Noldor, Sindar, Human, Dwarf)
+    race TEXT,  -- Narration race-gate value (race:* tags on entities_narration): dunedain, elf, ...
     gender VARCHAR(20),  -- Character gender (male, female)
     active BOOLEAN DEFAULT false,  -- Whether this character is currently active
     description TEXT,  -- Character description
@@ -651,7 +654,7 @@ CREATE TABLE IF NOT EXISTS entities_narration (
     traveller_use   JSONB,
     variants        JSONB,
     rotation        JSONB,
-    interactive     JSONB,
+    situations      JSONB,
     disposition     JSONB,
 
     weight          INTEGER,
@@ -682,6 +685,44 @@ COMMENT ON COLUMN entities_narration.kind IS 'entity (ficha) | form (contact-sha
 COMMENT ON COLUMN entities_narration.mover_leg_id IS 'Narrowest scope: this record exists while that leg is live; mover_beats arrive as variants';
 COMMENT ON COLUMN entities_narration.form IS 'Contact-shape key (glimpsed_far, stalks, parley…); on contact rows NULL = wildcard';
 COMMENT ON COLUMN entities_narration.disposition IS 'How the being is disposed in the contact {en, es} (was npc_attitude)';
+
+-- ============================================================================
+-- Table: interactions
+-- What the traveller can do inside a Situation. One row per option — a lone
+-- row means an inevitable action. Every row points to exactly one parent
+-- Situation (places_narration XOR entities_narration). Outcomes mutate host
+-- Condition only — body, items, coins, lodging, shadow; never Mood.
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS interactions (
+    id                      TEXT PRIMARY KEY,
+    places_narration_id     TEXT REFERENCES places_narration(id)   ON DELETE CASCADE,
+    entities_narration_id   TEXT REFERENCES entities_narration(id) ON DELETE CASCADE,
+
+    act                     TEXT NOT NULL,        -- Mind-owned closed vocabulary
+    label                   JSONB,                -- {en, es} — player-facing choice text
+    need_tags               TEXT[] NOT NULL DEFAULT '{}',
+    skill                   JSONB,                -- {name, min?, difficulty?}; NULL = automatic success
+    outcomes                JSONB NOT NULL,       -- {success:{text?,effects[]}, failure?}
+    payload                 JSONB NOT NULL DEFAULT '{}',
+    created_at              TIMESTAMP DEFAULT NOW(),
+
+    CONSTRAINT interactions_one_parent
+        CHECK (num_nonnulls(places_narration_id, entities_narration_id) = 1)
+);
+
+CREATE INDEX IF NOT EXISTS idx_interactions_place
+    ON interactions(places_narration_id)   WHERE places_narration_id   IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_interactions_entity
+    ON interactions(entities_narration_id) WHERE entities_narration_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_interactions_act ON interactions(act);
+
+COMMENT ON TABLE interactions IS
+    'What the traveller can do inside a Situation. One row per option — a lone row means an inevitable action (destino manifiesto). Outcomes mutate host Condition only.';
+COMMENT ON COLUMN interactions.act IS
+    'Mind-owned closed vocabulary (approach/avoid/talk/trade/accept/help/defy/rest). Shared by preference scoring and Event representation.';
+COMMENT ON COLUMN interactions.outcomes IS
+    '{success, failure?} each {text?, effects: typed list}. Effects touch host Condition only — body, items, coins, lodging, shadow. Never Mood.';
 
 -- ============================================================================
 -- Verification queries

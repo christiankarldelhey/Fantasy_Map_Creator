@@ -21,9 +21,9 @@ from typing import Dict, List, Optional
 
 from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
-from app.mind.provisioning import DEFAULT_WIRING
+from app.mind.provisioning import DEFAULT_WIRING, _find_preset
 from app.mind.tables import (
-    Mind, Character, Episode, ForgottenMemory, Memory, Musing,
+    Mind, MindPreset, Character, Episode, ForgottenMemory, Memory, Musing,
     Need,
 )
 from app.mind.lens import MOOD_CAUSE_MIN_VALENCE
@@ -342,6 +342,24 @@ def get_mind(
                     'reading': p.get('reading'),
                     'salience': p.get('salience') or 0.0,
                     'evoked': p.get('evoked') or [],
+                    # The day chart reads the rest: when it happened,
+                    # what it felt like (valence/severity/imprint dims),
+                    # and any body deltas the Host reported.
+                    'when': p.get('when') or {},
+                    'subject': p.get('subject'),
+                    'valence': p.get('valence'),
+                    'severity': p.get('severity'),
+                    'world_valence': p.get('world_valence'),
+                    'imprint': p.get('imprint') or {},
+                    'data': {
+                        k: (p.get('data') or {}).get(k)
+                        for k in (
+                            'description', 'act', 'outcome', 'name',
+                            'record', 'situation', 'npc_name',
+                            'shadow_effect', 'after', 'reading',
+                        )
+                        if (p.get('data') or {}).get(k) is not None
+                    },
                 }
                 for p in (ep.perceived_day or [])
             ],
@@ -367,6 +385,11 @@ def get_mind(
         'character': card,
         'condition': _condition(latest),
         'mood': mind.mood or {},
+        # ADR 0017: temperament is the resting point the mood regresses
+        # to (the nature's fixed mood); personality the couplings —
+        # moodiness, resistance, sensitivities, choice variability.
+        'temperament': dict(mind.temperament or {}),
+        'personality': dict(mind.personality or {}),
         # Advanced view: the effective wiring (defaults + overrides).
         'wiring': {**DEFAULT_WIRING, **(mind.wiring or {})},
         'memories': memories,
@@ -507,6 +530,127 @@ def patch_mood(
     return mood
 
 
+class TemperamentPatch(BaseModel):
+    """The resting point the Mood regresses to (ADR 0017) — the same
+    space as mood (valence, arousal), but fixed: the character's
+    nature, not its weather."""
+    valence: Optional[float] = None
+    arousal: Optional[float] = None
+
+
+@router.patch('/minds/{character_id}/temperament')
+def patch_temperament(
+    character_id: str,
+    body: TemperamentPatch,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    mind = _mind_or_404(db, game, character_id)
+    temperament = dict(mind.temperament or {})
+    if body.valence is not None:
+        temperament['valence'] = round(max(-1.0, min(1.0, body.valence)), 3)
+    if body.arousal is not None:
+        temperament['arousal'] = round(max(-1.0, min(1.0, body.arousal)), 3)
+    mind.temperament = temperament
+    db.commit()
+    return temperament
+
+
+# Scalar couplings an admin may dial. sensitivity is a per-dim gain map —
+# it merges {dim: gain} rather than taking a scalar.
+PERSONALITY_SCALARS = ('moodiness', 'resistance', 'choice_variability')
+PERSONALITY_MAPS = ('sensitivity',)
+
+
+class PersonalityPatch(BaseModel):
+    """{key: value} merged into mind.personality — null removes the key."""
+    values: Dict[str, object]
+
+
+@router.patch('/minds/{character_id}/personality')
+def patch_personality(
+    character_id: str,
+    body: PersonalityPatch,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    mind = _mind_or_404(db, game, character_id)
+    personality = dict(mind.personality or {})
+    for key, value in body.values.items():
+        if value is None:
+            personality.pop(key, None)
+            continue
+        if key in PERSONALITY_SCALARS:
+            personality[key] = round(max(0.0, min(1.0, float(value))), 3)
+        elif key in PERSONALITY_MAPS and isinstance(value, dict):
+            merged = dict(personality.get(key) or {})
+            for dim, gain in value.items():
+                if gain is None:
+                    merged.pop(dim, None)
+                else:
+                    merged[dim] = round(max(0.0, min(2.0, float(gain))), 3)
+            personality[key] = merged
+        else:
+            # Unknown keys pass through — personality is a named-key
+            # dict meant to grow as the engine learns new couplings.
+            personality[key] = value
+    mind.personality = personality
+    db.commit()
+    return personality
+
+
+@router.get('/presets')
+def list_presets(
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    """The authored archetypes — for the Studio's personality select.
+    Lists the nature each preset would imprint (temperament +
+    personality); theme_weights/wiring/beliefs stay out of the picker."""
+    rows = (
+        db.query(MindPreset)
+        .filter_by(game_id=game)
+        .order_by(MindPreset.slug)
+        .all()
+    )
+    return [
+        {
+            'slug': r.slug,
+            'name': r.name,
+            'description': r.description,
+            'temperament': r.temperament or {},
+            'personality': r.personality or {},
+        }
+        for r in rows
+    ]
+
+
+class ApplyPersonality(BaseModel):
+    slug: str
+
+
+@router.post('/minds/{character_id}/personality-preset')
+def apply_personality_preset(
+    character_id: str,
+    body: ApplyPersonality,
+    game: str = DEFAULT_GAME,
+    db: Session = Depends(get_session),
+):
+    """Imprint a preset's nature onto a living mind — temperament and
+    personality ONLY (the fixed mood point and the couplings). Identity
+    (preset_slug), wiring, theme_weights and everything lived — beliefs,
+    memories, needs — stay untouched."""
+    mind = _mind_or_404(db, game, character_id)
+    preset = _find_preset(db, game, body.slug)
+    if preset is None:
+        raise HTTPException(status_code=404, detail=f"preset '{body.slug}' not found")
+    mind.temperament = dict(preset.temperament or {})
+    mind.personality = dict(preset.personality or {})
+    db.commit()
+    return {
+        'temperament': mind.temperament,
+        'personality': mind.personality,
+    }
 
 
 

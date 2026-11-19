@@ -48,14 +48,29 @@ export function narrateEpisode(episodeId, language) {
 }
 
 /**
- * Record the host's pick for a pending decision (B5). Returns the
- * episode state including `proposed_commands` — the host validates and
- * applies them; the mind never executes mechanics.
+ * The pre-episode choosing (ADR-0019): hand the Mind each resolved
+ * Situation's feasible Interactions, get one interaction_id per situation
+ * back. Runs before open so outcomes land in the day itself — no
+ * re-resolution. The caller catches failures; the mind never blocks the game.
  */
-export function decideEpisode(episodeId, { optionId, decisionId = null }) {
+export function choose(characterId, { choices }) {
   return post(
-    `/episodes/${episodeId}/decide`,
-    { option_id: optionId, decision_id: decisionId },
+    `/mind/minds/${characterId}/choose`,
+    { game_id: GAME_ID, choices },
+    DECIDE_TIMEOUT_MS
+  );
+}
+
+/**
+ * Mid-day digestion (Wave C): hand the Mind resolved outcome events as
+ * each Situation lands so the NEXT /choose reads the evolved state.
+ * Events carry stable ids — episode open annotates them without
+ * re-feeding. `character` is the host's projected Condition.
+ */
+export function perceive(characterId, { events, character = null }) {
+  return post(
+    `/mind/minds/${characterId}/perceive`,
+    { game_id: GAME_ID, events, character },
     DECIDE_TIMEOUT_MS
   );
 }

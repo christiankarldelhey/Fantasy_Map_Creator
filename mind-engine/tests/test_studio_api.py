@@ -15,7 +15,9 @@ import app.main as main_module
 import app.narrate_day as narrate_module
 from app.db import SessionLocal
 from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.tables import Mind, Character, Episode, ForgottenMemory
+from app.mind.tables import (
+    Mind, MindPreset, Character, Episode, ForgottenMemory,
+)
 
 AUTH = ('studio-user', 'studio-pass')
 
@@ -248,3 +250,126 @@ def test_mood_patch_clamps_and_drops_cause_near_neutral(client):
     )
     assert r.json()['valence'] == -1.0
     assert r.json()['arousal'] == 1.0
+
+
+# ============================================================================
+# Nature — temperament + personality (ADR 0017)
+# ----------------------------------------------------------------------------
+# The fixed half of a mind: where the mood regresses to and the couplings
+# that shape how the day lands. Editable like the mood, but it is nature —
+# presets imprint it, they never touch the lived content.
+# ============================================================================
+
+def test_mind_detail_exposes_nature_and_day_data(client):
+    char = _uid('nature')
+    _live(client, char, 1)
+
+    mind = client.get(f'/studio/api/minds/{char}', auth=AUTH).json()
+    assert 'temperament' in mind
+    assert 'personality' in mind
+    item = mind['episodes'][0]['perceived'][0]
+    assert 'when' in item and 'imprint' in item
+    assert item['when'].get('phase') == 'morning'
+
+
+def test_temperament_patch_clamps(client):
+    char = _uid('temp')
+    _live(client, char, 1)
+
+    r = client.patch(
+        f'/studio/api/minds/{char}/temperament', auth=AUTH,
+        json={'valence': -0.4, 'arousal': 3},
+    )
+    assert r.status_code == 200, r.text
+    assert r.json() == {'valence': -0.4, 'arousal': 1.0}
+
+    session = SessionLocal()
+    mind = session.query(Mind).filter_by(character_id=char).one()
+    assert mind.temperament['valence'] == pytest.approx(-0.4)
+    assert mind.temperament['arousal'] == pytest.approx(1.0)
+    session.close()
+
+
+def test_personality_patch_merges_clamps_removes(client):
+    char = _uid('pers')
+    _live(client, char, 1)
+
+    r = client.patch(
+        f'/studio/api/minds/{char}/personality', auth=AUTH,
+        json={'values': {
+            'moodiness': 0.8,
+            'choice_variability': 4,          # clamps to 1
+            'sensitivity': {'fear': 1.6},
+        }},
+    )
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body['moodiness'] == pytest.approx(0.8)
+    assert body['choice_variability'] == pytest.approx(1.0)
+    assert body['sensitivity'] == {'fear': pytest.approx(1.6)}
+
+    # Merge, not replace; null removes the key.
+    r = client.patch(
+        f'/studio/api/minds/{char}/personality', auth=AUTH,
+        json={'values': {'moodiness': None, 'resistance': 0.5}},
+    )
+    body = r.json()
+    assert 'moodiness' not in body
+    assert body['resistance'] == pytest.approx(0.5)
+    assert body['choice_variability'] == pytest.approx(1.0)
+
+
+def test_presets_list_and_apply_imprints_nature_only(client):
+    char = _uid('preset')
+    _live(client, char, 1)
+
+    session = SessionLocal()
+    session.add(MindPreset(
+        game_id='middle_earth', slug='grim', name='The Grim One',
+        temperament={'valence': -0.3, 'arousal': 0.1},
+        personality={'moodiness': 0.1, 'resistance': 0.7},
+    ))
+    session.commit()
+    session.close()
+
+    rows = client.get('/studio/api/presets', auth=AUTH).json()
+    grim = next(r for r in rows if r['slug'] == 'grim')
+    assert grim['temperament']['valence'] == pytest.approx(-0.3)
+
+    # Give the mind hand-set values first — the apply must overwrite them.
+    client.patch(
+        f'/studio/api/minds/{char}/personality', auth=AUTH,
+        json={'values': {'moodiness': 0.9, 'custom_key': 'kept?'}},
+    )
+    session = SessionLocal()
+    before = session.query(Mind).filter_by(character_id=char).one()
+    wiring_before, weights_before = dict(before.wiring), dict(before.theme_weights)
+    slug_before = before.preset_slug
+    session.close()
+
+    r = client.post(
+        f'/studio/api/minds/{char}/personality-preset', auth=AUTH,
+        json={'slug': 'grim'},
+    )
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body['temperament']['valence'] == pytest.approx(-0.3)
+    assert body['personality'] == {'moodiness': 0.1, 'resistance': 0.7}
+
+    # Nature only: preset identity, wiring and concerns are untouched.
+    session = SessionLocal()
+    mind = session.query(Mind).filter_by(character_id=char).one()
+    assert mind.preset_slug == slug_before
+    assert mind.wiring == wiring_before
+    assert mind.theme_weights == weights_before
+    session.close()
+
+
+def test_personality_preset_unknown_is_404(client):
+    char = _uid('preset')
+    _live(client, char, 1)
+    r = client.post(
+        f'/studio/api/minds/{char}/personality-preset', auth=AUTH,
+        json={'slug': 'no-such-preset'},
+    )
+    assert r.status_code == 404

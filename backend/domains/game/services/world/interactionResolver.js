@@ -22,12 +22,11 @@
 //   prose_hint:     string,
 //   intensity:      number,
 //   outcome:        string | null,
-//   dialogue_content: { id, topic, npc_attitude, concrete_content,
-//                       tension, traveller_stance, options, commands,
-//                       narration } | null,
-//   decision:         { id, prompt, options } | null,  // B5: only for
-//                     // before_sleep encounters on rows that author options —
-//                     // the mind weighs, the host applies.
+//   dialogue_content: { id, situation_id, topic, npc_attitude,
+//                       concrete_content, tension, traveller_stance,
+//                       narration } | null,  // prose + the chosen Situation
+//                     // id; the executable options live in `interactions`
+//                     // and resolve through the engine, not here.
 // }
 // Encounters stay anonymous: archetypes are kinds, not persons — a band's
 // chief may be named in the aspect's prose, never as structured data.
@@ -64,9 +63,12 @@ const FALLBACK_INTERACTION = {
   outcome: null,
 };
 
-// The traveller's race — content written for a people carries a `race:*` tag
-// (the old character_id axis, re-expressed). Clone slugs strip to the base.
-const CHARACTER_RACE = { aranath: 'dunedain', celebrian: 'elf' };
+// The traveller's race — content written for a people carries a `race:*` tag.
+// The race itself is a character_state column; clones inherit their
+// template's. A traveller with no race hears only untagged content.
+function raceTagOf(character) {
+  return character?.race ? `race:${character.race}` : null;
+}
 
 // A row tagged `race:X` only speaks to a traveller of race X. Rows with no
 // race tag speak to everyone. $n is the traveller's tag ('race:dunedain') or
@@ -112,17 +114,6 @@ async function fetchForms(entityType) {
 // ---------------------------------------------------------------------------
 // Contact helpers (kind='contact' — the substance of the encounter)
 // ---------------------------------------------------------------------------
-
-function stripCloneSlug(slug) {
-  if (!slug) return null;
-  // Clone slugs look like 'aranath-user-1' — strip the -user-\d+ suffix
-  return slug.replace(/-user-\d+$/, '');
-}
-
-function raceTagFor(characterSlug) {
-  const race = CHARACTER_RACE[stripCloneSlug(characterSlug)] ?? null;
-  return race ? `race:${race}` : null;
-}
 
 // Score how specific a row is, preferring rows whose optional scope columns
 // MATCH the encounter context (cultural family, region).  A row with a
@@ -266,11 +257,11 @@ async function fetchGenericTopic({
 // Contact row → dialogue_content (the shape downstream consumers already read)
 // ---------------------------------------------------------------------------
 
-// Pick one interactive situation. Situations may carry gating tags; until the
+// Pick one situations situation. Situations may carry gating tags; until the
 // encounter tag-set lands, only ungated situations are eligible — and if a row
 // authors none, its gated situations still serve (nothing else to pick).
 function pickSituation(row, rng) {
-  const sits = Array.isArray(row.interactive) ? row.interactive : [];
+  const sits = Array.isArray(row.situations) ? row.situations : [];
   if (!sits.length) return null;
   const ungated = sits.filter((s) => !(s.tags || []).length);
   const pool_ = ungated.length ? ungated : sits;
@@ -281,14 +272,15 @@ function toDialogueContent(row, rng) {
   const sit = pickSituation(row, rng);
   return {
     id: row.id,
+    situation_id: sit?.id ?? null,
     topic: row.facts?.topic ?? null,
     npc_attitude: row.disposition?.en ?? null,
     concrete_content: row.presence?.en ?? null,
     tension: sit?.situation?.en ?? null,
-    traveller_stance: sit?.stance?.en ?? null,
-    options: sit?.options ?? null,
-    commands: sit?.commands ?? null,
-    // The full record rides along — variants, disposition, interactive —
+    // Filled by the engine with the applied outcome's text — what the
+    // traveller did lives in the interaction row, not the descriptor.
+    traveller_stance: null,
+    // The full record rides along — variants, disposition, situations —
     // for the shared option-selector chapter.
     narration: row,
   };
@@ -305,8 +297,8 @@ function toDialogueContent(row, rng) {
 //   trace    → the distance-sign (aspect),            form 'sign_only'
 // The race gate applies like any contact: a race:* tag speaks only to that
 // traveller; untagged speaks to everyone.
-function resolveMoverContact(leg, contact, moverKind, characterSlug, rng = Math.random) {
-  const raceTag = raceTagFor(characterSlug);
+function resolveMoverContact(leg, contact, moverKind, character, rng = Math.random) {
+  const raceTag = raceTagOf(character);
   const tags = contact?.contact_tags ?? contact?.tags ?? [];
   if (tags.some((t) => t.startsWith('race:') && t !== raceTag)) return null;
 
@@ -320,13 +312,12 @@ function resolveMoverContact(leg, contact, moverKind, characterSlug, rng = Math.
   const sit = pickSituation(contact ?? {}, rng);
   const dialogueContent = contact ? {
     id: contact.contact_id ?? contact.id,
+    situation_id: sit?.id ?? null,
     topic: contact.facts?.topic ?? null,
     npc_attitude: contact.disposition?.en ?? null,
     concrete_content: concrete,
     tension: sit?.situation?.en ?? null,
-    traveller_stance: sit?.stance?.en ?? null,
-    options: sit?.options ?? null,
-    commands: sit?.commands ?? null,
+    traveller_stance: null, // engine-stamped from the applied outcome
     narration: contact,
   } : (concrete ? { concrete_content: concrete } : null);
 
@@ -336,7 +327,6 @@ function resolveMoverContact(leg, contact, moverKind, characterSlug, rng = Math.
     intensity: leg?.hostile ? 3 : 1,
     outcome: null,
     dialogue_content: dialogueContent,
-    decision: null,
   };
 }
 
@@ -391,8 +381,8 @@ export async function resolveEncounter(
 ) {
   const entityType = entity?.type;
   const danger = typeof entity?.danger === 'number' ? entity.danger : 0;
-  const { characterSlug, culturalFamily, regionId, nightTiming } = options;
-  const raceTag = raceTagFor(characterSlug);
+  const { culturalFamily, regionId, nightTiming } = options;
+  const raceTag = raceTagOf(character);
 
   // Load all form rows for this entity type
   const rows = entityType ? await fetchForms(entityType) : [];
@@ -483,27 +473,11 @@ export async function resolveEncounter(
     outcome = rollResistance(entity, character, rng);
   }
 
-  // B5: an offer found at dusk is a real choice — stay or walk on —
-  // when the row authors options. Mid-march sightings of the same place
-  // keep the plain pass-by stance: there is nothing to decide at 10am.
-  let decision = null;
-  if (
-    nightTiming === 'before_sleep' &&
-    Array.isArray(dialogueContent?.options) &&
-    dialogueContent.options.length > 0
-  ) {
-    decision = {
-      id: `shelter-${dialogueContent.id}`,
-      prompt: dialogueContent.tension ?? null,
-      options: dialogueContent.options,
-    };
-  }
-
   console.log(
     `[ENCOUNTER] entity=${entity?.name} type=${entityType} danger=${danger} ` +
     `pool_size=${candidates.length} form=${chosen.form} weight=${chosen.effectiveWeight} ` +
     `topic=${dialogueContent?.topic ?? 'none'} contact=${dialogueContent ? dialogueContent.id : 'no'} ` +
-    `decision=${decision ? decision.id : 'none'} outcome=${outcome ?? 'none'}`
+    `outcome=${outcome ?? 'none'}`
   );
 
   return {
@@ -512,7 +486,6 @@ export async function resolveEncounter(
     intensity: chosen.intensity,
     outcome,
     dialogue_content: dialogueContent,
-    decision,
   };
 }
 

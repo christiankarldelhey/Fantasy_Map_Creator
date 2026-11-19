@@ -5,7 +5,7 @@ import {
   regionStay,
   stayTags,
   dayWideTags,
-  resolveAmbientVoice,
+  resolveAmbientSituations,
 } from '../world/ambientVoice.js';
 
 // ---------------------------------------------------------------------------
@@ -78,7 +78,7 @@ test('dayWideTags: no startState emits no mind tags', () => {
 });
 
 // ---------------------------------------------------------------------------
-// resolveAmbientVoice (mocked pool)
+// resolveAmbientSituations (mocked pool)
 // ---------------------------------------------------------------------------
 
 const originalQuery = pool.query.bind(pool);
@@ -86,7 +86,7 @@ const originalQuery = pool.query.bind(pool);
 const records = [
   {
     id: 'AM-A1', name: { en: 'The wind' }, region_ids: [46], priority: 0,
-    interactive: [
+    situations: [
       { id: 's1', tags: ['region_day:1'], options: [{ id: 'o1', outcomes: { success: { text: { en: 'day one wind' } } } }] },
       { id: 's2', tags: ['region_day:2'], options: [{ id: 'o2', outcomes: { success: { text: { en: 'day two wind' }, effects: { shadow_effect: 1 } } } }] },
       { id: 's3', tags: ['region_day:3'], options: [{ id: 'o3', outcomes: { success: { text: { en: 'day three wind' } } } }] },
@@ -94,20 +94,20 @@ const records = [
   },
   {
     id: 'F-00', name: { en: 'Coming in' }, region_ids: [46], priority: 5,
-    interactive: [
+    situations: [
       { id: 'arr1', tags: ['region_day:1', 'entry:first'], options: [{ id: 'o', outcomes: { success: { text: { en: 'first arrival' } } } }] },
       { id: 're', tags: ['entry_count:2'], options: [{ id: 'o', outcomes: { success: { text: { en: 're-entry' } } } }] },
     ],
   },
   {
     id: 'ovn:9', name: { en: 'Night' }, region_ids: [46], priority: 0,
-    interactive: [
+    situations: [
       { id: 'night', tags: ['context:overnight'], options: [{ id: 'rest', outcomes: { success: { text: { en: 'the night' } } } }] },
     ],
   },
   {
     id: 'G-00', name: { en: 'Elsewhere' }, region_ids: [70], priority: 0,
-    interactive: [
+    situations: [
       { id: 'g1', tags: ['region_day:1'], options: [{ id: 'o', outcomes: { success: { text: { en: 'other region' } } } }] },
     ],
   },
@@ -141,10 +141,14 @@ const DAY = {
 test('day 1 in region fires the day-1 situation, not the others', async () => {
   installMock({ history: [] });
   try {
-    const events = await resolveAmbientVoice({ ...DAY, dayNumber: 1 });
+    const events = await resolveAmbientSituations({ ...DAY, dayNumber: 1 });
     const ids = events.map((e) => e.situation_id);
     assert.deepEqual(ids, ['arr1', 's1']);
-    assert.equal(events.find((e) => e.record_id === 'AM-A1').text.en, 'day one wind');
+    // Situations carry what the engine needs to pick + materialize:
+    // the day tag set (option gating) and the phase (narrative order).
+    const wind = events.find((e) => e.record_id === 'AM-A1');
+    assert.ok(wind.tagSet instanceof Set && wind.tagSet.has('season:spring'));
+    assert.ok(['morning', 'afternoon'].includes(wind.phase));
   } finally {
     pool.query = originalQuery;
   }
@@ -153,7 +157,7 @@ test('day 1 in region fires the day-1 situation, not the others', async () => {
 test('day 3 fires the most specific eligible beat (cumulative tags)', async () => {
   installMock({ history: [[{ id: 46 }], [{ id: 46 }]] });
   try {
-    const events = await resolveAmbientVoice({ ...DAY, dayNumber: 3 });
+    const events = await resolveAmbientSituations({ ...DAY, dayNumber: 3 });
     const wind = events.find((e) => e.record_id === 'AM-A1');
     assert.equal(wind.situation_id, 's3');
   } finally {
@@ -164,7 +168,7 @@ test('day 3 fires the most specific eligible beat (cumulative tags)', async () =
 test('overnight situations never fire on the walking day', async () => {
   installMock({ history: [] });
   try {
-    const events = await resolveAmbientVoice({ ...DAY, dayNumber: 1 });
+    const events = await resolveAmbientSituations({ ...DAY, dayNumber: 1 });
     assert.ok(!events.some((e) => e.record_id === 'ovn:9'));
   } finally {
     pool.query = originalQuery;
@@ -174,7 +178,7 @@ test('overnight situations never fire on the walking day', async () => {
 test('records scoped to other regions are excluded', async () => {
   installMock({ history: [] });
   try {
-    const events = await resolveAmbientVoice({ ...DAY, dayNumber: 1 });
+    const events = await resolveAmbientSituations({ ...DAY, dayNumber: 1 });
     assert.ok(!events.some((e) => e.record_id === 'G-00'));
   } finally {
     pool.query = originalQuery;
@@ -185,7 +189,7 @@ test('re-entry fires the entry_count situation, not the first-arrival one', asyn
   const history = [[{ id: 46 }], [{ id: 46 }], ...Array(20).fill([{ id: 99 }])];
   installMock({ history });
   try {
-    const events = await resolveAmbientVoice({ ...DAY, dayNumber: 24 });
+    const events = await resolveAmbientSituations({ ...DAY, dayNumber: 24 });
     const coming = events.find((e) => e.record_id === 'F-00');
     assert.equal(coming.situation_id, 're');
   } finally {

@@ -544,7 +544,7 @@ const DEPICTION_TABLES = [...new Set(Object.values(REF_TABLES))];
 // is provenance only (origin, legacy_id, anchor_hint, location_ref…).
 const PROSE_COLUMNS = [
   'aspect', 'sighted_far', 'presence', 'lore', 'secret', 'sections', 'facts',
-  'notes', 'channel', 'traveller_use', 'variants', 'rotation', 'interactive',
+  'notes', 'channel', 'traveller_use', 'variants', 'rotation', 'situations',
 ];
 
 function placeTypeRadii(typeText) {
@@ -650,7 +650,7 @@ async function upsertNarrationRecord(r, extras = {}) {
 // ---------------------------------------------------------------------------
 const EN_PROSE = [
   'aspect', 'presence', 'lore', 'secret', 'sections', 'facts', 'notes',
-  'channel', 'traveller_use', 'rotation', 'variants', 'interactive',
+  'channel', 'traveller_use', 'rotation', 'variants', 'situations',
   'disposition',
 ];
 
@@ -724,6 +724,52 @@ async function seedEntitiesNarration(extraRecords = []) {
   if (unresolved.size)
     console.warn(`   ⚠️ unresolved refs (kept, NULL fk): ${[...unresolved].slice(0, 10).join(', ')}${unresolved.size > 10 ? ` +${unresolved.size - 10}` : ''}`);
   console.log(`✅ entities_narration: ${records.length} records${pruned.rowCount ? ` (pruned ${pruned.rowCount})` : ''}${extraRecords.length ? ` — ${extraRecords.length} minted place-host fichas` : ''}`);
+}
+
+// ---------------------------------------------------------------------------
+// interactions seed — a db madre like every other: data/json/interactions.json
+// is the authored source (acts, labels, need_tags, typed effects). Situations
+// stay in the narration tables' situations[] as pure descriptors — the
+// executable keys were stripped when this file was generated
+// (scripts/derive-interactions.mjs). Ids are stable ('<situation>:<option>' /
+// '<situation>:sole') so re-runs are idempotent; the prune only touches
+// seed-owned rows — hand-authored interactions are safe.
+// ---------------------------------------------------------------------------
+async function seedInteractions() {
+  console.log('🤝 Seeding interactions (authored Interaction rows)...');
+  const file = path.join(DATA_DIR, 'json/interactions.json');
+  const interactions = JSON.parse(await fs.readFile(file, 'utf8'));
+
+  const actCount = {};
+  for (const i of interactions) {
+    await pool.query(
+      `INSERT INTO interactions
+         (id, places_narration_id, entities_narration_id, act, label, need_tags, skill, outcomes, payload)
+       VALUES ($1, $2, $3, $4, $5::jsonb, $6, $7::jsonb, $8::jsonb, $9::jsonb)
+       ON CONFLICT (id) DO UPDATE SET
+         places_narration_id = EXCLUDED.places_narration_id,
+         entities_narration_id = EXCLUDED.entities_narration_id,
+         act = EXCLUDED.act, label = EXCLUDED.label, need_tags = EXCLUDED.need_tags,
+         skill = EXCLUDED.skill, outcomes = EXCLUDED.outcomes, payload = EXCLUDED.payload`,
+      [
+        i.id, i.places_narration_id, i.entities_narration_id, i.act,
+        JSON.stringify(i.label), i.need_tags,
+        i.skill ? JSON.stringify(i.skill) : null,
+        JSON.stringify(i.outcomes), JSON.stringify(i.payload),
+      ]
+    );
+    actCount[i.act] = (actCount[i.act] ?? 0) + 1;
+  }
+
+  const ids = interactions.map((i) => i.id);
+  const pruned = await pool.query(
+    `DELETE FROM interactions
+     WHERE payload->>'origin' IN ('backfill:interactive', 'seed:interactions')
+       AND id <> ALL($1)
+     RETURNING id`, [ids]
+  );
+  const byActs = Object.entries(actCount).map(([a, n]) => `${a}:${n}`).join(' ');
+  console.log(`✅ interactions: ${interactions.length} rows (${byActs})${pruned.rowCount ? ` — pruned ${pruned.rowCount}` : ''}`);
 }
 
 // ---------------------------------------------------------------------------
@@ -1250,6 +1296,13 @@ async function ensureSchema() {
   await runMigrationFile('drop_legacy_narrative_tables.sql');
   await runMigrationFile('drop_legacy_encounter_tables.sql');
 
+  // interactions goes after the legacy drops on purpose: a very old DB may
+  // still carry an unrelated ancestor table named `interactions`, which the
+  // shape-guarded drop above removes first so the new table can take the name.
+  await runMigrationFile('create_interactions_table.sql');
+  await runMigrationFile('rename_interactive_to_situations.sql');
+  await runMigrationFile('add_character_race.sql');
+
   console.log('✅ Schema ready\n');
 }
 
@@ -1282,11 +1335,6 @@ async function ensureConstraints() {
       table: 'climate_zones',
       constraint: 'climate_zones_pkey',
       sql: 'ALTER TABLE climate_zones ADD PRIMARY KEY (id)',
-    },
-    {
-      table: 'npc_interactions',
-      constraint: 'npc_interactions_pkey',
-      sql: 'ALTER TABLE npc_interactions ADD PRIMARY KEY (id)',
     },
     {
       table: 'entities',
@@ -1682,6 +1730,10 @@ async function main() {
 
     // Entities narration — after movers so leg_ref resolves to live legs.
     await seedEntitiesNarration(hostFichas);
+
+    // Interactions — last: the authored table needs both narration tables
+    // in place for its parent FKs.
+    await seedInteractions();
 
     console.log('\n🎉 All seed data loaded successfully!');
 

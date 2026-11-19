@@ -44,7 +44,7 @@ export async function loadActiveLegs(dateISO) {
             COALESCE(e.family, p.slug) AS family,
             ST_X(loc.geom) AS loc_lng, ST_Y(loc.geom) AS loc_lat,
             n.id AS contact_id, n.aspect, n.variants, n.disposition, n.facts,
-            n.interactive, n.tags AS contact_tags, n.priority
+            n.situations, n.tags AS contact_tags, n.priority
        FROM mover_legs l
        JOIN entities e ON e.id = l.entity_id
        LEFT JOIN entities p ON p.id = e.parent_id

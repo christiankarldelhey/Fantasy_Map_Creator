@@ -120,7 +120,7 @@ const interactions = [
 
 const originalQuery = pool.query.bind(pool);
 
-// The canonical path reads ambient/place records whose interactive[] carries
+// The canonical path reads ambient/place records whose situations[] carries
 // a 'context:overnight' situation (ADR-0015); effects live on the option's
 // outcome. Mock both the record query and the scope ladder inputs.
 const narrationRecords = interactions.map((r) => ({
@@ -136,7 +136,7 @@ const narrationRecords = interactions.map((r) => ({
   presence: { en: r.description, es: null },
   variants: null,
   rotation: null,
-  interactive: [{
+  situations: [{
     id: `ovn:${r.id}_night`,
     tags: ['context:overnight'],
     options: [{
@@ -168,7 +168,7 @@ function installMock() {
       return {
         rows: narrationRecords.filter(
           (r) => (params[0] == null || r.kind === params[0])
-            && (params[1] == null || r.interactive.some((s) => (s.tags || []).includes(params[1]))),
+            && (params[1] == null || r.situations.some((s) => (s.tags || []).includes(params[1]))),
         ),
       };
     }
@@ -201,7 +201,9 @@ test('Rohan village in location context picks L2 type+region row', async () => {
       regionId: 62,
     });
     assert.equal(result.description, 'A Rohirrim village of the plains.');
-    assert.equal(result.rest_quality, 3);
+    // Mechanics are null until the interaction engine applies the night's
+    // outcome — the ladder only picks which record owns it.
+    assert.equal(result.rest_quality, null);
     assert.equal(result.scope, 'type_region');
   } finally {
     restoreMock();
@@ -271,8 +273,6 @@ test('Region with no unique wild row falls back to generic wild family row', asy
     // the generic 'wild' family record as required by the spec.
     assert.equal(result.description, 'A night in wild, unpeopled country.');
     assert.equal(result.scope, 'family_wild');
-    assert.equal(result.rest_quality, 1);
-    assert.equal(result.shadow_effect, 0);
   } finally {
     restoreMock();
   }

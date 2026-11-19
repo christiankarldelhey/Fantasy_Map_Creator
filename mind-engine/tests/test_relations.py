@@ -589,6 +589,25 @@ def test_what_already_spoke_rests_a_few_days():
     session.close()
 
 
+def test_a_tag_is_never_a_display_name():
+    """A display_name carrying the tag separator is the tag itself, not a
+    name — feed() drops it so the Lens humanizes the slug instead of
+    reading 'tag:npc:orc-scout' aloud."""
+    from app.mind.relations import feed
+    char = _uid('display')
+    session = SessionLocal()
+    row = feed(
+        session, 'middle_earth', char, 'tag:npc:orc-scout',
+        {'fear': 0.5}, display_name='tag:npc:orc-scout')
+    assert row.display_name is None
+    row2 = feed(
+        session, 'middle_earth', char, 'entity:cave_trolls',
+        {'fear': 0.5}, display_name='Cave-trolls')
+    assert row2.display_name == 'Cave-trolls'
+    session.rollback()
+    session.close()
+
+
 def test_the_prompt_marks_what_it_voiced():
     """_merged_beats records last_surfaced_episode on every disposition
     it handed the narrator — feeding the rest above. Idempotent under
