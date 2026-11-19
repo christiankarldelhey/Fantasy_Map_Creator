@@ -21,7 +21,7 @@ import app.main as main_module
 import app.narrate_day as narrate_module
 from app.db import SessionLocal
 from app.evals.narrative_checks import check_lens_reference
-from app.mind.tables import MindPreset, Memory, PresetThemeWeight
+from app.mind.tables import MindPreset, Memory, PresetWiring
 
 
 @pytest.fixture()
@@ -76,15 +76,18 @@ def _quiet_event(ep):
 
 
 def test_differential_memory(client):
-    """Character B (epicurean preset, heavy type:meal weight) consolidates the
+    """Character B (epicurean preset, a low fixed_threshold) consolidates the
     meal at birth; character A (default) holds it volatile and forgets it
-    over a run of unrelated episodes."""
+    over a run of unrelated episodes. Both minds encode the same
+    importance — the threshold, not the weight, is what differs now
+    (#165)."""
     session = SessionLocal()
     slug = _uid('epicurean')
     preset = MindPreset(game_id='middle_earth', slug=slug, name='Epicurean')
     session.add(preset)
     session.flush()
-    session.add(PresetThemeWeight(preset_id=preset.id, key='type:meal', weight=4.0))
+    session.add(PresetWiring(preset_id=preset.id,
+                           key='fixed_threshold', value=0.05))
     session.commit()
     session.close()
 
@@ -103,7 +106,7 @@ def test_differential_memory(client):
     mem_b = session.query(Memory).filter_by(character_id=char_b).one()
     assert mem_b.consolidated is True
     assert mem_a.consolidated is False
-    assert mem_b.importance > mem_a.importance
+    assert mem_b.importance == mem_a.importance
     session.close()
 
     # A string of unrelated travel episodes: the meal is never relevant

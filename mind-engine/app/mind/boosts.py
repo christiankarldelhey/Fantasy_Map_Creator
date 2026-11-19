@@ -1,44 +1,12 @@
 # ============================================================================
-# Belief boosts (B6) — lived conviction bends what stands out
+# Belief boosts (B6) — validation only now
 # ----------------------------------------------------------------------------
-# `beliefs.boosts` is data, not wiring: {tag: magnitude} edited per row
-# (SQLAdmin), declared on preset starter beliefs, or written by reflection.
-# While a belief stays active AND strong enough
-# (`belief_boost_min_strength`), its boosts add to the mind's
-# theme_weights — "the weather weighs more because she believes X". The
-# divergence lives in inspectable rows, not in mutated config; when the
-# belief weakens or dies, the weight simply falls away.
+# `beliefs.boosts` {tag: magnitude} is still written by reflection and
+# declared on preset starter beliefs, but its one consumer — bending the
+# attention weights — died with theme_weights (#165): attention is the
+# Relations' job alone (ADR 0017). The field stays stored but inert until
+# the Belief fold (#168) decides its fate.
 # ============================================================================
-from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.relations import attention_weights
-from app.mind.tables import Belief
-
-
-def effective_theme_weights(session, mind):
-    """theme_weights + boosts of active, strong-enough beliefs."""
-    weights = dict(mind.theme_weights or {})
-    w = {**DEFAULT_WIRING, **(mind.wiring or {})}
-    floor = float(w.get('belief_boost_min_strength', 3.0))
-    beliefs = (
-        session.query(Belief)
-        .filter_by(character_id=mind.character_id, status='active')
-        .all()
-    )
-    for belief in beliefs:
-        if (belief.strength or 0) < floor:
-            continue
-        for tag, amount in (belief.boosts or {}).items():
-            try:
-                weights[tag] = weights.get(tag, 0.0) + float(amount)
-            except (TypeError, ValueError):
-                continue
-    # Relations watch what they love, hate or fear (ADR 0017): the
-    # sediment IS the attention — a feared thing is a watched thing.
-    for tag, amount in attention_weights(
-        session, mind, w.get('relation_attention_gain', 0.3)
-    ).items():
-        weights[tag] = weights.get(tag, 0.0) + amount
-    return weights
 
 
 def clean_boosts(raw):

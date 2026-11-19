@@ -7,7 +7,7 @@
 # gated and rolled (B1, app/mind/checks.py): the outcome bends perception
 # to `unnoticed`/`misread`, never the world's facts.
 #
-# Tag convention (shared with theme_weights keys):
+# Tag convention (shared with relation attention keys):
 #   type:<event.type>        — every event
 #   tag:<data[key]>          — string data values; absence markers
 #                            ('none', 'null', '0', ...) never tag
@@ -18,7 +18,6 @@
 # ============================================================================
 import re
 
-from app.mind.boosts import effective_theme_weights
 from app.mind.detectors import body_projection
 from app.mind.checks import (
     asleep_check_result,
@@ -28,7 +27,9 @@ from app.mind.checks import (
     resolve_check,
 )
 from app.mind.engine import acute_hit, mood_delta, project_body
-from app.mind.relations import feed, feed_event, felt_through
+from app.mind.relations import (
+    attention_weights, feed, feed_event, felt_through,
+)
 from app.mind.semantics import (
     field_severity, load_semantics, semantic_delta, tag_floors,
 )
@@ -81,9 +82,10 @@ def derive_tags(event):
     return tags
 
 
-def theme_weight(tags, weights):
-    """Max matching weight across the event's tags; wildcards 'prefix:*'
-    match any tag with that prefix. 0 = this mind is indifferent."""
+def attention_weight(tags, weights):
+    """Max matching attention weight across the event's tags; wildcards
+    'prefix:*' match any tag with that prefix. 0 = this mind is
+    indifferent."""
     return best_tag_weight(tags, weights or {})
 
 
@@ -345,10 +347,12 @@ def perceive_events(session, game_id, mind, events, character=None,
     episode level because open() only calls this when creating the episode.
     """
     seen = _seen_tags(session, game_id, mind.character_id)
-    # B6: strong active beliefs bend what stands out — boosts add to the
-    # cloned theme_weights for this perception pass only.
-    weights = effective_theme_weights(session, mind)
     w = {**DEFAULT_WIRING, **(mind.wiring or {})}
+    # Two channels of attention (ADR 0017): the semantic pack declares
+    # objective weight (charge + floors below); the Relations supply the
+    # personal bias — what this mind loves, hates or fears stays watched.
+    weights = attention_weights(
+        session, mind, w.get('relation_attention_gain', 0.3))
     state = character_state(character)
     semantics = load_semantics(session, game_id)
     # The body the day starts from: the Condition projected through the
@@ -412,7 +416,7 @@ def perceive_events(session, game_id, mind, events, character=None,
             w.get('w_severity', 0) * severity
             + w.get('w_novelty', 0) * novelty
             + w.get('w_emotional', 0) * charge
-            + w.get('w_theme', 0) * theme_weight(tags, weights)
+            + w.get('w_attention', 0) * attention_weight(tags, weights)
             + w.get('w_perception', 0) * (bonus or 0.0)
         ))
         if perception == 'unnoticed':

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { concernLabel } from '../../lib/labels'
+import { tagLabel } from '../../lib/labels'
 import type { MusingNode } from '../../types'
 
 defineProps<{ musings: MusingNode[] }>()
@@ -11,7 +11,7 @@ defineProps<{ musings: MusingNode[] }>()
       <p class="statement">{{ m.statement }}</p>
       <div v-if="m.tags.length" class="tags">
         <span class="muted small">Aparece con:</span>
-        <span v-for="t in m.tags" :key="t" class="badge" :title="t">{{ concernLabel(t) }}</span>
+        <span v-for="t in m.tags" :key="t" class="badge" :title="t">{{ tagLabel(t) }}</span>
       </div>
     </li>
   </ul>

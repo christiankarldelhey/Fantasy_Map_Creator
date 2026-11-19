@@ -4,7 +4,7 @@
 # JSON for the Studio app (ADR 0002). Reads show what the Mind already
 # owns — the Character card, memories, Forgotten traces, beliefs, needs,
 # mood and every Episode with its Lens and narration; writes edit the
-# card, concerns and the running mood. Never reads Host tables.
+# card and the running mood. Never reads Host tables.
 #
 # Auth: HTTP Basic against ADMIN_USER / ADMIN_PASSWORD — unset = closed.
 # ============================================================================
@@ -365,8 +365,6 @@ def get_mind(
         'character': card,
         'condition': _condition(latest),
         'mood': mind.mood or {},
-        # Concerns — "le pesa": what the Mind gives extra weight to.
-        'concerns': dict(mind.theme_weights or {}),
         # Advanced view: the effective wiring (defaults + overrides).
         'wiring': {**DEFAULT_WIRING, **(mind.wiring or {})},
         'memories': memories,
@@ -468,30 +466,6 @@ def _mind_or_404(db, game, character_id):
     if mind is None:
         raise HTTPException(status_code=404, detail='mind not found')
     return mind
-
-
-class ConcernsPatch(BaseModel):
-    """{key: weight} to set, {key: null} to remove — 'le pesa'."""
-    weights: Dict[str, Optional[float]]
-
-
-@router.patch('/minds/{character_id}/concerns')
-def patch_concerns(
-    character_id: str,
-    body: ConcernsPatch,
-    game: str = DEFAULT_GAME,
-    db: Session = Depends(get_session),
-):
-    mind = _mind_or_404(db, game, character_id)
-    weights = dict(mind.theme_weights or {})
-    for key, w in body.weights.items():
-        if w is None:
-            weights.pop(key, None)
-        else:
-            weights[key] = max(0.0, min(1.0, float(w)))
-    mind.theme_weights = weights
-    db.commit()
-    return weights
 
 
 class MoodPatch(BaseModel):

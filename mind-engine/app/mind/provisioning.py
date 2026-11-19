@@ -27,7 +27,7 @@ DEFAULT_WIRING = {
     'w_severity': 0.35,
     'w_novelty': 0.25,
     'w_emotional': 0.15,
-    'w_theme': 0.15,
+    'w_attention': 0.15,
     'w_perception': 0.10,
     'alpha': 0.4,
     'beta': 0.4,
@@ -159,8 +159,6 @@ DEFAULT_WIRING = {
     # circumstances gone). Enduring beliefs only know evidence.
     'belief_transient_decay': 0.8,
     'belief_transient_episode_decay': 0.9,
-    # B6: a belief only bends theme_weights while it stays strong.
-    'belief_boost_min_strength': 3.0,
     # B8: semantic similarity joins the retrieval score —
     # score += delta_embedding * cosine(episode, memory). 0 disables.
     'delta_embedding': 0.25,
@@ -214,13 +212,11 @@ def _find_preset(session, game_id, *slugs):
     return None
 
 
-def _preset_config(preset):
-    """Materialise a preset's child rows into the mind's config dicts."""
+def _preset_wiring(preset):
+    """Materialise a preset's wiring rows over the engine defaults."""
     if preset is None:
-        return {}, dict(DEFAULT_WIRING)
-    theme_weights = {r.key: r.weight for r in preset.theme_weights}
-    wiring = {**DEFAULT_WIRING, **{r.key: r.value for r in preset.wiring}}
-    return theme_weights, wiring
+        return dict(DEFAULT_WIRING)
+    return {**DEFAULT_WIRING, **{r.key: r.value for r in preset.wiring}}
 
 
 def seed_starter_beliefs(session, game_id, character_id, preset):
@@ -295,14 +291,13 @@ def get_or_create_mind(session, game_id, character_id, hint_slug=None):
         return mind
 
     preset = _find_preset(session, game_id, hint_slug, DEFAULT_PRESET_SLUG)
-    theme_weights, wiring = _preset_config(preset)
+    wiring = _preset_wiring(preset)
 
     mind = Mind(
         game_id=game_id,
         character_id=character_id,
         preset_id=preset.id if preset else None,
         preset_slug=preset.slug if preset else (hint_slug or DEFAULT_PRESET_SLUG),
-        theme_weights=theme_weights,
         wiring=wiring,
         mood=dict(NEUTRAL_MOOD),
         counters={},
@@ -379,8 +374,8 @@ def effective_character(row, wire_card):
 
 
 def reassign_preset(session, game_id, character_id, slug, reclone=False):
-    """Admin reassignment. reclone=True also resets the mind's config
-    (theme_weights + wiring) to the new preset's — memories and beliefs are
+    """Admin reassignment. reclone=True also resets the mind's wiring
+    to the new preset's — memories and beliefs are
     content and are never touched."""
     mind = (
         session.query(Mind)
@@ -393,7 +388,5 @@ def reassign_preset(session, game_id, character_id, slug, reclone=False):
     mind.preset_id = preset.id if preset else None
     mind.preset_slug = preset.slug if preset else slug
     if reclone:
-        theme_weights, wiring = _preset_config(preset)
-        mind.theme_weights = theme_weights
-        mind.wiring = wiring
+        mind.wiring = _preset_wiring(preset)
     return mind

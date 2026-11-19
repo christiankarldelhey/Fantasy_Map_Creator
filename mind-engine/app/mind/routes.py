@@ -327,7 +327,6 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 config_snapshot={
                     'pack_version': active_version(db, payload.game_id),
                     'preset': mind.preset_slug,
-                    'theme_weights': mind.theme_weights,
                     'wiring': mind.wiring,
                 },
             )
@@ -919,7 +918,6 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
             {
                 'id': mind.id,
                 'preset_slug': mind.preset_slug,
-                'theme_weights': mind.theme_weights,
                 'wiring': mind.wiring,
                 'mood': mind.mood,
                 'counters': mind.counters,

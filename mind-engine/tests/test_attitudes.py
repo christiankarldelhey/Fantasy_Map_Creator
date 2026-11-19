@@ -56,7 +56,7 @@ def _new_mind(char):
     session = SessionLocal()
     session.add(Mind(
         game_id='middle_earth', character_id=char, preset_slug='x',
-        theme_weights={}, wiring={}, mood={}, counters={},
+        wiring={}, mood={}, counters={},
     ))
     session.commit()
     session.close()
@@ -166,7 +166,7 @@ def test_inverted_belief_keeps_its_facets():
     session = SessionLocal()
     session.add(Mind(
         game_id='middle_earth', character_id=char, preset_slug='x',
-        theme_weights={}, wiring={}, mood={}, counters={},
+        wiring={}, mood={}, counters={},
     ))
     session.flush()
     mind = session.query(Mind).filter_by(character_id=char).one()

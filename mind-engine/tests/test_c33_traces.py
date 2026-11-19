@@ -31,7 +31,7 @@ def _brain_with_fading_memory():
     session = SessionLocal()
     session.add(Mind(
         game_id='middle_earth', character_id=char, preset_slug='default',
-        theme_weights={}, wiring={}, mood={}, counters={},
+        wiring={}, mood={}, counters={},
     ))
     mem = Memory(
         game_id='middle_earth', character_id=char, episode_ids=['ep_x'],

@@ -47,10 +47,5 @@ export const patchMood = (
   mood: { valence?: number; arousal?: number },
 ) => patchJson<Mood>(`/minds/${encodeURIComponent(characterId)}/mood`, mood)
 
-export const patchConcerns = (
-  characterId: string,
-  weights: Record<string, number | null>,
-) => patchJson(`/minds/${encodeURIComponent(characterId)}/concerns`, { weights })
-
 export const fetchTags = (signal?: AbortSignal) =>
   getJson<import('./types').TagRegistry>('/tags', signal)

@@ -99,7 +99,7 @@ export const SILENCED_REASON: Record<string, string> = {
   'the director left it out': 'El director la dejó afuera',
 }
 
-const CONCERNS: Record<string, string> = {
+const TAG_LABELS: Record<string, string> = {
   'tag:entity_type:humans': 'Humanos',
   'tag:entity_type:hobbits': 'Hobbits',
   'tag:entity_type:elves': 'Elfos',
@@ -139,8 +139,6 @@ const CONCERNS: Record<string, string> = {
   'type:body': 'El cuerpo',
 }
 
-export const KNOWN_CONCERNS = Object.keys(CONCERNS)
-
 export function humanize(key: string): string {
   return key
     .replace(/^skill_/, '')
@@ -152,8 +150,8 @@ export function humanize(key: string): string {
 export const label = (map: Record<string, string>, key: string | null | undefined) =>
   key ? (map[key] ?? map[key.toLowerCase()] ?? humanize(key)) : '—'
 
-export function concernLabel(key: string): string {
-  return CONCERNS[key] ?? humanize(key.replace(/^(tag|type|entity):/, '').replace(/^[^:]+:/, ''))
+export function tagLabel(key: string): string {
+  return TAG_LABELS[key] ?? humanize(key.replace(/^(tag|type|entity):/, '').replace(/^[^:]+:/, ''))
 }
 
 export function skillLabel(key: string): string {

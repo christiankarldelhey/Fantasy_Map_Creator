@@ -143,7 +143,7 @@ def test_mind_without_episodes_is_listed_last(client):
     session = SessionLocal()
     session.add(Mind(
         game_id='middle_earth', character_id=char, preset_slug='default',
-        theme_weights={}, wiring={}, mood={}, counters={},
+        wiring={}, mood={}, counters={},
     ))
     session.commit()
     session.close()
@@ -200,27 +200,6 @@ def test_original_cards_refuse_edits(client):
         f'/studio/api/minds/{char}/card', auth=AUTH, json={'name': 'X'},
     )
     assert r.status_code == 409
-
-
-def test_concerns_set_and_remove(client):
-    char = _uid('concern')
-    _live(client, char, 1)
-
-    r = client.patch(
-        f'/studio/api/minds/{char}/concerns', auth=AUTH,
-        json={'weights': {'tag:entity_type:undead': 0.9}},
-    )
-    assert r.status_code == 200
-    assert r.json()['tag:entity_type:undead'] == 0.9
-
-    mind = client.get(f'/studio/api/minds/{char}', auth=AUTH).json()
-    assert mind['concerns']['tag:entity_type:undead'] == 0.9
-
-    r = client.patch(
-        f'/studio/api/minds/{char}/concerns', auth=AUTH,
-        json={'weights': {'tag:entity_type:undead': None}},
-    )
-    assert 'tag:entity_type:undead' not in r.json()
 
 
 def test_mood_patch_sets_weather_and_recomputes_dominant(client):

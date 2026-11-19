@@ -2,7 +2,6 @@
 import { computed, shallowRef } from 'vue'
 import type { MindDetail } from '../../types'
 import PanelCard from '../ui/PanelCard.vue'
-import ConcernsEditor from './ConcernsEditor.vue'
 import MoodEditor from './MoodEditor.vue'
 import SkillsEditor from './SkillsEditor.vue'
 
@@ -49,13 +48,6 @@ const wiring = computed(() => Object.entries(props.mind.wiring))
       description="Lo que sabe hacer, de 0 a 10. El juego las usa para resolver pruebas y la mente para saber de qué es capaz."
     >
       <SkillsEditor :mind="mind" :editable="skillsEditable" @saved="onSaved" @error="onError" />
-    </PanelCard>
-
-    <PanelCard
-      title="Temas que le importan"
-      description="Cosas a las que presta más atención y que recuerda mejor. No indica si le gustan o le dan miedo, solo que le importan."
-    >
-      <ConcernsEditor :mind="mind" @saved="onSaved" @error="onError" />
     </PanelCard>
 
     <details class="advanced">

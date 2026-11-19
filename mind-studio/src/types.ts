@@ -162,7 +162,6 @@ export interface MindDetail {
   character: CharacterCard
   condition: Record<string, unknown>
   mood: Mood
-  concerns: Record<string, number>
   wiring: Record<string, unknown>
   memories: MemoryNode[]
   beliefs: BeliefNode[]

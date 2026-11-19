@@ -108,7 +108,7 @@ def _now():
 # ============================================================================
 # Mind presets -> living minds (A5)
 # ----------------------------------------------------------------------------
-# Clone-and-own: a preset is an archetype (theme_weights + wiring + starter
+# Clone-and-own: a preset is an archetype (wiring + starter
 # beliefs in child tables, editable field by field); each character's mind is
 # a MATERIALISED copy (jsonb snapshot) that diverges only by content and admin
 # edits — editing the preset later never reconfigures existing minds.
@@ -131,8 +131,6 @@ class MindPreset(Base):
     temperament: Mapped[dict] = mapped_column(JSONB, nullable=True)
     personality: Mapped[dict] = mapped_column(JSONB, nullable=True)
 
-    theme_weights = relationship('PresetThemeWeight', lazy='selectin',
-                                 cascade='all, delete-orphan')
     wiring = relationship('PresetWiring', lazy='selectin',
                           cascade='all, delete-orphan')
     starter_beliefs = relationship('PresetStarterBelief', lazy='selectin',
@@ -141,19 +139,6 @@ class MindPreset(Base):
                            cascade='all, delete-orphan')
     leans = relationship('PresetLean', lazy='selectin',
                          cascade='all, delete-orphan')
-
-
-class PresetThemeWeight(Base):
-    """key = 'type:<event_type>' | 'tag:<tag>' | 'entity:<id>' | 'tag:prefix:*'."""
-
-    __tablename__ = 'preset_theme_weights'
-    __table_args__ = (UniqueConstraint('preset_id', 'key', name='uq_preset_weight'),)
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    preset_id: Mapped[int] = mapped_column(
-        ForeignKey(f'{MIND_SCHEMA}.mind_presets.id', ondelete='CASCADE'), nullable=False)
-    key: Mapped[str] = mapped_column(String(120), nullable=False)
-    weight: Mapped[float] = mapped_column(Float, nullable=False)
 
 
 class PresetWiring(Base):
@@ -235,7 +220,6 @@ class Mind(Base):
     preset_slug: Mapped[str] = mapped_column(String(60), nullable=False)
 
     # Materialised copy of the preset's config at clone time — the "nature".
-    theme_weights: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     wiring: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
 
     # Lived content — the "nurture".
