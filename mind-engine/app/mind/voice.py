@@ -125,10 +125,6 @@ PHRASES = {
     'mind.need_origin.unrest.nameless': ['the shadow has been gathering, nameless'],
     'mind.need_origin.wound': ['since the wound was taken'],
     'mind.need_origin.gloom': ['{days_text} beneath a sunless sky'],
-    # Event types that frame every Episode and never take the Focus
-    # (ADR 0005): the engine's own items ('need') are excluded in code;
-    # the world's frame types are declared here, per game.
-    'mind.focus_excluded': ['travel', 'terrain', 'climate'],
     # Encounter readings (C16): the mind's one-line memory of contact —
     # {subject} the entity met, {detail} what passed (the host's resolved
     # substance, or the form's prose seed). A bare name is a census
@@ -303,18 +299,27 @@ def resolve_event_reading(event, session=None, game_id=None):
         data.get('entity_name') or data.get('name') or data.get('title')
         or humanize(data.get('entity') or data.get('entity_id'))
     )
-    if etype == 'meal':
+    # The kind registry declares how each type is worded — a new kind is
+    # a registry entry (or a pack 'mind.kinds' row), not an engine
+    # branch here (#167). Lazy import: kinds.py reads pack_value.
+    from app.mind.kinds import kind_of
+    strategy = kind_of(session, game_id, etype).get('reading', 'declared')
+    if strategy == 'silent':
+        # Mileage and body reports speak through the condition, never a
+        # reading.
+        return None
+    if strategy == 'meal':
         # A meal's name is what was served — slugs read as words, never
         # invented prose (declared readings win above, #53).
         return ', '.join(
             x for x in (humanize(data.get('food')),
                         humanize(data.get('drink'))) if x
         ) or subject
-    if etype == 'terrain' or data.get('subtype') == 'terrain':
+    if strategy == 'terrain' or data.get('subtype') == 'terrain':
         return _first_string(
             data.get('terrain_phrases') or data.get('biomes')
         )
-    if etype == 'rest':
+    if strategy == 'rest':
         # The night is best told by the place's own authored description;
         # the bed's name is the fallback when the host sends none.
         place = data.get('place')
@@ -322,13 +327,10 @@ def resolve_event_reading(event, session=None, game_id=None):
             data.get('description') or subject
             or (place if isinstance(place, str) else None)
         )
-    if etype == 'travel':
-        # Mileage speaks through the condition, never a reading.
-        return None
-    if etype == 'note':
+    if strategy == 'note':
         # A note IS prose — the data field is already words.
         return _first_string(data.get('note') or data.get('text'))
-    if etype == 'encounter':
+    if strategy == 'encounter':
         # An encounter is a happening, not a noun (C16): the host's
         # resolved substance — what passed between them — leads; the
         # form's prose hint carries contact that had no words. The

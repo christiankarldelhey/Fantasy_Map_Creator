@@ -23,6 +23,7 @@ from app.ai import generate_narrative
 from app.mind.boosts import clean_boosts
 from app.mind.engine import derive_feeling, feeling_lexicon
 from app.mind.focus import _touches, brief_lines
+from app.mind.kinds import is_mind_item
 from app.mind.memory import episode_index
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Episode, Memory
@@ -379,7 +380,7 @@ def maybe_reflect(session, mind, episode, character_name=None):
     # must not mint a daily LLM call — 'still hungry' is not news.
     high_salience = any(
         (i.get('salience') or 0.0) >= w.get('reflection_importance_min', 0.85)
-        and i.get('type') not in ('need', 'recurrence')
+        and not is_mind_item(i)
         for i in (episode.perceived_day or [])
     )
     every = int(w.get('reflection_every', 5))

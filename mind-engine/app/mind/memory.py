@@ -14,6 +14,7 @@ from datetime import date as date_type, datetime
 
 from app.mind.embeddings import embed
 from app.mind.engine import derive_feeling, feeling_lexicon
+from app.mind.kinds import kind_of
 from app.mind.voice import humanize, phrases, streak_subjects
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Episode, ForgottenMemory, Memory, Need
@@ -184,11 +185,17 @@ def encode_episode(session, mind, episode):
     absorbed = 0
     born_consolidated = 0
     for i, item in enumerate(episode.perceived_day or []):
-        # Synthetic repetition-pressure items (C5) weigh on the mood but
-        # are bookkeeping, not lived content — the rain days themselves
-        # are the memory. Break items DO encode: 'the first dry day' is
-        # news, volatile, and fades like anything else.
+        # The kind registry's `encodes` flag: a kind can declare it
+        # never becomes a memory (#167). Synthetic repetition-pressure
+        # items (C5) weigh on the mood but are bookkeeping, not lived
+        # content — the rain days themselves are the memory. Break items
+        # DO encode: 'the first dry day' is news, volatile, and fades
+        # like anything else.
         if (item.get('data') or {}).get('synthetic'):
+            continue
+        if kind_of(
+                session, getattr(mind, 'game_id', None),
+                item.get('type')).get('encodes') is False:
             continue
         importance = item.get('salience') or 0.0
         if importance <= 0:

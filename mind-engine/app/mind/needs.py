@@ -219,6 +219,11 @@ def need_items(needs):
         urgency = n.urgency or 0.0
         items.append({
             'type': 'need',
+            # Kind registry: the felt body is the mind's own voice —
+            # 'the hunger' is never world-evidence, never the day's
+            # declared mood cause.
+            'source': 'mind',
+            'mood_cause': False,
             'perception': 'noticed',
             'reading': n.description,
             'salience': round(urgency, 3),
