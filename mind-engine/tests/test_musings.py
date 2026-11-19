@@ -17,7 +17,7 @@ import pytest
 
 from app.db import SessionLocal
 from app.mind.focus import build_brief
-from app.mind.kinds import ROLE_FRAME, ROLE_VOICE, kinds
+from app.mind.kinds import kinds
 from app.mind.voice import PHRASES
 from app.mind.provisioning import get_or_create_mind
 from app.mind.reflection import _apply_ops, reflection_beliefs
@@ -356,10 +356,6 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
 
 # --- the auditor: every musing in the pack must be able to speak -------------
 
-FRAME_TYPES = {
-    k for k, v in kinds().items()
-    if v.get('role') in (ROLE_FRAME, ROLE_VOICE)
-}
 AMBIENT = tuple(
     prefix for family, classes in TAG_CLASSES.items()
     if 'ambient' in classes and family != 'type'
@@ -391,12 +387,15 @@ def _day_for(tag):
 @pytest.mark.parametrize('musing', ALL_MUSINGS)
 def test_every_tag_is_one_the_lens_can_see(musing):
     """A tag the Lens never compares is a silent bug: the musing looks
-    wired in Studio and never speaks. Frame types never reach the Lens
-    as events; ambient prefixes are stripped before contact."""
+    wired in Studio and never speaks. The voice hears every perceived
+    item — frame kinds included (#158) — so a 'type:' tag must simply
+    name a kind the registry declares; ambient prefixes are still
+    stripped from the tags musings may carry."""
+    registry = kinds()
     for tag in musing['tags']:
         assert not tag.startswith(AMBIENT), tag
         if tag.startswith('type:'):
-            assert tag.split(':', 1)[1] not in FRAME_TYPES, tag
+            assert tag.split(':', 1)[1] in registry, tag
         assert tag == 'context:solitude' or tag.startswith(
             ('tag:', 'entity:', 'type:')
         ), tag
@@ -446,6 +445,62 @@ def test_solitude_speaks_beside_a_focus_when_nobody_was_there():
                         musings=[musing])
     assert brief['focus'] is not None
     assert musing.statement in _texts(brief)
+
+
+# --- the voice hears the frame too (#158) -----------------------------------
+
+def test_a_weather_musing_speaks_under_a_grey_sky():
+    """The climate is a frame kind — never the Focus, but the inner
+    voice can still answer it: 'tag:weather:wet' is ambient to the Lens
+    yet exactly what this line is ABOUT."""
+    wet = _musing('Rain again. The road drinks and so do my boots.',
+                  tags=['tag:weather:wet'], id_='wet')
+    drizzle = [_event('a faint drizzle', 0.1, 'afternoon',
+                      ['type:climate', 'tag:weather:wet'], type_='climate')]
+    brief = build_brief(drizzle, [], [], [], {}, episode_idx=0,
+                        musings=[wet])
+    assert wet.statement in _texts(brief)
+    # …and the frame still cannot take the Focus.
+    assert brief['focus'] is None
+
+
+def test_a_body_musing_speaks_to_a_silent_report():
+    """Silent kinds carry no reading — their tags still call the voice:
+    a body report's 'type:body' is enough for the line about aching."""
+    aches = _musing('The knee knows the weather before the sky does.',
+                    tags=['type:body'], id_='aches')
+    day = [{'type': 'body', 'perception': 'noticed', 'salience': 0.4,
+            'tags': ['type:body'], 'when': {'phase': 'afternoon'},
+            'data': {'pain': 0.3}}]  # no reading — 'silent' by kind
+    brief = build_brief(day, [], [], [], {}, episode_idx=0,
+                        musings=[aches])
+    assert aches.statement in _texts(brief)
+
+
+def test_reflectiveness_bends_the_voice():
+    """personality.reflectiveness is the mind's dial on its own voice:
+    the same day calls the same line, louder or quieter."""
+    line = _musing('The small fire of a campfire…', tags=['type:rest'],
+                   id_='fire')
+    day = [_event('camp under the beeches', 0.6, 'night',
+                  ['type:rest'], type_='rest')]
+
+    class _Mind:
+        def __init__(self, refl):
+            self.personality = {'reflectiveness': refl}
+    quiet = build_brief(day, [], [], [], {}, episode_idx=0,
+                        musings=[_musing(line.statement, tags=line.tags,
+                                         id_='q')],
+                        mind=_Mind(0.4))
+    loud = build_brief(day, [], [], [], {}, episode_idx=0,
+                       musings=[_musing(line.statement, tags=line.tags,
+                                        id_='l')],
+                       mind=_Mind(2.0))
+    q = next(l['score'] for l in _all_lines(quiet)
+             if l['kind'] == 'musing')
+    v = next(l['score'] for l in _all_lines(loud)
+             if l['kind'] == 'musing')
+    assert v > q
 
 
 # --- part 3: retrieval context holds only the beliefs the day activated ------

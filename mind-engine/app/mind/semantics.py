@@ -272,7 +272,7 @@ DEFAULT_SEMANTICS = {
     # useful without being valent. The land subtypes discriminate the
     # 'land' umbrella (place/terrain/region/water on the wire).
     'type:climate': {'delta': {'familiarity': 0.02}, 'weight': 0.1},
-    'type:moment': {'delta': {'familiarity': 0.03}, 'weight': 0.15},
+    'type:ambience': {'delta': {'familiarity': 0.03}, 'weight': 0.15},
     'tag:subtype:terrain': {'delta': {'familiarity': 0.05}, 'weight': 0.2},
     'tag:subtype:water': {'delta': {'familiarity': 0.1}, 'weight': 0.3},
     'tag:subtype:place': {'delta': {'familiarity': 0.08}, 'weight': 0.25},

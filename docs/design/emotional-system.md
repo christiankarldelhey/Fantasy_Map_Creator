@@ -24,7 +24,7 @@ toEvents.js → events[]    POST /episodes ──► PERCIPIE
    climate                                    derive_tags
    land (terrain/place/water/region)          check → noticed/misread/unnoticed
    meal/rest/encounter                        semantic_delta → Relation.feed  (canal mundo)
-   moment (voces ambientales)                 felt_delta    → imprint/valence (canal sentido)
+   ambience (voces ambientales)               felt_delta    → imprint/valence (canal sentido)
    decision (data)                            salience → perceived_day
    (condition en el envelope)                 body projection + need_items
                                    ────────►  RETRIEVE + NEEDS
@@ -52,10 +52,10 @@ Hoy los kinds viven dispersos e implícitos:
 | `meal` | `mealEvents()` | `entity`, `food`, `meal`, `scope`, `outcome`, `danger`, `tags` | `tag:food:*` |
 | `rest` | `restEvent()` | `tags` (rest:*/lodging:*), `rest:quality` | — |
 | `encounter` | `encounterEvent()` | `entity`, `entity_type`, `family`, `form`, `outcome`, `danger`… | `entity:*`, `tag:entity_type/family/race:*` |
-| `moment` | `momentEvents()` | `text`, `record`, `situation`, `region`, `entity` | `entity:*` |
+| `ambience` | `ambienceEvents()` | `text`, `record`, `situation`, `region`, `entity` | `entity:*` |
 | *(sintéticos)* | el propio motor | `need`, `recurrence` — pseudo-events internos | `need:*`, subject tags |
 
-No hay `source` declarado en el evento: `moment` lleva `record`/`situation`
+No hay `source` declarado en el evento: `ambience` lleva `record`/`situation`
 como procedencia informal, y los items sintéticos son indistinguibles del
 mundo salvo por el `type`.
 
@@ -225,18 +225,18 @@ un seed relation hace lo mismo y además siente.
 - Embeddings — hasher de buckets determinista (fallback deliberado sin
   pgvector); `retrieval.py` marca `TODO(jev): LLM rerank`.
 
-### 3.6 El eslabón que falta (voz interior)
+### 3.6 El eslabón que falta (voz interior) — resuelto en #158
 
-- **El clima no puede evocar musings**: `type:climate` es frame type
-  (`mind.focus_excluded`), sus eventos no son moments → una musing
-  taggeada `tag:weather:storm` jamás habla. Las quejas del clima no tienen
-  canal hoy.
-- **No hay dial de reflexividad**: el score de una musing es
-  salience×especificidad del tag; ningún rasgo de la mente dobla cuánto
-  habla la voz interior. `rumia` solo ajusta memorias.
-- **Colisión de nombre**: `type:moment` son las *voces ambientales* del
-  mundo, no la interioridad — el nombre seduce pero el concepto está
-  ocupado.
+- ~~**El clima no puede evocar musings**~~: las musings matchean sobre
+  *todo lo percibido* (frame incluido) con el tagset completo — una
+  musing `tag:weather:storm` o `type:body` ya habla. El Focus sigue
+  excluyendo frames; la voz es un canal aparte del Focus.
+- ~~**No hay dial de reflexividad**~~: `personality.reflectiveness`
+  (default 1.0) multiplica el score de las musings — inclusive las de
+  soledad.
+- ~~**Colisión de nombre**~~: `type:moment` se renombró `type:ambience`
+  (kind `ambience`, role `moment`); el nombre viejo queda como alias
+  legacy en el Kind Registry.
 
 ---
 

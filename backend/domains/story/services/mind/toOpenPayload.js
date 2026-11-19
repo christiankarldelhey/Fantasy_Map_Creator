@@ -113,9 +113,9 @@ function slimDay(d) {
     overnight_location: d.overnight_location ?? null,
     overnight_interaction: d.overnight_interaction ?? null,
     // ADR-0016: on the episode wire `ambient` is absent — resolved
-    // situations ride events[] as 'moment' events (toEvents.momentEvents).
+    // situations ride events[] as 'ambience' events (toEvents.ambienceEvents).
     // The STATELESS payload keeps it: without events[], buildWorldNotes
-    // needs the resolved items to lay them into `moments` per phase.
+    // needs the resolved items to lay them into `ambience` per phase.
     ambient: d.ambient ?? null,
     elevation_profile: d.elevation_profile ?? null,
   };

@@ -117,7 +117,7 @@ export function buildWorldNotes({
   const terrain = {};
   const locations = {};
   const water = {};
-  const moments = {};
+  const ambience = {};
   for (const phase of ['morning', 'afternoon', 'night']) {
     terrain[phase] = biomesByPhase[phase].length
       ? collectTerrainNotes(biomesByPhase[phase], [], day.regions, day.terrain_phrases, rng)
@@ -128,7 +128,7 @@ export function buildWorldNotes({
     water[phase] = waterByPhase[phase].length
       ? describeWaterCrossings(waterByPhase[phase], rng)
       : null;
-    moments[phase] = ambientByPhase[phase]
+    ambience[phase] = ambientByPhase[phase]
       .filter((a) => a.text)
       .map((a) => a.text);
   }
@@ -140,7 +140,7 @@ export function buildWorldNotes({
     terrain,
     locations,
     water,
-    moments,
+    ambience,
     night_lead: nightLead(day, rng),
     lands: landsContext(day, rng, enteredRegionNames),
     condition: conditionSection(characterState, characterName),

@@ -137,10 +137,14 @@ DEFAULT_KINDS = {
         'fields': ['place', 'name', 'subtype', 'description'],
         'subjects': ['place'],
     },
-    'moment': {
+    # 'ambience' — the world's own voice made into an Event: a resolved
+    # ambient situation ("the wall that hums, night 1"). It was 'moment'
+    # until #158 — the name competed with the inner voice it is not.
+    'ambience': {
         'role': ROLE_MOMENT, 'source': SOURCE_WORLD,
         'reading': 'declared',
-        'fields': ['reading', 'subtype', 'entity', 'place'],
+        'fields': ['reading', 'subtype', 'entity', 'place', 'record',
+                   'situation'],
         'subjects': ['entity', 'place'],
     },
     # --- the mind's own items: they feel and speak but are never
@@ -173,12 +177,18 @@ def kinds(session=None, game_id=None):
     return merged
 
 
+# Legacy names kept resolving: 'moment' was the ambience kind until #158 —
+# old perceived items and hosts still sending it get the same contract.
+KIND_ALIASES = {'moment': 'ambience'}
+
+
 def kind_of(session, game_id, etype):
     """The registry entry for one kind; undeclared kinds are worldly
     moments by default — the contract's open door."""
     if not etype:
         return dict(_UNKNOWN_KIND)
-    entry = kinds(session, game_id).get(etype)
+    registry = kinds(session, game_id)
+    entry = registry.get(etype) or registry.get(KIND_ALIASES.get(etype, ''))
     return dict(entry) if entry else dict(_UNKNOWN_KIND)
 
 
