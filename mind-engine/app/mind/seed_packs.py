@@ -20,11 +20,10 @@
 #                       sign_only/stalks/presence_felt...)
 #   tag:entity_type:*   what kind of being (orcs, elves, hobbits, wolves...)
 #   tag:outcome:*       how it ended (wounded, badly wounded, unscathed)
-#   type:*              the kind of moment — only rest/meal/water/place:
-#                       frame types (travel, terrain, climate, need)
-#                       never reach the lens as events, so a musing tagged
-#                       with them can never speak (tests/test_musings
-#                       audits this). Road and body musings are solitude.
+#   type:*              the kind of moment — any declared kind works for a
+#                       musing (#158): the voice hears frame and voice
+#                       kinds too (weather, mileage, the body) even though
+#                       they never reach the Lens as Focus events.
 #   context:solitude    engine-level: nobody touched the mind today — the
 #                       quiet day when the musings a person keeps for
 #                       themselves finally speak.
