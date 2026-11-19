@@ -112,14 +112,10 @@ DEFAULT_WIRING = {
     'break_loss_valence': -0.1,
     'repetition_relief_salience': 0.45,
     # Base routine never grates: 'tag:drink:*' is hydration, not
-    # monotony (its absence is the thirst need's job), 'tag:form:*' is
-    # how contact happened, not content that repeats. The C28 weight
-    # markers are meta-signal, not content — a day without a gift is
-    # ordinary, not a pattern break worth a 'no given today' reading.
-    'repetition_exempt_tags': [
-        'tag:drink:*', 'tag:form:*',
-        'tag:given', 'tag:changed', 'tag:decision',
-    ],
+    # monotony (its absence is the thirst need's job). Everything else
+    # that used to sit here is simply ineligible now — only
+    # pattern-classed families can form a streak at all (#147).
+    'repetition_exempt_tags': ['tag:drink:*'],
     # Reflection (B4) — the mind's only LLM call, at close: every N
     # episodes or on a salience spike. Reconciliation deltas, active cap
     # and the decay of unreinforced beliefs.

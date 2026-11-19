@@ -14,7 +14,7 @@ from datetime import date as date_type, datetime
 
 from app.mind.embeddings import embed
 from app.mind.engine import derive_feeling, feeling_lexicon
-from app.mind.voice import humanize, phrases
+from app.mind.voice import humanize, phrases, streak_subjects
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Belief, Episode, ForgottenMemory, Memory, Need
 from app.mind.tags import pattern_tag
@@ -499,7 +499,8 @@ def belief_fade_pass(session, mind, current_episode_index):
 def _pattern_desc(session, game_id, tag, count, mind=None):
     """A theme worded by the NL pack ('mind.pattern'), {subject} = the
     human end of the tag ('tag:food:lembas' -> 'lembas')."""
-    subject = tag.rsplit(':', 1)[-1].replace('_', ' ').replace('-', ' ')
+    from app.mind.perceive import _tag_subject
+    subject = _tag_subject(tag, streak_subjects(session, game_id))
     options = phrases('mind.pattern', session, game_id)
     if options:
         return options[0].format(subject=subject, count=count)

@@ -200,6 +200,52 @@ def test_a_break_unwatched_stays_relief(client):
     assert breaks[0]['valence'] > 0
 
 
+def test_marker_tags_never_streak(client):
+    """#147: a week of pure mechanical markers — sighted, dead_place,
+    settlement, visited — produces no recurrence item and no pattern
+    memory. Only declared pattern families can form a theme."""
+    char = _uid('markers')
+    for ep in (1, 2, 3, 4):
+        packet = _open(client, char, ep, [{
+            'type': 'travel',
+            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'data': {'sighted': 'the ruin', 'entered': 'fords',
+                     'tags': ['dead_place', 'settlement', 'visited']},
+        }])
+        assert _recurrences(packet) == []
+        _close(client, packet)
+
+    session = SessionLocal()
+    patterns = session.query(Memory).filter_by(
+        character_id=char, kind='pattern'
+    ).all()
+    session.close()
+    assert patterns == []
+
+
+def test_sleepless_nights_read_as_sleepless_nights(client):
+    """#147: a non-noun streak subject comes from the phrase map, not
+    the tag's tail — 'tag:rest:poor' never reads 'poor again'."""
+    char = _uid('rest')
+    for ep in (1, 2, 3):
+        packet = _open(client, char, ep, [{
+            'type': 'rest',
+            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'data': {'rest': 'poor'},
+        }])
+        _close(client, packet)
+
+    p4 = _open(client, char, 4, [{
+        'type': 'rest',
+        'when': {'episode': 4, 'date': '1950-04-04'},
+        'data': {'rest': 'poor'},
+    }])
+    reps = _recurrences(p4)
+    assert len(reps) == 1
+    assert 'sleepless nights' in reps[0]['reading']
+    assert 'poor' not in reps[0]['reading']
+
+
 def test_patterns_never_enter_retrieval(client):
     """kind='pattern' memories are background: even with nothing else to
     stir, the lens' impressions stay free of 'the shape of these days'."""

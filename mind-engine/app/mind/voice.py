@@ -179,6 +179,14 @@ MOOD_BANDS = [
     {'below': None, 'phrase': 'exultant'},
 ]
 
+# Streak subjects that are not the tag's tail (#147): non-noun tags need
+# a worded subject — 'the poor let up at last' is broken English, 'the
+# sleepless nights let up' is the thought the streak carries.
+STREAK_SUBJECTS_KEY = 'mind.streak_subjects'
+STREAK_SUBJECTS = {
+    'tag:rest:poor': 'sleepless nights',
+}
+
 
 def _game_entries(session, game_id):
     """All pack_entries for a game, cached briefly — pack data is config,
@@ -221,6 +229,14 @@ def phrases(key, session=None, game_id=None):
     """The variants the mind has for a phrase key ([] when undeclared
     or silenced)."""
     return list(pack_value(session, game_id, key, PHRASES.get(key) or []) or [])
+
+
+def streak_subjects(session=None, game_id=None):
+    """{tag: worded subject} — exact-tag overrides for streak readings."""
+    return dict(
+        pack_value(session, game_id, STREAK_SUBJECTS_KEY, STREAK_SUBJECTS)
+        or {}
+    )
 
 
 def mood_phrase(valence, session=None, game_id=None):

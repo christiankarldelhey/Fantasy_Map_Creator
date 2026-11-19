@@ -33,7 +33,7 @@ from app.mind.relations import (
 from app.mind.semantics import (
     field_severity, load_semantics, semantic_delta, tag_floors,
 )
-from app.mind.voice import phrases, resolve_event_reading
+from app.mind.voice import phrases, resolve_event_reading, streak_subjects
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Episode
 from app.mind.tags import UNTAGGED_FIELDS, subject_tags, tag_is
@@ -125,10 +125,11 @@ def _seen_tags(session, game_id, character_id):
 
 
 def _content_tags(day):
-    """The day's content tags — noticed items only, and never the
-    recurrence channel's own notes or the felt-body channel: the mind
-    only repeats what it registered, and an open need is already its
-    own pressure — 'hunger again' would say it twice."""
+    """The day's streak-eligible tags — noticed items only, never the
+    recurrence channel's own notes or the felt-body channel, and only
+    pattern-classed families (#147): 'the orcs', 'this rain', 'that
+    bread' can become a theme; host markers and bookkeeping fields
+    cannot."""
     tags = set()
     for it in day or []:
         if it.get('perception') == 'unnoticed':
@@ -138,11 +139,7 @@ def _content_tags(day):
         tags.update(
             t for t in (it.get('tags') or [])
             if not t.startswith('type:')
-            # Pure background is not a streak: ambient-only tags (the
-            # land subtype, the day's frame) are how it happened, never
-            # a theme — 'weather:wet' can wear because it is also a
-            # declared pattern, 'tag:subtype:place' cannot.
-            and not (tag_is(t, 'ambient') and not tag_is(t, 'pattern'))
+            and tag_is(t, 'pattern')
             # Sentinel values are absence, not content: 'wounded:none'
             # repeating is not a stretch, and breaking it must never
             # read 'no none today'.
@@ -154,10 +151,16 @@ def _content_tags(day):
 _LEADING_ARTICLE_RE = re.compile(r'^(a|an|the|some)\s+', re.IGNORECASE)
 
 
-def _tag_subject(tag):
-    # Templates bring their own determiner ('no {subject} today', 'the
-    # {subject} let up') — a host value 'a ration of road-bread' must not
-    # read 'no a ration'.
+def _tag_subject(tag, subject_map=None):
+    # A non-noun tag's streak subject comes from the declared phrase
+    # map first (#147): 'tag:rest:poor' reads 'sleepless nights', never
+    # 'poor'. Otherwise the tag's tail, article-stripped — templates
+    # bring their own determiner ('no {subject} today', 'the {subject}
+    # let up'), so a host value 'a ration of road-bread' must not read
+    # 'no a ration'.
+    mapped = (subject_map or {}).get(tag)
+    if mapped:
+        return mapped
     subject = tag.rsplit(':', 1)[-1].replace('_', ' ').replace('-', ' ')
     return _LEADING_ARTICLE_RE.sub('', subject.strip())
 
@@ -220,10 +223,12 @@ def _recurrence_items(session, game_id, mind, perceived, w):
                 break
         return n
 
+    subject_map = streak_subjects(session, game_id)
+
     def _item(kind, tag, streak, valence, salience, phrase_key,
               extra_data=None, tags=None):
         options = phrases(phrase_key, session, game_id)
-        subject = _tag_subject(tag)
+        subject = _tag_subject(tag, subject_map)
         reading = (
             options[0].format(subject=subject, count=streak)
             if options else f'{subject} — {kind}'
@@ -310,7 +315,7 @@ def resolve_break_items(session, game_id, mind, perceived, needs, w):
         )
         if need_key not in open_keys:
             continue
-        subject = _tag_subject(tag)
+        subject = _tag_subject(tag, streak_subjects(session, game_id))
         options = phrases('mind.pattern_break_need', session, game_id)
         if options:
             item['reading'] = options[0].format(

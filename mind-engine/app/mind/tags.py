@@ -21,19 +21,22 @@ TAG_CLASSES = {
     'weather':     {'ambient', 'pattern'},
     # What you can come to love or hate: the mushrooms, the fruit-bread.
     # Not ambient — a thing felt about IS contact, not background.
-    'food':        {'subject'},
-    'drink':       {'subject'},
+    'food':        {'subject', 'pattern'},
+    'drink':       {'subject', 'pattern'},
     'kind':        {'subject'},
     'region':      {'ambient', 'subject', 'pattern'},
     'entity':      {'subject', 'pattern', 'cause'},
-    'entity_type': {'subject', 'cause'},
+    'entity_type': {'subject', 'pattern', 'cause'},
     # A named person — 'npc:bungo'. A being you can hold apart from its
     # kind: remembered, evoked, mourned by name.
     'npc':         {'subject', 'pattern', 'cause'},
-    'family':      {'subject'},
+    'family':      {'subject', 'pattern'},
     'race':        {'subject'},
-    'place':       {'subject'},
+    'place':       {'subject', 'pattern'},
     'form':        {'cause'},
+    # The night's quality as a theme: 'another sleepless night' is a
+    # streak, never a subject.
+    'rest':        {'pattern'},
     # 'news_and_rumor' every night IS a recurring theme (the wire's own
     # contract); the topic is what was talked about, not who.
     'topic':       {'pattern'},
@@ -86,13 +89,11 @@ def subject_tags(tags):
 
 
 def pattern_tag(tag):
-    """A recurring theme must be a named thing: a pattern-classed tag,
-    or a single-segment host tag ('tag:omen'). 'type:*' is too generic
-    and 'tag:<field>:<value>' is raw bookkeeping — 'food: lembas' every
-    day is what happened, not what means anything."""
-    if tag_is(tag, 'pattern'):
-        return True
-    return tag.startswith('tag:') and ':' not in tag[4:]
+    """A recurring theme must be a declared kind of thing (#147): only
+    pattern-classed families streak — beings, peoples, places, weather,
+    meals, rest, topics. Bare host markers ('tag:sighted',
+    'tag:dead_place') and field bookkeeping never become a theme."""
+    return tag_is(tag, 'pattern')
 
 
 def cause_tags(tags):
