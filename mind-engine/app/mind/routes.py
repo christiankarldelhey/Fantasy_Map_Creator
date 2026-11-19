@@ -23,7 +23,7 @@ from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.director import direct, director_enabled
 from app.mind.engine import (
-    acute_hit, derive_feeling, project_body, regress,
+    acute_hit, derive_feeling, feeling_lexicon, project_body, regress,
 )
 from app.mind.focus import brief_lines, build_brief, need_origins
 from app.mind.lens import (
@@ -86,8 +86,9 @@ from app.mind.perceive import (
     derive_tags, perceive_events, resolve_break_items,
 )
 from app.mind.relations import decay_all, feed_event
+from app.mind.detectors import body_projection
 from app.mind.semantics import (
-    BODY_PROJECTION, load_semantics, semantic_delta,
+    load_semantics, semantic_delta,
 )
 from app.mind.tags import subject_tags
 from app.mind.checks import character_state
@@ -107,8 +108,9 @@ from app.mind.memory import episode_date, episode_index
 from app.mind.retrieval import (
     dialogue_recall, link_evoked, memory_age_days, retrieve,
 )
+from app.mind.attitudes import active_convictions
 from app.mind.tables import (
-    Belief, Mind, MindPreset, Episode, ForgottenMemory, Memory, Musing,
+    Mind, MindPreset, Episode, ForgottenMemory, Memory, Musing,
     Relation,
     Need, PackVersion,
 )
@@ -155,10 +157,13 @@ def _encounter_prompt_shape(event):
     }
 
 
-def _previous_rest_reading(db, episode):
+def _previous_rest(db, episode):
     """Where last night was spent (ADR-0019): the previous episode's rest
-    reading becomes the dawn anchor of today's timeline. Only a literally
-    consecutive night counts — a gap between journeys is not 'yesterday'."""
+    event becomes the dawn anchor of today's timeline — the place named
+    so the traveller wakes THERE, and the rest tags so a remarkable
+    night (rest:poor/rest:good mark the extremes only) can colour the
+    waking. Only a literally consecutive night counts — a gap between
+    journeys is not 'yesterday'."""
     today = episode_date(episode)
     idx = episode_index(episode)
     if today is None or idx is None:
@@ -174,14 +179,21 @@ def _previous_rest_reading(db, episode):
     )
     if prev is None or episode_date(prev) != today - timedelta(days=1):
         return None
-    return next(
+    rest = next(
         (
-            (e.get('data') or {}).get('reading')
+            (e.get('data') or {})
             for e in (prev.events or [])
             if e.get('type') == 'rest'
         ),
         None,
     )
+    if not rest:
+        return None
+    return {
+        'place': rest.get('entity_name'),
+        'reading': rest.get('reading'),
+        'tags': rest.get('tags') or [],
+    }
 
 
 def _check_results(episode: Episode) -> list:
@@ -315,7 +327,6 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 config_snapshot={
                     'pack_version': active_version(db, payload.game_id),
                     'preset': mind.preset_slug,
-                    'theme_weights': mind.theme_weights,
                     'wiring': mind.wiring,
                 },
             )
@@ -387,26 +398,23 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             episode.perceived_day = (
                 episode.perceived_day or []
             ) + need_items(needs)
-            # Mood: this episode's feel, weighed by open needs, blended
-            # into the running mood. The lens speaks the ENTERING mood —
-            # captured before the blend — so the day never colours its own
-            # opening with what has not happened yet.
+            # Mood: this episode's feel — the perceived day INCLUDING the
+            # body's own need items (the single need channel: their
+            # valence weighs the day, their imprint the running mood) —
+            # blended into the running mood. The lens speaks the ENTERING
+            # mood — captured before the blend — so the day never colours
+            # its own opening with what has not happened yet.
             entering_mood = dict(mind.mood or {})
             episode.mood = episode_mood(
-                db, payload.game_id, perceived, mind=mind, needs=needs
+                db, payload.game_id, episode.perceived_day,
+                mind=mind, needs=needs,
             )
             update_mind_mood(
                 db, payload.game_id, mind, episode.mood,
                 cause=mood_cause(perceived, needs),
                 when=episode.episode_date,
             )
-            beliefs = (
-                db.query(Belief)
-                .filter_by(
-                    character_id=mind.character_id, status='active'
-                )
-                .all()
-            )
+            beliefs = active_convictions(db, mind.character_id)
             musings = (
                 db.query(Musing)
                 .filter_by(
@@ -551,8 +559,11 @@ def close_episode(
                 mood, mind.temperament or {},
                 (mind.personality or {}).get('moodiness', 0.3),
             )
-            mood['dominant'] = mood_phrase(mood.get('valence') or 0.0) or 'neutral'
-            mood['feeling'] = derive_feeling(mood)
+            mood['dominant'] = mood_phrase(
+                mood.get('valence') or 0.0, db,
+                getattr(mind, 'game_id', None)) or 'neutral'
+            mood['feeling'] = derive_feeling(
+                mood, feeling_lexicon(db, getattr(mind, 'game_id', None)))
             mind.mood = mood
             decay_all(
                 db, mind,
@@ -718,11 +729,8 @@ def narrate_episode(
         if episode is None:
             raise HTTPException(status_code=404, detail='episode not found')
         stored = episode.narrator_payload or {}
-        # ADR-0016: a v2 episode has no `day` — its frame carries `at`.
-        if not (
-            (stored.get('day') or {}).get('date')
-            or (stored.get('episode') or {}).get('at')
-        ):
+        frame = stored.get('episode') or {}
+        if not frame.get('at'):
             raise HTTPException(
                 status_code=422,
                 detail='episode has no narratable day',
@@ -732,21 +740,13 @@ def narrate_episode(
             # ADR-0016: episodes carry episode/arc/narration_notes and no
             # `day`; the prompt's frame is back-filled and the per-phase
             # world material is rebuilt from episode.events themselves.
-            day = dict(req.day or {})
-            frame = stored.get('episode') or {}
-            if frame.get('at') is not None:
-                day.setdefault('date', frame['at'])
+            day = {'date': frame['at']}
             if frame.get('index') is not None:
-                day.setdefault('day_number', frame['index'])
+                day['day_number'] = frame['index']
             if frame.get('terminal') is not None:
-                day.setdefault('is_last_day', frame['terminal'])
-            stored_notes = (
-                stored.get('narration_notes')
-                or stored.get('world_notes')
-                or {}
-            )
-            if stored_notes:
-                day.setdefault('world_notes', stored_notes)
+                day['is_last_day'] = frame['terminal']
+            if stored.get('narration_notes'):
+                day['world_notes'] = stored['narration_notes']
             # Encounters reach the narrator through events now (ADR-0016):
             # rebuild the legacy per-phase shape from episode.events.
             if not day.get('encounters'):
@@ -783,7 +783,7 @@ def narrate_episode(
             previous_day=req.previousDay,
             # The spine's first fixed point: today's dawn opens where
             # last night was spent.
-            previous_rest=_previous_rest_reading(db, episode),
+            previous_rest=_previous_rest(db, episode),
             mind_block=episode.lens_block or '',
             # C35: the brief's day lines ride inside their phase; legacy
             # episodes (no brief) keep the C21 memory beats. And the
@@ -839,7 +839,9 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
     try:
         mind = db.query(Mind).filter_by(character_id=character_id).one_or_none()
         beliefs = (
-            db.query(Belief).filter_by(character_id=character_id).all()
+            db.query(Memory)
+            .filter_by(character_id=character_id, kind='conviction')
+            .all()
             if mind else []
         )
         memories = (
@@ -870,7 +872,6 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
             {
                 'id': mind.id,
                 'preset_slug': mind.preset_slug,
-                'theme_weights': mind.theme_weights,
                 'wiring': mind.wiring,
                 'mood': mind.mood,
                 'counters': mind.counters,
@@ -879,11 +880,16 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
         ),
         beliefs=[
             {
-                'id': b.id, 'kind': b.kind, 'horizon': b.horizon,
-                'statement': b.statement,
-                'strength': b.strength, 'origin': b.origin,
-                'status': b.status, 'subject': b.subject,
-                'stance': b.stance, 'source': b.source,
+                'id': b.id,
+                'kind': (b.conviction or {}).get('kind'),
+                'horizon': (b.conviction or {}).get('horizon'),
+                'statement': b.desc,
+                'strength': (b.conviction or {}).get('strength'),
+                'origin': b.origin,
+                'status': (b.conviction or {}).get('status'),
+                'subject': b.subjects,
+                'stance': (b.imprint or {}).get('affection'),
+                'source': (b.conviction or {}).get('source'),
             }
             for b in beliefs
         ],
@@ -1015,10 +1021,10 @@ def perceive_interim(
 
         # The reported Condition re-anchors the body projection; this
         # batch's hits land on top (same contract as open's perceive).
-        dumped = [e.model_dump() for e in payload.events]
         if payload.character is not None:
-            state = character_state(payload.character, dumped)
-            mind.body = project_body(state, BODY_PROJECTION)
+            state = character_state(payload.character)
+            mind.body = project_body(
+                state, body_projection(db, payload.game_id))
 
         perceived_n = skipped_n = 0
         for event in (e.model_dump() for e in payload.events):
@@ -1054,7 +1060,7 @@ def perceive_interim(
         if payload.character is not None:
             needs = refresh_state_needs(
                 db, payload.game_id, mind,
-                character_state(payload.character, dumped),
+                character_state(payload.character),
             )
         db.commit()
         return PerceiveResponse(
@@ -1094,11 +1100,14 @@ def reset_mind(
                 'seeds': 0,
             }
         deleted = {
+            # Beliefs are conviction-tier memories (#168): they die inside
+            # the memories count; 'beliefs' reports the conviction share.
+            'beliefs': db.query(Memory).filter_by(
+                game_id=game_id, character_id=character_id,
+                kind='conviction').count(),
             'memories': db.query(Memory).filter_by(
                 game_id=game_id, character_id=character_id).delete(),
             'forgotten': db.query(ForgottenMemory).filter_by(
-                game_id=game_id, character_id=character_id).delete(),
-            'beliefs': db.query(Belief).filter_by(
                 game_id=game_id, character_id=character_id).delete(),
             'needs': db.query(Need).filter_by(
                 game_id=game_id, character_id=character_id).delete(),

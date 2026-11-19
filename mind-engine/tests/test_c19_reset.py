@@ -16,7 +16,7 @@ import app.main as main_module
 from app.db import SessionLocal
 from app.mind.provisioning import NEUTRAL_MOOD
 from app.mind.tables import (
-    Belief, Mind, MindPreset, Episode, Memory, PresetMusing,
+    Mind, MindPreset, Episode, Memory, PresetMusing,
     PresetStarterBelief, Musing, Need,
 )
 
@@ -83,10 +83,12 @@ def lived_brain(client):
         game_id=GAME, character_id=character_id, kind='episodic',
         desc='a conversation by the road', importance=0.5, strength=0.5,
     ))
-    session.add(Belief(
-        game_id=GAME, character_id=character_id, kind='world',
-        statement='The north is closing.', strength=3,
-        origin='experience', status='active',
+    session.add(Memory(
+        game_id=GAME, character_id=character_id,
+        kind='conviction', depth='conviction', consolidated=True,
+        desc='The north is closing.', origin='experience',
+        conviction={'kind': 'world', 'horizon': 'enduring',
+                    'status': 'active', 'strength': 3, 'evidence': []},
     ))
     session.add(Need(
         game_id=GAME, character_id=character_id, key='hunger',
@@ -104,7 +106,7 @@ def lived_brain(client):
     yield {'character_id': character_id, 'preset_slug': slug, 'episode': ep}
 
     session = SessionLocal()
-    for model in (Memory, Belief, Need, Episode, Mind, Musing):
+    for model in (Memory, Need, Episode, Mind, Musing):
         session.query(model).filter_by(
             game_id=GAME, character_id=character_id).delete()
     session.query(MindPreset).filter_by(game_id=GAME, slug=slug).delete()
@@ -134,19 +136,22 @@ def test_reset_wipes_lived_content_and_reseeds(client, lived_brain):
     assert mind.mood == NEUTRAL_MOOD
     assert mind.counters == {}
 
+    # Lived memories die; the one Memory row left is the re-seeded
+    # starter belief — convictions ARE memories now (#168).
     assert session.query(Memory).filter_by(
-        game_id=GAME, character_id=character_id).count() == 0
+        game_id=GAME, character_id=character_id
+    ).filter(Memory.kind != 'conviction').count() == 0
     assert session.query(Need).filter_by(
         game_id=GAME, character_id=character_id).count() == 0
     assert session.query(Episode).filter_by(
         game_id=GAME, character_id=character_id).count() == 0
 
-    beliefs = session.query(Belief).filter_by(
-        game_id=GAME, character_id=character_id).all()
+    beliefs = session.query(Memory).filter_by(
+        game_id=GAME, character_id=character_id, kind='conviction').all()
     assert len(beliefs) == 1
     assert beliefs[0].origin == 'seed'
-    assert beliefs[0].statement == 'The road is all she has.'
-    assert beliefs[0].status == 'active'
+    assert beliefs[0].desc == 'The road is all she has.'
+    assert beliefs[0].conviction['status'] == 'active'
     musings = session.query(Musing).filter_by(
         game_id=GAME, character_id=character_id).all()
     assert [m.statement for m in musings] == [
@@ -162,8 +167,8 @@ def test_reset_is_idempotent(client, lived_brain):
     assert out['seeds'] == 2
 
     session = SessionLocal()
-    beliefs = session.query(Belief).filter_by(
-        game_id=GAME, character_id=character_id).all()
+    beliefs = session.query(Memory).filter_by(
+        game_id=GAME, character_id=character_id, kind='conviction').all()
     assert len(beliefs) == 1
     musings = session.query(Musing).filter_by(
         game_id=GAME, character_id=character_id).all()

@@ -10,10 +10,10 @@
 # only at creation, falls back to 'default', and never overrides an existing
 # assignment. Reassignment is admin territory: POST /mind/minds/{id}/preset.
 # ============================================================================
-from app.mind.engine import derive_feeling
+from app.mind.engine import derive_feeling, feeling_lexicon
 from app.mind.relations import seed_relations
 from app.mind.tables import (
-    Belief, Memory, Mind, MindPreset, Character, Musing,
+    Memory, Mind, MindPreset, Character, Musing,
 )
 
 DEFAULT_PRESET_SLUG = 'default'
@@ -27,7 +27,7 @@ DEFAULT_WIRING = {
     'w_severity': 0.35,
     'w_novelty': 0.25,
     'w_emotional': 0.15,
-    'w_theme': 0.15,
+    'w_attention': 0.15,
     'w_perception': 0.10,
     'alpha': 0.4,
     'beta': 0.4,
@@ -74,32 +74,21 @@ DEFAULT_WIRING = {
     # ('check_mod' kind). Per-mind overrides use 'detector.<key>.<param>'.
     'unnoticed_salience': 0.5,
     # Sleep/wake (C4) — during a sleep phase the mind is unconscious:
-    # checked events pass unheard unless the form physically wakes the
-    # sleeper or the outcome is harm already done. All wiring — a nocturnal
-    # creature preset empties sleep_phases entirely.
+    # checked events pass unheard unless contact is intrusive enough to
+    # wake the sleeper. WHEN the mind sleeps is wiring — a nocturnal
+    # creature preset empties sleep_phases entirely; WHICH kinds wake it
+    # is the contact's own meaning — 'wakes' on the semantic row (C16).
     'sleep_phases': ['night'],
-    # Contact forms wake the sleeper (C16): if the world resolved a
-    # brief exchange or an offered bed, contact already happened —
-    # the mind cannot sleep through what canonically occurred (the
-    # tracking roll still runs; waking is not auto-noticing). Distant
-    # perception events — signs, sounds, a far-off shape — stay
-    # sleep-missable.
-    'sleep_wake_forms': [
-        'attacks', 'confronts', 'sudden_peril',
-        'brief_exchange', 'aid_or_trade', 'harvest_shelter',
-        'reacts_withdraws', 'hinders_passage', 'mistaken_for_object',
-        'drifts_closer',
-    ],
-    'sleep_wake_outcomes': ['wounded', 'badly wounded'],
     # Needs engine (B2) — detector triggers live in the detectors pack
     # ('need' kind, ADR 0005); the streak knob stays here for B9 composite
     # rules.
     'need_weather_streak': 3.0,
-    # Homeostasis (C9): open needs weigh on the episode mood — each
-    # contributes -urgency * scale, the day's total capped. Hunger at
-    # day 3 (-0.27) doesn't need a bad event to darken the day.
-    'need_affect_scale': 0.3,
-    'need_affect_cap': 0.4,
+    # Thread pressure (C24): open non-physiological needs — intentions,
+    # promises — press the mood urgency-scaled, capped. Physiological
+    # needs never press this way: they already speak through their
+    # perceived items and the body's drag.
+    'thread_pressure_scale': 0.3,
+    'thread_pressure_cap': 0.4,
     # A need this urgent speaks from its '.deep' phrase tier (C11) —
     # hunger crosses it around day 3, unrest past shadow ~0.6.
     'need_deep_urgency': 0.6,
@@ -116,21 +105,25 @@ DEFAULT_WIRING = {
     'repetition_valence_cap': 0.3,
     'repetition_salience': 0.3,
     'repetition_relief': 0.15,
+    # A salient novel event owns the day (#149): when the loudest
+    # noticed thing that is not the streak reaches this salience, the
+    # sameness still erodes but does not spend the day's words.
+    'recurrence_yield_salience': 0.45,
     # Breaks that end badly (C12): when a watched streak dies while the
     # linked need is open, the break is warning, not relief — 'the bread
     # ran out' is no dry-day news when the body is already counting meals.
     'break_need_watch': {'tag:food:*': 'hunger'},
     'break_loss_valence': -0.1,
     'repetition_relief_salience': 0.45,
+    # The break's sign follows standing (#148): relief_val minus
+    # like*scale — losing a loved streak reads as a gap, losing a hated
+    # one as deeper relief. 0.3 makes like=+1 a small loss.
+    'break_standing_scale': 0.3,
     # Base routine never grates: 'tag:drink:*' is hydration, not
-    # monotony (its absence is the thirst need's job), 'tag:form:*' is
-    # how contact happened, not content that repeats. The C28 weight
-    # markers are meta-signal, not content — a day without a gift is
-    # ordinary, not a pattern break worth a 'no given today' reading.
-    'repetition_exempt_tags': [
-        'tag:drink:*', 'tag:form:*',
-        'tag:given', 'tag:changed',
-    ],
+    # monotony (its absence is the thirst need's job). Everything else
+    # that used to sit here is simply ineligible now — only
+    # pattern-classed families can form a streak at all (#147).
+    'repetition_exempt_tags': ['tag:drink:*'],
     # Reflection (B4) — the mind's only LLM call, at close: every N
     # episodes or on a salience spike. Reconciliation deltas, active cap
     # and the decay of unreinforced beliefs.
@@ -151,6 +144,10 @@ DEFAULT_WIRING = {
     # touches multiplies its score by (1 + bonus) — the specific line
     # (orc SIGNS) outranks the generic one (orcs); rotation breaks ties.
     'belief_specificity_bonus': 0.25,
+    # Inner voice refractory (#86): a Musing that spoke this many
+    # episodes ago (or fewer) stays quiet — the thought needs time to
+    # gather before it can be the mind's reply again. 0 disables.
+    'musing_refractory_episodes': 2,
     # Relations (ADR 0017 · Relation): the sediment watches what it
     # loves or fears — max|dim| * gain lands on the subject's tags each
     # perception pass; and each closed episode every Relation cools
@@ -170,78 +167,17 @@ DEFAULT_WIRING = {
     # circumstances gone). Enduring beliefs only know evidence.
     'belief_transient_decay': 0.8,
     'belief_transient_episode_decay': 0.9,
-    # B6: a belief only bends theme_weights while it stays strong.
-    'belief_boost_min_strength': 3.0,
     # B8: semantic similarity joins the retrieval score —
     # score += delta_embedding * cosine(episode, memory). 0 disables.
     'delta_embedding': 0.25,
     # The old affect channel is dead (ADR 0017): what a tag means lives
     # in the semantics pack (semantics.DEFAULT_SEMANTICS + the game's
     # `semantics` rows), and how this mind feels it in its Relations —
-    # the host never declares valence any more.
-    # Severity floors by tag (C6): severe weather tiers make the climate
-    # an *event* in the salience arithmetic — a storm day encodes, a
-    # drizzle day stays background. 'severity.<tag>' works for any tag.
-    'severity.tag:weather:storm': 0.6,
-    'severity.tag:weather:snow': 0.45,
-    'severity.tag:weather:deep_cold': 0.55,
-    'severity.tag:weather:scorching': 0.5,
-    'severity.tag:weather:freezing': 0.3,
-    # People weight (C16): 'salience_min.<tag>' floors lift a noticed
-    # event carrying that tag — a conversation with thinking company
-    # must outweigh the drizzle. Two channels: the FORM says how close
-    # contact came, the entity_type who it was. A preset re-weights
-    # either (a people-shy mind lowers the whole channel).
-    'salience_min.entity:*': 0.12,
-    'salience_min.tag:form:brief_exchange': 0.45,
-    'salience_min.tag:form:aid_or_trade': 0.5,
-    'salience_min.tag:form:harvest_shelter': 0.45,
-    'salience_min.tag:form:confronts': 0.5,
-    'salience_min.tag:form:attacks': 0.6,
-    'salience_min.tag:form:sudden_peril': 0.55,
-    'salience_min.tag:form:hinders_passage': 0.4,
-    'salience_min.tag:form:reacts_withdraws': 0.35,
-    'salience_min.tag:form:drifts_closer': 0.3,
-    'salience_min.tag:form:stalks': 0.35,
-    'salience_min.tag:form:watches': 0.3,
-    'salience_min.tag:entity_type:humans': 0.35,
-    'salience_min.tag:entity_type:hobbits': 0.35,
-    'salience_min.tag:entity_type:elves': 0.35,
-    'salience_min.tag:entity_type:dwarves': 0.35,
-    'salience_min.tag:entity_type:woses': 0.35,
-    'salience_min.tag:entity_type:orcs': 0.45,
-    'salience_min.tag:entity_type:trolls': 0.45,
-    'salience_min.tag:entity_type:giants': 0.45,
-    'salience_min.tag:entity_type:undead': 0.5,
-    'salience_min.tag:entity_type:demons': 0.5,
-    'salience_min.tag:entity_type:maiar': 0.5,
-    'salience_min.tag:entity_type:living_trees': 0.4,
-    'salience_min.tag:entity_type:pukel_constructs': 0.35,
-    # C28: what touched the mechanics outranks ambience. 'given' — the
-    # world handed something (authored commands, a provided meal);
-    # 'changed' — a taken fork or a wound marked the body. A dull mind
-    # may lower the whole channel.
-    'salience_min.tag:given': 0.6,
-    'salience_min.tag:changed': 0.65,
-    # Places lived, not just passed: 'entered' marks the settlement the
-    # traveller actually stopped at — its name and streets should reach
-    # the lens. 'hostile' is an enemy place skirted from outside — fear
-    # keeps it noticed. The 'lodging:*' tags carry the night's social
-    # truth: a stranger's mercy or a door shut in the face — and
-    # 'rest:poor' marks the nights the body barely slept through.
-    'salience_min.tag:settlement': 0.3,
-    'salience_min.tag:entered': 0.55,
-    # A border crossed: the host's 'region' event marks a land reached
-    # for the first time this journey — entering Fangorn outweighs a
-    # deer herd and is the kind of moment an Episode turns on.
-    'salience_min.tag:region_entered': 0.55,
-    'salience_min.tag:hostile': 0.45,
-    'salience_min.tag:lodging:charity': 0.5,
-    'salience_min.tag:lodging:turned_away': 0.5,
-    'salience_min.tag:lodging:shelter': 0.45,
-    'salience_min.tag:lodging:paid': 0.35,
-    'salience_min.tag:rest:indoor': 0.3,
-    'salience_min.tag:rest:poor': 0.3,
+    # the host never declares valence any more. The salience_min and
+    # severity tag floors live there too (C6/C16): a floor is meaning —
+    # a storm IS severe, thinking company IS never background — so it
+    # sits on the semantic row next to delta/weight/body, per-game
+    # overridable like the rest of the pack.
     # The Episode brief (C35): an event needs focus_min_salience to be the
     # Focus and focus_candidate_min_salience to be considered at all; a
     # memory takes the centre past focus_memory_min; a mood this strong
@@ -265,14 +201,6 @@ DEFAULT_WIRING = {
     # the protagonist — but never reflect (LLM stays a protagonist cost)
     # and defer decay/pattern consolidation to POST /maintenance/consolidate.
     'degraded': False,
-    # Dormant action traits (#59): who the character is when it acts —
-    # data from day one, no mechanism reads them until Decision (#62).
-    # A preset overrides any of them in preset_wiring like any other key.
-    'trait_impulso': 0.5,
-    'trait_deliberacion': 0.5,
-    'trait_integridad': 0.5,
-    'trait_coraje': 0.5,
-    'trait_corruptibilidad': 0.5,
 }
 
 NEUTRAL_MOOD = {'valence': 0.0, 'arousal': 0.0, 'dominant': 'neutral'}
@@ -292,53 +220,49 @@ def _find_preset(session, game_id, *slugs):
     return None
 
 
-def _preset_config(preset):
-    """Materialise a preset's child rows into the mind's config dicts."""
+def _preset_wiring(preset):
+    """Materialise a preset's wiring rows over the engine defaults."""
     if preset is None:
-        return {}, dict(DEFAULT_WIRING)
-    theme_weights = {r.key: r.weight for r in preset.theme_weights}
-    wiring = {**DEFAULT_WIRING, **{r.key: r.value for r in preset.wiring}}
-    return theme_weights, wiring
+        return dict(DEFAULT_WIRING)
+    return {**DEFAULT_WIRING, **{r.key: r.value for r in preset.wiring}}
 
 
 def seed_starter_beliefs(session, game_id, character_id, preset):
-    """Clone a preset's starter beliefs into the character (origin='seed':
-    backstory, exempt from the evidence rule) — mutable like any belief.
-    Used at mind creation and again when a mind is wiped: the defaults
-    are the one content a reset restores."""
+    """Clone a preset's starter beliefs into the character as conviction
+    memories (origin='seed': backstory, exempt from the evidence rule).
+    One row, one truth (#168): the statement is the desc, the stance is
+    the imprint — the impression 'I grew up hearing this' IS the belief,
+    born consolidated, never forgotten by disuse, echoing its imprint
+    back into the Relation on evocation."""
     if preset is None:
         return []
     seeds = []
     for sb in preset.starter_beliefs:
-        b = Belief(
-            game_id=game_id, character_id=character_id, kind=sb.kind,
-            statement=sb.statement, strength=sb.strength,
-            tags=list(sb.tags or []), boosts=dict(sb.boosts or {}),
-            evidence=[], origin='seed', status='active',
-            subject=list(sb.subject) if sb.subject else None,
-            stance=sb.stance, source=sb.source,
+        imprint = (
+            {'affection': float(sb.stance)}
+            if sb.stance is not None else None
+        )
+        b = Memory(
+            game_id=game_id, character_id=character_id,
+            kind='conviction', depth='conviction', mutable=True,
+            consolidated=True, strength=1.0,
+            desc=sb.statement,
+            tags=list(sb.tags or []),
+            valence=sb.stance or 0.0,
+            importance=max(abs(sb.stance or 0.0), 0.4),
+            imprint=imprint,
+            subjects=list(sb.subject) if sb.subject else None,
+            feeling=derive_feeling(
+                imprint or {}, feeling_lexicon(session, game_id)),
+            origin='seed',
+            conviction={
+                'kind': sb.kind, 'horizon': 'enduring',
+                'status': 'active', 'strength': sb.strength,
+                'evidence': [], 'source': sb.source,
+            },
         )
         session.add(b)
         seeds.append(b)
-        # A stanced belief is also an impression — 'I grew up hearing
-        # this' — so the seed lands in the memory continuum too
-        # (ADR 0017): born consolidated, never forgotten by disuse,
-        # echoing its imprint back into the Relation on evocation.
-        if sb.subject and sb.stance is not None:
-            imprint = {'affection': float(sb.stance)}
-            session.add(Memory(
-                game_id=game_id, character_id=character_id,
-                kind='conviction', depth='conviction', mutable=True,
-                consolidated=True, strength=1.0,
-                desc=sb.statement,
-                tags=list(sb.tags or []),
-                valence=sb.stance,
-                importance=max(abs(sb.stance), 0.4),
-                imprint=imprint,
-                subjects=list(sb.subject),
-                feeling=derive_feeling(imprint),
-                origin=sb.source or 'seed',
-            ))
     return seeds
 
 
@@ -372,14 +296,13 @@ def get_or_create_mind(session, game_id, character_id, hint_slug=None):
         return mind
 
     preset = _find_preset(session, game_id, hint_slug, DEFAULT_PRESET_SLUG)
-    theme_weights, wiring = _preset_config(preset)
+    wiring = _preset_wiring(preset)
 
     mind = Mind(
         game_id=game_id,
         character_id=character_id,
         preset_id=preset.id if preset else None,
         preset_slug=preset.slug if preset else (hint_slug or DEFAULT_PRESET_SLUG),
-        theme_weights=theme_weights,
         wiring=wiring,
         mood=dict(NEUTRAL_MOOD),
         counters={},
@@ -456,8 +379,8 @@ def effective_character(row, wire_card):
 
 
 def reassign_preset(session, game_id, character_id, slug, reclone=False):
-    """Admin reassignment. reclone=True also resets the mind's config
-    (theme_weights + wiring) to the new preset's — memories and beliefs are
+    """Admin reassignment. reclone=True also resets the mind's wiring
+    to the new preset's — memories and beliefs are
     content and are never touched."""
     mind = (
         session.query(Mind)
@@ -470,7 +393,5 @@ def reassign_preset(session, game_id, character_id, slug, reclone=False):
     mind.preset_id = preset.id if preset else None
     mind.preset_slug = preset.slug if preset else slug
     if reclone:
-        theme_weights, wiring = _preset_config(preset)
-        mind.theme_weights = theme_weights
-        mind.wiring = wiring
+        mind.wiring = _preset_wiring(preset)
     return mind

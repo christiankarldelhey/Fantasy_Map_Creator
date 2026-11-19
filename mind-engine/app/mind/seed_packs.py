@@ -1,6 +1,12 @@
 # ============================================================================
-# Character packs — authored personality: musings + attitudes
+# Character seed packs — authored personality content (musings + attitudes)
 # ----------------------------------------------------------------------------
+# Seed data, not engine: nothing here runs at runtime. The living mind
+# reads its voice from mind.preset_musings / preset beliefs — these rows
+# landed there through migrations 0017/0018/0020, and this file stays
+# importable because the replay shim app/mind/thought_packs.py re-reads
+# it. tests/test_musings.py audits the content itself.
+#
 # A Musing (CONTEXT.md · Musing) is a line of inner voice, not a Belief:
 # it clones with the preset (origin='seed'), speaks through the Episode's
 # Lens when the day touches its tags, and nothing ever moves it — no

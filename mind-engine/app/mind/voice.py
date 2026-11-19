@@ -2,13 +2,27 @@
 # Voice — the mind's own words
 # ----------------------------------------------------------------------------
 # The phrase bank the mind uses to speak about ITSELF: needs, moods,
-# misreads, repetitions, decisions. Plain constants — no session, no
-# per-game pack, no overrides.
+# misreads, repetitions, decisions. The constants here are the built-in
+# pack; a game's `pack_entries` row replaces any key's value wholesale
+# ('mind.need.hunger' -> variants, 'mind.mood_bands' -> bands,
+# 'mind.feeling_lexicon' -> entries, 'mind.disposition_render' -> map)
+# and enabled=False silences the key entirely.
 #
 # The world's words never live here: the host declares prose and tags on
 # the wire (issues #52/#53 — `day.world_notes`, `event.data.reading`) and
 # the mind consumes them verbatim. What remains is interiority only.
 # ============================================================================
+import logging
+import time
+
+from app.mind.tables import PackEntry
+
+log = logging.getLogger(__name__)
+
+CACHE_TTL_SECONDS = 30
+_entry_cache = {}
+_SILENCED = object()
+
 
 PHRASES = {
     # Gates & rolls (B1): wrong readings for `misread` ({subject} = entity or
@@ -104,17 +118,13 @@ PHRASES = {
     # Where a need comes from (the Lens brief): a Need always speaks with
     # its cause. {days} from the detector; {cause} is what the entering
     # mood carries — the shadow is told through what fed it.
-    'mind.need_origin.hunger': ['{days} days without a proper meal'],
-    'mind.need_origin.thirst': ['{days} days without enough water'],
+    'mind.need_origin.hunger': ['{days_text} without a proper meal'],
+    'mind.need_origin.thirst': ['{days_text} without enough water'],
     'mind.need_origin.exhaustion': ['the body has been spent faster than it rests'],
     'mind.need_origin.unrest': ['it has gathered since {cause}'],
     'mind.need_origin.unrest.nameless': ['the shadow has been gathering, nameless'],
     'mind.need_origin.wound': ['since the wound was taken'],
-    'mind.need_origin.gloom': ['{days} days beneath a sunless sky'],
-    # Event types that frame every Episode and never take the Focus
-    # (ADR 0005): the engine's own items ('need') are excluded in code;
-    # the world's frame types are declared here, per game.
-    'mind.focus_excluded': ['travel', 'terrain', 'climate'],
+    'mind.need_origin.gloom': ['{days_text} beneath a sunless sky'],
     # Encounter readings (C16): the mind's one-line memory of contact —
     # {subject} the entity met, {detail} what passed (the host's resolved
     # substance, or the form's prose seed). A bare name is a census
@@ -140,8 +150,12 @@ PHRASES = {
         'no {subject} today — the first break in the stretch',
         'the {subject} let up at last; the change itself is noticed',
     ],
-    # C12: the streak broke the wrong way — what fed it ran out while a
-    # need was already open. Warning, not relief.
+    # C12/#148: the streak that ended was loved or needed — the bread
+    # ran out, the good rain stopped. The gap is felt, not the relief.
+    'mind.pattern_break_loss': [
+        'no {subject} today — and the gap of it is felt',
+        'the {subject} is gone now; something steady went with it',
+    ],
     'mind.pattern_break_need': [
         'no {subject} today — the stretch ended the wrong way',
         'the {subject} is gone now; the days of it ended badly',
@@ -155,7 +169,8 @@ PHRASES = {
 }
 
 # The Lens' word for how the day finds them — first band the valence
-# falls under.
+# falls under. A game declares its own under 'mind.mood_bands'.
+MOOD_BANDS_KEY = 'mind.mood_bands'
 MOOD_BANDS = [
     {'below': -0.6, 'phrase': 'despairing'},
     {'below': -0.25, 'phrase': 'troubled'},
@@ -164,19 +179,74 @@ MOOD_BANDS = [
     {'below': None, 'phrase': 'exultant'},
 ]
 
+# Streak subjects that are not the tag's tail (#147): non-noun tags need
+# a worded subject — 'the poor let up at last' is broken English, 'the
+# sleepless nights let up' is the thought the streak carries.
+STREAK_SUBJECTS_KEY = 'mind.streak_subjects'
+STREAK_SUBJECTS = {
+    'tag:rest:poor': 'sleepless nights',
+}
 
-def phrases(key):
-    """The variants the mind has for a phrase key ([] when undeclared)."""
-    return list(PHRASES.get(key) or [])
+
+def _game_entries(session, game_id):
+    """All pack_entries for a game, cached briefly — pack data is config,
+    not hot data (same TTL discipline as detectors)."""
+    entry = _entry_cache.get(game_id)
+    if entry and time.monotonic() - entry['at'] < CACHE_TTL_SECONDS:
+        return entry['values']
+    values = {}
+    if session is not None and game_id:
+        try:
+            for row in (
+                session.query(PackEntry).filter_by(game_id=game_id).all()
+            ):
+                values[row.key] = row.value if row.enabled else _SILENCED
+        except Exception as exc:  # DB down: run on the built-in pack
+            log.warning('pack entries load failed for %s: %s', game_id, exc)
+    _entry_cache[game_id] = {'at': time.monotonic(), 'values': values}
+    return values
 
 
-def mood_phrase(valence):
+def invalidate_entries(game_id=None):
+    """Drop cached pack entries — call after admin edits."""
+    if game_id is None:
+        _entry_cache.clear()
+    else:
+        _entry_cache.pop(game_id, None)
+
+
+def pack_value(session, game_id, key, default):
+    """One pack key's value: the game's declared row wins wholesale, a
+    disabled row silences the key (None), no row keeps the default."""
+    values = _game_entries(session, game_id)
+    if key not in values:
+        return default
+    v = values[key]
+    return None if v is _SILENCED else v
+
+
+def phrases(key, session=None, game_id=None):
+    """The variants the mind has for a phrase key ([] when undeclared
+    or silenced)."""
+    return list(pack_value(session, game_id, key, PHRASES.get(key) or []) or [])
+
+
+def streak_subjects(session=None, game_id=None):
+    """{tag: worded subject} — exact-tag overrides for streak readings."""
+    return dict(
+        pack_value(session, game_id, STREAK_SUBJECTS_KEY, STREAK_SUBJECTS)
+        or {}
+    )
+
+
+def mood_phrase(valence, session=None, game_id=None):
     """First mood band whose threshold the valence falls under."""
     if valence is None:
         return None
-    for band in MOOD_BANDS:
-        if band['below'] is None or valence < band['below']:
-            return band['phrase']
+    bands = pack_value(session, game_id, MOOD_BANDS_KEY, MOOD_BANDS) or []
+    for band in bands:
+        if band.get('below') is None or valence < band['below']:
+            return band.get('phrase')
     return None
 
 
@@ -209,7 +279,7 @@ def _first_string(values):
     return None
 
 
-def resolve_event_reading(event):
+def resolve_event_reading(event, session=None, game_id=None):
     """One-line natural-language reading of an event's data — what the mind
     would say it noticed. A host-declared `data.reading` always wins (#53:
     the world says what it was; the mind consumes it). Undeclared events
@@ -229,18 +299,27 @@ def resolve_event_reading(event):
         data.get('entity_name') or data.get('name') or data.get('title')
         or humanize(data.get('entity') or data.get('entity_id'))
     )
-    if etype == 'meal':
+    # The kind registry declares how each type is worded — a new kind is
+    # a registry entry (or a pack 'mind.kinds' row), not an engine
+    # branch here (#167). Lazy import: kinds.py reads pack_value.
+    from app.mind.kinds import kind_of
+    strategy = kind_of(session, game_id, etype).get('reading', 'declared')
+    if strategy == 'silent':
+        # Mileage and body reports speak through the condition, never a
+        # reading.
+        return None
+    if strategy == 'meal':
         # A meal's name is what was served — slugs read as words, never
         # invented prose (declared readings win above, #53).
         return ', '.join(
             x for x in (humanize(data.get('food')),
                         humanize(data.get('drink'))) if x
         ) or subject
-    if etype == 'terrain' or data.get('subtype') == 'terrain':
+    if strategy == 'terrain' or data.get('subtype') == 'terrain':
         return _first_string(
             data.get('terrain_phrases') or data.get('biomes')
         )
-    if etype == 'rest':
+    if strategy == 'rest':
         # The night is best told by the place's own authored description;
         # the bed's name is the fallback when the host sends none.
         place = data.get('place')
@@ -248,13 +327,10 @@ def resolve_event_reading(event):
             data.get('description') or subject
             or (place if isinstance(place, str) else None)
         )
-    if etype == 'travel':
-        # Mileage speaks through the condition, never a reading.
-        return None
-    if etype == 'note':
+    if strategy == 'note':
         # A note IS prose — the data field is already words.
         return _first_string(data.get('note') or data.get('text'))
-    if etype == 'encounter':
+    if strategy == 'encounter':
         # An encounter is a happening, not a noun (C16): the host's
         # resolved substance — what passed between them — leads; the
         # form's prose hint carries contact that had no words. The
@@ -262,7 +338,7 @@ def resolve_event_reading(event):
         substance = data.get('substance') or {}
         detail = substance.get('content') or data.get('prose_hint')
         if subject and detail:
-            opts = phrases('mind.encounter')
+            opts = phrases('mind.encounter', session, game_id)
             template = opts[0] if opts else '{subject} — {detail}'
             line = template.format(subject=subject, detail=detail)
             stance = substance.get('stance')

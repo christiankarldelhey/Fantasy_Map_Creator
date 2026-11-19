@@ -15,7 +15,7 @@ from app.db import SessionLocal
 from app.mind.attitudes import is_attitude, match_level
 from app.mind.reflection import _apply_ops
 from app.mind.tables import (
-    Belief, Mind, MindPreset, PresetStarterBelief,
+    Memory, Mind, MindPreset, PresetStarterBelief,
 )
 
 
@@ -41,10 +41,13 @@ def _open(client, char, events, ref='d1', preset=None):
 
 
 def _beliefs(char):
+    """Conviction-tier Memory rows (#168) — statement is `desc`, the
+    subject/stance ride `subjects`/`imprint`, the rest the facet."""
     session = SessionLocal()
     rows = (
-        session.query(Belief).filter_by(character_id=char)
-        .order_by(Belief.statement).all()
+        session.query(Memory)
+        .filter_by(character_id=char, kind='conviction')
+        .order_by(Memory.desc).all()
     )
     for r in rows:
         session.expunge(r)
@@ -52,11 +55,27 @@ def _beliefs(char):
     return rows
 
 
+def _conviction(char, statement, strength=3, subject=None, stance=None,
+                source=None, status='active', tags=None):
+    return Memory(
+        game_id='middle_earth', character_id=char,
+        kind='conviction', depth='conviction', consolidated=True,
+        desc=statement, tags=list(tags or []),
+        subjects=list(subject) if subject else None,
+        imprint={'affection': stance} if stance is not None else None,
+        origin='seed',
+        conviction={
+            'kind': 'world', 'horizon': 'enduring', 'status': status,
+            'strength': strength, 'evidence': [], 'source': source,
+        },
+    )
+
+
 def _new_mind(char):
     session = SessionLocal()
     session.add(Mind(
         game_id='middle_earth', character_id=char, preset_slug='x',
-        theme_weights={}, wiring={}, mood={}, counters={},
+        wiring={}, mood={}, counters={},
     ))
     session.commit()
     session.close()
@@ -87,12 +106,12 @@ def test_provisioning_clones_every_facet(client):
                           'data': {}}], preset=slug)
     faceted, plain = _beliefs(char)
 
-    assert faceted.subject == ['tag:family:foxes']
-    assert faceted.stance == 0.6
-    assert faceted.source == 'lived'
+    assert faceted.subjects == ['tag:family:foxes']
+    assert faceted.imprint['affection'] == 0.6
+    assert faceted.conviction['source'] == 'lived'
     assert is_attitude(faceted)
 
-    assert plain.subject is None and plain.stance is None
+    assert plain.subjects is None and plain.imprint is None
     assert not is_attitude(plain)
 
 
@@ -132,11 +151,8 @@ def test_only_the_narrowest_attitude_line_speaks(client):
         (['tag:family:horses'], 0.7, 'Horses are the last joy'),
         (['entity:horses_of_mordor'], -0.8, 'I pity those horses'),
     ):
-        session.add(Belief(
-            game_id='middle_earth', character_id=char, kind='world',
-            statement=stmt, strength=3, tags=[], boosts={},
-            evidence=[], origin='seed', status='active',
-            subject=subject, stance=stance,
+        session.add(_conviction(
+            char, stmt, subject=subject, stance=stance,
         ))
     session.commit()
     session.close()
@@ -166,16 +182,21 @@ def test_inverted_belief_keeps_its_facets():
     session = SessionLocal()
     session.add(Mind(
         game_id='middle_earth', character_id=char, preset_slug='x',
-        theme_weights={}, wiring={}, mood={}, counters={},
+        wiring={}, mood={}, counters={},
     ))
     session.flush()
     mind = session.query(Mind).filter_by(character_id=char).one()
-    old = Belief(
-        game_id='middle_earth', character_id=char, kind='other',
-        statement='I do not trust dwarves', strength=3,
-        tags=['tag:entity_type:dwarves', 'trauma'], boosts={},
-        evidence=['m1'], origin='seed', status='active',
-        subject=['tag:entity_type:dwarves'], stance=-0.3, source='heard',
+    old = Memory(
+        game_id='middle_earth', character_id=char,
+        kind='conviction', depth='conviction', consolidated=True,
+        desc='I do not trust dwarves',
+        tags=['tag:entity_type:dwarves', 'trauma'],
+        subjects=['tag:entity_type:dwarves'],
+        imprint={'affection': -0.3}, origin='seed',
+        conviction={
+            'kind': 'other', 'horizon': 'enduring', 'status': 'active',
+            'strength': 3, 'evidence': ['m1'], 'source': 'heard',
+        },
     )
     session.add(old)
     session.flush()
@@ -183,18 +204,18 @@ def test_inverted_belief_keeps_its_facets():
         'op': 'invert', 'belief_id': old.id,
         'statement': 'The mountain folk kept their word when no one '
                      'else did', 'strength': 2.5,
-        'evidence': ['m1'], 'boosts': {},
+        'evidence': ['m1'],
     }], {old.id: old}, 5, {})
     session.commit()
 
     grown = (
-        session.query(Belief)
-        .filter_by(character_id=char, status='active')
-        .filter(Belief.id != old.id).one()
+        session.query(Memory)
+        .filter_by(character_id=char, kind='conviction')
+        .filter(Memory.id != old.id).one()
     )
-    assert grown.subject == ['tag:entity_type:dwarves']
-    assert grown.stance == pytest.approx(0.3)
-    assert grown.source == 'lived'
+    assert grown.subjects == ['tag:entity_type:dwarves']
+    assert grown.imprint['affection'] == pytest.approx(0.3)
+    assert grown.conviction['source'] == 'lived'
     assert grown.tags == ['tag:entity_type:dwarves']  # trauma dropped
-    assert old.status == 'inverted'
+    assert old.conviction['status'] == 'inverted'
     session.close()

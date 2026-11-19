@@ -24,6 +24,7 @@
 import random
 
 from app.mind.detectors import altered_by_state, state_mods
+from app.mind.semantics import wakes_sleeper
 from app.mind.util import num
 from app.mind.voice import phrases
 
@@ -39,23 +40,13 @@ _IDENTITY_KEYS = {
 }
 
 
-def character_state(character, events):
+def character_state(character):
     """The Condition the host reports, flattened for detectors (ADR 0005):
     every scalar of the snapshot (the wire's `condition` channel merged
     in upstream) and the free-form 'state'/'resources' dicts — first
     non-null per field, in that order of precedence. Nothing here knows
-    a field's meaning; the declared detectors do.
-
-    Legacy tolerance: episodes persisted before vitals moved to
-    `condition` may still carry a `body` event in their stored events[];
-    its data folds in last, filling only fields the card lacks."""
+    a field's meaning; the declared detectors do."""
     character = character or {}
-
-    body_data = {}
-    for e in events or []:
-        if e.get('type') == 'body':
-            body_data = e.get('data') or {}
-            break
 
     state = {}
     sources = (
@@ -66,7 +57,6 @@ def character_state(character, events):
         },
         character.get('state'),
         character.get('resources'),
-        body_data,
     )
     for src in sources:
         for k, v in (src or {}).items():
@@ -102,16 +92,18 @@ def _is_altered(session, game_id, state, w, mind=None):
     declares an altered state (editable list 'mind.altered_states')."""
     if altered_by_state(session, game_id, state, w):
         return True
-    names = {n.lower() for n in phrases(ALTERED_STATES_KEY)}
+    names = {
+        n.lower() for n in phrases(ALTERED_STATES_KEY, session, game_id)
+    }
     return bool(state.get('conditions', set()) & names)
 
 
-def is_asleep(event, w):
+def is_asleep(event, tags, w, semantics):
     """Night is a state of the mind, not just a timestamp: during a sleep
     phase an event that would take a check to perceive passes unheard —
-    unless contact is intrusive (a form that physically wakes the sleeper:
-    attacks, confronts, sudden peril) or harm already landed (a wounded
-    outcome). A distant howl at 02:30 stays a distant howl."""
+    unless contact is intrusive (a kind the semantic pack marks 'wakes':
+    attacks, confronts, sudden peril) or harm already landed. A distant
+    howl at 02:30 stays a distant howl."""
     phase = (event.get('when') or {}).get('phase')
     # [] is a deliberate "never sleeps" — distinct from an unset knob.
     phases = w.get('sleep_phases')
@@ -122,9 +114,7 @@ def is_asleep(event, w):
     data = event.get('data') or {}
     if not isinstance(data.get('check'), dict) or not data['check'].get('skill'):
         return False
-    if data.get('form') in (w.get('sleep_wake_forms') or ()):
-        return False
-    if data.get('outcome') in (w.get('sleep_wake_outcomes') or ()):
+    if wakes_sleeper(tags, semantics):
         return False
     return True
 
@@ -211,7 +201,7 @@ def misread_reading(session, game_id, event, true_reading, check_result,
         data.get('entity') or data.get('entity_id')
         or data.get('name') or data.get('title') or true_reading
     )
-    pool = phrases(MISREAD_KEY)
+    pool = phrases(MISREAD_KEY, session, game_id)
     if subject:
         options = pool
     else:

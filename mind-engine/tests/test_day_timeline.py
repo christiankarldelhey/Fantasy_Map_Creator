@@ -31,9 +31,9 @@ def test_events_sort_by_hour_inside_the_phase():
     """Phase buckets flattened the afternoon: a 16:00 beat must come after
     the 13:00 one, even if the wire lists them out of order."""
     user = _prompt(events=[
-        {'type': 'moment', 'when': {'phase': 'afternoon', 'hour': 16.0},
+        {'type': 'ambience', 'when': {'phase': 'afternoon', 'hour': 16.0},
          'data': {'reading': 'a wolf watched from the treeline'}},
-        {'type': 'moment', 'when': {'phase': 'afternoon', 'hour': 13.5},
+        {'type': 'ambience', 'when': {'phase': 'afternoon', 'hour': 13.5},
          'data': {'reading': 'a shepherd waved from the field'}},
     ])
     assert user.index('a shepherd waved') < user.index('a wolf watched')
@@ -152,6 +152,43 @@ def test_the_day_opens_where_last_night_was_spent():
     assert user.index('The Prancing Pony') < user.index('he leaves southward')
 
 
+def test_the_day_opens_where_the_roof_was():
+    """A rest record names the place itself — 'they wake at the dry
+    loft', never a clause carved out of the night's prose (a hosted
+    reading leads with the host's name, not the roof)."""
+    user = _prompt(
+        previous_rest={
+            'place': 'the dry loft',
+            'reading': 'Edrahil, a keeper of the northern road — a night '
+                       'under a dry roof.',
+            'tags': ['rest:indoor', 'rest:good'],
+        },
+        events=[
+            {'type': 'land', 'when': {'phase': 'morning', 'hour': 8.0},
+             'data': {'subtype': 'place', 'reading': 'he leaves southward'}},
+        ],
+    )
+    assert 'they wake at the dry loft' in user
+    assert 'the night gave deep rest' in user
+    assert user.index('the dry loft') < user.index('he leaves southward')
+
+
+def test_an_unremarkable_night_says_nothing_about_sleep():
+    """Most mornings the waking is only a place — rest tags mark the
+    extremes (poor/good), so a middling night earns no remark. The
+    world decides when sleep is worth a word, not the narrator."""
+    user = _prompt(
+        previous_rest={
+            'place': 'a hollow out of the wind',
+            'reading': 'A night in the open lands.',
+            'tags': ['rest:open_sky'],
+        },
+        events=[],
+    )
+    assert 'they wake at a hollow out of the wind' in user
+    assert 'gave little rest' not in user and 'gave deep rest' not in user
+
+
 def test_the_first_weather_opens_the_skeleton():
     """The day's sky is the first fact of the morning — even when the
     climate event carries no hour, it precedes the clocked beats."""
@@ -186,9 +223,9 @@ def test_stirs_land_in_their_own_part_of_the_day():
     not wait at a faraway list."""
     user = _prompt(
         events=[
-            {'type': 'moment', 'when': {'phase': 'morning', 'hour': 9.0},
+            {'type': 'ambience', 'when': {'phase': 'morning', 'hour': 9.0},
              'data': {'reading': 'a lark over the stubble'}},
-            {'type': 'moment', 'when': {'phase': 'afternoon', 'hour': 15.0},
+            {'type': 'ambience', 'when': {'phase': 'afternoon', 'hour': 15.0},
              'data': {'reading': 'the road narrows between hedges'}},
         ],
         memory_beats={

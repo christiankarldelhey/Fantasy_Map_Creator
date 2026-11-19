@@ -202,15 +202,6 @@ export interface EpisodeView {
   narrative_translation: { language: string; text: string } | null
 }
 
-export interface TraitView {
-  value: number
-  label: string
-  low: string
-  high: string
-  dormant?: boolean
-  help: string
-}
-
 // A preset's nature as the personality picker shows it — what applying
 // it would imprint (temperament + personality), nothing lived.
 export interface PresetNature {
@@ -232,8 +223,6 @@ export interface MindDetail {
   // the couplings — moodiness, resistance, choice_variability…
   temperament: Record<string, number>
   personality: Record<string, unknown>
-  traits: Record<string, TraitView>
-  concerns: Record<string, number>
   wiring: Record<string, unknown>
   memories: MemoryNode[]
   beliefs: BeliefNode[]

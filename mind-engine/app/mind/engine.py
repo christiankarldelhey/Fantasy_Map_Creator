@@ -183,6 +183,15 @@ def acute_hit(body, hit):
     return add_delta(body, hit)
 
 
+def feeling_lexicon(session, game_id):
+    """The game's declared feeling vocabulary — a 'mind.feeling_lexicon'
+    pack_entries row replaces the built-in list wholesale."""
+    from app.mind.voice import pack_value
+    return pack_value(
+        session, game_id, 'mind.feeling_lexicon', FEELING_LEXICON
+    ) or []
+
+
 def derive_feeling(vector, lexicon=None):
     """The first lexicon pattern the live state satisfies — numbers
     stay physics; the word is what the narration carries."""

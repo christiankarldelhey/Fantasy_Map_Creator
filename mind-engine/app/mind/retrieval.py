@@ -25,12 +25,13 @@
 # ============================================================================
 import math
 
+from app.mind.attitudes import active_convictions
 from app.mind.embeddings import cosine, embed, ensure_embedding, episode_embedding
 from app.mind.engine import EVOKE_SHARE, MOOD_DIMS, add_delta, mood_delta
 from app.mind.memory import episode_date, episode_index
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.relations import feed
-from app.mind.tables import Belief, Memory
+from app.mind.tables import Memory
 from app.mind.tags import contact_tags as _contact_tags
 
 
@@ -95,11 +96,7 @@ def retrieve(session, mind, episode, perceived_day):
     idx = episode_index(episode)
     ep_date = episode_date(episode)
 
-    beliefs = (
-        session.query(Belief)
-        .filter_by(character_id=mind.character_id, status='active')
-        .all()
-    )
+    beliefs = active_convictions(session, mind.character_id)
     context = _context_tags(perceived_day, beliefs)
     # C20: the gate listens only to the day itself — beliefs soften the
     # score but do not make yesterday's people relevant to today's road.

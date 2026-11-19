@@ -10,7 +10,7 @@ import uuid
 
 from app.db import SessionLocal
 from app.mind.provisioning import get_or_create_mind
-from app.mind.tables import Belief, MindPreset, PresetStarterBelief
+from app.mind.tables import Memory, MindPreset, PresetStarterBelief
 
 
 def test_starter_beliefs_seed_the_brain_on_first_open():
@@ -33,13 +33,15 @@ def test_starter_beliefs_seed_the_brain_on_first_open():
         session, game_id, f'persona-char-{uuid.uuid4().hex[:8]}', slug
     )
     session.flush()
-    seeds = (
-        session.query(Belief)
-        .filter_by(character_id=mind.character_id, origin='seed')
+    seeds = [
+        m for m in session.query(Memory)
+        .filter_by(
+            character_id=mind.character_id,
+            kind='conviction', origin='seed')
         .all()
-    )
+    ]
     assert len(seeds) == 1
-    assert seeds[0].statement == 'She means to be the last witness.'
-    assert seeds[0].status == 'active'
+    assert seeds[0].desc == 'She means to be the last witness.'
+    assert seeds[0].conviction['status'] == 'active'
     session.rollback()
     session.close()

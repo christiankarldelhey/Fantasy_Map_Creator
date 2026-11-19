@@ -145,6 +145,45 @@ def test_an_anchored_memory_speaks_even_when_the_focus_is_elsewhere():
     assert line['phase'] == 'morning'
 
 
+def test_the_people_ladder_meets_across_family_and_type():
+    """#86: 'dunlendings' is the same folk whether the day's tag says
+    tag:family: and the attitude's subject says tag:entity_type: — the
+    thought connects on the terminal slug."""
+    dun = _belief('They never forgave us for kings we no longer are.',
+                  id_='d')
+    dun.subject = ['tag:entity_type:dunlendings']
+    dun.stance = -0.6
+    hall = _event('a Dunlending hall-town on the ridge', 0.6, 'afternoon',
+                  ['type:encounter', 'tag:family:dunlendings'])
+    brief = build_brief([hall], [], [dun], [], {})
+    assert dun.statement in [l['text'] for l in brief['day']]
+
+
+def test_a_musing_that_spoke_lately_stays_quiet():
+    """#86: the refractory window silences a line that answered within
+    'musing_refractory_episodes' — the thought needs time to gather;
+    past the window it speaks again."""
+    def musing(text, last_spoke, id_):
+        return SimpleNamespace(
+            id=id_, statement=text, tags=['tag:entity_type:orcs'],
+            last_spoke_episode=last_spoke)
+    recent = musing('I know what those boots mean.', 2, 'mu1')
+    settled = musing('The road keeps its own count.', 1, 'mu2')
+
+    brief = build_brief(
+        [ORCS], [], [], [], {}, episode_idx=4,
+        wiring={'musing_refractory_episodes': 2},
+        musings=[recent, settled],
+    )
+    day_texts = [l['text'] for l in brief['day']]
+    assert settled.statement in day_texts      # 4-1 = 3 > 2: speaks
+    silenced = {s['text']: s['reason'] for s in brief['silenced']}
+    assert silenced[recent.statement] == (
+        'it spoke lately; the thought is still settling')
+    # The line that spoke got stamped with this episode.
+    assert settled.last_spoke_episode == 4
+
+
 def test_lines_are_capped():
     beliefs = [
         _belief(f'orcs belief {i}', tags=['tag:entity_type:orcs'], id_=f'b{i}')
@@ -177,7 +216,7 @@ def test_the_focus_and_day_lines_appear_only_in_their_phase():
         day, trip={'name': 'Bree to Dale'}, character={'name': 'Aranath'},
         mind_block=render_lens('Aranath', brief),
         memory_beats=brief_beats(brief),
-        events=[{'type': 'moment', 'when': {'phase': 'morning', 'hour': 9},
+        events=[{'type': 'ambience', 'when': {'phase': 'morning', 'hour': 9},
                  'data': {'reading': 'a lark over the stubble'}}],
     )['user']
     lark = user.index('a lark over the stubble')

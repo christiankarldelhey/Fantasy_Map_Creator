@@ -19,7 +19,11 @@
 # ============================================================================
 import re
 
-from app.mind.attitudes import is_attitude, match_level
+from app.mind.attitudes import (
+    conviction_facet, conviction_statement, conviction_subjects,
+    is_attitude, ladder_norm, match_level,
+)
+from app.mind.kinds import ROLE_FRAME, ROLE_VOICE, kinds
 from app.mind.voice import phrases
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.retrieval import _contact_tags
@@ -29,13 +33,9 @@ PHASES = {
     'morning': 'morning', 'midday': 'afternoon', 'afternoon': 'afternoon',
     'evening': 'night', 'night': 'night',
 }
-# Items the engine itself produces — the frame of every day, never its
-# centre ('need' items are the Mind's felt body, they earn lines through
-# the needs path).
-_ENGINE_FRAME_TYPES = {'need'}
-# Game-declared frame types — the pack's 'mind.focus_excluded' phrase list
-# (e.g. travel/terrain/climate in the built-in pack).
-FOCUS_EXCLUDED_KEY = 'mind.focus_excluded'
+# Focus eligibility is declared in the Kind Registry ('mind.kinds',
+# #167): 'frame' kinds narrate the day's context and 'voice' kinds are
+# the mind's own body — neither can take the Focus.
 # Score of a solitude line: below the weakest touched belief (strength
 # 2.5/5 × the candidate floor 0.3), equal for all so rotation chooses.
 SOLITUDE_SCORE = 0.12
@@ -96,12 +96,20 @@ def need_origins(session, game_id, needs, entering_mood, mind=None):
             cause.get('reading') and (cause.get('valence') or 0.0) < 0
         ):
             phrase_key = 'mind.need_origin.unrest.nameless'
-        options = phrases(phrase_key)
+        options = phrases(phrase_key, session, game_id)
         if not options:
             continue
+        days = (n.get('source') or {}).get('days')
+        # Singular/plural (#86): '{days_text}' reads 'a day' / '3 days'
+        # so a lone day never speaks '1 days'; raw {days} stays for
+        # pack rows that still use it.
+        days_text = (
+            'a day' if days == 1
+            else f'{days} days' if days is not None else 'days')
         try:
             out[key] = options[0].format(
-                days=(n.get('source') or {}).get('days'),
+                days=days,
+                days_text=days_text,
                 cause=cause.get('reading'),
             )
         except (KeyError, IndexError):
@@ -136,26 +144,48 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     anchors = anchors or {}
     need_origins = need_origins or {}
     silenced = []
-    frame_types = _ENGINE_FRAME_TYPES | set(
-        phrases(FOCUS_EXCLUDED_KEY)
-    )
+    # The day's frame: kinds the registry declares 'frame' (weather,
+    # land, mileage) or 'voice' (needs earn lines through the needs
+    # path, never the Focus).
+    frame_types = {
+        k for k, v in kinds(session, game_id).items()
+        if v.get('role') in (ROLE_FRAME, ROLE_VOICE)
+    }
     contact_seen = _had_contact(perceived_day)
 
     # --- today's moments: every noticed, read event; the salient ones are
-    # the Focus candidates and day lines ----------------------------------
+    # the Focus candidates and day lines. The inner voice hears more than
+    # the Lens does (#158): frame and voice kinds (weather, mileage, the
+    # body's own reports) never take the Focus but still carry the tags
+    # a Musing may answer to — including ambient tags like weather,
+    # which only the voice may treat as the thing it is ABOUT.
     moments = []
+    voice_moments = []
     for i, item in enumerate(perceived_day or []):
+        if item.get('perception') == 'unnoticed':
+            continue
+        sal = item.get('salience') or 0.0
+        tags = item.get('tags') or []
+        subtype = (item.get('data') or {}).get('subtype')
+        if tags or item.get('type'):
+            voice_moments.append({
+                'id': _event_id(i), 'kind': 'event', 'part': 'day',
+                'phase': _phase(item),
+                'text': item.get('reading') or '',
+                'type': item.get('type'), 'score': sal,
+                'tags': sorted(
+                    set(tags) | {f"type:{item.get('type')}"}
+                    | ({f"tag:subtype:{subtype}"} if subtype else set())
+                ),
+            })
         # Frame check matches the type OR its subtype — 'terrain' in the
         # excluded list still frames a land/terrain event under the
         # umbrella, and 'land' would frame them all.
         if (item.get('type') in frame_types
-                or (item.get('data') or {}).get('subtype') in frame_types
+                or subtype in frame_types
                 or not item.get('reading')):
             continue
-        if item.get('perception') == 'unnoticed':
-            continue
-        sal = item.get('salience') or 0.0
-        content = _contact_tags(item.get('tags') or [])
+        content = _contact_tags(tags)
         moments.append({
             'id': _event_id(i), 'kind': 'event', 'part': 'day',
             'phase': _phase(item), 'text': item['reading'], 'score': sal,
@@ -168,8 +198,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             'touch_tags': sorted(
                 content
                 | {f"type:{item.get('type')}"}
-                | ({f"tag:subtype:{(item.get('data') or {}).get('subtype')}"}
-                   if (item.get('data') or {}).get('subtype') else set())
+                | ({f"tag:subtype:{subtype}"} if subtype else set())
             ),
             'why': f'salience {sal:.2f}',
         })
@@ -189,13 +218,15 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     belief_lines = []
     for b in beliefs or []:
         # An Attitude's Subject is part of what it answers to.
-        btags = set(b.tags or []) | set(getattr(b, 'subject', None) or [])
+        btags = set(b.tags or []) | set(conviction_subjects(b) or [])
+        btags = {ladder_norm(t) for t in btags}
+        statement = conviction_statement(b)
         hit, overlap = None, 0
         for m in moments:
             if btags:
-                n = len(btags & set(m['touch_tags']))
+                n = len(btags & {ladder_norm(t) for t in m['touch_tags']})
             else:
-                n = 1 if _stems(b.statement) & _stems(m['text']) else 0
+                n = 1 if _stems(statement) & _stems(m['text']) else 0
             if n and (hit is None or (n, m['score']) > (overlap, hit['score'])):
                 hit, overlap = m, n
         if hit is None:
@@ -205,14 +236,14 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             # personality). Days with company keep them quiet.
             if 'context:solitude' not in (b.tags or []):
                 silenced.append({
-                    'kind': 'belief', 'text': b.statement,
+                    'kind': 'belief', 'text': statement,
                     'stage': 'filter',
                     'reason': 'nothing in the Episode puts it at stake',
                 })
                 continue
             if contact_seen:
                 silenced.append({
-                    'kind': 'belief', 'text': b.statement,
+                    'kind': 'belief', 'text': statement,
                     'stage': 'filter',
                     'reason': 'the day had company',
                 })
@@ -223,7 +254,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             # rotation does (else the most-held one speaks every quiet day).
             belief_lines.append({
                 'id': f'belief:{b.id}', 'kind': 'belief', 'part': 'carried',
-                'phase': None, 'text': b.statement,
+                'phase': None, 'text': statement,
                 'score': SOLITUDE_SCORE,
                 'solitude': True, 'tagged': True,
                 'why': 'the mind alone with itself',
@@ -231,9 +262,10 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             continue
         belief_lines.append({
             'id': f'belief:{b.id}', 'kind': 'belief', 'part': 'day',
-            'phase': hit['phase'], 'text': b.statement,
+            'phase': hit['phase'], 'text': statement,
             'score': (
-                ((b.strength or 0.0) / 5) * max(hit['score'], salient_min)
+                ((conviction_facet(b, 'strength', 0.0) or 0.0) / 5)
+                * max(hit['score'], salient_min)
                 * (1 + bonus * (overlap - 1))
             ),
             'connects_to': hit['id'], 'tagged': bool(btags),
@@ -266,14 +298,37 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     # beats a generic one), but a Musing carries nothing to weigh: the
     # moment's salience and tag specificity are the whole score — no
     # strength, no attitudes, and 'context:solitude' asks nothing of
-    # the day exactly like a seed belief did.
+    # the day exactly like a seed belief did. A line that spoke lately
+    # stays quiet for 'musing_refractory_episodes' — the thought needs
+    # time to gather before it can be the mind's reply again (#86).
+    # The voice hears every perceived item — the weather, the road's
+    # mileage, the body's own reports (#158) — and the Personality's
+    # `reflectiveness` bends how loudly it answers.
+    refractory = int(w.get('musing_refractory_episodes') or 0)
+    refl = (mind.personality or {}).get('reflectiveness') if mind else None
+    voice_gain = 1.0 if refl is None else float(refl)
+    musing_by_id = {m.id: m for m in musings or []}
     musing_lines = []
     for m in musings or []:
-        mtags = set(m.tags or [])
+        if (
+            refractory and episode_idx is not None
+            and getattr(m, 'last_spoke_episode', None) is not None
+            # Strictly a PAST episode: diff 0 is this same Episode being
+            # rebuilt — its own answer must stay replayable.
+            and 0 < episode_idx - m.last_spoke_episode <= refractory
+        ):
+            silenced.append({
+                'kind': 'musing', 'text': m.statement,
+                'stage': 'filter',
+                'reason': 'it spoke lately; the thought is still settling',
+            })
+            continue
+        mtags = {ladder_norm(t) for t in (m.tags or [])}
         hit, overlap = None, 0
-        for mo in moments:
+        for mo in voice_moments:
             if mtags:
-                n = len(mtags & set(mo['touch_tags']))
+                n = len(
+                    mtags & {ladder_norm(t) for t in mo['tags']})
             else:
                 n = 1 if _stems(m.statement) & _stems(mo['text']) else 0
             if n and (hit is None or (n, mo['score']) > (overlap, hit['score'])):
@@ -296,7 +351,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             musing_lines.append({
                 'id': f'musing:{m.id}', 'kind': 'musing', 'part': 'carried',
                 'phase': None, 'text': m.statement,
-                'score': SOLITUDE_SCORE,
+                'score': SOLITUDE_SCORE * voice_gain,
                 'solitude': True, 'tagged': True,
                 'why': 'the mind alone with itself',
             })
@@ -307,10 +362,18 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             'score': (
                 max(hit['score'], salient_min)
                 * (1 + bonus * (overlap - 1))
+                * voice_gain
             ),
             'connects_to': hit['id'], 'tagged': bool(mtags),
-            'why': f'called up by: {hit["text"][:60]}',
+            'why': f'called up by: {(hit["text"] or hit["type"] or "")[:60]}',
         })
+
+    # A line that made the brief has spoken: the refractory clock starts
+    # now, whether the narrator ends up using the words or not.
+    for line in musing_lines:
+        m = musing_by_id.get(line['id'].split(':', 1)[1])
+        if m is not None and episode_idx is not None:
+            m.last_spoke_episode = episode_idx
 
     # --- memories: evoked by the day; anchored ones wait for their phase -
     memory_lines = []

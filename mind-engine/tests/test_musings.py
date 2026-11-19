@@ -16,16 +16,17 @@ from types import SimpleNamespace
 import pytest
 
 from app.db import SessionLocal
-from app.mind.focus import _ENGINE_FRAME_TYPES, build_brief
+from app.mind.focus import build_brief
+from app.mind.kinds import kinds
 from app.mind.voice import PHRASES
 from app.mind.provisioning import get_or_create_mind
 from app.mind.reflection import _apply_ops, reflection_beliefs
 from app.mind.retrieval import _context_tags
 from app.mind.tags import TAG_CLASSES
 from app.mind.tables import (
-    Belief, MindPreset, Episode, PresetMusing, PresetStarterBelief, Musing,
+    Memory, MindPreset, Episode, PresetMusing, PresetStarterBelief, Musing,
 )
-from app.mind.musings import (
+from app.mind.seed_packs import (
     ARANATH_MUSINGS, ATTITUDE_PACKS, CELEBRIAN_MUSINGS, LEGACY_REWRITES,
 )
 
@@ -42,6 +43,26 @@ def _event(reading, salience, phase=None, tags=(), type_='encounter',
 def _belief(statement, tags=(), strength=3, id_='b1'):
     return SimpleNamespace(id=id_, statement=statement, tags=list(tags),
                            strength=strength)
+
+
+def _conviction_row(char, statement, strength=3, tags=(), origin='seed',
+                    horizon='enduring', subject=None, stance=None,
+                    kind='self'):
+    """A conviction-tier Memory row (#168): statement→desc, subject→
+    subjects, stance→imprint.affection, the rest in the `conviction`
+    facet."""
+    return Memory(
+        game_id='middle_earth', character_id=char,
+        kind='conviction', depth='conviction', consolidated=True,
+        desc=statement, tags=list(tags),
+        subjects=list(subject) if subject else None,
+        imprint={'affection': stance} if stance is not None else None,
+        origin=origin,
+        conviction={
+            'kind': kind, 'horizon': horizon, 'status': 'active',
+            'strength': strength, 'evidence': [],
+        },
+    )
 
 
 def _musing(statement, tags=(), id_='m1'):
@@ -204,10 +225,11 @@ def test_pack_musings_clone_with_the_mold():
         .all()
     )
     assert len(musings) == len(CELEBRIAN_MUSINGS)
-    # …and none of them leaked into the beliefs.
+    # …and none of them leaked into the beliefs (conviction-tier
+    # memories, #168).
     beliefs = (
-        session.query(Belief)
-        .filter_by(character_id=mind.character_id)
+        session.query(Memory)
+        .filter_by(character_id=mind.character_id, kind='conviction')
         .all()
     )
     assert beliefs == []
@@ -239,10 +261,10 @@ def test_reset_reseeds_musings_and_leaves_beliefs_alone():
         type(r).__name__ for r in session.query(Musing).filter_by(
             character_id=mind.character_id).all()
     } | {
-        type(r).__name__ for r in session.query(Belief).filter_by(
+        f'Memory:{m.kind}' for m in session.query(Memory).filter_by(
             character_id=mind.character_id).all()
     }
-    assert kinds == {'Musing', 'Belief'}
+    assert kinds == {'Musing', 'Memory:conviction'}
     session.rollback()
     session.close()
 
@@ -272,11 +294,9 @@ def test_reflection_never_sees_a_musing():
         statement='Orcs ruin everything they touch.',
         tags=['tag:entity_type:orcs'], origin='seed',
     ))
-    belief = Belief(
-        game_id='middle_earth', character_id=char, kind='self',
-        statement='The watch never sleeps.', strength=3,
-        tags=['tag:entity_type:orcs'], boosts={}, evidence=[],
-        origin='seed', status='active', horizon='enduring',
+    belief = _conviction_row(
+        char, 'The watch never sleeps.',
+        tags=['tag:entity_type:orcs'], horizon='enduring',
     )
     session.add(belief)
     session.flush()
@@ -299,22 +319,18 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
     )
     seeds = []
     for i in range(5):
-        b = Belief(
-            game_id='middle_earth', character_id=mind.character_id,
-            kind='self', statement=f'seed belief {i}', strength=3,
-            tags=['tag:entity_type:orcs'], boosts={}, evidence=[],
-            origin='seed', status='active',
+        b = _conviction_row(
+            mind.character_id, f'seed belief {i}',
+            tags=['tag:entity_type:orcs'],
             subject=['tag:entity_type:orcs'], stance=-0.4,
         )
         session.add(b)
         seeds.append(b)
     acquired = []
     for i in range(20):
-        b = Belief(
-            game_id='middle_earth', character_id=mind.character_id,
-            kind='self', statement=f'acquired belief {i}', strength=2.5,
-            tags=[], boosts={}, evidence=[], origin='reflected',
-            status='active',
+        b = _conviction_row(
+            mind.character_id, f'acquired belief {i}', strength=2.5,
+            origin='reflected',
         )
         session.add(b)
         acquired.append(b)
@@ -329,9 +345,10 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
            'belief_weaken_below': 1.0},
     )
     for b in seeds:
-        assert b.status == 'active'
-        assert b.strength == pytest.approx(3.0)
-    weakened = [b for b in acquired if b.status == 'weakened']
+        assert b.conviction['status'] == 'active'
+        assert b.conviction['strength'] == pytest.approx(3.0)
+    weakened = [
+        b for b in acquired if b.conviction['status'] == 'weakened']
     assert len(weakened) >= len(acquired) - 8
     session.rollback()
     session.close()
@@ -339,9 +356,6 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
 
 # --- the auditor: every musing in the pack must be able to speak -------------
 
-FRAME_TYPES = _ENGINE_FRAME_TYPES | set(
-    PHRASES['mind.focus_excluded']
-)
 AMBIENT = tuple(
     prefix for family, classes in TAG_CLASSES.items()
     if 'ambient' in classes and family != 'type'
@@ -373,12 +387,15 @@ def _day_for(tag):
 @pytest.mark.parametrize('musing', ALL_MUSINGS)
 def test_every_tag_is_one_the_lens_can_see(musing):
     """A tag the Lens never compares is a silent bug: the musing looks
-    wired in Studio and never speaks. Frame types never reach the Lens
-    as events; ambient prefixes are stripped before contact."""
+    wired in Studio and never speaks. The voice hears every perceived
+    item — frame kinds included (#158) — so a 'type:' tag must simply
+    name a kind the registry declares; ambient prefixes are still
+    stripped from the tags musings may carry."""
+    registry = kinds()
     for tag in musing['tags']:
         assert not tag.startswith(AMBIENT), tag
         if tag.startswith('type:'):
-            assert tag.split(':', 1)[1] not in FRAME_TYPES, tag
+            assert tag.split(':', 1)[1] in registry, tag
         assert tag == 'context:solitude' or tag.startswith(
             ('tag:', 'entity:', 'type:')
         ), tag
@@ -430,6 +447,62 @@ def test_solitude_speaks_beside_a_focus_when_nobody_was_there():
     assert musing.statement in _texts(brief)
 
 
+# --- the voice hears the frame too (#158) -----------------------------------
+
+def test_a_weather_musing_speaks_under_a_grey_sky():
+    """The climate is a frame kind — never the Focus, but the inner
+    voice can still answer it: 'tag:weather:wet' is ambient to the Lens
+    yet exactly what this line is ABOUT."""
+    wet = _musing('Rain again. The road drinks and so do my boots.',
+                  tags=['tag:weather:wet'], id_='wet')
+    drizzle = [_event('a faint drizzle', 0.1, 'afternoon',
+                      ['type:climate', 'tag:weather:wet'], type_='climate')]
+    brief = build_brief(drizzle, [], [], [], {}, episode_idx=0,
+                        musings=[wet])
+    assert wet.statement in _texts(brief)
+    # …and the frame still cannot take the Focus.
+    assert brief['focus'] is None
+
+
+def test_a_body_musing_speaks_to_a_silent_report():
+    """Silent kinds carry no reading — their tags still call the voice:
+    a body report's 'type:body' is enough for the line about aching."""
+    aches = _musing('The knee knows the weather before the sky does.',
+                    tags=['type:body'], id_='aches')
+    day = [{'type': 'body', 'perception': 'noticed', 'salience': 0.4,
+            'tags': ['type:body'], 'when': {'phase': 'afternoon'},
+            'data': {'pain': 0.3}}]  # no reading — 'silent' by kind
+    brief = build_brief(day, [], [], [], {}, episode_idx=0,
+                        musings=[aches])
+    assert aches.statement in _texts(brief)
+
+
+def test_reflectiveness_bends_the_voice():
+    """personality.reflectiveness is the mind's dial on its own voice:
+    the same day calls the same line, louder or quieter."""
+    line = _musing('The small fire of a campfire…', tags=['type:rest'],
+                   id_='fire')
+    day = [_event('camp under the beeches', 0.6, 'night',
+                  ['type:rest'], type_='rest')]
+
+    class _Mind:
+        def __init__(self, refl):
+            self.personality = {'reflectiveness': refl}
+    quiet = build_brief(day, [], [], [], {}, episode_idx=0,
+                        musings=[_musing(line.statement, tags=line.tags,
+                                         id_='q')],
+                        mind=_Mind(0.4))
+    loud = build_brief(day, [], [], [], {}, episode_idx=0,
+                       musings=[_musing(line.statement, tags=line.tags,
+                                        id_='l')],
+                       mind=_Mind(2.0))
+    q = next(l['score'] for l in _all_lines(quiet)
+             if l['kind'] == 'musing')
+    v = next(l['score'] for l in _all_lines(loud)
+             if l['kind'] == 'musing')
+    assert v > q
+
+
 # --- part 3: retrieval context holds only the beliefs the day activated ------
 
 def test_retrieval_context_takes_only_activated_beliefs():
@@ -444,11 +517,8 @@ def test_retrieval_context_takes_only_activated_beliefs():
 # --- part 2: a reflection sees the seeds the evidence bears on ---------------
 
 def _seed(session, char, statement, tags, origin='seed', horizon='enduring'):
-    b = Belief(
-        game_id='middle_earth', character_id=char, kind='self',
-        statement=statement, strength=3, tags=tags, boosts={},
-        evidence=[], origin=origin, status='active', horizon=horizon,
-    )
+    b = _conviction_row(
+        char, statement, tags=tags, origin=origin, horizon=horizon)
     session.add(b)
     return b
 
@@ -548,19 +618,26 @@ def test_tagged_musings_do_not_match_by_word_luck():
 
 def test_the_more_specific_musing_wins():
     """Live run, day 2: orcs AND signs beats orcs alone or signs alone,
-    whatever the rotation says."""
+    whatever the rotation says. Fresh musing objects each episode —
+    a spoken line carries a refractory stamp (#86), and the question
+    here is who wins when it CAN speak, not whether it should."""
     tracks = [_event('orc boots in the mud', 0.7, 'afternoon',
                      ['type:encounter', 'tag:entity_type:orcs',
                       'tag:form:sign_only'])]
-    generic = [
-        _musing(f'about orcs {i}', tags=['tag:entity_type:orcs'],
-                id_=f'g{i}')
-        for i in range(5)
-    ]
-    specific = _musing('orcs and their signs',
-                       tags=['tag:entity_type:orcs', 'tag:form:sign_only'],
-                       id_='s')
+
+    def cast():
+        generic = [
+            _musing(f'about orcs {i}', tags=['tag:entity_type:orcs'],
+                    id_=f'g{i}')
+            for i in range(5)
+        ]
+        specific = _musing('orcs and their signs',
+                           tags=['tag:entity_type:orcs', 'tag:form:sign_only'],
+                           id_='s')
+        return generic, specific
+
     for idx in range(6):
+        generic, specific = cast()
         brief = build_brief(tracks, [], [], [], {}, episode_idx=idx,
                             musings=generic + [specific])
         assert specific.statement in _texts(brief), idx

@@ -134,7 +134,9 @@ function specificityScore(row, culturalFamily, regionId) {
  *   2. entity_type generic rows + context filters (truly agnostic: no
  *      entity_id/entity_ids, so prose written for one being never bleeds
  *      onto another)
- *   3. entity_type generic rows, no context filters
+ *   3. entity_type generic rows, region relaxed — culture never is:
+ *      a row that declares a cultural_family IS that people's voice,
+ *      so a Gondorian column never narrates a Dunnish clan (#86).
  * Leg-scoped contacts (mover_leg_id) stay out of the procedural ladder —
  * they belong to the living-map rail. Every step applies the race gate and
  * picks at random among equally-specific rows.
@@ -155,11 +157,16 @@ async function fetchContact({
 
   let candidates = [];
 
-  const queryScope = async (whereEntity, useContextFilters, params) => {
-    const contextFilter = useContextFilters
-      ? `AND (n.cultural_family IS NULL OR n.cultural_family = $4)
-         AND (n.region_id IS NULL OR n.region_id = $5)`
-      : '';
+  const queryScope = async (whereEntity, context, params) => {
+    // context: 'full' = culture + region, 'culture' = culture only
+    // (region relaxed), 'none' = no context filters (entity-scoped).
+    const contextFilter =
+      context === 'full'
+        ? `AND (n.cultural_family IS NULL OR n.cultural_family = $4)
+           AND (n.region_id IS NULL OR n.region_id = $5)`
+        : context === 'culture'
+          ? `AND (n.cultural_family IS NULL OR n.cultural_family = $4)`
+          : '';
     const { rows } = await pool.query(
       `SELECT n.* FROM entities_narration n
        WHERE n.kind = 'contact' AND ${whereEntity}
@@ -178,7 +185,7 @@ async function fetchContact({
   if (entityId) {
     candidates = await queryScope(
       '(n.entity_id = $1 OR n.entity_ids @> ARRAY[$1]::uuid[])',
-      false,
+      'none',
       [entityId, interactionForm, raceTag]
     );
   }
@@ -187,17 +194,18 @@ async function fetchContact({
   if (candidates.length === 0 && entityType) {
     candidates = await queryScope(
       `n.entity_type = $1 AND n.entity_id IS NULL AND n.entity_ids IS NULL`,
-      true,
+      'full',
       [entityType, interactionForm, raceTag, culturalFamily, regionId]
     );
   }
 
-  // Step 3: entity_type generic, no context filters
+  // Step 3: entity_type generic, region relaxed — the declared culture
+  // still filters: a scoped row only ever speaks for its own people.
   if (candidates.length === 0 && entityType) {
     candidates = await queryScope(
       `n.entity_type = $1 AND n.entity_id IS NULL AND n.entity_ids IS NULL`,
-      false,
-      [entityType, interactionForm, raceTag]
+      'culture',
+      [entityType, interactionForm, raceTag, culturalFamily, regionId]
     );
   }
 
@@ -218,14 +226,15 @@ async function fetchGenericTopic({
 }) {
   if (!entityType) return null;
 
-  const queryTopic = async (useContextFilters) => {
-    const contextFilter = useContextFilters
-      ? `AND (n.cultural_family IS NULL OR n.cultural_family = $4)
-         AND (n.region_id IS NULL OR n.region_id = $5)`
-      : '';
-    const params = useContextFilters
-      ? [entityType, 'topic', raceTag, culturalFamily, regionId]
-      : [entityType, 'topic', raceTag];
+  const queryTopic = async (context) => {
+    // Same ladder as fetchContact: 'full' filters culture + region,
+    // 'culture' relaxes the region but never the declared culture.
+    const contextFilter =
+      context === 'full'
+        ? `AND (n.cultural_family IS NULL OR n.cultural_family = $4)
+           AND (n.region_id IS NULL OR n.region_id = $5)`
+        : `AND (n.cultural_family IS NULL OR n.cultural_family = $4)`;
+    const params = [entityType, 'topic', raceTag, culturalFamily, regionId];
     const { rows } = await pool.query(
       `SELECT n.* FROM entities_narration n
        WHERE n.kind = 'contact' AND n.entity_type = $1 AND n.form = $2
@@ -238,8 +247,8 @@ async function fetchGenericTopic({
     return rows;
   };
 
-  let candidates = await queryTopic(true);
-  if (candidates.length === 0) candidates = await queryTopic(false);
+  let candidates = await queryTopic('full');
+  if (candidates.length === 0) candidates = await queryTopic('culture');
 
   return randomPick(candidates, rng);
 }

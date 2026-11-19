@@ -13,10 +13,11 @@
 from datetime import date as date_type, datetime
 
 from app.mind.embeddings import embed
-from app.mind.engine import derive_feeling
-from app.mind.voice import humanize, phrases
+from app.mind.engine import derive_feeling, feeling_lexicon
+from app.mind.kinds import kind_of
+from app.mind.voice import humanize, phrases, streak_subjects
 from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.tables import Belief, Episode, ForgottenMemory, Memory, Need
+from app.mind.tables import Episode, ForgottenMemory, Memory, Need
 from app.mind.tags import pattern_tag
 
 
@@ -126,7 +127,7 @@ def _describe(session, game_id, item, mind=None):
     # An unnoticed event never resolved into a reading — what may lodge in
     # memory is only the difuso it left behind (editable 'mind.unnoticed').
     if item.get('perception') == 'unnoticed':
-        vague = phrases('mind.unnoticed')
+        vague = phrases('mind.unnoticed', session, game_id)
         return vague[0] if vague else 'a faint unease, its source unclear'
     data = item.get('data') or {}
     subject = (
@@ -146,6 +147,7 @@ def encode_episode(session, mind, episode):
     w = _wiring(mind)
     fixed = w.get('fixed_threshold', 0.8)
     idx = episode_index(episode)
+    lexicon = feeling_lexicon(session, getattr(mind, 'game_id', None))
 
     # Memories already written for this episode -> the dedup baseline.
     prior = (
@@ -183,11 +185,17 @@ def encode_episode(session, mind, episode):
     absorbed = 0
     born_consolidated = 0
     for i, item in enumerate(episode.perceived_day or []):
-        # Synthetic repetition-pressure items (C5) weigh on the mood but
-        # are bookkeeping, not lived content — the rain days themselves
-        # are the memory. Break items DO encode: 'the first dry day' is
-        # news, volatile, and fades like anything else.
+        # The kind registry's `encodes` flag: a kind can declare it
+        # never becomes a memory (#167). Synthetic repetition-pressure
+        # items (C5) weigh on the mood but are bookkeeping, not lived
+        # content — the rain days themselves are the memory. Break items
+        # DO encode: 'the first dry day' is news, volatile, and fades
+        # like anything else.
         if (item.get('data') or {}).get('synthetic'):
+            continue
+        if kind_of(
+                session, getattr(mind, 'game_id', None),
+                item.get('type')).get('encodes') is False:
             continue
         importance = item.get('salience') or 0.0
         if importance <= 0:
@@ -279,7 +287,7 @@ def encode_episode(session, mind, episode):
             embedding=embed(desc),
             imprint=imprint or None,
             subjects=item.get('subjects') or None,
-            feeling=derive_feeling(imprint) if imprint else None,
+            feeling=derive_feeling(imprint, lexicon) if imprint else None,
             depth='consolidated' if consolidated else 'fresh',
             mutable=True,
         )
@@ -477,20 +485,20 @@ def belief_fade_pass(session, mind, current_episode_index):
     weaken_below = w.get('belief_weaken_below', 1.5)
     faded = 0
     beliefs = (
-        session.query(Belief)
-        .filter_by(
-            character_id=mind.character_id,
-            horizon='transient',
-            status='active',
-        )
+        session.query(Memory)
+        .filter_by(character_id=mind.character_id, kind='conviction')
         .all()
     )
     for belief in beliefs:
-        if belief.updated_episode == current_episode_index:
+        facet = belief.conviction or {}
+        if (facet.get('horizon') != 'transient'
+                or facet.get('status') != 'active'):
             continue
-        belief.strength = (belief.strength or 0.0) * decay
-        if belief.strength < weaken_below:
-            belief.status = 'weakened'
+        if facet.get('updated') == current_episode_index:
+            continue
+        facet['strength'] = (facet.get('strength') or 0.0) * decay
+        if facet['strength'] < weaken_below:
+            facet['status'] = 'weakened'
         faded += 1
     return {'beliefs_faded': faded}
 
@@ -498,8 +506,9 @@ def belief_fade_pass(session, mind, current_episode_index):
 def _pattern_desc(session, game_id, tag, count, mind=None):
     """A theme worded by the NL pack ('mind.pattern'), {subject} = the
     human end of the tag ('tag:food:lembas' -> 'lembas')."""
-    subject = tag.rsplit(':', 1)[-1].replace('_', ' ').replace('-', ' ')
-    options = phrases('mind.pattern')
+    from app.mind.perceive import _tag_subject
+    subject = _tag_subject(tag, streak_subjects(session, game_id))
+    options = phrases('mind.pattern', session, game_id)
     if options:
         return options[0].format(subject=subject, count=count)
     return f'{subject} keeps recurring'

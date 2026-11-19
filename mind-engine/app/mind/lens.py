@@ -14,8 +14,8 @@ import re
 from datetime import date
 
 from app.mind.engine import (
-    MOOD_DIMS, add_delta, couple_mood, derive_feeling, mood_delta,
-    weigh_body,
+    MOOD_DIMS, add_delta, couple_mood, derive_feeling, feeling_lexicon,
+    mood_delta, weigh_body,
 )
 from app.mind.tags import cause_tags
 from app.mind.voice import humanize, mood_phrase
@@ -34,28 +34,28 @@ def _weighted_mean(items, key):
 
 def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
     """What this episode felt like: weighted by how much each event
-    mattered (salience), then weighed down by open needs — the body's
-    own voice, urgency-scaled. dominant via the editable 'mood' band.
-    `felt` is the day's accumulated felt delta (engine, ADR 0017) and
-    `trace` the per-event record of it — the day's emotional plot."""
+    mattered (salience), then pressed by open threads — an intention is
+    a weight the body channels can't carry. Physiological needs speak
+    through their perceived items and the body's drag, never twice.
+    dominant via the editable 'mood' band. `felt` is the day's
+    accumulated felt delta (engine, ADR 0017) and `trace` the per-event
+    record of it — the day's emotional plot."""
     items = perceived_day or []
     valence = _weighted_mean(items, 'valence')
     arousal = _weighted_mean(items, 'severity')
-    pressure = 0.0
     thread_pressure = 0.0
     if needs:
         w = {**DEFAULT_WIRING, **((mind.wiring if mind else None) or {})}
-        scale = w.get('need_affect_scale', 0.3)
-        cap = w.get('need_affect_cap', 0.4)
-        pressure = min(cap, sum((n.urgency or 0.0) * scale for n in needs))
-        valence = max(-1.0, valence - pressure)
+        scale = w.get('thread_pressure_scale', 0.3)
+        cap = w.get('thread_pressure_cap', 0.4)
         # The projected body already drags physiological needs — a
         # thread (an open intention, a promise) is what weighs extra.
         thread_pressure = min(cap, sum(
             (n.urgency or 0.0) * scale for n in needs
             if n.type != 'physiological'
         ))
-    dominant = mood_phrase(valence) or 'neutral'
+        valence = max(-1.0, valence - thread_pressure)
+    dominant = mood_phrase(valence, session, game_id) or 'neutral'
     felt = {}
     trace = []
     for i in items:
@@ -68,12 +68,11 @@ def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
             'reading': i.get('reading'),
             'felt': imprint,
         })
-    arc, turn = mood_arc(items)
+    arc, turn = mood_arc(items, session, game_id)
     return {
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
         'dominant': dominant,
-        'need_pressure': round(pressure, 3),
         'thread_pressure': round(thread_pressure, 3),
         'felt': {d: round(v, 3) for d, v in felt.items()},
         'trace': trace,
@@ -89,7 +88,7 @@ _PHASE_ORDER = ('morning', 'afternoon', 'night')
 TURN_MIN_SWING = 0.3
 
 
-def mood_arc(items):
+def mood_arc(items, session=None, game_id=None):
     """The day's emotional plot by phase (ADR 0017): the felt deltas
     accumulated morning -> afternoon -> night, each point carrying the
     phase's heaviest reading as its cause. And the TURN — the phase
@@ -122,7 +121,7 @@ def mood_arc(items):
             'phase': phase,
             'felt': {d: round(v, 3) for d, v in felt.items()},
             'valence': round(valence, 3),
-            'mood': mood_phrase(valence),
+            'mood': mood_phrase(valence, session, game_id),
             'cause': cause,
         }
         arc.append(point)
@@ -157,7 +156,11 @@ def mood_cause(perceived_day, needs=None):
     its cause, never as a bare label — this is that cause, already worded."""
     best, best_w = None, MOOD_CAUSE_MIN_WEIGHT
     for p in perceived_day or []:
-        if p.get('type') == 'need' or not p.get('reading'):
+        # 'mood_cause' is the kind registry's flag — 'the hunger' is the
+        # lens's own voice, not a cause of the day. The type check
+        # covers items persisted before the flag existed.
+        if (p.get('mood_cause') is False or p.get('type') == 'need'
+                or not p.get('reading')):
             continue
         weight = abs(p.get('valence') or 0.0) * (p.get('salience') or 0.0)
         if weight > best_w:
@@ -198,7 +201,7 @@ def update_mind_mood(session, game_id, mind, ep_mood, cause=None,
     mood['valence'] = max(-1.0, mood.get('valence', 0.0) - pressure)
     mood['arousal'] = min(1.0, mood.get('arousal', 0.0) + pressure * 0.5)
     valence = mood['valence']
-    dominant = mood_phrase(valence) or 'neutral'
+    dominant = mood_phrase(valence, session, game_id) or 'neutral'
     carried = prior.get('cause')
     if cause:
         carried = {**cause, 'date': when.isoformat() if when else None}
@@ -211,7 +214,7 @@ def update_mind_mood(session, game_id, mind, ep_mood, cause=None,
     mind.mood = {
         **{d: round(mood.get(d) or 0.0, 3) for d in MOOD_DIMS},
         'dominant': dominant,
-        'feeling': derive_feeling(mood),
+        'feeling': derive_feeling(mood, feeling_lexicon(session, game_id)),
         'cause': carried,
     }
     return mind.mood
@@ -335,6 +338,11 @@ def inner_lines(session, mind, as_of_episode=None):
     prompt just voiced."""
     from app.mind.tables import Relation
     from app.mind.relations import relation_vector
+    from app.mind.voice import pack_value
+    render_map = pack_value(
+        session, getattr(mind, 'game_id', None), 'mind.disposition_render',
+        _DISPOSITION_RENDER,
+    ) or {}
     rows = (
         session.query(Relation)
         .filter_by(character_id=mind.character_id)
@@ -352,7 +360,7 @@ def inner_lines(session, mind, as_of_episode=None):
         # The host's own wording wins ('The Prancing Pony'); the
         # humanized slug is the fallback, never the other way round.
         subj = r.display_name or humanize(r.subject.rsplit(':', 1)[-1])
-        template = _DISPOSITION_RENDER.get(r.feeling)
+        template = render_map.get(r.feeling)
         if template:
             text = template.format(subj=subj)
         else:

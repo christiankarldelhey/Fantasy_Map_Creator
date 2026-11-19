@@ -4,7 +4,7 @@
 # JSON for the Studio app (ADR 0002). Reads show what the Mind already
 # owns — the Character card, memories, Forgotten traces, beliefs, needs,
 # mood and every Episode with its Lens and narration; writes edit the
-# card, traits, concerns and the running mood. Never reads Host tables.
+# card and the running mood. Never reads Host tables.
 #
 # Auth: HTTP Basic against ADMIN_USER / ADMIN_PASSWORD — unset = closed.
 # ============================================================================
@@ -23,11 +23,10 @@ from app.db import get_session
 from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.provisioning import DEFAULT_WIRING, _find_preset
 from app.mind.tables import (
-    Belief, Mind, MindPreset, Character, Episode, ForgottenMemory, Memory,
-    Musing, Need,
+    Mind, MindPreset, Character, Episode, ForgottenMemory, Memory, Musing,
+    Need,
 )
 from app.mind.lens import MOOD_CAUSE_MIN_VALENCE
-from app.mind.traits import TRAITS, apply_trait, traits_of
 from app.mind.voice import mood_phrase
 
 _basic = HTTPBasic()
@@ -162,7 +161,7 @@ def _lens_lines(lens_block, beliefs, memories, needs, evoked, narrative):
     the node it came from (belief / memory / need) so the Studio can draw
     the thread; `resonated` is the C32 echo rule applied per line."""
     out, section = [], None
-    by_statement = {b.statement.strip().lower(): b.id for b in beliefs}
+    by_statement = {(b.desc or '').strip().lower(): b.id for b in beliefs}
     by_desc = {
         (m['desc'] or '').strip().lower(): m['id'] for m in memories
         if m['id'] in evoked
@@ -302,7 +301,9 @@ def get_mind(
                   Episode.created_at.asc())
         .all()
     )
-    beliefs = db.query(Belief).filter_by(**scope).all()
+    beliefs = (
+        db.query(Memory).filter_by(kind='conviction', **scope).all()
+    )
     musings = db.query(Musing).filter_by(**scope).all()
     needs = db.query(Need).filter_by(**scope).all()
     memories = (
@@ -389,26 +390,21 @@ def get_mind(
         # moodiness, resistance, sensitivities, choice variability.
         'temperament': dict(mind.temperament or {}),
         'personality': dict(mind.personality or {}),
-        # The six human dials, read back from the effective wiring —
-        # a raw knob edit still shows on the slider.
-        'traits': traits_of({**DEFAULT_WIRING, **(mind.wiring or {})}),
-        # Concerns — "le pesa": what the Mind gives extra weight to.
-        'concerns': dict(mind.theme_weights or {}),
         # Advanced view: the effective wiring (defaults + overrides).
         'wiring': {**DEFAULT_WIRING, **(mind.wiring or {})},
         'memories': memories,
         'beliefs': [
             {
                 'id': b.id,
-                'statement': b.statement,
+                'statement': b.desc,
                 'origin': b.origin,
-                'status': b.status,
-                'kind': b.kind,
-                'horizon': b.horizon,
-                'strength': b.strength or 0.0,
-                'evidence': b.evidence or [],
-                'born_episode': b.formed_episode,
-                'updated_episode': b.updated_episode,
+                'status': (b.conviction or {}).get('status'),
+                'kind': (b.conviction or {}).get('kind'),
+                'horizon': (b.conviction or {}).get('horizon'),
+                'strength': (b.conviction or {}).get('strength') or 0.0,
+                'evidence': (b.conviction or {}).get('evidence') or [],
+                'born_episode': b.created_episode,
+                'updated_episode': (b.conviction or {}).get('updated'),
             }
             for b in beliefs
         ],
@@ -497,56 +493,6 @@ def _mind_or_404(db, game, character_id):
     return mind
 
 
-class TraitsPatch(BaseModel):
-    """{trait: 0..1} — each dial writes its knobs into mind.wiring."""
-    traits: Dict[str, float]
-
-
-@router.patch('/minds/{character_id}/traits')
-def patch_traits(
-    character_id: str,
-    body: TraitsPatch,
-    game: str = DEFAULT_GAME,
-    db: Session = Depends(get_session),
-):
-    mind = _mind_or_404(db, game, character_id)
-    unknown = set(body.traits) - set(TRAITS)
-    if unknown:
-        raise HTTPException(
-            status_code=422, detail=f'unknown traits: {sorted(unknown)}'
-        )
-    wiring = dict(mind.wiring or {})
-    for trait, t in body.traits.items():
-        apply_trait(wiring, trait, t)
-    mind.wiring = wiring
-    db.commit()
-    return traits_of({**DEFAULT_WIRING, **wiring})
-
-
-class ConcernsPatch(BaseModel):
-    """{key: weight} to set, {key: null} to remove — 'le pesa'."""
-    weights: Dict[str, Optional[float]]
-
-
-@router.patch('/minds/{character_id}/concerns')
-def patch_concerns(
-    character_id: str,
-    body: ConcernsPatch,
-    game: str = DEFAULT_GAME,
-    db: Session = Depends(get_session),
-):
-    mind = _mind_or_404(db, game, character_id)
-    weights = dict(mind.theme_weights or {})
-    for key, w in body.weights.items():
-        if w is None:
-            weights.pop(key, None)
-        else:
-            weights[key] = max(0.0, min(1.0, float(w)))
-    mind.theme_weights = weights
-    db.commit()
-    return weights
-
-
 class MoodPatch(BaseModel):
     """The mind's current weather: valence and arousal. `dominant`
     re-resolves from valence and the carried cause follows the same
@@ -570,7 +516,7 @@ def patch_mood(
     if body.arousal is not None:
         mood['arousal'] = round(max(0.0, min(1.0, body.arousal)), 3)
     valence = mood.get('valence') or 0.0
-    mood['dominant'] = mood_phrase(valence) or 'neutral'
+    mood['dominant'] = mood_phrase(valence, db, game) or 'neutral'
     carried = mood.get('cause')
     # A cause stays only while it explains the mood it rides with: gone
     # near neutral or after the valence sign flipped past it.

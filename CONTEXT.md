@@ -37,8 +37,28 @@ The larger narrative an Episode belongs to, whatever the Host calls it — a jou
 _Avoid_: trip, storyline, campaign
 
 **Event**:
-Something the Character lived in an Episode, reported by the Host already put into words — a reading plus the Tags it connects by. Events are the only channel by which the world reaches the Past: a Memory is born from what was lived or not at all. An Event's type names the kind of experience, not the shelf its source record sat on.
+Something the Character lived in an Episode, reported by the Host already put into words — a reading plus the Tags it connects by. Events are the only channel by which the world reaches the Past: a Memory is born from what was lived or not at all. An Event's type names its Kind, not the shelf its source record sat on.
 _Avoid_: log entry, action, occurrence
+
+**Kind**:
+What an Event's type names — the kind of experience (a meal, a river crossing, a night's rest, the Mind's own hunger). A Kind is declared data, not code: an undeclared Kind is still an Event and the Mind treats it as a worldly Moment by default.
+_Avoid_: event type enum, event class
+
+**Kind registry**:
+The declared contract of every Kind the Mind knows: the Role it plays in the Episode, its Event source, how it is put into words, whether it may become a Memory, the fields it expects and which of them can feed Relations. Adding a new Kind is a declaration here — the engine never branches on a type name.
+_Avoid_: event schema, type config
+
+**Role**:
+The part a Kind plays in the Episode's telling: a **Frame** kind sets the day's backdrop (weather, land, mileage) — narrated, never the Focus; a **Moment** is something that happened — it can take the Focus; a **Voice** is the Mind's own body speaking (a Need) — it earns its own lines through the Needs path and is never world-evidence.
+_Avoid_: event category, event tier
+
+**Event source**:
+Which channel an item of the perceived day came from: the **world** (something that happened to the Character), the **ambient** frame (the backdrop that colours it), a **Decision** the Character made, or the **Mind** itself (a Need, a streak's wear). Mind items feel and speak but never pose as world-evidence — they spike no Reflection and feed no streaks. Not the Source of a Belief (lived or heard) — that says how the Mind came to hold something true, this says where a lived thing entered from.
+_Avoid_: origin, channel
+
+**Ambience**:
+The world's own voice made into an Event — a resolved ambient situation the world fired for the Episode ("the wall that hums, night 1"), one Event per situation with its authored reading. A Moment-role Kind: it can take the Focus and it can call up a Musing, but it is world, not interiority — the inner voice is the Musing. Named 'moment' until #158.
+_Avoid_: moment (the old name; Moment is a Role, not this Kind), ambience as mood
 
 **Fate**:
 The Host's verdict on how an Episode ends, declared before the Episode is narrated, so the Mind knows the closing before it tells the stretch. Not the close's outcome, which records what was actually kept.
@@ -87,7 +107,7 @@ A Memory the Mind has lost: kept as a trace with the day it was lost so the Mind
 _Avoid_: deleted, erased
 
 **Conviction**:
-A Memory at the deepest tier — the impression of a held Belief ("I grew up hearing this"), seeded with the Mind rather than lived. Convictions evoke and re-feel like any Memory, but forgetting never eats them: a prejudice is not mislaid, it is turned — the Reflection's words rewrite the Belief and turn the Conviction's imprint with them; a weakened one fades to a whisper below the Evocation floor, never to silence.
+A Memory at the deepest tier — where a Belief lives: one row, one truth. The statement is the desc, the Stance the imprint, the Subject the subjects, and a conviction facet carries what the continuum does not (kind, horizon, status, strength, evidence, source). Convictions evoke and re-feel like any Memory, but forgetting never eats them: a prejudice is not mislaid, it is turned — the Reflection's words rewrite the facet and turn the imprint with them; a weakened one fades to a whisper below the Evocation floor, never to silence.
 _Avoid_: core memory, truth memory
 
 **Evocation**:
@@ -95,7 +115,7 @@ When a Memory connects to the Episode and comes forward — it is not only read 
 _Avoid_: recall, retrieval, flashback
 
 **Belief**:
-Something the Mind holds true: a statement, how firmly it is held (from barely to a way of life) and what it is about — the world, the self, others, or what matters (a Value). Lived evidence moves it: what confirms it hardens it, what contradicts it wears it down, and the firmer it is the harder it moves. A Belief about passing circumstances also fades as the days pass; one about how the world is does not. An experience can start a Belief, but faintly. Reaches the Lens only when the Episode puts it at stake. When it is about something concrete it also carries a Subject, a Stance and a Source.
+Something the Mind holds true: a statement, how firmly it is held (from barely to a way of life) and what it is about — the world, the self, others, or what matters (a Value). A Belief lives as a Conviction — a Memory at the deepest tier, not a row of its own; the belief and the impression of having always held it are the same thing. Lived evidence moves it: what confirms it hardens it, what contradicts it wears it down, and the firmer it is the harder it moves. A Belief about passing circumstances also fades as the days pass; one about how the world is does not. An experience can start a Belief, but faintly. Reaches the Lens only when the Episode puts it at stake. When it is about something concrete it also carries a Subject, a Stance and a Source.
 _Avoid_: core idea, main idea, thought, latent belief
 
 **Value**:

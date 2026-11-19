@@ -145,7 +145,7 @@ def test_mind_without_episodes_is_listed_last(client):
     session = SessionLocal()
     session.add(Mind(
         game_id='middle_earth', character_id=char, preset_slug='default',
-        theme_weights={}, wiring={}, mood={}, counters={},
+        wiring={}, mood={}, counters={},
     ))
     session.commit()
     session.close()
@@ -202,95 +202,6 @@ def test_original_cards_refuse_edits(client):
         f'/studio/api/minds/{char}/card', auth=AUTH, json={'name': 'X'},
     )
     assert r.status_code == 409
-
-
-def test_trait_dial_writes_its_knobs(client):
-    char = _uid('traits')
-    _live(client, char, 1)
-
-    r = client.patch(
-        f'/studio/api/minds/{char}/traits', auth=AUTH,
-        json={'traits': {'curiosidad': 1.0, 'rumia': 0.0}},
-    )
-    assert r.status_code == 200, r.text
-
-    session = SessionLocal()
-    mind = session.query(Mind).filter_by(character_id=char).one()
-    # curiosidad at full: the new weighs heavy, themes pull, talk sticks.
-    assert mind.wiring['w_novelty'] == pytest.approx(0.45)
-    assert mind.wiring['w_theme'] == pytest.approx(0.30)
-    # rumia at zero: the present wins — recency decays fast, few evoked.
-    assert mind.wiring['lambda_recency'] == pytest.approx(0.60)
-    assert mind.wiring['retrieval_top_k'] == 2
-    session.close()
-
-    # …and the dials read back the extremes honestly.
-    mind = client.get(f'/studio/api/minds/{char}', auth=AUTH).json()
-    assert mind['traits']['curiosidad']['value'] == pytest.approx(1.0)
-    assert mind['traits']['rumia']['value'] == pytest.approx(0.0)
-    assert mind['traits']['curiosidad']['label'] == 'Curiosidad'
-
-
-def test_dormant_trait_stores_its_value(client):
-    """The action dials (#62) carry no knobs — the PATCH stores their
-    value in wiring and the read-back is honest, nothing else moves."""
-    char = _uid('traits')
-    _live(client, char, 1)
-
-    r = client.patch(
-        f'/studio/api/minds/{char}/traits', auth=AUTH,
-        json={'traits': {'integridad': 0.9, 'coraje': 0.1}},
-    )
-    assert r.status_code == 200, r.text
-
-    session = SessionLocal()
-    mind = session.query(Mind).filter_by(character_id=char).one()
-    assert mind.wiring['trait_integridad'] == pytest.approx(0.9)
-    assert mind.wiring['trait_coraje'] == pytest.approx(0.1)
-    # Nothing mechanical woke up — the dormant dial is data only.
-    assert mind.wiring.get('w_novelty') == pytest.approx(
-        DEFAULT_WIRING['w_novelty']
-    )
-    assert mind.wiring.get('decay') == pytest.approx(
-        DEFAULT_WIRING['decay']
-    )
-    session.close()
-
-    mind = client.get(f'/studio/api/minds/{char}', auth=AUTH).json()
-    assert mind['traits']['integridad']['value'] == pytest.approx(0.9)
-    assert mind['traits']['integridad']['dormant'] is True
-    assert mind['traits']['corruptibilidad']['value'] == pytest.approx(0.5)
-
-
-def test_unknown_trait_is_422(client):
-    char = _uid('traits')
-    _live(client, char, 1)
-    r = client.patch(
-        f'/studio/api/minds/{char}/traits', auth=AUTH,
-        json={'traits': {'fortaleza': 0.9}},
-    )
-    assert r.status_code == 422
-
-
-def test_concerns_set_and_remove(client):
-    char = _uid('concern')
-    _live(client, char, 1)
-
-    r = client.patch(
-        f'/studio/api/minds/{char}/concerns', auth=AUTH,
-        json={'weights': {'tag:entity_type:undead': 0.9}},
-    )
-    assert r.status_code == 200
-    assert r.json()['tag:entity_type:undead'] == 0.9
-
-    mind = client.get(f'/studio/api/minds/{char}', auth=AUTH).json()
-    assert mind['concerns']['tag:entity_type:undead'] == 0.9
-
-    r = client.patch(
-        f'/studio/api/minds/{char}/concerns', auth=AUTH,
-        json={'weights': {'tag:entity_type:undead': None}},
-    )
-    assert 'tag:entity_type:undead' not in r.json()
 
 
 def test_mood_patch_sets_weather_and_recomputes_dominant(client):

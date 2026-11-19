@@ -13,7 +13,8 @@
 #                              "p_success": 0.8}]}]}
 #
 # Each option is scored from what the Mind owns — open Needs, the Relation
-# with the concrete Subject, theme affinity — and one is drawn weighted by
+# with the concrete Subject, Relation-driven attention — and one is drawn
+# weighted by
 # a softmax whose temperature is a Personality coupling
 # (`personality.choice_variability`): the trait is deliberately unnamed,
 # the knob readable and editable as-is in the minds row. A higher-self
@@ -22,7 +23,7 @@
 import math
 import random
 
-from app.mind.boosts import effective_theme_weights
+from app.mind.relations import attention_weights
 from app.mind.tables import Need, Relation
 
 # Acts that reach *toward* the source — a warm Relation invites them, a cold
@@ -65,7 +66,7 @@ def _temperature(mind):
     return MIN_TEMPERATURE + (MAX_TEMPERATURE - MIN_TEMPERATURE) * v
 
 
-def _score_option(option, needs_urgency, relation, theme_weights):
+def _score_option(option, needs_urgency, relation, attention):
     """Deterministic preference for one feasible option. Returns (score,
     parts) — parts rides the response so the pick is explainable."""
     tags = list(option.get('need_tags') or [])
@@ -73,21 +74,21 @@ def _score_option(option, needs_urgency, relation, theme_weights):
         float(needs_urgency.get(t[5:], 0.0))
         for t in tags if t.startswith('need:')
     )
-    theme_score = sum(
-        float(theme_weights.get(t) or 0.0)
+    attention_score = sum(
+        float(attention.get(t) or 0.0)
         for t in tags if not t.startswith('need:')
     )
     relation_score = (
         _act_relation_bias(option.get('act'), relation)
         if relation is not None and option.get('act') else 0.0
     )
-    score = need_score + theme_score + relation_score
+    score = need_score + attention_score + relation_score
     p = option.get('p_success')
     if isinstance(p, (int, float)) and score > 0:
         score *= min(1.0, max(0.0, float(p)))
     return score, {
         'need': round(need_score, 3),
-        'theme': round(theme_score, 3),
+        'attention': round(attention_score, 3),
         'relation': round(relation_score, 3),
         'p_success': p,
     }
@@ -134,7 +135,7 @@ def choose(session, mind, game_id, character_id, choices, rng=None):
             .filter(Relation.subject.in_(subjects))
             .all()
         }
-    theme_weights = effective_theme_weights(session, mind) if mind else {}
+    attention = attention_weights(session, mind) if mind else {}
     temperature = _temperature(mind)
 
     results = []
@@ -150,7 +151,7 @@ def choose(session, mind, game_id, character_id, choices, rng=None):
         scored = [
             (opt, *_score_option(opt, needs_urgency,
                                  relations.get(choice.get('subject')),
-                                 theme_weights))
+                                 attention))
             for opt in options
         ]
         weights = _softmax_weights(scored, temperature)

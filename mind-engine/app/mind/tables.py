@@ -13,6 +13,7 @@ from sqlalchemy import (
     Text, UniqueConstraint,
 )
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.ext.mutable import MutableDict
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import MIND_SCHEMA, Base
@@ -26,7 +27,6 @@ def _new_id(prefix):
 
 new_episode_id = _new_id('ep')
 new_mind_id = _new_id('mind')
-new_belief_id = _new_id('bl')
 new_memory_id = _new_id('mem')
 new_character_id = _new_id('chr')
 new_musing_id = _new_id('mu')
@@ -108,7 +108,7 @@ def _now():
 # ============================================================================
 # Mind presets -> living minds (A5)
 # ----------------------------------------------------------------------------
-# Clone-and-own: a preset is an archetype (theme_weights + wiring + starter
+# Clone-and-own: a preset is an archetype (wiring + starter
 # beliefs in child tables, editable field by field); each character's mind is
 # a MATERIALISED copy (jsonb snapshot) that diverges only by content and admin
 # edits — editing the preset later never reconfigures existing minds.
@@ -131,8 +131,6 @@ class MindPreset(Base):
     temperament: Mapped[dict] = mapped_column(JSONB, nullable=True)
     personality: Mapped[dict] = mapped_column(JSONB, nullable=True)
 
-    theme_weights = relationship('PresetThemeWeight', lazy='selectin',
-                                 cascade='all, delete-orphan')
     wiring = relationship('PresetWiring', lazy='selectin',
                           cascade='all, delete-orphan')
     starter_beliefs = relationship('PresetStarterBelief', lazy='selectin',
@@ -141,19 +139,6 @@ class MindPreset(Base):
                            cascade='all, delete-orphan')
     leans = relationship('PresetLean', lazy='selectin',
                          cascade='all, delete-orphan')
-
-
-class PresetThemeWeight(Base):
-    """key = 'type:<event_type>' | 'tag:<tag>' | 'entity:<id>' | 'tag:prefix:*'."""
-
-    __tablename__ = 'preset_theme_weights'
-    __table_args__ = (UniqueConstraint('preset_id', 'key', name='uq_preset_weight'),)
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    preset_id: Mapped[int] = mapped_column(
-        ForeignKey(f'{MIND_SCHEMA}.mind_presets.id', ondelete='CASCADE'), nullable=False)
-    key: Mapped[str] = mapped_column(String(120), nullable=False)
-    weight: Mapped[float] = mapped_column(Float, nullable=False)
 
 
 class PresetWiring(Base):
@@ -235,7 +220,6 @@ class Mind(Base):
     preset_slug: Mapped[str] = mapped_column(String(60), nullable=False)
 
     # Materialised copy of the preset's config at clone time — the "nature".
-    theme_weights: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     wiring: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
 
     # Lived content — the "nurture".
@@ -304,45 +288,18 @@ class Character(Base):
         DateTime(timezone=True), default=_now, onupdate=_now)
 
 
-class Belief(Base):
-    """Beliefs-lite: full table from day one, seeded at clone (origin='seed' —
-    exempt from the evidence rule, backstory is the off-screen evidence).
-    The reflection pipeline that mutates these is B4."""
-
-    __tablename__ = 'beliefs'
-
-    id: Mapped[str] = mapped_column(String(40), primary_key=True, default=new_belief_id)
-    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
-    character_id: Mapped[str] = mapped_column(String(120), nullable=False)
-    kind: Mapped[str] = mapped_column(String(30), nullable=False)
-    # C14: 'enduring' (the world's nature, self, others) vs 'transient'
-    # (current circumstances — this ford today, this stretch of road).
-    # Transient beliefs fade per closed episode, not per reflection.
-    horizon: Mapped[str] = mapped_column(
-        String(20), nullable=False, default='enduring', server_default='enduring'
-    )
-    statement: Mapped[str] = mapped_column(Text, nullable=False)
-    # Strength 0–5: barely held to a way of life. Evidence moves it,
-    # nothing else; a new belief starts weak (~2).
-    strength: Mapped[float] = mapped_column(Float, nullable=False, default=2.5)
-    tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
-    evidence: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
-    origin: Mapped[str] = mapped_column(String(30), nullable=False, default='experience')
-    status: Mapped[str] = mapped_column(String(20), nullable=False, default='active')
-    boosts: Mapped[dict] = mapped_column(JSONB, nullable=True)  # reserved, B6
-    # Facets (CONTEXT.md · Belief): all optional; a belief without them is
-    # a plain thought.
-    #   subject  [tag, ...] — the kind of being or place it is about: the
-    #            tags that count as 'the same thing' for this mind (a
-    #            family, a list of entities, a type).
-    #   stance   -1..1 — loathing to love. subject+stance = an Attitude
-    #            (being) or an Impression (place).
-    #   source   'lived' | 'heard' | 'legend'.
-    subject: Mapped[list] = mapped_column(JSONB, nullable=True)
-    stance: Mapped[float] = mapped_column(Float, nullable=True)
-    source: Mapped[str] = mapped_column(String(20), nullable=True)
-    formed_episode: Mapped[int] = mapped_column(Integer, nullable=True)
-    updated_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+# A Belief is a conviction-tier Memory (#168): what the mind holds true
+# lives as Memory rows with kind='conviction' and a `conviction` facet —
+# one row, one truth: statement→desc, subject→subjects, stance→imprint
+# ['affection'], tags→tags, origin→origin. The facet carries what the
+# memory continuum does not:
+#   kind     'world'|'self'|'other'|'value' — what it is about;
+#   horizon  'enduring'|'transient' — transient fades with the days;
+#   status   'active'|'weakened'|'inverted' — quiet but kept;
+#   strength 0–5 — barely held to a way of life;
+#   evidence [memory_id, ...] — what lived proof supports it;
+#   source   'lived'|'heard'|'legend' — how the mind came to hold it;
+#   formed/updated — the episode stamps.
 
 
 class Musing(Base):
@@ -361,6 +318,10 @@ class Musing(Base):
     tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
     origin: Mapped[str] = mapped_column(String(30), nullable=False, default='seed')
     formed_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+    # The episode this line last spoke in: the refractory window
+    # silences a Musing that answered lately — a thought needs time to
+    # gather before it can be the mind's reply again (#86).
+    last_spoke_episode: Mapped[int] = mapped_column(Integer, nullable=True)
 
 
 class Memory(Base):
@@ -416,6 +377,10 @@ class Memory(Base):
     feeling: Mapped[str] = mapped_column(String(60), nullable=True)
     depth: Mapped[str] = mapped_column(String(20), nullable=True)
     mutable: Mapped[bool] = mapped_column(Boolean, nullable=True)
+    # The belief facet (#168): present only on kind='conviction' rows —
+    # {kind, horizon, status, strength, evidence, source, formed, updated}.
+    conviction: Mapped[dict] = mapped_column(
+        MutableDict.as_mutable(JSONB), nullable=True)
 
 
 class Relation(Base):
@@ -606,7 +571,10 @@ class Semantic(Base):
     'form:corrupts' can mean something in one world it does not in
     another. key matches perceived tags (wildcards allowed); delta is
     the sparse relation-dim the world objectively carried; weight how
-    strongly this contact lands; body an acute hit."""
+    strongly this contact lands; body an acute hit. salience_min and
+    severity are the kind's declared floors — how much contact of this
+    kind must matter once noticed; what a tag IS, not how loud it
+    arrived (weight 0 declares floors without claiming contact)."""
 
     __tablename__ = 'semantics'
     __table_args__ = (
@@ -619,6 +587,29 @@ class Semantic(Base):
     delta: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     weight: Mapped[float] = mapped_column(Float, nullable=True)
     body: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    salience_min: Mapped[float] = mapped_column(Float, nullable=True)
+    severity: Mapped[float] = mapped_column(Float, nullable=True)
+    wakes: Mapped[bool] = mapped_column(Boolean, nullable=True)
+    enabled: Mapped[bool] = mapped_column(Boolean, nullable=False,
+                                          default=True)
+
+
+class PackEntry(Base):
+    """A game's declared value for one pack key (ADR 0017): the mind's
+    own voice and vocabulary as data — phrase banks ('mind.need.hunger'),
+    the mood bands, the feeling lexicon, the disposition render. Built-in
+    defaults live in code; a row replaces its key's value wholesale for
+    that game, and enabled=False silences the default entirely."""
+
+    __tablename__ = 'pack_entries'
+    __table_args__ = (
+        UniqueConstraint('game_id', 'key', name='uq_pack_entry'),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    key: Mapped[str] = mapped_column(String(160), nullable=False)
+    value: Mapped[dict] = mapped_column(JSONB, nullable=False)
     enabled: Mapped[bool] = mapped_column(Boolean, nullable=False,
                                           default=True)
 

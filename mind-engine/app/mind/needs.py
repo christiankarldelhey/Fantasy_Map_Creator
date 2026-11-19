@@ -30,7 +30,8 @@ NEED_PHRASE_PREFIX = 'mind.need.'
 THREAD_PREFIX = 'thread:'
 
 
-def _phrase(key, subject=None, urgency=0.0, idx=0, wiring=None):
+def _phrase(key, subject=None, urgency=0.0, idx=0, wiring=None,
+            session=None, game_id=None):
     """Tiered + rotating voice for 'mind.need.<key>'. Urgency past
     need_deep_urgency speaks from '<key>.deep' instead; several variants
     per tier rotate by episode so a lasting need does not always wear the
@@ -40,11 +41,11 @@ def _phrase(key, subject=None, urgency=0.0, idx=0, wiring=None):
     base = NEED_PHRASE_PREFIX + key
     options = []
     if urgency >= deep_min:
-        options = phrases(base + '.deep')
+        options = phrases(base + '.deep', session, game_id)
     if not options:
-        options = phrases(base)
+        options = phrases(base, session, game_id)
     if not options and key.startswith(THREAD_PREFIX):
-        options = phrases(NEED_PHRASE_PREFIX + 'thread')
+        options = phrases(NEED_PHRASE_PREFIX + 'thread', session, game_id)
     if not options:
         return key
     return options[idx % len(options)].format(
@@ -117,6 +118,7 @@ def _apply_fired(session, game_id, mind, fired, resolved_refs, idx):
         desc = spec.get('desc') or _phrase(
             key, spec.get('subject'),
             urgency=spec.get('urgency') or 0.0, idx=idx, wiring=w,
+            session=session, game_id=game_id,
         )
         need = existing.get(key)
         # The brief speaks a need when it is new or worsening — remember
@@ -176,7 +178,7 @@ def needs_pass(session, game_id, mind, episode, perceived, character=None):
     cleared. Returns the character's open needs (urgency desc)."""
     w = {**DEFAULT_WIRING, **(mind.wiring or {})}
     idx = episode_index(episode)
-    state = character_state(character, episode.events)
+    state = character_state(character)
 
     fired = _detectors(session, game_id, state, w)
     # B9: declarative multi-day rules (exposure, snowbound, ...) — the
@@ -234,6 +236,11 @@ def need_items(needs):
         urgency = n.urgency or 0.0
         items.append({
             'type': 'need',
+            # Kind registry: the felt body is the mind's own voice —
+            # 'the hunger' is never world-evidence, never the day's
+            # declared mood cause.
+            'source': 'mind',
+            'mood_cause': False,
             'perception': 'noticed',
             'reading': n.description,
             'salience': round(urgency, 3),

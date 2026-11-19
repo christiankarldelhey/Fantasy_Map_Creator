@@ -7,7 +7,7 @@
 # gated and rolled (B1, app/mind/checks.py): the outcome bends perception
 # to `unnoticed`/`misread`, never the world's facts.
 #
-# Tag convention (shared with theme_weights keys):
+# Tag convention (shared with relation attention keys):
 #   type:<event.type>        — every event
 #   tag:<data[key]>          — string data values; absence markers
 #                            ('none', 'null', '0', ...) never tag
@@ -18,7 +18,8 @@
 # ============================================================================
 import re
 
-from app.mind.boosts import effective_theme_weights
+from app.day_phases import NARRATIVE_PHASES
+from app.mind.detectors import body_projection
 from app.mind.checks import (
     asleep_check_result,
     character_state,
@@ -27,23 +28,18 @@ from app.mind.checks import (
     resolve_check,
 )
 from app.mind.engine import acute_hit, mood_delta, project_body
+from app.mind.kinds import SOURCE_MIND, is_mind_item, kind_of
 from app.mind.relations import (
-    feed, feed_event, felt_through, standing_relation,
+    attention_weights, feed, feed_event, felt_through, standing,
 )
 from app.mind.semantics import (
-    BODY_PROJECTION, load_semantics, semantic_delta,
+    field_severity, load_semantics, semantic_delta, tag_floors,
 )
-from app.mind.voice import phrases, resolve_event_reading
+from app.mind.voice import phrases, resolve_event_reading, streak_subjects
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Episode
 from app.mind.tags import UNTAGGED_FIELDS, subject_tags, tag_is
 from app.mind.util import best_tag_weight, num, tag_matches
-
-# data fields that count as explicit severity when numeric (0-1 normalized).
-SEVERITY_FIELDS = (
-    'severity', 'danger', 'threat', 'damage', 'wound',
-    'pain', 'hostility', 'risk', 'lethality',
-)
 
 EPISODE_LOOKBACK = 20
 
@@ -88,34 +84,27 @@ def derive_tags(event):
     return tags
 
 
-def theme_weight(tags, weights):
-    """Max matching weight across the event's tags; wildcards 'prefix:*'
-    match any tag with that prefix. 0 = this mind is indifferent."""
+def attention_weight(tags, weights):
+    """Max matching attention weight across the event's tags; wildcards
+    'prefix:*' match any tag with that prefix. 0 = this mind is
+    indifferent."""
     return best_tag_weight(tags, weights or {})
 
 
-def _severity(data):
-    """0-1: explicit data['severity'] or the max severity-ish field."""
-    vals = [num(data.get(f)) for f in SEVERITY_FIELDS]
-    vals = [v for v in vals if v is not None]
-    return min(1.0, max(vals)) if vals else 0.0
+def _tag_severity(tags, semantics):
+    """A tag carries a severity floor through the semantic pack (C6):
+    'weather:storm: 0.6' makes the storm an *event* in the salience
+    arithmetic while drizzle stays ambient. Host-declared severity
+    still wins via max."""
+    return tag_floors(tags, semantics)[1]
 
 
-def _tag_severity(tags, w):
-    """'severity.<tag>' wiring lets a tag carry a severity floor (C6):
-    'severity.tag:weather:storm: 0.6' makes the storm an *event* in the
-    salience arithmetic while drizzle stays ambient. Host-declared
-    severity still wins via max."""
-    return best_tag_weight(tags, w, 'severity.')
-
-
-def _salience_floor(tags, w):
-    """'salience_min.<tag>' wiring lets a perceived thing matter by what
-    it IS, not how loud it arrived (C16): 'salience_min.tag:entity_type:
-    humans: 0.35' means thinking company is never background to this
-    mind, 'salience_min.tag:form:brief_exchange' that a real exchange
-    outweighs the weather. Wildcards allowed ('salience_min.entity:*')."""
-    return best_tag_weight(tags, w, 'salience_min.')
+def _salience_floor(tags, semantics):
+    """The pack's salience floor lets a perceived thing matter by what
+    it IS, not how loud it arrived (C16): 'entity_type:orcs: 0.45'
+    means the patrol is never background, 'form:brief_exchange: 0.45'
+    that a real exchange outweighs the weather."""
+    return tag_floors(tags, semantics)[0]
 
 
 def _seen_tags(session, game_id, character_id):
@@ -138,24 +127,21 @@ def _seen_tags(session, game_id, character_id):
 
 
 def _content_tags(day):
-    """The day's content tags — noticed items only, and never the
-    recurrence channel's own notes or the felt-body channel: the mind
-    only repeats what it registered, and an open need is already its
-    own pressure — 'hunger again' would say it twice."""
+    """The day's streak-eligible tags — noticed items only, never the
+    recurrence channel's own notes or the felt-body channel, and only
+    pattern-classed families (#147): 'the orcs', 'this rain', 'that
+    bread' can become a theme; host markers and bookkeeping fields
+    cannot."""
     tags = set()
     for it in day or []:
         if it.get('perception') == 'unnoticed':
             continue
-        if it.get('type') in ('recurrence', 'need'):
+        if is_mind_item(it):
             continue
         tags.update(
             t for t in (it.get('tags') or [])
             if not t.startswith('type:')
-            # Pure background is not a streak: ambient-only tags (the
-            # land subtype, the day's frame) are how it happened, never
-            # a theme — 'weather:wet' can wear because it is also a
-            # declared pattern, 'tag:subtype:place' cannot.
-            and not (tag_is(t, 'ambient') and not tag_is(t, 'pattern'))
+            and tag_is(t, 'pattern')
             # Sentinel values are absence, not content: 'wounded:none'
             # repeating is not a stretch, and breaking it must never
             # read 'no none today'.
@@ -167,10 +153,16 @@ def _content_tags(day):
 _LEADING_ARTICLE_RE = re.compile(r'^(a|an|the|some)\s+', re.IGNORECASE)
 
 
-def _tag_subject(tag):
-    # Templates bring their own determiner ('no {subject} today', 'the
-    # {subject} let up') — a host value 'a ration of road-bread' must not
-    # read 'no a ration'.
+def _tag_subject(tag, subject_map=None):
+    # A non-noun tag's streak subject comes from the declared phrase
+    # map first (#147): 'tag:rest:poor' reads 'sleepless nights', never
+    # 'poor'. Otherwise the tag's tail, article-stripped — templates
+    # bring their own determiner ('no {subject} today', 'the {subject}
+    # let up'), so a host value 'a ration of road-bread' must not read
+    # 'no a ration'.
+    mapped = (subject_map or {}).get(tag)
+    if mapped:
+        return mapped
     subject = tag.rsplit(':', 1)[-1].replace('_', ' ').replace('-', ' ')
     return _LEADING_ARTICLE_RE.sub('', subject.strip())
 
@@ -224,6 +216,43 @@ def _recurrence_items(session, game_id, mind, perceived, w):
         (i.get('when') for i in perceived if i.get('when')), {}
     )
 
+    def _anchor_when(tag):
+        """The clock position a streak belongs to (#149): the noticed
+        item that carried the tag today — a bread complaint sits
+        beside the meal beat, a weather complaint beside the weather
+        beat, never adrift on the first item of the day."""
+        for i in perceived:
+            if i.get('type') == 'recurrence':
+                continue
+            if tag in (i.get('tags') or []) and i.get('when'):
+                return i['when']
+        return None
+
+    def _quietest_when():
+        """No anchor: the narrative phase the day used least (#149)."""
+        counts = {p: 0 for p in NARRATIVE_PHASES}
+        for i in perceived:
+            phase = (i.get('when') or {}).get('phase')
+            if phase in counts:
+                counts[phase] += 1
+        quietest = min(counts, key=counts.get)
+        return {**when, 'phase': quietest}
+
+    def _loudest_other_salience(tag):
+        """The day's loudest noticed thing that is NOT this streak —
+        a salient novel event makes the sameness yield (#149): the
+        orc attack's own salience does not silence the orc streak,
+        the dragon does."""
+        return max(
+            (
+                i.get('salience') or 0.0 for i in perceived
+                if i.get('type') != 'recurrence'
+                and i.get('perception') != 'unnoticed'
+                and tag not in (i.get('tags') or [])
+            ),
+            default=0.0,
+        )
+
     def streak_in(history, tag):
         n = 0
         for past in history:
@@ -233,16 +262,36 @@ def _recurrence_items(session, game_id, mind, perceived, w):
                 break
         return n
 
+    subject_map = streak_subjects(session, game_id)
+    semantics = load_semantics(session, game_id)
+
+    def _streak_like(tag):
+        """How this mind stands toward the recurring thing, in [-1, 1]
+        (#148): a subject's Relation speaks — lembas loved, orcs
+        feared; with no Relation the semantic pack's own delta is the
+        proxy (steady rain is mildly aversive to anyone). Positive:
+        liked; negative: disliked or feared."""
+        if tag_is(tag, 'subject'):
+            vec = standing(session, game_id, mind.character_id, tag)
+            if vec is not None:
+                return max(-1.0, min(
+                    1.0, vec['affection'] - vec['fear']))
+        world, _, _ = semantic_delta([tag], {}, semantics)
+        return max(-1.0, min(
+            1.0,
+            world.get('affection', 0.0) - world.get('fear', 0.0)))
+
     def _item(kind, tag, streak, valence, salience, phrase_key,
               extra_data=None, tags=None):
-        options = phrases(phrase_key)
-        subject = _tag_subject(tag)
+        options = phrases(phrase_key, session, game_id)
+        subject = _tag_subject(tag, subject_map)
         reading = (
             options[0].format(subject=subject, count=streak)
             if options else f'{subject} — {kind}'
         )
         return {
             'type': 'recurrence',
+            'source': SOURCE_MIND,
             'when': when,
             'where': {},
             'data': {
@@ -263,39 +312,76 @@ def _recurrence_items(session, game_id, mind, perceived, w):
         }
 
     items = []
-    resistance = (mind.personality or {}).get('resistance')
-    resistance = 0.5 if resistance is None else resistance
+    break_scale = w.get('break_standing_scale', 0.3)
+    yield_sal = w.get('recurrence_yield_salience', 0.45)
     for tag in sorted(today):
         if _repetition_exempt(tag, exempt):
             continue
         streak = 1 + streak_in(prior, tag)
-        if streak >= min_streak:
-            valence = -min(cap, growth * (streak - min_streak + 1))
-            items.append(_item(
+        if streak < min_streak:
+            continue
+        # Wear scaled by standing (#148): what is feared or hated grates
+        # up to twice as fast; what is loved grates slower — halved at
+        # most, never zero, because sameness tires even what is
+        # cherished. The slowdown self-reinforces: once a loved thing
+        # starts souring, the standing falls and the wear speeds up.
+        like = _streak_like(tag)
+        factor = 1 - (0.5 * like if like > 0 else like)
+        valence = -min(
+            cap, growth * (streak - min_streak + 1) * factor)
+        if valence > -0.01:
+            continue
+        items.append({
+            **_item(
                 'repetition', tag, streak, valence, pressure_sal,
                 'mind.repetition', extra_data={'synthetic': True},
-            ))
-            # Monotony on a subject sediments too: the fifth straight
-            # fruit-bread wears on 'tag:food:fruit_bread' itself, not
-            # only on the day — a loved bread resists souring through
-            # the same contradiction damping as any evidence.
-            if tag_is(tag, 'subject'):
-                feed(
-                    session, game_id, mind.character_id, tag,
-                    {'affection': valence}, resistance=resistance,
-                )
+            ),
+            'when': _anchor_when(tag) or _quietest_when(),
+        })
+        # Monotony on a subject sediments too: the fifth straight
+        # fruit-bread wears on 'tag:food:fruit-bread' itself, not
+        # only on the day. It is erosion, not contradictory evidence —
+        # resistance does not dam it; the standing already slowed the
+        # wear through the like factor above. And the streak IS
+        # familiarity accreting (#166): what repeats becomes known,
+        # and the known reads calmer the next time it touches.
+        if tag_is(tag, 'subject'):
+            feed(
+                session, game_id, mind.character_id, tag,
+                {'affection': valence, 'familiarity': 0.05},
+                resistance=0.0,
+            )
+        if _loudest_other_salience(tag) >= yield_sal:
+            # A salient novel event owns this day (#149): the sameness
+            # still erodes the standing above, but it does not spend
+            # the day's words on itself.
+            items.pop()
     if prior:
         for tag in sorted(prior[0]):
             if tag in today or _repetition_exempt(tag, exempt):
                 continue
             streak = streak_in(prior, tag)
             if streak >= min_streak:
-                items.append(_item(
-                    'break', tag, streak, relief_val, relief_sal,
-                    'mind.pattern_break',
-                    extra_data={'break_of': tag},
-                    tags=[f'rupture:{tag}'],
-                ))
+                # The break's sign follows the standing (#148): the rain
+                # stopping is relief, the loved bread running out is a
+                # gap — a break is not universally good news.
+                like = _streak_like(tag)
+                valence = relief_val - like * break_scale
+                # Ambient absences are noticed on stepping out — a dry
+                # dawn; the rest land on the day's quietest phase.
+                anchor = (
+                    {**when, 'phase': 'morning'}
+                    if tag_is(tag, 'ambient') else _quietest_when())
+                items.append({
+                    **_item(
+                        'break', tag, streak, valence, relief_sal,
+                        'mind.pattern_break' if valence >= 0
+                        else 'mind.pattern_break_loss',
+                        extra_data={'break_of': tag},
+                        tags=[f'rupture:{tag}'],
+                    ),
+                    'when': anchor,
+                })
     return items
 
 
@@ -323,8 +409,8 @@ def resolve_break_items(session, game_id, mind, perceived, needs, w):
         )
         if need_key not in open_keys:
             continue
-        subject = _tag_subject(tag)
-        options = phrases('mind.pattern_break_need')
+        subject = _tag_subject(tag, streak_subjects(session, game_id))
+        options = phrases('mind.pattern_break_need', session, game_id)
         if options:
             item['reading'] = options[0].format(
                 subject=subject, count=data.get('streak') or 0
@@ -349,32 +435,29 @@ def _subject_displays(data):
 
 
 def perceive_events(session, game_id, mind, events, character=None,
-                    episode_idx=None, felt_ids=None):
+                    episode_idx=None):
     """Annotate each event: perception + reading + salience + tags, and the
     vector engine's two channels (ADR 0017): the semantic pack reads the
     event's objective delta, Relations sediment it (narrowest subject whole,
     the rest by splash), and the felt delta — bent by the standing
     Relation — is what the item reports as valence and imprint.
 
-    `felt_ids` carries events already sedimented by an interim perceive
-    (Wave C sequential choosing): they are still annotated for narration
-    and memory, but their Relation sediment and body hit are skipped —
-    the day counts its blows once.
-
     Returns plain dicts ready for `episodes.perceived_day`. Idempotent at the
     episode level because open() only calls this when creating the episode.
     """
     seen = _seen_tags(session, game_id, mind.character_id)
-    # B6: strong active beliefs bend what stands out — boosts add to the
-    # cloned theme_weights for this perception pass only.
-    weights = effective_theme_weights(session, mind)
     w = {**DEFAULT_WIRING, **(mind.wiring or {})}
-    state = character_state(character, events)
+    # Two channels of attention (ADR 0017): the semantic pack declares
+    # objective weight (charge + floors below); the Relations supply the
+    # personal bias — what this mind loves, hates or fears stays watched.
+    weights = attention_weights(
+        session, mind, w.get('relation_attention_gain', 0.3))
+    state = character_state(character)
     semantics = load_semantics(session, game_id)
     # The body the day starts from: the Condition projected through the
     # declared map — acute event hits land on top of this base, and the
     # next Condition report resets it.
-    mind.body = project_body(state, BODY_PROJECTION)
+    mind.body = project_body(state, body_projection(session, game_id))
 
     perceived = []
     for index, event in enumerate(events or []):
@@ -387,7 +470,7 @@ def perceive_events(session, game_id, mind, events, character=None,
 
         # Sleep phases (C4): a checked event at night is slept through
         # unless its form/outcome is intrusive enough to wake the mind.
-        if is_asleep(event, w):
+        if is_asleep(event, tags, w, semantics):
             check_result = asleep_check_result(event, index)
             perception = 'unnoticed'
         else:
@@ -395,7 +478,7 @@ def perceive_events(session, game_id, mind, events, character=None,
                 session, game_id, character, event, index, state, w,
                 mind=mind,
             )
-        reading = resolve_event_reading(event)
+        reading = resolve_event_reading(event, session, game_id)
         if perception == 'misread':
             reading = misread_reading(
                 session, game_id, event, reading, check_result,
@@ -413,7 +496,10 @@ def perceive_events(session, game_id, mind, events, character=None,
                 check_result['difficulty']
                 / w.get('check_difficulty_scale', 10.0),
             )
-        severity = max(_severity(data), _tag_severity(tags, w))
+        severity = min(1.0, max(
+            field_severity(data, semantics),
+            _tag_severity(tags, semantics),
+        ))
 
         # The event's objective reading (ADR 0017): what the semantic
         # pack declares this kind of contact meant. Only registered
@@ -429,7 +515,7 @@ def perceive_events(session, game_id, mind, events, character=None,
             w.get('w_severity', 0) * severity
             + w.get('w_novelty', 0) * novelty
             + w.get('w_emotional', 0) * charge
-            + w.get('w_theme', 0) * theme_weight(tags, weights)
+            + w.get('w_attention', 0) * attention_weight(tags, weights)
             + w.get('w_perception', 0) * (bonus or 0.0)
         ))
         if perception == 'unnoticed':
@@ -438,29 +524,19 @@ def perceive_events(session, game_id, mind, events, character=None,
             # The floor lifts only what registered (C16) — a noticed
             # exchange with thinking company is never drowned out by
             # bookkeeping; an unnoticed one stays a difuso.
-            floor = _salience_floor(tags, w)
+            floor = _salience_floor(tags, semantics)
             if floor > salience:
                 salience = floor
 
         # Two channels: the world delta sediments the Relations it
         # touched (the narrowest subject whole); the felt delta — bent
         # by the standing Relation — is how the event landed on this
-        # mind. world_valence keeps the unbent reading. An event the
-        # interim perceive already felt skips the sediment but still
-        # reads through the standing it helped build.
-        already_felt = (
-            felt_ids is not None and event.get('id') in felt_ids
-        )
+        # mind. world_valence keeps the unbent reading.
         subjects = sorted(subject_tags(tags))
         if perception == 'unnoticed' or not subjects:
             felt, primary = {}, None
             if world_delta:
                 felt = felt_through(world_delta, {}, mind.personality)
-        elif already_felt:
-            primary, standing = standing_relation(
-                session, game_id, mind.character_id, subjects,
-            )
-            felt = felt_through(world_delta, standing, mind.personality)
         else:
             primary, standing = feed_event(
                 session, mind, subjects, world_delta,
@@ -468,12 +544,14 @@ def perceive_events(session, game_id, mind, events, character=None,
                 displays=_subject_displays(data),
             )
             felt = felt_through(world_delta, standing, mind.personality)
-        if body_hit and not already_felt:
+        if body_hit:
             acute_hit(mind.body, body_hit)
         valence = mood_delta(felt).get('valence', 0.0)
+        kind = kind_of(session, game_id, event.get('type'))
         item = {
             **event,
             'perception': perception,
+            'source': kind.get('source', 'world'),
             'reading': reading,
             'salience': round(salience, 3),
             'valence': round(valence, 3),
@@ -488,6 +566,8 @@ def perceive_events(session, game_id, mind, events, character=None,
         }
         if primary:
             item['subject'] = primary
+        if kind.get('mood_cause') is False:
+            item['mood_cause'] = False
         if check_result:
             check_result['perception'] = perception
             item['check'] = check_result
