@@ -103,7 +103,7 @@ A Memory the Mind has lost: kept as a trace with the day it was lost so the Mind
 _Avoid_: deleted, erased
 
 **Conviction**:
-A Memory at the deepest tier — the impression of a held Belief ("I grew up hearing this"), seeded with the Mind rather than lived. Convictions evoke and re-feel like any Memory, but forgetting never eats them: a prejudice is not mislaid, it is turned — the Reflection's words rewrite the Belief and turn the Conviction's imprint with them; a weakened one fades to a whisper below the Evocation floor, never to silence.
+A Memory at the deepest tier — where a Belief lives: one row, one truth. The statement is the desc, the Stance the imprint, the Subject the subjects, and a conviction facet carries what the continuum does not (kind, horizon, status, strength, evidence, source). Convictions evoke and re-feel like any Memory, but forgetting never eats them: a prejudice is not mislaid, it is turned — the Reflection's words rewrite the facet and turn the imprint with them; a weakened one fades to a whisper below the Evocation floor, never to silence.
 _Avoid_: core memory, truth memory
 
 **Evocation**:
@@ -111,7 +111,7 @@ When a Memory connects to the Episode and comes forward — it is not only read 
 _Avoid_: recall, retrieval, flashback
 
 **Belief**:
-Something the Mind holds true: a statement, how firmly it is held (from barely to a way of life) and what it is about — the world, the self, others, or what matters (a Value). Lived evidence moves it: what confirms it hardens it, what contradicts it wears it down, and the firmer it is the harder it moves. A Belief about passing circumstances also fades as the days pass; one about how the world is does not. An experience can start a Belief, but faintly. Reaches the Lens only when the Episode puts it at stake. When it is about something concrete it also carries a Subject, a Stance and a Source.
+Something the Mind holds true: a statement, how firmly it is held (from barely to a way of life) and what it is about — the world, the self, others, or what matters (a Value). A Belief lives as a Conviction — a Memory at the deepest tier, not a row of its own; the belief and the impression of having always held it are the same thing. Lived evidence moves it: what confirms it hardens it, what contradicts it wears it down, and the firmer it is the harder it moves. A Belief about passing circumstances also fades as the days pass; one about how the world is does not. An experience can start a Belief, but faintly. Reaches the Lens only when the Episode puts it at stake. When it is about something concrete it also carries a Subject, a Stance and a Source.
 _Avoid_: core idea, main idea, thought, latent belief
 
 **Value**:

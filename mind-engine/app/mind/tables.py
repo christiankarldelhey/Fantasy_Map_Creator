@@ -13,6 +13,7 @@ from sqlalchemy import (
     Text, UniqueConstraint,
 )
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.ext.mutable import MutableDict
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import MIND_SCHEMA, Base
@@ -26,7 +27,6 @@ def _new_id(prefix):
 
 new_episode_id = _new_id('ep')
 new_mind_id = _new_id('mind')
-new_belief_id = _new_id('bl')
 new_memory_id = _new_id('mem')
 new_character_id = _new_id('chr')
 new_musing_id = _new_id('mu')
@@ -288,45 +288,18 @@ class Character(Base):
         DateTime(timezone=True), default=_now, onupdate=_now)
 
 
-class Belief(Base):
-    """Beliefs-lite: full table from day one, seeded at clone (origin='seed' —
-    exempt from the evidence rule, backstory is the off-screen evidence).
-    The reflection pipeline that mutates these is B4."""
-
-    __tablename__ = 'beliefs'
-
-    id: Mapped[str] = mapped_column(String(40), primary_key=True, default=new_belief_id)
-    game_id: Mapped[str] = mapped_column(String(120), nullable=False)
-    character_id: Mapped[str] = mapped_column(String(120), nullable=False)
-    kind: Mapped[str] = mapped_column(String(30), nullable=False)
-    # C14: 'enduring' (the world's nature, self, others) vs 'transient'
-    # (current circumstances — this ford today, this stretch of road).
-    # Transient beliefs fade per closed episode, not per reflection.
-    horizon: Mapped[str] = mapped_column(
-        String(20), nullable=False, default='enduring', server_default='enduring'
-    )
-    statement: Mapped[str] = mapped_column(Text, nullable=False)
-    # Strength 0–5: barely held to a way of life. Evidence moves it,
-    # nothing else; a new belief starts weak (~2).
-    strength: Mapped[float] = mapped_column(Float, nullable=False, default=2.5)
-    tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
-    evidence: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
-    origin: Mapped[str] = mapped_column(String(30), nullable=False, default='experience')
-    status: Mapped[str] = mapped_column(String(20), nullable=False, default='active')
-    boosts: Mapped[dict] = mapped_column(JSONB, nullable=True)  # reserved, B6
-    # Facets (CONTEXT.md · Belief): all optional; a belief without them is
-    # a plain thought.
-    #   subject  [tag, ...] — the kind of being or place it is about: the
-    #            tags that count as 'the same thing' for this mind (a
-    #            family, a list of entities, a type).
-    #   stance   -1..1 — loathing to love. subject+stance = an Attitude
-    #            (being) or an Impression (place).
-    #   source   'lived' | 'heard' | 'legend'.
-    subject: Mapped[list] = mapped_column(JSONB, nullable=True)
-    stance: Mapped[float] = mapped_column(Float, nullable=True)
-    source: Mapped[str] = mapped_column(String(20), nullable=True)
-    formed_episode: Mapped[int] = mapped_column(Integer, nullable=True)
-    updated_episode: Mapped[int] = mapped_column(Integer, nullable=True)
+# A Belief is a conviction-tier Memory (#168): what the mind holds true
+# lives as Memory rows with kind='conviction' and a `conviction` facet —
+# one row, one truth: statement→desc, subject→subjects, stance→imprint
+# ['affection'], tags→tags, origin→origin. The facet carries what the
+# memory continuum does not:
+#   kind     'world'|'self'|'other'|'value' — what it is about;
+#   horizon  'enduring'|'transient' — transient fades with the days;
+#   status   'active'|'weakened'|'inverted' — quiet but kept;
+#   strength 0–5 — barely held to a way of life;
+#   evidence [memory_id, ...] — what lived proof supports it;
+#   source   'lived'|'heard'|'legend' — how the mind came to hold it;
+#   formed/updated — the episode stamps.
 
 
 class Musing(Base):
@@ -404,6 +377,10 @@ class Memory(Base):
     feeling: Mapped[str] = mapped_column(String(60), nullable=True)
     depth: Mapped[str] = mapped_column(String(20), nullable=True)
     mutable: Mapped[bool] = mapped_column(Boolean, nullable=True)
+    # The belief facet (#168): present only on kind='conviction' rows —
+    # {kind, horizon, status, strength, evidence, source, formed, updated}.
+    conviction: Mapped[dict] = mapped_column(
+        MutableDict.as_mutable(JSONB), nullable=True)
 
 
 class Relation(Base):

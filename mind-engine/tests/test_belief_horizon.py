@@ -18,7 +18,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 import app.mind.reflection as reflection_module
 from app.db import SessionLocal
-from app.mind.tables import Belief, MindPreset, PresetWiring
+from app.mind.tables import Memory, MindPreset, PresetWiring
 
 
 @pytest.fixture()
@@ -76,13 +76,18 @@ def _meal(ep):
 
 
 def _seed_belief(char, horizon, strength):
+    """A conviction-tier Memory row (#168): the belief facet carries
+    horizon/status/strength the continuum columns do not."""
     session = SessionLocal()
-    session.add(Belief(
-        game_id='middle_earth', character_id=char, kind='world',
-        horizon=horizon, statement=f'{horizon} truth of {char}',
-        strength=strength, tags=[], evidence=[],
-        origin='seed', status='active',
-        formed_episode=0, updated_episode=0,
+    session.add(Memory(
+        game_id='middle_earth', character_id=char,
+        kind='conviction', depth='conviction', consolidated=True,
+        desc=f'{horizon} truth of {char}',
+        tags=[], origin='seed', created_episode=0,
+        conviction={
+            'kind': 'world', 'horizon': horizon, 'status': 'active',
+            'strength': strength, 'evidence': [], 'updated': 0,
+        },
     ))
     session.commit()
     session.close()
@@ -90,7 +95,11 @@ def _seed_belief(char, horizon, strength):
 
 def _belief(char):
     session = SessionLocal()
-    b = session.query(Belief).filter_by(character_id=char).one()
+    b = (
+        session.query(Memory)
+        .filter_by(character_id=char, kind='conviction')
+        .one()
+    )
     session.expunge(b)
     session.close()
     return b
@@ -108,8 +117,8 @@ def test_transient_belief_fades_with_the_days(client):
         last = _close(client, opened['episode_id'])
     assert last['beliefs_faded'] == 1
     b = _belief(char)
-    assert b.strength == pytest.approx(2.5 * 0.9 ** 5)
-    assert b.status == 'weakened'
+    assert b.conviction['strength'] == pytest.approx(2.5 * 0.9 ** 5)
+    assert b.conviction['status'] == 'weakened'
 
 
 def test_enduring_belief_ignores_the_calendar(client):
@@ -124,8 +133,8 @@ def test_enduring_belief_ignores_the_calendar(client):
         last = _close(client, opened['episode_id'])
     assert last['beliefs_faded'] == 0
     b = _belief(char)
-    assert b.strength == pytest.approx(2.5)
-    assert b.status == 'active'
+    assert b.conviction['strength'] == pytest.approx(2.5)
+    assert b.conviction['status'] == 'active'
 
 
 def test_reflection_reads_the_horizon(client, monkeypatch):
@@ -150,8 +159,9 @@ def test_reflection_reads_the_horizon(client, monkeypatch):
 
     session = SessionLocal()
     horizons = {
-        b.statement: b.horizon
-        for b in session.query(Belief).filter_by(character_id=char)
+        b.desc: (b.conviction or {}).get('horizon')
+        for b in session.query(Memory).filter_by(
+            character_id=char, kind='conviction')
     }
     session.close()
     assert horizons == {
@@ -176,5 +186,5 @@ def test_reflection_ignores_transient_harder(client, monkeypatch):
 
     b = _belief(char)
     # 2.0 * 0.9 (episode fade) * 0.8 (ignored at reflection) = 1.44
-    assert b.strength == pytest.approx(2.0 * 0.9 * 0.8)
-    assert b.status == 'weakened'
+    assert b.conviction['strength'] == pytest.approx(2.0 * 0.9 * 0.8)
+    assert b.conviction['status'] == 'weakened'

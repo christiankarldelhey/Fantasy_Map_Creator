@@ -19,7 +19,10 @@
 # ============================================================================
 import re
 
-from app.mind.attitudes import is_attitude, ladder_norm, match_level
+from app.mind.attitudes import (
+    conviction_facet, conviction_statement, conviction_subjects,
+    is_attitude, ladder_norm, match_level,
+)
 from app.mind.kinds import ROLE_FRAME, ROLE_VOICE, kinds
 from app.mind.voice import phrases
 from app.mind.provisioning import DEFAULT_WIRING
@@ -198,14 +201,15 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     belief_lines = []
     for b in beliefs or []:
         # An Attitude's Subject is part of what it answers to.
-        btags = set(b.tags or []) | set(getattr(b, 'subject', None) or [])
+        btags = set(b.tags or []) | set(conviction_subjects(b) or [])
         btags = {ladder_norm(t) for t in btags}
+        statement = conviction_statement(b)
         hit, overlap = None, 0
         for m in moments:
             if btags:
                 n = len(btags & {ladder_norm(t) for t in m['touch_tags']})
             else:
-                n = 1 if _stems(b.statement) & _stems(m['text']) else 0
+                n = 1 if _stems(statement) & _stems(m['text']) else 0
             if n and (hit is None or (n, m['score']) > (overlap, hit['score'])):
                 hit, overlap = m, n
         if hit is None:
@@ -215,14 +219,14 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             # personality). Days with company keep them quiet.
             if 'context:solitude' not in (b.tags or []):
                 silenced.append({
-                    'kind': 'belief', 'text': b.statement,
+                    'kind': 'belief', 'text': statement,
                     'stage': 'filter',
                     'reason': 'nothing in the Episode puts it at stake',
                 })
                 continue
             if contact_seen:
                 silenced.append({
-                    'kind': 'belief', 'text': b.statement,
+                    'kind': 'belief', 'text': statement,
                     'stage': 'filter',
                     'reason': 'the day had company',
                 })
@@ -233,7 +237,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             # rotation does (else the most-held one speaks every quiet day).
             belief_lines.append({
                 'id': f'belief:{b.id}', 'kind': 'belief', 'part': 'carried',
-                'phase': None, 'text': b.statement,
+                'phase': None, 'text': statement,
                 'score': SOLITUDE_SCORE,
                 'solitude': True, 'tagged': True,
                 'why': 'the mind alone with itself',
@@ -241,9 +245,10 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             continue
         belief_lines.append({
             'id': f'belief:{b.id}', 'kind': 'belief', 'part': 'day',
-            'phase': hit['phase'], 'text': b.statement,
+            'phase': hit['phase'], 'text': statement,
             'score': (
-                ((b.strength or 0.0) / 5) * max(hit['score'], salient_min)
+                ((conviction_facet(b, 'strength', 0.0) or 0.0) / 5)
+                * max(hit['score'], salient_min)
                 * (1 + bonus * (overlap - 1))
             ),
             'connects_to': hit['id'], 'tagged': bool(btags),

@@ -17,7 +17,7 @@ from app.mind.engine import derive_feeling, feeling_lexicon
 from app.mind.kinds import kind_of
 from app.mind.voice import humanize, phrases, streak_subjects
 from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.tables import Belief, Episode, ForgottenMemory, Memory, Need
+from app.mind.tables import Episode, ForgottenMemory, Memory, Need
 from app.mind.tags import pattern_tag
 
 
@@ -485,20 +485,20 @@ def belief_fade_pass(session, mind, current_episode_index):
     weaken_below = w.get('belief_weaken_below', 1.5)
     faded = 0
     beliefs = (
-        session.query(Belief)
-        .filter_by(
-            character_id=mind.character_id,
-            horizon='transient',
-            status='active',
-        )
+        session.query(Memory)
+        .filter_by(character_id=mind.character_id, kind='conviction')
         .all()
     )
     for belief in beliefs:
-        if belief.updated_episode == current_episode_index:
+        facet = belief.conviction or {}
+        if (facet.get('horizon') != 'transient'
+                or facet.get('status') != 'active'):
             continue
-        belief.strength = (belief.strength or 0.0) * decay
-        if belief.strength < weaken_below:
-            belief.status = 'weakened'
+        if facet.get('updated') == current_episode_index:
+            continue
+        facet['strength'] = (facet.get('strength') or 0.0) * decay
+        if facet['strength'] < weaken_below:
+            facet['status'] = 'weakened'
         faded += 1
     return {'beliefs_faded': faded}
 

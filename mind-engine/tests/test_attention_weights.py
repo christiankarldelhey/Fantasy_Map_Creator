@@ -15,7 +15,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 from app.db import SessionLocal
 from app.mind.relations import attention_weights
-from app.mind.tables import Belief, Mind, Relation
+from app.mind.tables import Memory, Mind, Relation
 
 
 @pytest.fixture()
@@ -72,12 +72,15 @@ def test_relation_attention_is_the_only_personal_channel():
         subject='tag:entity_type:orcs',
         fear=0.6, origin='lived',
     ))
-    # A strong belief with a boost payload — inert data now, it must not
-    # reach the attention map.
-    session.add(Belief(
-        game_id='middle_earth', character_id=char, kind='world',
-        statement='rain means ruin', strength=4, status='active',
-        tags=['tag:weather:wet'], boosts={'tag:weather:wet': 0.9},
+    # A strong active conviction — beliefs are conviction-tier memories
+    # now (#168): they move the Lens and Reflection, never the attention
+    # map. Relations alone carry that channel.
+    session.add(Memory(
+        game_id='middle_earth', character_id=char,
+        kind='conviction', depth='conviction', consolidated=True,
+        desc='rain means ruin', tags=['tag:weather:wet'],
+        conviction={'kind': 'world', 'horizon': 'enduring',
+                    'status': 'active', 'strength': 4, 'evidence': []},
     ))
     session.flush()
     weights = attention_weights(session, mind, 0.3)

@@ -17,7 +17,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 import app.mind.reflection as reflection_module
 from app.db import SessionLocal
-from app.mind.tables import Belief, MindPreset, PresetWiring
+from app.mind.tables import Memory, MindPreset, PresetWiring
 
 
 @pytest.fixture()
@@ -70,10 +70,22 @@ def _meal(ep):
 
 
 def _beliefs(character_id):
+    """The character's conviction-tier memory rows (#168) — beliefs fold
+    into Memory with a `conviction` facet."""
     session = SessionLocal()
-    rows = session.query(Belief).filter_by(character_id=character_id).all()
+    rows = (
+        session.query(Memory)
+        .filter_by(character_id=character_id, kind='conviction')
+        .all()
+    )
     session.close()
     return rows
+
+
+def _belief_ids(prompt):
+    """Belief ids inside the reflection prompt — conviction rows list as
+    'id=<mem_*> kind=<...>' next to the evidence's bare 'id=' lines."""
+    return re.findall(r'id=(mem_\w+) kind=', prompt['user'])
 
 
 def test_reflection_creates_belief_with_real_evidence(client, monkeypatch):
@@ -101,8 +113,8 @@ def test_reflection_creates_belief_with_real_evidence(client, monkeypatch):
     beliefs = _beliefs(char)
     assert len(beliefs) == 1
     b = beliefs[0]
-    assert b.origin == 'reflected' and b.status == 'active'
-    assert b.evidence and all(e.startswith('mem_') for e in b.evidence)
+    assert b.origin == 'reflected' and b.conviction['status'] == 'active'
+    assert all(e.startswith('mem_') for e in b.conviction['evidence'])
 
 
 def test_no_trigger_without_schedule(client, monkeypatch):
@@ -121,7 +133,7 @@ def test_no_trigger_without_schedule(client, monkeypatch):
 def test_reinforce_and_decay_of_the_untouched(client, monkeypatch):
     """Reinforced belief gains strength; an untouched seed loses it."""
     def fake_llm(prompt, day_number=None):
-        beliefs = re.findall(r'id=(bl_\w+)', prompt['user'])
+        beliefs = _belief_ids(prompt)
         mems = re.findall(r'id=(mem_\w+)', prompt['user'])
         if not beliefs:
             return {'text': json.dumps({'reflections': [
@@ -142,7 +154,7 @@ def test_reinforce_and_decay_of_the_untouched(client, monkeypatch):
 
     beliefs = _beliefs(char)
     assert len(beliefs) == 1
-    assert beliefs[0].strength == pytest.approx(3.5)  # 3 + 0.5
+    assert beliefs[0].conviction['strength'] == pytest.approx(3.5)  # 3 + .5
 
 
 def test_inversion_grows_the_opposite_belief(client, monkeypatch):
@@ -150,7 +162,7 @@ def test_inversion_grows_the_opposite_belief(client, monkeypatch):
 
     def fake_llm(prompt, day_number=None):
         calls['n'] += 1
-        beliefs = re.findall(r'id=(bl_\w+)', prompt['user'])
+        beliefs = _belief_ids(prompt)
         mems = re.findall(r'id=(mem_\w+)', prompt['user'])
         if calls['n'] == 1:
             return {'text': json.dumps({'reflections': [
@@ -172,10 +184,10 @@ def test_inversion_grows_the_opposite_belief(client, monkeypatch):
         _close(client, opened['episode_id'])
 
     beliefs = _beliefs(char)
-    inverted = [b for b in beliefs if b.status == 'inverted']
-    active = [b for b in beliefs if b.status == 'active']
+    inverted = [b for b in beliefs if b.conviction['status'] == 'inverted']
+    active = [b for b in beliefs if b.conviction['status'] == 'active']
     assert len(inverted) == 1 and len(active) == 1
-    assert active[0].statement == 'Strangers have proven kind'
+    assert active[0].desc == 'Strangers have proven kind'
 
 
 def test_ambient_memories_never_reach_the_prompt(client, monkeypatch):

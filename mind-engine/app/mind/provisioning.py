@@ -13,7 +13,7 @@
 from app.mind.engine import derive_feeling, feeling_lexicon
 from app.mind.relations import seed_relations
 from app.mind.tables import (
-    Belief, Memory, Mind, MindPreset, Character, Musing,
+    Memory, Mind, MindPreset, Character, Musing,
 )
 
 DEFAULT_PRESET_SLUG = 'default'
@@ -228,44 +228,41 @@ def _preset_wiring(preset):
 
 
 def seed_starter_beliefs(session, game_id, character_id, preset):
-    """Clone a preset's starter beliefs into the character (origin='seed':
-    backstory, exempt from the evidence rule) — mutable like any belief.
-    Used at mind creation and again when a mind is wiped: the defaults
-    are the one content a reset restores."""
+    """Clone a preset's starter beliefs into the character as conviction
+    memories (origin='seed': backstory, exempt from the evidence rule).
+    One row, one truth (#168): the statement is the desc, the stance is
+    the imprint — the impression 'I grew up hearing this' IS the belief,
+    born consolidated, never forgotten by disuse, echoing its imprint
+    back into the Relation on evocation."""
     if preset is None:
         return []
     seeds = []
     for sb in preset.starter_beliefs:
-        b = Belief(
-            game_id=game_id, character_id=character_id, kind=sb.kind,
-            statement=sb.statement, strength=sb.strength,
-            tags=list(sb.tags or []), boosts=dict(sb.boosts or {}),
-            evidence=[], origin='seed', status='active',
-            subject=list(sb.subject) if sb.subject else None,
-            stance=sb.stance, source=sb.source,
+        imprint = (
+            {'affection': float(sb.stance)}
+            if sb.stance is not None else None
+        )
+        b = Memory(
+            game_id=game_id, character_id=character_id,
+            kind='conviction', depth='conviction', mutable=True,
+            consolidated=True, strength=1.0,
+            desc=sb.statement,
+            tags=list(sb.tags or []),
+            valence=sb.stance or 0.0,
+            importance=max(abs(sb.stance or 0.0), 0.4),
+            imprint=imprint,
+            subjects=list(sb.subject) if sb.subject else None,
+            feeling=derive_feeling(
+                imprint or {}, feeling_lexicon(session, game_id)),
+            origin='seed',
+            conviction={
+                'kind': sb.kind, 'horizon': 'enduring',
+                'status': 'active', 'strength': sb.strength,
+                'evidence': [], 'source': sb.source,
+            },
         )
         session.add(b)
         seeds.append(b)
-        # A stanced belief is also an impression — 'I grew up hearing
-        # this' — so the seed lands in the memory continuum too
-        # (ADR 0017): born consolidated, never forgotten by disuse,
-        # echoing its imprint back into the Relation on evocation.
-        if sb.subject and sb.stance is not None:
-            imprint = {'affection': float(sb.stance)}
-            session.add(Memory(
-                game_id=game_id, character_id=character_id,
-                kind='conviction', depth='conviction', mutable=True,
-                consolidated=True, strength=1.0,
-                desc=sb.statement,
-                tags=list(sb.tags or []),
-                valence=sb.stance,
-                importance=max(abs(sb.stance), 0.4),
-                imprint=imprint,
-                subjects=list(sb.subject),
-                feeling=derive_feeling(
-                    imprint, feeling_lexicon(session, game_id)),
-                origin=sb.source or 'seed',
-            ))
     return seeds
 
 

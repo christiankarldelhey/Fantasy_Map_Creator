@@ -99,8 +99,9 @@ from app.mind.memory import episode_date, episode_index
 from app.mind.retrieval import (
     dialogue_recall, link_evoked, memory_age_days, retrieve,
 )
+from app.mind.attitudes import active_convictions
 from app.mind.tables import (
-    Belief, Mind, MindPreset, Episode, ForgottenMemory, Memory, Musing,
+    Mind, MindPreset, Episode, ForgottenMemory, Memory, Musing,
     Relation,
     Need, PackVersion,
 )
@@ -403,13 +404,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 cause=mood_cause(perceived, needs),
                 when=episode.episode_date,
             )
-            beliefs = (
-                db.query(Belief)
-                .filter_by(
-                    character_id=mind.character_id, status='active'
-                )
-                .all()
-            )
+            beliefs = active_convictions(db, mind.character_id)
             musings = (
                 db.query(Musing)
                 .filter_by(
@@ -887,7 +882,9 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
     try:
         mind = db.query(Mind).filter_by(character_id=character_id).one_or_none()
         beliefs = (
-            db.query(Belief).filter_by(character_id=character_id).all()
+            db.query(Memory)
+            .filter_by(character_id=character_id, kind='conviction')
+            .all()
             if mind else []
         )
         memories = (
@@ -926,11 +923,16 @@ def mind_state(character_id: str, db: Session = Depends(get_session)):
         ),
         beliefs=[
             {
-                'id': b.id, 'kind': b.kind, 'horizon': b.horizon,
-                'statement': b.statement,
-                'strength': b.strength, 'origin': b.origin,
-                'status': b.status, 'subject': b.subject,
-                'stance': b.stance, 'source': b.source,
+                'id': b.id,
+                'kind': (b.conviction or {}).get('kind'),
+                'horizon': (b.conviction or {}).get('horizon'),
+                'statement': b.desc,
+                'strength': (b.conviction or {}).get('strength'),
+                'origin': b.origin,
+                'status': (b.conviction or {}).get('status'),
+                'subject': b.subjects,
+                'stance': (b.imprint or {}).get('affection'),
+                'source': (b.conviction or {}).get('source'),
             }
             for b in beliefs
         ],
@@ -1016,11 +1018,14 @@ def reset_mind(
                 'seeds': 0,
             }
         deleted = {
+            # Beliefs are conviction-tier memories (#168): they die inside
+            # the memories count; 'beliefs' reports the conviction share.
+            'beliefs': db.query(Memory).filter_by(
+                game_id=game_id, character_id=character_id,
+                kind='conviction').count(),
             'memories': db.query(Memory).filter_by(
                 game_id=game_id, character_id=character_id).delete(),
             'forgotten': db.query(ForgottenMemory).filter_by(
-                game_id=game_id, character_id=character_id).delete(),
-            'beliefs': db.query(Belief).filter_by(
                 game_id=game_id, character_id=character_id).delete(),
             'needs': db.query(Need).filter_by(
                 game_id=game_id, character_id=character_id).delete(),
