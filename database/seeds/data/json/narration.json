@@ -27946,6 +27946,7 @@
   },
   {
    "id": "dep:reg:10",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     10
@@ -28077,6 +28078,7 @@
   },
   {
    "id": "dep:reg:11",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     11
@@ -28170,6 +28172,7 @@
   },
   {
    "id": "dep:reg:12",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     12
@@ -28245,6 +28248,7 @@
   },
   {
    "id": "dep:reg:13",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     13
@@ -28344,6 +28348,7 @@
   },
   {
    "id": "dep:reg:14",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     14
@@ -28443,6 +28448,7 @@
   },
   {
    "id": "dep:reg:15",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     15
@@ -28560,6 +28566,7 @@
   },
   {
    "id": "dep:reg:16",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     16
@@ -28666,6 +28673,7 @@
   },
   {
    "id": "dep:reg:17",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     17
@@ -28771,6 +28779,7 @@
   },
   {
    "id": "dep:reg:18",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     18
@@ -28857,6 +28866,7 @@
   },
   {
    "id": "dep:reg:19",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     19
@@ -29039,6 +29049,7 @@
   },
   {
    "id": "dep:reg:20",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     20
@@ -29120,6 +29131,7 @@
   },
   {
    "id": "dep:reg:21",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     21
@@ -29213,6 +29225,7 @@
   },
   {
    "id": "dep:reg:22",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     22
@@ -29387,6 +29400,7 @@
   },
   {
    "id": "dep:reg:24",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     24
@@ -29480,6 +29494,7 @@
   },
   {
    "id": "dep:reg:25",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     25
@@ -29656,6 +29671,7 @@
   },
   {
    "id": "dep:reg:27",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     27
@@ -29909,6 +29925,7 @@
   },
   {
    "id": "dep:reg:3",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     3
@@ -30406,6 +30423,7 @@
   },
   {
    "id": "dep:reg:35",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     35
@@ -30733,6 +30751,7 @@
   },
   {
    "id": "dep:reg:38",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     38
@@ -30819,6 +30838,7 @@
   },
   {
    "id": "dep:reg:39",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     39
@@ -30932,6 +30952,7 @@
   },
   {
    "id": "dep:reg:4",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     4
@@ -31066,6 +31087,7 @@
   },
   {
    "id": "dep:reg:40",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     40
@@ -31236,6 +31258,7 @@
   },
   {
    "id": "dep:reg:42",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     42
@@ -31329,6 +31352,7 @@
   },
   {
    "id": "dep:reg:43",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     43
@@ -31448,6 +31472,7 @@
   },
   {
    "id": "dep:reg:44",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     44
@@ -31541,6 +31566,7 @@
   },
   {
    "id": "dep:reg:45",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     45
@@ -31628,6 +31654,7 @@
   },
   {
    "id": "dep:reg:46",
+   "intensity": 4,
    "kind": "depiction",
    "region_ids": [
     46
@@ -31721,6 +31748,7 @@
   },
   {
    "id": "dep:reg:47",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     47
@@ -31948,6 +31976,7 @@
   },
   {
    "id": "dep:reg:5",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     5
@@ -32331,6 +32360,7 @@
   },
   {
    "id": "dep:reg:54",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     54
@@ -32406,6 +32436,7 @@
   },
   {
    "id": "dep:reg:55",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     55
@@ -32481,6 +32512,7 @@
   },
   {
    "id": "dep:reg:56",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     56
@@ -32550,6 +32582,7 @@
   },
   {
    "id": "dep:reg:57",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     57
@@ -32607,6 +32640,7 @@
   },
   {
    "id": "dep:reg:58",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     58
@@ -32685,6 +32719,7 @@
   },
   {
    "id": "dep:reg:59",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     59
@@ -32802,6 +32837,7 @@
   },
   {
    "id": "dep:reg:6",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     6
@@ -32859,6 +32895,7 @@
   },
   {
    "id": "dep:reg:60",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     60
@@ -32961,6 +32998,7 @@
   },
   {
    "id": "dep:reg:61",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     61
@@ -33104,6 +33142,7 @@
   },
   {
    "id": "dep:reg:62",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     62
@@ -33229,6 +33268,7 @@
   },
   {
    "id": "dep:reg:63",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     63
@@ -33600,6 +33640,7 @@
   },
   {
    "id": "dep:reg:67",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     67
@@ -33699,6 +33740,7 @@
   },
   {
    "id": "dep:reg:68",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     68
@@ -33812,6 +33854,7 @@
   },
   {
    "id": "dep:reg:69",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     69
@@ -33899,6 +33942,7 @@
   },
   {
    "id": "dep:reg:7",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     7
@@ -34003,6 +34047,7 @@
   },
   {
    "id": "dep:reg:70",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     70
@@ -34140,6 +34185,7 @@
   },
   {
    "id": "dep:reg:71",
+   "intensity": 4,
    "kind": "depiction",
    "region_ids": [
     71
@@ -34223,6 +34269,7 @@
   },
   {
    "id": "dep:reg:72",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     72
@@ -34342,6 +34389,7 @@
   },
   {
    "id": "dep:reg:73",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     73
@@ -34417,6 +34465,7 @@
   },
   {
    "id": "dep:reg:74",
+   "intensity": 4,
    "kind": "depiction",
    "region_ids": [
     74
@@ -34497,6 +34546,7 @@
   },
   {
    "id": "dep:reg:75",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     75
@@ -34583,6 +34633,7 @@
   },
   {
    "id": "dep:reg:76",
+   "intensity": 4,
    "kind": "depiction",
    "region_ids": [
     76
@@ -34640,6 +34691,7 @@
   },
   {
    "id": "dep:reg:77",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     77
@@ -34796,6 +34848,7 @@
   },
   {
    "id": "dep:reg:79",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     79
@@ -34895,6 +34948,7 @@
   },
   {
    "id": "dep:reg:8",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     8
@@ -34993,6 +35047,7 @@
   },
   {
    "id": "dep:reg:80",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     80
@@ -35100,6 +35155,7 @@
   },
   {
    "id": "dep:reg:81",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     81
@@ -35219,6 +35275,7 @@
   },
   {
    "id": "dep:reg:82",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     82
@@ -35335,6 +35392,7 @@
   },
   {
    "id": "dep:reg:83",
+   "intensity": 4,
    "kind": "depiction",
    "region_ids": [
     83
@@ -35446,6 +35504,7 @@
   },
   {
    "id": "dep:reg:84",
+   "intensity": 2,
    "kind": "depiction",
    "region_ids": [
     84
@@ -35538,6 +35597,7 @@
   },
   {
    "id": "dep:reg:85",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     85
@@ -35685,6 +35745,7 @@
   },
   {
    "id": "dep:reg:86",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     86
@@ -35828,6 +35889,7 @@
   },
   {
    "id": "dep:reg:87",
+   "intensity": 1,
    "kind": "depiction",
    "region_ids": [
     87
@@ -35891,6 +35953,7 @@
   },
   {
    "id": "dep:reg:9",
+   "intensity": 3,
    "kind": "depiction",
    "region_ids": [
     9

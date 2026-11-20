@@ -492,6 +492,10 @@ function regionEvents(day, previousDay) {
           name,
           description:
             (r && typeof r === 'object' ? r.description_summary : null) ?? null,
+          // The land's own force (#184): crossing into Mordor is not the
+          // same event as crossing into the Shire.
+          intensity:
+            (r && typeof r === 'object' ? r.intensity : null) ?? null,
           reading: `crossed into ${name}`,
           tags: ['region_entered'],
         },

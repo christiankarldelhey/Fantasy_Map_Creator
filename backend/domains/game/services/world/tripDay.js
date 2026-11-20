@@ -188,6 +188,7 @@ async function regionAtPoint(lng, lat) {
             (SELECT array_agg(x) FROM jsonb_array_elements_text(rd.rotation) x)
               AS description_summary,
             r.cultural_family,
+            rd.intensity,
             COALESCE(r.population_ratio, 0.5) AS population_ratio
      FROM regions r
      LEFT JOIN places_narration rd ON rd.id = r.depiction_id
@@ -214,7 +215,7 @@ async function regionsForPoints(points) {
        SELECT rg.id, rg.name,
               (SELECT array_agg(x) FROM jsonb_array_elements_text(rd.rotation) x)
                 AS description_summary,
-              rg.cultural_family, rg.population_ratio
+              rg.cultural_family, rg.population_ratio, rd.intensity
        FROM regions rg
        LEFT JOIN places_narration rd ON rd.id = rg.depiction_id
        WHERE ST_Contains(rg.geom, ST_SetSRID(ST_MakePoint((elem->>0)::float, (elem->>1)::float), 4326))
@@ -228,6 +229,8 @@ async function regionsForPoints(points) {
     name: row.name,
     description_summary: row.description_summary,
     cultural_family: row.cultural_family,
+    // The land's declared force rides the crossing event (#184).
+    intensity: row.intensity ?? null,
     population_ratio: Number(row.population_ratio),
   } : null));
 }
@@ -792,6 +795,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
         name,
         description_summary: info.description_summary || null,
         cultural_family: info.cultural_family || null,
+        intensity: info.intensity ?? null,
         // When the leg first reads as this land — the crossing moment a
         // `region` event hangs on (toEvents).
         first_seen_hour_float: Number((WALK_START_HOUR + elapsed).toFixed(2)),
