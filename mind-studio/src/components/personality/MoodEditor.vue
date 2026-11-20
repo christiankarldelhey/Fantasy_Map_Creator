@@ -2,6 +2,7 @@
 import { reactive } from 'vue'
 import { patchMood } from '../../api'
 import { moodLabel } from '../../lib/labels'
+import { moodWord } from '../../lib/moodSpace'
 import type { MindDetail } from '../../types'
 import SliderField from '../ui/SliderField.vue'
 
@@ -11,15 +12,13 @@ const emit = defineEmits<{ saved: []; error: [message: string] }>()
 const mood = reactive({
   valence: props.mind.mood.valence ?? 0,
   arousal: props.mind.mood.arousal ?? 0,
-  dominant: props.mind.mood.dominant,
 })
 
 const signed = (v: number) => `${v > 0 ? '+' : ''}${Math.round(v * 100)}`
 
 async function save() {
   try {
-    const saved = await patchMood(props.mind.character_id, { valence: mood.valence, arousal: mood.arousal })
-    mood.dominant = saved.dominant
+    await patchMood(props.mind.character_id, { valence: mood.valence, arousal: mood.arousal })
     emit('saved')
   } catch (e) {
     emit('error', (e as Error).message)
@@ -29,7 +28,7 @@ async function save() {
 
 <template>
   <div class="mood">
-    <p class="now">Hoy se siente: <span class="badge badge-accent">{{ moodLabel(mood.dominant) }}</span></p>
+    <p class="now">Hoy se siente: <span class="badge badge-accent">{{ moodLabel(moodWord(mood)) }}</span></p>
     <div class="fields">
       <SliderField
         v-model="mood.valence"
@@ -47,6 +46,7 @@ async function save() {
         help="Qué tan revuelto o calmo está."
         low="En calma"
         high="Muy agitado"
+        :min="-1"
         @commit="save"
       />
     </div>

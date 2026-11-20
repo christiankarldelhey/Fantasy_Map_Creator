@@ -561,7 +561,8 @@ def perceive_events(session, game_id, mind, events, character=None,
             felt = felt_through(world_delta, standing, mind.personality)
         if body_hit and not already_felt:
             acute_hit(mind.body, body_hit)
-        valence = mood_delta(felt).get('valence', 0.0)
+        felt_mood = mood_delta(felt)
+        valence = felt_mood.get('valence', 0.0)
         kind = kind_of(session, game_id, event.get('type'))
         item = {
             **event,
@@ -577,6 +578,7 @@ def perceive_events(session, game_id, mind, events, character=None,
             'tags': tags,
             'subjects': subjects,
             'imprint': felt,
+            'mood_delta': {d: round(v, 3) for d, v in felt_mood.items()},
         }
         if primary:
             item['subject'] = primary

@@ -250,6 +250,13 @@ def test_mood_patch_clamps_and_drops_cause_near_neutral(client):
     assert r.json()['valence'] == -1.0
     assert r.json()['arousal'] == 1.0
 
+    # Arousal is bipolar like every mood dim — calm lives below zero.
+    r = client.patch(
+        f'/studio/api/minds/{char}/mood', auth=AUTH,
+        json={'arousal': -4},
+    )
+    assert r.json()['arousal'] == -1.0
+
 
 # ============================================================================
 # Nature — temperament + personality (ADR 0017)

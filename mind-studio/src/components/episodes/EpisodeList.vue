@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { moodLabel } from '../../lib/labels'
+import { moodWord } from '../../lib/moodSpace'
 import type { EpisodeView } from '../../types'
 
 defineProps<{ episodes: EpisodeView[] }>()
@@ -21,7 +22,7 @@ const selected = defineModel<string | null>({ required: true })
           <span class="date">{{ e.date ?? '' }}</span>
         </span>
         <span class="focus">{{ e.brief?.focus?.text ?? 'Sin centro definido' }}</span>
-        <span class="mood">Ánimo: {{ moodLabel(e.mood.dominant) }}</span>
+        <span class="mood">Ánimo: {{ moodLabel(moodWord(e.mood)) }}</span>
       </button>
     </li>
   </ul>

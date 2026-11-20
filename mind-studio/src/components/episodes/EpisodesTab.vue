@@ -5,17 +5,34 @@ import EpisodeDetail from './EpisodeDetail.vue'
 import EpisodeList from './EpisodeList.vue'
 
 const props = defineProps<{ mind: MindDetail }>()
+const emit = defineEmits<{ saved: [] }>()
 
 // Newest first, opened on the latest — the Mind as it is now.
 const episodes = computed(() => [...props.mind.episodes].reverse())
 const selectedId = shallowRef<string | null>(episodes.value[0]?.id ?? null)
 const selected = computed(() => episodes.value.find((e) => e.id === selectedId.value) ?? null)
+
+const status = shallowRef<string | null>(null)
+function onSaved() {
+  status.value = null
+  emit('saved')
+}
 </script>
 
 <template>
+  <p v-if="status" class="status error">No se guardó el ánimo: {{ status }}</p>
   <div v-if="episodes.length" class="layout">
     <EpisodeList v-model="selectedId" :episodes="episodes" />
-    <EpisodeDetail v-if="selected" :key="selected.id" :episode="selected" />
+    <EpisodeDetail
+      v-if="selected"
+      :key="selected.id"
+      :episode="selected"
+      :character-id="mind.character_id"
+      :mood="mind.mood"
+      :temperament="mind.temperament"
+      @saved="onSaved"
+      @error="status = $event"
+    />
   </div>
   <p v-else class="empty">Este personaje todavía no vivió ningún episodio.</p>
 </template>
@@ -23,4 +40,5 @@ const selected = computed(() => episodes.value.find((e) => e.id === selectedId.v
 <style scoped>
 .layout { display: grid; grid-template-columns: 260px 1fr; gap: 24px; align-items: start; }
 @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+.status.error { color: var(--danger); margin: 0 0 12px; }
 </style>
