@@ -562,7 +562,6 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
         // earns no census and no ficha prose.
         aspect: 'The great fortress of Helm\'s Deep.',
         presence: 'A hall of stone.', population: 300, inhabitants: 'rohirrim',
-        sighted_far: 'a dark wall beneath the cliffs',
       }],
     },
     trip: { id: 't1' },
@@ -580,7 +579,7 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
   assert.equal(hornburg.sighted.direction, 'east');
   // A place met only from afar carries its silhouette and nothing else:
   // no aspect, no presence, no population — what nobody got close to know.
-  assert.equal(hornburg.sighted_far, 'a dark wall beneath the cliffs');
+  assert.equal(hornburg.sighted_far, 'a keep against the sky, banners on the wall');
   assert.equal(hornburg.aspect, undefined);
   assert.equal(hornburg.presence, undefined);
   assert.equal(hornburg.population, undefined);
