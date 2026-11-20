@@ -407,6 +407,11 @@ const WATCH_FORMS = new Set([
 
 function placeEvents(day) {
   return (day.locations || []).map((loc) => {
+    // A second pass through a place already met this trip: the event
+    // still happens — the mind evokes the memory it left — but the
+    // arrival scene is told once. No prose re-ships and its pull is a
+    // whisper, same as a shape sighted from afar.
+    const revisit = loc.told && loc.visited && !loc.entered;
     const tags = [];
     if (SETTLEMENT_KINDS.has(loc.type)) tags.push('settlement');
     if (loc.entered) tags.push('entered');
@@ -436,10 +441,10 @@ function placeEvents(day) {
         // same activity vocabulary interactions use.
         act: isDistantSighting(loc) ? 'watch' : 'walk',
         // The place's declared force (0-4, #184): being inside a ruin
-        // imprints; the same ruin sighted from afar declares zero —
-        // the intensity floor keeps only the whisper of familiarity
-        // a silhouette can teach.
-        intensity: isDistantSighting(loc) ? 0 : loc.intensity ?? null,
+        // imprints; the same ruin sighted from afar — or passed a
+        // second time — declares zero: the floor keeps only the
+        // whisper of familiarity a silhouette or a return can teach.
+        intensity: isDistantSighting(loc) || revisit ? 0 : loc.intensity ?? null,
         // The subject slug — 'name' is prose, 'place' is what the
         // Relation accretes on (tag:place:esgaroth). Every sighting,
         // visit and stay feeds the same identity.
@@ -448,10 +453,14 @@ function placeEvents(day) {
         distance_km: loc.distance_km ?? null,
         // Beyond its reach a place is only a silhouette: the sighted_far
         // line is all it says — census and ficha prose belong to a
-        // traveller who got close or went in.
+        // traveller who got close or went in. A revisit carries less
+        // still: the prose stays with its first telling, the pass only
+        // names the place so the memory can stir.
         ...(isDistantSighting(loc)
           ? { sighted_far: sightedShape(loc) }
-          : {
+          : revisit
+            ? {}
+            : {
               aspect: loc.aspect ?? null,
               aspect_es: loc.aspect_es ?? null,
               presence: loc.presence ?? undefined,

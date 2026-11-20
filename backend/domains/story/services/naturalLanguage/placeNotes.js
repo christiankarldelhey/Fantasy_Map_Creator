@@ -356,17 +356,22 @@ export function collectLocationNotes(locations) {
     const sight = l.sighted
       ? `sighted far off${l.sighted_direction ? ` to the ${l.sighted_direction}` : ''}, ${timeOfDayPhrase(l.sighted_hour_float)} — `
       : '';
+    // A place already met this trip (visited or slept in) whose ground
+    // the road crosses again: the second pass is a recognition, not an
+    // arrival — the line names it, the arrival scene stays told once.
+    const repeat = l.told && !l.entered;
     let proximity;
     if (l.entered) {
       proximity = `reaches it ${when} and stays — the day ends here`;
     } else if (l.hostile) {
-      proximity = `${sight}passed outside, ${when} — enemy country, no welcome there`;
+      proximity = `${sight}passed outside${repeat ? ' again' : ''}, ${when} — enemy country, no welcome there`;
     } else {
       // A sighting clause already carries its hour ('sighted far off to
       // the southwest, in the early morning — …'); the passing needs no
       // second stamp.
       const time = sight ? '' : `, ${when}`;
-      proximity = `${sight}${proximityPhrase(l.distance_km, l.size_radius_km)}${time}`;
+      const again = repeat ? ' again' : '';
+      proximity = `${sight}${proximityPhrase(l.distance_km, l.size_radius_km)}${again}${time}`;
     }
     // From beyond its reach a place is only its silhouette — anonymous,
     // read from its kind (sightedShape, #187: the authored override
@@ -376,6 +381,7 @@ export function collectLocationNotes(locations) {
     const subject = distant ? sightedSubject(l) : `${l.name}${kind}`;
     const prose = distant
       ? sightedShape(l)
+      : repeat ? null
       : (l.visited || l.entered) ? (l.presence || l.aspect) : l.aspect;
     notes.push(`- ${subject}: ${proximity}${prose ? descriptionSuffix(prose) : '.'}`);
   }

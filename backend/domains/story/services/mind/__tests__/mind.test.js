@@ -590,6 +590,37 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
   assert.doesNotMatch(hornburg.reading, /Hornburg|Helm/);
 });
 
+test('a place met before is passed again, not arrived at twice', () => {
+  const events = toEvents({
+    day: {
+      ...DAY,
+      locations: [{
+        // Yesterday's camp told its scene already: the road crossing its
+        // ground again is a recognition — the pass names the place so the
+        // memory can stir, but no arrival prose re-ships.
+        id: 99, name: "The herders' camp", type: 'camp', region: 'Talath Muil',
+        distance_km: 2.89, size_radius_km: 12, visited: true, told: true,
+        hour_float: 9.28, intensity: 2,
+        presence: 'They feed him. Meat, sour milk, and pine nuts.',
+        host: { name: 'Dervorin', slug: 'npc_tm_01', people: 'dunedain' },
+      }],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+  });
+  const camp = events.find(
+    (e) => e.type === 'land' && e.data.place === 'the_herders_camp').data;
+  // The subject still accretes and the pass is told — but as a return:
+  // 'again', the whisper of familiarity for intensity, none of the
+  // first telling's prose or keeper scene.
+  assert.match(camp.reading, /passes through again/);
+  assert.doesNotMatch(camp.reading, /They feed him/);
+  assert.equal(camp.intensity, 0);
+  assert.equal(camp.presence, undefined);
+  assert.equal(camp.npc, undefined);
+  assert.ok(camp.tags.includes('visited'));
+});
+
 test('a dead place sighted far shows its absence, not a living shape', () => {
   const events = toEvents({
     day: {

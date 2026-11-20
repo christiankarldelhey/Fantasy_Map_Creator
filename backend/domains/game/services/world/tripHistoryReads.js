@@ -32,6 +32,18 @@ export async function loadRecentEncounterRows(tripId, dayNumber, limit) {
   return rows.map((r) => r.encounters);
 }
 
+/** Location arrays of every previous chapter, oldest first. */
+export async function loadPreviousLocationRows(tripId, dayNumber) {
+  if (dayNumber <= 1) return [];
+  const { rows } = await pool.query(
+    `SELECT locations FROM trip_days
+     WHERE trip_id = $1 AND day_number < $2
+     ORDER BY day_number`,
+    [tripId, dayNumber]
+  );
+  return rows.map((r) => r.locations);
+}
+
 /** Climate snapshots for the last `limit` days, oldest first. */
 export async function loadRecentDayClimates(tripId, dayNumber, limit) {
   const { rows } = await pool.query(

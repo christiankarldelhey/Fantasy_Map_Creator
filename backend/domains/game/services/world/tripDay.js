@@ -718,7 +718,7 @@ async function buildNightRegionResolver(campPoint) {
  * @param {Array<string>} [params.recentForms] - forms used in previous chapters (anti-repetition)
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, usedRegionDescriptions = {}, usedTerrainPhrases = {}, startState = null }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], toldPlaceIds = [], shadowFactor = 1, shadowBand = null, usedRegionDescriptions = {}, usedTerrainPhrases = {}, startState = null }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -1153,6 +1153,10 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       narration_type: l.narration_type ?? null,
       record_tags: l.record_tags || [],
       intensity: l.intensity ?? null,
+      // Already met this trip (visited or slept in on an earlier day):
+      // the road crossing its ground again is a return, not a first
+      // arrival — the scene itself stays with its first telling.
+      told: toldPlaceIds.has(l.id),
       // The resident entity joined by location — a keeper met at her
       // own door, not only at the overnight stop.
       host: l.host ?? null,
