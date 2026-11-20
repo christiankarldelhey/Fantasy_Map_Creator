@@ -620,6 +620,7 @@ async function upsertNarrationRecord(r, extras = {}) {
     ...proseCols.map((v) => (v == null ? null : JSON.stringify(v))),
     r.refs ? JSON.stringify(r.refs) : null,
     JSON.stringify(withAuthoring(r.payload, r, PN_AUTHORING)),
+    r.intensity ?? null,
   ];
   // Once a place is anchored, the georef tool owns its spatial fields
   // (location_id, region_ids, type, radii): a reseed must not wipe them. The
@@ -637,10 +638,11 @@ async function upsertNarrationRecord(r, extras = {}) {
     `INSERT INTO places_narration
        (id, kind, location_id, region_ids, name, type,
         cultural_family, priority, tags, size_radius_km, influence_radius_km,
-        ${proseNames}, refs, payload)
+        ${proseNames}, refs, payload, intensity)
      VALUES ($1,$2,$3,$4,$5::jsonb,$6::jsonb,$7,$8,$9,$10,$11,
              ${proseCols.map((_, i) => `$${12 + i}::jsonb`).join(',')},
-             $${12 + proseCols.length}::jsonb, $${13 + proseCols.length}::jsonb)
+             $${12 + proseCols.length}::jsonb, $${13 + proseCols.length}::jsonb,
+             $${14 + proseCols.length})
      ON CONFLICT (id) DO UPDATE SET
        kind=EXCLUDED.kind,
        name=EXCLUDED.name,
@@ -648,7 +650,8 @@ async function upsertNarrationRecord(r, extras = {}) {
        tags=EXCLUDED.tags,
        ${spatialSet},
        ${proseSet},
-       refs=COALESCE(EXCLUDED.refs, places_narration.refs), payload=EXCLUDED.payload`,
+       refs=COALESCE(EXCLUDED.refs, places_narration.refs),
+       payload=EXCLUDED.payload, intensity=EXCLUDED.intensity`,
     params
   );
 }

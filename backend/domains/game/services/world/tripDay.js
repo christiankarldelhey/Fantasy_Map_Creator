@@ -353,6 +353,9 @@ async function sampleLegContext(legGeoJSON) {
           -- so a distant sighting can be true to the case, not default.
           'narration_type', COALESCE(ficha.type_en, pd.type->>'en'),
           'record_tags', COALESCE(ficha.tags, pd.tags),
+          -- The place's declared force (0-4): a ruin hits harder than a
+          -- crossroads. The ficha's word wins; the depiction is fallback.
+          'intensity', COALESCE(ficha.intensity, pd.intensity),
           -- Who keeps the door, when the ficha says so — 'una viuda de
           -- smial hondo' names the host's people and gender in prose.
           'keeper', COALESCE(ficha.keeper_en, ficha.keeper_es),
@@ -398,6 +401,7 @@ async function sampleLegContext(legGeoJSON) {
                  f.presence->>'es' AS presence_es,
                  f.type->>'en' AS type_en,
                  f.tags AS tags,
+                 f.intensity,
                  f.facts->'keeper'->>'en' AS keeper_en,
                  f.facts->'keeper'->>'es' AS keeper_es
             FROM places_narration f
@@ -1143,6 +1147,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       presence_es: l.presence_es ?? null,
       narration_type: l.narration_type ?? null,
       record_tags: l.record_tags || [],
+      intensity: l.intensity ?? null,
       // The resident entity joined by location — a keeper met at her
       // own door, not only at the overnight stop.
       host: l.host ?? null,

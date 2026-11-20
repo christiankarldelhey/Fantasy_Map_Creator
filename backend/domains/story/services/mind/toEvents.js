@@ -406,6 +406,12 @@ function placeEvents(day) {
       data: {
         subtype: 'place',
         name: loc.name || loc.id,
+        // The place's declared force (0-4, #184): being inside a ruin
+        // imprints; the same ruin sighted from afar never passes a
+        // sighting's washed share.
+        intensity: loc.intensity != null
+          ? (isDistantSighting(loc) ? Math.min(loc.intensity, 1) : loc.intensity)
+          : null,
         // The subject slug — 'name' is prose, 'place' is what the
         // Relation accretes on (tag:place:esgaroth). Every sighting,
         // visit and stay feeds the same identity.
@@ -576,6 +582,9 @@ function ambienceEvents(day) {
         situation: a.situation_id ?? null,
         name: text(a.name) ?? null,
         reading: text(a.text),
+        // The ambient record's declared force — most voices stay washed,
+        // a heavy land can declare it presses in (#184).
+        ...(a.intensity != null ? { intensity: a.intensity } : {}),
         // The ambient record's tone — one felt:* word the resolver
         // already picked (#184).
         ...(a.felt ? { tags: [a.felt] } : {}),

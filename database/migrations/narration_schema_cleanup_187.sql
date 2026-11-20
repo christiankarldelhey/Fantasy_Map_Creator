@@ -45,6 +45,11 @@ ALTER TABLE places_narration
   ADD CONSTRAINT places_narration_kind_check
   CHECK (kind = ANY (ARRAY['place'::text, 'ambient'::text, 'depiction'::text]));
 
+-- The force dial (#184): same authored scale as encounter_forms (0-4).
+-- A ruin's presence hits harder than a crossroads; a sighted_far stays
+-- washed downstream regardless.
+ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS intensity smallint;
+
 -- == entities_narration: fold, move forms, drop ==============================
 
 DO $$
