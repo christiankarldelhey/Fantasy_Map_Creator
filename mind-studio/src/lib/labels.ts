@@ -15,13 +15,53 @@ export const SKILLS: Record<string, { label: string; help: string }> = {
   intimidation: { label: 'Intimidación', help: 'Imponerse con miedo.' },
 }
 
-// voice.py MOOD_BANDS — the engine's word for the valence band.
+// voice.py MOOD_WHEEL + MOOD_BANDS — the engine's word for the mood
+// point: the sector it sits in (soft near centre, strong outside),
+// 'steady' at the core, extremes at the rim; bands as fallback.
 export const MOOD_STATES: Record<string, string> = {
-  despairing: 'desesperado',
-  troubled: 'preocupado',
-  steady: 'tranquilo',
+  // — the wheel's outer words (the sectors the disc draws) —
+  happy: 'feliz',
+  excited: 'excitado',
+  alert: 'alerta',
+  tense: 'tenso',
+  angry: 'enojado',
+  distressed: 'angustiado',
+  sad: 'triste',
+  depressed: 'deprimido',
+  bored: 'aburrido',
+  calm: 'calmo',
+  relaxed: 'relajado',
+  content: 'contento',
+  // — the softened inner ring —
   heartened: 'animado',
+  eager: 'entusiasmado',
+  watchful: 'atento',
+  uneasy: 'inquieto',
+  irritated: 'molesto',
+  worried: 'preocupado',
+  melancholy: 'melancólico',
+  listless: 'apático',
+  settled: 'sosegado',
+  mellow: 'apacible',
+  pleased: 'satisfecho',
+  // — centre and extremes —
+  steady: 'tranquilo',
+  despairing: 'desesperado',
   exultant: 'eufórico',
+  // — older stored dominants may still carry these —
+  downcast: 'desanimado',
+  downhearted: 'desanimado',
+  grieving: 'afligido',
+  overwhelmed: 'abrumado',
+  dread: 'atemorizado',
+  afraid: 'asustado',
+  anxious: 'ansioso',
+  troubled: 'intranquilo',
+  weary: 'agotado',
+  elated: 'radiante',
+  joyful: 'alegre',
+  serene: 'sereno',
+  restless: 'inquieto',
 }
 
 export const NEEDS: Record<string, string> = {

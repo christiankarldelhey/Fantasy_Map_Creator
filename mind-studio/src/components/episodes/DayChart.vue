@@ -9,11 +9,15 @@
 // event points where they were measured, so a drop reads as a slope
 // rather than a cliff. Series toggle by group in the legend.
 // ============================================================================
-import { computed, reactive, shallowRef } from 'vue'
+import { computed, reactive } from 'vue'
 import { label, PHASES } from '../../lib/labels'
 import type { EpisodeMood, PerceivedEvent } from '../../types'
 
-const props = defineProps<{ episode: { perceived: PerceivedEvent[]; mood: EpisodeMood } }>()
+const props = defineProps<{
+  episode: { perceived: PerceivedEvent[]; mood: EpisodeMood }
+  selectedEvent?: PerceivedEvent | null
+}>()
+const emit = defineEmits<{ select: [e: PerceivedEvent | null] }>()
 
 // Phase → its hour window, for events that carry a phase but no exact
 // hour: they spread inside the window so stacked events stay visible
@@ -171,9 +175,14 @@ const ticks = [0, 6, 12, 18, 24]
 const markers = computed(() =>
   props.episode.perceived.map((e, i) => ({ e, h: hourOf(e, i), i })),
 )
-const selected = shallowRef<{ e: PerceivedEvent; x: number } | null>(null)
+const selected = computed(() => {
+  const e = props.selectedEvent ?? null
+  if (!e) return null
+  const i = props.episode.perceived.indexOf(e)
+  return i < 0 ? null : { e, x: X(hours.value[i]) }
+})
 function pick(m: { e: PerceivedEvent; h: number }) {
-  selected.value = { e: m.e, x: X(m.h) }
+  emit('select', m.e)
 }
 const titleOf = (e: PerceivedEvent) =>
   e.reading ?? e.data?.reading ?? e.data?.description ?? e.data?.name
@@ -206,7 +215,7 @@ const titleOf = (e: PerceivedEvent) =>
     </div>
 
     <div class="plot">
-      <svg :viewBox="`0 0 ${W} ${H}`" class="svg" @click.self="selected = null">
+      <svg :viewBox="`0 0 ${W} ${H}`" class="svg" @click.self="emit('select', null)">
         <!-- hour ticks -->
         <g v-for="t in ticks" :key="t">
           <line :x1="X(t)" :x2="X(t)" :y1="PAD.t" :y2="H - PAD.b" class="grid" />

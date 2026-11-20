@@ -5,7 +5,8 @@
 # misreads, repetitions, decisions. The constants here are the built-in
 # pack; a game's `pack_entries` row replaces any key's value wholesale
 # ('mind.need.hunger' -> variants, 'mind.mood_bands' -> bands,
-# 'mind.feeling_lexicon' -> entries, 'mind.disposition_render' -> map)
+# 'mind.mood_wheel' -> mood-space sectors, 'mind.feeling_lexicon'
+# -> entries, 'mind.disposition_render' -> map)
 # and enabled=False silences the key entirely.
 #
 # The world's words never live here: the host declares prose and tags on
@@ -13,6 +14,7 @@
 # the mind consumes them verbatim. What remains is interiority only.
 # ============================================================================
 import logging
+import math
 import time
 
 from app.mind.tables import PackEntry
@@ -179,6 +181,34 @@ MOOD_BANDS = [
     {'below': None, 'phrase': 'exultant'},
 ]
 
+# The point's name in mood space (valence × arousal) — a wheel of
+# twelve sectors matching the Studio circumplex: the sector's word at
+# full strength in the outer ring, softened near the centre, 'steady'
+# inside the Neutral core. 'mind.mood_wheel' replaces it per game.
+MOOD_WHEEL_KEY = 'mind.mood_wheel'
+# (centre angle ° from +valence, counterclockwise → outer word, inner)
+MOOD_WHEEL = [
+    ( 16, 'happy',      'heartened'),
+    ( 45, 'excited',    'eager'),
+    ( 74, 'alert',      'watchful'),
+    (106, 'tense',      'uneasy'),
+    (135, 'angry',      'irritated'),
+    (164, 'distressed', 'worried'),
+    (196, 'sad',        'melancholy'),
+    (225, 'depressed',  'melancholy'),
+    (254, 'bored',      'listless'),
+    (286, 'calm',       'settled'),
+    (315, 'relaxed',    'mellow'),
+    (344, 'content',    'pleased'),
+]
+# Inside the Neutral core the word is always 'steady'; past the inner
+# ring (0.5R on the disc) the sector speaks at full strength, and past
+# 0.8R the extremes take over — despairing and exultant are depths of
+# the whole state, not angles of it.
+MOOD_NEUTRAL_R = 0.22
+MOOD_FULL_R = 0.5
+MOOD_EXTREME_R = 0.8
+
 # Streak subjects that are not the tag's tail (#147): non-noun tags need
 # a worded subject — 'the poor let up at last' is broken English, 'the
 # sleepless nights let up' is the thought the streak carries.
@@ -248,6 +278,31 @@ def mood_phrase(valence, session=None, game_id=None):
         if band.get('below') is None or valence < band['below']:
             return band.get('phrase')
     return None
+
+
+def mood_name(mood, session=None, game_id=None):
+    """The word for a point in mood space — the sector of the wheel it
+    sits in (the same names the Studio disc draws), softened inside the
+    inner ring and 'steady' at the Neutral core. Valence bands remain
+    the fallback for a game without a wheel."""
+    mood = mood or {}
+    v = mood.get('valence') or 0.0
+    a = mood.get('arousal') or 0.0
+    wheel = pack_value(session, game_id, MOOD_WHEEL_KEY, MOOD_WHEEL) or []
+    if not wheel:
+        return mood_phrase(v, session, game_id)
+    r = math.hypot(v, a)
+    if r < MOOD_NEUTRAL_R:
+        return 'steady'
+    if r >= MOOD_EXTREME_R:
+        if v <= -0.45:
+            return 'despairing'
+        if v >= 0.6:
+            return 'exultant'
+    deg = math.degrees(math.atan2(a, v)) % 360
+    _, strong, soft = min(
+        wheel, key=lambda w: abs((deg - w[0] + 180) % 360 - 180))
+    return strong if r >= MOOD_FULL_R else soft
 
 
 def humanize(value):

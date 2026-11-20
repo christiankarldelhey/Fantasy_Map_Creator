@@ -26,7 +26,7 @@ from app.mind.tables import (
     Need,
 )
 from app.mind.lens import MOOD_CAUSE_MIN_VALENCE
-from app.mind.voice import mood_phrase
+from app.mind.voice import mood_name
 
 _basic = HTTPBasic()
 
@@ -445,9 +445,9 @@ def patch_mood(
     if body.valence is not None:
         mood['valence'] = round(max(-1.0, min(1.0, body.valence)), 3)
     if body.arousal is not None:
-        mood['arousal'] = round(max(0.0, min(1.0, body.arousal)), 3)
+        mood['arousal'] = round(max(-1.0, min(1.0, body.arousal)), 3)
     valence = mood.get('valence') or 0.0
-    mood['dominant'] = mood_phrase(valence, db, game) or 'neutral'
+    mood['dominant'] = mood_name(mood, db, game) or 'neutral'
     carried = mood.get('cause')
     # A cause stays only while it explains the mood it rides with: gone
     # near neutral or after the valence sign flipped past it.

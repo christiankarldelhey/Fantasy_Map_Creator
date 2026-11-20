@@ -3,7 +3,11 @@
 export interface Mood {
   valence?: number
   arousal?: number
+  // In the engine's space (MOOD_DIMS) though not yet drawn anywhere.
+  dominance?: number
   dominant?: string
+  // The reading that explains this mood, while it still explains it.
+  cause?: { reading?: string | null; valence?: number; date?: string | null } | null
 }
 
 // The episode's emotional plot (ADR 0017 · lens.mood_arc): one point per
@@ -12,6 +16,8 @@ export interface MoodArcPoint {
   phase: string
   felt: Record<string, number>
   valence: number
+  // The phase's posture in mood space — its region gives the word.
+  arousal?: number
   mood?: string | null
   cause?: string | null
 }
@@ -44,6 +50,9 @@ export interface PerceivedEvent {
   severity?: number | null
   world_valence?: number | null
   imprint: Record<string, number>
+  // The felt delta projected into mood space (valence/arousal/dominance
+  // pushed) — what this event would move on the circumplex.
+  mood_delta?: Record<string, number> | null
   data: {
     description?: string | null
     act?: string

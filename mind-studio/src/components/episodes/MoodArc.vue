@@ -9,6 +9,7 @@
 // ============================================================================
 import { computed } from 'vue'
 import { label, moodLabel, PHASES } from '../../lib/labels'
+import { moodWord } from '../../lib/moodSpace'
 import type { EpisodeMood } from '../../types'
 
 const props = defineProps<{ mood: EpisodeMood }>()
@@ -35,7 +36,7 @@ const phaseLabel = (p: string) => label(PHASES, p)
         </p>
         <p class="phase-mood">
           <span class="val" :class="{ neg: p.valence < 0 }">{{ signed(p.valence) }}</span>
-          <span class="muted">{{ moodLabel(p.mood) }}</span>
+          <span class="muted">{{ moodLabel(moodWord(p)) }}</span>
         </p>
         <p v-if="p.cause" class="phase-cause">«{{ p.cause }}»</p>
       </div>

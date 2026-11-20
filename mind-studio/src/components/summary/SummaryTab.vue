@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue'
 import { CONDITION, label, moodLabel, NEEDS } from '../../lib/labels'
+import { moodWord } from '../../lib/moodSpace'
 import { assetSrc } from '../../lib/urls'
 import type { MindDetail } from '../../types'
 import PanelCard from '../ui/PanelCard.vue'
@@ -104,7 +105,7 @@ function onSaved() {
       <dl class="rows">
         <div>
           <dt>Ánimo</dt>
-          <dd><span class="badge badge-accent">{{ moodLabel(mind.mood.dominant) }}</span> <span class="muted">{{ moodText }}</span></dd>
+          <dd><span class="badge badge-accent">{{ moodLabel(moodWord(mind.mood)) }}</span> <span class="muted">{{ moodText }}</span></dd>
         </div>
         <div v-for="c in condition" :key="c.key">
           <dt>{{ c.label }}</dt>

@@ -18,7 +18,7 @@ from app.mind.engine import (
     mood_delta, weigh_body,
 )
 from app.mind.tags import cause_tags
-from app.mind.voice import humanize, mood_phrase
+from app.mind.voice import humanize, mood_name
 from app.mind.provisioning import DEFAULT_WIRING
 
 
@@ -55,7 +55,10 @@ def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
             if n.type != 'physiological'
         ))
         valence = max(-1.0, valence - thread_pressure)
-    dominant = mood_phrase(valence, session, game_id) or 'neutral'
+    dominant = mood_name(
+        {'valence': valence, 'arousal': arousal},
+        session, game_id,
+    ) or 'neutral'
     felt = {}
     trace = []
     for i in items:
@@ -116,12 +119,14 @@ def mood_arc(items, session=None, game_id=None):
         if not felt:
             continue
         add_delta(running, felt)
-        valence = couple_valence(running)
+        phase_mood = mood_delta(running)
+        valence = phase_mood.get('valence', 0.0)
         point = {
             'phase': phase,
             'felt': {d: round(v, 3) for d, v in felt.items()},
             'valence': round(valence, 3),
-            'mood': mood_phrase(valence, session, game_id),
+            'arousal': round(phase_mood.get('arousal', 0.0), 3),
+            'mood': mood_name(phase_mood, session, game_id),
             'cause': cause,
         }
         arc.append(point)
@@ -137,13 +142,6 @@ def mood_arc(items, session=None, game_id=None):
                 }
         prev_valence = valence
     return arc, turn
-
-
-def couple_valence(felt):
-    """The mood-space valence of a felt vector — mood_delta read for
-    its valence only (the arc tracks the day's colour, not its whole
-    posture)."""
-    return mood_delta(felt).get('valence', 0.0)
 
 
 MOOD_CAUSE_MIN_WEIGHT = 0.15
@@ -201,7 +199,7 @@ def update_mind_mood(session, game_id, mind, ep_mood, cause=None,
     mood['valence'] = max(-1.0, mood.get('valence', 0.0) - pressure)
     mood['arousal'] = min(1.0, mood.get('arousal', 0.0) + pressure * 0.5)
     valence = mood['valence']
-    dominant = mood_phrase(valence, session, game_id) or 'neutral'
+    dominant = mood_name(mood, session, game_id) or 'neutral'
     carried = prior.get('cause')
     if cause:
         carried = {**cause, 'date': when.isoformat() if when else None}

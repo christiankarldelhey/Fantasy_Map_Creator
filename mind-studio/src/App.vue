@@ -43,7 +43,12 @@ const tabs = computed(() => [
         <SummaryTab v-if="tab === 'summary'" :mind="mind" @saved="refresh" />
         <PersonalityTab v-else-if="tab === 'personality'" :key="mind.character_id" :mind="mind" @saved="refresh" />
         <MemoryTab v-else-if="tab === 'memory'" :mind="mind" />
-        <EpisodesTab v-else-if="tab === 'episodes'" :key="mind.character_id" :mind="mind" />
+        <EpisodesTab
+          v-else-if="tab === 'episodes'"
+          :key="mind.character_id"
+          :mind="mind"
+          @saved="refresh"
+        />
         <TagsTab v-else />
       </div>
     </main>

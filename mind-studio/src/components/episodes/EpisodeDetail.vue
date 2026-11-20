@@ -1,14 +1,36 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue'
+import { patchMood } from '../../api'
 import {
   EPISODE_STATUS, label, moodLabel, NEEDS, PHASES, SILENCED_KIND, SILENCED_REASON,
 } from '../../lib/labels'
-import type { EpisodeView, LensLine } from '../../types'
+import { moodWord, type MoodPoint } from '../../lib/moodSpace'
+import type { EpisodeView, LensLine, Mood, PerceivedEvent } from '../../types'
 import PanelCard from '../ui/PanelCard.vue'
 import DayChart from './DayChart.vue'
 import MoodArc from './MoodArc.vue'
+import MoodSpace from './MoodSpace.vue'
 
-const props = defineProps<{ episode: EpisodeView }>()
+const props = defineProps<{
+  episode: EpisodeView
+  characterId: string
+  mood: Mood
+  temperament: Record<string, number>
+}>()
+const emit = defineEmits<{ saved: []; error: [message: string] }>()
+
+// The event under the cursor on the day chart — its mood push shows on
+// the circumplex next to it.
+const selectedEvent = shallowRef<PerceivedEvent | null>(null)
+
+async function moveMood(pos: MoodPoint) {
+  try {
+    await patchMood(props.characterId, pos)
+    emit('saved')
+  } catch (e) {
+    emit('error', (e as Error).message)
+  }
+}
 
 const brief = computed(() => props.episode.brief)
 const focusLine = computed(() => props.episode.lens.find((l) => l.section === 'focus') ?? null)
@@ -46,7 +68,7 @@ const phase = (line: Pick<LensLine, 'phase'>) => (line.phase ? label(PHASES, lin
       <h2>Episodio {{ episode.idx ?? '—' }}</h2>
       <span class="muted mono">{{ episode.date ?? 'sin fecha' }}</span>
       <span class="badge">{{ label(EPISODE_STATUS, episode.status) }}</span>
-      <span class="badge badge-accent">Ánimo: {{ moodLabel(episode.mood.dominant) }}</span>
+      <span class="badge badge-accent">Ánimo: {{ moodLabel(moodWord(episode.mood)) }}</span>
       <span v-for="n in episode.needs_active" :key="n.key" class="badge need">{{ label(NEEDS, n.key) }}</span>
     </header>
 
@@ -67,10 +89,23 @@ const phase = (line: Pick<LensLine, 'phase'>) => (line.phase ? label(PHASES, lin
 
     <PanelCard
       title="Cómo fue el día"
-      description="El ánimo por tramos con lo que lo causó, y todas las mediciones del día contra la hora. Los puntos del eje son los eventos."
+      description="El ánimo por tramos con lo que lo causó, todas las mediciones del día contra la hora — y el lugar del personaje en el espacio del ánimo."
     >
       <MoodArc :mood="episode.mood" />
-      <DayChart v-if="episode.perceived.length" :episode="episode" />
+      <div class="day-grid">
+        <DayChart
+          v-if="episode.perceived.length"
+          :episode="episode"
+          :selected-event="selectedEvent"
+          @select="selectedEvent = $event"
+        />
+        <MoodSpace
+          :mood="mood"
+          :temperament="temperament"
+          :event="selectedEvent"
+          @move="moveMood"
+        />
+      </div>
     </PanelCard>
 
     <PanelCard
@@ -124,6 +159,8 @@ const phase = (line: Pick<LensLine, 'phase'>) => (line.phase ? label(PHASES, lin
 
 <style scoped>
 .detail { display: grid; gap: 20px; min-width: 0; }
+.day-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 24px; align-items: start; margin-top: 14px; }
+@media (max-width: 1100px) { .day-grid { grid-template-columns: 1fr; } }
 .head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .head h2 { font-size: 20px; margin-right: 4px; }
 .mono { font-family: var(--mono); font-size: 12px; }
