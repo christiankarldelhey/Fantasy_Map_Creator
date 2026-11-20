@@ -785,18 +785,20 @@ async function seedInteractions() {
   for (const i of interactions) {
     await pool.query(
       `INSERT INTO interactions
-         (id, places_narration_id, entities_narration_id, act, label, need_tags, skill, outcomes, payload)
-       VALUES ($1, $2, $3, $4, $5::jsonb, $6, $7::jsonb, $8::jsonb, $9::jsonb)
+         (id, places_narration_id, entities_narration_id, act, label, need_tags, skill, outcomes, payload, intensity)
+       VALUES ($1, $2, $3, $4, $5::jsonb, $6, $7::jsonb, $8::jsonb, $9::jsonb, $10)
        ON CONFLICT (id) DO UPDATE SET
          places_narration_id = EXCLUDED.places_narration_id,
          entities_narration_id = EXCLUDED.entities_narration_id,
          act = EXCLUDED.act, label = EXCLUDED.label, need_tags = EXCLUDED.need_tags,
-         skill = EXCLUDED.skill, outcomes = EXCLUDED.outcomes, payload = EXCLUDED.payload`,
+         skill = EXCLUDED.skill, outcomes = EXCLUDED.outcomes, payload = EXCLUDED.payload,
+         intensity = EXCLUDED.intensity`,
       [
         i.id, i.places_narration_id, i.entities_narration_id, i.act,
         JSON.stringify(i.label), i.need_tags,
         i.skill ? JSON.stringify(i.skill) : null,
         JSON.stringify(i.outcomes), JSON.stringify(i.payload),
+        i.intensity ?? null,
       ]
     );
     actCount[i.act] = (actCount[i.act] ?? 0) + 1;
@@ -1345,6 +1347,7 @@ async function ensureSchema() {
   await runMigrationFile('add_character_race.sql');
   // #187 — last: shrinks the narration tables the earlier files created.
   await runMigrationFile('narration_schema_cleanup_187.sql');
+  await runMigrationFile('add_intensity_to_interactions.sql');
 
   console.log('✅ Schema ready\n');
 }

@@ -143,6 +143,14 @@ function where(region, place = null) {
   return Object.keys(w).length ? w : undefined;
 }
 
+// The weather tiers' force on the shared 0-4 dial (#184): a storm day
+// is an event, a wet road is background noise.
+const WEATHER_INTENSITY = {
+  'weather:storm': 3, 'weather:deep_cold': 3,
+  'weather:scorching': 2, 'weather:snow': 2,
+  'weather:freezing': 1,
+};
+
 function climateEvents(day) {
   const samples = Array.isArray(day.climate) ? day.climate : [];
   const byPhase = { morning: [], afternoon: [], night: [] };
@@ -162,6 +170,7 @@ function climateEvents(day) {
       precipitation: sumOf(records.map((w) => w.precipitation)),
     };
     const tags = weatherTags(data);
+    const intensity = Math.max(0, ...tags.map((t) => WEATHER_INTENSITY[t] ?? 0));
     events.push({
       type: 'climate',
       when: when({ phase }),
@@ -173,6 +182,7 @@ function climateEvents(day) {
         // reading and its declared tags ('weather:wet' feeds exposure).
         reading: summariseWeather(records, rngOf(day))
           ?? weatherReading(data),
+        ...(intensity ? { intensity } : {}),
         ...(tags.length ? { tags } : {}),
       },
     });
@@ -285,6 +295,12 @@ function encounterEvents(day) {
           })(),
           outcome,
           check: encounterCheck(e.entity, e.interaction),
+          // What the traveller was doing (the interactions' activity
+          // vocabulary): the resolved choice's act wins; words passed
+          // read as 'talk'; a sign or far shape read as 'watch'.
+          act: e.interaction?.resolved_choice?.act
+            ?? (e.interaction?.dialogue_content ? 'talk'
+              : (WATCH_FORMS.has(e.interaction?.form) ? 'watch' : null)),
           // Wave C: a fork on this encounter was chosen pre-episode by
           // the interaction engine — the resolved pick rides for the
           // narrator (the outcome event carries the felt side).
@@ -350,6 +366,7 @@ function mealEvents(day) {
       where: where(regionOf(day), atLodging),
       data: {
         slot: m.slot || null,
+        act: 'eat',
         // A skipped meal is an absence the mind should feel, not a gap.
         eaten: food != null || m.itemId != null || m.slug === 'tavern_meal',
         // Subject slugs, not display names — 'Fruit Bread' and
@@ -379,6 +396,14 @@ const SETTLEMENT_KINDS = new Set([
 // the code only passes the namespace through.
 const FELT_PREFIX = 'felt:';
 
+// Contact without touch — the thing was registered at a distance, so the
+// traveller's activity on the wire is watching, not meeting.
+const WATCH_FORMS = new Set([
+  'sign_only', 'glimpsed_far', 'sound_only', 'observed_activity',
+  'presence_felt', 'watches', 'scenery', 'drifts_closer',
+  'mistaken_for_object', 'passed_by',
+]);
+
 function placeEvents(day) {
   return (day.locations || []).map((loc) => {
     const tags = [];
@@ -406,6 +431,9 @@ function placeEvents(day) {
       data: {
         subtype: 'place',
         name: loc.name || loc.id,
+        // A far shape is watched, a reached one walked through — the
+        // same activity vocabulary interactions use.
+        act: isDistantSighting(loc) ? 'watch' : 'walk',
         // The place's declared force (0-4, #184): being inside a ruin
         // imprints; the same ruin sighted from afar never passes a
         // sighting's washed share.
@@ -490,6 +518,9 @@ function regionEvents(day, previousDay) {
         data: {
           subtype: 'region',
           name,
+          // What the traveller was doing when the land changed — the
+          // shared activity vocabulary, like interactions' acts (#184).
+          act: 'walk',
           description:
             (r && typeof r === 'object' ? r.description_summary : null) ?? null,
           // The land's own force (#184): crossing into Mordor is not the
@@ -520,6 +551,7 @@ function terrainEvents(day) {
       where: where(regionOf(day, phase)),
       data: {
         subtype: 'terrain',
+        act: 'walk',
         biomes: biomes
           .map((b) => ({ type: b?.type || b?.name || null, hour_float: b?.hour_float ?? null }))
           .slice(0, 6),
@@ -535,7 +567,7 @@ function terrainEvents(day) {
       type: 'land',
       when: when(),
       where: where(regionOf(day)),
-      data: { subtype: 'terrain', terrain_phrases: phrases, reading: phrases[0] ?? null },
+      data: { subtype: 'terrain', act: 'walk', terrain_phrases: phrases, reading: phrases[0] ?? null },
     });
   }
   return events;
@@ -550,6 +582,7 @@ function waterEvents(day) {
     }),
     where: where(w.region || regionOf(day)),
     data: { subtype: 'water', name: w.name || null,
+            act: 'walk',
             // A crossing is contact with a place-subject — the Bruinen
             // is a ford you come to know, not just where it happened.
             place: slugify(w.name), kind: slugify(w.type) || null,
@@ -585,6 +618,9 @@ function ambienceEvents(day) {
         record: a.record_id ?? null,
         situation: a.situation_id ?? null,
         name: text(a.name) ?? null,
+        // The land speaks while the traveller walks — ambient voices
+        // are road things.
+        act: 'walk',
         reading: text(a.text),
         // The ambient record's declared force — most voices stay washed,
         // a heavy land can declare it presses in (#184).
@@ -648,6 +684,7 @@ function restEvent(day) {
     when: when({ phase: 'night' }),
     where: where(regionOf(day)),
     data: {
+      act: 'rest',
       // The night anchors to its PLACE like any other entity — the inn
       // that sheltered you is as relatable as the one that shut its door.
       // The location is the entity; the interaction record ('ovn:*') is

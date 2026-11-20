@@ -166,28 +166,25 @@ DEFAULT_SEMANTICS = {
         'salience_min': 0.5,
     },
     # Weather — climate as contact: it presses the body, and the severe
-    # tiers carry honest fear too. The severity floor makes the hard
-    # day an *event* in the salience arithmetic — a storm day encodes,
-    # a drizzle day stays background.
+    # tiers carry honest fear too. Their force rides as data.intensity
+    # on the event (the shared 0-4 dial) — a storm day encodes, a
+    # drizzle day stays background.
     'tag:weather:storm': {
         'delta': {'fear': 0.3, 'affection': -0.1},
-        'weight': 0.4, 'body': {'cold': 0.1}, 'severity': 0.6,
+        'weight': 0.4, 'body': {'cold': 0.1},
     },
     'tag:weather:freezing': {
         'delta': {'affection': -0.1}, 'weight': 0.35, 'body': {'cold': 0.25},
-        'severity': 0.3,
     },
     'tag:weather:snow': {
         'delta': {'affection': -0.05}, 'weight': 0.35, 'body': {'cold': 0.2},
-        'severity': 0.45,
     },
     'tag:weather:deep_cold': {
         'delta': {'fear': 0.3, 'affection': -0.15},
-        'weight': 0.5, 'body': {'cold': 0.3}, 'severity': 0.55,
+        'weight': 0.5, 'body': {'cold': 0.3},
     },
     'tag:weather:scorching': {
         'delta': {'affection': -0.1}, 'weight': 0.4, 'body': {'fatigue': 0.15},
-        'severity': 0.5,
     },
     # The milder tiers the host also declares: a wet road, a gusty
     # ridge, a grey sky — small miseries, still honest.

@@ -3,10 +3,10 @@
 # ----------------------------------------------------------------------------
 # The host declares 'weather:*' tiers on climate events (#53 — the mind
 # never derives tags from raw numbers). Mild tags (wet/windy) mark
-# ambience; severe tags (storm/snow/deep_cold/scorching) pair with
-# 'severity.<tag>' wiring floors so a hard day of weather carries real
-# salience and encodes — drizzle never does. The felt channel reads the
-# 'tag:weather:*' semantics rows (ADR 0017).
+# ambience; severe tiers ride the shared 'data.intensity' dial (0-4)
+# so a hard day of weather carries real salience and encodes — drizzle
+# never does. The felt channel reads the 'tag:weather:*' semantics rows
+# (ADR 0017).
 # ============================================================================
 import uuid
 
@@ -58,14 +58,15 @@ def test_drizzle_stays_ambient(client):
 
 
 def test_storm_is_an_event(client):
-    """A declared storm tier crosses the severity floor: salience jumps,
+    """A declared storm tier rides the intensity dial: salience jumps,
     valence goes negative — the day is *about* weather."""
     storm = _open(client, _uid('storm'), [_climate(
         ['weather:storm'],
+        intensity=3,
         precipitation=2.0, wind_speed_10m=60, temperature_2m=8,
     )])
     assert 'tag:weather:storm' in storm['tags']
-    assert storm['severity'] == 0.6
+    assert storm['severity'] == 0.75  # intensity 3 on the shared dial
     assert storm['valence'] < 0
 
     drizzle = _open(client, _uid('calm'), [_climate(
@@ -76,16 +77,17 @@ def test_storm_is_an_event(client):
 
 
 def test_severe_tiers_carry_floors(client):
-    """Snow, deep cold and scorching all carry severity floors; the
-    strongest wins — declared tiers, not derived ones."""
+    """Severe tiers share the intensity dial; the host stamps the
+    strongest the day carried — deep cold drives the day here."""
     item = _open(client, _uid('snow'), [_climate(
         ['weather:snow', 'weather:deep_cold', 'weather:freezing'],
+        intensity=3,
         precipitation=2.0, temperature_2m=-12, wind_speed_10m=10,
     )])
     assert 'tag:weather:snow' in item['tags']
     assert 'tag:weather:deep_cold' in item['tags']
     assert 'tag:weather:freezing' in item['tags']
-    assert item['severity'] == 0.55  # deep_cold beats snow's floor
+    assert item['severity'] == 0.75  # intensity 3 on the shared dial
     # The felt channel reads the tiers as pull words (#184): one word
     # per event — deep_cold -> 'tense' wins by declared precedence,
     # and the event's felt colour is that single pull's target.
