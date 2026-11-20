@@ -125,13 +125,12 @@ def test_one_mind_carries_its_whole_history(client, monkeypatch):
     assert [e['idx'] for e in mind['episodes']] == [1, 2]
     second = mind['episodes'][1]
     assert second['narrative'] == 'The Dúnedain and his question.'
-    assert second['evoked'], second
     memory_lines = [
         line for line in second['lens']
         if (line['ref'] or {}).get('kind') == 'memory'
     ]
     assert memory_lines, second['lens']
-    assert memory_lines[0]['ref']['id'] in second['evoked']
+    assert memory_lines[0]['ref']['id']
     assert memory_lines[0]['resonated'] is True
 
 

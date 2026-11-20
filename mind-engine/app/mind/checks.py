@@ -36,7 +36,7 @@ MISREAD_KEY = 'mind.misread'
 _IDENTITY_KEYS = {
     'id', 'name', 'description', 'entity_name', 'portrait_url',
     'system_prompt', 'introduction_instructions', 'preset',
-    'skills', 'traits', 'conditions', 'state', 'resources',
+    'skills', 'conditions', 'state', 'resources',
 }
 
 
@@ -63,20 +63,28 @@ def character_state(character):
             if v is not None and k not in state and k != 'conditions':
                 state[k] = v
 
+    # Named states live inside the map too: a 'conditions' list on any of
+    # the three channels, plus the scalars that imply one — 'wounded'
+    # non-none, 'sick' truthy.
     conditions = set()
-    for c in character.get('conditions') or []:
-        if isinstance(c, str):
-            conditions.add(c.lower())
-        elif isinstance(c, dict):
-            name = c.get('name') or c.get('kind') or c.get('type')
-            if name:
-                conditions.add(str(name).lower())
+    for src in (
+        character, character.get('state'), character.get('resources')
+    ):
+        for c in (src or {}).get('conditions') or []:
+            if isinstance(c, str):
+                conditions.add(c.lower())
+            elif isinstance(c, dict):
+                name = c.get('name') or c.get('kind') or c.get('type')
+                if name:
+                    conditions.add(str(name).lower())
     wounded = state.get('wounded')
     if (
         isinstance(wounded, str)
         and wounded.lower() not in ('', 'none', 'false')
     ) or wounded is True:
         conditions.add('wounded')
+    if state.get('sick'):
+        conditions.add('sick')
     # 'wounded' may arrive only inside the conditions list — the severity
     # field is synthesized so a declared detector can still weigh it.
     if 'wounded' in conditions and state.get('wounded') not in (

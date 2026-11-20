@@ -242,7 +242,6 @@ def _episode_state(db, episode: Episode) -> EpisodeStateResponse:
         mood=episode.mood,
         outcome=episode.outcome,
         decisions=episode.decisions or {},
-        lens_eval=episode.lens_eval,
         created_at=episode.created_at.isoformat(),
         narrated_at=episode.narrated_at.isoformat() if episode.narrated_at else None,
         closed_at=episode.closed_at.isoformat() if episode.closed_at else None,
@@ -599,57 +598,11 @@ def _beat_phase(item):
     return _PHASE_MAP.get(((item.get('when') or {}).get('phase') or ''))
 
 
-def _evoked_beats(db, episode):
-    """Memory beats for the prompt's phase blocks (C21): each anchored
-    evoked memory lands where it stirred — '(the Dúnedain) 3 days ago —
-    …'. Built from the persisted perceived_day so re-narration replays
-    the same placement."""
-    mem_ids = {
-        mem_id
-        for item in (episode.perceived_day or [])
-        for mem_id in (item.get('evoked') or [])
-    }
-    if not mem_ids:
-        return {}
-    mems = {
-        m.id: m
-        for m in db.query(Memory).filter(Memory.id.in_(mem_ids)).all()
-    }
-    beats = {}
-    seen = set()
-    for item in (episode.perceived_day or []):
-        phase = _beat_phase(item)
-        data = item.get('data') or {}
-        subj = (
-            data.get('entity_name') or data.get('name')
-            or data.get('entity')
-        )
-        if not phase or not subj:
-            continue
-        for mem_id in (item.get('evoked') or []):
-            if mem_id in seen:
-                continue
-            m = mems.get(mem_id)
-            if not m:
-                continue
-            seen.add(mem_id)
-            age = _age_phrase(m, memory_age_days(episode, m))
-            beats.setdefault(phase, []).append({
-                'subject': subj,
-                'line': f'{age}{m.desc}'.strip(),
-            })
-    return beats
-
-
 def _merged_beats(db, episode, mind):
-    """The phase beats the narrator gets: the brief's day lines (or, for
-    legacy episodes, the evoked-memory beats) plus the standing self —
-    each disposition routed to where the world touches it, so nothing
-    floats unattached for the narrator to skip."""
-    beats = (
-        brief_beats(episode.brief) if episode.brief
-        else _evoked_beats(db, episode)
-    )
+    """The phase beats the narrator gets: the brief's day lines plus the
+    standing self — each disposition routed to where the world touches
+    it, so nothing floats unattached for the narrator to skip."""
+    beats = brief_beats(episode.brief)
     if mind is None:
         return beats
     dispositions = inner_lines(
@@ -668,50 +621,6 @@ def _merged_beats(db, episode, mind):
                 if rel is not None:
                     rel.last_surfaced_episode = episode.episode_idx
     return beats
-
-
-def _evoked_impressions(db, episode):
-    """Descs of the memories this episode stirred — feeds the lens-reference
-    narrative eval (did the prose echo what the mind brought up?)."""
-    ids = {
-        mem_id
-        for item in (episode.perceived_day or [])
-        for mem_id in (item.get('evoked') or [])
-    }
-    if not ids:
-        return []
-    rows = db.query(Memory.desc).filter(Memory.id.in_(ids)).all()
-    return [r[0] for r in rows]
-
-
-def _record_voiced(db, episode, text):
-    """Voiced-vs-evoked observability (C32): measure which evoked memories
-    the generated prose actually echoed, and store it on the episode as
-    lens_eval = {evoked: [...], voiced: [...]}. The evoked set is the
-    fixed snapshot from open; voiced is re-measured on each narrate —
-    the last generation's observation wins, matching the 'narrative is
-    not persisted' semantics. Memory.voiced bumps at most once per
-    episode (last_voiced_episode guard), so re-narrating can't inflate
-    the counter."""
-    ids = {
-        mem_id
-        for item in (episode.perceived_day or [])
-        for mem_id in (item.get('evoked') or [])
-    }
-    if not ids:
-        return
-    voiced = []
-    if text:
-        mems = db.query(Memory).filter(Memory.id.in_(ids)).all()
-        voiced = [m for m in mems if memory_echoes_in_text(m.desc, text)]
-        for m in voiced:
-            if (
-                episode.episode_idx is not None
-                and m.last_voiced_episode != episode.episode_idx
-            ):
-                m.voiced = (m.voiced or 0) + 1
-                m.last_voiced_episode = episode.episode_idx
-    episode.lens_eval = {'evoked': sorted(ids), 'voiced': sorted(m.id for m in voiced)}
 
 
 @router.post('/episodes/{episode_id}/narrate', response_model=NarrateEpisodeResponse)
@@ -785,19 +694,16 @@ def narrate_episode(
             # last night was spent.
             previous_rest=_previous_rest(db, episode),
             mind_block=episode.lens_block or '',
-            # C35: the brief's day lines ride inside their phase; legacy
-            # episodes (no brief) keep the C21 memory beats. And the
-            # standing self speaks in scene, not in preamble — each
+            # C35: the brief's day lines ride inside their phase. And
+            # the standing self speaks in scene, not in preamble — each
             # disposition lands where the world touches it, or waits
             # for the quietest hour (ADR 0017).
             memory_beats=_merged_beats(db, episode, mind),
-            impressions=_evoked_impressions(db, episode),
         )
         generation = result['generation'] or {}
         # ADR 0003: the Mind keeps and measures the inner-language text;
         # the reader's language is a translation stored beside it.
         inner = generation.get('inner_text') or generation.get('text')
-        _record_voiced(db, episode, inner)
         if inner:
             episode.narrative = inner
             episode.narrative_language = INNER_LANGUAGE
@@ -822,7 +728,6 @@ def narrate_episode(
             lens_block=episode.lens_block or '',
             check_results=_check_results(episode),
             needs_active=episode.needs_active or [],
-            lens_eval=episode.lens_eval,
             generation_meta={
                 k: v for k, v in generation.items()
                 if k not in ('text', 'inner_text')

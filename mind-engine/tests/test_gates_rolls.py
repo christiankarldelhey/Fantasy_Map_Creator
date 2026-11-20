@@ -26,10 +26,17 @@ def _uid(prefix):
     return f'{prefix}-{uuid.uuid4().hex[:8]}'
 
 
+_CONDITION_KEYS = ('energy', 'shadow', 'wounded')
+
+
 def _open(client, character, ref, events):
+    """character carries the card; live vitals ride the condition map."""
     r = client.post('/episodes', json={
         'game_id': 'middle_earth',
-        'character': character,
+        'character': {k: v for k, v in character.items()
+                      if k not in _CONDITION_KEYS},
+        'condition': {k: character[k] for k in _CONDITION_KEYS
+                      if k in character},
         'episode_ref': ref,
         'events': events,
     })

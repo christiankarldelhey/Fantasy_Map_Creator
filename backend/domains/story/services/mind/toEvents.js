@@ -65,8 +65,8 @@
 // the needs engine — a harmful outcome opens `thread:unfinished_encounter:
 // <slug>`, an unscathed re-encounter resolves it.
 //
-// All `when` share {episode: day.day_number, date: day.date}; phase-scoped
-// events add when.phase (+hour for encounters).
+// Phase-scoped events add when.phase (+hour for encounters); the Episode
+// itself owns index/date — events only carry the moment within it.
 //
 // Perception contract (#53 — the Universal Tagger's contract): every
 // event that should read as something carries `data.reading`, a one-line

@@ -53,18 +53,12 @@ def forget(session, mem, episode_idx):
 
 def episode_index(episode):
     """The mind's own clock (C29): episode.episode_idx — a per-mind
-    monotonic counter assigned at open. The host's when.episode (a
-    trip's day_number) only remains as the legacy fallback for rows
-    that predate the column."""
+    monotonic counter assigned at open, so a new trip's day 1 never
+    collides with an old journey's day 1 in memory ages."""
     idx = getattr(episode, 'episode_idx', None)
     if isinstance(idx, int) and not isinstance(idx, bool):
         return idx
-    nums = [
-        (e.get('when') or {}).get('episode')
-        for e in (episode.events or [])
-    ]
-    nums = [n for n in nums if isinstance(n, int)]
-    return max(nums) if nums else None
+    return None
 
 
 def _as_date(v):
@@ -83,8 +77,7 @@ def _as_date(v):
 
 def episode_date(episode):
     """The calendar clock (C30): the in-world date the episode was
-    lived — stored column first, the Episode frame's `at` next, then
-    events' when.date as fallback."""
+    lived — stored column first, the Episode frame's `at` next."""
     d = _as_date(getattr(episode, 'episode_date', None))
     if d is not None:
         return d
@@ -92,15 +85,7 @@ def episode_date(episode):
         (getattr(episode, 'narrator_payload', None) or {}).get('episode')
         or {}
     )
-    at = _as_date(frame.get('at'))
-    if at:
-        return at
-    dates = [
-        _as_date((e.get('when') or {}).get('date'))
-        for e in (episode.events or [])
-    ]
-    dates = [d for d in dates if d]
-    return max(dates) if dates else None
+    return _as_date(frame.get('at'))
 
 
 def _norm_desc(desc):

@@ -43,14 +43,14 @@ class EventIn(BaseModel):
 
 
 class OpenCharacter(BaseModel):
-    """One merged character: the mind reads id/name/skills/conditions/
-    preset; the narrator reads name/description/entity_name/
-    system_prompt/introduction_instructions/wounded.
+    """One merged character: the mind reads id/name/skills/preset; the
+    narrator reads name/description/entity_name/system_prompt/
+    introduction_instructions.
 
     `state` is the free-form Condition channel (ADR 0005): a host declares
-    its body's vitals — oxygen, sanity, suit_food_pct — as flat fields the
-    declared detectors read. The explicit energy/shadow/wounded fields
-    remain for the built-in pack's hosts; they land in the same map."""
+    its body's vitals — energy, wounded, oxygen, sanity — as flat fields
+    the declared detectors read, the same map the wire's live `condition`
+    report merges into. Vitals never travel as fields of their own."""
 
     model_config = ConfigDict(extra='forbid')
 
@@ -58,15 +58,11 @@ class OpenCharacter(BaseModel):
     name: Optional[str] = None
     preset: Optional[str] = None
     skills: Dict[str, Any] = {}
-    conditions: List[Any] = []
-    energy: Optional[float] = None
-    shadow: Optional[float] = None
     description: Optional[str] = None
     entity_name: Optional[str] = None
     portrait_url: Optional[str] = None
     system_prompt: Optional[str] = None
     introduction_instructions: Optional[str] = None
-    wounded: Optional[str] = None
     state: Dict[str, Any] = {}
 
 
@@ -128,7 +124,6 @@ class PerceivedEvent(BaseModel):
     perception: str = 'noticed'
     reading: Optional[str] = None
     salience: Optional[float] = None
-    evoked: List[str] = []
 
 
 class Mood(BaseModel):
@@ -184,7 +179,6 @@ class EpisodeStateResponse(BaseModel):
     mood: Optional[Dict[str, Any]] = None
     outcome: Optional[Dict[str, Any]]
     decisions: Dict[str, Any] = {}
-    lens_eval: Optional[Dict[str, Any]] = None
     created_at: str
     narrated_at: Optional[str]
     closed_at: Optional[str]
@@ -253,7 +247,6 @@ class NarrateEpisodeResponse(BaseModel):
     lens_block: str = ''
     check_results: List[Dict[str, Any]] = []
     needs_active: List[Dict[str, Any]] = []
-    lens_eval: Optional[Dict[str, Any]] = None
     generation_meta: Dict[str, Any] = {}
 
 

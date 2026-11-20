@@ -25,11 +25,12 @@ def _uid(prefix):
     return f'{prefix}-{uuid.uuid4().hex[:8]}'
 
 
-def _open(client, char, ref, card=None, events=None):
+def _open(client, char, ref, card=None, events=None, condition=None):
     r = client.post('/episodes', json={
         'game_id': 'middle_earth',
         'character': {'id': char, **(card or {})},
         'episode_ref': ref, 'events': events or [],
+        'condition': condition or {},
     })
     assert r.status_code == 200, r.text
     return r.json()
@@ -71,8 +72,8 @@ def test_the_minds_card_wins_over_the_wire(client):
 
     ep = _open(client, char, 't:2', card={
         'name': 'Wire Name 2', 'system_prompt': 'Wire phrase 2.',
-        'skills': {'tracking': 1}, 'energy': 55,
-    })
+        'skills': {'tracking': 1},
+    }, condition={'energy': 55})
     session = SessionLocal()
     card = session.get(Episode, ep['episode_id']).narrator_payload['character']
     assert card['name'] == 'Mind Name'

@@ -108,11 +108,12 @@ def test_memory_age_days_legacy_fallback():
     assert memory_age_days(ep, mem) == 2
 
 
-def test_episode_date_parses_when_date():
+def test_episode_date_falls_back_to_the_frame():
+    """No stored column → the Episode frame's `at` is the calendar."""
     ep = SimpleNamespace(
         episode_date=None,
-        narrator_payload=None,
-        events=[{'when': {'date': '1950-06-21 13:00:00'}}],
+        narrator_payload={'episode': {'at': '1950-06-21'}},
+        events=[],
     )
     assert episode_date(ep) == date(1950, 6, 21)
 

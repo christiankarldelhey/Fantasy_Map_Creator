@@ -41,7 +41,6 @@ def narrate_day(
     previous_rest=None,
     recent_day_climates=None,
     mind_block='',
-    impressions=None,
     memory_beats=None,
     world_notes=None,
     events=None,
@@ -95,7 +94,6 @@ def narrate_day(
         narrative=inner_text,
         day=day,
         character_name=character.get('name') or 'Aranath',
-        impressions=impressions,
     )
 
     # `text` is what the reader gets; `inner_text` is what the Mind

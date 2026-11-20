@@ -9,7 +9,6 @@
 # Auth: HTTP Basic against ADMIN_USER / ADMIN_PASSWORD — unset = closed.
 # ============================================================================
 import os
-import re
 import secrets
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -54,17 +53,6 @@ router = APIRouter(
 )
 
 DEFAULT_GAME = 'middle_earth'
-
-# Lens headers as render_lens writes them → the section they open.
-_LENS_SECTIONS = {
-    'what they hold true': 'beliefs',
-    'yesterday, as they remember it': 'yesterday',
-    'stirring today': 'stirring',
-    'the body asks for': 'needs',
-}
-_AGE = re.compile(r'^(Yesterday|\d+ days ago|A long while ago)\s+—\s*', re.I)
-_ANCHOR = re.compile(r'\s*—\s*the .+ calls it back\s*$')
-
 
 def _card(row, episode=None):
     """The Character card, Mind-owned (ADR 0001). Minds never adopted at
@@ -153,49 +141,6 @@ def _brief_lens_lines(brief, narrative):
                     (line.get('text') or '').strip().lower(), narrative
                 ),
             })
-    return out
-
-
-def _lens_lines(lens_block, beliefs, memories, needs, evoked, narrative):
-    """Each Lens bullet → {section, text, ref, resonated}. `ref` points at
-    the node it came from (belief / memory / need) so the Studio can draw
-    the thread; `resonated` is the C32 echo rule applied per line."""
-    out, section = [], None
-    by_statement = {(b.desc or '').strip().lower(): b.id for b in beliefs}
-    by_desc = {
-        (m['desc'] or '').strip().lower(): m['id'] for m in memories
-        if m['id'] in evoked
-    }
-    by_need = {(n.description or '').strip().lower(): n.id for n in needs}
-    for raw in (lens_block or '').splitlines():
-        line = raw.strip()
-        if not line:
-            continue
-        if not line.startswith('- '):
-            section = _LENS_SECTIONS.get(line.rstrip(':').strip().lower())
-            continue
-        if section is None:
-            continue
-        text = line[2:]
-        core = _ANCHOR.sub('', _AGE.sub('', text)).strip().lower()
-        ref = None
-        if section == 'beliefs':
-            ref = {'kind': 'belief', 'id': by_statement.get(core)}
-        elif section == 'needs':
-            ref = {'kind': 'need', 'id': by_need.get(core)}
-        elif core in by_desc:
-            ref = {'kind': 'memory', 'id': by_desc[core]}
-        out.append({
-            'section': (
-                'evoked' if section == 'stirring' and _AGE.match(text)
-                else 'today' if section == 'stirring' else section
-            ),
-            'text': text,
-            'ref': ref if ref and ref['id'] else None,
-            'resonated': (
-                bool(narrative) and memory_echoes_in_text(core, narrative)
-            ),
-        })
     return out
 
 
@@ -322,11 +267,6 @@ def get_mind(
 
     episodes_out = []
     for ep in episodes:
-        evoked = set((ep.lens_eval or {}).get('evoked') or {
-            mem_id
-            for item in (ep.perceived_day or [])
-            for mem_id in (item.get('evoked') or [])
-        })
         episodes_out.append({
             'id': ep.id,
             'idx': ep.episode_idx,
@@ -341,7 +281,6 @@ def get_mind(
                     'perception': p.get('perception') or 'noticed',
                     'reading': p.get('reading'),
                     'salience': p.get('salience') or 0.0,
-                    'evoked': p.get('evoked') or [],
                     # The day chart reads the rest: when it happened,
                     # what it felt like (valence/severity/imprint dims),
                     # and any body deltas the Host reported.
@@ -363,15 +302,7 @@ def get_mind(
                 }
                 for p in (ep.perceived_day or [])
             ],
-            'evoked': sorted(evoked),
-            'voiced': (ep.lens_eval or {}).get('voiced') or [],
-            'lens': (
-                _brief_lens_lines(ep.brief, ep.narrative) if ep.brief
-                else _lens_lines(
-                    ep.lens_block, beliefs, memories, needs, evoked,
-                    ep.narrative,
-                )
-            ),
+            'lens': _brief_lens_lines(ep.brief, ep.narrative),
             'brief': ep.brief,
             'narrative': ep.narrative,
             'narrative_language': ep.narrative_language,

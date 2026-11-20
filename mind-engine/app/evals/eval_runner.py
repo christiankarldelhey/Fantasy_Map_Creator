@@ -5,14 +5,13 @@
 # ============================================================================
 from app.evals.narrative_checks import (
     check_encounters_presented,
-    check_lens_reference,
     check_opening,
     check_prompt_quotes,
     check_scenery_inventory,
 )
 
 
-def run_narrative_evals(narrative, day=None, character_name='Aranath', impressions=None):
+def run_narrative_evals(narrative, day=None, character_name='Aranath'):
     day = day or {}
 
     if not narrative:
@@ -25,7 +24,6 @@ def run_narrative_evals(narrative, day=None, character_name='Aranath', impressio
         check_prompt_quotes(narrative, day.get('prompt')),
         check_encounters_presented(narrative, day.get('encounters')),
         check_scenery_inventory(narrative),
-        check_lens_reference(narrative, impressions),
     ]
     failed = [c for c in checks if not c['ok']]
     ok = len(failed) == 0

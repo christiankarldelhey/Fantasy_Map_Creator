@@ -38,7 +38,6 @@ export interface PerceivedEvent {
   perception: string
   reading: string | null
   salience: number
-  evoked: string[]
   when: { hour?: number | null; phase?: string | null }
   subject?: string | null
   valence?: number | null
@@ -142,11 +141,8 @@ export interface ActiveNeed {
   description: string
 }
 
-// Legacy sections come from parsing the old Lens block; brief sections
-// come straight from the Episode brief (C35).
-export type LensSection =
-  | 'beliefs' | 'yesterday' | 'evoked' | 'today' | 'needs'
-  | 'focus' | 'carried' | 'day'
+// Lens sections come straight from the Episode brief (C35).
+export type LensSection = 'focus' | 'carried' | 'day'
 
 export interface LensLine {
   section: LensSection
@@ -193,8 +189,6 @@ export interface EpisodeView {
   mood: EpisodeMood
   needs_active: ActiveNeed[]
   perceived: PerceivedEvent[]
-  evoked: string[]
-  voiced: string[]
   lens: LensLine[]
   brief: EpisodeBrief | null
   narrative: string | null
