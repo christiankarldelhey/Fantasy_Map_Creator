@@ -90,8 +90,9 @@ else                                            → act   (talk/avoid/defy; acce
 ```
 tags → SEMANTIC PACK (world_delta objetivo)
      → RELATIONS sediment (resistance)
-     → felt_through (standing + personality.sensitivity — EL PERFIL dobla aquí)
-     → mood_delta → valence/mood + imprint → valence del recuerdo
+     → felt:* pull (standing refracta el target, moodiness y temperamento
+       pesan el gain — EL PERFIL dobla aquí)
+     → mood por trayectoria + imprint → valence del recuerdo
 ```
 
 - El diccionario ES el semantic pack (`semantics.py` + tabla `mind.semantics`).

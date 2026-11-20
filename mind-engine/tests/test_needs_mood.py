@@ -113,7 +113,9 @@ def test_eating_lifts_the_weight(client):
 
     _open_and_close(client, char, 'd2', _calm_day(2))
     mood = _mood(char, 1)
-    assert mood['valence'] == 0.0
+    # The day itself was calm — the landing still carries yesterday's
+    # ache; the day's own direction is what's neutral (#184).
+    assert mood['day_valence'] == 0.0
 
     session = SessionLocal()
     hunger = (

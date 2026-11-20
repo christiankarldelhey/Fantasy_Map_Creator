@@ -513,8 +513,10 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         # A belief the day touched still speaks: a quiet day with a fire
         # at night is a day for the thought about the fire.
         if focus is None:
+            # A carried mood-cause is already self-explaining — it is
+            # what the Character walks in with, like an open need.
             return (
-                c['kind'] == 'need' or bool(c.get('solitude'))
+                c['kind'] in ('need', 'mood') or bool(c.get('solitude'))
                 or (c['kind'] in ('belief', 'musing')
                     and bool(c.get('connects_to')))
             )

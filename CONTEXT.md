@@ -111,7 +111,7 @@ A Memory at the deepest tier — where a Belief lives: one row, one truth. The s
 _Avoid_: core memory, truth memory
 
 **Evocation**:
-When a Memory connects to the Episode and comes forward — it is not only read but lightly re-felt: a dampened share of its imprint stirs the Mood and feeds the Relation again, never as much as living it. Remembering keeps feelings alive; how much it stirs is the Personality's.
+When a Memory connects to the Episode and comes forward — it is not only read but lightly re-felt: the Mood is pulled a dampened share toward how the Memory felt and the Relation is fed again, never as much as living it. Remembering keeps feelings alive; how much it stirs is the Personality's.
 _Avoid_: recall, retrieval, flashback
 
 **Belief**:
@@ -163,8 +163,12 @@ A declared rule that reads the Condition snapshot: it opens a Need when a field 
 _Avoid_: hardcoded check, built-in sensor
 
 **Mood**:
-How the Mind feels as it enters an Episode, always told through what caused it ("still uneasy since the orc tracks"), never as a bare label.
+How the Mind feels as it enters an Episode, always told through what caused it ("still uneasy since the orc tracks"), never as a bare label. A point in valence × arousal space, moved only by Pulls, the body's drag and the drift back to Temperament.
 _Avoid_: emotion label, affect, dominant
+
+**Pull**:
+The only channel by which an Event moves the Mood: a `felt:*` Tag names a point on the mood wheel (the word IS the point — soft ring, strong ring, extreme or the `steady` origin), and the Mood travels a fraction of the way there — never past it. How far is the pull's gain: the Event's salience, the standing the Relation already holds toward the source (a known place pulls harder than a stranger's field), the Personality's moodiness, and how near the target sits to the Temperament. The Relation also refracts the target itself: the same `felt:melancholy` rain lands as quiet comfort on one who loves the rain and as unease on one who dreads it — the Tag declares the tone, the Relation decides where it falls.
+_Avoid_: mood delta, emotional damage, affect push
 
 **Temperament**:
 The point in the Mood's own space where the Mood falls by inertia when nothing happens — the resting feeling a Mind returns to, from a hobbit's warm contentment to Celebrían's cool calm. Not a second state: every quiet Episode the Mood drifts back toward it, at the pace the Personality sets.

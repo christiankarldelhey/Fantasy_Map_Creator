@@ -308,7 +308,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "landscape",
     "desolation"
    ],
@@ -359,7 +359,7 @@
    "tags": [
     "ruins",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -461,7 +461,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "danger",
+    "felt:tense",
     "cold",
     "avoid",
     "secret"
@@ -609,9 +609,9 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "damp",
-    "melancholy",
+    "felt:melancholy",
     "landmark"
    ],
    "size_radius_km": null,
@@ -691,7 +691,7 @@
    "tags": [
     "ruins",
     "silence",
-    "uncanny",
+    "felt:uneasy",
     "rest"
    ],
    "size_radius_km": null,
@@ -751,7 +751,7 @@
    "tags": [
     "silence",
     "no-fauna",
-    "uncanny"
+    "felt:uneasy"
    ],
    "presence": {
     "en": "The first day the traveller does not notice, because he has come out of days of wind and wind covers everything.\n\nThe second day he stops to drink somewhere sheltered and hears himself swallow, and the sound is much larger than it ought to be.\n\nAfter that he listens all afternoon. There is wind in the grass and there are his own feet and there is nothing else, and he goes on listening anyway, and when he makes camp he realises he has been listening since noon.",
@@ -1044,7 +1044,7 @@
     "smell",
     "cold",
     "winter",
-    "uncanny"
+    "felt:uneasy"
    ],
    "lore": {
     "en": "In this cold nothing smells. Smell needs something to evaporate and at this\ntemperature nothing does, so the air is clean in a way that is not hygiene but\nabsence.",
@@ -1242,7 +1242,7 @@
     "food",
     "ice",
     "crossing",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -1406,7 +1406,7 @@
     "forest",
     "slow",
     "no-insects",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -1637,10 +1637,10 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "ruins",
     "firewood",
-    "uncanny",
+    "felt:uneasy",
     "landmark"
    ],
    "size_radius_km": null,
@@ -1768,7 +1768,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "refuge",
     "rest",
     "social",
@@ -1897,9 +1897,9 @@
    "tags": [
     "water",
     "ice",
-    "danger",
+    "felt:tense",
     "light",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -1939,7 +1939,7 @@
     "food",
     "resource",
     "abandoned",
-    "melancholy",
+    "felt:melancholy",
     "taboo"
    ],
    "size_radius_km": null,
@@ -2016,7 +2016,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "flora",
     "rest",
     "cover"
@@ -2484,7 +2484,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "danger",
+    "felt:tense",
     "sleep",
     "crossing",
     "secret"
@@ -2539,7 +2539,7 @@
    "tags": [
     "night",
     "light",
-    "danger",
+    "felt:tense",
     "offroad"
    ],
    "presence": {
@@ -2582,7 +2582,7 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
+    "felt:tense",
     "offroad",
     "landscape",
     "silence"
@@ -2631,10 +2631,10 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "dry",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -2752,8 +2752,8 @@
    "tags": [
     "road",
     "offroad",
-    "danger",
-    "uncanny"
+    "felt:tense",
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -2806,7 +2806,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "fire",
     "water",
@@ -2970,7 +2970,7 @@
     "road",
     "offroad",
     "obstacle",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -3087,7 +3087,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "cursed",
     "haunting",
     "avoid",
@@ -3184,7 +3184,7 @@
    "type": null,
    "priority": 0,
    "tags": [
-    "uncanny",
+    "felt:uneasy",
     "signs",
     "watched"
    ],
@@ -3247,7 +3247,7 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
+    "felt:uneasy",
     "ruins",
     "avoid",
     "signs"
@@ -3304,7 +3304,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "uncanny",
+    "felt:uneasy",
     "sound",
     "cursed"
    ],
@@ -3373,8 +3373,8 @@
    "priority": 0,
    "tags": [
     "road",
-    "danger",
-    "uncanny",
+    "felt:tense",
+    "felt:uneasy",
     "navigation"
    ],
    "size_radius_km": null,
@@ -3431,7 +3431,7 @@
     "signs",
     "navigation",
     "woodmen",
-    "uncanny",
+    "felt:uneasy",
     "social"
    ],
    "size_radius_km": null,
@@ -3515,7 +3515,7 @@
     "light",
     "night",
     "navigation",
-    "danger"
+    "felt:tense"
    ],
    "presence": {
     "en": "He has gone days without knowing where north is. And one night, between the canopies, there is a part of the sky that is not completely black.\nIt is little light. But it is the only one, and after `M-A1` he will use it even knowing where it comes from.",
@@ -3559,8 +3559,8 @@
    "tags": [
     "vista",
     "landmark",
-    "uncanny",
-    "melancholy"
+    "felt:uneasy",
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -3614,11 +3614,11 @@
    "priority": 0,
    "tags": [
     "people",
-    "shelter",
+    "felt:settled",
     "food",
     "social",
     "rules",
-    "uncanny",
+    "felt:uneasy",
     "knowledge",
     "secret"
    ],
@@ -3719,10 +3719,10 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "social",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -3820,7 +3820,7 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
+    "felt:uneasy",
     "ritual",
     "social",
     "avoid",
@@ -3964,9 +3964,9 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "taboo",
     "secret"
    ],
@@ -4028,8 +4028,8 @@
    "priority": 0,
    "tags": [
     "burial",
-    "melancholy",
-    "uncanny",
+    "felt:melancholy",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -4189,7 +4189,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "danger",
+    "felt:tense",
     "sleep",
     "crossing",
     "canon"
@@ -4247,7 +4247,7 @@
    "tags": [
     "elvish",
     "threshold",
-    "uncanny",
+    "felt:uneasy",
     "social"
    ],
    "size_radius_km": null,
@@ -4334,7 +4334,7 @@
     "food",
     "light",
     "time",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -4401,7 +4401,7 @@
     "elvish",
     "rest",
     "flora",
-    "sacred",
+    "felt:watchful",
     "quiet"
    ],
    "size_radius_km": null,
@@ -4519,7 +4519,7 @@
     "elvish",
     "ruins",
     "quiet",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -4765,7 +4765,7 @@
     "water",
     "rest",
     "light",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -4841,7 +4841,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "fire",
     "social"
@@ -4916,7 +4916,7 @@
     "water",
     "cold",
     "sound",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -4975,7 +4975,7 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
+    "felt:tense",
     "troll",
     "smell",
     "avoid",
@@ -5043,7 +5043,7 @@
     "troll",
     "rest",
     "canon",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -5100,7 +5100,7 @@
     "ruins",
     "landscape",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -5147,7 +5147,7 @@
    "tags": [
     "rest",
     "troll",
-    "danger",
+    "felt:tense",
     "night",
     "secret"
    ],
@@ -5294,8 +5294,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
-    "melancholy",
+    "felt:settled",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -5350,7 +5350,7 @@
    "tags": [
     "signs",
     "troll",
-    "danger",
+    "felt:tense",
     "navigation"
    ],
    "size_radius_km": null,
@@ -5502,7 +5502,7 @@
    "tags": [
     "ruins",
     "landscape",
-    "melancholy",
+    "felt:melancholy",
     "rest"
    ],
    "size_radius_km": null,
@@ -5574,7 +5574,7 @@
    "tags": [
     "ruins",
     "work",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -5628,7 +5628,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "social",
     "hidden",
@@ -5782,7 +5782,7 @@
    "tags": [
     "burial",
     "rest",
-    "danger",
+    "felt:tense",
     "sleep",
     "secret"
    ],
@@ -5870,7 +5870,7 @@
     "landmark",
     "burial",
     "navigation",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -5939,9 +5939,9 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -5994,8 +5994,8 @@
    "priority": 0,
    "tags": [
     "burial",
-    "danger",
-    "uncanny",
+    "felt:tense",
+    "felt:uneasy",
     "treasure"
    ],
    "size_radius_km": null,
@@ -6073,7 +6073,7 @@
    "priority": 0,
    "tags": [
     "fauna",
-    "uncanny",
+    "felt:uneasy",
     "navigation",
     "secret"
    ],
@@ -6220,8 +6220,8 @@
    "tags": [
     "food",
     "fauna",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -6380,9 +6380,9 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -6506,7 +6506,7 @@
    "tags": [
     "ruins",
     "landmark",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -6617,10 +6617,10 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "ruins",
     "rest",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -6666,7 +6666,7 @@
    "tags": [
     "landscape",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "work"
    ],
    "size_radius_km": null,
@@ -6845,10 +6845,10 @@
    "priority": 0,
    "tags": [
     "people",
-    "shelter",
+    "felt:settled",
     "food",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -6896,7 +6896,7 @@
     "sea",
     "wind",
     "vista",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -6945,7 +6945,7 @@
     "sea",
     "people",
     "work",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -6993,7 +6993,7 @@
     "ruins",
     "landmark",
     "vista",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -7042,7 +7042,7 @@
     "rest",
     "flora",
     "work",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -7171,7 +7171,7 @@
     "druedain",
     "flora",
     "water",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -7219,7 +7219,7 @@
     "people",
     "ruins",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "humour",
     "secret"
    ],
@@ -7268,7 +7268,7 @@
     "road",
     "ruins",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -7332,7 +7332,7 @@
     "water",
     "ruins",
     "work",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -7442,9 +7442,9 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "numenorean",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -7538,7 +7538,7 @@
    "tags": [
     "ruins",
     "water",
-    "melancholy",
+    "felt:melancholy",
     "humour"
    ],
    "size_radius_km": null,
@@ -7578,8 +7578,8 @@
    "tags": [
     "sea",
     "night",
-    "uncanny",
-    "danger"
+    "felt:uneasy",
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -7933,10 +7933,10 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "bandits",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -7984,7 +7984,7 @@
     "road",
     "bandits",
     "navigation",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -8046,7 +8046,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "uncanny",
+    "felt:uneasy",
     "marsh",
     "food",
     "secret"
@@ -8102,8 +8102,8 @@
    "tags": [
     "marsh",
     "night",
-    "danger",
-    "uncanny",
+    "felt:tense",
+    "felt:uneasy",
     "wraith"
    ],
    "size_radius_km": null,
@@ -8231,7 +8231,7 @@
     "vista",
     "landscape",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -8294,7 +8294,7 @@
    "tags": [
     "bandits",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -8342,7 +8342,7 @@
     "ruins",
     "historical",
     "navigation",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -8430,7 +8430,7 @@
     "marsh",
     "road",
     "navigation",
-    "danger",
+    "felt:tense",
     "canon"
    ],
    "size_radius_km": null,
@@ -8505,7 +8505,7 @@
    "tags": [
     "landmark",
     "navigation",
-    "uncanny",
+    "felt:uneasy",
     "historical"
    ],
    "size_radius_km": null,
@@ -8776,7 +8776,7 @@
     "food",
     "social",
     "tribute",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -8913,10 +8913,10 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "danger",
+    "felt:tense",
     "orcs",
     "navigation",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -8963,7 +8963,7 @@
     "landmark",
     "vista",
     "orcs",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -9042,7 +9042,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "work",
     "historical",
     "secret"
@@ -9092,7 +9092,7 @@
     "road",
     "orcs",
     "navigation",
-    "danger"
+    "felt:tense"
    ],
    "presence": {
     "en": "Even surface, clean gutter, and wheel ruts deeply marked in the centre, heavy loads.\nYou walk twice as fast on it as off.\nHe can be seen from very far too, because the road runs over open ground and because it was built to control him.\nEvery so often there is a paved lay-by, for one cart to pull over and another to pass. In the lay-bys there is ash, bones and rubbish.",
@@ -9137,7 +9137,7 @@
     "people",
     "work",
     "tribute",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -9186,7 +9186,7 @@
     "landscape",
     "karst",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -9257,9 +9257,9 @@
    "priority": 0,
    "tags": [
     "karst",
-    "shelter",
+    "felt:settled",
     "water",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -9333,7 +9333,7 @@
     "people",
     "tribute",
     "social",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -10472,7 +10472,7 @@
    "priority": 0,
    "tags": [
     "landmark",
-    "danger",
+    "felt:tense",
     "vista",
     "canon"
    ],
@@ -10519,9 +10519,9 @@
    "priority": 0,
    "tags": [
     "landmark",
-    "danger",
+    "felt:tense",
     "canon",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -10566,7 +10566,7 @@
    "priority": 0,
    "tags": [
     "climb",
-    "danger",
+    "felt:tense",
     "canon",
     "secret"
    ],
@@ -10613,7 +10613,7 @@
    "priority": 0,
    "tags": [
     "dark",
-    "danger",
+    "felt:tense",
     "canon",
     "smell"
    ],
@@ -10782,7 +10782,7 @@
     "road",
     "orcs",
     "navigation",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -10835,7 +10835,7 @@
    "tags": [
     "pass",
     "orcs",
-    "danger",
+    "felt:tense",
     "canon"
    ],
    "size_radius_km": null,
@@ -10882,7 +10882,7 @@
    "tags": [
     "orcs",
     "landscape",
-    "danger",
+    "felt:tense",
     "canon"
    ],
    "size_radius_km": null,
@@ -11162,10 +11162,10 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "vista",
     "gondor",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -11258,7 +11258,7 @@
     "landmark",
     "vista",
     "canon",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -11295,10 +11295,10 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "orcs",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -11789,7 +11789,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "shelter",
+    "felt:settled",
     "food",
     "social",
     "clan"
@@ -11988,7 +11988,7 @@
     "ruins",
     "dunedain",
     "taboo",
-    "shelter",
+    "felt:settled",
     "secret"
    ],
    "size_radius_km": null,
@@ -12036,7 +12036,7 @@
     "ruins",
     "clan",
     "rohirrim",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -12083,7 +12083,7 @@
    "tags": [
     "flora",
     "water",
-    "sacred",
+    "felt:watchful",
     "taboo",
     "rest"
    ],
@@ -12132,7 +12132,7 @@
     "landscape",
     "slow",
     "resource",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -12197,7 +12197,7 @@
     "landscape",
     "sound",
     "crossing",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -12250,7 +12250,7 @@
     "landmark",
     "vista",
     "industry",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -12688,7 +12688,7 @@
    "priority": 0,
    "tags": [
     "landmark",
-    "uncanny",
+    "felt:uneasy",
     "elvish",
     "secret"
    ],
@@ -12757,7 +12757,7 @@
     "rest",
     "flora",
     "sleep",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -12823,8 +12823,8 @@
    "priority": 0,
    "tags": [
     "water",
-    "uncanny",
-    "melancholy"
+    "felt:uneasy",
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -12871,8 +12871,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "uncanny",
-    "sacred",
+    "felt:uneasy",
+    "felt:watchful",
     "flora",
     "secret"
    ],
@@ -12929,8 +12929,8 @@
    "tags": [
     "sea",
     "crossing",
-    "danger",
-    "uncanny",
+    "felt:tense",
+    "felt:uneasy",
     "rest"
    ],
    "size_radius_km": null,
@@ -12985,9 +12985,9 @@
    "priority": 0,
    "tags": [
     "water",
-    "sacred",
+    "felt:watchful",
     "social",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -13043,7 +13043,7 @@
     "food",
     "flora",
     "water",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -13103,7 +13103,7 @@
    "priority": 0,
    "tags": [
     "sound",
-    "uncanny",
+    "felt:uneasy",
     "landscape"
    ],
    "size_radius_km": null,
@@ -13150,9 +13150,9 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -13208,8 +13208,8 @@
    "tags": [
     "people",
     "elvish",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -13265,7 +13265,7 @@
    "tags": [
     "sleep",
     "knowledge",
-    "uncanny",
+    "felt:uneasy",
     "sea",
     "shadow",
     "silence",
@@ -13364,7 +13364,7 @@
     "fauna",
     "water",
     "elvish",
-    "sacred",
+    "felt:watchful",
     "secret"
    ],
    "size_radius_km": null,
@@ -13446,7 +13446,7 @@
     "elvish",
     "harbour",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -13507,7 +13507,7 @@
     "work",
     "elvish",
     "harbour",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -13623,7 +13623,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "elvish",
     "social",
@@ -13692,7 +13692,7 @@
     "social",
     "knowledge",
     "closed",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -13778,7 +13778,7 @@
     "ruins",
     "historical",
     "elvish",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -14155,7 +14155,7 @@
     "vista",
     "sea",
     "rest",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -14228,7 +14228,7 @@
     "elvish",
     "landmark",
     "knowledge",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -14339,7 +14339,7 @@
    "tags": [
     "flora",
     "elvish",
-    "melancholy",
+    "felt:melancholy",
     "rest",
     "secret"
    ],
@@ -14396,8 +14396,8 @@
    "tags": [
     "sea",
     "ruins",
-    "melancholy",
-    "uncanny"
+    "felt:melancholy",
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -14519,7 +14519,7 @@
     "road",
     "sea",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "presence": {
     "en": "A pace-and-a-half paved path, the sea always to the right, going down to each inlet and back up.\nAt each descent there is a small pebble beach and at each climb a view.\nHe covers half what the inland road gives.\nThere are benches. Far more than could be needed.",
@@ -14614,7 +14614,7 @@
     "elvish",
     "sea",
     "closed",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -15634,7 +15634,7 @@
     "food",
     "social",
     "humour",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -15819,7 +15819,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "humour",
     "social"
@@ -16161,7 +16161,7 @@
     "people",
     "social",
     "knowledge",
-    "melancholy",
+    "felt:melancholy",
     "humour",
     "secret"
    ],
@@ -16218,7 +16218,7 @@
     "water",
     "crossing",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -16519,7 +16519,7 @@
     "road",
     "people",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -16750,7 +16750,7 @@
     "marsh",
     "slow",
     "insects",
-    "danger",
+    "felt:tense",
     "navigation"
    ],
    "size_radius_km": null,
@@ -16806,8 +16806,8 @@
    "tags": [
     "ruins",
     "social",
-    "danger",
-    "melancholy",
+    "felt:tense",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -17086,7 +17086,7 @@
    "tags": [
     "ruins",
     "work",
-    "uncanny",
+    "felt:uneasy",
     "food",
     "arnor"
    ],
@@ -17138,9 +17138,9 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "arnor",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -17192,7 +17192,7 @@
     "ruins",
     "bandits",
     "social",
-    "danger",
+    "felt:tense",
     "arnor",
     "secret"
    ],
@@ -17252,7 +17252,7 @@
    "tags": [
     "people",
     "ruins",
-    "shelter",
+    "felt:settled",
     "social",
     "hillmen"
    ],
@@ -17315,7 +17315,7 @@
     "water",
     "crossing",
     "arnor",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -17425,7 +17425,7 @@
     "road",
     "landscape",
     "rest",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -17484,7 +17484,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "landscape"
    ],
@@ -17530,7 +17530,7 @@
    "tags": [
     "people",
     "hillmen",
-    "shelter",
+    "felt:settled",
     "food",
     "social"
    ],
@@ -17566,7 +17566,7 @@
    "tags": [
     "hillmen",
     "healing",
-    "uncanny",
+    "felt:uneasy",
     "social",
     "secret"
    ],
@@ -17619,7 +17619,7 @@
    "priority": 0,
    "tags": [
     "dunedain",
-    "shelter",
+    "felt:settled",
     "ruins",
     "secret"
    ],
@@ -17716,7 +17716,7 @@
    "tags": [
     "marsh",
     "navigation",
-    "danger",
+    "felt:tense",
     "slow"
    ],
    "size_radius_km": null,
@@ -17784,9 +17784,9 @@
    "priority": 0,
    "tags": [
     "troll",
-    "danger",
+    "felt:tense",
     "ruins",
-    "shelter",
+    "felt:settled",
     "secret"
    ],
    "size_radius_km": null,
@@ -17839,7 +17839,7 @@
     "resource",
     "work",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -17922,9 +17922,9 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "bandits",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -17977,7 +17977,7 @@
     "ruins",
     "arnor",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -18023,7 +18023,7 @@
     "landscape",
     "flora",
     "slow",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -18080,7 +18080,7 @@
    "tags": [
     "water",
     "landscape",
-    "uncanny",
+    "felt:uneasy",
     "sound"
    ],
    "size_radius_km": null,
@@ -18235,7 +18235,7 @@
     "ruins",
     "arnor",
     "landscape",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "presence": {
@@ -18277,7 +18277,7 @@
     "water",
     "crossing",
     "social",
-    "danger",
+    "felt:tense",
     "hillmen",
     "secret"
    ],
@@ -18332,7 +18332,7 @@
     "burial",
     "arnor",
     "hillmen",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -18441,7 +18441,7 @@
     "cold",
     "snow",
     "seasonal",
-    "danger"
+    "felt:tense"
    ],
    "presence": {
     "en": "This is not Atlantic Eriador. Here winter is continental: snow settles and stays, rivers freeze at the edges and the moor is not crossed between December and March.\nThe village shuts in. Nobody travels. Everything that had to be done was done in autumn.\n**The traveller who arrives in winter** will find a village that did not expect him, that has no surplus, and that will give him a roof anyway because leaving him outside would be killing him.\nAnd then he will have to stay until March.",
@@ -18469,7 +18469,7 @@
    "priority": 0,
    "tags": [
     "flora",
-    "shelter",
+    "felt:settled",
     "rest",
     "landscape"
    ],
@@ -18538,7 +18538,7 @@
    "tags": [
     "people",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "knowledge"
    ],
    "size_radius_km": null,
@@ -18592,7 +18592,7 @@
     "bandits",
     "ruins",
     "food",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -18963,7 +18963,7 @@
    "tags": [
     "people",
     "food",
-    "shelter",
+    "felt:settled",
     "social",
     "fire"
    ],
@@ -19030,7 +19030,7 @@
    "priority": 0,
    "tags": [
     "flora",
-    "shelter",
+    "felt:settled",
     "food",
     "rest",
     "fire"
@@ -19091,7 +19091,7 @@
    "priority": 0,
    "tags": [
     "fire",
-    "shelter",
+    "felt:settled",
     "social",
     "rest"
    ],
@@ -19133,9 +19133,9 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
+    "felt:tense",
     "wolves",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -19292,7 +19292,7 @@
    "tags": [
     "people",
     "social",
-    "uncanny",
+    "felt:uneasy",
     "knowledge",
     "secret"
    ],
@@ -19393,7 +19393,7 @@
     "people",
     "fire",
     "social",
-    "uncanny"
+    "felt:uneasy"
    ],
    "presence": {
     "en": "Before the light goes, the camp's activity dips a little. Nobody announces it.\nSomebody goes to the pile, takes a handful of the mixture and casts it into the fire, and the smoke changes colour and grows denser, and the smell becomes strong all at once.\nNobody says anything. Nobody looks. And then everyone goes back to their business.\nWhat the traveller will notice, if attentive, is that **from that moment on people stay on the inside of the camp**.",
@@ -19576,7 +19576,7 @@
    "tags": [
     "transition",
     "landscape",
-    "danger"
+    "felt:tense"
    ],
    "presence": {
     "en": "Between the two tundras there is no border: there is a two-day gradient where the grass shortens, water spaces out and the copses stop being three hours apart.",
@@ -19664,7 +19664,7 @@
    "tags": [
     "people",
     "dunedain",
-    "shelter",
+    "felt:settled",
     "social",
     "fire"
    ],
@@ -19707,10 +19707,10 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "arnor",
-    "melancholy",
-    "danger"
+    "felt:melancholy",
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -19760,7 +19760,7 @@
     "road",
     "navigation",
     "arnor",
-    "danger"
+    "felt:tense"
    ],
    "presence": {
     "en": "Compacted bed, gutter and milestones, and you walk double pace.\nAnd then, without warning, the bed disappears under the grass and what remains is a differently-coloured line on the ground followed with the eyes and not the feet.\nThe milestones are still there. Nothing eats those.",
@@ -19819,7 +19819,7 @@
     "vista",
     "arnor",
     "landmark",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -19910,7 +19910,7 @@
    "priority": 0,
    "tags": [
     "dunedain",
-    "shelter",
+    "felt:settled",
     "ruins",
     "secret"
    ],
@@ -19963,7 +19963,7 @@
    "tags": [
     "road",
     "social",
-    "danger",
+    "felt:tense",
     "navigation"
    ],
    "size_radius_km": null,
@@ -20020,7 +20020,7 @@
    "priority": 0,
    "tags": [
     "dunedain",
-    "shelter",
+    "felt:settled",
     "ruins",
     "social"
    ],
@@ -20210,7 +20210,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "shelter",
+    "felt:settled",
     "food",
     "social",
     "canon"
@@ -20268,7 +20268,7 @@
    "tags": [
     "water",
     "crossing",
-    "sacred",
+    "felt:watchful",
     "canon",
     "landmark",
     "secret"
@@ -20414,11 +20414,11 @@
    "priority": 0,
    "tags": [
     "people",
-    "shelter",
+    "felt:settled",
     "food",
     "social",
     "ritual",
-    "uncanny",
+    "felt:uneasy",
     "secret",
     "work",
     "knowledge",
@@ -20549,7 +20549,7 @@
     "burial",
     "social",
     "humour",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -20754,8 +20754,8 @@
    "priority": 0,
    "tags": [
     "flora",
-    "danger",
-    "shelter",
+    "felt:tense",
+    "felt:settled",
     "orcs",
     "secret"
    ],
@@ -20804,7 +20804,7 @@
     "ruins",
     "vista",
     "landmark",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -21073,7 +21073,7 @@
     "flora",
     "knowledge",
     "canon",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -21141,7 +21141,7 @@
     "marsh",
     "flora",
     "slow",
-    "melancholy",
+    "felt:melancholy",
     "landmark"
    ],
    "size_radius_km": null,
@@ -21217,8 +21217,8 @@
    "tags": [
     "marsh",
     "ruins",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -21270,7 +21270,7 @@
    "tags": [
     "water",
     "landmark",
-    "uncanny",
+    "felt:uneasy",
     "rest"
    ],
    "size_radius_km": null,
@@ -21336,7 +21336,7 @@
    "tags": [
     "landscape",
     "navigation",
-    "danger",
+    "felt:tense",
     "slow"
    ],
    "presence": {
@@ -21377,7 +21377,7 @@
    "tags": [
     "people",
     "trade",
-    "danger",
+    "felt:tense",
     "social"
    ],
    "size_radius_km": null,
@@ -21489,7 +21489,7 @@
    "tags": [
     "flora",
     "work",
-    "danger",
+    "felt:tense",
     "people",
     "secret"
    ],
@@ -21551,7 +21551,7 @@
    "tags": [
     "road",
     "orcs",
-    "danger",
+    "felt:tense",
     "navigation",
     "secret"
    ],
@@ -21739,7 +21739,7 @@
    "tags": [
     "water",
     "crossing",
-    "danger",
+    "felt:tense",
     "social",
     "secret"
    ],
@@ -21860,7 +21860,7 @@
    "tags": [
     "road",
     "bandits",
-    "danger",
+    "felt:tense",
     "landscape",
     "secret"
    ],
@@ -22312,7 +22312,7 @@
    "tags": [
     "ruins",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -22426,7 +22426,7 @@
     "dwarves",
     "ruins",
     "canon",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -22528,7 +22528,7 @@
    "tags": [
     "landscape",
     "flora",
-    "melancholy",
+    "felt:melancholy",
     "canon",
     "secret"
    ],
@@ -22654,7 +22654,7 @@
    "tags": [
     "water",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "canon",
     "secret"
    ],
@@ -22834,7 +22834,7 @@
     "slow",
     "insects",
     "navigation",
-    "danger",
+    "felt:tense",
     "canon"
    ],
    "size_radius_km": null,
@@ -23141,7 +23141,7 @@
     "flora",
     "food",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -23185,7 +23185,7 @@
     "water",
     "ruins",
     "rest",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -23232,7 +23232,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "shelter",
+    "felt:settled",
     "dunedain",
     "canon",
     "secret"
@@ -23286,7 +23286,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "dunedain",
     "secret"
@@ -23330,7 +23330,7 @@
    "priority": 0,
    "tags": [
     "road",
-    "danger",
+    "felt:tense",
     "navigation",
     "ruins"
    ],
@@ -23401,8 +23401,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
-    "melancholy",
+    "felt:settled",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -23445,7 +23445,7 @@
    "tags": [
     "ruins",
     "water",
-    "danger",
+    "felt:tense",
     "landmark",
     "canon"
    ],
@@ -23543,7 +23543,7 @@
     "landscape",
     "ruins",
     "vista",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -23586,7 +23586,7 @@
    "tags": [
     "people",
     "dunedain",
-    "danger",
+    "felt:tense",
     "social",
     "canon"
    ],
@@ -23702,7 +23702,7 @@
     "road",
     "ruins",
     "vista",
-    "danger",
+    "felt:tense",
     "wind"
    ],
    "size_radius_km": null,
@@ -23766,7 +23766,7 @@
    "tags": [
     "water",
     "landscape",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -23821,7 +23821,7 @@
     "flora",
     "rest",
     "landscape",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -23883,9 +23883,9 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "food",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -23933,7 +23933,7 @@
     "ruins",
     "flora",
     "knowledge",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -23977,8 +23977,8 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
-    "sacred",
+    "felt:uneasy",
+    "felt:watchful",
     "water",
     "secret",
     "canon"
@@ -24028,7 +24028,7 @@
     "road",
     "ruins",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -24074,7 +24074,7 @@
    "tags": [
     "ruins",
     "elvish",
-    "melancholy",
+    "felt:melancholy",
     "flora",
     "secret"
    ],
@@ -24262,7 +24262,7 @@
     "fire",
     "vista",
     "social",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -24364,7 +24364,7 @@
     "elvish",
     "water",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "secret",
     "canon"
    ],
@@ -24456,7 +24456,7 @@
    "priority": 0,
    "tags": [
     "trade",
-    "danger",
+    "felt:tense",
     "social",
     "secret"
    ],
@@ -24508,7 +24508,7 @@
     "road",
     "landscape",
     "vista",
-    "danger",
+    "felt:tense",
     "gondor"
    ],
    "size_radius_km": null,
@@ -24642,7 +24642,7 @@
     "fire",
     "vista",
     "people",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -24753,7 +24753,7 @@
     "sea",
     "food",
     "rest",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -24797,7 +24797,7 @@
     "eredrim",
     "social",
     "food",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -24881,8 +24881,8 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
-    "danger",
+    "felt:uneasy",
+    "felt:tense",
     "ritual",
     "secret",
     "eredrim"
@@ -24926,7 +24926,7 @@
    "priority": 0,
    "tags": [
     "bandits",
-    "danger",
+    "felt:tense",
     "road",
     "landscape"
    ],
@@ -25039,7 +25039,7 @@
     "ruins",
     "burial",
     "eredrim",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -25119,7 +25119,7 @@
     "sea",
     "landscape",
     "vista",
-    "danger",
+    "felt:tense",
     "fauna"
    ],
    "size_radius_km": null,
@@ -25161,8 +25161,8 @@
    "priority": 0,
    "tags": [
     "sea",
-    "shelter",
-    "uncanny",
+    "felt:settled",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -25206,7 +25206,7 @@
     "sea",
     "resource",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -25310,7 +25310,7 @@
     "trade",
     "water",
     "social",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -25693,7 +25693,7 @@
     "water",
     "crossing",
     "people",
-    "danger",
+    "felt:tense",
     "trade",
     "canon"
    ],
@@ -25743,10 +25743,10 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "social",
     "trade",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -25795,10 +25795,10 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "social",
     "ruins",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -25840,7 +25840,7 @@
    "tags": [
     "people",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "food",
     "secret"
    ],
@@ -25970,8 +25970,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "danger",
-    "melancholy",
+    "felt:tense",
+    "felt:melancholy",
     "flora",
     "secret"
    ],
@@ -26185,8 +26185,8 @@
    "tags": [
     "vista",
     "landscape",
-    "melancholy",
-    "danger"
+    "felt:melancholy",
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -26262,7 +26262,7 @@
    "priority": 0,
    "tags": [
     "dunedain",
-    "shelter",
+    "felt:settled",
     "social",
     "secret"
    ],
@@ -26444,7 +26444,7 @@
     "fire",
     "vista",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "canon"
    ],
    "size_radius_km": null,
@@ -26495,7 +26495,7 @@
     "people",
     "road",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -26538,8 +26538,8 @@
     "ruins",
     "landscape",
     "work",
-    "danger",
-    "melancholy",
+    "felt:tense",
+    "felt:melancholy",
     "canon"
    ],
    "size_radius_km": null,
@@ -26766,7 +26766,7 @@
     "rest",
     "landscape",
     "trade",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -26807,8 +26807,8 @@
    "priority": 0,
    "tags": [
     "flora",
-    "uncanny",
-    "danger",
+    "felt:uneasy",
+    "felt:tense",
     "secret",
     "canon"
    ],
@@ -27473,7 +27473,7 @@
     "trade",
     "food",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -27622,7 +27622,7 @@
     "ruins",
     "landscape",
     "social",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -27709,7 +27709,7 @@
     "flora",
     "landscape",
     "rest",
-    "melancholy",
+    "felt:melancholy",
     "canon"
    ],
    "size_radius_km": null,
@@ -27753,8 +27753,8 @@
     "people",
     "water",
     "food",
-    "danger",
-    "melancholy",
+    "felt:tense",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -28245,7 +28245,7 @@
     "people",
     "fire",
     "vista",
-    "danger",
+    "felt:tense",
     "canon"
    ],
    "size_radius_km": null,
@@ -28290,7 +28290,7 @@
     "navigation",
     "food",
     "slow",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -28387,7 +28387,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "landscape",
     "secret"
    ],
@@ -28593,8 +28593,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "uncanny",
-    "sacred",
+    "felt:uneasy",
+    "felt:watchful",
     "secret"
    ],
    "size_radius_km": null,
@@ -28638,7 +28638,7 @@
     "people",
     "law",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -28684,7 +28684,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "trade",
     "landscape",
     "social"
@@ -28858,7 +28858,7 @@
    "tags": [
     "landscape",
     "navigation",
-    "danger",
+    "felt:tense",
     "slow",
     "vista"
    ],
@@ -28909,8 +28909,8 @@
    "tags": [
     "landscape",
     "water",
-    "danger",
-    "shelter",
+    "felt:tense",
+    "felt:settled",
     "secret"
    ],
    "size_radius_km": null,
@@ -29016,7 +29016,7 @@
    "tags": [
     "people",
     "water",
-    "danger",
+    "felt:tense",
     "social",
     "trade"
    ],
@@ -29116,8 +29116,8 @@
    "tags": [
     "landscape",
     "navigation",
-    "shelter",
-    "uncanny",
+    "felt:settled",
+    "felt:uneasy",
     "vista"
    ],
    "size_radius_km": null,
@@ -29166,7 +29166,7 @@
     "landscape",
     "road",
     "vista",
-    "danger",
+    "felt:tense",
     "navigation"
    ],
    "size_radius_km": null,
@@ -29210,7 +29210,7 @@
     "water",
     "social",
     "trade",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -29260,9 +29260,9 @@
    "tags": [
     "ruins",
     "people",
-    "danger",
+    "felt:tense",
     "vista",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -29313,7 +29313,7 @@
     "water",
     "landscape",
     "people",
-    "danger",
+    "felt:tense",
     "trade",
     "food"
    ],
@@ -29496,7 +29496,7 @@
     "work",
     "trade",
     "landscape",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -29637,7 +29637,7 @@
    "tags": [
     "landscape",
     "road",
-    "danger",
+    "felt:tense",
     "vista",
     "canon"
    ],
@@ -29682,7 +29682,7 @@
     "flora",
     "water",
     "slow",
-    "uncanny",
+    "felt:uneasy",
     "landscape"
    ],
    "size_radius_km": null,
@@ -29781,8 +29781,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "uncanny",
-    "danger",
+    "felt:uneasy",
+    "felt:tense",
     "canon",
     "secret"
    ],
@@ -29846,9 +29846,9 @@
    "tags": [
     "people",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "rest",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -29938,7 +29938,7 @@
    "tags": [
     "people",
     "social",
-    "danger",
+    "felt:tense",
     "trade"
    ],
    "size_radius_km": null,
@@ -30071,7 +30071,7 @@
     "work",
     "social",
     "law",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -30232,7 +30232,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "vista",
     "social"
    ],
@@ -30276,7 +30276,7 @@
    "tags": [
     "ruins",
     "burial",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -30319,7 +30319,7 @@
    "tags": [
     "water",
     "landscape",
-    "danger",
+    "felt:tense",
     "vista"
    ],
    "size_radius_km": null,
@@ -30643,7 +30643,7 @@
     "law",
     "trade",
     "social",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -30692,8 +30692,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "melancholy",
-    "shelter",
+    "felt:melancholy",
+    "felt:settled",
     "landscape"
    ],
    "size_radius_km": null,
@@ -30734,8 +30734,8 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
-    "sacred",
+    "felt:uneasy",
+    "felt:watchful",
     "secret",
     "landscape",
     "canon"
@@ -30785,9 +30785,9 @@
    },
    "priority": 0,
    "tags": [
-    "sacred",
-    "danger",
-    "uncanny",
+    "felt:watchful",
+    "felt:tense",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -30838,8 +30838,8 @@
     "people",
     "social",
     "trade",
-    "danger",
-    "melancholy"
+    "felt:tense",
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31017,7 +31017,7 @@
    "tags": [
     "ruins",
     "landmark",
-    "melancholy",
+    "felt:melancholy",
     "water",
     "canon",
     "secret"
@@ -31082,8 +31082,8 @@
    "tags": [
     "ruins",
     "flora",
-    "melancholy",
-    "shelter"
+    "felt:melancholy",
+    "felt:settled"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31138,9 +31138,9 @@
    "tags": [
     "people",
     "dunedain",
-    "shelter",
+    "felt:settled",
     "rest",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -31202,9 +31202,9 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "danger",
-    "melancholy",
-    "shelter",
+    "felt:tense",
+    "felt:melancholy",
+    "felt:settled",
     "secret"
    ],
    "size_radius_km": null,
@@ -31261,9 +31261,9 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "uncanny",
-    "danger",
-    "melancholy",
+    "felt:uneasy",
+    "felt:tense",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -31383,8 +31383,8 @@
    "tags": [
     "ruins",
     "water",
-    "melancholy",
-    "uncanny",
+    "felt:melancholy",
+    "felt:uneasy",
     "rest"
    ],
    "size_radius_km": null,
@@ -31442,7 +31442,7 @@
     "road",
     "water",
     "landmark",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31497,8 +31497,8 @@
    "tags": [
     "water",
     "ruins",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -31558,7 +31558,7 @@
     "vista",
     "rest",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31625,9 +31625,9 @@
    "tags": [
     "landscape",
     "vista",
-    "uncanny",
+    "felt:uneasy",
     "navigation",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31816,8 +31816,8 @@
    "tags": [
     "ruins",
     "landmark",
-    "danger",
-    "melancholy",
+    "felt:tense",
+    "felt:melancholy",
     "canon",
     "secret"
    ],
@@ -31890,7 +31890,7 @@
     "water",
     "trade",
     "rest",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31939,9 +31939,9 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "vista",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31998,7 +31998,7 @@
     "food",
     "work",
     "rest",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -32106,7 +32106,7 @@
     "rest",
     "food",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -32161,7 +32161,7 @@
    "tags": [
     "ruins",
     "burial",
-    "melancholy",
+    "felt:melancholy",
     "landscape",
     "secret"
    ],
@@ -32221,8 +32221,8 @@
    "tags": [
     "ruins",
     "knowledge",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -32280,8 +32280,8 @@
    "tags": [
     "ruins",
     "food",
-    "shelter",
-    "melancholy",
+    "felt:settled",
+    "felt:melancholy",
     "landscape"
    ],
    "presence": {
@@ -32328,7 +32328,7 @@
     "landscape",
     "vista",
     "navigation",
-    "uncanny",
+    "felt:uneasy",
     "rest"
    ],
    "presence": {
@@ -32378,9 +32378,9 @@
    "priority": 0,
    "tags": [
     "flora",
-    "shelter",
+    "felt:settled",
     "rest",
-    "melancholy",
+    "felt:melancholy",
     "landscape"
    ],
    "size_radius_km": null,
@@ -32442,7 +32442,7 @@
    "tags": [
     "water",
     "flora",
-    "uncanny",
+    "felt:uneasy",
     "navigation",
     "food",
     "secret"
@@ -32641,7 +32641,7 @@
     "ruins",
     "water",
     "landmark",
-    "melancholy",
+    "felt:melancholy",
     "canon",
     "secret"
    ],
@@ -32700,8 +32700,8 @@
     "ruins",
     "road",
     "people",
-    "shelter",
-    "danger"
+    "felt:settled",
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -32744,7 +32744,7 @@
     "ruins",
     "landmark",
     "vista",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -32840,7 +32840,7 @@
     "flora",
     "navigation",
     "slow",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -33035,9 +33035,9 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "danger",
+    "felt:tense",
     "orcs",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -33086,7 +33086,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "social",
     "canon"
    ],
@@ -33143,7 +33143,7 @@
     "landscape",
     "sea",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -33202,7 +33202,7 @@
    "tags": [
     "ruins",
     "sea",
-    "melancholy",
+    "felt:melancholy",
     "landscape",
     "secret"
    ],
@@ -33262,7 +33262,7 @@
     "landscape",
     "navigation",
     "slow",
-    "danger",
+    "felt:tense",
     "flora"
    ],
    "presence": {
@@ -33304,7 +33304,7 @@
     "people",
     "food",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -33364,7 +33364,7 @@
     "road",
     "ruins",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "presence": {
     "en": "A line in the heath.\nSeen from a hill, it is a strip of different vegetation: where the causeway is, the heather is lower and thinner, because there is stone beneath.\nWalking on it, the surface appears and disappears. There are hundred-pace stretches with the slab in sight, perfectly bedded, then half a league with nothing where the heath ate it.",
@@ -33549,7 +33549,7 @@
     "landscape",
     "sea",
     "vista",
-    "danger",
+    "felt:tense",
     "navigation"
    ],
    "size_radius_km": null,
@@ -33597,7 +33597,7 @@
    "tags": [
     "people",
     "food",
-    "danger",
+    "felt:tense",
     "work",
     "lossoth"
    ],
@@ -33649,7 +33649,7 @@
     "people",
     "sea",
     "food",
-    "danger",
+    "felt:tense",
     "lossoth"
    ],
    "size_radius_km": null,
@@ -33749,7 +33749,7 @@
    "tags": [
     "sea",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "secret",
     "canon"
    ],
@@ -33802,7 +33802,7 @@
     "landscape",
     "vista",
     "fauna",
-    "shelter"
+    "felt:settled"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -33847,7 +33847,7 @@
     "slow",
     "navigation",
     "food",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -33900,8 +33900,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -33957,7 +33957,7 @@
     "landscape",
     "navigation",
     "slow",
-    "danger",
+    "felt:tense",
     "flora"
    ],
    "size_radius_km": null,
@@ -34009,7 +34009,7 @@
     "fauna",
     "landscape",
     "rest",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -34050,8 +34050,8 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "danger",
-    "uncanny",
+    "felt:tense",
+    "felt:uneasy",
     "vista"
    ],
    "size_radius_km": null,
@@ -34098,7 +34098,7 @@
    "priority": 0,
    "tags": [
     "elvish",
-    "uncanny",
+    "felt:uneasy",
     "trade",
     "knowledge",
     "secret"
@@ -34153,8 +34153,8 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
-    "sacred",
+    "felt:uneasy",
+    "felt:watchful",
     "lossoth",
     "burial",
     "secret"
@@ -34619,7 +34619,7 @@
     "road",
     "work",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "canon",
     "secret"
    ],
@@ -34680,7 +34680,7 @@
     "people",
     "law",
     "social",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -34746,7 +34746,7 @@
     "people",
     "trade",
     "ruins",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -34858,7 +34858,7 @@
    "tags": [
     "ruins",
     "people",
-    "melancholy",
+    "felt:melancholy",
     "rest",
     "secret"
    ],
@@ -34917,9 +34917,9 @@
    "tags": [
     "ruins",
     "elvish",
-    "uncanny",
-    "danger",
-    "melancholy",
+    "felt:uneasy",
+    "felt:tense",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -35194,7 +35194,7 @@
     "road",
     "landscape",
     "trade",
-    "danger",
+    "felt:tense",
     "navigation"
    ],
    "size_radius_km": null,
@@ -35254,7 +35254,7 @@
    "tags": [
     "dwarves",
     "landmark",
-    "uncanny",
+    "felt:uneasy",
     "navigation",
     "secret"
    ],
@@ -35307,7 +35307,7 @@
     "rest",
     "knowledge",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -35360,7 +35360,7 @@
     "ruins",
     "dwarves",
     "elvish",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -35464,7 +35464,7 @@
    "tags": [
     "dwarves",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "work",
     "secret"
    ],
@@ -35517,7 +35517,7 @@
     "landscape",
     "work",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -35558,7 +35558,7 @@
    "priority": 0,
    "tags": [
     "dwarves",
-    "melancholy",
+    "felt:melancholy",
     "social",
     "work",
     "secret"
@@ -35937,9 +35937,9 @@
    "tags": [
     "landscape",
     "navigation",
-    "danger",
+    "felt:tense",
     "slow",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -35988,7 +35988,7 @@
     "fauna",
     "rest",
     "knowledge",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -36100,9 +36100,9 @@
    "priority": 0,
    "tags": [
     "elvish",
-    "uncanny",
-    "danger",
-    "sacred",
+    "felt:uneasy",
+    "felt:tense",
+    "felt:watchful",
     "secret"
    ],
    "size_radius_km": null,
@@ -36208,7 +36208,7 @@
     "people",
     "landscape",
     "rest",
-    "melancholy",
+    "felt:melancholy",
     "food"
    ],
    "size_radius_km": null,
@@ -36260,8 +36260,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "melancholy",
-    "shelter",
+    "felt:melancholy",
+    "felt:settled",
     "landscape",
     "secret"
    ],
@@ -36317,8 +36317,8 @@
    "tags": [
     "landscape",
     "navigation",
-    "danger",
-    "melancholy",
+    "felt:tense",
+    "felt:melancholy",
     "trade"
    ],
    "size_radius_km": null,
@@ -36365,10 +36365,10 @@
    "priority": 0,
    "tags": [
     "burial",
-    "uncanny",
-    "danger",
+    "felt:uneasy",
+    "felt:tense",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -36632,9 +36632,9 @@
    "tags": [
     "landscape",
     "navigation",
-    "danger",
+    "felt:tense",
     "slow",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -36681,8 +36681,8 @@
    "tags": [
     "ruins",
     "landscape",
-    "melancholy",
-    "uncanny",
+    "felt:melancholy",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -36738,8 +36738,8 @@
     "road",
     "ruins",
     "navigation",
-    "uncanny",
-    "shelter"
+    "felt:uneasy",
+    "felt:settled"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -36787,7 +36787,7 @@
     "road",
     "trade",
     "people",
-    "danger",
+    "felt:tense",
     "ruins"
    ],
    "size_radius_km": null,
@@ -36832,7 +36832,7 @@
     "trade",
     "rest",
     "social",
-    "danger",
+    "felt:tense",
     "food"
    ],
    "size_radius_km": null,
@@ -36880,9 +36880,9 @@
    "tags": [
     "flora",
     "ruins",
-    "danger",
+    "felt:tense",
     "trolls",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -36946,7 +36946,7 @@
     "water",
     "work",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -36993,8 +36993,8 @@
    "tags": [
     "flora",
     "people",
-    "danger",
-    "uncanny",
+    "felt:tense",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -37058,7 +37058,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "danger",
+    "felt:tense",
     "social",
     "crossing"
    ],
@@ -37105,7 +37105,7 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
+    "felt:tense",
     "people",
     "ruins",
     "canon",
@@ -37162,10 +37162,10 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "social",
     "food",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -37568,7 +37568,7 @@
     "law",
     "rest",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -37733,7 +37733,7 @@
     "people",
     "ruins",
     "vista",
-    "danger",
+    "felt:tense",
     "canon",
     "secret"
    ],
@@ -37792,7 +37792,7 @@
    "tags": [
     "water",
     "crossing",
-    "danger",
+    "felt:tense",
     "people",
     "canon"
    ],
@@ -37848,7 +37848,7 @@
    "priority": 0,
    "tags": [
     "burial",
-    "melancholy",
+    "felt:melancholy",
     "landscape",
     "canon",
     "secret"
@@ -37908,8 +37908,8 @@
    "priority": 0,
    "tags": [
     "people",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
+    "felt:melancholy",
     "rest",
     "secret"
    ],
@@ -37967,9 +37967,9 @@
    "priority": 0,
    "tags": [
     "people",
-    "sacred",
+    "felt:watchful",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -38033,8 +38033,8 @@
    "tags": [
     "landscape",
     "vista",
-    "sacred",
-    "uncanny",
+    "felt:watchful",
+    "felt:uneasy",
     "rest",
     "canon"
    ],
@@ -38092,7 +38092,7 @@
     "water",
     "navigation",
     "slow",
-    "danger",
+    "felt:tense",
     "food",
     "landscape"
    ],
@@ -38158,7 +38158,7 @@
     "trade",
     "law",
     "rest",
-    "danger",
+    "felt:tense",
     "social"
    ],
    "size_radius_km": null,
@@ -38260,11 +38260,11 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
+    "felt:uneasy",
     "water",
     "social",
-    "danger",
-    "melancholy"
+    "felt:tense",
+    "felt:melancholy"
    ],
    "lore": {
     "en": "**Where:** somewhere in the swamp. Nobody points to the same place twice.\nThere are two stories about the same thing and the delta people tell both.",
@@ -38316,9 +38316,9 @@
     "landmark",
     "ruins",
     "water",
-    "uncanny",
+    "felt:uneasy",
     "canon",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -38435,10 +38435,10 @@
    "tags": [
     "water",
     "landmark",
-    "danger",
+    "felt:tense",
     "vista",
     "canon",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -38494,8 +38494,8 @@
     "landscape",
     "navigation",
     "slow",
-    "danger",
-    "melancholy"
+    "felt:tense",
+    "felt:melancholy"
    ],
    "presence": {
     "en": "Long soft hills of grass, one behind another, not a tree on the crests.\nOn the slopes there are thorn thickets and birch, grouped in the hollows where there is some shelter.\nAnd there is no road: there are **grass tracks**. Bands where the grass is lower because riders pass, climbing north, toward the Entwash fords.\nThey fade and reappear. Whoever cannot read them gets lost.",
@@ -38538,10 +38538,10 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
+    "felt:tense",
     "fauna",
     "people",
-    "melancholy"
+    "felt:melancholy"
    ],
    "presence": {
     "en": "A landscape different from summer's: dry flattened grass, brown colour, and the wind without any of June's friendliness.\nThe herds are scattered in small groups, each with two or three riders living with them.\nThose riders sleep in low tents, guyed to stakes, fire outside.\nAnd they are there four months.",
@@ -38587,7 +38587,7 @@
     "water",
     "crossing",
     "navigation",
-    "danger",
+    "felt:tense",
     "landscape"
    ],
    "size_radius_km": null,
@@ -38638,8 +38638,8 @@
    "priority": 0,
    "tags": [
     "flora",
-    "uncanny",
-    "danger",
+    "felt:uneasy",
+    "felt:tense",
     "landscape",
     "secret",
     "canon"
@@ -38693,10 +38693,10 @@
    "priority": 0,
    "tags": [
     "water",
-    "sacred",
+    "felt:watchful",
     "rest",
     "people",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -38751,8 +38751,8 @@
    "priority": 0,
    "tags": [
     "flora",
-    "shelter",
-    "danger",
+    "felt:settled",
+    "felt:tense",
     "navigation",
     "fauna"
    ],
@@ -38860,7 +38860,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "trade",
     "social",
     "rest"
@@ -38919,7 +38919,7 @@
     "people",
     "trade",
     "social",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -38978,7 +38978,7 @@
     "people",
     "ruins",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "trade"
    ],
    "size_radius_km": null,
@@ -39034,7 +39034,7 @@
    "tags": [
     "people",
     "social",
-    "danger",
+    "felt:tense",
     "knowledge"
    ],
    "lore": {
@@ -39082,8 +39082,8 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
+    "felt:melancholy",
     "canon"
    ],
    "presence": {
@@ -39127,9 +39127,9 @@
    },
    "priority": 0,
    "tags": [
-    "sacred",
+    "felt:watchful",
     "flora",
-    "uncanny",
+    "felt:uneasy",
     "social",
     "secret"
    ],
@@ -39190,7 +39190,7 @@
     "burial",
     "landscape",
     "navigation",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -39250,8 +39250,8 @@
     "social",
     "law",
     "people",
-    "sacred",
-    "uncanny"
+    "felt:watchful",
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -39304,9 +39304,9 @@
    "tags": [
     "landscape",
     "navigation",
-    "danger",
+    "felt:tense",
     "slow",
-    "melancholy"
+    "felt:melancholy"
    ],
    "presence": {
     "en": "A plain where the horizon is always at the same distance.\nFeather grass and rough sedge, bent by the eastern wind, the only vegetation on soil thinning until rock shows.\nAnd the plateau falls toward Dagorlad in the south **with no visible transition**: the land simply turns harder, emptier and more hostile without explanation.",
@@ -39350,7 +39350,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "social",
     "rest",
     "trade"
@@ -39406,10 +39406,10 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
+    "felt:uneasy",
     "navigation",
     "easterling",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -39469,8 +39469,8 @@
     "water",
     "landscape",
     "trade",
-    "danger",
-    "uncanny"
+    "felt:tense",
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -39654,7 +39654,7 @@
    "priority": 0,
    "tags": [
     "flora",
-    "uncanny",
+    "felt:uneasy",
     "knowledge",
     "landscape",
     "secret"
@@ -39774,9 +39774,9 @@
    },
    "priority": 0,
    "tags": [
-    "sacred",
+    "felt:watchful",
     "landscape",
-    "uncanny",
+    "felt:uneasy",
     "social",
     "canon",
     "secret"
@@ -39839,7 +39839,7 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
+    "felt:uneasy",
     "rest",
     "knowledge",
     "social",
@@ -39904,8 +39904,8 @@
    "tags": [
     "water",
     "landscape",
-    "danger",
-    "uncanny",
+    "felt:tense",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -39963,9 +39963,9 @@
    "tags": [
     "landscape",
     "flora",
-    "danger",
+    "felt:tense",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -40021,7 +40021,7 @@
     "people",
     "trade",
     "rest",
-    "danger",
+    "felt:tense",
     "social"
    ],
    "size_radius_km": null,
@@ -40212,8 +40212,8 @@
     "landscape",
     "navigation",
     "slow",
-    "danger",
-    "melancholy"
+    "felt:tense",
+    "felt:melancholy"
    ],
    "presence": {
     "en": "Grey rock humps with thin soil, covered in heather and bilberry, pines gripping where they can.\nThere are loose granite blocks everywhere, **from the size of a ball to the size of a villa**, sometimes piled in jumbles where nothing bigger than a rabbit passes.\nThere are no long views: each hump hides the next.\nAnd there is water everywhere, small streams running down to the Bruinen, to be crossed every half hour.",
@@ -40258,7 +40258,7 @@
    "tags": [
     "water",
     "crossing",
-    "danger",
+    "felt:tense",
     "canon",
     "secret"
    ],
@@ -40330,9 +40330,9 @@
    "tags": [
     "vista",
     "landscape",
-    "uncanny",
+    "felt:uneasy",
     "canon",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -40391,8 +40391,8 @@
    "priority": 0,
    "tags": [
     "road",
-    "danger",
-    "uncanny",
+    "felt:tense",
+    "felt:uneasy",
     "canon",
     "navigation"
    ],
@@ -40503,8 +40503,8 @@
    "priority": 0,
    "tags": [
     "elvish",
-    "uncanny",
-    "danger",
+    "felt:uneasy",
+    "felt:tense",
     "social",
     "secret"
    ],
@@ -40630,8 +40630,8 @@
    "tags": [
     "road",
     "landscape",
-    "danger",
-    "melancholy",
+    "felt:tense",
+    "felt:melancholy",
     "canon",
     "vista"
    ],
@@ -40826,9 +40826,9 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "danger",
+    "felt:tense",
     "elvish",
-    "uncanny",
+    "felt:uneasy",
     "social"
    ],
    "presence": {
@@ -41066,8 +41066,8 @@
    "tags": [
     "knowledge",
     "social",
-    "uncanny",
-    "sacred",
+    "felt:uneasy",
+    "felt:watchful",
     "secret"
    ],
    "size_radius_km": null,
@@ -41193,7 +41193,7 @@
     "people",
     "trade",
     "social",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -41254,8 +41254,8 @@
    "tags": [
     "landscape",
     "vista",
-    "sacred",
-    "melancholy",
+    "felt:watchful",
+    "felt:melancholy",
     "canon"
    ],
    "size_radius_km": null,
@@ -41520,7 +41520,7 @@
     "flora",
     "people",
     "work",
-    "danger",
+    "felt:tense",
     "social",
     "canon"
    ],
@@ -41583,8 +41583,8 @@
    "tags": [
     "flora",
     "ruins",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
+    "felt:melancholy",
     "canon",
     "secret"
    ],
@@ -41650,8 +41650,8 @@
     "flora",
     "navigation",
     "slow",
-    "uncanny",
-    "danger"
+    "felt:uneasy",
+    "felt:tense"
    ],
    "presence": {
     "en": "Gentle hills covered in forest, dells in between.\nWalking the crests is uncomfortable: bramble, fallen trunk, up and down ground.\nWalking the dells is easy: soft ground, no undergrowth, good going.\nAnd all the dells go the same way.",
@@ -41697,8 +41697,8 @@
     "water",
     "flora",
     "navigation",
-    "danger",
-    "uncanny",
+    "felt:tense",
+    "felt:uneasy",
     "canon"
    ],
    "size_radius_km": null,
@@ -41761,8 +41761,8 @@
    "priority": 0,
    "tags": [
     "flora",
-    "danger",
-    "uncanny",
+    "felt:tense",
+    "felt:uneasy",
     "canon",
     "secret"
    ],
@@ -41830,11 +41830,11 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
-    "danger",
+    "felt:uneasy",
+    "felt:tense",
     "water",
     "landscape",
-    "melancholy",
+    "felt:melancholy",
     "canon"
    ],
    "size_radius_km": null,
@@ -41890,7 +41890,7 @@
    "priority": 0,
    "tags": [
     "rest",
-    "uncanny",
+    "felt:uneasy",
     "healing",
     "canon",
     "secret"
@@ -41965,8 +41965,8 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "danger",
-    "melancholy",
+    "felt:tense",
+    "felt:melancholy",
     "canon",
     "vista"
    ],
@@ -42216,9 +42216,9 @@
    "tags": [
     "water",
     "slow",
-    "danger",
+    "felt:tense",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -42264,7 +42264,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "water",
     "landscape",
     "secret"
@@ -42316,9 +42316,9 @@
    "tags": [
     "ruins",
     "people",
-    "shelter",
-    "melancholy",
-    "danger",
+    "felt:settled",
+    "felt:melancholy",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -42373,8 +42373,8 @@
    "tags": [
     "flora",
     "navigation",
-    "danger",
-    "uncanny",
+    "felt:tense",
+    "felt:uneasy",
     "slow"
    ],
    "size_radius_km": null,
@@ -42426,9 +42426,9 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "social",
-    "uncanny",
+    "felt:uneasy",
     "food",
     "secret"
    ],
@@ -42480,9 +42480,9 @@
    },
    "priority": 0,
    "tags": [
-    "sacred",
+    "felt:watchful",
     "ruins",
-    "uncanny",
+    "felt:uneasy",
     "knowledge",
     "secret"
    ],
@@ -42537,9 +42537,9 @@
    "priority": 0,
    "tags": [
     "people",
-    "sacred",
-    "uncanny",
-    "danger",
+    "felt:watchful",
+    "felt:uneasy",
+    "felt:tense",
     "social",
     "secret"
    ],
@@ -42601,8 +42601,8 @@
     "sea",
     "landscape",
     "vista",
-    "danger",
-    "melancholy"
+    "felt:tense",
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -42824,7 +42824,7 @@
     "trade",
     "work",
     "social",
-    "danger",
+    "felt:tense",
     "law",
     "knowledge",
     "secret"
@@ -42909,7 +42909,7 @@
    "tags": [
     "work",
     "landscape",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -43018,8 +43018,8 @@
    "tags": [
     "landscape",
     "vista",
-    "danger",
-    "melancholy",
+    "felt:tense",
+    "felt:melancholy",
     "dwarves"
    ],
    "presence": {
@@ -43064,7 +43064,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "shelter"
+    "felt:settled"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -43152,7 +43152,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "shelter",
+    "felt:settled",
     "landmark"
    ],
    "size_radius_km": null,
@@ -43251,7 +43251,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "shelter"
+    "felt:settled"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -43329,7 +43329,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "shelter",
+    "felt:settled",
     "rest"
    ],
    "size_radius_km": null,
@@ -43370,7 +43370,7 @@
    "tags": [
     "water",
     "landscape",
-    "uncanny",
+    "felt:uneasy",
     "navigation"
    ],
    "size_radius_km": null,
@@ -44699,7 +44699,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "conflict"
    ],
    "traveller_use": {
@@ -45595,7 +45595,7 @@
    "tags": [
     "people",
     "water",
-    "sacred"
+    "felt:watchful"
    ],
    "traveller_use": {
     "en": null,
@@ -46077,7 +46077,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "sacred",
+    "felt:watchful",
     "conflict"
    ],
    "traveller_use": {
@@ -46135,7 +46135,7 @@
    "tags": [
     "people",
     "rest",
-    "danger"
+    "felt:tense"
    ],
    "traveller_use": {
     "en": null,
@@ -46186,8 +46186,8 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
-    "sacred",
+    "felt:tense",
+    "felt:watchful",
     "landscape"
    ],
    "traveller_use": {
@@ -46237,7 +46237,7 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
+    "felt:tense",
     "landscape",
     "rest"
    ],
@@ -46284,8 +46284,8 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
-    "sacred",
+    "felt:tense",
+    "felt:watchful",
     "landscape"
    ],
    "traveller_use": {
@@ -46338,7 +46338,7 @@
     "people",
     "food",
     "rest",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -47094,7 +47094,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "sacred",
+    "felt:watchful",
     "rest"
    ],
    "size_radius_km": null,
@@ -47967,7 +47967,7 @@
    "tags": [
     "people",
     "water",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -49792,7 +49792,7 @@
    "tags": [
     "military",
     "landscape",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -50168,7 +50168,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "sacred",
+    "felt:watchful",
     "landscape"
    ],
    "size_radius_km": null,
@@ -50285,7 +50285,7 @@
     "people",
     "water",
     "forest",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -50933,7 +50933,7 @@
    "tags": [
     "people",
     "social",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -51148,7 +51148,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "sacred",
+    "felt:watchful",
     "conflict"
    ],
    "size_radius_km": null,
@@ -51201,7 +51201,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "sacred",
+    "felt:watchful",
     "forest"
    ],
    "size_radius_km": null,
@@ -51505,7 +51505,7 @@
    "tags": [
     "people",
     "forest",
-    "sacred",
+    "felt:watchful",
     "rest"
    ],
    "size_radius_km": null,
@@ -51825,7 +51825,7 @@
    "tags": [
     "people",
     "water",
-    "sacred",
+    "felt:watchful",
     "trade",
     "rest"
    ],
@@ -51883,7 +51883,7 @@
     "military",
     "people",
     "conflict",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -52215,7 +52215,7 @@
    "tags": [
     "conflict",
     "military",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -54115,7 +54115,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -54163,7 +54163,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -54660,7 +54660,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -55127,7 +55127,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -57158,7 +57158,7 @@
     "people",
     "forest",
     "water",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -59271,7 +59271,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "sacred",
+    "felt:watchful",
     "landscape"
    ],
    "size_radius_km": null,
@@ -59328,7 +59328,7 @@
     "people",
     "water",
     "trade",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -59488,7 +59488,7 @@
    "tags": [
     "people",
     "water",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -59920,7 +59920,7 @@
    "priority": 0,
    "tags": [
     "conflict",
-    "sacred",
+    "felt:watchful",
     "landscape",
     "military"
    ],
@@ -60953,7 +60953,7 @@
    },
    "priority": 0,
    "tags": [
-    "sacred",
+    "felt:watchful",
     "forest",
     "conflict"
    ],

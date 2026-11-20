@@ -185,6 +185,11 @@
       "consumers": ["memory", "retrieval"],
       "description": { "en": "A single-segment semantic flag — `tag:<word>` (given, settlement, hostile, region_entered); the host's free marks", "es": "Una bandera semántica de un solo segmento — `tag:<palabra>` (given, settlement, hostile, region_entered); las marcas libres del host" },
       "pattern": "^[a-z0-9_]+$"
+    },
+    "felt": {
+      "consumers": ["memory", "retrieval"],
+      "description": { "en": "The tone a place or event pulls the mood toward — `felt:<word>` names a point on the mood wheel (soft ring ~0.35R, strong ring ~0.65R, extremes ~0.9R, steady the origin); the wheel itself lives in the mind pack `mind.mood_wheel`", "es": "El tono hacia el que un lugar o evento tira el ánimo — `felt:<palabra>` nombra un punto de la rueda de ánimo (anillo suave ~0.35R, fuerte ~0.65R, extremos ~0.9R, steady el origen); la rueda misma vive en el pack `mind.mood_wheel`" },
+      "values": ["steady", "pleased", "settled", "mellow", "calm", "listless", "melancholy", "uneasy", "watchful", "eager", "heartened", "content", "relaxed", "bored", "depressed", "sad", "distressed", "angry", "tense", "alert", "excited", "happy", "worried", "irritated", "exultant", "despairing"]
     }
   }
 }

@@ -6,8 +6,7 @@
 // mood": the character's nature, not its weather. Personality is the
 // couplings: how much the lived day moves the mood (moodiness), how
 // stubbornly relations resist contradiction (resistance), how much the
-// pick varies between like options (choice_variability), and per-dim
-// feeling gains (sensitivity).
+// pick varies between like options (choice_variability).
 //
 // The preset select imprints an authored archetype's nature — it only
 // writes temperament + personality; identity, wiring, concerns and
@@ -34,13 +33,6 @@ const personality = reactive({
   choice_variability: (props.mind.personality?.choice_variability as number) ?? 0.3,
 })
 
-const sensitivity = reactive<Record<string, number>>({
-  affection: ((props.mind.personality?.sensitivity as Record<string, number>)?.affection) ?? 1,
-  trust: ((props.mind.personality?.sensitivity as Record<string, number>)?.trust) ?? 1,
-  fear: ((props.mind.personality?.sensitivity as Record<string, number>)?.fear) ?? 1,
-  familiarity: ((props.mind.personality?.sensitivity as Record<string, number>)?.familiarity) ?? 1,
-})
-
 async function saveTemperament() {
   try {
     const saved = await patchTemperament(props.mind.character_id, {
@@ -60,7 +52,6 @@ async function savePersonality() {
       moodiness: personality.moodiness,
       resistance: personality.resistance,
       choice_variability: personality.choice_variability,
-      sensitivity: { ...sensitivity },
     })
     emit('saved')
     void saved
@@ -95,7 +86,6 @@ async function applyPreset() {
     personality.moodiness = p.moodiness ?? 0.3
     personality.resistance = p.resistance ?? 0
     personality.choice_variability = p.choice_variability ?? 0.3
-    if (p.sensitivity) Object.assign(sensitivity, p.sensitivity)
     emit('saved')
   } catch (e) {
     emit('error', (e as Error).message)
@@ -105,11 +95,6 @@ async function applyPreset() {
 }
 
 const signed = (v: number) => `${v > 0 ? '+' : ''}${Math.round(v * 100)}`
-const gain = (v: number) => `×${Number(v).toFixed(2)}`
-
-const SENS_LABEL: Record<string, string> = {
-  affection: 'Afecto', trust: 'Confianza', fear: 'Miedo', familiarity: 'Familiaridad',
-}
 </script>
 
 <template>
@@ -189,23 +174,6 @@ const SENS_LABEL: Record<string, string> = {
           @commit="savePersonality"
         />
       </div>
-
-      <details class="sens">
-        <summary>Sensibilidad por dimensión <span class="muted">— cuánto le llega cada clase de sentimiento</span></summary>
-        <div class="fields">
-          <SliderField
-            v-for="(label, dim) in SENS_LABEL" :key="dim"
-            v-model="sensitivity[dim]"
-            :label="label"
-            help="Ganancia: 1 es normal, 0 no lo siente, 2 le llega el doble."
-            low="No lo siente"
-            high="Le llega el doble"
-            :max="2"
-            :format="gain"
-            @commit="savePersonality"
-          />
-        </div>
-      </details>
     </div>
   </div>
 </template>
@@ -227,7 +195,4 @@ const SENS_LABEL: Record<string, string> = {
 .block h4 .muted { font-weight: 400; font-size: 13px; }
 .block > p { margin: 0 0 12px; }
 .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px 32px; }
-.sens { margin-top: 18px; border-top: 1px solid var(--border); padding-top: 12px; }
-.sens summary { cursor: pointer; font-size: 13px; color: var(--text-dim); font-weight: 500; }
-.sens .fields { margin-top: 14px; }
 </style>

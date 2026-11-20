@@ -108,7 +108,8 @@ def test_hostile_encounter_darkens_the_day(client):
     assert item['imprint']['fear'] > 0.4
     mood = _episode_mood(char)
     assert mood['valence'] < 0
-    assert mood['dominant'] != 'steady'
+    assert mood['arc'][0]['mood'] is not None
+    assert mood['trace'][0]['mood_pull'], 'wounded confront must pull'
     assert mood['felt']['fear'] > 0.4
     assert mood['trace'][0]['subject'].startswith('entity:')
 
@@ -214,11 +215,14 @@ def test_two_minds_feel_the_same_world_differently(client):
     dreading = _uid('dreading')
     _open_and_close(client, dreading, 'd1', [orcs], preset=slug)
     feared = _perceived(dreading)
-    # The standing fear amplifies the landing (1 + k·fear) — same world,
-    # heavier felt.
+    # Same world, different landing: the dreaded mind's pull target
+    # refracts darker through the feared standing; the objective
+    # imprint stays the world's word (#184).
     assert feared['valence'] < neutral['valence']
-    assert feared['imprint']['fear'] > neutral['imprint']['fear']
-    assert feared['imprint']['fear'] > 0.0
+    f_t = [p['target']['valence'] for p in feared['mood_pull']]
+    n_t = [p['target']['valence'] for p in neutral['mood_pull']]
+    assert f_t and n_t and min(f_t) < min(n_t)
+    assert feared['imprint']['fear'] == neutral['imprint']['fear']
 
 
 def test_a_bad_day_leaves_a_morning_after(client):
@@ -234,5 +238,5 @@ def test_a_bad_day_leaves_a_morning_after(client):
         'data': {'distance_km': 10},
     }
     _open_and_close(client, char, 'd2', [calm])
-    assert _episode_mood(char, 1)['valence'] == 0.0  # the day itself: neutral
+    assert _episode_mood(char, 1)['day_valence'] == 0.0  # the day itself: neutral
     assert _brain_mood(char)['valence'] < 0          # the mind: still marked

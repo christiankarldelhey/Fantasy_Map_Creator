@@ -24,7 +24,7 @@ toEvents.js → events[]    POST /episodes ──► PERCIPIE
    climate                                    derive_tags
    land (terrain/place/water/region)          check → noticed/misread/unnoticed
    meal/rest/encounter                        semantic_delta → Relation.feed  (canal mundo)
-   ambience (voces ambientales)               felt_delta    → imprint/valence (canal sentido)
+   ambience (voces ambientales)               felt:* → pull al punto de la rueda (canal sentido)
    decision (data)                            salience → perceived_day
    (condition en el envelope)                 body projection + need_items
                                    ────────►  RETRIEVE + NEEDS
@@ -80,8 +80,10 @@ orden del día):
    el delta entero; los más anchos reciben un splash (C42).
    Especificidad: entity > family/race > entity_type/place/food > drink/kind
    > region.
-5. **felt_delta** — el mismo contacto deformado por la Relation en pie y la
-   sensibilidad de Personality → `valence` e `imprint` del item percibido.
+5. **felt pull** — los tags `felt:*` (y el pack `mind.felt_map`) nombran
+   puntos de la rueda de ánimo; cada uno tira del mood una fracción del
+   camino (`gain`), refractado por la Relation en pie → `valence` e
+   `imprint` del item percibido (#184).
 6. **salience** — `w_severity·sev + w_novelty·nov + w_emotional·charge
    + w_theme·theme_weight + w_perception·bonus`, pisos `salience_min.*`.
 7. **body** — `project_body(Condition, BODY_PROJECTION)` + golpes agudos
@@ -96,9 +98,9 @@ Relation) y **sentido** (delta deformado → mood/imprint).
 | Concepto | Tabla/campo | Estado |
 |---|---|---|
 | **Relation** (sedimento por subject) | `mind.relations` | `{affection,trust,fear,familiarity}` + `feeling` derivado + `origin` + relojes `last_fed`/`last_surfaced`. Alimentada por percepción y evocación. Decae a .98/cierre. |
-| **Mood** | `mind.mood` | `{valence,arousal,dominance,cause,feeling}` — se mueve por evento (`couple_mood` en el open), arrastrado por body (`weigh_body`) y threads; causa = item que más lo movió, con reloj de calendario. |
+| **Mood** | `mind.mood` | `{valence,arousal,dominance,cause,feeling}` — se mueve por pulls `felt:*` (trayectoria `mood_arc` en el open), arrastrado por body (`weigh_body`) y threads; causa = item que más lo movió, con reloj de calendario. |
 | **Temperament** | `mind.temperament` | punto de reposo; el mood regresa a él por `moodiness`. |
-| **Personality** | `mind.personality` | sensitivity, resistance, moodiness, skills, traits (5 vivos + 5 dormidos). |
+| **Personality** | `mind.personality` | resistance, moodiness, choice_variability, skills. |
 | **Body** | `mind.body` | proyección continua del Condition (no es propiedad de la mente) + golpes agudos. |
 | **Need** | `mind.needs` | detector-kind (Condition) + composite rules (racha de días) + threads (eventos). Urgencia; abren/cierran como bucles. |
 | **Memory** | `mind.memories` | `{desc, imprint, subjects, importance, strength, tags, embedding, depth, consolidated}` + `valence` (resumen derivado, sigue consumiéndose como primario en varios sitios). |
@@ -132,12 +134,13 @@ mundo vivido).
 
 ### 1.5 Mood en tiempo real
 
-Implementado dentro del episodio: `couple_mood` corre por item percibido en
-el open y deja `mood_trace`/`arc`/`turn` — el narrador recibe "una mañana
-amable, una tarde amarga". Entre episodios, `update_mind_mood` aplica
-`mood += W_RM·Σfelt + W·body − thread_pressure` y en el cierre regresa al
-Temperament. **No hay actualización entre el open y el close del mismo día**
-— es un modelo de "un día vivido de una vez", no de ticks.
+Implementado dentro del episodio: `mood_arc` aplica los `mood_pull` de cada
+item percibido en orden de fases y deja `trace`/`arc`/`turn` — el narrador
+recibe "una mañana amable, una tarde amarga". El mood del episodio es el
+**landing** de la trayectoria, presionado por body (`weigh_body`) y threads;
+en el cierre regresa al Temperament. **No hay actualización entre el open y
+el close del mismo día** — es un modelo de "un día vivido de una vez", no
+de ticks.
 
 ---
 
@@ -261,11 +264,11 @@ Relation (subject → {affection,trust,fear,familiarity}, feeling, origin)
   un lean del preset ES una seed relation.
 
 Mood {valence, arousal, dominance, cause, feeling}
-  Se mueve por evento (felt_delta, trace por fase), lo arrastra el body,
+  Se mueve por pulls felt:* (trayectoria por fase), lo arrastra el body,
   lo presionan los threads, regresa al Temperament al cierre.
 
 Temperament — el punto de reposo del mood.
-Personality — {sensitivity, resistance, moodiness, weight_bias?, traits}
+Personality — {resistance, moodiness, choice_variability, weight_bias?}
   weight_bias (si se conserva) reemplaza theme_weights:
   sesgo de atención declarado, distinto del sentimiento (Relation).
 
@@ -298,7 +301,7 @@ Feeling lexicon — pack data (patrones sobre dims vivas → palabra).
 
 ```
 open:    events → checks → semantic_delta ─► Relations (mundo)
-                                   └─► felt_delta (sentido) ─► Mood + imprint
+                                   └─► felt:* pull (sentido) ─► Mood + imprint
          salience (pack floors + Relation attention + bias) → perceived_day
          retrieve (evocación realimenta Relations y Mood)
          needs/detectors/rules (Condition + threads)

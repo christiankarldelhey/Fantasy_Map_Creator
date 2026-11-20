@@ -6,11 +6,12 @@
 // arousal (energy) — never a list of emotions. Two fixed things live
 // here: the TEMPERAMENT (dashed ring — the nature the mood regresses
 // to) and the running MOOD (amber dot — drag it anywhere on the disc
-// to set the weather). Selecting a day event draws its stamped push
-// (mood_delta) as a vector out of the mood point.
+// to set the weather). Selecting a day event draws its stamped pull
+// (mood_pull): a dashed line to the word's target and the arrow of how
+// far the mood would actually move — (target − mood) × gain.
 // ============================================================================
 import { computed, shallowRef, useTemplateRef } from 'vue'
-import { MOOD_SECTORS, moodPush, moodWord, toPx, toSpace, type MoodPoint } from '../../lib/moodSpace'
+import { MOOD_SECTORS, moodWord, pullVec, toPx, toSpace, type MoodPoint } from '../../lib/moodSpace'
 import { moodLabel } from '../../lib/labels'
 import type { Mood, PerceivedEvent } from '../../types'
 
@@ -63,18 +64,22 @@ const tempPos = computed<MoodPoint>(() => ({
 }))
 const tempPx = computed(() => PX(tempPos.value))
 
-// The selected event's push — a displacement vector out of the mood
-// point (what this event would move on its own).
-const pushVec = computed(() => {
+// The selected event's pull — an arrow out of the mood point ending
+// where the pull would land it, plus the refracted target it aims at.
+const pull = computed(() => {
   const e = props.event
   if (!e) return null
-  const push = moodPush(e)
-  const dv = push.valence ?? 0
-  const da = push.arousal ?? 0
-  if (!dv && !da) return null
+  const v = pullVec(e, moodPos.value)
+  if (!v || (!v.dv && !v.da)) return null
+  const target = e.mood_pull?.length
+    ? e.mood_pull.reduce(
+        (acc, p) => (p.gain > acc.gain ? p : acc), e.mood_pull[0]).target
+    : null
   return {
     x1: moodPx.value.x, y1: moodPx.value.y,
-    x2: moodPx.value.x + dv * R, y2: moodPx.value.y - da * R,
+    x2: moodPx.value.x + v.dv * R, y2: moodPx.value.y - v.da * R,
+    target: target ? PX({ valence: target.valence, arousal: target.arousal }) : null,
+    word: v.word,
   }
 })
 
@@ -183,13 +188,26 @@ const signed = (v?: number) => `${(v ?? 0) > 0 ? '+' : ''}${(v ?? 0).toFixed(2)}
       <circle :cx="C" :cy="C" r="26" class="core" />
       <text :x="C" :y="C + 4" class="core-label">Tranquilo</text>
 
-      <!-- selected event's push vector -->
-      <line
-        v-if="pushVec"
-        :x1="pushVec.x1" :y1="pushVec.y1"
-        :x2="pushVec.x2" :y2="pushVec.y2"
-        class="push" marker-end="url(#arrowPush)"
-      />
+      <!-- selected event's pull: dashed aim at the refracted target,
+           solid arrow the distance the mood would actually travel -->
+      <template v-if="pull">
+        <line
+          v-if="pull.target"
+          :x1="pull.x1" :y1="pull.y1"
+          :x2="pull.target.x" :y2="pull.target.y"
+          class="aim"
+        />
+        <line
+          :x1="pull.x1" :y1="pull.y1"
+          :x2="pull.x2" :y2="pull.y2"
+          class="push" marker-end="url(#arrowPush)"
+        />
+        <circle
+          v-if="pull.target"
+          :cx="pull.target.x" :cy="pull.target.y" r="4"
+          class="target"
+        />
+      </template>
 
       <!-- temperament: the fixed nature the mood regresses to -->
       <circle :cx="tempPx.x" :cy="tempPx.y" r="7" class="temperament" />
@@ -212,11 +230,13 @@ const signed = (v?: number) => `${(v ?? 0) > 0 ? '+' : ''}${(v ?? 0).toFixed(2)}
     <p v-if="cause" class="cause">«{{ cause }}»</p>
     <p v-if="event && eventTitle" class="event-note">
       <span class="badge">{{ event.type }}</span> {{ eventTitle }}
-      <template v-if="!pushVec"> — sin empuje sobre el ánimo</template>
+      <template v-if="pull?.word"> — tira a «{{ moodLabel(pull.word) }}»</template>
+      <template v-else-if="!pull"> — sin tirón sobre el ánimo</template>
     </p>
     <p class="hint muted">
       Punto ámbar: el ánimo ahora (arrastrá para moverlo). Anillo azul:
-      la naturaleza, fija. La flecha verde es el empuje del evento elegido.
+      la naturaleza, fija. El punto verde es adónde tira el evento
+      elegido; la flecha, cuánto llega a mover.
     </p>
   </div>
 </template>
@@ -234,6 +254,8 @@ const signed = (v?: number) => `${(v ?? 0) > 0 ? '+' : ''}${(v ?? 0).toFixed(2)}
 .core-label { fill: var(--text-dim); font-size: 10px; text-anchor: middle; pointer-events: none; }
 
 .push { stroke: #7dd87d; stroke-width: 1.8; }
+.aim { stroke: #7dd87d; stroke-width: 1; stroke-dasharray: 3 4; opacity: 0.6; }
+.target { fill: #7dd87d; opacity: 0.85; }
 
 .temperament { fill: none; stroke: var(--positive); stroke-width: 1.6; stroke-dasharray: 4 3; }
 .pt-label { fill: var(--accent); font-size: 10px; font-family: var(--mono); pointer-events: none; }

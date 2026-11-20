@@ -10,17 +10,18 @@
 #
 # Two channels per perceived event: the *world* delta sediments the
 # Relation (what objectively happened — a favour sediments as trust);
-# the *felt* delta, deformed by the standing Relation, moves the Mood
-# (the dwarf feels the elf's help through his distrust).
+# a `felt:*` word pulls the Mood toward its wheel point, refracted by
+# the standing Relation (the rain-lover's melancholy lands as comfort,
+# the hater's as dread — the tag names the tone, the bond where it
+# lands).
 # ============================================================================
+import math
+
 from app.mind.util import OPS
 
 RELATION_DIMS = ('affection', 'trust', 'fear', 'familiarity')
 MOOD_DIMS = ('valence', 'arousal', 'dominance')
 _BIPOLAR = frozenset({'affection', 'trust'})
-
-# How far the standing Relation bends what a subject does next (k).
-FELT_AMPLIFICATION = 0.5
 # The share of an entity-level delta that splashes onto the broader
 # subject (the elf you met sediments 'entity:her' whole, 'entity_type:
 # elves' at this share — loving her slowly softens the race).
@@ -86,19 +87,89 @@ def add_delta(vec, delta, scale=1.0):
     return vec
 
 
-def felt_delta(world_delta, relation, sensitivity=None):
-    """What the world delta FEELS like through this Relation — one
-    formula does it all: the standing dim bends the landing, so a hated
-    elf's favour arrives dampened, a feared thing's approach lands
-    harder, and hurt from a friend reads lighter (betrayal is its own
-    semantic form when it should cut). `sensitivity` is the
-    Personality's per-dim gain, default 1."""
-    sens = sensitivity or {}
+# ---- felt pull (event -> mood, #184) --------------------------------
+# A `felt:*` tag names a point on the mood wheel; the Mood is PULLED
+# toward it — never a blind delta, never past the point. The standing
+# Relation refracts where the tone lands and how hard: `rel_point` is
+# what the source already feels like to this mind (W_RM read over the
+# standing vector, same projection), and the pull's target blends the
+# declared tone with it, weighted by how much the source matters.
+#
+# gain = salience × (PULL_BASE + |standing|) × moodiness × (1+affinity)
+#   salience  — the event's own weight
+#   |standing| — how much the source means to this mind (unknown things
+#                still register at PULL_BASE)
+#   moodiness — the Personality's susceptibility (same alpha as regress:
+#                a moody mind chases pulls and drifts back fast)
+#   affinity  — cosine Temperament↔target: a melancholic yields more
+#                easily toward melancholy, resists being cheered up
+PULL_BASE = 0.7
+
+
+def mood_position(relation):
+    """The standing Relation read as a mood-space point — W_RM · vec,
+    the same projection, reading WHERE a subject sits for this mind
+    (its refracto point)."""
+    p = mood_delta(relation or {})
     return {
-        dim: v * (1.0 + FELT_AMPLIFICATION * (relation or {}).get(dim, 0.0))
-             * sens.get(dim, 1.0)
-        for dim, v in (world_delta or {}).items()
+        'valence': p.get('valence', 0.0),
+        'arousal': p.get('arousal', 0.0),
     }
+
+
+def standing_magnitude(relation):
+    """How much a subject means to this mind, 0..1 — ||standing||/2
+    (all four dims at full give 1.0)."""
+    return min(1.0, math.sqrt(sum(
+        (relation or {}).get(d, 0.0) ** 2 for d in RELATION_DIMS
+    )) / 2.0)
+
+
+def pull_target(tag_point, rel_point, standing_mag):
+    """The event's felt word refracted through the bond: w = |standing|
+    blends the declared tone toward what the source already feels like
+    — unknown things land as authored, loved/hated things refract."""
+    w = min(1.0, standing_mag)
+    return {
+        d: tag_point[d] * (1.0 - w) + rel_point.get(d, 0.0) * w
+        for d in ('valence', 'arousal')
+    }
+
+
+def pull_affinity(temperament, target):
+    """Cosine between the Temperament's direction and the target's —
+    a moody pull lands easier where the mind already leans."""
+    tm = math.hypot(
+        (temperament or {}).get('valence', 0.0),
+        (temperament or {}).get('arousal', 0.0))
+    tt = math.hypot(target.get('valence', 0.0), target.get('arousal', 0.0))
+    if tm < 1e-6 or tt < 1e-6:
+        return 0.0
+    dot = sum(
+        (temperament or {}).get(d, 0.0) * target.get(d, 0.0)
+        for d in ('valence', 'arousal'))
+    return dot / (tm * tt)
+
+
+def pull_gain(salience, standing_mag, moodiness, affinity):
+    """The pull's step 0..1 — the event's weight through the bond's
+    hold and the Personality's yield."""
+    return min(1.0, max(0.0,
+        salience * (PULL_BASE + standing_mag) * moodiness
+        * (1.0 + affinity)))
+
+
+def apply_pull(mood, target, gain):
+    """Move the mood a share of the way toward the target — proportional,
+    bounded, never overshooting: a light tug gets closer but not there."""
+    for dim in MOOD_DIMS:
+        if dim not in target:
+            continue
+        mood[dim] = _clip(
+            dim,
+            mood.get(dim, 0.0)
+            + (target[dim] - mood.get(dim, 0.0)) * gain)
+    return mood
 
 
 def sediment(vec, delta, resistance=0.0):
@@ -115,22 +186,14 @@ def sediment(vec, delta, resistance=0.0):
 
 
 def mood_delta(felt):
-    """The mood-space reading of one felt delta: W_RM · felt, clipped —
-    what this event would add to each mood dim on its own."""
+    """A relation-dim vector read in mood space: W_RM · vec, clipped —
+    what those dims sit as on the mood plane. Reads both a felt delta
+    and a standing Relation (mood_position's projection)."""
     out = {}
     for dim, v in (felt or {}).items():
         for mdim, w in (W_RM.get(dim) or {}).items():
             out[mdim] = out.get(mdim, 0.0) + v * w
     return {d: _clip(d, v) for d, v in out.items()}
-
-
-def couple_mood(mood, felt_deltas):
-    """The day's relation movements coloured into mood:
-    mood += W_RM · Σ felt_deltas. The Mood never reads the Event."""
-    for delta in felt_deltas or ():
-        for dim, v in mood_delta(delta).items():
-            mood[dim] = _clip(dim, mood.get(dim, 0.0) + v)
-    return mood
 
 
 def weigh_body(mood, body):

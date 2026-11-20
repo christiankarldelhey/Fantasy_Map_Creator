@@ -220,29 +220,12 @@ DEFAULT_SEMANTICS = {
     'tag:hostile': {
         'delta': {'fear': 0.2}, 'weight': 0.45, 'salience_min': 0.45,
     },
-    # What a place's nature gives away at a distance (the record's own
-    # tags): a dead place is read by its absence, a dangerous one by its
-    # warning, a sheltered one by its promise. Light shares — a sighting
-    # tints the Relation, it does not fill it.
-    'tag:dead_place': {
-        'delta': {'fear': 0.07, 'affection': -0.04, 'familiarity': 0.05},
-        'weight': 0.25,
-    },
-    'tag:danger': {'delta': {'fear': 0.12}, 'weight': 0.3},
-    'tag:uncanny': {
-        'delta': {'fear': 0.08, 'familiarity': 0.05}, 'weight': 0.25,
-    },
-    'tag:melancholy': {
-        'delta': {'affection': -0.05, 'familiarity': 0.04},
-        'weight': 0.2,
-    },
-    'tag:shelter': {
-        'delta': {'affection': 0.05, 'trust': 0.04, 'familiarity': 0.05},
-        'weight': 0.2,
-    },
-    'tag:sacred': {
-        'delta': {'trust': 0.04, 'familiarity': 0.05}, 'weight': 0.2,
-    },
+    # Felt tones (#184): a 'felt:*' tag pulls the Mood toward the wheel
+    # point its word names — perceived resolves the point and the pull;
+    # this row only declares that a felt tone is never background. The
+    # tone is FELT, never sedimented: a place's familiarity comes from
+    # its own presence tags (sighted/visited/entered), not its mood.
+    'tag:felt:*': {'delta': {}, 'weight': 0.3, 'salience_min': 0.2},
     # The night itself, as the wire classifies it: how it rested and
     # how it was secured. Indoor muffles, open sky exposes, a poor
     # night costs the body what a good one returns.

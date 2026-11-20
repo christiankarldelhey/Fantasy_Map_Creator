@@ -290,6 +290,7 @@ def get_mind(
                     'severity': p.get('severity'),
                     'world_valence': p.get('world_valence'),
                     'imprint': p.get('imprint') or {},
+                    'mood_pull': p.get('mood_pull'),
                     'data': {
                         k: (p.get('data') or {}).get(k)
                         for k in (
@@ -487,10 +488,8 @@ def patch_temperament(
     return temperament
 
 
-# Scalar couplings an admin may dial. sensitivity is a per-dim gain map —
-# it merges {dim: gain} rather than taking a scalar.
+# Scalar couplings an admin may dial.
 PERSONALITY_SCALARS = ('moodiness', 'resistance', 'choice_variability')
-PERSONALITY_MAPS = ('sensitivity',)
 
 
 class PersonalityPatch(BaseModel):
@@ -513,14 +512,6 @@ def patch_personality(
             continue
         if key in PERSONALITY_SCALARS:
             personality[key] = round(max(0.0, min(1.0, float(value))), 3)
-        elif key in PERSONALITY_MAPS and isinstance(value, dict):
-            merged = dict(personality.get(key) or {})
-            for dim, gain in value.items():
-                if gain is None:
-                    merged.pop(dim, None)
-                else:
-                    merged[dim] = round(max(0.0, min(2.0, float(gain))), 3)
-            personality[key] = merged
         else:
             # Unknown keys pass through — personality is a named-key
             # dict meant to grow as the engine learns new couplings.

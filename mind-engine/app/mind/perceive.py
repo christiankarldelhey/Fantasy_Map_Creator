@@ -27,16 +27,21 @@ from app.mind.checks import (
     misread_reading,
     resolve_check,
 )
-from app.mind.engine import acute_hit, mood_delta, project_body
+from app.mind.engine import (
+    acute_hit, mood_delta, mood_position, project_body,
+    pull_affinity, pull_gain, pull_target, standing_magnitude,
+)
 from app.mind.kinds import SOURCE_MIND, is_mind_item, kind_of
 from app.mind.relations import (
-    attention_weights, feed, feed_event, felt_through, standing,
-    standing_relation,
+    attention_weights, feed, feed_event, standing, standing_relation,
 )
 from app.mind.semantics import (
     field_severity, load_semantics, semantic_delta, tag_floors,
 )
-from app.mind.voice import phrases, resolve_event_reading, streak_subjects
+from app.mind.voice import (
+    felt_words, mood_point, phrases, resolve_event_reading,
+    streak_subjects,
+)
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import Episode
 from app.mind.tags import UNTAGGED_FIELDS, subject_tags, tag_is
@@ -283,13 +288,14 @@ def _recurrence_items(session, game_id, mind, perceived, w):
             world.get('affection', 0.0) - world.get('fear', 0.0)))
 
     def _item(kind, tag, streak, valence, salience, phrase_key,
-              extra_data=None, tags=None):
+              extra_data=None, tags=None, pull_word=None):
         options = phrases(phrase_key, session, game_id)
         subject = _tag_subject(tag, subject_map)
         reading = (
             options[0].format(subject=subject, count=streak)
             if options else f'{subject} — {kind}'
         )
+        valence = round(max(-1.0, min(1.0, valence)), 3)
         return {
             'type': 'recurrence',
             'source': SOURCE_MIND,
@@ -302,13 +308,17 @@ def _recurrence_items(session, game_id, mind, perceived, w):
             'perception': 'noticed',
             'reading': reading,
             'salience': salience,
-            'valence': round(max(-1.0, min(1.0, valence)), 3),
+            'valence': valence,
             'severity': 0.0,
             'tags': tags or [],
             # The wear/relief is felt like any perception — the valence
-            # as a small affection imprint, so it moves the mood too.
-            'imprint': {'affection': round(
-                max(-1.0, min(1.0, valence)), 3)},
+            # as a small affection imprint, so it marks the bond too.
+            'imprint': {'affection': valence},
+            'mood_pull': (
+                [_pull_entry(
+                    session, game_id, mind, pull_word, salience, tag)]
+                if pull_word else []
+            ),
         }
 
     items = []
@@ -335,6 +345,7 @@ def _recurrence_items(session, game_id, mind, perceived, w):
             **_item(
                 'repetition', tag, streak, valence, pressure_sal,
                 'mind.repetition', extra_data={'synthetic': True},
+                pull_word='listless',
             ),
             'when': _anchor_when(tag) or _quietest_when(),
         })
@@ -379,6 +390,9 @@ def _recurrence_items(session, game_id, mind, perceived, w):
                         else 'mind.pattern_break_loss',
                         extra_data={'break_of': tag},
                         tags=[f'rupture:{tag}'],
+                        pull_word=(
+                            'settled' if valence >= 0 else 'melancholy'
+                        ),
                     ),
                     'when': anchor,
                 })
@@ -417,6 +431,38 @@ def resolve_break_items(session, game_id, mind, perceived, needs, w):
             )
         item['valence'] = w.get('break_loss_valence', -0.1)
         item['imprint'] = {'affection': item['valence']}
+        # A break with an open need underneath warns, it does not ache:
+        # the pull's target moves to 'worried' (#184).
+        item['mood_pull'] = [_pull_entry(
+            session, game_id, mind, 'worried',
+            item.get('salience') or 0.0, tag,
+        )]
+
+
+def _pull_entry(session, game_id, mind, word, salience, tag):
+    """A synthesized item's pull (#184): same arithmetic as world
+    events — the item's word, refracted by the standing it erodes
+    ('the rain' pulls through what the rain means to her)."""
+    standing_vec = (
+        standing(session, game_id, mind.character_id, tag)
+        if tag_is(tag, 'subject') else {}
+    ) or {}
+    stand_mag = standing_magnitude(standing_vec)
+    tag_point = mood_point(word, session, game_id) or {
+        'valence': 0.0, 'arousal': 0.0}
+    target = pull_target(
+        tag_point, mood_position(standing_vec), stand_mag,
+    )
+    gain = pull_gain(
+        salience, stand_mag,
+        (mind.personality or {}).get('moodiness', 0.3),
+        pull_affinity(mind.temperament, target),
+    )
+    return {
+        'word': word,
+        'target': {d: round(v, 3) for d, v in target.items()},
+        'gain': round(gain, 3),
+    }
 
 
 def _subject_displays(data):
@@ -533,36 +579,74 @@ def perceive_events(session, game_id, mind, events, character=None,
             if floor > salience:
                 salience = floor
 
-        # Two channels: the world delta sediments the Relations it
-        # touched (the narrowest subject whole); the felt delta — bent
-        # by the standing Relation — is how the event landed on this
-        # mind. world_valence keeps the unbent reading. An event the
-        # interim perceive already felt skips the sediment but still
-        # reads through the standing it helped build.
+        # Two channels (#184): the world delta sediments the Relations it
+        # touched (the narrowest subject whole); felt words — declared on
+        # the tag itself or by the pack's felt_map — pull the Mood toward
+        # their wheel points, refracted by the standing Relation. The
+        # imprint is what sedimented; the mood never reads the delta.
+        # An event the interim perceive already felt skips the sediment
+        # but still pulls through the standing it helped build.
         already_felt = (
             felt_ids is not None and event.get('id') in felt_ids
         )
         subjects = sorted(subject_tags(tags))
+        standing = prior_standing = {}
         if perception == 'unnoticed' or not subjects:
-            felt, primary = {}, None
-            if world_delta:
-                felt = felt_through(world_delta, {}, mind.personality)
+            primary = None
         elif already_felt:
-            primary, standing = standing_relation(
+            primary, prior_standing = standing_relation(
                 session, game_id, mind.character_id, subjects,
             )
-            felt = felt_through(world_delta, standing, mind.personality)
+            standing = prior_standing
         else:
-            primary, standing = feed_event(
+            # prior_standing = the bond that already existed (refracto);
+            # post-sediment standing = what the source now means (hold).
+            primary, prior_standing = feed_event(
                 session, mind, subjects, world_delta,
                 episode_idx=episode_idx,
                 displays=_subject_displays(data),
             )
-            felt = felt_through(world_delta, standing, mind.personality)
+            _, standing = standing_relation(
+                session, game_id, mind.character_id, subjects,
+            )
         if body_hit and not already_felt:
             acute_hit(mind.body, body_hit)
-        felt_mood = mood_delta(felt)
-        valence = felt_mood.get('valence', 0.0)
+
+        # The pull set: each felt word resolves to its wheel point,
+        # refracted toward what the source already felt like (prior
+        # standing — the dwarf's orc-dread bends where the tag lands);
+        # gain is the event's weight through the bond's hold and the
+        # mind's yield (salience × hold × moodiness × affinity).
+        pulls = []
+        if perception != 'unnoticed':
+            stand_mag = standing_magnitude(standing)
+            prior_mag = standing_magnitude(prior_standing)
+            moodiness = (mind.personality or {}).get('moodiness', 0.3)
+            rel_point = mood_position(prior_standing)
+            for word in felt_words(tags, session, game_id):
+                tag_point = mood_point(word, session, game_id)
+                if tag_point is None:
+                    continue
+                target = pull_target(tag_point, rel_point, prior_mag)
+                gain = pull_gain(
+                    salience, stand_mag, moodiness,
+                    pull_affinity(mind.temperament, target),
+                )
+                pulls.append({
+                    'word': word,
+                    'target': {d: round(v, 3) for d, v in target.items()},
+                    'gain': round(gain, 3),
+                })
+
+        # The event's felt colour: the resultant of its pull targets,
+        # gain-weighted — a wounded confrontation reads dark AND loud.
+        if pulls:
+            total = sum(p['gain'] for p in pulls) or 1.0
+            valence = sum(
+                p['target']['valence'] * p['gain'] for p in pulls
+            ) / total
+        else:
+            valence = mood_delta(world_delta).get('valence', 0.0)
         kind = kind_of(session, game_id, event.get('type'))
         item = {
             **event,
@@ -577,8 +661,10 @@ def perceive_events(session, game_id, mind, events, character=None,
             'severity': round(severity, 3),
             'tags': tags,
             'subjects': subjects,
-            'imprint': felt,
-            'mood_delta': {d: round(v, 3) for d, v in felt_mood.items()},
+            # What the event left on the Relation — the objective
+            # sediment, not a mind-bent delta.
+            'imprint': world_delta,
+            'mood_pull': pulls,
         }
         if primary:
             item['subject'] = primary
