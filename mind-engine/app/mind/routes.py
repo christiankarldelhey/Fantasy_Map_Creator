@@ -92,7 +92,7 @@ from app.mind.semantics import (
 )
 from app.mind.tags import subject_tags
 from app.mind.checks import character_state
-from app.mind.voice import mood_name
+from app.mind.voice import humanize, mood_name, pack_value
 from app.mind.provisioning import (
     DEFAULT_WIRING,
     NEUTRAL_MOOD,
@@ -597,11 +597,67 @@ def _beat_phase(item):
     return _PHASE_MAP.get(((item.get('when') or {}).get('phase') or ''))
 
 
+# How the day's felt arc speaks: the turn announces itself where it
+# happened, a shade whispers the counter-current that never won — a
+# grief inside a good day, a warmth inside a grey one.
+_MOOD_RENDER = {
+    'turn': 'the day turns here: {cause}',
+    'shade_lift': '{reading} lifted them for a while',
+    'shade_dim': '{reading} dimmed them for a while',
+}
+
+
+def _mood_beats(db, episode):
+    """Render the episode's mood output (turn, shades) as phase beats so
+    they ride the same in-scene channel as memories and dispositions —
+    a shade about an encountered subject can echo inside its own block."""
+    mood = getattr(episode, 'mood', None) or {}
+    render = pack_value(
+        db, getattr(episode, 'game_id', None), 'mind.mood_render',
+        _MOOD_RENDER) or {}
+    beats = {}
+    turn = mood.get('turn')
+    if turn and turn.get('phase'):
+        line = (render.get('turn') or '').format(
+            cause=turn.get('cause') or '')
+        beats.setdefault(turn['phase'], []).append(
+            {'subject': None, 'line': line})
+    for shade in mood.get('shades') or []:
+        phase = shade.get('phase')
+        if phase not in ('morning', 'afternoon', 'night'):
+            continue
+        key = (
+            'shade_lift' if (shade.get('swing') or 0) > 0 else 'shade_dim'
+        )
+        line = (render.get(key) or '').format(
+            word=shade.get('word') or '',
+            reading=shade.get('reading') or '')
+        # The Relation's own name when the shade carries a subject — the
+        # encounter-matching in the prompt needs the entity's real name.
+        subject = None
+        tag = shade.get('subject')
+        if tag:
+            rel = (
+                db.query(Relation)
+                .filter_by(
+                    character_id=episode.character_id, subject=tag)
+                .first()
+            )
+            subject = (rel.display_name if rel else None) or humanize(
+                tag.rsplit(':', 1)[-1])
+        beats.setdefault(phase, []).append(
+            {'subject': subject, 'line': line})
+    return beats
+
+
 def _merged_beats(db, episode, mind):
-    """The phase beats the narrator gets: the brief's day lines plus the
-    standing self — each disposition routed to where the world touches
-    it, so nothing floats unattached for the narrator to skip."""
+    """The phase beats the narrator gets: the brief's day lines, the
+    day's felt arc (turn, shades) and the standing self — each routed
+    to where the world touches it, so nothing floats unattached for the
+    narrator to skip."""
     beats = brief_beats(episode.brief)
+    for phase, bs in _mood_beats(db, episode).items():
+        beats.setdefault(phase, []).extend(bs)
     if mind is None:
         return beats
     dispositions = inner_lines(

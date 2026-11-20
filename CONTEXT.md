@@ -174,6 +174,10 @@ _Avoid_: mood delta, emotional damage, affect push
 The point in the Mood's own space where the Mood falls by inertia when nothing happens — the resting feeling a Mind returns to, from a hobbit's warm contentment to Celebrían's cool calm. Not a second state: every quiet Episode the Mood drifts back toward it, at the pace the Personality sets.
 _Avoid_: baseline, default mood, character
 
+**Shade**:
+A Pull that moved the Mood against where it stood without turning it — the melancholy a ruin casts into a good day, the warmth an inn lends a grey one. Only the world can cast one (the Mind's own Needs already speak); the strongest per phase is whispered to the narrator in scene, so the day keeps its dominant feeling and still remembers what brushed against it.
+_Avoid_: mixed emotion, secondary mood, counter pull
+
 **Personality**:
 How a Mind's engine is tuned: how strongly lived experience swings the Mood versus how firmly it returns to the Temperament, how sensitive each kind of feeling is, how fast Relations accrete or let go. Authored through Traits and presets — the engine is one; every Character's Personality tunes it differently.
 _Avoid_: personality type, trait list, stats

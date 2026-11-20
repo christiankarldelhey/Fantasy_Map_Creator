@@ -499,6 +499,38 @@ def test_the_day_turns_at_the_ford(client):
     assert len(day_mood['arc']) == 2
 
 
+def test_a_shade_names_the_counter_current():
+    """A good day dimmed by a melancholy tower — the pull that did not
+    turn the mood still whispers: a shade, not a turn."""
+    from types import SimpleNamespace
+    from app.mind.lens import episode_mood
+    items = [
+        {'type': 'land', 'when': {'phase': 'morning'}, 'source': 'world',
+         'reading': 'the downs ran gold with buttercups',
+         'valence': 0.4, 'salience': 0.5, 'imprint': {},
+         'mood_pull': [{'word': 'settled',
+                        'target': {'valence': 0.5, 'arousal': 0.0},
+                        'gain': 0.1}]},
+        {'type': 'land', 'when': {'phase': 'afternoon'}, 'source': 'world',
+         'subject': 'tag:place:old_tower',
+         'reading': 'a roofless watch-tower on the hill',
+         'valence': -0.2, 'salience': 0.5, 'imprint': {},
+         'mood_pull': [{'word': 'melancholy',
+                        'target': {'valence': -0.6, 'arousal': -0.2},
+                        'gain': 0.2}]},
+    ]
+    mind = SimpleNamespace(mood={'valence': 0.5, 'arousal': 0.0})
+    mood = episode_mood(None, None, items, mind=mind)
+    shades = mood.get('shades') or []
+    assert [s['word'] for s in shades] == ['melancholy']
+    assert shades[0]['phase'] == 'afternoon'
+    assert shades[0]['swing'] < 0
+    assert shades[0]['subject'] == 'tag:place:old_tower'
+    # The good day stands: the pull moved it without turning it.
+    assert mood.get('turn') is None
+    assert mood['valence'] > 0
+
+
 def test_what_happened_at_a_place_marks_the_place(client):
     """The orcs attacked AT the ford: 'where.place' makes the ford a
     secondary subject — it hears a splash of the meeting's fear, not

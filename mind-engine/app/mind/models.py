@@ -137,6 +137,9 @@ class Mood(BaseModel):
     trace: List[Dict[str, Any]] = []
     arc: List[Dict[str, Any]] = []
     turn: Optional[Dict[str, Any]] = None
+    # Counter-current pulls that moved the mood without turning it —
+    # the grief felt inside a good day, rendered as shade beats.
+    shades: List[Dict[str, Any]] = []
     thread_pressure: float = 0.0
 
 
