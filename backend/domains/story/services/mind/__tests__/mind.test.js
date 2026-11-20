@@ -421,7 +421,7 @@ test('place events carry the settlement a traveller actually entered', () => {
   // A ruin is dead ground the eye reads from afar — not a settlement,
   // but not silent either: 'dead_place' tells the mind its shape.
   const amonSul = places.find((p) => p.data.name === 'Amon Sul');
-  assert.deepEqual(amonSul.data.tags, ['dead_place']);
+  assert.deepEqual(amonSul.data.tags, ['dead_place', 'felt:melancholy']);
   // An enemy town passed from outside is flagged, never entered.
   const dolGuldur = places.find((p) => p.data.name === 'Dol Guldur');
   assert.deepEqual(dolGuldur.data.tags, ['settlement', 'hostile']);
@@ -600,7 +600,7 @@ test('a dead place sighted far shows its absence, not a living shape', () => {
         // registry tags make the silhouette true, never default.
         name: 'Ost-in-Edhil', type: 'ruin', distance_km: 6.1,
         narration_type: 'major ruin',
-        record_tags: ['ruins', 'melancholy', 'landmark'],
+        record_tags: ['ruins', 'felt:melancholy', 'landmark'],
         sighted: true, sighted_hour_float: 11, sighted_direction: 'east',
       }],
     },
@@ -614,13 +614,14 @@ test('a dead place sighted far shows its absence, not a living shape', () => {
   // event marks the place as dead so the mind reads it for what it is.
   assert.equal(burned.sighted_far, 'a blackened roofline — no smoke, no lamps');
   assert.ok(burned.tags.includes('dead_place'));
+  assert.ok(burned.tags.includes('felt:melancholy'));
   assert.match(burned.reading, /blackened roofline/);
   const ost = places.find((p) => p.data.place === 'ost_in_edhil').data;
   assert.equal(
     ost.sighted_far,
     'a field of mounds where a city stood — one wall still upright');
   assert.ok(ost.tags.includes('dead_place'));
-  assert.ok(ost.tags.includes('melancholy'));
+  assert.ok(ost.tags.includes('felt:melancholy'));
 });
 
 test('a being who spoke is remembered by name; a kept place keeps its keeper', () => {

@@ -5,17 +5,17 @@
 # Episode brief (focus.py, C35) — already-worded material, it never invents
 # words. Stored on the episode so re-open replays the same snapshot.
 #
-# Mood: importance-weighted mean valence of the perceived events, arousal
-# from severity; the dominant label resolves through the mood bands in
-# voice.py. The episode's mood blends into the mind's running mood
-# (half-life of one episode).
+# Mood: a trajectory of felt pulls (#184) — each perceived item pulls the
+# running mood toward the wheel point its felt word names, refracted by
+# the Relation it moved. The episode's mood is where the trajectory
+# ended; the arc is the phase-by-phase positions along the way.
 # ============================================================================
 import re
 from datetime import date
 
 from app.mind.engine import (
-    MOOD_DIMS, add_delta, couple_mood, derive_feeling, feeling_lexicon,
-    mood_delta, weigh_body,
+    MOOD_DIMS, add_delta, apply_pull, derive_feeling, feeling_lexicon,
+    weigh_body,
 )
 from app.mind.tags import cause_tags
 from app.mind.voice import humanize, mood_name
@@ -33,16 +33,24 @@ def _weighted_mean(items, key):
 
 
 def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
-    """What this episode felt like: weighted by how much each event
-    mattered (salience), then pressed by open threads — an intention is
-    a weight the body channels can't carry. Physiological needs speak
+    """Where the day's pulls left the mood (#184): the running mood
+    steps through each item's felt pulls in order — a trajectory, not
+    a mean — then open threads press the landing: an intention is a
+    weight the body channels can't carry. Physiological needs speak
     through their perceived items and the body's drag, never twice.
-    dominant via the editable 'mood' band. `felt` is the day's
-    accumulated felt delta (engine, ADR 0017) and `trace` the per-event
-    record of it — the day's emotional plot."""
+    `felt` is the day's accumulated sediment imprint and `trace` the
+    per-event record of it — what the Relations kept."""
     items = perceived_day or []
-    valence = _weighted_mean(items, 'valence')
-    arousal = _weighted_mean(items, 'severity')
+    start = {
+        d: ((mind.mood if mind else None) or {}).get(d) or 0.0
+        for d in ('valence', 'arousal')
+    }
+    arc, turn, landing = mood_arc(items, session, game_id, start)
+    valence = landing.get('valence', 0.0)
+    arousal = landing.get('arousal', 0.0)
+    # The day's own direction — salience-weighted mean of the events'
+    # felt colours, independent of where the mood started (#184).
+    day_valence = _weighted_mean(items, 'valence')
     thread_pressure = 0.0
     if needs:
         w = {**DEFAULT_WIRING, **((mind.wiring if mind else None) or {})}
@@ -55,6 +63,7 @@ def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
             if n.type != 'physiological'
         ))
         valence = max(-1.0, valence - thread_pressure)
+        arousal = min(1.0, arousal + thread_pressure * 0.5)
     dominant = mood_name(
         {'valence': valence, 'arousal': arousal},
         session, game_id,
@@ -63,18 +72,19 @@ def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
     trace = []
     for i in items:
         imprint = i.get('imprint') or {}
-        if not imprint:
+        if not imprint and not i.get('mood_pull'):
             continue
         add_delta(felt, imprint)
         trace.append({
             'subject': i.get('subject'),
             'reading': i.get('reading'),
             'felt': imprint,
+            'mood_pull': i.get('mood_pull') or [],
         })
-    arc, turn = mood_arc(items, session, game_id)
     return {
         'valence': round(valence, 3),
         'arousal': round(arousal, 3),
+        'day_valence': round(day_valence, 3),
         'dominant': dominant,
         'thread_pressure': round(thread_pressure, 3),
         'felt': {d: round(v, 3) for d, v in felt.items()},
@@ -91,57 +101,71 @@ _PHASE_ORDER = ('morning', 'afternoon', 'night')
 TURN_MIN_SWING = 0.3
 
 
-def mood_arc(items, session=None, game_id=None):
-    """The day's emotional plot by phase (ADR 0017): the felt deltas
-    accumulated morning -> afternoon -> night, each point carrying the
-    phase's heaviest reading as its cause. And the TURN — the phase
-    where the standing mood swung hard or flipped sign, with the
-    reading that did it ('the afternoon turned at the ford'). A day
-    may be a pleasant morning and a sad afternoon; one number for the
-    day could never say that.
-    Returns (arc, turn)."""
+def mood_arc(items, session=None, game_id=None, start=None):
+    """The day's emotional plot by phase (#184): the running mood steps
+    through each item's felt pulls morning -> afternoon -> night, and
+    each phase point is where the mood STOOD when the phase closed —
+    a trajectory, not a sum. And the TURN: the phase where the mood
+    moved far or flipped valence's sign, with the reading that did it
+    ('the afternoon turned at the ford').
+    Returns (arc, turn, landing) — landing is the mood after the last
+    pull, the position the episode leaves standing."""
     arc = []
-    running = {}
-    prev_valence = None
+    mood = {d: (start or {}).get(d, 0.0) for d in MOOD_DIMS}
+    prev = None
     turn = None
     for phase in _PHASE_ORDER:
         felt = {}
         cause, cause_w = None, 0.0
+        active = False
         for i in items:
-            if (i.get('when') or {}).get('phase') != phase:
+            # Phase-less items (synthetic/legacy events) bucket at midday.
+            iph = (i.get('when') or {}).get('phase') or 'afternoon'
+            if iph != phase:
                 continue
             imprint = i.get('imprint') or {}
             add_delta(felt, imprint)
+            for pull in i.get('mood_pull') or []:
+                apply_pull(mood, pull.get('target') or {},
+                           pull.get('gain') or 0.0)
+                active = True
+            if imprint:
+                active = True
             weight = abs(i.get('valence') or 0.0) * (
                 i.get('salience') or 0.0)
             if i.get('reading') and weight > cause_w:
                 cause, cause_w = i['reading'], weight
-        if not felt:
+        if not active:
             continue
-        add_delta(running, felt)
-        phase_mood = mood_delta(running)
-        valence = phase_mood.get('valence', 0.0)
+        valence = mood.get('valence', 0.0)
         point = {
             'phase': phase,
             'felt': {d: round(v, 3) for d, v in felt.items()},
             'valence': round(valence, 3),
-            'arousal': round(phase_mood.get('arousal', 0.0), 3),
-            'mood': mood_name(phase_mood, session, game_id),
+            'arousal': round(mood.get('arousal', 0.0), 3),
+            'mood': mood_name(mood, session, game_id),
             'cause': cause,
         }
         arc.append(point)
-        if prev_valence is not None:
-            swing = valence - prev_valence
-            if abs(swing) >= TURN_MIN_SWING or (
-                    swing and (valence > 0) != (prev_valence > 0)):
+        if prev is not None:
+            swing = valence - prev.get('valence', 0.0)
+            dist = sum(
+                (mood.get(d, 0.0) - prev.get(d, 0.0)) ** 2
+                for d in ('valence', 'arousal')) ** 0.5
+            if dist >= TURN_MIN_SWING or (
+                    swing and (valence > 0) != (prev.get('valence', 0.0) > 0)):
                 turn = {
                     'phase': phase,
-                    'from': round(prev_valence, 3),
+                    'from': round(prev.get('valence', 0.0), 3),
                     'to': round(valence, 3),
                     'cause': cause,
                 }
-        prev_valence = valence
-    return arc, turn
+        prev = dict(mood)
+    landing = {
+        'valence': mood.get('valence', 0.0),
+        'arousal': mood.get('arousal', 0.0),
+    }
+    return arc, turn, landing
 
 
 MOOD_CAUSE_MIN_WEIGHT = 0.15
@@ -190,14 +214,14 @@ def update_mind_mood(session, game_id, mind, ep_mood, cause=None,
     its cause go — nothing weighs any more."""
     prior = mind.mood or {}
     mood = {d: prior.get(d) or 0.0 for d in MOOD_DIMS}
-    couple_mood(mood, [ep_mood.get('felt') or {}])
+    # The day's felt pulls already ran inside episode_mood's trajectory
+    # — ep_mood's valence/arousal IS the landing position (#184).
+    mood['valence'] = ep_mood.get('valence') or 0.0
+    mood['arousal'] = ep_mood.get('arousal') or 0.0
     # The body's voice (ADR 0017 · W_BM): the projected Condition drags
-    # the mood by its load; thread needs — intentions, not flesh — press
-    # valence down on top, urgency-scaled.
+    # the mood by its load; thread needs — intentions, not flesh —
+    # already pressed the landing inside episode_mood.
     weigh_body(mood, getattr(mind, 'body', None) or {})
-    pressure = ep_mood.get('thread_pressure') or 0.0
-    mood['valence'] = max(-1.0, mood.get('valence', 0.0) - pressure)
-    mood['arousal'] = min(1.0, mood.get('arousal', 0.0) + pressure * 0.5)
     valence = mood['valence']
     dominant = mood_name(mood, session, game_id) or 'neutral'
     carried = prior.get('cause')

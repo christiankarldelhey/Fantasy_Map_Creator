@@ -374,10 +374,10 @@ const SETTLEMENT_KINDS = new Set([
   'fortified city', 'fortified town', 'citadel', 'manor', 'camp',
 ]);
 
-// The record's thematic tags that carry felt meaning at a distance —
-// a curated pass-through of the closed registry (ADR-0015), so a dead
-// keep and a sheltered one do not sediment alike.
-const FELT_PLACE_TAGS = ['danger', 'uncanny', 'melancholy', 'shelter', 'sacred'];
+// The record's felt tags carry the place's tone (#184): 'felt:*' names
+// a mood-wheel word the event pulls toward. Data authors the word —
+// the code only passes the namespace through.
+const FELT_PREFIX = 'felt:';
 
 function placeEvents(day) {
   return (day.locations || []).map((loc) => {
@@ -388,11 +388,11 @@ function placeEvents(day) {
     if (loc.sighted) tags.push('sighted');
     if (loc.visited) tags.push('visited');
     // A dead place is a fact the eye reads from afar — the burned inn
-    // shows no smoke. Its felt tags come too: a ruin's melancholy and
-    // a refuge's promise mean different things to the mind.
-    if (isDeadPlace(loc)) tags.push('dead_place');
-    for (const t of FELT_PLACE_TAGS) {
-      if ((loc.record_tags || []).includes(t)) tags.push(t);
+    // shows no smoke — and its tone is melancholy: the marker stays
+    // mechanical, the felt word is what the mood reads.
+    if (isDeadPlace(loc)) tags.push('dead_place', 'felt:melancholy');
+    for (const t of loc.record_tags || []) {
+      if (t.startsWith(FELT_PREFIX)) tags.push(t);
     }
     return {
       type: 'land',
@@ -576,6 +576,9 @@ function ambienceEvents(day) {
         situation: a.situation_id ?? null,
         name: text(a.name) ?? null,
         reading: text(a.text),
+        // The ambient record's tone — one felt:* word the resolver
+        // already picked (#184).
+        ...(a.felt ? { tags: [a.felt] } : {}),
       },
     }));
 }

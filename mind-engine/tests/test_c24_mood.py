@@ -57,8 +57,8 @@ def test_extreme_need_keeps_the_mood_honest():
 
 
 def test_calm_day_keeps_the_running_mood():
-    """A small bad moment nudges the mood; with no felt weight and a
-    sound body the running mood keeps its even keel."""
+    """The day's pull trajectory already landed near the prior state —
+    the running mood keeps the landing, the sound body adds nothing."""
     session = SessionLocal()
     mind = SimpleNamespace(
         mood={'valence': 0.4, 'arousal': 0.2, 'dominant': 'heartened'},
@@ -66,7 +66,9 @@ def test_calm_day_keeps_the_running_mood():
         body={},
     )
     ep_mood = {
-        'valence': -0.2, 'arousal': 0.3,
+        # Landing already includes the prior position (#184): the day
+        # pulled the 0.4 keel down a touch and it stays there.
+        'valence': 0.28, 'arousal': 0.18,
         'dominant': 'steady', 'thread_pressure': 0.0,
         'felt': {'affection': -0.15},
     }

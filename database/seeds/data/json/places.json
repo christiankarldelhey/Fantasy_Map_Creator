@@ -308,7 +308,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "landscape",
     "desolation"
    ],
@@ -359,7 +359,7 @@
    "tags": [
     "ruins",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -461,7 +461,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "danger",
+    "felt:tense",
     "cold",
     "avoid",
     "secret"
@@ -609,9 +609,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "damp",
-    "melancholy",
     "landmark"
    ],
    "size_radius_km": null,
@@ -691,7 +690,7 @@
    "tags": [
     "ruins",
     "silence",
-    "uncanny",
+    "felt:uneasy",
     "rest"
    ],
    "size_radius_km": null,
@@ -751,7 +750,7 @@
    "tags": [
     "silence",
     "no-fauna",
-    "uncanny"
+    "felt:uneasy"
    ],
    "presence": {
     "en": "The first day the traveller does not notice, because he has come out of days of wind and wind covers everything.\n\nThe second day he stops to drink somewhere sheltered and hears himself swallow, and the sound is much larger than it ought to be.\n\nAfter that he listens all afternoon. There is wind in the grass and there are his own feet and there is nothing else, and he goes on listening anyway, and when he makes camp he realises he has been listening since noon.",
@@ -1044,7 +1043,7 @@
     "smell",
     "cold",
     "winter",
-    "uncanny"
+    "felt:uneasy"
    ],
    "lore": {
     "en": "In this cold nothing smells. Smell needs something to evaporate and at this\ntemperature nothing does, so the air is clean in a way that is not hygiene but\nabsence.",
@@ -1242,7 +1241,7 @@
     "food",
     "ice",
     "crossing",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -1406,7 +1405,7 @@
     "forest",
     "slow",
     "no-insects",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -1637,10 +1636,9 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "ruins",
     "firewood",
-    "uncanny",
     "landmark"
    ],
    "size_radius_km": null,
@@ -1768,7 +1766,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "refuge",
     "rest",
     "social",
@@ -1897,9 +1895,8 @@
    "tags": [
     "water",
     "ice",
-    "danger",
     "light",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -1939,7 +1936,7 @@
     "food",
     "resource",
     "abandoned",
-    "melancholy",
+    "felt:melancholy",
     "taboo"
    ],
    "size_radius_km": null,
@@ -2016,7 +2013,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "flora",
     "rest",
     "cover"
@@ -2082,7 +2079,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "The forest begins with a wall. There is no transition: there is open field and then there are trees, and the edge is so straight it looks cut. The road enters through an arch between two trunks, and behind the arch nothing can be seen, because what lies beyond has no light of its own.",
     "es": "El bosque empieza con una pared. No hay transición: hay campo abierto y después hay árboles, y el límite es tan recto que parece cortado. La entrada del camino es un arco entre dos troncos, y detrás del arco no se ve nada, porque lo que hay detrás no tiene luz propia."
@@ -2154,7 +2151,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "The canopy closes and there is no clearing for many leagues. The light that comes through is green and even and has no direction, so there are no shadows and there is no noon. The only thing that tells the time passing is weariness.",
     "es": "Las copas se cierran y no hay claro en muchas leguas. La luz que llega es verde y pareja y no tiene dirección, así que no hay sombras y no hay mediodía. Lo único que informa del paso del tiempo es el cansancio."
@@ -2206,7 +2203,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "The air does not move. The canopy stops everything that blows above, so down here the air stays where it settled, warm and thick, holding the smell of whatever is rotting at ground level. Nothing stirs on its own: if something moved, something moved it.",
     "es": "El aire no se mueve. Las copas paran todo lo que sopla arriba, de modo que abajo el aire está donde quedó, caliente y espeso, y lleva en suspensión el olor de lo que se está pudriendo a ras del suelo. Nada se agita por su cuenta: si algo se movió, algo lo movió."
@@ -2258,7 +2255,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "The forest is full of life and none of that life feeds anyone. The black squirrels are too fast and their meat is bitter; the birds do not come down; the black berries bring fever and those who live here have known it since they were children. What is eaten in Mirkwood was brought in from outside.",
     "es": "El bosque está lleno de vida y nada de esa vida alimenta. Las ardillas negras son demasiado rápidas y su carne es amarga; los pájaros no bajan; las bayas negras dan fiebre y los que viven aquí lo saben desde chicos. Lo que se come en el Bosque Negro se trajo de afuera."
@@ -2325,7 +2322,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:tense"],
    "presence": {
     "en": "At night the forest makes sounds. It is not silence broken by noises: it is a continuous ground of things that creak, drip and shift, and inside that ground, every so often, something that does not fit. The fire lights three paces and then lights nothing, and the darkness beyond is not black but solid.",
     "es": "De noche el bosque suena. No es un silencio roto por ruidos: es un fondo continuo de cosas que crujen, gotean y se desplazan, y dentro de ese fondo, cada tanto, algo que no encaja. El fuego alumbra tres pasos y después no alumbra nada, y la oscuridad de más allá no es negra sino sólida."
@@ -2484,7 +2481,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "danger",
+    "felt:tense",
     "sleep",
     "crossing",
     "secret"
@@ -2539,7 +2536,7 @@
    "tags": [
     "night",
     "light",
-    "danger",
+    "felt:tense",
     "offroad"
    ],
    "presence": {
@@ -2582,7 +2579,7 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
+    "felt:tense",
     "offroad",
     "landscape",
     "silence"
@@ -2631,10 +2628,9 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "dry",
-    "uncanny",
     "secret"
    ],
    "size_radius_km": null,
@@ -2752,8 +2748,7 @@
    "tags": [
     "road",
     "offroad",
-    "danger",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -2806,7 +2801,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "fire",
     "water",
@@ -2970,7 +2965,7 @@
     "road",
     "offroad",
     "obstacle",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -3019,7 +3014,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "In the other zones of the forest the traveller is alone and the forest feels hostile. Here he is not alone, and the forest is exactly the same as before.",
     "es": "En las otras zonas del bosque el viajero está solo y el bosque le resulta hostil. Acá no está solo, y el bosque es exactamente igual que antes."
@@ -3087,7 +3082,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "cursed",
     "haunting",
     "avoid",
@@ -3184,7 +3179,7 @@
    "type": null,
    "priority": 0,
    "tags": [
-    "uncanny",
+    "felt:uneasy",
     "signs",
     "watched"
    ],
@@ -3247,7 +3242,7 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
+    "felt:uneasy",
     "ruins",
     "avoid",
     "signs"
@@ -3304,7 +3299,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "uncanny",
+    "felt:uneasy",
     "sound",
     "cursed"
    ],
@@ -3373,8 +3368,7 @@
    "priority": 0,
    "tags": [
     "road",
-    "danger",
-    "uncanny",
+    "felt:uneasy",
     "navigation"
    ],
    "size_radius_km": null,
@@ -3431,7 +3425,7 @@
     "signs",
     "navigation",
     "woodmen",
-    "uncanny",
+    "felt:uneasy",
     "social"
    ],
    "size_radius_km": null,
@@ -3515,7 +3509,7 @@
     "light",
     "night",
     "navigation",
-    "danger"
+    "felt:tense"
    ],
    "presence": {
     "en": "He has gone days without knowing where north is. And one night, between the canopies, there is a part of the sky that is not completely black.\nIt is little light. But it is the only one, and after `M-A1` he will use it even knowing where it comes from.",
@@ -3559,8 +3553,7 @@
    "tags": [
     "vista",
     "landmark",
-    "uncanny",
-    "melancholy"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -3614,11 +3607,10 @@
    "priority": 0,
    "tags": [
     "people",
-    "shelter",
+    "felt:settled",
     "food",
     "social",
     "rules",
-    "uncanny",
     "knowledge",
     "secret"
    ],
@@ -3719,10 +3711,9 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
-    "social",
-    "uncanny"
+    "social"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -3820,7 +3811,7 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
+    "felt:uneasy",
     "ritual",
     "social",
     "avoid",
@@ -3964,9 +3955,8 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "social",
-    "melancholy",
     "taboo",
     "secret"
    ],
@@ -4028,8 +4018,7 @@
    "priority": 0,
    "tags": [
     "burial",
-    "melancholy",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -4139,7 +4128,8 @@
     "transition",
     "light",
     "sound",
-    "relief"
+    "relief",
+    "felt:watchful"
    ],
    "presence": {
     "en": "The first thing that changes is the ground. The undergrowth that had been reaching his chest opens and becomes leaf-litter, and suddenly he can see between the trunks, far, fifty paces, a hundred. He did not know he missed that.\nSecond is the light. The sky still cannot be seen, but the light coming down is no longer evenly green: it falls in patches, moves, changes place during the day. There are shadows again, and with the shadows, the hour returns.\nThe third thing takes half a day to notice, and when he notices it he stops dead.\nThere are birds.",
@@ -4189,7 +4179,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "danger",
+    "felt:tense",
     "sleep",
     "crossing",
     "canon"
@@ -4247,7 +4237,7 @@
    "tags": [
     "elvish",
     "threshold",
-    "uncanny",
+    "felt:uneasy",
     "social"
    ],
    "size_radius_km": null,
@@ -4334,7 +4324,7 @@
     "food",
     "light",
     "time",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -4401,7 +4391,7 @@
     "elvish",
     "rest",
     "flora",
-    "sacred",
+    "felt:watchful",
     "quiet"
    ],
    "size_radius_km": null,
@@ -4519,7 +4509,7 @@
     "elvish",
     "ruins",
     "quiet",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -4573,7 +4563,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "You enter climbing. The road comes from low land and starts winding up between outcrops, and the closed forest below opens into sparse pinewoods on stony slopes. The air changes before the landscape: it turns dry and light, and smells of resin and sun-warmed grass.",
     "es": "Se entra subiendo. El camino viene de tierra baja y empieza a trepar entre afloramientos, y el bosque cerrado de abajo se va abriendo en pinares ralos sobre ladera de piedra. El aire cambia antes que el paisaje: se vuelve seco y liviano, y huele a resina y a hierba al sol."
@@ -4637,7 +4627,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "A hand's breadth under the soil there is rock. That decides everything: no digging, nothing can be driven in, water does not soak and runs off, and there is not a single man-sized flat spot that does not have to be searched for.",
     "es": "Bajo un palmo de tierra hay roca. Eso decide todo: no se cava, no se clava nada, el agua no se filtra y corre, y no hay un solo sitio llano del tamaño de un hombre que no haya que buscar."
@@ -4706,7 +4696,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "There are streams everywhere, small, leaping among stones. They do not dry in summer and they come down every slope, so whoever walks a valley floor has running water close all the time. The noise is pleasant. It is also constant, and it masks.",
     "es": "Hay arroyos por todas partes, chicos, saltando entre piedras. No se secan en verano y bajan de todas las laderas, así que el que camina por el fondo de un valle lleva agua corriendo cerca todo el tiempo. El ruido es agradable. También es constante, y tapa."
@@ -4765,7 +4755,7 @@
     "water",
     "rest",
     "light",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -4841,7 +4831,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "fire",
     "social"
@@ -4916,7 +4906,7 @@
     "water",
     "cold",
     "sound",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -4975,7 +4965,7 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
+    "felt:tense",
     "troll",
     "smell",
     "avoid",
@@ -5043,7 +5033,7 @@
     "troll",
     "rest",
     "canon",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -5100,7 +5090,7 @@
     "ruins",
     "landscape",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -5147,7 +5137,7 @@
    "tags": [
     "rest",
     "troll",
-    "danger",
+    "felt:tense",
     "night",
     "secret"
    ],
@@ -5294,8 +5284,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
-    "melancholy",
+    "felt:settled",
     "secret"
    ],
    "size_radius_km": null,
@@ -5350,7 +5339,7 @@
    "tags": [
     "signs",
     "troll",
-    "danger",
+    "felt:tense",
     "navigation"
    ],
    "size_radius_km": null,
@@ -5502,7 +5491,7 @@
    "tags": [
     "ruins",
     "landscape",
-    "melancholy",
+    "felt:melancholy",
     "rest"
    ],
    "size_radius_km": null,
@@ -5574,7 +5563,7 @@
    "tags": [
     "ruins",
     "work",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -5628,7 +5617,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "social",
     "hidden",
@@ -5681,7 +5670,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "It comes without wind and leaves without wind. It is not damp or cold: it is white and still, and it reaches chest height, so the traveller sees his own head above it and does not see his feet.\nAnd it does not disorient at random. It disorients in one direction: whoever walks in fog across the Barrow-downs ends up, always, deeper in.",
     "es": "Aparece sin viento y se va sin viento. No es húmeda ni fría: es blanca y quieta, y llega a la altura del pecho, así que el viajero ve su propia cabeza afuera y no ve los pies.\nY no desorienta al azar. Desorienta en una dirección: el que camina en niebla por las Quebradas termina, siempre, más adentro."
@@ -5724,7 +5713,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "There is grass and there is wind, but the grass does not move the way it should. There are ownerless sheep, few, grazing alone and fleeing nobody. There are crows above, always the same ones, circling.\nAnd there is nothing small. No rabbits, no mice, no lizards in the sun. In open grassland, that is impossible.",
     "es": "Hay pasto y hay viento, pero el pasto no se mueve como debería. Hay ovejas sin dueño, pocas, que pastan solas y no huyen de nadie. Hay cuervos arriba, siempre los mismos, dando vueltas.\nY no hay nada chico. Ni conejos, ni ratones, ni lagartijas al sol. En una tierra de pasto abierto, eso es imposible."
@@ -5782,7 +5771,7 @@
    "tags": [
     "burial",
     "rest",
-    "danger",
+    "felt:tense",
     "sleep",
     "secret"
    ],
@@ -5870,7 +5859,7 @@
     "landmark",
     "burial",
     "navigation",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -5939,9 +5928,8 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
-    "danger",
     "secret"
    ],
    "size_radius_km": null,
@@ -5994,8 +5982,7 @@
    "priority": 0,
    "tags": [
     "burial",
-    "danger",
-    "uncanny",
+    "felt:uneasy",
     "treasure"
    ],
    "size_radius_km": null,
@@ -6073,7 +6060,7 @@
    "priority": 0,
    "tags": [
     "fauna",
-    "uncanny",
+    "felt:uneasy",
     "navigation",
     "secret"
    ],
@@ -6220,8 +6207,7 @@
    "tags": [
     "food",
     "fauna",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -6275,7 +6261,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "It comes from the west and nothing breaks it for twenty leagues. It is not cold or strong: it is constant, and at this height of the downs it blows the same by day as by night.\nEverything built here is oriented against it. The pen mouths face south, the houses too, and the walls that did not account for it fell centuries ago.",
     "es": "Viene del oeste y no lo frena nada en veinte leguas. No es frío ni es fuerte: es constante, y a esta altura de las lomas sopla igual de día que de noche.\nTodo lo construido acá está orientado contra él. Las bocas de los corrales miran al sur, las casas también, y los muros que no lo tenían en cuenta se cayeron hace siglos."
@@ -6318,7 +6304,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "presence": {
     "en": "Nothing bad happens here. That is the difference from the Trollshaws, half a day away: in the southern downs danger does not exist.\nWhat there is, is nobody. You can walk three days without seeing a person, and not because they are hiding.",
     "es": "Acá no pasa nada malo. Esa es la diferencia con las Quebradas, que están a media jornada: en las lomas del sur el peligro no existe.\nLo que hay es que no hay nadie. Se puede caminar tres días sin ver una persona, y no porque se escondan."
@@ -6380,9 +6366,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
-    "landscape",
-    "melancholy"
+    "felt:settled",
+    "landscape"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -6506,7 +6491,7 @@
    "tags": [
     "ruins",
     "landmark",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -6617,10 +6602,9 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "ruins",
-    "rest",
-    "melancholy"
+    "rest"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -6666,7 +6650,7 @@
    "tags": [
     "landscape",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "work"
    ],
    "size_radius_km": null,
@@ -6707,7 +6691,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "You enter by the coast road, coming from the east, and the first thing that changes is not the landscape but the hour at which one can walk.",
     "es": "Se entra por el camino de la costa, viniendo del este, y lo primero que cambia no es el paisaje sino la hora en que se puede caminar."
@@ -6759,7 +6743,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "Between the fourth and seventh hour nobody works, nobody travels and nobody talks loudly. It is not a custom: it cannot be done. The villages go empty with their doors open, and whoever is on the road at that hour is a stranger and it shows from far off.",
     "es": "Entre la cuarta y la séptima hora no se trabaja, no se viaja y no se habla fuerte. No es una costumbre: es que no se puede. Las aldeas quedan vacías y las puertas abiertas, y el que anda por el camino a esa hora es forastero y se nota de lejos."
@@ -6797,7 +6781,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Gondor raised charts of this coast with great care. The capes are there, the soundings, the anchorages. The people of the valleys are not, because those who measured did not find them.\nThe Drúedain are there. They see the traveller pass, decide he does not matter, and carry on with theirs.",
     "es": "Gondor levantó cartas de esta costa con mucho cuidado. Están los cabos, las sondas, los fondeaderos. No está la gente de los valles, porque los que midieron no la encontraron.\nLos Drúedain están. Ven pasar al viajero, deciden que no importa, y siguen con lo suyo."
@@ -6845,10 +6829,9 @@
    "priority": 0,
    "tags": [
     "people",
-    "shelter",
+    "felt:settled",
     "food",
-    "social",
-    "melancholy"
+    "social"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -6896,7 +6879,7 @@
     "sea",
     "wind",
     "vista",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -6945,7 +6928,7 @@
     "sea",
     "people",
     "work",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -6993,7 +6976,7 @@
     "ruins",
     "landmark",
     "vista",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -7042,7 +7025,7 @@
     "rest",
     "flora",
     "work",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -7171,7 +7154,7 @@
     "druedain",
     "flora",
     "water",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -7219,7 +7202,7 @@
     "people",
     "ruins",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "humour",
     "secret"
    ],
@@ -7268,7 +7251,7 @@
     "road",
     "ruins",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -7332,7 +7315,7 @@
     "water",
     "ruins",
     "work",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -7442,9 +7425,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "numenorean",
-    "melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -7538,7 +7520,7 @@
    "tags": [
     "ruins",
     "water",
-    "melancholy",
+    "felt:melancholy",
     "humour"
    ],
    "size_radius_km": null,
@@ -7578,8 +7560,7 @@
    "tags": [
     "sea",
     "night",
-    "uncanny",
-    "danger"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -7643,7 +7624,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "situations": [
     {
      "id": "dl00_arrival_1",
@@ -7687,7 +7668,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "Thornbush two or three man-heights tall, grey, branches armed from the base. It grows thick and it grows even, leagues upon leagues, without a clearing visible from inside.\nIt is not tall. It is impenetrable, which is different. And because it is not tall, from a hill it all looks green and mild.",
     "es": "Espinillo de dos o tres alturas de hombre, gris, con las ramas armadas desde la base. Crece apretado y crece parejo, leguas y leguas, sin un claro que se vea desde adentro.\nNo es alto. Es impenetrable, que es distinto. Y como no es alto, desde una loma se ve todo verde y manso."
@@ -7730,7 +7711,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "Pale lights over the water, that do not illuminate, that move slowly, that do not approach. And below, if one looks, faces.\nThe rule of the region, which here everyone does say: you do not look at the water and you do not leave the path at night.",
     "es": "Luces pálidas sobre el agua, que no iluminan, que se mueven despacio, que no se acercan. Y abajo, si uno mira, caras.\nLa regla de la región, que acá sí la dicen todos: no se mira el agua y no se sale del sendero de noche."
@@ -7782,7 +7763,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:irritated"],
    "presence": {
     "en": "The scrub is full. Not of one thing: of all of them at once, in layers, each with its schedule.\n**By day**, big slow horseflies that land without being felt and bite before they are seen. They take the slap and come back.\n**At dusk and dawn**, midges: a cloud, tiny, that get into the eyes, the nose, the mouth.\n**At night**, mosquitoes, and the whine is heard better than by day.\n**All the time**, ants. There is no place to sit that is not on an ant trail.",
     "es": "El monte está lleno. No de una cosa: de todas a la vez, en capas, cada una con su horario.\n**De día**, tábanos grandes y lentos que se posan sin que uno los sienta llegar y pican antes de que uno los vea. Aguantan el manotazo y vuelven.\n**Al atardecer y al amanecer**, jejenes: una nube, chiquísimos, que entran en los ojos, en la nariz, en la boca.\n**De noche**, mosquitos, y el zumbido se oye mejor que de día.\n**Todo el tiempo**, hormigas. No hay un sitio donde sentarse que no esté sobre un camino de hormigas."
@@ -7877,7 +7858,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "Leagues of still warm water, and there are almost no mosquitoes. There are flies, yes, heavy and slow, perched on the reeds. But no cloud, no whine, no plague.\nThere are no frogs either. No fish jumping. No waterbirds, of which a place like this should have thousands.\nThe traveller coming from the scrub takes it as a relief and takes a day to understand what bothers him.",
     "es": "Leguas de agua quieta y tibia, y casi no hay mosquitos. Hay moscas, sí, pesadas y lentas, posadas en el junco. Pero no hay nube, no hay zumbido, no hay plaga.\nTampoco hay ranas. Ni peces que salten. Ni pájaros de agua, que en un sitio así tendría que haber a millares.\nEl viajero que viene del espinar lo recibe como un alivio y tarda un día en entender qué le molesta."
@@ -7933,10 +7914,9 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "bandits",
     "ruins",
-    "melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -7984,7 +7964,7 @@
     "road",
     "bandits",
     "navigation",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -8046,7 +8026,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "uncanny",
+    "felt:uneasy",
     "marsh",
     "food",
     "secret"
@@ -8102,8 +8082,7 @@
    "tags": [
     "marsh",
     "night",
-    "danger",
-    "uncanny",
+    "felt:uneasy",
     "wraith"
    ],
    "size_radius_km": null,
@@ -8231,7 +8210,7 @@
     "vista",
     "landscape",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -8294,7 +8273,7 @@
    "tags": [
     "bandits",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -8342,7 +8321,7 @@
     "ruins",
     "historical",
     "navigation",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -8430,7 +8409,7 @@
     "marsh",
     "road",
     "navigation",
-    "danger",
+    "felt:tense",
     "canon"
    ],
    "size_radius_km": null,
@@ -8505,7 +8484,7 @@
    "tags": [
     "landmark",
     "navigation",
-    "uncanny",
+    "felt:uneasy",
     "historical"
    ],
    "size_radius_km": null,
@@ -8552,7 +8531,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "You enter through a pass and the first thing that changes is not the landscape but the road surface. Coming from the south the road is a track; on the other side it is a real road, wide, guttered, with a compacted bed. That happens exactly where the land nobody wants to tread begins.",
     "es": "Se entra por un paso y lo primero que cambia no es el paisaje sino la calzada. Viniendo del sur el camino es una huella; del otro lado es un camino de verdad, ancho, con cuneta, con el firme compactado. Eso ocurre exactamente donde empieza la tierra que nadie quiere pisar."
@@ -8616,7 +8595,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:irritated"],
    "presence": {
     "en": "From the north, with nothing to break it for four hundred leagues of steppe. It is not mountain cold: it is dry, constant, and it gets in through sleeves and collar. It does not howl. It is worse: it is even.",
     "es": "Del norte, sin nada que lo frene en cuatrocientas leguas de estepa. No es frío de montaña: es seco, constante, y entra por las mangas y por el cuello. No ruge. Es peor: es parejo."
@@ -8692,7 +8671,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "Angmar's stone is limestone and the water eats it from inside. It rains and snows what it has to rain and snow, and none of it stays on the surface: it soaks, drops, and runs underneath.\nThat is why there are no streams. There are river-shaped valleys with dry beds. There are round hollows where the ground sank. And there are, counted, places where the water comes back out.\nEach of those places has an owner. That is the true power structure of the region, and the fortresses are where they are because of it.",
     "es": "La piedra de Angmar es caliza y se la come el agua desde adentro. Llueve y nieva lo que tiene que llover y nevar, y nada de eso queda en la superficie: se filtra, baja, y corre por abajo.\nPor eso no hay arroyos. Hay valles con forma de río y fondo seco. Hay hondonadas redondas donde el suelo se hundió. Y hay, contados, sitios donde el agua vuelve a salir.\nCada uno de esos sitios tiene dueño. Esa es la verdadera estructura de poder de la región, y las fortalezas están donde están por eso."
@@ -8776,7 +8755,7 @@
     "food",
     "social",
     "tribute",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -8913,10 +8892,9 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "danger",
     "orcs",
     "navigation",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -8963,7 +8941,7 @@
     "landmark",
     "vista",
     "orcs",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -9042,7 +9020,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "work",
     "historical",
     "secret"
@@ -9092,7 +9070,7 @@
     "road",
     "orcs",
     "navigation",
-    "danger"
+    "felt:tense"
    ],
    "presence": {
     "en": "Even surface, clean gutter, and wheel ruts deeply marked in the centre, heavy loads.\nYou walk twice as fast on it as off.\nHe can be seen from very far too, because the road runs over open ground and because it was built to control him.\nEvery so often there is a paved lay-by, for one cart to pull over and another to pass. In the lay-bys there is ash, bones and rubbish.",
@@ -9137,7 +9115,7 @@
     "people",
     "work",
     "tribute",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -9186,7 +9164,7 @@
     "landscape",
     "karst",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -9257,9 +9235,8 @@
    "priority": 0,
    "tags": [
     "karst",
-    "shelter",
-    "water",
-    "danger"
+    "felt:settled",
+    "water"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -9333,7 +9310,7 @@
     "people",
     "tribute",
     "social",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -9447,7 +9424,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:tense"],
    "presence": {
     "en": "The weather up here does not follow the weather below. It can be clear in Eregion and snowing on the saddle, and the reverse. Those who live on the east do not say the pass is dangerous: they say **the mountain is cruel**, and they say it flatly, the way one gives a datum.",
     "es": "El tiempo acá no sigue al de abajo. Puede estar despejado en Eregion y nevando en el collado, y al revés. Los que viven al este no dicen que el paso sea peligroso: dicen que **la montaña es cruel**, y lo dicen sin énfasis, como quien da un dato."
@@ -9502,7 +9479,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:tense"],
    "presence": {
     "en": "Above a certain level the air is not enough. It is not tiredness: the body stops doing what you ask and does it slower.",
     "es": "Arriba de cierta cota el aire no alcanza. No es cansancio: es que el cuerpo deja de hacer lo que uno le pide y lo hace más lento."
@@ -9549,7 +9526,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:tense"],
    "presence": {
     "en": "Stone falls all day. Ice opens the rock at night and the sun releases it by day. Nearly all of it is that.",
     "es": "Todo el día cae piedra. El hielo abre la roca de noche y el sol la suelta de día. Casi todo es eso."
@@ -10168,7 +10145,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:tense"],
    "channel": {
     "en": "the air. You enter from the north, from the Dagorlad",
     "es": "el aire. Se entra por el norte, desde el Dagorlad"
@@ -10228,7 +10205,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:distressed"],
    "presence": {
     "en": "Gorgoroth's air comes from the furnaces and from Orodruin and does not renew, because the two ranges shut it in. It carries fine suspended ash all the time and dries you from inside.",
     "es": "El aire de Gorgoroth viene de los hornos y del Orodruin y no se renueva, porque las dos cordilleras lo encierran. Lleva ceniza fina en suspensión todo el tiempo y seca por dentro."
@@ -10290,7 +10267,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "presence": {
     "en": "Orodruin's smoke covers the plateau's sky. It is not night: it is a brown, even light, without direction, that does not change intensity between morning and afternoon.\nThe only thing that marks the hour is the changing of the guards, and that only if somebody is near.",
     "es": "El humo del Orodruin tapa el cielo de la meseta. No es noche: es una luz parda y pareja, sin dirección, que no cambia de intensidad entre la mañana y la tarde.\nLo único que marca la hora es el relevo de las guardias, y eso solo si hay alguien cerca."
@@ -10344,7 +10321,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "In Gorgoroth there is no good water. What pools in the hollows has ash and sulphur and cannot be drunk. The drinkable comes by cart, is counted and belongs to somebody.",
     "es": "En Gorgoroth no hay agua buena. La que se junta en los huecos tiene ceniza y azufre y no se puede beber. La potable viene en carro, está contada y es de alguien."
@@ -10401,7 +10378,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "It falls all the time. Not spectacular ash-rain: a fine constant dust settling on everything horizontal. That is why nothing in Mordor has colour: everything has the same grey on top.",
     "es": "Cae todo el tiempo. No es lluvia de ceniza espectacular: es un polvo fino y constante que se deposita en todo lo horizontal. Por eso nada en Mordor tiene color: todo tiene el mismo gris encima."
@@ -10472,7 +10449,7 @@
    "priority": 0,
    "tags": [
     "landmark",
-    "danger",
+    "felt:tense",
     "vista",
     "canon"
    ],
@@ -10519,9 +10496,8 @@
    "priority": 0,
    "tags": [
     "landmark",
-    "danger",
     "canon",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -10566,7 +10542,7 @@
    "priority": 0,
    "tags": [
     "climb",
-    "danger",
+    "felt:tense",
     "canon",
     "secret"
    ],
@@ -10613,7 +10589,7 @@
    "priority": 0,
    "tags": [
     "dark",
-    "danger",
+    "felt:tense",
     "canon",
     "smell"
    ],
@@ -10782,7 +10758,7 @@
     "road",
     "orcs",
     "navigation",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -10835,7 +10811,7 @@
    "tags": [
     "pass",
     "orcs",
-    "danger",
+    "felt:tense",
     "canon"
    ],
    "size_radius_km": null,
@@ -10882,7 +10858,7 @@
    "tags": [
     "orcs",
     "landscape",
-    "danger",
+    "felt:tense",
     "canon"
    ],
    "size_radius_km": null,
@@ -11162,10 +11138,9 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "vista",
-    "gondor",
-    "melancholy"
+    "gondor"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -11258,7 +11233,7 @@
     "landmark",
     "vista",
     "canon",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -11295,10 +11270,9 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
-    "orcs",
-    "uncanny"
+    "orcs"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -11587,7 +11561,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "channel": {
     "en": "another's gaze",
     "es": "la mirada ajena"
@@ -11647,7 +11621,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "The settlements are up high and the roads run through the valleys. The traveller is below and those who live here are above, and they see him coming from the moment he enters their valley.\nIt is not hostility. It is information: by the second village they know he is coming and from where.",
     "es": "Los asentamientos están en alto y los caminos van por los valles. El que viaja está abajo y los que viven acá están arriba, y lo ven venir desde que entra en su valle.\nNo es hostilidad. Es información: a la segunda aldea ya saben que viene y de dónde."
@@ -11690,7 +11664,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "presence": {
     "en": "This was forest. They felled it a few years ago and they felled all of it, for the fires of the southern valley.\nIt is not old deforestation: it is recent, and the people here remember when there were trees.",
     "es": "Esto era bosque. Lo talaron hace pocos años y lo talaron entero, para los fuegos del valle del sur.\nNo es deforestación antigua: es reciente, y la gente de acá se acuerda de cuando había árboles."
@@ -11733,7 +11707,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "presence": {
     "en": "In Dunland everything goes through the clan. Every village belongs to one, every clan owes or is owed by another, and debts do not expire.\nThe traveller is not judged for himself: he is judged by where he comes from and by who received him before. Being well treated by the Feargan closes the Eogbann's door on him, and nobody is going to explain that to him.",
     "es": "En Dunland todo pasa por el clan. Cada aldea pertenece a uno, cada clan le debe o le cobra a otro, y las deudas no prescriben.\nAl viajero no se lo juzga a él: se lo juzga por de dónde viene y por quién lo recibió antes. Ser bien tratado por los Feargan le cierra la puerta de los Eogbann, y nadie se lo va a explicar."
@@ -11789,7 +11763,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "shelter",
+    "felt:settled",
     "food",
     "social",
     "clan"
@@ -11988,7 +11962,7 @@
     "ruins",
     "dunedain",
     "taboo",
-    "shelter",
+    "felt:settled",
     "secret"
    ],
    "size_radius_km": null,
@@ -12036,7 +12010,7 @@
     "ruins",
     "clan",
     "rohirrim",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -12083,7 +12057,7 @@
    "tags": [
     "flora",
     "water",
-    "sacred",
+    "felt:watchful",
     "taboo",
     "rest"
    ],
@@ -12132,7 +12106,7 @@
     "landscape",
     "slow",
     "resource",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -12197,7 +12171,7 @@
     "landscape",
     "sound",
     "crossing",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -12250,7 +12224,7 @@
     "landmark",
     "vista",
     "industry",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -12283,7 +12257,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:irritated"],
    "presence": {
     "en": "It rains almost every day and almost never hard. It is a fine, warm rain that does not force shelter but never stops, and in a few hours leaves everything wet without any downpour having been noticed.\nNobody takes refuge from this rain. The people here carry on with their business.",
     "es": "Llueve casi todos los días y casi nunca fuerte. Es una lluvia fina, tibia, que no obliga a taparse pero que no para, y que en pocas horas deja todo mojado sin que se haya notado ningún momento de aguacero.\nNadie se refugia de esta lluvia. La gente de acá sigue con lo suyo."
@@ -12333,7 +12307,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:mellow"],
    "presence": {
     "en": "It is heard far off, among the trees, without knowing where it comes from. It is not a song: they are fragments, and they do not repeat.\nWhoever seeks it does not find it. Whoever stops seeking hears it closer.",
     "es": "Se oye lejos, entre los árboles, sin saber de dónde viene. No es una canción: son fragmentos, y no se repiten.\nEl que la busca no la encuentra. El que deja de buscarla la oye más cerca."
@@ -12415,7 +12389,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "presence": {
     "en": "Here nobody is in a hurry. The people of Lindon are waiting for a ship and have been waiting for it for centuries, and that patience is catching.\nThe traveller does not waste time: he spends it, and afterward does not know on what.",
     "es": "Acá nadie tiene apuro. Los que viven en Lindon están esperando un barco y llevan siglos esperándolo, y esa paciencia se contagia.\nEl viajero no pierde el tiempo: lo gasta, y después no sabe en qué."
@@ -12507,7 +12481,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "presence": {
     "en": "The melancholy does not kill. What kills is the traveller losing count of the days, running out of food four days from anywhere, and being caught by autumn on the wrong road.",
     "es": "La melancolía no mata. Lo que mata es que el viajero deje de contar los días, se quede sin comida a cuatro jornadas de cualquier parte, y lo agarre el otoño en el camino equivocado."
@@ -12572,7 +12546,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:mellow"],
    "presence": {
     "en": "Here green is not one colour: it is twenty. The trunk's moss, the stone's moss, new fern, old fern, oak leaf, hazel leaf, dune grass, meadow grass, pool algae.\nThe newcomer sees them all. After a few days he stops seeing them and sees green.",
     "es": "Acá el verde no es un color: son veinte. El musgo del tronco, el musgo de la piedra, el helecho nuevo, el helecho viejo, la hoja del roble, la del avellano, la hierba de la duna, la del prado, el alga de la poza.\nEl que llega los ve todos. A los pocos días deja de verlos y ve verde."
@@ -12626,7 +12600,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:mellow"],
    "presence": {
     "en": "Almost every day there are clouds, and almost every afternoon, before it sets, the sun drops below the layer and comes in horizontal from the sea.\nIt lasts about forty minutes. And in those forty minutes everything facing west lights up.",
     "es": "Casi todos los días hay nubes, y casi todas las tardes, antes de que se ponga, el sol baja por debajo de la capa y entra horizontal desde el mar.\nDura unos cuarenta minutos. Y en esos cuarenta minutos todo lo que mira al oeste se enciende."
@@ -12688,7 +12662,7 @@
    "priority": 0,
    "tags": [
     "landmark",
-    "uncanny",
+    "felt:uneasy",
     "elvish",
     "secret"
    ],
@@ -12757,7 +12731,7 @@
     "rest",
     "flora",
     "sleep",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -12823,8 +12797,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "uncanny",
-    "melancholy"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -12871,8 +12844,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "uncanny",
-    "sacred",
+    "felt:watchful",
     "flora",
     "secret"
    ],
@@ -12929,8 +12901,7 @@
    "tags": [
     "sea",
     "crossing",
-    "danger",
-    "uncanny",
+    "felt:uneasy",
     "rest"
    ],
    "size_radius_km": null,
@@ -12985,9 +12956,8 @@
    "priority": 0,
    "tags": [
     "water",
-    "sacred",
-    "social",
-    "uncanny"
+    "felt:watchful",
+    "social"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -13043,7 +13013,7 @@
     "food",
     "flora",
     "water",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -13103,7 +13073,7 @@
    "priority": 0,
    "tags": [
     "sound",
-    "uncanny",
+    "felt:uneasy",
     "landscape"
    ],
    "size_radius_km": null,
@@ -13150,9 +13120,8 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
-    "uncanny",
     "secret"
    ],
    "size_radius_km": null,
@@ -13208,8 +13177,7 @@
    "tags": [
     "people",
     "elvish",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -13265,7 +13233,7 @@
    "tags": [
     "sleep",
     "knowledge",
-    "uncanny",
+    "felt:uneasy",
     "sea",
     "shadow",
     "silence",
@@ -13364,7 +13332,7 @@
     "fauna",
     "water",
     "elvish",
-    "sacred",
+    "felt:watchful",
     "secret"
    ],
    "size_radius_km": null,
@@ -13446,7 +13414,7 @@
     "elvish",
     "harbour",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -13507,7 +13475,7 @@
     "work",
     "elvish",
     "harbour",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -13623,7 +13591,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "elvish",
     "social",
@@ -13692,7 +13660,7 @@
     "social",
     "knowledge",
     "closed",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -13778,7 +13746,7 @@
     "ruins",
     "historical",
     "elvish",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -14155,7 +14123,7 @@
     "vista",
     "sea",
     "rest",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -14228,7 +14196,7 @@
     "elvish",
     "landmark",
     "knowledge",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -14339,7 +14307,7 @@
    "tags": [
     "flora",
     "elvish",
-    "melancholy",
+    "felt:melancholy",
     "rest",
     "secret"
    ],
@@ -14396,8 +14364,7 @@
    "tags": [
     "sea",
     "ruins",
-    "melancholy",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -14519,7 +14486,7 @@
     "road",
     "sea",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "presence": {
     "en": "A pace-and-a-half paved path, the sea always to the right, going down to each inlet and back up.\nAt each descent there is a small pebble beach and at each climb a view.\nHe covers half what the inland road gives.\nThere are benches. Far more than could be needed.",
@@ -14614,7 +14581,7 @@
     "elvish",
     "sea",
     "closed",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -15140,7 +15107,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "channel": {
     "en": "relief, and disorientation",
     "es": "el alivio, y el desconcierto"
@@ -15200,7 +15167,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "They eat six times a day, and that is not an exaggeration or a festive custom: it is the schedule. Breakfast, second breakfast, elevenses, lunch, tea and dinner, and some add one after dinner.\nA stranger who eats the way they do here gains weight in two weeks.",
     "es": "Se come seis veces por día, y eso no es una exageración ni una costumbre festiva: es el horario. Desayuno, segundo desayuno, media mañana, almuerzo, merienda y cena, y hay quien agrega una después de la cena.\nUn forastero que coma como come acá engorda en dos semanas."
@@ -15243,7 +15210,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "Information travels faster than the traveller. Always.\nThere are no messengers and no signals: there are people passing through, people stopping to talk, and people who very much enjoy telling things.",
     "es": "La información viaja más rápido que el viajero. Siempre.\nNo hay mensajeros y no hay señales: hay gente que pasa, gente que para a conversar, y gente a la que le gusta mucho contar cosas."
@@ -15286,7 +15253,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "Here there is nothing that can kill him. Not animals, not bandits, not weather, not terrain.\nThe worst that can happen to him is a dog barking, getting wet, or somebody taking offence.",
     "es": "Acá no hay nada que lo pueda matar. Ni animales, ni bandidos, ni clima, ni terreno.\nLo peor que le puede pasar es que un perro lo ladre, que se moje, o que alguien se ofenda."
@@ -15634,7 +15601,7 @@
     "food",
     "social",
     "humour",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -15819,7 +15786,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "humour",
     "social"
@@ -16161,7 +16128,7 @@
     "people",
     "social",
     "knowledge",
-    "melancholy",
+    "felt:melancholy",
     "humour",
     "secret"
    ],
@@ -16218,7 +16185,7 @@
     "water",
     "crossing",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -16283,7 +16250,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:settled"],
    "situations": [
     {
      "id": "br00_arrival_1",
@@ -16313,7 +16280,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "Here the East Road and the Greenway cross, and that has been true for fifteen hundred years. Everyone going from one side of Eriador to the other passes through.\n**The stranger is not an event. He is the business.**",
     "es": "Acá se cruzan el Camino del Este y el Camino Verde, y eso lleva mil quinientos años siendo cierto. Por acá pasa todo el que va de un lado al otro de Eriador.\n**El forastero no es un acontecimiento. Es el negocio.**"
@@ -16356,7 +16323,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "In Bree live Men and hobbits in the same village, and the village is built for both.\nThere is no hobbit quarter and no Man quarter. There is **the same street at two heights**.",
     "es": "En Bree viven Hombres y hobbits en el mismo pueblo, y el pueblo está construido para los dos.\nNo hay barrio hobbit ni barrio de Hombres. Hay **la misma calle con dos alturas**."
@@ -16519,7 +16486,7 @@
     "road",
     "people",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -16750,7 +16717,7 @@
     "marsh",
     "slow",
     "insects",
-    "danger",
+    "felt:tense",
     "navigation"
    ],
    "size_radius_km": null,
@@ -16806,8 +16773,7 @@
    "tags": [
     "ruins",
     "social",
-    "danger",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -16924,7 +16890,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:settled"],
    "presence": {
     "en": "The ground is peat over rock, metres deep. Where it eroded, black pillars one or two metres high are left with grass on top, and between them, channels of bare peat.\n**The channels are the only firm ground.** Whoever crosses does not walk on top: he walks sunken, between two black walls, seeing nothing on either side, following a network he did not choose.",
     "es": "El suelo es turba sobre roca, de metros de hondo. Donde se erosionó quedan columnas negras de uno o dos metros con hierba encima, y entre ellas, canales de turba pelada.\n**Los canales son lo único firme.** El que cruza no camina por arriba: camina hundido, entre dos paredes negras, sin ver a los lados, siguiendo una red que no eligió."
@@ -16984,7 +16950,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "presence": {
     "en": "The peat does not let anything rot. What falls inside stays the way it went in, dyed brown, for thousands of years.",
     "es": "La turba no deja que nada se pudra. Lo que cae adentro se queda como entró, teñido de marrón, durante miles de años."
@@ -17032,7 +16998,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:settled"],
    "presence": {
     "en": "There are sheep all over Rhudaur, loose, unfenced, no shepherd in sight.\nThey are not wild. They are hefted: each one knows its patch of moor, does not leave it, and teaches it to its lambs. That is why no fences are needed.\nThey have an owner. The owner lives two days away.",
     "es": "Hay ovejas en todo Rhudaur, sueltas, sin cercos y sin pastor a la vista.\nNo son salvajes. Están aquerenciadas: cada una conoce su trozo de páramo, no se va de ahí, y se lo enseña a sus crías. Por eso no hacen falta cercos.\nTienen dueño. El dueño vive a dos jornadas."
@@ -17086,7 +17052,7 @@
    "tags": [
     "ruins",
     "work",
-    "uncanny",
+    "felt:uneasy",
     "food",
     "arnor"
    ],
@@ -17138,9 +17104,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "arnor",
-    "melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -17192,7 +17157,7 @@
     "ruins",
     "bandits",
     "social",
-    "danger",
+    "felt:tense",
     "arnor",
     "secret"
    ],
@@ -17252,7 +17217,7 @@
    "tags": [
     "people",
     "ruins",
-    "shelter",
+    "felt:settled",
     "social",
     "hillmen"
    ],
@@ -17315,7 +17280,7 @@
     "water",
     "crossing",
     "arnor",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -17425,7 +17390,7 @@
     "road",
     "landscape",
     "rest",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -17484,7 +17449,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "landscape"
    ],
@@ -17530,7 +17495,7 @@
    "tags": [
     "people",
     "hillmen",
-    "shelter",
+    "felt:settled",
     "food",
     "social"
    ],
@@ -17566,7 +17531,7 @@
    "tags": [
     "hillmen",
     "healing",
-    "uncanny",
+    "felt:uneasy",
     "social",
     "secret"
    ],
@@ -17619,7 +17584,7 @@
    "priority": 0,
    "tags": [
     "dunedain",
-    "shelter",
+    "felt:settled",
     "ruins",
     "secret"
    ],
@@ -17716,7 +17681,7 @@
    "tags": [
     "marsh",
     "navigation",
-    "danger",
+    "felt:tense",
     "slow"
    ],
    "size_radius_km": null,
@@ -17784,9 +17749,8 @@
    "priority": 0,
    "tags": [
     "troll",
-    "danger",
     "ruins",
-    "shelter",
+    "felt:settled",
     "secret"
    ],
    "size_radius_km": null,
@@ -17839,7 +17803,7 @@
     "resource",
     "work",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -17922,9 +17886,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "bandits",
-    "melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -17977,7 +17940,7 @@
     "ruins",
     "arnor",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -18023,7 +17986,7 @@
     "landscape",
     "flora",
     "slow",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -18080,7 +18043,7 @@
    "tags": [
     "water",
     "landscape",
-    "uncanny",
+    "felt:uneasy",
     "sound"
    ],
    "size_radius_km": null,
@@ -18235,7 +18198,7 @@
     "ruins",
     "arnor",
     "landscape",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "presence": {
@@ -18277,7 +18240,7 @@
     "water",
     "crossing",
     "social",
-    "danger",
+    "felt:tense",
     "hillmen",
     "secret"
    ],
@@ -18332,7 +18295,7 @@
     "burial",
     "arnor",
     "hillmen",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -18441,7 +18404,7 @@
     "cold",
     "snow",
     "seasonal",
-    "danger"
+    "felt:tense"
    ],
    "presence": {
     "en": "This is not Atlantic Eriador. Here winter is continental: snow settles and stays, rivers freeze at the edges and the moor is not crossed between December and March.\nThe village shuts in. Nobody travels. Everything that had to be done was done in autumn.\n**The traveller who arrives in winter** will find a village that did not expect him, that has no surplus, and that will give him a roof anyway because leaving him outside would be killing him.\nAnd then he will have to stay until March.",
@@ -18469,7 +18432,7 @@
    "priority": 0,
    "tags": [
     "flora",
-    "shelter",
+    "felt:settled",
     "rest",
     "landscape"
    ],
@@ -18538,7 +18501,7 @@
    "tags": [
     "people",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "knowledge"
    ],
    "size_radius_km": null,
@@ -18592,7 +18555,7 @@
     "bandits",
     "ruins",
     "food",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -18775,7 +18738,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "The people here keep a fire going always, and they do not feed it just anything.\nInto the fire goes, besides firewood, a mixture: bark of a conifer that exudes resin, a grey hillside herb, and dried berries of a low bush. The proportions vary by who keeps it, and that is debated.\nIt is not decorative and not exactly ritual, though it looks like one. It does three things: the smoke runs better and is smelled farther, it keeps insects away, and people say wolves dislike it.\nWhat is ritual is **who does it and when**. Always the same person in the camp, at dusk, before the light goes.\n**The smell is pleasant.** Resinous, sweet, slightly bitter underneath. Nobody who has smelled it confuses it with anything else.",
     "es": "La gente de acá mantiene fuego encendido siempre, y no lo alimenta con cualquier cosa.\nAl fuego se le echa, además de leña, una mezcla: corteza de una conífera que suelta resina, una hierba gris de las laderas, y bayas secas de un arbusto bajo. Las proporciones varían según quién lo mantenga, y eso se discute.\nNo es decorativo y no es exactamente ritual, aunque tenga forma de rito. Hace tres cosas: el humo corre mejor y se huele más lejos, aleja insectos, y la gente dice que a los lobos los molesta.\nLo que sí es ritual es **quién lo hace y cuándo**. Lo echa siempre la misma persona del campamento, al atardecer, antes de que la luz se vaya.\n**El olor es agradable.** Resinoso, dulce, un poco amargo por debajo. Nadie que lo haya olido lo confunde con otra cosa."
@@ -18836,7 +18799,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "High tundra. Low grass, rock, and scattered pinewoods, small and far apart.\nThere are no caves. No walls. Nothing to get behind, and the copses are the only thing that cuts the wind and the only thing that gives firewood.",
     "es": "Tundra alta. Pasto bajo, roca, y bosquecillos de pino repartidos, chicos y lejos unos de otros.\nNo hay cuevas. No hay muros. No hay nada detrás de lo cual ponerse, y los bosquecillos son lo único que corta el viento y lo único que da leña."
@@ -18881,7 +18844,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "At night there are wolves. There always were.\nFor some time now there is something else: bigger, more organised, not behaving like animals. The local people say the wolves are not only wolves, and no outsider believes them.",
     "es": "De noche hay lobos. Siempre hubo.\nHace un tiempo hay otra cosa: más grandes, más organizados, y que no se comportan como animales. La gente del lugar dice que los lobos no son solo lobos, y nadie de afuera les cree."
@@ -18963,7 +18926,7 @@
    "tags": [
     "people",
     "food",
-    "shelter",
+    "felt:settled",
     "social",
     "fire"
    ],
@@ -19030,7 +18993,7 @@
    "priority": 0,
    "tags": [
     "flora",
-    "shelter",
+    "felt:settled",
     "food",
     "rest",
     "fire"
@@ -19091,7 +19054,7 @@
    "priority": 0,
    "tags": [
     "fire",
-    "shelter",
+    "felt:settled",
     "social",
     "rest"
    ],
@@ -19133,9 +19096,8 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
     "wolves",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -19292,7 +19254,7 @@
    "tags": [
     "people",
     "social",
-    "uncanny",
+    "felt:uneasy",
     "knowledge",
     "secret"
    ],
@@ -19393,7 +19355,7 @@
     "people",
     "fire",
     "social",
-    "uncanny"
+    "felt:uneasy"
    ],
    "presence": {
     "en": "Before the light goes, the camp's activity dips a little. Nobody announces it.\nSomebody goes to the pile, takes a handful of the mixture and casts it into the fire, and the smoke changes colour and grows denser, and the smell becomes strong all at once.\nNobody says anything. Nobody looks. And then everyone goes back to their business.\nWhat the traveller will notice, if attentive, is that **from that moment on people stay on the inside of the camp**.",
@@ -19576,7 +19538,7 @@
    "tags": [
     "transition",
     "landscape",
-    "danger"
+    "felt:tense"
    ],
    "presence": {
     "en": "Between the two tundras there is no border: there is a two-day gradient where the grass shortens, water spaces out and the copses stop being three hours apart.",
@@ -19664,7 +19626,7 @@
    "tags": [
     "people",
     "dunedain",
-    "shelter",
+    "felt:settled",
     "social",
     "fire"
    ],
@@ -19707,10 +19669,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
-    "arnor",
-    "melancholy",
-    "danger"
+    "felt:settled",
+    "arnor"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -19760,7 +19720,7 @@
     "road",
     "navigation",
     "arnor",
-    "danger"
+    "felt:tense"
    ],
    "presence": {
     "en": "Compacted bed, gutter and milestones, and you walk double pace.\nAnd then, without warning, the bed disappears under the grass and what remains is a differently-coloured line on the ground followed with the eyes and not the feet.\nThe milestones are still there. Nothing eats those.",
@@ -19819,7 +19779,7 @@
     "vista",
     "arnor",
     "landmark",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -19910,7 +19870,7 @@
    "priority": 0,
    "tags": [
     "dunedain",
-    "shelter",
+    "felt:settled",
     "ruins",
     "secret"
    ],
@@ -19963,7 +19923,7 @@
    "tags": [
     "road",
     "social",
-    "danger",
+    "felt:tense",
     "navigation"
    ],
    "size_radius_km": null,
@@ -20020,7 +19980,7 @@
    "priority": 0,
    "tags": [
     "dunedain",
-    "shelter",
+    "felt:settled",
     "ruins",
     "social"
    ],
@@ -20051,7 +20011,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "Here the fire is indoors and burns all year, even in summer, because food, hot water and keeping the house from rotting depend on it.\nThe smoke goes out through the ridge or a hole, not a chimney, so the whole house smells and people's clothes smell.",
     "es": "Acá el fuego está adentro y arde todo el año, incluso en verano, porque de él depende la comida, el agua caliente y que la casa no se pudra.\nEl humo sale por el caballete o por un agujero, no por chimenea, así que la casa entera huele y la ropa de la gente huele."
@@ -20096,7 +20056,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "The Anduin runs north to south through the middle of all this, broad and grey, and it is the main way. Going down is easy and fast; going up is work.\nThere are rafts, there are flat boats and there are barrels floating down alone that somebody collects below.",
     "es": "El Anduin corre de norte a sur por el medio de todo esto, ancho y gris, y es la vía principal. Bajar es fácil y rápido; subir es trabajo.\nHay balsas, hay barcas chatas y hay barriles que bajan solos y que alguien recoge abajo."
@@ -20141,7 +20101,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:irritated"],
    "presence": {
     "en": "This is continental. Winter truly lasts, snow settles, the river freezes at the edges and in bad years it can be crossed on foot.\nThe whole year is organised around November. What is not done by then does not get done.",
     "es": "Esto es continental. El invierno dura de verdad, la nieve cuaja, el río se hiela en los bordes y en los años malos se cruza caminando.\nTodo el año está organizado alrededor de noviembre. Lo que no esté hecho para entonces no se hace."
@@ -20210,7 +20170,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "shelter",
+    "felt:settled",
     "food",
     "social",
     "canon"
@@ -20268,7 +20228,7 @@
    "tags": [
     "water",
     "crossing",
-    "sacred",
+    "felt:watchful",
     "canon",
     "landmark",
     "secret"
@@ -20414,11 +20374,10 @@
    "priority": 0,
    "tags": [
     "people",
-    "shelter",
+    "felt:settled",
     "food",
     "social",
     "ritual",
-    "uncanny",
     "secret",
     "work",
     "knowledge",
@@ -20549,7 +20508,7 @@
     "burial",
     "social",
     "humour",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -20754,8 +20713,7 @@
    "priority": 0,
    "tags": [
     "flora",
-    "danger",
-    "shelter",
+    "felt:settled",
     "orcs",
     "secret"
    ],
@@ -20804,7 +20762,7 @@
     "ruins",
     "vista",
     "landmark",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -21073,7 +21031,7 @@
     "flora",
     "knowledge",
     "canon",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -21141,7 +21099,7 @@
     "marsh",
     "flora",
     "slow",
-    "melancholy",
+    "felt:melancholy",
     "landmark"
    ],
    "size_radius_km": null,
@@ -21217,8 +21175,7 @@
    "tags": [
     "marsh",
     "ruins",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -21270,7 +21227,7 @@
    "tags": [
     "water",
     "landmark",
-    "uncanny",
+    "felt:uneasy",
     "rest"
    ],
    "size_radius_km": null,
@@ -21336,7 +21293,7 @@
    "tags": [
     "landscape",
     "navigation",
-    "danger",
+    "felt:tense",
     "slow"
    ],
    "presence": {
@@ -21377,7 +21334,7 @@
    "tags": [
     "people",
     "trade",
-    "danger",
+    "felt:tense",
     "social"
    ],
    "size_radius_km": null,
@@ -21489,7 +21446,7 @@
    "tags": [
     "flora",
     "work",
-    "danger",
+    "felt:tense",
     "people",
     "secret"
    ],
@@ -21551,7 +21508,7 @@
    "tags": [
     "road",
     "orcs",
-    "danger",
+    "felt:tense",
     "navigation",
     "secret"
    ],
@@ -21600,7 +21557,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:irritated"],
    "presence": {
     "en": "It comes off the sea of Rhûn and blows from October. It is dry and it is freezing, and it does not stop.\nThe trees all grow bent southwest, and the branches on the northeast side are dead.",
     "es": "Viene del mar de Rhûn y sopla desde octubre. Es seco y es helado, y no para.\nLos árboles crecen torcidos hacia el sudoeste, todos, y las ramas del lado nordeste están muertas."
@@ -21643,7 +21600,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "presence": {
     "en": "Between Esgaroth and the first inhabited place in the east there is more than a map suggests, and in between there is nothing.\nThat means everyone crossing **travels with what they carry**, and everyone carrying something is a target.",
     "es": "Entre Esgaroth y el primer sitio habitado del este hay más de lo que parece en un mapa, y en el medio no hay nada.\nEso significa que todo el que cruza **viaja con lo que lleva**, y que todo el que lleva algo es un objetivo."
@@ -21686,7 +21643,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Here there are three groups and all three ask the same thing: where he comes from and who he travels with.",
     "es": "Acá hay tres grupos y los tres preguntan lo mismo: de dónde viene y con quién viaja."
@@ -21739,7 +21696,7 @@
    "tags": [
     "water",
     "crossing",
-    "danger",
+    "felt:tense",
     "social",
     "secret"
    ],
@@ -21860,7 +21817,7 @@
    "tags": [
     "road",
     "bandits",
-    "danger",
+    "felt:tense",
     "landscape",
     "secret"
    ],
@@ -22003,7 +21960,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:pleased"],
    "presence": {
     "en": "The people here are optimists, and with reason: their grandparents lost everything and they have more than anyone had in three generations.\nThat gives them a confidence a traveller coming from the west finds almost irritating.",
     "es": "La gente de acá es optimista, y lo es con motivo: sus abuelos lo perdieron todo y ellos tienen más de lo que tuvo nadie en tres generaciones.\nEso les da una confianza que a un viajero que viene del oeste le resulta casi irritante."
@@ -22047,7 +22004,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Seventy-five years have passed. Almost nobody alive saw it.\nBut it is in everything: in what is built where, in which families matter, in what is celebrated, and in a quantity of objects people own and do not explain.\nNobody mentions it spontaneously. If asked, they answer gladly.",
     "es": "Pasaron setenta y cinco años. Casi nadie vivo lo vio.\nPero está en todo: en qué está construido dónde, en qué familias son importantes, en qué se celebra, y en una cantidad de objetos que la gente tiene y que no explica.\nNadie habla de eso espontáneamente. Si se pregunta, contestan con mucho gusto."
@@ -22091,7 +22048,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:pleased"],
    "presence": {
     "en": "There are great ravens on the Mountain, very long-lived, that understand what is said to them. For generations they have carried messages between Erebor and Dale.\nThe people here treat them as one treats the post: professional respect and no amazement.",
     "es": "Hay cuervos grandes en la Montaña, que viven muchísimo y que entienden lo que se les dice. Llevan generaciones llevando mensajes entre Erebor y Valle.\nLa gente de acá los trata como se trata al correo: con respeto profesional y sin asombro."
@@ -22312,7 +22269,7 @@
    "tags": [
     "ruins",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -22426,7 +22383,7 @@
     "dwarves",
     "ruins",
     "canon",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -22528,7 +22485,7 @@
    "tags": [
     "landscape",
     "flora",
-    "melancholy",
+    "felt:melancholy",
     "canon",
     "secret"
    ],
@@ -22654,7 +22611,7 @@
    "tags": [
     "water",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "canon",
     "secret"
    ],
@@ -22834,7 +22791,7 @@
     "slow",
     "insects",
     "navigation",
-    "danger",
+    "felt:tense",
     "canon"
    ],
    "size_radius_km": null,
@@ -22998,7 +22955,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "This was planted. Bay, myrtle, thyme, rosemary, lavender, terebinth, and olives. All gone wild, all mixed, all growing over what was orchard.\nAnd the southern heat releases it. At midday, in sun, the whole forest smells, and the smell changes with where he steps.",
     "es": "Esto estaba plantado. Laurel, mirto, tomillo, romero, lavanda, terebinto, y olivos. Todo asilvestrado, todo mezclado, todo creciendo encima de lo que fue huerta.\nY el calor del sur lo suelta. A mediodía, con sol, el bosque entero huele, y el olor cambia según dónde pise."
@@ -23041,7 +22998,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "The forest is beautiful, full of birds, warm and good-smelling.\nAnd two leagues east there are the mountains, and behind the mountains there is the other thing.\nIt cannot be seen. What can be seen is a wall of rock to the east, always, all day.",
     "es": "El bosque es hermoso, está lleno de pájaros, hace calor y huele bien.\nY a dos leguas al este están las montañas, y detrás de las montañas está lo otro.\nNo se ve. Lo que se ve es una pared de roca al este, siempre, todo el día."
@@ -23084,7 +23041,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "presence": {
     "en": "On the moor there is nobody because there is nothing. Here there is nobody **and there is everything**: food, water, shelter, firewood, good ground.\nAnd there are no dangerous beasts. Wolves, foxes, fishing cats, birds, squirrels: nothing that attacks an armed man.\n**The only threats in Ithilien walk on two legs.**",
     "es": "En el páramo no hay nadie porque no hay nada. Acá no hay nadie **y hay de todo**: comida, agua, abrigo, leña, terreno bueno.\nY no hay bestias peligrosas. Lobos, zorros, gatos pescadores, aves, ardillas: nada que ataque a un hombre armado.\n**Las únicas amenazas de Ithilien andan en dos patas.**"
@@ -23141,7 +23098,7 @@
     "flora",
     "food",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -23185,7 +23142,7 @@
     "water",
     "ruins",
     "rest",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -23232,7 +23189,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "shelter",
+    "felt:settled",
     "dunedain",
     "canon",
     "secret"
@@ -23286,7 +23243,7 @@
    },
    "priority": 0,
    "tags": [
-    "shelter",
+    "felt:settled",
     "rest",
     "dunedain",
     "secret"
@@ -23330,7 +23287,7 @@
    "priority": 0,
    "tags": [
     "road",
-    "danger",
+    "felt:tense",
     "navigation",
     "ruins"
    ],
@@ -23401,8 +23358,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
-    "melancholy",
+    "felt:settled",
     "secret"
    ],
    "size_radius_km": null,
@@ -23445,7 +23401,7 @@
    "tags": [
     "ruins",
     "water",
-    "danger",
+    "felt:tense",
     "landmark",
     "canon"
    ],
@@ -23543,7 +23499,7 @@
     "landscape",
     "ruins",
     "vista",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -23586,7 +23542,7 @@
    "tags": [
     "people",
     "dunedain",
-    "danger",
+    "felt:tense",
     "social",
     "canon"
    ],
@@ -23702,7 +23658,7 @@
     "road",
     "ruins",
     "vista",
-    "danger",
+    "felt:tense",
     "wind"
    ],
    "size_radius_km": null,
@@ -23766,7 +23722,7 @@
    "tags": [
     "water",
     "landscape",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -23821,7 +23777,7 @@
     "flora",
     "rest",
     "landscape",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -23883,9 +23839,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
+    "felt:settled",
     "food",
-    "melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -23933,7 +23888,7 @@
     "ruins",
     "flora",
     "knowledge",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -23977,8 +23932,7 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
-    "sacred",
+    "felt:watchful",
     "water",
     "secret",
     "canon"
@@ -24028,7 +23982,7 @@
     "road",
     "ruins",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -24074,7 +24028,7 @@
    "tags": [
     "ruins",
     "elvish",
-    "melancholy",
+    "felt:melancholy",
     "flora",
     "secret"
    ],
@@ -24119,7 +24073,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "Everything here is organised around the sea: food, work, news and danger.\nInland it is heard just the same, because the southwest wind finds nothing to stop it until the foot of the mountains.",
     "es": "Todo acá se organiza alrededor del mar: la comida, el trabajo, las noticias y el peligro.\nTierra adentro se oye igual, porque el viento del sudoeste no encuentra nada que lo pare hasta el pie de las montañas."
@@ -24165,7 +24119,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Raids come up from Umbar. Not every year and not everywhere, but they have come for centuries.\nThat does not produce constant fear: it produces **habit**. There are refuges, there are escape routes and there are people whose job is watching.",
     "es": "De Umbar bajan incursiones. No todos los años y no en todas partes, pero bajan desde hace siglos.\nEso no produce miedo constante: produce **costumbre**. Hay refugios, hay rutas de huida y hay gente cuyo trabajo es mirar."
@@ -24211,7 +24165,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "On the coast and in the valleys live Gondorians. In the mountains live the **Eredrim**, who were there before and are not the same.\nThere is no war. There is an old arrangement: the Prince lets them govern themselves, they send men when needed, and neither side ever mentions the years when that was not so.",
     "es": "En la costa y en los valles viven gondorianos. En la montaña viven los **Eredrim**, que estaban antes y que no son lo mismo.\nNo hay guerra. Hay un arreglo viejo: el Príncipe los deja gobernarse, ellos mandan hombres cuando hace falta, y ninguno de los dos lados menciona nunca los años en que eso no fue así."
@@ -24262,7 +24216,7 @@
     "fire",
     "vista",
     "social",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -24364,7 +24318,7 @@
     "elvish",
     "water",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "secret",
     "canon"
    ],
@@ -24456,7 +24410,7 @@
    "priority": 0,
    "tags": [
     "trade",
-    "danger",
+    "felt:tense",
     "social",
     "secret"
    ],
@@ -24508,7 +24462,7 @@
     "road",
     "landscape",
     "vista",
-    "danger",
+    "felt:tense",
     "gondor"
    ],
    "size_radius_km": null,
@@ -24642,7 +24596,7 @@
     "fire",
     "vista",
     "people",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -24753,7 +24707,7 @@
     "sea",
     "food",
     "rest",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -24797,7 +24751,7 @@
     "eredrim",
     "social",
     "food",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -24881,8 +24835,7 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
-    "danger",
+    "felt:uneasy",
     "ritual",
     "secret",
     "eredrim"
@@ -24926,7 +24879,7 @@
    "priority": 0,
    "tags": [
     "bandits",
-    "danger",
+    "felt:tense",
     "road",
     "landscape"
    ],
@@ -25039,7 +24992,7 @@
     "ruins",
     "burial",
     "eredrim",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -25119,7 +25072,7 @@
     "sea",
     "landscape",
     "vista",
-    "danger",
+    "felt:tense",
     "fauna"
    ],
    "size_radius_km": null,
@@ -25161,8 +25114,7 @@
    "priority": 0,
    "tags": [
     "sea",
-    "shelter",
-    "uncanny",
+    "felt:settled",
     "secret"
    ],
    "size_radius_km": null,
@@ -25206,7 +25158,7 @@
     "sea",
     "resource",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -25310,7 +25262,7 @@
     "trade",
     "water",
     "social",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -25383,7 +25335,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:pleased"],
    "presence": {
     "en": "Up north, the smell is of gone-wild garden: bay, myrtle, olive, things somebody planted.\nHere it is garrigue. Gorse, heather, thyme, rosemary, lavender, on limestone soil, with groves of fir and cedar in the hollows.\nAnd the sun burns it. At midday, in July, the clearings smell of real incense: hot resin, dense, almost solid.",
     "es": "Arriba, en el norte, el olor es de jardín asilvestrado: laurel, mirto, olivo, cosas que plantó alguien.\nAcá es de monte bajo. Aulaga, brezo, tomillo, romero, lavándula, sobre suelo de caliza, con bosquecillos de abeto y cedro en las hondonadas.\nY el sol lo quema. A mediodía, en julio, los claros huelen a incienso de verdad: a resina caliente, denso, casi sólido."
@@ -25426,7 +25378,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:pleased"],
    "presence": {
     "en": "Steady streams come down from the Ephel Dúath, and the streams make falls, and the falls make pools.\nIn dryland country, that organises everything: where the people are, where the fields are and which way the roads go.\nAnd there is a local saying people repeat without giving it weight: **that this land will not turn ugly while the water runs**.",
     "es": "De las Ephel Dúath bajan arroyos constantes, y los arroyos hacen saltos, y los saltos hacen pozas.\nEn una tierra de secano, eso lo organiza todo: dónde está la gente, dónde están los campos y por dónde van los caminos.\nY hay un dicho de acá que la gente repite sin darle importancia: **que esta tierra no se va a volver fea mientras corra el agua**."
@@ -25469,7 +25421,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Harithilien is divided among noble houses. Each has its seat, its lands, its villages and its duties, and everyone knows where one ends and another begins.\nNobody is going to stop the traveller. But the people who deal with him will need to know **whose land he is on** and **whom he answers to**, and they will ask that before his name.",
     "es": "Harithilien está repartida entre casas nobles. Cada una tiene su solar, sus tierras, sus aldeas y sus obligaciones, y todo el mundo sabe dónde termina una y empieza la otra.\nAl viajero no lo va a parar nadie. Pero la gente que lo trate va a necesitar saber **en tierra de quién está** y **a quién responde él**, y eso lo van a preguntar antes que el nombre."
@@ -25693,7 +25645,7 @@
     "water",
     "crossing",
     "people",
-    "danger",
+    "felt:tense",
     "trade",
     "canon"
    ],
@@ -25743,10 +25695,9 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
     "social",
     "trade",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -25795,10 +25746,9 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
     "social",
     "ruins",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -25840,7 +25790,7 @@
    "tags": [
     "people",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "food",
     "secret"
    ],
@@ -25970,8 +25920,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "danger",
-    "melancholy",
+    "felt:melancholy",
     "flora",
     "secret"
    ],
@@ -26185,8 +26134,7 @@
    "tags": [
     "vista",
     "landscape",
-    "melancholy",
-    "danger"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -26262,7 +26210,7 @@
    "priority": 0,
    "tags": [
     "dunedain",
-    "shelter",
+    "felt:settled",
     "social",
     "secret"
    ],
@@ -26307,7 +26255,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "The White Mountains close the province on the south from end to end, and they are no ordinary range: they are tall, they are limestone and they are snowcapped half the year.\nThat means that in Anórien **you always know where south is**, and everyone orients that way without thinking.",
     "es": "Las Montañas Blancas cierran la provincia por el sur de punta a punta, y no son una cordillera cualquiera: son altas, son calizas y están nevadas la mitad del año.\nEso significa que en Anórien **siempre se sabe dónde está el sur**, y que todo el mundo se orienta así sin pensarlo."
@@ -26350,7 +26298,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "East to west, along the foot of the mountains, runs a line of summits and on each there is a beacon.\nThey have been there since the end of the Second Age. Four hundred men are spread among them.\nAnd they have never been lit.",
     "es": "De este a oeste, por el pie de la montaña, hay una línea de cumbres y en cada una hay una almenara.\nEstán ahí desde el final de la Segunda Edad. Hay cuatrocientos hombres repartidos en ellas.\nY nunca se encendieron."
@@ -26393,7 +26341,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "This is the City's garden and granary. Twenty-five thousand people eat from here, every day.\nThat is why Anórien is unlike any other region in the document: it is **intensely cultivated land**, hedges, channels, service roads and people everywhere.",
     "es": "Esto es la huerta y el granero de la Ciudad. Veinticinco mil personas comen de acá, todos los días.\nPor eso Anórien no se parece a ninguna otra región del documento: es **tierra intensamente cultivada**, con cercos, acequias, caminos de servicio y gente en todas partes."
@@ -26444,7 +26392,7 @@
     "fire",
     "vista",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "canon"
    ],
    "size_radius_km": null,
@@ -26495,7 +26443,7 @@
     "people",
     "road",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -26538,8 +26486,7 @@
     "ruins",
     "landscape",
     "work",
-    "danger",
-    "melancholy",
+    "felt:melancholy",
     "canon"
    ],
    "size_radius_km": null,
@@ -26766,7 +26713,7 @@
     "rest",
     "landscape",
     "trade",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -26807,8 +26754,7 @@
    "priority": 0,
    "tags": [
     "flora",
-    "uncanny",
-    "danger",
+    "felt:uneasy",
     "secret",
     "canon"
    ],
@@ -26891,7 +26837,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "The City has seven hundred feet of rise between the Gate and the Citadel, and there is not one level street.",
     "es": "La Ciudad tiene setecientos pies de desnivel entre la Puerta y la Ciudadela, y no hay ni una calle llana."
@@ -26934,7 +26880,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Everything is stone: the streets, the houses, the roofs, the walls. There is no wood in sight and almost no earth.\nThat does two things: the city **sounds** — every step, every cart, every voice bounces — and the city **does not age**.",
     "es": "Todo es de piedra: las calles, las casas, los techos, los muros. No hay madera a la vista y casi no hay tierra.\nEso hace dos cosas: la ciudad **suena** —cada paso, cada carro, cada voz rebota— y la ciudad **no envejece**."
@@ -27285,7 +27231,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "Erui, Sirith, Celos, Serni and Gilrain. They run parallel from the White Mountains to the Anduin, half a day's walk between one and the next.\nEach has its mills, its toll and its garrison. Each rises in spring and runs slow and green in summer.\nAnd that means that **in Lebennin distance is not measured in leagues: it is measured in rivers**.",
     "es": "Erui, Sirith, Celos, Serni y Gilrain. Bajan paralelos de las Montañas Blancas al Anduin, y entre uno y otro hay medio día de camino.\nCada uno tiene sus molinos, su peaje y su guarnición. Cada uno crece en primavera y baja lento y verde en verano.\nY eso significa que **en Lebennin no se mide la distancia en leguas: se mide en ríos**."
@@ -27328,7 +27274,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "This is the realm's most populated province, and it shows in a concrete way: **from any farm you can see the next one's smoke**.\nThe traveller has spent months in lands where you walk a whole day without seeing anyone. Here that never happens.",
     "es": "Esta es la provincia más poblada del reino, y se nota de una manera concreta: **desde cualquier granja se ve el humo de la de al lado**.\nEl viajero lleva meses en tierras donde se camina un día entero sin ver a nadie. Acá eso no pasa nunca."
@@ -27378,7 +27324,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "In Anórien one looks east. In Ithilien one looks east. Here one looks south, downriver.\nThe Corsairs come up the Anduin. Not every year, but they come up, and when they do they get far.\nThat is why every riverside village has a bell and every inland village knows what it means.",
     "es": "En Anórien se mira al este. En Ithilien se mira al este. Acá se mira al sur, río abajo.\nLos Corsarios suben el Anduin. No todos los años, pero suben, y cuando suben llegan lejos.\nPor eso cada pueblo de ribera tiene una campana y cada pueblo del interior sabe qué significa."
@@ -27473,7 +27419,7 @@
     "trade",
     "food",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -27622,7 +27568,7 @@
     "ruins",
     "landscape",
     "social",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -27709,7 +27655,7 @@
     "flora",
     "landscape",
     "rest",
-    "melancholy",
+    "felt:melancholy",
     "canon"
    ],
    "size_radius_km": null,
@@ -27753,8 +27699,7 @@
     "people",
     "water",
     "food",
-    "danger",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -27798,7 +27743,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Pelargir is not beside the water: it is **inside it**. The core is an artificial island, and the quarters are separated by canals, river arms and a hand-dug moat.\nThere are more bridges than main streets.",
     "es": "Pelargir no está junto al agua: está **adentro**. El núcleo es una isla artificial, y los barrios están separados por canales, por brazos de río y por un foso excavado a mano.\nHay más puentes que calles principales."
@@ -28065,7 +28010,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "presence": {
     "en": "On the coast, sea and land have no boundary. There is marsh, estuary, reedbed, banks that are and are not depending on the tide.\nThe traveller comes from provinces with hedges, boundary stones and carved shields. Here there is not one clear limit.",
     "es": "En la costa, el mar y la tierra no tienen frontera. Hay marisma, hay estuario, hay cañaveral, hay bancos que están y no están según la marea.\nEl viajero viene de provincias con cercos, mojones y escudos labrados. Acá no hay un solo límite claro."
@@ -28108,7 +28053,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:irritated"],
    "presence": {
     "en": "There are no storms here and no droughts. There is grey.\nIt rains little and often, in a fine persistent way that does not soak you at once and lets nothing dry.\nNobody takes shelter from this. The local people's clothes are always a bit damp and it seems normal to them.",
     "es": "Acá no hay tormentas y no hay sequías. Hay gris.\nLlueve poco y seguido, de una manera fina y persistente que no empapa de golpe y que no deja secar nada.\nNadie se refugia de esto. La ropa de la gente de acá está siempre un poco húmeda y les parece normal."
@@ -28151,7 +28096,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "presence": {
     "en": "Anfalas is a province of Gondor and pays what it has to pay.\nWhat it does not do is **care**.\nHere nobody knows the Steward's name, and if told, they will forget it. Not out of rebellion or ignorance: because it changes nothing of what they will do tomorrow.",
     "es": "Anfalas es provincia de Gondor y paga lo que tiene que pagar.\nLo que no hace es **interesarse**.\nAcá nadie sabe cómo se llama el Senescal, y si se lo dicen, lo van a olvidar. No por rebeldía ni por ignorancia: porque no cambia nada de lo que van a hacer mañana."
@@ -28245,7 +28190,7 @@
     "people",
     "fire",
     "vista",
-    "danger",
+    "felt:tense",
     "canon"
    ],
    "size_radius_km": null,
@@ -28290,7 +28235,7 @@
     "navigation",
     "food",
     "slow",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -28387,7 +28332,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "landscape",
     "secret"
    ],
@@ -28593,8 +28538,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "uncanny",
-    "sacred",
+    "felt:watchful",
     "secret"
    ],
    "size_radius_km": null,
@@ -28638,7 +28582,7 @@
     "people",
     "law",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -28684,7 +28628,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "trade",
     "landscape",
     "social"
@@ -28723,7 +28667,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "Here there is no shade. No trees on the plateau, no clouds six months of the year, and the rock gives back heat well into the night.\nThat changes the whole day: here one does not walk from ten to four. One walks at first light and at dusk, and in between one waits.",
     "es": "Acá no hay sombra. No hay árboles en la meseta, no hay nubes seis meses al año, y la roca devuelve el calor hasta bien entrada la noche.\nEso cambia el día entero: acá no se camina de diez a cuatro. Se camina de madrugada y al atardecer, y en el medio se espera."
@@ -28766,7 +28710,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "presence": {
     "en": "Here it rains twice a year and it rains badly: suddenly, much, in a few hours.\nThe rest of the time everything is dry. But the terrain **was made by water**: canyons, ravines, channels, gravel fans. A river landscape, without river.",
     "es": "Acá llueve dos veces al año y llueve mal: de golpe, mucho, en pocas horas.\nEl resto del tiempo todo está seco. Pero el terreno **está hecho por el agua**: cañones, barrancos, cauces, abanicos de grava. Un paisaje de río, sin río."
@@ -28809,7 +28753,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "In Harithilien people ask whose house's land you are on. In Gramuz they ask whom you serve.\nHere they ask nothing, because **the question is useless**.\nThere are Gondor villages with Haradan majorities. There are families with a brother on each bank of the Poros. There are Gondorian garrisons where more Haradan is spoken than the common tongue.\nThe people here stopped sorting themselves centuries ago and what they look at is something else: **whether you pay, whether you keep your word and whether you come back**.",
     "es": "En Harithilien la gente pregunta en tierra de qué casa estás. En Gramuz preguntan a quién servís.\nAcá no preguntan nada, porque **la pregunta no sirve**.\nHay pueblos de Gondor con mayoría haradan. Hay familias con un hermano en cada orilla del Poros. Hay guarniciones gondorianas donde se habla más haradan que lengua común.\nLa gente de acá dejó de clasificarse hace siglos y lo que miran es otra cosa: **si pagás, si cumplís y si volvés**."
@@ -28858,7 +28802,7 @@
    "tags": [
     "landscape",
     "navigation",
-    "danger",
+    "felt:tense",
     "slow",
     "vista"
    ],
@@ -28909,8 +28853,7 @@
    "tags": [
     "landscape",
     "water",
-    "danger",
-    "shelter",
+    "felt:settled",
     "secret"
    ],
    "size_radius_km": null,
@@ -29016,7 +28959,7 @@
    "tags": [
     "people",
     "water",
-    "danger",
+    "felt:tense",
     "social",
     "trade"
    ],
@@ -29116,8 +29059,7 @@
    "tags": [
     "landscape",
     "navigation",
-    "shelter",
-    "uncanny",
+    "felt:settled",
     "vista"
    ],
    "size_radius_km": null,
@@ -29166,7 +29108,7 @@
     "landscape",
     "road",
     "vista",
-    "danger",
+    "felt:tense",
     "navigation"
    ],
    "size_radius_km": null,
@@ -29210,7 +29152,7 @@
     "water",
     "social",
     "trade",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -29260,9 +29202,8 @@
    "tags": [
     "ruins",
     "people",
-    "danger",
     "vista",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -29313,7 +29254,7 @@
     "water",
     "landscape",
     "people",
-    "danger",
+    "felt:tense",
     "trade",
     "food"
    ],
@@ -29357,7 +29298,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Lamedon is a valley and it is closed. To the north, the Ered Nimrais; to the south, the downs separating it from the coast; and in the middle, the Tarlang massif splitting it in two.\nThe sky here is a strip, not a vault. And the sun rises late and leaves early.",
     "es": "Lamedon es un valle y está cerrado. Al norte, las Ered Nimrais; al sur, las lomas que la separan de la costa; y en el medio, el macizo de Tarlang partiéndola en dos.\nEl cielo acá es una franja, no una bóveda. Y el sol sale tarde y se va temprano."
@@ -29401,7 +29342,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "There is one road and it runs the valley end to end, west to east, following the range's foot and skirting Tarlang.\nEvery village is strung on it. There are no alternative routes and no shortcuts.\nThat means in Lamedon **everyone crosses paths with everyone**, and a piece of news takes exactly as long as a horse.",
     "es": "Hay un solo camino y recorre el valle de punta a punta, de oeste a este, siguiendo el pie de la sierra y rodeando Tarlang.\nTodos los pueblos están ensartados en él. No hay rutas alternativas y no hay atajos.\nEso hace que en Lamedon **todo el mundo se cruce con todo el mundo**, y que una noticia tarde exactamente lo que tarda un caballo."
@@ -29445,7 +29386,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Ore comes out of these mountains and stone comes out of these valleys, and that is what makes Lamedon rich for how small it is.\nThere are mines, there are foundries and there are quarries, and the people here have the hands of it.",
     "es": "De estas montañas sale mineral y de estos valles sale piedra, y eso es lo que hace a Lamedon rica para lo chica que es.\nHay minas, hay fundiciones y hay canteras, y la gente de acá tiene las manos de eso."
@@ -29496,7 +29437,7 @@
     "work",
     "trade",
     "landscape",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -29637,7 +29578,7 @@
    "tags": [
     "landscape",
     "road",
-    "danger",
+    "felt:tense",
     "vista",
     "canon"
    ],
@@ -29682,7 +29623,7 @@
     "flora",
     "water",
     "slow",
-    "uncanny",
+    "felt:uneasy",
     "landscape"
    ],
    "size_radius_km": null,
@@ -29781,8 +29722,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "uncanny",
-    "danger",
+    "felt:uneasy",
     "canon",
     "secret"
    ],
@@ -29846,9 +29786,8 @@
    "tags": [
     "people",
     "social",
-    "melancholy",
     "rest",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -29889,7 +29828,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Here the range is to the south, not the north, and that scrambles everything for the traveller who came from the valley.\nAnd what opens to the north is flat: grass, grass and grass, all the way to Rohan.\nWestmarch is the place where Gondor stops looking like Gondor.",
     "es": "Acá la cordillera queda al sur, no al norte, y eso le desordena todo al viajero que vino del valle.\nY lo que se abre al norte es llano: pasto, pasto y pasto, hasta Rohan.\nWestmarch es el sitio donde Gondor deja de parecer Gondor."
@@ -29938,7 +29877,7 @@
    "tags": [
     "people",
     "social",
-    "danger",
+    "felt:tense",
     "trade"
    ],
    "size_radius_km": null,
@@ -30071,7 +30010,7 @@
     "work",
     "social",
     "law",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -30107,7 +30046,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "Water comes down from these mountains all year. Streams, waterfalls, springs in the rock.\nHere the background noise is not wind or people: **it is water**, and it never stops.",
     "es": "De estas montañas baja agua todo el año. Arroyos, saltos, surgencias en la roca.\nAcá el ruido de fondo no es viento ni gente: **es agua**, y no para nunca."
@@ -30145,7 +30084,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "The slopes are covered in forest up to a great height: beech below, fir above, and very little clearing.\nThe road runs along the valley floor and the forest covers it on both sides.",
     "es": "Las laderas están cubiertas de bosque hasta muy alto: haya abajo, abeto arriba, y muy poco claro.\nEl camino va por el fondo del valle y el bosque lo tapa por los dos lados."
@@ -30232,7 +30171,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "vista",
     "social"
    ],
@@ -30276,7 +30215,7 @@
    "tags": [
     "ruins",
     "burial",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -30319,7 +30258,7 @@
    "tags": [
     "water",
     "landscape",
-    "danger",
+    "felt:tense",
     "vista"
    ],
    "size_radius_km": null,
@@ -30400,7 +30339,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "presence": {
     "en": "People lived here and no longer do.\nThere are no spectacular ruins: there are farms. Hundreds, scattered over good plain, with their walls, their pens and their wells, empty for four hundred years.\nThe grass is slowly eating them and never finishes.",
     "es": "Acá vivió gente y ya no vive.\nNo hay ruinas espectaculares: hay granjas. Cientos, repartidas por una llanura buena, con sus muros, sus corrales y sus pozos, vacías desde hace cuatrocientos años.\nEl pasto se las está comiendo despacio y no termina nunca."
@@ -30443,7 +30382,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "The Drúedain are here. They came back when the plague emptied the land, and they have been in it four hundred years.\nThe traveller will not see them. Those people know how to hide in a way that has nothing supernatural about it and is simply better than any other he knows.\nWhat he will see are **signs**, and they will be placed for him to see.",
     "es": "Los Drúedain están acá. Volvieron cuando la peste vació la tierra, y llevan cuatrocientos años en ella.\nEl viajero no los va a ver. Esa gente sabe esconderse de una manera que no tiene nada de sobrenatural y que es, simplemente, mejor que cualquier otra que él conozca.\nLo que va a ver son **señales**, y van a estar puestas para que las vea."
@@ -30486,7 +30425,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "presence": {
     "en": "Here there is a single rule and it is kept: **nobody asks where anyone comes from**.\nNot out of fear and not out of threat. Because everyone here came from somewhere else for a reason, and if questions start the place ends.\nThe result is what will seem impossible to the traveller: **a land without authority, without garrison and without law, where everything works.**\n**Counter `preguntas`:** rises each time the traveller probes somebody's past, origin or business. It does not rise for talking, trading or staying.",
     "es": "Acá hay una sola regla y se cumple: **no se pregunta de dónde viene nadie**.\nNo por miedo y no por amenaza. Porque todo el mundo acá vino de otro sitio por un motivo, y si se empieza a preguntar se acaba el sitio.\nEl resultado es lo que al viajero le va a parecer imposible: **una tierra sin autoridad, sin guarnición y sin ley, donde todo funciona.**\n**Contador `preguntas`:** sube cada vez que el viajero indaga en el pasado, el origen o el negocio de alguien. No sube por hablar, por comerciar ni por quedarse."
@@ -30643,7 +30582,7 @@
     "law",
     "trade",
     "social",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -30692,8 +30631,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "melancholy",
-    "shelter",
+    "felt:settled",
     "landscape"
    ],
    "size_radius_km": null,
@@ -30734,8 +30672,7 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
-    "sacred",
+    "felt:watchful",
     "secret",
     "landscape",
     "canon"
@@ -30785,9 +30722,7 @@
    },
    "priority": 0,
    "tags": [
-    "sacred",
-    "danger",
-    "uncanny",
+    "felt:watchful",
     "secret"
    ],
    "size_radius_km": null,
@@ -30838,8 +30773,7 @@
     "people",
     "social",
     "trade",
-    "danger",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -30880,7 +30814,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Nenuial, the Lake of Twilight, is a big blue body of water in a basin of hills.\nIt is open only to the east. The hills shelter it from north and west, which takes the wind away and gives it a serene air the traveller will find almost excessive.\nAnd what makes the name exact: **at sundown the water holds the light longer than the sky**. It stays bright when everything else is already dark.",
     "es": "Nenuial, el Lago del Crepúsculo, es un cuerpo de agua grande y azul en una cubeta de colinas.\nEstá abierto solo por el este. Las colinas lo abrigan del norte y del oeste, y eso le quita el viento y le da un aire sereno que al viajero le va a resultar casi excesivo.\nY lo que hace que el nombre sea exacto: **a la caída del sol, el agua retiene la luz más tiempo que el cielo**. Se queda clara cuando todo lo demás ya está oscuro."
@@ -30923,7 +30857,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "Almost nobody lives here, but it is not the moor's emptiness: it is the emptiness of a place **that was full**.\nThere are roads, walls, bridges, stairways. All well made, all holding up, and nobody on them.",
     "es": "Acá no vive casi nadie, pero no es el vacío del páramo: es el vacío de un sitio **que estuvo lleno**.\nHay caminos, hay muros, hay puentes, hay escalinatas. Todo bien hecho, todo manteniéndose, y nadie encima."
@@ -30973,7 +30907,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:irritated"],
    "presence": {
     "en": "The shores are stony and stiff reeds grow out of them, and over the slopes grows the cutting grass of the northern lands.\nIt is pretty to look at, it moves with the wind, and it cuts the hand of whoever grabs it thoughtlessly.",
     "es": "Las orillas son pedregosas y de ellas salen espadañas tiesas, y por las laderas crece la hierba cortante de las tierras del norte.\nEs bonita a la vista, se mueve con el viento, y corta la mano del que la agarra sin pensar."
@@ -31017,7 +30951,7 @@
    "tags": [
     "ruins",
     "landmark",
-    "melancholy",
+    "felt:melancholy",
     "water",
     "canon",
     "secret"
@@ -31082,8 +31016,7 @@
    "tags": [
     "ruins",
     "flora",
-    "melancholy",
-    "shelter"
+    "felt:settled"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31138,9 +31071,8 @@
    "tags": [
     "people",
     "dunedain",
-    "shelter",
+    "felt:settled",
     "rest",
-    "melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -31202,9 +31134,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "danger",
-    "melancholy",
-    "shelter",
+    "felt:settled",
     "secret"
    ],
    "size_radius_km": null,
@@ -31261,9 +31191,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "uncanny",
-    "danger",
-    "melancholy",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -31383,8 +31311,7 @@
    "tags": [
     "ruins",
     "water",
-    "melancholy",
-    "uncanny",
+    "felt:uneasy",
     "rest"
    ],
    "size_radius_km": null,
@@ -31442,7 +31369,7 @@
     "road",
     "water",
     "landmark",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31497,8 +31424,7 @@
    "tags": [
     "water",
     "ruins",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -31558,7 +31484,7 @@
     "vista",
     "rest",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31625,9 +31551,8 @@
    "tags": [
     "landscape",
     "vista",
-    "uncanny",
-    "navigation",
-    "danger"
+    "felt:uneasy",
+    "navigation"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31681,7 +31606,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "presence": {
     "en": "This plain is crossed by good causeways, broad, ditched and milestoned, all converging on the same point.\nAnd that point is a ruin.\nThe traveller can walk three days on an impeccable highway without meeting anyone, **because the highway still goes where it went and there is nothing there anymore**.",
     "es": "Esta llanura está cruzada por calzadas buenas, anchas, con cuneta y con mojones, que convergen todas en el mismo punto.\nY ese punto es una ruina.\nEl viajero puede caminar tres días por una carretera impecable sin cruzarse con nadie, **porque la carretera sigue yendo a donde iba y ya no hay nada ahí**."
@@ -31724,7 +31649,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "presence": {
     "en": "People live here, but very few and in very big places.\nVillages of two hundred people with a square for two thousand. Meeting halls with benches to spare. Huge cemeteries beside small villages.\nThis land is built for a population that no longer exists, and what is left moves inside it like water in a big jug.",
     "es": "Acá vive gente, pero vive muy poca y en sitios muy grandes.\nPueblos de doscientas personas con plaza para dos mil. Salas de reunión con bancos de sobra. Cementerios enormes al lado de aldeas chicas.\nEsta tierra está construida para una población que ya no existe, y la que queda circula dentro de ella como agua en una jarra grande."
@@ -31767,7 +31692,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "The capital has a name and nobody uses it.\nThe plain people, the Bree people and the Shire people call it **the Dead Men's Dike**, and they say it without drama, like naming a feature of the terrain.\nThe Dúnedain do name it. They are the only ones.",
     "es": "La capital tiene nombre y nadie lo usa.\nLa gente de la llanura, la de Bree y la de la Comarca la llaman **el Foso de los Muertos**, y lo dicen sin dramatismo, como quien nombra un accidente del terreno.\nLos Dúnedain sí la nombran. Son los únicos."
@@ -31816,8 +31741,7 @@
    "tags": [
     "ruins",
     "landmark",
-    "danger",
-    "melancholy",
+    "felt:melancholy",
     "canon",
     "secret"
    ],
@@ -31890,7 +31814,7 @@
     "water",
     "trade",
     "rest",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31939,9 +31863,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "shelter",
-    "vista",
-    "danger"
+    "felt:settled",
+    "vista"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -31998,7 +31921,7 @@
     "food",
     "work",
     "rest",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -32106,7 +32029,7 @@
     "rest",
     "food",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -32161,7 +32084,7 @@
    "tags": [
     "ruins",
     "burial",
-    "melancholy",
+    "felt:melancholy",
     "landscape",
     "secret"
    ],
@@ -32221,8 +32144,7 @@
    "tags": [
     "ruins",
     "knowledge",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -32280,8 +32202,7 @@
    "tags": [
     "ruins",
     "food",
-    "shelter",
-    "melancholy",
+    "felt:settled",
     "landscape"
    ],
    "presence": {
@@ -32328,7 +32249,7 @@
     "landscape",
     "vista",
     "navigation",
-    "uncanny",
+    "felt:uneasy",
     "rest"
    ],
    "presence": {
@@ -32378,9 +32299,8 @@
    "priority": 0,
    "tags": [
     "flora",
-    "shelter",
+    "felt:settled",
     "rest",
-    "melancholy",
     "landscape"
    ],
    "size_radius_km": null,
@@ -32442,7 +32362,7 @@
    "tags": [
     "water",
     "flora",
-    "uncanny",
+    "felt:uneasy",
     "navigation",
     "food",
     "secret"
@@ -32503,7 +32423,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "presence": {
     "en": "This was forest in the Elder Days. The Númenóreans felled it to make ships, almost five thousand years ago, and it never came back.\nWhat is here is rolling grassland, horizon to horizon, without a single copse to steer by.",
     "es": "Esto fue bosque en los Días Antiguos. Lo talaron los númenóreanos para hacer barcos, hace casi cinco mil años, y no volvió.\nLo que hay es pradera ondulada, de horizonte a horizonte, sin una arboleda que sirva de referencia."
@@ -32547,7 +32467,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "presence": {
     "en": "At the height of the wool trade, Cardolan had **more than twenty sizeable towns** and more people than Arthedain and Rhudaur together.\nToday six remain standing, and all were sacked several times.\nThe other fourteen are there.",
     "es": "En el auge del comercio de la lana, Cardolan tenía **más de veinte pueblos de tamaño** y más población que Arthedain y Rhudaur juntas.\nHoy quedan seis en pie, y todos fueron saqueados varias veces.\nLos otros catorce están ahí."
@@ -32641,7 +32561,7 @@
     "ruins",
     "water",
     "landmark",
-    "melancholy",
+    "felt:melancholy",
     "canon",
     "secret"
    ],
@@ -32700,8 +32620,7 @@
     "ruins",
     "road",
     "people",
-    "shelter",
-    "danger"
+    "felt:settled"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -32744,7 +32663,7 @@
     "ruins",
     "landmark",
     "vista",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -32840,7 +32759,7 @@
     "flora",
     "navigation",
     "slow",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -33035,9 +32954,8 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "danger",
     "orcs",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -33086,7 +33004,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "social",
     "canon"
    ],
@@ -33143,7 +33061,7 @@
     "landscape",
     "sea",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -33202,7 +33120,7 @@
    "tags": [
     "ruins",
     "sea",
-    "melancholy",
+    "felt:melancholy",
     "landscape",
     "secret"
    ],
@@ -33262,7 +33180,7 @@
     "landscape",
     "navigation",
     "slow",
-    "danger",
+    "felt:tense",
     "flora"
    ],
    "presence": {
@@ -33304,7 +33222,7 @@
     "people",
     "food",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -33364,7 +33282,7 @@
     "road",
     "ruins",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "presence": {
     "en": "A line in the heath.\nSeen from a hill, it is a strip of different vegetation: where the causeway is, the heather is lower and thinner, because there is stone beneath.\nWalking on it, the surface appears and disappears. There are hundred-pace stretches with the slab in sight, perfectly bedded, then half a league with nothing where the heath ate it.",
@@ -33404,7 +33322,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "Here temperature does not change with the season: it changes with **latitude**, in bands running east to west that the traveller crosses on foot.\nIn the southern band, summer reaches past fifteen degrees and winter stays near zero.\nIn the middle one, summer barely passes four and winter drops to twelve below.\nAnd in the northern one, summer never reaches zero and winter goes to thirty below.\n**Walking one day north is moving winter two weeks ahead.**",
     "es": "Acá la temperatura no cambia por estación: cambia por **latitud**, en bandas que corren de este a oeste y que el viajero cruza caminando.\nEn la franja del sur, el verano llega a más de quince grados y el invierno se queda cerca de cero.\nEn la del medio, el verano apenas pasa de cuatro y el invierno baja a doce bajo cero.\nY en la del norte, el verano no llega a cero y el invierno se va a treinta bajo.\n**Caminar un día hacia el norte es adelantar el invierno dos semanas.**"
@@ -33448,7 +33366,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "The wind of death. It comes off the Landless Land and it is what kills people in these lands.\nThe Númenóreans put it this way: **if the Elves feel the cold, that should be warning enough for everyone else**.\nThe worst is how it arrives: **you do not see a storm**. You see **a bank of fog** coming closer.\nAnd that fog is not fog: it is snow and ice crystal driven at more than fifty miles an hour.\nBefore it arrives, two warnings: the air suddenly turns much colder, and the wind abruptly rises.",
     "es": "El viento de la muerte. Sale de la Tierra sin Tierra y es lo que mata gente en estas tierras.\nLos númenóreanos lo resumieron así: **si los Elfos sienten el frío, debería bastar de advertencia para todos los demás**.\nLo peor es cómo llega: **no se ve una tormenta**. Se ve **un banco de niebla** acercándose.\nY esa niebla no es niebla: es nieve y cristal de hielo arrastrados a más de cincuenta millas por hora.\nAntes de que llegue, dos avisos: el aire se vuelve mucho más frío de golpe, y el viento arrecia de pronto."
@@ -33499,7 +33417,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Over the Landless Land, north of everything, there is a glow in the night sky.\nIt is the shine of Illuin's shard, strongest over the polar desert and the shores of the Encircling Sea, but **it can be made out, faintly, as far south as the Wash Tundra and Talath Uichel**.\nAnd it has a practical property: **it marks north, never wrong**.\nFor anyone lost in these lands, it is the only reference that does not fail.",
     "es": "Sobre la Tierra sin Tierra, al norte de todo, hay un resplandor en el cielo nocturno.\nEs el brillo de la esquirla de Illuin, y se ve más fuerte sobre el desierto polar y las costas del mar Circundante, pero **se distingue, débilmente, tan al sur como la Tundra del Wash y Talath Uichel**.\nY tiene una propiedad práctica: **señala el norte sin error nunca**.\nPara cualquiera que ande perdido en estas tierras, es la única referencia que no falla."
@@ -33549,7 +33467,7 @@
     "landscape",
     "sea",
     "vista",
-    "danger",
+    "felt:tense",
     "navigation"
    ],
    "size_radius_km": null,
@@ -33597,7 +33515,7 @@
    "tags": [
     "people",
     "food",
-    "danger",
+    "felt:tense",
     "work",
     "lossoth"
    ],
@@ -33649,7 +33567,7 @@
     "people",
     "sea",
     "food",
-    "danger",
+    "felt:tense",
     "lossoth"
    ],
    "size_radius_km": null,
@@ -33749,7 +33667,7 @@
    "tags": [
     "sea",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "secret",
     "canon"
    ],
@@ -33802,7 +33720,7 @@
     "landscape",
     "vista",
     "fauna",
-    "shelter"
+    "felt:settled"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -33847,7 +33765,7 @@
     "slow",
     "navigation",
     "food",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -33900,8 +33818,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -33957,7 +33874,7 @@
     "landscape",
     "navigation",
     "slow",
-    "danger",
+    "felt:tense",
     "flora"
    ],
    "size_radius_km": null,
@@ -34009,7 +33926,7 @@
     "fauna",
     "landscape",
     "rest",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -34050,8 +33967,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "danger",
-    "uncanny",
+    "felt:uneasy",
     "vista"
    ],
    "size_radius_km": null,
@@ -34098,7 +34014,7 @@
    "priority": 0,
    "tags": [
     "elvish",
-    "uncanny",
+    "felt:uneasy",
     "trade",
     "knowledge",
     "secret"
@@ -34153,8 +34069,7 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
-    "sacred",
+    "felt:watchful",
     "lossoth",
     "burial",
     "secret"
@@ -34200,7 +34115,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:settled"],
    "presence": {
     "en": "Here the land is divided. Every parcel has its living hedge — hawthorn, hazel, elm — and the hedges have been there for centuries.\nThat changes how one walks: the traveller does not cross fields, **he follows corridors**.",
     "es": "Acá la tierra está dividida. Cada parcela tiene su seto vivo —espino, avellano, olmo— y los setos llevan siglos ahí.\nEso cambia cómo se camina: el viajero no cruza campos, **sigue pasillos**."
@@ -34243,7 +34158,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "The traveller comes from regions where the first question is where he comes from and what he carries.\nHere the first question is whether he wants to sit down.\nIt is not naivety: it is that **nothing has happened to these people for four hundred years**, and they know it, and they do not ask why.",
     "es": "El viajero viene de regiones donde la primera pregunta es de dónde viene y qué lleva.\nAcá la primera pregunta es si quiere sentarse.\nNo es ingenuidad: es que **a esta gente no le pasa nada desde hace cuatrocientos años**, y lo saben, y no se preguntan por qué."
@@ -34286,7 +34201,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "In the Shire live hobbits. In Bree live hobbits and Men separately, in different quarters.\nHere they live mixed, in the same villages, and nobody considers it remarkable.",
     "es": "En la Comarca viven hobbits. En Bree viven hobbits y Hombres por separado, en barrios distintos.\nAcá viven mezclados, en las mismas aldeas, y nadie lo considera notable."
@@ -34619,7 +34534,7 @@
     "road",
     "work",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "canon",
     "secret"
    ],
@@ -34680,7 +34595,7 @@
     "people",
     "law",
     "social",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -34746,7 +34661,7 @@
     "people",
     "trade",
     "ruins",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -34858,7 +34773,7 @@
    "tags": [
     "ruins",
     "people",
-    "melancholy",
+    "felt:melancholy",
     "rest",
     "secret"
    ],
@@ -34917,9 +34832,7 @@
    "tags": [
     "ruins",
     "elvish",
-    "uncanny",
-    "danger",
-    "melancholy",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -35000,7 +34913,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "These mountains' rock is grey with a blue tinge, and it is not the distance: it is the copper inside.\nUp close, the blue is a tint. From far, with sea mist in between, the whole range looks **truly blue**.",
     "es": "La roca de estas montañas es gris con un tinte azulado, y no es la distancia: es el cobre que tiene dentro.\nDe cerca, el azul es un matiz. De lejos, con niebla marina de por medio, la cordillera entera se ve **azul de verdad**."
@@ -35045,7 +34958,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "The wind comes off the sea, from the west. It climbs the slope, cools and unloads.\nAnd when it comes down the other side, it comes down dry.\nThat produces **two countries in one range**. The Lindon side is green, fern, moss and running water everywhere. The Eriador side is heather, rock and hard grass.\nAnd the line between the two is the crest.",
     "es": "El viento viene del mar, del oeste. Sube la ladera, se enfría y descarga.\nY cuando baja del otro lado, baja seco.\nEso produce **dos países en una cordillera**. El lado de Lindon es verde, con helecho, musgo y agua corriendo por todas partes. El lado de Eriador es brezo, roca y pasto duro.\nY la línea entre los dos es la cresta."
@@ -35090,7 +35003,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "In these mountains there are people working inside the stone.\nThe traveller does not see them and hears them.",
     "es": "En estas montañas hay gente trabajando dentro de la piedra.\nEl viajero no la ve y la oye."
@@ -35194,7 +35107,7 @@
     "road",
     "landscape",
     "trade",
-    "danger",
+    "felt:tense",
     "navigation"
    ],
    "size_radius_km": null,
@@ -35254,7 +35167,7 @@
    "tags": [
     "dwarves",
     "landmark",
-    "uncanny",
+    "felt:uneasy",
     "navigation",
     "secret"
    ],
@@ -35307,7 +35220,7 @@
     "rest",
     "knowledge",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -35360,7 +35273,7 @@
     "ruins",
     "dwarves",
     "elvish",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -35464,7 +35377,7 @@
    "tags": [
     "dwarves",
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "work",
     "secret"
    ],
@@ -35517,7 +35430,7 @@
     "landscape",
     "work",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -35558,7 +35471,7 @@
    "priority": 0,
    "tags": [
     "dwarves",
-    "melancholy",
+    "felt:melancholy",
     "social",
     "work",
     "secret"
@@ -35802,7 +35715,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "This region works on two levels.\n**Above**, the plateau: granite with a palm of earth on top, juniper, heather, and wind with nothing to stop it.\n**Below**, the valleys coming down from the Ered Luin: closed forest, shelter, water, and all the people.\nAnd the difference between the two is crossed in twenty minutes of descent.",
     "es": "Esta región funciona en dos alturas.\n**Arriba**, la meseta: granito con un palmo de tierra encima, enebro, brezo, y viento sin nada que lo pare.\n**Abajo**, los valles que bajan de las Ered Luin: bosque cerrado, abrigo, agua, y toda la gente.\nY la diferencia entre los dos se cruza en veinte minutos de bajada."
@@ -35845,7 +35758,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:pleased"],
    "presence": {
     "en": "These forests were never felled, and so they hold birds found nowhere else in the west.\nEriador's young woods will not do: it takes old trees, hollow ones, thick-barked, with dead wood standing.\nAll of that has been here for five thousand years.",
     "es": "Estos bosques no se talaron nunca, y por eso tienen pájaros que no hay en ninguna otra parte del oeste.\nLos bosques jóvenes de Eriador no sirven: hacen falta árboles viejos, con huecos, con corteza gruesa y con madera muerta en pie.\nAcá hay todo eso desde hace cinco mil años."
@@ -35888,7 +35801,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "presence": {
     "en": "This belonged to Arnor. Then Arnor came apart and **nobody came to claim it**.\nNot out of tolerance: because it is not worth it. It is too poor to interest anyone and too far to govern.\nSo Numeriador's freedom is not a virtue: **it is a discard**.",
     "es": "Esto fue de Arnor. Después Arnor se deshizo y **nadie vino a reclamarlo**.\nNo por tolerancia: porque no vale la pena. Es demasiado pobre para que le interese a alguien y está demasiado lejos para gobernarlo.\nAsí que la libertad de Numeriador no es una virtud: **es un descarte**."
@@ -35937,9 +35850,8 @@
    "tags": [
     "landscape",
     "navigation",
-    "danger",
     "slow",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -35988,7 +35900,7 @@
     "fauna",
     "rest",
     "knowledge",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -36100,9 +36012,7 @@
    "priority": 0,
    "tags": [
     "elvish",
-    "uncanny",
-    "danger",
-    "sacred",
+    "felt:watchful",
     "secret"
    ],
    "size_radius_km": null,
@@ -36208,7 +36118,7 @@
     "people",
     "landscape",
     "rest",
-    "melancholy",
+    "felt:melancholy",
     "food"
    ],
    "size_radius_km": null,
@@ -36260,8 +36170,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "melancholy",
-    "shelter",
+    "felt:settled",
     "landscape",
     "secret"
    ],
@@ -36317,8 +36226,7 @@
    "tags": [
     "landscape",
     "navigation",
-    "danger",
-    "melancholy",
+    "felt:melancholy",
     "trade"
    ],
    "size_radius_km": null,
@@ -36365,10 +36273,8 @@
    "priority": 0,
    "tags": [
     "burial",
-    "uncanny",
-    "danger",
+    "felt:uneasy",
     "ruins",
-    "melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -36497,7 +36403,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "This looks like ordinary moor: heather, gorse, hard grass, peat.\nIt is not. Underneath there is something else.",
     "es": "Esto parece páramo de siempre: brezo, aulaga, pasto duro, turba.\nNo lo es. Debajo hay otra cosa."
@@ -36540,7 +36446,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "presence": {
     "en": "With no roots to hold it, the rain carries the earth away.\nAnd it has been carrying it for four thousand years.\nWhat is left is a landscape of gullies: deep branching ravines of bare earth cutting the plain without any river.",
     "es": "Sin raíces que lo sujeten, la lluvia se lleva la tierra.\nY lleva cuatro mil años llevándosela.\nLo que queda es un paisaje de cárcavas: barrancos de tierra desnuda, profundos, ramificados, que cortan la llanura sin que haya un río."
@@ -36583,7 +36489,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "The people here are poor. Not struggling-poor: **poor of having nothing to live off**.\nAnd what they do to reach the month's end is cross the river and raid those on the other side.\nThey are not road bandits. They are families, with their village and their children, who make a raid once a year because there is no alternative.",
     "es": "La gente de acá es pobre. No pobre de pasar apuros: **pobre de no tener de qué vivir**.\nY lo que hacen para llegar a fin de mes es cruzar el río y asaltar a los del otro lado.\nNo son bandidos de camino. Son familias, con su aldea y sus hijos, que una vez al año hacen una incursión porque no hay alternativa."
@@ -36632,9 +36538,8 @@
    "tags": [
     "landscape",
     "navigation",
-    "danger",
     "slow",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -36681,8 +36586,7 @@
    "tags": [
     "ruins",
     "landscape",
-    "melancholy",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -36738,8 +36642,7 @@
     "road",
     "ruins",
     "navigation",
-    "uncanny",
-    "shelter"
+    "felt:settled"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -36787,7 +36690,7 @@
     "road",
     "trade",
     "people",
-    "danger",
+    "felt:tense",
     "ruins"
    ],
    "size_radius_km": null,
@@ -36832,7 +36735,7 @@
     "trade",
     "rest",
     "social",
-    "danger",
+    "felt:tense",
     "food"
    ],
    "size_radius_km": null,
@@ -36880,9 +36783,8 @@
    "tags": [
     "flora",
     "ruins",
-    "danger",
     "trolls",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -36946,7 +36848,7 @@
     "water",
     "work",
     "landscape",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -36993,8 +36895,7 @@
    "tags": [
     "flora",
     "people",
-    "danger",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -37058,7 +36959,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "danger",
+    "felt:tense",
     "social",
     "crossing"
    ],
@@ -37105,7 +37006,7 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
+    "felt:tense",
     "people",
     "ruins",
     "canon",
@@ -37162,10 +37063,9 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
     "social",
     "food",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -37214,7 +37114,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Here every person has **a number**, and that number is what their head is worth.\nA slave, one twelfth. A freedman, one. A warrior, six. A chief, a hundred and twenty. And the prince, **twelve thousand**.\nIt is not symbolic: it is what must be paid if you kill them. It is paid in horses, two per head, or cows at six for one. In gold, twelve pieces per head.\nAnd if it is not paid, **the family kills you**.",
     "es": "Acá cada persona tiene **una cifra**, y esa cifra es lo que vale su cabeza.\nUn esclavo, la doceava parte de uno. Un liberto, uno. Un guerrero, seis. Un jefe, ciento veinte. Y el príncipe, **doce mil**.\nNo es simbólico: es lo que hay que pagar si lo matás. Se paga en caballos, a dos por cabeza, o en vacas a seis por una. En oro, doce piezas por cabeza.\nY si no se paga, **lo mata la familia**."
@@ -37267,7 +37167,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "These people value money little and use it less. They count their wealth **in horses**.\nAnd the rest they wear: silver and gold brooches, amber jewels, eastern rubies, set on daily-use objects.\nThey decorate the weapon, the clothing and even the tableware.",
     "es": "Esta gente valora el dinero muy poco y lo usa menos. Cuentan su riqueza **en caballos**.\nY lo demás lo llevan encima: broches de plata y de oro, joyas de ámbar, rubíes del este, puestos sobre objetos de uso diario.\nDecoran el arma, la ropa y hasta los cubiertos."
@@ -37313,7 +37213,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "From Rohan to the Celduin, the northern people build the same way: **palisade over earthwork**, and inside halls and long wooden houses.\nOne single room, fire in the middle, smoke out through the ridge, benches along the sides and the whole family inside.",
     "es": "De Rohan al Celduin, la gente del norte construye igual: **empalizada sobre terraplén**, y adentro salones y casas largas de madera.\nUna sola pieza, el fuego en el medio, el humo saliendo por el caballete, bancos corridos a los lados y la familia entera adentro."
@@ -37359,7 +37259,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:irritated"],
    "presence": {
     "en": "Between the Entwash and the White Mountains there is a sea of grass and nothing to break the air.\nThe wind comes from the north, off the snows, **without a hill to check it**.\nAnd it does not stop. Not by day or night or in summer.",
     "es": "Entre el Entaguas y las Montañas Blancas hay un mar de hierba y nada que corte el aire.\nEl viento viene del norte, de las nieves, **sin una loma que lo pare**.\nY no para. Ni de día ni de noche ni en verano."
@@ -37405,7 +37305,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "Here nobody walks.\nA rohirrim rides before walking well, and distance is measured in what a horse does, not what a man does.\nThat means **the traveller on foot will be looked at oddly**, and not with contempt: with strangeness, like seeing somebody swim a river when they could take a boat.",
     "es": "Acá no se camina.\nUn rohirrim monta antes de caminar bien, y la distancia se mide en lo que hace un caballo, no en lo que hace un hombre.\nEso significa que **al viajero a pie lo van a mirar raro**, y no con desprecio: con extrañeza, como quien ve a alguien cruzar un río nadando pudiendo ir en barca."
@@ -37451,7 +37351,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "presence": {
     "en": "This land was Gondor's for two thousand years and had villages, markets and charters.\nThen came the Plague and it emptied.\nAnd the Rohirrim arrived five centuries later and settled on top, **without asking much**.",
     "es": "Esta tierra fue de Gondor durante dos mil años y tuvo pueblos, mercados y fueros.\nDespués vino la Peste y se vació.\nY los Rohirrim llegaron cinco siglos más tarde y se instalaron encima, **sin preguntar mucho**."
@@ -37568,7 +37468,7 @@
     "law",
     "rest",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -37733,7 +37633,7 @@
     "people",
     "ruins",
     "vista",
-    "danger",
+    "felt:tense",
     "canon",
     "secret"
    ],
@@ -37792,7 +37692,7 @@
    "tags": [
     "water",
     "crossing",
-    "danger",
+    "felt:tense",
     "people",
     "canon"
    ],
@@ -37848,7 +37748,7 @@
    "priority": 0,
    "tags": [
     "burial",
-    "melancholy",
+    "felt:melancholy",
     "landscape",
     "canon",
     "secret"
@@ -37908,8 +37808,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
     "rest",
     "secret"
    ],
@@ -37967,9 +37866,8 @@
    "priority": 0,
    "tags": [
     "people",
-    "sacred",
+    "felt:watchful",
     "social",
-    "melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -38033,8 +37931,7 @@
    "tags": [
     "landscape",
     "vista",
-    "sacred",
-    "uncanny",
+    "felt:watchful",
     "rest",
     "canon"
    ],
@@ -38092,7 +37989,7 @@
     "water",
     "navigation",
     "slow",
-    "danger",
+    "felt:tense",
     "food",
     "landscape"
    ],
@@ -38158,7 +38055,7 @@
     "trade",
     "law",
     "rest",
-    "danger",
+    "felt:tense",
     "social"
    ],
    "size_radius_km": null,
@@ -38260,11 +38157,9 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
+    "felt:uneasy",
     "water",
-    "social",
-    "danger",
-    "melancholy"
+    "social"
    ],
    "lore": {
     "en": "**Where:** somewhere in the swamp. Nobody points to the same place twice.\nThere are two stories about the same thing and the delta people tell both.",
@@ -38316,9 +38211,8 @@
     "landmark",
     "ruins",
     "water",
-    "uncanny",
-    "canon",
-    "melancholy"
+    "felt:uneasy",
+    "canon"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -38435,10 +38329,9 @@
    "tags": [
     "water",
     "landmark",
-    "danger",
     "vista",
     "canon",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -38494,8 +38387,7 @@
     "landscape",
     "navigation",
     "slow",
-    "danger",
-    "melancholy"
+    "felt:melancholy"
    ],
    "presence": {
     "en": "Long soft hills of grass, one behind another, not a tree on the crests.\nOn the slopes there are thorn thickets and birch, grouped in the hollows where there is some shelter.\nAnd there is no road: there are **grass tracks**. Bands where the grass is lower because riders pass, climbing north, toward the Entwash fords.\nThey fade and reappear. Whoever cannot read them gets lost.",
@@ -38538,10 +38430,9 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
     "fauna",
     "people",
-    "melancholy"
+    "felt:melancholy"
    ],
    "presence": {
     "en": "A landscape different from summer's: dry flattened grass, brown colour, and the wind without any of June's friendliness.\nThe herds are scattered in small groups, each with two or three riders living with them.\nThose riders sleep in low tents, guyed to stakes, fire outside.\nAnd they are there four months.",
@@ -38587,7 +38478,7 @@
     "water",
     "crossing",
     "navigation",
-    "danger",
+    "felt:tense",
     "landscape"
    ],
    "size_radius_km": null,
@@ -38638,8 +38529,7 @@
    "priority": 0,
    "tags": [
     "flora",
-    "uncanny",
-    "danger",
+    "felt:uneasy",
     "landscape",
     "secret",
     "canon"
@@ -38693,10 +38583,9 @@
    "priority": 0,
    "tags": [
     "water",
-    "sacred",
+    "felt:watchful",
     "rest",
-    "people",
-    "uncanny"
+    "people"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -38751,8 +38640,7 @@
    "priority": 0,
    "tags": [
     "flora",
-    "shelter",
-    "danger",
+    "felt:settled",
     "navigation",
     "fauna"
    ],
@@ -38860,7 +38748,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "trade",
     "social",
     "rest"
@@ -38919,7 +38807,7 @@
     "people",
     "trade",
     "social",
-    "danger",
+    "felt:tense",
     "secret"
    ],
    "size_radius_km": null,
@@ -38978,7 +38866,7 @@
     "people",
     "ruins",
     "social",
-    "melancholy",
+    "felt:melancholy",
     "trade"
    ],
    "size_radius_km": null,
@@ -39034,7 +38922,7 @@
    "tags": [
     "people",
     "social",
-    "danger",
+    "felt:tense",
     "knowledge"
    ],
    "lore": {
@@ -39082,8 +38970,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
     "canon"
    ],
    "presence": {
@@ -39127,9 +39014,8 @@
    },
    "priority": 0,
    "tags": [
-    "sacred",
+    "felt:watchful",
     "flora",
-    "uncanny",
     "social",
     "secret"
    ],
@@ -39190,7 +39076,7 @@
     "burial",
     "landscape",
     "navigation",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -39250,8 +39136,7 @@
     "social",
     "law",
     "people",
-    "sacred",
-    "uncanny"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -39304,9 +39189,8 @@
    "tags": [
     "landscape",
     "navigation",
-    "danger",
     "slow",
-    "melancholy"
+    "felt:melancholy"
    ],
    "presence": {
     "en": "A plain where the horizon is always at the same distance.\nFeather grass and rough sedge, bent by the eastern wind, the only vegetation on soil thinning until rock shows.\nAnd the plateau falls toward Dagorlad in the south **with no visible transition**: the land simply turns harder, emptier and more hostile without explanation.",
@@ -39350,7 +39234,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "social",
     "rest",
     "trade"
@@ -39406,10 +39290,9 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
+    "felt:uneasy",
     "navigation",
     "easterling",
-    "melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -39469,8 +39352,7 @@
     "water",
     "landscape",
     "trade",
-    "danger",
-    "uncanny"
+    "felt:uneasy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -39520,7 +39402,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "This forest's canopy is so massive that almost nothing grows below.\nThe ground is enormously rich —they keep it that way— and yet it is bare: **layers upon layers of fallen leaf**, knee-deep in the hollows, and nothing else.\nAnd what gets through that canopy comes in shafts: columns of light falling straight to the ground.",
     "es": "Las copas de este bosque son tan masivas que abajo casi no crece nada.\nEl suelo es riquísimo —lo mantienen así— y aun así está desnudo: **capas y capas de hoja caída**, hasta la rodilla en los hondos, y nada más.\nY lo que atraviesa esa cubierta son haces: columnas de luz que bajan rectas hasta el suelo."
@@ -39563,7 +39445,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "Here silence is not absence of noise: **it is a thing that is happening**.\nThe air under the boughs is stifling and strangely thin.\nAnd the forest has will and it has memory, **and it does not forget an axe**.",
     "es": "Acá el silencio no es ausencia de ruido: **es una cosa que está pasando**.\nEl aire bajo las ramas es sofocante y raramente delgado.\nY el bosque tiene voluntad y tiene memoria, **y no olvida un hacha**."
@@ -39606,7 +39488,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "There are paths in this forest, and nobody made them by walking.\nThey are where the forest puts them, and **the forest gives them or takes them**.\nA path that led somewhere yesterday may lead nowhere today.",
     "es": "Hay senderos en este bosque, y no los hizo nadie caminando.\nEstán donde el bosque los pone, y **el bosque los da o los quita**.\nUn sendero que ayer llevaba a algún sitio hoy puede no llevar."
@@ -39654,7 +39536,7 @@
    "priority": 0,
    "tags": [
     "flora",
-    "uncanny",
+    "felt:uneasy",
     "knowledge",
     "landscape",
     "secret"
@@ -39774,9 +39656,8 @@
    },
    "priority": 0,
    "tags": [
-    "sacred",
+    "felt:watchful",
     "landscape",
-    "uncanny",
     "social",
     "canon",
     "secret"
@@ -39839,7 +39720,7 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
+    "felt:uneasy",
     "rest",
     "knowledge",
     "social",
@@ -39904,8 +39785,7 @@
    "tags": [
     "water",
     "landscape",
-    "danger",
-    "uncanny",
+    "felt:uneasy",
     "secret"
    ],
    "size_radius_km": null,
@@ -39963,9 +39843,8 @@
    "tags": [
     "landscape",
     "flora",
-    "danger",
     "social",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -40021,7 +39900,7 @@
     "people",
     "trade",
     "rest",
-    "danger",
+    "felt:tense",
     "social"
    ],
    "size_radius_km": null,
@@ -40076,7 +39955,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:relaxed"],
    "presence": {
     "en": "Approaching the valley, the road gets worse.\nNot from neglect: **it gets worse in a strange way**. It forks where it should not, animal tracks look too much like human paths, and landmarks repeat.\nThe traveller will swear he passed the same spot twice and the second time he will be right.",
     "es": "Al acercarse al valle, el camino empeora.\nNo por abandono: **empeora de una manera rara**. Se bifurca donde no debería, los senderos de animal se parecen demasiado a senderos de gente, y las referencias se repiten.\nEl viajero va a jurar que pasó dos veces por el mismo sitio y la segunda vez va a tener razón."
@@ -40119,7 +39998,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Everything in this country is organised around a river, and that river does what it wants.\nThe Bruinen comes down from the melt, it is fast, it is freezing and **it changes flow for no visible reason**.\nA ford crossed at knee height in the morning is impassable in the afternoon.",
     "es": "Todo en esta comarca está organizado alrededor de un río, y ese río hace lo que quiere.\nEl Bruinen baja del deshielo, es rápido, es helado y **cambia de caudal sin motivo visible**.\nUn vado que a la mañana se pasa con el agua a la rodilla, a la tarde no se pasa."
@@ -40162,7 +40041,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "This country is watched and not the way others are.\nIn Fangorn the traveller knows he is watched. Here **he does not know**, and that is what gives away that it is better watch-keeping.\nThe only things he notices are things that do not fit.",
     "es": "Esta comarca está vigilada y no de la manera en que lo están otras.\nEn Fangorn el viajero sabe que lo miran. Acá **no lo sabe**, y eso es lo que delata que es mejor vigilancia.\nLo único que nota son cosas que no encajan."
@@ -40212,8 +40091,7 @@
     "landscape",
     "navigation",
     "slow",
-    "danger",
-    "melancholy"
+    "felt:melancholy"
    ],
    "presence": {
     "en": "Grey rock humps with thin soil, covered in heather and bilberry, pines gripping where they can.\nThere are loose granite blocks everywhere, **from the size of a ball to the size of a villa**, sometimes piled in jumbles where nothing bigger than a rabbit passes.\nThere are no long views: each hump hides the next.\nAnd there is water everywhere, small streams running down to the Bruinen, to be crossed every half hour.",
@@ -40258,7 +40136,7 @@
    "tags": [
     "water",
     "crossing",
-    "danger",
+    "felt:tense",
     "canon",
     "secret"
    ],
@@ -40330,9 +40208,8 @@
    "tags": [
     "vista",
     "landscape",
-    "uncanny",
-    "canon",
-    "melancholy"
+    "felt:uneasy",
+    "canon"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -40391,8 +40268,7 @@
    "priority": 0,
    "tags": [
     "road",
-    "danger",
-    "uncanny",
+    "felt:uneasy",
     "canon",
     "navigation"
    ],
@@ -40503,8 +40379,7 @@
    "priority": 0,
    "tags": [
     "elvish",
-    "uncanny",
-    "danger",
+    "felt:uneasy",
     "social",
     "secret"
    ],
@@ -40630,8 +40505,7 @@
    "tags": [
     "road",
     "landscape",
-    "danger",
-    "melancholy",
+    "felt:melancholy",
     "canon",
     "vista"
    ],
@@ -40688,7 +40562,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:mellow"],
    "presence": {
     "en": "The trees here are like nowhere else's.\nThe trunk is smooth silver-grey. The leaf is light green above and **silver below**, and when the wind blows the whole forest changes colour.\nAnd they do not shed it in autumn: it turns gold and stays so all winter, until the new leaf comes in spring. **Then they all fall together.**",
     "es": "Los árboles de acá no son como los de ninguna otra parte.\nEl tronco es gris plateado y liso. La hoja es verde clara por encima y **plateada por debajo**, y cuando sopla el viento el bosque entero cambia de color.\nY no la pierden en otoño: se pone dorada y se queda así todo el invierno, hasta que brota la nueva en primavera. **Entonces caen todas juntas.**"
@@ -40731,7 +40605,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:mellow"],
    "presence": {
     "en": "Time does not pass the same here.\nIt is not fairy-tale magic: there is simply nothing to mark it. No season that changes, no leaf that falls in autumn, no festival, no urgent harvest.\nThe traveller will believe three days have passed and it will have been nine.",
     "es": "Acá el tiempo no pasa igual.\nNo es magia de cuento: es que no hay nada que lo marque. No hay estación que cambie, no hay hoja que caiga en otoño, no hay fiesta, no hay cosecha urgente.\nEl viajero va a creer que lleva tres días y van a ser nueve."
@@ -40778,7 +40652,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "presence": {
     "en": "What the traveller expects to find is contemplation.\nWhat he will find is **busy people**.\nThere are people milling grain, people twisting rope, people caulking a boat, people pruning.\nAnd yes, they sing. They sing while they work.",
     "es": "Lo que el viajero espera encontrar es contemplación.\nLo que va a encontrar es **gente ocupada**.\nHay gente moliendo grano, gente torciendo cuerda, gente calafateando una barca, gente podando.\nY sí, cantan. Cantan mientras trabajan."
@@ -40826,9 +40700,8 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "danger",
     "elvish",
-    "uncanny",
+    "felt:uneasy",
     "social"
    ],
    "presence": {
@@ -41066,8 +40939,7 @@
    "tags": [
     "knowledge",
     "social",
-    "uncanny",
-    "sacred",
+    "felt:watchful",
     "secret"
    ],
    "size_radius_km": null,
@@ -41193,7 +41065,7 @@
     "people",
     "trade",
     "social",
-    "danger"
+    "felt:tense"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -41254,8 +41126,7 @@
    "tags": [
     "landscape",
     "vista",
-    "sacred",
-    "melancholy",
+    "felt:watchful",
     "canon"
    ],
    "size_radius_km": null,
@@ -41373,7 +41244,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "presence": {
     "en": "In Fangorn the traveller feels watched and he is right.\nHere he feels the same, and the difference is the tone: **there they weigh him, here they resent him**.\nThis forest's trees are not neutral. Many are half-awake, and of those, almost all regard what walks as an enemy.",
     "es": "En Fangorn el viajero siente que lo miran y tiene razón.\nAcá siente lo mismo y la diferencia es el tono: **allá lo evalúan, acá lo resienten**.\nLos árboles de este bosque no son neutrales. Hay muchos que están medio despiertos, y de ésos, casi todos consideran a lo que camina como un enemigo."
@@ -41416,7 +41287,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "There are paths here and they are comfortable, and that is the problem.\nThe forest **does not block**: **it conducts**.\nWhat the traveller will find is that there is always an easy way, and that way always goes in the same direction, and that direction is not the one he chose.\n**Own counter: `detour`.** It rises every time the traveller takes the easy way.",
     "es": "Acá hay senderos y son cómodos, y ése es el problema.\nEl bosque **no bloquea**: **conduce**.\nLo que el viajero va a encontrar es que siempre hay un camino fácil, y que ese camino siempre va en la misma dirección, y que esa dirección no es la que él eligió.\n**Contador propio: `desvío`.** Sube cada vez que el viajero toma el camino cómodo."
@@ -41466,7 +41337,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "presence": {
     "en": "It is hot in here, hotter than it should be, and the air is still.\nAnd the traveller is going to feel a drowsiness out of proportion to what he walked.\nIt is not tiredness: **it is a drowse**, the kind that comes all at once, mid-afternoon, eyelids heavy.",
     "es": "Hace calor acá dentro, más del que debería, y el aire está quieto.\nY al viajero le va a dar un sueño que no se corresponde con lo que caminó.\nNo es cansancio: **es modorra**, de la que llega de golpe, a media tarde, con los párpados pesados."
@@ -41520,7 +41391,7 @@
     "flora",
     "people",
     "work",
-    "danger",
+    "felt:tense",
     "social",
     "canon"
    ],
@@ -41583,8 +41454,7 @@
    "tags": [
     "flora",
     "ruins",
-    "uncanny",
-    "melancholy",
+    "felt:uneasy",
     "canon",
     "secret"
    ],
@@ -41650,8 +41520,7 @@
     "flora",
     "navigation",
     "slow",
-    "uncanny",
-    "danger"
+    "felt:uneasy"
    ],
    "presence": {
     "en": "Gentle hills covered in forest, dells in between.\nWalking the crests is uncomfortable: bramble, fallen trunk, up and down ground.\nWalking the dells is easy: soft ground, no undergrowth, good going.\nAnd all the dells go the same way.",
@@ -41697,8 +41566,7 @@
     "water",
     "flora",
     "navigation",
-    "danger",
-    "uncanny",
+    "felt:uneasy",
     "canon"
    ],
    "size_radius_km": null,
@@ -41761,8 +41629,7 @@
    "priority": 0,
    "tags": [
     "flora",
-    "danger",
-    "uncanny",
+    "felt:uneasy",
     "canon",
     "secret"
    ],
@@ -41830,11 +41697,9 @@
    },
    "priority": 0,
    "tags": [
-    "uncanny",
-    "danger",
+    "felt:uneasy",
     "water",
     "landscape",
-    "melancholy",
     "canon"
    ],
    "size_radius_km": null,
@@ -41890,7 +41755,7 @@
    "priority": 0,
    "tags": [
     "rest",
-    "uncanny",
+    "felt:uneasy",
     "healing",
     "canon",
     "secret"
@@ -41965,8 +41830,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "danger",
-    "melancholy",
+    "felt:melancholy",
     "canon",
     "vista"
    ],
@@ -42018,7 +41882,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "Rast Vorn is not crossed: **it is entered**.\nAnd every day's march inward takes one thing away. First the roads end. Then the ruins. Then the tracks. Then the birds.\nThe traveller does not advance across a map: he advances down a scale going backward in time.",
     "es": "Rast Vorn no se recorre: **se entra**.\nY cada jornada hacia el interior quita una cosa. Primero se acaban los caminos. Después las ruinas. Después las huellas. Después los pájaros.\nEl viajero no avanza por un mapa: avanza por una escala que va hacia atrás en el tiempo."
@@ -42061,7 +41925,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:irritated"],
    "presence": {
     "en": "Here it rains. Not storms: **drizzle**, grey, constant, October to May, and showers the rest of the year.\nAnd the forest is organised around it: the oaks grow **along the water rather than away from it**, as if they knew that the only reliable thing here is the rain.",
     "es": "Acá llueve. No tormentas: **llovizna**, gris, constante, de octubre a mayo, y chubascos el resto del año.\nY el bosque está organizado alrededor de eso: los robles crecen **a lo largo del agua y no alejándose de ella**, como si supieran que lo único fiable acá es la lluvia."
@@ -42104,7 +41968,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "presence": {
     "en": "There are six hundred people on this cape and the traveller will not see one.\nNot because they hide behind something: **because they can stay completely motionless for hours, and sometimes for days**.\nThey are there. They are watching him. And as long as he does nothing that worries them, nothing will happen.\n**Own counter: `seen`.** It rises every time the traveller does something that forces them to decide.",
     "es": "Hay seiscientas personas en este cabo y el viajero no va a ver ninguna.\nNo porque se escondan detrás de algo: **porque pueden quedarse completamente inmóviles durante horas, y a veces durante días**.\nEstán. Lo están mirando. Y mientras él no haga nada que les preocupe, no va a pasar nada.\n**Contador propio: `vistos`.** Sube cada vez que el viajero hace algo que los obliga a decidir."
@@ -42216,9 +42080,8 @@
    "tags": [
     "water",
     "slow",
-    "danger",
     "navigation",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -42264,7 +42127,7 @@
    "priority": 0,
    "tags": [
     "ruins",
-    "melancholy",
+    "felt:melancholy",
     "water",
     "landscape",
     "secret"
@@ -42316,9 +42179,7 @@
    "tags": [
     "ruins",
     "people",
-    "shelter",
-    "melancholy",
-    "danger",
+    "felt:settled",
     "secret"
    ],
    "size_radius_km": null,
@@ -42373,8 +42234,7 @@
    "tags": [
     "flora",
     "navigation",
-    "danger",
-    "uncanny",
+    "felt:uneasy",
     "slow"
    ],
    "size_radius_km": null,
@@ -42426,9 +42286,8 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
     "social",
-    "uncanny",
+    "felt:uneasy",
     "food",
     "secret"
    ],
@@ -42480,9 +42339,8 @@
    },
    "priority": 0,
    "tags": [
-    "sacred",
+    "felt:watchful",
     "ruins",
-    "uncanny",
     "knowledge",
     "secret"
    ],
@@ -42537,9 +42395,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "sacred",
-    "uncanny",
-    "danger",
+    "felt:watchful",
     "social",
     "secret"
    ],
@@ -42601,8 +42457,7 @@
     "sea",
     "landscape",
     "vista",
-    "danger",
-    "melancholy"
+    "felt:melancholy"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -42643,7 +42498,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:irritated"],
    "presence": {
     "en": "The traveller comes expecting the eastern dwarf-kingdom and what he finds is bad ground.\nJagged hills of split rock, little soil, stunted pine in the hollows.\nNone of it is built and none of it is beautiful.",
     "es": "El viajero viene esperando el reino enano del este y lo que encuentra es terreno malo.\nColinas dentadas, de roca partida, con poco suelo y con pino raquítico en las vaguadas.\nNada de esto está construido y nada de esto es hermoso."
@@ -42686,7 +42541,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:irritated"],
    "presence": {
     "en": "These hills hold iron and they hold it near the surface.\nAnd it shows: the rock is veined reddish-brown, streams leave orange deposit on stones, and the water tastes of metal.",
     "es": "Estas colinas tienen hierro y lo tienen cerca de la superficie.\nY eso se nota: la roca está veteada de pardo rojizo, los arroyos dejan depósito naranja en las piedras, y el agua sabe a metal."
@@ -42729,7 +42584,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "presence": {
     "en": "In a land that looks empty there are seven hundred dwarves.\nAnd the traveller does not see them because they are working two hundred fathoms down.\nWhat he will notice are **the effects**.",
     "es": "En una tierra que parece vacía hay setecientos enanos.\nY el viajero no los ve porque están trabajando a doscientas brazas de profundidad.\nLo que sí va a notar son **los efectos**."
@@ -42824,7 +42679,7 @@
     "trade",
     "work",
     "social",
-    "danger",
+    "felt:tense",
     "law",
     "knowledge",
     "secret"
@@ -42909,7 +42764,7 @@
    "tags": [
     "work",
     "landscape",
-    "melancholy",
+    "felt:melancholy",
     "secret"
    ],
    "size_radius_km": null,
@@ -43018,8 +42873,7 @@
    "tags": [
     "landscape",
     "vista",
-    "danger",
-    "melancholy",
+    "felt:melancholy",
     "dwarves"
    ],
    "presence": {
@@ -43064,7 +42918,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "shelter"
+    "felt:settled"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -43152,7 +43006,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "shelter",
+    "felt:settled",
     "landmark"
    ],
    "size_radius_km": null,
@@ -43251,7 +43105,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "shelter"
+    "felt:settled"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -43329,7 +43183,7 @@
    "priority": 0,
    "tags": [
     "water",
-    "shelter",
+    "felt:settled",
     "rest"
    ],
    "size_radius_km": null,
@@ -43370,7 +43224,7 @@
    "tags": [
     "water",
     "landscape",
-    "uncanny",
+    "felt:uneasy",
     "navigation"
    ],
    "size_radius_km": null,
@@ -43405,7 +43259,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "lore": {
     "en": "The farmland ends and no boundary marks it. The country opens at once and never closes again: grass to the horizon, wind running it in waves.\nWhat there is is livestock. From afar the dark patches are herds; up close, it becomes clear that everything these people own they carry on their backs or haul on a cart.\nThe road is lost and found again in wheel ruts, many of them, all running the same way.\nThe first horseman who looks at him does not look unkindly. He looks the way one looks at the weather.",
     "es": "Se acaba la tierra de labor y no hay raya que lo diga. El campo se abre de golpe y no vuelve a cerrarse: pasto hasta el horizonte, con el viento corriéndolo en olas.\nLo que hay es ganado. De lejos, las manchas negras son rebaños; de cerca, se entiende que todo lo que esta gente tiene lo lleva encima o lo arrastra un carro.\nEl camino se pierde y se vuelve a encontrar en huellas de rueda, muchas, todas yendo en el mismo sentido.\nEl primer jinete que lo mira no lo mira con maldad. Lo mira como se mira el tiempo."
@@ -43495,7 +43349,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:irritated"],
    "lore": {
     "en": "The hills are low and ugly, the brown iron that names everything. The grass opens in reddish scars, as if the ground were wounded.\nAnd sometimes, very far off, it can be heard: the knocking of a mine. The traveller hears it three times before understanding it is not a bird and not an animal.\nThe dwarves here are not the Mountain's. They are rougher and more direct, and they measure the traveller in one look.",
     "es": "Las colinas son bajas y feas, de un hierro pardo que le da nombre a todo. El pasto se abre en calvas rojizas, como si la tierra estuviera herida.\nY a veces, muy lejos, se oye: el golpeteo de una mina. El viajero lo oye tres veces antes de entender que no es un pájaro ni un animal.\nLos enanos de acá no son los de la Montaña. Son más toscos y más directos, y miden al viajero en una mirada."
@@ -43525,7 +43379,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "lore": {
     "en": "It is flat beyond endurance, and what there is on the flat is horses. Patches of horses far off, and wagons, and people who live off both.\nThe wind never stops and it brings the smell of grass and leather.\nAt night, far off, fires show that are on nobody's map: the people here move, and the villages move too.",
     "es": "Es llano hasta no poder más, y lo que hay en el llano son caballos. Manchas de caballos a lo lejos, y carros, y gente que vive de los dos.\nEl viento no para nunca y trae olor a hierba y a cuero.\nA la noche, lejos, se ven fuegos que no están en el mapa de nadie: la gente de acá se mueve, y las aldeas también."
@@ -43585,7 +43439,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "lore": {
     "en": "The river is the centre of everything and it is huge. It is not a river one looks at in passing: it is the reference, the route, the boundary and the food.\nOn the bank there are villages, and the villages live off the river and off the old war the river once brought.\nAt night the water birds can be heard, and the dull knocking of boats against the wharves.",
     "es": "El río es el centro de todo y es enorme. No es un río que se mira de pasada: es la referencia, la ruta, el límite y la comida.\nEn la orilla hay pueblos, y los pueblos viven del río y de la guerra vieja que el río trajo alguna vez.\nDe noche se oyen las aves del agua y el golpeteo sordo de las barcas contra los muelles."
@@ -43705,7 +43559,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:tense"],
    "lore": {
     "en": "Moor. Heather, stone, wind, and no roof visible in any direction.\nIt is troll country and everyone knows it: in the villages of the edges the moor is spoken of in a low voice, not quite named.\nThe traveller walks straighter here, looks sideways more often and sleeps worse. There is nothing yet to justify it, and that is what keeps him so.",
     "es": "Páramo. Brezo, piedra, viento, y ningún techo visible en ninguna dirección.\nEs tierra de trolls y todo el mundo lo sabe: en las aldeas de los bordes se habla del páramo en voz baja, sin nombrarlo del todo.\nEl viajero camina más derecho acá, mira de costado más seguido y duerme peor. No hay nada que lo justifique todavía, y eso es lo que lo mantiene así."
@@ -43751,7 +43605,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "lore": {
     "en": "It is what is left of Rhudaur: hills, pinewoods, ruins nobody explains and a cold coming down from the north without asking.\nThere are people in the sheltered valleys, few and hard. They receive him with a long look and a short question: where from.\nThe ruins are other people's and nobody uses them. Some have fire inside.",
     "es": "Es lo que quedó de Rhudaur: colinas, pinares, ruinas que nadie explica y un frío que baja del norte sin pedir permiso.\nHay gente en los valles abrigados, poca y dura. Reciben con una mirada larga y una pregunta corta: de dónde viene.\nLas ruinas son de otra gente y nadie las usa. Algunas tienen fuego dentro."
@@ -43781,7 +43635,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "lore": {
     "en": "The name is exact. It is the emptiest country the traveller has trodden in the whole journey: low hills, heather, and the East Road crossing it alone.\nThere was a kingdom here. The milestones remain, pieces of causeway, and nothing else.\nWhat he feels is not fear: it is the quiet certainty that if something happens to him, there is nobody for a week in any direction.",
     "es": "El nombre es exacto. Es el país más vacío que el viajero pisó en todo el viaje: lomas bajas, brezo, y el camino del este cruzándolo solo.\nHubo un reino acá. Quedan los mojones, pedazos de calzada, y nada más.\nLo que siente no es miedo: es la certeza tranquila de que si le pasa algo, no hay nadie a una semana a la redonda."
@@ -43811,7 +43665,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "lore": {
     "en": "The ground rises and the temperature drops, and that is the whole record: high meadows, wind, and a cold that gets into the clothes even in sunshine.\nIt is beautiful in a hard way: the grass is good, the water is good, and nobody lives here because winter does not negotiate here.\nAt night stars show as they show in no valley.",
     "es": "Sube el terreno y baja la temperatura, y eso es todo el registro: prados altos, viento, y un frío que se mete en la ropa aunque haga sol.\nEs hermoso de una manera dura: el pasto es bueno, el agua es buena, y no vive nadie porque el invierno acá no se negocia.\nDe noche se ven estrellas como no se ven en ningún valle."
@@ -43841,7 +43695,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "lore": {
     "en": "The oldest forest there is, and it is felt on the first step: the light lowers, the air goes still and the trees are a size that does not hold up.\nThere is noise, but it is not animals. It is the forest itself: it creaks, it drips, it moves where there is no wind.\nThe traveller speaks low without deciding to. And afterward, more or less, understands why.",
     "es": "El bosque más viejo que existe, y se siente en el primer paso: la luz baja, el aire se queda quieto y los árboles son de un tamaño que no se sostiene.\nHay ruido, pero no es de animales. Es el bosque mismo: cruje, gotea, se mueve donde no hay viento.\nEl viajero habla bajo sin decidirlo. Y después, más o menos, entiende por qué."
@@ -43887,7 +43741,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:content"],
    "lore": {
     "en": "The country of the horse. The grass runs in waves to the mountains, and the first thing the traveller sees, almost always, is a band of riders far off.\nIt is open land and it is watched land: they saw him before he saw anything.\nThe people are proud and so is the country, and it shows in how the farms are set: in the open, unafraid, facing the plain.",
     "es": "El país del caballo. La hierba se extiende en olas hasta las montañas, y lo primero que el viajero ve, casi siempre, es un grupo de jinetes a lo lejos.\nEs tierra abierta y es tierra vigilada: lo vieron antes de que él viera nada.\nLa gente es orgullosa y el país también, y se nota en cómo están puestas las granjas: al aire libre, sin miedo, mirando al llano."
@@ -43947,7 +43801,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "lore": {
     "en": "On the far side of the hedge the world changes: the light goes green, the air goes still and the trees stand closer than they should.\nIt is not that the forest is dark: it is that it watches. The traveller feels it on his nape within the first hour.\nThe paths cannot be trusted. They go where the forest wants, and the forest does not always want the same thing.",
     "es": "Del otro lado del seto el mundo cambia: la luz se vuelve verde, el aire se queda quieto y los árboles están más cerca de lo que deberían.\nNo es que el bosque sea oscuro: es que mira. El viajero lo siente en la nuca dentro de la primera hora.\nLos senderos no son de fiar. Van donde el bosque quiere, y el bosque no quiere siempre lo mismo."
@@ -43993,7 +43847,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:calm"],
    "lore": {
     "en": "The moor cuts off at once: one step more and the traveller is looking down into a green cleft with water at the bottom and buildings on the ledges.\nGoing down, the air changes: it is warmer, it smells of moss and water, and the sound of the Bruinen is heard before it is seen.\nWhen he reaches the bottom, the journey's tiredness lands on him all at once. It is the first place in months where he does not have to be alert, and the body collects.",
     "es": "El páramo se corta de golpe: un paso más y el viajero está mirando hacia abajo, a una grieta verde con agua abajo y edificios en las repisas.\nBaja y el aire cambia: es más tibio, huele a musgo y a agua, y el ruido del Bruinen se oye antes de verse.\nCuando llega abajo, el cansancio del viaje se le cae encima de una vez. Es el primer sitio en meses donde no tiene que estar alerta, y el cuerpo lo cobra."
@@ -44039,7 +43893,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:uneasy"],
    "lore": {
     "en": "The lake appears at once between the hills, blue and still, and beside it the white city nobody rebuilt.\nIt is the loveliest place the traveller has seen on the journey and the emptiest: there were people here, and they left sixteen hundred years ago.\nIt is not the sadness of a ruin: it is the sadness of a place that went on being perfect with nobody to see it.",
     "es": "El lago aparece de golpe entre las colinas, azul y quieto, y junto a él la ciudad blanca que nadie reconstruyó.\nEs el sitio más hermoso que el viajero vio en el viaje y el más vacío: había gente acá, y se fue hace mil seiscientos años.\nNo es la tristeza de una ruina: es la tristeza de un lugar que siguió siendo perfecto sin nadie que lo viera."
@@ -44069,7 +43923,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "lore": {
     "en": "The plain is good land and it is empty. The causeways are the best of the journey and nobody uses them: they all lead to the same point, and that point is a ruin.\nThe traveller soon understands the scale of what happened here: this fed a capital, and the capital is dead, and the dead have lain a thousand years in the dike that gave it its name.",
     "es": "La llanura es buena tierra y está vacía. Las calzadas son las mejores del viaje y no las usa nadie: todas llevan al mismo punto, y ese punto es una ruina.\nEl viajero entiende pronto la escala de lo que pasó acá: esto alimentaba una capital, y la capital está muerta, y los muertos llevan mil años en la zanja que le dio el nombre."
@@ -44115,7 +43969,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:settled"],
    "lore": {
     "en": "After the hard lands, here the danger ends. It is good country, hedges, villages, and the first question he is asked is not where he comes from but whether he wants to sit down.\nThere are hobbits and there are Men and they live mixed, and nobody finds it strange.\nThe traveller lowers his guard without noticing. It is the easiest place in the known world.",
     "es": "Después de las tierras duras, acá el peligro se acaba. Es campo bueno, setos, pueblos, y la primera pregunta que le hacen no es de dónde viene sino si quiere sentarse.\nHay hobbits y hay Hombres y viven mezclados, y nadie lo encuentra raro.\nEl viajero baja la guardia sin notarlo. Es el sitio más fácil del mundo conocido."
@@ -44145,7 +43999,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:listless"],
    "lore": {
     "en": "Heath to the horizon, brown most of the year, not a landmark but the sky.\nThere was a forest here, a huge one, and it was felled whole to build ships. The ground has not recovered yet: black stumps remain in the peatbogs, in rows.\nWalking is bad and wayfinding worse, and the certainty left to him is that this land was broken five thousand years ago and is still being paid for.",
     "es": "Brezal hasta el horizonte, pardo la mayor parte del año, sin una referencia que no sea el cielo.\nHubo un bosque acá, enorme, y lo talaron entero para hacer barcos. El suelo todavía no se recuperó: quedan los tocones negros en las turberas, en hileras.\nSe camina mal y se navega peor, y la certeza que le queda es que esta tierra la rompieron hace cinco mil años y todavía no se terminó de pagar."
@@ -44191,7 +44045,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:melancholy"],
    "lore": {
     "en": "The west has another light. The traveller cannot explain it until the first afternoon, when the sun drops under the clouds and everything facing the sea lights up for forty minutes.\nIt is elvish country: there are paved roads, houses in good repair, and nobody in a hurry.\nAnd underneath everything there is a calm much like a farewell, which the traveller begins to feel without knowing its name.",
     "es": "El oeste tiene otra luz. El viajero no sabe explicarlo hasta la primera tarde, cuando el sol entra bajo las nubes y todo lo que mira al mar se enciende durante cuarenta minutos.\nEs tierra élfica: hay caminos de losa, casas en buen estado, y nadie con apuro.\nY debajo de todo hay una calma que se parece mucho a la despedida, que el viajero empieza a sentir sin saber nombrarla."
@@ -44238,7 +44092,7 @@
    },
    "type": null,
    "priority": 0,
-   "tags": [],
+   "tags": ["felt:watchful"],
    "lore": {
     "en": "Bare hills running north to south, wind always, and not a tree on the whole ridge.\nThe great hill can be seen from two days away: Amon Sûl, Elendil's once, and today a ring of burned stone.\nThe traveller climbs because everyone climbs, and from the top everything is understood: the road, the moor, and why this was the point where the three kingdoms touched.",
     "es": "Colinas peladas de norte a sur, con viento siempre y sin un árbol en todo el cordón.\nLa colina grande se ve desde dos jornadas: Amon Sûl, la que fue de Elendil, y hoy es un anillo de piedra quemada.\nEl viajero sube porque todos suben, y desde arriba se entiende todo: el camino, el páramo, y por qué este fue el punto donde se tocaban los tres reinos."
@@ -44699,7 +44553,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "danger",
+    "felt:tense",
     "conflict"
    ],
    "traveller_use": {
@@ -45595,7 +45449,7 @@
    "tags": [
     "people",
     "water",
-    "sacred"
+    "felt:watchful"
    ],
    "traveller_use": {
     "en": null,
@@ -46077,7 +45931,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "sacred",
+    "felt:watchful",
     "conflict"
    ],
    "traveller_use": {
@@ -46135,7 +45989,7 @@
    "tags": [
     "people",
     "rest",
-    "danger"
+    "felt:tense"
    ],
    "traveller_use": {
     "en": null,
@@ -46186,8 +46040,7 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
-    "sacred",
+    "felt:watchful",
     "landscape"
    ],
    "traveller_use": {
@@ -46237,7 +46090,7 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
+    "felt:tense",
     "landscape",
     "rest"
    ],
@@ -46284,8 +46137,7 @@
    },
    "priority": 0,
    "tags": [
-    "danger",
-    "sacred",
+    "felt:watchful",
     "landscape"
    ],
    "traveller_use": {
@@ -46338,7 +46190,7 @@
     "people",
     "food",
     "rest",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -47094,7 +46946,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "sacred",
+    "felt:watchful",
     "rest"
    ],
    "size_radius_km": null,
@@ -47967,7 +47819,7 @@
    "tags": [
     "people",
     "water",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -49792,7 +49644,7 @@
    "tags": [
     "military",
     "landscape",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -50168,7 +50020,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "sacred",
+    "felt:watchful",
     "landscape"
    ],
    "size_radius_km": null,
@@ -50285,7 +50137,7 @@
     "people",
     "water",
     "forest",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -50933,7 +50785,7 @@
    "tags": [
     "people",
     "social",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -51148,7 +51000,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "sacred",
+    "felt:watchful",
     "conflict"
    ],
    "size_radius_km": null,
@@ -51201,7 +51053,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "sacred",
+    "felt:watchful",
     "forest"
    ],
    "size_radius_km": null,
@@ -51505,7 +51357,7 @@
    "tags": [
     "people",
     "forest",
-    "sacred",
+    "felt:watchful",
     "rest"
    ],
    "size_radius_km": null,
@@ -51825,7 +51677,7 @@
    "tags": [
     "people",
     "water",
-    "sacred",
+    "felt:watchful",
     "trade",
     "rest"
    ],
@@ -51883,7 +51735,7 @@
     "military",
     "people",
     "conflict",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -52215,7 +52067,7 @@
    "tags": [
     "conflict",
     "military",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -54115,7 +53967,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -54163,7 +54015,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -54660,7 +54512,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -55127,7 +54979,7 @@
    "priority": 0,
    "tags": [
     "landscape",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -57158,7 +57010,7 @@
     "people",
     "forest",
     "water",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -59271,7 +59123,7 @@
    "priority": 0,
    "tags": [
     "people",
-    "sacred",
+    "felt:watchful",
     "landscape"
    ],
    "size_radius_km": null,
@@ -59328,7 +59180,7 @@
     "people",
     "water",
     "trade",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -59488,7 +59340,7 @@
    "tags": [
     "people",
     "water",
-    "sacred"
+    "felt:watchful"
    ],
    "size_radius_km": null,
    "influence_radius_km": null,
@@ -59920,7 +59772,7 @@
    "priority": 0,
    "tags": [
     "conflict",
-    "sacred",
+    "felt:watchful",
     "landscape",
     "military"
    ],
@@ -60953,7 +60805,7 @@
    },
    "priority": 0,
    "tags": [
-    "sacred",
+    "felt:watchful",
     "forest",
     "conflict"
    ],

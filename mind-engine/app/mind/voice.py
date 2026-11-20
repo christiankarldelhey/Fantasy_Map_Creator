@@ -18,6 +18,7 @@ import math
 import time
 
 from app.mind.tables import PackEntry
+from app.mind.util import tag_matches
 
 log = logging.getLogger(__name__)
 
@@ -209,6 +210,82 @@ MOOD_NEUTRAL_R = 0.22
 MOOD_FULL_R = 0.5
 MOOD_EXTREME_R = 0.8
 
+# Where a felt word pulls TO: the soft ring's centre, the strong
+# ring's centre, the rim for extremes, the origin for 'steady'.
+_PULL_SOFT_R = (MOOD_NEUTRAL_R + MOOD_FULL_R) / 2.0   # 0.36
+_PULL_STRONG_R = (MOOD_FULL_R + MOOD_EXTREME_R) / 2.0  # 0.65
+_PULL_EXTREME_R = 0.9
+
+# Which wheel word a contact kind pulls toward (the felt channel as
+# pack data, #184): a tag pattern -> the word its events carry. A
+# 'mind.felt_map' pack_entries row replaces it wholesale per game.
+# Host-authored `tag:felt:*` tags never need a row — the tag names
+# the word itself.
+FELT_MAP_KEY = 'mind.felt_map'
+# One word per event — order IS precedence: the body's verdict
+# outranks the manner, the manner outranks the choice, and a plain
+# 'it worked' says least of all.
+FELT_MAP = {
+    # The body's verdicts — wounds and death are the day's real tone.
+    'tag:outcome:slain': 'despairing',
+    'tag:outcome:badly wounded': 'distressed',
+    'tag:outcome:wounded': 'distressed',
+    # A failed pick worries before anything else about it.
+    'tag:outcome:failure': 'worried',
+    # Contact forms — how the meeting happened feels.
+    'tag:form:attacks': 'distressed',
+    'tag:form:sudden_peril': 'tense',
+    'tag:form:confronts': 'tense',
+    'tag:form:stalks': 'uneasy',
+    'tag:form:hinders_passage': 'irritated',
+    'tag:form:aid_or_trade': 'heartened',
+    'tag:form:harvest_shelter': 'settled',
+    'tag:form:brief_exchange': 'pleased',
+    'tag:form:watches': 'uneasy',
+    'tag:form:sign_only': 'watchful',
+    'tag:form:sound_only': 'uneasy',
+    'tag:form:presence_felt': 'uneasy',
+    'tag:form:glimpsed_far': 'watchful',
+    'tag:form:observed_activity': 'watchful',
+    'tag:form:drifts_closer': 'watchful',
+    'tag:form:reacts_withdraws': 'relaxed',
+    'tag:form:scenery': 'calm',
+    'tag:form:mistaken_for_object': 'pleased',
+    # Acts — the choice's own tone when the row declares no felt:* of
+    # its own; 'avoided it' relieves more than 'it worked' pleases.
+    'tag:act:rest': 'settled',
+    'tag:act:talk': 'pleased',
+    'tag:act:trade': 'pleased',
+    'tag:act:accept': 'pleased',
+    'tag:act:help': 'heartened',
+    'tag:act:approach': 'eager',
+    'tag:act:avoid': 'settled',
+    'tag:act:defy': 'tense',
+    # Bare success — the weakest verdict, last so any real tone wins.
+    'tag:outcome:unscathed': 'heartened',
+    'tag:outcome:success': 'pleased',
+    # Sustenance and beds — the comfort channel. The bare types carry
+    # no tone (a haunted rest is not 'settled'); quality tags decide.
+    'tag:food:*': 'settled',
+    'tag:drink:*': 'settled',
+    'tag:given': 'heartened',
+    'tag:lodging:charity': 'content',
+    'tag:lodging:shelter': 'settled',
+    'tag:lodging:paid': 'settled',
+    'tag:lodging:turned_away': 'sad',
+    'tag:rest:indoor': 'settled',
+    'tag:rest:good': 'settled',
+    'tag:rest:poor': 'listless',
+    'tag:rest:open_sky': 'uneasy',
+    # Weather — the sky's tone.
+    'tag:weather:storm': 'tense',
+    'tag:weather:deep_cold': 'tense',
+    'tag:weather:freezing': 'uneasy',
+    'tag:weather:scorching': 'irritated',
+    # Menace declared.
+    'tag:hostile': 'tense',
+}
+
 # Streak subjects that are not the tag's tail (#147): non-noun tags need
 # a worded subject — 'the poor let up at last' is broken English, 'the
 # sleepless nights let up' is the thought the streak carries.
@@ -303,6 +380,48 @@ def mood_name(mood, session=None, game_id=None):
     _, strong, soft = min(
         wheel, key=lambda w: abs((deg - w[0] + 180) % 360 - 180))
     return strong if r >= MOOD_FULL_R else soft
+
+
+def _polar(deg, r):
+    rad = math.radians(deg)
+    return {'valence': r * math.cos(rad), 'arousal': r * math.sin(rad)}
+
+
+def mood_point(word, session=None, game_id=None):
+    """The wheel point a felt word pulls toward (#184): soft words sit
+    at the inner ring's centre, strong at the outer's, the extremes at
+    the rim, 'steady' at the origin. None for words off the wheel."""
+    if not word:
+        return None
+    if word == 'steady':
+        return {'valence': 0.0, 'arousal': 0.0}
+    if word == 'despairing':
+        return _polar(180, _PULL_EXTREME_R)
+    if word == 'exultant':
+        return _polar(0, _PULL_EXTREME_R)
+    wheel = pack_value(session, game_id, MOOD_WHEEL_KEY, MOOD_WHEEL) or []
+    for deg, strong, soft in wheel:
+        if word == strong:
+            return _polar(deg, _PULL_STRONG_R)
+        if word == soft:
+            return _polar(deg, _PULL_SOFT_R)
+    return None
+
+
+def felt_word(tags, session=None, game_id=None):
+    """THE felt pull the event carries (#184) — one word, not a chord:
+    a `tag:felt:<word>` tag names its word outright and beats the pack
+    (the host's declared tone over the generic map's); the felt_map
+    fills in the tone of contacts that declare none ('attacks' →
+    tense). Blending two tones produced mud — one event, one pull."""
+    for t in tags or []:
+        if t.startswith('tag:felt:'):
+            return t[len('tag:felt:'):]
+    felt_map = pack_value(session, game_id, FELT_MAP_KEY, FELT_MAP) or {}
+    for key, word in felt_map.items():
+        if any(tag_matches(t, key) for t in tags or []):
+            return word if isinstance(word, str) else word[0]
+    return None
 
 
 def humanize(value):

@@ -213,7 +213,7 @@ export async function resolveAmbientSituations({
   }
 
   const { rows } = await pool.query(
-    `SELECT id, name, region_ids, priority, situations
+    `SELECT id, name, region_ids, priority, situations, tags
        FROM places_narration
       WHERE kind = 'ambient'
         AND situations IS NOT NULL
@@ -274,6 +274,9 @@ export async function resolveAmbientSituations({
       when: situation.when || null,
       phase,
       tagSet,
+      // The record's tone rides the resolved voice: one felt:* word,
+      // the ambience event's pull on the mood (#184).
+      felt: (record.tags || []).find((t) => t.startsWith('felt:')) ?? null,
     });
   }
   return situations;

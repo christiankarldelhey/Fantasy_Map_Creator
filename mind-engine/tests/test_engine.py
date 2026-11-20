@@ -8,30 +8,74 @@
 import pytest
 
 from app.mind.engine import (
-    acute_hit, couple_mood, decay, derive_feeling, felt_delta,
-    project_body, regress, sediment,
+    acute_hit, apply_pull, decay, derive_feeling, mood_position,
+    project_body, pull_affinity, pull_gain, pull_target, regress,
+    sediment, standing_magnitude,
 )
 
 
-def test_favour_on_a_hated_subject_lands_grudgingly():
+def test_favour_sediments_what_objectively_happened():
     """aid_or_trade worth {trust:+.3, affection:+.15}: the dwarf who
-    despises elves (affection -0.6) admits the help — barely."""
+    despises elves (affection -0.6) still takes the help on the
+    record — the Relation keeps the fact, not the grudge's reading."""
     delta = {'trust': 0.3, 'affection': 0.15}
-    felt = felt_delta(delta, {'affection': -0.6, 'trust': -0.2})
-    assert felt['affection'] == pytest.approx(0.15 * (1 + 0.5 * -0.6))
-    assert felt['trust'] == pytest.approx(0.3 * (1 + 0.5 * -0.2))
-    # ...but the world channel sediments what objectively happened.
     rel = {'affection': -0.6, 'trust': -0.2}
     sediment(rel, delta, resistance=0.5)
     assert rel['trust'] == pytest.approx(-0.2 + 0.3 * 0.5)
     assert rel['affection'] == pytest.approx(-0.6 + 0.15 * 0.5)
 
 
-def test_fear_on_a_feared_subject_lands_harder():
-    """Hating orcs makes each sighting weigh more — the standing dim
-    amplifies the landing, not just favours."""
-    felt = felt_delta({'fear': 0.4}, {'fear': 0.6})
-    assert felt['fear'] == pytest.approx(0.4 * 1.3)
+def test_pull_moves_toward_target_never_past():
+    """A felt pull steps the mood a share of the way to the target —
+    bounded by construction, a light tug gets closer but not there."""
+    mood = {'valence': 0.8, 'arousal': 0.3, 'dominance': 0.0}
+    target = {'valence': -0.4, 'arousal': -0.1}
+    apply_pull(mood, target, 0.25)
+    assert mood['valence'] == pytest.approx(0.8 - 1.2 * 0.25)
+    assert mood['arousal'] == pytest.approx(0.3 - 0.4 * 0.25)
+    # Even an impossible gain cannot overshoot the point.
+    apply_pull(mood, target, 1.0)
+    assert mood['valence'] == pytest.approx(-0.4)
+    assert mood['arousal'] == pytest.approx(-0.1)
+
+
+def test_pull_steady_decays_toward_the_origin():
+    """felt:steady is the neutral pull — a quiet hearth undoes the
+    day's charge, it does not push past calm."""
+    mood = {'valence': -0.6, 'arousal': 0.5, 'dominance': 0.0}
+    apply_pull(mood, {'valence': 0.0, 'arousal': 0.0}, 0.5)
+    assert mood['valence'] == pytest.approx(-0.3)
+    assert mood['arousal'] == pytest.approx(0.25)
+
+
+def test_pull_target_refracts_through_the_standing():
+    """The rain-lover's melancholy refracts toward what the rain
+    already feels like; the stranger's lands as authored (#184)."""
+    tag_point = {'valence': -0.35, 'arousal': -0.1}
+    loved = {'affection': 0.8, 'trust': 0.3, 'familiarity': 0.7}
+    rel_point = mood_position(loved)
+    mag = standing_magnitude(loved)
+    refracted = pull_target(tag_point, rel_point, mag)
+    # Love pulls the landing up-valence from the raw word.
+    assert refracted['valence'] > tag_point['valence']
+    stranger = pull_target(tag_point, {'valence': 0.0, 'arousal': 0.0}, 0.0)
+    assert stranger == tag_point
+
+
+def test_pull_gain_weights_salience_bond_and_yield():
+    """A stranger's tone still registers at PULL_BASE; the same event
+    weighs more on a mind that yields and on a bond that holds."""
+    base = pull_gain(0.5, 0.0, 0.3, 0.0)
+    bonded = pull_gain(0.5, 0.6, 0.3, 0.0)
+    moody = pull_gain(0.5, 0.6, 0.8, 0.0)
+    assert 0.0 < base < bonded < moody <= 1.0
+    # Affinity: a temperament aligned with the target yields more.
+    assert pull_affinity(
+        {'valence': -0.5, 'arousal': -0.2},
+        {'valence': -0.6, 'arousal': -0.2}) > 0.9
+    assert pull_affinity(
+        {'valence': -0.5, 'arousal': -0.2},
+        {'valence': 0.6, 'arousal': 0.3}) < 0.0
 
 
 def test_sediment_confirms_whole_contradicts_resisted():
@@ -66,14 +110,16 @@ def test_mood_regresses_toward_the_temperament():
     assert mood['dominance'] == pytest.approx(0.05)
 
 
-def test_mood_is_the_coupling_of_relation_movements():
-    """W_RM: felt fear raises arousal and dims dominance/valence;
-    felt affection warms valence."""
-    mood = {}
-    couple_mood(mood, [{'fear': 0.5}, {'affection': 0.2}])
-    assert mood['arousal'] == pytest.approx(0.5 * 0.8)
-    assert mood['dominance'] == pytest.approx(0.5 * -0.4)
-    assert mood['valence'] == pytest.approx(0.5 * -0.6 + 0.2)
+def test_mood_position_reads_a_relation_in_mood_space():
+    """W_RM reads the standing vector as a mood-space point (#184):
+    a feared thing sits high-arousal low-valence; a loved one warm
+    and settled — the point the pull refracts toward."""
+    feared = mood_position({'fear': 0.5})
+    assert feared['arousal'] == pytest.approx(0.5 * 0.8)
+    assert feared['valence'] == pytest.approx(0.5 * -0.6)
+    loved = mood_position({'affection': 0.8, 'familiarity': 0.7})
+    assert loved['valence'] == pytest.approx(0.8)
+    assert loved['arousal'] < 0  # familiarity settles the bond
 
 
 def test_derive_feeling_reads_the_state_as_a_word():

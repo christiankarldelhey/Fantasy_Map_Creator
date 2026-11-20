@@ -27,7 +27,9 @@ import math
 
 from app.mind.attitudes import active_convictions
 from app.mind.embeddings import cosine, embed, ensure_embedding, episode_embedding
-from app.mind.engine import EVOKE_SHARE, MOOD_DIMS, add_delta, mood_delta
+from app.mind.engine import (
+    EVOKE_SHARE, MOOD_DIMS, apply_pull, mood_delta,
+)
 from app.mind.memory import episode_date, episode_index
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.relations import feed
@@ -191,13 +193,21 @@ def retrieve(session, mind, episode, perceived_day):
     min_score = w.get('retrieval_min_score', 0.5)
 
     evoked = []
-    refelt = {}
-    # Evocation re-feels (ADR 0017): the stirred memory's imprint lands
-    # again at EVOKE_SHARE — on the mood through W_RM, and on each
-    # touched subject's Relation through the same sediment rule. The
-    # echo feeds what it still believes; contradiction pays resistance.
-    resistance = (getattr(mind, 'personality', None) or {}).get('resistance')
+    mood = {
+        d: ((getattr(mind, 'mood', None) or {}).get(d) or 0.0)
+        for d in MOOD_DIMS
+    }
+    mood_moved = False
+    # Evocation re-feels (ADR 0017, #184): the stirred memory's imprint
+    # lands again at EVOKE_SHARE — on each touched subject's Relation
+    # through the same sediment rule, and on the mood as a PULL toward
+    # the imprint's own felt point (remembering the dark ford draws the
+    # mood back toward it). The echo feeds what it still believes;
+    # contradiction pays resistance.
+    personality = getattr(mind, 'personality', None) or {}
+    resistance = personality.get('resistance')
     resistance = 0.5 if resistance is None else resistance
+    moodiness = personality.get('moodiness', 0.3)
     for score, mem in scored[:top_k]:
         if score < min_score:
             break
@@ -217,14 +227,16 @@ def retrieve(session, mind, episode, perceived_day):
                 session, mind.game_id, mind.character_id, subject,
                 share, resistance=resistance, episode_idx=idx,
             )
-        add_delta(refelt, mood_delta(share))
-    if refelt:
-        prior = mind.mood or {}
+        target = mood_delta(imprint)
+        if target:
+            apply_pull(
+                mood, target, min(1.0, EVOKE_SHARE * (1.0 + moodiness)))
+            mood_moved = True
+    if mood_moved:
+        prior = getattr(mind, 'mood', None) or {}
         mind.mood = {
             **prior,
-            **{d: round(max(-1.0, min(1.0,
-                    (prior.get(d) or 0.0) + refelt.get(d, 0.0))), 3)
-               for d in MOOD_DIMS},
+            **{d: round(mood.get(d, 0.0), 3) for d in MOOD_DIMS},
         }
     return evoked
 

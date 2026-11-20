@@ -8,8 +8,7 @@
 # nothing declares a Relation; it only accretes or decays.
 # ============================================================================
 from app.mind.engine import (
-    CATEGORY_SPLASH, decay, derive_feeling, feeling_lexicon, felt_delta,
-    sediment,
+    CATEGORY_SPLASH, decay, derive_feeling, feeling_lexicon, sediment,
 )
 from app.mind.tables import Relation
 from app.mind.tags import tag_family
@@ -140,14 +139,6 @@ def standing_relation(session, game_id, character_id, subjects):
             return subject, relation_vector(row)
     return (ranked[0] if ranked else None), {}
 
-
-def felt_through(world_delta, standing, personality):
-    """The event as THIS mind feels it — the world delta bent by the
-    standing relation and the Personality's per-dim sensitivities."""
-    return felt_delta(
-        world_delta, standing,
-        sensitivity=(personality or {}).get('sensitivity'),
-    )
 
 
 def seed_relations(session, game_id, character_id, preset):

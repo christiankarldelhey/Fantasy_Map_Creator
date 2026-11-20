@@ -92,7 +92,7 @@ from app.mind.semantics import (
 )
 from app.mind.tags import subject_tags
 from app.mind.checks import character_state
-from app.mind.voice import mood_phrase
+from app.mind.voice import mood_name
 from app.mind.provisioning import (
     DEFAULT_WIRING,
     NEUTRAL_MOOD,
@@ -558,9 +558,8 @@ def close_episode(
                 mood, mind.temperament or {},
                 (mind.personality or {}).get('moodiness', 0.3),
             )
-            mood['dominant'] = mood_phrase(
-                mood.get('valence') or 0.0, db,
-                getattr(mind, 'game_id', None)) or 'neutral'
+            mood['dominant'] = mood_name(
+                mood, db, getattr(mind, 'game_id', None)) or 'neutral'
             mood['feeling'] = derive_feeling(
                 mood, feeling_lexicon(db, getattr(mind, 'game_id', None)))
             mind.mood = mood

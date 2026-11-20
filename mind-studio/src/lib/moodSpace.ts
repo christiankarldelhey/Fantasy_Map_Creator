@@ -3,20 +3,11 @@
 // ----------------------------------------------------------------------------
 // The mood is a point in a 2-dim space, never a list of emotions:
 // x = valence (wellbeing −1..+1), y = arousal (energy −1..+1).
-// Relation dims never touch it directly — they project through W_RM.
-// W_RM below mirrors app/mind/engine.py exactly; update them together.
+// Events move it by PULL (#184): a felt word names a point on the wheel
+// and drags the mood a `gain` fraction of the way there — the engine
+// stamps mood_pull on each perceived item, the disc just draws it.
 // ============================================================================
 import type { PerceivedEvent } from '../types'
-
-// Relation → Mood coupling (mirror of engine.py W_RM). If the engine's
-// coupling changes — or relation dims are added (sadness, joy…) — this
-// table must change too.
-const W_RM: Record<string, Record<string, number>> = {
-  affection: { valence: 1.0 },
-  trust: { valence: 0.5, dominance: 0.5 },
-  fear: { valence: -0.6, arousal: 0.8, dominance: -0.4 },
-  familiarity: { arousal: -0.3 },
-}
 
 export interface MoodPoint {
   valence: number
@@ -79,18 +70,24 @@ export function moodWord(m: { valence?: number; arousal?: number; dominant?: str
 
 const clamp = (v: number) => Math.max(-1, Math.min(1, v))
 
-/** An event's push in mood space: its stamped mood_delta, or the same
- *  projection rebuilt from the imprint for episodes older than the
- *  field (W_RM · felt — engine.mood_delta). */
-export function moodPush(e: PerceivedEvent): Record<string, number> {
-  if (e.mood_delta) return e.mood_delta
-  const out: Record<string, number> = {}
-  for (const [dim, v] of Object.entries(e.imprint ?? {})) {
-    for (const [mdim, w] of Object.entries(W_RM[dim] ?? {})) {
-      out[mdim] = (out[mdim] ?? 0) + v * w
+/** An event's pull vector from `from`: its stamped mood_pull — target
+ *  (already refracted by the character's standing) and gain — applied
+ *  as (target − mood) × gain. Old episodes fall back to the stamped
+ *  mood_delta treated as a raw displacement. */
+export function pullVec(e: PerceivedEvent, from: MoodPoint): { dv: number; da: number; word?: string } | null {
+  const pulls = e.mood_pull?.filter((p) => p.gain > 0) ?? []
+  if (pulls.length) {
+    let dv = 0, da = 0
+    for (const p of pulls) {
+      dv += (p.target.valence - from.valence) * p.gain
+      da += (p.target.arousal - from.arousal) * p.gain
     }
+    return { dv, da, word: pulls[0].word }
   }
-  return out
+  if (e.mood_delta) {
+    return { dv: e.mood_delta.valence ?? 0, da: e.mood_delta.arousal ?? 0 }
+  }
+  return null
 }
 
 /** Space → pixel: valence right, arousal up, both −1..+1 over `radius`. */

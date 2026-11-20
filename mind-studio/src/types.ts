@@ -31,8 +31,16 @@ export interface MoodTurn {
 export interface EpisodeMood extends Mood {
   need_pressure?: number
   thread_pressure?: number
+  // The day's own direction (pull-weighted) — distinct from `valence`,
+  // which is the landing after pulls + pressures.
+  day_valence?: number
   felt?: Record<string, number>
-  trace?: { subject?: string | null; reading?: string | null; felt?: Record<string, number> }[]
+  trace?: {
+    subject?: string | null
+    reading?: string | null
+    felt?: Record<string, number>
+    mood_pull?: PerceivedEvent['mood_pull']
+  }[]
   arc?: MoodArcPoint[]
   turn?: MoodTurn | null
 }
@@ -50,8 +58,11 @@ export interface PerceivedEvent {
   severity?: number | null
   world_valence?: number | null
   imprint: Record<string, number>
-  // The felt delta projected into mood space (valence/arousal/dominance
-  // pushed) — what this event would move on the circumplex.
+  // The felt pulls this event exerts on the mood (#184): each names a
+  // wheel word and the point it drags toward (already refracted by the
+  // character's standing), gain the fraction of the way it moves.
+  mood_pull?: { word: string; target: { valence: number; arousal: number }; gain: number }[] | null
+  // Legacy: pre-#184 episodes stamped the raw delta instead of a pull.
   mood_delta?: Record<string, number> | null
   data: {
     description?: string | null

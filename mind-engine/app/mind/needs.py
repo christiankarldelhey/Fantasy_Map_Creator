@@ -22,7 +22,7 @@ from app.mind.util import num
 from app.mind.detectors import detector_needs
 from app.mind.memory import episode_index
 from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.voice import phrases
+from app.mind.voice import mood_point, phrases
 from app.mind.rules import rule_needs, update_rule_streaks
 from app.mind.tables import Need
 
@@ -234,6 +234,11 @@ def need_items(needs):
         if n.type != 'physiological':
             continue
         urgency = n.urgency or 0.0
+        # The ache also pulls the mood (#184): deep urgency distresses,
+        # a mild one only worries — gain scales with urgency.
+        pull_word = 'distressed' if urgency >= 0.6 else 'worried'
+        pull_target = mood_point(pull_word) or {
+            'valence': 0.0, 'arousal': 0.0}
         items.append({
             'type': 'need',
             # Kind registry: the felt body is the mind's own voice —
@@ -248,6 +253,11 @@ def need_items(needs):
             # The ache's imprint (ADR 0017): a body's remembered distress
             # reads as a small affection dip — re-felt on evocation.
             'imprint': {'affection': -round(urgency, 3)},
+            'mood_pull': [{
+                'word': pull_word,
+                'target': {d: round(v, 3) for d, v in pull_target.items()},
+                'gain': round(min(1.0, urgency * 0.75), 3),
+            }],
             'severity': round(urgency, 3),
             'tags': [f'need:{n.key}'],
             'data': {'need': n.key, 'urgency': urgency},
