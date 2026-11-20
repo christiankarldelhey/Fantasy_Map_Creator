@@ -86,10 +86,11 @@ def test_severe_tiers_carry_floors(client):
     assert 'tag:weather:deep_cold' in item['tags']
     assert 'tag:weather:freezing' in item['tags']
     assert item['severity'] == 0.55  # deep_cold beats snow's floor
-    # The felt channel reads the tiers as pull words (#184): deep_cold
-    # -> 'tense', freezing -> 'uneasy' — the event's felt colour is the
-    # gain-weighted resultant of its pull targets.
-    assert item['valence'] == pytest.approx(-0.14, abs=0.02)
+    # The felt channel reads the tiers as pull words (#184): one word
+    # per event — deep_cold -> 'tense' wins by declared precedence,
+    # and the event's felt colour is that single pull's target.
+    assert item['valence'] == pytest.approx(-0.18, abs=0.02)
+    assert [p['word'] for p in item['mood_pull']] == ['tense']
     assert item['imprint']['fear'] > 0
 
 

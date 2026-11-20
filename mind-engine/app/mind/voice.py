@@ -222,7 +222,16 @@ _PULL_EXTREME_R = 0.9
 # Host-authored `tag:felt:*` tags never need a row — the tag names
 # the word itself.
 FELT_MAP_KEY = 'mind.felt_map'
+# One word per event — order IS precedence: the body's verdict
+# outranks the manner, the manner outranks the choice, and a plain
+# 'it worked' says least of all.
 FELT_MAP = {
+    # The body's verdicts — wounds and death are the day's real tone.
+    'tag:outcome:slain': 'despairing',
+    'tag:outcome:badly wounded': 'distressed',
+    'tag:outcome:wounded': 'distressed',
+    # A failed pick worries before anything else about it.
+    'tag:outcome:failure': 'worried',
     # Contact forms — how the meeting happened feels.
     'tag:form:attacks': 'distressed',
     'tag:form:sudden_peril': 'tense',
@@ -236,11 +245,25 @@ FELT_MAP = {
     'tag:form:sign_only': 'watchful',
     'tag:form:sound_only': 'uneasy',
     'tag:form:presence_felt': 'uneasy',
-    # Outcomes — how it resolved.
-    'tag:outcome:wounded': 'distressed',
-    'tag:outcome:badly wounded': 'distressed',
-    'tag:outcome:slain': 'despairing',
+    'tag:form:glimpsed_far': 'watchful',
+    'tag:form:observed_activity': 'watchful',
+    'tag:form:drifts_closer': 'watchful',
+    'tag:form:reacts_withdraws': 'relaxed',
+    'tag:form:scenery': 'calm',
+    'tag:form:mistaken_for_object': 'pleased',
+    # Acts — the choice's own tone when the row declares no felt:* of
+    # its own; 'avoided it' relieves more than 'it worked' pleases.
+    'tag:act:rest': 'settled',
+    'tag:act:talk': 'pleased',
+    'tag:act:trade': 'pleased',
+    'tag:act:accept': 'pleased',
+    'tag:act:help': 'heartened',
+    'tag:act:approach': 'eager',
+    'tag:act:avoid': 'settled',
+    'tag:act:defy': 'tense',
+    # Bare success — the weakest verdict, last so any real tone wins.
     'tag:outcome:unscathed': 'heartened',
+    'tag:outcome:success': 'pleased',
     # Sustenance and beds — the comfort channel. The bare types carry
     # no tone (a haunted rest is not 'settled'); quality tags decide.
     'tag:food:*': 'settled',
@@ -385,19 +408,20 @@ def mood_point(word, session=None, game_id=None):
     return None
 
 
-def felt_words(tags, session=None, game_id=None):
-    """Every felt pull the event carries (#184): `tag:felt:<word>` tags
-    name their word outright; the pack's felt_map declares the tone of
-    the contact kinds a tag can't name itself ('attacks' → tense)."""
-    words = [
-        t[len('tag:felt:'):] for t in tags or []
-        if t.startswith('tag:felt:')
-    ]
+def felt_word(tags, session=None, game_id=None):
+    """THE felt pull the event carries (#184) — one word, not a chord:
+    a `tag:felt:<word>` tag names its word outright and beats the pack
+    (the host's declared tone over the generic map's); the felt_map
+    fills in the tone of contacts that declare none ('attacks' →
+    tense). Blending two tones produced mud — one event, one pull."""
+    for t in tags or []:
+        if t.startswith('tag:felt:'):
+            return t[len('tag:felt:'):]
     felt_map = pack_value(session, game_id, FELT_MAP_KEY, FELT_MAP) or {}
     for key, word in felt_map.items():
         if any(tag_matches(t, key) for t in tags or []):
-            words += [word] if isinstance(word, str) else list(word)
-    return words
+            return word if isinstance(word, str) else word[0]
+    return None
 
 
 def humanize(value):

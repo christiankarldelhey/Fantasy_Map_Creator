@@ -239,6 +239,10 @@ function ambientPools(day) {
           when: s.when,
           phase: s.phase,
           text: outcome.text ?? null,
+          // The picked option's own tone outranks the record's (#184):
+          // a 'walked on' choice inside an uneasy place can carry its
+          // own settled word.
+          felt: rowFelt(interaction) ?? s.felt ?? null,
           // resolveDayState reads the ambient rail's shadow through this
           // legacy shape; the rest of the effects land on day.commands.
           effects: shadowFx ? { shadow_effect: shadowFx } : null,
@@ -290,7 +294,10 @@ export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome, after
     interaction_id: interaction.id,
     outcome: outcomeKey,
     description: outcome?.text?.en ?? null,
-    tags: [interaction.act, ...(interaction.need_tags || [])],
+    // Tone (#184): an authored felt on the interaction row wins; else
+    // the contact record's own felt:* tag speaks for the meeting.
+    tags: [interaction.act, ...(interaction.need_tags || []),
+      ...(rowFelt(interaction) ? [rowFelt(interaction)] : contactFelt(pool_))],
   };
   // The body after the outcome landed — per-event vitals so the Studio
   // day chart can draw energy/shadow between event points.
@@ -319,6 +326,23 @@ export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome, after
     },
     data,
   };
+}
+
+// An authored tone on the interaction row itself — payload.felt names
+// the wheel word; stored already prefixed so either form loads.
+function rowFelt(interaction) {
+  const f = interaction.felt ?? interaction.payload?.felt;
+  if (!f) return null;
+  return String(f).startsWith('felt:') ? String(f) : `felt:${f}`;
+}
+
+// The contact record's tone: entities_narration rows carry felt:* in
+// `tags`; the resolved dialogue keeps the record as `narration`.
+function contactFelt(pool_) {
+  const narration = pool_.encounter?.interaction?.dialogue_content?.narration;
+  const tags = narration?.contact_tags ?? narration?.tags ?? [];
+  const felt = tags.find((t) => t.startsWith('felt:'));
+  return felt ? [felt] : [];
 }
 
 // The shared part of an options situation — sit-level commands were

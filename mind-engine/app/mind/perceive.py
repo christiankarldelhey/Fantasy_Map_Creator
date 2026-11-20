@@ -39,7 +39,7 @@ from app.mind.semantics import (
     field_severity, load_semantics, semantic_delta, tag_floors,
 )
 from app.mind.voice import (
-    felt_words, mood_point, phrases, resolve_event_reading,
+    felt_word, mood_point, phrases, resolve_event_reading,
     streak_subjects,
 )
 from app.mind.provisioning import DEFAULT_WIRING
@@ -623,10 +623,10 @@ def perceive_events(session, game_id, mind, events, character=None,
             prior_mag = standing_magnitude(prior_standing)
             moodiness = (mind.personality or {}).get('moodiness', 0.3)
             rel_point = mood_position(prior_standing)
-            for word in felt_words(tags, session, game_id):
-                tag_point = mood_point(word, session, game_id)
-                if tag_point is None:
-                    continue
+            word = felt_word(tags, session, game_id)
+            tag_point = (
+                mood_point(word, session, game_id) if word else None)
+            if tag_point is not None:
                 target = pull_target(tag_point, rel_point, prior_mag)
                 gain = pull_gain(
                     salience, stand_mag, moodiness,

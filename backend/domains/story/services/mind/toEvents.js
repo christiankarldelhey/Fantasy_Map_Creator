@@ -576,6 +576,9 @@ function ambienceEvents(day) {
         situation: a.situation_id ?? null,
         name: text(a.name) ?? null,
         reading: text(a.text),
+        // The ambient record's tone — one felt:* word the resolver
+        // already picked (#184).
+        ...(a.felt ? { tags: [a.felt] } : {}),
       },
     }));
 }
