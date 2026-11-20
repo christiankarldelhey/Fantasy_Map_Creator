@@ -2,7 +2,7 @@
  "records": [
   {
    "id": "dep:biome:10:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     10
    ],
@@ -52,7 +52,7 @@
   },
   {
    "id": "dep:biome:10:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     10
    ],
@@ -102,7 +102,7 @@
   },
   {
    "id": "dep:biome:10:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     10
    ],
@@ -143,7 +143,7 @@
   },
   {
    "id": "dep:biome:11:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -176,7 +176,7 @@
   },
   {
    "id": "dep:biome:11:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -209,7 +209,7 @@
   },
   {
    "id": "dep:biome:11:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -242,7 +242,7 @@
   },
   {
    "id": "dep:biome:11:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -275,7 +275,7 @@
   },
   {
    "id": "dep:biome:11:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -308,7 +308,7 @@
   },
   {
    "id": "dep:biome:11:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -340,7 +340,7 @@
   },
   {
    "id": "dep:biome:11:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -372,7 +372,7 @@
   },
   {
    "id": "dep:biome:11:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -404,7 +404,7 @@
   },
   {
    "id": "dep:biome:12:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     12
    ],
@@ -437,7 +437,7 @@
   },
   {
    "id": "dep:biome:12:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     12
    ],
@@ -470,7 +470,7 @@
   },
   {
    "id": "dep:biome:12:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     12
    ],
@@ -502,7 +502,7 @@
   },
   {
    "id": "dep:biome:12:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     12
    ],
@@ -534,7 +534,7 @@
   },
   {
    "id": "dep:biome:12:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     12
    ],
@@ -566,7 +566,7 @@
   },
   {
    "id": "dep:biome:13:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -599,7 +599,7 @@
   },
   {
    "id": "dep:biome:13:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -632,7 +632,7 @@
   },
   {
    "id": "dep:biome:13:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -665,7 +665,7 @@
   },
   {
    "id": "dep:biome:13:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -698,7 +698,7 @@
   },
   {
    "id": "dep:biome:13:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -731,7 +731,7 @@
   },
   {
    "id": "dep:biome:13:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -763,7 +763,7 @@
   },
   {
    "id": "dep:biome:13:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -795,7 +795,7 @@
   },
   {
    "id": "dep:biome:14:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -838,7 +838,7 @@
   },
   {
    "id": "dep:biome:14:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -881,7 +881,7 @@
   },
   {
    "id": "dep:biome:14:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -913,7 +913,7 @@
   },
   {
    "id": "dep:biome:14:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -946,7 +946,7 @@
   },
   {
    "id": "dep:biome:14:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -979,7 +979,7 @@
   },
   {
    "id": "dep:biome:14:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -1012,7 +1012,7 @@
   },
   {
    "id": "dep:biome:14:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -1054,7 +1054,7 @@
   },
   {
    "id": "dep:biome:15:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -1098,7 +1098,7 @@
   },
   {
    "id": "dep:biome:15:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -1139,7 +1139,7 @@
   },
   {
    "id": "dep:biome:15:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -1173,7 +1173,7 @@
   },
   {
    "id": "dep:biome:15:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -1206,7 +1206,7 @@
   },
   {
    "id": "dep:biome:15:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -1257,7 +1257,7 @@
   },
   {
    "id": "dep:biome:16:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -1290,7 +1290,7 @@
   },
   {
    "id": "dep:biome:16:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -1323,7 +1323,7 @@
   },
   {
    "id": "dep:biome:16:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -1355,7 +1355,7 @@
   },
   {
    "id": "dep:biome:16:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -1387,7 +1387,7 @@
   },
   {
    "id": "dep:biome:16:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -1419,7 +1419,7 @@
   },
   {
    "id": "dep:biome:17:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     17
    ],
@@ -1452,7 +1452,7 @@
   },
   {
    "id": "dep:biome:17:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     17
    ],
@@ -1484,7 +1484,7 @@
   },
   {
    "id": "dep:biome:17:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     17
    ],
@@ -1516,7 +1516,7 @@
   },
   {
    "id": "dep:biome:18:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -1558,7 +1558,7 @@
   },
   {
    "id": "dep:biome:18:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -1608,7 +1608,7 @@
   },
   {
    "id": "dep:biome:18:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -1649,7 +1649,7 @@
   },
   {
    "id": "dep:biome:18:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -1690,7 +1690,7 @@
   },
   {
    "id": "dep:biome:19:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     19
    ],
@@ -1731,7 +1731,7 @@
   },
   {
    "id": "dep:biome:19:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     19
    ],
@@ -1773,7 +1773,7 @@
   },
   {
    "id": "dep:biome:19:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     19
    ],
@@ -1814,7 +1814,7 @@
   },
   {
    "id": "dep:biome:19:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     19
    ],
@@ -1855,7 +1855,7 @@
   },
   {
    "id": "dep:biome:19:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     19
    ],
@@ -1887,7 +1887,7 @@
   },
   {
    "id": "dep:biome:19:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     19
    ],
@@ -1928,7 +1928,7 @@
   },
   {
    "id": "dep:biome:19:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     19
    ],
@@ -1966,7 +1966,7 @@
   },
   {
    "id": "dep:biome:1:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     1
    ],
@@ -1999,7 +1999,7 @@
   },
   {
    "id": "dep:biome:1:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     1
    ],
@@ -2031,7 +2031,7 @@
   },
   {
    "id": "dep:biome:1:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     1
    ],
@@ -2063,7 +2063,7 @@
   },
   {
    "id": "dep:biome:1:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     1
    ],
@@ -2095,7 +2095,7 @@
   },
   {
    "id": "dep:biome:20:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -2128,7 +2128,7 @@
   },
   {
    "id": "dep:biome:20:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -2161,7 +2161,7 @@
   },
   {
    "id": "dep:biome:20:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -2194,7 +2194,7 @@
   },
   {
    "id": "dep:biome:20:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -2227,7 +2227,7 @@
   },
   {
    "id": "dep:biome:20:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -2260,7 +2260,7 @@
   },
   {
    "id": "dep:biome:20:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -2292,7 +2292,7 @@
   },
   {
    "id": "dep:biome:20:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -2324,7 +2324,7 @@
   },
   {
    "id": "dep:biome:21:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     21
    ],
@@ -2357,7 +2357,7 @@
   },
   {
    "id": "dep:biome:21:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     21
    ],
@@ -2389,7 +2389,7 @@
   },
   {
    "id": "dep:biome:21:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     21
    ],
@@ -2421,7 +2421,7 @@
   },
   {
    "id": "dep:biome:21:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     21
    ],
@@ -2453,7 +2453,7 @@
   },
   {
    "id": "dep:biome:22:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     22
    ],
@@ -2486,7 +2486,7 @@
   },
   {
    "id": "dep:biome:22:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     22
    ],
@@ -2518,7 +2518,7 @@
   },
   {
    "id": "dep:biome:22:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     22
    ],
@@ -2550,7 +2550,7 @@
   },
   {
    "id": "dep:biome:23:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     23
    ],
@@ -2583,7 +2583,7 @@
   },
   {
    "id": "dep:biome:23:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     23
    ],
@@ -2616,7 +2616,7 @@
   },
   {
    "id": "dep:biome:23:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     23
    ],
@@ -2649,7 +2649,7 @@
   },
   {
    "id": "dep:biome:23:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     23
    ],
@@ -2682,7 +2682,7 @@
   },
   {
    "id": "dep:biome:23:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     23
    ],
@@ -2715,7 +2715,7 @@
   },
   {
    "id": "dep:biome:23:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     23
    ],
@@ -2747,7 +2747,7 @@
   },
   {
    "id": "dep:biome:23:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     23
    ],
@@ -2779,7 +2779,7 @@
   },
   {
    "id": "dep:biome:24:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     24
    ],
@@ -2812,7 +2812,7 @@
   },
   {
    "id": "dep:biome:24:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     24
    ],
@@ -2844,7 +2844,7 @@
   },
   {
    "id": "dep:biome:24:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     24
    ],
@@ -2876,7 +2876,7 @@
   },
   {
    "id": "dep:biome:24:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     24
    ],
@@ -2908,7 +2908,7 @@
   },
   {
    "id": "dep:biome:24:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     24
    ],
@@ -2940,7 +2940,7 @@
   },
   {
    "id": "dep:biome:25:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     25
    ],
@@ -2999,7 +2999,7 @@
   },
   {
    "id": "dep:biome:25:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     25
    ],
@@ -3040,7 +3040,7 @@
   },
   {
    "id": "dep:biome:25:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     25
    ],
@@ -3090,7 +3090,7 @@
   },
   {
    "id": "dep:biome:26:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     26
    ],
@@ -3133,7 +3133,7 @@
   },
   {
    "id": "dep:biome:26:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     26
    ],
@@ -3167,7 +3167,7 @@
   },
   {
    "id": "dep:biome:26:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     26
    ],
@@ -3218,7 +3218,7 @@
   },
   {
    "id": "dep:biome:27:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     27
    ],
@@ -3269,7 +3269,7 @@
   },
   {
    "id": "dep:biome:27:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     27
    ],
@@ -3311,7 +3311,7 @@
   },
   {
    "id": "dep:biome:27:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     27
    ],
@@ -3353,7 +3353,7 @@
   },
   {
    "id": "dep:biome:27:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     27
    ],
@@ -3394,7 +3394,7 @@
   },
   {
    "id": "dep:biome:27:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     27
    ],
@@ -3435,7 +3435,7 @@
   },
   {
    "id": "dep:biome:28:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     28
    ],
@@ -3477,7 +3477,7 @@
   },
   {
    "id": "dep:biome:28:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     28
    ],
@@ -3510,7 +3510,7 @@
   },
   {
    "id": "dep:biome:28:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     28
    ],
@@ -3562,7 +3562,7 @@
   },
   {
    "id": "dep:biome:29:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     29
    ],
@@ -3612,7 +3612,7 @@
   },
   {
    "id": "dep:biome:29:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     29
    ],
@@ -3662,7 +3662,7 @@
   },
   {
    "id": "dep:biome:2:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     2
    ],
@@ -3695,7 +3695,7 @@
   },
   {
    "id": "dep:biome:2:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     2
    ],
@@ -3727,7 +3727,7 @@
   },
   {
    "id": "dep:biome:2:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     2
    ],
@@ -3759,7 +3759,7 @@
   },
   {
    "id": "dep:biome:2:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     2
    ],
@@ -3791,7 +3791,7 @@
   },
   {
    "id": "dep:biome:30:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     30
    ],
@@ -3833,7 +3833,7 @@
   },
   {
    "id": "dep:biome:30:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     30
    ],
@@ -3866,7 +3866,7 @@
   },
   {
    "id": "dep:biome:30:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     30
    ],
@@ -3908,7 +3908,7 @@
   },
   {
    "id": "dep:biome:31:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     31
    ],
@@ -3951,7 +3951,7 @@
   },
   {
    "id": "dep:biome:31:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     31
    ],
@@ -3984,7 +3984,7 @@
   },
   {
    "id": "dep:biome:31:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     31
    ],
@@ -4035,7 +4035,7 @@
   },
   {
    "id": "dep:biome:32:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     32
    ],
@@ -4077,7 +4077,7 @@
   },
   {
    "id": "dep:biome:32:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     32
    ],
@@ -4110,7 +4110,7 @@
   },
   {
    "id": "dep:biome:32:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     32
    ],
@@ -4152,7 +4152,7 @@
   },
   {
    "id": "dep:biome:33:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     33
    ],
@@ -4194,7 +4194,7 @@
   },
   {
    "id": "dep:biome:33:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     33
    ],
@@ -4227,7 +4227,7 @@
   },
   {
    "id": "dep:biome:33:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     33
    ],
@@ -4269,7 +4269,7 @@
   },
   {
    "id": "dep:biome:34:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     34
    ],
@@ -4311,7 +4311,7 @@
   },
   {
    "id": "dep:biome:34:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     34
    ],
@@ -4353,7 +4353,7 @@
   },
   {
    "id": "dep:biome:34:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     34
    ],
@@ -4385,7 +4385,7 @@
   },
   {
    "id": "dep:biome:34:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     34
    ],
@@ -4417,7 +4417,7 @@
   },
   {
    "id": "dep:biome:34:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     34
    ],
@@ -4458,7 +4458,7 @@
   },
   {
    "id": "dep:biome:35:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     35
    ],
@@ -4499,7 +4499,7 @@
   },
   {
    "id": "dep:biome:35:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     35
    ],
@@ -4540,7 +4540,7 @@
   },
   {
    "id": "dep:biome:35:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     35
    ],
@@ -4587,7 +4587,7 @@
   },
   {
    "id": "dep:biome:35:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     35
    ],
@@ -4638,7 +4638,7 @@
   },
   {
    "id": "dep:biome:35:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     35
    ],
@@ -4670,7 +4670,7 @@
   },
   {
    "id": "dep:biome:36:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     36
    ],
@@ -4711,7 +4711,7 @@
   },
   {
    "id": "dep:biome:36:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     36
    ],
@@ -4758,7 +4758,7 @@
   },
   {
    "id": "dep:biome:36:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     36
    ],
@@ -4790,7 +4790,7 @@
   },
   {
    "id": "dep:biome:36:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     36
    ],
@@ -4831,7 +4831,7 @@
   },
   {
    "id": "dep:biome:37:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     37
    ],
@@ -4891,7 +4891,7 @@
   },
   {
    "id": "dep:biome:37:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     37
    ],
@@ -4923,7 +4923,7 @@
   },
   {
    "id": "dep:biome:37:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     37
    ],
@@ -4964,7 +4964,7 @@
   },
   {
    "id": "dep:biome:38:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     38
    ],
@@ -5014,7 +5014,7 @@
   },
   {
    "id": "dep:biome:38:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     38
    ],
@@ -5055,7 +5055,7 @@
   },
   {
    "id": "dep:biome:38:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     38
    ],
@@ -5096,7 +5096,7 @@
   },
   {
    "id": "dep:biome:38:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     38
    ],
@@ -5137,7 +5137,7 @@
   },
   {
    "id": "dep:biome:39:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     39
    ],
@@ -5186,7 +5186,7 @@
   },
   {
    "id": "dep:biome:39:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     39
    ],
@@ -5228,7 +5228,7 @@
   },
   {
    "id": "dep:biome:39:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     39
    ],
@@ -5278,7 +5278,7 @@
   },
   {
    "id": "dep:biome:39:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     39
    ],
@@ -5310,7 +5310,7 @@
   },
   {
    "id": "dep:biome:39:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     39
    ],
@@ -5351,7 +5351,7 @@
   },
   {
    "id": "dep:biome:3:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     3
    ],
@@ -5417,7 +5417,7 @@
   },
   {
    "id": "dep:biome:3:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     3
    ],
@@ -5459,7 +5459,7 @@
   },
   {
    "id": "dep:biome:3:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     3
    ],
@@ -5501,7 +5501,7 @@
   },
   {
    "id": "dep:biome:40:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     40
    ],
@@ -5553,7 +5553,7 @@
   },
   {
    "id": "dep:biome:40:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     40
    ],
@@ -5595,7 +5595,7 @@
   },
   {
    "id": "dep:biome:40:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     40
    ],
@@ -5637,7 +5637,7 @@
   },
   {
    "id": "dep:biome:41:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     41
    ],
@@ -5670,7 +5670,7 @@
   },
   {
    "id": "dep:biome:41:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     41
    ],
@@ -5702,7 +5702,7 @@
   },
   {
    "id": "dep:biome:41:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     41
    ],
@@ -5734,7 +5734,7 @@
   },
   {
    "id": "dep:biome:41:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     41
    ],
@@ -5766,7 +5766,7 @@
   },
   {
    "id": "dep:biome:42:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     42
    ],
@@ -5799,7 +5799,7 @@
   },
   {
    "id": "dep:biome:42:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     42
    ],
@@ -5831,7 +5831,7 @@
   },
   {
    "id": "dep:biome:42:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     42
    ],
@@ -5863,7 +5863,7 @@
   },
   {
    "id": "dep:biome:42:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     42
    ],
@@ -5895,7 +5895,7 @@
   },
   {
    "id": "dep:biome:43:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     43
    ],
@@ -5937,7 +5937,7 @@
   },
   {
    "id": "dep:biome:43:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     43
    ],
@@ -5984,7 +5984,7 @@
   },
   {
    "id": "dep:biome:43:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     43
    ],
@@ -6025,7 +6025,7 @@
   },
   {
    "id": "dep:biome:43:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     43
    ],
@@ -6063,7 +6063,7 @@
   },
   {
    "id": "dep:biome:44:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     44
    ],
@@ -6096,7 +6096,7 @@
   },
   {
    "id": "dep:biome:44:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     44
    ],
@@ -6128,7 +6128,7 @@
   },
   {
    "id": "dep:biome:44:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     44
    ],
@@ -6160,7 +6160,7 @@
   },
   {
    "id": "dep:biome:44:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     44
    ],
@@ -6192,7 +6192,7 @@
   },
   {
    "id": "dep:biome:45:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     45
    ],
@@ -6225,7 +6225,7 @@
   },
   {
    "id": "dep:biome:45:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     45
    ],
@@ -6257,7 +6257,7 @@
   },
   {
    "id": "dep:biome:45:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     45
    ],
@@ -6289,7 +6289,7 @@
   },
   {
    "id": "dep:biome:45:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     45
    ],
@@ -6321,7 +6321,7 @@
   },
   {
    "id": "dep:biome:46:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -6354,7 +6354,7 @@
   },
   {
    "id": "dep:biome:46:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -6386,7 +6386,7 @@
   },
   {
    "id": "dep:biome:46:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -6418,7 +6418,7 @@
   },
   {
    "id": "dep:biome:46:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -6450,7 +6450,7 @@
   },
   {
    "id": "dep:biome:46:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -6482,7 +6482,7 @@
   },
   {
    "id": "dep:biome:47:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     47
    ],
@@ -6533,7 +6533,7 @@
   },
   {
    "id": "dep:biome:47:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     47
    ],
@@ -6575,7 +6575,7 @@
   },
   {
    "id": "dep:biome:47:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     47
    ],
@@ -6617,7 +6617,7 @@
   },
   {
    "id": "dep:biome:47:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     47
    ],
@@ -6658,7 +6658,7 @@
   },
   {
    "id": "dep:biome:47:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     47
    ],
@@ -6699,7 +6699,7 @@
   },
   {
    "id": "dep:biome:48:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     48
    ],
@@ -6732,7 +6732,7 @@
   },
   {
    "id": "dep:biome:48:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     48
    ],
@@ -6764,7 +6764,7 @@
   },
   {
    "id": "dep:biome:48:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     48
    ],
@@ -6796,7 +6796,7 @@
   },
   {
    "id": "dep:biome:49:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     49
    ],
@@ -6829,7 +6829,7 @@
   },
   {
    "id": "dep:biome:49:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     49
    ],
@@ -6861,7 +6861,7 @@
   },
   {
    "id": "dep:biome:49:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     49
    ],
@@ -6893,7 +6893,7 @@
   },
   {
    "id": "dep:biome:4:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     4
    ],
@@ -6952,7 +6952,7 @@
   },
   {
    "id": "dep:biome:4:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     4
    ],
@@ -6984,7 +6984,7 @@
   },
   {
    "id": "dep:biome:4:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     4
    ],
@@ -7025,7 +7025,7 @@
   },
   {
    "id": "dep:biome:50:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     50
    ],
@@ -7059,7 +7059,7 @@
   },
   {
    "id": "dep:biome:50:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     50
    ],
@@ -7102,7 +7102,7 @@
   },
   {
    "id": "dep:biome:50:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     50
    ],
@@ -7136,7 +7136,7 @@
   },
   {
    "id": "dep:biome:50:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     50
    ],
@@ -7170,7 +7170,7 @@
   },
   {
    "id": "dep:biome:50:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     50
    ],
@@ -7229,7 +7229,7 @@
   },
   {
    "id": "dep:biome:51:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     51
    ],
@@ -7262,7 +7262,7 @@
   },
   {
    "id": "dep:biome:51:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     51
    ],
@@ -7294,7 +7294,7 @@
   },
   {
    "id": "dep:biome:51:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     51
    ],
@@ -7326,7 +7326,7 @@
   },
   {
    "id": "dep:biome:52:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     52
    ],
@@ -7359,7 +7359,7 @@
   },
   {
    "id": "dep:biome:52:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     52
    ],
@@ -7391,7 +7391,7 @@
   },
   {
    "id": "dep:biome:52:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     52
    ],
@@ -7423,7 +7423,7 @@
   },
   {
    "id": "dep:biome:53:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     53
    ],
@@ -7456,7 +7456,7 @@
   },
   {
    "id": "dep:biome:53:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     53
    ],
@@ -7488,7 +7488,7 @@
   },
   {
    "id": "dep:biome:53:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     53
    ],
@@ -7520,7 +7520,7 @@
   },
   {
    "id": "dep:biome:54:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     54
    ],
@@ -7554,7 +7554,7 @@
   },
   {
    "id": "dep:biome:54:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     54
    ],
@@ -7594,7 +7594,7 @@
   },
   {
    "id": "dep:biome:54:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     54
    ],
@@ -7628,7 +7628,7 @@
   },
   {
    "id": "dep:biome:54:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     54
    ],
@@ -7662,7 +7662,7 @@
   },
   {
    "id": "dep:biome:54:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     54
    ],
@@ -7711,7 +7711,7 @@
   },
   {
    "id": "dep:biome:55:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     55
    ],
@@ -7744,7 +7744,7 @@
   },
   {
    "id": "dep:biome:55:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     55
    ],
@@ -7787,7 +7787,7 @@
   },
   {
    "id": "dep:biome:55:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     55
    ],
@@ -7821,7 +7821,7 @@
   },
   {
    "id": "dep:biome:55:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     55
    ],
@@ -7854,7 +7854,7 @@
   },
   {
    "id": "dep:biome:55:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     55
    ],
@@ -7912,7 +7912,7 @@
   },
   {
    "id": "dep:biome:56:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -7955,7 +7955,7 @@
   },
   {
    "id": "dep:biome:56:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -7998,7 +7998,7 @@
   },
   {
    "id": "dep:biome:56:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -8031,7 +8031,7 @@
   },
   {
    "id": "dep:biome:56:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -8064,7 +8064,7 @@
   },
   {
    "id": "dep:biome:56:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -8113,7 +8113,7 @@
   },
   {
    "id": "dep:biome:57:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     57
    ],
@@ -8147,7 +8147,7 @@
   },
   {
    "id": "dep:biome:57:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     57
    ],
@@ -8190,7 +8190,7 @@
   },
   {
    "id": "dep:biome:57:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     57
    ],
@@ -8224,7 +8224,7 @@
   },
   {
    "id": "dep:biome:57:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     57
    ],
@@ -8267,7 +8267,7 @@
   },
   {
    "id": "dep:biome:57:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     57
    ],
@@ -8316,7 +8316,7 @@
   },
   {
    "id": "dep:biome:58:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     58
    ],
@@ -8378,7 +8378,7 @@
   },
   {
    "id": "dep:biome:58:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     58
    ],
@@ -8419,7 +8419,7 @@
   },
   {
    "id": "dep:biome:58:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     58
    ],
@@ -8458,7 +8458,7 @@
   },
   {
    "id": "dep:biome:59:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     59
    ],
@@ -8491,7 +8491,7 @@
   },
   {
    "id": "dep:biome:59:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     59
    ],
@@ -8524,7 +8524,7 @@
   },
   {
    "id": "dep:biome:59:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     59
    ],
@@ -8556,7 +8556,7 @@
   },
   {
    "id": "dep:biome:59:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     59
    ],
@@ -8588,7 +8588,7 @@
   },
   {
    "id": "dep:biome:5:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     5
    ],
@@ -8629,7 +8629,7 @@
   },
   {
    "id": "dep:biome:5:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     5
    ],
@@ -8679,7 +8679,7 @@
   },
   {
    "id": "dep:biome:5:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     5
    ],
@@ -8711,7 +8711,7 @@
   },
   {
    "id": "dep:biome:5:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     5
    ],
@@ -8743,7 +8743,7 @@
   },
   {
    "id": "dep:biome:5:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     5
    ],
@@ -8775,7 +8775,7 @@
   },
   {
    "id": "dep:biome:5:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     5
    ],
@@ -8816,7 +8816,7 @@
   },
   {
    "id": "dep:biome:5:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     5
    ],
@@ -8854,7 +8854,7 @@
   },
   {
    "id": "dep:biome:60:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     60
    ],
@@ -8887,7 +8887,7 @@
   },
   {
    "id": "dep:biome:60:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     60
    ],
@@ -8920,7 +8920,7 @@
   },
   {
    "id": "dep:biome:60:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     60
    ],
@@ -8952,7 +8952,7 @@
   },
   {
    "id": "dep:biome:60:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     60
    ],
@@ -8984,7 +8984,7 @@
   },
   {
    "id": "dep:biome:61:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     61
    ],
@@ -9023,7 +9023,7 @@
   },
   {
    "id": "dep:biome:61:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     61
    ],
@@ -9080,7 +9080,7 @@
   },
   {
    "id": "dep:biome:61:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     61
    ],
@@ -9112,7 +9112,7 @@
   },
   {
    "id": "dep:biome:61:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     61
    ],
@@ -9154,7 +9154,7 @@
   },
   {
    "id": "dep:biome:61:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     61
    ],
@@ -9186,7 +9186,7 @@
   },
   {
    "id": "dep:biome:62:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -9227,7 +9227,7 @@
   },
   {
    "id": "dep:biome:62:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -9259,7 +9259,7 @@
   },
   {
    "id": "dep:biome:62:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -9300,7 +9300,7 @@
   },
   {
    "id": "dep:biome:62:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -9341,7 +9341,7 @@
   },
   {
    "id": "dep:biome:62:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -9407,7 +9407,7 @@
   },
   {
    "id": "dep:biome:62:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -9448,7 +9448,7 @@
   },
   {
    "id": "dep:biome:62:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -9489,7 +9489,7 @@
   },
   {
    "id": "dep:biome:63:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     63
    ],
@@ -9530,7 +9530,7 @@
   },
   {
    "id": "dep:biome:63:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     63
    ],
@@ -9577,7 +9577,7 @@
   },
   {
    "id": "dep:biome:63:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     63
    ],
@@ -9618,7 +9618,7 @@
   },
   {
    "id": "dep:biome:63:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     63
    ],
@@ -9659,7 +9659,7 @@
   },
   {
    "id": "dep:biome:64:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     64
    ],
@@ -9692,7 +9692,7 @@
   },
   {
    "id": "dep:biome:64:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     64
    ],
@@ -9724,7 +9724,7 @@
   },
   {
    "id": "dep:biome:64:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     64
    ],
@@ -9756,7 +9756,7 @@
   },
   {
    "id": "dep:biome:65:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     65
    ],
@@ -9789,7 +9789,7 @@
   },
   {
    "id": "dep:biome:65:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     65
    ],
@@ -9821,7 +9821,7 @@
   },
   {
    "id": "dep:biome:65:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     65
    ],
@@ -9853,7 +9853,7 @@
   },
   {
    "id": "dep:biome:66:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     66
    ],
@@ -9885,7 +9885,7 @@
   },
   {
    "id": "dep:biome:66:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     66
    ],
@@ -9917,7 +9917,7 @@
   },
   {
    "id": "dep:biome:66:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     66
    ],
@@ -9949,7 +9949,7 @@
   },
   {
    "id": "dep:biome:66:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     66
    ],
@@ -9981,7 +9981,7 @@
   },
   {
    "id": "dep:biome:67:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     67
    ],
@@ -10014,7 +10014,7 @@
   },
   {
    "id": "dep:biome:67:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     67
    ],
@@ -10046,7 +10046,7 @@
   },
   {
    "id": "dep:biome:67:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     67
    ],
@@ -10078,7 +10078,7 @@
   },
   {
    "id": "dep:biome:68:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     68
    ],
@@ -10126,7 +10126,7 @@
   },
   {
    "id": "dep:biome:68:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     68
    ],
@@ -10167,7 +10167,7 @@
   },
   {
    "id": "dep:biome:68:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     68
    ],
@@ -10208,7 +10208,7 @@
   },
   {
    "id": "dep:biome:68:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     68
    ],
@@ -10240,7 +10240,7 @@
   },
   {
    "id": "dep:biome:68:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     68
    ],
@@ -10281,7 +10281,7 @@
   },
   {
    "id": "dep:biome:69:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     69
    ],
@@ -10314,7 +10314,7 @@
   },
   {
    "id": "dep:biome:69:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     69
    ],
@@ -10346,7 +10346,7 @@
   },
   {
    "id": "dep:biome:69:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     69
    ],
@@ -10378,7 +10378,7 @@
   },
   {
    "id": "dep:biome:69:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     69
    ],
@@ -10410,7 +10410,7 @@
   },
   {
    "id": "dep:biome:6:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     6
    ],
@@ -10443,7 +10443,7 @@
   },
   {
    "id": "dep:biome:6:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     6
    ],
@@ -10476,7 +10476,7 @@
   },
   {
    "id": "dep:biome:6:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     6
    ],
@@ -10508,7 +10508,7 @@
   },
   {
    "id": "dep:biome:6:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     6
    ],
@@ -10540,7 +10540,7 @@
   },
   {
    "id": "dep:biome:6:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     6
    ],
@@ -10572,7 +10572,7 @@
   },
   {
    "id": "dep:biome:70:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     70
    ],
@@ -10615,7 +10615,7 @@
   },
   {
    "id": "dep:biome:70:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     70
    ],
@@ -10664,7 +10664,7 @@
   },
   {
    "id": "dep:biome:70:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     70
    ],
@@ -10705,7 +10705,7 @@
   },
   {
    "id": "dep:biome:70:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     70
    ],
@@ -10746,7 +10746,7 @@
   },
   {
    "id": "dep:biome:71:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     71
    ],
@@ -10793,7 +10793,7 @@
   },
   {
    "id": "dep:biome:71:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     71
    ],
@@ -10835,7 +10835,7 @@
   },
   {
    "id": "dep:biome:71:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     71
    ],
@@ -10885,7 +10885,7 @@
   },
   {
    "id": "dep:biome:71:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     71
    ],
@@ -10917,7 +10917,7 @@
   },
   {
    "id": "dep:biome:71:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     71
    ],
@@ -10958,7 +10958,7 @@
   },
   {
    "id": "dep:biome:72:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -11000,7 +11000,7 @@
   },
   {
    "id": "dep:biome:72:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -11048,7 +11048,7 @@
   },
   {
    "id": "dep:biome:72:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -11080,7 +11080,7 @@
   },
   {
    "id": "dep:biome:72:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -11121,7 +11121,7 @@
   },
   {
    "id": "dep:biome:72:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -11153,7 +11153,7 @@
   },
   {
    "id": "dep:biome:72:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -11194,7 +11194,7 @@
   },
   {
    "id": "dep:biome:72:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -11235,7 +11235,7 @@
   },
   {
    "id": "dep:biome:73:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     73
    ],
@@ -11268,7 +11268,7 @@
   },
   {
    "id": "dep:biome:73:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     73
    ],
@@ -11300,7 +11300,7 @@
   },
   {
    "id": "dep:biome:73:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     73
    ],
@@ -11332,7 +11332,7 @@
   },
   {
    "id": "dep:biome:73:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     73
    ],
@@ -11364,7 +11364,7 @@
   },
   {
    "id": "dep:biome:73:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     73
    ],
@@ -11396,7 +11396,7 @@
   },
   {
    "id": "dep:biome:74:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -11438,7 +11438,7 @@
   },
   {
    "id": "dep:biome:74:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -11476,7 +11476,7 @@
   },
   {
    "id": "dep:biome:74:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -11525,7 +11525,7 @@
   },
   {
    "id": "dep:biome:74:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -11572,7 +11572,7 @@
   },
   {
    "id": "dep:biome:74:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -11610,7 +11610,7 @@
   },
   {
    "id": "dep:biome:75:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     75
    ],
@@ -11652,7 +11652,7 @@
   },
   {
    "id": "dep:biome:75:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     75
    ],
@@ -11700,7 +11700,7 @@
   },
   {
    "id": "dep:biome:75:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     75
    ],
@@ -11742,7 +11742,7 @@
   },
   {
    "id": "dep:biome:75:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     75
    ],
@@ -11783,7 +11783,7 @@
   },
   {
    "id": "dep:biome:76:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     76
    ],
@@ -11816,7 +11816,7 @@
   },
   {
    "id": "dep:biome:76:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     76
    ],
@@ -11848,7 +11848,7 @@
   },
   {
    "id": "dep:biome:76:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     76
    ],
@@ -11880,7 +11880,7 @@
   },
   {
    "id": "dep:biome:76:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     76
    ],
@@ -11912,7 +11912,7 @@
   },
   {
    "id": "dep:biome:76:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     76
    ],
@@ -11944,7 +11944,7 @@
   },
   {
    "id": "dep:biome:76:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     76
    ],
@@ -11976,7 +11976,7 @@
   },
   {
    "id": "dep:biome:77:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     77
    ],
@@ -12009,7 +12009,7 @@
   },
   {
    "id": "dep:biome:77:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     77
    ],
@@ -12042,7 +12042,7 @@
   },
   {
    "id": "dep:biome:77:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     77
    ],
@@ -12075,7 +12075,7 @@
   },
   {
    "id": "dep:biome:77:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     77
    ],
@@ -12108,7 +12108,7 @@
   },
   {
    "id": "dep:biome:77:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     77
    ],
@@ -12141,7 +12141,7 @@
   },
   {
    "id": "dep:biome:77:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     77
    ],
@@ -12173,7 +12173,7 @@
   },
   {
    "id": "dep:biome:77:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     77
    ],
@@ -12205,7 +12205,7 @@
   },
   {
    "id": "dep:biome:78:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     78
    ],
@@ -12238,7 +12238,7 @@
   },
   {
    "id": "dep:biome:78:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     78
    ],
@@ -12271,7 +12271,7 @@
   },
   {
    "id": "dep:biome:78:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     78
    ],
@@ -12304,7 +12304,7 @@
   },
   {
    "id": "dep:biome:78:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     78
    ],
@@ -12337,7 +12337,7 @@
   },
   {
    "id": "dep:biome:78:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     78
    ],
@@ -12370,7 +12370,7 @@
   },
   {
    "id": "dep:biome:78:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     78
    ],
@@ -12402,7 +12402,7 @@
   },
   {
    "id": "dep:biome:78:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     78
    ],
@@ -12434,7 +12434,7 @@
   },
   {
    "id": "dep:biome:79:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -12467,7 +12467,7 @@
   },
   {
    "id": "dep:biome:79:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -12500,7 +12500,7 @@
   },
   {
    "id": "dep:biome:79:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -12533,7 +12533,7 @@
   },
   {
    "id": "dep:biome:79:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -12566,7 +12566,7 @@
   },
   {
    "id": "dep:biome:79:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -12599,7 +12599,7 @@
   },
   {
    "id": "dep:biome:79:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -12631,7 +12631,7 @@
   },
   {
    "id": "dep:biome:79:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -12663,7 +12663,7 @@
   },
   {
    "id": "dep:biome:7:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -12706,7 +12706,7 @@
   },
   {
    "id": "dep:biome:7:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -12749,7 +12749,7 @@
   },
   {
    "id": "dep:biome:7:mountains_high",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -12781,7 +12781,7 @@
   },
   {
    "id": "dep:biome:7:mountains_low",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -12823,7 +12823,7 @@
   },
   {
    "id": "dep:biome:7:mountains_med",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -12865,7 +12865,7 @@
   },
   {
    "id": "dep:biome:7:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -12917,7 +12917,7 @@
   },
   {
    "id": "dep:biome:7:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -12960,7 +12960,7 @@
   },
   {
    "id": "dep:biome:7:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -12998,7 +12998,7 @@
   },
   {
    "id": "dep:biome:80:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     80
    ],
@@ -13048,7 +13048,7 @@
   },
   {
    "id": "dep:biome:80:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     80
    ],
@@ -13080,7 +13080,7 @@
   },
   {
    "id": "dep:biome:80:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     80
    ],
@@ -13130,7 +13130,7 @@
   },
   {
    "id": "dep:biome:80:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     80
    ],
@@ -13181,7 +13181,7 @@
   },
   {
    "id": "dep:biome:81:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     81
    ],
@@ -13223,7 +13223,7 @@
   },
   {
    "id": "dep:biome:81:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     81
    ],
@@ -13274,7 +13274,7 @@
   },
   {
    "id": "dep:biome:81:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     81
    ],
@@ -13324,7 +13324,7 @@
   },
   {
    "id": "dep:biome:81:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     81
    ],
@@ -13356,7 +13356,7 @@
   },
   {
    "id": "dep:biome:82:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     82
    ],
@@ -13424,7 +13424,7 @@
   },
   {
    "id": "dep:biome:82:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     82
    ],
@@ -13457,7 +13457,7 @@
   },
   {
    "id": "dep:biome:82:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     82
    ],
@@ -13498,7 +13498,7 @@
   },
   {
    "id": "dep:biome:83:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     83
    ],
@@ -13531,7 +13531,7 @@
   },
   {
    "id": "dep:biome:83:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     83
    ],
@@ -13563,7 +13563,7 @@
   },
   {
    "id": "dep:biome:83:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     83
    ],
@@ -13595,7 +13595,7 @@
   },
   {
    "id": "dep:biome:84:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     84
    ],
@@ -13655,7 +13655,7 @@
   },
   {
    "id": "dep:biome:84:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     84
    ],
@@ -13696,7 +13696,7 @@
   },
   {
    "id": "dep:biome:84:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     84
    ],
@@ -13737,7 +13737,7 @@
   },
   {
    "id": "dep:biome:85:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -13788,7 +13788,7 @@
   },
   {
    "id": "dep:biome:85:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -13830,7 +13830,7 @@
   },
   {
    "id": "dep:biome:85:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -13871,7 +13871,7 @@
   },
   {
    "id": "dep:biome:85:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -13922,7 +13922,7 @@
   },
   {
    "id": "dep:biome:85:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -13960,7 +13960,7 @@
   },
   {
    "id": "dep:biome:86:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     86
    ],
@@ -14002,7 +14002,7 @@
   },
   {
    "id": "dep:biome:86:hills",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     86
    ],
@@ -14045,7 +14045,7 @@
   },
   {
    "id": "dep:biome:86:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     86
    ],
@@ -14094,7 +14094,7 @@
   },
   {
    "id": "dep:biome:86:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     86
    ],
@@ -14146,7 +14146,7 @@
   },
   {
    "id": "dep:biome:86:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     86
    ],
@@ -14179,7 +14179,7 @@
   },
   {
    "id": "dep:biome:87:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     87
    ],
@@ -14212,7 +14212,7 @@
   },
   {
    "id": "dep:biome:87:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     87
    ],
@@ -14244,7 +14244,7 @@
   },
   {
    "id": "dep:biome:87:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     87
    ],
@@ -14276,7 +14276,7 @@
   },
   {
    "id": "dep:biome:8:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     8
    ],
@@ -14309,7 +14309,7 @@
   },
   {
    "id": "dep:biome:8:marsh",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     8
    ],
@@ -14357,7 +14357,7 @@
   },
   {
    "id": "dep:biome:8:plain",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     8
    ],
@@ -14405,7 +14405,7 @@
   },
   {
    "id": "dep:biome:8:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     8
    ],
@@ -14446,7 +14446,7 @@
   },
   {
    "id": "dep:biome:8:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     8
    ],
@@ -14484,7 +14484,7 @@
   },
   {
    "id": "dep:biome:9:forest",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     9
    ],
@@ -14541,7 +14541,7 @@
   },
   {
    "id": "dep:biome:9:road",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     9
    ],
@@ -14583,7 +14583,7 @@
   },
   {
    "id": "dep:biome:9:trail",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     9
    ],
@@ -14625,7 +14625,7 @@
   },
   {
    "id": "dep:king:1",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Talath Uichel",
@@ -14647,7 +14647,7 @@
   },
   {
    "id": "dep:king:10",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Gondor",
@@ -14669,7 +14669,7 @@
   },
   {
    "id": "dep:king:11",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Dunland",
@@ -14691,7 +14691,7 @@
   },
   {
    "id": "dep:king:12",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Dorwinion",
@@ -14713,7 +14713,7 @@
   },
   {
    "id": "dep:king:13",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Woodland Realm",
@@ -14735,7 +14735,7 @@
   },
   {
    "id": "dep:king:14",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Dagorlad",
@@ -14757,7 +14757,7 @@
   },
   {
    "id": "dep:king:15",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Rast Vorn",
@@ -14779,7 +14779,7 @@
   },
   {
    "id": "dep:king:16",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Dale",
@@ -14801,7 +14801,7 @@
   },
   {
    "id": "dep:king:17",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Gramuz",
@@ -14823,7 +14823,7 @@
   },
   {
    "id": "dep:king:18",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Eothraim",
@@ -14845,7 +14845,7 @@
   },
   {
    "id": "dep:king:19",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Dor Guldur",
@@ -14867,7 +14867,7 @@
   },
   {
    "id": "dep:king:2",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Mordor",
@@ -14889,7 +14889,7 @@
   },
   {
    "id": "dep:king:20",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Moria",
@@ -14911,7 +14911,7 @@
   },
   {
    "id": "dep:king:21",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Angmar",
@@ -14933,7 +14933,7 @@
   },
   {
    "id": "dep:king:22",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Forovirian",
@@ -14955,7 +14955,7 @@
   },
   {
    "id": "dep:king:23",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Woodmen",
@@ -14977,7 +14977,7 @@
   },
   {
    "id": "dep:king:24",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Forlindon",
@@ -14999,7 +14999,7 @@
   },
   {
    "id": "dep:king:25",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Esgaroth",
@@ -15021,7 +15021,7 @@
   },
   {
    "id": "dep:king:26",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Harlindon",
@@ -15043,7 +15043,7 @@
   },
   {
    "id": "dep:king:27",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Mirkwood Wilds",
@@ -15065,7 +15065,7 @@
   },
   {
    "id": "dep:king:28",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Nurn",
@@ -15087,7 +15087,7 @@
   },
   {
    "id": "dep:king:29",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Belegaer Sea",
@@ -15109,7 +15109,7 @@
   },
   {
    "id": "dep:king:3",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Fangorn",
@@ -15131,7 +15131,7 @@
   },
   {
    "id": "dep:king:30",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Enedhwaith",
@@ -15153,7 +15153,7 @@
   },
   {
    "id": "dep:king:31",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Rivendell",
@@ -15175,7 +15175,7 @@
   },
   {
    "id": "dep:king:32",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Rohan",
@@ -15197,7 +15197,7 @@
   },
   {
    "id": "dep:king:33",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Anduin Vales",
@@ -15219,7 +15219,7 @@
   },
   {
    "id": "dep:king:34",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Cardolan",
@@ -15241,7 +15241,7 @@
   },
   {
    "id": "dep:king:35",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Rhudaur",
@@ -15263,7 +15263,7 @@
   },
   {
    "id": "dep:king:36",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Forochel",
@@ -15285,7 +15285,7 @@
   },
   {
    "id": "dep:king:37",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Wilderness of Arnor",
@@ -15307,7 +15307,7 @@
   },
   {
    "id": "dep:king:4",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Old Forest",
@@ -15329,7 +15329,7 @@
   },
   {
    "id": "dep:king:5",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Druadan Forest",
@@ -15351,7 +15351,7 @@
   },
   {
    "id": "dep:king:6",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Arthedain",
@@ -15373,7 +15373,7 @@
   },
   {
    "id": "dep:king:7",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Lorien",
@@ -15395,7 +15395,7 @@
   },
   {
    "id": "dep:king:8",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Misty Mountains",
@@ -15417,7 +15417,7 @@
   },
   {
    "id": "dep:king:9",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Iron Hills",
@@ -15439,7 +15439,7 @@
   },
   {
    "id": "dep:loc:1045",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     23
    ],
@@ -15469,7 +15469,7 @@
   },
   {
    "id": "dep:loc:1046",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -15499,7 +15499,7 @@
   },
   {
    "id": "dep:loc:1047",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -15529,7 +15529,7 @@
   },
   {
    "id": "dep:loc:1048",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -15559,7 +15559,7 @@
   },
   {
    "id": "dep:loc:1049",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -15589,7 +15589,7 @@
   },
   {
    "id": "dep:loc:1050",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -15619,7 +15619,7 @@
   },
   {
    "id": "dep:loc:1051",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -15649,7 +15649,7 @@
   },
   {
    "id": "dep:loc:1052",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -15679,7 +15679,7 @@
   },
   {
    "id": "dep:loc:1053",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -15709,7 +15709,7 @@
   },
   {
    "id": "dep:loc:1054",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -15739,7 +15739,7 @@
   },
   {
    "id": "dep:loc:1055",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -15769,7 +15769,7 @@
   },
   {
    "id": "dep:loc:1056",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -15799,7 +15799,7 @@
   },
   {
    "id": "dep:loc:1057",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -15829,7 +15829,7 @@
   },
   {
    "id": "dep:loc:1058",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     75
    ],
@@ -15863,7 +15863,7 @@
   },
   {
    "id": "dep:loc:1059",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -15893,7 +15893,7 @@
   },
   {
    "id": "dep:loc:1060",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -15927,7 +15927,7 @@
   },
   {
    "id": "dep:loc:1061",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -15961,7 +15961,7 @@
   },
   {
    "id": "dep:loc:1062",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -15995,7 +15995,7 @@
   },
   {
    "id": "dep:loc:1063",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -16025,7 +16025,7 @@
   },
   {
    "id": "dep:loc:1064",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -16059,7 +16059,7 @@
   },
   {
    "id": "dep:loc:1065",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -16093,7 +16093,7 @@
   },
   {
    "id": "dep:loc:1066",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     12
    ],
@@ -16123,7 +16123,7 @@
   },
   {
    "id": "dep:loc:1068",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     52
    ],
@@ -16153,7 +16153,7 @@
   },
   {
    "id": "dep:loc:1070",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     53
    ],
@@ -16183,7 +16183,7 @@
   },
   {
    "id": "dep:loc:1072",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     29
    ],
@@ -16213,7 +16213,7 @@
   },
   {
    "id": "dep:loc:1073",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     29
    ],
@@ -16243,7 +16243,7 @@
   },
   {
    "id": "dep:loc:1074",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     64
    ],
@@ -16273,7 +16273,7 @@
   },
   {
    "id": "dep:loc:1075",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     49
    ],
@@ -16303,7 +16303,7 @@
   },
   {
    "id": "dep:loc:1076",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     53
    ],
@@ -16333,7 +16333,7 @@
   },
   {
    "id": "dep:loc:1077",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     51
    ],
@@ -16363,7 +16363,7 @@
   },
   {
    "id": "dep:loc:1078",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     30
    ],
@@ -16393,7 +16393,7 @@
   },
   {
    "id": "dep:loc:1079",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     40
    ],
@@ -16423,7 +16423,7 @@
   },
   {
    "id": "dep:loc:1080",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     48
    ],
@@ -16453,7 +16453,7 @@
   },
   {
    "id": "dep:loc:1081",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     47
    ],
@@ -16483,7 +16483,7 @@
   },
   {
    "id": "dep:loc:1082",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     34
    ],
@@ -16513,7 +16513,7 @@
   },
   {
    "id": "dep:loc:1083",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     60
    ],
@@ -16543,7 +16543,7 @@
   },
   {
    "id": "dep:loc:1085",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -16573,7 +16573,7 @@
   },
   {
    "id": "dep:loc:1086",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -16603,7 +16603,7 @@
   },
   {
    "id": "dep:loc:1087",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -16633,7 +16633,7 @@
   },
   {
    "id": "dep:loc:1088",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -16663,7 +16663,7 @@
   },
   {
    "id": "dep:loc:1089",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -16693,7 +16693,7 @@
   },
   {
    "id": "dep:loc:1090",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -16727,7 +16727,7 @@
   },
   {
    "id": "dep:loc:1091",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -16757,7 +16757,7 @@
   },
   {
    "id": "dep:loc:1092",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     4
    ],
@@ -16787,7 +16787,7 @@
   },
   {
    "id": "dep:loc:1093",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     4
    ],
@@ -16817,7 +16817,7 @@
   },
   {
    "id": "dep:loc:1097",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -16847,7 +16847,7 @@
   },
   {
    "id": "dep:loc:1098",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     70
    ],
@@ -16877,7 +16877,7 @@
   },
   {
    "id": "dep:loc:1099",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -16907,7 +16907,7 @@
   },
   {
    "id": "dep:loc:1103",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -16937,7 +16937,7 @@
   },
   {
    "id": "dep:loc:1104",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -16967,7 +16967,7 @@
   },
   {
    "id": "dep:loc:1105",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -16997,7 +16997,7 @@
   },
   {
    "id": "dep:loc:1106",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -17027,7 +17027,7 @@
   },
   {
    "id": "dep:loc:1108",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -17057,7 +17057,7 @@
   },
   {
    "id": "dep:loc:1109",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -17087,7 +17087,7 @@
   },
   {
    "id": "dep:loc:1114",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -17117,7 +17117,7 @@
   },
   {
    "id": "dep:loc:1115",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     57
    ],
@@ -17151,7 +17151,7 @@
   },
   {
    "id": "dep:loc:1116",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -17181,7 +17181,7 @@
   },
   {
    "id": "dep:loc:1117",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -17211,7 +17211,7 @@
   },
   {
    "id": "dep:loc:1118",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -17241,7 +17241,7 @@
   },
   {
    "id": "dep:loc:1119",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -17271,7 +17271,7 @@
   },
   {
    "id": "dep:loc:1120",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -17301,7 +17301,7 @@
   },
   {
    "id": "dep:loc:1121",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -17331,7 +17331,7 @@
   },
   {
    "id": "dep:loc:1122",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -17361,7 +17361,7 @@
   },
   {
    "id": "dep:loc:1123",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -17391,7 +17391,7 @@
   },
   {
    "id": "dep:loc:1124",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -17421,7 +17421,7 @@
   },
   {
    "id": "dep:loc:1125",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -17451,7 +17451,7 @@
   },
   {
    "id": "dep:loc:1127",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -17481,7 +17481,7 @@
   },
   {
    "id": "dep:loc:1128",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -17511,7 +17511,7 @@
   },
   {
    "id": "dep:loc:1129",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -17541,7 +17541,7 @@
   },
   {
    "id": "dep:loc:1130",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -17571,7 +17571,7 @@
   },
   {
    "id": "dep:loc:1131",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -17601,7 +17601,7 @@
   },
   {
    "id": "dep:loc:1132",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -17631,7 +17631,7 @@
   },
   {
    "id": "dep:loc:1133",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -17661,7 +17661,7 @@
   },
   {
    "id": "dep:loc:1134",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -17691,7 +17691,7 @@
   },
   {
    "id": "dep:loc:1135",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -17721,7 +17721,7 @@
   },
   {
    "id": "dep:loc:1136",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -17751,7 +17751,7 @@
   },
   {
    "id": "dep:loc:1137",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -17781,7 +17781,7 @@
   },
   {
    "id": "dep:loc:1139",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     32
    ],
@@ -17811,7 +17811,7 @@
   },
   {
    "id": "dep:loc:1140",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     6
    ],
@@ -17841,7 +17841,7 @@
   },
   {
    "id": "dep:loc:1141",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -17871,7 +17871,7 @@
   },
   {
    "id": "dep:loc:1142",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -17901,7 +17901,7 @@
   },
   {
    "id": "dep:loc:1143",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -17931,7 +17931,7 @@
   },
   {
    "id": "dep:loc:1144",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -17961,7 +17961,7 @@
   },
   {
    "id": "dep:loc:1145",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -17991,7 +17991,7 @@
   },
   {
    "id": "dep:loc:1146",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -18021,7 +18021,7 @@
   },
   {
    "id": "dep:loc:1147",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     76
    ],
@@ -18051,7 +18051,7 @@
   },
   {
    "id": "dep:loc:1148",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     12
    ],
@@ -18081,7 +18081,7 @@
   },
   {
    "id": "dep:loc:1151",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     57
    ],
@@ -18115,7 +18115,7 @@
   },
   {
    "id": "dep:loc:1159",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Aglarond",
@@ -18143,7 +18143,7 @@
   },
   {
    "id": "dep:loc:1160",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Amrûnaur",
@@ -18171,7 +18171,7 @@
   },
   {
    "id": "dep:loc:1161",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Andrath",
@@ -18199,7 +18199,7 @@
   },
   {
    "id": "dep:loc:1162",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Angsûl",
@@ -18227,7 +18227,7 @@
   },
   {
    "id": "dep:loc:1163",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Ardûmir",
@@ -18255,7 +18255,7 @@
   },
   {
    "id": "dep:loc:1164",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Argonath",
@@ -18283,7 +18283,7 @@
   },
   {
    "id": "dep:loc:1165",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Barad-dûr",
@@ -18311,7 +18311,7 @@
   },
   {
    "id": "dep:loc:1166",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Barad-wath",
@@ -18339,7 +18339,7 @@
   },
   {
    "id": "dep:loc:1167",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Barak-shathur",
@@ -18367,7 +18367,7 @@
   },
   {
    "id": "dep:loc:1168",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Bar-en-tinnen",
@@ -18395,7 +18395,7 @@
   },
   {
    "id": "dep:loc:1169",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Bar Lithyrn",
@@ -18423,7 +18423,7 @@
   },
   {
    "id": "dep:loc:1170",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Belegost",
@@ -18451,7 +18451,7 @@
   },
   {
    "id": "dep:loc:1171",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Bottoms Bridge",
@@ -18479,7 +18479,7 @@
   },
   {
    "id": "dep:loc:1172",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Bridge Of Stonebows",
@@ -18507,7 +18507,7 @@
   },
   {
    "id": "dep:loc:1173",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Buhr Ailgra",
@@ -18535,7 +18535,7 @@
   },
   {
    "id": "dep:loc:1174",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Aglarond",
@@ -18563,7 +18563,7 @@
   },
   {
    "id": "dep:loc:1175",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Amrûnaur",
@@ -18591,7 +18591,7 @@
   },
   {
    "id": "dep:loc:1176",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Andrath",
@@ -18619,7 +18619,7 @@
   },
   {
    "id": "dep:loc:1177",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Angsûl",
@@ -18647,7 +18647,7 @@
   },
   {
    "id": "dep:loc:1178",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Ardûmir",
@@ -18675,7 +18675,7 @@
   },
   {
    "id": "dep:loc:1179",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Argonath",
@@ -18703,7 +18703,7 @@
   },
   {
    "id": "dep:loc:1180",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Barad-dûr",
@@ -18731,7 +18731,7 @@
   },
   {
    "id": "dep:loc:1181",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Barad-wath",
@@ -18759,7 +18759,7 @@
   },
   {
    "id": "dep:loc:1182",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Barak-shathur",
@@ -18787,7 +18787,7 @@
   },
   {
    "id": "dep:loc:1183",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Bar-en-tinnen",
@@ -18815,7 +18815,7 @@
   },
   {
    "id": "dep:loc:1184",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Bar Lithyrn",
@@ -18843,7 +18843,7 @@
   },
   {
    "id": "dep:loc:1185",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Belegost",
@@ -18871,7 +18871,7 @@
   },
   {
    "id": "dep:loc:1186",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Bottoms Bridge",
@@ -18899,7 +18899,7 @@
   },
   {
    "id": "dep:loc:1187",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Bridge Of Stonebows",
@@ -18927,7 +18927,7 @@
   },
   {
    "id": "dep:loc:1188",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Buhr Ailgra",
@@ -18955,7 +18955,7 @@
   },
   {
    "id": "dep:loc:1189",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Aradhrynd",
@@ -18983,7 +18983,7 @@
   },
   {
    "id": "dep:loc:1190",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Azanulinbar-dûm",
@@ -19011,7 +19011,7 @@
   },
   {
    "id": "dep:loc:1191",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Bridge Of Mitheithel",
@@ -19039,7 +19039,7 @@
   },
   {
    "id": "dep:loc:1192",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Buhr Fram",
@@ -19067,7 +19067,7 @@
   },
   {
    "id": "dep:loc:1193",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Buhr Mahrling",
@@ -19095,7 +19095,7 @@
   },
   {
    "id": "dep:loc:1194",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Buhr Waldmarh",
@@ -19123,7 +19123,7 @@
   },
   {
    "id": "dep:loc:1195",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Buhr Widu",
@@ -19151,7 +19151,7 @@
   },
   {
    "id": "dep:loc:1196",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Caldur",
@@ -19179,7 +19179,7 @@
   },
   {
    "id": "dep:loc:1197",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Carach Angren",
@@ -19207,7 +19207,7 @@
   },
   {
    "id": "dep:loc:1198",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Caras Amarth",
@@ -19235,7 +19235,7 @@
   },
   {
    "id": "dep:loc:1199",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Caras Gwindor",
@@ -19263,7 +19263,7 @@
   },
   {
    "id": "dep:loc:1200",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Caras Tolfalas",
@@ -19291,7 +19291,7 @@
   },
   {
    "id": "dep:loc:1201",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Cor Angálaladh",
@@ -19319,7 +19319,7 @@
   },
   {
    "id": "dep:loc:1202",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Creb Durga",
@@ -19347,7 +19347,7 @@
   },
   {
    "id": "dep:loc:1203",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Crossroads Of The",
@@ -19375,7 +19375,7 @@
   },
   {
    "id": "dep:loc:1204",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Derndingle",
@@ -19403,7 +19403,7 @@
   },
   {
    "id": "dep:loc:1205",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Dundok",
@@ -19431,7 +19431,7 @@
   },
   {
    "id": "dep:loc:1206",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Durthang",
@@ -19459,7 +19459,7 @@
   },
   {
    "id": "dep:loc:1207",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Dûsalan",
@@ -19487,7 +19487,7 @@
   },
   {
    "id": "dep:loc:1208",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Eilenach",
@@ -19515,7 +19515,7 @@
   },
   {
    "id": "dep:loc:1209",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Eithel Celebrin",
@@ -19543,7 +19543,7 @@
   },
   {
    "id": "dep:loc:1210",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Eldanar",
@@ -19571,7 +19571,7 @@
   },
   {
    "id": "dep:loc:1211",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Erädas",
@@ -19599,7 +19599,7 @@
   },
   {
    "id": "dep:loc:1212",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Erebor",
@@ -19627,7 +19627,7 @@
   },
   {
    "id": "dep:loc:1213",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Erelas",
@@ -19655,7 +19655,7 @@
   },
   {
    "id": "dep:loc:1214",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Fennas Drúnin",
@@ -19683,7 +19683,7 @@
   },
   {
    "id": "dep:loc:1215",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "The Forsaken Inn",
@@ -19711,7 +19711,7 @@
   },
   {
    "id": "dep:loc:1216",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Goblin-town",
@@ -19739,7 +19739,7 @@
   },
   {
    "id": "dep:loc:1217",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Haudh-in-gwanur",
@@ -19767,7 +19767,7 @@
   },
   {
    "id": "dep:loc:1218",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Hobbiton/bywater",
@@ -19795,7 +19795,7 @@
   },
   {
    "id": "dep:loc:1219",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Ilanin",
@@ -19823,7 +19823,7 @@
   },
   {
    "id": "dep:loc:1220",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Isigir",
@@ -19851,7 +19851,7 @@
   },
   {
    "id": "dep:loc:1221",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Kas Marzûk",
@@ -19879,7 +19879,7 @@
   },
   {
    "id": "dep:loc:1222",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Kas Shadoul",
@@ -19907,7 +19907,7 @@
   },
   {
    "id": "dep:loc:1223",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Kas Shafras",
@@ -19935,7 +19935,7 @@
   },
   {
    "id": "dep:loc:1224",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Larach Duhnnan",
@@ -19963,7 +19963,7 @@
   },
   {
    "id": "dep:loc:1225",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Londaroth",
@@ -19991,7 +19991,7 @@
   },
   {
    "id": "dep:loc:1226",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Lond Ernil",
@@ -20019,7 +20019,7 @@
   },
   {
    "id": "dep:loc:1227",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Maethelburg",
@@ -20047,7 +20047,7 @@
   },
   {
    "id": "dep:loc:1228",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Marös",
@@ -20075,7 +20075,7 @@
   },
   {
    "id": "dep:loc:1229",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Minas Anor",
@@ -20103,7 +20103,7 @@
   },
   {
    "id": "dep:loc:1230",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Morannon",
@@ -20131,7 +20131,7 @@
   },
   {
    "id": "dep:loc:1231",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Morthondost",
@@ -20159,7 +20159,7 @@
   },
   {
    "id": "dep:loc:1232",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Mount Gundabad",
@@ -20187,7 +20187,7 @@
   },
   {
    "id": "dep:loc:1233",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Mulkan",
@@ -20215,7 +20215,7 @@
   },
   {
    "id": "dep:loc:1234",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Nansret",
@@ -20243,7 +20243,7 @@
   },
   {
    "id": "dep:loc:1235",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Nardol",
@@ -20271,7 +20271,7 @@
   },
   {
    "id": "dep:loc:1236",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Nogothiant",
@@ -20299,7 +20299,7 @@
   },
   {
    "id": "dep:loc:1237",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Nogrod",
@@ -20327,7 +20327,7 @@
   },
   {
    "id": "dep:loc:1238",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Ostigurth",
@@ -20355,7 +20355,7 @@
   },
   {
    "id": "dep:loc:1239",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Paths Of The Dead",
@@ -20383,7 +20383,7 @@
   },
   {
    "id": "dep:loc:1240",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Pellardur",
@@ -20411,7 +20411,7 @@
   },
   {
    "id": "dep:loc:1241",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Riavod",
@@ -20439,7 +20439,7 @@
   },
   {
    "id": "dep:loc:1242",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Romenost",
@@ -20467,7 +20467,7 @@
   },
   {
    "id": "dep:loc:1243",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Saarkaana",
@@ -20495,7 +20495,7 @@
   },
   {
    "id": "dep:loc:1244",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Sook Asni",
@@ -20523,7 +20523,7 @@
   },
   {
    "id": "dep:loc:1245",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Spathlin",
@@ -20551,7 +20551,7 @@
   },
   {
    "id": "dep:loc:1246",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Staddle",
@@ -20579,7 +20579,7 @@
   },
   {
    "id": "dep:loc:1247",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Strayhold",
@@ -20607,7 +20607,7 @@
   },
   {
    "id": "dep:loc:1248",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Sudúri",
@@ -20635,7 +20635,7 @@
   },
   {
    "id": "dep:loc:1249",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Thalion",
@@ -20663,7 +20663,7 @@
   },
   {
    "id": "dep:loc:1250",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Tharagrond",
@@ -20691,7 +20691,7 @@
   },
   {
    "id": "dep:loc:1251",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Thorontir",
@@ -20719,7 +20719,7 @@
   },
   {
    "id": "dep:loc:1252",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Tir Anduin",
@@ -20747,7 +20747,7 @@
   },
   {
    "id": "dep:loc:1253",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Tir Limlight",
@@ -20775,7 +20775,7 @@
   },
   {
    "id": "dep:loc:1254",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Tir Nindor",
@@ -20803,7 +20803,7 @@
   },
   {
    "id": "dep:loc:1255",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Towers Of The Teeth",
@@ -20831,7 +20831,7 @@
   },
   {
    "id": "dep:loc:1256",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Tuckburrow",
@@ -20859,7 +20859,7 @@
   },
   {
    "id": "dep:loc:1257",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Umbar",
@@ -20887,7 +20887,7 @@
   },
   {
    "id": "dep:loc:1258",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Vamag",
@@ -20915,7 +20915,7 @@
   },
   {
    "id": "dep:loc:1259",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Warfinger",
@@ -20943,7 +20943,7 @@
   },
   {
    "id": "dep:loc:1260",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Woodmen-town",
@@ -20971,7 +20971,7 @@
   },
   {
    "id": "dep:loc:1261",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Wraecaburg",
@@ -20999,7 +20999,7 @@
   },
   {
    "id": "dep:loc:437",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -21029,7 +21029,7 @@
   },
   {
    "id": "dep:loc:438",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -21059,7 +21059,7 @@
   },
   {
    "id": "dep:loc:439",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -21089,7 +21089,7 @@
   },
   {
    "id": "dep:loc:440",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -21119,7 +21119,7 @@
   },
   {
    "id": "dep:loc:441",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -21153,7 +21153,7 @@
   },
   {
    "id": "dep:loc:442",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     1
    ],
@@ -21183,7 +21183,7 @@
   },
   {
    "id": "dep:loc:443",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -21213,7 +21213,7 @@
   },
   {
    "id": "dep:loc:444",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -21243,7 +21243,7 @@
   },
   {
    "id": "dep:loc:445",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     34
    ],
@@ -21273,7 +21273,7 @@
   },
   {
    "id": "dep:loc:446",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -21307,7 +21307,7 @@
   },
   {
    "id": "dep:loc:448",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -21337,7 +21337,7 @@
   },
   {
    "id": "dep:loc:449",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -21367,7 +21367,7 @@
   },
   {
    "id": "dep:loc:450",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     75
    ],
@@ -21397,7 +21397,7 @@
   },
   {
    "id": "dep:loc:451",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -21427,7 +21427,7 @@
   },
   {
    "id": "dep:loc:452",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     17
    ],
@@ -21457,7 +21457,7 @@
   },
   {
    "id": "dep:loc:453",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -21487,7 +21487,7 @@
   },
   {
    "id": "dep:loc:454",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -21517,7 +21517,7 @@
   },
   {
    "id": "dep:loc:455",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -21547,7 +21547,7 @@
   },
   {
    "id": "dep:loc:456",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     19
    ],
@@ -21577,7 +21577,7 @@
   },
   {
    "id": "dep:loc:457",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     86
    ],
@@ -21607,7 +21607,7 @@
   },
   {
    "id": "dep:loc:458",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -21637,7 +21637,7 @@
   },
   {
    "id": "dep:loc:459",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -21667,7 +21667,7 @@
   },
   {
    "id": "dep:loc:460",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -21697,7 +21697,7 @@
   },
   {
    "id": "dep:loc:461",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     19
    ],
@@ -21727,7 +21727,7 @@
   },
   {
    "id": "dep:loc:462",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     57
    ],
@@ -21757,7 +21757,7 @@
   },
   {
    "id": "dep:loc:463",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     47
    ],
@@ -21787,7 +21787,7 @@
   },
   {
    "id": "dep:loc:464",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     28
    ],
@@ -21817,7 +21817,7 @@
   },
   {
    "id": "dep:loc:465",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     12
    ],
@@ -21847,7 +21847,7 @@
   },
   {
    "id": "dep:loc:466",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -21877,7 +21877,7 @@
   },
   {
    "id": "dep:loc:467",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -21907,7 +21907,7 @@
   },
   {
    "id": "dep:loc:469",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -21937,7 +21937,7 @@
   },
   {
    "id": "dep:loc:470",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     19
    ],
@@ -21967,7 +21967,7 @@
   },
   {
    "id": "dep:loc:471",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -21997,7 +21997,7 @@
   },
   {
    "id": "dep:loc:472",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     80
    ],
@@ -22027,7 +22027,7 @@
   },
   {
    "id": "dep:loc:473",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     60
    ],
@@ -22057,7 +22057,7 @@
   },
   {
    "id": "dep:loc:474",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -22087,7 +22087,7 @@
   },
   {
    "id": "dep:loc:475",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -22117,7 +22117,7 @@
   },
   {
    "id": "dep:loc:476",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -22151,7 +22151,7 @@
   },
   {
    "id": "dep:loc:477",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     57
    ],
@@ -22181,7 +22181,7 @@
   },
   {
    "id": "dep:loc:478",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -22211,7 +22211,7 @@
   },
   {
    "id": "dep:loc:479",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -22241,7 +22241,7 @@
   },
   {
    "id": "dep:loc:480",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -22271,7 +22271,7 @@
   },
   {
    "id": "dep:loc:481",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -22301,7 +22301,7 @@
   },
   {
    "id": "dep:loc:482",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     26
    ],
@@ -22331,7 +22331,7 @@
   },
   {
    "id": "dep:loc:483",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -22361,7 +22361,7 @@
   },
   {
    "id": "dep:loc:484",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     32
    ],
@@ -22391,7 +22391,7 @@
   },
   {
    "id": "dep:loc:485",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -22421,7 +22421,7 @@
   },
   {
    "id": "dep:loc:486",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -22451,7 +22451,7 @@
   },
   {
    "id": "dep:loc:487",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -22481,7 +22481,7 @@
   },
   {
    "id": "dep:loc:488",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -22511,7 +22511,7 @@
   },
   {
    "id": "dep:loc:490",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     37
    ],
@@ -22541,7 +22541,7 @@
   },
   {
    "id": "dep:loc:492",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -22571,7 +22571,7 @@
   },
   {
    "id": "dep:loc:493",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     84
    ],
@@ -22601,7 +22601,7 @@
   },
   {
    "id": "dep:loc:494",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     42
    ],
@@ -22631,7 +22631,7 @@
   },
   {
    "id": "dep:loc:495",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     43
    ],
@@ -22661,7 +22661,7 @@
   },
   {
    "id": "dep:loc:497",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     48
    ],
@@ -22691,7 +22691,7 @@
   },
   {
    "id": "dep:loc:498",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     60
    ],
@@ -22721,7 +22721,7 @@
   },
   {
    "id": "dep:loc:499",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -22751,7 +22751,7 @@
   },
   {
    "id": "dep:loc:500",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -22781,7 +22781,7 @@
   },
   {
    "id": "dep:loc:501",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     47
    ],
@@ -22811,7 +22811,7 @@
   },
   {
    "id": "dep:loc:504",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -22845,7 +22845,7 @@
   },
   {
    "id": "dep:loc:505",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     21
    ],
@@ -22875,7 +22875,7 @@
   },
   {
    "id": "dep:loc:506",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     78
    ],
@@ -22905,7 +22905,7 @@
   },
   {
    "id": "dep:loc:507",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -22935,7 +22935,7 @@
   },
   {
    "id": "dep:loc:508",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -22965,7 +22965,7 @@
   },
   {
    "id": "dep:loc:509",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -22995,7 +22995,7 @@
   },
   {
    "id": "dep:loc:510",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     35
    ],
@@ -23025,7 +23025,7 @@
   },
   {
    "id": "dep:loc:511",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -23055,7 +23055,7 @@
   },
   {
    "id": "dep:loc:512",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -23085,7 +23085,7 @@
   },
   {
    "id": "dep:loc:513",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     1
    ],
@@ -23115,7 +23115,7 @@
   },
   {
    "id": "dep:loc:514",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -23145,7 +23145,7 @@
   },
   {
    "id": "dep:loc:515",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -23175,7 +23175,7 @@
   },
   {
    "id": "dep:loc:517",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -23205,7 +23205,7 @@
   },
   {
    "id": "dep:loc:518",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -23235,7 +23235,7 @@
   },
   {
    "id": "dep:loc:521",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -23265,7 +23265,7 @@
   },
   {
    "id": "dep:loc:522",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -23295,7 +23295,7 @@
   },
   {
    "id": "dep:loc:523",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     47
    ],
@@ -23325,7 +23325,7 @@
   },
   {
    "id": "dep:loc:525",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -23355,7 +23355,7 @@
   },
   {
    "id": "dep:loc:526",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -23389,7 +23389,7 @@
   },
   {
    "id": "dep:loc:527",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     64
    ],
@@ -23419,7 +23419,7 @@
   },
   {
    "id": "dep:loc:528",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -23449,7 +23449,7 @@
   },
   {
    "id": "dep:loc:529",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -23479,7 +23479,7 @@
   },
   {
    "id": "dep:loc:530",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     42
    ],
@@ -23509,7 +23509,7 @@
   },
   {
    "id": "dep:loc:531",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -23539,7 +23539,7 @@
   },
   {
    "id": "dep:loc:532",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -23569,7 +23569,7 @@
   },
   {
    "id": "dep:loc:533",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -23599,7 +23599,7 @@
   },
   {
    "id": "dep:loc:534",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     36
    ],
@@ -23629,7 +23629,7 @@
   },
   {
    "id": "dep:loc:535",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     61
    ],
@@ -23659,7 +23659,7 @@
   },
   {
    "id": "dep:loc:536",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     84
    ],
@@ -23689,7 +23689,7 @@
   },
   {
    "id": "dep:loc:538",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     40
    ],
@@ -23719,7 +23719,7 @@
   },
   {
    "id": "dep:loc:539",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -23749,7 +23749,7 @@
   },
   {
    "id": "dep:loc:540",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -23783,7 +23783,7 @@
   },
   {
    "id": "dep:loc:542",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -23817,7 +23817,7 @@
   },
   {
    "id": "dep:loc:543",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -23847,7 +23847,7 @@
   },
   {
    "id": "dep:loc:544",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     9
    ],
@@ -23877,7 +23877,7 @@
   },
   {
    "id": "dep:loc:545",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     54
    ],
@@ -23907,7 +23907,7 @@
   },
   {
    "id": "dep:loc:546",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -23937,7 +23937,7 @@
   },
   {
    "id": "dep:loc:547",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -23967,7 +23967,7 @@
   },
   {
    "id": "dep:loc:548",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     47
    ],
@@ -23997,7 +23997,7 @@
   },
   {
    "id": "dep:loc:549",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -24027,7 +24027,7 @@
   },
   {
    "id": "dep:loc:550",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     17
    ],
@@ -24057,7 +24057,7 @@
   },
   {
    "id": "dep:loc:551",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -24087,7 +24087,7 @@
   },
   {
    "id": "dep:loc:552",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -24117,7 +24117,7 @@
   },
   {
    "id": "dep:loc:553",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     48
    ],
@@ -24147,7 +24147,7 @@
   },
   {
    "id": "dep:loc:554",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -24177,7 +24177,7 @@
   },
   {
    "id": "dep:loc:555",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -24207,7 +24207,7 @@
   },
   {
    "id": "dep:loc:556",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -24237,7 +24237,7 @@
   },
   {
    "id": "dep:loc:557",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     60
    ],
@@ -24271,7 +24271,7 @@
   },
   {
    "id": "dep:loc:558",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -24301,7 +24301,7 @@
   },
   {
    "id": "dep:loc:559",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -24331,7 +24331,7 @@
   },
   {
    "id": "dep:loc:560",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     86
    ],
@@ -24361,7 +24361,7 @@
   },
   {
    "id": "dep:loc:562",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     36
    ],
@@ -24391,7 +24391,7 @@
   },
   {
    "id": "dep:loc:563",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -24425,7 +24425,7 @@
   },
   {
    "id": "dep:loc:564",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -24455,7 +24455,7 @@
   },
   {
    "id": "dep:loc:565",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -24485,7 +24485,7 @@
   },
   {
    "id": "dep:loc:567",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     8
    ],
@@ -24519,7 +24519,7 @@
   },
   {
    "id": "dep:loc:568",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     21
    ],
@@ -24553,7 +24553,7 @@
   },
   {
    "id": "dep:loc:569",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -24583,7 +24583,7 @@
   },
   {
    "id": "dep:loc:570",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     49
    ],
@@ -24613,7 +24613,7 @@
   },
   {
    "id": "dep:loc:571",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -24643,7 +24643,7 @@
   },
   {
    "id": "dep:loc:572",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     3
    ],
@@ -24673,7 +24673,7 @@
   },
   {
    "id": "dep:loc:574",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     25
    ],
@@ -24703,7 +24703,7 @@
   },
   {
    "id": "dep:loc:576",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     38
    ],
@@ -24733,7 +24733,7 @@
   },
   {
    "id": "dep:loc:577",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -24763,7 +24763,7 @@
   },
   {
    "id": "dep:loc:578",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     10
    ],
@@ -24793,7 +24793,7 @@
   },
   {
    "id": "dep:loc:579",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -24827,7 +24827,7 @@
   },
   {
    "id": "dep:loc:581",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     34
    ],
@@ -24857,7 +24857,7 @@
   },
   {
    "id": "dep:loc:582",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     35
    ],
@@ -24887,7 +24887,7 @@
   },
   {
    "id": "dep:loc:584",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     75
    ],
@@ -24917,7 +24917,7 @@
   },
   {
    "id": "dep:loc:585",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -24947,7 +24947,7 @@
   },
   {
    "id": "dep:loc:586",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -24977,7 +24977,7 @@
   },
   {
    "id": "dep:loc:587",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     41
    ],
@@ -25007,7 +25007,7 @@
   },
   {
    "id": "dep:loc:588",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     43
    ],
@@ -25041,7 +25041,7 @@
   },
   {
    "id": "dep:loc:589",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     54
    ],
@@ -25071,7 +25071,7 @@
   },
   {
    "id": "dep:loc:590",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -25101,7 +25101,7 @@
   },
   {
    "id": "dep:loc:591",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -25131,7 +25131,7 @@
   },
   {
    "id": "dep:loc:592",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -25161,7 +25161,7 @@
   },
   {
    "id": "dep:loc:593",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     28
    ],
@@ -25191,7 +25191,7 @@
   },
   {
    "id": "dep:loc:595",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -25221,7 +25221,7 @@
   },
   {
    "id": "dep:loc:596",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -25251,7 +25251,7 @@
   },
   {
    "id": "dep:loc:597",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     52
    ],
@@ -25281,7 +25281,7 @@
   },
   {
    "id": "dep:loc:599",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     17
    ],
@@ -25311,7 +25311,7 @@
   },
   {
    "id": "dep:loc:600",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -25341,7 +25341,7 @@
   },
   {
    "id": "dep:loc:601",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     30
    ],
@@ -25371,7 +25371,7 @@
   },
   {
    "id": "dep:loc:603",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -25401,7 +25401,7 @@
   },
   {
    "id": "dep:loc:604",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -25431,7 +25431,7 @@
   },
   {
    "id": "dep:loc:605",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     64
    ],
@@ -25461,7 +25461,7 @@
   },
   {
    "id": "dep:loc:607",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     19
    ],
@@ -25491,7 +25491,7 @@
   },
   {
    "id": "dep:loc:609",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -25521,7 +25521,7 @@
   },
   {
    "id": "dep:loc:610",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     83
    ],
@@ -25551,7 +25551,7 @@
   },
   {
    "id": "dep:loc:612",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -25581,7 +25581,7 @@
   },
   {
    "id": "dep:loc:613",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -25611,7 +25611,7 @@
   },
   {
    "id": "dep:loc:616",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     49
    ],
@@ -25641,7 +25641,7 @@
   },
   {
    "id": "dep:loc:617",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -25671,7 +25671,7 @@
   },
   {
    "id": "dep:loc:618",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -25701,7 +25701,7 @@
   },
   {
    "id": "dep:loc:619",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     77
    ],
@@ -25731,7 +25731,7 @@
   },
   {
    "id": "dep:loc:620",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     40
    ],
@@ -25761,7 +25761,7 @@
   },
   {
    "id": "dep:loc:621",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -25795,7 +25795,7 @@
   },
   {
    "id": "dep:loc:624",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -25825,7 +25825,7 @@
   },
   {
    "id": "dep:loc:625",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     71
    ],
@@ -25855,7 +25855,7 @@
   },
   {
    "id": "dep:loc:626",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     48
    ],
@@ -25885,7 +25885,7 @@
   },
   {
    "id": "dep:loc:627",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -25915,7 +25915,7 @@
   },
   {
    "id": "dep:loc:628",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -25945,7 +25945,7 @@
   },
   {
    "id": "dep:loc:630",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     78
    ],
@@ -25975,7 +25975,7 @@
   },
   {
    "id": "dep:loc:631",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -26005,7 +26005,7 @@
   },
   {
    "id": "dep:loc:632",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -26035,7 +26035,7 @@
   },
   {
    "id": "dep:loc:633",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     78
    ],
@@ -26065,7 +26065,7 @@
   },
   {
    "id": "dep:loc:634",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -26095,7 +26095,7 @@
   },
   {
    "id": "dep:loc:635",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -26125,7 +26125,7 @@
   },
   {
    "id": "dep:loc:636",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -26155,7 +26155,7 @@
   },
   {
    "id": "dep:loc:637",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -26185,7 +26185,7 @@
   },
   {
    "id": "dep:loc:638",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     35
    ],
@@ -26215,7 +26215,7 @@
   },
   {
    "id": "dep:loc:639",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -26245,7 +26245,7 @@
   },
   {
    "id": "dep:loc:641",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -26275,7 +26275,7 @@
   },
   {
    "id": "dep:loc:873",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     58
    ],
@@ -26305,7 +26305,7 @@
   },
   {
    "id": "dep:loc:874",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     58
    ],
@@ -26335,7 +26335,7 @@
   },
   {
    "id": "dep:loc:875",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26365,7 +26365,7 @@
   },
   {
    "id": "dep:loc:876",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26395,7 +26395,7 @@
   },
   {
    "id": "dep:loc:877",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     58
    ],
@@ -26425,7 +26425,7 @@
   },
   {
    "id": "dep:loc:878",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     58
    ],
@@ -26455,7 +26455,7 @@
   },
   {
    "id": "dep:loc:879",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26485,7 +26485,7 @@
   },
   {
    "id": "dep:loc:880",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26515,7 +26515,7 @@
   },
   {
    "id": "dep:loc:881",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26545,7 +26545,7 @@
   },
   {
    "id": "dep:loc:882",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26575,7 +26575,7 @@
   },
   {
    "id": "dep:loc:883",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26605,7 +26605,7 @@
   },
   {
    "id": "dep:loc:884",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26635,7 +26635,7 @@
   },
   {
    "id": "dep:loc:885",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26665,7 +26665,7 @@
   },
   {
    "id": "dep:loc:886",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26695,7 +26695,7 @@
   },
   {
    "id": "dep:loc:887",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26725,7 +26725,7 @@
   },
   {
    "id": "dep:loc:888",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26755,7 +26755,7 @@
   },
   {
    "id": "dep:loc:889",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26785,7 +26785,7 @@
   },
   {
    "id": "dep:loc:890",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26815,7 +26815,7 @@
   },
   {
    "id": "dep:loc:891",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26845,7 +26845,7 @@
   },
   {
    "id": "dep:loc:892",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     86
    ],
@@ -26875,7 +26875,7 @@
   },
   {
    "id": "dep:loc:895",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -26905,7 +26905,7 @@
   },
   {
    "id": "dep:loc:896",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -26935,7 +26935,7 @@
   },
   {
    "id": "dep:loc:897",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -26965,7 +26965,7 @@
   },
   {
    "id": "dep:loc:900",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -26995,7 +26995,7 @@
   },
   {
    "id": "dep:loc:903",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     44
    ],
@@ -27029,7 +27029,7 @@
   },
   {
    "id": "dep:loc:905",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -27059,7 +27059,7 @@
   },
   {
    "id": "dep:loc:906",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -27093,7 +27093,7 @@
   },
   {
    "id": "dep:loc:907",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -27123,7 +27123,7 @@
   },
   {
    "id": "dep:loc:909",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -27153,7 +27153,7 @@
   },
   {
    "id": "dep:loc:910",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -27183,7 +27183,7 @@
   },
   {
    "id": "dep:loc:911",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -27217,7 +27217,7 @@
   },
   {
    "id": "dep:loc:913",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -27247,7 +27247,7 @@
   },
   {
    "id": "dep:loc:914",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     60
    ],
@@ -27277,7 +27277,7 @@
   },
   {
    "id": "dep:loc:930",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -27307,7 +27307,7 @@
   },
   {
    "id": "dep:loc:935",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -27341,7 +27341,7 @@
   },
   {
    "id": "dep:loc:951",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     31
    ],
@@ -27371,7 +27371,7 @@
   },
   {
    "id": "dep:loc:954",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -27401,7 +27401,7 @@
   },
   {
    "id": "dep:loc:955",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -27431,7 +27431,7 @@
   },
   {
    "id": "dep:loc:957",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -27461,7 +27461,7 @@
   },
   {
    "id": "dep:loc:958",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     60
    ],
@@ -27495,7 +27495,7 @@
   },
   {
    "id": "dep:loc:959",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     60
    ],
@@ -27525,7 +27525,7 @@
   },
   {
    "id": "dep:loc:960",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -27555,7 +27555,7 @@
   },
   {
    "id": "dep:loc:962",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -27589,7 +27589,7 @@
   },
   {
    "id": "dep:loc:963",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -27619,7 +27619,7 @@
   },
   {
    "id": "dep:loc:976",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     32
    ],
@@ -27649,7 +27649,7 @@
   },
   {
    "id": "dep:loc:977",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     32
    ],
@@ -27679,7 +27679,7 @@
   },
   {
    "id": "dep:loc:978",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -27709,7 +27709,7 @@
   },
   {
    "id": "dep:loc:979",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -27739,7 +27739,7 @@
   },
   {
    "id": "dep:loc:981",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -27769,7 +27769,7 @@
   },
   {
    "id": "dep:loc:982",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -27799,7 +27799,7 @@
   },
   {
    "id": "dep:loc:983",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -27829,7 +27829,7 @@
   },
   {
    "id": "dep:loc:984",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -27859,7 +27859,7 @@
   },
   {
    "id": "dep:loc:986",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     76
    ],
@@ -27889,7 +27889,7 @@
   },
   {
    "id": "dep:reg:1",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     1
    ],
@@ -27946,7 +27946,8 @@
   },
   {
    "id": "dep:reg:10",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     10
    ],
@@ -28077,7 +28078,8 @@
   },
   {
    "id": "dep:reg:11",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     11
    ],
@@ -28170,7 +28172,8 @@
   },
   {
    "id": "dep:reg:12",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     12
    ],
@@ -28245,7 +28248,8 @@
   },
   {
    "id": "dep:reg:13",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     13
    ],
@@ -28344,7 +28348,8 @@
   },
   {
    "id": "dep:reg:14",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     14
    ],
@@ -28443,7 +28448,8 @@
   },
   {
    "id": "dep:reg:15",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     15
    ],
@@ -28560,7 +28566,8 @@
   },
   {
    "id": "dep:reg:16",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     16
    ],
@@ -28666,7 +28673,8 @@
   },
   {
    "id": "dep:reg:17",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     17
    ],
@@ -28771,7 +28779,8 @@
   },
   {
    "id": "dep:reg:18",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     18
    ],
@@ -28857,7 +28866,8 @@
   },
   {
    "id": "dep:reg:19",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     19
    ],
@@ -28982,7 +28992,7 @@
   },
   {
    "id": "dep:reg:2",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     2
    ],
@@ -29039,7 +29049,8 @@
   },
   {
    "id": "dep:reg:20",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     20
    ],
@@ -29120,7 +29131,8 @@
   },
   {
    "id": "dep:reg:21",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     21
    ],
@@ -29213,7 +29225,8 @@
   },
   {
    "id": "dep:reg:22",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     22
    ],
@@ -29294,7 +29307,7 @@
   },
   {
    "id": "dep:reg:23",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     23
    ],
@@ -29387,7 +29400,8 @@
   },
   {
    "id": "dep:reg:24",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     24
    ],
@@ -29480,7 +29494,8 @@
   },
   {
    "id": "dep:reg:25",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     25
    ],
@@ -29599,7 +29614,7 @@
   },
   {
    "id": "dep:reg:26",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     26
    ],
@@ -29656,7 +29671,8 @@
   },
   {
    "id": "dep:reg:27",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     27
    ],
@@ -29745,7 +29761,7 @@
   },
   {
    "id": "dep:reg:28",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     28
    ],
@@ -29826,7 +29842,7 @@
   },
   {
    "id": "dep:reg:29",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     29
    ],
@@ -29909,7 +29925,8 @@
   },
   {
    "id": "dep:reg:3",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     3
    ],
@@ -30049,7 +30066,7 @@
   },
   {
    "id": "dep:reg:30",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     30
    ],
@@ -30130,7 +30147,7 @@
   },
   {
    "id": "dep:reg:31",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     31
    ],
@@ -30211,7 +30228,7 @@
   },
   {
    "id": "dep:reg:32",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     32
    ],
@@ -30268,7 +30285,7 @@
   },
   {
    "id": "dep:reg:33",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     33
    ],
@@ -30349,7 +30366,7 @@
   },
   {
    "id": "dep:reg:34",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     34
    ],
@@ -30406,7 +30423,8 @@
   },
   {
    "id": "dep:reg:35",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     35
    ],
@@ -30519,7 +30537,7 @@
   },
   {
    "id": "dep:reg:36",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     36
    ],
@@ -30602,7 +30620,7 @@
   },
   {
    "id": "dep:reg:37",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     37
    ],
@@ -30733,7 +30751,8 @@
   },
   {
    "id": "dep:reg:38",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     38
    ],
@@ -30819,7 +30838,8 @@
   },
   {
    "id": "dep:reg:39",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     39
    ],
@@ -30932,7 +30952,8 @@
   },
   {
    "id": "dep:reg:4",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     4
    ],
@@ -31066,7 +31087,8 @@
   },
   {
    "id": "dep:reg:40",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     40
    ],
@@ -31143,7 +31165,7 @@
   },
   {
    "id": "dep:reg:41",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     41
    ],
@@ -31236,7 +31258,8 @@
   },
   {
    "id": "dep:reg:42",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     42
    ],
@@ -31329,7 +31352,8 @@
   },
   {
    "id": "dep:reg:43",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     43
    ],
@@ -31448,7 +31472,8 @@
   },
   {
    "id": "dep:reg:44",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     44
    ],
@@ -31541,7 +31566,8 @@
   },
   {
    "id": "dep:reg:45",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     45
    ],
@@ -31628,7 +31654,8 @@
   },
   {
    "id": "dep:reg:46",
-   "kind": "ambient",
+   "intensity": 4,
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -31721,7 +31748,8 @@
   },
   {
    "id": "dep:reg:47",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     47
    ],
@@ -31810,7 +31838,7 @@
   },
   {
    "id": "dep:reg:48",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     48
    ],
@@ -31867,7 +31895,7 @@
   },
   {
    "id": "dep:reg:49",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     49
    ],
@@ -31948,7 +31976,8 @@
   },
   {
    "id": "dep:reg:5",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     5
    ],
@@ -32031,7 +32060,7 @@
   },
   {
    "id": "dep:reg:50",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     50
    ],
@@ -32088,7 +32117,7 @@
   },
   {
    "id": "dep:reg:51",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     51
    ],
@@ -32169,7 +32198,7 @@
   },
   {
    "id": "dep:reg:52",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     52
    ],
@@ -32250,7 +32279,7 @@
   },
   {
    "id": "dep:reg:53",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     53
    ],
@@ -32331,7 +32360,8 @@
   },
   {
    "id": "dep:reg:54",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     54
    ],
@@ -32406,7 +32436,8 @@
   },
   {
    "id": "dep:reg:55",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     55
    ],
@@ -32481,7 +32512,8 @@
   },
   {
    "id": "dep:reg:56",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     56
    ],
@@ -32550,7 +32582,8 @@
   },
   {
    "id": "dep:reg:57",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     57
    ],
@@ -32607,7 +32640,8 @@
   },
   {
    "id": "dep:reg:58",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     58
    ],
@@ -32685,7 +32719,8 @@
   },
   {
    "id": "dep:reg:59",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     59
    ],
@@ -32802,7 +32837,8 @@
   },
   {
    "id": "dep:reg:6",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     6
    ],
@@ -32859,7 +32895,8 @@
   },
   {
    "id": "dep:reg:60",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     60
    ],
@@ -32961,7 +32998,8 @@
   },
   {
    "id": "dep:reg:61",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     61
    ],
@@ -33104,7 +33142,8 @@
   },
   {
    "id": "dep:reg:62",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -33229,7 +33268,8 @@
   },
   {
    "id": "dep:reg:63",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     63
    ],
@@ -33345,7 +33385,7 @@
   },
   {
    "id": "dep:reg:64",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     64
    ],
@@ -33426,7 +33466,7 @@
   },
   {
    "id": "dep:reg:65",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     65
    ],
@@ -33507,7 +33547,7 @@
   },
   {
    "id": "dep:reg:66",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     66
    ],
@@ -33600,7 +33640,8 @@
   },
   {
    "id": "dep:reg:67",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     67
    ],
@@ -33699,7 +33740,8 @@
   },
   {
    "id": "dep:reg:68",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     68
    ],
@@ -33812,7 +33854,8 @@
   },
   {
    "id": "dep:reg:69",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     69
    ],
@@ -33899,7 +33942,8 @@
   },
   {
    "id": "dep:reg:7",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     7
    ],
@@ -34003,7 +34047,8 @@
   },
   {
    "id": "dep:reg:70",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     70
    ],
@@ -34140,7 +34185,8 @@
   },
   {
    "id": "dep:reg:71",
-   "kind": "ambient",
+   "intensity": 4,
+   "kind": "depiction",
    "region_ids": [
     71
    ],
@@ -34223,7 +34269,8 @@
   },
   {
    "id": "dep:reg:72",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     72
    ],
@@ -34342,7 +34389,8 @@
   },
   {
    "id": "dep:reg:73",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     73
    ],
@@ -34417,7 +34465,8 @@
   },
   {
    "id": "dep:reg:74",
-   "kind": "ambient",
+   "intensity": 4,
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -34497,7 +34546,8 @@
   },
   {
    "id": "dep:reg:75",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     75
    ],
@@ -34583,7 +34633,8 @@
   },
   {
    "id": "dep:reg:76",
-   "kind": "ambient",
+   "intensity": 4,
+   "kind": "depiction",
    "region_ids": [
     76
    ],
@@ -34640,7 +34691,8 @@
   },
   {
    "id": "dep:reg:77",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     77
    ],
@@ -34697,7 +34749,7 @@
   },
   {
    "id": "dep:reg:78",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     78
    ],
@@ -34796,7 +34848,8 @@
   },
   {
    "id": "dep:reg:79",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     79
    ],
@@ -34895,7 +34948,8 @@
   },
   {
    "id": "dep:reg:8",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     8
    ],
@@ -34993,7 +35047,8 @@
   },
   {
    "id": "dep:reg:80",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     80
    ],
@@ -35100,7 +35155,8 @@
   },
   {
    "id": "dep:reg:81",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     81
    ],
@@ -35219,7 +35275,8 @@
   },
   {
    "id": "dep:reg:82",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     82
    ],
@@ -35335,7 +35392,8 @@
   },
   {
    "id": "dep:reg:83",
-   "kind": "ambient",
+   "intensity": 4,
+   "kind": "depiction",
    "region_ids": [
     83
    ],
@@ -35446,7 +35504,8 @@
   },
   {
    "id": "dep:reg:84",
-   "kind": "ambient",
+   "intensity": 2,
+   "kind": "depiction",
    "region_ids": [
     84
    ],
@@ -35538,7 +35597,8 @@
   },
   {
    "id": "dep:reg:85",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     85
    ],
@@ -35685,7 +35745,8 @@
   },
   {
    "id": "dep:reg:86",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     86
    ],
@@ -35828,7 +35889,8 @@
   },
   {
    "id": "dep:reg:87",
-   "kind": "ambient",
+   "intensity": 1,
+   "kind": "depiction",
    "region_ids": [
     87
    ],
@@ -35891,7 +35953,8 @@
   },
   {
    "id": "dep:reg:9",
-   "kind": "ambient",
+   "intensity": 3,
+   "kind": "depiction",
    "region_ids": [
     9
    ],
@@ -35974,7 +36037,7 @@
   },
   {
    "id": "dep:wat:10",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Angren",
@@ -36002,7 +36065,7 @@
   },
   {
    "id": "dep:wat:11",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Ringlo",
@@ -36030,7 +36093,7 @@
   },
   {
    "id": "dep:wat:12",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Lefnui",
@@ -36058,7 +36121,7 @@
   },
   {
    "id": "dep:wat:13",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Gilrain",
@@ -36086,7 +36149,7 @@
   },
   {
    "id": "dep:wat:15",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Celduin",
@@ -36114,7 +36177,7 @@
   },
   {
    "id": "dep:wat:207",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Langwell",
@@ -36142,7 +36205,7 @@
   },
   {
    "id": "dep:wat:218",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Mitheithel",
@@ -36170,7 +36233,7 @@
   },
   {
    "id": "dep:wat:220",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Bruinen",
@@ -36198,7 +36261,7 @@
   },
   {
    "id": "dep:wat:222",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Glanduin",
@@ -36226,7 +36289,7 @@
   },
   {
    "id": "dep:wat:224",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Morthond",
@@ -36254,7 +36317,7 @@
   },
   {
    "id": "dep:wat:225",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Ciril",
@@ -36282,7 +36345,7 @@
   },
   {
    "id": "dep:wat:228",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Sirith",
@@ -36310,7 +36373,7 @@
   },
   {
    "id": "dep:wat:229",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Erui",
@@ -36338,7 +36401,7 @@
   },
   {
    "id": "dep:wat:231",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Serni",
@@ -36366,7 +36429,7 @@
   },
   {
    "id": "dep:wat:234",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Poros",
@@ -36394,7 +36457,7 @@
   },
   {
    "id": "dep:wat:235",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Taurduin",
@@ -36422,7 +36485,7 @@
   },
   {
    "id": "dep:wat:239",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Onodlo",
@@ -36450,7 +36513,7 @@
   },
   {
    "id": "dep:wat:241",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Rist Angsiril",
@@ -36478,7 +36541,7 @@
   },
   {
    "id": "dep:wat:286",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Lefnui",
@@ -36506,7 +36569,7 @@
   },
   {
    "id": "dep:wat:289",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Lefnui",
@@ -36534,7 +36597,7 @@
   },
   {
    "id": "dep:wat:350",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Mirilgasir",
@@ -36562,7 +36625,7 @@
   },
   {
    "id": "dep:wat:37",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Ithilduin",
@@ -36590,7 +36653,7 @@
   },
   {
    "id": "dep:wat:435",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Angren",
@@ -36618,7 +36681,7 @@
   },
   {
    "id": "dep:wat:511",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Angsiril",
@@ -36646,7 +36709,7 @@
   },
   {
    "id": "dep:wat:534",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Glanduin",
@@ -36674,7 +36737,7 @@
   },
   {
    "id": "dep:wat:558",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Snowbourn",
@@ -36702,7 +36765,7 @@
   },
   {
    "id": "dep:wat:6",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Anduin",
@@ -36730,7 +36793,7 @@
   },
   {
    "id": "dep:wat:656",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Lokosir",
@@ -36758,7 +36821,7 @@
   },
   {
    "id": "dep:wat:7",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Lhun",
@@ -36786,7 +36849,7 @@
   },
   {
    "id": "dep:wat:785",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Nenuial",
@@ -36814,7 +36877,7 @@
   },
   {
    "id": "dep:wat:792",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Belegaer",
@@ -36842,7 +36905,7 @@
   },
   {
    "id": "dep:wat:8",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": {
     "en": "Baranduin",
@@ -36870,7 +36933,7 @@
   },
   {
    "id": "ovn:1",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 457,
    "region_ids": null,
    "name": {
@@ -36901,7 +36964,7 @@
   },
   {
    "id": "ovn:10",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     71
    ],
@@ -36929,7 +36992,7 @@
   },
   {
    "id": "ovn:100",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -36958,7 +37021,7 @@
   },
   {
    "id": "ovn:101",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -36987,7 +37050,7 @@
   },
   {
    "id": "ovn:102",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37016,7 +37079,7 @@
   },
   {
    "id": "ovn:103",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37045,7 +37108,7 @@
   },
   {
    "id": "ovn:104",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37074,7 +37137,7 @@
   },
   {
    "id": "ovn:105",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37103,7 +37166,7 @@
   },
   {
    "id": "ovn:106",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37132,7 +37195,7 @@
   },
   {
    "id": "ovn:107",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37161,7 +37224,7 @@
   },
   {
    "id": "ovn:108",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37190,7 +37253,7 @@
   },
   {
    "id": "ovn:109",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37219,7 +37282,7 @@
   },
   {
    "id": "ovn:11",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -37247,7 +37310,7 @@
   },
   {
    "id": "ovn:110",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37276,7 +37339,7 @@
   },
   {
    "id": "ovn:111",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37305,7 +37368,7 @@
   },
   {
    "id": "ovn:112",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37334,7 +37397,7 @@
   },
   {
    "id": "ovn:113",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37363,7 +37426,7 @@
   },
   {
    "id": "ovn:114",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37392,7 +37455,7 @@
   },
   {
    "id": "ovn:115",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37421,7 +37484,7 @@
   },
   {
    "id": "ovn:116",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37450,7 +37513,7 @@
   },
   {
    "id": "ovn:117",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37479,7 +37542,7 @@
   },
   {
    "id": "ovn:118",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37508,7 +37571,7 @@
   },
   {
    "id": "ovn:119",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37537,7 +37600,7 @@
   },
   {
    "id": "ovn:12",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -37565,7 +37628,7 @@
   },
   {
    "id": "ovn:120",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37594,7 +37657,7 @@
   },
   {
    "id": "ovn:121",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -37623,7 +37686,7 @@
   },
   {
    "id": "ovn:13",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     3
    ],
@@ -37651,7 +37714,7 @@
   },
   {
    "id": "ovn:14",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     4
    ],
@@ -37679,7 +37742,7 @@
   },
   {
    "id": "ovn:15",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -37707,7 +37770,7 @@
   },
   {
    "id": "ovn:16",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     76
    ],
@@ -37735,7 +37798,7 @@
   },
   {
    "id": "ovn:17",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     83
    ],
@@ -37763,7 +37826,7 @@
   },
   {
    "id": "ovn:18",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     73
    ],
@@ -37791,7 +37854,7 @@
   },
   {
    "id": "ovn:19",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     58
    ],
@@ -37819,7 +37882,7 @@
   },
   {
    "id": "ovn:2",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 472,
    "region_ids": null,
    "name": {
@@ -37850,7 +37913,7 @@
   },
   {
    "id": "ovn:20",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     21
    ],
@@ -37878,7 +37941,7 @@
   },
   {
    "id": "ovn:21",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     8
    ],
@@ -37909,7 +37972,7 @@
   },
   {
    "id": "ovn:22",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     8
    ],
@@ -37940,7 +38003,7 @@
   },
   {
    "id": "ovn:23",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -37971,7 +38034,7 @@
   },
   {
    "id": "ovn:24",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     46
    ],
@@ -38002,7 +38065,7 @@
   },
   {
    "id": "ovn:25",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -38033,7 +38096,7 @@
   },
   {
    "id": "ovn:26",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     74
    ],
@@ -38064,7 +38127,7 @@
   },
   {
    "id": "ovn:27",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     76
    ],
@@ -38095,7 +38158,7 @@
   },
   {
    "id": "ovn:28",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     76
    ],
@@ -38126,7 +38189,7 @@
   },
   {
    "id": "ovn:29",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     3
    ],
@@ -38157,7 +38220,7 @@
   },
   {
    "id": "ovn:3",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 482,
    "region_ids": null,
    "name": {
@@ -38188,7 +38251,7 @@
   },
   {
    "id": "ovn:30",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     3
    ],
@@ -38219,7 +38282,7 @@
   },
   {
    "id": "ovn:31",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     4
    ],
@@ -38250,7 +38313,7 @@
   },
   {
    "id": "ovn:32",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     4
    ],
@@ -38281,7 +38344,7 @@
   },
   {
    "id": "ovn:33",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     73
    ],
@@ -38312,7 +38375,7 @@
   },
   {
    "id": "ovn:34",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     73
    ],
@@ -38343,7 +38406,7 @@
   },
   {
    "id": "ovn:35",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -38374,7 +38437,7 @@
   },
   {
    "id": "ovn:36",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     62
    ],
@@ -38405,7 +38468,7 @@
   },
   {
    "id": "ovn:37",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38431,7 +38494,7 @@
   },
   {
    "id": "ovn:38",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38457,7 +38520,7 @@
   },
   {
    "id": "ovn:39",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38483,7 +38546,7 @@
   },
   {
    "id": "ovn:4",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 462,
    "region_ids": null,
    "name": {
@@ -38514,7 +38577,7 @@
   },
   {
    "id": "ovn:40",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38540,7 +38603,7 @@
   },
   {
    "id": "ovn:41",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38566,7 +38629,7 @@
   },
   {
    "id": "ovn:42",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38592,7 +38655,7 @@
   },
   {
    "id": "ovn:43",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38618,7 +38681,7 @@
   },
   {
    "id": "ovn:44",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38644,7 +38707,7 @@
   },
   {
    "id": "ovn:45",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38670,7 +38733,7 @@
   },
   {
    "id": "ovn:46",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38696,7 +38759,7 @@
   },
   {
    "id": "ovn:47",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38722,7 +38785,7 @@
   },
   {
    "id": "ovn:48",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38748,7 +38811,7 @@
   },
   {
    "id": "ovn:49",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": null,
@@ -38774,7 +38837,7 @@
   },
   {
    "id": "ovn:5",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 479,
    "region_ids": null,
    "name": {
@@ -38805,7 +38868,7 @@
   },
   {
    "id": "ovn:50",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -38834,7 +38897,7 @@
   },
   {
    "id": "ovn:51",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -38863,7 +38926,7 @@
   },
   {
    "id": "ovn:52",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -38892,7 +38955,7 @@
   },
   {
    "id": "ovn:53",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -38921,7 +38984,7 @@
   },
   {
    "id": "ovn:54",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -38950,7 +39013,7 @@
   },
   {
    "id": "ovn:55",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -38979,7 +39042,7 @@
   },
   {
    "id": "ovn:56",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39008,7 +39071,7 @@
   },
   {
    "id": "ovn:57",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39037,7 +39100,7 @@
   },
   {
    "id": "ovn:58",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39066,7 +39129,7 @@
   },
   {
    "id": "ovn:59",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39095,7 +39158,7 @@
   },
   {
    "id": "ovn:6",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 473,
    "region_ids": null,
    "name": {
@@ -39126,7 +39189,7 @@
   },
   {
    "id": "ovn:60",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39155,7 +39218,7 @@
   },
   {
    "id": "ovn:61",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39184,7 +39247,7 @@
   },
   {
    "id": "ovn:62",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39213,7 +39276,7 @@
   },
   {
    "id": "ovn:63",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39242,7 +39305,7 @@
   },
   {
    "id": "ovn:64",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39271,7 +39334,7 @@
   },
   {
    "id": "ovn:65",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39300,7 +39363,7 @@
   },
   {
    "id": "ovn:66",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39329,7 +39392,7 @@
   },
   {
    "id": "ovn:67",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39358,7 +39421,7 @@
   },
   {
    "id": "ovn:68",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39387,7 +39450,7 @@
   },
   {
    "id": "ovn:69",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39416,7 +39479,7 @@
   },
   {
    "id": "ovn:7",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     82
    ],
@@ -39444,7 +39507,7 @@
   },
   {
    "id": "ovn:70",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39473,7 +39536,7 @@
   },
   {
    "id": "ovn:71",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39502,7 +39565,7 @@
   },
   {
    "id": "ovn:72",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39531,7 +39594,7 @@
   },
   {
    "id": "ovn:73",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39560,7 +39623,7 @@
   },
   {
    "id": "ovn:74",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39589,7 +39652,7 @@
   },
   {
    "id": "ovn:75",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39618,7 +39681,7 @@
   },
   {
    "id": "ovn:76",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39647,7 +39710,7 @@
   },
   {
    "id": "ovn:77",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39676,7 +39739,7 @@
   },
   {
    "id": "ovn:78",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39705,7 +39768,7 @@
   },
   {
    "id": "ovn:79",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39734,7 +39797,7 @@
   },
   {
    "id": "ovn:8",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     8
    ],
@@ -39762,7 +39825,7 @@
   },
   {
    "id": "ovn:80",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39791,7 +39854,7 @@
   },
   {
    "id": "ovn:81",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39820,7 +39883,7 @@
   },
   {
    "id": "ovn:82",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39849,7 +39912,7 @@
   },
   {
    "id": "ovn:83",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39878,7 +39941,7 @@
   },
   {
    "id": "ovn:84",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39907,7 +39970,7 @@
   },
   {
    "id": "ovn:85",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39936,7 +39999,7 @@
   },
   {
    "id": "ovn:86",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39965,7 +40028,7 @@
   },
   {
    "id": "ovn:87",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -39994,7 +40057,7 @@
   },
   {
    "id": "ovn:88",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -40023,7 +40086,7 @@
   },
   {
    "id": "ovn:89",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -40052,7 +40115,7 @@
   },
   {
    "id": "ovn:9",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": [
     84
    ],
@@ -40080,7 +40143,7 @@
   },
   {
    "id": "ovn:90",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -40109,7 +40172,7 @@
   },
   {
    "id": "ovn:91",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -40138,7 +40201,7 @@
   },
   {
    "id": "ovn:92",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -40167,7 +40230,7 @@
   },
   {
    "id": "ovn:93",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -40196,7 +40259,7 @@
   },
   {
    "id": "ovn:94",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -40225,7 +40288,7 @@
   },
   {
    "id": "ovn:95",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -40254,7 +40317,7 @@
   },
   {
    "id": "ovn:96",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -40283,7 +40346,7 @@
   },
   {
    "id": "ovn:97",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -40312,7 +40375,7 @@
   },
   {
    "id": "ovn:98",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -40341,7 +40404,7 @@
   },
   {
    "id": "ovn:99",
-   "kind": "ambient",
+   "kind": "depiction",
    "region_ids": null,
    "name": null,
    "type": {
@@ -40370,7 +40433,7 @@
   },
   {
    "id": "ovn:122",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 446,
    "region_ids": null,
    "name": {
@@ -40400,7 +40463,7 @@
   },
   {
    "id": "ovn:123",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 962,
    "region_ids": null,
    "name": {
@@ -40430,7 +40493,7 @@
   },
   {
    "id": "ovn:124",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 939,
    "region_ids": null,
    "name": {
@@ -40460,7 +40523,7 @@
   },
   {
    "id": "ovn:125",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 926,
    "region_ids": null,
    "name": {
@@ -40490,7 +40553,7 @@
   },
   {
    "id": "ovn:126",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 476,
    "region_ids": null,
    "name": {
@@ -40520,7 +40583,7 @@
   },
   {
    "id": "ovn:127",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 495,
    "region_ids": null,
    "name": {
@@ -40550,7 +40613,7 @@
   },
   {
    "id": "ovn:128",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 588,
    "region_ids": null,
    "name": {
@@ -40580,7 +40643,7 @@
   },
   {
    "id": "ovn:129",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 542,
    "region_ids": null,
    "name": {
@@ -40610,7 +40673,7 @@
   },
   {
    "id": "ovn:130",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 1085,
    "region_ids": null,
    "name": {
@@ -40640,7 +40703,7 @@
   },
   {
    "id": "ovn:131",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 540,
    "region_ids": null,
    "name": {
@@ -40670,7 +40733,7 @@
   },
   {
    "id": "ovn:132",
-   "kind": "ambient",
+   "kind": "depiction",
    "location_id": 936,
    "region_ids": null,
    "name": {

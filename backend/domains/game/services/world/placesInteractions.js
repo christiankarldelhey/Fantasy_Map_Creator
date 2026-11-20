@@ -33,7 +33,7 @@ function overnightRecordToRow(r) {
     location_id: r.location_id,
     location_type: typeof r.type === 'object' && r.type !== null
       ? (r.type.en ?? r.type.es) : r.type,
-    region_id: r.region_id,
+    region_ids: Array.isArray(r.region_ids) ? r.region_ids : null,
     cultural_family: r.cultural_family,
     title: r.name?.en ?? r.name ?? r.payload?.title ?? null,
     description: r.presence?.en ?? null,
@@ -113,24 +113,26 @@ export async function resolveOvernight({ context, locationId, locationType, regi
 
   let candidates = [];
 
+  const regionMatch = (r) => (r.region_ids || []).includes(Number(regionId));
+
   if (context === 'IN_LOCATION') {
     candidates = rows.filter((r) => {
       // L1: named location
       if (r.location_id != null && r.location_id === locationId) return true;
       if (r.location_type == null || r.location_type !== locationType) return false;
       // L2: type + unique region
-      if (r.region_id != null && r.region_id === regionId) return true;
+      if (r.region_ids != null && regionMatch(r)) return true;
       // L3: type + family
       if (r.cultural_family != null && r.cultural_family === family) return true;
       // L0: generic type
-      if (r.region_id == null && r.cultural_family == null) return true;
+      if (r.region_ids == null && r.cultural_family == null) return true;
       return false;
     });
   } else if (context === 'IN_WILD') {
     candidates = rows.filter((r) =>
       r.location_id == null &&
       r.location_type == null &&
-      ((r.region_id != null && r.region_id === regionId) ||
+      ((r.region_ids != null && regionMatch(r)) ||
        (r.cultural_family != null && r.cultural_family === family))
     );
   }
@@ -151,7 +153,7 @@ export async function resolveOvernight({ context, locationId, locationType, regi
   if (!chosen && context === 'IN_LOCATION' && locationType) {
     chosen = rows.find((r) =>
       r.location_type === locationType &&
-      r.region_id == null &&
+      r.region_ids == null &&
       r.cultural_family == null
     ) || null;
     if (chosen) scope = 'generic_type';
@@ -179,11 +181,12 @@ export async function resolveOvernight({ context, locationId, locationType, regi
 }
 
 function detectScope(row) {
+  const scoped = (row.region_ids || []).length > 0;
   if (row.location_id != null) return 'location';
-  if (row.location_type != null && row.region_id != null) return 'type_region';
+  if (row.location_type != null && scoped) return 'type_region';
   if (row.location_type != null && row.cultural_family != null) return 'type_family';
-  if (row.location_type != null && row.region_id == null && row.cultural_family == null) return 'generic_type';
-  if (row.location_type == null && row.region_id != null) return 'region';
+  if (row.location_type != null && !scoped && row.cultural_family == null) return 'generic_type';
+  if (row.location_type == null && scoped) return 'region';
   if (row.location_type == null && row.cultural_family != null) return 'family';
   return 'unknown';
 }

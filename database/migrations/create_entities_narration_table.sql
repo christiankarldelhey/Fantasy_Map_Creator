@@ -80,6 +80,12 @@ CREATE TABLE IF NOT EXISTS entities_narration (
 -- leave form NULL as the wildcard fallback that serves any shape.
 DO $$
 BEGIN
+  -- #187 moved forms to encounter_forms; stop re-adding the guard there.
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'schema_flags') THEN
+    IF EXISTS (SELECT 1 FROM schema_flags WHERE key = 'narration_cleanup_187') THEN
+      RETURN;
+    END IF;
+  END IF;
   IF NOT EXISTS (SELECT 1 FROM pg_constraint
                   WHERE conname = 'entities_narration_form_key_check') THEN
     ALTER TABLE entities_narration
@@ -92,10 +98,20 @@ CREATE INDEX IF NOT EXISTS idx_en_kind        ON entities_narration(kind);
 CREATE INDEX IF NOT EXISTS idx_en_entity      ON entities_narration(entity_id)      WHERE entity_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_en_entity_ids  ON entities_narration USING GIN(entity_ids);
 CREATE INDEX IF NOT EXISTS idx_en_entity_type ON entities_narration(entity_type)    WHERE entity_type IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_en_family      ON entities_narration(family)         WHERE family IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_en_mover_leg   ON entities_narration(mover_leg_id)   WHERE mover_leg_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_en_region      ON entities_narration(region_id)      WHERE region_id IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_en_region_ids  ON entities_narration USING GIN(region_ids);
+DO $$
+BEGIN
+  -- family and region_ids were dropped by narration_schema_cleanup_187.
+  IF EXISTS (SELECT 1 FROM information_schema.columns
+             WHERE table_name = 'entities_narration' AND column_name = 'family') THEN
+    CREATE INDEX IF NOT EXISTS idx_en_family     ON entities_narration(family) WHERE family IS NOT NULL;
+  END IF;
+  IF EXISTS (SELECT 1 FROM information_schema.columns
+             WHERE table_name = 'entities_narration' AND column_name = 'region_ids') THEN
+    CREATE INDEX IF NOT EXISTS idx_en_region_ids ON entities_narration USING GIN(region_ids);
+  END IF;
+END $$;
 CREATE INDEX IF NOT EXISTS idx_en_location    ON entities_narration(location_id)    WHERE location_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_en_form        ON entities_narration(form)           WHERE form IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_en_scope       ON entities_narration(kind, entity_type, region_id, form);

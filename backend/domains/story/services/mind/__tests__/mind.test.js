@@ -413,10 +413,11 @@ test('place events carry the settlement a traveller actually entered', () => {
   const places = events.filter(
     (e) => e.type === 'land' && e.data.subtype === 'place');
   const dale = places.find((p) => p.data.name === 'Dale');
-  // The entered city rides with its authored prose and census so the
-  // lens can feel its scale — not just a bare name.
+  // The entered city rides with its authored prose so the lens can
+  // feel its scale — the census stays in the day's location detail,
+  // never on the wire.
   assert.equal(dale.data.aspect_es, 'Una ciudad de jugueteros y comercio fluvial.');
-  assert.equal(dale.data.population, 5800);
+  assert.equal(dale.data.population, undefined);
   assert.deepEqual(dale.data.tags, ['settlement', 'entered']);
   // A ruin is dead ground the eye reads from afar — not a settlement,
   // but not silent either: 'dead_place' tells the mind its shape.
@@ -537,7 +538,9 @@ test('the open payload keeps settlement detail and the lodging outcome', () => {
   });
   const dale = body.events.find(
     (e) => e.type === 'land' && e.data.subtype === 'place').data;
-  assert.equal(dale.population, 5800);
+  // The event wire carries prose and meaning — census figures stay in
+  // the narrator's day detail (slimDay), never on the episode wire.
+  assert.equal(dale.population, undefined);
   assert.equal(dale.aspect_es, 'Una ciudad de jugueteros.');
   assert.equal(dale.geometry, undefined);
   assert.ok(dale.tags.includes('entered'));
@@ -562,7 +565,6 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
         // earns no census and no ficha prose.
         aspect: 'The great fortress of Helm\'s Deep.',
         presence: 'A hall of stone.', population: 300, inhabitants: 'rohirrim',
-        sighted_far: 'a dark wall beneath the cliffs',
       }],
     },
     trip: { id: 't1' },
@@ -580,7 +582,7 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
   assert.equal(hornburg.sighted.direction, 'east');
   // A place met only from afar carries its silhouette and nothing else:
   // no aspect, no presence, no population — what nobody got close to know.
-  assert.equal(hornburg.sighted_far, 'a dark wall beneath the cliffs');
+  assert.equal(hornburg.sighted_far, 'a keep against the sky, banners on the wall');
   assert.equal(hornburg.aspect, undefined);
   assert.equal(hornburg.presence, undefined);
   assert.equal(hornburg.population, undefined);

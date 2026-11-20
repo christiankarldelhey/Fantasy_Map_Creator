@@ -34,9 +34,16 @@ UPDATE places_narration p
    AND jsonb_typeof(p.payload->'region_ids') = 'array';
 
 -- Scalar-only records still get a coherent list: {region_id}.
-UPDATE places_narration
-   SET region_ids = ARRAY[region_id]
- WHERE region_ids IS NULL AND region_id IS NOT NULL;
+-- (region_id was dropped by narration_schema_cleanup_187 — skip then.)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns
+             WHERE table_name = 'places_narration' AND column_name = 'region_id') THEN
+    UPDATE places_narration
+       SET region_ids = ARRAY[region_id]
+     WHERE region_ids IS NULL AND region_id IS NOT NULL;
+  END IF;
+END $$;
 
 CREATE INDEX IF NOT EXISTS idx_pn_region_ids
   ON places_narration USING GIN(region_ids);

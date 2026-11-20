@@ -188,6 +188,7 @@ async function regionAtPoint(lng, lat) {
             (SELECT array_agg(x) FROM jsonb_array_elements_text(rd.rotation) x)
               AS description_summary,
             r.cultural_family,
+            rd.intensity,
             COALESCE(r.population_ratio, 0.5) AS population_ratio
      FROM regions r
      LEFT JOIN places_narration rd ON rd.id = r.depiction_id
@@ -214,7 +215,7 @@ async function regionsForPoints(points) {
        SELECT rg.id, rg.name,
               (SELECT array_agg(x) FROM jsonb_array_elements_text(rd.rotation) x)
                 AS description_summary,
-              rg.cultural_family, rg.population_ratio
+              rg.cultural_family, rg.population_ratio, rd.intensity
        FROM regions rg
        LEFT JOIN places_narration rd ON rd.id = rg.depiction_id
        WHERE ST_Contains(rg.geom, ST_SetSRID(ST_MakePoint((elem->>0)::float, (elem->>1)::float), 4326))
@@ -228,6 +229,8 @@ async function regionsForPoints(points) {
     name: row.name,
     description_summary: row.description_summary,
     cultural_family: row.cultural_family,
+    // The land's declared force rides the crossing event (#184).
+    intensity: row.intensity ?? null,
     population_ratio: Number(row.population_ratio),
   } : null));
 }
@@ -348,14 +351,14 @@ async function sampleLegContext(legGeoJSON) {
           'influence_radius_km', rad.infl_km,
           'presence', ficha.presence_en,
           'presence_es', ficha.presence_es,
-          -- What the place reads as from beyond its reach — the anchored
-          -- ficha's own far-face wins over the depiction's (en only).
-          'sighted_far', COALESCE(ficha.sighted_far_en, pd.sighted_far->>'en'),
           -- The record's own words for what the place IS — kind and the
           -- closed-registry thematic tags (ruins, danger, melancholy…) —
           -- so a distant sighting can be true to the case, not default.
           'narration_type', COALESCE(ficha.type_en, pd.type->>'en'),
           'record_tags', COALESCE(ficha.tags, pd.tags),
+          -- The place's declared force (0-4): a ruin hits harder than a
+          -- crossroads. The ficha's word wins; the depiction is fallback.
+          'intensity', COALESCE(ficha.intensity, pd.intensity),
           -- Who keeps the door, when the ficha says so — 'una viuda de
           -- smial hondo' names the host's people and gender in prose.
           'keeper', COALESCE(ficha.keeper_en, ficha.keeper_es),
@@ -399,9 +402,9 @@ async function sampleLegContext(legGeoJSON) {
         LEFT JOIN LATERAL (
           SELECT f.presence->>'en' AS presence_en,
                  f.presence->>'es' AS presence_es,
-                 f.sighted_far->>'en' AS sighted_far_en,
                  f.type->>'en' AS type_en,
                  f.tags AS tags,
+                 f.intensity,
                  f.facts->'keeper'->>'en' AS keeper_en,
                  f.facts->'keeper'->>'es' AS keeper_es
             FROM places_narration f
@@ -792,6 +795,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
         name,
         description_summary: info.description_summary || null,
         cultural_family: info.cultural_family || null,
+        intensity: info.intensity ?? null,
         // When the leg first reads as this land — the crossing moment a
         // `region` event hangs on (toEvents).
         first_seen_hour_float: Number((WALK_START_HOUR + elapsed).toFixed(2)),
@@ -1145,9 +1149,9 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       visited,
       presence: l.presence ?? null,
       presence_es: l.presence_es ?? null,
-      sighted_far: l.sighted_far ?? null,
       narration_type: l.narration_type ?? null,
       record_tags: l.record_tags || [],
+      intensity: l.intensity ?? null,
       // The resident entity joined by location — a keeper met at her
       // own door, not only at the overnight stop.
       host: l.host ?? null,

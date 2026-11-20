@@ -24,14 +24,35 @@ ALTER TABLE places_narration
     ADD COLUMN IF NOT EXISTS aspect        JSONB,
     ADD COLUMN IF NOT EXISTS presence      JSONB,
     ADD COLUMN IF NOT EXISTS lore          JSONB,
-    ADD COLUMN IF NOT EXISTS secret        JSONB,
-    ADD COLUMN IF NOT EXISTS sections      JSONB,
     ADD COLUMN IF NOT EXISTS facts         JSONB,
-    ADD COLUMN IF NOT EXISTS notes         JSONB,
-    ADD COLUMN IF NOT EXISTS channel       JSONB,
-    ADD COLUMN IF NOT EXISTS traveller_use JSONB,
     ADD COLUMN IF NOT EXISTS rotation      JSONB,
     ADD COLUMN IF NOT EXISTS interactive   JSONB;
+
+-- secret/sections/notes/channel/traveller_use were later folded into
+-- payload.authoring and dropped by narration_schema_cleanup_187 — on schemas
+-- that ran it, leave them alone entirely.
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'schema_flags') THEN
+        IF EXISTS (SELECT 1 FROM schema_flags WHERE key = 'narration_cleanup_187') THEN
+            RETURN;
+        END IF;
+    END IF;
+
+    ALTER TABLE places_narration
+        ADD COLUMN IF NOT EXISTS secret        JSONB,
+        ADD COLUMN IF NOT EXISTS sections      JSONB,
+        ADD COLUMN IF NOT EXISTS notes         JSONB,
+        ADD COLUMN IF NOT EXISTS channel       JSONB,
+        ADD COLUMN IF NOT EXISTS traveller_use JSONB;
+
+    UPDATE places_narration SET
+        secret        = COALESCE(secret, payload->'secret'),
+        sections      = COALESCE(sections, NULLIF(payload->'sections', 'null'::jsonb)),
+        notes         = COALESCE(notes, payload->'notes', payload->'note'),
+        channel       = COALESCE(channel, payload->'channel'),
+        traveller_use = COALESCE(traveller_use, payload->'traveller_use');
+END $$;
 
 -- ---------------------------------------------------------------------------
 -- 2. Move prose into the universal slots
@@ -40,13 +61,8 @@ UPDATE places_narration SET
     aspect        = COALESCE(aspect, description),
     presence      = COALESCE(presence, payload->'base'),
     lore          = COALESCE(lore, payload->'lore', payload->'base_lore'),
-    secret        = COALESCE(secret, payload->'secret'),
-    sections      = COALESCE(sections, NULLIF(payload->'sections', 'null'::jsonb)),
     facts         = COALESCE(facts, payload->'facts'),
-    rotation      = COALESCE(rotation, payload->'rotation'),
-    notes         = COALESCE(notes, payload->'notes', payload->'note'),
-    channel       = COALESCE(channel, payload->'channel'),
-    traveller_use = COALESCE(traveller_use, payload->'traveller_use');
+    rotation      = COALESCE(rotation, payload->'rotation');
 
 -- description/{en,es} on rest records is the night itself: presence too —
 -- and NOT aspect: the night is not something seen from outside.

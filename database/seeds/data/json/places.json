@@ -293,6 +293,7 @@
   },
   {
    "id": "E-02",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     70
@@ -382,6 +383,7 @@
   },
   {
    "id": "E-04",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     70
@@ -446,6 +448,7 @@
   },
   {
    "id": "E-05",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     70
@@ -594,6 +597,7 @@
   },
   {
    "id": "E-07",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     70
@@ -737,6 +741,7 @@
   },
   {
    "id": "E-A1",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     70
@@ -1029,6 +1034,7 @@
   },
   {
    "id": "F-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     66
@@ -1468,6 +1474,7 @@
   },
   {
    "id": "F-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     66
@@ -1622,6 +1629,7 @@
   },
   {
    "id": "F-07",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     66
@@ -1752,6 +1760,7 @@
   },
   {
    "id": "F-09",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     66
@@ -1999,6 +2008,7 @@
   },
   {
    "id": "F-13",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     66
@@ -2069,6 +2079,7 @@
   },
   {
    "id": "M-00",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     3
@@ -2141,6 +2152,7 @@
   },
   {
    "id": "M-A1",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     3
@@ -2193,6 +2205,7 @@
   },
   {
    "id": "M-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     3
@@ -2245,6 +2258,7 @@
   },
   {
    "id": "M-A3",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     3
@@ -2312,6 +2326,7 @@
   },
   {
    "id": "M-A4",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     3
@@ -2396,6 +2411,7 @@
   },
   {
    "id": "MW-01",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     3
@@ -2523,6 +2539,7 @@
   },
   {
    "id": "MW-03",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     3
@@ -2565,6 +2582,7 @@
   },
   {
    "id": "MW-04",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     3
@@ -2614,6 +2632,7 @@
   },
   {
    "id": "MW-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     3
@@ -2787,6 +2806,7 @@
   },
   {
    "id": "MW-08",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     3
@@ -3004,6 +3024,7 @@
   },
   {
    "id": "DG-A1",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     3
@@ -3068,6 +3089,7 @@
   },
   {
    "id": "DG-01",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     3
@@ -3168,6 +3190,7 @@
   },
   {
    "id": "DG-02",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     3
@@ -3495,6 +3518,7 @@
   },
   {
    "id": "DG-08",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     3
@@ -3941,6 +3965,7 @@
   },
   {
    "id": "WM-07",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     37
@@ -4305,6 +4330,7 @@
   },
   {
    "id": "WR-04",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     4
@@ -4374,6 +4400,7 @@
   },
   {
    "id": "WR-07",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     4
@@ -4686,6 +4713,7 @@
   },
   {
    "id": "TS-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     43
@@ -4817,6 +4845,7 @@
   },
   {
    "id": "TS-02",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     43
@@ -4951,6 +4980,7 @@
   },
   {
    "id": "TS-04",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     43
@@ -5015,6 +5045,7 @@
   },
   {
    "id": "TS-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     43
@@ -5073,6 +5104,7 @@
   },
   {
    "id": "TS-06",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     43
@@ -5121,6 +5153,7 @@
   },
   {
    "id": "TS-07",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     43
@@ -5269,6 +5302,7 @@
   },
   {
    "id": "TS-09",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     43
@@ -5475,6 +5509,7 @@
   },
   {
    "id": "TS-13",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     43
@@ -5547,6 +5582,7 @@
   },
   {
    "id": "TS-14",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     43
@@ -5603,6 +5639,7 @@
   },
   {
    "id": "TS-15",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     43
@@ -5660,6 +5697,7 @@
   },
   {
    "id": "BD-A1",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     59
@@ -5703,6 +5741,7 @@
   },
   {
    "id": "BD-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     59
@@ -5755,6 +5794,7 @@
   },
   {
    "id": "BD-01",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     59
@@ -5842,6 +5882,7 @@
   },
   {
    "id": "AF-13",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -5914,6 +5955,7 @@
   },
   {
    "id": "E-09",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     70
@@ -5967,6 +6009,7 @@
   },
   {
    "id": "BD-05",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     59
@@ -6127,6 +6170,7 @@
   },
   {
    "id": "BD-08",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     59
@@ -6351,6 +6395,7 @@
   },
   {
    "id": "SD-01",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     59
@@ -6421,6 +6466,7 @@
   },
   {
    "id": "SD-02",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     59
@@ -6588,6 +6634,7 @@
   },
   {
    "id": "SD-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     59
@@ -6959,6 +7006,7 @@
   },
   {
    "id": "AN-04",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     79
@@ -7298,6 +7346,7 @@
   },
   {
    "id": "AN-10",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     79
@@ -7410,6 +7459,7 @@
   },
   {
    "id": "AN-12",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     79
@@ -7544,6 +7594,7 @@
   },
   {
    "id": "AN-15",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     79
@@ -7614,6 +7665,7 @@
   },
   {
    "id": "DL-00",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     8
@@ -7658,6 +7710,7 @@
   },
   {
    "id": "DL-A1",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     8
@@ -7701,6 +7754,7 @@
   },
   {
    "id": "DL-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     8
@@ -7848,6 +7902,7 @@
   },
   {
    "id": "DL-A4",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     8
@@ -7900,6 +7955,7 @@
   },
   {
    "id": "DL-01",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     8
@@ -8066,6 +8122,7 @@
   },
   {
    "id": "DL-04",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     8
@@ -8257,6 +8314,7 @@
   },
   {
    "id": "DL-08",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     8
@@ -8304,6 +8362,7 @@
   },
   {
    "id": "DL-09",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     8
@@ -8344,6 +8403,7 @@
   },
   {
    "id": "DL-10",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     8
@@ -8468,6 +8528,7 @@
   },
   {
    "id": "DL-12",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     8
@@ -8521,6 +8582,7 @@
   },
   {
    "id": "AM-00",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     46
@@ -8661,6 +8723,7 @@
   },
   {
    "id": "AM-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     46
@@ -8877,6 +8940,7 @@
   },
   {
    "id": "AM-02",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     46
@@ -9005,6 +9069,7 @@
   },
   {
    "id": "AM-05",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     46
@@ -9053,6 +9118,7 @@
   },
   {
    "id": "AM-06",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     46
@@ -9414,6 +9480,7 @@
   },
   {
    "id": "CD-A1",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     39
@@ -9469,6 +9536,7 @@
   },
   {
    "id": "CD-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     39
@@ -9516,6 +9584,7 @@
   },
   {
    "id": "CD-A3",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     39
@@ -9596,6 +9665,7 @@
   },
   {
    "id": "CD-01",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     39
@@ -9631,6 +9701,7 @@
   },
   {
    "id": "CD-02",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     39
@@ -9773,6 +9844,7 @@
   },
   {
    "id": "CD-05",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     39
@@ -10059,6 +10131,7 @@
   },
   {
    "id": "CD-B2",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     39
@@ -10135,6 +10208,7 @@
   },
   {
    "id": "MD-00",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     74
@@ -10195,6 +10269,7 @@
   },
   {
    "id": "MD-A1",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     74
@@ -10257,6 +10332,7 @@
   },
   {
    "id": "MD-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     74
@@ -10311,6 +10387,7 @@
   },
   {
    "id": "MD-A3",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     74
@@ -10368,6 +10445,7 @@
   },
   {
    "id": "MD-A4",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     74
@@ -10621,6 +10699,7 @@
   },
   {
    "id": "MD-05",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     74
@@ -10669,6 +10748,7 @@
   },
   {
    "id": "MD-06",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     74
@@ -10917,6 +10997,7 @@
   },
   {
    "id": "MD-10",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     74
@@ -11123,6 +11204,7 @@
   },
   {
    "id": "MD-14",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     74
@@ -11256,6 +11338,7 @@
   },
   {
    "id": "MD-17",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     74
@@ -11417,6 +11500,7 @@
   },
   {
    "id": "MD-20",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     74
@@ -11654,6 +11738,7 @@
   },
   {
    "id": "DU-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     72
@@ -11697,6 +11782,7 @@
   },
   {
    "id": "DU-A3",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     72
@@ -11796,6 +11882,7 @@
   },
   {
    "id": "DU-02",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     72
@@ -11844,6 +11931,7 @@
   },
   {
    "id": "DU-03",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     72
@@ -11945,6 +12033,7 @@
   },
   {
    "id": "DU-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     72
@@ -11993,6 +12082,7 @@
   },
   {
    "id": "DU-06",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     72
@@ -12041,6 +12131,7 @@
   },
   {
    "id": "DU-07",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     72
@@ -12379,6 +12470,7 @@
   },
   {
    "id": "LI-A3",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     40
@@ -12471,6 +12563,7 @@
   },
   {
    "id": "LI-A4",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     40
@@ -12647,6 +12740,7 @@
   },
   {
    "id": "LI-O2",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     40
@@ -12714,6 +12808,7 @@
   },
   {
    "id": "LI-O4",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     40
@@ -12782,6 +12877,7 @@
   },
   {
    "id": "LI-O5",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     40
@@ -12829,6 +12925,7 @@
   },
   {
    "id": "LI-O6",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     40
@@ -13106,6 +13203,7 @@
   },
   {
    "id": "LI-O11",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     40
@@ -13217,6 +13315,7 @@
   },
   {
    "id": "LI-O13",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     40
@@ -13315,6 +13414,7 @@
   },
   {
    "id": "LI-O14",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     40
@@ -13577,6 +13677,7 @@
   },
   {
    "id": "LI-T4",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     40
@@ -13729,6 +13830,7 @@
   },
   {
    "id": "LI-T6",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     40
@@ -14235,6 +14337,7 @@
   },
   {
    "id": "LI-T15",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     40
@@ -14291,6 +14394,7 @@
   },
   {
    "id": "LI-T16",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     40
@@ -14469,6 +14573,7 @@
   },
   {
    "id": "LI-T19",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     40
@@ -15363,6 +15468,7 @@
   },
   {
    "id": "SH-02",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -15772,6 +15878,7 @@
   },
   {
    "id": "SH-10",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -16356,6 +16463,7 @@
   },
   {
    "id": "BR-01",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     86
@@ -16591,6 +16699,7 @@
   },
   {
    "id": "BR-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     86
@@ -16639,6 +16748,7 @@
   },
   {
    "id": "BR-06",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     86
@@ -16813,6 +16923,7 @@
   },
   {
    "id": "BR-09",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     86
@@ -16935,6 +17046,7 @@
   },
   {
    "id": "RH-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     44,
@@ -17031,6 +17143,7 @@
   },
   {
    "id": "RH-01",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     44,
@@ -17088,6 +17201,7 @@
   },
   {
    "id": "RH-02",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     81,
@@ -17140,6 +17254,7 @@
   },
   {
    "id": "RH-03",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     81
@@ -17430,6 +17545,7 @@
   },
   {
    "id": "RH-08",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     44,
@@ -17514,6 +17630,7 @@
   },
   {
    "id": "RH-12",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     42,
@@ -17567,6 +17684,7 @@
   },
   {
    "id": "RH-13",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     42,
@@ -17734,6 +17852,7 @@
   },
   {
    "id": "RH-E2",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     44
@@ -17871,6 +17990,7 @@
   },
   {
    "id": "RH-L2",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     81
@@ -17923,6 +18043,7 @@
   },
   {
    "id": "RH-L3",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     81
@@ -18071,6 +18192,7 @@
   },
   {
    "id": "RH-C3",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     45,
@@ -18181,6 +18303,7 @@
   },
   {
    "id": "RH-G2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     42
@@ -18277,6 +18400,7 @@
   },
   {
    "id": "RH-G4",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     42
@@ -18387,6 +18511,7 @@
   },
   {
    "id": "RH-W2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     41
@@ -18590,6 +18715,7 @@
   },
   {
    "id": "RH-18",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     81,
@@ -18726,6 +18852,7 @@
   },
   {
    "id": "TM-A1",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     54,
@@ -18787,6 +18914,7 @@
   },
   {
    "id": "TM-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     54,
@@ -18832,6 +18960,7 @@
   },
   {
    "id": "TM-A3",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     54,
@@ -18978,6 +19107,7 @@
   },
   {
    "id": "TM-02",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     54
@@ -19039,6 +19169,7 @@
   },
   {
    "id": "TM-03",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     54
@@ -19238,6 +19369,7 @@
   },
   {
    "id": "TM-08",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     54
@@ -19338,6 +19470,7 @@
   },
   {
    "id": "TM-13",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     54
@@ -19522,6 +19655,7 @@
   },
   {
    "id": "TM-16",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     55
@@ -19610,6 +19744,7 @@
   },
   {
    "id": "TM-18",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     55
@@ -19654,6 +19789,7 @@
   },
   {
    "id": "TM-19",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     55
@@ -19703,6 +19839,7 @@
   },
   {
    "id": "TM-20",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     55
@@ -19761,6 +19898,7 @@
   },
   {
    "id": "TM-11",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     61
@@ -19855,6 +19993,7 @@
   },
   {
    "id": "TM-23",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     61
@@ -20155,6 +20294,7 @@
   },
   {
    "id": "VA-01",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     38
@@ -20212,6 +20352,7 @@
   },
   {
    "id": "VA-02",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     35
@@ -20357,6 +20498,7 @@
   },
   {
    "id": "VA-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     35,
@@ -20602,6 +20744,7 @@
   },
   {
    "id": "VA-12",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     35
@@ -20745,6 +20888,7 @@
   },
   {
    "id": "VA-22",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     35
@@ -21013,6 +21157,7 @@
   },
   {
    "id": "VA-16",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     38
@@ -21211,6 +21356,7 @@
   },
   {
    "id": "VA-27",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     36
@@ -21280,6 +21426,7 @@
   },
   {
    "id": "VA-28",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     36
@@ -21492,6 +21639,7 @@
   },
   {
    "id": "VA-32",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     36
@@ -21680,6 +21828,7 @@
   },
   {
    "id": "GZ-03",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     2
@@ -21801,6 +21950,7 @@
   },
   {
    "id": "GZ-05",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     2
@@ -22081,6 +22231,7 @@
   },
   {
    "id": "ER-01",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     25
@@ -22253,6 +22404,7 @@
   },
   {
    "id": "ER-04",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     25
@@ -22366,6 +22518,7 @@
   },
   {
    "id": "ER-06",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     25
@@ -22472,6 +22625,7 @@
   },
   {
    "id": "ER-08",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     25
@@ -22515,6 +22669,7 @@
   },
   {
    "id": "ER-09",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     10
@@ -22595,6 +22750,7 @@
   },
   {
    "id": "ER-10",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     10
@@ -22945,6 +23101,7 @@
   },
   {
    "id": "IT-A1",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     75
@@ -22988,6 +23145,7 @@
   },
   {
    "id": "IT-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     75
@@ -23174,6 +23332,7 @@
   },
   {
    "id": "IT-03",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     75
@@ -23229,6 +23388,7 @@
   },
   {
    "id": "IT-04",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     75
@@ -23343,6 +23503,7 @@
   },
   {
    "id": "IT-06",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     75
@@ -23385,6 +23546,7 @@
   },
   {
    "id": "IT-07",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     75
@@ -23433,6 +23595,7 @@
   },
   {
    "id": "IT-08",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     75
@@ -23482,6 +23645,7 @@
   },
   {
    "id": "IT-09",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     75
@@ -23824,6 +23988,7 @@
   },
   {
    "id": "IT-15",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     75
@@ -23918,6 +24083,7 @@
   },
   {
    "id": "IT-17",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     75
@@ -24012,6 +24178,7 @@
   },
   {
    "id": "IT-19",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     75
@@ -24198,6 +24365,7 @@
   },
   {
    "id": "DE-01",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     20
@@ -24250,6 +24418,7 @@
   },
   {
    "id": "DE-02",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     20
@@ -24301,6 +24470,7 @@
   },
   {
    "id": "AF-12",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -24346,6 +24516,7 @@
   },
   {
    "id": "DE-04",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     20
@@ -24821,6 +24992,7 @@
   },
   {
    "id": "DE-09",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     19
@@ -24864,6 +25036,7 @@
   },
   {
    "id": "DE-10",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     19
@@ -24938,6 +25111,7 @@
   },
   {
    "id": "DE-11",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     19
@@ -24975,6 +25149,7 @@
   },
   {
    "id": "DE-17",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     19
@@ -25099,6 +25274,7 @@
   },
   {
    "id": "DE-21",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     23
@@ -25244,6 +25420,7 @@
   },
   {
    "id": "DE-12",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     20
@@ -25458,6 +25635,7 @@
   },
   {
    "id": "HI-01",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     18
@@ -25509,6 +25687,7 @@
   },
   {
    "id": "HI-02",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     18
@@ -25560,6 +25739,7 @@
   },
   {
    "id": "HI-03",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     18
@@ -25628,6 +25808,7 @@
   },
   {
    "id": "HI-04",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     18
@@ -25680,6 +25861,7 @@
   },
   {
    "id": "HI-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     18
@@ -25731,6 +25913,7 @@
   },
   {
    "id": "HI-06",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     18
@@ -25774,6 +25957,7 @@
   },
   {
    "id": "HI-07",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     18
@@ -25825,6 +26009,7 @@
   },
   {
    "id": "HI-08",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     18
@@ -25905,6 +26090,7 @@
   },
   {
    "id": "HI-10",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     18
@@ -25955,6 +26141,7 @@
   },
   {
    "id": "HI-11",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     18
@@ -26195,6 +26382,7 @@
   },
   {
    "id": "HI-15",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     18
@@ -26374,6 +26562,7 @@
   },
   {
    "id": "AO-01",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     7
@@ -26606,6 +26795,7 @@
   },
   {
    "id": "AO-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     7
@@ -26650,6 +26840,7 @@
   },
   {
    "id": "AO-06",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     7
@@ -26695,6 +26886,7 @@
   },
   {
    "id": "AO-07",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     7
@@ -27357,6 +27549,7 @@
   },
   {
    "id": "LB-01",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     11
@@ -27401,6 +27594,7 @@
   },
   {
    "id": "LB-02",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     11
@@ -27506,6 +27700,7 @@
   },
   {
    "id": "LB-04",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -27550,6 +27745,7 @@
   },
   {
    "id": "LB-05",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     11
@@ -27594,6 +27790,7 @@
   },
   {
    "id": "LB-06",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     11
@@ -28086,6 +28283,7 @@
   },
   {
    "id": "AF-A3",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     13
@@ -28129,6 +28327,7 @@
   },
   {
    "id": "AF-01",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     13
@@ -28173,6 +28372,7 @@
   },
   {
    "id": "AF-02",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     13
@@ -28317,6 +28517,7 @@
   },
   {
    "id": "AF-05",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     13
@@ -28435,6 +28636,7 @@
   },
   {
    "id": "AF-07",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -28479,6 +28681,7 @@
   },
   {
    "id": "AF-08",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     13
@@ -28523,6 +28726,7 @@
   },
   {
    "id": "AF-09",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -28565,6 +28769,7 @@
   },
   {
    "id": "AF-10",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -28613,6 +28818,7 @@
   },
   {
    "id": "AF-11",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     13
@@ -28700,6 +28906,7 @@
   },
   {
    "id": "HR-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     12
@@ -28892,6 +29099,7 @@
   },
   {
    "id": "HR-03",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     12
@@ -28943,6 +29151,7 @@
   },
   {
    "id": "HR-04",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     12
@@ -28992,6 +29201,7 @@
   },
   {
    "id": "HR-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     12
@@ -29186,6 +29396,7 @@
   },
   {
    "id": "HR-09",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     12
@@ -29419,6 +29630,7 @@
   },
   {
    "id": "LM-01",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     19
@@ -29468,6 +29680,7 @@
   },
   {
    "id": "LM-02",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     19
@@ -29512,6 +29725,7 @@
   },
   {
    "id": "LM-03",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     19
@@ -29655,6 +29869,7 @@
   },
   {
    "id": "LM-06",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     19
@@ -29769,6 +29984,7 @@
   },
   {
    "id": "LM-08",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     14,
@@ -29861,6 +30077,7 @@
   },
   {
    "id": "WM-01-westmarch",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     14
@@ -29904,6 +30121,7 @@
   },
   {
    "id": "WM-02-westmarch",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     14
@@ -29947,6 +30165,7 @@
   },
   {
    "id": "WM-03-westmarch",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     14
@@ -29991,6 +30210,7 @@
   },
   {
    "id": "WM-04-westmarch",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     14
@@ -30112,6 +30332,7 @@
   },
   {
    "id": "HV-01",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     78
@@ -30156,6 +30377,7 @@
   },
   {
    "id": "HV-02",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     78
@@ -30199,6 +30421,7 @@
   },
   {
    "id": "HV-03",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     78
@@ -30465,6 +30688,7 @@
   },
   {
    "id": "DI-01",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     77
@@ -30616,6 +30840,7 @@
   },
   {
    "id": "LM-09",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     14
@@ -30658,6 +30883,7 @@
   },
   {
    "id": "DI-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     77
@@ -30847,6 +31073,7 @@
   },
   {
    "id": "EV-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     56
@@ -30935,6 +31162,7 @@
   },
   {
    "id": "EV-01",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     56
@@ -31000,6 +31228,7 @@
   },
   {
    "id": "EV-02",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -31055,6 +31284,7 @@
   },
   {
    "id": "EV-03",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     56
@@ -31119,6 +31349,7 @@
   },
   {
    "id": "EV-04",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -31176,6 +31407,7 @@
   },
   {
    "id": "EV-05",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -31295,6 +31527,7 @@
   },
   {
    "id": "EV-07",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -31639,6 +31872,7 @@
   },
   {
    "id": "AR-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     57
@@ -31682,6 +31916,7 @@
   },
   {
    "id": "AR-A3",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     57
@@ -31725,6 +31960,7 @@
   },
   {
    "id": "AR-01",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     57
@@ -31796,6 +32032,7 @@
   },
   {
    "id": "AR-02",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     57
@@ -31848,6 +32085,7 @@
   },
   {
    "id": "AR-03",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     57
@@ -31903,6 +32141,7 @@
   },
   {
    "id": "AR-04",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     57
@@ -31955,6 +32194,7 @@
   },
   {
    "id": "AR-05",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     57
@@ -32011,6 +32251,7 @@
   },
   {
    "id": "AR-06",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     57
@@ -32068,6 +32309,7 @@
   },
   {
    "id": "AR-07",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     57
@@ -32128,6 +32370,7 @@
   },
   {
    "id": "AR-08",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     57
@@ -32232,6 +32475,7 @@
   },
   {
    "id": "AR-10",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     57
@@ -32456,6 +32700,7 @@
   },
   {
    "id": "MN-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     60,
@@ -32544,6 +32789,7 @@
   },
   {
    "id": "MN-01",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     60
@@ -32603,6 +32849,7 @@
   },
   {
    "id": "MN-02",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     60
@@ -32646,6 +32893,7 @@
   },
   {
    "id": "MN-03",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     60
@@ -33104,6 +33352,7 @@
   },
   {
    "id": "MH-02",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     16
@@ -33163,6 +33412,7 @@
   },
   {
    "id": "MH-03",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     16
@@ -33205,6 +33455,7 @@
   },
   {
    "id": "MH-04",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     16
@@ -33265,6 +33516,7 @@
   },
   {
    "id": "MH-05",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     16
@@ -33311,6 +33563,7 @@
   },
   {
    "id": "FC-A1",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     73,
@@ -33355,6 +33608,7 @@
   },
   {
    "id": "FC-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     73,
@@ -34055,6 +34309,7 @@
   },
   {
    "id": "TU-05",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     67
@@ -34277,6 +34532,7 @@
   },
   {
    "id": "SA-02",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     15
@@ -34337,6 +34593,7 @@
   },
   {
    "id": "SA-04",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     15
@@ -34394,6 +34651,7 @@
   },
   {
    "id": "SA-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     15
@@ -34460,6 +34718,7 @@
   },
   {
    "id": "SA-06",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     15
@@ -34578,6 +34837,7 @@
   },
   {
    "id": "SA-08",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     15
@@ -34642,6 +34902,7 @@
   },
   {
    "id": "SA-09",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     15
@@ -34700,6 +34961,7 @@
   },
   {
    "id": "SA-10",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     15
@@ -34757,6 +35019,7 @@
   },
   {
    "id": "SA-11",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     15
@@ -34816,6 +35079,7 @@
   },
   {
    "id": "SA-12",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     15
@@ -35151,6 +35415,7 @@
   },
   {
    "id": "EL-03",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     47
@@ -35202,6 +35467,7 @@
   },
   {
    "id": "EL-04",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     47
@@ -35256,6 +35522,7 @@
   },
   {
    "id": "EL-05",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     47
@@ -35312,6 +35579,7 @@
   },
   {
    "id": "EL-06",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     47
@@ -35507,6 +35775,7 @@
   },
   {
    "id": "NG-04",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     34
@@ -35600,6 +35869,7 @@
   },
   {
    "id": "LS-02",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     27
@@ -35939,6 +36209,7 @@
   },
   {
    "id": "NU-03",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     48
@@ -36051,6 +36322,7 @@
   },
   {
    "id": "NU-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     48
@@ -36101,6 +36373,7 @@
   },
   {
    "id": "NU-06",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     48
@@ -36155,6 +36428,7 @@
   },
   {
    "id": "NU-07",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     48
@@ -36258,6 +36532,7 @@
   },
   {
    "id": "NU-09",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     48
@@ -36393,6 +36668,7 @@
   },
   {
    "id": "EW-A1",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     21
@@ -36570,6 +36846,7 @@
   },
   {
    "id": "EW-02",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     21
@@ -36717,6 +36994,7 @@
   },
   {
    "id": "DU-11",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     72
@@ -36767,6 +37045,7 @@
   },
   {
    "id": "EW-06",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     21
@@ -37338,6 +37617,7 @@
   },
   {
    "id": "RO-A3",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     62,
@@ -37384,6 +37664,7 @@
   },
   {
    "id": "RO-01",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     62
@@ -37449,6 +37730,7 @@
   },
   {
    "id": "RO-02",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     62
@@ -37507,6 +37789,7 @@
   },
   {
    "id": "RO-03",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     62
@@ -37564,6 +37847,7 @@
   },
   {
    "id": "RO-04",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     62
@@ -37616,6 +37900,7 @@
   },
   {
    "id": "RO-05",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     62
@@ -37733,6 +38018,7 @@
   },
   {
    "id": "RO-07",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     62
@@ -37851,6 +38137,7 @@
   },
   {
    "id": "RO-09",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     62
@@ -37915,6 +38202,7 @@
   },
   {
    "id": "RO-10",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     62
@@ -38037,6 +38325,7 @@
   },
   {
    "id": "RO-12",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     62
@@ -38143,6 +38432,7 @@
   },
   {
    "id": "RO-14",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     62
@@ -38194,6 +38484,7 @@
   },
   {
    "id": "RO-15",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     62
@@ -38313,6 +38604,7 @@
   },
   {
    "id": "RO-17",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     62
@@ -38370,6 +38662,7 @@
   },
   {
    "id": "WO-01",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     63
@@ -38416,6 +38709,7 @@
   },
   {
    "id": "WO-02",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     63
@@ -38514,6 +38808,7 @@
   },
   {
    "id": "WO-04",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     63
@@ -38676,6 +38971,7 @@
   },
   {
    "id": "ET-01",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     1
@@ -38733,6 +39029,7 @@
   },
   {
    "id": "ET-02",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     1
@@ -38790,6 +39087,7 @@
   },
   {
    "id": "ET-03",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     1
@@ -38849,6 +39147,7 @@
   },
   {
    "id": "ET-04",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     1
@@ -38906,6 +39205,7 @@
   },
   {
    "id": "ET-06",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     1
@@ -38958,6 +39258,7 @@
   },
   {
    "id": "ET-07",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     1
@@ -39000,6 +39301,7 @@
   },
   {
    "id": "ET-08",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     1
@@ -39059,6 +39361,7 @@
   },
   {
    "id": "ET-09",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     1
@@ -39176,6 +39479,7 @@
   },
   {
    "id": "DR-01",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     6
@@ -39219,6 +39523,7 @@
   },
   {
    "id": "DR-02",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     6
@@ -39276,6 +39581,7 @@
   },
   {
    "id": "DR-04",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     6
@@ -39435,6 +39741,7 @@
   },
   {
    "id": "FG-A2",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     82
@@ -39706,6 +40013,7 @@
   },
   {
    "id": "FG-04",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     82
@@ -40074,6 +40382,7 @@
   },
   {
    "id": "RV-01",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     80
@@ -40426,6 +40735,7 @@
   },
   {
    "id": "RV-07",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     80
@@ -40685,6 +40995,7 @@
   },
   {
    "id": "LO-01",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     84
@@ -41110,6 +41421,7 @@
   },
   {
    "id": "LO-09",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     84
@@ -41171,6 +41483,7 @@
   },
   {
    "id": "LO-10",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     84
@@ -41234,6 +41547,7 @@
   },
   {
    "id": "BV-A1",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     58
@@ -41503,6 +41817,7 @@
   },
   {
    "id": "BV-03",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     58
@@ -41614,6 +41929,7 @@
   },
   {
    "id": "BV-05",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     58
@@ -41740,6 +42056,7 @@
   },
   {
    "id": "BV-07",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     58
@@ -42008,6 +42325,7 @@
   },
   {
    "id": "RA-01",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     17
@@ -42112,6 +42430,7 @@
   },
   {
    "id": "RA-03",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     17
@@ -42163,6 +42482,7 @@
   },
   {
    "id": "RA-04",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     17
@@ -42325,6 +42645,7 @@
   },
   {
    "id": "RA-07",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     17
@@ -42802,6 +43123,7 @@
   },
   {
    "id": "EH-05",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     24
@@ -42860,6 +43182,7 @@
   },
   {
    "id": "EH-08",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     24
@@ -43549,6 +43872,7 @@
   },
   {
    "id": "EM-00",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     44
@@ -43655,6 +43979,7 @@
   },
   {
    "id": "CF-00",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     45
@@ -43791,6 +44116,7 @@
   },
   {
    "id": "BV-00",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     58
@@ -43883,6 +44209,7 @@
   },
   {
    "id": "EV-00",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     56
@@ -43913,6 +44240,7 @@
   },
   {
    "id": "AR-00",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     57
@@ -44035,6 +44363,7 @@
   },
   {
    "id": "LI-00",
+   "intensity": 1,
    "kind": "ambient",
    "region_ids": [
     40
@@ -44112,6 +44441,7 @@
   },
   {
    "id": "SH-19",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44177,6 +44507,7 @@
   },
   {
    "id": "SH-20",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44242,6 +44573,7 @@
   },
   {
    "id": "SH-21",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44288,6 +44620,7 @@
   },
   {
    "id": "SH-22",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44353,6 +44686,7 @@
   },
   {
    "id": "SH-23",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44417,6 +44751,7 @@
   },
   {
    "id": "SH-24",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44482,6 +44817,7 @@
   },
   {
    "id": "SH-25",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44538,6 +44874,7 @@
   },
   {
    "id": "SH-26",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44589,6 +44926,7 @@
   },
   {
    "id": "SH-27",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44640,6 +44978,7 @@
   },
   {
    "id": "SH-28",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44701,6 +45040,7 @@
   },
   {
    "id": "SH-29",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44753,6 +45093,7 @@
   },
   {
    "id": "SH-30",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44810,6 +45151,7 @@
   },
   {
    "id": "SH-31",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44867,6 +45209,7 @@
   },
   {
    "id": "SH-32",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44923,6 +45266,7 @@
   },
   {
    "id": "SH-33",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -44975,6 +45319,7 @@
   },
   {
    "id": "SH-34",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -45033,6 +45378,7 @@
   },
   {
    "id": "SH-35",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -45094,6 +45440,7 @@
   },
   {
    "id": "SH-36",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -45150,6 +45497,7 @@
   },
   {
    "id": "SH-37",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -45201,6 +45549,7 @@
   },
   {
    "id": "SH-38",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     85
@@ -45256,6 +45605,7 @@
   },
   {
    "id": "AF-14",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     13
@@ -45314,6 +45664,7 @@
   },
   {
    "id": "AF-15",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     13
@@ -45372,6 +45723,7 @@
   },
   {
    "id": "AF-16",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -45433,6 +45785,7 @@
   },
   {
    "id": "AF-17",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     13
@@ -45490,6 +45843,7 @@
   },
   {
    "id": "AF-18",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -45543,6 +45897,7 @@
   },
   {
    "id": "AF-19",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -45595,6 +45950,7 @@
   },
   {
    "id": "AF-20",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -45647,6 +46003,7 @@
   },
   {
    "id": "AF-21",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -45699,6 +46056,7 @@
   },
   {
    "id": "AF-22",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -45752,6 +46110,7 @@
   },
   {
    "id": "AF-23",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -45810,6 +46169,7 @@
   },
   {
    "id": "DU-12",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     72
@@ -45863,6 +46223,7 @@
   },
   {
    "id": "DU-13",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     72
@@ -45916,6 +46277,7 @@
   },
   {
    "id": "DU-14",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     72
@@ -45973,6 +46335,7 @@
   },
   {
    "id": "DU-15",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     72
@@ -46026,6 +46389,7 @@
   },
   {
    "id": "DU-16",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     72
@@ -46076,6 +46440,7 @@
   },
   {
    "id": "DU-17",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     72
@@ -46123,6 +46488,7 @@
   },
   {
    "id": "DU-18",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     72
@@ -46173,6 +46539,7 @@
   },
   {
    "id": "AO-10",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     7
@@ -46229,6 +46596,7 @@
   },
   {
    "id": "AO-11",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     7
@@ -46288,6 +46656,7 @@
   },
   {
    "id": "AO-12",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     7
@@ -46348,6 +46717,7 @@
   },
   {
    "id": "AO-13",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     7
@@ -46407,6 +46777,7 @@
   },
   {
    "id": "AO-14",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     7
@@ -46466,6 +46837,7 @@
   },
   {
    "id": "AO-15",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     7
@@ -46529,6 +46901,7 @@
   },
   {
    "id": "AO-16",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     7
@@ -46583,6 +46956,7 @@
   },
   {
    "id": "AO-17",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     7
@@ -46637,6 +47011,7 @@
   },
   {
    "id": "DE-24",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     20
@@ -46697,6 +47072,7 @@
   },
   {
    "id": "DE-25",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     20
@@ -46757,6 +47133,7 @@
   },
   {
    "id": "DE-26",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     20
@@ -46817,6 +47194,7 @@
   },
   {
    "id": "DE-27",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     20
@@ -46931,6 +47309,7 @@
   },
   {
    "id": "DE-29",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     20
@@ -46990,6 +47369,7 @@
   },
   {
    "id": "DE-30",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     20
@@ -47045,6 +47425,7 @@
   },
   {
    "id": "DE-31",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     20
@@ -47104,6 +47485,7 @@
   },
   {
    "id": "DE-32",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     20
@@ -47163,6 +47545,7 @@
   },
   {
    "id": "DE-33",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     20
@@ -47222,6 +47605,7 @@
   },
   {
    "id": "DE-34",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     20
@@ -47280,6 +47664,7 @@
   },
   {
    "id": "LB-09",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     11
@@ -47341,6 +47726,7 @@
   },
   {
    "id": "LB-10",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     11
@@ -47402,6 +47788,7 @@
   },
   {
    "id": "LB-11",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -47462,6 +47849,7 @@
   },
   {
    "id": "LB-12",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -47521,6 +47909,7 @@
   },
   {
    "id": "LB-13",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -47576,6 +47965,7 @@
   },
   {
    "id": "LB-14",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -47634,6 +48024,7 @@
   },
   {
    "id": "LB-15",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -47693,6 +48084,7 @@
   },
   {
    "id": "LB-16",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -47748,6 +48140,7 @@
   },
   {
    "id": "LB-17",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -47862,6 +48255,7 @@
   },
   {
    "id": "LB-19",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -47922,6 +48316,7 @@
   },
   {
    "id": "LB-20",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -47977,6 +48372,7 @@
   },
   {
    "id": "LB-21",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -48036,6 +48432,7 @@
   },
   {
    "id": "LB-22",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     11
@@ -48091,6 +48488,7 @@
   },
   {
    "id": "AN-18",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     79
@@ -48146,6 +48544,7 @@
   },
   {
    "id": "AN-19",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     79
@@ -48201,6 +48600,7 @@
   },
   {
    "id": "AN-20",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     79
@@ -48310,6 +48710,7 @@
   },
   {
    "id": "AF-24",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     13
@@ -48366,6 +48767,7 @@
   },
   {
    "id": "AF-25",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -48477,6 +48879,7 @@
   },
   {
    "id": "AF-27",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     13
@@ -48533,6 +48936,7 @@
   },
   {
    "id": "AF-28",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -48588,6 +48992,7 @@
   },
   {
    "id": "AF-29",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -48642,6 +49047,7 @@
   },
   {
    "id": "AF-30",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -48697,6 +49103,7 @@
   },
   {
    "id": "AF-31",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     13
@@ -48748,6 +49155,7 @@
   },
   {
    "id": "AF-32",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -48806,6 +49214,7 @@
   },
   {
    "id": "AF-33",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -48860,6 +49269,7 @@
   },
   {
    "id": "AF-34",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     13
@@ -49030,6 +49440,7 @@
   },
   {
    "id": "AM-14",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     46
@@ -49088,6 +49499,7 @@
   },
   {
    "id": "AM-15",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     46
@@ -49142,6 +49554,7 @@
   },
   {
    "id": "AM-16",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     46
@@ -49196,6 +49609,7 @@
   },
   {
    "id": "AM-17",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     46
@@ -49254,6 +49668,7 @@
   },
   {
    "id": "AM-18",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     46
@@ -49312,6 +49727,7 @@
   },
   {
    "id": "AM-19",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     46
@@ -49370,6 +49786,7 @@
   },
   {
    "id": "AM-20",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     46
@@ -49532,6 +49949,7 @@
   },
   {
    "id": "AO-18",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     7
@@ -49580,6 +49998,7 @@
   },
   {
    "id": "AO-19",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     7
@@ -49628,6 +50047,7 @@
   },
   {
    "id": "AO-20",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     7
@@ -49681,6 +50101,7 @@
   },
   {
    "id": "AO-21",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     7
@@ -49729,6 +50150,7 @@
   },
   {
    "id": "AP-1",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     64
@@ -49785,6 +50207,7 @@
   },
   {
    "id": "AP-2",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     64
@@ -49840,6 +50263,7 @@
   },
   {
    "id": "AP-3",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     64
@@ -49895,6 +50319,7 @@
   },
   {
    "id": "AP-4",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     64
@@ -49951,6 +50376,7 @@
   },
   {
    "id": "AP-5",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     64
@@ -50005,6 +50431,7 @@
   },
   {
    "id": "AP-6",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     64
@@ -50060,6 +50487,7 @@
   },
   {
    "id": "AD-1",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     28
@@ -50120,6 +50548,7 @@
   },
   {
    "id": "AD-2",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     28
@@ -50228,6 +50657,7 @@
   },
   {
    "id": "AD-4",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     28
@@ -50282,6 +50712,7 @@
   },
   {
    "id": "AQ-1",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     33
@@ -50337,6 +50768,7 @@
   },
   {
    "id": "AQ-2",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     33
@@ -50392,6 +50824,7 @@
   },
   {
    "id": "AQ-3",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     33
@@ -50447,6 +50880,7 @@
   },
   {
    "id": "AQ-4",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     33
@@ -50550,6 +50984,7 @@
   },
   {
    "id": "BV-9",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     58
@@ -50605,6 +51040,7 @@
   },
   {
    "id": "BV-10",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     58
@@ -50660,6 +51096,7 @@
   },
   {
    "id": "BV-11",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     58
@@ -50714,6 +51151,7 @@
   },
   {
    "id": "BV-12",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     58
@@ -50828,6 +51266,7 @@
   },
   {
    "id": "SA-15",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     15
@@ -50876,6 +51315,7 @@
   },
   {
    "id": "SA-16",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     15
@@ -50931,6 +51371,7 @@
   },
   {
    "id": "SA-17",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     15
@@ -50985,6 +51426,7 @@
   },
   {
    "id": "SA-18",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     15
@@ -51091,6 +51533,7 @@
   },
   {
    "id": "SA-20",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     15
@@ -51138,6 +51581,7 @@
   },
   {
    "id": "SA-21",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     15
@@ -51287,6 +51731,7 @@
   },
   {
    "id": "HL-3",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     32
@@ -51341,6 +51786,7 @@
   },
   {
    "id": "HL-4",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     32
@@ -51397,6 +51843,7 @@
   },
   {
    "id": "HL-5",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     32
@@ -51453,6 +51900,7 @@
   },
   {
    "id": "HL-6",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     32
@@ -51507,6 +51955,7 @@
   },
   {
    "id": "HL-7",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     32
@@ -51562,6 +52011,7 @@
   },
   {
    "id": "LI-2",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     40
@@ -51613,6 +52063,7 @@
   },
   {
    "id": "LI-3",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     40
@@ -51661,6 +52112,7 @@
   },
   {
    "id": "RL-1",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     26
@@ -51718,6 +52170,7 @@
   },
   {
    "id": "MD-23",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     74
@@ -51774,6 +52227,7 @@
   },
   {
    "id": "MD-24",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     74
@@ -51882,6 +52336,7 @@
   },
   {
    "id": "MD-26",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     74
@@ -51941,6 +52396,7 @@
   },
   {
    "id": "NR-1",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     76
@@ -51996,6 +52452,7 @@
   },
   {
    "id": "NR-2",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     76
@@ -52051,6 +52508,7 @@
   },
   {
    "id": "RN-1",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     36
@@ -52104,6 +52562,7 @@
   },
   {
    "id": "TM-26",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     55
@@ -52158,6 +52617,7 @@
   },
   {
    "id": "TM-27",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     55
@@ -52206,6 +52666,7 @@
   },
   {
    "id": "TM-28",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     55
@@ -52254,6 +52715,7 @@
   },
   {
    "id": "TM-29",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     55
@@ -52302,6 +52764,7 @@
   },
   {
    "id": "TM-30",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     55
@@ -52350,6 +52813,7 @@
   },
   {
    "id": "TM-31",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     55
@@ -52404,6 +52868,7 @@
   },
   {
    "id": "TM-32",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     55
@@ -52451,6 +52916,7 @@
   },
   {
    "id": "TM-33",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     54
@@ -52505,6 +52971,7 @@
   },
   {
    "id": "TM-34",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     54
@@ -52553,6 +53020,7 @@
   },
   {
    "id": "TS-17",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     43
@@ -52612,6 +53080,7 @@
   },
   {
    "id": "TS-18",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     43
@@ -52667,6 +53136,7 @@
   },
   {
    "id": "WRH-1",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     42
@@ -52714,6 +53184,7 @@
   },
   {
    "id": "SD-7",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     59
@@ -52761,6 +53232,7 @@
   },
   {
    "id": "SD-8",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     59
@@ -52808,6 +53280,7 @@
   },
   {
    "id": "DU-19",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     72
@@ -52863,6 +53336,7 @@
   },
   {
    "id": "DU-20",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     72
@@ -52917,6 +53391,7 @@
   },
   {
    "id": "DU-21",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     72
@@ -52971,6 +53446,7 @@
   },
   {
    "id": "DU-22",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     72
@@ -53025,6 +53501,7 @@
   },
   {
    "id": "DU-23",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     72
@@ -53079,6 +53556,7 @@
   },
   {
    "id": "DU-24",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     72
@@ -53132,6 +53610,7 @@
   },
   {
    "id": "RH-22",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     42
@@ -53248,6 +53727,7 @@
   },
   {
    "id": "EW-13",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     21
@@ -53350,6 +53830,7 @@
   },
   {
    "id": "EW-15",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     21
@@ -53404,6 +53885,7 @@
   },
   {
    "id": "EW-16",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     21
@@ -53459,6 +53941,7 @@
   },
   {
    "id": "EW-17",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     21
@@ -53513,6 +53996,7 @@
   },
   {
    "id": "EL-7",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     47
@@ -53569,6 +54053,7 @@
   },
   {
    "id": "LS-4",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     27
@@ -53624,6 +54109,7 @@
   },
   {
    "id": "LS-5",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     27
@@ -53679,6 +54165,7 @@
   },
   {
    "id": "LS-6",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     27
@@ -53734,6 +54221,7 @@
   },
   {
    "id": "LS-7",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     27
@@ -53789,6 +54277,7 @@
   },
   {
    "id": "NG-5",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     34
@@ -53843,6 +54332,7 @@
   },
   {
    "id": "NG-6",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     34
@@ -53898,6 +54388,7 @@
   },
   {
    "id": "NG-7",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     34
@@ -53952,6 +54443,7 @@
   },
   {
    "id": "E-10",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     70
@@ -54048,6 +54540,7 @@
   },
   {
    "id": "RH-23",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     44
@@ -54107,6 +54600,7 @@
   },
   {
    "id": "EV-12",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54154,6 +54648,7 @@
   },
   {
    "id": "EV-13",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54201,6 +54696,7 @@
   },
   {
    "id": "EV-14",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54248,6 +54744,7 @@
   },
   {
    "id": "EV-15",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54295,6 +54792,7 @@
   },
   {
    "id": "EV-16",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54349,6 +54847,7 @@
   },
   {
    "id": "EV-17",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54396,6 +54895,7 @@
   },
   {
    "id": "EV-18",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54443,6 +54943,7 @@
   },
   {
    "id": "EV-19",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54497,6 +54998,7 @@
   },
   {
    "id": "EV-20",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54549,6 +55051,7 @@
   },
   {
    "id": "EV-21",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54596,6 +55099,7 @@
   },
   {
    "id": "EV-22",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54643,6 +55147,7 @@
   },
   {
    "id": "EV-23",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54697,6 +55202,7 @@
   },
   {
    "id": "EV-24",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54751,6 +55257,7 @@
   },
   {
    "id": "EV-25",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54804,6 +55311,7 @@
   },
   {
    "id": "EV-26",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54857,6 +55365,7 @@
   },
   {
    "id": "EV-27",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -54910,6 +55419,7 @@
   },
   {
    "id": "EV-28",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     56
@@ -54964,6 +55474,7 @@
   },
   {
    "id": "EV-29",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -55016,6 +55527,7 @@
   },
   {
    "id": "EV-30",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -55070,6 +55582,7 @@
   },
   {
    "id": "EV-31",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -55124,6 +55637,7 @@
   },
   {
    "id": "EV-32",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -55178,6 +55692,7 @@
   },
   {
    "id": "EV-33",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     56
@@ -55237,6 +55752,7 @@
   },
   {
    "id": "EV-34",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -55291,6 +55807,7 @@
   },
   {
    "id": "EV-35",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -55345,6 +55862,7 @@
   },
   {
    "id": "EV-36",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     56
@@ -55399,6 +55917,7 @@
   },
   {
    "id": "EV-37",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -55452,6 +55971,7 @@
   },
   {
    "id": "EV-38",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     56
@@ -55511,6 +56031,7 @@
   },
   {
    "id": "IT-20",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     75
@@ -55565,6 +56086,7 @@
   },
   {
    "id": "AR-13",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     57
@@ -55673,6 +56195,7 @@
   },
   {
    "id": "AR-15",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     57
@@ -55727,6 +56250,7 @@
   },
   {
    "id": "AR-16",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     57
@@ -55781,6 +56305,7 @@
   },
   {
    "id": "AR-17",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     57
@@ -55836,6 +56361,7 @@
   },
   {
    "id": "AR-18",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     57
@@ -55889,6 +56415,7 @@
   },
   {
    "id": "HV-6",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     78
@@ -55944,6 +56471,7 @@
   },
   {
    "id": "HV-7",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     78
@@ -55993,6 +56521,7 @@
   },
   {
    "id": "HV-8",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     78
@@ -56112,6 +56641,7 @@
   },
   {
    "id": "HI-17",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     18
@@ -56166,6 +56696,7 @@
   },
   {
    "id": "HI-18",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     18
@@ -56220,6 +56751,7 @@
   },
   {
    "id": "HI-19",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     18
@@ -56441,6 +56973,7 @@
   },
   {
    "id": "HR-11",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     12
@@ -56498,6 +57031,7 @@
   },
   {
    "id": "HR-12",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     12
@@ -56554,6 +57088,7 @@
   },
   {
    "id": "HR-13",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     12
@@ -56663,6 +57198,7 @@
   },
   {
    "id": "LA-2",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     30
@@ -56718,6 +57254,7 @@
   },
   {
    "id": "LA-3",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     30
@@ -56773,6 +57310,7 @@
   },
   {
    "id": "LA-4",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     30
@@ -56828,6 +57366,7 @@
   },
   {
    "id": "LA-5",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     30
@@ -56883,6 +57422,7 @@
   },
   {
    "id": "LA-6",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     30
@@ -56938,6 +57478,7 @@
   },
   {
    "id": "LA-7",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     30
@@ -56993,6 +57534,7 @@
   },
   {
    "id": "LA-8",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     30
@@ -57049,6 +57591,7 @@
   },
   {
    "id": "LM-10",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     19
@@ -57109,6 +57652,7 @@
   },
   {
    "id": "LM-11",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     19
@@ -57168,6 +57712,7 @@
   },
   {
    "id": "LM-12",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     19
@@ -57228,6 +57773,7 @@
   },
   {
    "id": "LM-13",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     19
@@ -57339,6 +57885,7 @@
   },
   {
    "id": "LB-23",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -57393,6 +57940,7 @@
   },
   {
    "id": "LB-24",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     11
@@ -57447,6 +57995,7 @@
   },
   {
    "id": "LI-1",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     31
@@ -57550,6 +58099,7 @@
   },
   {
    "id": "MA-2",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     51
@@ -57604,6 +58154,7 @@
   },
   {
    "id": "MA-3",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     51
@@ -57705,6 +58256,7 @@
   },
   {
    "id": "MH-7",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     16
@@ -57759,6 +58311,7 @@
   },
   {
    "id": "MH-8",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     16
@@ -57814,6 +58367,7 @@
   },
   {
    "id": "MH-9",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     16
@@ -57862,6 +58416,7 @@
   },
   {
    "id": "MH-10",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     16
@@ -57909,6 +58464,7 @@
   },
   {
    "id": "MH-11",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     16
@@ -57963,6 +58519,7 @@
   },
   {
    "id": "MH-12",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     16
@@ -58010,6 +58567,7 @@
   },
   {
    "id": "MH-13",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     16
@@ -58066,6 +58624,7 @@
   },
   {
    "id": "MH-14",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     16
@@ -58114,6 +58673,7 @@
   },
   {
    "id": "MH-15",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     16
@@ -58161,6 +58721,7 @@
   },
   {
    "id": "MH-16",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     16
@@ -58212,6 +58773,7 @@
   },
   {
    "id": "MH-17",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     16
@@ -58259,6 +58821,7 @@
   },
   {
    "id": "MH-18",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     16
@@ -58313,6 +58876,7 @@
   },
   {
    "id": "MH-19",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     16
@@ -58361,6 +58925,7 @@
   },
   {
    "id": "MH-20",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     16
@@ -58420,6 +58985,7 @@
   },
   {
    "id": "MH-21",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     16
@@ -58474,6 +59040,7 @@
   },
   {
    "id": "MH-22",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     16
@@ -58521,6 +59088,7 @@
   },
   {
    "id": "MH-23",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     16
@@ -58576,6 +59144,7 @@
   },
   {
    "id": "MH-24",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     16
@@ -58632,6 +59201,7 @@
   },
   {
    "id": "MH-25",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     16
@@ -58686,6 +59256,7 @@
   },
   {
    "id": "MH-26",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     16
@@ -58741,6 +59312,7 @@
   },
   {
    "id": "MH-27",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     16
@@ -58795,6 +59367,7 @@
   },
   {
    "id": "MN-11",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     60
@@ -58842,6 +59415,7 @@
   },
   {
    "id": "MN-12",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     60
@@ -58896,6 +59470,7 @@
   },
   {
    "id": "MN-13",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     60
@@ -58952,6 +59527,7 @@
   },
   {
    "id": "MN-14",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     60
@@ -59006,6 +59582,7 @@
   },
   {
    "id": "MN-15",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     60
@@ -59054,6 +59631,7 @@
   },
   {
    "id": "MN-16",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     60
@@ -59108,6 +59686,7 @@
   },
   {
    "id": "AS-1",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     49
@@ -59163,6 +59742,7 @@
   },
   {
    "id": "AS-2",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     49
@@ -59324,6 +59904,7 @@
   },
   {
    "id": "BE-1",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     29
@@ -59379,6 +59960,7 @@
   },
   {
    "id": "BE-2",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     29
@@ -59434,6 +60016,7 @@
   },
   {
    "id": "CE-1",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     52
@@ -59489,6 +60072,7 @@
   },
   {
    "id": "CE-2",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     52
@@ -59542,6 +60126,7 @@
   },
   {
    "id": "CE-3",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     52
@@ -59656,6 +60241,7 @@
   },
   {
    "id": "CF-1",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     45
@@ -59703,6 +60289,7 @@
   },
   {
    "id": "DL-13",
+   "intensity": 3,
    "kind": "place",
    "region_ids": [
     8
@@ -59757,6 +60344,7 @@
   },
   {
    "id": "DG-10",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     83
@@ -59862,6 +60450,7 @@
   },
   {
    "id": "DE-36",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     20
@@ -59917,6 +60506,7 @@
   },
   {
    "id": "DE-37",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     20
@@ -60027,6 +60617,7 @@
   },
   {
    "id": "DF-1",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     9
@@ -60090,6 +60681,7 @@
   },
   {
    "id": "TF-1",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     23
@@ -60147,6 +60739,7 @@
   },
   {
    "id": "WM-10",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     14
@@ -60203,6 +60796,7 @@
   },
   {
    "id": "WM-11",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     14
@@ -60257,6 +60851,7 @@
   },
   {
    "id": "WM-12",
+   "intensity": 2,
    "kind": "place",
    "region_ids": [
     14
@@ -60371,6 +60966,7 @@
   },
   {
    "id": "WM-14",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     14
@@ -60425,6 +61021,7 @@
   },
   {
    "id": "WM-15",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     14
@@ -60479,6 +61076,7 @@
   },
   {
    "id": "WM-16",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     14
@@ -60684,6 +61282,7 @@
   },
   {
    "id": "RO-18",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     62
@@ -60844,6 +61443,7 @@
   },
   {
    "id": "WR-10",
+   "intensity": 1,
    "kind": "place",
    "region_ids": [
     4

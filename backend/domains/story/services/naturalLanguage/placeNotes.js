@@ -12,7 +12,8 @@ import { descriptionSuffix, readableType } from './text.js';
 export const DISTANT_SIGHTING_KM = 1;
 
 // The silhouette a kind gives from beyond reach, before the place is
-// known — the fallback while a record carries no authored sighted_far.
+// known — the whole far-face channel (#187 dropped the never-authored
+// sighted_far override; the derived shape covers it).
 // Two states per kind: what life gives away at distance (smoke, lamps,
 // banners, movement) or — when the place is dead — its absence, which
 // is what the eye actually reads. A burned inn shows no smoke; a sacked
@@ -284,8 +285,7 @@ export function sightedShape(location) {
 
 const PLURAL_SIGHTED = new Set(['ruins']);
 
-/** The anonymous subject a distant sighting gets: 'a town', 'some ruins' —
- * the authored sighted_far is where the place earns its name back. */
+/** The anonymous subject a distant sighting gets: 'a town', 'some ruins'. */
 function sightedSubject(location) {
   const kindWord = readableType(location?.type) || 'place';
   const article = PLURAL_SIGHTED.has(location?.type) ? 'some'
@@ -368,13 +368,14 @@ export function collectLocationNotes(locations) {
       const time = sight ? '' : `, ${when}`;
       proximity = `${sight}${proximityPhrase(l.distance_km, l.size_radius_km)}${time}`;
     }
-    // From beyond its reach a place is only its silhouette — anonymous
-    // unless the authored sighted_far chooses to name it. aspect is the
-    // face seen from outside up close; presence is being there.
+    // From beyond its reach a place is only its silhouette — anonymous,
+    // read from its kind (sightedShape, #187: the authored override
+    // column is gone, the derived shape is the whole far-face). aspect
+    // is the face seen from outside up close; presence is being there.
     const distant = isDistantSighting(l);
     const subject = distant ? sightedSubject(l) : `${l.name}${kind}`;
     const prose = distant
-      ? (l.sighted_far || sightedShape(l))
+      ? sightedShape(l)
       : (l.visited || l.entered) ? (l.presence || l.aspect) : l.aspect;
     notes.push(`- ${subject}: ${proximity}${prose ? descriptionSuffix(prose) : '.'}`);
   }

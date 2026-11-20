@@ -29,7 +29,7 @@ async function fetchInteractions({ placesNarrationId = null, entitiesNarrationId
   const col = placesNarrationId ? 'places_narration_id' : 'entities_narration_id';
   const id = placesNarrationId ?? entitiesNarrationId;
   const { rows } = await pool.query(
-    `SELECT id, act, label, need_tags, skill, outcomes, payload FROM interactions WHERE ${col} = $1`,
+    `SELECT id, act, label, need_tags, skill, outcomes, payload, intensity FROM interactions WHERE ${col} = $1`,
     [id]
   );
   return rows;
@@ -294,6 +294,9 @@ export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome, after
     interaction_id: interaction.id,
     outcome: outcomeKey,
     description: outcome?.text?.en ?? null,
+    // The choice's own force wins; a row that declares none inherits
+    // how hard the meeting hit (#184).
+    intensity: interaction.intensity ?? pool_.encounter?.interaction?.intensity ?? null,
     // Tone (#184): an authored felt on the interaction row wins; else
     // the contact record's own felt:* tag speaks for the meeting.
     tags: [interaction.act, ...(interaction.need_tags || []),

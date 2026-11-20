@@ -44,6 +44,10 @@ TAG_CLASSES = {
     # 'land' umbrella): how the land-contact happened, never a subject
     # nor a theme — 'a place again' is not a streak.
     'subtype':     {'ambient'},
+    # The traveller's activity on the moment (walk/watch/talk/eat/rest):
+    # bookkeeping vocabulary — it colours the felt map but 'walking
+    # again' never evokes, streaks or stands as a cause.
+    'act':         {'ambient'},
 }
 
 # Data keys that never enter the tag space (the wire's contract, not a

@@ -151,13 +151,13 @@ def test_slug_subject_is_humanized(client):
 # --- B) people weight ------------------------------------------------------
 
 def test_people_exchange_beats_the_drizzle(client):
-    """A noticed brief_exchange with thinking company clears the form
-    floor — it can never sink to the 0.08 a conversation used to get."""
+    """A noticed brief_exchange with thinking company stays an event —
+    its authored intensity carries the force the form floor used to."""
     char = _uid('people-weight')
     opened = _open(client, char, 'd1', [_encounter(
         1,
         entity='dnedain', entity_name='Dúnedain',
-        entity_type='humans', form='brief_exchange',
+        entity_type='humans', form='brief_exchange', intensity=2,
     )])
     item = opened['psyche_packet']['perceived_day'][0]
     assert item['perception'] == 'noticed'

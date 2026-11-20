@@ -213,9 +213,9 @@ export async function resolveAmbientSituations({
   }
 
   const { rows } = await pool.query(
-    `SELECT id, name, region_ids, priority, situations, tags
+    `SELECT id, name, region_ids, priority, situations, tags, intensity
        FROM places_narration
-      WHERE kind = 'ambient'
+      WHERE kind IN ('ambient', 'depiction')
         AND situations IS NOT NULL
         AND region_ids && $1::int[]`,
     [regionIds]
@@ -277,6 +277,9 @@ export async function resolveAmbientSituations({
       // The record's tone rides the resolved voice: one felt:* word,
       // the ambience event's pull on the mood (#184).
       felt: (record.tags || []).find((t) => t.startsWith('felt:')) ?? null,
+      // The record's declared force (0-4): most ambient voices stay
+      // washed; a Barrow-downs wind can declare it presses in.
+      intensity: record.intensity ?? null,
     });
   }
   return situations;

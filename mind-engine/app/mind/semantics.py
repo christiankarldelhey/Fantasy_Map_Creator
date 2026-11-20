@@ -11,15 +11,15 @@
 # A row:
 #   key    a tag pattern ('tag:form:attacks', wildcards allowed)
 #   delta  the sparse relation-dim delta the world objectively carried
-#   weight how strongly this kind of contact lands — seeing a city from
-#          afar (sighted_far .15) is not walking its streets (entered .5);
+#   weight how strongly this kind of contact lands, as a fallback —
+#          a declared data.intensity overrides it (the shared dial);
 #          the matched rows' max weight is the event's contact weight
 #   body   an acute hit — the one exception to projected body ('wounded'
 #          literally hurts)
-#   salience_min / severity  the kind's declared floors — how much
-#          contact of this kind must matter once noticed; what a tag IS,
-#          not how loud it arrived. A floor-only row sets weight 0: it
-#          declares meaning without claiming contact.
+#   salience_min  the kind's declared floor — how much contact of this
+#          kind must matter once noticed; what a tag IS, not how loud
+#          it arrived. A floor-only row sets weight 0: it declares
+#          meaning without claiming contact.
 #
 # `SEMANTIC_FIELDS` does for numeric data what tag rows do for tags:
 # 'danger' is a host-declared fact (0-5) that objectively reads as menace
@@ -32,50 +32,52 @@ from app.mind.util import num, tag_matches
 
 DEFAULT_SEMANTICS = {
     # Contact forms — how the meeting happened.
+    # Force lives in the event's `intensity` (0-4, authored per
+    # encounter form) — not in salience floors here. 'weight' survives
+    # only as the fallback scale for events that declare no intensity.
     'tag:form:attacks': {
         'delta': {'fear': 0.5, 'affection': -0.2, 'trust': -0.1},
-        'weight': 0.9, 'body': {'pain': 0.15}, 'salience_min': 0.6,
+        'weight': 0.9, 'body': {'pain': 0.15},
         'wakes': True,
     },
     'tag:form:sudden_peril': {
         'delta': {'fear': 0.5, 'trust': -0.1}, 'weight': 0.8,
-        'salience_min': 0.55, 'wakes': True,
+        'wakes': True,
     },
     'tag:form:confronts': {
         'delta': {'fear': 0.3, 'affection': -0.1, 'trust': -0.1},
-        'weight': 0.6, 'salience_min': 0.5, 'wakes': True,
+        'weight': 0.6, 'wakes': True,
     },
     'tag:form:stalks': {
-        'delta': {'fear': 0.25}, 'weight': 0.4, 'salience_min': 0.35,
+        'delta': {'fear': 0.25}, 'weight': 0.4,
     },
     'tag:form:hinders_passage': {
         'delta': {'affection': -0.15, 'trust': -0.05}, 'weight': 0.45,
-        'salience_min': 0.4, 'wakes': True,
+        'wakes': True,
     },
     'tag:form:aid_or_trade': {
         'delta': {'affection': 0.15, 'trust': 0.3}, 'weight': 0.5,
-        'salience_min': 0.5, 'wakes': True,
+        'wakes': True,
     },
     'tag:form:harvest_shelter': {
         'delta': {'affection': 0.25, 'trust': 0.3, 'familiarity': 0.15},
-        'weight': 0.5, 'body': {'cold': -0.4}, 'salience_min': 0.45,
+        'weight': 0.5, 'body': {'cold': -0.4},
         'wakes': True,
     },
     'tag:form:brief_exchange': {
         'delta': {'affection': 0.1, 'trust': 0.1, 'familiarity': 0.15},
-        'weight': 0.45, 'salience_min': 0.45, 'wakes': True,
+        'weight': 0.45, 'wakes': True,
     },
     'tag:form:reacts_withdraws': {
         'delta': {'affection': 0.05, 'familiarity': 0.1}, 'weight': 0.35,
-        'salience_min': 0.35, 'wakes': True,
+        'wakes': True,
     },
     'tag:form:drifts_closer': {
         'delta': {'familiarity': 0.1}, 'weight': 0.3,
-        'salience_min': 0.3, 'wakes': True,
+        'wakes': True,
     },
     'tag:form:watches': {
         'delta': {'fear': 0.1, 'familiarity': 0.05}, 'weight': 0.3,
-        'salience_min': 0.3,
     },
     # Contact without touch — the thing was registered, not met: signs,
     # glimpses, sounds, a presence felt. All of it is the familiarity
@@ -164,28 +166,25 @@ DEFAULT_SEMANTICS = {
         'salience_min': 0.5,
     },
     # Weather — climate as contact: it presses the body, and the severe
-    # tiers carry honest fear too. The severity floor makes the hard
-    # day an *event* in the salience arithmetic — a storm day encodes,
-    # a drizzle day stays background.
+    # tiers carry honest fear too. Their force rides as data.intensity
+    # on the event (the shared 0-4 dial) — a storm day encodes, a
+    # drizzle day stays background.
     'tag:weather:storm': {
         'delta': {'fear': 0.3, 'affection': -0.1},
-        'weight': 0.4, 'body': {'cold': 0.1}, 'severity': 0.6,
+        'weight': 0.4, 'body': {'cold': 0.1},
     },
     'tag:weather:freezing': {
         'delta': {'affection': -0.1}, 'weight': 0.35, 'body': {'cold': 0.25},
-        'severity': 0.3,
     },
     'tag:weather:snow': {
         'delta': {'affection': -0.05}, 'weight': 0.35, 'body': {'cold': 0.2},
-        'severity': 0.45,
     },
     'tag:weather:deep_cold': {
         'delta': {'fear': 0.3, 'affection': -0.15},
-        'weight': 0.5, 'body': {'cold': 0.3}, 'severity': 0.55,
+        'weight': 0.5, 'body': {'cold': 0.3},
     },
     'tag:weather:scorching': {
         'delta': {'affection': -0.1}, 'weight': 0.4, 'body': {'fatigue': 0.15},
-        'severity': 0.5,
     },
     # The milder tiers the host also declares: a wet road, a gusty
     # ridge, a grey sky — small miseries, still honest.
@@ -202,7 +201,7 @@ DEFAULT_SEMANTICS = {
     },
     # Presence vs sighting — the distance IS the meaning: a city seen
     # from afar touches familiarity a little and nothing else.
-    'tag:sighted_far': {'delta': {'familiarity': 0.05}, 'weight': 0.15},
+
     'tag:sighted': {'delta': {'familiarity': 0.1}, 'weight': 0.3},
     'tag:visited': {'delta': {'familiarity': 0.2}, 'weight': 0.4},
     'tag:entered': {
@@ -295,27 +294,27 @@ DEFAULT_SEMANTICS = {
     },
     # Numeric data fields — the wire's declared fact channels. 'field:X'
     # rows read the event's data, not its tags: 'delta' is per-unit
-    # meaning scaled by the event's contact weight ('danger' 0-5 is
-    # objectively menacing), and 'severity' marks a field whose value
-    # counts toward the event's severity outright (0-1 normalized).
+    # meaning scaled by the event's force ('danger' 0-5 is objectively
+    # menacing — it sediments the Relation, it does not make the moment
+    # louder), and 'severity' marks a field whose value counts toward
+    # the event's severity outright (0-1 normalized).
     'field:danger': {
-        'delta': {'fear': 0.1, 'affection': -0.05}, 'severity': 1.0,
+        'delta': {'fear': 0.1, 'affection': -0.05},
     },
     'field:shadow_effect': {
         'delta': {'fear': 0.1, 'affection': -0.1},
     },
-    'field:severity': {'severity': 1.0},
-    'field:threat': {'severity': 1.0},
-    'field:damage': {'severity': 1.0},
-    'field:wound': {'severity': 1.0},
-    'field:pain': {'severity': 1.0},
-    'field:hostility': {'severity': 1.0},
-    'field:risk': {'severity': 1.0},
-    'field:lethality': {'severity': 1.0},
+    # THE force dial: one authored number per encounter row (0-4 → 0-1
+    # severity). The same value scales the world_delta — a hard
+    # happening imprints the Relation AND registers loud; tracks and
+    # far shapes stay washed. The host stamps data.intensity on any
+    # event that wants declared force (forms emit it on the wire).
+    'field:intensity': {'severity': 0.25},
 }
 
-# A sighting is never full contact — however severe the thing seen.
-SIGHTED_FAR_CAP = 0.15
+# Even a zero-intensity happening leaves a trace: tracks teach a
+# whisper of familiarity, they teach nothing zero.
+INTENSITY_FLOOR = 0.15
 
 
 def load_semantics(session, game_id):
@@ -333,24 +332,23 @@ def load_semantics(session, game_id):
             'weight': row.weight,
             'body': dict(row.body or {}),
             'salience_min': row.salience_min,
-            'severity': row.severity,
             'wakes': row.wakes,
         }
     return pack
 
 
-def tag_floors(tags, semantics):
-    """The kind's declared floors (C6/C16): the strongest salience_min
-    and severity across the pack rows these tags match. What a tag IS —
-    thinking company is never background, a declared storm tier is an
-    *event* — regardless of how quietly it arrived."""
-    salience_min = severity = 0.0
+def salience_floor(tags, semantics):
+    """The kind's declared floor (C16): the strongest salience_min
+    across the pack rows these tags match. What a tag IS — thinking
+    company is never background — regardless of how quietly it
+    arrived. Severity itself is the host's dial (field:intensity);
+    rows no longer floor it."""
+    salience_min = 0.0
     for key, row in (semantics or {}).items():
         if not any(tag_matches(t, key) for t in tags or []):
             continue
         salience_min = max(salience_min, row.get('salience_min') or 0.0)
-        severity = max(severity, row.get('severity') or 0.0)
-    return salience_min, severity
+    return salience_min
 
 
 def field_severity(data, semantics):
@@ -384,21 +382,31 @@ def wakes_sleeper(tags, semantics):
 
 def semantic_delta(tags, data, semantics):
     """The event's objective reading: the summed sparse delta its matched
-    semantic rows declare (each scaled by its row's contact weight), plus
-    'field:' rows for the wire's numeric fact channels at the event's
-    overall contact weight.
+    semantic rows declare, plus 'field:' rows for the wire's numeric fact
+    channels at the event's overall contact weight.
+
+    The scale is one dial, not a per-row vote: a declared data.intensity
+    (0-4, authored on the encounter row) IS the event's force and scales
+    every matched row — the same number that drives severity through
+    'field:intensity'. Events without intensity fall back to each row's
+    authored 'weight'.
     Returns (world_delta, contact_weight, body_hit)."""
     world, body_hit = {}, {}
-    weight = 0.0
+    raw_force = num((data or {}).get('intensity'))
+    force = (min(1.0, max(INTENSITY_FLOOR, raw_force / 4.0))
+             if raw_force is not None else None)
+    weight = force or 0.0
     for key, row in (semantics or {}).items():
         if key.startswith('field:'):
             continue
         if not any(tag_matches(t, key) for t in tags or []):
             continue
         row_w = row.get('weight')
-        weight = max(weight, row_w if row_w is not None else 0.5)
+        if force is None:
+            weight = max(weight, row_w if row_w is not None else 0.5)
+        scale = force if force is not None else (row_w or 0.5)
         for dim, v in (row.get('delta') or {}).items():
-            world[dim] = world.get(dim, 0.0) + v * (row_w or 0.5)
+            world[dim] = world.get(dim, 0.0) + v * scale
         for dim, v in (row.get('body') or {}).items():
             body_hit[dim] = body_hit.get(dim, 0.0) + v
     contact = weight or 0.5
@@ -410,10 +418,4 @@ def semantic_delta(tags, data, semantics):
             continue
         for dim, v in (row.get('delta') or {}).items():
             world[dim] = world.get(dim, 0.0) + v * raw * contact
-    if (data or {}).get('sighted_far') and contact > SIGHTED_FAR_CAP:
-        # Seen from afar: whatever heavier row matched, the sighting
-        # carries only a sighting's share of it.
-        scale = SIGHTED_FAR_CAP / contact
-        world = {d: v * scale for d, v in world.items()}
-        contact = SIGHTED_FAR_CAP
     return world, contact, body_hit

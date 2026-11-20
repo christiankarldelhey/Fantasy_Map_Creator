@@ -375,7 +375,7 @@ def test_a_salient_novel_event_makes_sameness_yield(client):
                      'phase': 'afternoon'},
             'data': {'entity': 'dragon_1', 'entity_name': 'a dragon',
                      'tags': ['entity_type:dragons'],
-                     'severity': 0.9},
+                     'intensity': 4},
         },
     ])
     assert _recurrences(p4) == []

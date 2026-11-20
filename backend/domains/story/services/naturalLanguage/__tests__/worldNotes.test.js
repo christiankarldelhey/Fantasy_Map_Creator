@@ -166,7 +166,8 @@ test('collectLocationNotes tells entry from passing by', async () => {
 // A place that never comes within reach is first met on the horizon: the
 // sighting (with compass direction and its own hour) precedes the passing.
 // Beyond reach it is anonymous — a silhouette by kind, never the ficha's
-// aspect or census; the authored sighted_far is where it earns a name back.
+// aspect or census (#187: the authored sighted_far column is gone; the kind
+// shape is the only far face).
 test('collectLocationNotes voices a distant sighting before the passing', async () => {
   const { collectLocationNotes } = await import('../placeNotes.js');
   const notes = collectLocationNotes([
@@ -177,8 +178,7 @@ test('collectLocationNotes voices a distant sighting before the passing', async 
       sighted: true, sighted_hour_float: 11, sighted_direction: 'north' },
     { name: 'Newbury', type: 'town', hour_float: 17, distance_km: 14.4,
       aspect: 'A Buckland village.', population: 220,
-      sighted: true, sighted_hour_float: 10.4, sighted_direction: 'east',
-      sighted_far: 'a hobbit village — smoke above its chimneys' },
+      sighted: true, sighted_hour_float: 10.4, sighted_direction: 'east' },
   ]);
   assert.match(notes[0], /sighted far off to the east/);
   assert.match(notes[0], /passed at some distance/);
@@ -189,9 +189,9 @@ test('collectLocationNotes voices a distant sighting before the passing', async 
   assert.match(notes[1], /sighted far off to the north/);
   assert.match(notes[1], /enemy country/);
   assert.match(notes[1], /^- a fortified city:/);
-  // The authored line rides instead of the fallback shape.
+  // The kind-derived shape is the far face.
   assert.match(notes[2], /^- a town:/);
-  assert.match(notes[2], /smoke above its chimneys/);
+  assert.match(notes[2], /rooftops and a thread of smoke/);
   assert.doesNotMatch(notes[2], /Newbury|Buckland/);
 });
 

@@ -2,7 +2,7 @@
 // Interaction Resolver
 // ----------------------------------------------------------------------------
 // Given an entity chosen for an encounter slot, resolves:
-//   - a FORM from entities_narration (kind='form')
+//   - a FORM from encounter_forms (#187: no longer a narration kind)
 //   - optional DIALOGUE content from entities_narration (kind='contact')
 //   - optional OUTCOME from a resistance roll
 // before the LLM prompt is built.
@@ -103,8 +103,8 @@ async function fetchForms(entityType) {
   const { rows } = await pool.query(
     `SELECT form, intensity, weight, min_danger, max_danger, triggers_roll,
             aspect->>'en' AS prose_hint
-     FROM entities_narration
-     WHERE kind = 'form' AND entity_type = $1`,
+     FROM encounter_forms
+     WHERE entity_type = $1`,
     [entityType]
   );
   formCache.set(entityType, rows);

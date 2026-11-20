@@ -8,6 +8,17 @@
 --              line alone: no census, no ficha prose. {en, es}; only 'en'
 --              is authored for now.
 
-ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS sighted_far JSONB;
+-- narration_schema_cleanup_187 dropped sighted_far (sightedShape derives the
+-- far face from type; the column was never authored). Skip the re-add once
+-- that migration has run.
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'schema_flags') THEN
+    IF EXISTS (SELECT 1 FROM schema_flags WHERE key = 'narration_cleanup_187') THEN
+      RETURN;
+    END IF;
+  END IF;
 
-COMMENT ON COLUMN places_narration.sighted_far IS 'The silhouette seen from beyond reach — what a place reads as before it is known {en, es}';
+  ALTER TABLE places_narration ADD COLUMN IF NOT EXISTS sighted_far JSONB;
+  COMMENT ON COLUMN places_narration.sighted_far IS 'The silhouette seen from beyond reach — what a place reads as before it is known {en, es}';
+END $$;

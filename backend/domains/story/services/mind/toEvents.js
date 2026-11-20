@@ -6,26 +6,26 @@
 // calling the mind. Event types are free strings; the fields each type
 // carries are aligned with mind.facets (A3) so banding/readings resolve:
 //
-//   climate   — one per phase, aggregated raw metrics
-//               data: {temperature_2m, cloud_cover, wind_speed_10m,
-//                      precipitation, hours, reading, tags[]} — the host
-//               declares the weather tiers ('weather:storm'…) and the
-//               one-line reading; the mind never derives tags or prose
-//               from raw numbers
+//   climate   — one per phase; the raw metrics stay on the host (they
+//               derive the declared tiers and the prose, then stop):
+//               data: {reading, intensity?, tags[]} — the host declares
+//               the weather tiers ('weather:storm'…), their force on the
+//               shared 0-4 dial, and the one-line reading; the mind
+//               never derives tags or prose from raw numbers
 //   land      — the umbrella for every kind of land-contact; data.subtype
 //               discriminates the shape:
 //               · terrain — data: {subtype:'terrain', terrain_phrases
 //                 (map of phase->phrases), reading}
 //               · place — one per visited/sighted location:
-//                 data: {subtype:'place', name, place (subject slug),
-//                 kind, description, population, inhabitants,
-//                 distance_km, tags[], reading} — 'settlement' for
-//                 inhabited places, 'entered' for the one the traveller
-//                 actually stopped at, 'hostile' for enemy-kingdom
-//                 places skirted from outside. Beyond its reach (>1km,
-//                 never inside) a place is only a silhouette: it carries
-//                 sighted_far and drops aspect, presence, population and
-//                 inhabitants — what nobody got close enough to know
+//                 data: {subtype:'place', name, act, intensity, place
+//                 (subject slug), kind, aspect, presence, distance_km,
+//                 tags[], reading} — 'settlement' for inhabited places,
+//                 'entered' for the one the traveller actually stopped
+//                 at, 'hostile' for enemy-kingdom places skirted from
+//                 outside. Beyond its reach (>1km, never inside) a place
+//                 is only a silhouette: it carries sighted_far and
+//                 drops aspect, presence and the keeper — what nobody
+//                 got close enough to know
 //               · water — one per crossing: data: {subtype:'water',
 //                 name, place, kind, reading}
 //               · region — one per land ENTERED today (not in
@@ -143,6 +143,14 @@ function where(region, place = null) {
   return Object.keys(w).length ? w : undefined;
 }
 
+// The weather tiers' force on the shared 0-4 dial (#184): a storm day
+// is an event, a wet road is background noise.
+const WEATHER_INTENSITY = {
+  'weather:storm': 3, 'weather:deep_cold': 3,
+  'weather:scorching': 2, 'weather:snow': 2,
+  'weather:freezing': 1,
+};
+
 function climateEvents(day) {
   const samples = Array.isArray(day.climate) ? day.climate : [];
   const byPhase = { morning: [], afternoon: [], night: [] };
@@ -155,24 +163,27 @@ function climateEvents(day) {
   const events = [];
   for (const [phase, records] of Object.entries(byPhase)) {
     if (records.length === 0) continue;
-    const data = {
+    // The raw metrics are the host's arithmetic — they derive the
+    // declared tiers and the prose line, then stay here: the mind
+    // knows the day through its reading and its tags, never numbers.
+    const metrics = {
       temperature_2m: meanOf(records.map((w) => w.temperature_2m)),
       cloud_cover: meanOf(records.map((w) => w.cloud_cover)),
       wind_speed_10m: meanOf(records.map((w) => w.wind_speed_10m)),
       precipitation: sumOf(records.map((w) => w.precipitation)),
     };
-    const tags = weatherTags(data);
+    const tags = weatherTags(metrics);
+    const intensity = Math.max(0, ...tags.map((t) => WEATHER_INTENSITY[t] ?? 0));
     events.push({
       type: 'climate',
       when: when({ phase }),
       where: where(regionOf(day, phase)),
       data: {
         // The chapter's weather prose IS the memory's reading (ADR-0016):
-        // one verbalization, narrated and remembered alike. The raw
-        // metrics stay on the host — the mind knows the day through its
-        // reading and its declared tags ('weather:wet' feeds exposure).
+        // one verbalization, narrated and remembered alike.
         reading: summariseWeather(records, rngOf(day))
-          ?? weatherReading(data),
+          ?? weatherReading(metrics),
+        ...(intensity ? { intensity } : {}),
         ...(tags.length ? { tags } : {}),
       },
     });
@@ -285,6 +296,12 @@ function encounterEvents(day) {
           })(),
           outcome,
           check: encounterCheck(e.entity, e.interaction),
+          // What the traveller was doing (the interactions' activity
+          // vocabulary): the resolved choice's act wins; words passed
+          // read as 'talk'; a sign or far shape read as 'watch'.
+          act: e.interaction?.resolved_choice?.act
+            ?? (e.interaction?.dialogue_content ? 'talk'
+              : (WATCH_FORMS.has(e.interaction?.form) ? 'watch' : null)),
           // Wave C: a fork on this encounter was chosen pre-episode by
           // the interaction engine — the resolved pick rides for the
           // narrator (the outcome event carries the felt side).
@@ -350,6 +367,7 @@ function mealEvents(day) {
       where: where(regionOf(day), atLodging),
       data: {
         slot: m.slot || null,
+        act: 'eat',
         // A skipped meal is an absence the mind should feel, not a gap.
         eaten: food != null || m.itemId != null || m.slug === 'tavern_meal',
         // Subject slugs, not display names — 'Fruit Bread' and
@@ -379,6 +397,14 @@ const SETTLEMENT_KINDS = new Set([
 // the code only passes the namespace through.
 const FELT_PREFIX = 'felt:';
 
+// Contact without touch — the thing was registered at a distance, so the
+// traveller's activity on the wire is watching, not meeting.
+const WATCH_FORMS = new Set([
+  'sign_only', 'glimpsed_far', 'sound_only', 'observed_activity',
+  'presence_felt', 'watches', 'scenery', 'drifts_closer',
+  'mistaken_for_object', 'passed_by',
+]);
+
 function placeEvents(day) {
   return (day.locations || []).map((loc) => {
     const tags = [];
@@ -406,6 +432,14 @@ function placeEvents(day) {
       data: {
         subtype: 'place',
         name: loc.name || loc.id,
+        // A far shape is watched, a reached one walked through — the
+        // same activity vocabulary interactions use.
+        act: isDistantSighting(loc) ? 'watch' : 'walk',
+        // The place's declared force (0-4, #184): being inside a ruin
+        // imprints; the same ruin sighted from afar declares zero —
+        // the intensity floor keeps only the whisper of familiarity
+        // a silhouette can teach.
+        intensity: isDistantSighting(loc) ? 0 : loc.intensity ?? null,
         // The subject slug — 'name' is prose, 'place' is what the
         // Relation accretes on (tag:place:esgaroth). Every sighting,
         // visit and stay feeds the same identity.
@@ -416,10 +450,8 @@ function placeEvents(day) {
         // line is all it says — census and ficha prose belong to a
         // traveller who got close or went in.
         ...(isDistantSighting(loc)
-          ? { sighted_far: loc.sighted_far ?? sightedShape(loc) }
+          ? { sighted_far: sightedShape(loc) }
           : {
-              population: loc.population ?? null,
-              inhabitants: loc.inhabitants ?? null,
               aspect: loc.aspect ?? null,
               aspect_es: loc.aspect_es ?? null,
               presence: loc.presence ?? undefined,
@@ -484,8 +516,15 @@ function regionEvents(day, previousDay) {
         data: {
           subtype: 'region',
           name,
+          // What the traveller was doing when the land changed — the
+          // shared activity vocabulary, like interactions' acts (#184).
+          act: 'walk',
           description:
             (r && typeof r === 'object' ? r.description_summary : null) ?? null,
+          // The land's own force (#184): crossing into Mordor is not the
+          // same event as crossing into the Shire.
+          intensity:
+            (r && typeof r === 'object' ? r.intensity : null) ?? null,
           reading: `crossed into ${name}`,
           tags: ['region_entered'],
         },
@@ -510,6 +549,7 @@ function terrainEvents(day) {
       where: where(regionOf(day, phase)),
       data: {
         subtype: 'terrain',
+        act: 'walk',
         biomes: biomes
           .map((b) => ({ type: b?.type || b?.name || null, hour_float: b?.hour_float ?? null }))
           .slice(0, 6),
@@ -525,7 +565,7 @@ function terrainEvents(day) {
       type: 'land',
       when: when(),
       where: where(regionOf(day)),
-      data: { subtype: 'terrain', terrain_phrases: phrases, reading: phrases[0] ?? null },
+      data: { subtype: 'terrain', act: 'walk', terrain_phrases: phrases, reading: phrases[0] ?? null },
     });
   }
   return events;
@@ -540,6 +580,7 @@ function waterEvents(day) {
     }),
     where: where(w.region || regionOf(day)),
     data: { subtype: 'water', name: w.name || null,
+            act: 'walk',
             // A crossing is contact with a place-subject — the Bruinen
             // is a ford you come to know, not just where it happened.
             place: slugify(w.name), kind: slugify(w.type) || null,
@@ -575,7 +616,13 @@ function ambienceEvents(day) {
         record: a.record_id ?? null,
         situation: a.situation_id ?? null,
         name: text(a.name) ?? null,
+        // The land speaks while the traveller walks — ambient voices
+        // are road things.
+        act: 'walk',
         reading: text(a.text),
+        // The ambient record's declared force — most voices stay washed,
+        // a heavy land can declare it presses in (#184).
+        ...(a.intensity != null ? { intensity: a.intensity } : {}),
         // The ambient record's tone — one felt:* word the resolver
         // already picked (#184).
         ...(a.felt ? { tags: [a.felt] } : {}),
@@ -635,6 +682,7 @@ function restEvent(day) {
     when: when({ phase: 'night' }),
     where: where(regionOf(day)),
     data: {
+      act: 'rest',
       // The night anchors to its PLACE like any other entity — the inn
       // that sheltered you is as relatable as the one that shut its door.
       // The location is the entity; the interaction record ('ovn:*') is

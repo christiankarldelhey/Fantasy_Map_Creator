@@ -30,7 +30,7 @@ router.get('/places', async (req, res, next) => {
       status === 'positioned'   ? 'AND l.geom IS NOT NULL' : '';
 
     const { rows } = await pool.query(
-      `SELECT p.id, p.kind, p.name, p.type, p.region_id, p.region_ids, p.location_id,
+      `SELECT p.id, p.kind, p.name, p.type, p.region_ids[1] AS region_id, p.region_ids, p.location_id,
               p.size_radius_km, p.influence_radius_km,
               l.geom IS NOT NULL AS positioned,
               ST_AsGeoJSON(l.geom)::json AS geom
@@ -50,11 +50,16 @@ router.get('/places', async (req, res, next) => {
 router.get('/places/:id', async (req, res, next) => {
   try {
     const { rows } = await pool.query(
-      `SELECT p.id, p.kind, p.name, p.type, p.region_id,
+      `SELECT p.id, p.kind, p.name, p.type, p.region_ids[1] AS region_id,
               p.location_id, p.region_ids, p.cultural_family, p.priority,
               p.tags, p.size_radius_km, p.influence_radius_km,
-              p.aspect, p.sighted_far, p.presence, p.lore, p.secret, p.sections, p.facts,
-              p.notes, p.channel, p.traveller_use, p.variants, p.rotation,
+              p.aspect, p.presence, p.lore, p.facts,
+              p.payload->'authoring'->'secret' AS secret,
+              p.payload->'authoring'->'sections' AS sections,
+              p.payload->'authoring'->'notes' AS notes,
+              p.payload->'authoring'->'channel' AS channel,
+              p.payload->'authoring'->'traveller_use' AS traveller_use,
+              p.variants, p.rotation,
               p.situations, p.refs,
               ST_AsGeoJSON(l.geom)::json AS geom, p.payload,
               (SELECT jsonb_agg(jsonb_build_object('table', x.t, 'id', x.id, 'name', x.name))
@@ -165,16 +170,16 @@ router.post('/locations', async (req, res, next) => {
       const recordId = `dep:loc:${location.id}`;
       await pool.query(
         `INSERT INTO places_narration
-           (id, kind, name, type, region_id, aspect, refs, payload)
-         VALUES ($1, 'ambient', $2::jsonb, $3::jsonb, $4, $5::jsonb, $6::jsonb, $7::jsonb)
+           (id, kind, name, type, region_ids, aspect, refs, payload)
+         VALUES ($1, 'depiction', $2::jsonb, $3::jsonb, $4::int[], $5::jsonb, $6::jsonb, $7::jsonb)
          ON CONFLICT (id) DO UPDATE SET
-           name=EXCLUDED.name, type=EXCLUDED.type, region_id=EXCLUDED.region_id,
+           name=EXCLUDED.name, type=EXCLUDED.type, region_ids=EXCLUDED.region_ids,
            aspect=EXCLUDED.aspect, refs=EXCLUDED.refs`,
         [
           recordId,
           JSON.stringify({ en: location.name, es: null }),
           location.location_type ? JSON.stringify({ en: location.location_type, es: null }) : null,
-          location.region_id,
+          location.region_id != null ? [location.region_id] : null,
           JSON.stringify({ en: description || null, es: description_es || null }),
           JSON.stringify({ location: [location.id] }),
           JSON.stringify({ origin: 'admin:georef' }),
@@ -259,8 +264,8 @@ router.patch('/places/:id', async (req, res, next) => {
     if (anchorId !== undefined) add('location_id = ?', anchorId);
 
     // The containing region is spatial truth: derive it from the point unless
-    // the user picked one explicitly. region_ids follows region_id so the
-    // list filter never shows the ficha under its old region.
+    // the user picked one explicitly. region_ids is the only scope column
+    // (#187 dropped the scalar duplicate).
     let regionExpr;
     if (region_id != null) {
       // Cast the param: a null/untyped bind inside CASE makes PG fail with
@@ -268,13 +273,11 @@ router.patch('/places/:id', async (req, res, next) => {
       params.push(region_id);
       regionExpr = `($${params.length})::int`;
     } else if (region_id === null && lonIdx === undefined) {
-      sets.push('region_id = NULL');
       sets.push('region_ids = NULL');
     } else if (lonIdx !== undefined) {
       regionExpr = `(SELECT rr.id FROM regions rr WHERE ST_Contains(rr.geom, ST_SetSRID(ST_MakePoint($${lonIdx}, $${latIdx}), 4326)) LIMIT 1)`;
     }
     if (regionExpr) {
-      sets.push(`region_id = ${regionExpr}`);
       sets.push(`region_ids = CASE WHEN (${regionExpr}) IS NULL THEN region_ids
         ELSE ARRAY[(${regionExpr})::int] END`);
     }
@@ -305,7 +308,7 @@ router.patch('/places/:id', async (req, res, next) => {
     if (rows.length === 0) return res.status(404).json({ error: 'Place not found' });
 
     const { rows: [row] } = await pool.query(
-      `SELECT p.id, p.name, p.type, p.region_id, p.location_id,
+      `SELECT p.id, p.name, p.type, p.region_ids[1] AS region_id, p.location_id,
               p.cultural_family, p.priority,
               p.size_radius_km, p.influence_radius_km,
               ST_AsGeoJSON(l.geom)::json AS geom

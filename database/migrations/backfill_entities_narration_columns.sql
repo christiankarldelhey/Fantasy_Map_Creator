@@ -12,10 +12,8 @@ ALTER TABLE entities_narration
     ADD COLUMN IF NOT EXISTS entity_id       UUID REFERENCES entities(id),
     ADD COLUMN IF NOT EXISTS entity_ids      UUID[],
     ADD COLUMN IF NOT EXISTS entity_type     TEXT,
-    ADD COLUMN IF NOT EXISTS family          TEXT,
     ADD COLUMN IF NOT EXISTS mover_leg_id    UUID REFERENCES mover_legs(id) ON DELETE CASCADE,
     ADD COLUMN IF NOT EXISTS region_id       INTEGER REFERENCES regions(id),
-    ADD COLUMN IF NOT EXISTS region_ids      INTEGER[],
     ADD COLUMN IF NOT EXISTS location_id     INTEGER REFERENCES locations(id),
     ADD COLUMN IF NOT EXISTS cultural_family TEXT,
     ADD COLUMN IF NOT EXISTS form            TEXT,
@@ -25,24 +23,40 @@ ALTER TABLE entities_narration
     ADD COLUMN IF NOT EXISTS aspect          JSONB,
     ADD COLUMN IF NOT EXISTS presence        JSONB,
     ADD COLUMN IF NOT EXISTS lore            JSONB,
-    ADD COLUMN IF NOT EXISTS secret          JSONB,
-    ADD COLUMN IF NOT EXISTS sections        JSONB,
     ADD COLUMN IF NOT EXISTS facts           JSONB,
-    ADD COLUMN IF NOT EXISTS notes           JSONB,
     ADD COLUMN IF NOT EXISTS channel         JSONB,
-    ADD COLUMN IF NOT EXISTS traveller_use   JSONB,
     ADD COLUMN IF NOT EXISTS variants        JSONB,
-    ADD COLUMN IF NOT EXISTS rotation        JSONB,
     ADD COLUMN IF NOT EXISTS interactive     JSONB,
     ADD COLUMN IF NOT EXISTS disposition     JSONB,
 
-    ADD COLUMN IF NOT EXISTS weight          INTEGER,
-    ADD COLUMN IF NOT EXISTS intensity       INTEGER,
-    ADD COLUMN IF NOT EXISTS min_danger      INTEGER,
-    ADD COLUMN IF NOT EXISTS max_danger      INTEGER,
-    ADD COLUMN IF NOT EXISTS triggers_roll   BOOLEAN,
-
     ADD COLUMN IF NOT EXISTS payload         JSONB NOT NULL DEFAULT '{}'::jsonb;
+
+-- Columns #187 folded into payload.authoring (notes/secret/sections/rotation/
+-- traveller_use), moved to encounter_forms (weight/intensity/danger band/
+-- triggers_roll) or deleted outright (family, region_ids): re-add them only
+-- on schemas that never ran the cleanup.
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'schema_flags') THEN
+        IF EXISTS (SELECT 1 FROM schema_flags WHERE key = 'narration_cleanup_187') THEN
+            RETURN;
+        END IF;
+    END IF;
+
+    ALTER TABLE entities_narration
+        ADD COLUMN IF NOT EXISTS family          TEXT,
+        ADD COLUMN IF NOT EXISTS region_ids      INTEGER[],
+        ADD COLUMN IF NOT EXISTS secret          JSONB,
+        ADD COLUMN IF NOT EXISTS sections        JSONB,
+        ADD COLUMN IF NOT EXISTS notes           JSONB,
+        ADD COLUMN IF NOT EXISTS traveller_use   JSONB,
+        ADD COLUMN IF NOT EXISTS rotation        JSONB,
+        ADD COLUMN IF NOT EXISTS weight          INTEGER,
+        ADD COLUMN IF NOT EXISTS intensity       INTEGER,
+        ADD COLUMN IF NOT EXISTS min_danger      INTEGER,
+        ADD COLUMN IF NOT EXISTS max_danger      INTEGER,
+        ADD COLUMN IF NOT EXISTS triggers_roll   BOOLEAN;
+END $$;
 
 -- places_narration drifted differently: the interactive slot landed there
 -- under its earlier name, `situations` (ADR-0015). 757 rows carry live

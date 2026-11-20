@@ -18,7 +18,17 @@
 -- Idempotent: safe to run on every deploy.
 -- ============================================================================
 
-DROP TABLE IF EXISTS encounter_forms;
+-- #187 resurrected encounter_forms as the home of contact shapes — only drop
+-- the legacy table on schemas that never ran the cleanup.
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'schema_flags') THEN
+        IF EXISTS (SELECT 1 FROM schema_flags WHERE key = 'narration_cleanup_187') THEN
+            RETURN;
+        END IF;
+    END IF;
+    DROP TABLE IF EXISTS encounter_forms;
+END $$;
 DROP TABLE IF EXISTS npc_interactions;
 DROP TABLE IF EXISTS mover_beats;
 -- Pre-rename ancestor of encounter_forms — a very old DB may still have it.
