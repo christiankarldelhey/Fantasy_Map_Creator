@@ -283,7 +283,13 @@ CREATE TABLE IF NOT EXISTS places_narration (
 );
 
 CREATE INDEX IF NOT EXISTS idx_pn_kind      ON places_narration(kind);
-CREATE INDEX IF NOT EXISTS idx_pn_region    ON places_narration(region_id);
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns
+             WHERE table_name = 'places_narration' AND column_name = 'region_id') THEN
+    CREATE INDEX IF NOT EXISTS idx_pn_region ON places_narration(region_id);
+  END IF;
+END $$;
 CREATE INDEX IF NOT EXISTS idx_pn_location  ON places_narration(location_id) WHERE location_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_pn_region_ids ON places_narration USING GIN(region_ids);
 CREATE INDEX IF NOT EXISTS idx_pn_tags      ON places_narration USING GIN(tags);
@@ -292,10 +298,19 @@ CREATE INDEX IF NOT EXISTS idx_pn_payload   ON places_narration USING GIN(payloa
 COMMENT ON TABLE  places_narration IS 'One canonical record for every voice the world has (ADR-0014/0015)';
 COMMENT ON COLUMN places_narration.kind IS 'place (anchored ficha) | ambient (scope-bound voice)';
 COMMENT ON COLUMN places_narration.location_id IS 'Hosted-at anchor to a gazetteer location; NULL until positioned';
-COMMENT ON COLUMN places_narration.region_id IS 'Scope region for the resolver ladder (first of region_ids)';
-COMMENT ON COLUMN places_narration.region_ids IS 'Authored multi-region list; region_id is its first element';
+COMMENT ON COLUMN places_narration.region_ids IS 'Authored multi-region list; scope region is its first element';
 COMMENT ON COLUMN places_narration.aspect IS 'The face seen from outside, up close {en, es}';
-COMMENT ON COLUMN places_narration.sighted_far IS 'The silhouette seen from beyond reach — what a place reads as before it is known {en, es}';
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns
+             WHERE table_name = 'places_narration' AND column_name = 'region_id') THEN
+    COMMENT ON COLUMN places_narration.region_id IS 'Scope region for the resolver ladder (first of region_ids)';
+  END IF;
+  IF EXISTS (SELECT 1 FROM information_schema.columns
+             WHERE table_name = 'places_narration' AND column_name = 'sighted_far') THEN
+    COMMENT ON COLUMN places_narration.sighted_far IS 'The silhouette seen from beyond reach — what a place reads as before it is known {en, es}';
+  END IF;
+END $$;
 COMMENT ON COLUMN places_narration.presence IS 'What being there is like {en, es}';
 COMMENT ON COLUMN places_narration.situations IS 'Situation descriptors: tag-gated authored moments (prose + gates); their options live in `interactions`';
 
@@ -670,10 +685,22 @@ CREATE INDEX IF NOT EXISTS idx_en_kind        ON entities_narration(kind);
 CREATE INDEX IF NOT EXISTS idx_en_entity      ON entities_narration(entity_id)      WHERE entity_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_en_entity_ids  ON entities_narration USING GIN(entity_ids);
 CREATE INDEX IF NOT EXISTS idx_en_entity_type ON entities_narration(entity_type)    WHERE entity_type IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_en_family      ON entities_narration(family)         WHERE family IS NOT NULL;
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns
+             WHERE table_name = 'entities_narration' AND column_name = 'family') THEN
+    CREATE INDEX IF NOT EXISTS idx_en_family     ON entities_narration(family) WHERE family IS NOT NULL;
+  END IF;
+END $$;
 CREATE INDEX IF NOT EXISTS idx_en_mover_leg   ON entities_narration(mover_leg_id)   WHERE mover_leg_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_en_region      ON entities_narration(region_id)      WHERE region_id IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_en_region_ids  ON entities_narration USING GIN(region_ids);
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns
+             WHERE table_name = 'entities_narration' AND column_name = 'region_ids') THEN
+    CREATE INDEX IF NOT EXISTS idx_en_region_ids ON entities_narration USING GIN(region_ids);
+  END IF;
+END $$;
 CREATE INDEX IF NOT EXISTS idx_en_location    ON entities_narration(location_id)    WHERE location_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_en_form        ON entities_narration(form)           WHERE form IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_en_scope       ON entities_narration(kind, entity_type, region_id, form);

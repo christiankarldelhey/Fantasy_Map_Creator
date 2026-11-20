@@ -89,7 +89,9 @@ export async function depictionsFor(table, featureIds) {
 // ---------------------------------------------------------------------------
 // Scope ladder — generic records resolved by (location, type, region, family)
 // ---------------------------------------------------------------------------
-const SCOPE_DIMS = ['location_id', 'type', 'region_id', 'cultural_family'];
+// Scope dimensions a record can declare (region_ids is the array form —
+// the scalar region_id column was a duplicate, dropped in #187).
+const SCOPE_DIMS = ['location_id', 'type', 'region_ids', 'cultural_family'];
 
 /**
  * Load records of a kind with their scope + content columns (ADR-0015 spec).
@@ -99,7 +101,7 @@ const SCOPE_DIMS = ['location_id', 'type', 'region_id', 'cultural_family'];
  */
 export async function loadScoped(kind = null, situationTag = null) {
   const { rows } = await pool.query(
-    `SELECT id, kind, location_id, type, region_id, cultural_family,
+    `SELECT id, kind, location_id, type, region_ids, cultural_family,
             priority, name, tags,
             aspect, presence, variants, rotation, situations, refs, payload
        FROM places_narration
@@ -148,7 +150,7 @@ export function resolveScoped(records, ctx = {}, opts = {}) {
     if (opts.typeBound === false && (r.type != null || r.location_id != null)) return false;
     if (r.location_id != null) return r.location_id === locationId;
     if (r.type != null && !typeMatches(r.type?.en ?? r.type, type)) return false;
-    if (r.region_id != null && r.region_id !== regionId) return false;
+    if (r.region_ids != null && !(r.region_ids || []).includes(Number(regionId))) return false;
     if (r.cultural_family != null && r.cultural_family !== culturalFamily) return false;
     return scopeSpecificity(r) > 0;
   });

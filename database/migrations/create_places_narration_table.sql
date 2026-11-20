@@ -93,11 +93,19 @@ BEGIN
 END $$;
 
 CREATE INDEX IF NOT EXISTS idx_pn_kind      ON places_narration(kind);
-CREATE INDEX IF NOT EXISTS idx_pn_region    ON places_narration(region_id);
 CREATE INDEX IF NOT EXISTS idx_pn_location  ON places_narration(location_id) WHERE location_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_pn_place_ref ON places_narration(place_ref)   WHERE place_ref IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_pn_scope     ON places_narration(type, region_id, cultural_family)
-  WHERE kind IN ('depiction','interaction');
+DO $$
+BEGIN
+  -- region_id was dropped by narration_schema_cleanup_187; skip its indexes
+  -- on schemas that already ran it.
+  IF EXISTS (SELECT 1 FROM information_schema.columns
+             WHERE table_name = 'places_narration' AND column_name = 'region_id') THEN
+    CREATE INDEX IF NOT EXISTS idx_pn_region ON places_narration(region_id);
+    CREATE INDEX IF NOT EXISTS idx_pn_scope  ON places_narration(type, region_id, cultural_family)
+      WHERE kind IN ('depiction','interaction');
+  END IF;
+END $$;
 CREATE INDEX IF NOT EXISTS idx_pn_action    ON places_narration(action) WHERE action IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_pn_tags      ON places_narration USING GIN(tags);
 CREATE INDEX IF NOT EXISTS idx_pn_payload   ON places_narration USING GIN(payload);
@@ -111,7 +119,13 @@ COMMENT ON COLUMN places_narration.mechanics IS 'Numeric effects: rest_quality, 
 COMMENT ON COLUMN places_narration.refs IS 'Authored feature bindings {table-key: [ids]}; materializes to depiction_id (#106)';
 COMMENT ON COLUMN places_narration.location_id IS 'Hosted-at anchor to a gazetteer location; NULL until positioned';
 COMMENT ON COLUMN places_narration.place_ref IS 'Offer → parent record id (no FK: payload-first records)';
-COMMENT ON COLUMN places_narration.region_id IS 'Primary region (first of payload.region_ids); scope region for depictions';
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns
+             WHERE table_name = 'places_narration' AND column_name = 'region_id') THEN
+    COMMENT ON COLUMN places_narration.region_id IS 'Primary region (first of payload.region_ids); scope region for depictions';
+  END IF;
+END $$;
 COMMENT ON COLUMN places_narration.cultural_family IS 'Scope dimension for generic records (from places_interactions)';
 COMMENT ON COLUMN places_narration.priority IS 'Tie-breaker when several records match a scope';
 COMMENT ON COLUMN places_narration.size_radius_km IS 'Within it the traveller is AT the place (variants/secret/options)';

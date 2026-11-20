@@ -416,7 +416,7 @@ function placeEvents(day) {
         // line is all it says — census and ficha prose belong to a
         // traveller who got close or went in.
         ...(isDistantSighting(loc)
-          ? { sighted_far: loc.sighted_far ?? sightedShape(loc) }
+          ? { sighted_far: sightedShape(loc) }
           : {
               population: loc.population ?? null,
               inhabitants: loc.inhabitants ?? null,

@@ -57,7 +57,7 @@ function installMock({ contactRows = [GONDORIAN_COLUMN] } = {}) {
       (params ?? []).length, maxParam,
       `bind count mismatch: ${(params ?? []).length} params for $${maxParam}`);
     queries.push(text);
-    if (text.includes("kind = 'form'")) return { rows: [GLIMPSED_FAR_FORM] };
+    if (text.includes('encounter_forms')) return { rows: [GLIMPSED_FAR_FORM] };
     if (text.includes("kind = 'contact'")) {
       if (params[1] === 'topic') return { rows: [] };
       if (text.includes('n.entity_id = $1')) return { rows: [] };

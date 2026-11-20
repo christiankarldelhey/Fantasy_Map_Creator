@@ -37,13 +37,13 @@ test('typeMatches: record class matches fine query, not the reverse', () => {
 // ---------------------------------------------------------------------------
 
 const records = [
-  { id: 'loc', location_id: 457, type: null, region_id: null, cultural_family: null, priority: 100 },
-  { id: 'tr', location_id: null, type: 'village', region_id: 62, cultural_family: null, priority: 80 },
-  { id: 'tf', location_id: null, type: 'village', region_id: null, cultural_family: 'northman', priority: 60 },
-  { id: 'reg', location_id: null, type: null, region_id: 62, cultural_family: null, priority: 40 },
-  { id: 'fam', location_id: null, type: null, region_id: null, cultural_family: 'northman', priority: 20 },
-  { id: 'typ', location_id: null, type: 'village', region_id: null, cultural_family: null, priority: 10 },
-  { id: 'cls', location_id: null, type: 'settlement', region_id: null, cultural_family: null, priority: 5 },
+  { id: 'loc', location_id: 457, type: null, region_ids: null, cultural_family: null, priority: 100 },
+  { id: 'tr', location_id: null, type: 'village', region_ids: [62], cultural_family: null, priority: 80 },
+  { id: 'tf', location_id: null, type: 'village', region_ids: null, cultural_family: 'northman', priority: 60 },
+  { id: 'reg', location_id: null, type: null, region_ids: [62], cultural_family: null, priority: 40 },
+  { id: 'fam', location_id: null, type: null, region_ids: null, cultural_family: 'northman', priority: 20 },
+  { id: 'typ', location_id: null, type: 'village', region_ids: null, cultural_family: null, priority: 10 },
+  { id: 'cls', location_id: null, type: 'settlement', region_ids: null, cultural_family: null, priority: 5 },
 ];
 
 const ctx = { locationId: null, type: 'village', regionId: 62, culturalFamily: 'northman' };
@@ -89,22 +89,22 @@ test('typeBound=false excludes typed and location-bound records (overnight IN_WI
 
 test('priority tie breaks toward the more specific record', () => {
   const tied = [
-    { id: 'generic', location_id: null, type: 'village', region_id: null, cultural_family: null, priority: 50 },
-    { id: 'specific', location_id: null, type: 'village', region_id: 62, cultural_family: null, priority: 50 },
+    { id: 'generic', location_id: null, type: 'village', region_ids: null, cultural_family: null, priority: 50 },
+    { id: 'specific', location_id: null, type: 'village', region_ids: [62], cultural_family: null, priority: 50 },
   ];
   const { record } = resolveScoped(tied, ctx);
   assert.equal(record.id, 'specific');
 });
 
 test('scope-less records are never eligible; empty ladder returns scope none', () => {
-  const nos = [{ id: 'none', location_id: null, type: null, region_id: null, cultural_family: null, priority: 99 }];
+  const nos = [{ id: 'none', location_id: null, type: null, region_ids: null, cultural_family: null, priority: 99 }];
   const { record, scope } = resolveScoped(nos, ctx);
   assert.equal(record, null);
   assert.equal(scope, 'none');
 });
 
 test('scopeOf reports the carried dimensions', () => {
-  assert.deepEqual(scopeOf(records.find((r) => r.id === 'tr')), ['type', 'region_id']);
+  assert.deepEqual(scopeOf(records.find((r) => r.id === 'tr')), ['type', 'region_ids']);
   assert.deepEqual(scopeOf(records.find((r) => r.id === 'loc')), ['location_id']);
 });
 

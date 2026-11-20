@@ -215,7 +215,7 @@ export async function resolveAmbientSituations({
   const { rows } = await pool.query(
     `SELECT id, name, region_ids, priority, situations, tags
        FROM places_narration
-      WHERE kind = 'ambient'
+      WHERE kind IN ('ambient', 'depiction')
         AND situations IS NOT NULL
         AND region_ids && $1::int[]`,
     [regionIds]

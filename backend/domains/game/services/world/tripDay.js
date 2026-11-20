@@ -348,9 +348,6 @@ async function sampleLegContext(legGeoJSON) {
           'influence_radius_km', rad.infl_km,
           'presence', ficha.presence_en,
           'presence_es', ficha.presence_es,
-          -- What the place reads as from beyond its reach — the anchored
-          -- ficha's own far-face wins over the depiction's (en only).
-          'sighted_far', COALESCE(ficha.sighted_far_en, pd.sighted_far->>'en'),
           -- The record's own words for what the place IS — kind and the
           -- closed-registry thematic tags (ruins, danger, melancholy…) —
           -- so a distant sighting can be true to the case, not default.
@@ -399,7 +396,6 @@ async function sampleLegContext(legGeoJSON) {
         LEFT JOIN LATERAL (
           SELECT f.presence->>'en' AS presence_en,
                  f.presence->>'es' AS presence_es,
-                 f.sighted_far->>'en' AS sighted_far_en,
                  f.type->>'en' AS type_en,
                  f.tags AS tags,
                  f.facts->'keeper'->>'en' AS keeper_en,
@@ -1145,7 +1141,6 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       visited,
       presence: l.presence ?? null,
       presence_es: l.presence_es ?? null,
-      sighted_far: l.sighted_far ?? null,
       narration_type: l.narration_type ?? null,
       record_tags: l.record_tags || [],
       // The resident entity joined by location — a keeper met at her

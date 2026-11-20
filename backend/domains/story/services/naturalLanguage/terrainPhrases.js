@@ -76,7 +76,7 @@ export async function loadTerrainPhrases(regionNames, categories = [], variantOr
 }
 
 /**
- * Reads scope-bound biome depictions (kind='ambient', origin
+ * Reads scope-bound biome depictions (kind='depiction', origin
  * 'backfill:region_biome_descriptions') and picks the first non-empty
  * variant per region/category cell. Returns {} when no records exist.
  */
@@ -92,7 +92,7 @@ async function loadTerrainPhrasesFromNarration(regionNames, categories, variantO
             p.payload->>'category' AS category,
             p.variants AS variants
        FROM places_narration p
-      WHERE p.kind = 'ambient'
+      WHERE p.kind = 'depiction'
         AND p.payload->>'origin' = 'backfill:region_biome_descriptions'
         AND p.payload->>'region_name' = ANY($1::text[])
         ${categoryFilter}`,

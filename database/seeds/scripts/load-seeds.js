@@ -542,10 +542,19 @@ const DEPICTION_TABLES = [...new Set(Object.values(REF_TABLES))];
 
 // The narration-v2 spec (ADR-0015): JSON records map 1:1 to columns; payload
 // is provenance only (origin, legacy_id, anchor_hint, location_ref…).
+// #187: the runtime voice columns stay columns; authoring-only fields
+// (read by the georef admin, never by services) fold into
+// payload.authoring instead of carrying a column each.
 const PROSE_COLUMNS = [
-  'aspect', 'sighted_far', 'presence', 'lore', 'secret', 'sections', 'facts',
-  'notes', 'channel', 'traveller_use', 'variants', 'rotation', 'situations',
+  'aspect', 'presence', 'lore', 'facts', 'variants', 'rotation', 'situations',
 ];
+const PN_AUTHORING = ['notes', 'channel', 'traveller_use', 'secret', 'sections'];
+
+function withAuthoring(payload, record, fields) {
+  const authoring = {};
+  for (const k of fields) if (record[k] != null) authoring[k] = record[k];
+  return Object.keys(authoring).length ? { ...(payload || {}), authoring } : (payload || {});
+}
 
 function placeTypeRadii(typeText) {
   const head = (typeText || '').toLowerCase();
@@ -591,46 +600,49 @@ async function seedNarrationTags() {
 // ---------------------------------------------------------------------------
 async function upsertNarrationRecord(r, extras = {}) {
   const locationId = extras.locationId !== undefined ? extras.locationId : (r.location_id ?? null);
-  const regionId = extras.regionId !== undefined ? extras.regionId : ((r.region_ids || [])[0] ?? null);
+  // region_ids is the canonical scope (a record can span borders);
+  // region_id as a scalar was a duplicate — gone since #187.
+  const scalar = extras.regionId !== undefined ? extras.regionId
+    : ((r.region_ids || [])[0] ?? r.region_id ?? null);
   const regionIds = Array.isArray(r.region_ids) && r.region_ids.length ? r.region_ids
-    : (regionId != null ? [regionId] : null);
+    : (scalar != null ? [scalar] : null);
   const sizeR = extras.sizeRadius !== undefined ? extras.sizeRadius : (r.size_radius_km ?? null);
   const inflR = extras.inflRadius !== undefined ? extras.inflRadius : (r.influence_radius_km ?? null);
   const proseCols = PROSE_COLUMNS.map((k) => r[k] ?? null);
   const proseNames = PROSE_COLUMNS.join(', ');
   const proseSet = PROSE_COLUMNS.map((k) => `${k}=EXCLUDED.${k}`).join(', ');
   const params = [
-    r.id, r.kind, locationId, regionId, regionIds,
+    r.id, r.kind, locationId, regionIds,
     r.name ? JSON.stringify(r.name) : null,
     r.type ? JSON.stringify(r.type) : null,
     r.cultural_family ?? null, r.priority ?? 0, r.tags ?? [],
     sizeR, inflR,
     ...proseCols.map((v) => (v == null ? null : JSON.stringify(v))),
     r.refs ? JSON.stringify(r.refs) : null,
-    JSON.stringify(r.payload ?? {}),
+    JSON.stringify(withAuthoring(r.payload, r, PN_AUTHORING)),
   ];
   // Once a place is anchored, the georef tool owns its spatial fields
-  // (location_id, region_id, type, radii): a reseed must not wipe them. The
+  // (location_id, region_ids, type, radii): a reseed must not wipe them. The
   // "unanchored" marker is location_id IS NULL (#104 — record geom is gone).
   const spatialSet = extras.preserveSpatial
     ? `location_id = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.location_id ELSE places_narration.location_id END,
-       region_id   = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.region_id   ELSE places_narration.region_id   END,
+       region_ids  = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.region_ids  ELSE places_narration.region_ids  END,
        type        = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.type        ELSE places_narration.type        END,
        size_radius_km      = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.size_radius_km      ELSE places_narration.size_radius_km      END,
        influence_radius_km = CASE WHEN places_narration.location_id IS NULL THEN EXCLUDED.influence_radius_km ELSE places_narration.influence_radius_km END`
-    : `location_id=EXCLUDED.location_id, region_id=EXCLUDED.region_id,
+    : `location_id=EXCLUDED.location_id, region_ids=EXCLUDED.region_ids,
        type=EXCLUDED.type, size_radius_km=EXCLUDED.size_radius_km,
        influence_radius_km=EXCLUDED.influence_radius_km`;
   await pool.query(
     `INSERT INTO places_narration
-       (id, kind, location_id, region_id, region_ids, name, type,
+       (id, kind, location_id, region_ids, name, type,
         cultural_family, priority, tags, size_radius_km, influence_radius_km,
         ${proseNames}, refs, payload)
-     VALUES ($1,$2,$3,$4,$5,$6::jsonb,$7::jsonb,$8,$9,$10,$11,$12,
-             ${proseCols.map((_, i) => `$${13 + i}::jsonb`).join(',')},
-             $${13 + proseCols.length}::jsonb, $${14 + proseCols.length}::jsonb)
+     VALUES ($1,$2,$3,$4,$5::jsonb,$6::jsonb,$7,$8,$9,$10,$11,
+             ${proseCols.map((_, i) => `$${12 + i}::jsonb`).join(',')},
+             $${12 + proseCols.length}::jsonb, $${13 + proseCols.length}::jsonb)
      ON CONFLICT (id) DO UPDATE SET
-       kind=EXCLUDED.kind, region_ids=EXCLUDED.region_ids,
+       kind=EXCLUDED.kind,
        name=EXCLUDED.name,
        cultural_family=EXCLUDED.cultural_family, priority=EXCLUDED.priority,
        tags=EXCLUDED.tags,
@@ -648,11 +660,14 @@ async function upsertNarrationRecord(r, extras = {}) {
 // Stable refs are resolved to real FKs here: entity_slug → entities.id,
 // leg_ref {mover, leg_index} → mover_legs.id (legs regenerate each seed).
 // ---------------------------------------------------------------------------
+// #187: contact/entity voice columns; authoring-only fields fold into
+// payload.authoring. kind='form' records are not narration at all —
+// they seed the encounter_forms table instead.
 const EN_PROSE = [
-  'aspect', 'presence', 'lore', 'secret', 'sections', 'facts', 'notes',
-  'channel', 'traveller_use', 'rotation', 'variants', 'situations',
-  'disposition',
+  'aspect', 'presence', 'lore', 'facts', 'channel', 'variants',
+  'situations', 'disposition',
 ];
+const EN_AUTHORING = ['notes', 'secret', 'sections', 'rotation', 'traveller_use'];
 
 async function seedEntitiesNarration(extraRecords = []) {
   console.log('🧝 Seeding entities_narration (voice of beings)...');
@@ -674,7 +689,37 @@ async function seedEntitiesNarration(extraRecords = []) {
 
   const unresolved = new Set();
   const proseNames = EN_PROSE.join(', ');
-  for (const r of records) {
+  const forms = records.filter((r) => r.kind === 'form');
+  const voices = records.filter((r) => r.kind !== 'form');
+
+  // Encounter-form templates are mechanics, not a being's voice (#187).
+  for (const r of forms) {
+    await pool.query(
+      `INSERT INTO encounter_forms
+         (id, entity_type, form, aspect, intensity, weight,
+          min_danger, max_danger, triggers_roll, tags, payload)
+       VALUES ($1,$2,$3,$4::jsonb,$5,$6,$7,$8,$9,$10,$11::jsonb)
+       ON CONFLICT (id) DO UPDATE SET
+         entity_type=EXCLUDED.entity_type, form=EXCLUDED.form,
+         aspect=EXCLUDED.aspect, intensity=EXCLUDED.intensity,
+         weight=EXCLUDED.weight, min_danger=EXCLUDED.min_danger,
+         max_danger=EXCLUDED.max_danger, triggers_roll=EXCLUDED.triggers_roll,
+         tags=EXCLUDED.tags, payload=EXCLUDED.payload`,
+      [
+        r.id, r.entity_type ?? null, r.form ?? null,
+        r.aspect ? JSON.stringify(r.aspect) : null,
+        r.intensity ?? null, r.weight ?? null, r.min_danger ?? null,
+        r.max_danger ?? null, r.triggers_roll ?? null, r.tags ?? [],
+        JSON.stringify(withAuthoring(r.payload, r, EN_AUTHORING)),
+      ]
+    );
+  }
+  const formIds = forms.map((r) => r.id);
+  const prunedForms = await pool.query(
+    'DELETE FROM encounter_forms WHERE id <> ALL($1) RETURNING id', [formIds]
+  );
+
+  for (const r of voices) {
     const entityId = r.entity_id ?? (r.entity_slug ? entBySlug.get(r.entity_slug) : null);
     const legId = r.leg_ref ? legByKey.get(`${r.leg_ref.mover}:${r.leg_ref.leg_index}`) : null;
     if (r.entity_slug && !entityId) unresolved.add(`entity:${r.entity_slug}`);
@@ -683,47 +728,40 @@ async function seedEntitiesNarration(extraRecords = []) {
     const proseCols = EN_PROSE.map((k) => (r[k] == null ? null : JSON.stringify(r[k])));
     await pool.query(
       `INSERT INTO entities_narration
-         (id, kind, entity_id, entity_ids, entity_type, family, mover_leg_id,
-          region_id, region_ids, location_id, cultural_family, form,
-          priority, tags, ${proseNames},
-          weight, intensity, min_danger, max_danger, triggers_roll, payload)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,
-               ${proseCols.map((_, i) => `$${15 + i}::jsonb`).join(',')},
-               $${15 + EN_PROSE.length},$${16 + EN_PROSE.length},
-               $${17 + EN_PROSE.length},$${18 + EN_PROSE.length},
-               $${19 + EN_PROSE.length},$${20 + EN_PROSE.length}::jsonb)
+         (id, kind, entity_id, entity_ids, entity_type, mover_leg_id,
+          region_id, location_id, cultural_family, form,
+          priority, tags, ${proseNames}, payload)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,
+               ${proseCols.map((_, i) => `$${13 + i}::jsonb`).join(',')},
+               $${13 + EN_PROSE.length}::jsonb)
        ON CONFLICT (id) DO UPDATE SET
          kind=EXCLUDED.kind, entity_id=EXCLUDED.entity_id,
          entity_ids=EXCLUDED.entity_ids, entity_type=EXCLUDED.entity_type,
-         family=EXCLUDED.family, mover_leg_id=EXCLUDED.mover_leg_id,
-         region_id=EXCLUDED.region_id, region_ids=EXCLUDED.region_ids,
+         mover_leg_id=EXCLUDED.mover_leg_id,
+         region_id=EXCLUDED.region_id,
          location_id=EXCLUDED.location_id,
          cultural_family=EXCLUDED.cultural_family, form=EXCLUDED.form,
          priority=EXCLUDED.priority, tags=EXCLUDED.tags,
          ${EN_PROSE.map((k) => `${k}=EXCLUDED.${k}`).join(', ')},
-         weight=EXCLUDED.weight, intensity=EXCLUDED.intensity,
-         min_danger=EXCLUDED.min_danger, max_danger=EXCLUDED.max_danger,
-         triggers_roll=EXCLUDED.triggers_roll, payload=EXCLUDED.payload`,
+         payload=EXCLUDED.payload`,
       [
         r.id, r.kind, entityId, r.entity_ids ?? null, r.entity_type ?? null,
-        r.family ?? null, legId, r.region_id ?? null, r.region_ids ?? null,
+        legId, r.region_id ?? null,
         r.location_id ?? null, r.cultural_family ?? null, r.form ?? null,
         r.priority ?? 0, r.tags ?? [],
         ...proseCols,
-        r.weight ?? null, r.intensity ?? null, r.min_danger ?? null,
-        r.max_danger ?? null, r.triggers_roll ?? null,
-        JSON.stringify(r.payload ?? {}),
+        JSON.stringify(withAuthoring(r.payload, r, EN_AUTHORING)),
       ]
     );
   }
 
-  const ids = records.map((r) => r.id);
+  const ids = voices.map((r) => r.id);
   const pruned = await pool.query(
     'DELETE FROM entities_narration WHERE id <> ALL($1) RETURNING id', [ids]
   );
   if (unresolved.size)
     console.warn(`   ⚠️ unresolved refs (kept, NULL fk): ${[...unresolved].slice(0, 10).join(', ')}${unresolved.size > 10 ? ` +${unresolved.size - 10}` : ''}`);
-  console.log(`✅ entities_narration: ${records.length} records${pruned.rowCount ? ` (pruned ${pruned.rowCount})` : ''}${extraRecords.length ? ` — ${extraRecords.length} minted place-host fichas` : ''}`);
+  console.log(`✅ entities_narration: ${voices.length} records + ${forms.length} encounter_forms${pruned.rowCount + prunedForms.rowCount ? ` (pruned ${pruned.rowCount + prunedForms.rowCount})` : ''}${extraRecords.length ? ` — ${extraRecords.length} minted place-host fichas` : ''}`);
 }
 
 // ---------------------------------------------------------------------------
@@ -1302,6 +1340,8 @@ async function ensureSchema() {
   await runMigrationFile('create_interactions_table.sql');
   await runMigrationFile('rename_interactive_to_situations.sql');
   await runMigrationFile('add_character_race.sql');
+  // #187 — last: shrinks the narration tables the earlier files created.
+  await runMigrationFile('narration_schema_cleanup_187.sql');
 
   console.log('✅ Schema ready\n');
 }

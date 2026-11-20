@@ -128,7 +128,7 @@ const narrationRecords = interactions.map((r) => ({
   kind: 'ambient',
   location_id: r.location_id,
   type: r.location_type ? { en: r.location_type, es: null } : null,
-  region_id: r.region_id,
+  region_ids: r.region_id != null ? [r.region_id] : null,
   cultural_family: r.cultural_family,
   priority: r.priority,
   name: r.title ? { en: r.title, es: null } : null,
