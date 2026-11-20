@@ -112,30 +112,10 @@ _LENS_STOPWORDS = {
 
 def memory_echoes_in_text(desc, narrative_text):
     """True when a memory's desc contributes at least one distinctive
-    token (>=4 chars, not a stopword) that appears in the narrative —
-    the echo rule check_lens_reference applies, per memory, so callers
-    can also measure voiced-vs-evoked per memory."""
+    token (>=4 chars, not a stopword) that appears in the narrative."""
     tokens = [
         t for t in _normalize(desc).replace(':', ' ').split()
         if len(t) >= 4 and t not in _LENS_STOPWORDS
     ]
     text = _normalize(narrative_text)
     return any(t in text for t in tokens)
-
-
-def check_lens_reference(narrative, impressions=None):
-    """Did the narrative echo what the mind stirred? Passes when at least
-    one evoked memory's desc contributes a distinctive token (>=4 chars,
-    not a stopword) that appears in the text. With no impressions there is
-    nothing to echo — skipped as ok."""
-    impressions = [i for i in (impressions or []) if i]
-    print('[check:lens_reference] checking', len(impressions), 'impressions')
-    if not impressions:
-        return {'name': 'lens_reference', 'ok': True, 'details': {'skipped': True}}
-    hits = [d for d in impressions if memory_echoes_in_text(d, narrative)]
-    ok = len(hits) > 0
-    result = {'name': 'lens_reference', 'ok': ok, 'details': {'echoed': hits}}
-    if not ok:
-        result['reason'] = 'narrative never echoes any evoked memory'
-    print('[check:lens_reference]', 'PASS' if ok else 'FAIL', hits)
-    return result

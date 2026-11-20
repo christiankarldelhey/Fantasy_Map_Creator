@@ -35,23 +35,17 @@ function slimCharacter(c) {
       deception: c.skill_deception ?? 0,
       intimidation: c.skill_intimidation ?? 0,
     },
-    energy: c.energy ?? null,
-    shadow: c.shadow ?? null,
-    // Free-form Condition channel (ADR 0005): a host may declare its own
-    // body vitals for the detectors pack to read; Middle Earth's named
-    // fields keep working alongside it.
+    // Free-form Condition channel (ADR 0005): the host declares its body
+    // vitals here (and in the live `condition` report) — named scalars
+    // like energy/shadow/wounded ride that same channel, never fields
+    // of their own.
     state: c.state ?? {},
-    conditions: [
-      c.wounded && c.wounded !== 'none' ? 'wounded' : null,
-      c.sick ? 'sick' : null,
-    ].filter(Boolean),
     // Narrator prose material
     description: c.description ?? null,
     entity_name: c.entity_name ?? null,
     portrait_url: c.portrait_url ?? null,
     system_prompt: c.system_prompt ?? null,
     introduction_instructions: c.introduction_instructions ?? null,
-    wounded: c.wounded ?? null,
   };
 }
 

@@ -177,29 +177,20 @@ def kinds(session=None, game_id=None):
     return merged
 
 
-# Legacy names kept resolving: 'moment' was the ambience kind until #158 —
-# old perceived items and hosts still sending it get the same contract.
-KIND_ALIASES = {'moment': 'ambience'}
-
-
 def kind_of(session, game_id, etype):
     """The registry entry for one kind; undeclared kinds are worldly
     moments by default — the contract's open door."""
     if not etype:
         return dict(_UNKNOWN_KIND)
     registry = kinds(session, game_id)
-    entry = registry.get(etype) or registry.get(KIND_ALIASES.get(etype, ''))
+    entry = registry.get(etype)
     return dict(entry) if entry else dict(_UNKNOWN_KIND)
 
 
 def is_mind_item(item):
     """The item is the Mind's own bookkeeping, not world-evidence —
     needs, recurrence pressure and breaks. `source` is stamped at
-    perceive time; the type check covers rows persisted before the
-    stamp existed."""
+    perceive time."""
     if not item:
         return False
-    return (
-        item.get('source') == SOURCE_MIND
-        or item.get('type') in ('need', 'recurrence')
-    )
+    return item.get('source') == SOURCE_MIND

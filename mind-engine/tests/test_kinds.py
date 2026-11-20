@@ -76,10 +76,11 @@ def test_undeclared_kinds_are_worldly_moments():
     assert entry['reading'] == 'declared'
 
 
-def test_moment_is_ambience_now():
-    """#158 renamed the world's voice 'moment' → 'ambience'; perceived
-    items and hosts still sending 'moment' resolve to the same entry."""
-    assert kind_of(None, None, 'moment') == kind_of(None, None, 'ambience')
+def test_moment_is_no_longer_a_declared_kind():
+    """#158 renamed the world's voice 'moment' → 'ambience'. A stray
+    'moment' event is now just an undeclared world-moment — no alias."""
+    assert kind_of(None, None, 'moment')['source'] == 'world'
+    assert kind_of(None, None, 'moment')['role'] == 'moment'
     assert 'moment' not in kinds()
 
 
@@ -130,8 +131,8 @@ def test_source_is_stamped_on_the_perceived_day(client):
 def test_the_minds_own_items_say_so():
     """Needs and recurrence are 'mind' source — bookkeeping that speaks
     but is never world-evidence (no streaks, no reflection spikes)."""
-    assert is_mind_item({'type': 'need'})
-    assert is_mind_item({'type': 'recurrence'})
+    assert is_mind_item({'type': 'need', 'source': 'mind'})
+    assert is_mind_item({'type': 'recurrence', 'source': 'mind'})
     assert is_mind_item({'type': 'omen', 'source': 'mind'})
     assert not is_mind_item({'type': 'encounter', 'source': 'world'})
     assert not is_mind_item(None)

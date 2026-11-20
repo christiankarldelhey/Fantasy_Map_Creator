@@ -81,10 +81,10 @@ def test_failed_translation_keeps_the_english_chapter(monkeypatch):
     assert generation['language'] == 'english'
 
 
-def _open_with_memory(client):
-    """An episode whose evoked memory has a distinctive English desc."""
+def test_episode_narrative_keeps_the_english_text(client, monkeypatch):
+    """A spanish request stores the English original plus its translation."""
     char = f'inner-{uuid.uuid4().hex[:8]}'
-    first = client.post('/episodes', json={
+    ep = client.post('/episodes', json={
         'game_id': 'middle_earth', 'character': {'id': char},
         'episode_ref': 'd1', 'episode': {'index': 1, 'at': '1950-06-01'},
         'events': [{
@@ -95,41 +95,9 @@ def _open_with_memory(client):
                      'substance': {'content': 'He asks about the north road.'}},
         }],
     }).json()
-    client.post(f"/episodes/{first['episode_id']}/close", json={'outcome': {}})
-    second = client.post('/episodes', json={
-        'game_id': 'middle_earth', 'character': {'id': char},
-        'episode_ref': 'd2', 'episode': {'index': 2, 'at': '1950-06-02'},
-        'events': [{
-            'type': 'encounter',
-            'when': {'episode': 2, 'date': '1950-06-02'},
-            'data': {'entity': 'dnedain', 'entity_name': 'Dúnedain',
-                     'entity_type': 'humans', 'form': 'brief_exchange',
-                     'substance': {'content': 'The same ranger returns.'}},
-        }],
-    }).json()
-    return second['episode_id']
+    ep_id = ep['episode_id']
 
-
-def test_resonated_and_episode_narrative_use_the_english_text(
-    client, monkeypatch
-):
-    ep_id = _open_with_memory(client)
-    session = SessionLocal()
-    ep = session.get(Episode, ep_id)
-    evoked = [
-        mem_id
-        for item in ep.perceived_day
-        for mem_id in (item.get('evoked') or [])
-    ]
-    desc = session.get(Memory, evoked[0]).desc
-    session.close()
-    token = next(
-        w.strip('.,;!?¿¡"\'').lower()
-        for w in desc.split()
-        if len(w.strip('.,;!?¿¡"\'')) >= 5
-    )
-
-    english = f'Again the {token} would not leave her.'
+    english = 'The orc boots pressed into the wet road.'
     monkeypatch.setattr(
         narrate_module, 'generate_narrative',
         lambda *a, **k: {
@@ -137,22 +105,17 @@ def test_resonated_and_episode_narrative_use_the_english_text(
             'frequency_penalty': 0.0, 'presence_penalty': 0.0, 'top_p': 1.0,
         },
     )
-    # The translation deliberately drops the token — Resonated must still
-    # see it, because it is measured on the inner-language text.
     monkeypatch.setattr(
         narrate_module, 'translate_text',
         lambda text, lang: 'Un día gris de camino.',
     )
-    body = client.post(
-        f'/episodes/{ep_id}/narrate', json={'language': 'spanish'}
-    ).json()
+    client.post(f'/episodes/{ep_id}/narrate', json={'language': 'spanish'})
 
-    assert body['lens_eval']['voiced'] == evoked
     session = SessionLocal()
-    ep = session.get(Episode, ep_id)
-    assert ep.narrative == english
-    assert ep.narrative_language == 'english'
-    assert ep.narrative_translation == {
+    row = session.get(Episode, ep_id)
+    assert row.narrative == english
+    assert row.narrative_language == 'english'
+    assert row.narrative_translation == {
         'language': 'spanish', 'text': 'Un día gris de camino.',
     }
     session.close()

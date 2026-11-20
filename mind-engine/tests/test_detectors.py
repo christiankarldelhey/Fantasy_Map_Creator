@@ -117,7 +117,8 @@ def test_builtin_check_mod_tiers(client):
     tired = _open(
         client, _uid('tired'), 'd1',
         [_checked_event({'skill': 'lore', 'difficulty': 5})],
-        extra={'skills': {'lore': 8}, 'energy': 40, 'shadow': 30},
+        extra={'skills': {'lore': 8}},
+        condition={'energy': 40, 'shadow': 30},
     )
     item = tired['psyche_packet']['perceived_day'][0]
     # energy 40 -> 0.4 worn (-1.0); shadow 30 -> 0.3 shadowed (-1.0).
@@ -125,12 +126,12 @@ def test_builtin_check_mod_tiers(client):
 
 
 def test_builtin_pack_reads_conditions_wound(client):
-    """A wound reported only inside conditions[] still feeds the wound
+    """A wound reported inside the condition map still feeds the wound
     need and the wounded check mod."""
     char = _uid('bleeding')
     packet = _open(client, char, 'd1', [
         _checked_event({'skill': 'lore', 'difficulty': 5}),
-    ], extra={'skills': {'lore': 8}, 'conditions': ['wounded']})
+    ], extra={'skills': {'lore': 8}}, condition={'wounded': 'leg'})
     assert 'wound' in _need_keys(packet)
     item = packet['psyche_packet']['perceived_day'][0]
     assert item['check']['mods'] == pytest.approx(-1.0)

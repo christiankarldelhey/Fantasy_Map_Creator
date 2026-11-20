@@ -20,7 +20,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 import app.narrate_day as narrate_module
 from app.db import SessionLocal
-from app.evals.narrative_checks import check_lens_reference
+from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.tables import MindPreset, Memory, PresetWiring
 
 
@@ -161,19 +161,15 @@ def test_idempotent_open_and_close(client):
     assert count == 1
 
 
-def test_lens_reference_check():
-    """The eval: a narrative echoing an evoked memory passes; silence fails;
-    no impressions -> skipped as ok."""
-    ok = check_lens_reference(
-        'The smell of lembas still clung to their hands.', ['food: lembas']
+def test_memory_echo_rule():
+    """The echo rule: a narrative echoing a memory's desc counts as
+    resonated; unrelated prose does not."""
+    assert memory_echoes_in_text(
+        'food: lembas', 'The smell of lembas still clung to their hands.'
     )
-    assert ok['ok'] is True
-    missing = check_lens_reference(
-        'The road went ever on through the grey rain.', ['food: lembas']
+    assert not memory_echoes_in_text(
+        'food: lembas', 'The road went ever on through the grey rain.'
     )
-    assert missing['ok'] is False
-    skipped = check_lens_reference('anything', [])
-    assert skipped['ok'] is True
 
 
 def test_narrate_episode_injects_mind(client, monkeypatch):
@@ -213,9 +209,8 @@ def test_narrate_episode_injects_mind(client, monkeypatch):
     assert "NARRATOR'S LENS FOR TESTER" in body['prompt']['user']
     assert 'Tester today.' in body['prompt']['user']
     assert body['generation']['text'] == fake['text']
-    # lens eval sees the echoed impression
-    echoed = check_lens_reference(fake['text'], ['food: lembas'])
-    assert echoed['ok'] is True
+    # the narrative echoes the meal the mind served
+    assert memory_echoes_in_text('food: lembas', fake['text'])
 
 
 def test_narrate_day_degrades_when_mind_down(client, monkeypatch):

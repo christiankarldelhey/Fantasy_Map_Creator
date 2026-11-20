@@ -13,19 +13,11 @@ const props = defineProps<{ episode: EpisodeView }>()
 const brief = computed(() => props.episode.brief)
 const focusLine = computed(() => props.episode.lens.find((l) => l.section === 'focus') ?? null)
 
-// Episodes from before the brief (C35) only carry Lens sections.
-const LEGACY: Record<string, string> = {
-  beliefs: 'Lo que tenía por cierto',
-  yesterday: 'Lo que recordaba de ayer',
-  evoked: 'Recuerdos que volvieron',
-  today: 'Lo que le preocupaba',
-  needs: 'Lo que pedía el cuerpo',
-}
-
 const groups = computed(() => {
-  const sections = brief.value
-    ? [['carried', 'Lo que traía al empezar el día'], ['day', 'Lo que le pasó en el día']]
-    : Object.entries(LEGACY)
+  const sections: [string, string][] = [
+    ['carried', 'Lo que traía al empezar el día'],
+    ['day', 'Lo que le pasó en el día'],
+  ]
   return sections
     .map(([section, title]) => ({
       section,

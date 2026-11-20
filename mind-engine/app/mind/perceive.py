@@ -309,7 +309,6 @@ def _recurrence_items(session, game_id, mind, perceived, w):
             # as a small affection imprint, so it moves the mood too.
             'imprint': {'affection': round(
                 max(-1.0, min(1.0, valence)), 3)},
-            'evoked': [],
         }
 
     items = []
@@ -578,7 +577,6 @@ def perceive_events(session, game_id, mind, events, character=None,
             'tags': tags,
             'subjects': subjects,
             'imprint': felt,
-            'evoked': [],
         }
         if primary:
             item['subject'] = primary

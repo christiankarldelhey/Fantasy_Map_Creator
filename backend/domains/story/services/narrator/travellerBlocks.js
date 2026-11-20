@@ -37,6 +37,7 @@ export function notableItemsOf(inventoryRows = []) {
  * @param {number} params.energy - energy at the END of the day (0-100)
  * @param {number} params.shadow - shadow at the END of the day (0-100)
  * @param {string} [params.wounded='none'] - persistent wound condition
+ * @param {boolean} [params.sick] - persistent sickness flag on the character
  * @param {string} [params.fate] - resolved fate; anything but 'living' is terminal
  * @param {number|null} [params.meanTemperature]
  * @param {number} [params.coldShift] - aggregated cold protection from gear
@@ -57,6 +58,7 @@ export async function collectTravellerState({
   energy,
   shadow,
   wounded = 'none',
+  sick = false,
   fate = 'living',
   meanTemperature = null,
   coldShift = 0,
@@ -73,7 +75,9 @@ export async function collectTravellerState({
   const priorNotes = await recentNotes(characterId, tripId, CONDITION_NOTES_COUNT);
 
   return {
-    characterState: { energy, shadow, wounded, recentNotes: priorNotes },
+    characterState: {
+      energy, shadow, wounded, sick, recentNotes: priorNotes,
+    },
     equipmentState: {
       coldShift,
       meanTemperature,
