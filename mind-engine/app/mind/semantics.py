@@ -32,50 +32,52 @@ from app.mind.util import num, tag_matches
 
 DEFAULT_SEMANTICS = {
     # Contact forms — how the meeting happened.
+    # Force lives in the event's `intensity` (0-4, authored per
+    # encounter form) — not in salience floors here. 'weight' survives
+    # only as the fallback scale for events that declare no intensity.
     'tag:form:attacks': {
         'delta': {'fear': 0.5, 'affection': -0.2, 'trust': -0.1},
-        'weight': 0.9, 'body': {'pain': 0.15}, 'salience_min': 0.6,
+        'weight': 0.9, 'body': {'pain': 0.15},
         'wakes': True,
     },
     'tag:form:sudden_peril': {
         'delta': {'fear': 0.5, 'trust': -0.1}, 'weight': 0.8,
-        'salience_min': 0.55, 'wakes': True,
+        'wakes': True,
     },
     'tag:form:confronts': {
         'delta': {'fear': 0.3, 'affection': -0.1, 'trust': -0.1},
-        'weight': 0.6, 'salience_min': 0.5, 'wakes': True,
+        'weight': 0.6, 'wakes': True,
     },
     'tag:form:stalks': {
-        'delta': {'fear': 0.25}, 'weight': 0.4, 'salience_min': 0.35,
+        'delta': {'fear': 0.25}, 'weight': 0.4,
     },
     'tag:form:hinders_passage': {
         'delta': {'affection': -0.15, 'trust': -0.05}, 'weight': 0.45,
-        'salience_min': 0.4, 'wakes': True,
+        'wakes': True,
     },
     'tag:form:aid_or_trade': {
         'delta': {'affection': 0.15, 'trust': 0.3}, 'weight': 0.5,
-        'salience_min': 0.5, 'wakes': True,
+        'wakes': True,
     },
     'tag:form:harvest_shelter': {
         'delta': {'affection': 0.25, 'trust': 0.3, 'familiarity': 0.15},
-        'weight': 0.5, 'body': {'cold': -0.4}, 'salience_min': 0.45,
+        'weight': 0.5, 'body': {'cold': -0.4},
         'wakes': True,
     },
     'tag:form:brief_exchange': {
         'delta': {'affection': 0.1, 'trust': 0.1, 'familiarity': 0.15},
-        'weight': 0.45, 'salience_min': 0.45, 'wakes': True,
+        'weight': 0.45, 'wakes': True,
     },
     'tag:form:reacts_withdraws': {
         'delta': {'affection': 0.05, 'familiarity': 0.1}, 'weight': 0.35,
-        'salience_min': 0.35, 'wakes': True,
+        'wakes': True,
     },
     'tag:form:drifts_closer': {
         'delta': {'familiarity': 0.1}, 'weight': 0.3,
-        'salience_min': 0.3, 'wakes': True,
+        'wakes': True,
     },
     'tag:form:watches': {
         'delta': {'fear': 0.1, 'familiarity': 0.05}, 'weight': 0.3,
-        'salience_min': 0.3,
     },
     # Contact without touch — the thing was registered, not met: signs,
     # glimpses, sounds, a presence felt. All of it is the familiarity
@@ -295,27 +297,30 @@ DEFAULT_SEMANTICS = {
     },
     # Numeric data fields — the wire's declared fact channels. 'field:X'
     # rows read the event's data, not its tags: 'delta' is per-unit
-    # meaning scaled by the event's contact weight ('danger' 0-5 is
-    # objectively menacing), and 'severity' marks a field whose value
-    # counts toward the event's severity outright (0-1 normalized).
+    # meaning scaled by the event's force ('danger' 0-5 is objectively
+    # menacing — it sediments the Relation, it does not make the moment
+    # louder), and 'severity' marks a field whose value counts toward
+    # the event's severity outright (0-1 normalized).
     'field:danger': {
-        'delta': {'fear': 0.1, 'affection': -0.05}, 'severity': 1.0,
+        'delta': {'fear': 0.1, 'affection': -0.05},
     },
     'field:shadow_effect': {
         'delta': {'fear': 0.1, 'affection': -0.1},
     },
-    'field:severity': {'severity': 1.0},
-    'field:threat': {'severity': 1.0},
-    'field:damage': {'severity': 1.0},
-    'field:wound': {'severity': 1.0},
-    'field:pain': {'severity': 1.0},
-    'field:hostility': {'severity': 1.0},
-    'field:risk': {'severity': 1.0},
-    'field:lethality': {'severity': 1.0},
+    # THE force dial: one authored number per encounter row (0-4 → 0-1
+    # severity). The same value scales the world_delta — a hard
+    # happening imprints the Relation AND registers loud; tracks and
+    # far shapes stay washed. The host stamps data.intensity on any
+    # event that wants declared force (forms emit it on the wire).
+    'field:intensity': {'severity': 0.25},
 }
 
 # A sighting is never full contact — however severe the thing seen.
 SIGHTED_FAR_CAP = 0.15
+
+# Even a zero-intensity happening leaves a trace: tracks teach a
+# whisper of familiarity, they teach nothing zero.
+INTENSITY_FLOOR = 0.15
 
 
 def load_semantics(session, game_id):
@@ -384,21 +389,31 @@ def wakes_sleeper(tags, semantics):
 
 def semantic_delta(tags, data, semantics):
     """The event's objective reading: the summed sparse delta its matched
-    semantic rows declare (each scaled by its row's contact weight), plus
-    'field:' rows for the wire's numeric fact channels at the event's
-    overall contact weight.
+    semantic rows declare, plus 'field:' rows for the wire's numeric fact
+    channels at the event's overall contact weight.
+
+    The scale is one dial, not a per-row vote: a declared data.intensity
+    (0-4, authored on the encounter row) IS the event's force and scales
+    every matched row — the same number that drives severity through
+    'field:intensity'. Events without intensity fall back to each row's
+    authored 'weight'.
     Returns (world_delta, contact_weight, body_hit)."""
     world, body_hit = {}, {}
-    weight = 0.0
+    raw_force = num((data or {}).get('intensity'))
+    force = (min(1.0, max(INTENSITY_FLOOR, raw_force / 4.0))
+             if raw_force is not None else None)
+    weight = force or 0.0
     for key, row in (semantics or {}).items():
         if key.startswith('field:'):
             continue
         if not any(tag_matches(t, key) for t in tags or []):
             continue
         row_w = row.get('weight')
-        weight = max(weight, row_w if row_w is not None else 0.5)
+        if force is None:
+            weight = max(weight, row_w if row_w is not None else 0.5)
+        scale = force if force is not None else (row_w or 0.5)
         for dim, v in (row.get('delta') or {}).items():
-            world[dim] = world.get(dim, 0.0) + v * (row_w or 0.5)
+            world[dim] = world.get(dim, 0.0) + v * scale
         for dim, v in (row.get('body') or {}).items():
             body_hit[dim] = body_hit.get(dim, 0.0) + v
     contact = weight or 0.5

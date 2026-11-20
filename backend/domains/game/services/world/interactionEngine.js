@@ -294,6 +294,9 @@ export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome, after
     interaction_id: interaction.id,
     outcome: outcomeKey,
     description: outcome?.text?.en ?? null,
+    // The encounter's declared force rides the outcome too: 'talked the
+    // patrol down' inherits how hard that meeting hit.
+    intensity: pool_.encounter?.interaction?.intensity ?? null,
     // Tone (#184): an authored felt on the interaction row wins; else
     // the contact record's own felt:* tag speaks for the meeting.
     tags: [interaction.act, ...(interaction.need_tags || []),
