@@ -530,7 +530,8 @@ def test_sighted_far_barely_touches(client):
         'when': {'phase': 'morning'},
         'where': {'region': 'Rhovanion'},
         'data': {'subtype': 'place', 'place': 'esgaroth', 'kind': 'town',
-                 'sighted_far': True, 'tags': ['settlement']},
+                 'sighted_far': True, 'intensity': 0,
+                 'tags': ['settlement']},
     }])
     rel = _relation(char, 'tag:place:esgaroth')
     assert rel is not None

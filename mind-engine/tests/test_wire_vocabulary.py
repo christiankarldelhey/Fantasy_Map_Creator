@@ -31,7 +31,7 @@ WIRE_WEATHER = [
 # region entry). 'given'/'decision'/'changed' are salience markers,
 # not meaning — deliberately absent.
 WIRE_MARKERS = [
-    'settlement', 'hostile', 'sighted_far', 'sighted', 'visited',
+    'settlement', 'hostile', 'sighted', 'visited',
     'entered', 'region_entered', 'lodging:paid', 'lodging:charity',
     'lodging:turned_away', 'rest:indoor', 'rest:open_sky', 'rest:poor',
     'rest:good', 'given',

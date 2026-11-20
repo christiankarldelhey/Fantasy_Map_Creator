@@ -11,15 +11,15 @@
 # A row:
 #   key    a tag pattern ('tag:form:attacks', wildcards allowed)
 #   delta  the sparse relation-dim delta the world objectively carried
-#   weight how strongly this kind of contact lands — seeing a city from
-#          afar (sighted_far .15) is not walking its streets (entered .5);
+#   weight how strongly this kind of contact lands, as a fallback —
+#          a declared data.intensity overrides it (the shared dial);
 #          the matched rows' max weight is the event's contact weight
 #   body   an acute hit — the one exception to projected body ('wounded'
 #          literally hurts)
-#   salience_min / severity  the kind's declared floors — how much
-#          contact of this kind must matter once noticed; what a tag IS,
-#          not how loud it arrived. A floor-only row sets weight 0: it
-#          declares meaning without claiming contact.
+#   salience_min  the kind's declared floor — how much contact of this
+#          kind must matter once noticed; what a tag IS, not how loud
+#          it arrived. A floor-only row sets weight 0: it declares
+#          meaning without claiming contact.
 #
 # `SEMANTIC_FIELDS` does for numeric data what tag rows do for tags:
 # 'danger' is a host-declared fact (0-5) that objectively reads as menace
@@ -201,7 +201,7 @@ DEFAULT_SEMANTICS = {
     },
     # Presence vs sighting — the distance IS the meaning: a city seen
     # from afar touches familiarity a little and nothing else.
-    'tag:sighted_far': {'delta': {'familiarity': 0.05}, 'weight': 0.15},
+
     'tag:sighted': {'delta': {'familiarity': 0.1}, 'weight': 0.3},
     'tag:visited': {'delta': {'familiarity': 0.2}, 'weight': 0.4},
     'tag:entered': {
@@ -312,9 +312,6 @@ DEFAULT_SEMANTICS = {
     'field:intensity': {'severity': 0.25},
 }
 
-# A sighting is never full contact — however severe the thing seen.
-SIGHTED_FAR_CAP = 0.15
-
 # Even a zero-intensity happening leaves a trace: tracks teach a
 # whisper of familiarity, they teach nothing zero.
 INTENSITY_FLOOR = 0.15
@@ -335,24 +332,23 @@ def load_semantics(session, game_id):
             'weight': row.weight,
             'body': dict(row.body or {}),
             'salience_min': row.salience_min,
-            'severity': row.severity,
             'wakes': row.wakes,
         }
     return pack
 
 
-def tag_floors(tags, semantics):
-    """The kind's declared floors (C6/C16): the strongest salience_min
-    and severity across the pack rows these tags match. What a tag IS —
-    thinking company is never background, a declared storm tier is an
-    *event* — regardless of how quietly it arrived."""
-    salience_min = severity = 0.0
+def salience_floor(tags, semantics):
+    """The kind's declared floor (C16): the strongest salience_min
+    across the pack rows these tags match. What a tag IS — thinking
+    company is never background — regardless of how quietly it
+    arrived. Severity itself is the host's dial (field:intensity);
+    rows no longer floor it."""
+    salience_min = 0.0
     for key, row in (semantics or {}).items():
         if not any(tag_matches(t, key) for t in tags or []):
             continue
         salience_min = max(salience_min, row.get('salience_min') or 0.0)
-        severity = max(severity, row.get('severity') or 0.0)
-    return salience_min, severity
+    return salience_min
 
 
 def field_severity(data, semantics):
@@ -422,10 +418,4 @@ def semantic_delta(tags, data, semantics):
             continue
         for dim, v in (row.get('delta') or {}).items():
             world[dim] = world.get(dim, 0.0) + v * raw * contact
-    if (data or {}).get('sighted_far') and contact > SIGHTED_FAR_CAP:
-        # Seen from afar: whatever heavier row matched, the sighting
-        # carries only a sighting's share of it.
-        scale = SIGHTED_FAR_CAP / contact
-        world = {d: v * scale for d, v in world.items()}
-        contact = SIGHTED_FAR_CAP
     return world, contact, body_hit

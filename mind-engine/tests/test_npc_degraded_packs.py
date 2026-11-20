@@ -54,7 +54,7 @@ def _food_event(ep):
         'data': {
             'entity': 'lembas',
             'tags': ['food:lembas'],
-            'severity': 0.9,       # high salience → it encodes
+            'intensity': 4,        # high salience → it encodes
         },
     }
 

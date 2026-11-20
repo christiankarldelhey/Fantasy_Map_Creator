@@ -36,7 +36,7 @@ from app.mind.relations import (
     attention_weights, feed, feed_event, standing, standing_relation,
 )
 from app.mind.semantics import (
-    field_severity, load_semantics, semantic_delta, tag_floors,
+    field_severity, load_semantics, salience_floor, semantic_delta,
 )
 from app.mind.voice import (
     felt_word, mood_point, phrases, resolve_event_reading,
@@ -97,20 +97,12 @@ def attention_weight(tags, weights):
     return best_tag_weight(tags, weights or {})
 
 
-def _tag_severity(tags, semantics):
-    """A tag carries a severity floor through the semantic pack (C6):
-    'weather:storm: 0.6' makes the storm an *event* in the salience
-    arithmetic while drizzle stays ambient. Host-declared severity
-    still wins via max."""
-    return tag_floors(tags, semantics)[1]
-
-
 def _salience_floor(tags, semantics):
     """The pack's salience floor lets a perceived thing matter by what
     it IS, not how loud it arrived (C16): 'entity_type:orcs: 0.45'
     means the patrol is never background, 'form:brief_exchange: 0.45'
     that a real exchange outweighs the weather."""
-    return tag_floors(tags, semantics)[0]
+    return salience_floor(tags, semantics)
 
 
 def _seen_tags(session, game_id, character_id):
@@ -547,10 +539,7 @@ def perceive_events(session, game_id, mind, events, character=None,
                 check_result['difficulty']
                 / w.get('check_difficulty_scale', 10.0),
             )
-        severity = min(1.0, max(
-            field_severity(data, semantics),
-            _tag_severity(tags, semantics),
-        ))
+        severity = min(1.0, field_severity(data, semantics))
 
         # The event's objective reading (ADR 0017): what the semantic
         # pack declares this kind of contact meant. Only registered

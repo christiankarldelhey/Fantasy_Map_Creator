@@ -413,10 +413,11 @@ test('place events carry the settlement a traveller actually entered', () => {
   const places = events.filter(
     (e) => e.type === 'land' && e.data.subtype === 'place');
   const dale = places.find((p) => p.data.name === 'Dale');
-  // The entered city rides with its authored prose and census so the
-  // lens can feel its scale — not just a bare name.
+  // The entered city rides with its authored prose so the lens can
+  // feel its scale — the census stays in the day's location detail,
+  // never on the wire.
   assert.equal(dale.data.aspect_es, 'Una ciudad de jugueteros y comercio fluvial.');
-  assert.equal(dale.data.population, 5800);
+  assert.equal(dale.data.population, undefined);
   assert.deepEqual(dale.data.tags, ['settlement', 'entered']);
   // A ruin is dead ground the eye reads from afar — not a settlement,
   // but not silent either: 'dead_place' tells the mind its shape.
@@ -537,7 +538,9 @@ test('the open payload keeps settlement detail and the lodging outcome', () => {
   });
   const dale = body.events.find(
     (e) => e.type === 'land' && e.data.subtype === 'place').data;
-  assert.equal(dale.population, 5800);
+  // The event wire carries prose and meaning — census figures stay in
+  // the narrator's day detail (slimDay), never on the episode wire.
+  assert.equal(dale.population, undefined);
   assert.equal(dale.aspect_es, 'Una ciudad de jugueteros.');
   assert.equal(dale.geometry, undefined);
   assert.ok(dale.tags.includes('entered'));

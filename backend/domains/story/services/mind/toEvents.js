@@ -6,26 +6,26 @@
 // calling the mind. Event types are free strings; the fields each type
 // carries are aligned with mind.facets (A3) so banding/readings resolve:
 //
-//   climate   — one per phase, aggregated raw metrics
-//               data: {temperature_2m, cloud_cover, wind_speed_10m,
-//                      precipitation, hours, reading, tags[]} — the host
-//               declares the weather tiers ('weather:storm'…) and the
-//               one-line reading; the mind never derives tags or prose
-//               from raw numbers
+//   climate   — one per phase; the raw metrics stay on the host (they
+//               derive the declared tiers and the prose, then stop):
+//               data: {reading, intensity?, tags[]} — the host declares
+//               the weather tiers ('weather:storm'…), their force on the
+//               shared 0-4 dial, and the one-line reading; the mind
+//               never derives tags or prose from raw numbers
 //   land      — the umbrella for every kind of land-contact; data.subtype
 //               discriminates the shape:
 //               · terrain — data: {subtype:'terrain', terrain_phrases
 //                 (map of phase->phrases), reading}
 //               · place — one per visited/sighted location:
-//                 data: {subtype:'place', name, place (subject slug),
-//                 kind, description, population, inhabitants,
-//                 distance_km, tags[], reading} — 'settlement' for
-//                 inhabited places, 'entered' for the one the traveller
-//                 actually stopped at, 'hostile' for enemy-kingdom
-//                 places skirted from outside. Beyond its reach (>1km,
-//                 never inside) a place is only a silhouette: it carries
-//                 sighted_far and drops aspect, presence, population and
-//                 inhabitants — what nobody got close enough to know
+//                 data: {subtype:'place', name, act, intensity, place
+//                 (subject slug), kind, aspect, presence, distance_km,
+//                 tags[], reading} — 'settlement' for inhabited places,
+//                 'entered' for the one the traveller actually stopped
+//                 at, 'hostile' for enemy-kingdom places skirted from
+//                 outside. Beyond its reach (>1km, never inside) a place
+//                 is only a silhouette: it carries sighted_far and
+//                 drops aspect, presence and the keeper — what nobody
+//                 got close enough to know
 //               · water — one per crossing: data: {subtype:'water',
 //                 name, place, kind, reading}
 //               · region — one per land ENTERED today (not in
@@ -163,13 +163,16 @@ function climateEvents(day) {
   const events = [];
   for (const [phase, records] of Object.entries(byPhase)) {
     if (records.length === 0) continue;
-    const data = {
+    // The raw metrics are the host's arithmetic — they derive the
+    // declared tiers and the prose line, then stay here: the mind
+    // knows the day through its reading and its tags, never numbers.
+    const metrics = {
       temperature_2m: meanOf(records.map((w) => w.temperature_2m)),
       cloud_cover: meanOf(records.map((w) => w.cloud_cover)),
       wind_speed_10m: meanOf(records.map((w) => w.wind_speed_10m)),
       precipitation: sumOf(records.map((w) => w.precipitation)),
     };
-    const tags = weatherTags(data);
+    const tags = weatherTags(metrics);
     const intensity = Math.max(0, ...tags.map((t) => WEATHER_INTENSITY[t] ?? 0));
     events.push({
       type: 'climate',
@@ -177,11 +180,9 @@ function climateEvents(day) {
       where: where(regionOf(day, phase)),
       data: {
         // The chapter's weather prose IS the memory's reading (ADR-0016):
-        // one verbalization, narrated and remembered alike. The raw
-        // metrics stay on the host — the mind knows the day through its
-        // reading and its declared tags ('weather:wet' feeds exposure).
+        // one verbalization, narrated and remembered alike.
         reading: summariseWeather(records, rngOf(day))
-          ?? weatherReading(data),
+          ?? weatherReading(metrics),
         ...(intensity ? { intensity } : {}),
         ...(tags.length ? { tags } : {}),
       },
@@ -435,11 +436,10 @@ function placeEvents(day) {
         // same activity vocabulary interactions use.
         act: isDistantSighting(loc) ? 'watch' : 'walk',
         // The place's declared force (0-4, #184): being inside a ruin
-        // imprints; the same ruin sighted from afar never passes a
-        // sighting's washed share.
-        intensity: loc.intensity != null
-          ? (isDistantSighting(loc) ? Math.min(loc.intensity, 1) : loc.intensity)
-          : null,
+        // imprints; the same ruin sighted from afar declares zero —
+        // the intensity floor keeps only the whisper of familiarity
+        // a silhouette can teach.
+        intensity: isDistantSighting(loc) ? 0 : loc.intensity ?? null,
         // The subject slug — 'name' is prose, 'place' is what the
         // Relation accretes on (tag:place:esgaroth). Every sighting,
         // visit and stay feeds the same identity.
@@ -452,8 +452,6 @@ function placeEvents(day) {
         ...(isDistantSighting(loc)
           ? { sighted_far: sightedShape(loc) }
           : {
-              population: loc.population ?? null,
-              inhabitants: loc.inhabitants ?? null,
               aspect: loc.aspect ?? null,
               aspect_es: loc.aspect_es ?? null,
               presence: loc.presence ?? undefined,
