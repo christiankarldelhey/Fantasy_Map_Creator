@@ -209,6 +209,7 @@ async function regionsForPoints(points) {
             r.name,
             r.description_summary,
             r.cultural_family,
+            r.intensity,
             COALESCE(r.population_ratio, 0.5) AS population_ratio
      FROM jsonb_array_elements($1::jsonb) WITH ORDINALITY AS t(elem, idx)
      LEFT JOIN LATERAL (
