@@ -45621,7 +45621,7 @@
         "chance_of_encounter": "15.00",
         "hours_to_encounter": "4.00",
         "population_ratio": 0.4,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "wild"
       },
       "geometry": {
         "type": "Polygon",
@@ -139640,7 +139640,7 @@
         "chance_of_encounter": "25.00",
         "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "wild"
       },
       "geometry": {
         "type": "Polygon",
@@ -141079,7 +141079,7 @@
         "chance_of_encounter": "15.00",
         "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "wild"
       },
       "geometry": {
         "type": "Polygon",
@@ -142842,7 +142842,7 @@
         "chance_of_encounter": "40.00",
         "hours_to_encounter": "0.50",
         "population_ratio": 0.5,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "wild"
       },
       "geometry": {
         "type": "Polygon",
@@ -144821,7 +144821,7 @@
         "chance_of_encounter": "15.00",
         "hours_to_encounter": "4.00",
         "population_ratio": 0.1,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "wild"
       },
       "geometry": {
         "type": "Polygon",
@@ -146128,7 +146128,7 @@
         "chance_of_encounter": "15.00",
         "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "wild"
       },
       "geometry": {
         "type": "Polygon",
@@ -150049,7 +150049,7 @@
         "chance_of_encounter": "5.00",
         "hours_to_encounter": "8.00",
         "population_ratio": 0.5,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "numeriador"
       },
       "geometry": {
         "type": "Polygon",
@@ -170626,7 +170626,7 @@
         "chance_of_encounter": "35.00",
         "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "wild"
       },
       "geometry": {
         "type": "Polygon",
@@ -171513,7 +171513,7 @@
         "chance_of_encounter": "35.00",
         "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "wild"
       },
       "geometry": {
         "type": "Polygon",
@@ -174076,7 +174076,7 @@
         "chance_of_encounter": "25.00",
         "hours_to_encounter": "6.00",
         "population_ratio": 0.15,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "wild"
       },
       "geometry": {
         "type": "Polygon",
@@ -185556,7 +185556,7 @@
         "chance_of_encounter": "10.00",
         "hours_to_encounter": "5.00",
         "population_ratio": 0.5,
-        "cultural_family": "gondorian"
+        "cultural_family": "lossoth"
       },
       "geometry": {
         "type": "Polygon",
@@ -187666,7 +187666,7 @@
         "chance_of_encounter": "15.00",
         "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "wild"
       },
       "geometry": {
         "type": "Polygon",
@@ -191221,7 +191221,7 @@
         "chance_of_encounter": "10.00",
         "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "wild"
       },
       "geometry": {
         "type": "Polygon",
@@ -224382,7 +224382,7 @@
         "chance_of_encounter": "25.00",
         "hours_to_encounter": "6.00",
         "population_ratio": 0.15,
-        "cultural_family": "dunadan_north"
+        "cultural_family": "wild"
       },
       "geometry": {
         "type": "Polygon",

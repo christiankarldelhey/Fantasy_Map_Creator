@@ -40788,6 +40788,37 @@
     "origin": "authored:overnight-remnants",
     "legacy_id": 133
    }
+  },
+  {
+   "id": "ovn:134",
+   "kind": "depiction",
+   "region_ids": [
+    48
+   ],
+   "name": null,
+   "type": {
+    "en": "village",
+    "es": null
+   },
+   "cultural_family": null,
+   "priority": 40,
+   "tags": [],
+   "presence": {
+    "en": "A village of Numeriador keeps its doors open to almost anyone: a herbwoman's cottage strung with drying plants, a hedge-wizard's cluttered room, pilgrims and rebels and the odd stray dwarf at the same fire. Lodging is cheap, the talk is strange and learned, and nobody asks what you are running from. Rest is easy among folk who mind their own odd business.",
+    "es": "Una aldea de Numeriador le abre la puerta a casi cualquiera: la cabaña de una herbolaria colgada de plantas secándose, el cuarto desordenado de un mago de cercas, peregrinos y rebeldes y algún enano perdido junto al mismo fuego. El alojamiento es barato, la charla extraña y sabia, y nadie pregunta de qué huís. Se descansa fácil entre gente que se ocupa de sus propios asuntos raros."
+   },
+   "situations": [
+    {
+     "id": "ovn:134_night",
+     "tags": [
+      "context:overnight"
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 134
+   }
   }
  ],
  "schema": "narration-v2"
