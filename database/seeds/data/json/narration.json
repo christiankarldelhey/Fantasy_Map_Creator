@@ -40760,6 +40760,34 @@
     "origin": "authored:overnight-remnants",
     "legacy_id": 132
    }
+  },
+  {
+   "id": "ovn:133",
+   "kind": "depiction",
+   "region_ids": [
+    48
+   ],
+   "name": null,
+   "type": null,
+   "cultural_family": null,
+   "priority": 40,
+   "tags": [],
+   "presence": {
+    "en": "A night on the open plateau of Numeriador: a hollow scraped out of the wind among the creeping juniper, a small careful fire, and cold ground over granite. The land was Arnor once and nobody claimed it after; nothing keeps watch here and nothing comes. Rest is what the hollow allows: thin, cold, and early.",
+    "es": "Una noche en la meseta abierta de Numeriador: un hueco cavado a resguardo del viento entre el enebro rastrero, un fuego pequeño y cuidado, y suelo frío sobre granito. Esto fue Arnor alguna vez y nadie lo reclamó después; nada vigila aquí y nada viene. El descanso es lo que el hueco permite: liviano, frío y temprano."
+   },
+   "situations": [
+    {
+     "id": "ovn:133_night",
+     "tags": [
+      "context:overnight"
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 133
+   }
   }
  ],
  "schema": "narration-v2"

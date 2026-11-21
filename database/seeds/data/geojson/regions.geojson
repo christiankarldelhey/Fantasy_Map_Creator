@@ -150049,7 +150049,7 @@
         "chance_of_encounter": "5.00",
         "hours_to_encounter": "8.00",
         "population_ratio": 0.5,
-        "cultural_family": "sindar"
+        "cultural_family": "dunadan_north"
       },
       "geometry": {
         "type": "Polygon",
