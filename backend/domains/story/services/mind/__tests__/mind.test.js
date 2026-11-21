@@ -925,3 +925,49 @@ test('the open payload carries the canonical v2 channels (ADR-0016)', () => {
   // The night's lead-in IS a lived event: the rest event carries it now.
   assert.equal(body.narration_notes.night_lead, undefined);
 });
+
+test('lightEvents: the sun gets its own events — dusk always, dawn when extreme', () => {
+  // A winter day at high latitude: late dawn (notable) + early dusk.
+  const winter = toEvents({
+    day: { ...DAY, daylight: { sunrise: 8.6, sunset: 15.4, polar: null }, date: '1950-01-21' },
+    trip: { id: 't1' }, character: {},
+  });
+  const lights = winter.filter((e) => e.data?.subtype === 'light');
+  assert.equal(lights.length, 2);
+  assert.equal(lights[0].data.light_kind, 'dawn');
+  assert.equal(lights[0].when.hour, 8.6);
+  assert.equal(lights[1].data.light_kind, 'dusk');
+  assert.equal(lights[1].when.hour, 15.4);
+  assert.ok(lights.every((e) => e.data.reading && e.data.act === 'watch'));
+
+  // A solar-normal day (sunrise ~7) narrates only the dusk beat.
+  const normal = toEvents({
+    day: { ...DAY, daylight: { sunrise: 7.3, sunset: 18.2, polar: null }, date: '1950-04-15' },
+    trip: { id: 't1' }, character: {},
+  });
+  const nLights = normal.filter((e) => e.data?.subtype === 'light');
+  assert.equal(nLights.length, 1);
+  assert.equal(nLights[0].data.light_kind, 'dusk');
+
+  // Polar analogs get the day's real news, not clock anchors.
+  const polar = toEvents({
+    day: { ...DAY, daylight: { sunrise: null, sunset: null, polar: 'night' }, date: '1950-12-21' },
+    trip: { id: 't1' }, character: {},
+  });
+  const pLights = polar.filter((e) => e.data?.subtype === 'light');
+  assert.equal(pLights.length, 1);
+  assert.equal(pLights[0].data.light_kind, 'polar_night');
+  assert.match(pLights[0].data.reading, /does not rise|no dawn/);
+
+  const midnight = toEvents({
+    day: { ...DAY, daylight: { sunrise: null, sunset: null, polar: 'day' }, date: '1950-06-21' },
+    trip: { id: 't1' }, character: {},
+  });
+  const mLights = midnight.filter((e) => e.data?.subtype === 'light');
+  assert.equal(mLights.length, 1);
+  assert.equal(mLights[0].data.light_kind, 'midnight_sun');
+
+  // A day with no daylight data emits nothing.
+  const none = toEvents({ day: { ...DAY, daylight: undefined }, trip: { id: 't1' }, character: {} });
+  assert.equal(none.filter((e) => e.data?.subtype === 'light').length, 0);
+});

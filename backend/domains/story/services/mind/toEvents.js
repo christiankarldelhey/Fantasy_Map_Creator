@@ -92,6 +92,8 @@ import {
   restReading,
 } from '../naturalLanguage/nightNotes.js';
 import { groupByPhase } from '../naturalLanguage/dayPhases.js';
+import { seasonOfDate } from '../naturalLanguage/seasonalVariants.js';
+import { solarLine } from '../naturalLanguage/solarMoments.js';
 import { humanize, slugify } from '../naturalLanguage/text.js';
 
 function phaseOfHour(hourFloat) {
@@ -597,6 +599,45 @@ function waterEvents(day) {
   }));
 }
 
+// The sun's own events: dawn and dusk are moments of the day like any
+// other — perceived, orderable, narratable. A solar-normal day emits only
+// the dusk beat (the natural close of the walking); dawn speaks only when
+// it is extreme (before 6 or after 8). Polar analogs get the day's real
+// news instead: the sun never rising, or never setting.
+function lightEvents(day) {
+  const dl = day?.daylight;
+  if (!dl || typeof dl !== 'object') return [];
+  const season = seasonOfDate(day.date);
+  const rng = rngOf(day);
+  const ev = (lightKind, phase, hour) => ({
+    type: 'land',
+    when: when({ phase, hour }),
+    where: where(regionOf(day)),
+    data: {
+      subtype: 'light',
+      light_kind: lightKind,
+      act: 'watch',
+      reading: solarLine(lightKind, season, rng),
+    },
+  });
+  if (dl.polar === 'night') {
+    return [ev('polar_night', 'afternoon', 12)].filter((e) => e.data.reading);
+  }
+  if (dl.polar === 'day') {
+    return [ev('midnight_sun', 'night', 23)].filter((e) => e.data.reading);
+  }
+  const events = [];
+  const sunrise = typeof dl.sunrise === 'number' ? dl.sunrise : null;
+  const sunset = typeof dl.sunset === 'number' ? dl.sunset : null;
+  if (sunrise != null && (sunrise < 6 || sunrise > 8)) {
+    events.push(ev('dawn', 'morning', sunrise));
+  }
+  if (sunset != null) {
+    events.push(ev('dusk', phaseOfHour(sunset) || 'afternoon', sunset));
+  }
+  return events.filter((e) => e.data.reading);
+}
+
 // Ambient voices (ADR-0015): the tag-gated situations the world resolved
 // for this day — the wind of a region, the silence of a valley. One event
 // carries every voice that fired; the mind hears the outcome text the
@@ -748,6 +789,7 @@ export function toEvents({ day, trip, character, previousDay }) {
     ...placeEvents(day),
     ...regionEvents(day, previousDay),
     ...waterEvents(day),
+    ...lightEvents(day),
     ...ambienceEvents(day),
     ...interactionEvents(day),
     ...(restEvent(day) ? [restEvent(day)] : []),
