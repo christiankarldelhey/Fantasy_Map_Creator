@@ -1349,6 +1349,7 @@ async function ensureSchema() {
   await runMigrationFile('narration_schema_cleanup_187.sql');
   await runMigrationFile('add_intensity_to_interactions.sql');
   await runMigrationFile('drop_dead_encounter_metrics.sql');
+  await runMigrationFile('drop_temp_entities.sql');
 
   console.log('✅ Schema ready\n');
 }
