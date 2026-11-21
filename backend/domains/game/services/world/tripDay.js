@@ -192,6 +192,7 @@ async function regionAtPoint(lng, lat) {
               AS description_summary,
             r.cultural_family,
             rd.intensity,
+            r.chance_of_encounter,
             COALESCE(r.population_ratio, 0.5) AS population_ratio
      FROM regions r
      LEFT JOIN places_narration rd ON rd.id = r.depiction_id
@@ -213,13 +214,14 @@ async function regionsForPoints(points) {
             r.description_summary,
             r.cultural_family,
             r.intensity,
+            r.chance_of_encounter,
             COALESCE(r.population_ratio, 0.5) AS population_ratio
      FROM jsonb_array_elements($1::jsonb) WITH ORDINALITY AS t(elem, idx)
      LEFT JOIN LATERAL (
        SELECT rg.id, rg.name,
               (SELECT array_agg(x) FROM jsonb_array_elements_text(rd.rotation) x)
                 AS description_summary,
-              rg.cultural_family, rg.population_ratio, rd.intensity
+              rg.cultural_family, rg.population_ratio, rg.chance_of_encounter, rd.intensity
        FROM regions rg
        LEFT JOIN places_narration rd ON rd.id = rg.depiction_id
        WHERE ST_Contains(rg.geom, ST_SetSRID(ST_MakePoint((elem->>0)::float, (elem->>1)::float), 4326))
@@ -235,6 +237,7 @@ async function regionsForPoints(points) {
     cultural_family: row.cultural_family,
     // The land's declared force rides the crossing event (#184).
     intensity: row.intensity ?? null,
+    chance_of_encounter: row.chance_of_encounter != null ? Number(row.chance_of_encounter) : null,
     population_ratio: Number(row.population_ratio),
   } : null));
 }

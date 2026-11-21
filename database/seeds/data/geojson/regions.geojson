@@ -10,9 +10,7 @@
         "kingdom_id": 18,
         "climate_zone_id": 59,
         "area_km2": "143129.230363732",
-        "distance_for_encounter": 16,
         "chance_of_encounter": "30.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.6,
         "cultural_family": "northman"
       },
@@ -1561,9 +1559,7 @@
         "kingdom_id": 17,
         "climate_zone_id": 60,
         "area_km2": "50900.3184211465",
-        "distance_for_encounter": 13,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.6,
         "cultural_family": "northman"
       },
@@ -2660,9 +2656,7 @@
         "kingdom_id": 27,
         "climate_zone_id": 104,
         "area_km2": "123262.580814629",
-        "distance_for_encounter": 6,
         "chance_of_encounter": "25.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "silvan"
       },
@@ -7275,9 +7269,7 @@
         "kingdom_id": 13,
         "climate_zone_id": 122,
         "area_km2": "67111.1502038567",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "silvan"
       },
@@ -9894,9 +9886,7 @@
         "kingdom_id": 37,
         "climate_zone_id": 70,
         "area_km2": "28592.5154664929",
-        "distance_for_encounter": 13,
         "chance_of_encounter": "5.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.6,
         "cultural_family": "northman"
       },
@@ -12121,9 +12111,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 61,
         "area_km2": "218263.526231828",
-        "distance_for_encounter": 16,
         "chance_of_encounter": "30.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.4,
         "cultural_family": "gondorian"
       },
@@ -14900,9 +14888,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 38,
         "area_km2": "49184.8707227935",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "50.00",
-        "hours_to_encounter": "0.50",
         "population_ratio": 0.8,
         "cultural_family": "gondorian"
       },
@@ -20725,9 +20711,7 @@
         "kingdom_id": 14,
         "climate_zone_id": 46,
         "area_km2": "38184.9949442087",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "1.00",
         "population_ratio": 0.3,
         "cultural_family": "enemy"
       },
@@ -22216,9 +22200,7 @@
         "kingdom_id": 5,
         "climate_zone_id": 57,
         "area_km2": "6633.10133933676",
-        "distance_for_encounter": 3,
         "chance_of_encounter": "25.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "wild_wose"
       },
@@ -23719,9 +23701,7 @@
         "kingdom_id": 25,
         "climate_zone_id": 92,
         "area_km2": "5631.20874899572",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.9,
         "cultural_family": "northman"
       },
@@ -24298,9 +24278,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 98,
         "area_km2": "100228.972988624",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "50.00",
-        "hours_to_encounter": "0.50",
         "population_ratio": 0.8,
         "cultural_family": "gondorian"
       },
@@ -29297,9 +29275,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 43,
         "area_km2": "123555.699908239",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "1.00",
         "population_ratio": 0.5,
         "cultural_family": "gondorian"
       },
@@ -32944,9 +32920,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 76,
         "area_km2": "175672.197710709",
-        "distance_for_encounter": 6,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "3.00",
         "population_ratio": 0.6,
         "cultural_family": "gondorian"
       },
@@ -37987,9 +37961,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 119,
         "area_km2": "49608.9671970836",
-        "distance_for_encounter": 16,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "gondorian"
       },
@@ -41086,9 +41058,7 @@
         "kingdom_id": 6,
         "climate_zone_id": 110,
         "area_km2": "87034.9003178647",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "5.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.6,
         "cultural_family": "dunadan_north"
       },
@@ -45617,9 +45587,7 @@
         "kingdom_id": 34,
         "climate_zone_id": 102,
         "area_km2": "84032.6693429657",
-        "distance_for_encounter": 13,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.4,
         "cultural_family": "wild"
       },
@@ -49608,9 +49576,7 @@
         "kingdom_id": 15,
         "climate_zone_id": 106,
         "area_km2": "20868.6535826982",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "50.00",
-        "hours_to_encounter": "0.50",
         "population_ratio": 0.5,
         "cultural_family": "coastal"
       },
@@ -51693,9 +51659,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 66,
         "area_km2": "45219.0450011394",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "1.00",
         "population_ratio": 0.4,
         "cultural_family": "gondorian"
       },
@@ -54248,9 +54212,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 97,
         "area_km2": "70399.7309185829",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "25.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.6,
         "cultural_family": "gondorian"
       },
@@ -57743,9 +57705,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 50,
         "area_km2": "112796.22579822",
-        "distance_for_encounter": 5,
         "chance_of_encounter": "35.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.6,
         "cultural_family": "gondorian"
       },
@@ -63042,9 +63002,7 @@
         "kingdom_id": 30,
         "climate_zone_id": 90,
         "area_km2": "116835.926928777",
-        "distance_for_encounter": 13,
         "chance_of_encounter": "25.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "dunlending"
       },
@@ -68389,9 +68347,7 @@
         "kingdom_id": 24,
         "climate_zone_id": 113,
         "area_km2": "8448.97107178871",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "1.00",
         "population_ratio": 0.3,
         "cultural_family": "sindar"
       },
@@ -69332,9 +69288,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 114,
         "area_km2": "14749.4430137144",
-        "distance_for_encounter": 11,
         "chance_of_encounter": "10.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "gondorian"
       },
@@ -72353,9 +72307,7 @@
         "kingdom_id": 9,
         "climate_zone_id": 95,
         "area_km2": "84082.5013946471",
-        "distance_for_encounter": 5,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "dwarven"
       },
@@ -74246,9 +74198,7 @@
         "kingdom_id": 16,
         "climate_zone_id": 86,
         "area_km2": "1086.907683623",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "northman"
       },
@@ -74437,9 +74387,7 @@
         "kingdom_id": 26,
         "climate_zone_id": 55,
         "area_km2": "17544.0186422754",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -75912,9 +75860,7 @@
         "kingdom_id": 26,
         "climate_zone_id": 91,
         "area_km2": "10520.5540014131",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "1.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -76695,9 +76641,7 @@
         "kingdom_id": 26,
         "climate_zone_id": 78,
         "area_km2": "16789.6372680138",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "12.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -79322,9 +79266,7 @@
         "kingdom_id": 29,
         "climate_zone_id": 73,
         "area_km2": "2062052.97959002",
-        "distance_for_encounter": 11,
         "chance_of_encounter": "10.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "wild"
       },
@@ -119107,9 +119049,7 @@
         "kingdom_id": 26,
         "climate_zone_id": 96,
         "area_km2": "12525.5600089629",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "12.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -121826,9 +121766,7 @@
         "kingdom_id": 26,
         "climate_zone_id": 99,
         "area_km2": "9738.10565974693",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "12.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -123653,9 +123591,7 @@
         "kingdom_id": 26,
         "climate_zone_id": 54,
         "area_km2": "28218.6896602588",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -125608,9 +125544,7 @@
         "kingdom_id": 26,
         "climate_zone_id": 79,
         "area_km2": "16803.3054575182",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "12.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -127543,9 +127477,7 @@
         "kingdom_id": 26,
         "climate_zone_id": 53,
         "area_km2": "14794.6834807353",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "1.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -128266,9 +128198,7 @@
         "kingdom_id": 33,
         "climate_zone_id": 83,
         "area_km2": "64031.5082563563",
-        "distance_for_encounter": 13,
         "chance_of_encounter": "10.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "northman"
       },
@@ -131445,9 +131375,7 @@
         "kingdom_id": 33,
         "climate_zone_id": 71,
         "area_km2": "23681.4855249986",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "northman"
       },
@@ -133200,9 +133128,7 @@
         "kingdom_id": 23,
         "climate_zone_id": 123,
         "area_km2": "31225.7576278028",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "northman"
       },
@@ -134591,9 +134517,7 @@
         "kingdom_id": 33,
         "climate_zone_id": 64,
         "area_km2": "60114.7870147164",
-        "distance_for_encounter": 16,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "northman"
       },
@@ -136670,9 +136594,7 @@
         "kingdom_id": 8,
         "climate_zone_id": 84,
         "area_km2": "36443.0350477349",
-        "distance_for_encounter": 3,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "wild_mountain"
       },
@@ -138849,9 +138771,7 @@
         "kingdom_id": 26,
         "climate_zone_id": 72,
         "area_km2": "25756.3447817441",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -139636,9 +139556,7 @@
         "kingdom_id": 35,
         "climate_zone_id": 118,
         "area_km2": "73857.3718279497",
-        "distance_for_encounter": 6,
         "chance_of_encounter": "25.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "wild"
       },
@@ -141075,9 +140993,7 @@
         "kingdom_id": 35,
         "climate_zone_id": 89,
         "area_km2": "13959.9437574512",
-        "distance_for_encounter": 13,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "wild"
       },
@@ -142838,9 +142754,7 @@
         "kingdom_id": 35,
         "climate_zone_id": 115,
         "area_km2": "35598.1170304742",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "40.00",
-        "hours_to_encounter": "0.50",
         "population_ratio": 0.5,
         "cultural_family": "wild"
       },
@@ -144817,9 +144731,7 @@
         "kingdom_id": 35,
         "climate_zone_id": 93,
         "area_km2": "26903.6584375637",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.1,
         "cultural_family": "wild"
       },
@@ -146124,9 +146036,7 @@
         "kingdom_id": 35,
         "climate_zone_id": 85,
         "area_km2": "26866.4339599982",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "wild"
       },
@@ -147735,9 +147645,7 @@
         "kingdom_id": 21,
         "climate_zone_id": 49,
         "area_km2": "76141.9466704414",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "40.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.05,
         "cultural_family": "enemy"
       },
@@ -148334,9 +148242,7 @@
         "kingdom_id": 24,
         "climate_zone_id": 52,
         "area_km2": "41725.7060154174",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "1.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -150045,9 +149951,7 @@
         "kingdom_id": 24,
         "climate_zone_id": 68,
         "area_km2": "64386.6143223664",
-        "distance_for_encounter": 16,
         "chance_of_encounter": "5.00",
-        "hours_to_encounter": "8.00",
         "population_ratio": 0.5,
         "cultural_family": "numeriador"
       },
@@ -153548,9 +153452,7 @@
         "kingdom_id": 24,
         "climate_zone_id": 80,
         "area_km2": "25518.2912507263",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -156451,9 +156353,7 @@
         "kingdom_id": 6,
         "climate_zone_id": 74,
         "area_km2": "8938.41032783216",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "dunadan_north"
       },
@@ -156958,9 +156858,7 @@
         "kingdom_id": 24,
         "climate_zone_id": 101,
         "area_km2": "26700.5248810456",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -159293,9 +159191,7 @@
         "kingdom_id": 24,
         "climate_zone_id": 82,
         "area_km2": "22032.3894844129",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "1.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -160100,9 +159996,7 @@
         "kingdom_id": 24,
         "climate_zone_id": 109,
         "area_km2": "21864.0619240093",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -162155,9 +162049,7 @@
         "kingdom_id": 6,
         "climate_zone_id": 41,
         "area_km2": "34926.1288098374",
-        "distance_for_encounter": 5,
         "chance_of_encounter": "10.00",
-        "hours_to_encounter": "8.00",
         "population_ratio": 0.5,
         "cultural_family": "dunadan_north"
       },
@@ -164842,9 +164734,7 @@
         "kingdom_id": 6,
         "climate_zone_id": 39,
         "area_km2": "26112.0495896464",
-        "distance_for_encounter": 16,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "dunadan_north"
       },
@@ -165509,9 +165399,7 @@
         "kingdom_id": 6,
         "climate_zone_id": 40,
         "area_km2": "50376.9553881854",
-        "distance_for_encounter": 16,
         "chance_of_encounter": "5.00",
-        "hours_to_encounter": "8.00",
         "population_ratio": 0.5,
         "cultural_family": "dunadan_north"
       },
@@ -167892,9 +167780,7 @@
         "kingdom_id": 6,
         "climate_zone_id": 65,
         "area_km2": "54791.6124183644",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "5.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "dunadan_north"
       },
@@ -169979,9 +169865,7 @@
         "kingdom_id": 4,
         "climate_zone_id": 69,
         "area_km2": "4994.38651695736",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "50.00",
-        "hours_to_encounter": "3.00",
         "population_ratio": 0.05,
         "cultural_family": "unique_oldforest"
       },
@@ -170622,9 +170506,7 @@
         "kingdom_id": 34,
         "climate_zone_id": 111,
         "area_km2": "33890.8376334702",
-        "distance_for_encounter": 6,
         "chance_of_encounter": "35.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "wild"
       },
@@ -171509,9 +171391,7 @@
         "kingdom_id": 34,
         "climate_zone_id": 103,
         "area_km2": "61436.1378268793",
-        "distance_for_encounter": 6,
         "chance_of_encounter": "35.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "wild"
       },
@@ -174072,9 +173952,7 @@
         "kingdom_id": 6,
         "climate_zone_id": 117,
         "area_km2": "11812.8311454773",
-        "distance_for_encounter": 24,
         "chance_of_encounter": "25.00",
-        "hours_to_encounter": "6.00",
         "population_ratio": 0.15,
         "cultural_family": "wild"
       },
@@ -174667,9 +174545,7 @@
         "kingdom_id": 32,
         "climate_zone_id": 108,
         "area_km2": "139123.22893202",
-        "distance_for_encounter": 16,
         "chance_of_encounter": "5.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.65,
         "cultural_family": "northman"
       },
@@ -178894,9 +178770,7 @@
         "kingdom_id": 32,
         "climate_zone_id": 121,
         "area_km2": "61494.4120556729",
-        "distance_for_encounter": 16,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "northman"
       },
@@ -180485,9 +180359,7 @@
         "kingdom_id": 24,
         "climate_zone_id": 77,
         "area_km2": "17026.1767517102",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "10.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -183010,9 +182882,7 @@
         "kingdom_id": 24,
         "climate_zone_id": 116,
         "area_km2": "12504.795492816",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "12.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "sindar"
       },
@@ -184389,9 +184259,7 @@
         "kingdom_id": 22,
         "climate_zone_id": 51,
         "area_km2": "75802.564902689",
-        "distance_for_encounter": 13,
         "chance_of_encounter": "10.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "enemy"
       },
@@ -185552,9 +185420,7 @@
         "kingdom_id": 1,
         "climate_zone_id": 44,
         "area_km2": "62555.3620429798",
-        "distance_for_encounter": 10,
         "chance_of_encounter": "10.00",
-        "hours_to_encounter": "5.00",
         "population_ratio": 0.5,
         "cultural_family": "lossoth"
       },
@@ -186315,9 +186181,7 @@
         "kingdom_id": 8,
         "climate_zone_id": 105,
         "area_km2": "31199.2159071267",
-        "distance_for_encounter": 5,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "6.00",
         "population_ratio": 0.5,
         "cultural_family": "wild_mountain"
       },
@@ -187662,9 +187526,7 @@
         "kingdom_id": 37,
         "climate_zone_id": 120,
         "area_km2": "22499.5064061208",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "wild"
       },
@@ -191217,9 +191079,7 @@
         "kingdom_id": 34,
         "climate_zone_id": 47,
         "area_km2": "63158.2631647304",
-        "distance_for_encounter": 13,
         "chance_of_encounter": "10.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "wild"
       },
@@ -194792,9 +194652,7 @@
         "kingdom_id": 20,
         "climate_zone_id": 67,
         "area_km2": "17437.6580434731",
-        "distance_for_encounter": 3,
         "chance_of_encounter": "6.00",
-        "hours_to_encounter": "8.00",
         "population_ratio": 0.5,
         "cultural_family": "dwarven"
       },
@@ -197111,9 +196969,7 @@
         "kingdom_id": 11,
         "climate_zone_id": 88,
         "area_km2": "66639.2492040395",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.3,
         "cultural_family": "dunlending"
       },
@@ -200310,9 +200166,7 @@
         "kingdom_id": 36,
         "climate_zone_id": 45,
         "area_km2": "69796.3868836434",
-        "distance_for_encounter": 11,
         "chance_of_encounter": "7.00",
-        "hours_to_encounter": "8.00",
         "population_ratio": 0.5,
         "cultural_family": "lossoth"
       },
@@ -200937,9 +200791,7 @@
         "kingdom_id": 2,
         "climate_zone_id": 62,
         "area_km2": "161147.421492783",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "30.00",
-        "hours_to_encounter": "1.00",
         "population_ratio": 0.2,
         "cultural_family": "enemy"
       },
@@ -203932,9 +203784,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 37,
         "area_km2": "25209.47484913",
-        "distance_for_encounter": 1,
         "chance_of_encounter": "25.00",
-        "hours_to_encounter": "1.00",
         "population_ratio": 0.5,
         "cultural_family": "gondorian"
       },
@@ -206283,9 +206133,7 @@
         "kingdom_id": 28,
         "climate_zone_id": 63,
         "area_km2": "207713.200820282",
-        "distance_for_encounter": 2,
         "chance_of_encounter": "33.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.15,
         "cultural_family": "enemy"
       },
@@ -207690,9 +207538,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 56,
         "area_km2": "75749.873665641",
-        "distance_for_encounter": 6,
         "chance_of_encounter": "30.00",
-        "hours_to_encounter": "3.00",
         "population_ratio": 0.5,
         "cultural_family": "gondorian"
       },
@@ -210857,9 +210703,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 94,
         "area_km2": "32536.2389850029",
-        "distance_for_encounter": 5,
         "chance_of_encounter": "35.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "gondorian"
       },
@@ -213260,9 +213104,7 @@
         "kingdom_id": 10,
         "climate_zone_id": 75,
         "area_km2": "147218.619028706",
-        "distance_for_encounter": 5,
         "chance_of_encounter": "35.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.5,
         "cultural_family": "gondorian"
       },
@@ -222443,9 +222285,7 @@
         "kingdom_id": 31,
         "climate_zone_id": 107,
         "area_km2": "4255.41204331743",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "15.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.55,
         "cultural_family": "high_elven"
       },
@@ -224378,9 +224218,7 @@
         "kingdom_id": 35,
         "climate_zone_id": 100,
         "area_km2": "29621.9673960908",
-        "distance_for_encounter": 24,
         "chance_of_encounter": "25.00",
-        "hours_to_encounter": "6.00",
         "population_ratio": 0.15,
         "cultural_family": "wild"
       },
@@ -226285,9 +226123,7 @@
         "kingdom_id": 3,
         "climate_zone_id": 42,
         "area_km2": "33175.4706413774",
-        "distance_for_encounter": 3,
         "chance_of_encounter": "10.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.1,
         "cultural_family": "unique_fangorn"
       },
@@ -227680,9 +227516,7 @@
         "kingdom_id": 19,
         "climate_zone_id": 87,
         "area_km2": "35829.4293297634",
-        "distance_for_encounter": 5,
         "chance_of_encounter": "35.00",
-        "hours_to_encounter": "4.00",
         "population_ratio": 0.5,
         "cultural_family": "enemy"
       },
@@ -228831,9 +228665,7 @@
         "kingdom_id": 7,
         "climate_zone_id": 48,
         "area_km2": "18780.7003050506",
-        "distance_for_encounter": 5,
         "chance_of_encounter": "50.00",
-        "hours_to_encounter": "1.00",
         "population_ratio": 0.55,
         "cultural_family": "high_elven"
       },
@@ -229584,9 +229416,7 @@
         "kingdom_id": 6,
         "climate_zone_id": 112,
         "area_km2": "26091.0474885275",
-        "distance_for_encounter": 3,
         "chance_of_encounter": "25.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 1,
         "cultural_family": "hobbit"
       },
@@ -231675,9 +231505,7 @@
         "kingdom_id": 6,
         "climate_zone_id": 81,
         "area_km2": "4310.83075437024",
-        "distance_for_encounter": 3,
         "chance_of_encounter": "25.00",
-        "hours_to_encounter": "2.00",
         "population_ratio": 0.9,
         "cultural_family": "hobbit"
       },
@@ -231946,9 +231774,7 @@
         "kingdom_id": 12,
         "climate_zone_id": 58,
         "area_km2": "8421.62364593575",
-        "distance_for_encounter": 8,
         "chance_of_encounter": "20.00",
-        "hours_to_encounter": "3.00",
         "population_ratio": 0.5,
         "cultural_family": "northman"
       },
