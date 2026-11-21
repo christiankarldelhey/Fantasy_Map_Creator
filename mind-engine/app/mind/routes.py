@@ -478,6 +478,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             episode.brief = brief
             episode.lens_block = render_lens(
                 payload.character.name or payload.character.id, brief,
+                mood=entering_mood, today=episode.episode_date,
             )
             db.commit()
             db.refresh(episode)

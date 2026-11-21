@@ -501,6 +501,12 @@ def render_lens(character_name, brief, mood=None, today=None):
     already worded; the lens never invents."""
     brief = brief or {}
     lines = [f'{character_name} today.']
+    # The entering Mood's own word — how the day finds them, before any
+    # cause names why. 'steady' stays silent: a mind at ease needs no
+    # weather report.
+    word = mood_name(mood or {})
+    if word and word != 'steady':
+        lines.append(f'The day finds them {word}.')
     focus = brief.get('focus')
     carried, seen = [], set()
     for line in brief.get('carried') or []:

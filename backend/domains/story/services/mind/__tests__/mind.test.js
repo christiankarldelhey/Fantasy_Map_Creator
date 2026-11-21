@@ -203,7 +203,7 @@ test('encounters carry the resolved substance of contact (C16)', () => {
     day: {
       ...DAY,
       encounters: [{
-        entity: { slug: 'dnedain', id: 'e9', name: 'Dúnedain', type: 'humans', danger_level: 0 },
+        entity: { slug: 'dunedain', id: 'e9', name: 'Dúnedain', type: 'humans', danger_level: 0 },
         hour_float: 20.5,
         interaction: {
           form: 'brief_exchange',
