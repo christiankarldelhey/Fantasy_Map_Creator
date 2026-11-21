@@ -37692,5 +37692,219 @@
     "payload": {
       "source": "mover_beats"
     }
+  },
+  {
+    "id": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_type": "humans",
+    "region_id": 48,
+    "cultural_family": "numeriador",
+    "form": "brief_exchange",
+    "tags": [
+      "felt:settled"
+    ],
+    "disposition": {
+      "en": "Answers before being asked. She has already decided what kind of traveller this is, and she is rarely wrong."
+    },
+    "presence": {
+      "en": "A herbwoman with drying racks of kingsfoil and two plants she will not name. Sells salves, buys news. Knows which passes stay open in winter — she walks them herself for her stock."
+    },
+    "channel": {
+      "en": "She diagnoses the road by what grows beside it — and the traveller by how he stands."
+    },
+    "facts": {
+      "topic": "news_and_rumor"
+    },
+    "situations": [
+      {
+        "id": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a:sit",
+        "tags": [],
+        "situation": {
+          "en": "The herb trade is the only commerce that crosses all of Numeriador. Its carriers know more of the land than any scout."
+        }
+      }
+    ],
+    "payload": {
+      "source": "authored:numeriador"
+    }
+  },
+  {
+    "id": "cnt:10efc176-3e86-4d6b-9568-3fa5048db80d",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_type": "humans",
+    "region_id": 48,
+    "cultural_family": "numeriador",
+    "form": "brief_exchange",
+    "tags": [
+      "felt:curious"
+    ],
+    "disposition": {
+      "en": "Talks to the weather more than to people. Answers eventually, and is worth waiting for."
+    },
+    "presence": {
+      "en": "A hedge-wizard fallen on practical times — casts nothing you could name, but reads weather-signs like scripture. Trades forecasts for supplies, and asks only to be told what the clouds did in the last country the traveller crossed."
+    },
+    "channel": {
+      "en": "He speaks in predictions. Half of them have already come true."
+    },
+    "facts": {
+      "topic": "weather"
+    },
+    "situations": [
+      {
+        "id": "cnt:10efc176-3e86-4d6b-9568-3fa5048db80d:sit",
+        "tags": [],
+        "situation": {
+          "en": "Numeriador collects the learned who no court wanted. They keep learning anyway — for whoever will listen."
+        }
+      }
+    ],
+    "payload": {
+      "source": "authored:numeriador"
+    }
+  },
+  {
+    "id": "cnt:89497fcc-202d-4788-b689-002c324885b4",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_type": "humans",
+    "region_id": 48,
+    "cultural_family": "numeriador",
+    "form": "aid_or_trade",
+    "tags": [
+      "felt:warmth"
+    ],
+    "disposition": {
+      "en": "Pours a second cup before the first is finished. Hospitality as a political position."
+    },
+    "presence": {
+      "en": "A man who left Fornost over a matter of principle he will explain at length if allowed. Keeps a still and three hidden paths; shares bread, liquor and grievances freely."
+    },
+    "channel": null,
+    "facts": {
+      "topic": "old_grudge"
+    },
+    "situations": [
+      {
+        "id": "cnt:89497fcc-202d-4788-b689-002c324885b4:sit",
+        "tags": [],
+        "situation": {
+          "en": "Numeriador is where the principled and the impossible end up — the kingdoms found them inconvenient, and the plateau took them in."
+        }
+      }
+    ],
+    "payload": {
+      "source": "authored:numeriador"
+    }
+  },
+  {
+    "id": "cnt:757fa314-29c7-4c40-9bd8-0b4da8eca8af",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_type": "humans",
+    "region_id": 48,
+    "cultural_family": "numeriador",
+    "form": "observed_activity",
+    "tags": [
+      "felt:pleased"
+    ],
+    "disposition": {
+      "en": "Too absorbed in the argument to notice being watched."
+    },
+    "presence": {
+      "en": "Pilgrims camped by the spring below the ruin — scholars arguing a translation by firelight, an elf among them debating as an equal, a shepherd correcting a citation. Nobody here finds any of it strange."
+    },
+    "channel": {
+      "en": "The fire is small. The argument is large."
+    },
+    "facts": {
+      "topic": "lore_debate"
+    },
+    "situations": [
+      {
+        "id": "cnt:757fa314-29c7-4c40-9bd8-0b4da8eca8af:sit",
+        "tags": [],
+        "situation": {
+          "en": "This is what Numeriador is for: arguments that outlive kingdoms, walked here on foot by people who care about them."
+        }
+      }
+    ],
+    "payload": {
+      "source": "authored:numeriador"
+    }
+  },
+  {
+    "id": "cnt:98fe6a68-24ab-4262-a1d8-a0ff3bcb42e8",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_type": "dwarves",
+    "region_id": 48,
+    "cultural_family": "numeriador",
+    "form": "observed_activity",
+    "tags": [
+      "felt:warmth"
+    ],
+    "disposition": {
+      "en": "Argues with the shepherd like family — which, by the looks of the fire they share, he nearly is."
+    },
+    "presence": {
+      "en": "A dwarf tinker's wagon drawn up beside a shepherd's fire, the two of them arguing metalwork over soup like old kin. In Numeriador nobody remarks on it — a dwarf who trades here every spring is simply a neighbour."
+    },
+    "channel": {
+      "en": "The argument is friendly. The soup is communal."
+    },
+    "facts": {
+      "topic": "craft_and_trade"
+    },
+    "situations": [
+      {
+        "id": "cnt:98fe6a68-24ab-4262-a1d8-a0ff3bcb42e8:sit",
+        "tags": [],
+        "situation": {
+          "en": "Every race passes through Numeriador sooner or later. The ones who come back every year stop being strangers."
+        }
+      }
+    ],
+    "payload": {
+      "source": "authored:numeriador"
+    }
+  },
+  {
+    "id": "cnt:1f679063-6e38-4128-b521-5f1313a51c7e",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_type": "humans",
+    "region_id": 48,
+    "cultural_family": "numeriador",
+    "form": "aid_or_trade",
+    "tags": [
+      "felt:gratitude"
+    ],
+    "disposition": {
+      "en": "Offers food without asking names. The rules of the house are stated once and kindly."
+    },
+    "presence": {
+      "en": "Food set before the traveller unasked — herb stew, a place by the fire, a song someone wrote last winter about a tax collector's bad luck. House rules: no lord's business, no swords at table."
+    },
+    "channel": {
+      "en": "Generosity here is deliberate — a small country of the unwelcome, keeping its own welcome."
+    },
+    "facts": {
+      "topic": "hospitality"
+    },
+    "situations": [
+      {
+        "id": "cnt:1f679063-6e38-4128-b521-5f1313a51c7e:sit",
+        "tags": [],
+        "situation": {
+          "en": "They do not ask what the traveller is running from, because most of them are running from something too."
+        }
+      }
+    ],
+    "payload": {
+      "source": "authored:numeriador"
+    }
   }
 ]
