@@ -85,6 +85,30 @@ def test_daylight_moves_the_dusk_phrase_with_the_season():
     assert 'Early in the afternoon' in fixed
 
 
+def test_polar_daylight_overrides_clock_phrases():
+    """Above the arctic circle the analog returns polar flags, not hours:
+    a Finnmark December ('polar night') reads dark at midday; a June
+    midnight sun keeps late hours lit."""
+    enc = [{
+        'phase': 'afternoon', 'hour': 12.0, 'region': 'the Ice Bay',
+        'entity': {'name': 'Lossoth', 'type': 'people'},
+        'interaction': {'form': 'glimpsed_far'},
+    }]
+    polar_night = _prompt(
+        day={'day_number': 4, 'date': '1950-12-21',
+             'daylight': {'sunrise': None, 'sunset': None, 'polar': 'night'},
+             'encounters': enc},
+        events=[])
+    assert 'In the dark of the polar night' in polar_night
+    late_enc = [dict(enc[0], hour=23.0)]
+    polar_day = _prompt(
+        day={'day_number': 4, 'date': '1950-06-21',
+             'daylight': {'sunrise': None, 'sunset': None, 'polar': 'day'},
+             'encounters': late_enc},
+        events=[])
+    assert 'Under the midnight sun' in polar_day
+
+
 def test_encounter_lands_at_its_clock_position():
     """A 16:00 encounter narrates in the late afternoon — after the midday
     meal, not before it."""

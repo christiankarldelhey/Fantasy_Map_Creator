@@ -479,6 +479,27 @@ async function sampleLegContext(legGeoJSON) {
   return rows[0];
 }
 
+/** Latitude of the real-world climate analog covering a point — the day's
+ * sun keeps the analog's hours (Finnmark, the Cairngorms, Finisterre), not
+ * the map's own geometry. Returns {analog_lat, analog_location} or nulls
+ * when no climate zone covers the point. */
+async function climateAnalogAtPoint(lng, lat) {
+  try {
+    const { rows } = await pool.query(
+      `SELECT cz.analog_lat, cz.analog_location
+       FROM regions r
+       JOIN climate_zones cz ON cz.id = r.climate_zone_id
+       WHERE cz.analog_lat IS NOT NULL
+         AND ST_Intersects(r.geom, ST_SetSRID(ST_MakePoint($1, $2), 4326))
+       LIMIT 1`,
+      [lng, lat]
+    );
+    return rows[0] || { analog_lat: null, analog_location: null };
+  } catch {
+    return { analog_lat: null, analog_location: null };
+  }
+}
+
 /** Climate at a point/timestamp using the PostGIS transition function. */
 async function climateAtPoint(lng, lat, timestamp) {
   try {
@@ -772,12 +793,18 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date, moonPhase);
   const variantOrder = variantOrderForDay(date, climate);
 
-  // Solar anchors at the leg's midpoint latitude — the day's dawn and dusk
-  // move with the season (a November dusk fails early, not at the fixed
-  // 19:00). Weather samples keep their clock hours; the anchors serve
-  // phrasing and the dawn/day/dusk/night variant keys.
+  // Solar anchors from the REAL climate analog at the leg's midpoint — the
+  // day's dawn and dusk keep the analog's hours (Forochel keeps Finnmark's
+  // sun, Talath Muil keeps the Cairngorms'), not the map geometry's and not
+  // the fixed 7/19. Weather samples keep their clock hours; the anchors
+  // serve phrasing and the dawn/day/dusk/night variant keys. Polar analogs
+  // return {polar:'day'|'night'} — the sun may not rise at all.
   const midPoint = positionAtSeconds(segments, (dayStartSeconds + dayEndSeconds) / 2);
-  const daylight = daylightFor(date, midPoint && midPoint[1]);
+  const analog = await climateAnalogAtPoint(midPoint[0], midPoint[1]);
+  const daylight = {
+    ...daylightFor(date, analog.analog_lat ?? midPoint[1]),
+    analog: analog.analog_location ?? null,
+  };
 
   // --- Geographic sampling ---
   const context = await sampleLegContext(legGeoJSON);

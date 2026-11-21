@@ -99,6 +99,20 @@ def day_time_phrase(hour, daylight=None):
     dusk window opens early in winter, late in summer."""
     if hour is None:
         return None
+    polar = (daylight or {}).get('polar')
+    if polar == 'night':
+        return 'In the dark of the polar night'
+    if polar == 'day':
+        # Midnight sun: no edges at all, only the clock position.
+        if hour < 5 or hour >= 21:
+            return 'Under the midnight sun'
+        if hour < 12:
+            return 'Mid-morning'
+        if hour < 13.5:
+            return 'Toward midday'
+        if hour < 16:
+            return 'Early in the afternoon'
+        return 'Late in the afternoon'
     dawn = (daylight or {}).get('sunrise') or DAWN_HOUR
     dusk = (daylight or {}).get('sunset') or DUSK_HOUR
     if hour < dawn - 0.5:
@@ -140,6 +154,8 @@ _READING_HOUR_PHRASES = [
     ('dusk', 18.5),
     ('sunset', 18.5),
     ('after dark', 20),
+    ('polar night', 12),
+    ('midnight sun', 22),
     ('night', 21),
 ]
 

@@ -59,6 +59,24 @@ test('daylightFor falls back to the defaults on missing input', () => {
   assert.deepEqual(daylightFor('1950-11-15', undefined), DEFAULT_DAYLIGHT);
 });
 
+test('daylightFor reports polar night and midnight sun at arctic latitudes', () => {
+  // Forochel's climate analog is the Finnmark coast (70.66°N): in December
+  // the sun never rises; in June it never sets. Narrate that, not hours.
+  const dec = daylightFor('1950-12-21', 70.66);
+  assert.equal(dec.polar, 'night');
+  assert.equal(dec.sunrise, null);
+  const jun = daylightFor('1950-06-21', 70.66);
+  assert.equal(jun.polar, 'day');
+  assert.equal(jun.sunrise, null);
+});
+
+test('solarKey stays constant under polar light', () => {
+  const polarNight = { sunrise: null, sunset: null, polar: 'night' };
+  const polarDay = { sunrise: null, sunset: null, polar: 'day' };
+  assert.equal(solarKey(12, polarNight), 'night');
+  assert.equal(solarKey(23, polarDay), 'day');
+});
+
 test('solarKey sorts the day into dawn, day, dusk and night', () => {
   const dl = { sunrise: 8, sunset: 16.5 }; // a northern winter day
   assert.equal(solarKey(5, dl), 'night');
@@ -70,6 +88,14 @@ test('solarKey sorts the day into dawn, day, dusk and night', () => {
   assert.equal(solarKey(14.4, dl), 'day');
   assert.equal(solarKey(17.5, dl), 'night');
   assert.equal(solarKey(null, dl), null);
+});
+
+test('timeOfDayPhrase narrates polar extremes', () => {
+  const polarNight = { sunrise: null, sunset: null, polar: 'night' };
+  const polarDay = { sunrise: null, sunset: null, polar: 'day' };
+  assert.equal(timeOfDayPhrase(12, polarNight), 'in the dark of the polar night');
+  assert.equal(timeOfDayPhrase(22, polarDay), 'under the midnight sun');
+  assert.equal(timeOfDayPhrase(10, polarDay), 'in the mid-morning');
 });
 
 test('timeOfDayPhrase seasons its edges with the daylight anchors', () => {

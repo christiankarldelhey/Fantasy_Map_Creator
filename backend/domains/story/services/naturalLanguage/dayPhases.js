@@ -60,6 +60,10 @@ export function phaseForClimateSample(sample) {
  * fixed bands apply, as before. */
 export function timeOfDayPhrase(hourFloat, daylight = null) {
   if (hourFloat == null) return 'somewhere along the way';
+  if (daylight?.polar === 'night') return 'in the dark of the polar night';
+  if (daylight?.polar === 'day' && (hourFloat >= WALK_END_HOUR || hourFloat < 5)) {
+    return 'under the midnight sun';
+  }
   const sunrise = daylight?.sunrise;
   const sunset = daylight?.sunset;
   if (sunrise != null && hourFloat >= sunrise - 0.5 && hourFloat < sunrise + 1.5) {
