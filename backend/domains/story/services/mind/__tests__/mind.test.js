@@ -926,48 +926,45 @@ test('the open payload carries the canonical v2 channels (ADR-0016)', () => {
   assert.equal(body.narration_notes.night_lead, undefined);
 });
 
-test('lightEvents: the sun gets its own events — dusk always, dawn when extreme', () => {
-  // A winter day at high latitude: late dawn (notable) + early dusk.
+test('solar clauses weave into the weather events — dawn when extreme, dusk always', () => {
+  const climateOf = (events) => events.filter((e) => e.type === 'climate');
+  const phase = (events, p) => climateOf(events).find((e) => e.when?.phase === p);
+
+  // A winter day at high latitude: the late dawn joins the morning sky,
+  // the early dusk joins the afternoon it falls in. No separate events.
   const winter = toEvents({
     day: { ...DAY, daylight: { sunrise: 8.6, sunset: 15.4, polar: null }, date: '1950-01-21' },
     trip: { id: 't1' }, character: {},
   });
-  const lights = winter.filter((e) => e.data?.subtype === 'light');
-  assert.equal(lights.length, 2);
-  assert.equal(lights[0].data.light_kind, 'dawn');
-  assert.equal(lights[0].when.hour, 8.6);
-  assert.equal(lights[1].data.light_kind, 'dusk');
-  assert.equal(lights[1].when.hour, 15.4);
-  assert.ok(lights.every((e) => e.data.reading && e.data.act === 'watch'));
+  assert.equal(winter.filter((e) => e.data?.subtype === 'light').length, 0);
+  assert.match(phase(winter, 'morning').data.reading, /^the sun comes up late|^first light drags/);
+  assert.match(phase(winter, 'afternoon').data.reading, /^the light fails early|^the sun gives/);
 
-  // A solar-normal day (sunrise ~7) narrates only the dusk beat.
+  // A solar-normal day (sunrise ~7): no dawn clause — but the dusk is
+  // still woven into whichever phase holds the sunset (18.2 → night).
   const normal = toEvents({
     day: { ...DAY, daylight: { sunrise: 7.3, sunset: 18.2, polar: null }, date: '1950-04-15' },
     trip: { id: 't1' }, character: {},
   });
-  const nLights = normal.filter((e) => e.data?.subtype === 'light');
-  assert.equal(nLights.length, 1);
-  assert.equal(nLights[0].data.light_kind, 'dusk');
+  assert.doesNotMatch(phase(normal, 'morning').data.reading, /sun|light|dawn/);
+  assert.match(phase(normal, 'night').data.reading, /^the light lingers|^the sun is slow/);
 
-  // Polar analogs get the day's real news, not clock anchors.
+  // Polar analogs: the day's real light news rides the felt phase —
+  // the morning for a sun that never rises, the night for one that
+  // never sets.
   const polar = toEvents({
     day: { ...DAY, daylight: { sunrise: null, sunset: null, polar: 'night' }, date: '1950-12-21' },
     trip: { id: 't1' }, character: {},
   });
-  const pLights = polar.filter((e) => e.data?.subtype === 'light');
-  assert.equal(pLights.length, 1);
-  assert.equal(pLights[0].data.light_kind, 'polar_night');
-  assert.match(pLights[0].data.reading, /does not rise|no dawn/);
+  assert.match(phase(polar, 'morning').data.reading, /does not rise|no dawn/);
 
   const midnight = toEvents({
     day: { ...DAY, daylight: { sunrise: null, sunset: null, polar: 'day' }, date: '1950-06-21' },
     trip: { id: 't1' }, character: {},
   });
-  const mLights = midnight.filter((e) => e.data?.subtype === 'light');
-  assert.equal(mLights.length, 1);
-  assert.equal(mLights[0].data.light_kind, 'midnight_sun');
+  assert.match(phase(midnight, 'night').data.reading, /no dark|does not go/);
 
-  // A day with no daylight data emits nothing.
+  // A day with no daylight data: weather readings stand untouched.
   const none = toEvents({ day: { ...DAY, daylight: undefined }, trip: { id: 't1' }, character: {} });
-  assert.equal(none.filter((e) => e.data?.subtype === 'light').length, 0);
+  assert.doesNotMatch(phase(none, 'morning').data.reading, /sun|light|dawn/);
 });

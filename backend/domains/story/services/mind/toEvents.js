@@ -190,6 +190,10 @@ function climateEvents(day) {
       },
     });
   }
+  // The sun's moments weave into the weather: the morning sky carries the
+  // dawn, the sunset's phase carries the dusk, and polar analogs the day's
+  // real light news — the narrator blends them, never reads digits.
+  attachSolarClauses(events, day);
   return events;
 }
 
@@ -599,43 +603,41 @@ function waterEvents(day) {
   }));
 }
 
-// The sun's own events: dawn and dusk are moments of the day like any
-// other — perceived, orderable, narratable. A solar-normal day emits only
-// the dusk beat (the natural close of the walking); dawn speaks only when
-// it is extreme (before 6 or after 8). Polar analogs get the day's real
-// news instead: the sun never rising, or never setting.
-function lightEvents(day) {
+// The sun rides inside the weather events: dawn joins the morning sky,
+// dusk joins whichever phase holds the sunset, and the polar kinds join
+// the phase that feels them — the morning for a sun that never rises,
+// the night for one that never sets. One reading, woven, so the narrator
+// can blend the two moments ('a cold dawn', 'dusk into rain'). Dawn only
+// speaks when it is extreme (before 6 or after 8); dusk always closes
+// the light. The clause leads the reading — it anchors the moment.
+function attachSolarClauses(events, day) {
   const dl = day?.daylight;
-  if (!dl || typeof dl !== 'object') return [];
+  if (!dl || !events.length) return;
   const season = seasonOfDate(day.date);
   const rng = rngOf(day);
-  const ev = (lightKind, phase, hour) => ({
-    type: 'land',
-    when: when({ phase, hour }),
-    where: where(regionOf(day)),
-    data: {
-      subtype: 'light',
-      light_kind: lightKind,
-      act: 'watch',
-      reading: solarLine(lightKind, season, rng),
-    },
-  });
+  const attach = (phases, kind) => {
+    const target = phases
+      .map((p) => events.find((e) => e.when?.phase === p))
+      .find(Boolean);
+    const clause = target && solarLine(kind, season, rng);
+    if (clause) target.data.reading = `${clause}, ${target.data.reading}`;
+  };
   if (dl.polar === 'night') {
-    return [ev('polar_night', 'afternoon', 12)].filter((e) => e.data.reading);
+    attach(['morning', 'afternoon', 'night'], 'polar_night');
+    return;
   }
   if (dl.polar === 'day') {
-    return [ev('midnight_sun', 'night', 23)].filter((e) => e.data.reading);
+    attach(['night', 'afternoon', 'morning'], 'midnight_sun');
+    return;
   }
-  const events = [];
   const sunrise = typeof dl.sunrise === 'number' ? dl.sunrise : null;
   const sunset = typeof dl.sunset === 'number' ? dl.sunset : null;
   if (sunrise != null && (sunrise < 6 || sunrise > 8)) {
-    events.push(ev('dawn', 'morning', sunrise));
+    attach(['morning'], 'dawn');
   }
   if (sunset != null) {
-    events.push(ev('dusk', phaseOfHour(sunset) || 'afternoon', sunset));
+    attach([phaseOfHour(sunset) || 'afternoon', 'afternoon', 'night', 'morning'], 'dusk');
   }
-  return events.filter((e) => e.data.reading);
 }
 
 // Ambient voices (ADR-0015): the tag-gated situations the world resolved
@@ -789,7 +791,6 @@ export function toEvents({ day, trip, character, previousDay }) {
     ...placeEvents(day),
     ...regionEvents(day, previousDay),
     ...waterEvents(day),
-    ...lightEvents(day),
     ...ambienceEvents(day),
     ...interactionEvents(day),
     ...(restEvent(day) ? [restEvent(day)] : []),
