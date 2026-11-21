@@ -35,10 +35,10 @@ def _clauses(reading):
     ]
 
 
-def _encounter_beat(encounter):
+def _encounter_beat(encounter, daylight=None):
     """The encounter at its clock position — mechanics verbatim, time as
     a natural phrase ('Late in the afternoon —', never '16:00')."""
-    when = day_time_phrase(encounter.get('hour')) or _PHASE_FALLBACK.get(
+    when = day_time_phrase(encounter.get('hour'), daylight) or _PHASE_FALLBACK.get(
         encounter.get('phase'), 'During the day')
     return f'{when} — an encounter:\n{_describe_encounter(encounter)}'
 
@@ -91,7 +91,7 @@ def _dawn_anchor(previous_rest):
     return re.split(r' — |(?<=\.)\s', previous_rest)[0].rstrip('.')
 
 
-def timeline_section(*, intro, beats, previous_rest=None):
+def timeline_section(*, intro, beats, previous_rest=None, daylight=None):
     """The === TODAY === skeleton. `beats` carries {phase, hour, kind, ...}
     entries already tagged by the builder; this function only orders,
     deduplicates weather, and phrases time."""
@@ -129,7 +129,7 @@ def timeline_section(*, intro, beats, previous_rest=None):
                 lines.append(f"Later — {', '.join(new)}.")
             continue
         if kind == 'encounter':
-            lines.append(_encounter_beat(beat['encounter']))
+            lines.append(_encounter_beat(beat['encounter'], daylight))
             continue
         if kind == 'stirs':
             text = _stirs_beat(beat['stirs'])

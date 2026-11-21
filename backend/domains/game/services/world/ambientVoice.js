@@ -19,6 +19,7 @@
 // ============================================================================
 
 import pool from '../../../../db.js';
+import { seasonOfDate } from '../../adapters/storyClient.js';
 import { shadowBand } from '../character/characterState.js';
 
 /** Most ambient situations a single day may narrate. */
@@ -39,14 +40,11 @@ const GROUND_SOFT_TYPES = new Set([
   'grassland', 'steppe', 'heath', 'field',
 ]);
 
-/** Middle-earth season tag for a date — all four, unlike seasonOfDate. */
+/** Middle-earth season tag for a date — the canonical selector
+ * (seasonOfDate) as an ambient tag. */
 function seasonTagOf(dateISO) {
-  const month = Number(String(dateISO || '').slice(5, 7));
-  if (!month) return null;
-  if (month >= 3 && month <= 5) return 'season:spring';
-  if (month >= 6 && month <= 8) return 'season:summer';
-  if (month >= 9 && month <= 11) return 'season:autumn';
-  return 'season:winter';
+  const season = seasonOfDate(dateISO);
+  return season ? `season:${season}` : null;
 }
 
 /**

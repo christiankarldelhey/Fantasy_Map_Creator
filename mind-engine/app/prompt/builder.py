@@ -270,7 +270,8 @@ def build_day_prompt(
         f"{road_intro(day.get('day_number'))} {season_phrase(day.get('date'))}"
     )
     timeline = timeline_section(
-        intro=intro, beats=beats, previous_rest=previous_rest)
+        intro=intro, beats=beats, previous_rest=previous_rest,
+        daylight=day.get('daylight'))
 
     # When a mind is driving, the lens already voices the body's condition
     # (needs + mood) — rendering TRAVELLER'S CONDITION too would narrate

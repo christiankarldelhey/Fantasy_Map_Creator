@@ -52,9 +52,23 @@ export function phaseForClimateSample(sample) {
   return phaseForHour(hour);
 }
 
-/** Map a clock hour (float) to a coarse time-of-day phrase for the notes. */
-export function timeOfDayPhrase(hourFloat) {
+/** Map a clock hour (float) to a coarse time-of-day phrase for the notes.
+ * `daylight` (the day's {sunrise, sunset} anchors, see daylight.js) moves
+ * the edges: the generous dusk window reads 'as the light failed', the
+ * first hour and a half of sun 'at first light', and 'after dark' starts
+ * at true sunset rather than the fixed walk-end hour. Without anchors the
+ * fixed bands apply, as before. */
+export function timeOfDayPhrase(hourFloat, daylight = null) {
   if (hourFloat == null) return 'somewhere along the way';
+  const sunrise = daylight?.sunrise;
+  const sunset = daylight?.sunset;
+  if (sunrise != null && hourFloat >= sunrise - 0.5 && hourFloat < sunrise + 1.5) {
+    return 'at first light';
+  }
+  if (sunset != null && hourFloat >= sunset - 2 && hourFloat < sunset + 0.5) {
+    return 'as the light failed';
+  }
+  if (sunset != null && hourFloat >= sunset) return 'after dark';
   if (hourFloat < 9) return 'in the early morning';
   if (hourFloat < 11) return 'in the mid-morning';
   if (hourFloat < 13) return 'toward midday';

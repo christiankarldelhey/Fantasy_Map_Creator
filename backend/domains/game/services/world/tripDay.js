@@ -29,6 +29,8 @@ import {
   variantOrderForDay,
   pickSeasonalSummary,
   loadSeasonalSummaries,
+  daylightFor,
+  solarKey,
 } from '../../adapters/storyClient.js';
 import { FRIENDLY_FAMILIES, MAX_EVIL_ENCOUNTERS_PER_DAY, SETTLEMENT_TYPES, isHostileLocation } from '../character/characterState.js';
 
@@ -770,6 +772,13 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date, moonPhase);
   const variantOrder = variantOrderForDay(date, climate);
 
+  // Solar anchors at the leg's midpoint latitude — the day's dawn and dusk
+  // move with the season (a November dusk fails early, not at the fixed
+  // 19:00). Weather samples keep their clock hours; the anchors serve
+  // phrasing and the dawn/day/dusk/night variant keys.
+  const midPoint = positionAtSeconds(segments, (dayStartSeconds + dayEndSeconds) / 2);
+  const daylight = daylightFor(date, midPoint && midPoint[1]);
+
   // --- Geographic sampling ---
   const context = await sampleLegContext(legGeoJSON);
 
@@ -1110,10 +1119,10 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
  * matches the day's order — same-key entries join as authored
  * sections, and a lang the variant lacks falls back to the base face.
  * 'base' is never a winning key: the column's base presence IS it. */
-function variantPresence(location, lang, variantOrder) {
+function variantPresence(location, lang, keyOrder) {
   const hits = pickVariants(
     { variants: location?.presence_variants },
-    (variantOrder || []).filter((k) => k !== 'base'));
+    (keyOrder || []).filter((k) => k && k !== 'base'));
   const text = (hits || [])
     .map((v) => v?.text?.[lang])
     .filter(Boolean)
@@ -1171,9 +1180,11 @@ function variantPresence(location, lang, variantOrder) {
       visited,
       // The day's conditioned face wins over the base prose: the
       // meadow's six-week bloom is a summer text, its buried grey a
-      // winter one — the ficha says which day each belongs to.
-      presence: variantPresence(l, 'en', variantOrder) ?? l.presence ?? null,
-      presence_es: variantPresence(l, 'es', variantOrder) ?? l.presence_es ?? null,
+      // winter one — the ficha says which day each belongs to. The
+      // solar key (dawn|day|dusk|night at the passing hour) leads the
+      // order, ahead of weather and season.
+      presence: variantPresence(l, 'en', [solarKey(hourFloat, daylight), ...variantOrder]) ?? l.presence ?? null,
+      presence_es: variantPresence(l, 'es', [solarKey(hourFloat, daylight), ...variantOrder]) ?? l.presence_es ?? null,
       narration_type: l.narration_type ?? null,
       record_tags: l.record_tags || [],
       intensity: l.intensity ?? null,
@@ -1247,6 +1258,7 @@ function variantPresence(location, lang, variantOrder) {
     day_number: dayNumber,
     date,
     moon_phase: moonPhase,
+    daylight,
     start: leg.start,
     end: leg.end,
     distance_km: Number((leg.distance_m / 1000).toFixed(3)),

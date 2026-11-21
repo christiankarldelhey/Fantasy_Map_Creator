@@ -102,6 +102,9 @@ function slimDay(d) {
     climate: (d.climate || []).map(slimClimate).filter(Boolean),
     nighttime_climate: (d.nighttime_climate || []).map(slimClimate).filter(Boolean),
     moon_phase: d.moon_phase ? pick(d.moon_phase, ['phase', 'age_days', 'illumination']) : null,
+    // The day's solar anchors ({sunrise, sunset} in clock hours) — the
+    // engine's clock phrases move with the season, never digits.
+    daylight: d.daylight ?? null,
     encounters: (d.encounters || []).map(slimEncounter),
     meals: (d.meals || []).map((m) => pick(m, ['slot', 'food', 'drink'])),
     overnight_location: d.overnight_location ?? null,

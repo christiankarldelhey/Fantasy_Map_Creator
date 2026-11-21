@@ -484,7 +484,7 @@ function placeEvents(day) {
         // prose) is also the memory's reading — and a keeper met at her
         // own door is part of the scene, named by her entity.
         reading: (() => {
-          const line = (collectLocationNotes([loc])[0] || '')
+          const line = (collectLocationNotes([loc], day.daylight)[0] || '')
             .replace(/^- /, '') || loc.name || loc.id || null;
           const keeper = !isDistantSighting(loc) && loc.host
             ? `${loc.host.name}${loc.host.gloss ? `, ${loc.host.gloss}` : ''}`
@@ -550,7 +550,7 @@ function terrainEvents(day) {
     const biomes = biomesByPhase[phase] || [];
     if (!biomes.length) continue;
     const notes = collectTerrainNotes(
-      biomes, [], day.regions, day.terrain_phrases, rngOf(day)
+      biomes, [], day.regions, day.terrain_phrases, rngOf(day), day.daylight
     );
     events.push({
       type: 'land',
@@ -593,7 +593,7 @@ function waterEvents(day) {
             // A crossing is contact with a place-subject — the Bruinen
             // is a ford you come to know, not just where it happened.
             place: slugify(w.name), kind: slugify(w.type) || null,
-            reading: describeWaterCrossings([w], rngOf(day)) || w.name || null },
+            reading: describeWaterCrossings([w], rngOf(day), day.daylight) || w.name || null },
   }));
 }
 

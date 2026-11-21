@@ -48,8 +48,8 @@ function distinctiveName(name) {
   return GENERIC_WATER_NAMES.has(name.toLowerCase()) ? null : name;
 }
 
-function describeCrossing(crossing, rng) {
-  const when = timeOfDayPhrase(crossing.hour_float);
+function describeCrossing(crossing, rng, daylight) {
+  const when = timeOfDayPhrase(crossing.hour_float, daylight);
   const named = distinctiveName(crossing.name);
 
   const variants = crossing.crossing_type === 'bridge'
@@ -61,8 +61,9 @@ function describeCrossing(crossing, rng) {
   return `- ${pick(variants, rng)}${descriptionSuffix(crossing.aspect)}`;
 }
 
-/** Describe the rivers and streams crossed during the day. */
-export function describeWaterCrossings(crossings, rng = Math.random) {
+/** Describe the rivers and streams crossed during the day. `daylight`
+ * (the day's {sunrise, sunset} anchors) seasons the clock phrases. */
+export function describeWaterCrossings(crossings, rng = Math.random, daylight = null) {
   if (!Array.isArray(crossings) || crossings.length === 0) return null;
-  return crossings.map((c) => describeCrossing(c, rng)).join('\n');
+  return crossings.map((c) => describeCrossing(c, rng, daylight)).join('\n');
 }

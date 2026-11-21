@@ -120,13 +120,13 @@ export function buildWorldNotes({
   const ambience = {};
   for (const phase of ['morning', 'afternoon', 'night']) {
     terrain[phase] = biomesByPhase[phase].length
-      ? collectTerrainNotes(biomesByPhase[phase], [], day.regions, day.terrain_phrases, rng)
+      ? collectTerrainNotes(biomesByPhase[phase], [], day.regions, day.terrain_phrases, rng, day.daylight)
       : [];
     locations[phase] = locationsByPhase[phase].length
-      ? collectLocationNotes(locationsByPhase[phase])
+      ? collectLocationNotes(locationsByPhase[phase], day.daylight)
       : [];
     water[phase] = waterByPhase[phase].length
-      ? describeWaterCrossings(waterByPhase[phase], rng)
+      ? describeWaterCrossings(waterByPhase[phase], rng, day.daylight)
       : null;
     ambience[phase] = ambientByPhase[phase]
       .filter((a) => a.text)

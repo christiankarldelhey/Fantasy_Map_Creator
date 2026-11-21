@@ -57,6 +57,34 @@ def test_clock_hours_never_reach_the_narrator():
     assert 'Late in the afternoon' in user
 
 
+def test_daylight_moves_the_dusk_phrase_with_the_season():
+    """day.daylight carries the day's true {sunrise, sunset} — a November
+    dusk falls before 17:00, so a 15:00 encounter reads 'Toward dusk',
+    while a June dusk holds it in the afternoon."""
+    enc = [{
+        'phase': 'afternoon', 'hour': 15.0, 'region': 'the Greenway',
+        'entity': {'name': 'Dunlendings', 'type': 'people'},
+        'interaction': {'form': 'glimpsed_far'},
+    }]
+    winter = _prompt(
+        day={'day_number': 4, 'date': '1950-11-08',
+             'daylight': {'sunrise': 8.1, 'sunset': 16.4},
+             'encounters': enc},
+        events=[])
+    assert 'Toward dusk' in winter
+    summer = _prompt(
+        day={'day_number': 4, 'date': '1950-06-08',
+             'daylight': {'sunrise': 4.9, 'sunset': 21.2},
+             'encounters': enc},
+        events=[])
+    assert 'Early in the afternoon' in summer
+    # A day that ships no anchors keeps the fixed 7/19 defaults.
+    fixed = _prompt(
+        day={'day_number': 4, 'date': '1950-10-08', 'encounters': enc},
+        events=[])
+    assert 'Early in the afternoon' in fixed
+
+
 def test_encounter_lands_at_its_clock_position():
     """A 16:00 encounter narrates in the late afternoon — after the midday
     meal, not before it."""

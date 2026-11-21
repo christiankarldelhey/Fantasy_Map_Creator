@@ -49,7 +49,7 @@ function biomeFacts(biome) {
 
 /** Bullet-ready terrain notes, e.g. "- forest (in the mid-morning): woodland". */
 export function collectTerrainNotes(
-  biomes, altitude, regions = [], terrainPhrasesMap = {}, rng = Math.random,
+  biomes, altitude, regions = [], terrainPhrasesMap = {}, rng = Math.random, daylight = null,
 ) {
   const regionNames = regionNamesOf(regions);
   const notes = [];
@@ -57,7 +57,7 @@ export function collectTerrainNotes(
   for (const biome of (biomes || []).filter(Boolean)) {
     const { type, totalAreaKm2, hourFloat } = biomeFacts(biome);
     const prefix = totalAreaKm2 != null && totalAreaKm2 < SMALL_PATCH_KM2 ? 'small ' : '';
-    const when = hourFloat != null ? ` (${timeOfDayPhrase(hourFloat)})` : '';
+    const when = hourFloat != null ? ` (${timeOfDayPhrase(hourFloat, daylight)})` : '';
     const phrase = terrainPhrase(terrainPhrasesMap, regionNames, type, BIOME_PHRASES, rng);
     notes.push(`- ${prefix}${type}${when}: ${phrase}`);
   }

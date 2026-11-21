@@ -19,7 +19,12 @@ export {
 } from '../../story/services/narrator/index.js';
 export { loadTerrainPhrases } from '../../story/services/naturalLanguage/terrainPhrases.js';
 export {
+  seasonOfDate,
   variantOrderForDay,
   pickSeasonalSummary,
   loadSeasonalSummaries,
 } from '../../story/services/naturalLanguage/seasonalVariants.js';
+export {
+  daylightFor,
+  solarKey,
+} from '../../story/services/naturalLanguage/daylight.js';

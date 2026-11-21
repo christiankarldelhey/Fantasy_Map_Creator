@@ -80,32 +80,40 @@ def phase_for_climate_sample(sample):
     return phase_for_hour(hour)
 
 
-# Daylight anchors (ADR-0019): fixed for now — a future daylight engine
-# (season, latitude) will move these; every caller goes through
-# day_time_phrase so the change stays local.
+# Daylight anchors (ADR-0019): the day's {sunrise, sunset} now arrive on
+# the wire as day.daylight (backend daylight.js); these constants are the
+# fallback when a day ships without them.
 DAWN_HOUR = 7
 DUSK_HOUR = 19
 
+# Generous window before sunset that still reads as dusk — a design choice
+# shared with the backend resolver (daylight.js DUSK_WINDOW_HOURS).
+DUSK_WINDOW = 2
 
-def day_time_phrase(hour):
+
+def day_time_phrase(hour, daylight=None):
     """Map a clock hour to the narrator-facing time expression (ADR-0019).
     The prompt never carries digits — 'late in the afternoon', never
-    '16:00'. None → no phrase (the reading names its own time)."""
+    '16:00'. None → no phrase (the reading names its own time).
+    `daylight` ({sunrise, sunset}) moves the edges with the season: the
+    dusk window opens early in winter, late in summer."""
     if hour is None:
         return None
-    if hour < DAWN_HOUR:
+    dawn = (daylight or {}).get('sunrise') or DAWN_HOUR
+    dusk = (daylight or {}).get('sunset') or DUSK_HOUR
+    if hour < dawn - 0.5:
         return 'Before first light'
-    if hour < 9:
+    if hour < dawn + 1.5:
         return 'At dawn'
     if hour < 12:
         return 'Mid-morning'
     if hour < 13.5:
         return 'Toward midday'
-    if hour < 16:
+    if hour < min(dusk - DUSK_WINDOW, 16):
         return 'Early in the afternoon'
-    if hour < 18:
+    if hour < dusk - DUSK_WINDOW:
         return 'Late in the afternoon'
-    if hour < DUSK_HOUR:
+    if hour < dusk + 0.5:
         return 'Toward dusk'
     return 'After dark'
 
@@ -127,6 +135,7 @@ _READING_HOUR_PHRASES = [
     ('early afternoon', 14),
     ('late afternoon', 17),
     ('afternoon', 15),
+    ('light failed', 18),
     ('evening', 18),
     ('dusk', 18.5),
     ('sunset', 18.5),
