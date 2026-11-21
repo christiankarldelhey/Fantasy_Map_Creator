@@ -188,6 +188,21 @@ export function pickVariant(record, keyOrder = []) {
 }
 
 /**
+ * Like pickVariant but returns EVERY entry under the winning key —
+ * a conditioned face can be authored as several sections under one id
+ * ('winter' carrying three paragraphs of the place in the snow).
+ */
+export function pickVariants(record, keyOrder = []) {
+  const variants = record?.variants;
+  if (!Array.isArray(variants) || !keyOrder.length) return null;
+  for (const key of keyOrder) {
+    const hits = variants.filter((v) => v && (v.key === key || v.id === key));
+    if (hits.length) return hits;
+  }
+  return null;
+}
+
+/**
  * Next unused rotation entry. `rotation` is the payload's ordered prose list
  * (strings or {idx,...} objects); `usedIndices` are the positions already
  * consumed (e.g. trip_days.used_region_descriptions). Returns

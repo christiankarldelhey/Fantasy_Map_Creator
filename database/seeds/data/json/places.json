@@ -19320,8 +19320,8 @@
    "size_radius_km": null,
    "influence_radius_km": null,
    "presence": {
-    "en": "If he arrives in the right window, the whole tundra is covered with low flowers in colour patches, the insects are deafening, and there are birds that were here in no other season.\nIt lasts six weeks.\nThe rest of the year the same place is grey grass and stone.",
-    "es": "Si llega en la ventana justa, la tundra entera está cubierta de flores bajas en manchas de color, y los insectos son ensordecedores, y hay pájaros que no estuvieron en ninguna otra estación.\nDura seis semanas.\nEl resto del año el mismo sitio es pasto gris y piedra."
+    "en": "Grey grass and stone — the meadow's window has not come, or has gone.",
+    "es": "Pasto gris y piedra — la ventana de la pradera no llegó, o ya pasó."
    },
    "lore": {
     "en": "High plain of low grass with great meadows of wildflowers.\nSummer here is short and then everything blooms at once.",
@@ -19329,7 +19329,18 @@
    },
    "variants": [
     {
-     "id": "en_invierno",
+     "id": "summer",
+     "text": {
+      "en": "In the right window the whole tundra is covered with low flowers in colour patches, the insects are deafening, and there are birds that were here in no other season.\nIt lasts six weeks.",
+      "es": "En la ventana justa la tundra entera está cubierta de flores bajas en manchas de color, y los insectos son ensordecedores, y hay pájaros que no estuvieron en ninguna otra estación.\nDura seis semanas."
+     },
+     "label": {
+      "en": "in summer",
+      "es": "en verano"
+     }
+    },
+    {
+     "id": "winter",
      "text": {
       "en": "Snow that settles and stays, the grass buried, and the copses turned into the only visible things in the white.",
       "es": "Nieve que cuaja y se queda, el pasto enterrado, y los bosquecillos convertidos en las únicas cosas visibles en el blanco."
@@ -19340,7 +19351,7 @@
      }
     },
     {
-     "id": "en_invierno",
+     "id": "winter",
      "text": {
       "en": "The herds come down. The camps gather in fewer places and the best ones.",
       "es": "Los rebaños bajan. Los campamentos se juntan en menos sitios y en los mejores."
@@ -19351,7 +19362,7 @@
      }
     },
     {
-     "id": "en_invierno",
+     "id": "winter",
      "text": {
       "en": "And the nights are twice as long.",
       "es": "Y las noches son el doble de largas."

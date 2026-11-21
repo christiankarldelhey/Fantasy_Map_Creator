@@ -15,6 +15,7 @@ import {
 } from './moverCrossings.js';
 import { resolveOvernight, resolveRegionAtPoint } from './placesInteractions.js';
 import { resolveAmbientSituations } from './ambientVoice.js';
+import { pickVariants } from './resolveNarrative.js';
 import {
   flattenRoute,
   totalSeconds,
@@ -352,6 +353,10 @@ async function sampleLegContext(legGeoJSON) {
           'influence_radius_km', rad.infl_km,
           'presence', ficha.presence_en,
           'presence_es', ficha.presence_es,
+          -- The conditioned faces ride along: the day's variant order
+          -- (snow, rain, season…) picks which — if any — replaces the
+          -- base presence when the ficha is read.
+          'presence_variants', ficha.variants,
           -- The record's own words for what the place IS — kind and the
           -- closed-registry thematic tags (ruins, danger, melancholy…) —
           -- so a distant sighting can be true to the case, not default.
@@ -403,6 +408,7 @@ async function sampleLegContext(legGeoJSON) {
         LEFT JOIN LATERAL (
           SELECT f.presence->>'en' AS presence_en,
                  f.presence->>'es' AS presence_es,
+                 f.variants AS variants,
                  f.type->>'en' AS type_en,
                  f.tags AS tags,
                  f.intensity,
@@ -1100,6 +1106,21 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     };
   });
 
+/** The conditioned presence text for `lang`, or null when no variant
+ * matches the day's order — same-key entries join as authored
+ * sections, and a lang the variant lacks falls back to the base face.
+ * 'base' is never a winning key: the column's base presence IS it. */
+function variantPresence(location, lang, variantOrder) {
+  const hits = pickVariants(
+    { variants: location?.presence_variants },
+    (variantOrder || []).filter((k) => k !== 'base'));
+  const text = (hits || [])
+    .map((v) => v?.text?.[lang])
+    .filter(Boolean)
+    .join('\n');
+  return text || null;
+}
+
   // --- Locations: derive the clock hour each is passed from its leg fraction ---
   // Full context rides along (population, inhabitants, both descriptions) —
   // the mind and the narrator need the authored detail, not just a name.
@@ -1148,8 +1169,11 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       sighted_hour: sighted ? `${String(shh).padStart(2, '0')}:${String(smm).padStart(2, '0')}` : null,
       sighted_direction: sighted ? compassDirection(l.entry_bearing_deg) : null,
       visited,
-      presence: l.presence ?? null,
-      presence_es: l.presence_es ?? null,
+      // The day's conditioned face wins over the base prose: the
+      // meadow's six-week bloom is a summer text, its buried grey a
+      // winter one — the ficha says which day each belongs to.
+      presence: variantPresence(l, 'en', variantOrder) ?? l.presence ?? null,
+      presence_es: variantPresence(l, 'es', variantOrder) ?? l.presence_es ?? null,
       narration_type: l.narration_type ?? null,
       record_tags: l.record_tags || [],
       intensity: l.intensity ?? null,

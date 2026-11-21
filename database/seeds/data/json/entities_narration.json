@@ -31016,22 +31016,6 @@
     }
   },
   {
-    "id": "ent:rangers_of_arthadan",
-    "kind": "entity",
-    "entity_id": "9eef4959-f668-4f30-b245-f4f405948e7e",
-    "entity_type": "humans",
-    "aspect": {
-      "en": "Frontier shepherds and watch-forts of Arthedain's bleak northwestern marches, grazing the uplands and standing as staging-ground and militia against Angmar. Toward travellers: hard-pressed frontier folk and watchmen, wary on an exposed and war-torn border."
-    },
-    "lore": {
-      "en": "Frontier shepherds, small steads and watch-forts on the northwestern marches of Arthedain use the fringes of Talath Muil for grazing and as a staging ground, but the bleak climate and exposure prevent large-scale settlement. During the wars with Angmar, local militias are pinned on frontiers and armies cross these uplands, as described in the accounts of battles around Fornost and the Emyn Uial.[file:179][file:132]"
-    },
-    "tags": [],
-    "payload": {
-      "source": "entities"
-    }
-  },
-  {
     "id": "ent:forest_trolls",
     "kind": "entity",
     "entity_id": "9f632f47-64b9-45de-ba48-cda89e16bb49",
