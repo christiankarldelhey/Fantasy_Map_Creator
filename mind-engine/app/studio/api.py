@@ -119,7 +119,7 @@ def _brief_lens_lines(brief, narrative):
     part (focus / carried / day), phase, why and the node it came from."""
     out = []
     for part in ('focus', 'carried', 'day'):
-        lines = brief.get(part) or []
+        lines = (brief or {}).get(part) or []
         if part == 'focus':
             lines = [lines] if lines else []
         for line in lines:
