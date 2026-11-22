@@ -11,6 +11,7 @@ from types import SimpleNamespace
 import pytest
 
 from app.mind.focus import build_brief
+from conftest import open_state
 
 
 def _event(reading, salience, phase=None, tags=(), type_='encounter'):
@@ -251,7 +252,7 @@ def test_the_focus_encodes_a_little_stronger():
         }],
     })
     assert r.status_code == 200, r.text
-    packet = r.json()['psyche_packet']
+    packet = open_state(client, r.json())
     focus = packet['brief']['focus']
     assert focus and focus['kind'] == 'event'
     salience = packet['perceived_day'][int(focus['id'].split(':')[1])]['salience']

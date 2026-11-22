@@ -155,6 +155,7 @@ export const GOOD_INTELLIGENT_TYPES = ['elves', 'dwarves', 'hobbits', 'humans', 
 export const FRIENDLY_FAMILIES = [
   'hobbit', 'sindar', 'silvan', 'high_elven', 'gondorian',
   'northman', 'dunadan_north', 'dwarven', 'coastal', 'lossoth',
+  'numeriador',
 ];
 // Region cultural families considered hostile (raise shadow per day).
 // All enemy regions in the DB use the 'enemy' family.

@@ -64287,5 +64287,219 @@
       "mapped_from_form": "sign_only",
       "felt": "calm"
     }
+  },
+  {
+    "id": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a:sit:sole",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a",
+    "act": "talk",
+    "label": null,
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "Trades road news for a twist of dried leaves and the name of a pass no map marks.",
+          "es": "Cambia noticias del camino por un manojo de hojas secas y el nombre de un paso que ningún mapa marca."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:10efc176-3e86-4d6b-9568-3fa5048db80d:sit:sole",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:10efc176-3e86-4d6b-9568-3fa5048db80d",
+    "act": "talk",
+    "label": null,
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "Tells him what the sky has been doing across the river; the old man pays with tomorrow's weather.",
+          "es": "Le cuenta lo que ha hecho el cielo al otro lado del río; el viejo paga con el clima de mañana."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:10efc176-3e86-4d6b-9568-3fa5048db80d:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "curious"
+    }
+  },
+  {
+    "id": "cnt:89497fcc-202d-4788-b689-002c324885b4:sit:sole",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:89497fcc-202d-4788-b689-002c324885b4",
+    "act": "accept",
+    "label": null,
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "Shares his bread and his brandy and a grievance thirty years deep, and learns the paths the patrols forgot.",
+          "es": "Comparte su pan y su aguardiente y un agravio de treinta años, y aprende las sendas que las patrullas olvidaron."
+        },
+        "effects": [
+          {
+            "type": "meal",
+            "food": "hard bread and a swallow of brandy"
+          }
+        ]
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:89497fcc-202d-4788-b689-002c324885b4:sit",
+      "mapped_from_form": "aid_or_trade",
+      "felt": "warmth"
+    }
+  },
+  {
+    "id": "cnt:757fa314-29c7-4c40-9bd8-0b4da8eca8af:sit:sole",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:757fa314-29c7-4c40-9bd8-0b4da8eca8af",
+    "act": "avoid",
+    "label": null,
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "Listens from the edge of the firelight to an argument about a translation, until the cold decides for him.",
+          "es": "Escucha desde el borde de la lumbre una discusión sobre una traducción, hasta que el frío decide por él."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:757fa314-29c7-4c40-9bd8-0b4da8eca8af:sit",
+      "mapped_from_form": "observed_activity",
+      "felt": "pleased"
+    }
+  },
+  {
+    "id": "cnt:98fe6a68-24ab-4262-a1d8-a0ff3bcb42e8:sit:sole",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:98fe6a68-24ab-4262-a1d8-a0ff3bcb42e8",
+    "act": "avoid",
+    "label": null,
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "Watches the dwarf and the shepherd argue about metal like family, and walks on smiling.",
+          "es": "Mira al enano y al pastor discutir de metales como familia, y sigue su camino sonriendo."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:98fe6a68-24ab-4262-a1d8-a0ff3bcb42e8:sit",
+      "mapped_from_form": "observed_activity",
+      "felt": "warmth"
+    }
+  },
+  {
+    "id": "cnt:1f679063-6e38-4128-b521-5f1313a51c7e:sit:stay",
+    "intensity": 0,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:1f679063-6e38-4128-b521-5f1313a51c7e",
+    "act": "rest",
+    "label": {
+      "en": "Take the corner by the hearth",
+      "es": "Aceptar el rincón junto al fuego"
+    },
+    "need_tags": [
+      "need:exhaustion",
+      "need:hunger",
+      "need:unrest"
+    ],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "Takes the corner by the hearth. Pays in songs; nobody asks what he is running from.",
+          "es": "Toma el rincón junto al fuego. Paga con canciones; nadie pregunta de qué huye."
+        },
+        "effects": [
+          {
+            "type": "meal",
+            "food": "herb stew thick enough to stand a spoon in"
+          },
+          {
+            "type": "lodging",
+            "name": "the corner by the hearth",
+            "description": "a blanket and a warm wall — the price is songs, and no lord's business at the table",
+            "indoor": true
+          },
+          {
+            "type": "rest",
+            "quality": 3
+          },
+          {
+            "type": "shadow",
+            "amount": -1
+          }
+        ]
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:1f679063-6e38-4128-b521-5f1313a51c7e:sit",
+      "felt": "gratitude"
+    }
+  },
+  {
+    "id": "cnt:1f679063-6e38-4128-b521-5f1313a51c7e:sit:walk_on",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:1f679063-6e38-4128-b521-5f1313a51c7e",
+    "act": "avoid",
+    "label": {
+      "en": "Eat, pay in songs, walk on",
+      "es": "Comer, pagar con canciones y seguir"
+    },
+    "need_tags": [
+      "risk:bold"
+    ],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "Eats the herb stew, pays in songs, and walks on into the cold.",
+          "es": "Come el guiso de hierbas, paga con canciones y sigue hacia el frío."
+        },
+        "effects": [
+          {
+            "type": "meal",
+            "food": "herb stew thick enough to stand a spoon in"
+          }
+        ]
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:1f679063-6e38-4128-b521-5f1313a51c7e:sit",
+      "felt": "gratitude"
+    }
   }
 ]

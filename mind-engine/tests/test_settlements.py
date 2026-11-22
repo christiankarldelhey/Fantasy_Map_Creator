@@ -13,6 +13,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.mind.models import EventIn
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -79,7 +80,7 @@ def test_open_with_settlement_day_perceives_place_and_rest(client):
         ],
     })
     assert r.status_code == 200, r.text
-    perceived = r.json()['psyche_packet']['perceived_day']
+    perceived = open_state(client, r.json())['perceived_day']
     place = next(e for e in perceived if e['type'] == 'place')
     rest = next(e for e in perceived if e['type'] == 'rest')
     # The entered town and the paid bed clear their salience floors —

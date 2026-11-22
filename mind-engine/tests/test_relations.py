@@ -18,6 +18,7 @@ from app.mind.tables import (
     Memory, Mind, MindPreset, Episode, PresetLean, PresetStarterBelief,
     Relation,
 )
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -49,7 +50,8 @@ def _open_and_close(client, char, ref, events, preset=None):
 
 
 def _encounter(ep, entity='red_foxes', family='foxes', etype='carnivores',
-               form='aid_or_trade', outcome=None, danger=None):
+               form='aid_or_trade', outcome=None, danger=None,
+               intensity=None):
     data = {'entity': entity, 'entity_type': etype, 'form': form}
     if family:
         data['family'] = family
@@ -57,6 +59,8 @@ def _encounter(ep, entity='red_foxes', family='foxes', etype='carnivores',
         data['outcome'] = outcome
     if danger is not None:
         data['danger'] = danger
+    if intensity is not None:
+        data['intensity'] = intensity
     return {
         'type': 'encounter',
         'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
@@ -323,20 +327,74 @@ def test_stanced_belief_leaves_a_conviction_memory(client):
     session.close()
 
 
-def test_evocation_refeeds_the_relation(client):
-    """The loop closes: meeting the foxes again stirs yesterday's
-    memory, and its imprint lands on the Relation a second time —
-    smaller (EVOKE_SHARE), through the same sediment rule."""
-    char = _uid('echo')
+def test_candidate_memory_stays_inert(client):
+    """A memory stirred but not voiced is observable bookkeeping only:
+    evocations and last_evoked recorded, but no strength, no re-feed —
+    the Relation hears only the day's own sediment."""
+    char = _uid('inert')
     _open_and_close(client, char, 'd1', [_encounter(1)])
     day1 = _relations(char)['entity:red_foxes']['trust']
     _open_and_close(client, char, 'd2', [_encounter(2)])
+
+    session = SessionLocal()
+    ep = (
+        session.query(Episode)
+        .filter_by(character_id=char, episode_idx=2)
+        .one()
+    )
+    mem = (
+        session.query(Memory)
+        .filter_by(character_id=char, kind='episodic')
+        .first()
+    )
+    session.close()
+    lens_eval = ep.lens_eval or {}
+    assert mem.id in lens_eval['evoked']
+    assert mem.id not in lens_eval['voiced']
+    assert mem.evocations == 1 and mem.voiced == 0
     day2 = _relations(char)['entity:red_foxes']['trust']
-    # Without the echo: (day1 + .15) * .98 ≈ .29. With it, the evoked
-    # imprint (.15 x .3 = .045) feeds again -> ~.33.
-    assert day2 > day1 + 0.15
-    assert day2 == pytest.approx(
-        (day1 / 0.98 + 0.15 + 0.15 * 0.3) * 0.98, abs=0.02)
+    # Only the day's own feed (.15) and the overnight decay — no echo.
+    assert day2 == pytest.approx((day1 / 0.98 + 0.15) * 0.98, abs=0.02)
+
+
+def test_voiced_memory_refeeds_the_relation(client):
+    """Only a voiced memory bleeds back: the day carries it into the
+    brief, and its imprint lands on the Relation a second time —
+    smaller (EVOKE_SHARE), through the same sediment rule."""
+    char = _uid('echo')
+    control = _uid('noecho')
+    # Both walk the same two days; the control's day-2 foxes are ones
+    # the day-1 memory never met — same sediment, no echo.
+    _open_and_close(client, char, 'd1', [_encounter(1)])
+    day1 = _relations(char)['entity:red_foxes']['trust']
+    _open_and_close(client, char, 'd2', [
+        _encounter(2, form='attacks', intensity=4),
+    ])
+    _open_and_close(client, control, 'd1', [_encounter(1)])
+    _open_and_close(client, control, 'd2', [
+        _encounter(2, entity='grey_foxes', form='attacks', intensity=4),
+    ])
+
+    session = SessionLocal()
+    ep = (
+        session.query(Episode)
+        .filter_by(character_id=char, episode_idx=2)
+        .one()
+    )
+    mem = (
+        session.query(Memory)
+        .filter_by(character_id=char, kind='episodic')
+        .first()
+    )
+    session.close()
+    assert mem.id in (ep.lens_eval or {})['voiced']
+    assert mem.voiced == 1
+
+    a = _relations(char)['entity:red_foxes']['trust']
+    b = _relations(control)['entity:grey_foxes']['trust']
+    # A ≈ day-1 trust + echo + the attack's feed; B ≈ the attack's feed
+    # only — the margin over B is day-1 PLUS the voiced echo.
+    assert a - b > day1
 
 
 def test_a_meal_feeds_the_food_itself(client):
@@ -492,11 +550,43 @@ def test_the_day_turns_at_the_ford(client):
     assert turn is not None
     assert turn['phase'] == 'afternoon'
     assert turn['cause'] == 'orcs — attacked without warning'
-    # And it ships: the packet's day_mood carries the plot to the
+    # And it ships: the episode's mood carries the plot to the
     # narrator ('mood' stays the running mood — how she stands now).
-    day_mood = opened['psyche_packet']['day_mood']
+    day_mood = open_state(client, opened)['mood']
     assert day_mood['turn']['phase'] == 'afternoon'
     assert len(day_mood['arc']) == 2
+
+
+def test_a_shade_names_the_counter_current():
+    """A good day dimmed by a melancholy tower — the pull that did not
+    turn the mood still whispers: a shade, not a turn."""
+    from types import SimpleNamespace
+    from app.mind.lens import episode_mood
+    items = [
+        {'type': 'land', 'when': {'phase': 'morning'}, 'source': 'world',
+         'reading': 'the downs ran gold with buttercups',
+         'valence': 0.4, 'salience': 0.5, 'imprint': {},
+         'mood_pull': [{'word': 'settled',
+                        'target': {'valence': 0.5, 'arousal': 0.0},
+                        'gain': 0.1}]},
+        {'type': 'land', 'when': {'phase': 'afternoon'}, 'source': 'world',
+         'subject': 'tag:place:old_tower',
+         'reading': 'a roofless watch-tower on the hill',
+         'valence': -0.2, 'salience': 0.5, 'imprint': {},
+         'mood_pull': [{'word': 'melancholy',
+                        'target': {'valence': -0.6, 'arousal': -0.2},
+                        'gain': 0.2}]},
+    ]
+    mind = SimpleNamespace(mood={'valence': 0.5, 'arousal': 0.0})
+    mood = episode_mood(None, None, items, mind=mind)
+    shades = mood.get('shades') or []
+    assert [s['word'] for s in shades] == ['melancholy']
+    assert shades[0]['phase'] == 'afternoon'
+    assert shades[0]['swing'] < 0
+    assert shades[0]['subject'] == 'tag:place:old_tower'
+    # The good day stands: the pull moved it without turning it.
+    assert mood.get('turn') is None
+    assert mood['valence'] > 0
 
 
 def test_what_happened_at_a_place_marks_the_place(client):

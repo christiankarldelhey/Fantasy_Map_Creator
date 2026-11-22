@@ -36840,7 +36840,7 @@
     ]
    },
    "aspect": {
-    "en": "The broad river of Lindon — cold water out of the Blue Mountains running down to the Gulf and the Grey Havens. The swan-ships pass its bar, and the sea-wind follows it far inland.",
+    "en": "A broad, cold river out of the Blue Mountains, running south to the Gulf of Lhun and the Grey Havens.",
     "es": null
    },
    "payload": {
@@ -38611,7 +38611,7 @@
    "priority": 20,
    "tags": [],
    "presence": {
-    "en": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is calm and clean.",
+    "en": "A night in the quiet Elf-haunted country: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is calm and clean.",
     "es": null
    },
    "situations": [
@@ -40759,6 +40759,65 @@
    "payload": {
     "origin": "authored:overnight-remnants",
     "legacy_id": 132
+   }
+  },
+  {
+   "id": "ovn:133",
+   "kind": "depiction",
+   "region_ids": [
+    48
+   ],
+   "name": null,
+   "type": null,
+   "cultural_family": null,
+   "priority": 40,
+   "tags": [],
+   "presence": {
+    "en": "A night on the open plateau of Numeriador: a hollow scraped out of the wind among the creeping juniper, a small careful fire, and cold ground over granite. The land was Arnor once and nobody claimed it after; nothing keeps watch here and nothing comes. Rest is what the hollow allows: thin, cold, and early.",
+    "es": "Una noche en la meseta abierta de Numeriador: un hueco cavado a resguardo del viento entre el enebro rastrero, un fuego pequeño y cuidado, y suelo frío sobre granito. Esto fue Arnor alguna vez y nadie lo reclamó después; nada vigila aquí y nada viene. El descanso es lo que el hueco permite: liviano, frío y temprano."
+   },
+   "situations": [
+    {
+     "id": "ovn:133_night",
+     "tags": [
+      "context:overnight"
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 133
+   }
+  },
+  {
+   "id": "ovn:134",
+   "kind": "depiction",
+   "region_ids": [
+    48
+   ],
+   "name": null,
+   "type": {
+    "en": "village",
+    "es": null
+   },
+   "cultural_family": null,
+   "priority": 40,
+   "tags": [],
+   "presence": {
+    "en": "A village of Numeriador keeps its doors open to almost anyone: a herbwoman's cottage strung with drying plants, a hedge-wizard's cluttered room, pilgrims and rebels and the odd stray dwarf at the same fire. Lodging is cheap, the talk is strange and learned, and nobody asks what you are running from. Rest is easy among folk who mind their own odd business.",
+    "es": "Una aldea de Numeriador le abre la puerta a casi cualquiera: la cabaña de una herbolaria colgada de plantas secándose, el cuarto desordenado de un mago de cercas, peregrinos y rebeldes y algún enano perdido junto al mismo fuego. El alojamiento es barato, la charla extraña y sabia, y nadie pregunta de qué huís. Se descansa fácil entre gente que se ocupa de sus propios asuntos raros."
+   },
+   "situations": [
+    {
+     "id": "ovn:134_night",
+     "tags": [
+      "context:overnight"
+     ]
+    }
+   ],
+   "payload": {
+    "origin": "authored:overnight-remnants",
+    "legacy_id": 134
    }
   }
  ],

@@ -14,6 +14,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 import app.main as main_module
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -41,7 +42,7 @@ def _open(client, char, events):
         'events': events,
     })
     assert r.status_code == 200, r.text
-    return r.json()['psyche_packet']['perceived_day'][0]
+    return open_state(client, r.json())['perceived_day'][0]
 
 
 def test_drizzle_stays_ambient(client):
@@ -111,6 +112,6 @@ def test_severity_tag_wiring_is_generic(client):
     })
     assert r.status_code == 200
     # The tag exists but carries no floor by default — severity stays 0.
-    item = r.json()['psyche_packet']['perceived_day'][0]
+    item = open_state(client, r.json())['perceived_day'][0]
     assert 'tag:omen-of-war' in item['tags']
     assert item['severity'] == 0.0

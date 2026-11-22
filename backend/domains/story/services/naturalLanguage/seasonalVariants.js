@@ -12,11 +12,13 @@
 // lists, same shape as before — no contract change, and a database that
 // predates the variant column simply yields base phrases.
 //
-// Variant keys: 'summer' | 'winter' | 'rain' | 'snow' | 'cold' | 'heat'
+// Variant keys: 'spring' | 'summer' | 'autumn' | 'winter' (season, always
+// present — the day-order never lacks a season) plus the weather keys
+// 'rain' | 'snow' | 'cold' | 'heat' | 'wind'.
 // ('base' is the fallback, never stored explicitly here.)
 //
 // Pick order, most specific first:
-//   snow, rain, extreme heat/cold, season, mild cold/heat, base
+//   snow, rain, wind, extreme heat/cold, season, mild cold/heat, base
 // So a clear winter day reads as 'winter', a snowy winter day as 'snow',
 // and an autumn cold snap as 'cold' rather than swallowing the season.
 // Thresholds mirror mind-engine/app/natural_language/climate_notes.py.
@@ -32,17 +34,20 @@ const HEAT_EXTREME_MIN = 30;
 const COLD_EXTREME_MAX = -5;
 const HEAT_MILD_MIN = 27;
 const COLD_MILD_MAX = 6;
+const WIND_MIN = 18;
 
 /**
- * 'winter' | 'summer' | null from a YYYY-MM-DD date.
- * Middle-earth seasons follow the northern hemisphere.
+ * 'spring' | 'summer' | 'autumn' | 'winter' from a YYYY-MM-DD date — the
+ * single season selector, deterministic and total: every real date maps to
+ * exactly one season. Middle-earth seasons follow the northern hemisphere.
  */
 export function seasonOfDate(dateISO) {
   const month = Number(String(dateISO || '').slice(5, 7));
   if (!month) return null;
-  if (month === 12 || month <= 2) return 'winter';
+  if (month >= 3 && month <= 5) return 'spring';
   if (month >= 6 && month <= 8) return 'summer';
-  return null;
+  if (month >= 9 && month <= 11) return 'autumn';
+  return 'winter';
 }
 
 function weatherSignature(climateArray) {
@@ -58,9 +63,13 @@ function weatherSignature(climateArray) {
     .filter((w) => typeof w.temperature_2m !== 'number' || w.temperature_2m > SNOW_TEMP_MAX)
     .map((w) => w.precipitation || 0)
     .filter((v) => typeof v === 'number');
+  const winds = records
+    .map((w) => w.wind_speed_10m)
+    .filter((v) => typeof v === 'number');
 
   return {
     meanTemp: temps.length ? temps.reduce((a, b) => a + b, 0) / temps.length : null,
+    meanWind: winds.length ? winds.reduce((a, b) => a + b, 0) / winds.length : null,
     totalPrecip: rainPrecips.reduce((a, b) => a + b, 0),
     maxSamplePrecip: rainPrecips.length ? Math.max(...rainPrecips) : 0,
     snow: records.some(
@@ -86,6 +95,7 @@ export function variantOrderForDay(dateISO, climate) {
 
   if (sig.snow) order.push('snow');
   if (sig.totalPrecip >= RAIN_TOTAL_MIN || sig.maxSamplePrecip >= RAIN_SAMPLE_MIN) order.push('rain');
+  if (sig.meanWind !== null && sig.meanWind >= WIND_MIN) order.push('wind');
   if (sig.meanTemp !== null && sig.meanTemp >= HEAT_EXTREME_MIN) order.push('heat');
   if (sig.meanTemp !== null && sig.meanTemp <= COLD_EXTREME_MAX) order.push('cold');
 
@@ -136,10 +146,16 @@ export async function loadSeasonalSummaries(regionNames) {
     );
     const map = {};
     for (const row of rows) {
-      // variants column is [{id, tags, phrases}] (ADR-0015; legacy `key` = `id`)
-      const keyed = Object.fromEntries(
-        (row.variants || []).filter((v) => v && (v.id ?? v.key) != null).map((v) => [v.id ?? v.key, v.phrases])
-      );
+      // variants column is [{id, tags, phrases}] (ADR-0015; legacy `key` = `id`).
+      // An `id` may be a list — one entry answering several keys (a phrase
+      // authored for 'autumn_and_winter' serves both seasons).
+      const keyed = {};
+      for (const v of row.variants || []) {
+        const id = v && (v.id ?? v.key);
+        for (const k of Array.isArray(id) ? id : [id]) {
+          if (k != null) keyed[k] = v.phrases;
+        }
+      }
       if (Object.keys(keyed).length) map[row.region_name] = keyed;
     }
     return map;

@@ -79,10 +79,10 @@ class Episode(Base):
     # {decision_id: option_id}. The mind records; the host executes.
     decisions: Mapped[dict] = mapped_column(JSONB, nullable=True)
     outcome: Mapped[dict] = mapped_column(JSONB, nullable=True)
-    # Voiced-vs-evoked observability (C32): of the memories this episode
-    # evoked, which did the last generated narrative actually echo?
-    # {evoked: [memory_id...], voiced: [memory_id...]} — evoked is the
-    # fixed snapshot from open; voiced is re-measured on each narrate.
+    # Candidate-vs-voiced observability (C32): of the memories this
+    # episode stirred, which did the Lens carry into the brief?
+    # {evoked: [memory_id...], voiced: [memory_id...]} — the fixed
+    # snapshot from open: the Lens's pick, not the prose's echo.
     lens_eval: Mapped[dict] = mapped_column(JSONB, nullable=True)
     # The last generated narration (C33): kept so the Mind's timeline can
     # show the prose beside the Lens that shaped it. Overwritten by each
@@ -350,10 +350,10 @@ class Memory(Base):
     strength: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
     evocations: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     last_evoked_episode: Mapped[int] = mapped_column(Integer, nullable=True)
-    # Voiced counter (C32): episodes whose generated narrative echoed this
-    # memory. Evoked vs voiced is the lens' real bleed rate — a memory the
-    # prose never voices is evocation noise. Bumps at most once per
-    # episode via last_voiced_episode, so re-narration stays honest.
+    # Voiced counter: episodes whose Lens carried this memory into the
+    # brief — only a voiced memory bleeds back into the mind (strength,
+    # Relations, Mood). Evoked vs voiced is the rumination rate: a
+    # candidate the Lens never voices is observable noise.
     voiced: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     last_voiced_episode: Mapped[int] = mapped_column(Integer, nullable=True)
     consolidated: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)

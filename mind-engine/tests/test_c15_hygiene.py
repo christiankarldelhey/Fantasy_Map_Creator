@@ -23,6 +23,7 @@ import app.main as main_module
 import app.mind.reflection as reflection_module
 from app.db import SessionLocal
 from app.mind.tables import MindPreset, Memory, PresetWiring
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -125,7 +126,7 @@ def test_sentinel_tags_never_streak_or_break(client):
     }
     for ep in (1, 2, 3):
         opened = _open(client, char, f'd{ep}', [day(ep)], preset=slug)
-        packet = opened['psyche_packet']
+        packet = open_state(client, opened)
         assert not any(
             'none' in (i.get('reading') or '')
             for i in packet['perceived_day']

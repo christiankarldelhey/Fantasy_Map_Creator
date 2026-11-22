@@ -18,6 +18,7 @@ from app.db import SessionLocal
 from app.mind.detectors import invalidate as invalidate_detectors
 from app.mind.focus import build_brief
 from app.mind.tables import Mind, Detector, Need
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -80,8 +81,8 @@ def _open(client, character_id, ref, events, extra=None,
     return r.json()
 
 
-def _need_keys(packet):
-    return [n['key'] for n in packet['psyche_packet']['needs_active']]
+def _need_keys(client, packet):
+    return [n['key'] for n in open_state(client, packet)['needs_active']]
 
 
 def _checked_event(check, ep=1):
@@ -102,7 +103,7 @@ def test_builtin_pack_urgencies(client):
         'energy': 0.2, 'shadow': 0.5, 'wounded': 'badly_wounded',
     })
     needs = {
-        n['key']: n for n in packet['psyche_packet']['needs_active']
+        n['key']: n for n in open_state(client, packet)['needs_active']
     }
     # 0.5 + (0.4 - 0.2) — distance to the declared floor.
     assert needs['exhaustion']['urgency'] == pytest.approx(0.7)
@@ -120,7 +121,7 @@ def test_builtin_check_mod_tiers(client):
         extra={'skills': {'lore': 8}},
         condition={'energy': 40, 'shadow': 30},
     )
-    item = tired['psyche_packet']['perceived_day'][0]
+    item = open_state(client, tired)['perceived_day'][0]
     # energy 40 -> 0.4 worn (-1.0); shadow 30 -> 0.3 shadowed (-1.0).
     assert item['check']['mods'] == pytest.approx(-2.0)
 
@@ -132,8 +133,8 @@ def test_builtin_pack_reads_conditions_wound(client):
     packet = _open(client, char, 'd1', [
         _checked_event({'skill': 'lore', 'difficulty': 5}),
     ], extra={'skills': {'lore': 8}}, condition={'wounded': 'leg'})
-    assert 'wound' in _need_keys(packet)
-    item = packet['psyche_packet']['perceived_day'][0]
+    assert 'wound' in _need_keys(client, packet)
+    item = open_state(client, packet)['perceived_day'][0]
     assert item['check']['mods'] == pytest.approx(-1.0)
 
 
@@ -155,12 +156,12 @@ def test_declared_row_overrides_default_threshold(client):
             client, _uid('patient'), 'd1', [],
             condition={'days_without_food': 2},
         )
-        assert 'hunger' not in _need_keys(packet)
+        assert 'hunger' not in _need_keys(client, packet)
         packet = _open(
             client, _uid('starving'), 'd1', [],
             condition={'days_without_food': 4},
         )
-        assert 'hunger' in _need_keys(packet)
+        assert 'hunger' in _need_keys(client, packet)
     finally:
         session = SessionLocal()
         session.execute(
@@ -189,7 +190,7 @@ def test_disabled_row_silences_default(client):
             client, _uid('no-hunger'), 'd1', [],
             condition={'days_without_food': 9},
         )
-        assert 'hunger' not in _need_keys(packet)
+        assert 'hunger' not in _need_keys(client, packet)
     finally:
         session = SessionLocal()
         session.execute(
@@ -210,11 +211,11 @@ def test_second_host_lives_off_its_own_fields(client, deep_space):
     detector turns it into a need the engine never heard of."""
     packet = _open(
         client, _uid('astronaut'), 'd1', [],
-        extra={'state': {'oxygen': 0.2, 'sanity': 0.9}},
+        condition={'oxygen': 0.2, 'sanity': 0.9},
         game_id=deep_space,
     )
     needs = {
-        n['key']: n for n in packet['psyche_packet']['needs_active']
+        n['key']: n for n in open_state(client, packet)['needs_active']
     }
     assert needs['hypoxia']['type'] == 'physiological'
     # 0.4 + 1.0 * (0.3 - 0.2) — distance to the declared floor.
@@ -225,12 +226,12 @@ def test_second_host_lives_off_its_own_fields(client, deep_space):
 
 def test_second_host_need_auto_resolves(client, deep_space):
     char = _uid('recovered')
-    _open(client, char, 'd1', [], extra={'state': {'oxygen': 0.2}},
+    _open(client, char, 'd1', [], condition={'oxygen': 0.2},
           game_id=deep_space)
     second = _open(client, char, 'd2', [],
-                   extra={'state': {'oxygen': 0.95}},
+                   condition={'oxygen': 0.95},
                    game_id=deep_space)
-    assert 'hypoxia' not in _need_keys(second)
+    assert 'hypoxia' not in _need_keys(client, second)
     session = SessionLocal()
     need = session.query(Need).filter_by(
         character_id=char, key='hypoxia'
@@ -246,28 +247,31 @@ def test_second_host_check_mod_and_altered(client, deep_space):
     sane = _open(
         client, _uid('sane'), 'd1',
         [_checked_event({'skill': 'lore', 'difficulty': 5})],
-        extra={'skills': {'lore': 8}, 'state': {'sanity': 0.9}},
+        extra={'skills': {'lore': 8}},
+        condition={'sanity': 0.9},
         game_id=deep_space,
     )
-    item = sane['psyche_packet']['perceived_day'][0]
+    item = open_state(client, sane)['perceived_day'][0]
     assert item['check']['mods'] == pytest.approx(0.0)
 
     unraveling = _open(
         client, _uid('unraveling'), 'd1',
         [_checked_event({'skill': 'lore', 'difficulty': 5})],
-        extra={'skills': {'lore': 8}, 'state': {'sanity': 0.1}},
+        extra={'skills': {'lore': 8}},
+        condition={'sanity': 0.1},
         game_id=deep_space,
     )
-    item = unraveling['psyche_packet']['perceived_day'][0]
+    item = open_state(client, unraveling)['perceived_day'][0]
     assert item['check']['mods'] == pytest.approx(-1.5)
 
     misread = _open(
         client, _uid('mad'), 'd1',
         [_checked_event({'skill': 'lore', 'difficulty': 25})],
-        extra={'skills': {'lore': 0}, 'state': {'sanity': 0.15}},
+        extra={'skills': {'lore': 0}},
+        condition={'sanity': 0.15},
         game_id=deep_space,
     )
-    item = misread['psyche_packet']['perceived_day'][0]
+    item = open_state(client, misread)['perceived_day'][0]
     assert item['perception'] == 'misread'
 
 
@@ -285,7 +289,7 @@ def test_mind_override_beats_declared_value(client):
     packet = _open(
         client, char, 'd2', [], condition={'days_without_food': 2}
     )
-    assert 'hunger' not in _need_keys(packet)
+    assert 'hunger' not in _need_keys(client, packet)
 
 
 # --- focus exclusions are pack data ------------------------------------------

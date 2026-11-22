@@ -35,11 +35,6 @@ function slimCharacter(c) {
       deception: c.skill_deception ?? 0,
       intimidation: c.skill_intimidation ?? 0,
     },
-    // Free-form Condition channel (ADR 0005): the host declares its body
-    // vitals here (and in the live `condition` report) — named scalars
-    // like energy/shadow/wounded ride that same channel, never fields
-    // of their own.
-    state: c.state ?? {},
     // Narrator prose material
     description: c.description ?? null,
     entity_name: c.entity_name ?? null,
@@ -91,7 +86,7 @@ function slimDay(d) {
       pick(b, ['type', 'hour_float', 'fraction', 'total_area_km2'])
     ),
     locations: (d.locations || []).map((l) =>
-      pick(l, ['id', 'name', 'type', 'region', 'region_id', 'aspect', 'aspect_es', 'presence', 'presence_es', 'population', 'inhabitants', 'cultural_family', 'hour', 'hour_float', 'distance_km', 'size_radius_km', 'influence_radius_km', 'sighted', 'sighted_hour_float', 'sighted_hour', 'sighted_direction', 'visited', 'title', 'indoor', 'entered', 'hostile'])
+      pick(l, ['id', 'name', 'type', 'region', 'region_id', 'aspect', 'aspect_es', 'presence', 'presence_es', 'population', 'inhabitants', 'cultural_family', 'hour', 'hour_float', 'distance_km', 'size_radius_km', 'influence_radius_km', 'sighted', 'sighted_hour_float', 'sighted_hour', 'sighted_direction', 'visited', 'title', 'indoor', 'entered', 'hostile', 'told'])
     ),
     lodging: d.lodging
       ? pick(d.lodging, ['paid', 'cost', 'coinsAfter', 'sheltered', 'turnedAway', 'charity', 'charityCheck', 'place'])
@@ -102,6 +97,9 @@ function slimDay(d) {
     climate: (d.climate || []).map(slimClimate).filter(Boolean),
     nighttime_climate: (d.nighttime_climate || []).map(slimClimate).filter(Boolean),
     moon_phase: d.moon_phase ? pick(d.moon_phase, ['phase', 'age_days', 'illumination']) : null,
+    // The day's solar anchors ({sunrise, sunset} in clock hours) — the
+    // engine's clock phrases move with the season, never digits.
+    daylight: d.daylight ?? null,
     encounters: (d.encounters || []).map(slimEncounter),
     meals: (d.meals || []).map((m) => pick(m, ['slot', 'food', 'drink'])),
     overnight_location: d.overnight_location ?? null,
@@ -153,38 +151,22 @@ export function toOpenPayload({
   previousDay = null,
   recentDayClimates = [],
 }) {
-  // The narrator's briefing (ADR-0016): only the world material that is
-  // NOT a lived event — climate continuity, the camp lead-in, lands,
-  // equipage, end state, journey context. The per-phase world prose
-  // (weather, meals, terrain, places, water) rides events[].data.reading.
-  const worldNotes = buildWorldNotes({
-    day: slimDay(day),
-    tripName: trip.name ?? null,
-    characterName: character.name ?? 'The traveller',
-    characterState,
-    equipmentState,
-    fate,
-    previousDay,
-    recentDayClimates,
-    rng: typeof day.rng === 'function' ? day.rng : Math.random,
-  });
+  // The world reaches the episode only as events (ADR-0016): what used
+  // to ride `narration_notes` is now lived material — climate streaks
+  // and the day's ground are events (toEvents), the body's lacks ride
+  // `condition`, and a non-living fate speaks through `fate` itself.
   return {
     game_id: gameId,
     episode_ref: `trip:${trip.id}:day:${day.day_number}`,
     language,
     character: slimCharacter(character),
-    events: toEvents({ day, trip, character, previousDay }),
+    events: toEvents({ day, trip, character, previousDay, recentDayClimates }),
     episode: {
       index: day.day_number ?? null,
       at: day.date ?? null,
-      terminal: day.is_last_day ?? null,
     },
     arc: trip.name ?? null,
     condition: conditionOf({ characterState, equipmentState, day }),
-    narration_notes: pick(worldNotes, [
-      'climate_state', 'lands',
-      'equipage', 'end_state', 'journey_context',
-    ]),
     fate,
   };
 }

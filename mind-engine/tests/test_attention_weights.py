@@ -16,6 +16,7 @@ import app.main as main_module
 from app.db import SessionLocal
 from app.mind.relations import attention_weights
 from app.mind.tables import Memory, Mind, Relation
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -110,8 +111,8 @@ def test_relation_bends_perceived_salience(client):
     fond = _open(client, char, [_foxes()])
     plain = _open(client, _uid('plain'), [_foxes()])
 
-    s_fond = fond['psyche_packet']['perceived_day'][0]['salience']
-    s_plain = plain['psyche_packet']['perceived_day'][0]['salience']
+    s_fond = open_state(client, fond)['perceived_day'][0]['salience']
+    s_plain = open_state(client, plain)['perceived_day'][0]['salience']
     # w_attention * (affection .6 * gain .3) = 0.15 * 0.18 = 0.027 of lift.
     assert s_fond > s_plain
     assert s_fond - s_plain == pytest.approx(0.027, abs=0.005)

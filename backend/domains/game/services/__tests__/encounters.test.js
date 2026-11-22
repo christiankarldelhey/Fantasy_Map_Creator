@@ -250,6 +250,37 @@ test('simulatePhaseEncounters respects ENCOUNTER_CHANCE', () => {
   assert.equal(resultHigh.encounters.length, 1);
 });
 
+test('simulatePhaseEncounters uses authored chance_of_encounter', () => {
+  // Wilderness roll: authored 5% fails where flat 55% would have fired.
+  const wild = {
+    name: 'The Shire',
+    entities: sampleEntities,
+    road_type: 'off_road',
+    population_ratio: 0.5,
+    chance_of_encounter: 5,
+  };
+  const quiet = simulatePhaseEncounters({
+    startHour: 7,
+    phaseHours: 6,
+    phase: PHASE_MORNING,
+    getRegionInfo: () => wild,
+    rng: () => 0.10, // 10% > 5% → no encounter (would pass at 55%)
+  });
+  assert.equal(quiet.encounters.length, 0);
+
+  // Busy land: authored 50% fires where the same roll would stay quiet at 5%.
+  const busy = { ...wild, name: 'The Shire', chance_of_encounter: 50 };
+  const loud = simulatePhaseEncounters({
+    startHour: 7,
+    phaseHours: 6,
+    phase: PHASE_MORNING,
+    getRegionInfo: () => busy,
+    rng: () => 0.45, // 45% < 50% → encounter
+  });
+  assert.equal(loud.encounters.length, 1);
+  assert.equal(loud.encounters[0].region, 'The Shire');
+});
+
 test('simulatePhaseEncounters handles null region', () => {
   const result = simulatePhaseEncounters({
     startHour: 7,

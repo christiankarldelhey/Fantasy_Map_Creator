@@ -1348,6 +1348,8 @@ async function ensureSchema() {
   // #187 — last: shrinks the narration tables the earlier files created.
   await runMigrationFile('narration_schema_cleanup_187.sql');
   await runMigrationFile('add_intensity_to_interactions.sql');
+  await runMigrationFile('drop_dead_encounter_metrics.sql');
+  await runMigrationFile('drop_temp_entities.sql');
 
   console.log('✅ Schema ready\n');
 }
@@ -1690,14 +1692,14 @@ async function main() {
       table: 'regions',
       getParams: (f) => ({
         sql: `INSERT INTO regions (id, name, region_type, kingdom_id, climate_zone_id,
-                area_km2, distance_for_encounter, chance_of_encounter,
-                hours_to_encounter, population_ratio, cultural_family, geom, created_at)
-              VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,ST_GeomFromGeoJSON($12),NOW())
+                area_km2, chance_of_encounter,
+                population_ratio, cultural_family, geom, created_at)
+              VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,ST_GeomFromGeoJSON($10),NOW())
               ON CONFLICT (id) DO UPDATE SET
                 name=EXCLUDED.name, region_type=EXCLUDED.region_type,
                 kingdom_id=EXCLUDED.kingdom_id, climate_zone_id=EXCLUDED.climate_zone_id,
-                area_km2=EXCLUDED.area_km2, distance_for_encounter=EXCLUDED.distance_for_encounter,
-                chance_of_encounter=EXCLUDED.chance_of_encounter, hours_to_encounter=EXCLUDED.hours_to_encounter,
+                area_km2=EXCLUDED.area_km2,
+                chance_of_encounter=EXCLUDED.chance_of_encounter,
                 population_ratio=EXCLUDED.population_ratio, cultural_family=EXCLUDED.cultural_family, geom=EXCLUDED.geom`,
         params: [
           f.properties.id,
@@ -1706,9 +1708,7 @@ async function main() {
           nullIfEmpty(f.properties.kingdom_id) !== null ? parseInt(f.properties.kingdom_id) : null,
           nullIfEmpty(f.properties.climate_zone_id) !== null ? parseInt(f.properties.climate_zone_id) : null,
           nullIfEmpty(f.properties.area_km2) !== null ? parseFloat(f.properties.area_km2) : null,
-          nullIfEmpty(f.properties.distance_for_encounter) !== null ? parseInt(f.properties.distance_for_encounter) : null,
           nullIfEmpty(f.properties.chance_of_encounter) !== null ? parseFloat(f.properties.chance_of_encounter) : null,
-          nullIfEmpty(f.properties.hours_to_encounter) !== null ? parseFloat(f.properties.hours_to_encounter) : null,
           nullIfEmpty(f.properties.population_ratio) !== null ? parseFloat(f.properties.population_ratio) : 0.5,
           nullIfEmpty(f.properties.cultural_family),
           JSON.stringify(f.geometry),

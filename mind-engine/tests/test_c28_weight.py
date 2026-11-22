@@ -14,6 +14,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 import app.main as main_module
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -68,7 +69,7 @@ def test_given_outweighs_ambience(client):
     meal it left behind both clear the 'given' floor."""
     char = _uid('gifted')
     opened = _open(client, char, _given_events())
-    perceived = opened['psyche_packet']['perceived_day']
+    perceived = open_state(client, opened)['perceived_day']
     encounter = next(i for i in perceived if i['type'] == 'encounter')
     meal = next(i for i in perceived if i['type'] == 'meal')
     assert 'tag:given' in encounter['tags']
@@ -108,7 +109,7 @@ def test_taken_fork_marks_changed(client):
                      'scope': 'region'},
         },
     ])
-    perceived = opened['psyche_packet']['perceived_day']
+    perceived = open_state(client, opened)['perceived_day']
     encounter = next(i for i in perceived if i['type'] == 'encounter')
     assert 'tag:changed' in encounter['tags']
     assert encounter['salience'] >= 0.65
@@ -131,6 +132,6 @@ def test_walked_on_fork_stays_unmarked(client):
             },
         },
     }])
-    perceived = opened['psyche_packet']['perceived_day']
+    perceived = open_state(client, opened)['perceived_day']
     encounter = next(i for i in perceived if i['type'] == 'encounter')
     assert 'tag:changed' not in encounter['tags']

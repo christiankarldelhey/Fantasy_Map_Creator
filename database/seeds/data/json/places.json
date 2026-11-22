@@ -114,7 +114,7 @@
    },
    "variants": [
     {
-     "id": "spring_and_summer_grass_up",
+     "id": ["spring", "summer"],
      "text": {
       "en": "The grass is high and full of insects, and the insects are the only thing making\nany sound. There are flowers in the hollows and no bees in them.",
       "es": "El pasto está alto y lleno de insectos, y los insectos son lo único que hace ruido. Hay flores en las hondonadas y no hay abejas en ellas."
@@ -129,7 +129,7 @@
      ]
     },
     {
-     "id": "autumn_and_winter_grass_down",
+     "id": ["autumn", "winter"],
      "text": {
       "en": "The grass is low and grey and the plan shows through it: straight lines and\ncorners where there should not be any. What the grass covers in summer is in\nplain sight in winter to anyone who looks twice.",
       "es": "El pasto está bajo y gris y el plano se transparenta: líneas rectas y esquinas donde no debería haberlas. Lo que el pasto tapa en verano queda a la vista en invierno para quien mire dos veces."
@@ -256,7 +256,7 @@
    },
    "variants": [
     {
-     "id": "otono_e_invierno_con_el_pasto_bajo",
+     "id": ["autumn", "winter"],
      "text": {
       "en": "The thin grass down the middle lies flat and the paving shows for long stretches.\nThe traveller can follow it with his eyes instead of his feet.",
       "es": "El pasto ralo del medio se acuesta y la calzada queda a la vista en tramos\nlargos. El viajero puede seguirla con los ojos en vez de con los pies."
@@ -271,7 +271,7 @@
      ]
     },
     {
-     "id": "primavera_y_verano_con_el_pasto_alto",
+     "id": ["spring", "summer"],
      "text": {
       "en": "The stone shows nowhere. The road is where the ground does not give, and that is\nall there is to go by.",
       "es": "La piedra no se ve en ninguna parte. El camino está donde el suelo no cede, y\neso es todo lo que hay para orientarse."
@@ -495,7 +495,7 @@
    },
    "variants": [
     {
-     "id": "invierno_con_el_agua_dura",
+     "id": "winter",
      "text": {
       "en": "The pool freezes and the ice is black, because the water under it is black. It\ncan be walked over, and it saves a short detour.\n\nThe traveller tests it with his foot and it holds. He takes three steps and\nstands looking down at the ice, which gives nothing back.\n\nThen he turns round and goes the long way, as he would in summer.",
       "es": "El estanque se congela y el hielo es negro, porque el agua de abajo es negra. Se\npuede cruzar caminando y se ahorra un rodeo corto.\n\nEl viajero lo prueba con el pie y aguanta. Da tres pasos y se queda mirando\nhacia abajo, al hielo, que no devuelve nada.\n\nDespués vuelve y lo rodea igual que en verano."
@@ -575,7 +575,7 @@
    },
    "variants": [
     {
-     "id": "otono_e_invierno_con_el_pasto_bajo",
+     "id": ["autumn", "winter"],
      "text": {
       "en": "The leaf litter underfoot is frozen and cracks at every step. Moving quietly is\nnot possible and the traveller stops trying.\n\nIn exchange it is the only place in the region the wind does not get into, and he\ncan sleep without building any shelter.",
       "es": "La hojarasca del suelo está helada y cruje con cada paso. Dejar de sonar es\nimposible, y el viajero deja de intentarlo.\n\nA cambio, es el único sitio de la región donde el viento no entra, y se puede\ndormir sin reparo artificial."
@@ -643,7 +643,7 @@
    },
    "variants": [
     {
-     "id": "con_lluvia_o_deshielo",
+     "id": ["rain", "spring"],
      "text": {
       "en": "The stone sweats harder and the smell of leaf rot and old water thickens. In the\nroofless rooms water runs down the carved walls and comes out where the carving\nis deepest.",
       "es": "La piedra transpira más y el olor a hoja podrida y agua vieja se vuelve espeso.\nEn las habitaciones sin techo el agua corre por las paredes labradas y sale por\ndonde la talla es más honda."
@@ -657,7 +657,7 @@
      ]
     },
     {
-     "id": "con_helada",
+     "id": "cold",
      "text": {
       "en": "The ivy pulls back and more stone shows than at any other time of year. The\njoints read, and the lintels, and the springing of the vaults.\n\nIt is the only time the city looks like a city and not like a hill.",
       "es": "La hiedra se retira y queda más piedra a la vista de la que se ve en todo el\naño. Se leen las juntas, los dinteles, los arranques de bóveda.\n\nEs el único momento en que la ciudad parece una ciudad y no una colina."
@@ -834,7 +834,7 @@
    },
    "variants": [
     {
-     "id": "verano_con_el_suelo_blando",
+     "id": "summer",
      "text": {
       "en": "The ground is soft and waterlogged and the walking is worse than it is on snow.\nThere are flowers as far as he can see and there are insects in his face all\nday. By the third day the traveller understands why the people here speak of\nsummer as something to be got through.",
       "es": "El suelo está blando y encharcado y se camina peor que con nieve. Hay flores\nhasta donde llega la vista y hay insectos en la cara todo el día. Al tercer día\nel viajero entiende por qué la gente de aquí habla del verano como de algo que\nhay que aguantar."
@@ -848,7 +848,7 @@
      ]
     },
     {
-     "id": "invierno_con_el_suelo_duro",
+     "id": "winter",
      "text": {
       "en": "It is all one surface and he walks over the top of it without sinking. There is\nnothing to look at but his own shadow, when there is one. He stops looking for\nshelter because he has understood that shelter here is built or it does not\nexist.",
       "es": "Todo es una sola superficie y se camina por encima sin hundirse. No hay nada\nque mirar salvo la propia sombra, cuando la hay. El viajero deja de buscar\nreparo porque entiende que el reparo se construye o no existe."
@@ -1208,7 +1208,7 @@
    },
    "variants": [
     {
-     "id": "invierno_con_el_suelo_duro",
+     "id": "winter",
      "text": {
       "en": "The fallen trunks are half buried and have to be found by the shape they make\nunder the snow. The wood of the ones still standing is no use: frozen to the\ncentre, and it will not catch.",
       "es": "Los troncos tumbados están medio enterrados y hay que buscarlos por el bulto que\nhacen bajo la nieve. La madera de los que quedaron de pie no sirve: está\ncongelada hasta el centro y no prende."
@@ -1275,7 +1275,7 @@
    },
    "variants": [
     {
-     "id": "verano_con_el_suelo_blando",
+     "id": "summer",
      "text": {
       "en": "There is a ring of open water against the shore, some forty paces wide, and\nbeyond it grey ice as far as he can see.\n\nFish come to the edge and are easily taken: the traveller eats better that night\nthan he has in weeks. If anyone is camped here, this is where they are, and they\nwill share.\n\nLooking towards the centre, the ice does not end anywhere he can see.",
       "es": "Hay un anillo de agua libre contra la orilla, de unos cuarenta pasos, y más allá\nel hielo gris hasta perderse de vista.\n\nLos peces vienen al borde y se sacan fácil: el viajero come esa noche mejor de\nlo que ha comido en semanas. Si hay gente acampada, es acá, y van a compartir.\n\nMirando hacia el centro, el hielo no termina en ninguna parte visible."
@@ -1289,7 +1289,7 @@
      ]
     },
     {
-     "id": "invierno_con_el_suelo_duro",
+     "id": "winter",
      "text": {
       "en": "The whole lake is one surface and it can be crossed. The short cut saves four\ndays, and it is marked: poles driven every two hundred paces, end to end.\n\nThe traveller walks over the middle, which is the place nobody goes in summer,\nand nothing happens. It takes him half a day. The poles come up one after\nanother out of the snow and they are all there.",
       "es": "Todo el lago es una sola superficie y se cruza. El atajo ahorra cuatro días, y\nestá marcado: hay varas clavadas cada doscientos pasos, de punta a punta.\n\nEl viajero camina sobre el centro, que es el sitio donde en verano nadie entra,\ny no pasa nada. Tarda media jornada. Las varas aparecen una tras otra en la\nnieve y están todas."
@@ -1303,7 +1303,7 @@
      ]
     },
     {
-     "id": "transicion_hielo_dudoso",
+     "id": "spring",
      "text": {
       "en": "The ice is there and nobody knows. The people here do not cross in these weeks,\nand asked why they do not give a reason, they give a gesture.\n\nThe traveller can cross anyway. Nobody is going to stop him.",
       "es": "El hielo está y no se sabe. La gente del lugar no cruza estas semanas, y si se\nles pregunta no dan una razón, dan un gesto.\n\nEl viajero puede cruzar igual. Nadie se lo va a impedir."
@@ -1372,7 +1372,7 @@
    },
    "variants": [
     {
-     "id": "invierno_con_el_suelo_duro",
+     "id": "winter",
      "text": {
       "en": "Only the tops show. From one stone the next is not always in sight, and the\ntraveller has to walk a stretch blind, trusting that it will come up.\n\nIt comes up.",
       "es": "Solo se ven las puntas. Desde una no siempre se alcanza a ver la siguiente, y el\nviajero tiene que caminar un trecho a ciegas confiando en que aparezca.\n\nAparece."
@@ -1429,7 +1429,7 @@
    },
    "variants": [
     {
-     "id": "verano_con_el_suelo_blando",
+     "id": "summer",
      "text": {
       "en": "There is water to the knee, still and freezing, and the bottom cannot be seen.\nEvery step has to be set down twice before it is trusted.\n\nIt is the only place on the plain with no insects. After weeks with his face\ncovered in them, the traveller stands in the freezing water a few minutes longer\nthan he needs to, not moving.",
       "es": "Hay agua hasta la rodilla, quieta y helada, y no se ve el fondo. Cada paso hay\nque apoyarlo dos veces antes de cargarlo.\n\nEs el único lugar de la llanura sin insectos. Después de semanas con la cara\nllena, el viajero entra al agua helada y se queda unos minutos más de los\nnecesarios, sin moverse."
@@ -1443,7 +1443,7 @@
      ]
     },
     {
-     "id": "invierno_con_el_suelo_duro",
+     "id": "winter",
      "text": {
       "en": "The water is hard and he crosses straight through, between the trunks, in a\nquarter of the time. It is the best short cut in the region.\n\nThe ice cracks under him and does not give. It cracks anyway, and the sound\ncomes back.",
       "es": "El agua está dura y se cruza derecho, entre los troncos, en una cuarta parte del\ntiempo. Es el mejor atajo de la región.\n\nEl hielo cruje al pisarlo y no cede. Cruje de todos modos, y el ruido rebota."
@@ -1511,7 +1511,7 @@
    },
    "variants": [
     {
-     "id": "invierno_con_el_suelo_duro",
+     "id": "winter",
      "text": {
       "en": "It can be seen from a day away: the snow does not lie on it, so it is a black\nmark on white in a plain with no other marks on it.\n\nThere is grass growing along the forty paces of running water. It is the only\ngreen thing in the region and the traveller stands looking at it for a while\nbefore he goes down.",
       "es": "Se ve desde un día de distancia: la nieve no se asienta encima, así que es una\nmarca negra sobre blanco en una llanura sin ninguna otra marca.\n\nHay hierba creciendo en los cuarenta pasos de agua corriente. Es lo único verde\nde la región y el viajero se queda parado mirándolo un rato antes de acercarse."
@@ -1525,7 +1525,7 @@
      ]
     },
     {
-     "id": "verano_con_el_suelo_blando",
+     "id": "summer",
      "text": {
       "en": "The place cannot be picked out from a distance and has to be known. There are\nflowers around it and warm water is no longer the only comfortable thing in the\nworld.\n\nThere are more people here than in winter, and less inclination to talk.",
       "es": "El sitio no se distingue de lejos y hay que saber dónde está. Alrededor hay\nflores y el agua tibia ya no es la única cosa cómoda del mundo.\n\nHay más gente que en invierno, y menos ganas de hablar."
@@ -1581,7 +1581,7 @@
    },
    "variants": [
     {
-     "id": "invierno_con_el_suelo_duro",
+     "id": "winter",
      "text": {
       "en": "Finding it is the work: the rise is one rise among many and the stones are under\nsnow. If he does not know where it is, he does not find it.\n\nWhat is inside is perfect. The pit is a larder and the winter is what keeps it.",
       "es": "Encontrarlo cuesta: la loma es una loma entre muchas y las piedras están bajo la\nnieve. Si no se sabe dónde está, no se encuentra.\n\nLo que hay adentro está perfecto. El pozo es una despensa y el invierno es lo\nque la mantiene."
@@ -1595,7 +1595,7 @@
      ]
     },
     {
-     "id": "verano_con_el_suelo_blando",
+     "id": "summer",
      "text": {
       "en": "The pit is easy to find and what is in it keeps less well. By late summer it can\nbe close to empty, and what is left is near the edge of being no good.\n\nThe traveller opens it, looks, and decides how hungry he is.",
       "es": "El pozo se encuentra fácil y lo que hay adentro dura menos. En el fondo del\nverano puede estar casi vacío, y lo que queda está al borde.\n\nEl viajero lo abre, mira, y decide si tiene tanta hambre."
@@ -1665,7 +1665,7 @@
    },
    "variants": [
     {
-     "id": "invierno_con_el_suelo_duro",
+     "id": "winter",
      "text": {
       "en": "The snow piles up on the windward side and leaves the other clear, so the ship\nserves as a wall and the traveller sleeps with the hull at his back.\n\nAt night the wood contracts in the cold and the hull works. It sounds like\nfootsteps overhead.",
       "es": "La nieve se acumula del lado del viento y deja el otro despejado, así que el\nbarco hace de pared y el viajero duerme con el casco a la espalda.\n\nDe noche la madera se contrae con el frío y el casco trabaja. Suena como pasos\narriba."
@@ -1797,7 +1797,7 @@
    },
    "variants": [
     {
-     "id": "invierno_con_el_suelo_duro",
+     "id": "winter",
      "text": {
       "en": "The snow covers it halfway up and the entrance has to be dug out. It is warmer\ninside for that reason.\n\nIf there are tracks around it, somebody is inside, and the traveller has to\ndecide whether to go in anyway. The correct answer is to go in.",
       "es": "La nieve la tapa hasta la mitad y hay que cavar la entrada. Adentro está más\ncaliente por eso mismo.\n\nSi hay huellas alrededor, hay alguien adentro, y el viajero tiene que decidir si\nentra igual. La respuesta correcta es entrar."
@@ -1853,7 +1853,7 @@
    },
    "variants": [
     {
-     "id": "verano_con_el_suelo_blando",
+     "id": "summer",
      "text": {
       "en": "The tops split open. The crack runs along the ridge and widens, and inside there\nis clear ice that keeps meat.\n\nMore than one man has used it for that and lost it afterwards, when the hill\nfailed.\n\nThe traveller can camp on top and be dry and windblown. If he camps at the foot\nhe will be in the mud that comes off the hill.",
       "es": "Las cimas se abren. La grieta corre a lo largo del lomo y se ensancha, y dentro\nhay hielo transparente que conserva la carne.\n\nMás de uno la ha usado para eso y la ha perdido después, cuando la colina cedió.\n\nEl viajero puede acampar arriba, y va a estar seco y con viento. Si acampa al\npie, va a estar en el barro que sale de la colina."
@@ -1867,7 +1867,7 @@
      ]
     },
     {
-     "id": "invierno_con_el_suelo_duro",
+     "id": "winter",
      "text": {
       "en": "They are one rise among many under snow and nothing marks them out. The traveller\nmay cross over one without knowing he has.",
       "es": "Son una loma más entre la nieve y no se distinguen de nada. El viajero puede\ncruzar por encima de una sin saber que la cruzó."
@@ -1974,7 +1974,7 @@
    },
    "variants": [
     {
-     "id": "invierno_con_el_suelo_duro",
+     "id": "winter",
      "text": {
       "en": "It is the season. The three open traps can have something in them any morning,\nand in fact they do.\n\nThe traveller finds a fox freshly taken, whole, good. It is not a remnant: it is\ntoday's food, in somebody's trap.",
       "es": "Es temporada. Las tres trampas abiertas pueden tener algo cualquier mañana, y de\nhecho lo tienen.\n\nEl viajero encuentra un zorro recién cobrado, entero, bueno. No es un resto: es\ncomida de hoy, en una trampa de alguien."
@@ -2044,7 +2044,7 @@
    },
    "variants": [
     {
-     "id": "otono",
+     "id": "autumn",
      "text": {
       "en": "There are berries, small and sour, and picking them is work because they grow against the ground. Worth the trouble. The traveller eats standing, without leaving the spot, until the ones within reach are gone.",
       "es": "Hay bayas, chicas y ácidas, y cuesta juntarlas porque están pegadas al suelo.\nValen el esfuerzo. El viajero come de pie, sin moverse del sitio, hasta que se\nacaban las que tiene a mano."
@@ -2058,7 +2058,7 @@
      ]
     },
     {
-     "id": "invierno_con_el_suelo_duro",
+     "id": "winter",
      "text": {
       "en": "Snow settles on top and forms a roof. Underneath there is a pocket of air, dark and windless, and it is better in there than in any camp in the open.\n\nThe traveller comes out in the morning and has to search for the way he came in.",
       "es": "La nieve se asienta encima y forma un techo. Debajo queda un hueco con aire,\noscuro y sin viento, y se está mejor ahí que en cualquier campamento al\ndescubierto.\n\nEl viajero sale por la mañana y tiene que buscar por dónde entró."
@@ -2455,7 +2455,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "It is the worst place to sleep and the only place one can. From the centre of the clearing, the forest edge is a complete black circle half a league away in every direction, and anything out there can see him against his own fire.",
       "es": "Es el peor sitio para dormir y el único donde se puede. Desde el centro del claro, el borde del bosque es un círculo negro completo, a media legua en todas direcciones, y cualquier cosa que esté ahí lo ve a él contra su propio fuego."
@@ -2724,7 +2724,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "The slabs give back what little light there is. It is the only stretch of the forest where one can walk at night without leaving the road, and whoever knows it makes double journeys.",
       "es": "Las losas devuelven la poca luz que hay. Es el único tramo del bosque donde se puede caminar de noche sin salirse del camino, y el que lo sabe aprovecha y hace jornada doble."
@@ -3140,7 +3140,7 @@
    },
    "variants": [
     {
-     "id": "de_dia",
+     "id": "day",
      "text": {
       "en": "Light comes in through the door and a shutterless window. Everything can be seen. The traveller can search, take what he wants and leave, and nothing will happen while there is light.",
       "es": "Entra luz por la puerta y por una ventana sin postigo. Se ve todo. El viajero puede revisar, tomar lo que quiera y salir, y no va a pasar nada mientras haya luz."
@@ -3151,7 +3151,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "The door will not close: the frame gave way and the leaf sits a hand's breadth short. The fire inside lights the walls and the walls are written, so he sleeps surrounded by text that moves with the flame.",
       "es": "La puerta no cierra: el marco cedió y la hoja queda a un palmo. El fuego adentro ilumina las paredes y las paredes están escritas, así que duerme rodeado de texto que se mueve con la llama."
@@ -3673,7 +3673,7 @@
    },
    "variants": [
     {
-     "id": "a_la_caida_del_sol",
+     "id": "dusk",
      "text": {
       "en": "The village changes pace without anyone giving an order. The children come in. The animals come in. The palisade gate closes and is barred with a beam that takes two men.",
       "es": "El pueblo cambia de ritmo sin que nadie dé una orden. Los chicos entran. Los animales entran. La puerta de la empalizada se cierra y se traba con un travesaño que lleva dos hombres."
@@ -3684,7 +3684,7 @@
      }
     },
     {
-     "id": "a_la_caida_del_sol",
+     "id": "dusk",
      "text": {
       "en": "Nobody hurries and nobody is nervous. They do it the way one washes one's hands before eating.",
       "es": "Nadie se apura y nadie está nervioso. Lo hacen como se lavan las manos antes de comer."
@@ -3695,7 +3695,7 @@
      }
     },
     {
-     "id": "a_la_caida_del_sol",
+     "id": "dusk",
      "text": {
       "en": "If he looks around he will see that every window facing south has shutters, and the ones facing north do not.",
       "es": "Si mira alrededor va a ver que todas las ventanas que dan al sur tienen postigo, y las que dan al norte no."
@@ -3755,7 +3755,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "He sleeps well. Nothing happens.",
       "es": "Duerme bien. No pasa nada."
@@ -3766,7 +3766,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "At a certain hour he hears footsteps on the other side of the south wall, outside the palisade, going back and forth. They are not fast or furtive: it is somebody walking. Back, forth, back.",
       "es": "A cierta hora oye pasos del otro lado de la pared sur, afuera de la empalizada, yendo de un lado a otro. No son rápidos ni furtivos: es alguien caminando. Va, vuelve, va."
@@ -3777,7 +3777,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "No light is lit anywhere in the village.",
       "es": "En el pueblo no se enciende ninguna luz."
@@ -3788,7 +3788,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "In the morning nobody mentions it and he is too embarrassed to ask, and when he finally asks, they tell him it must have been an animal.",
       "es": "Por la mañana nadie lo menciona y a él le da pudor preguntar, y cuando finalmente pregunta, le dicen que debe haber sido un animal."
@@ -3920,7 +3920,7 @@
    },
    "variants": [
     {
-     "id": "a_la_caida_del_sol",
+     "id": "dusk",
      "text": {
       "en": "The apiary is north and the village closes early, so by mid-afternoon they are already packing up.",
       "es": "El colmenar está al norte y el pueblo cierra temprano, así que a media tarde ya están levantando."
@@ -3931,7 +3931,7 @@
      }
     },
     {
-     "id": "a_la_caida_del_sol",
+     "id": "dusk",
      "text": {
       "en": "If he lingers, somebody will come for him. They will not hurry him: they will tell him night is coming, and they will wait.",
       "es": "Si se demora, alguien lo va a venir a buscar. No lo van a apurar: le van a decir que se viene la noche, y lo van a esperar."
@@ -4801,7 +4801,7 @@
    },
    "variants": [
     {
-     "id": "al_atardecer",
+     "id": "dusk",
      "text": {
       "en": "The light drops and the facing stone turns orange, then pink, then violet, and the pool water goes black before the sky does.",
       "es": "La luz baja y la piedra de enfrente se pone naranja, y después rosa, y después violeta, y el agua del pozón se vuelve negra antes que el cielo."
@@ -4812,7 +4812,7 @@
      }
     },
     {
-     "id": "al_atardecer",
+     "id": "dusk",
      "text": {
       "en": "It is the most beautiful thing he will see in the whole journey.",
       "es": "Es lo más lindo que va a ver en todo el viaje."
@@ -5392,7 +5392,7 @@
    },
    "variants": [
     {
-     "id": "de_tarde",
+     "id": "dusk",
      "text": {
       "en": "The shadows on the slope are already long and the climbing trail is lost in the dark at fifty paces.",
       "es": "Las sombras de la ladera ya son largas y el sendero que sube se pierde en lo oscuro a cincuenta pasos."
@@ -5403,7 +5403,7 @@
      }
     },
     {
-     "id": "de_tarde",
+     "id": "dusk",
      "text": {
       "en": "He reckons how much light he has left and starts walking faster without having decided to.",
       "es": "Calcula cuánta luz le queda y empieza a caminar más rápido sin haberlo decidido."
@@ -5472,7 +5472,7 @@
    },
    "variants": [
     {
-     "id": "con_viento",
+     "id": "wind",
      "text": {
       "en": "The burned slope is the only place in the region where wind arrives unbroken by the pines. It is strong, steady, and presses his clothes to his body.",
       "es": "La ladera quemada es lo único de la región donde el viento llega sin que lo frene el pinar. Es fuerte, constante, y le mete la ropa contra el cuerpo."
@@ -5483,7 +5483,7 @@
      }
     },
     {
-     "id": "con_viento",
+     "id": "wind",
      "text": {
       "en": "After days of closed valleys, it is the first time he feels the air move.",
       "es": "Después de días de valles cerrados, es la primera vez que siente el aire moverse."
@@ -5545,7 +5545,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "Sleeping on the bridge is the closest thing to safety outside a cave: you climb at either end and both can be watched.",
       "es": "Dormir arriba del puente es lo más parecido a estar a salvo sin estar en una cueva: hay que subir por los dos extremos y los dos se ven."
@@ -5556,7 +5556,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "It is not safe. It is better than the ground.",
       "es": "No es seguro. Es mejor que el suelo."
@@ -6130,7 +6130,7 @@
    },
    "variants": [
     {
-     "id": "al_caer_el_sol",
+     "id": "dusk",
      "text": {
       "en": "When the light drops, the ram stops, looks west, and starts walking in that direction without hurrying.",
       "es": "Cuando la luz baja, el carnero se para, mira hacia el oeste, y empieza a caminar en esa dirección sin apurarse."
@@ -6141,7 +6141,7 @@
      }
     },
     {
-     "id": "al_caer_el_sol",
+     "id": "dusk",
      "text": {
       "en": "If the traveller follows it, it leads him to a clear slope, far from any barrow, where the grass is high and there is a big stone to lean on. And then it goes.",
       "es": "Si el viajero lo sigue, lo lleva a una ladera despejada, lejos de cualquier túmulo, donde el pasto es alto y hay una piedra grande para apoyarse. Y después se va."
@@ -6152,7 +6152,7 @@
      }
     },
     {
-     "id": "al_caer_el_sol",
+     "id": "dusk",
      "text": {
       "en": "If he does not follow, the ram goes anyway.",
       "es": "Si no lo sigue, el carnero se va igual."
@@ -6437,7 +6437,7 @@
    },
    "variants": [
     {
-     "id": "con_viento_fuerte",
+     "id": "wind",
      "text": {
       "en": "The wind comes from the west with nothing to stop it for twenty leagues, and inside the pen it can be heard passing overhead and it does not come in.",
       "es": "El viento viene del oeste sin nada que lo pare en veinte leguas, y adentro del corral se oye pasar por arriba y no entra."
@@ -6448,7 +6448,7 @@
      }
     },
     {
-     "id": "con_viento_fuerte",
+     "id": "wind",
      "text": {
       "en": "It is the best shelter in the region and somebody built it for animals that are no longer there.",
       "es": "Es el mejor reparo de la región y lo construyó alguien para animales que ya no están."
@@ -6609,7 +6609,7 @@
    },
    "variants": [
     {
-     "id": "con_viento_fuerte",
+     "id": "wind",
      "text": {
       "en": "The well is sheltered by a hill and is the only spot on the road where one can eat sitting without the wind taking everything.",
       "es": "El pozo está al reparo de una loma y es el único sitio del camino donde se puede comer sentado sin que el viento se lleve todo."
@@ -6940,7 +6940,7 @@
    },
    "variants": [
     {
-     "id": "con_el_sol_poniendose",
+     "id": "dusk",
      "text": {
       "en": "There is nothing between him and the horizon and the sun sinks to the water. He stays until it is gone entirely, and then has to make his way back in little light across a grassland without bearings.",
       "es": "No hay nada entre él y el horizonte y el sol baja al agua. Se queda hasta que se va del todo, y después tiene que volver con poca luz por un pastizal sin referencias."
@@ -7091,7 +7091,7 @@
    },
    "variants": [
     {
-     "id": "en_cosecha",
+     "id": "autumn",
      "text": {
       "en": "There are people. They spread cloths under the trees and beat the branches with long poles, and it is noisy, talked-over work.",
       "es": "Hay gente. Tienden telas bajo los árboles y golpean las ramas con varas largas, y es un trabajo ruidoso y conversado."
@@ -7102,7 +7102,7 @@
      }
     },
     {
-     "id": "en_cosecha",
+     "id": "autumn",
      "text": {
       "en": "They will offer him work for food and a roof. It is the best deal he will be made in the region.",
       "es": "Le van a ofrecer trabajo por comida y techo. Es el mejor trato que le van a hacer en la región."
@@ -7636,7 +7636,7 @@
    },
    "variants": [
     {
-     "id": "de_noche_desde_haerlond",
+     "id": "night",
      "text": {
       "en": "If the traveller looks toward the cape from the town on any ordinary night, there is nothing.",
       "es": "Si el viajero mira hacia el cabo desde el pueblo una noche cualquiera, no hay nada."
@@ -7647,7 +7647,7 @@
      }
     },
     {
-     "id": "de_noche_desde_haerlond",
+     "id": "night",
      "text": {
       "en": "If he looks on a stormy night, there may be.",
       "es": "Si mira una noche de tormenta, puede que sí."
@@ -8285,7 +8285,7 @@
    },
    "variants": [
     {
-     "id": "con_viento",
+     "id": "wind",
      "text": {
       "en": "It is the only spot in the scrub the wind reaches, and therefore the only one without bugs.",
       "es": "Es el único sitio del espinar donde llega el viento, y por lo tanto el único donde no hay bichos."
@@ -8296,7 +8296,7 @@
      }
     },
     {
-     "id": "con_viento",
+     "id": "wind",
      "text": {
       "en": "He discovers it two minutes in and stays much longer than he meant to.",
       "es": "Él lo descubre a los dos minutos y se queda mucho más de lo que pensaba quedarse."
@@ -8488,7 +8488,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "Whoever reckoned wrong and got caught by the dark halfway can go neither forward nor back.",
       "es": "El que calculó mal y lo agarró la oscuridad en el medio no puede seguir y no puede volver."
@@ -8499,7 +8499,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "He stands where he is, on the firm, until it gets light. Six or eight hours on his feet.",
       "es": "Se queda parado donde está, en el firme, hasta que aclare. Son seis u ocho horas de pie."
@@ -8510,7 +8510,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "See `DL-04`.",
       "es": "Ver `DL-04`."
@@ -8564,7 +8564,7 @@
    },
    "variants": [
     {
-     "id": "al_amanecer_o_al_atardecer",
+     "id": ["dawn", "dusk"],
      "text": {
       "en": "With the sun low, the stone throws a hundred-pace shadow over the empty plain, and it is the only shadow in the whole region.",
       "es": "Con el sol bajo, la piedra proyecta una sombra de cien pasos sobre la llanura vacía, y es la única sombra en toda la región."
@@ -9031,7 +9031,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "There are lights. Few and orderly, in a horizontal line at mid-height, which is a corridor with windows.",
       "es": "Hay luces. Pocas y ordenadas, en una línea horizontal a media altura, que es un corredor con ventanas."
@@ -9042,7 +9042,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "They all go out at more or less the same hour, which means somebody gives the order.",
       "es": "Se apagan todas más o menos a la misma hora, lo cual quiere decir que alguien da la orden."
@@ -9248,7 +9248,7 @@
    },
    "variants": [
     {
-     "id": "con_deshielo",
+     "id": "spring",
      "text": {
       "en": "For two or three weeks a year, when the snow goes faster than the stone can swallow, the valley fills.",
       "es": "Durante dos o tres semanas al año, cuando la nieve se va más rápido de lo que la piedra puede tragar, el valle se llena."
@@ -9259,7 +9259,7 @@
      }
     },
     {
-     "id": "con_deshielo",
+     "id": "spring",
      "text": {
       "en": "It is not a stream: it is the whole river at once. Whoever is on the floor those days has to climb the slope and wait.",
       "es": "No es un arroyo: es el río entero de golpe. El que está en el fondo esos días tiene que subir a la ladera y esperar."
@@ -9320,7 +9320,7 @@
    },
    "variants": [
     {
-     "id": "con_nieve",
+     "id": "snow",
      "text": {
       "en": "The doline fills level to the top, and from above the steppe looks smooth and continuous.",
       "es": "La dolina se llena y queda al ras, y desde arriba la estepa se ve lisa y continua."
@@ -9331,7 +9331,7 @@
      }
     },
     {
-     "id": "con_nieve",
+     "id": "snow",
      "text": {
       "en": "Whoever crosses it unknowing sinks twenty paces.",
       "es": "El que la cruza sin saber, se hunde veinte pasos."
@@ -9871,7 +9871,7 @@
    },
    "variants": [
     {
-     "id": "con_hielo_en_la_repisa",
+     "id": "winter",
      "text": {
       "en": "It cannot be crossed. There is no arguing and no option: whoever tries does not make it.",
       "es": "No se pasa. No hay discusión y no hay opción: el que lo intenta no llega."
@@ -9984,7 +9984,7 @@
    },
    "variants": [
     {
-     "id": "con_el_deshielo",
+     "id": "spring",
      "text": {
       "en": "Water falls off all four walls at once, in thin threads from above, and the noise is enormous and does not stop.",
       "es": "Cae agua por las cuatro paredes a la vez, en hilos finos desde arriba, y el ruido es enorme y no para."
@@ -9995,7 +9995,7 @@
      }
     },
     {
-     "id": "de_dia_claro_mirando_hacia_abajo",
+     "id": "day",
      "text": {
       "en": "Stars can be seen in the water.",
       "es": "Se ven estrellas en el agua."
@@ -10006,7 +10006,7 @@
      }
     },
     {
-     "id": "de_dia_claro_mirando_hacia_abajo",
+     "id": "day",
      "text": {
       "en": "It is not a reflection of the sky, because the sky is blue.",
       "es": "No es reflejo del cielo, porque el cielo está azul."
@@ -10785,7 +10785,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "The valley is sunken and Orodruin's glow does not reach the bottom, so here there is true darkness.",
       "es": "El valle está hundido y el resplandor del Orodruin no llega al fondo, así que acá sí hay oscuridad de verdad."
@@ -10796,7 +10796,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "And the water can be heard.",
       "es": "Y se oye el agua."
@@ -11175,7 +11175,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "The furnaces can be seen through their mouths. It is the only place in Mordor with its own light that is not Orodruin.",
       "es": "Los hornos se ven por las bocas. Es el único sitio de Mordor con luz propia que no es el Orodruin."
@@ -11186,7 +11186,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "And the blows go on the same.",
       "es": "Y los golpes siguen igual."
@@ -11240,7 +11240,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "It is the only place in the region where fire can be made unseen, because the walls cover it on all four sides.",
       "es": "Es el único sitio de la región donde se puede hacer fuego sin que se vea, porque los muros lo tapan de los cuatro lados."
@@ -13648,7 +13648,7 @@
    },
    "variants": [
     {
-     "id": "con_el_sol_bajo",
+     "id": ["dawn", "dusk"],
      "text": {
       "en": "The wet slabs return the light and the road shows as a pale line rising and falling through the forest until it is lost.",
       "es": "Las losas mojadas devuelven la luz y el camino se ve como una línea clara que sube y baja por el bosque hasta perderse."
@@ -13659,7 +13659,7 @@
      }
     },
     {
-     "id": "con_el_sol_bajo",
+     "id": ["dawn", "dusk"],
      "text": {
       "en": "The traveller walks farther than he meant to walk that day.",
       "es": "El viajero camina más de lo que pensaba caminar ese día."
@@ -14041,7 +14041,7 @@
    },
    "variants": [
     {
-     "id": "en_la_recoleccion",
+     "id": "autumn",
      "text": {
       "en": "There are people with poles beating the branches and cloths spread below, and children gathering.",
       "es": "Hay gente con varas golpeando las ramas y telas tendidas abajo, y chicos juntando."
@@ -14052,7 +14052,7 @@
      }
     },
     {
-     "id": "en_la_recoleccion",
+     "id": "autumn",
      "text": {
       "en": "They will give him last year's to drink, and it is very good, and it is stronger than it looks.",
       "es": "Le van a dar de beber del año pasado, y es muy bueno, y es más fuerte de lo que parece."
@@ -14170,7 +14170,7 @@
    },
    "variants": [
     {
-     "id": "con_lluvia",
+     "id": "rain",
      "text": {
       "en": "The whole wall drips and the grey turns almost black, and the pool at the bottom moves in rings.",
       "es": "Toda la pared gotea y el gris se vuelve casi negro, y el pozo del fondo se mueve con los círculos."
@@ -14181,7 +14181,7 @@
      }
     },
     {
-     "id": "con_lluvia",
+     "id": "rain",
      "text": {
       "en": "Nobody works. It is the only place in Lindon where the rain stops work, because wet slate is slippery.",
       "es": "Nadie trabaja. Es el único sitio de Lindon donde la lluvia para el trabajo, porque la pizarra mojada resbala."
@@ -14243,7 +14243,7 @@
    },
    "variants": [
     {
-     "id": "con_la_luz_del_oeste",
+     "id": "dusk",
      "text": {
       "en": "At the hour the sun comes in under the clouds, the water turns metallic and the horizon separates from the sky in a sharp line.",
       "es": "A la hora en que el sol entra bajo las nubes, el agua se vuelve metálica y el horizonte se separa del cielo en una línea nítida."
@@ -14254,7 +14254,7 @@
      }
     },
     {
-     "id": "con_la_luz_del_oeste",
+     "id": "dusk",
      "text": {
       "en": "It lasts forty minutes and the traveller stays for the forty.",
       "es": "Dura cuarenta minutos y el viajero se queda los cuarenta."
@@ -16310,7 +16310,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "The bridge has a gate and they close it. Not against anything in particular.",
       "es": "El puente tiene un portón y lo cierran. No contra nada en particular."
@@ -16321,7 +16321,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "They close it because at night it closes.",
       "es": "Lo cierran porque de noche se cierra."
@@ -16959,7 +16959,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "It is the best place to camp near Bree without paying for an inn, and the village knows it and it bothers nobody.",
       "es": "Es el mejor sitio para acampar cerca de Bree sin pagar posada, y el pueblo lo sabe y no le molesta a nadie."
@@ -17519,7 +17519,7 @@
    },
    "variants": [
     {
-     "id": "con_lluvia",
+     "id": "rain",
      "text": {
       "en": "It becomes a brook. Water runs down the channel the road is, ankle-high, and there is no way out until the next gate.",
       "es": "Se convierte en un arroyo. El agua baja por el canal que el camino es, a la altura del tobillo, y no hay por dónde salir hasta el siguiente portillo."
@@ -18121,7 +18121,7 @@
    },
    "variants": [
     {
-     "id": "con_helada",
+     "id": "cold",
      "text": {
       "en": "The slabs are covered in fine ice and the fissure cannot be seen. It is not crossed.",
       "es": "Las losas están cubiertas de hielo fino y la grieta no se ve. No se cruza."
@@ -18277,7 +18277,7 @@
    },
    "variants": [
     {
-     "id": "en_cosecha",
+     "id": "autumn",
      "text": {
       "en": "The village is empty and everyone is below, and a boy is watching from the palisade.",
       "es": "La aldea está vacía y están todos abajo, y hay un chico mirando desde la empalizada."
@@ -18749,7 +18749,7 @@
    },
    "variants": [
     {
-     "id": "de_noche_con_buen_tiempo",
+     "id": "night",
      "text": {
       "en": "From above, in the dark, four or five fires can be seen scattered over the moor, very far apart.",
       "es": "Desde arriba, en la oscuridad, se ven cuatro o cinco fuegos repartidos por el páramo, muy lejos unos de otros."
@@ -18760,7 +18760,7 @@
      }
     },
     {
-     "id": "de_noche_con_buen_tiempo",
+     "id": "night",
      "text": {
       "en": "Two are villages and he knows them. The others he does not know what they are.",
       "es": "Dos son aldeas y los sabe. Los otros no sabe qué son."
@@ -19140,7 +19140,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "The copse gives wall on three sides and firewood, and that is the difference between getting through the night and not.",
       "es": "El bosquecillo da pared por tres lados y leña, y eso es la diferencia entre pasar la noche y no pasarla."
@@ -19151,7 +19151,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "But it also limits the view. The traveller hears everything and sees nothing beyond the first trunks.",
       "es": "Pero también limita la vista. El viajero oye todo y no ve nada más allá de los primeros troncos."
@@ -19320,8 +19320,8 @@
    "size_radius_km": null,
    "influence_radius_km": null,
    "presence": {
-    "en": "If he arrives in the right window, the whole tundra is covered with low flowers in colour patches, the insects are deafening, and there are birds that were here in no other season.\nIt lasts six weeks.\nThe rest of the year the same place is grey grass and stone.",
-    "es": "Si llega en la ventana justa, la tundra entera está cubierta de flores bajas en manchas de color, y los insectos son ensordecedores, y hay pájaros que no estuvieron en ninguna otra estación.\nDura seis semanas.\nEl resto del año el mismo sitio es pasto gris y piedra."
+    "en": "Grey grass and stone — the meadow's window has not come, or has gone.",
+    "es": "Pasto gris y piedra — la ventana de la pradera no llegó, o ya pasó."
    },
    "lore": {
     "en": "High plain of low grass with great meadows of wildflowers.\nSummer here is short and then everything blooms at once.",
@@ -19329,7 +19329,18 @@
    },
    "variants": [
     {
-     "id": "en_invierno",
+     "id": "summer",
+     "text": {
+      "en": "In the right window the whole tundra is covered with low flowers in colour patches, the insects are deafening, and there are birds that were here in no other season.\nIt lasts six weeks.",
+      "es": "En la ventana justa la tundra entera está cubierta de flores bajas en manchas de color, y los insectos son ensordecedores, y hay pájaros que no estuvieron en ninguna otra estación.\nDura seis semanas."
+     },
+     "label": {
+      "en": "in summer",
+      "es": "en verano"
+     }
+    },
+    {
+     "id": "winter",
      "text": {
       "en": "Snow that settles and stays, the grass buried, and the copses turned into the only visible things in the white.",
       "es": "Nieve que cuaja y se queda, el pasto enterrado, y los bosquecillos convertidos en las únicas cosas visibles en el blanco."
@@ -19340,7 +19351,7 @@
      }
     },
     {
-     "id": "en_invierno",
+     "id": "winter",
      "text": {
       "en": "The herds come down. The camps gather in fewer places and the best ones.",
       "es": "Los rebaños bajan. Los campamentos se juntan en menos sitios y en los mejores."
@@ -19351,7 +19362,7 @@
      }
     },
     {
-     "id": "en_invierno",
+     "id": "winter",
      "text": {
       "en": "And the nights are twice as long.",
       "es": "Y las noches son el doble de largas."
@@ -19576,7 +19587,7 @@
    },
    "variants": [
     {
-     "id": "en_temporada_de_trueque",
+     "id": "autumn",
      "text": {
       "en": "Twice a year the village fills. The herds stay outside, in the valley, and there are makeshift pens and hide tents between the houses.",
       "es": "Dos veces al año el pueblo se llena. Los rebaños quedan afuera, en el valle, y hay corrales improvisados y tiendas de piel entre las casas."
@@ -19587,7 +19598,7 @@
      }
     },
     {
-     "id": "en_temporada_de_trueque",
+     "id": "autumn",
      "text": {
       "en": "It is the best time to get anything and the worst to sleep.",
       "es": "Es el mejor momento para conseguir cualquier cosa y el peor para dormir."
@@ -19869,7 +19880,7 @@
    },
    "variants": [
     {
-     "id": "con_nieve",
+     "id": "snow",
      "text": {
       "en": "The road vanishes completely and the milestones are the only things showing.",
       "es": "El camino desaparece por completo y los mojones son lo único que asoma."
@@ -19880,7 +19891,7 @@
      }
     },
     {
-     "id": "con_nieve",
+     "id": "snow",
      "text": {
       "en": "They are just far enough apart to be seen from each other **in good weather**.",
       "es": "Están a la distancia justa para verse entre sí **con buen tiempo**."
@@ -20077,7 +20088,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "It is the only stretch of the region where making a fire is unwise, and everyone who knows anything knows it.",
       "es": "Es el único tramo de la región donde conviene no hacer fuego, y todo el mundo que sabe algo lo sabe."
@@ -20461,7 +20472,7 @@
    },
    "variants": [
     {
-     "id": "en_la_cosecha",
+     "id": "autumn",
      "text": {
       "en": "They work at night, with smoke, and the air smells of hot wax.",
       "es": "Trabajan de noche, con humo, y el aire huele a cera caliente."
@@ -20472,7 +20483,7 @@
      }
     },
     {
-     "id": "en_la_cosecha",
+     "id": "autumn",
      "text": {
       "en": "They will give him a whole comb for the road, uncharged, and that is an enormous amount of food.",
       "es": "Le van a dar un panal entero para el camino, sin cobrarle, y eso es una cantidad de comida enorme."
@@ -21259,7 +21270,7 @@
    },
    "variants": [
     {
-     "id": "en_invierno",
+     "id": "winter",
      "text": {
       "en": "The reeds are dry and broken, the water frozen at the edges, and much further can be seen.",
       "es": "Los juncos están secos y quebrados, el agua está helada en los bordes, y se ve mucho más lejos."
@@ -21270,7 +21281,7 @@
      }
     },
     {
-     "id": "en_invierno",
+     "id": "winter",
      "text": {
       "en": "It is the only season it can be crossed, and even then you have to know.",
       "es": "Es la única estación en que se puede cruzar, y aun así hay que saber."
@@ -21388,7 +21399,7 @@
    },
    "variants": [
     {
-     "id": "con_el_deshielo",
+     "id": "spring",
      "text": {
       "en": "The grey grows and wins. The line shifts to the east bank and for weeks the river is all one colour.",
       "es": "El gris crece y gana. La línea se corre hacia la orilla este y durante semanas el río es todo de un color."
@@ -21399,7 +21410,7 @@
      }
     },
     {
-     "id": "en_invierno",
+     "id": "winter",
      "text": {
       "en": "Both come down clear and thin, and the line does not exist.",
       "es": "Los dos bajan claros y finos, y la línea no existe."
@@ -22378,7 +22389,7 @@
    },
    "variants": [
     {
-     "id": "en_la_feria_de_primavera",
+     "id": "spring",
      "text": {
       "en": "The square fills with stalls selling exactly this, and there are more children than adults.",
       "es": "La plaza se llena de puestos que venden exactamente esto, y hay más chicos que adultos."
@@ -22706,7 +22717,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "The bridge is raised.",
       "es": "El puente se levanta."
@@ -22717,7 +22728,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "Not out of fear of anything in particular. It is raised because at night it is raised.",
       "es": "No por miedo a nada en particular. Se levanta porque de noche se levanta."
@@ -22900,7 +22911,7 @@
    },
    "variants": [
     {
-     "id": "en_invierno",
+     "id": "winter",
      "text": {
       "en": "It freezes at the edges and in hard years it freezes whole.",
       "es": "Se hiela en los bordes y en los años duros se hiela entero."
@@ -22911,7 +22922,7 @@
      }
     },
     {
-     "id": "en_invierno",
+     "id": "winter",
      "text": {
       "en": "Then one walks from the town to land without using the bridge, and that makes the people of Esgaroth nervous in a way they cannot explain.",
       "es": "Entonces se camina de la ciudad a tierra sin usar el puente, y eso a la gente de Esgaroth la pone nerviosa de una manera que no saben explicar."
@@ -23841,7 +23852,7 @@
    },
    "variants": [
     {
-     "id": "con_viento",
+     "id": "wind",
      "text": {
       "en": "Strong gusts come in up that valley and come in sideways.",
       "es": "Por ese valle entran rachas fuertes y entran de costado."
@@ -23852,7 +23863,7 @@
      }
     },
     {
-     "id": "con_viento",
+     "id": "wind",
      "text": {
       "en": "People have fallen off this bridge, and none of them was a poor walker.",
       "es": "Hay gente que se cayó de este puente, y ninguna era mala caminante."
@@ -24648,7 +24659,7 @@
    },
    "variants": [
     {
-     "id": "con_el_viento_del_sur",
+     "id": "wind",
      "text": {
       "en": "The bay wind comes in through the col and comes in channelled.",
       "es": "Por el collado entra el viento de la bahía y entra encajonado."
@@ -24659,7 +24670,7 @@
      }
     },
     {
-     "id": "con_el_viento_del_sur",
+     "id": "wind",
      "text": {
       "en": "When it blows strong, the pass closes, and not for the temperature: it closes because an awned cart tips over.",
       "es": "Cuando sopla fuerte, el paso se cierra, y no por la temperatura: se cierra porque un carro con toldo se vuelca."
@@ -24670,7 +24681,7 @@
      }
     },
     {
-     "id": "con_el_viento_del_sur",
+     "id": "wind",
      "text": {
       "en": "There is a padlocked chain at both ends for that, and a man in each valley who decides when to set it.",
       "es": "Hay una cadena con un candado en los dos extremos para eso, y un hombre en cada valle que decide cuándo ponerla."
@@ -24720,7 +24731,7 @@
    },
    "variants": [
     {
-     "id": "en_la_recoleccion",
+     "id": "autumn",
      "text": {
       "en": "End to end of the plain there are carts, ladders leaned on the trees, and extra people, because mountain folk come down to work the season.",
       "es": "De punta a punta de la llanura hay carros, escaleras apoyadas en los árboles, y gente de más, porque baja gente de la montaña a trabajar la temporada."
@@ -24731,7 +24742,7 @@
      }
     },
     {
-     "id": "en_la_recoleccion",
+     "id": "autumn",
      "text": {
       "en": "It is the only time of year the two peoples work shoulder to shoulder, and it works, and both sides are surprised every year.",
       "es": "Es el único momento del año en que los dos pueblos trabajan codo a codo, y funciona, y a los dos lados les sorprende todos los años."
@@ -24788,7 +24799,7 @@
    ],
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "From below the cliff, the pan looks like a low orange star that does not flicker.",
       "es": "Desde abajo del acantilado, el pebetero se ve como una estrella baja y naranja que no parpadea."
@@ -24799,7 +24810,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "From above, what is seen is the black sea, not a light in any direction, to the world's edge.",
       "es": "Desde arriba, lo que se ve es el mar negro, sin una luz en ninguna dirección, hasta el borde del mundo."
@@ -25779,7 +25790,7 @@
    ],
    "variants": [
     {
-     "id": "en_la_vendimia",
+     "id": "autumn",
      "text": {
       "en": "The house fills. Day labourers come from the whole province, the south included, and for three weeks there is triple the people, long tables in the courtyard and last year's wine at will.",
       "es": "La casa se llena. Vienen jornaleros de toda la provincia, incluidos los del sur, y durante tres semanas hay el triple de gente, mesas largas en el patio y vino del año anterior a discreción."
@@ -25790,7 +25801,7 @@
      }
     },
     {
-     "id": "en_la_vendimia",
+     "id": "autumn",
      "text": {
       "en": "It is when the west and the south mix, and the difference shows in hands and clothing.",
       "es": "Es el momento en que los del oeste y los del sur se mezclan, y se nota la diferencia en las manos y en la ropa."
@@ -26276,7 +26287,7 @@
    ],
    "variants": [
     {
-     "id": "en_la_poda_en_enero",
+     "id": "winter",
      "text": {
       "en": "The valley is full of people with shears and small bonfires burning the trimmings.",
       "es": "El valle está lleno de gente con tijeras y de hogueras chicas quemando el ramón."
@@ -26287,7 +26298,7 @@
      }
     },
     {
-     "id": "en_la_poda_en_enero",
+     "id": "winter",
      "text": {
       "en": "There is white smoke across the whole valley floor, at mid height, and the smell of olive smoke is the smell the traveller will forever associate with southern Ithilien.",
       "es": "Hay humo blanco en todo el fondo del valle, a media altura, y el olor del humo de olivo es el olor que el viajero va a asociar para siempre con Ithilien del sur."
@@ -26342,7 +26353,7 @@
    ],
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "To the west, very far, where the wall ends, the sky has colour.",
       "es": "Al oeste, muy lejos, donde la pared se acaba, el cielo tiene color."
@@ -26353,7 +26364,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "To the south there is nothing: darkness to the horizon, not a light.",
       "es": "Al sur no hay nada: oscuridad hasta el horizonte, sin una luz."
@@ -26364,7 +26375,7 @@
      }
     },
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "And the traveller will be a long while not knowing which of the two things makes him feel worse.",
       "es": "Y el viajero va a estar un rato largo sin saber cuál de las dos cosas lo pone peor."
@@ -26766,7 +26777,7 @@
    ],
    "variants": [
     {
-     "id": "en_siega_en_junio",
+     "id": "summer",
      "text": {
       "en": "The whole Pelennor works at once. There are sheaves, there are carts, there is threshing on the floors, and the straw dust hangs at mid height all afternoon.",
       "es": "El Pelennor entero trabaja a la vez. Hay gavillas, hay carros, hay trillas en las eras, y el polvo de la paja se queda suspendido a media altura toda la tarde."
@@ -26777,7 +26788,7 @@
      }
     },
     {
-     "id": "en_siega_en_junio",
+     "id": "summer",
      "text": {
       "en": "From the City, on those days, a golden haze can be seen over the plain.",
       "es": "Desde la Ciudad, en esos días, se ve una bruma dorada sobre el llano."
@@ -27627,7 +27638,7 @@
    },
    "variants": [
     {
-     "id": "en_otono",
+     "id": "autumn",
      "text": {
       "en": "The whole valley turns yellow for three weeks, slope to slope, and from the tower the city looks to stand in the middle of a flame.",
       "es": "El valle entero se pone amarillo durante tres semanas, de ladera a ladera, y desde la torre se ve como si la ciudad estuviera en el medio de una llama."
@@ -27638,7 +27649,7 @@
      }
     },
     {
-     "id": "en_otono",
+     "id": "autumn",
      "text": {
       "en": "People come from other provinces to see it.",
       "es": "Viene gente de otras provincias a verlo."
@@ -28607,7 +28618,7 @@
    ],
    "variants": [
     {
-     "id": "en_el_esquileo",
+     "id": "spring",
      "text": {
       "en": "In May the downs fill up. The flocks come down to the shearing pens, there are extra people, there is wine and there is competition.",
       "es": "En mayo, las lomas se llenan. Bajan los rebaños a los corrales de esquila, hay gente de más, hay vino y hay competencia."
@@ -28618,7 +28629,7 @@
      }
     },
     {
-     "id": "en_el_esquileo",
+     "id": "spring",
      "text": {
       "en": "Whoever shears fastest is somebody in this region.",
       "es": "El que esquila más rápido es alguien en esta región."
@@ -36639,7 +36650,7 @@
    ],
    "variants": [
     {
-     "id": "con_el_deshielo",
+     "id": "spring",
      "text": {
       "en": "In May the river rises and turns impassable: the fords disappear, it carries off the log bridges, and the villages are cut off from each other for two or three weeks.",
       "es": "En mayo el río crece y se pone intransitable: los vados desaparecen, los puentes de tronco se los lleva, y las aldeas quedan incomunicadas entre sí durante dos o tres semanas."
@@ -36650,7 +36661,7 @@
      }
     },
     {
-     "id": "con_el_deshielo",
+     "id": "spring",
      "text": {
       "en": "They take it for granted. Nobody plans anything for May.",
       "es": "Lo tienen asumido. Nadie planea nada para mayo."
@@ -44035,7 +44046,7 @@
    },
    "variants": [
     {
-     "id": "de_noche",
+     "id": "night",
      "text": {
       "en": "At night the noises are different and nearer. Whoever camps here does not ask what they are: he stays still.",
       "es": "De noche los ruidos son otros y están más cerca. El que acampa acá no pregunta qué son: se queda quieto."
@@ -44342,7 +44353,7 @@
    },
    "variants": [
     {
-     "id": "en_verano",
+     "id": "summer",
      "text": {
       "en": "For six weeks a year the whole heath is purple, and it is the only season when this land looks forgiven.",
       "es": "Seis semanas al año el brezal entero es morado, y es la única época en que esta tierra parece perdonada."
@@ -44389,7 +44400,7 @@
    },
    "variants": [
     {
-     "id": "con_la_luz_del_oeste",
+     "id": "dusk",
      "text": {
       "en": "When the western light comes in, he suddenly understands why the people here stand watching the sea.",
       "es": "Cuando entra la luz del oeste, entiende de golpe por qué la gente de acá se queda mirando el mar."

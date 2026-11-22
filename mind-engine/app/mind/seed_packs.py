@@ -131,7 +131,7 @@ F_SPIDERS = ['tag:family:spiders']
 F_TREES = ['tag:family:trees']
 F_ENTS = ['tag:family:ents']
 F_COMMON_MEN = ['tag:family:common_men']
-F_DUNEDAIN = ['tag:family:dnedain']  # sic — the host's slug carries the typo
+F_DUNEDAIN = ['tag:family:dunedain']
 E_MORDOR_HORSES = ['entity:horses_of_mordor']
 T_ENEMY_MEN = [
     'tag:entity_type:haradrim', 'tag:entity_type:easterlings',

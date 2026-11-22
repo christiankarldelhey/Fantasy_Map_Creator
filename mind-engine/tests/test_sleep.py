@@ -15,6 +15,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 from app.db import SessionLocal
 from app.mind.tables import Mind
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -62,14 +63,14 @@ def _night_encounter(**data):
     }
 
 
-def _only(packet):
-    return packet['psyche_packet']['perceived_day'][0]
+def _only(client, packet):
+    return open_state(client, packet)['perceived_day'][0]
 
 
 def test_night_sign_only_is_slept_through(client):
     """A 02:30 rustle that needs tracking to notice is simply not heard —
     no roll is thrown and the event keeps dampened salience."""
-    item = _only(_open(
+    item = _only(client, _open(
         client,
         {'id': _uid('asleep'), 'skills': {'tracking': 9}},
         [_night_encounter(form='sign_only')],
@@ -84,7 +85,7 @@ def test_night_sign_only_is_slept_through(client):
 def test_night_attack_wakes_the_mind(client):
     """An intrusive form reaches consciousness — the roll runs and the
     (always-won) check reports a normal attempt, not sleep."""
-    item = _only(_open(
+    item = _only(client, _open(
         client,
         {'id': _uid('woken'), 'skills': {'tracking': 9}},
         [_night_encounter(form='attacks')],
@@ -97,7 +98,7 @@ def test_night_attack_wakes_the_mind(client):
 
 def test_night_wound_wakes_the_mind(client):
     """Harm already done needs no intrusion: 'wounded' wakes the sleeper."""
-    item = _only(_open(
+    item = _only(client, _open(
         client,
         {'id': _uid('wounded'), 'skills': {'tracking': 9}},
         [_night_encounter(form='stalks', outcome='wounded')],
@@ -110,7 +111,7 @@ def test_daytime_encounter_unaffected(client):
     """Sleep only claims sleep phases — the same sign at noon rolls."""
     event = _night_encounter(form='sign_only')
     event['when']['phase'] = 'afternoon'
-    item = _only(_open(
+    item = _only(client, _open(
         client,
         {'id': _uid('day'), 'skills': {'tracking': 9}},
         [event],
@@ -128,7 +129,7 @@ def test_nocturnal_brain_never_sleeps(client):
         ref='d0',
     )
     _set_wiring(char, sleep_phases=[])
-    item = _only(_open(
+    item = _only(client, _open(
         client, {'id': char, 'skills': {'tracking': 9}},
         [_night_encounter(form='sign_only')],
         ref='d1',

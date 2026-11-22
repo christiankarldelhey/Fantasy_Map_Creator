@@ -102,9 +102,14 @@ async function loadTerrainPhrasesFromNarration(regionNames, categories, variantO
   const order = [...(variantOrder || []), 'base'];
   const map = {};
   for (const row of rows) {
-    // variants column: [{id, tags, phrases}] (ADR-0015; legacy `key` = `id`)
+    // variants column: [{id, tags, phrases}] (ADR-0015; legacy `key` = `id`).
+    // `id|key` may be a list — one entry answering several keys.
     for (const variant of order) {
-      const hit = (row.variants || []).find((v) => v && (v.id === variant || v.key === variant));
+      const hit = (row.variants || []).find((v) => {
+        if (!v) return false;
+        const ids = [v.id, v.key].flatMap((x) => (Array.isArray(x) ? x : [x]));
+        return ids.includes(variant);
+      });
       if (Array.isArray(hit?.phrases) && hit.phrases.length > 0) {
         (map[row.region_name] ||= {})[row.category] = hit.phrases;
         break;

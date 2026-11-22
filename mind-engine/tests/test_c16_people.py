@@ -29,6 +29,7 @@ from app.mind.memory import (
     decay_pass,
 )
 from app.mind.tables import Mind, Memory, Need
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -159,7 +160,7 @@ def test_people_exchange_beats_the_drizzle(client):
         entity='dnedain', entity_name='Dúnedain',
         entity_type='humans', form='brief_exchange', intensity=2,
     )])
-    item = opened['psyche_packet']['perceived_day'][0]
+    item = open_state(client, opened)['perceived_day'][0]
     assert item['perception'] == 'noticed'
     assert item['salience'] >= 0.45
 
@@ -173,7 +174,7 @@ def test_salience_floor_only_lifts_what_registered(client):
         entity='elves', entity_name='Elves', entity_type='elves',
         form='sign_only', check={'skill': 'tracking', 'difficulty': 30},
     )])
-    item = opened['psyche_packet']['perceived_day'][0]
+    item = open_state(client, opened)['perceived_day'][0]
     assert item['perception'] == 'unnoticed'
     assert item['salience'] < 0.45
 
@@ -193,9 +194,10 @@ def test_night_brief_exchange_wakes_the_mind(client):
     event['when']['phase'] = 'night'
     # Waking is not auto-noticing: the roll still runs, so a tracked
     # mind (tracking 9 + min roll > difficulty 3) always registers it.
-    item = _open(client, char, 'd1', [event], skills={'tracking': 9})[
-        'psyche_packet'
-    ]['perceived_day'][0]
+    item = open_state(
+        client,
+        _open(client, char, 'd1', [event], skills={'tracking': 9}),
+    )['perceived_day'][0]
     assert item['perception'] == 'noticed'
     assert 'asleep' not in item['check']
     assert item['check']['attempted'] is True

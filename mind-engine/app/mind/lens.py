@@ -45,7 +45,7 @@ def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
         d: ((mind.mood if mind else None) or {}).get(d) or 0.0
         for d in ('valence', 'arousal')
     }
-    arc, turn, landing = mood_arc(items, session, game_id, start)
+    arc, turn, landing, shades = mood_arc(items, session, game_id, start)
     valence = landing.get('valence', 0.0)
     arousal = landing.get('arousal', 0.0)
     # The day's own direction — salience-weighted mean of the events'
@@ -91,6 +91,7 @@ def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
         'trace': trace,
         'arc': arc,
         'turn': turn,
+        'shades': shades,
     }
 
 
@@ -100,6 +101,12 @@ _PHASE_ORDER = ('morning', 'afternoon', 'night')
 # turn — a quiet ebb is the day breathing, not the day breaking.
 TURN_MIN_SWING = 0.3
 
+# A shade must move the mood enough to be felt against the grain, and
+# only against a mood actually standing somewhere — a flat mood has no
+# current to swim against.
+SHADE_MIN_MOVE = 0.03
+SHADE_MIN_STANDING = 0.1
+
 
 def mood_arc(items, session=None, game_id=None, start=None):
     """The day's emotional plot by phase (#184): the running mood steps
@@ -107,16 +114,21 @@ def mood_arc(items, session=None, game_id=None, start=None):
     each phase point is where the mood STOOD when the phase closed —
     a trajectory, not a sum. And the TURN: the phase where the mood
     moved far or flipped valence's sign, with the reading that did it
-    ('the afternoon turned at the ford').
-    Returns (arc, turn, landing) — landing is the mood after the last
-    pull, the position the episode leaves standing."""
+    ('the afternoon turned at the ford'). And the SHADES: the strongest
+    counter-current pull per phase — the world item that pulled against
+    where the mood stood without turning it (a ruin dimming a good day,
+    an inn warming a grey one).
+    Returns (arc, turn, landing, shades) — landing is the mood after the
+    last pull, the position the episode leaves standing."""
     arc = []
+    shades = []
     mood = {d: (start or {}).get(d, 0.0) for d in MOOD_DIMS}
     prev = None
     turn = None
     for phase in _PHASE_ORDER:
         felt = {}
         cause, cause_w = None, 0.0
+        shade, shade_move = None, SHADE_MIN_MOVE
         active = False
         for i in items:
             # Phase-less items (synthetic/legacy events) bucket at midday.
@@ -126,8 +138,29 @@ def mood_arc(items, session=None, game_id=None, start=None):
             imprint = i.get('imprint') or {}
             add_delta(felt, imprint)
             for pull in i.get('mood_pull') or []:
-                apply_pull(mood, pull.get('target') or {},
-                           pull.get('gain') or 0.0)
+                target = pull.get('target') or {}
+                gain = pull.get('gain') or 0.0
+                # Counter-current: the pull pushes valence against where
+                # the mood stands. Mind-voiced items (needs, streaks)
+                # already speak through the lens — shades are the world
+                # tugging the other way.
+                before_v = mood.get('valence', 0.0)
+                move = (target.get('valence') or 0.0) - before_v
+                counter = (
+                    (target.get('valence') or 0.0) * before_v < 0
+                    and abs(before_v) >= SHADE_MIN_STANDING
+                    and i.get('source') != 'mind'
+                )
+                apply_pull(mood, target, gain)
+                if counter and abs(move * gain) >= shade_move:
+                    shade_move = abs(move * gain)
+                    shade = {
+                        'phase': phase,
+                        'word': pull.get('word'),
+                        'reading': i.get('reading'),
+                        'subject': i.get('subject'),
+                        'swing': round(move * gain, 3),
+                    }
                 active = True
             if imprint:
                 active = True
@@ -160,12 +193,19 @@ def mood_arc(items, session=None, game_id=None, start=None):
                     'to': round(valence, 3),
                     'cause': cause,
                 }
+        # A shade that IS the turn's driver is told by the turn line —
+        # the rest whisper their own counter-current, phase cause or not.
+        if shade and not (
+            turn and turn['phase'] == phase
+            and shade.get('reading') == turn.get('cause')
+        ):
+            shades.append(shade)
         prev = dict(mood)
     landing = {
         'valence': mood.get('valence', 0.0),
         'arousal': mood.get('arousal', 0.0),
     }
-    return arc, turn, landing
+    return arc, turn, landing, shades
 
 
 MOOD_CAUSE_MIN_WEIGHT = 0.15
@@ -197,7 +237,9 @@ def mood_cause(perceived_day, needs=None):
         desc = getattr(n, 'desc', None) or getattr(n, 'description', None)
         weight = getattr(n, 'urgency', 0.0) or 0.0
         if desc and weight > best_w:
-            best = {'reading': desc, 'valence': -weight}
+            # 'need' marks the body's own voice — the reflection never
+            # rewords what the body already says for itself.
+            best = {'reading': desc, 'valence': -weight, 'need': True}
             best_w = weight
     return best
 
@@ -247,7 +289,10 @@ def _mood_line(mood, today=None):
     yesterday): the orc tracks…'. No cause, no line — a mind at ease
     says nothing about it."""
     cause = (mood or {}).get('cause')
-    if not cause or not cause.get('reading'):
+    # The Reflection's prose overlay rides first when the cause carries
+    # one — the deterministic reading stays the anchor beneath it.
+    wording = (cause or {}).get('prose') or (cause or {}).get('reading')
+    if not wording:
         return None
     verb = (
         'weighing on them' if (cause.get('valence') or 0.0) < 0
@@ -262,7 +307,7 @@ def _mood_line(mood, today=None):
             since = f' (from {days} days ago)'
         elif days >= 14:
             since = ' (from a long while ago)'
-    return f'Still {verb}{since}: {cause["reading"]}'
+    return f'Still {verb}{since}: {wording}'
 
 
 def _age_phrase(mem, age_days):
@@ -461,6 +506,12 @@ def render_lens(character_name, brief, mood=None, today=None):
     already worded; the lens never invents."""
     brief = brief or {}
     lines = [f'{character_name} today.']
+    # The entering Mood's own word — how the day finds them, before any
+    # cause names why. 'steady' stays silent: a mind at ease needs no
+    # weather report.
+    word = mood_name(mood or {})
+    if word and word != 'steady':
+        lines.append(f'The day finds them {word}.')
     focus = brief.get('focus')
     carried, seen = [], set()
     for line in brief.get('carried') or []:

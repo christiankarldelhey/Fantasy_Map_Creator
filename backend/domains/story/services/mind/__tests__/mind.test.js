@@ -203,7 +203,7 @@ test('encounters carry the resolved substance of contact (C16)', () => {
     day: {
       ...DAY,
       encounters: [{
-        entity: { slug: 'dnedain', id: 'e9', name: 'Dúnedain', type: 'humans', danger_level: 0 },
+        entity: { slug: 'dunedain', id: 'e9', name: 'Dúnedain', type: 'humans', danger_level: 0 },
         hour_float: 20.5,
         interaction: {
           form: 'brief_exchange',
@@ -590,6 +590,37 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
   assert.doesNotMatch(hornburg.reading, /Hornburg|Helm/);
 });
 
+test('a place met before is passed again, not arrived at twice', () => {
+  const events = toEvents({
+    day: {
+      ...DAY,
+      locations: [{
+        // Yesterday's camp told its scene already: the road crossing its
+        // ground again is a recognition — the pass names the place so the
+        // memory can stir, but no arrival prose re-ships.
+        id: 99, name: "The herders' camp", type: 'camp', region: 'Talath Muil',
+        distance_km: 2.89, size_radius_km: 12, visited: true, told: true,
+        hour_float: 9.28, intensity: 2,
+        presence: 'They feed him. Meat, sour milk, and pine nuts.',
+        host: { name: 'Dervorin', slug: 'npc_tm_01', people: 'dunedain' },
+      }],
+    },
+    trip: { id: 't1' },
+    character: { name: 'Tester' },
+  });
+  const camp = events.find(
+    (e) => e.type === 'land' && e.data.place === 'the_herders_camp').data;
+  // The subject still accretes and the pass is told — but as a return:
+  // 'again', the whisper of familiarity for intensity, none of the
+  // first telling's prose or keeper scene.
+  assert.match(camp.reading, /passes through again/);
+  assert.doesNotMatch(camp.reading, /They feed him/);
+  assert.equal(camp.intensity, 0);
+  assert.equal(camp.presence, undefined);
+  assert.equal(camp.npc, undefined);
+  assert.ok(camp.tags.includes('visited'));
+});
+
 test('a dead place sighted far shows its absence, not a living shape', () => {
   const events = toEvents({
     day: {
@@ -722,7 +753,7 @@ test('the open payload carries raw state, never rendered blocks (C10)', () => {
   assert.equal(body.condition.rations, 1);
   assert.equal(body.fate, 'living');
   // No half-rendered blocks may travel: the narrator's material rides
-  // narration_notes + the events' readings, not stray top-level fields.
+  // the events' readings, not stray top-level fields.
   assert.equal(body.condition_block, undefined);
   assert.equal(body.equipment_block, undefined);
   assert.equal(body.end_state_block, undefined);
@@ -767,7 +798,7 @@ test('the open payload only emits keys the wire model declares', () => {
 
   assert.deepEqual(Object.keys(body).sort(), [
     'arc', 'character', 'condition', 'episode', 'episode_ref', 'events',
-    'fate', 'game_id', 'language', 'narration_notes',
+    'fate', 'game_id', 'language',
   ]);
   // The stateless contract keeps its own day shape — the slim whitelist
   // still applies to it, built separately by toNarrateDayBody.
@@ -881,16 +912,57 @@ test('the open payload carries the canonical v2 channels (ADR-0016)', () => {
     characterState: { energy: 35 },
     equipmentState: { rations: 2 },
   });
-  assert.deepEqual(body.episode, { index: 3, at: '3018-03-15', terminal: false });
+  assert.deepEqual(body.episode, { index: 3, at: '3018-03-15' });
   assert.equal(body.arc, 'The Long Road North');
   assert.deepEqual(body.condition, {
     energy: 35, rations: 2, distance_km: 14.5, walking_hours: 5.5,
   });
-  assert.ok(body.narration_notes && typeof body.narration_notes === 'object');
-  // Only the briefing that is no lived event rides here — the per-phase
-  // world prose lives in the events' readings.
-  assert.equal(body.narration_notes.weather, undefined);
-  assert.equal(body.narration_notes.meals, undefined);
-  // The night's lead-in IS a lived event: the rest event carries it now.
-  assert.equal(body.narration_notes.night_lead, undefined);
+  // Everything the day was is an event now: no narrator briefing rides
+  // beside them — climate streaks, the ground and the end all speak as
+  // events or through `condition`/`fate`.
+  assert.equal(body.narration_notes, undefined);
+  assert.equal(body.day, undefined);
+});
+
+test('solar clauses weave into the weather events — dawn when extreme, dusk always', () => {
+  const climateOf = (events) => events.filter((e) => e.type === 'climate');
+  const phase = (events, p) => climateOf(events).find((e) => e.when?.phase === p);
+
+  // A winter day at high latitude: the late dawn joins the morning sky,
+  // the early dusk joins the afternoon it falls in. No separate events.
+  const winter = toEvents({
+    day: { ...DAY, daylight: { sunrise: 8.6, sunset: 15.4, polar: null }, date: '1950-01-21' },
+    trip: { id: 't1' }, character: {},
+  });
+  assert.equal(winter.filter((e) => e.data?.subtype === 'light').length, 0);
+  assert.match(phase(winter, 'morning').data.reading, /^the sun comes up late|^first light drags/);
+  assert.match(phase(winter, 'afternoon').data.reading, /^the light fails early|^the sun gives/);
+
+  // A solar-normal day (sunrise ~7): no dawn clause — but the dusk is
+  // still woven into whichever phase holds the sunset (18.2 → night).
+  const normal = toEvents({
+    day: { ...DAY, daylight: { sunrise: 7.3, sunset: 18.2, polar: null }, date: '1950-04-15' },
+    trip: { id: 't1' }, character: {},
+  });
+  assert.doesNotMatch(phase(normal, 'morning').data.reading, /sun|light|dawn/);
+  assert.match(phase(normal, 'night').data.reading, /^the light lingers|^the sun is slow/);
+
+  // Polar analogs: the day's real light news rides the felt phase —
+  // the morning for a sun that never rises, the night for one that
+  // never sets.
+  const polar = toEvents({
+    day: { ...DAY, daylight: { sunrise: null, sunset: null, polar: 'night' }, date: '1950-12-21' },
+    trip: { id: 't1' }, character: {},
+  });
+  assert.match(phase(polar, 'morning').data.reading, /does not rise|no dawn/);
+
+  const midnight = toEvents({
+    day: { ...DAY, daylight: { sunrise: null, sunset: null, polar: 'day' }, date: '1950-06-21' },
+    trip: { id: 't1' }, character: {},
+  });
+  assert.match(phase(midnight, 'night').data.reading, /no dark|does not go/);
+
+  // A day with no daylight data: weather readings stand untouched.
+  const none = toEvents({ day: { ...DAY, daylight: undefined }, trip: { id: 't1' }, character: {} });
+  assert.doesNotMatch(phase(none, 'morning').data.reading, /sun|light|dawn/);
 });

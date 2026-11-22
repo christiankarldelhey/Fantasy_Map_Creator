@@ -177,12 +177,36 @@ export function resolveScoped(records, ctx = {}, opts = {}) {
  *   [{ key|id, phrases|[…]|text|{en,es}, condition? }]
  * Returns the matching variant object, or null.
  */
+/** Does the variant answer this key? `key` or `id` may match, and either may
+ * be a list — one entry serving several conditions (a face authored for
+ * 'autumn_and_winter' wins under either season). */
+function variantAnswers(v, key) {
+  if (!v) return false;
+  const ids = [v.key, v.id].flatMap((x) => (Array.isArray(x) ? x : [x]));
+  return ids.includes(key);
+}
+
 export function pickVariant(record, keyOrder = []) {
   const variants = record?.variants;
   if (!Array.isArray(variants) || !keyOrder.length) return null;
   for (const key of keyOrder) {
-    const hit = variants.find((v) => v && (v.key === key || v.id === key));
+    const hit = variants.find((v) => variantAnswers(v, key));
     if (hit) return hit;
+  }
+  return null;
+}
+
+/**
+ * Like pickVariant but returns EVERY entry under the winning key —
+ * a conditioned face can be authored as several sections under one id
+ * ('winter' carrying three paragraphs of the place in the snow).
+ */
+export function pickVariants(record, keyOrder = []) {
+  const variants = record?.variants;
+  if (!Array.isArray(variants) || !keyOrder.length) return null;
+  for (const key of keyOrder) {
+    const hits = variants.filter((v) => variantAnswers(v, key));
+    if (hits.length) return hits;
   }
   return null;
 }

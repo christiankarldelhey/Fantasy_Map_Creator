@@ -338,8 +338,10 @@ export function describeRegions(regions, enteredNames = null) {
   return lines.join('\n');
 }
 
-/** Bullet-ready notes on the settlements and landmarks along the day's road. */
-export function collectLocationNotes(locations) {
+/** Bullet-ready notes on the settlements and landmarks along the day's
+ * road. `daylight` (the day's {sunrise, sunset} anchors) seasons the
+ * clock phrases — see timeOfDayPhrase. */
+export function collectLocationNotes(locations, daylight = null) {
   if (!Array.isArray(locations) || locations.length === 0) {
     return ['- No settlements or landmarks of note.'];
   }
@@ -350,23 +352,28 @@ export function collectLocationNotes(locations) {
     // 'entered' beats distance math: the traveller walked IN, whatever
     // the off-route metres say. 'hostile' is the opposite — an enemy
     // place skirted from outside, never entered.
-    const when = timeOfDayPhrase(l.hour_float);
+    const when = timeOfDayPhrase(l.hour_float, daylight);
     // A place the road never reaches is first sighted when the leg crosses
     // into its influence circle — the horizon moment precedes the passing.
     const sight = l.sighted
-      ? `sighted far off${l.sighted_direction ? ` to the ${l.sighted_direction}` : ''}, ${timeOfDayPhrase(l.sighted_hour_float)} — `
+      ? `sighted far off${l.sighted_direction ? ` to the ${l.sighted_direction}` : ''}, ${timeOfDayPhrase(l.sighted_hour_float, daylight)} — `
       : '';
+    // A place already met this trip (visited or slept in) whose ground
+    // the road crosses again: the second pass is a recognition, not an
+    // arrival — the line names it, the arrival scene stays told once.
+    const repeat = l.told && !l.entered;
     let proximity;
     if (l.entered) {
       proximity = `reaches it ${when} and stays — the day ends here`;
     } else if (l.hostile) {
-      proximity = `${sight}passed outside, ${when} — enemy country, no welcome there`;
+      proximity = `${sight}passed outside${repeat ? ' again' : ''}, ${when} — enemy country, no welcome there`;
     } else {
       // A sighting clause already carries its hour ('sighted far off to
       // the southwest, in the early morning — …'); the passing needs no
       // second stamp.
       const time = sight ? '' : `, ${when}`;
-      proximity = `${sight}${proximityPhrase(l.distance_km, l.size_radius_km)}${time}`;
+      const again = repeat ? ' again' : '';
+      proximity = `${sight}${proximityPhrase(l.distance_km, l.size_radius_km)}${again}${time}`;
     }
     // From beyond its reach a place is only its silhouette — anonymous,
     // read from its kind (sightedShape, #187: the authored override
@@ -376,6 +383,7 @@ export function collectLocationNotes(locations) {
     const subject = distant ? sightedSubject(l) : `${l.name}${kind}`;
     const prose = distant
       ? sightedShape(l)
+      : repeat ? null
       : (l.visited || l.entered) ? (l.presence || l.aspect) : l.aspect;
     notes.push(`- ${subject}: ${proximity}${prose ? descriptionSuffix(prose) : '.'}`);
   }

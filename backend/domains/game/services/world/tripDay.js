@@ -15,6 +15,7 @@ import {
 } from './moverCrossings.js';
 import { resolveOvernight, resolveRegionAtPoint } from './placesInteractions.js';
 import { resolveAmbientSituations } from './ambientVoice.js';
+import { pickVariants } from './resolveNarrative.js';
 import {
   flattenRoute,
   totalSeconds,
@@ -28,6 +29,8 @@ import {
   variantOrderForDay,
   pickSeasonalSummary,
   loadSeasonalSummaries,
+  daylightFor,
+  solarKey,
 } from '../../adapters/storyClient.js';
 import { FRIENDLY_FAMILIES, MAX_EVIL_ENCOUNTERS_PER_DAY, SETTLEMENT_TYPES, isHostileLocation } from '../character/characterState.js';
 
@@ -189,6 +192,7 @@ async function regionAtPoint(lng, lat) {
               AS description_summary,
             r.cultural_family,
             rd.intensity,
+            r.chance_of_encounter,
             COALESCE(r.population_ratio, 0.5) AS population_ratio
      FROM regions r
      LEFT JOIN places_narration rd ON rd.id = r.depiction_id
@@ -209,13 +213,15 @@ async function regionsForPoints(points) {
             r.name,
             r.description_summary,
             r.cultural_family,
+            r.intensity,
+            r.chance_of_encounter,
             COALESCE(r.population_ratio, 0.5) AS population_ratio
      FROM jsonb_array_elements($1::jsonb) WITH ORDINALITY AS t(elem, idx)
      LEFT JOIN LATERAL (
        SELECT rg.id, rg.name,
               (SELECT array_agg(x) FROM jsonb_array_elements_text(rd.rotation) x)
                 AS description_summary,
-              rg.cultural_family, rg.population_ratio, rd.intensity
+              rg.cultural_family, rg.population_ratio, rg.chance_of_encounter, rd.intensity
        FROM regions rg
        LEFT JOIN places_narration rd ON rd.id = rg.depiction_id
        WHERE ST_Contains(rg.geom, ST_SetSRID(ST_MakePoint((elem->>0)::float, (elem->>1)::float), 4326))
@@ -231,6 +237,7 @@ async function regionsForPoints(points) {
     cultural_family: row.cultural_family,
     // The land's declared force rides the crossing event (#184).
     intensity: row.intensity ?? null,
+    chance_of_encounter: row.chance_of_encounter != null ? Number(row.chance_of_encounter) : null,
     population_ratio: Number(row.population_ratio),
   } : null));
 }
@@ -351,6 +358,10 @@ async function sampleLegContext(legGeoJSON) {
           'influence_radius_km', rad.infl_km,
           'presence', ficha.presence_en,
           'presence_es', ficha.presence_es,
+          -- The conditioned faces ride along: the day's variant order
+          -- (snow, rain, season…) picks which — if any — replaces the
+          -- base presence when the ficha is read.
+          'presence_variants', ficha.variants,
           -- The record's own words for what the place IS — kind and the
           -- closed-registry thematic tags (ruins, danger, melancholy…) —
           -- so a distant sighting can be true to the case, not default.
@@ -402,6 +413,7 @@ async function sampleLegContext(legGeoJSON) {
         LEFT JOIN LATERAL (
           SELECT f.presence->>'en' AS presence_en,
                  f.presence->>'es' AS presence_es,
+                 f.variants AS variants,
                  f.type->>'en' AS type_en,
                  f.tags AS tags,
                  f.intensity,
@@ -468,6 +480,27 @@ async function sampleLegContext(legGeoJSON) {
     [geojson]
   );
   return rows[0];
+}
+
+/** Latitude of the real-world climate analog covering a point — the day's
+ * sun keeps the analog's hours (Finnmark, the Cairngorms, Finisterre), not
+ * the map's own geometry. Returns {analog_lat, analog_location} or nulls
+ * when no climate zone covers the point. */
+async function climateAnalogAtPoint(lng, lat) {
+  try {
+    const { rows } = await pool.query(
+      `SELECT cz.analog_lat, cz.analog_location
+       FROM regions r
+       JOIN climate_zones cz ON cz.id = r.climate_zone_id
+       WHERE cz.analog_lat IS NOT NULL
+         AND ST_Intersects(r.geom, ST_SetSRID(ST_MakePoint($1, $2), 4326))
+       LIMIT 1`,
+      [lng, lat]
+    );
+    return rows[0] || { analog_lat: null, analog_location: null };
+  } catch {
+    return { analog_lat: null, analog_location: null };
+  }
 }
 
 /** Climate at a point/timestamp using the PostGIS transition function. */
@@ -717,7 +750,7 @@ async function buildNightRegionResolver(campPoint) {
  * @param {Array<string>} [params.recentForms] - forms used in previous chapters (anti-repetition)
  * @returns {Promise<Object|null>} the day object, or null if the trip is complete
  */
-export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], shadowFactor = 1, shadowBand = null, usedRegionDescriptions = {}, usedTerrainPhrases = {}, startState = null }) {
+export async function generateDay({ trip, dayNumber, rng = Math.random, excludedEntityIds = [], characterId = null, character = {}, recentForms = [], toldPlaceIds = [], shadowFactor = 1, shadowBand = null, usedRegionDescriptions = {}, usedTerrainPhrases = {}, startState = null }) {
   const route = typeof trip.route === 'string' ? JSON.parse(trip.route) : trip.route;
   const segments = flattenRoute(route);
   const routeSeconds = totalSeconds(segments);
@@ -762,6 +795,19 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
   // which description variants apply.
   const climate = await sampleHourlyClimate(segments, dayStartSeconds, dayEndSeconds, date, moonPhase);
   const variantOrder = variantOrderForDay(date, climate);
+
+  // Solar anchors from the REAL climate analog at the leg's midpoint — the
+  // day's dawn and dusk keep the analog's hours (Forochel keeps Finnmark's
+  // sun, Talath Muil keeps the Cairngorms'), not the map geometry's and not
+  // the fixed 7/19. Weather samples keep their clock hours; the anchors
+  // serve phrasing and the dawn/day/dusk/night variant keys. Polar analogs
+  // return {polar:'day'|'night'} — the sun may not rise at all.
+  const midPoint = positionAtSeconds(segments, (dayStartSeconds + dayEndSeconds) / 2);
+  const analog = await climateAnalogAtPoint(midPoint[0], midPoint[1]);
+  const daylight = {
+    ...daylightFor(date, analog.analog_lat ?? midPoint[1]),
+    analog: analog.analog_location ?? null,
+  };
 
   // --- Geographic sampling ---
   const context = await sampleLegContext(legGeoJSON);
@@ -1099,6 +1145,21 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     };
   });
 
+/** The conditioned presence text for `lang`, or null when no variant
+ * matches the day's order — same-key entries join as authored
+ * sections, and a lang the variant lacks falls back to the base face.
+ * 'base' is never a winning key: the column's base presence IS it. */
+function variantPresence(location, lang, keyOrder) {
+  const hits = pickVariants(
+    { variants: location?.presence_variants },
+    (keyOrder || []).filter((k) => k && k !== 'base'));
+  const text = (hits || [])
+    .map((v) => v?.text?.[lang])
+    .filter(Boolean)
+    .join('\n');
+  return text || null;
+}
+
   // --- Locations: derive the clock hour each is passed from its leg fraction ---
   // Full context rides along (population, inhabitants, both descriptions) —
   // the mind and the narrator need the authored detail, not just a name.
@@ -1147,11 +1208,20 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
       sighted_hour: sighted ? `${String(shh).padStart(2, '0')}:${String(smm).padStart(2, '0')}` : null,
       sighted_direction: sighted ? compassDirection(l.entry_bearing_deg) : null,
       visited,
-      presence: l.presence ?? null,
-      presence_es: l.presence_es ?? null,
+      // The day's conditioned face wins over the base prose: the
+      // meadow's six-week bloom is a summer text, its buried grey a
+      // winter one — the ficha says which day each belongs to. The
+      // solar key (dawn|day|dusk|night at the passing hour) leads the
+      // order, ahead of weather and season.
+      presence: variantPresence(l, 'en', [solarKey(hourFloat, daylight), ...variantOrder]) ?? l.presence ?? null,
+      presence_es: variantPresence(l, 'es', [solarKey(hourFloat, daylight), ...variantOrder]) ?? l.presence_es ?? null,
       narration_type: l.narration_type ?? null,
       record_tags: l.record_tags || [],
       intensity: l.intensity ?? null,
+      // Already met this trip (visited or slept in on an earlier day):
+      // the road crossing its ground again is a return, not a first
+      // arrival — the scene itself stays with its first telling.
+      told: toldPlaceIds.has(l.id),
       // The resident entity joined by location — a keeper met at her
       // own door, not only at the overnight stop.
       host: l.host ?? null,
@@ -1218,6 +1288,7 @@ export async function generateDay({ trip, dayNumber, rng = Math.random, excluded
     day_number: dayNumber,
     date,
     moon_phase: moonPhase,
+    daylight,
     start: leg.start,
     end: leg.end,
     distance_km: Number((leg.distance_m / 1000).toFixed(3)),

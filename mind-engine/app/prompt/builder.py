@@ -26,7 +26,7 @@ from app.prompt.sections.instructions import (
     road_intro,
 )
 from app.prompt.sections.journey import destination_name, journey_context_section, season_phrase, special_instructions_section
-from app.prompt.sections.terminal_day import terminal_closing_instruction, terminal_notice_section, terminal_road_intro
+from app.prompt.sections.terminal_day import end_state_section, terminal_closing_instruction, terminal_notice_section, terminal_road_intro
 from app.prompt.sections.timeline import timeline_section
 from app.prompt.system_prompt import SYSTEM_PROMPT
 
@@ -232,8 +232,6 @@ def build_day_prompt(
     language='english',
     previous_day=None,
     previous_rest=None,
-    character_state=None,
-    equipment_state=None,
     fate=None,
     climate_state_block='',
     mind_block='',
@@ -270,7 +268,8 @@ def build_day_prompt(
         f"{road_intro(day.get('day_number'))} {season_phrase(day.get('date'))}"
     )
     timeline = timeline_section(
-        intro=intro, beats=beats, previous_rest=previous_rest)
+        intro=intro, beats=beats, previous_rest=previous_rest,
+        daylight=day.get('daylight'))
 
     # When a mind is driving, the lens already voices the body's condition
     # (needs + mood) — rendering TRAVELLER'S CONDITION too would narrate
@@ -282,7 +281,9 @@ def build_day_prompt(
         f"{narrator_lens_section(character, mind_block)}"
         f"{condition}"
         f"{wn.get('equipage') or ''}"
-        f"{wn.get('end_state') or ''}"
+        # The end is the fate's, not a shipped block: non-living fates
+        # name their own last word (was narration_notes' end_state).
+        f"{end_state_section(fate, char_name)}"
         # With a mind driving, yesterday's continuity lives in the lens
         # ('Yesterday, as they remember it', C22) — the host summary would
         # state the same day twice, once as fact and once as memory. The

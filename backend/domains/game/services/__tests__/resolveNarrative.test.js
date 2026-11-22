@@ -5,6 +5,7 @@ import {
   typeMatches,
   resolveScoped,
   pickVariant,
+  pickVariants,
   pickRotation,
   scopeOf,
 } from '../world/resolveNarrative.js';
@@ -131,6 +132,33 @@ test('pickVariant matches ficha variants by id as well as key', () => {
   const rec = { variants: [{ id: 'spring_grass', text: { en: 'x' } }] };
   assert.equal(pickVariant(rec, ['spring_grass']).id, 'spring_grass');
   assert.equal(pickVariant(rec, ['nope']), null);
+});
+
+test('pickVariant and pickVariants answer a variant whose id is a list', () => {
+  // A face authored for a span of conditions ('autumn_and_winter') wins
+  // under either key — one entry, two seasons.
+  const rec = { variants: [{ id: ['autumn', 'winter'], text: { en: 'pasto bajo' } }] };
+  assert.equal(pickVariant(rec, ['autumn']).text.en, 'pasto bajo');
+  assert.equal(pickVariant(rec, ['winter']).text.en, 'pasto bajo');
+  assert.equal(pickVariant(rec, ['summer']), null);
+  const hits = pickVariants(rec, ['winter']);
+  assert.equal(hits.length, 1);
+});
+
+test('pickVariants gathers every section under the winning key', () => {
+  const rec = { variants: [
+    { id: 'summer', text: { en: 'bloom' } },
+    { id: 'winter', text: { en: 'snow settles' } },
+    { id: 'winter', text: { en: 'herds come down' } },
+    { id: 'winter', text: { en: 'nights twice as long' } },
+  ] };
+  const hits = pickVariants(rec, ['cold', 'winter', 'base']);
+  assert.equal(hits.length, 3);
+  assert.equal(hits.map((v) => v.text.en).join('\n'),
+    'snow settles\nherds come down\nnights twice as long');
+  assert.equal(pickVariants(rec, ['autumn']), null);
+  assert.equal(pickVariants(rec, []), null);
+  assert.equal(pickVariants({}, ['winter']), null);
 });
 
 test('pickRotation skips used indices and honors explicit idx', () => {

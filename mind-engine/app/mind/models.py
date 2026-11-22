@@ -47,10 +47,8 @@ class OpenCharacter(BaseModel):
     narrator reads name/description/entity_name/system_prompt/
     introduction_instructions.
 
-    `state` is the free-form Condition channel (ADR 0005): a host declares
-    its body's vitals — energy, wounded, oxygen, sanity — as flat fields
-    the declared detectors read, the same map the wire's live `condition`
-    report merges into. Vitals never travel as fields of their own."""
+    Vitals never travel inside the character card — `condition` on the
+    open body is the one Condition channel (ADR 0005/0016)."""
 
     model_config = ConfigDict(extra='forbid')
 
@@ -63,19 +61,17 @@ class OpenCharacter(BaseModel):
     portrait_url: Optional[str] = None
     system_prompt: Optional[str] = None
     introduction_instructions: Optional[str] = None
-    state: Dict[str, Any] = {}
 
 
 class EpisodeFrame(BaseModel):
     """Where the Episode sits in the host's timeline (ADR-0016): its
-    position, the in-world time label, and whether the stretch closes
-    the Arc. Replaces day_number/date/is_last_day."""
+    position and the in-world time label. Replaces day_number/date.
+    Terminality lives only in `fate` (`fate != 'living'` is the signal)."""
 
     model_config = ConfigDict(extra='forbid')
 
     index: Optional[int] = None
     at: Optional[str] = None
-    terminal: Optional[bool] = None
 
 
 class OpenEpisodeRequest(BaseModel):
@@ -83,11 +79,10 @@ class OpenEpisodeRequest(BaseModel):
     `events[].data` is the single free-form field — the host's event domain
     is its own; the mind reads what the Kind Registry declares.
 
-    Canonical shape (ADR-0016): `episode`/`arc`/`condition`/
-    `narration_notes`. The world reaches the Past only through `events`;
-    `narration_notes` is the narrator's briefing — world material that is
-    no lived event (climate continuity, the camp lead-in, journey
-    context)."""
+    Canonical shape (ADR-0016): `episode`/`arc`/`condition`/`events`/
+    `fate`. The world reaches the Past only through `events` — even the
+    day's framing (climate streaks, the ground crossed) arrives as
+    events, never as narrator briefing."""
 
     model_config = ConfigDict(extra='forbid')
 
@@ -96,8 +91,8 @@ class OpenEpisodeRequest(BaseModel):
     language: str = 'english'
     character: OpenCharacter
     events: List[EventIn] = []
-    # The Episode's frame in the host's timeline: position, in-world
-    # time, whether the Arc closes here.
+    # The Episode's frame in the host's timeline: position and
+    # in-world time. Whether the Arc closes here rides `fate`.
     episode: Optional[EpisodeFrame] = None
     # The larger narrative this Episode belongs to ('a journey', 'a
     # season' — whatever the host calls it).
@@ -106,11 +101,6 @@ class OpenEpisodeRequest(BaseModel):
     # equipment_state merged. The only channel where numbers are legal;
     # detectors read it, the narrator never phrases from it.
     condition: Dict[str, Any] = {}
-    # The narrator's briefing (#52): the host's pre-verbalized world
-    # material that is not itself a lived event — climate continuity,
-    # the camp lead-in, lands crossed, equipage, end state, journey
-    # context. The per-phase world prose rides events[].data.reading.
-    narration_notes: Dict[str, Any] = {}
     fate: Optional[str] = None
 
 
@@ -137,30 +127,17 @@ class Mood(BaseModel):
     trace: List[Dict[str, Any]] = []
     arc: List[Dict[str, Any]] = []
     turn: Optional[Dict[str, Any]] = None
+    # Counter-current pulls that moved the mood without turning it —
+    # the grief felt inside a good day, rendered as shade beats.
+    shades: List[Dict[str, Any]] = []
     thread_pressure: float = 0.0
 
 
-class PsychePacket(BaseModel):
-    """What the Narrator consumes. Contract is stable from day one."""
-
-    episode_id: str
-    perceived_day: List[PerceivedEvent] = []
-    lens_block: str = ''
-    mood: Mood = Mood()
-    # The day's emotional plot, separate from the running mood: 'mood'
-    # is how she stands now, 'day_mood' is how this day felt — its
-    # phases, its turn, the felt deltas that coloured it.
-    day_mood: Mood = Mood()
-    needs_active: List[Any] = []
-    check_results: List[Any] = []
-    # The Episode brief behind the Lens (C35): Focus, connected lines,
-    # silenced candidates with reasons.
-    brief: Optional[Dict[str, Any]] = None
-
-
 class OpenEpisodeResponse(BaseModel):
+    # The host needs only the handle: the narrate call re-derives the
+    # mind's take from the episode row, and inspection reads
+    # GET /episodes/{id}.
     episode_id: str
-    psyche_packet: PsychePacket
 
 
 class EpisodeStateResponse(BaseModel):
@@ -176,6 +153,10 @@ class EpisodeStateResponse(BaseModel):
     check_results: List[Dict[str, Any]] = []
     needs_active: List[Dict[str, Any]] = []
     lens_block: Optional[str] = None
+    # The Lens's take (C35): the brief behind the lens_block and the
+    # candidate-vs-voiced record — what the dead PsychePacket surfaced.
+    brief: Optional[Dict[str, Any]] = None
+    lens_eval: Optional[Dict[str, Any]] = None
     mood: Optional[Dict[str, Any]] = None
     outcome: Optional[Dict[str, Any]]
     decisions: Dict[str, Any] = {}

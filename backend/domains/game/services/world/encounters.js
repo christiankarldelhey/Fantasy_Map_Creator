@@ -23,7 +23,16 @@ export const WEIGHT_BASE = 1.6;
 export const PHASE_MORNING = 'morning';
 export const PHASE_AFTERNOON = 'afternoon';
 export const PHASE_NIGHT = 'night';
-export const ENCOUNTER_CHANCE = 55; // 55% chance per phase
+export const ENCOUNTER_CHANCE = 55; // fallback % per phase when a region has no authored chance
+
+// Per-region authored encounter density: regions.chance_of_encounter
+// (0-100) is the per-phase roll. Regions without a value keep the
+// flat fallback. distance_for_encounter/hours_to_encounter were
+// dropped — the phase model has no use for them.
+function regionChance(region) {
+  const c = Number(region?.chance_of_encounter);
+  return Number.isFinite(c) && c > 0 ? c : ENCOUNTER_CHANCE;
+}
 
 /**
  * Entity types that count as intelligent / thinking beings.
@@ -297,7 +306,7 @@ export function simulatePhaseEncounters({
   }
 
   // Always call rng() for determinism, even if we don't use the result
-  if (rollEncounter(ENCOUNTER_CHANCE, rng)) {
+  if (rollEncounter(regionChance(region), rng)) {
     const effectiveFactor = dampFactorForRegion(shadowFactor, region, friendlyFamilies);
     const pool = buildRegionPool(
       region.name,
@@ -359,7 +368,7 @@ export function entityEligibleForNightTiming(entity, timing) {
  */
 export function simulateNightEncounters({ region, rng = Math.random, base = WEIGHT_BASE, excludedEntityIds = [], shadowFactor = 1, excludeEvil = false, friendlyFamilies = [] }) {
   const result = { encounters: [], usedEntityIds: [] };
-  if (!region || !rollEncounter(ENCOUNTER_CHANCE, rng)) {
+  if (!region || !rollEncounter(regionChance(region), rng)) {
     return result;
   }
 

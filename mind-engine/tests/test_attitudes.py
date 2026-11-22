@@ -17,6 +17,7 @@ from app.mind.reflection import _apply_ops
 from app.mind.tables import (
     Memory, Mind, MindPreset, PresetStarterBelief,
 )
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -165,7 +166,7 @@ def test_only_the_narrowest_attitude_line_speaks(client):
                  'danger': 4},
     }])
 
-    brief = opened['psyche_packet']['brief']
+    brief = open_state(client, opened)['brief']
     lines = [
         l for l in brief['carried'] + brief['day']
         if str(l.get('id', '')).startswith('belief:')
@@ -205,7 +206,7 @@ def test_inverted_belief_keeps_its_facets():
         'statement': 'The mountain folk kept their word when no one '
                      'else did', 'strength': 2.5,
         'evidence': ['m1'],
-    }], {old.id: old}, 5, {})
+    }], {old.id: old}, {}, 5, {})
     session.commit()
 
     grown = (

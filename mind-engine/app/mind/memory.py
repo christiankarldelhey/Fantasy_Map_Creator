@@ -313,7 +313,7 @@ def decay_pass(session, mind, current_episode_index):
     Volatiles decay — but intensity sticks: a memory of strong feeling
     or real importance fades at the slower sticky rate, so a warg
     attack outlives a hare by weeks. Consolidation by recall requires
-    an importance floor: trivia evoked daily strengthens yet never
+    an importance floor: trivia voiced daily strengthens yet never
     fixes. Consolidated rows fade at a crawl (consolidated_decay) —
     long-term is months, not eternity; patterns keep their own
     recurrence lifecycle in detect_patterns.
@@ -321,6 +321,8 @@ def decay_pass(session, mind, current_episode_index):
     w = _wiring(mind)
     decay = w.get('decay', 0.85)
     forget_below = w.get('forget_threshold', 0.2)
+    # A memory fixes only by being voiced — stirred but unspoken stays
+    # volatile, however often the day calls it back.
     fix_k = int(w.get('evocations_to_fix', 3))
     fix_min = w.get('consolidate_min_importance', 0.3)
     sticky = w.get('decay_sticky', 0.95)
@@ -336,7 +338,7 @@ def decay_pass(session, mind, current_episode_index):
         .all()
     ):
         if (
-            mem.evocations >= fix_k
+            mem.voiced >= fix_k
             and (mem.importance or 0.0) >= fix_min
         ):
             mem.consolidated = True

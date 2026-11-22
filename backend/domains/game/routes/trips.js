@@ -16,6 +16,7 @@ import {
   notableItemsOf,
 } from '../adapters/storyClient.js';
 import { loadNarratorCharacter } from '../services/character/narratorCharacter.js';
+import { loadPreviousLocationRows } from '../services/world/tripHistoryReads.js';
 import { authenticateToken } from '../../../middleware/auth.js';
 import {
   loadCharacterState,
@@ -345,6 +346,17 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
     // Gather forms from the previous 2–3 chapters for anti-repetition
     const recentForms = await loadRecentEncounterForms(trip.id, dayNumber);
 
+    // Places whose "being there" scene is already told this trip: a
+    // second pass through the same ground is a recognition, not an
+    // arrival — today they get a mention, not a replay.
+    const toldPlaceIds = new Set(
+      (await loadPreviousLocationRows(trip.id, dayNumber))
+        .flat()
+        .filter((l) => l && (l.entered || l.visited))
+        .map((l) => l.id)
+        .filter((id) => id != null)
+    );
+
     const day = await generateDay({
       trip,
       dayNumber,
@@ -355,6 +367,7 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
       usedTerrainPhrases,
       character,
       recentForms,
+      toldPlaceIds,
       shadowFactor: dayShadowFactor,
       shadowBand: sBand,
       startState,

@@ -381,7 +381,12 @@ def run_replay(days, mold_slug, narrate, lang, run_tag='', template=None):
 
         opened = post('/episodes', body)
         ep = opened['episode_id']
-        pkt = opened['psyche_packet']
+        # The open returns only the handle: the episode's take — lens,
+        # needs, perceived day — is read back from the state endpoint
+        # (what the retired psyche_packet surfaced), and the entering
+        # mood from the mind's own state.
+        pkt = get(f'/episodes/{ep}')
+        mind_state = get(f'/mind/state/{sim_id}') or {}
 
         narrative = None
         echoes = []
@@ -401,7 +406,7 @@ def run_replay(days, mold_slug, narrate, lang, run_tag='', template=None):
                       {'outcome': day['outcome'] or {}})
 
         stir = stir_lines(pkt.get('lens_block'))
-        mood = pkt.get('mood') or {}
+        mood = (mind_state.get('mind') or {}).get('mood') or {}
         needs = pkt.get('needs_active') or []
 
         print(

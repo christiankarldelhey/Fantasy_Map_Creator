@@ -78,10 +78,13 @@
 
 import { innerClimate, meanOf, sumOf } from '../../adapters/mapClient.js';
 import {
+  resolveClimateState,
   summariseWeather,
   weatherReading,
   weatherTags,
 } from '../naturalLanguage/climateNotes.js';
+import { collectRoadNotes } from '../naturalLanguage/roadNotes.js';
+import { describeElevation } from '../naturalLanguage/elevationNotes.js';
 import { describeMeal, mealLabel } from '../naturalLanguage/mealNotes.js';
 import { collectTerrainNotes } from '../naturalLanguage/terrainNotes.js';
 import { collectLocationNotes, isDeadPlace, isDistantSighting, sightedShape } from '../naturalLanguage/placeNotes.js';
@@ -92,6 +95,8 @@ import {
   restReading,
 } from '../naturalLanguage/nightNotes.js';
 import { groupByPhase } from '../naturalLanguage/dayPhases.js';
+import { seasonOfDate } from '../naturalLanguage/seasonalVariants.js';
+import { solarLine } from '../naturalLanguage/solarMoments.js';
 import { humanize, slugify } from '../naturalLanguage/text.js';
 
 function phaseOfHour(hourFloat) {
@@ -188,6 +193,10 @@ function climateEvents(day) {
       },
     });
   }
+  // The sun's moments weave into the weather: the morning sky carries the
+  // dawn, the sunset's phase carries the dusk, and polar analogs the day's
+  // real light news — the narrator blends them, never reads digits.
+  attachSolarClauses(events, day);
   return events;
 }
 
@@ -407,6 +416,11 @@ const WATCH_FORMS = new Set([
 
 function placeEvents(day) {
   return (day.locations || []).map((loc) => {
+    // A second pass through a place already met this trip: the event
+    // still happens — the mind evokes the memory it left — but the
+    // arrival scene is told once. No prose re-ships and its pull is a
+    // whisper, same as a shape sighted from afar.
+    const revisit = loc.told && loc.visited && !loc.entered;
     const tags = [];
     if (SETTLEMENT_KINDS.has(loc.type)) tags.push('settlement');
     if (loc.entered) tags.push('entered');
@@ -436,10 +450,10 @@ function placeEvents(day) {
         // same activity vocabulary interactions use.
         act: isDistantSighting(loc) ? 'watch' : 'walk',
         // The place's declared force (0-4, #184): being inside a ruin
-        // imprints; the same ruin sighted from afar declares zero —
-        // the intensity floor keeps only the whisper of familiarity
-        // a silhouette can teach.
-        intensity: isDistantSighting(loc) ? 0 : loc.intensity ?? null,
+        // imprints; the same ruin sighted from afar — or passed a
+        // second time — declares zero: the floor keeps only the
+        // whisper of familiarity a silhouette or a return can teach.
+        intensity: isDistantSighting(loc) || revisit ? 0 : loc.intensity ?? null,
         // The subject slug — 'name' is prose, 'place' is what the
         // Relation accretes on (tag:place:esgaroth). Every sighting,
         // visit and stay feeds the same identity.
@@ -448,10 +462,14 @@ function placeEvents(day) {
         distance_km: loc.distance_km ?? null,
         // Beyond its reach a place is only a silhouette: the sighted_far
         // line is all it says — census and ficha prose belong to a
-        // traveller who got close or went in.
+        // traveller who got close or went in. A revisit carries less
+        // still: the prose stays with its first telling, the pass only
+        // names the place so the memory can stir.
         ...(isDistantSighting(loc)
           ? { sighted_far: sightedShape(loc) }
-          : {
+          : revisit
+            ? {}
+            : {
               aspect: loc.aspect ?? null,
               aspect_es: loc.aspect_es ?? null,
               presence: loc.presence ?? undefined,
@@ -475,7 +493,7 @@ function placeEvents(day) {
         // prose) is also the memory's reading — and a keeper met at her
         // own door is part of the scene, named by her entity.
         reading: (() => {
-          const line = (collectLocationNotes([loc])[0] || '')
+          const line = (collectLocationNotes([loc], day.daylight)[0] || '')
             .replace(/^- /, '') || loc.name || loc.id || null;
           const keeper = !isDistantSighting(loc) && loc.host
             ? `${loc.host.name}${loc.host.gloss ? `, ${loc.host.gloss}` : ''}`
@@ -541,7 +559,7 @@ function terrainEvents(day) {
     const biomes = biomesByPhase[phase] || [];
     if (!biomes.length) continue;
     const notes = collectTerrainNotes(
-      biomes, [], day.regions, day.terrain_phrases, rngOf(day)
+      biomes, [], day.regions, day.terrain_phrases, rngOf(day), day.daylight
     );
     events.push({
       type: 'land',
@@ -584,8 +602,45 @@ function waterEvents(day) {
             // A crossing is contact with a place-subject — the Bruinen
             // is a ford you come to know, not just where it happened.
             place: slugify(w.name), kind: slugify(w.type) || null,
-            reading: describeWaterCrossings([w], rngOf(day)) || w.name || null },
+            reading: describeWaterCrossings([w], rngOf(day), day.daylight) || w.name || null },
   }));
+}
+
+// The sun rides inside the weather events: dawn joins the morning sky,
+// dusk joins whichever phase holds the sunset, and the polar kinds join
+// the phase that feels them — the morning for a sun that never rises,
+// the night for one that never sets. One reading, woven, so the narrator
+// can blend the two moments ('a cold dawn', 'dusk into rain'). Dawn only
+// speaks when it is extreme (before 6 or after 8); dusk always closes
+// the light. The clause leads the reading — it anchors the moment.
+function attachSolarClauses(events, day) {
+  const dl = day?.daylight;
+  if (!dl || !events.length) return;
+  const season = seasonOfDate(day.date);
+  const rng = rngOf(day);
+  const attach = (phases, kind) => {
+    const target = phases
+      .map((p) => events.find((e) => e.when?.phase === p))
+      .find(Boolean);
+    const clause = target && solarLine(kind, season, rng);
+    if (clause) target.data.reading = `${clause}, ${target.data.reading}`;
+  };
+  if (dl.polar === 'night') {
+    attach(['morning', 'afternoon', 'night'], 'polar_night');
+    return;
+  }
+  if (dl.polar === 'day') {
+    attach(['night', 'afternoon', 'morning'], 'midnight_sun');
+    return;
+  }
+  const sunrise = typeof dl.sunrise === 'number' ? dl.sunrise : null;
+  const sunset = typeof dl.sunset === 'number' ? dl.sunset : null;
+  if (sunrise != null && (sunrise < 6 || sunrise > 8)) {
+    attach(['morning'], 'dawn');
+  }
+  if (sunset != null) {
+    attach([phaseOfHour(sunset) || 'afternoon', 'afternoon', 'night', 'morning'], 'dusk');
+  }
 }
 
 // Ambient voices (ADR-0015): the tag-gated situations the world resolved
@@ -730,10 +785,60 @@ function interactionEvents(day) {
   return Array.isArray(day.interaction_events) ? day.interaction_events : [];
 }
 
-export function toEvents({ day, trip, character, previousDay }) {
+// The weather the day inherits (was narration_notes.climate_state): a
+// multi-day streak — snowbound, drenched — is a thing lived, so it
+// speaks at first light like the land's other voices. The streak is
+// host memory (recent days' climate), never a number the mind derives.
+function climateStateEvents(day, recentDayClimates) {
+  const { narrative } = resolveClimateState(recentDayClimates, rngOf(day));
+  if (!narrative) return [];
+  return [{
+    type: 'ambience',
+    when: when({ phase: 'morning' }),
+    where: where(regionOf(day)),
+    data: { subtype: 'climate_state', act: 'walk', reading: narrative },
+  }];
+}
+
+// The day's ground as lived material (was narration_notes.lands): the
+// road's character and the climb's effort ride one terrain event, timed
+// to where they bite — the day's elevation peak anchors the moment
+// (dawn crests speak in the morning, midday and dusk ones in the
+// afternoon). Regions themselves already ride 'region' events; this is
+// what their crossing used to summarise as context.
+function groundEvents(day) {
+  const rng = rngOf(day);
+  const notes = collectRoadNotes(
+    day.road_types, day.regions, day.terrain_phrases, rng
+  ).map((n) => n.replace(/^- \w+: /, '').replace(/ \([\d.]+ km\)$/, ''));
+  const elevation = describeElevation(day.elevation_profile, rng);
+  if (!notes.length && !elevation) return [];
+  const profile = day.elevation_profile || {};
+  const peak = Math.max(
+    profile.dawn_m || 0, profile.midday_m || 0, profile.dusk_m || 0
+  );
+  const phase = !elevation || peak === (profile.dawn_m || 0)
+    ? 'morning'
+    : 'afternoon';
+  return [{
+    type: 'land',
+    when: when({ phase }),
+    where: where(regionOf(day)),
+    data: {
+      subtype: 'terrain',
+      act: 'walk',
+      road_types: day.road_types || undefined,
+      reading: [...notes, elevation].filter(Boolean).join(' '),
+    },
+  }];
+}
+
+export function toEvents({ day, trip, character, previousDay, recentDayClimates }) {
   const events = [
     ...climateEvents(day),
+    ...climateStateEvents(day, recentDayClimates),
     ...terrainEvents(day),
+    ...groundEvents(day),
     ...encounterEvents(day),
     ...mealEvents(day),
     ...placeEvents(day),

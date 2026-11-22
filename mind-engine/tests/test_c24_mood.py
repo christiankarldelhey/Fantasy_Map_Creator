@@ -97,6 +97,7 @@ def _open(client, char, ep, events, condition=None):
 from datetime import date
 
 from app.mind.lens import mood_cause, render_lens
+from conftest import open_state
 
 
 def test_mood_cause_picks_what_weighed_most():
@@ -152,6 +153,24 @@ def test_lens_speaks_the_entering_mood_through_its_cause():
     assert 'troubled' not in block
 
 
+def test_lens_names_the_entering_mood_when_it_stands_somewhere():
+    """The wheel word reaches the Lens even without a cause — 'the day
+    finds them worried' is how they walk in; 'steady' stays silent."""
+    worried = render_lens(
+        'Aranath', {'focus': None, 'carried': [], 'day': []},
+        mood={'valence': -0.4, 'arousal': 0.2},
+    )
+    assert 'The day finds them worried.' in worried
+    steady = render_lens(
+        'Aranath', {'focus': None, 'carried': [], 'day': []},
+        mood={'valence': 0.05, 'arousal': 0.05},
+    )
+    assert 'The day finds them' not in steady
+    # No mood passed: the lens stays exactly as before.
+    silent = render_lens('Aranath', {'focus': None, 'carried': [], 'day': []})
+    assert 'The day finds them' not in silent
+
+
 def test_episode_lens_never_carries_its_own_day_into_the_mood(client):
     """The orcs of THIS afternoon must not colour this episode's opening:
     the lens speaks the mood the mind carried in. The next episode does
@@ -164,10 +183,10 @@ def test_episode_lens_never_carries_its_own_day_into_the_mood(client):
                  'entity_type': 'orcs', 'form': 'attacks', 'danger': 4,
                  'prose_hint': 'orc boots, a pursuit gait'},
     }]
-    first = _open(client, char, 1, orc_day)['psyche_packet']['lens_block']
+    first = open_state(client, _open(client, char, 1, orc_day))['lens_block']
     assert 'Still weighing on them' not in first
-    second = _open(
+    second = open_state(client, _open(
         client, char, 2, [], condition={'energy': 0.8, 'wounded': 'none'},
-    )['psyche_packet']['lens_block']
+    ))['lens_block']
     assert 'Still weighing on them (from yesterday)' in second
     assert 'Orc Trackers' in second

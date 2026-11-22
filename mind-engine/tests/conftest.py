@@ -27,3 +27,11 @@ def _reset_test_schema():
 
 
 _reset_test_schema()
+
+
+def open_state(client, opened):
+    """The state an open produced — what the retired psyche_packet
+    surfaced; tests read it through GET /episodes/{id}. Accepts the
+    open response dict or a bare episode id."""
+    ep_id = opened['episode_id'] if isinstance(opened, dict) else opened
+    return client.get(f'/episodes/{ep_id}').json()
