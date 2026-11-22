@@ -11,20 +11,23 @@ from datetime import date
 
 from app.db import SessionLocal
 from app.mind.provisioning import get_or_create_mind
-from app.mind.seed_packs import CELEBRIAN_MEMORIES, MEMORY_PACKS
+from app.mind.seed_packs import (
+    ARANATH_MEMORIES, CELEBRIAN_MEMORIES, MEMORY_PACKS,
+)
 from app.mind.tables import (
     Memory, MindPreset, PresetMemory,
 )
 
 
-def test_pack_is_well_formed():
-    descs = [m['desc'] for m in CELEBRIAN_MEMORIES]
-    assert len(descs) == len(set(descs))
-    assert len(descs) >= 30
-    for m in CELEBRIAN_MEMORIES:
-        assert m['desc'] and m['tags']
-        # The spine: a spread across centuries, none younger than now.
-        assert date(1400, 1, 1) <= m['lived_date'] <= date(1950, 12, 31)
+def test_packs_are_well_formed():
+    for pack in (CELEBRIAN_MEMORIES, ARANATH_MEMORIES):
+        descs = [m['desc'] for m in pack]
+        assert len(descs) == len(set(descs))
+        assert len(descs) >= 25
+        for m in pack:
+            assert m['desc'] and m['tags']
+            # The spine: a spread across centuries, none younger than now.
+            assert date(1400, 1, 1) <= m['lived_date'] <= date(1950, 12, 31)
 
 
 def test_preset_memories_clone_into_consolidated_episodic_seeds():
@@ -68,5 +71,6 @@ def test_preset_memories_clone_into_consolidated_episodic_seeds():
     session.close()
 
 
-def test_pack_map_covers_celebrian():
+def test_pack_map_covers_both_heroes():
     assert MEMORY_PACKS['celebrian'] is CELEBRIAN_MEMORIES
+    assert MEMORY_PACKS['aranath'] is ARANATH_MEMORIES

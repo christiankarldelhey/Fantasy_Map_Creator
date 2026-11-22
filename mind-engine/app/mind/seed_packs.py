@@ -138,11 +138,15 @@ F_SPIDERS = ['family:spiders']
 F_TREES = ['family:trees']
 F_ENTS = ['family:ents']
 F_COMMON_MEN = ['family:common_men']
-F_DUNEDAIN = ['family:dunedain']
+# The seed data spells the group slug 'dnedain' — entities.family =
+# parent slug, so the misspelling is the canonical surface.
+F_DUNEDAIN = ['family:dnedain']
+F_DUNLENDINGS = ['family:dunlendings']
+F_NORTHMEN = ['family:northmen']
+F_SERPENTS = ['family:serpents']
 E_MORDOR_HORSES = ['entity:horses_of_mordor']
 T_ENEMY_MEN = [
-    'tag:entity_type:haradrim', 'tag:entity_type:easterlings',
-    'tag:entity_type:corsairs',
+    'family:haradrim', 'family:easterlings', 'entity:corsairs',
 ]
 
 
@@ -384,6 +388,22 @@ ARANATH_MUSINGS = [
     _m("Even the hills can hate you here; respect is cheaper than courage.", TROLLS + GIANTS + HAZARDS),  # new
     _m("Mercy is a choice you make before the sword leaves its sheath; after that, it is only luck.", HOSTILE),  # new
     _m("My knee tells the weather before the sky does; the body keeps the map too.", SOLITUDE),  # new
+    _m("A ruined homestead is not scenery to me; it is a roll of names nobody wrote down, and I read them anyway.", ['tag:kind:ruin', 'tag:dead_place']),  # new
+    _m("Hard bread and cold water: after all these years the arithmetic still tastes honest.", SOLITUDE + MEAL),  # new
+    _m("I carry the silence like a pack; when a friend finds the fire, it puts itself down.", FRIENDLY),  # new
+    _m("Dwarves count every coin twice; I have been wrong about people before, so I keep a hand open for the day one proves me so.", DWARVES),  # new
+    _m("They mistake my silence for humility; it is only arithmetic — grand words spend faster than they earn.", FRIENDLY),  # new
+    _m("I have no prayers; I have debts, and the road is how I pay them.", SOLITUDE),  # new
+    _m("The Enemy's creatures get no second chances from me; mercy is for those who can still choose.", ORCS + TROLLS + DEMONS + UNDEAD + DRAKES),  # new
+    _m("A drake is not a beast; it is a debt unpaid since the north froze, and I will not leave it to the next watch.", DRAKES),  # new
+    _m("When orc sign crosses a farm track, someone has already lost; the only question left is whether the list grows.", ORCS + SIGNS),  # new
+    _m("The elves gave me words for what I had only felt; a people's gift worth more than gold.", ELVES),  # new
+    _m("A name nobody speaks is still a name; the village that bore me earned its silence, and I carry it.", SOLITUDE),  # new
+    _m("Small things first. That is the whole of my doctrine, and it has never once failed me.", ANIMALS + HOBBITS),  # new
+    _m("I do not ask whether a creature is dangerous; I ask what it is protecting. Everything guards something.", ANIMALS),  # new
+    _m("A title is a debt the bearer never intends to pay; the watch is the only office I recognise.", SETTLEMENT),  # new
+    _m("I take what is offered and count it enough; want is a heavier pack than hunger.", MEAL + REST),  # new
+    _m("The keeps of the South stand taller than our ruins ever did; stone is not the part that failed.", SETTLEMENT + HUMANS),  # new
 ]
 
 
@@ -529,7 +549,7 @@ CELEBRIAN_ATTITUDES = [
        ['family:cats'], +0.5),
     _a('world', "A serpent is honest about what it is; I have met "
        "courts that could not say the same.",
-       ['family:snakes', 'tag:entity_type:reptiles'], +0.2),
+       F_SERPENTS + ['tag:entity_type:reptiles'], +0.2),
     _a('world', "The moth and the bat work the night shift I keep; "
        "small patience, common hours.",
        ['family:bats', 'tag:entity_type:insects'], +0.15),
@@ -627,7 +647,43 @@ ARANATH_ATTITUDES = [
        T_ENEMY_MEN, -0.4),
     _a('other', "They never forgave us for kings we no longer are; I "
        "understand them better than they would like.",
-       ['tag:entity_type:dunlendings'], -0.2),
+       F_DUNLENDINGS, -0.2),
+    # --- the war that owes him (new) --------------------------------------
+    _a('world', "A drake does not forget a hoard and does not forgive a "
+       "wound; two friends of mine are part of one now.",
+       DRAKES, -0.75),
+    _a('world', "Whatever fire lit the deep places was never meant to "
+       "walk under our sky; I owe it no quarter.",
+       DEMONS, -0.7),
+    _a('world', "A giant does not hate you; it is simply too large to "
+       "notice what it breaks. That is worse.",
+       GIANTS, -0.35),
+    # --- the peoples he reads carefully (new) ------------------------------
+    _a('other', "The Firstborn gave me words for what I had only felt; "
+       "when the last of them sails, the north will be poorer and never "
+       "know it.",
+       ELVES, +0.55),
+    _a('other', "They count too well and feel too slowly; but I have "
+       "been wrong about a people before, and I keep one hand open for "
+       "the day they prove me so again.",
+       DWARVES, -0.15),
+    _a('other', "The Grey Pilgrim fights the same long war I do, on "
+       "higher ground and less sleep; when he asks, I go.",
+       ['entity:gandalf'], +0.55),
+    _a('other', "The horse-lords are proud the way the young are proud "
+       "— of the wrong things. I keep a hand open anyway; the walk "
+       "tells, not the name.",
+       F_NORTHMEN, -0.1),
+    # --- the wild he reads like weather (new) ------------------------------
+    _a('world', "A cat asks nothing it cannot take; honest predators "
+       "are easy neighbours.",
+       ['family:cats'], +0.2),
+    _a('world', "Whatever grazes and bolts has never once lied to me; "
+       "the wild's honesty is in its fleeing.",
+       ['tag:entity_type:herbivores'], +0.15),
+    _a('world', "A snake strikes to eat, not to make a point; cleaner "
+       "reasons than most men give me.",
+       F_SERPENTS + ['tag:entity_type:reptiles'], +0.1),
 ]
 
 ATTITUDE_PACKS = {
@@ -962,8 +1018,220 @@ CELEBRIAN_MEMORIES = [
          region='Lone-lands'),
 ]
 
+# Aranath — a Dúnadan's eighty years. Duty is his filter too: the
+# nameless village, the names he buried, the small things he keeps
+# guarding. Told plainly, the way he talks — short sentences, no
+# ornament, the feeling carried in what he counts.
+ARANATH_MEMORIES = [
+    # --- the nameless village (Arthedain) ----------------------------------
+    _mem("I was born in the last lit house of a village that had no "
+         "name left to give me. The road gave me the rest.",
+         ['region:South Arthedain'] + HUMANS, _d(1750, 4, 3),
+         valence=-0.15, importance=0.75, subjects=['region:South Arthedain'],
+         imprint={'affection': 0.4, 'familiarity': 0.7},
+         region='South Arthedain'),
+    _mem("My father measured winters by how many doors still had smoke "
+         "above them. I learned to count the same way.",
+         ['region:South Arthedain'] + HUMANS, _d(1762, 12, 14),
+         valence=0.2, importance=0.6, subjects=HUMANS,
+         imprint={'affection': 0.5, 'familiarity': 0.6},
+         region='South Arthedain'),
+    _mem("The last roof fell in a wet spring, in a village nobody had "
+         "named for a hundred years. I was on patrol. The stone knew; "
+         "nobody had to write it down.",
+         ['region:South Arthedain', 'tag:dead_place'], _d(1910, 3, 22),
+         valence=-0.5, importance=0.7, subjects=['region:South Arthedain'],
+         imprint={'affection': -0.3},
+         region='South Arthedain'),
+
+    # --- the craft ----------------------------------------------------------
+    _mem("The old ranger who taught me the craft never gave me his true "
+         "name. In the North a name is a thing you keep sheathed.",
+         F_DUNEDAIN, _d(1768, 5, 9),
+         valence=0.35, importance=0.65, subjects=F_DUNEDAIN,
+         imprint={'affection': 0.5, 'trust': 0.5}),
+    _mem("He told me: read the land before you read men, it lies less. "
+         "Two hundred years on, I am still checking.",
+         F_DUNEDAIN + TREES, _d(1770, 8, 17),
+         valence=0.3, importance=0.55, subjects=F_DUNEDAIN,
+         imprint={'trust': 0.5, 'familiarity': 0.5}),
+    _mem("I tracked a wolf in circles for a day before I understood it "
+         "was tracking me in wider ones. We parted professionals.",
+         WOLVES, _d(1916, 11, 5),
+         valence=0.3, importance=0.5, subjects=WOLVES,
+         imprint={'familiarity': 0.5}),
+
+    # --- the names he buried ------------------------------------------------
+    _mem("I buried Haeron at dawn and finished his watch by dusk. The "
+         "road does not wait for grief; the watch does not either.",
+         F_DUNEDAIN + ORCS + HOSTILE, _d(1908, 10, 2),
+         valence=-0.7, importance=0.8,
+         subjects=F_DUNEDAIN + ORCS,
+         imprint={'affection': -0.5}),
+    _mem("Three of the five who rode out with me through the Ettenmoors "
+         "came back on one horse. I still walk faster when the mist "
+         "drops.",
+         ['region:Ettenmoors'] + ORCS + HOSTILE + WOUNDED, _d(1921, 2, 19),
+         valence=-0.75, importance=0.85,
+         subjects=['tag:entity_type:orcs', 'region:Ettenmoors'],
+         imprint={'affection': -0.5, 'fear': 0.3},
+         region='Ettenmoors'),
+    _mem("Orc sign reads the same in every forest: blades filed to "
+         "points, mercy filed away with them. I stopped being surprised "
+         "by it a hundred years ago.",
+         ORCS + SIGNS, _d(1905, 7, 12),
+         valence=-0.5, importance=0.6, subjects=ORCS,
+         imprint={'affection': -0.6, 'familiarity': 0.6}),
+    _mem("The cold-drake under the Coldfells took four spears and two "
+         "good men before it slept again. Drakes do not keep count; "
+         "rangers do.",
+         ['region:Coldfells'] + DRAKES + HOSTILE, _d(1931, 9, 28),
+         valence=-0.8, importance=0.85,
+         subjects=['tag:entity_type:drakes', 'region:Coldfells'],
+         imprint={'affection': -0.6, 'fear': 0.35},
+         region='Coldfells'),
+    _mem("Coron's boy followed us into the hills because he wanted the "
+         "cloak. I sent him home twice. The third time I failed to, and "
+         "the list got a name.",
+         F_DUNEDAIN + ORCS, _d(1939, 6, 7),
+         valence=-0.65, importance=0.7, subjects=F_DUNEDAIN + ORCS,
+         imprint={'affection': -0.5}),
+
+    # --- the Firstborn -------------------------------------------------------
+    _mem("An elf of the Trollshaws traded me a verse of Sindarin for a "
+         "brace of rabbits. I overpaid gladly; the verse is still with "
+         "me.",
+         ['region:Trollshaws'] + ELVES + FRIENDLY, _d(1902, 6, 24),
+         valence=0.5, importance=0.6,
+         subjects=['region:Trollshaws'] + ELVES,
+         imprint={'affection': 0.5, 'familiarity': 0.4},
+         region='Trollshaws'),
+    _mem("When the elves sing to the ford I understand every third "
+         "word, and it is still the best listening I own.",
+         ELVES + WATER, _d(1918, 8, 15),
+         valence=0.4, importance=0.5, subjects=ELVES,
+         imprint={'affection': 0.4}),
+    _mem("Gilmar teaches me old words for things no one names anymore — "
+         "the moss that only grows on south stone, the word for a "
+         "friend met by accident twice.",
+         ELVES + FRIENDLY, _d(1929, 5, 30),
+         valence=0.45, importance=0.55, subjects=ELVES,
+         imprint={'affection': 0.5, 'familiarity': 0.5}),
+    _mem("Elenvë calls me the quiet one and talks enough for four. "
+         "Every second spring our roads cross, and the day always ends "
+         "too early.",
+         ELVES + FRIENDLY, _d(1946, 4, 11),
+         valence=0.55, importance=0.55, subjects=ELVES,
+         imprint={'affection': 0.6, 'familiarity': 0.5}),
+
+    # --- the Shire and its improbable courage --------------------------------
+    _mem("A hobbit near Waymeet apologised for the quality of his "
+         "mushrooms and then fed me until I could not stand. I patrol "
+         "the bounds more than I need to now.",
+         ['region:The Shire'] + HOBBITS + FRIENDLY + MEAL, _d(1925, 9, 3),
+         valence=0.55, importance=0.6,
+         subjects=['region:The Shire'] + HOBBITS,
+         imprint={'affection': 0.6, 'familiarity': 0.4},
+         region='The Shire'),
+    _mem("They plant trees they will never sit beneath and mend roofs "
+         "for grandchildren not yet born. I have decided that is the "
+         "bravest thing anyone does.",
+         HOBBITS + TREES, _d(1930, 5, 18),
+         valence=0.4, importance=0.55, subjects=HOBBITS,
+         imprint={'affection': 0.5}),
+
+    # --- the Grey Pilgrim -----------------------------------------------------
+    _mem("Mithrandir borrowed my pipe-weed and left behind a better "
+         "trail plan. I have trusted the old man since.",
+         ['entity:gandalf'] + MAIAR + FRIENDLY, _d(1915, 7, 21),
+         valence=0.5, importance=0.65,
+         subjects=['entity:gandalf'] + MAIAR,
+         imprint={'affection': 0.5, 'trust': 0.5}),
+    _mem("He asked me once what the watch wants at the end. I said: "
+         "to not be needed. He nodded like a man filing a report.",
+         ['entity:gandalf'] + MAIAR, _d(1919, 3, 8),
+         valence=0.35, importance=0.5,
+         subjects=['entity:gandalf'] + MAIAR,
+         imprint={'trust': 0.5, 'familiarity': 0.4}),
+
+    # --- grandeur, distrusted -------------------------------------------------
+    _mem("A lordling of Annúminas mistook my silence for deference "
+         "once. I let him keep the mistake; it cost me nothing and "
+         "instructed me plenty.",
+         HUMANS, _d(1907, 10, 26),
+         valence=-0.2, importance=0.5, subjects=HUMANS,
+         imprint={'trust': -0.3}),
+    _mem("A captain from the South spent a village's winter stores "
+         "buying himself a title. I counted the hungry doors and filed "
+         "the name.",
+         HUMANS + SETTLEMENT, _d(1938, 1, 30),
+         valence=-0.35, importance=0.55, subjects=HUMANS,
+         imprint={'affection': -0.3, 'trust': -0.3}),
+
+    # --- the small doctrine ----------------------------------------------------
+    _mem("I followed a doe's trail three days to cut her fawn out of a "
+         "poacher's snare. The arithmetic of this work is mostly mercy.",
+         F_DEER + SIGNS, _d(1927, 6, 9),
+         valence=0.4, importance=0.55, subjects=F_DEER,
+         imprint={'affection': 0.4}),
+    _mem("A shepherd's daughter walked me to the ford and back twice so "
+         "I would not cross alone. The small folk guard the rangers "
+         "too; they simply never say so.",
+         F_COMMON_MEN + FRIENDLY, _d(1912, 8, 24),
+         valence=0.45, importance=0.55, subjects=F_COMMON_MEN,
+         imprint={'affection': 0.5}),
+    _mem("A farmer offered me the last of his salt and apologised it "
+         "was not more. I have eaten in halls; I know which table was "
+         "richer.",
+         F_COMMON_MEN + FRIENDLY + MEAL, _d(1933, 11, 15),
+         valence=0.5, importance=0.5, subjects=F_COMMON_MEN,
+         imprint={'affection': 0.5, 'trust': 0.3}),
+
+    # --- ruins, counted ---------------------------------------------------------
+    _mem("Fornost is not beautiful to me. Every stone is a name nobody "
+         "wrote down, and I count them anyway.",
+         ['region:Fornost', 'tag:kind:ruin', 'tag:dead_place'], _d(1909, 4, 19),
+         valence=-0.35, importance=0.6, subjects=['region:Fornost'],
+         imprint={'affection': -0.2, 'familiarity': 0.5},
+         region='Fornost'),
+    _mem("I keep a list of farmsteads that died empty. It is not duty. "
+         "It is because nobody else was counting.",
+         ['tag:dead_place'] + SOLITUDE, _d(1940, 2, 7),
+         valence=-0.3, importance=0.55,
+         imprint={'affection': -0.2}),
+
+    # --- the fire, when it is shared ----------------------------------------------
+    _mem("Torgan laughed so hard at a joke of mine that the crows "
+         "scattered off the ridge. I had been saving it for three "
+         "weeks.",
+         F_DUNEDAIN + FRIENDLY + F_CROWS, _d(1944, 7, 13),
+         valence=0.6, importance=0.55, subjects=F_DUNEDAIN + F_CROWS,
+         imprint={'affection': 0.6}),
+    _mem("When a friend finds my fire, the silence I have been "
+         "carrying puts itself down like a heavy pack. Then I laugh "
+         "more in one evening than a season.",
+         FRIENDLY + REST, _d(1937, 12, 5),
+         valence=0.55, importance=0.5,
+         imprint={'affection': 0.5}),
+
+    # --- the creed, arrived at late -------------------------------------------------
+    _mem("A man at a Bree table asked what I would die for. The "
+         "truthful answer was longer than the road behind me, so I "
+         "said: the next farmstead.",
+         ['region:Bree'] + HUMANS + FRIENDLY, _d(1941, 10, 16),
+         valence=0.3, importance=0.6, subjects=HUMANS,
+         imprint={'trust': 0.3, 'familiarity': 0.4},
+         region='Bree'),
+    _mem("Whatever is small and unarmed and far from help is my "
+         "business. It is the only oath I ever made out loud.",
+         SOLITUDE + ANIMALS + HOBBITS + F_COMMON_MEN, _d(1943, 4, 25),
+         valence=0.4, importance=0.65,
+         imprint={'affection': 0.4}),
+]
+
 MEMORY_PACKS = {
     'celebrian': CELEBRIAN_MEMORIES,
+    'aranath': ARANATH_MEMORIES,
 }
 
 
@@ -1000,6 +1268,24 @@ CELEBRIAN_LEANS = [
           familiarity=0.4),
 ]
 
+ARANATH_LEANS = [
+    _lean('region:South Arthedain', affection=0.5, familiarity=0.7),
+    _lean('region:Fornost', affection=0.15, familiarity=0.5),
+    _lean('region:The Shire', affection=0.5, familiarity=0.4),
+    _lean('region:Bree', affection=0.3, familiarity=0.5),
+    _lean('region:Lone-lands', familiarity=0.5),
+    _lean('region:Weather Hills', familiarity=0.4),
+    _lean('tag:entity_type:elves', affection=0.5, trust=0.35,
+          familiarity=0.4),
+    _lean('tag:entity_type:hobbits', affection=0.5, familiarity=0.4),
+    _lean('tag:entity_type:orcs', affection=-0.7, fear=0.1,
+          familiarity=0.5),
+    _lean('tag:entity_type:drakes', affection=-0.6, fear=0.35),
+    _lean('tag:entity_type:dwarves', affection=-0.15, familiarity=0.3),
+    _lean('entity:gandalf', affection=0.4, trust=0.5, familiarity=0.3),
+]
+
 LEAN_PACKS = {
     'celebrian': CELEBRIAN_LEANS,
+    'aranath': ARANATH_LEANS,
 }
