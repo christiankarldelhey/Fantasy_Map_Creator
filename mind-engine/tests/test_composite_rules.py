@@ -55,7 +55,7 @@ def _snowbound_rule():
 def _snow(ep):
     return {
         'type': 'climate',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'data': {'temperature_2m': -2.0, 'precipitation': 3.0},
     }
 
@@ -63,7 +63,7 @@ def _snow(ep):
 def _mild(ep):
     return {
         'type': 'climate',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'data': {'temperature_2m': 15.0, 'precipitation': 0.0},
     }
 
@@ -118,10 +118,10 @@ def test_and_clauses_must_share_one_event(client):
     for ep in (1, 2):
         opened = _day(client, char, ep, [
             {'type': 'climate',
-             'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+             'when': {},
              'data': {'temperature_2m': -2.0}},          # cold, no precip
             {'type': 'climate',
-             'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+             'when': {},
              'data': {'precipitation': 3.0}},           # wet, no temp
         ])
     assert 'snowbound' not in _need_keys(client, opened)
@@ -176,7 +176,7 @@ def test_db_rule_overrides_default_exposure(client):
     for ep in (1, 2):
         opened = _day(client, char, ep, [{
             'type': 'climate',
-            'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+            'when': {},
             'data': {'wind_speed_10m': 40.0},
         }])
     needs = open_state(client, opened)['needs_active']

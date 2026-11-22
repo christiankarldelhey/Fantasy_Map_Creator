@@ -37,7 +37,7 @@ The larger narrative an Episode belongs to, whatever the Host calls it — a jou
 _Avoid_: trip, storyline, campaign
 
 **Event**:
-Something the Character lived in an Episode, reported by the Host already put into words — a reading plus the Tags it connects by. Events are the only channel by which the world reaches the Past: a Memory is born from what was lived or not at all. An Event's type names its Kind, not the shelf its source record sat on.
+Something the Character lived in an Episode, reported by the Host already put into words — a reading plus the Tags it connects by. Events are the only channel by which the world reaches the Past: a Memory is born from what was lived or not at all. An Event's type names its Kind, not the shelf its source record sat on. Its envelope holds the universal vocabulary — `{type, when{hour?, phase?, light?}, where{region?, place?}, act?, intensity?, reading?, tags[], check?}` — and `data` holds only what the Kind owns. `when.light` is the Host's solar reading (`dawn|day|dusk|night`): the world knows its own sunrise, the Mind never derives daylight from a clock.
 _Avoid_: log entry, action, occurrence
 
 **Kind**:

@@ -61,19 +61,19 @@ def _open_and_close(client, character_id, ref, events, preset=None):
 
 MEAL_EVENT = {
     'type': 'meal',
-    'when': {'episode': 1, 'date': '1950-01-19', 'phase': 'night'},
+    'when': {'phase': 'night'},
     'data': {'food': 'lembas', 'tags': ['given']},
 }
 
 QUIET_TRAVEL = {
     'type': 'travel',
-    'when': {'episode': 0, 'date': '1950-01-19'},
+    'when': {},
     'data': {'distance_km': 10.0},
 }
 
 
 def _quiet_event(ep):
-    return {**QUIET_TRAVEL, 'when': {**QUIET_TRAVEL['when'], 'episode': ep}}
+    return {**QUIET_TRAVEL, 'when': {**QUIET_TRAVEL['when']}}
 
 
 def test_differential_memory(client):
@@ -128,7 +128,7 @@ def test_determinism(client):
     """Same events[] for two fresh default minds -> identical perceived_day."""
     events = [{
         'type': 'climate',
-        'when': {'episode': 1, 'date': '1950-01-19', 'phase': 'morning'},
+        'when': {'phase': 'morning'},
         'where': {'region': 'eriador'},
         'data': {
             'temperature_2m': 4.2, 'cloud_cover': 80,

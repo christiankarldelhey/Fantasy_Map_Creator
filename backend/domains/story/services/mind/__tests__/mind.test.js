@@ -90,16 +90,16 @@ test('toEvents emits the generic contract from a resolved day', () => {
     ['afternoon', 'morning', 'night']
   );
   // Climate events are pure semantics: the mind knows the weather
-  // through its reading and declared tags, never through raw metrics.
+  // through its reading and declared tags, never through raw metrics —
+  // a climate event carries no data at all.
   const morningClimate = climates.find((c) => c.when.phase === 'morning');
-  for (const metric of
-    ['temperature_2m', 'cloud_cover', 'wind_speed_10m', 'precipitation']) {
-    assert.equal(morningClimate.data[metric], undefined);
-  }
+  assert.equal(morningClimate.data, undefined);
 
   // Encounters carry how contact happened, not only its outcome.
   const encounter = events.find((e) => e.type === 'encounter');
-  assert.equal(encounter.data.entity, 'corpse-candles');
+  // One slugifier, one spelling: 'corpse-candles' canonicalizes to the
+  // underscore identity every subject shares.
+  assert.equal(encounter.data.entity, 'corpse_candles');
   assert.equal(encounter.data.entity_type, 'undead');
   // Kind-of-being between type and entity — attitudes match
   // entity > family > type on the mind side.
@@ -108,26 +108,28 @@ test('toEvents emits the generic contract from a resolved day', () => {
   assert.equal(encounter.data.form, 'confronts');
   assert.equal(encounter.data.outcome, 'wounded');
   assert.equal(encounter.data.prose_hint, 'blocks the path outright');
-  assert.equal(encounter.data.thread, 'unfinished_encounter:corpse-candles');
+  assert.equal(encounter.data.thread, 'unfinished_encounter:corpse_candles');
   assert.equal(encounter.where.region, 'lone-lands');
   // B1/C8: encounters carry a tracking check whose difficulty is
   // detectability — 'confronts' is imposed contact, almost free to
-  // notice; danger only fills in when the form is unknown.
-  assert.equal(encounter.data.check.skill, 'tracking');
-  assert.equal(encounter.data.check.difficulty, 3);
+  // notice; danger only fills in when the form is unknown. The gate is
+  // envelope vocabulary — universal, not an encounter privilege.
+  assert.equal(encounter.check.skill, 'tracking');
+  assert.equal(encounter.check.difficulty, 3);
 
-  // Meals keep their slot and report skipped meals as uneaten absences.
+  // Meals phrase their slot through when.phase; a skipped meal is an
+  // absence the reading words, not a flag.
   const meals = events.filter((e) => e.type === 'meal');
-  assert.deepEqual(meals.map((m) => m.data.slot), ['midday', 'evening']);
+  assert.equal(meals.length, 2);
   assert.equal(meals[0].when.phase, 'afternoon');
-  assert.equal(meals[0].data.eaten, true);
+  assert.equal(meals[0].data.food, 'bread');
   assert.equal(meals[1].when.phase, 'night');
-  assert.equal(meals[1].data.eaten, false);
+  assert.equal(meals[1].data.food, undefined);
 
   // The night's own prose rides with the rest event's reading.
   const rest = events.find((e) => e.type === 'rest');
-  assert.equal(rest.data.reading, 'The night is spent under open sky.');
-  assert.deepEqual(rest.data.tags, ['rest:poor', 'rest:open_sky']);
+  assert.equal(rest.reading, 'The night is spent under open sky.');
+  assert.deepEqual(rest.tags, ['rest:poor', 'rest:open_sky']);
 
   // Vitals are condition, not events — the wire's `condition` channel
   // carries them (toOpenPayload); nothing named 'body' or 'travel'
@@ -148,7 +150,7 @@ test('events declare readings and weather tiers (the tagger contract)', () => {
   // against — a mild windy morning, a wet afternoon, a freezing night.
   const byPhase = Object.fromEntries(
     events.filter((e) => e.type === 'climate')
-      .map((e) => [e.when.phase, e.data]),
+      .map((e) => [e.when.phase, e]),
   );
   assert.deepEqual(byPhase.morning.tags, ['weather:windy', 'weather:overcast']);
   assert.deepEqual(byPhase.afternoon.tags, ['weather:wet']);
@@ -159,23 +161,23 @@ test('events declare readings and weather tiers (the tagger contract)', () => {
   // verbatim — subject and detail, never raw numbers.
   const encounter = events.find((e) => e.type === 'encounter');
   assert.equal(
-    encounter.data.reading,
+    encounter.reading,
     'Corpse Candles — blocks the path outright',
   );
   // Meal readings are the narrator's prose itself — food and drink
   // appear in the day's own words, hunger in the evening's.
   const meals = events.filter((e) => e.type === 'meal');
-  assert.match(meals[0].data.reading, /bread.*water/);
-  assert.match(meals[1].data.reading, /water|hungry|fast/i);
+  assert.match(meals[0].reading, /bread.*water/);
+  assert.match(meals[1].reading, /water|hungry|fast/i);
   const landOf = (s) => events.find(
     (e) => e.type === 'land' && e.data.subtype === s,
   );
-  assert.match(landOf('place').data.reading, /Amon Sul/);
+  assert.match(landOf('place').reading, /Amon Sul/);
   assert.equal(
-    events.find((e) => e.type === 'rest').data.reading,
+    events.find((e) => e.type === 'rest').reading,
     'The night is spent under open sky.',
   );
-  assert.match(landOf('terrain').data.reading, /hills|rocky slopes/);
+  assert.match(landOf('terrain').reading, /hills|rocky slopes/);
   // Vitals and mileage never narrate — they ride the `condition`
   // channel and speak through needs/mood, not events.
   assert.ok(!events.some((e) => e.type === 'travel'));
@@ -195,7 +197,7 @@ test('a shelterless night declares the open-sky reading itself', () => {
     character: { name: 'Tester' },
   });
   const rest = events.find((e) => e.type === 'rest');
-  assert.match(rest.data.reading, /under open sky/);
+  assert.match(rest.reading, /under open sky/);
 });
 
 test('encounters carry the resolved substance of contact (C16)', () => {
@@ -240,17 +242,14 @@ test('encounters carry the resolved substance of contact (C16)', () => {
     trip: { id: 't1' },
     character: { name: 'Tester' },
   }).find((e) => e.type === 'encounter');
-  assert.equal(plain.data.substance, null);
-  assert.equal(plain.data.topic, null);
+  assert.equal(plain.data.substance, undefined);
+  assert.equal(plain.data.topic, undefined);
 });
 
-test('encounters carry the engine-resolved pick when there was a fork (Wave C)', () => {
-  const resolved_choice = {
-    interaction_id: 'cnt:e-shelter:stay',
-    act: 'accept',
-    text: 'Takes the bed. Eats what the pot offers.',
-    changed: true,
-  };
+test('a fork\'s resolved pick marks the encounter, never re-ships the pick (Wave C)', () => {
+  // The choice itself rides its own 'interaction' event (minted by the
+  // engine at resolve time); on the parent encounter it leaves only the
+  // weight-space marker — 'changed' says the body felt the pick.
   const events = toEvents({
     day: {
       ...DAY,
@@ -259,17 +258,18 @@ test('encounters carry the engine-resolved pick when there was a fork (Wave C)',
         hour_float: 20.5,
         phase: 'night',
         region: 'lone-lands',
-        interaction: { form: 'harvest_shelter', prose_hint: 'a lit lamp at the roadside', resolved_choice },
+        interaction: {
+          form: 'harvest_shelter', prose_hint: 'a lit lamp at the roadside',
+          resolved_choice: { interaction_id: 'cnt:e-shelter:stay', act: 'accept', changed: true },
+        },
       }],
     },
     trip: { id: 't1' },
     character: { name: 'Tester' },
   });
   const encounter = events.find((e) => e.type === 'encounter');
-  assert.deepEqual(encounter.data.resolved_choice, resolved_choice);
-  // Mid-march sightings without a resolved fork emit none.
-  const plain = toEvents({ day: { ...DAY, encounters: [] }, trip: { id: 't1' }, character: {} });
-  assert.ok(!plain.some((e) => e.data?.resolved_choice));
+  assert.ok(encounter.tags.includes('changed'));
+  assert.equal(encounter.data.resolved_choice, undefined);
 });
 
 test('mechanically consequential events carry weight markers (C28)', () => {
@@ -307,17 +307,17 @@ test('mechanically consequential events carry weight markers (C28)', () => {
   });
   const byEntity = (slug) =>
     events.find((e) => e.type === 'encounter' && e.data.entity === slug);
-  assert.ok(byEntity('northman').data.tags.includes('given'));
-  assert.ok(byEntity('wayhouse').data.tags.includes('changed'));
-  assert.ok(byEntity('wolves').data.tags.includes('changed'));
+  assert.ok(byEntity('northman').tags.includes('given'));
+  assert.ok(byEntity('wayhouse').tags.includes('changed'));
+  assert.ok(byEntity('wolves').tags.includes('changed'));
   const meal = events.find((e) => e.type === 'meal');
-  assert.deepEqual(meal.data.tags, ['given']);
+  assert.deepEqual(meal.tags, ['given']);
   // A plain exchange invents no marker.
   const plain = toEvents({
     day: { ...DAY, meals: [], encounters: DAY.encounters },
     trip: { id: 't1' }, character: {},
   }).find((e) => e.type === 'encounter');
-  assert.deepEqual(plain.data.tags, ['changed']); // wounded outcome only
+  assert.deepEqual(plain.tags, ['changed']); // wounded outcome only
 });
 
 test('toEvents: a paid meal carries no given marker (C28 gifts only)', () => {
@@ -331,7 +331,7 @@ test('toEvents: a paid meal carries no given marker (C28 gifts only)', () => {
     character: { name: 'Tester' },
   });
   const meal = events.find((e) => e.type === 'meal');
-  assert.ok(!(meal.data.tags || []).includes('given'));
+  assert.ok(!(meal.tags || []).includes('given'));
 });
 
 test('the condition channel carries vitals and mileage as detector fields', () => {
@@ -371,7 +371,7 @@ test('check difficulty follows detectability, not danger', () => {
   }).find((e) => e.type === 'encounter');
   // A deadly thing whose only trace is a boot-print: hard to read,
   // whatever its danger — the mind may well miss it.
-  assert.equal(subtle.data.check.difficulty, 9);
+  assert.equal(subtle.check.difficulty, 9);
   assert.equal(subtle.data.danger, 4.5); // danger still travels for affect
 
   const formless = toEvents({
@@ -385,7 +385,7 @@ test('check difficulty follows detectability, not danger', () => {
     trip: { id: 't1' },
     character: { name: 'Tester' },
   }).find((e) => e.type === 'encounter');
-  assert.equal(formless.data.check.difficulty, 6); // 4 + 0.4*5 fallback
+  assert.equal(formless.check.difficulty, 6); // 4 + 0.4*5 fallback
 });
 
 test('place events carry the settlement a traveller actually entered', () => {
@@ -413,19 +413,22 @@ test('place events carry the settlement a traveller actually entered', () => {
   const places = events.filter(
     (e) => e.type === 'land' && e.data.subtype === 'place');
   const dale = places.find((p) => p.data.name === 'Dale');
-  // The entered city rides with its authored prose so the lens can
-  // feel its scale — the census stays in the day's location detail,
-  // never on the wire.
-  assert.equal(dale.data.aspect_es, 'Una ciudad de jugueteros y comercio fluvial.');
+  // The entered city speaks through its reading — the ficha prose was
+  // verbalized into it host-side; census and second-language prose
+  // never ride the wire.
+  assert.match(dale.reading, /toy-makers|comercio|city/i);
   assert.equal(dale.data.population, undefined);
-  assert.deepEqual(dale.data.tags, ['settlement', 'entered']);
+  assert.deepEqual(dale.tags, ['settlement', 'entered']);
+  // The subject slug rides where.place — 'name' is prose, the slug is
+  // what the Relation accretes on.
+  assert.equal(dale.where.place, 'dale');
   // A ruin is dead ground the eye reads from afar — not a settlement,
   // but not silent either: 'dead_place' tells the mind its shape.
   const amonSul = places.find((p) => p.data.name === 'Amon Sul');
-  assert.deepEqual(amonSul.data.tags, ['dead_place', 'felt:melancholy']);
+  assert.deepEqual(amonSul.tags, ['dead_place', 'felt:melancholy']);
   // An enemy town passed from outside is flagged, never entered.
   const dolGuldur = places.find((p) => p.data.name === 'Dol Guldur');
-  assert.deepEqual(dolGuldur.data.tags, ['settlement', 'hostile']);
+  assert.deepEqual(dolGuldur.tags, ['settlement', 'hostile']);
 });
 
 test('a land entered today becomes a region event anchored to the crossing', () => {
@@ -447,8 +450,8 @@ test('a land entered today becomes a region event anchored to the crossing', () 
   assert.equal(regions.length, 1);
   const fangorn = regions[0];
   assert.equal(fangorn.data.name, 'Fangorn');
-  assert.equal(fangorn.data.reading, 'crossed into Fangorn');
-  assert.deepEqual(fangorn.data.tags, ['region_entered']);
+  assert.equal(fangorn.reading, 'crossed into Fangorn');
+  assert.deepEqual(fangorn.tags, ['region_entered']);
   assert.equal(fangorn.where.region, 'Fangorn');
   assert.equal(fangorn.when.phase, 'afternoon');
   assert.equal(fangorn.when.hour, 15.0);
@@ -465,7 +468,7 @@ test('region events mark a first day, never a held border', () => {
   const entered = first.find(
     (e) => e.type === 'land' && e.data.subtype === 'region');
   assert.equal(entered.when.phase, 'morning');
-  assert.equal(entered.data.reading, 'crossed into Rohan');
+  assert.equal(entered.reading, 'crossed into Rohan');
 
   const held = toEvents({
     day: DAY,
@@ -493,26 +496,28 @@ test('rest event tells how the night was secured', () => {
   }).find((e) => e.type === 'rest');
 
   const paid = nightAt({ paid: true, cost: 5, coinsAfter: 12, place: 'Dale' });
-  assert.deepEqual(paid.data.tags, ['lodging:paid', 'rest:good', 'rest:indoor']);
-  // The night's place climbs the identity ladder — the inn is an entity.
-  assert.equal(paid.data.entity_name, 'Dale');
-  assert.match(paid.data.reading, /coin|bed/i);
-  assert.match(paid.data.reading, /warm common room/);
+  assert.deepEqual(paid.tags, ['lodging:paid', 'rest:good', 'rest:indoor']);
+  // The night's place is its own 'place:' subject — the inn you slept
+  // in and the Dale you passed feed the same Relation.
+  assert.equal(paid.where.place, 'dale');
+  assert.equal(paid.data.name, 'Dale');
+  assert.match(paid.reading, /coin|bed/i);
+  assert.match(paid.reading, /warm common room/);
 
   const charity = nightAt({ charity: true, place: 'Dale' });
-  assert.deepEqual(charity.data.tags, ['lodging:charity', 'rest:good', 'rest:indoor']);
-  assert.match(charity.data.reading, /strangers|kindness|given/i);
+  assert.deepEqual(charity.tags, ['lodging:charity', 'rest:good', 'rest:indoor']);
+  assert.match(charity.reading, /strangers|kindness|given/i);
 
   const turnedAway = nightAt({ turnedAway: true, place: 'Dale' });
   assert.deepEqual(
-    turnedAway.data.tags,
+    turnedAway.tags,
     ['lodging:turned_away', 'rest:poor', 'rest:open_sky'],
   );
   // The door's shut is the whole night — the inn's cozy prose is denied.
-  assert.match(turnedAway.data.reading, /shut|no welcome/i);
-  assert.ok(!/warm common room/.test(turnedAway.data.reading));
+  assert.match(turnedAway.reading, /shut|no welcome/i);
+  assert.ok(!/warm common room/.test(turnedAway.reading));
   // Yet the inn still anchors the slight — attitudes can form toward it.
-  assert.equal(turnedAway.data.entity_name, 'Dale');
+  assert.equal(turnedAway.data.name, 'Dale');
 });
 
 test('the open payload keeps settlement detail and the lodging outcome', () => {
@@ -537,18 +542,17 @@ test('the open payload keeps settlement detail and the lodging outcome', () => {
     fate: 'living',
   });
   const dale = body.events.find(
-    (e) => e.type === 'land' && e.data.subtype === 'place').data;
+    (e) => e.type === 'land' && e.data.subtype === 'place');
   // The event wire carries prose and meaning — census figures stay in
   // the narrator's day detail (slimDay), never on the episode wire.
-  assert.equal(dale.population, undefined);
-  assert.equal(dale.aspect_es, 'Una ciudad de jugueteros.');
-  assert.equal(dale.geometry, undefined);
+  assert.equal(dale.data.population, undefined);
+  assert.equal(dale.data.geometry, undefined);
   assert.ok(dale.tags.includes('entered'));
-  const rest = body.events.find((e) => e.type === 'rest').data;
+  const rest = body.events.find((e) => e.type === 'rest');
   assert.ok(rest.tags.includes('lodging:paid'));
 });
 
-test('the open payload keeps the sighting and presence fields notes read', () => {
+test('the open payload verbalizes the sighting and the presence prose', () => {
   const body = toOpenPayload({
     gameId: 'middle_earth',
     day: {
@@ -572,20 +576,23 @@ test('the open payload keeps the sighting and presence fields notes read', () =>
   });
   const places = body.events.filter(
     (e) => e.type === 'land' && e.data.subtype === 'place');
-  const garden = places[0].data;
-  // Inside the authored radius the traveller is IN the place — the notes
-  // need the 'visited' flag and the ficha's presence prose to say so.
+  const garden = places[0];
+  // Inside the authored radius the traveller is IN the place — the
+  // 'visited' flag says so and the ficha's presence prose is verbalized
+  // into the reading, the only prose channel.
   assert.ok(garden.tags.includes('visited'));
-  assert.equal(garden.presence, 'More kinds of tree than any other forest.');
-  const hornburg = places[1].data;
-  assert.equal(hornburg.sighted.hour_float, 9.5);
-  assert.equal(hornburg.sighted.direction, 'east');
-  // A place met only from afar carries its silhouette and nothing else:
-  // no aspect, no presence, no population — what nobody got close to know.
-  assert.equal(hornburg.sighted_far, 'a keep against the sky, banners on the wall');
-  assert.equal(hornburg.aspect, undefined);
-  assert.equal(hornburg.presence, undefined);
-  assert.equal(hornburg.population, undefined);
+  assert.match(garden.reading, /tree|forest/i);
+  const hornburg = places[1];
+  // The sighting's when/direction ride the envelope — when.hour is the
+  // hour the silhouette first showed, there is no second clock.
+  assert.equal(hornburg.when.hour, 9.5);
+  // A place met only from afar carries its silhouette in the reading
+  // and nothing else: no aspect, no presence, no population — what
+  // nobody got close to know stays off the wire entirely.
+  assert.equal(hornburg.data.sighted, undefined);
+  assert.equal(hornburg.data.aspect, undefined);
+  assert.equal(hornburg.data.presence, undefined);
+  assert.equal(hornburg.data.population, undefined);
   assert.match(hornburg.reading, /a fortress: sighted far off to the east/);
   assert.doesNotMatch(hornburg.reading, /Hornburg|Helm/);
 });
@@ -609,15 +616,15 @@ test('a place met before is passed again, not arrived at twice', () => {
     character: { name: 'Tester' },
   });
   const camp = events.find(
-    (e) => e.type === 'land' && e.data.place === 'the_herders_camp').data;
+    (e) => e.type === 'land' && e.where?.place === 'the_herders_camp');
   // The subject still accretes and the pass is told — but as a return:
   // 'again', the whisper of familiarity for intensity, none of the
   // first telling's prose or keeper scene.
   assert.match(camp.reading, /passes through again/);
   assert.doesNotMatch(camp.reading, /They feed him/);
   assert.equal(camp.intensity, 0);
-  assert.equal(camp.presence, undefined);
-  assert.equal(camp.npc, undefined);
+  assert.equal(camp.data.presence, undefined);
+  assert.equal(camp.data.npc, undefined);
   assert.ok(camp.tags.includes('visited'));
 });
 
@@ -642,17 +649,17 @@ test('a dead place sighted far shows its absence, not a living shape', () => {
   });
   const places = events.filter(
     (e) => e.type === 'land' && e.data.subtype === 'place');
-  const burned = places.find((p) => p.data.place === 'the_burned_inn').data;
+  const burned = places.find((p) => p.where?.place === 'the_burned_inn');
   // A burned inn shows no smoke — the absence IS the sighting, and the
   // event marks the place as dead so the mind reads it for what it is.
-  assert.equal(burned.sighted_far, 'a blackened roofline — no smoke, no lamps');
+  // The silhouette travels inside the reading, the only prose channel.
   assert.ok(burned.tags.includes('dead_place'));
   assert.ok(burned.tags.includes('felt:melancholy'));
   assert.match(burned.reading, /blackened roofline/);
-  const ost = places.find((p) => p.data.place === 'ost_in_edhil').data;
-  assert.equal(
-    ost.sighted_far,
-    'a field of mounds where a city stood — one wall still upright');
+  const ost = places.find((p) => p.where?.place === 'ost_in_edhil');
+  assert.match(
+    ost.reading,
+    /a field of mounds where a city stood — one wall still upright/);
   assert.ok(ost.tags.includes('dead_place'));
   assert.ok(ost.tags.includes('felt:melancholy'));
 });
@@ -707,33 +714,30 @@ test('a being who spoke is remembered by name; a kept place keeps its keeper', (
     trip: { id: 't1' },
     character: { name: 'Tester' },
   });
-  const enc = events.find((e) => e.type === 'encounter').data;
+  const enc = events.find((e) => e.type === 'encounter');
   // The person is its own subject — the mind may hold 'Bungo' apart
-  // from 'hobbits' in general.
-  assert.equal(enc.npc, 'bungo');
-  assert.equal(enc.npc_name, 'Bungo');
-  assert.equal(enc.npc_people, 'hobbits');
-  assert.equal(enc.npc_gloss, 'a hobbit');
+  // from 'hobbits' in general. People/gloss are how the reading says
+  // him, not wire fields of their own.
+  assert.equal(enc.data.npc, 'bungo');
+  assert.equal(enc.data.npc_name, 'Bungo');
   assert.equal(
     enc.reading, 'Bungo, a hobbit — shared news of the northern circuit');
-  const rest = events.find((e) => e.type === 'rest').data;
-  // A widow keeps the smial — her entity slug is the subject, a woman's
-  // name and people ride for the telling.
-  assert.equal(rest.npc, 'npc_sh_37');
-  assert.equal(rest.npc_name, 'Pearl');
-  assert.equal(rest.npc_gender, 'f');
+  const rest = events.find((e) => e.type === 'rest');
+  // A widow keeps the smial — her entity slug is the subject, her name
+  // rides for the display and the reading opens with who she is.
+  assert.equal(rest.data.npc, 'npc_sh_37');
+  assert.equal(rest.data.npc_name, 'Pearl');
   assert.match(rest.reading, /^Pearl, a hobbit — /);
   const tower = events.find(
-    (e) => e.type === 'land' && e.data.name === 'The lighthouse').data;
+    (e) => e.type === 'land' && e.data.name === 'The lighthouse');
   // Standing before it, the keeper is met — his slug is the subject.
-  assert.equal(tower.npc, 'npc_e_04');
-  assert.equal(tower.npc_name, 'Hallas');
-  assert.equal(tower.npc_people, 'gondor');
+  assert.equal(tower.data.npc, 'npc_e_04');
+  assert.equal(tower.data.npc_name, 'Hallas');
   assert.match(tower.reading, /kept by Hallas, a man of Gondor$/);
   const far = events.find(
-    (e) => e.type === 'land' && e.data.name === 'The other lighthouse').data;
+    (e) => e.type === 'land' && e.data.name === 'The other lighthouse');
   // From afar the place is a silhouette — the keeper cannot be told apart.
-  assert.equal(far.npc ?? null, null);
+  assert.equal(far.data.npc ?? null, null);
 });
 
 test('the open payload carries raw state, never rendered blocks (C10)', () => {
@@ -895,9 +899,11 @@ test('ambient situations ride the wire as moment events, never a day field (ADR-
   assert.equal(ambience.length, 1);
   // The voice arrives verbalized and phased — an ambience without a phase
   // would never reach a narrator's phase block.
-  assert.equal(ambience[0].data.reading, 'the fire lights three paces; beyond it a wall, and the wall makes noise');
+  assert.equal(ambience[0].reading, 'the fire lights three paces; beyond it a wall, and the wall makes noise');
   assert.ok(['morning', 'afternoon', 'night'].includes(ambience[0].when.phase));
-  assert.equal(ambience[0].data.record, 'M-A4');
+  // The record id is provenance — which authored voice spoke — never
+  // tag vocabulary and never a subject.
+  assert.equal(ambience[0].data.provenance.record, 'M-A4');
   assert.equal(ambience[0].data.effects, undefined);
   // The episode wire carries no `day` at all — ambient lived as events.
   assert.equal(body.day, undefined);
@@ -935,8 +941,8 @@ test('solar clauses weave into the weather events — dawn when extreme, dusk al
     trip: { id: 't1' }, character: {},
   });
   assert.equal(winter.filter((e) => e.data?.subtype === 'light').length, 0);
-  assert.match(phase(winter, 'morning').data.reading, /^the sun comes up late|^first light drags/);
-  assert.match(phase(winter, 'afternoon').data.reading, /^the light fails early|^the sun gives/);
+  assert.match(phase(winter, 'morning').reading, /^the sun comes up late|^first light drags/);
+  assert.match(phase(winter, 'afternoon').reading, /^the light fails early|^the sun gives/);
 
   // A solar-normal day (sunrise ~7): no dawn clause — but the dusk is
   // still woven into whichever phase holds the sunset (18.2 → night).
@@ -944,8 +950,8 @@ test('solar clauses weave into the weather events — dawn when extreme, dusk al
     day: { ...DAY, daylight: { sunrise: 7.3, sunset: 18.2, polar: null }, date: '1950-04-15' },
     trip: { id: 't1' }, character: {},
   });
-  assert.doesNotMatch(phase(normal, 'morning').data.reading, /sun|light|dawn/);
-  assert.match(phase(normal, 'night').data.reading, /^the light lingers|^the sun is slow/);
+  assert.doesNotMatch(phase(normal, 'morning').reading, /sun|light|dawn/);
+  assert.match(phase(normal, 'night').reading, /^the light lingers|^the sun is slow/);
 
   // Polar analogs: the day's real light news rides the felt phase —
   // the morning for a sun that never rises, the night for one that
@@ -954,15 +960,15 @@ test('solar clauses weave into the weather events — dawn when extreme, dusk al
     day: { ...DAY, daylight: { sunrise: null, sunset: null, polar: 'night' }, date: '1950-12-21' },
     trip: { id: 't1' }, character: {},
   });
-  assert.match(phase(polar, 'morning').data.reading, /does not rise|no dawn/);
+  assert.match(phase(polar, 'morning').reading, /does not rise|no dawn/);
 
   const midnight = toEvents({
     day: { ...DAY, daylight: { sunrise: null, sunset: null, polar: 'day' }, date: '1950-06-21' },
     trip: { id: 't1' }, character: {},
   });
-  assert.match(phase(midnight, 'night').data.reading, /no dark|does not go/);
+  assert.match(phase(midnight, 'night').reading, /no dark|does not go/);
 
   // A day with no daylight data: weather readings stand untouched.
   const none = toEvents({ day: { ...DAY, daylight: undefined }, trip: { id: 't1' }, character: {} });
-  assert.doesNotMatch(phase(none, 'morning').data.reading, /sun|light|dawn/);
+  assert.doesNotMatch(phase(none, 'morning').reading, /sun|light|dawn/);
 });

@@ -148,14 +148,14 @@ def test_an_anchored_memory_speaks_even_when_the_focus_is_elsewhere():
 
 def test_the_people_ladder_meets_across_family_and_type():
     """#86: 'dunlendings' is the same folk whether the day's tag says
-    tag:family: and the attitude's subject says tag:entity_type: — the
+    family: and the attitude's subject says tag:entity_type: — the
     thought connects on the terminal slug."""
     dun = _belief('They never forgave us for kings we no longer are.',
                   id_='d')
     dun.subject = ['tag:entity_type:dunlendings']
     dun.stance = -0.6
     hall = _event('a Dunlending hall-town on the ridge', 0.6, 'afternoon',
-                  ['type:encounter', 'tag:family:dunlendings'])
+                  ['type:encounter', 'family:dunlendings'])
     brief = build_brief([hall], [], [dun], [], {})
     assert dun.statement in [l['text'] for l in brief['day']]
 
@@ -245,7 +245,7 @@ def test_the_focus_encodes_a_little_stronger():
         'episode_ref': 'd1',
         'events': [{
             'type': 'encounter',
-            'when': {'episode': 1, 'date': '1950-10-08', 'phase': 'afternoon'},
+            'when': {'phase': 'afternoon'},
             'data': {'entity': 'orc_trackers', 'entity_name': 'Orc Trackers',
                      'entity_type': 'orcs', 'form': 'attacks', 'danger': 4,
                      'prose_hint': 'orc boots, a pursuit gait'},

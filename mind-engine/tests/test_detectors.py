@@ -88,7 +88,7 @@ def _need_keys(client, packet):
 def _checked_event(check, ep=1):
     return {
         'type': 'encounter',
-        'when': {'episode': ep, 'date': '1950-01-19'},
+        'when': {},
         'data': {'entity': 'void-whale', 'check': check},
     }
 

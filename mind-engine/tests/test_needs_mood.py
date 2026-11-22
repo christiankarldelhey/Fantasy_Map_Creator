@@ -55,7 +55,7 @@ def _mood(char, index=0):
 def _calm_day(ep):
     return [{
         'type': 'travel',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'data': {'distance_km': 10},
     }]
 

@@ -114,10 +114,10 @@ def test_source_is_stamped_on_the_perceived_day(client):
         'episode_ref': 'd1',
         'events': [
             {'type': 'climate',
-             'when': {'episode': 1},
+             'when': {},
              'data': {'reading': 'cold drizzle', 'tags': ['weather:wet']}},
             {'type': 'encounter',
-             'when': {'episode': 1},
+             'when': {},
              'data': {'reading': 'a trader shares the fire',
                       'tags': ['entity_type:humans']}},
         ],

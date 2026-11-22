@@ -59,7 +59,7 @@ def _mem(client, char, desc, ep, day):
     """Open + close one quiet lived day so a memory gets encoded."""
     eid = _open(client, char, f'd{ep}', ep, day, events=[{
         'type': 'encounter',
-        'when': {'episode': ep, 'date': day, 'phase': 'afternoon'},
+        'when': {'phase': 'afternoon'},
         'data': {
             'entity': 'witness', 'entity_name': 'A Traveller',
             'entity_type': 'humans', 'form': 'brief_exchange',
@@ -149,7 +149,7 @@ def test_last_evoked_date_stamped(client):
     # Same contact tag two calendar days later — the memory stirs.
     _open(client, char, 'd2', 2, '1950-06-03', events=[{
         'type': 'encounter',
-        'when': {'episode': 2, 'date': '1950-06-03'},
+        'when': {},
         'data': {
             'entity': 'dnedain', 'entity_name': 'Dúnedain',
             'entity_type': 'humans', 'form': 'brief_exchange',

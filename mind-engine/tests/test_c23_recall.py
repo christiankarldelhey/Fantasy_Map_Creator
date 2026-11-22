@@ -51,7 +51,7 @@ def _brain(character_id):
 def _episode(ep_idx):
     return SimpleNamespace(
         episode_idx=ep_idx,
-        events=[{'when': {'date': '1950-01-20'}}],
+        events=[{'when': {}}],
     )
 
 

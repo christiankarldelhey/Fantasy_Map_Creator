@@ -30,7 +30,7 @@ def _uid(prefix):
 def _open(client, char, ref, when_episode, events=None):
     events = events or [{
         'type': 'encounter',
-        'when': {'episode': when_episode, 'date': '1950-06-01'},
+        'when': {},
         'data': {
             'entity': 'dnedain', 'entity_name': 'Dúnedain',
             'entity_type': 'humans', 'form': 'brief_exchange',

@@ -63,6 +63,12 @@ UNTAGGED_FIELDS = frozenset({
     'inhabitants', 'prose_hint', 'slot', 'substance', 'lodging',
     'aspect', 'aspect_es', 'presence', 'presence_es',
     'sighted_far', 'reading',
+    # Display names are how a subject is SAID, never what it IS — the
+    # slug (entity/place/region) is the identity; 'The Elk Valley' as a
+    # tag would fragment into spaced free prose. Needs bookkeeping
+    # ('thread'/'resolves') opens and closes loops — it is machinery,
+    # never a theme to evoke.
+    'name', 'provenance', 'thread',
 })
 
 

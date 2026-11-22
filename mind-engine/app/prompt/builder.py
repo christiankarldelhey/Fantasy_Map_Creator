@@ -15,6 +15,7 @@ import re
 
 from app.day_phases import (
     DAWN_HOUR, clock_hour, implied_hour, phase_for_hour)
+from app.mind.events import flat_data
 from app.prompt.sections.anti_repetition import closing_instruction
 from app.prompt.sections.character import character_header_section, character_name, narrator_lens_section
 from app.prompt.sections.climate import climate_state_section
@@ -58,7 +59,7 @@ def _event_beats(events, is_terminal):
             continue
         if event.get('type') == 'encounter':
             continue
-        reading = ((event.get('data') or {}).get('reading')) or ''
+        reading = (flat_data(event).get('reading')) or ''
         if not reading:
             continue
         # Only encounters carry when.hour today; land, meal and climate
@@ -74,7 +75,10 @@ def _event_beats(events, is_terminal):
                 phase_for_hour(hour) if hour is not None else 'morning')
             hour = hour if hour is not None else DAWN_HOUR - 1
         kind = 'weather' if event.get('type') == 'climate' else 'note'
-        beats.append(_beat(phase, hour, kind, text=reading))
+        beats.append(_beat(
+            phase, hour, kind, text=reading,
+            light=when.get('light'),
+        ))
     return beats
 
 
@@ -127,7 +131,7 @@ def _encounter_beats(day_encounters, events, is_terminal):
 def _encounter_from_event(event):
     """Mirror of routes._encounter_prompt_shape for callers that send
     events but no day['encounters']."""
-    data = event.get('data') or {}
+    data = flat_data(event)
     if not any(data.get(k) for k in
                ('entity', 'entity_name', 'reading', 'form', 'outcome')):
         return None
@@ -145,6 +149,7 @@ def _encounter_from_event(event):
     return {
         'phase': when.get('phase'),
         'hour': when.get('hour'),
+        'light': when.get('light'),
         'region': (event.get('where') or {}).get('region'),
         'entity': {
             'name': (data.get('npc_name') or data.get('entity_name')

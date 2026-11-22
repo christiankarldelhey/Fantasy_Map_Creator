@@ -51,7 +51,7 @@ def _brain(character_id):
 def _episode(ep_idx):
     return SimpleNamespace(
         episode_idx=ep_idx,
-        events=[{'when': {'date': '1950-01-20'}}],
+        events=[{'when': {}}],
     )
 
 
@@ -201,7 +201,7 @@ def test_unwordable_items_never_encode():
     char = f'c20-{uuid.uuid4().hex[:8]}'
     episode = SimpleNamespace(
         id=f'ep-{uuid.uuid4().hex[:8]}', game_id=GAME, character_id=char,
-        events=[{'when': {'episode': 1, 'date': '1950-01-18'}}],
+        events=[{'when': {}}],
         perceived_day=[
             {'type': 'condition', 'salience': 0.5, 'perception': 'noticed',
              'data': {'energy': 40, 'shadow': 30}, 'tags': ['type:condition']},

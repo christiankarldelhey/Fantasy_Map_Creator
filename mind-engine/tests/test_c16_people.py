@@ -62,7 +62,7 @@ def _close(client, episode_id, outcome=None):
 def _encounter(ep, **data):
     return {
         'type': 'encounter',
-        'when': {'episode': ep, 'date': f'1950-05-0{ep}'},
+        'when': {},
         'where': {'region': 'minhiriath'},
         'data': data,
     }
@@ -349,7 +349,7 @@ def test_duplicate_memories_compact_every_close():
 def _meal_event(ep):
     return {
         'type': 'meal',
-        'when': {'episode': ep, 'date': f'1950-05-0{ep}'},
+        'when': {},
         'data': {
             'food': 'tavern fare',
             'reading': 'a hot meal bought at the inn, ale and clean water',
@@ -390,7 +390,7 @@ def test_different_readings_still_encode_separate_memories(client):
     events = [
         {
             'type': 'meal',
-            'when': {'episode': 1, 'date': '1950-05-01'},
+            'when': {},
             'data': {'reading': reading},
         }
         for reading in ("the farm wife's soup", 'stale bread and water')

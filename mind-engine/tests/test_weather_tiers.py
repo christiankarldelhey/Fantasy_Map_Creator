@@ -29,7 +29,7 @@ def _uid(prefix):
 def _climate(tags=(), **data):
     return {
         'type': 'climate',
-        'when': {'episode': 1, 'date': '1950-04-15', 'phase': 'afternoon'},
+        'when': {'phase': 'afternoon'},
         'data': {**data, 'tags': list(tags)},
     }
 
@@ -106,7 +106,7 @@ def test_severity_tag_wiring_is_generic(client):
         'episode_ref': 'd1',
         'events': [{
             'type': 'encounter',
-            'when': {'episode': 1, 'date': '1950-04-15'},
+            'when': {},
             'data': {'entity': 'wolves', 'tags': ['omen-of-war']},
         }],
     })

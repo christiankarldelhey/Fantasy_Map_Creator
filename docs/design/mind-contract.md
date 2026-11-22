@@ -7,34 +7,61 @@ system IS once they're executed.
 
 ## Phase 1 — The event wire (open contract)
 
-An Event is `{type, when{hour?, phase?}, where{region?, place?}, data{...}}`.
-`data.intensity` (0-4) is the canonical force dial.
+An Event is `{type, when{hour?, phase?, light?}, where{region?, place?},
+act?, intensity?, reading?, tags[], check?, data{...}}` — strict
+`extra='forbid'` on every level. The flat keys are the universal
+vocabulary every kind shares: what the traveller was doing (`act`, the
+interaction verb vocabulary), the host's declared force (`intensity`,
+0-4), its one-line reading, its declared markers, and the perception
+gate (`check` — universal, not an encounter privilege). `data` holds
+only what the kind owns. `when.light` is the host's solar reading at
+that hour (`dawn|day|dusk|night`): the world knows its own sunrise; the
+mind narrates what was visible, it never derives daylight from a clock
+— a 17:42 in autumn is dark whatever `phase` says. `data.intensity`
+(0-4) remains the canonical force dial wherever the envelope doesn't
+carry it.
 
 **Decided — wire pruning:** these emitted-but-unread keys are deleted from
 the wire: `mover`, `resolved_choice`, `npc_people`, `npc_gloss`,
 `npc_gender`, `sighted`, `sighted_far`, `slot`, `eaten`, `distance_km`,
 `aspect`, `aspect_es`, `presence`, `presence_es`, `where.family`,
-`where.point`, `narration_notes.journey_context`.
-(Exception: `data.description` on `interaction` events is kept — it is the
-act's reading, see below.)
+`where.point`, `narration_notes.journey_context`, plus the duplicate
+clocks (`biomes[].hour_float`, `sighted.hour_float` — `when.hour` is the
+only clock) and internal ids (`record`, `situation` — what survives of
+provenance rides `data.provenance`, untagged).
 
 **Decided — the interaction kind:** `interaction` events are the
 traveller's own acts, emitted whenever a situation option applies
 (contact forks, overnight, ambient — any act: talk/avoid/accept/defy/
 rest/stay…). Registered kind: `role: moment`, `source: world`,
-`encodes: true`, reading = `data.description` (the applied outcome
-prose — kept on the wire for this type only). Minted at choose-time
+`encodes: true`, reading = the applied outcome prose riding the
+envelope `reading` (what `data.description` once said for this type
+only). Minted at choose-time
 (Wave C), chronologically before the parent event (encounter / rest /
 ambience), which keeps its own `reading`. One rule: world-thing +
 your-response = parent + interaction; no choice → parent alone.
 
-**Decided — subject identity:** one real thing, one Relation row.
-`entity:<slug>` names any concrete record (place-ficha, npc, creature —
-always the slug, never the display name); `tag:<family>:<slug>` names
-classes only (`entity_type`, `kind`, `food`, `drink`, `region`…). Rest
-events emit `data.entity` as the place's slug; npcs are always
-`tag:npc:<entity.slug>`; `tag:place:*` is reserved for place-kinds
-without a ficha.
+**Decided — subject identity:** one real thing, one Relation row, one
+namespace per role — no `tag:` prefix on identity:
+
+- `entity:<slug>` — any concrete being or thing met (entity record,
+  named person — `data.npc` folds into `entity:`; always the slug,
+  never the display name). Primary subject, full sediment.
+- `place:<slug>` — the location something happened AT (`where.place`,
+  or legacy `data.place`): the stage, a secondary subject — the ford
+  hears a splash of what the orcs did there, ranked below `entity:` on
+  purpose (specificity 2 vs 4). The place you passed and the place you
+  slept in feed the same row.
+- `family:<slug>` — a kind of being (`data.family`), between entity
+  and entity_type for attitude matching.
+- `tag:<family>:<slug>` — classes and content only (`entity_type`,
+  `kind`, `form`, `topic`, `food`, `drink`, `rest`…).
+
+`data.entity` carries the participant slug; `where.place` carries the
+location. Rest events anchor like land events: `where.place` +
+`data.name`/`data.kind`. One slugifier (`naturalLanguage/text.js`,
+underscores) spells every subject — hyphens and display names were the
+same Relation split into three.
 
 **Decided — one body channel:** `condition` is THE Condition channel —
 detectors, checks and need-refresh read only it. `OpenCharacter.state`
@@ -62,13 +89,16 @@ channel); `data.entity_id` deleted (`entity` carries the slug);
 `when.phase` has exactly three canonical values — `morning`/`afternoon`/
 `night` (`before_sleep` is normalized to `night` at emission);
 `rest.data.entity_type` renamed to `kind` (place-kind vocabulary, same
-as land events). `data.after` on interaction events stays as the
-persisted mid-day vitals snapshot for Studio.
+as land events); `rest.data.entity`/`entity_name` deleted — the night's
+place rides `where.place` + `data.name` like any land event.
+`data.after` on interaction events stays as the persisted mid-day
+vitals snapshot for Studio.
 
 **Decided — open body:** `fate` is the ONLY terminality signal —
-`episode.terminal` is deleted (derived: `fate != 'living'`); `arc` moves
-inside `narration_notes` (narrator material, not frame); `episode` is
-the display frame `{index, at}` only.
+`episode.terminal` is deleted (derived: `fate != 'living'`); `arc`
+stays a top-level frame field (the trip's name — `narration_notes`
+itself died, see Phase 11); `episode` is the display frame
+`{index, at}` only.
 
 *Phase 1 complete: the wire is strict, pruned, one body channel, one
 subject-identity scheme, one terminality signal, interaction as a

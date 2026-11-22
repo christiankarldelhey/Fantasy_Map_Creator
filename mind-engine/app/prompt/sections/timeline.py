@@ -35,12 +35,44 @@ def _clauses(reading):
     ]
 
 
+# The host's solar reading wins over any phrased clock: a 17:42 in
+# autumn IS 'night' — 'Late in the afternoon' would light a dark scene.
+_LIGHT_PHRASE = {
+    'night': 'After dark',
+    'dusk': 'Toward dusk',
+    'dawn': 'At dawn',
+}
+
+
 def _encounter_beat(encounter, daylight=None):
     """The encounter at its clock position — mechanics verbatim, time as
     a natural phrase ('Late in the afternoon —', never '16:00')."""
-    when = day_time_phrase(encounter.get('hour'), daylight) or _PHASE_FALLBACK.get(
+    when = _LIGHT_PHRASE.get(encounter.get('light')) or day_time_phrase(
+        encounter.get('hour'), daylight) or _PHASE_FALLBACK.get(
         encounter.get('phase'), 'During the day')
     return f'{when} — an encounter:\n{_describe_encounter(encounter)}'
+
+
+# A beat whose prose is silent about light gets a cue — a meal at night,
+# a place entered in the dusk. The weather tells its own sky, and a
+# reading that already words its light needs no second marker.
+_LIGHT_CUE = {
+    'night': '(after dark)',
+    'dusk': '(in the dusk)',
+    'dawn': '(in first light)',
+}
+_LIGHT_WORDS = (
+    'dark', 'dusk', 'dawn', 'night', 'first light', 'sunrise',
+    'sunset', 'twilight', 'moon', 'starlight',
+)
+
+
+def _light_cue(beat):
+    cue = _LIGHT_CUE.get(beat.get('light'))
+    text = (beat.get('text') or '').lower()
+    if cue and not any(w in text for w in _LIGHT_WORDS):
+        return f'{cue} '
+    return ''
 
 
 def _stirs_beat(stirs):
@@ -136,7 +168,7 @@ def timeline_section(*, intro, beats, previous_rest=None, daylight=None):
             if text:
                 lines.append(text)
             continue
-        lines.append(beat['text'])
+        lines.append(f"{_light_cue(beat)}{beat['text']}")
 
     lines.append('')
     if any(b.get('kind') == 'encounter' for b in beats):

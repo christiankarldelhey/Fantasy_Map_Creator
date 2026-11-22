@@ -53,7 +53,7 @@ def _open(client, character, events, ref='d1'):
 def _night_encounter(**data):
     return {
         'type': 'encounter',
-        'when': {'episode': 1, 'date': '1950-04-15', 'phase': 'night'},
+        'when': {'phase': 'night'},
         'where': {'region': 'mirkwood'},
         'data': {
             'entity': 'wolves',

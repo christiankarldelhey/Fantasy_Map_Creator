@@ -662,7 +662,7 @@ ALL_ATTITUDES = [
     for who, pack in ATTITUDE_PACKS.items()
     for a in pack
 ]
-_SUBJECT_PREFIXES = ('entity:', 'tag:family:', 'tag:entity_type:')
+_SUBJECT_PREFIXES = ('entity:', 'family:', 'tag:entity_type:')
 
 
 def test_attitudes_are_well_formed():

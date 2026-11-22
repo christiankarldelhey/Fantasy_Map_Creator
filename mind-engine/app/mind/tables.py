@@ -389,7 +389,7 @@ class Relation(Base):
     by perceived Events and Evocation — never declared directly, only
     accreted. `subject` is a subject-classed tag (tags.py): 'entity:X',
     'tag:entity_type:orcs', 'tag:race:dunedain', 'region:mirkwood',
-    'tag:place:<slug>'.
+    'entity:<place-slug>'.
 
     The vector: affection/trust are bipolar (−1 is hatred and active
     distrust, not indifference); fear/familiarity are unipolar (fear has

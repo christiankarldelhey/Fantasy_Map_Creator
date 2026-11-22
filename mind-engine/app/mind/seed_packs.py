@@ -114,24 +114,24 @@ def _a(kind, statement, subject, stance, source='lived',
 
 # Subject tags — the levels attitudes resolve over, narrowest first:
 #   entity:<slug>          this one being (horses_of_mordor)
-#   tag:family:<slug>      its declared kind (foxes within carnivores)
+#   family:<slug>      its declared kind (foxes within carnivores)
 #   tag:entity_type:<t>    the broad type (all orcs, all undead)
-F_FOXES = ['tag:family:foxes']
-F_DOGS = ['tag:family:dogs']
-F_EAGLES = ['tag:family:eagles']
-F_CROWS = ['tag:family:crows']
-F_WOLVES = ['tag:family:wolves']
-F_WARGS = ['tag:family:wargs']
-F_HORSES = ['tag:family:horses']
-F_DEER = ['tag:family:deer']
-F_BIRDS = ['tag:family:birds']
-F_OWLS = ['tag:family:owls']
-F_SWANS = ['tag:family:swans']
-F_SPIDERS = ['tag:family:spiders']
-F_TREES = ['tag:family:trees']
-F_ENTS = ['tag:family:ents']
-F_COMMON_MEN = ['tag:family:common_men']
-F_DUNEDAIN = ['tag:family:dunedain']
+F_FOXES = ['family:foxes']
+F_DOGS = ['family:dogs']
+F_EAGLES = ['family:eagles']
+F_CROWS = ['family:crows']
+F_WOLVES = ['family:wolves']
+F_WARGS = ['family:wargs']
+F_HORSES = ['family:horses']
+F_DEER = ['family:deer']
+F_BIRDS = ['family:birds']
+F_OWLS = ['family:owls']
+F_SWANS = ['family:swans']
+F_SPIDERS = ['family:spiders']
+F_TREES = ['family:trees']
+F_ENTS = ['family:ents']
+F_COMMON_MEN = ['family:common_men']
+F_DUNEDAIN = ['family:dunedain']
 E_MORDOR_HORSES = ['entity:horses_of_mordor']
 T_ENEMY_MEN = [
     'tag:entity_type:haradrim', 'tag:entity_type:easterlings',
@@ -430,7 +430,7 @@ LEGACY_REWRITES = {
 # to almost nothing, and only reflection can turn it.
 #
 #   entity:<slug>          this one being
-#   tag:family:<slug>      its kind (foxes, not all carnivores)
+#   family:<slug>      its kind (foxes, not all carnivores)
 #   tag:entity_type:<t>    the broad type (all orcs)
 # ============================================================================
 CELEBRIAN_ATTITUDES = [

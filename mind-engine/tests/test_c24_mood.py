@@ -178,7 +178,7 @@ def test_episode_lens_never_carries_its_own_day_into_the_mood(client):
     char = _uid('enter')
     orc_day = [{
         'type': 'encounter',
-        'when': {'episode': 1, 'date': '1950-10-07', 'phase': 'afternoon'},
+        'when': {'phase': 'afternoon'},
         'data': {'entity': 'orc_trackers', 'entity_name': 'Orc Trackers',
                  'entity_type': 'orcs', 'form': 'attacks', 'danger': 4,
                  'prose_hint': 'orc boots, a pursuit gait'},

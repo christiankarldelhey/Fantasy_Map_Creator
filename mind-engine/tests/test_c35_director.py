@@ -116,7 +116,7 @@ def test_open_uses_the_director_when_enabled(monkeypatch):
         'episode_ref': 'd1',
         'events': [{
             'type': 'encounter',
-            'when': {'episode': 1, 'date': '1950-10-08', 'phase': 'afternoon'},
+            'when': {'phase': 'afternoon'},
             'data': {'entity': 'orc_trackers', 'entity_name': 'Orc Trackers',
                      'entity_type': 'orcs', 'form': 'attacks', 'danger': 4,
                      'prose_hint': 'orc boots, a pursuit gait'},

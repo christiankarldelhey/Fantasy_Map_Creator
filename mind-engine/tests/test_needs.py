@@ -50,7 +50,7 @@ def _close(client, episode_id, outcome=None):
 def _quiet(ep):
     return {
         'type': 'travel',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'data': {'distance_km': 8.0},
     }
 
@@ -96,7 +96,7 @@ def test_thread_opens_and_waits(client):
     char = _uid('debt')
     owing = {
         'type': 'encounter',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {},
         'where': {'region': 'bree'},
         'data': {'entity': 'hobbit-caller', 'thread': 'debt:hobbit'},
     }
@@ -114,13 +114,13 @@ def test_thread_resolves_via_event_marker(client):
     char = _uid('settled')
     owing = {
         'type': 'encounter',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {},
         'data': {'entity': 'hobbit-caller', 'thread': 'debt:hobbit'},
     }
     _open(client, char, 'd1', [owing])
     repaid = {
         'type': 'encounter',
-        'when': {'episode': 2, 'date': '1950-01-20'},
+        'when': {},
         'data': {'entity': 'hobbit-caller', 'resolves': 'debt:hobbit'},
     }
     second = _open(client, char, 'd2', [repaid])
@@ -147,7 +147,7 @@ def test_weather_streak_opens_exposure(client):
     for ep in (1, 2):
         storm = {
             'type': 'climate',
-            'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+            'when': {},
             'data': {'tags': ['weather:freezing', 'weather:snow']},
         }
         opened = _open(client, char, f'd{ep}', [storm])
@@ -156,7 +156,7 @@ def test_weather_streak_opens_exposure(client):
 
     third = {
         'type': 'climate',
-        'when': {'episode': 3, 'date': '1950-01-21'},
+        'when': {},
         'data': {'tags': ['weather:freezing', 'weather:snow']},
     }
     opened = _open(client, char, 'd3', [third])
@@ -168,7 +168,7 @@ def test_unnoticed_event_opens_no_thread(client):
     char = _uid('blind')
     hidden = {
         'type': 'encounter',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {},
         'data': {
             'entity': 'wolves', 'thread': 'danger:wolves',
             'check': {'skill': 'tracking', 'difficulty': 25},

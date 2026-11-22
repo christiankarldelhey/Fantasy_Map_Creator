@@ -17,6 +17,7 @@ import logging
 import math
 import time
 
+from app.mind.events import flat_data
 from app.mind.tables import PackEntry
 from app.mind.util import tag_matches
 
@@ -458,7 +459,7 @@ def resolve_event_reading(event, session=None, game_id=None):
     would say it noticed. A host-declared `data.reading` always wins (#53:
     the world says what it was; the mind consumes it). Undeclared events
     fall back to their subject — a name, never an invented sentence."""
-    data = (event or {}).get('data') or {}
+    data = flat_data(event)
     etype = (event or {}).get('type')
 
     reading = data.get('reading')

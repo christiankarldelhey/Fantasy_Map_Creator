@@ -40,6 +40,7 @@ from app.mind.memory import (
     episode_index,
 )
 from app.mind.choosing import choose
+from app.mind.events import flat_data
 from app.mind.needs import (
     need_items,
     need_snapshot,
@@ -139,6 +140,9 @@ def _encounter_prompt_shape(event):
         # ADR-0019: the clock position survives to the timeline — the
         # narrator reads 'late in the afternoon', not '16:00'.
         'hour': (event.get('when') or {}).get('hour'),
+        # The host's solar reading at the moment — a 17:42 in autumn
+        # is 'night' however the static clock would phrase it.
+        'light': (event.get('when') or {}).get('light'),
         'region': (event.get('where') or {}).get('region'),
         'entity': {
             # A resolved person names herself — 'Bungo', 'Pearl'; passive
@@ -180,7 +184,7 @@ def _previous_rest(db, episode):
         return None
     rest = next(
         (
-            (e.get('data') or {})
+            flat_data(e)
             for e in (prev.events or [])
             if e.get('type') == 'rest'
         ),
@@ -327,6 +331,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 character=card,
                 episode_idx=episode.episode_idx,
                 felt_ids=felt_ids,
+                episode_date=episode.episode_date,
             )
             if felt_ids:
                 counters = dict(mind.counters or {})
@@ -971,7 +976,7 @@ def perceive_interim(
                 skipped_n += 1
                 continue
             tags = derive_tags(event)
-            data = event.get('data') or {}
+            data = flat_data(event)
             world_delta, _contact_w, body_hit = semantic_delta(
                 tags, data, semantics
             )

@@ -89,7 +89,7 @@ def test_episode_narrative_keeps_the_english_text(client, monkeypatch):
         'episode_ref': 'd1', 'episode': {'index': 1, 'at': '1950-06-01'},
         'events': [{
             'type': 'encounter',
-            'when': {'episode': 1, 'date': '1950-06-01'},
+            'when': {},
             'data': {'entity': 'dnedain', 'entity_name': 'Dúnedain',
                      'entity_type': 'humans', 'form': 'brief_exchange',
                      'substance': {'content': 'He asks about the north road.'}},
