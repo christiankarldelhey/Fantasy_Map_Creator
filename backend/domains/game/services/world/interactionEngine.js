@@ -345,7 +345,13 @@ export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome, after
     // The choice's own force wins; a row that declares none inherits
     // how hard the meeting hit (#184).
     intensity: interaction.intensity ?? pool_.encounter?.interaction?.intensity ?? undefined,
-    reading: outcome?.text?.en ?? undefined,
+    // The event reads whole on its own: the situation's own lead-in
+    // ('he saw them before they saw him…') opens, the outcome resolves —
+    // a bare 'Takes the ford upstream.' is a memory with no subject.
+    reading: [
+      pool_.encounter?.interaction?.dialogue_content?.npc_attitude,
+      outcome?.text?.en,
+    ].filter(Boolean).join(' ') || undefined,
     // Tone (#184): an authored felt on the interaction row wins; else
     // the contact record's own felt:* tag speaks for the meeting. The
     // act itself rides the envelope — no 'tag:<act>' duplicate.
