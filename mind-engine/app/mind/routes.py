@@ -101,6 +101,7 @@ from app.mind.provisioning import (
     get_or_create_mind,
     get_or_create_character,
     reassign_preset,
+    seed_memories,
     seed_musings,
     seed_starter_beliefs,
 )
@@ -1178,12 +1179,13 @@ def reset_mind(
         )
         seeds = seed_starter_beliefs(db, game_id, character_id, preset)
         musings = seed_musings(db, game_id, character_id, preset)
+        mems = seed_memories(db, game_id, character_id, preset)
         db.commit()
         return {
             'character_id': character_id,
             'mind': {'id': mind.id, 'preset_slug': mind.preset_slug},
             'deleted': deleted,
-            'seeds': len(seeds) + len(musings),
+            'seeds': len(seeds) + len(musings) + len(mems),
         }
     except SQLAlchemyError as exc:
         db.rollback()

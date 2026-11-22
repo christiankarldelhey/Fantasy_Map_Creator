@@ -211,7 +211,7 @@ A Lens line whose meaning shows up in the narration that followed, judged on the
 _Avoid_: voiced, bled, used
 
 **Mind preset**:
-A ready-made way of thinking (what to notice, how to remember, starting beliefs) that is copied into an Original when it is created or edited. Copied, never linked: changing a preset later changes no one.
+A ready-made way of thinking (what to notice, how to remember, starting beliefs, the lived past it was born carrying) that is copied into an Original when it is created or edited. Copied, never linked: changing a preset later changes no one.
 _Avoid_: mold, archetype, profile
 
 ### Voice of the data

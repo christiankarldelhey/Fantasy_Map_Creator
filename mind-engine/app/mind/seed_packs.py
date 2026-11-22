@@ -44,6 +44,13 @@
 
 STRENGTH = 3.0
 
+
+def _d(year, month=6, day=1):
+    """A memory's lived date — the in-world day it happened. The game
+    clock reads ~1950; these spread across roughly the last 500 years."""
+    from datetime import date
+    return date(year, month, day)
+
 # Non-hostile contact — how a friendly or neutral exchange arrived.
 FRIENDLY = [
     'tag:form:brief_exchange', 'tag:form:aid_or_trade',
@@ -251,6 +258,21 @@ CELEBRIAN_MUSINGS = [
     _m("Their fires and walls are small defiances; I have watched cities learn that the dark keeps no bargains.", SETTLEMENT),  # new
     _m("Every shadow I cut down feeds the one I carry; that is the arithmetic of my centuries.", HOSTILE),  # new
     _m("The cold finds the old scars first; the body remembers what the mind works to forget.", SOLITUDE + WOUNDED),  # new
+    _m("They offer me their company as if it were bread; I have outlived too many bakers to trust the freshness.", FRIENDLY),  # new
+    _m("They ask after my story and I give them the abridged one; the full edition would bury them.", FRIENDLY),  # new
+    _m("Mould grows on thoughts left too long; I no longer scrape it off — it is the one thing I cultivate honestly.", SOLITUDE),  # new
+    _m("Five centuries have taught me that most company is a tax on silence.", SOLITUDE),  # new
+    _m("My thoughts are a ruin I keep furnished.", SOLITUDE),  # new
+    _m("Fangorn does not need me, and I have decided that is the purest friendship I own.", TREES + ['tag:entity_type:living_trees']),  # new
+    _m("They sail West and call it hope; I have watched a hundred ships leave, and the land they abandon is still here.", ELVES),  # new
+    _m("My kind mistake departure for freedom; the road and I know otherwise.", ELVES),  # new
+    _m("I stopped hating them loudly two hundred years ago — cold hatred keeps, hot hatred burns out.", ORCS),  # new
+    _m("An orc's cruelty is at least consistent; I have met more honest orcs than honest kings.", ORCS),  # new
+    _m("The dead of the old cities make better company than the living; they have stopped trying to sell me anything.", UNDEAD),  # new
+    _m("I speak to old stones the way others speak to their dead; the stones are better listeners.", ['tag:kind:ruin', 'tag:dead_place'] + SOLITUDE),  # new
+    _m("The Wise worry for Middle-earth and show it; I worry too, and call it a hobby.", MAIAR),  # new
+    _m("Another meal alone; the bread has never once asked my opinion of eternity, which is why the bread keeps its place.", SOLITUDE + MEAL),  # new
+    _m("I am not kind and not cruel; I am long — and the distinction matters less each century.", SOLITUDE),  # new
 ]
 
 
@@ -485,6 +507,9 @@ CELEBRIAN_ATTITUDES = [
     _a('world', "Swans carry the sea with them; I look at them the way "
        "I refuse to look at ships.",
        F_SWANS, +0.3),
+    _a('other', "The Wise are old in a different currency than mine; I "
+       "trust them the way one trusts weather.",
+       MAIAR, +0.4),
 ]
 
 ARANATH_ATTITUDES = [
@@ -550,4 +575,361 @@ ARANATH_ATTITUDES = [
 ATTITUDE_PACKS = {
     'celebrian': CELEBRIAN_ATTITUDES,
     'aranath': ARANATH_ATTITUDES,
+}
+
+
+# ============================================================================
+# Seed memories (preset_memories) — the lived prehistory a mind is born
+# carrying
+# ----------------------------------------------------------------------------
+# Recency cannot reach these (exp(-λ·Δdays) ≈ 0 past a few decades): an
+# old memory speaks only when the day's tags brush it — the region, the
+# kind of being, the wound. That is the design: nothing here narrates
+# itself; the story surfaces in fragments when the road rhymes with it.
+#
+#   tags      — the contact surface (same vocabulary as musings)
+#   lived     — the in-world day it happened (the clock reads ~1950)
+#   subjects  — the subject-classed tags the Relation echoes
+#   imprint   — the feeling vector the day left ({dim: −1..1})
+#   region    — Memory.region (where it lives on the map)
+# ============================================================================
+def _mem(desc, tags, lived, valence=0.0, importance=0.4, subjects=None,
+         imprint=None, region=None, entity_id=None):
+    return {
+        'desc': desc, 'tags': list(tags), 'lived_date': lived,
+        'valence': valence, 'importance': importance,
+        'subjects': list(subjects) if subjects else None,
+        'imprint': dict(imprint) if imprint else None,
+        'region': region, 'entity_id': entity_id,
+    }
+
+
+# Celebrian — ~five hundred years, told the way she tells it: oblique,
+# cold, never a summary. The human lover (~1750) is the spine; nothing
+# here says his name — the grief is meant to be assembled, not stated.
+CELEBRIAN_MEMORIES = [
+    # --- him (Lone-lands, 1744–1750) ---------------------------------------
+    _mem("I did not learn his name for three days. He found that funny. "
+         "He was the last thing that ever found me funny.",
+         HUMANS + SOLITUDE, _d(1744, 4, 12),
+         valence=0.35, importance=0.75, subjects=HUMANS,
+         imprint={'affection': 0.6, 'familiarity': 0.4},
+         region='Lone-lands'),
+    _mem("Six summers, and he still measured time in mornings. I envied "
+         "him that arithmetic until it ran out.",
+         HUMANS, _d(1747, 8, 20),
+         valence=0.4, importance=0.6, subjects=HUMANS,
+         imprint={'affection': 0.7},
+         region='Lone-lands'),
+    _mem("He went grey one spring, and I caught myself envying the grey "
+         "— he was still becoming something.",
+         HUMANS, _d(1749, 3, 2),
+         valence=0.2, importance=0.55, subjects=HUMANS,
+         imprint={'affection': 0.6}),
+    _mem("He was gone between one breath and the next, the way they all "
+         "go. I had prepared for decades. It took no time at all.",
+         HUMANS + SOLITUDE, _d(1750, 11, 29),
+         valence=-0.95, importance=0.95, subjects=HUMANS,
+         imprint={'affection': -0.7, 'fear': 0.3},
+         region='Weather Hills'),
+    _mem("The she I was before him would not recognise me now. That is "
+         "the cruellest of it — he remade me and declined to stay and "
+         "see it.",
+         SOLITUDE, _d(1751, 2, 14),
+         valence=-0.6, importance=0.7,
+         imprint={'affection': -0.5}),
+    _mem("I have asked the air of a hundred ruins for him. The ruins "
+         "answer — never with him.",
+         UNDEAD + ['tag:dead_place'], _d(1762, 9, 30),
+         valence=-0.8, importance=0.85,
+         subjects=['tag:entity_type:undead'],
+         imprint={'affection': -0.6, 'familiarity': 0.5}),
+    _mem("I do not say his name. A name is a door, and I have spent two "
+         "centuries deciding I cannot afford this one.",
+         SOLITUDE + UNDEAD, _d(1770, 1, 1),
+         valence=-0.7, importance=0.9,
+         imprint={'affection': -0.6, 'fear': 0.2}),
+
+    # --- Eregion: the rest place among the courteous dead ------------------
+    _mem("Ost-in-Edhil keeps its dead courteous. I spent three winters "
+         "listening to a mason who still argues with his last wall.",
+         ['region:Eregion'] + UNDEAD + REST, _d(1489, 10, 5),
+         valence=0.3, importance=0.6,
+         subjects=['region:Eregion', 'tag:entity_type:undead'],
+         imprint={'affection': 0.4, 'familiarity': 0.6},
+         region='Eregion'),
+    _mem("My people forged their beautiful mistakes here and named them "
+         "Rings. The stones have not forgiven us; I find the honesty "
+         "restful.",
+         ['region:Eregion'] + REST, _d(1490, 5, 18),
+         valence=-0.2, importance=0.65, subjects=['region:Eregion'],
+         imprint={'affection': 0.3, 'familiarity': 0.5},
+         region='Eregion'),
+    _mem("The spirits of Hollin do not want company; they want "
+         "witnesses. It is the one office I still hold.",
+         ['region:Eregion'] + UNDEAD + SOLITUDE, _d(1655, 2, 9),
+         valence=0.15, importance=0.5,
+         subjects=['tag:entity_type:undead', 'region:Eregion'],
+         imprint={'familiarity': 0.6},
+         region='Eregion'),
+    _mem("I return to Eregion the way a debt returns to its ledger.",
+         ['region:Eregion', 'tag:kind:ruin'] + REST, _d(1892, 7, 22),
+         valence=0.35, importance=0.5, subjects=['region:Eregion'],
+         imprint={'affection': 0.5, 'familiarity': 0.7},
+         region='Eregion'),
+
+    # --- Fangorn: the ents and the slow friendship --------------------------
+    _mem("Treebeard asked me my name and considered the answer for a "
+         "week. It is the only friendship I keep that measures time "
+         "honestly.",
+         ['region:Fangorn', 'family:ents', 'tag:entity_type:living_trees'],
+         _d(1562, 6, 7),
+         valence=0.6, importance=0.8,
+         subjects=['family:ents', 'region:Fangorn'],
+         imprint={'affection': 0.7, 'trust': 0.5, 'familiarity': 0.5},
+         region='Fangorn'),
+    _mem("A rowan in the deep forest does not greet me when I come. It "
+         "simply continues. I value that above most conversation.",
+         ['region:Fangorn'] + TREES, _d(1620, 9, 14),
+         valence=0.4, importance=0.45, subjects=['region:Fangorn'],
+         imprint={'affection': 0.5, 'familiarity': 0.6},
+         region='Fangorn'),
+    _mem("The Ents have mourned their Entwives for three thousand years "
+         "and call it recent. They are the only grief I do not find "
+         "theatrical.",
+         ['family:ents', 'tag:entity_type:living_trees'], _d(1701, 4, 30),
+         valence=0.2, importance=0.55, subjects=['family:ents'],
+         imprint={'affection': 0.4}),
+    _mem("An old Ent who has stopped walking does not die — he chooses "
+         "a view and grows into it. I sat with one for a season and "
+         "understood him better than most kings.",
+         ['region:Fangorn', 'family:ents'], _d(1810, 8, 3),
+         valence=0.3, importance=0.5,
+         subjects=['family:ents', 'region:Fangorn'],
+         imprint={'affection': 0.5, 'familiarity': 0.6},
+         region='Fangorn'),
+
+    # --- the Wise, and the too-cheerful Master -----------------------------
+    _mem("Mithrandir laughs too easily for one who has seen what he has "
+         "seen. I have decided it is either wisdom or excellent theatre; "
+         "either way, he has earned it.",
+         MAIAR, _d(1630, 5, 11),
+         valence=0.4, importance=0.6, subjects=MAIAR,
+         imprint={'trust': 0.5, 'affection': 0.3}),
+    _mem("Radagast once fed a dying bird out of his own sleeve and "
+         "apologised to it for the world. He and I have never understood "
+         "each other less.",
+         MAIAR + BIRDS, _d(1688, 7, 6),
+         valence=0.35, importance=0.55, subjects=MAIAR,
+         imprint={'affection': 0.4, 'trust': 0.4}),
+    _mem("The Wise still ask my counsel and take it rarely. I respect "
+         "the economy — I would not take mine either.",
+         MAIAR + ELVES, _d(1908, 3, 17),
+         valence=0.2, importance=0.4, subjects=MAIAR,
+         imprint={'trust': 0.4, 'familiarity': 0.5}),
+    _mem("Tom Bombadil sang a fever out of me once. I have been quietly "
+         "furious about it for a century; nobody should be that cheerful "
+         "at his age.",
+         ['region:Old Forest'] + MAIAR, _d(1843, 6, 21),
+         valence=0.3, importance=0.65,
+         subjects=['region:Old Forest'] + MAIAR,
+         imprint={'affection': 0.4, 'familiarity': 0.5},
+         region='Old Forest'),
+    _mem("He is the oldest thing I know and the only one that does not "
+         "mourn. I cannot decide whether he is above grief or simply "
+         "never acquired the taste.",
+         ['region:Old Forest'] + MAIAR, _d(1843, 6, 25),
+         valence=0.1, importance=0.5,
+         subjects=['region:Old Forest'] + MAIAR,
+         imprint={'familiarity': 0.5},
+         region='Old Forest'),
+
+    # --- the orc wars -------------------------------------------------------
+    _mem("In Angmar I counted arrows until counting was the only honest "
+         "part of the war.",
+         ['region:Angmar'] + ORCS + HOSTILE, _d(1460, 9, 2),
+         valence=-0.5, importance=0.7,
+         subjects=['tag:entity_type:orcs', 'region:Angmar'],
+         imprint={'fear': 0.3, 'affection': -0.5},
+         region='Angmar'),
+    _mem("The ambush in the Ettenmoors left me a scar below the ribs. "
+         "It aches before the rain does; a reliable enemy keeps "
+         "appointments.",
+         ['region:Ettenmoors'] + ORCS + HOSTILE + WOUNDED, _d(1598, 10, 19),
+         valence=-0.5, importance=0.6,
+         subjects=['tag:entity_type:orcs', 'region:Ettenmoors'],
+         imprint={'fear': 0.4, 'affection': -0.4},
+         region='Ettenmoors'),
+    _mem("I burned an orc-camp outside Fornost while they sang their "
+         "war-chant. It is the only orc song I have ever approved of.",
+         ['region:Fornost'] + ORCS + HOSTILE, _d(1710, 11, 8),
+         valence=0.2, importance=0.55,
+         subjects=['tag:entity_type:orcs', 'region:Fornost'],
+         imprint={'affection': -0.5},
+         region='Fornost'),
+    _mem("They were elves once, the oldest songs whisper. I hate them "
+         "for what was made of them and forgive them nothing for it.",
+         ORCS + ELVES, _d(1503, 3, 15),
+         valence=-0.6, importance=0.65, subjects=ORCS,
+         imprint={'affection': -0.7}),
+    _mem("At Tharbad a greenskin chief looked at me with something "
+         "almost like memory. I killed him before the look could finish.",
+         ['region:Minhiriath'] + ORCS + HOSTILE, _d(1834, 4, 9),
+         valence=-0.4, importance=0.5,
+         subjects=['tag:entity_type:orcs'],
+         imprint={'affection': -0.5, 'fear': 0.2},
+         region='Minhiriath'),
+
+    # --- kin, sailing, and the rare friendships -----------------------------
+    _mem("Another cousin sailed last decade. She said the Sea was "
+         "calling; I said the land keeps its dead. We were both "
+         "courteous.",
+         ELVES, _d(1938, 5, 2),
+         valence=-0.25, importance=0.55, subjects=ELVES,
+         imprint={'affection': -0.3, 'familiarity': 0.5}),
+    _mem("They pack light for eternity, the ones who sail. I have "
+         "watched the ships leave for five hundred years; the land they "
+         "abandon is still here.",
+         ELVES + WATER, _d(1802, 8, 12),
+         valence=-0.3, importance=0.6, subjects=ELVES,
+         imprint={'affection': -0.3}),
+    _mem("My wandering kindred cross my path once a decade, and we lie "
+         "to each other about how little has changed. It is the closest "
+         "thing to family I still practice.",
+         ELVES + FRIENDLY, _d(1921, 9, 27),
+         valence=0.35, importance=0.5, subjects=ELVES,
+         imprint={'affection': 0.4, 'familiarity': 0.6}),
+    _mem("Rivendell asked me to stay, once, a century back. They keep "
+         "the past in such careful amber — I lacked the cruelty to tell "
+         "them I had come looking for a ruin, not a reliquary.",
+         ['region:Rivendell'] + ELVES, _d(1851, 6, 15),
+         valence=0.15, importance=0.55,
+         subjects=['region:Rivendell'] + ELVES,
+         imprint={'affection': 0.2, 'familiarity': 0.5},
+         region='Rivendell'),
+
+    # --- herbs, healing, the small honest things ----------------------------
+    _mem("I learned the leech-craft of athelas from a Bree healer who "
+         "charged me one honest afternoon of listening. It remains the "
+         "fairest price I have ever paid.",
+         ['region:Bree'] + PLANTS + HUMANS + FRIENDLY, _d(1607, 7, 4),
+         valence=0.5, importance=0.6,
+         subjects=HUMANS + PLANTS,
+         imprint={'affection': 0.5, 'trust': 0.4},
+         region='Bree'),
+    _mem("Athelas smells like clean endings. That is why men built a "
+         "faith around it.",
+         PLANTS + HUMANS, _d(1608, 1, 30),
+         valence=0.25, importance=0.4, subjects=PLANTS,
+         imprint={'familiarity': 0.5}),
+    _mem("Foxglove cures or kills on a difference of two leaves. I keep "
+         "it out of respect for the arithmetic.",
+         PLANTS, _d(1755, 5, 25),
+         valence=0.15, importance=0.35, subjects=PLANTS,
+         imprint={'familiarity': 0.6}),
+
+    # --- the selfish ledger -------------------------------------------------
+    _mem("A farmstead burned one night in the South Downs while I stood "
+         "on the ridge deciding. The fire, at least, was honest about "
+         "what it wanted.",
+         ['region:South Downs'] + HUMANS, _d(1798, 10, 11),
+         valence=-0.4, importance=0.6, subjects=HUMANS,
+         imprint={'affection': -0.3},
+         region='South Downs'),
+    _mem("I once carried a wounded stranger two days to a healer. His "
+         "gratitude made me so uncomfortable that I have avoided "
+         "wounded strangers since.",
+         HUMANS + FRIENDLY + WOUNDED, _d(1690, 8, 16),
+         valence=0.2, importance=0.5, subjects=HUMANS,
+         imprint={'affection': 0.3, 'familiarity': 0.3}),
+    _mem("There was a war I might have marched in, two hundred years "
+         "gone. I walked north instead. The war did not miss me; I have "
+         "checked.",
+         SOLITUDE, _d(1740, 3, 8),
+         valence=-0.15, importance=0.5,
+         imprint={'affection': -0.2}),
+
+    # --- ruins and the gothic weather of her walking ------------------------
+    _mem("Fornost stood empty for a century before I found the window "
+         "where I once watched the rain. The ruin had kept the "
+         "appointment.",
+         ['region:Fornost', 'tag:kind:ruin', 'tag:dead_place'], _d(1527, 4, 3),
+         valence=0.3, importance=0.55, subjects=['region:Fornost'],
+         imprint={'affection': 0.4, 'familiarity': 0.5},
+         region='Fornost'),
+    _mem("I prefer ruins to cities. A ruin has stopped lying about what "
+         "it is; a city has not yet been found out.",
+         ['tag:kind:ruin', 'tag:dead_place', 'tag:settlement'],
+         _d(1580, 2, 12),
+         valence=0.2, importance=0.5,
+         imprint={'affection': 0.3}),
+    _mem("The dead of the barrow-downs are the honest dead: they want "
+         "their gold back and say so plainly. I respect a candid "
+         "haunting.",
+         UNDEAD + ['tag:dead_place'], _d(1666, 11, 1),
+         valence=0.15, importance=0.5, subjects=UNDEAD,
+         imprint={'familiarity': 0.5}),
+    _mem("In the shadow of Moria I once heard the stone itself remember "
+         "a hammer. Some griefs are load-bearing.",
+         ['region:Moria'], _d(1472, 12, 3),
+         valence=-0.2, importance=0.55, subjects=['region:Moria'],
+         imprint={'fear': 0.3, 'familiarity': 0.4},
+         region='Moria'),
+    _mem("A wolf looked at me across the Withywindle and decided I was "
+         "the forest's problem. It was not wrong.",
+         ['region:Old Forest'] + WOLVES, _d(1843, 6, 20),
+         valence=0.2, importance=0.4,
+         subjects=['region:Old Forest'] + WOLVES,
+         imprint={'familiarity': 0.4},
+         region='Old Forest'),
+    _mem("A trader in Tharbad sold me river-pearls at double price "
+         "because he thought elves do not count. Elves count. Elves "
+         "count everything; it is the flaw of living too long.",
+         ['region:Minhiriath'] + HUMANS + FRIENDLY + SETTLEMENT, _d(1936, 8, 8),
+         valence=0.15, importance=0.4, subjects=HUMANS,
+         imprint={'familiarity': 0.4},
+         region='Minhiriath'),
+    _mem("A raven followed me nine days across the Lone-lands last "
+         "winter. I named it something unkind and it stayed anyway. "
+         "That is how most of my friendships happen.",
+         ['region:Lone-lands'] + BIRDS + F_CROWS, _d(1947, 1, 19),
+         valence=0.45, importance=0.45,
+         subjects=['region:Lone-lands'] + F_CROWS,
+         imprint={'affection': 0.4},
+         region='Lone-lands'),
+]
+
+MEMORY_PACKS = {
+    'celebrian': CELEBRIAN_MEMORIES,
+}
+
+
+# ============================================================================
+# Leans (preset_leans) — authored starting Relations for her places and
+# kinds: the full vector, where a bare stance cannot carry both the love
+# and the weariness.
+# ============================================================================
+def _lean(subject, affection=0.0, trust=0.0, fear=0.0, familiarity=0.0):
+    return {
+        'subject': subject, 'affection': affection, 'trust': trust,
+        'fear': fear, 'familiarity': familiarity,
+    }
+
+
+CELEBRIAN_LEANS = [
+    _lean('region:Fangorn', affection=0.7, trust=0.4, familiarity=0.6),
+    _lean('region:Eregion', affection=0.6, familiarity=0.7),
+    _lean('region:Old Forest', affection=0.3, fear=0.15, familiarity=0.4),
+    _lean('family:ents', affection=0.6, trust=0.4, familiarity=0.5),
+    _lean('tag:entity_type:maiar', affection=0.3, trust=0.5, familiarity=0.4),
+    _lean('tag:entity_type:orcs', affection=-0.7, fear=0.2, familiarity=0.5),
+    _lean('tag:entity_type:undead', affection=0.15, familiarity=0.6),
+    _lean('tag:entity_type:elves', affection=-0.1, familiarity=0.6),
+    _lean('tag:entity_type:plants', affection=0.4, familiarity=0.5),
+    _lean('region:Lone-lands', affection=0.2, familiarity=0.5),
+    _lean('region:Rivendell', affection=0.15, familiarity=0.4),
+]
+
+LEAN_PACKS = {
+    'celebrian': CELEBRIAN_LEANS,
 }
