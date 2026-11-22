@@ -1,8 +1,9 @@
 # ============================================================================
 # ADR-0016 — agnostic episode wire: canonical fields only
 # ----------------------------------------------------------------------------
-# The payload speaks episode/arc/condition/narration_notes/events; the
-# legacy day/trip_name/character_state/equipment_state fields are gone —
+# The payload speaks episode/arc/condition/events/fate; the legacy
+# day/trip_name/character_state/equipment_state fields are gone — and so
+# is narration_notes: the world reaches the episode only as events.
 # /narrate-day keeps its own contract for the mindless path. The narrator
 # payload stores the canonical channels; narrate rebuilds the day's
 # per-phase world material from episode.events.
@@ -15,6 +16,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 import app.narrate_day as narrate_module
 from app.mind.models import OpenEpisodeRequest
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -39,7 +41,7 @@ def test_open_rejects_legacy_fields():
     import pydantic
     for legacy in ('day', 'trip_name', 'character_state',
                    'equipment_state', 'previous_day', 'recent_day_climates',
-                   'world_notes'):
+                   'world_notes', 'narration_notes'):
         with pytest.raises(pydantic.ValidationError):
             OpenEpisodeRequest(
                 game_id='middle_earth',
@@ -57,17 +59,16 @@ def test_open_accepts_v2_without_day(client):
         'character': {'id': char, 'name': 'Tester'},
         'episode_ref': 'v2-d1',
         'language': 'english',
-        'episode': {'index': 1, 'at': '3018-03-15', 'terminal': False},
+        'episode': {'index': 1, 'at': '3018-03-15'},
         'arc': 'The Long Road North',
         'condition': {'energy': 80, 'rations': 2},
-        'narration_notes': {'climate_state': 'a clear cold morning'},
         'events': [TRAVEL_EVENT],
         'fate': 'living',
     })
     assert r.status_code == 200, r.text
     ep = r.json()
     assert ep['episode_id']
-    assert ep['psyche_packet']['perceived_day']
+    assert open_state(client, ep)['perceived_day']
 
 
 def test_open_v2_narrate_uses_episode_frame(client, monkeypatch):
@@ -86,10 +87,9 @@ def test_open_v2_narrate_uses_episode_frame(client, monkeypatch):
         'game_id': 'middle_earth',
         'character': {'id': char, 'name': 'Tester'},
         'episode_ref': 'v2n-d3',
-        'episode': {'index': 3, 'at': '3018-03-15', 'terminal': False},
+        'episode': {'index': 3, 'at': '3018-03-15'},
         'arc': 'The Long Road North',
         'condition': {'energy': 60},
-        'narration_notes': {'climate_state': 'a clear cold morning'},
         'events': [
             TRAVEL_EVENT,
             {
@@ -161,7 +161,7 @@ def test_ambience_event_perceives_with_provenance_tags(client):
         }],
     })
     assert r.status_code == 200, r.text
-    item = r.json()['psyche_packet']['perceived_day'][0]
+    item = open_state(client, r.json())['perceived_day'][0]
     assert item['type'] == 'ambience'
     assert item['reading'] == 'the fire lights three paces; the wall makes noise'
     assert 'tag:record:M-A4' in item['tags']

@@ -237,7 +237,9 @@ def mood_cause(perceived_day, needs=None):
         desc = getattr(n, 'desc', None) or getattr(n, 'description', None)
         weight = getattr(n, 'urgency', 0.0) or 0.0
         if desc and weight > best_w:
-            best = {'reading': desc, 'valence': -weight}
+            # 'need' marks the body's own voice — the reflection never
+            # rewords what the body already says for itself.
+            best = {'reading': desc, 'valence': -weight, 'need': True}
             best_w = weight
     return best
 
@@ -287,7 +289,10 @@ def _mood_line(mood, today=None):
     yesterday): the orc tracks…'. No cause, no line — a mind at ease
     says nothing about it."""
     cause = (mood or {}).get('cause')
-    if not cause or not cause.get('reading'):
+    # The Reflection's prose overlay rides first when the cause carries
+    # one — the deterministic reading stays the anchor beneath it.
+    wording = (cause or {}).get('prose') or (cause or {}).get('reading')
+    if not wording:
         return None
     verb = (
         'weighing on them' if (cause.get('valence') or 0.0) < 0
@@ -302,7 +307,7 @@ def _mood_line(mood, today=None):
             since = f' (from {days} days ago)'
         elif days >= 14:
             since = ' (from a long while ago)'
-    return f'Still {verb}{since}: {cause["reading"]}'
+    return f'Still {verb}{since}: {wording}'
 
 
 def _age_phrase(mem, age_days):

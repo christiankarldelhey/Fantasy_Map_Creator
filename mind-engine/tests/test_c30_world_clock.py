@@ -20,6 +20,7 @@ from app.db import SessionLocal
 from app.mind.memory import episode_date
 from app.mind.retrieval import memory_age_days
 from app.mind.tables import Memory
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -126,7 +127,7 @@ def test_month_gap_recaps_under_true_age_not_yesterday(client):
 
     # Next lived episode — but a month of rest has passed in-world.
     packet = _open(client, char, 'd2', 2, '1950-07-01')
-    lens = packet['psyche_packet']['lens_block']
+    lens = open_state(client, packet)['lens_block']
     assert 'Yesterday, as they remember it' not in lens
 
 
@@ -136,7 +137,7 @@ def test_true_yesterday_is_not_a_reason_on_its_own(client):
     char = _uid('truey')
     _mem(client, char, 'the ford ran brown with meltwater', 1, '1950-06-01')
     packet = _open(client, char, 'd2', 2, '1950-06-02')
-    lens = packet['psyche_packet']['lens_block']
+    lens = open_state(client, packet)['lens_block']
     assert 'Yesterday, as they remember it' not in lens
     assert 'the ford ran brown' not in lens
 

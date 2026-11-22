@@ -78,10 +78,13 @@
 
 import { innerClimate, meanOf, sumOf } from '../../adapters/mapClient.js';
 import {
+  resolveClimateState,
   summariseWeather,
   weatherReading,
   weatherTags,
 } from '../naturalLanguage/climateNotes.js';
+import { collectRoadNotes } from '../naturalLanguage/roadNotes.js';
+import { describeElevation } from '../naturalLanguage/elevationNotes.js';
 import { describeMeal, mealLabel } from '../naturalLanguage/mealNotes.js';
 import { collectTerrainNotes } from '../naturalLanguage/terrainNotes.js';
 import { collectLocationNotes, isDeadPlace, isDistantSighting, sightedShape } from '../naturalLanguage/placeNotes.js';
@@ -782,10 +785,60 @@ function interactionEvents(day) {
   return Array.isArray(day.interaction_events) ? day.interaction_events : [];
 }
 
-export function toEvents({ day, trip, character, previousDay }) {
+// The weather the day inherits (was narration_notes.climate_state): a
+// multi-day streak — snowbound, drenched — is a thing lived, so it
+// speaks at first light like the land's other voices. The streak is
+// host memory (recent days' climate), never a number the mind derives.
+function climateStateEvents(day, recentDayClimates) {
+  const { narrative } = resolveClimateState(recentDayClimates, rngOf(day));
+  if (!narrative) return [];
+  return [{
+    type: 'ambience',
+    when: when({ phase: 'morning' }),
+    where: where(regionOf(day)),
+    data: { subtype: 'climate_state', act: 'walk', reading: narrative },
+  }];
+}
+
+// The day's ground as lived material (was narration_notes.lands): the
+// road's character and the climb's effort ride one terrain event, timed
+// to where they bite — the day's elevation peak anchors the moment
+// (dawn crests speak in the morning, midday and dusk ones in the
+// afternoon). Regions themselves already ride 'region' events; this is
+// what their crossing used to summarise as context.
+function groundEvents(day) {
+  const rng = rngOf(day);
+  const notes = collectRoadNotes(
+    day.road_types, day.regions, day.terrain_phrases, rng
+  ).map((n) => n.replace(/^- \w+: /, '').replace(/ \([\d.]+ km\)$/, ''));
+  const elevation = describeElevation(day.elevation_profile, rng);
+  if (!notes.length && !elevation) return [];
+  const profile = day.elevation_profile || {};
+  const peak = Math.max(
+    profile.dawn_m || 0, profile.midday_m || 0, profile.dusk_m || 0
+  );
+  const phase = !elevation || peak === (profile.dawn_m || 0)
+    ? 'morning'
+    : 'afternoon';
+  return [{
+    type: 'land',
+    when: when({ phase }),
+    where: where(regionOf(day)),
+    data: {
+      subtype: 'terrain',
+      act: 'walk',
+      road_types: day.road_types || undefined,
+      reading: [...notes, elevation].filter(Boolean).join(' '),
+    },
+  }];
+}
+
+export function toEvents({ day, trip, character, previousDay, recentDayClimates }) {
   const events = [
     ...climateEvents(day),
+    ...climateStateEvents(day, recentDayClimates),
     ...terrainEvents(day),
+    ...groundEvents(day),
     ...encounterEvents(day),
     ...mealEvents(day),
     ...placeEvents(day),

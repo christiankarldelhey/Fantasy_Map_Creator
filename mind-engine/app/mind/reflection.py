@@ -1,17 +1,20 @@
 # ============================================================================
 # Reflection (B4) — the mind's only LLM call
 # ----------------------------------------------------------------------------
-# Triggered at close-episode: every `reflection_every` episodes, or any
-# perceived event whose salience clears `reflection_importance_min`.
+# Triggered at close-episode: every `reflection_every` episodes (bent by
+# `personality.reflectiveness`), or any perceived event whose salience
+# clears `reflection_importance_min`.
 #
 # The LLM sees the character's strongest memories and active beliefs and
-# returns OPERATIONS, not prose: create / reinforce / contradict / invert.
-# The anti-hallucination rule is hard: every op must cite real memory ids
-# in `evidence` — ops without valid evidence are dropped before touching
-# the DB. Reconciliation is applied here deterministically (deltas,
+# returns OPERATIONS, not prose: create / reinforce / contradict / invert
+# — and words-only ones: reword a memory's desc, reword a belief's
+# statement, reword the carried mood cause. The anti-hallucination rule
+# is hard: every belief op must cite real memory ids in `evidence` — ops
+# without valid evidence are dropped before touching the DB.
+# Reconciliation is applied here deterministically (deltas,
 # weakened/inverted status, cap on active beliefs, decay of the
-# unreinforced). If the LLM is down or talks nonsense, reflection is
-# skipped: the close must never fail on it.
+# unreinforced). The LLM touches wording, never values. If it is down or
+# talks nonsense, reflection is skipped: the close must never fail on it.
 # ============================================================================
 import json
 import logging
@@ -32,24 +35,33 @@ log = logging.getLogger(__name__)
 _SYSTEM = """\
 You are the reflective faculty of a fictional character's mind. Given the
 memories that marked them and the beliefs they already hold, decide how
-those beliefs should change. Answer with ONLY a JSON object — no prose,
-no fences:
+those beliefs should change — and whether anything deserves better words.
+Answer with ONLY a JSON object — no prose, no fences:
 
 {"reflections": [
   {"op": "create",     "kind": "world|self|other|value",
    "horizon": "enduring|transient", "statement": "...",
    "strength": 1-5, "evidence": ["mem_id", ...]},
-  {"op": "reinforce",  "belief_id": "bl_...", "evidence": ["mem_id", ...]},
-  {"op": "contradict", "belief_id": "bl_...", "evidence": ["mem_id", ...]},
+  {"op": "reinforce",  "belief_id": "bl_...", "evidence": ["mem_id", ...],
+   "statement": "optional — the belief, reworded"},
+  {"op": "contradict", "belief_id": "bl_...", "evidence": ["mem_id", ...],
+   "statement": "optional — the belief as it now stands"},
   {"op": "invert",     "belief_id": "bl_...", "statement": "the inverted
-   belief", "strength": 1-5, "evidence": ["mem_id", ...]}
-]}
+   belief", "strength": 1-5, "evidence": ["mem_id", ...]},
+  {"op": "reword",     "memory_id": "mem_...", "desc": "the memory
+   retold, more inward"}
+ ],
+ "mood_prose": "optional — what still weighs on them, reworded"}
 
 Rules:
-- Every operation MUST cite memory ids in "evidence" — no belief without
-  lived evidence.
+- Every belief operation MUST cite memory ids in "evidence" — no belief
+  without lived evidence.
 - Only "invert" when a belief has been denied repeatedly; the new
   "statement" is the grown belief (opposite sign).
+- "reword" retells a memory in the mind's own voice — the same event,
+  never new facts.
+- "mood_prose" rewords the carried mood cause listed below; omit it when
+  the mood is at ease or the cause already reads true.
 - Keep statements first-person and concrete; never mention ids, episodes
   or the word "memory".
 - "horizon" is 'transient' when the belief binds to current
@@ -62,21 +74,20 @@ Rules:
 _JSON_RE = re.compile(r'\{.*\}', re.S)
 
 
-def _parse_ops(text):
+def _parse_payload(text):
     if not text:
-        return []
+        return {}
     match = _JSON_RE.search(text)
     if not match:
-        return []
+        return {}
     try:
         payload = json.loads(match.group(0))
     except (ValueError, TypeError):
-        return []
-    ops = payload.get('reflections') if isinstance(payload, dict) else None
-    return [op for op in ops or [] if isinstance(op, dict)]
+        return {}
+    return payload if isinstance(payload, dict) else {}
 
 
-def _build_prompt(character_name, memories, beliefs):
+def _build_prompt(character_name, memories, beliefs, cause=None):
     mem_lines = '\n'.join(
         f'- id={m.id} valence={m.valence:+.2f} importance={m.importance:.2f}'
         f' — {m.desc}'
@@ -88,12 +99,18 @@ def _build_prompt(character_name, memories, beliefs):
         f' — {b.desc}'
         for b in beliefs
     ) or '- (none yet)'
+    wording = (cause or {}).get('prose') or (cause or {}).get('reading')
+    mood_lines = (
+        f'What still weighs on them (mood cause):\n- {wording}\n\n'
+        if wording else ''
+    )
     return {
         'system': _SYSTEM,
         'user': (
             f'The mind of {character_name}.\n\n'
             f'What they lived (memories):\n{mem_lines}\n\n'
             f'What they believe (beliefs):\n{belief_lines}\n\n'
+            f'{mood_lines}'
             'Reflect. Which beliefs form, strengthen, weaken or turn?'
         ),
     }
@@ -101,14 +118,19 @@ def _build_prompt(character_name, memories, beliefs):
 
 def _valid_ops(ops, memory_ids, belief_ids):
     """Anti-hallucination gate: ops cite real memories and real beliefs or
-    they never happened."""
+    they never happened. Words-only ops anchor differently — a reword
+    names the memory itself, not evidence."""
     valid = []
     for op in ops:
+        name = op.get('op')
+        if name == 'reword':
+            if op.get('memory_id') in memory_ids and op.get('desc'):
+                valid.append(op)
+            continue
         evidence = [e for e in (op.get('evidence') or []) if e in memory_ids]
         if not evidence:
             continue
         op['evidence'] = evidence
-        name = op.get('op')
         if name == 'create':
             if op.get('kind') in ('world', 'self', 'other', 'value') and op.get('statement'):
                 if op.get('horizon') not in ('enduring', 'transient'):
@@ -177,8 +199,11 @@ def _conviction(session, op_data, mind, idx, inherited=None):
     )
 
 
-def _apply_ops(session, mind, ops, beliefs_by_id, idx, w):
-    counts = {'formed': 0, 'reinforced': 0, 'contradicted': 0, 'inverted': 0}
+def _apply_ops(session, mind, ops, beliefs_by_id, memories_by_id, idx, w):
+    counts = {
+        'formed': 0, 'reinforced': 0, 'contradicted': 0, 'inverted': 0,
+        'reworded': 0,
+    }
     reinforce = w.get('belief_reinforce_delta', 0.5)
     contradict = w.get('belief_contradict_delta', 0.75)
     weaken_below = w.get('belief_weaken_below', 1.5)
@@ -186,8 +211,20 @@ def _apply_ops(session, mind, ops, beliefs_by_id, idx, w):
     touched = set()
 
     new_cap = int(w.get('belief_new_per_reflection', 2))
+    reword_cap = int(w.get('reword_per_reflection', 3))
     for op in ops:
         name = op['op']
+        if name == 'reword':
+            # Retelling reconsolidates: the same event in the mind's own
+            # words — desc only, the values never move.
+            if counts['reworded'] >= reword_cap:
+                continue
+            mem = memories_by_id.get(op['memory_id'])
+            if mem is None:
+                continue
+            mem.desc = str(op['desc'])[:2000]
+            counts['reworded'] += 1
+            continue
         if name == 'create':
             # Convictions accrete slowly — a single reflection cannot
             # mint a worldview (the LLM orders its ops by weight).
@@ -215,6 +252,8 @@ def _apply_ops(session, mind, ops, beliefs_by_id, idx, w):
                 session, facet['evidence']
             ) < 0:
                 belief.tags = list(set((belief.tags or []) + ['trauma']))
+            if op.get('statement'):
+                belief.desc = str(op['statement'])[:2000]
             counts['reinforced'] += 1
         elif name == 'contradict':
             facet['strength'] = (facet.get('strength') or 0) - contradict
@@ -222,6 +261,10 @@ def _apply_ops(session, mind, ops, beliefs_by_id, idx, w):
                 dict.fromkeys((facet.get('evidence') or []) + op['evidence'])
             )
             facet['updated'] = idx
+            # The belief may be rewritten, not just weakened: a conviction
+            # that survives its contradiction matures into new wording.
+            if op.get('statement'):
+                belief.desc = str(op['statement'])[:2000]
             if facet['strength'] < weaken_below:
                 facet['status'] = 'weakened'
                 # The written conviction quieted — its impression fades
@@ -394,7 +437,12 @@ def maybe_reflect(session, mind, episode, character_name=None):
         for i in (episode.perceived_day or [])
     )
     every = int(w.get('reflection_every', 5))
-    if idx is None or (idx - last < every and not high_salience):
+    # reflectiveness bends the cadence: 0 — only the world can spike a
+    # reflection; 1 — the mind gathers its thoughts almost daily.
+    refl = _f((mind.personality or {}).get('reflectiveness'), 0.5)
+    cadence = max(1, int(every * (1 - refl) + 0.5)) if refl > 0 else None
+    due = idx is not None and cadence is not None and idx - last >= cadence
+    if idx is None or not (due or high_salience):
         return None
 
     # autoflush is off project-wide: this episode's memories were encoded
@@ -432,13 +480,21 @@ def maybe_reflect(session, mind, episode, character_name=None):
         return {'reflected': False, 'reason': 'no_strong_evidence'}
     beliefs = reflection_beliefs(session, mind, memories, last, w)
 
+    # A need-derived cause is the body's own voice — never offered to the
+    # reflection for rewording (nor does AI prose ever mask it).
+    cause = (mind.mood or {}).get('cause')
+    if cause and cause.get('need'):
+        cause = None
     prompt = _build_prompt(
-        character_name or mind.character_id, memories, beliefs
+        character_name or mind.character_id, memories, beliefs,
+        cause=cause,
     )
     try:
         result = generate_narrative(prompt, day_number=idx)
+        payload = _parse_payload(result.get('text'))
         ops = _valid_ops(
-            _parse_ops(result.get('text')),
+            [o for o in (payload.get('reflections') or [])
+             if isinstance(o, dict)],
             {m.id for m in memories},
             {b.id for b in beliefs},
         )
@@ -449,7 +505,20 @@ def maybe_reflect(session, mind, episode, character_name=None):
         return {'reflected': False, 'reason': 'llm_unavailable'}
 
     beliefs_by_id = {b.id: b for b in beliefs}
-    counts = _apply_ops(session, mind, ops, beliefs_by_id, idx, w)
+    memories_by_id = {m.id: m for m in memories}
+    counts = _apply_ops(
+        session, mind, ops, beliefs_by_id, memories_by_id, idx, w
+    )
+    # AI wording for the carried cause — bound to the cause object it
+    # describes: the next deterministic cause rebuilds the dict and the
+    # prose dies with it; the mood's physics never waits on the LLM.
+    mood_prose = str(payload.get('mood_prose') or '').strip()[:500]
+    if mood_prose and cause is not None:
+        mind.mood = {
+            **mind.mood,
+            'cause': {**mind.mood['cause'], 'prose': mood_prose},
+        }
+        counts['mood_reworded'] = True
     counters['last_reflection_episode'] = idx
     mind.counters = counters
     return {'reflected': True, **counts}

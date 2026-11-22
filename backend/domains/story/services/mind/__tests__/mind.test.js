@@ -753,7 +753,7 @@ test('the open payload carries raw state, never rendered blocks (C10)', () => {
   assert.equal(body.condition.rations, 1);
   assert.equal(body.fate, 'living');
   // No half-rendered blocks may travel: the narrator's material rides
-  // narration_notes + the events' readings, not stray top-level fields.
+  // the events' readings, not stray top-level fields.
   assert.equal(body.condition_block, undefined);
   assert.equal(body.equipment_block, undefined);
   assert.equal(body.end_state_block, undefined);
@@ -798,7 +798,7 @@ test('the open payload only emits keys the wire model declares', () => {
 
   assert.deepEqual(Object.keys(body).sort(), [
     'arc', 'character', 'condition', 'episode', 'episode_ref', 'events',
-    'fate', 'game_id', 'language', 'narration_notes',
+    'fate', 'game_id', 'language',
   ]);
   // The stateless contract keeps its own day shape — the slim whitelist
   // still applies to it, built separately by toNarrateDayBody.
@@ -912,18 +912,16 @@ test('the open payload carries the canonical v2 channels (ADR-0016)', () => {
     characterState: { energy: 35 },
     equipmentState: { rations: 2 },
   });
-  assert.deepEqual(body.episode, { index: 3, at: '3018-03-15', terminal: false });
+  assert.deepEqual(body.episode, { index: 3, at: '3018-03-15' });
   assert.equal(body.arc, 'The Long Road North');
   assert.deepEqual(body.condition, {
     energy: 35, rations: 2, distance_km: 14.5, walking_hours: 5.5,
   });
-  assert.ok(body.narration_notes && typeof body.narration_notes === 'object');
-  // Only the briefing that is no lived event rides here — the per-phase
-  // world prose lives in the events' readings.
-  assert.equal(body.narration_notes.weather, undefined);
-  assert.equal(body.narration_notes.meals, undefined);
-  // The night's lead-in IS a lived event: the rest event carries it now.
-  assert.equal(body.narration_notes.night_lead, undefined);
+  // Everything the day was is an event now: no narrator briefing rides
+  // beside them — climate streaks, the ground and the end all speak as
+  // events or through `condition`/`fate`.
+  assert.equal(body.narration_notes, undefined);
+  assert.equal(body.day, undefined);
 });
 
 test('solar clauses weave into the weather events — dawn when extreme, dusk always', () => {

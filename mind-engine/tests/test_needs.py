@@ -15,6 +15,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 from app.db import SessionLocal
 from app.mind.tables import Need
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -54,8 +55,8 @@ def _quiet(ep):
     }
 
 
-def _need_keys(packet):
-    return [n['key'] for n in packet['psyche_packet']['needs_active']]
+def _need_keys(client, packet):
+    return [n['key'] for n in open_state(client, packet)['needs_active']]
 
 
 def test_hunger_detector_opens_need(client):
@@ -63,13 +64,13 @@ def test_hunger_detector_opens_need(client):
     packet = _open(
         client, char, 'd1', [], condition={'days_without_food': 2}
     )
-    needs = packet['psyche_packet']['needs_active']
+    needs = open_state(client, packet)['needs_active']
     hunger = next(n for n in needs if n['key'] == 'hunger')
     assert hunger['type'] == 'physiological'
     assert hunger['urgency'] == pytest.approx(0.7)  # 0.3 + 0.2 * 2 days
     # Past the urgency line it reaches the lens — as an intention with its
     # origin, not a number.
-    lens = packet['psyche_packet']['lens_block']
+    lens = open_state(client, packet)['lens_block']
     assert hunger['description'] in lens
     assert '2 days without a proper meal' in lens
 
@@ -80,7 +81,7 @@ def test_detector_need_clears_when_state_clears(client):
     second = _open(
         client, char, 'd2', [], condition={'days_without_food': 0}
     )
-    assert 'hunger' not in _need_keys(second)
+    assert 'hunger' not in _need_keys(client, second)
 
     session = SessionLocal()
     need = session.query(Need).filter_by(character_id=char, key='hunger').one()
@@ -100,13 +101,13 @@ def test_thread_opens_and_waits(client):
         'data': {'entity': 'hobbit-caller', 'thread': 'debt:hobbit'},
     }
     first = _open(client, char, 'd1', [owing])
-    needs = first['psyche_packet']['needs_active']
+    needs = open_state(client, first)['needs_active']
     thread = next(n for n in needs if n['key'] == 'thread:debt:hobbit')
     assert thread['type'] == 'thread'
     assert thread['entity'] == 'hobbit-caller'
 
     second = _open(client, char, 'd2', [_quiet(2)])
-    assert 'thread:debt:hobbit' in _need_keys(second)
+    assert 'thread:debt:hobbit' in _need_keys(client, second)
 
 
 def test_thread_resolves_via_event_marker(client):
@@ -123,7 +124,7 @@ def test_thread_resolves_via_event_marker(client):
         'data': {'entity': 'hobbit-caller', 'resolves': 'debt:hobbit'},
     }
     second = _open(client, char, 'd2', [repaid])
-    assert 'thread:debt:hobbit' not in _need_keys(second)
+    assert 'thread:debt:hobbit' not in _need_keys(client, second)
 
 
 def test_outcome_resolves_need_at_close(client):
@@ -131,13 +132,13 @@ def test_outcome_resolves_need_at_close(client):
     opened = _open(
         client, char, 'd1', [], condition={'days_without_food': 1}
     )
-    assert 'hunger' in _need_keys(opened)
+    assert 'hunger' in _need_keys(client, opened)
     closed = _close(client, opened['episode_id'], {'resolved_needs': ['hunger']})
     assert closed['needs_resolved'] == 1
 
     # A later episode without the condition confirms it stays closed.
     again = _open(client, char, 'd2', [_quiet(2)])
-    assert 'hunger' not in _need_keys(again)
+    assert 'hunger' not in _need_keys(client, again)
 
 
 def test_weather_streak_opens_exposure(client):
@@ -150,7 +151,7 @@ def test_weather_streak_opens_exposure(client):
             'data': {'tags': ['weather:freezing', 'weather:snow']},
         }
         opened = _open(client, char, f'd{ep}', [storm])
-        assert 'exposure' not in _need_keys(opened)
+        assert 'exposure' not in _need_keys(client, opened)
         _close(client, opened['episode_id'])
 
     third = {
@@ -159,7 +160,7 @@ def test_weather_streak_opens_exposure(client):
         'data': {'tags': ['weather:freezing', 'weather:snow']},
     }
     opened = _open(client, char, 'd3', [third])
-    assert 'exposure' in _need_keys(opened)
+    assert 'exposure' in _need_keys(client, opened)
 
 
 def test_unnoticed_event_opens_no_thread(client):
@@ -176,6 +177,6 @@ def test_unnoticed_event_opens_no_thread(client):
     packet = _open(
         client, char, 'd1', [hidden], extra={'skills': {'tracking': 0}}
     )
-    item = packet['psyche_packet']['perceived_day'][0]
+    item = open_state(client, packet)['perceived_day'][0]
     assert item['perception'] == 'unnoticed'
-    assert 'thread:danger:wolves' not in _need_keys(packet)
+    assert 'thread:danger:wolves' not in _need_keys(client, packet)

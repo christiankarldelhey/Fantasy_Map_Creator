@@ -14,6 +14,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 from app.db import SessionLocal
 from app.mind.tables import CompositeRule
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -82,8 +83,8 @@ def _day(client, char, ep, events):
     return opened
 
 
-def _need_keys(opened):
-    return {n['key'] for n in opened['psyche_packet']['needs_active']}
+def _need_keys(client, opened):
+    return {n['key'] for n in open_state(client, opened)['needs_active']}
 
 
 def test_compound_rule_fires_after_streak(client):
@@ -91,10 +92,10 @@ def test_compound_rule_fires_after_streak(client):
     char = _uid('snowed')
     # Day 1 snowy → streak 1 < 2, nothing yet.
     opened = _day(client, char, 1, [_snow(1)])
-    assert 'snowbound' not in _need_keys(opened)
+    assert 'snowbound' not in _need_keys(client, opened)
     # Day 2 snowy → streak 2 → the need opens, with the rule's own words.
     opened = _day(client, char, 2, [_snow(2)])
-    needs = opened['psyche_packet']['needs_active']
+    needs = open_state(client, opened)['needs_active']
     snowbound = next(n for n in needs if n['key'] == 'snowbound')
     assert snowbound['description'] == \
         'snowed in — the passes are closed and the heart sinks'
@@ -106,7 +107,7 @@ def test_streak_resets_on_mild_day(client):
     _day(client, char, 1, [_snow(1)])
     _day(client, char, 2, [_mild(2)])          # breaks the streak
     opened = _day(client, char, 3, [_snow(3)])  # back to 1 < 2
-    assert 'snowbound' not in _need_keys(opened)
+    assert 'snowbound' not in _need_keys(client, opened)
 
 
 def test_and_clauses_must_share_one_event(client):
@@ -123,7 +124,7 @@ def test_and_clauses_must_share_one_event(client):
              'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
              'data': {'precipitation': 3.0}},           # wet, no temp
         ])
-    assert 'snowbound' not in _need_keys(opened)
+    assert 'snowbound' not in _need_keys(client, opened)
 
 
 def test_malformed_rule_never_breaks_the_day(client):
@@ -145,7 +146,7 @@ def test_malformed_rule_never_breaks_the_day(client):
     session.close()
     try:
         opened = _open(client, _uid('safe'), [_snow(1)], 'd1')
-        assert 'garbage' not in _need_keys(opened)
+        assert 'garbage' not in _need_keys(client, opened)
     finally:
         session = SessionLocal()
         session.query(CompositeRule).filter_by(
@@ -178,7 +179,7 @@ def test_db_rule_overrides_default_exposure(client):
             'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
             'data': {'wind_speed_10m': 40.0},
         }])
-    needs = opened['psyche_packet']['needs_active']
+    needs = open_state(client, opened)['needs_active']
     exposure = next(n for n in needs if n['key'] == 'exposure')
     assert exposure['description'] == \
         'the wind has not let up — the body is worn'
@@ -199,9 +200,9 @@ def test_default_exposure_reads_tags(client):
     char = _uid('soaked')
     for ep in (1, 2):
         opened = _day(client, char, ep, [_tagged(ep, 'weather:wet')])
-        assert 'exposure' not in _need_keys(opened)
+        assert 'exposure' not in _need_keys(client, opened)
     opened = _day(client, char, 3, [_tagged(3, 'weather:wet')])
-    assert 'exposure' in _need_keys(opened)
+    assert 'exposure' in _need_keys(client, opened)
 
 
 def test_gloom_opens_on_sunless_streak(client):
@@ -210,9 +211,9 @@ def test_gloom_opens_on_sunless_streak(client):
     char = _uid('grey')
     for ep in (1, 2):
         opened = _day(client, char, ep, [_tagged(ep, 'weather:overcast')])
-        assert 'gloom' not in _need_keys(opened)
+        assert 'gloom' not in _need_keys(client, opened)
     opened = _day(client, char, 3, [_tagged(3, 'weather:overcast')])
-    needs = opened['psyche_packet']['needs_active']
+    needs = open_state(client, opened)['needs_active']
     gloom = next(n for n in needs if n['key'] == 'gloom')
     assert gloom['urgency'] < 0.7
 
@@ -223,4 +224,4 @@ def test_gloom_breaks_on_a_clear_day(client):
     _day(client, char, 2, [_tagged(2, 'weather:overcast')])
     _day(client, char, 3, [_tagged(3, 'weather:clear')])   # the sun returns
     opened = _day(client, char, 4, [_tagged(4, 'weather:overcast')])
-    assert 'gloom' not in _need_keys(opened)
+    assert 'gloom' not in _need_keys(client, opened)

@@ -2,7 +2,7 @@
 # Mind Engine HTTP routes
 # ----------------------------------------------------------------------------
 # POST /episodes          — open: validate events[], persist episode + config
-#                           snapshot, return the psyche_packet stub.
+#                           snapshot, return the episode handle.
 # GET  /episodes/{id}     — episode state (debug).
 # GET  /mind/state/{cid}  — character mind profile (shell until A5).
 #
@@ -70,7 +70,6 @@ from app.mind.models import (
     PerceiveResponse,
     PromotePackRequest,
     PromotePackResponse,
-    PsychePacket,
     ReassignPresetRequest,
     ResetMindRequest,
 )
@@ -106,7 +105,7 @@ from app.mind.provisioning import (
 from app.mind.reflection import maybe_reflect
 from app.mind.memory import episode_date, episode_index
 from app.mind.retrieval import (
-    dialogue_recall, link_evoked, memory_age_days, retrieve,
+    dialogue_recall, link_evoked, memory_age_days, retrieve, voice_memories,
 )
 from app.mind.attitudes import active_convictions
 from app.mind.tables import (
@@ -206,23 +205,6 @@ def _check_results(episode: Episode) -> list:
     ]
 
 
-def _build_packet(db, episode: Episode, mind: Mind = None) -> PsychePacket:
-    """Packet from persisted state — perception, lens and mood are written
-    once at open; re-open replays the same snapshot (idempotent)."""
-    perceived = [PerceivedEvent(**e) for e in (episode.perceived_day or [])]
-    mood = Mood(**(mind.mood or {})) if mind else Mood()
-    return PsychePacket(
-        episode_id=episode.id,
-        perceived_day=perceived,
-        lens_block=episode.lens_block or '',
-        mood=mood,
-        day_mood=Mood(**(episode.mood or {})),
-        check_results=_check_results(episode),
-        needs_active=episode.needs_active or [],
-        brief=episode.brief,
-    )
-
-
 def _episode_state(db, episode: Episode) -> EpisodeStateResponse:
     return EpisodeStateResponse(
         episode_id=episode.id,
@@ -239,6 +221,8 @@ def _episode_state(db, episode: Episode) -> EpisodeStateResponse:
         check_results=_check_results(episode),
         needs_active=episode.needs_active or [],
         lens_block=episode.lens_block,
+        brief=episode.brief,
+        lens_eval=episode.lens_eval,
         mood=episode.mood,
         outcome=episode.outcome,
         decisions=episode.decisions or {},
@@ -311,15 +295,12 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                         k: v for k, v in card.items() if v is not None
                     },
                     'language': payload.language,
-                    'characterState': payload.condition,
                     'fate': payload.fate,
                     'episode': (
                         payload.episode.model_dump(exclude_none=True)
                         if payload.episode else None
                     ),
-                    'arc': payload.arc,
                     'condition': payload.condition,
-                    'narration_notes': payload.narration_notes,
                 },
                 # Audit snapshot: the exact knobs this episode runs under.
                 # Admin edits apply to future episodes, not in-flight ones.
@@ -351,7 +332,8 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 counters = dict(mind.counters or {})
                 counters['felt_event_ids'] = []
                 mind.counters = counters
-            # The episode stirs memory: top-K evoked, strengthened, linked.
+            # The episode stirs memory: the top-K candidates, linked to
+            # the items that stirred them — inert until the brief speaks.
             evoked = retrieve(db, mind, episode, perceived)
             episode.perceived_day = link_evoked(perceived, evoked)
             # C23: a spoken encounter queries memory on its own terms —
@@ -361,6 +343,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             episode_idx = episode_index(episode)
             w_mind = {**DEFAULT_WIRING, **(mind.wiring or {})}
             evoked_ids = {m.id for m in evoked}
+            recalled = []
             for item in episode.perceived_day:
                 data = item.get('data') or {}
                 if item.get('type') != 'encounter' or not data.get('substance'):
@@ -375,11 +358,9 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 mem.evocations = (mem.evocations or 0) + 1
                 if episode_idx is not None:
                     mem.last_evoked_episode = episode_idx
-                mem.strength = min(
-                    1.0,
-                    (mem.strength or 0.0)
-                    + w_mind.get('retrieval_boost', 0.1),
-                )
+                # A recalled memory IS voiced — the mind answered from
+                # it; it consolidates with the brief-voiced ones below.
+                recalled.append(mem)
             # Needs: detectors fire from the snapshot/body state, threads
             # from what was just perceived. Snapshot lands on the episode.
             needs = needs_pass(
@@ -467,14 +448,27 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             # Words are fixed at open so a re-narration replays them:
             # memories carry their age, the mood its 'still weighing'.
             mem_by_id = {m.id: m for m in evoked}
+            voiced_ids = []
             for line in brief_lines(brief):
                 if line['kind'] == 'memory':
                     m = mem_by_id.get(line['id'].split(':', 1)[1])
                     if m is not None:
                         line['age'] = _age_phrase(m, memory_age_days(episode, m))
+                        voiced_ids.append(m.id)
                 line['render'] = line_text(
                     line, entering_mood, episode.episode_date
                 )
+            # Candidate vs voiced: what the brief carries bleeds back —
+            # strength, the imprint's share on Relations, the mood pull.
+            # The rest were stirred, recorded, and stayed inert.
+            voiced = (
+                [m for m in evoked if m.id in set(voiced_ids)] + recalled
+            )
+            voice_memories(db, mind, voiced, episode.episode_idx)
+            episode.lens_eval = {
+                'evoked': [m.id for m in evoked] + [m.id for m in recalled],
+                'voiced': voiced_ids + [m.id for m in recalled],
+            }
             episode.brief = brief
             episode.lens_block = render_lens(
                 payload.character.name or payload.character.id, brief,
@@ -482,17 +476,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             )
             db.commit()
             db.refresh(episode)
-        else:
-            mind = (
-                db.query(Mind)
-                .filter_by(
-                    game_id=payload.game_id,
-                    character_id=payload.character.id,
-                )
-                .one_or_none()
-            )
-        packet = _build_packet(db, episode, mind)
-        return OpenEpisodeResponse(episode_id=episode.id, psyche_packet=packet)
+        return OpenEpisodeResponse(episode_id=episode.id)
     except SQLAlchemyError as exc:
         db.rollback()
         log.warning('open_episode failed: %s', exc)
@@ -702,16 +686,14 @@ def narrate_episode(
             )
         try:
             req = NarrateDayRequest.model_validate(episode.narrator_payload)
-            # ADR-0016: episodes carry episode/arc/narration_notes and no
-            # `day`; the prompt's frame is back-filled and the per-phase
-            # world material is rebuilt from episode.events themselves.
+            # ADR-0016: episodes carry episode/arc and no `day`; the
+            # prompt's frame is back-filled and the per-phase world
+            # material is rebuilt from episode.events themselves.
             day = {'date': frame['at']}
             if frame.get('index') is not None:
                 day['day_number'] = frame['index']
-            if frame.get('terminal') is not None:
-                day['is_last_day'] = frame['terminal']
-            if stored.get('narration_notes'):
-                day['world_notes'] = stored['narration_notes']
+            if req.fate and req.fate != 'living':
+                day['is_last_day'] = True
             # Encounters reach the narrator through events now (ADR-0016):
             # rebuild the legacy per-phase shape from episode.events.
             if not day.get('encounters'):
@@ -737,15 +719,10 @@ def narrate_episode(
             trip=req.trip,
             character=req.character,
             language=payload.language or req.language,
-            character_state=req.characterState,
             fate=req.fate,
             # The episode's own events carry the per-phase world prose
             # (weather/meal/terrain/place/water readings).
             events=episode.events or [],
-            # Forwarded, not dead: an episode without lens_block falls
-            # back to the stateless prompt, where this is the only
-            # continuity. With a lens, build_day_prompt drops it.
-            previous_day=req.previousDay,
             # The spine's first fixed point: today's dawn opens where
             # last night was spent.
             previous_rest=_previous_rest(db, episode),

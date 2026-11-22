@@ -16,6 +16,7 @@ from fastapi.testclient import TestClient
 import app.main as main_module
 from app.db import SessionLocal
 from app.mind.tables import Episode, Memory, Relation
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -63,9 +64,9 @@ def _close(client, packet):
     return r.json()
 
 
-def _recurrences(packet):
+def _recurrences(client, packet):
     return [
-        i for i in packet['psyche_packet']['perceived_day']
+        i for i in open_state(client, packet)['perceived_day']
         if i['type'] == 'recurrence'
     ]
 
@@ -76,18 +77,18 @@ def test_repetition_pressure_builds_with_the_streak(client):
     char = _uid('rain')
     for ep in (1, 2):
         packet = _open(client, char, ep, [_rain(ep)])
-        assert _recurrences(packet) == []
+        assert _recurrences(client, packet) == []
         _close(client, packet)
 
     p3 = _open(client, char, 3, [_rain(3)])
-    reps = _recurrences(p3)
+    reps = _recurrences(client, p3)
     assert len(reps) == 1
     assert reps[0]['valence'] < 0
     assert reps[0]['data']['streak'] == 3
     _close(client, p3)
 
     p4 = _open(client, char, 4, [_rain(4)])
-    rep4 = _recurrences(p4)[0]
+    rep4 = _recurrences(client, p4)[0]
     assert rep4['valence'] < reps[0]['valence']
     assert rep4['data']['streak'] == 4
 
@@ -99,7 +100,8 @@ def test_repetition_pressure_darkens_the_mood(client):
     for ep in (1, 2):
         _close(client, _open(client, char, ep, [_rain(ep)]))
     p3 = _open(client, char, 3, [_rain(3)])
-    assert p3['psyche_packet']['mood']['valence'] < 0
+    mind = client.get(f'/mind/state/{char}').json()['mind']
+    assert mind['mood']['valence'] < 0
 
 
 def test_dead_streak_is_one_day_of_news(client):
@@ -110,7 +112,7 @@ def test_dead_streak_is_one_day_of_news(client):
         _close(client, _open(client, char, ep, [_rain(ep)]))
     p4 = _open(client, char, 4, [_dry(4)])
     breaks = [
-        i for i in _recurrences(p4) if i['data'].get('break_of')
+        i for i in _recurrences(client, p4) if i['data'].get('break_of')
     ]
     assert len(breaks) == 1
     assert breaks[0]['valence'] > 0
@@ -160,7 +162,7 @@ def test_base_routine_never_grates(client):
         'data': {'slot': 'midday', 'food': 'lembas',
                  'drink': 'waterskin'},
     }])
-    tags = {i['data']['tag'] for i in _recurrences(p4)}
+    tags = {i['data']['tag'] for i in _recurrences(client, p4)}
     assert 'tag:food:lembas' in tags
     assert 'tag:drink:waterskin' not in tags
 
@@ -182,7 +184,7 @@ def test_a_break_that_starves_is_no_relief(client):
     p4 = _open(
         client, char, 4, [], condition={'days_without_food': 2},
     )
-    breaks = [i for i in _recurrences(p4) if i['data'].get('break_of')]
+    breaks = [i for i in _recurrences(client, p4) if i['data'].get('break_of')]
     assert len(breaks) == 1
     assert breaks[0]['valence'] == pytest.approx(-0.1)
     assert 'wrong way' in breaks[0]['reading'] or 'ended badly' in breaks[0]['reading']
@@ -195,7 +197,7 @@ def test_a_break_unwatched_stays_relief(client):
     for ep in (1, 2, 3):
         _close(client, _open(client, char, ep, [_rain(ep)]))
     p4 = _open(client, char, 4, [_dry(4)])
-    breaks = [i for i in _recurrences(p4) if i['data'].get('break_of')]
+    breaks = [i for i in _recurrences(client, p4) if i['data'].get('break_of')]
     assert len(breaks) == 1
     assert breaks[0]['valence'] > 0
 
@@ -212,7 +214,7 @@ def test_marker_tags_never_streak(client):
             'data': {'sighted': 'the ruin', 'entered': 'fords',
                      'tags': ['dead_place', 'settlement', 'visited']},
         }])
-        assert _recurrences(packet) == []
+        assert _recurrences(client, packet) == []
         _close(client, packet)
 
     session = SessionLocal()
@@ -240,7 +242,7 @@ def test_sleepless_nights_read_as_sleepless_nights(client):
         'when': {'episode': 4, 'date': '1950-04-04'},
         'data': {'rest': 'poor'},
     }])
-    reps = _recurrences(p4)
+    reps = _recurrences(client, p4)
     assert len(reps) == 1
     assert 'sleepless nights' in reps[0]['reading']
     assert 'poor' not in reps[0]['reading']
@@ -275,14 +277,14 @@ def test_dreaded_streak_wears_faster_and_its_break_is_deeper_relief(
         'when': {'episode': 4, 'date': '1950-04-04'},
         'data': {'tags': ['entity_type:orcs']},
     }])
-    reps = [i for i in _recurrences(p4)
+    reps = [i for i in _recurrences(client, p4)
             if i['data']['tag'] == 'tag:entity_type:orcs']
     # Neutral would be -(0.08 * 2) = -0.16; fear ~0.9 -> ~-0.3.
     assert reps[0]['valence'] < -0.2
     _close(client, p4)
 
     p5 = _open(client, char, 5, [])
-    breaks = [i for i in _recurrences(p5) if i['data'].get('break_of')]
+    breaks = [i for i in _recurrences(client, p5) if i['data'].get('break_of')]
     assert len(breaks) == 1
     assert breaks[0]['valence'] > 0.3  # relief_val 0.15 + like*scale
 
@@ -305,7 +307,7 @@ def test_loved_streak_wears_slower_and_its_break_is_a_gap(client):
         'when': {'episode': 4, 'date': '1950-04-04'},
         'data': {'slot': 'midday', 'food': 'lembas'},
     }])
-    reps = [i for i in _recurrences(p4)
+    reps = [i for i in _recurrences(client, p4)
             if i['data']['tag'] == 'tag:food:lembas']
     # Neutral would be -0.16; affection halves the wear at most.
     assert len(reps) == 1
@@ -313,7 +315,7 @@ def test_loved_streak_wears_slower_and_its_break_is_a_gap(client):
     _close(client, p4)
 
     p5 = _open(client, char, 5, [])
-    breaks = [i for i in _recurrences(p5) if i['data'].get('break_of')]
+    breaks = [i for i in _recurrences(client, p5) if i['data'].get('break_of')]
     assert len(breaks) == 1
     assert breaks[0]['valence'] < 0
     assert 'gap' in breaks[0]['reading']
@@ -355,7 +357,7 @@ def test_pressure_anchors_to_its_own_beat(client):
             'data': {'slot': 'midday', 'food': 'lembas'},
         },
     ])
-    rep = [i for i in _recurrences(p4)
+    rep = [i for i in _recurrences(client, p4)
            if i['data']['tag'] == 'tag:food:lembas'][0]
     assert rep['when']['phase'] == 'night'
 
@@ -378,7 +380,7 @@ def test_a_salient_novel_event_makes_sameness_yield(client):
                      'intensity': 4},
         },
     ])
-    assert _recurrences(p4) == []
+    assert _recurrences(client, p4) == []
 
 
 def test_the_streaks_own_salience_does_not_silence_it(client):
@@ -399,7 +401,7 @@ def test_the_streaks_own_salience_does_not_silence_it(client):
         'data': {'entity': 'orc_4', 'entity_name': 'orcs',
                  'tags': ['entity_type:orcs']},
     }])
-    reps = [i for i in _recurrences(p4)
+    reps = [i for i in _recurrences(client, p4)
             if i['data']['tag'] == 'tag:entity_type:orcs']
     assert len(reps) == 1
 
@@ -420,6 +422,6 @@ def test_patterns_never_enter_retrieval(client):
 
     # A fresh episode stirs memory — patterns must not be in it.
     p4 = _open(client, char, 4, [_rain(4)])
-    lens = p4['psyche_packet']['lens_block']
+    lens = open_state(client, p4)['lens_block']
     assert 'shape of these days' not in lens
     assert 'pattern is unmistakable' not in lens

@@ -78,7 +78,6 @@ export async function narrateDay({
         generation: narrated.generation,
         mind_episode_id: opened.episode_id,
         mind_open: { request: openReq, response: opened },
-        psyche_packet: narrated.psyche_packet || opened.psyche_packet || null,
       };
     } catch (error) {
       // Invariant: the mind never blocks the game. Fall back to the

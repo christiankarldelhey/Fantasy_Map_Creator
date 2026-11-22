@@ -34,12 +34,9 @@ def narrate_day(
     trip=None,
     character=None,
     language='english',
-    character_state=None,
-    equipment_state=None,
     fate=None,
     previous_day=None,
     previous_rest=None,
-    recent_day_climates=None,
     mind_block='',
     memory_beats=None,
     world_notes=None,
@@ -51,11 +48,9 @@ def narrate_day(
 
     # The world's voice reaches the prompt through two channels
     # (ADR-0016): `events` carry the per-phase lived prose (weather,
-    # meals, terrain, places, water as data.reading); `world_notes` —
-    # or the episode's narration_notes — carries what is no lived
-    # event (climate continuity, the camp lead-in, lands, equipage,
-    # end state, journey context). The stateless path sends only
-    # world_notes; an episode narrates from its own events.
+    # meals, terrain, places, water as data.reading); `world_notes`
+    # is the stateless path's pre-verbalized day — an episode narrates
+    # only from its own events.
     world_notes = world_notes if world_notes is not None else (
         day.get('world_notes') or {}
     )
@@ -77,8 +72,6 @@ def narrate_day(
             (previous_day or {}).get('overnight')
             or (previous_day or {}).get('rest')
         ),
-        character_state=character_state,
-        equipment_state=equipment_state,
         fate=fate,
         climate_state_block=climate_state_block,
         mind_block=mind_block,

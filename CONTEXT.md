@@ -163,7 +163,7 @@ A declared rule that reads the Condition snapshot: it opens a Need when a field 
 _Avoid_: hardcoded check, built-in sensor
 
 **Mood**:
-How the Mind feels as it enters an Episode, always told through what caused it ("still uneasy since the orc tracks"), never as a bare label. A point in valence × arousal space, moved only by Pulls, the body's drag and the drift back to Temperament.
+How the Mind feels as it enters an Episode, always told through what caused it ("still uneasy since the orc tracks"), never as a bare label. A point in valence × arousal space, moved only by Pulls, the body's drag and the drift back to Temperament. The Reflection may lend a carried cause better words — an AI-written overlay that dies with the cause it described, never the physics beneath it.
 _Avoid_: emotion label, affect, dominant
 
 **Pull**:

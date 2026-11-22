@@ -93,11 +93,8 @@ def narrate_day_endpoint(payload: NarrateDayRequest):
             trip=payload.trip,
             character=payload.character,
             language=payload.language,
-            character_state=payload.characterState,
-            equipment_state=payload.equipmentState,
             fate=payload.fate,
             previous_day=payload.previousDay,
-            recent_day_climates=payload.recentDayClimates,
             world_notes=getattr(payload, 'world_notes', None),
         )
         return result

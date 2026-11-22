@@ -97,6 +97,7 @@ def _open(client, char, ep, events, condition=None):
 from datetime import date
 
 from app.mind.lens import mood_cause, render_lens
+from conftest import open_state
 
 
 def test_mood_cause_picks_what_weighed_most():
@@ -182,10 +183,10 @@ def test_episode_lens_never_carries_its_own_day_into_the_mood(client):
                  'entity_type': 'orcs', 'form': 'attacks', 'danger': 4,
                  'prose_hint': 'orc boots, a pursuit gait'},
     }]
-    first = _open(client, char, 1, orc_day)['psyche_packet']['lens_block']
+    first = open_state(client, _open(client, char, 1, orc_day))['lens_block']
     assert 'Still weighing on them' not in first
-    second = _open(
+    second = open_state(client, _open(
         client, char, 2, [], condition={'energy': 0.8, 'wounded': 'none'},
-    )['psyche_packet']['lens_block']
+    ))['lens_block']
     assert 'Still weighing on them (from yesterday)' in second
     assert 'Orc Trackers' in second

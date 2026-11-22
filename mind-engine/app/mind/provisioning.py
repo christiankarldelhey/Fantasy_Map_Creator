@@ -135,6 +135,9 @@ DEFAULT_WIRING = {
     'reflection_every': 5,
     'reflection_importance_min': 0.85,
     'reflection_memory_top': 20,
+    # Words-only ops per sitting: retold memory descs. A reflection
+    # polishes what it touched; it does not rewrite the whole past.
+    'reword_per_reflection': 3,
     'belief_reinforce_delta': 0.5,
     'belief_contradict_delta': 0.75,
     'belief_weaken_below': 1.5,

@@ -15,6 +15,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 import app.main as main_module
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -53,8 +54,8 @@ def _checked_event(check, ep=1):
     }
 
 
-def _only_event(packet):
-    return packet['psyche_packet']['perceived_day'][0]
+def _only_event(client, packet):
+    return open_state(client, packet)['perceived_day'][0]
 
 
 def test_gate_closed_means_no_roll(client):
@@ -64,13 +65,13 @@ def test_gate_closed_means_no_roll(client):
         client, {'id': _uid('gate'), 'skills': {'tracking': 1}},
         'd1', [_checked_event({'skill': 'tracking', 'gate': 5, 'difficulty': 5})],
     )
-    item = _only_event(packet)
+    item = _only_event(client, packet)
     assert item['perception'] == 'unnoticed'
     assert item['reading'] is None
     check = item['check']
     assert check['attempted'] is False and check['success'] is False
     assert check['skill'] == 1 and check['min'] == 5
-    assert packet['psyche_packet']['check_results'] == [check]
+    assert open_state(client, packet)['check_results'] == [check]
 
 
 def test_successful_roll_notices(client):
@@ -80,7 +81,7 @@ def test_successful_roll_notices(client):
         client, {'id': _uid('win'), 'skills': {'tracking': 8}},
         'd1', [_checked_event({'skill': 'tracking', 'difficulty': 5})],
     )
-    item = _only_event(hard)
+    item = _only_event(client, hard)
     assert item['perception'] == 'noticed'
     assert item['check']['success'] is True
     assert item['check']['roll'] >= 1
@@ -92,7 +93,7 @@ def test_successful_roll_notices(client):
         'where': {'region': 'lone-lands'},
         'data': {'entity': 'wolves'},
     }])
-    assert item['salience'] > _only_event(plain)['salience']
+    assert item['salience'] > _only_event(client, plain)['salience']
 
 
 def test_failed_roll_unnoticed(client):
@@ -101,7 +102,7 @@ def test_failed_roll_unnoticed(client):
         client, {'id': _uid('miss'), 'skills': {'tracking': 0}},
         'd1', [_checked_event({'skill': 'tracking', 'difficulty': 25})],
     )
-    item = _only_event(packet)
+    item = _only_event(client, packet)
     assert item['perception'] == 'unnoticed'
     assert item['reading'] is None
     assert item['check']['attempted'] is True
@@ -116,7 +117,7 @@ def test_failure_while_altered_misreads(client):
         {'id': _uid('fear'), 'skills': {'tracking': 0}, 'shadow': 0.8},
         'd1', [_checked_event({'skill': 'tracking', 'difficulty': 25})],
     )
-    item = _only_event(packet)
+    item = _only_event(client, packet)
     assert item['perception'] == 'misread'
     assert item['reading'] is not None and item['reading'] != 'wolves'
     assert item['check']['success'] is False
@@ -134,8 +135,8 @@ def test_state_modifiers_bend_the_roll(client):
         {'id': _uid('fresh'), 'skills': {'tracking': 8}, 'energy': 95},
         'd1', [_checked_event({'skill': 'tracking', 'difficulty': 5})],
     )
-    assert _only_event(tired)['check']['mods'] == -2.0
-    assert _only_event(fresh)['check']['mods'] == 0.0
+    assert _only_event(client, tired)['check']['mods'] == -2.0
+    assert _only_event(client, fresh)['check']['mods'] == 0.0
 
 
 def test_rolls_are_deterministic(client):
@@ -149,8 +150,8 @@ def test_rolls_are_deterministic(client):
         client, {'id': _uid('seed-b'), 'skills': {'tracking': 3}}, 'd1', events,
     )
     assert (
-        a['psyche_packet']['check_results']
-        == b['psyche_packet']['check_results']
+        open_state(client, a)['check_results']
+        == open_state(client, b)['check_results']
     )
 
 

@@ -6,9 +6,12 @@
 #           + δ·semantic_similarity   (B8 — embeddings, JSONB + Python)
 # relevance = share of the memory's tags that appear in the episode's
 # context — perceived event tags ∪ active belief tags (a belief about orcs
-# makes orc-memories easier to stir). Top-K (wiring) get evoked: the single
-# write of this read path is evocations++ / last_evoked_episode /
-# strength += retrieval_boost — evoking a memory strengthens it.
+# makes orc-memories easier to stir). Top-K (wiring) become CANDIDATES:
+# observable but inert — the only writes are evocations++ /
+# last_evoked_episode / last_evoked_date. A candidate changes the mind's
+# persistent state only when the Lens voices it into the brief
+# (voice_memories): then it strengthens, its imprint re-feeds the
+# touched Relations and pulls the Mood back toward it.
 #
 # Contact gate (C20): freshness alone never evokes. A memory must touch
 # THIS day's story — a shared tag with what was actually perceived, or
@@ -186,38 +189,50 @@ def retrieve(session, mind, episode, perceived_day):
 
     scored.sort(key=lambda t: t[0], reverse=True)
     top_k = int(w.get('retrieval_top_k', 5))
-    boost = w.get('retrieval_boost', 0.1)
     # Evocation asks for a minimum score — otherwise a mind with few
     # memories would stir every one of them each episode and nothing
     # would ever fade.
     min_score = w.get('retrieval_min_score', 0.5)
 
     evoked = []
-    mood = {
-        d: ((getattr(mind, 'mood', None) or {}).get(d) or 0.0)
-        for d in MOOD_DIMS
-    }
-    mood_moved = False
-    # Evocation re-feels (ADR 0017, #184): the stirred memory's imprint
-    # lands again at EVOKE_SHARE — on each touched subject's Relation
-    # through the same sediment rule, and on the mood as a PULL toward
-    # the imprint's own felt point (remembering the dark ford draws the
-    # mood back toward it). The echo feeds what it still believes;
-    # contradiction pays resistance.
-    personality = getattr(mind, 'personality', None) or {}
-    resistance = personality.get('resistance')
-    resistance = 0.5 if resistance is None else resistance
-    moodiness = personality.get('moodiness', 0.3)
     for score, mem in scored[:top_k]:
         if score < min_score:
             break
+        # A candidate stirs: observable bookkeeping only. It re-feels —
+        # strength, Relations, Mood — only if the Lens voices it.
         mem.evocations = (mem.evocations or 0) + 1
         if idx is not None:
             mem.last_evoked_episode = idx
         if ep_date is not None:
             mem.last_evoked_date = ep_date
-        mem.strength = min(1.0, (mem.strength or 0.0) + boost)
         evoked.append(mem)
+    return evoked
+
+
+def voice_memories(session, mind, memories, idx):
+    """The voiced consolidation (ADR 0017, #184): only a memory the Lens
+    carried into the brief bleeds back into the mind — it strengthens,
+    its imprint lands again at EVOKE_SHARE on each touched subject's
+    Relation through the same sediment rule, and it pulls the mood
+    toward its own felt point (remembering the dark ford draws the mood
+    back toward it). A candidate never re-feels: what the Episode did
+    not voice cannot move the mind's weather or its standings."""
+    w = {**DEFAULT_WIRING, **(mind.wiring or {})}
+    boost = w.get('retrieval_boost', 0.1)
+    personality = getattr(mind, 'personality', None) or {}
+    resistance = personality.get('resistance')
+    resistance = 0.5 if resistance is None else resistance
+    moodiness = personality.get('moodiness', 0.3)
+    mood = {
+        d: ((getattr(mind, 'mood', None) or {}).get(d) or 0.0)
+        for d in MOOD_DIMS
+    }
+    mood_moved = False
+    for mem in memories:
+        mem.strength = min(1.0, (mem.strength or 0.0) + boost)
+        mem.voiced = (mem.voiced or 0) + 1
+        if idx is not None:
+            mem.last_voiced_episode = idx
         imprint = getattr(mem, 'imprint', None) or {}
         if not imprint:
             continue
@@ -238,7 +253,6 @@ def retrieve(session, mind, episode, perceived_day):
             **prior,
             **{d: round(mood.get(d, 0.0), 3) for d in MOOD_DIMS},
         }
-    return evoked
 
 
 def dialogue_recall(session, mind, item, idx, exclude_ids=()):

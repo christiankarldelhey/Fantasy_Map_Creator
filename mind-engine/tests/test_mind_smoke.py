@@ -22,6 +22,7 @@ import app.narrate_day as narrate_module
 from app.db import SessionLocal
 from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.tables import MindPreset, Memory, PresetWiring
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -134,8 +135,8 @@ def test_determinism(client):
             'wind_speed_10m': 22, 'precipitation': 1.2,
         },
     }]
-    a = _open(client, _uid('det-a'), 'd1', events)['psyche_packet']
-    b = _open(client, _uid('det-b'), 'd1', events)['psyche_packet']
+    a = open_state(client, _open(client, _uid('det-a'), 'd1', events))
+    b = open_state(client, _open(client, _uid('det-b'), 'd1', events))
     assert a['perceived_day'] == b['perceived_day']
 
 
@@ -145,8 +146,8 @@ def test_idempotent_open_and_close(client):
     second = _open(client, char, 'd1', [MEAL_EVENT])
     assert second['episode_id'] == first['episode_id']
     assert (
-        second['psyche_packet']['perceived_day']
-        == first['psyche_packet']['perceived_day']
+        open_state(client, second)['perceived_day']
+        == open_state(client, first)['perceived_day']
     )
 
     ep_id = first['episode_id']

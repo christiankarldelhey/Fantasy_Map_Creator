@@ -340,7 +340,7 @@ def test_reflection_decay_and_cap_leave_seeds_alone():
     # A reflection that touched nothing: everything acquired decays and
     # the cap thins the crowd; the seeds must be exactly as they were.
     _apply_ops(
-        session, mind, [], beliefs_by_id, idx=1,
+        session, mind, [], beliefs_by_id, {}, idx=1,
         w={'belief_strength_decay': 0.9, 'belief_cap': 8,
            'belief_weaken_below': 1.0},
     )

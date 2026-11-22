@@ -20,6 +20,7 @@ from app.mind.kinds import (
 from app.mind.needs import need_items
 from app.mind.tables import PackEntry
 from app.mind.voice import invalidate_entries, resolve_event_reading
+from conftest import open_state
 
 
 @pytest.fixture()
@@ -122,7 +123,7 @@ def test_source_is_stamped_on_the_perceived_day(client):
         ],
     })
     assert r.status_code == 200, r.text
-    day = r.json()['psyche_packet']['perceived_day']
+    day = open_state(client, r.json())['perceived_day']
     by_type = {i['type']: i for i in day}
     assert by_type['climate']['source'] == 'ambient'
     assert by_type['encounter']['source'] == 'world'

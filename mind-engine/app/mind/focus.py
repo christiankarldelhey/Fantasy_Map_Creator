@@ -448,11 +448,13 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     # into the Episode, not something the day must earn.
     mood_lines = []
     cause = (entering_mood or {}).get('cause')
-    if cause and cause.get('reading'):
+    # The Reflection's prose overlay speaks when the cause carries one.
+    wording = (cause or {}).get('prose') or (cause or {}).get('reading')
+    if wording:
         strength = abs((entering_mood or {}).get('valence') or 0.0)
         mood_lines.append({
             'id': 'mood:cause', 'kind': 'mood', 'part': 'carried',
-            'phase': None, 'text': cause['reading'], 'score': strength,
+            'phase': None, 'text': wording, 'score': strength,
             'tags': cause.get('tags') or [],
             'urgent': strength >= w.get('focus_mood_strong', 0.4),
             'why': 'what the mood carries in from before',

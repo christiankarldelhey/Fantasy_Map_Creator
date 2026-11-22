@@ -16,6 +16,7 @@ import app.main as main_module
 import app.mind.director as director_module
 from app.mind.director import apply_decision, direct, director_enabled
 from app.mind.focus import build_brief
+from conftest import open_state
 
 
 def _event(reading, salience, phase, tags):
@@ -122,7 +123,7 @@ def test_open_uses_the_director_when_enabled(monkeypatch):
         }],
     })
     assert r.status_code == 200, r.text
-    brief = r.json()['psyche_packet']['brief']
+    brief = open_state(client, r.json())['brief']
     assert brief['chosen_by'] == 'director'
     assert brief['focus']['why'] == 'the orcs, again'
     assert 'Orc Trackers' in seen['prompt']['user']
