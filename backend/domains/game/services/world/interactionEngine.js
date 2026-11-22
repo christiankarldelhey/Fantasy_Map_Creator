@@ -18,6 +18,8 @@ import {
   choose as mindChoose,
   perceive as mindPerceive,
 } from '../../../story/services/mind/mindClient.js';
+import { solarKey } from '../../../story/services/naturalLanguage/daylight.js';
+import { slugify } from '../../../story/services/naturalLanguage/text.js';
 import { rollSkillCheck } from '../character/skillCheck.js';
 import { applyShelterChoice } from './tripDay.js';
 
@@ -144,7 +146,9 @@ function applyShelterOutcome(day, outcome) {
 // The day's choosable Situations
 // ---------------------------------------------------------------------------
 
-const slugify = (s) => (s ?? '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+// One slugifier for the whole wire (story/naturalLanguage/text.js):
+// identities are 'the_border_that_does_not_exist' — a second spelling
+// would fragment the mind's Relations and tag space.
 
 // The night's own Situation — what the place itself offers at sleep.
 function overnightPool(day) {
@@ -153,7 +157,7 @@ function overnightPool(day) {
   return {
     kind: 'overnight',
     situation_id: id,
-    subject: `tag:place:${slugify(day.overnight_location?.name ?? id)}`,
+    subject: `place:${slugify(day.overnight_location?.name ?? id)}`,
     parent: { placesNarrationId: id },
     hour: 24, // the night always resolves last in narrative order
     phase: 'night',
@@ -175,7 +179,10 @@ function contactPools(day) {
     .map((e) => ({
       kind: 'contact',
       situation_id: e.interaction.dialogue_content.situation_id,
-      subject: e.entity?.slug ? `tag:npc:${e.entity.slug}` : null,
+      // The situation's subject is the encounter's entity — the same
+      // subject tag the perceived event sediments ('entity:rabbit'),
+      // so the choice weighs the Relation the meeting actually built.
+      subject: e.entity?.slug ? `entity:${slugify(e.entity.slug)}` : null,
       parent: { entitiesNarrationId: e.interaction.dialogue_content.id },
       // Only this situation's rows: the record's other situations are
       // not what the traveller lived.
@@ -287,20 +294,16 @@ function applyConditionDeltas(projected, effects) {
 
 // The resolved pick as an Event: rides the interim /perceive now AND the
 // episode's events[] at open — the stable id makes it count once.
+// Envelope vocabulary rides flat (act/intensity/reading/tags); data
+// holds what the kind owns — the subject entity, the outcome, the
+// body after it landed, and the host ids as provenance.
 export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome, after = null) {
   const data = {
-    act: interaction.act,
-    situation_id: pool_.situation_id,
-    interaction_id: interaction.id,
     outcome: outcomeKey,
-    description: outcome?.text?.en ?? null,
-    // The choice's own force wins; a row that declares none inherits
-    // how hard the meeting hit (#184).
-    intensity: interaction.intensity ?? pool_.encounter?.interaction?.intensity ?? null,
-    // Tone (#184): an authored felt on the interaction row wins; else
-    // the contact record's own felt:* tag speaks for the meeting.
-    tags: [interaction.act, ...(interaction.need_tags || []),
-      ...(rowFelt(interaction) ? [rowFelt(interaction)] : contactFelt(pool_))],
+    provenance: {
+      situation_id: pool_.situation_id,
+      interaction_id: interaction.id,
+    },
   };
   // The body after the outcome landed — per-event vitals so the Studio
   // day chart can draw energy/shadow between event points.
@@ -310,23 +313,50 @@ export function outcomeEvent(day, pool_, interaction, outcomeKey, outcome, after
   const shadowFx = (outcome?.effects || [])
     .filter((e) => e.type === 'shadow' && Number.isFinite(e.amount))
     .reduce((s, e) => s + e.amount, 0);
-  if (shadowFx) data.shadow_effect = shadowFx;
-  const npc = pool_.subject?.startsWith('tag:npc:') ? pool_.subject.slice(8) : null;
-  if (npc) {
-    data.npc = npc;
-    data.npc_name = pool_.encounter?.entity?.name ?? npc;
+  if (shadowFx) data.shadow_delta = shadowFx;
+  // The thing lived — the encounter's entity, whatever it is (rabbit,
+  // ruin, bandit camp): one namespace for every subject, matching the
+  // encounter event's own entity channel.
+  const entity = pool_.subject?.startsWith('entity:')
+    ? pool_.subject.slice(7) : null;
+  if (entity) {
+    data.entity = entity;
+    data.entity_name = pool_.encounter?.entity?.name ?? entity;
     if (Number.isFinite(pool_.encounter?.entity?.danger)) {
       data.danger = pool_.encounter.entity.danger;
     }
   }
+  const when = {};
+  if (pool_.hour != null) when.hour = pool_.hour;
+  if (pool_.phase != null) when.phase = pool_.phase;
+  const light = solarKey(when.hour, day?.daylight)
+    ?? (when.phase === 'night' ? 'night' : null);
+  if (light) when.light = light;
   return {
     id: `d${day.day_number}:sit:${pool_.situation_id}:${interaction.id.split(':').pop()}`,
     type: 'interaction',
-    when: { hour: pool_.hour ?? null, phase: pool_.phase ?? null },
+    when,
+    // The wire omits what it does not say — null channels never ship.
     where: {
-      region: day.regions?.[0]?.name ?? null,
-      place: pool_.placeSlug || null,
+      ...(day.regions?.[0]?.name ? { region: day.regions[0].name } : {}),
+      ...(pool_.placeSlug ? { place: pool_.placeSlug } : {}),
     },
+    act: interaction.act,
+    // The choice's own force wins; a row that declares none inherits
+    // how hard the meeting hit (#184).
+    intensity: interaction.intensity ?? pool_.encounter?.interaction?.intensity ?? undefined,
+    // The event reads whole on its own: the situation's own lead-in
+    // ('he saw them before they saw him…') opens, the outcome resolves —
+    // a bare 'Takes the ford upstream.' is a memory with no subject.
+    reading: [
+      pool_.encounter?.interaction?.dialogue_content?.npc_attitude,
+      outcome?.text?.en,
+    ].filter(Boolean).join(' ') || undefined,
+    // Tone (#184): an authored felt on the interaction row wins; else
+    // the contact record's own felt:* tag speaks for the meeting. The
+    // act itself rides the envelope — no 'tag:<act>' duplicate.
+    tags: [...(interaction.need_tags || []),
+      ...(rowFelt(interaction) ? [rowFelt(interaction)] : contactFelt(pool_))],
     data,
   };
 }

@@ -48,9 +48,10 @@ def _open(client, character, ref, events):
 def _checked_event(check, ep=1):
     return {
         'type': 'encounter',
-        'when': {'episode': ep, 'date': '1950-01-19'},
+        'when': {'phase': 'afternoon'},
         'where': {'region': 'lone-lands'},
-        'data': {'entity': 'wolves', 'check': check},
+        'check': check,
+        'data': {'entity': 'wolves'},
     }
 
 
@@ -89,7 +90,7 @@ def test_successful_roll_notices(client):
 
     plain = _open(client, {'id': _uid('plain')}, 'd1', [{
         'type': 'encounter',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {'phase': 'afternoon'},
         'where': {'region': 'lone-lands'},
         'data': {'entity': 'wolves'},
     }])
@@ -140,19 +141,42 @@ def test_state_modifiers_bend_the_roll(client):
 
 
 def test_rolls_are_deterministic(client):
-    """The die is seeded by the event, not the character: two different
-    minds with the same sheet roll the same number on the same day."""
+    """The die is seeded by game + mind + episode date + event index +
+    skill: the same events[] always produces the same perceived_day for
+    the same head — the episode_ref itself does not join the seed."""
+    char = {'id': _uid('seed'), 'skills': {'tracking': 3}}
     events = [_checked_event({'skill': 'tracking', 'difficulty': 8})]
-    a = _open(
-        client, {'id': _uid('seed-a'), 'skills': {'tracking': 3}}, 'd1', events,
-    )
-    b = _open(
-        client, {'id': _uid('seed-b'), 'skills': {'tracking': 3}}, 'd1', events,
-    )
+    a = _open(client, char, 'd1', events)
+    b = _open(client, char, 'd2', events)
     assert (
         open_state(client, a)['check_results']
         == open_state(client, b)['check_results']
     )
+
+
+def test_seed_varies_by_mind_and_date(client):
+    """Two different heads on the same day seed differently — and the
+    same head on a different day too: the roll is the character's,
+    at that date, on that event index (contract's deterministic seed)."""
+    events = [_checked_event({'skill': 'tracking', 'difficulty': 8})]
+    rolls = set()
+    for uid_suffix, at in (
+        ('a', '1950-01-19'), ('b', '1950-01-19'), ('a2', '1950-01-20'),
+    ):
+        r = client.post('/episodes', json={
+            'game_id': 'middle_earth',
+            'character': {'id': _uid(f'seed-{uid_suffix}'),
+                          'skills': {'tracking': 3}},
+            'episode_ref': 'd1',
+            'episode': {'at': at},
+            'events': events,
+        })
+        assert r.status_code == 200, r.text
+        check = open_state(client, r.json())['check_results'][0]
+        rolls.add(check['roll'])
+    # Three distinct seeds (mind, mind, date) on a d10 — they must not
+    # all collapse onto one value the way when:None once made them.
+    assert len(rolls) > 1
 
 
 def test_episode_state_reports_checks(client):

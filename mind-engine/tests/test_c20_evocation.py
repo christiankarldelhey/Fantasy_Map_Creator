@@ -19,7 +19,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.lens import _age_phrase, render_lens
+from app.mind.lens import _age_phrase, brief_beats
 from app.mind.retrieval import retrieve
 from app.mind.tables import Memory
 
@@ -51,7 +51,7 @@ def _brain(character_id):
 def _episode(ep_idx):
     return SimpleNamespace(
         episode_idx=ep_idx,
-        events=[{'when': {'date': '1950-01-20'}}],
+        events=[{'when': {}}],
     )
 
 
@@ -201,7 +201,7 @@ def test_unwordable_items_never_encode():
     char = f'c20-{uuid.uuid4().hex[:8]}'
     episode = SimpleNamespace(
         id=f'ep-{uuid.uuid4().hex[:8]}', game_id=GAME, character_id=char,
-        events=[{'when': {'episode': 1, 'date': '1950-01-18'}}],
+        events=[{'when': {}}],
         perceived_day=[
             {'type': 'condition', 'salience': 0.5, 'perception': 'noticed',
              'data': {'energy': 40, 'shadow': 30}, 'tags': ['type:condition']},
@@ -241,13 +241,149 @@ def test_region_alone_does_not_make_contact():
     session.close()
 
 def test_lens_marks_the_past_as_past():
-    assert _age_phrase(None, 2) == '2 days ago — '
-    assert _age_phrase(None, 1) == 'Yesterday — '
-    assert _age_phrase(None, 18) == 'A long while ago — '
+    assert _age_phrase(None, 2) == '(a memory, 2 days ago) '
+    assert _age_phrase(None, 1) == '(a memory, yesterday) '
+    assert _age_phrase(None, 18) == '(a memory, a long while ago) '
+    # A memory that cannot be dated is still marked — never bare.
+    assert _age_phrase(None, None) == '(a memory) '
+    assert _age_phrase(None, 0) == '(a memory) '
+
+
+def test_lens_says_why_the_memory_woke():
+    """The via is the narrator's thread: 'another land crossed into' —
+    the rhyme between the memory and the moment that stirred it."""
+    assert _age_phrase(None, 4, 'tag:region_entered') == (
+        '(a memory, 4 days ago — another land crossed into) ')
+    assert _age_phrase(None, 2, 'entity:orc_trackers') == (
+        '(a memory, 2 days ago — the same Orc Trackers) ')
+    assert _age_phrase(None, 2, 'tag:entity_type:orcs') == (
+        '(a memory, 2 days ago — the same orcs) ')
+    assert _age_phrase(None, 1, 'place:talath_muil') == (
+        '(a memory, yesterday — Talath Muil again) ')
+    assert _age_phrase(None, 3, 'facet:tag:food') == (
+        '(a memory, 3 days ago — something of the same kind) ')
+    # No shared tag: the age still stands on its own.
+    assert _age_phrase(None, 3, None) == '(a memory, 3 days ago) '
     brief = {'focus': None, 'day': [], 'carried': [
-        {'kind': 'memory', 'text': 'the warg attack', 'age': 'A long while ago — '},
+        {'kind': 'memory', 'text': 'the warg attack',
+         'age': '(a memory, a long while ago) '},
     ]}
-    lens = render_lens('Celebrian', brief)
-    assert 'A long while ago — the warg attack' in lens
-    # And the narrator is told what an 'ago' line is.
-    assert 'never as events happening now' in lens
+    carried = brief_beats(brief, {}, None)['carried']
+    # The Lens does not list it — the marked line rides the 'carried'
+    # channel to whatever event the day touches it at.
+    assert '(a memory, a long while ago) the warg attack' in \
+        carried[0]['line']
+
+
+def test_the_felt_it_landed_encodes_with_the_memory():
+    """How it felt through the personality is part of what a memory IS —
+    word, refracted target and gain all travel, beside the world's
+    suggestion (imprint stays the objective channel)."""
+    from app.mind.memory import encode_episode
+    session = SessionLocal()
+    char = f'c20-{uuid.uuid4().hex[:8]}'
+    episode = SimpleNamespace(
+        id=f'ep-{uuid.uuid4().hex[:8]}', game_id=GAME, character_id=char,
+        events=[{'when': {}}],
+        perceived_day=[{
+            'type': 'encounter', 'salience': 0.6, 'perception': 'noticed',
+            'reading': 'Losrandír — the herd was driven',
+            'tags': ['type:encounter', 'entity:losrandir'],
+            'imprint': {'fear': 0.3},
+            'mood_pull': [{'word': 'watchful', 'gain': 0.4,
+                           'target': {'valence': -0.4, 'arousal': 0.6,
+                                      'dominance': 0.1}}],
+        }],
+    )
+    encode_episode(session, SimpleNamespace(wiring=None), episode)
+    session.flush()
+    mem = session.query(Memory).filter_by(
+        game_id=GAME, character_id=char).one()
+    assert mem.felt[0]['word'] == 'watchful'
+    assert mem.felt[0]['target']['valence'] == -0.4
+    assert mem.imprint == {'fear': 0.3}
+    session.rollback()
+    session.close()
+
+
+def test_between_connected_memories_the_felt_rhyme_ranks_first():
+    """Of the memories that touch today, the one that FELT like it
+    leads — the more the mind keeps, the more felt proximity decides
+    which of the connected is the right one."""
+    day = _day('entity:wolves')
+    day[0]['mood_pull'] = [{'word': 'afraid', 'gain': 0.6,
+                            'target': {'valence': -0.8, 'arousal': 0.7,
+                                       'dominance': -0.3}}]
+    session, char = _session_with_memories(
+        {'desc': 'wolves circling the camp in the dark',
+         'tags': ['entity:wolves'], 'importance': 0.5, 'strength': 0.5,
+         'created_episode': 5,
+         'felt': [{'word': 'afraid', 'gain': 0.5,
+                   'target': {'valence': -0.8, 'arousal': 0.7,
+                              'dominance': -0.3}}]},
+        {'desc': 'wolves spotted at noon, unbothered',
+         'tags': ['entity:wolves'], 'importance': 0.5, 'strength': 0.5,
+         'created_episode': 5,
+         'felt': [{'word': 'content', 'gain': 0.3,
+                   'target': {'valence': 0.8, 'arousal': -0.4,
+                              'dominance': 0.3}}]},
+    )
+    evoked = retrieve(session, _brain(char), _episode(10), day)
+    assert evoked[0].desc == 'wolves circling the camp in the dark'
+    session.rollback()
+    session.close()
+
+
+def test_felt_proximity_never_opens_the_gate():
+    """A memory that rhymes emotionally but shares nothing with today
+    stays quiet — felt discriminates among the connected; it is not a
+    reason of its own."""
+    day = _day('entity:foxes')
+    day[0]['mood_pull'] = [{'word': 'afraid', 'gain': 0.6,
+                            'target': {'valence': -0.8, 'arousal': 0.7,
+                                       'dominance': -0.3}}]
+    session, char = _session_with_memories({
+        'desc': 'a warm meal at the inn, fire and ale',
+        'tags': ['tag:food:ale', 'entity:the_inn'],
+        'importance': 0.8, 'strength': 0.6, 'created_episode': 5,
+        'felt': [{'word': 'afraid', 'gain': 0.5,
+                  'target': {'valence': -0.8, 'arousal': 0.7,
+                             'dominance': -0.3}}],
+    })
+    evoked = retrieve(session, _brain(char), _episode(10), day)
+    assert evoked == []
+    session.rollback()
+    session.close()
+
+
+def test_the_evoked_line_carries_how_the_memory_felt():
+    """The fact alone is a dossier — the narrator needs the charge too:
+    the pull that actually landed rides the line as 'it left them X',
+    the same construction the day's felt beats speak."""
+    from app.mind.lens import line_text
+
+    line = {
+        'kind': 'memory', 'text': 'crossed into Talath Muil',
+        'age': '(a memory, 4 days ago — another land crossed into) ',
+        'felt': 'afraid',
+    }
+    assert line_text(line) == (
+        '(a memory, 4 days ago — another land crossed into) '
+        'crossed into Talath Muil — it left them afraid')
+
+    # Legacy 'tense' stored on old pulls still reads 'afraid'.
+    from app.mind.focus import _memory_felt_word
+    assert _memory_felt_word(
+        [{'word': 'tense', 'target': {}, 'gain': 0.4}]) == 'afraid'
+
+    # The landed target outranks the authored word: a pull the world
+    # suggested 'afraid' but this personality refracted toward the
+    # alert sector narrates what was felt — 'watchful'.
+    assert _memory_felt_word([{
+        'word': 'afraid',
+        'target': {'valence': 0.1, 'arousal': 0.34, 'dominance': 0.1},
+        'gain': 0.4,
+    }]) == 'watchful'
+
+    # A memory with no felt says nothing extra.
+    assert line_text({'kind': 'memory', 'text': 'a meal', 'age': ''}) == 'a meal'

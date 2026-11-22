@@ -88,7 +88,7 @@ def test_narrate_keeps_the_last_narration(client, monkeypatch):
         'game_id': 'middle_earth', 'character': {'id': char},
         'episode_ref': 'd1', 'events': [{
             'type': 'travel',
-            'when': {'episode': 1, 'date': '1950-06-01'},
+            'when': {},
             'data': {},
         }],
         'episode': {'index': 1, 'at': '1950-06-01'},

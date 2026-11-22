@@ -119,7 +119,7 @@ def _brief_lens_lines(brief, narrative):
     part (focus / carried / day), phase, why and the node it came from."""
     out = []
     for part in ('focus', 'carried', 'day'):
-        lines = brief.get(part) or []
+        lines = (brief or {}).get(part) or []
         if part == 'focus':
             lines = [lines] if lines else []
         for line in lines:
@@ -151,6 +151,11 @@ def _memory_out(m, forgotten=False):
         'desc': m.desc,
         'tags': m.tags or [],
         'valence': m.valence or 0.0,
+        # How it felt as it actually landed (pull word/target/gain) —
+        # 'feeling' stays the imprint-derived relational word. Forgotten
+        # traces never carried these columns.
+        'felt': getattr(m, 'felt', None) or None,
+        'feeling': getattr(m, 'feeling', None),
         'importance': m.importance or 0.0,
         'strength': (m.last_strength if forgotten else m.strength) or 0.0,
         'evocations': m.evocations or 0,
@@ -292,13 +297,23 @@ def get_mind(
                     'imprint': p.get('imprint') or {},
                     'mood_pull': p.get('mood_pull'),
                     'data': {
-                        k: (p.get('data') or {}).get(k)
-                        for k in (
-                            'description', 'act', 'outcome', 'name',
-                            'record', 'situation', 'npc_name',
-                            'shadow_effect', 'after', 'reading',
-                        )
-                        if (p.get('data') or {}).get(k) is not None
+                        # Envelope keys read flat off the item (with a
+                        # data fallback for pre-envelope stored days);
+                        # per-kind payload stays inside data.
+                        k: v for k, v in {
+                            'act': (p.get('act')
+                                    or (p.get('data') or {}).get('act')),
+                            'outcome': (p.get('data') or {}).get('outcome'),
+                            'name': (p.get('data') or {}).get('name'),
+                            'entity_name': ((p.get('data') or {}).get('entity_name')
+                                            or (p.get('data') or {}).get('npc_name')),
+                            'provenance': (p.get('data') or {}).get('provenance'),
+                            'description': (p.get('data') or {}).get('description'),
+                            'shadow_delta': ((p.get('data') or {}).get('shadow_delta')
+                                             if (p.get('data') or {}).get('shadow_delta') is not None
+                                             else (p.get('data') or {}).get('shadow_effect')),
+                            'after': (p.get('data') or {}).get('after'),
+                        }.items() if v is not None
                     },
                 }
                 for p in (ep.perceived_day or [])

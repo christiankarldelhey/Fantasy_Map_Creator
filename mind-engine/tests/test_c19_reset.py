@@ -40,7 +40,7 @@ def _open(client, character_id, preset):
         'episode_ref': _uid('ep'),
         'events': [{
             'type': 'encounter',
-            'when': {'episode': 1, 'date': '1950-01-18'},
+            'when': {},
             'data': {'entity': 42, 'entity_name': 'A Ranger',
                      'entity_type': 'humans', 'form': 'brief_exchange',
                      'danger': 0.0, 'noticed': True},

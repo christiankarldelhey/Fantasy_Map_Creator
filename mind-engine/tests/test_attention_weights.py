@@ -31,7 +31,7 @@ def _uid(prefix):
 def _rainy_day(ep=1):
     return {
         'type': 'climate',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'data': {'temperature_2m': 8.0, 'precipitation': 4.0,
                  'tags': ['weather:wet']},
     }
@@ -40,7 +40,7 @@ def _rainy_day(ep=1):
 def _foxes(ep=1):
     return {
         'type': 'encounter',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'data': {
             'reading': 'red foxes cross the path at dusk',
             'form': 'presence_felt', 'entity': 'red_foxes',

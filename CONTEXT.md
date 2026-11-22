@@ -37,7 +37,7 @@ The larger narrative an Episode belongs to, whatever the Host calls it — a jou
 _Avoid_: trip, storyline, campaign
 
 **Event**:
-Something the Character lived in an Episode, reported by the Host already put into words — a reading plus the Tags it connects by. Events are the only channel by which the world reaches the Past: a Memory is born from what was lived or not at all. An Event's type names its Kind, not the shelf its source record sat on.
+Something the Character lived in an Episode, reported by the Host already put into words — a reading plus the Tags it connects by. Events are the only channel by which the world reaches the Past: a Memory is born from what was lived or not at all. An Event's type names its Kind, not the shelf its source record sat on. Its envelope holds the universal vocabulary — `{type, when{hour?, phase?, light?}, where{region?, place?}, act?, intensity?, reading?, tags[], check?}` — and `data` holds only what the Kind owns. `when.light` is the Host's solar reading (`dawn|day|dusk|night`): the world knows its own sunrise, the Mind never derives daylight from a clock.
 _Avoid_: log entry, action, occurrence
 
 **Kind**:
@@ -99,7 +99,7 @@ One stretch of life a Mind lives at once, whatever the Host calls it (a day, a s
 _Avoid_: day, turn, scene, session
 
 **Memory**:
-An impression a Mind kept from something it lived. It strengthens when evoked, weakens with time, and below a threshold becomes Forgotten. Reaches the Lens only when it connects to the Episode, always told as past; being recent is not a reason on its own.
+An impression a Mind kept from something it lived. It strengthens when evoked, weakens with time, and below a threshold becomes Forgotten. Reaches the Lens only when it connects to the Episode, always told as past; being recent is not a reason on its own. A Memory keeps two felt channels apart: `imprint` is what the world suggested — the objective sediment that feeds Relations; `felt` is the pull as it actually landed through the Personality (word, refracted target, gain) — how it felt, and what remembering re-feels.
 _Avoid_: record, entry
 
 **Forgotten**:
@@ -111,7 +111,7 @@ A Memory at the deepest tier — where a Belief lives: one row, one truth. The s
 _Avoid_: core memory, truth memory
 
 **Evocation**:
-When a Memory connects to the Episode and comes forward — it is not only read but lightly re-felt: the Mood is pulled a dampened share toward how the Memory felt and the Relation is fed again, never as much as living it. Remembering keeps feelings alive; how much it stirs is the Personality's.
+When a Memory connects to the Episode and comes forward — it is not only read but lightly re-felt: the Mood is pulled a dampened share toward how the Memory felt and the Relation is fed again, never as much as living it. Remembering keeps feelings alive; how much it stirs is the Personality's. To the narrator a recollection is an event of its own: it rides inside the beat of the event that woke it, dated and marked as past, never floating unattached.
 _Avoid_: recall, retrieval, flashback
 
 **Belief**:
@@ -178,6 +178,10 @@ _Avoid_: baseline, default mood, character
 A Pull that moved the Mood against where it stood without turning it — the melancholy a ruin casts into a good day, the warmth an inn lends a grey one. Only the world can cast one (the Mind's own Needs already speak); the strongest per phase is whispered to the narrator in scene, so the day keeps its dominant feeling and still remembers what brushed against it.
 _Avoid_: mixed emotion, secondary mood, counter pull
 
+**Felt beat**:
+A Pull that landed, told to the narrator where it happened — 'the churned mud left them watchful'. Any Pull past the landing bar earns one phase-routed line; a pull the arc already spoke (its phase's Shade, the turn's cause) or that the Mind already voiced (a Need, a streak) stays silent — the same pull never says itself twice. Its anchor is the subject's name when it has one, so the line can ride inside its own encounter's block.
+_Avoid_: emotion annotation, mood tag line
+
 **Personality**:
 How a Mind's engine is tuned: how strongly lived experience swings the Mood versus how firmly it returns to the Temperament, how sensitive each kind of feeling is, how fast Relations accrete or let go. Authored through Traits and presets — the engine is one; every Character's Personality tunes it differently.
 _Avoid_: personality type, trait list, stats
@@ -207,7 +211,7 @@ A Lens line whose meaning shows up in the narration that followed, judged on the
 _Avoid_: voiced, bled, used
 
 **Mind preset**:
-A ready-made way of thinking (what to notice, how to remember, starting beliefs) that is copied into an Original when it is created or edited. Copied, never linked: changing a preset later changes no one.
+A ready-made way of thinking (what to notice, how to remember, starting beliefs, the lived past it was born carrying) that is copied into an Original when it is created or edited. Copied, never linked: changing a preset later changes no one.
 _Avoid_: mold, archetype, profile
 
 ### Voice of the data

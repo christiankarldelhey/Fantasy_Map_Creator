@@ -31,7 +31,7 @@ def _uid(prefix):
 def _rain(ep):
     return {
         'type': 'climate',
-        'when': {'episode': ep, 'date': f'1950-04-0{ep}', 'phase': 'afternoon'},
+        'when': {'phase': 'afternoon'},
         'data': {'precipitation': 5.0, 'tags': ['weather:wet']},
     }
 
@@ -39,7 +39,7 @@ def _rain(ep):
 def _dry(ep):
     return {
         'type': 'climate',
-        'when': {'episode': ep, 'date': f'1950-04-0{ep}', 'phase': 'afternoon'},
+        'when': {'phase': 'afternoon'},
         'data': {'precipitation': 0.0},
     }
 
@@ -149,7 +149,7 @@ def test_base_routine_never_grates(client):
     for ep in (1, 2, 3):
         packet = _open(client, char, ep, [{
             'type': 'meal',
-            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'when': {},
             'data': {'slot': 'midday', 'food': 'lembas',
                      'drink': 'waterskin'},
         }])
@@ -158,7 +158,7 @@ def test_base_routine_never_grates(client):
     # silence from drink.
     p4 = _open(client, char, 4, [{
         'type': 'meal',
-        'when': {'episode': 4, 'date': '1950-04-04'},
+        'when': {},
         'data': {'slot': 'midday', 'food': 'lembas',
                  'drink': 'waterskin'},
     }])
@@ -175,7 +175,7 @@ def test_a_break_that_starves_is_no_relief(client):
     for ep in (1, 2, 3):
         _close(client, _open(client, char, ep, [{
             'type': 'meal',
-            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'when': {},
             'data': {'slot': 'midday', 'food': 'lembas',
                      'drink': 'waterskin'},
         }]))
@@ -210,7 +210,7 @@ def test_marker_tags_never_streak(client):
     for ep in (1, 2, 3, 4):
         packet = _open(client, char, ep, [{
             'type': 'travel',
-            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'when': {},
             'data': {'sighted': 'the ruin', 'entered': 'fords',
                      'tags': ['dead_place', 'settlement', 'visited']},
         }])
@@ -232,14 +232,14 @@ def test_sleepless_nights_read_as_sleepless_nights(client):
     for ep in (1, 2, 3):
         packet = _open(client, char, ep, [{
             'type': 'rest',
-            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'when': {},
             'data': {'rest': 'poor'},
         }])
         _close(client, packet)
 
     p4 = _open(client, char, 4, [{
         'type': 'rest',
-        'when': {'episode': 4, 'date': '1950-04-04'},
+        'when': {},
         'data': {'rest': 'poor'},
     }])
     reps = _recurrences(client, p4)
@@ -268,13 +268,13 @@ def test_dreaded_streak_wears_faster_and_its_break_is_deeper_relief(
     for ep in (1, 2, 3):
         _close(client, _open(client, char, ep, [{
             'type': 'omen',
-            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'when': {},
             'data': {'tags': ['entity_type:orcs']},
         }]))
 
     p4 = _open(client, char, 4, [{
         'type': 'omen',
-        'when': {'episode': 4, 'date': '1950-04-04'},
+        'when': {},
         'data': {'tags': ['entity_type:orcs']},
     }])
     reps = [i for i in _recurrences(client, p4)
@@ -298,13 +298,13 @@ def test_loved_streak_wears_slower_and_its_break_is_a_gap(client):
     for ep in (1, 2, 3):
         _close(client, _open(client, char, ep, [{
             'type': 'meal',
-            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'when': {},
             'data': {'slot': 'midday', 'food': 'lembas'},
         }]))
 
     p4 = _open(client, char, 4, [{
         'type': 'meal',
-        'when': {'episode': 4, 'date': '1950-04-04'},
+        'when': {},
         'data': {'slot': 'midday', 'food': 'lembas'},
     }])
     reps = [i for i in _recurrences(client, p4)
@@ -330,14 +330,12 @@ def test_pressure_anchors_to_its_own_beat(client):
         packet = _open(client, char, ep, [
             {
                 'type': 'land',
-                'when': {'episode': ep, 'date': f'1950-04-0{ep}',
-                         'phase': 'morning'},
+                'when': {'phase': 'morning'},
                 'data': {'tags': ['scenery']},
             },
             {
                 'type': 'meal',
-                'when': {'episode': ep, 'date': f'1950-04-0{ep}',
-                         'phase': 'night'},
+                'when': {'phase': 'night'},
                 'data': {'slot': 'midday', 'food': 'lembas'},
             },
         ])
@@ -346,14 +344,12 @@ def test_pressure_anchors_to_its_own_beat(client):
     p4 = _open(client, char, 4, [
         {
             'type': 'land',
-            'when': {'episode': 4, 'date': '1950-04-04',
-                     'phase': 'morning'},
+            'when': {'phase': 'morning'},
             'data': {'tags': ['scenery']},
         },
         {
             'type': 'meal',
-            'when': {'episode': 4, 'date': '1950-04-04',
-                     'phase': 'night'},
+            'when': {'phase': 'night'},
             'data': {'slot': 'midday', 'food': 'lembas'},
         },
     ])
@@ -373,8 +369,7 @@ def test_a_salient_novel_event_makes_sameness_yield(client):
         _rain(4),
         {
             'type': 'encounter',
-            'when': {'episode': 4, 'date': '1950-04-04',
-                     'phase': 'afternoon'},
+            'when': {'phase': 'afternoon'},
             'data': {'entity': 'dragon_1', 'entity_name': 'a dragon',
                      'tags': ['entity_type:dragons'],
                      'intensity': 4},
@@ -390,14 +385,14 @@ def test_the_streaks_own_salience_does_not_silence_it(client):
     for ep in (1, 2, 3):
         _close(client, _open(client, char, ep, [{
             'type': 'encounter',
-            'when': {'episode': ep, 'date': f'1950-04-0{ep}'},
+            'when': {},
             'data': {'entity': f'orc_{ep}', 'entity_name': 'orcs',
                      'tags': ['entity_type:orcs']},
         }]))
 
     p4 = _open(client, char, 4, [{
         'type': 'encounter',
-        'when': {'episode': 4, 'date': '1950-04-04'},
+        'when': {},
         'data': {'entity': 'orc_4', 'entity_name': 'orcs',
                  'tags': ['entity_type:orcs']},
     }])

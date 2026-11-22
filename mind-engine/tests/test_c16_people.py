@@ -22,7 +22,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.lens import render_lens
+from app.mind.lens import brief_beats
 from app.mind.memory import (
     _compact_duplicates,
     _release_resolved_needs,
@@ -62,7 +62,7 @@ def _close(client, episode_id, outcome=None):
 def _encounter(ep, **data):
     return {
         'type': 'encounter',
-        'when': {'episode': ep, 'date': f'1950-05-0{ep}'},
+        'when': {},
         'where': {'region': 'minhiriath'},
         'data': data,
     }
@@ -349,7 +349,7 @@ def test_duplicate_memories_compact_every_close():
 def _meal_event(ep):
     return {
         'type': 'meal',
-        'when': {'episode': ep, 'date': f'1950-05-0{ep}'},
+        'when': {},
         'data': {
             'food': 'tavern fare',
             'reading': 'a hot meal bought at the inn, ale and clean water',
@@ -390,7 +390,7 @@ def test_different_readings_still_encode_separate_memories(client):
     events = [
         {
             'type': 'meal',
-            'when': {'episode': 1, 'date': '1950-05-01'},
+            'when': {},
             'data': {'reading': reading},
         }
         for reading in ("the farm wife's soup", 'stale bread and water')
@@ -404,12 +404,15 @@ def test_different_readings_still_encode_separate_memories(client):
 
 # --- H) the lens reads one impression, not three copies --------------------
 
-def test_lens_dedupes_identical_impressions():
+def test_brief_beats_dedupes_identical_impressions():
+    # The Lens lists nothing carried — impressions ride the 'carried'
+    # channel to an event, and twin rows ride once, not twice.
     brief = {'focus': None, 'day': [], 'carried': [
         {'kind': 'memory', 'text': 'day upon day of hostile weather'},
         {'kind': 'memory', 'text': 'day upon day of hostile weather'},
         {'kind': 'memory', 'text': 'the ranger at the roadside'},
     ]}
-    lens = render_lens('Celebrian', brief)
-    assert lens.count('day upon day of hostile weather') == 1
-    assert 'the ranger at the roadside' in lens
+    carried = brief_beats(brief, {}, None)['carried']
+    assert len(carried) == 2
+    assert sum(
+        'hostile weather' in b['line'] for b in carried) == 1

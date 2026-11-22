@@ -31,6 +31,7 @@ from app.mind.engine import (
     acute_hit, mood_delta, mood_position, project_body,
     pull_affinity, pull_gain, pull_target, standing_magnitude,
 )
+from app.mind.events import flat_data
 from app.mind.kinds import SOURCE_MIND, is_mind_item, kind_of
 from app.mind.relations import (
     attention_weights, feed, feed_event, standing, standing_relation,
@@ -63,16 +64,33 @@ def _is_content(value):
 
 
 def derive_tags(event):
-    """Weight-space tags for an event (see module docstring convention)."""
+    """Weight-space tags for an event (see module docstring convention).
+    The envelope's universal keys fold into the data view — act reads
+    tag:act:* and the declared tags read tag:* exactly as they did when
+    they lived inside data."""
     tags = [f"type:{event.get('type')}"]
-    data = event.get('data') or {}
+    data = flat_data(event)
     entity = data.get('entity') or data.get('entity_id')
     if entity:
         tags.append(f'entity:{entity}')
     for key, value in data.items():
         if key in UNTAGGED_FIELDS:
             continue
-        if key == 'tags':
+        # Identity vocabulary: a person ('npc') is an entity like the
+        # thing met — one 'entity:' namespace whatever field carried
+        # it; a kind ('family') is 'family:'; a place ('place') is the
+        # stage — its own first-class 'place:' family so the ford hears
+        # a splash of what happened there, never the actor's share.
+        if key == 'npc':
+            if _is_content(value):
+                tags.append(f'entity:{value}')
+        elif key == 'place':
+            if _is_content(value):
+                tags.append(f'place:{value}')
+        elif key == 'family':
+            if _is_content(value):
+                tags.append(f'family:{value}')
+        elif key == 'tags':
             values = value if isinstance(value, list) else [value]
             tags.extend(f'tag:{v}' for v in values if _is_content(v))
         elif _is_content(value):
@@ -83,10 +101,13 @@ def derive_tags(event):
         tags.append(f'region:{region}')
     # Something lived AT a named place marks the place too — the orcs
     # at the ford leave their fear on the ford (a splash share, as a
-    # secondary subject), not only on the orcs.
+    # secondary subject — 'place:' ranks below 'entity:' on purpose),
+    # not only on the orcs.
     place = where.get('place')
     if place:
-        tags.append(f'tag:place:{place}')
+        tag = f'place:{place}'
+        if tag not in tags:
+            tags.append(tag)
     return tags
 
 
@@ -457,23 +478,26 @@ def _pull_entry(session, game_id, mind, word, salience, tag):
     }
 
 
-def _subject_displays(data):
+def _subject_displays(event):
     """subject tag -> the name the host worded it with. The slug is the
     Relation's identity; this is how it is said — 'The Prancing Pony',
-    never 'prancing_pony' the guessed animal."""
+    never 'prancing_pony' the guessed animal. The place slug rides the
+    envelope's where; its display name stays inside data."""
+    data = flat_data(event)
     out = {}
     if data.get('entity') and data.get('entity_name'):
         out[f"entity:{data['entity']}"] = data['entity_name']
     # A named person says itself — 'Bungo', never 'bungo' the word.
     if data.get('npc') and data.get('npc_name'):
-        out[f"tag:npc:{data['npc']}"] = data['npc_name']
-    if data.get('place') and data.get('name'):
-        out[f"tag:place:{data['place']}"] = data['name']
+        out[f"entity:{data['npc']}"] = data['npc_name']
+    place = ((event or {}).get('where') or {}).get('place')
+    if place and data.get('name'):
+        out[f"place:{place}"] = data['name']
     return out
 
 
 def perceive_events(session, game_id, mind, events, character=None,
-                    episode_idx=None, felt_ids=None):
+                    episode_idx=None, felt_ids=None, episode_date=None):
     """Annotate each event: perception + reading + salience + tags, and the
     vector engine's two channels (ADR 0017): the semantic pack reads the
     event's objective delta, Relations sediment it (narrowest subject whole,
@@ -509,7 +533,7 @@ def perceive_events(session, game_id, mind, events, character=None,
         tags = derive_tags(event)
         new_tags = [t for t in tags if t not in seen]
         novelty = len(new_tags) / len(tags) if tags else 0.0
-        data = event.get('data') or {}
+        data = flat_data(event)
 
         # Sleep phases (C4): a checked event at night is slept through
         # unless its form/outcome is intrusive enough to wake the mind.
@@ -519,13 +543,13 @@ def perceive_events(session, game_id, mind, events, character=None,
         else:
             check_result, perception = resolve_check(
                 session, game_id, character, event, index, state, w,
-                mind=mind,
+                mind=mind, episode_date=episode_date,
             )
         reading = resolve_event_reading(event, session, game_id)
         if perception == 'misread':
             reading = misread_reading(
                 session, game_id, event, reading, check_result,
-                mind=mind,
+                mind=mind, episode_date=episode_date,
             )
         elif perception == 'unnoticed':
             reading = None
@@ -593,7 +617,7 @@ def perceive_events(session, game_id, mind, events, character=None,
             primary, prior_standing = feed_event(
                 session, mind, subjects, world_delta,
                 episode_idx=episode_idx,
-                displays=_subject_displays(data),
+                displays=_subject_displays(event),
             )
             _, standing = standing_relation(
                 session, game_id, mind.character_id, subjects,

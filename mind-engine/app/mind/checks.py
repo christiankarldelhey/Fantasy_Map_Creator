@@ -24,6 +24,7 @@
 import random
 
 from app.mind.detectors import altered_by_state, state_mods
+from app.mind.events import flat_data
 from app.mind.semantics import wakes_sleeper
 from app.mind.util import num
 from app.mind.voice import phrases
@@ -119,8 +120,8 @@ def is_asleep(event, tags, w, semantics):
         phases = ('night',)
     if phase not in phases:
         return False
-    data = event.get('data') or {}
-    if not isinstance(data.get('check'), dict) or not data['check'].get('skill'):
+    check = flat_data(event).get('check')
+    if not isinstance(check, dict) or not check.get('skill'):
         return False
     if wakes_sleeper(tags, semantics):
         return False
@@ -130,7 +131,7 @@ def is_asleep(event, tags, w, semantics):
 def asleep_check_result(event, index):
     """The auditable trace of a check that never ran: no gate, no roll —
     the mind was unconscious. Distinct from a failed roll on purpose."""
-    check = (event.get('data') or {}).get('check') or {}
+    check = flat_data(event).get('check') or {}
     return {
         'gate': check.get('skill'), 'asleep': True,
         'attempted': False, 'success': False,
@@ -138,21 +139,40 @@ def asleep_check_result(event, index):
     }
 
 
-def _seed_for(game_id, event, index, skill):
-    when = event.get('when') or {}
+def _check_mind_id(mind, character):
+    """Whose head the roll is for — the mind row when present, the
+    card's id otherwise."""
+    return (
+        getattr(mind, 'character_id', None)
+        or (character or {}).get('id')
+    )
+
+
+def _check_date(episode_date, event):
+    """The episode's in-world date for the seed; a raw-dict event's own
+    when.date stands in when the caller has none (tests, legacy)."""
+    return episode_date or (event.get('when') or {}).get('date')
+
+
+def _seed_for(game_id, character_id, episode_date, index, skill):
+    """The deterministic seed (contract): game + mind + episode date +
+    event index + skill — the same events[] always rolls the same,
+    but a different day or a different head rolls differently. A
+    raw-dict event's own when.date stands in when no episode date is
+    given (legacy/test events)."""
     return '{}:{}:{}:{}:{}'.format(
-        game_id, when.get('episode'), when.get('date'), index, skill
+        game_id, character_id, episode_date, index, skill
     )
 
 
 def resolve_check(session, game_id, character, event, index, state, w,
-                  mind=None):
+                  mind=None, episode_date=None):
     """Resolve one event's check. Returns (check_result, perception).
 
     check_result lands verbatim in the packet's check_results and inside
     the perceived_day item; perception is one of noticed|unnoticed|misread.
     """
-    check = (event.get('data') or {}).get('check')
+    check = flat_data(event).get('check')
     if not isinstance(check, dict) or not check.get('skill'):
         return None, 'noticed'
 
@@ -183,7 +203,9 @@ def resolve_check(session, game_id, character, event, index, state, w,
     mods = state_mods(session, game_id, state, w) \
         + (num(check.get('mods')) or 0.0)
 
-    rng = random.Random(_seed_for(game_id, event, index, skill_name))
+    rng = random.Random(_seed_for(
+        game_id, _check_mind_id(mind, character),
+        _check_date(episode_date, event), index, skill_name))
     sides = max(2, int(w.get('check_die_sides', 10)))
     roll = rng.randint(1, sides)
     total = roll + skill + mods
@@ -201,10 +223,10 @@ def resolve_check(session, game_id, character, event, index, state, w,
 
 
 def misread_reading(session, game_id, event, true_reading, check_result,
-                    mind=None):
+                    mind=None, episode_date=None, character=None):
     """A wrong reading for a misread event — a phrase from the editable
     'mind.misread' list, deterministic on the same seed as the roll."""
-    data = event.get('data') or {}
+    data = flat_data(event)
     subject = (
         data.get('entity') or data.get('entity_id')
         or data.get('name') or data.get('title') or true_reading
@@ -219,5 +241,7 @@ def misread_reading(session, game_id, event, true_reading, check_result,
         return 'the mind misread what was there'
     skill = (check_result or {}).get('gate') or ''
     index = (check_result or {}).get('event_index') or 0
-    rng = random.Random(_seed_for(game_id, event, index, f'misread:{skill}'))
+    rng = random.Random(_seed_for(
+        game_id, _check_mind_id(mind, character),
+        _check_date(episode_date, event), index, f'misread:{skill}'))
     return options[int(rng.random() * len(options))].format(subject=subject)

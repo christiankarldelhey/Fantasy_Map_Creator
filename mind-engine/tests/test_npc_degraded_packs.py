@@ -50,7 +50,7 @@ def _close(client, episode_id):
 def _food_event(ep):
     return {
         'type': 'meal',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'data': {
             'entity': 'lembas',
             'tags': ['food:lembas'],

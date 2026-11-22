@@ -45,7 +45,7 @@ def _open_and_close(client, character_id, ref, events, condition=None):
 def _meal(ep, food='lembas'):
     return {
         'type': 'meal',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'data': {'food': food},
     }
 
@@ -53,7 +53,7 @@ def _meal(ep, food='lembas'):
 def _travel(ep, region=None):
     return {
         'type': 'travel',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'where': {'region': region},
         'data': {'distance_km': 9.0},
     }
@@ -139,7 +139,7 @@ def test_bare_host_tags_never_form_patterns(client):
     for ep in (1, 2, 3):
         event = {
             'type': 'omen',
-            'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+            'when': {},
             'data': {'tags': ['road-weariness']},
         }
         _open_and_close(client, char, f'd{ep}', [event])
@@ -164,7 +164,7 @@ def test_absence_markers_never_tag_or_pattern(client):
     for ep in (1, 2, 3):
         day = {
             'type': 'climate',
-            'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+            'when': {},
             'data': {'wounded': 'none', 'food': None, 'rest': 'Null'},
         }
         _open_and_close(client, char, f'd{ep}', [day])
@@ -181,7 +181,7 @@ def test_prose_fields_are_words_not_tags(client):
     char = _uid('prose')
     rest = {
         'type': 'rest',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {},
         'data': {
             'rest_quality': 0, 'shadow_effect': 2,
             'place': 'the barrow field',
@@ -199,7 +199,7 @@ def test_rest_reads_the_nights_own_prose(client):
     char = _uid('reader')
     rest = {
         'type': 'rest',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {},
         'data': {
             'rest_quality': 0, 'shadow_effect': 2,
             'description': 'the will itself feels weighed and probed',
@@ -221,7 +221,7 @@ def test_weather_pattern_from_declared_tags(client):
     for ep in (1, 2, 3):
         storm = {
             'type': 'climate',
-            'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+            'when': {},
             'data': {'temperature_2m': -6, 'precipitation': 0,
                      'tags': ['weather:freezing']},
         }

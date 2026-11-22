@@ -36,7 +36,7 @@ def test_events_sort_by_hour_inside_the_phase():
         {'type': 'ambience', 'when': {'phase': 'afternoon', 'hour': 13.5},
          'data': {'reading': 'a shepherd waved from the field'}},
     ])
-    assert user.index('a shepherd waved') < user.index('a wolf watched')
+    assert user.index('A shepherd waved') < user.index('A wolf watched')
 
 
 def test_clock_hours_never_reach_the_narrator():
@@ -126,7 +126,7 @@ def test_encounter_lands_at_its_clock_position():
              'data': {'reading': 'road-bread and dried fruit'}},
         ],
     )
-    assert user.index('road-bread and dried fruit') < user.index('Dunlendings')
+    assert user.index('Road-bread and dried fruit') < user.index('Dunlendings')
 
 
 def test_encounter_clock_string_sorts_at_its_hour():
@@ -154,7 +154,7 @@ def test_encounter_clock_string_sorts_at_its_hour():
         ],
     )
     assert (user.index('Wandering Company')
-            < user.index('road-bread and dried fruit')
+            < user.index('Road-bread and dried fruit')
             < user.index('Dunlendings'))
     assert '16:30' not in user
 
@@ -184,10 +184,10 @@ def test_hourless_events_sort_by_the_time_their_reading_names():
                       'reading': 'a village sighted in the late afternoon'}},
         ],
     )
-    assert (user.index('the midday halt')
-            < user.index('a stream waded')
+    assert (user.index('The midday halt')
+            < user.index('A stream waded')
             < user.index('Dunlendings')
-            < user.index('a village sighted'))
+            < user.index('A village sighted'))
 
 
 def test_an_untimed_event_opens_the_day_not_the_night():
@@ -200,7 +200,7 @@ def test_an_untimed_event_opens_the_day_not_the_night():
         {'type': 'rest', 'when': {'phase': 'night'},
          'data': {'reading': 'a hollow out of the wind'}},
     ])
-    assert user.index('drove-lanes') < user.index('a hollow out of the wind')
+    assert user.index('Drove-lanes') < user.index('A hollow out of the wind')
 
 
 def test_weather_is_told_once_and_only_change_is_retold():
@@ -214,7 +214,7 @@ def test_weather_is_told_once_and_only_change_is_retold():
         {'type': 'climate', 'when': {'phase': 'night', 'hour': 20.0},
          'data': {'reading': 'a hard cold holds the land and rain begins'}},
     ])
-    assert user.count('a hard cold holds the land') == 1
+    assert user.count('A hard cold holds the land') == 1
     assert 'rain begins' in user
     assert 'Later' in user
 
@@ -231,7 +231,7 @@ def test_the_day_opens_where_last_night_was_spent():
     )
     assert 'The day begins where last night ended' in user
     assert 'dark..' not in user and 'Pony..' not in user
-    assert user.index('The Prancing Pony') < user.index('he leaves southward')
+    assert user.index('The Prancing Pony') < user.index('He leaves southward')
 
 
 def test_the_day_opens_where_the_roof_was():
@@ -252,7 +252,7 @@ def test_the_day_opens_where_the_roof_was():
     )
     assert 'they wake at the dry loft' in user
     assert 'the night gave deep rest' in user
-    assert user.index('the dry loft') < user.index('he leaves southward')
+    assert user.index('the dry loft') < user.index('He leaves southward')
 
 
 def test_an_unremarkable_night_says_nothing_about_sleep():
@@ -288,7 +288,7 @@ def test_the_first_weather_opens_the_skeleton():
              'data': {'reading': 'a raw cold and a low grey sky'}},
         ],
     )
-    assert user.index('a raw cold') < user.index('Wandering Company')
+    assert user.index('A raw cold') < user.index('Wandering Company')
 
 
 def test_no_encounters_is_stated_not_implied():
@@ -301,7 +301,7 @@ def test_no_encounters_is_stated_not_implied():
 
 def test_stirs_land_in_their_own_part_of_the_day():
     """A stir belongs where it stirs (C21/C35): the afternoon's fear sits
-    inside the afternoon stretch — it does not open the day and it does
+    inside the beat that woke it — it does not open the day and it does
     not wait at a faraway list."""
     user = _prompt(
         events=[
@@ -311,13 +311,152 @@ def test_stirs_land_in_their_own_part_of_the_day():
              'data': {'reading': 'the road narrows between hedges'}},
         ],
         memory_beats={
-            'afternoon': [{'line': 'orcs tighten their chest', 'subject': 'x'}],
+            'afternoon': [{'line': 'orcs tighten their chest', 'anchor': 1}],
         },
     )
-    lark = user.index('a lark over the stubble')
-    hedges = user.index('the road narrows between hedges')
-    stir = user.index('orcs tighten their chest')
+    lark = user.index('A lark over the stubble')
+    hedges = user.index('The road narrows between hedges')
+    stir = user.index('Orcs tighten their chest')
     assert lark < hedges < stir
+
+
+def test_the_wake_reports_the_body_and_holds_the_continuity():
+    """The wake is the day's first fixed point: it names where last
+    night ended (place + what the night was worth) and hosts the needs
+    no day's event answers to — the body's own report."""
+    user = _prompt(
+        previous_rest={'place': 'a sheltered dell',
+                       'tags': ['rest:good'],
+                       'reading': 'A sheltered dell out of the wind'},
+        events=[
+            {'type': 'ambience', 'when': {'phase': 'morning', 'hour': 9.0},
+             'data': {'reading': 'a lark over the stubble'}},
+            {'type': 'meal', 'when': {'phase': 'afternoon', 'hour': 13.0},
+             'data': {'reading': 'The midday halt: road-bread.'}},
+        ],
+        memory_beats={
+            'carried': [
+                {'kind': 'need', 'key': 'hunger', 'urgent': True,
+                 'line': 'the belly cramps — three days without a meal'},
+            ],
+        },
+    )
+    wake = user.index('The day begins where last night ended')
+    assert 'they wake at a sheltered dell — the night gave deep rest' \
+        in user[wake:]
+    belly = user.index('The belly cramps')
+    meal = user.index('The midday halt')
+    # Past the urgency line it speaks at the wake — not waiting for a meal.
+    assert wake < belly < meal
+
+
+def test_a_carried_need_speaks_at_the_first_event_of_its_domain():
+    """The carried hunger does not float in the Lens and does not wait
+    for the last meal — it reports at the day's first one."""
+    user = _prompt(
+        events=[
+            {'type': 'climate', 'when': {'phase': 'morning', 'hour': 8.0},
+             'data': {'reading': 'a grey lid of sky'}},
+            {'type': 'meal', 'when': {'phase': 'afternoon', 'hour': 13.0},
+             'data': {'reading': 'The midday halt: road-bread.'}},
+            {'type': 'meal', 'when': {'phase': 'night', 'hour': 20.0},
+             'data': {'reading': 'Supper by the fire: salt pork.'}},
+        ],
+        memory_beats={
+            'carried': [
+                {'kind': 'need', 'key': 'hunger',
+                 'line': 'the belly wonders — 2 days without a proper meal'},
+                {'kind': 'need', 'key': 'exposure',
+                 'line': 'day upon day of hostile weather — shelter is needed'},
+            ],
+        },
+    )
+    sky = user.index('A grey lid of sky')
+    midday = user.index('The midday halt')
+    supper = user.index('Supper by the fire')
+    shelter = user.index('Day upon day of hostile weather')
+    belly = user.index('The belly wonders')
+    # First weather, first meal — not the last of either.
+    assert sky < shelter < midday < belly < supper
+    assert 'stirs in them' not in user
+
+
+def test_an_unconnected_line_never_reaches_the_narrator():
+    """A standing feeling or memory the day never touched stays silent —
+    nothing floats in a phase list without its event."""
+    user = _prompt(
+        events=[
+            {'type': 'ambience', 'when': {'phase': 'afternoon', 'hour': 15.0},
+             'data': {'reading': 'the road narrows between hedges'}},
+        ],
+        memory_beats={
+            'afternoon': [
+                {'line': 'orcs tighten their chest', 'subject': 'x'},
+                {'line': '(a standing feeling) Cave-trolls — feared',
+                 'kind': 'disposition', 'subject': 'Cave-trolls'},
+            ],
+        },
+    )
+    assert 'orcs tighten their chest' not in user
+    assert 'Cave-trolls' not in user
+    assert 'stirs in them' not in user
+
+
+def test_a_carried_memory_speaks_where_the_day_touches_it():
+    """The carried memory is no floating preamble either: a memory the
+    day's events touch surfaces inside that event — a memory nothing
+    touches stays silent. No 'What they carry' list reaches the prompt."""
+    user = _prompt(
+        events=[
+            {'type': 'ambience', 'when': {'phase': 'morning', 'hour': 9.0},
+             'data': {'reading': 'a pack of wolves crosses the road'}},
+            {'type': 'ambience', 'when': {'phase': 'afternoon', 'hour': 15.0},
+             'data': {'reading': 'the road narrows between hedges'}},
+        ],
+        memory_beats={
+            'carried': [
+                {'kind': 'memory', 'subject': 'wolves',
+                 'line': '(a memory) A pack reads a road better than most '
+                         'garrisons; I respect the craft and distrust the '
+                         'wolves.'},
+                {'kind': 'memory', 'subject': 'the last of my people',
+                 'line': '(a memory) The last of my people walk the same '
+                         'roads I do; we nod once, and that is enough.'},
+            ],
+        },
+    )
+    assert 'What they carry' not in user
+    wolves = user.index('A pack of wolves crosses')
+    pack = user.index('A pack reads a road better')
+    assert wolves < pack
+    assert 'the last of my people' not in user.lower()
+
+
+def test_a_need_rides_the_event_of_its_domain():
+    """The weather complaint speaks under the weather, not in a list —
+    a need joins the event that IS its domain."""
+    user = _prompt(
+        events=[
+            {'type': 'climate', 'when': {'phase': 'morning', 'hour': 9.0},
+             'data': {'reading': 'a hard cold holds the land'}},
+            {'type': 'meal', 'when': {'phase': 'night', 'hour': 20.0},
+             'data': {'reading': 'Supper by the fire: road-bread.'}},
+        ],
+        memory_beats={
+            'night': [
+                {'line': 'day upon day of hostile weather has worn the '
+                         'spirit thin — shelter is needed',
+                 'kind': 'need', 'key': 'exposure'},
+                {'line': 'three days without food — hunger is urgent',
+                 'kind': 'need', 'key': 'hunger'},
+            ],
+        },
+    )
+    cold = user.index('A hard cold holds the land')
+    supper = user.index('Supper by the fire')
+    weather_need = user.index('Day upon day of hostile weather')
+    hunger = user.index('Three days without food')
+    assert cold < weather_need < supper < hunger
 
 
 def test_an_echo_that_restates_the_encounter_is_consumed():
@@ -403,3 +542,222 @@ def test_the_night_is_named_by_what_it_is():
     ])
     assert 'Coin buys the night at The Prancing Pony' in user
     assert 'NIGHT AT CAMP' not in user
+
+
+def test_light_turns_get_a_divider_between_beats():
+    """The host's declared sky changes mark themselves (when.light): a
+    17:42 in autumn is already night and the skeleton says so between
+    beats, not by the narrator's guess."""
+    user = _prompt(events=[
+        {'type': 'land', 'when': {'phase': 'afternoon', 'hour': 15.0,
+                                  'light': 'day'},
+         'data': {'subtype': 'terrain', 'reading': 'open heath'}},
+        {'type': 'land', 'when': {'phase': 'afternoon', 'hour': 17.7,
+                                  'light': 'night'},
+         'data': {'subtype': 'terrain', 'reading': 'a wind-bent oak'}},
+    ])
+    dark = user.index('— after dark —')
+    assert user.index('Open heath') < dark < user.index('A wind-bent oak')
+    # Broad daylight is the road's default — no marker for the opening sky.
+    assert '— daylight —' not in user
+
+
+def test_a_day_opening_in_darkness_says_so():
+    user = _prompt(events=[
+        {'type': 'land', 'when': {'phase': 'morning', 'hour': 5.0,
+                                  'light': 'night'},
+         'data': {'subtype': 'terrain', 'reading': 'frost on the ruts'}},
+        {'type': 'land', 'when': {'phase': 'morning', 'hour': 8.0,
+                                  'light': 'day'},
+         'data': {'subtype': 'terrain', 'reading': 'the sun clears the ridge'}},
+    ])
+    assert '— after dark —' in user[:user.index('Frost on the ruts')]
+    assert '— daylight —' in user
+
+
+def test_the_chapters_rules_close_the_prompt_under_their_title():
+    user = _prompt(events=[
+        {'type': 'meal', 'when': {'phase': 'morning', 'hour': 9.0},
+         'data': {'reading': 'bread and cheese'}},
+    ])
+    assert "=== THE CHAPTER'S RULES ===" in user
+    assert user.index('=== TODAY ===') < user.index(
+        "=== THE CHAPTER'S RULES ===")
+    assert 'no one is met' in user
+
+
+# ---------------------------------------------------------------------------
+# Evoked lines ride inside the event that woke them (C35)
+# ---------------------------------------------------------------------------
+
+def test_an_evoked_memory_rides_inside_its_event():
+    """A memory is an event-like thing: it belongs to the moment that
+    woke it, indented under that beat — never floating in the phase's
+    stirs list."""
+    user = _prompt(
+        events=[
+            {'type': 'land', 'when': {'phase': 'morning', 'hour': 9.0},
+             'data': {'subtype': 'crossing',
+                      'reading': 'crossed into Numeriador'}},
+            {'type': 'meal', 'when': {'phase': 'night', 'hour': 20.0},
+             'data': {'reading': 'Supper by the fire: road-bread.'}},
+        ],
+        memory_beats={
+            'morning': [{
+                'line': '(a memory, 4 days ago) crossed into Talath Muil',
+                'subject': 'Numeriador',
+                'anchor': 0,
+                'kind': 'memory',
+            }],
+        },
+    )
+    assert ('Crossed into Numeriador.\n'
+            '  (a memory, 4 days ago) crossed into Talath Muil.') in user
+    assert 'stirs in them' not in user
+
+
+def test_an_evoked_memory_inside_its_encounter_uses_the_echo_slot():
+    """A memory an encounter woke rides inside the encounter block — the
+    echo slot already speaks 'may call to mind'."""
+    user = _prompt(
+        day={'day_number': 4, 'date': '1950-10-08',
+             'encounters': [{
+                 'phase': 'afternoon', 'hour': 15.0, 'region': 'the Gap',
+                 'entity': {'name': 'Losrandír', 'type': 'people'},
+                 'interaction': {'form': 'sign_only'},
+             }]},
+        events=[
+            {'type': 'encounter',
+             'when': {'phase': 'afternoon', 'hour': 15.0},
+             'data': {'entity_name': 'Losrandír', 'form': 'sign_only'}},
+        ],
+        memory_beats={
+            'afternoon': [{
+                'line': '(a memory, 2 days ago) hoofprints by the water',
+                'subject': 'Losrandír',
+                'anchor': 0,
+                'kind': 'memory',
+            }],
+        },
+    )
+    assert ('May call to mind (or stay silent): '
+            '(a memory, 2 days ago) hoofprints by the water') in user
+    assert 'stirs in them' not in user
+
+
+def test_a_felt_beat_indents_under_its_own_event():
+    """The immediate pull an event cast lands under that event's line —
+    'left them watchful' belongs to the moment, not the phase."""
+    user = _prompt(
+        events=[
+            {'type': 'ambience',
+             'when': {'phase': 'afternoon', 'hour': 14.0},
+             'data': {'reading': 'a wolf watched from the treeline'}},
+        ],
+        memory_beats={
+            'afternoon': [{
+                'line': 'the treeline left them watchful',
+                'subject': None,
+                'anchor': 0,
+                'kind': 'felt',
+            }],
+        },
+    )
+    assert ('A wolf watched from the treeline.\n'
+            '  The treeline left them watchful.') in user
+    assert 'stirs in them' not in user
+
+
+def test_an_unanchored_standing_feeling_finds_the_beat_about_its_subject():
+    """A disposition that was not evoked still attaches by subject: a
+    standing feeling about the land just crossed rides under the
+    crossing's own line."""
+    user = _prompt(
+        events=[
+            {'type': 'land', 'when': {'phase': 'morning', 'hour': 9.0},
+             'where': {'place': 'talath_muil'},
+             'data': {'subtype': 'crossing',
+                      'reading': 'crossed into Talath Muil'}},
+        ],
+        memory_beats={
+            'morning': [{
+                'line': '(a standing feeling) Talath Muil — feared, '
+                        'and hated for it',
+                'subject': 'Talath Muil',
+                'kind': 'disposition',
+            }],
+        },
+    )
+    assert ('Crossed into Talath Muil.\n'
+            '  (a standing feeling) Talath Muil — feared, '
+            'and hated for it') in user
+    assert 'stirs in them' not in user
+
+
+def test_a_stir_whose_anchor_made_no_beat_falls_back_to_the_phase():
+    """An anchor pointing at an event that produced no beat (no reading)
+    lands inside the day's last beat — the evocation is real, the moment
+    just never rendered. It does not float and it does not vanish."""
+    user = _prompt(
+        events=[
+            {'type': 'condition', 'when': {'phase': 'morning'},
+             'data': {}},
+            {'type': 'meal', 'when': {'phase': 'night', 'hour': 20.0},
+             'data': {'reading': 'Supper by the fire: road-bread.'}},
+        ],
+        memory_beats={
+            'morning': [{
+                'line': '(a memory) the cold of last night',
+                'subject': None,
+                'anchor': 0,
+                'kind': 'memory',
+            }],
+        },
+    )
+    supper = user.index('Supper by the fire')
+    assert '(a memory) the cold of last night' in user[supper:]
+    assert 'stirs in them' not in user
+
+
+def test_a_stir_that_restates_its_own_beat_is_consumed():
+    """A day line that only repeats the beat it would ride under is
+    dropped — printing it twice is the failure, not the silence."""
+    user = _prompt(
+        events=[
+            {'type': 'ambience',
+             'when': {'phase': 'morning', 'hour': 9.0},
+             'data': {'reading': 'the herd churned the waterhole mud'}},
+        ],
+        memory_beats={
+            'morning': [{
+                'line': 'the herd churned the waterhole mud',
+                'subject': 'the waterhole',
+                'anchor': 0,
+                'kind': 'event',
+            }],
+        },
+    )
+    assert user.count('The herd churned the waterhole mud') == 1
+    assert 'stirs in them' not in user
+
+
+def test_two_memories_evoked_by_one_event_both_ride_under_it():
+    user = _prompt(
+        events=[
+            {'type': 'land', 'when': {'phase': 'morning', 'hour': 9.0},
+             'data': {'subtype': 'crossing',
+                      'reading': 'crossed into Numeriador'}},
+        ],
+        memory_beats={
+            'morning': [
+                {'line': '(a memory, 4 days ago) crossed into Talath Muil',
+                 'subject': 'Numeriador', 'anchor': 0, 'kind': 'memory'},
+                {'line': '(a memory, yesterday) rain on the same stones',
+                 'subject': 'Numeriador', 'anchor': 0, 'kind': 'memory'},
+            ],
+        },
+    )
+    assert ('Crossed into Numeriador.\n'
+            '  (a memory, 4 days ago) crossed into Talath Muil.\n'
+            '  (a memory, yesterday) rain on the same stones.') in user
+    assert 'stirs in them' not in user

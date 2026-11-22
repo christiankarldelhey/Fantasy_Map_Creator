@@ -430,6 +430,9 @@ router.post('/:id/days', authenticateToken, async (req, res, next) => {
         // How the night was secured (paid bed, charity plea, turned away)
         // rides on the day so toEvents' rest event can tell it.
         day.lodging = resolution.lodging;
+        // A forced halt marks the night's rest: the day ended early
+        // because the body said so, not the clock.
+        day.halt = resolution.halted;
       };
       refreshResolution();
 

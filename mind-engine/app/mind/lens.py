@@ -17,7 +17,7 @@ from app.mind.engine import (
     MOOD_DIMS, add_delta, apply_pull, derive_feeling, feeling_lexicon,
     weigh_body,
 )
-from app.mind.tags import cause_tags
+from app.mind.tags import cause_tags, tag_family
 from app.mind.voice import humanize, mood_name
 from app.mind.provisioning import DEFAULT_WIRING
 
@@ -310,52 +310,124 @@ def _mood_line(mood, today=None):
     return f'Still {verb}{since}: {wording}'
 
 
-def _age_phrase(mem, age_days):
-    """How long ago the memory happened — the lens marks the past as past
-    (C20): 'yesterday — the ranger asked...' reads as recollection, not
-    as today's events. C30: the delta is calendar days — a month of rest
-    between journeys reads 'a long while ago', never 'yesterday'."""
-    if age_days is None or age_days <= 0:
+# Why a memory woke — the tag (or coarse facet) it shares with the
+# moment that stirred it, said as a human phrase so the narrator sees
+# the rhyme instead of guessing at it ('another land crossed into',
+# 'the same orcs'). Flag tags carry per-tag phrases; subject families
+# humanize their slug; a facet-only match admits the vaguer likeness.
+_VIA_FLAG = {
+    'tag:region_entered': 'another land crossed into',
+    'tag:entered': 'a threshold crossed again',
+    'tag:visited': 'a place come back to',
+    'tag:sighted': 'a sight like that one',
+    'tag:hostile': 'something hostile like then',
+    'tag:given': 'a gift like that one',
+    'tag:rested': 'a night like that one',
+    'tag:settlement': 'walls again',
+}
+_VIA_FAM = {
+    'place': '{x} again',
+    'need': 'the same ache',
+    'topic': 'the same talk',
+    'form': 'a meeting of the same kind',
+    'rest': 'the same kind of night',
+    'felt': 'the same feeling',
+}
+_VIA_SUBJECT_FAMS = {
+    'entity', 'entity_type', 'npc', 'family', 'kind',
+    'food', 'drink', 'race',
+}
+# Slugs that are names, not common nouns: 'talath_muil' reads 'Talath
+# Muil again', never 'talath muil'.
+_VIA_PROPER = {'place', 'npc', 'family', 'entity'}
+
+
+def _via_phrase(via):
+    """The shared tag as '— the same orcs' / '— another land crossed
+    into', or '' when the rhyme cannot be named."""
+    if not via:
         return ''
-    if age_days == 1:
-        return 'Yesterday — '
-    if age_days < 14:
-        return f'{age_days} days ago — '
-    return 'A long while ago — '
+    if via.startswith('facet:'):
+        return ' — something of the same kind'
+    if via in _VIA_FLAG:
+        return f' — {_VIA_FLAG[via]}'
+    fam = tag_family(via)
+    x = humanize(via.rsplit(':', 1)[-1])
+    if fam in _VIA_PROPER:
+        x = x.title()
+    if fam in _VIA_SUBJECT_FAMS:
+        return f' — the same {x}'
+    if fam in _VIA_FAM:
+        return f' — {_VIA_FAM[fam].format(x=x)}'
+    return ' — a moment like that one'
+
+
+def _age_phrase(mem, age_days, via=None):
+    """How long ago the memory happened — the lens marks the past as past
+    (C20): '(a memory, 4 days ago) the ranger asked...' reads as
+    recollection, not as today's events. A memory that cannot be dated
+    is still a memory — never a bare line the narrator might read as
+    present. C30: the delta is calendar days — a month of rest between
+    journeys reads 'a long while ago', never 'yesterday'. `via` names
+    why the day woke it — the rhyme it shares with the moment."""
+    if age_days is None or age_days <= 0:
+        age = ''
+    elif age_days == 1:
+        age = ', yesterday'
+    elif age_days < 14:
+        age = f', {age_days} days ago'
+    else:
+        age = ', a long while ago'
+    return f'(a memory{age}{_via_phrase(via)}) '
 
 
 QUIET_EPISODE = (
     'Nothing in this Episode weighs on them beyond the road and the body '
     '— let it be the quiet stretch it is.'
 )
-AGO_CUE = (
-    'Lines marked "ago" are memories surfacing — let them colour the day '
-    'as recollection or comparison, never as events happening now.'
-)
+
+
+# What kind of inner thing a line is, when it is not the day itself:
+# needs and event lines already read as present; beliefs, musings and
+# memories need their nature said or the narrator cannot tell a wound
+# remembered from a wound now.
+_STANDING_LABEL = {
+    'belief': '(a belief they hold) ',
+    'musing': '(a thought of theirs) ',
+}
 
 
 def line_text(line, mood=None, today=None):
     """One brief line as the narrator reads it: memories carry their age,
-    the mood its 'still weighing on them'. Words fixed at open win."""
+    beliefs and musings their nature, the mood its 'still weighing on
+    them'. Words fixed at open win."""
     if line.get('render'):
         return line['render']
     if line.get('kind') == 'mood':
         return _mood_line(mood, today) or line['text']
-    return f"{line.get('age') or ''}{line['text']}"
+    label = line.get('age') or _STANDING_LABEL.get(line.get('kind'), '')
+    # A memory carries how it FELT back then — the same 'left them X'
+    # the day's felt beats speak, so the charge travels with the fact.
+    felt = (
+        f' — it left them {line["felt"]}'
+        if line.get('kind') == 'memory' and line.get('felt') else '')
+    return f'{label}{line["text"]}{felt}'
 
 
 # The standing self, rendered (ADR 0017): a Relation over the bar earns
 # one disposition line — facts-of-feeling for the narrator to weave,
 # never prose to quote. The subject is humanized from its tag.
+# 'the thought of {subj}' where a verb agrees — a plural subject never
+# breaks the line ('trolls tighten' is wrong; the thought of them is not).
 _DISPOSITION_RENDER = {
-    'dread': '{subj} weighs on them like a coming dark',
-    'fear': '{subj} tightens their chest before it means to',
-    'wary': '{subj} puts them on their guard',
+    'dread': 'the thought of {subj} weighs on them like a coming dark',
+    'fear': 'the thought of {subj} tightens their chest before it means to',
+    'wary': 'the thought of {subj} puts them on their guard',
     'feared and hated': '{subj} — feared, and hated for it',
-    'hatred': '{subj} earns no love from them',
-    'distrust': '{subj} has never quite earned their trust',
-    'fondness': '{subj} sits warm in their memory',
-    'gratitude': '{subj} has earned their thanks',
+    'hatred': 'the thought of {subj} earns no love from them',
+    'distrust': 'the thought of {subj} has never quite earned their trust',
+    'fondness': 'the thought of {subj} sits warm in their memory',
+    'gratitude': 'the thought of {subj} has earned their thanks',
     'warmth': '{subj} — a small good thing to them',
     'deep friendship': '{subj} — they would walk far for that one',
 }
@@ -403,7 +475,7 @@ def inner_lines(session, mind, as_of_episode=None):
     it. The luggage, not the receipts. `as_of_episode` is the mind's own
     clock — it weighs fresh experience over stale and rests what the
     prompt just voiced."""
-    from app.mind.tables import Relation
+    from app.mind.tables import Memory, Relation
     from app.mind.relations import relation_vector
     from app.mind.voice import pack_value
     render_map = pack_value(
@@ -415,6 +487,34 @@ def inner_lines(session, mind, as_of_episode=None):
         .filter_by(character_id=mind.character_id)
         .all()
     )
+    # A feeling that cannot say why is a feeling the narrator cannot
+    # tell — each disposition names its biggest cause: the most
+    # important memory touching the subject that agrees with where the
+    # feeling points (a dreaded land cites its darkest day, not the
+    # warm one that merely outranked it).
+    mems_by_subject = {}
+    for m in (
+            session.query(Memory)
+            .filter_by(character_id=mind.character_id)
+            .all()):
+        for t in m.tags or []:
+            mems_by_subject.setdefault(t, []).append(m)
+
+    def _cause(subject, negative):
+        cands = mems_by_subject.get(subject) or []
+        same_sign = [
+            m for m in cands
+            if ((m.valence or 0) < 0) == negative]
+        best = max(same_sign or cands,
+                   key=lambda m: m.importance or 0, default=None)
+        if best is None:
+            return None
+        # 'since' names the wound, it does not retell it — a memory born
+        # of an event carries its whole prose; only the first clause
+        # reads as a noun.
+        return re.split(
+            r' — |(?<=\.)\s', best.desc or '')[0].rstrip('.') or None
+
     scored = []
     for r in rows:
         vec = relation_vector(r)
@@ -432,6 +532,10 @@ def inner_lines(session, mind, as_of_episode=None):
             text = template.format(subj=subj)
         else:
             text = f'{subj} is known ground to them now'
+        negative = (vec.get('affection', 0) - vec.get('fear', 0)) < 0
+        cause = _cause(r.subject, negative)
+        if cause:
+            text = f'{text} since {cause}'
         scored.append((
             _disposition_weight(r, vec, as_of_episode), subj, {
                 'id': r.id,
@@ -491,7 +595,10 @@ def disposition_beats(dispositions, items):
         beats.setdefault(phase, []).append({
             'subject': d.get('display')
                 or humanize(d['subject'].rsplit(':', 1)[-1]),
-            'line': d['line'],
+            'kind': 'disposition',
+            # Who they ARE, not what the day did — marked so the narrator
+            # never reads a standing feeling as today's happening.
+            'line': f'(a standing feeling) {d["line"]}',
         })
     return beats
 
@@ -512,24 +619,13 @@ def render_lens(character_name, brief, mood=None, today=None):
     word = mood_name(mood or {})
     if word and word != 'steady':
         lines.append(f'The day finds them {word}.')
-    focus = brief.get('focus')
-    carried, seen = [], set()
-    for line in brief.get('carried') or []:
-        # Twin memory rows share a desc (C16): one line, read once.
-        key = line['text'].strip().lower()
-        if key in seen:
-            continue
-        seen.add(key)
-        carried.append(line_text(line, mood, today))
-    if carried:
-        lines.append('What they carry into this Episode:')
-        lines.extend(f'- {t}' for t in carried)
-    if focus and focus.get('part') == 'carried':
-        lines.append(f'At the centre of this Episode for them: {line_text(focus, mood, today)}')
-    elif focus is None:
+    # Nothing floats: what they carry speaks inside the day's events or
+    # stays silent — a listed line never lands in the telling, so the
+    # Lens does not list one. brief_beats routes every carried line to
+    # the event that touches it; the centre included — it speaks its
+    # own mark where it lands ('(the day's centre)'), not twice.
+    if brief.get('focus') is None:
         lines.append(QUIET_EPISODE)
-    if any(re.match(r'^(Yesterday|\d+ days ago|A long while ago) —', t) for t in carried):
-        lines.append(AGO_CUE)
     return '\n'.join(lines)
 
 
@@ -543,7 +639,10 @@ def brief_beats(brief, mood=None, today=None):
     focus = brief.get('focus')
     if focus and focus.get('part') == 'day' and focus.get('phase'):
         beats.setdefault(focus['phase'], []).append({
-            'subject': None, 'focus': True,
+            'subject': focus.get('subject'), 'focus': True,
+            'kind': focus.get('kind'),
+            'key': focus.get('key'),
+            'connects_to': focus.get('connects_to') or focus.get('id'),
             'line': line_text(focus, mood, today),
         })
     seen = set()
@@ -555,6 +654,41 @@ def brief_beats(brief, mood=None, today=None):
         seen.add(key)
         beats.setdefault(phase, []).append({
             'subject': line.get('subject'),
+            'anchor': line.get('anchor'),
+            'kind': line.get('kind'),
+            'key': line.get('key'),
+            'urgent': line.get('urgent'),
+            'connects_to': line.get('connects_to'),
+            'line': line_text(line, mood, today),
+        })
+    # Carried lines are not born today — the Lens does not list them
+    # (a floating line never lands in the telling); they ride the
+    # 'carried' channel instead and the builder's anchor rules decide:
+    # an event that touches them speaks them, everything else stays
+    # silent. A carried Focus comes along for the same ride — the
+    # centre marks its scene too.
+    if focus and focus.get('part') == 'carried':
+        beats.setdefault('carried', []).append({
+            'subject': focus.get('subject'), 'focus': True,
+            'kind': focus.get('kind'),
+            'key': focus.get('key'),
+            'connects_to': focus.get('connects_to') or focus.get('id'),
+            'line': line_text(focus, mood, today),
+        })
+    for line in brief.get('carried') or []:
+        if focus and line.get('id') == focus.get('id'):
+            continue  # the centre's own line already rides, marked
+        key = line['text'].strip().lower()
+        if key in seen:
+            continue  # twin rows attach once, not twice
+        seen.add(key)
+        beats.setdefault('carried', []).append({
+            'subject': line.get('subject'),
+            'anchor': line.get('anchor'),
+            'kind': line.get('kind'),
+            'key': line.get('key'),
+            'urgent': line.get('urgent'),
+            'connects_to': line.get('connects_to'),
             'line': line_text(line, mood, today),
         })
     return beats

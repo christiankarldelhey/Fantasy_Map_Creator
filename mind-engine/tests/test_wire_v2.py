@@ -114,7 +114,7 @@ def test_open_v2_narrate_uses_episode_frame(client, monkeypatch):
     assert body['generation']['text'] == fake['text']
     # The events' readings reached the prompt as the phase's world prose.
     prompt_user = body['prompt']['user']
-    assert 'a thin cold rain, steady since dawn' in prompt_user
+    assert 'A thin cold rain, steady since dawn.' in prompt_user
     assert 'A halt in the lee: salt pork; water.' in prompt_user
 
 

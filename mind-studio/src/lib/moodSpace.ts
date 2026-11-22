@@ -23,7 +23,7 @@ export const MOOD_SECTORS: { deg: number; word: string; soft: string }[] = [
   { deg: 16,  word: 'happy',      soft: 'heartened' },
   { deg: 45,  word: 'excited',    soft: 'eager' },
   { deg: 74,  word: 'alert',      soft: 'watchful' },
-  { deg: 106, word: 'tense',      soft: 'uneasy' },
+  { deg: 106, word: 'afraid',     soft: 'uneasy' },
   { deg: 135, word: 'angry',      soft: 'irritated' },
   { deg: 164, word: 'distressed', soft: 'worried' },
   { deg: 196, word: 'sad',        soft: 'melancholy' },

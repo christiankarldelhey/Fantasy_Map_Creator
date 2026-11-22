@@ -63,7 +63,7 @@ def _encounter(ep, entity='red_foxes', family='foxes', etype='carnivores',
         data['intensity'] = intensity
     return {
         'type': 'encounter',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'data': data,
     }
 
@@ -145,7 +145,7 @@ def test_lean_seeds_the_relation(client):
          'affection': -0.4},
     ])
     char = _uid('seeded')
-    _open(client, char, [{'type': 'travel', 'when': {'episode': 1},
+    _open(client, char, [{'type': 'travel', 'when': {},
                           'data': {}}], preset=slug)
     rel = _relation(char, 'tag:entity_type:orcs')
     assert rel['fear'] == pytest.approx(0.5)
@@ -163,7 +163,7 @@ def test_stanced_belief_seeds_affection(client):
          'source': 'heard'},
     ])
     char = _uid('dwarfseed')
-    _open(client, char, [{'type': 'travel', 'when': {'episode': 1},
+    _open(client, char, [{'type': 'travel', 'when': {},
                           'data': {}}], preset=slug)
     rel = _relation(char, 'tag:entity_type:dwarves')
     assert rel['affection'] == pytest.approx(-0.6)
@@ -191,7 +191,7 @@ def test_the_standing_relation_bends_the_landing(client):
     """A favour over a hated subject lands damped — the world gave aid;
     the prejudice made it smaller (1 + k·affection, same dim)."""
     slug = _preset_with(leans=[
-        {'subject': 'tag:family:wargs', 'affection': -0.6},
+        {'subject': 'family:wargs', 'affection': -0.6},
     ])
     char = _uid('hated')
     _open_and_close(client, char, 'd1', [
@@ -205,9 +205,11 @@ def test_the_standing_relation_bends_the_landing(client):
 
 
 def test_unnoticed_means_never_happened(client):
-    """A favour slept through sediments nothing — no relation grows."""
+    """A contact slept through sediments nothing — no relation grows.
+    Observed activity is not intrusive: at night the check never runs,
+    the mind is asleep — deterministic 'unnoticed', no roll needed."""
     char = _uid('asleep')
-    night = _encounter(1)
+    night = _encounter(1, form='observed_activity')
     night['when']['phase'] = 'night'
     night['data']['check'] = {'skill': 'perception'}
     _open(client, char, [night])
@@ -223,7 +225,7 @@ def test_contradicting_evidence_pays_resistance(client):
         {'subject': 'tag:entity_type:dwarves', 'affection': -0.6},
     ])
     char = _uid('stubborn')
-    _open(client, char, [{'type': 'travel', 'when': {'episode': 1},
+    _open(client, char, [{'type': 'travel', 'when': {},
                           'data': {}}], preset=slug)
     session = SessionLocal()
     mind = session.query(Mind).filter_by(character_id=char).one()
@@ -257,7 +259,7 @@ def test_relations_cool_toward_indifference(client):
     before = _relations(char)['entity:red_foxes']['trust']
     # A quiet day feeds nothing: the close decays the sediment a share.
     _open_and_close(client, char, 'd2', [
-        {'type': 'travel', 'when': {'episode': 2, 'date': '1950-01-20'},
+        {'type': 'travel', 'when': {},
          'data': {}},
     ])
     after = _relations(char)['entity:red_foxes']['trust']
@@ -291,7 +293,7 @@ def test_stanced_belief_leaves_a_conviction_memory(client):
          'source': 'heard'},
     ])
     char = _uid('convict')
-    _open(client, char, [{'type': 'travel', 'when': {'episode': 1},
+    _open(client, char, [{'type': 'travel', 'when': {},
                           'data': {}}], preset=slug)
 
     session = SessionLocal()
@@ -314,7 +316,7 @@ def test_stanced_belief_leaves_a_conviction_memory(client):
     for ep in (2, 3, 4, 5):
         _open_and_close(client, char, f'd{ep}', [
             {'type': 'travel',
-             'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+             'when': {},
              'data': {}},
         ])
     session = SessionLocal()
@@ -404,7 +406,7 @@ def test_a_meal_feeds_the_food_itself(client):
     char = _uid('mushroom')
     _open_and_close(client, char, 'd1', [{
         'type': 'meal',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {},
         'where': {'region': 'Rhovanion'},
         'data': {'food': 'mushrooms', 'drink': 'ale',
                  'reading': 'mushrooms fried in butter'},
@@ -412,11 +414,12 @@ def test_a_meal_feeds_the_food_itself(client):
     rels = _relations(char)
     assert 'tag:food:mushrooms' in rels
     # type:meal {aff .15} x .4 + tag:food:* {aff .1} x .3 = .09 on the
-    # food (primary); drink and land hear only the splash, in equal
-    # share.
+    # food (primary); the drink hears the splash. The land hears
+    # nothing — a meal is not about Rhovanion: context subjects (the
+    # land, the kind of place) feed only when the event is about them.
     food = rels['tag:food:mushrooms']['affection']
     assert food > rels['tag:drink:ale']['affection']
-    assert food > rels['region:Rhovanion']['affection']
+    assert 'region:Rhovanion' not in rels
 
 
 def test_monotony_sours_the_daily_bread(client):
@@ -431,7 +434,7 @@ def test_monotony_sours_the_daily_bread(client):
     for ep in range(1, 7):
         _open_and_close(client, char, f'd{ep}', [{
             'type': 'meal',
-            'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+            'when': {},
             'data': {'food': 'fruit-bread',
                      'reading': 'fruit-bread again'},
         }])
@@ -445,7 +448,7 @@ def test_monotony_sours_the_daily_bread(client):
 
 def test_the_place_accretes_its_own_relation(client):
     """Esgaroth is a subject apart from Rhovanion: seeing it and
-    sleeping there feed 'tag:place:esgaroth' — the town, not the land."""
+    sleeping there feed 'place:esgaroth' — the town, not the land."""
     char = _uid('esgaroth')
     _open_and_close(client, char, 'd1', [{
         'type': 'land',
@@ -455,7 +458,7 @@ def test_the_place_accretes_its_own_relation(client):
                  'tags': ['settlement', 'sighted'],
                  'reading': 'Esgaroth on the lake'},
     }])
-    rel = _relation(char, 'tag:place:esgaroth')
+    rel = _relation(char, 'place:esgaroth')
     assert rel is not None
     assert rel['familiarity'] > 0
     # The kind accretes too — 'towns' as a category (a lower shelf).
@@ -515,7 +518,7 @@ def test_an_untouched_disposition_waits_for_the_quietest_hour(client):
     items = [
         {'when': {'phase': 'morning'}, 'subjects': ['tag:food:bread']},
         {'when': {'phase': 'afternoon'},
-         'subjects': ['tag:place:old_ford', 'region:rhovanion']},
+         'subjects': ['place:old_ford', 'region:rhovanion']},
     ]
     beats = disposition_beats(disps, items)
     assert list(beats) == ['night']
@@ -570,7 +573,7 @@ def test_a_shade_names_the_counter_current():
                         'target': {'valence': 0.5, 'arousal': 0.0},
                         'gain': 0.1}]},
         {'type': 'land', 'when': {'phase': 'afternoon'}, 'source': 'world',
-         'subject': 'tag:place:old_tower',
+         'subject': 'place:old_tower',
          'reading': 'a roofless watch-tower on the hill',
          'valence': -0.2, 'salience': 0.5, 'imprint': {},
          'mood_pull': [{'word': 'melancholy',
@@ -583,7 +586,7 @@ def test_a_shade_names_the_counter_current():
     assert [s['word'] for s in shades] == ['melancholy']
     assert shades[0]['phase'] == 'afternoon'
     assert shades[0]['swing'] < 0
-    assert shades[0]['subject'] == 'tag:place:old_tower'
+    assert shades[0]['subject'] == 'place:old_tower'
     # The good day stands: the pull moved it without turning it.
     assert mood.get('turn') is None
     assert mood['valence'] > 0
@@ -604,7 +607,7 @@ def test_what_happened_at_a_place_marks_the_place(client):
                  'reading': 'orcs — attacked without warning'},
     }])
     orcs = _relation(char, 'entity:orcs')
-    ford = _relation(char, 'tag:place:old_ford')
+    ford = _relation(char, 'place:old_ford')
     assert orcs['fear'] > 0.3
     assert 0 < ford['fear'] < orcs['fear']
     # The splash is a share, not a copy — the place is marked, not blamed.
@@ -623,7 +626,7 @@ def test_sighted_far_barely_touches(client):
                  'sighted_far': True, 'intensity': 0,
                  'tags': ['settlement']},
     }])
-    rel = _relation(char, 'tag:place:esgaroth')
+    rel = _relation(char, 'place:esgaroth')
     assert rel is not None
     assert rel['familiarity'] < 0.05  # a glimpse, not an entry
 
@@ -683,13 +686,13 @@ def test_what_already_spoke_rests_a_few_days():
 def test_a_tag_is_never_a_display_name():
     """A display_name carrying the tag separator is the tag itself, not a
     name — feed() drops it so the Lens humanizes the slug instead of
-    reading 'tag:npc:orc-scout' aloud."""
+    reading 'entity:orc-scout' aloud."""
     from app.mind.relations import feed
     char = _uid('display')
     session = SessionLocal()
     row = feed(
-        session, 'middle_earth', char, 'tag:npc:orc-scout',
-        {'fear': 0.5}, display_name='tag:npc:orc-scout')
+        session, 'middle_earth', char, 'entity:orc-scout',
+        {'fear': 0.5}, display_name='entity:orc-scout')
     assert row.display_name is None
     row2 = feed(
         session, 'middle_earth', char, 'entity:cave_trolls',
@@ -718,5 +721,72 @@ def test_the_prompt_marks_what_it_voiced():
     rel = session.query(Relation).filter_by(
         character_id=char, subject='tag:drink:waterskin').one()
     assert rel.last_surfaced_episode == 10
+    session.rollback()
+    session.close()
+
+
+def test_the_land_never_takes_a_strangers_splash(client):
+    """Wolves hunted in Ered Luin are the wolves' guilt — the land hears
+    nothing. Only an event the land IS about (its own weather, the
+    crossing itself) sediments on it."""
+    char = _uid('context')
+    _open_and_close(client, char, 'd1', [{
+        'type': 'encounter',
+        'when': {'phase': 'afternoon'},
+        'where': {'region': 'ered_luin'},
+        'data': {'reading': 'wolves circled the camp'},
+        'tags': ['entity:wolves', 'tag:form:stalks'],
+    }])
+    assert _relation(char, 'region:ered_luin') is None
+
+
+def test_the_land_owns_the_event_that_is_about_it(client):
+    """A hard crossing IS about the land — no narrower actor exists, so
+    the delta lands on it whole (not a splash): the land earns the
+    feeling its own day produced."""
+    char = _uid('owns')
+    _open_and_close(client, char, 'd1', [{
+        'type': 'land',
+        'when': {'phase': 'morning'},
+        'where': {'region': 'talath_muil'},
+        'data': {'subtype': 'region', 'name': 'Talath Muil',
+                 'tags': ['hostile'],
+                 'reading': 'the fens of Talath Muil closed in'},
+    }])
+    rel = _relation(char, 'region:talath_muil')
+    assert rel is not None
+    assert rel['fear'] > 0
+
+
+def test_a_standing_feeling_names_its_biggest_cause():
+    """'Ered Luin — feared, and hated for it' narrates as noise without
+    the why — the disposition cites the most important memory that
+    agrees with where the feeling points."""
+    from types import SimpleNamespace
+
+    from app.mind.lens import inner_lines
+    char = _uid('cause')
+    session = SessionLocal()
+    session.add(Relation(
+        game_id='middle_earth', character_id=char,
+        subject='region:ered_luin', feeling='feared and hated',
+        fear=0.7, affection=-0.5, familiarity=0.4))
+    session.add(Memory(
+        id=f'mem-{char}-w', game_id='middle_earth', character_id=char,
+        tags=['region:ered_luin'], desc='the warg pack came at dusk',
+        valence=-0.7, importance=0.8, kind='episodic', episode_ids=[1]))
+    session.add(Memory(
+        id=f'mem-{char}-s', game_id='middle_earth', character_id=char,
+        tags=['region:ered_luin'], desc='a kind sunrise over the peaks',
+        valence=0.6, importance=0.9, kind='episodic', episode_ids=[2]))
+    session.flush()
+    lines = inner_lines(
+        session, SimpleNamespace(
+            character_id=char, game_id='middle_earth'),
+        as_of_episode=10)
+    line = next(l for l in lines if l['subject'] == 'region:ered_luin')
+    # The warm sunrise outranks the wargs in importance, but it does
+    # not explain a fear — the dark day does.
+    assert 'the warg pack came at dusk' in line['line']
     session.rollback()
     session.close()

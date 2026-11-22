@@ -24,9 +24,14 @@ from app.mind.attitudes import (
     is_attitude, ladder_norm, match_level,
 )
 from app.mind.kinds import ROLE_FRAME, ROLE_VOICE, kinds
-from app.mind.voice import phrases
+from app.mind.retrieval import felt_proximity
+from app.mind.voice import FELT_ALIAS, mood_name, phrases
 from app.mind.provisioning import DEFAULT_WIRING
-from app.mind.retrieval import _contact_tags
+from app.mind.tags import (
+    contact_tags as _contact_tags,
+    tag_facet,
+    tag_family,
+)
 
 LINE_CAP = 3
 PHASES = {
@@ -128,6 +133,54 @@ def _had_contact(perceived_day):
             if t.startswith(('entity:', 'tag:entity_type:')):
                 return True
     return False
+
+
+# The tags that name the SAME thing — 'the same orcs' beats 'the same
+# kind of moment' as the reason a memory came back. Flag families say
+# only the shape of the rhyme.
+_VIA_SUBJECT_FAMS = frozenset({
+    'entity', 'entity_type', 'npc', 'place', 'family', 'kind',
+    'food', 'drink', 'race', 'need', 'topic', 'form', 'rest', 'felt',
+})
+
+
+def _memory_felt_word(felt, session=None, game_id=None):
+    """The word for what was actually felt — named off the pull's real
+    landing point, not the world's suggestion: a pull authored 'afraid'
+    that the personality refracted toward alertness narrates 'watchful'.
+    The authored word stays as the fallback for pulls stored without a
+    target, canonicalized so a stored 'tense' still says 'afraid'."""
+    for pull in felt or []:
+        name = mood_name(pull.get('target'), session, game_id)
+        if name and name != 'steady':
+            return name
+    for pull in felt or []:
+        w = pull.get('word')
+        if w:
+            return FELT_ALIAS.get(w, w)
+    return None
+
+
+def _evocation_via(memory_tags, item_tags):
+    """Why this memory woke: the contact tag it shares with the item
+    that stirred it — a subject tag first ('the same X'), then a flag
+    ('another land crossed into'), then a shared coarse facet
+    ('facet:tag:food'). Returns the winning tag or None."""
+    shared = _contact_tags(memory_tags or []) & _contact_tags(
+        item_tags or [])
+    if not shared:
+        facets = {
+            f for f in (tag_facet(t) for t in _contact_tags(
+                item_tags or [])) if f
+        } & {
+            f for f in (tag_facet(t) for t in _contact_tags(
+                memory_tags or [])) if f
+        }
+        return f'facet:{sorted(facets)[0]}' if facets else None
+    return sorted(
+        shared,
+        key=lambda t: (0 if tag_family(t) in _VIA_SUBJECT_FAMS else 1,
+                       t))[0]
 
 
 def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
@@ -385,9 +438,33 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             item = (perceived_day or [])[anchor]
             phase = _phase(item)
             data = item.get('data') or {}
+            via = _evocation_via(
+                getattr(m, 'tags', None), item.get('tags'))
+            if via is None:
+                # The rhyme no tag can name — what woke it was how it
+                # FELT (delta_felt did the lifting at retrieve).
+                day_targets = [
+                    p['target'] for p in (item.get('mood_pull') or [])
+                    if p.get('target')]
+                if day_targets and felt_proximity(
+                        getattr(m, 'felt', None), day_targets) >= 0.8:
+                    via = 'felt:rhyme'
             memory_lines.append({
                 'id': f'memory:{m.id}', 'kind': 'memory', 'part': 'day',
                 'phase': phase, 'text': m.desc,
+                # WHY the day woke it — the tag (or coarse facet) the
+                # memory shares with the item that stirred it, so the
+                # narrator sees the rhyme instead of guessing at it.
+                'via': via,
+                # HOW it felt back then — the pull that actually landed
+                # through this personality, so the narrator can carry
+                # the charge, not just the fact.
+                'felt': _memory_felt_word(
+                    getattr(m, 'felt', None), session, game_id),
+                # The item that stirred it — the memory rides INSIDE that
+                # event's beat, not floating in the phase (evoked rides
+                # with what woke it).
+                'anchor': anchor,
                 # Who stirred it — lets the prompt hang the echo on that
                 # encounter instead of floating it in the phase.
                 'subject': (
@@ -402,6 +479,8 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             memory_lines.append({
                 'id': f'memory:{m.id}', 'kind': 'memory', 'part': 'carried',
                 'phase': None, 'text': m.desc,
+                'felt': _memory_felt_word(
+                    getattr(m, 'felt', None), session, game_id),
                 'score': (m.importance or 0.0) * 0.5,
                 'why': 'resonates with the Episode as a whole',
             })
@@ -412,6 +491,15 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         u = n.get('urgency') or 0.0
         text = n.get('description') or n.get('key')
         origin = need_origins.get(n.get('key'))
+        # An origin the description already says is noise — 'days beneath
+        # a sunless sky' after 'day upon day beneath a sunless sky — the
+        # light itself is missed' adds nothing.
+        if origin:
+            said = set(re.findall(r"[a-z']+", text.lower()))
+            own = set(re.findall(r"[a-z']+", origin.lower())) - {
+                'a', 'an', 'the', 'of', 'in', 'on', 'and', 'to'}
+            if own and len(own - said) / len(own) < 0.5:
+                origin = None
         line_text = f'{text} — {origin}' if origin else text
         touched = _touches(
             [f'need:{n.get("key")}'], text, day_tags, day_text,
@@ -437,6 +525,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         born_today = bool(n.get('is_new')) and not (days and days > 1)
         need_lines.append({
             'id': f'need:{n.get("id") or n.get("key")}', 'kind': 'need',
+            'key': n.get('key'),
             'part': 'day' if born_today else 'carried',
             'phase': 'night' if born_today else None,
             'text': line_text, 'score': u, 'urgent': u >= urgent,

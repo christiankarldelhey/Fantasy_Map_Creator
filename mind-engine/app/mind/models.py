@@ -16,18 +16,38 @@ from app.models import GenerationResponse, PromptResponse
 
 class EventWhen(BaseModel):
     """Where in the Episode's day this sits. The Episode itself owns
-    index/date — events only carry the moment within it."""
+    index/date — events only carry the moment within it. `light` is the
+    host's solar reading at that hour (dawn|day|dusk|night): the world
+    knows its own sunrise; the mind narrates what was visible, it never
+    derives daylight from a clock."""
+
+    model_config = ConfigDict(extra='forbid')
+
     hour: Optional[float] = None
     phase: Optional[str] = None
+    light: Optional[str] = None
 
 
 class EventWhere(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
     region: Optional[str] = None
-    family: Optional[str] = None
-    point: Optional[List[float]] = None
     # The named spot the event happened AT — the orcs at the ford mark
     # the ford too (a splash share as a secondary subject).
     place: Optional[str] = None
+
+
+class EventCheck(BaseModel):
+    """The perception gate (B1): which skill tries to notice this event,
+    at what difficulty. Universal — a meal can hide rot, a place can
+    hide its keeper; gates are not an encounter privilege."""
+
+    model_config = ConfigDict(extra='forbid')
+
+    skill: str = Field(min_length=1)
+    gate: Optional[float] = None
+    difficulty: Optional[float] = None
+    mods: Optional[float] = None
 
 
 class EventIn(BaseModel):
@@ -39,6 +59,15 @@ class EventIn(BaseModel):
     type: str = Field(min_length=1)
     when: EventWhen
     where: Optional[EventWhere] = None
+    # Universal vocabulary (app.mind.events.ENVELOPE_KEYS): what the
+    # traveller was doing, the host's declared force on the shared 0-4
+    # dial, its one-line reading, its markers, and the perception gate.
+    # `data` holds only what the kind owns.
+    act: Optional[str] = None
+    intensity: Optional[float] = None
+    reading: Optional[str] = None
+    tags: List[str] = []
+    check: Optional[EventCheck] = None
     data: Dict[str, Any] = {}
 
 

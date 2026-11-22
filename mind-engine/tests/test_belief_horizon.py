@@ -70,7 +70,7 @@ def _close(client, episode_id):
 def _meal(ep):
     return {
         'type': 'meal',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'data': {'food': 'lembas', 'tags': ['given']},
     }
 

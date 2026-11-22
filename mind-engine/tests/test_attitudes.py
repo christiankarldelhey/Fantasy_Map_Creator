@@ -93,7 +93,7 @@ def test_provisioning_clones_every_facet(client):
     session.add(PresetStarterBelief(
         preset_id=preset.id, kind='world', statement='Foxes are kin',
         strength=3, tags=[], boosts={},
-        subject=['tag:family:foxes'], stance=0.6, source='lived',
+        subject=['family:foxes'], stance=0.6, source='lived',
     ))
     session.add(PresetStarterBelief(
         preset_id=preset.id, kind='self', statement='I keep my own counsel',
@@ -103,11 +103,11 @@ def test_provisioning_clones_every_facet(client):
     session.close()
 
     char = _uid('clone')
-    _open(client, char, [{'type': 'travel', 'when': {'episode': 1},
+    _open(client, char, [{'type': 'travel', 'when': {},
                           'data': {}}], preset=slug)
     faceted, plain = _beliefs(char)
 
-    assert faceted.subjects == ['tag:family:foxes']
+    assert faceted.subjects == ['family:foxes']
     assert faceted.imprint['affection'] == 0.6
     assert faceted.conviction['source'] == 'lived'
     assert is_attitude(faceted)
@@ -124,16 +124,16 @@ def test_narrowest_subject_speaks_for_the_encounter():
             self.subject, self.stance = subject, stance
             self.tags, self.strength = [], 0.6
     broad = _B(['tag:entity_type:riding_animals'], 0.2)
-    family = _B(['tag:family:horses'], 0.7)
+    family = _B(['family:horses'], 0.7)
     exact = _B(['entity:horses_of_mordor'], -0.8)
 
-    tags = ['entity:horses_of_mordor', 'tag:family:horses',
+    tags = ['entity:horses_of_mordor', 'family:horses',
             'tag:entity_type:riding_animals']
     # The narrowest match speaks: entity (3) > family (2) > type (1).
     assert match_level(exact, tags) == 3
     assert match_level(family, tags) == 2
     assert match_level(broad, tags) == 1
-    wild = ['entity:wild_horses', 'tag:family:horses',
+    wild = ['entity:wild_horses', 'family:horses',
             'tag:entity_type:riding_animals']
     assert match_level(family, wild) == 2
     # The exact subject doesn't answer for a different entity.
@@ -149,7 +149,7 @@ def test_only_the_narrowest_attitude_line_speaks(client):
     _new_mind(char)
     session = SessionLocal()
     for subject, stance, stmt in (
-        (['tag:family:horses'], 0.7, 'Horses are the last joy'),
+        (['family:horses'], 0.7, 'Horses are the last joy'),
         (['entity:horses_of_mordor'], -0.8, 'I pity those horses'),
     ):
         session.add(_conviction(
@@ -160,7 +160,7 @@ def test_only_the_narrowest_attitude_line_speaks(client):
 
     opened = _open(client, char, [{
         'type': 'encounter',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {},
         'data': {'entity': 'horses_of_mordor', 'family': 'horses',
                  'entity_type': 'riding_animals', 'form': 'confronts',
                  'danger': 4},

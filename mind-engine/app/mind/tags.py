@@ -63,6 +63,12 @@ UNTAGGED_FIELDS = frozenset({
     'inhabitants', 'prose_hint', 'slot', 'substance', 'lodging',
     'aspect', 'aspect_es', 'presence', 'presence_es',
     'sighted_far', 'reading',
+    # Display names are how a subject is SAID, never what it IS — the
+    # slug (entity/place/region) is the identity; 'The Elk Valley' as a
+    # tag would fragment into spaced free prose. Needs bookkeeping
+    # ('thread'/'resolves') opens and closes loops — it is machinery,
+    # never a theme to evoke.
+    'name', 'provenance', 'thread',
 })
 
 
@@ -84,6 +90,14 @@ def contact_tags(tags):
     entity, kind, form, topic, name, need — never the weather, the
     ration, the mileage or the region it all happened in."""
     return {t for t in (tags or []) if not tag_is(t, 'ambient')}
+
+
+def tag_facet(tag):
+    """The coarse facet a `tag:<key>:<value>` tag belongs to — 'tag:food:
+    bread' → 'tag:food'. Single-segment tags ('entity:foxes', 'tag:omen')
+    have no meaningful facet: 'some entity' or 'some flag' would be."""
+    facet = str(tag).rsplit(':', 1)[0]
+    return facet if ':' in facet else None
 
 
 def subject_tags(tags):

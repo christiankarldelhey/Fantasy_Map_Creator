@@ -121,7 +121,7 @@ def test_sentinel_tags_never_streak_or_break(client):
     slug = _preset(reflection_every=99, repetition_min_streak=2)
     day = lambda ep: {  # noqa: E731
         'type': 'climate',
-        'when': {'episode': ep, 'date': f'1950-05-0{ep}'},
+        'when': {},
         'data': {'tags': ['wounded:none']},
     }
     for ep in (1, 2, 3):
@@ -152,7 +152,7 @@ def test_need_memories_never_reach_the_reflection_prompt(
     slug = _preset(reflection_every=1)
     meal = {
         'type': 'meal',
-        'when': {'episode': 1, 'date': '1950-05-01'},
+        'when': {},
         # 'given' marks it a provided meal — felt as kindness, strong
         # enough to be reflection evidence; need memories still stay out.
         'data': {'food': 'lembas', 'tags': ['given']},

@@ -21,6 +21,7 @@
 # ============================================================================
 import operator
 
+from app.mind.events import flat_data
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.tables import CompositeRule
 from app.mind.util import OPS, num
@@ -118,7 +119,7 @@ def rule_fired_today(rule, events):
     for event in events or []:
         if rule.get('event_type') and event.get('type') != rule['event_type']:
             continue
-        data = event.get('data') or {}
+        data = flat_data(event)
         for group in rule['conditions']:
             if isinstance(group, list) and group and all(
                 _clause(c, data) for c in group

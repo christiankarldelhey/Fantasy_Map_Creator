@@ -41,7 +41,7 @@ def _given_events(ep=1):
     return [
         {
             'type': 'encounter',
-            'when': {'episode': ep, 'date': f'1950-06-0{ep}'},
+            'when': {},
             'data': {
                 'entity': 'farmstead', 'entity_name': 'A farmstead',
                 'entity_type': 'sites', 'form': 'aid_or_trade',
@@ -54,7 +54,7 @@ def _given_events(ep=1):
         },
         {
             'type': 'meal',
-            'when': {'episode': ep, 'date': f'1950-06-0{ep}'},
+            'when': {},
             'data': {
                 'slot': 'midday', 'eaten': True,
                 'food': "the farm wife's soup",
@@ -89,7 +89,7 @@ def test_taken_fork_marks_changed(client):
     opened = _open(client, char, [
         {
             'type': 'encounter',
-            'when': {'episode': 1, 'date': '1950-06-01'},
+            'when': {},
             'data': {
                 'entity': 'wayhouse', 'entity_type': 'sites',
                 'form': 'harvest_shelter',
@@ -104,7 +104,7 @@ def test_taken_fork_marks_changed(client):
         },
         {
             'type': 'rest',
-            'when': {'episode': 1, 'date': '1950-06-01'},
+            'when': {},
             'data': {'place': 'the wayhouse', 'rest_quality': 4,
                      'scope': 'region'},
         },
@@ -121,7 +121,7 @@ def test_walked_on_fork_stays_unmarked(client):
     char = _uid('walked')
     opened = _open(client, char, [{
         'type': 'encounter',
-        'when': {'episode': 1, 'date': '1950-06-01'},
+        'when': {},
         'data': {
             'entity': 'wayhouse', 'entity_type': 'sites',
             'form': 'harvest_shelter',

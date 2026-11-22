@@ -61,19 +61,19 @@ def _open_and_close(client, character_id, ref, events, preset=None):
 
 MEAL_EVENT = {
     'type': 'meal',
-    'when': {'episode': 1, 'date': '1950-01-19', 'phase': 'night'},
+    'when': {'phase': 'night'},
     'data': {'food': 'lembas', 'tags': ['given']},
 }
 
 QUIET_TRAVEL = {
     'type': 'travel',
-    'when': {'episode': 0, 'date': '1950-01-19'},
+    'when': {},
     'data': {'distance_km': 10.0},
 }
 
 
 def _quiet_event(ep):
-    return {**QUIET_TRAVEL, 'when': {**QUIET_TRAVEL['when'], 'episode': ep}}
+    return {**QUIET_TRAVEL, 'when': {**QUIET_TRAVEL['when']}}
 
 
 def test_differential_memory(client):
@@ -128,7 +128,7 @@ def test_determinism(client):
     """Same events[] for two fresh default minds -> identical perceived_day."""
     events = [{
         'type': 'climate',
-        'when': {'episode': 1, 'date': '1950-01-19', 'phase': 'morning'},
+        'when': {'phase': 'morning'},
         'where': {'region': 'eriador'},
         'data': {
             'temperature_2m': 4.2, 'cloud_cover': 80,
@@ -204,11 +204,11 @@ def test_narrate_episode_injects_mind(client, monkeypatch):
     rn = client.post(f'/episodes/{ep_id}/narrate', json={})
     assert rn.status_code == 200, rn.text
     body = rn.json()
-    # The mind rides inside the narrator's lens (C17) — no standalone
-    # 'THE MIND OF' block, its content fused with the personality.
+    # The standing material rides the system prompt; the mind's volatile
+    # state opens the user prompt under its own === TODAY === title.
     assert '=== THE MIND OF' not in body['prompt']['user']
-    assert "NARRATOR'S LENS FOR TESTER" in body['prompt']['user']
-    assert 'Tester today.' in body['prompt']['user']
+    assert '=== TESTER ===' in body['prompt']['system']
+    assert '=== TESTER TODAY ===' in body['prompt']['user']
     assert body['generation']['text'] == fake['text']
     # the narrative echoes the meal the mind served
     assert memory_echoes_in_text('food: lembas', fake['text'])

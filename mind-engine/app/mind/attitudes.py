@@ -12,13 +12,14 @@
 # not that.
 # ============================================================================
 # Narrowest first: a match on an entity outranks a family, a family a type.
-_LEVELS = (('entity:', 3), ('tag:family:', 2), ('tag:entity_type:', 1))
+_LEVELS = (('entity:', 3), ('family:', 2), ('tag:entity_type:', 1))
 
 # The people ladder (#86): 'dunlendings' is the same folk whether the
-# host worded them 'tag:family:' or 'tag:entity_type:' — the levels are
-# naming, not identity. Matching normalizes both sides to the type form
-# so a belief's subject and the day's tag agree on the terminal slug.
-_LADDER = ('tag:family:', 'tag:entity_type:')
+# host worded them 'family:', 'tag:entity_type:' or the legacy
+# 'tag:family:' — the levels are naming, not identity. Matching
+# normalizes both sides to the type form so a belief's subject and the
+# day's tag agree on the terminal slug.
+_LADDER = ('family:', 'tag:family:', 'tag:entity_type:')
 
 
 def ladder_norm(tag):

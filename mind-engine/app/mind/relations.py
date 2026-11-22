@@ -25,6 +25,10 @@ _SPECIFICITY = {
     'place': 2, 'food': 2, 'drink': 1, 'kind': 1, 'region': 0,
 }
 
+# Subjects that are WHERE a thing happened, not WHO did it: they feed
+# only as the narrowest subject, never by splash (ADR 0017).
+_CONTEXT_FAMILIES = {'region', 'kind'}
+
 
 def relation_vector(row):
     # `or 0.0`: column defaults land at flush — a fresh row still reads 0.
@@ -118,6 +122,18 @@ def feed_event(session, mind, subjects, world_delta, episode_idx=None,
             break
     displays = displays or {}
     for subject in ranked:
+        # Context subjects never take a stranger's splash: the land
+        # learns only what IT did (the event whose narrowest subject it
+        # is — its own weather, its crossing), not a share of
+        # everything merely lived inside it; likewise a place-kind is
+        # context to a wolf attack, never a category of it. A wolf's
+        # guilt belongs to the wolf — only when no actor owns the delta
+        # does the setting keep it. ('kind' DOES still generalize a
+        # place: sighting Esgaroth is about a town, so 'towns' accrete.)
+        if subject != primary and tag_family(subject) in _CONTEXT_FAMILIES:
+            if not (tag_family(subject) == 'kind'
+                    and tag_family(primary) == 'place'):
+                continue
         scale = 1.0 if subject == primary else CATEGORY_SPLASH
         feed(
             session, mind.game_id, mind.character_id, subject,

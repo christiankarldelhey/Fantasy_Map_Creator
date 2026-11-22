@@ -17,6 +17,7 @@ import logging
 import math
 import time
 
+from app.mind.events import flat_data
 from app.mind.tables import PackEntry
 from app.mind.util import tag_matches
 
@@ -192,7 +193,7 @@ MOOD_WHEEL = [
     ( 16, 'happy',      'heartened'),
     ( 45, 'excited',    'eager'),
     ( 74, 'alert',      'watchful'),
-    (106, 'tense',      'uneasy'),
+    (106, 'afraid',     'uneasy'),
     (135, 'angry',      'irritated'),
     (164, 'distressed', 'worried'),
     (196, 'sad',        'melancholy'),
@@ -209,6 +210,13 @@ MOOD_WHEEL = [
 MOOD_NEUTRAL_R = 0.22
 MOOD_FULL_R = 0.5
 MOOD_EXTREME_R = 0.8
+
+# Old words that land on a canonical wheel point (#184): 'tense' is
+# human-felt 'afraid' — hundreds of authored `tag:felt:tense` rows and
+# stored pulls still say it, and every one aterriza en el mismo punto.
+FELT_ALIAS = {
+    'tense': 'afraid',
+}
 
 # Where a felt word pulls TO: the soft ring's centre, the strong
 # ring's centre, the rim for extremes, the origin for 'steady'.
@@ -234,8 +242,8 @@ FELT_MAP = {
     'tag:outcome:failure': 'worried',
     # Contact forms — how the meeting happened feels.
     'tag:form:attacks': 'distressed',
-    'tag:form:sudden_peril': 'tense',
-    'tag:form:confronts': 'tense',
+    'tag:form:sudden_peril': 'afraid',
+    'tag:form:confronts': 'afraid',
     'tag:form:stalks': 'uneasy',
     'tag:form:hinders_passage': 'irritated',
     'tag:form:aid_or_trade': 'heartened',
@@ -260,7 +268,7 @@ FELT_MAP = {
     'tag:act:help': 'heartened',
     'tag:act:approach': 'eager',
     'tag:act:avoid': 'settled',
-    'tag:act:defy': 'tense',
+    'tag:act:defy': 'afraid',
     # Bare success — the weakest verdict, last so any real tone wins.
     'tag:outcome:unscathed': 'heartened',
     'tag:outcome:success': 'pleased',
@@ -278,12 +286,12 @@ FELT_MAP = {
     'tag:rest:poor': 'listless',
     'tag:rest:open_sky': 'uneasy',
     # Weather — the sky's tone.
-    'tag:weather:storm': 'tense',
-    'tag:weather:deep_cold': 'tense',
+    'tag:weather:storm': 'afraid',
+    'tag:weather:deep_cold': 'afraid',
     'tag:weather:freezing': 'uneasy',
     'tag:weather:scorching': 'irritated',
     # Menace declared.
-    'tag:hostile': 'tense',
+    'tag:hostile': 'afraid',
 }
 
 # Streak subjects that are not the tag's tail (#147): non-noun tags need
@@ -393,6 +401,7 @@ def mood_point(word, session=None, game_id=None):
     the rim, 'steady' at the origin. None for words off the wheel."""
     if not word:
         return None
+    word = FELT_ALIAS.get(word, word)
     if word == 'steady':
         return {'valence': 0.0, 'arousal': 0.0}
     if word == 'despairing':
@@ -413,14 +422,16 @@ def felt_word(tags, session=None, game_id=None):
     a `tag:felt:<word>` tag names its word outright and beats the pack
     (the host's declared tone over the generic map's); the felt_map
     fills in the tone of contacts that declare none ('attacks' →
-    tense). Blending two tones produced mud — one event, one pull."""
+    afraid). Blending two tones produced mud — one event, one pull."""
     for t in tags or []:
         if t.startswith('tag:felt:'):
-            return t[len('tag:felt:'):]
+            return FELT_ALIAS.get(
+                t[len('tag:felt:'):], t[len('tag:felt:'):])
     felt_map = pack_value(session, game_id, FELT_MAP_KEY, FELT_MAP) or {}
     for key, word in felt_map.items():
         if any(tag_matches(t, key) for t in tags or []):
-            return word if isinstance(word, str) else word[0]
+            word = word if isinstance(word, str) else word[0]
+            return FELT_ALIAS.get(word, word)
     return None
 
 
@@ -458,7 +469,7 @@ def resolve_event_reading(event, session=None, game_id=None):
     would say it noticed. A host-declared `data.reading` always wins (#53:
     the world says what it was; the mind consumes it). Undeclared events
     fall back to their subject — a name, never an invented sentence."""
-    data = (event or {}).get('data') or {}
+    data = flat_data(event)
     etype = (event or {}).get('type')
 
     reading = data.get('reading')

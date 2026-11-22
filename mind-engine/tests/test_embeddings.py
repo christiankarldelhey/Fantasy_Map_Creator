@@ -56,7 +56,7 @@ def _seed_memory(character_id, desc, importance=0.2, created_episode=1):
 def _rain_note(ep=2):
     return {
         'type': 'note',
-        'when': {'episode': ep, 'date': '1950-01-20'},
+        'when': {},
         'data': {'note': 'rain drizzled on the road, soaking'},
     }
 
@@ -87,7 +87,7 @@ def test_memory_stored_with_embedding(client):
     char = _uid('mem')
     ep = _open(client, char, [{
         'type': 'meal',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {},
         'data': {'food': 'lembas', 'tags': ['given']},
     }], ref='d1')
     client.post(f"/episodes/{ep['episode_id']}/close", json={})
@@ -118,7 +118,7 @@ def test_semantic_recall_without_tag_overlap(client):
     # 'rain drizzled…' only reaches ~0.35 — genuine resonance, not vibe.
     close_note = {
         'type': 'note',
-        'when': {'episode': 2, 'date': '1950-01-20'},
+        'when': {},
         'data': {'note': 'the rain soaked her cloak through'},
     }
     slug = _preset(delta_embedding=0.6)

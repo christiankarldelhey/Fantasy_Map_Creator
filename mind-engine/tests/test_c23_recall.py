@@ -51,7 +51,7 @@ def _brain(character_id):
 def _episode(ep_idx):
     return SimpleNamespace(
         episode_idx=ep_idx,
-        events=[{'when': {'date': '1950-01-20'}}],
+        events=[{'when': {}}],
     )
 
 
@@ -177,7 +177,7 @@ def test_recalls_label_speaks_to_the_answer_when_dialogue():
     base = {
         'entity': {'name': 'Shepherd', 'type': 'people'},
         'region': 'Nan Anduin',
-        'echo': 'Yesterday — wolves crossing the south road at dusk',
+        'echo': '(a memory, yesterday) wolves crossing the south road at dusk',
         'interaction': {'form': 'talks', 'prose_hint': 'a brief exchange'},
     }
     spoken = dict(base)
@@ -189,3 +189,32 @@ def test_recalls_label_speaks_to_the_answer_when_dialogue():
 
     assert 'May inform what the traveller answers' in _describe_encounter(spoken)
     assert 'May call to mind' in _describe_encounter(silent)
+
+
+def test_a_voiced_memory_refeels_the_felt_it_landed_not_the_suggestion():
+    """Remembering re-feels what was felt, not what the world suggested:
+    the pull's refracted target drives the mood — imprint keeps feeding
+    Relations, felt feeds mood, each its own channel."""
+    from app.mind.retrieval import voice_memories
+    session, char = _session_with_memories({
+        'desc': 'the dark ford at nightfall',
+        'tags': ['place:dark_ford'],
+        'importance': 0.8, 'strength': 0.5,
+        # The bond the ford left was warm; the night itself pulled dark
+        # and loud through this traveller's temperament.
+        'imprint': {'affection': 0.4},
+        'felt': [{'word': 'afraid', 'gain': 0.6,
+                  'target': {'valence': -0.9, 'arousal': 0.8,
+                             'dominance': -0.4}}],
+        'created_episode': 5,
+    })
+    mind = _brain(char)
+    mind.mood = {'valence': 0.0, 'arousal': 0.0, 'dominance': 0.0}
+    mind.personality = {}
+    mem = session.query(Memory).filter_by(character_id=char).one()
+    voice_memories(session, mind, [mem], 10)
+    # Warm imprint alone would have lifted valence — the dark felt won.
+    assert mind.mood['valence'] < 0
+    assert mind.mood['arousal'] > 0
+    session.rollback()
+    session.close()

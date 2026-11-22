@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { resolveDayState } from '../character/dayState.js';
+import { TUNING } from '../character/characterState.js';
 
 // Minimal day: walked a stretch, quiet night, no settlements, mild weather.
 function makeDay(overrides = {}) {
@@ -152,4 +153,136 @@ test('commands: unknown/malformed commands are ignored', () => {
   const r = resolveDayState({ day, startState, effects: baseEffects, inventoryRows: [] });
   assert.deepEqual(r.grants, []);
   assert.equal(r.lodging.coinsAfter, 4);
+});
+
+// ---------------------------------------------------------------------------
+// Forced halt — nobody walks themselves dead
+// ---------------------------------------------------------------------------
+
+test('halt: a traveller who wakes spent does not march', () => {
+  const r = resolveDayState({
+    day: makeDay(),
+    startState: { ...startState, energy: 10, days_without_food: 0 },
+    effects: baseEffects,
+    inventoryRows: [],
+  });
+  assert.equal(r.halted, true);
+  assert.equal(r.fate.fate, 'living');
+  // The march is waived: opening + the night's own share (rest ~20,
+  // quiet-night ~8 — deprivation multipliers do not apply here).
+  assert.ok(r.newEnergy > 10);
+  assert.ok(r.dayEvents.some((e) => e.type === 'halt'));
+});
+
+test('halt: the rest comes early when the march would empty the body', () => {
+  const r = resolveDayState({
+    day: makeDay({ distance_km: 30, biomes: [{ type: 'desert' }] }),
+    startState: {
+      ...startState,
+      energy: 26,
+      days_without_food: 3,
+      days_without_water: 3,
+    },
+    effects: { ...baseEffects, rations: 0, waterHeld: 0 },
+    inventoryRows: [],
+  });
+  // 26 − walk(9) − fasting(15) − thirst(22) lands far below zero: the
+  // halt is what stands between the traveller and dead_exhaustion.
+  assert.equal(r.halted, true);
+  assert.equal(r.fate.fate, 'living');
+  // What remains is only what the night gives back — small, but alive.
+  assert.ok(r.newEnergy > 0 && r.newEnergy < 26);
+  assert.ok(r.dayEvents.some((e) => e.type === 'halt'));
+});
+
+test('halt: a night that gives nothing back is the extreme that kills', () => {
+  const r = resolveDayState({
+    day: makeDay({
+      distance_km: 30,
+      biomes: [{ type: 'desert' }],
+      climate: [{ climate: { temperature_2m: -20, wind_speed_10m: 5, precipitation: 0 } }],
+      rng: () => 0.01, // the worst die: the freezing check is lost too
+      overnight_interaction: { rest_quality: 0, shadow_effect: 0 },
+    }),
+    startState: {
+      ...startState,
+      energy: 26,
+      skill_endurance: 0,
+      days_without_food: 3,
+      days_without_water: 3,
+    },
+    effects: { ...baseEffects, rations: 0, waterHeld: 0 },
+    inventoryRows: [],
+  });
+  // The halt cannot save a night that returns nothing at −20°C.
+  assert.equal(r.fate.fate, 'dead_exhaustion');
+});
+
+// ---------------------------------------------------------------------------
+// Freezing-night endurance check
+// ---------------------------------------------------------------------------
+
+const FROZEN_CLIMATE = (temp) => [{
+  climate: { temperature_2m: temp, wind_speed_10m: 5, precipitation: 0 },
+}];
+
+test('cold check: a freezing unsheltered night rolls endurance — a loss loses the night', () => {
+  const day = makeDay({
+    climate: FROZEN_CLIMATE(-5),
+    rng: () => 0.01, // roll 1: the worst possible die
+  });
+  const r = resolveDayState({
+    day,
+    startState: { ...startState, skill_endurance: 0, days_without_food: 0 },
+    effects: baseEffects,
+    inventoryRows: [],
+  });
+  assert.equal(r.coldCheck.success, false);
+  // restMultiplier 0 + the freezing cost: far less than a rested 60.
+  assert.ok(r.newEnergy < r.openingEnergy - TUNING.FREEZING_NIGHT_COST);
+});
+
+test('cold check: a warm cloak (coldShift) spares the roll entirely', () => {
+  const day = makeDay({
+    climate: FROZEN_CLIMATE(-5),
+    rng: () => 0.01,
+  });
+  const r = resolveDayState({
+    day,
+    startState: { ...startState, skill_endurance: 0, days_without_food: 0 },
+    effects: { ...baseEffects, coldShift: 12 }, // felt -5 + 12 = 7°C
+    inventoryRows: [],
+  });
+  assert.equal(r.coldCheck, null);
+});
+
+test('cold check: an indoor bed never rolls — a roof is the point of a roof', () => {
+  const day = makeDay({
+    climate: FROZEN_CLIMATE(-20),
+    overnight_location: { name: 'Inn', type: 'inn', indoor: true },
+    overnight_interaction: { region: { cultural_family: null, name: 'Testland' }, rest_quality: 2 },
+    rng: () => 0.01,
+  });
+  const r = resolveDayState({
+    day,
+    startState: { ...startState, coins: 10, skill_endurance: 0, days_without_food: 0 },
+    effects: baseEffects,
+    inventoryRows: [],
+  });
+  assert.equal(r.coldCheck, null);
+});
+
+test('cold check: a bad miss leaves a wound — frostbite, not death', () => {
+  const day = makeDay({
+    climate: FROZEN_CLIMATE(-10),
+    rng: () => 0.01, // roll 1 vs difficulty 6 → margin -5
+  });
+  const r = resolveDayState({
+    day,
+    startState: { ...startState, skill_endurance: 0, days_without_food: 0, wounded: 'none' },
+    effects: baseEffects,
+    inventoryRows: [],
+  });
+  assert.equal(r.conditions.wounded, 'wounded');
+  assert.equal(r.fate.fate, 'living');
 });

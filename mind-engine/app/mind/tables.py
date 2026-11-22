@@ -139,6 +139,8 @@ class MindPreset(Base):
                            cascade='all, delete-orphan')
     leans = relationship('PresetLean', lazy='selectin',
                          cascade='all, delete-orphan')
+    memories = relationship('PresetMemory', lazy='selectin',
+                            cascade='all, delete-orphan')
 
 
 class PresetWiring(Base):
@@ -205,6 +207,30 @@ class PresetMusing(Base):
         ForeignKey(f'{MIND_SCHEMA}.mind_presets.id', ondelete='CASCADE'), nullable=False)
     statement: Mapped[str] = mapped_column(Text, nullable=False)
     tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+
+
+class PresetMemory(Base):
+    """A lived past at authoring time (clone-and-own, same as beliefs):
+    what this mind already carries when it is born — the long prehistory
+    a centuries-old character brings into play. Cloned as consolidated
+    episodic Memories (origin='seed', strength=1.0, exempt from the
+    evidence rule); `lived_date` is the in-world day it happened, so a
+    four-hundred-year-old road answers 'how long ago' honestly."""
+
+    __tablename__ = 'preset_memories'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    preset_id: Mapped[int] = mapped_column(
+        ForeignKey(f'{MIND_SCHEMA}.mind_presets.id', ondelete='CASCADE'), nullable=False)
+    desc: Mapped[str] = mapped_column(Text, nullable=False)
+    tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    subjects: Mapped[list] = mapped_column(JSONB, nullable=True)
+    valence: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    importance: Mapped[float] = mapped_column(Float, nullable=False, default=0.4)
+    imprint: Mapped[dict] = mapped_column(JSONB, nullable=True)
+    region: Mapped[str] = mapped_column(String(120), nullable=True)
+    entity_id: Mapped[str] = mapped_column(String(120), nullable=True)
+    lived_date: Mapped[date] = mapped_column(Date, nullable=True)
 
 
 class Mind(Base):
@@ -371,9 +397,13 @@ class Memory(Base):
     # tier of the memory continuum — fresh | consolidated | conviction —
     # into which beliefs fold; `mutable` whether Reflection may rewrite
     # the conviction's wording. `valence` stays as the derived scalar
-    # summary, no longer canonical.
+    # summary, no longer canonical. `felt` is the pull as it actually
+    # landed through the personality — [{'word', 'target', 'gain'}] —
+    # how it felt, not what the world suggested (imprint stays the
+    # objective channel).
     imprint: Mapped[dict] = mapped_column(JSONB, nullable=True)
     subjects: Mapped[list] = mapped_column(JSONB, nullable=True)
+    felt: Mapped[list] = mapped_column(JSONB, nullable=True)
     feeling: Mapped[str] = mapped_column(String(60), nullable=True)
     depth: Mapped[str] = mapped_column(String(20), nullable=True)
     mutable: Mapped[bool] = mapped_column(Boolean, nullable=True)
@@ -389,7 +419,7 @@ class Relation(Base):
     by perceived Events and Evocation — never declared directly, only
     accreted. `subject` is a subject-classed tag (tags.py): 'entity:X',
     'tag:entity_type:orcs', 'tag:race:dunedain', 'region:mirkwood',
-    'tag:place:<slug>'.
+    'entity:<place-slug>'.
 
     The vector: affection/trust are bipolar (−1 is hatred and active
     distrust, not indifference); fear/familiarity are unipolar (fear has

@@ -44,7 +44,7 @@ def _describe_encounter(encounter):
     entity = encounter.get('entity') or {}
     interaction = encounter.get('interaction') or {}
     form = interaction.get('form')
-    header = f"  * {entity.get('name')}"
+    header = f"  - {entity.get('name')}"
     header += f' — {form}.' if form else '.'
     hint = interaction.get('prose_hint')
     if hint:

@@ -301,6 +301,11 @@ DEFAULT_SEMANTICS = {
     'field:danger': {
         'delta': {'fear': 0.1, 'affection': -0.05},
     },
+    'field:shadow_delta': {
+        'delta': {'fear': 0.1, 'affection': -0.1},
+    },
+    # Legacy wire name — stored events minted before the 'shadow_delta'
+    # rename still carry 'shadow_effect'.
     'field:shadow_effect': {
         'delta': {'fear': 0.1, 'affection': -0.1},
     },

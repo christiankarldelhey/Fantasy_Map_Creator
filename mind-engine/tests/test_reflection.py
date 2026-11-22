@@ -67,7 +67,7 @@ def _close(client, episode_id):
 def _meal(ep):
     return {
         'type': 'meal',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'data': {'food': 'lembas', 'tags': ['given']},
     }
 
@@ -206,7 +206,7 @@ def test_ambient_memories_never_reach_the_prompt(client, monkeypatch):
     slug = _reflective_mold()
     drizzle = {
         'type': 'climate',
-        'when': {'episode': 1, 'date': '1950-01-18'},
+        'when': {},
         'data': {'precipitation': 1.0},  # wet tag, salience ~0.05, v=0
     }
     opened = _open(client, char, 'd1', [drizzle], preset=slug)
@@ -386,7 +386,7 @@ def test_mood_prose_dies_with_its_cause(client, monkeypatch):
     # Next open carries a fresh cause — the prose must be gone.
     _open(client, char, 'd2', [{
         'type': 'encounter',
-        'when': {'episode': 2, 'date': '1950-01-19'},
+        'when': {},
         'data': {'entity': 'orcs', 'outcome': 'wounded'},
     }])
     session = SessionLocal()

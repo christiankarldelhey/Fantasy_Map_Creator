@@ -10,6 +10,7 @@
 # and the host can always fall back to it.
 # ============================================================================
 import logging
+import re
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import ValidationError
@@ -40,6 +41,7 @@ from app.mind.memory import (
     episode_index,
 )
 from app.mind.choosing import choose
+from app.mind.events import flat_data, wake_event
 from app.mind.needs import (
     need_items,
     need_snapshot,
@@ -99,6 +101,7 @@ from app.mind.provisioning import (
     get_or_create_mind,
     get_or_create_character,
     reassign_preset,
+    seed_memories,
     seed_musings,
     seed_starter_beliefs,
 )
@@ -139,6 +142,9 @@ def _encounter_prompt_shape(event):
         # ADR-0019: the clock position survives to the timeline — the
         # narrator reads 'late in the afternoon', not '16:00'.
         'hour': (event.get('when') or {}).get('hour'),
+        # The host's solar reading at the moment — a 17:42 in autumn
+        # is 'night' however the static clock would phrase it.
+        'light': (event.get('when') or {}).get('light'),
         'region': (event.get('where') or {}).get('region'),
         'entity': {
             # A resolved person names herself — 'Bungo', 'Pearl'; passive
@@ -179,19 +185,17 @@ def _previous_rest(db, episode):
     if prev is None or episode_date(prev) != today - timedelta(days=1):
         return None
     rest = next(
-        (
-            (e.get('data') or {})
-            for e in (prev.events or [])
-            if e.get('type') == 'rest'
-        ),
+        (e for e in (prev.events or []) if e.get('type') == 'rest'),
         None,
     )
-    if not rest:
+    if rest is None:
         return None
+    data = flat_data(rest)
     return {
-        'place': rest.get('entity_name'),
-        'reading': rest.get('reading'),
-        'tags': rest.get('tags') or [],
+        'place': data.get('entity_name'),
+        'reading': data.get('reading'),
+        'tags': data.get('tags') or [],
+        'region': (rest.get('where') or {}).get('region'),
     }
 
 
@@ -315,6 +319,13 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             episode.episode_date = episode_date(episode)
             db.add(episode)
             db.flush()  # fires the id default before we build the packet
+            # The wake: the day's first event — real, perceived, the
+            # fixed point overnight needs anchor to. Built from the
+            # previous episode's rest; only a consecutive night counts.
+            prev_rest = _previous_rest(db, episode)
+            if prev_rest:
+                episode.events = (
+                    [wake_event(prev_rest)] + (episode.events or []))
             # Wave C: events already sedimented by interim /perceive are
             # annotated for narration but never re-fed — the counters the
             # interim pass left are consumed here, once.
@@ -323,10 +334,11 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
             )
             perceived = perceive_events(
                 db, payload.game_id, mind,
-                [e.model_dump() for e in payload.events],
+                episode.events,
                 character=card,
                 episode_idx=episode.episode_idx,
                 felt_ids=felt_ids,
+                episode_date=episode.episode_date,
             )
             if felt_ids:
                 counters = dict(mind.counters or {})
@@ -453,7 +465,9 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                 if line['kind'] == 'memory':
                     m = mem_by_id.get(line['id'].split(':', 1)[1])
                     if m is not None:
-                        line['age'] = _age_phrase(m, memory_age_days(episode, m))
+                        line['age'] = _age_phrase(
+                            m, memory_age_days(episode, m),
+                            line.get('via'))
                         voiced_ids.append(m.id)
                 line['render'] = line_text(
                     line, entering_mood, episode.episode_date
@@ -592,10 +606,111 @@ _MOOD_RENDER = {
 }
 
 
+def _subject_display(db, character_id, tag):
+    """The name a subject tag wears for the narrator — the Relation's
+    own display first, the humanized slug as fallback."""
+    if not tag:
+        return None
+    rel = (
+        db.query(Relation)
+        .filter_by(character_id=character_id, subject=tag)
+        .first()
+    )
+    return (rel.display_name if rel else None) or humanize(
+        tag.rsplit(':', 1)[-1])
+
+
+# A felt pull earns a line when it actually landed — the gain bar keeps
+# the drizzle that barely registered silent. Mind-voiced items (needs,
+# streaks) already speak in the lens; saying their pull again would
+# voice the same moment twice.
+_FELT_BEAT_MIN_GAIN = 0.08
+_FELT_RENDER = {
+    'felt': '{anchor} left them {word}',
+}
+
+
+def _first_clause(reading):
+    """An event's short name for the felt line: its first clause — 'the
+    churned mud', 'a night on the open plateau'."""
+    for piece in re.split(r' — |(?<=\.)\s|,| and ', reading or ''):
+        if piece.strip():
+            return piece.strip()
+    return ''
+
+
+def _felt_beats(db, episode):
+    """The world's immediate touch on the mood, said where it happened:
+    each perceived item whose pull landed gets one line — 'Losrandír
+    left them watchful'. Items the arc already spoke (its phase's shade,
+    the turn's cause) don't speak twice; the same pull once."""
+    items = episode.perceived_day or []
+    render = pack_value(
+        db, getattr(episode, 'game_id', None), 'mind.felt_render',
+        _FELT_RENDER) or {}
+    template = render.get('felt')
+    if not template:
+        return {}
+    mood = getattr(episode, 'mood', None) or {}
+    spoken = {
+        (s.get('phase'), s.get('reading'))
+        for s in mood.get('shades') or []
+    }
+    turn_cause = ((mood.get('turn') or {}).get('cause') or '')
+    beats = {}
+    said = set()
+    for idx, i in enumerate(items):
+        if i.get('source') == 'mind' or i.get('mood_cause') is False:
+            continue
+        pull = next(iter(i.get('mood_pull') or []), None)
+        if (not pull or not pull.get('word')
+                or (pull.get('gain') or 0.0) < _FELT_BEAT_MIN_GAIN):
+            continue
+        # The beat says what the pull actually became through this
+        # personality — the landed target's word, not the world's
+        # suggestion. A pull that landed at the core moved nothing:
+        # 'left them steady' is not a feeling, it stays quiet.
+        target = pull.get('target')
+        landed = (
+            mood_name(target, db, getattr(episode, 'game_id', None))
+            if target else None)
+        if landed == 'steady':
+            continue
+        word = landed or pull['word']
+        phase = (
+            _PHASE_MAP.get((i.get('when') or {}).get('phase'))
+            or 'afternoon')
+        reading = i.get('reading')
+        if (phase, reading) in spoken or reading == turn_cause:
+            continue
+        display = _subject_display(
+            db, episode.character_id, i.get('subject'))
+        anchor_name = display or _first_clause(reading)
+        if not anchor_name:
+            continue
+        # The same pull once: three grim moments in one land say 'Ered
+        # Luin left them afraid' a single time — a repeated felt line
+        # reads as noise, not as accumulation.
+        if (anchor_name, word) in said:
+            continue
+        said.add((anchor_name, word))
+        beats.setdefault(phase, []).append({
+            'subject': display,
+            # The pull is this item's own — the line lands under the
+            # event that caused it, not floating in the phase.
+            'anchor': idx,
+            'kind': 'felt',
+            'line': template.format(
+                anchor=anchor_name, word=word),
+        })
+    return beats
+
+
 def _mood_beats(db, episode):
     """Render the episode's mood output (turn, shades) as phase beats so
     they ride the same in-scene channel as memories and dispositions —
-    a shade about an encountered subject can echo inside its own block."""
+    a shade lands inside the beat of the item that cast it; the turn
+    speaks for the whole phase."""
     mood = getattr(episode, 'mood', None) or {}
     render = pack_value(
         db, getattr(episode, 'game_id', None), 'mind.mood_render',
@@ -606,7 +721,8 @@ def _mood_beats(db, episode):
         line = (render.get('turn') or '').format(
             cause=turn.get('cause') or '')
         beats.setdefault(turn['phase'], []).append(
-            {'subject': None, 'line': line})
+            {'subject': None, 'kind': 'turn', 'line': line})
+    items = episode.perceived_day or []
     for shade in mood.get('shades') or []:
         phase = shade.get('phase')
         if phase not in ('morning', 'afternoon', 'night'):
@@ -619,29 +735,29 @@ def _mood_beats(db, episode):
             reading=shade.get('reading') or '')
         # The Relation's own name when the shade carries a subject — the
         # encounter-matching in the prompt needs the entity's real name.
-        subject = None
-        tag = shade.get('subject')
-        if tag:
-            rel = (
-                db.query(Relation)
-                .filter_by(
-                    character_id=episode.character_id, subject=tag)
-                .first()
-            )
-            subject = (rel.display_name if rel else None) or humanize(
-                tag.rsplit(':', 1)[-1])
+        subject = _subject_display(
+            db, episode.character_id, shade.get('subject'))
+        anchor = next(
+            (idx for idx, it in enumerate(items)
+             if it.get('reading') == shade.get('reading')
+             and _PHASE_MAP.get((it.get('when') or {}).get('phase'))
+             == phase),
+            None)
         beats.setdefault(phase, []).append(
-            {'subject': subject, 'line': line})
+            {'subject': subject, 'kind': 'shade',
+             'anchor': anchor, 'line': line})
     return beats
 
 
 def _merged_beats(db, episode, mind):
     """The phase beats the narrator gets: the brief's day lines, the
-    day's felt arc (turn, shades) and the standing self — each routed
-    to where the world touches it, so nothing floats unattached for the
-    narrator to skip."""
+    day's felt arc (turn, shades), each event's own felt, and the
+    standing self — each routed to where the world touches it, so
+    nothing floats unattached for the narrator to skip."""
     beats = brief_beats(episode.brief)
     for phase, bs in _mood_beats(db, episode).items():
+        beats.setdefault(phase, []).extend(bs)
+    for phase, bs in _felt_beats(db, episode).items():
         beats.setdefault(phase, []).extend(bs)
     if mind is None:
         return beats
@@ -971,7 +1087,7 @@ def perceive_interim(
                 skipped_n += 1
                 continue
             tags = derive_tags(event)
-            data = event.get('data') or {}
+            data = flat_data(event)
             world_delta, _contact_w, body_hit = semantic_delta(
                 tags, data, semantics
             )
@@ -1063,12 +1179,13 @@ def reset_mind(
         )
         seeds = seed_starter_beliefs(db, game_id, character_id, preset)
         musings = seed_musings(db, game_id, character_id, preset)
+        mems = seed_memories(db, game_id, character_id, preset)
         db.commit()
         return {
             'character_id': character_id,
             'mind': {'id': mind.id, 'preset_slug': mind.preset_slug},
             'deleted': deleted,
-            'seeds': len(seeds) + len(musings),
+            'seeds': len(seeds) + len(musings) + len(mems),
         }
     except SQLAlchemyError as exc:
         db.rollback()

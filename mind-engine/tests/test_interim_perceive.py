@@ -73,15 +73,15 @@ def test_interim_event_sediments_relation(client, mind):
     res = _post_perceive(client, mind, [_ev('d1:sit:x:stay')])
     assert res.status_code == 200
     assert res.json()['perceived'] == 1
-    assert _relation_fear(mind, 'tag:npc:hal') > 0
+    assert _relation_fear(mind, 'entity:hal') > 0
 
 
 def test_same_event_id_never_double_feeds(client, mind):
     _post_perceive(client, mind, [_ev('d1:sit:x:stay')])
-    fear_once = _relation_fear(mind, 'tag:npc:hal')
+    fear_once = _relation_fear(mind, 'entity:hal')
     res = _post_perceive(client, mind, [_ev('d1:sit:x:stay')])
     assert res.json()['skipped'] == 1
-    assert _relation_fear(mind, 'tag:npc:hal') == fear_once
+    assert _relation_fear(mind, 'entity:hal') == fear_once
 
 
 def test_perceived_then_choose_reads_evolved_state(client, mind):
@@ -92,13 +92,13 @@ def test_perceived_then_choose_reads_evolved_state(client, mind):
         s,
         s.query(Mind).filter_by(game_id=GAME, character_id=mind).one(),
         GAME, mind,
-        [{'situation_id': 's:2', 'subject': 'tag:npc:orc', 'options': [
+        [{'situation_id': 's:2', 'subject': 'entity:orc', 'options': [
             {'interaction_id': 'i:talk', 'act': 'talk'},
             {'interaction_id': 'i:walk', 'act': 'avoid'},
         ]}],
         rng=random.Random(1),
     )
-    # fear sedimented on 'tag:npc:orc' — away-acts gain weight
+    # fear sedimented on 'entity:orc' — away-acts gain weight
     pick = out['choices'][0]
     rel = next(w for w in pick['weights'] if w['interaction_id'] == 'i:walk')
     talk = next(w for w in pick['weights'] if w['interaction_id'] == 'i:talk')
@@ -107,7 +107,7 @@ def test_perceived_then_choose_reads_evolved_state(client, mind):
 
 def test_felt_ids_skip_sediment_but_still_annotate(client, mind):
     _post_perceive(client, mind, [_ev('d1:sit:x:stay')])
-    fear_once = _relation_fear(mind, 'tag:npc:hal')
+    fear_once = _relation_fear(mind, 'entity:hal')
     s = SessionLocal()
     m = s.query(Mind).filter_by(
         game_id=GAME, character_id=mind).one()
@@ -116,7 +116,7 @@ def test_felt_ids_skip_sediment_but_still_annotate(client, mind):
         s, GAME, m, [_ev('d1:sit:x:stay')], felt_ids=felt,
     )
     s.commit()
-    assert _relation_fear(mind, 'tag:npc:hal') == fear_once
+    assert _relation_fear(mind, 'entity:hal') == fear_once
     assert items[0]['salience'] >= 0  # annotated, not re-fed
 
 
@@ -126,7 +126,7 @@ def test_no_id_events_sediment_unconditionally(client, mind):
          'data': {'form': 'attacks', 'npc': 'hal', 'npc_name': 'Hal'}},
     ])
     assert res.status_code == 200
-    assert _relation_fear(mind, 'tag:npc:hal') > 0
+    assert _relation_fear(mind, 'entity:hal') > 0
 
 
 def test_missing_mind_is_noop(client):

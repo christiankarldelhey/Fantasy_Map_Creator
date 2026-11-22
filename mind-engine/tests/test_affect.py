@@ -51,7 +51,7 @@ def _open_and_close(client, char, ref, events, preset=None):
 def _encounter(ep, form='confronts', outcome='wounded', danger=3):
     return {
         'type': 'encounter',
-        'when': {'episode': ep, 'date': f'1950-01-{18 + ep:02d}'},
+        'when': {},
         'data': {
             'entity': 'corpse-candles',
             'entity_name': 'Corpse Candles',
@@ -139,7 +139,7 @@ def test_numeric_fields_push_valence(client):
     char = _uid('haunted')
     rest = {
         'type': 'rest',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {},
         'data': {'shadow_effect': 2},
     }
     _open_and_close(client, char, 'd1', [rest])
@@ -155,7 +155,7 @@ def test_a_shut_door_is_felt_and_remembered(client):
     char = _uid('refused')
     rest = {
         'type': 'rest',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {},
         'data': {
             'entity_name': 'The Prancing Pony',
             'reading': 'The door of The Prancing Pony shut on an empty purse.',
@@ -174,7 +174,7 @@ def test_a_kind_night_warms(client):
     char = _uid('sheltered')
     rest = {
         'type': 'rest',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {},
         'data': {
             'reading': 'A corner by the fire, freely given.',
             'tags': ['lodging:charity', 'rest:good', 'rest:indoor'],
@@ -204,7 +204,7 @@ def test_two_minds_feel_the_same_world_differently(client):
 
     orcs = {
         'type': 'encounter',
-        'when': {'episode': 1, 'date': '1950-01-19'},
+        'when': {},
         'data': {'entity': 'orc_scouts', 'entity_type': 'orcs',
                  'form': 'stalks', 'danger': 3},
     }
@@ -234,7 +234,7 @@ def test_a_bad_day_leaves_a_morning_after(client):
 
     calm = {
         'type': 'travel',
-        'when': {'episode': 2, 'date': '1950-01-20'},
+        'when': {},
         'data': {'distance_km': 10},
     }
     _open_and_close(client, char, 'd2', [calm])

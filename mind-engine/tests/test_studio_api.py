@@ -36,7 +36,7 @@ def _uid(prefix):
 def _encounter(n):
     return {
         'type': 'encounter',
-        'when': {'episode': n, 'date': f'1950-06-0{n}', 'phase': 'morning'},
+        'when': {'phase': 'morning'},
         'data': {
             'entity': 'dnedain', 'entity_name': 'Dúnedain',
             'entity_type': 'humans', 'form': 'brief_exchange',

@@ -178,6 +178,11 @@ DEFAULT_WIRING = {
     # B8: semantic similarity joins the retrieval score —
     # score += delta_embedding * cosine(episode, memory). 0 disables.
     'delta_embedding': 0.25,
+    # Felt proximity joins the retrieval score — score += delta_felt *
+    # proximity(day pulls, memory.felt): of the memories that connect,
+    # the one that FELT like today ranks first. Weight only — it
+    # discriminates between contacted candidates, never opens the gate.
+    'delta_felt': 0.2,
     # The old affect channel is dead (ADR 0017): what a tag means lives
     # in the semantics pack (semantics.DEFAULT_SEMANTICS + the game's
     # `semantics` rows), and how this mind feels it in its Relations —
@@ -289,6 +294,35 @@ def seed_musings(session, game_id, character_id, preset):
     return seeds
 
 
+def seed_memories(session, game_id, character_id, preset):
+    """Clone the preset's authored prehistory — the lived past a mind is
+    born carrying. Episodic seeds: born consolidated (a four-hundred-year
+    memory never needs reinforcing), origin='seed' like the beliefs, and
+    lived_date becomes created_date so calendar age answers honestly."""
+    seeds = []
+    for pm in (preset.memories if preset else []):
+        mem = Memory(
+            game_id=game_id, character_id=character_id,
+            kind='episodic', depth='consolidated', mutable=True,
+            consolidated=True, strength=1.0,
+            desc=pm.desc,
+            tags=list(pm.tags or []),
+            subjects=list(pm.subjects) if pm.subjects else None,
+            valence=pm.valence or 0.0,
+            importance=pm.importance or 0.4,
+            imprint=dict(pm.imprint) if pm.imprint else None,
+            feeling=derive_feeling(
+                pm.imprint or {}, feeling_lexicon(session, game_id)),
+            region=pm.region,
+            entity_id=pm.entity_id,
+            origin='seed',
+            created_date=pm.lived_date,
+        )
+        session.add(mem)
+        seeds.append(mem)
+    return seeds
+
+
 def get_or_create_mind(session, game_id, character_id, hint_slug=None):
     """The character's living mind, cloning its preset on first contact.
 
@@ -323,6 +357,7 @@ def get_or_create_mind(session, game_id, character_id, hint_slug=None):
     session.flush()
     seed_starter_beliefs(session, game_id, character_id, preset)
     seed_musings(session, game_id, character_id, preset)
+    seed_memories(session, game_id, character_id, preset)
     # The character's authored dispositions land as seed Relations —
     # the preset's leans plus the numeric shadow of its stanced beliefs.
     seed_relations(session, game_id, character_id, preset)

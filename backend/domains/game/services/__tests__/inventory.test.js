@@ -113,10 +113,10 @@ test('computeFastingCost returns 0 when not fasting', () => {
 });
 
 test('computeFastingCost escalates with days', () => {
-  assert.equal(computeFastingCost(1), -4);
-  assert.equal(computeFastingCost(2), -9);
-  assert.equal(computeFastingCost(3), -15);
-  assert.equal(computeFastingCost(5), -15); // capped at last band
+  assert.equal(computeFastingCost(1), -2);
+  assert.equal(computeFastingCost(2), -5);
+  assert.equal(computeFastingCost(3), -8);
+  assert.equal(computeFastingCost(5), -8); // capped at last band
 });
 
 // ---------------------------------------------------------------------------
@@ -296,11 +296,27 @@ test('resolveDailyWater refills from a source', () => {
   assert.equal(r.newDaysWithoutWater, 0);
 });
 
-test('resolveDailyWater tops up from rain', () => {
+test('resolveDailyWater: enough rain covers the day outright', () => {
+  // Rain on the traveller is water drunk, not stored — nobody dies of
+  // thirst while the sky pours. The flask keeps the little it caught.
   const r = resolveDailyWater({ waterHeld: 0.2, capacity: 1, meanTemperature: 20, refillAvailable: false, rainMm: TUNING.RAIN_REFILL_MM, frozen: false, daysWithoutWater: 1 });
-  assert.equal(r.drank, 0.45); // 0.2 + 0.25 rain, all of it is drunk
-  assert.equal(r.waterAfter, 0); // nothing left
-  assert.equal(r.newDaysWithoutWater, 1); // still short of 0.75 need
+  assert.equal(r.drank, 0.75); // the day's need at 20°C, met by the sky
+  assert.equal(r.waterAfter, 0.45); // 0.2 held + 0.25 caught — untouched
+  assert.equal(r.newDaysWithoutWater, 0);
+  assert.equal(r.rain, true);
+});
+
+test('resolveDailyWater: the camp fire melts snow in a frozen world', () => {
+  const r = resolveDailyWater({ waterHeld: 0, capacity: 3, meanTemperature: -4, refillAvailable: false, meltAtCamp: true, rainMm: 0, frozen: true, daysWithoutWater: 2 });
+  assert.equal(r.refilled, true);
+  assert.equal(r.waterAfter, 2.5); // 3L - 0.5 cold-day need
+  assert.equal(r.newDaysWithoutWater, 0);
+});
+
+test('resolveDailyWater: a frozen desert still kills of thirst', () => {
+  const r = resolveDailyWater({ waterHeld: 0, capacity: 3, meanTemperature: -4, refillAvailable: false, meltAtCamp: false, rainMm: 20, frozen: true, daysWithoutWater: 2 });
+  assert.equal(r.drank, 0); // snowfall is not rain — nothing melts
+  assert.equal(r.newDaysWithoutWater, 3);
 });
 
 test('resolveDailyWater keeps thirst streak when no water', () => {

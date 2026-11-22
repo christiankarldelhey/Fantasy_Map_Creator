@@ -143,14 +143,17 @@ def test_lens_speaks_the_entering_mood_through_its_cause():
         'cause': {'reading': 'orc boots, a pursuit gait', 'valence': -0.8,
                   'date': '1950-10-07'},
     }
-    from app.mind.lens import line_text
+    from app.mind.lens import brief_beats, line_text
     mood_line = {'kind': 'mood', 'text': entering['cause']['reading']}
     mood_line['render'] = line_text(mood_line, entering, date(1950, 10, 8))
-    block = render_lens(
-        'Aranath', {'focus': None, 'carried': [mood_line], 'day': []},
-    )
-    assert 'Still weighing on them (from yesterday): orc boots, a pursuit gait' in block
-    assert 'troubled' not in block
+    # The Lens does not list what is carried — the mood's cause rides
+    # the 'carried' channel and speaks inside the day's events.
+    carried = brief_beats(
+        {'focus': None, 'carried': [mood_line], 'day': []},
+        entering, date(1950, 10, 8))['carried']
+    assert 'Still weighing on them (from yesterday): orc boots, a pursuit gait' \
+        in carried[0]['line']
+    assert 'troubled' not in carried[0]['line']
 
 
 def test_lens_names_the_entering_mood_when_it_stands_somewhere():
@@ -178,7 +181,7 @@ def test_episode_lens_never_carries_its_own_day_into_the_mood(client):
     char = _uid('enter')
     orc_day = [{
         'type': 'encounter',
-        'when': {'episode': 1, 'date': '1950-10-07', 'phase': 'afternoon'},
+        'when': {'phase': 'afternoon'},
         'data': {'entity': 'orc_trackers', 'entity_name': 'Orc Trackers',
                  'entity_type': 'orcs', 'form': 'attacks', 'danger': 4,
                  'prose_hint': 'orc boots, a pursuit gait'},
@@ -187,6 +190,11 @@ def test_episode_lens_never_carries_its_own_day_into_the_mood(client):
     assert 'Still weighing on them' not in first
     second = open_state(client, _open(
         client, char, 2, [], condition={'energy': 0.8, 'wounded': 'none'},
-    ))['lens_block']
-    assert 'Still weighing on them (from yesterday)' in second
-    assert 'Orc Trackers' in second
+    ))
+    # The Lens no longer lists what is carried in — the mood's cause
+    # travels the 'carried' channel and speaks inside the day's events.
+    carried = [l.get('render') or l.get('text', '')
+               for l in (second['brief'] or {}).get('carried') or []]
+    assert any(
+        'Still weighing on them (from yesterday)' in l for l in carried)
+    assert 'Orc Trackers' in str(second['brief'])

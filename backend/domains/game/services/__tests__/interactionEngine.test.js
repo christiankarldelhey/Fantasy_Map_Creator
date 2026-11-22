@@ -6,6 +6,7 @@ import {
   effectsToShelter,
   effectsToCommands,
   applyOvernightOutcome,
+  outcomeEvent,
 } from '../world/interactionEngine.js';
 
 // ---------------------------------------------------------------------------
@@ -140,4 +141,40 @@ test('applyOvernightOutcome: a night with no lodging keeps the spot', () => {
   assert.equal(day.overnight_location.name, 'Wildwood verge');
   assert.equal(day.overnight_interaction.rest_quality, 1.0);
   assert.equal(day.overnight_interaction.shadow_effect, 0.1);
+});
+
+// ---------------------------------------------------------------------------
+// outcomeEvent — the choice as a wire event
+// ---------------------------------------------------------------------------
+
+const _day = { day_number: 1, regions: [{ name: 'Sandariand' }] };
+const _interaction = {
+  id: 'cnt:x:sit:sole', act: 'avoid',
+  outcomes: { success: { text: { en: 'Takes the ford upstream.' } } },
+};
+
+test('outcomeEvent: the situation lead-in opens the reading', () => {
+  const pool = {
+    situation_id: 'cnt:x:sit', subject: 'entity:bandits',
+    encounter: {
+      entity: { name: 'Brigands & Outlaws', danger: 3 },
+      interaction: {
+        dialogue_content: {
+          npc_attitude: 'He saw them before they saw him.',
+        },
+      },
+    },
+  };
+  const e = outcomeEvent(_day, pool, _interaction, 'success',
+    _interaction.outcomes.success);
+  assert.equal(
+    e.reading,
+    'He saw them before they saw him. Takes the ford upstream.');
+});
+
+test('outcomeEvent: no situation prose keeps the outcome alone', () => {
+  const pool = { situation_id: 'cnt:y:sit', subject: 'entity:deer' };
+  const e = outcomeEvent(_day, pool, _interaction, 'success',
+    _interaction.outcomes.success);
+  assert.equal(e.reading, 'Takes the ford upstream.');
 });
