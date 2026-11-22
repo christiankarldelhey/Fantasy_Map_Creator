@@ -142,10 +142,10 @@ def _seed_preset_rows(bind, slug):
                 'INSERT INTO mind.preset_leans '
                 '(preset_id, subject, affection, trust, fear, '
                 'familiarity) '
-                'SELECT :p, :s, :a, :t, :f, :fam '
+                'SELECT :p, CAST(:s AS varchar), :a, :t, :f, :fam '
                 'WHERE NOT EXISTS ('
                 'SELECT 1 FROM mind.preset_leans '
-                'WHERE preset_id = :p AND subject = :s)'
+                'WHERE preset_id = :p AND subject = CAST(:s AS varchar))'
             ),
             {'p': preset_id, 's': l['subject'], 'a': l['affection'],
              't': l['trust'], 'f': l['fear'], 'fam': l['familiarity']},
