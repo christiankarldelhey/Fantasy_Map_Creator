@@ -44,12 +44,30 @@ _LIGHT_PHRASE = {
 }
 
 
-def _encounter_beat(encounter, daylight=None):
+def _sentence(text):
+    """Every prompt line reads as a line — a leading capital and a
+    closing stop, so the skeleton scans as instructions a human can
+    read, not a token dump. Lines that open with a marker
+    ('(a memory…)') keep their lowercase entry."""
+    t = (text or '').strip()
+    if not t:
+        return t
+    if not t.startswith('('):
+        t = t[0].upper() + t[1:]
+    if t[-1] not in '.!?':
+        t += '.'
+    return t
+
+
+def _encounter_beat(encounter, daylight=None, announced=False):
     """The encounter at its clock position — mechanics verbatim, time as
-    a natural phrase ('Late in the afternoon —', never '16:00')."""
-    when = _LIGHT_PHRASE.get(encounter.get('light')) or day_time_phrase(
-        encounter.get('hour'), daylight) or _PHASE_FALLBACK.get(
-        encounter.get('phase'), 'During the day')
+    a natural phrase ('Late in the afternoon —', never '16:00'). When a
+    light divider already announced this sky ('— after dark —'), the
+    header just says 'Later' — the sky is told once."""
+    when = 'Later' if announced else (
+        _LIGHT_PHRASE.get(encounter.get('light'))
+        or day_time_phrase(encounter.get('hour'), daylight)
+        or _PHASE_FALLBACK.get(encounter.get('phase'), 'During the day'))
     return f'{when} — an encounter:\n{_describe_encounter(encounter)}'
 
 
@@ -67,7 +85,13 @@ _LIGHT_WORDS = (
 )
 
 
-def _light_cue(beat):
+def _light_cue(beat, announced=False):
+    """The inline light marker — '(after dark) Supper by the fire' — for
+    a beat whose prose is silent about its sky. `announced` is True when
+    a divider already marked this light: the sky is told once, by title
+    or by cue, never twice in a row."""
+    if announced:
+        return ''
     cue = _LIGHT_CUE.get(beat.get('light'))
     text = (beat.get('text') or '').lower()
     if cue and not any(w in text for w in _LIGHT_WORDS):
@@ -75,79 +99,58 @@ def _light_cue(beat):
     return ''
 
 
-def _stirs_beat(stirs):
-    """What this part of the day stirs (C21/C35): the Focus first, then
-    the rest — recollection and inner weather, never present events."""
-    focus = next((s for s in stirs if s.get('focus')), None)
-    leftovers = [s for s in stirs if s is not focus]
-    parts = []
-    if focus:
-        parts.append(
-            'The centre of this Episode for them — this is what the day '
-            'turns on; give it the weight and room it deserves:\n'
-            f"- {focus['line']}"
-        )
-    if leftovers:
-        parts.append(
-            'What this part of the day stirs in them (weave it in as '
-            'feeling or recollection where it fits — lines marked "ago" '
-            'are memories, never events happening now):\n'
-            + '\n'.join(f"- {s['line']}" for s in leftovers)
-        )
-    return '\n'.join(parts)
-
-
-# How a remarkable night reaches the waking — only the extremes the
-# world tags ('rest:poor', 'rest:good') earn a word; an unremarkable
-# night stays silent, as it should most mornings.
-_REST_NOTE = {
-    'rest:poor': 'the night gave little rest',
-    'rest:good': 'the night gave deep rest',
+# The sky's own titles: when the host's declared light changes, the
+# turn is marked as a divider between beats — a 17:42 in autumn already
+# reads 'night', and the narrator should never guess the dark.
+_LIGHT_MARKER = {
+    'dawn': '— first light —',
+    'day': '— daylight —',
+    'dusk': '— dusk falls —',
+    'night': '— after dark —',
 }
+# An opening day sky is told only when it surprises: dawn and daylight
+# are the road's default; a day that opens in dusk or night says so.
+_OPENING_MARKED = ('dusk', 'night')
 
 
-def _dawn_anchor(previous_rest):
-    """The skeleton's first fixed point: where the traveller wakes.
-    A rest record {place, reading, tags} names the roof itself; a plain
-    reading string (stateless path) falls back to its first clause."""
-    if isinstance(previous_rest, dict):
-        wake = previous_rest.get('place') or re.split(
-            r' — |(?<=\.)\s', previous_rest.get('reading') or ''
-        )[0].rstrip('.')
-        if previous_rest.get('place'):
-            wake = f'they wake at {wake}'
-        tags = set(previous_rest.get('tags') or [])
-        note = next(
-            (_REST_NOTE[t] for t in _REST_NOTE if t in tags), None)
-        return f'{wake} — {note}' if note else wake
-    return re.split(r' — |(?<=\.)\s', previous_rest)[0].rstrip('.')
+def _beat_light(beat):
+    """The light a beat carries — on the beat itself, or inside its
+    encounter (encounters keep their facts in the encounter dict)."""
+    return beat.get('light') or (beat.get('encounter') or {}).get('light')
 
 
-def timeline_section(*, intro, beats, previous_rest=None, daylight=None):
+def timeline_section(*, intro, beats, daylight=None):
     """The === TODAY === skeleton. `beats` carries {phase, hour, kind, ...}
     entries already tagged by the builder; this function only orders,
     deduplicates weather, and phrases time."""
     lines = [f'=== TODAY ===\n{intro}', '']
 
-    if previous_rest:
-        lines.append(
-            f'The day begins where last night ended — '
-            f'{_dawn_anchor(previous_rest)}.'
-        )
-
     ordered = sorted(beats, key=_sort_key)
     # The day's sky is the first fact of the morning: the first weather
-    # beat opens the skeleton even if it arrived without a clock position.
+    # beat opens the skeleton even if it arrived without a clock position
+    # — after the wake, which is the one beat that always opens the day.
     first_weather = next(
         (i for i, b in enumerate(ordered) if b.get('kind') == 'weather'),
         None)
     if first_weather:
-        ordered.insert(0, ordered.pop(first_weather))
+        at = 1 if (ordered and ordered[0].get('kind') == 'wake') else 0
+        ordered.insert(at, ordered.pop(first_weather))
 
     weather_seen = set()
     weather_told = False
+    sky = None
+    announced = set()
+    printed = []  # (position in `lines`, text, phase) — dedup by prefix
     for beat in ordered:
         kind = beat.get('kind')
+        # A beat that declares a different light first marks the turn.
+        light = _beat_light(beat)
+        if light and light != sky:
+            marker = _LIGHT_MARKER.get(light)
+            if marker and (sky is not None or light in _OPENING_MARKED):
+                lines.append(marker)
+                announced.add(light)
+            sky = light
         if kind == 'weather':
             clauses = _clauses(beat['text'])
             new = [c for c in clauses if c not in weather_seen]
@@ -155,34 +158,42 @@ def timeline_section(*, intro, beats, previous_rest=None, daylight=None):
             if not weather_told:
                 # first weather of the day — tell it whole
                 weather_told = True
-                lines.append(beat['text'])
+                lines.append(_sentence(beat['text']))
             elif new:
                 # only a real shift re-enters the timeline
                 lines.append(f"Later — {', '.join(new)}.")
-            continue
-        if kind == 'encounter':
-            lines.append(_encounter_beat(beat['encounter'], daylight))
-            continue
-        if kind == 'stirs':
-            text = _stirs_beat(beat['stirs'])
-            if text:
-                lines.append(text)
-            continue
-        lines.append(f"{_light_cue(beat)}{beat['text']}")
+        elif kind == 'encounter':
+            lines.append(_encounter_beat(
+                beat['encounter'], daylight,
+                announced=light in announced))
+        else:
+            text = _sentence(beat['text'])
+            # A night told twice tells once: when a beat's text is a
+            # prefix of one already printed in the same phase (or it of
+            # this one), the longer version speaks — the same camp's
+            # reading in two payloads is one line, not two. A text that
+            # merely appears inside another (shared lore across distinct
+            # terrain events) is no duplicate — both beats stand.
+            dup = next(
+                (i for i, (pos, t, ph) in enumerate(printed)
+                 if ph == beat.get('phase')
+                 and (text.startswith(t) or t.startswith(text))),
+                None)
+            if dup is not None:
+                if len(text) > len(printed[dup][1]):
+                    lines[printed[dup][0]] = text
+                    printed[dup] = (printed[dup][0], text, printed[dup][2])
+                continue
+            printed.append((len(lines), text, beat.get('phase')))
+            lines.append(
+                f"{_light_cue(beat, announced=light in announced)}"
+                f"{text}")
+        # What this event woke in them rides under its own line — the
+        # recollection is part of the moment, not a floating aside.
+        for ev in beat.get('evoked') or []:
+            lines.append(f'  {_sentence(ev)}')
 
-    lines.append('')
-    if any(b.get('kind') == 'encounter' for b in beats):
-        lines.append(
-            'Encounters today happen where the timeline says — nowhere else.'
-        )
-    else:
-        lines.append(
-            'Encounters today: none — no one is met on the road.'
-        )
-    lines.append(
-        'Only the places named exist. The day begins where it says it '
-        'begins and ends where it says it ends. Weather already told does '
-        'not repeat unless it changes. The lines are the skeleton — '
-        'narrate it in order, do not reorder it.'
-    )
+    # The contract lines (where encounters may land, what exists, the
+    # closing instruction) close the prompt under their own title —
+    # chapter_rules_section in instructions.py.
     return '\n'.join(lines)

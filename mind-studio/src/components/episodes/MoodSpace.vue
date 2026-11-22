@@ -28,11 +28,11 @@ const C = SIZE / 2
 const R = 118
 const PX = (p: MoodPoint) => toPx(p, C, R)
 
-// Quadrant tints — the Russell layout: tense (top-left), excited
+// Quadrant tints — the Russell layout: afraid (top-left), excited
 // (top-right), relaxed (bottom-right), sad (bottom-left). Blurred so
 // the hues bleed into each other like the reference chart.
 const QUADRANTS = [
-  { x: 0, y: 0, color: '#d8b84e' }, // top-left:    tense / angry
+  { x: 0, y: 0, color: '#d8b84e' }, // top-left:    afraid / angry
   { x: 1, y: 0, color: '#57a773' }, // top-right:   alert / excited
   { x: 1, y: 1, color: '#5f8fc9' }, // bottom-right: content / relaxed
   { x: 0, y: 1, color: '#c96a6a' }, // bottom-left:  sad / depressed

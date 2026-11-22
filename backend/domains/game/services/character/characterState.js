@@ -94,11 +94,11 @@ export const TUNING = {
   // Inventory: cold protection, hunger, thirst, lodging, coins
   COLD_SHIFT_THRESHOLD: 15,      // below this °C, garments add their cold_shift
   MAX_COLD_SHIFT: 12,             // cap so deep winter is never free
-  FASTING_COST: [0, -4, -9, -15], // per consecutive day without food; -15 each day after
+  FASTING_COST: [0, -2, -5, -8],  // per consecutive day without food; -8 each day after
   FASTING_REST_MULTIPLIER: 0.6,   // hunger spoils rest recovery
-  // Rations (not days) topped up at a settlement. At MEALS_PER_DAY = 2 this is
-  // a week of food; the old value of 7 was named "days" but only fed 3.5.
-  PROVISION_TARGET_RATIONS: 14,
+  // Rations (not days) topped up at a settlement. At MEALS_PER_DAY = 2 this
+  // is twelve days of food — the old 14 left long road stretches hungry.
+  PROVISION_TARGET_RATIONS: 24,
   HUNGER_ENABLED: true,           // master switch for the hunger mechanic
 
   // Thirst (mirror of hunger, but more punishing)
@@ -117,6 +117,14 @@ export const TUNING = {
 
   MEALS_PER_DAY: 2,             // a midday halt and an evening meal at camp
   MEAL_ENERGY_BONUS: 8,         // default full-day food energy, split across the day's meals
+  // A freezing night under open sky: the body rolls endurance against the
+  // felt cold or the night is lost to shivering (no recovery, extra cost).
+  // An indoor bed never rolls — a roof is the whole point of a roof.
+  COLD_CHECK_TEMP_MAX: 0,        // felt °C at/below this triggers the check
+  COLD_CHECK_BASE_DIFFICULTY: 4, // at the threshold; +PER_5C per 5°C under it
+  COLD_CHECK_PER_5C: 1,
+  COLD_CHECK_WOUND_MARGIN: 5,    // a miss this deep leaves a wound
+  FREEZING_NIGHT_COST: 8,        // extra energy a lost night takes on top
   STARTING_COINS: 100,
   LODGING_COST: 5,                // per night indoors, same everywhere
   LODGING_RECOVERY_FRACTION: 1.0, // a paid bed + board restores the traveller fully
@@ -199,6 +207,8 @@ export const WOUND_COSTS = {
 /**
  * Resolve the character's fate after a day's energy/shadow/wound costs have
  * been applied. Returns a terminal fate when the journey should end.
+ * Shadow at its ceiling does not kill: a broken traveller keeps walking —
+ * what the break means is the Mind's chapter, not the body's end.
  */
 export function resolveFate({ energy, shadow, encounterOutcomes = [] }) {
   const outcomes = encounterOutcomes || [];
@@ -207,13 +217,6 @@ export function resolveFate({ energy, shadow, encounterOutcomes = [] }) {
   if (slain || energy <= 0) {
     return {
       fate: slain ? 'slain' : 'dead_exhaustion',
-      status: 'dead',
-      halted: true,
-    };
-  }
-  if (shadow >= 100) {
-    return {
-      fate: 'dead_shadow',
       status: 'dead',
       halted: true,
     };
@@ -407,9 +410,10 @@ export function countFriendlyTalks(encounters) {
  * @param {number} [p.restBonus=0]      - inventory rest bonus (blanket etc.)
  * @param {number} [p.daysWithoutFood=0] - consecutive days without a ration
  * @param {number|null} [p.recoveryOverride=null] - paid lodging fixed recovery
+ * @param {boolean} [p.coldCheckFailed=false] - the freezing-night check was lost
  * @returns {{ delta:number, parts:Object }}
  */
-export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQuality = null, harshWeatherAllDay = false, quietNight = false, meanTemperature = null, meanWind = null, overnightLocation = null, currentEnergy = null, interruptedNight = false, sanctuary = false, coldShift = 0, restBonus = 0, daysWithoutFood = 0, daysWithoutWater = 0, recoveryOverride = null, consumedFood = false, drankWater = false, mealEnergyBonus = null }) {
+export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQuality = null, harshWeatherAllDay = false, quietNight = false, meanTemperature = null, meanWind = null, overnightLocation = null, currentEnergy = null, interruptedNight = false, sanctuary = false, coldShift = 0, restBonus = 0, daysWithoutFood = 0, daysWithoutWater = 0, recoveryOverride = null, consumedFood = false, drankWater = false, mealEnergyBonus = null, coldCheckFailed = false }) {
   const walk = -TUNING.WALK_COST_PER_UNIT * Math.round((distanceKm || 0) / TUNING.WALK_KM_UNIT);
   const combat = -TUNING.COMBAT_COST * countCombat(encounters);
   const tension = -TUNING.TENSION_COST * countTension(encounters);
@@ -429,6 +433,12 @@ export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQualit
   if (!sheltered && restBonus > 0) {
     restMultiplier = Math.min(1, restMultiplier + restBonus * 0.25);
   }
+
+  // A lost freezing-night check: the traveller shivered through it — the
+  // night gives nothing back and takes a little more on top. Death still
+  // only arrives through energy 0, never from the roll itself.
+  if (coldCheckFailed) restMultiplier = 0;
+  const freezing = coldCheckFailed ? -TUNING.FREEZING_NIGHT_COST : 0;
 
   // Diminishing recovery: rest recovers less the fuller energy already is.
   // A sanctuary bypasses the soft cap entirely (full-strength recovery).
@@ -468,8 +478,8 @@ export function computeEnergyDelta({ distanceKm = 0, encounters = [], restQualit
     ? TUNING.THIRST_COST[Math.min(daysWithoutWater, TUNING.THIRST_COST.length - 1)]
     : 0;
 
-  const delta = walk + combat + tension + weather + temperature + wind + recovery + quietBonus + mealBonus + fastingCost + thirstCost;
-  return { delta, parts: { walk, combat, tension, weather, temperature, wind, recovery, quietBonus, mealBonus, fastingCost, thirstCost } };
+  const delta = walk + combat + tension + weather + temperature + wind + recovery + quietBonus + mealBonus + fastingCost + thirstCost + freezing;
+  return { delta, parts: { walk, combat, tension, weather, temperature, wind, recovery, quietBonus, mealBonus, fastingCost, thirstCost, freezing } };
 }
 
 // ---------------------------------------------------------------------------

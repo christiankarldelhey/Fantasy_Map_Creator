@@ -151,6 +151,11 @@ def _memory_out(m, forgotten=False):
         'desc': m.desc,
         'tags': m.tags or [],
         'valence': m.valence or 0.0,
+        # How it felt as it actually landed (pull word/target/gain) —
+        # 'feeling' stays the imprint-derived relational word. Forgotten
+        # traces never carried these columns.
+        'felt': getattr(m, 'felt', None) or None,
+        'feeling': getattr(m, 'feeling', None),
         'importance': m.importance or 0.0,
         'strength': (m.last_strength if forgotten else m.strength) or 0.0,
         'evocations': m.evocations or 0,

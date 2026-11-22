@@ -9,36 +9,44 @@
 # ============================================================================
 from types import SimpleNamespace
 
-from app.mind.lens import render_lens
+from app.mind.lens import brief_beats, render_lens
 from app.prompt.builder import build_day_prompt
-from app.prompt.sections.character import narrator_lens_section
+from app.prompt.sections.character import (
+    mind_today_section, narrator_lens_section)
 
 
 def _memory(desc):
     return SimpleNamespace(desc=desc)
 
 
-def test_lens_section_fuses_personality_and_mind():
+def test_lens_section_is_the_static_personality_alone():
+    """The lens rides the system prompt now — the authored personality,
+    stable across days. The mind's volatile state gets its own block."""
     section = narrator_lens_section(
         {'name': 'Celebrian', 'system_prompt': 'She speaks little.'},
-        'Celebrian today — mood: grave.',
     )
     assert section.startswith("=== NARRATOR'S LENS FOR CELEBRIAN ===")
     assert 'She speaks little.' in section
-    assert 'Celebrian today — mood: grave.' in section
-    # Personality first, the day's state right after — one block.
-    assert section.index('She speaks little.') < section.index('Celebrian today')
 
 
-def test_lens_section_holds_the_mind_alone_for_unauthored_clones():
-    section = narrator_lens_section(
-        {'name': 'Aranath'}, 'Aranath today — mood: steady.'
-    )
-    assert "NARRATOR'S LENS FOR ARANATH" in section
-    assert 'Aranath today — mood: steady.' in section
+def test_mind_today_carries_the_state_under_its_own_title():
+    section = mind_today_section(
+        'Aranath today.\nWhat they carry into this Episode:\n- a cold',
+        {'name': 'Aranath'})
+    assert section.startswith('=== ARANATH TODAY ===')
+    # The block's 'X today.' opener is the title restated — dropped.
+    assert 'Aranath today.' not in section
+    assert 'a cold' in section
 
 
-def test_lens_section_empty_without_either():
+def test_mind_today_keeps_blocks_that_dont_open_with_the_title():
+    section = mind_today_section(
+        'What they carry into this Episode:\n- a cold',
+        {'name': 'Aranath'})
+    assert 'What they carry' in section
+
+
+def test_lens_section_empty_without_personality():
     assert narrator_lens_section({'name': 'Aranath'}) == ''
 
 
@@ -53,18 +61,37 @@ def test_prompt_has_no_anti_repetition_context():
     assert "TODAY'S WAY IN" not in user
 
 
-def test_prompt_places_mind_inside_the_lens_before_the_road():
+def test_prompt_places_mind_state_in_user_before_the_road():
     prompt = build_day_prompt(
         day={'day_number': 1, 'date': '1950-01-19'},
         character={'name': 'Celebrian', 'system_prompt': 'She speaks little.'},
-        mind_block="Celebrian today — mood: grave.\nStirring today:\n- a ranger's question",
+        mind_block="Celebrian today.\nStirring today:\n- a ranger's question",
     )
     user = prompt['user']
-    lens_i = user.index("NARRATOR'S LENS FOR CELEBRIAN")
-    mind_i = user.index('Celebrian today — mood: grave.')
+    mind_i = user.index('=== CELEBRIAN TODAY ===')
     road_i = user.index('=== TODAY ===')
-    assert lens_i < mind_i < road_i
+    assert mind_i < road_i
     assert 'THE MIND OF' not in user
+
+
+def test_standing_material_rides_the_system_prompt():
+    """Header, authored lens and chapter boilerplate are stable across
+    days — they live in system; user is the day alone."""
+    prompt = build_day_prompt(
+        day={'day_number': 1, 'date': '1950-01-19'},
+        character={'name': 'Aranath', 'system_prompt': 'Watch the wind.'},
+    )
+    system, user = prompt['system'], prompt['user']
+    assert '=== ARANATH ===' in system
+    assert "NARRATOR'S LENS FOR ARANATH" in system
+    assert 'Watch the wind.' in system
+    assert 'HOW TO USE THE LAND NOTES' in system
+    assert 'ENCOUNTER RULES' in system
+    assert '=== TODAY ===' in user
+    for boilerplate in (
+            "NARRATOR'S LENS", 'HOW TO USE THE LAND NOTES',
+            'ENCOUNTER RULES'):
+        assert boilerplate not in user
 
 def test_render_lens_has_no_banner_and_opens_with_today():
     block = render_lens('Celebrian', {'focus': None, 'carried': [], 'day': []})
@@ -72,19 +99,24 @@ def test_render_lens_has_no_banner_and_opens_with_today():
     assert block.startswith('Celebrian today.')
 
 
-def test_render_lens_speaks_only_what_is_carried_in():
-    # A day line (the orcs of the afternoon) never renders in the Lens —
-    # it waits for its phase block; the Lens holds what is carried in.
+def test_render_lens_lists_nothing_that_floats():
+    # The carry-list is dead: a listed memory or need never lands in the
+    # telling — what they carry speaks inside the day's events or stays
+    # silent. The Lens keeps only the entering mood and the centre.
     brief = {
         'focus': {'kind': 'event', 'part': 'day', 'phase': 'afternoon',
                   'text': 'orc boots, a pursuit gait'},
-        'carried': [{'kind': 'need', 'text': 'the belly wonders — 2 days without a proper meal'}],
+        'carried': [
+            {'kind': 'need', 'text': 'the belly wonders — 2 days without a proper meal'},
+            {'kind': 'memory', 'text': 'the common-room at the Pony'},
+        ],
         'day': [{'kind': 'belief', 'part': 'day', 'phase': 'afternoon',
                  'text': 'After danger passes, gratitude is the sharpest feeling.'}],
     }
     block = render_lens('Aranath', brief)
-    assert 'What they carry into this Episode:' in block
-    assert 'the belly wonders — 2 days without a proper meal' in block
+    assert 'What they carry' not in block
+    assert 'the common-room at the Pony' not in block
+    assert 'the belly wonders' not in block
     assert 'orc' not in block
     assert 'gratitude' not in block
 
@@ -110,7 +142,7 @@ def test_ambience_event_reading_lands_in_the_timeline():
     )
     user = prompt['user']
     today = user.index('=== TODAY ===')
-    assert today < user.index('a stump, huge and rotten') < user.index('a hedge for a windbreak')
+    assert today < user.index('A stump, huge and rotten') < user.index('A hedge for a windbreak')
 
 
 def test_land_events_reach_the_timeline_in_order():
@@ -138,15 +170,16 @@ def test_land_events_reach_the_timeline_in_order():
     )
     user = prompt['user']
     assert '=== TODAY ===' in user
-    assert user.index('the chalk lies open to the sky') < user.index('a ford of brown water')
-    assert user.index('a ford of brown water') < user.index('crossed into Bree')
-    assert 'a village: sighted far off to the east' in user
+    assert user.index('The chalk lies open to the sky') < user.index('A ford of brown water')
+    assert user.index('A ford of brown water') < user.index('Crossed into Bree')
+    assert 'A village: sighted far off to the east.' in user
 
 
-def test_render_lens_twin_memory_rows_read_once():
+def test_brief_beats_twin_memory_rows_attach_once():
     desc = 'Dwarves of Erebor — news of the eastern road'
     brief = {'focus': None, 'day': [], 'carried': [
-        {'kind': 'memory', 'text': desc, 'age': 'Yesterday — '},
-        {'kind': 'memory', 'text': desc, 'age': 'Yesterday — '},
+        {'kind': 'memory', 'text': desc, 'age': '(a memory, yesterday) '},
+        {'kind': 'memory', 'text': desc, 'age': '(a memory, yesterday) '},
     ]}
-    assert render_lens('Aranath', brief).count('Dwarves of Erebor') == 1
+    carried = brief_beats(brief, {}, None)['carried']
+    assert len([b for b in carried if 'Dwarves of Erebor' in b['line']]) == 1

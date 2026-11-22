@@ -16,6 +16,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 import app.main as main_module
+import app.narrate_day as narrate_module
 from app.db import SessionLocal
 from app.mind.memory import episode_date
 from app.mind.retrieval import memory_age_days
@@ -140,6 +141,48 @@ def test_true_yesterday_is_not_a_reason_on_its_own(client):
     lens = open_state(client, packet)['lens_block']
     assert 'Yesterday, as they remember it' not in lens
     assert 'the ford ran brown' not in lens
+
+
+def test_the_wake_is_the_days_first_event(client, monkeypatch):
+    """The wake is a real event — first in episode.events, perceived
+    like any other, carrying the previous night's roof and worth —
+    and the skeleton opens on it exactly once."""
+    char = _uid('wake')
+    d1 = _open(client, char, 'd1', 1, '1950-11-24', events=[{
+        'type': 'rest', 'when': {'phase': 'night'},
+        'where': {'region': 'Lindon'},
+        'data': {'entity_name': 'a sheltered dell'},
+        'tags': ['rest:poor'],
+        'reading': 'A sheltered dell out of the wind.',
+    }])
+    _close(client, d1['episode_id'])
+    d2 = _open(client, char, 'd2', 2, '1950-11-25', events=[{
+        'type': 'ambience', 'when': {'phase': 'morning', 'hour': 9.0},
+        'reading': 'a lark over the stubble',
+    }])
+    state = _state(client, d2['episode_id'])
+    wake = state['events'][0]
+    assert wake['type'] == 'wake'
+    assert 'they wake at a sheltered dell' in wake['reading']
+    assert 'the night gave little rest' in wake['reading']
+    # Perceived mirrors events 1:1 — the wake is perceived item 0.
+    assert state['perceived_day'][0]['reading'] == wake['reading']
+
+    monkeypatch.setattr(
+        narrate_module, 'generate_narrative',
+        lambda *a, **k: {
+            'text': 'told.', 'ia_provider': 'test', 'temperature': 0.7,
+            'frequency_penalty': 0.0, 'presence_penalty': 0.0,
+            'top_p': 1.0,
+        },
+    )
+    r = client.post(f"/episodes/{d2['episode_id']}/narrate", json={})
+    assert r.status_code == 200, r.text
+    user = r.json()['prompt']['user']
+    today = user[user.index('=== TODAY ==='):user.index("CHAPTER")]
+    assert today.count('they wake at a sheltered dell') == 1
+    assert today.index('they wake at a sheltered dell') < \
+        today.index('A lark over the stubble')
 
 
 def test_last_evoked_date_stamped(client):

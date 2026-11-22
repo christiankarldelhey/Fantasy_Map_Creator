@@ -22,7 +22,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.lens import render_lens
+from app.mind.lens import brief_beats
 from app.mind.memory import (
     _compact_duplicates,
     _release_resolved_needs,
@@ -404,12 +404,15 @@ def test_different_readings_still_encode_separate_memories(client):
 
 # --- H) the lens reads one impression, not three copies --------------------
 
-def test_lens_dedupes_identical_impressions():
+def test_brief_beats_dedupes_identical_impressions():
+    # The Lens lists nothing carried — impressions ride the 'carried'
+    # channel to an event, and twin rows ride once, not twice.
     brief = {'focus': None, 'day': [], 'carried': [
         {'kind': 'memory', 'text': 'day upon day of hostile weather'},
         {'kind': 'memory', 'text': 'day upon day of hostile weather'},
         {'kind': 'memory', 'text': 'the ranger at the roadside'},
     ]}
-    lens = render_lens('Celebrian', brief)
-    assert lens.count('day upon day of hostile weather') == 1
-    assert 'the ranger at the roadside' in lens
+    carried = brief_beats(brief, {}, None)['carried']
+    assert len(carried) == 2
+    assert sum(
+        'hostile weather' in b['line'] for b in carried) == 1

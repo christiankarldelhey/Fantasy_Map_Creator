@@ -68,11 +68,18 @@ def test_hunger_detector_opens_need(client):
     hunger = next(n for n in needs if n['key'] == 'hunger')
     assert hunger['type'] == 'physiological'
     assert hunger['urgency'] == pytest.approx(0.7)  # 0.3 + 0.2 * 2 days
-    # Past the urgency line it reaches the lens — as an intention with its
-    # origin, not a number.
+    # Past the urgency line it reaches the brief — as an intention with
+    # its origin, not a number. It never lists in the Lens: the carried
+    # channel routes it to the first meal (or the wake on a foodless
+    # day), where the body speaks in scene.
+    brief = open_state(client, packet)['brief'] or {}
+    carried = ' '.join(
+        (l.get('render') or l.get('text', ''))
+        for l in (brief.get('carried') or []) + [brief.get('focus') or {}])
+    assert hunger['description'] in carried
+    assert '2 days without a proper meal' in carried
     lens = open_state(client, packet)['lens_block']
-    assert hunger['description'] in lens
-    assert '2 days without a proper meal' in lens
+    assert hunger['description'] not in lens
 
 
 def test_detector_need_clears_when_state_clears(client):

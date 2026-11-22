@@ -271,6 +271,10 @@ def encode_episode(session, mind, episode):
             created_date=episode_date(episode),
             embedding=embed(desc),
             imprint=imprint or None,
+            # How it felt, as it actually landed through the personality
+            # (word + refracted target + gain) — the imprint stays the
+            # world's suggestion; the felt is what was felt.
+            felt=item.get('mood_pull') or None,
             subjects=item.get('subjects') or None,
             feeling=derive_feeling(imprint, lexicon) if imprint else None,
             depth='consolidated' if consolidated else 'fresh',

@@ -126,7 +126,39 @@ def test_anchored_memory_waits_for_its_phase():
     brief = build_brief([SHEEP, ORCS], [wolves], [], [], {}, anchors={'m1': 1})
     line = next(l for l in brief['day'] if l['kind'] == 'memory')
     assert line['phase'] == 'afternoon'
+    assert line['anchor'] == 1
     assert line['connects_to'] == brief['focus']['id']
+
+
+def test_an_anchored_memory_names_why_it_woke():
+    """The via is the rhyme: the contact tag the memory shares with the
+    item that stirred it — a subject tag first, then the kind of moment."""
+    wolves = SimpleNamespace(
+        id='m1', desc='wolves at dusk on the south road', importance=0.7,
+        tags=['entity:wolves', 'tag:region_entered'])
+    # Shared subject tag wins over a shared flag.
+    line = next(
+        l for l in build_brief(
+            [SHEEP, _event('a wolf crossed the road', 0.6, 'afternoon',
+                           ['entity:wolves', 'tag:region_entered'],
+                           type_='ambience')],
+            [wolves], [], [], {}, anchors={'m1': 1})['day']
+        if l['kind'] == 'memory')
+    assert line['via'] == 'entity:wolves'
+    # A shared flag names the shape of the moment ('another land
+    # crossed into') when no subject is shared.
+    crossing = _event('crossed into Numeriador', 0.6, 'morning',
+                      ['place:numeriador', 'tag:region_entered'],
+                      type_='land')
+    memory = SimpleNamespace(
+        id='m2', desc='crossed into Talath Muil', importance=0.7,
+        tags=['place:talath_muil', 'tag:region_entered'])
+    line = next(
+        l for l in build_brief(
+            [SHEEP, crossing], [memory], [], [], {},
+            anchors={'m2': 1})['day']
+        if l['kind'] == 'memory')
+    assert line['via'] == 'tag:region_entered'
 
 
 def test_an_anchored_memory_speaks_even_when_the_focus_is_elsewhere():
@@ -220,10 +252,14 @@ def test_the_focus_and_day_lines_appear_only_in_their_phase():
         events=[{'type': 'ambience', 'when': {'phase': 'morning', 'hour': 9},
                  'data': {'reading': 'a lark over the stubble'}}],
     )['user']
-    lark = user.index('a lark over the stubble')
+    lark = user.index('A lark over the stubble')
     first_orc = user.index('orc boots')
     assert lark < first_orc
-    assert 'The centre of this Episode for them' in user[first_orc - 400:]
+    # The centre marks its own line — attached under the day's last beat,
+    # ahead of the orc memory it names.
+    centre = user.index("(the day's centre)")
+    assert centre < first_orc
+    assert 'orc boots' in user[centre:]
     assert user.index('gratitude is the sharpest') > lark
 
 
@@ -262,3 +298,25 @@ def test_the_focus_encodes_a_little_stronger():
     mem = session.query(Memory).filter_by(character_id=char, entity_id='orc_trackers').one()
     session.close()
     assert mem.importance == pytest.approx(min(1.0, salience + 0.15))
+
+
+def test_a_memory_with_no_tag_rhyme_names_its_felt_rhyme():
+    """When no tag can say why the day woke it but the pull landed on the
+    same wheel spot, the via admits it: '— the same feeling' — and the
+    line carries the felt word so the narrator gets the charge."""
+    day = _event('a strange bird crossed the sky', 0.7, 'morning',
+                 ['entity:strange_bird'])
+    day['mood_pull'] = [{'word': 'afraid', 'gain': 0.5,
+                         'target': {'valence': -0.18, 'arousal': 0.62,
+                                    'dominance': -0.3}}]
+    mem = SimpleNamespace(
+        id='m1', desc='the warg pack at dusk',
+        tags=['entity:wargs'], importance=0.8,
+        felt=[{'word': 'afraid', 'gain': 0.5,
+               'target': {'valence': -0.18, 'arousal': 0.62,
+                          'dominance': -0.3}}])
+    brief = build_brief([day], [mem], [], [], {}, anchors={'m1': 0})
+    line = next(l for l in brief['day'] if l['kind'] == 'memory')
+    assert line['via'] == 'felt:rhyme'
+    assert line['felt'] == 'afraid'
+    assert line['anchor'] == 0

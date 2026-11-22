@@ -95,10 +95,10 @@ def special_instructions_section(day_number, is_last_day, character_name, destin
             if introduction_instructions
             else _default_introduction(character_name, destination)
         )
-        return f'=== SPECIAL INSTRUCTIONS (INTRODUCTION) ===\n{body}\n\n'
+        return f'=== SPECIAL INSTRUCTIONS ===\n{body}\n\n'
 
     if is_last_day:
-        return f"=== SPECIAL INSTRUCTIONS (THE JOURNEY'S END) ===\n{_arrival_instructions(character_name, destination)}\n\n"
+        return f"=== SPECIAL INSTRUCTIONS ===\n{_arrival_instructions(character_name, destination)}\n\n"
 
     return ''
 

@@ -23,6 +23,8 @@ export const MOOD_STATES: Record<string, string> = {
   happy: 'feliz',
   excited: 'excitado',
   alert: 'alerta',
+  afraid: 'asustado',
+  // Legacy word — still on stored pulls from before the alias.
   tense: 'tenso',
   angry: 'enojado',
   distressed: 'angustiado',
@@ -54,7 +56,6 @@ export const MOOD_STATES: Record<string, string> = {
   grieving: 'afligido',
   overwhelmed: 'abrumado',
   dread: 'atemorizado',
-  afraid: 'asustado',
   anxious: 'ansioso',
   troubled: 'intranquilo',
   weary: 'agotado',

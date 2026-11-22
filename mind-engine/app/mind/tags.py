@@ -92,6 +92,14 @@ def contact_tags(tags):
     return {t for t in (tags or []) if not tag_is(t, 'ambient')}
 
 
+def tag_facet(tag):
+    """The coarse facet a `tag:<key>:<value>` tag belongs to — 'tag:food:
+    bread' → 'tag:food'. Single-segment tags ('entity:foxes', 'tag:omen')
+    have no meaningful facet: 'some entity' or 'some flag' would be."""
+    facet = str(tag).rsplit(':', 1)[0]
+    return facet if ':' in facet else None
+
+
 def subject_tags(tags):
     """The tags that can bear a Relation — who or what the Mind holds a
     feeling about."""

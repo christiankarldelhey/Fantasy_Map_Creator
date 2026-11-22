@@ -8,10 +8,37 @@ LAND_NOTES_RULES = "=== HOW TO USE THE LAND NOTES ===\nThe notes below are REFER
 
 ENCOUNTER_RULES = '=== ENCOUNTER RULES ===\nRender the given form, dialogue and outcome for each encounter. Do not invent a different form. Vary the beats across the chapter. The way an encounter resolves must differ from how recent encounters resolved.'
 
-OVERNIGHT_COLOUR_NOTE = 'If the overnight location is a town or inn, let the narrative reflect this — a meal taken, a fire shared, a bed found. If it is a fortress or ruin, let it colour the night accordingly.'
-
 SPANISH_INSTRUCTION = 'Please write the entire response in Spanish.'
 
 def road_intro(day_number):
     """Opening line of === TODAY === for an ordinary (non-terminal) day."""
     return f"Day {day_number}. Narrate this single day's journey in the order it happened, dawn to night."
+
+
+def chapter_rules_section(has_encounters, closing, has_recollection=False):
+    """The contract the skeleton runs under — where encounters may land,
+    that the named places are all that exist, and the day's closing
+    instruction. `closing` arrives already chosen (rotated per day, or
+    the terminal variant). `has_recollection` adds the memory-markers
+    rule only when the day actually carries them."""
+    encounter_line = (
+        'Encounters today happen where the timeline says — nowhere else.'
+        if has_encounters else
+        'Encounters today: none — no one is met on the road.'
+    )
+    memory_line = (
+        'Lines marked "(a memory…)" are recollection surfacing — let them '
+        'colour the moment where they land as memory or comparison, '
+        'never as events happening now.\n'
+        if has_recollection else ''
+    )
+    return (
+        "=== THE CHAPTER'S RULES ===\n"
+        f"{encounter_line}\n"
+        "Only the places named exist. The day begins where it says it "
+        "begins and ends where it says it ends. Weather already told does "
+        "not repeat unless it changes. The lines are the skeleton — "
+        "narrate it in order, do not reorder it.\n"
+        f"{memory_line}"
+        f"{closing}\n\n"
+    )

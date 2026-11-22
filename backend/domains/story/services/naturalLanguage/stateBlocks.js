@@ -88,14 +88,6 @@ const PHRASES = {
     + '=== MANDATORY ENDING ===\nYou must describe {name}\'s death from '
     + 'exhaustion. Do not transition to a night at camp; the story stops '
     + "at {name}'s final collapse.",
-  'endstate.dead_shadow':
-    '=== THE END ===\nThis is the FINAL CHAPTER. The shadow finally '
-    + 'consumes {name}; {name} dies or is fully corrupted. Narrate the '
-    + 'corruption taking hold and the final end explicitly in the final '
-    + 'movement. Do not end the chapter with {name} merely threatened or '
-    + 'alive. The journey ends in darkness.\n\n=== MANDATORY ENDING ===\n'
-    + 'You must describe the exact moment the shadow consumes {name}. Do '
-    + 'not transition to a night at camp; the story stops at that moment.',
 };
 
 const THRESHOLDS = {

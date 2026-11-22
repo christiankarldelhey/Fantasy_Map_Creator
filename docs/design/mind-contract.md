@@ -157,6 +157,25 @@ if reset ever means "new mind".
 `standing_relation()`/`feed_event()` use `{}` — same absence, two answers.
 Normalize on `None` = "never met" at implementation.
 
+**Decided (user): context subjects never take a stranger's splash.**
+`where.region` rides every event of the day, so at `CATEGORY_SPLASH`
+(0.3) every wolf, storm and bad rest poisoned the land itself — every
+region saturated into 'feared and hated', which is unreadable. Now
+`region` and `kind` (`_CONTEXT_FAMILIES`) feed only as the narrowest
+subject — the land learns what IT did (its own weather, the crossing
+itself, a day with no actor), never a share of what happened inside
+it. `kind` still generalizes a place when the place is primary
+(sighting Esgaroth is about a town). `place:` keeps splash — the ford
+where the orcs took the bridge earning a reputation is a concrete
+spot's memory, not a country's guilt.
+
+**Decided (user): a standing feeling names its biggest cause.** 'Ered
+Luin — feared, and hated for it' narrates as noise without the why.
+`inner_lines` appends ` since {desc}` — the most important memory
+touching that subject that agrees with where the feeling points
+(same-sign valence preferred, so a dread cites its darkest day, not
+the warm one that outranked it).
+
 ## Phase 5 — Memories & retrieval
 
 **Decided:** evocation splits into candidate vs voiced. A candidate (evoked
@@ -173,6 +192,38 @@ A memory is truly remembered only when the narration remembers it.
 anchored to the perceived item that stirred it (focus.py memory lines).
 `retrieve()` stops applying effects; `build_brief` marks `voiced` and the
 echo effects apply to the voiced set within the same open call.
+
+**Decided (user): a memory stores the felt as it actually landed —
+`memory.felt`.** How it felt through this personality is core to what a
+memory IS, and the pull (`mood_pull` — word, refracted target, gain) used
+to die at encode: only `imprint` (the world's suggestion — the objective
+Relation sediment) and a 1-dim `valence` survived. Now `felt` stores the
+pull verbatim, and the two channels keep their own domains (perceive's
+split, honoured at re-feel): `voice_memories` feeds Relations from
+`imprint` and pulls mood toward `felt.target` — remembering re-feels what
+was felt, not what the world suggested. Studio exposes both.
+
+**Decided (user): felt proximity joins the retrieval score — weight
+only, never a gate.** `score += delta_felt (0.2) · proximity`, where
+proximity is the wheel distance between the day's `mood_pull` targets
+and the memory's stored `felt` target. With few memories the contact
+gate suffices; the more a mind keeps, the more the score must
+discriminate among the connected — of three wolf memories, the one that
+felt like today leads. A memory that rhymes emotionally but shares
+nothing stays silent: felt is a tiebreaker among the relevant, not a
+reason of its own.
+
+**Decided (user): 'tense' is an alias for 'afraid', not a sector of its
+own.** The wheel's 106° outer word is now `afraid` — the human-felt
+name of that zone (anticipation vs fear was a real distinction, but
+two sectors on one wheel crowded the space). `FELT_ALIAS =
+{'tense': 'afraid'}` canonicalizes at two borders: `felt_word` (an
+authored `felt:tense` tag still lands — the pull's stored word comes
+out `afraid`) and `mood_point` (stored pulls and pack data that still
+say `tense` resolve to the same point). The soft ring keeps `uneasy`.
+The Studio disc and its Spanish labels (`afraid` → `asustado`) follow
+the same wheel; `tense`/`tenso` stays in labels for legacy stored
+words.
 
 ## Phase 6 — Repetition
 
@@ -224,6 +275,15 @@ beat at the last phase carrying the `dominant` word, emitted when
 A flat day does not declare neutrality. Implemented as one more key in
 `mind.mood_render` (`landing`), not a new channel.
 
+**Decided:** every landed Pull speaks where it happened — the felt beat.
+Each noticed item whose `mood_pull` gain passes the bar
+(`_FELT_BEAT_MIN_GAIN`) emits one phase-routed line, `{anchor} left them
+{word}`: the anchor is the subject's Relation display (so the line can
+echo inside its own encounter's block) or the reading's first clause.
+Items the arc already spoke — the phase's shade, the turn's cause — and
+mind-voiced items (needs, streaks, whose lines already speak) stay
+silent: the same pull never says itself twice.
+
 **Principle (user's architectural note):** the mind narrates *changes*, not
 states. This is already true in three places without being named — pattern
 detection + the break day (repetition), the mood arc's turn/shades and now
@@ -237,7 +297,7 @@ delta-detection over state-reporting.
 
 **Decided:** flat `family:value` namespaces — the `tag:` prefix dies. Every
 tag reads "dimension: value" (`weather:wet`, `entity:orcs`, `npc:bungo`,
-`felt:tense`); role is declared by TAG_CLASSES (subject/pattern/cause/
+`felt:afraid`); role is declared by TAG_CLASSES (subject/pattern/cause/
 ambient), not by a prefix. `where.place` stops minting `tag:place:*` — a
 concrete place rides `entity:`; `place:` stays for place-kinds without a
 ficha. Bare single-segment host tags die — all tags must be namespaced.
@@ -300,6 +360,136 @@ channel. Each piece found its home:
 `{episode_id}` only — narration re-derives the mind's take from the
 episode row, and observability reads `GET /episodes/{id}` (extended
 with `brief` + `lens_eval`).
+
+**Decided (prompt shape):** the narrator prompt splits standing from
+daily. `system` carries what is identical every chapter — voice and
+style, the character's header and authored lens, the land-notes and
+encounter rules, the language instruction — so it becomes per-character
+rather than global. `user` carries only the day: `=== {NAME} TODAY ===`
+(the mind's volatile carried state; the lens block's own 'X today.'
+opener folds into the title), journey context, special instructions,
+climate, `=== TODAY ===`, and `=== THE CHAPTER'S RULES ===` closing the
+skeleton contract + the chapter's closing instruction. The
+`narration_notes` channel dies on this too — `OVERNIGHT_COLOUR_NOTE`
+was already stale (the `rest` reading describes the night) and is gone
+rather than relocated.
+
+**Decided (the sky as titles):** `when.light` transitions mark the
+skeleton as dividers — `— dusk falls —`, `— after dark —`,
+`— first light —`, `— daylight —` — so an autumn 17:42 reads as night
+by declaration, never by the narrator's clock guess. An opening sky is
+told only when it surprises (dusk/night); the inline `(after dark)`
+cue stays for lights that never got a divider and goes quiet under one.
+
+**Decided (every inner line names its kind):** a Lens/stirs line that
+is not the day itself says what it is — `(a memory, N days ago)`,
+`(a standing feeling)`, `(a belief they hold)`, `(a thought of theirs)`
+— so the narrator can tell a wound remembered from a wound now, and a
+memory that cannot be dated is still marked `(a memory)`. Day-facing
+lines (needs, felt beats, the turn, the Focus) stay bare: they already
+read as present. The old `N days ago —` prefix dies — an undated
+memory used to render bare and read as a live event.
+
+**Decided (user): a recollection is an event, and rides inside the
+event that woke it.** The evoked key was always on the perceived item;
+now the prompt honours it — each brief line, felt beat and shade carries
+`anchor` (its index into the perceived day, which mirrors `events` 1:1),
+and `_stir_beats` attaches it to the matching beat: indented under the
+line for notes/weather, the `echo` slot for encounters (memory or
+standing feeling only — a felt pull is not "called to mind").
+
+**Decided (user): nothing floats — the stirs block is dead.** A line
+the day never touched never reaches the narrator: a standing feeling
+for trolls the day never met, a memory nothing woke. Attachment order:
+`anchor`/`connects_to` first, then subject-name matching (own phase,
+then anywhere in the day — the subject's event is the only beat it can
+ride). What remains is placed by kind: a need joins the event that IS
+its domain (`_NEED_DOMAIN` — hunger at the meal, the weather complaint
+under the weather, exhaustion at the camp), else the day's last beat —
+the body's report at day's end; turn, shade and a day-Focus
+(`(the day's centre) …`) close their own phase; a line anchored to a
+moment the skeleton never rendered still belongs inside that phase's
+last beat. Everything else — unanchored memories, dispositions,
+musings — stays silent. A line that merely restates its own beat's
+words is consumed, never printed twice; a Focus is exempt — marking
+the centre over its own event is not repetition.
+
+**Decided (user): the wake — the day's first event, real and
+perceived.** A `type: 'wake'` event is prepended to `episode.events`
+at open (`wake_event`, composed from the previous episode's rest —
+only a literally consecutive night counts), so it is perceived like
+any other event, carries `perceived_day` index 0, and shows in Mind
+Studio as the day's first fact. It names where last night ended (the
+previous rest's place) and what the night was worth — but only when
+it was worth something (`rest:good` / `rest:poor`; a common night
+earns no comment). Needs that are urgent, or that answer to no day's
+event (exhaustion, sickness, unrest, a hunger on a foodless day),
+speak under the wake rather than waiting for a scene that never
+comes; with no previous rest the wake may appear on demand, as a bare
+waking. The stateless narrate path (`previous_rest` without episodes)
+synthesizes the same beat — the words come from one source,
+`wake_anchor`.
+
+**Decided (user): needs travel in events, like `evoked`.** Every day
+line may carry `key` and `urgent` beside its anchor fields; the
+renderer attaches a need under the day's *first* event of its domain
+— the thirst speaks at the first meal, the weather complaint under
+the first sky — and all climate complaints gather at that first
+climate event rather than repeating under later skies. So any event
+— meal, weather, rest, encounter, the wake — can carry both a
+memory and the body's word about it.
+
+**Decided (user): nothing carried floats — the Lens lists no carry.**
+The `carried` bucket of `memory_beats` (lines not born today: needs,
+memories, the mood's cause, a carried Focus) never renders in the
+Lens — a `What they carry into this Episode:` list was proven dead
+weight, lines the narrator could not place. Every carried line rides
+the same attachment rules as a day line: yesterday's thirst speaks at
+today's first meal, a memory whose subject an event touches surfaces
+inside that event, and a carried line nothing touches stays silent.
+The centre itself is no exception: a carried Focus rides the same
+channel and speaks its own mark in scene — `(the day's centre) …` —
+never announced twice. The Lens keeps only the entering mood's word;
+the `(a memory…)` legend lives in `=== THE CHAPTER'S RULES ===`,
+spoken only when the day carries such a marker.
+
+**Decided (user): the memory says WHY it came back — and the whole
+recollection travels.** The desc rides complete; the contact that woke
+it is named inside the parens: `(a memory, 4 days ago — another land
+crossed into) crossed into Talath Muil`. `via` is the shared contact tag
+(subject families first — `the same orcs`, `Talath Muil again` — then
+flag tags — `another land crossed into` — then a shared coarse facet —
+`something of the same kind`). The line also carries HOW the memory
+felt — appended as `— it left them afraid`, the same construction the
+day's felt beats speak — so the narrator gets
+the charge, not a dossier. And when no tag can name the rhyme but the
+pull landed on the same wheel spot (delta_felt did the lifting at
+retrieve), the via admits it: `— the same feeling`. The situational
+rhyme and the felt charge
+already exist on the wire; naming the rhyme lets the narrator connect
+the event to the recollection instead of guessing at the link.
+
+**Decided (user): the narrated felt word is the LANDED one, not the
+suggestion.** `felt[].target` is where the pull actually came down
+through this personality — so `— it left them X` names it with
+`mood_name(target)`: a pull the world authored `afraid` that this
+character refracted toward the alert sector narrates `watchful`. The
+authored `word` stays on the record (suggestion vs landing, both kept)
+and serves as fallback for pulls stored before `target` existed. The
+same rule covers the day's felt beats: the word rendered is the landed
+one, and a pull that landed at the Neutral core (`steady`) does not
+speak — it did not move them.
+
+**Decided (user): the skeleton reads as sentences a human can scan.**
+Every rendered line gets a leading capital and a closing stop
+(`_sentence`); marker-led lines (`(a memory…)`, `(a standing feeling)`)
+keep their lowercase entry. One bullet style — `-` everywhere, the
+encounter `*` is dead. A light divider tells the sky once: an encounter
+already announced reads `Later — an encounter:`, never `After dark —`
+twice. A beat whose text is a prefix of one already printed (or
+contains it) yields to the longer — a night told twice tells once.
+And the same felt pull speaks once per day: three grim moments in one
+land say `Ered Luin left them afraid` a single time.
 
 ## Phase 12 — Open & close
 

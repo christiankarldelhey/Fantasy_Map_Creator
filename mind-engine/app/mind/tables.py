@@ -371,9 +371,13 @@ class Memory(Base):
     # tier of the memory continuum — fresh | consolidated | conviction —
     # into which beliefs fold; `mutable` whether Reflection may rewrite
     # the conviction's wording. `valence` stays as the derived scalar
-    # summary, no longer canonical.
+    # summary, no longer canonical. `felt` is the pull as it actually
+    # landed through the personality — [{'word', 'target', 'gain'}] —
+    # how it felt, not what the world suggested (imprint stays the
+    # objective channel).
     imprint: Mapped[dict] = mapped_column(JSONB, nullable=True)
     subjects: Mapped[list] = mapped_column(JSONB, nullable=True)
+    felt: Mapped[list] = mapped_column(JSONB, nullable=True)
     feeling: Mapped[str] = mapped_column(String(60), nullable=True)
     depth: Mapped[str] = mapped_column(String(20), nullable=True)
     mutable: Mapped[bool] = mapped_column(Boolean, nullable=True)

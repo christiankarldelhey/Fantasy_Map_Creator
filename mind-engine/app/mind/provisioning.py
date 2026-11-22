@@ -178,6 +178,11 @@ DEFAULT_WIRING = {
     # B8: semantic similarity joins the retrieval score —
     # score += delta_embedding * cosine(episode, memory). 0 disables.
     'delta_embedding': 0.25,
+    # Felt proximity joins the retrieval score — score += delta_felt *
+    # proximity(day pulls, memory.felt): of the memories that connect,
+    # the one that FELT like today ranks first. Weight only — it
+    # discriminates between contacted candidates, never opens the gate.
+    'delta_felt': 0.2,
     # The old affect channel is dead (ADR 0017): what a tag means lives
     # in the semantics pack (semantics.DEFAULT_SEMANTICS + the game's
     # `semantics` rows), and how this mind feels it in its Relations —

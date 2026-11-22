@@ -204,11 +204,11 @@ def test_narrate_episode_injects_mind(client, monkeypatch):
     rn = client.post(f'/episodes/{ep_id}/narrate', json={})
     assert rn.status_code == 200, rn.text
     body = rn.json()
-    # The mind rides inside the narrator's lens (C17) — no standalone
-    # 'THE MIND OF' block, its content fused with the personality.
+    # The standing material rides the system prompt; the mind's volatile
+    # state opens the user prompt under its own === TODAY === title.
     assert '=== THE MIND OF' not in body['prompt']['user']
-    assert "NARRATOR'S LENS FOR TESTER" in body['prompt']['user']
-    assert 'Tester today.' in body['prompt']['user']
+    assert '=== TESTER ===' in body['prompt']['system']
+    assert '=== TESTER TODAY ===' in body['prompt']['user']
     assert body['generation']['text'] == fake['text']
     # the narrative echoes the meal the mind served
     assert memory_echoes_in_text('food: lembas', fake['text'])

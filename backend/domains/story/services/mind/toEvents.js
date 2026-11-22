@@ -721,6 +721,9 @@ function restEvent(day) {
     ? 'rest:poor'
     : restQualityTag(overnight.rest_quality);
   if (quality) tags.push(quality);
+  // A forced halt ended the day early — the night's rest was the body
+  // calling it, not the clock.
+  if (day.halt) tags.push('rest:halt');
   if (indoor) tags.push('rest:indoor');
   if (!indoor) tags.push('rest:open_sky');
   // Under open sky the sleeper lives the night's weather; an indoor bed
@@ -831,7 +834,7 @@ function groundEvents(day) {
     when: when({ phase }, day),
     where: where(regionOf(day)),
     act: 'walk',
-    reading: [...notes, elevation].filter(Boolean).join(' '),
+    reading: [notes.join(', '), elevation].filter(Boolean).join(' — '),
     data: { subtype: 'terrain' },
   }];
 }

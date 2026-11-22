@@ -262,8 +262,8 @@ test('computeEnergyDelta: cold shift has no effect above threshold', () => {
 test('computeEnergyDelta: three days fasting costs more than one', () => {
   const one = computeEnergyDelta({ daysWithoutFood: 1, restQuality: null });
   const three = computeEnergyDelta({ daysWithoutFood: 3, restQuality: null });
-  assert.equal(one.parts.fastingCost, -4);
-  assert.equal(three.parts.fastingCost, -15);
+  assert.equal(one.parts.fastingCost, -2);
+  assert.equal(three.parts.fastingCost, -8);
   assert.ok(three.delta < one.delta);
 });
 
@@ -494,11 +494,13 @@ test('resolveFate: energy 0 is death by exhaustion', () => {
   assert.equal(result.halted, true);
 });
 
-test('resolveFate: shadow 100 is death by shadow corruption', () => {
+test('resolveFate: shadow at its ceiling is madness, not death', () => {
+  // A broken traveller keeps walking — what the break means is the
+  // Mind's chapter, not the body's end.
   const result = resolveFate({ energy: 50, shadow: 100, encounterOutcomes: [] });
-  assert.equal(result.fate, 'dead_shadow');
-  assert.equal(result.status, 'dead');
-  assert.equal(result.halted, true);
+  assert.equal(result.fate, 'living');
+  assert.equal(result.status, 'active');
+  assert.equal(result.halted, false);
 });
 
 test('resolveFate: slain takes precedence over exhaustion', () => {

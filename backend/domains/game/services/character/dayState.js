@@ -12,7 +12,7 @@
 // ============================================================================
 
 import { climateStats } from '../../adapters/mapClient.js';
-import { resolveDailyMeals, resolveDailyWater, resolveLodging, resolveShelterLodging, computeWaterNeed, terrainWaterAvailable } from './inventory.js';
+import { resolveDailyMeals, resolveDailyWater, resolveLodging, resolveShelterLodging, computeWaterNeed, feltTemperature, terrainWaterAvailable } from './inventory.js';
 import {
   buildDayNote,
   classifyRegionFamilies,
@@ -21,6 +21,7 @@ import {
   computeShadowDelta,
   countCombat,
   countTension,
+  energyBand,
   isHarshWeatherAllDay,
   isQuietNight,
   isSanctuary,
@@ -30,6 +31,7 @@ import {
   TUNING,
 } from './characterState.js';
 import { resolveConditions, WOUND_ORDER } from './conditions.js';
+import { rollSkillCheck } from './skillCheck.js';
 
 // ---------------------------------------------------------------------------
 // Wound costs from encounter outcomes
@@ -69,7 +71,12 @@ function buildDayEvents(food, water, lodging) {
     events.push({ type: 'food', consumed: false, daysWithoutFood: food.newDaysWithoutFood });
   }
   if (water.drank) {
-    events.push({ type: 'water', drank: water.drank, refilled: water.refilled });
+    events.push({
+      type: 'water', drank: water.drank, refilled: water.refilled,
+      // The sky itself quenched them — a tag, not a number: the day the
+      // rain was enough is a fact the mind can hold.
+      ...(water.rain ? { rain: true } : {}),
+    });
   } else if (water.newDaysWithoutWater > 0) {
     events.push({ type: 'water', drank: false, daysWithoutWater: water.newDaysWithoutWater });
   }
@@ -190,6 +197,9 @@ export function resolveDayState({
   // yields water. A settlement well works even when everything else is frozen.
   const naturalWater = hasFreshwater || terrainWaterAvailable(day.biomes);
   const refillAvailable = passedSettlement(day) || (naturalWater && !flaskFrozen);
+  // A frozen world is still made of water: the night's fire melts snow —
+  // unless the land itself is waterless (a frozen desert can kill of thirst).
+  const meltAtCamp = flaskFrozen && naturalWater;
   const totalPrecipitation = climateStats(day.climate).totalPrecipitation;
 
   let water = resolveDailyWater({
@@ -197,6 +207,7 @@ export function resolveDayState({
     capacity: effects.waterCapacity,
     meanTemperature,
     refillAvailable,
+    meltAtCamp,
     rainMm: totalPrecipitation,
     frozen: flaskFrozen,
     daysWithoutWater,
@@ -231,6 +242,29 @@ export function resolveDayState({
 
   const restQuality = day.overnight_interaction?.rest_quality ?? null;
   const effectiveRestQuality = lodging.restQuality != null ? lodging.restQuality : restQuality;
+
+  // A freezing night under open sky: the body rolls endurance against the
+  // felt cold (garments already shift it) or the night is lost to shivering
+  // — no recovery, a deeper chill on top, and a bad miss leaves a wound.
+  // An indoor bed never rolls: a roof is the whole point of a roof.
+  const feltTemp = feltTemperature(meanTemperature, effects?.coldShift ?? 0);
+  const outdoorRest = !effectiveOvernightLocation?.indoor;
+  const coldCheck = (
+    outdoorRest
+    && Number.isFinite(feltTemp)
+    && feltTemp < TUNING.COLD_CHECK_TEMP_MAX
+  ) ? rollSkillCheck({
+    skill: startState?.skill_endurance ?? 0,
+    difficulty: TUNING.COLD_CHECK_BASE_DIFFICULTY
+      + Math.floor((TUNING.COLD_CHECK_TEMP_MAX - feltTemp) / 5)
+      * TUNING.COLD_CHECK_PER_5C,
+    skillName: 'endurance',
+    energy: openingEnergy,
+    shadow: openingShadow,
+    rng: day.rng || Math.random,
+  }) : null;
+  const coldCheckFailed = !!coldCheck && !coldCheck.success;
+
   // Ambient situations (ADR-0015): the wind of Angmar wears the spirit too —
   // their outcome shadow_effect rides the same rail as the night's.
   const ambientShadow = (day.ambient || [])
@@ -238,7 +272,7 @@ export function resolveDayState({
   const shadowEffect = (day.overnight_interaction?.shadow_effect ?? 0) + ambientShadow;
 
   // Energy and shadow deltas: the only place these are computed for a day.
-  const { delta: energyDelta } = computeEnergyDelta({
+  const { delta: energyDelta, parts: energyParts } = computeEnergyDelta({
     distanceKm: day.distance_km,
     encounters,
     restQuality: effectiveRestQuality,
@@ -258,6 +292,7 @@ export function resolveDayState({
     consumedFood: food.consumed,
     drankWater: water.drank >= computeWaterNeed(meanTemperature),
     mealEnergyBonus: food.energyBonus,
+    coldCheckFailed,
   });
 
   const { delta: shadowDelta } = computeShadowDelta({
@@ -277,8 +312,29 @@ export function resolveDayState({
   const rawShadow = openingShadow + shadowDelta;
 
   const { outcomes, woundEnergy, woundShadow } = tallyWoundCosts(encounters);
-  const newEnergy = clamp(rawEnergy + woundEnergy);
+  let newEnergy = clamp(rawEnergy + woundEnergy);
   const newShadow = clamp(rawShadow + woundShadow);
+
+  // Forced halt — nobody walks themselves dead. A traveller who wakes
+  // 'spent' does not march; one the march would empty stops where they
+  // are and the rest comes early. The halt gives back what the night
+  // gives — a camp that returns nothing (deep freeze, no fire, hunger)
+  // still kills; that is the one extreme nobody survives by stopping.
+  const spentAtDawn = energyBand(openingEnergy) === 'spent';
+  let halted = false;
+  if (!sanctuary && (spentAtDawn || newEnergy <= 0)) {
+    const restShare = energyParts.recovery + energyParts.quietBonus
+      + energyParts.mealBonus + woundEnergy;
+    // At dawn the march is waived — ambient cold and deprivation are
+    // still paid; mid-day the day already cost what it cost and only
+    // the early rest remains.
+    newEnergy = spentAtDawn
+      ? clamp(openingEnergy + restShare + energyParts.temperature
+          + energyParts.wind + energyParts.fastingCost
+          + energyParts.thirstCost)
+      : clamp(restShare);
+    halted = true;
+  }
 
   const fate = resolveFate({ energy: newEnergy, shadow: newShadow, encounterOutcomes: outcomes });
   const restedWell = restQuality != null && restQuality >= TUNING.REST_TRACK_MIN;
@@ -298,6 +354,13 @@ export function resolveDayState({
     restQuality: effectiveRestQuality,
   });
 
+  // A freezing night lost by a wide margin bites into the flesh itself —
+  // frostbite, a wound a tier deeper. (A lost roll already cost the night.)
+  if (coldCheck && coldCheck.margin <= -TUNING.COLD_CHECK_WOUND_MARGIN) {
+    const idx = WOUND_ORDER.indexOf(conditions.wounded);
+    if (idx < WOUND_ORDER.length - 1) conditions.wounded = WOUND_ORDER[idx + 1];
+  }
+
   // C27: a healer's gift steps the wound down a tier on the spot — the
   // encounter says the hands were laid on; the body keeps that truth.
   if (healed && conditions.wounded !== 'none') {
@@ -310,6 +373,8 @@ export function resolveDayState({
     .map((r) => r.prose_singular);
 
   const dayEvents = buildDayEvents(food, water, lodging);
+  // A day that ended early — the body called the halt, not the clock.
+  if (halted) dayEvents.push({ type: 'halt' });
 
   return {
     openingEnergy,
@@ -329,6 +394,8 @@ export function resolveDayState({
     notableItems,
     water,
     flaskFrozen,
+    halted,
+    coldCheck,
     grants,
   };
 }

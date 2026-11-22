@@ -37,7 +37,10 @@ from app.mind.memory import episode_date, episode_index
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.relations import feed
 from app.mind.tables import Memory
-from app.mind.tags import contact_tags as _contact_tags
+from app.mind.tags import (
+    contact_tags as _contact_tags,
+    tag_facet as _tag_facet,
+)
 
 
 def _context_tags(perceived_day, beliefs):
@@ -55,15 +58,6 @@ def _context_tags(perceived_day, beliefs):
         if btags & day:
             tags.update(btags)
     return tags
-
-
-def _tag_facet(tag):
-    """The coarse facet a `tag:<key>:<value>` tag belongs to — 'tag:food:
-    lembas' -> 'tag:food'. One-segment tags ('entity:orcs', 'tag:given',
-    'type:meal') have no meaningful facet: 'some entity' or 'some flag'
-    is too broad to connect anything (ADR-0016)."""
-    facet = str(tag).rsplit(':', 1)[0]
-    return facet if ':' in facet else None
 
 
 def _relevance(memory_tags, context_tags, facet_weight=0.0):
@@ -91,6 +85,23 @@ def _relevance(memory_tags, context_tags, facet_weight=0.0):
 # background: without them, the same rain 'evokes' every past rain and
 # the road-bread out-recalls every encounter. The ambient/content split
 # is declared once in tags.py (TAG_CLASSES).
+
+_MOOD_SPAN = math.sqrt(len(MOOD_DIMS) * 4)  # dims span [-1, 1]
+
+
+def felt_proximity(mem_felt, day_targets):
+    """How close the day's pulls came to how this memory felt — the
+    wheel distance between targets normalized to [0, 1]; the closest
+    pair wins (one rhyming moment of the day is enough)."""
+    best = 0.0
+    for pull in mem_felt or []:
+        t = pull.get('target') or {}
+        for dt in day_targets:
+            dist = math.sqrt(
+                sum((t.get(d, 0.0) - dt.get(d, 0.0)) ** 2
+                    for d in MOOD_DIMS))
+            best = max(best, 1.0 - dist / _MOOD_SPAN)
+    return best
 
 
 def retrieve(session, mind, episode, perceived_day):
@@ -126,6 +137,16 @@ def retrieve(session, mind, episode, perceived_day):
     # against each memory's stored vector (backfilled lazily).
     delta_w = w.get('delta_embedding', 0.25)
     episode_vec = episode_embedding(perceived_day) if delta_w else None
+    # The day's own pulls: how today actually felt, for the felt
+    # proximity term — 'this felt like that one' discriminates between
+    # memories that connect, never opens the gate alone.
+    felt_w = w.get('delta_felt', 0.2)
+    day_targets = [
+        p['target']
+        for item in perceived_day or []
+        for p in (item.get('mood_pull') or [])
+        if p.get('target')
+    ]
 
     scored = []
     imp_min = w.get('retrieval_importance_min', 0.15)
@@ -185,6 +206,9 @@ def retrieve(session, mind, episode, perceived_day):
         )
         if episode_vec is not None:
             score += delta_w * sim
+        if felt_w and day_targets:
+            score += felt_w * felt_proximity(
+                getattr(mem, 'felt', None), day_targets)
         scored.append((score, mem))
 
     scored.sort(key=lambda t: t[0], reverse=True)
@@ -234,15 +258,20 @@ def voice_memories(session, mind, memories, idx):
         if idx is not None:
             mem.last_voiced_episode = idx
         imprint = getattr(mem, 'imprint', None) or {}
-        if not imprint:
-            continue
-        share = {d: v * EVOKE_SHARE for d, v in imprint.items()}
-        for subject in (mem.subjects or []):
-            feed(
-                session, mind.game_id, mind.character_id, subject,
-                share, resistance=resistance, episode_idx=idx,
-            )
-        target = mood_delta(imprint)
+        if imprint:
+            share = {d: v * EVOKE_SHARE for d, v in imprint.items()}
+            for subject in (mem.subjects or []):
+                feed(
+                    session, mind.game_id, mind.character_id, subject,
+                    share, resistance=resistance, episode_idx=idx,
+                )
+        # Re-feeling reads the felt as it actually landed — the pull the
+        # personality refracted — before the world's suggestion: imprint
+        # feeds Relations, felt feeds mood, each its own channel.
+        felt = getattr(mem, 'felt', None) or []
+        target = (felt[0].get('target') or {}) if felt else {}
+        if not target:
+            target = mood_delta(imprint)
         if target:
             apply_pull(
                 mood, target, min(1.0, EVOKE_SHARE * (1.0 + moodiness)))

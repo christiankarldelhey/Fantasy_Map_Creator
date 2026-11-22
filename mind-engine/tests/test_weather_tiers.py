@@ -90,10 +90,10 @@ def test_severe_tiers_carry_floors(client):
     assert 'tag:weather:freezing' in item['tags']
     assert item['severity'] == 0.75  # intensity 3 on the shared dial
     # The felt channel reads the tiers as pull words (#184): one word
-    # per event — deep_cold -> 'tense' wins by declared precedence,
+    # per event — deep_cold -> 'afraid' wins by declared precedence,
     # and the event's felt colour is that single pull's target.
     assert item['valence'] == pytest.approx(-0.18, abs=0.02)
-    assert [p['word'] for p in item['mood_pull']] == ['tense']
+    assert [p['word'] for p in item['mood_pull']] == ['afraid']
     assert item['imprint']['fear'] > 0
 
 
@@ -115,3 +115,14 @@ def test_severity_tag_wiring_is_generic(client):
     item = open_state(client, r.json())['perceived_day'][0]
     assert 'tag:omen-of-war' in item['tags']
     assert item['severity'] == 0.0
+
+
+def test_tense_is_an_alias_for_afraid():
+    """Authored 'tag:felt:tense' tags and stored 'tense' pulls from
+    before the rename still land on the same wheel point — the
+    canonical word now coming out is 'afraid'."""
+    from app.mind.voice import felt_word, mood_point
+
+    assert felt_word(['tag:felt:tense']) == 'afraid'
+    assert mood_point('tense') == mood_point('afraid')
+    assert mood_point('tense') is not None

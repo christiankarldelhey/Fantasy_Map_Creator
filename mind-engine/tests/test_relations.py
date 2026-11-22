@@ -414,11 +414,12 @@ def test_a_meal_feeds_the_food_itself(client):
     rels = _relations(char)
     assert 'tag:food:mushrooms' in rels
     # type:meal {aff .15} x .4 + tag:food:* {aff .1} x .3 = .09 on the
-    # food (primary); drink and land hear only the splash, in equal
-    # share.
+    # food (primary); the drink hears the splash. The land hears
+    # nothing — a meal is not about Rhovanion: context subjects (the
+    # land, the kind of place) feed only when the event is about them.
     food = rels['tag:food:mushrooms']['affection']
     assert food > rels['tag:drink:ale']['affection']
-    assert food > rels['region:Rhovanion']['affection']
+    assert 'region:Rhovanion' not in rels
 
 
 def test_monotony_sours_the_daily_bread(client):
@@ -720,5 +721,72 @@ def test_the_prompt_marks_what_it_voiced():
     rel = session.query(Relation).filter_by(
         character_id=char, subject='tag:drink:waterskin').one()
     assert rel.last_surfaced_episode == 10
+    session.rollback()
+    session.close()
+
+
+def test_the_land_never_takes_a_strangers_splash(client):
+    """Wolves hunted in Ered Luin are the wolves' guilt — the land hears
+    nothing. Only an event the land IS about (its own weather, the
+    crossing itself) sediments on it."""
+    char = _uid('context')
+    _open_and_close(client, char, 'd1', [{
+        'type': 'encounter',
+        'when': {'phase': 'afternoon'},
+        'where': {'region': 'ered_luin'},
+        'data': {'reading': 'wolves circled the camp'},
+        'tags': ['entity:wolves', 'tag:form:stalks'],
+    }])
+    assert _relation(char, 'region:ered_luin') is None
+
+
+def test_the_land_owns_the_event_that_is_about_it(client):
+    """A hard crossing IS about the land — no narrower actor exists, so
+    the delta lands on it whole (not a splash): the land earns the
+    feeling its own day produced."""
+    char = _uid('owns')
+    _open_and_close(client, char, 'd1', [{
+        'type': 'land',
+        'when': {'phase': 'morning'},
+        'where': {'region': 'talath_muil'},
+        'data': {'subtype': 'region', 'name': 'Talath Muil',
+                 'tags': ['hostile'],
+                 'reading': 'the fens of Talath Muil closed in'},
+    }])
+    rel = _relation(char, 'region:talath_muil')
+    assert rel is not None
+    assert rel['fear'] > 0
+
+
+def test_a_standing_feeling_names_its_biggest_cause():
+    """'Ered Luin — feared, and hated for it' narrates as noise without
+    the why — the disposition cites the most important memory that
+    agrees with where the feeling points."""
+    from types import SimpleNamespace
+
+    from app.mind.lens import inner_lines
+    char = _uid('cause')
+    session = SessionLocal()
+    session.add(Relation(
+        game_id='middle_earth', character_id=char,
+        subject='region:ered_luin', feeling='feared and hated',
+        fear=0.7, affection=-0.5, familiarity=0.4))
+    session.add(Memory(
+        id=f'mem-{char}-w', game_id='middle_earth', character_id=char,
+        tags=['region:ered_luin'], desc='the warg pack came at dusk',
+        valence=-0.7, importance=0.8, kind='episodic', episode_ids=[1]))
+    session.add(Memory(
+        id=f'mem-{char}-s', game_id='middle_earth', character_id=char,
+        tags=['region:ered_luin'], desc='a kind sunrise over the peaks',
+        valence=0.6, importance=0.9, kind='episodic', episode_ids=[2]))
+    session.flush()
+    lines = inner_lines(
+        session, SimpleNamespace(
+            character_id=char, game_id='middle_earth'),
+        as_of_episode=10)
+    line = next(l for l in lines if l['subject'] == 'region:ered_luin')
+    # The warm sunrise outranks the wargs in importance, but it does
+    # not explain a fear — the dark day does.
+    assert 'the warg pack came at dusk' in line['line']
     session.rollback()
     session.close()

@@ -166,29 +166,38 @@ export function terrainWaterAvailable(biomes = []) {
  * @param {number} p.capacity - litres the flask can hold
  * @param {number|null} p.meanTemperature - day's mean temperature
  * @param {boolean} p.refillAvailable - a freshwater source or well is reachable
+ * @param {boolean} p.meltAtCamp - frozen world with water-bearing terrain: the
+ *   night's fire melts snow and tops the flask (a frozen desert has none)
  * @param {number} p.rainMm - total precipitation for the day
  * @param {boolean} p.frozen - natural sources are frozen (below FLASK_FREEZE_TEMP)
  * @param {number} p.daysWithoutWater - current thirst streak
- * @returns {{ drank:number, waterAfter:number, newDaysWithoutWater:number, refilled:boolean, frozen:boolean }}
+ * @returns {{ drank:number, waterAfter:number, newDaysWithoutWater:number, refilled:boolean, rain:boolean, frozen:boolean }}
  */
-export function resolveDailyWater({ waterHeld = 0, capacity = 0, meanTemperature = null, refillAvailable = false, rainMm = 0, frozen = false, daysWithoutWater = 0 } = {}) {
+export function resolveDailyWater({ waterHeld = 0, capacity = 0, meanTemperature = null, refillAvailable = false, meltAtCamp = false, rainMm = 0, frozen = false, daysWithoutWater = 0 } = {}) {
   if (capacity <= 0) {
-    return { drank: 0, waterAfter: 0, newDaysWithoutWater: daysWithoutWater + 1, refilled: false, frozen };
+    return { drank: 0, waterAfter: 0, newDaysWithoutWater: daysWithoutWater + 1, refilled: false, rain: false, frozen };
   }
 
   const need = computeWaterNeed(meanTemperature);
-  const canRefill = refillAvailable && !frozen;
-  let current = Math.max(0, Number(waterHeld) || 0);
+  // The caller gates its sources: a settlement well always counts, natural
+  // water only when unfrozen — and the camp's fire adds the frozen-terrain
+  // melt on top. Snow itself is water; a frozen desert is not.
+  const refilled = refillAvailable || meltAtCamp;
+  // Rain on the traveller is water drunk, not water stored: enough of it
+  // covers the day's need outright and tops the flask a little besides.
+  const rainCovers = !frozen && rainMm >= TUNING.RAIN_REFILL_MM;
 
-  if (canRefill) {
+  let current = Math.max(0, Number(waterHeld) || 0);
+  if (refilled) {
     current = capacity;
-  } else if (!frozen && rainMm >= TUNING.RAIN_REFILL_MM) {
+  } else if (rainCovers) {
     current = Math.min(capacity, current + TUNING.RAIN_REFILL_L);
   }
 
-  const drink = Math.min(current, need);
-  const waterAfter = Math.max(0, current - drink);
-  const refilled = canRefill;
+  // A rain-covered day drinks the sky: the flask keeps what it caught.
+  const flaskDrink = rainCovers ? 0 : Math.min(current, need);
+  const drink = rainCovers ? need : flaskDrink;
+  const waterAfter = Math.max(0, current - flaskDrink);
 
   let newDaysWithoutWater;
   if (drink >= need) {
@@ -200,7 +209,7 @@ export function resolveDailyWater({ waterHeld = 0, capacity = 0, meanTemperature
     newDaysWithoutWater = daysWithoutWater + 1;
   }
 
-  return { drank: drink, waterAfter, newDaysWithoutWater, refilled, frozen };
+  return { drank: drink, waterAfter, newDaysWithoutWater, refilled, rain: rainCovers, frozen };
 }
 
 // ---------------------------------------------------------------------------
