@@ -510,6 +510,64 @@ CELEBRIAN_ATTITUDES = [
     _a('other', "The Wise are old in a different currency than mine; I "
        "trust them the way one trusts weather.",
        MAIAR, +0.4),
+    # --- the beasts she prefers to most people (new) ----------------------
+    _a('world', "A dog's love is a loan with interest I never asked "
+       "for; I return it unpaid and keep walking.",
+       F_DOGS, -0.15),
+    _a('world', "Crows are the only creatures that gossip about me "
+       "accurately; I forgive them the audience.",
+       F_CROWS, +0.35),
+    _a('world', "The eagle does not apologise for the height; neither "
+       "should the wise.",
+       F_EAGLES, +0.4),
+    _a('world', "An owl hunts the dark I walk; we are colleagues of a "
+       "sort, and it has never once asked my name.",
+       F_OWLS, +0.35),
+    _a('world', "Of all the beasts the cat is the one that owes nothing "
+       "and asks nothing; I have always suspected we share a "
+       "temperament.",
+       ['family:cats'], +0.5),
+    _a('world', "A serpent is honest about what it is; I have met "
+       "courts that could not say the same.",
+       ['family:snakes', 'tag:entity_type:reptiles'], +0.2),
+    _a('world', "The moth and the bat work the night shift I keep; "
+       "small patience, common hours.",
+       ['family:bats', 'tag:entity_type:insects'], +0.15),
+    _a('world', "What swims does not mourn and does not lie to itself "
+       "about it; the river's cold arithmetic is cleaner than mine.",
+       ['tag:entity_type:water_creatures',
+        'tag:entity_type:water_animals'], +0.2),
+    # --- the small peoples and the strange ones (new) ---------------------
+    _a('other', "They grieve in a single lifetime what I carry for "
+       "centuries; no wonder they cry honestly and I cannot.",
+       HOBBITS, +0.35),
+    _a('other', "Mortals spend their one coin of life so quickly, and "
+       "call me strange for hoarding mine; the arithmetic is theirs.",
+       F_COMMON_MEN + HUMANS, +0.1),
+    _a('other', "They keep a watch nobody thanked them for — I "
+       "recognise the disease; I have it too.",
+       F_DUNEDAIN, +0.45),
+    _a('world', "A giant is the mountain's bad mood given legs; I leave "
+       "it to its weather.",
+       GIANTS, -0.4),
+    _a('world', "The woses' stone men remember a covenant older than my "
+       "griefs; silent company, honest terms.",
+       CONSTRUCTS, +0.3),
+    # --- the names she keeps (new) ----------------------------------------
+    _a('other', "Treebeard is slower than I am — the one friendship "
+       "where I have ever been the young one.",
+       ['entity:treebeard', 'entity:ents'], +0.7),
+    _a('other', "Tom Bombadil sings and the world obeys the tune; a "
+       "century on, I still have not decided whether to envy that or "
+       "distrust it.",
+       ['entity:tom_bombadil'], +0.35),
+    _a('other', "Mithrandir cares like it is work, and it is; I have "
+       "never forgiven him for making hope look practical.",
+       ['entity:gandalf'], +0.45),
+    _a('other', "Radagast chose the weeds and the wood-mice over every "
+       "council of the wise; of all of them, he understood the "
+       "assignment.",
+       ['entity:radagast_the_brown'], +0.5),
 ]
 
 ARANATH_ATTITUDES = [
@@ -682,10 +740,11 @@ CELEBRIAN_MEMORIES = [
     _mem("Treebeard asked me my name and considered the answer for a "
          "week. It is the only friendship I keep that measures time "
          "honestly.",
-         ['region:Fangorn', 'family:ents', 'tag:entity_type:living_trees'],
+         ['region:Fangorn', 'family:ents', 'entity:treebeard',
+          'entity:ents', 'tag:entity_type:living_trees'],
          _d(1562, 6, 7),
          valence=0.6, importance=0.8,
-         subjects=['family:ents', 'region:Fangorn'],
+         subjects=['entity:treebeard', 'family:ents', 'region:Fangorn'],
          imprint={'affection': 0.7, 'trust': 0.5, 'familiarity': 0.5},
          region='Fangorn'),
     _mem("A rowan in the deep forest does not greet me when I come. It "
@@ -713,14 +772,16 @@ CELEBRIAN_MEMORIES = [
     _mem("Mithrandir laughs too easily for one who has seen what he has "
          "seen. I have decided it is either wisdom or excellent theatre; "
          "either way, he has earned it.",
-         MAIAR, _d(1630, 5, 11),
-         valence=0.4, importance=0.6, subjects=MAIAR,
+         MAIAR + ['entity:gandalf'], _d(1630, 5, 11),
+         valence=0.4, importance=0.6,
+         subjects=MAIAR + ['entity:gandalf'],
          imprint={'trust': 0.5, 'affection': 0.3}),
     _mem("Radagast once fed a dying bird out of his own sleeve and "
          "apologised to it for the world. He and I have never understood "
          "each other less.",
-         MAIAR + BIRDS, _d(1688, 7, 6),
-         valence=0.35, importance=0.55, subjects=MAIAR,
+         MAIAR + BIRDS + ['entity:radagast_the_brown'], _d(1688, 7, 6),
+         valence=0.35, importance=0.55,
+         subjects=MAIAR + ['entity:radagast_the_brown'],
          imprint={'affection': 0.4, 'trust': 0.4}),
     _mem("The Wise still ask my counsel and take it rarely. I respect "
          "the economy — I would not take mine either.",
@@ -730,17 +791,19 @@ CELEBRIAN_MEMORIES = [
     _mem("Tom Bombadil sang a fever out of me once. I have been quietly "
          "furious about it for a century; nobody should be that cheerful "
          "at his age.",
-         ['region:Old Forest'] + MAIAR, _d(1843, 6, 21),
+         ['region:Old Forest', 'entity:tom_bombadil'] + MAIAR,
+         _d(1843, 6, 21),
          valence=0.3, importance=0.65,
-         subjects=['region:Old Forest'] + MAIAR,
+         subjects=['region:Old Forest', 'entity:tom_bombadil'] + MAIAR,
          imprint={'affection': 0.4, 'familiarity': 0.5},
          region='Old Forest'),
     _mem("He is the oldest thing I know and the only one that does not "
          "mourn. I cannot decide whether he is above grief or simply "
          "never acquired the taste.",
-         ['region:Old Forest'] + MAIAR, _d(1843, 6, 25),
+         ['region:Old Forest', 'entity:tom_bombadil'] + MAIAR,
+         _d(1843, 6, 25),
          valence=0.1, importance=0.5,
-         subjects=['region:Old Forest'] + MAIAR,
+         subjects=['region:Old Forest', 'entity:tom_bombadil'] + MAIAR,
          imprint={'familiarity': 0.5},
          region='Old Forest'),
 
@@ -928,6 +991,13 @@ CELEBRIAN_LEANS = [
     _lean('tag:entity_type:plants', affection=0.4, familiarity=0.5),
     _lean('region:Lone-lands', affection=0.2, familiarity=0.5),
     _lean('region:Rivendell', affection=0.15, familiarity=0.4),
+    _lean('entity:treebeard', affection=0.6, trust=0.4, familiarity=0.6),
+    _lean('entity:ents', affection=0.5, familiarity=0.5),
+    _lean('entity:tom_bombadil', affection=0.3, trust=0.3,
+          familiarity=0.5),
+    _lean('entity:gandalf', affection=0.35, trust=0.5, familiarity=0.4),
+    _lean('entity:radagast_the_brown', affection=0.4, trust=0.4,
+          familiarity=0.4),
 ]
 
 LEAN_PACKS = {
