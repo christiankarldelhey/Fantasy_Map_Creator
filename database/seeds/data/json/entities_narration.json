@@ -3234,10 +3234,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "One steps into view deliberately and stops. Not a threat — an acknowledgment. He is letting him see."
+      "en": "He is letting himself be seen — which is the Wose version of an introduction: visibility as a courtesy, offered to a stranger who read the marker correctly."
     },
     "presence": {
-      "en": "He leaves a carved marker at the trail junction — a Wose sign meaning this path is watched, use it. The marker was not there this morning."
+      "en": "A carved marker at the trail junction — a small wooden figure set on a flat stone, worked with the dense knot-carving of the Woses, which to anyone who reads it means: this path is watched, use it, be seen using it. The marker was not there this morning — the dust on the stone is still disturbed where it was set, and a hundred yards into the treeline, a man steps into view deliberately and stops. Brown-skinned, broad, dressed in the forest's own colours, a blowgun held loose at his side — not a threat. An acknowledgment. He is letting himself be seen, which is how the Woses say: we saw you read the sign."
     },
     "channel": {
       "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
@@ -3250,7 +3250,7 @@
         "id": "cnt:216f7ad6-531b-4e21-abc2-4c32e5bcfaee:sit",
         "tags": [],
         "situation": {
-          "en": "This is the Woses giving what they give: knowledge of the land, in their own language, to those who know how to read it."
+          "en": "The marker is a gift — the path is watched and the watching is now a shared fact between the Woses and the traveller, which on a wild road is nearly a passport."
         }
       }
     ],
@@ -3312,10 +3312,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "A low deliberate sound from the scrub — not voice, not animal. A warning."
+      "en": "They will not show themselves to explain — the warning is the courtesy, and the courtesy is exactly as detailed as their caution allows, which is to say: a rhythm, once, from cover."
     },
     "presence": {
-      "en": "Something on the trail ahead that the Woses do not want him to walk into. They will not show themselves to explain what it is."
+      "en": "A sound from the scrub off the trail — low, deliberate, a knock-stone rhythm that is not voice and not animal, repeated once. The Woses do not show themselves; they never do when the message can be delivered by the land. The sound comes from the direction the trail is heading, and the rhythm is the one their wood-craft uses for: do not go further on this line. Something on the trail ahead is something they do not want a stranger walking into, and the warning is all the explanation the road gets."
     },
     "channel": {
       "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
@@ -3328,7 +3328,7 @@
         "id": "cnt:f0e8494c-2072-40e8-83b1-2144cbe56021:sit",
         "tags": [],
         "situation": {
-          "en": "The warning was given. The explanation was not. He has enough."
+          "en": "The knock-stone is a wall made of sound — what is on the trail ahead is theirs to know about and the traveller's to walk around, and the distinction is not negotiable."
         }
       }
     ],
@@ -4511,10 +4511,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Fresh territorial marks on a post at a track junction."
+      "en": "A patrol re-establishing a claim after an event — the marks are clan-landlord paperwork posted on a post, and the freshness of them means the landlord is still on the property."
     },
     "presence": {
-      "en": "Clan claim on this stretch of road, placed within the last day. A patrol establishing presence after something happened nearby."
+      "en": "Territorial marks on a boundary-post at a track junction — three parallel cuts, fresh within the last day, made with a blade pressed deep and deliberate: a clan-claim on this stretch of road. The marks are clan-work, not vandalism — the pattern is one the Dunlending holds use when a patrol establishes presence after something happened nearby. The cuts face the road: they are meant to be read by people coming this way, and what they say is — this stretch has owners who are currently paying attention."
     },
     "channel": {
       "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
@@ -4527,7 +4527,7 @@
         "id": "cnt:7e24a5e7-b1f3-49f1-8060-4fc90a06b0d8:sit",
         "tags": [],
         "situation": {
-          "en": "He is on claimed ground. The claim will be enforced if he is seen on it."
+          "en": "Something happened on this stretch that made the clan re-post its claim — and the marks facing the road mean the claiming is a message to whoever else was involved."
         }
       }
     ],
@@ -4667,10 +4667,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Two of them on the road. They step aside but not far. One watches her with the specific attention of someone looking for evidence of something he was told."
+      "en": "He has been told a thing and is checking it against the world — the looking is an experiment, and she is the evidence the experiment is being run on."
     },
     "presence": {
-      "en": "He was told Elves serve the enemy. He is looking at her for proof of this."
+      "en": "Two men on the road who step aside as she approaches — but not far, and the stepping-aside is done wrong: it is the movement of courtesy performed by men whose courtesy is conditional. The one who does not step fully aside is heavy-set, brown-bearded, a woodcutter's axe through his belt, and he watches her with the specific attention of someone looking for evidence of something he was told and half-believes. What he was told is simple: that Elves serve the enemy. He is looking at her for proof of it — the pointed ears half-hidden by her hood's fall, the way she moves — and his look is not hatred. It is worse: it is checking."
     },
     "channel": {
       "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
@@ -4683,7 +4683,7 @@
         "id": "cnt:fb0a97ee-6d99-4e20-9637-d364f5ab6f94:sit",
         "tags": [],
         "situation": {
-          "en": "She has been looked at this way before, in better centuries. The accusation is older than the people making it."
+          "en": "Whether to give him the proof he is checking for, deny it, or simply let the looking fail on its own — the choice is hers, and each answer teaches the road something different."
         }
       }
     ],
@@ -4745,10 +4745,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "Aftermath of a gathering — stone marked, fire still warm, men dispersing into the hills."
+      "en": "Whatever was gathered around that fire was clan-business — and the three who stopped are the rear-guard, watching the road to see whether the seeing requires a response."
     },
     "presence": {
-      "en": "Three of them notice him on the road below and stop dispersing."
+      "en": "The aftermath of a gathering — a fire still warm in a ring of stones, a flat rock marked with fresh cuts, and men dispersing into the hills by twos, unhurried, the way people leave a meeting that has ended. Three of them notice the traveller on the road below and stop dispersing — the stopping is instant, coordinated, the reflex of people who have practiced not being found mid-gathering. They do not run. They freeze, which is worse: runners have somewhere to go; freezers are deciding what to do about being seen."
     },
     "channel": {
       "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
@@ -4761,7 +4761,7 @@
         "id": "cnt:2ce6e8f3-61e4-4a05-94e1-6746c4859ef8:sit",
         "tags": [],
         "situation": {
-          "en": "He has two seconds to give them a reason not to make him the problem."
+          "en": "The traveller has seen something he was not meant to see — a gathering that dispersed on schedule except for the seeing — and the rear-guard's stillness is the question of whether the seeing will cost anything."
         }
       }
     ],
@@ -4899,10 +4899,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "One of them standing on a rock above the trail, watching him below."
+      "en": "The test is deliberate — he wants to be seen watching, because the watching is half the message: read the marks, and we will know you can read; miss them, and we will know that too."
     },
     "presence": {
-      "en": "He has marked the trail — a stone moved to a specific position, a cut in bark. He is watching to see if the traveller reads the marks or misses them."
+      "en": "A man standing on a rock above the trail, watching him below — deliberately visible, one hand on a staff, still as the rock he is standing on. He has marked the trail: a stone moved to a specific position at the junction below, a cut in the bark of the oak beside it — Wose-sign, or something in the same alphabet: the kind of trail-marks that mean the path has been read and answered. He is watching to see if the traveller reads the marks or misses them — the standing-visible is the test's proctor, and the trail below is the question."
     },
     "channel": {
       "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
@@ -4915,7 +4915,7 @@
         "id": "cnt:9e7bd804-285a-4f74-9133-10a7cb4ee60d:sit",
         "tags": [],
         "situation": {
-          "en": "This is a test. Reading the marks correctly may open something. Missing them closes it."
+          "en": "The marked stone has a right answer — and the watcher above is waiting to see whether the traveller knows the trail-sign well enough to move it."
         }
       }
     ],
@@ -5283,10 +5283,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "A farmer and a child on a far hill, working together. The child is trying to carry something too heavy."
+      "en": "They do not know she is watching — the far hill is their whole world, and the road below with its traveller is outside the frame of it."
     },
     "presence": {
-      "en": "The child will carry heavier things soon. The farmer will grow old. The child will carry those things alone eventually."
+      "en": "A farmer and a child on a far hill — small figures against the sky, working a field the way families work fields: together, unevenly, the older one doing the work of two and the younger one trying to carry something too heavy. The child staggers under a load of hay-band bundles, resets the grip, keeps going — the stubbornness of a farm-child learning what the farm will eventually ask of her. The farmer does not help. The farmer is watching the child carry it, which is its own kind of teaching."
     },
     "channel": {
       "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
@@ -5299,7 +5299,7 @@
         "id": "cnt:48f3c0a4-d735-47be-a517-71f37ebcca05:sit",
         "tags": [],
         "situation": {
-          "en": "She has watched this sequence more times than there are names for it. The scene is ordinary and inexorable at once."
+          "en": "The child will carry heavier things soon — the farmer will grow old, and the child will carry those things alone eventually, which is the oldest arithmetic a farm does."
         }
       }
     ],
@@ -5517,10 +5517,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "He saw them before they saw him. Three men in old ruins, too comfortable for vagrants."
+      "en": "Professionals of a small kind — toll-takers or worse, working the only pinch in two miles of road with the patience of men who own the pinch."
     },
     "presence": {
-      "en": "A chokepoint at a bridge ahead — the only crossing for two miles. He has already identified the approach angles and the alternative."
+      "en": "A chokepoint at a bridge ahead — the only crossing for two miles, an old stone span with ruins hunched at its north end. Three men in the ruins: too comfortable for vagrants — the easy sprawl of men waiting, not sheltering — positioned where the road funnels onto the bridge. He saw them before they saw him, which is the only advantage the moment offers: the approach angles are clean, the alternative is a ford upstream that adds an hour, and the men's placement says they know exactly what they are waiting on."
     },
     "channel": {
       "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
@@ -5533,7 +5533,7 @@
         "id": "cnt:7606a4fc-5828-4450-9e47-9392b6981ec3:sit",
         "tags": [],
         "situation": {
-          "en": "This is a tactical problem with a tactical solution. He does not need to fight them."
+          "en": "The bridge is theirs until someone takes it back — and the ford upstream is an hour's worth of avoiding whatever business the three are conducting on the span."
         }
       }
     ],
@@ -5634,10 +5634,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "She has seen men with this expression — boredom plus readiness — outside the walls of kingdoms she watched fall."
+      "en": "Guard-duty boredom — the kind that makes men careless, and the kind that makes a rescuer's arithmetic possible if the numbers come out right."
     },
     "presence": {
-      "en": "They have a captive. Someone sitting against the far wall, bound at the wrists. A traveller, by the gear still visible."
+      "en": "Men camped in a ruin off the road — five of them by the fire-sign, bored and ready in the particular way of men being paid to wait. She has seen this expression before: outside the walls of kingdoms she watched fall, on the faces of men hired to hold something or someone. Against the far wall, the something: a person sitting with wrists bound, upright, a traveller by the gear still visible — pack-frame, good boots, a traveller's cloak. Not a corpse. Not yet a corpse. The men do not know she is there; the captive's eyes are on the fire, and the captors' eyes are on the captive."
     },
     "channel": {
       "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
@@ -5650,7 +5650,7 @@
         "id": "cnt:f93b3404-659a-4565-8955-6d547ce1f028:sit",
         "tags": [],
         "situation": {
-          "en": "She has seen this before, in better centuries and worse. The question of whether to intervene has different weight depending on who is asking it."
+          "en": "A bound traveller in a guarded ruin is the road's worst equation — five bored men, one captive, and a rescuer's choice between the count and the conscience."
         }
       }
     ],
@@ -17051,10 +17051,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Cautious, sun-dark and quick to end the conversation if it turns to anything official."
+      "en": "Cautious and quick to end the conversation if it turns official — the flat voice is armour: nothing said can be repeated against him if nothing sounded like complaint."
     },
     "presence": {
-      "en": "Where the next cistern is, and a flat statement that the tax-riders came through eleven days ago and took more than the tally allowed."
+      "en": "A herdsman beside a dry stone tank — sun-dark to the colour of the hide he is wearing, grey eyes creased at the corners from squinting at horizons, a crook over one shoulder that is more habit than tool. He tells the traveller where the next cistern is with the precision of a man who has walked every mile of this grazing-country, and then, in the same flat voice, the other thing: that the tax-riders came through eleven days ago and took more than the tally allowed — said flatly, the way you report weather, because reporting it as a grievance changes nothing and he knows it."
     },
     "channel": {
       "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
@@ -17067,7 +17067,7 @@
         "id": "cnt:0b2e0002-0000-4000-8000-0b2e00000002:sit",
         "tags": [],
         "situation": {
-          "en": "They are being squeezed by their own overlords and a stranger is the safest possible audience for saying so."
+          "en": "The cistern location is the kindness; the tax-rider report is the trust — and a man who gives both in one breath is a man who has decided the traveller is worth the risk of having spoken."
         }
       }
     ],
@@ -17125,10 +17125,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Hard-faced hill-men who stop him with a question rather than a weapon, which is itself a decision."
+      "en": "They are not hostile yet — the question instead of the weapon is the courtesy their clan-law allows a stranger, and the answer determines which version of the meeting this becomes."
     },
     "presence": {
-      "en": "They want to know whether he came through the valley by the standing stone, and whether anyone was camped there when he did."
+      "en": "Two hill-men on the road where the valley narrows — hard-faced, wiry, cloaks the grey-brown of the hillside itself, and they stop him with a question rather than a weapon, which is itself a decision and both parties know it. The question is asked by the elder of the two, a man with a wolf-scar across the back of one hand and the patience of someone who has been asking this question of strangers for a week: whether the traveller came through the valley by the standing stone, and whether anyone was camped there when he did."
     },
     "channel": {
       "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
@@ -17141,7 +17141,7 @@
         "id": "cnt:0b2e0004-0000-4000-8000-0b2e00000004:sit",
         "tags": [],
         "situation": {
-          "en": "There is a feud running in these hills and his answer places him in it whether he wants to be placed or not."
+          "en": "Someone camped by the standing stone and the hill-men want to know who — their asking a stranger instead of assuming is either fairness or a census of witnesses, and the traveller's answer goes into whichever it is."
         }
       }
     ],
@@ -17162,10 +17162,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Curious rather than hostile; a young one is sent forward to talk while the others watch from the slope."
+      "en": "Curious rather than hostile — the boy is the safe face the clan puts forward, and the adults on the slope are the other face, waiting to see which one the meeting needs."
     },
     "presence": {
-      "en": "Questions about where he comes from and what he is carrying, asked plainly, and a warning about the herd of something large moving north of here."
+      "en": "A boy sent forward to do the talking — twelve, maybe, thin as a whip, barefoot on ground that would cut softer feet — while the rest of them watch from the slope above: three adults, hard to count exactly, holding the hillside the way hunters hold a stand. The boy's questions are the clan's questions asked in a boy's voice: where the traveller comes from, what he is carrying, plainly asked because the plain asking is the test. Behind the questions, the real thing, delivered like a gift once the answers pass inspection: a warning about a herd of something large moving north of here."
     },
     "channel": {
       "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
@@ -17178,7 +17178,7 @@
         "id": "cnt:0b2e0005-0000-4000-8000-0b2e00000005:sit",
         "tags": [],
         "situation": {
-          "en": "The youth is being tested by his own people and the traveller is the test. Both of them know it."
+          "en": "The warning about the herd is the toll paid backward — the clan gives the stranger the dangerous news the stranger's answers earned, and the stranger's honesty is measured by what the boy carries back up the slope."
         }
       }
     ],
@@ -17199,10 +17199,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Loud, cheerful and already halfway through a story that started before he arrived."
+      "en": "Loud, cheerful, constitutionally incapable of arriving at a point — but the point is in there, and he knows where it is even if the story pretends not to."
     },
     "presence": {
-      "en": "News from three ports, a wildly exaggerated account of a storm, and one entirely accurate detail about a captain who is hiring."
+      "en": "A sailor off a coastal lugger, walking the river-road inland — broad, rolling-gaited even on dry land, salt still in the creases of his hands, already halfway through a story that started before he arrived. The story contains, embedded like coins in a pudding: news from three ports, a wildly exaggerated account of a storm off the cape that gets taller every time he tells it, and — delivered with exactly the same flourish as the lies — one entirely accurate detail about a captain at the last port who is hiring."
     },
     "channel": {
       "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
@@ -17215,7 +17215,7 @@
         "id": "cnt:0b2e0006-0000-4000-8000-0b2e00000006:sit",
         "tags": [],
         "situation": {
-          "en": "Nine parts noise and one part gold, and the gold is the hiring. Sorting them is his problem."
+          "en": "The storm story is entertainment; the captain hiring is information — and a man who mixes them tells you which currency he actually trades in."
         }
       }
     ],
@@ -17495,10 +17495,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Brief, unbothered and standing far enough back that the wind carries most of the words away."
+      "en": "Brief and standing far enough back that the wind carries most of the words away — northern courtesy is information given, not warmth performed."
     },
     "presence": {
-      "en": "Where the ice is thin, where the seals are, and a warning that the weather will turn within the day whatever the sky is currently doing."
+      "en": "A Lossoth hunter on the ice-road — bundled in white furs that make him a patch of weather standing up, face narrow and wind-scoured, harpoons slung with the ease of tools that have fed him all his life. The exchange is brief and unbothered, conducted at the distance the wind requires: where the ice is thin this week, where the seals are lying, and — said with the flat authority of a man reading a book he did not write — a warning that the weather will turn within the day, whatever the sky is currently doing."
     },
     "channel": {
       "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
@@ -17511,7 +17511,7 @@
         "id": "cnt:0b2e0014-0000-4000-8000-0b2e00000014:sit",
         "tags": [],
         "situation": {
-          "en": "They speak to strangers rarely and never at length. Everything said is chosen for its usefulness."
+          "en": "The sky says fine; the Lossoth says turn — and the argument between the sky and the man who lives on the ice is not an argument the traveller should adjudicate from the middle of it."
         }
       }
     ],
@@ -22229,10 +22229,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A clan-man on the road with a pack-load of something he is not advertising. He eyes the traveller steadily."
+      "en": "Trading-distance friendly — the steady eye is the clan's version of a handshake: it says we are talking, and it also says we are watching what the talking costs."
     },
     "presence": {
-      "en": "He is moving between clan-holds and he has business that is his own. He will trade road-news but nothing else."
+      "en": "A clan-man moving between holds — a pack on his back that is heavier than travel-gear and shaped like something specific he is not advertising, a dark cloak with the clan-pattern woven so small you would have to be inside his family to read it. He eyes the traveller steadily, without hostility, the look of a man doing arithmetic: whether this stranger is news, threat, or weather. He will trade road-news — that much the road allows — but the pack and his business are not on the table, and the steadiness of the eyeing is the polite way of saying where the table's edges are."
     },
     "channel": null,
     "facts": {
@@ -22243,7 +22243,7 @@
         "id": "cnt:d1417f6c-be87-414e-9913-31ce066b35ee:sit",
         "tags": [],
         "situation": {
-          "en": "The pack is heavy and he is not making detours. Whatever he is carrying, the destination is specific."
+          "en": "He has business between clan-holds that is his own — and a traveller who does not ask about the pack is a traveller the clan records as courteous, which is a currency that spends between holds."
         }
       }
     ],
@@ -22474,10 +22474,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A garrison soldier at a checkpoint — bored, following procedure, not hostile."
+      "en": "Bored and procedural — not hostile, not friendly; the checkpoint is a ritual the garrison requires and the sergeant performs it with the passion of a man counting sacks."
     },
     "presence": {
-      "en": "He checks for papers. The check is real — he records what he finds in a ledger. He does not explain what the ledger is for."
+      "en": "A garrison checkpoint where the road enters the district — a sergeant at a field-table, a brazier for the cold, and a ledger open on the boards in front of him. He checks for papers: the check is real, the ledger is real — he records what he finds, line by line, in a clerk's careful hand that does not match the uniform. He is middle-aged, going soft at the belt, bored in the specific way of a man following procedure he did not write, and he does not explain what the ledger is for, because nobody has explained it to him either."
     },
     "channel": null,
     "facts": {
@@ -22488,7 +22488,7 @@
         "id": "cnt:338b3057-c4c3-48de-92fa-fb7f7e1328a4:sit",
         "tags": [],
         "situation": {
-          "en": "The ledger is the problem. The information in it goes somewhere."
+          "en": "The ledger records every traveller who passes — and a ledger whose purpose even its keeper does not know is either bureaucracy or a list being built for someone who does."
         }
       }
     ],
@@ -22509,10 +22509,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He comes out of a building alone to intercept the traveller before they reach the main road. This was coordinated."
+      "en": "Formal, quiet, and carrying the particular confidence of a man whose backing does not need to be visible to be felt."
     },
     "presence": {
-      "en": "He says: someone wants to speak with you. He says it in a tone that makes clear the want is not a request. He does not say who."
+      "en": "A man steps out of a building alone and intercepts the traveller before the main road — well-dressed for a messenger, dark cloak, no markings, the soft boots of someone whose work is indoors. He says: someone wants to speak with you. He says it in a tone that makes clear the want is not a request, and he does not say who, because the who is the kind of information that moves upward, not downward. The timing says this was coordinated — he was waiting, on this corner, for this traveller."
     },
     "channel": null,
     "facts": {
@@ -22523,7 +22523,7 @@
         "id": "cnt:a0078a09-cb1b-42b6-ac80-83834bb4fafc:sit",
         "tags": [],
         "situation": {
-          "en": "The coordination means the traveller was identified before they arrived here. The route was anticipated."
+          "en": "Someone with enough reach to post a watcher on a corner wants a conversation — and whether it is an invitation, a summons, or a courtesy-call with teeth is a question the walk to the meeting answers."
         }
       }
     ],
@@ -25384,10 +25384,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "A mountain settlement where the usual watchers are not in their usual positions."
+      "en": "The settlement keeps its routines — smoke rises, a dog barks — but the lookouts' emptiness is a note played off-key that the whole valley is pretending not to hear."
     },
     "presence": {
-      "en": "Empty lookout posts on a clear day with travellers on the road means the watchers are either inside or somewhere else. The absence is wrong."
+      "en": "A mountain pass-settlement — stone towers on both heights, lookout posts built into the rock where watchers have stood for as long as the road has needed watching. Today the posts are empty: no figures on the heights, no signal-smoke, no one watching the road below where travellers walk in plain sight on a clear day. The absence is wrong — emptier than empty, the way a house with the lamps lit and no one home is wrong. Either the watchers are inside, or the watchers are somewhere else, and both possibilities change the pass."
     },
     "channel": null,
     "facts": {
@@ -25398,7 +25398,7 @@
         "id": "cnt:1694c890-89ae-401b-a687-322d0050ffca:sit",
         "tags": [],
         "situation": {
-          "en": "People who watch passes do not stop watching them without reason."
+          "en": "Watchers who leave their posts are either relieved, recalled, or removed — and a traveller in a pass whose watchers are missing is walking through someone's blind spot."
         }
       }
     ],
@@ -25559,10 +25559,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "A group of Dunlendings on the hillside above — watching the road below with the patience of people who have been there a while."
+      "en": "Observing, not threatening — the hillside seat is clan-law made visible: this road runs through land that remembers owning itself, and the watching is the land keeping its accounts."
     },
     "presence": {
-      "en": "They are not descending. They are observing. Their presence on that hill is a territorial statement about this road, not a threat."
+      "en": "A group of Dunlendings on the hillside above the road — five of them, maybe six, spread along the ridge-line where the rock breaks, visible only because they chose the moment to be visible. They are not descending; they are not moving at all, which is the message: their presence on that hill is a territorial statement about this road, not a threat. They watch the road the way landowners watch a boundary — the patience of people who have been standing on that ridge since before the road had traffic worth watching."
     },
     "channel": null,
     "facts": {
@@ -25573,7 +25573,7 @@
         "id": "cnt:df0909ea-fed4-4de8-9d00-5e4c4abcc8f5:sit",
         "tags": [],
         "situation": {
-          "en": "Territorial observation and hostile observation look identical at this distance."
+          "en": "They are counting who passes and how — the observation is the clan's toll taken in attention, and a traveller who passes unremarked has paid less than one who was seen to notice them back."
         }
       }
     ],
