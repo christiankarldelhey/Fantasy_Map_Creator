@@ -2808,7 +2808,7 @@
       "en": "He stands to meet the traveller without a hand anywhere near the hilt — it is recognition, not caution: the walk, the gear, the way the traveller's eyes keep moving. Whatever this stranger is, he is the kind of man a ranger waits for rather than watches for."
     },
     "presence": {
-      "en": "The road crests the first of the Weather Hills into a wind that has been waiting for him, and standing a little off the crown is a man: grey-green cloak over mail mended more than once, a sword where the hand falls without thinking, a face wind-carved and a week unshaven, boots grey to the knee with days of road. He does not startle and he does not hail. He watches the traveller come up the last of the slope reading him the way rangers read a page, and when at last he speaks it is plain, without ceremony: 'Short two men on this stretch — pulled north ten days ago, no word why, and I have run their circuit alone since. What word from the north?'"
+      "en": "The Weather Hills rise out of the plain one after another, and on the second crest a figure is working the ridge-line the same direction as the road — grey-green cloak over mended mail, moving the unhurried mile-eating pace of a man whose patrol is the ridge itself. When the traveller's path and the patrol line converge at the saddle, the ranger stops and lets him come up: reads him the whole climb, then speaks plainly, without ceremony. His patrol is short two men — pulled north without explanation ten days ago — and he has been running their circuit alone ever since. He wants to know what the north has been saying."
     },
     "channel": {
       "en": "He talks the way the long-lonely talk when they finally have someone worth telling — spare sentences, no padding, a hunger under the flatness for word from anywhere else. News for news: what the roads are doing, who has gone missing, what the weather is keeping back."
@@ -5361,13 +5361,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A woman at a well, drawing water. Looks at the traveller. Then speaks."
+      "en": "Past hope and not past saying it — she is not asking for anything. She is saying it out loud one more time, to the one kind of person who might be walking north anyway."
     },
     "presence": {
-      "en": "Her husband went north three weeks ago with a trading party. The party came back without him. They said he stayed on voluntarily. She does not believe this."
+      "en": "A woman drawing water at the settlement's well — rope-burned hands, a face worn thin by three weeks of the same thought — who looks at the traveller, finishes hauling the bucket, and then speaks. 'My husband went north with a trading party, three weeks gone. The party came back without him. They said he stayed on — voluntarily.' She says the last word like it tastes wrong. 'I do not believe it.' She is telling a stranger because she has told everyone she knows and no one will help."
     },
     "channel": {
-      "en": "Have them raise a trouble of their own — a beast, a feud, a missing kinsman — and hope the stranger might aid it."
+      "en": "Flat, factual, unbroken — the telling has been worn smooth by repetition. What she wants is not comfort; it is for one more person to know his name."
     },
     "facts": {
       "topic": "a_request_for_help"
@@ -5377,7 +5377,7 @@
         "id": "cnt:416281e3-751e-4b4f-8d74-40953ce64bb2:sit",
         "tags": [],
         "situation": {
-          "en": "She is telling a stranger because she has told everyone she knows and no one will help. She is not asking for anything. She is saying it out loud one more time."
+          "en": "She is not asking for anything because asking has failed everywhere else. But a stranger on the north road is the closest thing to an answer the village has produced in three weeks."
         }
       }
     ],
@@ -8937,7 +8937,7 @@
       "en": "Paused between two fears — the road ahead holds whatever they will not name, and the namelessness is the whole of the warning they are willing to give a stranger."
     },
     "presence": {
-      "en": "Three of them stopped at the road's edge — not resting: deciding. Two packs on the ground and a woman standing over them looking north the way you look at weather you're not sure you can outwalk. They turn as the traveller comes up, and the question comes out plain: 'Have you been on the north road? Recently.' What they will not say is why — only that someone they trust came back off it looking wrong, and 'wrong' is the whole description they are offering."
+      "en": "Ahead on the road, three figures slow to a stop — the traveller has been gaining on them for a mile, and now he sees why: they are halted mid-argument at the road's edge, two packs on the ground, a woman standing over them looking north the way you look at weather you're not sure you can outwalk. They turn as he comes up, and the question comes out plain: 'Have you been on the north road? Recently.' What they will not say is why — only that someone they trust came back off it looking wrong, and 'wrong' is the whole description they are offering."
     },
     "channel": {
       "en": "They answer questions about the road readily and questions about the fear not at all — the boundary is visible every time it is approached."
@@ -9082,14 +9082,12 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Fresh field-sign at a waystone — three nicks on the eastern face, clean cuts, pale inside. A patrol came through within the last day."
+      "en": "Sign only — the road's quietest courtesy, left by someone who checked it recently and found it safe to say so."
     },
     "presence": {
-      "en": "Standard Ranger road-mark: passage confirmed, route clear ahead. Current."
+      "en": "Fresh field-sign at a waystone — three nicks on the eastern face, clean cuts, pale inside the notch: standard Ranger road-mark, passage confirmed, route clear ahead, current. A patrol came through within the last day and found this stretch worth marking clean."
     },
-    "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
-    },
+    "channel": null,
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -9098,7 +9096,7 @@
         "id": "cnt:28fc4dd0-ab9f-49ac-b78f-6bc3a4c60e94:sit",
         "tags": [],
         "situation": {
-          "en": "Someone checked this road recently and found it worth marking clean. That is useful information."
+          "en": "Someone checked this road within the last day and found it worth marking clean. The mark is current, which is the difference between information and history."
         }
       }
     ],
@@ -10336,13 +10334,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Waving the traveller down from across a field."
+      "en": "Practical, honest, unembarrassed — a farmer who knows exactly what an hour of a stranger's back is worth and is offering a fair price for it."
     },
     "presence": {
-      "en": "He needs help with something specific — a load that is too heavy for one person, a fence that needs a second pair of hands for an hour. He will pay in food and road information."
+      "en": "A man waving the traveller down from across a field — shirtsleeves, mud to the knees, standing ankle-deep beside a half-set fence post and a wagon-load of rails that is visibly too heavy for one pair of hands. 'Friend! An hour of your back, if you've got it — this load wants two of us and my son's gone to market. I'll pay in dinner and whatever you want to know about the road.'"
     },
     "channel": {
-      "en": "Have them raise a trouble of their own — a beast, a feud, a missing kinsman — and hope the stranger might aid it."
+      "en": "Talks while he works — the request comes between pulls on the rope, and the road-information he offers is the real coin."
     },
     "facts": {
       "topic": "a_request_for_help"
@@ -10352,7 +10350,7 @@
         "id": "cnt:26d3f407-17b9-4ea8-bd4b-946907f5c565:sit",
         "tags": [],
         "situation": {
-          "en": "The help will take an hour. The road information is worth it."
+          "en": "The help takes an hour. The dinner is real. The road-knowledge of a man who has farmed this corner for thirty years is worth more than either."
         }
       }
     ],
@@ -10373,13 +10371,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He comes to the road fence as the traveller passes and speaks quietly."
+      "en": "Frightened and ashamed of it in equal measure — a man asking a stranger about night-things because everyone he knows has already heard him worry it."
     },
     "presence": {
-      "en": "Something has been coming to his animals at night — not taking them, scaring them. He has not been able to see it. He has three children and a farm and he has run out of options for explaining it. He asks if the traveller knows what leaves that kind of mark on a fence post."
+      "en": "A farmer comes to the road-fence as the traveller passes — hurrying the last few steps, wiping his hands on a shirt that has seen the morning's work. 'Something's been coming to my animals at night,' he says, low, like the field might hear. 'Not taking them. Scaring them. I haven't seen it — but there's marks, and the dog won't go out after dark anymore.' He has three children and a farm and has run out of options for explaining it."
     },
     "channel": {
-      "en": "Have them raise a trouble of their own — a beast, a feud, a missing kinsman — and hope the stranger might aid it."
+      "en": "Speaks quietly and in specifics when pushed — he is a man who trusts what he can see, which is why the marks frighten him more than the noises."
     },
     "facts": {
       "topic": "a_request_for_help"
@@ -10389,7 +10387,7 @@
         "id": "cnt:e3c95814-9d5e-42c5-a680-e37900fea59f:sit",
         "tags": [],
         "situation": {
-          "en": "The marks he describes match something specific. What it is depends on where the farm is."
+          "en": "The marks he describes match something specific. What it is depends on where the farm is — and a stranger who reads signs might know the difference between a wolf and worse."
         }
       }
     ],
@@ -17317,13 +17315,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Serene, footsore and entirely unworried about anything the traveller might be worried about."
+      "en": "Serene and footsore and entirely unworried about anything the traveller might be worried about — the road's dangers have evidently been offered bread and declined."
     },
     "presence": {
-      "en": "Where the shrine-stones are on this road, which spring is thought to be blessed and which is only clean, and an offer to share bread on the strength of nothing at all."
+      "en": "An old pilgrim walking the same direction — slow, footsore, completely unhurried — and the traveller has been gaining on him for a mile. Bare feet wrapped in cloth, a staff polished by a lifetime of hands, humming something tuneless. When the traveller draws level the old man smiles and offers, out of nowhere and on the strength of nothing at all: 'Bread? I have bread.' And then, in case the offer needs weight: 'The shrine-stones are just ahead. I always break bread at the stones.'"
     },
     "channel": {
-      "en": "Have them offer food, a tale or directions, with homely, unsuspecting goodwill."
+      "en": "Offers food, tales and directions with homely, unsuspecting goodwill — asks nothing, wants nothing, and finds the world perpetually better than reported."
     },
     "facts": {
       "topic": "simple_kindness"
@@ -17333,7 +17331,7 @@
         "id": "cnt:0b2e0010-0000-4000-8000-0b2e00000010:sit",
         "tags": [],
         "situation": {
-          "en": "There is no calculation in it, which is rare enough on this road to be worth a moment of suspicion and then of shame."
+          "en": "There is no calculation in it — rare enough on this road to be worth a moment of suspicion, and then of shame."
         }
       }
     ],
@@ -17391,13 +17389,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Guarded and tired, in the manner of people who live in a town that used to matter and now mostly floods."
+      "en": "Guarded and tired — their whole living depends on the crossing and the crossing is failing, and strangers from the north are a subject with history."
     },
     "presence": {
-      "en": "Which of the causeways still carries a man, what the bridge-works are charging this month, and a request that he not mention having come from the north side."
+      "en": "Two men mending nets on a porch at the causeway's edge — grey-haired, river-worn, smelling of fish and damp rope — who watch the traveller come down from the north bank with the guarded tiredness of people who live in a town that used to matter and now mostly floods. 'Crossing's ahead,' the older one calls. 'Take the west causeway — the east one's been three feet under since the rains.' Then, quieter, as an afterthought that is the real message: 'And you didn't come from the north side. Understood?'"
     },
     "channel": {
-      "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
+      "en": "Plain working-folk talk — directions, prices, the water — with one careful silence reserved for the thing they did not say about the north side."
     },
     "facts": {
       "topic": "harvest_and_weather"
@@ -17407,7 +17405,7 @@
         "id": "cnt:0b2e0012-0000-4000-8000-0b2e00000012:sit",
         "tags": [],
         "situation": {
-          "en": "Their whole living depends on the crossing and the crossing is failing. Strangers from the north are a subject with history."
+          "en": "They need the crossing to keep working, which means certain kinds of traffic are bad for it. Asking the traveller to forget the north side is flood-economics, not conspiracy — or it is both."
         }
       }
     ],
@@ -22504,12 +22502,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A knot of villagers at a well — they go quiet when the traveller approaches, then resume when the traveller is obviously not a threat."
+      "en": "Waiting for something — the traveller is not it, but might know something about it, and the well is where they collect each day to check."
     },
     "presence": {
-      "en": "One of them, bolder than the rest, asks where the traveller is coming from. The question carries the specific anxiety of people waiting for news from a direction they are watching."
+      "en": "A knot of villagers at the well — six, seven of them, mid-errand, who go quiet when the traveller approaches and resume only when he is obviously not a threat. The quiet has a specific quality: waiting. The boldest of them, a young man with flour still on his hands, asks the question they were all circling: 'Where are you coming from?' — the anxiety of people waiting for news from a direction they are watching."
     },
-    "channel": null,
+    "channel": {
+      "en": "The boldest asks; the rest listen with their whole faces. The answer moves through the group like weather."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -22518,7 +22518,7 @@
         "id": "cnt:5012f41e-8c19-4496-829d-f44476f2a481:sit",
         "tags": [],
         "situation": {
-          "en": "They are waiting for something. The traveller is not it, but might know something about it."
+          "en": "They are waiting for something from the direction the traveller just came through. Whether his news resolves the anxiety or deepens it depends on what he saw."
         }
       }
     ],
@@ -22613,12 +22613,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Four soldiers on the road — not blocking it, standing at the side in the manner of a patrol that has stopped to check something."
+      "en": "Competent and incurious — the questions are standard procedure, the pencil is real, and the answer goes into a report that actually gets filed."
     },
     "presence": {
-      "en": "The sergeant asks the traveller for the road they came from and anything notable they saw. The question is standard patrol procedure, delivered without threat."
+      "en": "Boots first — the tramp of a patrol on the march rounds the bend before the bend shows it: four soldiers in Gondorian kit, dusty to the greaves, walking in the loose step of men who have been on the road since dawn. The sergeant raises a hand — not a halt, a hail — and the column slows to exchange words. 'Your road, traveller — where'd you come through? Anything on it we should know?' Standard patrol procedure, delivered without threat and with pencil already out."
     },
-    "channel": null,
+    "channel": {
+      "en": "Checklist register — road, direction, notable sights, trouble. He has asked these questions forty times this week and still writes the answers down."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -22627,7 +22629,7 @@
         "id": "cnt:7c6adbfd-7b5e-483f-a952-0a94337537c1:sit",
         "tags": [],
         "situation": {
-          "en": "The procedure is real and the sergeant is competent. The answer will be recorded and reported."
+          "en": "The procedure is real and the sergeant is competent. The answer will be recorded and reported — which makes it worth giving properly."
         }
       }
     ],
@@ -22648,12 +22650,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A patrol at a crossroads — six, in reasonable order, the sergeant studying a section of the road with more attention than the road warrants."
+      "en": "Working — they are tracking something on this road and the traveller is not the something, which the sergeant decided before he finished standing up."
     },
     "presence": {
-      "en": "They are tracking something on this road. The sergeant looks up, assesses the traveller in two seconds, and asks: how long ago did you pass through the valley?"
+      "en": "A patrol at the crossroads — six soldiers, but the road itself is what holds their attention: the sergeant is crouched over a section of packed dirt, reading it, and two more stand flanking the spot like men guarding an argument. When the traveller comes up, the sergeant looks up, assesses him in two seconds flat, and asks the only question the tracks left open: 'How long ago did you come through the valley?'"
     },
-    "channel": null,
+    "channel": {
+      "en": "Field questions only — terse, specific, timed. The sergeant asks, listens, and goes back to the dirt like the traveller is one more track to place."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -22662,7 +22666,7 @@
         "id": "cnt:b160eeba-ef2b-4a50-ad75-91e164a3c36b:sit",
         "tags": [],
         "situation": {
-          "en": "They are following a trail. The traveller may have been on the same road as whatever left it."
+          "en": "They are following a trail and the traveller may have walked the same road as whatever left it. His answer is a data point, not a conversation."
         }
       }
     ],
@@ -22683,12 +22687,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A patrol blocking the road — not aggressively, but completely. The sergeant comes forward alone."
+      "en": "Following orders completely — the closure is real, the explanation is not on offer, and 'closed' is the entire content of the policy."
     },
     "presence": {
-      "en": "The road is closed ahead. He says this once, clearly, without explanation. He is following orders he may not have been given the full reason for."
+      "en": "A patrol across the road ahead — six men, spears grounded, a sergeant who steps out alone as the traveller approaches. 'Road's closed,' he says. Once. Clearly. Without a single word of explanation — and with the careful blankness of a man following orders he may not have been given the full reason for himself. Behind him the patrol watches the traveller the way soldiers watch weather: impersonally, and for as long as it takes."
     },
-    "channel": null,
+    "channel": {
+      "en": "He answers questions he is allowed to answer and goes silent on the rest — the silence is where the actual order lives."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -22697,7 +22703,7 @@
         "id": "cnt:18bec08e-a489-488c-918a-de4bc5f08c9f:sit",
         "tags": [],
         "situation": {
-          "en": "A road closure with no explanation means the reason is either classified or unknown to the sergeant himself."
+          "en": "A road closure with no explanation means the reason is either classified or unknown to the sergeant himself. Either way the road is closed."
         }
       }
     ],
@@ -22718,12 +22724,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A patrol that has identified the traveller as a specific subject of interest — the formation changes when they see them."
+      "en": "Not hostile — obligated. He found a man matching a description and the book says what happens next, which is the only thing the book can do."
     },
     "presence": {
-      "en": "The sergeant has a description. He reads it off a written order. The description matches closely enough that he is obligated to detain the traveller for questioning."
+      "en": "A patrol on the road — and the formation changes the moment they see him: casual spacing tightens, men shift without orders. The sergeant comes forward with a written order already open in his hand and reads a description aloud: height, build, cloak, the road he is on. Then he looks up from the paper and compares it to the traveller standing in front of him. The description matches closely enough that procedure is now mandatory: 'You'll need to answer some questions.'"
     },
-    "channel": null,
+    "channel": {
+      "en": "Reads from the order, asks from the order, writes the answers on the order. Improvisation is above his rank."
+    },
     "facts": {
       "topic": "interrogation"
     },
@@ -22732,7 +22740,7 @@
         "id": "cnt:6f28ff13-c880-4596-a628-a08cc86e8f5c:sit",
         "tags": [],
         "situation": {
-          "en": "The sergeant is not hostile — he is following procedure. The procedure may lead somewhere the traveller does not want to go."
+          "en": "The sergeant is following procedure. The procedure may lead somewhere the traveller does not want to go — or may clear him in ten minutes, which is the bet."
         }
       }
     ],
@@ -22753,12 +22761,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Eight of them, and the sergeant has sent two around the back of the traveller before speaking. This was planned."
+      "en": "Professional hunters — confirmation before action, positions taken before words. They have been wrong before and it cost them."
     },
     "presence": {
-      "en": "They are looking for someone specific. The traveller is the closest match they have found. The sergeant is professional enough to want confirmation before acting."
+      "en": "Eight soldiers and the road narrows around the traveller without anyone quite stepping into his way — because two of them are already behind him, placed there before anyone spoke. It was planned and it shows. The sergeant approaches alone, open-handed, professional: 'We're looking for someone. You match what we have. I want a confirmation before anything else, and I want it easy.'"
     },
-    "channel": null,
+    "channel": {
+      "en": "The sergeant asks the confirmation question plainly and watches the face more than the answer. The men behind watch the hands."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -22767,7 +22777,7 @@
         "id": "cnt:56d65548-18a6-42cc-8462-c5a49d1c40eb:sit",
         "tags": [],
         "situation": {
-          "en": "The question that confirms or denies will come. The answer determines what happens next."
+          "en": "The question that confirms or denies is coming. What the answer determines is not just whether he walks on — it is whether he was ever their man at all."
         }
       }
     ],
@@ -22788,10 +22798,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Boot-prints on the road — military-pattern boots, six sets, moving in loose formation heading east. Made this morning."
+      "en": "Sign only — a disciplined unit already hours gone, leaving the road's surface as its report."
     },
     "presence": {
-      "en": "A patrol heading east at dawn on this road. Their spacing is correct and their stride is even. A disciplined patrol on a purpose."
+      "en": "Fresh boot-prints on the road — six sets, military-pattern soles, loose formation spacing, all heading east, made since dawn. The stride is even and the spacing is correct: a disciplined patrol moving on a purpose, not a patrol wandering on a circuit. The dew on the prints is still settling."
     },
     "channel": null,
     "facts": {
@@ -22802,7 +22812,7 @@
         "id": "cnt:a55bbc9f-b1ec-43ba-b53f-6f7134740658:sit",
         "tags": [],
         "situation": {
-          "en": "The purpose that takes a disciplined patrol east on this road at dawn is worth knowing."
+          "en": "A patrol sent east at dawn on this road is a patrol sent somewhere. The direction and the discipline are the whole message."
         }
       }
     ],
@@ -22858,12 +22868,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Three of them on the road — armed, watching. The one in front has the bearing of someone who has been appointed to speak."
+      "en": "Territorial without greed — the question exists to establish that the road is theirs to ask questions on, and a straight answer is the toll."
     },
     "presence": {
-      "en": "He asks what the traveller is carrying and where they are going. The question is territorial — this is Dunlending land and he is exercising that fact, not starting a robbery."
+      "en": "The traveller spots them before they spot him — three armed men on a knoll above the road, watching the road's traffic like men auditing a toll they do not collect. When they notice him noticing them, one comes down to the road to meet him — appointed, unhurried, territorial without menace. 'What are you carrying, and where are you going?' A territorial question on Dunlending land — the kind asked to exercise the asking, not to start a robbery."
     },
-    "channel": null,
+    "channel": {
+      "en": "One speaker, front and plain. The other two watch from the knoll — the questions are his job, the watching is theirs."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -22872,7 +22884,7 @@
         "id": "cnt:ecf5efe3-86e9-47ad-bc48-e7df68ea28f6:sit",
         "tags": [],
         "situation": {
-          "en": "The distinction between a territorial question and a robbery depends entirely on the answer."
+          "en": "The distinction between a territorial question and a robbery depends entirely on the answer — and on how it is given."
         }
       }
     ],
@@ -22893,12 +22905,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A small group at the road's edge — Easterlings, by their dress and gear, far enough west that they are watching every approach carefully."
+      "en": "Far from home and deeply watchful — an Easterling this far west who does not know who holds the road is either a scout, a refugee, or something in between that has not decided."
     },
     "presence": {
-      "en": "One of them speaks rough Westron. He wants to know which power holds this road — who patrols it, whose authority it answers to. He is asking because he does not yet know, and he needs to."
+      "en": "The traveller spots them before they spot him — a small group laagered off the road behind a stand of birch: four Easterlings by their dress and gear, squatting around a fire kept deliberately small, heads turning to every sound the road makes. They see him only when he is close enough to have watched them a while. One stands — the one whose Westron is least rough — and asks the question their whole camp is organized around: 'Who holds this road? Who patrols it? Whose authority does it answer to?'"
     },
-    "channel": null,
+    "channel": {
+      "en": "One speaker, careful rough Westron, questions about power and nothing else. The others watch the road while he talks — the camp does not stand down for a conversation."
+    },
     "facts": {
       "topic": "where_are_you_bound"
     },
@@ -22907,7 +22921,7 @@
         "id": "cnt:ecef4115-a1e9-41cf-affb-44719a055ccf:sit",
         "tags": [],
         "situation": {
-          "en": "An Easterling far west of his usual range who does not know who holds the road is either a scout, a refugee, or both."
+          "en": "They need to know whose road they are on, and they are asking the question of every traveller who passes. The asking is either reconnaissance or genuine need — and the traveller gets to guess which."
         }
       }
     ],
@@ -22928,12 +22942,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A man on the road who adjusts his route to intersect the traveller's in a way that looks accidental and isn't."
+      "en": "Checking whether the road behind the traveller is clear — a scout doing his job with a smile, and the reason he needs it clear is not stated anywhere in his face."
     },
     "presence": {
-      "en": "He asks, conversationally, if the traveller saw any patrol activity in the last valley. He phrases it as casual curiosity. It is not."
+      "en": "A man on the road who adjusts his route to intersect the traveller's — the intersection looks accidental and is not: he drifted across fifty yards of roadside to make it happen. Friendly greeting, easy questions, the manner of a man making conversation because the road is long. Then, casually, between remarks about the weather: 'See any patrols in the last valley?' Phrased as curiosity. It is not."
     },
-    "channel": null,
+    "channel": {
+      "en": "Casual, warm, unhurried — the questions arrive as part of the scenery, like a man asking about rain who happens to ask about soldiers."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -22942,7 +22958,7 @@
         "id": "cnt:c883f683-0985-4398-8a57-c2d41cbd5f7b:sit",
         "tags": [],
         "situation": {
-          "en": "He is checking whether the road behind the traveller is clear. The reason he needs it clear is not stated."
+          "en": "He is working. What he is working on — who he scouts for, why the valley needs to be clear — is the thing the conversation is designed not to reveal."
         }
       }
     ],
@@ -23037,12 +23053,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "One of them on the road alone — unusual, since they generally move in pairs at minimum. He looks at the traveller with the assessment of someone deciding whether to be bothered."
+      "en": "Delivering rather than asking — alone on purpose, since a lone hunter reads differently than a pair, and the description does the work whether anyone answers or not."
     },
     "presence": {
-      "en": "He says he is looking for someone. He describes that person in enough detail to be deliberate — the description is a message to anyone who knows the person described."
+      "en": "Faster footsteps behind him — a man overtaking on the road, alone, which is unusual enough: their kind generally move in pairs at minimum. He does not slow as he draws level. 'Looking for someone,' he says, walking on, and describes the person in enough detail to be deliberate — height, marks, the way he travels, a name that is probably not the name. The description is a message delivered at walking speed, meant for anyone who knows the person described."
     },
-    "channel": null,
+    "channel": {
+      "en": "Talks while walking, does not stop, does not repeat himself. The details are the message; the man's pace is the deadline."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -23051,7 +23069,7 @@
         "id": "cnt:08ab9ccf-508d-4a4e-a3c9-7dde3144a434:sit",
         "tags": [],
         "situation": {
-          "en": "The description may or may not match someone the traveller knows. If it does, the message is clear. If it doesn't, it is still a warning about what is being hunted on this road."
+          "en": "If the description matches someone the traveller knows, the message is clear. If it does not, it is still a warning about what is being hunted on this road."
         }
       }
     ],
@@ -23146,12 +23164,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A man on the road who greets the traveller with easy friendliness — too easy, the kind that is practised."
+      "en": "Friendly to order — the warmth is a tool, the questions are inventory, and a decision is being made somewhere behind the smile that has not finished being made yet."
     },
     "presence": {
-      "en": "He is running a quick read of the traveller: what are they carrying, where are they going, are they alone, what are they worth. The conversation is the read."
+      "en": "A man falls into step beside the traveller — easy, friendly, uninvited — with the practised warmth of someone who has done this before and been thanked for it. 'Long road for walking alone,' he opens, companionable, and starts making conversation: the weather, the season, the road. Underneath the talk, the questions arrange themselves quietly: what is he carrying, where is he going, is he alone, what is he worth. The conversation is the read."
     },
-    "channel": null,
+    "channel": {
+      "en": "Charms, probes, circles — never the same question twice, always arriving at what the traveller is and what he carries by indirect routes."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -23160,7 +23180,7 @@
         "id": "cnt:e3e51857-c27a-4de8-aba7-722f560c4f0f:sit",
         "tags": [],
         "situation": {
-          "en": "He is deciding. The decision is not yet made."
+          "en": "He is deciding whether the traveller is worth what he is thinking about. The read goes both ways — and a traveller who notices the inventory being taken has already priced the man taking it."
         }
       }
     ],
