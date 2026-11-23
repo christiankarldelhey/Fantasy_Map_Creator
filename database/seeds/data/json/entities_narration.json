@@ -7443,12 +7443,14 @@
       "felt:melancholy"
     ],
     "disposition": {
-      "en": "A woman — Dúnedain, by the gear, Second Age by the style — standing at a crossroads and looking at the two roads with the expression of someone who cannot remember which way she was going."
+      "en": "She died before this road had a name. She has been at the crossroads since, asking the same question of whatever passes — and she asks it as if she has all the time in the world, because she does."
     },
     "presence": {
-      "en": "She asks Celebrian which road leads east. She says her husband is east, waiting. She says this with the certainty of someone who has been saying it for a very long time."
+      "en": "A woman stands at the crossroads — Dúnedain, by the gear: a travelling-cloak in a cut that went out of fashion in the Second Age, grey worn to the colour of old ash, a star-brooch holding it at the shoulder with the pin gone green with time. She is looking at the two roads with the expression of someone who cannot remember which way she was going. When the traveller is near she asks — politely, with the diction of an old court — which road leads east. Her husband is east, she says. Waiting. She says it with the certainty of someone who has been saying it for a very long time."
     },
-    "channel": null,
+    "channel": {
+      "en": "Court-diction, gentle, patient — the speech of a woman who has had centuries to practice being lost without panic."
+    },
     "facts": {
       "topic": "old_grief"
     },
@@ -7457,7 +7459,7 @@
         "id": "cnt:6934d31f-0307-4b9b-8dab-fc606781dc59:sit",
         "tags": [],
         "situation": {
-          "en": "She died before Celebrian came to this road. She has been at this crossroads since. The husband she is waiting for is dust."
+          "en": "The husband she is waiting for is dust older than the kingdom that named these roads. Telling her that is a choice with weight; not telling her is another."
         }
       }
     ],
@@ -7480,12 +7482,14 @@
       "felt:melancholy"
     ],
     "disposition": {
-      "en": "It appears as someone she knew — the resemblance is close enough that she stops."
+      "en": "A ghost that has learned to wear a shape it found in her memory — close enough that she stopped, and the stopping is what it was after."
     },
     "presence": {
-      "en": "It is not him. The face is right but the eyes are wrong — they are looking at her but seeing something she cannot see. It speaks in a voice that is almost his and says her name in a way that is almost how he said it."
+      "en": "Someone she knew stands in the road ahead — and it is almost him: the face is right, the coat is right, the way the head tilts when it sees her is right. The eyes are wrong. They are looking at her but seeing something she cannot see — and the tilt is a half-beat too late, like an echo of the gesture rather than the gesture itself. It speaks in a voice that is almost his and says her name in a way that is almost how he said it. The almosts are where the thing lives."
     },
-    "channel": null,
+    "channel": {
+      "en": "Its own voice underneath the borrowed one — flat, patient, a recitation that learned her name from the shape it is wearing."
+    },
     "facts": {
       "topic": "what_stirs_in_the_dark"
     },
@@ -7494,7 +7498,7 @@
         "id": "cnt:b2cd3ee2-d99b-4703-9543-c5f7006b2c6d:sit",
         "tags": [],
         "situation": {
-          "en": "It is a ghost that has learned to wear a shape it found in her memory. Ghosts do not do this spontaneously."
+          "en": "Ghosts do not learn to wear faces spontaneously. Something taught this one hers, or something sent it looking. What it actually is, underneath the shape, is the question that matters."
         }
       }
     ],
@@ -7517,12 +7521,14 @@
       "felt:melancholy"
     ],
     "disposition": {
-      "en": "A ghost at a barrow-mound — Dunedain, old, carrying wounds that never healed. It speaks before he can."
+      "en": "Not threatening — warning. The distinction is the most unsettling part: he is not coming for the traveller; he is describing where the road ends."
     },
     "presence": {
-      "en": "It says: you are one of us. It says: you will be here too, soon enough, if you keep walking this road. It says it without malice — a statement of fact from someone standing on the other side of it."
+      "en": "A ghost waits at a barrow-mound — Dúnedain, old beyond reckoning, still wearing the wounds that killed him: a rent across the mail where the blade went through, the dark bloom of it on a tunic faded to the colour of tomb-water. He speaks before the traveller can — 'You are one of us,' he says. 'You will be here too, soon enough, if you keep walking this road.' He says it without malice: a statement of fact from someone standing on the other side of it, delivered with the tired clarity of a man who has had a very long time to verify his information."
     },
-    "channel": null,
+    "channel": {
+      "en": "Flat, old, certain — the speech of a man who has watched this road take people for centuries and has stopped being surprised by it."
+    },
     "facts": {
       "topic": "old_grief"
     },
@@ -7531,7 +7537,7 @@
         "id": "cnt:77bd5749-c44e-4d99-8246-16a393a4c893:sit",
         "tags": [],
         "situation": {
-          "en": "The ghost is not threatening him. It is warning him. The distinction is the most unsettling part."
+          "en": "He does not say what is on the road. He says the traveller will join them. Whatever took him and the others under this mound is still taking — and he can see it working even if the traveller cannot."
         }
       }
     ],
@@ -7553,10 +7559,10 @@
       "felt:distressed"
     ],
     "disposition": {
-      "en": "The road empties ahead. Sound drops out. The cold comes first, then the shape on the road — and the shape has been there the whole time, it was always there, the traveller simply did not see it until now."
+      "en": "A wraith of the old wars, and it is in no hurry — the cold is its patience made weather, and the traveller is already inside its weather."
     },
     "presence": {
-      "en": "It does not speak first. It waits. The waiting is the weapon — every second of it drains something."
+      "en": "The road empties ahead — sound drops out of the hedgerows first, birdsong going dead mid-note, then the cold arrives and then the shape on the road: tall, robed in grey that hangs like water, the cowl shadow where a face should be darker than the dusk around it. It has been there the whole time — it was always there; the traveller simply did not see it until now. It does not speak first. It waits. The waiting is the weapon — every second of it drains something warm out of the air."
     },
     "channel": null,
     "facts": {
@@ -7567,7 +7573,7 @@
         "id": "cnt:9a1e8a86-3578-4a4e-87f4-34c64797f594:sit",
         "tags": [],
         "situation": {
-          "en": "Whatever the Witch-king wants from this road today, the traveller is now in the calculation."
+          "en": "Whatever the Witch-king's old servants want from this road today, the traveller is now in the calculation — and the waiting is the calculation being done."
         }
       }
     ],
@@ -7589,10 +7595,10 @@
       "felt:distressed"
     ],
     "disposition": {
-      "en": "The shape on the road. The cold. The specific silence that precedes it."
+      "en": "It knows who he is — it has taken the time to know who he is, which means he was looked up, which means he was sent for."
     },
     "presence": {
-      "en": "It speaks. It says his name. Not his road-name — his true name, the one only the Dunedain records carry. It says: I have read those records."
+      "en": "The shape on the road — grey-robed, motionless, the cold it carries reaching the traveller before the shape does — speaks. It says his name. Not his road-name — his true name, the one only the Dúnedain records carry, spoken with the pronunciation of the old kingdoms as if it had read the rolls in the archives at Annúminas before they fell. 'I have read those records,' it says, and the voice is like pages turning in a sealed room."
     },
     "channel": null,
     "facts": {
@@ -7603,7 +7609,7 @@
         "id": "cnt:74e78551-5d07-4a6a-9b77-fddd5785bf04:sit",
         "tags": [],
         "situation": {
-          "en": "It knows who he is. It has taken the time to know who he is. That is not a good sign."
+          "en": "Being known by name by a thing that reads dead archives is not a good sign. What it wants with the name is the question; the cold is already the answer to the first question."
         }
       }
     ],
@@ -7626,10 +7632,10 @@
       "felt:distressed"
     ],
     "disposition": {
-      "en": "The shape on the road. The Noldor feel the cold differently — not fear exactly, but the specific recognition of something that has been enemy longer than most things have existed."
+      "en": "The Noldor feel the cold differently — not fear exactly, but the specific recognition of something that has been enemy longer than most things have existed, and that knows it."
     },
     "presence": {
-      "en": "It speaks. In a language she has not heard spoken aloud since the Second Age — the court tongue of Númenor in its darkest years. It says, in that language: you should have sailed."
+      "en": "The shape on the road — the cold, the grey, the specific silence that precedes it — speaks to her. In a language she has not heard spoken aloud since the Second Age: the court tongue of Númenor in its darkest years, the King's Men dialect, the accent of Armenelos before the Downfall. 'You should have sailed,' it says in that language, and the grammar is court-perfect, which means the thing wearing the shape once sat in a hall where that tongue was law."
     },
     "channel": null,
     "facts": {
@@ -7640,7 +7646,7 @@
         "id": "cnt:7ba1ddf6-f2f0-442d-936c-6be56fdf4ce7:sit",
         "tags": [],
         "situation": {
-          "en": "It knows what she is and what she chose and it is using that choice against her."
+          "en": "It knows what she is and what she chose, and it is using that choice against her — which means it knows her history, or something does. The tongue it chose is the tell."
         }
       }
     ],
@@ -10897,10 +10903,10 @@
       "felt:distressed"
     ],
     "disposition": {
-      "en": "The road empties. Sound goes wrong. The cold arrives before the shape does, and the shape has been there all along — the traveller simply could not see it until now."
+      "en": "This one is heavier than the others — older, or better fed: the wrongness reaches further, and the not-turning is more frightening than turning would be."
     },
     "presence": {
-      "en": "It does not speak first. The waiting is the first move. Every second of waiting costs something."
+      "en": "The road goes wrong a half-mile before the shape is visible: the light thins without dimming, the hedge-shadows stop matching the sun, and the traveller's own footsteps arrive a fraction late. Then the shape — broad-shouldered under the grey, taller than a living man, standing mid-road facing away. It does not turn. It does not speak first. Every second of waiting costs something — the cold arrives first, but the weight of it is what settles on the shoulders like a hand."
     },
     "channel": null,
     "facts": {
@@ -10911,7 +10917,7 @@
         "id": "cnt:dd5d7207-dd26-4182-b594-f49596346158:sit",
         "tags": [],
         "situation": {
-          "en": "Whatever it wants from this road today, the traveller is in it now."
+          "en": "It is facing away because it does not need to face the traveller — either because it knows the traveller will pass it, or because it wants the traveller to try. Which of those it is, the road will say."
         }
       }
     ],
@@ -18667,10 +18673,10 @@
       "felt:distressed"
     ],
     "disposition": {
-      "en": "A barrow-entrance, and in front of it a figure that occupies the threshold — not blocking it, being it."
+      "en": "Bound — it will not move because it cannot move: the threshold is its whole country, and it stands there like a man still doing the last duty he was given."
     },
     "presence": {
-      "en": "It does not speak first. It is the threshold. Whatever is in the barrow behind it is what it was in life, and it has been in that barrow a long time."
+      "en": "A barrow-entrance — a stone door-frame black with age, the lintel carved in a script older than the kingdom — and in front of it a figure that occupies the threshold: not blocking it, being it. Grey-clad, sword-scabbard empty, hands folded on a belt-buckle shaped like a coiled serpent. It does not speak first. Whatever is in the barrow behind it is what it was in life — a lord, by the buckle — and it has been in that doorway a very long time."
     },
     "channel": null,
     "facts": {
@@ -18681,7 +18687,7 @@
         "id": "cnt:45c38018-ac3f-4e0e-b5d5-da96c3615208:sit",
         "tags": [],
         "situation": {
-          "en": "It will not move. It cannot move. It is bound to this place in a way that is complete."
+          "en": "The binding is complete — it is not a guard; it is the door. What it was in life it is still being, at the cost of everything else it could have been."
         }
       }
     ],
@@ -18702,10 +18708,10 @@
       "felt:distressed"
     ],
     "disposition": {
-      "en": "It is on the road. Not beside it — on it. Standing in the middle, occupying the center, facing the traveller's direction."
+      "en": "It is making its determination now — weighing the traveller against the criteria of whatever errand has kept it on this road, and the weighing is visible."
     },
     "presence": {
-      "en": "It is not one of the mindless ones. Its eyes track. It has something it wants to say, or something it wants to do, and it has been waiting on this road for the right person."
+      "en": "It is on the road — not beside it, on it: standing in the middle, occupying the center, facing the traveller's direction like a man on an errand who has been interrupted. Not one of the mindless ones — its eyes track, focused, grey-lidded, holding the gaze of a living person the way the dead almost never can. It has something it wants to say, or something it wants to do, and it has been waiting on this road for the right person to come down it."
     },
     "channel": null,
     "facts": {
@@ -18716,7 +18722,7 @@
         "id": "cnt:21b8b038-daf4-4ac7-aa06-5ea206277b68:sit",
         "tags": [],
         "situation": {
-          "en": "The traveller may or may not be the right person. It is making that determination now."
+          "en": "The traveller may or may not be the right person. The eyes are deciding. What it wants when it finds the right one is the thing to learn before it learns the traveller is."
         }
       }
     ],
@@ -18737,10 +18743,10 @@
       "felt:melancholy"
     ],
     "disposition": {
-      "en": "It appears at dusk — not suddenly, just present where it was not. Standing at the edge of the road, looking at the traveller's fire."
+      "en": "Not threatening — homesick: for warmth, for light, for the thing fire was when fire was something it could feel."
     },
     "presence": {
-      "en": "It remembers fire. The memory is old and the connection between the memory and the fire is broken in ways it cannot articulate. It looks at the fire the way the very old look at things that remind them of something they cannot name."
+      "en": "At dusk it is simply present where it was not — at the edge of the road, beyond the firelight's reach, looking at the traveller's fire. Not at the traveller: at the fire. A soldier, by what's left of the gear — a cloak clasp that used to be silver, a belt that used to hold a sword — faded now to the grey the dead all come to. It looks at the fire the way the very old look at things that remind them of something they cannot name. It remembers fire. The connection between the memory and the fire is broken in ways it cannot articulate."
     },
     "channel": null,
     "facts": {
@@ -18751,7 +18757,7 @@
         "id": "cnt:0b5267a4-3083-4f4e-8fc5-e7e87f99382a:sit",
         "tags": [],
         "situation": {
-          "en": "It is not threatening. It is homesick for something it can no longer reach."
+          "en": "It is not coming closer. It is remembering what coming closer used to mean. The fire is doing what fires do; the shade is doing what grief does — which is watch, from as close as memory will allow."
         }
       }
     ],
@@ -18772,10 +18778,10 @@
       "felt:melancholy"
     ],
     "disposition": {
-      "en": "It speaks before the traveller sees it — from behind, already close."
+      "en": "It is calling for someone — has been calling, probably, since before the road got its current name, and has not yet understood that calling will not work."
     },
     "presence": {
-      "en": "It says a name. Not the traveller's name. Someone else's name, spoken with the particular urgency of the long-dead looking for someone who has also long since died."
+      "en": "It speaks before the traveller sees it — from behind, already close, close enough that the words arrive without breath behind them: a name. Not the traveller's name — someone else's, spoken with the particular urgency of the long-dead looking for someone who has also long since died. The voice has the grain of a man's, old-fashioned, the accent of the northern kingdoms when they still had kings to accent."
     },
     "channel": null,
     "facts": {
@@ -18786,7 +18792,7 @@
         "id": "cnt:0f500a24-c61b-4c26-87c6-36b8c5a26244:sit",
         "tags": [],
         "situation": {
-          "en": "It will not stop until it understands that the person it is looking for is gone. That understanding may take a long time to arrive."
+          "en": "It will not stop until it understands that the person it is looking for is gone. That understanding may take a long time to arrive — or it may arrive tonight, if someone says it clearly enough."
         }
       }
     ],

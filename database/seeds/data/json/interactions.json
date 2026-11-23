@@ -50819,9 +50819,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Tells her which road leads east. Does not tell her the rest."
-        },
-        "effects": []
+          "en": "She tells her which road leads east — the left fork, the one that goes down through the alders to the river-road. 'Thank you,' the woman says, with the full courtesy of a court that has been dust for three thousand years, and begins walking east. She does not look back. The traveller does not tell her the rest — that east is a name for a direction her husband no longer shares. Some kindnesses are made of omission, and this one feels like a whole sentence left unsaid on purpose.",
+          "es": "Le dice qué ruta va al este — la bifurcación izquierda, la que baja por los álamos hasta el camino del río. 'Gracias', dice la mujer, con la cortesía entera de una corte que es polvo hace tres mil años, y empieza a caminar al este. No mira atrás. El viajero no le dice el resto — que este es un nombre para una dirección que su marido ya no comparte. Algunas bondades están hechas de omisión, y esta se siente como una oración entera no dicha a propósito."
+        }
       }
     },
     "payload": {
@@ -50843,9 +50843,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not engage with the shape. Asks what it actually is."
-        },
-        "effects": []
+          "en": "She does not engage with the shape — does not call it by his name, does not answer the almost-voice — and asks instead, levelly, what it actually is. The borrowed face holds a moment, then loses the tilt and then the coat and then everything that was his, until what stands there is just the road's grey and the thing's own shapelessness. 'Something that borrows,' it says in a voice that is now only its own — flat, patient, unembarrassed. 'The dead borrow shapes. The living supply them.' It steps aside, the way a road clears when you stop looking at the wrong part of it.",
+          "es": "No interactúa con la forma — no lo llama por su nombre, no responde la casi-voz — y pregunta en cambio, parejo, qué es en realidad. La cara prestada se sostiene un momento, después pierde la inclinación y después el abrigo y después todo lo que era de él, hasta que lo que queda parado ahí es solo el gris de la ruta y la informidad propia de la cosa. 'Algo que toma prestado', dice con una voz que ahora es solo suya — chata, paciente, sin vergüenza. 'Los muertos toman prestadas formas. Los vivos las proveen.' Se hace a un lado, como una ruta se despeja cuando dejás de mirar la parte equivocada."
+        }
       }
     },
     "payload": {
@@ -50867,9 +50867,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks it what is on this road."
-        },
-        "effects": []
+          "en": "He asks it what is on this road — and the ghost answers with the patience of a man who has had centuries to refine the answer: 'The thing that emptied the mound. The thing that walks at the dusk and does not cast a shadow because a shadow is a thing a living body makes. It took me. It will take you. That is all I know and all the warning the dead can pay.' He shifts, and the rent in his mail shows how the blade went in. 'Walk south. The road is not worth the company.'",
+          "es": "Le pregunta qué hay en esta ruta — y el fantasma responde con la paciencia de un hombre que tuvo siglos para refinar la respuesta: 'La cosa que vació el túmulo. La cosa que camina al atardecer y no proyecta sombra porque una sombra es una cosa que un cuerpo vivo hace. Me tomó a mí. Te va a tomar a vos. Eso es todo lo que sé y toda la advertencia que los muertos pueden pagar.' Se mueve, y el desgarrón en su malla muestra cómo entró la hoja. 'Andá al sur. La ruta no vale la compañía.'"
+        }
       }
     },
     "payload": {
@@ -50891,9 +50891,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not move. Does not flee. Waits for it to speak."
-        },
-        "effects": []
+          "en": "He does not move — does not flee, does not speak — and waits for it to declare itself, which is the only answer waiting respects. The shape waits back. The cold thickens; the road's emptiness becomes a held breath. Then, because he did not move, the shape does something the waiting was built to prevent: it speaks first. 'You stand like one who has stood before,' it says, the voice arriving without breath behind it. 'That is either courage or a debt already owed.' It begins, slowly, to walk around him — not approaching, circling — a wolf's patience in a dead man's shape.",
+          "es": "No se mueve — no huye, no habla — y espera a que se declare, que es la única respuesta que la espera respeta. La forma espera de vuelta. El frío espesa; el vacío de la ruta se vuelve una respiración contenida. Entonces, porque él no se movió, la forma hace algo que la espera fue construida para prevenir: habla primero. 'Te parás como alguien que ya se paró antes', dice, la voz llegando sin aliento detrás. 'Eso es coraje o una deuda ya debida.' Empieza, despacio, a caminar alrededor de él — no acercándose, dando vueltas — la paciencia de un lobo en forma de muerto."
+        }
       }
     },
     "payload": {
@@ -50915,9 +50915,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers with his name said back at it. Watches whether that matters."
-        },
-        "effects": []
+          "en": "He answers with his name said back at it — the true name, pronounced the way the Annúminas rolls had it, in the accent of the kingdom that kept those records — and watches whether that matters. The wraith is still for the space of a held breath. 'You speak it like the records do,' it says. 'That is unusual. Most of your kind have forgotten the pronunciation.' A pause, the pages turning. 'Then the name is a door you can still open. Walk through it — quickly. Others are reading the same records, and they do not all wait politely.' It stands aside — not a courtesy, a calculation finished.",
+          "es": "Responde con su nombre dicho de vuelta — el nombre verdadero, pronunciado como lo tenían los rollos de Annúminas, en el acento del reino que guardaba esos registros — y mira si eso importa. El espectro queda quieto el espacio de una respiración contenida. 'Lo hablás como lo hacen los registros', dice. 'Eso es inusual. La mayoría de los tuyos olvidó la pronunciación.' Una pausa, las páginas pasando. 'Entonces el nombre es una puerta que todavía podés abrir. Pasala — rápido. Otros están leyendo los mismos registros, y no todos esperan con cortesía.' Se hace a un lado — no una cortesía, un cálculo terminado."
+        }
       }
     },
     "payload": {
@@ -50939,9 +50939,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers it in the same tongue. Says: so should you."
-        },
-        "effects": []
+          "en": "She answers it in the same tongue — the court-perfect grammar of Armenelos she has not had use for since before the Downfall — and says: 'So should you.' The wraith is still a long moment; the language lands differently when the speaker means it. 'The tongue,' it says at last, 'has been dead to me longer than it has been dead.' The cold shifts — not gone, recalculating. 'You remember Armenelos,' it says, and it is not a question, and it is the first thing it has said that sounds like it might have been said by someone who was there. 'Then you know what we became. And still you sail?'",
+          "es": "Le responde en la misma lengua — la gramática corte-perfecta de Armenelos que no tiene uso desde antes de la Caída — y dice: 'Vos también tendrías que haberlo hecho.' El espectro queda quieto un momento largo; el idioma cae distinto cuando quien lo habla lo dice en serio. 'La lengua', dice finalmente, 'me está muerta hace más de lo que está muerta.' El frío se mueve — no se fue, recalculando. 'Te acordás de Armenelos', dice, y no es una pregunta, y es la primera cosa que dice que suena como si pudiera haberla dicho alguien que estuvo ahí. 'Entonces sabés en qué nos convertimos. ¿Y todavía navegás?'"
+        }
       }
     },
     "payload": {
@@ -53427,9 +53427,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not move. Does not flee. Waits for it to declare itself."
-        },
-        "effects": []
+          "en": "He does not move — does not approach the back-turned shape, does not flee — and waits for the declaration the road is clearly building toward. The shape stays facing away. The footsteps arrive later. The hedge-shadows stay wrong. Then, without turning, it speaks: 'The road behind me is the road you were walking. The road ahead is the road I am walking. One of us is on the wrong road.' It begins to walk — still not turning — and the traveller understands, in the way the skin understands things before the mind does, that he has just been told to turn back.",
+          "es": "No se mueve — no se acerca a la forma de espaldas, no huye — y espera la declaración hacia la cual la ruta está claramente construyendo. La forma queda de espaldas. Los pasos llegan más tarde. Las sombras del seto siguen mal. Entonces, sin darse vuelta, habla: 'La ruta detrás de mí es la ruta que vos caminabas. La ruta adelante es la ruta que yo estoy caminando. Uno de nosotros está en la ruta equivocada.' Empieza a caminar — todavía sin darse vuelta — y el viajero entiende, de la manera en que la piel entiende las cosas antes que la mente, que acaba de ser dicho que dé la vuelta."
+        }
       }
     },
     "payload": {
@@ -60714,9 +60714,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not approach. Addresses it from outside the barrow's influence. Asks its name."
-        },
-        "effects": []
+          "en": "He does not approach — stays outside the barrow's shadow-line, outside whatever influence the threshold still holds — and addresses it from there: asks its name. The figure's folded hands do not move, but the head turns — slowly, the motion of something that has not turned in a long time. 'I was...' it says, and the name arrives in a language the traveller half-knows — a lord's name, Third Age, one of the hill-kings' vassals. 'I was the door,' it says. 'I am still the door. Tell whoever asks: the king's rest is kept.' It does not speak again. The threshold is held, as it has been held.",
+          "es": "No se acerca — se queda fuera de la línea de sombra del túmulo, fuera de cualquier influencia que el umbral todavía sostenga — y se dirige desde ahí: le pregunta su nombre. Las manos cruzadas de la figura no se mueven, pero la cabeza gira — despacio, el movimiento de algo que no giraba hace mucho. 'Yo era...' dice, y el nombre llega en un idioma que el viajero medio conoce — nombre de señor, Tercera Edad, uno de los vasallos de los reyes de las colinas. 'Yo era la puerta', dice. 'Todavía soy la puerta. Decile a quien pregunte: el descanso del rey está guardado.' No habla otra vez. El umbral se sostiene, como se ha sostenido."
+        }
       }
     },
     "payload": {
@@ -60738,9 +60738,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Stops. Does not approach. Lets it make its determination without interference."
-        },
-        "effects": []
+          "en": "He stops — does not approach, does not run — and lets it make its determination without interference, which is the only correct response to being weighed. The grey-lidded eyes hold him for a count of six heartbeats. Then: 'Not you,' it says, and steps off the road's center to the verge — not a retreat, a clearance. 'Walk,' it says. 'The right person is coming. I can feel the approach like a current.' It resumes its watching of the road north, the way a man watches for a letter he has been expecting for a very long time.",
+          "es": "Para — no se acerca, no corre — y deja que haga su determinación sin interferencia, que es la única respuesta correcta a ser pesado. Los ojos de párpados grises lo sostienen por una cuenta de seis latidos. Después: 'No sos vos', dice, y se sale del centro de la ruta al margen — no una retirada, un despeje. 'Caminá', dice. 'La persona correcta está viniendo. Puedo sentir la aproximación como una corriente.' Retoma su vigilancia de la ruta al norte, como un hombre vigila una carta que viene esperando hace mucho tiempo."
+        }
       }
     },
     "payload": {
@@ -60762,9 +60762,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not invite it closer. Does not drive it away. Lets it stand there."
-        },
-        "effects": []
+          "en": "He does not invite it closer — does not drive it away — and lets it stand there, at the fire's edge, watching the flames with the look of the very old remembering something they cannot name. The shade stays until the fire burns low, then steps back into the dark it came from — not leaving, ceasing to be seen. In the morning the traveller finds, where the shade stood, a soldier's clasp, green with age, pressed into the earth like a coin left for the fire's company.",
+          "es": "No lo invita a acercarse — no lo echa — y lo deja pararse ahí, al borde del fuego, mirando las llamas con la mirada de los muy viejos recordando algo que no pueden nombrar. La sombra se queda hasta que el fuego baja, después retrocede a la oscuridad de donde vino — no yéndose, dejando de ser vista. A la mañana el viajero encuentra, donde la sombra estaba, un broche de soldado, verde de edad, apretado contra la tierra como una moneda dejada por la compañía del fuego."
+        }
       }
     },
     "payload": {
@@ -60786,9 +60786,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Turns to face it. Says: that person is dead. Says it clearly. Waits to see if it can receive this."
-        },
-        "effects": []
+          "en": "He turns to face it — the voice from behind, already close, the words arriving without breath — and says: 'That person is dead.' He says it clearly, the way you say things to the dead when the dead are the ones who need telling. The voice stops. The silence behind him is the silence of a thing recalculating a search it has been running for a very long time. 'Then I have been looking in the wrong road,' it says at last — the voice no longer urgent, no longer anything. 'How long have I been looking?'",
+          "es": "Se da vuelta para encararlo — la voz desde atrás, ya cerca, las palabras llegando sin aliento — y dice: 'Esa persona está muerta.' Lo dice claramente, de la manera en que se le dicen las cosas a los muertos cuando los muertos son los que necesitan que se las digan. La voz para. El silencio detrás es el silencio de una cosa recalculando una búsqueda que viene corriendo hace mucho tiempo. 'Entonces estuve buscando en la ruta equivocada', dice finalmente — la voz ya no urgente, ya no nada. '¿Cuánto hace que estoy buscando?'"
+        }
       }
     },
     "payload": {
@@ -77641,6 +77641,578 @@
     "payload": {
       "origin": "entities_narration",
       "situation": "cnt:fbab3d19-a8a6-4e03-a8a7-b5e30784f2d7:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "89762869-724c-47f7-82cd-adad81631b17",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:6934d31f-0307-4b9b-8dab-fc606781dc59",
+    "act": "talk",
+    "label": {
+      "en": "Tell her the rest of it"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She tells her — gently, because the truth has waited this long — that the eastern road leads to a river that has changed its name, and that the man she waits for died in a war the road has forgotten. The woman stops walking. For a long moment she is very still. Then: 'Then he has been waiting longer than I knew,' she says — and keeps walking east anyway, because east is where she said she would meet him, and a promise is the only country she has left.",
+          "es": "Le dice — con suavidad, porque la verdad ya esperó demasiado — que la ruta del este llega a un río que cambió de nombre, y que el hombre que espera murió en una guerra que la ruta olvidó. La mujer deja de caminar. Por un momento largo está muy quieta. Después: 'Entonces ha estado esperando más de lo que sabía', dice — y sigue caminando al este de todos modos, porque este es donde dijo que lo encontraría, y una promesa es el único país que le queda."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:6934d31f-0307-4b9b-8dab-fc606781dc59:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "94afc841-ae3e-4e31-9ef2-4877c8b076b6",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:6934d31f-0307-4b9b-8dab-fc606781dc59",
+    "act": "avoid",
+    "label": {
+      "en": "Answer the question and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She answers the question — the left fork, the river-road — and goes, carrying the unsaid thing like a stone in the pocket. Behind her the woman begins her walk east at the pace of someone who has nothing but time, which is exactly what she has and exactly what will not help.",
+          "es": "Responde la pregunta — la bifurcación izquierda, el camino del río — y se va, cargando lo no dicho como una piedra en el bolsillo. Atrás la mujer empieza su caminata al este al paso de alguien que no tiene más que tiempo, que es exactamente lo que tiene y exactamente lo que no va a ayudar."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:6934d31f-0307-4b9b-8dab-fc606781dc59:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "7650778d-b99c-451a-a8ff-fc1c55861e69",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:b2cd3ee2-d99b-4703-9543-c5f7006b2c6d",
+    "act": "talk",
+    "label": {
+      "en": "Refuse the shape and its name"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She refuses the shape — says the true name it is wearing belongs to the dead, and that it has no right to wear the face of someone who earned his rest. The borrowed features slide like wet clay; the thing underneath says, in its own flat voice: 'Shapes are the only coin the road pays us. You have denied me mine.' It thins into the hedgerow light, less a departure than a dispersal — a coin spent.",
+          "es": "Rechaza la forma — dice que el nombre verdadero que está usando pertenece a los muertos, y que no tiene derecho a usar la cara de alguien que se ganó su descanso. Los rasgos prestados se deslizan como arcilla húmeda; la cosa de abajo dice, en su propia voz chata: 'Las formas son la única moneda que la ruta nos paga. Me negaste la mía.' Se adelgaza en la luz del seto, menos una partida que una dispersión — una moneda gastada."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:b2cd3ee2-d99b-4703-9543-c5f7006b2c6d:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "df45fe66-1500-4ed8-8651-64fb21214886",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:b2cd3ee2-d99b-4703-9543-c5f7006b2c6d",
+    "act": "avoid",
+    "label": {
+      "en": "Walk on and let it keep the shape"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She walks on — does not answer the almost-voice, does not stay to see the shape hold or fail — and lets the thing keep its borrowed face for the next traveller who knew him. Behind her, the road is just road again; whatever it was, it did not get what it came for, which was her stopping.",
+          "es": "Sigue caminando — no responde la casi-voz, no se queda a ver si la forma se sostiene o falla — y deja que la cosa guarde su cara prestada para el próximo viajero que lo conoció. Atrás, la ruta es solo ruta otra vez; lo que haya sido, no consiguió lo que vino a buscar, que era que ella parara."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:b2cd3ee2-d99b-4703-9543-c5f7006b2c6d:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "4d67c9d0-b7fa-4934-8782-e9df6d62cd13",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:77bd5749-c44e-4d99-8246-16a393a4c893",
+    "act": "talk",
+    "label": {
+      "en": "Ask what it was that took him"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what took him — the specific shape of the thing. 'Cold first,' the ghost says. 'Cold like a season, not a weather. Then the silence — the specific silence of something that has already decided you are going to stop.' He looks down at his own mail, the wound still open. 'I stopped. That is the whole story of a barrow — someone stops, and the stopping becomes the residence.'",
+          "es": "Le pregunta qué lo tomó — la forma específica de la cosa. 'Frío primero', dice el fantasma. 'Frío como una estación, no un clima. Después el silencio — el silencio específico de algo que ya decidió que vas a parar.' Mira su propia malla, la herida todavía abierta. 'Yo paré. Esa es la historia entera de un túmulo — alguien para, y el parar se vuelve la residencia.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:77bd5749-c44e-4d99-8246-16a393a4c893:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "aaaa6da3-8677-47b9-b78d-607a597afcd7",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:77bd5749-c44e-4d99-8246-16a393a4c893",
+    "act": "avoid",
+    "label": {
+      "en": "Thank him and take the south road"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He thanks him — the warning weighed against the road's length — and takes the south fork, the dead man's 'walk south' carrying the authority of someone who did not get to. Behind him the ghost returns to his mound's edge, a sentry still standing a post the war abandoned three ages ago.",
+          "es": "Le agradece — la advertencia pesada contra la longitud de la ruta — y toma la bifurcación sur, el 'andá al sur' del muerto cargando la autoridad de alguien que no pudo. Atrás el fantasma vuelve al borde de su túmulo, un centinela todavía parando un puesto que la guerra abandonó hace tres edades."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:77bd5749-c44e-4d99-8246-16a393a4c893:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "7ee1c215-0b52-4b95-a482-04b54514e014",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:9a1e8a86-3578-4a4e-87f4-34c64797f594",
+    "act": "talk",
+    "label": {
+      "en": "Say the name it is owed"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He says — because the circle is closing and the name is the only thing he has that it does not — the name he was given in the north that he does not use on roads. The circling stops. 'A name,' the wraith says, tasting it. 'True, and given freely. That buys a question.' The cold eases a fraction — not a reprieve, a pause. 'Ask. Then go, and take the name's weight with you. It will keep you until I decide it does not.'",
+          "es": "Dice — porque el círculo se está cerrando y el nombre es lo único que tiene que ella no tiene — el nombre que le dieron en el norte y que no usa en rutas. El dar vueltas para. 'Un nombre', dice el espectro, saboreándolo. 'Verdadero, y dado libremente. Eso compra una pregunta.' El frío cede una fracción — no un indulto, una pausa. 'Preguntá. Después andate, y llevate el peso del nombre con vos. Te va a sostener hasta que yo decida que no.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:9a1e8a86-3578-4a4e-87f4-34c64797f594:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "76e491d9-7521-4b29-813c-8e3500095b32",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:9a1e8a86-3578-4a4e-87f4-34c64797f594",
+    "act": "avoid",
+    "label": {
+      "en": "Hold the ground and do not answer"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He holds the ground — does not answer the circling, does not give the name, does not move — and lets the waiting do its work until the shape decides the return is not worth the cost. 'You have the patience of stone,' the wraith says, and steps off the road into the hedge-shadow, thinning. 'Walk. The road ahead is yours until the next of us.' It goes. The cold takes a mile to leave.",
+          "es": "Aguanta el terreno — no responde al dar vueltas, no da el nombre, no se mueve — y deja que la espera haga su trabajo hasta que la forma decide que el retorno no vale el costo. 'Tenés la paciencia de la piedra', dice el espectro, y se sale de la ruta a la sombra del seto, adelgazándose. 'Caminá. La ruta adelante es tuya hasta el próximo de nosotros.' Se va. El frío tarda una milla en irse."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:9a1e8a86-3578-4a4e-87f4-34c64797f594:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "64fe51a8-fa13-41e6-b20d-040f37926cf8",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:74e78551-5d07-4a6a-9b77-fddd5785bf04",
+    "act": "talk",
+    "label": {
+      "en": "Ask what else the records say"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — while the door is open, because the door will not stay open — what else the dead archives say about him. 'Your father's name. Your mother's errand. The debt the north still owes your line.' The wraith's cowl tilts, the pages settling. 'And a name crossed out, in a hand that is not yours. Someone in the archives has been editing. Find them, or find what they deleted.' The cold is already moving off, the information spent.",
+          "es": "Pregunta — mientras la puerta está abierta, porque la puerta no va a quedarse abierta — qué más dicen los archivos muertos sobre él. 'El nombre de tu padre. El mandado de tu madre. La deuda que el norte todavía le debe a tu linaje.' El capuchón del espectro se inclina, las páginas asentándose. 'Y un nombre tachado, en una mano que no es la tuya. Alguien en los archivos estuvo editando. Encontralos, o encontrá lo que borraron.' El frío ya se está moviendo, la información gastada."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:74e78551-5d07-4a6a-9b77-fddd5785bf04:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "dfb2febc-2da2-47fd-8791-732cec444e5a",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:74e78551-5d07-4a6a-9b77-fddd5785bf04",
+    "act": "avoid",
+    "label": {
+      "en": "Take the door and walk through"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the door — the name-spoken opening — and walks through it quickly, not looking back at the thing that read the Annúminas rolls. Behind him the road seals the cold over like water over a stone: the archives are being read, and for tonight at least, his name was the right page.",
+          "es": "Toma la puerta — la apertura del nombre-dicho — y la pasa rápido, sin mirar atrás a la cosa que leyó los rollos de Annúminas. Atrás la ruta sella el frío encima como agua sobre una piedra: los archivos están siendo leídos, y por esta noche al menos, su nombre fue la página correcta."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:74e78551-5d07-4a6a-9b77-fddd5785bf04:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "e935a086-0595-4dc8-8f1b-fc45c1893934",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:7ba1ddf6-f2f0-442d-936c-6be56fdf4ce7",
+    "act": "talk",
+    "label": {
+      "en": "Answer the last question truly"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She answers the last question — because the thing asked it like someone who once had reasons: 'I sail because the sailing is still a choice. You did not get the choice taken from you — you gave it. That is the whole difference.' The wraith is still. 'A choice I gave,' it repeats, and the court-tongue makes the words sound like a verdict being appealed. 'Go then. The sea is ahead, and the cold is not — not today.' It steps aside, the grey thinning. 'Tell the sea we remember it,' it says, and the last word is almost a request.",
+          "es": "Responde la última pregunta — porque la cosa la preguntó como alguien que una vez tuvo razones: 'Navego porque navegar todavía es una elección. A vos no te sacaron la elección — la diste. Esa es toda la diferencia.' El espectro está quieto. 'Una elección que di', repite, y la lengua de corte hace que las palabras suenen como un veredicto en apelación. 'Andate entonces. El mar está adelante, y el frío no — hoy no.' Se hace a un lado, el gris adelgazándose. 'Decile al mar que nos acordamos de él', dice, y la última palabra es casi un pedido."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:7ba1ddf6-f2f0-442d-936c-6be56fdf4ce7:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "f4d80e9f-5c35-4371-a50b-93d225884665",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:7ba1ddf6-f2f0-442d-936c-6be56fdf4ce7",
+    "act": "avoid",
+    "label": {
+      "en": "Let the tongue close the exchange"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She lets the old tongue close the exchange — does not answer the last question, does not stay for whatever the thing that spoke Armenelos was becoming — and walks on, carrying the specific weight of a thing that chose the cold over the sail. Behind her the road is silent in a language she does not need anymore.",
+          "es": "Deja que la lengua vieja cierre el intercambio — no responde la última pregunta, no se queda para lo que sea en lo que la cosa que habló Armenelos se estaba convirtiendo — y sigue caminando, cargando el peso específico de una cosa que eligió el frío antes que la vela. Atrás la ruta está en silencio en un idioma que ya no necesita."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:7ba1ddf6-f2f0-442d-936c-6be56fdf4ce7:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "0c35c320-9ba9-46b8-bd94-aafe276b49b3",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:dd5d7207-dd26-4182-b594-f49596346158",
+    "act": "talk",
+    "label": {
+      "en": "Ask which road it is walking"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — because the riddle wants one question, and the right question is the road's — which road it is walking. 'The road that ends where roads end,' it says, still not turning, still walking away. 'You are on the road that ends where you end. The wrongness you felt was the roads not agreeing. Turn back, or walk through me — the second road is shorter.' It keeps walking. The cold does not follow; the cold stays, like a toll paid.",
+          "es": "Pregunta — porque el acertijo quiere una pregunta, y la pregunta correcta es la de la ruta — qué ruta está caminando. 'La ruta que termina donde terminan las rutas', dice, todavía sin darse vuelta, todavía alejándose. 'Vos estás en la ruta que termina donde terminás vos. La incorrección que sentiste fueron las rutas no estando de acuerdo. Volvete, o caminá a través de mí — la segunda ruta es más corta.' Sigue caminando. El frío no sigue; el frío queda, como un peaje pagado."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:dd5d7207-dd26-4182-b594-f49596346158:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "1c69469d-33b6-43e3-af87-cebea89ad416",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:dd5d7207-dd26-4182-b594-f49596346158",
+    "act": "avoid",
+    "label": {
+      "en": "Turn back and take the wrongness as answer"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He turns back — the wrongness having spoken its own verdict — and retraces the half-mile to where the road is road again. Behind him, presumably, the shape keeps walking a road that ends where roads end; the traveller's road, mercifully, is the other kind.",
+          "es": "Se da vuelta — la incorrección habiendo dicho su propio veredicto — y vuelve sobre la media milla hasta donde la ruta es ruta otra vez. Atrás suyo, presumiblemente, la forma sigue caminando una ruta que termina donde terminan las rutas; la ruta del viajero, misericordiosamente, es del otro tipo."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:dd5d7207-dd26-4182-b594-f49596346158:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "e1e30e05-0795-428b-8b9e-73a51e697eca",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:45c38018-ac3f-4e0e-b5d5-da96c3615208",
+    "act": "talk",
+    "label": {
+      "en": "Ask what it is keeping"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — from the safe distance, because the threshold is not a thing to cross — what the door is keeping. 'The king,' it says, and the folded hands tighten a fraction on the serpent-buckle. 'And what the king was keeping. The tomb was sealed on both — the seal is me.' The head turns back to the road. 'Do not ask the door what is behind it. The door does not open for questions.' The cold of the threshold reaches the road's edge and stops, held.",
+          "es": "Pregunta — desde la distancia segura, porque el umbral no es una cosa para cruzar — qué está guardando la puerta. 'Al rey', dice, y las manos cruzadas se aprietan una fracción en la hebilla de serpiente. 'Y lo que el rey estaba guardando. La tumba fue sellada sobre ambos — el sello soy yo.' La cabeza gira de vuelta a la ruta. 'No le preguntes a la puerta qué hay detrás. La puerta no se abre para preguntas.' El frío del umbral llega al borde de la ruta y para, contenido."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:45c38018-ac3f-4e0e-b5d5-da96c3615208:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "48554c20-6543-4754-aaa5-3970e9eaa74f",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:45c38018-ac3f-4e0e-b5d5-da96c3615208",
+    "act": "avoid",
+    "label": {
+      "en": "Acknowledge the post and pass on"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He acknowledges the post — a nod to the man who is still the door — and passes on around the barrow's shadow, carrying the lord's name as a thing now witnessed. Behind him the threshold holds; the king's rest is kept, and the keeping is the whole of what remains of the keeper.",
+          "es": "Reconoce el puesto — un asentimiento al hombre que todavía es la puerta — y pasa de largo alrededor de la sombra del túmulo, cargando el nombre del señor como una cosa ahora atestiguada. Atrás el umbral se sostiene; el descanso del rey está guardado, y el guardar es todo lo que queda del guardián."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:45c38018-ac3f-4e0e-b5d5-da96c3615208:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "b8544ec6-4456-42b8-985b-f02f9c5c4a05",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:21b8b038-daf4-4ac7-aa06-5ea206277b68",
+    "act": "talk",
+    "label": {
+      "en": "Ask who it is waiting for"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — while it is still stepping aside, because the clearance is a courtesy that will not last — who it is waiting for. 'The one who buried me wrong,' it says. 'The one who put me under stone instead of under earth, where the dead can still climb.' It looks back at him with the focused patience of the long-dead. 'He knows who he is. He is coming this way because he knows where I am. You are not him — go before he arrives. His arrival will be... loud.'",
+          "es": "Pregunta — mientras todavía se está haciendo a un lado, porque el despeje es una cortesía que no va a durar — por quién está esperando. 'Por el que me enterró mal', dice. 'El que me puso bajo piedra en vez de bajo tierra, donde los muertos todavía pueden trepar.' Lo mira de vuelta con la paciencia enfocada de los muertos de mucho tiempo. 'Él sabe quién es. Viene por este lado porque sabe dónde estoy. Vos no sos él — andate antes de que llegue. Su llegada va a ser... ruidosa.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:21b8b038-daf4-4ac7-aa06-5ea206277b68:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "f97488b7-ffec-4a2d-93c1-5d157e9a671a",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:21b8b038-daf4-4ac7-aa06-5ea206277b68",
+    "act": "avoid",
+    "label": {
+      "en": "Take the clearance and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the clearance — 'not you' is as complete an answer as the road gives — and goes south, leaving the watcher to its vigil of the northern road. Behind him the eyes stay fixed on the horizon where the right person is, presumably, approaching at the pace of someone who does not yet know they are expected.",
+          "es": "Toma el despeje — 'no sos vos' es una respuesta tan completa como da la ruta — y se va al sur, dejando al vigilante con su vigilia de la ruta norteña. Atrás los ojos quedan fijos en el horizonte donde la persona correcta está, presumiblemente, aproximándose al paso de alguien que todavía no sabe que es esperado."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:21b8b038-daf4-4ac7-aa06-5ea206277b68:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "32f3ea43-1772-4910-bfd8-67223cbeb536",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0b5267a4-3083-4f4e-8fc5-e7e87f99382a",
+    "act": "talk",
+    "label": {
+      "en": "Shift the fire toward where it stands"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not invite it — but he shifts the fire's edge a hand's-width toward where the shade stands, the smallest act of sharing that is not an invitation. The shade notices. It does not come closer — it cannot — but it stays until the fire dies, which is longer than it stayed the night before, or the night before that, or any of the nights it has spent at the edges of other men's warmth. When it goes, it goes slowly, like someone leaving a room they had forgotten they missed.",
+          "es": "No lo invita — pero mueve el borde del fuego un ancho de mano hacia donde la sombra está parada, el acto más chico de compartir que no es una invitación. La sombra se da cuenta. No se acerca más — no puede — pero se queda hasta que el fuego muere, que es más de lo que se quedó la noche anterior, o la anterior a esa, o cualquiera de las noches que pasó en los bordes del calor de otros hombres. Cuando se va, se va despacio, como alguien saliendo de una habitación que había olvidado que extrañaba."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0b5267a4-3083-4f4e-8fc5-e7e87f99382a:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "cf248c32-44f7-44fb-aa50-3d0dc7aa6e8b",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0b5267a4-3083-4f4e-8fc5-e7e87f99382a",
+    "act": "avoid",
+    "label": {
+      "en": "Let the shade keep its vigil"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He lets the shade keep its vigil — tends the fire, eats, watches the road — and gives the dead man the company of a fire kept going through the evening. In the morning the clasp is there, and the shade is gone, and the road goes on the way roads do: a little warmer for the sharing, a little sadder for the shape of what was shared.",
+          "es": "Deja que la sombra mantenga su vigilia — atiende el fuego, come, mira la ruta — y le da al muerto la compañía de un fuego mantenido durante la noche. A la mañana el broche está ahí, y la sombra se fue, y la ruta sigue como siguen las rutas: un poco más cálida por lo compartido, un poco más triste por la forma de lo que se compartió."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0b5267a4-3083-4f4e-8fc5-e7e87f99382a:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "0e2b6d76-6683-4eaf-8e1f-e27a69a84652",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0f500a24-c61b-4c26-87c6-36b8c5a26244",
+    "act": "talk",
+    "label": {
+      "en": "Tell it how long"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He tells it — as gently as the numbers allow — that the name it is calling belongs to a family that has been dead for two hundred years, in a kingdom that has been a ruin for three. The voice behind him does not answer for a long time. Then: 'Two hundred years,' it says, testing the weight. 'Then the road has been wrong all this time, and I have been walking it anyway.' It does not ask where the right road is — the dead do not ask directions to places they cannot go. It says, quieter, 'Thank you for telling me,' and the voice is gone, not fading — done.",
+          "es": "Le dice — tan suavemente como los números lo permiten — que el nombre que está llamando pertenece a una familia que está muerta hace doscientos años, en un reino que es ruina hace tres. La voz detrás no responde por un rato largo. Después: 'Doscientos años', dice, probando el peso. 'Entonces la ruta estuvo mal todo este tiempo, y yo la caminé de todos modos.' No pregunta dónde está la ruta correcta — los muertos no preguntan direcciones a lugares a los que no pueden ir. Dice, más bajo, 'Gracias por decírmelo', y la voz se fue, no apagándose — terminada."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0f500a24-c61b-4c26-87c6-36b8c5a26244:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "3c194463-a048-40cb-8c48-94624a41419c",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0f500a24-c61b-4c26-87c6-36b8c5a26244",
+    "act": "avoid",
+    "label": {
+      "en": "Answer and keep walking"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He answers — 'that person is dead' — and keeps walking, not waiting to hear whether the search ends or goes on. Behind him the voice does not call again; the name, spoken clearly enough, finally reached the one who was saying it.",
+          "es": "Responde — 'esa persona está muerta' — y sigue caminando, sin esperar a escuchar si la búsqueda termina o sigue. Atrás la voz no vuelve a llamar; el nombre, dicho lo suficientemente claro, finalmente llegó al que lo estaba diciendo."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0f500a24-c61b-4c26-87c6-36b8c5a26244:sit",
       "mapped_from_form": "contact",
       "felt": []
     }
