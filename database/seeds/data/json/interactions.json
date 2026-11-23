@@ -50987,9 +50987,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks what two-footed thing moves at night for three nights in the same area."
-        },
-        "effects": []
+          "en": "He asks what two-footed thing moves at night for three nights running in the same area — and the man in brown finally looks up fully, the wren-feather in his beard catching light: 'Not a fox,' he says again, 'not a badger — a two-footed thing with weight behind it, moving the same stretch three nights because it is *mapping*, not hunting.' He stands, brushing leaf-mould from his knees. 'A hunter eats and moves on. Whatever this is, it is learning the ground.' He says it like a footnote; the traveller hears it like a report.",
+          "es": "Pregunta qué cosa de dos patas se mueve de noche tres noches seguidas en la misma zona — y el hombre de marrón finalmente levanta la vista completa, la pluma de chochín en su barba atrapando la luz: 'No un zorro', repite, 'no un tejón — una cosa de dos patas con peso detrás, moviéndose por el mismo tramo tres noches porque está *mapeando*, no cazando.' Se para, sacudiéndose el mantillo de las rodillas. 'Un cazador come y sigue. Lo que sea esto, está aprendiendo el terreno.' Lo dice como una nota al pie; el viajero lo oye como un informe."
+        }
       }
     },
     "payload": {
@@ -51011,9 +51011,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks which direction it is organized toward."
-        },
-        "effects": []
+          "en": "He asks which direction it is organized toward — and the raven on the left shoulder answers before the man can: 'South-south-east. Three days ahead of you. It is not hurrying because it does not need to.' The man translates the second raven's objection: 'She says it is not hurrying because it already knows where it is going. There is a difference.' The ravens resume their argument; the man lets them. South-south-east is the direction the traveller was already walking.",
+          "es": "Pregunta hacia qué dirección está organizado — y el cuervo del hombro izquierdo responde antes que el hombre pueda: 'Sur-sureste. Tres días adelante de vos. No se apura porque no necesita.' El hombre traduce la objeción del segundo cuervo: 'Ella dice que no se apura porque ya sabe a dónde va. Hay una diferencia.' Los cuervos retoman su discusión; el hombre los deja. Sur-sureste es la dirección en la que el viajero ya estaba caminando."
+        }
       }
     },
     "payload": {
@@ -51035,9 +51035,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks where the quiet starts."
-        },
-        "effects": []
+          "en": "He asks where the quiet starts — and the man in brown marks it with a precision that is not human-normal: 'Two miles north, at the bent alder. From the alder to the marsh-edge the birds stopped singing yesterday at dusk — not gradually, at once, like a hand over a mouth. Twice before it meant something moving through that the animals had decided was worse than weather.' He steps back off the road. 'I am telling you because you are the first armed person going north in two days. The quiet is yours now.'",
+          "es": "Pregunta dónde empieza el silencio — y el hombre de marrón lo marca con una precisión que no es humano-normal: 'Dos millas al norte, en el álamo torcido. Del álamo al borde del pantano los pájaros dejaron de cantar ayer al atardecer — no gradualmente, de golpe, como una mano sobre una boca. Dos veces antes significó algo moviéndose por ahí que los animales decidieron que era peor que el clima.' Retrocede de la ruta. 'Te lo digo porque sos la primera persona armada yendo al norte en dos días. El silencio es tuyo ahora.'"
+        }
       }
     },
     "payload": {
@@ -51059,9 +51059,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Tells the raven it is correct. Watches Radagast receive this secondhand."
-        },
-        "effects": []
+          "en": "She tells the raven it is correct — says it plainly, because a bird that recites her biography has earned the truth — and watches Radagast receive this secondhand: the raven delivers a satisfied croak, the man winces deeper, then laughs once. 'He has been saying that about everyone since Bree,' he says. 'You are the first to confirm it. Most people lie about the Havens — I think it embarrasses them.' The second raven looks at her with a bright eye. 'He also says you smell like grief you have not had yet,' the man adds. 'I apologize again.'",
+          "es": "Le dice al cuervo que es correcto — lo dice claramente, porque un pájaro que recita su biografía se ganó la verdad — y mira a Radagast recibirlo de segunda mano: el cuervo suelta un graznido satisfecho, el hombre se retuerce más, después ríe una vez. 'Viene diciendo eso de todos desde Bree', dice. 'Sos la primera que lo confirma. La mayoría miente sobre los Puertos — creo que los avergüenza.' El segundo cuervo la mira con un ojo brillante. 'También dice que olés a duelo que todavía no tuviste', agrega el hombre. 'Me disculpo otra vez.'"
+        }
       }
     },
     "payload": {
@@ -51083,9 +51083,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Tells him what she has felt. Watches him decide what to do with the confirmation."
-        },
-        "effects": []
+          "en": "She tells him what she has felt — the wrongness at the forest's edge, the trees not singing the right song, the specific quality of silence that is not quiet but *held* — and watches him decide what to do with the confirmation. His shoulders drop a fraction, like a man whose last hope of being wrong has just been removed. 'Then it is real,' he says. 'I have been hoping you would say you felt nothing.' He looks at the forest-line. 'The Second Age wrongness — the one I remember — was the forest *learning* something it was not supposed to learn. I think it is learning again.'",
+          "es": "Le dice lo que sintió — la incorrección en el borde del bosque, los árboles no cantando la canción correcta, la calidad específica de silencio que no es quietud sino *contenida* — y lo mira decidir qué hacer con la confirmación. Sus hombros caen una fracción, como un hombre al que acaban de quitarle la última esperanza de estar equivocado. 'Entonces es real', dice. 'Estuve esperando que dijeras que no sentiste nada.' Mira la línea del bosque. 'La incorrección de la Segunda Edad — la que yo recuerdo — era el bosque *aprendiendo* algo que no tenía que aprender. Creo que está aprendiendo otra vez.'"
+        }
       }
     },
     "payload": {
@@ -51107,9 +51107,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Accepts the dinner. Does not ask how he knew."
-        },
-        "effects": []
+          "en": "She accepts the dinner — the kingfisher-song still working the water behind them, the fish still jumping — and does not ask how he knew they were coming, because the asking is a kind of rudeness and the dinner is already laid. The food is simple and perfect — bread, cheese, river-trout cooked over a fire that seems to have been lit for exactly this — and the host sings between courses about things that are clearly true and clearly impossible. The road waits; the river runs the wrong colour where his voice lands.",
+          "es": "Acepta la cena — la canción de martín pescador todavía trabajando el agua atrás, los peces todavía saltando — y no pregunta cómo sabía que venían, porque preguntar es una especie de grosería y la cena ya está servida. La comida es simple y perfecta — pan, queso, trucha de río cocida sobre un fuego que parece haber sido encendido exactamente para esto — y el anfitrión canta entre platos sobre cosas que son claramente verdaderas y claramente imposibles. La ruta espera; el río corre del color equivocado donde su voz cae."
+        }
       }
     },
     "payload": {
@@ -51131,9 +51131,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks what outside means."
-        },
-        "effects": []
+          "en": "She asks what outside means — and Tom's walking stops for one beat, which for him is a paragraph of emphasis: 'The Old Forest dreams its own dreams,' he says. 'It has been dreaming them since before the Hobbits, since before the Kingdom — dreams of root and rain and the slow argument between oak and ivy. These new dreams are different. They are *arriving* — being sent in, the way you would send a letter into a house.' He resumes walking. 'Old Man Willow is receiving mail from somewhere east, and the mail is teaching him new things to dream about.'",
+          "es": "Pregunta qué significa afuera — y el caminar de Tom para por un latido, que para él es un párrafo de énfasis: 'El Bosque Viejo sueña sus propios sueños', dice. 'Los viene soñando desde antes de los Hobbits, desde antes del Reino — sueños de raíz y lluvia y la discusión lenta entre roble y hiedra. Estos sueños nuevos son diferentes. Están *llegando* — siendo mandados adentro, como mandarías una carta dentro de una casa.' Retoma el caminar. 'El Viejo Hombre Sauce está recibiendo correo de algún lado al este, y el correo le está enseñando cosas nuevas para soñar.'"
+        }
       }
     },
     "payload": {
@@ -51155,9 +51155,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks when the questions started."
-        },
-        "effects": []
+          "en": "She asks when the questions started — and Radagast walks a few more steps before answering, which is how she knows the answer is complicated: 'Three days ago, in the marshes. The questions came up from the water, which is unusual — questions usually come through the air, or the ground, or carried on something with feet. These came through water, and water does not hold questions well, which means the asker is either very close or very powerful or both.' He stops walking. 'You should perhaps not go near water for a while.'",
+          "es": "Pregunta cuándo empezaron las preguntas — y Radagast camina unos pasos más antes de responder, que es cómo ella sabe que la respuesta es complicada: 'Hace tres días, en los pantanos. Las preguntas vinieron del agua, que es inusual — las preguntas suelen venir por el aire, o el suelo, o llevadas por algo con patas. Estas vinieron por agua, y el agua no retiene preguntas bien, lo que significa que quien pregunta está o muy cerca o es muy poderoso o ambos.' Para de caminar. 'Quizás tendrías que no acercarte al agua por un tiempo.'"
+        }
       }
     },
     "payload": {
@@ -51687,9 +51687,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks what he knew of that man."
-        },
-        "effects": []
+          "en": "He asks what he knew of the grandfather — and Tom brightens further, which is somehow possible: 'He walked these roads when the roads were younger,' he says. 'He had your way of reading the weather — head up, eyes on the ridgeline, feet knowing the ground before the mind did. I told him once that he had the walk of a man whose grandsons would be Rangers.' He laughs, delighted. 'I was right, apparently. The line holds.' He adjusts his hat. 'He also owed me a debt — a small one. A ford-crossing in winter. You do not need to pay it; I mention it because it was the only time I saw him cold.'",
+          "es": "Le pregunta qué sabía del abuelo — y Tom se ilumina más, que es de algún modo posible: 'Caminaba estas rutas cuando las rutas eran más jóvenes', dice. 'Tenía tu manera de leer el clima — cabeza arriba, ojos en la cresta, pies conociendo el suelo antes que la mente. Le dije una vez que tenía el caminar de un hombre cuyos nietos serían Montaraces.' Ríe, encantado. 'Tenía razón, aparentemente. El linaje aguanta.' Se acomoda el sombrero. 'También me debía una deuda — una chica. Un cruce de vado en invierno. No necesitás pagarla; la menciono porque fue la única vez que lo vi con frío.'"
+        }
       }
     },
     "payload": {
@@ -51711,9 +51711,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks what the old protocols were. Gets an answer he half-remembers."
-        },
-        "effects": []
+          "en": "He asks what the old protocols were — and gets an answer he half-remembers, the way the Dúnedain remember things that are older than memory: 'A tithe,' Tom says. 'Not of gold — of attention. Your people used to walk the forest's edges at the turn of seasons and *notice* — which trees were leaning, which clearings were new, whether the forest was dreaming in or dreaming out.' He looks at the treeline. 'The forest kept its edges because the edges were kept. When the noticing stopped, the forest started deciding its own borders. That is when edges start pulling.'",
+          "es": "Pregunta cuáles eran los protocolos viejos — y recibe una respuesta que medio recuerda, de la manera en que los Dúnedain recuerdan cosas más viejas que la memoria: 'Un diezmo', dice Tom. 'No de oro — de atención. Tu gente solía caminar los bordes del bosque al cambio de estación y *notar* — qué árboles se inclinaban, qué claros eran nuevos, si el bosque soñaba hacia adentro o hacia afuera.' Mira la línea de árboles. 'El bosque mantenía sus bordes porque los bordes eran mantenidos. Cuando el notar paró, el bosque empezó a decidir sus propios bordes. Ahí es cuando los bordes empiezan a tirar.'"
+        }
       }
     },
     "payload": {
@@ -78213,6 +78213,526 @@
     "payload": {
       "origin": "entities_narration",
       "situation": "cnt:0f500a24-c61b-4c26-87c6-36b8c5a26244:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "d8d5d579-4682-49e7-be08-bda802bb1960",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:7ec69621-0aef-43ae-9b53-112e0aa2e870",
+    "act": "talk",
+    "label": {
+      "en": "Ask where the mapping is centred"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks where the mapping is centred — and the man in brown points with a mud-caked thumb at the northern treeline: 'The harrier-nest line, three miles. It is reading the canopy — not the ground, the canopy, which is a raven's way of mapping, not a man's.' He crouches again, returning to the grass. 'Tell whoever walks north to keep their eyes up. The map it is drawing is overhead.'",
+          "es": "Pregunta dónde está centrado el mapeo — y el hombre de marrón señala con un pulgar embarrado la línea de árboles del norte: 'La línea del nido de aguiluchos, tres millas. Está leyendo el dosel — no el suelo, el dosel, que es la forma de mapear de un cuervo, no la de un hombre.' Se agacha otra vez, volviendo al pasto. 'Decile a quien camine al norte que mire para arriba. El mapa que está dibujando está arriba.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:7ec69621-0aef-43ae-9b53-112e0aa2e870:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "b12fd802-8f91-4ffb-a51f-b80e386a18a9",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:7ec69621-0aef-43ae-9b53-112e0aa2e870",
+    "act": "avoid",
+    "label": {
+      "en": "File the three-nights detail and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He files the detail — two-footed, three nights, mapping not hunting — and goes, the north road now carrying a different weight than it did five minutes ago. Behind him the man in brown returns to his grass, already in the middle of the next conversation with the ground.",
+          "es": "Archiva el detalle — dos patas, tres noches, mapeando no cazando — y se va, la ruta del norte ahora cargando un peso distinto del que tenía hace cinco minutos. Atrás el hombre de marrón vuelve a su pasto, ya en el medio de la próxima conversación con el suelo."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:7ec69621-0aef-43ae-9b53-112e0aa2e870:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "63587ab8-589e-48f0-bf5c-9953a4fdaaf9",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:47575155-fbfe-4447-ab91-53220c88fc1a",
+    "act": "talk",
+    "label": {
+      "en": "Ask if it knows it is being followed"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks if it knows the ravens are following it — and both ravens stop arguing at once, which is answer enough before the man translates: 'The second raven says yes,' he says. 'It knows. It does not mind being followed — it minds being *reported*. There is a difference.' The ravens shift on his shoulders, resettling. 'You should perhaps consider walking somewhere that is not south-south-east.'",
+          "es": "Pregunta si sabe que los cuervos lo están siguiendo — y los dos cuervos dejan de discutir al mismo tiempo, que ya es respuesta antes de que el hombre traduzca: 'El segundo cuervo dice que sí', dice. 'Sabe. No le molesta ser seguido — le molesta ser *reportado*. Hay una diferencia.' Los cuervos se mueven en sus hombros, reasentándose. 'Quizás tendrías que considerar caminar a algún lado que no sea sur-sureste.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:47575155-fbfe-4447-ab91-53220c88fc1a:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "aa14656a-d781-4185-b308-0895c75f5e74",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:47575155-fbfe-4447-ab91-53220c88fc1a",
+    "act": "avoid",
+    "label": {
+      "en": "Take the report and keep the road"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the report — south-south-east, three days ahead, wearing a man's shape — and keeps the road anyway, because the road was already chosen and a thing three days ahead is also three days behind anyone coming the other way. The ravens go back to arguing; the brown man goes back to the forest.",
+          "es": "Toma el informe — sur-sureste, tres días adelante, usando una forma de hombre — y mantiene la ruta de todos modos, porque la ruta ya estaba elegida y una cosa tres días adelante también está tres días detrás de cualquiera que venga del otro lado. Los cuervos vuelven a discutir; el hombre de marrón vuelve al bosque."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:47575155-fbfe-4447-ab91-53220c88fc1a:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "ba11ea0b-d3f2-4f83-bb7e-4067c67cc78d",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:daacd94f-77ed-40ff-8ddb-bc1542af2666",
+    "act": "talk",
+    "label": {
+      "en": "Ask what happened the other two times"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what the quiet preceded the other two times — and the man in brown's face does a small, specific thing: 'The first time, a warg-pack that had not eaten in a month. The second time, a man-shaped thing that the animals decided was not a man.' He looks north. 'Both times the quiet lasted three days. Both times the Rangers found what caused it. This is the first day of this quiet — you will reach it before it peaks.'",
+          "es": "Pregunta qué precedió el silencio las otras dos veces — y la cara del hombre de marrón hace una cosa chica, específica: 'La primera vez, una manada de huargos que no había comido en un mes. La segunda vez, una cosa con forma de hombre que los animales decidieron que no era un hombre.' Mira al norte. 'Las dos veces el silencio duró tres días. Las dos veces los Montaraces encontraron lo que lo causaba. Este es el primer día de este silencio — vas a llegar antes de que llegue al pico.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:daacd94f-77ed-40ff-8ddb-bc1542af2666:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "c8f6eab6-fb7c-4c26-ae11-2f4ce9fc8e15",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:daacd94f-77ed-40ff-8ddb-bc1542af2666",
+    "act": "avoid",
+    "label": {
+      "en": "Take the warning and pass the alder"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the warning — bent alder, two miles, three-day pattern — and passes north anyway, but with the quiet now audible ahead of him: the specific, deliberate absence of birdsong that means something decided the road was its territory. The man in brown goes back to the treeline, his errand done.",
+          "es": "Toma la advertencia — álamo torcido, dos millas, patrón de tres días — y pasa al norte de todos modos, pero con el silencio ahora audible adelante: la ausencia específica, deliberada de canto de pájaros que significa que algo decidió que la ruta era su territorio. El hombre de marrón vuelve a la línea de árboles, su mandado cumplido."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:daacd94f-77ed-40ff-8ddb-bc1542af2666:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "c23a2cad-5878-4dc5-99be-6751f78a1a2e",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:e0e3dec1-7725-4511-8888-96d26f14c7c2",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the grief smells like"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks — because the raven said it and the raven has been right so far — what the not-yet grief smells like. The man tilts his head, actually smelling the air. 'Like sea-salt and something ending,' he says. 'The raven says it is not *your* ending — it is the ending you are walking toward watching.' He shifts the raven to his other shoulder. 'I am sorry to be the messenger of a bird. He is usually wrong about these things. He is not wrong today.'",
+          "es": "Pregunta — porque el cuervo lo dijo y el cuervo viene acertando — a qué huele el duelo de todavía-no. El hombre inclina la cabeza, oliendo el aire de verdad. 'A sal de mar y algo terminando', dice. 'El cuervo dice que no es *tu* final — es el final hacia el que estás caminando mirando.' Cambia el cuervo de hombro. 'Siento ser el mensajero de un pájaro. Suele equivocarse con estas cosas. Hoy no se equivoca.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:e0e3dec1-7725-4511-8888-96d26f14c7c2:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "18d291de-c814-4a4a-bb04-ce31b04c0380",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:e0e3dec1-7725-4511-8888-96d26f14c7c2",
+    "act": "avoid",
+    "label": {
+      "en": "Accept the report and keep walking"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She accepts the raven's report — the Aman, the grief-that-is-coming — and keeps walking, the smell of sea-salt and ending now carried with her like a second shadow. Behind her the ravens resume arguing about her, which is somehow less unnerving than the silence would be.",
+          "es": "Acepta el informe del cuervo — el Aman, el duelo-que-viene — y sigue caminando, el olor a sal de mar y final ahora cargado con ella como una segunda sombra. Atrás los cuervos retoman su discusión sobre ella, que es de algún modo menos inquietante de lo que sería el silencio."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:e0e3dec1-7725-4511-8888-96d26f14c7c2:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "31b3d237-0d51-4dc4-af83-3c3c0a2d08a9",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:88e84f59-5f60-427e-8062-3b2af5586ef5",
+    "act": "talk",
+    "label": {
+      "en": "Ask what it learned last time"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks what the forest learned in the Second Age — since he said 'again' and the word has weight. 'It learned that men will cut it,' he says. 'Before that, it did not know it could be cut. After that, it knew — and knowing changed it.' He rubs his forehead, tired in a way that is older than the conversation. 'If it is learning again — learning what, I do not know. But the first lesson took two hundred years to finish, and the forest is a patient student.'",
+          "es": "Le pregunta qué aprendió el bosque en la Segunda Edad — ya que dijo 'otra vez' y la palabra tiene peso. 'Aprendió que los hombres lo iban a talar', dice. 'Antes de eso, no sabía que podía ser talado. Después, lo sabía — y saberlo lo cambió.' Se frota la frente, cansado de una manera más vieja que la conversación. 'Si está aprendiendo otra vez — aprendiendo qué, no lo sé. Pero la primera lección tardó doscientos años en terminar, y el bosque es un estudiante paciente.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:88e84f59-5f60-427e-8062-3b2af5586ef5:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "4e2da17e-bb7d-4329-905c-51993e3f72f2",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:88e84f59-5f60-427e-8062-3b2af5586ef5",
+    "act": "avoid",
+    "label": {
+      "en": "Share the confirmation and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She gives him the confirmation — yes, she felt it — and goes, leaving him at the forest's edge with his Second-Age memory and the fresh wrongness to weigh. The road ahead is just a road; the forest behind is now a student she cannot afford to think about too long.",
+          "es": "Le da la confirmación — sí, lo sintió — y se va, dejándolo en el borde del bosque con su memoria de la Segunda Edad y la incorrección fresca para pesar. La ruta adelante es solo ruta; el bosque atrás es ahora un estudiante en el que no puede darse el lujo de pensar demasiado."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:88e84f59-5f60-427e-8062-3b2af5586ef5:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "0a3b9089-3aa6-4775-a51d-2ab925034a94",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:fc53a16a-5154-4578-8ed3-beee90e4170a",
+    "act": "talk",
+    "label": {
+      "en": "Ask about the water"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks — because the river is running wrong-coloured where his voice lands — what he is singing to it. 'Not to it,' he corrects, delighted she asked. 'With it. The river and I are having an argument about where the ford should be — it wants to move it north, I keep telling it north is where the mud is.' The river gurgles; he listens, then sings a phrase back. 'It says the mud is fine. The mud is not fine. We have been having this argument since before the kingdoms.' The fish jump again, on cue.",
+          "es": "Pregunta — porque el río corre del color equivocado donde su voz cae — qué le está cantando. 'No a él', corrige, encantado de que preguntara. 'Con él. El río y yo estamos teniendo una discusión sobre dónde debería estar el vado — quiere moverlo al norte, yo le sigo diciendo que al norte es donde está el barro.' El río gorgotea; él escucha, después le canta una frase de vuelta. 'Dice que el barro está bien. El barro no está bien. Venimos teniendo esta discusión desde antes de los reinos.' Los peces saltan otra vez, a señal."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:fc53a16a-5154-4578-8ed3-beee90e4170a:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "6e503e91-cc72-492c-8789-b8bf4b695473",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:fc53a16a-5154-4578-8ed3-beee90e4170a",
+    "act": "avoid",
+    "label": {
+      "en": "Eat, thank him, and take the ford"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She eats — the bread, the trout, the impossibly right cheese — thanks him for the dinner and the song, and takes the ford while the river is still arguing with its friend about mud. Behind them the kingfisher-song resumes, the fish keep time, and the road ahead feels, for the next several miles, like a road that has been looked after.",
+          "es": "Come — el pan, la trucha, el queso imposiblemente correcto — le agradece por la cena y la canción, y toma el vado mientras el río todavía discute con su amigo sobre el barro. Atrás la canción de martín pescador retoma, los peces llevan el tiempo, y la ruta adelante se siente, por las próximas millas, como una ruta que ha sido cuidada."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:fc53a16a-5154-4578-8ed3-beee90e4170a:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "ffcd5d34-4043-469e-bcd2-9261e2ebdfbc",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:9e949237-1899-4d62-9863-ae436559e210",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the new dreams are"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks what the new dreams are about — since he said 'teaching' and teaching has content. 'Walls,' Tom says. 'Roads. The idea that a forest can be *smaller* than it is — that is the new dream, and it is not one a forest dreams on its own.' He looks back at the treeline. 'Something east of here is writing to the Old Forest about edges and borders and how to want less. I do not like it. I am telling you because you are going east.'",
+          "es": "Pregunta sobre qué son los sueños nuevos — ya que dijo 'enseñando' y enseñar tiene contenido. 'Muros', dice Tom. 'Rutas. La idea de que un bosque puede ser *más chico* de lo que es — ese es el sueño nuevo, y no es uno que un bosque sueña solo.' Mira de vuelta a la línea de árboles. 'Algo al este de acá le está escribiendo al Bosque Viejo sobre bordes y fronteras y cómo querer menos. No me gusta. Te lo digo porque vos vas al este.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:9e949237-1899-4d62-9863-ae436559e210:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "dbaa8e35-b3d3-4f3a-8bc1-06b1961175f0",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:9e949237-1899-4d62-9863-ae436559e210",
+    "act": "avoid",
+    "label": {
+      "en": "Take the report east and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She takes the report — Old Man Willow receiving mail from the east, new dreams about walls — and goes, the road east now carrying a freight of forest-correspondence she did not ask for but now cannot unknow. Behind her Tom resumes his badger-song, which now sounds less cheerful than it did a minute ago.",
+          "es": "Toma el informe — el Viejo Hombre Sauce recibiendo correo del este, sueños nuevos sobre muros — y se va, la ruta al este ahora cargando un flete de correspondencia-forestal que no pidió pero ya no puede des-saber. Atrás Tom retoma su canción de tejones, que ahora suena menos alegre de lo que sonaba hace un minuto."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:9e949237-1899-4d62-9863-ae436559e210:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "4b777892-fcfd-498b-92ba-fcb9da6572c1",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:ec994ce1-881b-46b4-9880-e166d7f7a638",
+    "act": "talk",
+    "label": {
+      "en": "Ask what questions are being asked"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks what the questions are — since he knows they're about her, he must know their shape. 'Who you are. Where you are bound. Whether you are the Celebrian the asker expects, or another Celebrian.' He looks at her sideways. 'The questions are *specific* — someone is checking a name against a list. Lists have purposes. I do not know this one's.' The reeds ahead stir without wind; he watches them a moment, then looks back. 'Go. And do not answer the water if it asks.'",
+          "es": "Pregunta cuáles son las preguntas — ya que sabe que son sobre ella, debe saber su forma. 'Quién sos. A dónde vas. Si sos la Celebrian que quien pregunta espera, u otra Celebrian.' La mira de costado. 'Las preguntas son *específicas* — alguien está chequeando un nombre contra una lista. Las listas tienen propósitos. No conozco el de esta.' Los juncos adelante se mueven sin viento; los mira un momento, después mira de vuelta. 'Andate. Y no le respondas al agua si pregunta.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:ec994ce1-881b-46b4-9880-e166d7f7a638:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "a792af18-26a0-4da8-b37b-8f7663fde933",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:ec994ce1-881b-46b4-9880-e166d7f7a638",
+    "act": "avoid",
+    "label": {
+      "en": "Thank him and walk inland"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She thanks him — the water-warning, the list, the specificity — and walks inland from the marsh-road, taking the long way round the water. Behind her Radagast resumes his walk, and his whistling, which had been absent during the telling, returns — slightly, and watching the reeds.",
+          "es": "Le agradece — la advertencia del agua, la lista, la especificidad — y camina hacia tierra desde la ruta del pantano, tomando el camino largo alrededor del agua. Atrás Radagast retoma su caminata, y su silbido, que había estado ausente durante el relato, vuelve — apenas, y mirando los juncos."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:ec994ce1-881b-46b4-9880-e166d7f7a638:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "2e81a985-6e44-45a4-9d18-ec967469624f",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:52a175a0-ff39-4d2e-a73a-1db21316327b",
+    "act": "talk",
+    "label": {
+      "en": "Ask about the winter ford"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks about the winter ford — since it was the only time the grandfather was cold, and cold is the detail. 'He was crossing to bring medicine to a family on the far side,' Tom says. 'The ice took him mid-ford. I pulled him out. He delivered the medicine anyway — walked three more miles wet, in winter.' He nods, approving. 'Your line does not stop for water. That is either the best or worst thing about you, and it is both.'",
+          "es": "Pregunta por el vado de invierno — ya que fue la única vez que el abuelo tuvo frío, y el frío es el detalle. 'Estaba cruzando para llevarle medicina a una familia del otro lado', dice Tom. 'El hielo se lo llevó a medio vado. Yo lo saqué. Entregó la medicina igual — caminó tres millas más mojado, en invierno.' Asiente, aprobando. 'Tu linaje no para por agua. Eso es o lo mejor o lo peor de ustedes, y es ambos.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:52a175a0-ff39-4d2e-a73a-1db21316327b:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "8566b632-0c43-4be5-9c19-a9482476b205",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:52a175a0-ff39-4d2e-a73a-1db21316327b",
+    "act": "avoid",
+    "label": {
+      "en": "Accept the compliment and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He accepts the compliment — the grandfather's eyes, the line holding — and goes, carrying the winter-ford story as a new heirloom: the grandfather was cold once, crossing water for someone else's medicine, and the debt is still out there, uncollected, in a yellow hat.",
+          "es": "Acepta el cumplido — los ojos del abuelo, el linaje aguantando — y se va, llevando la historia del vado de invierno como una herencia nueva: el abuelo tuvo frío una vez, cruzando agua por la medicina de otro, y la deuda todavía está ahí afuera, sin cobrar, en un sombrero amarillo."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:52a175a0-ff39-4d2e-a73a-1db21316327b:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "43666041-e312-425e-b5d1-0f673296bf03",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:7bedd435-2f2e-4f34-96b4-37b238bff6bb",
+    "act": "talk",
+    "label": {
+      "en": "Ask if the tithe can be paid again"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks if the tithe can be paid again — if the noticing still works. 'The forest remembers being noticed,' Tom says, 'the way an old dog remembers being a working dog — dimly, but with pleasure.' He points at a specific oak, thirty yards in. 'That one leans. That lean is new — this season. It is leaning because the forest is testing whether anyone is still watching the edges.' He looks at the Ranger. 'You could walk the edges. One walk would not stop the pull — but it would be noticed.'",
+          "es": "Pregunta si el diezmo se puede pagar de nuevo — si el notar todavía funciona. 'El bosque se acuerda de ser notado', dice Tom, 'como un perro viejo se acuerda de ser perro de trabajo — vagamente, pero con placer.' Señala un roble específico, treinta yardas adentro. 'Ese se inclina. Esa inclinación es nueva — esta temporada. Se inclina porque el bosque está probando si alguien todavía mira los bordes.' Mira al Montaraz. 'Podrías caminar los bordes. Una caminata no va a parar el tirón — pero va a ser notada.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:7bedd435-2f2e-4f34-96b4-37b238bff6bb:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "4d049cd5-487f-4871-9884-7d976046b0f7",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:7bedd435-2f2e-4f34-96b4-37b238bff6bb",
+    "act": "avoid",
+    "label": {
+      "en": "Take the protocol and keep the road"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the protocol — the seasonal edge-walk, the tithe of attention — and keeps the road, filing the oak's lean as a debt his line owes the forest. The edges pull; the walking goes on; somewhere in the noticing his grandfather did, the forest is still expecting a Ranger.",
+          "es": "Toma el protocolo — la caminata de bordes estacional, el diezmo de atención — y mantiene la ruta, archivando la inclinación del roble como una deuda que su linaje le debe al bosque. Los bordes tiran; el caminar sigue; en algún lugar del notar que hizo su abuelo, el bosque todavía está esperando un Montaraz."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:7bedd435-2f2e-4f34-96b4-37b238bff6bb:sit",
       "mapped_from_form": "contact",
       "felt": []
     }

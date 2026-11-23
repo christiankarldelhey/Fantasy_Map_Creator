@@ -7703,13 +7703,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A man in brown — very brown, and some of it is not dye — crouching beside the road examining something in the grass. He does not look up when the traveller approaches."
+      "en": "He is not being rude — he is mid-conversation with the grass, and the traveller simply arrived during it; the surprise is genuine and brief."
     },
     "presence": {
-      "en": "He says, without looking up, that there is a nest of harriers three miles north that has been disturbed — not by a fox, by something heavier, moving on two feet, three nights running. Then he looks up and seems mildly surprised there is a person here."
+      "en": "A man in brown — very brown, and some of it is not dye: mud to the knee, leaf-mould on the shoulders, a beard the colour of old moss with a wren's tail-feather stuck in it like a bookmark — crouching beside the road examining something in the grass. He does not look up when the traveller approaches. 'There is a nest of harriers three miles north that has been disturbed,' he says to the grass, 'not by a fox — by something heavier, moving on two feet, three nights running.' Then he looks up, and seems mildly surprised there is a person there at all."
     },
     "channel": {
-      "en": "Have them turn the talk to beasts, trees and growing things, and the keeping of them."
+      "en": "Talks to things first and people second — the grass gets the full report; the traveller gets the summary, which is still more than most people get."
     },
     "facts": {
       "topic": "care_of_living_things"
@@ -7719,7 +7719,7 @@
         "id": "cnt:7ec69621-0aef-43ae-9b53-112e0aa2e870:sit",
         "tags": [],
         "situation": {
-          "en": "The animal intelligence is specific and accurate. The information about what disturbed the nest is more useful than he realizes he has given."
+          "en": "The animal intelligence is specific and accurate — and the part about the two-footed thing moving three nights running is more useful than he realizes he has given."
         }
       }
     ],
@@ -7740,12 +7740,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He appears out of the forest at the road's edge with two ravens on his shoulders who are arguing with each other about something he keeps trying to mediate."
+      "en": "He is not asking the traveller's opinion — he is giving the ravens' report because he believes travellers should know what the ravens know, and has not considered whether the traveller wants it."
     },
     "presence": {
-      "en": "The ravens have been following something south from the Carrock for a week. They are arguing about what it is. He translates both positions with the patience of a man who has been doing this for a very long time. The disagreement is: one says orc-warband, the other says it is organized differently."
+      "en": "He comes out of the forest at the road's edge — brown-robed, weather-beaten, bootless despite the season — with two ravens on his shoulders who are arguing with each other about something he keeps trying to mediate: 'No — south of the Carrock, I said south —' and to the traveller, in the tone of a man relaying a weather report: 'The ravens have been following something south from the Carrock for a week. They are arguing about what it is. One says a man-shaped thing; the other says a thing wearing a man's shape. There is a difference.'"
     },
-    "channel": null,
+    "channel": {
+      "en": "Raven-mediated — he translates both positions with the patience of someone who has been doing this for a very long time, and the ravens keep interjecting corrections."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -7754,7 +7756,7 @@
         "id": "cnt:47575155-fbfe-4447-ab91-53220c88fc1a:sit",
         "tags": [],
         "situation": {
-          "en": "He is giving them this information because he believes travelers should know what the ravens know. He does not consider whether the traveler wants it."
+          "en": "The distinction the second raven draws — a thing *wearing* a man's shape versus a man-shaped thing — is the whole report, and he says it like a footnote."
         }
       }
     ],
@@ -7776,12 +7778,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He steps onto the road and stops the traveller specifically — he has been waiting."
+      "en": "He is sure enough to stop a Ranger and say it — not sure what it means, sure enough that the quiet is not ordinary."
     },
     "presence": {
-      "en": "He says that the animals on the north road have gone quiet for two miles in a specific direction, and that this kind of quiet has happened twice before that he remembers, and both times it preceded something the Rangers needed to know about."
+      "en": "He steps onto the road and stops the traveller specifically — brown-clad, earth-stained, moving with the unhurried precision of someone who has been waiting for this particular person: 'The animals on the north road have gone quiet for two miles in a specific direction,' he says. 'This kind of quiet has happened twice before that I remember, and both times it preceded something the Rangers needed to know about.' He is not asking — he is reporting, and the specificity of the waiting means he chose this traveller to tell."
     },
-    "channel": null,
+    "channel": {
+      "en": "Flat, precise, urgent beneath the calm — the report of someone who reads silences the way other men read letters."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -7790,7 +7794,7 @@
         "id": "cnt:daacd94f-77ed-40ff-8ddb-bc1542af2666:sit",
         "tags": [],
         "situation": {
-          "en": "He is not sure what it means. He is sure enough to stop a Ranger and say it."
+          "en": "Two miles of deliberate quiet on a road is not a natural silence — it is the silence of animals that have decided something is hunting, and the direction is the intelligence."
         }
       }
     ],
@@ -7813,12 +7817,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He recognizes her immediately — or rather, one of the ravens on his shoulder does, and tells him, and he reacts to what the raven says rather than to her directly."
+      "en": "He reacts to what the raven says rather than to her directly — the embarrassment is real, and so is the fact that the raven said it in front of her."
     },
     "presence": {
-      "en": "He says the raven says she smells like someone who has been in Aman and chose to leave it. The raven is apparently very specific about this. He apologizes for the raven."
+      "en": "He is there before she fully registers him — brown-robed, mud-footed, a raven on each shoulder — and one of the ravens is already speaking before the man opens his mouth: 'She smells like someone who has been in Aman and chose to leave it,' the raven says, very precisely, and the man winces. 'I apologize for the raven,' he says to her, with the embarrassment of a host whose pet has just recited the guest's biography. 'He is usually more discreet. He is also, unfortunately, usually right.'"
     },
-    "channel": null,
+    "channel": {
+      "en": "Raven-first, man-second — the ravens do the observations; he does the diplomacy, which he is clearly less practiced at."
+    },
     "facts": {
       "topic": "the_fading"
     },
@@ -7827,7 +7833,7 @@
         "id": "cnt:e0e3dec1-7725-4511-8888-96d26f14c7c2:sit",
         "tags": [],
         "situation": {
-          "en": "The raven is right. The apology is genuine. He is faintly embarrassed by his own ability."
+          "en": "The raven is right — she did choose to leave Aman, and a bird just said it out loud on a road. What he does with being caught knowing is the interesting part."
         }
       }
     ],
@@ -7850,12 +7856,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He comes to her directly, without the usual roundabout. He looks at her with the specific attention of a Maia who has seen something he did not expect to see."
+      "en": "He wants to know if she has felt it too — he is asking because if she has not, he can go back to dismissing it; if she has, he cannot."
     },
     "presence": {
-      "en": "He says that the forest between here and the mountains is wrong in a way it has not been wrong since the Second Age. He says it in the voice of someone who has been trying to dismiss this observation for a week and can no longer."
+      "en": "He comes to her directly on the road — no roundabout, no bird-talk — brown-clad, wind-blown, looking at her with the specific attention of someone who has seen something he did not expect to see and is still deciding what it means: 'The forest between here and the mountains is wrong,' he says, 'in a way it has not been wrong since the Second Age.' He says it in the voice of someone who has been trying to dismiss this observation for a week and can no longer."
     },
-    "channel": null,
+    "channel": {
+      "en": "Direct in a way that costs him — the urgency is what the week of dismissal could not contain; it is coming out all at once."
+    },
     "facts": {
       "topic": "what_stirs_in_the_dark"
     },
@@ -7864,7 +7872,7 @@
         "id": "cnt:88e84f59-5f60-427e-8062-3b2af5586ef5:sit",
         "tags": [],
         "situation": {
-          "en": "He wants to know if she has felt it too. He is asking because if she has not felt it, he can continue to dismiss it. If she has, he cannot."
+          "en": "A wrongness old enough to have a precedent — and a precedent old enough to be the Second Age — is not a local problem. The confirmation he needs from her is the last door before it becomes a real one."
         }
       }
     ],
@@ -7886,12 +7894,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He is already there when the traveller arrives at the river crossing — sitting on a log singing something about kingfishers that is not quite a song and not quite a spell and is definitely working on something in the water."
+      "en": "The most helpful and least explicable thing on this road — the help is genuine, the inexplicability is permanent, and the dinner is already being served."
     },
     "presence": {
-      "en": "He looks up and says: there you are! As if he was expecting them. He may have been. He invites them to dinner without asking their name, which he already knows."
+      "en": "He is already there when the traveller arrives at the river crossing — a stout fellow in a blue coat and yellow boots, sitting on a log singing something about kingfishers that is not quite a song and not quite a spell and is definitely working on something in the water: the current is running the wrong colour where his voice lands, and the fish are leaping in time to the not-quite-melody. He looks up and says, 'There you are!' — as if he was expecting them. He may have been. 'Dinner!' he announces, and does not ask their name, which he already knows."
     },
-    "channel": null,
+    "channel": {
+      "en": "Song-and-weather — he talks the way the current runs: bright, sideways, and landing exactly where he meant it."
+    },
     "facts": {
       "topic": "food_and_comfort"
     },
@@ -7900,7 +7910,7 @@
         "id": "cnt:fc53a16a-5154-4578-8ed3-beee90e4170a:sit",
         "tags": [],
         "situation": {
-          "en": "He is the most helpful and least explicable thing on this road. The help is genuine. The inexplicability is permanent."
+          "en": "He knew the traveller was coming — how is not worth asking. The kingfishers know too, apparently; the whole river seems to be in on it."
         }
       }
     ],
@@ -7921,12 +7931,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He appears on the path ahead, walking in the opposite direction, and greets the traveller as though they are old friends who have not seen each other in a week."
+      "en": "He is telling the traveller because travellers carry information forward — the tone is casual, the information is not, and he knows the difference."
     },
     "presence": {
-      "en": "He has been watching something in the Old Forest that has been behaving unusually for the past month — Old Man Willow, he says, has been dreaming worse than usual, and the dreams are coming from outside Old Man Willow, not from inside. He says this the way someone reports a neighbor's cough."
+      "en": "He appears on the path ahead, walking in the opposite direction — yellow and blue, broad-hatted, singing something cheerful about badgers — and greets the traveller as though they are old friends who have not seen each other in a week: 'Old Man Willow has been dreaming worse than usual,' he says, falling into step without being invited, 'and the dreams are coming from outside him, not from inside. That is the unusual part — Old Man Willow's dreams are usually his own.' He says this the way someone reports that a neighbour's dog has been barking at strangers, which is to say: locally, and with full confidence the traveller understands the implications."
     },
-    "channel": null,
+    "channel": {
+      "en": "Neighbourly-catastrophic — he reports world-events like village gossip, which is either reassuring or deeply alarming depending on how you hear it."
+    },
     "facts": {
       "topic": "what_stirs_in_the_dark"
     },
@@ -7935,7 +7947,7 @@
         "id": "cnt:9e949237-1899-4d62-9863-ae436559e210:sit",
         "tags": [],
         "situation": {
-          "en": "The information is more significant than his tone suggests. He knows this. He is telling the traveller because travelers carry information forward."
+          "en": "Something outside the Old Forest is reaching into Old Man Willow's dreams — and a being that can do that to Old Man Willow is not something to leave uninvestigated."
         }
       }
     ],
@@ -7957,12 +7969,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He finds her on the road and simply walks beside her for a while. He does not speak for several minutes, which for him is unusual."
+      "en": "He is not afraid for her — he is telling her because she should know, and the several-minutes silence before speaking was him deciding how to say it."
     },
     "presence": {
-      "en": "Then he says: something is asking questions about you. Not looking for you — asking questions about you. There is a difference, and the difference is that asking questions means someone is deciding whether to look."
+      "en": "He falls into step beside her on the road — brown-robed, quiet for him, which is several minutes — before saying, without preamble: 'Something is asking questions about you. Not looking for you — asking questions about you. There is a difference, and the difference is that asking questions means someone is deciding whether to look.' He walks a few more steps. 'I do not know who is asking. I thought you should know the asking is happening.'"
     },
-    "channel": null,
+    "channel": {
+      "en": "Quieter than his usual — the walking-silence was the rehearsal; the information itself is delivered plain and then he goes back to watching the birds."
+    },
     "facts": {
       "topic": "what_stirs_in_the_dark"
     },
@@ -7971,7 +7985,7 @@
         "id": "cnt:ec994ce1-881b-46b4-9880-e166d7f7a638:sit",
         "tags": [],
         "situation": {
-          "en": "He is not afraid for her. He is telling her because she should know. He will not tell her who is asking because he does not know."
+          "en": "Someone is deciding whether to look for her — and the questions being asked are the kind asked before the looking starts. He cannot name the asker, which means the asker is being careful."
         }
       }
     ],
@@ -8680,13 +8694,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A figure in yellow and blue, already singing when the traveller comes around the bend. He stops singing when he sees the traveller and looks at him with bright eyes."
+      "en": "He knows the Dúnedain lineage better than expected — offers it as conversation, not credential, like mentioning the weather is also a kind of lineage."
     },
     "presence": {
-      "en": "He says: a Ranger! and seems genuinely delighted by this, the way someone is delighted by a specific bird they have not seen that season. He says he knew the traveller's grandfather, or his grandfather's grandfather, or someone in that line. He is not precise about which."
+      "en": "A figure in yellow and blue is already singing when the traveller comes around the bend — something bright about water-lilies — and he stops mid-verse when he sees the traveller, bright eyes fixing on him like a man who has just spotted a bird he has been hoping to see all season: 'A Ranger!' he says, genuinely delighted. 'I knew your grandfather — or your grandfather's grandfather, or someone in that line — they all look the same after a few hundred years, which is not an insult, it is a compliment to the breeding.' He tilts his head. 'He had your eyes.'"
     },
     "channel": {
-      "en": "Have them speak words that carry more than they say — a warning, a riddle, or counsel from one far older than he seems."
+      "en": "Bright, delighted, sideways — the talk lands where he means it to, but gets there by paths no map has drawn."
     },
     "facts": {
       "topic": "riddle_and_counsel"
@@ -8696,7 +8710,7 @@
         "id": "cnt:52a175a0-ff39-4d2e-a73a-1db21316327b:sit",
         "tags": [],
         "situation": {
-          "en": "He knows the Dunedain lineage better than expected. He is offering this as conversation, not as a credential."
+          "en": "He knew the traveller's line — which is either a courtesy, a warning, or simply a man who has lived long enough that everyone's grandfather is a mutual acquaintance."
         }
       }
     ],
@@ -8719,13 +8733,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He is waiting on the path — not blocking it, just standing there with the look of someone who knew the traveller would come this way today."
+      "en": "He is not certain the traveller knows — he is asking by telling, which is a kind of test, and the bright eyes are grading the answer before it is given."
     },
     "presence": {
-      "en": "He says that the Old Forest is pulling at its edges — not the trees moving, the edges themselves, the places where forest meets road. He says this the way someone reports that a door is sticking. He says the traveller's people used to know what to do when the edges pulled."
+      "en": "He is waiting on the path — not blocking it, just standing there, yellow and blue and broad-hatted, with the look of someone who knew the traveller would come this way today: 'The Old Forest is pulling at its edges,' he says. 'Not the trees moving — the edges themselves, the places where forest meets road. Your people used to know what to do about that.' He says this the way someone reports that a door is sticking, and waits, bright-eyed, to see if the traveller remembers the protocol."
     },
     "channel": {
-      "en": "Have them speak words that carry more than they say — a warning, a riddle, or counsel from one far older than he seems."
+      "en": "Reports the apocalypse like a sticky door — the casualness is either the best or worst thing about him, and it is both."
     },
     "facts": {
       "topic": "riddle_and_counsel"
@@ -8735,7 +8749,7 @@
         "id": "cnt:7bedd435-2f2e-4f34-96b4-37b238bff6bb:sit",
         "tags": [],
         "situation": {
-          "en": "He is not certain the traveller knows. He is asking by telling him."
+          "en": "The forest's edges pulling means something is stretching the old boundaries — and the Dúnedain protocols he mentions are real, if the traveller can half-remember them."
         }
       }
     ],
