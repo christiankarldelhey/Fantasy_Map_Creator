@@ -11841,10 +11841,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "The offer comes from the doorway and no one steps out past it."
+      "en": "The offer comes from the doorway and no one steps out past it — the threshold is the line, and the line is being held politely and absolutely."
     },
     "presence": {
-      "en": "Food left on the gate-stone, water drawn and set beside it. They will not have him under the roof and they will not let him go hungry either."
+      "en": "A gate-stone at the edge of a farm-yard — a flat boulder worn smooth by generations of elbows and baskets — and on it, set out with the care of a ritual: a covered bowl of food, a jug of water drawn cold from the well, a folded cloth laid beside them. The farm door stands open ten paces off, and in the doorway a woman's silhouette, arms folded, watching. She will not have a stranger under the roof — the folded arms say so plainly — but she will not let him go hungry on her gate either. The bowl is still warm. The watching does not soften."
     },
     "channel": {
       "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
@@ -11857,7 +11857,7 @@
         "id": "cnt:0a1d0003-0000-4000-8000-0a1d00000003:sit",
         "tags": [],
         "situation": {
-          "en": "They are afraid of what walks the country now and not certain he is no part of it. The charity is real; the fear is older."
+          "en": "They will not have him under the roof and they will not let him go hungry either — and which of those two facts is the kinder is a question the bowl answers differently than the door."
         }
       }
     ],
@@ -11996,10 +11996,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Formal and a little dazzled, unsure whether they should offer at all, offering anyway."
+      "en": "Formal and a little dazzled — unsure whether they should offer anything to one of the Fair Folk at all, offering anyway because a sick child outranks protocol."
     },
     "presence": {
-      "en": "The best of the house pressed on her — new bread, honey, the one good cup — and a request that she look at a child who does not thrive."
+      "en": "A farmhouse kitchen made into a court — the best of the house pressed on her by people half-awed to be doing it: new bread still warm enough to steam, a comb of honey, the one good cup brought down from a shelf where it lives wrapped in cloth. The farmer's wife does the offering, a round-faced woman with flour on her wrists and her courage gathered visibly in her shoulders. Behind the ceremony, the real thing: a child in a chair by the hearth, too pale, too still, with a cough that has gone on too long, and a family that has stopped pretending it is just a cough."
     },
     "channel": {
       "en": "Have them raise a trouble of their own — a beast, a feud, a missing kinsman — and hope the stranger might aid it."
@@ -12012,7 +12012,7 @@
         "id": "cnt:0a1d0007-0000-4000-8000-0a1d00000007:sit",
         "tags": [],
         "situation": {
-          "en": "They have nothing worth giving to one of her kind and are giving it regardless. Refusing would cost them more than accepting."
+          "en": "The bread and honey are the door they opened to ask the real question — the child by the hearth is the question, and they are watching her face for the answer before they ask it."
         }
       }
     ],
@@ -12074,10 +12074,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "An old woman decides for the household, over the muttering of the men, and puts food into her hands."
+      "en": "The household follows her decision because she made it — the muttering was ceremonial; the bread was already cut."
     },
     "presence": {
-      "en": "A hearth-place for the night, and a question asked very low: whether the lights on the hills are what her grandmother always said they were."
+      "en": "A stone farmhouse at dusk, and an old woman who has decided for the household — over the muttering of the men by the door, whose objections die under her look the way grass dies under frost. She puts food into the traveller's hands with her own hands: thin, knotted, strong as roots. A hearth-place is made up by the fire, and the family settles — and then, when the room has gone quiet enough, the old woman asks her question very low, the question she has been saving: whether the lights that move on the hills some nights are what her grandmother always said they were."
     },
     "channel": {
       "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
@@ -12090,7 +12090,7 @@
         "id": "cnt:0a1d0009-0000-4000-8000-0a1d00000009:sit",
         "tags": [],
         "situation": {
-          "en": "The old woman has waited her whole life to ask someone who would know. The answer will not comfort her."
+          "en": "The hearth-place is payment for the question — and the question is sixty years of watching lights on hills and wanting, finally, someone who can say."
         }
       }
     ],
@@ -12112,10 +12112,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Grudging at first, then bluntly hospitable once he is judged no friend of the Horse-lords."
+      "en": "Grudging at first, then bluntly hospitable once the verdict lands — these are people who do not warm gradually; they are cold until they are not."
     },
     "presence": {
-      "en": "Mutton, curds and a place at the peat-fire, for a straight answer about the road east and whether riders have been counted on it lately."
+      "en": "A peat-fire in a turf-roofed steading, and a welcome that has to be earned by a verdict first: mutton, curds, and a place by the fire held in reserve while a grey-bearded head of household looks him over like a man judging weather. The verdict comes when it becomes clear he is no friend of the Horse-lords — something in how he answers, or declines to — and then the reserve drops like a sluice: the mutton is pushed forward, the curds follow, and the questions begin, blunt and practical, about the road east and whether riders have been counted on it lately."
     },
     "channel": {
       "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
@@ -12128,7 +12128,7 @@
         "id": "cnt:0a1d0010-0000-4000-8000-0a1d00000010:sit",
         "tags": [],
         "situation": {
-          "en": "The whole welcome hangs on one thing — which side of the old quarrel he stands on. They will not ask twice."
+          "en": "The hospitality has a price tag made of questions — the riders on the eastern road are being counted by people whose counting is a kind of warning system."
         }
       }
     ],
@@ -12260,10 +12260,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Correct and faintly official — hospitality offered as a duty of the province rather than a kindness."
+      "en": "Duty-hospitality — warm enough, and written down; the village feeds travellers the way it mends roads: because the record says it should."
     },
     "presence": {
-      "en": "A place in the outbuilding, bread, oil and olives, and his name and road written into the tally the village keeps for the garrison."
+      "en": "A walled village of the province, correct and faintly official — a steward's man meets him at the gate with a tally-board already in hand, the hospitality arranged like an entry in a ledger: a place in the outbuilding, bread, oil and olives, and his name and road written into the record the village keeps for the garrison. The man is neat, middle-aged, ink on his second finger, and performs the whole transaction with the courtesy of someone whose courtesy is a duty of the province rather than a kindness. The ledger stays open on his knee the whole time."
     },
     "channel": {
       "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
@@ -12276,7 +12276,7 @@
         "id": "cnt:0a1d0014-0000-4000-8000-0a1d00000014:sit",
         "tags": [],
         "situation": {
-          "en": "The hospitality is real. So is the tally, and someone in Minas Anor will read it eventually."
+          "en": "His name goes in the tally whether he likes it or not — the only choice is whether the garrison reads an honest entry or a guessed one."
         }
       }
     ],
@@ -12371,10 +12371,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Weather-hardened and easy, judging him the way they judge a boat — by whether he will be trouble in a swell."
+      "en": "Easy and weather-hardened — hospitality with a handle on it, offered by people who measure everyone by what they will do when the water moves."
     },
     "presence": {
-      "en": "Smoked fish, flat bread and a berth in the net-loft, on the understanding that he takes an oar if the boat goes out before dawn."
+      "en": "A net-loft over a boat-shed, smelling of tar and dried fish, and the family that owns it — weather-hardened river people who judge him the way they judge a boat: by whether he will be trouble in a swell. The offer is smoked fish, flat bread and a berth up in the loft among the drying nets, on one understanding stated plainly by the grey-braided grandmother who runs the landing: if the boat goes out before dawn, he takes an oar. No negotiation is offered; the understanding is already the negotiated price."
     },
     "channel": {
       "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
@@ -12387,7 +12387,7 @@
         "id": "cnt:0a1d0017-0000-4000-8000-0a1d00000017:sit",
         "tags": [],
         "situation": {
-          "en": "Nothing here is free, but the price is work and everyone knows the rate."
+          "en": "The berth is warm, the fish is good, and the price is honest — an oar taken before dawn if the water calls, which is a promise made to the river as much as to the family."
         }
       }
     ],
@@ -12856,10 +12856,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Helpful and openly measuring him at the same time — one of the riders keeps circling wide while the other talks."
+      "en": "Helpful and openly measuring him at the same time — the generosity and the surveillance are the same policy, worn openly."
     },
     "presence": {
-      "en": "They will share food and grain and ask, in return, whether he has seen fires in the hills to the west, and how many, and how far apart."
+      "en": "Two riders beside a supply-waggon, and an offer made across a measuring distance: food and grain shared freely, and in return questions — whether he has seen fires in the hills to the west, and how many, and how far apart. One of them does the asking, lean and sun-dark, direct; the other keeps circling wide on his horse, watching the road behind the traveller, which is either precaution or a habit the road taught them. The food is real. So is the measurement. Both are offered at once, without embarrassment."
     },
     "channel": {
       "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
@@ -12872,7 +12872,7 @@
         "id": "cnt:0a1e0008-0000-4000-8000-0a1e00000008:sit",
         "tags": [],
         "situation": {
-          "en": "They are counting hill-folk camps and he is the only source they have today. What he says may put riders on a track by tomorrow."
+          "en": "They are counting fires the way shepherds count storms — the questions are a census of danger, and his answer goes into a tally that rides back to someone."
         }
       }
     ],
@@ -12930,10 +12930,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "No greeting is offered and none is expected. A hand puts food where he can reach it and withdraws."
+      "en": "No words at all — the hospitality is a transaction conducted entirely in objects left and objects taken, and the mark on the stump is the receipt."
     },
     "presence": {
-      "en": "Roots, smoked meat and a gourd of clean water. Afterwards a mark is cut into a stump beside the trail: the sign that says this one may pass."
+      "en": "A hand puts food where he can reach it and withdraws — roots, smoked meat and a gourd of clean water, set on a flat stone at the edge of a wooded homestead where no greeting is offered and none is expected. The people here — glimpsed only as movement between the trees — do not talk to the road; they feed it at arm's length. Afterwards, when the food is taken, a mark is cut into a stump beside the trail, fresh and pale: the sign that says this one may pass."
     },
     "channel": {
       "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
@@ -12946,7 +12946,7 @@
         "id": "cnt:0a1e0010-0000-4000-8000-0a1e00000010:sit",
         "tags": [],
         "situation": {
-          "en": "The gift is real and the silence is not unfriendliness. They are simply not a people who explain themselves."
+          "en": "The stump-mark is worth more than the meal — it is a passport written in a knife, and it means the wood between here and the next holding has already decided about him."
         }
       }
     ],
@@ -12967,10 +12967,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Comfortable, nosy and entirely friendly — the innkeeper's manner, whether or not there is an inn."
+      "en": "The innkeeper's manner — warmth as stock-in-trade, curiosity as professional equipment, and not a drop of it insincere, which is what makes it work."
     },
     "presence": {
-      "en": "A bed of straw, stew, small beer and the whole state of the Bree-land laid out unasked, in exchange for news of the Greenway and a copper or two."
+      "en": "A road-stead with a hearth and a host who is an innkeeper whether or not there is an inn — comfortable, nosy, entirely friendly, a round man with gravy on his apron who has the whole state of the Bree-land laid out unasked before the stew is half-eaten: who married whom, whose barn burned, which landlord is cheating which tenant, delivered with the relentless good cheer of a man who trades in talk. The price is stated cheerfully too: a bed of straw, the stew, small beer, and news of the Greenway plus a copper or two."
     },
     "channel": {
       "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
@@ -12983,7 +12983,7 @@
         "id": "cnt:0a1e0011-0000-4000-8000-0a1e00000011:sit",
         "tags": [],
         "situation": {
-          "en": "Nothing is at stake for them and everything is interesting. The price of the bed is the story."
+          "en": "He trades news for news and straw for coppers — and the Bree-land gossip, sorted from the noise, is worth more than the bed."
         }
       }
     ],
@@ -13078,10 +13078,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "A tinker with a pack-frame and a cart, delighted to have someone new to talk at."
+      "en": "Delighted — a man whose isolation on the road is cured fresh by every stranger, and who pays for the conversation by doing the work cheap."
     },
     "presence": {
-      "en": "Mended straps, a new buckle and a resoled boot for a small coin, plus every rumour between here and the last market — some of them even true."
+      "en": "A tinker with a pack-frame and a lean cart, camped at a road-junction with his trade already open — mended straps, a new buckle, a boot resoled while the traveller waits, and the whole time a torrent of talk: every rumour between here and the last market, some of them even true. He is wiry, quick-fingered, delighted past all dignity to have someone new to talk at, and his prices are fair because his real currency is an audience. The boot comes back better than it went. The rumours require sorting."
     },
     "channel": {
       "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
@@ -13094,7 +13094,7 @@
         "id": "cnt:0a1e0014-0000-4000-8000-0a1e00000014:sit",
         "tags": [],
         "situation": {
-          "en": "He is lonely and he is a trader and both of those are working on him at once."
+          "en": "The boot is mended and the news is mixed — and somewhere in the torrent is one true thing about the road ahead that makes the whole stop worth it."
         }
       }
     ],
@@ -13337,10 +13337,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "A caravan-master who prices him as cargo before he speaks: one more body on the road is either a guard or a risk."
+      "en": "Contractual — no warmth offered and none needed; the terms are the respect, and the respect is that he thinks the traveller can do the watch."
     },
     "presence": {
-      "en": "A place walking with the waggons, two meals a day and water, in exchange for standing a watch each night as far as the next market town."
+      "en": "A waggon-train drawn up for the night — six waggons in a circle, cook-fires going, mules picketed — and a caravan-master who prices him as cargo before the traveller has finished speaking: a big scarred man with a lash stuck through his belt and the arithmetic of the road in his face. The offer is made the way a contract is read: a place walking with the waggons, two meals a day and water, in exchange for standing a watch each night as far as the next market town. One more body on the road is either a guard or a risk, and the caravan-master has already decided which he is offering to bet on."
     },
     "channel": {
       "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
@@ -13353,7 +13353,7 @@
         "id": "cnt:0a1e0021-0000-4000-8000-0a1e00000021:sit",
         "tags": [],
         "situation": {
-          "en": "Company on the road is worth food to them and food is worth company to him. The arrangement lasts exactly as long as it suits both."
+          "en": "The waggons are safety, speed and company for the price of sleeping light — and the caravan-master's bet that he is a guard, not a risk, is itself a kind of character reference."
         }
       }
     ],
@@ -13411,10 +13411,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "A single trader with a mule and a professional smile that does not quite reach the eyes."
+      "en": "Professional — the smile is equipment, like the pack-frame; the man behind it is honest within the tolerances of trade, which is a real but limited honesty."
     },
     "presence": {
-      "en": "Salt, thread, a whetstone and a small pot of honey at slightly too high a price, with good road-news thrown in to justify the margin."
+      "en": "A single trader with a mule and a professional smile that does not quite reach the eyes — salt, thread, a whetstone and a small pot of honey laid out on a folded cloth at slightly too high a price, with good road-news thrown in to justify the margin. He is thin, well-spoken, the mule better shod than the man, and the smile is doing more work than the merchandise: a seller who knows exactly what his goods cost and exactly what his information is worth, and prices both accordingly."
     },
     "channel": {
       "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
@@ -13427,7 +13427,7 @@
         "id": "cnt:0a1e0023-0000-4000-8000-0a1e00000023:sit",
         "tags": [],
         "situation": {
-          "en": "He is honest enough and he will still take whatever the market allows. The news is the real value and he knows it."
+          "en": "The prices are high and the news is good — and the well-shod mule says the trader makes his margins somewhere, probably off travellers exactly like this one."
         }
       }
     ],
@@ -13448,10 +13448,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Frank and hard-worn; she names what she has and what she needs in the same breath."
+      "en": "Frank — she does not wrap the trade in anything; the goods, the price and the information are stated in one breath each."
     },
     "presence": {
-      "en": "Dried fish, a bed in the byre and the new line of the crossing since the storm shifted the sandbanks, for salt and word from the north."
+      "en": "A fisher-woman's hut at a tidal crossing — dried fish, a bed in the byre and, for salt and word from the north, the new line of the crossing since the storm shifted the sandbanks. She is frank and hard-worn, grey-streaked hair clubbed back, and names what she has and what she needs in the same breath — a woman who runs the crossing's knowledge the way other people run a shop, except the stock is what the river did last week and no one sells it but her."
     },
     "channel": {
       "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
@@ -13464,7 +13464,7 @@
         "id": "cnt:0a1e0024-0000-4000-8000-0a1e00000024:sit",
         "tags": [],
         "situation": {
-          "en": "She trades from a position of knowing more about this country than anyone he will meet today and she prices accordingly."
+          "en": "The crossing has moved since the storm and the map has not — what she knows is the difference between fording water and fording a hole, and she knows it from standing in it."
         }
       }
     ],
@@ -13522,10 +13522,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "No ceremony at all. Gear is put out on a stone: take what is needed, leave what is not."
+      "en": "No ceremony at all — the Rangers' aid is logistics, not hospitality; the cache is the greeting and the birch-bark is the conversation."
     },
     "presence": {
-      "en": "A cache opened — arrows, a spare cloak, hard bread, a phial of athelas — and the current state of the circuit given in six sentences."
+      "en": "A cache-stone by the trail, opened — and the open cache of a Ranger circuit laid out on a stone without ceremony: arrows, a spare cloak, hard bread, a phial of athelas. The man who opened it is already gone back into the trees — the cache was left, not given, which is how the Rangers handle aid to their own: gear put out, take what is needed, leave what is not. The current state of the circuit comes with it in six sentences scratched on a strip of birch-bark — which watch-posts are manned, which ford is watched, which stretch to avoid."
     },
     "channel": {
       "en": "Have them speak of loyalty to king and folk, and the binding weight of a word once given."
@@ -13538,7 +13538,7 @@
         "id": "cnt:0a1e0026-0000-4000-8000-0a1e00000026:sit",
         "tags": [],
         "situation": {
-          "en": "Between those who keep the same watch there is no bargaining, only accounting. The cache will be restocked by whoever passes next."
+          "en": "The cache is a covenant — take what you will use, say what you leave, and the next man on the circuit reads your honesty in what is missing."
         }
       }
     ],
@@ -13559,10 +13559,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Fellow travellers on the same road, willing to pool what they have because the night is coming either way."
+      "en": "Easy pooling — the friendliness of travellers for whom the night is coming either way and the math of watches is the oldest road-wisdom there is."
     },
     "presence": {
-      "en": "A shared fire, a shared pot and watches split between them, plus everything they know about the next two days of road."
+      "en": "A shared fire offered mid-gesture — fellow travellers on the same road, a tinker and two farmhands walking west to harvest-work, who wave him in with the ease of people whose safety arithmetic says three watches are better than one. A shared pot is already on the boil; the deal is unspoken and entire: put rations into the pot, take a watch, split the night between them. They are road-worn, cheerful, and armed just enough to be worth pooling with."
     },
     "channel": {
       "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
@@ -13575,7 +13575,7 @@
         "id": "cnt:0a1e0027-0000-4000-8000-0a1e00000027:sit",
         "tags": [],
         "situation": {
-          "en": "Nobody is in charge of this arrangement and it works precisely because nobody asks anything beyond the morning."
+          "en": "The pot is communal and the watches are split — and in the morning they part at the crossroads as four people who shared a night, which on the road is nearly kin."
         }
       }
     ],
@@ -13596,10 +13596,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "River-folk mending nets who talk while their hands keep working."
+      "en": "Working-talk — friendly, unhurried, hands never stopping; the welcome is real and the warning is realer, delivered the way you tell someone their roof looks wrong."
     },
     "presence": {
-      "en": "Fresh fish, a place on the jetty out of the mud and a warning that the water has been running wrong for a week — up when it should be down."
+      "en": "River-folk mending nets on a jetty — four of them along the planks with the endless patient work of twine and knot, talking while their hands keep working, and the talk is the offer: fresh fish, a place on the jetty out of the mud, and a warning given in the tone people use for weather that has started to frighten them — the water has been running wrong for a week. Up when it should be down. The river is not doing what the river does, and people whose whole life is the river are the first to say so."
     },
     "channel": {
       "en": "Have them raise a trouble of their own — a beast, a feud, a missing kinsman — and hope the stranger might aid it."
@@ -13612,7 +13612,7 @@
         "id": "cnt:0a1e0028-0000-4000-8000-0a1e00000028:sit",
         "tags": [],
         "situation": {
-          "en": "The river is their whole living and something upstream has changed. They would like a traveller who is going that way to look."
+          "en": "Fresh fish and a dry spot for the price of listening — and the thing about the water running wrong is the kind of detail a traveller carries upstream like a debt."
         }
       }
     ],

@@ -53645,18 +53645,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Eats what is given at the gate. Leaves the bowl clean and something small beside it."
-        },
-        "effects": [
-          {
-            "type": "meal",
-            "food": "what was left on the gate-stone"
-          },
-          {
-            "type": "water",
-            "refill": true
-          }
-        ]
+          "en": "He eats what is given at the gate — sits on the stone like the stone is the dining room it was clearly designed to be, takes the cloth off the bowl, eats the still-warm food slowly enough to mean it. The water is cold from the well and he drinks it like a man who notices water. When he is done he washes the bowl at the trough, sets it back clean, and leaves beside it the smallest good thing his pack contains. The doorway watches the whole ritual. When he rises to go, the folded arms uncross — one gesture, small and entire: the line held, and the line appreciated for how he treated it.",
+          "es": "Come lo que le dan en el portón — se sienta en la piedra como si la piedra fuera el comedor que claramente fue diseñada para ser, saca el paño del cuenco, come la comida todavía tibia lo bastante despacio para que signifique. El agua es fría del pozo y la bebe como un hombre que nota el agua. Cuando termina lava el cuenco en el abrevadero, lo devuelve limpio, y deja al lado la cosa buena más chica que su mochila contiene. La puerta mira todo el ritual. Cuando se levanta para irse, los brazos cruzados se descruzan — un gesto, chico y entero: la línea mantenida, y la línea apreciada por cómo la trató."
+        }
       }
     },
     "payload": {
@@ -53825,14 +53816,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Accepts the cup. Looks at the child. Says what can be done in words a farmer can use."
-        },
-        "effects": [
-          {
-            "type": "meal",
-            "food": "new bread and honey"
-          }
-        ]
+          "en": "She takes the good cup — accepts the ceremony because refusing it would cost them more than it costs her — and drinks the honeyed drink slowly, letting the family's held breath ease around her. Then she goes to the child by the hearth, kneels, and does the looking that is half examination and half something else: the palms read, the eyes lifted gently, the cough listened to with the patience of someone who has heard a thousand coughs and can sort them by weight. When she is done she says what can be done in words a farmer can use: the child needs this herb brewed thus, this rest kept thus, this many days watched. She does not say the other thing — that the child will thrive — until she is sure, and then she says it plainly, because a family that has been pretending deserves the truth unpadded.",
+          "es": "Toma la taza buena — acepta la ceremonia porque rechazarla les costaría más a ellos que a ella — y bebe el brebaje de miel despacio, dejando que la respiración contenida de la familia se afloje a su alrededor. Después va hacia el niño junto al fuego, se arrodilla, y hace el mirar que es mitad examen y mitad otra cosa: las palmas leídas, los ojos levantados suavemente, la tos escuchada con la paciencia de alguien que oyó mil toses y las sabe ordenar por peso. Cuando termina dice lo que se puede hacer en palabras que un granjero puede usar: el niño necesita esta hierba hervida así, este descanso mantenido así, tantos días observados. No dice la otra cosa — que el niño va a prosperar — hasta estar segura, y entonces lo dice sin rodeos, porque una familia que viene fingiendo merece la verdad sin acolchar."
+        }
       }
     },
     "payload": {
@@ -53934,24 +53920,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes the hearth-place for the night. Gives the old woman the true answer and does not dress it up."
-        },
-        "effects": [
-          {
-            "type": "lodging",
-            "name": "the hearth-place",
-            "description": "a place by the hearth of a woman who has waited her whole life to ask",
-            "indoor": true
-          },
-          {
-            "type": "rest",
-            "quality": 3
-          },
-          {
-            "type": "shadow",
-            "amount": -1
-          }
-        ]
+          "en": "She takes the hearth-place — and when the room goes quiet and the old woman asks the question low, she answers it true and does not dress it up: yes, the lights are what her grandmother said. What the grandmother said turns out to be *people* — the Fair Folk, moving in the hills, older than the farm, older than the family's name for them — and the old woman sits with the answer for a while like it is a cup she has waited sixty years to drink. 'I knew,' she says at last, and the knowing is not triumph; it is a debt finally witnessed. She tells the household their grandmother told true, and the muttering men by the door go quieter still.",
+          "es": "Toma el lugar junto al fuego — y cuando el cuarto se aquieta y la vieja hace la pregunta en voz baja, ella responde con verdad y no la disfraza: sí, las luces son lo que su abuela decía. Lo que la abuela decía resulta ser *gente* — los del Pueblo Bello, moviéndose en las colinas, más viejos que la granja, más viejos que el nombre que la familia les da — y la vieja se queda con la respuesta un rato como si fuera una taza que esperó sesenta años para beber. 'Lo sabía', dice al final, y el saber no es triunfo; es una deuda finalmente presenciada. Le dice a la familia que su abuela dijo verdad, y los hombres que murmuraban en la puerta se quedan aún más quietos."
+        }
       }
     },
     "payload": {
@@ -53976,9 +53947,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answer her and walk on"
-        },
-        "effects": []
+          "en": "She declines the hearth — sits by the fire a while, accepts the bread, and when the old woman asks her question she does not answer it, but she does something better: she tells the old woman that her grandmother was right to watch the hills, and that watching is its own answer. Then she goes, the lights on the hills un-named and the old woman vindicated without being told why, which is a different kind of gift — one that lets her keep watching.",
+          "es": "Declina el fuego — se sienta junto a él un rato, acepta el pan, y cuando la vieja hace su pregunta no la responde, pero hace algo mejor: le dice a la vieja que su abuela tuvo razón en mirar las colinas, y que mirar es su propia respuesta. Después se va, las luces en las colinas sin nombrar y la vieja reivindicada sin que se le diga por qué, que es un tipo distinto de regalo — uno que le deja seguir mirando."
+        }
       }
     },
     "payload": {
@@ -54005,28 +53976,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes the place at the peat-fire. Eats their mutton and curds. Answers plainly about the riders."
-        },
-        "effects": [
-          {
-            "type": "lodging",
-            "name": "the peat-fire",
-            "description": "a place at a peat-fire in hill-country, bought with a straight answer",
-            "indoor": false
-          },
-          {
-            "type": "meal",
-            "slug": "shared_pot"
-          },
-          {
-            "type": "rest",
-            "quality": 2
-          },
-          {
-            "type": "shadow",
-            "amount": -1
-          }
-        ]
+          "en": "He takes the place at the peat-fire — once the verdict lands and the reserve drops, the warmth arrives all at once, the way these people do everything: the mutton pushed forward, the curds following, and the questions blunt and practical. He answers plainly about the riders: yes, riders on the eastern road, how many, how armed, which way headed — the census of danger conducted by people whose counting is a warning system older than the Horse-lords' claim on these fields. When the talk turns to what the riders were *doing*, he gives them that too: they were looking, not raiding; which is worse, because raiders take what they want and go, but lookers are counting for later.",
+          "es": "Toma el lugar junto al fuego de turba — una vez que el veredicto cae y la reserva baja, la calidez llega toda junta, como estas personas hacen todo: el cordero empujado adelante, el requesón detrás, y las preguntas directas y prácticas. Responde sin rodeos sobre los jinetes: sí, jinetes en la ruta del este, cuántos, cómo armados, hacia dónde — el censo de peligro conducido por gente cuyo conteo es un sistema de alarma más viejo que el reclamo de los Señores de los Caballos sobre estos campos. Cuando la charla gira a qué estaban *haciendo* los jinetes, les da eso también: estaban mirando, no saqueando; que es peor, porque los saqueadores toman lo que quieren y se van, pero los que miran están contando para después."
+        }
       }
     },
     "payload": {
@@ -54051,9 +54003,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answer plainly and walk on"
-        },
-        "effects": []
+          "en": "He declines the fire — stands in the doorway, answers the questions about the riders plainly from the threshold, and does not take the place by the peat-fire, because a verdict that had to be earned is a hospitality that comes with the accounting attached, and the accounting is a thing he would rather carry than owe. The head of household watches him go with the expression of a man who would have shared the mutton gladly once the count was done, and the count, in the end, is what the doorway was for.",
+          "es": "Declina el fuego — se para en la puerta, responde las preguntas sobre los jinetes sin rodeos desde el umbral, y no toma el lugar junto al fuego de turba, porque un veredicto que tuvo que ser ganado es una hospitalidad que viene con la contabilidad adjunta, y la contabilidad es una cosa que prefiere cargar que deber. El jefe de familia lo mira irse con la expresión de un hombre que habría compartido el cordero con gusto una vez hecho el recuento, y el recuento, al final, es para lo que era la puerta."
+        }
       }
     },
     "payload": {
@@ -54199,28 +54151,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes the place in the outbuilding. Eats the bread and olives. Lets the tally have his name."
-        },
-        "effects": [
-          {
-            "type": "meal",
-            "food": "bread, oil and olives"
-          },
-          {
-            "type": "lodging",
-            "name": "the outbuilding",
-            "description": "a place in the outbuilding of a village that writes travellers into a tally",
-            "indoor": true
-          },
-          {
-            "type": "meal",
-            "slug": "shared_pot"
-          },
-          {
-            "type": "rest",
-            "quality": 3
-          }
-        ]
+          "en": "He takes the place in the outbuilding — the bed of straw is real, the bread and oil and olives are real, and the tally is real too: his name written into the ledger under 'travellers, road-east, autumn' with the neat second-fingered hand of a man whose courtesy is a duty of the province. He does not object to the record — the record is the price, stated plainly, and a stated price is the honest kind. In the morning the steward's man sees him off with the same official warmth, and the ledger closes on a line that says a traveller was here, was fed, was recorded, and went on east — which is more than most roads leave in writing.",
+          "es": "Toma el lugar en el cobertizo — la cama de paja es real, el pan y el aceite y las aceitunas son reales, y el registro también es real: su nombre escrito en el libro bajo 'viajeros, ruta-este, otoño' con la letra prolija de segundo dedo de un hombre cuya cortesía es un deber de la provincia. No objeta el registro — el registro es el precio, dicho claramente, y un precio dicho es del tipo honesto. A la mañana el hombre del administrador lo despide con la misma calidez oficial, y el libro se cierra sobre una línea que dice que un viajero estuvo acá, fue alimentado, fue registrado, y siguió al este — que es más de lo que la mayoría de las rutas dejan por escrito."
+        }
       }
     },
     "payload": {
@@ -54245,14 +54178,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Gives a name they can write down. Reads the tally for what it is. Walks on."
-        },
-        "effects": [
-          {
-            "type": "meal",
-            "food": "bread, oil and olives"
-          }
-        ]
+          "en": "He declines the outbuilding — answers the tally's questions, gives the ledger his name, and does not take the bed, because a record kept for a garrison is a record that outlives the traveller, and he would rather the record be honest than complete. The steward's man writes him in anyway — 'declined hospitality' is a line in the ledger too — and the traveller goes on east with the tally knowing where he slept, which is the only thing the ledger cannot record about a man who sleeps in the open.",
+          "es": "Declina el cobertizo — responde las preguntas del registro, da su nombre al libro, y no toma la cama, porque un registro llevado para una guarnición es un registro que sobrevive al viajero, y prefiere que el registro sea honesto antes que completo. El hombre del administrador lo anota igual — 'hospitalidad declinada' también es una línea del libro — y el viajero sigue al este con el registro sabiendo dónde durmió, que es la única cosa que el libro no puede anotar de un hombre que duerme a la intemperie."
+        }
       }
     },
     "payload": {
@@ -54405,32 +54333,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes the berth in the net-loft. Takes the oar before dawn if the boat goes out."
-        },
-        "effects": [
-          {
-            "type": "meal",
-            "food": "smoked fish and flat bread"
-          },
-          {
-            "type": "lodging",
-            "name": "the net-loft",
-            "description": "a berth among the drying nets, paid for with an oar before dawn",
-            "indoor": true
-          },
-          {
-            "type": "meal",
-            "slug": "shared_pot"
-          },
-          {
-            "type": "rest",
-            "quality": 2
-          },
-          {
-            "type": "shadow",
-            "amount": -1
-          }
-        ]
+          "en": "He takes the berth in the net-loft — climbs the ladder into the smell of tar and dried fish, eats the smoked fish and flat bread sitting cross-legged among the hanging nets, and sleeps like a man being rocked by a river he can hear through the planks. The understanding holds: when the boat goes out before dawn — and it does, the river deciding, as rivers do — he is at his oar without being called twice, pulling in the dark with the family that measures everyone by what they do when the water moves. He does not pull like a boatman but he pulls like a man who keeps promises, and that, the grandmother says when they come in with the nets wet and the light coming up, is the same thing.",
+          "es": "Toma el camarote en el desván de redes — sube la escalera al olor de alquitrán y pescado seco, come el pescado ahumado y el pan chato sentado con las piernas cruzadas entre las redes colgantes, y duerme como un hombre mecido por un río que puede oír a través de las tablas. El acuerdo se mantiene: cuando el bote sale antes del alba — y sale, el río decidiendo, como hacen los ríos — él está en su remo sin que lo llamen dos veces, remando en la oscuridad con la familia que mide a cada uno por lo que hace cuando el agua se mueve. No rema como baqueano pero rema como un hombre que cumple promesas, y eso, dice la abuela cuando vuelven con las redes mojadas y la luz subiendo, es lo mismo."
+        }
       }
     },
     "payload": {
@@ -54455,14 +54360,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes the smoked fish. Camps upshore of the net-lofts."
-        },
-        "effects": [
-          {
-            "type": "meal",
-            "food": "smoked fish and flat bread"
-          }
-        ]
+          "en": "He declines the berth — takes the fish, takes the bread, and sleeps on the jetty-planks instead of the net-loft, because the oar-promise is a debt he does not want to owe when the water calls before dawn. The grandmother looks at him once and says nothing, which is the river-folk's way of saying she understands exactly what kind of man he is, and the understanding is not necessarily a compliment.",
+          "es": "Declina el camarote — toma el pescado, toma el pan, y duerme en las tablas del muelle en vez del desván de redes, porque la promesa-del-remo es una deuda que no quiere deber cuando el agua llama antes del alba. La abuela lo mira una vez y no dice nada, que es la manera de la gente-del-río de decir que entiende exactamente qué clase de hombre es, y la comprensión no es necesariamente un cumplido."
+        }
       }
     },
     "payload": {
@@ -55078,19 +54978,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Gives only what he actually saw. Refuses to guess at numbers."
-        },
-        "effects": [
-          {
-            "type": "meal",
-            "food": "food and grain at their fire"
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+          "en": "He gives only what he actually saw — three fires, west of the ridge, spaced about a mile apart, two nights ago — and refuses to guess at numbers, even when the lean one presses: 'Could it have been more?' 'It could have been anything more,' he says, 'but I saw three.' The circling rider completes his wide loop and comes in, which apparently was the test: the lean one nods, the grain is handed over, and the traveller goes on his way with food in his pack and the knowledge that somewhere, in a tally being kept by people who count fires the way shepherds count storms, his three fires just became a data-point in someone's alarm.",
+          "es": "Da solo lo que realmente vio — tres fuegos, al oeste de la loma, separados una milla, hace dos noches — y se niega a adivinar números, incluso cuando el flaco insiste: '¿Podrían haber sido más?' 'Podrían haber sido cualquier cosa más', dice, 'pero vi tres.' El jinete que rodeaba completa su círculo amplio y vuelve, que aparentemente era la prueba: el flaco asiente, el grano es entregado, y el viajero sigue su camino con comida en la mochila y el conocimiento de que en algún lado, en un registro llevado por gente que cuenta fuegos como los pastores cuentan tormentas, sus tres fuegos acaban de volverse un dato en la alarma de alguien."
+        }
       }
     },
     "payload": {
@@ -55173,18 +55063,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Eats. Leaves a strip of dried meat where the food was set. Does not try to make talk."
-        },
-        "effects": [
-          {
-            "type": "meal",
-            "food": "roots and smoked meat"
-          },
-          {
-            "type": "water",
-            "refill": true
-          }
-        ]
+          "en": "He eats — sits on the flat stone where the food was set, eats the roots and smoked meat and drinks the clean water, and does not try to make talk, because the people in the trees are not people who talk. When he is done he leaves a strip of dried meat where the food was set — the road-courtesy of a man who knows a transaction when he is in one — and goes. Behind him, he hears it: the sound of a knife cutting a mark into a stump, brief and deliberate. When he passes the stump, the mark is fresh and pale: the sign that says this one may pass. The wood has decided about him, and the decision is written where the road can read it.",
+          "es": "Come — se sienta en la piedra chata donde la comida fue puesta, come las raíces y la carne ahumada y bebe el agua limpia, y no intenta hacer conversación, porque la gente de los árboles no es gente que habla. Cuando termina deja una tira de carne seca donde la comida fue puesta — la cortesía-de-ruta de un hombre que reconoce una transacción cuando está dentro de una — y se va. Atrás, lo oye: el sonido de un cuchillo cortando una marca en un tocón, breve y deliberado. Cuando pasa el tocón, la marca está fresca y pálida: la señal que dice este puede pasar. El bosque decidió sobre él, y la decisión está escrita donde la ruta puede leerla."
+        }
       }
     },
     "payload": {
@@ -55212,32 +55093,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Pays the coppers. Gives an edited version of the road. Sleeps warm."
-        },
-        "effects": [
-          {
-            "type": "lodging",
-            "name": "the bed of straw",
-            "description": "a bed of straw and the whole state of the Bree-land laid out unasked",
-            "indoor": true
-          },
-          {
-            "type": "coins",
-            "amount": -2
-          },
-          {
-            "type": "meal",
-            "slug": "shared_pot"
-          },
-          {
-            "type": "rest",
-            "quality": 3
-          },
-          {
-            "type": "shadow",
-            "amount": -1
-          }
-        ]
+          "en": "He pays the coppers — gives an edited version of the road, the version where the interesting parts are left in his pack — and sleeps warm in the straw, which is the deal the Bree-land way of doing things actually is: you pay for the bed, you pay for the stew, and you pay attention to the gossip because the gossip is the part that is free and the part that is worth the most. In the morning the innkeeper's flood continues where it left off — which barn burned, whose daughter ran off with which carter, which landlord is shorting his measures — and somewhere in the torrent is one small true thing: that the Greenway has been emptier than it should be, and the emptiness has a reason the innkeeper does not have a name for yet. The traveller files that where he files things.",
+          "es": "Paga los cobres — da una versión editada de la ruta, la versión donde las partes interesantes quedan en su mochila — y duerme caliente en la paja, que es el trato que la manera Bree de hacer las cosas realmente es: pagás la cama, pagás el estofado, y prestás atención al chisme porque el chisme es la parte que es gratis y la parte que más vale. A la mañana el torrente del posadero continúa donde quedó — qué granero se quemó, la hija de quién se fue con qué carretero, qué casero está cagando en las medidas — y en algún lado del torrente hay una cosa chica y verdadera: que la Vía Verde ha estado más vacía de lo que debería, y el vacío tiene una razón para la que el posadero todavía no tiene nombre. El viajero archiva eso donde archiva las cosas."
+        }
       }
     },
     "payload": {
@@ -55262,9 +55120,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Give the short version and walk on"
-        },
-        "effects": []
+          "en": "He declines the straw — pays for the stew, pays for the beer, and does not take the bed, because an innkeeper's hospitality is a debt with a name attached, and the traveller's name is a thing he keeps for roads that matter more than this one. The Bree-land torrent follows him out the door; the straw stays unclaimed; and the innkeeper has one more story to tell the next traveller, which is the only currency the road really issues.",
+          "es": "Declina la paja — paga el estofado, paga la cerveza, y no toma la cama, porque la hospitalidad de un posadero es una deuda con un nombre adjunto, y el nombre del viajero es una cosa que guarda para rutas que importan más que esta. El torrente Bree lo sigue hasta la puerta; la paja queda sin reclamar; y el posadero tiene una historia más para contarle al próximo viajero, que es la única moneda que la ruta realmente emite."
+        }
       }
     },
     "payload": {
@@ -55422,14 +55280,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Gets the boot mended. Sorts the rumours quietly into true and useless."
-        },
-        "effects": [
-          {
-            "type": "coins",
-            "amount": -1
-          }
-        ]
+          "en": "He gets the boot mended — the tinker's fingers are fast, the sole comes back better than it went, the buckle is new — and sorts the rumours quietly into true and useless while the man talks, which the tinker does not stop doing the entire time, because the tinker's isolation is cured fresh by every stranger and the cure is talk. Somewhere in the torrent — between the story about the horse that was stolen and the story about the horse that was not — is the one true thing: that the bridge at the next crossing was washed out three days ago and the detour adds a day, which the tinker knows because he forded it himself and the ford held. The boot is mended. The news is bought. The detour is filed.",
+          "es": "Arregla la bota — los dedos del calderero son rápidos, la suela vuelve mejor de como fue, la hebilla es nueva — y ordena los rumores en silencio entre verdaderos e inútiles mientras el hombre habla, que el calderero no deja de hacer en todo el tiempo, porque el aislamiento del calderero se cura fresco con cada extraño y la cura es hablar. En algún lado del torrente — entre la historia del caballo que fue robado y la historia del caballo que no fue — está la cosa verdadera: que el puente del próximo cruce fue arrastrado hace tres días y el desvío agrega un día, que el calderero sabe porque él mismo lo vadó y el vado aguantó. La bota está arreglada. La noticia está comprada. El desvío está archivado."
+        }
       }
     },
     "payload": {
@@ -55789,32 +55642,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes the watch in the waggon circle. Eats at the cook-fire. Walks with them as far as the roads run together."
-        },
-        "effects": [
-          {
-            "type": "meal",
-            "food": "food from the cook-waggon"
-          },
-          {
-            "type": "lodging",
-            "name": "the waggon circle",
-            "description": "a place inside the waggon circle, earned standing their watch",
-            "indoor": false
-          },
-          {
-            "type": "meal",
-            "slug": "shared_pot"
-          },
-          {
-            "type": "rest",
-            "quality": 2
-          },
-          {
-            "type": "shadow",
-            "amount": -1
-          }
-        ]
+          "en": "He takes the watch — stands his turn at the waggon-circle's edge while the caravan sleeps, the mules shifting in the dark, the fires burning down to the red that says halfway through the night. The caravan-master's bet is a working arrangement: two meals a day, a place walking, and the unspoken respect of a man who put him on the watch-roster like he belonged there. He does the watch the way the waggons deserve — eyes out, ears working, the road behind and the road ahead both read as one thing. In the morning the caravan-master says nothing, which is the highest grade the caravan-master gives, and the next night's watch is the same. By the market town they are nearly crew.",
+          "es": "Toma la guardia — hace su turno en el borde del círculo de carretas mientras la caravana duerme, las mulas moviéndose en la oscuridad, los fuegos bajando al rojo que dice mitad de la noche. La apuesta del carretero mayor es un arreglo de trabajo: dos comidas al día, un lugar caminando, y el respeto no dicho de un hombre que lo puso en la lista de guardias como si perteneciera ahí. Hace la guardia como las carretas merecen — ojos afuera, orejas trabajando, la ruta atrás y la ruta adelante leídas como una sola cosa. A la mañana el carretero mayor no dice nada, que es la nota más alta que el carretero mayor da, y la guardia de la noche siguiente es igual. Para el pueblo del mercado son casi tripulación."
+        }
       }
     },
     "payload": {
@@ -55839,14 +55669,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Walk with them a while and camp alone"
-        },
-        "effects": [
-          {
-            "type": "meal",
-            "food": "food from the cook-waggon"
-          }
-        ]
+          "en": "He declines the watch — eats at the cook-fire, thanks the caravan-master, and does not take the waggon-place, because a bet is a bet and a traveller who walks alone owes no one his nights. The caravan-master nods once, the way you acknowledge a man who declines a good offer for reasons that are his own, and the traveller goes on east while the waggons go south, two kinds of road-users parting with the mutual respect of people who measured each other and did not need the measuring to become a debt.",
+          "es": "Declina la guardia — come en el fuego de cocina, agradece al carretero mayor, y no toma el lugar en las carretas, porque una apuesta es una apuesta y un viajero que camina solo no le debe a nadie sus noches. El carretero mayor asiente una vez, como se reconoce a un hombre que declina una buena oferta por razones que son suyas, y el viajero sigue al este mientras las carretas van al sur, dos clases de usuarios-de-ruta separándose con el respeto mutuo de gente que se midió y no necesitó que la medida se volviera una deuda."
+        }
       }
     },
     "payload": {
@@ -55937,19 +55762,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Pays a little over. Takes the news. Notes the mule is better shod than the man."
-        },
-        "effects": [
-          {
-            "type": "coins",
-            "amount": -3
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+          "en": "He pays a little over — the salt, the thread, the whetstone, the small pot of honey, and the road-news that came with it thrown in to justify the margin. The trader's smile does the work the smile is designed to do, and the traveller lets it, because the news is worth the overage: the trader's route is the traveller's route in reverse, and everything the trader has just walked through is the traveller's next three days. The well-shod mule gets its pat on the nose, the trader gets his margin, and the traveller gets a mental map of what is ahead drawn by a man whose business is knowing what the road costs.",
+          "es": "Paga un poco de más — la sal, el hilo, la piedra de afilar, el pote chico de miel, y las noticias-de-ruta que vinieron con ella tiradas para justificar el margen. La sonrisa del mercader hace el trabajo para el que la sonrisa fue diseñada, y el viajero la deja, porque las noticias valen el sobreprecio: la ruta del mercader es la ruta del viajero al revés, y todo lo que el mercader acaba de caminar son los próximos tres días del viajero. La mula bien herrada recibe su palmadita en el hocico, el mercader recibe su margen, y el viajero recibe un mapa mental de lo que está adelante dibujado por un hombre cuyo negocio es saber lo que cuesta la ruta."
+        }
       }
     },
     "payload": {
@@ -55977,33 +55792,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Gives the salt and the northern news. Takes the bed in the byre."
-        },
-        "effects": [
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          },
-          {
-            "type": "lodging",
-            "name": "the byre",
-            "description": "a bed in the byre of a woman who prices what she knows",
-            "indoor": true
-          },
-          {
-            "type": "meal",
-            "slug": "shared_pot"
-          },
-          {
-            "type": "rest",
-            "quality": 3
-          },
-          {
-            "type": "shadow",
-            "amount": -1
-          }
-        ]
+          "en": "He gives the salt and the northern news — the crossing's toll paid in the two currencies the fisher-woman accepts — and takes the bed in the byre and, more importantly, the new line of the crossing: where the sandbanks sit now, which part of the channel holds water at this tide, which part is a hole that will take a leg. She draws it in the mud with a stick — the fisher-woman's map of the river she stands in every day — and the map is better than any on parchment because it was drawn yesterday. In the morning he fords the crossing by her line, and the water comes to his knees exactly where she said it would and not one finger higher, which is what a map is worth when the map is drawn by someone who lives inside it.",
+          "es": "Da la sal y las noticias del norte — el peaje del cruce pagado en las dos monedas que la pescadora acepta — y toma la cama en el establo y, más importante, la línea nueva del cruce: dónde están los bancos de arena ahora, qué parte del canal tiene agua a esta marea, qué parte es un pozo que se va a llevar una pierna. Lo dibuja en el barro con un palo — el mapa de la pescadora del río en el que está parada todos los días — y el mapa es mejor que cualquiera en pergamino porque fue dibujado ayer. A la mañana vadea el cruce por su línea, y el agua le llega a las rodillas exactamente donde ella dijo y ni un dedo más arriba, que es lo que vale un mapa cuando el mapa lo dibuja alguien que vive adentro de él."
+        }
       }
     },
     "payload": {
@@ -56028,15 +55819,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Take the crossing line and walk on"
-        },
-        "effects": [
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+          "en": "She declines the byre — takes the salt and the news, takes the dried fish, and sleeps in the lee of the jetty instead of the bed, because the fisher-woman's map was drawn in mud and the fisher-woman's hospitality is written in the same ink: worth everything, and owned by the river. She fords the crossing by the map in the morning, the water holding exactly where the stick said it would, and goes on east with the fisher-woman's knowledge heavier than the bed would have been.",
+          "es": "Declina el establo — toma la sal y las noticias, toma el pescado seco, y duerme a sotavento del muelle en vez de la cama, porque el mapa de la pescadora fue dibujado en barro y la hospitalidad de la pescadora está escrita con la misma tinta: vale todo, y le pertenece al río. Vadea el cruce por el mapa a la mañana, el agua sosteniéndose exactamente donde el palo dijo, y sigue al este con el conocimiento de la pescadora más pesado de lo que habría sido la cama."
+        }
       }
     },
     "payload": {
@@ -56087,20 +55872,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes only what he will use. Says what he has left behind him for the next man."
-        },
-        "effects": [
-          {
-            "type": "item",
-            "slug": "common_arrows",
-            "qty": 6
-          },
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+          "en": "He takes only what he will use — the arrows he is short, the hard bread he will eat in the next two days, and leaves the spare cloak and the athelas for the next man, because a cache is a covenant and covenants are kept by what you leave, not what you take. He writes his own six sentences on the birch-bark — which stretch he came through, what he saw on it, what the last ford looked like — and puts the bark back under the stone. The cache is re-stacked, the stone re-set, and the circuit's knowledge is updated by one traveller's honesty, which is how the Rangers keep the map that never gets drawn on paper: each man adds a line and takes a line, and the lines never stop.",
+          "es": "Toma solo lo que va a usar — las flechas que le faltan, el pan duro que va a comer en los próximos dos días, y deja la capa de repuesto y la athelas para el próximo, porque un depósito es un pacto y los pactos se mantienen por lo que uno deja, no por lo que toma. Escribe sus propias seis oraciones en la corteza de abedul — por qué tramo vino, qué vio en él, cómo se veía el último vado — y pone la corteza de vuelta bajo la piedra. El depósito se re-apila, la piedra se re-asienta, y el conocimiento del circuito se actualiza por la honestidad de un viajero, que es como los Montaraces mantienen el mapa que nunca se dibuja en papel: cada hombre agrega una línea y toma una línea, y las líneas nunca paran."
+        }
       }
     },
     "payload": {
@@ -56128,28 +55902,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Puts his rations into the pot. Takes the second watch. Parts from them at the crossroads."
-        },
-        "effects": [
-          {
-            "type": "lodging",
-            "name": "the shared fire",
-            "description": "a shared fire with watches split — nobody asks anything beyond the morning",
-            "indoor": false
-          },
-          {
-            "type": "meal",
-            "slug": "shared_pot"
-          },
-          {
-            "type": "rest",
-            "quality": 3
-          },
-          {
-            "type": "shadow",
-            "amount": -1
-          }
-        ]
+          "en": "He puts his rations into the pot — the dried meat going in with the tinker's onions and the farmhands' turnips, the shared stew doing what shared stews do, which is feed everyone a little better than they would have fed alone. The watches are split four ways: he takes the second, sits up with the fire while the others sleep, and the night passes the way nights pass when three strangers agree to be each other's safety. In the morning they part at the crossroads — the tinker going west with his cart, the farmhands going on to the harvest-fields, the traveller going east — and the parting is clean and warm, the way partings between people who shared a watch always are: nearly kin, for one night, and better for it.",
+          "es": "Pone sus raciones en la olla — la carne seca entrando con las cebollas del calderero y los nabos de los peones, el guiso compartido haciendo lo que los guisos compartidos hacen, que es alimentar a todos un poco mejor de lo que se habrían alimentado solos. Las guardias se dividen en cuatro: él toma la segunda, se queda con el fuego mientras los otros duermen, y la noche pasa como pasan las noches cuando tres extraños acuerdan ser la seguridad del otro. A la mañana se separan en el cruce — el calderero yendo al oeste con su carreta, los peones yendo a los campos de cosecha, el viajero yendo al este — y la despedida es limpia y cálida, como son siempre las despedidas entre gente que compartió una guardia: casi parientes, por una noche, y mejor por eso."
+        }
       }
     },
     "payload": {
@@ -56174,9 +55929,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Trade road news and camp alone"
-        },
-        "effects": []
+          "en": "He declines the pot — sits with them a while, shares his own bread, does not take a watch, and goes on before the fire is banked, because the covenant of shared fires is a good covenant but it is not his tonight. The tinker waves him off with the easy cheer of a man whose arithmetic still says three watches are better than one, and the traveller goes east into the dark alone, which is the arithmetic of men who count their own safety in solitude.",
+          "es": "Declina la olla — se sienta con ellos un rato, comparte su propio pan, no toma una guardia, y sigue antes de que el fuego sea apagado, porque el pacto de los fuegos compartidos es un buen pacto pero no es el suyo esta noche. El calderero lo despide con la alegría fácil de un hombre cuya aritmética todavía dice que tres guardias son mejor que una, y el viajero va al este en la oscuridad solo, que es la aritmética de hombres que cuentan su propia seguridad en soledad."
+        }
       }
     },
     "payload": {
@@ -56197,14 +55952,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Eats the fish. Agrees to look upstream. Does not promise to come back."
-        },
-        "effects": [
-          {
-            "type": "meal",
-            "food": "the fresh fish"
-          }
-        ]
+          "en": "He eats the fish — takes the place on the jetty out of the mud, eats the fresh catch with the net-menders whose hands never stop working, and agrees to look upstream, because the water running wrong for a week is the kind of thing a traveller owes the river-people who fed him. He does not promise to come back — the promise of return is a currency travellers do not carry — but he carries the warning upstream like a debt, which is what the fish and the dry spot were actually for. The river-folk watch him go with the particular attention of people whose whole livelihood is watching water, and the nets keep mending.",
+          "es": "Come el pescado — toma el lugar en el muelle fuera del barro, come la pesca fresca con los remendadores de redes cuyas manos nunca dejan de trabajar, y acuerda mirar río arriba, porque el agua corriendo mal hace una semana es el tipo de cosa que un viajero le debe a la gente-del-río que lo alimentó. No promete volver — la promesa de regreso es una moneda que los viajeros no llevan — pero lleva la advertencia río arriba como una deuda, que es para lo que realmente eran el pescado y el lugar seco. La gente del río lo mira irse con la atención particular de gente cuyo sustento entero es mirar agua, y las redes siguen remendándose."
+        }
       }
     },
     "payload": {
@@ -80651,6 +80401,838 @@
     "payload": {
       "origin": "entities_narration",
       "situation": "cnt:c26e000a-0000-4000-8000-000000000010:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "eaf82105-e763-47e1-b59a-38c73a10e9e1",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1d0003-0000-4000-8000-0a1d00000003",
+    "act": "talk",
+    "label": {
+      "en": "Say thank-you across the threshold"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He says thank-you across the threshold — not loudly, the way you say things to a doorway that has already decided not to come closer — and tells the doorway the bread was still warm and the water was cold, which is the two-item review of a man who has eaten worse welcome in richer houses. The silhouette in the door shifts. 'Gate's always there,' the woman says finally — which is not an invitation and is not nothing, and he takes it the way it was meant.",
+          "es": "Dice gracias a través del umbral — no fuerte, como se le dicen las cosas a una puerta que ya decidió no acercarse — y le dice a la puerta que el pan estaba tibio y el agua fría, que es la reseña de dos ítems de un hombre que comió peor bienvenida en casas más ricas. La silueta en la puerta se mueve. 'El portón siempre está ahí', dice la mujer finalmente — que no es una invitación y no es nada, y la toma como fue dicha."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1d0003-0000-4000-8000-0a1d00000003:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "2b976324-0b95-49da-b1e7-d5c4e947c421",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1d0003-0000-4000-8000-0a1d00000003",
+    "act": "avoid",
+    "label": {
+      "en": "Eat, pay the stone, and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He eats in silence, pays the stone its small good thing, and goes — the clean bowl and the left-behind gift doing the talking that a threshold-conversation would only have made awkward. Behind him the bowl is collected before he is out of sight: the farm's hospitality was real, immediate, and exactly as bounded as the boundary.",
+          "es": "Come en silencio, le paga a la piedra su cosa buena chica, y se va — el cuenco limpio y el regalo dejado haciendo la charla que una conversación-de-umbral solo hubiera hecho incómoda. Atrás el cuenco es recogido antes de que él salga de vista: la hospitalidad de la granja era real, inmediata, y exactamente tan delimitada como el límite."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1d0003-0000-4000-8000-0a1d00000003:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "5a39993a-b8ea-4341-8161-0f23057b1d06",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1d0007-0000-4000-8000-0a1d00000007",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the cough came from"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks what the cough came from — and the answer arrives haltingly: the child took ill after helping bring in the hay from the lower meadow, the wet one, the field the family calls 'the drowned piece' — and she files that with the child's pale stillness and says what the drowned piece has been doing to children since before the farmhouse was built: damp-fever, slow, ordinary, beatable. 'The field keeps what the field is owed,' she tells them. 'Do not send the children to pay it.'",
+          "es": "Pregunta de qué vino la tos — y la respuesta llega a medias: el niño enfermó después de ayudar a traer el heno del prado bajo, el húmedo, el campo que la familia llama 'el pedazo ahogado' — y ella archiva eso con la palidez quieta del niño y dice lo que el pedazo ahogado le viene haciendo a los niños desde antes de que se construyera la granja: fiebre-de-humedad, lenta, ordinaria, vencible. 'El campo se queda con lo que el campo cobra', les dice. 'No manden a los niños a pagarlo.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1d0007-0000-4000-8000-0a1d00000007:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "68a106d1-c335-4bf5-b384-277be8d29d51",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1d0007-0000-4000-8000-0a1d00000007",
+    "act": "avoid",
+    "label": {
+      "en": "Take the bread and go gently"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She takes the bread — eats it standing, compliments it honestly — and goes, the child by the hearth carried with her like a pebble in the pocket: un-asked-for, un-given-back. At the door she says one thing only: 'Fennel and honey, brewed strong, morning and night — the drowned field does not deserve another pair of small hands.' And she is gone, leaving a family holding a remedy and a warning, which is more than the road usually leaves behind.",
+          "es": "Toma el pan — lo come parada, lo elogia honestamente — y se va, el niño junto al fuego llevado con ella como una piedra en el bolsillo: no-pedido, no-devuelto. En la puerta dice una sola cosa: 'Hinojo y miel, hervido fuerte, mañana y noche — el campo ahogado no merece otro par de manos chicas.' Y se va, dejando una familia sosteniendo un remedio y una advertencia, que es más de lo que la ruta suele dejar."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1d0007-0000-4000-8000-0a1d00000007:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "cd9b2008-74df-4cde-95e7-a9790975a526",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1d0009-0000-4000-8000-0a1d00000009",
+    "act": "talk",
+    "label": {
+      "en": "Tell her the lights have names"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She tells her more — gently, because the truth arrived and deserves company: the lights have names, and the people who carry them have names, and the names are older than the hills the lights move on. She does not give the names — some things are not hers to hand out — but she gives the old woman the shape of them, and the old woman receives the shape like a letter she cannot read but knows is addressed to her. 'Sixty years of watching,' the old woman says. 'I always told them it was someone. They always told me it was lights.' The traveller says: 'It is someone. It was always someone.' And that is the end of it — except that it is not, because a woman vindicated after sixty years is a woman changed, and the whole house feels the change settle like snow.",
+          "es": "Le dice más — suavemente, porque la verdad llegó y merece compañía: las luces tienen nombres, y la gente que las lleva tiene nombres, y los nombres son más viejos que las colinas por las que las luces se mueven. No da los nombres — algunas cosas no son suyas para repartir — pero le da a la vieja la forma de ellos, y la vieja recibe la forma como una carta que no puede leer pero sabe que está dirigida a ella. 'Sesenta años de mirar', dice la vieja. 'Siempre les dije que era alguien. Siempre me dijeron que eran luces.' La viajera dice: 'Es alguien. Siempre fue alguien.' Y ese es el final — salvo que no lo es, porque una mujer reivindicada después de sesenta años es una mujer cambiada, y la casa entera siente el cambio asentarse como nieve."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1d0009-0000-4000-8000-0a1d00000009:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "ae3b8860-8497-44bf-822d-8f94aec19aa8",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1d0009-0000-4000-8000-0a1d00000009",
+    "act": "avoid",
+    "label": {
+      "en": "Take the hearth and hold the answer"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She takes the hearth — sleeps by the fire among the family's breathing — and holds the answer the way you hold a lamp in a doorway: for herself. Some truths are gifts and some are burdens, and a woman who has waited sixty years for a witness deserves to keep the witnessing private. In the morning she is gone before the bread is cut, leaving behind a hearth-place folded neater than she found it and an old woman who knows she was heard — which is a different gift, and maybe the better one.",
+          "es": "Toma el fuego — duerme junto a él entre la respiración de la familia — y sostiene la respuesta como se sostiene una lámpara en un umbral: para sí misma. Algunas verdades son regalos y algunas son cargas, y una mujer que esperó sesenta años un testigo merece quedarse el testimonio privado. A la mañana se fue antes de que se cortara el pan, dejando atrás un lugar junto al fuego doblado más prolijo de como lo encontró y una vieja que sabe que fue escuchada — que es un regalo distinto, y quizá el mejor."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1d0009-0000-4000-8000-0a1d00000009:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "e5a3aec6-76f5-482e-ae18-5484b85d0e02",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1d0010-0000-4000-8000-0a1d00000010",
+    "act": "talk",
+    "label": {
+      "en": "Ask what they count for"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what the counting is for — and the head of household gives him the arithmetic of a people who have been counted *at* for three generations: 'They ride the road east in spring and west in autumn. They take the tally of our herds like the herds were theirs. This year they came early and counted twice. A man who counts a thing twice is planning to take it once.' The fire cracks. 'We count them back,' the old man says, 'because the day they stop being counted is the day the counting becomes a taking.'",
+          "es": "Pregunta para qué es el conteo — y el jefe de familia le da la aritmética de un pueblo que viene siendo contado desde hace tres generaciones: 'Cabalgan la ruta este en primavera y oeste en otoño. Toman el recuento de nuestras manadas como si las manadas fueran de ellos. Este año vinieron temprano y contaron dos veces. Un hombre que cuenta una cosa dos veces está planeando tomarla una.' El fuego cruje. 'Nosotros los contamos de vuelta', dice el viejo, 'porque el día que dejen de ser contados es el día en que el conteo se vuelve una toma.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1d0010-0000-4000-8000-0a1d00000010:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "933f14d4-f454-49f2-ae7c-fee51b2341a4",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1d0010-0000-4000-8000-0a1d00000010",
+    "act": "avoid",
+    "label": {
+      "en": "Eat, answer, and take the warmth"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He eats, answers plainly, and takes the warmth for the night — the verdict earned, the questions traded, the peat-fire doing what peat-fires do for travellers who passed inspection. In the morning the mutton-slick is gone and the steading's tally of riders has a new line in it, which is what the hospitality was always for.",
+          "es": "Come, responde sin rodeos, y toma el calor por la noche — el veredicto ganado, las preguntas intercambiadas, el fuego de turba haciendo lo que los fuegos de turba hacen por los viajeros que pasaron la inspección. A la mañana el sebo del cordero se fue y el registro de jinetes de la hacienda tiene una línea nueva, que es para lo que siempre fue la hospitalidad."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1d0010-0000-4000-8000-0a1d00000010:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "26933e60-5209-4bec-8686-ce9805f7a5c8",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1d0014-0000-4000-8000-0a1d00000014",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the tally is for"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what the tally is for — and the steward's man tells him plainly, because the answer is also official: the garrison requires the record, and the village keeps it gladly, because a record of who passed is also a record of who did *not* pass, and the missing entries are how you learn that a road has stopped being safe. 'Three names in the last year did not complete the road they started,' the man says, turning a page. 'The tally remembers them. The road does not.'",
+          "es": "Pregunta para qué es el registro — y el hombre del administrador le dice sin rodeos, porque la respuesta también es oficial: la guarnición requiere el registro, y la aldea lo lleva con gusto, porque un registro de quién pasó también es un registro de quién *no* pasó, y las entradas que faltan son cómo se aprende que una ruta dejó de ser segura. 'Tres nombres en el último año no completaron la ruta que empezaron', dice el hombre, pasando una página. 'El registro los recuerda. La ruta no.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1d0014-0000-4000-8000-0a1d00000014:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "31f77c85-c025-40af-8ead-4a07591fb7fa",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1d0014-0000-4000-8000-0a1d00000014",
+    "act": "avoid",
+    "label": {
+      "en": "Give the ledger a false name"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He gives the ledger a name that is not his — the oldest road-habit there is, and one he tells himself is harmless, because a traveller's real name is a thing the garrison has no business keeping. The steward's man writes it down without blinking, the way you write down what you are told. In the morning the traveller goes east with the bed paid for and the record false — and behind him the tally gains one more entry that will never be found if the road takes him, which is either prudence or a small theft from the people who would look for him.",
+          "es": "Le da al registro un nombre que no es el suyo — el hábito de ruta más viejo que hay, y uno que se dice a sí mismo que es inofensivo, porque el nombre real de un viajero es una cosa que la guarnición no tiene por qué guardar. El hombre del administrador lo anota sin pestañear, como se anota lo que a uno le dicen. A la mañana el viajero va al este con la cama pagada y el registro falso — y atrás el libro gana una entrada más que nunca va a ser encontrada si la ruta se lo lleva, que es o prudencia o un pequeño robo a la gente que lo buscaría."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1d0014-0000-4000-8000-0a1d00000014:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "46942a8e-0c37-4712-a0a3-777c6696764d",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1d0017-0000-4000-8000-0a1d00000017",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the water told them"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — at the oar, in the dark — what the water told them this morning that made the boat go out. The grandmother, at the tiller, answers like it is the most ordinary question in the world: 'The tide stood still a full hour past the turn. When the water forgets to move, something is holding its breath.' She does not say what is holding it; she does not need to. The river-folk have a hundred names for the things that hold a river's breath, and not one of them is spoken before dawn.",
+          "es": "Pregunta — al remo, en la oscuridad — qué les dijo el agua esta mañana que hizo salir al bote. La abuela, al timón, responde como si fuera la pregunta más ordinaria del mundo: 'La marea se quedó quieta una hora entera después del cambio. Cuando el agua olvida moverse, algo está conteniendo la respiración.' No dice qué lo está conteniendo; no necesita. La gente del río tiene cien nombres para las cosas que le contienen el aliento a un río, y ninguno de ellos se dice antes del alba."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1d0017-0000-4000-8000-0a1d00000017:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "34f98435-087e-49db-81b7-93071c56e0eb",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1d0017-0000-4000-8000-0a1d00000017",
+    "act": "avoid",
+    "label": {
+      "en": "Take the berth and slip out before the boat"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the berth — sleeps through the dark sound of the family rising, the whispered casting-off, the boat going out without him — and in the morning the grandmother looks at him the way you look at a boat that did not answer the swell: without anger, just the quiet recalculation of what he is worth in weather. The fish is still good. The berth was still warm. The debt is on the books, and river-people have long memories for debts taken before dawn.",
+          "es": "Toma el camarote — duerme a través del sonido oscuro de la familia levantándose, la salida susurrada, el bote yéndose sin él — y a la mañana la abuela lo mira como se mira un bote que no respondió a la ola: sin bronca, solo la recalculación quieta de lo que vale en mal tiempo. El pescado sigue siendo bueno. El camarote fue cálido. La deuda está en el libro, y la gente del río tiene memoria larga para las deudas tomadas antes del alba."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1d0017-0000-4000-8000-0a1d00000017:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "3b85c99b-cc10-4dbd-9925-de1acf80a54a",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0008-0000-4000-8000-0a1e00000008",
+    "act": "talk",
+    "label": {
+      "en": "Ask what three fires means"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what three fires means — before he hands the information over, because data has a price and context is part of the goods. The lean one tells him, because fair is fair: 'Three fires spaced a mile is not a camp. It is a line. Men camp in clusters; patrols burn in lines.' The circling rider, come in close now, adds the rest: 'We have had lines before. Lines mean a border being decided. The last line was two years ago, and after the line came the burning.' The traveller's three fires go into the tally. What the tally becomes, the tally decides without him.",
+          "es": "Pregunta qué significan tres fuegos — antes de entregar la información, porque los datos tienen precio y el contexto es parte de la mercadería. El flaco le dice, porque lo justo es justo: 'Tres fuegos separados una milla no es un campamento. Es una línea. Los hombres acampan en grupos; las patrullas queman en líneas.' El jinete que rodeaba, ya cerca, agrega el resto: 'Tuvimos líneas antes. Las líneas significan una frontera siendo decidida. La última línea fue hace dos años, y después de la línea vino el incendio.' Los tres fuegos del viajero van al registro. En qué se convierte el registro, el registro lo decide sin él."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0008-0000-4000-8000-0a1e00000008:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "84824163-dd81-48e5-ad1a-6f01a5ac0402",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0008-0000-4000-8000-0a1e00000008",
+    "act": "avoid",
+    "label": {
+      "en": "Take the grain and leave the fires"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the grain — gives his three fires, accepts the food, declines the invitation to speculate — and goes, the tally riding away behind him to become someone else's alarm. The fires in the west keep burning or do not; the line they make keeps meaning or does not; the road east keeps its own counsel, which is what roads do with the information they collect and cannot use.",
+          "es": "Toma el grano — da sus tres fuegos, acepta la comida, declina la invitación a especular — y se va, el registro alejándose a lomos atrás para volverse la alarma de otro. Los fuegos del oeste siguen ardiendo o no; la línea que forman sigue significando o no; la ruta del este guarda su propio consejo, que es lo que las rutas hacen con la información que juntan y no pueden usar."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0008-0000-4000-8000-0a1e00000008:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "4e04c2d8-215e-4535-9a56-c71a30291c4b",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0010-0000-4000-8000-0a1e00000010",
+    "act": "talk",
+    "label": {
+      "en": "Wait to see if they come"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He waits — sits on the stone after eating, does not push, gives the trees the courtesy of deciding whether the transaction includes a face. It does, barely: a shape detaches from the wood's edge at last — short, broad, cloaked in something that is nearly the colour of the wood itself — and stands just long enough to be seen, which is the whole greeting these people give. Then it is gone. The mark on the stump is the same message in another alphabet: you may pass, and being seen is the second half of being allowed.",
+          "es": "Espera — se sienta en la piedra después de comer, no empuja, le da a los árboles la cortesía de decidir si la transacción incluye una cara. La incluye, apenas: una forma se despega del borde del bosque al final — baja, ancha, envuelta en algo que es casi el color del bosque mismo — y se queda parada solo lo suficiente para ser vista, que es todo el saludo que esta gente da. Después se fue. La marca en el tocón es el mismo mensaje en otro alfabeto: podés pasar, y ser visto es la segunda mitad del permiso."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0010-0000-4000-8000-0a1e00000010:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "6d435957-be77-4e3b-a051-00add4d07381",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0010-0000-4000-8000-0a1e00000010",
+    "act": "avoid",
+    "label": {
+      "en": "Take the food and the silence"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the food and the silence — eats, leaves the meat-strip, goes — and declines to wait for a face that has already given its answer. The stump-mark is the answer: pass, and be quiet about passing. Some welcomes are doorways and some are signs in bark, and the man who takes the second kind for granted walks a safer road than the man who insists on the first.",
+          "es": "Toma la comida y el silencio — come, deja la tira de carne, se va — y declina esperar una cara que ya dio su respuesta. La marca del tocón es la respuesta: pasá, y pasá en silencio. Algunas bienvenidas son puertas y algunas son señales en corteza, y el hombre que toma el segundo tipo como dado camina una ruta más segura que el hombre que insiste en la primera."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0010-0000-4000-8000-0a1e00000010:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "ff6bc69a-dcbf-4d2f-8b90-97a66b7ad1e4",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0011-0000-4000-8000-0a1e00000011",
+    "act": "talk",
+    "label": {
+      "en": "Buy the gossip properly"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He buys the gossip properly — a second beer, the question asked with the innkeeper's own manner: 'And what has the Greenway been emptier of?' The answer comes wrapped in three stories and an opinion about foreigners, but the core of it is this: the patrols that used to walk the Greenway have not been seen since the autumn, and the innkeeper has a theory — the innkeeper always has a theory — that someone decided the road no longer needed watching. 'Roads get watched or they get used for other things,' the man says, wiping the counter. 'The Greenway got un-watched. Watch what uses it.'",
+          "es": "Compra el chisme en serio — una segunda cerveza, la pregunta hecha con la manera propia del posadero: '¿Y de qué ha estado más vacía la Vía Verde?' La respuesta viene envuelta en tres historias y una opinión sobre extranjeros, pero el núcleo es esto: las patrullas que solían caminar la Vía Verde no se ven desde el otoño, y el posadero tiene una teoría — el posadero siempre tiene una teoría — de que alguien decidió que la ruta ya no necesitaba vigilancia. 'Las rutas se vigilan o se usan para otras cosas', dice el hombre, limpiando el mostrador. 'La Vía Verde quedó sin vigilar. Mirá qué la usa.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0011-0000-4000-8000-0a1e00000011:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "1bc9322a-ec6b-4e3a-92a3-add28bdead7d",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0011-0000-4000-8000-0a1e00000011",
+    "act": "avoid",
+    "label": {
+      "en": "Take the straw and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the straw — sleeps warm, wakes early, pays and goes — the Bree-land torrent left running behind him like a tap he did not turn off. The bed was worth the coppers; the stew was worth the stew; and the road ahead holds whatever the Greenway's emptiness means, which is a thing he will learn by walking it rather than by hearing a fourth opinion about it.",
+          "es": "Toma la paja — duerme caliente, se despierta temprano, paga y se va — el torrente Bree dejado corriendo atrás como una canilla que no cerró. La cama valió los cobres; el estofado valió el estofado; y la ruta adelante guarda lo que sea que signifique el vacío de la Vía Verde, que es una cosa que va a aprender caminándola en vez de escuchando una cuarta opinión al respecto."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0011-0000-4000-8000-0a1e00000011:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "c3a9e6c4-07c3-4d24-9548-d0ddf1731465",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0014-0000-4000-8000-0a1e00000014",
+    "act": "talk",
+    "label": {
+      "en": "Ask what else the road told him"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what else the road told him — pays the extra copper that buys the extended version — and gets the rest of the torrent sorted: the washout at the bridge is new, but the thing the tinker mentions last, like a footnote, is the part that matters: 'The ford held but the far bank has new marks on it. Not wagon-marks. Not horse. Something that walks on two legs and pulls something on four.' The tinker shrugs, delighted to have delivered a mystery with his own two hands. 'I did not look. The boot was dry and I did not want to un-dry it finding out.'",
+          "es": "Pregunta qué más le dijo la ruta — paga el cobre extra que compra la versión extendida — y recibe el resto del torrente ordenado: el arrastre del puente es nuevo, pero la cosa que el calderero menciona última, como una nota al pie, es la parte que importa: 'El vado aguantó pero la orilla de enfrente tiene marcas nuevas. No de carro. No de caballo. Algo que camina en dos patas y arrastra algo en cuatro.' El calderero se encoge de hombros, encantado de haber entregado un misterio con sus propias manos. 'No miré. La bota estaba seca y no quería des-secarla averiguando.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0014-0000-4000-8000-0a1e00000014:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "3efd101b-df78-4e65-8b51-5c84e55cf240",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0014-0000-4000-8000-0a1e00000014",
+    "act": "avoid",
+    "label": {
+      "en": "Pay for the boot and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He pays for the boot — fair price for fair work, the rumours left unsorted because sorting them is the tinker's hobby, not the road's job — and goes, the new sole already better on the stone. The detour at the bridge is filed; the marks on the far bank are not his to read yet; and the tinker's voice keeps going behind him like a brook that found a downhill.",
+          "es": "Paga la bota — precio justo por trabajo justo, los rumores dejados sin ordenar porque ordenarlos es el hobby del calderero, no el trabajo de la ruta — y se va, la suela nueva ya mejor sobre la piedra. El desvío en el puente está archivado; las marcas en la orilla de enfrente no son suyas para leer todavía; y la voz del calderero sigue atrás como un arroyo que encontró la bajada."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0014-0000-4000-8000-0a1e00000014:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "114238aa-ba65-438d-a680-56a7a0805dab",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0021-0000-4000-8000-0a1e00000021",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the road has been doing"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — at the watch-fire, with the caravan-master who has come out to stand the second half himself — what the road has been doing lately, caravan-master's-eye-view. The answer is given in the language of a man who measures safety in axles and oxen: 'The road is heavier than last year and emptier than it should be. More waggons going south, fewer coming north, and the ones coming north are lighter than the ones going south. When a road runs heavier one way than the other, the difference is something leaving and not coming back.' The mules shift. 'We carry what the road gives us. Lately the road has been giving us people who are not coming back.'",
+          "es": "Pregunta — en el fuego de guardia, con el carretero mayor que salió a hacer la segunda mitad él mismo — qué viene haciendo la ruta últimamente, vista-de-carretero-mayor. La respuesta es dada en el idioma de un hombre que mide la seguridad en ejes y bueyes: 'La ruta está más pesada que el año pasado y más vacía de lo que debería. Más carretas yendo al sur, menos viniendo al norte, y las que vienen al norte vienen más livianas que las que van al sur. Cuando una ruta corre más pesada de un lado que del otro, la diferencia es algo que se va y no vuelve.' Las mulas se mueven. 'Llevamos lo que la ruta nos da. Últimamente la ruta nos viene dando gente que no vuelve.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0021-0000-4000-8000-0a1e00000021:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "a78b65ea-ec52-40ce-9074-aacdf6781877",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0021-0000-4000-8000-0a1e00000021",
+    "act": "avoid",
+    "label": {
+      "en": "Stand the watch and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He stands the watch — two nights, two shifts, done properly — and goes at the market town with the caravan-master's nod, which is the whole goodbye the arrangement bought. The waggons roll on south; the traveller goes east; and the tally of people on the road who do the watch they say they will do has one more name in it, which is the kind of account that pays off on roads.",
+          "es": "Hace la guardia — dos noches, dos turnos, hechas como corresponde — y se va en el pueblo del mercado con el gesto del carretero mayor, que es toda la despedida que el arreglo compró. Las carretas ruedan al sur; el viajero va al este; y el registro de gente en la ruta que hace la guardia que dice que va a hacer tiene un nombre más, que es el tipo de cuenta que paga en las rutas."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0021-0000-4000-8000-0a1e00000021:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "a74099cd-978d-4c1b-a87d-580ee7dfec96",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0023-0000-4000-8000-0a1e00000023",
+    "act": "talk",
+    "label": {
+      "en": "Ask what cost him on the road"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what cost the trader on the road — the question asked the way traders ask each other, which the smile's owner recognizes and answers in kind: 'Two days of rain that was not in the forecast, a mule that threw a shoe outside the last ford — which is why the mule is better shod than the man, because the man paid for the mule's shoes first — and a toll at the bridge that did not exist last season.' The smile adjusts. 'The toll is new. The men collecting it are new. The road has a landlord now, and the landlord charges what the road can bear.'",
+          "es": "Pregunta qué le costó al mercader en la ruta — la pregunta hecha como se la hacen los mercaderes entre sí, lo que el dueño de la sonrisa reconoce y responde en la misma moneda: 'Dos días de lluvia que no estaban en el pronóstico, una mula que tiró una herradura después del último vado — por eso la mula está mejor herrada que el hombre, porque el hombre pagó las herraduras de la mula primero — y un peaje en el puente que no existía la temporada pasada.' La sonrisa se ajusta. 'El peaje es nuevo. Los hombres que lo cobran son nuevos. La ruta tiene un casero ahora, y el casero cobra lo que la ruta puede aguantar.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0023-0000-4000-8000-0a1e00000023:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "8bcdb71c-4f36-410c-b753-418f60defc75",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0023-0000-4000-8000-0a1e00000023",
+    "act": "avoid",
+    "label": {
+      "en": "Pay and keep the route to himself"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He pays — the margin accepted as the price of the map — and keeps his own route to himself, because a trader's news goes both ways and the trader's next customer is whoever is behind the traveller on the road. The honey goes in the pack; the mule goes on with its good shoes; and the traveller goes east with a map of the road drawn by a man who charges for maps without knowing he is drawing them.",
+          "es": "Paga — el margen aceptado como el precio del mapa — y guarda su propia ruta para sí mismo, porque las noticias del mercader van en las dos direcciones y el próximo cliente del mercader es quien sea que esté detrás del viajero en la ruta. La miel va a la mochila; la mula sigue con sus buenas herraduras; y el viajero va al este con un mapa de la ruta dibujado por un hombre que cobra por los mapas sin saber que los está dibujando."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0023-0000-4000-8000-0a1e00000023:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "2268ab63-e917-4225-b309-f61008f42c19",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0024-0000-4000-8000-0a1e00000024",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the storm did to the river"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what the storm did to the river — not just the sandbanks but the rest of it, the part a fisher-woman would notice before a map-maker would. She tells him plainly: 'The storm moved the crossing and the storm moved the fish. The fish went upstream where the water is clean — which means whatever the storm washed into the river downstream of the ford is still there, being washed, being carried.' She does not say what was washed in. She does not have to; the fish already voted.",
+          "es": "Pregunta qué le hizo la tormenta al río — no solo los bancos de arena sino el resto, la parte que una pescadora notaría antes que un cartógrafo. Le dice sin rodeos: 'La tormenta movió el cruce y la tormenta movió los peces. Los peces fueron río arriba donde el agua está limpia — lo que significa que lo que sea que la tormenta lavó al río aguas abajo del vado todavía está ahí, siendo lavado, siendo llevado.' No dice qué fue lavado. No tiene que hacerlo; los peces ya votaron."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0024-0000-4000-8000-0a1e00000024:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "0f89923f-71d2-4ab7-afd0-e943187d8ba8",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0024-0000-4000-8000-0a1e00000024",
+    "act": "avoid",
+    "label": {
+      "en": "Take the line and ford it"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the line — the mud-map memorized, the salt paid, the news given — and fords the crossing by it in the morning light, the water holding at the fisher-woman's knees-height exactly. The byre-bed behind him was worth the salt; the map was worth more; and the river, crossed correctly, is a door that opens the way doors open when the key is honest information.",
+          "es": "Toma la línea — el mapa-de-barro memorizado, la sal pagada, las noticias dadas — y vadea el cruce por ella a la luz de la mañana, el agua sosteniéndose a la altura-de-rodillas de la pescadora exactamente. La cama del establo atrás valió la sal; el mapa valió más; y el río, cruzado correctamente, es una puerta que se abre como se abren las puertas cuando la llave es información honesta."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0024-0000-4000-8000-0a1e00000024:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "06c31bb1-1a5e-4660-b6f7-d5ed1c2508ad",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0026-0000-4000-8000-0a1e00000026",
+    "act": "talk",
+    "label": {
+      "en": "Leave more than he takes"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He leaves more than he takes — adds the spare twine from his own kit, the tinder-bundle he is carrying double, and a sentence on the bark that the last man did not leave: 'The east stretch held. The water was high but passable. The marks on the north side of the ford were new — read them before you trust the crossing.' The cache is a little richer for him having passed it; the circuit is a little more informed; and the next man on the route will read the honesty of a stranger he will never meet, which is the oldest friendship the road makes.",
+          "es": "Deja más de lo que toma — agrega la cuerda de repuesto de su propio equipo, el haz de yesca que lleva doble, y una oración en la corteza que el último hombre no dejó: 'El tramo este aguantó. El agua estaba alta pero pasable. Las marcas del lado norte del vado eran nuevas — leelan antes de confiar en el cruce.' El depósito queda un poco más rico por haberlo pasado; el circuito queda un poco más informado; y el próximo hombre en la ruta va a leer la honestidad de un extraño que nunca va a conocer, que es la amistad más vieja que la ruta hace."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0026-0000-4000-8000-0a1e00000026:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "ce8e84c3-7647-47de-a37f-467a93d6eb19",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0026-0000-4000-8000-0a1e00000026",
+    "act": "avoid",
+    "label": {
+      "en": "Take what he needs and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes what he needs — the arrows, the bread, the six sentences — and goes, the covenant kept at its minimum: take what you use, leave what you do not, update the record. The cache is restacked and the stone is reset and the circuit keeps its own books, which is the whole arrangement. Some travellers are remembered by what they left; this one is remembered by what he did not take.",
+          "es": "Toma lo que necesita — las flechas, el pan, las seis oraciones — y se va, el pacto mantenido en su mínimo: tomá lo que usás, dejá lo que no, actualizá el registro. El depósito se re-apila y la piedra se re-asienta y el circuito lleva sus propios libros, que es todo el arreglo. Algunos viajeros son recordados por lo que dejaron; este es recordado por lo que no tomó."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0026-0000-4000-8000-0a1e00000026:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "4f27c17b-6420-44e9-a9db-c8614a0f3a00",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0027-0000-4000-8000-0a1e00000027",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the road west looks like"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — over the shared pot, before the watches are split — what the road west looks like, since the tinker's road is the traveller's road in reverse. The answer comes with onions in it: 'Wet, mostly. The bridge at the second ford held, the inn at the crossing is still overcharging, and the bandit problem the farmers keep talking about is, as far as I can tell, one bandit and a very loud dog.' The farmhands add their piece: the harvest-work is real, the pay is not what it was, and the road west is safer than it has any right to be, which the farmhands say like it is a complaint.",
+          "es": "Pregunta — sobre la olla compartida, antes de que se dividan las guardias — cómo se ve la ruta del oeste, ya que la ruta del calderero es la ruta del viajero al revés. La respuesta viene con cebollas adentro: 'Mojada, mayormente. El puente del segundo vado aguantó, la posada del cruce sigue cobrando de más, y el problema de bandidos del que los granjeros siguen hablando es, hasta donde puedo ver, un bandido y un perro muy ruidoso.' Los peones agregan su parte: el trabajo de cosecha es real, la paga no es lo que era, y la ruta del oeste es más segura de lo que tiene derecho a ser, que los peones lo dicen como si fuera una queja."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0027-0000-4000-8000-0a1e00000027:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "4781f120-a369-41aa-9115-9ce8b27189e4",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0027-0000-4000-8000-0a1e00000027",
+    "act": "avoid",
+    "label": {
+      "en": "Take the pot and go at dawn"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the pot — eats, watches, sleeps, parts at dawn — the shared night kept to its minimum: company for safety, food for pooling, watches for splitting. The four go their four ways in the morning light, and the road holds four fewer strangers than it did, which is the only arithmetic the road-travellers' covenant ever does.",
+          "es": "Toma la olla — come, vigila, duerme, se separa al alba — la noche compartida mantenida en su mínimo: compañía por seguridad, comida por mancomunar, guardias por dividir. Los cuatro van por sus cuatro caminos a la luz de la mañana, y la ruta sostiene cuatro extraños menos de los que tenía, que es la única aritmética que el pacto de los viajeros-de-ruta hace jamás."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0027-0000-4000-8000-0a1e00000027:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "3275bd0e-6e18-44db-9999-b0f594c6876b",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0028-0000-4000-8000-0a1e00000028",
+    "act": "talk",
+    "label": {
+      "en": "Ask what wrong looks like"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — while the fish cooks and the hands keep knotting — what 'running wrong' looks like to people who read water the way priests read scripture. The oldest of them answers without looking up: 'Up when it should be down. The tide-table our grandfathers carved on the jetty-post has been wrong for a week — the water comes in when the table says out, and it comes in *higher* than the table ever allowed. Either the river is doing something new, or something upstream is doing something to the river.' The nets keep knotting. 'We have fished this water four generations. The water does not forget how to be water — not without help.'",
+          "es": "Pregunta — mientras el pescado se cocina y las manos siguen anudando — cómo se ve 'corriendo mal' para gente que lee el agua como los sacerdotes leen las escrituras. El más viejo responde sin mirar arriba: 'Subiendo cuando debería bajar. La tabla de mareas que nuestros abuelos tallaron en el poste del muelle viene mal hace una semana — el agua entra cuando la tabla dice que sale, y entra *más alta* de lo que la tabla permitió jamás. O el río está haciendo algo nuevo, o algo río arriba le está haciendo algo al río.' Las redes siguen anudándose. 'Pescamos esta agua cuatro generaciones. El agua no olvida cómo ser agua — no sin ayuda.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0028-0000-4000-8000-0a1e00000028:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "acb32096-cd34-45d4-983a-0c06cf534aee",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0a1e0028-0000-4000-8000-0a1e00000028",
+    "act": "avoid",
+    "label": {
+      "en": "Take the fish and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the fish — eats on the jetty, agrees to look upstream, declines to promise the return — and goes, the river-folk's warning carried like the debt it is. The water keeps running wrong behind him; the nets keep mending; and the traveller goes east with the river's complaint in his pack, which is heavier than the fish was and worth more than the meal.",
+          "es": "Toma el pescado — come en el muelle, acuerda mirar río arriba, declina prometer el regreso — y se va, la advertencia de la gente-del-río llevada como la deuda que es. El agua sigue corriendo mal atrás; las redes siguen remendándose; y el viajero va al este con la queja del río en su mochila, que es más pesada de lo que fue el pescado y vale más que la comida."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0a1e0028-0000-4000-8000-0a1e00000028:sit",
       "mapped_from_form": "contact",
       "felt": []
     }
