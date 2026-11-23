@@ -2844,12 +2844,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "More guarded than the greeting would usually warrant. Something has made him careful with his own."
+      "en": "More guarded than the greeting would usually warrant — something has made him careful even with his own. The cache is a small thing; what it might mean is not, and he has been alone with the meaning too long."
     },
     "presence": {
-      "en": "A supply cache on the red hills road — three nicks on the eastern stone — was emptied three weeks ago and not replenished. Someone used it and did not report it. The cache-keeper in Bree does not know who."
+      "en": "He meets the traveller off the road, deliberately, where the red hills give cover — a Ranger, older, carrying a problem he has been alone with for three weeks. 'The cache on the red hills road,' he says. 'Three nicks on the eastern stone. It was emptied three weeks ago and never replenished. Someone used it and did not report it.' The way he says 'someone' makes clear he has a short list."
     },
-    "channel": null,
+    "channel": {
+      "en": "He gives the facts and then stops — lets the arithmetic run in the other man's head rather than saying the worst reading aloud himself. Between rangers, the silence after a fact is also a sentence."
+    },
     "facts": {
       "topic": "old_grudge"
     },
@@ -2858,7 +2860,7 @@
         "id": "cnt:a2adc79c-e22b-4486-b8d9-302db195680d:sit",
         "tags": [],
         "situation": {
-          "en": "A breach in their network, reported to the only other Ranger he has trusted with it. The breach could mean desertion, capture, or something else entirely."
+          "en": "A breach in the watch's quiet network, reported to the only other ranger he trusts with it. The breach could mean desertion, capture — or something else entirely, the kind of else neither of them says on open ground."
         }
       }
     ],
@@ -2881,13 +2883,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Tense in a way that has become posture. Has been reading a compromised landscape for too long alone."
+      "en": "Tense in a way that has become posture — a man who has been reading a compromised landscape too long alone, whose vigilance has worn a groove into him that conversation now travels in."
     },
     "presence": {
-      "en": "Three farms on the Minhiriath road gone dark in sequence — doors open, fires cold, animals still penned. Moving south to south-east. Not raiders — something methodical."
+      "en": "He finds the traveller before the traveller finds him — steps out where the Minhiriath road runs between hedges, bow in hand, lowered. 'Three farms on this road gone dark in sequence,' he says, without greeting. 'Doors open. Fires cold. Animals still penned, waiting on feeding. Moving south-east.' A pause, and then the part that matters: 'Not raiders. Raiders take things.'"
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "He speaks in findings, not sentences — every fact placed once and nothing offered twice, a report delivered aloud. Under the flatness a single arithmetic runs: he cannot cover the northern circuit and keep going south, and he does not trust anyone else he has met on this road."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -2897,7 +2899,7 @@
         "id": "cnt:9a0833ee-b837-436a-a6f4-e6de4b988c5b:sit",
         "tags": [],
         "situation": {
-          "en": "He wants the traveller on the northern circuit while he continues south. He cannot cover both and he does not trust anyone else he has met on this road in a month."
+          "en": "He wants the traveller on the northern circuit while he continues south — the only split that covers both. It is a large request from a stranger, and he knows it, and asks anyway because the alternative is three more farms."
         }
       }
     ],
@@ -2923,10 +2925,10 @@
       "en": "Formal. The posture of a man who was told to show respect to Elves and has remembered it."
     },
     "presence": {
-      "en": "He asks whether she has seen movement further north. Three abandoned steadings he does not remember being empty before. He has no other Elf-source on this circuit."
+      "en": "He approaches the way men approach Elves they were raised to respect — carefully, with the formal posture of someone who was told how this is done and has remembered it. 'Lady,' he says — a guess at the courtesy, sincerely meant — 'three steadings on my circuit stand empty that were not empty last season. Have you seen movement further north?' He has no other Elf-source on this circuit, and the asking shows it."
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "He trades news the way the watch trades it — straight, complete, and hungry for the same back. There is no warmth in it, but the respect is real, and the worry under the respect is realest of all."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -2936,7 +2938,7 @@
         "id": "cnt:523e91f6-262f-4491-8821-2545c6627597:sit",
         "tags": [],
         "situation": {
-          "en": "He is doing his duty. She is a resource he would not normally have. There is no warmth in it but the respect is real."
+          "en": "He is doing his duty, and she is a resource he would not normally have — someone who has seen more circuits than his order has existed. Something in her face catches him mid-question: he looks like someone. He does not know it."
         }
       }
     ],
@@ -2959,12 +2961,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "The caution is wearing thin. He has been alone long enough that the formal approach has cracked."
+      "en": "The caution is wearing thin — he has been alone long enough that the formal approach cracked, and what came out instead is the question he has carried since he first learned the maps. It is almost too large to ask, which is why he asks it badly."
     },
     "presence": {
-      "en": "He asks directly: did she know Cardolan, before. Not as a test — as a question from a man whose entire history is book-knowledge, standing in the place where it happened."
+      "en": "He asks directly, the way men ask when the careful version has worn through: 'Did you know it — Cardolan? Before?' Not a test: the question of a man whose whole history of the place is book-knowledge, standing in the ruins of what the books describe. He is slightly afraid she will refuse. He is more afraid she will answer."
     },
-    "channel": null,
+    "channel": {
+      "en": "He wants not facts but texture — what the land was like, whether the songs are right, whether the stones remember correctly. He asks like a man starving for one honest mouthful of the world he serves."
+    },
     "facts": {
       "topic": "weighing_the_heart"
     },
@@ -2973,7 +2977,7 @@
         "id": "cnt:c0ece7e8-a54f-40a6-b000-bd3c484b2569:sit",
         "tags": [],
         "situation": {
-          "en": "He wants to know what it was actually like. She is the only person he has ever met who could tell him. He is slightly afraid she will refuse."
+          "en": "She is the only person he has ever met who could tell him. That makes her answer dangerous to him in a way he half-knows: one true thing could cost him the tidy map he grew up on, and he is asking for it anyway."
         }
       }
     ],
@@ -2996,12 +3000,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He watched her on the road for ten minutes before speaking. Something in the way she moves through a landscape of ruins stopped him from the usual approach."
+      "en": "Something in the way she moves through a landscape of ruins stopped him from the usual approach. Men on this road ask questions about the road — the question he asked surprised him as much as her."
     },
     "presence": {
-      "en": "He asks, carefully, if she is well. The question lands differently than it should. He does not know why he asked it."
+      "en": "He watched her for ten minutes before speaking — and she noticed the watching, which may have been the point of doing it badly enough to be noticed. When he finally falls into step it is with the awkwardness of a man attempting something unpracticed. 'Are you well?' he asks — and the question lands differently than it should, as though he were asking about more than the weather. He does not seem to know why he asked it that way."
     },
-    "channel": null,
+    "channel": {
+      "en": "He talks with the halting sincerity of a man who has decided, mid-sentence, that the polite version would waste both their time. The question under the question is real attention — rarer than courtesy on a cold road, and more tiring to deflect."
+    },
     "facts": {
       "topic": "weighing_the_heart"
     },
@@ -3010,7 +3016,7 @@
         "id": "cnt:318f0782-8108-4736-951c-4cc2dc517273:sit",
         "tags": [],
         "situation": {
-          "en": "The question is more perceptive than expected from a mortal on a cold road. She is not well. She is not going to say so."
+          "en": "The question is more perceptive than expected from a mortal on a cold road. She is not well. She is not going to say so — but the asking is the first thing in days that has sounded like a person rather than a transaction."
         }
       }
     ],
@@ -4076,13 +4082,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Looks him over — armed, northern, alone — and decides he is not a threat before speaking."
+      "en": "Weighs him before speaking and settles on 'not a threat' with the practiced quickness of someone who sorts travellers for a living. What remains undecided is whether he is a customer."
     },
     "presence": {
-      "en": "Southern ford at the estuary washed out last month. The Gwathuirim crossing upstream is still passable but needs a guide. She knows a Stoor who will show it for information from the north, not coin."
+      "en": "She waits where the road comes down to the estuary flats — a Gwathuirim woman watching the water the way people watch something that has disappointed them before. 'Ford's gone,' she says when he is near. 'Washed out last month. The crossing upstream still holds — but it wants a guide, and the guide wants paying in something better than coin.' She looks him over — armed, northern, alone — and decides he is not a threat before she finishes deciding whether he is useful."
     },
     "channel": {
-      "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
+      "en": "She deals the way marsh people deal — plainly, without apology, in a coin of information and usefulness. Everything she knows is for sale at exactly its price; the honesty of the pricing is her integrity."
     },
     "facts": {
       "topic": "harvest_and_weather"
@@ -4092,7 +4098,7 @@
         "id": "cnt:72c7435b-d968-48fc-ba6a-481d82180d40:sit",
         "tags": [],
         "situation": {
-          "en": "She has something he needs and is willing to deal. The deal is information for information."
+          "en": "She has something he needs — the live crossing and the guide who keeps it — and she is willing to deal: information for information, cleanly stated. The only question is whether what he carries out of the north is worth the trade."
         }
       }
     ],
@@ -4115,13 +4121,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Assessing him. Her experience with Rangers on this road is mixed."
+      "en": "Assessing him even as she asks — her experience with Rangers on this road is mixed, and she has decided to trust this one slightly more than the evidence allows, because the alternative is the eastern clan's version arriving first."
     },
     "presence": {
-      "en": "Saralainn from the eastern clan burned three farmsteads last month — not her clan. She says this with the precision of someone who expects to be blamed for it anyway. She needs word carried north to the garrison naming the eastern clan, not hers."
+      "en": "She falls into step beside him on the north road — Gwathuirim by her dress, carrying her errand the way people carry something they cannot afford to drop. 'Saralainn from the eastern clan burned three farmsteads last month,' she says. 'Not my clan.' Said with the precision of someone who expects to be blamed for it anyway. 'Word of it needs to reach the garrison north — naming the eastern clan, not ours. Will you carry it?'"
     },
     "channel": {
-      "en": "Have them raise a trouble of their own — a beast, a feud, a missing kinsman — and hope the stranger might aid it."
+      "en": "She asks straight and waits for the answer without softening the stakes — the message is her clan's survival phrased as geography, and she will not dress it up as a favour."
     },
     "facts": {
       "topic": "a_request_for_help"
@@ -4131,7 +4137,7 @@
         "id": "cnt:ea018ee3-a751-425a-bbd6-2dbe215b3dc3:sit",
         "tags": [],
         "situation": {
-          "en": "She is asking him to carry a message that matters to her survival. She knows he might refuse. She asks anyway."
+          "en": "She is asking him to carry a message that matters to her people's survival — naming the eastern clan for the burnings before the eastern clan names hers. She knows he might refuse. She asks anyway, because refusal is survivable and silence is not."
         }
       }
     ],
@@ -4154,13 +4160,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Stopped him on the road on impulse. Afraid and trying not to show it."
+      "en": "Stopped him on impulse, afraid and trying not to show it — the fear is out anyway, in how fast the words come and how she stands on the road's far edge, as though the bog side of it were warm."
     },
     "presence": {
-      "en": "The lights in the marsh came back last night, closer than before. Three men went in after them last week. She does not know what happened to the three men but she knows nobody is going near the eastern bog."
+      "en": "She stops him on the road on impulse — the decision to speak visibly made in the moment, a marsh woman with fear held just under the surface. 'The lights came back last night,' she says. 'Closer than before. Three men went in after them last week.' She does not know what happened to the three. She knows nobody is going near the eastern bog — and she needed to tell someone; the fear has been sitting in her chest for a week."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "She says it all at once and then watches his face — not for what he thinks of her, but for whether he believes her. Marsh people are used to being not believed; her whole manner has braced for the polite dismissal."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -4170,7 +4176,7 @@
         "id": "cnt:c31faf8a-89a4-4718-8e77-d289efdb853f:sit",
         "tags": [],
         "situation": {
-          "en": "She needed to tell someone. The fear has been sitting in her chest for a week."
+          "en": "She does not want protection or investigation — she wants the fear witnessed by someone who might know what it is. The telling is the relief; anything after it is more than she expects."
         }
       }
     ],
@@ -4193,13 +4199,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Curious about the traveller. Cautious, but the curiosity is winning."
+      "en": "Curious about the traveller, and the curiosity is winning — she watches him the way marsh people watch outsiders, measuring use and danger in the same glance, and has already landed on the side of talking."
     },
     "presence": {
-      "en": "The sandbanks at the estuary mouth shifted after last month's storm — the ford she is heading for does not exist anymore. The Gwathuirim know the new safe crossing but what they want for it is not coin."
+      "en": "She is waiting at the fork where the estuary road splits — a Gwathuirim woman with a basket and the patience of someone who decided to wait some time ago. 'If you're for the ford,' she says when he is close, 'don't be. The storm took the banks — the crossing is a mile of wet sand and a drowned wagon now. We know the safe way over, and what we want for it isn't coin.'"
     },
     "channel": {
-      "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
+      "en": "She talks plainly, the way working folk do — the crops, the water, the season turning — but every fact is weighed first for what it costs her people. Her coin is usefulness; she spends it the way careful people spend coin."
     },
     "facts": {
       "topic": "harvest_and_weather"
@@ -4209,7 +4215,7 @@
         "id": "cnt:3e74c0c5-52df-46e5-9130-f82ca3a8aaa2:sit",
         "tags": [],
         "situation": {
-          "en": "She is giving useful information without being asked. She wants company on the road to the next settlement, just until the exposed stretch is past."
+          "en": "She is giving the useful news unasked — and the price of the rest is company on the road to the next settlement, only until the exposed stretch is past. A fair deal, offered levelly, by someone who knows exactly how fair it is."
         }
       }
     ],
@@ -4232,13 +4238,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Cautious. Gives less than she knows. Reads the traveller before speaking."
+      "en": "Cautious — gives less than she knows and reads the traveller before deciding what the difference is worth. The bad news is free because it costs her nothing; the useful news is being weighed."
     },
     "presence": {
-      "en": "Southern ford is gone. Saralainn burned three farmsteads west of the marsh last month — not her clan, another one, and she says it like the distinction matters. The coastal road has been empty since."
+      "en": "She reads him for a long moment before speaking — a Gwathuirim woman on the south road, weighing armed northern strangers the way her people have learned to. 'The ford's gone,' she says finally. 'Washed out last month. And Saralainn from the eastern clan burned three farmsteads west of the marsh — not my clan,' she says, with the precision of someone who expects to be blamed for it anyway."
     },
     "channel": {
-      "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
+      "en": "She talks plainly, the way working folk do, but the plainness has a ledger behind it — every fact weighed before it is spent. What she holds back is not malice; it is the only capital a marsh woman on an open road owns."
     },
     "facts": {
       "topic": "harvest_and_weather"
@@ -4248,7 +4254,7 @@
         "id": "cnt:e97ca5ff-818c-4caf-af4f-60686926158b:sit",
         "tags": [],
         "situation": {
-          "en": "She is giving the bad news and holding the actionable news back. The actionable news costs something."
+          "en": "She is giving the bad news and holding the actionable news back — the safe crossing, the name that goes with it. The actionable news costs something, and she is deciding whether this traveller is the kind who pays."
         }
       }
     ],
@@ -4271,13 +4277,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Suspicious. Gives nothing first. Watches the traveller's hands throughout."
+      "en": "Suspicious — gives nothing first and watches the traveller's hands throughout. Fear sits under the suspicion like water under ice: saying it aloud makes it more real, and she says it anyway, which is its own kind of courage."
     },
     "presence": {
-      "en": "The marsh is being watched — not by Saralainn. Three men went in last week following lights that moved. None came back. The Gwathuirim will not say what the lights are."
+      "en": "She keeps the marsh to her back and the stranger to her front — a Gwathuirim woman, reed-knife at her belt, standing where the bog-road narrows so that meeting her is not optional. 'The marsh is watched,' she says, flat. 'Not by us — by Saralainn's people, or whatever wears their shape. Three men went in last week after lights that move. None came back.' She watches his hands the whole time she says it."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "She talks in short hard sentences that give away nothing she does not choose to — marsh people survive on information held tighter than coin, and her fear has made the holding tighter still."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -4287,7 +4293,7 @@
         "id": "cnt:a3bc2dbe-1167-460c-90bd-36bf3ea3b69c:sit",
         "tags": [],
         "situation": {
-          "en": "She is afraid and trying not to show it. Saying it out loud makes it more real."
+          "en": "The lights are real — three men are the proof of that — and the clans will not say what the lights are, whether from knowledge or fear. What she wants from the traveller is the one thing fear cannot give itself: to be told what she already suspects."
         }
       }
     ],
@@ -9669,12 +9675,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A Bree woman at the wayhouse — the kind of Bree-lander who has seen enough travelers to read them quickly and has stopped being surprised by anything."
+      "en": "Reads him the moment he crosses the threshold — armed, northern, alone — and files him accurately enough that the news she leads with is the news a man like that can use. Nothing about her is warm; everything about her is efficient, and the efficiency is its own hospitality."
     },
     "presence": {
-      "en": "The common-room is full of road-news: a merchant came through two days ago with a story about orcs in the Weather Hills; a Ranger left this morning before anyone else was up; someone is asking questions about who has been using the East Road."
+      "en": "The wayhouse common-room is warm with bodies and road-news, and a Bree woman presides over the table like a tollkeeper — the kind who has read a thousand travellers at a glance and stopped being surprised by any of them. 'A merchant came through two days past swearing he saw orcs in the Weather Hills,' she says, setting down a mug he did not order. 'A Ranger left this morning before anyone was up. And someone's been asking who uses the East Road.' She is not offering gossip. She is quoting prices."
     },
-    "channel": null,
+    "channel": {
+      "en": "She shares information the way everyone in Bree shares it — as currency, quoted plainly and expecting change back. She will talk about anything the common-room knows, and she will remember what he tells her for the next traveller who pays."
+    },
     "facts": {
       "topic": "local_gossip"
     },
@@ -9683,7 +9691,7 @@
         "id": "cnt:e70566fc-65eb-4842-81cf-844a148fce39:sit",
         "tags": [],
         "situation": {
-          "en": "She is not offering this as gossip — she is sharing it the way everyone in Bree shares information, which is as a kind of currency. She expects something in return."
+          "en": "The common-room already knows the shape of the north road's wrongness — orcs rumoured, a Ranger gone early, someone counting eastbound travellers. She expects something for the telling, the way Bree expects something for everything: fairly, and without pretending otherwise."
         }
       }
     ],
@@ -9704,13 +9712,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A Bree man on the road, heading south, in a hurry that he is trying not to show."
+      "en": "A Bree-lander in a hurry he is trying not to show — and trying is the operative word: Bree men do not scare easily, and this one is scared, which is itself a kind of information."
     },
     "presence": {
-      "en": "He left Bree this morning because something happened at the inn last night that he will not describe. He says only that there are men staying there who are asking the wrong questions and that Bree's hospitality does not require answering them."
+      "en": "A Bree man coming south at a pace that is not quite a hurry — the hurry is in his shoulders, not his stride, which he is visibly keeping ordinary. He sizes the traveller up before deciding to speak at all: 'You didn't stay at the inn last night, did you.' Not quite a question. 'There's men there asking the wrong questions — who came through, which way they went. Bree hospitality doesn't cover answering the likes of that.'"
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "He talks the way frightened practical men talk — clipped, watchful, checking the road behind them every third sentence. Whatever he will not describe about last night sits under everything he does say like a stone under a wheel."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -9720,7 +9728,7 @@
         "id": "cnt:7167d9b5-f681-40da-9f4f-fb45e44e3f9d:sit",
         "tags": [],
         "situation": {
-          "en": "He is a Bree-lander — he does not scare easily. He is scared."
+          "en": "He left Bree this morning because men at the inn are asking the wrong questions — who came through, which way they went. Bree's hospitality does not require answering them; his survival, apparently, suggested leaving."
         }
       }
     ],
@@ -9741,13 +9749,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A small group at the road's edge — not traveling, waiting. They let the traveller approach before speaking."
+      "en": "Waiting the way practical people wait when the world goes wrong — Bree-landers do not panic, and they do not investigate either; they hold at the edge of the thing and watch. They have been watching for three days."
     },
     "presence": {
-      "en": "The East Road has been wrong for three days. People are going in and not coming out on the other side. No one has closed the road. No one has explained it. The Bree-landers are practical people: they are waiting until someone they trust confirms what is happening."
+      "en": "A small group at the road's eastern edge — not travelling, waiting: a cart unhitched, a small fire, four faces that turn together as the traveller comes near. They let him approach before the oldest speaks, and the question is genuine, and so is the fear under it: 'Did you come by the east road? Three days now, folks go in and don't come out the other side. Nobody's closed it. Nobody's explained it either.'"
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "They talk over and around each other the way worried groups do — one voice for the facts, three more for the edges of them, and under the chorus a very Bree question: is it safe, and who says so."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -9757,7 +9765,7 @@
         "id": "cnt:9e5a73ad-dacb-475c-83d8-a36a63120281:sit",
         "tags": [],
         "situation": {
-          "en": "They are asking the traveller if they came from the east. The question is genuine and the fear behind it is genuine."
+          "en": "They are asking what the eastern road looked like — not for curiosity, for the decision: whether the waiting ends in turning back or going on. His answer will move people; they know it, which is why they asked a stranger."
         }
       }
     ],
@@ -17224,13 +17232,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Recognition on both sides within two sentences, and then the conversation becomes very economical."
+      "en": "Recognition on both sides within two sentences, and then the conversation becomes very economical — two people who keep the same kind of faith do not waste words proving it."
     },
     "presence": {
-      "en": "Where the roads are watched, which house will still open its door, and a name that has stopped appearing on the circuit reports."
+      "en": "They recognize each other at forty paces — not by face, by the way of standing that only the watch teaches. No greeting until they are close enough for voices to carry no further. Then the ledger comes out, spoken low: which roads are being watched, which houses will still open their door to a grey cloak — and a name, Maladan, that has stopped appearing on the circuit reports."
     },
     "channel": {
-      "en": "Have him speak of loyalty to king and folk, and the binding weight of a word once given."
+      "en": "He speaks the way rangers speak among themselves — the shared shorthand of the watch, where a missing name is a sentence and a shut door is a paragraph. Loyalty to king and folk is not declared between them; it is assumed, and the assumption is the warmth."
     },
     "facts": {
       "topic": "oath_and_kin"
@@ -17240,7 +17248,7 @@
         "id": "cnt:0b2e0009-0000-4000-8000-0b2e00000009:sit",
         "tags": [],
         "situation": {
-          "en": "Two people who keep the same kind of faith, comparing ledgers on a road neither of them will describe to anyone else."
+          "en": "Two keepers of the same faith comparing ledgers on a road neither will ever describe to anyone else. The missing name is not gossip — it is a hole in the net, and both of them can feel the wind coming through it."
         }
       }
     ],
@@ -22012,12 +22020,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A man on the road with the particular self-contained manner of someone who has been walking alone for a long time and has stopped expecting company."
+      "en": "Self-contained the way men get who have walked a long way alone — not unfriendly, simply folded inward, his own company worn smooth by use. He will talk if talked to; he will not open first."
     },
     "presence": {
-      "en": "He is going to Bree. He has been going to Bree for eleven days, which means he started from somewhere far enough north that few people go there voluntarily."
+      "en": "A man ahead of him on the road, walking south — steady pace, pack worn right, boots resoled by someone who knew how. Eleven days out, by the miles on him, and bound for Bree: which means he started somewhere far enough north that few people go there voluntarily. He gives a traveller's nod as their paths draw close — the greeting of a man who has stopped expecting company but has not forgotten its manners."
     },
-    "channel": null,
+    "channel": {
+      "en": "He answers in careful partial sentences — each reply true as far as it goes, and the distance it goes measured like rope over a drop. Whatever he carries south, he does not mean to leave it on the road."
+    },
     "facts": {
       "topic": "where_are_you_bound"
     },
@@ -22026,7 +22036,7 @@
         "id": "cnt:4ab51e4a-4649-4d2a-a000-9b10c519e541:sit",
         "tags": [],
         "situation": {
-          "en": "Men coming south from the deep north are either Rangers, refugees, or carrying information. He does not look like a refugee."
+          "en": "Men coming south out of the deep north are Rangers, refugees, or carrying information. He does not look like a refugee — and a Ranger would know better than to be read this easily. Which leaves the third thing, whatever it is."
         }
       }
     ],
@@ -22047,12 +22057,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A woman at a crossroads, reading a posted notice nailed to the waypost. She looks up when the traveller arrives."
+      "en": "Composed the way people are composed in public at wayposts — but the past tense betrays her: she already knows he is dead. The question is not whether; the question is how she knows."
     },
     "presence": {
-      "en": "The notice is a missing-person notice — a man, forty years, last seen on the Weather Hills road three weeks ago. She says she knew him. She says this in the past tense before catching herself."
+      "en": "At the crossroads waypost a woman stands reading a notice nailed to the wood — a missing-person bill, hand-lettered: a man, forty years, last seen on the Weather Hills road three weeks ago. She looks up when the traveller arrives and says, without being asked: 'I knew him.' She says it in the past tense — and the past tense is involuntary, the kind of slip grief makes before the mind has signed off on it."
     },
-    "channel": null,
+    "channel": {
+      "en": "She talks in short flat sentences — a woman holding grief at arm's length with paperwork. The notice, the dates, the last sighting: facts are the only part of this she can still hold without dropping something."
+    },
     "facts": {
       "topic": "old_grief"
     },
@@ -22061,7 +22073,7 @@
         "id": "cnt:d7a54a3c-9e2c-4d8d-a62c-f06eb2a138c4:sit",
         "tags": [],
         "situation": {
-          "en": "The past tense is involuntary. She already knows he is dead. The question is how she knows."
+          "en": "She stands at the crossroads because the notice is all she can do — and the traveller is the first road-worn person to stop. What she wants is not comfort. What she wants is someone who walks the hills to look, and she cannot quite bring herself to ask it."
         }
       }
     ],
@@ -22085,9 +22097,11 @@
       "en": "He steps out of cover — not threateningly, but he was in cover and now he is not, which is its own message."
     },
     "presence": {
-      "en": "He is a Ranger running a circuit that should have had three men. The other two have not reported back in six days. He is continuing the circuit alone because the circuit must be run, not because it is a good idea."
+      "en": "He steps out of cover ahead on the road — not threateningly, but he was in cover and now he is not, which is its own message. A Ranger, road-worn, with the wired look of a man sleeping badly and moving anyway. 'Walking north?' he asks. 'What have you seen on it?' His circuit was made for three men; the other two have not reported in six days. He is running it alone because the circuit must be run — not because it is a good idea."
     },
-    "channel": null,
+    "channel": {
+      "en": "He talks in the clipped way of a man budgeting energy — questions first, answers only where they pay — and under it the arithmetic he is not saying aloud: two men, six days, and a circuit that does not run itself."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -22096,7 +22110,7 @@
         "id": "cnt:3858bc13-8ff9-4736-aab7-cae47506d285:sit",
         "tags": [],
         "situation": {
-          "en": "A Ranger continuing a three-man circuit alone, on day six of silence from his partners, is a man running on duty and not much else."
+          "en": "A Ranger continuing a three-man circuit alone, on day six of silence from his partners, is a man running on duty and not much else. He will not ask for help — but he has not yet decided whether to accept it."
         }
       }
     ],
@@ -25547,10 +25561,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A Ranger sign on the waypost — three nicks, fresh, pale inside. Current."
+      "en": "No one here — only the sign, which is its own kind of presence: someone of the watch was on this road within the day and counted it clean."
     },
     "presence": {
-      "en": "Passage confirmed, route checked. Someone ran this section of road within the last day and found it worth marking clear."
+      "en": "On the waypost where the road bends: three nicks, fresh, the wood still pale inside the cuts. A Ranger's mark — passage confirmed, route checked — cut within the last day by someone running this section ahead of him. Whoever it was found nothing worth marking but the all-clear itself."
     },
     "channel": null,
     "facts": {
@@ -25561,7 +25575,7 @@
         "id": "cnt:291f9142-46d0-4fc6-bf8e-1f4134b78863:sit",
         "tags": [],
         "situation": {
-          "en": "The mark is reassurance. It is also a reminder that the road needs checking."
+          "en": "The mark is reassurance — and a reminder that this road is still being kept, that someone is paying for its safety in walking. It also means the watcher is ahead of him, moving fast, and alone."
         }
       }
     ],
