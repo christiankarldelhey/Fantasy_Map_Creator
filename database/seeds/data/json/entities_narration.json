@@ -5672,10 +5672,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "Fresh tracks crossing the road — heavy boots, irregular spacing, moving east. Made last night."
+      "en": "The road's record only — a night's traffic read by morning light."
     },
     "presence": {
-      "en": "Seven or eight of them. They crossed here after dark heading toward the old ruins on the ridge. They did not camp — they kept moving, which means they have a destination."
+      "en": "Fresh tracks crossing the road — heavy boots, irregular spacing, seven or eight of them, made last night after dark. They crossed heading toward the old ruins on the ridge and did not camp — they kept moving, which means they have a destination, not a territory."
     },
     "channel": null,
     "facts": {
@@ -5686,7 +5686,7 @@
         "id": "cnt:e45c8fbb-9295-4236-a9c1-7a8eef830072:sit",
         "tags": [],
         "situation": {
-          "en": "They passed through. They are ahead now, not behind. The road is clear but the ridge is not."
+          "en": "They are ahead, not behind — the road is clear but the ridge is not. Whatever the ruins on the ridge hold, it now holds them too."
         }
       }
     ],
@@ -5707,13 +5707,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Five of them blocking the road. The one in front is doing the talking. The others are watching the flanks."
+      "en": "Transactional predators — the question is an inventory, and the inventory is pricing the extraction. Cooperation is merely a cheaper cost."
     },
     "presence": {
-      "en": "They want to know what the traveller is carrying. They are not asking to decide whether to rob them — they have already decided. They are asking to decide how much violence the robbery requires."
+      "en": "Five of them blocking the road — the front one does the talking, the other four watch the flanks with the patience of people who have done this before. They want to know what the traveller is carrying. They are not asking to decide whether to rob him — they have already decided that. They are asking to decide how much violence the robbery requires."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "The front one talks; the others read spacing. Every word exchanged is either raising or lowering the price of the next thirty seconds."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -5723,7 +5723,7 @@
         "id": "cnt:f8be543f-3be3-4a96-8d4d-559bf2731cc1:sit",
         "tags": [],
         "situation": {
-          "en": "The question buys thirty seconds. The answer determines whether those seconds cost anything."
+          "en": "The robbery is decided; only its cost is being negotiated. What he says — or fails to say — sets the price he will pay."
         }
       }
     ],
@@ -5744,13 +5744,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Three of them at a chokepoint — a defile between rocks, unavoidable. They saw the traveller before the traveller saw them."
+      "en": "Restrained by orders, not mercy — the captain is professional enough to say the rule aloud so his own side hears it too. The restraint may be more dangerous than violence: dead men answer no questions."
     },
     "presence": {
-      "en": "The captain — bigger, scarred across one eye — has a specific instruction: no killing on the road, bring back anyone found alive. This is unusual. Someone above him wants information, not corpses."
+      "en": "Three of them at the defile — a chokepoint between rocks, unavoidable, and they saw the traveller before the traveller saw them. The captain is bigger than the rest, scarred across one eye, and he delivers the instruction plainly: 'No killing on the road. Anyone found alive, comes back alive.' Unusual enough to be its own warning — someone above him wants information, not corpses."
     },
     "channel": {
-      "en": "Have them fling harsh demands at a captive — who are you, who sent you, what do you carry — backed by the lash."
+      "en": "Harsh demands in the manner of interrogation — who are you, who sent you, what do you carry — backed by the promise that the answers matter more than he does."
     },
     "facts": {
       "topic": "interrogation"
@@ -5760,7 +5760,7 @@
         "id": "cnt:5f490b2f-b23c-4374-ab8c-0777651a7092:sit",
         "tags": [],
         "situation": {
-          "en": "The restraint is not mercy. It is orders. The orders may be more dangerous than simple violence."
+          "en": "The order 'bring back alive' changes everything and nothing — it means they will not kill him on the road, and it means where they would take him is worse than the road."
         }
       }
     ],
@@ -5781,13 +5781,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A full patrol — eight, plus a warg on a chain held by the largest. They have been tracking for a while."
+      "en": "Waiting on the animal — the captain trusts the warg's nose more than any man's eyes, and the moment he decides to trust it is the moment the conversation ends."
     },
     "presence": {
-      "en": "The warg has a scent. It is pulling toward the traveller. The captain is watching the warg and watching the traveller and making the same calculation simultaneously."
+      "en": "A full patrol — eight orcs and a warg on a chain held by the largest — and the warg already has the scent. It is pulling toward the traveller, low sounds working up its chest. The captain watches the warg and watches the traveller, making the same calculation at once: they have been tracking something, and the warg thinks it found it."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "No real talk — the captain's questions are stall-work while he reads his own warg. The beast is the real interrogator."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -5797,7 +5797,7 @@
         "id": "cnt:37546ba9-13a9-4520-8a04-dd10144474dd:sit",
         "tags": [],
         "situation": {
-          "en": "The warg knows. The captain knows the warg knows. The moment the captain decides to trust the warg is the moment the conversation ends."
+          "en": "The warg knows. The captain knows the warg knows. The traveller has about ten seconds before belief becomes release."
         }
       }
     ],
@@ -5818,10 +5818,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "A smear of dark grease on a rock at the trail's edge — orc scout-mark. They passed here within six hours."
+      "en": "Only the mark — a small deliberate sign left for whoever follows, and the knowledge that the followers are close behind."
     },
     "presence": {
-      "en": "The mark faces back the way the traveller came, not forward. They are behind the traveller on this road, moving in the same direction."
+      "en": "A smear of dark grease on a rock at the trail's edge — orc scout-mark, made within six hours. The mark faces back the way the traveller came, not forward: they are behind him on this road, moving in the same direction."
     },
     "channel": null,
     "facts": {
@@ -5832,7 +5832,7 @@
         "id": "cnt:9d8e8cf1-a1c9-48bc-9587-236bb2a68e2e:sit",
         "tags": [],
         "situation": {
-          "en": "They are scouts, not raiders. They are following to report, not to engage. Not yet."
+          "en": "Scouts, not raiders — they are following to report, not to engage. Not yet. The next junction is his last clean chance to stop being followed."
         }
       }
     ],
@@ -5962,13 +5962,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Three of them, moving fast on a scent. They run into the traveller coming the other way on the road."
+      "en": "Split attention — the trail is pulling them forward and the obstacle is standing still, and the captain is doing the math on both at once."
     },
     "presence": {
-      "en": "They are on the trail of someone specific — not the traveller. For ten seconds they are unsure whether to abandon the trail and deal with the obstacle or push past. The captain is deciding."
+      "en": "Three of them coming fast up the road — not at him, on a scent, heads down and moving — and they run into the traveller the way a hound runs into a fence-post. For ten seconds nobody is sure what happens next: they are on the trail of someone specific, and the traveller is suddenly in the middle of the arithmetic — abandon the trail, or deal with the obstacle. The captain is deciding."
     },
     "channel": {
-      "en": "Have them fling harsh demands at a captive — who are you, who sent you, what do you carry — backed by the lash."
+      "en": "Harsh questions in compressed Westron — did you see, which way, how long — the interrogation of a tracker who cannot afford to lose the trail and cannot afford to ignore the witness."
     },
     "facts": {
       "topic": "interrogation"
@@ -5978,7 +5978,7 @@
         "id": "cnt:e6f479ef-d37f-4066-9b0e-6cdc75b7ac8b:sit",
         "tags": [],
         "situation": {
-          "en": "The scent they are following went through here recently. If the traveller knows where it leads, they are suddenly useful alive."
+          "en": "The scent they follow went through here recently. If the traveller knows where it leads, they are suddenly useful alive — for exactly as long as the usefulness lasts."
         }
       }
     ],
@@ -5999,10 +5999,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "The tracks on the road are layered — someone passed here running, and then, later, something followed them."
+      "en": "No one here — only the arithmetic of the road: one fugitive, one pursuit, both ahead."
     },
     "presence": {
-      "en": "The first tracks are a day old. The second set are hours old and moving fast. The second set are orc-boots, wide-spaced. Pursuit gait."
+      "en": "The tracks on the road are layered like the pages of an unpleasant book: the first set a day old, a man running. The second set hours old — orc-boots, wide-spaced, pursuit gait. Someone passed here running, and then, later, something followed them."
     },
     "channel": null,
     "facts": {
@@ -6013,7 +6013,7 @@
         "id": "cnt:150d5840-7aa2-4b6c-8b23-edaad825a3af:sit",
         "tags": [],
         "situation": {
-          "en": "Someone on this road is being hunted. They are ahead of the trackers. Both of them are ahead of the traveller."
+          "en": "Someone on this road is being hunted and the hunters are closer to them than he is. Continuing means walking into the middle of a chase already in progress."
         }
       }
     ],
@@ -6287,12 +6287,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "The column has stopped — a broken wheel on the supply cart, guards occupied. One captive at the edge, close enough to the treeline to speak quietly."
+      "en": "Past begging and not yet past hoping — a man reduced to one remaining need: that someone know they were here, that someone saw them."
     },
     "presence": {
-      "en": "He was a farmer from a settlement three days north. They were taken eleven days ago. He does not know where they are going. He asks for nothing except that someone knows they are here, that someone saw them."
+      "en": "The column has stopped for a broken cart-wheel — orc guards occupied, arguing over the axle — and at the column's edge, close to the treeline, sits a captive: a farmer by his hands and his clothes, wrists bound, three days north of his home by the road's measure. He is watching the treeline, not the guards. When the traveller passes he does not cry out — he only looks."
     },
-    "channel": null,
+    "channel": {
+      "en": "He speaks only if spoken to, in a voice kept carefully under the guards' hearing — quiet, precise, the words of a man who has decided exactly what he needs to say and cannot afford to waste it."
+    },
     "facts": {
       "topic": "a_request_for_help"
     },
@@ -6301,7 +6303,7 @@
         "id": "cnt:4abe850d-9814-481e-a492-d4f64722b6e4:sit",
         "tags": [],
         "situation": {
-          "en": "He is not asking to be saved right now. He is asking to be witnessed."
+          "en": "He is not asking to be saved right now — he knows what an attempt would cost and what it would fail to buy. He is asking to be witnessed. That is all, and it is everything."
         }
       }
     ],
@@ -6322,10 +6324,10 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A traveller on the road — unremarkable, moving south, nods in passing."
+      "en": "Indistinguishable until it isn't — the wrongness lives in the details nobody checks. Whoever sent it north dressed it well."
     },
     "presence": {
-      "en": "Something is slightly wrong about the face. The proportions are almost right. The nod was timed correctly but not reflexively."
+      "en": "A traveller on the road, unremarkable, moving south — he nods in passing, correctly timed, correctly shaped. And something is slightly wrong about the face: the proportions are almost right, the nod timed correctly but not reflexively — a greeting performed rather than done. They are passing as human. They are nearly doing it successfully."
     },
     "channel": null,
     "facts": {
@@ -6336,7 +6338,7 @@
         "id": "cnt:8488e34c-ca87-4f43-a79d-24ab2e67bb04:sit",
         "tags": [],
         "situation": {
-          "en": "They are passing as human. They are nearly doing it successfully."
+          "en": "It does not know it has been seen. What it is doing on this road, and for whom, are questions worth following — or worth forgetting, depending on what else the day holds."
         }
       }
     ],
@@ -6357,12 +6359,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A trader at a wayhouse — dark-complected, broad, asking questions about the road north in a way that sounds casual but is building a picture."
+      "en": "Warm and professional — the friendliness is a tool and a good one; people tell him things because he has made it pleasant to tell him things."
     },
     "presence": {
-      "en": "The questions are too specific to be traveller-curiosity. He wants to know where the patrols are, not where the road conditions are. He is gathering operational intelligence dressed as conversation."
+      "en": "A trader works the wayhouse — dark-complected, broad, buying rounds and asking about the road north in a way that sounds casual until you notice the questions are too specific: not road conditions but patrols, not inns but garrisons. He is gathering operational intelligence dressed as conversation, table by table — and he has reached hers."
     },
-    "channel": null,
+    "channel": {
+      "en": "He asks traveller-questions and files military answers — who patrols where, which passes are watched, how long between the Rangers' circuits. The charm is flawless except for the filing."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -6371,7 +6375,7 @@
         "id": "cnt:57e3ae33-8a45-4bd7-912d-0a0135087d4e:sit",
         "tags": [],
         "situation": {
-          "en": "He does not know yet that the person he is asking knows what he is."
+          "en": "He does not know yet that the person he is asking knows what he is — every casual question he asks her is a question about her own people."
         }
       }
     ],
@@ -6393,12 +6397,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A mercenary at the same wayhouse fire. Has been there when he arrived, will still be there when he leaves."
+      "en": "Comfortable and counting — a man-shaped thing doing surveillance, patient as furniture. He does not know yet that he has been identified."
     },
     "presence": {
-      "en": "The jaw is wrong. The hands are wrong — the knuckles sit differently, the reach is too long for the body. He has been watching everyone who enters and noting who they speak to."
+      "en": "A mercenary at the same wayhouse fire — there when he arrived, still there, watchful in a way that is not paranoia: he has been noting everyone who enters and who they speak to. The jaw is wrong. The hands are wrong — the knuckles sit differently, the reach too long for the body. A half-orc, passing well enough to hold a fire-side seat in a wayhouse."
     },
-    "channel": null,
+    "channel": {
+      "en": "He talks only to keep his seat warm — road-chat, weather, nothing that costs him anything. His real work is the watching, and it never stops."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -6407,7 +6413,7 @@
         "id": "cnt:c7b907df-0a3e-45cb-a2d6-d7b9e5ae667f:sit",
         "tags": [],
         "situation": {
-          "en": "the traveller has seen half-orcs before. This one does not yet know he has been identified."
+          "en": "The traveller has seen half-orcs before; this one does not yet know he has been made. Who he is watching for, and who he reports to, are the questions worth the evening."
         }
       }
     ],
@@ -6430,13 +6436,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A figure on the road ahead, waiting. Standing in the middle, not to the side. He has been waiting for her specifically."
+      "en": "A courier, not a fighter — chosen because he could deliver the message without being dismissed as an animal. Whatever sent him is intelligent and it wanted the message heard."
     },
     "presence": {
-      "en": "He has a message. He delivers it without ceremony: she is known on this road, she has been seen, and there are those who would prefer she did not continue south."
+      "en": "A figure stands in the middle of the road ahead — not to the side, in the middle — and it has been waiting for her specifically. When she is close enough it speaks: a message, delivered without ceremony. She is known on this road. She has been seen. There are those who would prefer she did not continue south."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "He delivers the message plainly, in good Westron, and then waits — because a message this specific usually expects a reply, or expects that no reply is also an answer."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -6446,7 +6452,7 @@
         "id": "cnt:480e82d5-8f19-4f07-afea-41d88a5d1556:sit",
         "tags": [],
         "situation": {
-          "en": "The message was crafted by someone intelligent. The messenger was chosen because he could deliver it without being dismissed as an animal."
+          "en": "The message was crafted by someone who knows what she is and where she walks. The messenger is expendable; the intelligence that sent him is not — and both facts are meant to be noticed."
         }
       }
     ],
@@ -6468,13 +6474,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Three of them on the road in full daylight, not bothering to hide. That alone is the warning."
+      "en": "Orderly — a captain carrying out an instruction, not a hunger. The calm is worse than snarling: snarling is noise; this is policy."
     },
     "presence": {
-      "en": "The captain speaks in rough Westron. He wants the traveller to stop, turn around, and not use this road again. He says this once, clearly, without threat in his voice. The threat is in what he is."
+      "en": "Three of them on the road in full daylight, not bothering to hide — which alone is the warning. The captain speaks in rough but careful Westron: 'This road is closed. Stop. Turn around. Do not use this road again.' He says it once, clearly, without any threat in his voice. The threat is in what he is, standing on a road in daylight and saying it."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "He speaks once and waits — no jeering, no repetition. Whatever authority closed this road, he is confident it needs no shouting to enforce."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -6484,7 +6490,7 @@
         "id": "cnt:77af4681-1530-45df-89eb-7e3cb1aafeaf:sit",
         "tags": [],
         "situation": {
-          "en": "The message is orderly. The instruction is reasonable enough to follow. That is what makes it worse than a simple ambush."
+          "en": "The instruction is reasonable enough to follow — that is what makes it worse than an ambush. An ambush you survive; a policy you wonder about."
         }
       }
     ],
@@ -6505,10 +6511,10 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Five of them at a bridge. They have been there for a day at least — the camp-sign is established. They are not raiders. They are a garrison."
+      "en": "Occupation posture — they watch the road with the boredom of a held position, not the hunger of a hunt. They will be here tomorrow too."
     },
     "presence": {
-      "en": "The bridge is the only crossing for miles. They are not here by accident and they are not here temporarily. Someone placed them here to control this crossing."
+      "en": "Five of them at the bridge — not passing through, established: a cook-fire's old ring, a sentry on rotation, gear stacked in military order. The bridge is the only crossing for miles and they have been here at least a day. They are not raiders. They are a garrison — someone placed them here to control this crossing."
     },
     "channel": null,
     "facts": {
@@ -6519,7 +6525,7 @@
         "id": "cnt:d054bf83-34b2-40d0-bf45-22bb4f1ab0df:sit",
         "tags": [],
         "situation": {
-          "en": "This is not a patrol. This is occupation. The difference matters for what comes next."
+          "en": "This is not a patrol; it is occupation, and the difference matters: patrols pass, garrisons mean the territory has changed hands. The ford, if there is one, is the only honest crossing left."
         }
       }
     ],
@@ -6541,13 +6547,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Five of them at the bridge. The captain looks at him with the specific attention of someone who has been given a description to look for."
+      "en": "Confirming, not accusing — the partial match buys questions instead of spears. The captain is disciplined, which narrows his options and the traveller's both."
     },
     "presence": {
-      "en": "The description partially matches. The captain knows this. He is going to confirm before acting, because he is disciplined enough to not kill the wrong person."
+      "en": "Five of them at the bridge — established, dug in — and the captain looks at him with the specific attention of someone carrying a description. The description partially matches; the captain knows this. He is going to confirm before acting, because he is disciplined enough not to kill the wrong person — a small mercy and a precise one."
     },
     "channel": {
-      "en": "Have them fling harsh demands at a captive — who are you, who sent you, what do you carry — backed by the lash."
+      "en": "Questions in a fixed order, watched hard — each answer is being laid against the description like a template against a coin."
     },
     "facts": {
       "topic": "interrogation"
@@ -6557,7 +6563,7 @@
         "id": "cnt:cd04a982-a85a-4ec5-afac-9a0454e8ed2d:sit",
         "tags": [],
         "situation": {
-          "en": "The confirmation question will come. The answer determines whether this ends as a conversation or something else."
+          "en": "The confirmation question will come, and the answer decides whether this ends as a conversation or as something else. The wrong person, confirmed, walks free; the wrong person, unlucky, does not."
         }
       }
     ],
@@ -6579,10 +6585,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "Warg-prints crossing the road at speed — four sets, all heading east. The prints are deep and fresh."
+      "en": "No one here — only the road's record: four heavy gaits heading east and not slowing."
     },
     "presence": {
-      "en": "They were moving at a run. Four wargs running east on this road within the last two hours means a patrol, a pursuit, or a message being carried fast."
+      "en": "Warg-prints crossing the road at speed — four sets, deep and fresh, within the last two hours. They were running. Four wargs running east on this road means a patrol, a pursuit, or a message being carried fast enough to risk daylight."
     },
     "channel": null,
     "facts": {
@@ -6593,7 +6599,7 @@
         "id": "cnt:0e6eb25d-4e0b-4640-88d5-8061d417a2f3:sit",
         "tags": [],
         "situation": {
-          "en": "Whatever they were doing, they are east of here now and moving."
+          "en": "Whatever they were doing, they are east of here now and moving. West is behind them; east is where the interesting and the dangerous both live today."
         }
       }
     ],
@@ -6687,12 +6693,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "One of them in a passage, alone, carrying something wrapped. He sees her before she sees him. He does not run."
+      "en": "Shocked past fear — whatever he carries or remembers, meeting her face-to-face has knocked it loose. He does not attack; the name came out of him like a confession."
     },
     "presence": {
-      "en": "He speaks — not in threat, in shock. He says a name in a tongue she has not heard used by orcs before. The name is for something she knows. He has no right to know it."
+      "en": "One of them in the passage, alone, carrying something wrapped carefully in cloth — a courier's burden, not a fighter's. He sees her before she sees him, and he does not run. Instead he speaks — not in threat, in shock: a name, in a tongue she has not heard used by orcs before. The name is for something she knows. He has no right to know it."
     },
-    "channel": null,
+    "channel": {
+      "en": "He speaks haltingly, in pieces — the tongue wrong on his lips, the name right. Whatever he is, he is carrying more than the wrapped thing."
+    },
     "facts": {
       "topic": "what_stirs_in_the_dark"
     },
@@ -6701,7 +6709,7 @@
         "id": "cnt:7f1c514b-1ae1-4546-ada4-59a516725faa:sit",
         "tags": [],
         "situation": {
-          "en": "He knows that name. That name should be known only by those who were there when it was given. She was there. He was not."
+          "en": "He knows a name that should be known only by those who were there when it was given. She was there. He was not. The question of where he heard it is suddenly the most important thing in the passage."
         }
       }
     ],
@@ -6723,13 +6731,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A passage that seemed clear until it was not. Three of them blocking the way back, not forward — they came from behind."
+      "en": "Directive without murder — they want her moved, not killed, which means the thing they guard is worth more to them than a corpse."
     },
     "presence": {
-      "en": "They are not fighting. They are herding. They want the intruder away from a specific section of the passage — whatever is there, they are protecting it."
+      "en": "The passage that seemed clear until it was not — three of them blocking the way back, not the way forward; they came from behind. They are not fighting. They are herding: shaping her path away from a specific section of the passage, and whatever is there, they are protecting it."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "No talk — snarls and spear-levels aimed at the air behind her, the language of herding animals. The message is the direction, not the threat."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -6739,7 +6747,7 @@
         "id": "cnt:c368375f-3daa-4fb5-b683-7d1f6139b384:sit",
         "tags": [],
         "situation": {
-          "en": "They are not going to let the traveller go back toward whatever they are guarding. Forward is the only option they are offering."
+          "en": "Forward is the only option they offer, and their guarding is the real intelligence: somewhere behind her is something they do not want seen."
         }
       }
     ],
@@ -6760,13 +6768,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A checkpoint — two orcs and one Man, at a gap in a collapsed wall that serves as the only pass through a ridge."
+      "en": "The Man is doing a job and doing it exactly — papers, purpose, duration of stay — while the orcs watch with the bored professionalism of guards waiting to be told to care."
     },
     "presence": {
-      "en": "The Man does the speaking. He asks for papers. Not a robbery — a genuine administrative checkpoint. Whatever Angmar is doing in this territory, it has bureaucracy."
+      "en": "The gap in the collapsed wall is the only pass through the ridge, and it is occupied: two orcs squatting by a cook-fire and one Man at a salvaged desk, set square to the path as though this were a toll-house. It is the Man who does the speaking, in careful official Westron: 'Papers.' Not robbery. A genuine administrative checkpoint — whatever Angmar is doing in this territory, it has bureaucracy."
     },
     "channel": {
-      "en": "Have them fling harsh demands at a captive — who are you, who sent you, what do you carry — backed by the lash."
+      "en": "The Man asks frankly and by the book; his Westron is better than his situation. The orcs contribute no talk — only the promise of what happens when the book says no."
     },
     "facts": {
       "topic": "interrogation"
@@ -6776,7 +6784,7 @@
         "id": "cnt:03a2d476-3e9e-437b-8bea-52de13335884:sit",
         "tags": [],
         "situation": {
-          "en": "Papers exist for people who are supposed to be here. The traveller is not supposed to be here."
+          "en": "Papers exist for people who are supposed to be here. The traveller is not supposed to be here — but a checkpoint run by a bureaucrat is a problem that sometimes has a clerical solution."
         }
       }
     ],
@@ -6798,12 +6806,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A patrol that knows exactly what a Ranger looks like. The orc-captain speaks better Westron than expected."
+      "en": "Certain and unhurried — a patrol that knows exactly what a Ranger looks like, delivered with the confidence of a state that believes its borders have already moved."
     },
     "presence": {
-      "en": "He says that Rangers of the North are not welcome in the Witch-king's lands and that this one has two choices: leave the road immediately or be escorted to the nearest tower, from which he will not leave."
+      "en": "The patrol resolves out of a fold in the moor as though it had been part of the ground — four orcs and their captain, and the captain's Westron is far better than it should be: 'Rangers of the North are not welcome in the Witch-king's lands. You have two choices: leave the road immediately, or be escorted to the nearest tower — from which you will not leave.' He says it like a statute he has recited before."
     },
-    "channel": null,
+    "channel": {
+      "en": "The captain speaks the way officials speak — correct, final, uninterested in replies. Whatever is behind him — the lands, the tower, the order — is doing the actual talking."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -6812,7 +6822,7 @@
         "id": "cnt:0b54e486-cbfd-41f0-86b4-82194d63be23:sit",
         "tags": [],
         "situation": {
-          "en": "The Witch-king's lands extend further south than they did a year ago. the traveller is standing in them."
+          "en": "The Witch-king's lands extend further south than they did a year ago. The traveller is standing in them. The only real question is what the road behind is worth."
         }
       }
     ],
@@ -6834,13 +6844,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Three of them at the edge of the ice, in daylight — they do not flinch from it. Watching the traveller on the snowfield below."
+      "en": "Patient as the ice they stand on — they are deciding whether he is worth the effort of the snowfield between them, and sunlight costs them nothing."
     },
     "presence": {
-      "en": "They endure sunlight. This alone is the warning — whatever adjustments made common orcs into these, the result is something that does not have the usual weakness."
+      "en": "Three of them at the edge of the ice, in full daylight — and they do not flinch from it. Whatever adjustments made common orcs into these, the result is something without the usual weakness, and that is the first and most important fact of the encounter. They are watching the traveller on the snowfield below, still as stakes."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "No talk across the distance — only the watching. Whatever they communicate, they communicate by not moving."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -6850,7 +6860,7 @@
         "id": "cnt:69a39e8b-cfaf-4c5f-ba59-f2e0373cc42e:sit",
         "tags": [],
         "situation": {
-          "en": "They are deciding whether the traveller is worth the effort of the snowfield between them."
+          "en": "They are deciding whether he is worth the crossing. His pace, his direction, and whether he runs are the data they are collecting — running on a snowfield goes badly."
         }
       }
     ],
@@ -6871,13 +6881,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Sound before sight — many footsteps in the dark, coordinated. Then torchlight. Too much torchlight for a patrol."
+      "en": "Impersonal as weather — a sweep does not hate its targets; it processes them. Which is worse."
     },
     "presence": {
-      "en": "A hunting-party, not a patrol. They were not looking for the traveller specifically — they were sweeping the passage. The traveller was in the passage."
+      "en": "Sound before sight — many footsteps in the dark, coordinated, then torchlight, and too much torchlight for any patrol: a hunting-party sweeping the passage methodically. They were not looking for the traveller specifically. The traveller was simply in the passage."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "No talk — the cadence of many feet and the torches' advance. Whatever they find, they find it at sweep-pace."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -6887,7 +6897,7 @@
         "id": "cnt:474ea6d0-ad57-4251-9328-651b2983f3b6:sit",
         "tags": [],
         "situation": {
-          "en": "The sweep is methodical. They have done this before. This passage has one exit behind and one exit forward."
+          "en": "The passage has one exit behind and one forward, and the sweep is methodical: it will reach him whether he moves or not. Forward means crossing their front; back means the dark."
         }
       }
     ],
@@ -6909,12 +6919,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A single old orc at a junction — not patrol, not hunting. Sitting."
+      "en": "Tired past quarrels — age has worn the edges off everything except memory. He recognizes what she is with an accuracy that surprises him as little as it does her."
     },
     "presence": {
-      "en": "He has been in these halls since before Durin's Bane came. He says this without boasting — a statement of fact from someone too old to care about impressions. He watches her with the specific recognition of someone who knew this place when it was something else."
+      "en": "A single old orc sits at the junction — not patrol, not hunt, just sitting, the way old things sit when the road is long. He has been in these halls since before Durin's Bane came; he says it without boasting, a statement of fact from someone too old to care about impressions. He watches her with the specific recognition of someone who knew this place when it was something else."
     },
-    "channel": null,
+    "channel": {
+      "en": "He talks the way the very old talk — unhurried, unimpressed, the details of the old place offered like small coins he no longer needs. The forges on the third level, the light-shafts, what the halls were before."
+    },
     "facts": {
       "topic": "lost_halls"
     },
@@ -6923,7 +6935,7 @@
         "id": "cnt:50569545-b27b-4587-ad6a-81b16db2545a:sit",
         "tags": [],
         "situation": {
-          "en": "He knew Khazad-dum when Dwarves still lived in it. She also knew Khazad-dum when Dwarves still lived in it. They are the only two in this passage who share that."
+          "en": "He knew Khazad-dûm when Dwarves still lived in it. She also knew it then. They are the only two in this passage who share that — which makes him, in this one strange corner of the world, closer to kin than the road's other traffic."
         }
       }
     ],
@@ -6945,13 +6957,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A court — rough, filthy, loud — and at the center of it a thing that is very large and very old and speaks with the ease of someone who has not needed to hurry in a long time."
+      "en": "Old power playing patient — it prefers manipulation to violence when manipulation is available, which is more dangerous, not less: it wants something, and the wanting outlasts the traveller's patience."
     },
     "presence": {
-      "en": "He already knows who the traveller is. He says this first. He has been told. He does not say by whom. He says there is a negotiation to be had before he decides what to do with them."
+      "en": "A court — rough, filthy, loud — and at the center of it a thing that is very large and very old and speaks with the ease of someone who has not needed to hurry in a long time. It already knows who the traveller is; it says this first. It has been told. It does not say by whom. 'There is a negotiation to be had,' it says, 'before I decide what to do with you.'"
     },
     "channel": {
-      "en": "Have them fling harsh demands at a captive — who are you, who sent you, what do you carry — backed by the lash."
+      "en": "It speaks pleasantly and at length — a host's manners draped over a predator's arithmetic. Every courtesy is a hook; every question it asks has the answer already priced."
     },
     "facts": {
       "topic": "interrogation"
@@ -6961,7 +6973,7 @@
         "id": "cnt:ce72aad0-8ed9-4272-9ab6-dc5ef48f0902:sit",
         "tags": [],
         "situation": {
-          "en": "He is old enough to prefer manipulation to violence when manipulation is available. That is more dangerous, not less."
+          "en": "It knows him — has been told by someone, which is its own intelligence. The negotiation is real: old things that prefer talk to blood usually want something specific enough to pay for."
         }
       }
     ],
@@ -8369,13 +8381,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Three of them on the road in full daylight. The one in front is watching her the way a professional watches a problem."
+      "en": "On orders, not appetite — she is an obstacle in his instructions, and the question is only whether she is an obstacle worth the effort."
     },
     "presence": {
-      "en": "He speaks in rough Westron: this road is closed. He does not say by whose authority. He does not need to — the daylight is the authority. Common orcs do not walk roads in daylight."
+      "en": "Three of them on the road in full daylight — broad-backed, unbothered by the sun. 'This road is closed,' the front one says in rough Westron. He does not say by whose authority. He does not need to — the daylight is the authority; common orcs do not walk roads in daylight. He watches her the way a professional watches a problem."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "He answers questions with flat patience — no jeering, no hurry. The road is closed because it is closed; his job is to keep it that way."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -8385,7 +8397,7 @@
         "id": "cnt:bc6c861e-d14b-4b6b-9082-e1d0ce7b4025:sit",
         "tags": [],
         "situation": {
-          "en": "He is following orders, not impulse. She is an obstacle in his orders. The question is whether she is an obstacle worth the effort."
+          "en": "Something has changed that lets orcs hold a road in daylight — the closure is a symptom. What lies behind them on this road is the cause, and it is worth knowing."
         }
       }
     ],
@@ -8408,12 +8420,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Five of them holding a bridge. They have been there long enough to establish a camp. This is occupation, not patrol."
+      "en": "Methodical occupation — they have had time to learn this bridge, and the captain has had time to learn his description. Both facts work against her."
     },
     "presence": {
-      "en": "The captain has a specific description he is checking travellers against. He studies her for a long moment. She matches something in his description closely enough that he is not going to let her cross without questions."
+      "en": "Five of them hold the bridge — camp long enough established to have a cook-fire and a sentry routine: occupation, not patrol. The captain studies her for a long moment before he speaks, checking her against a description he has clearly memorized. She matches something in it closely enough that she is not crossing without questions."
     },
-    "channel": null,
+    "channel": {
+      "en": "The captain's questions come in practiced order — name, business, destination — each one a probe against the description he carries. The other four watch with the boredom of a held position."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -8422,7 +8436,7 @@
         "id": "cnt:57de184d-0fb3-4a6e-a1fd-4f8267735989:sit",
         "tags": [],
         "situation": {
-          "en": "She has been looked at this way before by things that served darker masters than this one. The calibration runs automatically."
+          "en": "She has been looked at this way before, by things that served darker masters than this one. The calibration runs automatically — the question is only which description this captain carries, and how closely she truly matches."
         }
       }
     ],
@@ -8445,13 +8459,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A mixed patrol — orcs and Men together under Angmar's banner. The Man does the speaking."
+      "en": "Two conversations at once — the Man's is paperwork; the orc's is recognition. Only one of them is dangerous, and it is not the one with the forms."
     },
     "presence": {
-      "en": "He asks for papers in Westron. Behind him, one of the orcs is watching her with the specific attention of something that recognizes what she is. The Man does not notice the orc's attention."
+      "en": "A mixed patrol at the checkpoint — orcs and Men together under Angmar's banner, and the Man does the talking, asking for papers in bored official Westron. But behind him one of the orcs is watching her with a different quality of attention: the specific stillness of something that has recognized what she is. The Man does not notice the orc's attention. She cannot tell yet what the orc means to do with it."
     },
     "channel": {
-      "en": "Have them fling harsh demands at a captive — who are you, who sent you, what do you carry — backed by the lash."
+      "en": "The Man asks his list by rote while the orc watches and decides. Whether the orc names her to the Man is the only question that matters, and the orc is still weighing it."
     },
     "facts": {
       "topic": "interrogation"
@@ -8461,7 +8475,7 @@
         "id": "cnt:64127b82-7198-4ecd-8c9c-985cb107cc43:sit",
         "tags": [],
         "situation": {
-          "en": "The Man is doing a job. The orc behind him knows what she is and is deciding whether to say so to the Man."
+          "en": "The Man is doing a job. The orc behind him knows what she is and is deciding whether saying so to the Man is worth it — to the orc."
         }
       }
     ],
@@ -8484,13 +8498,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "The patrol has stopped her before she reached the checkpoint — they were watching the approach."
+      "en": "Afraid of her and more afraid of his orders — a man who has priced both mistakes and found neither affordable."
     },
     "presence": {
-      "en": "The captain knows who she is. Not her name — what she is. He has been told to watch for an elf travelling alone and he has been very thorough about what that means. He is also afraid, in the way men in Angmar's service learn to be afraid."
+      "en": "The patrol stops her before the checkpoint — they were watching the approach, and the captain already knows what she is: not her name, her kind. He has been told to watch for an elf travelling alone, and he has been very thorough about what that means. He is also afraid — in the way men in Angmar's service learn to be afraid, of the thing in front of them and the thing behind them both."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "He speaks carefully, Westron worn smooth — threats phrased as procedure, the confidence of a man borrowing it from somewhere. The fear under it is the most honest thing on the road."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -8500,7 +8514,7 @@
         "id": "cnt:2f6e2c77-3601-4394-bda4-88d576a3038e:sit",
         "tags": [],
         "situation": {
-          "en": "He is afraid of what will happen if he lets her pass and more afraid of what will happen if he tries to stop her and fails."
+          "en": "He is afraid of what will happen if he lets her pass — and more afraid of what will happen if he tries to stop her and fails. That arithmetic is the only weapon she needs."
         }
       }
     ],
@@ -8788,13 +8802,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Sound first — many feet in the dark, coordinated. Then torchlight. A hunting-sweep."
+      "en": "Methodical — a sweep, not a chase; they have not seen him yet, and the difference between a target and a bystander is about thirty seconds of their progress."
     },
     "presence": {
-      "en": "They have done this before. This passage has one exit behind and one forward. They are moving to close both."
+      "en": "Sound first — many feet in the dark, coordinated, a pace apart like a net being drawn. Then torchlight: a hunting-sweep working down the passage toward him, practiced, unhurried. They have done this before. The passage has one exit behind and one forward."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "No talk — only the cadence of the sweep and the torches finding the walls. They are following a drill, and drills have a protocol for whatever they find."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -8804,7 +8818,7 @@
         "id": "cnt:1fb73640-38aa-4607-9e59-70de28cb514b:sit",
         "tags": [],
         "situation": {
-          "en": "Rangers have protocols for this. The protocol assumes one exit is always available."
+          "en": "Rangers have protocols for this too, and the protocol assumes one exit is always available. Forward takes him past them; back takes him into the dark he came from."
         }
       }
     ],
@@ -16050,13 +16064,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "They come out onto the road in a spread line and start with noise, because noise has worked for them before."
+      "en": "Loud because loud has always been enough — a rabble running a routine that ends in one of two ways, and they have already picked which."
     },
     "presence": {
-      "en": "Demands to know what he carries, mixed with jeering about what they will do with him afterwards, and no interest at all in the answers."
+      "en": "They come out onto the road in a spread line and start with noise — six or seven orcs, mismatched gear, bent and scarred, and noise has plainly worked for them before. The leader demands to know what he carries, threaded through with jeering about what they will do with him afterwards — and no interest at all in the answers."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "No real talk — only snarled threats, jeering, and the promise of a cruel end. The loudest one is the least dangerous; the quiet ones on the flanks are the count that matters."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -16066,7 +16080,7 @@
         "id": "cnt:0fc10001-0000-4000-8000-0fc100000001:sit",
         "tags": [],
         "situation": {
-          "en": "There is no negotiation available here. The talk is only the space before the rush."
+          "en": "There is no negotiation available here. The talk is only the space before the rush — what a man does with the space is the whole of the encounter."
         }
       }
     ],
@@ -16087,13 +16101,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "They hold the way with the confidence of a company that has been given orders about this road."
+      "en": "Ordered and resentful — discipline holding by the thickness of one order, and the order is 'alive,' which the rank and file did not volunteer for."
     },
     "presence": {
-      "en": "The one in charge wants him alive and says so, and the others are audibly unhappy about that instruction."
+      "en": "They hold the road like a company on assignment — eight or nine orcs, and the tension shows immediately: the one in charge wants him alive and says so in the Black Speech, flat. The others are audibly unhappy about that instruction — a muttered argument starts at the back over who was promised first pick of the gear."
     },
     "channel": {
-      "en": "Have them bicker and turn on one another over loot, orders or who eats first, overheard by the traveller."
+      "en": "They bicker and turn on one another over loot, orders, and who eats first — the argument is half overheard, half performed for the captive's benefit. The captain's answers get shorter each time."
     },
     "facts": {
       "topic": "quarrel_among_themselves"
@@ -16103,7 +16117,7 @@
         "id": "cnt:0fc10002-0000-4000-8000-0fc100000002:sit",
         "tags": [],
         "situation": {
-          "en": "The order to take him alive is the only thing keeping this a conversation, and their discipline is thin."
+          "en": "The order to take him alive is the only thing keeping this a conversation — and their discipline is thin. Every answer the traveller gives or withholds either feeds the argument or starves it."
         }
       }
     ],
@@ -16124,13 +16138,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A rabble that stops short when it realises he has not run, and covers the hesitation with shouting."
+      "en": "More numerous than brave, and they know exactly how the count stands — the shouting is to keep their own nerve up, and it is working less well than they would like."
     },
     "presence": {
-      "en": "Threats, a demand for his gear, and an argument breaking out at the back over who will take his boots."
+      "en": "A rabble spills onto the road — ten, maybe more — and the front ranks stop short when the traveller does not run, covering the hesitation with shouting. Threats, a demand for his gear, and at the back an argument already breaking out over who will take his boots."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "No real talk — snarled threats and jeering forward, logistics and resentment behind. The two conversations tell the whole truth about this group."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -16140,7 +16154,7 @@
         "id": "cnt:0fc10003-0000-4000-8000-0fc100000003:sit",
         "tags": [],
         "situation": {
-          "en": "They are more numerous than brave and they know exactly how the count stands. The shouting is to keep their own nerve up."
+          "en": "They have numbers and not much else. The argument at the back is the exploitable thing — a rabble that argues about the loot before the fight has doubts about the fight."
         }
       }
     ],
@@ -16161,13 +16175,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Mounted on wargs, circling wide, and the beasts are less patient than the riders."
+      "en": "Professional predators — the talker is the distraction, the circle is the argument, and the wargs are the clock the whole scene runs on."
     },
     "presence": {
-      "en": "No demands worth the name — only the shape of a hunt being arranged around him while one of them talks to keep his attention forward."
+      "en": "Mounted orcs circling wide on wargs — five, spreading to close a ring — and the beasts are less patient than the riders. One of them talks as he circles, demands and jeers meant to keep the traveller's attention forward, while the real negotiation happens in the spacing of the circle and the straining of the wargs."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "No real talk — the talker fills the air while the others close. Every second spent listening is a second they spend on the geometry."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -16177,7 +16191,7 @@
         "id": "cnt:0fc10004-0000-4000-8000-0fc100000004:sit",
         "tags": [],
         "situation": {
-          "en": "Every second spent listening is a second they use to close the circle. The wargs will decide the timing, not the riders."
+          "en": "The circle is being arranged around him and the wargs will decide the timing, not the riders. His move has to come before their geometry finishes."
         }
       }
     ],
@@ -16198,13 +16212,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Two of them only, and they are as unhappy to be seen as he is to see them."
+      "en": "Trapped between orders and exposure — a fight here brings attention neither side wants, and they know it as clearly as he does."
     },
     "presence": {
-      "en": "A snarled demand that he turn back the way he came, which is the first thing they have said that they actually mean."
+      "en": "Two orcs on the road ahead — and they are as unhappy to be seen as he is to see them. Scouts, by the light kit and the way they freeze: caught in the open, far from their line. The larger one snarls a demand that the traveller turn back the way he came — which is the first thing either of them has said that they actually mean."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "No real talk — threats covering fear, in a Westron meant to sound bigger than two scouts. Underneath the snarl is the offer neither will name: pretend this stretch was empty."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -16214,7 +16228,7 @@
         "id": "cnt:0fc10005-0000-4000-8000-0fc100000005:sit",
         "tags": [],
         "situation": {
-          "en": "They are scouts and a fight will bring attention neither side wants. There is an ugly little deal available here."
+          "en": "An ugly little deal is available here — they cannot afford the fight and he may not want it either. Whether he takes it depends on what the road ahead is worth."
         }
       }
     ],
@@ -16235,13 +16249,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "One of them steps forward and speaks in a Westron far too correct, and the others go quiet for it."
+      "en": "Precise and calm — an officer with a list, not a rabble with appetites. The questions themselves say more than any answer would."
     },
     "presence": {
-      "en": "He asks the traveller three questions that are not about the road at all — about a name, a date and a place — and he is patient about waiting for answers."
+      "en": "They hold the road — six, quiet, well-set — and one steps forward and speaks in a Westron far too correct: 'Three questions. A name. A date. A place.' Not about the road at all. He waits for the answers patiently, and the patience is worse than any threat — this is not a patrol; something is being confirmed."
     },
     "channel": {
-      "en": "Have them fling harsh demands at a captive — who are you, who sent you, what do you carry — backed by the lash."
+      "en": "The speaker is courteous in a way that does not reach his eyes; the others wait like furniture. Whatever confirms or clears the traveller happens in the answer, not the manner."
     },
     "facts": {
       "topic": "interrogation"
@@ -16251,7 +16265,7 @@
         "id": "cnt:0fc10006-0000-4000-8000-0fc100000006:sit",
         "tags": [],
         "situation": {
-          "en": "This is not a patrol. Something is being confirmed, and the questions themselves say more than any answer would."
+          "en": "Three questions that are not about the road — a name, a date, a place. The answers, or the refusal, determine what this checkpoint was built to find."
         }
       }
     ],
@@ -16272,13 +16286,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A column halted on the road, and the challenge comes as a matter of procedure from men and orcs who have somewhere else to be."
+      "en": "Procedural contempt — the traveller is an obstruction on a military road, worth exactly four seconds of a busy man's attention."
     },
     "presence": {
-      "en": "An officer demands the road be cleared and the traveller kneel while the column passes, and gives him about four seconds to decide."
+      "en": "A column halted on the road — men and orcs in marching order, dust still hanging — and an officer rides down the line with the impatience of a man behind schedule: 'Clear the road. Kneel while the column passes.' He gives the traveller about four seconds to decide, and he has clearly done this before."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "No negotiation — a barked order with a number on it. The column watches without interest; they have somewhere else to be."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -16288,7 +16302,7 @@
         "id": "cnt:0fc10007-0000-4000-8000-0fc100000007:sit",
         "tags": [],
         "situation": {
-          "en": "He is an obstruction on a military road. Dignity is expensive here and the price is fixed."
+          "en": "Dignity is expensive here and the price is fixed: kneel or do not, and live with the choice while a hundred armed men walk past it."
         }
       }
     ],
@@ -16309,13 +16323,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Man-shaped enough to pass in poor light and openly enjoying the moment when the traveller works out that they are not men."
+      "en": "Playing a part they both exploit and resent — the brigand act is cover and insult at once, and the traveller's realization is the part they savor."
     },
     "presence": {
-      "en": "A toll demanded in the manner of ordinary brigands, with the language slipping into something else halfway through."
+      "en": "A toll demanded at the ford in the manner of ordinary brigands — 'crossing fee,' a hand out, the practiced patter — and then, halfway through, the language slips into something else entirely. They are man-shaped enough to pass in poor light, and they are openly enjoying the moment when the traveller works out that they are not men."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "No real talk — the patter of brigands fraying at the edges into something harsher. They trade on being mistaken for men and resent it simultaneously."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -16325,7 +16339,7 @@
         "id": "cnt:0fc10008-0000-4000-8000-0fc100000008:sit",
         "tags": [],
         "situation": {
-          "en": "They trade on being mistaken for men and they resent it at the same time. The resentment is the dangerous part."
+          "en": "They are not brigands and they want him to know it — the reveal is the sport. Whether he plays along or calls the bluff changes what they do next."
         }
       }
     ],
@@ -16346,13 +16360,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A laden column halts, and the challenge is bad-tempered rather than eager: they are carrying cargo and do not want the delay."
+      "en": "Occupied and irritable — the cargo matters more than the traveller, which is itself useful information about what the cargo might be."
     },
     "presence": {
-      "en": "Snarled orders to get off the road and stay off it until the last cart has passed, with threats attached but no real appetite behind them."
+      "en": "A laden column halts on the road — carts heavy enough to sink the ruts — and the escort's challenge is bad-tempered rather than eager: 'Off the road. Stay off until the last cart passes.' Snarled orders with threats attached but no real appetite behind them: they are carrying cargo, and they do not want the delay."
     },
     "channel": {
-      "en": "Give them no real talk — only snarled threats, jeering, and the promise of a cruel end."
+      "en": "No real talk — snarls and gestures, the language of people clearing a path, not hunting a man. The threats are reflex; the carts are the mission."
     },
     "facts": {
       "topic": "threat_and_jeer"
@@ -16362,7 +16376,7 @@
         "id": "cnt:0fc10009-0000-4000-8000-0fc100000009:sit",
         "tags": [],
         "situation": {
-          "en": "They want him gone, not dead. Whatever is on those carts matters more to them than he does."
+          "en": "They want him gone, not dead — and what is on those carts matters more to them than he does. Obedience buys a look at the cargo; argument buys attention he does not want."
         }
       }
     ],
@@ -16383,13 +16397,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Disciplined, silent and in armour that fits, which is the worst sign of all. Nobody jeers."
+      "en": "Professional to the bone — there is no confusion to exploit, no argument to feed. Whatever he answers, the silence afterward is already weighing it."
     },
     "presence": {
-      "en": "One question, asked once, about what he is doing on this road — and then they wait, and the waiting is not a bluff."
+      "en": "They hold the road in disciplined silence — armour that fits, no jeering, no wasted movement, which is the worst sign of all. The captain asks one question, once: 'What are you doing on this road?' Then they wait. The waiting is not a bluff."
     },
     "channel": {
-      "en": "Have them fling harsh demands at a captive — who are you, who sent you, what do you carry — backed by the lash."
+      "en": "One question, one answer expected. The discipline itself is the threat — these are not raiders; they are soldiers, and soldiers have a standing order for every answer."
     },
     "facts": {
       "topic": "interrogation"
@@ -16399,7 +16413,7 @@
         "id": "cnt:0fc10010-0000-4000-8000-0fc100000010:sit",
         "tags": [],
         "situation": {
-          "en": "These are not raiders. There is no confusion to exploit and no argument among them to use."
+          "en": "The question is the whole of it. The honest answer, the clever answer, and no answer each buy a different next minute — and these are not men he can read cheaply."
         }
       }
     ],

@@ -49461,13 +49461,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:e45c8fbb-9295-4236-a9c1-7a8eef830072",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Read the tracks, keep the ridge in sight",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Reads the tracks. Adjusts the route to keep the ridge on the left."
+          "en": "He reads the tracks — seven or eight, after dark, heading for the ridge ruins, no camp made — and adjusts his route to keep the ridge on his left, in clear view but at distance. Whatever has a destination does not have time for a stray traveller, and the traveller has no quarrel with things that are merely passing through on their own business. The road is clear; the ridge is someone else's problem.",
+          "es": "Lee las huellas — siete u ocho, después del anochecer, yendo hacia las ruinas del filo, sin hacer campamento — y ajusta su ruta para mantener el filo a su izquierda, a la vista pero a distancia. Lo que tiene un destino no tiene tiempo para un viajero suelto, y el viajero no tiene disputa con cosas que solo están de paso en su propio asunto. El camino está libre; el filo es problema de otro."
         },
         "effects": []
       }
@@ -49485,13 +49489,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:f8be543f-3be3-4a96-8d4d-559bf2731cc1",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Read the spacing, move toward the weak flank",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not answer the question. Reads the spacing. Decides which one to move toward."
+          "en": "He does not answer the question — reads the spacing instead, decides which one to move toward when the talking stops, and waits for the inventory to finish pricing him. The front one repeats the demand, sharper; the traveller's silence is the last thing that needs to be paid for. When they finally decide that silence is too expensive, the order to move is given — and he moves toward the weakest flank, which is where the price of the whole encounter is collected.",
+          "es": "No responde la pregunta — lee el espaciado en cambio, decide hacia cuál moverse cuando deje de hablar, y espera a que el inventario termine de tasarlos. El del frente repite la demanda, más afilada; el silencio del viajero es lo último que hay que pagar. Cuando finalmente deciden que el silencio es demasiado caro, se da la orden de moverse — y él se mueve hacia el flanco más débil, que es donde se cobra el precio de todo el encuentro."
         },
         "effects": []
       }
@@ -49509,13 +49517,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:5f490b2f-b23c-4374-ab8c-0777651a7092",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Hear the orders and walk the funnel",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Hears the difference between kill-on-sight and bring-back. Adjusts accordingly."
+          "en": "He hears the difference between kill-on-sight and bring-back-alive — and adjusts accordingly: no sudden moves, no heroics, hands where they can see them. The defile is a funnel; he walks it like a man who has decided that being captured alive is a problem for a later hour than being killed dead is a problem for this one. The captain notes the cooperation with the satisfaction of a man whose orders are being respected.",
+          "es": "Oye la diferencia entre matar-a-vista y traer-vivo — y se ajusta en consecuencia: sin movimientos bruscos, sin heroicidades, manos donde pueden verlas. El desfiladero es un embudo; lo camina como un hombre que decidió que ser capturado vivo es un problema para una hora posterior a la de ser muerto es para esta. El capitán nota la cooperación con la satisfacción de un hombre cuyas órdenes están siendo respetadas."
         },
         "effects": []
       }
@@ -49533,13 +49545,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:37546ba9-13a9-4520-8a04-dd10144474dd",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Stand still and confuse the warg's math",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Has approximately ten seconds before the captain decides."
+          "en": "He has ten seconds — so he spends them doing the one thing the warg cannot read: he stands perfectly still, hands loose, unafraid in a way that confuses the beast's arithmetic. The warg's pull falters — prey does not stand like this. The captain reads the hesitation as a false trail, calls the beast back with a word, and the patrol moves on past a man whose stillness just lied better than any voice could have.",
+          "es": "Tiene diez segundos — así que los gasta haciendo la única cosa que el warg no puede leer: se queda perfectamente quieto, manos sueltas, sin miedo de una manera que confunde la aritmética de la bestia. El tirón del warg titubea — la presa no se para así. El capitán lee la duda como un rastro falso, llama a la bestia con una palabra, y la patrulla sigue de largo pasando a un hombre cuya quietud acaba de mentir mejor que cualquier voz."
         },
         "effects": []
       }
@@ -49557,13 +49573,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:9d8e8cf1-a1c9-48bc-9587-236bb2a68e2e",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Change route at the next junction",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not change pace. Changes route at the next junction."
+          "en": "He does not change pace — changes route at the next junction instead, taking the lower road where the scout-marks do not reach. Behind him, whoever left the grease-mark continues to follow a trail that has just gone cold. Scouts report what they see; they will report an empty road. The traveller's road, for once, is the one that leads where they are not looking.",
+          "es": "No cambia el paso — cambia de ruta en el próximo cruce en cambio, tomando el camino bajo donde las marcas de explorador no llegan. Detrás, quien sea que dejó la marca de grasa sigue un rastro que acaba de enfriarse. Los exploradores reportan lo que ven; reportarán un camino vacío. El camino del viajero, por una vez, es el que lleva donde ellos no están mirando."
         },
         "effects": []
       }
@@ -49653,13 +49673,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:e6f479ef-d37f-4066-9b0e-6cdc75b7ac8b",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Stand still and let them decide",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Lets them decide. Does not volunteer information about the trail."
+          "en": "He lets them decide — stands still, hands visible, and says nothing that could be mistaken for an answer or a challenge. The captain's math runs for ten seconds, resolves on 'obstacle, not lead,' and the three of them blow past him on the trail they were already on. He stands in the road a moment after, smelling the cold air where they passed, and understands that he has just been assessed and found irrelevant. It is not the worst outcome.",
+          "es": "Los deja decidir — se queda quieto, manos visibles, y no dice nada que pueda confundirse con respuesta o desafío. La matemática del capitán corre diez segundos, resuelve en 'obstáculo, no pista', y los tres lo pasan de largo por el rastro que ya llevaban. Se queda en el camino un momento después, oliendo el aire frío donde pasaron, y entiende que acaba de ser evaluado y encontrado irrelevante. No es el peor resultado."
         },
         "effects": []
       }
@@ -49677,13 +49701,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:150d5840-7aa2-4b6c-8b23-edaad825a3af",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Read the chase's clock and walk on",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Reads the timing. Continues on the road knowing what is ahead of them."
+          "en": "He reads the timing — the runner a day ahead, the pursuit hours ahead, the gap between them narrowing at every stride. Whoever is being hunted has perhaps half a day left. He continues on the road knowing what is ahead of him: a chase, nearly finished, that he has arrived too late to interrupt and just in time to witness the aftermath of.",
+          "es": "Lee el tiempo — el corredor un día adelante, la persecución horas adelante, el hueco entre ellos achicándose a cada zancada. Quien sea que estén cazando le queda quizá medio día. Sigue por el camino sabiendo lo que tiene adelante: una persecución, casi terminada, a la que llegó demasiado tarde para interrumpir y justo a tiempo para ver el resultado."
         },
         "effects": []
       }
@@ -49869,13 +49897,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:4abe850d-9814-481e-a492-d4f64722b6e4",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Stop and be the witness he asks for",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Says: I see you. I will remember this road."
+          "en": "She stops beside him — close enough that a guard would notice if he were watching — and says the words he has been carrying like water through eleven days of captivity: 'I see you. I will remember this road.' He closes his eyes, and for a moment the bound wrists and the column and the orcs all recede. She walks on; the column resumes; but somewhere north of here a farmer's family knows they were seen, and that is not nothing.",
+          "es": "Se detiene junto a él — lo suficientemente cerca para que un guardia lo notara si estuviera mirando — y dice las palabras que él viene cargando como agua a través de once días de cautiverio: 'Te veo. Voy a recordar este camino.' Él cierra los ojos, y por un momento las muñecas atadas y la columna y los orcos todo retrocede. Ella sigue; la columna retoma; pero en algún lugar al norte de aquí la familia de un granjero sabe que fueron vistos, y eso no es nada."
         },
         "effects": []
       }
@@ -49893,13 +49925,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:8488e34c-ca87-4f43-a79d-24ab2e67bb04",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Note the wrongness, mark it, move on",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Notes what is wrong about the face. Does not indicate it. Continues."
+          "en": "He notes what is wrong about the face — the proportions almost right, the nod performed rather than reflexive — and does not indicate it. He continues south, passes the wrong-faced traveller without a second look, and three miles on finds a milestone to carve a small mark on: someone is walking north as a man who is not. The road remembers what the face forgets.",
+          "es": "Registra lo que está mal en la cara — las proporciones casi bien, el saludo actuado en vez de reflejo — y no lo indica. Sigue hacia el sur, pasa al viajero de cara equivocada sin una segunda mirada, y tres millas adelante encuentra un mojón donde tallar una marca pequeña: alguien camina al norte como un hombre que no lo es. El camino recuerda lo que la cara olvida."
         },
         "effects": []
       }
@@ -49917,13 +49953,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:57e3ae33-8a45-4bd7-912d-0a0135087d4e",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Feed him the intelligence she chooses",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers the questions with plausible misdirection. Files the encounter."
+          "en": "She answers his questions with plausible misdirection — patrols two days north that are actually three, passes watched that are not, a Ranger circuit that runs on schedule when it does not. He files it all, delighted, and she watches him file it. By the time he leaves the wayhouse he carries exactly the intelligence she wants Angmar to have — and she has learned the shape of what Angmar wants to know.",
+          "es": "Responde sus preguntas con desinformación plausible — patrullas a dos días al norte que en realidad son tres, pasos vigilados que no lo están, un circuito de Montaraces que corre en horario cuando no lo hace. Él lo archiva todo, encantado, y ella lo mira archivarlo. Para cuando sale del hospedaje lleva exactamente la inteligencia que ella quiere que Angmar tenga — y ella aprendió la forma de lo que Angmar quiere saber."
         },
         "effects": []
       }
@@ -49941,13 +49981,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:c7b907df-0a3e-45cb-a2d6-d7b9e5ae667f",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Take the seat across and speak first",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes the seat across the fire. Speaks first. Watches what the mercenary does with the initiative."
+          "en": "He takes the seat across the fire — speaks first, casually, the way men speak to men they have no interest in — and watches what the mercenary does with the initiative. He does nothing with it, which is the answer: a man who does not respond to bait is a man who is not fishing for anyone. The evening passes; the fire burns; and two watchers spend the hours watching each other not-watch.",
+          "es": "Toma el asiento del otro lado del fuego — habla primero, casual, como los hombres le hablan a hombres en los que no tienen interés — y mira qué hace el mercenario con la iniciativa. No hace nada con ella, que es la respuesta: un hombre que no responde al cebo es un hombre que no está pescando a nadie. La noche pasa; el fuego arde; y dos observadores pasan las horas observándose no-observar."
         },
         "effects": []
       }
@@ -49965,13 +50009,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:480e82d5-8f19-4f07-afea-41d88a5d1556",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Ask who sends the warning",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks who sends it. The answer is not one she expected."
+          "en": "She asks who sends it — and the answer is not what she expected: not Angmar, not the Witch-king's clerks, but a name she has not heard in three centuries, attached to a courtesy she has not been offered in longer. The messenger watches her face while it lands, then bows — the message delivered, the sender's courtesy complete. The road south is still open; it simply has a different weight now.",
+          "es": "Pregunta quién lo envía — y la respuesta no es la que esperaba: no Angmar, no los escribientes del Rey Brujo, sino un nombre que no oía en tres siglos, unido a una cortesía que no le ofrecían en más tiempo. El mensajero mira su cara mientras cae, después hace una reverencia — el mensaje entregado, la cortesía del remitente completa. El camino al sur sigue abierto; simplemente tiene otro peso ahora."
         },
         "effects": []
       }
@@ -49989,13 +50037,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:77af4681-1530-45df-89eb-7e3cb1aafeaf",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Ask whose authority, then turn back",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Stops. Asks on whose authority."
+          "en": "He stops — asks, in the tone of a man conducting business, on whose authority. The captain's answer is thin: 'On the authority of those who will check.' It is enough. A road closed by daylight orcs is a road whose price has already been paid by someone else; he turns back without argument, and files the encounter under 'things that have changed while he was not watching.'",
+          "es": "Se detiene — pregunta, en el tono de un hombre conduciendo negocios, bajo qué autoridad. La respuesta del capitán es flaca: 'Bajo la autoridad de los que van a verificar.' Es suficiente. Un camino cerrado por orcos de día es un camino cuyo precio ya lo pagó otro; se da vuelta sin discutir, y archiva el encuentro bajo 'cosas que cambiaron mientras no miraba.'"
         },
         "effects": []
       }
@@ -50013,13 +50065,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:d054bf83-34b2-40d0-bf45-22bb4f1ab0df",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Watch the garrison, find the ford",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not approach the bridge. Looks for the ford."
+          "en": "He does not approach the bridge — watches it from the rise for an hour, counting the sentries, reading the routine, and learns what the occupation means: this crossing is now a checkpoint, not a ford, and the territory south of it has a new administrator. He looks for the ford — finds it, two miles downstream, cold and unguarded — and crosses where the garrison is not. The bridge stays theirs; the river stays everyone's.",
+          "es": "No se acerca al puente — lo mira desde la loma una hora, contando los centinelas, leyendo la rutina, y aprende lo que la ocupación significa: este cruce ahora es un puesto de control, no un vado, y el territorio al sur tiene un administrador nuevo. Busca el vado — lo encuentra, dos millas río abajo, frío y sin vigilancia — y cruza donde la guarnición no está. El puente queda de ellos; el río queda de todos."
         },
         "effects": []
       }
@@ -50037,13 +50093,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:cd04a982-a85a-4ec5-afac-9a0454e8ed2d",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Confirm the wrong identity and pass",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers the first question before it is asked. Watches the captain decide whether the answer fits."
+          "en": "He answers the first question before it is asked — 'The ford at the old mill. I am not the one you are looking for.' — and watches the captain weigh the statement against the description. The captain's discipline holds: he looks for the discrepancy, finds none that matters, and waves him through. The wrong person, confirmed, walks free; the traveller files the confirmation as a small debt paid to honesty.",
+          "es": "Responde la primera pregunta antes de que la haga — 'El vado en el viejo molino. No soy el que buscan.' — y mira al capitán pesar la declaración contra la descripción. La disciplina del capitán se mantiene: busca la discrepancia, no encuentra ninguna que importe, y lo hace pasar. La persona equivocada, confirmada, queda libre; el viajero archiva la confirmación como una pequeña deuda pagada a la honestidad."
         },
         "effects": []
       }
@@ -50061,13 +50121,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0e6eb25d-4e0b-4640-88d5-8061d417a2f3",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Read the warg-prints and continue west",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Notes the direction. Continues west."
+          "en": "He reads the prints the way warg-sign always reads: four, running, east, no hesitation at the road — whatever called them was urgent enough to skip the usual circling. He continues west, the direction they have already emptied, and keeps the memory of four deep gaits for the day he meets whatever they were running toward.",
+          "es": "Lee las huellas como siempre se lee la señal de warg: cuatro, corriendo, este, sin dudar en el camino — lo que sea que los llamó era lo bastante urgente para saltear el rodeo habitual. Sigue hacia el oeste, la dirección que ya vaciaron, y guarda la memoria de cuatro pisadas profundas para el día en que se encuentre con lo que fuera que corrían a alcanzar."
         },
         "effects": []
       }
@@ -50133,13 +50197,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:7f1c514b-1ae1-4546-ada4-59a516725faa",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Ask him where he heard that name",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks him where he heard that name. The answer is worse than any she would have constructed herself."
+          "en": "She asks him where he heard that name — and the answer is worse than any she would have constructed herself: 'From the one who still carries it,' he says, in the halting wrongness of a tongue that was never meant to hold such things. He does not say who. He does not need to. She lets him go — the wrapped thing, the impossible name, the shock on his face — and stands in the passage a long time after, holding a question that has just changed its weight.",
+          "es": "Le pregunta dónde oyó ese nombre — y la respuesta es peor que cualquiera que ella hubiera construido: 'De quien todavía lo lleva', dice él, en el torpe error de una lengua que nunca fue hecha para contener tales cosas. No dice quién. No hace falta. Ella lo deja ir — el bulto envuelto, el nombre imposible, el shock en su cara — y queda en el pasaje un largo rato después, sosteniendo una pregunta que acaba de cambiar de peso."
         },
         "effects": []
       }
@@ -50157,13 +50225,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:c368375f-3daa-4fb5-b683-7d1f6139b384",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Go forward, mark what they protect",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Goes forward. Notes where they would not let them go back."
+          "en": "She goes forward — not because they force her, but because forward is where the road goes, and the guarding is the real intelligence: something behind her is being protected, and the protection is the only thing in this passage worth knowing. She walks the way they point, files the direction they will not let her return to, and at the next junction turns back toward it — not on the road, over it. What they are guarding, she intends to see from above.",
+          "es": "Va hacia adelante — no porque la fuercen, sino porque adelante es donde va el camino, y la guardia es la verdadera inteligencia: algo detrás de ella está siendo protegido, y la protección es lo único en este pasaje que vale conocer. Camina hacia donde la señalan, archiva la dirección a la que no la dejan volver, y en el próximo cruce se da vuelta hacia ella — no por el camino, por encima. Lo que están guardando, ella pretende verlo desde arriba."
         },
         "effects": []
       }
@@ -50181,13 +50253,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:03a2d476-3e9e-437b-8bea-52de13335884",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Give the checkpoint a story instead of papers",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Has no papers. Has a story instead. Watches to see which one the Man prefers."
+          "en": "He has no papers — so he gives the Man a story instead: a trader's name, a plausible errand, the accent to match. The Man writes it all down, unhurried, and it is while writing that he decides: 'Carry on. The desk will want a name if anyone asks — yours is now in the book.' Whether the book protects him or condemns him is a question for a later day.",
+          "es": "No tiene papeles — así que le da al Hombre una historia en cambio: un nombre de comerciante, un mandado plausible, el acento adecuado. El Hombre lo anota todo, sin apuro, y es mientras escribe que decide: 'Adelante. El escritorio va a querer un nombre si alguien pregunta — el tuyo ya está en el libro.' Si el libro lo protege o lo condena es una pregunta para otro día."
         },
         "effects": []
       }
@@ -50205,13 +50281,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0b54e486-cbfd-41f0-86b4-82194d63be23",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Yield the road and mark the new border",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Measures the distance to the road's edge. Then measures the distance to the tower he can see behind the patrol. Leaves the road."
+          "en": "He measures the distance to the road's edge, then the distance to the tower visible behind the patrol — and leaves the road, neither fast nor slow. 'Wise,' the captain calls after, in his too-good Westron — the courtesy of a state that knows it will be there tomorrow. The moor takes him; the road keeps them; and the southern edge of the Witch-king's lands turns out to be exactly where they said it was.",
+          "es": "Mide la distancia al borde del camino, después la distancia a la torre visible detrás de la patrulla — y deja el camino, ni rápido ni lento. 'Sabio', le grita el capitán, en su Westron demasiado bueno — la cortesía de un estado que sabe que va a estar ahí mañana. El páramo lo toma; el camino los queda a ellos; y el borde sur de las tierras del Rey Brujo resulta estar exactamente donde dijeron."
         },
         "effects": []
       }
@@ -50229,13 +50309,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:69a39e8b-cfaf-4c5f-ba59-f2e0373cc42e",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Cross the snowfield at the same pace",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not run. Running on a snowfield goes badly. Continues at the same pace."
+          "en": "He does not run — running on a snowfield goes badly, and he knows it, and they know he knows it. He continues at the same pace, deliberate, untroubled, the gait of a man who has already decided the outcome and finds it acceptable. On the ice-edge they do not move; watching him cross the snowfield like watching a decision being made. When he reaches the far side and looks back, they are already gone — their math completed, his continued existence the answer.",
+          "es": "No corre — correr en un campo de nieve sale mal, y él lo sabe, y ellos saben que él lo sabe. Continúa al mismo paso, deliberado, sin turbación, el andar de un hombre que ya decidió el resultado y lo encuentra aceptable. En el borde del hielo no se mueven; mirándolo cruzar el campo como quien mira una decisión siendo tomada. Cuando llega al otro lado y mira atrás, ya se fueron — su matemática completada, su existencia continuada la respuesta."
         },
         "effects": []
       }
@@ -50253,13 +50337,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:474ea6d0-ad57-4251-9328-651b2983f3b6",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Reach the forward exit at sweep-pace",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Moves toward the forward exit. Does not run yet."
+          "en": "He moves toward the forward exit — does not run yet, keeps his footfalls under the cadence of theirs, and uses the torchlight's own glare to stay in its edges. The sweep is methodical, and methodical means predictable: the forward exit is exactly where they expect anyone to flee, which is why he reaches it while they are still deciding whether the movement they heard was real.",
+          "es": "Se mueve hacia la salida del frente — todavía no corre, mantiene sus pisadas bajo la cadencia de las de ellos, y usa el resplandor de las antorchas para quedarse en los bordes. El barrido es metódico, y metódico significa predecible: la salida del frente es exactamente donde esperan que huya cualquiera, y por eso él la alcanza mientras ellos todavía están decidiendo si el movimiento que oyeron era real."
         },
         "effects": []
       }
@@ -50277,13 +50365,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:50569545-b27b-4587-ad6a-81b16db2545a",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Sit and ask what he remembers of Khazad-dûm",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Sits across the junction. Asks him what he remembers of the forges on the third level."
+          "en": "She sits across the junction — not in fellowship exactly, but in the truce of two old things that have both outlived the world they remember — and asks him what he remembers of the forges on the third level. He tells her: the light-shafts, the way the bronze sang before it broke, the doors that were sealed for reasons that no longer matter. She listens in the way of someone who was also there. For one hour, the passage is not a passage — it is Khazad-dûm, and they are two of its few remaining inhabitants.",
+          "es": "Se sienta del otro lado del cruce — no exactamente en compañía, pero en la tregua de dos cosas viejas que ambas sobrevivieron el mundo que recuerdan — y le pregunta qué recuerda de las forjas en el tercer nivel. Él le cuenta: los pozos de luz, la forma en que el bronce cantaba antes de quebrarse, las puertas que se sellaron por razones que ya no importan. Ella escucha como alguien que también estuvo ahí. Por una hora, el pasaje no es un pasaje — es Khazad-dûm, y ellos son dos de sus pocos habitantes que quedan."
         },
         "effects": []
       }
@@ -50301,13 +50393,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:ce72aad0-8ed9-4272-9ab6-dc5ef48f0902",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Hear the negotiation's terms",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Listens to what the negotiation is. Does not agree to anything immediately."
+          "en": "He listens to what the negotiation is — a long, courteous, unhurried laying-out of terms: information for passage, a name for a name, a service for a continued existence. He does not agree to anything immediately, which is the only correct response to an offer that has already been priced. The old thing watches him consider, and approves: 'You are learning,' it says, 'which is more than most of them do.' The negotiation continues; the traveller stays alive by being interesting, and interesting is the most expensive thing he has ever had to be.",
+          "es": "Escucha cuál es la negociación — un largo, cortés, pausado despliegue de términos: información por pasaje, un nombre por un nombre, un servicio por una existencia continuada. No acepta nada inmediatamente, que es la única respuesta correcta a una oferta que ya fue tasada. La cosa vieja lo mira considerar, y aprueba: 'Estás aprendiendo', dice, 'que es más de lo que la mayoría hace.' La negociación continúa; el viajero sigue vivo por ser interesante, e interesante es lo más caro que tuvo que ser jamás."
         },
         "effects": []
       }
@@ -51357,13 +51453,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:bc6c861e-d14b-4b6b-9082-e1d0ce7b4025",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Ask whose road, learn the answer",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks whose road this is. Waits to see how he answers."
+          "en": "She asks whose road this is — and waits, genuinely curious about the answer, because the answer tells her who is building what and where. 'The road is closed,' he repeats, and she sees in his patience the thing that is more alarming than the closure itself: they have been told to be reasonable. She turns back, unhurried, having learned that the territory north of here is no longer contested — it is administered.",
+          "es": "Pregunta de quién es este camino — y espera, genuinamente curiosa por la respuesta, porque la respuesta le dice quién está construyendo qué y dónde. 'El camino está cerrado', repite él, y ella ve en su paciencia la cosa más alarmante que el cierre mismo: les dijeron que fueran razonables. Se da vuelta, sin apuro, habiendo aprendido que el territorio al norte de aquí ya no está disputado — está administrado."
         },
         "effects": []
       }
@@ -51381,13 +51481,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:57de184d-0fb3-4a6e-a1fd-4f8267735989",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Answer before he asks",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers the first question before he asks it. Watches whether that unsettles him."
+          "en": "She answers the first question before he asks it — 'Travelling. Alone. Yes, I am what you were told to watch for.' — and watches whether the directness unsettles him. It does: his practiced order stumbles, the description template has no slot for cooperation, and for a moment he is a man with a form to fill and no form for this. 'Proceed,' he says at last, and the bridge opens — not because she was cleared, but because the description did not know what to do with honesty.",
+          "es": "Responde la primera pregunta antes de que la haga — 'Viajando. Sola. Sí, soy lo que te dijeron que vigilaras.' — y mira si la franqueza lo desconcierta. Lo hace: su orden practicado tropieza, la plantilla de descripción no tiene casilla para la cooperación, y por un momento es un hombre con un formulario para llenar y sin formulario para esto. 'Pase', dice al final, y el puente se abre — no porque fue aprobada, sino porque la descripción no sabía qué hacer con la honestidad."
         },
         "effects": []
       }
@@ -51405,13 +51509,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:64127b82-7198-4ecd-8c9c-985cb107cc43",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Look at the Man, not at the orc who knows",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Keeps her attention on the Man. Does not look at the orc."
+          "en": "She keeps her attention on the Man — answers his papers-question in the bored tone of a hundred checkpoints — and does not look at the orc. Not looking is its own message: I know you see me. The orc holds the look for what feels like a full minute, then turns back to the fire. The Man stamps something and lets her pass. She does not ask what the orc decided; she already knows: some recognitions are worth more unspoken.",
+          "es": "Mantiene la atención en el Hombre — responde la pregunta de papeles en el tono aburrido de cien puestos de control — y no mira al orco. No mirar es su propio mensaje: sé que me ves. El orco sostiene la mirada lo que se siente como un minuto entero, después se da vuelta hacia el fuego. El Hombre sella algo y la deja pasar. No pregunta qué decidió el orco; ya lo sabe: algunos reconocimientos valen más sin ser dichos."
         },
         "effects": []
       }
@@ -51429,13 +51537,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:2f6e2c77-3601-4394-bda4-88d576a3038e",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Walk past the checkpoint's fear",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Lets the fear be visible to him. Then walks past."
+          "en": "She lets the fear be visible to him — does not hide it, does not wield it, simply lets him see that she knows what he knows. Then she walks past. The captain's hand hovers near his sword, does not grip it, and the patrol parts like water that has decided not to argue with the stone in the current. The checkpoint holds; the road continues; and the only thing damaged is the captain's report, which now has a section about the elf he did not stop.",
+          "es": "Deja que el miedo sea visible para él — no lo esconde, no lo blandea, simplemente le deja ver que ella sabe lo que él sabe. Después pasa. La mano del capitán ronda su espada, no la agarra, y la patrulla se abre como agua que decidió no discutirle a la piedra en la corriente. El puesto se mantiene; el camino sigue; y lo único dañado es el reporte del capitán, que ahora tiene una sección sobre la elfa que no detuvo."
         },
         "effects": []
       }
@@ -51621,13 +51733,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:1fb73640-38aa-4607-9e59-70de28cb514b",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Slip past the sweep's edge",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Moves toward the forward exit before they realize he is there."
+          "en": "He moves toward the forward exit before they realize he is there — hugging the wall, counting the torch-bearers, slipping past the sweep's edge in the space between one patrol's rhythm and the next. Behind him the torches continue their methodical advance, sweeping an empty passage for a man who is no longer in it. Somewhere in the dark ahead is whatever they were actually hunting — he does not plan to find out.",
+          "es": "Se mueve hacia la salida del frente antes de que se den cuenta de que está ahí — pegado a la pared, contando los portadores de antorcha, escurriéndose por el borde del barrido en el espacio entre un ritmo de patrulla y el siguiente. Atrás las antorchas continúan su avance metódico, barriendo un pasaje vacío en busca de un hombre que ya no está en él. En algún lugar de la oscuridad adelante está lo que sea que en realidad estaban cazando — no piensa averiguarlo."
         },
         "effects": []
       }
@@ -58572,13 +58688,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0fc10001-0000-4000-8000-0fc100000001",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Hold the ground and read the flanks",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Says nothing. Picks the ground. Watches the flanks rather than the loud one."
+          "en": "He says nothing — picks his ground, a stone's throw of good footing, and watches the flanks rather than the loud one. The rabble's noise swells to fill the silence, and in the space it takes them to convince themselves, he has already read the whole count: three with real blades, four with nerve. When they finally rush, they rush a man who has already decided where to stand — and the loud one goes down first, which was always going to unmake the rest.",
+          "es": "No dice nada — elige su terreno, un tiro de piedra de buen suelo, y mira los flancos en vez del ruidoso. El ruido de la chusma crece para llenar el silencio, y en el espacio que tardan en convencerse, él ya leyó la cuenta entera: tres con filos de verdad, cuatro con coraje. Cuando finalmente arremeten, arremeten contra un hombre que ya decidió dónde pararse — y el ruidoso cae primero, que era lo que siempre iba a deshacer al resto."
         },
         "effects": []
       }
@@ -58596,13 +58716,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0fc10002-0000-4000-8000-0fc100000002",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Feed the quarrel and count the watches",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Uses the argument between them. Does not answer any question directly."
+          "en": "He uses the argument between them — answers no question directly, lets each non-answer land as fuel on the quarrel about his gear. 'Alive means whole,' the captain warns the back ranks, and the back ranks argue about what whole covers. While they define it, the traveller has counted the watches, marked the weakest, and learned that whoever wants him alive is not here — which is the only fact in the whole scene worth keeping.",
+          "es": "Usa la discusión entre ellos — no responde ninguna pregunta directamente, deja que cada no-respuesta caiga como combustible sobre la pelea por su equipo. 'Vivo significa entero', advierte el capitán a las filas de atrás, y las filas de atrás discuten qué cubre entero. Mientras lo definen, el viajero ya contó los turnos, marcó al más débil, y aprendió que quien lo quiere vivo no está aquí — lo que es el único dato de toda la escena que vale guardar."
         },
         "effects": []
       }
@@ -58620,13 +58744,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0fc10003-0000-4000-8000-0fc100000003",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Stand still until the shouting peaks",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Stands still. Lets the argument at the back get louder. Chooses a moment."
+          "en": "He stands still — lets the argument at the back get louder, lets the front ranks half-turn to it — and chooses his moment the way a man chooses a door: the instant the shouting peaks, he is through the front rank and past it, and the rabble turns to find only the argument still standing there. A rabble that argues about boots has never really started fighting.",
+          "es": "Se queda quieto — deja que la pelea de atrás se ponga más fuerte, deja que las filas del frente se den media vuelta hacia ella — y elige su momento como un hombre elige una puerta: en el instante en que el griterío llega al pico, ya pasó la primera fila, y la chusma se da vuelta para encontrar solo la discusión todavía parada ahí. Una chusma que discute por unas botas nunca llegó del todo a pelear."
         },
         "effects": []
       }
@@ -58644,13 +58772,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0fc10004-0000-4000-8000-0fc100000004",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Back to stone, cut the circle in half",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Stops listening. Gets his back to something solid."
+          "en": "He stops listening — gets his back to a rock shelf where no warg can flank, and turns the circle into a half-circle: better odds on worse terms, but the terms are now his. The talker's patter stumbles when the audience leaves; the wargs strain against a geometry that no longer closes. What follows is ugly and brief — wargs do not like charging stone, and orcs do not like explaining the failure to whatever sent them.",
+          "es": "Deja de escuchar — pone la espalda contra un saliente de roca donde ningún warg puede flanquear, y convierte el círculo en medio círculo: mejores chances en peores términos, pero los términos ahora son suyos. La charla del hablador tropieza cuando el público se va; los wargs tiran contra una geometría que ya no cierra. Lo que sigue es feo y breve — a los wargs no les gusta cargar contra piedra, y a los orcos no les gusta explicar el fracaso a quien los mandó."
         },
         "effects": []
       }
@@ -58668,13 +58800,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0fc10005-0000-4000-8000-0fc100000005",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Take the ugly deal, then circle back",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Considers turning back. Decides what the road ahead is worth."
+          "en": "He considers turning back — visibly, letting them see the consideration — and decides what the road ahead is worth: not much today. He backs away slowly, making the retreat look like a concession rather than a calculation. The scouts let him go with visible relief, each side pretending the other never existed. He circles wide, rejoins the road two miles on, and walks it knowing that two scouts now report an empty stretch that is not.",
+          "es": "Considera volverse — visiblemente, dejándoles ver la consideración — y decide cuánto vale el camino adelante: no mucho hoy. Retrocede despacio, haciendo que la retirada parezca una concesión en vez de un cálculo. Los exploradores lo dejan ir con alivio visible, cada lado fingiendo que el otro nunca existió. Da un rodeo amplio, retoma el camino dos millas adelante, y lo camina sabiendo que dos exploradores ahora reportan un tramo vacío que no lo está."
         },
         "effects": []
       }
@@ -58692,13 +58828,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0fc10006-0000-4000-8000-0fc100000006",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Refuse all three questions",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Refuses all three. Notes exactly what was asked."
+          "en": "He refuses all three — name, date, place — politely, completely, watching what each refusal costs the questioner. It costs nothing: the correct-Westerner simply notes the refusals, as though refusal were itself a data point the list expected. 'You may go,' he says at last, and the going feels like being filed. Somewhere, a description just gained a footnote.",
+          "es": "Se niega a las tres — nombre, fecha, lugar — cortésmente, por completo, mirando lo que cada negativa le cuesta al preguntador. No le cuesta nada: el del Westron correcto simplemente anota las negativas, como si negarse fuera en sí un dato que la lista esperaba. 'Puede irse', dice al final, y el irse se siente como ser archivado. En algún lado, una descripción acaba de ganar una nota al pie."
         },
         "effects": []
       }
@@ -58716,13 +58856,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0fc10007-0000-4000-8000-0fc100000007",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Kneel and read the column as it passes",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Kneels or does not, and lives with the choice while the column goes by."
+          "en": "He kneels — slowly, watching the column as it passes, because kneeling eyes see things standing eyes miss: the unit badges worn through on purpose, the cart axles new-cut, the way the officer's impatience is really fear of a schedule. Dignity spent, intelligence earned. When the dust settles he stands and files what the kneeling bought.",
+          "es": "Se arrodilla — despacio, mirando la columna mientras pasa, porque los ojos arrodillados ven cosas que los ojos de pie se pierden: las insignias de unidad gastadas a propósito, los ejes de los carros recién cortados, la forma en que la impaciencia del oficial es en realidad miedo a un horario. Dignidad gastada, inteligencia ganada. Cuando el polvo se asienta se para y archiva lo que compró el arrodillarse."
         },
         "effects": []
       }
@@ -58740,13 +58884,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0fc10008-0000-4000-8000-0fc100000008",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Pay the toll like they're ordinary brigands",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not comment on what they are. Deals with them exactly as he would with brigands."
+          "en": "He deals with them exactly as he would with brigands — pays the toll in small coin, counts them, notes their gear, and does not comment on what they are. The denial of the reveal deflates them: they wanted the shudder of realization, and a man who pays his toll and walks on gives them nothing to savor. Behind him the patter resumes for the next traveller — the brigand act is cheaper when nobody applauds.",
+          "es": "Los trata exactamente como trataría a bandidos — paga el peaje en monedas chicas, los cuenta, registra su equipo, y no comenta lo que son. La negación de la revelación los desinfla: querían el estremecimiento de la comprensión, y un hombre que paga su peaje y sigue no les da nada para saborear. Atrás la rutina retoma para el próximo viajero — el acto de bandido sale más barato cuando nadie aplaude."
         },
         "effects": []
       }
@@ -58764,13 +58912,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0fc10009-0000-4000-8000-0fc100000009",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Step aside and inventory the carts",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Gets off the road. Counts the carts. Sees what is on them."
+          "en": "He gets off the road — and counts the carts while they pass: six, heavy-loaded, axle-deep ruts, canvas tied with military knots. Under the canvas of the third cart, iron. Under the fourth, something that smells wrong. Whatever the column feeds, it is fed in iron — and the traveller steps back onto the road with more than they took from him.",
+          "es": "Se aparta del camino — y cuenta los carros mientras pasan: seis, bien cargados, rodadas profundas, lona atada con nudos militares. Bajo la lona del tercer carro, hierro. Bajo la del cuarto, algo que huele mal. Lo que sea que alimenta esa columna, se alimenta de hierro — y el viajero vuelve al camino con más de lo que le sacaron."
         },
         "effects": []
       }
@@ -58788,13 +58940,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0fc10010-0000-4000-8000-0fc100000010",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Give the minimal true answer",
+      "es": null
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers or does not. Understands that this time the choice is the whole of it."
+          "en": "He answers — honestly, minimally: 'Passing through to the ford.' Three words, all true, all useless. The captain studies him for what feels like a full minute, then steps aside without a word: disciplined men do not spend violence on unprofitable answers. The traveller walks through their formation and does not breathe until the road bends — those were not orcs to be read cheaply.",
+          "es": "Responde — honestamente, mínimamente: 'De paso hacia el vado.' Tres palabras, todas verdaderas, todas inútiles. El capitán lo estudia lo que se siente como un minuto entero, después se hace a un lado sin una palabra: los hombres disciplinados no gastan violencia en respuestas improductivas. El viajero atraviesa su formación y no respira hasta que el camino dobla — esos no eran orcos para leer barato."
         },
         "effects": []
       }
@@ -67570,6 +67726,2112 @@
         "text": {
           "en": "He declines — his road does not bend to the valley bottom, and he says so plainly. The herdsman nods, already recalculating: the message will keep one more day on the ridge, as it has kept for two seasons.",
           "es": "Declina — su camino no dobla hacia el fondo del valle, y lo dice sin vueltas. El pastor asiente, ya recalculando: el mensaje aguantará un día más en el filo, como aguantó dos temporadas."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "e768e2f8-4e84-4fee-9452-421fdb6eedad",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:03a2d476-3e9e-437b-8bea-52de13335884",
+    "act": "talk",
+    "label": {
+      "en": "He asks the Man",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:03a2d476-3e9e-437b-8bea-52de13335884:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks the Man, politely, which registry issues passes for this stretch — a bureaucrat's question, the safest kind. The Man, pleased to be asked something in his own language: 'Angmar's clerks at the ridge tower. Though they answer slowly and deny often.' Free intelligence, filed under administration.",
+          "es": "Le pregunta al Hombre, cortésmente, qué registro emite pases para este tramo — una pregunta de burócrata, la más segura. El Hombre, complacido de que le pregunten en su idioma: 'Los escribientes de Angmar en la torre del filo. Aunque responden lento y niegan seguido.' Inteligencia gratis, archivada bajo administración."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "548dd58b-ccda-4a1f-87dc-383133478fa8",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:03a2d476-3e9e-437b-8bea-52de13335884",
+    "act": "avoid",
+    "label": {
+      "en": "He does not approach the gap at all ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:03a2d476-3e9e-437b-8bea-52de13335884:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not approach the gap at all — turns off the road a mile early, climbs the collapsed wall at its worst point, and looks down on the desk from above: two orcs, one Man, one ledger, and a queue of nobody. The checkpoint will keep. So will the climb.",
+          "es": "No se acerca al paso — sale del camino una milla antes, trepa la muralla caída por su peor punto, y mira el escritorio desde arriba: dos orcos, un Hombre, un libro, y una fila de nadie. El puesto puede esperar. La subida también."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "72ce7698-54e7-420e-b6da-fbdb59d528cc",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0b54e486-cbfd-41f0-86b4-82194d63be23",
+    "act": "talk",
+    "label": {
+      "en": "He asks",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0b54e486-cbfd-41f0-86b4-82194d63be23:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks, level, how far south the Witch-king's lands now reach — a ranger's question, asked of the enemy like a surveyor. The captain answers with the same professionalism: 'South of the river, now. The towers come after.' Borders announced by the men who draw them — worth more than any map.",
+          "es": "Pregunta, sereno, hasta dónde llegan ahora al sur las tierras del Rey Brujo — una pregunta de montaraz, hecha al enemigo como un agrimensor. El capitán responde con el mismo profesionalismo: 'Al sur del río, ahora. Las torres vienen después.' Fronteras anunciadas por los hombres que las trazan — valen más que cualquier mapa."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "7be6ebc9-b802-48e4-b3fc-6972e7eb191b",
+    "version": 1,
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0b54e486-cbfd-41f0-86b4-82194d63be23",
+    "act": "defy",
+    "label": {
+      "en": "He does not leave the road ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0b54e486-cbfd-41f0-86b4-82194d63be23:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not leave the road — stands his ground and asks on whose authority, knowing the answer. The captain smiles thinly: 'On the authority of the towers you can see.' A pause measured in heartbeats — and then the traveller does leave, not because the authority was legitimate but because four orcs and a statute are an argument that does not reward winning.",
+          "es": "No deja el camino — sostiene su posición y pregunta bajo qué autoridad, sabiendo la respuesta. El capitán sonríe apenas: 'Bajo la autoridad de las torres que podés ver.' Una pausa medida en latidos — y después el viajero sí se va, no porque la autoridad fuera legítima sino porque cuatro orcos y un estatuto son un argumento que no recompensa ganar."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "d445dc60-b090-4824-9886-e027ee44024d",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0e6eb25d-4e0b-4640-88d5-8061d417a2f3",
+    "act": "talk",
+    "label": {
+      "en": "He follows the prints a quarter-mile off the road ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "tracking",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0e6eb25d-4e0b-4640-88d5-8061d417a2f3:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He follows the prints a quarter-mile off the road — far enough to learn the gait. Trot, not gallop: a message, not a pursuit. A message run east this fast is either very good news or very bad, and for whoever it is bound, it will arrive today.",
+          "es": "Sigue las huellas un cuarto de milla fuera del camino — lo suficiente para aprender el paso. Trote, no galope: un mensaje, no una persecución. Un mensaje corrido así al este es o muy buena noticia o muy mala, y para quien sea que vaya, llega hoy."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "edf24c26-ef0a-4d71-b732-ed80a65e8acd",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0e6eb25d-4e0b-4640-88d5-8061d417a2f3",
+    "act": "avoid",
+    "label": {
+      "en": "He does not look twice ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0e6eb25d-4e0b-4640-88d5-8061d417a2f3:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not look twice — warg-sign speaks for itself, and the road behind a running warg is the safest stretch of it. He simply walks, faster than before, while the east holds whatever the news is.",
+          "es": "No mira dos veces — la señal de warg habla sola, y el camino detrás de un warg corriendo es el tramo más seguro que hay. Simplemente camina, más rápido que antes, mientras el este guarda cualquiera que sea la noticia."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "c01f5e68-f21f-4057-ad45-53f932dfa74e",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10001-0000-4000-8000-0fc100000001",
+    "act": "talk",
+    "label": {
+      "en": "He answers the jeering with a question",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "intimidation",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10001-0000-4000-8000-0fc100000001:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He answers the jeering with a question, flat: 'How many of you does my sword need?' Not loud — precise. The rabble's noise stutters; men who count out loud have a way of making counters nervous. Two of the flankers visibly recalculate, and the leader's next threat comes out thinner than the last.",
+          "es": "Responde las burlas con una pregunta, plana: '¿Cuántos de ustedes necesita mi espada?' No fuerte — precisa. El ruido de la chusma tartamudea; los hombres que cuentan en voz alta tienen una manera de poner nerviosos a los que son contados. Dos de los flanqueadores recalculan visiblemente, y la próxima amenaza del líder sale más flaca que la anterior."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "12071d7b-afe5-4035-be94-f4165cb8bb22",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10001-0000-4000-8000-0fc100000001",
+    "act": "avoid",
+    "label": {
+      "en": "He backs off the road at an angle ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10001-0000-4000-8000-0fc100000001:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He backs off the road at an angle — not flight, a feint of flight — and lets them follow their own noise downhill. On the slope their line breaks the way rabble lines always break, and he is gone through the gap before the shouting catches up to the fact of him.",
+          "es": "Retrocede del camino en ángulo — no huida, una finta de huida — y los deja seguir su propio ruido cuesta abajo. En la pendiente su línea se rompe como siempre se rompen las líneas de la chusma, y él ya pasó el hueco antes de que el griterío se dé cuenta del hecho."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "a77281b5-89b4-4159-84aa-c44ec4a18fd3",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10002-0000-4000-8000-0fc100000002",
+    "act": "talk",
+    "label": {
+      "en": "He asks the captain",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10002-0000-4000-8000-0fc100000002:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks the captain, conversationally, who wants him alive — a fair question between professionals. The captain's answer is a glare that says more than a name would: someone important enough that even the gear-argument is afraid of them. He files the silhouette of the order if not its signature.",
+          "es": "Le pregunta al capitán, conversacional, quién lo quiere vivo — una pregunta justa entre profesionales. La respuesta del capitán es una mirada que dice más que un nombre: alguien lo bastante importante para que hasta la pelea por el equipo le tenga miedo. Archiva la silueta de la orden aunque no la firma."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "181ff840-0ed8-4218-a55e-5ce18cd522af",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10002-0000-4000-8000-0fc100000002",
+    "act": "avoid",
+    "label": {
+      "en": "He does not wait for the argument to resolve ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10002-0000-4000-8000-0fc100000002:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not wait for the argument to resolve — when the rear ranks turn fully to their quarrel, he is already three paces toward the road's edge, and by the time the captain remembers the prisoner, the prisoner is a memory heading for the treeline. 'Alive' is a hard order to obey at a run.",
+          "es": "No espera a que la discusión se resuelva — cuando las filas de atrás se dan vuelta del todo hacia su pelea, él ya está a tres pasos del borde del camino, y para cuando el capitán se acuerda del prisionero, el prisionero es un recuerdo yendo hacia la arboleda. 'Vivo' es una orden difícil de cumplir al trote."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "159027ac-b66b-498b-a02a-65bf2c97366b",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10003-0000-4000-8000-0fc100000003",
+    "act": "talk",
+    "label": {
+      "en": "He answers the loudest threat with the truth",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10003-0000-4000-8000-0fc100000003:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He answers the loudest threat with the truth, mildly: 'Your back ranks have already divided my gear. I was just deciding whether to fight over what they have left you.' The front ranks turn; the argument becomes open quarrel; the traveller walks through the gap their attention leaves.",
+          "es": "Responde la amenaza más ruidosa con la verdad, suave: 'Tus filas de atrás ya se repartieron mi equipo. Yo solo estaba decidiendo si pelear por lo que te dejaron.' Las filas del frente se dan vuelta; la pelea se vuelve disputa abierta; el viajero camina por el hueco que deja su atención."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "93c1e096-1373-478c-93df-e195f6f634a1",
+    "version": 1,
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10003-0000-4000-8000-0fc100000003",
+    "act": "defy",
+    "label": {
+      "en": "He picks the boots-arguer ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10003-0000-4000-8000-0fc100000003:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He picks the boots-arguer — the loudest at the back — and answers him directly: 'The boots are yours if you come take them.' One volunteer steps forward where six were needed, and the rest of the rabble does the math on a man who calls bluffs. They let him walk; the arguer does not collect.",
+          "es": "Elige al que discutía las botas — el más ruidoso del fondo — y le responde directamente: 'Las botas son tuyas si venís a buscarlas.' Un voluntario sale donde hacían falta seis, y el resto de la chusma hace la cuenta de un hombre que llama faroles. Lo dejan caminar; el de la discusión no cobra."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "ff272410-88a2-4635-937c-3b6d967f6689",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10004-0000-4000-8000-0fc100000004",
+    "act": "talk",
+    "label": {
+      "en": "He speaks to the talker while the circle forms ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10004-0000-4000-8000-0fc100000004:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He speaks to the talker while the circle forms — not defiance, a question: 'How much do they pay you for what my pack holds?' A mercenary's question. The talker laughs, but two of the riders glance at each other over it, and the circle forms a heartbeat slower than it should have.",
+          "es": "Le habla al que habla mientras se forma el círculo — no desafío, una pregunta: '¿Cuánto les pagan por lo que lleva mi bolso?' Una pregunta de mercenarios. El hablador se ríe, pero dos de los jinetes se miran por encima de eso, y el círculo se forma un latido más lento de lo que debía."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "6f23ccb1-d4d6-42b5-ab0f-10db29998073",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10004-0000-4000-8000-0fc100000004",
+    "act": "avoid",
+    "label": {
+      "en": "He runs ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10004-0000-4000-8000-0fc100000004:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He runs — not away, at the gap: the circle's weak point is always the beast that has not finished positioning, and he is through it before the warg completes the math. Behind him the riders whoop and chase, but a running man on broken ground is harder arithmetic than a standing one.",
+          "es": "Corre — no lejos, hacia el hueco: el punto débil del círculo es siempre la bestia que no terminó de posicionarse, y él lo cruza antes de que el warg complete la cuenta. Atrás los jinetes aúllan y persiguen, pero un hombre corriendo en suelo quebrado es aritmética más difícil que uno parado."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "3255a57e-30b8-49ac-90c1-2043ea649f6f",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10005-0000-4000-8000-0fc100000005",
+    "act": "talk",
+    "label": {
+      "en": "He names the deal aloud so it has witnesses: 'Empty road",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10005-0000-4000-8000-0fc100000005:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He names the deal aloud so it has witnesses: 'Empty road. You never saw me, I never saw you.' The larger scout's snarl loosens a fraction — an agreement, of the only kind these two can make. Both sides walk away lying to their own reports.",
+          "es": "Nombra el trato en voz alta para que tenga testigos: 'Camino vacío. Vos nunca me viste, yo nunca te vi.' El gruñido del explorador más grande se afloja una fracción — un acuerdo, del único tipo que estos dos pueden hacer. Ambos se van mintiendo a sus propios reportes."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "fd38dcb5-7962-4de0-b9c2-6cdf1e606958",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10005-0000-4000-8000-0fc100000005",
+    "act": "talk",
+    "label": {
+      "en": "He asks them",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10005-0000-4000-8000-0fc100000005:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks them, before backing off, what they are scouting — the impudence of the question costs nothing and might buy something. 'East road,' the larger one says finally, 'watching who still uses it.' Then the snarl returns: 'You were not one of them.' He was not, officially.",
+          "es": "Les pregunta, antes de retirarse, qué están explorando — la insolencia de la pregunta no cuesta nada y puede comprar algo. 'El camino del este', dice el más grande al final, 'vigilando quién lo sigue usando.' Después vuelve el gruñido: 'Vos no eras uno de ellos.' Oficialmente, no lo era."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "fedff3eb-cba1-422a-8b73-5e3c48c6c832",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10006-0000-4000-8000-0fc100000006",
+    "act": "talk",
+    "label": {
+      "en": "He answers the three questions with three questions of his o",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10006-0000-4000-8000-0fc100000006:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He answers the three questions with three questions of his own — name for name, date for date, place for place. The speaker almost smiles; nobody has tried symmetry before. 'The name is the clerk's, the date is the census, the place is under new management,' he says — answers worth precisely what was offered. They let him pass, out of something close to professional appreciation.",
+          "es": "Responde las tres preguntas con tres preguntas propias — nombre por nombre, fecha por fecha, lugar por lugar. El hablante casi sonríe; nadie probó la simetría antes. 'El nombre es del escribiente, la fecha del censo, el lugar bajo nueva administración', dice — respuestas que valen precisamente lo que se ofreció. Lo dejan pasar, por algo cercano a la apreciación profesional."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "163e5d53-db7b-49b9-9854-ed03d0d5ef0c",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10006-0000-4000-8000-0fc100000006",
+    "act": "avoid",
+    "label": {
+      "en": "He answers only the question that was not asked ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10006-0000-4000-8000-0fc100000006:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He answers only the question that was not asked — the weather, the road behind him, the state of the milestones — amiably, at length, until the correct-Westerner understands that this well will never be primed. 'Move along,' he says finally, with the faint weariness of a man whose list just grew one entry vaguer.",
+          "es": "Responde solo la pregunta que no le hicieron — el clima, el camino a sus espaldas, el estado de los mojones — amablemente, largamente, hasta que el del Westron correcto entiende que este pozo nunca va a dar agua. 'Siga adelante', dice finalmente, con el leve cansancio de un hombre cuya lista acaba de ganar una entrada más vaga."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "6d4461c5-8d07-4733-a630-7f8f79241bba",
+    "version": 1,
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10007-0000-4000-8000-0fc100000007",
+    "act": "defy",
+    "label": {
+      "en": "He does not kneel ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10007-0000-4000-8000-0fc100000007:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not kneel — steps off the road, stands to the side, and lets the officer decide what the defiance is worth. Four seconds; the officer rides on without a word, already behind schedule and not about to spend more on one obstinate traveller. Some prices are only collected from those who volunteer to pay.",
+          "es": "No se arrodilla — se hace a un lado del camino, se para al costado, y deja que el oficial decida cuánto vale la desafío. Cuatro segundos; el oficial sigue de largo sin una palabra, ya atrasado y no dispuesto a gastar más en un viajero obstinado. Algunos precios solo se cobran a quien se ofrece a pagarlos."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "304ada92-4a81-4d50-b1a6-b8682807e6d9",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10007-0000-4000-8000-0fc100000007",
+    "act": "avoid",
+    "label": {
+      "en": "He kneels ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10007-0000-4000-8000-0fc100000007:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He kneels — then does not look at the column at all, head down, the posture of a man who knows exactly what he is and what they are. Sometimes dignity is preserved precisely by spending it deliberately. He memorizes nothing and owes nothing; when they pass, only the dust knows he was there.",
+          "es": "Se arrodilla — y después no mira la columna para nada, cabeza abajo, la postura de un hombre que sabe exactamente qué es él y qué son ellos. A veces la dignidad se preserva precisamente gastándola a propósito. No memoriza nada y no debe nada; cuando pasan, solo el polvo sabe que estuvo ahí."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "9b16002b-e637-4c09-9e3e-9da70eb852a0",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10008-0000-4000-8000-0fc100000008",
+    "act": "talk",
+    "label": {
+      "en": "He pays",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10008-0000-4000-8000-0fc100000008:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He pays, then asks conversationally whether business is good at this ford — treating them like the robbers they pretend to be, not the thing they are. The leader's grin falters: being believed is somehow worse than being discovered. 'Crossing fee,' he repeats, thinner now, and the traveller goes on having correctly priced them both.",
+          "es": "Paga, y después pregunta conversacional si les va bien el negocio en este vado — tratándolos como los ladrones que fingen ser, no como lo que son. La sonrisa del líder titubea: ser creído es de algún modo peor que ser descubierto. 'Peaje del cruce', repite, más flaco ahora, y el viajero sigue habiéndolos tasado a ambos correctamente."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "4332fb1a-e2d2-417e-9473-0ecf68b99e8a",
+    "version": 1,
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10008-0000-4000-8000-0fc100000008",
+    "act": "defy",
+    "label": {
+      "en": "He says the thing they are not ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10008-0000-4000-8000-0fc100000008:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He says the thing they are not — 'Half-bred brigands at a ford. The south must be short on work.' — and watches the resentment arrive right on schedule. They let him pass anyway, too busy hating him correctly to stop him efficiently. The wrongness in their faces finally has a name on it, which was the only satisfaction available.",
+          "es": "Dice lo que no son — 'Bandidos mestizos en un vado. El sur debe andar corto de trabajo.' — y mira el resentimiento llegar puntual. Lo dejan pasar igual, demasiado ocupados odiándolo correctamente para detenerlo eficientemente. Lo raro de sus caras finalmente tiene nombre, que era la única satisfacción disponible."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "2a776bcc-d5ac-4f93-b3a2-d6f478e5c183",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10009-0000-4000-8000-0fc100000009",
+    "act": "talk",
+    "label": {
+      "en": "He asks the nearest escort",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10009-0000-4000-8000-0fc100000009:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks the nearest escort, mildly, where the column is bound — a peasant's question to a busy man. 'East,' is all he gets, and a shove for his trouble — but east is a direction, and a direction plus iron is a sentence worth finishing in his own time.",
+          "es": "Le pregunta al escolta más cercano, suave, hacia dónde va la columna — pregunta de campesino a un hombre ocupado. 'Al este', es todo lo que obtiene, más un empujón por las molestias — pero este es una dirección, y una dirección más hierro es una oración que vale terminar a su tiempo."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "d7b0173f-1213-44ea-9fd6-f5cc281ea94e",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10009-0000-4000-8000-0fc100000009",
+    "act": "avoid",
+    "label": {
+      "en": "He steps off and studies the ground until they pass ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10009-0000-4000-8000-0fc100000009:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He steps off and studies the ground until they pass — gives them the compliance they want and keeps his curiosity to himself. Whatever is on those carts, learning it from the ditch was not worth a second look from men already late.",
+          "es": "Se aparta y estudia el suelo hasta que pasan — les da el cumplimiento que quieren y se guarda su curiosidad. Lo que sea que haya en esos carros, aprenderlo desde la zanja no valía una segunda mirada de hombres ya atrasados."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "093768f7-19de-47f2-9b89-d26163e535d2",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10010-0000-4000-8000-0fc100000010",
+    "act": "talk",
+    "label": {
+      "en": "He asks the question back ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10010-0000-4000-8000-0fc100000010:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks the question back — 'And what are you doing on this road? Soldiers, by the fit of that armour.' A pause, then the captain's thin smile: 'Keeping it.' Which is more answer than a ranger usually gets, and more warning than most orcs give. They part like two professional courtesies that will not forget each other.",
+          "es": "Devuelve la pregunta — '¿Y ustedes qué hacen en este camino? Soldados, por el calce de esa armadura.' Una pausa, después la sonrisa flaca del capitán: 'Cuidándolo.' Que es más respuesta de la que un montaraz suele obtener, y más aviso del que la mayoría de los orcos da. Se despiden como dos cortesías profesionales que no se van a olvidar."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "c3b2184c-633f-46e5-ba5a-1e106a86b27c",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0fc10010-0000-4000-8000-0fc100000010",
+    "act": "avoid",
+    "label": {
+      "en": "He answers nothing ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:0fc10010-0000-4000-8000-0fc100000010:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He answers nothing — lets the silence do its own arithmetic. The captain watches him for a long moment, then decides that a quiet traveller is a smaller problem than a loud corpse: he waves him through without another word. The discipline that frightened him is the same discipline that just spared him.",
+          "es": "No responde nada — deja que el silencio haga su propia aritmética. El capitán lo mira un largo momento, después decide que un viajero callado es un problema menor que un cadáver ruidoso: lo hace pasar sin otra palabra. La disciplina que lo asustó es la misma disciplina que acaba de perdonarlo."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "3b1d6760-6814-4105-b06b-73e4046523e4",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:150d5840-7aa2-4b6c-8b23-edaad825a3af",
+    "act": "talk",
+    "label": {
+      "en": "He follows the tracks long enough to learn the hunted ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "tracking",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:150d5840-7aa2-4b6c-8b23-edaad825a3af:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He follows the tracks long enough to learn the hunted — light boots, long strides, no doubling back: someone who knows they are being followed and has chosen speed over cunning. Speed loses to pursuit gait. He marks where the road bends east; whatever ends this story, it ends before the next milestone.",
+          "es": "Sigue las huellas lo suficiente para conocer al cazado — botas livianas, zancadas largas, sin retroceder: alguien que sabe que lo siguen y eligió velocidad antes que astucia. La velocidad pierde contra el paso de persecución. Marca dónde el camino dobla al este; lo que sea que termine esta historia, termina antes del próximo mojón."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "a9a08ade-d5a0-4565-90a6-228a4a60eb8a",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:150d5840-7aa2-4b6c-8b23-edaad825a3af",
+    "act": "avoid",
+    "label": {
+      "en": "He leaves the road at the next cover ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:150d5840-7aa2-4b6c-8b23-edaad825a3af:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He leaves the road at the next cover — whoever is being hunted, whatever is hunting, his own road runs cleaner parallel. A day later he hears, from a farmer, that they found a body in the ditch east of the milestones. He does not ask which set of tracks it belonged to.",
+          "es": "Deja el camino en la próxima cubierta — quien sea el cazado, lo que sea que lo caza, su propio camino corre más limpio en paralelo. Un día después oye, de un granjero, que encontraron un cuerpo en la zanja al este de los mojones. No pregunta a cuál de las dos series de huellas pertenecía."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "1120cef4-b497-4618-9832-0ff9d20fb583",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:1fb73640-38aa-4607-9e59-70de28cb514b",
+    "act": "talk",
+    "label": {
+      "en": "He waits until the nearest torch-bearer is abreast of him",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:1fb73640-38aa-4607-9e59-70de28cb514b:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He waits until the nearest torch-bearer is abreast of him, then speaks from the dark — 'The one you're hunting went the other way.' A lie, or not — the sweep hesitates, turns to argue about direction, and in the reshuffling he is through their line and gone. Deception in the dark is cheap when the dark is doing the lying for you.",
+          "es": "Espera hasta que el portador de antorcha más cercano pasa a su lado, después habla desde la oscuridad — 'El que buscan fue para el otro lado.' Una mentira, o no — el barrido duda, se da vuelta a discutir sobre dirección, y en el reajuste él ya cruzó su línea y se fue. El engaño en la oscuridad sale barato cuando la oscuridad está mintiendo por vos."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "047d697c-5e77-4e41-8cd4-2f114fb9c7ff",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:1fb73640-38aa-4607-9e59-70de28cb514b",
+    "act": "avoid",
+    "label": {
+      "en": "He goes back the way he came ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:1fb73640-38aa-4607-9e59-70de28cb514b:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He goes back the way he came — the behind exit, the dark he already knows — before the torchlight can find him. The sweep sweeps on, and whatever it is hunting remains its own business and someone else's problem. A retreat, yes — the kind that does not need to be apologized for.",
+          "es": "Vuelve por donde vino — la salida de atrás, la oscuridad que ya conoce — antes de que la luz de las antorchas lo encuentre. El barrido sigue barriendo, y lo que sea que esté cazando queda como asunto suyo y problema de otro. Una retirada, sí — de las que no necesitan disculparse."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "754a46a5-d8a9-4c59-ba36-2ffc4041c584",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:2f6e2c77-3601-4394-bda4-88d576a3038e",
+    "act": "talk",
+    "label": {
+      "en": "She speaks to him",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:2f6e2c77-3601-4394-bda4-88d576a3038e:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She speaks to him, kindly, the way one speaks to a man who is about to make a mistake: 'You have already counted the cost. Do not spend what you do not have.' The captain hears the mercy under the warning and is afraid enough to take it as both. She passes; he does not report her. Sometimes the best threat is the one that comes wrapped in understanding.",
+          "es": "Le habla, amablemente, como se le habla a un hombre que está por cometer un error: 'Ya contaste el costo. No gastes lo que no tenés.' El capitán oye la piedad bajo la advertencia y tiene suficiente miedo para tomarla como ambas cosas. Ella pasa; él no la reporta. A veces la mejor amenaza es la que viene envuelta en comprensión."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "f62dc65a-33c8-44a0-bb7a-5cd0b581fd6e",
+    "version": 1,
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:2f6e2c77-3601-4394-bda4-88d576a3038e",
+    "act": "defy",
+    "label": {
+      "en": "She stops ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:2f6e2c77-3601-4394-bda4-88d576a3038e:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She stops — deliberately, in the exact center of their checkpoint — and asks the captain whose orders, specifically, he is carrying. He does not answer. She names the name he would have said. He steps aside without a word, and the patrol's discipline does not so much break as step around her.",
+          "es": "Se detiene — deliberadamente, en el centro exacto de su puesto — y le pregunta al capitán órdenes de quién, específicamente, está cumpliendo. Él no responde. Ella nombra el nombre que él habría dicho. Se hace a un lado sin una palabra, y la disciplina de la patrulla no tanto se rompe como que se aparta a su alrededor."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "d7a72208-70c0-40d9-a1dd-99982826bfa9",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:37546ba9-13a9-4520-8a04-dd10144474dd",
+    "act": "talk",
+    "label": {
+      "en": "He speaks to the captain",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:37546ba9-13a9-4520-8a04-dd10144474dd:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He speaks to the captain, not the warg — 'Your beast is honest. I walked through a camp last night; the scent is borrowed.' Truth shaped like an alibi. The captain weighs it, finds the cost of error too high, and reins the warg in — the traveller walks on smelling faintly of a campfire that was never his.",
+          "es": "Le habla al capitán, no al warg — 'Tu bestia es honesta. Pasé por un campamento anoche; el rastro es prestado.' Verdad con forma de coartada. El capitán la pesa, encuentra el costo del error demasiado alto, y sujeta al warg — el viajero sigue oliendo levemente a una fogata que nunca fue suya."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "9254c6c9-b1b3-4b3e-841a-f076f7376953",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:37546ba9-13a9-4520-8a04-dd10144474dd",
+    "act": "avoid",
+    "label": {
+      "en": "He drops to the ground before the warg's pull completes ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:37546ba9-13a9-4520-8a04-dd10144474dd:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He drops to the ground before the warg's pull completes — prone, small, uninteresting: nothing about a man at ground level matches the silhouette the beast was tracking. The captain calls it off — the warg circles twice, loses conviction, and the patrol passes by a man who has just learned that sometimes the safest shape is no shape at all.",
+          "es": "Se tira al suelo antes de que el tirón del warg se complete — tendido, chico, desinteresante: nada de un hombre a nivel del suelo coincide con la silueta que la bestia estaba rastreando. El capitán lo llama — el warg da dos vueltas, pierde la convicción, y la patrulla pasa de largo junto a un hombre que acaba de aprender que a veces la forma más segura es ninguna forma."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "2582bf40-a8fd-47a6-83a4-163a03083e87",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:474ea6d0-ad57-4251-9328-651b2983f3b6",
+    "act": "talk",
+    "label": {
+      "en": "He calls out",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:474ea6d0-ad57-4251-9328-651b2983f3b6:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He calls out, in the dark, in Orc-speech learned from a hundred ambushes — 'Wrong passage. The trail is behind us.' The sweep hesitates — authority in the voice, content in the words — and in the hesitation he is through the forward exit and into the clean dark where the torches cannot follow.",
+          "es": "Grita, en la oscuridad, en lengua orca aprendida de cien emboscadas — 'Pasaje equivocado. El rastro está atrás.' El barrido duda — autoridad en la voz, contenido en las palabras — y en la duda él ya cruzó la salida del frente y quedó en la oscuridad limpia donde las antorchas no pueden seguir."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "e6ca139a-ac08-4efc-b8e6-15edb7897fff",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:474ea6d0-ad57-4251-9328-651b2983f3b6",
+    "act": "avoid",
+    "label": {
+      "en": "He takes the behind exit ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:474ea6d0-ad57-4251-9328-651b2983f3b6:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the behind exit — the dark he already crossed, the passage he knows is empty — while the sweep is still forming. Backward is the only direction they do not sweep until they have finished forward, and by the time they reach it, the only thing behind them is their own echo.",
+          "es": "Toma la salida de atrás — la oscuridad que ya cruzó, el pasaje que sabe vacío — mientras el barrido todavía se está formando. Atrás es la única dirección que no barren hasta terminar el frente, y para cuando llegan, lo único detrás de ellos es su propio eco."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "0d6a4c22-04f7-40af-a8c4-207507cb4639",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:480e82d5-8f19-4f07-afea-41d88a5d1556",
+    "act": "talk",
+    "label": {
+      "en": "She asks the messenger what he knows of his master's real bu",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:480e82d5-8f19-4f07-afea-41d88a5d1556:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks the messenger what he knows of his master's real business — a courier's question between professionals. 'Only the message,' he says, 'and that I am to say it was sent with respect.' The respect is either real or it is the most sophisticated threat she has received in an age. She lets him go; some answers arrive by themselves.",
+          "es": "Le pregunta al mensajero qué sabe del verdadero negocio de su amo — una pregunta de correo entre profesionales. 'Solo el mensaje', dice, 'y que debía decir que fue enviado con respeto.' El respeto es real o es la amenaza más sofisticada que recibió en una era. Lo deja ir; algunas respuestas llegan solas."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "f6a03767-a541-46a7-94bf-29f46c6b703e",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:480e82d5-8f19-4f07-afea-41d88a5d1556",
+    "act": "avoid",
+    "label": {
+      "en": "She turns without answering ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:480e82d5-8f19-4f07-afea-41d88a5d1556:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She turns without answering — the road south was never hers to take anyway. Behind her the messenger waits a moment, then bows to her back and continues his errand to whoever is next on the list. Some messages are better received unread.",
+          "es": "Se da vuelta sin responder — el camino al sur nunca fue suyo para tomarlo de todos modos. Detrás el mensajero espera un momento, después hace una reverencia a su espalda y sigue su mandado con quien sea el siguiente de la lista. Algunos mensajes se reciben mejor sin leer."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "95e62308-cecd-44bf-bcc7-8cba5b0074bf",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:4abe850d-9814-481e-a492-d4f64722b6e4",
+    "act": "talk",
+    "label": {
+      "en": "She asks him quietly who they are ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:4abe850d-9814-481e-a492-d4f64722b6e4:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks him quietly who they are — the question he has been waiting for someone to ask. 'The Brenning farm. Eleven days. My wife and the children.' The details are sparse because the hope is sparse — but sparse is still information, and information is the only weapon that travels with her.",
+          "es": "Le pregunta en voz baja quiénes son — la pregunta que él esperaba que alguien hiciera. 'La granja Brenning. Once días. Mi mujer y los chicos.' Los detalles son escasos porque la esperanza es escasa — pero escaso sigue siendo información, y la información es la única arma que viaja con ella."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "db82ef6d-9cb3-43e3-9921-df95b95c1ea9",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:4abe850d-9814-481e-a492-d4f64722b6e4",
+    "act": "avoid",
+    "label": {
+      "en": "She does not stop ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:4abe850d-9814-481e-a492-d4f64722b6e4:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She does not stop — the guards are too close, the risk too real — but she meets his eyes as she passes, and in the exchange is a witness that needs no words. He straightens almost imperceptibly: someone has seen them. That is all he asked, and she gave it without stopping.",
+          "es": "No se detiene — los guardias están muy cerca, el riesgo muy real — pero le sostiene la mirada al pasar, y en el intercambio hay un testigo que no necesita palabras. Él se endereza casi imperceptiblemente: alguien los ha visto. Era todo lo que pedía, y ella se lo dio sin parar."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "47dab698-c5f2-4e0a-969f-fa58e3c395c9",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:50569545-b27b-4587-ad6a-81b16db2545a",
+    "act": "talk",
+    "label": {
+      "en": "She asks him what he did before ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:50569545-b27b-4587-ad6a-81b16db2545a:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks him what he did before — before the halls became what they became. 'Runner,' he says. 'I carried messages between levels. Good memory for routes.' He taps his temple. 'The routes remember me too.' A courier then, a keeper of paths — even in the service of darkness, the work was the work. She nods; she recognizes the shape of a long duty.",
+          "es": "Le pregunta qué hacía antes — antes de que los salones se volvieran lo que se volvieron. 'Corredor', dice. 'Llevaba mensajes entre niveles. Buena memoria para rutas.' Se golpea la sien. 'Las rutas también me recuerdan a mí.' Un correo entonces, un guardián de caminos — aun al servicio de la oscuridad, el trabajo era el trabajo. Ella asiente; reconoce la forma de un deber largo."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "df84ba72-c975-47a2-b58c-94a20837cf0f",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:50569545-b27b-4587-ad6a-81b16db2545a",
+    "act": "avoid",
+    "label": {
+      "en": "She bows ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:50569545-b27b-4587-ad6a-81b16db2545a:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She bows — not deeply, but in acknowledgment of what he is and what he was — and continues past without stopping. He watches her go with the particular stillness of someone who has been left behind before and has learned to carry it. The junction keeps its old memory for the next traveller who has time to sit.",
+          "es": "Hace una reverencia — no profunda, pero en reconocimiento de lo que es y lo que fue — y sigue de largo sin parar. Él la mira irse con la quietud particular de alguien a quien ya dejaron atrás antes y aprendió a cargarlo. El cruce guarda su vieja memoria para el próximo viajero que tenga tiempo de sentarse."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "a7d0e5ac-7ba0-4563-b32c-02cf14049647",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:57de184d-0fb3-4a6e-a1fd-4f8267735989",
+    "act": "talk",
+    "label": {
+      "en": "She asks him",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:57de184d-0fb3-4a6e-a1fd-4f8267735989:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks him, while he is deciding, what the description actually says — and he tells her, because the question is so odd it disarms the protocol: 'Grey cloak. Alone. Dangerous.' He looks at her. 'You are all three.' 'I was hoping for two out of three,' she says, and is on the bridge before he has decided whether that was a confession or a joke.",
+          "es": "Le pregunta, mientras él decide, qué dice en realidad la descripción — y él se lo dice, porque la pregunta es tan rara que desarma el protocolo: 'Capa gris. Sola. Peligrosa.' La mira. 'Sos las tres.' 'Yo esperaba dos de tres', dice ella, y ya está en el puente antes de que él decida si fue una confesión o un chiste."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "473c660a-3384-4920-a32e-c9d15ad53b57",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:57de184d-0fb3-4a6e-a1fd-4f8267735989",
+    "act": "avoid",
+    "label": {
+      "en": "She waits ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:57de184d-0fb3-4a6e-a1fd-4f8267735989:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She waits — that is all, simply waits, still as the water under the bridge — and lets him run his checklist against a woman who has already read his orders in his face. 'Cross,' he says finally, and the bridge is hers. The sentry on the far side watches her pass with the particular attention of a man who has just been paid to look away.",
+          "es": "Espera — eso es todo, simplemente espera, quieta como el agua bajo el puente — y lo deja correr su lista contra una mujer que ya leyó sus órdenes en su cara. 'Cruce', dice finalmente, y el puente es de ella. El centinela del otro lado la mira pasar con la atención particular de un hombre al que acaban de pagar para mirar a otro lado."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "84a0e741-228c-4c2b-b3da-795b03b282f5",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:57e3ae33-8a45-4bd7-912d-0a0135087d4e",
+    "act": "talk",
+    "label": {
+      "en": "She turns his own questions on him ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:57e3ae33-8a45-4bd7-912d-0a0135087d4e:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She turns his own questions on him — where he is from, what his cargo is, which roads he favors. The charm that disarms others does not disarm her, and he is good enough to know it: the smile never falters, but the questions thin out. By the end of the evening he has learned that this particular table is not for sale.",
+          "es": "Le devuelve sus propias preguntas — de dónde es, qué carga lleva, qué caminos prefiere. El encanto que desarma a otros no la desarma a ella, y él es lo bastante bueno para saberlo: la sonrisa nunca flaquea, pero las preguntas se ralean. Al final de la noche aprendió que esta mesa en particular no está en venta."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "33099195-4cf1-4d83-849e-acf29602740f",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:57e3ae33-8a45-4bd7-912d-0a0135087d4e",
+    "act": "avoid",
+    "label": {
+      "en": "She leaves the wayhouse early ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:57e3ae33-8a45-4bd7-912d-0a0135087d4e:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She leaves the wayhouse early — not running, just leaving, the way a woman leaves a conversation that has outlasted its value. He watches her go without pursuing; even a professional knows when a mark has stopped being one. Outside, the road is empty and the questions he asked her are still hanging in the air, unanswered and already obsolete.",
+          "es": "Sale del hospedaje temprano — no huyendo, solo yéndose, como una mujer deja una conversación que duró más que su valor. Él la mira irse sin perseguirla; hasta un profesional sabe cuándo una marca dejó de serlo. Afuera el camino está vacío y las preguntas que le hizo siguen colgadas en el aire, sin respuesta y ya obsoletas."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "64a974ca-d50e-47ed-ba49-614b21d3fa8d",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:5f490b2f-b23c-4374-ab8c-0777651a7092",
+    "act": "talk",
+    "label": {
+      "en": "He asks the scarred captain",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:5f490b2f-b23c-4374-ab8c-0777651a7092:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks the scarred captain, carefully, who wants the prisoner — a professional's question, asked between men who both know the answer is not 'him.' 'Someone who pays,' the captain says, 'and pays extra for alive.' He names no name — but the namelessness is its own information: whoever it is, they want him talking, and they want him talking soon.",
+          "es": "Le pregunta al capitán cicatrizado, con cuidado, quién quiere al prisionero — una pregunta de profesional, hecha entre hombres que saben que la respuesta no es 'él.' 'Alguien que paga', dice el capitán, 'y paga extra por vivo.' No nombra ningún nombre — pero la falta de nombre es su propia información: quien sea, lo quiere hablando, y lo quiere hablando pronto."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "6efc377a-97ab-4a6c-9508-9e05c84b05a0",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:5f490b2f-b23c-4374-ab8c-0777651a7092",
+    "act": "avoid",
+    "label": {
+      "en": "He retreats before they finish forming the trap ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:5f490b2f-b23c-4374-ab8c-0777651a7092:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He retreats before they finish forming the trap — back the way he came, the way the defile does not guard. 'Bring back alive' is a rule for captives, not for men who were never there. By the time the captain's patience runs out, the funnel is empty and the orders are still standing.",
+          "es": "Retrocede antes de que terminen de formar la trampa — por donde vino, por donde el desfiladero no guarda. 'Traer vivo' es una regla para cautivos, no para hombres que nunca estuvieron ahí. Para cuando se acaba la paciencia del capitán, el embudo está vacío y las órdenes siguen de pie."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "e03a1078-8a42-4ecc-ab1d-17e7ec70ce06",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:64127b82-7198-4ecd-8c9c-985cb107cc43",
+    "act": "talk",
+    "label": {
+      "en": "She speaks to the orc",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:64127b82-7198-4ecd-8c9c-985cb107cc43:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She speaks to the orc, softly, in a tongue neither of them has used in years — a word, a greeting, the kind of thing that says I see you too without requiring an answer. The orc's eyes go wide for a moment, then hood again. The Man does not notice. The checkpoint holds; the road opens; and something old and unspoken has just passed between two of its last keepers.",
+          "es": "Le habla al orco, suavemente, en una lengua que ninguno de los dos usa en años — una palabra, un saludo, la clase de cosa que dice yo también te veo sin requerir respuesta. Los ojos del orco se abren un momento, después se encapuchan otra vez. El Hombre no lo nota. El puesto se mantiene; el camino se abre; y algo viejo y tácito acaba de pasar entre dos de sus últimos guardianes."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "77cff19c-e63c-49d1-b42a-00c661026891",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:64127b82-7198-4ecd-8c9c-985cb107cc43",
+    "act": "avoid",
+    "label": {
+      "en": "She answers the papers-question and leaves before the orc's ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:64127b82-7198-4ecd-8c9c-985cb107cc43:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She answers the papers-question and leaves before the orc's weighing finishes — whatever it decides, it decides too slowly. On the road behind her she can feel the attention like a hand on her shoulder: not hostile, not friendly, simply ancient and curious. She does not look back. Some meetings are better as unfinished business.",
+          "es": "Responde la pregunta de papeles y se va antes de que la tasación del orco termine — decida lo que decida, decide demasiado lento. En el camino a sus espaldas puede sentir la atención como una mano en el hombro: no hostil, no amigable, simplemente antigua y curiosa. No se da vuelta. Algunos encuentros son mejor como asuntos pendientes."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "ed9b3b55-11a2-42b8-b050-7958dbc201ac",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:69a39e8b-cfaf-4c5f-ba59-f2e0373cc42e",
+    "act": "talk",
+    "label": {
+      "en": "He raises a hand ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:69a39e8b-cfaf-4c5f-ba59-f2e0373cc42e:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He raises a hand — not in greeting exactly, in acknowledgment, the way a man acknowledges a weather front — and the orcs watch him do it without reacting. It is the only communication: a gesture that says I see you and I am not afraid. They do not return it, but the snowfield feels different after.",
+          "es": "Levanta una mano — no exactamente en saludo, en reconocimiento, como un hombre reconoce un frente de clima — y los orcos lo miran hacerlo sin reaccionar. Es la única comunicación: un gesto que dice los veo y no tengo miedo. Ellos no lo devuelven, pero el campo de nieve se siente distinto después."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "6703e9ed-5ca9-401c-aab5-41a833f07be2",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:69a39e8b-cfaf-4c5f-ba59-f2e0373cc42e",
+    "act": "avoid",
+    "label": {
+      "en": "He angles away ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:69a39e8b-cfaf-4c5f-ba59-f2e0373cc42e:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He angles away — not toward them, not away exactly, but on a line that makes the math of pursuit visibly expensive. They watch him recalculate their own position in real time, and when the angle reaches its steepest, they let him go. The snowfield remains neutral ground; the ice keeps its three sentinels a little longer.",
+          "es": "Se desvía en ángulo — no hacia ellos, no alejándose exactamente, sino en una línea que hace visiblemente cara la matemática de la persecución. Lo miran recalcular su propia posición en tiempo real, y cuando el ángulo llega a su punto más pronunciado, lo dejan ir. El campo de nieve sigue siendo terreno neutral; el hielo guarda sus tres centinelas un rato más."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "9f3f7da6-edc7-4ba3-8ddc-970b3bff52eb",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:77af4681-1530-45df-89eb-7e3cb1aafeaf",
+    "act": "talk",
+    "label": {
+      "en": "He asks",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:77af4681-1530-45df-89eb-7e3cb1aafeaf:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks, before going, what lies beyond the closed section — not out of defiance, out of a ranger's professional curiosity about borders. 'Things that need the road clear,' the captain says, which is not an answer but is close enough to one. He nods, turns, and walks back the way he came with the knowledge that something on this road is worth daylight.",
+          "es": "Pregunta, antes de irse, qué hay más allá de la sección cerrada — no por desafío, por la curiosidad profesional de un montaraz sobre las fronteras. 'Cosas que necesitan el camino libre', dice el capitán, que no es una respuesta pero se le parece lo suficiente. Asiente, se da vuelta, y vuelve por donde vino con el conocimiento de que algo en este camino vale la luz del día."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "9c54319a-1ea3-4963-8b74-2a90a7798381",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:77af4681-1530-45df-89eb-7e3cb1aafeaf",
+    "act": "avoid",
+    "label": {
+      "en": "He does not stop walking ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:77af4681-1530-45df-89eb-7e3cb1aafeaf:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not stop walking — simply adjusts his line to cross behind their position rather than through it, and keeps moving at the same pace. The captain watches him go without comment: a man who will not be stopped is a problem for a different hour, and daylight has its own schedule.",
+          "es": "No deja de caminar — simplemente ajusta su línea para cruzar detrás de su posición en vez de atravesarla, y sigue moviéndose al mismo paso. El capitán lo mira irse sin comentar: un hombre que no se va a detener es un problema para otra hora, y la luz del día tiene su propio horario."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "5f905c41-fc65-471f-b9b5-67e7848cfd25",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:7f1c514b-1ae1-4546-ada4-59a516725faa",
+    "act": "talk",
+    "label": {
+      "en": "She asks him what he carries ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:7f1c514b-1ae1-4546-ada4-59a516725faa:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks him what he carries — the wrapped thing, the burden that has made him careful instead of quick. He looks at her for a long moment, then shakes his head once: 'For the same one who carries the name.' He bows — actually bows, in the old manner that no orc should know — and continues into the dark. She does not follow. Some couriers are carrying more than parcels.",
+          "es": "Le pregunta qué lleva — el bulto envuelto, la carga que lo volvió cuidadoso en vez de rápido. Él la mira un largo momento, después sacude la cabeza una vez: 'Para el mismo que lleva el nombre.' Hace una reverencia — en realidad una reverencia, a la manera antigua que ningún orco debería conocer — y sigue hacia la oscuridad. Ella no lo sigue. Algunos correos llevan más que paquetes."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "ad5faf50-2ac9-4399-960d-8f38db12c46f",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:7f1c514b-1ae1-4546-ada4-59a516725faa",
+    "act": "avoid",
+    "label": {
+      "en": "She does not ask ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:7f1c514b-1ae1-4546-ada4-59a516725faa:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She does not ask — hears the name, lets it hang between them like a rope neither of them will touch, and continues past. He does not stop her. Behind her, she hears him begin to walk again, carrying whatever he is carrying toward whatever carries the name. The passage keeps its secret; she keeps hers.",
+          "es": "No pregunta — oye el nombre, lo deja colgar entre ellos como una soga que ninguno va a tocar, y sigue de largo. Él no la detiene. Detrás de ella, lo oye empezar a caminar otra vez, llevando lo que sea que lleva hacia quien sea que lleva el nombre. El pasaje guarda su secreto; ella guarda el suyo."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "749016f6-6006-42fd-bfdf-71e25ac5cc9a",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:8488e34c-ca87-4f43-a79d-24ab2e67bb04",
+    "act": "talk",
+    "label": {
+      "en": "He calls after them ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:8488e34c-ca87-4f43-a79d-24ab2e67bb04:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He calls after them — 'Hold a moment. Which road to the river crossing?' — the question of a confused traveller. The wrong-faced one answers correctly, helpfully, with just a fraction too much precision: real travellers are vaguer. He thanks them and goes on, having confirmed what he suspected in the asking.",
+          "es": "Los llama atrás — 'Espera un momento. ¿Qué camino al cruce del río?' — la pregunta de un viajero confundido. El de cara equivocada responde correctamente, servicialmente, con apenas una fracción demasiada precisión: los viajeros reales son más vagos. Les agradece y sigue, habiendo confirmado lo que sospechaba al preguntar."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "4286e2a4-4e3f-4dc6-b658-d6f5cd16f0da",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:8488e34c-ca87-4f43-a79d-24ab2e67bb04",
+    "act": "avoid",
+    "label": {
+      "en": "He does not follow them ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:8488e34c-ca87-4f43-a79d-24ab2e67bb04:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not follow them — watches them recede into the north, and lets them go. Whatever they are doing there, it is not his road to police today. He files the face, the walk, the nod, and continues south where his own business waits. Some wrongness is best left to someone else's jurisdiction.",
+          "es": "No los sigue — los mira alejarse hacia el norte, y los deja ir. Lo que sea que estén haciendo ahí, no es su camino para vigilar hoy. Archiva la cara, la marcha, el saludo, y sigue hacia el sur donde su propio asunto espera. Algunas equivocaciones es mejor dejarlas para la jurisdicción de otro."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "b0120f06-1084-48d7-9a88-e61eca6f173b",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:9d8e8cf1-a1c9-48bc-9587-236bb2a68e2e",
+    "act": "talk",
+    "label": {
+      "en": "He stops and studies the mark itself ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "tracking",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:9d8e8cf1-a1c9-48bc-9587-236bb2a68e2e:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He stops and studies the mark itself — the height, the angle, the grease type — and reads the scout's training in it: this one was taught, not just sent. Taught scouts work in patterns, and patterns can be predicted. He takes the road the pattern does not cover, and walks it whistling faintly, as though for the benefit of anyone listening.",
+          "es": "Se detiene y estudia la marca misma — la altura, el ángulo, el tipo de grasa — y lee el entrenamiento del explorador en ella: este fue enseñado, no solo enviado. Los exploradores enseñados trabajan en patrones, y los patrones se pueden predecir. Toma el camino que el patrón no cubre, y lo camina silbando apenas, como para beneficio de quien esté escuchando."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "6a98b09a-dc11-47da-a9c6-5499c5e6399b",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:9d8e8cf1-a1c9-48bc-9587-236bb2a68e2e",
+    "act": "avoid",
+    "label": {
+      "en": "He takes the mark as information",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:9d8e8cf1-a1c9-48bc-9587-236bb2a68e2e:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the mark as information, not instruction — notes it, memorizes the direction it faces, and continues on the same road at the same pace. Let them follow; a follower who thinks they are unseen is a follower who stops thinking about what they are following.",
+          "es": "Toma la marca como información, no como instrucción — la registra, memoriza la dirección hacia la que apunta, y sigue por el mismo camino al mismo paso. Que sigan; un seguidor que cree que no lo ven es un seguidor que deja de pensar en lo que está siguiendo."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "0590f1f6-1d01-48c8-a69a-fcf38a30e9e7",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:bc6c861e-d14b-4b6b-9082-e1d0ce7b4025",
+    "act": "talk",
+    "label": {
+      "en": "She asks him",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:bc6c861e-d14b-4b6b-9082-e1d0ce7b4025:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks him, conversationally, how long the closure has been in effect — the question of a woman planning a route, not an enemy challenging an order. 'Three weeks,' he says. 'It will lift when the work is done.' Three weeks of daylight orcs on a public road is a small war, and it is being fought somewhere she cannot see.",
+          "es": "Le pregunta, conversacional, cuánto hace que el cierre está en efecto — la pregunta de una mujer planificando una ruta, no de una enemiga desafiando una orden. 'Tres semanas', dice él. 'Se levanta cuando termine el trabajo.' Tres semanas de orcos de día en un camino público es una pequeña guerra, y se está peleando en algún lugar que ella no puede ver."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "1e95c9b9-3be7-47e8-b302-881d2ad4e70a",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:bc6c861e-d14b-4b6b-9082-e1d0ce7b4025",
+    "act": "avoid",
+    "label": {
+      "en": "She circles the checkpoint ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:bc6c861e-d14b-4b6b-9082-e1d0ce7b4025:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She circles the checkpoint — not through the patrol's eyes but through the scrub to the east, and from a rise she can see what the closure is for: a supply line, wagons moving north, guarded and regular as a heartbeat. The road is closed because something is being built, and building is always more dangerous than destroying.",
+          "es": "Rodea el puesto — no a través de los ojos de la patrulla sino por el matorral del este, y desde una loma puede ver para qué es el cierre: una línea de suministro, carretas moviéndose al norte, custodiadas y regulares como un latido. El camino está cerrado porque algo se está construyendo, y construir es siempre más peligroso que destruir."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "b4f19b08-fff4-4d9a-a620-7d48dc1acc6f",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:c368375f-3daa-4fb5-b683-7d1f6139b384",
+    "act": "talk",
+    "label": {
+      "en": "She asks them",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:c368375f-3daa-4fb5-b683-7d1f6139b384:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks them, as she passes through their herding arc, what they are guarding — the question of a woman who already knows the answer and wants to see if they will confirm it. 'Nothing for you,' the largest one says, which is an answer, and confirms both that there is something and that they think she already knows it.",
+          "es": "Les pregunta, mientras pasa por su arco de conducción, qué están guardando — la pregunta de una mujer que ya sabe la respuesta y quiere ver si la confirman. 'Nada para vos', dice el más grande, que es una respuesta, y confirma tanto que hay algo como que ellos creen que ella ya lo sabe."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "36717769-75c0-4106-87f6-7364c36b2c08",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:c368375f-3daa-4fb5-b683-7d1f6139b384",
+    "act": "avoid",
+    "label": {
+      "en": "She turns back the way they want her to go ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:c368375f-3daa-4fb5-b683-7d1f6139b384:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She turns back the way they want her to go — forward, away — and does not look back at the guarded section. Some secrets keep better when you let the guards think they have won. Behind her, the passage closes like a door, and the orcs go back to guarding a thing she has already decided to forget.",
+          "es": "Se da vuelta hacia donde quieren que vaya — adelante, lejos — y no mira atrás a la sección vigilada. Algunos secretos se guardan mejor cuando dejás que los guardias crean que ganaron. Detrás de ella, el pasaje se cierra como una puerta, y los orcos vuelven a vigilar una cosa que ella ya decidió olvidar."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "bdd89f91-c07f-4237-a512-9c8b97c68fb6",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:c7b907df-0a3e-45cb-a2d6-d7b9e5ae667f",
+    "act": "talk",
+    "label": {
+      "en": "He talks to him all evening ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:c7b907df-0a3e-45cb-a2d6-d7b9e5ae667f:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He talks to him all evening — weather, roads, the price of salt, nothing that matters — and the mercenary answers with the same empty precision, matching his rhythm like a man matching a dance partner who has seen the trick before. By the time the fire dies, neither has learned anything, and both know the other knows.",
+          "es": "Le habla toda la noche — clima, caminos, el precio de la sal, nada que importe — y el mercenario responde con la misma precisión vacía, siguiendo su ritmo como un hombre siguiendo a una pareja de baile que ya vio el truco. Para cuando el fuego muere, ninguno aprendió nada, y ambos saben que el otro sabe."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "1ba04e30-e781-411b-9ab3-2f12d7379804",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:c7b907df-0a3e-45cb-a2d6-d7b9e5ae667f",
+    "act": "avoid",
+    "label": {
+      "en": "He does not sit at the fire ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:c7b907df-0a3e-45cb-a2d6-d7b9e5ae667f:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not sit at the fire — takes his bread outside, eats it standing under the awning, and watches the wayhouse door instead of the mercenary. Whatever is being counted, it will keep until morning; some evenings are better spent knowing that someone else is watching the watching.",
+          "es": "No se sienta en el fuego — lleva su pan afuera, lo come de pie bajo el alero, y mira la puerta del hospedaje en vez del mercenario. Lo que sea que se esté contando, aguantará hasta la mañana; algunas noches se pasan mejor sabiendo que alguien más está mirando el mirar."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "3d926f1a-ec68-4dbe-9e42-12bf4f8c1e7a",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:cd04a982-a85a-4ec5-afac-9a0454e8ed2d",
+    "act": "talk",
+    "label": {
+      "en": "He asks the captain",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:cd04a982-a85a-4ec5-afac-9a0454e8ed2d:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks the captain, while the confirmation runs, what the description actually says — a fair question from a cooperative man. 'Armed. Alone. North of the river.' The captain looks at him. 'You are all three, but you are not the one.' The distinction is small comfort to whoever the actual one is, but it is comfort enough to cross on.",
+          "es": "Le pregunta al capitán, mientras corre la confirmación, qué dice en realidad la descripción — una pregunta justa de un hombre que coopera. 'Armado. Solo. Al norte del río.' El capitán lo mira. 'Sos los tres, pero no sos el que es.' La distinción es poco consuelo para quien sea el que es en realidad, pero es consuelo suficiente para cruzar."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "42e43e4f-8e05-46ec-a5a1-ca8d09de1c28",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:cd04a982-a85a-4ec5-afac-9a0454e8ed2d",
+    "act": "avoid",
+    "label": {
+      "en": "He waits ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:cd04a982-a85a-4ec5-afac-9a0454e8ed2d:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He waits — that is all, stands with the patience of a man who has already counted the guard-rotation and found it wanting. The captain finishes his checklist, finds the match close enough to be honest, and lets him pass. Behind him, the bridge garrison continues its quiet occupation, and the traveller's road is the one they do not guard.",
+          "es": "Espera — eso es todo, se queda con la paciencia de un hombre que ya contó la rotación de guardia y la encontró floja. El capitán termina su lista, encuentra la coincidencia lo bastante cercana para ser honesta, y lo deja pasar. Detrás, la guarnición del puente continúa su ocupación silenciosa, y el camino del viajero es el que ellos no vigilan."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "6a3fc118-d930-46ee-a054-e43575b654c3",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:ce72aad0-8ed9-4272-9ab6-dc5ef48f0902",
+    "act": "talk",
+    "label": {
+      "en": "He asks the old thing what it wants ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:ce72aad0-8ed9-4272-9ab6-dc5ef48f0902:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks the old thing what it wants — directly, the way you ask a question that has been sitting in the room for an hour. 'The road watched,' it says, 'and the watchers named.' It wants intelligence, the oldest currency, and it is willing to pay for it with something the traveller has never had offered before: a safe passage through whatever comes next.",
+          "es": "Le pregunta a la cosa vieja qué quiere — directamente, como se hace una pregunta que estuvo sentada en la habitación una hora. 'El camino vigilado', dice, 'y los vigilantes nombrados.' Quiere inteligencia, la moneda más vieja, y está dispuesta a pagarla con algo que nunca le ofrecieron al viajero antes: un pasaje seguro a través de lo que sea que viene después."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "8b6ffbb4-82d6-40f2-b42a-e78de2679b86",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:ce72aad0-8ed9-4272-9ab6-dc5ef48f0902",
+    "act": "avoid",
+    "label": {
+      "en": "He declines the negotiation ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:ce72aad0-8ed9-4272-9ab6-dc5ef48f0902:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He declines the negotiation — politely, carefully, the way you decline an offer from something that can see through floors. 'Another time, perhaps,' the old thing says, and the 'perhaps' is the kind of courtesy that keeps a man alive. He leaves the court slowly, not running, and only when the passage has swallowed the last of the firelight does he let himself breathe.",
+          "es": "Declina la negociación — cortésmente, con cuidado, como se declina una oferta de algo que puede ver a través de los pisos. 'Otra vez, quizás', dice la cosa vieja, y el 'quizás' es la clase de cortesía que mantiene vivo a un hombre. Sale de la corte despacio, sin correr, y solo cuando el pasaje tragó el último resplandor del fuego se permite respirar."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "5f5ece9b-3547-47f4-84e6-46741a1a44a1",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:d054bf83-34b2-40d0-bf45-22bb4f1ab0df",
+    "act": "talk",
+    "label": {
+      "en": "He approaches the sentry at the edge of their position ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:d054bf83-34b2-40d0-bf45-22bb4f1ab0df:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He approaches the sentry at the edge of their position — alone, unhurried, the way you approach a man whose orders you want to learn — and asks how long the bridge has been held. 'Since the last thaw,' the sentry says, 'and we will be here for the next one.' A garrison that answers its own questions is a garrison that expects to stay.",
+          "es": "Se acerca al centinela al borde de su posición — solo, sin apuro, como te acercás a un hombre cuyas órdenes querés aprender — y pregunta cuánto hace que el puente está tomado. 'Desde el último deshielo', dice el centinela, 'y vamos a estar para el próximo.' Una guarnición que contesta sus propias preguntas es una guarnición que espera quedarse."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "d642770b-1dd5-4b5a-87c8-06c6b3462c00",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:d054bf83-34b2-40d0-bf45-22bb4f1ab0df",
+    "act": "avoid",
+    "label": {
+      "en": "He turns back ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:d054bf83-34b2-40d0-bf45-22bb4f1ab0df:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He turns back — not running, just turning, the way a man turns from a door he has decided not to knock on. The bridge will hold; the garrison will keep; and his own road will find another way around the new fact that this crossing belongs to someone else now.",
+          "es": "Se da vuelta — no corriendo, solo dándose vuelta, como un hombre se da vuelta de una puerta que decidió no golpear. El puente aguantará; la guarnición seguirá; y su propio camino encontrará otra forma de rodear el nuevo hecho de que este cruce ahora le pertenece a otro."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "62db4cd4-3d5f-4460-b994-a6eb9460379e",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:e45c8fbb-9295-4236-a9c1-7a8eef830072",
+    "act": "talk",
+    "label": {
+      "en": "He climbs the ridge's far shoulder ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "tracking",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:e45c8fbb-9295-4236-a9c1-7a8eef830072:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He climbs the ridge's far shoulder — not toward the ruins, to the ridge-line itself — and from the top watches the ruins with the patience of a man who has time. They are there: seven shapes in the broken walls, doing something that does not look like looting. He stays until the light changes, learns what he can from the far side of the distance, and leaves the ruins to their new tenants.",
+          "es": "Sube al hombro lejano del filo — no hacia las ruinas, a la línea del filo misma — y desde arriba mira las ruinas con la paciencia de un hombre que tiene tiempo. Están ahí: siete formas en las paredes rotas, haciendo algo que no parece saqueo. Se queda hasta que cambia la luz, aprende lo que puede desde el otro lado de la distancia, y deja las ruinas a sus nuevos inquilinos."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "e4254584-746f-40fd-bf89-e025da245b54",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:e45c8fbb-9295-4236-a9c1-7a8eef830072",
+    "act": "avoid",
+    "label": {
+      "en": "He takes the road the tracks crossed away from ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:e45c8fbb-9295-4236-a9c1-7a8eef830072:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the road the tracks crossed away from — the lower road, the one that does not go near ruins at all — and does not think about the ridge again. Some destinations are better left to those who are actually going there, and a traveller who knows when to look away is a traveller who gets to look at more things later.",
+          "es": "Toma el camino del que se alejaron las huellas — el camino bajo, el que no pasa cerca de ruinas para nada — y no vuelve a pensar en el filo. Algunos destinos es mejor dejarlos a quienes realmente van ahí, y un viajero que sabe cuándo mirar para otro lado es un viajero que llega a mirar más cosas después."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "d44f8eaa-28f1-40c2-a208-9a9020d62d28",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:e6f479ef-d37f-4066-9b0e-6cdc75b7ac8b",
+    "act": "talk",
+    "label": {
+      "en": "He calls after them ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "tracking",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:e6f479ef-d37f-4066-9b0e-6cdc75b7ac8b:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He calls after them — 'You are on a cold trail' — the truth, offered because the trail they are following went cold hours ago and he could see that even without their nose. The captain half-turns, snarls something, and keeps running; but the hesitation was real, and the traveller files it: orcs on a scent are not as immune to doubt as they look.",
+          "es": "Les grita atrás — 'Van por un rastro frío' — la verdad, ofrecida porque el rastro que siguen se enfrió hace horas y él podía verlo aun sin su nariz. El capitán se da media vuelta, gruñe algo, y sigue corriendo; pero la duda fue real, y el viajero la archiva: los orcos en un rastro no son tan inmunes a la duda como parecen."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "fe12f5f7-345b-43fc-964e-480739946d23",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:e6f479ef-d37f-4066-9b0e-6cdc75b7ac8b",
+    "act": "avoid",
+    "label": {
+      "en": "He steps off the road entirely ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:e6f479ef-d37f-4066-9b0e-6cdc75b7ac8b:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He steps off the road entirely — out of the scent-line, out of the decision, simply not there when the ten seconds resolve. By the time the captain looks back to see if the obstacle is still standing, the obstacle is three fields away and has already stopped being one.",
+          "es": "Se aparta del camino por completo — fuera de la línea del rastro, fuera de la decisión, simplemente no ahí cuando los diez segundos se resuelven. Para cuando el capitán mira atrás para ver si el obstáculo sigue parado, el obstáculo está a tres campos de distancia y ya dejó de ser uno."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "6e6cd481-18f5-49ed-ac5d-ff720b1fdaf3",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:f8be543f-3be3-4a96-8d4d-559bf2731cc1",
+    "act": "talk",
+    "label": {
+      "en": "He answers with a question of his own ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": "etiquette",
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:f8be543f-3be3-4a96-8d4d-559bf2731cc1:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He answers with a question of his own — 'And what are you carrying?' — pointing at the cart they have clearly taken from someone else. The front one's patter stumbles; the robbery has just become a conversation about inventory on both sides, and the robbers have suddenly remembered that other people's questions are also costs.",
+          "es": "Responde con una pregunta propia — '¿Y ustedes qué llevan?' — señalando el carro que claramente le sacaron a otro. La rutina del delantero tropieza; el robo acaba de volverse una conversación sobre inventario de ambos lados, y los ladrones de golpe se acordaron de que las preguntas ajenas también cuestan."
+        },
+        "effects": []
+      }
+    }
+  },
+  {
+    "id": "c9fcbf75-7f53-4935-b6c4-f6ca01af19dc",
+    "version": 1,
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:f8be543f-3be3-4a96-8d4d-559bf2731cc1",
+    "act": "avoid",
+    "label": {
+      "en": "He empties his coin-purse on the road ",
+      "es": null
+    },
+    "need_tags": null,
+    "skill": null,
+    "requirements": null,
+    "payload": {
+      "situation": "cnt:f8be543f-3be3-4a96-8d4d-559bf2731cc1:sit"
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He empties his coin-purse on the road — a scattering of small silver, deliberately messy — and while their eyes go to it, he goes. Not running, just gone, the way a man goes when he has already decided that the price of the purse is the price of the road. Behind him they argue over the scattered coins; ahead of him the road is free and his pack is heavy.",
+          "es": "Vacía su monedero en el camino — una dispersión de plata chica, deliberadamente desordenada — y mientras los ojos de ellos van a eso, él se va. No corriendo, solo yéndose, como se va un hombre cuando ya decidió que el precio del monedero es el precio del camino. Detrás discuten por las monedas dispersas; adelante el camino está libre y su bolso pesa."
         },
         "effects": []
       }
