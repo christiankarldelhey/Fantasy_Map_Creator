@@ -2805,13 +2805,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Recognizes him by posture and gear before he is close enough to speak. Waits without hand on weapon."
+      "en": "He stands to meet the traveller without a hand anywhere near the hilt — it is recognition, not caution: the walk, the gear, the way the traveller's eyes keep moving. Whatever this stranger is, he is the kind of man a ranger waits for rather than watches for."
     },
     "presence": {
-      "en": "Patrol on the Weather Hills is short two men — pulled north without explanation ten days ago. He has been running the circuit alone. Asks if the north reported anything unusual."
+      "en": "The road crests the first of the Weather Hills into a wind that has been waiting for him, and standing a little off the crown is a man: grey-green cloak over mail mended more than once, a sword where the hand falls without thinking, boots grey to the knee with days of road. He does not startle and he does not hail. He watches the traveller come up the last of the slope reading him the way rangers read a page, and when at last he speaks it is plain, without ceremony: 'Short two men on this stretch — pulled north ten days ago, no word why, and I have run their circuit alone since. What word from the north?'"
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "He talks the way the long-lonely talk when they finally have someone worth telling — spare sentences, no padding, a hunger under the flatness for word from anywhere else. News for news: what the roads are doing, who has gone missing, what the weather is keeping back."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -2821,7 +2821,7 @@
         "id": "cnt:5786ea63-9338-4ce8-8928-e2f46d0e46a2:sit",
         "tags": [],
         "situation": {
-          "en": "He shares the gap in coverage as a peer, not a report. Expects the traveller to know what it means."
+          "en": "He shares the gap in the patrol the way one watcher shares it with another — as fact, not complaint, expecting the traveller to understand what an unwatched stretch of hills costs without needing it spelled out twice."
         }
       }
     ],
@@ -3072,12 +3072,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "One of them has already turned to face the road where he is approaching, waiting."
+      "en": "One of them had already turned to face the road where he approaches — he was seen before he saw them, and they do not trouble to hide it. No hands on weapons, nothing in them afraid: they wait the way people wait who have already decided what he is."
     },
     "presence": {
-      "en": "A patrol in the Trollshaws has gone silent — an Elven patrol, not a Ranger one. They noticed because the patrol was supposed to pass through the Elven road three days ago and did not. They are telling him because it is his circuit."
+      "en": "They are already standing in the road when he comes around the bend — not blocking it, placed in it, the way people stand who have decided to be met. Cloaks the colour of the hill grass, bows unstrung but within reach, nothing about them hurried; they have been waiting long enough that the waiting shows only in how still they are. When the nearest speaks it is in Westron, chosen for him as a courtesy: 'A patrol of our people should have crossed the Elven road three days ago. It has not. We tell you this because you are Dúnedain — the land is yours to watch.'"
     },
-    "channel": null,
+    "channel": {
+      "en": "They speak little and weigh what they say — short sentences in careful Westron, no ornament, silences that are not awkward to them. The news is given to be used, not to be thanked for; they trade knowledge for watchfulness and consider the exchange settled."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -3086,7 +3088,7 @@
         "id": "cnt:8d0cb1e7-abee-4e9a-a6f9-9595fa87157f:sit",
         "tags": [],
         "situation": {
-          "en": "They give him the information because he is Dúnedain and it concerns his land. Not a gift — what is done between those who watch the same darkness."
+          "en": "The silence of a patrol is not something they share with everyone. They give it to him because he is Dúnedain and it concerns his land — not a gift, but what is done between those who watch the same darkness, without either side needing to name the arrangement."
         }
       }
     ],
@@ -3532,13 +3534,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Blunt. Not rude — constitutionally incapable of the social padding mortals use. Says what he means."
+      "en": "Blunt the way tools are blunt — not rude, simply made for a different purpose than padding. He says what he means in the order it occurs to him, assumes straight questions deserve straight answers, and has plainly not noticed that asking a stranger her age across two thousand years is, by most measures, an odd way to open."
     },
     "presence": {
-      "en": "He is looking for a specific vein on a map drawn before Moria fell. He asks, without embarrassment, whether she was alive when Moria fell and whether she knows what the landmarks on the map were called before they got their current names."
+      "en": "He is sitting on a milestone with a map spread across his knees — an old map, gone soft at the folds, drawn before Moria fell. Dwarf-built, beard to the belt, boots off because the road has been hard on them. He does not look up until the traveller's shadow crosses the paper; then, without embarrassment and without preamble: 'You were alive when Moria fell — yes? Good. What did your folk call this pass, before it got the name my people use?'"
     },
     "channel": {
-      "en": "Have him speak of a mansion or mine lost to dragon or goblin, and the wealth and kin buried with it."
+      "en": "He talks of the map the way men talk of family graves — which mansion was lost, to dragon or to goblin, what wealth went down with it, whose kin lie buried there still. 'Azanulbizar,' he names the valley where his own are counted, weighing the word like a coin rubbed long in the hand. Grief in a dwarf's mouth sounds like accounting, and is no less grief for it."
     },
     "facts": {
       "topic": "lost_halls"
@@ -3548,7 +3550,7 @@
         "id": "cnt:d3eff0de-0457-40d7-8bb1-541ac33d5791:sit",
         "tags": [],
         "situation": {
-          "en": "He does not know this is a strange question to ask. To him it is simply efficient."
+          "en": "To him the question is simply efficient — the map is old, the woman before him might be older, and asking her outright saves a detour he can measure in weeks. He does not know this is a strange thing to ask, and would likely ask it anyway if he did."
         }
       }
     ],
@@ -3725,12 +3727,14 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "On the road alone with a pack that is too large for him. He does not flinch when the traveller comes around the bend."
+      "en": "Frightened, but the determination walks out in front of the fear — which is exactly what makes it worrying. He plants himself to ask his question the way he has clearly planted himself to ask it a dozen times, and the answer he is braced for is 'no'."
     },
     "presence": {
-      "en": "He is looking for a cousin who went east to trade and did not come back. He has been looking for three weeks. He asks if the traveller has seen a hobbit-sized camp east of the Weather Hills."
+      "en": "Around the bend in the east road comes a hobbit — alone, at a pace that is costing him something, under a pack visibly too large for the body carrying it. He does not flinch when the traveller appears, which is its own small courage this far from home. When he speaks it comes out all at once: 'I'm looking for my cousin — Tolman Boffin, of Overhill. Went east to trade and never came back. Three weeks now. You haven't seen a hobbit-sized camp east of the Hills, have you?'"
     },
-    "channel": null,
+    "channel": {
+      "en": "He talks the way hobbits talk when the talk is the only rope they have — quick, precise about the cousin, offering details before they are asked, because someone, somewhere, might be the one who has seen him. He wants the question answered; under it, plainer than the question, he wants to be told he is not a fool for looking."
+    },
     "facts": {
       "topic": "a_request_for_help"
     },
@@ -3739,7 +3743,7 @@
         "id": "cnt:ee8eb056-728a-4130-bf72-109ed8c9eeb9:sit",
         "tags": [],
         "situation": {
-          "en": "He is more determined than afraid and it is the determination that is concerning. He is going to keep looking."
+          "en": "He is going to keep looking either way — that much is already decided, and nothing the traveller says will change it. The only question is whether he keeps looking with better information, or with the same brave thin hope he walked in with."
         }
       }
     ],
@@ -4538,13 +4542,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Stopped him on the road. Not aggressive yet — testing first."
+      "en": "Not aggressive — testing first. They watch the hands and shoulders more than the face, and the speaker keeps his voice level the way men keep it when the levelness itself is a decision. They have sorted travellers before; it is the category, not the man, that matters to them here."
     },
     "presence": {
-      "en": "Three men. The speaker wants to know if he is Gondorian, Arthedain, or something else. The question has a correct answer and a wrong answer and the traveller needs to give the correct one."
+      "en": "Three men step out onto the road as he comes up — positioned, not encountered: one at the verge, two flanking the way, spears held upright but not levelled. Hill-men by their build and their heavy cloaks, weathered and watchful, and they stop him the way men stop travellers who have done this before — close enough to demand an answer, far enough to let one be given. The speaker steps a pace closer, level-voiced: 'Hold, stranger. What are you — Gondorian, Arthedain, or something else?' The question plainly has a correct answer."
     },
     "channel": {
-      "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
+      "en": "The speaker asks frankly but carefully — who he is, where he is bound, why this road — the questions of men whose hospitality has a border drawn around it. Answers are weighed by category before content: a Gondorian name and a northern one do not buy the same welcome on this ground."
     },
     "facts": {
       "topic": "where_are_you_bound"
@@ -4554,7 +4558,7 @@
         "id": "cnt:bae4fd5d-046e-4093-9d08-b42395009128:sit",
         "tags": [],
         "situation": {
-          "en": "Dunlendings sort travellers by what they are, not who they are. The category matters here."
+          "en": "They sort travellers by what they are before they bother to learn who they are. On clan ground that is not rudeness — it is arithmetic, and the traveller is standing in the middle of the sum."
         }
       }
     ],
@@ -7360,12 +7364,14 @@
       "felt:melancholy"
     ],
     "disposition": {
-      "en": "A man in old Arnorian gear — the cut is two centuries out of fashion — at the edge of a barrow. He speaks when the traveller approaches."
+      "en": "Patient past the point where patience is a choice. There is no menace in him and no appeal either — only the question, waited out for longer than living arithmetic counts, and the stillness of a man who has nowhere else the question can go."
     },
     "presence": {
-      "en": "He says he was the last warden of a specific tower on the Weather Hills. He wants to know if the tower is still standing. He asks it simply, like a man asking after a house he built."
+      "en": "At the edge of the barrow, where the grass gives up and the stones begin, stands a man in old Arnorian gear — the cut of it two centuries out of fashion, though he wears it like a uniform, not a costume. He does not threaten and he does not fade. He speaks when the traveller comes near, plainly, as if continuing a conversation the barrow had already been holding: 'I was the last warden of Barad Forn, on the eastern shoulder of the Weather Hills — Malhad, of the watch of Arthedain. Does the tower still stand?' He asks it simply, the way a man asks after a house he built."
     },
-    "channel": null,
+    "channel": {
+      "en": "He speaks little and plainly — a soldier's sentences, worn smooth by repetition in a place with no one to repeat them to. What he wants is an answer; what he offers is himself: the watch he kept, the men he kept it with, the night the tower last had a voice in it."
+    },
     "facts": {
       "topic": "old_grief"
     },
@@ -7374,7 +7380,7 @@
         "id": "cnt:f7dd916c-a145-4850-b7c7-4cae07efb1a2:sit",
         "tags": [],
         "situation": {
-          "en": "The tower has been rubble for a hundred and forty years. He does not know this."
+          "en": "The tower has been rubble for a hundred and forty years. He does not know this. The traveller is, in all likelihood, the first to stand before him since the asking began — which means the answer has been waiting as long as the question."
         }
       }
     ],
@@ -8048,12 +8054,14 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "A voice — slow, deep, coming from above, and it takes a moment to understand that the tree it is coming from has eyes."
+      "en": "It has been asking this question for a long time — long enough to have learned every shape a false answer can take. Nothing in it is hostile and nothing is hurried; it watches the way deep water watches, patient because it can afford to be."
     },
     "presence": {
-      "en": "It asks what the traveller wants in the forest. The question takes approximately forty-five seconds to ask. It is waiting for a real answer, not a quick one."
+      "en": "The voice comes from above and from no direction at all — slow, deep, with the grain of old wood in it — and it is a moment before the traveller understands that the great tree he was passing under has eyes, and that the eyes have been on him since the bend in the path. It asks what he wants in the forest — the question takes the better part of a minute to ask, each word set down like a stone: 'What... is it... that you want... beneath my trees?' — and it is plainly waiting for a real answer rather than a quick one."
     },
-    "channel": null,
+    "channel": {
+      "en": "It speaks slowly enough that the traveller finishes each sentence in his head before the Ent does — and it listens the same way, weighing an answer for content rather than polish. The difference between an answer and the performance of one is a thing it hears the way he hears a snapped twig."
+    },
     "facts": {
       "topic": "care_of_living_things"
     },
@@ -8062,7 +8070,7 @@
         "id": "cnt:37db9426-eeb9-411c-bf86-d2d76f71686c:sit",
         "tags": [],
         "situation": {
-          "en": "The Ent has been asking this question for a long time. It has learned to tell the difference between an answer and a performance of an answer."
+          "en": "The traveller is not being detained so much as measured — and what is being measured is less what he wants in the forest than whether he knows. An Ent's patience is also a door; what walks through it had better be true."
         }
       }
     ],
@@ -16513,13 +16521,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Formal, precise and faintly distant, as though the conversation were being conducted from further away than it appears."
+      "en": "Formal, precise, faintly distant — the conversation feels conducted from further away than it appears, as though part of her attention were always somewhere older. Nothing in it is cold; the distance is simply where she lives now, and the courtesy is real."
     },
     "presence": {
-      "en": "A question about what Men are saying in the west this year, asked with genuine interest and a slight air of collecting specimens."
+      "en": "She is standing off the road where the light comes through the birches, still in the way only very old things are still — as though she had been placed in the landscape rather than arrived in it. High-elven by the bearing and the grey of her cloak. She greets him first, in flawless Westron, and asks — with genuine interest and a slight air of collecting specimens: 'What are Men saying in the west this year?'"
     },
     "channel": {
-      "en": "Have them speak of the slow fading of the Elves and the lands they must leave, with a sorrow worn smooth by long years."
+      "en": "She asks after the world the way the very old ask after weather — real interest held at the distance of someone who will outlast every answer. If the talk turns she will speak of the slow fading of her people and the lands they must leave, with a sorrow worn so smooth by long years it passes for calm."
     },
     "facts": {
       "topic": "the_fading"
@@ -16529,7 +16537,7 @@
         "id": "cnt:0e2f0004-0000-4000-8000-0e2f00000004:sit",
         "tags": [],
         "situation": {
-          "en": "The interest is real and the distance is real. Both are permanent features."
+          "en": "The interest is real and the distance is real, and both are permanent. She wants the year's news the way a collector wants a coin — for the set it completes, not for what it buys; the courtesy is that she lets him see it."
         }
       }
     ],
@@ -16920,13 +16928,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Veiled against the sun and formally polite, with a courtesy that has rules he does not know."
+      "en": "Courtesy with rules he does not explain — the traveller is being received, not befriended. Nothing in his manner is hostile and nothing is idle; every politeness is a measurement, and every measurement is filed."
     },
     "presence": {
-      "en": "Talk of water — where it is, who owns it, what it costs — and a question about whether the northern wells are held by anyone this season."
+      "en": "A man stands where the road dips through the dry gully, veiled against the sun in southern fashion, and he greets the traveller first — formally, with a courtesy that plainly has rules the traveller does not know: 'Peace on your road, stranger. Tell me — the wells ahead: are they held this season, and by whom?' An outlander's face, an outlander's patience. He is being very polite. He is also, plainly, measuring."
     },
     "channel": {
-      "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
+      "en": "He talks like working folk anywhere — crops, beasts, the turning season, water above all — and under the plainness a quartermaster's arithmetic never stops: wells, holdings, and what this traveller's presence does to the count."
     },
     "facts": {
       "topic": "harvest_and_weather"
@@ -16936,7 +16944,7 @@
         "id": "cnt:0b2e0001-0000-4000-8000-0b2e00000001:sit",
         "tags": [],
         "situation": {
-          "en": "Water is the only real subject here and he is being assessed as a competitor for it."
+          "en": "Water is the only real subject between strangers this far from any road, and the traveller is being assessed as a competitor for it. The courtesy is genuine — which is precisely why the assessment is done with such care."
         }
       }
     ],
@@ -37705,13 +37713,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Answers before being asked. She has already decided what kind of traveller this is, and she is rarely wrong."
+      "en": "Unimpressed and unhurried. She has watched every kind of road-walker come past her racks and sorted them correctly often enough that the sorting is now reflex — she answers before being asked because she already knows the question. The interest she takes is professional rather than friendly, and it is the more reliable for it."
     },
     "presence": {
-      "en": "A herbwoman with drying racks of kingsfoil and two plants she will not name. Sells salves, buys news. Knows which passes stay open in winter — she walks them herself for her stock."
+      "en": "The drying racks come first — kingsfoil hanging in careful twists beside two plants she does not name — and then the woman herself, weathered and quick-eyed, who answers before he has finished greeting her: 'You walk like a man who pays in news. So — what is the road doing?' She has already decided what kind of traveller this is; the way her eyes take the boots and the shoulders says she is rarely wrong. She sells salves and buys news, and the pass she is thinking of — the one that stays open in winter — is on no map he has seen."
     },
     "channel": {
-      "en": "She diagnoses the road by what grows beside it — and the traveller by how he stands."
+      "en": "She talks trade the way scouts talk terrain — in facts that have been walked. What grows beside a road tells her the road; how a traveller stands tells her the traveller. News is her currency, salves her stock, and the passes she walks for her plants are knowledge no courier owns."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -37721,7 +37729,7 @@
         "id": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a:sit",
         "tags": [],
         "situation": {
-          "en": "The herb trade is the only commerce that crosses all of Numeriador. Its carriers know more of the land than any scout."
+          "en": "The herb trade is the only commerce that crosses all of Numeriador, and its carriers know the land better than any scout — she has walked winter passes for her stock that armies could not cross in summer. What she is willing to trade is worth more than most garrisons know."
         }
       }
     ],

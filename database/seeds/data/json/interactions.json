@@ -46685,13 +46685,73 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:5786ea63-9338-4ce8-8928-e2f46d0e46a2",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Trade the countersign for news",
+      "es": "Cruza la contraseña por noticias"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Gives the countersign. Receives the patrol intelligence. Files the missing men."
+          "en": "He answers the way rangers answer rangers — everything, in order, and the truth about the ugly parts: the bandit sign at the third milestone, the washout under the south ford, the weather the peaks are keeping back. The man pays in the same coin: the names of the two pulled north, and the stretch of hills one pair of eyes now watches where three used to keep it. They part as the watch parts — quickly. 'Clear road to you,' the ranger says, which among rangers is as close to a blessing as the road gets.",
+          "es": "Responde como responden los montaraces entre sí — todo, en orden, y la verdad sobre lo feo: la señal de bandidos en el tercer mojón, el desprendimiento bajo el vado del sur, el tiempo que los picos vienen guardando. El hombre paga en la misma moneda: los nombres de los dos llamados al norte, y el tramo de colinas que ahora vigila un par de ojos donde antes lo cuidaban tres. Se despiden como se despide la guardia — rápido. «Buen camino», dice el montaraz, que entre los suyos es lo más parecido a una bendición que ofrece la ruta."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:5786ea63-9338-4ce8-8928-e2f46d0e46a2:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:5786ea63-9338-4ce8-8928-e2f46d0e46a2:sit:report_first",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:5786ea63-9338-4ce8-8928-e2f46d0e46a2",
+    "act": "talk",
+    "label": {
+      "en": "Offer his own road-report first",
+      "es": "Ofrecer primero su parte del camino"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He offers his own report before the man can ask for it — the sign on the south road, the state of the fords, the weather the peaks are holding back. A ranger who gives before he takes is read correctly: in return come the gap in the patrol, the two missing men, and a warning about the stretch beyond the last hill. 'I have not had the legs to walk it myself,' he says, and for a man who walks all day, that is the whole confession.",
+          "es": "Ofrece su propio parte antes de que el hombre pueda pedírselo — la señal en el camino del sur, el estado de los vados, el tiempo que los picos vienen guardando. Un montaraz que da antes de tomar es leído correctamente: a cambio vienen el hueco en la patrulla, los dos hombres perdidos, y una advertencia sobre el tramo tras la última colina. «No me han dado las piernas para caminarlo yo mismo», dice, y para un hombre que camina todo el día, esa es toda la confesión."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:5786ea63-9338-4ce8-8928-e2f46d0e46a2:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:5786ea63-9338-4ce8-8928-e2f46d0e46a2:sit:walk_on",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:5786ea63-9338-4ce8-8928-e2f46d0e46a2",
+    "act": "avoid",
+    "label": {
+      "en": "Nod to a fellow watcher and keep moving",
+      "es": "Saluda a otro de la guardia y sigue"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "A raised hand between men of the same watch — news can wait for a road that has none to spare. The ranger does not press; he knows what an empty circuit costs better than anyone. The traveller carries the sight of him alone on the ridge for the rest of the day.",
+          "es": "Una mano alzada entre hombres de la misma guardia — las noticias pueden esperar para un camino que no tiene a quién dárselas. El ranger no insiste; nadie sabe mejor que él lo que cuesta un circuito vacío. El viajero se lleva la imagen de ese hombre solo en la cresta por el resto del día."
         },
         "effects": []
       }
@@ -46853,13 +46913,73 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:8d0cb1e7-abee-4e9a-a6f9-9595fa87157f",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Hear them out, and thank them in their own tongue",
+      "es": "Escúchalos y agradécelos en su propia lengua"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Receives the news. Thanks them in Sindarin. Watches their faces when he does."
+          "en": "He takes the news standing, without interrupting — three days' silence on the Elven road, a stretch of it already searched. When he thanks them it is in Sindarin, the northern dialect, and something eases in the elf who answered: a Man keeping the old courtesy in the old tongue. 'Then look well along the road,' the nearest says at parting — and from their kind, on an open road, it is as close to trust as a stranger earns.",
+          "es": "Recibe la noticia de pie, sin interrumpir — tres días de silencio en el camino élfico, un tramo ya registrado. Cuando agradece lo hace en sindarin, el dialecto del norte, y algo se afloja en el elfo que respondió: un Hombre guardando la cortesía antigua en la lengua antigua. «Entonces mira bien a lo largo del camino», dice el más cercano al despedirse — y viniendo de los suyos, en un camino abierto, es lo más parecido a la confianza que un extraño gana."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:8d0cb1e7-abee-4e9a-a6f9-9595fa87157f:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:8d0cb1e7-abee-4e9a-a6f9-9595fa87157f:sit:offer_search",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:8d0cb1e7-abee-4e9a-a6f9-9595fa87157f",
+    "act": "talk",
+    "label": {
+      "en": "Offer to pass through the dead ground",
+      "es": "Ofrece pasar por el tramo silenciado"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He offers the one thing a lone Dúnadan can: his own eyes on the stretch they cannot cover. The elves weigh it — a Man offering to walk into whatever silenced a patrol — and accept with the courtesy kept for people who know what they are offering. 'We cannot cover it all,' the nearest admits, and the words plainly cost something. 'Walk the ground north of the second ridge. If there is a trail to find, it begins there.'",
+          "es": "Ofrece lo único que un Dúnadan solitario puede dar: sus propios ojos en el tramo que ellos no pueden cubrir. Los elfos lo pesan — un Hombre ofreciendo entrar a lo que sea que silenció a una patrulla — y aceptan con la cortesía reservada a quien sabe lo que ofrece. «No podemos cubrirlo todo», admite la más cercana, y a las palabras claramente les cuesta salir. «Camina la tierra al norte de la segunda cresta. Si hay un rastro que encontrar, empieza ahí.»"
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:8d0cb1e7-abee-4e9a-a6f9-9595fa87157f:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:8d0cb1e7-abee-4e9a-a6f9-9595fa87157f:sit:keep_walking",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:8d0cb1e7-abee-4e9a-a6f9-9595fa87157f",
+    "act": "avoid",
+    "label": {
+      "en": "Take the warning and keep walking",
+      "es": "Toma la advertencia y sigue"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He listens, and does not offer the help he is not sure he can give. Between long-lived peoples a refusal is information too, and the elves accept it as quietly as the warning was given. The dead stretch stays behind him, and travels with him.",
+          "es": "Escucha, y no ofrece la ayuda que no está seguro de poder dar. Entre pueblos longevos una negativa también es información, y los elfos la aceptan con la misma calma con que dieron la advertencia. El tramo silenciado queda atrás, y viaja con él."
         },
         "effects": []
       }
@@ -47141,13 +47261,73 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:d3eff0de-0457-40d7-8bb1-541ac33d5791",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Give him the old name of the pass",
+      "es": "Darle el nombre antiguo del paso"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Was alive when Moria fell. Tells him the name the first landmark had before the map was drawn."
+          "en": "The question is not strange to either of them: she was alive when Khazad-dûm still stood. She reads the map's first landmark — a mountain-pass that had two names before it had the one his people use now — and gives him the older one, the name Moria's own records kept. The dwarf copies it letter by letter, asks nothing of what she is, and pays her the highest compliment his kind owns: he does not doubt her word. 'Good,' he says — and for a dwarf thanking, that is nearly a speech.",
+          "es": "La pregunta no es extraña para ninguno de los dos: ella estaba viva cuando Khazad-dûm aún existía. Lee el primer hito del mapa — un paso de montaña que tuvo dos nombres antes del que ahora usa su pueblo — y le da el más antiguo, el nombre que guardaban los propios registros de Moria. El enano lo copia letra por letra, no pregunta qué es ella, y le paga el mayor cumplido que tiene su gente: no duda de su palabra. «Bien», dice — y para un enano agradeciendo, eso casi es un discurso."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:d3eff0de-0457-40d7-8bb1-541ac33d5791:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:d3eff0de-0457-40d7-8bb1-541ac33d5791:sit:ask_worth",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:d3eff0de-0457-40d7-8bb1-541ac33d5791",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the vein is worth to him",
+      "es": "Preguntar qué vale la veta para él"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks, blunt in kind, what the vein is worth. The dwarf measures her the way a man measures a toll — then, surprisingly, answers: not gold. Iron, of a grain his charts say runs nowhere else this side of the mountains. Kin-metal, he calls it, and for a moment the map stops being paper and becomes a grave he is trying to visit politely.",
+          "es": "Ella pregunta, igual de directa, qué vale la veta. El enano la mide como se mide un peaje — y, sorprendentemente, responde: no oro. Hierro, de un grano que sus cartas dicen no corre en ningún otro lugar a este lado de las montañas. Metal de parentesco, lo llama, y por un momento el mapa deja de ser papel y se vuelve una tumba que él intenta visitar con cortesía."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:d3eff0de-0457-40d7-8bb1-541ac33d5791:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:d3eff0de-0457-40d7-8bb1-541ac33d5791:sit:plead_memory",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:d3eff0de-0457-40d7-8bb1-541ac33d5791",
+    "act": "avoid",
+    "label": {
+      "en": "Plead a poor memory and move on",
+      "es": "Alega mala memoria y sigue"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She shakes her head at the map — too many names have died to keep them all. The dwarf takes the refusal with the same flatness he asked it, folds the chart away with care, and nods once. Some share of the mountain's memory walks on with her, unshared; he will never know how close it stood.",
+          "es": "Niega con la cabeza ante el mapa — han muerto demasiados nombres para guardarlos todos. El enano acepta la negativa con la misma sequedad con que preguntó, guarda el mapa con cuidado y asiente una vez. Una parte de la memoria de la montaña sigue caminando con ella, sin compartir; él nunca sabrá qué tan cerca estuvo."
         },
         "effects": []
       }
@@ -47261,13 +47441,73 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:ee8eb056-728a-4130-bf72-109ed8c9eeb9",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Take the description and add the cousin to the watch",
+      "es": "Toma la descripción y suma al primo a su guardia"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Has not seen the camp. Asks for a description. Decides to watch for it."
+          "en": "He has walked that ground and seen no hobbit camp east of the Hills — he says it plainly, because a soft answer would be a kind lie and the question deserves a true one. Then he asks what the cousin looks like, what he carried, which road he meant to take. 'Red hair, a green cloak, and he whistles when he's frightened,' the hobbit says — 'which, thinking on it, he likely is right now.' The traveller files it the way he files everything worth finding: hobbit-made camp, small fire, trade pack. If it lies within three days of here, his eyes will find it now that they know to look.",
+          "es": "Ha caminado esa tierra y no ha visto ningún campamento hobbit al este de las Colinas — lo dice con franqueza, porque una respuesta suave sería una mentira amable y la pregunta merece una verdad. Luego pregunta cómo es el primo, qué llevaba, qué camino pensaba tomar. «Pelo rojo, capa verde, y silba cuando está asustado», dice el hobbit — «que, pensándolo bien, probablemente lo esté ahora mismo». El viajero lo archiva como archiva todo lo que vale buscar: campamento de hobbit, fuego pequeño, mochila de mercader. Si está a tres días de aquí, sus ojos lo encontrarán ahora que saben qué buscar."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:ee8eb056-728a-4130-bf72-109ed8c9eeb9:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "content"
+    }
+  },
+  {
+    "id": "cnt:ee8eb056-728a-4130-bf72-109ed8c9eeb9:sit:warn_east",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:ee8eb056-728a-4130-bf72-109ed8c9eeb9",
+    "act": "talk",
+    "label": {
+      "en": "Tell him plainly what lies east of the Hills",
+      "es": "Decirle con franqueza qué hay al este"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He tells the hobbit what the ground east of the Weather Hills is, in a ranger's plain terms — not to frighten him, because the hobbit deserves the real map. The hobbit listens, goes pale at exactly the right places, and does not turn back. 'I will keep to the road, then,' he says, which is almost courage.",
+          "es": "Le cuenta al hobbit qué es la tierra al este de las Colinas de los Vientos, en los términos francos de un montaraz — no para asustarlo, porque el hobbit merece el mapa de verdad. El hobbit escucha, palidece exactamente en los lugares correctos, y no da media vuelta. «Me ceñiré al camino, entonces», dice, que es casi coraje."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:ee8eb056-728a-4130-bf72-109ed8c9eeb9:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "content"
+    }
+  },
+  {
+    "id": "cnt:ee8eb056-728a-4130-bf72-109ed8c9eeb9:sit:walk_him",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:ee8eb056-728a-4130-bf72-109ed8c9eeb9",
+    "act": "accept",
+    "label": {
+      "en": "See him as far as the next safe roof",
+      "es": "Acompañarlo hasta el próximo techo seguro"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He offers the hobbit his company as far as the next walled roof — three miles he was walking anyway. The hobbit talks the whole way: about the cousin, the trade pack, how the family said the east road was safe enough for hobbits now. He has rarely heard anyone be wrong so cheerfully, and he says nothing at all.",
+          "es": "Le ofrece al hobbit su compañía hasta el próximo techo con paredes — tres millas que iba a caminar de todos modos. El hobbit habla durante todo el trayecto: del primo, de la mochila de mercader, de cómo la familia dijo que el camino del este ya era bastante seguro para los hobbits. Pocas veces ha oído a alguien equivocarse con tanto buen humor, y no dice absolutamente nada."
         },
         "effects": []
       }
@@ -47765,13 +48005,73 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:bae4fd5d-046e-4093-9d08-b42395009128",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Give them the true answer",
+      "es": "Darles la respuesta verdadera"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Names himself Dúnedain, not Gondorian. Watches their faces."
+          "en": "He names himself for what he is — Dúnedain of the North, no friend of Gondor's tall men — and watches three faces do the arithmetic. One relaxes; the speaker does not, not entirely; the third looks back down the road as if measuring whether a lie would have run faster. 'North-man,' the speaker repeats at last, tasting the word for the lie in it and finding none. 'Pass, then — and keep to the road.' Whatever the correct answer was, he seems to have given it.",
+          "es": "Se nombra por lo que es — Dúnadan del Norte, no amigo de los hombres altos de Gondor — y mira tres rostros hacer las cuentas. Uno se relaja; el que habla no, no del todo; el tercero mira el camino detrás como midiendo si una mentira habría corrido más rápido. «Hombre del Norte», repite por fin el que habla, paladeando la palabra en busca de la mentira y no hallándola. «Pasá, entonces — y cebíte al camino». Cualquiera haya sido la respuesta correcta, parece haberla dado."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:bae4fd5d-046e-4093-9d08-b42395009128:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:bae4fd5d-046e-4093-9d08-b42395009128:sit:ask_worth",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:bae4fd5d-046e-4093-9d08-b42395009128",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the answer is worth on this road",
+      "es": "Preguntar qué vale la respuesta en este camino"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks, flat, what the answer buys on this stretch. The speaker approves of the question — men who ask the stakes before answering pay them more honestly. 'Clan ground,' he says. 'A claim older than your kings' maps — and a southern cloak out here burns like a lantern at night. Answered?' The traveller walks on knowing the rule of the road he is on.",
+          "es": "Pregunta, sin adornos, qué compra la respuesta en este tramo. Al que habla le gusta la pregunta — los hombres que preguntan la apuesta antes de responder suelen pagarla con más honestidad. «Tierra de clan», dice. «Un derecho más viejo que los mapas de tus reyes — y una capa del sur acá arde como un farol de noche. ¿Contestado?» El viajero sigue su marcha conociendo la regla del camino que pisa."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:bae4fd5d-046e-4093-9d08-b42395009128:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:bae4fd5d-046e-4093-9d08-b42395009128:sit:keep_walking",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:bae4fd5d-046e-4093-9d08-b42395009128",
+    "act": "avoid",
+    "label": {
+      "en": "Keep walking; let them do the reading",
+      "es": "Sigue caminando; que lean ellos"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He gives them nothing — no name, no halt, only the measured pace of a man who is not running from three. They grant him the calculation in return: a man who will not answer is also an answer, and not the dangerous kind. He feels their eyes on his back until the next rise takes him.",
+          "es": "No les da nada — ni nombre, ni alto, sólo el paso medido de un hombre que no está huyendo de tres. Le conceden el cálculo a cambio: un hombre que no responde también es una respuesta, y no de la clase peligrosa. Siente sus ojos en la espalda hasta que la próxima elevación se lo lleva."
         },
         "effects": []
       }
@@ -49589,13 +49889,73 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:f7dd916c-a145-4850-b7c7-4cae07efb1a2",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Tell him what became of the tower",
+      "es": "Contarle qué fue de la torre"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Tells him the tower fell. Watches the ghost receive this."
+          "en": "A man who asks after his tower deserves the truth about it, told straight, the way he would want it told: rubble, for a hundred and forty years, and the sheep paths run over it now. The warden looks at the ground between them for a long while — long enough for the traveller to understand what it costs to hear a hundred and forty years in one sentence. Then he says, 'I held it until the last stone but one,' and something in the night accepts the truth as payment.",
+          "es": "Un hombre que pregunta por su torre merece la verdad sobre ella, dicha sin rodeos, como a él le gustaría que se la dijeran: escombro, desde hace ciento cuarenta años, y los senderos de las ovejas la pisan ahora. El guardián mira el suelo que hay entre ambos durante un buen rato — lo suficiente para que el viajero entienda lo que cuesta oír ciento cuarenta años en una sola frase. Entonces dice: «La sostuve hasta la penúltima piedra», y algo en la noche acepta la verdad como pago."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:f7dd916c-a145-4850-b7c7-4cae07efb1a2:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "melancholy"
+    }
+  },
+  {
+    "id": "cnt:f7dd916c-a145-4850-b7c7-4cae07efb1a2:sit:ask_name",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:f7dd916c-a145-4850-b7c7-4cae07efb1a2",
+    "act": "talk",
+    "label": {
+      "en": "Ask how the tower's last night went",
+      "es": "Preguntar cómo fue la última noche de la torre"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks how the tower's last night went — and the dead man tells it the way soldiers tell things: who stood the wall, where the line broke, what the warden said to the men who wanted to run. Not all of it, but enough that the traveller now carries a garrison where an hour ago there was only a shade.",
+          "es": "Pregunta cómo fue la última noche de la torre — y el muerto la cuenta como cuentan los soldados: quién sostuvo la muralla, dónde se rompió la línea, qué les dijo el guardián a los hombres que querían huir. No todo, pero sí lo bastante para que el viajero ahora lleve consigo una guarnición donde hace una hora sólo había una sombra."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:f7dd916c-a145-4850-b7c7-4cae07efb1a2:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "melancholy"
+    }
+  },
+  {
+    "id": "cnt:f7dd916c-a145-4850-b7c7-4cae07efb1a2:sit:leave_dead",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:f7dd916c-a145-4850-b7c7-4cae07efb1a2",
+    "act": "avoid",
+    "label": {
+      "en": "Bow to the dead and leave him his accounting",
+      "es": "Reverencia al muerto y déjalo con sus cuentas"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He bows once — the dead of Arnor are owed that much — and does not answer. Some griefs are not his to settle, and a warden who has kept his post a hundred and forty years will keep it a while longer. The ghost watches him go without anger; perhaps, in the end, not knowing is also a kind of watch.",
+          "es": "Se inclina una vez — a los muertos de Arnor se les debe al menos eso — y no responde. Hay pesares que no le toca saldar, y un guardián que ha mantenido su puesto ciento cuarenta años lo mantendrá un poco más. El fantasma lo mira partir sin enojo; tal vez, al final, no saber también es una forma de guardia."
         },
         "effects": []
       }
@@ -50045,13 +50405,73 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:37db9426-eeb9-411c-bf86-d2d76f71686c",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Answer the question at its own speed",
+      "es": "Responder la pregunta a su propia velocidad"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes the time the question deserves. Answers honestly."
+          "en": "The question took the better part of a minute to ask; he gives it the time it deserves to answer — a full minute of standing and thinking, because an Ent can tell an answer from a performance of one. He says he is walking west, that he takes nothing the forest did not offer, and that the road through is old enough to be a custom rather than a trespass. The Ent considers this for a while. Then — with a movement as small as a hill deciding — it lets him pass beneath the branches as something that belongs on the road.",
+          "es": "La pregunta tardó lo suyo en ser formulada; él le dedica el tiempo que merece para responderla — un minuto entero de pie, pensando, porque un Ent sabe distinguir una respuesta de la actuación de una. Dice que camina hacia el oeste, que no toma nada que el bosque no haya ofrecido, y que el camino que la cruza es tan viejo que ya es costumbre y no intrusión. El Ent lo considera un rato. Luego — con un movimiento tan pequeño como una colina decidiendo — lo deja pasar bajo las ramas como algo que pertenece al camino."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:37db9426-eeb9-411c-bf86-d2d76f71686c:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "watchful"
+    }
+  },
+  {
+    "id": "cnt:37db9426-eeb9-411c-bf86-d2d76f71686c:sit:ask_forest",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:37db9426-eeb9-411c-bf86-d2d76f71686c",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the forest itself has noticed",
+      "es": "Preguntar qué ha notado el bosque"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He answers, then dares the Ent's own courtesy back at it: and what has the forest noticed? The pause this earns is longer — Entish consideration, not silence. 'Something moves in the deep wood,' it says at last, 'that is not of the forest, and not wholly of the Shadow. The trees do not like its smell.' He files it under the day's real news.",
+          "es": "Responde, y luego se atreve a devolverle al Ent su propia cortesía: ¿y qué ha notado el bosque? La pausa que esto le gana es más larga — consideración entish, no silencio. «Algo se mueve en el bosque profundo», dice por fin, «que no es del bosque, y no enteramente de la Sombra. A los árboles no les gusta su olor». Lo archiva entre las noticias verdaderas del día."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:37db9426-eeb9-411c-bf86-d2d76f71686c:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "watchful"
+    }
+  },
+  {
+    "id": "cnt:37db9426-eeb9-411c-bf86-d2d76f71686c:sit:go_around",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:37db9426-eeb9-411c-bf86-d2d76f71686c",
+    "act": "avoid",
+    "label": {
+      "en": "Bow to the wood and go the long way",
+      "es": "Reverencia al bosque y rodear"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not wait out the question. A Dúnadan learns early that some doors are not his to open, and the forest — having watched him choose the long way without complaint — permits the courtesy: the path around is clear, the birdsong continues, and somewhere overhead something that was watching loses interest politely.",
+          "es": "No espera a que la pregunta termine. Un Dúnadan aprende temprano que hay puertas que no le corresponde abrir, y el bosque — tras verlo elegir el camino largo sin queja — le permite la cortesía: el sendero del rodeo está despejado, el canto de los pájaros continúa, y en algún lugar sobre su cabeza algo que lo observaba pierde interés con educación."
         },
         "effects": []
       }
@@ -57560,13 +57980,73 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0e2f0004-0000-4000-8000-0e2f00000004",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Give her the year’s plain news",
+      "es": "Darle las noticias llanas del año"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers accurately. Resists the urge to perform."
+          "en": "She is collecting, not chatting — he gives her the year's news plain, the way a Ranger actually hears it: the crop year, the talk of the west roads, the price of things. A specimen is worth more unpolished. Something in her manner warms a degree, and she names a thing in return: 'The wind off Belegaer still finds the towers of Forlond — though few now stand on the walls to feel it.' A courtesy and a wound in one sentence. Formal to the last — but the last is genuine.",
+          "es": "Ella colecciona, no conversa — él le da las noticias del año llanas, tal como un Montaraz realmente las oye: la cosecha, la conversación de los caminos del oeste, el precio de las cosas. Un espécimen vale más sin pulir. Algo en su porte se templa un grado, y ella nombra algo a cambio: «El viento del Belegaer aún encuentra las torres de Forlond — aunque ya pocos están en las murallas para sentirlo». Una cortesía y una herida en una sola frase. Formal hasta el final — pero el final es genuino."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:0e2f0004-0000-4000-8000-0e2f00000004:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:0e2f0004-0000-4000-8000-0e2f00000004:sit:ask_west",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0e2f0004-0000-4000-8000-0e2f00000004",
+    "act": "talk",
+    "label": {
+      "en": "Ask, in turn, what the west means to her",
+      "es": "Preguntarle, a su vez, qué significa el oeste"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He turns the question on its asker — politely, the way you tap a wall to find the hollow. For a moment the distance in her manner thins, and she speaks of a white shore the way men speak of a mother's house: real, beloved, and already half a memory. Then the courtesy closes again like a door shut gently, and he knows he was permitted one look.",
+          "es": "Le devuelve la pregunta a quien la hizo — cortésmente, como se golpea una pared para hallar el hueco. Por un momento la distancia de su porte se adelgaza, y habla de una costa blanca del modo en que los hombres hablan de la casa de una madre: real, amada, y ya a medias un recuerdo. Después la cortesía se cierra otra vez como una puerta cerrada con suavidad, y él sabe que se le permitió una mirada."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:0e2f0004-0000-4000-8000-0e2f00000004:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:0e2f0004-0000-4000-8000-0e2f00000004:sit:nod_walk",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0e2f0004-0000-4000-8000-0e2f00000004",
+    "act": "avoid",
+    "label": {
+      "en": "Keep the meeting to a greeting and walk on",
+      "es": "Reducir el encuentro a un saludo y seguir"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He raises a hand in the northern fashion — not rudely; a greeting between watchmen — and keeps walking. She allows him the choice with a courtesy of her own; a conversation declined is also data, of a sort, and he suspects it will be filed with the same distant care as everything else she gathers.",
+          "es": "Alza la mano a la manera del norte — no con rudeza; un saludo entre guardianes — y sigue caminando. Ella le concede la elección con una cortesía propia; una conversación declinada también es información, en cierto modo, y él sospecha que será archivada con el mismo cuidado distante que todo lo demás que ella recoge."
         },
         "effects": []
       }
@@ -57824,13 +58304,73 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0b2e0001-0000-4000-8000-0b2e00000001",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Trade well-news with the courteous stranger",
+      "es": "Cambiar noticias de pozos con el cortés forastero"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers about the wells. Observes the courtesy without pretending to understand it."
+          "en": "Water is the only real subject between strangers this far from any road — he answers the way you answer a man who is measuring a well for two: truthfully about the old wells, vaguely about the new. The Southron hears the vagueness for what it is — he counts wells the way a quartermaster counts wells — and offers in return the season's word from the south: sparse, courteous, and meant to be carried. 'May your water-skin stay full,' he says at parting — courtesy, arithmetic, or both.",
+          "es": "El agua es el único asunto real entre extraños tan lejos de cualquier camino — él responde como se responde a un hombre que mide un pozo para dos: con verdad sobre los pozos viejos, con vaguedad sobre los nuevos. El sureño oye la vaguedad por lo que es — cuenta pozos como un intendente cuenta pozos — y ofrece a cambio la palabra de la estación desde el sur: escasa, cortés, y hecha para ser llevada. «Que tu cantimplora siga llena», dice al despedirse — cortesía, cuentas, o ambas."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:0b2e0001-0000-4000-8000-0b2e00000001:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:0b2e0001-0000-4000-8000-0b2e00000001:sit:ask_road",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0b2e0001-0000-4000-8000-0b2e00000001",
+    "act": "talk",
+    "label": {
+      "en": "Ask what brings a southerner this far north",
+      "es": "Preguntar qué trae a un sureño tan al norte"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks it plainly, between the water questions. The man does not lie — that is the interesting part — he only answers a smaller question: 'Trade,' he says, and lets the veil and the heat-dry smile carry the rest. The traveller files the face, the courtesy, and the direction of travel, and does not pretend the answer was the whole of it.",
+          "es": "Lo pregunta sin rodeos, entre las preguntas del agua. El hombre no miente — esa es la parte interesante — sólo responde una pregunta más pequeña: «Comercio», dice, y deja que el velo y la sonrisa reseca de calor lleven el resto. El viajero archiva el rostro, la cortesía y la dirección de la marcha, y no finge que la respuesta fue todo lo que había."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:0b2e0001-0000-4000-8000-0b2e00000001:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:0b2e0001-0000-4000-8000-0b2e00000001:sit:keep_shade",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0b2e0001-0000-4000-8000-0b2e00000001",
+    "act": "avoid",
+    "label": {
+      "en": "Answer nothing and keep to the shade",
+      "es": "No responder nada y quedarse a la sombra"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He lets the silence do the talking — a courtesy the stranger recognises, since his own rules allow it. The Southron reads the refusal correctly: not fear, accounting. They part as two men who have measured each other and both been found too expensive, which is its own kind of peace.",
+          "es": "Deja que el silencio hable — una cortesía que el forastero reconoce, pues sus propias reglas la permiten. El sureño lee correctamente la negativa: no miedo, cuentas. Se despiden como dos hombres que se han medido mutuamente y a quienes ambos les resultó demasiado caro, que es su propia clase de paz."
         },
         "effects": []
       }
@@ -64294,14 +64834,73 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Trade road news for herbs and a pass-name",
+      "es": "Cambiar noticias del camino por hierbas y un nombre de paso"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Trades road news for a twist of dried leaves and the name of a pass no map marks.",
-          "es": "Cambia noticias del camino por un manojo de hojas secas y el nombre de un paso que ningún mapa marca."
+          "en": "News is the coin she prefers and his is good coin: the washout below the ford, the bandit sign at the third milestone, the pass held open longer than it should be this year. She pays like a professional — a twist of kingsfoil for the satchel, a salve for the heel-blister he never mentioned, and the name of a pass through the western ridge that no living map marks. 'My grandmother walked it,' she says, which in her trade is the highest security there is.",
+          "es": "Las noticias son la moneda que ella prefiere y las suyas son buena moneda: el desprendimiento bajo el vado, la señal de bandidos en el tercer mojón, el paso que este año quedó abierto más de lo que debía. Ella paga como una profesional — un manojo de kingsfoil para el morral, un ungüento para la ampolla del talón que él nunca mencionó, y el nombre de un paso por la sierra del oeste que ningún mapa vivo marca. «Mi abuela lo caminaba», dice, que en su oficio es la máxima garantía que existe."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a:sit:ask_plants",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the two unnamed plants are",
+      "es": "Preguntar qué son las dos plantas sin nombre"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks about the two plants she will not name. She looks at him a moment — measuring, the way she measured the road — and says, 'When you need them, you will know what to call them,' which is not an answer and also, somehow, is. He buys the kingsfoil without asking its name twice.",
+          "es": "Pregunta por las dos plantas que ella no quiere nombrar. Ella lo mira un momento — midiendo, como midió el camino — y dice: «Cuando las necesites, sabrás cómo llamarlas», que no es una respuesta y también, de algún modo, lo es. Él compra el kingsfoil sin preguntar su nombre dos veces."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a:sit:buy_salve",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:02c2c873-f15d-4eb2-b5dc-635b8979888a",
+    "act": "accept",
+    "label": {
+      "en": "Pay honest coin for the winter salve",
+      "es": "Pagar moneda honesta por el ungüento"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He offers coin instead of news — some prices are simpler. She takes it, inspects the state of his boots as part of the transaction, and wraps the salve with a twist of something extra 'for the cold on the ridge', thrown in because the coin was honest and so was the walking.",
+          "es": "Ofrece moneda en lugar de noticias — hay precios más simples. Ella la toma, inspecciona el estado de sus botas como parte de la transacción, y envuelve el ungüento con un manojo extra «para el frío de la sierra», de regalo, porque la moneda era honesta y también lo era la caminata."
         },
         "effects": []
       }
