@@ -4121,13 +4121,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Assessing him even as she asks — her experience with Rangers on this road is mixed, and she has decided to trust this one slightly more than the evidence allows, because the alternative is the eastern clan's version arriving first."
+      "en": "Working up to an ask — the rehearsal is visible, and so is the cost of it. She does not want pity and she does not want to be read as a beggar; what she wants is for the question to be over."
     },
     "presence": {
-      "en": "A young Gwathuirim woman falls into step beside him on the north road — clan-patterned wool, a reed-dyed cloak pinned at the shoulder, her jaw set in the way of people who have rehearsed the ask for miles. 'Saralainn from the eastern clan burned three farmsteads last month,' she says. 'Not my clan.' Said with the precision of someone who expects to be blamed for it anyway. 'Word of it needs to reach the garrison north — naming the eastern clan, not ours. Will you carry it?'"
+      "en": "A young Gwathuirim woman walks the same road a little apart — clan-patterned wool, a reed-dyed cloak pinned at the shoulder, her jaw working on words she has been rehearsing for miles. Twice she draws even with him and twice falls back; whatever she needs from a stranger, the asking of it is the hard part."
     },
     "channel": {
-      "en": "She asks straight and waits for the answer without softening the stakes — the message is her clan's survival phrased as geography, and she will not dress it up as a favour."
+      "en": "If engaged she delivers it straight — the rehearsed version at last, with the precision of someone who expects to be blamed anyway. She asks nothing twice and softens nothing once."
     },
     "facts": {
       "topic": "a_request_for_help"
@@ -4137,7 +4137,7 @@
         "id": "cnt:ea018ee3-a751-425a-bbd6-2dbe215b3dc3:sit",
         "tags": [],
         "situation": {
-          "en": "She is asking him to carry a message that matters to her people's survival — naming the eastern clan for the burnings before the eastern clan names hers. She knows he might refuse. She asks anyway, because refusal is survivable and silence is not."
+          "en": "She needs word carried to the garrison — the eastern clan burned three farmsteads and it must be named the eastern clan, not hers. A stranger on the north road is her best chance; the asking is the obstacle."
         }
       }
     ],

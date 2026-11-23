@@ -48122,16 +48122,16 @@
     "entities_narration_id": "cnt:ea018ee3-a751-425a-bbd6-2dbe215b3dc3",
     "act": "talk",
     "label": {
-      "en": "Carry the word north",
-      "es": "Llevar la palabra al norte"
+      "en": "Ask what's been rehearsing on her face",
+      "es": null
     },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "He agrees to carry it — and specifies, out of honesty, what north means: the garrison at the cross-roads, three days if the fords hold, no promise of audience. 'A ranger's no-promise is worth more than most men's oath,' she says — and gives him the names, the farmsteads, the night the eastern clan's fires were seen moving. The message walks north with him now, and something in her shoulders unclenches a fraction.",
-          "es": "Acepta llevarla — y especifica, por honestidad, qué significa norte: la guarnición del cruce de caminos, tres días si los vados aguantan, ninguna promesa de audiencia. «Una no-promesa de montaraz vale más que el juramento de la mayoría», dice — y le da los nombres, las haciendas, la noche en que se vieron mover los fuegos del clan del este. El mensaje ahora camina al norte con él, y algo en los hombros de ella se destensa una fracción."
+          "en": "He asks her outright — the third time she draws even, the rehearsal finally gets performed: 'Saralainn from the eastern clan burned three farmsteads last month. Not my clan.' Said with the precision of someone who expects to be blamed anyway. He agrees to carry it — and specifies, out of honesty, what north means: the garrison at the cross-roads, three days if the fords hold, no promise of audience. 'A ranger's no-promise is worth more than most men's oath,' she says — and gives him the names, the farmsteads, the night the eastern clan's fires were seen moving. The message walks north with him now, and something in her shoulders unclenches a fraction.",
+          "es": "Él se lo pregunta directo — la tercera vez que se pone a la par, el ensayo por fin se representa: 'Saralainn del clan del este quemó tres granjas el mes pasado. No mi clan.' Dicho con la precisión de alguien que espera que la culpen de todos modos. Él acepta llevarlo — y especifica, por honestidad, qué significa norte: la guarnición del cruce, tres días si los vados aguantan, sin promesa de audiencia. 'La no-promesa de un montaraz vale más que el juramento de la mayoría', dice ella — y le da los nombres, las granjas, la noche en que se vieron mover los fuegos del clan del este. El mensaje ahora camina al norte con él, y algo en sus hombros se afloja una fracción."
         },
         "effects": []
       }
@@ -48159,7 +48159,7 @@
       "success": {
         "text": {
           "en": "He asks why her own people do not carry it — a fair question, asked to know the ground. 'A Gwathuirim bringing this word is a clan quarrel. A stranger bringing it is news.' She says it without bitterness, the way one reports the depth of snow — and he understands the whole of her politics in one sentence.",
-          "es": "Pregunta por qué no lo llevan los suyos — una pregunta justa, hecha para conocer el terreno. «Un gwathuirim trayendo esta palabra es una pelea de clanes. Un extraño trayéndola es noticia». Lo dice sin amargura, como se reporta la profundidad de la nieve — y él entiende toda su política en una frase."
+          "es": "Él pregunta por qué no lo lleva su propia gente — una pregunta justa, hecha para conocer el terreno. 'Una Gwathuirim trayendo este mensaje es una pelea de clanes. Un extraño trayéndolo es una noticia.' Lo dice sin amargura, como se reporta la profundidad de la nieve — y él entiende toda su política en una oración."
         },
         "effects": []
       }
@@ -48186,8 +48186,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "He declines — his road has its own obligations, and he says so plainly rather than cheaply. She accepts it with a nod that has no hope left to lose, and turns her face back to the marsh.",
-          "es": "Declina — su camino tiene sus propias obligaciones, y lo dice con franqueza y no con liviandad. Ella lo acepta con un gesto al que ya no le queda esperanza que perder, y vuelve la cara hacia la marisma."
+          "en": "He hears her out and declines — his road has its own obligations, and he says so plainly rather than cheaply. She accepts it with a nod that has no hope left to lose, hitches the unasked message back up onto her own shoulders, and turns her face back to the marsh.",
+          "es": "Él la escucha completa y declina — su camino tiene sus propias obligaciones, y lo dice claramente en vez de barato. Ella lo acepta con un gesto que ya no tiene esperanza que perder, se vuelve a acomodar el mensaje no-pedido sobre sus propios hombros, y gira la cara de vuelta hacia la marisma."
         },
         "effects": []
       }
