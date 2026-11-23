@@ -8152,12 +8152,14 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "It knows what she is. It greets her with a name for her kind that has not been used since the First Age."
+      "en": "It knows what she is — has known since she stepped under the canopy, the way a room knows when an old tenant comes back."
     },
     "presence": {
-      "en": "It says, slowly, that the forest remembers when the Noldor came east from Aman, and the forest has been watching what happened since. It says this without accusation — the way you note a very long consequence."
+      "en": "The tree speaks — which is to say, a presence she has felt since the path entered this stretch resolves into a voice like roots shifting in deep earth: slow, patient, each word arriving with the weight of a season behind it. It greets her with a name for her kind that has not been used since the First Age — not Quenya, older: the name the forests used before the languages were named. Then, without accusation — the way you note a very long consequence — it says the forest remembers when the Noldor came east from Aman, and the forest has been watching what happened since."
     },
-    "channel": null,
+    "channel": {
+      "en": "Slow as rootwork — each sentence takes the time a season takes, and the pauses are not silence but the forest conferring."
+    },
     "facts": {
       "topic": "old_grief"
     },
@@ -8166,7 +8168,7 @@
         "id": "cnt:f7ffd42b-7af4-4bc2-9b69-048ddd9f7f1e:sit",
         "tags": [],
         "situation": {
-          "en": "She is part of a very long consequence. She knows this. It is something else entirely to have a tree tell her so."
+          "en": "She is part of a very long consequence — she knows this, but knowing it and hearing it said by the thing that watched it happen are different weights."
         }
       }
     ],
@@ -8189,12 +8191,14 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "Something enormous has turned to look at him. This takes a while."
+      "en": "It knows about the Rangers as a category — not this Ranger, but the line, the way you know a river by its valley."
     },
     "presence": {
-      "en": "It asks, eventually, whether he is one of the tree-shepherds' kin — meaning the Dunedain rangers who have been keeping Fangorn's eastern edge for generations. The question is asked with recognition, not suspicion."
+      "en": "Something enormous turns to look at him — the motion takes long enough that he can track it: the canopy shifting, a trunk-lean resolving into a face that was a trunk a moment ago, bark-furrowed, branch-bearded, eyes like deep wells catching light. 'You are one of the tree-shepherds' kin,' it says eventually — meaning the Dúnedain rangers who have kept Fangorn's eastern edge for generations. The question is asked with recognition, not suspicion: the Ent has been watching Rangers walk this edge since before this one's grandfather's grandfather."
     },
-    "channel": null,
+    "channel": {
+      "en": "Generationally slow — the words arrive like letters written by hand, and the looking takes as long as the looking needs."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -8203,7 +8207,7 @@
         "id": "cnt:6f487255-2430-46f0-9c24-83dd0905f1ec:sit",
         "tags": [],
         "situation": {
-          "en": "It knows about the Rangers. Not this Ranger specifically — the Rangers as a category of thing it has observed."
+          "en": "The eastern edge is the Ent's watch — and a Ranger being asked about his kin means the kin is the context, not the credential."
         }
       }
     ],
@@ -17528,10 +17532,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "Claw-rakes on a rock face, ten feet off the ground. Whatever made them came down from above."
+      "en": "It is above the treeline, or it was — the marks face the direction the traveller is heading, which is either coincidence or the start of a pattern."
     },
     "presence": {
-      "en": "The gouges are deep and fresh — made within two days. The spacing suggests something large, four-limbed, moving fast across vertical stone. No blood. Whatever it hit, it carried away."
+      "en": "Claw-rakes on a rock face — ten feet off the ground, deep, fresh, four parallel gouges in stone that should not take a mark from anything the traveller knows. The spacing says something large, four-limbed, moving fast across vertical rock. No blood on the face, no drop below — whatever it hit, it carried away. The marks were made within two days; the stone inside the gouges is still pale, unweathered."
     },
     "channel": null,
     "facts": {
@@ -17542,7 +17546,7 @@
         "id": "cnt:5c0ca874-21d2-4a24-a061-97d711949852:sit",
         "tags": [],
         "situation": {
-          "en": "It is above the treeline, or it was. The marks face the direction the traveller is heading."
+          "en": "A drake that climbs vertical stone at speed and carries off its kill is not a thing to be under — the gouges' direction is the only warning the road gives."
         }
       }
     ],
@@ -17563,10 +17567,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "A kill-site on the hillside — the carcass of a large elk, stripped to the spine in one feeding. The bones are blackened."
+      "en": "Whatever fed here is still in the region — an elk this size is not easy prey, and a feeder this efficient is not a thing that leaves hungry."
     },
     "presence": {
-      "en": "Not scorch-marks. The bones themselves are darkened, changed by something in the saliva. Recent. The drag-marks coming in are from above; the departure tracks are none — it lifted off."
+      "en": "A kill-site on the hillside — the carcass of a large elk stripped to the spine in a single feeding, ribs cleaned like a page read once and put down. The bones are not scattered the way wolves scatter them; they are laid out, nearly tidy. And they are darkened — not scorch-marks: the bone itself is changed, blackened at the ends where something's saliva worked it. The drag-marks coming in are from above — the prey was dropped — and the departure tracks are none. It lifted off."
     },
     "channel": null,
     "facts": {
@@ -17577,7 +17581,7 @@
         "id": "cnt:9f968c79-4c43-4d99-889e-12f91e158629:sit",
         "tags": [],
         "situation": {
-          "en": "Whatever fed here is still in the region. Elk this size are not easy prey."
+          "en": "Dropt from above, fed in one sitting, gone by air — the hillside is a dinner-table the road just walked under, and the sky is the thing to watch."
         }
       }
     ],
@@ -17598,10 +17602,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "A village at the valley bottom — not burning, not attacked. Abandoned. Every door left open."
+      "en": "The shadow that made them run is still somewhere in the heights — the empty village is the shadow's signature, written in unmilled grain and a dog nobody came back for."
     },
     "presence": {
-      "en": "They left fast enough that food is still on the tables. The direction of the footprints leads east, away from the high ground. Something drove them out without violence. The silence that drives people out before it arrives."
+      "en": "A village at the valley bottom — not burning, not attacked: abandoned. Every door open, and the kind of open that means nobody came back to close them — a mug still on a windowsill, a churn with the paddle left in it, food on tables gone to mold, a dog still tied at a post, straining and fed thin. The footprints leaving the village all lead east, away from the high ground, and they are pressed deep and close: people who left fast. Something drove them out without violence — the silence that drives people out before it arrives."
     },
     "channel": null,
     "facts": {
@@ -17612,7 +17616,7 @@
         "id": "cnt:e5b864d5-bf10-437a-84d7-17fdbcab4133:sit",
         "tags": [],
         "situation": {
-          "en": "The shadow that made them run is still somewhere in the heights above."
+          "en": "A village that flees without being attacked fled *from* something — and the something is still in the heights above the valley it emptied."
         }
       }
     ],
@@ -18088,10 +18092,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "A boulder on the road that was not there yesterday — moved from the cliff face above, recently. The marks where it sat are fresh."
+      "en": "Something moved this for a reason — and the reason was not to block the road, because the road is not blocked; the reason was to move it."
     },
     "presence": {
-      "en": "It was not a rockfall. The base-fracture is clean, as if something lifted it rather than it falling. The boulder is twice the height of a man."
+      "en": "A boulder on the road that was not there yesterday — twice the height of a man, fresh-scarred at the edges, sitting at a slight offset that does not quite block the road. It did not fall: the base-fracture is clean, the kind of break a thing makes when it is lifted and set down, not rolled. The marks where it sat on the cliff-face above are fresh — pale stone where grey used to be, and the scrape-track down the face is too short: it did not tumble the whole way, it was moved."
     },
     "channel": null,
     "facts": {
@@ -18102,7 +18106,7 @@
         "id": "cnt:5f1d0058-87e1-45e3-8689-2f7c4589dfeb:sit",
         "tags": [],
         "situation": {
-          "en": "Something moved this for a reason. The reason was not to block the road — it is offset to the side. The reason was to move it."
+          "en": "A giant moving stone off a cliff-face for reasons of its own is exercising — or working — and either way the road runs underneath the workplace."
         }
       }
     ],
@@ -18123,10 +18127,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "Handprints on the cliff face — man-shaped but eight feet across, pressed into the rock at a height of thirty feet as if the cliff was used for leverage."
+      "en": "It went up, not down — the prints climb; the top of the cliff is where it is, and the traveller is at the bottom."
     },
     "presence": {
-      "en": "Something climbed here recently, using the cliff-face as a handhold. The impressions are shallow but visible. Whatever made them was heavy enough to press into stone."
+      "en": "Handprints on the cliff face — man-shaped, unmistakeable, and eight feet across: the spread of a hand pressed into rock at a height of thirty feet as if the cliff were a bannister. The impressions are shallow but clear — fingers splayed, the heel of the palm denting stone, and above the first print, a second, higher: something climbed here recently, using the cliff-face as a handhold, and whatever made the prints was heavy enough to press into granite like wet clay."
     },
     "channel": null,
     "facts": {
@@ -18137,7 +18141,7 @@
         "id": "cnt:a010f6fd-217d-4e4a-a32c-369a1e57e07f:sit",
         "tags": [],
         "situation": {
-          "en": "It went up, not down. It is above the traveller on this cliff."
+          "en": "A hand big enough to dent stone climbing a cliff is a fact the road has just recorded — the walking on this stretch should be done under cover, not in the open."
         }
       }
     ],
@@ -18298,10 +18302,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "Strands of web across the path — not a full web. Anchor lines, thick as a finger, spanning the trail between trees."
+      "en": "Something hunts this path regularly enough to stake it — the neck-height is the message: the hunting is done at a person's height."
     },
     "presence": {
-      "en": "They were placed deliberately at neck height. Not a trap exactly — a marker. Something claiming the path ahead as its hunting ground."
+      "en": "Strands of web across the path — not a full web: anchor-lines, thick as a finger, spanning the trail between trees at neck height. Three of them, deliberate, placed where a neck or a face would meet them at walking-pace. The strands are dry but not decayed — a week old, maybe less. They are not a trap exactly: they are a marker. Something claiming the path ahead as its hunting ground, posting the boundary the way a dog posts scent."
     },
     "channel": null,
     "facts": {
@@ -18312,7 +18316,7 @@
         "id": "cnt:f17e57d8-e45a-4d19-b670-913b8786f8ca:sit",
         "tags": [],
         "situation": {
-          "en": "The strands are old enough to be dry but not decayed. The marking was made within a week."
+          "en": "Webbing posted as territory-marker means the territory-holder patrols — and a week-old marker means the patrol is current."
         }
       }
     ],
@@ -18333,10 +18337,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "A cocooned shape hanging from a branch fifteen feet off the path. Large enough to be a person."
+      "en": "This path is hunted regularly — the stored meal means the spider does not eat what it catches immediately; it keeps larder, which means it plans."
     },
     "presence": {
-      "en": "It is not moving. The cocoon is recent — the silk is still pale and untarnished. Whatever is inside was put there within two days."
+      "en": "A cocooned shape hanging from a branch fifteen feet off the path — large enough to be a person, wrapped in silk that is still pale and untarnished, which means whatever is inside was put there within two days. The shape does not move — has not moved in some time — but the wrapping is neat, methodical: not a meal interrupted, a meal stored. The branch it hangs from is one of several along this stretch with similar silk residue, older, empty."
     },
     "channel": null,
     "facts": {
@@ -18347,7 +18351,7 @@
         "id": "cnt:31474e21-320e-4aff-b187-0ec2cb885ffe:sit",
         "tags": [],
         "situation": {
-          "en": "There may be others. The cocooning means the spider hunts this path regularly."
+          "en": "A larder on a branch means the hunts happen often enough to need storage — and the empty residue on the other branches says this stretch has been worked before."
         }
       }
     ],
@@ -18368,10 +18372,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "The path ahead is walled in web — not crossing it, filling it. A corridor of silk from ground to canopy, deliberately constructed."
+      "en": "This is not an obstacle — it is an invitation that the traveller did not accept: the funnel's design assumes entry, and the entry is assumed to be voluntary."
     },
     "presence": {
-      "en": "It is a funnel. The open end is here, at the traveller's position. The closed end is ahead, invisible behind the white of the silk. The construction is patient and considered."
+      "en": "The path ahead is walled in web — not crossing it, filling it: a corridor of silk from ground to canopy, deliberately constructed, thick enough at the edges to take a finger's weight and thin enough in the centre to be almost invisible. It is a funnel. The open end is here, at the traveller's position. The closed end is ahead, invisible behind the white of the silk. The construction is patient, considered, and recent — the silk at the centre still carries the faint sheen of fresh work."
     },
     "channel": null,
     "facts": {
@@ -18382,7 +18386,7 @@
         "id": "cnt:eef98792-b086-4602-affd-839000b9cb99:sit",
         "tags": [],
         "situation": {
-          "en": "This is not an obstacle. It is an invitation that the traveller did not accept."
+          "en": "A funnel built at a person's walking-height, opening toward the road, is a thing that was built *for* the road's traffic — the traveller is merely the traffic that noticed."
         }
       }
     ],
@@ -18827,12 +18831,14 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "A creak from above — not wood settling, deliberate. The tree has something to say and this is how it begins."
+      "en": "It is asking, in the way Ents ask — which is to say, it stated the observation and is now waiting to see if the traveller supplies the why."
     },
     "presence": {
-      "en": "It says, after a long pause, that this path has been used more often recently. It says this with the interest of something that has been watching the same stretch of ground for four hundred years and noticed a change."
+      "en": "A creak from above — not wood settling: deliberate, the sound of a very large thing clearing its throat — and then, slowly, a voice like water finding its way through roots: 'This path has been used more often recently.' The Ent says this with the interest of something that has been watching the same stretch of ground for four hundred years and noticed a change, and the noticing is the whole speech: four hundred years of watching means the 'recently' is measured against a baseline no living thing could hold."
     },
-    "channel": null,
+    "channel": {
+      "en": "Root-paced, observational — the words arrive like growth rings: one a year, worth the wait."
+    },
     "facts": {
       "topic": "care_of_living_things"
     },
@@ -18841,7 +18847,7 @@
         "id": "cnt:3e549f49-fba7-48f8-8be5-ded2e6d74a42:sit",
         "tags": [],
         "situation": {
-          "en": "The change it noticed is recent enough to be meaningful. It is asking, in the way Ents ask, whether the traveller knows what is causing it."
+          "en": "The change is recent enough to be meaningful — and an Ent asking a traveller what changed on a path means the traveller's answer is now part of the record."
         }
       }
     ],
@@ -18862,12 +18868,14 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "It steps onto the path from the treeline — the motion takes approximately forty seconds and the sound of it is the sound of the forest rearranging itself."
+      "en": "An Ent saying this is not hyperbole — it has comparative data spanning thousands of years, and 'Second Age wrong' is the strongest descriptor it owns."
     },
     "presence": {
-      "en": "It says that something has been entering the forest from the east for several nights and that it smells wrong in a way the Ent does not have precise language for. It says: wrong in the way the forest was wrong in the second age, before we understood what was happening."
+      "en": "It steps onto the path from the treeline — the motion takes approximately forty seconds and the sound of it is the sound of the forest rearranging itself: branches parting, trunk settling, a shape that was the treeline becoming a shape that is a person-sized column of bark and limb and slow patience. It says, when it is done arriving, that something has been entering the forest from the east for several nights — and that it smells wrong in a way the Ent does not have precise language for. 'Wrong the way the forest was wrong in the Second Age,' it says, 'before the cutting.'"
     },
-    "channel": null,
+    "channel": {
+      "en": "Slow, deliberate, comparative — the wrongness is being measured against a catalogue older than kingdoms."
+    },
     "facts": {
       "topic": "what_stirs_in_the_dark"
     },
@@ -18876,7 +18884,7 @@
         "id": "cnt:b31d8f92-2d8e-49cf-8ed9-43f39c9027e4:sit",
         "tags": [],
         "situation": {
-          "en": "An Ent saying this is not hyperbole. It has comparative data spanning thousands of years."
+          "en": "Whatever is entering from the east is registering on a scale calibrated in ages — and the Ent is telling a traveller because the traveller moves faster than a forest can."
         }
       }
     ],
@@ -19216,10 +19224,10 @@
       "felt:calm"
     ],
     "disposition": {
-      "en": "Fresh deer-slots in the soft ground beside the path — a doe and two young, moving toward the stream."
+      "en": "Deer moving calmly means the forest ahead is quiet — the slots are a signed affidavit that the next mile holds no surprises."
     },
     "presence": {
-      "en": "Made within a few hours, heading downhill. The slots are clean and unworried — no sign of flight. The deer have not been alarmed recently."
+      "en": "Fresh deer-slots in the soft ground beside the path — a doe and two young, the slots clean and unworried, cut sharp in the damp earth. Made within a few hours, heading downhill toward the stream — the spacing easy, a walk, no sign of flight, no bunching where a startle would have tightened the group. The deer have not been alarmed recently; the mud is still holding the edge of the prints."
     },
     "channel": null,
     "facts": {
@@ -19230,7 +19238,7 @@
         "id": "cnt:0d354f5b-f6d3-41c3-afa9-96fa232cc2e4:sit",
         "tags": [],
         "situation": {
-          "en": "Deer moving calmly means the forest ahead is quiet. That is worth knowing."
+          "en": "Unalarmed deer are the road's best weather-report: if something were working this stretch, the deer would have read it first."
         }
       }
     ],
@@ -19251,10 +19259,10 @@
       "felt:calm"
     ],
     "disposition": {
-      "en": "The ground around a waterhole has been heavily churned — large hooves, many animals, recently."
+      "en": "Driven animals mean something was behind them — the direction they came from is the direction that matters."
     },
     "presence": {
-      "en": "A herd came through here within the last day. The mud is still wet. Whatever brought them here in numbers — a long dry spell, or something drove them off their usual ground."
+      "en": "The ground around a waterhole churned to porridge — large hooves, many animals, the mud still wet where the herd packed it. A herd came through within the last day, and the churning is wrong for drinking: drinking herds do not stamp. They were driven here in numbers — a long dry spell pushing them to the last water, or something pushed them off their usual ground and this was the water they could reach. The tracks coming in are bunched, urgent; the tracks leaving are the same."
     },
     "channel": null,
     "facts": {
@@ -19265,7 +19273,7 @@
         "id": "cnt:bb296972-fb7b-4890-aae1-3428b54908b9:sit",
         "tags": [],
         "situation": {
-          "en": "Driven animals mean something was behind them. The direction they came from is worth noting."
+          "en": "A herd driven to water in a day is a forest sending a message in hoof-print — and the sender is behind them, in whatever direction they ran from."
         }
       }
     ],
@@ -19290,10 +19298,10 @@
       "felt:calm"
     ],
     "disposition": {
-      "en": "The carcass of a large elk, untouched. Not killed — starved, recently, in a region where starving elk make no sense."
+      "en": "Herbivores do not starve in good country in season — unless something has made them too frightened to graze, and frightened to the point of standing still until the standing kills them."
     },
     "presence": {
-      "en": "The body is intact, no predator-sign, no disease-sign. It simply stopped and did not move again. The grass around it is ungrazed."
+      "en": "The carcass of a large elk in the open grass — intact, untouched, no predator-sign, no scavenger-sign, no disease-sign. It simply stopped and did not move again. The grass around it is ungrazed — a lush meadow in season, and the elk starved in the middle of it. The body is a week old, maybe less; the meadow has not touched it, and neither has anything else."
     },
     "channel": null,
     "facts": {
@@ -19304,7 +19312,7 @@
         "id": "cnt:cc67f316-2423-4511-a96d-ac35487a1638:sit",
         "tags": [],
         "situation": {
-          "en": "Herbivores do not starve in good country in this season unless something has made them too frightened to graze."
+          "en": "An elk that starved in a full meadow was terrified past the point of eating — and whatever terrified it was between the elk and the grass, in every direction it looked."
         }
       }
     ],
@@ -19550,10 +19558,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "Wolf-prints crossing the path — a pair, moving at a trot, heading north. Made last night."
+      "en": "They have a destination — bonded pairs moving at a steady trot are on a schedule, and the schedule is north of here."
     },
     "presence": {
-      "en": "Both adults, by the size. Not a pack, a bonded pair. Moving purposefully, not hunting — the stride is too regular for active hunting."
+      "en": "Wolf-prints crossing the path — a pair, both adults by the size, moving at a trot, heading north. Made last night: the prints still hold their edge where they cross the soft verge. The stride is regular, unhurried — not hunting: the spacing between the two is consistent, bonded, purposeful. These are wolves going somewhere, not wolves working the ground. The direction is north — the same direction the traveller is walking."
     },
     "channel": null,
     "facts": {
@@ -19564,7 +19572,7 @@
         "id": "cnt:376ef05f-8292-4b9a-ba70-b89f525d7343:sit",
         "tags": [],
         "situation": {
-          "en": "They have a destination. The direction is north, same as the traveller."
+          "en": "Wolves on a schedule are either going to something or from something — and north is the direction the traveller and the wolves now share."
         }
       }
     ],
@@ -19585,10 +19593,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "The remains of a kill on the road — bones, hide, scattered. Something large fed here recently."
+      "en": "A bear this size feeding on the road is not just marking territory — it is claiming the road as its dining-room, and the road's users are part of the menu's consideration."
     },
     "presence": {
-      "en": "The kill is clean-stripped in the way of bears, not wolves or cats. The bones are crushed. The hide is turned inside-out, which bears do systematically."
+      "en": "The remains of a kill on the road — bones, hide, scattered with a thoroughness wolves do not bother with: the long bones are crushed open for the marrow, the hide is turned inside-out, which bears do systematically, and the carcass-site is a churn of mud that took a large animal's full weight. A print in the mud beside the kill — deep, broad, claw-marks ahead of the toes — reads a bear significantly larger than the regional average, feeding openly on the road itself."
     },
     "channel": null,
     "facts": {
@@ -19599,7 +19607,7 @@
         "id": "cnt:c9d20a4b-3e34-4e84-968e-f2180a5633c6:sit",
         "tags": [],
         "situation": {
-          "en": "A bear large enough to turn a deer's hide inside-out and crush the long bones is significantly larger than average."
+          "en": "A bear that turns a deer hide inside-out on the open road is a bear that does not fear being seen — which is either boldness or an absence of anything to be afraid of."
         }
       }
     ],
@@ -19620,10 +19628,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "Claw-marks on a tree beside the path at head height — five parallel gouges, deep, in hardwood."
+      "en": "Something very large is marking this path as its territory — and the marks facing the road mean the road's traffic is being warned, not the forest's."
     },
     "presence": {
-      "en": "Marking territory. The height means the animal stood on its hind legs to make them — eight feet minimum. The marks are recent enough that the wood inside the gouges is still pale."
+      "en": "Claw-marks on a tree beside the path at head height — five parallel gouges, deep, in hardwood that should not take a casual mark. The height means the animal stood on its hind legs to make them: eight feet minimum, probably more. The wood inside the gouges is still pale — the marking is fresh, done within the week. It is territory-marking, and the marks face the direction of travel, which means they were placed to be read by things coming this way."
     },
     "channel": null,
     "facts": {
@@ -19634,7 +19642,7 @@
         "id": "cnt:87982532-ff51-4cf4-bb1a-4b2c1ce85d0a:sit",
         "tags": [],
         "situation": {
-          "en": "Something very large is marking this path as its territory. The marks face the direction of travel."
+          "en": "A warning posted at a person's head-height, facing a person's walking-direction, is a warning posted for people — and the posting is fresh enough that the poster is still working this stretch."
         }
       }
     ],
@@ -20914,10 +20922,10 @@
     "form": "sign_only",
     "tags": [],
     "disposition": {
-      "en": "Otter-slides in the mud bank beside the river — two lanes worn smooth into the clay, angled into the water."
+      "en": "Otters in good numbers mean the river is healthy — clean water, good fish, no upstream disruption, and a family comfortable enough to let the kits play in the open."
     },
     "presence": {
-      "en": "Active, recently used. The clay at the bottom of the slides is still wet. A family group, by the size difference between the tracks."
+      "en": "Otter-slides in the mud bank beside the river — two lanes worn smooth into the clay, angled into the water, used enough times to be polished. The clay at the bottom of the slides is still wet — used within the last day. A family group, by the size-difference between the tracks: adults and kits, and the kit-tracks show the looseness of kits that have not learned to be careful, which means the kits feel safe."
     },
     "channel": null,
     "facts": {
@@ -20928,7 +20936,7 @@
         "id": "cnt:71d1042e-bbef-42b4-81b2-3665ca343eaf:sit",
         "tags": [],
         "situation": {
-          "en": "Otters in good numbers mean the river is healthy — clean water, good fish, no upstream disruption."
+          "en": "Otters playing in daylight on an open bank is the river's own certificate of health — and a certificate worth the same as the road being safe to camp beside."
         }
       }
     ],
@@ -21048,10 +21056,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "The fish are gone from this stretch of river — not a hook-point to be found, the banks empty of birds, the water simply empty."
+      "en": "The emptiness is recent — last week this was a working stretch of river; this week it is a corridor of water with nothing in it but current."
     },
     "presence": {
-      "en": "Fish do not leave a stretch of water without reason. Something in this section of river drives them away or feeds on them until they are gone."
+      "en": "The fish are gone from this stretch of river — not thinned, gone: no rise-rings, no shadow-shapes under the bank, no heron waiting the shallows, no kingfisher on the overhang. The bird-droppings on the rocks show last week's activity — fresh whitewash fading to old — and nothing this week. Fish do not leave a stretch of water without reason: something in this section drives them away or feeds on them until they are gone, and either way the water is empty of everything except the water."
     },
     "channel": null,
     "facts": {
@@ -21062,7 +21070,7 @@
         "id": "cnt:71fc3a30-9e89-4f1c-a877-c75beb5d0037:sit",
         "tags": [],
         "situation": {
-          "en": "The emptiness is recent — the bird-droppings on the rocks show last week's activity, nothing this week."
+          "en": "A river that emptied in a week did not empty by accident — and whatever emptied it is either still in the water or close enough that the water remembers."
         }
       }
     ],
@@ -21153,10 +21161,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "Snake-track in the dust of the road — sinuous, continuous, freshly made, crossing from the sunny verge to the shade under the opposite hedge."
+      "en": "An active snake moving unhurried means the ground ahead is warm, undisturbed, and has not had anything heavy on it recently."
     },
     "presence": {
-      "en": "Moving in the mid-morning means it is warming up. Large, by the track width — perhaps four feet of snake, minimum. Not hunting, just relocating."
+      "en": "Snake-track in the dust of the road — sinuous, continuous, freshly made, crossing from the sunny verge to the shade under the opposite hedge. Wide, by the track: perhaps four feet of snake, minimum, moving in mid-morning when a snake moves to warm, not to hunt. The track does not bunch or pause — the snake was relocating, unhurried, doing snake business on a road that was, for its purposes, simply warm ground."
     },
     "channel": null,
     "facts": {
@@ -21167,7 +21175,7 @@
         "id": "cnt:e93a2bf5-c964-4b4d-9ccf-42f2c0ac3d1c:sit",
         "tags": [],
         "situation": {
-          "en": "An active snake moving means the ground ahead is warm and undisturbed."
+          "en": "A four-foot snake crossing in daylight without hurry is a good sign for the road — things that size do not expose themselves where trouble walks."
         }
       }
     ],
@@ -21293,10 +21301,10 @@
       "felt:irritated"
     ],
     "disposition": {
-      "en": "Dumbledoors working the clover at the verge — large, unhurried, producing that specific sound that is halfway between a drone and a grumble."
+      "en": "A quiet road ahead — the bees say so, and bees have been reading roads longer than kingdoms have been naming them."
     },
     "presence": {
-      "en": "Healthy meadow, no disturbance. The big bumble-bees are only this relaxed when the ground around them is undisturbed."
+      "en": "Dumbledores working the clover at the verge — the big bumble-bees, fat as a man's thumb, unhurried, producing that specific sound that is halfway between a drone and a grumble. They are only this relaxed when the ground around them is undisturbed — bees read a meadow the way sailors read water, and this meadow is reading calm: no vibration of hooves or feet in the last hour, no smoke, nothing that makes a bee decide to work somewhere else."
     },
     "channel": null,
     "facts": {
@@ -21307,7 +21315,7 @@
         "id": "cnt:ab7b28e6-9418-45e9-a8f1-0ac17d948293:sit",
         "tags": [],
         "situation": {
-          "en": "A quiet road ahead. The bees say so."
+          "en": "Relaxed bees are an hour of quiet made audible — whatever the road holds ahead, the last hour of it was empty enough for bees."
         }
       }
     ],
@@ -21328,10 +21336,10 @@
       "felt:irritated"
     ],
     "disposition": {
-      "en": "An empty nest on the road — a wasps' nest the size of a helm, freshly torn from the eave above. Recent disturbance."
+      "en": "Something large enough to pull down a nest this size either wanted the grubs or did not notice it — and neither of those is reassuring on a road."
     },
     "presence": {
-      "en": "Something pulled this nest down within the last few hours. The wasps have dispersed — most of them, not all. The stragglers are still around."
+      "en": "An empty nest on the road — a wasps' nest the size of a helm, freshly torn from the eave of the overhang above, lying split on the stone. The tear is clean, deliberate: not weather. The wasps have dispersed — most of them: the stragglers are still around, a dozen or so, circling the wreckage with the angry persistence of insects that have not yet decided the home is gone. The nest was pulled down within the last few hours; the papery shell is still fresh, not yet rained on."
     },
     "channel": null,
     "facts": {
@@ -21342,7 +21350,7 @@
         "id": "cnt:6ddc2925-1860-4e53-ace9-d3e854ea74ff:sit",
         "tags": [],
         "situation": {
-          "en": "Something large enough to pull down a nest this size either wanted the grubs or didn't notice it. Neither is reassuring."
+          "en": "A helm-sized nest pulled down clean is a hand's work, or a paw's — and a paw that bold works close to the road, which the road should know about."
         }
       }
     ],
@@ -21468,10 +21476,10 @@
       "felt:calm"
     ],
     "disposition": {
-      "en": "Fox-sign on the path — a scatter of pheasant feathers and the distinctive sharp scent. Recently, in the last hour."
+      "en": "A successful hunt means an undisturbed wood — quiet road, quiet wood, and a well-fed fox somewhere in the treeline keeping an eye on the traffic."
     },
     "presence": {
-      "en": "The fox was successful. A successful hunt means an undisturbed wood. The pheasant was moving normally until it wasn't."
+      "en": "Fox-sign on the path — a scatter of pheasant feathers and the distinctive sharp scent that is unmistakeable at this freshness: made within the last hour, close enough that the fox is probably still in the wood, watching the road from wherever foxes watch from. The pheasant was moving normally until it wasn't — the feather-scatter starts mid-stride, no trailing, no stalking-sign: the fox was successful in one motion, which means the wood was quiet enough for the fox to work undisturbed."
     },
     "channel": null,
     "facts": {
@@ -21482,7 +21490,7 @@
         "id": "cnt:bf8a4b0f-ffc1-44e6-91e4-19265d33e5bf:sit",
         "tags": [],
         "situation": {
-          "en": "Quiet road."
+          "en": "A fox hunting at mid-morning within an hour of the traveller's passing is the wood saying: nothing here is alarmed, including the things that should be."
         }
       }
     ],
@@ -21643,10 +21651,10 @@
       "felt:calm"
     ],
     "disposition": {
-      "en": "Horse-sign on the road — shod hooves, three horses, moving at a canter heading south. Made this morning."
+      "en": "Three riders at a canter on shod horses is a message or a patrol — and either is a fact the road is carrying south ahead of the traveller's own feet."
     },
     "presence": {
-      "en": "Shod means riders, not wild horses. Three horses at a canter heading south means a message or a patrol moving with purpose."
+      "en": "Horse-sign on the road — shod hooves, which means riders, not wild horses: three horses at a canter heading south, made this morning. The stride is even, held — a canter that is being maintained, not a burst: three riders moving with purpose, somewhere south on this road, within the last few hours. The shoes are new-worked, by the edge of the prints — someone paid for iron recently, and is spending the shoe-life at speed."
     },
     "channel": null,
     "facts": {
@@ -21657,7 +21665,7 @@
         "id": "cnt:2c08d738-771c-44db-b063-ba0ca27c13c5:sit",
         "tags": [],
         "situation": {
-          "en": "Three riders with a purpose, somewhere south on this road."
+          "en": "New shoes at a maintained canter means someone was sent — the sending is recent, the direction is south, and whatever prompted it is ahead or behind on this road."
         }
       }
     ],
@@ -26216,10 +26224,10 @@
       "felt:calm"
     ],
     "disposition": {
-      "en": "Tracks in the soft verge — fresh enough to read, left at a walk."
+      "en": "Calm tracks mean a calm wood ahead — the grazing was uninterrupted, which is the forest's own testimony that this stretch holds nothing to be afraid of."
     },
     "presence": {
-      "en": "Grazing animals passed within hours, unhurried. Nothing pushed them."
+      "en": "Tracks in the soft verge — grazing animals, fresh enough to read: a small group, three or four by the overlapping prints, left at a walk within the last few hours. Unhurried — the spacing is even, no bunching, no flight-line: nothing pushed them, nothing startled them. They were grazing as they moved, heads down, doing the work of animals in a wood that is, for the moment, simply a wood."
     },
     "channel": null,
     "facts": {
@@ -26230,7 +26238,7 @@
         "id": "cnt:c26e000a-0000-4000-8000-000000000010:sit",
         "tags": [],
         "situation": {
-          "en": "Calm tracks mean a calm wood ahead."
+          "en": "Animals grazing their way through a verge is the most boring sign on the road — and boring, on a road, is the best news there is."
         }
       }
     ],
