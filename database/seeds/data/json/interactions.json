@@ -47651,9 +47651,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not ask what was in the passages. Asks where the western passages exit on the surface."
-        },
-        "effects": []
+          "en": "She does not ask what was in the passages — asks instead where the western passages exit on the surface, which is the question a fellow traveller asks and not the question a rescuer asks. The hands pause in their work for the first time: 'The old water-gate, west face of the ridge. You'll see the iron door-frames — what's left of them.' He goes back to the strap. 'Fast' got said again, in the silence, but this time it meant something she could carry: someone was in the western passages two weeks ago, and came out fast.",
+          "es": "No pregunta qué había en los pasajes — pregunta en cambio dónde salen los pasajes del oeste a la superficie, que es la pregunta que hace un compañero de viaje y no la que hace un rescatista. Las manos paran su trabajo por primera vez: 'La compuerta vieja, cara oeste de la loma. Vas a ver los marcos de hierro — lo que queda de ellos.' Vuelve a la correa. 'Rápido' se dijo otra vez, en el silencio, pero esta vez significó algo que ella podía cargar: alguien estuvo en los pasajes del oeste hace dos semanas, y salió rápido."
+        }
       }
     },
     "payload": {
@@ -47675,9 +47675,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Says she was not there at the beginning. Tells him she knows who was. Watches what he does with that."
-        },
-        "effects": []
+          "en": "She says she was not there at the beginning — tells him she knows who was, and watches what he does with that. The Dwarf goes still, the way men go still when a debt they'd written off suddenly shows a signature: 'Someone who was there. Who.' She names him — the name carrying the weight of the right witness — and watches the scarred face do arithmetic older than the road. 'Then the mark is real,' he says quietly. 'And I have to go back.'",
+          "es": "Dice que no estuvo ahí al principio — le dice que conoce a quien sí estuvo, y mira qué hace con eso. El Enano se queda quieto, como se quedan quietos los hombres cuando una deuda que habían dado por perdida de repente muestra firma: 'Alguien que estuvo ahí. Quién.' Ella lo nombra — el nombre cargando el peso del testigo correcto — y mira la cara cicatrizada hacer aritmética más vieja que la ruta. 'Entonces la marca es real', dice en voz baja. 'Y tengo que volver.'"
+        }
       }
     },
     "payload": {
@@ -51615,9 +51615,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Tells him the garrison direction. Asks what is on the road behind him."
-        },
-        "effects": []
+          "en": "He tells him the garrison direction — 'North-east, the stone post at the four-ways' — and asks what is on the road behind him. The Dwarf nods once, already turning: 'Orc-sign at the second ford. Not a band — a watcher. Watching the ford like the ford owes him money.' He adjusts the pack. 'One watcher means someone's coming. Armed men should know the direction.' He is gone north-east at the steady pace that has been eating miles for days, now eating them with purpose.",
+          "es": "Le dice la dirección de la guarnición — 'Noreste, el poste de piedra en el cruce' — y le pregunta qué hay en la ruta detrás de él. El Enano asiente una vez, ya girando: 'Rastro de orcos en el segundo vado. No una banda — un vigilante. Vigilando el vado como si el vado le debiera plata.' Se ajusta el bulto. 'Un vigilante significa que alguien viene. Hombres armados deberían saber la dirección.' Se va al noreste al paso firme que viene comiendo millas hace días, ahora comiéndolas con propósito."
+        }
       }
     },
     "payload": {
@@ -51639,9 +51639,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks where the shaft is. Files it."
-        },
-        "effects": []
+          "en": "He asks where the shaft is — and gets the surveyor's exact answer: grid-reference, depth, the hill's name in both the new map and the old. The Dwarf gives it all, precise, because that is the point: the shaft exists, it was sealed from inside, and now someone besides him knows where it is. 'If I don't come down,' he says to the fire, 'someone should know which hole to look in.' The safety-line is now carried; the surveyor goes back to his meal with the peculiar calm of a man whose story has been heard.",
+          "es": "Pregunta dónde está el pozo — y recibe la respuesta exacta del agrimensor: coordenada, profundidad, el nombre de la colina tanto en el mapa nuevo como en el viejo. El Enano lo da todo, preciso, porque ese es el punto: el pozo existe, fue sellado desde adentro, y ahora alguien además de él sabe dónde está. 'Si no bajo', le dice al fuego, 'alguien debería saber en qué agujero mirar.' La línea de seguridad ya está cargada; el agrimensor vuelve a su comida con la calma peculiar de un hombre cuya historia fue escuchada."
+        }
       }
     },
     "payload": {
@@ -51663,9 +51663,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Notes the direction and the duration. Continues north."
-        },
-        "effects": []
+          "en": "He notes the direction and the duration — two days, northern hold, no southbound traffic — and continues north. The Dwarf finally turns from the sky to look at him: 'You are the first face south-going in two days,' he says. 'When you pass the ridge and the smoke is still there — send word back, if you live.' He goes back to watching. The standing is the whole message; the traveller carries it now, a second witness to a hold gone quiet.",
+          "es": "Anota la dirección y la duración — dos días, fortaleza del norte, sin tráfico hacia el sur — y continúa al norte. El Enano finalmente gira del cielo para mirarlo: 'Sos la primera cara yendo al sur en dos días', dice. 'Cuando pases la loma y el humo siga ahí — mandá palabra atrás, si vivís.' Vuelve a mirar. El quedarse parado es todo el mensaje; el viajero lo carga ahora, un segundo testigo de una fortaleza que se quedó quieta."
+        }
       }
     },
     "payload": {
@@ -57892,9 +57892,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Trades road for road. Does not look at the oilcloth twice."
-        },
-        "effects": []
+          "en": "He trades road for road — gives the western ford's state, takes the eastern toll-schedule — and does not look at the oilcloth twice. The Dwarf's receipt-greeting softens a half-degree: 'You know roads,' he says, which is as close to warmth as the exchange gets. The pony's squared burden stays squared; the traveller's questions stay unasked; the road-facts change hands at fair value, which on this road is the better bargain.",
+          "es": "Cambia ruta por ruta — da el estado del vado del oeste, toma el horario de peaje del este — y no mira el hule dos veces. El saludo-recibo del Enano se ablanda medio grado: 'Conocés rutas', dice, que es lo más cerca del calor que llega el intercambio. La carga cuadrada del poni queda cuadrada; las preguntas del viajero quedan sin hacer; los hechos de ruta cambian de manos a valor justo, que en esta ruta es el mejor trato."
+        }
       }
     },
     "payload": {
@@ -57916,9 +57916,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Notes the name and the crossing. Agrees the toll is theft. Moves on."
-        },
-        "effects": []
+          "en": "He notes the name — Harding's son — the crossing — the stone bridge — and the sum — four coppers — and agrees the toll is theft, which is all the witness wanted. The iron-bearded Dwarf logs the agreement like a signature: 'A third man agrees,' he says to nobody. 'When it goes to the reeve, three voices carry more weight than one.' He shifts the staff. 'And it's theft either way — the bridge was built by his grandfather, not leased by him.' The grievance is now witnessed, filed, and travelling.",
+          "es": "Anota el nombre — el hijo de Harding — el cruce — el puente de piedra — y la suma — cuatro cobres — y está de acuerdo en que el peaje es robo, que es todo lo que el testigo quería. El Enano de barba de hierro registra el acuerdo como una firma: 'Un tercer hombre está de acuerdo', le dice a nadie. 'Cuando llegue al reeve, tres voces pesan más que una.' Cambia el bastón. 'Y es robo de todos modos — el puente lo construyó su abuelo, no lo arrendó él.' El agravio ya está atestiguado, archivado, y viajando."
+        }
       }
     },
     "payload": {
@@ -57940,9 +57940,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes the warning. Does not ask him to elaborate."
-        },
-        "effects": []
+          "en": "He takes the warning — 'the eastern gallery road is closed; whatever closed it did not use tools' — and does not ask him to elaborate, which is the second part of the courtesy. The Dwarf nods, once, accepting the not-asking as the correct payment. 'Go round by the south track,' he says, already moving. 'The gallery will keep.' The road's own way of saying a door is shut: someone is handling it, and the traveller is not that someone.",
+          "es": "Toma la advertencia — 'la ruta de la galería del este está cerrada; lo que sea que la cerró no usó herramientas' — y no le pide que elabore, que es la segunda parte de la cortesía. El Enano asiente, una vez, aceptando el no-preguntar como el pago correcto. 'Doblá por el desvío del sur', dice, ya moviéndose. 'La galería va a esperar.' La forma propia de la ruta de decir que una puerta está cerrada: alguien se está ocupando, y el viajero no es ese alguien."
+        }
       }
     },
     "payload": {
@@ -58101,9 +58101,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Lets him talk. Keeps the price of iron. Does not comment on the Lake-men."
-        },
-        "effects": []
+          "en": "He lets them talk — the iron-prices, the road-news, the Long Lake opinion in full — and keeps the price of iron, which is the useful part, and does not comment on the Lake-men, which is the prudent part. The silver-braided Dwarves part with a shouted 'Fair roads!' and the satisfaction of having delivered both merchandise and judgment. The traveller walks on richer by three markets' iron-prices and one unrepeatable account of what the Lake-folk are like.",
+          "es": "Los deja hablar — los precios del hierro, las noticias de la ruta, la opinión del Lago Largo completa — y se queda con el precio del hierro, que es la parte útil, y no comenta sobre los del Lago, que es la parte prudente. Los Enanos de trenzas de plata se despiden con un '¡Rutas justas!' gritado y la satisfacción de haber entregado tanto mercadería como juicio. El viajero sigue más rico por los precios de hierro de tres mercados y una cuenta irrepetible de cómo son los del Lago."
+        }
       }
     },
     "payload": {
@@ -58125,9 +58125,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers what he saw. Does not ask what he is planning."
-        },
-        "effects": []
+          "en": "He answers what he saw — 'Two travellers went up the Stair three weeks back; one came down' — and does not ask what the Dwarf is planning. The flat-palmed Dwarf files the answers in the count he is keeping: 'One came down. Up or down?' The traveller says down. 'Good.' The tally is updated; the Dimrill Stair's ledger is one line fuller. 'If you go near it,' the Dwarf adds, 'go at dawn. The afternoons are when the wrong kind come down.' The counting continues behind him, patient as stone.",
+          "es": "Responde lo que vio — 'Dos viajeros subieron la Escalera hace tres semanas; uno bajó' — y no pregunta qué está planeando el Enano. El Enano de palma chata archiva las respuestas en la cuenta que está llevando: 'Uno bajó. ¿Para arriba o para abajo?' El viajero dice abajo. 'Bien.' El conteo se actualiza; el libro de la Escalera Dimrill tiene una línea más llena. 'Si te acercás', agrega el Enano, 'andá al alba. Las tardes son cuando bajan los del tipo equivocado.' El conteo continúa detrás, paciente como piedra."
+        }
       }
     },
     "payload": {
@@ -58217,9 +58217,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers plainly. Shows no interest in the stream-head. Walks where he is told to walk."
-        },
-        "effects": []
+          "en": "He answers plainly — the road, the direction, no interest in the stream-head — and walks where he is told to walk, which turns out to be a generous arc around the dig. The red-bearded Dwarf watches him obey the detour for a full minute before relenting: 'Ground's safe by the white stones,' he calls after. 'And since you didn't look twice — there's a seep in the claim. Iron. Tell no one I told you nothing.' The claim-jumper's audit, passed; the find stays his, and the traveller keeps the better currency: the safe ground.",
+          "es": "Responde claro — la ruta, la dirección, sin interés en la cabecera del arroyo — y camina donde se le dice que camine, que resulta ser un arco generoso alrededor de la excavación. El Enano de barba roja lo mira obedecer el rodeo por un minuto entero antes de ceder: 'La tierra está sana junto a las piedras blancas', le grita. 'Y ya que no miraste dos veces — hay una filtración en el reclamo. Hierro. No le digas a nadie que no te dije nada.' La auditoría del saltador de reclamos, aprobada; el hallazgo queda suyo, y el viajero se queda con la mejor moneda: la tierra segura."
+        }
       }
     },
     "payload": {
@@ -58241,9 +58241,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Gives name and road. Names what he saw on the high tracks. Uses the open gate."
-        },
-        "effects": []
+          "en": "He gives name and road — and the names of the two travellers he saw on the high tracks, direction included — and receives the month's gate in return: 'The east gate, the one with the carved posts. The west gate's shut for the season's work.' The axe-handle lowers; the patrol parts like a toll that has been paid in exact change. 'Walk the border like a guest,' the patrol-leader adds, 'and the border walks like a road.' Civility, transaction, border — all three accounted for.",
+          "es": "Da nombre y ruta — y los nombres de los dos viajeros que vio en los senderos altos, dirección incluida — y recibe la puerta del mes a cambio: 'La puerta este, la de los postes tallados. La del oeste está cerrada por el trabajo de la temporada.' El mango de hacha baja; la patrulla se abre como un peaje que fue pagado en cambio exacto. 'Caminá la frontera como invitado', agrega el líder de patrulla, 'y la frontera se camina como ruta.' Cortesía, transacción, frontera — las tres contabilizadas."
+        }
       }
     },
     "payload": {
@@ -58265,9 +58265,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Trades iron for the furs. Takes the remark seriously."
-        },
-        "effects": []
+          "en": "He trades iron for the furs — a hand-axe's worth of metal for three good pelts and a bone needle — and takes the remark about the ice seriously, because remarks about ice from men who live on it are not weather. 'What did the ice give up,' he says, not asking. The pale Dwarf weighs him: 'Things with edges. Things that cut from below.' He packs the iron away. 'I bring them south. The ice doesn't want them back and neither does the road.' The trade is complete; the warning is the change.",
+          "es": "Cambia hierro por las pieles — el valor de un hacha de mano en metal por tres buenos pellejos y una aguja de hueso — y toma la observación sobre el hielo en serio, porque las observaciones sobre hielo de hombres que viven en él no son clima. 'Qué dio el hielo', dice, sin preguntar. El Enano pálido lo pesa: 'Cosas con filo. Cosas que cortan desde abajo.' Guarda el hierro. 'Los traigo al sur. El hielo no los quiere de vuelta y la ruta tampoco.' El intercambio está completo; la advertencia es el vuelto."
+        }
       }
     },
     "payload": {
@@ -64832,9 +64832,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Notes the marks. Continues."
-        },
-        "effects": []
+          "en": "He reads the marks — fresh chisel-work, the angle-marks that say 'depth promising' and the depth-notch that says 'sixty feet to the seam' — and files them where travellers file such signatures: a Dwarven survey-team was here within the week, reading the rock for whoever's paying. The road's future just got a subtitle: mining operations change roads, and the marks are the first announcement.",
+          "es": "Lee las marcas — cincelado fresco, las marcas de ángulo que dicen 'profundidad prometedora' y la muesca de profundidad que dice 'sesenta pies hasta la veta' — y las archiva donde los viajeros archivan tales firmas: un equipo de agrimensores enanos estuvo acá dentro de la semana, leyendo la roca para quien sea que pague. El futuro de la ruta acaba de recibir un subtítulo: las operaciones mineras cambian rutas, y las marcas son el primer anuncio."
+        }
       }
     },
     "payload": {
@@ -76913,6 +76913,734 @@
     "payload": {
       "origin": "entities_narration",
       "situation": "cnt:0e2f0014-0000-4000-8000-0e2f00000014:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "a2efc97a-2c60-4032-ab3c-2a6c5f42873d",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:597a7f99-d6ae-44d6-bfdd-c7283448099f",
+    "act": "talk",
+    "label": {
+      "en": "Ask if the passages are still open"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks — carefully, because 'fast' is doing a lot of work — whether the passages are still open behind him. 'Open,' he says, and then, because the hands have stopped again: 'Open is not the right word. Unguarded is the right word.' He oils the strap that did not need oiling. 'If you are going that way — go quiet, and do not stop at the water-gate to look back.' The warning is all he can give; the rest is the hands' business.",
+          "es": "Pregunta — con cuidado, porque 'rápido' está haciendo mucho trabajo — si los pasajes siguen abiertos detrás de él. 'Abiertos', dice, y después, porque las manos pararon otra vez: 'Abiertos no es la palabra correcta. Desguarecidos es la palabra correcta.' Engrasa la correa que no necesitaba engrase. 'Si vas por ese lado — andá quieto, y no pares en la compuerta a mirar atrás.' La advertencia es todo lo que puede dar; el resto es asunto de las manos."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:597a7f99-d6ae-44d6-bfdd-c7283448099f:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "d778a9ab-578f-4a9b-b445-713b7d66882d",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:597a7f99-d6ae-44d6-bfdd-c7283448099f",
+    "act": "avoid",
+    "label": {
+      "en": "Take the exit-point and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She takes the exit-point — west face, iron door-frames — and leaves the man to his hands and his unsaid. Some debts are paid by not asking; the western passages are marked on her map now with a two-week-old timestamp and a pace called 'fast.'",
+          "es": "Toma el punto de salida — cara oeste, marcos de hierro — y deja al hombre con sus manos y su no-dicho. Algunas deudas se pagan no preguntando; los pasajes del oeste están marcados en su mapa ahora con una marca de tiempo de dos semanas y un ritmo llamado 'rápido.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:597a7f99-d6ae-44d6-bfdd-c7283448099f:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "ec00d733-9acd-4bd0-a204-857b723c00ac",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:09376525-c60c-451e-acd0-845549cdaa30",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the mark was"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks what the mark was — the thing that needs a witness. 'The King's mark,' the Dwarf says, voice rough. 'Not this king's. The first one's. Cut where only the first hands cut — the passages that were there before there were passages.' He looks at his hands like they are not enough hands. 'Someone opened the beginning, and someone closed it wrong. I need to know which.'",
+          "es": "Pregunta qué era la marca — la cosa que necesita un testigo. 'La marca del Rey', dice el Enano, voz áspera. 'No de este rey. Del primero. Tallada donde solo las primeras manos tallan — los pasajes que estaban ahí antes de que hubiera pasajes.' Mira sus manos como si no fueran suficientes manos. 'Alguien abrió el principio, y alguien lo cerró mal. Necesito saber cuál.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:09376525-c60c-451e-acd0-845549cdaa30:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "113df2e0-49db-45fb-9888-7e0d26c68599",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:09376525-c60c-451e-acd0-845549cdaa30",
+    "act": "avoid",
+    "label": {
+      "en": "Give the name and let him go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She gives the name — the witness who was there — and lets the Dwarf carry it back to the western passages or wherever the reckoning leads. Some debts travel better in other hands; hers was only the signing.",
+          "es": "Da el nombre — el testigo que estuvo ahí — y deja que el Enano lo lleve de vuelta a los pasajes del oeste o a donde sea que lleve el ajuste. Algunas deudas viajan mejor en otras manos; la de ella fue solo la firma."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:09376525-c60c-451e-acd0-845549cdaa30:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "49885845-e60c-4bbc-ad11-23f63d81c535",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:a971a406-e132-4aca-a0f4-bbd5695dae4d",
+    "act": "talk",
+    "label": {
+      "en": "Ask how he read the watcher"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — because the reading was exact — how he knew it was a watcher and not a band. 'One set of prints, going back and forth over the same ground,' the Dwarf says, not slowing. 'A band moves through; a watcher walks the same patch like he's being paid by the footprint.' He taps his pack once. 'I've walked enough roads to know when the road's being studied. It's being studied.'",
+          "es": "Pregunta — porque la lectura fue exacta — cómo supo que era un vigilante y no una banda. 'Un solo rastro, yendo y viniendo sobre el mismo terreno', dice el Enano, sin frenar. 'Una banda pasa; un vigilante camina el mismo parche como si le pagaran por huella.' Se golpea el bulto una vez. 'Caminé suficientes rutas para saber cuándo la ruta está siendo estudiada. Está siendo estudiada.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:a971a406-e132-4aca-a0f4-bbd5695dae4d:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "8d4b49b4-5a17-4444-9aa0-cce6ac95dee5",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:a971a406-e132-4aca-a0f4-bbd5695dae4d",
+    "act": "avoid",
+    "label": {
+      "en": "Point north-east and let him go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He points north-east — 'Garrison at the stone post, four miles' — and lets the Dwarf go without the story. The steady pace carries the orc-sign to people who can do something with it; his own road continues, one watcher lighter for having been reported.",
+          "es": "Señala al noreste — 'Guarnición en el poste de piedra, cuatro millas' — y lo deja ir sin la historia. El paso firme lleva el rastro de orcos a gente que puede hacer algo con él; su propia ruta continúa, un vigilante más liviana por haber sido reportada."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:a971a406-e132-4aca-a0f4-bbd5695dae4d:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "97c277a1-b3d5-4491-8de8-77e672b9d5f7",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:bc4c1314-0cbb-4cdb-b7f9-7a2d31d50596",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the marks looked like"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what the collapse-marks looked like — since 'not natural' wants specifics. 'Cut from below,' the Dwarf says, finally looking up. 'The stone didn't fall — it was brought down, carefully, like somebody closing a door they expected to open again.' He eats a mouthful, thinking. 'A cave-in doesn't care which way it goes. This collapse was courteous. That's what bothers me.'",
+          "es": "Pregunta cómo se veían las marcas del derrumbe — ya que 'no natural' quiere específicos. 'Cortado desde abajo', dice el Enano, finalmente levantando la vista. 'La piedra no cayó — la bajaron, con cuidado, como alguien cerrando una puerta que esperaba volver a abrir.' Come un bocado, pensando. 'Un derrumbe no le importa para qué lado va. Este derrumbe fue cortés. Eso es lo que me molesta.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:bc4c1314-0cbb-4cdb-b7f9-7a2d31d50596:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "ae768c9a-2c4a-41e2-8f1a-0fd97453e959",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:bc4c1314-0cbb-4cdb-b7f9-7a2d31d50596",
+    "act": "avoid",
+    "label": {
+      "en": "File the shaft-location and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He files the shaft-location — the grid-reference, the hill's names — and goes. A sealed-from-inside shaft is the kind of fact that keeps; whether he uses it or someone else does, the report is now carried, which was all the surveyor needed.",
+          "es": "Archiva la ubicación del pozo — la coordenada, los nombres de la colina — y se va. Un pozo sellado desde adentro es el tipo de hecho que se conserva; lo use él o alguien más, el informe ya está cargado, que era todo lo que el agrimensor necesitaba."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:bc4c1314-0cbb-4cdb-b7f9-7a2d31d50596:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "00713601-6b5c-46b1-b3e4-97a852d19018",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:a53efd41-22ee-420f-a247-501f6705abc3",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the northern hold is"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what the northern hold is — what the smoke is rising from. 'A mining-hold,' the Dwarf says. 'Two hundred of us, three shifts. They do not stop the forges for anything — the smoke is constant, always, for sixty years.' He looks back north. 'Two days of constant is a fire still burning with nobody feeding it. Or everybody gone somewhere the smoke can't follow.'",
+          "es": "Pregunta qué es la fortaleza del norte — de qué sube el humo. 'Una fortaleza minera', dice el Enano. 'Doscientos de nosotros, tres turnos. No paran las forjas por nada — el humo es constante, siempre, hace sesenta años.' Mira de vuelta al norte. 'Dos días de constante es un fuego todavía ardiendo sin nadie alimentándolo. O todos idos a algún lado donde el humo no pueda seguirlos.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:a53efd41-22ee-420f-a247-501f6705abc3:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "afa36d13-4bfc-455c-9912-27192c96fc5c",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:a53efd41-22ee-420f-a247-501f6705abc3",
+    "act": "avoid",
+    "label": {
+      "en": "Take the warning and pass on"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the warning — the smoke's direction, the two-day silence — and passes on north, a second pair of eyes going where the first couldn't. Behind him the Dwarf stays planted on the road, a man holding a watch nobody assigned him because somebody has to watch the smoke.",
+          "es": "Toma la advertencia — la dirección del humo, el silencio de dos días — y sigue al norte, un segundo par de ojos yendo donde el primero no pudo. Atrás el Enano se queda plantado en la ruta, un hombre sosteniendo una guardia que nadie le asignó porque alguien tiene que mirar el humo."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:a53efd41-22ee-420f-a247-501f6705abc3:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "2ab0549a-73e7-4a7b-97db-7ee8a2962a33",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0001-0000-4000-8000-0d1a00000001",
+    "act": "talk",
+    "label": {
+      "en": "Ask what is under the oilcloth"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — once, straight, because the not-asking was also priced — what is under the oilcloth. The Dwarf's eyes do a slow weigh: 'Trade-goods,' he says, which is not an answer, and they both know it. 'You ask well — once, and taking the not-told like a professional.' He unstraps nothing. 'Some cargo is priced by what it is, some by what it's carrying. Mine's the second kind.'",
+          "es": "Pregunta — una vez, directo, porque el no-preguntar también tenía precio — qué hay bajo el hule. Los ojos del Enano hacen un pesaje lento: 'Mercadería', dice, que no es una respuesta, y los dos lo saben. 'Preguntás bien — una vez, y tomando el no-dicho como un profesional.' No desajusta nada. 'Alguna carga se tasa por lo que es, otra por lo que lleva. La mía es del segundo tipo.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0001-0000-4000-8000-0d1a00000001:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "27e88943-fa4a-43b7-b705-0fb34f40be2b",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0001-0000-4000-8000-0d1a00000001",
+    "act": "avoid",
+    "label": {
+      "en": "Take the road-facts and walk on"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the road-facts — the ford, the toll — and walks on without the oilcloth's answer, which was never for sale anyway. Behind him the Dwarf and his squared mystery continue south, a transaction completed in both directions: road for road, courtesy for courtesy.",
+          "es": "Toma los hechos de ruta — el vado, el peaje — y sigue caminando sin la respuesta del hule, que nunca estuvo a la venta de todos modos. Atrás el Enano y su misterio cuadrado continúan al sur, una transacción completada en ambas direcciones: ruta por ruta, cortesía por cortesía."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0001-0000-4000-8000-0d1a00000001:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "d5c3f7d2-aa70-44d8-9a02-8496efd07c4d",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0002-0000-4000-8000-0d1a00000002",
+    "act": "talk",
+    "label": {
+      "en": "Ask what happened at the bridge"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what happened at the bridge — the details, since testimony loves detail. 'Toll-post went up last month,' the Dwarf says. 'Harding's boy stands there with a ledger he can't read and a hammer he can, charging four coppers a crossing.' He spits the word 'ledger' like a bad coin. 'The bridge was public work — his grandfather raised it with the village. Now the grandson rents it back to us.' The account is complete, and the reeve will hear it.",
+          "es": "Pregunta qué pasó en el puente — los detalles, ya que el testimonio ama el detalle. 'El puesto de peaje subió el mes pasado', dice el Enano. 'El hijo de Harding está ahí con un libro que no sabe leer y un martillo que sí, cobrando cuatro cobres por cruce.' Escupe la palabra 'libro' como una moneda mala. 'El puente fue obra pública — su abuelo lo levantó con el pueblo. Ahora el nieto nos lo alquila de vuelta.' La cuenta está completa, y el reeve la va a escuchar."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0002-0000-4000-8000-0d1a00000002:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "1c0fb1eb-d46a-421f-8d0b-6289958da800",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0002-0000-4000-8000-0d1a00000002",
+    "act": "avoid",
+    "label": {
+      "en": "Agree it is theft and move on"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He agrees it is theft — the witness's whole errand — and moves on, the name and sum filed for wherever such reports find their court. Behind him the Dwarf rehearses the account again for the next traveller: testimony is a road too, and it is being walked in both directions.",
+          "es": "Está de acuerdo en que es robo — el mandado entero del testigo — y sigue, el nombre y la suma archivados para donde sea que esos informes encuentren su tribunal. Atrás el Enano ensaya la cuenta otra vez para el próximo viajero: el testimonio también es una ruta, y se está caminando en ambas direcciones."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0002-0000-4000-8000-0d1a00000002:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "cc60fb61-7e1e-464e-b8f5-23bd5d13123d",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0003-0000-4000-8000-0d1a00000003",
+    "act": "talk",
+    "label": {
+      "en": "Ask what is meant by not with tools"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — because the phrase needs one more word — what 'not with tools' means. The Dwarf stops, considers, then gives the minimum that is not silence: 'Tools leave marks. Claws leave different marks. Whatever closed the gallery left the second kind, and the marks were fresh.' He goes on down the road, the courtesy exhausted, the warning fully paid.",
+          "es": "Pregunta — porque la frase necesita una palabra más — qué significa 'no con herramientas.' El Enano para, considera, después da el mínimo que no es silencio: 'Las herramientas dejan marcas. Las garras dejan marcas distintas. Lo que sea que cerró la galería dejó del segundo tipo, y las marcas estaban frescas.' Sigue ruta abajo, la cortesía agotada, la advertencia completamente pagada."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0003-0000-4000-8000-0d1a00000003:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "a4b27602-38a7-4a49-bad8-ebf74b097fbc",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0003-0000-4000-8000-0d1a00000003",
+    "act": "avoid",
+    "label": {
+      "en": "Take the south track and the warning"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the south track — the detour accepted without the story, the warning banked against a darker stretch of road-map. Behind him the Dwarf goes on at his speed-walk, carrying the untold part of the story to people whose business it is. The gallery will keep; the traveller's road will not.",
+          "es": "Toma el desvío del sur — el rodeo aceptado sin la historia, la advertencia guardada contra un tramo más oscuro del mapa de ruta. Atrás el Enano sigue a su paso-rápido, llevando la parte no contada de la historia a la gente cuyo asunto es. La galería va a esperar; la ruta del viajero no."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0003-0000-4000-8000-0d1a00000003:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "0196263b-902b-416e-bf8f-73b1a2bd89c6",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0007-0000-4000-8000-0d1a00000007",
+    "act": "talk",
+    "label": {
+      "en": "Ask about the iron trade"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks about the iron-trade — since they offered prices — and gets the dwarfen economics lesson entire: which mines are producing, which seams are pinched, why the northern iron trades at a premium ('the goblins make everything dearer — overhead, you understand'). They part with iron-prices in his head and a business-card-shaped promise: 'Dori's sons, third market — tell them the road sent you.'",
+          "es": "Pregunta por el comercio del hierro — ya que ofrecieron precios — y recibe la lección de economía enana entera: qué minas están produciendo, qué vetas están pellizcadas, por qué el hierro del norte cotiza con premio ('los trasgos encarecen todo — gastos generales, entendés'). Se despiden con precios de hierro en su cabeza y una promesa en forma de tarjeta: 'Los hijos de Dori, tercer mercado — deciles que te mandó la ruta.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0007-0000-4000-8000-0d1a00000007:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "a2ad9b5f-e3a5-4a06-b55d-5b2e5c10de6e",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0007-0000-4000-8000-0d1a00000007",
+    "act": "avoid",
+    "label": {
+      "en": "Take the news and let them ride on"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the news — iron, road, Lake-opinion — and lets the two ride on with their loud peace. The cart-pony's bells fade north; the traveller keeps the useful prices and forgets, diplomatically, everything that was said about the Long Lake's folk.",
+          "es": "Toma las noticias — hierro, ruta, opinión del Lago — y deja a los dos seguir de largo con su paz ruidosa. Los cascabeles del poni-carro se desvanecen al norte; el viajero se queda con los precios útiles y olvida, diplomáticamente, todo lo que se dijo de la gente del Lago Largo."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0007-0000-4000-8000-0d1a00000007:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "e61fa817-e837-461d-91cd-37cce0f90a1a",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0008-0000-4000-8000-0d1a00000008",
+    "act": "talk",
+    "label": {
+      "en": "Ask what he is counting toward"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — because the tallying was too careful to be curiosity — what he is counting toward. 'Who goes up,' the Dwarf says, 'and who comes down, and in what state.' He closes the subject like a ledger. 'Some doors are counted by the folk who lost them. That's all you get — but it's more than most get.' The Dimrill Stair is being audited; the traveller just contributed a line item.",
+          "es": "Pregunta — porque el conteo era muy cuidadoso para ser curiosidad — para qué está contando. 'Quién sube', dice el Enano, 'y quién baja, y en qué estado.' Cierra el tema como un libro. 'Algunas puertas las cuenta la gente que las perdió. Eso es todo lo que te doy — pero es más de lo que la mayoría recibe.' La Escalera Dimrill está siendo auditada; el viajero acaba de contribuir una partida."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0008-0000-4000-8000-0d1a00000008:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "75fb0cf4-f482-46d4-a751-ef4231b9cd7a",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0008-0000-4000-8000-0d1a00000008",
+    "act": "avoid",
+    "label": {
+      "en": "Answer the count and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He answers the count — the two travellers, the one down — and goes. Behind him the Dwarf returns to his vigil of the Stair's traffic: a tally kept by the patient, in a book that will open when the counting is done.",
+          "es": "Responde el conteo — los dos viajeros, el que bajó — y sigue. Atrás el Enano vuelve a su vigilia del tráfico de la Escalera: un conteo mantenido por los pacientes, en un libro que se abrirá cuando el conteo termine."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0008-0000-4000-8000-0d1a00000008:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "7db33ff0-bf67-4cd4-ae2b-164112730bd7",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0011-0000-4000-8000-0d1a00000011",
+    "act": "talk",
+    "label": {
+      "en": "Ask what he is digging"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — openly, since suspicion prefers frankness — what the dig is. 'Iron seep,' the Dwarf says after a long look, 'or the start of one. Unregistered — the claim's mine by right of the find, and registering it means sharing it.' He leans on the mattock. 'You look like you'd keep a find quiet. Most men would already be asking where.' He digs again; the conversation is closed, the claim secure.",
+          "es": "Pregunta — abiertamente, ya que la sospecha prefiere franqueza — qué es la excavación. 'Filtración de hierro', dice el Enano después de una larga mirada, 'o el comienzo de una. Sin registrar — el reclamo es mío por derecho del hallazgo, y registrarlo significa compartirlo.' Se apoya en el azadón. 'Tenés cara de guardar un hallazgo en silencio. La mayoría ya estaría preguntando dónde.' Vuelve a cavar; la conversación está cerrada, el reclamo seguro."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0011-0000-4000-8000-0d1a00000011:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "daeb03d7-d600-4446-83e3-863c786fbb5a",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0011-0000-4000-8000-0d1a00000011",
+    "act": "avoid",
+    "label": {
+      "en": "Take the detour and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the detour — the white-stone arc around the dig — and goes without the claim's location, which was never on offer anyway. Behind him the mattock resumes its work on an unregistered seep that is one stranger's secret and another stranger's safe passage.",
+          "es": "Toma el rodeo — el arco de piedras blancas alrededor de la excavación — y se va sin la ubicación del reclamo, que nunca estuvo en oferta de todos modos. Atrás el azadón retoma su trabajo en una filtración no registrada que es el secreto de un extraño y el pasaje seguro de otro."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0011-0000-4000-8000-0d1a00000011:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "9b0c7e26-f4cf-42ce-9c09-f41ff2b5b734",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0012-0000-4000-8000-0d1a00000012",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the border is for"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — while the axe-handle is still raised — what the border is keeping. 'The old mines,' the patrol-leader says. 'What's closed stays closed, and what's closed is ours to close.' He lowers the handle. 'Some borders are walls, some are questions. Ours is a question: what business do you have on our road. Yours was clean, so the road's open. That's the whole border.'",
+          "es": "Pregunta — mientras el mango de hacha todavía está levantado — qué guarda la frontera. 'Las minas viejas', dice el líder de patrulla. 'Lo que está cerrado queda cerrado, y lo que está cerrado es nuestro para cerrar.' Baja el mango. 'Algunas fronteras son muros, otras son preguntas. La nuestra es una pregunta: qué negocio tenés en nuestra ruta. El tuyo era limpio, entonces la ruta está abierta. Esa es toda la frontera.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0012-0000-4000-8000-0d1a00000012:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "1a600538-627b-492e-8b71-3219f6f966e7",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0012-0000-4000-8000-0d1a00000012",
+    "act": "avoid",
+    "label": {
+      "en": "Give the answers and take the gate"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He gives the three answers — name, road, high-track report — and takes the east gate, the carved posts marking the month's passage. Behind him the patrol resets: axe-handle back to ready, the border's question already being asked of the next shape on the road.",
+          "es": "Da las tres respuestas — nombre, ruta, informe de senderos altos — y toma la puerta este, los postes tallados marcando el pasaje del mes. Atrás la patrulla se resetea: mango de hacha de vuelta a listo, la pregunta de la frontera ya siéndole hecha a la próxima forma en la ruta."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0012-0000-4000-8000-0d1a00000012:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "56e2ebf0-f461-4431-948d-31ef13a6e7d2",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0013-0000-4000-8000-0d1a00000013",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the ice is giving up"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what the ice is giving up — specifically — and gets the inventory of a worsening year: 'Old metal, mostly. Worked. Not ours — older than us. And last month, a man. Whole, from under the blue ice, dressed like the First Age.' The pale Dwarf ties the bundle. 'The ice is a larder, and it's thawing out its stored things. Trade's good for iron — the ice is making everything else cheaper.'",
+          "es": "Pregunta qué está entregando el hielo — específicamente — y recibe el inventario de un año en empeoramiento: 'Metal viejo, mayormente. Trabajado. No nuestro — más viejo que nosotros. Y el mes pasado, un hombre. Entero, de bajo del hielo azul, vestido como la Primera Edad.' El Enano pálido ata el fardo. 'El hielo es una despensa, y está descongelando sus cosas guardadas. El comercio está bien para el hierro — el hielo está abaratando todo lo demás.'"
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0013-0000-4000-8000-0d1a00000013:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "25d1c4e4-7029-41c0-95b8-cc9932fcd369",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0d1a0013-0000-4000-8000-0d1a00000013",
+    "act": "avoid",
+    "label": {
+      "en": "Take the furs and the warning"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the furs and the warning — ice giving up edges, ice giving up a First-Age man — and walks on into a south that is, by the pale trader's account, slowly filling with things the north decided to thaw out.",
+          "es": "Toma las pieles y la advertencia — el hielo entregando filos, el hielo entregando un hombre de la Primera Edad — y sigue caminando hacia un sur que está, según la cuenta del comerciante pálido, llenándose lentamente de cosas que el norte decidió descongelar."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0d1a0013-0000-4000-8000-0d1a00000013:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "3f12036b-cf58-4e86-877d-b23df1638e91",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:fbab3d19-a8a6-4e03-a8a7-b5e30784f2d7",
+    "act": "talk",
+    "label": {
+      "en": "Look for the survey-camp"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He looks for the survey-camp — finds the cold fire-ring and the packed-earth beds two bends up, three days old. The team moved east. Whatever they were reading in this rockface, they found it promising enough to keep reading elsewhere — and a road near a new dig is a road that will soon have wagon-ruts, toll-posts, and a different kind of traveller.",
+          "es": "Busca el campamento de agrimensura — encuentra el anillo de fuego frío y las camas de tierra apisonada dos curvas arriba, de tres días. El equipo se movió al este. Lo que sea que estaban leyendo en esta pared de roca, lo encontraron lo bastante prometedor para seguir leyendo en otro lado — y una ruta cerca de una excavación nueva es una ruta que pronto tendrá rodadas de carreta, puestos de peaje, y un tipo distinto de viajero."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:fbab3d19-a8a6-4e03-a8a7-b5e30784f2d7:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "653c63d2-0208-4f32-a606-71e60ad5e308",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:fbab3d19-a8a6-4e03-a8a7-b5e30784f2d7",
+    "act": "avoid",
+    "label": {
+      "en": "Mark the direction and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He marks the direction the survey-team went — east, by the fire-ring's orientation — and walks on. The rock keeps its secrets a while longer; the road keeps its shape until the wagons come.",
+          "es": "Marca la dirección en que se fue el equipo de agrimensura — este, por la orientación del anillo de fuego — y sigue caminando. La roca guarda sus secretos un rato más; la ruta guarda su forma hasta que lleguen las carretas."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:fbab3d19-a8a6-4e03-a8a7-b5e30784f2d7:sit",
       "mapped_from_form": "contact",
       "felt": []
     }

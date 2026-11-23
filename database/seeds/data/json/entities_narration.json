@@ -3579,13 +3579,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Quieter than a Dwarf alone on the road usually is. Adjusting back to speech after a long time without it."
+      "en": "Quieter than a Dwarf alone on the road usually is — adjusting back to speech after a long time without it, the words returning like circulation to a cold limb."
     },
     "presence": {
-      "en": "He says, after a pause, that he came out of the western passages two weeks ago. Fast. He does not elaborate but his hands have not stopped moving since he sat down."
+      "en": "A Dwarf sits at the wayhouse's edge-table alone — stocky, travel-grey, a black beard gone ragged at the edges, hands that have not stopped moving since he sat down: cleaning, oiling, re-tying a strap that was already tied. He says, after a pause long enough to be its own sentence, that he came out of the western passages two weeks ago. Fast. He does not elaborate. The hands keep working like they are filing a report the mouth won't give."
     },
     "channel": {
-      "en": "Have him speak of a mansion or mine lost to dragon or goblin, and the wealth and kin buried with it."
+      "en": "Sparse, flat, the hands doing the real talking — when the mouth pauses, the hands keep going, and the pauses are where the story lives."
     },
     "facts": {
       "topic": "lost_halls"
@@ -3595,7 +3595,7 @@
         "id": "cnt:597a7f99-d6ae-44d6-bfdd-c7283448099f:sit",
         "tags": [],
         "situation": {
-          "en": "He is not going to say what was in the western passages. He is telling her he was there so she knows someone has been there recently."
+          "en": "He is not going to say what was in the western passages. He is telling her he was there so she knows someone has been there recently — a datum, not a confession."
         }
       }
     ],
@@ -3618,13 +3618,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Watching her the way someone watches a thing that has been around long enough to carry weight they cannot see."
+      "en": "He weighs her like a stone he's decided is load-bearing — not warm, not hostile, just doing the math of whether she can be the witness he needs."
     },
     "presence": {
-      "en": "He asks point-blank if she knew Durin. Not which Durin — just Durin. He wants to know how old she actually is. He asks because something in the western passages bore a mark only someone who was there at the beginning would recognize."
+      "en": "A Dwarf in the wayhouse's shadowed corner — deep-set eyes under a grey-shot brow, a scar splitting the beard-line down one cheek — who has been watching the traveller the way someone watches a thing that has been around long enough to carry weight they cannot see. When she is close he asks, point-blank, no build-up: 'Did you know Durin?' Not which Durin — just Durin. He wants to know how old she actually is, because something in the western passages bore a mark only someone who was there at the beginning would recognize."
     },
     "channel": {
-      "en": "Have him speak of a mansion or mine lost to dragon or goblin, and the wealth and kin buried with it."
+      "en": "Direct to the point of bluntness — questions that skip three steps because the answer he needs is the age, not the answer."
     },
     "facts": {
       "topic": "lost_halls"
@@ -3634,7 +3634,7 @@
         "id": "cnt:09376525-c60c-451e-acd0-845549cdaa30:sit",
         "tags": [],
         "situation": {
-          "en": "He may be right that the mark requires a witness. She is not that witness — but she knows someone who was."
+          "en": "He may be right that the mark requires a witness. She is not that witness — but she knows someone who was, and what he does with that will tell her who he is."
         }
       }
     ],
@@ -8557,12 +8557,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Alone on the road with a full pack, moving at the steady pace of someone who has been walking for days and will walk for days more."
+      "en": "Practical alarm — not running, not hiding it either: he wants a garrison, which means he saw something worth garrisoning."
     },
     "presence": {
-      "en": "He nods at the traveller in the way travelers acknowledge each other on empty roads. Then, after a few steps, stops. Asks which direction the nearest garrison is. Not the road — the garrison specifically."
+      "en": "A Dwarf on the road with a full pack — broad-shouldered, auburn-bearded, walking the steady pace of someone who has been walking for days and will walk for days more — nods at the traveller in the way travellers acknowledge each other on empty roads. Then, after a few steps, stops. Turns. 'Which direction is the nearest garrison?' Not the road — the garrison specifically. The question of a man who wants armed men, not merchants, because of something on the road behind him."
     },
-    "channel": null,
+    "channel": {
+      "en": "Short, pointed, the questions of a man who has already decided what he needs and is only asking directions to it."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -8571,7 +8573,7 @@
         "id": "cnt:a971a406-e132-4aca-a0f4-bbd5695dae4d:sit",
         "tags": [],
         "situation": {
-          "en": "He wants to know where armed men are, not merchants. Something on the road behind him."
+          "en": "Something on the road behind him is real enough to want soldiers for. Whatever it is, it has a direction and a few days' lead."
         }
       }
     ],
@@ -8594,13 +8596,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "At a wayhouse fire, eating alone, not talking to anyone."
+      "en": "Annoyed more than afraid — a surveyor whose work is now wrong, and professional pride outranks caution."
     },
     "presence": {
-      "en": "He has been in the hills for three months on a survey. He found a collapsed shaft that the survey records show as open — something closed it from inside. The marks on the collapse are not natural."
+      "en": "A Dwarf at the wayhouse fire, eating alone and not talking to anyone — broad-nosed, singed eyebrows, a surveyor's satchel still mud-crusted at his feet. After a long silence he says it to the fire more than to the room: three months on a survey in the hills, and he found a collapsed shaft that the records show as open. Something closed it from inside. The marks on the collapse are not natural."
     },
     "channel": {
-      "en": "Have him speak of a mansion or mine lost to dragon or goblin, and the wealth and kin buried with it."
+      "en": "Speaks to the fire in fragments — the story comes out in the order it surfaces, not the order it happened."
     },
     "facts": {
       "topic": "lost_halls"
@@ -8610,7 +8612,7 @@
         "id": "cnt:bc4c1314-0cbb-4cdb-b7f9-7a2d31d50596:sit",
         "tags": [],
         "situation": {
-          "en": "He is not afraid of whatever closed the shaft. He is annoyed by it because it means his survey is incomplete. He wants someone to know the shaft is sealed in case it matters to someone who understands these things."
+          "en": "He wants someone to know the shaft is sealed in case he goes back up and does not come down. The telling is the safety-line."
         }
       }
     ],
@@ -8633,12 +8635,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "On the road ahead, not moving. Just standing and looking at the sky to the north."
+      "en": "He needs a witness, not a rescue — he is not asking for help, just for someone else to have seen the smoke."
     },
     "presence": {
-      "en": "He says, when the traveller reaches him, that he has been watching a column of smoke from the direction of the northern hold for two days. No one has come south on the road since. He cannot go north to look because he is one and whatever made that smoke was large."
+      "en": "A Dwarf standing on the road ahead — not moving, just standing and looking at the sky to the north: thick-necked, grey-bearded, fists resting on his belt like weights holding him down. When the traveller reaches him he says it without turning: 'I have been watching a column of smoke from the direction of the northern hold for two days. No one has come south on the road since.' He cannot go north to look because he is one, and whatever is wrong up there is more than one."
     },
-    "channel": null,
+    "channel": {
+      "en": "Flat statements delivered at the horizon — he is not looking at the traveller, he is looking at the thing the traveller walked past."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -8647,7 +8651,7 @@
         "id": "cnt:a53efd41-22ee-420f-a247-501f6705abc3:sit",
         "tags": [],
         "situation": {
-          "en": "He needs someone to know. He is not asking for help — just for a witness."
+          "en": "Two days of smoke and no one coming south means the northern hold has gone quiet in a way that is not ordinary. His standing here is the whole alarm."
         }
       }
     ],
@@ -14986,13 +14990,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Stops, looks him over from boots to hood, and gives a greeting that is closer to a receipt than a welcome."
+      "en": "Everything he offers is accurate and nothing he withholds will be prised out — the giving and the withholding are equally deliberate."
     },
     "presence": {
-      "en": "Where the road is bad, where the water is good, and a flat refusal to say where he himself is going or what is under the oilcloth on the pony."
+      "en": "A Dwarf on the road — copper-bearded, a laden pony behind him with something squared under oilcloth — stops, looks the traveller over from boots to hood, and gives a greeting that is closer to a receipt than a welcome. Then the exchange: where the road is bad, where the water is good — accurate, useful, complete — and a flat refusal to say where he himself is going or what is under the oilcloth on the pony. That is the whole shape of the exchange."
     },
     "channel": {
-      "en": "Have him put short, suspicious questions, saying little of his own roads and liking prying even less."
+      "en": "Trade-precise, no padding — he gives road-facts like coins, exact change only."
     },
     "facts": {
       "topic": "guarded_suspicion"
@@ -15002,7 +15006,7 @@
         "id": "cnt:0d1a0001-0000-4000-8000-0d1a00000001:sit",
         "tags": [],
         "situation": {
-          "en": "Everything he offers is accurate and nothing he withholds will be prised out. That is the whole shape of the exchange."
+          "en": "The oilcloth is the whole mystery and he knows it — he is counting on the traveller's courtesy to not look twice."
         }
       }
     ],
@@ -15023,13 +15027,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Short with him, and it is not personal — something on this road has already annoyed him and the traveller is merely next."
+      "en": "Short with him and it is not personal — the traveller is merely next in line to hear the account, which is being polished for the right ears."
     },
     "presence": {
-      "en": "A complaint about a toll being taken at a crossing where no toll was taken last year, with the exact sum, the exact place and the exact name of the man taking it."
+      "en": "A Dwarf on the road who is already annoyed before the traveller arrives — squat, iron-bearded, a walking-staff gripped like it owes him money — who delivers a complaint about a toll being taken at a crossing where no toll was taken last year: the exact sum, the exact place, and the exact name of the man taking it. 'Harding's son. At the stone bridge. Four coppers and a smile.' The grievance is being rehearsed for a larger audience."
     },
     "channel": {
-      "en": "Have him bring up a grievance nursed for generations — a slight, a debt, an enemy not yet repaid."
+      "en": "Precise, aggrieved, legalistic — the toll-complaint delivered like testimony: names, sums, and precedent all in order."
     },
     "facts": {
       "topic": "old_grudge"
@@ -15039,7 +15043,7 @@
         "id": "cnt:0d1a0002-0000-4000-8000-0d1a00000002:sit",
         "tags": [],
         "situation": {
-          "en": "He wants a witness more than he wants sympathy. The grievance will be repeated in front of the right people eventually."
+          "en": "He wants a witness more than he wants sympathy. The grievance will be repeated in front of the right people eventually — and he is logging who heard it."
         }
       }
     ],
@@ -15060,13 +15064,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Grim and abrupt, with the shoulders of someone who has been walking fast for days and would rather not explain why."
+      "en": "He has decided to give the warning and not the story — the story is his folk's business and not the traveller's."
     },
     "presence": {
-      "en": "He says one useful thing and one dark one: the eastern gallery road is closed, and whatever closed it did not do it with tools."
+      "en": "A Dwarf coming the other way at speed — grim-faced, shoulders hunched like a man who has been walking fast for days, a coal-dark beard dusted pale — who stops long enough to say one useful thing and one dark one: 'The eastern gallery road is closed. And whatever closed it did not do it with tools.' Then he is walking again before the traveller can shape the obvious question."
     },
     "channel": {
-      "en": "Have him speak of a mansion or mine lost to dragon or goblin, and the wealth and kin buried with it."
+      "en": "Two sentences and he is moving again — the warning is the courtesy, the silence is the boundary."
     },
     "facts": {
       "topic": "lost_halls"
@@ -15076,7 +15080,7 @@
         "id": "cnt:0d1a0003-0000-4000-8000-0d1a00000003:sit",
         "tags": [],
         "situation": {
-          "en": "He has decided to give the warning and not the story. The story is his folk's business and not the traveller's."
+          "en": "A road closed by something that does not use tools is a door worth respecting. His folk will deal with it; the traveller's part is to not be on that road."
         }
       }
     ],
@@ -15210,13 +15214,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Well-armed, well-provisioned and openly proud of both; the greeting is loud and the questions are practical."
+      "en": "Nothing to fear on this road today and it shows in how much they are willing to say — pride loosened the tongues that suspicion usually keeps."
     },
     "presence": {
-      "en": "News of the eastern road, the price of iron three markets away, and an unprompted opinion on the folk of the Long Lake that lasts some time."
+      "en": "A pair of Dwarves on the road, well-armed and well-provisioned and openly proud of both — matching iron-rimmed shields, a cart-pony loaded with trade-bundles, beards braided with silver thread — who hail the traveller loud enough to be heard at the ford: news of the eastern road, the price of iron three markets away, and an unprompted opinion on the folk of the Long Lake that lasts some time."
     },
     "channel": {
-      "en": "Have him talk of fine work, rich seams and fair trade — gold, gems and the worth of things — and speak of them bluntly."
+      "en": "Loud, good-humoured, mercantile — they talk prices and opinions in the same breath, and the Lake-men get the unabridged version."
     },
     "facts": {
       "topic": "craft_and_gold"
@@ -15226,7 +15230,7 @@
         "id": "cnt:0d1a0007-0000-4000-8000-0d1a00000007:sit",
         "tags": [],
         "situation": {
-          "en": "They have nothing to fear on this road today and it shows in how much they are willing to say."
+          "en": "The iron-prices are worth remembering; the opinion of the Long Lake folk is worth hearing once, for the entertainment alone."
         }
       }
     ],
@@ -15247,13 +15251,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Closed as a shut door on the subject of where he is from, and grimly talkative about everything else."
+      "en": "He is asking about a doorway his folk lost long ago — and he is not saying why he is counting the people who go near it."
     },
     "presence": {
-      "en": "He wants to know whether anyone has been up the Dimrill Stair this season, and who, and whether they came back down it."
+      "en": "A Dwarf alone on the road — closed as a shut door on the subject of where he is from, grimly talkative about everything else — who stops the traveller with a flat palm and a direct question: 'Has anyone been up the Dimrill Stair this season? Who? And did they come back down it?' He asks the questions like a man counting, and will not say what he is counting toward."
     },
     "channel": {
-      "en": "Have him speak of a mansion or mine lost to dragon or goblin, and the wealth and kin buried with it."
+      "en": "The counting-questions of a man logging data — he takes names, numbers, and which way they came back, if they came back."
     },
     "facts": {
       "topic": "lost_halls"
@@ -15263,7 +15267,7 @@
         "id": "cnt:0d1a0008-0000-4000-8000-0d1a00000008:sit",
         "tags": [],
         "situation": {
-          "en": "He is asking about a doorway his folk lost long ago and will not say why he is counting the people who go near it."
+          "en": "The Dimrill Stair goes up to a place his people do not name in company. Whoever goes up and comes down is being tallied — for what is his business."
         }
       }
     ],
@@ -15358,13 +15362,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Suspicious on sight — a man alone near his diggings is a claim-jumper until proved otherwise."
+      "en": "Suspicious on sight — he is standing on a find he has not registered with anyone and he is not subtle about guarding it."
     },
     "presence": {
-      "en": "Short questions about which way the traveller came and whether he stopped anywhere near the stream-head, and a grudging note on where the ground is safe to walk."
+      "en": "A Dwarf at a hillside dig — short, massive through the chest, a red beard clagged with fresh clay — who stops his digging to put short, suspicious questions: which way the traveller came, whether he stopped anywhere near the stream-head, and then, grudgingly, where the ground is safe to walk. A man alone near his diggings is a claim-jumper until proved otherwise, and the proof is in the answers."
     },
     "channel": {
-      "en": "Have him put short, suspicious questions, saying little of his own roads and liking prying even less."
+      "en": "Claim-questions and grudging ground-advice — he gives the safe-walk because a dead traveller on his claim is paperwork he does not need."
     },
     "facts": {
       "topic": "guarded_suspicion"
@@ -15374,7 +15378,7 @@
         "id": "cnt:0d1a0011-0000-4000-8000-0d1a00000011:sit",
         "tags": [],
         "situation": {
-          "en": "He is standing on a find he has not registered with anyone and he is not subtle about guarding it."
+          "en": "The stream-head is his and unregistered; the safe ground is the road's. Both facts are given with equal precision, one with more warmth."
         }
       }
     ],
@@ -15395,13 +15399,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A patrol that halts him with a raised axe-handle and then talks to him quite civilly from behind it."
+      "en": "Border-keepers, courteous behind the barrier — the civility is real and so is the axe-handle."
     },
     "presence": {
-      "en": "They want his name, his road and whether he has seen anyone moving on the high tracks; in return they will say which of the two gates is open this month."
+      "en": "A Dwarven patrol halts the traveller with a raised axe-handle — five of them, mail-hooded, the axle-breaker held like a polite barrier — and then talks to him quite civilly from behind it: they want his name, his road, and whether he has seen anyone moving on the high tracks. In return they will say which of the two gates is open this month."
     },
     "channel": {
-      "en": "Have him speak of loyalty to king and folk, and the binding weight of a word once given."
+      "en": "Formal exchange protocol — they ask the three questions, give the one answer, and judge him by how he takes the whole arrangement."
     },
     "facts": {
       "topic": "oath_and_kin"
@@ -15411,7 +15415,7 @@
         "id": "cnt:0d1a0012-0000-4000-8000-0d1a00000012:sit",
         "tags": [],
         "situation": {
-          "en": "They are keeping a border and he is a data point. The civility is real and so is the axe-handle."
+          "en": "They are keeping a border and he is a data point. The open gate is worth the three questions — the axe-handle is merely the punctuation."
         }
       }
     ],
@@ -15432,13 +15436,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Half-wild and hard to place, speaking a rough Westron and watching the traveller's hands rather than his face."
+      "en": "He is used to being taken for something less than he is and has stopped minding — the remark about the ice is not a joke."
     },
     "presence": {
-      "en": "He trades furs and worked bone, wants iron above everything, and mentions that the northern ice has been giving up things this year that were better left under it."
+      "en": "A Dwarf trader at the road's edge — half-wild and hard to place: pale-skinned, frost-white beard, furs and worked bone on a sledge-frame, speaking a rough Westron and watching the traveller's hands rather than his face. He trades furs and bone-work, wants iron above everything, and mentions — as if it were weather — that the northern ice has been giving up things this year that were better left under it."
     },
     "channel": {
-      "en": "Have him put short, suspicious questions, saying little of his own roads and liking prying even less."
+      "en": "Rough Westron, sharp trades — he prices iron high because iron is what the ice-country lacks, and he knows the exchange-rates better than he lets on."
     },
     "facts": {
       "topic": "guarded_suspicion"
@@ -15448,7 +15452,7 @@
         "id": "cnt:0d1a0013-0000-4000-8000-0d1a00000013:sit",
         "tags": [],
         "situation": {
-          "en": "He is used to being taken for something less than he is and has stopped minding. The remark about the ice is not a joke."
+          "en": "What the ice gives up, it gives up reluctantly — and what it gave up this year, he would rather trade to someone carrying iron than carry himself."
         }
       }
     ],
@@ -24230,10 +24234,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Survey marks cut into the rock face above the road — fresh chisel-work, specific angles and depths that are not decorative."
+      "en": "Sign only — a survey-team's signature on the land, written for other Dwarves to read."
     },
     "presence": {
-      "en": "Dwarven survey-marks mean a Dwarven survey team has been through this area recently. The marks will tell a Dwarven geologist about the rock composition and the depth of a potential shaft. They are probably still in the area."
+      "en": "Survey-marks cut into the rock face above the road — fresh chisel-work, clean angles and depths that are not decorative: a Dwarven survey-team's notation, the kind that tells a Dwarven geologist about the rock composition and the depth of a potential shaft. The marks are recent — within the week — and the team that cut them is probably still in the area."
     },
     "channel": null,
     "facts": {
@@ -24244,7 +24248,7 @@
         "id": "cnt:fbab3d19-a8a6-4e03-a8a7-b5e30784f2d7:sit",
         "tags": [],
         "situation": {
-          "en": "Survey teams precede mining operations. Mining operations change roads."
+          "en": "Survey-teams precede mining operations. Mining operations change roads — and the marks are the first announcement."
         }
       }
     ],
