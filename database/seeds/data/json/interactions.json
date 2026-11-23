@@ -50421,13 +50421,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:4d9b636e-cfc2-4553-ba53-77f6b765ed83",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Slip past under cover of the argument",
+      "es": "Pasar de largo al amparo de la discusión"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not step on anything. Does not breathe loudly. Moves around the fire's light."
+          "en": "He gives the fire a wide berth — right shoulder, off the packed earth, counting steps between the beats of the argument. 'Roasted's the only way—' 'Boiled keeps the MARROW.' The debate covers him the way surf covers a footstep: he is thirty yards past before the third one finishes eating, and the fire is behind him before anyone's opinion changes.",
+          "es": "Le da al fuego un rodeo amplio — hombro derecho, fuera de la tierra pisada, contando pasos entre los golpes de la discusión. 'Asado es la única forma—' 'Hervido guarda el TUÉTANO.' El debate lo cubre como el oleaje cubre un paso: está treinta yardas más allá antes de que el tercero termine de comer, y el fuego queda atrás antes de que cambie alguna opinión."
         },
         "effects": []
       }
@@ -50445,13 +50449,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:911aa104-9340-45d6-9675-6e9e3a0e63e7",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Answer the lost shepherd honestly",
+      "es": "Responderle al pastor perdido con la verdad"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers the question. Tells him the direction. Watches him go."
+          "en": "He answers the question — tells him the direction he actually saw sheep sign, two valleys back, near water. The troll repeats it twice to be sure, says 'Knew they'd head for water,' which he did not, and lumbers off the road the wrong way but a happier wrong way. The road is clear. Somewhere behind him a flock is still lost, and a troll is learning to be a shepherd the hard way.",
+          "es": "Responde la pregunta — le dice la dirección donde de verdad vio señales de ovejas, dos valles atrás, cerca del agua. El troll lo repite dos veces para asegurarse, dice 'Sabía que irían al agua', que no lo sabía, y se aleja de la ruta por el camino equivocado pero un equivocado más feliz. La ruta queda libre. En algún lugar detrás un rebaño sigue perdido, y un troll está aprendiendo a ser pastor por las malas."
         },
         "effects": []
       }
@@ -50469,13 +50477,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:6c77b940-96d2-4acb-84d1-b6749482fcdf",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Trade a knife and a story for the road",
+      "es": "Trocar un cuchillo y una historia por la ruta"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Thinks about what he can spare. Considers what walking out of the Trollshaws is worth."
+          "en": "He thinks about what he can spare — and names it: the belt-knife, not the good one, with a story attached that is also not the good one. 'Best knife I've carried. Took it off a thing in the Barrow-downs.' The troll receives it like a relic, tests the edge on a thumb that doesn't notice, and waves him through with the satisfaction of a collector. The other two watch him go like an exhibit leaving the museum.",
+          "es": "Piensa qué puede resignar — y lo nombra: el cuchillo del cinto, no el bueno, con una historia adjunta que tampoco es la buena. 'El mejor cuchillo que llevé. Se lo quité a una cosa en las Quebradas de los Túmulos.' El troll lo recibe como una reliquia, prueba el filo en un pulgar que no lo nota, y lo deja pasar con la satisfacción de un coleccionista. Los otros dos lo miran irse como una pieza que sale del museo."
         },
         "effects": []
       }
@@ -50493,13 +50505,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:395740a2-067a-4217-a021-1324afdba499",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Answer the question and stay in the window",
+      "es": "Responder la pregunta y quedarse en la ventana"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Tells him what she is. Asks what he is. He finds this extremely funny."
+          "en": "She tells him what she is — plainly, the way you answer a child with teeth. 'A woman of the Firstborn. Older than these hills.' The troll chews on that, finds it interesting rather than alarming, and asks the follow-up that actually matters: 'Older'n Gran'ma?' Gran'ma, it develops, is very old indeed and has opinions. She stays in the window a while — curiosity exchanged for curiosity — and leaves before it closes.",
+          "es": "Le dice qué es — sin rodeos, como se responde a un niño con dientes. 'Una mujer de los Primogénitos. Más vieja que estas colinas.' El troll mastica eso, lo encuentra interesante en vez de alarmante, y hace la pregunta que de verdad importa: '¿Más vieja que la Abuela?' La Abuela, resulta, es muy vieja en efecto y tiene opiniones. Ella se queda en la ventana un rato — curiosidad por curiosidad — y se va antes de que se cierre."
         },
         "effects": []
       }
@@ -50517,13 +50533,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:17c9c9ab-221e-4971-a7be-32fd10179f8c",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Stand still and be boring",
+      "es": "Quedarse quieto y ser aburrido"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not run. Does not retreat. Stands."
+          "en": "He does not run. He does not retreat. He stands — breathes, settles his stance, looks back with the flat patience of a man who has also decided something is going to happen. A long minute of it. Then two. The troll's focus dulls further into something like disappointment — boring — and it finally turns its head away to watch for better entertainment. He walks past it at an even pace, and does not start breathing again until the bend.",
+          "es": "No corre. No retrocede. Se queda quieto — respira, asienta la postura, le devuelve la mirada con la paciencia chata de un hombre que también decidió que algo va a pasar. Un minuto largo. Después dos. El foco del troll se apaga hasta algo parecido a la decepción — aburrido — y finalmente gira la cabeza para vigilar mejor entretenimiento. Lo pasa caminando a paso parejo, y no vuelve a respirar hasta la curva."
         },
         "effects": []
       }
@@ -50541,13 +50561,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:7343f32b-9924-4dca-a48d-86d0460c758f",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Stall the talker and break the circle",
+      "es": "Entretener al que habla y romper el círculo"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not look at the circling one. Keeps eyes on the one that spoke."
+          "en": "He does not look at the circling one — keeps his eyes on the talker and his ears on the gravel behind him, and gives the words back slower than they came: 'Give what here?' Buying syllables. When the circling stops, he moves — not back, sideways, off the line between them — and the trap opens like a hand. They let him go rather than chase; the practiced thing was the trap, not the legs.",
+          "es": "No mira al que rodea — mantiene los ojos en el que habla y las orejas en la grava de atrás, y devuelve las palabras más despacio de lo que llegaron: '¿Dar qué acá?' Compra sílabas. Cuando el rodeo se detiene, se mueve — no atrás, de costado, fuera de la línea entre los dos — y la trampa se abre como una mano. Lo dejan ir antes que perseguir; lo practicado era la trampa, no las piernas."
         },
         "effects": []
       }
@@ -50565,13 +50589,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:5ebc25fe-0b80-4692-b45d-d534dd487886",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Stand, name it plainly, and wait",
+      "es": "Quedarse, nombrarlo claramente y esperar"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Has approximately four options. Three of them are bad."
+          "en": "He has approximately four options and three of them are bad — so he takes the fourth: nothing. He stands and lets the thing look at him, and says, because standing in silence has its own weight and silence spent well is a language: 'I'm passing through.' The troll considers this the way a hillside considers weather. Then it steps — one step — off the path's centre. Not a concession. A decision. He takes it and does not look back.",
+          "es": "Tiene aproximadamente cuatro opciones y tres son malas — así que toma la cuarta: nada. Se queda quieto y deja que la cosa lo mire, y dice, porque quedarse en silencio tiene su propio peso y el silencio bien gastado es un idioma: 'Solo estoy pasando.' El troll lo considera como una ladera considera el clima. Después da un paso — un paso — fuera del centro del sendero. No una concesión. Una decisión. La toma y no mira atrás."
         },
         "effects": []
       }
@@ -50589,13 +50617,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:a6ed0f26-d3cf-46be-94be-1ea32c443461",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Read it like the sign it is, and go around",
+      "es": "Leerlo como la señal que es, y rodearlo"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Looks for what is behind it — what it is guarding. Then looks for the way around."
+          "en": "He looks for what is behind it — what a weapon this size is pointed at — and finds nothing to guard but the road itself, which is its own information: someone wants this stretch closed. He marks it, files it with the other things the road has been saying lately, and gives the troll a berth measured in bowshots. It does not move. It was not put there to move.",
+          "es": "Busca qué hay detrás — contra qué está apuntada un arma de este tamaño — y no encuentra nada que guardar excepto la ruta misma, que ya es información: alguien quiere este tramo cerrado. Lo anota, lo archiva con las otras cosas que la ruta viene diciendo últimamente, y le da al troll un margen medido en tiros de arco. No se mueve. No lo pusieron ahí para moverse."
         },
         "effects": []
       }
@@ -50613,13 +50645,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:11eddcc2-ec37-4f80-8b56-dd48e4bc1cd6",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Produce the papers and let procedure work",
+      "es": "Mostrar los papeles y dejar que el procedimiento opere"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Produces what papers exist. Watches how he reads them."
+          "en": "He produces what papers exist — the road-pass, the trade letter, the names that have worked before — and watches the troll read them the way someone reads who learned recently and takes it seriously. Finger under the words. 'Passage to the southern crossroads. Three days.' The pole lifts. The procedure is satisfied, and he walks through the checkpoint of an army that does not formally exist on this road, which he thinks about for the next mile.",
+          "es": "Presenta los papeles que existen — el pase de ruta, la carta de comercio, los nombres que funcionaron antes — y mira al troll leerlos como lee alguien que aprendió hace poco y se lo toma en serio. Dedo bajo las palabras. 'Paso al cruce del sur. Tres días.' La pértiga se levanta. El procedimiento queda satisfecho, y cruza el puesto de un ejército que formalmente no existe en esta ruta, en lo cual piensa durante la próxima milla."
         },
         "effects": []
       }
@@ -50637,13 +50673,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:a12ac888-3322-4c9f-8231-1faf1f1c94aa",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Slip past while the shoving starts",
+      "es": "Pasar mientras empiezan los empujones"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes the right side. Moves fast."
+          "en": "He takes the right side — scrub and loose stone, loud in any other company — and the shoving-match covers him entirely. 'I SEEN IT FIRST—' Behind him it tips over into the hitting, and the hitting covers the rest. He is past before the dead thing's ownership is resolved, with the satisfied feeling of having arbitrated by absence.",
+          "es": "Toma el lado derecho — matorral y piedra suelta, ruidoso en cualquier otra compañía — y la pelea de empujones lo cubre por completo. 'YO LO VI PRIMERO—' A su espalda se vuelca en golpes, y los golpes cubren el resto. Ya pasó antes de que se resuelva la propiedad de la cosa muerta, con la satisfacción de haber arbitrado por ausencia."
         },
         "effects": []
       }
@@ -53141,13 +53181,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:756abfb9-c9c2-49c5-a703-83aefe010ade",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Go around the fire on the right",
+      "es": "Rodear el fuego por la derecha"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not step on anything. Goes around."
+          "en": "He goes around on the right — slow, placing each step in the gaps between the argument's beats. 'IN. Flavour's in the—' 'OUT. You crack 'em AFTER.' The debate covers him like weather. Fifty yards of it, then the road is his again and the fire is a rumour behind him. He never learns what was in the pot, which he decides a mile later is fine.",
+          "es": "Rodea por la derecha — despacio, poniendo cada paso en los huecos entre los golpes de la discusión. 'ADENTRO. El sabor está en el—' 'AFUERA. Se parten DESPUÉS.' El debate lo cubre como el clima. Cincuenta yardas así, y la ruta vuelve a ser suya y el fuego es un rumor a su espalda. Nunca se entera de qué había en la olla, lo cual decide una milla después que está bien."
         },
         "effects": []
       }
@@ -53165,13 +53209,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:66548a9d-d032-42da-a216-bf8a716ce79d",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Pay the toll he is offering to accept",
+      "es": "Pagar el peaje que él ofrece aceptar"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Names what can be spared. Gives it over. Continues."
+          "en": "He names what can be spared — food bag, the spare knife, the coin he was keeping for a worse door than this one — and gives it over one item at a time, watching each land in hands the size of his chest. 'Worth having,' the troll confirms, delighted with a transaction he recognizes as a success. 'Told 'em it'd work.' He walks on lighter by exactly the amount he chose to lose.",
+          "es": "Nombra lo que puede resignar — el bolso de comida, el cuchillo de repuesto, la moneda que guardaba para una puerta peor que esta — y lo entrega de a un ítem por vez, mirando cada uno aterrizar en manos del tamaño de su pecho. 'Vale la pena', confirma el troll, encantado con una transacción que reconoce como un éxito. 'Les dije que funcionaba.' Sigue camino más liviano exactamente en la cantidad que eligió perder."
         },
         "effects": []
       }
@@ -53189,13 +53237,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:32d1e3d0-d58c-47f2-a89f-4517b6f9bf27",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Decline the test and take the wash",
+      "es": "Rechazar el examen y tomar el cauce"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not argue. Turns back. Finds another way."
+          "en": "He does not argue — that is the whole test and he declines it. 'Your road, nights,' he agrees, and turns back the way he came with the unhurried calm of a man choosing to be elsewhere. Behind him the troll repeats 'Mine, nights' to the rocks a few times, savoring a victory it half-suspects it was given. He finds the dry wash that parallels the road and spends an hour in it, which beats becoming a story told by other travellers.",
+          "es": "No discute — ese es el examen entero y él lo rechaza. 'Tu ruta, de noche', acuerda, y vuelve por donde vino con la calma sin apuro de un hombre que elige estar en otra parte. A su espalda el troll repite 'Mía, de noche' a las rocas algunas veces, saboreando una victoria que medio sospecha que le regalaron. Encuentra el cauce seco que corre paralelo a la ruta y pasa una hora en él, que es mejor que convertirse en una historia que cuentan otros viajeros."
         },
         "effects": []
       }
@@ -53213,13 +53265,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:e19fe0df-9568-4be5-affc-0234ed0ce0c0",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Break through the uncovered line",
+      "es": "Romper por la línea sin cubrir"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not look at the distraction."
+          "en": "He does not look at the distraction — tracks the circler in the corner of his eye instead and steps, before the circle closes, through the one line it hasn't covered: downhill, off the road, into the rocks where big bodies pay for every yard. They commit a beat too late. He hears the circler reach the place he was standing, and then he is two rises gone and the night is his again.",
+          "es": "No mira a la distracción — sigue al que rodea con el rabillo del ojo y da el paso, antes de que el círculo cierre, por la única línea que no cubrió: cuesta abajo, fuera de la ruta, hacia las rocas donde los cuerpos grandes pagan cada yarda. Se comprometen un compás tarde. Oye al que rodea llegar al lugar donde él estaba parado, y ya está dos lomas más allá y la noche es suya otra vez."
         },
         "effects": []
       }
@@ -53237,13 +53293,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:e073672a-b354-410b-a70c-a099954d774e",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Find the gate's edge and go over",
+      "es": "Encontrar el borde del portón y pasar por arriba"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Looks for what it is guarding. Then finds the way around."
+          "en": "He studies it the way he'd study a gate — hinges, weight, the line it was hung on — and finds what gates always have: edges. The troll holds the road; nobody told it about the scree slope above. He takes the slope, ankle-deep in loose stone, and from the top he can see it plainly: posted, provisioned, and utterly indifferent to anything that isn't on its road. He leaves it to its orders.",
+          "es": "Lo estudia como estudiaría un portón — bisagras, peso, la línea donde lo colgaron — y encuentra lo que los portones siempre tienen: bordes. El troll sostiene la ruta; nadie le habló del pedregal de arriba. Toma el pedregal, con las piedras sueltas hasta los tobillos, y desde arriba lo ve claro: emplazado, aprovisionado, y totalmente indiferente a todo lo que no esté en su ruta. Se lo deja a sus órdenes."
         },
         "effects": []
       }
@@ -53261,13 +53321,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:43a3c42e-bc94-4f7b-b3b5-e81527557449",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Satisfy the paperwork correctly",
+      "es": "Satisfacer el papeleo correctamente"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Produces what papers exist. Waits while he records them."
+          "en": "He produces what papers exist — pass, letters, the name of a factor in the south — and waits while the troll records them with the solemnity of a man copying scripture. Finger under the words. 'Three days on the north road. Move along.' The pole lifts. He walks through an inspection performed correctly by a thing that was not built for paperwork, and spends the next mile thinking about whoever taught it.",
+          "es": "Presenta los papeles que existen — pase, cartas, el nombre de un factor del sur — y espera mientras el troll los registra con la solemnidad de un hombre copiando escritura. Dedo bajo las palabras. 'Tres días en la ruta norte. Circule.' La pértiga se levanta. Cruza una inspección correctamente ejecutada por una cosa que no fue hecha para el papeleo, y pasa la próxima milla pensando en quién se lo enseñó."
         },
         "effects": []
       }
@@ -60576,13 +60640,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:338fac46-ab37-41ad-87d2-7afbaa66bf90",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Agree and keep the pace",
+      "es": "Coincidir y mantener el paso"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Agrees that yes, it is small. Continues."
+          "en": "She agrees — 'Small,' she confirms, walking on at the same pace, neither hurrying nor slowing — and the troll accepts the agreement as the whole conversation, already back to its meal. She is fifty yards gone when it adds, to nobody in particular: 'The big ones don't stop to chat.' She does not ask what it means. She walks a little faster after the bend.",
+          "es": "Ella coincide — 'Chica', confirma, caminando al mismo paso, ni apurando ni frenando — y el troll acepta la coincidencia como toda la conversación, ya de vuelta a su comida. Está cincuenta yardas más allá cuando agrega, a nadie en particular: 'Los grandes no paran a charlar.' Ella no pregunta qué quiere decir. Camina un poco más rápido después de la curva."
         },
         "effects": []
       }
@@ -60600,13 +60668,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:8ee3c909-e2e5-4640-b9de-7fab0c327120",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Ask who expected the road clear",
+      "es": "Preguntarle quién esperaba la ruta despejada"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks who said the road would be clear. Watches it decide whether to answer."
+          "en": "She asks — because the confusion is a door — who said the road would be clear. The troll turns the question over like a stone too heavy to skip: 'The men. At the cave.' Then, having delivered this, it visibly does not know what to do with her, because the instructions ended at 'clear' and did not include her. 'You should,' it decides, 'not be here.' Advice, delivered with great fairness. She takes it.",
+          "es": "Ella pregunta — porque la confusión es una puerta — quién dijo que la ruta estaría despejada. El troll le da vuelta a la pregunta como a una piedra muy pesada para saltarla: 'Los hombres. En la cueva.' Después, habiendo entregado esto, visiblemente no sabe qué hacer con ella, porque las instrucciones terminaban en 'despejada' y no la incluían. 'Tendrías que,' decide, 'no estar acá.' Un consejo, entregado con gran justicia. Ella lo toma."
         },
         "effects": []
       }
@@ -64418,13 +64490,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:c11938de-3d07-4ace-b968-ce78a28bc6c6",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Read the break and walk accordingly",
+      "es": "Leer el corte y caminar en consecuencia"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Notes the break-height. Notes the direction of travel. Continues."
+          "en": "He notes the break-height — a head above his own — and the direction of travel, east, unhurried by the look of the displacement. Whatever it was, it was in no hurry and felt no need to be. He checks the lee side of the next rise before he commits to the road, and walks the next stretch with the attention the sign paid for.",
+          "es": "Anota la altura del corte — una cabeza por encima de la suya — y la dirección de viaje, este, sin apuro a juzgar por el desplazamiento. Lo que haya sido, no tenía prisa ni sentía necesitarla. Revisa el sotavento de la próxima loma antes de comprometerse a la ruta, y camina el siguiente tramo con la atención que la señal pagó."
         },
         "effects": []
       }
@@ -69835,6 +69911,1070 @@
         },
         "effects": []
       }
+    }
+  },
+  {
+    "id": "cnt:4d9b636e-cfc2-4553-ba53-77f6b765ed83:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:4d9b636e-cfc2-4553-ba53-77f6b765ed83",
+    "act": "avoid",
+    "label": {
+      "en": "Stand in the dark and listen a while",
+      "es": "Pararse en la oscuridad y escuchar un rato"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He stops at the edge of the firelight and listens — three trolls reconstructing, with great seriousness, the culinary history of the last shepherd, the one before that, and a dog that is still a sore point. He learns nothing useful except what was on the fire, and that is useful. After ten minutes he moves on with a full map of the menu.",
+          "es": "Se para al borde de la luz del fuego y escucha — tres trolls reconstruyendo, con toda seriedad, la historia culinaria del último pastor, el anterior a ese, y un perro que sigue siendo un tema sensible. No aprende nada útil excepto qué había en el fuego, y eso es útil. A los diez minutos sigue camino con un mapa completo del menú."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:4d9b636e-cfc2-4553-ba53-77f6b765ed83:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:4d9b636e-cfc2-4553-ba53-77f6b765ed83:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:4d9b636e-cfc2-4553-ba53-77f6b765ed83",
+    "act": "talk",
+    "label": {
+      "en": "Step into the light and settle the argument",
+      "es": "Entrar a la luz y zanjar la discusión"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He steps into the firelight — every head turns — and delivers, with the confidence of a man who knows exactly what he is risking: 'You're both wrong. A shepherd that size wants a slow pit, and the marrow belongs in the gravy.' A silence in which the whole thing could go either way — then the eater looks up and nods, and the debate explodes into a fresh war about gravy. He leaves while they argue about his contribution. Sometimes the door out is an opinion.",
+          "es": "Entra a la luz del fuego — todas las cabezas giran — y sentencia, con la seguridad de un hombre que sabe exactamente lo que arriesga: 'Están los dos equivocados. Un pastor de ese tamaño quiere horno de tierra lento, y el tuétano va en la salsa.' Un silencio en el que todo podría salir de cualquiera de las dos formas — entonces el que come levanta la vista y asiente, y el debate explota en una guerra nueva sobre la salsa. Se va mientras discuten su aporte. A veces la puerta de salida es una opinión."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:4d9b636e-cfc2-4553-ba53-77f6b765ed83:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:911aa104-9340-45d6-9675-6e9e3a0e63e7:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:911aa104-9340-45d6-9675-6e9e3a0e63e7",
+    "act": "talk",
+    "label": {
+      "en": "Ask what a troll wants with a flock",
+      "es": "Preguntarle qué quiere un troll con un rebaño"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — genuinely — what a troll wants with sheep, and the answer is worse and better than expected: 'Company,' the troll says, after working the word loose. 'Sheep don't run off if you feed 'em. Mostly.' Eleven sheep. He had named two of them. He tells him the names, and waits to see if that is funny. It is not funny. It is the loneliest thing on this road.",
+          "es": "Pregunta — genuinamente — qué quiere un troll con ovejas, y la respuesta es peor y mejor de lo esperado: 'Compañía', dice el troll, después de desenredar la palabra. 'Las ovejas no se escapan si les das de comer. Casi siempre.' Once ovejas. Les había puesto nombre a dos. Le dice los nombres, y espera a ver si es gracioso. No es gracioso. Es lo más solitario de esta ruta."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:911aa104-9340-45d6-9675-6e9e3a0e63e7:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:911aa104-9340-45d6-9675-6e9e3a0e63e7:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:911aa104-9340-45d6-9675-6e9e3a0e63e7",
+    "act": "avoid",
+    "label": {
+      "en": "Point him the same wrong way and slip past",
+      "es": "Señalarle el mismo rumbo equivocado y pasar"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He points him the way the troll is already pointing — confirms the error, because arguing directions with a troll in the road takes all night. 'That way. Water. Can't miss 'em.' The troll beams, says something that might be thanks, and crashes off to look for his sheep in a valley they never saw. He walks on with the small weight of a lie told to a grieving thing.",
+          "es": "Le señala el camino que el troll ya señalaba — confirma el error, porque discutir direcciones con un troll en la ruta lleva toda la noche. 'Por ahí. Agua. No podés errarles.' El troll sonríe, dice algo que podría ser gracias, y se aleja a los golpes a buscar sus ovejas en un valle que nunca vieron. Sigue camino con el pequeño peso de una mentira dicha a algo que está de duelo."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:911aa104-9340-45d6-9675-6e9e3a0e63e7:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:6c77b940-96d2-4acb-84d1-b6749482fcdf:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:6c77b940-96d2-4acb-84d1-b6749482fcdf",
+    "act": "talk",
+    "label": {
+      "en": "Ask what happened to the first man's knife",
+      "es": "Preguntarle qué pasó con el cuchillo del primer hombre"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks about the first knife — the one from three years ago — and learns it was traded too, and the one before that. The troll has four knives now and carries them all, and can name where each came from in the order he got them. A collector. The road is a market to him and everyone passing is a stall. He walks on knowing exactly what the next traveller will be asked.",
+          "es": "Pregunta por el primer cuchillo — el de hace tres años — y se entera de que también fue trocado, y el anterior también. El troll tiene cuatro cuchillos ahora y los lleva todos encima, y puede nombrar de dónde salió cada uno en el orden en que llegaron. Un coleccionista. La ruta es su mercado y cada viajero es un puesto. Sigue camino sabiendo exactamente qué le van a preguntar al próximo."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:6c77b940-96d2-4acb-84d1-b6749482fcdf:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:6c77b940-96d2-4acb-84d1-b6749482fcdf:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:6c77b940-96d2-4acb-84d1-b6749482fcdf",
+    "act": "avoid",
+    "label": {
+      "en": "Show him the knife is poor and keep walking",
+      "es": "Mostrarle que el cuchillo es pobre y seguir"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He draws what he has and lets the troll look — a working blade, honest and dull-edged from use. The troll inspects it with a collector's eye, delivers the verdict 'Not a good knife,' and loses interest in the man carrying it. Which is the whole game: to be not worth the taking. He walks on, poorer in pride and richer in knives than the alternative.",
+          "es": "Saca lo que tiene y deja que el troll lo mire — una hoja de trabajo, honesta y con el filo gastado del uso. El troll la inspecciona con ojo de coleccionista, dictamina 'No es un buen cuchillo', y pierde interés en el hombre que la lleva. Que es todo el juego: no valer la pena de tomar. Sigue camino, más pobre de orgullo y más rico en cuchillos que la alternativa."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:6c77b940-96d2-4acb-84d1-b6749482fcdf:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:395740a2-067a-4217-a021-1324afdba499:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:395740a2-067a-4217-a021-1324afdba499",
+    "act": "talk",
+    "label": {
+      "en": "Ask what he is, in return",
+      "es": "Preguntarle qué es él, a su vez"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks him what he is — and he finds this extremely funny, a wheezing rockslide of a laugh. 'Me? TROLL.' Said the way a man says 'obviously.' Then, generously, since the exchange is going well: 'Bill. Well. Bert calls me Bill.' His name is William, and in another age another troll by that name ended as a landmark. She does not say so.",
+          "es": "Le pregunta qué es él — y le resulta enormemente gracioso, una risa como un derrumbe de piedras. '¿Yo? TROLL.' Dicho como un hombre dice 'obvio'. Después, generoso, ya que el intercambio va bien: 'Bill. Bueno. Bert me dice Bill.' Se llama William, y en otra era otro troll de ese nombre terminó de hito en el camino. Ella no lo dice."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:395740a2-067a-4217-a021-1324afdba499:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:395740a2-067a-4217-a021-1324afdba499:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:395740a2-067a-4217-a021-1324afdba499",
+    "act": "avoid",
+    "label": {
+      "en": "Pass before the curiosity finishes chewing",
+      "es": "Pasar antes de que la curiosidad termine de masticar"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She keeps walking — answers nothing, varies nothing, gives the curiosity nothing to close on. Behind her the troll repeats 'Not running away' to the others like a riddle he intends to solve later. The window stays open behind her all the way out of earshot, and she does not look back to see whether it closes.",
+          "es": "Sigue caminando — no responde nada, no varía nada, no le da a la curiosidad nada donde cerrar. A su espalda el troll repite 'No se escapa' a los otros como un acertijo que piensa resolver después. La ventana queda abierta a su espalda hasta salir del alcance del oído, y no mira atrás para ver si se cierra."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:395740a2-067a-4217-a021-1324afdba499:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:17c9c9ab-221e-4971-a7be-32fd10179f8c:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:17c9c9ab-221e-4971-a7be-32fd10179f8c",
+    "act": "talk",
+    "label": {
+      "en": "Address it calmly, the way you address weather",
+      "es": "Dirigirle la palabra con calma, como al clima"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He speaks to it — level, unhurried, the way you address weather: 'Evening. Mind if I pass?' The troll blinks — speech is not movement, and its whole system is built on movement — and in its confusion it has already lost the game it was playing. He walks around it still talking mildly about the road, and it lets him, because boring is boring however it arrives.",
+          "es": "Le habla — parejo, sin apuro, como se le habla al clima: 'Buenas noches. ¿Me dejás pasar?' El troll parpadea — el habla no es movimiento, y todo su sistema está construido sobre el movimiento — y en su confusión ya perdió el juego que estaba jugando. Lo rodea caminando mientras le sigue hablando mansamente de la ruta, y lo deja, porque aburrido es aburrido por donde llegue."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:17c9c9ab-221e-4971-a7be-32fd10179f8c:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:17c9c9ab-221e-4971-a7be-32fd10179f8c:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:17c9c9ab-221e-4971-a7be-32fd10179f8c",
+    "act": "avoid",
+    "label": {
+      "en": "Back away the way he came, facing it",
+      "es": "Retroceder por donde vino, de frente"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He backs away — slowly, facing it, no sudden anything — until the road puts a rise between them, and then he finds the long way around through the rocks. Behind him the troll settles back into its watching, mildly disappointed, already forgetting. Some games you win by refusing to play, and paying an hour for the refusal.",
+          "es": "Retrocede — despacio, de frente, sin nada brusco — hasta que la ruta pone una loma entre los dos, y entonces busca el camino largo entre las rocas. A su espalda el troll vuelve a su vigilia, levemente decepcionado, ya olvidando. Algunos juegos se ganan negándose a jugar, y pagando una hora por la negativa."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:17c9c9ab-221e-4971-a7be-32fd10179f8c:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:7343f32b-9924-4dca-a48d-86d0460c758f:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:7343f32b-9924-4dca-a48d-86d0460c758f",
+    "act": "defy",
+    "label": {
+      "en": "Bolt the gap before it closes",
+      "es": "Pasar de golpe por el hueco antes de que se cierre"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He reads the circle half-closed and takes the gamble — bursts through the narrowing gap between the talker and the rocks, close enough to smell it, before the circling one can cross the line. Behind him three seconds of confusion, then roaring, then the decision not to chase that ambushers always make. He does not stop for a mile.",
+          "es": "Lee el círculo a medio cerrar y acepta la apuesta — sale de golpe por el hueco que se achica entre el que habla y las rocas, tan cerca como para olerlo, antes de que el que rodea pueda cruzar la línea. Atrás quedan tres segundos de confusión, luego rugidos, luego la decisión de no perseguir que siempre toman los que emboscan. No para en una milla."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:7343f32b-9924-4dca-a48d-86d0460c758f:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:7343f32b-9924-4dca-a48d-86d0460c758f:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:7343f32b-9924-4dca-a48d-86d0460c758f",
+    "act": "avoid",
+    "label": {
+      "en": "Empty one pocket and leave backwards",
+      "es": "Vaciar un bolsillo y retirarse de espaldas"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He names the price before they can set it — unslings the food bag and tosses it to the talker's feet, backing away while the arithmetic of 'bird in hand' does its slow work. The talker investigates the bag; the circler abandons the circle for the bag; the robbery completes itself at a price he chose. He is a long way gone before they finish dividing it.",
+          "es": "Nombra el precio antes de que ellos lo fijen — se descuelga el bolso de comida y lo tira a los pies del que habla, retirándose de espaldas mientras la aritmética de 'más vale pájaro en mano' hace su trabajo lento. El que habla investiga el bolso; el que rodea abandona el círculo por el bolso; el robo se completa solo a un precio que él eligió. Está muy lejos cuando terminan de repartir."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:7343f32b-9924-4dca-a48d-86d0460c758f:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:5ebc25fe-0b80-4692-b45d-d534dd487886:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:5ebc25fe-0b80-4692-b45d-d534dd487886",
+    "act": "talk",
+    "label": {
+      "en": "Ask what it has been waiting for",
+      "es": "Preguntarle qué ha estado esperando"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — because patience that size deserves a question — what it has been waiting for. The troll turns the question over for a long moment, and answers with the only vocabulary the wait has left it: 'Food.' One word, moss-covered. It steps off the path and past him toward the treeline with the momentum of weather moving in. He was not the food it waited for. He keeps walking anyway, faster than before.",
+          "es": "Pregunta — porque una paciencia de ese tamaño se merece una pregunta — qué ha estado esperando. El troll le da vuelta a la pregunta un largo momento, y responde con el único vocabulario que la espera le dejó: 'Comida.' Una palabra, cubierta de musgo. Sale del sendero y pasa junto a él hacia el bosque con el ímpetu del clima que se acerca. Él no era la comida que esperaba. Sigue caminando igual, más rápido que antes."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:5ebc25fe-0b80-4692-b45d-d534dd487886:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:5ebc25fe-0b80-4692-b45d-d534dd487886:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:5ebc25fe-0b80-4692-b45d-d534dd487886",
+    "act": "avoid",
+    "label": {
+      "en": "Leave the path and go around through the trees",
+      "es": "Dejar el sendero y rodear por los árboles"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He gives the thing the path — steps off the packed line and works around through the trees, wide and slow, the way you go around standing water. The troll does not follow. It stands in the path it now owns, already beginning to look like a log again, patient to the point of ecology. Whatever it wants, it wants it on that path, and the path can be shared by staying off it.",
+          "es": "Le deja el sendero a la cosa — sale de la línea pisada y rodea por los árboles, amplio y despacio, como se rodea el agua estancada. El troll no lo sigue. Se queda en el sendero que ahora posee, empezando ya a parecer un tronco otra vez, paciente hasta la ecología. Lo que quiera que quiera, lo quiere en ese sendero, y el sendero se puede compartir quedándose fuera."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:5ebc25fe-0b80-4692-b45d-d534dd487886:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:a6ed0f26-d3cf-46be-94be-1ea32c443461:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:a6ed0f26-d3cf-46be-94be-1ea32c443461",
+    "act": "talk",
+    "label": {
+      "en": "Hail it — test whether anything answers",
+      "es": "Saludarlo — probar si algo responde"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He hails it — once, from a safe remove — to test whether anything inside the armor answers. Nothing does. The eyes track him, he realizes a moment later: the attention is there, the parole is not. A weapon that watches. He finishes his study of the harness-marks — southern make, recent work — and leaves the road to its garrison.",
+          "es": "Lo saluda — una vez, desde una distancia prudente — para probar si algo dentro de la armadura responde. Nada lo hace. Los ojos lo siguen, se da cuenta un momento después: la atención está, lo que falta es la palabra. Un arma que mira. Termina su estudio de las marcas del arnés — factura sureña, trabajo reciente — y le deja la ruta a su guarnición."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:a6ed0f26-d3cf-46be-94be-1ea32c443461:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:a6ed0f26-d3cf-46be-94be-1ea32c443461:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:a6ed0f26-d3cf-46be-94be-1ea32c443461",
+    "act": "avoid",
+    "label": {
+      "en": "Take the ridge and note its blind side",
+      "es": "Tomar la loma y anotar su lado ciego"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He goes up and around — the long way over the ridge, which costs an hour and buys the view: the troll holds only the road, its attention nailed to the one line it was given. From above he can see the harness anchor-points, the supply cache at its feet, the fact that someone comes to feed it. He notes all of it. Roads that are deliberately closed are information, and information is the one thing this road still gives freely.",
+          "es": "Sube y rodea — el camino largo por la loma, que cuesta una hora y compra la vista: el troll sostiene solo la ruta, su atención clavada a la única línea que le dieron. Desde arriba puede ver los anclajes del arnés, el depósito de víveres a sus pies, el hecho de que alguien viene a alimentarlo. Lo anota todo. Las rutas deliberadamente cerradas son información, y la información es lo único que esta ruta todavía da gratis."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:a6ed0f26-d3cf-46be-94be-1ea32c443461:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:11eddcc2-ec37-4f80-8b56-dd48e4bc1cd6:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:11eddcc2-ec37-4f80-8b56-dd48e4bc1cd6",
+    "act": "talk",
+    "label": {
+      "en": "Ask what garrison this is",
+      "es": "Preguntarle qué guarnición es esta"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks, conversationally, which garrison — and gets the answer procedure provides: 'South road garrison. Traffic control.' A unit designation that does not name a lord, delivered by a soldier who does not know why. The evasion is itself the intelligence: whoever staffs this post prefers it unclaimed. He thanks the troll with road-courtesy and walks on with the answer to a better question than the one he asked.",
+          "es": "Pregunta, de manera conversacional, qué guarnición es — y obtiene la respuesta que el procedimiento provee: 'Guarnición de la ruta sur. Control de tránsito.' Una designación de unidad que no nombra a ningún señor, dicha por un soldado que no sabe por qué. La evasión es en sí la inteligencia: quienquiera que mande este puesto prefiere que no lo reclamen. Agradece al troll con cortesía de ruta y sigue con la respuesta a una pregunta mejor que la que hizo."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:11eddcc2-ec37-4f80-8b56-dd48e4bc1cd6:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "uneasy"
+    }
+  },
+  {
+    "id": "cnt:11eddcc2-ec37-4f80-8b56-dd48e4bc1cd6:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:11eddcc2-ec37-4f80-8b56-dd48e4bc1cd6",
+    "act": "avoid",
+    "label": {
+      "en": "Decline the checkpoint and find the fields",
+      "es": "Rehusar el puesto y buscar los campos"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not present himself — reads the post, reads the soldier, and takes the fields around the blockhouse, half a mile of wet furrows bought against a stamp in a ledger he wants no part of. Whatever the garrison is counting, it is counting the road. The fields count nothing.",
+          "es": "No se presenta — lee el puesto, lee al soldado, y toma los campos alrededor del bloque, media milla de surcos mojados comprados contra un sello en un libro del que no quiere ser parte. Lo que sea que esta guarnición esté contando, lo cuenta en la ruta. Los campos no cuentan nada."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:11eddcc2-ec37-4f80-8b56-dd48e4bc1cd6:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "uneasy"
+    }
+  },
+  {
+    "id": "cnt:a12ac888-3322-4c9f-8231-1faf1f1c94aa:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:a12ac888-3322-4c9f-8231-1faf1f1c94aa",
+    "act": "avoid",
+    "label": {
+      "en": "Wait at the edge and watch how it resolves",
+      "es": "Esperar al margen y ver cómo se resuelve"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He waits in the scrub and watches it resolve — troll arbitration in the wild: shoving first, then the biggest simply takes the thing and the other two follow complaining. The whole performance takes twenty minutes and teaches him the local order of precedence better than a herald could. He walks on knowing which of the three to worry about, which is worth the wait.",
+          "es": "Espera en el matorral y mira la resolución — arbitraje troll en estado salvaje: primero los empujones, después el más grande simplemente agarra la cosa y los otros dos lo siguen protestando. La función completa lleva veinte minutos y le enseña el orden de precedencia local mejor que un heraldo. Sigue camino sabiendo a cuál de los tres preocuparle, que vale la espera."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:a12ac888-3322-4c9f-8231-1faf1f1c94aa:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:a12ac888-3322-4c9f-8231-1faf1f1c94aa:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:a12ac888-3322-4c9f-8231-1faf1f1c94aa",
+    "act": "talk",
+    "label": {
+      "en": "Offer to judge whose find it is",
+      "es": "Ofrecerse a juzgar de quién es el hallazgo"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He steps out and offers to judge — and three trolls, mid-shove, stop and stare at the volunteer arbiter before the offer even lands. Then, because a fourth opinion is a weapon each of them wants first, they present their cases: 'I seen it first.' 'I SMELLED it first.' He rules for the nose — smell being the older law — and walks away intact while the verdict is digested, behind him the sound of a precedent being argued.",
+          "es": "Sale y se ofrece a juzgar — y tres trolls, a medio empujón, paran y miran al árbitro voluntario antes de que la oferta termine de aterrizar. Después, porque una cuarta opinión es un arma que cada uno quiere primero, exponen sus casos: 'Yo lo vi primero.' 'Yo lo OLÍ primero.' Falla a favor de la nariz — siendo el olfato la ley más vieja — y se retira intacto mientras digieren el veredicto; a su espalda, el sonido de un precedente siendo discutido."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:a12ac888-3322-4c9f-8231-1faf1f1c94aa:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:756abfb9-c9c2-49c5-a703-83aefe010ade:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:756abfb9-c9c2-49c5-a703-83aefe010ade",
+    "act": "avoid",
+    "label": {
+      "en": "Listen from the dark until the matter settles",
+      "es": "Escuchar desde la oscuridad hasta que se zanje"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He waits out the argument from the dark — it takes forty minutes, winds through marinade, a disputed grandmother's method, and something about carrots nobody agrees happened — and resolves only when the pot is declared done. He learns the exact contents of the meal and the exact depth of the attention deficit guarding it. Then he goes around anyway; the knowledge was free, the road was not the only thing being simmered.",
+          "es": "Espera a que termine la discusión desde la oscuridad — lleva cuarenta minutos, pasa por el marinado, un método disputado de la abuela, y algo con zanahorias que nadie coincide en que pasó — y se resuelve solo cuando declaran la olla lista. Se entera del contenido exacto de la comida y de la profundidad exacta del déficit de atención que la guarda. Después rodea igual; el conocimiento era gratis, la ruta no era lo único que se estaba cocinando."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:756abfb9-c9c2-49c5-a703-83aefe010ade:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:756abfb9-c9c2-49c5-a703-83aefe010ade:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:756abfb9-c9c2-49c5-a703-83aefe010ade",
+    "act": "talk",
+    "label": {
+      "en": "Settle it: bones out, after",
+      "es": "Zanjarlo: huesos afuera, después"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He steps to the fire's edge and delivers the verdict nobody asked for: 'Out. You crack them after, and the marrow goes in the gravy.' Three heads turn. The pot stops being argued over and starts being watched, and he is waved off with the annoyed gravity of experts settling for a draw — which is to say, he is allowed to leave with his opinion intact. He walks away with the strange warmth of having contributed.",
+          "es": "Se acerca al borde del fuego y dicta el veredicto que nadie pidió: 'Afuera. Se parten después, y el tuétano va en la salsa.' Tres cabezas giran. La olla deja de ser discutida y empieza a ser vigilada, y lo despiden con la gravedad molesta de expertos que aceptan el empate — es decir, lo dejan irse con su opinión intacta. Se aleja con el calor extraño de haber contribuido."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:756abfb9-c9c2-49c5-a703-83aefe010ade:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:66548a9d-d032-42da-a216-bf8a716ce79d:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:66548a9d-d032-42da-a216-bf8a716ce79d",
+    "act": "talk",
+    "label": {
+      "en": "Ask what counts as worth having",
+      "es": "Preguntarle qué cuenta como valioso"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks the counter-question — what counts as worth having — and gets a list: 'Knives. Boots sometimes. Coins is good. Once got a hat.' He buys the road with the boots and the hat story, which the troll enjoys enough to wave him through after only the boots. Sometimes the toll is lower than posted.",
+          "es": "Hace la contrapregunta — qué cuenta como valioso — y recibe una lista: 'Cuchillos. Botas a veces. Monedas está bien. Una vez agarré un sombrero.' Compra la ruta con las botas y la historia del sombrero, que al troll le gusta lo suficiente como para dejarlo pasar con solo las botas. A veces el peaje es menor al publicado."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:66548a9d-d032-42da-a216-bf8a716ce79d:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:66548a9d-d032-42da-a216-bf8a716ce79d:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:66548a9d-d032-42da-a216-bf8a716ce79d",
+    "act": "avoid",
+    "label": {
+      "en": "Say no, clearly, and keep walking",
+      "es": "Decir que no, claramente, y seguir"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He says no — clearly, once, with the flatness that costs nothing to say and everything to fake — and keeps walking straight at the shoulder of the road. The troll considers the word, considers the walking, and lets it stand: asking before taking means a no is data too. Behind him he hears the question being repeated to the darkness, already forgetting who declined it.",
+          "es": "Dice que no — claramente, una vez, con la llanura que no cuesta nada decir y todo fingir — y sigue caminando directo por el borde de la ruta. El troll considera la palabra, considera la caminata, y la deja estar: preguntar antes de tomar significa que un no también es dato. A su espalda oye la pregunta repetida a la oscuridad, ya olvidando quién la declinó."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:66548a9d-d032-42da-a216-bf8a716ce79d:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:32d1e3d0-d58c-47f2-a89f-4517b6f9bf27:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:32d1e3d0-d58c-47f2-a89f-4517b6f9bf27",
+    "act": "talk",
+    "label": {
+      "en": "Agree cheerfully and ask about the toll",
+      "es": "Acordar alegremente y preguntar por el peaje"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He agrees — cheerfully, in a way that gives the troll nothing to push against. 'Your road, nights. What's the toll on it?' The troll, prepared for argument and getting commerce instead, has to invent the toll on the spot: 'Boots.' He pays in information instead — tells it which stretch of road has loose travellers on it, which buys him the road for the price of a rumor. The troll considers the deal fair. It was.",
+          "es": "Acuerda — alegremente, de un modo que no le da al troll contra qué empujar. 'Tu ruta, de noche. ¿Cuál es el peaje?' El troll, preparado para la discusión y recibiendo comercio en su lugar, tiene que inventar el peaje en el acto: 'Botas.' Paga con información en cambio — le dice en qué tramo andan viajeros desprevenidos, lo que le compra la ruta al precio de un rumor. El troll considera el trato justo. Lo era."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:32d1e3d0-d58c-47f2-a89f-4517b6f9bf27:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:32d1e3d0-d58c-47f2-a89f-4517b6f9bf27:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:32d1e3d0-d58c-47f2-a89f-4517b6f9bf27",
+    "act": "avoid",
+    "label": {
+      "en": "Wait him out from the rocks",
+      "es": "Esperarlo desde las rocas"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He withdraws to the rocks and waits — trolls who test their territory eventually have to test the rest of it, and sure enough, after an hour it lumbers off to repeat its claim at the other end of the bend. He crosses his borrowed road in the gap, quietly, leaving the ownership dispute where he found it.",
+          "es": "Se retira a las rocas y espera — los trolls que examinan su territorio eventualmente tienen que examinar el resto, y en efecto, después de una hora se aleja a los golpes a repetir su reclamo al otro extremo de la curva. Cruza su ruta prestada en el hueco, en silencio, dejando la disputa de propiedad donde la encontró."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:32d1e3d0-d58c-47f2-a89f-4517b6f9bf27:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:e19fe0df-9568-4be5-affc-0234ed0ce0c0:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:e19fe0df-9568-4be5-affc-0234ed0ce0c0",
+    "act": "defy",
+    "label": {
+      "en": "Charge the talker before the circle lands",
+      "es": "Cargar al de adelante antes de que cierre"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does the thing the geometry doesn't expect — goes straight at the blocker, low and fast, inside the reach before the arms finish deciding. It is not a fight; it is a door held open for half a second, and he is through it. Behind him the two of them reassemble the plan around a space he no longer occupies. He runs until the road sounds different.",
+          "es": "Hace lo que la geometría no espera — va directo al que bloquea, bajo y rápido, dentro del alcance antes de que los brazos terminen de decidir. No es una pelea; es una puerta abierta medio segundo, y él ya la cruzó. Atrás los dos rearman el plan alrededor de un espacio que él ya no ocupa. Corre hasta que la ruta suena distinta."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:e19fe0df-9568-4be5-affc-0234ed0ce0c0:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:e19fe0df-9568-4be5-affc-0234ed0ce0c0:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:e19fe0df-9568-4be5-affc-0234ed0ce0c0",
+    "act": "avoid",
+    "label": {
+      "en": "Drop the pack and let them fight over it",
+      "es": "Soltar la mochila y dejar que se la disputen"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He buys the exit with inventory — drops the pack dead-center between the two of them and is already moving when both sets of eyes drop to it. The circler abandons the circle for the pack; the blocker abandons the block for the pack; by the time the division of spoils begins the spoil is half a mile behind him. Some tolls you pay all at once.",
+          "es": "Se compra la salida con el inventario — suelta la mochila en el centro exacto entre los dos y ya está en movimiento cuando ambas miradas caen sobre ella. El que rodeaba abandona el círculo por la mochila; el que bloqueaba abandona el bloqueo por la mochila; para cuando empieza el reparto del botín el botín está media milla atrás. Algunos peajes se pagan de una vez."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:e19fe0df-9568-4be5-affc-0234ed0ce0c0:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:e073672a-b354-410b-a70c-a099954d774e:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:e073672a-b354-410b-a70c-a099954d774e",
+    "act": "talk",
+    "label": {
+      "en": "Read the harness for who posted it",
+      "es": "Leer el arnés para saber quién lo emplazó"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He circles at a distance and reads the harness — southern strap-work, the riveting a specific armorer's habit, rations stamped with a mark he has seen on seized goods before. Whoever posted this troll is organized enough to provision it and confident enough to leave it in daylight. He files the mark where it belongs and takes the scree slope with better intelligence than he came with.",
+          "es": "Rodea a distancia y lee el arnés — correaje sureño, un remachado con la firma de un armero específico, raciones estampadas con una marca que ya vio en bienes incautados. Quien emplazó a este troll es lo bastante organizado para aprovisionarlo y lo bastante confiado para dejarlo a pleno día. Archiva la marca donde corresponde y toma el pedregal con mejor inteligencia de la que trajo."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:e073672a-b354-410b-a70c-a099954d774e:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:e073672a-b354-410b-a70c-a099954d774e:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:e073672a-b354-410b-a70c-a099954d774e",
+    "act": "avoid",
+    "label": {
+      "en": "Simply walk on like it isn't there",
+      "es": "Simplemente seguir como si no estuviera"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does the calculation everyone does — the road is his, the troll hasn't moved, movement might be the trigger — and then walks on anyway, at the same pace, on his side of the road. The troll's eyes track him the whole length of the stretch. Nothing else does. He reaches the far bend with the specific fatigue of having been a decision someone else deferred.",
+          "es": "Hace el cálculo que hace todo el mundo — la ruta es suya, el troll no se movió, el movimiento puede ser el disparador — y después sigue caminando igual, al mismo paso, por su lado de la ruta. Los ojos del troll lo siguen a lo largo de todo el tramo. Nada más lo hace. Llega a la curva lejana con la fatiga específica de haber sido una decisión que otro postergó."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:e073672a-b354-410b-a70c-a099954d774e:sit",
+      "mapped_from_form": "confronts",
+      "felt": "tense"
+    }
+  },
+  {
+    "id": "cnt:43a3c42e-bc94-4f7b-b3b5-e81527557449:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:43a3c42e-bc94-4f7b-b3b5-e81527557449",
+    "act": "talk",
+    "label": {
+      "en": "Ask him a question the form doesn't have",
+      "es": "Hacerle una pregunta que el formulario no tiene"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what the form doesn't cover — traffic on the north road, what's been coming through — and gets the procedure's answer: 'Traffic is within normal parameters.' A phrase taught, not understood. But the troll holds it a moment too long, and adds, off the form: 'More soldiers than before.' Then remembers himself, lifts the pole, and says nothing else. He walks on with one line of real intelligence and an impression of a soldier who notices more than his paperwork asks.",
+          "es": "Pregunta lo que el formulario no cubre — tránsito en la ruta norte, qué viene pasando — y recibe la respuesta del procedimiento: 'El tránsito está dentro de parámetros normales.' Una frase enseñada, no entendida. Pero el troll la sostiene un momento de más, y agrega, fuera del formulario: 'Más soldados que antes.' Después se recuerda a sí mismo, levanta la pértiga, y no dice nada más. Sigue con una línea de inteligencia real y la impresión de un soldado que nota más de lo que su papeleo pregunta."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:43a3c42e-bc94-4f7b-b3b5-e81527557449:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "uneasy"
+    }
+  },
+  {
+    "id": "cnt:43a3c42e-bc94-4f7b-b3b5-e81527557449:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:43a3c42e-bc94-4f7b-b3b5-e81527557449",
+    "act": "avoid",
+    "label": {
+      "en": "Read the checkpoint and take the fields",
+      "es": "Leer el puesto y tomar los campos"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He reads the checkpoint from a distance — one soldier, a ledger, a brazier, orders — and decides his name in someone else's ledger is not worth a stamp. He takes the wet fields around the post and rejoins the road a mile on, unrecorded. Whatever the count was meant to find, it will find one fewer.",
+          "es": "Lee el puesto desde lejos — un soldado, un libro, un brasero, órdenes — y decide que su nombre en el libro de otro no vale un sello. Toma los campos mojados alrededor del puesto y vuelve a la ruta una milla más allá, sin registro. Lo que sea que ese conteo intentaba encontrar, encontrará uno menos."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:43a3c42e-bc94-4f7b-b3b5-e81527557449:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "uneasy"
+    }
+  },
+  {
+    "id": "cnt:338fac46-ab37-41ad-87d2-7afbaa66bf90:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:338fac46-ab37-41ad-87d2-7afbaa66bf90",
+    "act": "talk",
+    "label": {
+      "en": "Ask what's in the meal",
+      "es": "Preguntarle qué está comiendo"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks — from a careful remove — what's in the meal. The troll examines the remains with the air of a man checking his pockets: 'Deer. Mostly.' The 'mostly' does not invite follow-up. It offers, with unexpected hospitality, a haunch; she declines with equal courtesy, and it nods like a host whose table has been complimented. She leaves it to the rest of its dinner.",
+          "es": "Pregunta — desde una distancia cuidadosa — qué hay en la comida. El troll examina los restos con el aire de un hombre revisándose los bolsillos: 'Ciervo. Casi todo.' El 'casi todo' no invita a seguir. Le ofrece, con una hospitalidad inesperada, un cuarto; ella declina con igual cortesía, y asiente como un anfitrión cuya mesa fue elogiada. Lo deja con el resto de su cena."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:338fac46-ab37-41ad-87d2-7afbaa66bf90:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "uneasy"
+    }
+  },
+  {
+    "id": "cnt:338fac46-ab37-41ad-87d2-7afbaa66bf90:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:338fac46-ab37-41ad-87d2-7afbaa66bf90",
+    "act": "avoid",
+    "label": {
+      "en": "Pass wide and let it eat",
+      "es": "Pasar ancho y dejarlo comer"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She gives the boulder a wide line and keeps walking — no words, no hurry, nothing to interrupt the meal's primacy. Behind her the eating continues uninterrupted, the sound of it fading with the distance: the safest sound on the road, while it lasts, is a troll that has found something better to do.",
+          "es": "Le da a la roca un margen amplio y sigue caminando — sin palabras, sin apuro, nada que interrumpa la primacía de la comida. A su espalda el comer continúa sin interrupción, el sonido apagándose con la distancia: el sonido más seguro de la ruta, mientras dura, es un troll que encontró algo mejor que hacer."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:338fac46-ab37-41ad-87d2-7afbaa66bf90:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "uneasy"
+    }
+  },
+  {
+    "id": "cnt:8ee3c909-e2e5-4640-b9de-7fab0c327120:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:8ee3c909-e2e5-4640-b9de-7fab0c327120",
+    "act": "talk",
+    "label": {
+      "en": "Ask what's in the cave",
+      "es": "Preguntarle qué hay en la cueva"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks what's in the cave — pushing the open door — and the troll looks back at its own cave-mouth as if checking the instructions were still there. 'Stores,' it says. 'Men bring them. I watch the road.' A supply cache, a posted guard, and a road meant to be empty: someone is moving goods through here in the quiet. She thanks it — it accepts the thanks gravely, as part of the job — and leaves the road to its watchfulness.",
+          "es": "Pregunta qué hay en la cueva — empujando la puerta abierta — y el troll mira hacia su propia boca de cueva como si revisara que las instrucciones siguieran ahí. 'Depósito,' dice. 'Los hombres lo traen. Yo vigilo la ruta.' Un depósito de víveres, un guardia emplazado, y una ruta que debía estar vacía: alguien está moviendo mercadería por acá en silencio. Le agradece — él acepta las gracias con gravedad, como parte del trabajo — y le deja la ruta a su vigilancia."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:8ee3c909-e2e5-4640-b9de-7fab0c327120:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "uneasy"
+    }
+  },
+  {
+    "id": "cnt:8ee3c909-e2e5-4640-b9de-7fab0c327120:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:8ee3c909-e2e5-4640-b9de-7fab0c327120",
+    "act": "avoid",
+    "label": {
+      "en": "Agree she should not be here, and stop being",
+      "es": "Coincidir en que no debería estar, y dejar de estarlo"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She agrees — 'You're right. I shouldn't.' — and continues on her way while the troll watches, satisfied that the road is now clear according to instructions. Behind her it goes back inside, the discrepancy resolved to its complete satisfaction. The road was never hers to argue about; it was only hers to leave.",
+          "es": "Coincide — 'Tenés razón. No debería.' — y sigue su camino mientras el troll la mira, satisfecho de que la ruta ahora está despejada según las instrucciones. A su espalda vuelve adentro, la discrepancia resuelta para su completa satisfacción. La ruta nunca fue suya para discutirla; solo era suya para dejarla."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:8ee3c909-e2e5-4640-b9de-7fab0c327120:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "uneasy"
+    }
+  },
+  {
+    "id": "cnt:c11938de-3d07-4ace-b968-ce78a28bc6c6:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:c11938de-3d07-4ace-b968-ce78a28bc6c6",
+    "act": "talk",
+    "label": {
+      "en": "Search the sign for direction and date",
+      "es": "Buscar en la señal dirección y fecha"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He works the sign — the dragged trunk's line, the displaced gravel, the dew on the break-face — and gets the whole story: one of them, alone, moving east before dawn, heavy enough that careful wasn't an option or a need. The trail is old enough to follow and young enough to matter. He marks it on his map of the neighbourhood and does not follow.",
+          "es": "Trabaja la señal — la línea del tronco arrastrado, la grava corrida, el rocío en la cara del corte — y obtiene la historia completa: uno solo, moviéndose al este antes del alba, lo bastante pesado para que el cuidado no fuera opción ni necesidad. El rastro es lo bastante viejo para seguir y lo bastante joven para importar. Lo marca en su mapa del vecindario y no lo sigue."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:c11938de-3d07-4ace-b968-ce78a28bc6c6:sit",
+      "mapped_from_form": "sign_only",
+      "felt": "uneasy"
+    }
+  },
+  {
+    "id": "cnt:c11938de-3d07-4ace-b968-ce78a28bc6c6:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:c11938de-3d07-4ace-b968-ce78a28bc6c6",
+    "act": "avoid",
+    "label": {
+      "en": "Take the parallel line, off the road",
+      "es": "Tomar la línea paralela, fuera de la ruta"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not share a road with that — finds the parallel game-trail above the road line and walks it for the next miles, the snapped tree repeating in his mind each time the path dips toward the road below. Whatever used the tree as a handhold, it is welcome to the road. He has the ridge.",
+          "es": "No comparte ruta con eso — encuentra el sendero paralelo de caza arriba de la línea de la ruta y lo camina las próximas millas, el árbol partido repitiéndose en su mente cada vez que el sendero baja hacia la ruta de abajo. Lo que haya usado el árbol de agarradera, bienvenida sea la ruta. Él se queda con la loma."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:c11938de-3d07-4ace-b968-ce78a28bc6c6:sit",
+      "mapped_from_form": "sign_only",
+      "felt": "uneasy"
     }
   }
 ]

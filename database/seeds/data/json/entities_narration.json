@@ -6994,12 +6994,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Three of them around a fire on the road, arguing about whether last week's shepherd was better roasted or boiled. They have not noticed the traveller yet."
+      "en": "Completely occupied — the argument and the fire are using all the attention three trolls have. Whatever the traveller does next happens under cover of a debate about cooking."
     },
     "presence": {
-      "en": "The argument is genuine — they have strong opinions about cooking methods and the debate has been going since before the fire was lit. They are not watchful. They are occupied."
+      "en": "Three trolls around a fire in the road's hollow — firelight reaching as far as the nearest stones, and past it only night. They are mid-argument and have been for a while, by the settled slump of the two not speaking. 'Roasted. Roasted's the only way — you boil a shepherd, what've you got? Grey water and disappointment.' 'Boiled keeps the marrow.' The third is not arguing; it is eating. They have not noticed the traveller."
     },
-    "channel": null,
+    "channel": {
+      "en": "If engaged, the argument does not stop for a stranger so much as widen — a fourth opinion is a weapon each of them wants first, which is the danger and the opening both."
+    },
     "facts": {
       "topic": "quarrel_among_themselves"
     },
@@ -7008,7 +7010,7 @@
         "id": "cnt:4d9b636e-cfc2-4553-ba53-77f6b765ed83:sit",
         "tags": [],
         "situation": {
-          "en": "Three Stone-trolls arguing about food are, for the moment, not paying attention to anything else. Dawn is four hours away."
+          "en": "Three Stone-trolls arguing about food are, for the moment, not paying attention to anything else. Dawn is four hours away and the road's right shoulder goes around the firelight."
         }
       }
     ],
@@ -7029,12 +7031,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "One of them blocking the road. The other two are somewhere behind him — audible but not visible."
+      "en": "Genuinely worried about the sheep — the menace is incidental, which is worse than deliberate: a thing this large cannot be argued out of the road, only answered out of it."
     },
     "presence": {
-      "en": "He wants to know if the traveller has seen any sheep in the last valley. He genuinely wants to know. He has lost his flock."
+      "en": "A troll stands in the middle of the road — not looming, just planted the way a thing stands when it has decided not to move — while two more crash about audibly in the dark beyond the ditch. The one in the road speaks first, slow and mournful and huge: 'Seen any sheep? Lost my flock. Last valley, that way.' He points. He has been pointing in that direction for some time, and it is not the direction the sheep went."
     },
-    "channel": null,
+    "channel": {
+      "en": "He talks like a slow mill — each question takes its time arriving and the answers get ground small. Directions he half-hears; anything about sheep he takes whole."
+    },
     "facts": {
       "topic": "harvest_and_weather"
     },
@@ -7043,7 +7047,7 @@
         "id": "cnt:911aa104-9340-45d6-9675-6e9e3a0e63e7:sit",
         "tags": [],
         "situation": {
-          "en": "He is asking a question and waiting for an answer. He is not going to move until he gets one. He is also blocking a road at night, which is its own problem regardless of his intentions."
+          "en": "He is asking a question and waiting on an answer, and he will not move until he gets one. He is also a troll blocking a road at night, which is its own problem regardless of his intentions."
         }
       }
     ],
@@ -7065,12 +7069,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Three of them at the crossroads, and they have seen him. The largest one speaks first."
+      "en": "Not robbery — want. It wants a good knife the way a child wants a thing it saw once, and it has decided this traveller is the sort who carries one."
     },
     "presence": {
-      "en": "He says — slow, deliberate — that he remembers a man who looked like this man coming through here three years ago and that man had a good knife. He wants to know if this man has a good knife."
+      "en": "Three of them at the crossroads, and they have already seen him — the largest looks the traveller over the way a man looks over a second-hand horse. 'Knew a man come through here three year ago,' it says, slow and deliberate. 'Looked like you. Had a good knife.' A pause as patient as weather. 'You got a good knife?'"
     },
-    "channel": null,
+    "channel": {
+      "en": "It states the want plainly and re-states it whenever the talk wanders. The other two watch the exchange like spectators who have seen this routine succeed before."
+    },
     "facts": {
       "topic": "craft_and_gold"
     },
@@ -7079,7 +7085,7 @@
         "id": "cnt:6c77b940-96d2-4acb-84d1-b6749482fcdf:sit",
         "tags": [],
         "situation": {
-          "en": "He is not asking to rob it. He genuinely wants a good knife. The previous man gave it to him voluntarily. The memory is oddly specific."
+          "en": "He genuinely wants a good knife. The previous man gave it up voluntarily — or so the story goes now, the memory polished smooth by three years of retelling."
         }
       }
     ],
@@ -7102,12 +7108,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Three of them at a fire. One looks up when she passes — she is apparently the most interesting thing that has happened since the shepherd argument."
+      "en": "Curiosity — which in a troll is a window with an edge on it. The window is open because she is standing still; the edge is what happens when the window closes."
     },
     "presence": {
-      "en": "He asks what she is. Not threatening — he genuinely does not know. He has seen Elves before but they were smaller and they ran away. She is not running away."
+      "en": "Three of them at a fire just off the road, and one looks up as she passes — she is plainly the most interesting thing since the shepherd argument ran its course. 'What are you?' Not threatening — it genuinely does not know. 'Seen elves before. Smaller. Ran away.' A pause the length of a long breath. 'You're not running away.'"
     },
-    "channel": null,
+    "channel": {
+      "en": "It asks questions the way it does everything — blunt, front-first, satisfied by the first answer that sounds complete. What it cannot follow it loses interest in; what it finds interesting it asks about at length."
+    },
     "facts": {
       "topic": "old_grief"
     },
@@ -7116,7 +7124,7 @@
         "id": "cnt:395740a2-067a-4217-a021-1324afdba499:sit",
         "tags": [],
         "situation": {
-          "en": "The question is curious, not hostile. Curiosity is a window."
+          "en": "The question is curious, not hostile. Curiosity is a window — and she is standing in it."
         }
       }
     ],
@@ -7138,12 +7146,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "One on the road — not a full ambush, just one, and it is looking at the traveller with the specific dull focus of a creature that has decided something is going to happen."
+      "en": "Patient the way predators are patient — running is interesting, standing is boring, and boring might be survivable. It is waiting to learn which this traveller is."
     },
     "presence": {
-      "en": "It does not speak first. It is waiting to see what the traveller does. This is how it hunts — it lets the prey decide whether to run, because running is interesting."
+      "en": "One troll on the road, watching him with a dull, settled focus — the look of a thing that has decided something is going to happen and is only waiting to see what shape it takes. It does not speak. It does not advance. It is, the traveller realizes with the particular cold that arrives late, letting the prey make the first move."
     },
-    "channel": null,
+    "channel": {
+      "en": "There is no conversation to have. What it understands is movement — the kind that runs, which it enjoys, and the kind that stands, which it eventually tires of."
+    },
     "facts": {
       "topic": "threat_and_jeer"
     },
@@ -7152,7 +7162,7 @@
         "id": "cnt:17c9c9ab-221e-4971-a7be-32fd10179f8c:sit",
         "tags": [],
         "situation": {
-          "en": "Running is interesting. Standing is boring. Boring might be survivable."
+          "en": "Running is interesting. Standing is boring. Boring might be survivable — and might not."
         }
       }
     ],
@@ -7173,12 +7183,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Two of them, and they have been waiting — the approach was too convenient, the gap in the rocks too obvious. This is practiced."
+      "en": "Practised — the demand is theatre while the circling one takes the far side. The talk is a stall; the geometry is the robbery."
     },
     "presence": {
-      "en": "The first one speaks — three words, badly articulated, but in Westron: give it here. It does not specify what it. Everything the traveller is carrying qualifies."
+      "en": "Two of them, and the approach was too convenient to be luck — the gap in the rocks, the quiet, the way the road funnels here. The first speaks: three words in badly articulated Westron, but Westron — 'Give it here.' It does not specify what 'it' is. Everything the traveller is carrying qualifies. Behind the talker, the second has begun to circle."
     },
-    "channel": null,
+    "channel": {
+      "en": "The front one has perhaps nine words and spends them all on the same theme. The real negotiation is positional."
+    },
     "facts": {
       "topic": "threat_and_jeer"
     },
@@ -7187,7 +7199,7 @@
         "id": "cnt:7343f32b-9924-4dca-a48d-86d0460c758f:sit",
         "tags": [],
         "situation": {
-          "en": "The other one is circling. The circling is the real danger."
+          "en": "The other one is circling. The circling is the real danger — the words are just its clock."
         }
       }
     ],
@@ -7208,12 +7220,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "It moved — something that had been a fallen trunk is not a fallen trunk anymore. It is standing up."
+      "en": "Patient to the point of ecology — it did not hide so much as refuse to move until the world mistook it for furniture. Whatever it wants, it has decided now is when it wants it."
     },
     "presence": {
-      "en": "It has been waiting in place long enough that moss has grown on its back. This is a troll that understands patience. It is between the traveller and the path forward."
+      "en": "The fallen trunk beside the path has moss on it — real moss, grown slow — which is why it takes the traveller three seconds too long to understand that the trunk is standing up. A troll that waited in place long enough for the forest to finish forgetting it. It does not speak. It steps onto the path, between the traveller and forward, and waits."
     },
-    "channel": null,
+    "channel": {
+      "en": "It does not talk. What it communicates it communicates by placement: here, and no further."
+    },
     "facts": {
       "topic": "threat_and_jeer"
     },
@@ -7222,7 +7236,7 @@
         "id": "cnt:5ebc25fe-0b80-4692-b45d-d534dd487886:sit",
         "tags": [],
         "situation": {
-          "en": "It did not try to hide, exactly. It simply did not move. The forest made it invisible by being itself around it."
+          "en": "The forest made it invisible by being itself around it — and now the forest has one less hiding place."
         }
       }
     ],
@@ -7243,12 +7257,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "One on the road in full daylight. Armored. Not a foraging beast — a soldier."
+      "en": "Emplaced — someone decided a weapon was needed on this road and the weapon is a troll. It will not parley. It will simply be here until it is moved, or until it has done what it is for."
     },
     "presence": {
-      "en": "It does not speak. It is not here to speak. It is here because it was placed here and it will remain here until it is removed or its purpose is accomplished."
+      "en": "One troll on the road in full daylight, in armor fitted to it — straps, plates, a harness made for exactly this body. Not foraging. It stands in the road's centre with the stillness of a thing told to stand there, and it does not speak, because speaking is not what it was put there for."
     },
-    "channel": null,
+    "channel": {
+      "en": "Nothing in it reaches for speech. Orders go in; posture comes out."
+    },
     "facts": {
       "topic": "threat_and_jeer"
     },
@@ -7278,12 +7294,14 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "A soldier at a garrison post — large, dark, speaks Westron with a southerner's accent. The garrison is Harad-aligned."
+      "en": "Procedural — he does the job in front of him exactly as written, which is either reassuring or the opposite, depending on what happens after the procedure is satisfied."
     },
     "presence": {
-      "en": "He asks for road-papers in the manner of someone following procedure. The procedure is real. He is following it correctly. He is also seven feet tall and the wrong color for what he is claiming to be."
+      "en": "The garrison post straddles the road — stone blockhouse, barrier pole, a brazier going — and the soldier who comes out to check papers is seven feet tall and a deep grey-brown that no southern sun explains. He speaks Westron with a southerner's accent and follows procedure precisely: 'Papers. Destination. Business on the road.' A troll doing paperwork correctly is its own kind of threat — it means the paperwork is backed by something organized."
     },
-    "channel": null,
+    "channel": {
+      "en": "He asks what the form requires, hears the answers, and writes nothing down. What happens after the answers is above his rank — literally."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -7313,12 +7331,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Three of them — small for trolls, which still means large — circling something dead on the road ahead. They have not noticed the traveller yet."
+      "en": "Preoccupied past the point of safety — theirs and anyone's. Three trolls one insult from fighting over carrion are a window, and the window is on the right side of the road."
     },
     "presence": {
-      "en": "They are arguing over the dead thing. One of them wants it, the other two want it, and none of them have worked out a resolution. The argument is escalating toward something physical."
+      "en": "Three young trolls — small for trolls, which still means a head and a half over a man — circling something dead in the road ahead, and the argument over whose it is has reached the shoving stage. 'I seen it first.' 'You seen it over my arm.' 'I'll see YOU—' They have not noticed the traveller. The road's right shoulder goes around them through scrub."
     },
-    "channel": null,
+    "channel": {
+      "en": "If they notice, the argument stops being about the dead thing — a live thing is a fresh disagreement. Staying unnoticed is not cowardice; it is arbitration."
+    },
     "facts": {
       "topic": "quarrel_among_themselves"
     },
@@ -10649,12 +10669,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Three of them around a fire on the road, arguing. They have not noticed the traveller."
+      "en": "Wholly absorbed — the argument has outlasted everything else in their evening, including vigilance."
     },
     "presence": {
-      "en": "The argument is about whether what they are cooking is better with the bones in or out. The level of disagreement is remarkable given the stakes. They are completely occupied."
+      "en": "Three trolls at a fire in the middle of the road — a cauldron going, the smell of it reaching before the light does — deep in an argument about whether it cooks better with the bones in or out. 'In. Flavour's in the bone.' 'Out. You crack 'em AFTER.' The level of disagreement is remarkable given the stakes. Dawn is five hours away; the road goes around the fire on the right, quietly."
     },
-    "channel": null,
+    "channel": {
+      "en": "The debate is three opinions and one pot; a fourth voice would simply become ammunition. Being heard here is a liability."
+    },
     "facts": {
       "topic": "quarrel_among_themselves"
     },
@@ -10684,12 +10706,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "One of them is standing in the road. The other two are audible behind him but not visible."
+      "en": "Asking before taking — which is as much courtesy as Stone-trolls offer, and worth not squandering."
     },
     "presence": {
-      "en": "He says, slowly and with effort: got anything worth having? It is the entirety of his negotiation strategy."
+      "en": "One stands in the road — the other two crash about audibly somewhere in the dark behind him — and he speaks slowly, with the visible effort of assembling the whole sentence at once: 'Got anything worth having?' It is the entirety of his negotiation strategy, delivered with the optimism of a thing that has watched the strategy work."
     },
-    "channel": null,
+    "channel": {
+      "en": "One question, endlessly re-asked. He does not haggle; he repeats."
+    },
     "facts": {
       "topic": "threat_and_jeer"
     },
@@ -10719,12 +10743,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "It comes around a boulder in the road. It sees the traveller and stops, which is not what they usually do."
+      "en": "Testing — it has decided the road is its and is offering the traveller one chance to agree the wrong way."
     },
     "presence": {
-      "en": "It says — badly, in something that is approximately Westron — that this is its road at night. The statement is a test. It wants to see if the traveller argues."
+      "en": "It comes around the boulder — and stops when it sees the traveller, which is not what they usually do. 'This road's mine,' it says, badly, in something approximately Westron. 'Nights. Mine, nights.' The statement is a test: it wants to see whether the traveller argues, because the argument is what makes the next part legitimate."
     },
-    "channel": null,
+    "channel": {
+      "en": "It argues like it fights: heavy, repetitive, unembarrassed. Every contradiction it wins by outlasting."
+    },
     "facts": {
       "topic": "threat_and_jeer"
     },
@@ -10733,7 +10759,7 @@
         "id": "cnt:32d1e3d0-d58c-47f2-a89f-4517b6f9bf27:sit",
         "tags": [],
         "situation": {
-          "en": "Arguing with Hill-trolls on their roads at night is how travelers become stories told by other travelers."
+          "en": "Arguing with Hill-trolls on their roads at night is how travellers become stories told by other travellers."
         }
       }
     ],
@@ -10754,12 +10780,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Two of them, already aware of the traveller. The larger one has moved to block the road ahead. The smaller one is circling."
+      "en": "Committed — whatever threshold talk would have held them back from, they crossed it before the traveller arrived."
     },
     "presence": {
-      "en": "The larger one says nothing. It is past the talking phase."
+      "en": "Two of them, and they already know he's there — the larger has moved to block the road ahead and says nothing, past the talking phase, while the smaller has begun a slow circle that is trying very hard to look casual. The geometry is the whole conversation."
     },
-    "channel": null,
+    "channel": {
+      "en": "No parley left — the large one does the looking, the small one does the circling, and the circle is closing on schedule."
+    },
     "facts": {
       "topic": "threat_and_jeer"
     },
@@ -10789,12 +10817,14 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "One on the road in full daylight. Armored. Not foraging — positioned."
+      "en": "Posted like a gate that thinks — the posture of something following the last order it was given, indefinitely."
     },
     "presence": {
-      "en": "It does not speak. It is not here to speak. It is here because something placed it here and it will not move until its purpose is accomplished or it is removed."
+      "en": "A troll in the middle of the road in daylight, armored head to foot — mail over hide, a helm dented from use. It saw the traveller coming a hundred yards off and did nothing different: it is not waiting to ambush, it is posted. It has the look of a thing that will be standing here tonight, and tomorrow."
     },
-    "channel": null,
+    "channel": {
+      "en": "No speech in it — only the question of whether 'holding the road' means holding it against everyone, or just against the traveller's side of the map."
+    },
     "facts": {
       "topic": "threat_and_jeer"
     },
@@ -10803,7 +10833,7 @@
         "id": "cnt:e073672a-b354-410b-a70c-a099954d774e:sit",
         "tags": [],
         "situation": {
-          "en": "This is a weapon pointed at a road. The traveller is on the road."
+          "en": "This is a weapon pointed at a road. The traveller is on the road — but a pointed weapon can also be walked around."
         }
       }
     ],
@@ -10824,12 +10854,14 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "A soldier at a garrison post — large, dark-skinned, speaks Westron correctly. The garrison is not Gondorian."
+      "en": "Procedural pride — he performs the job correctly because correctness is what he was given instead of understanding."
     },
     "presence": {
-      "en": "He checks papers with the procedure of someone following orders. He is seven feet tall and armored in black and he is doing paperwork. The cognitive dissonance is its own kind of threat."
+      "en": "The checkpoint is a tent, a barrier pole and a brazier — and the soldier checking papers is seven feet tall, armored in black, and doing paperwork. 'Papers.' He reads them the way someone reads who has been taught recently and takes it seriously: lips half-moving, finger under the words. The cognitive dissonance is its own kind of threat — paperwork like this exists because the organization behind it is real."
     },
-    "channel": null,
+    "channel": {
+      "en": "He asks the form's questions in order and does not improvise. Deviations are referred upward — which is to say, inward, where something worse is on duty."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -10838,7 +10870,7 @@
         "id": "cnt:43a3c42e-bc94-4f7b-b3b5-e81527557449:sit",
         "tags": [],
         "situation": {
-          "en": "The procedure is real. Satisfying the procedure is the goal."
+          "en": "The procedure is real. Satisfying the procedure is the goal — for both of them, probably for different reasons."
         }
       }
     ],
@@ -18555,12 +18587,14 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "One sitting on a boulder at the road-side, eating something it would be better not to identify. It looks up when the traveller passes."
+      "en": "Noted and dismissed — she has been weighed against the meal and the meal won. For now."
     },
     "presence": {
-      "en": "It says — slowly, with the effort of someone who doesn't use speech often — that the traveller is small. It says this as an observation, not as a threat. It is genuinely noting the size."
+      "en": "A troll sits on a boulder beside the road eating something it would be better not to identify — eating it thoroughly, with both hands, elbows out. It looks up as she passes, works the thought a moment, and offers — slowly, with the effort of speech from something that rarely bothers: 'You're small.' An observation, not a threat. Then it goes back to the meal."
     },
-    "channel": null,
+    "channel": {
+      "en": "It will answer questions put to it — a word or two between bites — but the meal has precedence, and the meal does not last forever."
+    },
     "facts": {
       "topic": "quarrel_among_themselves"
     },
@@ -18569,7 +18603,7 @@
         "id": "cnt:338fac46-ab37-41ad-87d2-7afbaa66bf90:sit",
         "tags": [],
         "situation": {
-          "en": "The observation has no follow-up. It goes back to what it was eating."
+          "en": "The observation has no follow-up. It goes back to what it was eating — which is the safest thing in the scene and the one to watch."
         }
       }
     ],
@@ -18590,12 +18624,14 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "It comes out of a cave-mouth at the bend and stops when it sees the traveller. It did not expect company."
+      "en": "Wrong-footed — it was told the road would be clear and she is not the road being clear. What it does next depends on how complicated she lets the problem become."
     },
     "presence": {
-      "en": "It says: you're not supposed to be on this road. It says it with the specific confusion of something following instructions it doesn't fully understand. Someone told it the road would be clear."
+      "en": "A cave-mouth at the bend, and a troll comes out of it mid-step — stops dead when it sees her, as surprised as she is. 'You're not supposed,' it says, working it out as it speaks, 'to be on this road.' The specific confusion of a thing following instructions it does not fully understand: somebody told it the road would be clear, and the somebody was wrong."
     },
-    "channel": null,
+    "channel": {
+      "en": "It thinks out loud in half-sentences, repeating the instruction it was given against the evidence of her face. The gap between orders and reality is her exit."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -18604,7 +18640,7 @@
         "id": "cnt:8ee3c909-e2e5-4640-b9de-7fab0c327120:sit",
         "tags": [],
         "situation": {
-          "en": "Someone gave it instructions. Someone expected the road to be clear. The traveller is the problem in that plan."
+          "en": "Someone gave it instructions and expected the road to be clear. The traveller is the problem in that plan — or the excuse that ends it."
         }
       }
     ],
@@ -23728,10 +23764,10 @@
       "felt:uneasy"
     ],
     "disposition": {
-      "en": "A snapped tree beside the road — not wind-snapped, the break is clean and the trunk has been moved, not fallen."
+      "en": "Sign only — a record of weight and strength left overnight, the forest's way of saying something came through that does not make small noises."
     },
     "presence": {
-      "en": "Something used this tree as a handhold or a lever. The size of the break and the displacement suggest something very heavy moving through here in the dark."
+      "en": "A snapped tree beside the road — not wind-snapped: the break is clean and shoulder-height, and the trunk has been moved, not fallen, dragged a body-length off the line. Something used it as a handhold, or a lever, in the dark. The tree was healthy. Whatever broke it did so without effort."
     },
     "channel": null,
     "facts": {
@@ -23742,7 +23778,7 @@
         "id": "cnt:c11938de-3d07-4ace-b968-ce78a28bc6c6:sit",
         "tags": [],
         "situation": {
-          "en": "The tree was healthy. Whatever broke it did so without effort."
+          "en": "Whatever it was, it passed in the dark and it was not careful — either it felt no need of quiet, or quiet was not available to it."
         }
       }
     ],
