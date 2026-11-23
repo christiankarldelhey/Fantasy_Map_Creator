@@ -6327,7 +6327,7 @@
       "en": "Indistinguishable until it isn't — the wrongness lives in the details nobody checks. Whoever sent it north dressed it well."
     },
     "presence": {
-      "en": "A traveller on the road, unremarkable, moving south — he nods in passing, correctly timed, correctly shaped. And something is slightly wrong about the face: the proportions are almost right, the nod timed correctly but not reflexively — a greeting performed rather than done. They are passing as human. They are nearly doing it successfully."
+      "en": "A traveller on the road moving south — unremarkable in every visible way: middling height, middling cloak, dust like everyone. He nods in passing, correctly timed, correctly shaped. And something is slightly wrong about the face: the proportions are almost right, the smile a half-beat late, the nod performed rather than reflexive — a greeting learned by watching and repeated, not grown. They are passing as human. They are nearly doing it successfully."
     },
     "channel": null,
     "facts": {
@@ -6439,7 +6439,7 @@
       "en": "A courier, not a fighter — chosen because he could deliver the message without being dismissed as an animal. Whatever sent him is intelligent and it wanted the message heard."
     },
     "presence": {
-      "en": "A figure stands in the middle of the road ahead — not to the side, in the middle — and it has been waiting for her specifically. When she is close enough it speaks: a message, delivered without ceremony. She is known on this road. She has been seen. There are those who would prefer she did not continue south."
+      "en": "A figure stands in the middle of the road ahead — not to the side, in the middle — an orc, tall for its kind, iron-grey hide over heavy bones, a notched message-stave held loose in one hand. It has been waiting for her specifically, standing where it cannot be missed because missing is not what it came for. When she is close enough it speaks: a message, delivered without ceremony. She is known on this road. She has been seen. There are those who would prefer she did not continue south."
     },
     "channel": {
       "en": "He delivers the message plainly, in good Westron, and then waits — because a message this specific usually expects a reply, or expects that no reply is also an answer."
@@ -9638,7 +9638,7 @@
       "en": "Unhurried certainty — the toll is fair, non-negotiable, and non-threatening: simply what the road costs here."
     },
     "presence": {
-      "en": "An enormous man at the toll-post on the Anduin road — a head taller than the traveller and twice his width, unhurried, looking down at him with the specific assessment of someone who has decided that size is information. 'Toll,' he says, and names the price and what it pays for in one breath: road maintenance, patrol, the exclusion of things that shouldn't use the road. Beorning-set, real, and the road behind him is visibly better for it. 'You'll see the difference by the bridge.'"
+      "en": "An enormous man waits at the toll-post on the Anduin road — a head taller than the traveller and twice his width, a black beard gone grey at the jaw braided thick over a chest like a shield-boss, forearms veined like roots where his sleeves are shoved up. He is unhurried, looking down at the traveller with the specific assessment of someone who has decided that size is information. 'Toll,' he says, and names the price and what it pays for in one breath: road maintenance, patrol, the exclusion of things that shouldn't use the road. Beorning-set, real, and the road behind him is visibly better for it. 'You'll see the difference by the bridge.'"
     },
     "channel": {
       "en": "States the price, states what it buys, states nothing else. Answers questions about the road with the precision of the man who maintains it."
@@ -10300,7 +10300,7 @@
       "en": "Genuine — he likes the company and the news from outside, and the price is fair because the company is half the payment."
     },
     "presence": {
-      "en": "A man splitting wood at a farmstead just off the road — rolled sleeves, forearms like the oak he is working, a dog watching the swing from the shade. He stops mid-stroke when the traveller passes and calls out a greeting, then the offer, plain as price: 'Spare room, if you need to stop. Real bed, a meal, a fire. Fair price.' Twenty years of hosting road-travellers has made the offer a reflex — and made him good at it."
+      "en": "A man splits wood at a farmstead just off the road — rolled sleeves, forearms like the oak he is working, a bald head sunned brown, a dog watching the swing from the shade. He stops mid-stroke when the traveller passes, leans on the axe, and calls out a greeting, then the offer, plain as price: 'Spare room, if you need to stop. Real bed, a meal, a fire. Fair price.' Twenty years of hosting road-travellers has made the offer a reflex — and made him good at it."
     },
     "channel": {
       "en": "Talks plainly as working folk do — crops, beasts, the turning season, hard times or good — with the easy pacing of a man whose work lets him talk while he does it."
@@ -10337,7 +10337,7 @@
       "en": "Practical, honest, unembarrassed — a farmer who knows exactly what an hour of a stranger's back is worth and is offering a fair price for it."
     },
     "presence": {
-      "en": "A man waving the traveller down from across a field — shirtsleeves, mud to the knees, standing ankle-deep beside a half-set fence post and a wagon-load of rails that is visibly too heavy for one pair of hands. 'Friend! An hour of your back, if you've got it — this load wants two of us and my son's gone to market. I'll pay in dinner and whatever you want to know about the road.'"
+      "en": "A man waves the traveller down from across a field — big-bellied, sun-reddened neck, shirtsleeves, mud to the knees, standing ankle-deep beside a half-set fence post and a wagon-load of rails that is visibly too heavy for one pair of hands. 'Friend! An hour of your back, if you've got it — this load wants two of us and my son's gone to market. I'll pay in dinner and whatever you want to know about the road.'"
     },
     "channel": {
       "en": "Talks while he works — the request comes between pulls on the rope, and the road-information he offers is the real coin."
@@ -10374,7 +10374,7 @@
       "en": "Frightened and ashamed of it in equal measure — a man asking a stranger about night-things because everyone he knows has already heard him worry it."
     },
     "presence": {
-      "en": "A farmer comes to the road-fence as the traveller passes — hurrying the last few steps, wiping his hands on a shirt that has seen the morning's work. 'Something's been coming to my animals at night,' he says, low, like the field might hear. 'Not taking them. Scaring them. I haven't seen it — but there's marks, and the dog won't go out after dark anymore.' He has three children and a farm and has run out of options for explaining it."
+      "en": "A farmer comes to the road-fence as the traveller passes — a thin wind-chapped face, one suspender mended with twine, hurrying the last few steps and wiping his hands on a shirt that has seen the morning's work. 'Something's been coming to my animals at night,' he says, low, like the field might hear. 'Not taking them. Scaring them. I haven't seen it — but there's marks, and the dog won't go out after dark anymore.' He has three children and a farm and has run out of options for explaining it."
     },
     "channel": {
       "en": "Speaks quietly and in specifics when pushed — he is a man who trusts what he can see, which is why the marks frighten him more than the noises."
@@ -10964,7 +10964,7 @@
       "en": "Spent — not wounded, not sick, just emptied by whatever made a whole settlement leave at once and by two days of not stopping."
     },
     "presence": {
-      "en": "A lone man sitting at the roadside — back against a milestone, pack still strapped, dust unbrushed, eyes on the middle distance. Resting, or stopped being able to go on; from the road the two look the same. He smells of woodsmoke that is not his own fire's. When addressed he answers in a flat voice without looking up: 'Settlement two days east. Everyone started leaving at once.'"
+      "en": "A lone man sits at the roadside — back against a milestone, pack still strapped, dust unbrushed from his boots, eyes on the middle distance. Resting, or stopped being able to go on; from the road the two look the same. He smells of woodsmoke that is not his own fire's. When addressed he answers in a flat voice without looking up: 'Settlement two days east. Everyone started leaving at once.'"
     },
     "channel": {
       "en": "Answers questions flatly and offers nothing — the story is too big for him to carry in sentences, so he carries the smallest piece."
@@ -13086,7 +13086,7 @@
       "en": "Generous house, iron rules — the hospitality is real and the accounting is not open to discussion."
     },
     "presence": {
-      "en": "A big man blocks the doorway of the steading — does not smile, fills the frame, looks at the traveller the way a gate looks — then steps aside and puts bread, cream and honey on the table. No meat at that board, and no apology for it. 'Hay's clean,' is the whole welcome. What he wants in return is named at the end, flat: an accounting of any beast the traveller has killed on his land."
+      "en": "A man fills the doorway of the steading — shoulders square as the frame, a black-and-grey beard plaited once through the middle, hands resting at his sides like tools not in use. He does not smile and he does not move; he looks at the traveller the way a gate looks. An axe hangs inside the door where most men hang their keys. Then he steps aside and puts bread, cream and honey on the table. No meat at that board, and no apology for it. 'Hay's clean,' is the whole welcome. What he wants in return is named at the end, flat: an accounting of any beast the traveller has killed on his land."
     },
     "channel": {
       "en": "Few words, heavy silences, food that keeps arriving — he asks about beasts, trees and growing things, and weighs the answers like debts."
@@ -15764,7 +15764,7 @@
       "en": "Courteous and completely dangerous — a professional interrogator whose politeness is the instrument, not the manner."
     },
     "presence": {
-      "en": "A man steps away from the others and approaches alone — unarmed to look at, dressed like a clerk traveling, perfectly polite. 'Your name, if you would. Your last three stopping-places. And the name of anyone who can vouch for you.' The questions arrive in an order far too well constructed to be casual — and the traveller realizes, one question in, that the man already knows two of the answers."
+      "en": "A man steps away from the others and approaches alone — soft-faced, round-shouldered, dressed like a clerk travelling: neat grey coat, clean boots in a muddy season, ink faded but visible on his second finger. Perfectly polite. 'Your name, if you would. Your last three stopping-places. And the name of anyone who can vouch for you.' The questions arrive in an order far too well constructed to be casual — and the traveller realizes, one question in, that the man already knows two of the answers."
     },
     "channel": {
       "en": "Each question is a calibration: he watches how the answer is given more than what it contains, and the next question is already shaped by it."
@@ -16060,7 +16060,7 @@
       "en": "Desperate rather than wicked — no plan beyond the stick, no stomach for what the stick implies, and children watching how he handles the answer either way."
     },
     "presence": {
-      "en": "A man steps into the path holding a stick — an actual stick, picked up off the ground — and his voice shakes as much as the stick does. 'Food,' he says. 'Whatever you've got.' Behind him, half-hidden by the ditch, a woman and two children watch the performance with the expression of people who have seen it fail twice already this week. He is asking for food in the worst possible way because asking properly has not worked."
+      "en": "A man steps into the path holding a stick — an actual stick, picked up off the ground, gripped in knuckles gone white — gaunt-cheeked, wearing a coat too big for him that used to be someone's good coat. His voice shakes as much as the stick does. 'Food,' he says. 'Whatever you've got.' Behind him, half-hidden by the ditch, a woman and two children watch the performance with the expression of people who have seen it fail twice already this week. He is asking for food in the worst possible way because asking badly is all that is left."
     },
     "channel": {
       "en": "He can barely get the demands out — each sentence starts as a threat and ends as something closer to an apology."
@@ -21863,7 +21863,7 @@
       "en": "Neither welcoming nor unwelcoming — her attention is mostly elsewhere, on the road behind the traveller. The hope she carries is worn smooth, the way things get after they have been carried too long."
     },
     "presence": {
-      "en": "A woman stands at her farmstead gate as he passes — middle-aged, work-hardened, a bundle of kindling held and forgotten in one arm. She is not watching him; she is watching the road behind him, past his shoulder, the way people watch for a specific shape in the distance. She gives the traveller the bare nod owed a passerby — and her eyes go straight back to the road."
+      "en": "A woman stands at her farmstead gate as he passes — middle-aged, work-hardened, grey streaking a dark braid, a bundle of kindling held against one hip like a thing half-forgotten. She watches the road behind the traveller, not the traveller — the fixed, counting look of someone who has been watching that stretch of road for a figure that has not come. When she realizes she has been seen staring, the bundle tightens."
     },
     "channel": {
       "en": "She answers directly when spoken to, without padding — farm people do not decorate questions when the answers cost them days. She will not say who she is waiting for unless asked straight."
@@ -21900,7 +21900,7 @@
       "en": "Frightened enough to keep moving but not so frightened he said nothing — the warning costs him ten seconds of his flight and he pays it anyway, which is its own measure of the warning's worth."
     },
     "presence": {
-      "en": "A man coming the other way, moving fast — cloak bunched, walking the pace of someone covering ground on purpose. He slows when he sees the traveller, just enough to exchange a word: 'If you're bound for the eastern garrison road — don't. It's being watched. Not by soldiers.' He cannot say more clearly than that, and he does not stop."
+      "en": "A man coming the other way, moving fast — wiry, sallow-faced, cloak bunched and clutched at the shoulder, walking the pace of someone covering ground to outrun a thought. He gives the traveller the briefest glance — measuring, discarding — and then a surprise: 'You. Coming off the western road?' The question lands without greeting, breath still short, like the road has been holding it for him."
     },
     "channel": {
       "en": "He gives it in one breath and is gone — no follow-up entertained, no name exchanged. Whatever watched him off that road is still behind him in some sense he is not carrying in words."
@@ -22988,7 +22988,7 @@
       "en": "Testing — the offer is bait, or it is commerce, or it is both, and the smile is watching which the traveller takes it for."
     },
     "presence": {
-      "en": "A man leaning against a milestone apart from the larger group down the road — a sailor's rolling stance even standing still, sun-dark, smiling the smile of a man who has decided that appearing dangerous is more useful than being dangerous today. 'Need a boat? Going south. Got room.' An ordinary commercial offer, delivered in the tone of someone who knows exactly how un-ordinary it sounds on an inland road."
+      "en": "A man leans against a milestone apart from the larger group down the road — short, knotted through the shoulders, sun-dark to the point of leather, a gold ring in one ear and salt pale in the creases of his neck. A sailor's rolling stance even standing still, smiling the smile of a man who has decided that appearing dangerous is more useful than being dangerous today. 'Need a boat? Going south. Got room.' An ordinary commercial offer, delivered in the tone of someone who knows exactly how un-ordinary it sounds on an inland road."
     },
     "channel": {
       "en": "Casual and open in the way of people who want to be asked questions — every easy answer is an invitation to a longer conversation."
@@ -23136,7 +23136,7 @@
       "en": "Genuinely lost — but a sailor this far inland is not here for the scenery, and the helplessness may or may not be the whole story."
     },
     "presence": {
-      "en": "A man on the road inland who carries the sea with him — rolling walk, salt-cracked boots, clothes still holding the smell of tar and brine, squinting at the countryside like a chart he has never read. 'Looking for an inn,' he says when the traveller draws level, and names one three valleys off course. 'Was told to keep the river on my left. The river went somewhere.' The competence at sea and helplessness on land is genuine — and oddly disarming."
+      "en": "A man on the road inland who carries the sea with him — rolling walk, salt-cracked boots cracked white at the seams, clothes stiff with old brine and a knit cap that belongs on a deck. He is asking directions to a specific inn — reads the name off a worn scrap, mispronouncing it badly: 'The Barged Hull? The Barged Owl?' A pirate or ex-pirate, beached two days' walk from any water, hunting an address only a map loves."
     },
     "channel": {
       "en": "Talks like a sailor — direct, profane-adjacent, chronically unimpressed by land — and takes directions the way he takes orders: grudgingly and gratefully."
