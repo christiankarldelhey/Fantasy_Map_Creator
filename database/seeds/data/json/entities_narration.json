@@ -15504,13 +15504,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Standing across the road with the easy confidence of men who have done this before and not been punished for it."
+      "en": "Unbothered — the confidence of a working routine rather than menace. They are pricing him as he approaches, the way merchants price."
     },
     "presence": {
-      "en": "They want a toll for a bridge they did not build, and they are prepared to call it a toll for as long as he is prepared to call it one."
+      "en": "Two men block the bridge road — middling-built, middling-armed, with the easy stance of men who have done this before and not been punished for it. One sits on the parapet whittling; the other stands in the middle with a hand out, palm up. 'Toll for the bridge,' he says, in the tone of a man naming the weather. They did not build the bridge. They are prepared to call it a toll for exactly as long as the traveller is prepared to call it one."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "The standing one does the talking — short sentences, no threats, the vocabulary of a transaction. The whittler watches hands, not faces."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -15541,13 +15541,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Four of them spread across the way in a formation that closes as soon as he stops walking."
+      "en": "Methodical — this is inventory, not robbery, in their manner of doing it. The violence is reserved and implied, like a signature at the bottom of a letter."
     },
     "presence": {
-      "en": "They want the pack opened and the contents named, and they have already decided which items they will be keeping."
+      "en": "Four men in a loose line across the road that closes into a formation the moment he stops — spaced, practiced, each man holding a section of the exit. 'The pack,' says the one in the middle, short-bearded and patient, with a quartermaster's flat voice. 'Open it and name what's inside.' The others are already reading the straps and buckles, deciding among themselves which items they will be keeping."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "The quartermaster asks for contents; the others ask each other who saw the knife first. What they say to the traveller is procedure; what they say to each other is the real negotiation."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -15557,7 +15557,7 @@
         "id": "cnt:0c3f0002-0000-4000-8000-0c3f00000002:sit",
         "tags": [],
         "situation": {
-          "en": "The positions were taken before he arrived. Talking is still possible; walking away is not."
+          "en": "The positions were taken before he arrived. Talking is still possible; walking away is not — not without leaving something."
         }
       }
     ],
@@ -15578,13 +15578,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "No demand at first — only silence and a slow closing of the distance, which is worse."
+      "en": "Cautious hunters — they are not robbing, they are comparing, and a man being compared is one wrong feature from being collected."
     },
     "presence": {
-      "en": "They are not after goods. They want to know who he is and who sent him, and one of them keeps checking his face against something he has been told."
+      "en": "No demand, no weapon shown — only a slow closing of the distance, which is worse. Three men, and the middle one keeps checking the traveller's face against something he has been told, head tilted at the angle of a man matching a description. 'Your name,' he says finally, quiet and courteous. 'And who sent you.' He is not interested in the pack. That is the worrying part."
     },
     "channel": {
-      "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
+      "en": "The questions come one at a time, unhurried, with silences left for the answers to live in. They are listening for a match, not for truth."
     },
     "facts": {
       "topic": "where_are_you_bound"
@@ -15594,7 +15594,7 @@
         "id": "cnt:0c3f0003-0000-4000-8000-0c3f00000003:sit",
         "tags": [],
         "situation": {
-          "en": "This is not robbery. Someone is looking for someone and he resembles the description closely enough."
+          "en": "This is not robbery. Someone is looking for someone and he resembles the description closely enough. What ends this is convincing them of the mismatch — or leaving before it resolves."
         }
       }
     ],
@@ -15615,13 +15615,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Ragged, hungry and dangerous in the specific way of men with nothing left to lose and no discipline to lose it with."
+      "en": "Badly organised and starving — which makes them negotiable in a way professionals are not, and unpredictable in a way professionals are not, and both of those are dangerous."
     },
     "presence": {
-      "en": "They want the pack, the boots and the water, in that order, and they are arguing among themselves about the boots while they say it."
+      "en": "Five of them spread across the road — ragged, hungry, dangerous in the specific way of men with nothing left to lose and no discipline to lose it with. 'The pack,' says the foremost, a bony man with a club he holds like it embarrasses him. 'The boots and the water, in that order.' Behind him two of them are already arguing about the boots — whose feet they will fit — while a third just watches the road behind the traveller, hoping somebody richer comes along."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "Nobody leads properly — the bony one speaks first but the boot-argument overrules him, and each demand gets amended by whoever is hungriest at that moment."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -15631,7 +15631,7 @@
         "id": "cnt:0c3f0004-0000-4000-8000-0c3f00000004:sit",
         "tags": [],
         "situation": {
-          "en": "They are badly organised and there are five of them. The disorganisation is the opening and it will not last."
+          "en": "The disorganisation is the opening and it will not last. Five hungry men arguing about spoils they do not have yet are either easy or suddenly not — and there is no way to know which until it happens."
         }
       }
     ],
@@ -15652,13 +15652,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Better armed than bandits should be, and two of them still wearing pieces of a uniform they have not bothered to remove."
+      "en": "Deserters trading on an authority they no longer have — half hoping the uniform still works, half braced for it not to. The hesitation is the whole tell."
     },
     "presence": {
-      "en": "They demand a toll and give a garrison's name while doing it, and are visibly uncertain whether the traveller will know that the garrison disbanded two years ago."
+      "en": "Three men at a road-narrow — better armed than bandits should be, and two still wearing pieces of a uniform they have not bothered to remove: a sergeant's knot, a company badge scratched half-off. 'Toll,' says the man with the knot, and names a garrison — the name of a garrison that disbanded two years ago, delivered with the slight hesitation of a man unsure whether the traveller knows that."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "The toll-demand comes dressed in military vocabulary — 'levy', 'passage', 'orders' — the language of a job they used to do legally."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -15668,7 +15668,7 @@
         "id": "cnt:0c3f0005-0000-4000-8000-0c3f00000005:sit",
         "tags": [],
         "situation": {
-          "en": "They are deserters trading on an authority they no longer have. Naming that out loud would end the pretence and start something else."
+          "en": "Naming the dead garrison out loud would end the pretence and start something else. The pretence is what keeps this cheap."
         }
       }
     ],
@@ -15689,13 +15689,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Two in front talking pleasantly while a third moves round to where he cannot comfortably watch."
+      "en": "Genial and completely false — the warmth is choreographed, the questions timed, and every smile is buying yards for the man behind."
     },
     "presence": {
-      "en": "A friendly conversation about the road, whose only purpose is to keep his eyes forward for the count of twenty."
+      "en": "Two men step out from the verge and greet him like old road-companions — weather-beaten, friendly, one of them already mid-anecdote about a landslide 'two bends back, you must've seen it.' The talk is warm and easy and its only purpose is to keep his eyes forward for the count of twenty, while a third man — glimpsed once at the tree-line — moves round to where he cannot comfortably watch."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "The talker answers questions with questions and keeps the road's gossip flowing — a practiced patter that has parted many packs from many travellers."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -15705,7 +15705,7 @@
         "id": "cnt:0c3f0006-0000-4000-8000-0c3f00000006:sit",
         "tags": [],
         "situation": {
-          "en": "The talk is the weapon here. Answering it politely for too long is how travellers lose their packs."
+          "en": "The talk is the weapon here. Answering it politely for too long is how travellers lose their packs — the third man is the actual transaction."
         }
       }
     ],
@@ -15726,13 +15726,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Not hostile so much as inconvenienced: he has walked into the middle of something and now they must decide what to do about him."
+      "en": "Inconvenienced rather than wicked — he has walked into the middle of something and now they must decide what to do about him, and they would rather pay than decide."
     },
     "presence": {
-      "en": "They want to know what he saw at the landing, and they are willing to buy an answer of none at all, in coin, on the spot."
+      "en": "Four men by the landing, mid-work — a boat being unloaded in a hurry, goods that want no witnesses — and they have spotted the traveller the way you spot weather coming in. The foreman-type walks up not hostile so much as inconvenienced, wiping his hands, and says the thing plainly: 'What did you see at the landing?' Then, before the answer: 'We can pay for it being nothing.'"
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "The foreman names prices the way other men name options — an answer that is nothing, bought in coin, on the spot."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -15763,13 +15763,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Perfectly polite, unarmed to look at, asking questions in an order that is far too well constructed to be casual."
+      "en": "Courteous and completely dangerous — a professional interrogator whose politeness is the instrument, not the manner."
     },
     "presence": {
-      "en": "He wants the traveller's name, his last three stopping-places and the name of anyone who vouched for him, and he already knows two of the answers."
+      "en": "A man steps away from the others and approaches alone — unarmed to look at, dressed like a clerk traveling, perfectly polite. 'Your name, if you would. Your last three stopping-places. And the name of anyone who can vouch for you.' The questions arrive in an order far too well constructed to be casual — and the traveller realizes, one question in, that the man already knows two of the answers."
     },
     "channel": {
-      "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
+      "en": "Each question is a calibration: he watches how the answer is given more than what it contains, and the next question is already shaped by it."
     },
     "facts": {
       "topic": "where_are_you_bound"
@@ -15779,7 +15779,7 @@
         "id": "cnt:0c3f0008-0000-4000-8000-0c3f00000008:sit",
         "tags": [],
         "situation": {
-          "en": "This is an interrogation dressed as a courtesy. Every answer is being checked against something written down elsewhere."
+          "en": "This is an interrogation dressed as a courtesy. Every answer is being checked against something written down elsewhere — and the questions he does not ask are the map of what he already knows."
         }
       }
     ],
@@ -15800,13 +15800,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Spears grounded but held, and the speaker stands close enough that the conversation cannot be a long one."
+      "en": "Territorial without greed — they want an acknowledgment, not plunder, and the closeness is meant to make the acknowledgment come quickly."
     },
     "presence": {
-      "en": "This ground is claimed, the claim is older than any map he is carrying, and they want to hear him say that he is only passing through."
+      "en": "Men with spears grounded but held, spread across the road where it enters a valley-mouth — and the speaker stands close enough that the conversation cannot be a long one. 'This ground is claimed,' he says, flat and certain, a claim older than any map the traveller is carrying. 'Say what you are on it.' What they want to hear is simple: that he is only passing through."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "One speaker, short exchanges, the spears doing the punctuation. The answer they want is a formula and they will recognize it when they hear it."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -15816,7 +15816,7 @@
         "id": "cnt:0c3f0009-0000-4000-8000-0c3f00000009:sit",
         "tags": [],
         "situation": {
-          "en": "They are not looking for plunder. They are looking for an acknowledgment, and they will take it in words if he offers them."
+          "en": "They are not looking for goods. They are looking for the words that mean he knows whose ground he is crossing — and they will take it in words if he offers them."
         }
       }
     ],
@@ -15837,13 +15837,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Chariot-folk of the eastern plains, unhurried, treating the encounter as a matter of administration rather than violence."
+      "en": "Administrative — this is not violence, it is custom, and they treat refusal the way a toll-keeper treats a price objection: as a known thing with a known outcome."
     },
     "presence": {
-      "en": "They want tribute — a weapon, a beast, or a day of labour — and they have a formula for it that has been used on this road for generations."
+      "en": "Chariot-folk of the eastern plains — painted wood and horse-team, a dozen of them unhurried at the ford — and the spokesman comes forward as though transacting ordinary business: 'Tribute on the road. A weapon, a beast, or a day of labour — as the traveller chooses.' A formula that has been used on this road for generations, delivered like a clerk reading a tariff."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "The spokesman recites, does not argue; the formula is the formula. What he will discuss is which of the three the traveller prefers."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -15874,13 +15874,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Horsemen who circle once before anyone speaks, and the speaking is done from the saddle at a distance."
+      "en": "Mounted, patient, territorial — they cannot place him and they dislike what cannot be placed. The circling is the filing system."
     },
     "presence": {
-      "en": "They demand to know whose service he is in, and the question has only two answers they accept, and neither of them is none."
+      "en": "Horsemen — five, and they circle once before anyone speaks, hooves unhurried, reading him from the saddle. Then the captain reins in at a distance and calls the question down: 'Whose service?' The phrasing makes the structure plain: the answer they accept has a lord's name in it, and 'no one's' is not on the list."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "Questions called from the saddle at speaking distance — each answer moves the circle a little tighter or a little wider."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -15890,7 +15890,7 @@
         "id": "cnt:0c3f0011-0000-4000-8000-0c3f00000011:sit",
         "tags": [],
         "situation": {
-          "en": "They cannot place him and they dislike what cannot be placed. The wrong answer here costs more than the pack."
+          "en": "The wrong answer here costs more than the pack. They want a category, and the honest one — a man belonging to no one — is the most suspicious answer of all."
         }
       }
     ],
@@ -15911,13 +15911,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Disciplined and unhurried, in the manner of men who are part of something much larger and know it."
+      "en": "Bureaucratic menace — he is being recorded, not robbed, and the file will outlast the encounter by months."
     },
     "presence": {
-      "en": "An officer asks for his road and his purpose through a translator, and writes the answers down, which is worse than if he had shouted them."
+      "en": "A column resting at the roadside — disciplined, unhurried, in the manner of men who are part of something much larger and know it. An officer beckons the traveller over and asks, through a translator, for his road and his purpose. Then he writes the answers down in a ledger, slowly, in a script the traveller does not know. The writing is worse than shouting would be."
     },
     "channel": {
-      "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
+      "en": "The translator renders both directions flat and complete; the officer asks little and writes much. What the traveller says here will be somewhere in a file by the next full moon."
     },
     "facts": {
       "topic": "where_are_you_bound"
@@ -15927,7 +15927,7 @@
         "id": "cnt:0c3f0012-0000-4000-8000-0c3f00000012:sit",
         "tags": [],
         "situation": {
-          "en": "He is being recorded, not robbed. Whatever he says here will be somewhere in a file by the next full moon."
+          "en": "Give a plain and unremarkable account — the ledger rewards the forgettable. Embellishment is the only enemy on this road."
         }
       }
     ],
@@ -15948,13 +15948,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Tall, courteous and entirely cold; the courtesy is the frightening part, since it costs them nothing to maintain it."
+      "en": "Old hatred wearing good manners — they are the inheritors of a specific ancient treason, and they can hear the North in his speech."
     },
     "presence": {
-      "en": "He is asked, in excellent Westron, what his lineage is — and it is clear from the phrasing that the answer matters more to them than his errand."
+      "en": "Tall men, courteous and entirely cold — the courtesy is the frightening part, since it costs them nothing to maintain it. The speaker asks, in excellent Westron, the question the others have arranged themselves around: 'Your lineage, if you would be so good.' Not his business, not his destination — his blood. The answer matters more to them than anything he is carrying."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "Exquisite politeness, questions in full sentences, silences held like drawn bows. The courtesy will last exactly as long as it is useful."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -15964,7 +15964,7 @@
         "id": "cnt:0c3f0013-0000-4000-8000-0c3f00000013:sit",
         "tags": [],
         "situation": {
-          "en": "They are the inheritors of a specific old treason and they can hear the North in his speech. The politeness will last exactly as long as it is useful."
+          "en": "They have already half-decided what he is. The exchange is a test of whether he is worth what it would cost to be sure."
         }
       }
     ],
@@ -15985,13 +15985,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A checkpoint where no checkpoint should be, manned by men who serve something they do not name aloud."
+      "en": "Patient and fishing — the demands are designed to produce a false answer they can act on, and the pole is there so the acting has a backdrop."
     },
     "presence": {
-      "en": "They demand papers that were never issued in this country, then a name, then an account of the last four days — and they are hoping he lies about one of them."
+      "en": "A checkpoint where no checkpoint should be — a barrier pole, a lantern, four men with the discipline of soldiers and the insignia of nobody. 'Papers,' says the one in charge. When the traveller produces what passes for papers in this country: 'Those were never issued here. Your name. Your last four days.' They are hoping he lies about one of them — that is what the checkpoint is for."
     },
     "channel": {
-      "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
+      "en": "The questions come in a sequence built to trip — destination before origin, the four days asked twice in different clothes."
     },
     "facts": {
       "topic": "where_are_you_bound"
@@ -16001,7 +16001,7 @@
         "id": "cnt:0c3f0014-0000-4000-8000-0c3f00000014:sit",
         "tags": [],
         "situation": {
-          "en": "The demands are designed to produce a false answer they can act on. There are six of them and one road."
+          "en": "There are six of them and one road. The plainest possible truth is the only thing that gives them nothing to catch."
         }
       }
     ],
@@ -16022,13 +16022,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Come up from a beached boat, loud and quick, and dealing in threats because threats have always been cheaper than work."
+      "en": "Hurried predation — threats because threats are cheaper than work, and a fear behind the threats that has nothing to do with the traveller."
     },
     "presence": {
-      "en": "They want whatever is in the pack and any coin on him, and they want it before whoever else is on this shore arrives."
+      "en": "Men come up from a beached boat — loud, quick, wet to the knees, spreading along the shore path with the chaos of a raiding party working against daylight. 'The pack and the coin,' shouts the foremost, a rope-scarred man already glancing back at the water. 'Before—' He doesn't finish. Whatever else is on this shore, they want to be gone before it arrives."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "Short shouted demands, no follow-through conversation — every exchange is timed against whatever they are watching the water for."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -16038,7 +16038,7 @@
         "id": "cnt:0c3f0015-0000-4000-8000-0c3f00000015:sit",
         "tags": [],
         "situation": {
-          "en": "They are in a hurry, which makes them dangerous and also makes them stupid. The hurry is the lever."
+          "en": "They are in a hurry, which makes them dangerous and also stupid. The hurry is the lever — anything that takes time is a coin they cannot afford."
         }
       }
     ],
@@ -16059,13 +16059,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "Desperate rather than wicked, blocking the path with a stick and a shaking voice and no plan at all beyond stopping him."
+      "en": "Desperate rather than wicked — no plan beyond the stick, no stomach for what the stick implies, and children watching how he handles the answer either way."
     },
     "presence": {
-      "en": "They want food and they are asking for it in the worst possible way, because asking properly has not worked twice already this week."
+      "en": "A man steps into the path holding a stick — an actual stick, picked up off the ground — and his voice shakes as much as the stick does. 'Food,' he says. 'Whatever you've got.' Behind him, half-hidden by the ditch, a woman and two children watch the performance with the expression of people who have seen it fail twice already this week. He is asking for food in the worst possible way because asking properly has not worked."
     },
     "channel": {
-      "en": "Have them raise a trouble of their own — a beast, a feud, a missing kinsman — and hope the stranger might aid it."
+      "en": "He can barely get the demands out — each sentence starts as a threat and ends as something closer to an apology."
     },
     "facts": {
       "topic": "a_request_for_help"
@@ -16075,7 +16075,7 @@
         "id": "cnt:0c3f0016-0000-4000-8000-0c3f00000016:sit",
         "tags": [],
         "situation": {
-          "en": "There is no real threat in it and there is real danger anyway: cornered people do things they did not intend."
+          "en": "There is no real threat in it and there is real danger anyway: cornered people do things they did not intend, and a stick can land harder than its holder meant."
         }
       }
     ],
